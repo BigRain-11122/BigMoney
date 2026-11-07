@@ -12336,3 +12336,21 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 **验证**：`scripts/e487_composed_writer.py`（run rc0 / check problems=[] / verify 同树重建 problems=[] / **selftest 28/28**：三档路径 + 三档目录 + 8 个类分支 + 父面复现 + 3 个 doctored 面全红）；面 `results/state_tilt/COMPOSEDWRITER-2026-11-07.json` + `composedwriter_latest.json`（84 行）；S6 腿 `composed_writer` rc0 0.10s；smoke 腿 `E487 an unwritten latest spelling is attributed to the source that composes its stem` 单跑 1/1 绿。
 
 **适用范围**：只回答「这 84 个拼写的写手在不在树内、写到哪个目录」；不回答写手是否真的按读者期待的分支运行，也不构成任何删面许可（E477/E479 的字节账不变）。
+
+## E488 -- E487 说那 51 个写手的目录「没追到」：把模块自己的目录常量折出来，其中 50 个写的正是读者打开的那个目录（r1513 bm-b）
+
+**问题**：E487 把 84 个没人按字面写的 `*_latest.json` 拼音追到写手之后，又按写路径落脚的目录分了类：只有 1 个落到读者解析的那个目录，**51 个只追到裸 basename（目录未追）**，15 个落到一个明确但不是读者的目录。「目录未追」是**追踪没做完**，不是发现。写调用通常长成 `write(os.path.join(OUTDIR, NAME), payload)`：basename 是追到的字面量，目录在**隔一层**的模块常量里（`OUTDIR = e451.OUTDIR`、`OUTDIR = os.path.join(ROOT, "results", "state_tilt")`）。这一面把那一层折完。
+
+**做法**：population = E487 那 51 行（原样读父面，不改父面的类问题）。对每一行的每个 tracing source 读它的模块 AST，把方向名常量（名以 dir/path/root/home/base/out/face/result/tilt/store 结尾）按六条折叠规则求值：字面量 / 模块级与同函数赋值（有界 hop）/ `os.path.join(...)` 笛卡尔拼接 / `a + b` / `os.path.dirname(...(os.path.abspath(__file__)))` 按 dirname 层数上溯（仓根折成空串，所以与它 join 出来就是仓相对路径）/ `alias.NAME` 折进本仓同名模块自己的绑定（第三方模块=不可折）。折完问：有没有折出的路径**等于**读者解析的目录 / 是它的**祖先** / 是**别的**目录；一条都折不出来才叫不可折，什么方向名常量都没有才叫「没有目录表达式」。
+
+**读数**：2026-11-07，51 个 basename-only 写手（56 个 tracing source），**50 个的模块目录常量正好等于读者目录 `results/state_tilt`**，0 个祖先、0 个别的目录、1 个不可折（`e365` 的 `STORE_DIR = os.path.join(OUTDIR, "face_store")`，那个 OUTDIR 是函数参数）、0 个没有目录表达式；父面 51/51 复现。
+- **E487 的「51 个目录未追」是追踪深度不足**：真正写错地方的写手在这一档是 **0** 个。追到模块常量之后，basename-only 类里 98% 的写手和它的读者在同一个目录里写字。
+- **这一面说的是「模块声明了那个目录」，不是「这次写真的用了它」**：E487 已经把这条路追到裸 basename，所以运行时拼出来的后缀仍可能不同；一行一个字都不动地说「同目录」，就是 E487 说的那种「追踪没做完却当成结论」。
+- **默认 4 hops 不够**：本仓 E 系模块是一串 `import e452_... as e452` 再 `OUTDIR = e452.OUTDIR` 的别名链，4 hops 时有 16 行落进「不可折」；放宽到 12 hops 后 15 行立刻折出 `results/state_tilt`。**hop 预算太小会把「链还没走完」印成「模块没有目录」。**
+
+**可复用三条**：
+1. **「未追到」必须和「追到了、是空」分开印**：`unresolved`（有表达式但折不出）与 `none`（没有表达式）是两个类，合成一个就把「我的折法不够」说成「写手没有目录」。
+2. **单段目录名（`results`）不含分隔符**：只按「含 `/` 才算路径」筛会把 `RESULT_ROOT = os.path.join(ROOT, "results")` 整条丢掉、连带把祖先臂判成不可折。正法=含分隔符 **或** 在仓根下确实是目录（`os.path.isdir`）才收，且这条判定写进证据，让 `check` 能从发布的行重算。
+3. **类必须能从发布的行重算**：每行发布它折出的 `module_directory_expressions`（名字/表达式原文/折出的路径/是否不可折）与 `reader_directories`，`check` 只吃这两样重算类——把「解释」写进行里、把「类」交给闸算，改口径就是测量而不是宣称（E444/E461 族）。
+
+**验证**：`scripts/e488_writer_directory.py`（run rc0 / check problems=[] / verify problems=[] / **selftest 23/23**：六条折叠规则各一腿 + 别名折进本仓模块 + 仓根折成空串 + 单段目录判据 + 类可重算 + 深目录不算祖先 + 四个篡改面被拒 + 双面落盘）；面 `results/state_tilt/WRITERDIR-2026-11-07.json` + `writerdir_latest.json`（51 行）；S6 腿 `writer_directory`；smoke 腿 standalone 1/1 绿 + doctored（伪 verdict）1/1 红（恢复后重跑 1/1 绿）。

@@ -1758,6 +1758,12 @@ LEGS = [
     # (direct name / one helper hop / a loop over name constants).  `check` re-derives every class
     # tally, the directory split and the verdict from the published rows.
     ("composed_writer", ["python", "scripts/e487_composed_writer.py", "check"]),
+    # E488 finishes the trace E487 left open: for the 51 basename-only writers it folds each
+    # module's own directory constants (literal / name / os.path.join / __file__ chain / one
+    # repository-module alias hop, up to 12 hops) and asks whether any folded path names the
+    # directory its reader resolves to.  `check` re-derives every row's class from the published
+    # expressions, so the face cannot claim a placement its own evidence does not carry.
+    ("writer_directory", ["python", "scripts/e488_writer_directory.py", "check"]),
 ]
 
 

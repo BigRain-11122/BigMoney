@@ -19232,5 +19232,60 @@ except Exception as _e487x:
     _d487 = "leg could not run"
 check(_name487, not _bad487, "; ".join(_bad487)[:240] or _d487)
 
+# E488 (r1513 bm-b): E487 left 51 spellings whose writer reached only a bare basename.  This leg
+# holds that every row's directory class re-derives from the expressions the row publishes, that a
+# placed class carries a resolved path, that the rows all come from the parent's basename-only arm,
+# that the population tally is reproduced, and that three doctored copies go red.
+_name488 = ("E488 a basename-only writer is placed by its module's own directory constant "
+            "(r1513 bm-b)")
+_bad488 = []
+try:
+    _m488 = __import__("importlib").import_module("e488_writer_directory")
+    _f488 = json.load(open(os.path.join("results", "state_tilt", "writerdir_latest.json"),
+                           encoding="utf-8"))
+    _s488 = _f488.get("summary") or {}
+    _r488 = _f488.get("rows") or []
+    _bad488.extend(_m488.row_problems(_f488))
+    if not _r488:
+        _bad488.append("the basename-only population is empty")
+    if _s488.get("population_reproduced") is not True:
+        _bad488.append("the parent's basename-only tally is not reproduced")
+    if _f488.get("verdict") != _m488._verdict(_m488._recompute(_f488)):
+        _bad488.append("the verdict is not the one the counts imply")
+    _same488 = next((r for r in _r488 if r.get("directory_class") == _m488.K_SAME), None)
+    if _same488 is None:
+        _bad488.append("no placed row: the leg cannot be shown to measure anything")
+    else:
+        _w488 = json.loads(json.dumps(_f488))
+        for _row in _w488["rows"]:
+            if _row.get("spelling") == _same488.get("spelling"):
+                _row["module_directory_expressions"] = []
+        if not _m488.row_problems(_w488):
+            _bad488.append("a placement with no expression evidence survived the guard")
+        _w488b = json.loads(json.dumps(_f488))
+        for _row in _w488b["rows"]:
+            if _row.get("spelling") == _same488.get("spelling"):
+                _row["resolved_directory_paths"] = []
+        if not _m488.row_problems(_w488b):
+            _bad488.append("a placed row with no resolved path survived the guard")
+    _w488c = json.loads(json.dumps(_f488))
+    _w488c["verdict"] = _m488.V_NONE
+    if not _m488.row_problems(_w488c):
+        _bad488.append("a verdict that does not re-derive survived the guard")
+    _c488 = _s488.get("directory_class_counts") or {}
+    _d488 = ("%d basename-only writers | module names the reader dir %d | ancestor %d | "
+             "another dir %d | unfoldable %d | no expression %d | parent reproduced %s" % (
+                 len(_r488),
+                 _c488.get(_m488.K_SAME) or 0,
+                 _c488.get(_m488.K_ANCESTOR) or 0,
+                 _c488.get(_m488.K_OTHER) or 0,
+                 _c488.get(_m488.K_UNRESOLVED) or 0,
+                 _c488.get(_m488.K_NONE) or 0,
+                 _s488.get("population_reproduced")))
+except Exception as _e488x:
+    _bad488.append(repr(_e488x)[:160])
+    _d488 = "leg could not run"
+check(_name488, not _bad488, "; ".join(_bad488)[:240] or _d488)
+
 if __name__ == "__main__":
     sys.exit(main())

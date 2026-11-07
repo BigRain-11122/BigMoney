@@ -28585,6 +28585,23 @@
    "evidence_cutoff": "2026-11-07",
    "entered_at": "2026-11-07T08:2x+08:00",
    "entered_by": "bm-b r1512 (supply floor refill after E487)",
+   "status": "done",
+   "result_ref": "results/state_tilt/WRITERDIR-2026-11-07.json",
+   "closed_at": "2026-11-07T08:3x+08:00",
+   "closed_by": "bm-b r1513",
+   "outcome": "50 of the 51 basename-only writers name the reader's directory from their own module constant; 0 write elsewhere, 1 unfoldable"
+  },
+  {
+   "id": "E489-DOES-THE-TRACED-WRITE-CALL-JOIN-THE-VERY-CONSTANT-THAT-PLACED-ITS-ROW-IN-THE-READER-DIRECTORY",
+   "title": "E488 placed 50 of 51 basename-only writers in the reader's directory from the module's own constant, but E487 traced the write path only as far as a bare basename. For each of the 50 placed rows, does the traced write call's own path expression actually join that module constant with the basename, so the composed path is literally the path the reader opens?",
+   "source": "E488 (r1513 bm-b): 50 same / 0 ancestor / 0 other / 1 unfoldable / 0 no expression. Placing the module in the reader's directory is not the same claim as the write call using that directory.",
+   "lane": "cpu-only",
+   "lane_note": "static: AST dataflow from the module constant to the write call's path expression, no network",
+   "deliverable": "results/state_tilt/WRITEWIRE-<cutoff>.json",
+   "target": "results/state_tilt/writewire_latest.json",
+   "evidence_cutoff": "2026-11-07",
+   "entered_at": "2026-11-07T08:3x+08:00",
+   "entered_by": "bm-b r1513 (supply floor refill after E488)",
    "status": "ready",
    "result_ref": null
   }
@@ -28601,6 +28618,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T08:25:00+08:00",
+ "updated_at": "2026-11-07T08:3x+08:00",
  "version": 1
 }

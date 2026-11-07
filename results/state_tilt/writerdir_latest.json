@@ -1,0 +1,3395 @@
+{
+ "card": "E488-FOR-THE-BASENAME-ONLY-WRITERS-DOES-THE-MODULE-OWN-DIRECTORY-CONSTANT-NAME-THE-READER-DIRECTORY",
+ "study": "E488_for_the_basename_only_writers_does_the_module_own_directory_constant_name_the_reader_directory",
+ "title": "for the basename-only writers, does the module's own directory constant name the reader directory?",
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T08:33:38+0800",
+ "population_source": {
+  "face": "composedwriter_latest.json",
+  "face_verdict": "most_unwritten_spellings_have_a_writing_source_whose_path_traces_back_to_the_stem",
+  "face_evidence_cutoff": "2026-11-07",
+  "parent_directory_class_counts": {
+   "the_writer_path_reaches_the_directory_the_reader_resolves_to": 1,
+   "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced": 51,
+   "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory": 15
+  },
+  "parent_basename_only_spellings": 51,
+  "population_rows_agree_with_the_parent_tally": true,
+  "population_definition": "rows of E487 class in {direct,helper,loop} with directory_class == the basename-only class",
+  "excluded_source_prefixes": [
+   "e479_",
+   "run_e479",
+   "e480_",
+   "run_e480",
+   "e481_",
+   "run_e481",
+   "e482_",
+   "run_e482",
+   "e484_",
+   "run_e484",
+   "e487_",
+   "run_e487",
+   "e488_",
+   "run_e488"
+  ]
+ },
+ "fold_rule": {
+  "literal": "a string constant that carries '/' is a path",
+  "name": "module-level and same-function assignments are folded up to 12 hops",
+  "join": "os.path.join(a, b, ...) folds as the cartesian concatenation; the repo root folds to the empty string so the first part is written repo-relative",
+  "add": "a + b folds when both sides fold to strings",
+  "file": "os.path.dirname(...(os.path.abspath(__file__))) folds to the module's own parent, walked up once per dirname wrapper",
+  "alias": "alias.NAME folds into that module's own binding when the module exists in this repository and is imported by this file; a third-party module is unresolved"
+ },
+ "class_definition": {
+  "the_module_directory_expression_names_the_reader_directory": "a folded directory path equals the directory the reader resolves to",
+  "the_module_directory_expression_names_an_ancestor_of_the_reader_directory": "a folded directory path is a strict ancestor of the reader's directory, so the subdirectory is named somewhere this fold does not follow",
+  "the_module_directory_expression_names_a_directory_that_is_not_the_reader_directory": "the module folds directory paths and none is the reader's directory or an ancestor of it: the writer is placed somewhere else",
+  "the_module_states_a_directory_expression_that_cannot_be_folded_statically": "the module has directory-shaped constants but none folds to a path (argv, os.environ, parameters, dict keys)",
+  "the_module_states_no_directory_expression_at_all": "the module has no directory-shaped constant at all"
+ },
+ "summary": {
+  "population_spellings": 51,
+  "population_tracing_sources": 56,
+  "directory_class_counts": {
+   "the_module_directory_expression_names_the_reader_directory": 50,
+   "the_module_directory_expression_names_an_ancestor_of_the_reader_directory": 0,
+   "the_module_directory_expression_names_a_directory_that_is_not_the_reader_directory": 0,
+   "the_module_states_a_directory_expression_that_cannot_be_folded_statically": 1,
+   "the_module_states_no_directory_expression_at_all": 0
+  },
+  "spellings_whose_writer_module_names_the_reader_directory": 50,
+  "spellings_whose_writer_module_names_an_ancestor": 0,
+  "spellings_whose_writer_module_names_another_directory": 0,
+  "spellings_whose_writer_module_directory_is_unfoldable": 1,
+  "spellings_whose_writer_module_states_no_directory": 0,
+  "spellings_now_confirmed_to_write_into_the_reader_directory": 50,
+  "spellings_whose_basename_only_class_survives_tracing": 0,
+  "parent_basename_only_spellings": 51,
+  "population_reproduced": true
+ },
+ "verdict": "most_basename_only_writer_modules_name_the_reader_directory",
+ "verdict_vocab": [
+  "the_parent_published_no_basename_only_spelling",
+  "no_basename_only_writer_module_names_the_reader_directory",
+  "every_basename_only_writer_module_names_the_reader_directory",
+  "most_basename_only_writer_modules_name_the_reader_directory",
+  "a_minority_of_basename_only_writer_modules_name_the_reader_directory"
+ ],
+ "rows": [
+  {
+   "spelling": "abandonedstale_latest.json",
+   "stem": "abandonedstale",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e453_abandoned_stale.py",
+     "route": "loop",
+     "line": 383,
+     "directory_expressions_found": 3,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "OUTDIR",
+     "expression": "e452.OUTDIR",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e452.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SOURCE_FACE",
+     "expression": "e452.FACE_NAME",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "ballastkeys_latest.json",
+   "stem": "ballastkeys",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e380_ballast_keys_and_readers.py",
+     "route": "loop",
+     "line": 280,
+     "directory_expressions_found": 8,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "E378_FACE",
+     "expression": "os.path.join(OUTDIR, \"E350ARM-2026-11-03.json\")",
+     "resolved_paths": [
+      "results/state_tilt/E350ARM-2026-11-03.json"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "FACE",
+     "expression": "\"BALLASTKEYS-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "base",
+     "expression": "e374.pin_members(pin)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "face",
+     "expression": "{\n        \"study\": STUDY,\n        \"ts\": datetime.now().astimezone().isoformat(timespec=\"seconds\"),\n        \"evidence_cutoff\": TODAY,\n        \"source\": SELF_REL,\n        \"pin\": pin.get(\"git_commit\"),\n ",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "new_from_store",
+     "expression": "sorted(adders)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "store",
+     "expression": "load_json(os.path.join(ROOT, STORE_FILE))",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt",
+    "results/state_tilt/E350ARM-2026-11-03.json"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "bandambient_latest.json",
+   "stem": "bandambient",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e291_ambiguity_chance.py",
+     "route": "loop",
+     "line": 435,
+     "directory_expressions_found": 6,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"BANDAMBIENT-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "e286.OUTDIR",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e286.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SELF_FACES",
+     "expression": "(FACE, LATEST, SRC_FACE)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "SRC_FACE",
+     "expression": "\"BANDSELFAUDIT-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "outdir",
+     "expression": "outdir or OUTDIR",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "bandclosure_latest.json",
+   "stem": "bandclosure",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e295_supply_gap_closure.py",
+     "route": "loop",
+     "line": 535,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"BANDCLOSURE-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "e272.OUTDIR",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e272.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SELF_FACES",
+     "expression": "(FACE, LATEST)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "outdir",
+     "expression": "outdir or OUTDIR",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "bandcountscope_latest.json",
+   "stem": "bandcountscope",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e286_count_field_scope.py",
+     "route": "loop",
+     "line": 414,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"BANDCOUNTSCOPE-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "e272.OUTDIR",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e272.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SELF_FACES",
+     "expression": "(FACE, LATEST)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "outdir",
+     "expression": "outdir or OUTDIR",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "banddisagree_latest.json",
+   "stem": "banddisagree",
+   "parent_class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "parent_route": "direct",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e282_substitution_disagreement_census.py",
+     "route": "direct",
+     "line": 649,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"BANDDISAGREE-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "e262.OUTDIR",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e262.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SELF_FACES",
+     "expression": "(FACE, LATEST)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "outdir",
+     "expression": "outdir or OUTDIR",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "banddraw_latest.json",
+   "stem": "banddraw",
+   "parent_class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "parent_route": "direct",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e255_band_draw_starvation.py",
+     "route": "loop",
+     "line": 508,
+     "directory_expressions_found": 3,
+     "directory_expression_note": null
+    },
+    {
+     "source": "scripts/e256_band_draw_continuation.py",
+     "route": "direct",
+     "line": 337,
+     "directory_expressions_found": 2,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e252.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "path",
+     "expression": "os.path.join(outdir, \"BANDDRAW-%s%s.json\" % (cutoff, tag))",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "banddupes_latest.json",
+   "stem": "banddupes",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e293_duplicate_list_census.py",
+     "route": "loop",
+     "line": 464,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"BANDDUPES-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "e286.OUTDIR",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e286.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SELF_FACES",
+     "expression": "(FACE, LATEST, e291.FACE, e291.SRC_FACE)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "outdir",
+     "expression": "outdir or OUTDIR",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "bandflipbudget_latest.json",
+   "stem": "bandflipbudget",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e272_flip_budget_two_tails.py",
+     "route": "loop",
+     "line": 387,
+     "directory_expressions_found": 4,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"BANDFLIPBUDGET-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "e262.OUTDIR",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e262.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "path",
+     "expression": "os.path.join(outdir, \"BANDFLIPBUDGET-%s%s.json\" % (face.get(\"evidence_cutoff\"), tag))",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "bandfloor_latest.json",
+   "stem": "bandfloor",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e277_tight_multiplier_floor.py",
+     "route": "loop",
+     "line": 411,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"BANDFLOOR-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SELF_FACES",
+     "expression": "(FACE, LATEST)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "outdir",
+     "expression": "outdir or OUTDIR",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "bandfloormirror_latest.json",
+   "stem": "bandfloormirror",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e288_below_floor_narrowing.py",
+     "route": "loop",
+     "line": 400,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"BANDFLOORMIRROR-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "e272.OUTDIR",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e272.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SELF_FACES",
+     "expression": "(FACE, LATEST)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "outdir",
+     "expression": "outdir or OUTDIR",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "bandgapceiling_latest.json",
+   "stem": "bandgapceiling",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e285_interrange_gap_ceiling.py",
+     "route": "loop",
+     "line": 406,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"BANDGAPCEILING-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "e272.OUTDIR",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e272.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SELF_FACES",
+     "expression": "(FACE, LATEST)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "outdir",
+     "expression": "outdir or OUTDIR",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "bandmarginwindow_latest.json",
+   "stem": "bandmarginwindow",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e300_window_local_margin_census.py",
+     "route": "loop",
+     "line": 434,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"BANDMARGINWINDOW-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "e272.OUTDIR",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e272.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SELF_FACES",
+     "expression": "(FACE, LATEST)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "outdir",
+     "expression": "outdir or OUTDIR",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "bandscopefix_latest.json",
+   "stem": "bandscopefix",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e292_scope_fix_plan.py",
+     "route": "loop",
+     "line": 539,
+     "directory_expressions_found": 7,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"BANDSCOPEFIX-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "e286.OUTDIR",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "PROFILE_FACE",
+     "expression": "\"BANDSELFAUDIT-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "ROOT",
+     "expression": "e286.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SELF_FACES",
+     "expression": "(FACE, LATEST)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "SRC_FACE",
+     "expression": "\"BANDCOUNTSCOPE-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "outdir",
+     "expression": "outdir or OUTDIR",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "bandscreenbudget_latest.json",
+   "stem": "bandscreenbudget",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e275_screen_margin_budget.py",
+     "route": "loop",
+     "line": 290,
+     "directory_expressions_found": 3,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"BANDSCREENBUDGET-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "e274.OUTDIR",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "outdir",
+     "expression": "outdir or OUTDIR",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "bandselfaudit_latest.json",
+   "stem": "bandselfaudit",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e290_selfauditable_face_profile.py",
+     "route": "loop",
+     "line": 408,
+     "directory_expressions_found": 6,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"BANDSELFAUDIT-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "e286.OUTDIR",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e286.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SELF_FACES",
+     "expression": "(FACE, LATEST)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "SRC_FACE",
+     "expression": "\"BANDCOUNTSCOPE-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "outdir",
+     "expression": "outdir or OUTDIR",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "bandsupply_latest.json",
+   "stem": "bandsupply",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e287_supply_ceiling_axes.py",
+     "route": "loop",
+     "line": 589,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"BANDSUPPLY-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "e272.OUTDIR",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e272.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SELF_FACES",
+     "expression": "(FACE, LATEST)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "outdir",
+     "expression": "outdir or OUTDIR",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "bandthreshguard_latest.json",
+   "stem": "bandthreshguard",
+   "parent_class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "parent_route": "direct",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e273_guard_from_threshold.py",
+     "route": "direct",
+     "line": 381,
+     "directory_expressions_found": 7,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "DUAL_FACE",
+     "expression": "\"BANDSCREEN-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "FACE",
+     "expression": "\"BANDTHRESHGUARD-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "INVENTORY_FACE",
+     "expression": "\"BANDFIELDS-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "face",
+     "expression": "build()",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "path",
+     "expression": "os.path.join(OUTDIR, FACE)",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "chwrcad_latest.json",
+   "stem": "chwrcad",
+   "parent_class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "parent_route": "direct",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e357_channel_writer_cadence.py",
+     "route": "direct",
+     "line": 343,
+     "directory_expressions_found": 4,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"CHWRCAD-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "STALEWIN_FACE",
+     "expression": "os.path.join(OUTDIR, \"STALEWIN-2026-11-02.json\")",
+     "resolved_paths": [
+      "results/state_tilt/STALEWIN-2026-11-02.json"
+     ],
+     "unresolved": false
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt",
+    "results/state_tilt/STALEWIN-2026-11-02.json"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "collisionkey_latest.json",
+   "stem": "collisionkey",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e383_shared_key_collision.py",
+     "route": "loop",
+     "line": 467,
+     "directory_expressions_found": 6,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"COLLISIONKEY-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "PUBLISHED_DIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SKIP_DIRS",
+     "expression": "frozenset((\".git\", \"__pycache__\", \".codely-cli\", \"media\", \"legacy\", \"Money02\"))",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "face",
+     "expression": "{\n        \"study\": STUDY,\n        \"ts\": datetime.now().astimezone().isoformat(timespec=\"seconds\"),\n        \"evidence_cutoff\": TODAY,\n        \"source\": SELF_REL,\n        \"summary\": summary,\n        \"co",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "faces",
+     "expression": "published_faces()",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "deadread_latest.json",
+   "stem": "deadread",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_write_helper_argument",
+   "parent_route": "helper",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e405_dead_read_failure_mode.py",
+     "route": "helper",
+     "line": 496,
+     "directory_expressions_found": 4,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"DEADREAD-%s.json\" % EV_CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "PUBLISHED_DIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "face",
+     "expression": "os.path.join(PUBLISHED_DIR, FACE)",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "decidegate_latest.json",
+   "stem": "decidegate",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e347_published_number_gate_census.py",
+     "route": "loop",
+     "line": 822,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"DECIDEGATE-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "FIX_FACES",
+     "expression": "[\n    {\"stem\": \"ALPHAFACE\", \"name\": \"ALPHAFACE-2026-01-02.json\", \"dir\": \"results/state_tilt\"},\n    {\"stem\": \"BETAFACE\", \"name\": \"BETAFACE-2026-01-02.json\", \"dir\": \"results/claims\"},\n    {\"stem\": \"GAMM",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "outdir",
+     "expression": "os.path.join(root or ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "facererun_latest.json",
+   "stem": "facererun",
+   "parent_class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "parent_route": "direct",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e365_face_population_pin.py",
+     "route": "direct",
+     "line": 316,
+     "directory_expressions_found": 1,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "STORE_DIR",
+     "expression": "os.path.join(OUTDIR, \"face_store\")",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_states_a_directory_expression_that_cannot_be_folded_statically",
+   "resolved_directory_paths": [],
+   "notes": []
+  },
+  {
+   "spelling": "facevintage_latest.json",
+   "stem": "facevintage",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e363_corpus_vintage.py",
+     "route": "loop",
+     "line": 324,
+     "directory_expressions_found": 3,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"FACEVINTAGE-2026-11-02.json\"",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e361.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "fragmentproducers_latest.json",
+   "stem": "fragmentproducers",
+   "parent_class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "parent_route": "direct",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e402_fragment_producers.py",
+     "route": "direct",
+     "line": 654,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"FRAGMENTPRODUCERS-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "PUBLISHED_DIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SIBLING_FACE",
+     "expression": "\"UNRESOLVED-2026-11-04.json\"",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "path",
+     "expression": "os.path.join(PUBLISHED_DIR, name)",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "greenwindow_latest.json",
+   "stem": "greenwindow",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e338_census_green_window.py",
+     "route": "loop",
+     "line": 477,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"GREENWINDOW-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "PATHS",
+     "expression": "(\"scripts\", \"Tools\", \"live\", \"monitor\", \"firm\")",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "root",
+     "expression": "root or ROOT",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "guardloosen_latest.json",
+   "stem": "guardloosen",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e339_literal_count_guards.py",
+     "route": "loop",
+     "line": 491,
+     "directory_expressions_found": 6,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"GUARDLOOSEN-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "base",
+     "expression": "{\n        \"commits_priced\": len(payed_commits),\n        \"face_touched\": sum(1 for v in payed_commits.values() if v[\"face_touched\"]),\n        \"numbers_moved\": sum(1 for v in payed_commits.values() if v",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "paths",
+     "expression": "commit_paths(sha)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "root",
+     "expression": "root or ROOT",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "helperrepair_latest.json",
+   "stem": "helperrepair",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e334_helper_repair_blast_radius.py",
+     "route": "loop",
+     "line": 520,
+     "directory_expressions_found": 4,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"HELPERREPAIR-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e326.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "root",
+     "expression": "root or ROOT",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "invisibletail_latest.json",
+   "stem": "invisibletail",
+   "parent_class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "parent_route": "direct",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e332_invisible_tail_recovery.py",
+     "route": "direct",
+     "line": 383,
+     "directory_expressions_found": 6,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"INVISIBLETAIL-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "K_FACE",
+     "expression": "\"face_handles\"",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e326.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "path",
+     "expression": "os.path.join(root, name)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "root",
+     "expression": "tempfile.mkdtemp(prefix=\"e332_fx_\")",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "keysens_latest.json",
+   "stem": "keysens",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e370_key_sensitivity.py",
+     "route": "loop",
+     "line": 354,
+     "directory_expressions_found": 9,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "CACHE_PATH",
+     "expression": "os.path.join(ROOT, \"logs\", \"_e370_partial.json\")",
+     "resolved_paths": [
+      "logs/_e370_partial.json"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "E350_FACE",
+     "expression": "os.path.join(OUTDIR, \"fieldbranch_latest.json\")",
+     "resolved_paths": [
+      "results/state_tilt/fieldbranch_latest.json"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "E353_FACE",
+     "expression": "os.path.join(OUTDIR, \"guardpresence_latest.json\")",
+     "resolved_paths": [
+      "results/state_tilt/guardpresence_latest.json"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "FACE",
+     "expression": "\"KEYSENS-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "face",
+     "expression": "{\n        \"study\": STUDY,\n        \"ts\": datetime.now().astimezone().isoformat(timespec=\"seconds\"),\n        \"today\": TODAY,\n        \"evidence_cutoff\": TODAY,\n        \"source\": SELF_REL,\n        \"pin\": ",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "live_paths",
+     "expression": "set(e350.e346._corpus())",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "pin_paths",
+     "expression": "[p for p, _ in members]",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "logs/_e370_partial.json",
+    "results/state_tilt",
+    "results/state_tilt/fieldbranch_latest.json",
+    "results/state_tilt/guardpresence_latest.json"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "leg_isolation_latest.json",
+   "stem": "leg_isolation",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/prove_smoke_leg_isolation.py",
+     "route": "loop",
+     "line": 233,
+     "directory_expressions_found": 3,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE_DIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(os.path.dirname(os.path.abspath(__file__)))",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "face",
+     "expression": "build_face()",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "leginput_latest.json",
+   "stem": "leginput",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e407_leg_input_stability.py",
+     "route": "loop",
+     "line": 284,
+     "directory_expressions_found": 3,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"LEGINPUT-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "localreader_latest.json",
+   "stem": "localreader",
+   "parent_class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "parent_route": "direct",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e401_local_reader.py",
+     "route": "direct",
+     "line": 578,
+     "directory_expressions_found": 4,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"LOCALREADER-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "PUBLISHED_DIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "path",
+     "expression": "os.path.join(PUBLISHED_DIR, name)",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "neveropened_latest.json",
+   "stem": "neveropened",
+   "parent_class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "parent_route": "direct",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e384_never_opened_key.py",
+     "route": "direct",
+     "line": 359,
+     "directory_expressions_found": 4,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"NEVEROPENED-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "PUBLISHED_DIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "path",
+     "expression": "os.path.join(PUBLISHED_DIR, name)",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "pininstability_latest.json",
+   "stem": "pininstability",
+   "parent_class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "parent_route": "direct",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e420_corpus_pin_instability.py",
+     "route": "direct",
+     "line": 271,
+     "directory_expressions_found": 3,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(\"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(os.path.dirname(os.path.abspath(__file__)))",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "face",
+     "expression": "{\"study\": STUDY, \"evidence_cutoff\": \"2026-11-04\", \"verdict\": VERDICTS[0],\n                \"summary\": {\"audited_rows\": 1, \"rows_the_leg_flags_today\": 1,\n                            \"rows_where_a_publis",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "pointerread_latest.json",
+   "stem": "pointerread",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+     "route": "loop",
+     "line": 348,
+     "directory_expressions_found": 6,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"POINTERREAD-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e326.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "faces",
+     "expression": "population(upstream)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "out",
+     "expression": "{\n        \"study\": STUDY,\n        \"title\": (\"who reads a parameterised face through a *_latest pointer, and whether the \"\n                  \"parameter survives the indirection\"),\n        \"evidence_cut",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "own_faces",
+     "expression": "{FACE, LATEST}",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "reachwide_latest.json",
+   "stem": "reachwide",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e323_reach_under_wider_needle.py",
+     "route": "loop",
+     "line": 413,
+     "directory_expressions_found": 4,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"REACHWIDE-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e312.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "path",
+     "expression": "os.path.join(OUTDIR, name or FACE)",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "refusalcause_latest.json",
+   "stem": "refusalcause",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e322_residual_refusal_causes.py",
+     "route": "loop",
+     "line": 296,
+     "directory_expressions_found": 4,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"REFUSALCAUSE-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e312.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "path",
+     "expression": "os.path.join(OUTDIR, name or FACE)",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "repairrecord_latest.json",
+   "stem": "repairrecord",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e342_guard_rewrite_records.py",
+     "route": "loop",
+     "line": 657,
+     "directory_expressions_found": 6,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"REPAIRRECORD-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "V_FACE",
+     "expression": "\"every_rewrite_that_survived_left_the_new_acceptance_set_in_a_published_face\"",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "paths",
+     "expression": "paths_cache[sha]",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "root",
+     "expression": "root or ROOT",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "restoredgate_latest.json",
+   "stem": "restoredgate",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e348_restored_gate_retrospect.py",
+     "route": "loop",
+     "line": 551,
+     "directory_expressions_found": 4,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE_DIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "PANEL_DIR",
+     "expression": "\"data/futures_daily\"",
+     "resolved_paths": [
+      "data/futures_daily"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(os.path.dirname(os.path.abspath(__file__)))",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SOURCE_FACE",
+     "expression": "os.path.join(FACE_DIR, \"GATEABSENCE-2026-11-01.json\")",
+     "resolved_paths": [
+      "results/state_tilt/GATEABSENCE-2026-11-01.json"
+     ],
+     "unresolved": false
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "data/futures_daily",
+    "results/state_tilt",
+    "results/state_tilt/GATEABSENCE-2026-11-01.json"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "scaffold_latest.json",
+   "stem": "scaffold",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e359_census_scaffolding_split.py",
+     "route": "loop",
+     "line": 561,
+     "directory_expressions_found": 6,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "E350_FACE",
+     "expression": "os.path.join(\"results\", \"state_tilt\", \"FIELDBRANCH-2026-11-01.json\")",
+     "resolved_paths": [
+      "results/state_tilt/FIELDBRANCH-2026-11-01.json"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "FACE",
+     "expression": "\"SCAFFOLD-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "MAX_FACES",
+     "expression": "60",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "outdir",
+     "expression": "os.path.join(root, \"results\", \"state_tilt\")",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt",
+    "results/state_tilt/FIELDBRANCH-2026-11-01.json"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "seamreplay_latest.json",
+   "stem": "seamreplay",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e368_seam_replay.py",
+     "route": "loop",
+     "line": 304,
+     "directory_expressions_found": 9,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "CACHE_PATH",
+     "expression": "os.path.join(ROOT, \"logs\", \"_e368_partial.json\")",
+     "resolved_paths": [
+      "logs/_e368_partial.json"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "E350_FACE",
+     "expression": "os.path.join(OUTDIR, \"fieldbranch_latest.json\")",
+     "resolved_paths": [
+      "results/state_tilt/fieldbranch_latest.json"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "E353_FACE",
+     "expression": "os.path.join(OUTDIR, \"guardpresence_latest.json\")",
+     "resolved_paths": [
+      "results/state_tilt/guardpresence_latest.json"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "FACE",
+     "expression": "\"SEAMREPLAY-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "PIN_PATH",
+     "expression": "os.path.join(OUTDIR, \"CORPUSPIN-2026-11-02.json\")",
+     "resolved_paths": [
+      "results/state_tilt/CORPUSPIN-2026-11-02.json"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "face",
+     "expression": "{\n        \"study\": STUDY,\n        \"ts\": datetime.now().astimezone().isoformat(timespec=\"seconds\"),\n        \"evidence_cutoff\": TODAY,\n        \"source\": SELF_REL,\n        \"pin\": pin.get(\"git_commit\"),\n ",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "pin_paths",
+     "expression": "[p for p, _ in members]",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "logs/_e368_partial.json",
+    "results/state_tilt",
+    "results/state_tilt/CORPUSPIN-2026-11-02.json",
+    "results/state_tilt/fieldbranch_latest.json",
+    "results/state_tilt/guardpresence_latest.json"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "selfres_latest.json",
+   "stem": "selfres",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e253_self_row_resolution.py",
+     "route": "loop",
+     "line": 447,
+     "directory_expressions_found": 4,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SOURCE_FACE",
+     "expression": "os.path.join(OUTDIR, \"STARSELF-2026-10-29.json\")",
+     "resolved_paths": [
+      "results/state_tilt/STARSELF-2026-10-29.json"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "path",
+     "expression": "os.path.join(outdir, \"SELFRES-%s.json\" % cutoff)",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt",
+    "results/state_tilt/STARSELF-2026-10-29.json"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "siblingcloser_latest.json",
+   "stem": "siblingcloser",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e341_sibling_closer_what_changed.py",
+     "route": "loop",
+     "line": 518,
+     "directory_expressions_found": 4,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"SIBLINGCLOSER-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "outdir",
+     "expression": "os.path.join(root or ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "splitprice_latest.json",
+   "stem": "splitprice",
+   "parent_class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "parent_route": "direct",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e385_merged_key_split.py",
+     "route": "direct",
+     "line": 391,
+     "directory_expressions_found": 8,
+     "directory_expression_note": null
+    },
+    {
+     "source": "scripts/e397_walk_ambiguity.py",
+     "route": "direct",
+     "line": 368,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "E350_FACE",
+     "expression": "\"FIELDBRANCH-2026-11-01.json\"",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "E353_FACE",
+     "expression": "\"GUARDPRESENCE-2026-11-02.json\"",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "E377_FACE",
+     "expression": "\"UNRESOLVEDDEST-2026-11-03.json\"",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "E381_FACE",
+     "expression": "\"COMPONENTKEY-2026-11-03.json\"",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "FACE",
+     "expression": "\"SPLITPRICE-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "PUBLISHED_DIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "path",
+     "expression": "os.path.join(PUBLISHED_DIR, name)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "FACE",
+     "expression": "\"WALKAMBIG-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "SIBLING_FACE",
+     "expression": "\"SPLITPRICE-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "stalecutoff_latest.json",
+   "stem": "stalecutoff",
+   "parent_class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "parent_route": "direct",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e328_quoted_number_staleness.py",
+     "route": "direct",
+     "line": 505,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    },
+    {
+     "source": "scripts/e365_face_population_pin.py",
+     "route": "direct",
+     "line": 316,
+     "directory_expressions_found": 1,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"STALECUTOFF-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "OWN_FACES",
+     "expression": "(FACE, LATEST)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "ROOT",
+     "expression": "e326.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "out",
+     "expression": "tempfile.mkdtemp(prefix=\"e328_fx_out_\")",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "STORE_DIR",
+     "expression": "os.path.join(OUTDIR, \"face_store\")",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "storemembercost_latest.json",
+   "stem": "storemembercost",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e371_store_member_cost.py",
+     "route": "loop",
+     "line": 311,
+     "directory_expressions_found": 7,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"STOREMEMBERCOST-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "V_NO_STORE",
+     "expression": "\"the_pin_resolved_every_member_so_there_is_no_store_cost_to_measure\"",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "e350_face",
+     "expression": "{}",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "face",
+     "expression": "{\n        \"study\": STUDY,\n        \"ts\": datetime.now().astimezone().isoformat(timespec=\"seconds\"),\n        \"evidence_cutoff\": TODAY,\n        \"source\": SELF_REL,\n        \"pin\": pin.get(\"git_commit\"),\n ",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "store_paths",
+     "expression": "prov[\"store_needed_paths\"]",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "survivingconclusions_latest.json",
+   "stem": "survivingconclusions",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e333_surviving_e3xx_conclusions.py",
+     "route": "loop",
+     "line": 446,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"SURVIVINGCONCLUSIONS-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "e326.ROOT",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SOURCE_FACE",
+     "expression": "os.path.join(OUTDIR, e332.FACE)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "root",
+     "expression": "root or ROOT",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "undated_latest.json",
+   "stem": "undated",
+   "parent_class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "parent_route": "direct",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e302_universe_switch_backfill.py",
+     "route": "direct",
+     "line": 798,
+     "directory_expressions_found": 9,
+     "directory_expression_note": null
+    },
+    {
+     "source": "scripts/e307_undated_face_vintage.py",
+     "route": "helper",
+     "line": 438,
+     "directory_expressions_found": 3,
+     "directory_expression_note": null
+    },
+    {
+     "source": "scripts/e_band_family_vintage.py",
+     "route": "helper",
+     "line": 147,
+     "directory_expressions_found": 0,
+     "directory_expression_note": "the_module_states_no_directory_shaped_constant"
+    },
+    {
+     "source": "scripts/science_audit.py",
+     "route": "direct",
+     "line": 874,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"BANDSWITCH-%s.json\" % CUTOFF",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "MEASURE_TIMEOUT",
+     "expression": "int(os.environ.get(\"E302_TIMEOUT\", \"120\"))",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SELF_FACES",
+     "expression": "(FACE, LATEST)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "face",
+     "expression": "build()",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "probe_root",
+     "expression": "\"e302_leg_probe_root\"",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "tmp_base",
+     "expression": "tempfile.mkdtemp(prefix=\"e302-leg-\")",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "without",
+     "expression": "dir_bindings(OUTDIR, roots=[\"e302_leg_no_such_module\"])",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "FACE",
+     "expression": "\"BANDUNDATEDVINTAGE-2026-10-31.json\"",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "AUDIT_PATH",
+     "expression": "os.path.join(RESULTS_DIR, \"science_audit.json\")",
+     "resolved_paths": [
+      "results/science_audit.json"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "G25_DIR",
+     "expression": "os.path.join(RESULTS_DIR, \"g25\")",
+     "resolved_paths": [
+      "results/g25"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "RESULTS_DIR",
+     "expression": "sg.RESULTS_DIR",
+     "resolved_paths": [
+      "results"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "TRADER_DIR",
+     "expression": "os.path.join(_ROOT, \"firm\", \"traders\")",
+     "resolved_paths": [
+      "firm/traders"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "_ROOT",
+     "expression": "os.path.dirname(os.path.dirname(os.path.abspath(__file__)))",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "firm/traders",
+    "results",
+    "results/g25",
+    "results/science_audit.json",
+    "results/state_tilt"
+   ],
+   "notes": [
+    "the_module_states_no_directory_shaped_constant"
+   ]
+  },
+  {
+   "spelling": "unkeyedreader_latest.json",
+   "stem": "unkeyedreader",
+   "parent_class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "parent_route": "loop",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e379_unkeyed_face_reader.py",
+     "route": "loop",
+     "line": 448,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"UNKEYEDREADER-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "OUTDIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "face",
+     "expression": "{\n        \"study\": STUDY,\n        \"ts\": datetime.now().astimezone().isoformat(timespec=\"seconds\"),\n        \"evidence_cutoff\": TODAY,\n        \"source\": SELF_REL,\n        \"upstream\": {\"face\": upstream, ",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "result",
+     "expression": "census(targets, sources)",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  },
+  {
+   "spelling": "walkambig_latest.json",
+   "stem": "walkambig",
+   "parent_class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "parent_route": "direct",
+   "parent_directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced",
+   "reader_directories": [
+    "results/state_tilt"
+   ],
+   "tracing_sources": [
+    {
+     "source": "scripts/e397_walk_ambiguity.py",
+     "route": "direct",
+     "line": 368,
+     "directory_expressions_found": 5,
+     "directory_expression_note": null
+    },
+    {
+     "source": "scripts/e399_unresolved_names.py",
+     "route": "direct",
+     "line": 482,
+     "directory_expressions_found": 8,
+     "directory_expression_note": null
+    }
+   ],
+   "module_directory_expressions": [
+    {
+     "name": "FACE",
+     "expression": "\"WALKAMBIG-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "PUBLISHED_DIR",
+     "expression": "os.path.join(ROOT, \"results\", \"state_tilt\")",
+     "resolved_paths": [
+      "results/state_tilt"
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "ROOT",
+     "expression": "os.path.dirname(HERE)",
+     "resolved_paths": [
+      ""
+     ],
+     "unresolved": false
+    },
+    {
+     "name": "SIBLING_FACE",
+     "expression": "\"SPLITPRICE-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "path",
+     "expression": "os.path.join(PUBLISHED_DIR, name)",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "CL_ABSENT_DIR",
+     "expression": "\"repo_relative_and_its_directory_does_not_exist\"",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "CL_NOT_PATH",
+     "expression": "\"bare_token_not_shaped_like_a_path\"",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "FACE",
+     "expression": "\"UNRESOLVED-%s.json\" % TODAY",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "SIBLING_FACE",
+     "expression": "\"WALKAMBIG-2026-11-03.json\"",
+     "resolved_paths": [],
+     "unresolved": true
+    },
+    {
+     "name": "V_NOT_A_PATH",
+     "expression": "\"every_unresolved_name_is_a_template_a_token_or_a_bare_basename_fragment_so_no_\"\n                \"published_face_is_missing_and_the_key_population_is_inflated_by_fragments\"",
+     "resolved_paths": [],
+     "unresolved": true
+    }
+   ],
+   "directory_class": "the_module_directory_expression_names_the_reader_directory",
+   "resolved_directory_paths": [
+    "",
+    "results/state_tilt"
+   ],
+   "notes": []
+  }
+ ],
+ "method_limits": [
+  "the fold reads one module per tracing source and follows one hop into an imported repository module; a directory built from a function parameter, argv, os.environ or a dict key is published unresolved, never as a directory statement",
+  "K_OTHER is a positive statement only when a folded path exists; a module that folds nothing is K_UNRESOLVED or K_NONE",
+  "K_SAME says the module names the reader's directory, not that the write happens there at run time: the write path itself was traced by E487 to a bare basename, so a runtime-composed suffix can still differ",
+  "the population is E487's basename-only arm, kept byte-for-byte as published; this face adds a directory question and does not re-open the parent's class question",
+  "the repo root folds to the empty string because these modules compute ROOT from __file__; a module that hardcodes a relative path is compared repo-relative too, so both spellings land on the same string"
+ ]
+}
