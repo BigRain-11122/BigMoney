@@ -21448,5 +21448,106 @@ except Exception as _e515x:
     _d515 = "leg could not run"
 check(_name515, not _bad515, "; ".join(_bad515)[:240] or _d515)
 
+# E518: read the published literal-guard face the way a consumer would -- every builder's source
+# must be on disk, every literal arm must carry its class, its guard rows, its distinction and its
+# risk, every risk must re-derive from that arm's own guard and shapes, the entry-point split must
+# add up to the silent-default count, and five doctored copies (a flipped risk, a claimed guard
+# with no guard row, a hand-written overall verdict, a builder published with no read arm, an
+# edited population_source) must all be refused.
+_name518 = ("E518 a literal return is either a declared empty answer or a silent default: every "
+            "literal arm of every builder that reads publishes its own guard subject, its own "
+            "shape and its own risk (r1548 bm-b)")
+_bad518 = []
+try:
+    _m518 = __import__("importlib").import_module("e518_literal_guard")
+    _f518 = json.load(open(os.path.join("results", "state_tilt", "literalguard_latest.json"),
+                           encoding="utf-8"))
+    _s518 = _f518.get("summary") or {}
+    _b518 = _f518.get("builders") or []
+    _bad518.extend(_m518.face_problems(_f518))
+    if not _b518:
+        _bad518.append("the builder population is empty")
+    _rows518 = [(_b, _r) for _b in _b518 for _r in (_b.get("literal_rows") or [])]
+    if not _rows518:
+        _bad518.append("the literal-arm population is empty")
+    for _b, _r in _rows518:
+        if not _b.get("module") or not os.path.exists(_b["module"]):
+            _bad518.append("%s:%s names a module that is not on disk"
+                           % (_b.get("module"), _b.get("builder")))
+            break
+        for _k in ("class", "shape", "guarded_by", "guards_on_the_path", "distinguishable_by",
+                   "risk"):
+            if _k not in _r:
+                _bad518.append("%s:%s line %s does not publish %s"
+                               % (_b.get("module"), _b.get("builder"), _r.get("line"), _k))
+        if _r.get("guarded_by") != _m518.G_NONE and not _r.get("guards_on_the_path"):
+            _bad518.append("%s:%s line %s claims a guard with no guard row"
+                           % (_b.get("module"), _b.get("builder"), _r.get("line")))
+    if _s518.get("silent_defaults_in_entry_points", 0) + \
+            _s518.get("silent_defaults_outside_entry_points", 0) != \
+            _s518.get("silent_defaults_a_caller_cannot_tell_apart"):
+        _bad518.append("the entry-point split does not add up to the silent default count")
+    _w518 = json.loads(json.dumps(_f518))
+    for _b in _w518["builders"]:
+        for _r in _b.get("literal_rows") or []:
+            if _r.get("risk") != _m518.R_DECLARED:
+                _r["risk"] = _m518.R_DECLARED
+                break
+        else:
+            continue
+        break
+    if not _m518.face_problems(_w518):
+        _bad518.append("a flipped risk label survived the guard")
+    _w518b = json.loads(json.dumps(_f518))
+    _hit518b = False
+    for _b in _w518b["builders"]:
+        for _r in _b.get("literal_rows") or []:
+            if _r.get("guarded_by") != _m518.G_NONE and _r.get("guards_on_the_path"):
+                _r["guards_on_the_path"] = []
+                _hit518b = True
+                break
+        if _hit518b:
+            break
+    if _hit518b and not _m518.face_problems(_w518b):
+        _bad518.append("a claimed guard with no guard row survived the guard")
+    _w518c = json.loads(json.dumps(_f518))
+    _w518c["verdict"] = _m518.V_ALL
+    if not _m518.face_problems(_w518c):
+        _bad518.append("a hand-written verdict survived the guard")
+    _w518d = json.loads(json.dumps(_f518))
+    _w518d["builders"][0]["read_arms"] = 0
+    _w518d["builders"][0]["read_shapes"] = []
+    if not _m518.face_problems(_w518d):
+        _bad518.append("a builder published with no read arm survived the guard")
+    _w518e = json.loads(json.dumps(_f518))
+    _w518e["population_source"] = "hand-written"
+    if not _m518.face_problems(_w518e):
+        _bad518.append("an edited population_source survived the guard")
+    _d518 = ("%r sources / %r builders (%r entry points) / %r literal arms / %r read arms | "
+             "declared %r, guarded only by another value's test %r, unguarded-but-testable %r | "
+             "silent %r (entry %r, outside entry %r) | is-none %r, truthiness %r, same-arity %r, "
+             "type %r, nothing %r | initial-value arms %r (trace says literal %r) | verdict %r"
+             % (_s518.get("sources_read"),
+                _s518.get("builders_with_a_literal_arm_and_a_read_arm"),
+                _s518.get("builders_that_are_entry_points"), _s518.get("literal_arms"),
+                _s518.get("read_arms"), _s518.get("literal_arms_declared_by_a_guard"),
+                _s518.get("literal_arms_guarded_only_by_a_test_on_another_value"),
+                (_s518.get("literal_arms_by_risk") or {}).get(_m518.R_SILENT_BUT_TESTABLE),
+                _s518.get("silent_defaults_a_caller_cannot_tell_apart"),
+                _s518.get("silent_defaults_in_entry_points"),
+                _s518.get("silent_defaults_outside_entry_points"),
+                (_s518.get("literal_arms_by_distinguishability") or {}).get(_m518.D_IS_NONE),
+                (_s518.get("literal_arms_by_distinguishability") or {}).get(_m518.D_TRUTHINESS),
+                (_s518.get("literal_arms_by_distinguishability") or {}).get(_m518.D_ARITY),
+                (_s518.get("literal_arms_by_distinguishability") or {}).get(_m518.D_TYPE),
+                (_s518.get("literal_arms_by_distinguishability") or {}).get(_m518.D_NOTHING),
+                _s518.get("initial_value_arms"),
+                _s518.get("initial_value_arms_the_shared_trace_calls_literals"),
+                _f518.get("verdict")))
+except Exception as _e518x:
+    _bad518.append(repr(_e518x)[:160])
+    _d518 = "leg could not run"
+check(_name518, not _bad518, "; ".join(_bad518)[:240] or _d518)
+
 if __name__ == "__main__":
     sys.exit(main())

@@ -12954,3 +12954,26 @@ E506 把 16 张面归入"日期写在见证词表之外的字段名下"时，量
 - **扫描器自己的性能坑（E442 族第四次）**：首版对每个 Call 节点都 `ast.walk(tree)` 找外层函数、再 `ast.walk(tree)` 解 import 别名，2,718 源上 5 分钟零输出被取消；改成"每文件一次"预算（函数区间表 + parent map + import 映射 + 每个函数一份 Name/If 缓存）后整轮数秒完成。**凡"对每个节点回溯整棵树"，先换成每文件一次的索引。**
 
 **验证**：`scripts/e515_empty_arm_cover.py`（selftest 25/25；`run` rc0；`check` problems=[]；`verify` 重建 problems=[]）＋ `results/state_tilt/EMPTYARMCOVER-2026-11-08.json` + `emptyarmcover_latest.json` ＋ S6 腿 `empty_arm_cover`（rc0 0.37s）＋ smoke leg `# E515`（`scripts/run_e515_smoke_leg.py` 1/1 绿，`--doctor` 1/1 红且面字节还原 sha `a336b282b8fb`）＋ digest `research/digests/DIGEST-20261108-r1546-e515-empty-arm-cover.md`。未跑：全套 smoke、其余 S6 链腿、采集器族、行情/纸盘链。
+
+## E518 · 字面量返回是"声明过的空答案"还是"没人知道的默认值"（2026-11-08 r1548 bm-b）
+
+**立论**：E514 在六个真生成器里数出 10 条字面量返回路径（`return None, None, None`、`return {}`、`return (1.0, 1.0, [])`）。但字面量返回不是一件事：`if not paths:` 底下的 `return {}` 是**声明过的空答案**（调用者被告知了）；循环本该填、没填就返回的空容器是**没人知道的默认值**；`return 2` 当哨兵，在真值也是 2 的调用者眼里根本不存在。所以度量单位必须是**每条字面量返回臂**，不是每个生成器。
+
+**方法**：人口＝语料里每一条既有字面量臂、又有读臂（读文件/git store/扫树/从载入结构里取元素）的模块级函数（2,719 个可解析源，22 个解析失败，逐条披露）。每条字面量臂独立发布三件可复核的事实：
+1. 它自己的路径上有没有一句命名"空"的测试（`if not x` / `x is None` / `len(x) == 0` / `== ''` / 存在性测试的 else 臂），**并且这句测试点名的是不是它返回的那个值**；
+2. 它是不是"初始化成空容器、函数体里再填、最后返回那个容器"；
+3. 调用者从外面能不能分辨它和这个生成器的读臂——`is None`、解包后逐元素测 None、真值/长度测试、看类型、还是**只能把值读出来才分得清**。
+
+分档由臂自己的证据算，闸重算：`face_problems` 逐行由 guard 行与 shape 重推 `guarded_by` 与 `risk`，summary 逐项重推，verdict 由 summary 重推。
+
+**读数**（2,719 源）：**1,239 个生成器**（其中 67 个是 `main`/`_main` 入口）／**1,985 条字面量臂**／1,717 条读臂。守卫分档：`if not x` 555、`x is None` 182、`len(x)==0` 104、`== 空值` 100、存在性测试的 else 1、**只测了另一个值 14**、路径上无空测试 1,029。风险分档：**声明过 942**／**无卫但可测 568**／**静默不可分辨 475**（入口 73、非入口 402）。可分辨方式：`is None` 692、真值/长度 522、同元数解包 54、看类型 7、**只能读值 710**。另有 **22 条"初始化为空再填"臂**，其中 **3 条**按上游共享 trace 的判定仍会被记成字面量。
+
+**可复用教训**：
+- **测了别的变量的守卫不是声明**：`if node is None: return lits` 说的是 `node`，不是 `lits`——14 条臂因此从"声明过"退回"没声明"（e497 `_fold_literals`、`engine/futures_runner.yearly_returns`、`scripts/grid_p1_screen.load_rows`）。守卫行必须同时发布"这句测试点的是谁"，否则"有 if 就算声明"会把 14 条静默默认洗成合规。
+- **共享助手在 py3.11 上是死代码**：`e514._empty_container` 用 `not list(ast.iter_child_nodes(node))` 判空，而每个 `List/Dict/Set/Tuple` 都带一个 `ctx` 子节点，于是 `[]` 与 `{}` 一律判"非空"，`e514.trace` 里那句"空容器是起点不是答案"的逃生口**永不触发**——这就是上游把"初始化为空再填"的容器记成字面量的机制。本模块自带判空并**实测**：`_empty_container([])` 返回 False（selftest 钉死），共享 trace 会把 3 条初始值臂叫字面量。
+- **同元数 None 元组是最难看的形状**：54 条臂与读臂**元数相同**，调用者解包成功、拿到 `(None, None, None)`，只能逐元素测 None——`etf_phase_beta_target.apply_overlay` 的两条 `return None, None, None` 对三条 `pd.Series` 就是这一类。
+- **入口要点名**：475 条静默默认里有 73 条属于 `main()` 的退出码（`return 3` 是契约不是缺陷），402 条不属于——不分档会把"退出码"读成"全仓 475 处缺陷"。
+- **`any()` 吃元组恒真**：本窗首版 `any(reads_something(...) for fill in ...)` 里 `reads_something` 返回 `(bool, via)`，非空元组恒真，于是每条初始值臂都被判"填充里有读"。selftest 的"共享 trace 会说它是字面量"那条腿把它抓住（期望 True 实得 False）——**返回元组的谓词配 `any()` 必须先取 `[0]`**。
+- **节点身份做缓存键必须带上形参与 skip，并按分析轮清空**：只按 `id(node)` 键控，同一进程里第二次 build（夹具→空人口臂）会吃到上一棵树的答案（id 复用）；本窗首版因此把 1 条臂的填充读判定串了味，修法＝键含 `params`/`skip` 且 `analyse` 入口清空全部缓存。
+
+**验证**：`scripts/e518_literal_guard.py`（`run` rc0 146s；`check` problems=[]；`verify` 重建 problems=[]；**selftest 33/33**——六个夹具臂：守卫字面量、无卫 None、无卫三元 None 元组、标量哨兵、初始值容器、只测别的值的守卫；另加五条 doctored 臂全被拒：翻 risk、声称有守卫却无守卫行、手写 verdict、发布无读臂的生成器、改 population_source）＋ `results/state_tilt/LITERALGUARD-2026-11-08.json` 与 `literalguard_latest.json` 同源 ＋ S6 链腿 `literal_guard`（rc0 0.09s）＋ smoke 腿 `# E518`（`scripts/run_e518_smoke_leg.py` 单跑 1/1 绿、`--doctor` 1/1 红且面字节还原 sha `b1fdeaa0f810`）＋ digest `research/digests/DIGEST-20261108-r1548-e518-literal-guard.md`。未跑：全量 smoke 套件、其余 S6 链腿、采集器族、行级纸盘链（不宣称）。

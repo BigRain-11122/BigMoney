@@ -29137,6 +29137,7 @@
   },
   {
    "deliverable": "results/state_tilt/LITERALGUARD-<cutoff>.json",
+   "done_at": "2026-11-08T05:0x+08:00",
    "entered_at": "2026-11-08T02:12:00+08:00",
    "entered_by": "bm-b r1542",
    "evidence_cutoff": "2026-11-08",
@@ -29144,8 +29145,10 @@
    "lane": "cpu-only",
    "lane_note": "static: guard and assignment scan inside one function body, no network, no rewrites",
    "priority": "normal",
+   "result_note": "1,239 builders / 1,985 literal arms: 942 declared by a guard that names the returned value, 14 guarded only by a test on another value, 475 silent (402 outside entry points), 22 initialised-and-filled arms of which 3 the shared trace still calls literals",
+   "result_ref": "results/state_tilt/LITERALGUARD-2026-11-08.json",
    "source": "E514 (r1542 bm-b): 10 of the 25 return paths of six genuine builders are literals, and 2 builders therefore answer hands_back_a_parameter and a literal at once",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/literalguard_latest.json",
    "title": "E514 published 10 literal return paths across six in-repo builders (`return None, None, None`, `return {}`, `return (1.0, 1.0, [])`). A literal return is not one thing: `return {}` under `if not paths` is a declared empty answer, while an initial value that a loop is expected to overwrite is a silent default that would replace a read if the loop never ran. Measure, for every literal return path of every builder that also has a read path, whether it sits behind a guard that names the empty case, whether it is a mutable initial value overwritten unconditionally, and whether a caller can distinguish the two from the outside -- so 'every path reads a file' becomes a property that can be checked rather than hoped for."
   },
@@ -29192,6 +29195,20 @@
    "status": "ready",
    "target": "results/state_tilt/emptyarmreach_latest.json",
    "title": "E515 published 199 production call sites that read a branching callee's result with no terminating guard, 97 of them subscripting it immediately.  Not every one of those 199 is a live hazard: a callee that names nothing only when a parameter is None is harmless at a site that passes a literal path.  For each of the 199, read the callee's own empty-arm condition, resolve what the site actually passes at the parameter that condition tests, and classify the site as 'the empty arm is reachable from this call', 'the argument rules the empty arm out', or 'the condition is not a parameter test' -- so the 199 becomes a ranked list of real defects instead of a count."
+  },
+  {
+   "deliverable": "results/state_tilt/SILENTREAD-<cutoff>.json",
+   "entered_at": "2026-11-08T05:0x+08:00",
+   "entered_by": "bm-b r1548 (supply floor refill after E518)",
+   "evidence_cutoff": "2026-11-08",
+   "id": "E522-WHICH-OF-THE-402-SILENT-LITERAL-ARMS-IS-READ-BY-A-PRODUCTION-CALLER-THAT-CANNOT-TEST-IT",
+   "lane": "cpu-only",
+   "lane_note": "static: call-site read classification over the E518 arm list, no network",
+   "priority": "normal",
+   "source": "E518 (r1548 bm-b): 475 silent literal arms, 402 outside entry points; 54 of them share their arity with the read arm and 710 of the 1,985 arms are scalar sentinels whose read arm can hand back the same shape",
+   "status": "ready",
+   "target": "results/state_tilt/silentread_latest.json",
+   "title": "E518 published 475 literal arms a caller cannot tell apart from the builder's read arm, 402 of them outside entry points -- and a count is not a defect.  For each of those arms take the builder's production call sites from the E515 census and read what the site actually does with the result: subscripts it or takes an attribute off it (the empty arm would raise), tests it for truthiness or length (the site already handles the empty answer), hands it onward without reading it here, or never reads it again -- so the 402 becomes a ranked list of sites that would break, separated from builders whose callers already cope."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29206,6 +29223,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T04:0x+08:00",
+ "updated_at": "2026-11-08T05:0x+08:00",
  "version": 1
 }

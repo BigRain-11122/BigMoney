@@ -1952,6 +1952,14 @@ LEGS = [
     # re-derives every verdict from the site's own guard row / read kind / reach class, every tally,
     # and the per-callee table.
     ("empty_arm_cover", ["python", "scripts/e515_empty_arm_cover.py", "check"]),
+
+    # E518 asks the arm-level question of the same builder census: a literal return is not one
+    # thing.  Per literal arm it publishes the guard on its own path (and whether that guard names
+    # the value the arm returns), whether the arm is a container initialised empty and filled in
+    # the body, and whether a caller can tell it apart from the builder's read arm -- by `is None`,
+    # by unpacking, by a truthiness test, by type, or not at all.  `check` re-derives every risk
+    # from the arm's own guard rows and shapes, the entry-point split and the verdict.
+    ("literal_guard", ["python", "scripts/e518_literal_guard.py", "check"]),
 ]
 
 
