@@ -1,6 +1,6 @@
 # ETF book -- what a market gap actually costs
 
-Evidence cutoff 2026-10-30 · rule beta target 0.20 · rebalance 20 bars · cost 8.0 bp/side
+Evidence cutoff 2026-11-06 · rule beta target 0.20 · rebalance 20 bars · cost 8.0 bp/side
 
 ## The answer
 
@@ -10,8 +10,8 @@ the book's realized beta to 510300 is 0.12 over its whole history and 0.21 on th
 
 | window | bars | beta |
 | --- | --- | --- |
-| full history | 1525 | 0.1200 |
-| last 250 bars | 250 | 0.2090 |
+| full history | 1530 | 0.1209 |
+| last 250 bars | 250 | 0.2122 |
 
 Verdict: **BETA_MATCHED** (band 0.10..0.30).
 
@@ -20,11 +20,11 @@ Verdict: **BETA_MATCHED** (band 0.10..0.30).
 | face | book | 510300 |
 | --- | --- | --- |
 | worst day | -4.70% (2025-07-07) | -8.84% |
-| 1st percentile | -1.22% | -3.04% |
+| 1st percentile | -1.22% | -3.03% |
 | 5th percentile | -0.53% | -1.72% |
 | daily sd | 0.41% | 1.16% |
 
-**Price quality**: the panel carries 168 unit-change prints and the contamination face calls the effect MATERIAL. On repaired prices the same rule's worst day is -2.88% (2025-04-23) -- so the worst day quoted above is a print, not a market day. Source: results/etf_book_flip_contamination.json.
+**Price quality**: the panel carries 169 unit-change prints and the contamination face calls the effect MATERIAL. On repaired prices the same rule's worst day is -2.88% (2025-04-23) -- so the worst day quoted above is a print, not a market day. Source: results/etf_book_flip_contamination.json.
 
 ## On the 20 worst index days (measured, not assumed)
 
@@ -43,13 +43,13 @@ Mean on those days: index -3.87% / book -0.47% (ratio 0.121) · book worst -1.96
 
 ## Tomorrow, in money
 
-Priced on results/etf_book_order/TICKET-2026-10-30.json: NAV +1,000,000 CNY, deployed +459,451 CNY (46.0%), cash +540,549 CNY.
+Priced on results/etf_book_order/TICKET-2026-11-06.json: NAV +1,000,000 CNY, deployed +459,487 CNY (46.0%), cash +540,513 CNY.
 
 | index gaps | book returns | costs you | the naive 'shock x deployed' |
 | --- | --- | --- | --- |
-| -3% | -0.36% | -3,599 CNY | -13,808 CNY |
-| -5% | -0.60% | -5,998 CNY | -23,013 CNY |
-| -8% | -0.96% | -9,597 CNY | -36,820 CNY |
+| -3% | -0.36% | -3,627 CNY | -13,808 CNY |
+| -5% | -0.60% | -6,045 CNY | -23,013 CNY |
+| -8% | -0.97% | -9,672 CNY | -36,820 CNY |
 
 The last column is what an operator computes by hand and it overstates the loss by roughly the inverse of the beta scaling.
 

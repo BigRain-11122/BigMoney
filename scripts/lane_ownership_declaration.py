@@ -168,13 +168,26 @@ def check_payload(pub, fresh):
     b = _ownership((fresh or {}).get("lanes"))
     if a == b:
         return 0, "ownership matches its inputs"
+    # r1255: compare by LANE, never by position. The rows arrive sorted by the
+    # freshness board (`-n_missing, lane`), so a lane that gains a day moves up
+    # the list and a positional zip reports every row below it as changed --
+    # the gate then says "the declaration no longer follows its inputs" while
+    # every lane still names the same host. Measured live 2026-11-07 after the
+    # futures panel cross-check moved that row.
+    a_by = dict((r.get("lane"), r) for r in a)
+    b_by = dict((r.get("lane"), r) for r in b)
     diff = []
-    for x, y in zip(a, b):
+    for lane in sorted(set(a_by) | set(b_by)):
+        x, y = a_by.get(lane), b_by.get(lane)
+        if x is None or y is None:
+            diff.append("%s: %s -> %s" % (lane, "present" if x else "absent",
+                                          "present" if y else "absent"))
+            continue
         for k in OWNERSHIP_KEYS:
             if x.get(k) != y.get(k):
-                diff.append("%s.%s: %r -> %r" % (x.get("lane"), k, x.get(k), y.get(k)))
-    if len(a) != len(b):
-        diff.append("lane count %d -> %d" % (len(a), len(b)))
+                diff.append("%s.%s: %r -> %r" % (lane, k, x.get(k), y.get(k)))
+    if not diff:
+        return 0, "ownership matches its inputs (rows reordered only)"
     return 1, "the declaration no longer follows its inputs: %s" % "; ".join(diff[:6])
 
 
@@ -367,6 +380,15 @@ def selftest():
     moved_owner[1]["declared_host"] = "bm-c"
     chk(check_payload(pub, {"lanes": moved_owner})[0] == 1,
         "a changed OWNER fails the gate")
+    # r1255: the freshness board sorts its rows, so a lane that gains a day
+    # moves and a positional compare then accuses every row below it. Same
+    # ownership table, different order, must still pass.
+    reordered = list(reversed(json.loads(json.dumps(d))))
+    chk(check_payload(pub, {"lanes": reordered})[0] == 0,
+        "a REORDERED ownership table still passes (compare by lane, not by row number)")
+    dropped = json.loads(json.dumps(d))[1:]
+    chk(check_payload(pub, {"lanes": dropped})[0] == 1,
+        "a missing lane still fails the gate")
     print("SELFTEST " + ("OK" if ok else "FAILED"))
     return 0 if ok else 1
 

@@ -1,8 +1,8 @@
 {
- "ts": "2026-11-07 09:39:29",
+ "ts": "2026-11-07 10:50:40",
  "script": "scripts/etf_book_concentration.py",
  "face": "results/etf_book_concentration.json",
- "evidence_cutoff": "2026-10-30",
+ "evidence_cutoff": "2026-11-06",
  "criteria": {
   "n_hold": 12,
   "rebal": 20,
@@ -17,10 +17,10 @@
  },
  "execution": "decide at close t -> fill at open t+1 -> hold to next decision",
  "panel": {
-  "columns": 1504,
-  "bars": 5270,
-  "flips_repaired": 168,
-  "digest": "a1a42aee64453839"
+  "columns": 1515,
+  "bars": 5275,
+  "flips_repaired": 169,
+  "digest": "58302d9ca988c138"
  },
  "book": {
   "n_hold": 12,
@@ -32,22 +32,22 @@
  },
  "identity": {
   "replica_vs_engine_max_abs": 3.1086244689504383e-15,
-  "bars_compared": 1652,
+  "bars_compared": 1657,
   "passes": true
  },
  "return_sum": {
-  "gross": 0.744362,
-  "sum_of_symbol_contributions": 0.744362,
+  "gross": 0.734319,
+  "sum_of_symbol_contributions": 0.734319,
   "fee_toll": 0.077548,
   "unit_note": "gross and contributions are sums of daily arithmetic returns; the net curve = compounded gross minus the fee charged at each decision, and is what `baseline` quotes"
  },
  "baseline": {
   "full": {
-   "cagr": 0.096,
-   "sharpe": 0.99,
+   "cagr": 0.0941,
+   "sharpe": 0.97,
    "maxdd": -0.1177,
-   "vol": 0.1017,
-   "years": 6.82
+   "vol": 0.1019,
+   "years": 6.84
   },
   "is": {
    "cagr": 0.0384,
@@ -57,11 +57,11 @@
    "years": 3.99
   },
   "oos": {
-   "cagr": 0.1835,
-   "sharpe": 1.738,
+   "cagr": 0.1779,
+   "sharpe": 1.683,
    "maxdd": -0.107,
-   "vol": 0.1044,
-   "years": 2.83
+   "vol": 0.1048,
+   "years": 2.84
   }
  },
  "concentration": {
@@ -71,61 +71,61 @@
    {
     "symbol": "159934",
     "contribution_sum": 0.056005,
-    "share_of_return_sum": 0.0752
+    "share_of_return_sum": 0.0763
    },
    {
     "symbol": "518800",
     "contribution_sum": 0.055486,
-    "share_of_return_sum": 0.0745
+    "share_of_return_sum": 0.0756
    },
    {
     "symbol": "159937",
     "contribution_sum": 0.052608,
-    "share_of_return_sum": 0.0707
+    "share_of_return_sum": 0.0716
    },
    {
     "symbol": "518880",
     "contribution_sum": 0.05012,
-    "share_of_return_sum": 0.0673
+    "share_of_return_sum": 0.0683
    },
    {
     "symbol": "159980",
     "contribution_sum": 0.034362,
-    "share_of_return_sum": 0.0462
+    "share_of_return_sum": 0.0468
    },
    {
     "symbol": "513100",
-    "contribution_sum": 0.03244,
-    "share_of_return_sum": 0.0436
+    "contribution_sum": 0.030514,
+    "share_of_return_sum": 0.0416
    },
    {
     "symbol": "518850",
     "contribution_sum": 0.030415,
-    "share_of_return_sum": 0.0409
+    "share_of_return_sum": 0.0414
    },
    {
     "symbol": "518660",
     "contribution_sum": 0.03011,
-    "share_of_return_sum": 0.0405
+    "share_of_return_sum": 0.041
    },
    {
     "symbol": "518600",
     "contribution_sum": 0.026506,
-    "share_of_return_sum": 0.0356
+    "share_of_return_sum": 0.0361
    },
    {
     "symbol": "518680",
     "contribution_sum": 0.025906,
-    "share_of_return_sum": 0.0348
+    "share_of_return_sum": 0.0353
    }
   ],
-  "top1_share": 0.0752,
-  "top3_share": 0.2205,
-  "positive_contribution_hhi": 0.0241,
+  "top1_share": 0.0763,
+  "top3_share": 0.2235,
+  "positive_contribution_hhi": 0.024,
   "shares_sum_all_names": 1.0,
-  "names_above_1pct_share": 41,
-  "names_negative": 69,
-  "total_return_sum": 0.744362,
+  "names_above_1pct_share": 40,
+  "names_negative": 71,
+  "total_return_sum": 0.734319,
   "unit_note": "shares are of the SUM of daily arithmetic returns, not of log growth; they add to 100% by construction and are unit-free"
  },
  "exposure": {
@@ -239,11 +239,11 @@
   "159934": {
    "solo": {
     "full": {
-     "cagr": 0.0884,
-     "sharpe": 0.919,
+     "cagr": 0.0865,
+     "sharpe": 0.9,
      "maxdd": -0.1489,
-     "vol": 0.1017,
-     "years": 6.82
+     "vol": 0.1019,
+     "years": 6.84
     },
     "is": {
      "cagr": 0.0321,
@@ -253,28 +253,28 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1739,
-     "sharpe": 1.657,
+     "cagr": 0.1684,
+     "sharpe": 1.602,
      "maxdd": -0.1064,
-     "vol": 0.1044,
-     "years": 2.83
+     "vol": 0.1049,
+     "years": 2.84
     }
    },
    "turnover": 0.926,
    "delta_vs_base": {
     "cagr_pp": -0.76,
-    "sharpe": 0.919,
+    "sharpe": 0.9,
     "maxdd": -0.1489
    }
   },
   "518800": {
    "solo": {
     "full": {
-     "cagr": 0.0907,
-     "sharpe": 0.941,
+     "cagr": 0.0888,
+     "sharpe": 0.921,
      "maxdd": -0.1429,
-     "vol": 0.1016,
-     "years": 6.82
+     "vol": 0.1018,
+     "years": 6.84
     },
     "is": {
      "cagr": 0.0335,
@@ -284,28 +284,28 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1773,
-     "sharpe": 1.683,
+     "cagr": 0.1718,
+     "sharpe": 1.628,
      "maxdd": -0.1063,
-     "vol": 0.1046,
-     "years": 2.83
+     "vol": 0.105,
+     "years": 2.84
     }
    },
    "turnover": 0.927,
    "delta_vs_base": {
     "cagr_pp": -0.53,
-    "sharpe": 0.941,
+    "sharpe": 0.921,
     "maxdd": -0.1429
    }
   },
   "159937": {
    "solo": {
     "full": {
-     "cagr": 0.0901,
-     "sharpe": 0.935,
+     "cagr": 0.0882,
+     "sharpe": 0.915,
      "maxdd": -0.1496,
-     "vol": 0.1017,
-     "years": 6.82
+     "vol": 0.1019,
+     "years": 6.84
     },
     "is": {
      "cagr": 0.0325,
@@ -315,17 +315,17 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1775,
-     "sharpe": 1.685,
+     "cagr": 0.1719,
+     "sharpe": 1.63,
      "maxdd": -0.1064,
-     "vol": 0.1045,
-     "years": 2.83
+     "vol": 0.105,
+     "years": 2.84
     }
    },
    "turnover": 0.927,
    "delta_vs_base": {
     "cagr_pp": -0.59,
-    "sharpe": 0.935,
+    "sharpe": 0.915,
     "maxdd": -0.1496
    }
   }
@@ -339,11 +339,11 @@
   ],
   "stats": {
    "full": {
-    "cagr": 0.0761,
-    "sharpe": 0.809,
+    "cagr": 0.0743,
+    "sharpe": 0.79,
     "maxdd": -0.1868,
-    "vol": 0.1007,
-    "years": 6.82
+    "vol": 0.1009,
+    "years": 6.84
    },
    "is": {
     "cagr": 0.0237,
@@ -353,16 +353,16 @@
     "years": 3.99
    },
    "oos": {
-    "cagr": 0.1551,
-    "sharpe": 1.525,
+    "cagr": 0.1498,
+    "sharpe": 1.471,
     "maxdd": -0.1083,
-    "vol": 0.1021,
-    "years": 2.83
+    "vol": 0.1026,
+    "years": 2.84
    }
   },
   "turnover": 0.879,
-  "delta_cagr_pp": -1.99,
-  "delta_sharpe": -0.181
+  "delta_cagr_pp": -1.98,
+  "delta_sharpe": -0.18
  },
  "leave_class_out": {
   "class": "commodity",
@@ -370,11 +370,11 @@
   "contains_top_k": true,
   "stats": {
    "full": {
-    "cagr": 0.0589,
-    "sharpe": 0.643,
+    "cagr": 0.0571,
+    "sharpe": 0.625,
     "maxdd": -0.2226,
-    "vol": 0.1005,
-    "years": 6.82
+    "vol": 0.1007,
+    "years": 6.84
    },
    "is": {
     "cagr": 0.0097,
@@ -384,16 +384,16 @@
     "years": 3.99
    },
    "oos": {
-    "cagr": 0.1322,
-    "sharpe": 1.334,
+    "cagr": 0.1272,
+    "sharpe": 1.282,
     "maxdd": -0.1086,
-    "vol": 0.101,
-    "years": 2.83
+    "vol": 0.1015,
+    "years": 2.84
    }
   },
   "turnover": 0.856,
-  "delta_cagr_pp": -3.71,
-  "delta_sharpe": -0.347,
+  "delta_cagr_pp": -3.7,
+  "delta_sharpe": -0.345,
   "detail": "removing the whole commodity sleeve (41 ETFs); a top-k leave-out of names that share a class is partly a redundancy test, not a sleeve test"
  },
  "verdict": "BROAD|SURVIVES_WITHOUT_TOP3",

@@ -17,6 +17,6 @@ Reading: the real score's width direction differs from the signal-free book's, s
 
 The null is an estimate: its per-seed range is published, and the last money column is the gap to its BEST draw (not its median).
 
-Cross-rule check (r1291: a width difference means nothing until the leverage rule is fixed): omitted
+Cross-rule check (r1291: a width difference means nothing until the leverage rule is fixed): RULES_DISAGREE_ON_THE_WIDTH_SIGN
 
 The book in force is width 5; this face does not change it.

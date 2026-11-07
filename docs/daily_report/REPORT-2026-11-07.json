@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-07",
- "generated_at": "2026-11-07 09:59:57",
+ "generated_at": "2026-11-07 11:39:05",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -273,8 +273,8 @@
    }
   ],
   "market_clock": {
-   "asof": "2026-10-30",
-   "clock_cell": "RED_HOT",
+   "asof": "2026-11-06",
+   "clock_cell": "RED_COOL",
    "position_cap_ladder": 0.2,
    "active_sleeves": [
     "air-defense cash leg ACTIVATED (structural cash >=80%; strategy risk-leg NOT activated -- no RED-state evidence)"
@@ -288,19 +288,19 @@
   "state": "RED",
   "rung": "RED",
   "cap": 0.2,
-  "heat": "HOT",
-  "clock_cell": "RED_HOT",
+  "heat": "COOL",
+  "clock_cell": "RED_COOL",
   "members": 6,
   "md_link": "../live_usage/LIVE-2026-11-07.md"
  },
  "rd": {
-  "commits_24h": 9,
-  "result_jsons_landed_24h": 100,
-  "digests_landed_24h": 8,
+  "commits_24h": 14,
+  "result_jsons_landed_24h": 108,
+  "digests_landed_24h": 10,
   "prereg_md_touched_24h": 21,
   "compute_audit_latest": {
-   "ts": "2026-11-07 09:20:38",
-   "py_cpu_pct": 0.1,
+   "ts": "2026-11-07 11:30:25",
+   "py_cpu_pct": 5.6,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -309,7 +309,7 @@
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -652,7 +652,7 @@
   "total_state_tokens_est": 15889,
   "total_report_tokens_est": 2371266,
   "delta_vs_prev": {
-   "prev_generated": "2026-11-02 21:49:08",
+   "prev_generated": "2026-11-07 09:57:47",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -665,49 +665,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-11-07 09:20:38",
-    "py_pct": 0.1,
-    "cpu_pct": 3.0,
+    "latest_ts": "2026-11-07 11:30:25",
+    "py_pct": 5.6,
+    "cpu_pct": 14.0,
     "ready": 0,
-    "streak_min": 10255.4,
+    "streak_min": 10385.1,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "02:50",
-      0.7
-     ],
-     [
-      "04:07",
-      0.2
-     ],
-     [
-      "19:41",
-      4.3
-     ],
-     [
-      "20:29",
-      20.4
-     ],
-     [
-      "20:32",
-      2.2
-     ],
-     [
-      "20:37",
-      6.5
-     ],
-     [
-      "21:31",
-      14.9
-     ],
-     [
-      "21:37",
-      10.6
-     ],
-     [
-      "23:55",
-      8.5
-     ],
      [
       "19:34",
       5.7
@@ -717,11 +681,47 @@
       13.5
      ],
      [
-      "09:20",
-      0.1
+      "04:01",
+      3.0
+     ],
+     [
+      "04:37",
+      5.0
+     ],
+     [
+      "06:10",
+      4.8
+     ],
+     [
+      "06:36",
+      4.0
+     ],
+     [
+      "07:07",
+      4.4
+     ],
+     [
+      "07:42",
+      7.5
+     ],
+     [
+      "08:00",
+      5.4
+     ],
+     [
+      "09:07",
+      0.0
+     ],
+     [
+      "10:33",
+      0.9
+     ],
+     [
+      "11:30",
+      5.6
      ]
     ],
-    "today_samples": 1,
+    "today_samples": 10,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -789,63 +789,63 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-10-31 12:51:28",
-    "py_pct": 0.7,
-    "cpu_pct": 94.0,
+    "latest_ts": "2026-11-07 09:07:10",
+    "py_pct": 0.0,
+    "cpu_pct": 14.0,
     "ready": 0,
-    "streak_min": 386.2,
-    "verdict": "FLAG:cap_violation,pool_starvation,supply_floor",
+    "streak_min": 10241.9,
+    "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
      [
+      "21:37",
+      10.6
+     ],
+     [
+      "23:55",
+      8.5
+     ],
+     [
+      "19:34",
+      5.7
+     ],
+     [
+      "20:49",
+      13.5
+     ],
+     [
+      "04:01",
+      3.0
+     ],
+     [
+      "04:37",
+      5.0
+     ],
+     [
+      "06:10",
+      4.8
+     ],
+     [
+      "06:36",
+      4.0
+     ],
+     [
       "07:07",
-      1.8
+      4.4
      ],
      [
-      "07:23",
-      3.7
+      "07:42",
+      7.5
      ],
      [
-      "07:58",
-      4.5
+      "08:00",
+      5.4
      ],
      [
-      "08:42",
-      2.7
-     ],
-     [
-      "09:08",
-      0.5
-     ],
-     [
-      "09:50",
-      0.3
-     ],
-     [
-      "09:52",
-      2.1
-     ],
-     [
-      "10:04",
-      0.2
-     ],
-     [
-      "10:53",
-      0.3
-     ],
-     [
-      "11:50",
-      1.6
-     ],
-     [
-      "12:10",
-      1.5
-     ],
-     [
-      "12:51",
-      0.7
+      "09:07",
+      0.0
      ]
     ],
-    "today_samples": 0,
+    "today_samples": 8,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -872,7 +872,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-07 09:20:38"
+     "audit_ts": "2026-11-07 11:30:25"
     }
    },
    "bm-b": {
@@ -908,7 +908,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-31 12:51:28"
+     "audit_ts": "2026-11-07 09:07:10"
     }
    }
   },
@@ -1713,78 +1713,74 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-07T09:21:48",
-  "verdict": "attention",
+  "as_of": "2026-11-07T11:29:22",
+  "verdict": "host_down",
   "observer": "bm-a",
-  "sentence": "以本机 bm-a 的盘为基准：9 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-b 的盘上（188.65h 未报到）；留在本机盘上的 3 条里 2 条可核实，1 条连署名都没有。",
+  "sentence": "以本机 bm-a 的盘为基准：9 条在役车道里有 4 条的数字不在本机盘上：4 条在 bm-b 的盘上（190.77h 未报到）；留在本机盘上的 5 条里 4 条可核实，1 条连署名都没有。",
   "n_lanes": 9,
-  "n_offhost": 6,
-  "n_here": 3,
-  "n_auditable_here": 2,
+  "n_offhost": 4,
+  "n_here": 5,
+  "n_auditable_here": 4,
   "n_unsigned_here": 1,
   "groups": [
    {
     "machine": "bm-b",
     "lanes": [
-     "astock_daily",
      "heat",
      "marks",
      "moneyflow",
-     "repo",
      "zt_pool"
     ],
-    "n": 6,
+    "n": 4,
     "alive": false,
-    "age_h": 188.65,
+    "age_h": 190.77,
     "last_seen": "2026-10-30T12:43:06+08:00"
    }
   ],
   "offhost_lanes": [
-   "astock_daily",
    "heat",
    "marks",
    "moneyflow",
-   "repo",
    "zt_pool"
   ],
   "labels": {
    "moneyflow": "无主封套",
-   "repo": "无主封套",
    "marks": "无主封套",
    "zt_pool": "他机本地副本",
-   "astock_daily": "无主封套",
+   "heat": "无主封套",
+   "astock_daily": "申报接管",
+   "etf_panel": "无主封套",
    "futures": "宿主自己写的封套",
    "lhb": "宿主自己写的封套",
-   "heat": "无主封套",
-   "etf_panel": "无主封套"
+   "repo": "申报接管"
   }
  },
  "lane_silence": {
   "present": true,
   "machine": "bm-a",
-  "verdict": "OPEN_SILENCE",
+  "verdict": "SILENT_GAP",
   "threshold_min": 90,
   "window_days": 3,
   "median_gap_min": 32.0,
-  "rounds_in_window": 7,
-  "rounds_in_ledger": 742,
-  "gaps_over_threshold_count": 2,
+  "rounds_in_window": 9,
+  "rounds_in_ledger": 744,
+  "gaps_over_threshold_count": 3,
   "longest_silence": {
-   "from": "2026-11-04T23:56",
-   "gap_high_min": 1273.0,
-   "gap_low_min": 1264.0,
+   "from": "2026-11-05T21:00",
+   "gap_high_min": 2243.9,
+   "gap_low_min": 2234.9,
    "quiet_window_min": 659.0,
-   "to": "2026-11-05T21:00",
-   "unexplained_high_min": 614.0,
-   "unexplained_low_min": 605.0
+   "to": "2026-11-07T10:23",
+   "unexplained_high_min": 1584.9,
+   "unexplained_low_min": 1575.9
   },
   "open_gap": {
-   "gap_high_min": 2181.8,
-   "gap_low_min": 2172.8,
-   "quiet_window_min": 659.0,
-   "since": "2026-11-05T21:00",
-   "unexplained_high_min": 1522.8,
-   "unexplained_low_min": 1513.8
+   "gap_high_min": 8.9,
+   "gap_low_min": 8.9,
+   "quiet_window_min": 0.0,
+   "since": "2026-11-07T10:25",
+   "unexplained_high_min": 8.9,
+   "unexplained_low_min": 8.9
   },
   "gaps_over_threshold": [
    {
@@ -1804,32 +1800,28 @@
     "to": "2026-11-05T21:00",
     "unexplained_high_min": 614.0,
     "unexplained_low_min": 605.0
+   },
+   {
+    "from": "2026-11-05T21:00",
+    "gap_high_min": 2243.9,
+    "gap_low_min": 2234.9,
+    "quiet_window_min": 659.0,
+    "to": "2026-11-07T10:23",
+    "unexplained_high_min": 1584.9,
+    "unexplained_low_min": 1575.9
    }
   ],
-  "evidence_cutoff": "2026-11-05",
-  "generated": "2026-11-07T09:21:49",
-  "silence_verdict": "OPEN_SILENCE",
+  "evidence_cutoff": "2026-11-07",
+  "generated": "2026-11-07T10:33:53",
+  "silence_verdict": "SILENT_GAP",
   "lane_tasks": {
    "absent": [],
    "disabled": [],
-   "disabled_before_heal": [
-    "Bigmoney-SatEngine-bm-b"
-   ],
+   "disabled_before_heal": [],
    "heal": {
-    "acts": [
-     {
-      "action": "enabled",
-      "detail": "",
-      "task": "Bigmoney-SatEngine-bm-b",
-      "verified": true
-     }
-    ],
-    "healed": [
-     "Bigmoney-SatEngine-bm-b"
-    ],
-    "readback": {
-     "Bigmoney-SatEngine-bm-b": "Ready"
-    }
+    "acts": [],
+    "healed": [],
+    "readback": {}
    },
    "probeable": 4,
    "states": {
@@ -1842,7 +1834,7 @@
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-a: 7 rounds in 3d, median gap 32.0 min, 2 unexplained gap(s) over 90 min; longest silence 2026-11-04T23:56 -> 2026-11-05T21:00 (1264.0-1273.0 min, 659.0 explained by its quiet window); still open since 2026-11-05T21:00 (1513.8-1522.8 min unexplained)."
+  "sentence": "bm-a: 9 rounds in 3d, median gap 32.0 min, 3 unexplained gap(s) over 90 min; longest silence 2026-11-05T21:00 -> 2026-11-07T10:23 (2234.9-2243.9 min, 659.0 explained by its quiet window); still open since 2026-11-07T10:25 (8.9-8.9 min unexplained)."
  },
  "cap_vs_book": {
   "status": "ok",
@@ -1882,17 +1874,17 @@
    "cost_basis": "2 sides x 8.0 bp x 250 sessions x book share 0.4603, on capital"
   },
   "forward": {
-   "bars": 9,
+   "bars": 11,
    "inception": "2026-10-23",
-   "nav": 1.0120725673,
-   "since_inception_pct": 1.2073,
-   "as_of": "2026-11-04"
+   "nav": 1.0005213531,
+   "since_inception_pct": 0.0521,
+   "as_of": "2026-11-06"
   },
   "vs_basket": {
-   "bar": "2026-10-30",
-   "book_nav": 1.008599472,
-   "basket_nav": 0.9902396044,
-   "excess_pp": 1.8541,
+   "bar": "2026-11-06",
+   "book_nav": 1.0005213531,
+   "basket_nav": 0.9897244383,
+   "excess_pp": 1.0909,
    "basket": {
     "518880": "gold ETF",
     "513100": "Nasdaq-100 QDII ETF",
@@ -1902,14 +1894,14 @@
    "basis": "等权 1/4、同一换仓日、次日开盘成交",
    "horizon": {
     "min_detectable_edge_pp": {
-     "6m": 33.505,
-     "1y": 23.692,
-     "2y": 16.752,
-     "3y": 13.678
+     "6m": 33.512,
+     "1y": 23.696,
+     "2y": 16.756,
+     "3y": 13.681
     },
     "years_for_80pct_power": {
-     "pre-2020 measured alpha (single arm)": 136.2,
-     "in-window measured alpha (single arm)": 15.8
+     "pre-2020 measured alpha (single arm)": 136.3,
+     "in-window measured alpha (single arm)": 17.2
     },
     "candidate_sources": {
      "pre-2020 measured alpha (single arm)": {
@@ -1920,43 +1912,43 @@
      "in-window measured alpha (single arm)": {
       "file": "results/etf_book_spanning.json",
       "field": "arms.book.full.alpha_annual",
-      "edge_pp_per_year": 5.96
+      "edge_pp_per_year": 5.71
      }
     }
    }
   },
   "envelope": {
    "status": "ok",
-   "evidence_cutoff": "2026-10-30",
-   "bars": 1652,
+   "evidence_cutoff": "2026-11-06",
+   "bars": 1657,
    "block": 20,
    "n_resamples": 2000,
    "cagr": {
-    "1": 0.012250025301939903,
-    "5": 0.03154127986022479,
-    "25": 0.07013307886443498,
-    "50": 0.09564810023137382,
-    "75": 0.1227915836310362,
-    "95": 0.16328250741227956,
-    "99": 0.1972411726426772
+    "1": 0.007480384247488143,
+    "5": 0.029771281256626137,
+    "25": 0.06728535416003623,
+    "50": 0.09294348672289843,
+    "75": 0.12002677244709292,
+    "95": 0.16451435169356496,
+    "99": 0.19259355843519543
    },
    "maxdd": {
-    "1": -0.25390829116136876,
-    "5": -0.20945850572008126,
-    "25": -0.15941558416334398,
-    "50": -0.1323210157769319,
-    "75": -0.11117071409460519,
-    "95": -0.08896607771659984,
-    "99": -0.07658152847507997
+    "1": -0.26599526254906897,
+    "5": -0.21749699827926772,
+    "25": -0.16230250507618607,
+    "50": -0.1346824925908383,
+    "75": -0.11224226462313955,
+    "95": -0.0899870904072486,
+    "99": -0.07517177778169562
    },
    "point_pctile": {
-    "cagr": 50.3,
-    "sharpe": 51.6,
-    "maxdd": 66.1
+    "cagr": 51.0,
+    "sharpe": 52.3,
+    "maxdd": 68.0
    },
    "shares": {
-    "cagr_le_zero": 0.004,
-    "maxdd_le_line": 0.064,
+    "cagr_le_zero": 0.006,
+    "maxdd_le_line": 0.088,
     "n_resamples": 2000
    },
    "reconciliation": "same_object"

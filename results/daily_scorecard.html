@@ -4,7 +4,7 @@
 <h1>量化战绩 · 每日直达面</h1>
 <div class='sub'>数据截止 2026-11-06 · 生成于 paper 真账本+已归档成绩单 · 全部数字自动取自 results/paper 与 O-1600 成绩单，零手写（T-29 · O-1718）</div>
 <h2 class='bigface'>在册交易员实盘舱（大字版 · 100 万/人 纸盘本金）</h2>
-<div class='facecap'>持仓+操作+资本自动取自 results/paper_export（T-35 d3 导出面 · 数据日 2026-11-06 · 确定性零网络）；今日入场 1 笔 / 出场 0 笔（O-2045 s3）</div>
+<div class='facecap'>持仓+操作+资本自动取自 results/paper_export（T-35 d3 导出面 · 数据日 2026-11-06 · 确定性零网络）；今日入场 0 笔 / 出场 1 笔（O-2045 s3）</div>
 <div class='tcard'>
 <div class='tname'>COMPOSITE-CE-01</div>
 <div class='teq'>986,067 <span style='font-size:16px;color:#8b949e'>CNY 总资产</span> <span class='neg' style='font-size:18px'>-13,933</span></div>
@@ -31,14 +31,14 @@
 <tr><td>513500</td><td>22,014</td><td>56,972</td><td class='neg'>-2,378</td><td>8</td></tr>
 <tr><td>513520</td><td>26,145</td><td>52,631</td><td class='neg'>-6,719</td><td>16</td></tr>
 </table>
-<table class='ttable'><tr><th>今日操作</th><th>动作</th><th>数量</th><th>价格</th></tr>
-<tr><td>513100</td><td class='neg'><b>qty_change</b></td><td>26,472</td><td>—</td></tr>
-</table>
 </div>
 <div class='tcard'>
 <div class='tname'>DROUGHT-CE-01</div>
 <div class='teq'>994,450 <span style='font-size:16px;color:#8b949e'>CNY 总资产</span> <span class='neg' style='font-size:18px'>-5,550</span></div>
 <div class='tsub'>本金 1,000,000 · 持仓市值 0 · 现金 994,450 · 持仓 0 只</div>
+<table class='ttable'><tr><th>今日操作</th><th>动作</th><th>数量</th><th>价格</th></tr>
+<tr><td>512400</td><td class='neg'><b>卖出</b></td><td>23,929</td><td>—</td></tr>
+</table>
 </div>
 <div class='tcard'>
 <div class='tname'>ENGULF-CE-01</div>
@@ -49,7 +49,7 @@
 <tr><td>515000</td><td>53,937</td><td>49,892</td><td class='neg'>-108</td><td>5</td></tr>
 </table>
 <table class='ttable'><tr><th>今日操作</th><th>动作</th><th>数量</th><th>价格</th></tr>
-<tr><td>512480</td><td class='pos'><b>买入</b></td><td>17,194</td><td>0.727</td></tr>
+<tr><td>512480</td><td class='neg'><b>qty_change</b></td><td>17,194</td><td>—</td></tr>
 </table>
 </div>
 <div class='tcard'>
@@ -93,7 +93,7 @@
 <div class='sub'>数据取自 results/system_v1_paper（s1/s2 harness · S6 轮确定性 replay 幂等零手写）· 锚网格 2026-09-24 · 面板 cutoff 2026-10-29 · 样本外由构造保证（锚网格后首个交易日起 mark）· 三线三判律：本面=交易线活面，月界判据=SPM J1-J4 口径（首检 2026-10-31），与配置面/激进面判据互不挪用。</div>
 <table><tr><th>账户</th><th>总资产 CNY</th><th>累计收益</th><th>bars</th><th>当前回撤</th><th>入场/出场</th><th>跳过(信缺/门关/薄/空)</th><th>持仓</th><th>L1 状态</th><th>承重袖（路由归因）</th></tr>
 <tr><td>REV-OSC-STD</td><td>939,227</td><td class='neg'>-6.08%</td><td>19</td><td>-6.16%</td><td>30/30</td><td class='dim'>1/0/0/0</td><td>0</td><td class='dim'>—</td><td class='dim'>纯袖面（无路由叠加 · 对照账户）</td></tr>
-<tr><td>SYSTEM-V1</td><td>981,186</td><td class='neg'>-1.88%</td><td>19</td><td>-1.91%</td><td>30/30</td><td class='dim'>1/0/0/0</td><td>0</td><td class='dim'>RED（asof 2026-11-02）</td><td class='dim'>rev_osc 0.05 承重 · trend 0.00（存根0承重） · lowvol 0.15（存根0承重） · cap 0.20 · 现金腿 0% fail-closed</td></tr>
+<tr><td>SYSTEM-V1</td><td>981,186</td><td class='neg'>-1.88%</td><td>19</td><td>-1.91%</td><td>30/30</td><td class='dim'>1/0/0/0</td><td>0</td><td class='dim'>RED（asof 2026-11-06）</td><td class='dim'>rev_osc 0.05 承重 · trend 0.00（存根0承重） · lowvol 0.15（存根0承重） · cap 0.20 · 现金腿 0% fail-closed</td></tr>
 </table>
 <h2>2026-10-31 月度判决台预排面（SPM J1-J4 口径 · 交易线）</h2>
 <div class='sub'>预排面=冻结口径+当前读数如实披露；判据行随月界 runner 落数（T-52 判决台机器 · 零假设账本 · 负判定照交），本面不代跑不手写读数。</div>
@@ -136,11 +136,11 @@
 <div class='sub'>交易员卡 28 张（在册 6 + PROSPECT 22）：继承策略分/纸盘实战/纪律/进度/军种画像——一切采纳晋升恒走 hr.py 冻结判据（评价≠门禁）</div>
 <table><tr><th>交易员</th><th>级</th><th>总分</th><th>继承</th><th>实战</th><th>纪律</th><th>进度</th><th>画像</th></tr>
 <tr><td>VOLATILITY-CE-01</td><td class='pos'>S</td><td><b>80.5</b></td><td>87.0</td><td>37.9</td><td class='pos'>清</td><td>20.0</td><td>83.8</td></tr>
-<tr><td>DROUGHT-CE-01</td><td class='pos'>S</td><td><b>80.0</b></td><td>86.5</td><td>37.9</td><td class='pos'>清</td><td>0.0</td><td>83.3</td></tr>
+<tr><td>DROUGHT-CE-01</td><td class='pos'>S</td><td><b>80.0</b></td><td>86.5</td><td>37.8</td><td class='pos'>清</td><td>0.0</td><td>83.3</td></tr>
 <tr><td>COMPOSITE-CE-01</td><td class='pos'>S</td><td><b>78.8</b></td><td>77.4</td><td>37.2</td><td class='pos'>清</td><td>0.0</td><td>88.3</td></tr>
 <tr><td>NEEDLE-DE-01</td><td class='pos'>S</td><td><b>76.0</b></td><td>77.1</td><td>38.3</td><td class='pos'>清</td><td>0.0</td><td>82.7</td></tr>
-<tr><td>COMPOSITE-CE-02</td><td class='pos'>S</td><td><b>75.9</b></td><td>72.8</td><td>36.9</td><td class='pos'>清</td><td>0.0</td><td>86.1</td></tr>
-<tr><td>ENGULF-CE-01</td><td class='pos'>S</td><td><b>71.9</b></td><td>66.7</td><td>37.5</td><td class='pos'>清</td><td>0.0</td><td>83.0</td></tr>
+<tr><td>COMPOSITE-CE-02</td><td class='pos'>S</td><td><b>75.8</b></td><td>72.8</td><td>36.4</td><td class='pos'>清</td><td>0.0</td><td>86.1</td></tr>
+<tr><td>ENGULF-CE-01</td><td class='pos'>S</td><td><b>71.9</b></td><td>66.7</td><td>37.3</td><td class='pos'>清</td><td>0.0</td><td>83.0</td></tr>
 <tr><td>PROS-DUCK-01</td><td class='pos'>A</td><td><b>18.7</b></td><td>46.8</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
 <tr><td>PROS-DUCK-CE-01</td><td class='pos'>A</td><td><b>17.4</b></td><td>43.5</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
 <tr><td>PROS-OVB-CE-01</td><td class='pos'>A</td><td><b>16.5</b></td><td>41.2</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>

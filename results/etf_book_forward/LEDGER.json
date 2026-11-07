@@ -114,25 +114,23 @@
   },
   {
    "bar": "2026-11-05",
-   "nav": 1.0128547982,
-   "dd": -0.002523,
+   "nav": 1.0128559605,
+   "dd": -0.002522,
    "cash": 0.299225,
-   "carry": -3.8394e-06,
+   "carry": -3.6754e-06,
    "n_held": 12,
    "filled": false,
-   "turn": 0.0,
-   "provisional": false
+   "turn": 0.0
   },
   {
    "bar": "2026-11-06",
-   "nav": 1.0005200112,
-   "dd": -0.01467,
+   "nav": 1.0005213531,
+   "dd": -0.014669,
    "cash": 0.299225,
-   "carry": 1.11355e-05,
+   "carry": 1.13268e-05,
    "n_held": 12,
    "filled": false,
-   "turn": 0.0,
-   "provisional": true
+   "turn": 0.0
   }
  ],
  "books": {},
@@ -160,14 +158,16 @@
  "drift": {
   "faces": [],
   "max_abs": 0.0,
+  "faces": [
+   "2026-11-05:1.162e-06"
+  ],
+  "max_abs": 1.1623000000238193e-06,
   "checked_bars": 11,
   "gate": "settled_bars_only",
   "settled_bars": [
    "2026-10-23",
    "2026-10-26",
-   "2026-10-27"
-  ],
-  "provisional_bars": [
+   "2026-10-27",
    "2026-10-28",
    "2026-10-29",
    "2026-10-30",
@@ -176,9 +176,15 @@
    "2026-11-04",
    "2026-11-05",
    "2026-11-06"
+   "2026-11-05"
   ],
-  "carry_last_bar": "2026-10-27",
-  "settled_faces": [],
+  "provisional_bars": [
+   "2026-11-06"
+  ],
+  "carry_last_bar": "2026-11-06",
+  "settled_faces": [
+   "2026-11-05:1.162e-06"
+  ],
   "provisional_faces": [],
   "benchmark_settled_faces": [],
   "benchmark_provisional_faces": [],
@@ -193,6 +199,15 @@
    "max_abs": 1.6640000000123223e-07,
    "sample": [
     "2026-10-30:1.664e-07"
+   ]
+  },
+  {
+   "ts": "2026-11-07T11:18:01+0800",
+   "n_faces": 1,
+   "n_bench_faces": 0,
+   "max_abs": 1.1623000000238193e-06,
+   "sample": [
+    "2026-11-05:1.162e-06"
    ]
   }
  ],
@@ -395,6 +410,7 @@
   },
   {
    "ts": "2026-11-07T15:00:13+0800",
+   "ts": "2026-11-07T10:36:55+0800",
    "new_bars": 0,
    "last_bar": "2026-11-06"
   }
@@ -509,15 +525,15 @@
     "bar": "2026-11-05",
     "nav": 1.0068215926,
     "filled": false,
-    "book_nav": 1.0128547982,
-    "excess": 0.0059923284
+    "book_nav": 1.0128559605,
+    "excess": 0.0059934828
    },
    {
     "bar": "2026-11-06",
     "nav": 0.9897244383,
     "filled": false,
-    "book_nav": 1.0005200112,
-    "excess": 0.0109076552
+    "book_nav": 1.0005213531,
+    "excess": 0.010909011
    }
   ],
   "rebalance_friction": {
@@ -528,9 +544,9 @@
   "decisions": 83,
   "latest": {
    "bar": "2026-11-06",
-   "book_nav": 1.0005200112,
+   "book_nav": 1.0005213531,
    "basket_nav": 0.9897244383,
-   "excess_pp": 1.0908
+   "excess_pp": 1.0909
   },
   "significance": {
    "available": true,
@@ -547,7 +563,7 @@
    "noise_band_pp_at_published": 3.519,
    "published_bars": 11,
    "bars_needed_for_edge": {
-    "3pp/yr": 7756,
+    "3pp/yr": 7757,
     "5pp/yr": 2793,
     "10pp/yr": 699
    },
