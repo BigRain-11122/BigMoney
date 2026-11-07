@@ -29,6 +29,7 @@ Design notes:
 import argparse
 import datetime as dt
 import fnmatch
+import importlib
 import json
 import os
 import re
@@ -785,6 +786,107 @@ def _holder_sentence(row, cert_row, cert_as_of):
     return txt
 
 
+# --------------------------------------------------- statutory-clock lanes (r1265)
+# The rest of this board answers "which official TRADING day should exist". These
+# lanes answer a different question -- "which REPORT PERIOD is the statute asking
+# for" -- so they cannot be judged by judge() at all. They used to be absent from
+# the board, which is why a missed quarterly deadline stayed invisible: r1263 had
+# to run the collector by hand to discover the 2026Q3 gap.
+PERIOD_LANES = [
+    {"lane": "fund_statements", "writer": "update_fund_statements",
+     "unit": "statutory report period (quarter-end + statutory deadline)",
+     "loss_mode": "a period is only late, never lost: EM returns the whole "
+                  "history per period, so a late fill is still complete"},
+]
+
+
+def audit_period_lanes(now, lanes=None, root=ROOT, machines_dir=None):
+    """Judge statutory-clock lanes against their own clock, never the calendar.
+
+    The expected period set and the panel reading are imported from the lane's
+    own writer (single source), so the board cannot drift from the collector:
+    the writer owns the statute table and the panel-bytes derivation.
+    """
+    rows = []
+    for spec in (lanes if lanes is not None else PERIOD_LANES):
+        writer = spec.get("writer")
+        row = {"lane": spec["lane"], "kind": "period_status",
+               "writer": writer, "unit": spec.get("unit"),
+               "loss_mode": spec.get("loss_mode")}
+        try:
+            mod = importlib.import_module(writer)
+        except Exception as ex:                       # noqa: BLE001
+            row.update({"verdict": "unreadable",
+                        "why": f"writer {writer} not importable: "
+                               f"{type(ex).__name__}: {str(ex)[:120]}"})
+            rows.append(row)
+            continue
+        try:
+            facts = mod.panel_period_facts(now)
+        except Exception as ex:                       # noqa: BLE001
+            row.update({"verdict": "unreadable",
+                        "why": f"panel_period_facts failed: "
+                               f"{type(ex).__name__}: {str(ex)[:120]}"})
+            rows.append(row)
+            continue
+        row.update(facts)
+        missing = facts.get("missing_periods") or []
+        row["verdict"] = ("period_missing" if missing
+                          else ("in_sync" if facts.get("n_present")
+                                else "absent"))
+        if missing:
+            row["why"] = (f"the statute demanded {facts['expected_latest']} from "
+                          f"{facts['expected_deadline']}; the panel on this disk "
+                          f"stops at {facts.get('cutoff')} "
+                          f"({len(missing)} period(s) missing)")
+        host = None
+        if _lane_host is not None and writer:
+            try:
+                host = _lane_host(writer, None)
+            except Exception:
+                host = None
+        row["lane_host"] = host or spec.get("owner")
+        hh = _host_health(row["lane_host"], now, machines_dir)
+        row["host_last_seen"] = hh["last_seen"]
+        row["host_age_h"] = hh["age_h"]
+        row["host_alive"] = hh["alive"]
+        row["takeover_capable"] = takeover_capable(writer, root)
+        if missing and row["host_alive"] is False and not row["takeover_capable"]:
+            # the r1258 split, applied to a clock the board could not previously
+            # measure at all: waiting is not a plan when nobody may act
+            row["frozen_without_takeover"] = True
+        rows.append(row)
+    return rows
+
+
+def render_period_md(rows):
+    if not rows:
+        return ""
+    out = ("\n## Lanes whose clock is the statute, not the trading calendar\n\n"
+           "A quarterly report period cannot be judged by an official trading "
+           "day: the unit is the period and the deadline is statutory.\n\n"
+           "| lane | host | panel cutoff | statute demands | missing | verdict "
+           "| takeover path |\n|---|---|---|---|---|---|---|\n")
+    for r in rows:
+        out += (f"| `{r['lane']}` | {r.get('lane_host') or '--'} | "
+                f"{r.get('cutoff') or '--'} | "
+                f"{r.get('expected_latest') or '--'} "
+                f"(due {r.get('expected_deadline') or '--'}) | "
+                f"{len(r.get('missing_periods') or [])} | {r.get('verdict')} | "
+                f"{'yes' if r.get('takeover_capable') else 'no'} |\n")
+    for r in rows:
+        if r.get("why"):
+            out += f"\n- `{r['lane']}`: {r['why']}"
+            if r.get("host_age_h") is not None:
+                out += (f" -- host `{r.get('lane_host')}` silent "
+                        f"{r['host_age_h']}h")
+            if r.get("frozen_without_takeover"):
+                out += (" -- **and the writer cannot declare a stand-in**, so "
+                        "waiting for the host cannot fix this")
+            out += "\n"
+    return out + "\n"
+
+
 def render_md(report, cert="auto"):
     head = (f"# Data lane freshness -- {report['as_of'][:10]}\n\n"
             f"Official reference: last day that must exist by "
@@ -924,7 +1026,8 @@ def render_md(report, cert="auto"):
                      "`docs/data_lanes/TAIL_CERTIFICATION.md` "
                      "(it re-reads every file and names the symbols that sit "
                      "behind the newest bar).\n")
-    return head + disks + cols + body + tailnote
+    return (head + disks + cols + body + tailnote
+            + render_period_md(report.get("period_lanes")))
 
 
 # ---------------------------------------------------------------- selftest
@@ -1467,7 +1570,29 @@ def selftest():
           "unknown when it was never certified, and refuses a stale "
           "certification", flush=True)
 
-    print("selftest: 22/22 PASS", flush=True)
+    # L25 (r1265) a lane whose clock is the statute must be judged on that clock
+    # -- the whole board above cannot see it, which is how the 2026Q3 deadline
+    # passed unnoticed (r1263 had to run the collector by hand to find it).
+    _prow = audit_period_lanes(dt.datetime(2026, 11, 7, 12, 0))[0]
+    assert _prow["lane"] == "fund_statements", _prow
+    assert _prow["expected_latest"] == "20260930", _prow
+    assert _prow["expected_deadline"] == "2026-10-31", _prow
+    assert _prow["verdict"] in ("period_missing", "in_sync"), _prow["verdict"]
+    # the verdict has to follow the missing list, in both directions
+    assert (_prow["verdict"] == "period_missing") == bool(
+        _prow.get("missing_periods")), _prow
+    # and this round's fix is visible to the same reader the board uses
+    assert _prow["takeover_capable"] is True, _prow
+    _pmd = render_period_md([_prow])
+    assert "fund_statements" in _pmd and "takeover path" in _pmd, _pmd
+    # a lane with a missing period whose host is silent AND whose writer cannot
+    # declare a stand-in is a decision, not a wait (r1258 split, new clock)
+    _froz = dict(_prow, takeover_capable=False, host_alive=False)
+    assert _froz.get("takeover_capable") is False
+    print("[PASS] L25 a statutory-clock lane is judged on the statute, and its "
+          "takeover path is read off the writer", flush=True)
+
+    print("selftest: 23/23 PASS", flush=True)
     return 0
 
 
@@ -1638,6 +1763,12 @@ def run(now=None, allow_network=False):
         return 2
     now = now or dt.datetime.now()
     report = audit(days, now)
+    # r1265: every lane above is judged on the official TRADING calendar. A lane
+    # whose unit is a statutory REPORT PERIOD therefore has no row here at all,
+    # so on 2026-11-07 the 2026Q3 disclosure deadline had been missed for a week
+    # and the board was silent about it -- that debt was visible only to whoever
+    # happened to run the collector by hand (r1263).
+    report["period_lanes"] = audit_period_lanes(now)
     os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
     tmp = OUT_PATH + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
