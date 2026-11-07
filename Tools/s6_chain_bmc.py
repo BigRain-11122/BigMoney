@@ -251,6 +251,14 @@ LEGS = [
     # card, nothing re-ranked), so the operator's sheet cannot drift into the other book.
     # ~1s, offline, idempotent.
     ("etf_book_order_card", ["python", "scripts/etf_book_order.py", "card"]),
+    # r1398: the entry-friction face reads today's ticket and the session's spot board,
+    # so it needs the ticket legs above it -- and it needs the DAILY gate rather than a
+    # hand-run, because #97 (etf_premium_sentiment) will be built on this forward series.
+    # The gate itself lives in the script (trading day + after 15:30 + once per session
+    # + 30-min failure backoff), so a chain cycle that fires at 09:00, 12:00 and 22:00
+    # writes exactly one snapshot per session and never files an intraday board as the
+    # close. <1s when it no-ops; one spot-board pull when it fires.
+    ("etf_premium", ["python", "scripts/etf_premium_face.py", "fetch"]),
     # r1175: the book publishes an annual return and a drawdown, and never what a bad
     # open costs. Two legs answer that, and the ORDER matters: the contamination face
     # runs first because the shock face quotes it (one reader, E270) -- behind it, the

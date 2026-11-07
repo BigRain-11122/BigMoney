@@ -47,13 +47,49 @@ import pandas as pd
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SNAP_DIR = os.path.join(ROOT, "data", "etf_premium", "snap")
 OUT_DIR = os.path.join(ROOT, "results", "etf_premium")
-TICKET_PATH = os.path.join(ROOT, "results", "etf_book_order", "TICKET-2026-11-06.json")
+TICKET_DIR = os.path.join(ROOT, "results", "etf_book_order")
+
+
+def ticket_path():
+    """The newest ORDER ticket (the book's own sheet), never the -card twin.
+
+    r1398: the path used to be pinned to one session. On a daily chain that is a
+    silent staleness bug -- the face would keep pricing the entry into a book the
+    ticket no longer describes, and nothing would say so.
+    """
+    try:
+        names = os.listdir(TICKET_DIR)
+    except OSError:
+        return None
+    cands = [n for n in names
+             if n.startswith("TICKET-") and n.endswith(".json") and not n.endswith("-card.json")]
+    if not cands:
+        return None
+    return os.path.join(TICKET_DIR, sorted(cands)[-1])
+
+
+TICKET_PATH = ticket_path() or os.path.join(TICKET_DIR, "TICKET-2026-11-06.json")
 
 # Frozen bands, percent of IOPV.
 PAR_BP = 0.30
 WATCH_BP = 1.00
 # Cross-section liquidity floor (CNY of session turnover) for the dispersion read.
 MIN_AMOUNT = 20_000_000.0
+# Execution hurdle: above this many CNY of over-NAV on one ticket the face says so
+# out loud. Below it the cost is inside the book's own 8bp/side assumption and a
+# warning line would be noise on every quiet day.
+OVER_HURDLE_CNY = 500.0
+
+# ---------------------------------------------------------- daily-chain gate
+# The face is a SESSION snapshot, so it belongs on the daily chain (S6), not on a
+# hand-run. A chain leg that runs every cycle needs three things the hand-run did
+# not: it must not photograph an INTRADAY board and call it the close, it must not
+# re-pull a session it already captured, and it must not hammer the source after a
+# failure. `gate()` is that contract, and it is injectable so the selftest can
+# exercise every branch without touching the real calendar or the real snapshots.
+GATE_PATH = os.path.join(OUT_DIR, "_fetch_gate.json")
+CLOSE_CUTOFF = (15, 30)
+RETRY_BACKOFF_MIN = 30
 
 REQUIRED = ["代码", "名称", "最新价", "IOPV实时估值", "成交额", "数据日期"]
 # The board publishes a DISCOUNT rate, not a premium: 159981 at price 1.801 over
@@ -244,6 +280,20 @@ def render_md(face: dict) -> str:
             L.append("未定价腿：%s（板面没有它的读数，或它没有当日公布净值可对——按「不知道」记，不按 0 记）。"
                      % "、".join(unk))
         L.append("")
+        oh = face.get("over_hurdle") or {}
+        if oh:
+            if oh.get("breached"):
+                L.append("**执行闸：本单可核对腿合计多付 %s 元 > 阈值 %s 元"
+                         "（占可核对计划金额的 %.4f%%）——买进即先把这笔交给溢价；"
+                         "可等溢价回落、或换贴水腿。**"
+                         % (format(oh["total_over_nav_cny"], ",.0f"),
+                            format(oh["hurdle_cny"], ",.0f"),
+                            oh.get("share_of_plan_pct") or 0.0))
+            else:
+                L.append("执行闸：可核对腿合计多付 %s 元，未超阈值 %s 元，不提示。"
+                         % (format(oh.get("total_over_nav_cny") or 0.0, ",.0f"),
+                            format(oh.get("hurdle_cny") or 0.0, ",.0f")))
+            L.append("")
     disp = face["dispersion"]
     L.append("## 全市场溢价分布（只用当日有公布净值的 %d 只，成交额 ≥ %s）"
              % (disp.get("n", 0), format(MIN_AMOUNT, ",.0f")))
@@ -285,6 +335,20 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None) -
     # accepted so this face can be pointed at any ticket-shaped file.
     inner = ticket.get("ticket") if isinstance(ticket.get("ticket"), dict) else ticket
     legs = leg_face(inner, spot, nav_ok)
+    # The hurdle is summed over PRICED legs only: an unverified leg has no CNY figure
+    # and is excluded rather than counted as zero, so a ticket made mostly of unverified
+    # cross-border legs cannot look cheap.
+    priced = [r for r in legs if r["over_nav_cny"] is not None]
+    tot = sum(r["over_nav_cny"] for r in priced)
+    known = sum(r["amount_cny"] for r in priced)
+    over_hurdle = {
+        "hurdle_cny": OVER_HURDLE_CNY,
+        "total_over_nav_cny": round(tot, 2),
+        "priced_amount_cny": round(known, 2),
+        "share_of_plan_pct": round(100.0 * tot / known, 4) if known else None,
+        "breached": bool(tot > OVER_HURDLE_CNY),
+        "basis": "sum over priced legs only; unverified legs carry no CNY figure and are excluded, never counted as zero",
+    }
     return {
         "artifact": "etf_premium_face",
         "machine": "bm-c",
@@ -303,6 +367,7 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None) -
         "legs": legs,
         "priced_legs": sum(1 for r in legs if r["over_nav_cny"] is not None),
         "unverified_legs": sum(1 for r in legs if r["band"] == "unverified"),
+        "over_hurdle": over_hurdle,
         "dispersion": dispersion(spot, nav_ok=nav_ok),
         "caveats": [
             "IOPV is a real-time estimate of the basket, not the fund's published NAV; a premium measured against it inherits that error.",
@@ -310,7 +375,7 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None) -
             "a cross-border leg publishes its NAV at T+n, so on the session itself its IOPV cannot be checked against anything. Those legs are marked unverified and carry NO CNY figure: an IOPV that has drifted from the basket looks exactly like a real premium from one snapshot.",
             "the board is read at one moment: before the close these numbers move, and cross-border legs are the ones that move most (their underlying trades in another timezone).",
             "a positive premium is a cost only to a buyer; it is income to a seller. This face says nothing about which side the book will be on tomorrow.",
-            "no historical premium series exists yet -- this is the first snapshot, so nothing here can be turned into a percentile gate today.",
+            "no historical premium series is long enough to build a percentile gate from: this face runs once per session on the daily chain from 2026-11-06, so a 'is today's premium high for this leg' reading has to wait for the series to accumulate.",
         ],
     }
 
@@ -319,13 +384,88 @@ def _snap_path(session: str) -> str:
     return os.path.join(SNAP_DIR, "%s.csv" % session)
 
 
-def do_fetch() -> int:
+def _read_gate():
+    try:
+        with open(GATE_PATH, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return {}
+
+
+def _write_gate(d):
+    os.makedirs(OUT_DIR, exist_ok=True)
+    tmp = GATE_PATH + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(d, f, ensure_ascii=False, indent=1)
+    os.replace(tmp, GATE_PATH)
+
+
+def _trading_days():
+    """The official calendar, or None. None means 'unreadable', never 'holiday'."""
+    try:
+        if ROOT not in sys.path:
+            sys.path.insert(0, ROOT)
+        from scripts import exchange_calendar_audit as CA
+        return CA.load_calendar()
+    except Exception:  # noqa: BLE001 -- see docstring: unreadable is not a verdict
+        return None
+
+
+_AUTO = object()   # sentinel: "read the calendar yourself"; an explicit None is 'unreadable'
+
+
+def gate(now=None, force=False, days=_AUTO, snap_exists=None, gate_state=None):
+    """May `fetch` hit the source right now? -> (run, session, reason).
+
+    Every input is injectable so the selftest can drive the clock, the calendar and
+    the on-disk state explicitly instead of depending on the day it runs. `days` is
+    _AUTO by default (read the file), None passes through as 'calendar unreadable'.
+    """
+    import datetime as _dt
+    now = now or _dt.datetime.now()
+    today = now.date().isoformat()
+    if force:
+        return True, today, "forced"
+    if days is _AUTO:
+        days = _trading_days()
+    if days is None:
+        return False, today, "official calendar unreadable -- refusing to guess a session"
+    if today not in days:
+        return False, today, "not a trading session (%s)" % today
+    if (now.hour, now.minute) < CLOSE_CUTOFF:
+        return False, today, "before the 15:30 close -- an intraday board is not the session"
+    if snap_exists is None:
+        snap_exists = os.path.exists(_snap_path(today)) and os.path.getsize(_snap_path(today)) > 0
+    if snap_exists:
+        return False, today, "session %s already captured" % today
+    g = gate_state if gate_state is not None else _read_gate()
+    ts = g.get("last_fail_ts")
+    if g.get("last_fail_session") == today and ts:
+        try:
+            age = (now - _dt.datetime.fromisoformat(ts)).total_seconds() / 60.0
+        except (TypeError, ValueError):
+            age = None
+        if age is not None and age < RETRY_BACKOFF_MIN:
+            return False, today, "backoff %.0f/%.0f min after a failed attempt" % (age, RETRY_BACKOFF_MIN)
+    return True, today, "armed"
+
+
+def do_fetch(force=False) -> int:
     import time as _t
+    run, today, why = gate(force=force)
+    if not run:
+        print("fetch: no-op -- %s" % why)
+        return 0
     try:
         import akshare as ak
         df = ak.fund_etf_spot_em()
     except Exception as e:  # noqa: BLE001 -- source failure is a reading, not a crash
         print("source failure: %s: %s" % (type(e).__name__, e))
+        g = _read_gate()
+        g.update({"last_fail_session": today,
+                  "last_fail_ts": _t.strftime("%Y-%m-%dT%H:%M:%S"),
+                  "last_fail_reason": "%s: %s" % (type(e).__name__, e)})
+        _write_gate(g)
         return 2
     try:
         spot = normalize_spot(df)
@@ -333,6 +473,11 @@ def do_fetch() -> int:
         print(str(e))
         return 3
     session = sorted(set(spot["session"].dropna()))[-1]
+    if session < today:
+        # The board has not rolled to today's close yet: writing this snapshot under
+        # today's name would freeze yesterday's tape as today's session.
+        print("fetch: no-op -- board still reports %s, not %s" % (session, today))
+        return 0
     os.makedirs(SNAP_DIR, exist_ok=True)
     path = _snap_path(session)
     tmp = path + ".tmp"
@@ -341,6 +486,13 @@ def do_fetch() -> int:
     print("snapshot: %s (%d rows, session %s)" % (os.path.relpath(path, ROOT), len(spot), session))
     nav_ok = fetch_nav_ok(session)
     _save_nav_ok(session, nav_ok)
+    g = _read_gate()
+    g.pop("last_fail_session", None)
+    g.pop("last_fail_ts", None)
+    g.pop("last_fail_reason", None)
+    g["last_ok_session"] = session
+    g["last_ok_ts"] = _t.strftime("%Y-%m-%dT%H:%M:%S")
+    _write_gate(g)
     return _render(spot, _t.strftime("%Y-%m-%dT%H:%M:%S%z"), nav_ok)
 
 
@@ -417,6 +569,21 @@ def _render(spot: pd.DataFrame, fetched_at: str, nav_ok=None) -> int:
     return 0
 
 
+def _published_fetched_at(session: str):
+    """Keep the original capture stamp when re-rendering a published session.
+
+    A re-render after a code change (a new section, a new field) must not rewrite the
+    provenance of a snapshot that was taken at a different moment -- 'local:<day>' is
+    the fallback for a session that was never fetched by this tool.
+    """
+    p = os.path.join(OUT_DIR, "PREMIUM-%s.json" % session)
+    try:
+        with open(p, encoding="utf-8") as f:
+            return (json.load(f).get("source") or {}).get("fetched_at")
+    except (OSError, ValueError):
+        return None
+
+
 def do_render() -> int:
     spot = _load_snapshot()
     if spot is None:
@@ -424,7 +591,8 @@ def do_render() -> int:
         return 2
     session = str(spot["session"].dropna().iloc[-1])
     print("rendering from local snapshot %s (no network)" % session)
-    return _render(spot, "local:%s" % session, _cached_nav_ok(session))
+    return _render(spot, _published_fetched_at(session) or "local:%s" % session,
+                   _cached_nav_ok(session))
 
 
 # ---------------------------------------------------------------- selftest
@@ -546,6 +714,80 @@ def selftest() -> int:
         and abs(rows[0]["premium_pct"] - 21.2564) < 1e-3
         and rows[1]["band"] != "unverified" and rows[1]["over_nav_cny"] is not None)
 
+    # ---- the daily-chain gate (r1398). This face moved from a hand-run to an S6
+    # leg, so the gate is now load-bearing: a wrong branch either photographs an
+    # intraday board as the close, or re-pulls a captured session every cycle.
+    import datetime as _dt
+    DAYS = {"2026-11-06", "2026-11-09"}
+    after_open = _dt.datetime(2026, 11, 9, 15, 45)
+    before_close = _dt.datetime(2026, 11, 9, 11, 0)
+
+    # L17 a non-trading day never fires.
+    r = gate(now=_dt.datetime(2026, 11, 7, 16, 0), days=DAYS, snap_exists=False, gate_state={})
+    leg("L17 weekend is a no-op, not an empty snapshot",
+        r[0] is False and "not a trading session" in r[2])
+
+    # L18 the close is the boundary: 11:00 is refused, 15:45 runs, --force overrides.
+    r_before = gate(now=before_close, days=DAYS, snap_exists=False, gate_state={})
+    r_after = gate(now=after_open, days=DAYS, snap_exists=False, gate_state={})
+    r_forced = gate(now=before_close, force=True, days=DAYS, snap_exists=False, gate_state={})
+    leg("L18 before 15:30 refused, after it armed, --force overrides the clock",
+        r_before[0] is False and "before the 15:30 close" in r_before[2]
+        and r_after[0] is True and r_forced[0] is True)
+
+    # L19 a captured session is not re-pulled (the chain runs many times a day).
+    r = gate(now=after_open, days=DAYS, snap_exists=True, gate_state={})
+    leg("L19 an already captured session is a no-op",
+        r[0] is False and "already captured" in r[2])
+
+    # L20 a failed attempt backs the source off for 30 minutes, then re-arms.
+    fail_state = {"last_fail_session": "2026-11-09", "last_fail_ts": "2026-11-09T15:40:00"}
+    r_soon = gate(now=_dt.datetime(2026, 11, 9, 15, 50), days=DAYS, snap_exists=False,
+                  gate_state=fail_state)
+    r_late = gate(now=_dt.datetime(2026, 11, 9, 16, 20), days=DAYS, snap_exists=False,
+                  gate_state=fail_state)
+    leg("L20 30-minute backoff after a failure, and only for the same session",
+        r_soon[0] is False and "backoff" in r_soon[2] and r_late[0] is True
+        and gate(now=after_open, days=DAYS, snap_exists=False,
+                 gate_state={"last_fail_session": "2026-11-06",
+                             "last_fail_ts": "2026-11-06T15:40:00"})[0] is True)
+
+    # L21 an unreadable calendar is NOT a holiday: refusing to run is the honest
+    # branch, because guessing gives us a snapshot with a name we invented.
+    r = gate(now=after_open, days=None, snap_exists=False, gate_state={})
+    leg("L21 unreadable calendar refuses instead of guessing a session",
+        r[0] is False and "unreadable" in r[2] and gate(now=after_open, force=True)[0] is True)
+
+    # L22 a board still carrying an older session must not be filed under today.
+    # (The branch lives in do_fetch, so this leg pins the comparison itself.)
+    leg("L22 a stale board day sorts below today and is skipped",
+        "2026-11-06" < "2026-11-09" and not ("2026-11-07" >= "2026-11-09"))
+
+    # L23 the hurdle sums PRICED legs only. One leg at +1% on 1,000,000 = +10,000 CNY
+    # breaches; the same ticket with an unverified leg of equal size does NOT get to
+    # count that leg as zero-and-therefore-cheap -- the priced basis is unchanged.
+    s4 = normalize_spot(board([["510300", "沪深300ETF", 4.04, 4.00, 9e8, "2026-11-06"],
+                               ["513100", "纳指ETF国泰", 2.158, 1.7797, 4e8, "2026-11-06"]]))
+    f_hit = build_face(s4, {"order": [{"symbol": "510300", "amount": 1_000_000.0, "class": "equity"}]}, "t:0")
+    f_mixed = build_face(s4, {"order": [{"symbol": "510300", "amount": 1_000_000.0, "class": "equity"},
+                                        {"symbol": "513100", "amount": 1_000_000.0, "class": "crossborder"}]},
+                         "t:0", {"510300"})
+    leg("L23 hurdle sums priced legs only and never counts unverified as zero",
+        f_hit["over_hurdle"]["breached"] is True
+        and abs(f_hit["over_hurdle"]["total_over_nav_cny"] - 10_000.0) < 1e-6
+        and f_mixed["over_hurdle"]["total_over_nav_cny"] == 10_000.0
+        and f_mixed["over_hurdle"]["priced_amount_cny"] == 1_000_000.0
+        and f_mixed["unverified_legs"] == 1)
+
+    # L24 a small premium on a small ticket is under the hurdle and says so, in the
+    # renderer, not only in the JSON (the operator reads the page, not the file).
+    f_low = build_face(normalize_spot(board([["510300", "x", 4.005, 4.00, 9e8, "2026-11-06"]])),
+                       {"order": [{"symbol": "510300", "amount": 10_000.0, "class": "equity"}]}, "t:0")
+    md = render_md(f_low)
+    leg("L24 under the hurdle the page prints the figure instead of a warning",
+        f_low["over_hurdle"]["breached"] is False and abs(f_low["over_hurdle"]["total_over_nav_cny"] - 12.5) < 1e-6
+        and "执行闸" in md and "不提示" in md)
+
     ok = sum(1 for _, p, _ in legs if p)
     for name, p, detail in legs:
         print("[%s] %s%s" % ("PASS" if p else "FAIL", name, (" | " + detail) if detail else ""))
@@ -556,11 +798,13 @@ def selftest() -> int:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("mode", nargs="?", default="render", choices=["fetch", "render", "selftest"])
+    ap.add_argument("--force", action="store_true",
+                    help="bypass the session/close/backoff gate (a hand-run, never the chain)")
     a = ap.parse_args(argv)
     if a.mode == "selftest":
         return selftest()
     if a.mode == "fetch":
-        return do_fetch()
+        return do_fetch(force=a.force)
     return do_render()
 
 
