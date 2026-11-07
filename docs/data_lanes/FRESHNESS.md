@@ -7,7 +7,7 @@ Verdict: **host_down** -- 5/10 lanes in sync, 5/10 auditable from this machine, 
 
 ## Whose disk these numbers are on
 
-以本机 bm-a 的盘为基准：9 条在役车道里有 4 条的数字不在本机盘上：4 条在 bm-b 的盘上（192.36h 未报到）；留在本机盘上的 5 条里 5 条可核实。
+以本机 bm-a 的盘为基准：9 条在役车道里有 4 条的数字不在本机盘上：4 条在 bm-b 的盘上（193.08h 未报到）；留在本机盘上的 5 条里 5 条可核实。
 
 - `bm-b`: heat, marks, moneyflow, zt_pool (host down)
 | lane | host | tail | missing (official days) | verdict | authority |
@@ -32,7 +32,7 @@ Verdict: **host_down** -- 5/10 lanes in sync, 5/10 auditable from this machine, 
 
 These lanes cannot be certified here and the machine that is supposed to collect them has not written a heartbeat for more than 2.0h. Until it comes back the numbers below are this machine's stale copies, not the company's data.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (192.36h ago) -- holding back moneyflow, marks, zt_pool, heat
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (193.08h ago) -- holding back moneyflow, marks, zt_pool, heat
 
 ## Lanes nobody can pick up while the host is away
 
@@ -62,3 +62,5 @@ The per-symbol panels hold thousands of files, so their tail is read through an 
 
 - `moneyflow`: 40 of 5222 symbols read, tail 2026-10-13
 - `astock_daily`: 40 of 5222 symbols read, tail 2026-11-06
+
+Full-scan certification of exactly these rows: `scripts/data_lane_freshness.py certify` -> `docs/data_lanes/TAIL_CERTIFICATION.md` (it re-reads every file and names the symbols that sit behind the newest bar).

@@ -1807,6 +1807,44 @@ def main() -> int:
         check("fleet: a hostage lane nobody can pick up is named as a decision",
               False, str(e))
     try:
+        # r1261: the board's tail for a 5,222-symbol panel is read from forty
+        # files. That is a claim, and this leg refuses to let it travel as a
+        # measurement: every declared panel must have a certification record,
+        # the record must re-read the same sampled tail the board published (a
+        # subset can only understate, never overstate), and a tail held by under
+        # a tenth of the panel must be flagged in the record rather than quoted
+        # as if it spoke for the panel.
+        import data_lane_freshness as _dlf3
+        _cert = json.load(open("results/data_lane_tail_certification.json",
+                               encoding="utf-8"))
+        _crow = {r["lane"]: r for r in (_cert.get("lanes") or [])}
+        _board3 = {r["lane"]: r for r in (json.load(open(
+            "results/data_lane_freshness.json", encoding="utf-8")).get("lanes") or [])}
+        _want_lanes = sorted(s["lane"] for s in _dlf3.LANES if s.get("panel_csv"))
+        _why = []
+        if sorted(_crow) != _want_lanes:
+            _why.append(f"certification covers {sorted(_crow)} but declared "
+                        f"panels are {_want_lanes}")
+        for lane, r in _crow.items():
+            if r.get("direction") == "sample_overstated":
+                _why.append(f"{lane}: the sample claims a newer tail than the "
+                            f"full read ({r.get('sample_tail')} > {r.get('full_tail')})")
+            _pt = (_board3.get(lane) or {}).get("panel_tail")
+            if _pt and r.get("sample_tail") and str(_pt) != str(r["sample_tail"]):
+                _why.append(f"{lane}: board prints panel tail {_pt}, the "
+                            f"certification re-read {r['sample_tail']}")
+            if r.get("tail_holder_share") is not None:
+                if bool(r.get("thin_tail")) != (r["tail_holder_share"]
+                                                < _dlf3.THIN_TAIL_SHARE):
+                    _why.append(f"{lane}: thin-tail flag disagrees with the share")
+        check("fleet: a panel tail read by sample is certified against a full scan",
+              not _why, "; ".join(_why) or
+              f"{len(_crow)} panel(s) certified, "
+              f"{_cert['counts']['files_scanned']} file(s) scanned")
+    except Exception as e:
+        check("fleet: a panel tail read by sample is certified against a full scan",
+              False, str(e))
+    try:
         # r1162: "cannot certify here" is about our copy; whose disk the rows are
         # on is the actionable half. The board derives that sentence ONCE, and the
         # two faces a human opens must carry it verbatim -- so this leg recomputes
