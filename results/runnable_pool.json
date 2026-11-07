@@ -28652,6 +28652,23 @@
    "evidence_cutoff": "2026-11-07",
    "entered_at": "2026-11-07T10:12:00+0800",
    "entered_by": "bm-b r1516 (supply floor refill after E491)",
+   "status": "done",
+   "result_ref": "results/state_tilt/latestdoctor_latest.json",
+   "owner": "bm-b r1518",
+   "settled_at": "2026-11-07T10:50+0800",
+   "result_note": "51 multi-composed latest names / 41 extra composer sites: 24 doctor harnesses, 2 one-off _rNNN repairs, 24 producers; 19 faces have harness-only extras and 13 have no visible producer composer at all; 2 faces carry a harness whose only write site has no restore in that source (deadprereg, dirfield); the live arm parses all 51 published copies and finds 0 leftover mutant artefacts"
+  },
+  {
+   "id": "E493-FOR-THE-TWO-LATEST-NAMES-WHOSE-ONLY-VISIBLE-HARNESS-WRITES-ONCE-WITH-NO-RESTORE-IS-THE-COPY-ON-DISK-THE-PRODUCERS-OR-THE-HARNESSS",
+   "title": "E492 found two latest names (deadprereg_latest.json, dirfield_latest.json) where a doctor harness writes the published path exactly once and nothing in its source puts the original back. For each, is the copy on disk what the producer writes, or is it the harness's single doctored write?",
+   "source": "E492 (r1518 bm-b): of 51 multi-composed latest names, 2 carry a harness with a single write site and no restore in that source; both faces parse as JSON today, which does not show whose content it is",
+   "lane": "cpu-only",
+   "lane_note": "static: locate the producer and the single harness write, re-derive the producer's payload from its own inputs, compare; no network",
+   "deliverable": "results/state_tilt/LATESTONCE-<cutoff>.json",
+   "target": "results/state_tilt/latestonce_latest.json",
+   "evidence_cutoff": "2026-11-07",
+   "entered_at": "2026-11-07T10:50+0800",
+   "entered_by": "bm-b r1518 (supply floor refill after E492)",
    "status": "ready",
    "result_ref": null
   }
@@ -28668,6 +28685,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T10:12:00+0800",
+ "updated_at": "2026-11-07T10:50+0800",
  "version": 1
 }

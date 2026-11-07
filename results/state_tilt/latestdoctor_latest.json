@@ -1,0 +1,5762 @@
+{
+ "card": "E492-OF-THE-MULTI-COMPOSED-LATEST-NAMES-HOW-MANY-EXTRA-COMPOSERS-ARE-DOCTOR-HARNESSES-AND-DO-ANY-OF-THEM-LEAVE-A-MUTATED-FACE-BEHIND",
+ "study": "E492_who_the_extra_composers_of_a_multi_composed_latest_name_are",
+ "title": "of the multi-composed latest names, how many extra composers are doctor harnesses and does any leave a mutated face behind?",
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T11:36:07+0800",
+ "population_source": {
+  "scan_directories": [
+   "scripts",
+   "Tools",
+   "firm"
+  ],
+  "sources_scanned": 340,
+  "excluded_source_prefixes": [
+   "e491_",
+   "run_e491",
+   "e489_",
+   "run_e489",
+   "smoke_test",
+   "e492_",
+   "run_e492"
+  ],
+  "self_faces_excluded": [
+   "latestdoctor_latest.json"
+  ],
+  "self_exclusion_note": "this study writes latestdoctor_latest.json itself; its own producer is excluded from the scan, so leaving the name in would have published a face whose only visible composer is a harness -- a self-inclusion artefact, not a finding",
+  "e491_population_available": 177,
+  "e491_population_accounted_for": 342,
+  "population_definition": "E491's rows whose compose_class is 'the_latest_copy_has_several_static_composers'",
+  "role_rule": {
+   "a_doctor_harness": "source basename matches (^run_e\\d+)|(smoke_leg)|(doctor)|(mutat)",
+   "a_one_off_repair": "source basename matches ^_r\\d+",
+   "a_producer": "everything else in the scanned sources"
+  },
+  "live_arm": "each published path is opened and parsed as JSON at build time; leftover mutant artefacts are listed from results/state_tilt"
+ },
+ "role_definition": {
+  "a_producer": "a source that is not a leg runner and not a one-off _rNNN repair",
+  "a_doctor_harness": "a leg runner (run_eNNN_smoke_leg.py, doctored/mutation harnesses)",
+  "a_one_off_repair": "a throwaway _rNNN repair script"
+ },
+ "discipline_definition": {
+  "writes_the_name_twice_so_it_can_put_the_original_back": "two or more write sites for the same name in one source, so the second can put the original back",
+  "writes_the_name_once_with_no_restore_in_the_same_source": "exactly one write site: nothing in that source restores it"
+ },
+ "summary": {
+  "multi_composed_faces": 51,
+  "composer_sites": 171,
+  "extra_composer_sites": 41,
+  "extra_composer_sites_by_role": {
+   "a_doctor_harness": 24,
+   "a_one_off_repair": 2,
+   "a_producer": 24
+  },
+  "composer_sites_by_role": {
+   "a_producer": 87,
+   "a_doctor_harness": 82,
+   "a_one_off_repair": 5
+  },
+  "faces_whose_extras_are_all_harnesses": 19,
+  "faces_whose_composers_are_all_harnesses": 13,
+  "faces_with_a_harness_writing_the_published_path": 37,
+  "faces_with_a_single_write_harness": 2,
+  "faces_existing_on_disk": 51,
+  "faces_parsing_as_json": 51,
+  "faces_left_in_a_mutated_state": 0,
+  "leftover_mutant_files": 0
+ },
+ "verdict": "a_minority_of_the_extra_composers_are_doctor_harnesses",
+ "verdict_vocab": [
+  "no_latest_face_has_several_composers",
+  "no_multi_composed_face_has_a_doctor_harness_among_its_composers",
+  "a_minority_of_the_extra_composers_are_doctor_harnesses",
+  "every_extra_composer_of_a_multi_composed_face_is_a_doctor_harness",
+  "at_least_one_multi_composed_face_is_left_behind_in_a_mutated_state"
+ ],
+ "card_answer": {
+  "extra_composer_sites_that_are_doctor_harnesses": 19,
+  "faces_with_no_producer_composer": [
+   "barecallresolve_latest.json",
+   "callerclass_latest.json",
+   "deadpath_latest.json",
+   "droppedpath_latest.json",
+   "fixturebeyond_latest.json",
+   "fixturewrite_latest.json",
+   "freshnessbound_latest.json",
+   "importclass_latest.json",
+   "namerecall_latest.json",
+   "no_caller_latest.json",
+   "producerspill_latest.json",
+   "sharedname_latest.json",
+   "twohop_latest.json"
+  ],
+  "faces_whose_published_copy_does_not_parse": [],
+  "faces_with_a_harness_that_writes_once_and_never_restores": [
+   "deadprereg_latest.json",
+   "dirfield_latest.json"
+  ],
+  "leftover_mutant_files": [],
+  "leaves_a_mutated_face_behind": false
+ },
+ "leftover_mutant_files": [],
+ "rows": [
+  {
+   "latest_basename": "abandonedguard_latest.json",
+   "published_path": "results/state_tilt/abandonedguard_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e452_abandoned_guard.py",
+    "scripts/run_e452_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e452_abandoned_guard.py",
+     "line": 596,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/abandonedguard_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      596
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e452_smoke_leg.py",
+     "line": 70,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/abandonedguard_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      70,
+      78
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      78
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e452_smoke_leg.py",
+     "line": 78,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/abandonedguard_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      70,
+      78
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      78
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e452_abandoned_guard.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e452_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      70,
+      78
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "abandonedread_latest.json",
+   "published_path": "results/state_tilt/abandonedread_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e447_abandoned_read.py",
+    "scripts/run_e447_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e447_abandoned_read.py",
+     "line": 425,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/abandonedread_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      425
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e447_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/abandonedread_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e447_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/abandonedread_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e447_abandoned_read.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e447_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "bandswitch_latest.json",
+   "published_path": "results/state_tilt/bandswitch_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/_r1495_bandswitch_mirror_repair.py",
+    "scripts/e302_universe_switch_backfill.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/_r1495_bandswitch_mirror_repair.py",
+     "line": 21,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_one_off_repair",
+     "destination_paths": [
+      "results/state_tilt/bandswitch_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      21
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e302_universe_switch_backfill.py",
+     "line": 604,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/BANDSWITCH-2026-10-30.json",
+      "results/state_tilt/bandswitch_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      604
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "primary_composer_source": "scripts/e302_universe_switch_backfill.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/_r1495_bandswitch_mirror_repair.py",
+     "role": "a_one_off_repair",
+     "site_lines": [
+      21
+     ],
+     "write_site_count": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "extra_roles": [
+    "a_one_off_repair"
+   ],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 0,
+   "harness_writes_the_published_path": false,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 1,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "barecallresolve_latest.json",
+   "published_path": "results/state_tilt/barecallresolve_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/run_e443_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/run_e443_smoke_leg.py",
+     "line": 77,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/barecallresolve_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      77,
+      85
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      85
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e443_smoke_leg.py",
+     "line": 85,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/barecallresolve_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      77,
+      85
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      85
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/run_e443_smoke_leg.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": false,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "callerclass_latest.json",
+   "published_path": "results/state_tilt/callerclass_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/run_e450_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/run_e450_smoke_leg.py",
+     "line": 71,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/callerclass_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      71,
+      79
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      79
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e450_smoke_leg.py",
+     "line": 79,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/callerclass_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      71,
+      79
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      79
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/run_e450_smoke_leg.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": false,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "composedwriter_latest.json",
+   "published_path": "results/state_tilt/composedwriter_latest.json",
+   "composer_count": 4,
+   "composer_sources": [
+    "scripts/e487_composed_writer.py",
+    "scripts/e488_writer_directory.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e487_composed_writer.py",
+     "line": 624,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      624
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e487_composed_writer.py",
+     "line": 696,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/composedwriter_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      624
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e487_composed_writer.py",
+     "line": 715,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/composedwriter_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      624
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e488_writer_directory.py",
+     "line": 110,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json",
+      "results/state_tilt/composedwriter_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "primary_composer_source": "scripts/e487_composed_writer.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/e488_writer_directory.py",
+     "role": "a_producer",
+     "site_lines": [
+      110
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "extra_roles": [
+    "a_producer"
+   ],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 0,
+   "harness_writes_the_published_path": false,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 1,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "deadcopy_latest.json",
+   "published_path": "results/state_tilt/deadcopy_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e471_dead_copy.py",
+    "scripts/run_e471_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e471_dead_copy.py",
+     "line": 378,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/deadcopy_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      378
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e471_smoke_leg.py",
+     "line": 67,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/deadcopy_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      67,
+      75
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      75
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e471_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/deadcopy_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      67,
+      75
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      75
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e471_dead_copy.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e471_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      67,
+      75
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "deadpath_latest.json",
+   "published_path": "results/state_tilt/deadpath_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/run_e442_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/run_e442_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/deadpath_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e442_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/deadpath_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/run_e442_smoke_leg.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": false,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "deadprereg_latest.json",
+   "published_path": "results/state_tilt/deadprereg_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e449_dead_document_pointer.py",
+    "scripts/run_e449_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e449_dead_document_pointer.py",
+     "line": 618,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/deadprereg_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      618
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e449_smoke_leg.py",
+     "line": 34,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/deadprereg_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e449_smoke_leg.py",
+     "line": 70,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/deadprereg_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "primary_composer_source": "scripts/e449_dead_document_pointer.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e449_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      34,
+      70
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 1,
+   "extra_sites_without_a_restore": 1,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "dirfield_latest.json",
+   "published_path": "results/state_tilt/dirfield_latest.json",
+   "composer_count": 4,
+   "composer_sources": [
+    "scripts/e423_dirfield_join.py",
+    "scripts/run_e423_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e423_dirfield_join.py",
+     "line": 776,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/dirfield_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      776
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e423_smoke_leg.py",
+     "line": 55,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/dirfield_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      74
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e423_smoke_leg.py",
+     "line": 74,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/dirfield_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      74
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e423_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/dirfield_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      74
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "primary_composer_source": "scripts/e423_dirfield_join.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e423_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      55,
+      74,
+      75
+     ],
+     "write_site_count": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 3,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 1,
+   "extra_sites_without_a_restore": 1,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "dirisface_latest.json",
+   "published_path": "results/state_tilt/dirisface_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e435_dir_is_a_face.py",
+    "scripts/run_e435_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e435_dir_is_a_face.py",
+     "line": 406,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/dirisface_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      406
+     ],
+     "write_site_count": 1,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e435_smoke_leg.py",
+     "line": 67,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/dirisface_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      67,
+      75
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      75
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e435_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/dirisface_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      67,
+      75
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      75
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e435_dir_is_a_face.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e435_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      67,
+      75
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "doublejoin_latest.json",
+   "published_path": "results/state_tilt/doublejoin_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e436_double_join.py",
+    "scripts/run_e436_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e436_double_join.py",
+     "line": 603,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/doublejoin_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      603
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e436_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/doublejoin_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e436_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/doublejoin_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e436_double_join.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e436_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "droppedpath_latest.json",
+   "published_path": "results/state_tilt/droppedpath_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/run_e448_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/run_e448_smoke_leg.py",
+     "line": 60,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/droppedpath_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      60,
+      72
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      72
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e448_smoke_leg.py",
+     "line": 72,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/droppedpath_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      60,
+      72
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      72
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/run_e448_smoke_leg.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": false,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "dynamicname_latest.json",
+   "published_path": "results/state_tilt/dynamicname_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e426_dynamic_face_names.py",
+    "scripts/run_e426_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e426_dynamic_face_names.py",
+     "line": 107,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/dynamicname_latest.json",
+      "results/state_tilt/dynamicname_latest.json",
+      "results/state_tilt/dynamicname_latest.json",
+      "results/state_tilt/dynamicname_latest.json",
+      "results/state_tilt/dynamicname_latest.json",
+      "results/state_tilt/dynamicname_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      107
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e426_smoke_leg.py",
+     "line": 66,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/dynamicname_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      66,
+      74
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      74
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e426_smoke_leg.py",
+     "line": 74,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/dynamicname_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      66,
+      74
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      74
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e426_dynamic_face_names.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e426_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      66,
+      74
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "e350arm_latest.json",
+   "published_path": "results/state_tilt/e350arm_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/e378_store_load_bearing_e350_arm.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e378_store_load_bearing_e350_arm.py",
+     "line": 320,
+     "kind": "direct",
+     "callee": "write_json",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/e350arm_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      320,
+      345
+     ],
+     "write_site_count": 2,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      345
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/e378_store_load_bearing_e350_arm.py",
+     "line": 345,
+     "kind": "direct",
+     "callee": "write_json",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/e350arm_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      320,
+      345
+     ],
+     "write_site_count": 2,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      345
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e378_store_load_bearing_e350_arm.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 0,
+   "harness_writes_the_published_path": false,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "faceage_latest.json",
+   "published_path": "results/state_tilt/faceage_latest.json",
+   "composer_count": 7,
+   "composer_sources": [
+    "scripts/_r1436_e418_redproof.py",
+    "scripts/e418_face_age.py",
+    "scripts/e419_unstampable.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/_r1436_e418_redproof.py",
+     "line": 12,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_one_off_repair",
+     "destination_paths": [
+      "results/state_tilt/faceage_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      27,
+      36
+     ],
+     "write_site_count": 2,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      36
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/_r1436_e418_redproof.py",
+     "line": 27,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_one_off_repair",
+     "destination_paths": [
+      "results/state_tilt/faceage_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      27,
+      36
+     ],
+     "write_site_count": 2,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      36
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/_r1436_e418_redproof.py",
+     "line": 36,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_one_off_repair",
+     "destination_paths": [
+      "results/state_tilt/faceage_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      27,
+      36
+     ],
+     "write_site_count": 2,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      36
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/_r1436_e418_redproof.py",
+     "line": 38,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_one_off_repair",
+     "destination_paths": [
+      "results/state_tilt/faceage_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      27,
+      36
+     ],
+     "write_site_count": 2,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      36
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/e418_face_age.py",
+     "line": 367,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/faceage_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      367
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e419_unstampable.py",
+     "line": 644,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/faceage_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      644,
+      649
+     ],
+     "write_site_count": 2,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [
+      649
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/e419_unstampable.py",
+     "line": 649,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/faceage_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      644,
+      649
+     ],
+     "write_site_count": 2,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [
+      649
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e418_face_age.py",
+   "extra_composer_count": 2,
+   "extras": [
+    {
+     "source": "scripts/_r1436_e418_redproof.py",
+     "role": "a_one_off_repair",
+     "site_lines": [
+      12,
+      27,
+      36,
+      38
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/e419_unstampable.py",
+     "role": "a_producer",
+     "site_lines": [
+      644,
+      649
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_one_off_repair",
+    "a_producer"
+   ],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 0,
+   "harness_writes_the_published_path": false,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "facehome_latest.json",
+   "published_path": "results/state_tilt/facehome_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e441_facehome_family.py",
+    "scripts/run_e441_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e441_facehome_family.py",
+     "line": 279,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/facehome_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      279
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e441_smoke_leg.py",
+     "line": 71,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/facehome_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      71,
+      79
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      79
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e441_smoke_leg.py",
+     "line": 79,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/facehome_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      71,
+      79
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      79
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e441_facehome_family.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e441_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      71,
+      79
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "facetrace_latest.json",
+   "published_path": "results/state_tilt/facetrace_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e469_face_producer_edge.py",
+    "scripts/run_e469_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e469_face_producer_edge.py",
+     "line": 332,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/facetrace_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      332
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e469_smoke_leg.py",
+     "line": 67,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/facetrace_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      67,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e469_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/facetrace_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      67,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e469_face_producer_edge.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e469_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      67,
+      76
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "fieldbranch_latest.json",
+   "published_path": "results/state_tilt/fieldbranch_latest.json",
+   "composer_count": 4,
+   "composer_sources": [
+    "scripts/e350_field_branch_census.py",
+    "scripts/e353_unwritten_guard_presence.py",
+    "scripts/e370_key_sensitivity.py",
+    "scripts/e371_store_member_cost.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e350_field_branch_census.py",
+     "line": 470,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/FIELDBRANCH-2026-11-01.json",
+      "results/state_tilt/fieldbranch_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      470
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e353_unwritten_guard_presence.py",
+     "line": 383,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/fieldbranch_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e370_key_sensitivity.py",
+     "line": 118,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "E350",
+      "results/state_tilt/fieldbranch_latest.json",
+      "E353",
+      "results/state_tilt/guardpresence_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e371_store_member_cost.py",
+     "line": 257,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/fieldbranch_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "primary_composer_source": "scripts/e350_field_branch_census.py",
+   "extra_composer_count": 3,
+   "extras": [
+    {
+     "source": "scripts/e353_unwritten_guard_presence.py",
+     "role": "a_producer",
+     "site_lines": [
+      383
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e370_key_sensitivity.py",
+     "role": "a_producer",
+     "site_lines": [
+      118
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e371_store_member_cost.py",
+     "role": "a_producer",
+     "site_lines": [
+      257
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "extra_roles": [
+    "a_producer"
+   ],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 0,
+   "harness_writes_the_published_path": false,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 3,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "fixturebeyond_latest.json",
+   "published_path": "results/state_tilt/fixturebeyond_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/run_e434_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/run_e434_smoke_leg.py",
+     "line": 67,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/fixturebeyond_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      67,
+      75
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      75
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e434_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/fixturebeyond_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      67,
+      75
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      75
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/run_e434_smoke_leg.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": false,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "fixturewrite_latest.json",
+   "published_path": "results/state_tilt/fixturewrite_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/run_e432_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/run_e432_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/fixturewrite_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e432_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/fixturewrite_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/run_e432_smoke_leg.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": false,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "freshaim_latest.json",
+   "published_path": "results/state_tilt/freshaim_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/e416_fresh_aim.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e416_fresh_aim.py",
+     "line": 390,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/freshaim_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      390,
+      391
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      391
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/e416_fresh_aim.py",
+     "line": 391,
+     "kind": "direct",
+     "callee": "dump",
+     "role": "a_producer",
+     "destination_paths": [
+      "freshaim_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      390,
+      391
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      391
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e416_fresh_aim.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 0,
+   "harness_writes_the_published_path": false,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "freshnessbound_latest.json",
+   "published_path": "results/state_tilt/freshnessbound_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/run_e410_freshness_legs.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/run_e410_freshness_legs.py",
+     "line": 245,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/freshnessbound_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      245,
+      246
+     ],
+     "write_site_count": 2,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [
+      246
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e410_freshness_legs.py",
+     "line": 246,
+     "kind": "direct",
+     "callee": "dump",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/freshnessbound_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      245,
+      246
+     ],
+     "write_site_count": 2,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [
+      246
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/run_e410_freshness_legs.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": false,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "frozenwriter_latest.json",
+   "published_path": "results/state_tilt/frozenwriter_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e446_frozen_writer.py",
+    "scripts/run_e446_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e446_frozen_writer.py",
+     "line": 610,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/frozenwriter_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      610
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e446_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/frozenwriter_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e446_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/frozenwriter_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e446_frozen_writer.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e446_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "guardpresence_latest.json",
+   "published_path": "results/state_tilt/guardpresence_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/e353_unwritten_guard_presence.py",
+    "scripts/e370_key_sensitivity.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e353_unwritten_guard_presence.py",
+     "line": 372,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/GUARDPRESENCE-2026-11-02.json",
+      "results/state_tilt/guardpresence_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      372
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e370_key_sensitivity.py",
+     "line": 118,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "E350",
+      "results/state_tilt/fieldbranch_latest.json",
+      "E353",
+      "results/state_tilt/guardpresence_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "primary_composer_source": "scripts/e353_unwritten_guard_presence.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/e370_key_sensitivity.py",
+     "role": "a_producer",
+     "site_lines": [
+      118
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "extra_roles": [
+    "a_producer"
+   ],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 0,
+   "harness_writes_the_published_path": false,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 1,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "importclass_latest.json",
+   "published_path": "results/state_tilt/importclass_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/run_e456_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/run_e456_smoke_leg.py",
+     "line": 69,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/importclass_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      69,
+      78
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      78
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e456_smoke_leg.py",
+     "line": 78,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/importclass_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      69,
+      78
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      78
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/run_e456_smoke_leg.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": false,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "keysens_latest.json",
+   "published_path": "results/state_tilt/keysens_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/e370_key_sensitivity.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e370_key_sensitivity.py",
+     "line": 354,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/KEYSENS-2026-11-03.json",
+      "results/state_tilt/keysens_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      354
+     ],
+     "write_site_count": 1,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e370_key_sensitivity.py",
+     "line": 451,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/keysens_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      354
+     ],
+     "write_site_count": 1,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "primary_composer_source": "scripts/e370_key_sensitivity.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 0,
+   "harness_writes_the_published_path": false,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "latestoutside_latest.json",
+   "published_path": "results/state_tilt/latestoutside_latest.json",
+   "composer_count": 7,
+   "composer_sources": [
+    "scripts/e482_latest_outside.py",
+    "scripts/e487_composed_writer.py",
+    "scripts/run_e482_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e482_latest_outside.py",
+     "line": 434,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      434
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e482_latest_outside.py",
+     "line": 488,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/latestoutside_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      434
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e482_latest_outside.py",
+     "line": 502,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/latestoutside_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      434
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e487_composed_writer.py",
+     "line": 148,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json",
+      "results/state_tilt/latestoutside_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e482_smoke_leg.py",
+     "line": 64,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/latestoutside_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      69,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e482_smoke_leg.py",
+     "line": 69,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/latestoutside_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      69,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e482_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/latestoutside_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      69,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e482_latest_outside.py",
+   "extra_composer_count": 2,
+   "extras": [
+    {
+     "source": "scripts/e487_composed_writer.py",
+     "role": "a_producer",
+     "site_lines": [
+      148
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e482_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      64,
+      69,
+      76
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness",
+    "a_producer"
+   ],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 3,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 1,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "loobook_latest.json",
+   "published_path": "results/state_tilt/loobook_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/e238_leave_one_out_book.py",
+    "scripts/e239_own_vs_cross.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e238_leave_one_out_book.py",
+     "line": 566,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/loobook_latest.json",
+      "results/state_tilt/loobook_latest.json",
+      "results/state_tilt/loobook_latest.json",
+      "results/state_tilt/loobook_latest.json",
+      "results/state_tilt/loobook_latest.json",
+      "results/state_tilt/loobook_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      566
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e239_own_vs_cross.py",
+     "line": 262,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/loobook_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "primary_composer_source": "scripts/e238_leave_one_out_book.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/e239_own_vs_cross.py",
+     "role": "a_producer",
+     "site_lines": [
+      262
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "extra_roles": [
+    "a_producer"
+   ],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 0,
+   "harness_writes_the_published_path": false,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 1,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "multideclared_latest.json",
+   "published_path": "results/state_tilt/multideclared_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/e475_multideclared.py",
+    "scripts/e475_multideclared_ids.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e475_multideclared.py",
+     "line": 304,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/MULTIDECLARED-2026-11-06.json",
+      "results/state_tilt/multideclared_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      304
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e475_multideclared_ids.py",
+     "line": 303,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/multideclared_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      303
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "primary_composer_source": "scripts/e475_multideclared.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/e475_multideclared_ids.py",
+     "role": "a_producer",
+     "site_lines": [
+      303
+     ],
+     "write_site_count": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "extra_roles": [
+    "a_producer"
+   ],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 0,
+   "harness_writes_the_published_path": false,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 1,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "namerecall_latest.json",
+   "published_path": "results/state_tilt/namerecall_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/run_e437_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/run_e437_smoke_leg.py",
+     "line": 67,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/namerecall_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      67,
+      75
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      75
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e437_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/namerecall_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      67,
+      75
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      75
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/run_e437_smoke_leg.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": false,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "no_caller_latest.json",
+   "published_path": "results/state_tilt/no_caller_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/run_e428_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/run_e428_smoke_leg.py",
+     "line": 67,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/no_caller_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      67,
+      75
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      75
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e428_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/no_caller_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      67,
+      75
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      75
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/run_e428_smoke_leg.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": false,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "openerflow_latest.json",
+   "published_path": "results/state_tilt/openerflow_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e427_opener_flow.py",
+    "scripts/run_e427_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e427_opener_flow.py",
+     "line": 89,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/openerflow_latest.json",
+      "results/state_tilt/openerflow_latest.json",
+      "results/state_tilt/openerflow_latest.json",
+      "results/state_tilt/openerflow_latest.json",
+      "results/state_tilt/openerflow_latest.json",
+      "results/state_tilt/openerflow_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      89
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e427_smoke_leg.py",
+     "line": 70,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/openerflow_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      70,
+      78
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      78
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e427_smoke_leg.py",
+     "line": 78,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/openerflow_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      70,
+      78
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      78
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e427_opener_flow.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e427_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      70,
+      78
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "pointerreach_latest.json",
+   "published_path": "results/state_tilt/pointerreach_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e468_pointer_reach.py",
+    "scripts/run_e468_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e468_pointer_reach.py",
+     "line": 436,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/pointerreach_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      436
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e468_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/pointerreach_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e468_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/pointerreach_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e468_pointer_reach.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e468_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "prereghash_latest.json",
+   "published_path": "results/state_tilt/prereghash_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e451_prereg_digest.py",
+    "scripts/run_e451_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e451_prereg_digest.py",
+     "line": 453,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/prereghash_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      453
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e451_smoke_leg.py",
+     "line": 69,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/prereghash_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      69,
+      78
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      78
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e451_smoke_leg.py",
+     "line": 78,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/prereghash_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      69,
+      78
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      78
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e451_prereg_digest.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e451_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      69,
+      78
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "producerspill_latest.json",
+   "published_path": "results/state_tilt/producerspill_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/run_e473_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/run_e473_smoke_leg.py",
+     "line": 63,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/producerspill_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      74,
+      81
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      81
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e473_smoke_leg.py",
+     "line": 74,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/producerspill_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      74,
+      81
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      81
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e473_smoke_leg.py",
+     "line": 81,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/producerspill_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      74,
+      81
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      81
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/run_e473_smoke_leg.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": false,
+   "harness_composer_count": 3,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "republishchain_latest.json",
+   "published_path": "results/state_tilt/republishchain_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e433_republication_chain.py",
+    "scripts/run_e433_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e433_republication_chain.py",
+     "line": 428,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/republishchain_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      428
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e433_smoke_leg.py",
+     "line": 67,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/republishchain_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      67,
+      75
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      75
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e433_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/republishchain_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      67,
+      75
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      75
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e433_republication_chain.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e433_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      67,
+      75
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "shadowface_latest.json",
+   "published_path": "results/state_tilt/shadowface_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e417_shadow_face.py",
+    "scripts/run_e417_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e417_shadow_face.py",
+     "line": 116,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/shadowface_latest.json",
+      "results/state_tilt/shadowface_latest.json",
+      "results/state_tilt/shadowface_latest.json",
+      "results/state_tilt/shadowface_latest.json",
+      "results/state_tilt/shadowface_latest.json",
+      "results/state_tilt/shadowface_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      116
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e417_smoke_leg.py",
+     "line": 66,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/shadowface_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      66,
+      74
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      74
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e417_smoke_leg.py",
+     "line": 74,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/shadowface_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      66,
+      74
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      74
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e417_shadow_face.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e417_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      66,
+      74
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "sharedname_latest.json",
+   "published_path": "results/state_tilt/sharedname_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/run_e440_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/run_e440_smoke_leg.py",
+     "line": 69,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/sharedname_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      69,
+      77
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      77
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e440_smoke_leg.py",
+     "line": 77,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/sharedname_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      69,
+      77
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      77
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/run_e440_smoke_leg.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": false,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "stalecutoff_latest.json",
+   "published_path": "results/state_tilt/stalecutoff_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/e328_quoted_number_staleness.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e328_quoted_number_staleness.py",
+     "line": 350,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/STALECUTOFF-2026-11-01.json",
+      "results/state_tilt/stalecutoff_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      350,
+      351
+     ],
+     "write_site_count": 2,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [
+      351
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/e328_quoted_number_staleness.py",
+     "line": 351,
+     "kind": "direct",
+     "callee": "dump",
+     "role": "a_producer",
+     "destination_paths": [
+      "STALECUTOFF-2026-11-01.json",
+      "stalecutoff_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      350,
+      351
+     ],
+     "write_site_count": 2,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [
+      351
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e328_quoted_number_staleness.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 0,
+   "harness_writes_the_published_path": false,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "targetread_latest.json",
+   "published_path": "results/state_tilt/targetread_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e470_target_read.py",
+    "scripts/run_e470_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e470_target_read.py",
+     "line": 550,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/targetread_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      550
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e470_smoke_leg.py",
+     "line": 71,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/targetread_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      71,
+      79
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      79
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e470_smoke_leg.py",
+     "line": 79,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/targetread_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      71,
+      79
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      79
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e470_target_read.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e470_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      71,
+      79
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "twinread_latest.json",
+   "published_path": "results/state_tilt/twinread_latest.json",
+   "composer_count": 7,
+   "composer_sources": [
+    "scripts/e479_twin_read.py",
+    "scripts/e482_latest_outside.py",
+    "scripts/run_e479_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e479_twin_read.py",
+     "line": 708,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      708
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e479_twin_read.py",
+     "line": 764,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/twinread_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      708
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e479_twin_read.py",
+     "line": 773,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/twinread_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      708
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e482_latest_outside.py",
+     "line": 110,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json",
+      "results/state_tilt/twinread_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e479_smoke_leg.py",
+     "line": 64,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/twinread_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      69,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e479_smoke_leg.py",
+     "line": 69,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/twinread_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      69,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e479_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/twinread_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      69,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e479_twin_read.py",
+   "extra_composer_count": 2,
+   "extras": [
+    {
+     "source": "scripts/e482_latest_outside.py",
+     "role": "a_producer",
+     "site_lines": [
+      110
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e479_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      64,
+      69,
+      76
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness",
+    "a_producer"
+   ],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 3,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 1,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "twohop_latest.json",
+   "published_path": "results/state_tilt/twohop_latest.json",
+   "composer_count": 2,
+   "composer_sources": [
+    "scripts/run_e429_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/run_e429_smoke_leg.py",
+     "line": 71,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/twohop_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      71,
+      79
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      79
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e429_smoke_leg.py",
+     "line": 79,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/twohop_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      71,
+      79
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      79
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/run_e429_smoke_leg.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": false,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "undated_latest.json",
+   "published_path": "results/state_tilt/undated_latest.json",
+   "composer_count": 6,
+   "composer_sources": [
+    "scripts/e484_undated_vintage.py",
+    "scripts/run_e484_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e484_undated_vintage.py",
+     "line": 565,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/undated_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      605
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e484_undated_vintage.py",
+     "line": 580,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/undated_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      605
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e484_undated_vintage.py",
+     "line": 605,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/undated_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      605
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e484_smoke_leg.py",
+     "line": 64,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/undated_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      70,
+      77
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      77
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e484_smoke_leg.py",
+     "line": 70,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/undated_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      70,
+      77
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      77
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e484_smoke_leg.py",
+     "line": 77,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/undated_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      70,
+      77
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      77
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e484_undated_vintage.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e484_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      64,
+      70,
+      77
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 3,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "vintageclock_latest.json",
+   "published_path": "results/state_tilt/vintageclock_latest.json",
+   "composer_count": 10,
+   "composer_sources": [
+    "scripts/e478_vintage_clock_diff.py",
+    "scripts/e479_twin_read.py",
+    "scripts/e480_vintage_date_agree.py",
+    "scripts/e481_vintage_conclusion.py",
+    "scripts/e484_undated_vintage.py",
+    "scripts/run_e478_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e478_vintage_clock_diff.py",
+     "line": 402,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      436
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e478_vintage_clock_diff.py",
+     "line": 412,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      436
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e478_vintage_clock_diff.py",
+     "line": 436,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      436
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e479_twin_read.py",
+     "line": 592,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json",
+      "results/state_tilt/vintageclock_latest.json",
+      "results/state_tilt/vintageclock_latest.json",
+      "results/state_tilt/vintageclock_latest.json",
+      "results/state_tilt/vintageclock_latest.json",
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e480_vintage_date_agree.py",
+     "line": 188,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json",
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e481_vintage_conclusion.py",
+     "line": 358,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e484_undated_vintage.py",
+     "line": 303,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json",
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e478_smoke_leg.py",
+     "line": 63,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      75
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      75
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e478_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      75
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      75
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e478_smoke_leg.py",
+     "line": 75,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      75
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      75
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e478_vintage_clock_diff.py",
+   "extra_composer_count": 5,
+   "extras": [
+    {
+     "source": "scripts/e479_twin_read.py",
+     "role": "a_producer",
+     "site_lines": [
+      592
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e480_vintage_date_agree.py",
+     "role": "a_producer",
+     "site_lines": [
+      188
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e481_vintage_conclusion.py",
+     "role": "a_producer",
+     "site_lines": [
+      358
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e484_undated_vintage.py",
+     "role": "a_producer",
+     "site_lines": [
+      303
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e478_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      63,
+      68,
+      75
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness",
+    "a_producer"
+   ],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 3,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 4,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "vintageconc_latest.json",
+   "published_path": "results/state_tilt/vintageconc_latest.json",
+   "composer_count": 6,
+   "composer_sources": [
+    "scripts/e481_vintage_conclusion.py",
+    "scripts/run_e481_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e481_vintage_conclusion.py",
+     "line": 620,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageconc_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      648
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e481_vintage_conclusion.py",
+     "line": 625,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageconc_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      648
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e481_vintage_conclusion.py",
+     "line": 648,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageconc_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      648
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e481_smoke_leg.py",
+     "line": 64,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/vintageconc_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      70,
+      77
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      77
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e481_smoke_leg.py",
+     "line": 70,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/vintageconc_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      70,
+      77
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      77
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e481_smoke_leg.py",
+     "line": 77,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/vintageconc_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      70,
+      77
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      77
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e481_vintage_conclusion.py",
+   "extra_composer_count": 1,
+   "extras": [
+    {
+     "source": "scripts/run_e481_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      64,
+      70,
+      77
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness"
+   ],
+   "extras_are_all_harnesses": true,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 3,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "vintagedate_latest.json",
+   "published_path": "results/state_tilt/vintagedate_latest.json",
+   "composer_count": 7,
+   "composer_sources": [
+    "scripts/e480_vintage_date_agree.py",
+    "scripts/e484_undated_vintage.py",
+    "scripts/run_e480_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e480_vintage_date_agree.py",
+     "line": 369,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintagedate_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      403
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e480_vintage_date_agree.py",
+     "line": 379,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintagedate_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      403
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e480_vintage_date_agree.py",
+     "line": 403,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintagedate_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      403
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e484_undated_vintage.py",
+     "line": 295,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintagedate_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e480_smoke_leg.py",
+     "line": 64,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/vintagedate_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      70,
+      77
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      77
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e480_smoke_leg.py",
+     "line": 70,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/vintagedate_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      70,
+      77
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      77
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e480_smoke_leg.py",
+     "line": 77,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/vintagedate_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      70,
+      77
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      77
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e480_vintage_date_agree.py",
+   "extra_composer_count": 2,
+   "extras": [
+    {
+     "source": "scripts/e484_undated_vintage.py",
+     "role": "a_producer",
+     "site_lines": [
+      295
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e480_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      64,
+      70,
+      77
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness",
+    "a_producer"
+   ],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 3,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 1,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "vintageread_latest.json",
+   "published_path": "results/state_tilt/vintageread_latest.json",
+   "composer_count": 8,
+   "composer_sources": [
+    "scripts/e472_vintage_read.py",
+    "scripts/e477_vintage_retire.py",
+    "scripts/e478_vintage_clock_diff.py",
+    "scripts/e479_twin_read.py",
+    "scripts/e480_vintage_date_agree.py",
+    "scripts/e484_undated_vintage.py",
+    "scripts/run_e472_smoke_leg.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e472_vintage_read.py",
+     "line": 468,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      468
+     ],
+     "write_site_count": 1,
+     "read_site_count": 0,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e477_vintage_retire.py",
+     "line": 163,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e478_vintage_clock_diff.py",
+     "line": 199,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e479_twin_read.py",
+     "line": 222,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json",
+      "results/state_tilt/vintageread_latest.json",
+      "results/state_tilt/vintageread_latest.json",
+      "results/state_tilt/vintageread_latest.json",
+      "results/state_tilt/vintageread_latest.json",
+      "results/state_tilt/vintageread_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e480_vintage_date_agree.py",
+     "line": 182,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e484_undated_vintage.py",
+     "line": 303,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json",
+      "results/state_tilt/vintageclock_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e472_smoke_leg.py",
+     "line": 68,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    },
+    {
+     "source": "scripts/run_e472_smoke_leg.py",
+     "line": 76,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_doctor_harness",
+     "destination_paths": [
+      "results/state_tilt/vintageread_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 0,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "restore_call_lines": [
+      76
+     ],
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "primary_composer_source": "scripts/e472_vintage_read.py",
+   "extra_composer_count": 6,
+   "extras": [
+    {
+     "source": "scripts/e477_vintage_retire.py",
+     "role": "a_producer",
+     "site_lines": [
+      163
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e478_vintage_clock_diff.py",
+     "role": "a_producer",
+     "site_lines": [
+      199
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e479_twin_read.py",
+     "role": "a_producer",
+     "site_lines": [
+      222
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e480_vintage_date_agree.py",
+     "role": "a_producer",
+     "site_lines": [
+      182
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e484_undated_vintage.py",
+     "role": "a_producer",
+     "site_lines": [
+      303
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/run_e472_smoke_leg.py",
+     "role": "a_doctor_harness",
+     "site_lines": [
+      68,
+      76
+     ],
+     "write_site_count": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": true,
+     "mutation_discipline": "writes_the_name_twice_so_it_can_put_the_original_back"
+    }
+   ],
+   "extra_roles": [
+    "a_doctor_harness",
+    "a_producer"
+   ],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 2,
+   "harness_writes_the_published_path": true,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 5,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "vintageretire_latest.json",
+   "published_path": "results/state_tilt/vintageretire_latest.json",
+   "composer_count": 7,
+   "composer_sources": [
+    "scripts/e477_vintage_retire.py",
+    "scripts/e478_vintage_clock_diff.py",
+    "scripts/e479_twin_read.py",
+    "scripts/e480_vintage_date_agree.py",
+    "scripts/e481_vintage_conclusion.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e477_vintage_retire.py",
+     "line": 250,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      315
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e477_vintage_retire.py",
+     "line": 295,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      315
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e477_vintage_retire.py",
+     "line": 315,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      315
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": true,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e478_vintage_clock_diff.py",
+     "line": 204,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e479_twin_read.py",
+     "line": 585,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageretire_latest.json",
+      "results/state_tilt/vintageretire_latest.json",
+      "results/state_tilt/vintageretire_latest.json",
+      "results/state_tilt/vintageretire_latest.json",
+      "results/state_tilt/vintageretire_latest.json",
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e480_vintage_date_agree.py",
+     "line": 188,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageclock_latest.json",
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e481_vintage_conclusion.py",
+     "line": 363,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/vintageretire_latest.json"
+     ],
+     "writes_this_name_at_lines": [],
+     "write_site_count": 0,
+     "read_site_count": 1,
+     "named_sites_without_a_mode": 1,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "primary_composer_source": "scripts/e477_vintage_retire.py",
+   "extra_composer_count": 4,
+   "extras": [
+    {
+     "source": "scripts/e478_vintage_clock_diff.py",
+     "role": "a_producer",
+     "site_lines": [
+      204
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e479_twin_read.py",
+     "role": "a_producer",
+     "site_lines": [
+      585
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e480_vintage_date_agree.py",
+     "role": "a_producer",
+     "site_lines": [
+      188
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e481_vintage_conclusion.py",
+     "role": "a_producer",
+     "site_lines": [
+      363
+     ],
+     "write_site_count": 0,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "extra_roles": [
+    "a_producer"
+   ],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 0,
+   "harness_writes_the_published_path": false,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 4,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "writehelper_latest.json",
+   "published_path": "results/state_tilt/writehelper_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e490_write_helper.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e490_write_helper.py",
+     "line": 683,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/writehelper_latest.json",
+      "results/state_tilt/writehelper_latest.json",
+      "results/state_tilt/writehelper_latest.json",
+      "results/state_tilt/writehelper_latest.json",
+      "results/state_tilt/writehelper_latest.json",
+      "results/state_tilt/writehelper_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      683
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e490_write_helper.py",
+     "line": 733,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/writehelper_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      683
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e490_write_helper.py",
+     "line": 749,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/writehelper_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      683
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "primary_composer_source": "scripts/e490_write_helper.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 0,
+   "harness_writes_the_published_path": false,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  },
+  {
+   "latest_basename": "writerdir_latest.json",
+   "published_path": "results/state_tilt/writerdir_latest.json",
+   "composer_count": 3,
+   "composer_sources": [
+    "scripts/e488_writer_directory.py"
+   ],
+   "composers": [
+    {
+     "source": "scripts/e488_writer_directory.py",
+     "line": 558,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/writerdir_latest.json",
+      "results/state_tilt/writerdir_latest.json",
+      "results/state_tilt/writerdir_latest.json",
+      "results/state_tilt/writerdir_latest.json",
+      "results/state_tilt/writerdir_latest.json",
+      "results/state_tilt/writerdir_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      558
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e488_writer_directory.py",
+     "line": 602,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/writerdir_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      558
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    },
+    {
+     "source": "scripts/e488_writer_directory.py",
+     "line": 619,
+     "kind": "direct",
+     "callee": "open",
+     "role": "a_producer",
+     "destination_paths": [
+      "results/state_tilt/writerdir_latest.json"
+     ],
+     "writes_this_name_at_lines": [
+      558
+     ],
+     "write_site_count": 1,
+     "read_site_count": 2,
+     "named_sites_without_a_mode": 2,
+     "reads_the_name_before_it_writes_it": false,
+     "saves_the_original_away_first": false,
+     "restore_call_lines": [],
+     "mutation_discipline": "writes_the_name_once_with_no_restore_in_the_same_source"
+    }
+   ],
+   "primary_composer_source": "scripts/e488_writer_directory.py",
+   "extra_composer_count": 0,
+   "extras": [],
+   "extra_roles": [],
+   "extras_are_all_harnesses": false,
+   "has_a_producer_composer": true,
+   "harness_composer_count": 0,
+   "harness_writes_the_published_path": false,
+   "harness_single_write_composers": 0,
+   "extra_sites_without_a_restore": 0,
+   "exists_on_disk": true,
+   "parses_as_json": true
+  }
+ ],
+ "method_limits": [
+  "static plus a JSON parse: parses_as_json=false is evidence of a mutated face, parses_as_json=true is NOT evidence that the content is the producer's",
+  "two write sites in one source says a restore is possible in that source, not that it ran or that the rest of the run finished",
+  "role is a file-name rule: a harness living under another name is counted as a producer",
+  "leftover_mutant_files lists names, not provenance: a *_bak file may be an intentional fixture",
+  "the population is E491's static population; a name whose composers are all harnesses says the producer folded out of reach, not that it does not exist"
+ ]
+}

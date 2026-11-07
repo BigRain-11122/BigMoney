@@ -1781,6 +1781,13 @@ LEGS = [
     # copier under scripts/Tools/firm, groups the destinations by latest basename, and holds the
     # card's own name (bandthreshguard_latest.json) to the call that actually makes it.
     ("latest_copier", ["python", "scripts/e491_latest_copier.py", "check"]),
+    # E492 asks what the "several composers" of a latest name actually are.  E491 published 51
+    # names with two or more static composers; a sample of the extras are doctor harnesses that
+    # mutate a published face and put it back.  This face labels every composer (producer /
+    # doctor harness / one-off _rNNN repair), counts the write sites and the read-before-write in
+    # each source, and holds a live arm: does each published latest copy still parse as JSON?
+    # `check` re-derives every tally, the extra roles and the verdict from the published rows.
+    ("multi_composer_doctor", ["python", "scripts/e492_multi_composer_doctor.py", "check"]),
 ]
 
 

@@ -19473,5 +19473,85 @@ except Exception as _e491x:
     _d491 = "leg could not run"
 check(_name491, not _bad491, "; ".join(_bad491)[:240] or _d491)
 
+# E492 -- of the multi-composed latest names, who the extra composers actually are.
+# E491 counted 51 names with two or more static composers and called them "several"; this
+# leg holds the face that labels each composer (producer / doctor harness / one-off repair),
+# holds that the extra-composer tallies and the card answer re-derive from the rows, and
+# holds that the live arm (does the published copy still parse) is not skipped.
+_name492 = ("E492 the extra composers of a multi-composed latest face are mostly doctor "
+            "harnesses and none leaves a mutated face behind (r1518 bm-b)")
+_bad492 = []
+try:
+    _m492 = __import__("importlib").import_module("e492_multi_composer_doctor")
+    _f492 = json.load(open(os.path.join("results", "state_tilt",
+                                        "latestdoctor_latest.json"), encoding="utf-8"))
+    _s492 = _f492.get("summary") or {}
+    _r492 = _f492.get("rows") or []
+    _bad492.extend(_m492.row_problems(_f492))
+    if not _r492:
+        _bad492.append("the multi-composed population is empty")
+    if _f492.get("verdict") != _m492._verdict(_m492._recompute(_f492)):
+        _bad492.append("the verdict is not the one the counts imply")
+    _ans492 = _f492.get("card_answer") or {}
+    _ex492 = _s492.get("extra_composer_sites_by_role") or {}
+    if not _ex492.get(_m492.R_HARNESS):
+        _bad492.append("no extra composer is a harness: the role rule measures nothing")
+    if not _ex492.get(_m492.R_PRODUCER):
+        _bad492.append("no extra composer is a producer: the extras are not only harnesses")
+    if _s492.get("faces_whose_composers_are_all_harnesses") in (None, 0):
+        _bad492.append("no face has harness-only composers: the E491 reading was never tested")
+    if _ans492.get("leaves_a_mutated_face_behind"):
+        _bad492.append("a published latest face is left in a mutated state")
+    if _s492.get("faces_left_in_a_mutated_state") != len(
+            _ans492.get("faces_whose_published_copy_does_not_parse") or []):
+        _bad492.append("the left-behind count and the named faces disagree")
+    if _s492.get("multi_composed_faces") != len(_r492):
+        _bad492.append("the multi-composed tally does not match the rows")
+    _all492 = next((r for r in _r492 if r.get("extras_are_all_harnesses")), None)
+    if _all492 is None:
+        _bad492.append("no all-harness-extras row survived: that class cannot be measured")
+    else:
+        _w492 = json.loads(json.dumps(_f492))
+        for _row in _w492["rows"]:
+            if _row.get("latest_basename") == _all492.get("latest_basename"):
+                for _e in _row.get("extras") or []:
+                    _e["role"] = _m492.R_PRODUCER
+        if not _m492.row_problems(_w492):
+            _bad492.append("an extra composer relabelled as a producer survived the guard")
+    _w492b = json.loads(json.dumps(_f492))
+    _w492b["summary"]["extra_composer_sites"] = (
+        _s492.get("extra_composer_sites") or 0) + 1
+    if not _m492.row_problems(_w492b):
+        _bad492.append("a tally that does not re-derive survived the guard")
+    _w492c = json.loads(json.dumps(_f492))
+    _w492c["verdict"] = _m492.V_ALL
+    if not _m492.row_problems(_w492c):
+        _bad492.append("a verdict that contradicts the extra roles survived the guard")
+    _w492d = json.loads(json.dumps(_f492))
+    _w492d["card_answer"] = dict(_ans492, leaves_a_mutated_face_behind=True)
+    if not _m492.row_problems(_w492d):
+        _bad492.append("a card answer that invents a left-behind face survived the guard")
+    if [r["latest_basename"] for r in _r492
+            if r["latest_basename"] == "latestdoctor_latest.json"]:
+        _bad492.append("this study published its own face into its own population")
+    _d492 = ("%d multi-composed names | composer sites %d | extras %d | harness extras %d | "
+             "one-off extras %d | producer extras %d | extras all harnesses %d | no producer "
+             "%d | single-write harness faces %d | unparseable %d | leftovers %d"
+             % (len(_r492),
+                _s492.get("composer_sites") or 0,
+                _s492.get("extra_composer_sites") or 0,
+                _ex492.get(_m492.R_HARNESS) or 0,
+                _ex492.get(_m492.R_ONEOFF) or 0,
+                _ex492.get(_m492.R_PRODUCER) or 0,
+                _s492.get("faces_whose_extras_are_all_harnesses") or 0,
+                _s492.get("faces_whose_composers_are_all_harnesses") or 0,
+                _s492.get("faces_with_a_single_write_harness") or 0,
+                _s492.get("faces_left_in_a_mutated_state") or 0,
+                _s492.get("leftover_mutant_files") or 0))
+except Exception as _e492x:
+    _bad492.append(repr(_e492x)[:160])
+    _d492 = "leg could not run"
+check(_name492, not _bad492, "; ".join(_bad492)[:240] or _d492)
+
 if __name__ == "__main__":
     sys.exit(main())

@@ -12407,3 +12407,21 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 **验证**：`scripts/e491_latest_copier.py`（run rc0 / check problems=[] / verify 同树重建 problems=[] / **selftest 25/25**：同目录 copy + 日期兄弟 + 双实参折叠 + 跳目录 copy + 直写 + 多构造器 + 无构造器 + 在盘/不在盘 + 六个假件全红）；面 `results/state_tilt/LATESTCOPIER-2026-11-07.json` + `latestcopier_latest.json`（176 行）；S6 腿 `latest_copier` rc0 0.07s；smoke 腿 `E491 a latest copy is composed by a copy call the write-call census cannot see` 单跑 1/1 绿 + doctored 1/1 红（面 sha 归位）。
 
 **适用范围**：只回答「静态可折的目标名里，谁在写、与源是否同目录」；glob 驱动的 copy、argv/env 拼名不在总体内（发布为「无静态构造器」而不是证明不存在），也不构成任何删面许可。
+
+
+## E492 -- E491 说 51 个 latest 名「多构造器」：41 个额外构造器里 24 个是 doctor harness，19 个面的额外构造器全是 harness，13 个面连一个生产者都看不见（r1518 bm-b）
+
+**问题**：E491 把 51 个 `*_latest.json` 印成「多构造器」，读者会读成「多个生产者在写同一个面」。抽查发现额外构造器里有 `scripts/run_eXXX_smoke_leg.py` 这类腿跑器：它复制面、改一个计数、跑腿、再把原件写回去。于是两件事从未被测：①一条腿跑器的两个写点里第一个写的就是发布路径，如果它只写一次不还原，盘上留下的就是被改过的面；②当一个名字的构造器**全是**腿跑器时，E491 的「多构造器」不是在说「多个生产者」，而是在说「生产者折不出静态可达的地方」。
+
+**做法**：直接消费 E491 的 51 行（不重导、不改它的口径），按写手文件名给每个构造器上标：生产者 / doctor harness（`run_eNNN_*`、`*smoke_leg*`、doctor、mutat）/ 一次性修复（`_rNNN_*`）。再对每个写手做一次**读写分型的调用普查**：E491 的普查分不出 `open(p)` 与 `open(p,'w')`，所以「先读原件再落下改件」会被算成两个写手；本期按调用形态分 read / write，发布每个写手的写点数与「是否先读后写」。最后加一条**活体臂**：把 51 个面在盘上逐个 `json.load`，解析失败即「留下改件」，并扫 `results/state_tilt` 里 `_mut/_bak/doctored/corrupt/.tmp` 型残留。
+
+**读数**（2026-11-07）：51 个多构造器面 / 171 个构造器站点 / **41 个额外构造器**：doctor harness **24**、一次性修复 2、生产者 24。**19 个面的额外构造器全是 harness**；**13 个面一个生产者构造器都没有**（可见写手只有腿跑器）；2 个面各有一个「只写一次、源里没有任何还原」的 harness（`deadprereg_latest.json`、`dirfield_latest.json`）。活体臂：51 个面**全部解析成功**，dir 内**零残留改件**——没有此刻留在盘上的改件。
+
+**三条可复用**：
+1. **「多构造器」不等于「多生产者」**：先给构造器上标签再计数，否则 19 个面的读数会被当成「19 个面有两个生产者在维护」。当一个面可见写手全是腿跑器时，正确的读法是「生产者在静态可达之外」（13 个面），不是「生产者有两个」。
+2. **写点挡次决定能不能还原**：harness 之所以安全，是因为它在同一个源里对同一个名字写了两次（先落改件、后写回原件）；只有一个写点的 harness 在源里没有任何还原通道，盘上留什么就取决于这次运行有没有走完。把「写点数」当字段发布，这条性质就变成可复核的，而不是靠读代码印象。
+3. **普查器自己会污染总体**：本面第一版把 `latestdoctor_latest.json` 算进了自己的总体——因为自身的生产者被扫描器排除了，只剩 harness 可见，于是印出「一个全是 harness 的面」。自面必须在总体外并单独披露（`self_faces_excluded`），这正是 E180/E207 族的老坑，第 N 次复发。
+
+**验证**：`scripts/e492_multi_composer_doctor.py`（run rc0 / check problems=[] / verify 同树重建 problems=[] / **selftest 29/29**：角色三档 + 两次写=可还原 + 一次写=无还原 + 先读后写 + 活体臂 + 自排除 + 六个假件全红）；面 `results/state_tilt/LATESTDOCTOR-2026-11-07.json` + `latestdoctor_latest.json`（51 行）；S6 腿 `multi_composer_doctor` rc0 0.07s；smoke 腿 `E492 the extra composers of a multi-composed latest face are mostly doctor harnesses and none leaves a mutated face behind` 单跑 1/1 绿 + doctored 1/1 红（面 sha 归位）。
+
+**适用范围**：角色是**文件名规则**——换个名字的 harness 会被算成生产者；「两次写点」只说明源里存在还原通道，不说明那次运行跑完了；`parses_as_json=true` 只证明此刻可解析，不证明内容来自生产者；`_bak` 型残留文件只列名，不判来源（也可能是刻意的夹具）。
