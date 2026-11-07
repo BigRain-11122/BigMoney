@@ -211,8 +211,19 @@ def drift(led, close, openp, cost_per_side=None):
     # published bar (and any bar that is still the panel's newest date) keeps gaining prints,
     # so a re-derivation against it measures the panel's growth, not the ledger's arithmetic.
     # Same rule as the drift gate, same implementation (etf_book_forward.partition_settled).
+    #
+    # r1402: that rule has TWO inputs and this reader only passed one. r1372 taught the same
+    # lesson on the repo lane -- a bar later than the last bar the repo ladder can price rode
+    # a FORWARD-FILLED rate, so its mark is still filling even when the price panel has moved
+    # on. A card_track red at 9.96e-07 on 2026-11-05 (and the whole 11-02..11-06 group)
+    # survived every price-panel check because nobody asked the cash leg. Passing carry_last
+    # is what makes this reader and the settle audit one rule instead of two spellings of it;
+    # without it the identity polices bars whose cash leg it cannot reproduce and calls the
+    # difference a trade.
+    carry_last = F.carry_last_bar()
     _settled, _provisional = F.partition_settled([str(b.get("bar")) for b in bars],
-                                                 str(dates[-1]) if dates else None)
+                                                 str(dates[-1]) if dates else None,
+                                                 carry_last=carry_last)
     not_policed = set(_provisional)
     nav_hat, dev, nav_bh = {}, [], {}
     cur_cw, cur_bh = 1.0, 1.0
@@ -277,6 +288,17 @@ def drift(led, close, openp, cost_per_side=None):
         # named with the live deviation so a reader can see the size of what was held back
         # instead of reading a shorter replay as a cleaner one.
         "identity_not_policed": sorted(not_policed),
+        # r1402: why a bar was not policed has to be readable, not just that it wasn't.
+        # `carry_last` is the newest bar the repo ladder can actually price; every book bar
+        # after it rode a forward-filled rate, so its cash leg is filling by definition.
+        "carry_coverage": {
+            "carry_last": carry_last,
+            "bars_beyond_carry": [str(b.get("bar")) for b in bars
+                                  if carry_last and str(b.get("bar")) > carry_last],
+            "note": ("bars beyond the repo ladder's last priced day are provisional: their "
+                     "cash leg is a forward-filled rate, so a NAV that disagrees with the "
+                     "re-derivation there measures the rate panel, not the book"),
+        },
         "identity_not_policed_dev": {
             b: None if nav_hat.get(b) is None or _rec_nav(b, bars) is None
             else round(abs(nav_hat[b] - _rec_nav(b, bars)), 10) for b in sorted(not_policed)},

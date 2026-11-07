@@ -445,6 +445,15 @@ def main() -> int:
             # than a NaN that silently disables the state machine.
             ("product: volume regime supply probe (exit-code contract)",
              "scripts/zoo96_volume_regime_probe.py", ["--selftest"]),
+            # r1402: a berth's STANDALONE verdict is not the money line's answer. zoo #96 was
+            # refused as a rule on 510300 and that says nothing about it as a risk switch on
+            # the book, which sits flat 43% of the time already. This leg keeps the join
+            # callable: the control arm must reproduce the production cell to 1e-12, the state
+            # must lag one bar (never the bar that produced it), an unread state holds the
+            # previous weight instead of reading as flat, and the mirror must be the same
+            # function on the flipped state rather than a second implementation.
+            ("product: book x volume-gate overlay (exit-code contract)",
+             "scripts/etf_book_volgate.py", ["--selftest"]),
             # r1395: the book's entry friction. The spot board publishes 折价率 (a DISCOUNT,
             # the opposite sign of a premium) and an IOPV that a cross-border fund cannot
             # check against anything until its T+n NAV arrives -- two ways to print a number
@@ -470,6 +479,14 @@ def main() -> int:
              "scripts/etf_book_exit_tax.py", ["--selftest"]),
             ("product: etf_book_exit_tax (published hurdle recomputed, control reproduced)",
              "scripts/etf_book_exit_tax.py", ["--check"]),
+            # r1403: the ledger's freeze question is arithmetic, not a fear -- re-derive
+            # every published bar read-only and split it with the LIVE settle rule. The
+            # legs pin that a settled bar below tol stays silent, that the same numbers DO
+            # block once the cash leg claims to have priced them, that a settled bar moving
+            # for a non-carry reason is named rather than excused, and that an unreadable
+            # bar list never reads as a pass.
+            ("product: etf_book_carry_repro (settled-only drift gate, refill forecast)",
+             "scripts/etf_book_carry_repro.py", ["--selftest"]),
             # r1346: the chain runner pays a leg's declared refresh when its probe
             # says the face is stale, and must NOT pay it when the probe says
             # inconsistent. That branch is what stops a check-only gate from being

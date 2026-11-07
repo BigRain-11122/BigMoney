@@ -9669,3 +9669,25 @@ fixture 一旦这么写就成了“用不存在的数据把闸测红”。
 **How to apply**：任何机器自称「已推送/已交付」之前跑一次；`verdict=STRANDED_CONFLICTS`（unique>0 且碰撞）＝「这台机的活只有它自己知道」，必须保全到 `machine/<id>-r<N>` 分支再谈整合；`TWINS_ONLY`＝可直接回远端 tip；`STRANDED_REPLAYABLE`＝当天可整合。
 
 实锚：`python scripts\git_divergence_report.py --selftest` → 6/6 PASS（in-sync / 孪生 / 冲突 / 净路径 / 台账计数五态各一腿）；实跑 `verdict=STRANDED_CONFLICTS ahead=28 behind=4 unique=28 twins=0 n_paths=16`。
+
+### E404 · 「会不会冻」有时间轴：今天的绿不等于补齐那天的绿（r1403 bm-c）
+
+`MSG-20261107-1637` 说账本「极可能冻住（exit 3）」。把它当算术量，答案是**今天不会、补齐那天会**——
+两句话都对，但要分开说。
+
+1. **闸只警已结 bar**（r1372 的 `carry_last` 律）。已结 3 根（10-23/10-26/10-27）逐位复现，偏差 **0.000e+00**；
+   未结 8 根最大偏差 **9.956e-07**＝闸的 996 倍，但它们不进门。
+2. **补齐动作本身就是触发器**：把 carry_last 依次推过未结 bar 逐档算，补到 10-30 卡 1 根、11-02 卡 2 根、
+   11-03 卡 3 根、≥11-04 卡 **4 根**（10-30/11-02/11-03/11-04，最大 9.96e-07）。
+   于是「补数」这个好动作会**亲手**把账本打成 exit 3——除非同窗走 `restate_provisional`（不是 `--rebase`，
+   账没错，是发布时输入还在长）。
+3. **差额的正身只答一半**：这 4 根的 NAV 位移是 carry 差额的 1.5–4.2 倍 → 同一批 bar 上还有一处未归因的重算差异。
+   逐根点名、不并入 carry 解释、不动阈值——未归因就该叫未归因。
+
+How to apply：一切「供给腿落后、下游面用前向填充仍能出数」的局面，问四个问题——
+①下游闸的执法集合是哪几根（已结 vs 未结）；②补齐那天执法集合怎么变（逐档预测，给出第一个变红的档）；
+③补齐与改述要不要同窗做；④差额除「缺输入」之外还剩多少没解释。前三个决定排程，第四个决定要不要放松断言
+（答案：不要，先把未归因点名）。
+
+正身=scripts/etf_book_carry_repro.py（selftest 9/9·零写入·只用活闸自己的 partition_settled）+
+results/etf_book_forward/carry_repro/CARRY-REPRO-2026-11-06.json

@@ -1,0 +1,293 @@
+{
+ "generated": "2026-11-07T16:34:50+0800",
+ "script": "scripts/etf_book_volgate.py",
+ "question": "does zoo #96's volume state machine improve the production book?",
+ "evidence_cutoff": "2026-11-06",
+ "criteria": {
+  "call": "does the volume state machine improve the production book it is gated on?",
+  "passes": {
+   "net_excess": "gated CAGR minus the ungated book's > 0",
+   "beats_null": "circular-shift p < 0.05",
+   "drawdown": "gated max drawdown not worse than the book's",
+   "cost": "the 13.041bp-per-side leg keeps a positive excess",
+   "direction": "the mirror arm's excess is negative (otherwise it is a regime premium, not a signal)"
+  },
+  "verdicts": [
+   "ADOPT_AS_OVERLAY",
+   "REFUSE_AS_OVERLAY",
+   "UNDECIDABLE_NULL_THIN",
+   "INSUFFICIENT_BARS"
+  ],
+  "thresholds": {
+   "up": 1.15,
+   "down": 0.810874,
+   "fast": 5,
+   "slow": 100,
+   "n_hold": 5,
+   "rebal": 20,
+   "vol_target": 0.08
+  },
+  "cost": {
+   "per_side": 0.001,
+   "robustness_per_side": 0.0013041
+  }
+ },
+ "book": {
+  "cell": "n5_rebal20_vt0.08",
+  "panel_digest": "93efa7188894f865",
+  "flips_repaired": 169,
+  "series_first": "2020-01-03",
+  "series_last": "2026-11-06",
+  "published_cell": {
+   "full": {
+    "cagr": 0.1146,
+    "sharpe": 1.128,
+    "maxdd": -0.1056,
+    "vol": 0.1051,
+    "years": 6.84
+   },
+   "is": {
+    "cagr": 0.0581,
+    "sharpe": 0.621,
+    "maxdd": -0.088,
+    "vol": 0.1031,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.1993,
+    "sharpe": 1.812,
+    "maxdd": -0.1056,
+    "vol": 0.1079,
+    "years": 2.84
+   },
+   "turnover_per_decision": 1.08
+  },
+  "base_cell": {
+   "full": {
+    "cagr": 0.1551,
+    "sharpe": 0.999,
+    "maxdd": -0.1604,
+    "vol": 0.1639,
+    "years": 6.84
+   },
+   "is": {
+    "cagr": 0.1022,
+    "sharpe": 0.685,
+    "maxdd": -0.1418,
+    "vol": 0.1683,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.2341,
+    "sharpe": 1.472,
+    "maxdd": -0.1604,
+    "vol": 0.1575,
+    "years": 2.84
+   },
+   "turnover_per_decision": 1.53
+  }
+ },
+ "state": {
+  "rule": "HMA(amount_sum,5)/HMA(amount_sum,100) vs 1.150 / 0.810874",
+  "bars": 1658,
+  "coverage": {
+   "min": 728,
+   "median": 4848
+  },
+  "risk_on_share": 0.3852,
+  "last_bar": "2026-11-06",
+  "last_state": 1,
+  "last_volume_index": 0.1662
+ },
+ "arms": {
+  "control": {
+   "full": {
+    "cagr": 0.1146,
+    "sharpe": 1.128,
+    "maxdd": -0.1056,
+    "vol": 0.1051,
+    "years": 6.84
+   },
+   "is": {
+    "cagr": 0.0581,
+    "sharpe": 0.621,
+    "maxdd": -0.088,
+    "vol": 0.1031,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.1993,
+    "sharpe": 1.812,
+    "maxdd": -0.1056,
+    "vol": 0.1079,
+    "years": 2.84
+   },
+   "exposure_share": 1.0,
+   "switches": 0,
+   "switches_per_year": 0.0,
+   "identity_max_abs_diff": 1.5543122344752192e-15
+  },
+  "gate_long": {
+   "full": {
+    "cagr": 0.016,
+    "sharpe": 0.277,
+    "maxdd": -0.189,
+    "vol": 0.0682,
+    "years": 6.84
+   },
+   "is": {
+    "cagr": -0.0114,
+    "sharpe": -0.169,
+    "maxdd": -0.1552,
+    "vol": 0.0596,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.0558,
+    "sharpe": 0.758,
+    "maxdd": -0.0971,
+    "vol": 0.0788,
+    "years": 2.84
+   },
+   "exposure_share": 0.3852,
+   "switches": 288,
+   "switches_per_year": 42.11
+  },
+  "gate_mid": {
+   "full": {
+    "cagr": 0.0093,
+    "sharpe": 0.172,
+    "maxdd": -0.1499,
+    "vol": 0.0703,
+    "years": 6.84
+   },
+   "is": {
+    "cagr": -0.0123,
+    "sharpe": -0.158,
+    "maxdd": -0.1499,
+    "vol": 0.0671,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.0403,
+    "sharpe": 0.59,
+    "maxdd": -0.0996,
+    "vol": 0.0745,
+    "years": 2.84
+   },
+   "exposure_share": 0.3852,
+   "switches": 288,
+   "switches_per_year": 42.11
+  },
+  "gate_half": {
+   "full": {
+    "cagr": 0.0653,
+    "sharpe": 0.9,
+    "maxdd": -0.0751,
+    "vol": 0.0764,
+    "years": 6.84
+   },
+   "is": {
+    "cagr": 0.0241,
+    "sharpe": 0.397,
+    "maxdd": -0.0743,
+    "vol": 0.0681,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.126,
+    "sharpe": 1.471,
+    "maxdd": -0.0751,
+    "vol": 0.0868,
+    "years": 2.84
+   },
+   "exposure_share": 0.3852,
+   "switches": 288,
+   "switches_per_year": 42.11
+  },
+  "gate_long_x": {
+   "full": {
+    "cagr": 0.0031,
+    "sharpe": 0.081,
+    "maxdd": -0.2354,
+    "vol": 0.0684,
+    "years": 6.84
+   },
+   "is": {
+    "cagr": -0.0237,
+    "sharpe": -0.386,
+    "maxdd": -0.1937,
+    "vol": 0.0597,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.0418,
+    "sharpe": 0.58,
+    "maxdd": -0.1057,
+    "vol": 0.079,
+    "years": 2.84
+   },
+   "exposure_share": 0.3852,
+   "switches": 288,
+   "switches_per_year": 42.11
+  },
+  "gate_long_base": {
+   "full": {
+    "cagr": 0.0482,
+    "sharpe": 0.503,
+    "maxdd": -0.2388,
+    "vol": 0.1094,
+    "years": 6.84
+   },
+   "is": {
+    "cagr": 0.028,
+    "sharpe": 0.327,
+    "maxdd": -0.181,
+    "vol": 0.1043,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.0775,
+    "sharpe": 0.728,
+    "maxdd": -0.1371,
+    "vol": 0.1163,
+    "years": 2.84
+   },
+   "exposure_share": 0.3852,
+   "switches": 288,
+   "switches_per_year": 42.11
+  }
+ },
+ "excess_pp": {
+  "gate_long": -9.86,
+  "gate_mid": -10.53,
+  "gate_half": -4.93,
+  "gate_long_x": -11.15,
+  "gate_long_base": -6.64
+ },
+ "null": {
+  "draws": 200,
+  "mean_pp": -11.618,
+  "p95_pp": -8.635,
+  "p_value": 0.15
+ },
+ "null_mirror": {
+  "draws": 200,
+  "mean_pp": -8.704,
+  "p95_pp": -5.699,
+  "p_value": 0.85
+ },
+ "deviations": [
+  "the gated arm keeps paying the book's internal turnover while flat (the engine's curve already carries it), so every gated reading here is a floor",
+  "the volume axis is summed traded VALUE over the A-share archive; zoo #96 showed the share-count proxy disagrees in sign, and that caveat travels here",
+  "one bar of alignment: state at close t weights the book's t+1 return"
+ ],
+ "verdict": "REFUSE_AS_OVERLAY",
+ "verdict_reasons": [
+  "gated CAGR -9.86pp/yr is not above the book",
+  "phase null p=0.15 does not beat 5%",
+  "gated max drawdown -18.90% is worse than the book's -10.56%",
+  "at 13.041bp per side the gate gives the excess back (-11.15pp/yr)"
+ ],
+ "elapsed_sec": 96.7
+}

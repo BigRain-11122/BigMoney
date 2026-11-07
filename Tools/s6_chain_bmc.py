@@ -283,6 +283,13 @@ LEGS = [
     # chain for the r1257/r1290/r1291/r1293/r1295 reason: a hand-run comparison is a
     # comparison nobody makes. ~15s on the warmed panel, no network.
     ("etf_book_card_track", ["python", "scripts/etf_book_card_track.py", "run"]),
+    # r1402: the supply line judges berths STANDALONE (against 510300) and the money line is
+    # the book, so "zoo #96 failed" and "the book should not listen to it" were two different
+    # sentences with only the first one measured. This leg keeps the join live for the same
+    # reason every other book face rides the chain: a hand-run comparison is a comparison
+    # nobody makes. ~150s (book panel already warm, plus the A-share panel for the volume
+    # axis), no network, publishes a verdict rather than a judgement.
+    ("etf_book_volgate", ["python", "scripts/etf_book_volgate.py"]),
     # The width face prices the disagreement BETWEEN those two faces ("what does the
     # ticket's 5 names cost against the card's 12"), and it was hand-run only: r1291 found
     # it sitting on 2026-10-23 while both faces above had moved to 2026-10-26 -- third
