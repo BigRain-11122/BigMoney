@@ -8,6 +8,8 @@
 
 - 冷层指针：fivekeys 锚读数律（全精度机读·8 位小数舍入在 1e-9 容差必炸）+ bm-c core.autocrlf smudge 面（norm-eq 归一比对）两行全文=archive 202610.md『热冷整编 2026-10-31 r1375 bm-c 窗批』节
 
+- [2026-11-07 r1266 bm-a] 「没人能动它」至少要两个前提判例（正身=knowledge/METHODOLOGY_ASSETS.md E401 + research/digests/DIGEST-20261107-r1266-undeclared-collector.md）：data_lane_freshness 的 marks 行写着 `writer: None`，于是板子对读者印「the row reads another face rather than a collector of its own, so there is nothing to reassign」——而 update_intraday_marks 从 r1101 起就带 `--takeover` 与标记句。「表没填写者」与「写者没有开关」是两种相反的人事状态，共用一个判词＝把「两台机都能动」印成「放弃吧」。同族第二枚：缺口计数必须带成因——marks_coverage 早有 holes_by_cause（host_down/host_offhours/lane_missed/takeover_possible），板子只读 last_captured；「缺 6 天」与「其中 2 天当时有机器醒着只是没人代班」是两个人事决定。How：任何「没人能接手」判词先问写者字段是不是真的空；任何「缺 N 天」先问对面账有没有成因表；两个数不同源（全史孔数 9 vs 尾后缺失 6）不许混印。
+
 
 ### Reference
 
