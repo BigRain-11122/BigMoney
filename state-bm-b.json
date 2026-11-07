@@ -17,7 +17,7 @@
  "absorb": "r1476: five of the ten suite reds were the E421-family class -- a census that grows. Two of them already had the declaration machinery (population_keys) but had not declared the population itself, so an upstream face appearing re-red the leg for growth alone. E417 now declares faces/faces_literal/faces_templated and E422 declares rows_in_population / rows_recording_a_bare_name / rows_spelling_a_directory / control_path_rows / control_path_rows_whose_file_exists; both faces were republished and both gates now compare every reading exactly (bare-literal exposure 0; rows_whose_reading_changes_if_rejoined 0).",
  "agenda_starved": false,
  "aggregate": "engineering",
- "ahead_of_origin_main": 513,
+ "ahead_of_origin_main": 514,
  "audit_flag_note": "compute_audit FLAG supply_gap,supply_floor: ready 2 vs floor 3 at audit time, which is this round consuming E444 before E450 was seeded; no GPU work was taken (other lanes hold the 4.5 GiB)",
  "audit_flags": [
   "supply_gap"
@@ -172,7 +172,7 @@
   "ts": "2026-11-07T06:01:00+08:00"
  },
  "delivery_branch": "machine/bm-b-r1514",
- "delivery_note": "delivery is the machine branch; origin reachability is asserted by ls-remote",
+ "delivery_note": "git ls-remote origin refs/heads/machine/bm-b-r1514 == HEAD",
  "delivery_r1472": {
   "behind_origin_main": 295,
   "branch": "machine/bm-b-r1472",
@@ -186,7 +186,7 @@
   "ts": "2026-11-06T10:21:48+08:00",
   "verified": true
  },
- "delivery_sha": "6d41ad7181685704f2f62b609be74cf07b7c7bbb",
+ "delivery_sha": "034abd2ff16e5e60019c10a57408bae10360568c",
  "delivery_ts": "2026-11-07T06:01:00+08:00",
  "delivery_verified": true,
  "dept": "research+engineering",
@@ -306,10 +306,10 @@
  "last_orders_sha_recipe": "sha256 of git cat-file blob origin/main:docs/orders.md",
  "last_orders_watermark": "4348aa21bc8f",
  "last_product": "r1504: E476 closed -- of the 47 unattributed unread families, 14 name a writer and all 14 do it through a card id in a study field, 0 through a script, 23 carry only a timestamp, 1 parsed payload names nothing, 9 are unmeasured (csv-only members)",
- "last_push": "machine/bm-b-r1511 @ 6d41ad7181685704f2f62b609be74cf07b7c7bbb",
- "last_push_at": "2026-11-07T06:01:00+08:00",
- "last_push_sha": "6d41ad7181685704f2f62b609be74cf07b7c7bbb",
- "last_push_ts": "2026-11-07T06:01:00+08:00",
+ "last_push": "034abd2ff16e5e60019c10a57408bae10360568c",
+ "last_push_at": "2026-11-07T08:56:42+08:00",
+ "last_push_sha": "034abd2ff16e5e60019c10a57408bae10360568c",
+ "last_push_ts": "2026-11-07T08:56:42+08:00",
  "last_round": 1512,
  "last_round_at": "2026-11-07T05:59:42+08:00",
  "last_round_report": "logs/iteration-loop/round_reports.md",
@@ -323,7 +323,7 @@
  "local_commits_not_on_origin_main_note": "ls-remote-verified delivery to the machine branch; the ahead/behind counters are carried from the r1403 face (rev-list against origin/main not re-run this window, promisor wedge)",
  "local_not_on_origin": "see report",
  "local_not_on_origin_commits": 321,
- "local_not_on_origin_main": "435",
+ "local_not_on_origin_main": 514,
  "local_not_on_origin_main_note": "delivery goes to machine/bm-b-r1425: local main is far ahead/behind origin/main (two blood lines, promisor lazy-fetch wedge) and an unattended rebase is barred by r1243",
  "local_not_on_origin_note": "see sync_note (machine branch is the delivery channel)",
  "machine_health": "OK 8/8 for bm-a,bm-b,bm-c after gpu_face apply + machine_health_face write bm-b",
@@ -549,7 +549,7 @@
  "pool": "960 entries: 956 done / 3 ready (E483/E485 seeded earlier, E487 seeded r1511); E482 burned this round",
  "pool_claims": null,
  "pool_ready_unclaimed": 3,
- "postscript_sha": "830e93d16c3c0e3e4ec73fd1a65910c39df26f81",
+ "postscript_sha": "034abd2ff16e5e60019c10a57408bae10360568c",
  "product": [
   "scripts/e484_undated_vintage.py (run rc0 / check problems=0 / verify identical rebuild / selftest 41/41)",
   "results/state_tilt/UNDATED-2026-11-07.json + undated_latest.json (201 rows)",
@@ -570,7 +570,7 @@
   "sha": "a9dd8e61c4",
   "verified_at": "2026-10-20T04:34:36+08:00"
  },
- "push_sha": "6d41ad7181685704f2f62b609be74cf07b7c7bbb",
+ "push_sha": "034abd2ff16e5e60019c10a57408bae10360568c",
  "py_watermark_note": "dualrun ZERO-DRIFT 959 entries streak 5 -> py_watermark insufficient_history",
  "py_watermark_verdict": "insufficient_history (window n=2; 4 pool-ready cards named as work candidates)",
  "r1003_collision_note": "r1003 number taken by the 08:22 firing killed at 08:47:02 by v1 25-min wall (O-20261018-0948 census most recent); zero closeout; estate (drama 3-layer receipt + MSG-0845 + s6 log) absorbed by r1004 per r992 yield law",
@@ -5698,5 +5698,13 @@
    "results/runnable_pool.json E489 done + E490 seeded"
   ],
   "ts": "2026-11-07T08:55:34+08:00"
+ },
+ "delivery_sha_local": "034abd2ff16e5e60019c10a57408bae10360568c",
+ "r1514_delivery": {
+  "branch": "machine/bm-b-r1514",
+  "sha": "034abd2ff16e5e60019c10a57408bae10360568c",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1514 equals local HEAD",
+  "ts": "2026-11-07T08:56:42+08:00",
+  "main_push_blocker": "local main is 514 ahead / 304 behind origin/main across two blood lines (promisor lazy-fetch wedge r1255 family); no unattended rebase per r1243"
  }
 }
