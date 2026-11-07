@@ -63,6 +63,29 @@ FEED_DIR = os.path.join(ROOT, "data", "minute_feed")
 STATUS_JSON = os.path.join(ROOT, "results", "minute_feed_status.json")
 
 LANE_OWNER = "bm-b"          # T-104 s1 lane host (R31 precedent)
+
+
+def resolved_lane_owner():
+    """R31 default, unless config/lane_hosts.json reassigns this writer.
+
+    D-20261108-02 named this collector as an unobservable gap: it kept the
+    literal host while bm-b went 194h silent, and because the lane was also
+    absent from the map, the freshness board had no owner to report either.
+    Reading the map here makes a reassignment visible without editing code
+    (same pattern as update_etf_daily.resolved_lane_owner).
+    """
+    try:
+        # run as `python scripts/x.py` puts scripts/ on sys.path[0], not the
+        # repo root, so the package import below would fail and silently fall
+        # back to the literal host -- which is exactly the bug being fixed.
+        if ROOT not in sys.path:
+            sys.path.insert(0, ROOT)
+        from config.lane_io import lane_host
+        return lane_host("update_minute_feed", LANE_OWNER) or LANE_OWNER
+    except Exception:
+        return LANE_OWNER
+
+
 THROTTLE_MIN = 20            # spec sec.5
 OPEN_GATE_T = dt.time(9, 15)
 ATTEMPTS = 3
@@ -279,8 +302,9 @@ def _write_status(payload, mid):
 def run(force: bool = False) -> int:
     with open(MACHINE_JSON, encoding="utf-8") as fh:
         mid = json.load(fh).get("machine_id", "")
-    if mid != LANE_OWNER:
-        print(f"update_minute_feed: lane guard (owner={LANE_OWNER}, "
+    owner = resolved_lane_owner()
+    if mid != owner:
+        print(f"update_minute_feed: lane guard (owner={owner}, "
               f"this={mid}) -- stdout-only honest no-op")
         return 0
 
@@ -532,8 +556,9 @@ def _write_report(payload, mid):
 def verify() -> int:
     with open(MACHINE_JSON, encoding="utf-8") as fh:
         mid = json.load(fh).get("machine_id", "")
-    if mid != LANE_OWNER:
-        print(f"update_minute_feed verify: lane guard (owner={LANE_OWNER},"
+    owner = resolved_lane_owner()
+    if mid != owner:
+        print(f"update_minute_feed verify: lane guard (owner={owner},"
               f" this={mid}) -- stdout-only honest no-op")
         return 0
     calendar = _calendar_days()
