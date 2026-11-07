@@ -1,0 +1,2881 @@
+{
+ "card": "E483-DO-THE-SMOKE-LEGS-THAT-READ-A-TWIN-ASSERT-ON-ITS-CONTENT-OR-MERELY-ON-ITS-EXISTENCE",
+ "card_answer": {
+  "twins_whose_legs_only_require_the_file": 0,
+  "twins_with_a_leg_that_pins_a_value": 28,
+  "twins_with_a_leg_that_re_derives": 3,
+  "twins_with_no_reader_left_in_the_opener_set": 0
+ },
+ "debt_definition": {
+  "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": "an assertion compares a payload value with a literal or a frozen vocabulary",
+  "asserts_a_field_is_present_without_comparing_a_value": "an assertion tests a payload value for truth without comparing it",
+  "compares_the_face_with_a_copy_of_itself_and_reads_no_field": "the only comparisons put payload reads on both sides -- the face is compared with a copy of itself and no field is read",
+  "only_requires_the_file_to_exist": "no assertion touches a payload value: the block only needs the file",
+  "re_derives_a_number_from_the_payload": "an assertion compares a payload value with a value this block builds itself (a call that is not a payload access)",
+  "reads_the_file_and_reads_no_field_in_this_block": "the block opens the file but binds no payload in the block: a shim that hands the bytes on, or a leg that only compares bytes",
+  "the_source_is_absent_or_does_not_parse": "the source is absent from this tree or does not parse"
+ },
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T12:43:33+0800",
+ "method_limits": [
+  "the population is E479's own residue class, inherited not re-measured: a reader E479 missed is not in this study either",
+  "a site is classified by its asserting block, so a block that asserts on two different faces gives both sites the same class",
+  "an assertion built from a call is read as a re-derivation; whether that call actually rebuilds the face is not executable here",
+  "M_INDIRECT sites are named, not classified: following a helper parameter is another study",
+  "a deleted or renamed source is published as unreadable rather than assumed unchanged"
+ ],
+ "mode_definition": {
+  "hands_the_path_to_a_helper_that_opens_it": "the site names the path but no open call carries that line -- the path is handed to a helper that opens it, which this build cannot follow, so it is published rather than folded into a class",
+  "opens_it_for_reading": "the site calls open() without a write-mode, or a json load / text read on a handle it opened at that line",
+  "opens_it_for_writing": "the site calls open() with a mode that can write (w/a/x/+)"
+ },
+ "population_source": {
+  "face": "results/state_tilt/TWINREAD-2026-11-07.json",
+  "face_evidence_cutoff": "2026-11-07",
+  "face_verdict": "some_twins_are_opened_by_a_source_that_writes_neither_them_nor_their_family",
+  "residue_read_as_leg_only": "opened_only_by_a_smoke_or_runner_leg",
+  "twins_in_the_face": 36
+ },
+ "role_definition": {
+  "a_one_off_round_script": "a one-off round script (leading underscore or under results/)",
+  "a_standalone_leg_runner": "scripts/run_e*_smoke_leg.py -- a leg extracted and run standalone",
+  "an_instrument": "scripts/e###_*.py -- a study instrument",
+  "the_smoke_suite": "smoke_test.py -- a leg in the full suite"
+ },
+ "rows": [
+  {
+   "bytes": 348559,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_reading_sites": 2,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 2,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 64,
+      "kind": "FunctionDef",
+      "start": 58
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "raw"
+      ],
+      "value": 0
+     },
+     "debt": "only_requires_the_file_to_exist",
+     "line": 62,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "addos_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e244_pair_heterogeneity.py",
+     "twin_basename": "ADDOS_latest.json"
+    },
+    {
+     "block": {
+      "end": 3527,
+      "kind": "If",
+      "start": 3499
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 2,
+      "externally_derived": 0,
+      "presence": 1,
+      "rederive": 0,
+      "roots": [
+       "_f43"
+      ],
+      "value": 8
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 3502,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "results/state_tilt/addos_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "ADDOS_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1,
+    "only_requires_the_file_to_exist": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 2,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 2,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/ADDOS_latest.json",
+   "twin_basename": "ADDOS_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 4238518,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_reading_sites": 1,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 1,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 2807,
+      "kind": "If",
+      "start": 2722
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 3,
+      "externally_derived": 7,
+      "presence": 9,
+      "rederive": 0,
+      "roots": [
+       "_f30b",
+       "_f31"
+      ],
+      "value": 8
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 2725,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "results/state_tilt/bandpath_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "BANDPATH_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 1,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 1,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/BANDPATH_latest.json",
+   "twin_basename": "BANDPATH_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 286347,
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "parent_reading_sites": 2,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 1,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 540,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "basenamecensus_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e422_basename_census_audit.py",
+     "twin_basename": "BASENAMECENSUS_latest.json"
+    },
+    {
+     "block": {
+      "end": 16124,
+      "kind": "Try",
+      "start": 16048
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 12,
+      "externally_derived": 16,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "_f422"
+      ],
+      "value": 2
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 16050,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "basenamecensus_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "BASENAMECENSUS_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 1,
+    "opens_it_for_writing": 1
+   },
+   "sites_total": 2,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/BASENAMECENSUS_latest.json",
+   "twin_basename": "BASENAMECENSUS_latest.json",
+   "write_sites": 1,
+   "write_sites_by_the_writer": 1,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 219951,
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "parent_reading_sites": 3,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 3,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 0,
+      "kind": "Module",
+      "start": 0
+     },
+     "counts": {
+      "bytes_only": 1,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "b",
+       "f"
+      ],
+      "value": 0
+     },
+     "debt": "compares_the_face_with_a_copy_of_itself_and_reads_no_field",
+     "line": 5,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "results/state_tilt/bookecho_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "a_one_off_round_script",
+     "source": "_tmp_r1277_view.py",
+     "twin_basename": "BOOKECHO_latest.json"
+    },
+    {
+     "block": {
+      "end": 3954,
+      "kind": "Try",
+      "start": 3895
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 2,
+      "presence": 4,
+      "rederive": 0,
+      "roots": [
+       "_f50"
+      ],
+      "value": 0
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 3900,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "bookecho_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "BOOKECHO_latest.json"
+    },
+    {
+     "block": {
+      "end": 4028,
+      "kind": "If",
+      "start": 4012
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 1,
+      "externally_derived": 1,
+      "presence": 2,
+      "rederive": 0,
+      "roots": [
+       "_f51b"
+      ],
+      "value": 1
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 4013,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "bookecho_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "BOOKECHO_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 2,
+    "compares_the_face_with_a_copy_of_itself_and_reads_no_field": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 3,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 3,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/BOOKECHO_latest.json",
+   "twin_basename": "BOOKECHO_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 354588,
+   "family_dir": "results/state_tilt",
+   "members": 8,
+   "parent_reading_sites": 2,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 1,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 387,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "breakeven_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e226_tilt_breakeven.py",
+     "twin_basename": "BREAKEVEN_latest.json"
+    },
+    {
+     "block": {
+      "end": 2465,
+      "kind": "If",
+      "start": 2417
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 2,
+      "presence": 4,
+      "rederive": 0,
+      "roots": [
+       "_f26"
+      ],
+      "value": 0
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 2420,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "results/state_tilt/breakeven_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "BREAKEVEN_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 1,
+    "opens_it_for_writing": 1
+   },
+   "sites_total": 2,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/BREAKEVEN_latest.json",
+   "twin_basename": "BREAKEVEN_latest.json",
+   "write_sites": 1,
+   "write_sites_by_the_writer": 1,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 570452,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_reading_sites": 2,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 1,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 366,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "costcurve_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e232_cost_curvature.py",
+     "twin_basename": "COSTCURVE_latest.json"
+    },
+    {
+     "block": {
+      "end": 2851,
+      "kind": "If",
+      "start": 2827
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 3,
+      "externally_derived": 0,
+      "presence": 3,
+      "rederive": 0,
+      "roots": [
+       "_f32"
+      ],
+      "value": 0
+     },
+     "debt": "asserts_a_field_is_present_without_comparing_a_value",
+     "line": 2830,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "results/state_tilt/costcurve_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "COSTCURVE_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_is_present_without_comparing_a_value": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 1,
+    "opens_it_for_writing": 1
+   },
+   "sites_total": 2,
+   "strongest_debt": "asserts_a_field_is_present_without_comparing_a_value",
+   "twin": "results/state_tilt/COSTCURVE_latest.json",
+   "twin_basename": "COSTCURVE_latest.json",
+   "write_sites": 1,
+   "write_sites_by_the_writer": 1,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 82724,
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "parent_reading_sites": 4,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 3,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 77,
+      "kind": "FunctionDef",
+      "start": 52
+     },
+     "counts": {
+      "bytes_only": 1,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "backup",
+       "same"
+      ],
+      "value": 0
+     },
+     "debt": "compares_the_face_with_a_copy_of_itself_and_reads_no_field",
+     "line": 55,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "parent_literal": "dirfield_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "a_standalone_leg_runner",
+     "source": "scripts/run_e423_smoke_leg.py",
+     "twin_basename": "DIRFIELD_latest.json"
+    },
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 74,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='wb'",
+     "parent_literal": "dirfield_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "a_standalone_leg_runner",
+     "source": "scripts/run_e423_smoke_leg.py",
+     "twin_basename": "DIRFIELD_latest.json"
+    },
+    {
+     "block": {
+      "end": 77,
+      "kind": "FunctionDef",
+      "start": 52
+     },
+     "counts": {
+      "bytes_only": 1,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "backup",
+       "same"
+      ],
+      "value": 0
+     },
+     "debt": "compares_the_face_with_a_copy_of_itself_and_reads_no_field",
+     "line": 75,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "parent_literal": "dirfield_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "a_standalone_leg_runner",
+     "source": "scripts/run_e423_smoke_leg.py",
+     "twin_basename": "DIRFIELD_latest.json"
+    },
+    {
+     "block": {
+      "end": 16886,
+      "kind": "Try",
+      "start": 16823
+     },
+     "counts": {
+      "bytes_only": 4,
+      "comparisons_that_count_the_payload": 2,
+      "externally_derived": 6,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "_f423"
+      ],
+      "value": 0
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 16825,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "dirfield_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "DIRFIELD_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1,
+    "compares_the_face_with_a_copy_of_itself_and_reads_no_field": 2
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 3,
+    "opens_it_for_writing": 1
+   },
+   "sites_total": 4,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/DIRFIELD_latest.json",
+   "twin_basename": "DIRFIELD_latest.json",
+   "write_sites": 1,
+   "write_sites_by_the_writer": 1,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 359657,
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "parent_reading_sites": 6,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 4,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 294,
+      "kind": "FunctionDef",
+      "start": 224
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 8,
+      "externally_derived": 14,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "face"
+      ],
+      "value": 0
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 226,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "dirisface_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e435_dir_is_a_face.py",
+     "twin_basename": "DIRISFACE_latest.json"
+    },
+    {
+     "block": {
+      "end": 64,
+      "kind": "FunctionDef",
+      "start": 62
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [],
+      "value": 0
+     },
+     "debt": "reads_the_file_and_reads_no_field_in_this_block",
+     "line": 63,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "dirisface_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e441_facehome_family.py",
+     "twin_basename": "DIRISFACE_latest.json"
+    },
+    {
+     "block": {
+      "end": 79,
+      "kind": "FunctionDef",
+      "start": 54
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "face",
+       "original"
+      ],
+      "value": 0
+     },
+     "debt": "only_requires_the_file_to_exist",
+     "line": 61,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "parent_literal": "dirisface_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "a_standalone_leg_runner",
+     "source": "scripts/run_e435_smoke_leg.py",
+     "twin_basename": "DIRISFACE_latest.json"
+    },
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 67,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "dirisface_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "a_standalone_leg_runner",
+     "source": "scripts/run_e435_smoke_leg.py",
+     "twin_basename": "DIRISFACE_latest.json"
+    },
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 75,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "dirisface_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "a_standalone_leg_runner",
+     "source": "scripts/run_e435_smoke_leg.py",
+     "twin_basename": "DIRISFACE_latest.json"
+    },
+    {
+     "block": {
+      "end": 17524,
+      "kind": "Try",
+      "start": 17455
+     },
+     "counts": {
+      "bytes_only": 8,
+      "comparisons_that_count_the_payload": 8,
+      "externally_derived": 8,
+      "presence": 6,
+      "rederive": 0,
+      "roots": [
+       "_doctor435",
+       "_f435"
+      ],
+      "value": 3
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 17457,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "dirisface_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "DIRISFACE_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 2,
+    "only_requires_the_file_to_exist": 1,
+    "reads_the_file_and_reads_no_field_in_this_block": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 4,
+    "opens_it_for_writing": 2
+   },
+   "sites_total": 6,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/DIRISFACE_latest.json",
+   "twin_basename": "DIRISFACE_latest.json",
+   "write_sites": 2,
+   "write_sites_by_the_writer": 2,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 119400,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_reading_sites": 2,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 2,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 895,
+      "kind": "FunctionDef",
+      "start": 848
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 4,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "old"
+      ],
+      "value": 0
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 854,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "familyarg_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e403_family_arg.py",
+     "twin_basename": "FAMILYARG_latest.json"
+    },
+    {
+     "block": {
+      "end": 15688,
+      "kind": "Try",
+      "start": 15636
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 4,
+      "externally_derived": 8,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "_f403"
+      ],
+      "value": 4
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 15638,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "familyarg_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "FAMILYARG_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 2
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 2,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 2,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/FAMILYARG_latest.json",
+   "twin_basename": "FAMILYARG_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 125823,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_reading_sites": 2,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 2,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 450,
+      "kind": "FunctionDef",
+      "start": 397
+     },
+     "counts": {
+      "bytes_only": 2,
+      "comparisons_that_count_the_payload": 12,
+      "externally_derived": 16,
+      "presence": 3,
+      "rederive": 0,
+      "roots": [
+       "old"
+      ],
+      "value": 0
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 402,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "freshaim_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e416_fresh_aim.py",
+     "twin_basename": "FRESHAIM_latest.json"
+    },
+    {
+     "block": {
+      "end": 15873,
+      "kind": "Try",
+      "start": 15807
+     },
+     "counts": {
+      "bytes_only": 4,
+      "comparisons_that_count_the_payload": 2,
+      "externally_derived": 11,
+      "presence": 1,
+      "rederive": 0,
+      "roots": [
+       "_f416",
+       "_v416"
+      ],
+      "value": 3
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 15809,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "freshaim_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "FRESHAIM_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 2
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 2,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 2,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/FRESHAIM_latest.json",
+   "twin_basename": "FRESHAIM_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 560341,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_reading_sites": 3,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 2,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 504,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "hysteresis_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e230_hysteresis_toll.py",
+     "twin_basename": "HYSTERESIS_latest.json"
+    },
+    {
+     "block": {
+      "end": 2698,
+      "kind": "If",
+      "start": 2636
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 2,
+      "externally_derived": 3,
+      "presence": 6,
+      "rederive": 0,
+      "roots": [
+       "_f30"
+      ],
+      "value": 7
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 2639,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "results/state_tilt/hysteresis_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "HYSTERESIS_latest.json"
+    },
+    {
+     "block": {
+      "end": 2807,
+      "kind": "If",
+      "start": 2722
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 3,
+      "externally_derived": 7,
+      "presence": 9,
+      "rederive": 0,
+      "roots": [
+       "_f30b",
+       "_f31"
+      ],
+      "value": 8
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 2786,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "results/state_tilt/hysteresis_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "HYSTERESIS_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 2
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 2,
+    "opens_it_for_writing": 1
+   },
+   "sites_total": 3,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/HYSTERESIS_latest.json",
+   "twin_basename": "HYSTERESIS_latest.json",
+   "write_sites": 1,
+   "write_sites_by_the_writer": 1,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 224528,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_reading_sites": 1,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 1,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 3147,
+      "kind": "If",
+      "start": 3114
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 1,
+      "externally_derived": 0,
+      "presence": 7,
+      "rederive": 0,
+      "roots": [
+       "_f37"
+      ],
+      "value": 7
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 3117,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "results/state_tilt/infostruct_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "INFOSTRUCT_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 1,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 1,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/INFOSTRUCT_latest.json",
+   "twin_basename": "INFOSTRUCT_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 257509,
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "parent_reading_sites": 2,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 2,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 0,
+      "kind": "Module",
+      "start": 0
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 1,
+      "externally_derived": 3,
+      "presence": 5,
+      "rederive": 7,
+      "roots": [
+       "f"
+      ],
+      "value": 2
+     },
+     "debt": "re_derives_a_number_from_the_payload",
+     "line": 7,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "leadcounter_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "a_one_off_round_script",
+     "source": "_tmp_r1275_smoke_leg.py",
+     "twin_basename": "LEADCOUNTER_latest.json"
+    },
+    {
+     "block": {
+      "end": 3888,
+      "kind": "Try",
+      "start": 3797
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 1,
+      "externally_derived": 3,
+      "presence": 6,
+      "rederive": 7,
+      "roots": [
+       "_f49"
+      ],
+      "value": 2
+     },
+     "debt": "re_derives_a_number_from_the_payload",
+     "line": 3802,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "leadcounter_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "LEADCOUNTER_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "re_derives_a_number_from_the_payload": 2
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 2,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 2,
+   "strongest_debt": "re_derives_a_number_from_the_payload",
+   "twin": "results/state_tilt/LEADCOUNTER_latest.json",
+   "twin_basename": "LEADCOUNTER_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 253161,
+   "family_dir": "results/state_tilt",
+   "members": 8,
+   "parent_reading_sites": 2,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 1,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 445,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "matched_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e228_matched_exposure.py",
+     "twin_basename": "MATCHED_latest.json"
+    },
+    {
+     "block": {
+      "end": 2535,
+      "kind": "If",
+      "start": 2488
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 4,
+      "externally_derived": 5,
+      "presence": 4,
+      "rederive": 0,
+      "roots": [
+       "_f28"
+      ],
+      "value": 0
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 2491,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "results/state_tilt/matched_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "MATCHED_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 1,
+    "opens_it_for_writing": 1
+   },
+   "sites_total": 2,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/MATCHED_latest.json",
+   "twin_basename": "MATCHED_latest.json",
+   "write_sites": 1,
+   "write_sites_by_the_writer": 1,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 101049,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_reading_sites": 1,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 1,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 3474,
+      "kind": "If",
+      "start": 3432
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 6,
+      "rederive": 0,
+      "roots": [
+       "_f42"
+      ],
+      "value": 10
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 3435,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "results/state_tilt/omission_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "OMISSION_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 1,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 1,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/OMISSION_latest.json",
+   "twin_basename": "OMISSION_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 81201,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_reading_sites": 2,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 2,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 262,
+      "kind": "FunctionDef",
+      "start": 257
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [],
+      "value": 0
+     },
+     "debt": "reads_the_file_and_reads_no_field_in_this_block",
+     "line": 261,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "pairhet_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e245_pair_slope_matrix.py",
+     "twin_basename": "PAIRHET_latest.json"
+    },
+    {
+     "block": {
+      "end": 3573,
+      "kind": "If",
+      "start": 3546
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 2,
+      "externally_derived": 0,
+      "presence": 1,
+      "rederive": 0,
+      "roots": [
+       "_f44"
+      ],
+      "value": 6
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 3549,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "results/state_tilt/pairhet_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "PAIRHET_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1,
+    "reads_the_file_and_reads_no_field_in_this_block": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 2,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 2,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/PAIRHET_latest.json",
+   "twin_basename": "PAIRHET_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 240985,
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "parent_reading_sites": 1,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 1,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 8419,
+      "kind": "Try",
+      "start": 8353
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 2,
+      "externally_derived": 8,
+      "presence": 3,
+      "rederive": 0,
+      "roots": [
+       "_f95"
+      ],
+      "value": 2
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 8357,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "precisioncensus_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "PRECISIONCENSUS_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 1,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 1,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/PRECISIONCENSUS_latest.json",
+   "twin_basename": "PRECISIONCENSUS_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 123540,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_reading_sites": 1,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 1,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 8482,
+      "kind": "Try",
+      "start": 8429
+     },
+     "counts": {
+      "bytes_only": 2,
+      "comparisons_that_count_the_payload": 4,
+      "externally_derived": 12,
+      "presence": 1,
+      "rederive": 0,
+      "roots": [
+       "_f97"
+      ],
+      "value": 2
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 8433,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "precisiongap_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "PRECISIONGAP_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 1,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 1,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/PRECISIONGAP_latest.json",
+   "twin_basename": "PRECISIONGAP_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 1346018,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_reading_sites": 4,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 3,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 118,
+      "kind": "FunctionDef",
+      "start": 89
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "suite_text"
+      ],
+      "value": 2
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 98,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "parent_literal": "readertiers_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e411_reader_tiers.py",
+     "twin_basename": "READERTIERS_latest.json"
+    },
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 433,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "readertiers_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e411_reader_tiers.py",
+     "twin_basename": "READERTIERS_latest.json"
+    },
+    {
+     "block": {
+      "end": 486,
+      "kind": "FunctionDef",
+      "start": 440
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 9,
+      "externally_derived": 14,
+      "presence": 3,
+      "rederive": 0,
+      "roots": [
+       "old"
+      ],
+      "value": 2
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 446,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "readertiers_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e411_reader_tiers.py",
+     "twin_basename": "READERTIERS_latest.json"
+    },
+    {
+     "block": {
+      "end": 15621,
+      "kind": "Try",
+      "start": 15572
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 10,
+      "externally_derived": 14,
+      "presence": 2,
+      "rederive": 0,
+      "roots": [
+       "_f411"
+      ],
+      "value": 2
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 15574,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "readertiers_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "READERTIERS_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 3
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 3,
+    "opens_it_for_writing": 1
+   },
+   "sites_total": 4,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/READERTIERS_latest.json",
+   "twin_basename": "READERTIERS_latest.json",
+   "write_sites": 1,
+   "write_sites_by_the_writer": 1,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 116749,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_reading_sites": 3,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 3,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 729,
+      "kind": "FunctionDef",
+      "start": 703
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "stored"
+      ],
+      "value": 0
+     },
+     "debt": "only_requires_the_file_to_exist",
+     "line": 722,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "refreshsignal_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e408_writer_refresh_signal.py",
+     "twin_basename": "REFRESHSIGNAL_latest.json"
+    },
+    {
+     "block": {
+      "end": 66,
+      "kind": "FunctionDef",
+      "start": 20
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 2,
+      "externally_derived": 2,
+      "presence": 3,
+      "rederive": 0,
+      "roots": [
+       "face",
+       "payload"
+      ],
+      "value": 4
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 25,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "refreshsignal_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "a_standalone_leg_runner",
+     "source": "scripts/run_e408_smoke_leg.py",
+     "twin_basename": "REFRESHSIGNAL_latest.json"
+    },
+    {
+     "block": {
+      "end": 15423,
+      "kind": "Try",
+      "start": 15379
+     },
+     "counts": {
+      "bytes_only": 4,
+      "comparisons_that_count_the_payload": 8,
+      "externally_derived": 8,
+      "presence": 1,
+      "rederive": 0,
+      "roots": [
+       "_f408"
+      ],
+      "value": 6
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 15381,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "refreshsignal_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "REFRESHSIGNAL_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 2,
+    "only_requires_the_file_to_exist": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 3,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 3,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/REFRESHSIGNAL_latest.json",
+   "twin_basename": "REFRESHSIGNAL_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 81029,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_reading_sites": 7,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 2,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 210,
+     "mode": "hands_the_path_to_a_helper_that_opens_it",
+     "mode_evidence": "no open call carries this line",
+     "parent_literal": "replaycensus_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e414_unsupplied_read.py",
+     "twin_basename": "REPLAYCENSUS_latest.json"
+    },
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 215,
+     "mode": "hands_the_path_to_a_helper_that_opens_it",
+     "mode_evidence": "no open call carries this line",
+     "parent_literal": "replaycensus_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e414_unsupplied_read.py",
+     "twin_basename": "REPLAYCENSUS_latest.json"
+    },
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 471,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "replaycensus_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e414_unsupplied_read.py",
+     "twin_basename": "REPLAYCENSUS_latest.json"
+    },
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 537,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "replaycensus_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e414_unsupplied_read.py",
+     "twin_basename": "REPLAYCENSUS_latest.json"
+    },
+    {
+     "block": {
+      "end": 695,
+      "kind": "Try",
+      "start": 649
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 2,
+      "presence": 1,
+      "rederive": 0,
+      "roots": [
+       "_ofv"
+      ],
+      "value": 7
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 674,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "replaycensus_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "REPLAYCENSUS_latest.json"
+    },
+    {
+     "block": {
+      "end": 1873,
+      "kind": "Try",
+      "start": 1842
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 1,
+      "presence": 0,
+      "rederive": 4,
+      "roots": [
+       "_face",
+       "_last"
+      ],
+      "value": 0
+     },
+     "debt": "re_derives_a_number_from_the_payload",
+     "line": 1857,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "parent_literal": "replaycensus_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "REPLAYCENSUS_latest.json"
+    },
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 7988,
+     "mode": "hands_the_path_to_a_helper_that_opens_it",
+     "mode_evidence": "no open call carries this line",
+     "parent_literal": "replaycensus_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "REPLAYCENSUS_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1,
+    "re_derives_a_number_from_the_payload": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 3,
+    "opens_it_for_reading": 2,
+    "opens_it_for_writing": 2
+   },
+   "sites_total": 7,
+   "strongest_debt": "re_derives_a_number_from_the_payload",
+   "twin": "results/state_tilt/REPLAYCENSUS_latest.json",
+   "twin_basename": "REPLAYCENSUS_latest.json",
+   "write_sites": 2,
+   "write_sites_by_the_writer": 2,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 36117,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_reading_sites": 1,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 1,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 3411,
+      "kind": "If",
+      "start": 3360
+     },
+     "counts": {
+      "bytes_only": 2,
+      "comparisons_that_count_the_payload": 2,
+      "externally_derived": 2,
+      "presence": 8,
+      "rederive": 0,
+      "roots": [
+       "_f41"
+      ],
+      "value": 9
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 3363,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "results/state_tilt/repro_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "REPRO_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 1,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 1,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/REPRO_latest.json",
+   "twin_basename": "REPRO_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 40438,
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "parent_reading_sites": 4,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 2,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 79,
+      "kind": "FunctionDef",
+      "start": 53
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "face",
+       "original"
+      ],
+      "value": 0
+     },
+     "debt": "only_requires_the_file_to_exist",
+     "line": 60,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "parent_literal": "republishchain_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "a_standalone_leg_runner",
+     "source": "scripts/run_e433_smoke_leg.py",
+     "twin_basename": "REPUBLISHCHAIN_latest.json"
+    },
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 67,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "republishchain_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "a_standalone_leg_runner",
+     "source": "scripts/run_e433_smoke_leg.py",
+     "twin_basename": "REPUBLISHCHAIN_latest.json"
+    },
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 75,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "republishchain_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "a_standalone_leg_runner",
+     "source": "scripts/run_e433_smoke_leg.py",
+     "twin_basename": "REPUBLISHCHAIN_latest.json"
+    },
+    {
+     "block": {
+      "end": 16336,
+      "kind": "Try",
+      "start": 16285
+     },
+     "counts": {
+      "bytes_only": 4,
+      "comparisons_that_count_the_payload": 4,
+      "externally_derived": 12,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "_f433"
+      ],
+      "value": 0
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 16287,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "republishchain_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "REPUBLISHCHAIN_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1,
+    "only_requires_the_file_to_exist": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 2,
+    "opens_it_for_writing": 2
+   },
+   "sites_total": 4,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/REPUBLISHCHAIN_latest.json",
+   "twin_basename": "REPUBLISHCHAIN_latest.json",
+   "write_sites": 2,
+   "write_sites_by_the_writer": 2,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 473672,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_reading_sites": 6,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 4,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 255,
+      "kind": "FunctionDef",
+      "start": 220
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "tree"
+      ],
+      "value": 0
+     },
+     "debt": "only_requires_the_file_to_exist",
+     "line": 232,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "parent_literal": "shadowface_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e417_shadow_face.py",
+     "twin_basename": "SHADOWFACE_latest.json"
+    },
+    {
+     "block": {
+      "end": 473,
+      "kind": "FunctionDef",
+      "start": 422
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 2,
+      "presence": 0,
+      "rederive": 4,
+      "roots": [
+       "stored"
+      ],
+      "value": 0
+     },
+     "debt": "re_derives_a_number_from_the_payload",
+     "line": 426,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "shadowface_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e417_shadow_face.py",
+     "twin_basename": "SHADOWFACE_latest.json"
+    },
+    {
+     "block": {
+      "end": 78,
+      "kind": "FunctionDef",
+      "start": 54
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "face",
+       "original"
+      ],
+      "value": 0
+     },
+     "debt": "only_requires_the_file_to_exist",
+     "line": 61,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "parent_literal": "shadowface_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "a_standalone_leg_runner",
+     "source": "scripts/run_e417_smoke_leg.py",
+     "twin_basename": "SHADOWFACE_latest.json"
+    },
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 66,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "shadowface_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "a_standalone_leg_runner",
+     "source": "scripts/run_e417_smoke_leg.py",
+     "twin_basename": "SHADOWFACE_latest.json"
+    },
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 74,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "shadowface_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "a_standalone_leg_runner",
+     "source": "scripts/run_e417_smoke_leg.py",
+     "twin_basename": "SHADOWFACE_latest.json"
+    },
+    {
+     "block": {
+      "end": 16202,
+      "kind": "Try",
+      "start": 16139
+     },
+     "counts": {
+      "bytes_only": 2,
+      "comparisons_that_count_the_payload": 4,
+      "externally_derived": 12,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "_f425"
+      ],
+      "value": 0
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 16141,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "shadowface_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "SHADOWFACE_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1,
+    "only_requires_the_file_to_exist": 2,
+    "re_derives_a_number_from_the_payload": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 4,
+    "opens_it_for_writing": 2
+   },
+   "sites_total": 6,
+   "strongest_debt": "re_derives_a_number_from_the_payload",
+   "twin": "results/state_tilt/SHADOWFACE_latest.json",
+   "twin_basename": "SHADOWFACE_latest.json",
+   "write_sites": 2,
+   "write_sites_by_the_writer": 2,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 225240,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_reading_sites": 1,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 1,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 3092,
+      "kind": "If",
+      "start": 3065
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 2,
+      "presence": 4,
+      "rederive": 0,
+      "roots": [
+       "_f36"
+      ],
+      "value": 5
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 3068,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "results/state_tilt/sharediff_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "SHAREDIFF_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 1,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 1,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/SHAREDIFF_latest.json",
+   "twin_basename": "SHAREDIFF_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 423061,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_reading_sites": 1,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 1,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 3636,
+      "kind": "Try",
+      "start": 3588
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 1,
+      "externally_derived": 4,
+      "presence": 6,
+      "rederive": 0,
+      "roots": [
+       "_f45"
+      ],
+      "value": 3
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 3593,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "slopematrix_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "SLOPEMATRIX_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 1,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 1,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/SLOPEMATRIX_latest.json",
+   "twin_basename": "SLOPEMATRIX_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 198566,
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "parent_reading_sites": 1,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 1,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 3725,
+      "kind": "Try",
+      "start": 3641
+     },
+     "counts": {
+      "bytes_only": 1,
+      "comparisons_that_count_the_payload": 1,
+      "externally_derived": 5,
+      "presence": 8,
+      "rederive": 0,
+      "roots": [
+       "_f46"
+      ],
+      "value": 6
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 3646,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "stardir_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "STARDIR_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 1,
+    "opens_it_for_writing": 0
+   },
+   "sites_total": 1,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/STARDIR_latest.json",
+   "twin_basename": "STARDIR_latest.json",
+   "write_sites": 0,
+   "write_sites_by_the_writer": 0,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 177181,
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "parent_reading_sites": 6,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 5,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": {
+      "end": 0,
+      "kind": "Module",
+      "start": 0
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "f"
+      ],
+      "value": 0
+     },
+     "debt": "only_requires_the_file_to_exist",
+     "line": 4,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "results/state_tilt/starown_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "a_one_off_round_script",
+     "source": "_tmp_r1277_nums.py",
+     "twin_basename": "STAROWN_latest.json"
+    },
+    {
+     "block": {
+      "end": 0,
+      "kind": "Module",
+      "start": 0
+     },
+     "counts": {
+      "bytes_only": 1,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "b",
+       "f"
+      ],
+      "value": 0
+     },
+     "debt": "compares_the_face_with_a_copy_of_itself_and_reads_no_field",
+     "line": 4,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "results/state_tilt/starown_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "a_one_off_round_script",
+     "source": "_tmp_r1277_view.py",
+     "twin_basename": "STAROWN_latest.json"
+    },
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 731,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "starown_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e252_star_prices_itself.py",
+     "twin_basename": "STAROWN_latest.json"
+    },
+    {
+     "block": {
+      "end": 813,
+      "kind": "If",
+      "start": 792
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 1,
+      "externally_derived": 2,
+      "presence": 3,
+      "rederive": 0,
+      "roots": [
+       "prev"
+      ],
+      "value": 1
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 795,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "starown_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e252_star_prices_itself.py",
+     "twin_basename": "STAROWN_latest.json"
+    },
+    {
+     "block": {
+      "end": 4043,
+      "kind": "Try",
+      "start": 3961
+     },
+     "counts": {
+      "bytes_only": 1,
+      "comparisons_that_count_the_payload": 1,
+      "externally_derived": 2,
+      "presence": 6,
+      "rederive": 0,
+      "roots": [
+       "_f51",
+       "_f51b"
+      ],
+      "value": 6
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 3966,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "starown_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "STAROWN_latest.json"
+    },
+    {
+     "block": {
+      "end": 4131,
+      "kind": "If",
+      "start": 4112
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 1,
+      "externally_derived": 2,
+      "presence": 3,
+      "rederive": 0,
+      "roots": [
+       "_f52b"
+      ],
+      "value": 1
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 4113,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "starown_latest.json",
+     "parent_literal_attribution": "this_line_opens_a_name_this_build_cannot_fold",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "STAROWN_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 3,
+    "compares_the_face_with_a_copy_of_itself_and_reads_no_field": 1,
+    "only_requires_the_file_to_exist": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 5,
+    "opens_it_for_writing": 1
+   },
+   "sites_total": 6,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/STAROWN_latest.json",
+   "twin_basename": "STAROWN_latest.json",
+   "write_sites": 1,
+   "write_sites_by_the_writer": 1,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 191167,
+   "family_dir": "results/state_tilt",
+   "members": 8,
+   "parent_reading_sites": 2,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 1,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 431,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "timingsel_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e229_timing_selection.py",
+     "twin_basename": "TIMINGSEL_latest.json"
+    },
+    {
+     "block": {
+      "end": 2609,
+      "kind": "If",
+      "start": 2559
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 0,
+      "presence": 3,
+      "rederive": 0,
+      "roots": [
+       "_f29"
+      ],
+      "value": 4
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 2562,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "parent_literal": "results/state_tilt/timingsel_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "the_whole_repo_relative_path",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "TIMINGSEL_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 1,
+    "opens_it_for_writing": 1
+   },
+   "sites_total": 2,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/TIMINGSEL_latest.json",
+   "twin_basename": "TIMINGSEL_latest.json",
+   "write_sites": 1,
+   "write_sites_by_the_writer": 1,
+   "write_sites_not_by_a_listed_producer": 0
+  },
+  {
+   "bytes": 22470,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_reading_sites": 3,
+   "parent_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_sites": 2,
+   "residue_label_has_no_reader_left": false,
+   "sites": [
+    {
+     "block": null,
+     "counts": {},
+     "debt": null,
+     "line": 479,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "parent_literal": "unfloored_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e409_unfloored_faces.py",
+     "twin_basename": "UNFLOORED_latest.json"
+    },
+    {
+     "block": {
+      "end": 520,
+      "kind": "FunctionDef",
+      "start": 486
+     },
+     "counts": {
+      "bytes_only": 0,
+      "comparisons_that_count_the_payload": 0,
+      "externally_derived": 6,
+      "presence": 0,
+      "rederive": 0,
+      "roots": [
+       "old"
+      ],
+      "value": 0
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 492,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "unfloored_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "an_instrument",
+     "source": "scripts/e409_unfloored_faces.py",
+     "twin_basename": "UNFLOORED_latest.json"
+    },
+    {
+     "block": {
+      "end": 15505,
+      "kind": "Try",
+      "start": 15438
+     },
+     "counts": {
+      "bytes_only": 4,
+      "comparisons_that_count_the_payload": 4,
+      "externally_derived": 10,
+      "presence": 4,
+      "rederive": 0,
+      "roots": [
+       "_f409",
+       "_src409"
+      ],
+      "value": 4
+     },
+     "debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "line": 15440,
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "parent_literal": "unfloored_latest.json",
+     "parent_literal_attribution": "the_literal_the_parent_records_is_what_this_line_opens",
+     "parent_match": "only_the_basename_the_base_is_not_proven",
+     "role": "the_smoke_suite",
+     "source": "smoke_test.py",
+     "twin_basename": "UNFLOORED_latest.json"
+    }
+   ],
+   "sites_by_debt": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 2
+   },
+   "sites_by_mode": {
+    "hands_the_path_to_a_helper_that_opens_it": 0,
+    "opens_it_for_reading": 2,
+    "opens_it_for_writing": 1
+   },
+   "sites_total": 3,
+   "strongest_debt": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "twin": "results/state_tilt/UNFLOORED_latest.json",
+   "twin_basename": "UNFLOORED_latest.json",
+   "write_sites": 1,
+   "write_sites_by_the_writer": 1,
+   "write_sites_not_by_a_listed_producer": 0
+  }
+ ],
+ "study": "E483_leg_debt_on_the_leg_only_twins",
+ "summary": {
+  "distinct_sources": 27,
+  "read_sites": 57,
+  "read_sites_by_debt": {
+   "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 39,
+   "asserts_a_field_is_present_without_comparing_a_value": 1,
+   "compares_the_face_with_a_copy_of_itself_and_reads_no_field": 4,
+   "only_requires_the_file_to_exist": 7,
+   "re_derives_a_number_from_the_payload": 4,
+   "reads_the_file_and_reads_no_field_in_this_block": 2
+  },
+  "read_sites_in_a_standalone_leg_runner": 6,
+  "sites_by_mode": {
+   "hands_the_path_to_a_helper_that_opens_it": 3,
+   "opens_it_for_reading": 57,
+   "opens_it_for_writing": 18
+  },
+  "sites_by_parent_literal_attribution": {
+   "the_literal_the_parent_records_is_what_this_line_opens": 59,
+   "this_line_opens_a_different_file_than_the_parent_records": 0,
+   "this_line_opens_a_name_this_build_cannot_fold": 19
+  },
+  "sites_by_role": {
+   "a_one_off_round_script": {
+    "compares_the_face_with_a_copy_of_itself_and_reads_no_field": 2,
+    "only_requires_the_file_to_exist": 1,
+    "re_derives_a_number_from_the_payload": 1
+   },
+   "a_standalone_leg_runner": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 1,
+    "compares_the_face_with_a_copy_of_itself_and_reads_no_field": 2,
+    "only_requires_the_file_to_exist": 3,
+    "opens_it_for_writing": 7
+   },
+   "an_instrument": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 7,
+    "hands_the_path_to_a_helper_that_opens_it": 2,
+    "only_requires_the_file_to_exist": 3,
+    "opens_it_for_writing": 11,
+    "re_derives_a_number_from_the_payload": 1,
+    "reads_the_file_and_reads_no_field_in_this_block": 2
+   },
+   "the_smoke_suite": {
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 31,
+    "asserts_a_field_is_present_without_comparing_a_value": 1,
+    "hands_the_path_to_a_helper_that_opens_it": 1,
+    "re_derives_a_number_from_the_payload": 2
+   }
+  },
+  "sites_in_population": 78,
+  "sites_where_the_recorded_line_holds_no_open_call": 3,
+  "sites_where_the_recorded_line_holds_no_open_call_list": [
+   {
+    "line": 210,
+    "source": "scripts/e414_unsupplied_read.py",
+    "twin": "results/state_tilt/REPLAYCENSUS_latest.json"
+   },
+   {
+    "line": 215,
+    "source": "scripts/e414_unsupplied_read.py",
+    "twin": "results/state_tilt/REPLAYCENSUS_latest.json"
+   },
+   {
+    "line": 7988,
+    "source": "smoke_test.py",
+    "twin": "results/state_tilt/REPLAYCENSUS_latest.json"
+   }
+  ],
+  "sites_where_the_recorded_line_holds_no_open_call_note": "these are the sites that hand the path to a helper (M_INDIRECT), not records whose line numbers have rotted",
+  "twins_by_strongest_debt": {
+   "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 26,
+   "asserts_a_field_is_present_without_comparing_a_value": 1,
+   "re_derives_a_number_from_the_payload": 3
+  },
+  "twins_in_population": 30,
+  "twins_retirable_with_existence_only_edits": [],
+  "twins_that_would_need_an_assertion_rewritten": [
+   "ADDOS_latest.json",
+   "BANDPATH_latest.json",
+   "BASENAMECENSUS_latest.json",
+   "BOOKECHO_latest.json",
+   "BREAKEVEN_latest.json",
+   "COSTCURVE_latest.json",
+   "DIRFIELD_latest.json",
+   "DIRISFACE_latest.json",
+   "FAMILYARG_latest.json",
+   "FRESHAIM_latest.json",
+   "HYSTERESIS_latest.json",
+   "INFOSTRUCT_latest.json",
+   "LEADCOUNTER_latest.json",
+   "MATCHED_latest.json",
+   "OMISSION_latest.json",
+   "PAIRHET_latest.json",
+   "PRECISIONCENSUS_latest.json",
+   "PRECISIONGAP_latest.json",
+   "READERTIERS_latest.json",
+   "REFRESHSIGNAL_latest.json",
+   "REPLAYCENSUS_latest.json",
+   "REPRO_latest.json",
+   "REPUBLISHCHAIN_latest.json",
+   "SHADOWFACE_latest.json",
+   "SHAREDIFF_latest.json",
+   "SLOPEMATRIX_latest.json",
+   "STARDIR_latest.json",
+   "STAROWN_latest.json",
+   "TIMINGSEL_latest.json",
+   "UNFLOORED_latest.json"
+  ],
+  "twins_where_a_doctor_harness_writes_it": [
+   "DIRFIELD_latest.json",
+   "DIRISFACE_latest.json",
+   "REPUBLISHCHAIN_latest.json",
+   "SHADOWFACE_latest.json"
+  ],
+  "twins_where_the_publishing_instrument_opens_its_own_twin": [
+   "BASENAMECENSUS_latest.json",
+   "BREAKEVEN_latest.json",
+   "COSTCURVE_latest.json",
+   "HYSTERESIS_latest.json",
+   "MATCHED_latest.json",
+   "READERTIERS_latest.json",
+   "REPLAYCENSUS_latest.json",
+   "STAROWN_latest.json",
+   "TIMINGSEL_latest.json",
+   "UNFLOORED_latest.json"
+  ],
+  "twins_whose_opener_set_holds_no_reader": 0,
+  "twins_with_a_write_site": 14,
+  "twins_with_a_write_site_from_a_listed_producer": 14,
+  "twins_with_a_write_site_from_someone_else": 0,
+  "write_sites_by_role": {
+   "a_one_off_round_script": 0,
+   "a_standalone_leg_runner": 7,
+   "an_instrument": 11,
+   "the_smoke_suite": 0
+  }
+ },
+ "title": "do the legs that open E479's leg-only twins re-derive a number, pin a field, or only require the file to exist?",
+ "verdict": "some_leg_re_derives_a_number_from_its_twin"
+}

@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1520 bm-b: E494 published (LATESTAUTHOR-2026-11-07: of the other 49 multi-composed faces, 24 extra composers author a payload of their own, 23 put the original back, and the single unrestored one is a one-off mirror repair whose payload is the dated face it reads -- 0 faces hold an unexplained authored payload). E494 closed, E495 seeded.",
+ "_stamp_note": "r1521 bm-b: E483 published (LEGDEBT-2026-11-07: of E479's 30 leg-only twins, 78 opener sites split 57 read / 18 write / 3 indirect -- 10 twins are opened for writing by the script that publishes them; the 57 read sites are 39 pins, 7 existence-only, 4 re-derivations, 4 byte-copies, 1 presence, 2 no-field, so 0 twins retire on an existence-only edit and 30 owe an assertion rewrite). E483 closed, E496 seeded.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -28520,11 +28520,19 @@
    "id": "E483-DO-THE-SMOKE-LEGS-THAT-READ-A-TWIN-ASSERT-ON-ITS-CONTENT-OR-MERELY-ON-ITS-EXISTENCE",
    "lane": "cpu-only",
    "lane_note": "static: AST read of the leg bodies plus the face's own rows, no network",
-   "result_ref": null,
+   "result_ref": [
+    "results/state_tilt/LEGDEBT-2026-11-07.json",
+    "scripts/e483_leg_debt.py",
+    "research/digests/DIGEST-20261107-r1521-e483-leg-debt.md"
+   ],
    "source": "E479 found 30 of 36 twins are opened only by a smoke/runner leg, which makes the leg the sole reason those bytes must stay; a leg that only checks existence costs one line to rewrite, a leg that re-derives numbers from the twin costs a rewrite of the assertion",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/legdebt_latest.json",
-   "title": "For each of E479's 30 leg-only twins, classify every leg that opens it: does the leg re-derive a number from the twin's payload, assert a field equals a constant, or merely require the file to exist? Publish per twin the legs and their debt class, so a retirement decision is priced in edits rather than in bytes."
+   "title": "For each of E479's 30 leg-only twins, classify every leg that opens it: does the leg re-derive a number from the twin's payload, assert a field equals a constant, or merely require the file to exist? Publish per twin the legs and their debt class, so a retirement decision is priced in edits rather than in bytes.",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-07T12:35:00+08:00",
+   "done_by": "bm-b r1521",
+   "done_at": "2026-11-07T12:47:00+08:00"
   },
   {
    "claimed_at": "2026-11-07T05:1x+08:00",
@@ -28706,6 +28714,18 @@
    "target": "results/state_tilt/doctorpub_latest.json",
    "source": "E492 (r1518): 13 of the 51 multi-composed names have no producer among their visible composers, and 19 have extras that are all harnesses; E494 answered what those composers WRITE (24 author a payload, 1 without a restore) but not who the face is for",
    "title": "For the faces whose only visible composer is a leg runner, is the disk copy a payload a harness authored -- did the diagnostic become the publication -- and does anything read that face as if a producer wrote it? Publish per face: the composers and their roles, whether the disk payload matches what a harness writes (not what the harness restores), and the readers, so 'no producer' is priced as 'nothing consumes it' or 'a consumer is reading a harness's bytes'."
+  },
+  {
+   "id": "E496-DOES-E479-S-RESIDUE-CLASS-SURVIVE-THE-MODE-ARM",
+   "title": "E483 found that 18 of the 78 opener sites on E479's 36 twins are write-mode opens -- 11 by the publishing instrument writing its own twin and 7 by doctor harnesses -- so 10 of the 30 twins labelled 'opened only by a smoke or runner leg' are in fact opened for writing by the script that publishes them. Re-derive E479's residue class for all 36 twins with read-mode openers only, publish every class change with the site that caused it, and restate what a retirement costs: which twins lose their last reader, which gain their writer as the only remaining opener, and how many of the 30 'leg-only' twins were never leg-only at all.",
+   "entered_at": "2026-11-07T12:47:00+08:00",
+   "entered_by": "bm-b r1521",
+   "lane": "cpu-only",
+   "target": "scripts/e479_twin_read.py",
+   "source": "r1521 E483: 57 read / 18 write / 3 indirect sites over 30 leg-only twins; the writer is counted as an opener on 10 twins",
+   "deliverable": "results/state_tilt/TWINMODE-<cutoff>.json",
+   "evidence_cutoff": "2026-11-07",
+   "status": "ready"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

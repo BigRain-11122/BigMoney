@@ -1804,6 +1804,15 @@ LEGS = [
     # does its producer re-derive it -- otherwise it is published as unexplained.
     # `check` re-derives every tally, every per-composer class and the verdict from the rows.
     ("latest_authors", ["python", "scripts/e494_latest_authors.py", "check"]),
+    # E483 answers what the legs of E479's leg-only twins actually assert.  Before
+    # classifying a site it decides whether the site is a reader at all: E479 counted every
+    # open call carrying the twin's name, so the publishing script's own write and a doctor
+    # harness's deliberate write were both counted as openers.  Each read site is then
+    # priced by the asserting block that owns it -- re-derives a number from the payload /
+    # pins a field to a constant / only requires the file -- and the parent's literal is
+    # checked against the binding the line actually opens.  `check` re-derives every tally,
+    # every per-twin class and the verdict from the rows.
+    ("leg_debt", ["python", "scripts/e483_leg_debt.py", "check"]),
 ]
 
 

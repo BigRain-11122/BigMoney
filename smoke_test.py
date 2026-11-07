@@ -19742,5 +19742,89 @@ except Exception as _e494x:
     _d494 = "leg could not run"
 check(_name494, not _bad494, "; ".join(_bad494)[:240] or _d494)
 
+# E483 -- E479 priced a retirement of the 30 leg-only twins in bytes and never asked what the
+# legs assert.  This leg holds the classification: every read site's debt class re-derives from
+# the tallies it was assigned on, the strongest debt of each twin re-derives from its sites, the
+# mode split re-derives (a write-mode site is not a reader), the parent's own literal is either
+# the file this line opens or published as unfoldable, and no face in the population is this
+# study's own.
+_name483 = ("E483 of E479's 30 leg-only twins, 57 sites read the twin and 18 are opened for "
+            "writing (10 twins are opened for writing by the script that publishes them), 39 "
+            "read sites pin a field to a constant, 4 re-derive a number and 7 only require the "
+            "file to exist (r1521 bm-b)")
+_bad483 = []
+try:
+    _m483 = __import__("importlib").import_module("e483_leg_debt")
+    _f483 = json.load(open(os.path.join("results", "state_tilt", "legdebt_latest.json"),
+                           encoding="utf-8"))
+    _s483 = _f483.get("summary") or {}
+    _r483 = _f483.get("rows") or []
+    _bad483.extend(_m483.tally_problems(_f483))
+    if not _r483:
+        _bad483.append("the leg-only population is empty")
+    if _f483.get("verdict") != _m483.verdict_for(_r483, _s483):
+        _bad483.append("the verdict is not the one the rows imply")
+    if not _s483.get("read_sites"):
+        _bad483.append("no site reads a twin: the card question was not answered")
+    if not _s483.get("sites_by_mode"):
+        _bad483.append("the mode split is absent: a write site would be counted as a reader")
+    # a twin's label must be the strongest debt among its own read sites
+    for _t483 in _r483:
+        _d483 = {}
+        for _x483 in _t483.get("sites") or []:
+            if _x483.get("mode") == _m483.M_READ:
+                _d483[_x483.get("debt")] = _d483.get(_x483.get("debt"), 0) + 1
+            elif _x483.get("debt") is not None:
+                _bad483.append("%s/%s carries a debt class but is not a read"
+                               % (_t483.get("twin_basename"), _x483.get("source")))
+        if _d483 != (_t483.get("sites_by_debt") or {}):
+            _bad483.append("%s: sites_by_debt does not re-derive" % _t483.get("twin_basename"))
+        _want483 = None
+        for _k483 in _m483.DEBT_ORDER:
+            if _d483.get(_k483):
+                _want483 = _k483
+                break
+        if _want483 != _t483.get("strongest_debt"):
+            _bad483.append("%s: the strongest debt does not re-derive"
+                           % _t483.get("twin_basename"))
+    # the attribution arm must cover every site, and nothing may rest on a different file
+    _attr483 = {_k483v: 0 for _k483v in _m483.ATTR_VOCAB}
+    for _t483a in _r483:
+        for _x483a in _t483a.get("sites") or []:
+            _k483a = _x483a.get("parent_literal_attribution")
+            _attr483[_k483a] = _attr483.get(_k483a, 0) + 1
+            if _k483a == _m483.A_NOT_THIS_LINE:
+                _bad483.append("%s line %s opens a different file than the parent records"
+                               % (_x483a.get("source"), _x483a.get("line")))
+    if _attr483 != (_s483.get("sites_by_parent_literal_attribution") or {}):
+        _bad483.append("sites_by_parent_literal_attribution does not re-derive")
+    # every twin must be priced: either retirable with an existence-only edit or owing a rewrite
+    _price483 = set(_s483.get("twins_retirable_with_existence_only_edits") or []) | set(
+        _s483.get("twins_that_would_need_an_assertion_rewritten") or [])
+    if len(_price483) != len(_r483):
+        _bad483.append("the retirement price does not cover every twin (%d of %d)"
+                       % (len(_price483), len(_r483)))
+    if _s483.get("twins_whose_opener_set_holds_no_reader"):
+        _bad483.append("a twin called leg-only has no reader left in its opener set")
+    if _f483.get("population_source", {}).get("face") == "legdebt_latest.json":
+        _bad483.append("this study selected its own face as its population")
+    _d483 = ("%d twins / %d sites %s | read %d %s | twins by strongest %s | write sites by "
+             "role %s | the producer is counted as an opener on %d twins, a doctor writes it "
+             "on %d | attribution %s | retirable %d / rewrite owed %d"
+             % (len(_r483), _s483.get("sites_in_population") or 0,
+                _s483.get("sites_by_mode") or {}, _s483.get("read_sites") or 0,
+                _s483.get("read_sites_by_debt") or {},
+                _s483.get("twins_by_strongest_debt") or {},
+                _s483.get("write_sites_by_role") or {},
+                len(_s483.get("twins_where_the_publishing_instrument_opens_its_own_twin") or []),
+                len(_s483.get("twins_where_a_doctor_harness_writes_it") or []),
+                _s483.get("sites_by_parent_literal_attribution") or {},
+                len(_s483.get("twins_retirable_with_existence_only_edits") or []),
+                len(_s483.get("twins_that_would_need_an_assertion_rewritten") or [])))
+except Exception as _e483x:
+    _bad483.append(repr(_e483x)[:160])
+    _d483 = "leg could not run"
+check(_name483, not _bad483, "; ".join(_bad483)[:240] or _d483)
+
 if __name__ == "__main__":
     sys.exit(main())

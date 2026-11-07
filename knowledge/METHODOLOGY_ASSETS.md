@@ -12468,3 +12468,28 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 **验证**：`scripts/e494_latest_authors.py`（`run` rc0 / `check` problems=0 / `verify` problems=[] / **selftest 32/32**：构造并还原／构造不还原／只写备份／别的基名／copy 进来／两跳名字／类可从发布的行重算／四种裁决／父面计数与还原标签分歧各一腿／七种篡改面全红／自身面排除）；产 `results/state_tilt/LATESTAUTHOR-2026-11-07.json` + `latestauthors_latest.json`（49 行，逐行带作曲家角色、父面计数与还原标签、写站点实参分类、`finally` 位置、溯源臂与生产者臂）；S6 腿 `latest_authors` rc0 0.06s（receipt `results/_r1520bmb_s6_chain.json`）；smoke 腿 `E494 ...` 单跑 1/1 绿、doctored（作者计数 +1）1/1 红（面字节归位后复跑 1/1 绿）。
 
 **适用范围**：只回答 E492 那 51 名里除 E493 两名的 49 个面、且只回答 E492 认出的额外作曲家；一个 E492 从未看见的写手不在人口内。写形态只认 handle 写／`json.dump`／copy-move 族，**经子进程或别的文件里的库调用完成的写看不见**（发布为「无静态写站点」而不是「没写」）。名字最多追两跳，三跳的 payload 落「不可分类」。溯源臂只比较**去掉时钟字段后的相等**，不回答哪一份更「对」。
+## E483 -- E479 把 30 个「只有腿在读」的孪生面按字节定价了退役，却没问腿在断言什么：57 个读站点里 39 个把字段钉死成常量、4 个从 payload 重算数、7 个只要文件存在；而且 18 个被计成「读」的站点其实是**写**（其中 10 个孪生面是被它自己的发布脚本写的）（r1521 bm-b）
+
+**问题**：E479 把「无研究的旧面族」留孪生、丢日期成员这条保留策略，按字节算清了代价（40 件/3.19MB 是孪生的逐字节副本）。但字节只定价了文件，没定价**腿**。一个只问 `os.path.exists` 的腿可以跟面一起删掉；一个把字段钉死成 `"E231"`、或者从 payload 重算一个计数的腿，必须改写成指向生产者的日期面。卡片要求把退役按**编辑量**定价，所以要先做一件父面没做的事：**先判断这个站点到底是不是「读」**。
+
+**做法**：人口＝E479 面里 `residue == opened_only_by_a_smoke_or_runner_leg` 的 30 个孪生（从盘上最新 `TWINREAD-*.json` 读，不重述），78 个计数站点逐个过四臂：
+
+①**模式臂**——在记录行上找 `open()` 调用的 mode：`w/a/x/+` = 写；`json.load`/文本 `read` = 读；记录行上没有任何 open 调用 = `hands_the_path_to_a_helper_that_opens_it`（E479 把 `<mod>.load(name)` 也计成 opener，这一臂把它如实分出来而不是折进某一类）。**只用精确行，不做 ±1 行的松弛**——松弛会把相邻腿的 open 调用认成这个站点的（首版就是这么把 `mod.load(name)` 认成 `open()` 的）。
+②**断言块臂**——一个站点归属的「腿」不是包住它的 `with open(...)`，而是**最近一个带断言的块**（`check(...)` / `assert` / `_bad.append(...)`）。smoke_test.py 的腿全部住在 `main()` 里，按函数归属会把 20k 行当成一个单位（首版在这个坑里把 57 个站点里的 41 个判成「重算」，实际是相邻腿的 `os.path.exists` 被认成了本腿的重算）。
+③**债务臂**——块里每个比较的两侧先定性：**纯读**（payload 访问，或 dumps/str/sorted 这类中性整形）、**自建值**（调进本文件自己的函数、或调进一个**非标准库**的导入模块）、**字面量**。判决顺序：有自建值侧 → `re_derives_a_number_from_the_payload`；只有两侧都是纯读 → `compares_the_face_with_a_copy_of_itself_and_reads_no_field`；纯读＋字面量 → `asserts_a_field_equals_a_constant_or_a_frozen_vocabulary`；只有真值判断 → `asserts_a_field_is_present_without_comparing_a_value`；块里绑定了 payload 但一个断言都没碰它 → `only_requires_the_file_to_exist`；块读了文件但没绑 payload（搬运 shim） → `reads_the_file_and_reads_no_field_in_this_block`。
+④**归属臂**——父面的行号/字面量是不是这一行真正打开的东西：把 open 的实参剥到路径表达式，若是名字就取**这一行之前最后一次赋值**，折成基名与父面记录的基名比。三种读数：可达 / 这一行打开的是别的文件（父面错了）/ 这个名字本 build 折不开（19 个，如实发布，不猜）。
+
+**读数**（2026-11-07；30 孪生 / 78 站点 / 25 个源）：
+- **模式：57 读 / 18 写 / 3 间接**。18 个写站点里 **11 个是仪表自己写自己的孪生**（10 个孪生面：BASENAMECENSUS、BREAKEVEN、COSTCURVE、HYSTERESIS、MATCHED、READERTIERS、REPLAYCENSUS、STAROWN、TIMINGSEL、UNFLOORED），**7 个是腿跑器故意写**（4 个孪生面：DIRFIELD、DIRISFACE、REPUBLISHCHAIN、SHADOWFACE，写完还原）。**所以「只有腿在读」这句话对 10/30 个孪生是错的：它自己的发布脚本被当成了读者。**
+- **57 个读站点的债务**：钉常量 **39**、只要文件存在 **7**、重算数 **4**、与自身副本比字节 **4**、只断字段存在 **1**、读了文件不碰字段 **2**。按角色分：smoke_test.py 35 个（31 钉常量 / 2 重算 / 1 存在 / 1 间接）、腿跑器 12、仪表 10、一次性脚本 3。
+- **按孪生取最强债务**：26 个钉常量、3 个重算、1 个只断存在。**0 个孪生能只靠「删一行存在性检查」退役**；**30/30 个孪生都欠一次断言改写**——这是 E477 的字节账没有的那一栏。
+- **归属臂**：59 个站点的基名与父面记录一致，**0 个打开的是别的文件**，19 个是本 build 折不开的名字（多为 `_p` 之类在别的腿里被重绑的变量：`smoke_test.py:1857` 的 `_p` 是 futures_daily 的循环变量，父面把 `replaycensus_latest.json` 记在这一行上，只是因为同一个文件里 `_p` 曾被绑成它；本 build 折不开就如实记 19，不判它对错）。3 个站点在记录行上根本没有 open 调用（全是把路径交给 helper 的那种）。
+
+**PIT**：
+1. **「读」是子问题，不是前提**——父面把 `open()` 的**任意** mode 都计成 opener，于是发布脚本的 `open(LATEST, "w")` 与医生腿的故意写都被计成读者。任何「谁在读这个面」的计数，在第一行分类之前必须先问 mode；否则「没有生产者」与「有个消费者」的定价会整体错位（本例错在 10/30 个孪生上）。
+2. **归属单位是「带断言的那个块」，不是包住 open 的那个 `with`**——smoke_test.py 的腿在一个 `main()` 里，函数级归属与 `with` 级归属分别导致 41/57 与 49/57 的错判；正确单位让 57 个读站点的债务落到 39 钉常量上，与逐条人读一致。
+3. **「重算」必须要求对侧是自建值，而不是任何一次调用**——`len(rows) < 5`、`os.path.join(...) in sys.path`、`json.dumps(x) == 'E398'` 都曾被首版判成重算（把钉常量的腿说成重算，代价是退役预算被夸大 10 倍）。判据落在**对侧**：调进本文件自己的函数或非标准库导入 = 重算；内置函数/标准库/纯整形 = 不是。
+4. **父面的行号会指到别的腿**——`smoke_test.py:1857` 打开了 futures_daily 的 CSV，父面却把 `replaycensus_latest.json` 记在这一行；原因是同一个文件里 `_p` 被多条腿重绑，而父面用的是**文件级常量表**。本 build 用「这一行之前最后一次赋值」区分可达/不可达/折不开三态，折不开的不算父面的错，也不算对。
+5. **人口是继承的**：本研究的 30 个孪生是 E479 的残类，E479 漏掉的读者这里也没有；这是发布在 `method_limits` 里的边界，不是可以默认的完备性。
+
+**正身**：`scripts/e483_leg_debt.py`（run / check / verify / selftest 21/21）+ `results/state_tilt/LEGDEBT-2026-11-07.json` + `legdebt_latest.json` + smoke 腿 + S6 腿 `leg_debt`。
