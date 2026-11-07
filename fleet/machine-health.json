@@ -1,35 +1,33 @@
 {
- "bm-a": {
-  "cpu": 19.2,
-  "gpu": {
-   "free_gb": 11.5,
-   "util": 0.0
-  },
-  "ram_free_gb": 39.95,
-  "ts": "2026-11-07T10:13",
-  "util": "ok",
-  "work": "r1254: the futures lane was read as STALLED by our own board while its panel held 2026-11-06"
- },
- "bm-b": {
-  "cpu": 1.0,
-  "gpu": {
-   "free_gb": 3.7,
-   "util": 1.0
-  },
-  "ram_free_gb": 9.53,
-  "ts": "2026-10-30T12:44",
-  "util": "green",
-  "work": "E251 star own component (pool ready 1)"
- },
- "bm-c": {
-  "cpu": 13.6,
-  "gpu": {
-   "free_gb": 13.9,
-   "util": 0.0
-  },
-  "ram_free_gb": 12.4,
-  "ts": "2026-11-07T10:55",
-  "util": "idle",
-  "work": "none"
- }
+    "bm-a":  {
+                 "cpu":  19.2,
+                 "gpu":  {
+                             "free_gb":  11.5,
+                             "util":  0.0
+                         },
+                 "ram_free_gb":  39.95,
+                 "ts":  "2026-11-07T10:13",
+                 "util":  "ok",
+                 "work":  "r1254: the futures lane was read as STALLED by our own board while its panel held 2026-11-06"
+             },
+    "bm-b":  {
+                 "cpu":  1.0,
+                 "gpu":  {
+                             "free_gb":  3.7,
+                             "util":  1.0
+                         },
+                 "ram_free_gb":  9.53,
+                 "ts":  "2026-10-30T12:44",
+                 "util":  "green",
+                 "work":  "E251 star own component (pool ready 1)"
+             },
+    "bm-c":  {
+                 "ts":  "2026-11-07 12:36",
+                 "util":  "red",
+                 "work":  "oversight: cpu=AMBER gpu=RED llm=RETIRED engine_q=0 wave=329 flags=9",
+                 "ram_free_gb":  4,
+                 "gpu":  {
+                             "free_gb":  13.9
+                         }
+             }
 }
