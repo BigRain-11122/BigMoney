@@ -1,0 +1,128 @@
+{
+  "batch": "SUPPLY_BERTH_ROW_92",
+  "book": {
+    "cagr": 0.08293473729365464,
+    "cost": "x1",
+    "max_dd": -0.4112823126830313,
+    "nav_last": 1.71952694952226,
+    "periods": 332,
+    "turnover_per_rebalance": 1.2890909090909093,
+    "turnover_per_year": 62.90763636363637
+  },
+  "book_x3": {
+    "cagr": -0.0811072464959871,
+    "cost": "x3",
+    "max_dd": -0.671766040000298,
+    "nav_last": 0.5624454113426991,
+    "periods": 332,
+    "turnover_per_rebalance": 1.2890909090909093,
+    "turnover_per_year": 62.90763636363637
+  },
+  "disclosures": [
+    "ST exclusion uses the static r2_st snapshot as a time-series filter",
+    "survivorship: per/ holds symbols that exist today",
+    "exit is a 5-bar close-to-close hold with a one-bar entry lag (O-1132 proxy)",
+    "the pool benchmark rebalances on exactly the same days and pays the same cost"
+  ],
+  "elapsed_sec": 306.2,
+  "evidence_cutoff": "2026-11-06",
+  "excess_pp_yr": 2.295151691657993,
+  "excess_x3_pp_yr": -14.109046687306181,
+  "family": "zoo92_path_continuity_mom",
+  "frozen": {
+    "admit_max_p": 0.05,
+    "admit_max_turnover_yr": 60.0,
+    "admit_min_ic": 0.02,
+    "admit_min_t": 2.0,
+    "cost_x1": 0.0013041,
+    "hold": 5,
+    "null_a_k": 200,
+    "null_b_k": 100,
+    "seed": 20311007,
+    "topk": 50,
+    "warm": 20
+  },
+  "generated": "2026-11-07T22:43:07+0800",
+  "ic": {
+    "hit_rate": 0.7341389728096677,
+    "mean": 0.07022666843718109,
+    "mean_fwd20": 0.10070408958642625,
+    "n_days": 331,
+    "n_days_fwd20": 328,
+    "sd": 0.12504834620821081,
+    "t": 10.217346229813964
+  },
+  "null_a": {
+    "mean_ic": 0.07022666843718109,
+    "n_days": 331,
+    "null_mean": -1.7331047441284663e-05,
+    "null_p95_abs": 0.0016823098180079492,
+    "p": 0.0
+  },
+  "null_b": {
+    "mean": 0.00446080125174049,
+    "n_days": 331,
+    "null_mean": 0.001835685672711737,
+    "null_p95": 0.0026706323729949514,
+    "p": 0.0
+  },
+  "panel": {
+    "bars": 1902,
+    "codes": 5217,
+    "eval_from": "2020-01-02",
+    "from": "2019-01-02",
+    "median_eligible": 2961.5,
+    "st_excluded": 195
+  },
+  "per_year": {
+    "2020": {
+      "bench_mean": 0.004050494827406138,
+      "book_mean": 0.004767064476737334,
+      "n": 49
+    },
+    "2021": {
+      "bench_mean": 0.003599414116140498,
+      "book_mean": 0.0018086360716403518,
+      "n": 49
+    },
+    "2022": {
+      "bench_mean": -0.0023304543738049688,
+      "book_mean": 0.002511127548738538,
+      "n": 48
+    },
+    "2023": {
+      "bench_mean": -0.0005384355099522509,
+      "book_mean": 0.0026418094197045625,
+      "n": 48
+    },
+    "2024": {
+      "bench_mean": 0.002091730365705467,
+      "book_mean": 0.011061841317889641,
+      "n": 49
+    },
+    "2025": {
+      "bench_mean": 0.008070865151239559,
+      "book_mean": 0.010162588935296904,
+      "n": 48
+    },
+    "2026": {
+      "bench_mean": -0.002570168866077438,
+      "book_mean": -0.003071489512512926,
+      "n": 41
+    }
+  },
+  "pool": {
+    "cagr": 0.05998322037707471,
+    "cost": "x1",
+    "max_dd": -0.3870259964347602,
+    "nav_last": 1.4863328699670084,
+    "periods": 332,
+    "turnover_per_rebalance": NaN,
+    "turnover_per_year": NaN
+  },
+  "refuse_reasons": [
+    "turnover 62.9/yr above budget 60"
+  ],
+  "verdict": "REFUSE_AS_CANDIDATE",
+  "verdict_scope": "supply berth #92 (r218 frozen parameterisation, clean-room)"
+}

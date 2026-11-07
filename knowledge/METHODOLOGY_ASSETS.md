@@ -9796,3 +9796,19 @@ How to apply：任何「提交面必须可被读者打开」的闸，判暂存 b
 「有没有重复键」两问（第二问只有 `object_pairs_hook` 看得见）。
 正身=Tools/json_face_guard.py（selftest 18/18）+ Tools/git-hooks/pre-commit（r1406 腿）+ smoke 两腿
 「every published JSON face opens and holds no repeated key」「the staged JSON claw passes its own legs」
+
+### E410 · 活面板上「重跑复现」复现的是门，不是读数（r1407 bm-c）
+**场景。** zoo #92（path_continuity_mom）探针是死窗遗产：脚本、smoke 腿、结果件都在盘上，未提交。本窗在最终树上
+重跑 306.2s，与前窗那版逐字段比：87 个字段有 29 个不同——IC mean 0.070248→0.070227（t 10.220→10.217）、
+book CAGR 8.153%→8.293%、nav_last 1.7045→1.7195、超额 2.161→2.295pp/yr。而两版的 panel 描述逐字相同
+（1902 bars / 5217 codes / 332 rebalances），turnover 62.9076 也逐位相同。
+**根因不是脚本不确定。** `data/astock_daily/per` 当时正被刷新车道重写（面板文件 mtime 22:37–22:44 落在两次运行之间），
+qfq 除权重算让同一历史窗口的收益换了数——读的是活面板，两次「同一窗口」其实是两个不同宇宙。
+**三律。** ①在活面板上做验收，「逐位恒等」不是合法判据：要么先冻结面板快照，要么证明判决只落在不依赖读数的门上；
+②本批唯一拒因是换手 62.9/yr > 60（x3 成本 −14.1pp/yr），这一门与面板无关、两版逐位相同——判决的可复现性比 NAV 强，
+声明「重跑通过」时必须写清复现的是哪一层（门/判决/读数）；③把「数据在动」误读成「脚本不确定」，会让人去查随机种子，
+而真正该做的是给探针一个 take-a-snapshot 前置。
+
+How to apply：任何消费前向采集面板的探针，验收分三层写完——门逐位、判决一致、读数注明取数时点；数值漂移先问面板
+mtime 是否落在两次运行之间，再问脚本。
+正身=scripts/zoo_path_continuity_mom_probe.py + results/supply_berth/zoo92_path_continuity_mom_probe.json

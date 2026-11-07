@@ -455,6 +455,15 @@ def main() -> int:
             # claim (same-day reasons agree >=99%) is re-measured rather than assumed.
             ("product: LHB institution-distribution supply probe (exit-code contract)",
              "scripts/zoo94_lhb_inst_dist_probe.py", ["--selftest"]),
+            # r1407: zoo #92 (球队硬币路径动量) is the last berth whose data precondition is
+            # already on disk (daily OHLC + turnover). Its legs pin the two flips the card
+            # defines -- a quiet leg reverses its own mean while a loud leg keeps it, a
+            # shrinking turnover path reverses the day's return while a growing one does not
+            # -- plus the three things a cross-sectional IC batch gets wrong without noticing:
+            # a factor ranked against its own reverse, an eligibility gate that reads a
+            # stopped tape as a zero return, and an empty period series that prints 0.0.
+            ("product: path-continuity coin-team supply probe (exit-code contract)",
+             "scripts/zoo_path_continuity_mom_probe.py", ["selftest"]),
             # r1402: a berth's STANDALONE verdict is not the money line's answer. zoo #96 was
             # refused as a rule on 510300 and that says nothing about it as a risk switch on
             # the book, which sits flat 43% of the time already. This leg keeps the join
