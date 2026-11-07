@@ -12710,3 +12710,21 @@ cause_verdict=`the_one_day_cases_split_between_structured_fields_and_free_text`�
 **边界**：人口是链条 LEGS 表，不是全仓脚本；写者可达只在本链条内判；面只有在 leg 脚本点名且盘上存在时才计入；日期只认 payload 字段，只有散文日期的面记「无可解析日期」而不是陈旧；模板匹配不到记缺席不记陈旧。
 
 **验证**：`scripts/e503_chain_stale.py`（`run` rc0 / `check` problems=[] / `verify` 重建恒等 / **selftest 23/23**）；产物 `results/state_tilt/CHAINSTALE-2026-11-07.json` + `chainstale_latest.json`；S6 腿 `chain_stale` rc0 0.06s（receipt `results/_r1532bmb_s6_chain.json`）；smoke 腿 `E503 ...` 原文单跑 1/1 绿、doctored 1/1 红（sha 还原 a1929505ae97）；digest `research/digests/DIGEST-20261107-r1532-e503-chain-stale.md`。
+
+## E504 -- 名字里的日期是谁写的：567 个带日期的面名里 338 个只由 payload 的 cutoff 命名、只有 2 个只由运行时钟命名，而那 2 个正是 E485 的「差一天」案（r1533 bm-b）
+
+**问题**：E485（r1529）发现两个面「名字说 10-21 / payload 说 10-20」，结论是名字由轮脚本用**日期变量**拼出来、所以写语句里根本没有那个字面量。那是对写者普查的一句话，不是对日期的一句话。本研把**拼名字的那个表达式**本身读出来：每个命名站点上的日期槽，填的是**运行时钟**还是**payload 自己的 cutoff**？
+
+**方法**：人口=E485 的 571 个成员行（97 族），其中 567 个名字里恰有一个字面日期（4 个区间名如实记 skipped）。语料=仓内 3,738 个 `.py`（去掉 `legacy/`、`Money02/`、`results/`、`data/`、`.codely-cli/` 与本研自身），3,619 个可解析、119 个语法跳过如实披露。一个**命名站点**=字符串构造表达式（f-string / `+` / `%` / `.format()`），其常量骨架能还原成员的 basename、且日期落在**唯一一个动态缺口**里；匹配是**全名正则**，所以借来的族前缀过不了预筛。首常量若为空=族前缀本身是变量，按同模块内的字面值展开（`tag = "TREND" if ... else "WEIGHTING"`）。溯源只在模块内走：`datetime.now()`/`date.today()` 族=clock；键名带日期字段的下标/属性/`.get('evidence_cutoff')`=payload；`args.x`=CLI；日期字面量=模块常量；函数形参=parameter；本模块从未绑定=unresolved；多个赋值互相矛盾=mixed（不挑最后一个）。
+
+**读数**（2026-11-07）：**123 个命名站点 / 885 个 (站点,成员) 对**；506 个成员被至少一个站点命名，其中 **338 个只由 payload cutoff 命名、2 个只由时钟命名、112 个被多于一个来源命名、61 个在本仓根本没有拼名字的表达式**。站点来源分布=payload 85 / clock 2 / parameter 2 / mixed 8 / unresolved 26。E485 的 402 个可比文件精确复现：**compact 124 / ISO 278**——compact 124 里 69 payload-only、**2 clock-only**、30 无站点、12 多来源；ISO 278 里 205 payload-only、**0 clock-only**、24 无站点、27 多来源。**时钟不是紧凑拼写带来的，是一个族带来的。**
+
+**两个差一天案（回答 E485 悬而未决的那条）**：`WEIGHTING-20261021.json` 的站点是 **S0036**——`scripts/e24_ladder_weighting.py:590` 用 `'%s-%s.json' % (tag, stamp)` 拼名，`stamp = datetime.now().strftime("%Y%m%d")`：**名字是运行日**，payload 的 `evidence_cutoff` 是数据日，差一天就是「时钟到最后一根完整 bar」的距离，不是写错。另一个 `_w280bmc_20261021_probe_receipt.json` **本仓没有任何拼名字的表达式**（写它的一次性脚本已不在），如实记无站点、不猜。
+
+**本轮自捕四个度量 bug**：①**一个词两个人口**——溯源类 `mixed_assignments_…` 与站点级聚合标签用了同一个字符串，5 个站点因此被闸判成自相矛盾；拆成 `ORIGIN_VOCAB`（行）与 `SITE_ORIGIN_VOCAB`（站点）。②**要求首常量非空，恰好把最要紧的站点丢掉**——56 个候选站点首常量为空（族前缀是变量），S0036 就在其中；展开前缀的字面值才把它找回来。③**只走 `ast.Assign` 会把绑定过的符号报成从未赋值**——补 `for`/推导式目标/元组解包/`with … as`/海象后 unresolved 对从 313 降到 169（这是走法的事实，不是代码的事实）。④**族前缀预筛会命中散文**——在要求骨架以文件后缀收尾之前，56 个「未解析命名站点」全是轮报告散文行；真实计数是 0。
+
+**可复用四条**：1. **名字里的日期是可测的**：只要把「拼名字的表达式」当人口，就能把 name-based 保留规则要问的那句「这个名字跟的是写入还是数据」用计数回答，而不是用散文断言；2. **一个面可以被两种来源命名**（同一次写入 + 一个轮脚本），所以按名字做保留必须按**面**而不是按**站点**聚合，112 个多重来源成员就是这条的证据；3. **无站点 ≠ 时钟命名**：61 个成员没有可查的拼装表达式（一次性脚本已删），把它们记成任一来源都是编造；4. **扫描器的预筛条件本身是一条判据**：前缀字面量、文件后缀两条规则各自单独决定了读数，两条都必须写进方法限制。
+
+**边界**：人口是 E485 的成员表；名字只有区间名的 4 个成员不参与匹配；来源只在**单个模块内**溯源，跨模块常量记 unresolved；`e485_compared_subset` 的成员归属是 E485 的 class 字段带过来的路径表，闸只复核计数、无法重新裁定 E485 比了谁；站点级 mixed 与行级 mixed 是两个不同的类。
+
+**验证**：`scripts/e504_name_compose.py`（`run` rc0 / `check` problems=[] / `verify` 重建恒等 problems=[] 33s / **selftest 23/23**）；smoke 腿原文单跑 **1/1 绿**、`--doctor` 1/1 红且面逐字节还原（sha 311105084107）；S6 腿 `name_compose` rc0。产物=`results/state_tilt/NAMECOMPOSE-2026-11-07.json`（560 KB）+ `namecompose_latest.json`；digest=`research/digests/DIGEST-20261107-r1533-e504-name-compose.md`。未做不宣称：全量 smoke 套件未跑、其余 S6 链腿未重跑、无云端无 GPU 无删除。

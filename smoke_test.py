@@ -20471,5 +20471,86 @@ except Exception as _e503x:
     _d503 = "leg could not run"
 check(_name503, not _bad503, "; ".join(_bad503)[:240] or _d503)
 
+# E504 (r1533 bm-b): E485 found two vintages whose basename is composed from a date variable, so
+# the literal never appears in a write statement.  This leg holds that the composing expression is
+# priced: the site table length is the published site count, the per-origin row counts add up to the
+# row total, the clock/payload-only member counts are the distinct members behind those rows, the
+# per-spelling members add up to the population, E485's 402 comparable members and its 124/278
+# compact/iso split are reproduced, both one-day cases are answered, and the verdict is the one the
+# rows imply -- plus three doctored copies (a moved origin count, a hand-written verdict, and a row
+# pointing at a site that is not in the table).
+_name504 = ("E504 the naming sites behind the dated face names re-derive their origin, the "
+            "clock/payload split and the verdict from the published rows (r1533 bm-b)")
+_bad504 = []
+try:
+    _m504 = __import__("importlib").import_module("e504_name_compose")
+    _f504 = json.load(open(os.path.join("results", "state_tilt", "namecompose_latest.json"),
+                           encoding="utf-8"))
+    _s504 = _f504.get("summary") or {}
+    _r504 = _f504.get("rows") or []
+    _st504 = _f504.get("sites") or []
+    _bad504.extend(_m504.row_problems(_f504))
+    if not _st504 or not _r504:
+        _bad504.append("the study population is empty")
+    if _s504.get("naming_sites") != len(_st504):
+        _bad504.append("the published site count is not the site table length")
+    if _s504.get("site_member_pairs") != len(_r504):
+        _bad504.append("the published pair count is not the row count")
+    if sum((_s504.get("member_rows_by_origin") or {}).values()) != len(_r504):
+        _bad504.append("the per-origin row counts do not add up to the row total")
+    _orig_by_path504 = {}
+    for _row504 in _r504:
+        _orig_by_path504.setdefault(_row504.get("path"), set()).add(_row504.get("origin"))
+    _clock504 = [p for p, o in _orig_by_path504.items() if o == {_m504.C_CLOCK}]
+    if len(_clock504) != _s504.get("members_only_clock"):
+        _bad504.append("the clock-only member count is not the distinct clock-only members")
+    _pay504 = [p for p, o in _orig_by_path504.items() if o == {_m504.C_PAYLOAD}]
+    if len(_pay504) != _s504.get("members_only_payload"):
+        _bad504.append("the payload-only member count is not the distinct payload-only members")
+    _sp504 = _s504.get("by_spelling") or {}
+    if sum((_sp504.get(k) or {}).get("members", 0) for k in ("iso", "compact")) \
+            != _s504.get("members"):
+        _bad504.append("the per-spelling members do not add up to the population")
+    _cmp504 = (_s504.get("e485_compared_subset") or {}).get("by_spelling") or {}
+    if (_cmp504.get("compact") or {}).get("members") != 124:
+        _bad504.append("E485's 124 compact members are not reproduced")
+    if (_cmp504.get("iso") or {}).get("members") != 278:
+        _bad504.append("E485's 278 iso members are not reproduced")
+    if _f504.get("verdict") != _m504._verdict(_s504):
+        _bad504.append("the verdict is not the one the rows imply")
+    _ans504 = _f504.get("answers") or {}
+    _one504 = _ans504.get("e485_one_day_cases") or []
+    if len(_one504) != 2:
+        _bad504.append("the two E485 one-day cases were not answered")
+    elif not any(s.get("origin") == _m504.C_CLOCK for s in _one504[1].get("naming_sites") or []):
+        _bad504.append("the WEIGHTING one-day case is not priced as clock-named")
+    _w504 = json.loads(json.dumps(_f504))
+    _k504 = next(iter(_w504["summary"]["member_rows_by_origin"]), None)
+    _w504["summary"]["member_rows_by_origin"][_k504] = (
+        (_w504["summary"]["member_rows_by_origin"].get(_k504) or 0) + 1)
+    if not _m504.row_problems(_w504):
+        _bad504.append("a doctored origin count survived the guard")
+    _w504b = json.loads(json.dumps(_f504))
+    _w504b["verdict"] = _m504.V_CLOCK
+    if not _m504.row_problems(_w504b):
+        _bad504.append("a hand-written verdict survived the guard")
+    _w504c = json.loads(json.dumps(_f504))
+    _w504c["rows"].append({"path": "results/state_tilt/GHOST-20261021.json", "site": "S9999",
+                           "origin": _m504.C_PAYLOAD, "gap": 0, "spelling": "compact"})
+    if not _m504.row_problems(_w504c):
+        _bad504.append("a row pointing at an unknown site survived the guard")
+    _d504 = ("members %r (%r iso / %r compact) | sites %r %r | pairs %r | only clock %r "
+             "payload %r | multi-origin %r | no site %r | verdict %r" % (
+                 _s504.get("members"), _s504.get("members_iso"), _s504.get("members_compact"),
+                 _s504.get("naming_sites"), _s504.get("sites_by_origin"),
+                 _s504.get("site_member_pairs"), _s504.get("members_only_clock"),
+                 _s504.get("members_only_payload"),
+                 _s504.get("members_named_by_more_than_one_origin"),
+                 _s504.get("members_with_no_site"), _f504.get("verdict")))
+except Exception as _e504x:
+    _bad504.append(repr(_e504x)[:160])
+    _d504 = "leg could not run"
+check(_name504, not _bad504, "; ".join(_bad504)[:240] or _d504)
+
 if __name__ == "__main__":
     sys.exit(main())

@@ -28885,9 +28885,17 @@
    "lane_note": "static: read the composing expressions, no network, no rewrites",
    "priority": "normal",
    "source": "E485 (r1529 bm-b) published 2 one-day lags, both with 0 write-context naming sources, over 402 comparable dated members",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/namecompose_latest.json",
-   "title": "E485 found the two one-day lags have no source that names the file in a write context: the basename is composed by round scripts from a date variable, so the literal never appears in a write statement. Read the composing expression in those scripts (_r1509_pool_update.py / _r1509_report_row.py and their siblings) and answer: which date symbol forms the name -- the run day or the payload's own evidence_cutoff -- and is the same pattern used for the 124 compact-named members? Publish, per naming site, the composed expression, the date symbol it binds and whether that symbol is derived from a clock read or from the payload, so a name-based retention rule can know whether a name tracks the write day or the data day before it decides a file is misnamed."
+   "title": "E485 found the two one-day lags have no source that names the file in a write context: the basename is composed by round scripts from a date variable, so the literal never appears in a write statement. Read the composing expression in those scripts (_r1509_pool_update.py / _r1509_report_row.py and their siblings) and answer: which date symbol forms the name -- the run day or the payload's own evidence_cutoff -- and is the same pattern used for the 124 compact-named members? Publish, per naming site, the composed expression, the date symbol it binds and whether that symbol is derived from a clock read or from the payload, so a name-based retention rule can know whether a name tracks the write day or the data day before it decides a file is misnamed.",
+   "result_ref": "results/state_tilt/NAMECOMPOSE-2026-11-07.json",
+   "closed_by": "Tools/pool_deliverable_audit.py apply",
+   "closed_at": "2026-11-07T19:35:11+0800",
+   "close_note": "deliverable landed on disk 3.52h after entry; closed by the reconciliation audit",
+   "owner": "bm-b",
+   "claimed_at": "2026-11-07T19:25+08:00",
+   "done_at": "2026-11-07T19:43+08:00",
+   "result_note": "r1533 bm-b: 123 naming sites / 885 (site, member) pairs over E485's 567 dated members. 338 members are named ONLY by the payload cutoff, 2 only by the run clock, 112 by more than one origin, 61 have no composing site in this repository. Site origins: payload 85, clock 2, parameter 2, mixed 8, unresolved 26. E485's 402 comparable files reproduce exactly (124 compact / 278 iso); the clock-only 2 are the WEIGHTING pair -- e24_ladder_weighting.py:590 stamps datetime.now(), so the name states the run day and the payload the data day."
   },
   {
    "id": "E505-HOW-MANY-OF-THE-183-UNMEASURED-STUDIES-ARE-ACTUALLY-UNMEASURABLE",
@@ -28916,6 +28924,16 @@
    "entered_at": "2026-11-07T19:17:49+08:00",
    "entered_by": "bm-b r1532 (supply floor refill after E503)",
    "source": "E503 (r1532 bm-b): 725 of 2932 read-only certifications point at a face with no parseable date"
+  },
+  {
+   "id": "E507-WHERE-DOES-THE-DATE-COME-FROM-WHEN-THE-MODULE-NEVER-BINDS-IT",
+   "title": "E504 resolved each naming site's date symbol inside one module and left 169 (site, member) pairs unresolved plus 61 members with no composing expression at all. Read those residual symbols: is each one a cross-module constant (base.CUTOFF), a value returned by an imported helper, a subscript of a loaded series, or a symbol that only ever existed in a one-off round script that git history still holds? Publish, per unresolved symbol, the binding site if one exists anywhere in the repository or its history, and whether the resulting name tracks the clock or the data -- so the name-based rule stops having a bucket it cannot read",
+   "lane": "cpu-only",
+   "target": "scripts/e504_name_compose.py",
+   "deliverable": "results/state_tilt/unresolvedorigin_latest.json",
+   "status": "ready",
+   "entered_at": "2026-11-07T19:43+08:00",
+   "entered_by": "bm-b r1533 (supply floor refill after E504)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28930,6 +28948,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T19:17:49+08:00",
+ "updated_at": "2026-11-07T19:35:11+0800",
  "version": 1
 }

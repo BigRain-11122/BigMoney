@@ -1873,6 +1873,12 @@ LEGS = [
     # `check` re-derives the class table, the widening byte tally and the verdict from the rows.
     # This leg is excluded from its own population (the scanner must not measure itself).
     ("chain_stale", ["python", "scripts/e503_chain_stale.py", "check"]),
+
+    # E504 reads the composing expression behind every dated face name in E485's population: the
+    # family prefix may be a literal, a variable resolved in the same module, or a date slot fed
+    # by a run clock rather than a payload cutoff.  `check` re-derives the naming-site table, the
+    # per-spelling clock/payload split and the verdict from the published rows.
+    ("name_compose", ["python", "scripts/e504_name_compose.py", "check"]),
 ]
 
 
