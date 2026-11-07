@@ -12621,3 +12621,20 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 **边界**：只回答这 35 个孪生在这一时点的残留站点；写者臂只认 `e497.scan()` 能归因的写站点（运行期拼名写不摊到成员上，见 E497 第 3 条），所以「有活生产者」是下界，「生产者不可见」不等于没有生产者。残差按 `(source, line)` 与 E499 的定价集合做差，同一行被 E499 定过价而这次换了归因的写法不会被重定价——这是保守方向：宁可少报一个新站点，也不凭空造一个。
 
 **验证**：`scripts/e500_strictgap.py`（`run` rc0 / `check` problems=[] / `verify` problems=[] 重建恒等 / **selftest 18/18**：变类孪生不入人口、空集孪生判 vacuous 而非 agreement、残留重算读者让可退役孪生复活、残留只开文件站点不让它复活、严格词表不含两个「只开文件」类、面可建、tally 重导、check 干净、保留/可退役之和等于人口、残差总数等于读+写、篡改残差数/篡改判词/词表外标签/词表外价格各 1 腿红——最后一条用 `_doctor_with_a_bad_price()` 造一个**只含该缺陷**的面，因为活面上根本不存在残留读站点，直接 doctor 第一行会什么都不测）；产物 `results/state_tilt/STRICTGAP-20261107.json` + `strictgap_latest.json`（35 行，逐孪生带 priced/residual 读与写、label、post-repricing 状态与 status_moves）；S6 腿 `strict_gap` rc0；smoke 腿 `E500 ...` 绿（篡改红）。
+## E495 -- 13 个「没有生产者」的面：不是诊断变成了出版物，是普查看不见写者那三种形状（r1527 bm-b）
+
+**问题**：E492 发布了 13 个 `*_latest.json`，它们的「可见组成者」只有 `scripts/run_eNNN_smoke_leg.py` 这类体检跑腿。把「可见组成者里没有生产者」读成「这张面是测试写出来的、出版物就是体检件」是顺手的一步，本研把这一步定价，而不是重复它。
+
+**方法**：三臂全静态、零网络、零改写。①**跑腿纪律**：从组成者自己的调用点重derive——一次写（留下自己的字节）还是两次写（原字节还回去），以及还回去那一次是否在 `finally` 里。②**作者**：扫全部源里「某个实参折出该 basename」的**每一次调用**（不只是 opener），按 callee 是 opener 还是本地 helper（helper 是否用该形参打开）分档；另补两条通道——模块级 `FACE_NAME = "<basename>"` 常量是否进到写，以及局部名携带（`path = join(OUTDIR, FACE_NAME)` → `targets = [path, ...]` → `for target in targets` → `open(target,'w')`）。③**读者**：每个直接读站点过 `e499.price_site`（E483 债务词表），并把消费者读与跑腿自己的还原读分开。
+
+**读数**（2026-11-07）：人口 13。**跑腿 27 个组成点全部两次写回原字节（25 个在 finally 内），0 个留下自己的字节** —— 「诊断变成出版物」被否。写者（只数非跑腿）**12/13**：模块常量 5 / 局部名携带 4 / helper 形参 2 / 直接 opener 1；1 个面（`freshnessbound_latest.json`）在扫描里没有任何非跑腿命名。消费者读站点 9 个（另有 8 个经 helper、未定价）。**8 个面「有写者、无消费者读者」= 2,781,043 B**；最窄规则（无写者+无读者+无常量）= 0。
+
+**三条可复用**：
+1. **「没有人写它」必须点名写者的形状**——把名字交给本地 helper 的形参、经局部名转手、用模块常量命名，这三种写法对「opener 参数上的字面」这条判据全不可见。只发一个「无写者」词，等于把三种看不见的写法压成一句结论。
+2. **解析失败不是阴性**——`scripts/e429_two_hop_writer.py` 是 UTF-8 带 BOM，`ast.parse` 抛 `invalid non-printable character U+FEFF`，整份源静默消失，于是 twohop 的生产者被读成「什么都没命名」。正法=解析前剥 BOM，并把带 BOM 的源清单单列发布（本例 9 个，含 `Tools/s6_chain_bmb.py`），不解析的源也单列——「面没人命名」与「源读不出来」是两列。
+3. **要读组成表达式的参数，不是只读表达式**——外层 `join(OUTDIR, FACE_NAME)` 折不出来（OUTDIR 是跨模块常量 `ST` 的别名），而它的字面参数折得出来。判据若只落在表达式本身，f-string 与「循环目标列表里写的字面」全部丢失（本例两条通道一共救回 9 个面）。
+
+**边界**：人口=E492 已发布行集（不是重扫组成者）；写者只跟一跳本地 helper 与两跳局部名，跨模块 helper 里自己拼的路径看不见（这就是仍有 1 个面「无命名」的原因）；经 helper 的读者只计数不定价（9 个消费者站点里 8 个）。`B_NONE` 的语义是「扫描里没有源命名它」，**不等于**「没有源写它」。
+
+**验证**：`scripts/e495_doctorpub.py`（`run` rc0 / `check` problems=[] / `verify` problems=[] 重建恒等 / **selftest 13/13**）；产物 `results/state_tilt/DOCTORPUB-2026-11-07.json` + `doctorpub_latest.json`（13 行，逐面带跑腿纪律、写者分档与站点、读者价格、payload 哈希/字节/自述 study、BOM 与不解析源清单）；S6 腿 `doctor_pub` rc0 0.07s；smoke 腿 `E495 (r1527 bm-b)` 原文单跑 1/1 绿 + 独立跑腿 `scripts/run_e495_smoke_leg.py` 9/9（含两条 doctored 红腿）；digest `research/digests/DIGEST-20261107-r1527-e495-doctorpub.md`。
+

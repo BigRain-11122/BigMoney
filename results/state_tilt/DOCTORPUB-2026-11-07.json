@@ -1,0 +1,2741 @@
+{
+ "author_vocab": [
+  "a_source_opens_the_name_for_write_directly",
+  "a_source_passes_the_name_into_a_local_helper_that_opens_for_write",
+  "a_source_names_the_file_with_a_module_constant_that_reaches_a_write_but_the_directory_half_of_the_composition_is_unresolvable",
+  "a_source_composes_the_name_into_a_path_and_carries_it_through_local_names_into_a_write_while_the_directory_half_is_unresolvable",
+  "a_source_passes_the_name_to_a_function_this_scan_cannot_see",
+  "no_source_in_the_scan_ever_names_the_file"
+ ],
+ "card": "E495-WHEN-A-FACES-ONLY-VISIBLE-COMPOSERS-ARE-LEG-RUNNERS-DID-THE-DIAGNOSTIC-BECOME-THE-PUBLICATION",
+ "card_answer": "13 faces have no producer among their visible composers. No harness leaves its bytes behind: 27 of 27 composer sites write the name twice so the original goes back (25 of those inside a finally). Counting only sources other than the harness, 2 faces are written through a helper that receives the composed path, 5 are named by a module constant that reaches a write while the directory half of its composition cannot be resolved, 4 carry the name through local names into a write, 1 are opened for write directly, 0 are passed to a function this scan cannot see and 1 are named by nothing. On the consumer side, 5 faces have a reader that is not the harness (8 states no reader at all) and 1 of those readers assert a field. Retirable under the narrowest rule (no writer, no reader, no name constant): 0 faces / 0 bytes; written by a producer yet read by no consumer: 8 faces / 2781043 bytes. The helper-parameter class: droppedpath_latest.json, producerspill_latest.json",
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T15:24:09+08:00",
+ "method_limits": [
+  "author attribution follows direct call sites and one local helper hop; a path composed inside a helper from a module constant and never passed in is still invisible, so B_NONE means 'no source names it', not 'no source writes it'",
+  "a reader that goes through a helper is counted as a reader but its block is not priced (e499.price_site needs an opener on the line)",
+  "role grading reuses E492's basename regexes; a harness named outside that vocabulary would be graded as a producer",
+  "the population is E492's published row set, not a fresh composer scan, so a source added after E492 does not enter this population"
+ ],
+ "population_source": {
+  "face": "latestdoctor_latest.json",
+  "rule": "has_a_producer_composer == false"
+ },
+ "reader_vocab": [
+  "a_reader_asserts_a_field_of_the_payload",
+  "a_reader_only_requires_a_field_to_be_present",
+  "a_reader_only_requires_the_file_to_exist",
+  "a_reader_opens_the_payload_and_reads_no_field",
+  "a_reader_compares_the_payload_with_a_copy_and_reads_no_field",
+  "nothing_in_the_scan_opens_the_file_for_read"
+ ],
+ "restore_vocab": [
+  "writes_twice_so_the_original_goes_back",
+  "writes_once_and_leaves_its_own_bytes_behind",
+  "the_composer_source_is_absent_or_does_not_parse"
+ ],
+ "rows": [
+  {
+   "author_class": "a_source_names_the_file_with_a_module_constant_that_reaches_a_write_but_the_directory_half_of_the_composition_is_unresolvable",
+   "author_kinds": {
+    "a_source_opens_the_name_for_write_directly": 2
+   },
+   "authors": [
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 77,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e443_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 85,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e443_smoke_leg.py"
+    }
+   ],
+   "composed_writers_other_than_the_harness": [
+    {
+     "carriers": [
+      "FACE_NAME",
+      "face",
+      "live",
+      "p",
+      "path",
+      "problems",
+      "target",
+      "targets"
+     ],
+     "role": "a_producer",
+     "source": "scripts/e443_bare_call_resolve.py"
+    }
+   ],
+   "composer_sources": [
+    "scripts/run_e443_smoke_leg.py"
+   ],
+   "constant_writers_other_than_the_harness": [
+    {
+     "constant": "FACE_NAME",
+     "line": 49,
+     "role": "a_producer",
+     "source": "scripts/e443_bare_call_resolve.py",
+     "the_constant_reaches_a_write": true
+    }
+   ],
+   "copy_sites": [],
+   "harness": [
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      67
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      85
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e443_smoke_leg.py",
+     "write_lines": [
+      77,
+      85
+     ]
+    },
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      67
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      85
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e443_smoke_leg.py",
+     "write_lines": [
+      77,
+      85
+     ]
+    }
+   ],
+   "harness_leaves_its_bytes_behind": false,
+   "harness_read_sites": [
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 66,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e443_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_read_directly",
+     "line": 67,
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e443_smoke_leg.py"
+    },
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 87,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e443_smoke_leg.py"
+    }
+   ],
+   "harness_restores_the_original": true,
+   "has_a_producer_module_writer": true,
+   "latest_basename": "barecallresolve_latest.json",
+   "name_constants": [
+    {
+     "constant": "FACE_NAME",
+     "line": 49,
+     "role": "a_producer",
+     "source": "scripts/e443_bare_call_resolve.py",
+     "the_constant_reaches_a_write": true
+    }
+   ],
+   "path_composition_sites": [
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 419,
+     "role": "a_producer",
+     "source": "scripts/e443_bare_call_resolve.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 483,
+     "role": "a_producer",
+     "source": "scripts/e443_bare_call_resolve.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 606,
+     "role": "a_producer",
+     "source": "scripts/e443_bare_call_resolve.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 23,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e443_smoke_leg.py"
+    }
+   ],
+   "payload": {
+    "bytes": 108508,
+    "card": "E443-WHICH-DEFINITION-A-BARE-CALL-TO-A-SHARED-NAME-RESOLVES-TO",
+    "evidence_cutoff": "2026-11-04",
+    "exists": true,
+    "generated": "2026-11-05",
+    "keys": [
+     "card",
+     "evidence_cutoff",
+     "examples",
+     "generated",
+     "method_limits",
+     "resolution_vocab",
+     "rows",
+     "study",
+     "summary",
+     "title",
+     "verdict",
+     "write_class_of_surviving_definitions"
+    ],
+    "parses": true,
+    "sha16": "d6c0534e47c5f0de",
+    "study": "E443_which_definition_a_bare_call_to_a_shared_name_resolves_to",
+    "verdict": "every_shared_name_call_resolves_once_the_callers_imports_are_read"
+   },
+   "published_path": "results/state_tilt/barecallresolve_latest.json",
+   "reader_class": "nothing_in_the_scan_opens_the_file_for_read",
+   "reader_classes": {},
+   "readers": [],
+   "writer_kinds": {},
+   "writers_other_than_the_harness": []
+  },
+  {
+   "author_class": "a_source_names_the_file_with_a_module_constant_that_reaches_a_write_but_the_directory_half_of_the_composition_is_unresolvable",
+   "author_kinds": {
+    "a_source_opens_the_name_for_write_directly": 2
+   },
+   "authors": [
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 71,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e450_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 79,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e450_smoke_leg.py"
+    }
+   ],
+   "composed_writers_other_than_the_harness": [
+    {
+     "carriers": [
+      "FACE_NAME",
+      "elt",
+      "p",
+      "path",
+      "problems",
+      "target",
+      "targets"
+     ],
+     "role": "a_producer",
+     "source": "scripts/e450_caller_class.py"
+    }
+   ],
+   "composer_sources": [
+    "scripts/run_e450_smoke_leg.py"
+   ],
+   "constant_writers_other_than_the_harness": [
+    {
+     "constant": "FACE_NAME",
+     "line": 41,
+     "role": "a_producer",
+     "source": "scripts/e450_caller_class.py",
+     "the_constant_reaches_a_write": true
+    }
+   ],
+   "copy_sites": [],
+   "harness": [
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      63
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      79
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e450_smoke_leg.py",
+     "write_lines": [
+      71,
+      79
+     ]
+    },
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      63
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      79
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e450_smoke_leg.py",
+     "write_lines": [
+      71,
+      79
+     ]
+    }
+   ],
+   "harness_leaves_its_bytes_behind": false,
+   "harness_read_sites": [
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 62,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e450_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_read_directly",
+     "line": 63,
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e450_smoke_leg.py"
+    },
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 81,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e450_smoke_leg.py"
+    }
+   ],
+   "harness_restores_the_original": true,
+   "has_a_producer_module_writer": true,
+   "latest_basename": "callerclass_latest.json",
+   "name_constants": [
+    {
+     "constant": "FACE_NAME",
+     "line": 41,
+     "role": "a_producer",
+     "source": "scripts/e450_caller_class.py",
+     "the_constant_reaches_a_write": true
+    }
+   ],
+   "path_composition_sites": [
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 438,
+     "role": "a_producer",
+     "source": "scripts/e450_caller_class.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 524,
+     "role": "a_producer",
+     "source": "scripts/e450_caller_class.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 754,
+     "role": "a_producer",
+     "source": "scripts/e450_caller_class.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 441,
+     "role": "a_producer",
+     "source": "scripts/e456_import_class.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 18,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e450_smoke_leg.py"
+    }
+   ],
+   "payload": {
+    "bytes": 11797,
+    "card": "E450-WHICH-BOUND-RECEIVER-NAMES-A-METHOD-OF-A-CLASS-IN-THE-CALLERS-OWN-MODULE",
+    "evidence_cutoff": "2026-11-04",
+    "exists": true,
+    "generated": "2026-11-06",
+    "keys": [
+     "binding_examples",
+     "binding_vocab",
+     "card",
+     "evidence_cutoff",
+     "generated",
+     "method_limits",
+     "receiver_vocab",
+     "rows",
+     "study",
+     "summary",
+     "title",
+     "verdict",
+     "verdict_vocab"
+    ],
+    "parses": true,
+    "sha16": "ff6c57afdd9fa230",
+    "study": "E450_which_bound_receiver_names_a_method_of_a_class_in_the_callers_own_module",
+    "verdict": "some_bound_or_constructor_rows_name_a_method_carried_by_a_class_in_the_callers_module_but_a_name_is_not_a_type"
+   },
+   "published_path": "results/state_tilt/callerclass_latest.json",
+   "reader_class": "nothing_in_the_scan_opens_the_file_for_read",
+   "reader_classes": {},
+   "readers": [],
+   "writer_kinds": {},
+   "writers_other_than_the_harness": []
+  },
+  {
+   "author_class": "a_source_names_the_file_with_a_module_constant_that_reaches_a_write_but_the_directory_half_of_the_composition_is_unresolvable",
+   "author_kinds": {
+    "a_source_opens_the_name_for_write_directly": 2
+   },
+   "authors": [
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 68,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e442_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 76,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e442_smoke_leg.py"
+    }
+   ],
+   "composed_writers_other_than_the_harness": [
+    {
+     "carriers": [
+      "FACE_NAME",
+      "bad",
+      "bad2",
+      "bad3",
+      "bad4",
+      "dated",
+      "face",
+      "live",
+      "p",
+      "path",
+      "problems"
+     ],
+     "role": "a_producer",
+     "source": "scripts/e442_deadpath.py"
+    },
+    {
+     "carriers": [
+      "SOURCE_FACE",
+      "bad",
+      "bad2",
+      "bad3",
+      "bad4",
+      "dated",
+      "face",
+      "live",
+      "p",
+      "path",
+      "problems"
+     ],
+     "role": "a_producer",
+     "source": "scripts/e448_dropped_path.py"
+    }
+   ],
+   "composer_sources": [
+    "scripts/run_e442_smoke_leg.py"
+   ],
+   "constant_writers_other_than_the_harness": [
+    {
+     "constant": "FACE_NAME",
+     "line": 45,
+     "role": "a_producer",
+     "source": "scripts/e442_deadpath.py",
+     "the_constant_reaches_a_write": true
+    },
+    {
+     "constant": "SOURCE_FACE",
+     "line": 46,
+     "role": "a_producer",
+     "source": "scripts/e448_dropped_path.py",
+     "the_constant_reaches_a_write": true
+    }
+   ],
+   "copy_sites": [],
+   "harness": [
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      60
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      76
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e442_smoke_leg.py",
+     "write_lines": [
+      68,
+      76
+     ]
+    },
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      60
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      76
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e442_smoke_leg.py",
+     "write_lines": [
+      68,
+      76
+     ]
+    }
+   ],
+   "harness_leaves_its_bytes_behind": false,
+   "harness_read_sites": [
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 59,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e442_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_read_directly",
+     "line": 60,
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e442_smoke_leg.py"
+    },
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 78,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e442_smoke_leg.py"
+    }
+   ],
+   "harness_restores_the_original": true,
+   "has_a_producer_module_writer": true,
+   "latest_basename": "deadpath_latest.json",
+   "name_constants": [
+    {
+     "constant": "FACE_NAME",
+     "line": 45,
+     "role": "a_producer",
+     "source": "scripts/e442_deadpath.py",
+     "the_constant_reaches_a_write": true
+    },
+    {
+     "constant": "SOURCE_FACE",
+     "line": 46,
+     "role": "a_producer",
+     "source": "scripts/e448_dropped_path.py",
+     "the_constant_reaches_a_write": true
+    }
+   ],
+   "path_composition_sites": [
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 568,
+     "role": "a_producer",
+     "source": "scripts/e442_deadpath.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 641,
+     "role": "a_producer",
+     "source": "scripts/e442_deadpath.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 786,
+     "role": "a_producer",
+     "source": "scripts/e442_deadpath.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 496,
+     "role": "a_producer",
+     "source": "scripts/e448_dropped_path.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 18,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e442_smoke_leg.py"
+    }
+   ],
+   "payload": {
+    "bytes": 5491435,
+    "card": "E442-WHICH-PATH-COMPOSITION-IS-NEVER-CONSUMED",
+    "evidence_cutoff": "2026-11-06",
+    "exists": true,
+    "generated": "2026-11-06",
+    "keys": [
+     "card",
+     "evidence_cutoff",
+     "generated",
+     "method_limits",
+     "rows",
+     "study",
+     "summary",
+     "title",
+     "verdict"
+    ],
+    "parses": true,
+    "sha16": "b04f2488b5e6de7f",
+    "study": "E442_which_path_composition_is_never_consumed",
+    "verdict": "some_composed_paths_are_dropped_inside_the_scope_that_composes_them"
+   },
+   "published_path": "results/state_tilt/deadpath_latest.json",
+   "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+   "reader_classes": {
+    "a_reader_opens_the_payload_and_reads_no_field": 1
+   },
+   "readers": [
+    {
+     "callee": "_load",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 496,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_producer",
+     "source": "scripts/e448_dropped_path.py"
+    }
+   ],
+   "writer_kinds": {},
+   "writers_other_than_the_harness": []
+  },
+  {
+   "author_class": "a_source_passes_the_name_into_a_local_helper_that_opens_for_write",
+   "author_kinds": {
+    "a_source_opens_the_name_for_write_directly": 2,
+    "a_source_passes_the_name_into_a_local_helper_that_opens_for_write": 1
+   },
+   "authors": [
+    {
+     "callee": "_dump",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_write",
+     "line": 643,
+     "role": "a_producer",
+     "source": "scripts/e448_dropped_path.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 60,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e448_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 72,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e448_smoke_leg.py"
+    }
+   ],
+   "composed_writers_other_than_the_harness": [
+    {
+     "carriers": [
+      "FACE_NAME",
+      "bad",
+      "bad2",
+      "bad3",
+      "bad4",
+      "dated",
+      "face",
+      "live",
+      "p",
+      "path",
+      "problems"
+     ],
+     "role": "a_producer",
+     "source": "scripts/e448_dropped_path.py"
+    }
+   ],
+   "composer_sources": [
+    "scripts/run_e448_smoke_leg.py"
+   ],
+   "constant_writers_other_than_the_harness": [
+    {
+     "constant": "FACE_NAME",
+     "line": 43,
+     "role": "a_producer",
+     "source": "scripts/e448_dropped_path.py",
+     "the_constant_reaches_a_write": true
+    }
+   ],
+   "copy_sites": [],
+   "harness": [
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      53
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      72
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e448_smoke_leg.py",
+     "write_lines": [
+      60,
+      72
+     ]
+    },
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      53
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      72
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e448_smoke_leg.py",
+     "write_lines": [
+      60,
+      72
+     ]
+    }
+   ],
+   "harness_leaves_its_bytes_behind": false,
+   "harness_read_sites": [
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_read_directly",
+     "line": 53,
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e448_smoke_leg.py"
+    },
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 54,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e448_smoke_leg.py"
+    },
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 75,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e448_smoke_leg.py"
+    }
+   ],
+   "harness_restores_the_original": true,
+   "has_a_producer_module_writer": true,
+   "latest_basename": "droppedpath_latest.json",
+   "name_constants": [
+    {
+     "constant": "FACE_NAME",
+     "line": 43,
+     "role": "a_producer",
+     "source": "scripts/e448_dropped_path.py",
+     "the_constant_reaches_a_write": true
+    },
+    {
+     "constant": "SOURCE_FACE",
+     "line": 52,
+     "role": "a_producer",
+     "source": "scripts/e449_dead_document_pointer.py",
+     "the_constant_reaches_a_write": false
+    }
+   ],
+   "path_composition_sites": [
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 641,
+     "role": "a_producer",
+     "source": "scripts/e448_dropped_path.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 769,
+     "role": "a_producer",
+     "source": "scripts/e448_dropped_path.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 927,
+     "role": "a_producer",
+     "source": "scripts/e448_dropped_path.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 290,
+     "role": "a_producer",
+     "source": "scripts/e449_dead_document_pointer.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 19,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e448_smoke_leg.py"
+    }
+   ],
+   "payload": {
+    "bytes": 65846,
+    "card": "E448-WHICH-COMPOSED-AND-DROPPED-PATH-IS-STILL-WRITTEN-BY-ANOTHER-BRANCH",
+    "evidence_cutoff": "2026-11-06",
+    "exists": true,
+    "generated": "2026-11-06",
+    "keys": [
+     "card",
+     "evidence_cutoff",
+     "generated",
+     "method_limits",
+     "rows",
+     "study",
+     "summary",
+     "title",
+     "verdict"
+    ],
+    "parses": true,
+    "sha16": "48097d535d0296ec",
+    "study": "E448_which_composed_and_dropped_path_is_still_written_by_another_branch",
+    "verdict": "some_dropped_path_compositions_are_opened_nowhere_in_their_file"
+   },
+   "published_path": "results/state_tilt/droppedpath_latest.json",
+   "reader_class": "a_reader_asserts_a_field_of_the_payload",
+   "reader_classes": {
+    "a_reader_asserts_a_field_of_the_payload": 1,
+    "a_reader_opens_the_payload_and_reads_no_field": 2
+   },
+   "readers": [
+    {
+     "callee": "_load",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 769,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_producer",
+     "source": "scripts/e448_dropped_path.py"
+    },
+    {
+     "callee": "_load",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 927,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_producer",
+     "source": "scripts/e448_dropped_path.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_read_directly",
+     "line": 291,
+     "price": "re_derives_a_number_from_the_payload",
+     "reader_class": "a_reader_asserts_a_field_of_the_payload",
+     "role": "a_producer",
+     "source": "scripts/e449_dead_document_pointer.py"
+    }
+   ],
+   "writer_kinds": {
+    "a_source_passes_the_name_into_a_local_helper_that_opens_for_write": 1
+   },
+   "writers_other_than_the_harness": [
+    {
+     "callee": "_dump",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_write",
+     "line": 643,
+     "role": "a_producer",
+     "source": "scripts/e448_dropped_path.py"
+    }
+   ]
+  },
+  {
+   "author_class": "a_source_composes_the_name_into_a_path_and_carries_it_through_local_names_into_a_write_while_the_directory_half_is_unresolvable",
+   "author_kinds": {
+    "a_source_opens_the_name_for_write_directly": 2
+   },
+   "authors": [
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 67,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e434_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 75,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e434_smoke_leg.py"
+    }
+   ],
+   "composed_writers_other_than_the_harness": [
+    {
+     "carriers": [
+      "target"
+     ],
+     "role": "a_producer",
+     "source": "scripts/e434_fixture_beyond.py"
+    }
+   ],
+   "composer_sources": [
+    "scripts/run_e434_smoke_leg.py"
+   ],
+   "constant_writers_other_than_the_harness": [],
+   "copy_sites": [],
+   "harness": [
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      61
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      75
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e434_smoke_leg.py",
+     "write_lines": [
+      67,
+      75
+     ]
+    },
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      61
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      75
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e434_smoke_leg.py",
+     "write_lines": [
+      67,
+      75
+     ]
+    }
+   ],
+   "harness_leaves_its_bytes_behind": false,
+   "harness_read_sites": [
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 60,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e434_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_read_directly",
+     "line": 61,
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e434_smoke_leg.py"
+    },
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 77,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e434_smoke_leg.py"
+    }
+   ],
+   "harness_restores_the_original": true,
+   "has_a_producer_module_writer": true,
+   "latest_basename": "fixturebeyond_latest.json",
+   "name_constants": [],
+   "path_composition_sites": [
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 250,
+     "role": "a_producer",
+     "source": "scripts/e434_fixture_beyond.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 325,
+     "role": "a_producer",
+     "source": "scripts/e434_fixture_beyond.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 50,
+     "role": "a_producer",
+     "source": "scripts/e437_name_recall.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 19,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e434_smoke_leg.py"
+    }
+   ],
+   "payload": {
+    "bytes": 13905,
+    "card": "E434-WHICH-PARAMETER-SITE-OUTSIDE-E428-UNPLACED-SET-IS-FIXTURE-SHAPED",
+    "evidence_cutoff": "2026-11-04",
+    "exists": true,
+    "generated": "2026-11-05",
+    "keys": [
+     "card",
+     "class_vocab",
+     "evidence_cutoff",
+     "generated",
+     "method_limits",
+     "population_keys",
+     "reach_vocab",
+     "reader_vocab",
+     "rows",
+     "study",
+     "summary",
+     "title",
+     "verdict"
+    ],
+    "parses": true,
+    "sha16": "67e59556d790c4e3",
+    "study": "E434_which_parameter_site_outside_the_unplaced_set_is_fixture_shaped",
+    "verdict": "the_fixture_shaped_sites_outside_the_unplaced_rows_all_take_a_temp_or_a_runtime_directory_and_no_reader_opens_what_they_write"
+   },
+   "published_path": "results/state_tilt/fixturebeyond_latest.json",
+   "reader_class": "nothing_in_the_scan_opens_the_file_for_read",
+   "reader_classes": {},
+   "readers": [],
+   "writer_kinds": {},
+   "writers_other_than_the_harness": []
+  },
+  {
+   "author_class": "a_source_composes_the_name_into_a_path_and_carries_it_through_local_names_into_a_write_while_the_directory_half_is_unresolvable",
+   "author_kinds": {
+    "a_source_opens_the_name_for_write_directly": 2
+   },
+   "authors": [
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 68,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e432_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 76,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e432_smoke_leg.py"
+    }
+   ],
+   "composed_writers_other_than_the_harness": [
+    {
+     "carriers": [
+      "target"
+     ],
+     "role": "a_producer",
+     "source": "scripts/e432_fixture_write.py"
+    }
+   ],
+   "composer_sources": [
+    "scripts/run_e432_smoke_leg.py"
+   ],
+   "constant_writers_other_than_the_harness": [],
+   "copy_sites": [],
+   "harness": [
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      60
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      76
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e432_smoke_leg.py",
+     "write_lines": [
+      68,
+      76
+     ]
+    },
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      60
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      76
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e432_smoke_leg.py",
+     "write_lines": [
+      68,
+      76
+     ]
+    }
+   ],
+   "harness_leaves_its_bytes_behind": false,
+   "harness_read_sites": [
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 59,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e432_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_read_directly",
+     "line": 60,
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e432_smoke_leg.py"
+    },
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 78,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e432_smoke_leg.py"
+    }
+   ],
+   "harness_restores_the_original": true,
+   "has_a_producer_module_writer": true,
+   "latest_basename": "fixturewrite_latest.json",
+   "name_constants": [],
+   "path_composition_sites": [
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 397,
+     "role": "a_producer",
+     "source": "scripts/e432_fixture_write.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 499,
+     "role": "a_producer",
+     "source": "scripts/e432_fixture_write.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 38,
+     "role": "a_producer",
+     "source": "scripts/e434_fixture_beyond.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 18,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e432_smoke_leg.py"
+    }
+   ],
+   "payload": {
+    "bytes": 31250,
+    "card": "E432-WHICH-FIXTURE-SHAPED-PARAMETER-WRITE-SITE-IS-READ-BY-A-PUBLISHED-READER",
+    "evidence_cutoff": "2026-11-04",
+    "exists": true,
+    "generated": "2026-11-05",
+    "keys": [
+     "card",
+     "class_vocab",
+     "evidence_cutoff",
+     "generated",
+     "method_limits",
+     "missing_rows",
+     "population_keys",
+     "reach_vocab",
+     "reader_vocab",
+     "rows",
+     "study",
+     "summary",
+     "title",
+     "verdict"
+    ],
+    "parses": true,
+    "sha16": "1f84eeda327e69fd",
+    "study": "E432_which_fixture_shaped_parameter_write_site_is_read_by_a_published_reader",
+    "verdict": "no_fixture_site_writes_into_a_directory_a_reader_in_the_corpus_opens_and_the_sites_that_share_a_reader_name_share_only_the_name"
+   },
+   "published_path": "results/state_tilt/fixturewrite_latest.json",
+   "reader_class": "nothing_in_the_scan_opens_the_file_for_read",
+   "reader_classes": {},
+   "readers": [],
+   "writer_kinds": {},
+   "writers_other_than_the_harness": []
+  },
+  {
+   "author_class": "no_source_in_the_scan_ever_names_the_file",
+   "author_kinds": {
+    "a_source_opens_the_name_for_write_directly": 2
+   },
+   "authors": [
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 245,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e410_freshness_legs.py"
+    },
+    {
+     "callee": "dump",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 246,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e410_freshness_legs.py"
+    }
+   ],
+   "composed_writers_other_than_the_harness": [],
+   "composer_sources": [
+    "scripts/run_e410_freshness_legs.py"
+   ],
+   "constant_writers_other_than_the_harness": [],
+   "copy_sites": [],
+   "harness": [
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [],
+     "reads_the_name_before_it_writes_it": false,
+     "restore_happens_in_a_finally": false,
+     "restore_lines": [
+      246
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e410_freshness_legs.py",
+     "write_lines": [
+      245,
+      246
+     ]
+    },
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [],
+     "reads_the_name_before_it_writes_it": false,
+     "restore_happens_in_a_finally": false,
+     "restore_lines": [
+      246
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e410_freshness_legs.py",
+     "write_lines": [
+      245,
+      246
+     ]
+    }
+   ],
+   "harness_leaves_its_bytes_behind": false,
+   "harness_read_sites": [],
+   "harness_restores_the_original": true,
+   "has_a_producer_module_writer": false,
+   "latest_basename": "freshnessbound_latest.json",
+   "name_constants": [
+    {
+     "constant": "E410_FACE",
+     "line": 41,
+     "role": "a_producer",
+     "source": "scripts/e416_fresh_aim.py",
+     "the_constant_reaches_a_write": false
+    }
+   ],
+   "path_composition_sites": [
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 244,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e410_freshness_legs.py"
+    }
+   ],
+   "payload": {
+    "bytes": 4535,
+    "evidence_cutoff": "2026-11-03",
+    "exists": true,
+    "generated": "2026-11-04T10:43:56+08:00",
+    "keys": [
+     "bounds",
+     "calendar",
+     "cases",
+     "evidence_cutoff",
+     "generated",
+     "held_fixed",
+     "inputs_untouched",
+     "no_bill",
+     "seed",
+     "staged_stale_dates",
+     "study",
+     "summary",
+     "verdict",
+     "why_two_forms"
+    ],
+    "parses": true,
+    "sha16": "22ac47780910e4bf",
+    "study": "E410_bounded_lag_readers_for_two_session_written_faces",
+    "verdict": "both_bounds_fire_on_a_doctored_face_and_stay_green_on_the_live_one"
+   },
+   "published_path": "results/state_tilt/freshnessbound_latest.json",
+   "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+   "reader_classes": {
+    "a_reader_opens_the_payload_and_reads_no_field": 1
+   },
+   "readers": [
+    {
+     "callee": "_load",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 236,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_producer",
+     "source": "scripts/e416_fresh_aim.py"
+    }
+   ],
+   "writer_kinds": {},
+   "writers_other_than_the_harness": []
+  },
+  {
+   "author_class": "a_source_names_the_file_with_a_module_constant_that_reaches_a_write_but_the_directory_half_of_the_composition_is_unresolvable",
+   "author_kinds": {
+    "a_source_opens_the_name_for_write_directly": 2,
+    "passes_the_name_to_a_local_helper_that_never_opens_it": 2
+   },
+   "authors": [
+    {
+     "callee": "_norm_face",
+     "kind": "passes_the_name_to_a_local_helper_that_never_opens_it",
+     "line": 603,
+     "role": "a_producer",
+     "source": "scripts/e458_face_identity.py"
+    },
+    {
+     "callee": "norm_stem",
+     "kind": "passes_the_name_to_a_local_helper_that_never_opens_it",
+     "line": 504,
+     "role": "a_producer",
+     "source": "scripts/e461_identity_consumers.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 69,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e456_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 78,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e456_smoke_leg.py"
+    }
+   ],
+   "composed_writers_other_than_the_harness": [
+    {
+     "carriers": [
+      "FACE_NAME",
+      "p",
+      "path",
+      "problems",
+      "target",
+      "targets"
+     ],
+     "role": "a_producer",
+     "source": "scripts/e456_import_class.py"
+    }
+   ],
+   "composer_sources": [
+    "scripts/run_e456_smoke_leg.py"
+   ],
+   "constant_writers_other_than_the_harness": [
+    {
+     "constant": "FACE_NAME",
+     "line": 40,
+     "role": "a_producer",
+     "source": "scripts/e456_import_class.py",
+     "the_constant_reaches_a_write": true
+    }
+   ],
+   "copy_sites": [],
+   "harness": [
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      64
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      78
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e456_smoke_leg.py",
+     "write_lines": [
+      69,
+      78
+     ]
+    },
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      64
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      78
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e456_smoke_leg.py",
+     "write_lines": [
+      69,
+      78
+     ]
+    }
+   ],
+   "harness_leaves_its_bytes_behind": false,
+   "harness_read_sites": [
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 63,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e456_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_read_directly",
+     "line": 64,
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e456_smoke_leg.py"
+    },
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 79,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e456_smoke_leg.py"
+    }
+   ],
+   "harness_restores_the_original": true,
+   "has_a_producer_module_writer": true,
+   "latest_basename": "importclass_latest.json",
+   "name_constants": [
+    {
+     "constant": "FACE_NAME",
+     "line": 40,
+     "role": "a_producer",
+     "source": "scripts/e456_import_class.py",
+     "the_constant_reaches_a_write": true
+    }
+   ],
+   "path_composition_sites": [
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 518,
+     "role": "a_producer",
+     "source": "scripts/e456_import_class.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 620,
+     "role": "a_producer",
+     "source": "scripts/e456_import_class.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 938,
+     "role": "a_producer",
+     "source": "scripts/e456_import_class.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 224,
+     "role": "a_producer",
+     "source": "scripts/e459_stdlib_class.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 19,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e456_smoke_leg.py"
+    }
+   ],
+   "payload": {
+    "bytes": 13761,
+    "card": "E456-WHICH-CALL-BOUND-RECEIVER-NAMES-A-CLASS-IMPORTED-FROM-ANOTHER-MODULE",
+    "evidence_cutoff": "2026-11-04",
+    "exists": true,
+    "generated": "2026-11-06",
+    "keys": [
+     "card",
+     "evidence_cutoff",
+     "generated",
+     "import_form_vocab",
+     "method_limits",
+     "outcome_vocab",
+     "residue_examples",
+     "residue_vocab",
+     "resolved_examples",
+     "rows",
+     "study",
+     "summary",
+     "title",
+     "verdict",
+     "verdict_vocab"
+    ],
+    "parses": true,
+    "sha16": "e1718adcb33ef5d1",
+    "study": "E456_which_call_bound_receiver_names_a_class_imported_from_another_module",
+    "verdict": "no_row_callee_resolves_to_a_class_defined_in_this_repository"
+   },
+   "published_path": "results/state_tilt/importclass_latest.json",
+   "reader_class": "nothing_in_the_scan_opens_the_file_for_read",
+   "reader_classes": {},
+   "readers": [],
+   "writer_kinds": {
+    "passes_the_name_to_a_local_helper_that_never_opens_it": 2
+   },
+   "writers_other_than_the_harness": [
+    {
+     "callee": "_norm_face",
+     "kind": "passes_the_name_to_a_local_helper_that_never_opens_it",
+     "line": 603,
+     "role": "a_producer",
+     "source": "scripts/e458_face_identity.py"
+    },
+    {
+     "callee": "norm_stem",
+     "kind": "passes_the_name_to_a_local_helper_that_never_opens_it",
+     "line": 504,
+     "role": "a_producer",
+     "source": "scripts/e461_identity_consumers.py"
+    }
+   ]
+  },
+  {
+   "author_class": "a_source_composes_the_name_into_a_path_and_carries_it_through_local_names_into_a_write_while_the_directory_half_is_unresolvable",
+   "author_kinds": {
+    "a_source_opens_the_name_for_write_directly": 2
+   },
+   "authors": [
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 67,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e437_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 75,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e437_smoke_leg.py"
+    }
+   ],
+   "composed_writers_other_than_the_harness": [
+    {
+     "carriers": [
+      "target"
+     ],
+     "role": "a_producer",
+     "source": "scripts/e437_name_recall.py"
+    }
+   ],
+   "composer_sources": [
+    "scripts/run_e437_smoke_leg.py"
+   ],
+   "constant_writers_other_than_the_harness": [],
+   "copy_sites": [],
+   "harness": [
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      61
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      75
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e437_smoke_leg.py",
+     "write_lines": [
+      67,
+      75
+     ]
+    },
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      61
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      75
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e437_smoke_leg.py",
+     "write_lines": [
+      67,
+      75
+     ]
+    }
+   ],
+   "harness_leaves_its_bytes_behind": false,
+   "harness_read_sites": [
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 60,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e437_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_read_directly",
+     "line": 61,
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e437_smoke_leg.py"
+    },
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 77,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e437_smoke_leg.py"
+    }
+   ],
+   "harness_restores_the_original": true,
+   "has_a_producer_module_writer": true,
+   "latest_basename": "namerecall_latest.json",
+   "name_constants": [],
+   "path_composition_sites": [
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 430,
+     "role": "a_producer",
+     "source": "scripts/e437_name_recall.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 584,
+     "role": "a_producer",
+     "source": "scripts/e437_name_recall.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 19,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e437_smoke_leg.py"
+    }
+   ],
+   "payload": {
+    "bytes": 78526,
+    "card": "E437-WHICH-TEMP-DIRECTORY-WRITE-SITE-THE-NAME-HEURISTIC-MISSES",
+    "evidence_cutoff": "2026-11-04",
+    "exists": true,
+    "generated": "2026-11-05",
+    "keys": [
+     "card",
+     "cell_vocab",
+     "class_vocab",
+     "evidence_cutoff",
+     "fixture_words",
+     "generated",
+     "method_limits",
+     "population_keys",
+     "reach_vocab",
+     "reader_vocab",
+     "rows",
+     "study",
+     "summary",
+     "title",
+     "verdict"
+    ],
+    "parses": true,
+    "sha16": "f0860814109e4c08",
+    "study": "E437_which_temp_directory_write_site_the_name_heuristic_misses",
+    "verdict": "some_temp_supplying_call_row_the_name_heuristic_misses_is_made_from_a_product_caller"
+   },
+   "published_path": "results/state_tilt/namerecall_latest.json",
+   "reader_class": "nothing_in_the_scan_opens_the_file_for_read",
+   "reader_classes": {},
+   "readers": [],
+   "writer_kinds": {},
+   "writers_other_than_the_harness": []
+  },
+  {
+   "author_class": "a_source_composes_the_name_into_a_path_and_carries_it_through_local_names_into_a_write_while_the_directory_half_is_unresolvable",
+   "author_kinds": {
+    "a_source_opens_the_name_for_write_directly": 2
+   },
+   "authors": [
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 67,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e428_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 75,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e428_smoke_leg.py"
+    }
+   ],
+   "composed_writers_other_than_the_harness": [
+    {
+     "carriers": [
+      "E428_FACE",
+      "face",
+      "live",
+      "name",
+      "node",
+      "p",
+      "path",
+      "payload",
+      "problems",
+      "src",
+      "tree"
+     ],
+     "role": "a_producer",
+     "source": "scripts/e432_fixture_write.py"
+    }
+   ],
+   "composer_sources": [
+    "scripts/run_e428_smoke_leg.py"
+   ],
+   "constant_writers_other_than_the_harness": [],
+   "copy_sites": [],
+   "harness": [
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      61
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      75
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e428_smoke_leg.py",
+     "write_lines": [
+      67,
+      75
+     ]
+    },
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      61
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      75
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e428_smoke_leg.py",
+     "write_lines": [
+      67,
+      75
+     ]
+    }
+   ],
+   "harness_leaves_its_bytes_behind": false,
+   "harness_read_sites": [
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 60,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e428_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_read_directly",
+     "line": 61,
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e428_smoke_leg.py"
+    },
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 77,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e428_smoke_leg.py"
+    }
+   ],
+   "harness_restores_the_original": true,
+   "has_a_producer_module_writer": true,
+   "latest_basename": "no_caller_latest.json",
+   "name_constants": [],
+   "path_composition_sites": [
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 337,
+     "role": "a_producer",
+     "source": "scripts/e428_no_caller.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 487,
+     "role": "a_producer",
+     "source": "scripts/e428_no_caller.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 45,
+     "role": "a_producer",
+     "source": "scripts/e432_fixture_write.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 37,
+     "role": "a_producer",
+     "source": "scripts/e434_fixture_beyond.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 19,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e428_smoke_leg.py"
+    }
+   ],
+   "payload": {
+    "bytes": 52539,
+    "card": "E428-WHICH-PARAMETER-DIRECTORY-HELPER-HAS-NO-CALLER-IN-THE-CENSUS",
+    "evidence_cutoff": "2026-11-04",
+    "exists": true,
+    "generated": "2026-11-05",
+    "keys": [
+     "card",
+     "class_vocab",
+     "correction",
+     "evidence_cutoff",
+     "generated",
+     "method_limits",
+     "population_keys",
+     "rows",
+     "study",
+     "summary",
+     "title",
+     "verdict"
+    ],
+    "parses": true,
+    "sha16": "c052bbe5b390096b",
+    "study": "E428_which_parameter_directory_helper_has_no_caller_in_the_census",
+    "verdict": "most_unplaced_sites_are_unplaced_by_the_index_and_not_by_the_corpus"
+   },
+   "published_path": "results/state_tilt/no_caller_latest.json",
+   "reader_class": "nothing_in_the_scan_opens_the_file_for_read",
+   "reader_classes": {},
+   "readers": [],
+   "writer_kinds": {},
+   "writers_other_than_the_harness": []
+  },
+  {
+   "author_class": "a_source_passes_the_name_into_a_local_helper_that_opens_for_write",
+   "author_kinds": {
+    "a_source_opens_the_name_for_write_directly": 2,
+    "a_source_passes_the_name_into_a_local_helper_that_opens_for_write": 1,
+    "a_source_passes_the_name_to_a_function_this_scan_cannot_see": 1
+   },
+   "authors": [
+    {
+     "callee": "_write_text",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_write",
+     "line": 411,
+     "role": "a_producer",
+     "source": "scripts/e473_producer_spill.py"
+    },
+    {
+     "callee": "relpath",
+     "kind": "a_source_passes_the_name_to_a_function_this_scan_cannot_see",
+     "line": 499,
+     "role": "a_producer",
+     "source": "scripts/e473_producer_spill.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 74,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e473_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 81,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e473_smoke_leg.py"
+    }
+   ],
+   "composed_writers_other_than_the_harness": [
+    {
+     "carriers": [
+      "FACE_NAME",
+      "assigned",
+      "bad",
+      "bad2",
+      "bad3",
+      "bad4",
+      "dated",
+      "face",
+      "key",
+      "kinds",
+      "kw",
+      "lit",
+      "lits",
+      "n",
+      "named",
+      "node",
+      "p",
+      "path",
+      "problems",
+      "published",
+      "text",
+      "tok",
+      "tree",
+      "value"
+     ],
+     "role": "a_producer",
+     "source": "scripts/e473_producer_spill.py"
+    }
+   ],
+   "composer_sources": [
+    "scripts/run_e473_smoke_leg.py"
+   ],
+   "constant_writers_other_than_the_harness": [
+    {
+     "constant": "FACE_NAME",
+     "line": 64,
+     "role": "a_producer",
+     "source": "scripts/e473_producer_spill.py",
+     "the_constant_reaches_a_write": true
+    },
+    {
+     "constant": "PRODUCER_FACE",
+     "line": 48,
+     "role": "a_producer",
+     "source": "scripts/e476_payload_writer.py",
+     "the_constant_reaches_a_write": true
+    }
+   ],
+   "copy_sites": [],
+   "harness": [
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      63
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      81
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e473_smoke_leg.py",
+     "write_lines": [
+      74,
+      81
+     ]
+    },
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      63
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      81
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e473_smoke_leg.py",
+     "write_lines": [
+      74,
+      81
+     ]
+    },
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      63
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      81
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e473_smoke_leg.py",
+     "write_lines": [
+      74,
+      81
+     ]
+    }
+   ],
+   "harness_leaves_its_bytes_behind": false,
+   "harness_read_sites": [
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 62,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e473_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_read_directly",
+     "line": 63,
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "reader_class": "a_reader_asserts_a_field_of_the_payload",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e473_smoke_leg.py"
+    },
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 83,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e473_smoke_leg.py"
+    }
+   ],
+   "harness_restores_the_original": true,
+   "has_a_producer_module_writer": true,
+   "latest_basename": "producerspill_latest.json",
+   "name_constants": [
+    {
+     "constant": "FACE_NAME",
+     "line": 64,
+     "role": "a_producer",
+     "source": "scripts/e473_producer_spill.py",
+     "the_constant_reaches_a_write": true
+    },
+    {
+     "constant": "PRODUCER_FACE",
+     "line": 48,
+     "role": "a_producer",
+     "source": "scripts/e476_payload_writer.py",
+     "the_constant_reaches_a_write": true
+    }
+   ],
+   "path_composition_sites": [
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 411,
+     "role": "a_producer",
+     "source": "scripts/e473_producer_spill.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 494,
+     "role": "a_producer",
+     "source": "scripts/e473_producer_spill.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 506,
+     "role": "a_producer",
+     "source": "scripts/e473_producer_spill.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 304,
+     "role": "a_producer",
+     "source": "scripts/e476_payload_writer.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 18,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e473_smoke_leg.py"
+    }
+   ],
+   "payload": {
+    "bytes": 4150063,
+    "card": "E473-DO-THE-UNREAD-VINTAGE-FAMILIES-COME-FROM-PRODUCERS-WHOSE-OTHER-FACES-A-STUDY-DOES-OPEN",
+    "evidence_cutoff": "2026-11-07",
+    "exists": true,
+    "generated": "2026-11-07T02:15:45+08:00",
+    "keys": [
+     "card",
+     "evidence_cutoff",
+     "generated",
+     "method_limits",
+     "population_source",
+     "rows",
+     "study",
+     "summary",
+     "title",
+     "verdict",
+     "verdict_vocab",
+     "writer_definition"
+    ],
+    "parses": true,
+    "sha16": "7df3f600a7198940",
+    "study": "E473_is_the_unread_vintage_output_spillover_from_writers_that_also_publish_studied_faces",
+    "verdict": "some_unread_family_writers_also_publish_studied_faces_and_some_publish_only_unread"
+   },
+   "published_path": "results/state_tilt/producerspill_latest.json",
+   "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+   "reader_classes": {
+    "a_reader_opens_the_payload_and_reads_no_field": 3
+   },
+   "readers": [
+    {
+     "callee": "_load",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 495,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_producer",
+     "source": "scripts/e473_producer_spill.py"
+    },
+    {
+     "callee": "_load",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 507,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_producer",
+     "source": "scripts/e473_producer_spill.py"
+    },
+    {
+     "callee": "_load",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 304,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_producer",
+     "source": "scripts/e476_payload_writer.py"
+    }
+   ],
+   "writer_kinds": {
+    "a_source_passes_the_name_into_a_local_helper_that_opens_for_write": 1,
+    "a_source_passes_the_name_to_a_function_this_scan_cannot_see": 1
+   },
+   "writers_other_than_the_harness": [
+    {
+     "callee": "_write_text",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_write",
+     "line": 411,
+     "role": "a_producer",
+     "source": "scripts/e473_producer_spill.py"
+    },
+    {
+     "callee": "relpath",
+     "kind": "a_source_passes_the_name_to_a_function_this_scan_cannot_see",
+     "line": 499,
+     "role": "a_producer",
+     "source": "scripts/e473_producer_spill.py"
+    }
+   ]
+  },
+  {
+   "author_class": "a_source_names_the_file_with_a_module_constant_that_reaches_a_write_but_the_directory_half_of_the_composition_is_unresolvable",
+   "author_kinds": {
+    "a_source_opens_the_name_for_write_directly": 2,
+    "passes_the_name_to_a_local_helper_that_never_opens_it": 1
+   },
+   "authors": [
+    {
+     "callee": "is_own_output",
+     "kind": "passes_the_name_to_a_local_helper_that_never_opens_it",
+     "line": 382,
+     "role": "a_producer",
+     "source": "scripts/e441_facehome_family.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 69,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e440_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 77,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e440_smoke_leg.py"
+    }
+   ],
+   "composed_writers_other_than_the_harness": [
+    {
+     "carriers": [
+      "FACE_NAME",
+      "path",
+      "target",
+      "targets"
+     ],
+     "role": "a_producer",
+     "source": "scripts/e440_shared_wrapper_names.py"
+    },
+    {
+     "carriers": [
+      "face",
+      "live",
+      "p",
+      "path",
+      "problems",
+      "target",
+      "targets"
+     ],
+     "role": "a_producer",
+     "source": "scripts/e443_bare_call_resolve.py"
+    }
+   ],
+   "composer_sources": [
+    "scripts/run_e440_smoke_leg.py"
+   ],
+   "constant_writers_other_than_the_harness": [
+    {
+     "constant": "FACE_NAME",
+     "line": 46,
+     "role": "a_producer",
+     "source": "scripts/e440_shared_wrapper_names.py",
+     "the_constant_reaches_a_write": true
+    }
+   ],
+   "copy_sites": [],
+   "harness": [
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      60
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      77
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e440_smoke_leg.py",
+     "write_lines": [
+      69,
+      77
+     ]
+    },
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      60
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      77
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e440_smoke_leg.py",
+     "write_lines": [
+      69,
+      77
+     ]
+    }
+   ],
+   "harness_leaves_its_bytes_behind": false,
+   "harness_read_sites": [
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 59,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e440_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_read_directly",
+     "line": 60,
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "reader_class": "a_reader_asserts_a_field_of_the_payload",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e440_smoke_leg.py"
+    },
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 79,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e440_smoke_leg.py"
+    }
+   ],
+   "harness_restores_the_original": true,
+   "has_a_producer_module_writer": true,
+   "latest_basename": "sharedname_latest.json",
+   "name_constants": [
+    {
+     "constant": "FACE_NAME",
+     "line": 46,
+     "role": "a_producer",
+     "source": "scripts/e440_shared_wrapper_names.py",
+     "the_constant_reaches_a_write": true
+    }
+   ],
+   "path_composition_sites": [
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 319,
+     "role": "a_producer",
+     "source": "scripts/e440_shared_wrapper_names.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 398,
+     "role": "a_producer",
+     "source": "scripts/e440_shared_wrapper_names.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 411,
+     "role": "a_producer",
+     "source": "scripts/e443_bare_call_resolve.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 18,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e440_smoke_leg.py"
+    }
+   ],
+   "payload": {
+    "bytes": 2470757,
+    "card": "E440-WHICH-WRAPPER-NAME-IS-SHARED-BY-MORE-THAN-ONE-DEFINITION",
+    "evidence_cutoff": "2026-11-04",
+    "exists": true,
+    "generated": "2026-11-05",
+    "keys": [
+     "card",
+     "definition_vocab",
+     "evidence_cutoff",
+     "generated",
+     "method_limits",
+     "residue_examples",
+     "row_classes",
+     "rows",
+     "spelling_vocab",
+     "study",
+     "summary",
+     "title",
+     "verdict"
+    ],
+    "parses": true,
+    "sha16": "7abee58ed9b97d4d",
+    "study": "E440_which_dropped_call_row_is_evidence_about_its_wrapper_name",
+    "verdict": "every_dropped_row_is_either_a_method_call_or_a_bare_call_to_a_name_that_more_than_one_module_defines"
+   },
+   "published_path": "results/state_tilt/sharedname_latest.json",
+   "reader_class": "nothing_in_the_scan_opens_the_file_for_read",
+   "reader_classes": {},
+   "readers": [],
+   "writer_kinds": {
+    "passes_the_name_to_a_local_helper_that_never_opens_it": 1
+   },
+   "writers_other_than_the_harness": [
+    {
+     "callee": "is_own_output",
+     "kind": "passes_the_name_to_a_local_helper_that_never_opens_it",
+     "line": 382,
+     "role": "a_producer",
+     "source": "scripts/e441_facehome_family.py"
+    }
+   ]
+  },
+  {
+   "author_class": "a_source_opens_the_name_for_write_directly",
+   "author_kinds": {
+    "a_source_opens_the_name_for_write_directly": 3
+   },
+   "authors": [
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 933,
+     "role": "a_producer",
+     "source": "scripts/e429_two_hop_writer.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 71,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e429_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 79,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e429_smoke_leg.py"
+    }
+   ],
+   "composed_writers_other_than_the_harness": [
+    {
+     "carriers": [
+      "target"
+     ],
+     "role": "a_producer",
+     "source": "scripts/e429_two_hop_writer.py"
+    }
+   ],
+   "composer_sources": [
+    "scripts/run_e429_smoke_leg.py"
+   ],
+   "constant_writers_other_than_the_harness": [],
+   "copy_sites": [],
+   "harness": [
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      66
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      79
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e429_smoke_leg.py",
+     "write_lines": [
+      71,
+      79
+     ]
+    },
+    {
+     "discipline": "writes_twice_so_the_original_goes_back",
+     "read_lines": [
+      66
+     ],
+     "reads_the_name_before_it_writes_it": true,
+     "restore_happens_in_a_finally": true,
+     "restore_lines": [
+      79
+     ],
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e429_smoke_leg.py",
+     "write_lines": [
+      71,
+      79
+     ]
+    }
+   ],
+   "harness_leaves_its_bytes_behind": false,
+   "harness_read_sites": [
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 65,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e429_smoke_leg.py"
+    },
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_read_directly",
+     "line": 66,
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e429_smoke_leg.py"
+    },
+    {
+     "callee": "sha",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 81,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e429_smoke_leg.py"
+    }
+   ],
+   "harness_restores_the_original": true,
+   "has_a_producer_module_writer": true,
+   "latest_basename": "twohop_latest.json",
+   "name_constants": [],
+   "path_composition_sites": [
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 47,
+     "role": "a_producer",
+     "source": "scripts/e428_no_caller.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 734,
+     "role": "a_producer",
+     "source": "scripts/e429_two_hop_writer.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 932,
+     "role": "a_producer",
+     "source": "scripts/e429_two_hop_writer.py"
+    },
+    {
+     "callee": "join",
+     "kind": "composes_the_path_from_the_name",
+     "line": 19,
+     "role": "a_doctor_harness",
+     "source": "scripts/run_e429_smoke_leg.py"
+    }
+   ],
+   "payload": {
+    "bytes": 7217,
+    "card": "E429-WHICH-NO-WRITER-FACE-IS-COMPOSED-BY-A-HELPER-THE-CENSUS-CANNOT-SEE",
+    "evidence_cutoff": "2026-11-04",
+    "exists": true,
+    "generated": "2026-11-05",
+    "keys": [
+     "card",
+     "class_vocab",
+     "evidence_cutoff",
+     "generated",
+     "hop_vocab",
+     "method_limits",
+     "population_keys",
+     "rows",
+     "study",
+     "summary",
+     "title",
+     "verdict"
+    ],
+    "parses": true,
+    "sha16": "7008f200d38fd807",
+    "study": "E429_which_no_writer_face_is_composed_by_a_helper_the_census_cannot_see",
+    "verdict": "every_no_writer_row_became_a_writer_once_the_directory_was_followed"
+   },
+   "published_path": "results/state_tilt/twohop_latest.json",
+   "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+   "reader_classes": {
+    "a_reader_opens_the_payload_and_reads_no_field": 1
+   },
+   "readers": [
+    {
+     "callee": "_load",
+     "kind": "a_source_passes_the_name_into_a_local_helper_that_opens_for_read",
+     "line": 734,
+     "price": "through_a_helper_so_unpriced",
+     "reader_class": "a_reader_opens_the_payload_and_reads_no_field",
+     "role": "a_producer",
+     "source": "scripts/e429_two_hop_writer.py"
+    }
+   ],
+   "writer_kinds": {
+    "a_source_opens_the_name_for_write_directly": 1
+   },
+   "writers_other_than_the_harness": [
+    {
+     "callee": "open",
+     "kind": "a_source_opens_the_name_for_write_directly",
+     "line": 933,
+     "role": "a_producer",
+     "source": "scripts/e429_two_hop_writer.py"
+    }
+   ]
+  }
+ ],
+ "sources": {
+  "do_not_parse": [],
+  "note": "a leading UTF-8 BOM is stripped before parsing; without that, e429_two_hop_writer.py reads as a source that names nothing because ast.parse refuses U+FEFF",
+  "scanned": 358,
+  "start_with_a_bom": [
+   "scripts/e231_band_path_test.py",
+   "scripts/e243_additivity_out_of_sample.py",
+   "scripts/e280_e251_rng_drift_repin.py",
+   "scripts/e308_leg_vs_producer_tolerance.py",
+   "scripts/e371_one_store_member.py",
+   "scripts/e387_republish_audit.py",
+   "scripts/e394_phantom_why.py",
+   "scripts/e429_two_hop_writer.py",
+   "Tools/s6_chain_bmb.py"
+  ]
+ },
+ "study": "E495_doctorpub",
+ "summary": {
+  "bytes_retirable_under_the_narrowest_rule": 0,
+  "bytes_written_but_read_by_no_consumer": 2781043,
+  "consumer_read_sites": 9,
+  "copy_sites": 0,
+  "faces_no_source_other_than_the_harness_names": 1,
+  "faces_passed_to_a_function_outside_the_scan": 0,
+  "faces_retirable_under_the_narrowest_rule": 0,
+  "faces_whose_composers_all_restore": 13,
+  "faces_whose_harness_leaves_its_bytes_behind": 0,
+  "faces_whose_only_other_writer_is_a_helper_parameter": 2,
+  "faces_whose_other_writer_opens_them_directly": 1,
+  "faces_whose_readers_assert_a_field": 1,
+  "faces_whose_readers_only_check_presence_or_existence": 0,
+  "faces_whose_writer_carries_the_name_through_local_names": 4,
+  "faces_whose_writer_is_named_only_by_a_module_constant": 5,
+  "faces_with_a_writer_other_than_the_harness": 12,
+  "faces_with_no_consumer_reader": 8,
+  "faces_written_but_read_by_no_consumer": 8,
+  "harness_composer_sites": 27,
+  "harness_composers_that_leave_their_bytes_behind": 0,
+  "harness_composers_that_restore": 27,
+  "harness_read_sites": 36,
+  "harness_restores_inside_a_finally": 25,
+  "module_name_constants_that_reach_a_write": 9,
+  "no_producer_faces": 13,
+  "path_composition_sites": 54,
+  "payloads_that_parse": 13,
+  "payloads_that_state_their_own_study": 13,
+  "reader_prices": {
+   "re_derives_a_number_from_the_payload": 1,
+   "through_a_helper_so_unpriced": 8
+  }
+ },
+ "title": "for every face whose only visible composer is a leg runner: what the harness does with the name, who else writes it, and who reads it",
+ "verdict": "a_no_producer_face_is_not_named_by_any_source_in_the_scan_while_every_harness_restores_the_original",
+ "verdict_vocab": [
+  "a_harness_writes_a_no_producer_face_once_and_leaves_its_own_bytes_behind",
+  "a_no_producer_face_is_not_named_by_any_source_in_the_scan_while_every_harness_restores_the_original",
+  "every_no_producer_face_is_written_by_a_source_other_than_the_harness_and_its_visible_composers_restore_the_original",
+  "no_face_has_harness_only_composers"
+ ]
+}

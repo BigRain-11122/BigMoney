@@ -20157,5 +20157,85 @@ except Exception as _e500x:
     _d500 = "leg could not run"
 check(_name500, not _bad500, "; ".join(_bad500)[:240] or _d500)
 
+# E495 (r1527 bm-b) -- did the diagnostic become the publication?  E492 published 13 faces whose only visible
+# composers are doctor harnesses, and "no producer" was being read as "a test wrote this face".
+# The leg holds five things: the population is exactly E492's harness-only set, every harness
+# restores the original (a harness that leaves its bytes behind is the finding, not the default),
+# the writer axis accounts for every face, a leading-BOM source is disclosed rather than silently
+# counted as naming nothing, and a doctored discipline or carried summary is caught.
+_name495 = ("E495 prices the 13 harness-only faces from three arms: 27 of 27 harness composer "
+            "sites restore the original (25 inside a finally), 12 of 13 faces carry a writer "
+            "other than the harness (5 module constant / 4 local-name carriers / 2 helper "
+            "parameter / 1 direct) and 8 are read by no consumer at all (r1527 bm-b)")
+_bad495 = []
+try:
+    _m495 = __import__("importlib").import_module("e495_doctorpub")
+    _f495 = json.load(open(os.path.join("results", "state_tilt", "doctorpub_latest.json"),
+                           encoding="utf-8"))
+    _s495 = _f495.get("summary") or {}
+    _r495 = _f495.get("rows") or []
+    _bad495.extend(_m495.row_problems(_f495))
+    if not _r495:
+        _bad495.append("the population is empty")
+    if _f495.get("verdict") not in _m495.VERDICT_VOCAB:
+        _bad495.append("the verdict is not in the vocabulary")
+    _par495 = json.load(open(os.path.join("results", "state_tilt", "latestdoctor_latest.json"),
+                             encoding="utf-8"))
+    _want495 = sorted(r["latest_basename"] for r in (_par495.get("rows") or [])
+                      if not r.get("has_a_producer_composer"))
+    if sorted(r.get("latest_basename") for r in _r495) != _want495:
+        _bad495.append("the population is not E492's harness-only set (%r vs %r)"
+                       % (len(_r495), len(_want495)))
+    if _s495.get("faces_whose_harness_leaves_its_bytes_behind"):
+        _bad495.append("%r harnesses leave their bytes behind"
+                       % _s495.get("faces_whose_harness_leaves_its_bytes_behind"))
+    if (_s495.get("harness_composers_that_restore") or 0) != \
+            (_s495.get("harness_composer_sites") or 0) or not _s495.get("harness_composer_sites"):
+        _bad495.append("not every harness composer restores its original")
+    if (_s495.get("faces_with_a_writer_other_than_the_harness") or 0) + \
+            (_s495.get("faces_no_source_other_than_the_harness_names") or 0) != len(_r495):
+        _bad495.append("the writer axis does not account for every face")
+    _const495 = sum(1 for r in _r495
+                    if r.get("author_class") == _m495.B_CONSTANT)
+    _comp495 = sum(1 for r in _r495 if r.get("author_class") == _m495.B_COMPOSED)
+    if _const495 != (_s495.get("faces_whose_writer_is_named_only_by_a_module_constant") or 0) or \
+            _comp495 != (_s495.get("faces_whose_writer_carries_the_name_through_local_names")
+                         or 0):
+        _bad495.append("the writer classes do not re-derive from the rows")
+    _bom495 = (_f495.get("sources") or {}).get("start_with_a_bom") or []
+    if not any("e429" in s for s in _bom495):
+        _bad495.append("the BOM source that hides twohop's producer is not disclosed")
+    _w495 = json.loads(json.dumps(_f495))
+    _hit = [r for r in _w495.get("rows") or [] if r.get("harness")]
+    if not _hit:
+        _bad495.append("the live face carries no harness row to doctor")
+    else:
+        _hit[0]["harness"][0]["discipline"] = _m495.A_LEAVES
+        _hit[0]["harness_leaves_its_bytes_behind"] = False
+        if not _m495.row_problems(_w495):
+            _bad495.append("a harness that leaves its bytes behind survived the guard")
+    _w495b = json.loads(json.dumps(_f495))
+    _w495b["summary"]["no_producer_faces"] = 999
+    if not _m495.row_problems(_w495b):
+        _bad495.append("a carried summary survived the guard")
+    _d495 = ("population %r | harness sites %r (restore %r, finally %r, leave %r) | writers %r "
+             "(const %r / composed %r / helper %r / direct %r) | unnamed %r | consumers %r | "
+             "written-but-unread %r faces / %r B | verdict %r"
+             % (_s495.get("no_producer_faces"), _s495.get("harness_composer_sites"),
+                _s495.get("harness_composers_that_restore"),
+                _s495.get("harness_restores_inside_a_finally"),
+                _s495.get("harness_composers_that_leave_their_bytes_behind"),
+                _s495.get("faces_with_a_writer_other_than_the_harness"), _const495, _comp495,
+                _s495.get("faces_whose_only_other_writer_is_a_helper_parameter"),
+                _s495.get("faces_whose_other_writer_opens_them_directly"),
+                _s495.get("faces_no_source_other_than_the_harness_names"),
+                _s495.get("consumer_read_sites"),
+                _s495.get("faces_written_but_read_by_no_consumer"),
+                _s495.get("bytes_written_but_read_by_no_consumer"), _f495.get("verdict")))
+except Exception as _e495x:
+    _bad495.append(repr(_e495x)[:160])
+    _d495 = "leg could not run"
+check(_name495, not _bad495, "; ".join(_bad495)[:240] or _d495)
+
 if __name__ == "__main__":
     sys.exit(main())

@@ -1843,6 +1843,14 @@ LEGS = [
     # separates agreement from a twin whose non-movement is emptiness.  `check` re-derives the
     # population split, the vacuity class, both residual tallies and the verdict from the rows.
     ("strict_gap", ["python", "scripts/e500_strictgap.py", "check"]),
+
+    # E495 prices the 13 faces E492 published as having no producer among their visible
+    # composers.  Every one of the 27 harness composer sites restores the original (25 inside a
+    # finally), 12 of the 13 are written by a source other than the harness (5 by a module
+    # constant, 4 by local-name carriers, 2 through a helper parameter, 1 directly), and 8 are
+    # read by no consumer at all.  A leading-BOM source is disclosed rather than silently counted
+    # as naming nothing.  `check` re-derives every tally and the verdict from the rows.
+    ("doctor_pub", ["python", "scripts/e495_doctorpub.py", "check"]),
 ]
 
 
