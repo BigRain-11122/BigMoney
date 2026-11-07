@@ -2011,12 +2011,18 @@ def _selftest():
                             ai[head][tail] = oldv
                         else:
                             ai[head] = oldv
-                    # roll the sentence back the same way: old numbers in, same prose out
+                    # roll the sentence back the same way: old numbers in, same prose out.
+                    # The substitution must be ONE pass over the original text: with chained
+                    # str.replace a staged pair eats the previous one's output ("10.88" ->
+                    # "10.85", then the "0.85" -> "0.82" rule fires inside that "10.85" and
+                    # yields "10.82"), so the fixture fabricated a sentence that no re-issue
+                    # could produce and the echo branch could never match it.
+                    _roll = re.compile("|".join(
+                        re.escape(k) for k in sorted(new2old, key=len, reverse=True)))
                     for i, txt in enumerate(d["verdict_reasons"]):
                         if isinstance(txt, str):
-                            for new, old in new2old.items():
-                                txt = txt.replace(new, old)
-                            d["verdict_reasons"][i] = txt
+                            d["verdict_reasons"][i] = _roll.sub(
+                                lambda m: new2old[m.group(0)], txt)
                     d["as_issued"]["ticket_asof"] = "2000-01-01"
                     d["as_issued"]["square_fingerprint"] = "0" * 16
                     _write(d)
