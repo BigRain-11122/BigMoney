@@ -21239,5 +21239,71 @@ except Exception as _e517x:
     _d517 = "leg could not run"
 check(_name517, not _bad517, "; ".join(_bad517)[:240] or _d517)
 
+# E516: read the published local-carrier face the way a consumer would -- every row's carrier must
+# re-derive from that row's own call-site argument kinds, every row's source must be on disk, the
+# function-local population must equal the one E513 published (a cross-face drift guard), and four
+# doctored copies (a flipped carrier, a row stripped of its call sites, a hand-written verdict, an
+# edited population_source) must all be refused.
+_name516 = ("E516 the function locals E513 called module constants are measured by who actually "
+            "hands the surface a population, and the population matches E513 (r1544 bm-b)")
+_bad516 = []
+try:
+    _m516 = __import__("importlib").import_module("e516_local_carrier")
+    _f516 = json.load(open(os.path.join("results", "state_tilt", "localcarrier_latest.json"),
+                           encoding="utf-8"))
+    _s516 = _f516.get("summary") or {}
+    _bad516.extend(_m516.site_problems(_f516))
+    if not (_f516.get("rows") or []):
+        _bad516.append("the row population is empty")
+    _up516 = json.load(open(os.path.join("results", "state_tilt",
+                                         "CONSTANTORIGIN-2026-11-08.json"), encoding="utf-8"))
+    _us516 = _up516.get("summary") or {}
+    if _s516.get("function_local_bindings") != _us516.get(
+            "names_that_are_a_function_local_rather_than_a_module_constant"):
+        _bad516.append("the function-local binding count drifted from E513")
+    if _s516.get("function_local_sites") != _us516.get(
+            "sites_whose_name_is_a_function_local"):
+        _bad516.append("the function-local site count drifted from E513")
+    _w516 = json.loads(json.dumps(_f516))
+    for _row in _w516["rows"]:
+        if _row.get("carrier") == _m516.CC_LOCAL:
+            _row["carrier"] = _m516.CC_CALL_SITE
+            break
+    if not _m516.site_problems(_w516):
+        _bad516.append("a flipped carrier survived the guard")
+    _w516b = json.loads(json.dumps(_f516))
+    _w516b["rows"][0]["call_sites"] = []
+    _w516b["rows"][0]["call_site_count"] = 0
+    if not _m516.site_problems(_w516b):
+        _bad516.append("a row stripped of its call sites survived the guard")
+    _w516c = json.loads(json.dumps(_f516))
+    _w516c["verdict"] = _m516.V_CALL_SITE
+    if not _m516.site_problems(_w516c):
+        _bad516.append("a hand-written verdict survived the guard")
+    _w516d = json.loads(json.dumps(_f516))
+    _w516d["population_source"] = "hand-written"
+    if not _m516.site_problems(_w516d):
+        _bad516.append("an edited population_source survived the guard")
+    _d516 = ("%r local-carried bindings / %r sites / %r surfaces | carriers: call-site %r / "
+             "local-only %r / default %r / never %r | %r call sites examined (%r local, %r "
+             "computed) | %r locals built by another module | verdict %r"
+             % (_s516.get("function_local_bindings"), _s516.get("function_local_sites"),
+                _s516.get("function_local_surfaces"),
+                _s516.get("carrier_counts", {}).get("readable_from_a_call_site"),
+                _s516.get("carrier_counts", {}).get("readable_only_through_the_local"),
+                _s516.get("carrier_counts", {}).get("supplied_only_by_the_default"),
+                _s516.get("carrier_counts", {}).get("never_supplied"),
+                _s516.get("call_sites_examined"),
+                _s516.get("call_site_argument_counts", {}).get(
+                    "a_local_bound_in_the_calling_function"),
+                _s516.get("call_site_argument_counts", {}).get(
+                    "an_expression_computed_at_the_call_site"),
+                _s516.get("locals_produced_by_a_call_into_another_module"),
+                _f516.get("verdict")))
+except Exception as _e516x:
+    _bad516.append(repr(_e516x)[:160])
+    _d516 = "leg could not run"
+check(_name516, not _bad516, "; ".join(_bad516)[:240] or _d516)
+
 if __name__ == "__main__":
     sys.exit(main())
