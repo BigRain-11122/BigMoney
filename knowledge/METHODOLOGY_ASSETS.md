@@ -9965,3 +9965,108 @@ How to apply：①任何截面因子判决前，把「长腿相对对照」与�
 ②生产件把 full/is/oos 嵌在块里，直接读外层会拿回三个 None，控制臂随即说「复现失败」——
 **错的名字会把人指向错的修法**（r1292 名字≠值族）；整档必须经 full_block() 取 whole-sample 块。
 正身=scripts/etf_book_tearsheet.py（selftest 11/11）+ results/etf_book_tearsheet.png/.json。
+
+### E419 · 规模阶梯要先过「上市批次」这道门，判据落在唯一不含新股的档上（r1413 bm-c）
+
+**背景。** r1412 把等权溢价分解成规模阶梯（小 +14.98% / 中 +9.97% / 大 +0.55%，规模差 14.43pp，
+12 相位全正）。这是本产线第一个可持有的分解结构，所以下一个问题不是「多大」而是「是什么」。
+面板里有两个无法回避的结构性混淆，只有一个可测：
+
+- **死票不在面板里**——5,199 只中 5,198 只在最后一根 bar 上仍有价格，档案是「今天还在上市的名字」
+  的快照，退市票全部缺席。**从面板内部测不了退市偏差，本轮对此不做任何声称。**
+- **1,671 只名字在窗口内上市**——按市值排序时新股全落在最小端，于是「小」与「新」在这张面板里
+  是两个名字说同一件事，除非把它测出来。
+
+**构造（跑前冻结）。** 同一 5,199 只 / 1,658 bar / 60 bar 队列 / 次日开盘进 / 13.041bp/边；
+cap = close×总股本；age = t − 该票首根有效 close，`first==0` = 面板开始前已上市（年龄删失，
+只称「上市前档」不称「老票」）。四档互相排斥：prepanel / young(≤250) / mid(251..750) / old(>750)，
+每档**内部**再按 cap 切三等份，取最小与最大三分之一等权。
+
+| 臂 | 年化 | 队列回撤 | 队列数 |
+|---|---|---|---|
+| pooled 小 / 大（r1412 复现） | +14.98% / +0.55% | −26.51% / −45.01% | 26 |
+| **prepanel 小 / 大** | **+20.13% / −0.24%** | −24.92% / −45.61% | 26 |
+| young 小 / 大 | +0.10% / **−16.84%** | −34.78% / **−74.57%** | 26 |
+| mid 小 / 大 | +11.46% / +1.72% | | 22 |
+| old 小 / 大 | **+28.34%** / −2.09% | | 14 |
+
+**三件事。**
+
+①**判据必须落在唯一不可能含新股的档上。** prepanel 规模差 **20.37pp = pooled 的 141%**，
+12/12 相位为正 → 判决 `SIZE_SURVIVES_AGE_CONTROL`。只报 pooled 差永远无法排除「小端涨的是当年
+新上市的票」；把 prepanel 单独拉出来，这个解释被**结构性**排除（该档没有一个成员是面板内新上市），
+而且它的差比 pooled 还大。
+
+②**「买次新小票」是错的，而且错得很贵。** young 档小端年化 +0.10%（26 个队列），young 大端
+−16.84%、回撤 −74.57%。次新作为一个整体没有小票溢价；最宽的一档是 old（+30.4pp）——上市三到
+六年、仍在面板里的那批。young 档的「+16.9pp 档内差」几乎全部来自大端崩塌，不是小端上涨——
+**档内差为正不等于档内小端能赚。**
+
+③**别用面板内的死亡去测存活偏差。** 5,198/5,199 在最后一天还有 bar，退市票根本不在这份档案里。
+能测的是上市时点，不能测的是退市；把这句话写进 receipt 的 honest 块，比多跑一个臂值钱。
+
+**How to apply：**
+①任何「按市值分桶」的结论，先数桶里有多少名字是窗口内上市；>25% 就先跑 pre-panel 档再下结论。
+②「档内差」与「档内水平」是两回事——young 档差为正、水平为零，只看差会把一个灾难报成机会。
+③年龄档的队列数随时间衰减（old 仅 14 个），读差不要读水平，且必须把队列数印在同一行。
+④面板快照式档案的一切「异象」研究，先声明哪一类偏差**测不了**，再报测得了的那一类。
+
+正身=scripts/astock_size_age_control.py（selftest 8/8）+ results/size_decomp/astock_size_age_control.json
++ research/digests/DIGEST-20261108-r1413-size-age-control.md；上游=astock_size_decomp（r1412）/astock_breadth_book（r1411）
+### E420 · 机构席位净买比只在它自己的池子里有意义（r1414 bm-c）
+
+r1405 把 zoo #94 判成「冻结规则未测」，理由是 `lhb_detail.parquet` 没有席位列、机构分子在库里不存在。
+它其实存在：EM datacenter 的 `stock_lhb_jgmmtj_em` 按（股票, 上榜日, 上榜原因）给买方机构数/卖方机构数/
+机构买入净额/机构净买额占总成交额比。r1414 为它建了车道 `data/lhb_inst/lhb_inst.parquet`
+（58,636 行 / 5,154 码 / 2020-01-01..2026-11-06 / 83 个页 / 零 overlap 失配），然后照冻结规则定价：
+
+- 81 个 20 日 cohort，top decile（机构净买比最高 10%）净 CAGR **−1.12%**（x3 成本 −7.19%，回撤 −59.5%）
+- 它自己的池子（当日有信号的龙虎榜名，均值 345 只）**−10.39%**（回撤 −67.8%）· n50 −5.36% · bottom decile −3.67%
+- 四个决策相位超额 **+9.27 / +9.72 / +3.48 / +8.27 pp 全正**；对同集随机抽同样名数 200 次零假设 **p=0.005**
+
+**三条可复用的**
+① **换池子比换因子更值钱，也更危险**：同一信号在「龙虎榜名池」里是 −1.12%，而 r1412 的全液池等权是
++10.11%——相对超额为正不等于绝对能赚钱。交叉截面的对照组必须同池（本面 pool 即同池），但候选判决还得
+再问一句「这个池子本身值不值得持有」。
+② **累计原因行不能与当日行混权重**：27.3% 的行带「连续三个交易日…累计」，分子分母都是累计值时比值仍是
+比值；把它当「当日」读，就是把三天的事算成一天（r1405 同族坑的第二面）。
+③ **同池 pool 是均值不是对手**：C1/C4 只是必要条件，真正的对照是「同集随机抽同样名数」的零假设——
+本面 p=0.005 才是这个信号唯一的证据。
+
+**How to apply：** 席位面已可读 `data/lhb_inst/lhb_inst.parquet`（**保留 `上榜原因` 列，禁丢**，那是唯一
+能分开当日面与累计面的字段）；任何「内部人/席位」类信号先读这张面再谈其他数据源；本判决
+ADMIT_TO_PREREG 只买到一张冻结 prereg，下一步应把它当 **r1412 全液池上的 overlay** 定价，而不是单独成书。
+
+正身=scripts/update_lhb_inst.py（selftest 13/13）+ scripts/zoo99_lhb_inst_netratio_probe.py（selftest 12/12）
++ results/supply_berth/zoo99_lhb_inst_netratio_probe.json
++ research/digests/DIGEST-20261108-r1414-lhb-inst-seat.md；上游 zoo#94（r1405）/ astock_breadth_book（r1411）/
+astock_size_decomp（r1412）。
+
+## E421 — 搬到新机器的车道会先继承「面」，再继承那面说的数
+
+**现象（2026-11-08 实弹，bm-c r1413）**：`update_moneyflow` 在 10-21 红线后归 bm-b，11-08 03:30 按
+`MSG-20261108-0330-bma-lane-reassign` 转给 bm-c。随 git 过来的 `results/moneyflow_update_status.json` 写着
+`panel.cutoff=2026-10-19 / n_symbols=5222`，读板人看到「落后 14 个官方交易日」。真实状态是**本机根本没有
+`data/moneyflow` 目录**——面板一个字节都不在盘上。「补 14 天」和「从零拉 5226 只」是两个不同的动作，
+面上只印了前者。
+
+**为什么一直没人发现**：gate 每轮打印 `spawned detached rank pass` 并返回 0（健康），真死处在子进程里——
+`universe_codes()` 的 bars glob 指向 `Money02/data/bars`，那是跑 W 车道回测那台机的本地面，bm-c 上没有；
+子进程于是打一行 `universe unavailable (0 codes) -- refusing honest exit 2` 落进
+`logs/moneyflow_refresh.log`，没人读。rank 戳停在 2026-10-13，gate 每轮都在「成功地」点火一个必然失败的活。
+
+**正法两条（已焊进代码）**：
+① **spawn 前先问子进程有没有宇宙可数**：三级读 `Money02/data/bars` → `data/fundamental/eligibility.csv`
+（链内每机刷新、sibling 采集器早已这样读，解析器复用 `update_sina_mf.universe_codes` 不写第二份）→
+都没有就 `exit 2` + `mode=blocked: universe unavailable`，绝不 spawn；回答的哪一级写进 `universe_source`。
+② **panel 块以字节为准**：`_panel_cutoff_from_bytes()` 量磁盘，镜像声明并列保留为 `mirror_cutoff`，
+不一致就打印；无字节时 `cutoff=None + note="no panel bytes on this disk"`。
+
+**How to apply**：车道换机后第一件事是跑一次 gate 看它落在哪个宇宙面上；凡 `panel/cutoff/complete`
+这类**跨机也会被 git 带走**的字段，读之前先问「这些字节在哪块盘上」。判定「落后 N 天」之前先确认面板存在——
+`落后` 与 `不存在` 是两个动作，混印等于让人去补一个不存在的洞。验收对照：修前子进程
+`universe unavailable (0 codes)`，修后同 gate 直跑 `rank` 得 `+5225 rows, 2026-11-06`（真数据落盘
+`data/moneyflow/per/` 5225 文件）。
+
+正身=scripts/update_moneyflow.py（selftest 25/25，含 S22 宇宙面三级腿 / S23 panel 块字节优先腿）
++ results/moneyflow_update_status.json + research/digests/DIGEST-20261108-r1413-moneyflow-unfreeze.md

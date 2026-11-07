@@ -417,6 +417,66 @@ def cmd_audit(project=ROOT):
     return 0
 
 
+def judge_staged_faces(pairs):
+    """Disagreements per staged heartbeat blob. Pure: [(path, bytes)] in, list out.
+
+    r1413: the choke point (heartbeat_write.gpu_chokepoint) cannot own a face that
+    nobody routes through the writer -- r1412's closeout wrote 13.9 GB beside 14.2
+    and shipped it, and the only detector was a full smoke run. A commit is the one
+    place every writer must pass, so the judgement belongs there too, on the STAGED
+    blob (r1406: a worktree copy is a different file from the one readers open).
+    """
+    bad = []
+    for path, raw in pairs:
+        try:
+            face = json.loads(raw.decode("utf-8-sig"))
+        except Exception as ex:
+            bad.append({"path": path, "error": "unreadable: %s" % str(ex)[:100]})
+            continue
+        if not isinstance(face, dict):
+            bad.append({"path": path, "error": "heartbeat is not an object"})
+            continue
+        findings = audit(face)
+        if findings:
+            bad.append({"path": path, "findings": findings})
+    return bad
+
+
+def cmd_staged(project=ROOT):
+    """Gate: every staged fleet/machines/*.json carries a self-consistent GPU face.
+
+    Exit 1 on a disagreement so pre-commit blocks; 0 when clean or when git itself
+    is unavailable (fail-open on mechanism failure, never on a bad face).
+    """
+    try:
+        names = subprocess.run(
+            ["git", "diff", "--cached", "--name-only", "--diff-filter=ACMR"],
+            cwd=project, capture_output=True).stdout.decode("utf-8", "replace")
+    except Exception as ex:
+        print(json.dumps({"skipped": "git unavailable: %s" % str(ex)[:100]},
+                         sort_keys=True))
+        return 0
+    targets = [n.strip() for n in names.splitlines()
+               if n.strip().replace("\\", "/").startswith("fleet/machines/")
+               and n.strip().endswith(".json")]
+    pairs = []
+    for n in targets:
+        try:
+            r = subprocess.run(["git", "show", ":" + n], cwd=project, capture_output=True)
+            if r.returncode == 0 and r.stdout:
+                pairs.append((n, r.stdout))
+        except Exception:
+            continue
+    bad = judge_staged_faces(pairs)
+    if bad:
+        print(json.dumps({"blocked": bad, "staged_hearts": len(pairs)},
+                         ensure_ascii=False, sort_keys=True))
+        return 1
+    print(json.dumps({"staged_hearts": len(pairs), "findings": []},
+                     ensure_ascii=False, sort_keys=True))
+    return 0
+
+
 def cmd_apply(project=ROOT, smi=None):
     try:
         p = probe_live(smi)
@@ -625,6 +685,25 @@ def selftest():
         [], [x["family"] for x in audit(dict(_f9, free_ram_mb=8000,
                                              ram_free_mb=8000))])
 
+    # L10 r1413: the commit gate must separate a shipped inconsistent face from a
+    # clean one -- and it judges the bytes it is given, so a worktree clean copy
+    # cannot launder a bad staged blob.
+    _clean = json.dumps(dict(_f9, gpu_face_ts="2026-11-08T02:20:00+08:00")).encode("utf-8")
+    _bad = json.dumps(dict(_f9, gpu_free_vram_gb=13.9,
+                           gpu_face_ts="2026-11-08T02:20:00+08:00")).encode("utf-8")
+    leg("L10a staged gate passes a self-consistent heartbeat",
+        [], judge_staged_faces([("fleet/machines/bm-c.json", _clean)]))
+    leg("L10b staged gate blocks the r1412 face (13.9 beside 14.2)",
+        True, any(x.get("findings") for x in
+                  judge_staged_faces([("fleet/machines/bm-c.json", _bad)])))
+    leg("L10c staged gate blocks an unreadable heartbeat",
+        True, any(x.get("error") for x in
+                  judge_staged_faces([("fleet/machines/x.json", b"{not json")])))
+    # the gate must not be satisfiable by a non-object JSON face
+    leg("L10d staged gate blocks a non-object face",
+        True, judge_staged_faces([("fleet/machines/x.json", b"[1,2]")])[0]["error"]
+        == "heartbeat is not an object")
+
     ok = sum(1 for _, p in legs if p)
     print("\nselftest %d/%d %s" % (ok, len(legs), "PASS" if ok == len(legs) else "FAIL"))
     return 0 if ok == len(legs) else 1
@@ -644,6 +723,8 @@ def main(argv):
         return cmd_audit()
     if cmd == "apply":
         return cmd_apply()
+    if cmd == "staged":
+        return cmd_staged()
     print(__doc__)
     return 2
 

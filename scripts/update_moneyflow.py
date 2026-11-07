@@ -64,6 +64,8 @@ LOCK = os.path.join(DATA_DIR, "_refresh.lock")
 STATUS = os.path.join(ROOT, "results", "moneyflow_update_status.json")
 LOG = os.path.join(ROOT, "logs", "moneyflow_refresh.log")
 BARS_DIR = os.path.join(ROOT, "Money02", "data", "bars")
+ELIG = os.path.join(ROOT, "data", "fundamental", "eligibility.csv")
+UNIVERSE_SOURCE = None   # set by universe_codes(); mirrored into the status face
 
 sys.path.insert(0, ROOT)
 from config.lane_io import lane_host, stamp_envelope  # noqa: E402 -- after ROOT pin
@@ -377,8 +379,21 @@ def save_progress(prog):
 # ------------------------------------------------------------------ universe
 
 
-def universe_codes(bars_dir=None):
-    """(codes, skipped) from Money02 bars glob; market deriv: 6->sh, 0/3->sz."""
+def universe_codes(bars_dir=None, elig_path=None):
+    """(codes, skipped) from Money02 bars glob; market deriv: 6->sh, 0/3->sz.
+
+    r1413: the bars face is local-only and lives on the machine that runs the
+    W-lane backtests; the day this lane moved to bm-c (MSG-20261108-0330) the
+    glob returned nothing, so every refresh child died with
+    "universe unavailable (0 codes)" while the gate kept printing
+    "spawned detached rank pass". Fallback = data/fundamental/eligibility.csv,
+    which is refreshed in-chain on every machine and is the universe face the
+    sibling collectors (update_sina_mf / update_astock_daily) already read.
+    Which face answered is recorded in UNIVERSE_SOURCE and mirrored into the
+    status envelope, so a panel built on the narrower face cannot pass as the
+    full one (E256 family: a number without its disk/backing is unreadable).
+    """
+    global UNIVERSE_SOURCE
     bars_dir = bars_dir or BARS_DIR
     codes, skipped = [], []
     for p in sorted(_glob.glob(os.path.join(bars_dir, "*.parquet"))):
@@ -388,8 +403,35 @@ def universe_codes(bars_dir=None):
             skipped.append(stem)
             continue
         codes.append(code)
-    # dedupe bare/sh-prefixed twins (J6 lesson): bare wins, prefix twin same code
-    return sorted(set(codes)), skipped
+    codes = sorted(set(codes))
+    if len(codes) >= 100:
+        UNIVERSE_SOURCE = "Money02/data/bars"
+        # dedupe bare/sh-prefixed twins (J6 lesson): bare wins, prefix twin same code
+        return codes, skipped
+    elig = eligibility_codes(elig_path or ELIG)
+    if elig:
+        UNIVERSE_SOURCE = "data/fundamental/eligibility.csv"
+        return elig, skipped
+    UNIVERSE_SOURCE = None
+    return codes, skipped
+
+
+def eligibility_codes(elig_path=None):
+    """6-digit codes from the eligibility snapshot; 6->sh, 0/3->sz else skipped.
+
+    One reader shared with update_sina_mf (r1375: a second copy of a parse is a
+    second defect) -- this module only adds the graceful absence of the file.
+    """
+    elig_path = elig_path or ELIG
+    try:
+        from update_sina_mf import universe_codes as _elig_codes
+    except Exception:
+        return []
+    try:
+        codes, _skipped, _buckets = _elig_codes(elig_path)
+    except Exception:
+        return []
+    return codes
 
 
 def market_of(code):
@@ -1051,6 +1093,22 @@ def gate():
         return 0
     if _ACTIVE_TAKEOVER is not None:
         st["authority"] = _authority_block(_ACTIVE_TAKEOVER)
+    # r1413 birth-station gate: a spawn is only announced when the child can
+    # enumerate a universe at all. Until now an empty universe (this machine has
+    # no Money02/data/bars face) was discovered INSIDE the detached child, whose
+    # "universe unavailable (0 codes) -- refusing honest exit 2" landed only in
+    # logs/moneyflow_refresh.log while the gate printed "spawned detached ..."
+    # and returned 0. The reader saw a healthy lane, the panel never grew.
+    codes, _skipped = universe_codes()
+    st["universe_source"] = UNIVERSE_SOURCE
+    st["universe_n_gate"] = len(codes)
+    if len(codes) < 100:
+        st["ts"] = now.isoformat(timespec="seconds")
+        st["mode"] = "blocked: universe unavailable (no bars face, no eligibility)"
+        write_status(st)
+        print(f"universe unavailable ({len(codes)} codes, source={UNIVERSE_SOURCE}) "
+              f"-> refusing to spawn, honest exit 2")
+        return 2
     # v2 rank lane: cutoff lags 1td -> one forward pass (60 req/day budget)
     rank = st.get("rank") or {}
     needs, reason = rank_stale(st, now)
@@ -1092,8 +1150,32 @@ def gate():
                 spawn_detached("rank")
                 print(f"spawned detached rank pass: {reason}")
                 return 0
-    panel = st.get("panel") or {}
-    complete = bool(panel.get("complete"))
+    panel = dict(st.get("panel") or {})
+    # r1413: the panel block is a CLAIM that travels with the tracked status
+    # mirror. When the lane moves machines, the claim arrives before any bytes
+    # do -- bm-c reported "cutoff 2026-10-19 / 5222 symbols" for a week while
+    # data/moneyflow did not exist on its disk at all, and the depth that
+    # "14 official trading days behind" implies was really "no panel here".
+    # So the decision reads the bytes, and any disagreement is printed instead
+    # of silently preferring either face (E256: a number without its disk).
+    backed = _panel_cutoff_from_bytes()
+    claimed = panel.get("cutoff")
+    panel["mirror_cutoff"] = claimed
+    panel["cutoff_from_bytes"] = backed
+    if backed is None:
+        if claimed is not None:
+            print(f"panel claim {claimed} from the mirror has no bytes on this "
+                  f"disk ({PER_DIR}) -> reporting an absent panel")
+        panel.update(cutoff=None, complete=False, n_symbols=0,
+                     universe_n=len(codes),
+                     note="no panel bytes on this disk")
+    else:
+        if claimed != backed:
+            print(f"panel cutoff {claimed} in the mirror != {backed} measured "
+                  f"from bytes -> using the bytes")
+        panel["cutoff"] = backed
+    st["panel"] = panel          # every branch below republishes this block
+    complete = bool(panel.get("complete")) and backed is not None
     cutoff = panel.get("cutoff") if complete else None
     needs, reason = stale_gate(cutoff, now)
     if not needs:
@@ -1269,7 +1351,7 @@ def _selftest():
         for name in ("000001.parquet", "sh600519.parquet", "600519.parquet",
                      "sz300750.parquet", "920025.parquet", "bad_name.parquet"):
             io.open(os.path.join(td, name), "w").close()
-        codes, skipped = universe_codes(td)
+        codes, skipped = universe_codes(td, elig_path=os.path.join(td, "no_elig.csv"))
         assert set(codes) == {"000001", "600519", "300750", "920025"}
         assert skipped == ["bad_name"]
     # S12 expected_latest_bar_date family (futures S8 same family, injected cal)
@@ -1290,10 +1372,15 @@ def _selftest():
                      _ued.TAKEOVER_STALE_MIN)
     _saved_argv = list(sys.argv)
     with tempfile.TemporaryDirectory() as td:
-        global STATUS, _lane_owner_id
+        global STATUS, _lane_owner_id, LANE_OWNER
         old_status, old_owner_fn = STATUS, _lane_owner_id
+        old_lane_owner = LANE_OWNER
         STATUS = os.path.join(td, "mf_status.json")
         _lane_owner_id = lambda: "bm-c"
+        # r1413: the lane itself moved to bm-c (MSG-20261108-0330), so "bm-c is
+        # a non-owner" can no longer be read off the live map -- pin the owner
+        # face inside the fixture, or the leg silently stops testing the guard.
+        LANE_OWNER = "bm-a"
         try:
             _ued.TAKEOVER_STALE_MIN = 120
             _ued._owner_stale_min = lambda owner: 194 * 60.0
@@ -1337,6 +1424,7 @@ def _selftest():
                   flush=True)
         finally:
             STATUS, _lane_owner_id = old_status, old_owner_fn
+            LANE_OWNER = old_lane_owner
             (_ued.takeover_decision, _ued._owner_stale_min,
              _ued.TAKEOVER_STALE_MIN) = _saved_policy
             sys.argv = _saved_argv
@@ -1463,7 +1551,75 @@ def _selftest():
         assert _terminal_cutoff(None, td) == "2026-09-24"
         assert _terminal_cutoff("2026-09-23", td) == "2026-09-23"
         assert _panel_cutoff_from_bytes(os.path.join(td, "nowhere")) is None
-    print("selftest: 21/21 PASS")
+    # S22 universe face: the bars glob wins when this machine has it, and the
+    # eligibility snapshot is the named fallback when it does not -- the exact
+    # state of a machine the lane was just handed to (r1413, MSG-20261108-0330).
+    with tempfile.TemporaryDirectory() as td:
+        bars = os.path.join(td, "bars")
+        os.makedirs(bars)
+        elig = os.path.join(td, "eligibility.csv")
+        with io.open(elig, "w", encoding="utf-8", newline="") as f:
+            f.write("code,name,eligible\n")
+            for c in ("600519", "000001", "300750", "830799"):
+                f.write(f"{c},x,True\n")
+        codes, _ = universe_codes(bars_dir=bars, elig_path=elig)
+        assert codes == ["000001", "300750", "600519"], codes
+        assert UNIVERSE_SOURCE.endswith("eligibility.csv"), UNIVERSE_SOURCE
+        for i in range(120):   # a bars face with enough names must win outright
+            with io.open(os.path.join(bars, f"sh600{i:03d}.parquet"), "w"):
+                pass
+        codes, _ = universe_codes(bars_dir=bars, elig_path=elig)
+        assert len(codes) == 120 and UNIVERSE_SOURCE == "Money02/data/bars", (
+            len(codes), UNIVERSE_SOURCE)
+        # absent bars AND absent eligibility = empty, and the source says nothing
+        # (a gate must be able to tell "no universe" from "a different universe")
+        empty, _ = universe_codes(bars_dir=os.path.join(td, "none"),
+                                  elig_path=os.path.join(td, "none.csv"))
+        assert empty == [] and UNIVERSE_SOURCE is None, (empty, UNIVERSE_SOURCE)
+    # S23 panel block = bytes, not the travelling mirror claim. A lane that
+    # moves machines inherits a status file describing the previous machine's
+    # panel; the gate must report the absent panel here and the measured cutoff
+    # when bytes exist, and must say so rather than quietly preferring a face.
+    with tempfile.TemporaryDirectory() as td:
+        global PER_DIR
+        saved = (PER_DIR, LOCK, STATUS, LANE_OWNER, _lane_owner_id, sys.argv)
+        saved_spawn = globals()["spawn_detached"]
+        spawned = []
+        try:
+            PER_DIR = os.path.join(td, "per")
+            os.makedirs(PER_DIR)
+            LOCK = os.path.join(td, "refresh.lock")
+            STATUS = os.path.join(td, "mf_status.json")
+            LANE_OWNER = "bm-c"
+            _lane_owner_id = lambda: "bm-c"
+            globals()["spawn_detached"] = lambda arg: spawned.append(arg)
+            sys.argv = [sys.argv[0]]
+            write_status({"ts": "2026-11-01T10:00:00",
+                          "rank": {"last_stamp": expected_latest_bar_date(dt.datetime.now()),
+                                   "last_spawn_attempt": "2026-11-01T10:00:00"},
+                          "panel": {"cutoff": "2026-10-19", "complete": False,
+                                    "n_symbols": 5222}})
+            assert gate() == 0
+            got = json.load(io.open(STATUS, encoding="utf-8"))
+            assert got["panel"]["cutoff"] is None, got["panel"]
+            assert got["panel"]["mirror_cutoff"] == "2026-10-19", got["panel"]
+            assert got["panel"]["note"] == "no panel bytes on this disk", got["panel"]
+            # now put bytes on the disk: the measured cutoff must win
+            atomic_write(os.path.join(PER_DIR, "600519.csv"),
+                         "date,junk\n2026-11-05,1\n2026-11-06,2\n")
+            write_status({"ts": "2026-11-01T10:00:00",
+                          "rank": {"last_stamp": expected_latest_bar_date(dt.datetime.now()),
+                                   "last_spawn_attempt": "2026-11-01T10:00:00"},
+                          "panel": {"cutoff": "2026-10-19", "complete": False,
+                                    "n_symbols": 5222}})
+            assert gate() == 0
+            got = json.load(io.open(STATUS, encoding="utf-8"))
+            assert got["panel"]["cutoff"] == "2026-11-06", got["panel"]
+            assert got["panel"]["cutoff_from_bytes"] == "2026-11-06", got["panel"]
+        finally:
+            PER_DIR, LOCK, STATUS, LANE_OWNER, _lane_owner_id, sys.argv = saved
+            globals()["spawn_detached"] = saved_spawn
+    print("selftest: 25/25 PASS")
     return 0
 
 
