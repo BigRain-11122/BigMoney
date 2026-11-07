@@ -110,6 +110,34 @@ LANES = [
 ]
 
 
+# ------------------------------------------------------------ takeover face
+# A frozen lane is stuck in one of two ways, and they call for opposite
+# responses: "wait for the owner to come back" and "no machine is allowed to
+# move this lane at all". The second one is a decision, not patience -- so the
+# board has to say which it is looking at instead of printing one word for
+# both.
+#
+# Capability is read out of the writer's own source: every declared-takeover
+# implementation prints this phrase at the moment it takes over, so a lane
+# whose writer cannot print it has no takeover path. A list kept beside the
+# code would drift the day somebody transplants the mechanism, and then the
+# board would keep telling readers to wait for a lane two machines could
+# already move.
+TAKEOVER_MARKER = "TAKEOVER: declared stale takeover of"
+
+
+def takeover_capable(writer, root=ROOT):
+    """True when this lane's own writer can declare a stand-in."""
+    if not writer:
+        return False
+    path = os.path.join(root, "scripts", writer + ".py")
+    try:
+        with open(path, encoding="utf-8", errors="replace") as fh:
+            return TAKEOVER_MARKER in fh.read()
+    except OSError:
+        return False
+
+
 # ---------------------------------------------------------------- extractors
 
 def _get(doc, dotted):
@@ -262,7 +290,8 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
     here = _machine_id() or "unknown"
     for spec in (lanes if lanes is not None else LANES):
         row = {"lane": spec["lane"], "dept": spec.get("dept"),
-               "owner": spec.get("owner"), "kind": spec["kind"]}
+               "owner": spec.get("owner"), "writer": spec.get("writer"),
+               "kind": spec["kind"]}
         tail, extra = None, {}
         try:
             if spec["kind"] == "day_files":
@@ -420,6 +449,7 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
         if auth == "non_host_envelope" and decl and decl == rep:
             auth = "declared_takeover"
         r["lane_host"] = host
+        r["takeover_capable"] = takeover_capable(spec.get("writer"), root)
         if host:
             # one truth: config/lane_hosts.json beats the hardcoded fallback
             # (measured 2026-10-30: heat printed owner bm-a, lane_host bm-b)
@@ -489,6 +519,12 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
     lanes_hostage = sorted(r["lane"] for r in rows
                            if r["verdict"] == "unverifiable"
                            and r.get("host_alive") is False)
+    # the harder half of the same question: unverifiable + host silent + the
+    # writer has no way to declare a stand-in. Waiting cannot fix these.
+    frozen = sorted(r["lane"] for r in rows
+                    if r["verdict"] == "unverifiable"
+                    and r.get("host_alive") is False
+                    and not r.get("takeover_capable"))
     # a board that reads green because it could not certify anything would be
     # the very failure it exists to catch: 'uncertified' is its own verdict.
     verdict = ("attention" if stale else
@@ -512,6 +548,7 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
         "hosts": {k: v for k, v in sorted(hosts.items())},
         "hosts_down": hosts_down,
         "lanes_hostage": lanes_hostage,
+        "frozen_without_takeover": frozen,
         "host_down_hours": HOST_DOWN_H,
         "worst": (worst_row["lane"] if (stale or uncertified) and worst_row
                   and worst_row.get("n_missing") else None),
@@ -676,6 +713,26 @@ def render_md(report):
             tailnote += (f"- `{host}`: last seen {h.get('last_seen')}"
                          + (f" ({age}h ago)" if age is not None else "")
                          + f" -- holding back {', '.join(h.get('lanes_unverifiable') or [])}\n")
+    frozen = report.get("frozen_without_takeover") or []
+    if frozen:
+        tailnote += ("\n## Lanes nobody can pick up while the host is away\n\n"
+                     "These are not waiting on patience. The host is silent and "
+                     "the collector has no declared-takeover path, so **no "
+                     "machine is allowed to move them** -- the last written "
+                     "envelope stays the newest number the company has, and "
+                     "each day that passes is gone for good where the face is "
+                     "forward-accumulation only. Unblocking one is a decision "
+                     "(reassign the lane, or give its collector the same "
+                     "stale-takeover rule the other eight lanes already have), "
+                     "not a retry.\n\n")
+        for name in frozen:
+            row = next((r for r in report["lanes"] if r["lane"] == name), {})
+            w = row.get("writer")
+            tailnote += (f"- `{name}`: "
+                         + (f"writer `{w}` has no `{TAKEOVER_MARKER}` path\n"
+                            if w else
+                            "the row reads another face rather than a collector "
+                            "of its own, so there is nothing to reassign\n"))
     if why:
         tailnote += ("\n## Why some lanes cannot be certified here\n\n"
                      "A status envelope is committed by whichever machine ran the "
@@ -1075,7 +1132,52 @@ def selftest():
           "newer bars, and a lagging panel cannot heal a lagging envelope",
           flush=True)
 
-    print("selftest: 19/19 PASS", flush=True)
+    # L21 a lane whose host is silent splits in two: the ones a healthy machine
+    # may declare a stand-in for, and the ones nobody is allowed to move at all.
+    # Capability is read from the writer's own source, so transplanting the
+    # takeover rule into that writer flips the reading without anyone editing a
+    # list next to it.
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "m"))
+        os.makedirs(os.path.join(td, "scripts"))
+        json.dump({"clock_read": "2026-10-29T04:18:13+08:00"},
+                  open(os.path.join(td, "m", "bm-b.json"), "w"))
+        for lane, writer, body in (
+                ("plain_lane", "w_plain", "print('no-op')\n"),
+                ("take_lane", "w_take",
+                 f"print('{TAKEOVER_MARKER} bm-b heat lane')\n")):
+            with open(os.path.join(td, "scripts", writer + ".py"), "w") as fh:
+                fh.write(body)
+            json.dump({"machine": "bm-a", "panel": {"cut": "2026-10-20"}},
+                      open(os.path.join(td, lane + ".json"), "w"))
+        spec = [{"lane": ln, "kind": "status", "path": ln + ".json",
+                 "key": "panel.cut", "owner": "bm-b", "writer": w}
+                for ln, w in (("plain_lane", "w_plain"), ("take_lane", "w_take"))]
+        rep = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                    lanes=spec)
+        _o = {r["lane"]: r for r in rep["lanes"]}
+        assert _o["plain_lane"]["verdict"] == "unverifiable", _o["plain_lane"]
+        assert _o["plain_lane"]["host_alive"] is False, _o["plain_lane"]
+        assert _o["plain_lane"]["takeover_capable"] is False, _o["plain_lane"]
+        assert _o["take_lane"]["takeover_capable"] is True, _o["take_lane"]
+        assert rep["frozen_without_takeover"] == ["plain_lane"], \
+            rep["frozen_without_takeover"]
+        md = render_md(rep)
+        assert "Lanes nobody can pick up" in md, md
+        _sect = md.split("Lanes nobody can pick up")[1].split("\n## ")[0]
+        assert "`plain_lane`" in _sect, _sect
+        assert "`w_take`" not in _sect, _sect
+        # transplant the rule -> the same lane stops being a decision
+        with open(os.path.join(td, "scripts", "w_plain.py"), "a") as fh:
+            fh.write(f"print('{TAKEOVER_MARKER} bm-b plain lane')\n")
+        rep2 = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                     lanes=spec)
+        assert rep2["frozen_without_takeover"] == [], \
+            rep2["frozen_without_takeover"]
+    print("[PASS] L21 a silent host's frozen lanes are split by whether the "
+          "writer can declare a stand-in, read out of that writer", flush=True)
+
+    print("selftest: 20/20 PASS", flush=True)
     return 0
 
 
