@@ -12740,3 +12740,19 @@ cause_verdict=`the_one_day_cases_split_between_structured_fields_and_free_text`�
 **边界**：只读模块级语句，函数体内/分支内构造的面看不见；面按名字 token（corpus/sources/members/universe/panel/files/census/targets/inputs/studies/paths/scan）加负词表判定，**命中不代表它返回的就是该研究的人口**；`adapter` 串只给「最便宜怎么读」，不声明返回值等价（那需要执行）；`reader_class` 是 E502 字段原样搬运，交叉表不能重判该类；`population_declared_by_upstream` 来自 E502 summary，闸只校验「解析行＋不可解析行＝该数」，不能重定 E502 谁可定价。
 
 **验证**：run rc0 / check problems=[] / verify problems=[]（重导一致）/ selftest 32/32；smoke 腿原文档独立 1/1 绿、`--doctor` 1/1 红且面字节还原（sha 614fd85c18d0）；S6 腿 `unmeasured_reach` rc0 0.05s。未做不宣称：全量 smoke 套件未跑、其余 S6 链腿未重跑、无云端无 GPU 无删除。
+
+## E506 -- 「没有可解析日期」的 725 条认证拆成三类：21 张面的日期藏在见证字段之外、12 张只有日志/散文里的日期、35 张一个日期都没有（r1535 bm-b）
+
+**问题**：E503（r1532）把 725 条只读认证挂成「面里没有可解析日期，年龄无法定价」，那是一个不透明数字。本研把背后 68 张面读出来问：它到底带了什么新鲜度见证——别的字段名下的日期、下一层的同名见证字段、日志/散文/源码缓存里的日期，还是什么都没有？以及这张面是否同时无写者。
+
+**方法**：人口直接复用 `e503.analyse()` 的关系表（不重建链条解析），只取 `C_NODATE` 的 68 张面；本研自己的 `e506`/`run_e506` leg 从人口里排除（E180/E207：扫描器不许测自己）。逐面对 payload 做**值递归**（不认键名看着像日期的）：命中按位置分四类——顶层非见证名单字段、见证名单字段但不在顶层、嵌套非名单字段、只在散文/日志/批量文本里；`st_mtime` 年龄随行发布并附 E453 地板（本树 21 天，所有 mtime 年龄恒等于地板，所以 mtime 不能当年龄）。第二臂逐 certifying leg 做**整脚本字面扫描**（是否提到任何见证字段名 / 是否有存在性测试），并明确发布该臂是否有分辨力。判决由闸从 rows 重算。
+
+**读数**（2026-11-07）：68 张面 / 739 条关系（E503 发布 725，链条长了 14 条，两个数都发布）。**结构化藏在见证之外 21 张 / 202,180 B**＝顶层非名单字段 15（`report_date` / `asof` ×4（`market_clock/call_latest.json`、`m6_regime5/latest.json`、`regime_gate_dualarm/latest.json`、`_r1024bma_rollback_side` 快照）/ `cutoff_pin` / `generated_for_bar` / `inception` ×3 / `is_end` ×3）＋下一层见证名 5 / 129,680 B＋嵌套非名单 1 / 1,349 B；**只有附带日期 12 张 / 1,559,868 B**（`latest.ts`、`last_tick.ts`、`store_texts.<源文件名>` 的源码缓存、quarantine 里 `launches.[0].ts`）；**一个日期都没有 35 张 / 2,327,999 B**。故「无声明见证」= **47 张 / 3,887,867 B**，其中 **29 张 / 2,967,295 B 同时无写者**（既不刷新也不可定龄）。738 个 certifying leg **全部 738 个都提到过某个见证字段名**（601 个同时有存在性测试）——该轴发布为 `mention_axis_informative: false`，判决不靠它。56 张面来自模板 leg，模板按匹配逐个解析而不是折成一张。
+
+**本轮自捕两个度量 bug**：①**紧凑日期在长 token 里被当成见证**——`\b(?:19|20)\d{6}\b` 命中 `D-20261104-05`（决策号）与 `T-2026-10-01-141 s1+s3`（引文），且首版把 `kind` 留成 `None` 仍被分类器吃下，于是一张决策号面被发布成「顶层非名单日期字段」；正法=**只有整个值就是日期才算结构化**，修后 6 张面退出隐藏桶、12 张转成只附带日期（上面是修正后的数），并加三条 selftest 腿＋一条闸腿（无 kind 的命中、或隐藏类落在散文命中上，一律判红）。②**`s6_chain_bmb.py <leg名>` 不是选腿而是把 leg 名当轮号**——首版这样调用，当场起了**三条全链**（20:19/20:24/20:30），窗口内击杀；正法=`s6_chain_bmb.py <轮号> --only <leg>`。
+
+**可复用四条**：①**「没有日期」不是一个桶**——拆成结构化隐藏/附带/全无，补救完全不同：21 张靠补见证名单就能定龄、35 张任何字段规则都定不了、12 张需要解析器而不是键名。②**payload 里有日期 ≠ 它是新鲜度见证**——17 个候选字段里 `inception` 是字面常量（三个 `etf_*` state 文件 2024-01-01/2024-01-01/2026-10-23）、`is_end` 是区间终点常量（三个 `p1e_nulls_*` 全 2024-12-31），一刀切补名单会把常量变成假年龄（这是 E509 要定价的事）。③**最便宜命中的样本就是证据，必须发布**——两个假阳性在面里一行可见，没有 sample 就永远看不见。④**触发率 738/738 的轴不是轴**——把「测量了但无分辨力」写成字段比悄悄使用它诚实。
+
+**边界**：人口是 E503 的 C_NODATE 关系表（同窗口重导，非另行解析链条）；只认**值**不认键；只认 ISO/紧凑两种形状的日期；`cheapest_hit` 是按类别的首个命中样本，不是唯一修复点；reliance 是整脚本字面扫描，**不证明该 leg 读的是这张面的日期**；`st_mtime` 在本树不能定龄（E453 地板随行）；「无写者」只指本链条里没有写模式 leg 点名它，手跑/池卡/另一台机的写者不可见。
+
+**验证**：`scripts/e506_nodate_witness.py`（`run` rc0 / `check` problems=[] / `verify` problems=[] 重建恒等 / **selftest 37/37**）；产物 `results/state_tilt/NODATEWITNESS-2026-11-07.json` + `nodatewitness_latest.json`（逐行 class / cheapest_hit / 前 5 条 hits / mtime 年龄 / writer_free / leg_reliance）；S6 腿 `nodate_witness` rc0 0.05s（receipt `results/_r1535bmb_s6_chain.json`）；smoke 腿 `# E506 (r1535 bm-b)` 原文单跑 1/1 绿、`--doctor` 1/1 红且面逐字节还原（sha 5d747486c259）；digest=`research/digests/DIGEST-20261107-r1535-e506-nodate-witness.md`。未做不宣称：全量 smoke 套件未跑、其余 S6 链腿未重跑、无云端无 GPU 无删除。

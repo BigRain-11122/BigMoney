@@ -1885,6 +1885,13 @@ LEGS = [
     # that needs caller arguments, or nothing at all -- crossed with the reader class E502 already
     # published.  `check` re-derives the class table, the cross table and the verdict from rows.
     ("unmeasured_reach", ["python", "scripts/e505_unmeasured_reach.py", "check"]),
+
+    # E506 reads the faces E503 priced as carrying no parseable date: a top-level field name
+    # outside the witness list, the same name one level down, a date inside a log or a source-text
+    # cache, or nothing anywhere.  `check` re-derives the class table, the byte tallies, the
+    # writer-free split and the verdict from the published rows.  This leg is excluded from its
+    # own population (E180/E207: the scanner must not measure itself).
+    ("nodate_witness", ["python", "scripts/e506_nodate_witness.py", "check"]),
 ]
 
 

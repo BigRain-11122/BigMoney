@@ -20632,5 +20632,91 @@ except Exception as _e505x:
     _d505 = "leg could not run"
 check(_name505, not _bad505, "; ".join(_bad505)[:240] or _d505)
 
+# E506 (r1535 bm-b): E503 priced 725 certifications whose face publishes no parseable date.  This
+# leg holds that the population is decomposed by where a date actually sits instead of restated:
+# the class counts sum to the faces, the byte tallies sum to the total, the three visible classes
+# plus the two honest holes are the population, the delta against E503's published count adds up,
+# every row comes from the C_NODATE population with a certifying leg, writer-free rows name no
+# writer, and the verdict is the one the rows imply -- plus three doctored copies (a moved class
+# count, a hand-written verdict, and a hidden class with no hit to prove it).
+_name506 = ("E506 the no-date population splits into structured hidden dates, incidental dates "
+            "and no date at all, and its verdict re-derives from the rows (r1535 bm-b)")
+_bad506 = []
+try:
+    _m506 = __import__("importlib").import_module("e506_nodate_witness")
+    _f506 = json.load(open(os.path.join("results", "state_tilt", "nodatewitness_latest.json"),
+                           encoding="utf-8"))
+    _s506 = _f506.get("summary") or {}
+    _r506 = _f506.get("rows") or []
+    _bad506.extend(_m506.row_problems(_f506))
+    if not _r506:
+        _bad506.append("the population is empty")
+    if _s506.get("faces") != len(_r506):
+        _bad506.append("the published face count is not the row count")
+    if sum((_s506.get("by_class") or {}).values()) != len(_r506):
+        _bad506.append("the per-class counts do not add up to the faces")
+    if sum((_s506.get("bytes_by_class") or {}).values()) != _s506.get("bytes_total"):
+        _bad506.append("the byte tallies do not add up to the total")
+    _parts506 = ((_s506.get("faces_with_a_structured_date_outside_the_witness_fields") or 0)
+                 + (_s506.get("faces_with_only_incidental_dates") or 0)
+                 + (_s506.get("faces_with_no_date_anywhere") or 0)
+                 + (_s506.get("by_class") or {}).get(_m506.W_ABSENT, 0)
+                 + (_s506.get("by_class") or {}).get(_m506.W_UNREADABLE, 0))
+    if _parts506 != len(_r506):
+        _bad506.append("structured + incidental + none + absent + unreadable is not the faces")
+    _pub506 = _s506.get("published_e503_nodate_relations")
+    _delta506 = _s506.get("nodate_relations_delta_vs_published_e503")
+    if _pub506 is not None and _delta506 is not None:
+        if (_s506.get("relations_per_e503") or 0) - _pub506 != _delta506:
+            _bad506.append("the delta against E503's published count does not add up")
+    for _row506 in _r506:
+        if _row506.get("witness_class") not in _m506.WITNESS_VOCAB:
+            _bad506.append("%s carries a class outside the vocabulary" % _row506.get("face"))
+            break
+        if not _row506.get("certifying_legs"):
+            _bad506.append("%s has no certifying leg" % _row506.get("face"))
+            break
+        if _row506.get("writer_free") and _row506.get("writer_legs"):
+            _bad506.append("%s is writer-free yet names writers" % _row506.get("face"))
+            break
+    _hidden506 = [r for r in _r506 if r.get("witness_class") == _m506.W_UNLISTED]
+    if not _hidden506:
+        _bad506.append("no structured hidden-date row to doctor")
+    if _f506.get("verdict") != _m506._verdict(_s506):
+        _bad506.append("the verdict is not the one the rows imply")
+    _w506 = json.loads(json.dumps(_f506))
+    _k506 = next(iter(_w506["summary"]["by_class"]), None)
+    _w506["summary"]["by_class"][_k506] = (
+        (_w506["summary"]["by_class"].get(_k506) or 0) + 1)
+    if not _m506.row_problems(_w506):
+        _bad506.append("a doctored class count survived the guard")
+    _w506b = json.loads(json.dumps(_f506))
+    _w506b["verdict"] = _m506.V_ALL_HIDDEN
+    if not _m506.row_problems(_w506b):
+        _bad506.append("a hand-written verdict survived the guard")
+    if _hidden506:
+        _w506c = json.loads(json.dumps(_f506))
+        for _row506c in _w506c["rows"]:
+            if _row506c.get("face") == _hidden506[0].get("face"):
+                _row506c["cheapest_hit"] = None
+                break
+        if not _m506.row_problems(_w506c):
+            _bad506.append("a hidden class with no hit survived the guard")
+    _d506 = ("faces %r | relations %r (E503 published %r, delta %r) | by class %r | "
+             "structured %r incidental %r none %r | no declared witness %r of %r B | "
+             "writer-free %r | verdict %r" % (
+                 _s506.get("faces"), _s506.get("relations"),
+                 _s506.get("published_e503_nodate_relations"),
+                 _s506.get("nodate_relations_delta_vs_published_e503"), _s506.get("by_class"),
+                 _s506.get("faces_with_a_structured_date_outside_the_witness_fields"),
+                 _s506.get("faces_with_only_incidental_dates"),
+                 _s506.get("faces_with_no_date_anywhere"),
+                 _s506.get("bytes_with_no_declared_witness"), _s506.get("bytes_total"),
+                 _s506.get("faces_writer_free"), _f506.get("verdict")))
+except Exception as _e506x:
+    _bad506.append(repr(_e506x)[:160])
+    _d506 = "leg could not run"
+check(_name506, not _bad506, "; ".join(_bad506)[:240] or _d506)
+
 if __name__ == "__main__":
     sys.exit(main())
