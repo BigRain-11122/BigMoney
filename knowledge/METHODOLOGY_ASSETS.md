@@ -12795,3 +12795,22 @@ cause_verdict=`the_one_day_cases_split_between_structured_fields_and_free_text`�
 **边界**：作用域是**词法**的，不是数据流：同一作用域内先后两次赋值都算「可达」，所以 4 个 stays-mixed 是这套方法的上限而不是代码的定论；历史臂完全没跑（E507 的 git blob 索引不重放），只读工作树；`caller_supplied` 只是「域内看是形参」，调用方到底传什么不在这项研究射程内；`drop` 的绑定位置只按行号集合差算，同一行多次赋值算一个。
 
 **验证**：`scripts/e510_binding_scope.py`（run rc0 / check problems=[] / verify problems=[] 且重导一致 / **selftest 20/20**）+ `results/state_tilt/SCOPEDBINDING-2026-11-07.json` + `scopedbinding_latest.json`（13 个 pair + 42 行 + 两臂完整读数 + bindings 差异）；S6 腿 `binding_scope` rc0 0.05s（receipt `results/_r1537bmb_s6_chain.json`）；smoke 腿 `# E510 (r1537 bm-b)` 原文文档化（单腿复检 `_r1537_leg510.py` bad=[]）；digest=`research/digests/DIGEST-20261107-r1537-e510-binding-scope.md`。未跑：全量 smoke 套件、其余 S6 链、采集器、GPU 面（法定停车）。
+
+## E511 -- E510 留下的 4 个歧义站点没有一个能靠改名解决：3 个是「名字只绑一次、值从右值进来」，1 个是「同一个索引的三步构造」（r1537 bm-b）
+
+**触发**：E510 用作用域表把 E507 的 42 对 mixed 收敛成 13 个 pair site，8 个收敛、1 个要模块级兜底，剩 4 个判成「enclosing scope itself holds more than one origin」。这句话是对**名字**的判词，而一个名字可以以两种完全不同的方式含糊：被写了不止一次（哪个写到达站点是执行顺序问题），或者只写了一次而**值**从别处进来（歧义在下一层，改名没有东西可分开）。这 4 个站点到底属于哪一种，E510 没有回答。
+
+**方法**：不改上游，只把判定拆成可机检的两步。①对每个站点取站点自身作用域的**全部写入**（assign / ann-assign / aug-assign / for 目标 / with-as / 海象 / except-as；推导式目标按 E507 规则遮蔽并单列披露），每条记 (行号, 写法, 右值形状, 操作数符号)；右值形状分档：种子字面量 / 提及自身的延展（`idx[...]`、`x if idx is None else ...`、`idx + ...`、`idx` 本身）/ 不提及自身的替换（call、别的对象的取元、属性）/ 默认值表达式 / 分支表达式。②按形状与**结构**定类：只有一条写入=值从右值进来；多条且全部延展=一个意义多步构造；多条且全是替换=两名一义（改名可分离）；多条但落在**同一个 `if` 的相反两支**=分支互斥（结构证据 `if_line+arm`，不看形状）。rename 仅在「两名一义」档为真。
+
+**读数**：4 个 pair site / 4 个成员面 / 2 个源文件 / 2 个符号，**可改名分离 = 0**。①`scripts/etf_book_cash_ladder.py:575` 的 `idx`：3 条写入，`idx = None`（种子）→ `idx = s.index if idx is None else idx.union(s.index)`（对自身延展）→ `idx = idx[idx >= WINDOW_START]`（对自身取元）——**一个意义、三步构造**，只有数据流能答「哪一步的值到达 575 行」。②`scripts/etf_book_order.py` 的 `asof` 三个站点（1033/1043/1059，全在 `run_card` 内，共享同一条写入）：作用域里**只写一次** `asof = tk["priced_bar"] or "unknown"`，而操作数 `tk = card_config_ticket(nav=nav)` 是 call_result——E510 的 narrow 臂正是因此在「只绑一次」的名字上仍读 mixed。判决 `every_residual_site_is_resolved_by_neither_a_rename_but_the_values`。
+
+**四条可复用教训**：
+
+1. **「作用域内多来源」不等于「这个名字被写了多次」**：4 个站点里 3 个只写了一次。把上游 verdict 的「holds more than one origin」按字面读成「重复赋值」，会把 3/4 的站点归错类。判据必须是绑定的**条数与右值形状**，而不是上游那句话的措辞。
+2. **右值的「延展 vs 替换」是这条研究的分水岭**：`idx = idx[...]` 是对自身的延展（一个意义、多步构造，数据流问题）；`cal = compute(path)` 不提及自身=替换（两种意义，改名可分离）。把这对概念写成机检档位之后，「需不需要数据流」就从一个形容词变成一个可复算的字段。
+3. **互斥分支要按结构判，不能按形状判**：`if flag: stamp = pick(path) else: stamp = stamp2` 两支都是「替换」，但只有一支会执行——按形状归会把它印成「两名一义」，从而错误地宣称「改名可修」。必须带 `if` 臂标签（`if_line` + `arm`）才分得开。selftest 首版 22/24 就是撞在这条上，补上臂标记后 24/24。
+4. **跟着操作数走一跳，能解释上游为什么收不敛**：`asof` 的唯一右值读 `tk`，`tk` 是 call_result。发布操作数证据（符号/行/形状/同域条数）之后，「这个 site 为什么还是 mixed」是可复核的一句话，而不是「操作数绑在别处」的托词——E510 的 `K_OPERAND` 类在这里得到了机制级的解释。
+
+**边界**：只读工作树、只到站点自身作用域，不做数据流执行也不宣称做过分离；右值摘录是单行折叠，**行号才是权威**；推导式目标按 E507 规则排除并单列披露；`if` 之外的循环/`try` 分支互斥**未建模**（勿当已判）；调用方到底传什么不在这项研究射程内；历史臂完全不跑。
+
+**验证**：`scripts/e511_collision_anatomy.py`（`run` rc0 / `check` problems=[] / `verify` 重建 problems=[] / **selftest 24/24**，含 6 个门拒腿）+ `results/state_tilt/COLLISIONANATOMY-2026-11-07.json` 与 `collisionanatomy_latest.json`（4 站点 / 4 行，确定性重建仅 `generated` 漂移）+ S6 leg `collision_anatomy` rc0 0.05s + smoke leg `E511 ...` 单跑 1/1 绿、doctored（anatomy 翻面）1/1 红复绿 + digest `research/digests/DIGEST-20261107-r1537-e511-collision-anatomy.md`。

@@ -1,0 +1,333 @@
+{
+ "anatomy_vocab": [
+  "one_in_scope_binding_the_value_enters_through_the_right_hand_side",
+  "sequential_build_up_of_one_meaning_every_step_extends_the_symbol_itself",
+  "more_than_one_meaning_under_one_name_a_step_replaces_rather_than_extends",
+  "rebinding_where_at_least_one_arm_replaces_and_one_extends",
+  "caller_supplied_the_symbol_is_a_parameter_of_the_enclosing_scope",
+  "no_binding_at_all_in_the_site_scope"
+ ],
+ "answers": {
+  "how_many_are_removable_by_a_rename": 0,
+  "how_many_bind_it_more_than_once": 1,
+  "how_many_bind_their_symbol_once_in_the_site_scope": 3,
+  "how_many_distinct_symbols_are_involved": 2,
+  "how_many_members_hang_on_them": 4,
+  "how_many_need_a_sequential_dataflow_read": 1,
+  "how_many_need_an_operand_level_read": 3,
+  "how_many_pair_sites_survive_the_scoped_table": 4
+ },
+ "card": "E511-WHICH-OF-THE-FOUR-SURVIVING-PAIRS-IS-A-TRUE-COLLISION-INSIDE-ONE-SCOPE",
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T22:24:38+08:00",
+ "method_limits": [
+  "the population is E510's own published face: a site appears because that face called it ambiguous under the scoped table, not because this study re-read E507's 42 pairs",
+  "the enumeration is syntactic and stops at the site's own scope; a write in a different function is out of the population even though it carries the name",
+  "comprehension targets are excluded from the scope's own bindings and published as a separate list, because python 3 gives them their own scope (E507's rule)",
+  "no dataflow is executed: this face says which sites a rename can separate and which need one, it never claims to have performed the separation",
+  "the right-hand-side excerpt is a single-line collapse of a possibly multi-line expression; the binding line number is the authority, the excerpt is for the eye",
+  "an augmented assignment or a loop target is recorded as a write because it rebinds the name, even when the value it produces is the same kind as before"
+ ],
+ "population_source": "results/state_tilt/SCOPEDBINDING-2026-11-07.json pairs whose collapse is stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+ "resolution_vocab": [
+  "sequential_dataflow_which_write_reaches_the_site",
+  "operand_read_what_the_right_hand_side_actually_returns",
+  "branch_join_which_arm_runs",
+  "call_site_what_the_caller_passes",
+  "nothing_to_resolve_the_symbol_is_bound_nowhere"
+ ],
+ "rows": [
+  {
+   "collapse": "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+   "date_expression": "idx[-1].date()",
+   "line": 575,
+   "path": "results/etf_book_cash_ladder/CASH-TICKET-2026-10-19.json",
+   "scoped_tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "site": "S0087",
+   "source": "scripts/etf_book_cash_ladder.py",
+   "symbol": "idx",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+   "date_expression": "idx[-1].date()",
+   "line": 575,
+   "path": "results/etf_book_cash_ladder/CASH-TICKET-2026-10-23.json",
+   "scoped_tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "site": "S0087",
+   "source": "scripts/etf_book_cash_ladder.py",
+   "symbol": "idx",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+   "date_expression": "asof",
+   "line": 1033,
+   "path": "results/etf_book_order/TICKET-2026-10-28-card.json",
+   "scoped_tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "site": "S0090",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+   "date_expression": "asof",
+   "line": 1059,
+   "path": "results/etf_book_order/ORDER-2026-10-28-card.md",
+   "scoped_tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "site": "S0093",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+   "date_expression": "asof",
+   "line": 1043,
+   "path": "results/etf_book_order/ORDER-2026-10-28-card.md",
+   "scoped_tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "site": "S0095",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  }
+ ],
+ "sites": [
+  {
+   "anatomy": "sequential_build_up_of_one_meaning_every_step_extends_the_symbol_itself",
+   "binding_count": 3,
+   "bindings": [
+    {
+     "if_arm": null,
+     "kind": "assign",
+     "line": 410,
+     "operand": "",
+     "rhs": "idx = None",
+     "shape": "literal_NoneType"
+    },
+    {
+     "if_arm": null,
+     "kind": "assign",
+     "line": 412,
+     "operand": "idx",
+     "rhs": "idx = s.index if idx is None else idx.union(s.index)",
+     "shape": "branch_on_itself"
+    },
+    {
+     "if_arm": null,
+     "kind": "assign",
+     "line": 413,
+     "operand": "idx",
+     "rhs": "idx = idx[(idx >= WINDOW_START)]",
+     "shape": "subscript_of_itself"
+    }
+   ],
+   "comprehension_targets": [
+    "k",
+    "n",
+    "_",
+    "_",
+    "k",
+    "d",
+    "d",
+    "k",
+    "v",
+    "c",
+    "r",
+    "nm",
+    "v",
+    "k",
+    "v"
+   ],
+   "date_expression": "idx[-1].date()",
+   "is_parameter": false,
+   "line": 575,
+   "member_count": 2,
+   "members": [
+    "results/etf_book_cash_ladder/CASH-TICKET-2026-10-19.json",
+    "results/etf_book_cash_ladder/CASH-TICKET-2026-10-23.json"
+   ],
+   "operand_evidence": [],
+   "removable_by_a_rename": false,
+   "resolution": "sequential_dataflow_which_write_reaches_the_site",
+   "scope": "main",
+   "scope_chain": [
+    "main",
+    "Module"
+   ],
+   "source": "scripts/etf_book_cash_ladder.py",
+   "symbol": "idx"
+  },
+  {
+   "anatomy": "one_in_scope_binding_the_value_enters_through_the_right_hand_side",
+   "binding_count": 1,
+   "bindings": [
+    {
+     "if_arm": null,
+     "kind": "assign",
+     "line": 1019,
+     "operand": "tk",
+     "rhs": "asof = tk[\"priced_bar\"] or \"unknown\"",
+     "shape": "defaulted_expression"
+    }
+   ],
+   "comprehension_targets": [
+    "p"
+   ],
+   "date_expression": "asof",
+   "is_parameter": false,
+   "line": 1033,
+   "member_count": 1,
+   "members": [
+    "results/etf_book_order/TICKET-2026-10-28-card.json"
+   ],
+   "operand_evidence": [
+    {
+     "count_in_scope": 1,
+     "kind": "assign",
+     "line": 1015,
+     "rhs": "tk = card_config_ticket(nav=nav)",
+     "shape": "call_result",
+     "symbol": "tk"
+    }
+   ],
+   "removable_by_a_rename": false,
+   "resolution": "operand_read_what_the_right_hand_side_actually_returns",
+   "scope": "run_card",
+   "scope_chain": [
+    "run_card",
+    "Module"
+   ],
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof"
+  },
+  {
+   "anatomy": "one_in_scope_binding_the_value_enters_through_the_right_hand_side",
+   "binding_count": 1,
+   "bindings": [
+    {
+     "if_arm": null,
+     "kind": "assign",
+     "line": 1019,
+     "operand": "tk",
+     "rhs": "asof = tk[\"priced_bar\"] or \"unknown\"",
+     "shape": "defaulted_expression"
+    }
+   ],
+   "comprehension_targets": [
+    "p"
+   ],
+   "date_expression": "asof",
+   "is_parameter": false,
+   "line": 1043,
+   "member_count": 1,
+   "members": [
+    "results/etf_book_order/ORDER-2026-10-28-card.md"
+   ],
+   "operand_evidence": [
+    {
+     "count_in_scope": 1,
+     "kind": "assign",
+     "line": 1015,
+     "rhs": "tk = card_config_ticket(nav=nav)",
+     "shape": "call_result",
+     "symbol": "tk"
+    }
+   ],
+   "removable_by_a_rename": false,
+   "resolution": "operand_read_what_the_right_hand_side_actually_returns",
+   "scope": "run_card",
+   "scope_chain": [
+    "run_card",
+    "Module"
+   ],
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof"
+  },
+  {
+   "anatomy": "one_in_scope_binding_the_value_enters_through_the_right_hand_side",
+   "binding_count": 1,
+   "bindings": [
+    {
+     "if_arm": null,
+     "kind": "assign",
+     "line": 1019,
+     "operand": "tk",
+     "rhs": "asof = tk[\"priced_bar\"] or \"unknown\"",
+     "shape": "defaulted_expression"
+    }
+   ],
+   "comprehension_targets": [
+    "p"
+   ],
+   "date_expression": "asof",
+   "is_parameter": false,
+   "line": 1059,
+   "member_count": 1,
+   "members": [
+    "results/etf_book_order/ORDER-2026-10-28-card.md"
+   ],
+   "operand_evidence": [
+    {
+     "count_in_scope": 1,
+     "kind": "assign",
+     "line": 1015,
+     "rhs": "tk = card_config_ticket(nav=nav)",
+     "shape": "call_result",
+     "symbol": "tk"
+    }
+   ],
+   "removable_by_a_rename": false,
+   "resolution": "operand_read_what_the_right_hand_side_actually_returns",
+   "scope": "run_card",
+   "scope_chain": [
+    "run_card",
+    "Module"
+   ],
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof"
+  }
+ ],
+ "study": "E511_collision_anatomy",
+ "summary": {
+  "distinct_sources": 2,
+  "distinct_symbols": 2,
+  "evidence_cutoff": "2026-11-07",
+  "members_under_them": 4,
+  "pair_sites": 4,
+  "sites_by_anatomy": {
+   "caller_supplied_the_symbol_is_a_parameter_of_the_enclosing_scope": 0,
+   "more_than_one_meaning_under_one_name_a_step_replaces_rather_than_extends": 0,
+   "no_binding_at_all_in_the_site_scope": 0,
+   "one_in_scope_binding_the_value_enters_through_the_right_hand_side": 3,
+   "rebinding_where_at_least_one_arm_replaces_and_one_extends": 0,
+   "sequential_build_up_of_one_meaning_every_step_extends_the_symbol_itself": 1
+  },
+  "sites_by_resolution": {
+   "branch_join_which_arm_runs": 0,
+   "call_site_what_the_caller_passes": 0,
+   "nothing_to_resolve_the_symbol_is_bound_nowhere": 0,
+   "operand_read_what_the_right_hand_side_actually_returns": 3,
+   "sequential_dataflow_which_write_reaches_the_site": 1
+  },
+  "sites_needing_an_operand_read": 3,
+  "sites_needing_dataflow": 1,
+  "sites_removable_by_a_rename": 0,
+  "sites_with_one_in_scope_binding": 3,
+  "sites_with_several_in_scope_bindings": 1
+ },
+ "title": "E510 left four pair sites ambiguous under the scoped table. Enumerate every write the site's own scope makes of that symbol, classify each by the shape of its right-hand side, and say per site whether a rename removes the residual ambiguity or only a dataflow read could.",
+ "verdict": "every_residual_site_is_resolved_by_neither_a_rename_but_the_values",
+ "verdict_vocab": [
+  "every_residual_site_is_resolved_by_neither_a_rename_but_the_values",
+  "some_residual_sites_would_separate_under_a_rename_and_the_rest_would_not",
+  "every_residual_site_separates_under_a_rename_so_the_bucket_was_two_meanings",
+  "the_scoped_table_left_no_ambiguous_site_to_anatomise"
+ ]
+}

@@ -1905,6 +1905,14 @@ LEGS = [
     # site, the reading under each table plus what the scope did to the ambiguity.  `check`
     # re-derives the collapse class from the pair's own two arms, so a hand-written label fails.
     ("binding_scope", ["python", "scripts/e510_binding_scope.py", "check"]),
+
+    # E511 anatomises the four pair sites E510 could not collapse: it enumerates every write the
+    # site's own scope makes of that symbol, classifies each by the shape of its right-hand side
+    # (seed literal / a step that extends the symbol itself / a replacement that never mentions
+    # it / a call result), and publishes per site whether a rename separates the residual
+    # ambiguity or only a dataflow read could.  `check` re-derives the anatomy and the resolution
+    # from the published bindings, so a hand-written class fails.
+    ("collision_anatomy", ["python", "scripts/e511_collision_anatomy.py", "check"]),
 ]
 
 

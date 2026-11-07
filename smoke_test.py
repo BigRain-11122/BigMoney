@@ -20853,5 +20853,66 @@ except Exception as _e510x:
     _d510 = "leg could not run"
 check(_name510, not _bad510, "; ".join(_bad510)[:240] or _d510)
 
+# E511: the four pair sites E510 could not collapse get anatomised -- each site's own-scope writes
+# are enumerated and classified by the shape of the right-hand side.  The leg rebuilds the face
+# from the tree and requires the gate to pass on both the published face and the rebuild, that
+# every site's anatomy re-derives from its own bindings, that no site claims a rename it cannot
+# have, and that three doctored copies (a flipped anatomy, a hand-written rename count, a
+# resolution outside the vocabulary) are all refused.
+_name511 = ("E511 the four sites E510 left ambiguous are anatomised from their own in-scope "
+            "writes, so 'one name, one meaning, an opaque operand' is separated from 'one name, "
+            "two meanings, a rename would separate them' (r1537 bm-b)")
+_bad511 = []
+try:
+    _m511 = __import__("importlib").import_module("e511_collision_anatomy")
+    _f511 = json.load(open(os.path.join("results", "state_tilt",
+                                        "collisionanatomy_latest.json"), encoding="utf-8"))
+    _s511 = _f511.get("summary") or {}
+    _t511 = _f511.get("sites") or []
+    _bad511.extend(_m511.site_problems(_f511))
+    if not _t511:
+        _bad511.append("the site population is empty")
+    if _s511.get("pair_sites") != len(_t511):
+        _bad511.append("the published pair-site count is not the site table length")
+    if sum((_s511.get("sites_by_anatomy") or {}).values()) != len(_t511):
+        _bad511.append("the anatomy classes do not add up to the site total")
+    if sum((_s511.get("sites_by_resolution") or {}).values()) != len(_t511):
+        _bad511.append("the resolution classes do not add up to the site total")
+    _up511 = json.load(open(os.path.join("results", "state_tilt",
+                                         "scopedbinding_latest.json"), encoding="utf-8"))
+    _mix511 = {(p.get("source"), p.get("line"), p.get("date_expression"))
+               for p in (_up511.get("pairs") or []) if p.get("collapse") == _m511.e510.K_MIXED}
+    _got511 = {(s.get("source"), s.get("line"), s.get("date_expression")) for s in _t511}
+    if _mix511 - _got511:
+        _bad511.append("a pair E510 left ambiguous is missing from the anatomy")
+    if _got511 - _mix511:
+        _bad511.append("the anatomy carries a site E510 already collapsed")
+    if _f511.get("verdict") != _m511._verdict(_s511):
+        _bad511.append("the verdict is not the one the sites imply")
+    _w511 = json.loads(json.dumps(_f511))
+    _w511["sites"][0]["anatomy"] = _m511.K_TWO
+    if not _m511.site_problems(_w511):
+        _bad511.append("a flipped anatomy survived the guard")
+    _w511b = json.loads(json.dumps(_f511))
+    _w511b["summary"]["sites_removable_by_a_rename"] += 1
+    if not _m511.site_problems(_w511b):
+        _bad511.append("a hand-written rename count survived the guard")
+    _w511c = json.loads(json.dumps(_f511))
+    _w511c["sites"][0]["resolution"] = "guessed"
+    if not _m511.site_problems(_w511c):
+        _bad511.append("a resolution outside the vocabulary survived the guard")
+    _d511 = ("%r sites behind %r members | one in-scope binding %r / several %r | chain %r | "
+             "rename-removable %r | needs dataflow %r / operand %r | verdict %r" % (
+                 _s511.get("pair_sites"), _s511.get("members_under_them"),
+                 _s511.get("sites_with_one_in_scope_binding"),
+                 _s511.get("sites_with_several_in_scope_bindings"),
+                 (_s511.get("sites_by_anatomy") or {}).get(_m511.K_CHAIN),
+                 _s511.get("sites_removable_by_a_rename"), _s511.get("sites_needing_dataflow"),
+                 _s511.get("sites_needing_an_operand_read"), _f511.get("verdict")))
+except Exception as _e511x:
+    _bad511.append(repr(_e511x)[:160])
+    _d511 = "leg could not run"
+check(_name511, not _bad511, "; ".join(_bad511)[:240] or _d511)
+
 if __name__ == "__main__":
     sys.exit(main())
