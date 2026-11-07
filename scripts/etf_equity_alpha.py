@@ -68,6 +68,19 @@ def repair_flips(close, openp, thr=FLIP_THR):
     first = close.ffill().bfill().iloc[0]
     adj = (1.0 + r_clean).cumprod().multiply(first, axis=1)
     adj = adj.where(close.notna())
+    # RE-ANCHOR TO THE TRADE (r1400). The rebuild walks forward from the panel's own first
+    # bar, so a real share split flattened as a "flip" leaves the whole column on the
+    # pre-split scale forever: 513100's 1:5 split (2022-01-14, 5.192 -> 1.015) left the
+    # executable sheet quoting 11.04 for an ETF whose own amount/volume printed 2.162, and
+    # 158 of 1,622 columns ended more than 5% off their traded close (510500 3.5x, 510020
+    # 10x). A level is only a scale -- multiplying a column by a constant leaves every
+    # return it feeds unchanged -- so anchoring each column to its own last priced print
+    # repairs the order arithmetic without moving a single backtest number.
+    last_raw = close.ffill().iloc[-1]
+    last_adj = adj.ffill().iloc[-1]
+    scale = (last_raw / last_adj).replace([np.inf, -np.inf], np.nan)
+    usable = scale.notna() & (scale > 0) & (last_raw > 0)
+    adj = adj.multiply(scale.where(usable, 1.0), axis=1)
     factor = adj / close
     return adj, openp * factor, int(bad.to_numpy().sum())
 

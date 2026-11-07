@@ -498,6 +498,13 @@ def main() -> int:
             # worse than no reading.
             ("product: open print ruler (first-minute drift, spread, and the size that fits)",
              "scripts/open_print_ruler.py", ["selftest"]),
+            # r1400: the repaired panel rebuilt each column FORWARD from its own first bar, so
+            # a real share split flattened as a "flip" left the column on the pre-split scale
+            # forever -- 513100 quoted 11.0388 against a tape printing 2.162 (5.1x), and 158
+            # of 1,624 columns were off by more than 5%. This leg pins the re-anchor and the
+            # scale-invariance that lets it repair sizing without moving a backtest number.
+            ("product: panel level anchor (a repaired column ends at the price the tape prints)",
+             "scripts/panel_level_anchor_audit.py", ["selftest"]),
             # r1223: "the lane was re-enabled" and "the lane stayed on" are two
             # claims; only the second is a fix. This one measures the second, and
             # its own failure mode (an unreadable tick read as "still on") is what

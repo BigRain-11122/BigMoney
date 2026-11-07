@@ -20,9 +20,9 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 
 **Price basis:** 本面的数字算在**已修复**的面板上：**169 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 159 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1624 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。
 
-**Panel digest:** `58302d9ca988c138` (5275 bars x 1624 symbols, 2005-02-23->2026-11-06, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
+**Panel digest:** `93efa7188894f865` (5275 bars x 1624 symbols, 2005-02-23->2026-11-06, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-11-06 / ticket 2026-11-06 / page 2026-11-06 (compared at 2026-11-07 12:24:00); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: SAME_DAY** -- card 2026-11-06 / ticket 2026-11-06 / page 2026-11-06 (compared at 2026-11-07 14:07:43); this card, the executable sheet and the CEO page all priced the same closing bar.
 
 **Family coherence: MIXED_WORLDS** -- 11 faces priced 2 different panels (58302d9c, a1a42aee): per-cell deltas across worlds are world differences, not rule effects.
 5 of 10 arms priced the card's own panel and keep their labels (buffer_k02, buffer_k05, buffer_k10, buffer_k20, buffer_k40); the 5 withheld one(s) still price another panel (buffer_k05_cost20, cost0, cost05, cost20, cost40), so their verdicts are not part of this reading.
@@ -34,7 +34,7 @@ Realised 60d book vol 11.4% -> risk scale 0.70, cash slot 29.9%.
 | code | name | sleeve | weight | target (CNY) | executable (CNY) | 100-share lots |
 |---|---|---|---|---|---|---|
 | 159501 | 纳指ETF嘉实 | equity | 5.8% | 58,398 | 58,346 | 28200 |
-| 513100 | 纳指ETF国泰 | equity | 5.8% | 58,398 | 57,402 | 5200 |
+| 513100 | 纳指ETF国泰 | equity | 5.8% | 58,398 | 58,266 | 27000 |
 | 513690 | 港股红利ETF博时 | equity | 5.8% | 58,398 | 58,363 | 50400 |
 | 159577 | 美国50ETF汇添富 | equity | 5.8% | 58,398 | 58,354 | 36200 |
 | 159263 | 价值ETF易方达 | equity | 5.8% | 58,398 | 58,293 | 51000 |
@@ -45,9 +45,9 @@ Realised 60d book vol 11.4% -> risk scale 0.70, cash slot 29.9%.
 | 159307 | 红利低波100ETF博时 | equity | 5.8% | 58,398 | 58,355 | 55000 |
 | 513870 | 纳指ETF富国 | equity | 5.8% | 58,398 | 58,248 | 29300 |
 | 159632 | 纳斯达克ETF华安 | equity | 5.8% | 58,398 | 58,266 | 24900 |
-| cash | - | money | 29.9% | 299,225 | 301,218 | - |
+| cash | - | money | 29.9% | 299,225 | 300,354 | - |
 
-**Which column is money.** A weight times capital is the sizing INTENT; only whole 100-share lots can be placed. So the executable column can only spend 698,782 of the 700,776 target book, and the desk keeps 1,994 (0.20% NAV) in cash that the risk scale never asked for -- that residue is the price of lot granularity, not a position. Place the executable column. Until r1342 this card printed the target column as if it were the order, which is why the ticket disagreed with it by 0.13% NAV (E201); the two faces now reconcile to the yuan.
+**Which column is money.** A weight times capital is the sizing INTENT; only whole 100-share lots can be placed. So the executable column can only spend 699,646 of the 700,776 target book, and the desk keeps 1,130 (0.11% NAV) in cash that the risk scale never asked for -- that residue is the price of lot granularity, not a position. Place the executable column. Until r1342 this card printed the target column as if it were the order, which is why the ticket disagreed with it by 0.13% NAV (E201); the two faces now reconcile to the yuan.
 
 ## Whose CAGR is this?
 
