@@ -87,8 +87,14 @@ PRIMARY_H = 20
 # --------------------------------------------------------------------------- #
 # data
 # --------------------------------------------------------------------------- #
-def _read_tail(path: str, start: str = START):
-    """Bars at/after `start`, with the archive's own turnover column."""
+def _read_tail(path: str, start: str = START, with_shares: bool = False):
+    """Bars at/after `start`, with the archive's own turnover column.
+
+    `with_shares=True` also returns the outstanding-share column ("os"), the
+    only field in the archive that lets a caller compute a market cap.  It is
+    opt-in because reading it costs nothing but publishing it in the panel dict
+    invites readers to treat a share count as a price.
+    """
     import pandas as pd
 
     with open(path, "rb") as fh:
@@ -101,13 +107,17 @@ def _read_tail(path: str, start: str = START):
             break
     if off is None:
         return None
+    cols = [0, 1, 2, 3, 4, 5, 6, 8] + ([7] if with_shares else [])
+    dtypes = {0: str, 1: float, 2: float, 3: float, 4: float, 5: float, 6: float, 8: float}
+    if with_shares:
+        dtypes[7] = float
     try:
         df = pd.read_csv(
             io.BytesIO(blob[off:]),
             header=None,
             names=["date", "open", "high", "low", "close", "volume", "amount", "os", "turn"],
-            usecols=[0, 1, 2, 3, 4, 5, 6, 8],
-            dtype={0: str, 1: float, 2: float, 3: float, 4: float, 5: float, 6: float, 8: float},
+            usecols=cols,
+            dtype=dtypes,
             engine="c",
         )
     except Exception:
@@ -118,13 +128,14 @@ def _read_tail(path: str, start: str = START):
     return df if len(df) >= WINDOW + 5 else None
 
 
-def load_panel(per_dir: str = PER, start: str = START, max_symbols: int | None = None):
+def load_panel(per_dir: str = PER, start: str = START, max_symbols: int | None = None,
+               with_shares: bool = False):
     files = sorted(f for f in os.listdir(per_dir) if f.endswith(".csv"))
     if max_symbols:
         files = files[:max_symbols]
     syms, frames, dates = [], [], set()
     for fn in files:
-        df = _read_tail(os.path.join(per_dir, fn), start)
+        df = _read_tail(os.path.join(per_dir, fn), start, with_shares=with_shares)
         if df is None:
             continue
         syms.append(fn[:-4])
@@ -138,6 +149,7 @@ def load_panel(per_dir: str = PER, start: str = START, max_symbols: int | None =
     tu = np.full((T, S), np.nan, dtype=np.float64)
     vol = np.full((T, S), np.nan, dtype=np.float64)
     amt = np.full((T, S), np.nan, dtype=np.float64)
+    sh = np.full((T, S), np.nan, dtype=np.float64) if with_shares else None
     for j, df in enumerate(frames):
         rows = np.fromiter((idx[d] for d in df["date"]), dtype=np.int64, count=len(df))
         op[rows, j] = df["open"].to_numpy(dtype=np.float64)
@@ -145,8 +157,13 @@ def load_panel(per_dir: str = PER, start: str = START, max_symbols: int | None =
         tu[rows, j] = df["turn"].to_numpy(dtype=np.float64)
         vol[rows, j] = df["volume"].to_numpy(dtype=np.float64)
         amt[rows, j] = df["amount"].to_numpy(dtype=np.float64)
-    return {"dates": order, "symbols": syms, "open": op, "close": cl, "turn": tu,
-            "volume": vol, "amount": amt}
+        if with_shares:
+            sh[rows, j] = df["os"].to_numpy(dtype=np.float64)
+    out = {"dates": order, "symbols": syms, "open": op, "close": cl, "turn": tu,
+           "volume": vol, "amount": amt}
+    if with_shares:
+        out["shares"] = sh
+    return out
 
 
 # --------------------------------------------------------------------------- #

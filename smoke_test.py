@@ -7830,6 +7830,8 @@ def main() -> int:
               or "before/after recorded per rewrite; unrecorded bars named, never invented")
     except Exception as e:
         check("product: a rewritten mark keeps the value it replaced", False, repr(e)[:180])
+    _leg_width_growth()
+    _leg_size_decomp()
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
 _SMOKE_GC = None
@@ -7922,9 +7924,17 @@ def _marker_fragments():
             bad.append((path, blob.stdout.count(b"\n") + 1, "unclosed-hunk"))
     return bad
 
-    # (r1411) width is not where the breadth premium lives: on a tape where every name is
-    # identical, every width must earn the same number, and a frozen book must shrink (drop
-    # the name it can no longer see) instead of refilling the seat or losing a whole cohort
+
+def _leg_width_growth():
+    """(r1411) width is not where the breadth premium lives: on a tape where every name
+    is identical, every width must earn the same number, and a frozen book must shrink
+    (drop the name it can no longer see) instead of refilling the seat or losing a whole
+    cohort.
+
+    r1412: this body had been written after the `return bad` of _marker_fragments(), so
+    it never ran -- a leg that is silently absent from the suite is worse than a red one.
+    It is a function now and main() calls it.
+    """
     try:
         import importlib as _il77
         if "scripts" not in sys.path:
@@ -7956,6 +7966,51 @@ def _marker_fragments():
     except Exception as e:
         check("product: breadth width is not the risk axis and a frozen book shrinks, "
               "it does not refill", False, repr(e)[:180])
+
+
+def _leg_size_decomp():
+    """(r1412) an equal-weight pool is a size bet, so the arms must be able to say so.
+
+    Two mechanical facts on synthetic tapes: a size-linked tape lifts the equal-weight
+    arm above the cap-weighted one AND puts the small tercile above the large one; a flat
+    tape must not manufacture a size spread. A NaN cap has to be refused by name -- a
+    naive sort would either promote it to the largest weight or silently shrink the pool.
+    """
+    try:
+        import importlib as _il80
+        import numpy as _np80
+        if "scripts" not in sys.path:
+            sys.path.insert(0, "scripts")
+        _F80 = _il80.import_module("astock_size_decomp")
+        _bad80 = []
+        _ch80 = _F80.chain_arms(_F80.cohort_arms(_F80._synth(size_link=0.004)))
+        if not (_ch80["ew_all"]["cagr"] > _ch80["cw_all"]["cagr"]):
+            _bad80.append("a size-linked tape did not lift EW_ALL above CW_ALL")
+        if not (_ch80["sml"]["cagr"] > _ch80["lrg"]["cagr"]):
+            _bad80.append("small tercile did not beat large on a size-linked tape")
+        if _F80.verdict_block(_ch80)["verdict"] not in ("SIZE_IS_THE_PREMIUM", "MIXED",
+                                                        "REWEIGHTING_ONLY"):
+            _bad80.append("verdict unreadable")
+        _flat80 = _F80.chain_arms(_F80.cohort_arms(_F80._synth(size_link=0.0)))
+        _sp80 = _flat80["sml"]["cagr"] - _flat80["lrg"]["cagr"]
+        if abs(_sp80) > 0.10:
+            _bad80.append("a flat tape produced a %.4f size spread" % _sp80)
+        _cap80 = _F80.caps_at(_F80._synth(size_link=0.0), 10, _np80.arange(60))
+        _cap80[3] = float("nan")
+        _r80 = _F80.arm_readings(_np80.arange(60), _np80.full(60, 0.01), _cap80)
+        if _r80["n_capped"] != 59:
+            _bad80.append("a NaN cap was not refused: n_capped=%r" % (_r80["n_capped"],))
+        try:
+            _F80.caps_at({"close": _np80.ones((3, 3))}, 0, _np80.arange(3))
+            _bad80.append("caps_at accepted a panel with no shares column")
+        except ValueError:
+            pass
+        check("product: the equal-weight premium is priced against cap weights",
+              not _bad80, "; ".join(_bad80)[:200]
+              or "size-linked tape lifts EW over CW and small over large; flat tape does not")
+    except Exception as e:
+        check("product: the equal-weight premium is priced against cap weights",
+              False, repr(e)[:180])
 
 
 def _finish() -> int:
