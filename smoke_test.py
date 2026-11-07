@@ -4611,6 +4611,42 @@ def main() -> int:
         check("config: no card or digest carries an eaten path prefix",
               False, repr(e)[:160])
 
+    # r1406: the forward ledger was committed on 2026-11-07 with a missing comma
+    # between two list elements and a `drift` block that carried `faces`/`max_abs`
+    # twice. Every reader of that file (the order ticket, the CEO page, the settle
+    # audit) dies at open on the first defect, and json.loads accepts the second
+    # silently -- keeping the LAST value, so the file would have reported an old
+    # measurement as the current one. Neither defect leaves a conflict marker, so
+    # the claw was blind to it. Tools/json_face_guard.py is now the claw's r1406
+    # leg; this pair of checks keeps the published corpus and the guard's own
+    # semantics on the same line.
+    try:
+        _jfg = _json_face_guard()
+        _jdoc = _jfg.scan(_jfg.default_paths())
+        check("config: every published JSON face opens and holds no repeated key",
+              _jdoc["verdict"] == "CLEAN",
+              ("%d finding(s): " % len(_jdoc["findings"])
+               + "; ".join("%s %s" % (f["verdict"], f["path"])
+                           for f in _jdoc["findings"][:4]))[:220]
+              if _jdoc["findings"] else
+              "%d face(s) parsed, %d skipped (data-size/unreadable)"
+              % (_jdoc["checked"], len(_jdoc["skipped"])))
+    except Exception as e:
+        check("config: every published JSON face opens and holds no repeated key",
+              False, repr(e)[:160])
+    try:
+        # The claw's own legs: a guard whose selftest is broken would block good
+        # commits or wave bad ones through, and nothing above would notice.
+        import io as _io
+        import contextlib as _ctx
+        _buf = _io.StringIO()
+        with _ctx.redirect_stdout(_buf):
+            _rc = _json_face_guard()._selftest()
+        check("config: the staged JSON claw passes its own legs", _rc == 0,
+              (_buf.getvalue().strip().splitlines() or ["no output"])[-1][:160])
+    except Exception as e:
+        check("config: the staged JSON claw passes its own legs", False, repr(e)[:160])
+
     # r1344: the card-ledger tripwire must see every card at either heading level.
     # bm-b files `### E221`, this machine files `## E232`, and the first version of
     # the guard matched only `##` -- so 6 of 158 cards were invisible to the one gate
@@ -6574,11 +6610,52 @@ def main() -> int:
                 _bad76.append("the page md named by latest.json is absent")
         _cm76 = (_page76.get("cash_money") or {})
         _pb76 = _cm76.get("block") or {}
+        # r1406: two faces owe each other identical numbers only when they were priced on
+        # the same panel. On 2026-11-07 this machine's estate moved to panel 93efa718 while
+        # the CEO page (bm-a's writer) still priced 58302d9c: the same rule then produced a
+        # cash pile 0.057% apart (540,203.70 vs 540,512.84) and every CNY figure followed
+        # it. That is a WORLD difference, not a value defect -- E293/E397: the gate reds
+        # "same world, different number" and must NAME the split when the worlds differ,
+        # instead of printing two numbers as if one of them were wrong. The strict equality
+        # below is unchanged whenever the worlds match OR either side names none (absence
+        # is unverifiable, never a pass).
+        _wp76 = (((((_page76.get("underwater") or {}).get("control") or {})
+                   .get("published") or {}).get("published_bar_note") or {})
+                 .get("panel_digest") or {}).get("digest")
+        _wt76 = ((_tk76.get("price_basis") or {}).get("panel_digest") or {})
+        _wt76 = _wt76.get("digest") if isinstance(_wt76, dict) else None
+        _split76 = bool(_wp76 and _wt76 and _wp76 != _wt76)
         if _cm76.get("status") != "ok":
             _bad76.append("the page prices no cash money (%r/%r)"
                           % (_cm76.get("status"), _cm76.get("note")))
         elif _money76.get("verdict") in (None, "CANNOT_PRICE"):
             _bad76.append("the sheet prices no cash money while the page claims one")
+        elif _split76:
+            # Different worlds: do not compare the two faces' CNY; instead demand (a) the
+            # page says so in its own words and (b) each side follows from ITS OWN pile.
+            if "同一笔现金" not in _md76:
+                _bad76.append("the section is gone from the page")
+            _fc76 = _page76.get("family_coherence") or {}
+            if _fc76.get("priced_same_panel") is not False and "MIXED_WORLDS" not in json.dumps(
+                    _fc76, ensure_ascii=False):
+                _bad76.append("the page priced world %s, the sheet world %s, and the page "
+                              "does not say its faces span two panels"
+                              % (_wp76, _wt76))
+            for _tag76, _blk76, _pile76 in (
+                    ("page", _pb76, float(_page76.get("cash_amount_cny") or 0)),
+                    ("sheet", _money76, float(_money76.get("cash_amount_cny") or 0))):
+                if _pile76 <= 0:
+                    _bad76.append("%s prices a cash pile of %r" % (_tag76, _pile76))
+                    continue
+                for _key in ("spot", "mean_tail"):
+                    _row76 = _blk76.get(_key) or {}
+                    _pct76, _ann76 = _row76.get("pct"), _row76.get("annual_cny")
+                    if _pct76 is None or _ann76 is None:
+                        _bad76.append("%s %s row is incomplete" % (_tag76, _key))
+                    elif abs(round(_pile76 * (_pct76 or 0.0) / 100.0, 0) - _ann76) > 1.0:
+                        _bad76.append("%s %s annual does not follow from its own pile "
+                                      "(%r vs %r)" % (_tag76, _key, _ann76,
+                                                      round(_pile76 * (_pct76 or 0.0) / 100.0, 0)))
         else:
             for _key in ("spot", "mean_tail", "window"):
                 _a76 = (_pb76.get(_key) or {})
@@ -7735,6 +7812,25 @@ def _claw():
 
 
 _SMOKE_CTH = None
+_SMOKE_JFG = None
+
+
+def _json_face_guard():
+    """Tools/json_face_guard.py as a module (r1406).
+
+    The pre-commit claw calls the same file in --staged mode, so the leg and the
+    claw must ask the identical question: a face has to parse, and no object may
+    repeat a key. Loading the module (not re-implementing the check) is what keeps
+    the suite from passing while the claw blocks -- or worse, the reverse."""
+    global _SMOKE_JFG
+    if _SMOKE_JFG is None:
+        import importlib.util as _ilu
+        _p = os.path.join("Tools", "json_face_guard.py")
+        _s = _ilu.spec_from_file_location("_smoke_json_face_guard", _p)
+        _m = _ilu.module_from_spec(_s)
+        _s.loader.exec_module(_m)
+        _SMOKE_JFG = _m
+    return _SMOKE_JFG
 
 
 def _card_text_hygiene():

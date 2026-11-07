@@ -9774,3 +9774,25 @@ x3 成本腿（39.1bp/边）拿到 **−0.76pp/yr**——这条择时赚的钱�
 
 正身=scripts/zoo94_lhb_inst_dist_probe.py（selftest 15/15）+ results/supply_berth/zoo94_lhb_inst_dist_probe.json
 + smoke 腿 "product: LHB institution-distribution supply probe"
+
+## E409 · 冲突钳只看得见标记：重复键不会让 json.loads 报错，它让读者拿到旧值（r1406 bm-c）
+前向账本 `results/etf_book_forward/LEDGER.json` 在 2026-11-07 以两个缺陷被提交：`drift.settled_bars` 两个元素间
+漏逗号（`json.load` 直接抛，订单票/CEO 页/结算审计全部死在 open），以及 `drift` 块里 `faces` 与 `max_abs` 各出现
+两次（把新块拼在旧块前面）。第二个更贵：`json.loads` 静默接受重复键并**保留最后一个**，于是即便修好逗号，文件
+也会把旧的测量值当作当前值发布。两者都是行级冲突解决留下的形状，而**两者都不带任何冲突标记**——pre-commit
+爪（D-20260927-05）只找 marker，`git diff --cached --check` 也只找 marker，所以这类缺陷出生时没有任何闸能看见。
+
+**① 闸必须读「将要提交的那份字节」，不是它旁边的 worktree 副本。** 该缺陷正是「工作区文件与暂存 blob 不是
+同一份文本」的产物；判磁盘上的文件会给一个交出去会坏掉的提交放行。落地面=`git show :<path>` 读 index blob +
+`git diff --cached --name-only --diff-filter=ACMR` 枚举（删除不是读者会打开的面）。
+**② 逐字节校验器只有一个实现。** 磁盘面与暂存面共用 `judge_bytes()`，否则两条路会各自漂移；selftest 用「暂存
+后把 worktree 修好」这一腿钉死「读索引不读磁盘」——修好工作区不能清掉暂存里的坏 blob。
+**③ 闸说干净时不出声。** 每提交都跑的钩子必须在不该说话时不说话，否则干净提交的输出被污染，人会学会无视它。
+**④ 面编码也是被判的一面。** 同一个判器顺带发现 `results/e25_cash_leg/TREND-a0653f-20261021.json` 在 HEAD 里是
+UTF-16 BOM（每个读者都 `encoding='utf-8'` 打开），worktree 里已是 UTF-8——这类「对我能开、对读者打不开」的面
+从此会被爪拦下。
+
+How to apply：任何「提交面必须可被读者打开」的闸，判暂存 blob 不判工作区；JSON 面必须同时过「能否解析」与
+「有没有重复键」两问（第二问只有 `object_pairs_hook` 看得见）。
+正身=Tools/json_face_guard.py（selftest 18/18）+ Tools/git-hooks/pre-commit（r1406 腿）+ smoke 两腿
+「every published JSON face opens and holds no repeated key」「the staged JSON claw passes its own legs」

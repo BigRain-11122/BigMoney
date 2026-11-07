@@ -32,4 +32,22 @@ if [ -n "$base" ]; then
     echo "$base" | head -5
     exit 1
 fi
+# r1406: the forward ledger shipped on 2026-11-07 with a missing comma between two
+# list elements AND a `drift` block carrying `faces`/`max_abs` twice. Neither defect
+# leaves a conflict marker, so the legs above cannot see it, and `json.loads` keeps
+# the LAST duplicate key silently -- readers then report an old measurement as the
+# current one. This leg judges the STAGED BLOB (never the worktree copy beside it)
+# exactly as a reader opens it. It prints nothing when the staged faces are clean,
+# so a normal commit's output is unchanged.
+if command -v python >/dev/null 2>&1; then
+    root=$(git rev-parse --show-toplevel 2>/dev/null)
+    if [ -n "$root" ] && [ -f "$root/Tools/json_face_guard.py" ]; then
+        if ! python "$root/Tools/json_face_guard.py" --staged; then
+            echo "PRE-COMMIT CLAW: a staged JSON face will not open for its readers (r1406)."
+            echo "Fix the parse error / duplicate key, re-stage, then commit."
+            echo "Escape hatch (state the reason in the round report): git commit --no-verify"
+            exit 1
+        fi
+    fi
+fi
 exit 0
