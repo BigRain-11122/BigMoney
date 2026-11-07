@@ -1734,6 +1734,25 @@ def main() -> int:
         check("fleet: a lane that declares its stand-in is not uncertified",
               False, str(e))
     try:
+        # r1257: a stand-in declared only in the old `takeover{}` shape is a
+        # declaration no reader can see -- so the board must both refuse to
+        # certify it AND say whose declaration it was. Recomputed from the
+        # published rows; a row that carries `unread_takeover_by` while reading
+        # certified (or without saying it) is a regression.
+        _rows5 = (json.load(open("results/data_lane_freshness.json",
+                                 encoding="utf-8")).get("lanes") or [])
+        _bad5 = [r["lane"] for r in _rows5
+                 if r.get("unread_takeover_by")
+                 and (r.get("verdict") != "unverifiable"
+                      or "takeover{}" not in (r.get("why") or ""))]
+        check("fleet: a stand-in declared in the old shape is named, not trusted",
+              not _bad5,
+              ("unread stand-in certified or unexplained: " + ", ".join(_bad5)
+               if _bad5 else "every unread stand-in is refused and named"))
+    except Exception as e:
+        check("fleet: a stand-in declared in the old shape is named, not trusted",
+              False, str(e))
+    try:
         # r1162: "cannot certify here" is about our copy; whose disk the rows are
         # on is the actionable half. The board derives that sentence ONCE, and the
         # two faces a human opens must carry it verbatim -- so this leg recomputes
