@@ -8,7 +8,9 @@
   "verify": "problems=[]"
  },
  "agenda_starved": false,
+ "ahead_of_origin_main": 550,
  "beat_at_close": "2026-11-06T17:13:43+08:00",
+ "behind_origin_main": 349,
  "card": "E504-WHO-COMPOSES-THE-NAME-DATE-AND-FROM-WHICH-VARIABLE",
  "clock_read": "2026-11-07T19:46:51+08:00",
  "cores": 8,
@@ -39,22 +41,17 @@
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "delivery": {
-  "branch": "machine/bm-b-r1523",
-  "main_push_blocker": "local main is 529 ahead / 313 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel",
-  "sha": "a53ab1468c62f5f11a0738d1286e9e36006f9d6f",
-  "ts": "2026-11-07T13:43:31+08:00",
-  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1523 equals local HEAD"
- },
+ "delivery": "machine/bm-b-r1533",
  "delivery_branch": "machine/bm-b-r1523",
+ "delivery_note": "D-20261106-03: main cannot be rebased here (promisor clone, two blood lines); the round is delivered on the machine branch and verified with git ls-remote",
  "delivery_r1472": {
   "behind_origin_main": 295,
   "branch": "machine/bm-b-r1472",
   "local_not_on_origin_main": 418,
   "main_push_blocker": "local main diverged from origin/main for many rounds (418 ahead / 295 behind at open, two blood lines, no unattended rebase per r1243)"
  },
- "delivery_sha": "a53ab1468c62f5f11a0738d1286e9e36006f9d6f",
- "delivery_verified": "git ls-remote origin refs/heads/machine/bm-b-r1523 equals local HEAD",
+ "delivery_sha": "aeec471f25001bc175a2f68453c8fff873dca7cc",
+ "delivery_verified": true,
  "dept": "research+engineering",
  "did": "three legs that re-red for corpus growth alone now carry the shared E455 rule instead of exact summary equality (E408 chain_legs 221->225, E416 counts 265->270 sites / 226->231 blind / 49->51 no-chain-writer, E418 population 49->51); E346's move was NOT growth -- a new module became a reader of one key (no_reader 44->43, read_by_someone 30->31) so its producer was re-derived, and that re-derive cascaded into E419 (age-unknown population follows E418) which was re-derived too. All four legs green from their own extracted runners: E346 1/1, E408 PASS/13 rows, E416 chain 34/34, E418 1/1 (51 faces, 43 stamped, max 25 bars).",
  "did_round": 1416,
@@ -131,6 +128,7 @@
  "latest_artifact": "results/state_tilt/NAMECOMPOSE-2026-11-07.json",
  "local_not_on_origin": 100,
  "local_not_on_origin_commits": 107,
+ "local_not_on_origin_main": 550,
  "machine": "bm-b",
  "machine_id": "bm-b",
  "mirror_note": "r1389: identity + round fields refreshed only; the authoritative face is state-bm-b.json (r1381 precedent -- the mirror had drifted 5 rounds and was not rewritten from a face that is not its own)",
@@ -1342,6 +1340,7 @@
   "ts": "2026-11-07T13:43:31+08:00",
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1523 equals local HEAD"
  },
+ "r1533_delivery": "aeec471f25001bc175a2f68453c8fff873dca7cc",
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
