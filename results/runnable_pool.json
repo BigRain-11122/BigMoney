@@ -29232,17 +29232,35 @@
   },
   {
    "deliverable": "results/state_tilt/READERONWARD-<cutoff>.json",
+   "done_at": "2026-11-08T06:11:21+08:00",
+   "done_by": "bm-b r1551",
    "entered_at": "2026-11-08T05:5x+08:00",
    "entered_by": "bm-b r1550 (follow-on from E523's own one-hop limit)",
+   "evidence": "scripts/e524_reader_onward.py (selftest clean, check/verify problems=0), S6 leg reader_onward, smoke leg # E524",
    "evidence_cutoff": "2026-11-08",
    "id": "E524-WHICH-READER-OF-A-HANDED-ONWARD-RESULT-IS-ITSELF-HANDED-FURTHER",
    "lane": "cpu-only",
    "lane_note": "static: continue the hop through the readers E523 followed, no network",
    "priority": "normal",
+   "result_ref": "results/state_tilt/READERONWARD-2026-11-08.json",
    "source": "E523 (r1550 bm-b): one hop stops at the reader; of 351 handed-onward sites, 40 land on a reader that guards, 12 on a reader that does not, and 25 use a form the scan does not follow at all, so the chain past the second reader is unmeasured",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/READERONWARD-<cutoff>.json",
    "work": "for every site E523 resolved to a reader, follow the value once more through that reader's own hand-on form (returned / argument / stored) and report how deep any unguarded read sits, keeping the not-followed and unresolved residue as its own classes rather than as zeros"
+  },
+  {
+   "deliverable": "results/state_tilt/ONWARDRESIDUE-<cutoff>.json",
+   "entered_at": "2026-11-08T06:11:21+08:00",
+   "entered_by": "bm-b r1551 (follow-on from E524's own two-hop limit)",
+   "evidence_cutoff": "2026-11-08",
+   "id": "E525-WHAT-HAPPENS-TO-THE-VALUES-THE-SECOND-READER-STILL-FORWARDS",
+   "lane": "cpu-only",
+   "lane_note": "static: resolve the callee of the remaining parcels, no network",
+   "priority": "normal",
+   "source": "E524 (r1551 bm-b): of 56 parcels handed past the first reader, 5 land in a blind reader, 2 in a guarded one, 23 leave the tree and 6 are forwarded again; the third hop is unmeasured",
+   "status": "ready",
+   "target": "results/state_tilt/ONWARDRESIDUE-<cutoff>.json",
+   "work": "follow the 6 parcels E524 found still being forwarded after the second reader, and the 23 that left the tree at the second hop, and report for each whether the exit is a library boundary or a callback this corpus cannot resolve -- keeping \"left the tree\" and \"still forwarded\" as separate classes"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 \u00a7\u4e03 (\u6267\u884c/\u7b97\u529b\u5206\u79bb)",
@@ -29257,6 +29275,6 @@
   "single_writer": "\u672c\u6587\u4ef6\u53ea\u7531\u8f6e(\u63a7\u5236\u9762)\u5199; Tools/autofill.py \u53ea\u8bfb(\u8fd0\u884c\u6001\u5728 results/autofill_state.json + runner \u81ea\u8eab checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready \u6279\u6ce8\u518c\u5fc5\u5e26 workers_plan\uff08\u591a\u6838\u8ba1\u5212\uff0c\u5982 {\"workers\": 12, \"priority\": \"BelowNormal\"}\uff09\uff1b\u65e0\u591a\u6838\u8ba1\u5212\u4e0d\u5165\u6c60 (autofill C8 read-side \u5f3a\u5236\u95e8)"
  },
- "updated_at": "2026-11-08T05:5x+08:00",
+ "updated_at": "2026-11-08T06:11:21+08:00",
  "version": 1
 }

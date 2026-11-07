@@ -13008,3 +13008,18 @@ E522 把 351 个生产站点记成「把结果递出去、在本站没被读」�
 - **字段名要说出它数的是什么**：首版把含 9 个模块级站点的总体叫 `handed_onward_production_sites_in_upstream`，改名为 `handed_onward_sites_in_upstream` + 单列 `sites_at_module_level`（E207 名即语义族）。
 
 **验证**：`scripts/e523_handed_onward_reader.py`：`run` rc0 / `check` problems=0 / `verify` 重导 problems=0 / **selftest clean**（12 条腿：四种出口形式各一例、一个盲读者、一个闸后读者、一个从不读参数的被调方、语料外被调方、只设闸的世界必须翻成 guarded 判决、空总体必须判空，另加六份 doctored 面全部拒收）；S6 腿 `handed_onward_reader` rc0 0.07s；smoke 腿 `# E523` 单跑 1/1、`--doctor` 1/1 红且面 sha 复原。产物 `results/state_tilt/HANDEDREAD-2026-11-08.json` + `handedread_latest.json`；digest `research/digests/DIGEST-20261108-r1550-e523-handed-onward-reader.md`。未跑：全套 smoke（~20-30min）、S6 其余 update_*/market_*/paper 链、monitor.build_status、daily_scorecard。
+
+## E524 —— 递出去的值到了"看门人"手里之后，谁又把它递了出去？两跳处还坐着 5 个不设防的读数（2026-11-08 r1551 bm-b）
+
+E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者、12 个到了不闸的读者、其余落在容器/表达式/跟不动的形态。**"一跳"是下限不是答案**——一个读者先做闸检查、再把值转手，它并没有守住这个值，只是把它传下去。本轮把 E523 解析到"仓内读者"的 52 个站点各再跟一跳：36 个站点的第一读者会转手，共 56 个包裹被送出；**5 个落在第二读者手里被无闸读取（与原始交接相距两跳）、2 个落在有闸读者、23 个离开树外、6 个还在继续转手、16 个第一读者自己就读掉了（链在第一跳终止）、0 个值在第二读者处死掉、0 个不可解析**。深度分布：第一跳处有不设防读数 12 个，第二跳处 5 个，同一行两处都有 0 个。
+
+**方法**：取 E523 已发布面的读者类（`READER_REACHED` 五类）为人口；第一读者是**返回者的调用者**时，把它继续转手的那些包裹（E522 已归为 `handed_onward` 的调用点）当作新站点，用同一套一跳规则再扫一遍 → 第二读者的判定（有闸读 / 无闸读 / 从不加载参数 / 继续转手 / 离开树外 / 不可解析）；第一读者是**仓内被调函数**时，E523 已经给出了它怎么处理这个参数（从不加载 / 有闸读 / 无闸读），链在那里就该终止，本轮如实标注**而不是伪造一跳**。每行发布 `chain` 类、`deepest_unguarded_depth`（1 或 2 或空）与支撑计数，`face_problems` 逐行重算并拒绝"声称两跳无闸却不计读者"的行。
+
+**可复用教训**：
+- **"守了"和"转手了"是两件事**：`if not got: return None` 之后 `return f(got)` 的那一行，是把值交给下一个函数，不是守住了它。凡以"调用者都做了检查"收口的结论，必须再问一句"检查完之后这个值去哪了"。
+- **不是每一类读者都还能再跟一跳**：被调者已经读过参数（有闸/无闸）的站点，再跟只会把同一次读数重算一遍；把这类硬跟下去就会造出"第三跳"，那不是测量而是叙事。可延伸的只有"返回者的调用者把包裹转手"这一支。
+- **上游词表里的"每个调用者都守住了"可能是"都转手了"**：`receiver_sites_guarded=0 且 receiver_sites_unguarded=0 但 receiver_sites_handed_again>0` 时，E523 的兜底分支会落进"behind_a_guard"。本轮不采信这一句，只看包裹（`CT_HANDED`）实际去了哪儿——**类名不能替代计数**。
+- **深度要作为一列发布**：只报"两跳处有 5 个"而不报"第一跳处还有 12 个"，读者会以为链条整体只有第二跳最危险；`deepest_unguarded_depth` + `rows_with_a_read_at_both_depths` 让"两处都有"成为可数的空集而不是含混。
+- **跟不动的残差要单列**：离开树外 23 个、继续转手 6 个都不许并进"安全"，也不许记 0；`verify` 只钉会变的快照计数（源数、解析失败、包裹数），分类计数一律重算。
+
+**验证**：`scripts/e524_reader_onward.py`（`run` rc0 / `check` problems=0 / `verify` 重derive problems=0 / **selftest clean**：固定语料=一个返回者带一个无闸包裹和一个有闸包裹、一个返回者被调用者直接读掉，判出 depth=2 / depth=1、门拒 6 份 doctored 面）；S6 腿 `reader_onward`；smoke 腿 `# E524` 1/1 + `--doctor` 1/1 红（面 sha 9ce17ea693da 已还原）；产物 `results/state_tilt/READERONWARD-2026-11-08.json` + `readeronward_latest.json`；digest `research/digests/DIGEST-20261108-r1551-e524-reader-onward.md`。未跑：全量 smoke（~20-30min）、S6 其余 update_*/market_*/paper 腿、monitor.build_status、daily_scorecard。

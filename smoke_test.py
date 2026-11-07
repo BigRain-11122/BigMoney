@@ -21732,6 +21732,89 @@ except Exception as _e523x:
     _d523 = "leg could not run"
 check(_name523, not _bad523, "; ".join(_bad523)[:240] or _d523)
 
+# E524: the second hop past the reader E523 measured -- every row must publish a chain class and
+# the counts behind it, the per-chain histogram must re-derive from the rows, a row that claims a
+# blind second reader must count one, a row that publishes a depth-2 unguarded read must count the
+# reader that makes it, the class counts must cover every row, the upstream face must still hash
+# what was pinned, and four doctored copies (a hand-written verdict, a zeroed depth-2 count, a
+# blind row relabelled as guarded, a stale upstream pin) must all be refused.
+_name524 = ("E524 is the reader of a handed-onward value itself handing it further: of the sites "
+            "E523 resolved to an in-repo reader, the parcels their readers hand on are followed "
+            "one more hop and the depth of any unguarded read is published (r1551 bm-b)")
+_bad524 = []
+try:
+    _m524 = __import__("importlib").import_module("e524_reader_onward")
+    _f524 = json.load(open(os.path.join("results", "state_tilt", "readeronward_latest.json"),
+                           encoding="utf-8"))
+    _s524 = _f524.get("summary") or {}
+    _r524 = _f524.get("sites") or []
+    _bad524.extend(_m524.face_problems(_f524))
+    if not _r524:
+        _bad524.append("the followed population is empty")
+    _bc524 = {_k524: 0 for _k524 in _m524.CHAIN_VOCAB}
+    for _x524 in _r524:
+        if _x524.get("chain") in _bc524:
+            _bc524[_x524.get("chain")] += 1
+        if _x524.get("chain") == _m524.C_SECOND_READER_UNGUARDED \
+                and not _x524.get("second_readers_unguarded"):
+            _bad524.append("%s:%s claims a blind second reader and counts none"
+                           % (_x524.get("source"), _x524.get("line")))
+            break
+        if _x524.get("deepest_unguarded_depth") == 2 \
+                and not _x524.get("second_readers_unguarded"):
+            _bad524.append("%s:%s publishes a depth-2 unguarded read and counts no reader"
+                           % (_x524.get("source"), _x524.get("line")))
+            break
+    if _bc524 != (_s524.get("sites_by_chain") or {}):
+        _bad524.append("the chain histogram does not add up in the consumer's hands")
+    if sum(_bc524.values()) != _s524.get("sites_followed"):
+        _bad524.append("the followed count and the rows disagree")
+    if _s524.get("sites_with_an_unguarded_read_at_depth_2") != _bc524.get(_m524.C_SECOND_READER_UNGUARDED):
+        _bad524.append("the depth-2 unguarded count and the chain class disagree")
+    _w524 = json.loads(json.dumps(_f524))
+    _w524["verdict"] = _m524.V_EVERY_CHAIN_ENDS_GUARDED_OR_DEAD
+    if not _m524.face_problems(_w524):
+        _bad524.append("a hand-written verdict survived the guard")
+    _w524b = json.loads(json.dumps(_f524))
+    _w524b["summary"]["sites_with_an_unguarded_read_at_depth_2"] = 0
+    if not _m524.face_problems(_w524b):
+        _bad524.append("a zeroed depth-2 count survived the guard")
+    _w524c = json.loads(json.dumps(_f524))
+    _hit524c = False
+    for _x524c in _w524c["sites"]:
+        if _x524c.get("chain") == _m524.C_SECOND_READER_UNGUARDED:
+            _x524c["chain"] = _m524.C_SECOND_READER_GUARDS
+            _hit524c = True
+            break
+    if _hit524c and not _m524.face_problems(_w524c):
+        _bad524.append("a blind row relabelled as guarded survived the guard")
+    _w524d = json.loads(json.dumps(_f524))
+    _w524d["upstream_face_sha256"] = "0" * 64
+    if not _m524.face_problems(_w524d):
+        _bad524.append("a stale upstream pin survived the guard")
+    _d524 = ("%r reader-reaching sites followed (%r parcels scanned) | chains: first reader reads "
+             "%r, second guards %r, second blind %r, dies %r, still handed on %r, unresolved %r, "
+             "left the tree %r | unguarded at depth 1 %r / depth 2 %r | carriers handing a parcel "
+             "on %r | verdict %r"
+             % (_s524.get("sites_followed"),
+                _s524.get("second_hop_sites_followed"),
+                _s524.get("sites_where_the_first_reader_reads_it"),
+                _s524.get("sites_where_the_second_reader_guards"),
+                _s524.get("sites_with_an_unguarded_read_at_depth_2"),
+                _s524.get("sites_where_the_value_dies_at_the_second_reader"),
+                _s524.get("sites_still_handed_further_after_the_second_read"),
+                _s524.get("sites_whose_second_reader_is_unresolved"),
+                _s524.get("sites_that_left_the_tree_at_the_second_hop"),
+                _s524.get("sites_with_an_unguarded_read_at_depth_1"),
+                _s524.get("sites_with_an_unguarded_read_at_depth_2"),
+                _s524.get("sites_that_hand_a_parcel_onward"),
+                _f524.get("verdict")))
+except Exception as _e524x:
+    _bad524.append(repr(_e524x)[:160])
+    _d524 = "leg could not run"
+check(_name524, not _bad524, "; ".join(_bad524)[:240] or _d524)
+
+
 
 if __name__ == "__main__":
     sys.exit(main())

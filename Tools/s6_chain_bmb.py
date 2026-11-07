@@ -1962,6 +1962,10 @@ LEGS = [
     ("literal_guard", ["python", "scripts/e518_literal_guard.py", "check"]),
     ("handed_onward_reader",
      ["python", "scripts/e523_handed_onward_reader.py", "check"]),
+    # E524 asks the question E523's one-hop limit left open: a reader that checks a guard and then
+    # forwards the value has not guarded it, only passed it on.  `check` re-derives every chain
+    # class from the row counts and refuses a face whose depth-2 unguarded rows count no reader.
+    ("reader_onward", ["python", "scripts/e524_reader_onward.py", "check"]),
     # E522 takes that same arm population to the call sites: an arm nobody calls is dormant, an arm
     # whose callers all test the result is not a hazard, and only an arm read with no guard whose
     # shape equals the read arm's is a silent default that is live in production.  `check`
