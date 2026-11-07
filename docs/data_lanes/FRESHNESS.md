@@ -2,32 +2,31 @@
 
 Official reference: last day that must exist by 15:30 = **2026-11-06** (8797 calendar days loaded).
 
-Verdict: **host_down** -- 6/10 lanes in sync, 6/10 auditable from this machine, worst = `moneyflow`.
+Verdict: **host_down** -- 9/11 lanes in sync, 9/11 auditable from this machine, worst = `marks`.
 
 
 ## Whose disk these numbers are on
 
-以本机 bm-a 的盘为基准：9 条在役车道里有 3 条的数字不在本机盘上：2 条在 bm-c 的盘上（2.69h 未报到）、1 条在 bm-b 的盘上（207.86h 未报到）；留在本机盘上的 6 条里 6 条可核实。
+以本机 bm-c 的盘为基准：10 条在役车道里有 1 条的数字不在本机盘上：1 条在 bm-b 的盘上（210.73h 未报到）；留在本机盘上的 9 条里 9 条可核实。
 
-- `bm-c`: moneyflow, zt_pool (host down)
 - `bm-b`: marks (host down)
 | lane | host | tail | missing (official days) | verdict | authority |
 |---|---|---|---|---|---|
 | `options` | bm-c | 2026-09-30 | 22: 2026-10-08, 2026-10-09, 2026-10-12, 2026-10-13, 2026-10-14, 2026-10-15 … | retired (copy said `stalled`) | unattributed |
-| `moneyflow` | bm-c | 2026-10-19 | 14: 2026-10-20, 2026-10-21, 2026-10-22, 2026-10-23, 2026-10-26, 2026-10-27 … | unverifiable (copy said `stalled`) | unattributed |
 | `marks` | bm-b | 2026-10-29 | 6: 2026-10-30, 2026-11-02, 2026-11-03, 2026-11-04, 2026-11-05, 2026-11-06 | unverifiable (copy said `stalled`) | unattributed |
-| `zt_pool` | bm-c | 2026-10-29 | 6: 2026-10-30, 2026-11-02, 2026-11-03, 2026-11-04, 2026-11-05, 2026-11-06 | unverifiable (copy said `stalled`) | non_host_copy |
 | `astock_daily` | bm-b | 2026-11-06 | 0 | in_sync | declared_takeover |
-| `etf_panel` | bm-a | 2026-11-06 | 0 | in_sync | host_envelope |
+| `etf_panel` | bm-c | 2026-11-06 | 0 | in_sync | host_envelope |
 | `futures` | bm-a | 2026-11-06 | 0 | in_sync | host_envelope |
 | `heat` | bm-a | 2026-11-06 | 0 | in_sync | host_envelope |
 | `lhb` | bm-a | 2026-11-06 | 0 | in_sync | host_envelope |
+| `lhb_inst` | bm-c | 2026-11-06 | 0 | in_sync | host_envelope |
+| `moneyflow` | bm-c | 2026-11-06 | 0 | in_sync | host_envelope |
 | `repo` | bm-a | 2026-11-06 | 0 | in_sync | host_envelope |
+| `zt_pool` | bm-c | 2026-11-06 | 0 | in_sync | host_copy |
 
 ## Lanes where a missed day cannot be recovered
 
 - `marks`: an intraday tick capture: a day with no marks file cannot be rebuilt by any machine -- the file is append-only and the ticks it would have held are gone
-- `zt_pool`: pool day slices are terminal at the close; no superset arrives later
 
 ## Who was awake on the days that are missing
 
@@ -39,29 +38,20 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 These lanes cannot be certified here and the machine that is supposed to collect them has not written a heartbeat for more than 2.0h. Until it comes back the numbers below are this machine's stale copies, not the company's data.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (207.86h ago) -- holding back marks
-- `bm-c`: last seen 2026-11-08T01:53:08+08:00 (2.69h ago) -- holding back moneyflow, zt_pool
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (210.73h ago) -- holding back marks
 
 ## Why some lanes cannot be certified here
 
 A status envelope is committed by whichever machine ran the leg, and every machine also keeps its own gitignored copy of the data. Neither names its writer, so a tail that reads late can be a dead lane or a stale copy of a live one.
 
-- `moneyflow`: the envelope does not name the machine whose data it describes
 - `marks`: the envelope does not name the machine whose data it describes
-- `zt_pool`: read from this machine's local copy; the lane is hosted by bm-c
-
-## Copies that hold less than their envelope claims
-
-The envelope is what some machine says it collected; the panel is what is on this disk. Where the copy is behind its own envelope the row cannot be read as current here, even though the lane itself may be alive elsewhere.
-
-- `moneyflow`: envelope says 2026-10-19, this copy holds 2026-10-13 (4 official days behind)
 
 ## Tails read from a sample
 
 The per-symbol panels hold thousands of files, so their tail is read through an evenly spaced sample rather than a full sweep. A sample can miss a single laggard symbol; it cannot miss a panel that stopped weeks ago. Each row below says how many symbols were read out of how many.
 
-- `moneyflow`: 40 of 5222 symbols read, tail 2026-10-13; the full scan holds it in 2 of 5,222 symbols (0.04%) -- **thin tail**: that is a handful of symbols' bar, not the panel's state (certified 2026-11-07T13:47:58)
-- `astock_daily`: 40 of 5222 symbols read, tail 2026-11-06; the full scan holds it in 4,783 of 5,222 symbols (91.59%) (certified 2026-11-07T13:47:58)
+- `astock_daily`: 40 of 5223 symbols read, tail 2026-11-06; the full scan holds it in 4,783 of 5,222 symbols (91.59%) (certified 2026-11-07T13:47:58)
+- `moneyflow`: 40 of 5226 symbols read, tail 2026-11-06 (certification is older than this scan: full scan read 2026-10-19, this row reads 2026-11-06)
 
 Full-scan certification of exactly these rows: `scripts/data_lane_freshness.py certify` -> `docs/data_lanes/TAIL_CERTIFICATION.md` (it re-reads every file and names the symbols that sit behind the newest bar).
 
@@ -71,7 +61,5 @@ A quarterly report period cannot be judged by an official trading day: the unit 
 
 | lane | host | panel cutoff | statute demands | missing | verdict | takeover path |
 |---|---|---|---|---|---|---|
-| `fund_statements` | bm-c | 20260630 | 20260930 (due 2026-10-31) | 1 | period_missing | yes |
-
-- `fund_statements`: the statute demanded 20260930 from 2026-10-31; the panel on this disk stops at 20260630 (1 period(s) missing) -- host `bm-c` silent 2.69h
+| `fund_statements` | bm-c | 20260930 | 20260930 (due 2026-10-31) | 0 | in_sync | yes |
 
