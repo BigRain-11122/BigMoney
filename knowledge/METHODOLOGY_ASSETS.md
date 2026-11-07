@@ -12862,3 +12862,17 @@ E506 把 16 张面归入"日期写在见证词表之外的字段名下"时，量
 
 **验证**：`scripts/e512_callee_return.py`，`run` rc0 / `check` problems=[] / `verify` 重建 problems=[] / **selftest 28/28**（5 夹具：单路径同模块 / 有 guard 的分叉 / 无 guard 的分叉 / builtin 强转 / 非 call 绑定，+ 7 个 doctored 均被拒）+ `results/state_tilt/CALLEERETURN-2026-11-07.json` 与 `calleereturn_latest.json`（8 站点 / 2 臂 / 9 路径；确定性重导，仅 `generated` 漂移）+ S6 腿 `callee_return` rc0 0.05s（receipt `results/_r1540bmb_s6_chain.json`）+ smoke 腿 `# E512` 原文独跑 1/1 绿、`--doctor` 1/1 红且字节还原（sha `78b96c2500d8`）+ digest `research/digests/DIGEST-20261107-r1540-e512-callee-return.md`；未跑全套 smoke 套件。
 
+
+## E513 -- 供给人口的"模块常量"是不是本身由别的东西造出来的（r1541 bm-b）
+
+**立论**：E508 把 35 张只认参数的面的调用点分了类，其中 123 个实参落进"模块常量"桶（literal 53 / built 57 / imported 13），并据此回答"适配器能不能在调用点读到人口"。可是**模块常量不是已发布的人口**：`CORPUS_DIRS = tuple(e346.CORPUS_DIRS)` 在一个模块里是字面量、在另一个模块里是别名；`def go(): NAMES = _names()` 里的 `corpus`/`NAMES` 连常量都不是。名字说"常量"，那就先量**作用域**再跟值。
+
+**方法**：取 E508 面里 kind 落在三个常量桶的全部实参（123 站点）。逐站点在**调用点所在模块**（从 `source` 取，不是 `module` 字段）× 三个作用域解析：①该模块模块级赋值 → 逐跳跟着走（别名不出模块、成环即停，跨模块调用跨一次就停并记依赖）；②调用点最内层函数的局部赋值 → 标成函数局部并记函数名；③E508 点名面所在模块的模块级赋值（**单列成另一个作用域值**，不混进①）。每行发布 `scope / scope_module / enclosing_function / origin_kind / hops / dependency_modules / needs_another_module / readable_by_an_adapter_that_imports_only_the_surface_module`。
+
+**读数**：123 站点 → 84 个不同绑定。**58 个绑定（80 站点）根本是调用函数的局部变量**，不是模块常量；19 个在自身模块里就是写死的名字（冻结、可读）；23 个要第二个模块（属性或跨模块调用）；0 个是 import 时的目录遍历/文件读取；14 个三个作用域都找不到绑定。**只有 10/84 个绑定能被"只 import 面所在模块"的适配器读到，101/123 个站点失去可达性**。verdict=`some_module_constants_are_literals_in_their_own_module_and_some_are_built_elsewhere_so_recoverable_from_the_call_site_hides_a_second_import`。
+
+**窗内两个自踩**：①`row["module"]` 不是调用点所在地——E508 的 `module` 是面所属模块，`source` 才是调用文件（`e347` 的行 module 写的是 `e341_sibling_closer_what_changed`）。首版按 `module` 解析，56/65 个名字被报成"模块级没有绑定"；正解=按 `source` 解析并把"面模块"作为**另一个作用域值**发布，不许两读法静默混合。②第一版分组键把同一绑定按两条面路径算两次（"distinct constants" 73 实为重复）→ 改名 `distinct_bindings_followed` 并以 `(模块, 名字, 作用域, 所在函数)` 为键；同一模块两个函数绑同名名字合法地留两行。
+
+**可复用教训**：①标签写"常量"就先量作用域——调用点的 `Name` 可能是模块属性、函数局部或形参，三者只有一种算"发布面"；②把"E508 点名的模块"和"真正绑定这个名字的模块"同时发布，错人口就从静默变成两个具名作用域（差本身就是读数）；③可达性必须同时答**import 边**和**绑定种类**——目录遍历能 import 但不冻结，函数局部两样都不成立。
+
+**验证**：`scripts/e513_constant_origin.py` — `run` rc0 / `check` problems=[] / `verify` 重建 problems=[] / **selftest 全部绿**（7 夹具模块：字面量 / 别名链 / 跨模块常量 / 目录遍历 / 自身调用 / 无绑定 / 函数局部；另有成环臂与 4 枚 doctored 面全被拒）；`results/state_tilt/CONSTANTORIGIN-2026-11-08.json` 与 `constantorigin_latest.json` 逐字节同源；smoke leg `# E513` 以 `_r1541_leg513.py` 原文单跑 1/1 绿；digest `research/digests/DIGEST-20261108-r1541-e513-constant-origin.md`。未跑：全量 smoke 套件、其余 S6 链腿、采集器族（不宣称）。

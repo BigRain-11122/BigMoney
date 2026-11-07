@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1538 bm-b: E508 published (CALLERSUPPLIED-2026-11-07: the 35 argument-only surfaces were all called -- 26 read the population at a call site, 7 only pass their caller's parameter, and 10 readings flip once selftest fixtures are dropped). E508 closed, E513 seeded.",
+ "_stamp_note": "r1541 bm-b: E513 published (CONSTANTORIGIN-2026-11-08: of 123 argument sites E508 called module constants, 58 of 84 resolved bindings are locals of the calling function, 19 are names written in their own module, 23 need a second module, 0 are a tree walk or a file read; only 10 bindings stay readable from the surface module alone). E513 closed, E516 seeded.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -29061,9 +29061,12 @@
    "lane_note": "static: one hop into in-repo constant definitions, no network, no rewrites",
    "priority": "normal",
    "source": "E508 (r1538 bm-b): 23 of 35 surfaces take a module constant, 42 of the 79 constant sites supply a constant built by code",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/constantorigin_latest.json",
-   "title": "E508 found 23 of E505's 35 argument-only surfaces reading their population from a module constant (34 sites literal-bound, 42 built by code). A built constant is not a frozen population: `CORPUS_DIRS = tuple(e346.CORPUS_DIRS)` or `FILES = py_files(ROOT)` resolves at import time from another module or from a walk. For every surface whose headline resolution is a module constant, follow that constant one hop -- in-module assignment, imported module attribute, or a call -- and publish what the constant ultimately holds (a literal list, another module's constant, a tree walk, a loaded file) plus whether an adapter that reads the surface module alone can reach it. So 'recoverable from the call site' stops hiding 'recoverable only if you also import the other module'."
+   "title": "E508 found 23 of E505's 35 argument-only surfaces reading their population from a module constant (34 sites literal-bound, 42 built by code). A built constant is not a frozen population: `CORPUS_DIRS = tuple(e346.CORPUS_DIRS)` or `FILES = py_files(ROOT)` resolves at import time from another module or from a walk. For every surface whose headline resolution is a module constant, follow that constant one hop -- in-module assignment, imported module attribute, or a call -- and publish what the constant ultimately holds (a literal list, another module's constant, a tree walk, a loaded file) plus whether an adapter that reads the surface module alone can reach it. So 'recoverable from the call site' stops hiding 'recoverable only if you also import the other module'.",
+   "result_ref": "results/state_tilt/CONSTANTORIGIN-2026-11-08.json",
+   "closed_at": "2026-11-08T00:24:00+08:00",
+   "closed_by": "bm-b r1541"
   },
   {
    "deliverable": "results/state_tilt/BUILTELSEWHERE-<cutoff>.json",
@@ -29092,6 +29095,18 @@
    "status": "ready",
    "target": "results/state_tilt/emptyarmcover_latest.json",
    "title": "E512 found one callee (`card_config_ticket`) whose three published sites are all safe only because a terminating guard sits between the call and the site. Three guarded sites are not a property of the callee: enumerate every call site of every in-repo callee that branches over a nothing-valued path, and publish per call site whether a terminating guard covers the empty arm, whether the value reaches a subscript unguarded, and whether the site is reachable at all -- so the guarded sibling stops being evidence for the unguarded one."
+  },
+  {
+   "id": "E516-WHICH-FUNCTION-LOCAL-THAT-E508-CALLED-A-MODULE-CONSTANT-IS-THE-ONLY-CARRIER-OF-A-POPULATION",
+   "lane": "cpu-only",
+   "status": "ready",
+   "entered_at": "2026-11-08T00:24:00+08:00",
+   "entered_by": "bm-b r1541",
+   "evidence_cutoff": "2026-11-08",
+   "title": "E513 found 58 of the 84 bindings that E508 published as module constants are locals of the function that makes the call (80 of 123 sites). A local is not a population a reader can reconstruct: it is produced inside the call and thrown away. Measure, for every surface whose argument is such a local, whether any other caller supplies a real population -- i.e. classify the surface as readable-from-a-call-site / readable-only-through-the-local / never-supplied -- and publish which of those locals are produced by a call into another module so the 'a caller passes a constant' headline stops counting transient values.",
+   "target": "results/state_tilt/localcarrier_latest.json",
+   "deliverable": "results/state_tilt/LOCALCARRIER-<cutoff>.json",
+   "source": "E513 (r1541 bm-b): 58 of 84 published 'module constant' bindings are function locals"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

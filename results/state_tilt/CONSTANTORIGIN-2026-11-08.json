@@ -1,0 +1,3526 @@
+{
+ "answers": {
+  "how_many_are_recomputed_from_the_tree_or_a_file": 0,
+  "how_many_are_written_out_as_names_in_their_own_module": 19,
+  "how_many_can_be_read_by_importing_only_the_surface_module": 10,
+  "how_many_cannot_be_answered_by_any_module_scope_binding": 14,
+  "how_many_distinct_bindings_are_followed": 84,
+  "how_many_module_constant_sites_did_e508_publish": 123,
+  "how_many_names_are_a_function_local_and_therefore_not_a_module_constant": 58,
+  "how_many_need_a_second_module": 23,
+  "how_many_sites_lose_reachability": 101,
+  "how_many_sites_whose_name_is_a_function_local": 80,
+  "how_many_surfaces_are_supplied_by_a_constant": 28
+ },
+ "card": "E513-WHICH-CONSTANT-THAT-SUPPLIES-A-POPULATION-IS-ITSELF-BUILT-FROM-SOMETHING-ELSE",
+ "evidence_cutoff": "2026-11-08",
+ "generated": "2026-11-08T00:09:52+08:00",
+ "hop_vocab": [
+  "a_literal_list_tuple_set_or_dict_of_names_written_in_that_module",
+  "a_literal_whose_elements_are_not_names",
+  "another_module_scope_name_of_the_same_module",
+  "an_attribute_on_an_imported_module",
+  "a_call_into_another_in_repo_module",
+  "a_call_to_a_function_defined_in_that_module",
+  "a_tree_walk_glob_walk_iterdir_or_listdir",
+  "a_call_that_loads_a_file_from_disk",
+  "a_comprehension_over_another_expression",
+  "a_joined_path_expression_or_a_relative_root",
+  "no_module_scope_binding_for_that_name_in_that_module"
+ ],
+ "kind": "static_read_of_the_repo_plus_its_own_published_upstream_face",
+ "method_limits": [
+  "a module constant is followed at module scope only: a name rebound inside a function is not part of what the surface module publishes",
+  "aliases stay inside the module and cycles stop the walk; a call into another module crosses once and stops, so the published origin names the dependency instead of resolving the whole tree",
+  "readable_by_an_adapter_that_imports_only_the_surface_module is about the import edge, not about side effects: a tree walk is reachable but not frozen",
+  "the upstream face's own kind labels are taken as given; this study does not re-derive whether a site really passes a module constant"
+ ],
+ "origin_vocab": [
+  "the_population_is_written_out_as_names_in_that_module",
+  "the_population_is_built_by_code_in_that_module_at_import_time",
+  "the_population_is_a_tree_walk_so_it_follows_whatever_is_on_disk",
+  "the_population_is_loaded_from_a_file_at_import_time",
+  "the_population_lives_in_another_module_and_stops_there",
+  "the_name_is_bound_inside_the_function_that_makes_the_call_so_it_is_not_a_module_constant_at_all",
+  "the_name_has_no_module_scope_binding_in_the_module_that_uses_it"
+ ],
+ "population_source": "results/state_tilt/CALLERSUPPLIED-2026-11-07.json arguments whose kind is module_constant_literal_a_module_scope_name_bound_only_to_literals or module_constant_built_a_module_scope_name_built_by_code or imported_constant_an_attribute_of_another_in_repo_module",
+ "rows": [
+  {
+   "binding_line": 4,
+   "constant": "pin",
+   "crossed_into": null,
+   "dependency_modules": [
+    "e368_seam_replay"
+   ],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "detail": {
+      "callee": "load_pin",
+      "module": "e368_seam_replay"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 4,
+     "module": "_e371_probe",
+     "name": "pin"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e368_seam_replay",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "module_scope_of_the_calling_module",
+   "scope_module": "_e371_probe",
+   "site_module": "_e371_probe",
+   "sites": 1,
+   "source": "_e371_probe.py",
+   "surface_modules": [
+    "e368_seam_replay"
+   ],
+   "surfaces": [
+    "resolve_members"
+   ]
+  },
+  {
+   "binding_line": 536,
+   "constant": "gr",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "selftest",
+   "hops": [
+    {
+     "detail": {
+      "callee": "groups_from_rows"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 536,
+     "module": "e278_spread_floor",
+     "name": "gr"
+    }
+   ],
+   "in_selftest_sites": 1,
+   "module": "e278_spread_floor",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e278_spread_floor",
+   "site_module": "e278_spread_floor",
+   "sites": 1,
+   "source": "scripts/e278_spread_floor.py",
+   "surface_modules": [
+    "e278_spread_floor"
+   ],
+   "surfaces": [
+    "census_groups"
+   ]
+  },
+  {
+   "binding_line": 357,
+   "constant": "groups",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "groups_from_rows"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 357,
+     "module": "e278_spread_floor",
+     "name": "groups"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e278_spread_floor",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e278_spread_floor",
+   "site_module": "e278_spread_floor",
+   "sites": 1,
+   "source": "scripts/e278_spread_floor.py",
+   "surface_modules": [
+    "e278_spread_floor"
+   ],
+   "surfaces": [
+    "census_groups"
+   ]
+  },
+  {
+   "binding_line": 421,
+   "constant": "rows",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "rows_from"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 421,
+     "module": "e279_substitution_soundness",
+     "name": "rows"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e279_substitution_soundness",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e279_substitution_soundness",
+   "site_module": "e279_substitution_soundness",
+   "sites": 2,
+   "source": "scripts/e279_substitution_soundness.py",
+   "surface_modules": [
+    "e279_substitution_soundness"
+   ],
+   "surfaces": [
+    "census"
+   ]
+  },
+  {
+   "binding_line": 523,
+   "constant": "a",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "cmd_selftest",
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 523,
+     "module": "e298_replay_control_census",
+     "name": "a"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e298_replay_control_census",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e298_replay_control_census",
+   "site_module": "e298_replay_control_census",
+   "sites": 1,
+   "source": "scripts/e298_replay_control_census.py",
+   "surface_modules": [
+    "e298_replay_control_census"
+   ],
+   "surfaces": [
+    "census_face"
+   ]
+  },
+  {
+   "binding_line": 524,
+   "constant": "b",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "cmd_selftest",
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 524,
+     "module": "e298_replay_control_census",
+     "name": "b"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e298_replay_control_census",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e298_replay_control_census",
+   "site_module": "e298_replay_control_census",
+   "sites": 1,
+   "source": "scripts/e298_replay_control_census.py",
+   "surface_modules": [
+    "e298_replay_control_census"
+   ],
+   "surfaces": [
+    "census_face"
+   ]
+  },
+  {
+   "binding_line": 502,
+   "constant": "f",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "cmd_selftest",
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 502,
+     "module": "e298_replay_control_census",
+     "name": "f"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e298_replay_control_census",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e298_replay_control_census",
+   "site_module": "e298_replay_control_census",
+   "sites": 8,
+   "source": "scripts/e298_replay_control_census.py",
+   "surface_modules": [
+    "e298_replay_control_census"
+   ],
+   "surfaces": [
+    "census_face"
+   ]
+  },
+  {
+   "binding_line": 208,
+   "constant": "name",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "basename"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 208,
+     "module": "e298_replay_control_census",
+     "name": "name"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e298_replay_control_census",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e298_replay_control_census",
+   "site_module": "e298_replay_control_census",
+   "sites": 1,
+   "source": "scripts/e298_replay_control_census.py",
+   "surface_modules": [
+    "e298_replay_control_census"
+   ],
+   "surfaces": [
+    "census_face"
+   ]
+  },
+  {
+   "binding_line": null,
+   "constant": "name",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "kind": "no_module_scope_binding_for_that_name_in_that_module",
+     "module": "e298_replay_control_census",
+     "name": "name",
+     "note": "no binding in module scope, the enclosing function, or the surface module"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e298_replay_control_census",
+   "needs_another_module": false,
+   "origin_kind": "the_name_has_no_module_scope_binding_in_the_module_that_uses_it",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "no_binding_in_either_module",
+   "scope_module": null,
+   "site_module": "e298_replay_control_census",
+   "sites": 1,
+   "source": "scripts/e298_replay_control_census.py",
+   "surface_modules": [
+    "e298_replay_control_census"
+   ],
+   "surfaces": [
+    "census_face"
+   ]
+  },
+  {
+   "binding_line": null,
+   "constant": "payload",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "kind": "no_module_scope_binding_for_that_name_in_that_module",
+     "module": "e298_replay_control_census",
+     "name": "payload",
+     "note": "no binding in module scope, the enclosing function, or the surface module"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e298_replay_control_census",
+   "needs_another_module": false,
+   "origin_kind": "the_name_has_no_module_scope_binding_in_the_module_that_uses_it",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "no_binding_in_either_module",
+   "scope_module": null,
+   "site_module": "e298_replay_control_census",
+   "sites": 2,
+   "source": "scripts/e298_replay_control_census.py",
+   "surface_modules": [
+    "e298_replay_control_census"
+   ],
+   "surfaces": [
+    "census_face"
+   ]
+  },
+  {
+   "binding_line": null,
+   "constant": "key",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "kind": "no_module_scope_binding_for_that_name_in_that_module",
+     "module": "e305_face_level_row_pricing",
+     "name": "key",
+     "note": "no binding in module scope, the enclosing function, or the surface module"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e305_face_level_row_pricing",
+   "needs_another_module": false,
+   "origin_kind": "the_name_has_no_module_scope_binding_in_the_module_that_uses_it",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "no_binding_in_either_module",
+   "scope_module": null,
+   "site_module": "e305_face_level_row_pricing",
+   "sites": 1,
+   "source": "scripts/e305_face_level_row_pricing.py",
+   "surface_modules": [
+    "e305_face_level_row_pricing"
+   ],
+   "surfaces": [
+    "scan_key"
+   ]
+  },
+  {
+   "binding_line": 462,
+   "constant": "payload",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "cmd_selftest",
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 462,
+     "module": "e305_face_level_row_pricing",
+     "name": "payload"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e305_face_level_row_pricing",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e305_face_level_row_pricing",
+   "site_module": "e305_face_level_row_pricing",
+   "sites": 1,
+   "source": "scripts/e305_face_level_row_pricing.py",
+   "surface_modules": [
+    "e305_face_level_row_pricing"
+   ],
+   "surfaces": [
+    "scan_key"
+   ]
+  },
+  {
+   "binding_line": 234,
+   "constant": "payload",
+   "crossed_into": null,
+   "dependency_modules": [
+    "payloads"
+   ],
+   "enclosing_function": "resolve_row",
+   "hops": [
+    {
+     "detail": {
+      "callee": "get",
+      "module": "payloads"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 234,
+     "module": "e305_face_level_row_pricing",
+     "name": "payload"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e305_face_level_row_pricing",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e305_face_level_row_pricing",
+   "site_module": "e305_face_level_row_pricing",
+   "sites": 1,
+   "source": "scripts/e305_face_level_row_pricing.py",
+   "surface_modules": [
+    "e305_face_level_row_pricing"
+   ],
+   "surfaces": [
+    "scan_key"
+   ]
+  },
+  {
+   "binding_line": 486,
+   "constant": "canon",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "canonical_faces"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 486,
+     "module": "e319_census_self_inclusion_sweep",
+     "name": "canon"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e319_census_self_inclusion_sweep",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e319_census_self_inclusion_sweep",
+   "site_module": "e319_census_self_inclusion_sweep",
+   "sites": 1,
+   "source": "scripts/e319_census_self_inclusion_sweep.py",
+   "surface_modules": [
+    "e319_census_self_inclusion_sweep"
+   ],
+   "surfaces": [
+    "build_census"
+   ]
+  },
+  {
+   "binding_line": null,
+   "constant": "docs",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "kind": "no_module_scope_binding_for_that_name_in_that_module",
+     "module": "e319_census_self_inclusion_sweep",
+     "name": "docs",
+     "note": "no binding in module scope, the enclosing function, or the surface module"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e319_census_self_inclusion_sweep",
+   "needs_another_module": false,
+   "origin_kind": "the_name_has_no_module_scope_binding_in_the_module_that_uses_it",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "no_binding_in_either_module",
+   "scope_module": null,
+   "site_module": "e319_census_self_inclusion_sweep",
+   "sites": 1,
+   "source": "scripts/e319_census_self_inclusion_sweep.py",
+   "surface_modules": [
+    "e319_census_self_inclusion_sweep"
+   ],
+   "surfaces": [
+    "build_census"
+   ]
+  },
+  {
+   "binding_line": null,
+   "constant": "edges",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "kind": "no_module_scope_binding_for_that_name_in_that_module",
+     "module": "e319_census_self_inclusion_sweep",
+     "name": "edges",
+     "note": "no binding in module scope, the enclosing function, or the surface module"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e319_census_self_inclusion_sweep",
+   "needs_another_module": false,
+   "origin_kind": "the_name_has_no_module_scope_binding_in_the_module_that_uses_it",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "no_binding_in_either_module",
+   "scope_module": null,
+   "site_module": "e319_census_self_inclusion_sweep",
+   "sites": 1,
+   "source": "scripts/e319_census_self_inclusion_sweep.py",
+   "surface_modules": [
+    "e319_census_self_inclusion_sweep"
+   ],
+   "surfaces": [
+    "build_census"
+   ]
+  },
+  {
+   "binding_line": null,
+   "constant": "per_face",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "kind": "no_module_scope_binding_for_that_name_in_that_module",
+     "module": "e319_census_self_inclusion_sweep",
+     "name": "per_face",
+     "note": "no binding in module scope, the enclosing function, or the surface module"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e319_census_self_inclusion_sweep",
+   "needs_another_module": false,
+   "origin_kind": "the_name_has_no_module_scope_binding_in_the_module_that_uses_it",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "no_binding_in_either_module",
+   "scope_module": null,
+   "site_module": "e319_census_self_inclusion_sweep",
+   "sites": 1,
+   "source": "scripts/e319_census_self_inclusion_sweep.py",
+   "surface_modules": [
+    "e319_census_self_inclusion_sweep"
+   ],
+   "surfaces": [
+    "build_census"
+   ]
+  },
+  {
+   "binding_line": null,
+   "constant": "files_c",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "kind": "no_module_scope_binding_for_that_name_in_that_module",
+     "module": "e332_invisible_tail_recovery",
+     "name": "files_c",
+     "note": "no binding in module scope, the enclosing function, or the surface module"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e332_invisible_tail_recovery",
+   "needs_another_module": false,
+   "origin_kind": "the_name_has_no_module_scope_binding_in_the_module_that_uses_it",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "no_binding_in_either_module",
+   "scope_module": null,
+   "site_module": "e332_invisible_tail_recovery",
+   "sites": 1,
+   "source": "scripts/e332_invisible_tail_recovery.py",
+   "surface_modules": [
+    "e332_invisible_tail_recovery"
+   ],
+   "surfaces": [
+    "scan"
+   ]
+  },
+  {
+   "binding_line": 50,
+   "constant": "ROOT",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "detail": {
+      "callee": "dirname"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 50,
+     "module": "e340_who_authorizes_whose_allowance",
+     "name": "ROOT"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e340_who_authorizes_whose_allowance",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "module_scope_of_the_calling_module",
+   "scope_module": "e340_who_authorizes_whose_allowance",
+   "site_module": "e340_who_authorizes_whose_allowance",
+   "sites": 2,
+   "source": "scripts/e340_who_authorizes_whose_allowance.py",
+   "surface_modules": [
+    "e340_who_authorizes_whose_allowance"
+   ],
+   "surfaces": [
+    "python_files"
+   ]
+  },
+  {
+   "binding_line": 64,
+   "constant": "PIN_SHA",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 64,
+     "module": "e341_sibling_closer_what_changed",
+     "name": "PIN_SHA"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e341_sibling_closer_what_changed",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": true,
+   "recomputed_at_import": false,
+   "scope": "module_scope_of_the_calling_module",
+   "scope_module": "e341_sibling_closer_what_changed",
+   "site_module": "e341_sibling_closer_what_changed",
+   "sites": 1,
+   "source": "scripts/e341_sibling_closer_what_changed.py",
+   "surface_modules": [
+    "e341_sibling_closer_what_changed"
+   ],
+   "surfaces": [
+    "pinned_corpus"
+   ]
+  },
+  {
+   "binding_line": 247,
+   "constant": "parent",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "measure_window",
+   "hops": [
+    {
+     "detail": {
+      "expression": "closer + '^'"
+     },
+     "kind": "a_joined_path_expression_or_a_relative_root",
+     "line": 247,
+     "module": "e341_sibling_closer_what_changed",
+     "name": "parent"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e341_sibling_closer_what_changed",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e341_sibling_closer_what_changed",
+   "site_module": "e341_sibling_closer_what_changed",
+   "sites": 1,
+   "source": "scripts/e341_sibling_closer_what_changed.py",
+   "surface_modules": [
+    "e341_sibling_closer_what_changed"
+   ],
+   "surfaces": [
+    "pinned_corpus"
+   ]
+  },
+  {
+   "binding_line": 572,
+   "constant": "sha",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "expression": "ev['sha']"
+     },
+     "kind": "a_joined_path_expression_or_a_relative_root",
+     "line": 572,
+     "module": "e342_guard_rewrite_records",
+     "name": "sha"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e342_guard_rewrite_records",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e342_guard_rewrite_records",
+   "site_module": "e342_guard_rewrite_records",
+   "sites": 1,
+   "source": "scripts/e342_guard_rewrite_records.py",
+   "surface_modules": [
+    "e342_guard_rewrite_records"
+   ],
+   "surfaces": [
+    "commit_paths"
+   ]
+  },
+  {
+   "binding_line": 60,
+   "constant": "PIN_SHA",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 60,
+     "module": "e344_face_consumer_census",
+     "name": "PIN_SHA"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e341_sibling_closer_what_changed",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": true,
+   "recomputed_at_import": false,
+   "scope": "module_scope_of_the_calling_module",
+   "scope_module": "e344_face_consumer_census",
+   "site_module": "e344_face_consumer_census",
+   "sites": 1,
+   "source": "scripts/e344_face_consumer_census.py",
+   "surface_modules": [
+    "e341_sibling_closer_what_changed"
+   ],
+   "surfaces": [
+    "pinned_corpus"
+   ]
+  },
+  {
+   "binding_line": 880,
+   "constant": "FIX_FACES",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 880,
+     "module": "e347_published_number_gate_census",
+     "name": "FIX_FACES"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e347_published_number_gate_census",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": true,
+   "recomputed_at_import": false,
+   "scope": "module_scope_of_the_calling_module",
+   "scope_module": "e347_published_number_gate_census",
+   "site_module": "e347_published_number_gate_census",
+   "sites": 10,
+   "source": "scripts/e347_published_number_gate_census.py",
+   "surface_modules": [
+    "e347_published_number_gate_census"
+   ],
+   "surfaces": [
+    "measure_corpus"
+   ]
+  },
+  {
+   "binding_line": 60,
+   "constant": "PIN_SHA",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 60,
+     "module": "e347_published_number_gate_census",
+     "name": "PIN_SHA"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e341_sibling_closer_what_changed",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": true,
+   "recomputed_at_import": false,
+   "scope": "module_scope_of_the_calling_module",
+   "scope_module": "e347_published_number_gate_census",
+   "site_module": "e347_published_number_gate_census",
+   "sites": 2,
+   "source": "scripts/e347_published_number_gate_census.py",
+   "surface_modules": [
+    "e341_sibling_closer_what_changed"
+   ],
+   "surfaces": [
+    "pinned_corpus"
+   ]
+  },
+  {
+   "binding_line": 743,
+   "constant": "corpus",
+   "crossed_into": null,
+   "dependency_modules": [
+    "e341_sibling_closer_what_changed"
+   ],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "pinned_corpus",
+      "module": "e341_sibling_closer_what_changed"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 743,
+     "module": "e347_published_number_gate_census",
+     "name": "corpus"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e347_published_number_gate_census",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e347_published_number_gate_census",
+   "site_module": "e347_published_number_gate_census",
+   "sites": 1,
+   "source": "scripts/e347_published_number_gate_census.py",
+   "surface_modules": [
+    "e347_published_number_gate_census"
+   ],
+   "surfaces": [
+    "measure_corpus"
+   ]
+  },
+  {
+   "binding_line": 1010,
+   "constant": "corpus",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "cmd_selftest",
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_list_tuple_set_or_dict_of_names_written_in_that_module",
+     "line": 1010,
+     "module": "e347_published_number_gate_census",
+     "name": "corpus"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e347_published_number_gate_census",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e347_published_number_gate_census",
+   "site_module": "e347_published_number_gate_census",
+   "sites": 10,
+   "source": "scripts/e347_published_number_gate_census.py",
+   "surface_modules": [
+    "e347_published_number_gate_census"
+   ],
+   "surfaces": [
+    "measure_corpus"
+   ]
+  },
+  {
+   "binding_line": 864,
+   "constant": "corpus",
+   "crossed_into": null,
+   "dependency_modules": [
+    "e341_sibling_closer_what_changed"
+   ],
+   "enclosing_function": "verify",
+   "hops": [
+    {
+     "detail": {
+      "callee": "pinned_corpus",
+      "module": "e341_sibling_closer_what_changed"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 864,
+     "module": "e347_published_number_gate_census",
+     "name": "corpus"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e347_published_number_gate_census",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e347_published_number_gate_census",
+   "site_module": "e347_published_number_gate_census",
+   "sites": 1,
+   "source": "scripts/e347_published_number_gate_census.py",
+   "surface_modules": [
+    "e347_published_number_gate_census"
+   ],
+   "surfaces": [
+    "measure_corpus"
+   ]
+  },
+  {
+   "binding_line": 744,
+   "constant": "faces",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "faces_from_listing"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 744,
+     "module": "e347_published_number_gate_census",
+     "name": "faces"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e347_published_number_gate_census",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e347_published_number_gate_census",
+   "site_module": "e347_published_number_gate_census",
+   "sites": 1,
+   "source": "scripts/e347_published_number_gate_census.py",
+   "surface_modules": [
+    "e347_published_number_gate_census"
+   ],
+   "surfaces": [
+    "measure_corpus"
+   ]
+  },
+  {
+   "binding_line": 865,
+   "constant": "faces",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "verify",
+   "hops": [
+    {
+     "detail": {
+      "callee": "faces_from_listing"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 865,
+     "module": "e347_published_number_gate_census",
+     "name": "faces"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e347_published_number_gate_census",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e347_published_number_gate_census",
+   "site_module": "e347_published_number_gate_census",
+   "sites": 1,
+   "source": "scripts/e347_published_number_gate_census.py",
+   "surface_modules": [
+    "e347_published_number_gate_census"
+   ],
+   "surfaces": [
+    "measure_corpus"
+   ]
+  },
+  {
+   "binding_line": 684,
+   "constant": "pin_path",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "main",
+   "hops": [
+    {
+     "detail": {
+      "expression": "argv[argv.index('--files') + 1]"
+     },
+     "kind": "a_joined_path_expression_or_a_relative_root",
+     "line": 684,
+     "module": "e350_field_branch_census",
+     "name": "pin_path"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e350_field_branch_census",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e350_field_branch_census",
+   "site_module": "e350_field_branch_census",
+   "sites": 1,
+   "source": "scripts/e350_field_branch_census.py",
+   "surface_modules": [
+    "e350_field_branch_census"
+   ],
+   "surfaces": [
+    "pin_members"
+   ]
+  },
+  {
+   "binding_line": 563,
+   "constant": "pin_path",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "main",
+   "hops": [
+    {
+     "detail": {
+      "expression": "argv[argv.index('--files') + 1]"
+     },
+     "kind": "a_joined_path_expression_or_a_relative_root",
+     "line": 563,
+     "module": "e353_unwritten_guard_presence",
+     "name": "pin_path"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e350_field_branch_census",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e353_unwritten_guard_presence",
+   "site_module": "e353_unwritten_guard_presence",
+   "sites": 1,
+   "source": "scripts/e353_unwritten_guard_presence.py",
+   "surface_modules": [
+    "e350_field_branch_census"
+   ],
+   "surfaces": [
+    "pin_members"
+   ]
+  },
+  {
+   "binding_line": 586,
+   "constant": "dest",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "selftest",
+   "hops": [
+    {
+     "detail": {
+      "callee": "join"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 586,
+     "module": "e365_face_population_pin",
+     "name": "dest"
+    }
+   ],
+   "in_selftest_sites": 1,
+   "module": "e328_quoted_number_staleness",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e365_face_population_pin",
+   "site_module": "e365_face_population_pin",
+   "sites": 1,
+   "source": "scripts/e365_face_population_pin.py",
+   "surface_modules": [
+    "e328_quoted_number_staleness"
+   ],
+   "surfaces": [
+    "scan_faces"
+   ]
+  },
+  {
+   "binding_line": 552,
+   "constant": "root",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "selftest",
+   "hops": [
+    {
+     "detail": {
+      "callee": "join"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 552,
+     "module": "e365_face_population_pin",
+     "name": "root"
+    }
+   ],
+   "in_selftest_sites": 3,
+   "module": "e328_quoted_number_staleness",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e365_face_population_pin",
+   "site_module": "e365_face_population_pin",
+   "sites": 3,
+   "source": "scripts/e365_face_population_pin.py",
+   "surface_modules": [
+    "e328_quoted_number_staleness"
+   ],
+   "surfaces": [
+    "scan_faces"
+   ]
+  },
+  {
+   "binding_line": 404,
+   "constant": "bad",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "selftest",
+   "hops": [
+    {
+     "detail": {
+      "callee": "join"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 404,
+     "module": "e368_seam_replay",
+     "name": "bad"
+    }
+   ],
+   "in_selftest_sites": 1,
+   "module": "e350_field_branch_census",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e368_seam_replay",
+   "site_module": "e368_seam_replay",
+   "sites": 1,
+   "source": "scripts/e368_seam_replay.py",
+   "surface_modules": [
+    "e350_field_branch_census"
+   ],
+   "surfaces": [
+    "pin_members"
+   ]
+  },
+  {
+   "binding_line": 243,
+   "constant": "pin",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "load_pin"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 243,
+     "module": "e368_seam_replay",
+     "name": "pin"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e368_seam_replay",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e368_seam_replay",
+   "site_module": "e368_seam_replay",
+   "sites": 1,
+   "source": "scripts/e368_seam_replay.py",
+   "surface_modules": [
+    "e368_seam_replay"
+   ],
+   "surfaces": [
+    "resolve_members"
+   ]
+  },
+  {
+   "binding_line": 418,
+   "constant": "pin",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "selftest",
+   "hops": [
+    {
+     "detail": {
+      "callee": "load_pin"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 418,
+     "module": "e368_seam_replay",
+     "name": "pin"
+    }
+   ],
+   "in_selftest_sites": 1,
+   "module": "e368_seam_replay",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e368_seam_replay",
+   "site_module": "e368_seam_replay",
+   "sites": 1,
+   "source": "scripts/e368_seam_replay.py",
+   "surface_modules": [
+    "e368_seam_replay"
+   ],
+   "surfaces": [
+    "resolve_members"
+   ]
+  },
+  {
+   "binding_line": 319,
+   "constant": "pin",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "verify",
+   "hops": [
+    {
+     "detail": {
+      "callee": "load_pin"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 319,
+     "module": "e368_seam_replay",
+     "name": "pin"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e368_seam_replay",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e368_seam_replay",
+   "site_module": "e368_seam_replay",
+   "sites": 1,
+   "source": "scripts/e368_seam_replay.py",
+   "surface_modules": [
+    "e368_seam_replay"
+   ],
+   "surfaces": [
+    "resolve_members"
+   ]
+  },
+  {
+   "binding_line": 245,
+   "constant": "pin",
+   "crossed_into": null,
+   "dependency_modules": [
+    "e368_seam_replay"
+   ],
+   "enclosing_function": "run",
+   "hops": [
+    {
+     "detail": {
+      "callee": "load_pin",
+      "module": "e368_seam_replay"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 245,
+     "module": "e370_key_sensitivity",
+     "name": "pin"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e368_seam_replay",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e370_key_sensitivity",
+   "site_module": "e370_key_sensitivity",
+   "sites": 1,
+   "source": "scripts/e370_key_sensitivity.py",
+   "surface_modules": [
+    "e368_seam_replay"
+   ],
+   "surfaces": [
+    "resolve_members"
+   ]
+  },
+  {
+   "binding_line": 241,
+   "constant": "pin",
+   "crossed_into": null,
+   "dependency_modules": [
+    "e368_seam_replay"
+   ],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "load_pin",
+      "module": "e368_seam_replay"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 241,
+     "module": "e371_store_member_cost",
+     "name": "pin"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e368_seam_replay",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e371_store_member_cost",
+   "site_module": "e371_store_member_cost",
+   "sites": 1,
+   "source": "scripts/e371_store_member_cost.py",
+   "surface_modules": [
+    "e368_seam_replay"
+   ],
+   "surfaces": [
+    "resolve_members"
+   ]
+  },
+  {
+   "binding_line": 324,
+   "constant": "pinned",
+   "crossed_into": null,
+   "dependency_modules": [
+    "e368_seam_replay"
+   ],
+   "enclosing_function": "verify",
+   "hops": [
+    {
+     "detail": {
+      "callee": "load_pin",
+      "module": "e368_seam_replay"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 324,
+     "module": "e371_store_member_cost",
+     "name": "pinned"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e368_seam_replay",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e371_store_member_cost",
+   "site_module": "e371_store_member_cost",
+   "sites": 1,
+   "source": "scripts/e371_store_member_cost.py",
+   "surface_modules": [
+    "e368_seam_replay"
+   ],
+   "surfaces": [
+    "resolve_members"
+   ]
+  },
+  {
+   "binding_line": 503,
+   "constant": "store",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "selftest",
+   "hops": [
+    {
+     "detail": {
+      "callee": "build_store"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 503,
+     "module": "e372_store_the_absent_members",
+     "name": "store"
+    }
+   ],
+   "in_selftest_sites": 1,
+   "module": "e372_store_the_absent_members",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e372_store_the_absent_members",
+   "site_module": "e372_store_the_absent_members",
+   "sites": 1,
+   "source": "scripts/e372_store_the_absent_members.py",
+   "surface_modules": [
+    "e372_store_the_absent_members"
+   ],
+   "surfaces": [
+    "store_members"
+   ]
+  },
+  {
+   "binding_line": 388,
+   "constant": "store",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "verify",
+   "hops": [
+    {
+     "detail": {
+      "callee": "load_json"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 388,
+     "module": "e372_store_the_absent_members",
+     "name": "store"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e372_store_the_absent_members",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e372_store_the_absent_members",
+   "site_module": "e372_store_the_absent_members",
+   "sites": 1,
+   "source": "scripts/e372_store_the_absent_members.py",
+   "surface_modules": [
+    "e372_store_the_absent_members"
+   ],
+   "surfaces": [
+    "store_members"
+   ]
+  },
+  {
+   "binding_line": null,
+   "constant": "store",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "kind": "no_module_scope_binding_for_that_name_in_that_module",
+     "module": "e372_store_the_absent_members",
+     "name": "store",
+     "note": "no binding in module scope, the enclosing function, or the surface module"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e372_store_the_absent_members",
+   "needs_another_module": false,
+   "origin_kind": "the_name_has_no_module_scope_binding_in_the_module_that_uses_it",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "no_binding_in_either_module",
+   "scope_module": null,
+   "site_module": "e372_store_the_absent_members",
+   "sites": 1,
+   "source": "scripts/e372_store_the_absent_members.py",
+   "surface_modules": [
+    "e372_store_the_absent_members"
+   ],
+   "surfaces": [
+    "store_members"
+   ]
+  },
+  {
+   "binding_line": 168,
+   "constant": "store",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "load_json"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 168,
+     "module": "e374_store_load_bearing_members",
+     "name": "store"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e374_store_load_bearing_members",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e374_store_load_bearing_members",
+   "site_module": "e374_store_load_bearing_members",
+   "sites": 1,
+   "source": "scripts/e374_store_load_bearing_members.py",
+   "surface_modules": [
+    "e374_store_load_bearing_members"
+   ],
+   "surfaces": [
+    "store_members"
+   ]
+  },
+  {
+   "binding_line": 372,
+   "constant": "sources",
+   "crossed_into": null,
+   "dependency_modules": [
+    "e350_field_branch_census"
+   ],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "_sources",
+      "element": "[(rel, text) for rel, text in e350._sources() if rel != SELF_REL]",
+      "module": "e350_field_branch_census"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 372,
+     "module": "e377_unresolved_destination",
+     "name": "sources"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e377_unresolved_destination",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e377_unresolved_destination",
+   "site_module": "e377_unresolved_destination",
+   "sites": 1,
+   "source": "scripts/e377_unresolved_destination.py",
+   "surface_modules": [
+    "e377_unresolved_destination"
+   ],
+   "surfaces": [
+    "census"
+   ]
+  },
+  {
+   "binding_line": 178,
+   "constant": "store",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "load_json"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 178,
+     "module": "e378_store_load_bearing_e350_arm",
+     "name": "store"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e374_store_load_bearing_members",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e378_store_load_bearing_e350_arm",
+   "site_module": "e378_store_load_bearing_e350_arm",
+   "sites": 1,
+   "source": "scripts/e378_store_load_bearing_e350_arm.py",
+   "surface_modules": [
+    "e374_store_load_bearing_members"
+   ],
+   "surfaces": [
+    "store_members"
+   ]
+  },
+  {
+   "binding_line": 389,
+   "constant": "sources",
+   "crossed_into": null,
+   "dependency_modules": [
+    "e350_field_branch_census"
+   ],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "_sources",
+      "element": "[(rel, text) for rel, text in e350._sources() if rel not in (SELF_REL, UPSTREAM_REL)]",
+      "module": "e350_field_branch_census"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 389,
+     "module": "e379_unkeyed_face_reader",
+     "name": "sources"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e379_unkeyed_face_reader",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e379_unkeyed_face_reader",
+   "site_module": "e379_unkeyed_face_reader",
+   "sites": 1,
+   "source": "scripts/e379_unkeyed_face_reader.py",
+   "surface_modules": [
+    "e379_unkeyed_face_reader"
+   ],
+   "surfaces": [
+    "census"
+   ]
+  },
+  {
+   "binding_line": null,
+   "constant": "targets",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "kind": "no_module_scope_binding_for_that_name_in_that_module",
+     "module": "e379_unkeyed_face_reader",
+     "name": "targets",
+     "note": "no binding in module scope, the enclosing function, or the surface module"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e379_unkeyed_face_reader",
+   "needs_another_module": false,
+   "origin_kind": "the_name_has_no_module_scope_binding_in_the_module_that_uses_it",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "no_binding_in_either_module",
+   "scope_module": null,
+   "site_module": "e379_unkeyed_face_reader",
+   "sites": 1,
+   "source": "scripts/e379_unkeyed_face_reader.py",
+   "surface_modules": [
+    "e379_unkeyed_face_reader"
+   ],
+   "surfaces": [
+    "census"
+   ]
+  },
+  {
+   "binding_line": 138,
+   "constant": "store",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "load_json"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 138,
+     "module": "e380_ballast_keys_and_readers",
+     "name": "store"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e374_store_load_bearing_members",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e380_ballast_keys_and_readers",
+   "site_module": "e380_ballast_keys_and_readers",
+   "sites": 1,
+   "source": "scripts/e380_ballast_keys_and_readers.py",
+   "surface_modules": [
+    "e374_store_load_bearing_members"
+   ],
+   "surfaces": [
+    "store_members"
+   ]
+  },
+  {
+   "binding_line": 239,
+   "constant": "srcs",
+   "crossed_into": null,
+   "dependency_modules": [
+    "e350_field_branch_census"
+   ],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "_sources",
+      "element": "[(rel, text) for rel, text in e350._sources() if rel != SELF_REL]",
+      "module": "e350_field_branch_census"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 239,
+     "module": "e381_component_key_blind_spot",
+     "name": "srcs"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e381_component_key_blind_spot",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e381_component_key_blind_spot",
+   "site_module": "e381_component_key_blind_spot",
+   "sites": 1,
+   "source": "scripts/e381_component_key_blind_spot.py",
+   "surface_modules": [
+    "e381_component_key_blind_spot"
+   ],
+   "surfaces": [
+    "scan"
+   ]
+  },
+  {
+   "binding_line": 641,
+   "constant": "keys",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "selftest",
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_list_tuple_set_or_dict_of_names_written_in_that_module",
+     "line": 641,
+     "module": "e383_shared_key_collision",
+     "name": "keys"
+    }
+   ],
+   "in_selftest_sites": 1,
+   "module": "e383_shared_key_collision",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e383_shared_key_collision",
+   "site_module": "e383_shared_key_collision",
+   "sites": 1,
+   "source": "scripts/e383_shared_key_collision.py",
+   "surface_modules": [
+    "e383_shared_key_collision"
+   ],
+   "surfaces": [
+    "consumer_scan"
+   ]
+  },
+  {
+   "binding_line": 56,
+   "constant": "KEY",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 56,
+     "module": "e396_last_tick",
+     "name": "KEY"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e396_last_tick",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": true,
+   "recomputed_at_import": false,
+   "scope": "module_scope_of_the_calling_module",
+   "scope_module": "e396_last_tick",
+   "site_module": "e396_last_tick",
+   "sites": 2,
+   "source": "scripts/e396_last_tick.py",
+   "surface_modules": [
+    "e396_last_tick"
+   ],
+   "surfaces": [
+    "dump_link_targets"
+   ]
+  },
+  {
+   "binding_line": 271,
+   "constant": "src",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "same_doc_under_exact_test",
+   "hops": [
+    {
+     "detail": {
+      "callee": "read"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 271,
+     "module": "e396_last_tick",
+     "name": "src"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e396_last_tick",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e396_last_tick",
+   "site_module": "e396_last_tick",
+   "sites": 1,
+   "source": "scripts/e396_last_tick.py",
+   "surface_modules": [
+    "e396_last_tick"
+   ],
+   "surfaces": [
+    "dump_link_targets"
+   ]
+  },
+  {
+   "binding_line": 509,
+   "constant": "src",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "selftest",
+   "hops": [
+    {
+     "detail": {
+      "callee": "join"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 509,
+     "module": "e396_last_tick",
+     "name": "src"
+    }
+   ],
+   "in_selftest_sites": 1,
+   "module": "e396_last_tick",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e396_last_tick",
+   "site_module": "e396_last_tick",
+   "sites": 1,
+   "source": "scripts/e396_last_tick.py",
+   "surface_modules": [
+    "e396_last_tick"
+   ],
+   "surfaces": [
+    "dump_link_targets"
+   ]
+  },
+  {
+   "binding_line": 435,
+   "constant": "src",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "verify",
+   "hops": [
+    {
+     "detail": {
+      "callee": "read"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 435,
+     "module": "e396_last_tick",
+     "name": "src"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e396_last_tick",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e396_last_tick",
+   "site_module": "e396_last_tick",
+   "sites": 1,
+   "source": "scripts/e396_last_tick.py",
+   "surface_modules": [
+    "e396_last_tick"
+   ],
+   "surfaces": [
+    "dump_link_targets"
+   ]
+  },
+  {
+   "binding_line": 518,
+   "constant": "src2",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "selftest",
+   "hops": [
+    {
+     "detail": {
+      "expression": "\"auto = {'last_tick': None}\\n\" + \"dump(auto, 'logs/iteration-loop/state.json')\""
+     },
+     "kind": "a_joined_path_expression_or_a_relative_root",
+     "line": 518,
+     "module": "e396_last_tick",
+     "name": "src2"
+    }
+   ],
+   "in_selftest_sites": 1,
+   "module": "e396_last_tick",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e396_last_tick",
+   "site_module": "e396_last_tick",
+   "sites": 1,
+   "source": "scripts/e396_last_tick.py",
+   "surface_modules": [
+    "e396_last_tick"
+   ],
+   "surfaces": [
+    "dump_link_targets"
+   ]
+  },
+  {
+   "binding_line": 310,
+   "constant": "src_text",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "read"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 310,
+     "module": "e396_last_tick",
+     "name": "src_text"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e396_last_tick",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e396_last_tick",
+   "site_module": "e396_last_tick",
+   "sites": 1,
+   "source": "scripts/e396_last_tick.py",
+   "surface_modules": [
+    "e396_last_tick"
+   ],
+   "surfaces": [
+    "dump_link_targets"
+   ]
+  },
+  {
+   "binding_line": 727,
+   "constant": "fixture",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "selftest",
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_list_tuple_set_or_dict_of_names_written_in_that_module",
+     "line": 727,
+     "module": "e402_fragment_producers",
+     "name": "fixture"
+    }
+   ],
+   "in_selftest_sites": 1,
+   "module": "e402_fragment_producers",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e402_fragment_producers",
+   "site_module": "e402_fragment_producers",
+   "sites": 1,
+   "source": "scripts/e402_fragment_producers.py",
+   "surface_modules": [
+    "e402_fragment_producers"
+   ],
+   "surfaces": [
+    "scan_sources"
+   ]
+  },
+  {
+   "binding_line": 667,
+   "constant": "sources",
+   "crossed_into": null,
+   "dependency_modules": [
+    "e350_field_branch_census"
+   ],
+   "enclosing_function": "verify",
+   "hops": [
+    {
+     "detail": {
+      "callee": "_sources",
+      "module": "e350_field_branch_census"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 667,
+     "module": "e402_fragment_producers",
+     "name": "sources"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e402_fragment_producers",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e402_fragment_producers",
+   "site_module": "e402_fragment_producers",
+   "sites": 1,
+   "source": "scripts/e402_fragment_producers.py",
+   "surface_modules": [
+    "e402_fragment_producers"
+   ],
+   "surfaces": [
+    "scan_sources"
+   ]
+  },
+  {
+   "binding_line": 321,
+   "constant": "names",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "element": "{r['callable'] for r in rows}"
+     },
+     "kind": "a_comprehension_over_another_expression",
+     "line": 321,
+     "module": "e406_blob_vs_tree_readers",
+     "name": "names"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e406_blob_vs_tree_readers",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e406_blob_vs_tree_readers",
+   "site_module": "e406_blob_vs_tree_readers",
+   "sites": 1,
+   "source": "scripts/e406_blob_vs_tree_readers.py",
+   "surface_modules": [
+    "e406_blob_vs_tree_readers"
+   ],
+   "surfaces": [
+    "census_modules"
+   ]
+  },
+  {
+   "binding_line": 40,
+   "constant": "NAME",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 40,
+     "module": "e414_unsupplied_read",
+     "name": "NAME"
+    }
+   ],
+   "in_selftest_sites": 2,
+   "module": "e414_unsupplied_read",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": true,
+   "recomputed_at_import": false,
+   "scope": "module_scope_of_the_calling_module",
+   "scope_module": "e414_unsupplied_read",
+   "site_module": "e414_unsupplied_read",
+   "sites": 2,
+   "source": "scripts/e414_unsupplied_read.py",
+   "surface_modules": [
+    "e414_unsupplied_read"
+   ],
+   "surfaces": [
+    "scan_pointer_families"
+   ]
+  },
+  {
+   "binding_line": null,
+   "constant": "tmp",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "kind": "no_module_scope_binding_for_that_name_in_that_module",
+     "module": "e414_unsupplied_read",
+     "name": "tmp",
+     "note": "no binding in module scope, the enclosing function, or the surface module"
+    }
+   ],
+   "in_selftest_sites": 2,
+   "module": "e414_unsupplied_read",
+   "needs_another_module": false,
+   "origin_kind": "the_name_has_no_module_scope_binding_in_the_module_that_uses_it",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "no_binding_in_either_module",
+   "scope_module": null,
+   "site_module": "e414_unsupplied_read",
+   "sites": 2,
+   "source": "scripts/e414_unsupplied_read.py",
+   "surface_modules": [
+    "e414_unsupplied_read"
+   ],
+   "surfaces": [
+    "scan_pointer_families"
+   ]
+  },
+  {
+   "binding_line": 139,
+   "constant": "carrier",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "expression": "r['face']"
+     },
+     "kind": "a_joined_path_expression_or_a_relative_root",
+     "line": 139,
+     "module": "e441_facehome_family",
+     "name": "carrier"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e441_facehome_family",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e441_facehome_family",
+   "site_module": "e441_facehome_family",
+   "sites": 1,
+   "source": "scripts/e441_facehome_family.py",
+   "surface_modules": [
+    "e441_facehome_family"
+   ],
+   "surfaces": [
+    "members_of"
+   ]
+  },
+  {
+   "binding_line": 138,
+   "constant": "directory",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "_norm"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 138,
+     "module": "e441_facehome_family",
+     "name": "directory"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e441_facehome_family",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e441_facehome_family",
+   "site_module": "e441_facehome_family",
+   "sites": 1,
+   "source": "scripts/e441_facehome_family.py",
+   "surface_modules": [
+    "e441_facehome_family"
+   ],
+   "surfaces": [
+    "members_of"
+   ]
+  },
+  {
+   "binding_line": 460,
+   "constant": "idx",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "selftest",
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 460,
+     "module": "e441_facehome_family",
+     "name": "idx"
+    }
+   ],
+   "in_selftest_sites": 3,
+   "module": "e441_facehome_family",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e441_facehome_family",
+   "site_module": "e441_facehome_family",
+   "sites": 3,
+   "source": "scripts/e441_facehome_family.py",
+   "surface_modules": [
+    "e441_facehome_family"
+   ],
+   "surfaces": [
+    "members_of"
+   ]
+  },
+  {
+   "binding_line": null,
+   "constant": "tmp",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "kind": "no_module_scope_binding_for_that_name_in_that_module",
+     "module": "e441_facehome_family",
+     "name": "tmp",
+     "note": "no binding in module scope, the enclosing function, or the surface module"
+    }
+   ],
+   "in_selftest_sites": 3,
+   "module": "e441_facehome_family",
+   "needs_another_module": false,
+   "origin_kind": "the_name_has_no_module_scope_binding_in_the_module_that_uses_it",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "no_binding_in_either_module",
+   "scope_module": null,
+   "site_module": "e441_facehome_family",
+   "sites": 3,
+   "source": "scripts/e441_facehome_family.py",
+   "surface_modules": [
+    "e441_facehome_family"
+   ],
+   "surfaces": [
+    "members_of"
+   ]
+  },
+  {
+   "binding_line": 299,
+   "constant": "attributed_modules",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "element": "{g['wrapper_file'] for g in published}"
+     },
+     "kind": "a_comprehension_over_another_expression",
+     "line": 299,
+     "module": "e444_attr_method",
+     "name": "attributed_modules"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e444_attr_method",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e444_attr_method",
+   "site_module": "e444_attr_method",
+   "sites": 1,
+   "source": "scripts/e444_attr_method.py",
+   "surface_modules": [
+    "e444_attr_method"
+   ],
+   "surfaces": [
+    "module_class_census"
+   ]
+  },
+  {
+   "binding_line": null,
+   "constant": "sources",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "kind": "no_module_scope_binding_for_that_name_in_that_module",
+     "module": "e462_identity_dialect",
+     "name": "sources",
+     "note": "no binding in module scope, the enclosing function, or the surface module"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e462_identity_dialect",
+   "needs_another_module": false,
+   "origin_kind": "the_name_has_no_module_scope_binding_in_the_module_that_uses_it",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "no_binding_in_either_module",
+   "scope_module": null,
+   "site_module": "e462_identity_dialect",
+   "sites": 1,
+   "source": "scripts/e462_identity_dialect.py",
+   "surface_modules": [
+    "e462_identity_dialect"
+   ],
+   "surfaces": [
+    "read_census"
+   ]
+  },
+  {
+   "binding_line": 458,
+   "constant": "srcs",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "selftest",
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 458,
+     "module": "e462_identity_dialect",
+     "name": "srcs"
+    }
+   ],
+   "in_selftest_sites": 1,
+   "module": "e462_identity_dialect",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e462_identity_dialect",
+   "site_module": "e462_identity_dialect",
+   "sites": 1,
+   "source": "scripts/e462_identity_dialect.py",
+   "surface_modules": [
+    "e462_identity_dialect"
+   ],
+   "surfaces": [
+    "read_census"
+   ]
+  },
+  {
+   "binding_line": 239,
+   "constant": "universe",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "callee": "sorted",
+      "expression": "set(fields) | declared_names",
+      "wrapped": "a_joined_path_expression_or_a_relative_root"
+     },
+     "kind": "a_joined_path_expression_or_a_relative_root",
+     "line": 239,
+     "module": "e462_identity_dialect",
+     "name": "universe"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e462_identity_dialect",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e462_identity_dialect",
+   "site_module": "e462_identity_dialect",
+   "sites": 1,
+   "source": "scripts/e462_identity_dialect.py",
+   "surface_modules": [
+    "e462_identity_dialect"
+   ],
+   "surfaces": [
+    "read_census"
+   ]
+  },
+  {
+   "binding_line": null,
+   "constant": "families",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "kind": "no_module_scope_binding_for_that_name_in_that_module",
+     "module": "e472_vintage_read",
+     "name": "families",
+     "note": "no binding in module scope, the enclosing function, or the surface module"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e472_vintage_read",
+   "needs_another_module": false,
+   "origin_kind": "the_name_has_no_module_scope_binding_in_the_module_that_uses_it",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "no_binding_in_either_module",
+   "scope_module": null,
+   "site_module": "e472_vintage_read",
+   "sites": 1,
+   "source": "scripts/e472_vintage_read.py",
+   "surface_modules": [
+    "e472_vintage_read"
+   ],
+   "surfaces": [
+    "scan_sites"
+   ]
+  },
+  {
+   "binding_line": null,
+   "constant": "set(vocab)",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "kind": "no_module_scope_binding_for_that_name_in_that_module",
+     "module": "e474_identity_dialect_census",
+     "name": "set(vocab)",
+     "note": "no binding in module scope, the enclosing function, or the surface module"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e474_identity_dialect_census",
+   "needs_another_module": false,
+   "origin_kind": "the_name_has_no_module_scope_binding_in_the_module_that_uses_it",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "no_binding_in_either_module",
+   "scope_module": null,
+   "site_module": "e474_identity_dialect_census",
+   "sites": 1,
+   "source": "scripts/e474_identity_dialect_census.py",
+   "surface_modules": [
+    "e474_identity_dialect_census"
+   ],
+   "surfaces": [
+    "reader_census"
+   ]
+  },
+  {
+   "binding_line": 213,
+   "constant": "multi",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "build",
+   "hops": [
+    {
+     "detail": {
+      "element": "[i for i in multi if len(index.get(i) or []) > 1]"
+     },
+     "kind": "a_comprehension_over_another_expression",
+     "line": 213,
+     "module": "e475_multideclared_ids",
+     "name": "multi"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e475_multideclared_ids",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e475_multideclared_ids",
+   "site_module": "e475_multideclared_ids",
+   "sites": 1,
+   "source": "scripts/e475_multideclared_ids.py",
+   "surface_modules": [
+    "e475_multideclared_ids"
+   ],
+   "surfaces": [
+    "declaring_sources"
+   ]
+  },
+  {
+   "binding_line": 482,
+   "constant": "pm",
+   "crossed_into": null,
+   "dependency_modules": [
+    "e468_pointer_reach"
+   ],
+   "enclosing_function": "classify",
+   "hops": [
+    {
+     "detail": {
+      "callee": "producer_map",
+      "module": "e468_pointer_reach"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 482,
+     "module": "e479_twin_read",
+     "name": "pm"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e479_twin_read",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e479_twin_read",
+   "site_module": "e479_twin_read",
+   "sites": 1,
+   "source": "scripts/e479_twin_read.py",
+   "surface_modules": [
+    "e479_twin_read"
+   ],
+   "surfaces": [
+    "producer_sources"
+   ]
+  },
+  {
+   "binding_line": 481,
+   "constant": "sources",
+   "crossed_into": null,
+   "dependency_modules": [
+    "e468_pointer_reach"
+   ],
+   "enclosing_function": "classify",
+   "hops": [
+    {
+     "detail": {
+      "callee": "_walk_py",
+      "module": "e468_pointer_reach"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 481,
+     "module": "e479_twin_read",
+     "name": "sources"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e479_twin_read",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e479_twin_read",
+   "site_module": "e479_twin_read",
+   "sites": 1,
+   "source": "scripts/e479_twin_read.py",
+   "surface_modules": [
+    "e479_twin_read"
+   ],
+   "surfaces": [
+    "producer_sources"
+   ]
+  },
+  {
+   "binding_line": 485,
+   "constant": "twin",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "classify",
+   "hops": [
+    {
+     "detail": {
+      "expression": "rec['twin']"
+     },
+     "kind": "a_joined_path_expression_or_a_relative_root",
+     "line": 485,
+     "module": "e479_twin_read",
+     "name": "twin"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e479_twin_read",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e479_twin_read",
+   "site_module": "e479_twin_read",
+   "sites": 1,
+   "source": "scripts/e479_twin_read.py",
+   "surface_modules": [
+    "e479_twin_read"
+   ],
+   "surfaces": [
+    "producer_sources"
+   ]
+  },
+  {
+   "binding_line": 362,
+   "constant": "line",
+   "crossed_into": null,
+   "dependency_modules": [
+    "src"
+   ],
+   "enclosing_function": "classify",
+   "hops": [
+    {
+     "detail": {
+      "callee": "get",
+      "module": "src"
+     },
+     "kind": "a_call_into_another_in_repo_module",
+     "line": 362,
+     "module": "e489_write_wire",
+     "name": "line"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e489_write_wire",
+   "needs_another_module": true,
+   "origin_kind": "the_population_lives_in_another_module_and_stops_there",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": false,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e489_write_wire",
+   "site_module": "e489_write_wire",
+   "sites": 1,
+   "source": "scripts/e489_write_wire.py",
+   "surface_modules": [
+    "e489_write_wire"
+   ],
+   "surfaces": [
+    "write_call_paths"
+   ]
+  },
+  {
+   "binding_line": 361,
+   "constant": "rel",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "classify",
+   "hops": [
+    {
+     "detail": {
+      "callee": "_norm"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 361,
+     "module": "e489_write_wire",
+     "name": "rel"
+    }
+   ],
+   "in_selftest_sites": 0,
+   "module": "e489_write_wire",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e489_write_wire",
+   "site_module": "e489_write_wire",
+   "sites": 1,
+   "source": "scripts/e489_write_wire.py",
+   "surface_modules": [
+    "e489_write_wire"
+   ],
+   "surfaces": [
+    "write_call_paths"
+   ]
+  },
+  {
+   "binding_line": 672,
+   "constant": "root",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": "selftest",
+   "hops": [
+    {
+     "detail": {
+      "callee": "_fixture"
+     },
+     "kind": "a_call_to_a_function_defined_in_that_module",
+     "line": 672,
+     "module": "e489_write_wire",
+     "name": "root"
+    }
+   ],
+   "in_selftest_sites": 2,
+   "module": "e489_write_wire",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_built_by_code_in_that_module_at_import_time",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": false,
+   "recomputed_at_import": true,
+   "scope": "a_local_of_the_enclosing_function",
+   "scope_module": "e489_write_wire",
+   "site_module": "e489_write_wire",
+   "sites": 2,
+   "source": "scripts/e489_write_wire.py",
+   "surface_modules": [
+    "e489_write_wire"
+   ],
+   "surfaces": [
+    "write_call_paths"
+   ]
+  },
+  {
+   "binding_line": 621,
+   "constant": "READS_ONLY_SRC",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 621,
+     "module": "e493_latest_copy_owner",
+     "name": "READS_ONLY_SRC"
+    }
+   ],
+   "in_selftest_sites": 1,
+   "module": "e493_latest_copy_owner",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": true,
+   "recomputed_at_import": false,
+   "scope": "module_scope_of_the_calling_module",
+   "scope_module": "e493_latest_copy_owner",
+   "site_module": "e493_latest_copy_owner",
+   "sites": 1,
+   "source": "scripts/e493_latest_copy_owner.py",
+   "surface_modules": [
+    "e493_latest_copy_owner"
+   ],
+   "surfaces": [
+    "scan_harness"
+   ]
+  },
+  {
+   "binding_line": 650,
+   "constant": "RESTORE_ONLY_SRC",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 650,
+     "module": "e493_latest_copy_owner",
+     "name": "RESTORE_ONLY_SRC"
+    }
+   ],
+   "in_selftest_sites": 1,
+   "module": "e493_latest_copy_owner",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": true,
+   "recomputed_at_import": false,
+   "scope": "module_scope_of_the_calling_module",
+   "scope_module": "e493_latest_copy_owner",
+   "site_module": "e493_latest_copy_owner",
+   "sites": 1,
+   "source": "scripts/e493_latest_copy_owner.py",
+   "surface_modules": [
+    "e493_latest_copy_owner"
+   ],
+   "surfaces": [
+    "scan_harness"
+   ]
+  },
+  {
+   "binding_line": 642,
+   "constant": "WRITES_LEAVE_SRC",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 642,
+     "module": "e493_latest_copy_owner",
+     "name": "WRITES_LEAVE_SRC"
+    }
+   ],
+   "in_selftest_sites": 1,
+   "module": "e493_latest_copy_owner",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": true,
+   "recomputed_at_import": false,
+   "scope": "module_scope_of_the_calling_module",
+   "scope_module": "e493_latest_copy_owner",
+   "site_module": "e493_latest_copy_owner",
+   "sites": 1,
+   "source": "scripts/e493_latest_copy_owner.py",
+   "surface_modules": [
+    "e493_latest_copy_owner"
+   ],
+   "surfaces": [
+    "scan_harness"
+   ]
+  },
+  {
+   "binding_line": 631,
+   "constant": "WRITES_RESTORE_SRC",
+   "crossed_into": null,
+   "dependency_modules": [],
+   "enclosing_function": null,
+   "hops": [
+    {
+     "detail": {},
+     "kind": "a_literal_whose_elements_are_not_names",
+     "line": 631,
+     "module": "e493_latest_copy_owner",
+     "name": "WRITES_RESTORE_SRC"
+    }
+   ],
+   "in_selftest_sites": 1,
+   "module": "e493_latest_copy_owner",
+   "needs_another_module": false,
+   "origin_kind": "the_population_is_written_out_as_names_in_that_module",
+   "readable_by_an_adapter_that_imports_only_the_surface_module": true,
+   "recomputed_at_import": false,
+   "scope": "module_scope_of_the_calling_module",
+   "scope_module": "e493_latest_copy_owner",
+   "site_module": "e493_latest_copy_owner",
+   "sites": 1,
+   "source": "scripts/e493_latest_copy_owner.py",
+   "surface_modules": [
+    "e493_latest_copy_owner"
+   ],
+   "surfaces": [
+    "scan_harness"
+   ]
+  }
+ ],
+ "scope_vocab": [
+  "module_scope_of_the_calling_module",
+  "module_scope_of_the_module_E508_named_the_surface_after",
+  "a_local_of_the_enclosing_function",
+  "no_binding_in_either_module"
+ ],
+ "study": "E513_constant_origin",
+ "summary": {
+  "constants_an_adapter_can_reach_by_importing_only_the_surface_module": 10,
+  "distinct_bindings_followed": 84,
+  "distinct_surfaces_supplied_by_a_constant": 28,
+  "hop_kind_counts": {
+   "a_call_into_another_in_repo_module": 23,
+   "a_call_to_a_function_defined_in_that_module": 17,
+   "a_comprehension_over_another_expression": 3,
+   "a_joined_path_expression_or_a_relative_root": 8,
+   "a_literal_list_tuple_set_or_dict_of_names_written_in_that_module": 3,
+   "a_literal_whose_elements_are_not_names": 16,
+   "no_module_scope_binding_for_that_name_in_that_module": 14
+  },
+  "module_constant_sites_in_e508_face": 123,
+  "modules_scanned": 3762,
+  "modules_that_lose_a_population_if_the_surface_module_is_imported_alone": [
+   "e278_spread_floor",
+   "e279_substitution_soundness",
+   "e298_replay_control_census",
+   "e305_face_level_row_pricing",
+   "e319_census_self_inclusion_sweep",
+   "e328_quoted_number_staleness",
+   "e332_invisible_tail_recovery",
+   "e340_who_authorizes_whose_allowance",
+   "e341_sibling_closer_what_changed",
+   "e342_guard_rewrite_records",
+   "e347_published_number_gate_census",
+   "e350_field_branch_census",
+   "e368_seam_replay",
+   "e372_store_the_absent_members",
+   "e374_store_load_bearing_members",
+   "e377_unresolved_destination",
+   "e379_unkeyed_face_reader",
+   "e381_component_key_blind_spot",
+   "e383_shared_key_collision",
+   "e396_last_tick",
+   "e402_fragment_producers",
+   "e406_blob_vs_tree_readers",
+   "e414_unsupplied_read",
+   "e441_facehome_family",
+   "e444_attr_method",
+   "e462_identity_dialect",
+   "e472_vintage_read",
+   "e474_identity_dialect_census",
+   "e475_multideclared_ids",
+   "e479_twin_read",
+   "e489_write_wire"
+  ],
+  "names_that_are_a_function_local_rather_than_a_module_constant": 58,
+  "origin_counts": {
+   "the_name_has_no_module_scope_binding_in_the_module_that_uses_it": 14,
+   "the_name_is_bound_inside_the_function_that_makes_the_call_so_it_is_not_a_module_constant_at_all": 0,
+   "the_population_is_a_tree_walk_so_it_follows_whatever_is_on_disk": 0,
+   "the_population_is_built_by_code_in_that_module_at_import_time": 28,
+   "the_population_is_loaded_from_a_file_at_import_time": 0,
+   "the_population_is_written_out_as_names_in_that_module": 19,
+   "the_population_lives_in_another_module_and_stops_there": 23
+  },
+  "populations_no_module_scope_binding_can_answer": 14,
+  "populations_that_are_recomputed_from_the_tree_or_a_file_at_import_time": 0,
+  "populations_that_need_a_second_module": 23,
+  "populations_written_out_as_names_in_their_own_module": 19,
+  "rows_whose_constant_crosses_into_a_repo_module": 0,
+  "scope_counts": {
+   "a_local_of_the_enclosing_function": 58,
+   "module_scope_of_the_calling_module": 12,
+   "module_scope_of_the_module_E508_named_the_surface_after": 0,
+   "no_binding_in_either_module": 14
+  },
+  "sites_that_lose_reachability": 101,
+  "sites_whose_name_is_a_function_local": 80
+ },
+ "title": "Which module constant that supplies a population is itself built from something else",
+ "unreadable": [
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r1235bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r786bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r787bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r820bmc_close.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r900bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r901bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/s6_chain_bmb.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/tree_shrink_guard.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_card.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_fix_digest.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_patch.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_patch2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_patch3.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_poolprobe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe3.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe4.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe5.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_smokeleg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_smokeleg2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e317_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e317_probe2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e317_probe3.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1085bmb_closeout.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1111bmb_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1131bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1298_amend.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_closeout.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_hb.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_hb2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_hbdiff.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_pool.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_receipt.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_s6leg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_card.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_closeout.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_deliv.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_delivrow.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_hbeol.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_hbfix.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_pooledit.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_poolprobe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_poolprobe2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_probe2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_smokeleg_harness.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_stateclock.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_d19.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_d19b.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_dec.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_dec2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_dec3.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_gpu.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_gpuall.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_hb2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_leg396.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_nl.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_pool.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_post.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_read.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_read2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_wm.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_card_e259.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e258.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e258b.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259check.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259diag.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259diag2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259diag3.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259flat.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259one.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259read.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259seed.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e273_card.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e487_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_final.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_hb.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_hb_write.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_pool2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_pool_fix.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_pool_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_pool_seed.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_pool_update.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_poolshape.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_amend.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_card.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_close.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_eol.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_pool.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_receipt.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_report.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_seed.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_seed2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_tag.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_tag2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1303_hbgen.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_rr.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_state2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_state_write.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_time_e259.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_tsg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_w231bmc_prereg_derive_tpl.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e231_band_path_test.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e243_additivity_out_of_sample.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e280_e251_rng_drift_repin.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e308_leg_vs_producer_tolerance.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e371_one_store_member.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e387_republish_audit.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e394_phantom_why.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e429_two_hop_writer.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/run_e335_smoke_leg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/run_e349_smoke_leg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/run_e353_smoke_leg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/run_e463_smoke_leg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/t11_negday_ic.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/update_etf_universe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "smoke_test.py"
+  }
+ ],
+ "verdict": "some_module_constants_are_literals_in_their_own_module_and_some_are_built_elsewhere_so_recoverable_from_the_call_site_hides_a_second_import",
+ "verdict_vocab": [
+  "every_module_constant_that_supplies_a_population_is_a_literal_in_its_own_module",
+  "some_module_constants_are_literals_in_their_own_module_and_some_are_built_elsewhere_so_recoverable_from_the_call_site_hides_a_second_import",
+  "every_module_constant_is_built_by_code_so_no_supplied_population_is_frozen",
+  "both_literal_and_built_constants_exist_and_the_built_ones_need_a_second_module_or_a_walk"
+ ]
+}
