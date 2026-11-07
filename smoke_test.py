@@ -417,6 +417,22 @@ def main() -> int:
             # required on the floor too, and that a missing next-open stays NaN.
             ("product: limit-down event supply probe (exit-code contract)",
              "scripts/zoo92_limit_down_event_probe.py", ["--selftest"]),
+            # r1393: the supply berth moves off the price axis onto the chips axis -- the
+            # turnover-attenuated cost basis a holder is sitting on (CGO). Its legs pin the
+            # three ways a cost-basis recursion lies: a flat tape must read a zero overhang,
+            # zero turnover must freeze the basis at the oldest price in the window, and the
+            # basis must stay inside the window's own price range (it is a convex mixture).
+            # The last leg keeps an impossible turnover from making a weight negative.
+            ("product: disposition CGO supply probe (exit-code contract)",
+             "scripts/zoo93_disposition_cgo_probe.py", ["--selftest"]),
+            # r1393: the D-19 watermark gate itself, priced because the live defect was a
+            # watermark stored in DISPLAY form (a bare 16-hex prefix). The gate read that as
+            # "no previous watermark" and re-consumed the whole decisions ledger every round
+            # while the content hash never moved -- permanent fresh-looking news. The legs pin
+            # all three accepted forms and, more importantly, that a prefix of a DIFFERENT
+            # document is not read as unchanged.
+            ("product: D-19 watermark gate (legacy forms, foreign prefix refused)",
+             "Tools/d19_check.py", ["--selftest"]),
             # r1387: that probe's verdict outlived its number -- the null it lost to is what a
             # future timing rule actually has to beat, and nothing published it. This face
             # turns the null into a ruler on the book in force (hurdle per exposure share).

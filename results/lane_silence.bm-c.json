@@ -1,0 +1,40 @@
+{
+ "evidence_cutoff": "2026-10-31",
+ "generated": "2026-11-07T01:41:00",
+ "lane_tasks": {
+  "absent": [
+   "Bigmoney-SatEngine-bm-b"
+  ],
+  "disabled": [],
+  "disabled_before_heal": [],
+  "heal": {
+   "acts": [
+    {
+     "action": "absent_not_fabricated",
+     "detail": "register it explicitly: Tools/register_satengine_task.ps1",
+     "task": "Bigmoney-SatEngine-bm-b"
+    }
+   ],
+   "healed": [],
+   "readback": {}
+  },
+  "probeable": 3,
+  "states": {
+   "Bigmoney-IterationLoop": "Ready",
+   "Bigmoney-LoopWatchdog": "Ready",
+   "Bigmoney-SatEngine-bm-b": "Absent"
+  },
+  "threshold_min": 90,
+  "verdict": "LANE_TASK_MISSING",
+  "why": "1 declared lane task(s) are not registered at all (Bigmoney-SatEngine-bm-b); an absent ignition face cannot be quiet, it can only be dead"
+ },
+ "machine": "bm-c",
+ "note": "fewer than two rounds inside the window; silence is unmeasurable",
+ "rounds_in_ledger": 787,
+ "rounds_in_window": 0,
+ "silence_verdict": "NO_DATA",
+ "source": "round_reports-bm-c.md",
+ "threshold_min": 90,
+ "verdict": "NO_DATA",
+ "window_days": 3
+}

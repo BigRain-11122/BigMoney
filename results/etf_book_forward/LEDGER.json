@@ -111,6 +111,28 @@
    "n_held": 12,
    "filled": false,
    "turn": 0.0
+  },
+  {
+   "bar": "2026-11-05",
+   "nav": 1.0128547982,
+   "dd": -0.002523,
+   "cash": 0.299225,
+   "carry": -3.8394e-06,
+   "n_held": 12,
+   "filled": false,
+   "turn": 0.0,
+   "provisional": false
+  },
+  {
+   "bar": "2026-11-06",
+   "nav": 1.0005200112,
+   "dd": -0.01467,
+   "cash": 0.299225,
+   "carry": 1.11355e-05,
+   "n_held": 12,
+   "filled": false,
+   "turn": 0.0,
+   "provisional": true
   }
  ],
  "books": {},
@@ -143,17 +165,17 @@
   "settled_bars": [
    "2026-10-23",
    "2026-10-26",
-   "2026-10-27",
+   "2026-10-27"
+  ],
+  "provisional_bars": [
    "2026-10-28",
    "2026-10-29",
    "2026-10-30",
    "2026-11-02",
-   "2026-11-03"
-  ],
-  "provisional_bars": [
+   "2026-11-03",
    "2026-11-04"
   ],
-  "carry_last_bar": "2026-11-05",
+  "carry_last_bar": "2026-10-27",
   "settled_faces": [],
   "provisional_faces": [],
   "benchmark_settled_faces": [],
@@ -363,24 +385,25 @@
    "ts": "2026-11-05T20:41:46+0800",
    "new_bars": 0,
    "last_bar": "2026-11-04"
+  },
+  {
+   "ts": "2026-11-07T03:36:40+0800",
+   "new_bars": 2,
+   "last_bar": "2026-11-06"
   }
  ],
  "panel": {
-  "n_instruments": 1619,
-  "flips_repaired": 168,
-  "digest": "feb68261db19a9cc",
-  "bars_named": 5273,
+  "n_instruments": 1624,
+  "flips_repaired": 169,
+  "digest": "58302d9ca988c138",
+  "bars_named": 5275,
   "first_bar": "2005-02-23",
-  "last_bar": "2026-11-04",
+  "last_bar": "2026-11-06",
   "covers": [
    "close",
    "open",
    "amount"
-  ],
-  "refused_trailing_rows": 1,
-  "refused_last_bar": "2026-11-05",
-  "coverage_floor": 0.5,
-  "reference_coverage": 1617
+  ]
  },
  "caveats": [
   "The ETF pool is today's listed set: survivorship is still in the equity sleeve.",
@@ -474,6 +497,20 @@
     "filled": false,
     "book_nav": 1.0120725673,
     "excess": 0.0107950017
+   },
+   {
+    "bar": "2026-11-05",
+    "nav": 1.0068215926,
+    "filled": false,
+    "book_nav": 1.0128547982,
+    "excess": 0.0059923284
+   },
+   {
+    "bar": "2026-11-06",
+    "nav": 0.9897244383,
+    "filled": false,
+    "book_nav": 1.0005200112,
+    "excess": 0.0109076552
    }
   ],
   "rebalance_friction": {
@@ -483,34 +520,34 @@
   },
   "decisions": 83,
   "latest": {
-   "bar": "2026-11-04",
-   "book_nav": 1.0120725673,
-   "basket_nav": 1.0012639216,
-   "excess_pp": 1.0795
+   "bar": "2026-11-06",
+   "book_nav": 1.0005200112,
+   "basket_nav": 0.9897244383,
+   "excess_pp": 1.0908
   },
   "significance": {
    "available": true,
-   "bars_used": 1655,
-   "windows": "2020-01-02..2026-11-04",
-   "daily_vol_pct": 0.54147,
-   "annual_vol_pct": 8.458,
+   "bars_used": 1657,
+   "windows": "2020-01-02..2026-11-06",
+   "daily_vol_pct": 0.5414,
+   "annual_vol_pct": 8.457,
    "noise_band_pp": {
     "1m": 4.746,
-    "3m": 8.221,
-    "1y": 16.578,
-    "3y": 28.714
+    "3m": 8.22,
+    "1y": 16.576,
+    "3y": 28.71
    },
-   "noise_band_pp_at_published": 3.184,
-   "published_bars": 9,
+   "noise_band_pp_at_published": 3.519,
+   "published_bars": 11,
    "bars_needed_for_edge": {
-    "3pp/yr": 7758,
+    "3pp/yr": 7756,
     "5pp/yr": 2793,
     "10pp/yr": 699
    },
    "min_detectable_edge_pp": {
-    "1y": 16.916,
-    "3y": 9.767,
-    "5y": 7.565
+    "1y": 16.914,
+    "3y": 9.765,
+    "5y": 7.564
    },
    "power": {
     "units": {
@@ -521,16 +558,16 @@
     "power": 0.8,
     "alpha_two_sided": 0.05,
     "z": 2.802,
-    "annual_vol_pct": 8.458,
+    "annual_vol_pct": 8.457,
     "min_detectable_edge_pp": {
-     "6m": 33.516,
-     "1y": 23.699,
-     "2y": 16.758,
-     "3y": 13.683
+     "6m": 33.512,
+     "1y": 23.696,
+     "2y": 16.756,
+     "3y": 13.681
     },
     "years_for_80pct_power": {
      "pre-2020 measured alpha (single arm)": 136.3,
-     "in-window measured alpha (single arm)": 16.0
+     "in-window measured alpha (single arm)": 15.8
     },
     "candidate_sources": {
      "pre-2020 measured alpha (single arm)": {
@@ -541,13 +578,13 @@
      "in-window measured alpha (single arm)": {
       "file": "results/etf_book_spanning.json",
       "field": "arms.book.full.alpha_annual",
-      "edge_pp_per_year": 5.93
+      "edge_pp_per_year": 5.96
      }
     },
     "available": true,
     "read": "a spread inside these bands is not evidence either way: at 12 months this ledger can only resolve edges above its 1y band, and the two edges this book actually published need years, not months"
    },
-   "book_cagr_pct_on_same_window": 9.193,
+   "book_cagr_pct_on_same_window": 8.997,
    "read": "a spread smaller than the band at the bar count it was measured over is indistinguishable from noise; the band shrinks as sqrt(bars), not faster"
   }
  },

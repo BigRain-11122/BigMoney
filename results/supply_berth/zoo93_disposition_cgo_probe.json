@@ -1,0 +1,167 @@
+{
+ "artifact": "zoo93_disposition_cgo supply berth probe",
+ "batch": "SUPPLY_BERTH_BEHAVIOURAL_FAMILY_CANDIDATE",
+ "family": "zoo93_disposition_cgo",
+ "machine": "bm-c",
+ "ts": "2026-11-07T09:04:38+0800",
+ "evidence_cutoff": "2026-10-30",
+ "panel": {
+  "symbols": 5197,
+  "bars": 1653,
+  "first_date": "2020-01-02",
+  "last_date": "2026-10-30"
+ },
+ "construct": {
+  "cost_basis": "turnover-attenuated RP over a 60-bar window (frozen)",
+  "cgo": "(close - RP)/close",
+  "rank": "per date, bottom decile vs top decile among finite CGO+forward",
+  "entry": "open[t+1]",
+  "exit": "close[t+h], h in {20,60}",
+  "benchmark": "cross-sectional mean of the same h-bar return on the same date",
+  "spread": "date-neutral mean(low-decile excess) - mean(high-decile excess)",
+  "null": "same two group sizes drawn at random and disjointly from that date's candidates",
+  "window": 60,
+  "decile": 0.1,
+  "cost_per_side": 0.0013041,
+  "draws": 100,
+  "primary_horizon": 20
+ },
+ "summary": {
+  "n_bars": 1653,
+  "n_symbols": 5197,
+  "horizons": {
+   "20": {
+    "n_dates": 1573,
+    "mean_group_size": 466.00762873490146,
+    "low_decile_excess": 0.00271751677021741,
+    "high_decile_excess": -0.005130149190386756,
+    "spread_gross": 0.007847665960604166,
+    "spread_net": 0.0026312659606041655,
+    "cost_applied": 0.0052164,
+    "null_mean": -1.9909161950122365e-05,
+    "null_sd": 0.00020585915311935562,
+    "null_draws_used": 100,
+    "z_vs_null": 38.218242926476655,
+    "ex_matched_exposure": 0.007867575122554288,
+    "share_dates_spread_positive": 0.5193897012078831,
+    "per_year": {
+     "2020": {
+      "n_dates": 183,
+      "spread_gross": -0.03179330758168101,
+      "share_dates_positive": 0.19672131147540983
+     },
+     "2021": {
+      "n_dates": 243,
+      "spread_gross": 0.019541370917521072,
+      "share_dates_positive": 0.6172839506172839
+     },
+     "2022": {
+      "n_dates": 242,
+      "spread_gross": 0.02397531898117235,
+      "share_dates_positive": 0.6694214876033058
+     },
+     "2023": {
+      "n_dates": 242,
+      "spread_gross": 0.005236019010428905,
+      "share_dates_positive": 0.5371900826446281
+     },
+     "2024": {
+      "n_dates": 242,
+      "spread_gross": 0.018190450123046494,
+      "share_dates_positive": 0.5867768595041323
+     },
+     "2025": {
+      "n_dates": 243,
+      "spread_gross": 0.004538910450555795,
+      "share_dates_positive": 0.5061728395061729
+     },
+     "2026": {
+      "n_dates": 178,
+      "spread_gross": 0.004718049142081695,
+      "share_dates_positive": 0.4157303370786517
+     }
+    }
+   },
+   "60": {
+    "n_dates": 1533,
+    "mean_group_size": 464.64644487932156,
+    "low_decile_excess": 0.0017341357658100512,
+    "high_decile_excess": -0.00513404858530218,
+    "spread_gross": 0.00686818435111223,
+    "spread_net": 0.0016517843511122295,
+    "cost_applied": 0.0052164,
+    "null_mean": 5.01803733442677e-05,
+    "null_sd": 0.00038608963607465583,
+    "null_draws_used": 100,
+    "z_vs_null": 17.659121977699517,
+    "ex_matched_exposure": 0.0068180039777679625,
+    "share_dates_spread_positive": 0.5244618395303327,
+    "per_year": {
+     "2020": {
+      "n_dates": 183,
+      "spread_gross": -0.0713215956219422,
+      "share_dates_positive": 0.12021857923497267
+     },
+     "2021": {
+      "n_dates": 243,
+      "spread_gross": 0.03993913315858396,
+      "share_dates_positive": 0.6831275720164609
+     },
+     "2022": {
+      "n_dates": 242,
+      "spread_gross": 0.05088473505573169,
+      "share_dates_positive": 0.756198347107438
+     },
+     "2023": {
+      "n_dates": 242,
+      "spread_gross": 0.010506335854932254,
+      "share_dates_positive": 0.6570247933884298
+     },
+     "2024": {
+      "n_dates": 242,
+      "spread_gross": 0.007672818112766487,
+      "share_dates_positive": 0.4462809917355372
+     },
+     "2025": {
+      "n_dates": 243,
+      "spread_gross": -0.0109486073547307,
+      "share_dates_positive": 0.4279835390946502
+     },
+     "2026": {
+      "n_dates": 138,
+      "spread_gross": -0.0012853645285220503,
+      "share_dates_positive": 0.4492753623188406
+     }
+    }
+   }
+  }
+ },
+ "coverage": {
+  "dates_with_basis": 1593,
+  "median_names_per_date": 4844.0,
+  "first_date_with_basis": "2020-04-03"
+ },
+ "decay": {
+  "h20_2021_2023": 0.016255429060419706,
+  "h20_2024_2026": 0.009569919934468856,
+  "h60_2021_2023": 0.033785211166322666,
+  "h60_2024_2026": -0.0015747510575379025,
+  "basis": "per-year readings weighted by that year's date count"
+ },
+ "verdict_block": {
+  "verdict": "ADMIT_TO_PREREG",
+  "primary_horizon": 20,
+  "positive_years_primary": 6,
+  "n_years_primary": 7,
+  "reason": "the low-CGO decile's excess over the high-CGO decile survives the round-trip cost, beats a same-size random-group null by >2 sd at the primary horizon, and its year split is majority-positive"
+ },
+ "honest": [
+  "probe only: one construct (60-bar turnover-attenuated basis), one decile width, two horizons -- a positive buys a frozen prereg and a proper judge, not a claim that the rule makes money",
+  "qfq panel: near a corporate action the adjusted price is not the traded price, so the 'price vs cost basis' ratio is distorted for a few bars around the event -- noise on the cross-section, not look-ahead",
+  "turnover here is float-share turnover from the archive, not the turnover of the marginal holder; the attrition model assumes the same holder behaviour for every name",
+  "a decile spread is a paper portfolio: it short-sells names nobody has to be able to borrow, so the reading is an upper bound on what a long-only user of the same signal could keep",
+  "the benchmark is the equal-weight A-share panel on the same date, so any spread is relative to 'own the tape', which is itself a claim that has to be cashed later",
+  "the z is a sampling z of a very large panel (about 466 names per group per side, 1,573 dates): it says the mean is measured precisely, not that the effect is large -- the magnitude is the 26bp net per 20 bars printed above, and the year split is the honest companion",
+  "the effect decays: 2020 is negative, and the 60-bar reading is flat-to-negative after 2023 -- the decay block is published beside the headline so this cannot be read as 'works today'"
+ ]
+}

@@ -158,17 +158,90 @@ def _persist_v2(st, group, blob, commit):
 
 _WM_RE = re.compile(r"^([0-9a-fA-F]{16})@([0-9a-fA-F]{7,40})/(\d+)$")
 _SHA_RE = re.compile(r"^[0-9a-fA-F]{64}$")
+# r1393: the DISPLAY form of a watermark is its 16-hex prefix, and one round
+# wrote exactly that back into state (`last_decisions_sha = "b8609238434052e2"`).
+# `_parse_wm` read it as "no previous watermark", so the gate printed CHANGED
+# and re-consumed all 87 keyword rows on every round while the content hash
+# never moved -- a silently permanent re-read that looked like real news. A
+# bare 16-hex prefix is therefore its own legacy tier (bytes = -2), matched
+# against the first 16 hex of the live digest, and upgraded on --update.
+_PREFIX_RE = re.compile(r"^[0-9a-fA-F]{16}$")
+LEGACY_FULL = -1     # bare 64-hex digest
+LEGACY_PREFIX = -2   # bare 16-hex prefix (display form)
 
 
 def _parse_wm(v):
-    """-> (sha16, commit7, bytes) or None for a legacy bare sha."""
+    """-> (sha16, commit7, bytes); bytes<0 marks a legacy bare form; None = unreadable."""
     v = (v or "").strip()
     m = _WM_RE.match(v)
     if m:
         return (m.group(1).lower(), m.group(2)[:7].lower(), int(m.group(3)))
     if _SHA_RE.match(v):
-        return ("", "", -1)
+        return ("", "", LEGACY_FULL)
+    if _PREFIX_RE.match(v):
+        return ("", "", LEGACY_PREFIX)
     return None
+
+
+def _legacy_matches(prev_raw, prev, sha):
+    """True when a legacy bare watermark names the live content.
+
+    Two tiers, each against the field it can actually carry: a full digest must
+    equal the live digest, a display prefix must equal its first 16 hex. Neither
+    is allowed to match by accident -- a prefix that differs in one nibble is a
+    different document, and the caller then sees CHANGED.
+    """
+    if not prev:
+        return False
+    raw = (prev_raw or "").strip()
+    if prev[2] == LEGACY_FULL:
+        return raw.upper() == sha.upper()
+    if prev[2] == LEGACY_PREFIX:
+        return raw.lower() == sha[:16].lower()
+    return False
+
+
+def selftest():
+    """Hermetic: watermark parsing/matching only, no git, no state writes."""
+    ok = True
+
+    def leg(name, cond, detail=""):
+        nonlocal ok
+        ok = ok and bool(cond)
+        print("[%s] %s%s" % ("PASS" if cond else "FAIL", name,
+                             (" | " + detail) if detail else ""))
+
+    sha = "b8609238434052e2deadbeef00112233445566778899aabbccddeeff00112233"
+
+    # L1 the triple form round-trips
+    wm = _wm(sha, "06cda7b" + "f" * 33, 227217)
+    leg("L1 _wm emits <sha16>@<commit7>/<bytes>",
+        re.match(r"^b8609238434052e2@06cda7b/227217$", wm) is not None, wm)
+    leg("L2 the triple parses back to the same three fields",
+        _parse_wm(wm) == ("b8609238434052e2", "06cda7b", 227217))
+
+    # L3/L4 legacy tiers name the live content only when they really match
+    leg("L3 a bare 64-hex digest matches the live digest",
+        _legacy_matches(sha, _parse_wm(sha), sha))
+    leg("L4 a bare 16-hex prefix matches only the live prefix",
+        _legacy_matches("B8609238434052E2", _parse_wm("b8609238434052e2"), sha))
+
+    # L5 the live defect: the stored prefix is the display form, and a DIFFERENT
+    #    document must not be read as unchanged
+    other = "c1029384756abcdef0123456789abcdef" + "0" * 32
+    leg("L5 a prefix of another document does not match",
+        not _legacy_matches("c1029384756abcde", _parse_wm("c1029384756abcde"), sha))
+    leg("L6 a whole-digest watermark of another document does not match",
+        not _legacy_matches(other, _parse_wm(other), sha))
+
+    # L7 an unreadable watermark is reported as unreadable, never as "no drift"
+    leg("L7 an unrecognised watermark parses to None",
+        _parse_wm("watermark-please") is None and _parse_wm("") is None)
+    leg("L8 None never matches (so the caller must print CHANGED)",
+        not _legacy_matches("watermark-please", _parse_wm("watermark-please"), sha))
+
+    print("[d19_check] selftest %s" % ("PASS" if ok else "FAIL"))
+    return 0 if ok else 1
 
 
 def machine_id():
@@ -187,7 +260,10 @@ def state_path(mid):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--update", action="store_true")
+    ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
+    if args.selftest:
+        return selftest()
 
     mid = machine_id()
     sp = state_path(mid)
@@ -206,7 +282,14 @@ def main():
     commit = _git(["rev-parse", "origin/main"], GROUP).decode().strip()
     wm = _wm(sha, commit, len(blob))
     cur = (sha[:16].lower(), commit[:7].lower(), len(blob))
-    legacy_match = bool(prev) and prev[2] < 0 and prev_raw.strip().upper() == sha.upper()
+    legacy_match = _legacy_matches(prev_raw, prev, sha)
+    if prev is None and prev_raw.strip():
+        # r1393: silence here cost rounds -- an unreadable watermark re-consumed
+        # the whole ledger every round and printed it as fresh news. Say so, and
+        # treat it as CHANGED (consume once, then upgrade).
+        print("D-19 NOTE: stored watermark %r is not in a recognised form "
+              "(<sha16>@<commit7>/<bytes>, 64-hex or 16-hex) -> treating as CHANGED, "
+              "--update rewrites it in triple form" % prev_raw.strip()[:64])
 
     if cur == prev or legacy_match:
         print("D-19 MATCH (decisions watermark unchanged: %s)" % wm)

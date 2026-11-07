@@ -24,12 +24,12 @@
     }
   },
   "paper_start": "2026-09-23",
-  "bars": 23,
+  "bars": 27,
   "months_tracked": 1,
   "monthly_returns": [
     -0.0078
   ],
-  "current_dd": -0.0078,
+  "current_dd": -0.0081,
   "months_detail": [
     {
       "month": "2026-09",
@@ -49,24 +49,24 @@
     },
     {
       "month": "2026-11",
-      "return": 0.0,
-      "bars": 1,
+      "return": 0.0023,
+      "bars": 5,
       "month_ended": false,
       "full_from_hire": true,
       "counted": false
     }
   ],
   "window_metrics": {
-    "annual_return": -0.0824,
-    "sharpe": -7.6009,
-    "max_drawdown": -0.0078,
-    "win_rate": 0.0,
-    "profit_factor": 0.0,
-    "num_trades": 2,
-    "avg_hold_days": 7.0,
-    "win_rate_full": 0.0,
-    "profit_factor_full": 0.0,
-    "avg_pnl_full": -3910.45,
+    "annual_return": -0.0506,
+    "sharpe": -3.4569,
+    "max_drawdown": -0.0081,
+    "win_rate": 0.5,
+    "profit_factor": 0.3038,
+    "num_trades": 4,
+    "avg_hold_days": 4.75,
+    "win_rate_full": 0.5,
+    "profit_factor_full": 0.2904,
+    "avg_pnl_full": -1387.39,
     "fill_guard_buy_dropped": 0,
     "fill_guard_sell_deferred_events": 0,
     "fill_guard_deferred_days_total": 0,
@@ -76,29 +76,29 @@
       "sell_deferred": 0,
       "violations": 0
     },
-    "scaled_entries": 2
+    "scaled_entries": 3
   },
   "cost_x2_check": {
     "status": "ok",
-    "paper_window_sharpe_x2": -7.8459,
+    "paper_window_sharpe_x2": -3.6704,
     "skill_bar": 0.4004,
     "survive": false,
-    "margin": -8.2463,
+    "margin": -4.0708,
     "note": "rolling x2-cost safety on paper window to date"
   },
   "x2_watch": {
     "status": "probation",
     "probation": true,
-    "margin": -8.2463,
+    "margin": -4.0708,
     "survive": false,
     "source": "paper_window"
   },
-  "cutoff": "2026-11-02",
-  "updated": "2026-11-02 23:29:53",
+  "cutoff": "2026-11-06",
+  "updated": "2026-11-07 01:10:07",
   "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-11-02"
+    "as_of": "2026-11-06"
   },
   "regime_guard": {
     "mode": "enforce",
@@ -106,22 +106,22 @@
     "active_from": "2026-10-01",
     "gate_note": null,
     "v3_state_tail": {
-      "2026-10-20": "YELLOW",
-      "2026-10-21": "YELLOW",
-      "2026-10-22": "YELLOW",
-      "2026-10-23": "YELLOW",
       "2026-10-26": "YELLOW",
       "2026-10-27": "YELLOW",
       "2026-10-28": "YELLOW",
       "2026-10-29": "YELLOW",
       "2026-10-30": "YELLOW",
-      "2026-11-02": "YELLOW"
+      "2026-11-02": "YELLOW",
+      "2026-11-03": "YELLOW",
+      "2026-11-04": "YELLOW",
+      "2026-11-05": "GREEN",
+      "2026-11-06": "GREEN"
     },
     "enforced": {
       "active_from": "2026-10-01",
-      "days_enforced": 18,
+      "days_enforced": 22,
       "entries_blocked": 0,
-      "entries_halved": 2
+      "entries_halved": 3
     },
     "shadow_ref": {
       "state": "RED",
@@ -137,7 +137,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-11-02 23:29:53",
+    "as_of": "2026-11-07 01:10:07",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
       "enabled": true,
@@ -156,17 +156,11 @@
   "open_positions": [],
   "capital": {
     "initial_cash_cny": 1000000.0,
-    "equity_cny": 992179.1,
+    "equity_cny": 994450.43,
     "positions_value_cny": 0,
-    "cash_cny": 992179.1,
+    "cash_cny": 994450.43,
     "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
     "denomination": "CNY"
   },
-  "no_future_data": "closed bars only; signal T close -> T+1 open (engine contract)",
-  "pending_entries": [
-    {
-      "symbol": "512400",
-      "queued_date": "2026-11-02"
-    }
-  ]
+  "no_future_data": "closed bars only; signal T close -> T+1 open (engine contract)"
 }
