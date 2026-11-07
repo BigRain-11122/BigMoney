@@ -20009,5 +20009,80 @@ except Exception as _e498x:
     _d498 = "leg could not run"
 check(_name498, not _bad498, "; ".join(_bad498)[:240] or _d498)
 
+# E499 -- price the read sites E498's class delta did not show.  A site count is not a price: a
+# block that re-derives a number or pins a field is a reader a producer must keep alive, and a
+# block that only opens the file is not.  The leg holds three things: the tallies re-derive, the
+# retirement ladder is monotone in the counting set (widening it can never retire more), and a
+# price outside the vocabulary or a twin retired against its own rows is caught.
+_name499 = ("E499 prices all 90 read sites behind E479's 36 twins by what their block does with "
+            "the payload; under the card's strict rule (re-derive or pin only) exactly one twin "
+            "moves to retirable and it is a smoke assertion of field presence that was keeping it "
+            "alive (r1525 bm-b)")
+_bad499 = []
+try:
+    _m499 = __import__("importlib").import_module("e499_helperprice")
+    _f499 = json.load(open(os.path.join("results", "state_tilt", "helperprice_latest.json"),
+                           encoding="utf-8"))
+    _s499 = _f499.get("summary") or {}
+    _r499 = _f499.get("rows") or []
+    _bad499.extend(_m499.tally_problems(_f499))
+    if not _r499:
+        _bad499.append("the population is empty")
+    if _f499.get("verdict") not in _m499.VERDICT_VOCAB:
+        _bad499.append("the verdict is not in the vocabulary")
+    _p499 = json.load(open(os.path.join("results", "state_tilt", "helperread_latest.json"),
+                           encoding="utf-8"))
+    if len(_p499.get("rows") or []) != len(_r499):
+        _bad499.append("the population is %r twins, the parent face carries %r"
+                       % (len(_r499), len(_p499.get("rows") or [])))
+    _priced = sum(len(r.get("sites") or []) for r in _r499)
+    if not _priced:
+        _bad499.append("no read site was priced")
+    _outside = sorted({s.get("price") for r in _r499 for s in (r.get("sites") or [])
+                       if s.get("price") not in _m499.PRICE_VOCAB})
+    if _outside:
+        _bad499.append("prices outside the vocabulary: %r" % (_outside[:3],))
+    _ladder = _s499.get("retirement_ladder") or []
+    if len(_ladder) < 3:
+        _bad499.append("the retirement ladder is missing arms")
+    for _a, _b in zip(_ladder, _ladder[1:]):
+        if (_b.get("twins_kept") or 0) < (_a.get("twins_kept") or 0):
+            _bad499.append("widening the counting set retired a twin: %r -> %r"
+                           % (_a.get("label"), _b.get("label")))
+    _moved499 = _s499.get("twins_moving") or []
+    for _t in _moved499:
+        _row = [r for r in _r499 if r.get("twin") == _t]
+        if not _row:
+            _bad499.append("%s is called moved but carries no row" % _t)
+        elif any(s.get("price") in _m499.COUNTS_AS_A_READER
+                 for s in (_row[0].get("sites") or [])):
+            _bad499.append("%s is called moved but carries a counting site" % _t)
+    if not _moved499:
+        _bad499.append("no twin changes status -- the strict rule is not being applied")
+    _w499 = json.loads(json.dumps(_f499))
+    if _w499.get("rows") and _w499["rows"][0].get("sites"):
+        _w499["rows"][0]["sites"][0]["price"] = "reads_it_somehow"
+    if not _m499.tally_problems(_w499):
+        _bad499.append("a price outside the vocabulary survived the guard")
+    _w499b = json.loads(json.dumps(_f499))
+    _w499b["summary"]["twins_moving"] = []
+    _w499b["summary"]["twins_that_move_to_retirable"] = 0
+    if not _m499.tally_problems(_w499b):
+        _bad499.append("a moved-twin list that does not re-derive survived the guard")
+    _d499 = ("population %r | priced %r sites (helper %r) | counting %r | non-counting %r | "
+             "strict retirable %r vs parent-arm %r | moved %r | verdict %r"
+             % (_s499.get("twins_in_the_population"), _priced,
+                (_s499.get("read_sites_by_tier") or {}).get(_m499.e497.T_HELPER),
+                _s499.get("sites_that_count_as_a_reader"),
+                _s499.get("sites_that_do_not"),
+                (_s499.get("retirement_when_only_rederiving_and_pinning_count")
+                 or {}).get("twins_retirable"),
+                (_s499.get("retirement_under_the_parent_rule") or {}).get("twins_retirable"),
+                _moved499, _f499.get("verdict")))
+except Exception as _e499x:
+    _bad499.append(repr(_e499x)[:160])
+    _d499 = "leg could not run"
+check(_name499, not _bad499, "; ".join(_bad499)[:240] or _d499)
+
 if __name__ == "__main__":
     sys.exit(main())

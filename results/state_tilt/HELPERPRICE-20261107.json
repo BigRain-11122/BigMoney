@@ -1,0 +1,4548 @@
+{
+ "card": "E499-PRICE-THE-READ-SITES-THE-CLASS-DELTA-DID-NOT-SHOW",
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T14:22:20+08:00",
+ "moved": [
+  {
+   "members": 7,
+   "parent_read_sites": 1,
+   "prices": {
+    "asserts_a_field_is_present_without_comparing_a_value": 1
+   },
+   "twin": "results/state_tilt/COSTCURVE_latest.json"
+  }
+ ],
+ "population_meta": {
+  "bound": "a price describes the block that owns the site, not the twin; a twin with no counting site is one whose readers do nothing a producer must preserve -- it is not thereby declared dead",
+  "rule": "the read sites E498's helper arm attributes to E479's 36 frozen twins, both the ones it published and the literal ones it counted",
+  "size": 36
+ },
+ "price_meta": {
+  "block_scope": "a site whose line is not an opener is priced at the asserting block found from the line itself; a module scope is never used as an assertion scope for a line inside a function",
+  "candidate_tokens": [
+   "addos_latest",
+   "bandpath_latest",
+   "basenamecensus_latest",
+   "basisrecovery_latest",
+   "bookecho_latest",
+   "breakeven_latest",
+   "call_latest",
+   "costcurve_latest",
+   "dirfield_latest",
+   "dirisface_latest",
+   "familyarg_latest",
+   "freshaim_latest",
+   "granularity_latest",
+   "hysteresis_latest",
+   "infostruct_latest",
+   "leadcounter_latest",
+   "loobook_latest",
+   "market_clock",
+   "matched_latest",
+   "omission_latest",
+   "owncross_latest",
+   "pairhet_latest",
+   "precisioncensus_latest",
+   "precisiongap_latest",
+   "readertiers_latest",
+   "refreshsignal_latest",
+   "replaycensus_latest",
+   "repro_latest",
+   "republishchain_latest",
+   "shadowface_latest",
+   "sharediff_latest",
+   "slopematrix_latest",
+   "stardir_latest",
+   "starlagband_latest",
+   "starown_latest",
+   "state_tilt",
+   "timingsel_latest",
+   "unfloored_latest"
+  ],
+  "counting_classes": [
+   "re_derives_a_number_from_the_payload",
+   "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary"
+  ],
+  "helper_arm": "a helper site's payload is the name bound to the helper call; the helper's own definition decides whether that name carries fields",
+  "sensitivity_classes": {
+   "with_faulting_blocks": [
+    "re_derives_a_number_from_the_payload",
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+    "raises_a_fault_when_the_payload_lacks_a_field"
+   ],
+   "with_republishing_blocks": [
+    "re_derives_a_number_from_the_payload",
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+    "raises_a_fault_when_the_payload_lacks_a_field",
+    "reads_payload_fields_and_asserts_nothing_here",
+    "asserts_a_field_is_present_without_comparing_a_value"
+   ]
+  },
+  "vocabulary": [
+   "re_derives_a_number_from_the_payload",
+   "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+   "asserts_a_field_is_present_without_comparing_a_value",
+   "only_requires_the_file_to_exist",
+   "compares_the_face_with_a_copy_of_itself_and_reads_no_field",
+   "reads_the_file_and_reads_no_field_in_this_block",
+   "the_source_is_absent_or_does_not_parse",
+   "raises_a_fault_when_the_payload_lacks_a_field",
+   "reads_payload_fields_and_asserts_nothing_here"
+  ]
+ },
+ "reading": "E498 measured how many readers a literal census misses; this measures what those readers do.  The strict rule is the one the card names: a site keeps a face alive when it re-derives a number or pins a field, and a site that only opens the file does not.",
+ "rows": [
+  {
+   "baseline_read_sites": 0,
+   "bytes_on_disk": 1005,
+   "family_dir": "results/market_clock",
+   "members": 16,
+   "parent_helper_read_sites": 3,
+   "parent_read_sites": 3,
+   "priced_read_sites": 3,
+   "sites": [
+    {
+     "block": {
+      "end": 501,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 398
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 1,
+       "presence": 1,
+       "rederive": 0,
+       "roots": [
+        "blend",
+        "clock",
+        "paper",
+        "regime"
+       ],
+       "value": 5
+      },
+      "fields_read": 22,
+      "roots": [],
+      "roots_from_helpers": {
+       "blend": {
+        "helper": "_read_json",
+        "helper_line": 143
+       },
+       "clock": {
+        "helper": "_read_json",
+        "helper_line": 143
+       },
+       "paper": {
+        "helper": "_read_json",
+        "helper_line": 143
+       },
+       "regime": {
+        "helper": "_read_json",
+        "helper_line": 143
+       }
+      }
+     },
+     "helper": "_read_json",
+     "line": 400,
+     "literal": "call_latest.json",
+     "mode_evidence": "helper _read_json() opens its parameter 'path': mode='r (default)'",
+     "payload_roots": [
+      "blend",
+      "clock",
+      "paper",
+      "regime"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "an_instrument",
+     "roots_from_helpers": {
+      "blend": {
+       "helper": "_read_json",
+       "helper_line": 143
+      },
+      "clock": {
+       "helper": "_read_json",
+       "helper_line": 143
+      },
+      "paper": {
+       "helper": "_read_json",
+       "helper_line": 143
+      },
+      "regime": {
+       "helper": "_read_json",
+       "helper_line": 143
+      }
+     },
+     "source": "scripts/ceo_live_usage.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 99,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 69
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [],
+       "value": 0
+      },
+      "fields_read": 0,
+      "roots": [],
+      "roots_from_helpers": {}
+     },
+     "helper": "_read_json",
+     "line": 91,
+     "literal": "call_latest.json",
+     "mode_evidence": "helper _read_json() opens its parameter 'path': mode='r (default)'",
+     "payload_roots": [],
+     "price": "reads_the_file_and_reads_no_field_in_this_block",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/daily_report.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 728,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 665
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 2,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "mid"
+       ],
+       "value": 0
+      },
+      "fields_read": 1,
+      "roots": [
+       "mid"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": "_read_json",
+     "line": 681,
+     "literal": "call_latest.json",
+     "mode_evidence": "helper _read_json() opens its parameter 'path': mode='r (default)'",
+     "payload_roots": [
+      "mid"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/system_v1_paper.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    }
+   ],
+   "twin": "results/market_clock/CALL_latest.json"
+  },
+  {
+   "baseline_read_sites": 2,
+   "bytes_on_disk": 49865,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 2,
+   "priced_read_sites": 2,
+   "sites": [
+    {
+     "block": {
+      "end": 64,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 58
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "raw"
+       ],
+       "value": 0
+      },
+      "fields_read": 0,
+      "roots": [
+       "raw"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 62,
+     "literal": "addos_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "raw"
+     ],
+     "price": "only_requires_the_file_to_exist",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e244_pair_heterogeneity.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 3527,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 3499
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 2,
+       "externally_derived": 0,
+       "presence": 1,
+       "rederive": 0,
+       "roots": [
+        "_f43"
+       ],
+       "value": 8
+      },
+      "fields_read": 11,
+      "roots": [
+       "_f43"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 3502,
+     "literal": "results/state_tilt/addos_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "_f43"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/ADDOS_latest.json"
+  },
+  {
+   "baseline_read_sites": 1,
+   "bytes_on_disk": 605245,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 1,
+   "priced_read_sites": 1,
+   "sites": [
+    {
+     "block": {
+      "end": 2807,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 2722
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 3,
+       "externally_derived": 7,
+       "presence": 9,
+       "rederive": 0,
+       "roots": [
+        "_f30b",
+        "_f31"
+       ],
+       "value": 8
+      },
+      "fields_read": 25,
+      "roots": [
+       "_f30b",
+       "_f31"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 2725,
+     "literal": "results/state_tilt/bandpath_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f30b",
+      "_f31"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/BANDPATH_latest.json"
+  },
+  {
+   "baseline_read_sites": 1,
+   "bytes_on_disk": 147777,
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "parent_helper_read_sites": 1,
+   "parent_read_sites": 2,
+   "priced_read_sites": 2,
+   "sites": [
+    {
+     "block": {
+      "end": 553,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 480
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "src"
+       ],
+       "value": 0
+      },
+      "fields_read": 0,
+      "roots": [
+       "src"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": "_load",
+     "line": 484,
+     "literal": "basenamecensus_latest.json",
+     "mode_evidence": "helper _load() opens its parameter 'path': mode='r (default)'",
+     "payload_roots": [
+      "src"
+     ],
+     "price": "only_requires_the_file_to_exist",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e423_dirfield_join.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 16124,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 16048
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 12,
+       "externally_derived": 16,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "_f422"
+       ],
+       "value": 2
+      },
+      "fields_read": 19,
+      "roots": [
+       "_f422"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 16050,
+     "literal": "basenamecensus_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "_f422"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/BASENAMECENSUS_latest.json"
+  },
+  {
+   "baseline_read_sites": 0,
+   "bytes_on_disk": 17520,
+   "family_dir": "results/state_tilt",
+   "members": 5,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 0,
+   "priced_read_sites": 0,
+   "sites": [],
+   "twin": "results/state_tilt/BASISRECOVERY_latest.json"
+  },
+  {
+   "baseline_read_sites": 3,
+   "bytes_on_disk": 36646,
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 3,
+   "priced_read_sites": 3,
+   "sites": [
+    {
+     "block": {
+      "end": 0,
+      "kind": "Module",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 0
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 1,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "b",
+        "f"
+       ],
+       "value": 0
+      },
+      "fields_read": 18,
+      "roots": [
+       "b",
+       "f"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 5,
+     "literal": "results/state_tilt/bookecho_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "b",
+      "f"
+     ],
+     "price": "compares_the_face_with_a_copy_of_itself_and_reads_no_field",
+     "role": "a_one_off_round_script",
+     "roots_from_helpers": {},
+     "source": "_tmp_r1277_view.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 3954,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 3895
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 2,
+       "presence": 4,
+       "rederive": 0,
+       "roots": [
+        "_f50"
+       ],
+       "value": 0
+      },
+      "fields_read": 7,
+      "roots": [
+       "_f50"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 3900,
+     "literal": "bookecho_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f50"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 4028,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 4012
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 1,
+       "externally_derived": 1,
+       "presence": 2,
+       "rederive": 0,
+       "roots": [
+        "_f51b"
+       ],
+       "value": 1
+      },
+      "fields_read": 6,
+      "roots": [
+       "_f51b"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 4013,
+     "literal": "bookecho_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f51b"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/BOOKECHO_latest.json"
+  },
+  {
+   "baseline_read_sites": 1,
+   "bytes_on_disk": 44292,
+   "family_dir": "results/state_tilt",
+   "members": 8,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 1,
+   "priced_read_sites": 1,
+   "sites": [
+    {
+     "block": {
+      "end": 2465,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 2417
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 2,
+       "presence": 4,
+       "rederive": 0,
+       "roots": [
+        "_f26"
+       ],
+       "value": 0
+      },
+      "fields_read": 8,
+      "roots": [
+       "_f26"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 2420,
+     "literal": "results/state_tilt/breakeven_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f26"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/BREAKEVEN_latest.json"
+  },
+  {
+   "baseline_read_sites": 1,
+   "bytes_on_disk": 81464,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 1,
+   "priced_read_sites": 1,
+   "sites": [
+    {
+     "block": {
+      "end": 2851,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 2827
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 3,
+       "externally_derived": 0,
+       "presence": 3,
+       "rederive": 0,
+       "roots": [
+        "_f32"
+       ],
+       "value": 0
+      },
+      "fields_read": 5,
+      "roots": [
+       "_f32"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 2830,
+     "literal": "results/state_tilt/costcurve_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f32"
+     ],
+     "price": "asserts_a_field_is_present_without_comparing_a_value",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/COSTCURVE_latest.json"
+  },
+  {
+   "baseline_read_sites": 3,
+   "bytes_on_disk": 59563,
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "parent_helper_read_sites": 3,
+   "parent_read_sites": 6,
+   "priced_read_sites": 6,
+   "sites": [
+    {
+     "block": {
+      "end": 619,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 556
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [],
+       "value": 0
+      },
+      "fields_read": 0,
+      "roots": [],
+      "roots_from_helpers": {}
+     },
+     "helper": "_load",
+     "line": 557,
+     "literal": "dirfield_latest.json",
+     "mode_evidence": "helper _load() opens its parameter 'path': mode='r (default)'",
+     "payload_roots": [],
+     "price": "reads_the_file_and_reads_no_field_in_this_block",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e423_dirfield_join.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 132,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 96
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "face"
+       ],
+       "value": 0
+      },
+      "fields_read": 1,
+      "republish_evidence": "1 payload field access(es) and no assertion in this block",
+      "roots": [],
+      "roots_from_helpers": {
+       "face": {
+        "helper": "_load",
+        "helper_line": 62
+       }
+      }
+     },
+     "helper": "_load",
+     "line": 98,
+     "literal": "dirfield_latest.json",
+     "mode_evidence": "helper _load() opens its parameter 'path': mode='r (default)'",
+     "payload_roots": [
+      "face"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "an_instrument",
+     "roots_from_helpers": {
+      "face": {
+       "helper": "_load",
+       "helper_line": 62
+      }
+     },
+     "source": "scripts/e433_republication_chain.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 325,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 262
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "e423",
+        "tree"
+       ],
+       "value": 0
+      },
+      "fields_read": 2,
+      "republish_evidence": "2 payload field access(es) and no assertion in this block",
+      "roots": [
+       "tree"
+      ],
+      "roots_from_helpers": {
+       "e423": {
+        "helper": "_load",
+        "helper_line": 62
+       }
+      }
+     },
+     "helper": "_load",
+     "line": 263,
+     "literal": "dirfield_latest.json",
+     "mode_evidence": "helper _load() opens its parameter 'path': mode='r (default)'",
+     "payload_roots": [
+      "e423",
+      "tree"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "an_instrument",
+     "roots_from_helpers": {
+      "e423": {
+       "helper": "_load",
+       "helper_line": 62
+      }
+     },
+     "source": "scripts/e433_republication_chain.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 77,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 52
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 1,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "backup",
+        "same"
+       ],
+       "value": 0
+      },
+      "fields_read": 0,
+      "roots": [
+       "backup",
+       "same"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 55,
+     "literal": "dirfield_latest.json",
+     "mode_evidence": "mode='rb'",
+     "payload_roots": [
+      "backup",
+      "same"
+     ],
+     "price": "compares_the_face_with_a_copy_of_itself_and_reads_no_field",
+     "role": "a_standalone_leg_runner",
+     "roots_from_helpers": {},
+     "source": "scripts/run_e423_smoke_leg.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 77,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 52
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 1,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "backup",
+        "same"
+       ],
+       "value": 0
+      },
+      "fields_read": 0,
+      "roots": [
+       "backup",
+       "same"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 75,
+     "literal": "dirfield_latest.json",
+     "mode_evidence": "mode='rb'",
+     "payload_roots": [
+      "backup",
+      "same"
+     ],
+     "price": "compares_the_face_with_a_copy_of_itself_and_reads_no_field",
+     "role": "a_standalone_leg_runner",
+     "roots_from_helpers": {},
+     "source": "scripts/run_e423_smoke_leg.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 16886,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 16823
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 4,
+       "comparisons_that_count_the_payload": 2,
+       "externally_derived": 6,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "_f423"
+       ],
+       "value": 0
+      },
+      "fields_read": 16,
+      "roots": [
+       "_f423"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 16825,
+     "literal": "dirfield_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "_f423"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/DIRFIELD_latest.json"
+  },
+  {
+   "baseline_read_sites": 4,
+   "bytes_on_disk": 325663,
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "parent_helper_read_sites": 3,
+   "parent_read_sites": 7,
+   "priced_read_sites": 7,
+   "sites": [
+    {
+     "block": {
+      "end": 270,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 259
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "face"
+       ],
+       "value": 0
+      },
+      "fields_read": 3,
+      "republish_evidence": "3 payload field access(es) and no assertion in this block",
+      "roots": [],
+      "roots_from_helpers": {
+       "face": {
+        "helper": "_load",
+        "helper_line": 62
+       }
+      }
+     },
+     "helper": "_load",
+     "line": 267,
+     "literal": "dirisface_latest.json",
+     "mode_evidence": "helper _load() opens its parameter 'path': mode='r (default)'",
+     "payload_roots": [
+      "face"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "an_instrument",
+     "roots_from_helpers": {
+      "face": {
+       "helper": "_load",
+       "helper_line": 62
+      }
+     },
+     "source": "scripts/e441_facehome_family.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 79,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 54
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "face",
+        "original"
+       ],
+       "value": 0
+      },
+      "fields_read": 1,
+      "republish_evidence": "1 payload field access(es) and no assertion in this block",
+      "roots": [
+       "face",
+       "original"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": "sha",
+     "line": 60,
+     "literal": "dirisface_latest.json",
+     "mode_evidence": "helper sha() opens its parameter 'path': mode='rb'",
+     "payload_roots": [
+      "face",
+      "original"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "a_standalone_leg_runner",
+     "roots_from_helpers": {},
+     "source": "scripts/run_e435_smoke_leg.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 79,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 54
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "face",
+        "original"
+       ],
+       "value": 0
+      },
+      "fields_read": 1,
+      "republish_evidence": "1 payload field access(es) and no assertion in this block",
+      "roots": [
+       "face",
+       "original"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": "sha",
+     "line": 77,
+     "literal": "dirisface_latest.json",
+     "mode_evidence": "helper sha() opens its parameter 'path': mode='rb'",
+     "payload_roots": [
+      "face",
+      "original"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "a_standalone_leg_runner",
+     "roots_from_helpers": {},
+     "source": "scripts/run_e435_smoke_leg.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 294,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 224
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 8,
+       "externally_derived": 14,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "face"
+       ],
+       "value": 0
+      },
+      "fields_read": 13,
+      "roots": [
+       "face"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 226,
+     "literal": "dirisface_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "face"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e435_dir_is_a_face.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 64,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 62
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [],
+       "value": 0
+      },
+      "fields_read": 0,
+      "roots": [],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 63,
+     "literal": "dirisface_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [],
+     "price": "reads_the_file_and_reads_no_field_in_this_block",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e441_facehome_family.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 79,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 54
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "face",
+        "original"
+       ],
+       "value": 0
+      },
+      "fields_read": 1,
+      "republish_evidence": "1 payload field access(es) and no assertion in this block",
+      "roots": [
+       "face",
+       "original"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 61,
+     "literal": "dirisface_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "face",
+      "original"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "a_standalone_leg_runner",
+     "roots_from_helpers": {},
+     "source": "scripts/run_e435_smoke_leg.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 17524,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 17455
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 8,
+       "comparisons_that_count_the_payload": 8,
+       "externally_derived": 8,
+       "presence": 6,
+       "rederive": 0,
+       "roots": [
+        "_doctor435",
+        "_f435"
+       ],
+       "value": 3
+      },
+      "fields_read": 21,
+      "roots": [
+       "_doctor435",
+       "_f435"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 17457,
+     "literal": "dirisface_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "_doctor435",
+      "_f435"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/DIRISFACE_latest.json"
+  },
+  {
+   "baseline_read_sites": 2,
+   "bytes_on_disk": 39800,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 2,
+   "priced_read_sites": 2,
+   "sites": [
+    {
+     "block": {
+      "end": 895,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 848
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 4,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "old"
+       ],
+       "value": 0
+      },
+      "fields_read": 5,
+      "roots": [
+       "old"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 854,
+     "literal": "familyarg_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "old"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e403_family_arg.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 15688,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 15636
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 4,
+       "externally_derived": 8,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "_f403"
+       ],
+       "value": 4
+      },
+      "fields_read": 14,
+      "roots": [
+       "_f403"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 15638,
+     "literal": "familyarg_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "_f403"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/FAMILYARG_latest.json"
+  },
+  {
+   "baseline_read_sites": 2,
+   "bytes_on_disk": 48431,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_helper_read_sites": 1,
+   "parent_read_sites": 3,
+   "priced_read_sites": 3,
+   "sites": [
+    {
+     "block": {
+      "end": 185,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 169
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "e411"
+       ],
+       "value": 0
+      },
+      "fields_read": 1,
+      "republish_evidence": "1 payload field access(es) and no assertion in this block",
+      "roots": [],
+      "roots_from_helpers": {
+       "e411": {
+        "helper": "_load",
+        "helper_line": 58
+       }
+      }
+     },
+     "helper": "_load",
+     "line": 171,
+     "literal": "freshaim_latest.json",
+     "mode_evidence": "helper _load() opens its parameter 'path': mode='r (default)'",
+     "payload_roots": [
+      "e411"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "an_instrument",
+     "roots_from_helpers": {
+      "e411": {
+       "helper": "_load",
+       "helper_line": 58
+      }
+     },
+     "source": "scripts/e418_face_age.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 450,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 397
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 2,
+       "comparisons_that_count_the_payload": 12,
+       "externally_derived": 16,
+       "presence": 3,
+       "rederive": 0,
+       "roots": [
+        "old"
+       ],
+       "value": 0
+      },
+      "fields_read": 29,
+      "roots": [
+       "old"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 402,
+     "literal": "freshaim_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "old"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e416_fresh_aim.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 15873,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 15807
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 4,
+       "comparisons_that_count_the_payload": 2,
+       "externally_derived": 11,
+       "presence": 1,
+       "rederive": 0,
+       "roots": [
+        "_f416",
+        "_v416"
+       ],
+       "value": 3
+      },
+      "fields_read": 30,
+      "roots": [
+       "_f416",
+       "_v416"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 15809,
+     "literal": "freshaim_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "_f416",
+      "_v416"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/FRESHAIM_latest.json"
+  },
+  {
+   "baseline_read_sites": 2,
+   "bytes_on_disk": 41122,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 2,
+   "priced_read_sites": 2,
+   "sites": [
+    {
+     "block": {
+      "end": 639,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 633
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [],
+       "value": 0
+      },
+      "fields_read": 0,
+      "roots": [],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 636,
+     "literal": "granularity_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [],
+     "price": "reads_the_file_and_reads_no_field_in_this_block",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e236_share_difference.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 3041,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 3003
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 2,
+       "externally_derived": 0,
+       "presence": 3,
+       "rederive": 0,
+       "roots": [
+        "_f35"
+       ],
+       "value": 1
+      },
+      "fields_read": 6,
+      "roots": [
+       "_f35"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 3006,
+     "literal": "results/state_tilt/granularity_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f35"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/GRANULARITY_latest.json"
+  },
+  {
+   "baseline_read_sites": 2,
+   "bytes_on_disk": 80036,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 2,
+   "priced_read_sites": 2,
+   "sites": [
+    {
+     "block": {
+      "end": 2698,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 2636
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 2,
+       "externally_derived": 3,
+       "presence": 6,
+       "rederive": 0,
+       "roots": [
+        "_f30"
+       ],
+       "value": 7
+      },
+      "fields_read": 11,
+      "roots": [
+       "_f30"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 2639,
+     "literal": "results/state_tilt/hysteresis_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f30"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 2807,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 2722
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 3,
+       "externally_derived": 7,
+       "presence": 9,
+       "rederive": 0,
+       "roots": [
+        "_f30b",
+        "_f31"
+       ],
+       "value": 8
+      },
+      "fields_read": 25,
+      "roots": [
+       "_f30b",
+       "_f31"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 2786,
+     "literal": "results/state_tilt/hysteresis_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f30b",
+      "_f31"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/HYSTERESIS_latest.json"
+  },
+  {
+   "baseline_read_sites": 1,
+   "bytes_on_disk": 32074,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 1,
+   "priced_read_sites": 1,
+   "sites": [
+    {
+     "block": {
+      "end": 3147,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 3114
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 1,
+       "externally_derived": 0,
+       "presence": 7,
+       "rederive": 0,
+       "roots": [
+        "_f37"
+       ],
+       "value": 7
+      },
+      "fields_read": 14,
+      "roots": [
+       "_f37"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 3117,
+     "literal": "results/state_tilt/infostruct_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f37"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/INFOSTRUCT_latest.json"
+  },
+  {
+   "baseline_read_sites": 2,
+   "bytes_on_disk": 42771,
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 2,
+   "priced_read_sites": 2,
+   "sites": [
+    {
+     "block": {
+      "end": 0,
+      "kind": "Module",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 0
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 1,
+       "externally_derived": 3,
+       "presence": 5,
+       "rederive": 7,
+       "roots": [
+        "f"
+       ],
+       "value": 2
+      },
+      "fields_read": 18,
+      "roots": [
+       "f"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 7,
+     "literal": "leadcounter_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "f"
+     ],
+     "price": "re_derives_a_number_from_the_payload",
+     "role": "a_one_off_round_script",
+     "roots_from_helpers": {},
+     "source": "_tmp_r1275_smoke_leg.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 3888,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 3797
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 1,
+       "externally_derived": 3,
+       "presence": 6,
+       "rederive": 7,
+       "roots": [
+        "_f49"
+       ],
+       "value": 2
+      },
+      "fields_read": 20,
+      "roots": [
+       "_f49"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 3802,
+     "literal": "leadcounter_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f49"
+     ],
+     "price": "re_derives_a_number_from_the_payload",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/LEADCOUNTER_latest.json"
+  },
+  {
+   "baseline_read_sites": 3,
+   "bytes_on_disk": 25555,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_helper_read_sites": 1,
+   "parent_read_sites": 4,
+   "priced_read_sites": 4,
+   "sites": [
+    {
+     "block": {
+      "end": 561,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 324
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [],
+       "value": 0
+      },
+      "fields_read": 0,
+      "roots": [],
+      "roots_from_helpers": {}
+     },
+     "helper": "_read_face",
+     "line": 335,
+     "literal": "loobook_latest.json",
+     "mode_evidence": "helper _read_face() opens its parameter 'path': mode='r'",
+     "payload_roots": [],
+     "price": "reads_the_file_and_reads_no_field_in_this_block",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e241_pair_reproduction.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 278,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 253
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "face"
+       ],
+       "value": 1
+      },
+      "fields_read": 6,
+      "roots": [
+       "face"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 262,
+     "literal": "loobook_latest.json",
+     "mode_evidence": "mode='r'",
+     "payload_roots": [
+      "face"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e239_own_vs_cross.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 669,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 654
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "face"
+       ],
+       "value": 0
+      },
+      "fields_read": 7,
+      "republish_evidence": "7 payload field access(es) and no assertion in this block",
+      "roots": [
+       "face"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 657,
+     "literal": "loobook_latest.json",
+     "mode_evidence": "mode='r'",
+     "payload_roots": [
+      "face"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e240_aggregate_attenuation.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 3208,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 3170
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 2,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 4,
+       "rederive": 0,
+       "roots": [
+        "_f38"
+       ],
+       "value": 9
+      },
+      "fields_read": 16,
+      "roots": [
+       "_f38"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 3173,
+     "literal": "results/state_tilt/loobook_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f38"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/LOOBOOK_latest.json"
+  },
+  {
+   "baseline_read_sites": 1,
+   "bytes_on_disk": 31636,
+   "family_dir": "results/state_tilt",
+   "members": 8,
+   "parent_helper_read_sites": 1,
+   "parent_read_sites": 2,
+   "priced_read_sites": 2,
+   "sites": [
+    {
+     "block": {
+      "end": 247,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 222
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 2,
+       "rederive": 0,
+       "roots": [
+        "ref"
+       ],
+       "value": 1
+      },
+      "fields_read": 3,
+      "roots": [],
+      "roots_from_helpers": {
+       "ref": {
+        "helper": "_load",
+        "helper_line": 214
+       }
+      }
+     },
+     "helper": "_load",
+     "line": 223,
+     "literal": "matched_latest.json",
+     "mode_evidence": "helper _load() opens its parameter 'path': mode='r'",
+     "payload_roots": [
+      "ref"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "an_instrument",
+     "roots_from_helpers": {
+      "ref": {
+       "helper": "_load",
+       "helper_line": 214
+      }
+     },
+     "source": "scripts/e229_timing_selection.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 2535,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 2488
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 4,
+       "externally_derived": 5,
+       "presence": 4,
+       "rederive": 0,
+       "roots": [
+        "_f28"
+       ],
+       "value": 0
+      },
+      "fields_read": 10,
+      "roots": [
+       "_f28"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 2491,
+     "literal": "results/state_tilt/matched_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f28"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/MATCHED_latest.json"
+  },
+  {
+   "baseline_read_sites": 1,
+   "bytes_on_disk": 33667,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 1,
+   "priced_read_sites": 1,
+   "sites": [
+    {
+     "block": {
+      "end": 3474,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 3432
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 6,
+       "rederive": 0,
+       "roots": [
+        "_f42"
+       ],
+       "value": 10
+      },
+      "fields_read": 14,
+      "roots": [
+       "_f42"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 3435,
+     "literal": "results/state_tilt/omission_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f42"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/OMISSION_latest.json"
+  },
+  {
+   "baseline_read_sites": 2,
+   "bytes_on_disk": 23071,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 2,
+   "priced_read_sites": 2,
+   "sites": [
+    {
+     "block": {
+      "end": 669,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 654
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "face"
+       ],
+       "value": 0
+      },
+      "fields_read": 7,
+      "republish_evidence": "7 payload field access(es) and no assertion in this block",
+      "roots": [
+       "face"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 657,
+     "literal": "owncross_latest.json",
+     "mode_evidence": "mode='r'",
+     "payload_roots": [
+      "face"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e240_aggregate_attenuation.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 3277,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 3227
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 2,
+       "comparisons_that_count_the_payload": 3,
+       "externally_derived": 0,
+       "presence": 6,
+       "rederive": 0,
+       "roots": [
+        "_f39"
+       ],
+       "value": 8
+      },
+      "fields_read": 21,
+      "roots": [
+       "_f39"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 3230,
+     "literal": "results/state_tilt/owncross_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f39"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/OWNCROSS_latest.json"
+  },
+  {
+   "baseline_read_sites": 2,
+   "bytes_on_disk": 11590,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 2,
+   "priced_read_sites": 2,
+   "sites": [
+    {
+     "block": {
+      "end": 262,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 257
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [],
+       "value": 0
+      },
+      "fields_read": 0,
+      "roots": [],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 261,
+     "literal": "pairhet_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [],
+     "price": "reads_the_file_and_reads_no_field_in_this_block",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e245_pair_slope_matrix.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 3573,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 3546
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 2,
+       "externally_derived": 0,
+       "presence": 1,
+       "rederive": 0,
+       "roots": [
+        "_f44"
+       ],
+       "value": 6
+      },
+      "fields_read": 12,
+      "roots": [
+       "_f44"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 3549,
+     "literal": "results/state_tilt/pairhet_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "_f44"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/PAIRHET_latest.json"
+  },
+  {
+   "baseline_read_sites": 1,
+   "bytes_on_disk": 201573,
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "parent_helper_read_sites": 1,
+   "parent_read_sites": 2,
+   "priced_read_sites": 2,
+   "sites": [
+    {
+     "block": {
+      "end": 407,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 316
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 2,
+       "externally_derived": 2,
+       "presence": 2,
+       "rederive": 0,
+       "roots": [
+        "census"
+       ],
+       "value": 0
+      },
+      "fields_read": 6,
+      "roots": [],
+      "roots_from_helpers": {
+       "census": {
+        "helper": "_read",
+        "helper_line": 67
+       }
+      }
+     },
+     "helper": "_read",
+     "line": 317,
+     "literal": "precisioncensus_latest.json",
+     "mode_evidence": "helper _read() opens its parameter 'path': mode='r'",
+     "payload_roots": [
+      "census"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "an_instrument",
+     "roots_from_helpers": {
+      "census": {
+       "helper": "_read",
+       "helper_line": 67
+      }
+     },
+     "source": "scripts/e305_face_level_row_pricing.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 8419,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 8353
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 2,
+       "externally_derived": 8,
+       "presence": 3,
+       "rederive": 0,
+       "roots": [
+        "_f95"
+       ],
+       "value": 2
+      },
+      "fields_read": 28,
+      "roots": [
+       "_f95"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 8357,
+     "literal": "precisioncensus_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "_f95"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/PRECISIONCENSUS_latest.json"
+  },
+  {
+   "baseline_read_sites": 1,
+   "bytes_on_disk": 45675,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 1,
+   "priced_read_sites": 1,
+   "sites": [
+    {
+     "block": {
+      "end": 8482,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 8429
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 2,
+       "comparisons_that_count_the_payload": 4,
+       "externally_derived": 12,
+       "presence": 1,
+       "rederive": 0,
+       "roots": [
+        "_f97"
+       ],
+       "value": 2
+      },
+      "fields_read": 24,
+      "roots": [
+       "_f97"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 8433,
+     "literal": "precisiongap_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "_f97"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/PRECISIONGAP_latest.json"
+  },
+  {
+   "baseline_read_sites": 3,
+   "bytes_on_disk": 532411,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_helper_read_sites": 1,
+   "parent_read_sites": 4,
+   "priced_read_sites": 4,
+   "sites": [
+    {
+     "block": {
+      "end": 185,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 169
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "e411"
+       ],
+       "value": 0
+      },
+      "fields_read": 1,
+      "republish_evidence": "1 payload field access(es) and no assertion in this block",
+      "roots": [],
+      "roots_from_helpers": {
+       "e411": {
+        "helper": "_load",
+        "helper_line": 58
+       }
+      }
+     },
+     "helper": "_load",
+     "line": 170,
+     "literal": "readertiers_latest.json",
+     "mode_evidence": "helper _load() opens its parameter 'path': mode='r (default)'",
+     "payload_roots": [
+      "e411"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "an_instrument",
+     "roots_from_helpers": {
+      "e411": {
+       "helper": "_load",
+       "helper_line": 58
+      }
+     },
+     "source": "scripts/e418_face_age.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 118,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 89
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "suite_text"
+       ],
+       "value": 2
+      },
+      "fields_read": 0,
+      "roots": [
+       "suite_text"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 98,
+     "literal": "readertiers_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "suite_text"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e411_reader_tiers.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 486,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 440
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 9,
+       "externally_derived": 14,
+       "presence": 3,
+       "rederive": 0,
+       "roots": [
+        "old"
+       ],
+       "value": 2
+      },
+      "fields_read": 18,
+      "roots": [
+       "old"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 446,
+     "literal": "readertiers_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "old"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e411_reader_tiers.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 15621,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 15572
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 10,
+       "externally_derived": 14,
+       "presence": 2,
+       "rederive": 0,
+       "roots": [
+        "_f411"
+       ],
+       "value": 2
+      },
+      "fields_read": 16,
+      "roots": [
+       "_f411"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 15574,
+     "literal": "readertiers_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "_f411"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/READERTIERS_latest.json"
+  },
+  {
+   "baseline_read_sites": 3,
+   "bytes_on_disk": 41492,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 3,
+   "priced_read_sites": 3,
+   "sites": [
+    {
+     "block": {
+      "end": 729,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 703
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "stored"
+       ],
+       "value": 0
+      },
+      "fields_read": 0,
+      "roots": [
+       "stored"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 722,
+     "literal": "refreshsignal_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "stored"
+     ],
+     "price": "only_requires_the_file_to_exist",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e408_writer_refresh_signal.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 66,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 20
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 2,
+       "externally_derived": 2,
+       "presence": 3,
+       "rederive": 0,
+       "roots": [
+        "face",
+        "payload"
+       ],
+       "value": 4
+      },
+      "fields_read": 13,
+      "roots": [
+       "face",
+       "payload"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 25,
+     "literal": "refreshsignal_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "face",
+      "payload"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "a_standalone_leg_runner",
+     "roots_from_helpers": {},
+     "source": "scripts/run_e408_smoke_leg.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 15423,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 15379
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 4,
+       "comparisons_that_count_the_payload": 8,
+       "externally_derived": 8,
+       "presence": 1,
+       "rederive": 0,
+       "roots": [
+        "_f408"
+       ],
+       "value": 6
+      },
+      "fields_read": 16,
+      "roots": [
+       "_f408"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 15381,
+     "literal": "refreshsignal_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "_f408"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/REFRESHSIGNAL_latest.json"
+  },
+  {
+   "baseline_read_sites": 2,
+   "bytes_on_disk": 34575,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_helper_read_sites": 1,
+   "parent_read_sites": 6,
+   "priced_read_sites": 6,
+   "sites": [
+    {
+     "block": {
+      "end": 405,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 289
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 1,
+       "rederive": 0,
+       "roots": [
+        "payload",
+        "text"
+       ],
+       "value": 0
+      },
+      "fields_read": 8,
+      "roots": [
+       "payload",
+       "text"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": "read_callee",
+     "line": 298,
+     "literal": "replaycensus_latest.json",
+     "mode_evidence": "helper read_callee() opens its parameter 'path': mode='r (default)'",
+     "payload_roots": [
+      "payload",
+      "text"
+     ],
+     "price": "asserts_a_field_is_present_without_comparing_a_value",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e414_unsupplied_read.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 226,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 182
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [],
+       "value": 0
+      },
+      "fields_read": 0,
+      "roots": [],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 210,
+     "literal": "replaycensus_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [],
+     "price": "reads_the_file_and_reads_no_field_in_this_block",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e414_unsupplied_read.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 226,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 182
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [],
+       "value": 0
+      },
+      "fields_read": 0,
+      "roots": [],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 215,
+     "literal": "replaycensus_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [],
+     "price": "reads_the_file_and_reads_no_field_in_this_block",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e414_unsupplied_read.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 695,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 649
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 2,
+       "presence": 1,
+       "rederive": 0,
+       "roots": [
+        "_ofv"
+       ],
+       "value": 7
+      },
+      "fields_read": 9,
+      "roots": [
+       "_ofv"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 674,
+     "literal": "replaycensus_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_ofv"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 1873,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 1842
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 1,
+       "presence": 0,
+       "rederive": 4,
+       "roots": [
+        "_face",
+        "_last"
+       ],
+       "value": 0
+      },
+      "fields_read": 13,
+      "roots": [
+       "_face",
+       "_last"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 1857,
+     "literal": "replaycensus_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_face",
+      "_last"
+     ],
+     "price": "re_derives_a_number_from_the_payload",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 8053,
+      "kind": "Try",
+      "resolution": "from_the_line_itself",
+      "start": 7986
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 2,
+       "comparisons_that_count_the_payload": 6,
+       "externally_derived": 10,
+       "presence": 4,
+       "rederive": 0,
+       "roots": [
+        "_f298"
+       ],
+       "value": 6
+      },
+      "fields_read": 25,
+      "roots": [
+       "_f298"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 7988,
+     "literal": "replaycensus_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f298"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/REPLAYCENSUS_latest.json"
+  },
+  {
+   "baseline_read_sites": 1,
+   "bytes_on_disk": 12032,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 1,
+   "priced_read_sites": 1,
+   "sites": [
+    {
+     "block": {
+      "end": 3411,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 3360
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 2,
+       "comparisons_that_count_the_payload": 2,
+       "externally_derived": 2,
+       "presence": 8,
+       "rederive": 0,
+       "roots": [
+        "_f41"
+       ],
+       "value": 9
+      },
+      "fields_read": 25,
+      "roots": [
+       "_f41"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 3363,
+     "literal": "results/state_tilt/repro_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f41"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/REPRO_latest.json"
+  },
+  {
+   "baseline_read_sites": 2,
+   "bytes_on_disk": 24292,
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "parent_helper_read_sites": 3,
+   "parent_read_sites": 5,
+   "priced_read_sites": 5,
+   "sites": [
+    {
+     "block": {
+      "end": 352,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 328
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [],
+       "value": 0
+      },
+      "fields_read": 0,
+      "roots": [],
+      "roots_from_helpers": {}
+     },
+     "helper": "_load",
+     "line": 331,
+     "literal": "republishchain_latest.json",
+     "mode_evidence": "helper _load() opens its parameter 'path': mode='r (default)'",
+     "payload_roots": [],
+     "price": "reads_the_file_and_reads_no_field_in_this_block",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e433_republication_chain.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 79,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 53
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "face",
+        "original"
+       ],
+       "value": 0
+      },
+      "fields_read": 4,
+      "republish_evidence": "4 payload field access(es) and no assertion in this block",
+      "roots": [
+       "face",
+       "original"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": "sha",
+     "line": 59,
+     "literal": "republishchain_latest.json",
+     "mode_evidence": "helper sha() opens its parameter 'path': mode='rb'",
+     "payload_roots": [
+      "face",
+      "original"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "a_standalone_leg_runner",
+     "roots_from_helpers": {},
+     "source": "scripts/run_e433_smoke_leg.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 79,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 53
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "face",
+        "original"
+       ],
+       "value": 0
+      },
+      "fields_read": 4,
+      "republish_evidence": "4 payload field access(es) and no assertion in this block",
+      "roots": [
+       "face",
+       "original"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": "sha",
+     "line": 77,
+     "literal": "republishchain_latest.json",
+     "mode_evidence": "helper sha() opens its parameter 'path': mode='rb'",
+     "payload_roots": [
+      "face",
+      "original"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "a_standalone_leg_runner",
+     "roots_from_helpers": {},
+     "source": "scripts/run_e433_smoke_leg.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 79,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 53
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "face",
+        "original"
+       ],
+       "value": 0
+      },
+      "fields_read": 4,
+      "republish_evidence": "4 payload field access(es) and no assertion in this block",
+      "roots": [
+       "face",
+       "original"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 60,
+     "literal": "republishchain_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "face",
+      "original"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "a_standalone_leg_runner",
+     "roots_from_helpers": {},
+     "source": "scripts/run_e433_smoke_leg.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 16336,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 16285
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 4,
+       "comparisons_that_count_the_payload": 4,
+       "externally_derived": 12,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "_f433"
+       ],
+       "value": 0
+      },
+      "fields_read": 19,
+      "roots": [
+       "_f433"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 16287,
+     "literal": "republishchain_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "_f433"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/REPUBLISHCHAIN_latest.json"
+  },
+  {
+   "baseline_read_sites": 4,
+   "bytes_on_disk": 175386,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_helper_read_sites": 2,
+   "parent_read_sites": 6,
+   "priced_read_sites": 6,
+   "sites": [
+    {
+     "block": {
+      "end": 78,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 54
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "face",
+        "original"
+       ],
+       "value": 0
+      },
+      "fields_read": 4,
+      "republish_evidence": "4 payload field access(es) and no assertion in this block",
+      "roots": [
+       "face",
+       "original"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": "sha",
+     "line": 60,
+     "literal": "shadowface_latest.json",
+     "mode_evidence": "helper sha() opens its parameter 'path': mode='rb'",
+     "payload_roots": [
+      "face",
+      "original"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "a_standalone_leg_runner",
+     "roots_from_helpers": {},
+     "source": "scripts/run_e417_smoke_leg.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 78,
+      "kind": "FunctionDef",
+      "resolution": "from_the_line_itself",
+      "start": 54
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "face",
+        "original"
+       ],
+       "value": 0
+      },
+      "fields_read": 4,
+      "republish_evidence": "4 payload field access(es) and no assertion in this block",
+      "roots": [
+       "face",
+       "original"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": "sha",
+     "line": 76,
+     "literal": "shadowface_latest.json",
+     "mode_evidence": "helper sha() opens its parameter 'path': mode='rb'",
+     "payload_roots": [
+      "face",
+      "original"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "a_standalone_leg_runner",
+     "roots_from_helpers": {},
+     "source": "scripts/run_e417_smoke_leg.py",
+     "tier": "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter"
+    },
+    {
+     "block": {
+      "end": 255,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 220
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "tree"
+       ],
+       "value": 0
+      },
+      "fields_read": 0,
+      "roots": [
+       "tree"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 232,
+     "literal": "shadowface_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "tree"
+     ],
+     "price": "only_requires_the_file_to_exist",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e417_shadow_face.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 473,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 422
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 2,
+       "presence": 0,
+       "rederive": 4,
+       "roots": [
+        "stored"
+       ],
+       "value": 0
+      },
+      "fields_read": 1,
+      "roots": [
+       "stored"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 426,
+     "literal": "shadowface_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "stored"
+     ],
+     "price": "re_derives_a_number_from_the_payload",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e417_shadow_face.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 78,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 54
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "face",
+        "original"
+       ],
+       "value": 0
+      },
+      "fields_read": 4,
+      "republish_evidence": "4 payload field access(es) and no assertion in this block",
+      "roots": [
+       "face",
+       "original"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 61,
+     "literal": "shadowface_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "face",
+      "original"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "a_standalone_leg_runner",
+     "roots_from_helpers": {},
+     "source": "scripts/run_e417_smoke_leg.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 16202,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 16139
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 2,
+       "comparisons_that_count_the_payload": 4,
+       "externally_derived": 12,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "_f425"
+       ],
+       "value": 0
+      },
+      "fields_read": 20,
+      "roots": [
+       "_f425"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 16141,
+     "literal": "shadowface_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "_f425"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/SHADOWFACE_latest.json"
+  },
+  {
+   "baseline_read_sites": 1,
+   "bytes_on_disk": 32176,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 1,
+   "priced_read_sites": 1,
+   "sites": [
+    {
+     "block": {
+      "end": 3092,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 3065
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 2,
+       "presence": 4,
+       "rederive": 0,
+       "roots": [
+        "_f36"
+       ],
+       "value": 5
+      },
+      "fields_read": 7,
+      "roots": [
+       "_f36"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 3068,
+     "literal": "results/state_tilt/sharediff_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f36"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/SHAREDIFF_latest.json"
+  },
+  {
+   "baseline_read_sites": 1,
+   "bytes_on_disk": 60438,
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 1,
+   "priced_read_sites": 1,
+   "sites": [
+    {
+     "block": {
+      "end": 3636,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 3588
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 1,
+       "externally_derived": 4,
+       "presence": 6,
+       "rederive": 0,
+       "roots": [
+        "_f45"
+       ],
+       "value": 3
+      },
+      "fields_read": 17,
+      "roots": [
+       "_f45"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 3593,
+     "literal": "slopematrix_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f45"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/SLOPEMATRIX_latest.json"
+  },
+  {
+   "baseline_read_sites": 1,
+   "bytes_on_disk": 33090,
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 1,
+   "priced_read_sites": 1,
+   "sites": [
+    {
+     "block": {
+      "end": 3725,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 3641
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 1,
+       "comparisons_that_count_the_payload": 1,
+       "externally_derived": 5,
+       "presence": 8,
+       "rederive": 0,
+       "roots": [
+        "_f46"
+       ],
+       "value": 6
+      },
+      "fields_read": 17,
+      "roots": [
+       "_f46"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 3646,
+     "literal": "stardir_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f46"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/STARDIR_latest.json"
+  },
+  {
+   "baseline_read_sites": 2,
+   "bytes_on_disk": 33419,
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 2,
+   "priced_read_sites": 2,
+   "sites": [
+    {
+     "block": {
+      "end": 388,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 368
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "prev"
+       ],
+       "value": 0
+      },
+      "fields_read": 7,
+      "republish_evidence": "7 payload field access(es) and no assertion in this block",
+      "roots": [
+       "prev"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 379,
+     "literal": "starlagband_latest.json",
+     "mode_evidence": "mode='r'",
+     "payload_roots": [
+      "prev"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e249_lead_counterfactual.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 3792,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 3729
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 2,
+       "comparisons_that_count_the_payload": 1,
+       "externally_derived": 4,
+       "presence": 4,
+       "rederive": 0,
+       "roots": [
+        "_f48"
+       ],
+       "value": 1
+      },
+      "fields_read": 14,
+      "roots": [
+       "_f48"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 3734,
+     "literal": "starlagband_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f48"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/STARLAGBAND_latest.json"
+  },
+  {
+   "baseline_read_sites": 5,
+   "bytes_on_disk": 29529,
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 5,
+   "priced_read_sites": 5,
+   "sites": [
+    {
+     "block": {
+      "end": 0,
+      "kind": "Module",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 0
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "f"
+       ],
+       "value": 0
+      },
+      "fields_read": 20,
+      "republish_evidence": "20 payload field access(es) and no assertion in this block",
+      "roots": [
+       "f"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 4,
+     "literal": "results/state_tilt/starown_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "f"
+     ],
+     "price": "reads_payload_fields_and_asserts_nothing_here",
+     "role": "a_one_off_round_script",
+     "roots_from_helpers": {},
+     "source": "_tmp_r1277_nums.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 0,
+      "kind": "Module",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 0
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 1,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "b",
+        "f"
+       ],
+       "value": 0
+      },
+      "fields_read": 18,
+      "roots": [
+       "b",
+       "f"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 4,
+     "literal": "results/state_tilt/starown_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "b",
+      "f"
+     ],
+     "price": "compares_the_face_with_a_copy_of_itself_and_reads_no_field",
+     "role": "a_one_off_round_script",
+     "roots_from_helpers": {},
+     "source": "_tmp_r1277_view.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 813,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 792
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 1,
+       "externally_derived": 2,
+       "presence": 3,
+       "rederive": 0,
+       "roots": [
+        "prev"
+       ],
+       "value": 1
+      },
+      "fields_read": 7,
+      "roots": [
+       "prev"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 795,
+     "literal": "starown_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "prev"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e252_star_prices_itself.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 4043,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 3961
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 1,
+       "comparisons_that_count_the_payload": 1,
+       "externally_derived": 2,
+       "presence": 6,
+       "rederive": 0,
+       "roots": [
+        "_f51",
+        "_f51b"
+       ],
+       "value": 6
+      },
+      "fields_read": 14,
+      "roots": [
+       "_f51",
+       "_f51b"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 3966,
+     "literal": "starown_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f51",
+      "_f51b"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 4131,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 4112
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 1,
+       "externally_derived": 2,
+       "presence": 3,
+       "rederive": 0,
+       "roots": [
+        "_f52b"
+       ],
+       "value": 1
+      },
+      "fields_read": 7,
+      "roots": [
+       "_f52b"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 4113,
+     "literal": "starown_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f52b"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/STAROWN_latest.json"
+  },
+  {
+   "baseline_read_sites": 1,
+   "bytes_on_disk": 23912,
+   "family_dir": "results/state_tilt",
+   "members": 8,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 1,
+   "priced_read_sites": 1,
+   "sites": [
+    {
+     "block": {
+      "end": 2609,
+      "kind": "If",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 2559
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 0,
+       "presence": 3,
+       "rederive": 0,
+       "roots": [
+        "_f29"
+       ],
+       "value": 4
+      },
+      "fields_read": 6,
+      "roots": [
+       "_f29"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 2562,
+     "literal": "results/state_tilt/timingsel_latest.json",
+     "mode_evidence": "mode='r (default)'",
+     "payload_roots": [
+      "_f29"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/TIMINGSEL_latest.json"
+  },
+  {
+   "baseline_read_sites": 2,
+   "bytes_on_disk": 7658,
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "parent_helper_read_sites": 0,
+   "parent_read_sites": 2,
+   "priced_read_sites": 2,
+   "sites": [
+    {
+     "block": {
+      "end": 520,
+      "kind": "FunctionDef",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 486
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 0,
+       "comparisons_that_count_the_payload": 0,
+       "externally_derived": 6,
+       "presence": 0,
+       "rederive": 0,
+       "roots": [
+        "old"
+       ],
+       "value": 0
+      },
+      "fields_read": 7,
+      "roots": [
+       "old"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 492,
+     "literal": "unfloored_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "old"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "an_instrument",
+     "roots_from_helpers": {},
+     "source": "scripts/e409_unfloored_faces.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    },
+    {
+     "block": {
+      "end": 15505,
+      "kind": "Try",
+      "resolution": "from_the_opener_call_on_this_line",
+      "start": 15438
+     },
+     "evidence": {
+      "counts": {
+       "bytes_only": 4,
+       "comparisons_that_count_the_payload": 4,
+       "externally_derived": 10,
+       "presence": 4,
+       "rederive": 0,
+       "roots": [
+        "_f409",
+        "_src409"
+       ],
+       "value": 4
+      },
+      "fields_read": 13,
+      "roots": [
+       "_f409",
+       "_src409"
+      ],
+      "roots_from_helpers": {}
+     },
+     "helper": null,
+     "line": 15440,
+     "literal": "unfloored_latest.json",
+     "mode_evidence": "a json load at this line",
+     "payload_roots": [
+      "_f409",
+      "_src409"
+     ],
+     "price": "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "role": "the_smoke_suite",
+     "roots_from_helpers": {},
+     "source": "smoke_test.py",
+     "tier": "a_literal_at_an_opener_spells_this_member"
+    }
+   ],
+   "twin": "results/state_tilt/UNFLOORED_latest.json"
+  }
+ ],
+ "source_faces": {
+  "arm": "scripts/e497_twindead.py (E497)",
+  "population": "results/state_tilt/helperread_latest.json (E498)",
+  "price_vocabulary": "scripts/e483_leg_debt.py (E483)",
+  "residue_and_retirement": "results/state_tilt/twinread_latest.json (E479)"
+ },
+ "study": "E499",
+ "summary": {
+  "bytes_left_undefended_by_the_strict_rule": 665250,
+  "helper_sites_that_count_as_a_reader": 4,
+  "prices": {
+   "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary": 49,
+   "asserts_a_field_is_present_without_comparing_a_value": 2,
+   "compares_the_face_with_a_copy_of_itself_and_reads_no_field": 4,
+   "only_requires_the_file_to_exist": 4,
+   "re_derives_a_number_from_the_payload": 4,
+   "reads_payload_fields_and_asserts_nothing_here": 18,
+   "reads_the_file_and_reads_no_field_in_this_block": 9
+  },
+  "read_sites_by_tier": {
+   "a_call_hands_a_path_folding_to_this_member_to_a_helper_that_opens_its_parameter": 21,
+   "a_literal_at_an_opener_spells_this_member": 69
+  },
+  "read_sites_priced": 90,
+  "retirement_ladder": [
+   {
+    "bytes_behind_the_retirable_twins": 665250,
+    "counting_classes": [
+     "re_derives_a_number_from_the_payload",
+     "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary"
+    ],
+    "kept": [
+     "results/market_clock/CALL_latest.json",
+     "results/state_tilt/ADDOS_latest.json",
+     "results/state_tilt/BANDPATH_latest.json",
+     "results/state_tilt/BASENAMECENSUS_latest.json",
+     "results/state_tilt/BOOKECHO_latest.json",
+     "results/state_tilt/BREAKEVEN_latest.json",
+     "results/state_tilt/DIRFIELD_latest.json",
+     "results/state_tilt/DIRISFACE_latest.json",
+     "results/state_tilt/FAMILYARG_latest.json",
+     "results/state_tilt/FRESHAIM_latest.json",
+     "results/state_tilt/GRANULARITY_latest.json",
+     "results/state_tilt/HYSTERESIS_latest.json",
+     "results/state_tilt/INFOSTRUCT_latest.json",
+     "results/state_tilt/LEADCOUNTER_latest.json",
+     "results/state_tilt/LOOBOOK_latest.json",
+     "results/state_tilt/MATCHED_latest.json",
+     "results/state_tilt/OMISSION_latest.json",
+     "results/state_tilt/OWNCROSS_latest.json",
+     "results/state_tilt/PAIRHET_latest.json",
+     "results/state_tilt/PRECISIONCENSUS_latest.json",
+     "results/state_tilt/PRECISIONGAP_latest.json",
+     "results/state_tilt/READERTIERS_latest.json",
+     "results/state_tilt/REFRESHSIGNAL_latest.json",
+     "results/state_tilt/REPLAYCENSUS_latest.json",
+     "results/state_tilt/REPRO_latest.json",
+     "results/state_tilt/REPUBLISHCHAIN_latest.json",
+     "results/state_tilt/SHADOWFACE_latest.json",
+     "results/state_tilt/SHAREDIFF_latest.json",
+     "results/state_tilt/SLOPEMATRIX_latest.json",
+     "results/state_tilt/STARDIR_latest.json",
+     "results/state_tilt/STARLAGBAND_latest.json",
+     "results/state_tilt/STAROWN_latest.json",
+     "results/state_tilt/TIMINGSEL_latest.json",
+     "results/state_tilt/UNFLOORED_latest.json"
+    ],
+    "label": "only_rederiving_and_pinning (the card's rule)",
+    "members_behind_the_retirable_twins": 12,
+    "retirable": [
+     "results/state_tilt/BASISRECOVERY_latest.json",
+     "results/state_tilt/COSTCURVE_latest.json"
+    ],
+    "twins_kept": 34,
+    "twins_retirable": 2
+   },
+   {
+    "bytes_behind_the_retirable_twins": 665250,
+    "counting_classes": [
+     "re_derives_a_number_from_the_payload",
+     "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "raises_a_fault_when_the_payload_lacks_a_field"
+    ],
+    "kept": [
+     "results/market_clock/CALL_latest.json",
+     "results/state_tilt/ADDOS_latest.json",
+     "results/state_tilt/BANDPATH_latest.json",
+     "results/state_tilt/BASENAMECENSUS_latest.json",
+     "results/state_tilt/BOOKECHO_latest.json",
+     "results/state_tilt/BREAKEVEN_latest.json",
+     "results/state_tilt/DIRFIELD_latest.json",
+     "results/state_tilt/DIRISFACE_latest.json",
+     "results/state_tilt/FAMILYARG_latest.json",
+     "results/state_tilt/FRESHAIM_latest.json",
+     "results/state_tilt/GRANULARITY_latest.json",
+     "results/state_tilt/HYSTERESIS_latest.json",
+     "results/state_tilt/INFOSTRUCT_latest.json",
+     "results/state_tilt/LEADCOUNTER_latest.json",
+     "results/state_tilt/LOOBOOK_latest.json",
+     "results/state_tilt/MATCHED_latest.json",
+     "results/state_tilt/OMISSION_latest.json",
+     "results/state_tilt/OWNCROSS_latest.json",
+     "results/state_tilt/PAIRHET_latest.json",
+     "results/state_tilt/PRECISIONCENSUS_latest.json",
+     "results/state_tilt/PRECISIONGAP_latest.json",
+     "results/state_tilt/READERTIERS_latest.json",
+     "results/state_tilt/REFRESHSIGNAL_latest.json",
+     "results/state_tilt/REPLAYCENSUS_latest.json",
+     "results/state_tilt/REPRO_latest.json",
+     "results/state_tilt/REPUBLISHCHAIN_latest.json",
+     "results/state_tilt/SHADOWFACE_latest.json",
+     "results/state_tilt/SHAREDIFF_latest.json",
+     "results/state_tilt/SLOPEMATRIX_latest.json",
+     "results/state_tilt/STARDIR_latest.json",
+     "results/state_tilt/STARLAGBAND_latest.json",
+     "results/state_tilt/STAROWN_latest.json",
+     "results/state_tilt/TIMINGSEL_latest.json",
+     "results/state_tilt/UNFLOORED_latest.json"
+    ],
+    "label": "plus_faulting_blocks",
+    "members_behind_the_retirable_twins": 12,
+    "retirable": [
+     "results/state_tilt/BASISRECOVERY_latest.json",
+     "results/state_tilt/COSTCURVE_latest.json"
+    ],
+    "twins_kept": 34,
+    "twins_retirable": 2
+   },
+   {
+    "bytes_behind_the_retirable_twins": 94798,
+    "counting_classes": [
+     "re_derives_a_number_from_the_payload",
+     "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "raises_a_fault_when_the_payload_lacks_a_field",
+     "reads_payload_fields_and_asserts_nothing_here",
+     "asserts_a_field_is_present_without_comparing_a_value"
+    ],
+    "kept": [
+     "results/market_clock/CALL_latest.json",
+     "results/state_tilt/ADDOS_latest.json",
+     "results/state_tilt/BANDPATH_latest.json",
+     "results/state_tilt/BASENAMECENSUS_latest.json",
+     "results/state_tilt/BOOKECHO_latest.json",
+     "results/state_tilt/BREAKEVEN_latest.json",
+     "results/state_tilt/COSTCURVE_latest.json",
+     "results/state_tilt/DIRFIELD_latest.json",
+     "results/state_tilt/DIRISFACE_latest.json",
+     "results/state_tilt/FAMILYARG_latest.json",
+     "results/state_tilt/FRESHAIM_latest.json",
+     "results/state_tilt/GRANULARITY_latest.json",
+     "results/state_tilt/HYSTERESIS_latest.json",
+     "results/state_tilt/INFOSTRUCT_latest.json",
+     "results/state_tilt/LEADCOUNTER_latest.json",
+     "results/state_tilt/LOOBOOK_latest.json",
+     "results/state_tilt/MATCHED_latest.json",
+     "results/state_tilt/OMISSION_latest.json",
+     "results/state_tilt/OWNCROSS_latest.json",
+     "results/state_tilt/PAIRHET_latest.json",
+     "results/state_tilt/PRECISIONCENSUS_latest.json",
+     "results/state_tilt/PRECISIONGAP_latest.json",
+     "results/state_tilt/READERTIERS_latest.json",
+     "results/state_tilt/REFRESHSIGNAL_latest.json",
+     "results/state_tilt/REPLAYCENSUS_latest.json",
+     "results/state_tilt/REPRO_latest.json",
+     "results/state_tilt/REPUBLISHCHAIN_latest.json",
+     "results/state_tilt/SHADOWFACE_latest.json",
+     "results/state_tilt/SHAREDIFF_latest.json",
+     "results/state_tilt/SLOPEMATRIX_latest.json",
+     "results/state_tilt/STARDIR_latest.json",
+     "results/state_tilt/STARLAGBAND_latest.json",
+     "results/state_tilt/STAROWN_latest.json",
+     "results/state_tilt/TIMINGSEL_latest.json",
+     "results/state_tilt/UNFLOORED_latest.json"
+    ],
+    "label": "plus_any_block_that_reads_or_asserts_a_payload_field",
+    "members_behind_the_retirable_twins": 5,
+    "retirable": [
+     "results/state_tilt/BASISRECOVERY_latest.json"
+    ],
+    "twins_kept": 35,
+    "twins_retirable": 1
+   },
+   {
+    "bytes_behind_the_retirable_twins": 94798,
+    "counting_classes": [
+     "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+     "asserts_a_field_is_present_without_comparing_a_value",
+     "compares_the_face_with_a_copy_of_itself_and_reads_no_field",
+     "only_requires_the_file_to_exist",
+     "re_derives_a_number_from_the_payload",
+     "reads_payload_fields_and_asserts_nothing_here",
+     "reads_the_file_and_reads_no_field_in_this_block"
+    ],
+    "kept": [
+     "results/market_clock/CALL_latest.json",
+     "results/state_tilt/ADDOS_latest.json",
+     "results/state_tilt/BANDPATH_latest.json",
+     "results/state_tilt/BASENAMECENSUS_latest.json",
+     "results/state_tilt/BOOKECHO_latest.json",
+     "results/state_tilt/BREAKEVEN_latest.json",
+     "results/state_tilt/COSTCURVE_latest.json",
+     "results/state_tilt/DIRFIELD_latest.json",
+     "results/state_tilt/DIRISFACE_latest.json",
+     "results/state_tilt/FAMILYARG_latest.json",
+     "results/state_tilt/FRESHAIM_latest.json",
+     "results/state_tilt/GRANULARITY_latest.json",
+     "results/state_tilt/HYSTERESIS_latest.json",
+     "results/state_tilt/INFOSTRUCT_latest.json",
+     "results/state_tilt/LEADCOUNTER_latest.json",
+     "results/state_tilt/LOOBOOK_latest.json",
+     "results/state_tilt/MATCHED_latest.json",
+     "results/state_tilt/OMISSION_latest.json",
+     "results/state_tilt/OWNCROSS_latest.json",
+     "results/state_tilt/PAIRHET_latest.json",
+     "results/state_tilt/PRECISIONCENSUS_latest.json",
+     "results/state_tilt/PRECISIONGAP_latest.json",
+     "results/state_tilt/READERTIERS_latest.json",
+     "results/state_tilt/REFRESHSIGNAL_latest.json",
+     "results/state_tilt/REPLAYCENSUS_latest.json",
+     "results/state_tilt/REPRO_latest.json",
+     "results/state_tilt/REPUBLISHCHAIN_latest.json",
+     "results/state_tilt/SHADOWFACE_latest.json",
+     "results/state_tilt/SHAREDIFF_latest.json",
+     "results/state_tilt/SLOPEMATRIX_latest.json",
+     "results/state_tilt/STARDIR_latest.json",
+     "results/state_tilt/STARLAGBAND_latest.json",
+     "results/state_tilt/STAROWN_latest.json",
+     "results/state_tilt/TIMINGSEL_latest.json",
+     "results/state_tilt/UNFLOORED_latest.json"
+    ],
+    "label": "every_read_site_counts_as_a_reader (E479's rule)",
+    "members_behind_the_retirable_twins": 5,
+    "retirable": [
+     "results/state_tilt/BASISRECOVERY_latest.json"
+    ],
+    "twins_kept": 35,
+    "twins_retirable": 1
+   }
+  ],
+  "retirement_under_the_parent_rule": {
+   "bytes_behind_the_retirable_twins": 94798,
+   "counting_classes": [
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+    "asserts_a_field_is_present_without_comparing_a_value",
+    "compares_the_face_with_a_copy_of_itself_and_reads_no_field",
+    "only_requires_the_file_to_exist",
+    "re_derives_a_number_from_the_payload",
+    "reads_payload_fields_and_asserts_nothing_here",
+    "reads_the_file_and_reads_no_field_in_this_block"
+   ],
+   "kept": [
+    "results/market_clock/CALL_latest.json",
+    "results/state_tilt/ADDOS_latest.json",
+    "results/state_tilt/BANDPATH_latest.json",
+    "results/state_tilt/BASENAMECENSUS_latest.json",
+    "results/state_tilt/BOOKECHO_latest.json",
+    "results/state_tilt/BREAKEVEN_latest.json",
+    "results/state_tilt/COSTCURVE_latest.json",
+    "results/state_tilt/DIRFIELD_latest.json",
+    "results/state_tilt/DIRISFACE_latest.json",
+    "results/state_tilt/FAMILYARG_latest.json",
+    "results/state_tilt/FRESHAIM_latest.json",
+    "results/state_tilt/GRANULARITY_latest.json",
+    "results/state_tilt/HYSTERESIS_latest.json",
+    "results/state_tilt/INFOSTRUCT_latest.json",
+    "results/state_tilt/LEADCOUNTER_latest.json",
+    "results/state_tilt/LOOBOOK_latest.json",
+    "results/state_tilt/MATCHED_latest.json",
+    "results/state_tilt/OMISSION_latest.json",
+    "results/state_tilt/OWNCROSS_latest.json",
+    "results/state_tilt/PAIRHET_latest.json",
+    "results/state_tilt/PRECISIONCENSUS_latest.json",
+    "results/state_tilt/PRECISIONGAP_latest.json",
+    "results/state_tilt/READERTIERS_latest.json",
+    "results/state_tilt/REFRESHSIGNAL_latest.json",
+    "results/state_tilt/REPLAYCENSUS_latest.json",
+    "results/state_tilt/REPRO_latest.json",
+    "results/state_tilt/REPUBLISHCHAIN_latest.json",
+    "results/state_tilt/SHADOWFACE_latest.json",
+    "results/state_tilt/SHAREDIFF_latest.json",
+    "results/state_tilt/SLOPEMATRIX_latest.json",
+    "results/state_tilt/STARDIR_latest.json",
+    "results/state_tilt/STARLAGBAND_latest.json",
+    "results/state_tilt/STAROWN_latest.json",
+    "results/state_tilt/TIMINGSEL_latest.json",
+    "results/state_tilt/UNFLOORED_latest.json"
+   ],
+   "label": "every_read_site_counts_as_a_reader (E479's rule)",
+   "members_behind_the_retirable_twins": 5,
+   "retirable": [
+    "results/state_tilt/BASISRECOVERY_latest.json"
+   ],
+   "twins_kept": 35,
+   "twins_retirable": 1
+  },
+  "retirement_when_faulting_blocks_also_count": {
+   "bytes_behind_the_retirable_twins": 665250,
+   "counting_classes": [
+    "re_derives_a_number_from_the_payload",
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+    "raises_a_fault_when_the_payload_lacks_a_field"
+   ],
+   "kept": [
+    "results/market_clock/CALL_latest.json",
+    "results/state_tilt/ADDOS_latest.json",
+    "results/state_tilt/BANDPATH_latest.json",
+    "results/state_tilt/BASENAMECENSUS_latest.json",
+    "results/state_tilt/BOOKECHO_latest.json",
+    "results/state_tilt/BREAKEVEN_latest.json",
+    "results/state_tilt/DIRFIELD_latest.json",
+    "results/state_tilt/DIRISFACE_latest.json",
+    "results/state_tilt/FAMILYARG_latest.json",
+    "results/state_tilt/FRESHAIM_latest.json",
+    "results/state_tilt/GRANULARITY_latest.json",
+    "results/state_tilt/HYSTERESIS_latest.json",
+    "results/state_tilt/INFOSTRUCT_latest.json",
+    "results/state_tilt/LEADCOUNTER_latest.json",
+    "results/state_tilt/LOOBOOK_latest.json",
+    "results/state_tilt/MATCHED_latest.json",
+    "results/state_tilt/OMISSION_latest.json",
+    "results/state_tilt/OWNCROSS_latest.json",
+    "results/state_tilt/PAIRHET_latest.json",
+    "results/state_tilt/PRECISIONCENSUS_latest.json",
+    "results/state_tilt/PRECISIONGAP_latest.json",
+    "results/state_tilt/READERTIERS_latest.json",
+    "results/state_tilt/REFRESHSIGNAL_latest.json",
+    "results/state_tilt/REPLAYCENSUS_latest.json",
+    "results/state_tilt/REPRO_latest.json",
+    "results/state_tilt/REPUBLISHCHAIN_latest.json",
+    "results/state_tilt/SHADOWFACE_latest.json",
+    "results/state_tilt/SHAREDIFF_latest.json",
+    "results/state_tilt/SLOPEMATRIX_latest.json",
+    "results/state_tilt/STARDIR_latest.json",
+    "results/state_tilt/STARLAGBAND_latest.json",
+    "results/state_tilt/STAROWN_latest.json",
+    "results/state_tilt/TIMINGSEL_latest.json",
+    "results/state_tilt/UNFLOORED_latest.json"
+   ],
+   "label": "plus_faulting_blocks",
+   "members_behind_the_retirable_twins": 12,
+   "retirable": [
+    "results/state_tilt/BASISRECOVERY_latest.json",
+    "results/state_tilt/COSTCURVE_latest.json"
+   ],
+   "twins_kept": 34,
+   "twins_retirable": 2
+  },
+  "retirement_when_only_rederiving_and_pinning_count": {
+   "bytes_behind_the_retirable_twins": 665250,
+   "counting_classes": [
+    "re_derives_a_number_from_the_payload",
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary"
+   ],
+   "kept": [
+    "results/market_clock/CALL_latest.json",
+    "results/state_tilt/ADDOS_latest.json",
+    "results/state_tilt/BANDPATH_latest.json",
+    "results/state_tilt/BASENAMECENSUS_latest.json",
+    "results/state_tilt/BOOKECHO_latest.json",
+    "results/state_tilt/BREAKEVEN_latest.json",
+    "results/state_tilt/DIRFIELD_latest.json",
+    "results/state_tilt/DIRISFACE_latest.json",
+    "results/state_tilt/FAMILYARG_latest.json",
+    "results/state_tilt/FRESHAIM_latest.json",
+    "results/state_tilt/GRANULARITY_latest.json",
+    "results/state_tilt/HYSTERESIS_latest.json",
+    "results/state_tilt/INFOSTRUCT_latest.json",
+    "results/state_tilt/LEADCOUNTER_latest.json",
+    "results/state_tilt/LOOBOOK_latest.json",
+    "results/state_tilt/MATCHED_latest.json",
+    "results/state_tilt/OMISSION_latest.json",
+    "results/state_tilt/OWNCROSS_latest.json",
+    "results/state_tilt/PAIRHET_latest.json",
+    "results/state_tilt/PRECISIONCENSUS_latest.json",
+    "results/state_tilt/PRECISIONGAP_latest.json",
+    "results/state_tilt/READERTIERS_latest.json",
+    "results/state_tilt/REFRESHSIGNAL_latest.json",
+    "results/state_tilt/REPLAYCENSUS_latest.json",
+    "results/state_tilt/REPRO_latest.json",
+    "results/state_tilt/REPUBLISHCHAIN_latest.json",
+    "results/state_tilt/SHADOWFACE_latest.json",
+    "results/state_tilt/SHAREDIFF_latest.json",
+    "results/state_tilt/SLOPEMATRIX_latest.json",
+    "results/state_tilt/STARDIR_latest.json",
+    "results/state_tilt/STARLAGBAND_latest.json",
+    "results/state_tilt/STAROWN_latest.json",
+    "results/state_tilt/TIMINGSEL_latest.json",
+    "results/state_tilt/UNFLOORED_latest.json"
+   ],
+   "label": "only_rederiving_and_pinning (the card's rule)",
+   "members_behind_the_retirable_twins": 12,
+   "retirable": [
+    "results/state_tilt/BASISRECOVERY_latest.json",
+    "results/state_tilt/COSTCURVE_latest.json"
+   ],
+   "twins_kept": 34,
+   "twins_retirable": 2
+  },
+  "retirement_when_republishing_fields_also_counts": {
+   "bytes_behind_the_retirable_twins": 94798,
+   "counting_classes": [
+    "re_derives_a_number_from_the_payload",
+    "asserts_a_field_equals_a_constant_or_a_frozen_vocabulary",
+    "raises_a_fault_when_the_payload_lacks_a_field",
+    "reads_payload_fields_and_asserts_nothing_here",
+    "asserts_a_field_is_present_without_comparing_a_value"
+   ],
+   "kept": [
+    "results/market_clock/CALL_latest.json",
+    "results/state_tilt/ADDOS_latest.json",
+    "results/state_tilt/BANDPATH_latest.json",
+    "results/state_tilt/BASENAMECENSUS_latest.json",
+    "results/state_tilt/BOOKECHO_latest.json",
+    "results/state_tilt/BREAKEVEN_latest.json",
+    "results/state_tilt/COSTCURVE_latest.json",
+    "results/state_tilt/DIRFIELD_latest.json",
+    "results/state_tilt/DIRISFACE_latest.json",
+    "results/state_tilt/FAMILYARG_latest.json",
+    "results/state_tilt/FRESHAIM_latest.json",
+    "results/state_tilt/GRANULARITY_latest.json",
+    "results/state_tilt/HYSTERESIS_latest.json",
+    "results/state_tilt/INFOSTRUCT_latest.json",
+    "results/state_tilt/LEADCOUNTER_latest.json",
+    "results/state_tilt/LOOBOOK_latest.json",
+    "results/state_tilt/MATCHED_latest.json",
+    "results/state_tilt/OMISSION_latest.json",
+    "results/state_tilt/OWNCROSS_latest.json",
+    "results/state_tilt/PAIRHET_latest.json",
+    "results/state_tilt/PRECISIONCENSUS_latest.json",
+    "results/state_tilt/PRECISIONGAP_latest.json",
+    "results/state_tilt/READERTIERS_latest.json",
+    "results/state_tilt/REFRESHSIGNAL_latest.json",
+    "results/state_tilt/REPLAYCENSUS_latest.json",
+    "results/state_tilt/REPRO_latest.json",
+    "results/state_tilt/REPUBLISHCHAIN_latest.json",
+    "results/state_tilt/SHADOWFACE_latest.json",
+    "results/state_tilt/SHAREDIFF_latest.json",
+    "results/state_tilt/SLOPEMATRIX_latest.json",
+    "results/state_tilt/STARDIR_latest.json",
+    "results/state_tilt/STARLAGBAND_latest.json",
+    "results/state_tilt/STAROWN_latest.json",
+    "results/state_tilt/TIMINGSEL_latest.json",
+    "results/state_tilt/UNFLOORED_latest.json"
+   ],
+   "label": "plus_any_block_that_reads_or_asserts_a_payload_field",
+   "members_behind_the_retirable_twins": 5,
+   "retirable": [
+    "results/state_tilt/BASISRECOVERY_latest.json"
+   ],
+   "twins_kept": 35,
+   "twins_retirable": 1
+  },
+  "sites_that_count_as_a_reader": 53,
+  "sites_that_do_not": 37,
+  "sources_scanned_with_a_tree": 1556,
+  "twins_in_the_population": 36,
+  "twins_moving": [
+   "results/state_tilt/COSTCURVE_latest.json"
+  ],
+  "twins_that_move_to_retirable": 1,
+  "twins_that_would_stay_alive_if_presence_or_republishing_counted": [
+   "results/state_tilt/COSTCURVE_latest.json"
+  ],
+  "twins_with_a_read_site_under_the_parent_arm": 35,
+  "twins_with_no_counting_reader": 1
+ },
+ "title": "Price the read sites the class delta did not show -- what each of E498's read sites does with the payload, and what that does to the twins' retirement",
+ "verdict": "counting_only_rederiving_and_pinning_sites_as_readers_moves_twins_to_retirable",
+ "verdict_vocab": [
+  "counting_only_rederiving_and_pinning_sites_as_readers_moves_twins_to_retirable",
+  "no_twin_changes_retirement_status_when_only_rederiving_and_pinning_sites_count",
+  "no_read_site_in_the_population_could_be_priced"
+ ]
+}

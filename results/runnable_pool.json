@@ -28777,8 +28777,26 @@
    "lane_note": "static: reuses e483 site pricing over the helper sites E498 published",
    "priority": "normal",
    "source": "E498 (r1524): 12 of 36 twins are read only through the second arm, and 11 of those already had a literal reader whose count was wrong; E483 priced leg sites by asserting block but the helper sites were never priced at all",
+   "status": "done",
+   "title": "E498 added 24 read sites to 11 twins that a literal census already called read, so the class delta (1) understated the blindness by a factor of twelve. For each of those 24 sites, price the site: does the asserting block re-derive a number from the payload, pin a field to a constant, or only require the file to exist? A reader that only opens the face is not what a producer must keep alive, and the retirement price published for these twins was computed from a site count that never separated the three. Publish per site the class, the twin, and whether the twin's published retirement cost changes when only re-deriving and pinning sites count as readers.",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-07T14:12:00+08:00",
+   "done_at": "2026-11-07T14:20:00+08:00",
+   "result_ref": "results/state_tilt/HELPERPRICE-2026-11-07.json"
+  },
+  {
+   "id": "E500-WHAT-DOES-THE-STRICT-RULE-RETIRE-ACROSS-THE-TWINS-E499-DID-NOT-PRICE",
    "status": "ready",
-   "title": "E498 added 24 read sites to 11 twins that a literal census already called read, so the class delta (1) understated the blindness by a factor of twelve. For each of those 24 sites, price the site: does the asserting block re-derive a number from the payload, pin a field to a constant, or only require the file to exist? A reader that only opens the face is not what a producer must keep alive, and the retirement price published for these twins was computed from a site count that never separated the three. Publish per site the class, the twin, and whether the twin's published retirement cost changes when only re-deriving and pinning sites count as readers."
+   "lane": "cpu-only",
+   "lane_note": "static: reuses e499 site pricing over the twins it did not have to price",
+   "priority": "normal",
+   "entered_at": "2026-11-07T14:20:00+08:00",
+   "entered_by": "bm-b r1525 (supply floor refill after E499)",
+   "evidence_cutoff": "2026-11-07",
+   "source": "E499 (r1525) priced the read sites of E479's 36 twins and recomputed retirement under a strict rule, but only the sites E498's helper arm reached were priced in its published rows",
+   "title": "For the twins whose retirement status did not move, is the strict rule agreement or an unfilled gap: price every remaining read site and publish whether any twin is kept alive only by sites that just open the file",
+   "target": "results/state_tilt/strictgap_latest.json",
+   "deliverable": "results/state_tilt/STRICTGAP-<cutoff>.json"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

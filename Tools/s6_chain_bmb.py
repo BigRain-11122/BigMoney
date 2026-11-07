@@ -1828,6 +1828,14 @@ LEGS = [
     # class delta of 1 hides 24 invisible sites.  `check` re-derives the gained-reader count, the
     # invisible-site count and the verdict from the rows.
     ("helper_read", ["python", "scripts/e498_helperread.py", "check"]),
+
+    # E499 prices the read sites E498 counted but did not price: a block that re-derives a number
+    # or pins a field is a reader a producer must keep alive, and a block that only opens the file
+    # is not.  Under that strict rule one twin moves to retirable and its last reader is a smoke
+    # assertion of field presence -- the retirement answer depends on which of the two rules the
+    # reader applies.  `check` re-derives every price tally, the moved list and all four ladder
+    # arms from the rows.
+    ("helper_price", ["python", "scripts/e499_helperprice.py", "check"]),
 ]
 
 
