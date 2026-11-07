@@ -1202,11 +1202,46 @@ def _as_issued_coincidence_notes(block):
     return out
 
 
+def _roll_numbers(text, numap):
+    """Rewrite every printed number in `text` through `numap` in ONE pass.
+
+    One pass matters: chained str.replace lets a staged pair eat the previous pair's output
+    ("10.88" -> "10.85", then the "0.85" -> "0.82" rule fires inside that "10.85"), which
+    fabricates a sentence neither side ever printed.
+    """
+    if not numap or not isinstance(text, str):
+        return text
+    pat = re.compile("|".join(re.escape(k) for k in sorted(numap, key=len, reverse=True)))
+    return pat.sub(lambda m: numap[m.group(0)], text)
+
+
+def _as_issued_block_numbers(block):
+    """Every spelling in which this block's own quantities can appear inside a sentence."""
+    out = set()
+    vals = []
+    for key in ("card_cagr_pp", "ticket_cagr_pp", "diagonal_pp", "interaction_pp"):
+        vals.append((block or {}).get(key))
+    for key in ("beta", "vol"):
+        vals.append(((block or {}).get("width_effect_pp") or {}).get(key))
+    for v in vals:
+        try:
+            v = float(v)
+        except (TypeError, ValueError):
+            continue
+        for fmt in ("%.2f", "%+.2f", "%.3f", "%+.3f"):
+            out.add(fmt % v)
+    return out
+
+
 def _as_issued_sentence_vanished(d, pub, rebuilt):
-    """Is this diff the verdict_reasons LIST changing by a note the as-issued block owns?
+    """Is this diff the verdict_reasons LIST changing by what the as-issued block owns?
 
     The coincidence note exists only while the collision does, so a re-issue can make one
-    reason disappear entirely -- a length diff, which no per-index echo check can see.
+    reason disappear entirely -- a length diff, which no per-index echo check can see. A
+    re-issue also RESTATES the as-issued numbers, so a sentence carrying them is gone from
+    the shorter list under its old spelling: it is admitted when rolling the longer side's
+    numbers onto the shorter side's makes it identical to a sentence that side still prints
+    (the same sentence, re-priced).
     """
     if d.split(" (")[0].lstrip(".") != "verdict_reasons":
         return False
@@ -1223,7 +1258,26 @@ def _as_issued_sentence_vanished(d, pub, rebuilt):
         return False
     allowed = set(_as_issued_coincidence_notes(pub.get("as_issued"))) | set(
         _as_issued_coincidence_notes(rebuilt.get("as_issued")))
-    return all(s in allowed for s in extra)
+    # direction of the number map follows which side is longer
+    numap = (_as_issued_number_map(pub, rebuilt) if longer is pr
+             else _as_issued_number_map(rebuilt, pub))
+    # the coincidence sentence the block generates is only recorded in `coincidences` while
+    # the collision exists; an older face may print it without that record, so a vanished
+    # sentence is also admitted when every quoted number is one of the block's own (a
+    # number-derived sentence, whose disappearance IS the re-issue).
+    longer_ai = ((pub.get("as_issued") or {}) if longer is pr
+                 else (rebuilt.get("as_issued") or {}))
+    block_nums = _as_issued_block_numbers(longer_ai)
+    for s in extra:
+        if s in allowed:
+            continue
+        if numap and any(_roll_numbers(s, numap) == t for t in shorter):
+            continue
+        quoted = set(re.findall(r"[-+]?\d+\.\d+", s))
+        if quoted and block_nums and quoted <= block_nums:
+            continue
+        return False
+    return True
 
 
 def _as_issued_number_map(pub, rebuilt):
@@ -1266,10 +1320,7 @@ def _as_issued_echo(d, pub, rebuilt, numap):
     rr = (rebuilt.get("verdict_reasons") or [])
     if idx >= len(pr) or idx >= len(rr) or not isinstance(pr[idx], str) or not isinstance(rr[idx], str):
         return False
-    mapped = pr[idx]
-    for old, new in numap.items():
-        mapped = mapped.replace(old, new)
-    return mapped == rr[idx]
+    return _roll_numbers(pr[idx], numap) == rr[idx]
 
 
 def live_width_check():
@@ -2029,6 +2080,26 @@ def _selftest():
                     rc = live_width_check()
                     chk(rc == 2, "a re-issue that restates its numbers in the verdict sentence "
                                  "is stale, not an edit (rc=%r)" % rc)
+                    # (d2) live firing 2026-11-07: the re-issue did BOTH things at once -- it
+                    # rolled the printed numbers AND dropped the one COINCIDENCE sentence (the
+                    # collision no longer exists under the new numbers), while the face's own
+                    # `coincidences` record was empty, so a whitelist built from that record
+                    # admitted nothing and the whole re-issue read as a hand edit. A sentence
+                    # whose every quoted number is one of the block's own is number-derived:
+                    # its disappearance IS the re-issue. Proven here with a sentence the block
+                    # never recorded.
+                    d2 = json.loads(json.dumps(d))
+                    _beta2 = (d2["as_issued"].get("width_effect_pp") or {}).get("beta")
+                    if _beta2 is not None:
+                        d2["verdict_reasons"].append(
+                            "COINCIDENCE, not agreement: the beta-rule width effect "
+                            "(%+.3fpp) equals the capacity engine's rung (%+.3fpp) to the "
+                            "basis point." % (float(_beta2), float(_beta2)))
+                        d2["as_issued"]["coincidences"] = []
+                        _write(d2)
+                        rc = live_width_check()
+                        chk(rc == 2, "a coincidence sentence the block never recorded still "
+                                     "rides the re-issue (rc=%r)" % rc)
                     # (e) the same payload, sentence edited BEYOND those numbers -> real edit
                     e = json.loads(json.dumps(d))
                     hit = False
