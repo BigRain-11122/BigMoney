@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1550 bm-b: E523 published (HANDEDREAD-2026-11-08: 351 handed-onward sites followed one hop; 12 reach a reader with no guard, 40 guarded, 34 left the tree, 153 stored, 82 read inside an expression, 25 forms not followed, 1 unresolved). E523 closed, E524 seeded (how deep an unguarded read sits).",
+ "_stamp_note": "r1552 bm-b: E520 published (FORWARDEDARG-2026-11-08: 7 forwarded parameters over 20 call sites -- 1 written value, 12 forwarded again, 6 defaults, 1 never called; the 5 names E519 could not bind are all tuple-unpacking targets, true unbound = 0); pool E520 done, E526 seeded (ready 3: E521/E525/E526)",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -29170,15 +29170,19 @@
   },
   {
    "deliverable": "results/state_tilt/FORWARDEDARG-<cutoff>.json",
+   "done_at": "2026-11-08T07:04:00+08:00",
    "entered_at": "2026-11-08T03:27+08:00",
    "entered_by": "bm-b r1545 (supply floor refill after E519)",
    "evidence_cutoff": "2026-11-08",
    "id": "E520-WHERE-DO-THE-CALLER-PARAMETER-AND-THE-FIVE-UNBOUND-LOCAL-ARGUMENTS-REALLY-COME-FROM",
    "lane": "cpu-only",
    "lane_note": "static: one hop up from a forwarded parameter, no network, no rewrites",
+   "owner": "bm-b",
    "priority": "normal",
+   "result_note": "12 forwarded rows: 7 parameters of the owning function (20 call sites: 1 written value, 12 forwarded again, 6 defaults, 1 never called) and 5 names bound nowhere by E519 which are all tuple-unpacking targets -- the true unbound count is 0",
+   "result_ref": "results/state_tilt/FORWARDEDARG-2026-11-08.json",
    "source": "E519 (r1545 bm-b): 7 of 61 local bindings are a parameter of the calling function itself and 5 have no binding in the caller at all",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/forwardedarg_latest.json",
    "title": "E519 stopped at the calling function's own boundary: 7 local arguments turned out to be a parameter of the caller (6 distinct names: git_names/index/root/rows/sources/store) and 5 names were neither a parameter nor bound inside the caller. Follow each of those one hop further -- enumerate every call site of the caller, read what it hands to that parameter and publish whether it is a literal, a module constant, another module, a read, or again a parameter -- and for the 5 unbound names resolve where they are actually bound (an outer function, a module global read inside the function, a closure cell or a comprehension target) -- so that 'a caller hands the surface a population' is traced to a real source rather than stopping at the first function boundary."
   },
@@ -29261,6 +29265,20 @@
    "status": "ready",
    "target": "results/state_tilt/ONWARDRESIDUE-<cutoff>.json",
    "work": "follow the 6 parcels E524 found still being forwarded after the second reader, and the 23 that left the tree at the second hop, and report for each whether the exit is a library boundary or a callback this corpus cannot resolve -- keeping \"left the tree\" and \"still forwarded\" as separate classes"
+  },
+  {
+   "deliverable": "results/state_tilt/FORWARDEDTWOHOP-<cutoff>.json",
+   "entered_at": "2026-11-08T07:04:00+08:00",
+   "entered_by": "bm-b r1552 (supply floor refill after E520)",
+   "evidence_cutoff": "2026-11-08",
+   "id": "E526-WHAT-HAPPENS-AT-THE-SECOND-HOP-OF-THE-12-ARGUMENTS-THAT-ARE-FORWARDED-AGAIN",
+   "lane": "cpu-only",
+   "lane_note": "static: one hop past the second call site, no network, no rewrites",
+   "priority": "normal",
+   "source": "E520 (r1552 bm-b): of 20 call sites of the 7 forwarded parameters only 1 hands a written value and 12 hand a local or a parameter again; 3 of 7 parameters are forwarded again at every call site",
+   "status": "ready",
+   "target": "results/state_tilt/forwardedtwohop_latest.json",
+   "title": "E520 followed the forwarded arguments one hop and found that the hop mostly does not reach a source: 12 of 20 call sites hand again a local (8) or a parameter (4), and 3 parameters are forwarded again at every call site (e279_substitution_soundness.censused(rows), e374_store_load_bearing_members.attribute(store), e489_write_wire.classify(root)). Follow those 12 parcels one more hop and publish for each whether the chain now reaches a written value (a literal, a module constant, a read), keeps forwarding (and at what depth), or leaves the tree -- keeping 'forwarded again' and 'never supplied' as separate classes so a long pass-through is never published as a supply."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 \u00a7\u4e03 (\u6267\u884c/\u7b97\u529b\u5206\u79bb)",
@@ -29275,6 +29293,6 @@
   "single_writer": "\u672c\u6587\u4ef6\u53ea\u7531\u8f6e(\u63a7\u5236\u9762)\u5199; Tools/autofill.py \u53ea\u8bfb(\u8fd0\u884c\u6001\u5728 results/autofill_state.json + runner \u81ea\u8eab checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready \u6279\u6ce8\u518c\u5fc5\u5e26 workers_plan\uff08\u591a\u6838\u8ba1\u5212\uff0c\u5982 {\"workers\": 12, \"priority\": \"BelowNormal\"}\uff09\uff1b\u65e0\u591a\u6838\u8ba1\u5212\u4e0d\u5165\u6c60 (autofill C8 read-side \u5f3a\u5236\u95e8)"
  },
- "updated_at": "2026-11-08T06:11:21+08:00",
+ "updated_at": "2026-11-08T07:04:00+08:00",
  "version": 1
 }

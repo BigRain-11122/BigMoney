@@ -1,0 +1,1114 @@
+{
+ "answers": [
+  [
+   "How many forwarded bindings does E519 hand on, and of what kind?",
+   "12 rows: 7 whose local is a parameter of the owning function and 5 whose name is not bound inside it."
+  ],
+  [
+   "Who supplies the parameters, and with what?",
+   "20 call sites of the owning functions hand over 1 written values (0 literals, 0 module constants of the caller, 1 attributes on imported names), 12 values that are again a parameter or a local one level up, 0 results of another call, 0 reads, 0 computed expressions, 6 defaults, 0 omissions of a parameter that has no default, 0 star arguments and 1 rows with no call site at all."
+  ],
+  [
+   "Does the population really arrive, binding by binding?",
+   "0 of 7 parameter bindings are written at every call site, 3 are forwarded again at every call site, 3 are mixed and 1 are never supplied at all."
+  ],
+  [
+   "Where were the names that the caller does not bind actually bound?",
+   "5 of 5 are bound by another scope (0 by an enclosing function, 0 by a comprehension or loop target, 5 by a destructuring assignment, 0 by a module-scope assignment or import) and 0 are bound nowhere in this tree."
+  ],
+  [
+   "How were the call sites named?",
+   "14 are inside the defining module, 0 name the function through a from-import, 5 are an attribute on an imported module, 0 are a same-named call elsewhere and 0 have a receiver that is not a name."
+  ],
+  [
+   "Which modules supply the population?",
+   "1 distinct: e365_face_population_pin."
+  ]
+ ],
+ "argument_vocab": [
+  "a_literal_written_at_the_call_site",
+  "a_module_constant_of_the_calling_module",
+  "an_attribute_on_a_name_imported_at_the_call_site",
+  "a_file_or_directory_read_at_the_call_site",
+  "the_result_of_another_call",
+  "a_parameter_of_the_function_that_contains_the_call_site",
+  "a_local_of_the_function_that_contains_the_call_site",
+  "an_expression_computed_at_the_call_site",
+  "a_star_argument_the_scan_does_not_expand",
+  "nothing_is_passed_so_the_signature_default_applies",
+  "nothing_is_passed_and_the_parameter_has_no_default_so_the_call_would_raise"
+ ],
+ "bind_vocab": [
+  "a_parameter_of_an_enclosing_function_so_a_closure_cell",
+  "a_local_of_an_enclosing_function_so_a_closure_cell",
+  "a_comprehension_target",
+  "an_element_of_a_tuple_or_list_destructuring_assignment",
+  "a_for_or_with_or_except_target",
+  "an_assignment_expression_target",
+  "an_import_inside_the_function",
+  "a_module_scope_assignment",
+  "an_import_at_module_scope",
+  "declared_global_so_the_module_scope_owns_it",
+  "not_bound_anywhere_in_this_tree"
+ ],
+ "card": "E520-WHERE-DO-THE-CALLER-PARAMETER-AND-THE-FIVE-UNBOUND-LOCAL-ARGUMENTS-REALLY-COME-FROM",
+ "evidence_cutoff": "2026-11-08",
+ "generated": "2026-11-08T06:58:34+08:00",
+ "kind": "static_read_of_the_repo_plus_its_own_published_upstream_faces",
+ "method_limits": [
+  "a parameter is followed one more hop only: the value a supplying caller writes is not itself traced (a module constant there is published as a constant, not as what the constant holds)",
+  "call sites are matched by the callee's bare name and then filtered by ownership (same module, from-import of that name, or an attribute on a name imported from that module); a call through an alias of the module, or through a variable holding the function, is not in the population and the no_call_site_of_this_function_exists_in_this_tree arm is printed raw so it is visible rather than silently dropped",
+  "an argument passed through *args/**kwargs is published as a star argument instead of being guessed",
+  "a keyword-only parameter that the call site omits is published as the default arm, which is what the interpreter does",
+  "the unbound-name arm is a scope search of one module: an enclosing function body, a comprehension/loop/with/except target, a walrus, a function-local import, a module-scope name or import; a name supplied by a star-import or by monkeypatching would be published as not bound"
+ ],
+ "ownership_vocab": [
+  "the_call_is_inside_the_module_that_defines_the_function",
+  "the_function_name_is_imported_from_that_module_at_the_call_site",
+  "the_call_is_an_attribute_on_a_name_imported_at_the_call_site",
+  "a_same_named_call_in_a_module_that_neither_defines_nor_imports_it",
+  "the_receiver_of_the_attribute_call_is_not_a_name"
+ ],
+ "population_source": "results/state_tilt/LOCALARGORIGIN-2026-11-08.json rows whose origin is a_parameter_of_the_calling_function_itself or no_binding_in_the_calling_function_or_its_parameters, each followed one hop further: the call sites of the owning function for the first class, the binding scope for the second",
+ "rows": [
+  {
+   "argument_kind_counts": {
+    "a_local_of_the_function_that_contains_the_call_site": 1,
+    "a_parameter_of_the_function_that_contains_the_call_site": 1
+   },
+   "arrival": "forwarded_again_at_every_call_site",
+   "binding": null,
+   "call_site_count": 2,
+   "call_sites": [
+    {
+     "argument": "rows",
+     "argument_kind": "a_local_of_the_function_that_contains_the_call_site",
+     "caller_module": "e279_substitution_soundness",
+     "line": 422,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "rows",
+     "argument_kind": "a_parameter_of_the_function_that_contains_the_call_site",
+     "caller_module": "e279_substitution_soundness",
+     "line": 526,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    }
+   ],
+   "dominant_argument_kind": "a_local_of_the_function_that_contains_the_call_site",
+   "function": "censused",
+   "line": 239,
+   "local": "rows",
+   "module": "e279_substitution_soundness",
+   "note": null,
+   "parameter_has_a_default": false,
+   "parameters": [
+    "rows"
+   ],
+   "question": "who_supplies_this_parameter",
+   "site_module": "e279_substitution_soundness",
+   "sites": 1,
+   "source": "scripts/e279_substitution_soundness.py",
+   "surfaces": [
+    "census"
+   ],
+   "upstream_origin": "a_parameter_of_the_calling_function_itself",
+   "upstream_sites": 1
+  },
+  {
+   "argument_kind_counts": {},
+   "arrival": "bound_by_another_scope",
+   "binding": "an_element_of_a_tuple_or_list_destructuring_assignment",
+   "binding_detail": {
+    "kind": "for",
+    "line": 225
+   },
+   "call_site_count": 0,
+   "call_sites": [],
+   "dominant_argument_kind": null,
+   "function": "build",
+   "line": 228,
+   "local": "payload",
+   "module": "e298_replay_control_census",
+   "parameters": [
+    "face"
+   ],
+   "question": "where_is_this_name_bound",
+   "site_module": "e298_replay_control_census",
+   "sites": 3,
+   "source": "scripts/e298_replay_control_census.py",
+   "surfaces": [
+    "census_face"
+   ],
+   "upstream_origin": "no_binding_in_the_calling_function_or_its_parameters",
+   "upstream_sites": 3
+  },
+  {
+   "argument_kind_counts": {},
+   "arrival": "bound_by_another_scope",
+   "binding": "an_element_of_a_tuple_or_list_destructuring_assignment",
+   "binding_detail": {
+    "kind": "for",
+    "line": 445
+   },
+   "call_site_count": 0,
+   "call_sites": [],
+   "dominant_argument_kind": null,
+   "function": "cmd_selftest",
+   "line": 528,
+   "local": "name",
+   "module": "e298_replay_control_census",
+   "parameters": [
+    "face_name"
+   ],
+   "question": "where_is_this_name_bound",
+   "site_module": "e298_replay_control_census",
+   "sites": 1,
+   "source": "scripts/e298_replay_control_census.py",
+   "surfaces": [
+    "census_face"
+   ],
+   "upstream_origin": "no_binding_in_the_calling_function_or_its_parameters",
+   "upstream_sites": 1
+  },
+  {
+   "argument_kind_counts": {},
+   "arrival": "bound_by_another_scope",
+   "binding": "an_element_of_a_tuple_or_list_destructuring_assignment",
+   "binding_detail": {
+    "kind": "for",
+    "line": 445
+   },
+   "call_site_count": 0,
+   "call_sites": [],
+   "dominant_argument_kind": null,
+   "function": "cmd_selftest",
+   "line": 528,
+   "local": "payload",
+   "module": "e298_replay_control_census",
+   "parameters": [
+    "face"
+   ],
+   "question": "where_is_this_name_bound",
+   "site_module": "e298_replay_control_census",
+   "sites": 3,
+   "source": "scripts/e298_replay_control_census.py",
+   "surfaces": [
+    "census_face"
+   ],
+   "upstream_origin": "no_binding_in_the_calling_function_or_its_parameters",
+   "upstream_sites": 3
+  },
+  {
+   "argument_kind_counts": {
+    "a_local_of_the_function_that_contains_the_call_site": 2,
+    "a_parameter_of_the_function_that_contains_the_call_site": 1,
+    "an_attribute_on_a_name_imported_at_the_call_site": 1,
+    "nothing_is_passed_so_the_signature_default_applies": 3
+   },
+   "arrival": "mixed",
+   "binding": null,
+   "call_site_count": 7,
+   "call_sites": [
+    {
+     "argument": "root",
+     "argument_kind": "a_parameter_of_the_function_that_contains_the_call_site",
+     "caller_module": "e328_quoted_number_staleness",
+     "line": 358,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "root",
+     "argument_kind": "a_local_of_the_function_that_contains_the_call_site",
+     "caller_module": "e328_quoted_number_staleness",
+     "line": 482,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": null,
+     "argument_kind": "nothing_is_passed_so_the_signature_default_applies",
+     "caller_module": "e328_quoted_number_staleness",
+     "line": 521,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": null,
+     "argument_kind": "nothing_is_passed_so_the_signature_default_applies",
+     "caller_module": "e333_surviving_e3xx_conclusions",
+     "line": 262,
+     "ownership": "the_call_is_an_attribute_on_a_name_imported_at_the_call_site"
+    },
+    {
+     "argument": null,
+     "argument_kind": "nothing_is_passed_so_the_signature_default_applies",
+     "caller_module": "e334_helper_repair_blast_radius",
+     "line": 221,
+     "ownership": "the_call_is_an_attribute_on_a_name_imported_at_the_call_site"
+    },
+    {
+     "argument": "tmp",
+     "argument_kind": "a_local_of_the_function_that_contains_the_call_site",
+     "caller_module": "e365_face_population_pin",
+     "line": 484,
+     "ownership": "the_call_is_an_attribute_on_a_name_imported_at_the_call_site"
+    },
+    {
+     "argument": "ROOT",
+     "argument_kind": "an_attribute_on_a_name_imported_at_the_call_site",
+     "caller_module": "e365_face_population_pin",
+     "line": 668,
+     "ownership": "the_call_is_an_attribute_on_a_name_imported_at_the_call_site"
+    }
+   ],
+   "dominant_argument_kind": "nothing_is_passed_so_the_signature_default_applies",
+   "function": "build",
+   "line": 234,
+   "local": "root",
+   "module": "e328_quoted_number_staleness",
+   "note": null,
+   "parameter_has_a_default": true,
+   "parameters": [
+    "root"
+   ],
+   "question": "who_supplies_this_parameter",
+   "site_module": "e328_quoted_number_staleness",
+   "sites": 2,
+   "source": "scripts/e365_face_population_pin.py",
+   "surfaces": [
+    "scan_faces"
+   ],
+   "upstream_origin": "a_parameter_of_the_calling_function_itself",
+   "upstream_sites": 2
+  },
+  {
+   "argument_kind_counts": {},
+   "arrival": "bound_by_another_scope",
+   "binding": "an_element_of_a_tuple_or_list_destructuring_assignment",
+   "binding_detail": {
+    "kind": "assign",
+    "line": 298
+   },
+   "call_site_count": 0,
+   "call_sites": [],
+   "dominant_argument_kind": null,
+   "function": "build",
+   "line": 309,
+   "local": "store",
+   "module": "e372_store_the_absent_members",
+   "parameters": [
+    "store"
+   ],
+   "question": "where_is_this_name_bound",
+   "site_module": "e372_store_the_absent_members",
+   "sites": 2,
+   "source": "scripts/e372_store_the_absent_members.py",
+   "surfaces": [
+    "store_members"
+   ],
+   "upstream_origin": "no_binding_in_the_calling_function_or_its_parameters",
+   "upstream_sites": 2
+  },
+  {
+   "argument_kind_counts": {
+    "a_local_of_the_function_that_contains_the_call_site": 4
+   },
+   "arrival": "forwarded_again_at_every_call_site",
+   "binding": null,
+   "call_site_count": 4,
+   "call_sites": [
+    {
+     "argument": "store",
+     "argument_kind": "a_local_of_the_function_that_contains_the_call_site",
+     "caller_module": "e374_store_load_bearing_members",
+     "line": 184,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "store",
+     "argument_kind": "a_local_of_the_function_that_contains_the_call_site",
+     "caller_module": "e374_store_load_bearing_members",
+     "line": 281,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "fake_store",
+     "argument_kind": "a_local_of_the_function_that_contains_the_call_site",
+     "caller_module": "e374_store_load_bearing_members",
+     "line": 340,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "fake_store",
+     "argument_kind": "a_local_of_the_function_that_contains_the_call_site",
+     "caller_module": "e374_store_load_bearing_members",
+     "line": 344,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    }
+   ],
+   "dominant_argument_kind": "a_local_of_the_function_that_contains_the_call_site",
+   "function": "attribute",
+   "line": 121,
+   "local": "store",
+   "module": "e374_store_load_bearing_members",
+   "note": null,
+   "parameter_has_a_default": false,
+   "parameters": [
+    "store"
+   ],
+   "question": "who_supplies_this_parameter",
+   "site_module": "e374_store_load_bearing_members",
+   "sites": 3,
+   "source": "scripts/e374_store_load_bearing_members.py",
+   "surfaces": [
+    "store_members"
+   ],
+   "upstream_origin": "a_parameter_of_the_calling_function_itself",
+   "upstream_sites": 3
+  },
+  {
+   "argument_kind_counts": {
+    "nothing_is_passed_so_the_signature_default_applies": 1
+   },
+   "arrival": "mixed",
+   "binding": null,
+   "call_site_count": 1,
+   "call_sites": [
+    {
+     "argument": null,
+     "argument_kind": "nothing_is_passed_so_the_signature_default_applies",
+     "caller_module": "e402_fragment_producers",
+     "line": 812,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    }
+   ],
+   "dominant_argument_kind": "nothing_is_passed_so_the_signature_default_applies",
+   "function": "build",
+   "line": 520,
+   "local": "sources",
+   "module": "e402_fragment_producers",
+   "note": null,
+   "parameter_has_a_default": true,
+   "parameters": [
+    "sources"
+   ],
+   "question": "who_supplies_this_parameter",
+   "site_module": "e402_fragment_producers",
+   "sites": 2,
+   "source": "scripts/e402_fragment_producers.py",
+   "surfaces": [
+    "scan_sources"
+   ],
+   "upstream_origin": "a_parameter_of_the_calling_function_itself",
+   "upstream_sites": 2
+  },
+  {
+   "argument_kind_counts": {
+    "no_call_site_of_this_function_exists_in_this_tree": 1
+   },
+   "arrival": "never_supplied",
+   "binding": null,
+   "call_site_count": 1,
+   "call_sites": [
+    {
+     "argument": null,
+     "argument_kind": "no_call_site_of_this_function_exists_in_this_tree",
+     "caller_module": null,
+     "line": null,
+     "ownership": null
+    }
+   ],
+   "dominant_argument_kind": "no_call_site_of_this_function_exists_in_this_tree",
+   "function": "call_sites",
+   "line": 136,
+   "local": "git_names",
+   "module": "e406_blob_vs_tree_readers",
+   "note": null,
+   "parameter_has_a_default": false,
+   "parameters": [
+    "git_names"
+   ],
+   "question": "who_supplies_this_parameter",
+   "site_module": "e406_blob_vs_tree_readers",
+   "sites": 1,
+   "source": "scripts/e406_blob_vs_tree_readers.py",
+   "surfaces": [
+    "census_modules"
+   ],
+   "upstream_origin": "a_parameter_of_the_calling_function_itself",
+   "upstream_sites": 1
+  },
+  {
+   "argument_kind_counts": {
+    "a_parameter_of_the_function_that_contains_the_call_site": 1,
+    "nothing_is_passed_so_the_signature_default_applies": 2
+   },
+   "arrival": "mixed",
+   "binding": null,
+   "call_site_count": 3,
+   "call_sites": [
+    {
+     "argument": null,
+     "argument_kind": "nothing_is_passed_so_the_signature_default_applies",
+     "caller_module": "e441_facehome_family",
+     "line": 348,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": null,
+     "argument_kind": "nothing_is_passed_so_the_signature_default_applies",
+     "caller_module": "e441_facehome_family",
+     "line": 492,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "index",
+     "argument_kind": "a_parameter_of_the_function_that_contains_the_call_site",
+     "caller_module": "e445_facehome_target",
+     "line": 144,
+     "ownership": "the_call_is_an_attribute_on_a_name_imported_at_the_call_site"
+    }
+   ],
+   "dominant_argument_kind": "nothing_is_passed_so_the_signature_default_applies",
+   "function": "build",
+   "line": 141,
+   "local": "index",
+   "module": "e441_facehome_family",
+   "note": null,
+   "parameter_has_a_default": true,
+   "parameters": [
+    "index"
+   ],
+   "question": "who_supplies_this_parameter",
+   "site_module": "e441_facehome_family",
+   "sites": 1,
+   "source": "scripts/e441_facehome_family.py",
+   "surfaces": [
+    "members_of"
+   ],
+   "upstream_origin": "a_parameter_of_the_calling_function_itself",
+   "upstream_sites": 1
+  },
+  {
+   "argument_kind_counts": {},
+   "arrival": "bound_by_another_scope",
+   "binding": "an_element_of_a_tuple_or_list_destructuring_assignment",
+   "binding_detail": {
+    "kind": "assign",
+    "line": 233
+   },
+   "call_site_count": 0,
+   "call_sites": [],
+   "dominant_argument_kind": null,
+   "function": "build",
+   "line": 240,
+   "local": "sources",
+   "module": "e462_identity_dialect",
+   "parameters": [
+    "sources"
+   ],
+   "question": "where_is_this_name_bound",
+   "site_module": "e462_identity_dialect",
+   "sites": 1,
+   "source": "scripts/e462_identity_dialect.py",
+   "surfaces": [
+    "read_census"
+   ],
+   "upstream_origin": "no_binding_in_the_calling_function_or_its_parameters",
+   "upstream_sites": 1
+  },
+  {
+   "argument_kind_counts": {
+    "a_local_of_the_function_that_contains_the_call_site": 1,
+    "a_parameter_of_the_function_that_contains_the_call_site": 1
+   },
+   "arrival": "forwarded_again_at_every_call_site",
+   "binding": null,
+   "call_site_count": 2,
+   "call_sites": [
+    {
+     "argument": "root",
+     "argument_kind": "a_parameter_of_the_function_that_contains_the_call_site",
+     "caller_module": "e489_write_wire",
+     "line": 448,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "root",
+     "argument_kind": "a_local_of_the_function_that_contains_the_call_site",
+     "caller_module": "e489_write_wire",
+     "line": 684,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    }
+   ],
+   "dominant_argument_kind": "a_local_of_the_function_that_contains_the_call_site",
+   "function": "classify",
+   "line": 365,
+   "local": "root",
+   "module": "e489_write_wire",
+   "note": null,
+   "parameter_has_a_default": true,
+   "parameters": [
+    "root"
+   ],
+   "question": "who_supplies_this_parameter",
+   "site_module": "e489_write_wire",
+   "sites": 1,
+   "source": "scripts/e489_write_wire.py",
+   "surfaces": [
+    "write_call_paths"
+   ],
+   "upstream_origin": "a_parameter_of_the_calling_function_itself",
+   "upstream_sites": 1
+  }
+ ],
+ "study": "E520_forwarded_argument_origin",
+ "summary": {
+  "argument_kind_counts": {
+   "a_file_or_directory_read_at_the_call_site": 0,
+   "a_literal_written_at_the_call_site": 0,
+   "a_local_of_the_function_that_contains_the_call_site": 8,
+   "a_module_constant_of_the_calling_module": 0,
+   "a_parameter_of_the_function_that_contains_the_call_site": 4,
+   "a_star_argument_the_scan_does_not_expand": 0,
+   "an_attribute_on_a_name_imported_at_the_call_site": 1,
+   "an_expression_computed_at_the_call_site": 0,
+   "no_call_site_of_this_function_exists_in_this_tree": 1,
+   "nothing_is_passed_and_the_parameter_has_no_default_so_the_call_would_raise": 0,
+   "nothing_is_passed_so_the_signature_default_applies": 6,
+   "the_result_of_another_call": 0
+  },
+  "arguments_forwarded_again": 12,
+  "arguments_from_a_call_or_a_read": 0,
+  "arguments_left_at_the_default": 6,
+  "arguments_omitted_for_a_parameter_with_no_default": 0,
+  "arguments_passed_through_a_star_argument": 0,
+  "arguments_written_at_the_call_site": 1,
+  "arrival_counts": {
+   "forwarded_again_at_every_call_site": 3,
+   "mixed": 3,
+   "never_supplied": 1
+  },
+  "bind_counts": {
+   "a_comprehension_target": 0,
+   "a_for_or_with_or_except_target": 0,
+   "a_local_of_an_enclosing_function_so_a_closure_cell": 0,
+   "a_module_scope_assignment": 0,
+   "a_parameter_of_an_enclosing_function_so_a_closure_cell": 0,
+   "an_assignment_expression_target": 0,
+   "an_element_of_a_tuple_or_list_destructuring_assignment": 5,
+   "an_import_at_module_scope": 0,
+   "an_import_inside_the_function": 0,
+   "declared_global_so_the_module_scope_owns_it": 0,
+   "not_bound_anywhere_in_this_tree": 0
+  },
+  "call_sites_of_the_owning_functions": 20,
+  "call_sites_that_are_not_a_call_site_at_all": 1,
+  "distinct_supplying_caller_modules": [
+   "e365_face_population_pin"
+  ],
+  "forwarded_bindings": 12,
+  "modules_scanned": 3800,
+  "ownership_counts": {
+   "a_same_named_call_in_a_module_that_neither_defines_nor_imports_it": 0,
+   "the_call_is_an_attribute_on_a_name_imported_at_the_call_site": 5,
+   "the_call_is_inside_the_module_that_defines_the_function": 14,
+   "the_function_name_is_imported_from_that_module_at_the_call_site": 0,
+   "the_receiver_of_the_attribute_call_is_not_a_name": 0
+  },
+  "parameter_bindings": 7,
+  "parameter_bindings_whose_parameter_has_no_default": 3,
+  "unbound_name_bindings": 5,
+  "unbound_names_actually_unbound": 0,
+  "unbound_names_bound_by_another_scope": 5,
+  "upstream_forwarded_rows": 7,
+  "upstream_unbound_rows": 5
+ },
+ "title": "Where a forwarded call-site argument really comes from, one hop past the caller",
+ "unreadable": [
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r1235bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r786bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r787bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r820bmc_close.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r900bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/_r901bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/s6_chain_bmb.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "Tools/tree_shrink_guard.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_card.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_fix_digest.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_patch.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_patch2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_patch3.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_poolprobe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe3.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe4.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe5.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_probe6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_smokeleg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e286_smokeleg2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e317_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e317_probe2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_e317_probe3.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1085bmb_closeout.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1111bmb_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1131bmb_s6.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1298_amend.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_closeout.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_hb.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_hb2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_hbdiff.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_pool.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_receipt.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1311bmb_s6leg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_card.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_closeout.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_deliv.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_delivrow.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_hbeol.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_hbfix.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_pooledit.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_poolprobe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_poolprobe2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_probe2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_smokeleg_harness.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1313bmb_stateclock.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_d19.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_d19b.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_dec.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_dec2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_dec3.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_gpu.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_gpuall.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_hb2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_leg396.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_nl.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_pool.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_post.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_read.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_read2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_r1413_wm.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_card_e259.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e258.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e258b.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259check.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259diag.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259diag2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259diag3.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259flat.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259one.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259read.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e259seed.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e273_card.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_e487_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_final.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_hb.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_hb_write.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_pool2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_pool_fix.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_pool_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_pool_seed.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_pool_update.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_poolshape.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_amend.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_card.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_close.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_eol.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_pool.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_probe.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_receipt.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_report.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_seed.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_seed2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_tag.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1282_tag2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_r1303_hbgen.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_rr.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_state2.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_state_write.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_time_e259.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_tmp_tsg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "_w231bmc_prereg_derive_tpl.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e231_band_path_test.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e243_additivity_out_of_sample.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e280_e251_rng_drift_repin.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e308_leg_vs_producer_tolerance.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e371_one_store_member.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e387_republish_audit.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e394_phantom_why.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/e429_two_hop_writer.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/run_e335_smoke_leg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/run_e349_smoke_leg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/run_e353_smoke_leg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/run_e463_smoke_leg.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/t11_negday_ic.py"
+  },
+  {
+   "problem": "syntax error",
+   "source": "scripts/update_etf_universe.py"
+  }
+ ],
+ "verdict": "most_forwarded_parameters_are_again_a_parameter_or_a_local_at_the_next_call_site_so_the_hop_did_not_reach_a_source",
+ "verdict_vocab": [
+  "the_forwarded_parameters_are_supplied_by_their_call_sites_with_values_the_caller_writes_so_the_population_really_arrives",
+  "most_forwarded_parameters_are_again_a_parameter_or_a_local_at_the_next_call_site_so_the_hop_did_not_reach_a_source",
+  "every_unbound_name_is_bound_by_an_enclosing_or_module_scope_so_it_is_a_closure_not_a_missing_binding",
+  "the_forwarded_parameters_belong_to_functions_this_tree_never_calls_so_no_caller_supplies_anything",
+  "the_call_sites_supply_no_literal_and_no_module_constant_so_the_population_never_arrives_as_a_written_value",
+  "this_tree_has_no_forwarded_local_argument_to_trace"
+ ]
+}

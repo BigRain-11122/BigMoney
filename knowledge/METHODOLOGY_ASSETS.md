@@ -13023,3 +13023,25 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 - **跟不动的残差要单列**：离开树外 23 个、继续转手 6 个都不许并进"安全"，也不许记 0；`verify` 只钉会变的快照计数（源数、解析失败、包裹数），分类计数一律重算。
 
 **验证**：`scripts/e524_reader_onward.py`（`run` rc0 / `check` problems=0 / `verify` 重derive problems=0 / **selftest clean**：固定语料=一个返回者带一个无闸包裹和一个有闸包裹、一个返回者被调用者直接读掉，判出 depth=2 / depth=1、门拒 6 份 doctored 面）；S6 腿 `reader_onward`；smoke 腿 `# E524` 1/1 + `--doctor` 1/1 红（面 sha 9ce17ea693da 已还原）；产物 `results/state_tilt/READERONWARD-2026-11-08.json` + `readeronward_latest.json`；digest `research/digests/DIGEST-20261108-r1551-e524-reader-onward.md`。未跑：全量 smoke（~20-30min）、S6 其余 update_*/market_*/paper 腿、monitor.build_status、daily_scorecard。
+
+## E520 · 「调用者边界」不是来源：7 个参数在 20 个调用点里只收到 1 个写出来的值，5 个「没绑定」的名字全是解构目标（2026-11-08 r1552 bm-b）
+
+**立论**：E519 把每个「是调用者局部变量」的实参追到绑定它的那条语句就停了，停在调用者自己的边界上：61 个绑定里 7 个其实是**调用函数自己的形参**（人口在再上一层），5 个名字在调用者里既不是形参也没被赋值。两者是同一个「不知道」在两个方向上的表现，所以本轮各再跟一跳——形参：穷举**该函数的全部调用点**，发布每个调用点交过去的是什么；未绑定名：在**别的作用域**里找它到底绑在哪。
+
+**方法**：人口＝E519 面里 origin 是 `a_parameter_of_the_calling_function_itself` / `no_binding_in_the_calling_function_or_its_parameters` 的行（7 + 5，行数与该面 summary 断言对齐，3,800 个模块可解析，23 个解析失败逐条披露）。调用点按被调方**裸名**先匹配，再按归属过滤成四类并逐站点发布：同模块 / 该名字被 from-import 进来 / 从该模块导入的名字上的属性 / 只是同名。每个调用点交过来的值分十臂：字面量、调用者模块常量、导入名属性、读文件或扫树、另一个调用的结果、**又是调用点所在函数的形参**、调用点所在函数的局部变量、调用点上的表达式、星号参数（不展开）、**没传且形参有默认值**、**没传且形参根本没有默认值（真跑会抛）**、该函数在本树里没有任何调用点。绑定臂：外层函数形参 / 外层函数局部 / 推导式目标 / **元组或列表解构的目标** / for-with-except 目标 / walrus / 函数内 import / 模块级赋值 / 模块级 import / 声明了 global / 本树里根本不存在。闸重算：`check` 从行重推十臂直方图、按 arrival 重推 never_supplied、从 bind 重推「别处绑定 vs 真未绑定」，并拒「形参行携带 binding」「arrival 与 binding 矛盾」。
+
+**读数**（12 行 / 20 个调用点）：
+- **5 个「没绑定」的名字 5/5 都是解构目标**：`charge, rows, store, pin = _arms()`（`e372_store_the_absent_members.build`）、`sources, errors = corpus()`（`e462_identity_dialect.build`）、`for name, payload in faces`（`e298_replay_control_census.build` 一次、`cmd_selftest` 两次）。E519 的赋值扫描只记 `ast.Name` 目标，元组目标对它不可见——**所谓「未绑定」是扫描的产物，本树真正的未绑定名是 0**。
+- 20 个调用点里：写下具体值的 **1**（导入名属性 `e365.ROOT`）、又转手的 **12**（局部 8 / 形参 4）、吃默认值的 **6**、没有调用点的 **1**；漏传「无默认值形参」的 **0**。
+- 逐绑定：**7 个形参里 0 个是「每个调用点都写值」**、3 个每个调用点都继续转手、3 个混合、1 个从没被供过；7 个里 3 个形参没有默认值。
+- 点名：`e279_substitution_soundness.censused(rows)`（2 站点全转手）、`e374_store_load_bearing_members.attribute(store)`（4 站点全转手）、`e489_write_wire.classify(root)`（2 站点全转手）、`e365_face_population_pin.build(root)`（7 站点：2 转手 / 3 默认 / 1 局部 `tmp` / 1 `e365.ROOT`）、`e441_facehome_family.build(index)`（2 默认 + 1 转手形参）、`e402_fragment_producers.build(sources)`（唯一站点就是默认）、`e406_blob_vs_tree_readers.call_sites(git_names)`（**全树没有调用点**，其 docstring 自称「deprecated shim kept for the selftest's older fixtures」）。
+
+**可复用教训**：
+- **零命中也必须带普查列**：5 个「哪里都没绑」全是解构。照原样发布就是 4 条假缺陷——正法是给解构一个**有名字的臂**（`an_element_of_a_tuple_or_list_destructuring_assignment`），不是放松阈值。
+- **「没传」与「不可能传」是两件事**：6 个调用点不传参数，只有在形参有默认值时才无害。两臂分开（`nothing_is_passed_so_the_signature_default_applies` 与 `..._has_no_default_so_the_call_would_raise`），后者的计数是 0——这是测出来的 0，不是假设的 0。
+- **裸名匹配不是调用点**：`build(...)` 会把别的模块的 `build` 一起捞进来；归属列（同模块 / from-import / 导入名属性 / 只是同名）逐站点发布，让读者看得见过滤在做什么，而不是被要求相信它。
+- **死函数是合法发现**：`e406.call_sites` 有形参、没有调用者——唯一一行 `no_call_site_of_this_function_exists_in_this_tree`，如实记成「没人供」，而不是记成「吃了默认值」。
+- **上游面是依赖，行数要断言**：7 + 5 = 12 与 E519 自己的 summary 对齐；E519 重建换了计数，本面的 `check` 直接红，而不是悄悄量了另一个总体。
+- **连字符串引用也别信**：本窗一度把「5 个未绑定」写进结论，是逐行看源码（`_arms()` / `corpus()` / `for name, payload in ...`）才推翻的——上游的类名只是线索。
+
+**验证**：`scripts/e520_forwarded_argument.py`（`build` rc0 / `check` problems=0 / `verify` 重建 problems=0——与磁盘面逐字节一致 / **selftest 0 problems**：7 行固定语料（字面量、模块常量、跨模块调用、文件读、整号形参、解构目标、真未绑定 + 同模块调用者 + 漏传无默认值形参）+ 八枚 doctored 面全被拒：手写 verdict、形参行携带 binding、arrival 与 binding 矛盾、改 provenance）＋ `results/state_tilt/FORWARDEDARG-2026-11-08.json` + `forwardedarg_latest.json` 同源 ＋ S6 链腿 `forwarded_argument`（rc0 0.06s）＋ smoke 腿 `# E520`（`scripts/run_e520_smoke_leg.py` 单跑 1/1 绿、`--doctor` 1/1 红且面字节还原 sha `eb97c93ec38b`）＋ digest `research/digests/DIGEST-20261108-r1552-e520-forwarded-argument-origin.md`。未跑：全量 smoke 套件、其余 S6 链腿、`monitor.build_status`、`daily_scorecard`、采集器族与 market/paper 链（不宣称）。

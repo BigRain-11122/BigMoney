@@ -21816,5 +21816,98 @@ check(_name524, not _bad524, "; ".join(_bad524)[:240] or _d524)
 
 
 
+# E520: E519 stopped at the caller's own boundary.  A local that is a parameter of the calling
+# function is supplied by that function's call sites, and a name bound nowhere in the caller is
+# bound by some other scope -- so every row must publish one of the two questions, the argument
+# histogram must re-derive from the rows themselves, the "unbound nowhere" count must equal the
+# rows that carry that binding, and four doctored copies (a hand-written verdict, a parameter row
+# carrying a binding, an unbound row whose arrival contradicts its binding, an edited provenance
+# line) must all be refused.
+_name520 = ("E520 follows E519's forwarded arguments one hop further: the call sites of the owning "
+            "function and what each hands over, plus the scope that binds a name the caller does "
+            "not bind (r1552 bm-b)")
+_bad520 = []
+try:
+    _m520 = __import__("importlib").import_module("e520_forwarded_argument")
+    _f520 = json.load(open(os.path.join("results", "state_tilt", "forwardedarg_latest.json"),
+                           encoding="utf-8"))
+    _s520 = _f520.get("summary") or {}
+    _r520 = _f520.get("rows") or []
+    _bad520.extend(_m520.face_problems(_f520))
+    if not _r520:
+        _bad520.append("the forwarded population is empty")
+    _ac520 = {_k520: 0 for _k520 in _m520.ARGUMENT_VOCAB}
+    _p520 = 0
+    _u520 = 0
+    for _x520 in _r520:
+        if _x520.get("question") == "who_supplies_this_parameter":
+            _p520 += 1
+            for _k520, _n520 in (_x520.get("argument_kind_counts") or {}).items():
+                _ac520[_k520] = _ac520.get(_k520, 0) + _n520
+        elif _x520.get("question") == "where_is_this_name_bound":
+            _u520 += 1
+        else:
+            _bad520.append("%s:%s publishes no question at all"
+                           % (_x520.get("source"), _x520.get("local")))
+    if _p520 + _u520 != len(_r520):
+        _bad520.append("a row is neither a parameter nor an unbound name")
+    if _ac520 != (_s520.get("argument_kind_counts") or {}):
+        _bad520.append("the argument histogram does not add up in the consumer's hands")
+    if _s520.get("parameter_bindings") != _p520 or _s520.get("unbound_name_bindings") != _u520:
+        _bad520.append("the row split and the summary disagree")
+    _nb520 = len([_y520 for _y520 in _r520
+                  if _y520.get("binding") == _m520.B_NOT_BOUND])
+    if _nb520 != _s520.get("unbound_names_actually_unbound"):
+        _bad520.append("the unbound-nowhere count and the rows disagree")
+    _w520 = json.loads(json.dumps(_f520))
+    _w520["verdict"] = _m520.V_CALLER_SUPPLIES
+    if not _m520.face_problems(_w520):
+        _bad520.append("a hand-written verdict survived the guard")
+    _w520b = json.loads(json.dumps(_f520))
+    for _y520 in _w520b["rows"]:
+        if _y520.get("question") == "who_supplies_this_parameter":
+            _y520["binding"] = _m520.B_NOT_BOUND
+            break
+    if not _m520.face_problems(_w520b):
+        _bad520.append("a parameter row carrying a binding survived the guard")
+    _w520c = json.loads(json.dumps(_f520))
+    for _y520 in _w520c["rows"]:
+        if _y520.get("question") == "where_is_this_name_bound":
+            _y520["arrival"] = ("not_bound"
+                                if _y520.get("arrival") == "bound_by_another_scope"
+                                else "bound_by_another_scope")
+            break
+    if not _m520.face_problems(_w520c):
+        _bad520.append("an arrival contradicting its binding survived the guard")
+    _w520d = json.loads(json.dumps(_f520))
+    _w520d["population_source"] = "a hand written population"
+    if not _m520.face_problems(_w520d):
+        _bad520.append("an edited provenance line survived the guard")
+    _d520 = ("%r forwarded bindings (%r parameter / %r unbound) | %r call sites: written %r, "
+             "again %r, defaults %r | arrivals: written %r / again %r / mixed %r / never %r | "
+             "bindings: destructured %r, loop-or-with %r, enclosing scope %r, module scope %r, "
+             "unbound nowhere %r | verdict %r"
+             % (_s520.get("forwarded_bindings"), _s520.get("parameter_bindings"),
+                _s520.get("unbound_name_bindings"),
+                _s520.get("call_sites_of_the_owning_functions"),
+                _s520.get("arguments_written_at_the_call_site"),
+                _s520.get("arguments_forwarded_again"),
+                _s520.get("arguments_left_at_the_default"),
+                (_s520.get("arrival_counts") or {}).get("written_at_every_call_site"),
+                (_s520.get("arrival_counts") or {}).get("forwarded_again_at_every_call_site"),
+                (_s520.get("arrival_counts") or {}).get("mixed"),
+                (_s520.get("arrival_counts") or {}).get("never_supplied"),
+                (_s520.get("bind_counts") or {}).get(_m520.B_UNPACK_TARGET),
+                (_s520.get("bind_counts") or {}).get(_m520.B_LOOP_TARGET),
+                (_s520.get("bind_counts") or {}).get(_m520.B_OUTER_PARAM),
+                (_s520.get("bind_counts") or {}).get(_m520.B_MODULE_GLOBAL),
+                _s520.get("unbound_names_actually_unbound"),
+                _f520.get("verdict")))
+except Exception as _e520x:
+    _bad520.append(repr(_e520x)[:160])
+    _d520 = "leg could not run"
+check(_name520, not _bad520, "; ".join(_bad520)[:240] or _d520)
+
+
 if __name__ == "__main__":
     sys.exit(main())

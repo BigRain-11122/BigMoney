@@ -1966,6 +1966,12 @@ LEGS = [
     # forwards the value has not guarded it, only passed it on.  `check` re-derives every chain
     # class from the row counts and refuses a face whose depth-2 unguarded rows count no reader.
     ("reader_onward", ["python", "scripts/e524_reader_onward.py", "check"]),
+    # E520 takes E519's own two non-answers one hop further: a local that is a *parameter of the
+    # caller* is supplied by that function's call sites, and a name bound nowhere in the caller is
+    # bound by another scope.  `check` re-derives the argument histogram from the rows, the
+    # never-supplied count from the arrivals, and refuses a face whose unbound rows contradict
+    # their own binding.
+    ("forwarded_argument", ["python", "scripts/e520_forwarded_argument.py", "check"]),
     # E522 takes that same arm population to the call sites: an arm nobody calls is dormant, an arm
     # whose callers all test the result is not a hazard, and only an arm read with no guard whose
     # shape equals the read arm's is a silent default that is live in production.  `check`
