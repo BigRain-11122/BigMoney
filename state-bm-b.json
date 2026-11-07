@@ -5877,6 +5877,31 @@
   "ts": "2026-11-07T20:47:08+08:00",
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1535 == 2ac805f5c8732a38b3cf324dd31b85198f173dd4"
  },
+ "r1546": {
+  "card": "E515",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/EMPTYARMCOVER-2026-11-08.json",
+  "finding": "1,186 branching callees / 4,406 sites: 617 guarded, 199 production sites read the empty arm unguarded (97 subscript immediately), 1,158 reachable only from a test, 61 with no caller; card_config_ticket's three 'guarded sites' are 3 selftest calls and its only production site carries its own guard",
+  "product": [
+   "scripts/e515_empty_arm_cover.py (selftest 25/25, run rc0, check/verify problems=[])",
+   "results/state_tilt/EMPTYARMCOVER-2026-11-08.json + emptyarmcover_latest.json",
+   "scripts/run_e515_smoke_leg.py (1/1 green, --doctor 1/1 red, face sha restored)",
+   "smoke_test.py leg E515",
+   "Tools/s6_chain_bmb.py leg empty_arm_cover (rc0 0.37s)",
+   "knowledge/METHODOLOGY_ASSETS.md card E515",
+   "knowledge/TREASURE_REGISTRY.md closure line",
+   "research/digests/DIGEST-20261108-r1546-e515-empty-arm-cover.md",
+   "results/runnable_pool.json E515 done + E521 seeded (ready 3)"
+  ],
+  "ts": "2026-11-08T03:49:26+08:00"
+ },
+ "r1546_delivery": {
+  "branch": "machine/bm-b-r1546",
+  "main_push_blocker": "local main is 580 ahead / 363 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel per D-20261106-03",
+  "sha": "a6f4fc4fd4afd10f63e4353f03051035efe641aa",
+  "ts": "2026-11-08T03:49:26+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1546 == a6f4fc4fd4afd10f63e4353f03051035efe641aa"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -5966,10 +5991,9 @@
  },
  "supply_floor_ready": 3,
  "sync": {
-  "ahead_of_origin_main": 567,
-  "behind_origin_main": 355,
+  "behind_origin_main": 363,
   "peer": "origin",
-  "ts": "2026-11-08T02:24:00+08:00"
+  "ts": "2026-11-08T03:49:26+08:00"
  },
  "sync_note": "local main is far ahead/behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel",
  "task": "r1546 E515 empty-arm cover (product round)",
