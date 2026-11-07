@@ -198,7 +198,7 @@
   "same_scale_as_ledger": true,
   "ledger_book_bar": "2026-10-14",
   "ledger_last_bar": "2026-11-06",
-  "ledger_last_nav": 1.0005200112,
+  "ledger_last_nav": 1.0005213531,
   "ledger_status": "live",
   "ledger_source": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
   "restatements_readable": true,
@@ -270,27 +270,27 @@
  ],
  "live_width_ruler": {
   "state": "inside_disagreement",
-  "detail": "paired median +0.120pp inside a 2.035pp engine disagreement",
+  "detail": "paired median +0.045pp inside a 1.875pp engine disagreement",
   "sheet": "card",
   "sheet_role": "measured_card",
   "verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
   "published_verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
-  "gap_pp": 0.12,
-  "disagreement_pp": 2.035,
-  "share_of_disagreement": 0.059,
-  "resolution_pp": 0.793,
-  "gap_over_resolution": 0.151,
+  "gap_pp": 0.045,
+  "disagreement_pp": 1.875,
+  "share_of_disagreement": 0.024,
+  "resolution_pp": 0.783,
+  "gap_over_resolution": 0.057,
   "below_own_resolution": true,
   "power_target": 0.8,
-  "paired_sd_pp": 1.265,
-  "atlas_rung_pp": 0.505,
+  "paired_sd_pp": 1.25,
+  "atlas_rung_pp": 0.345,
   "capacity_rung_pp": -1.53,
   "sign_flips": true,
   "sign_agreement": 0.5,
   "pairs": 20,
   "positive_phases": 10,
-  "min_pp": -2.01,
-  "max_pp": 2.86,
+  "min_pp": -2.05,
+  "max_pp": 2.82,
   "spread_pp": 4.87,
   "widths": {
    "ticket": {
@@ -306,20 +306,35 @@
     "priced_rule": "vol_target"
    }
   },
-  "age_days": 7,
-  "evidence_cutoff": "2026-10-30",
+  "age_days": 0,
+  "evidence_cutoff": "2026-11-06",
   "asof": "2026-11-06",
   "source": "results/etf_book_live_width_ruler.json"
  },
  "family_coherence": {
   "artifact": "results/etf_book_phase_atlas_arms.json",
-  "verdict": "ONE_WORLD",
-  "detail": "all 11 faces priced a1a42aee64453839",
+  "verdict": "MIXED_WORLDS",
+  "detail": "11 faces priced 2 different panels (58302d9c, a1a42aee): per-cell deltas across worlds are world differences, not rule effects",
   "panels": [
+   "58302d9ca988c138",
    "a1a42aee64453839"
   ],
   "arms": 10,
-  "evidence_cutoff": "2026-10-30",
-  "priced_same_panel": true
+  "evidence_cutoff": "2026-11-06",
+  "priced_same_panel": false,
+  "comparable": [
+   "buffer_k02",
+   "buffer_k05",
+   "buffer_k10",
+   "buffer_k20",
+   "buffer_k40"
+  ],
+  "withheld": [
+   "buffer_k05_cost20",
+   "cost0",
+   "cost05",
+   "cost20",
+   "cost40"
+  ]
  }
 }

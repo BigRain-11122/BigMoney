@@ -1,6 +1,6 @@
 {
  "schema": "etf-book-forward-settle-audit/v1",
- "generated": "2026-11-07T11:18:47+0800",
+ "generated": "2026-11-07T13:04:10+0800",
  "evidence_cutoff": "2026-11-06",
  "ledger": {
   "path": "results\\etf_book_forward\\LEDGER.json",
@@ -19,10 +19,8 @@
    "2026-11-06"
   ],
   "drift": {
-   "faces": [
-    "2026-11-05:1.162e-06"
-   ],
-   "max_abs": 1.1623000000238193e-06,
+   "faces": [],
+   "max_abs": 0.0,
    "checked_bars": 11,
    "gate": "settled_bars_only",
    "settled_bars": [
@@ -41,9 +39,7 @@
     "2026-11-06"
    ],
    "carry_last_bar": "2026-11-06",
-   "settled_faces": [
-    "2026-11-05:1.162e-06"
-   ],
+   "settled_faces": [],
    "provisional_faces": [],
    "benchmark_settled_faces": [],
    "benchmark_provisional_faces": [],
@@ -83,7 +79,7 @@
   }
  },
  "classification": {
-  "verdict": "drift_on_settled_bar",
+  "verdict": "no_drift",
   "settled": [
    "2026-10-23",
    "2026-10-26",
@@ -99,14 +95,12 @@
   "provisional": [
    "2026-11-06"
   ],
-  "drifted_bars": [
-   "2026-11-05"
-  ],
-  "max_abs": 1.1623000000238193e-06,
+  "drifted_bars": [],
+  "max_abs": 0.0,
   "checks": {
-   "drift_faces_are_provisional": false,
-   "no_settled_bar_drifted": false,
-   "worst_within_tol": false,
+   "drift_faces_are_provisional": true,
+   "no_settled_bar_drifted": true,
+   "worst_within_tol": true,
    "checked_bars": 11,
    "published_bars": 11
   },
@@ -114,7 +108,7 @@
   "panel_last_date": "2026-11-06"
  },
  "data_lag_audit": {
-  "as_of": "2026-11-07T10:33:52",
+  "as_of": "2026-11-07T13:00:53",
   "coverage_by_day": {
    "2026-10-26": 1.0,
    "2026-10-27": 1.0,
@@ -130,7 +124,7 @@
   "detail": "the maintained panel covers every official trading day it should by now",
   "ledger_last_bar": "2026-11-06"
  },
- "headline": "a SETTLED bar failed to re-derive: this is the case the gate exists for, inspect the panel for a genuine revision before rebasing",
+ "headline": "ledger re-derives clean",
  "recommended_rule": "A drift gate may only police SETTLED bars. The newest published bar is provisional until its panel date stops gaining symbols (coverage stable across consecutive runs); while it is provisional, a re-derivation mismatch is expected and must be reported, not frozen on -- and never bought with a history rewrite.",
  "caveats": [
   "Point-in-time coverage at pricing time is not recorded anywhere, so 'the panel was still filling' is inferred from the panel's current shape (post-close arrivals) plus the timestamp of the run that priced the bar, not observed directly.",

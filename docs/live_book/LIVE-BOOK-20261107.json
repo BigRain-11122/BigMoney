@@ -556,14 +556,29 @@
  },
  "family_coherence": {
   "artifact": "results/etf_book_phase_atlas_arms.json",
-  "verdict": "ONE_WORLD",
-  "detail": "all 11 faces priced a1a42aee64453839",
+  "verdict": "MIXED_WORLDS",
+  "detail": "11 faces priced 2 different panels (58302d9c, a1a42aee): per-cell deltas across worlds are world differences, not rule effects",
   "panels": [
+   "58302d9ca988c138",
    "a1a42aee64453839"
   ],
   "arms": 10,
-  "evidence_cutoff": "2026-10-30",
-  "priced_same_panel": true
+  "evidence_cutoff": "2026-11-06",
+  "priced_same_panel": false,
+  "comparable": [
+   "buffer_k02",
+   "buffer_k05",
+   "buffer_k10",
+   "buffer_k20",
+   "buffer_k40"
+  ],
+  "withheld": [
+   "buffer_k05_cost20",
+   "cost0",
+   "cost05",
+   "cost20",
+   "cost40"
+  ]
  },
  "priced_faces": {
   "faces": {
@@ -603,45 +618,45 @@
   "rows": [
    {
     "beta": 0.1,
-    "observed_pct": 6.98,
-    "flat_today_pct": 6.53,
+    "observed_pct": 6.99,
+    "flat_today_pct": 6.61,
     "zero_pct": 5.62,
-    "carry_pp": 1.36,
+    "carry_pp": 1.37,
     "cash_share": 0.782,
-    "pp_per_100bp": 0.505,
+    "pp_per_100bp": 0.479,
     "maxdd_pct": -2.77,
     "vol_pct": 3.71
    },
    {
     "beta": 0.2,
     "observed_pct": 12.46,
-    "flat_today_pct": 12.11,
+    "flat_today_pct": 12.17,
     "zero_pct": 11.42,
     "carry_pp": 1.04,
     "cash_share": 0.564,
-    "pp_per_100bp": 0.392,
+    "pp_per_100bp": 0.365,
     "maxdd_pct": -5.78,
     "vol_pct": 7.4
    },
    {
     "beta": 0.3,
-    "observed_pct": 18.05,
-    "flat_today_pct": 17.82,
+    "observed_pct": 18.06,
+    "flat_today_pct": 17.86,
     "zero_pct": 17.38,
-    "carry_pp": 0.67,
+    "carry_pp": 0.68,
     "cash_share": 0.346,
-    "pp_per_100bp": 0.258,
+    "pp_per_100bp": 0.252,
     "maxdd_pct": -8.72,
     "vol_pct": 11.09
    },
    {
     "beta": 0.5,
     "observed_pct": 26.02,
-    "flat_today_pct": 25.99,
+    "flat_today_pct": 26.0,
     "zero_pct": 25.97,
     "carry_pp": 0.05,
     "cash_share": 0.0189,
-    "pp_per_100bp": 0.034,
+    "pp_per_100bp": 0.025,
     "maxdd_pct": -14.39,
     "vol_pct": 16.37
    }
@@ -649,19 +664,19 @@
   "base": {
    "beta": 0.2,
    "observed_pct": 12.46,
-   "flat_today_pct": 12.11,
+   "flat_today_pct": 12.17,
    "zero_pct": 11.42,
    "carry_pp": 1.04,
    "cash_share": 0.564,
-   "pp_per_100bp": 0.392,
+   "pp_per_100bp": 0.365,
    "maxdd_pct": -5.78,
    "vol_pct": 7.4
   },
   "cash_rates": {
-   "observed_mean_pct": 1.9819,
-   "today_pct": 1.09,
-   "today_date": "2026-10-27",
-   "missing_bar_steps": 7,
+   "observed_mean_pct": 1.9786,
+   "today_pct": 1.185,
+   "today_date": "2026-11-06",
+   "missing_bar_steps": 0,
    "convention": "rate(prior bar) * calendar_gap / 365, identical in all arms"
   },
   "identity": {
@@ -3153,7 +3168,7 @@
    "turnover_arm": 0.9422,
    "turnover_declared": 0.9529
   },
-  "elapsed_sec": 48.1,
+  "elapsed_sec": 46.9,
   "evidence_cutoff": "2026-11-06",
   "gross_rows": [
    {
@@ -3530,7 +3545,7 @@
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-07T10:43:50+0800",
+  "ts": "2026-11-07T13:11:40+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -4235,9 +4250,9 @@
   "schedule": "wan2.5+5",
   "verdict": "FLOOR_BINDS_BELOW_203007_AND_MODEL_GENEROUS_ABOVE_649622",
   "small_capital": 10000.0,
-  "small_cagr": -0.0798,
+  "small_cagr": -0.0797,
   "small_ref_cagr": 0.0641,
-  "small_delta_pp": -14.39,
+  "small_delta_pp": -14.38,
   "small_fee_cny": 10420.0,
   "big_capital": 10000000.0,
   "big_delta_pp": 0.55,
@@ -4378,7 +4393,7 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 38.7,
+  "elapsed_sec": 36.7,
   "evidence_cutoff": "2026-11-06",
   "gap_stats": {
    "entry_bars": 83,
@@ -4737,7 +4752,7 @@
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-07T10:44:30+0800",
+  "ts": "2026-11-07T13:12:18+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
