@@ -19553,5 +19553,87 @@ except Exception as _e492x:
     _d492 = "leg could not run"
 check(_name492, not _bad492, "; ".join(_bad492)[:240] or _d492)
 
+# E493 -- who owns the bytes of the two faces E492 flagged as harness-written.
+# E492 published two names whose only visible harness writes with "no restore".  This leg
+# holds that both faces' copies are the producers' (shape and verdict re-derive, no harness
+# authors a payload), that the live doctor runs left both copies byte-identical, and that
+# the two static label disagreements are published rather than dropped.
+_name493 = ("E493 the copies behind E492's two single-write harnesses are the producers' and "
+            "the label's 'no restore' is a false negative in both directions (r1519 bm-b)")
+_bad493 = []
+try:
+    _m493 = __import__("importlib").import_module("e493_latest_copy_owner")
+    _f493 = json.load(open(os.path.join("results", "state_tilt",
+                                        "latestcopyowner_latest.json"), encoding="utf-8"))
+    _s493 = _f493.get("summary") or {}
+    _r493 = _f493.get("rows") or []
+    _bad493.extend(_m493.tally_problems(_f493))
+    if not _r493:
+        _bad493.append("the single-write-harness population is empty")
+    if _f493.get("verdict") != _m493.verdict_for(_r493, _s493):
+        _bad493.append("the verdict is not the one the rows imply")
+    if _f493.get("verdict") != _m493.V_PRODUCERS:
+        _bad493.append("the published verdict is not the producers' one")
+    if _s493.get("live_runs") != len(_r493):
+        _bad493.append("not every face was put through its harness")
+    if _s493.get("live_runs_that_left_the_face_byte_identical") != _s493.get("live_runs"):
+        _bad493.append("a doctor run changed a published copy")
+    if _s493.get("faces_repaired_by_this_build"):
+        _bad493.append("this build had to repair a face: a harness did leave a mutant")
+    if _s493.get("harnesses_that_author_a_payload_of_their_own"):
+        _bad493.append("a harness authors a payload of its own, so authorship is not settled")
+    if _s493.get("disk_matches_a_harness_mutant"):
+        _bad493.append("a published copy matches what a harness writes")
+    if not _s493.get("disk_shape_matches_a_fresh_producer_build"):
+        _bad493.append("no disk copy re-derives a producer's shape: nothing was proved")
+    if not _s493.get("disk_is_a_stale_vintage_of_its_own_producer"):
+        _bad493.append("no copy is reported as a stale vintage of its own producer")
+    _disc493 = _s493.get("static_label_disagreements") or []
+    if not _disc493:
+        _bad493.append("the label disagreements are empty: the card question was not answered")
+    _kinds493 = {d.get("kind") for d in _disc493}
+    if "label_claims_a_write_and_there_is_none" not in _kinds493:
+        _bad493.append("the harness that never writes is not published as a disagreement")
+    if "label_claims_no_restore_and_one_exists" not in _kinds493:
+        _bad493.append("the harness that restores in a finally is not published as a disagreement")
+    for _row493 in _r493:
+        _st493 = _row493.get("static") or {}
+        if _st493.get("persistence") not in _m493.PERSISTENCE_VOCAB:
+            _bad493.append("%s carries no persistence class" % _row493.get("latest_basename"))
+        if _st493.get("persistence") == _m493.P_WRITES_AND_LEAVES:
+            _bad493.append("%s leaves the copy behind" % _row493.get("latest_basename"))
+        _lv493 = _row493.get("live") or {}
+        if _lv493.get("sha16_before") != _lv493.get("sha16_after"):
+            _bad493.append("%s has two digests after the doctor run" % _row493.get("latest_basename"))
+    if _s493.get("source_face") == "results/state_tilt/latestcopyowner_latest.json":
+        _bad493.append("this study selected its own face as its population")
+    _w493 = json.loads(json.dumps(_f493))
+    _w493["rows"][0]["producer_arm"]["shape_matches_a_fresh_build"] = False
+    if not _m493.tally_problems(_w493):
+        _bad493.append("a row whose shape no longer matches survived the guard")
+    _w493b = json.loads(json.dumps(_f493))
+    _w493b["verdict"] = _m493.V_HARNESS
+    if not _m493.tally_problems(_w493b):
+        _bad493.append("a verdict that contradicts the rows survived the guard")
+    _w493c = json.loads(json.dumps(_f493))
+    _w493c["summary"]["harnesses_that_author_a_payload_of_their_own"] = 1
+    if not _m493.tally_problems(_w493c):
+        _bad493.append("an authorship count that does not re-derive survived the guard")
+    _d493 = ("%d faces | persistence %s | live identical %d/%d | producer-shaped %d | stale "
+             "vintages %d | fresh matches %d | harness payloads %d | label disagreements %d"
+             % (len(_r493),
+                _s493.get("harness_persistence_by_class") or {},
+                _s493.get("live_runs_that_left_the_face_byte_identical") or 0,
+                _s493.get("live_runs") or 0,
+                _s493.get("disk_shape_matches_a_fresh_producer_build") or 0,
+                _s493.get("disk_is_a_stale_vintage_of_its_own_producer") or 0,
+                _s493.get("disk_matches_a_fresh_producer_build") or 0,
+                _s493.get("harnesses_that_author_a_payload_of_their_own") or 0,
+                len(_disc493)))
+except Exception as _e493x:
+    _bad493.append(repr(_e493x)[:160])
+    _d493 = "leg could not run"
+check(_name493, not _bad493, "; ".join(_bad493)[:240] or _d493)
+
 if __name__ == "__main__":
     sys.exit(main())

@@ -1,0 +1,187 @@
+{
+ "card": "E493-FOR-THE-TWO-LATEST-NAMES-WHOSE-ONLY-VISIBLE-HARNESS-WRITES-ONCE-WITH-NO-RESTORE-IS-THE-COPY-ON-DISK-THE-PRODUCERS-OR-THE-HARNESSS",
+ "discipline_definition": "three arms: static mode/backup/restore/payload reading, a live doctor run with the original bytes held by this build, and a producer re-derivation compared with the disk copy after clock fields are removed -- freshness and authorship are published as two different readings",
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T12:00:18",
+ "method_limits": [
+  "the population is two faces: E492's label of 'writes once with no restore' is the only selector, so a harness E492 did not flag is not examined here",
+  "the live arm sees the face before and after the run, not during it; a harness that writes and restores in the same second is indistinguishable from one that never wrote",
+  "authorship is decided from what the harness's own source writes into the face; a harness that re-runs a producer inherits the producer's authorship, which this instrument reports rather than resolves",
+  "a disk payload that differs from a fresh build is reported as a stale vintage only when the key set and the verdict still agree -- any other difference stays unexplained",
+  "clock fields are removed by name, so a payload field that happens to be named like a clock field would be ignored"
+ ],
+ "population_source": "results/state_tilt/LATESTDOCTOR-2026-11-07.json",
+ "role_definition": {
+  "harness": "a run_eNNN_smoke_leg.py source that E492 labelled a doctor harness",
+  "producer": "the source E492 labelled a producer for the same name"
+ },
+ "rows": [
+  {
+   "e492_label": "writes_the_name_once_with_no_restore_in_the_same_source",
+   "exists_on_disk": true,
+   "harness": "scripts/run_e449_smoke_leg.py",
+   "latest_basename": "deadprereg_latest.json",
+   "live": {
+    "byte_identical_after_the_run": true,
+    "harness": "scripts/run_e449_smoke_leg.py",
+    "harness_claims_a_restore": "",
+    "repaired_by_this_build": false,
+    "returncode": 1,
+    "sha16_after": "d06524ae3c9e7add",
+    "sha16_before": "d06524ae3c9e7add",
+    "tail": "[FAIL] e449 dead prereg pointer (doctor) | gate said: the class tally does not re-derive from the rows; scripts/fund_divlowvol_p1.py:164 claims a reader and publishes none"
+   },
+   "producer": "scripts/e449_dead_document_pointer.py",
+   "producer_arm": {
+    "build_error": "",
+    "clock_fields_removed": [
+     "generated"
+    ],
+    "disk_is_a_stale_vintage_of_its_own_producer": true,
+    "disk_sha16": "d06524ae3c9e7add",
+    "payload_re_derives_from_the_disk_copy": false,
+    "producer": "scripts/e449_dead_document_pointer.py",
+    "shape_matches_a_fresh_build": true,
+    "verdict_matches_a_fresh_build": true
+   },
+   "published_path": "results/state_tilt/deadprereg_latest.json",
+   "static": {
+    "authors_a_payload_of_its_own": false,
+    "backup_names": [
+     "raw"
+    ],
+    "open_sites": [
+     {
+      "kind": "read",
+      "line": 34,
+      "mode": "rb"
+     },
+     {
+      "kind": "read",
+      "line": 70,
+      "mode": "rb"
+     }
+    ],
+    "payload_write_lines": [],
+    "persistence": "the_harness_opens_the_face_only_for_reading",
+    "read_sites": 2,
+    "restore_lines": [],
+    "restore_sits_in_a_finally": false,
+    "write_sites": 0
+   }
+  },
+  {
+   "e492_label": "writes_the_name_once_with_no_restore_in_the_same_source",
+   "exists_on_disk": true,
+   "harness": "scripts/run_e423_smoke_leg.py",
+   "latest_basename": "dirfield_latest.json",
+   "live": {
+    "byte_identical_after_the_run": true,
+    "harness": "scripts/run_e423_smoke_leg.py",
+    "harness_claims_a_restore": "True",
+    "repaired_by_this_build": false,
+    "returncode": 0,
+    "sha16_after": "a2e71b7b0e3e3db9",
+    "sha16_before": "a2e71b7b0e3e3db9",
+    "tail": "doctor: 1/46 red as intended | face restored byte-identical: True"
+   },
+   "producer": "scripts/e423_dirfield_join.py",
+   "producer_arm": {
+    "build_error": "",
+    "clock_fields_removed": [
+     "generated"
+    ],
+    "disk_is_a_stale_vintage_of_its_own_producer": true,
+    "disk_sha16": "a2e71b7b0e3e3db9",
+    "payload_re_derives_from_the_disk_copy": false,
+    "producer": "scripts/e423_dirfield_join.py",
+    "shape_matches_a_fresh_build": true,
+    "verdict_matches_a_fresh_build": true
+   },
+   "published_path": "results/state_tilt/dirfield_latest.json",
+   "static": {
+    "authors_a_payload_of_its_own": false,
+    "backup_names": [
+     "backup"
+    ],
+    "open_sites": [
+     {
+      "kind": "read",
+      "line": 55,
+      "mode": "rb"
+     },
+     {
+      "kind": "write",
+      "line": 74,
+      "mode": "wb"
+     },
+     {
+      "kind": "write",
+      "line": 74,
+      "mode": "wb"
+     },
+     {
+      "kind": "read",
+      "line": 75,
+      "mode": "rb"
+     }
+    ],
+    "payload_write_lines": [],
+    "persistence": "the_harness_writes_the_face_and_writes_the_backup_back",
+    "read_sites": 2,
+    "restore_lines": [
+     74
+    ],
+    "restore_sits_in_a_finally": true,
+    "write_sites": 2
+   }
+  }
+ ],
+ "study": "E493_latest_copy_owner",
+ "summary": {
+  "disk_is_a_stale_vintage_of_its_own_producer": 2,
+  "disk_matches_a_fresh_producer_build": 0,
+  "disk_matches_a_harness_mutant": 0,
+  "disk_shape_matches_a_fresh_producer_build": 2,
+  "faces_repaired_by_this_build": 0,
+  "faces_selected": 2,
+  "faces_unmeasured": 0,
+  "faces_whose_harness_never_writes": 1,
+  "faces_whose_harness_writes_and_leaves": 0,
+  "faces_whose_harness_writes_then_restores": 1,
+  "harness_persistence_by_class": {
+   "the_harness_opens_the_face_only_for_reading": 1,
+   "the_harness_writes_the_face_and_writes_the_backup_back": 1
+  },
+  "harnesses_that_author_a_payload_of_their_own": 0,
+  "live_runs": 2,
+  "live_runs_that_left_the_face_byte_identical": 2,
+  "producer_builds": 2,
+  "selection_key": "harness_single_write_composers",
+  "source_face": "results/state_tilt/LATESTDOCTOR-2026-11-07.json",
+  "static_label_disagreements": [
+   {
+    "face": "deadprereg_latest.json",
+    "kind": "label_claims_a_write_and_there_is_none",
+    "write_sites": 0
+   },
+   {
+    "face": "dirfield_latest.json",
+    "in_a_finally": true,
+    "kind": "label_claims_no_restore_and_one_exists",
+    "restore_lines": [
+     74
+    ]
+   }
+  ]
+ },
+ "title": "For the two latest names whose only visible harness writes once with no restore, is the copy on disk the producer's or the harness's?",
+ "verdict": "the_copy_on_disk_is_the_producers_in_every_case",
+ "verdict_vocab": [
+  "the_copy_on_disk_is_the_producers_in_every_case",
+  "at_least_one_published_copy_matches_what_a_harness_writes",
+  "the_disk_copy_matches_neither_a_fresh_producer_build_nor_a_harness_mutant",
+  "no_face_carries_a_single_write_harness",
+  "a_face_could_not_be_measured_in_this_environment"
+ ]
+}

@@ -12425,3 +12425,20 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 **验证**：`scripts/e492_multi_composer_doctor.py`（run rc0 / check problems=[] / verify 同树重建 problems=[] / **selftest 29/29**：角色三档 + 两次写=可还原 + 一次写=无还原 + 先读后写 + 活体臂 + 自排除 + 六个假件全红）；面 `results/state_tilt/LATESTDOCTOR-2026-11-07.json` + `latestdoctor_latest.json`（51 行）；S6 腿 `multi_composer_doctor` rc0 0.07s；smoke 腿 `E492 the extra composers of a multi-composed latest face are mostly doctor harnesses and none leaves a mutated face behind` 单跑 1/1 绿 + doctored 1/1 红（面 sha 归位）。
 
 **适用范围**：角色是**文件名规则**——换个名字的 harness 会被算成生产者；「两次写点」只说明源里存在还原通道，不说明那次运行跑完了；`parses_as_json=true` 只证明此刻可解析，不证明内容来自生产者；`_bak` 型残留文件只列名，不判来源（也可能是刻意的夹具）。
+
+## E493 -- E492 说两个面「只有一个可见 harness、写一次不还原」：盘上那份是生产者的（形状与判词都复现），两种 harness 都不可能夺走版权（r1519 bm-b）
+
+**问题**：E492 把 `deadprereg_latest.json`、`dirfield_latest.json` 印成「单写点 harness 且源里无还原」。那是一条**标签**，不是所有权结论——读者会把它读成「这两个面此刻可能是跑腿留下的残件」。而三种 harness 形态在那一个标签里长得一样：(a) 只读面、只改内存；(b) 写面再把原件写回；(c) 写面不管。本面只回答一件事：盘上那份字节是谁写的。
+
+**做法**：三臂。①**静态臂**：把 harness 源里对 `FACE` 的每个 open 按 mode 分读写，找「整档备份读」的变量名、以及「把该变量写回」的写点，并判断还原写是否落在 `finally` 块内；另判 harness 是否把自己的 payload 写进面（写点的 payload 是备份变量=还原，是 dumps/字面量=自造 payload）。②**活体臂**：先持有原字节，跑 harness 的 `--doctor`，再 sha 比对，采集它自己打印的还原声明与返回码；万一留下改件由本面写回并披露 `repaired_by_this_build`。③**生产者臂**：只调生产者纯函数 `build()`（不写、不改路径），去掉时钟字段后与盘上比对，**形状（键集）与判词**单独发布，不把「不是今天这版」读成「不是生产者写的」。
+
+**读数**（2026-11-07，2 面）：静态标签**两向都错**——`deadprereg` 的 harness **0 个写点**（标签仍说它写了一次）；`dirfield` 的 harness **有还原**（`run_e423_smoke_leg.py:74`，在 `finally` 里，先 `io.open(FACE,"rb").read()` 备份），"no restore" 是匹配器没认出 `open(FACE,'wb').write(backup)` 这种写回。活体 2/2 面 sha 前后**完全一致**（dirfield 自打 `face restored byte-identical: True` rc=0；deadprereg 的 doctor 1 例红 rc=1 但面不变），**本面修复 0 个面**。生产者臂 2/2 **形状与判词都复现**但字节都不同 → 两份都是**生产者自己的旧 vintage**（dirfield 人口 13,080→13,092 面，键集与判词不变），不是残件。**没有任何 harness 自造 payload**（authors=0）。判决 `the_copy_on_disk_is_the_producers_in_every_case`。
+
+**三条可复用**：
+1. **「写一次不还原」这类标签必须能双向证伪**：写点=0 却贴着「写一次」是标签在造事实；第二写的是备份变量却贴着「无还原」是匹配器缺一类写法。四字段（写点 / 备份变量 / 还原行 / 是否在 finally）一起发布，标签才可复核。
+2. **所有权与新鲜度是两个数**：把「字节不匹配新构建」直接读成「不是生产者写的」，会把一份陈年 vintage 判成残件。正法=形状+判词先行，字节差单列为 `stale_vintage`。
+3. **给被测模块重定向输出目录会打断它的读侧**（本窗首版实弹）：e449 的 `build()` 从同一个 `ST` 目录**读**兄弟面 `droppedpath_latest.json`，`ST` 指到 temp 后 build 直接 FileNotFoundError、面被印成「无法测量」——那是仪器的伤不是对象。正法=只调纯 `build()`，写盘留给生产者自己的入口。
+
+**验证**：`scripts/e493_latest_copy_owner.py`（run rc0 / check problems=[] / **selftest 27/27**：读-only / 备份名 / 还原行 / finally / 只还原不自造 payload / 自造 payload / 三档持久性 / canon 时钟剔除 / 五个所有权判决 / 旧 vintage 仍属生产者 / 异形 payload 判 untold / 六个篡改面全红）；产 `results/state_tilt/LATESTCOPYOWNER-2026-11-07.json` + `latestcopyowner_latest.json`（2 行）；S6 腿 `latest_copy_owner` rc0 0.06s（receipt `results/_r1519bmb_s6_chain.json`）；smoke 腿 `E493 ...` 单跑 1/1 绿 + doctored 1/1 红（面 sha 归位）。
+
+**适用范围**：只回答这两面这一时点的字节归属，不外推到 E492 其余 49 个面；活体臂只看运行前后，看不到同一秒内的写-还原；生产者臂要求 `build()` 是纯函数（本窗两个都是），带副作用的构建器需另立一臂。

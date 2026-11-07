@@ -1788,6 +1788,13 @@ LEGS = [
     # each source, and holds a live arm: does each published latest copy still parse as JSON?
     # `check` re-derives every tally, the extra roles and the verdict from the published rows.
     ("multi_composer_doctor", ["python", "scripts/e492_multi_composer_doctor.py", "check"]),
+    # E493 answers the question E492 left open: E492 published two names whose only visible
+    # harness "writes once with no restore", and a label is not an owner.  This face runs each
+    # harness in its doctor mode with the original bytes held here, re-derives each producer's
+    # payload and compares it with the disk copy after clock fields are removed, and publishes
+    # freshness (fresh match / stale vintage) separately from authorship (does a harness ever
+    # author a payload).  `check` re-derives every count and the verdict from the rows.
+    ("latest_copy_owner", ["python", "scripts/e493_latest_copy_owner.py", "check"]),
 ]
 
 
