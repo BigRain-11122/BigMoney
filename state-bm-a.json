@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "behind_origin": 3,
+ "behind_origin": 4,
  "cart_note_r1176": "card E290 (E289 was taken by bm-c r1375 on origin)",
  "cart_note_r1178": "three faces of one book now publish the digest of the repaired panel they measured on (9bb14c81f6e79bf7); a same-number/different-world pair is now visible instead of inferred",
  "cart_note_r1186": "E301 (bm-c took E300 at r1380 on origin; card ids live in the ledger so the reference moved with it)",
@@ -480,7 +480,7 @@
  "ram_load_pct": 51.1,
  "recent_artifact": "results/etf_book_bootstrap/BLOCKS-2026-10-30.json",
  "round": 1267,
- "round_no": 1268,
+ "round_no": 1269,
  "round_no_label": "r1267",
  "round_no_ts": "2026-11-07T15:54:11+08:00",
  "round_note_r1239": "the fee break-even is a closed form in the sample's median traded leg: 67737 (2020-2026) / 55929 (2015-2019) / 49849 (2015-2026) = 26.41% spread, now printed on the operator page with the window table (card E356)",
@@ -671,5 +671,6 @@
  "work_r1260": "the as-issued snapshot is a copy of a ticket that is re-priced every bar, so its numbers, its restated-number sentence and its coincidence sentence all move together; the gate now admits any sentence whose every quoted number comes from that block (a number-derived sentence, whose disappearance IS the re-issue), and rolls numbers in ONE pass so the fixture cannot fabricate a sentence neither side printed (chained replaces turned 10.88->10.85 into 10.85->10.82)",
  "work_r1263": "r1263: bm-b has been silent for 194h, so four of its data lanes are frozen. heat was taken over and back-filled to the 2026-11-06 session (100 rows, as_of carried in the envelope); zt_pool took over but is held by its own 30-minute throttle (next attempt 15:01) after an overlap refetch that matched on re-test; moneyflow has no takeover switch at all and fund_statements is missing 2026Q3 because the gate still thinks 20260630 is the newest statutory period.",
  "work_r1266": "data_lane_freshness: marks writer declared (was None -> the board told readers nothing could be reassigned on a lane update_intraday_marks has been able to take over since r1101); holes_by_cause carried from the collector to the row and to a new human section; selftest 25/25 (L26/L27); frozen list []",
- "work_r1267": "r1267: futures 与 lhb 两条车道原来既没有归属守卫也没有接管开关 —— 板面把 owner=bm-a 印成事实，代码里没有任何一处这么说；任何机器跑一下就能写封套，而 bm-a 一旦失联又没有一台机被允许顶班。两个半边（该锁的没锁 / 该开的没开）是同一个缺陷的两面，所以同轮补齐：LANE_OWNER 由 config/lane_io 单源读、非属主 stdout-only no-op、--takeover 需属主心跳静默 >=120min（策略从 update_etf_daily 单源 import，禁重写），authority{} 落进两个 authority 读者真正读的键。同轮自踩一处并当场修：属主自己跑也被打印成「stdout-only; takeover refused」，那是一句说与做相反的话（r1315 名字≠值族）——属主现在静默直行。"
+ "work_r1267": "r1267: futures 与 lhb 两条车道原来既没有归属守卫也没有接管开关 —— 板面把 owner=bm-a 印成事实，代码里没有任何一处这么说；任何机器跑一下就能写封套，而 bm-a 一旦失联又没有一台机被允许顶班。两个半边（该锁的没锁 / 该开的没开）是同一个缺陷的两面，所以同轮补齐：LANE_OWNER 由 config/lane_io 单源读、非属主 stdout-only no-op、--takeover 需属主心跳静默 >=120min（策略从 update_etf_daily 单源 import，禁重写），authority{} 落进两个 authority 读者真正读的键。同轮自踩一处并当场修：属主自己跑也被打印成「stdout-only; takeover refused」，那是一句说与做相反的话（r1315 名字≠值族）——属主现在静默直行。",
+ "cart_note_r1268": "E403: a commit that only exists on this machine is not a delivery -- git cherry separates twins from unique work, merge-tree computes the collision set, and 'verdict=STRANDED_CONFLICTS' is the machine saying its work is invisible"
 }

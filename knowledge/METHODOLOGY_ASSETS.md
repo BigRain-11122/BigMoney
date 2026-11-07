@@ -9643,3 +9643,29 @@ fixture 一旦这么写就成了“用不存在的数据把闸测红”。
 
 实锚：`scripts/data_lane_freshness.py` selftest **23→25/25**（新增 L26 未申报写者 / L27 成因分解）+ `results/data_lane_freshness.json`（marks 行 `takeover_capable true`、`holes_by_cause` 全等收集器）+ `docs/data_lanes/FRESHNESS.md` 新增「Lanes where a missed day cannot be recovered」与「Who was awake on the days that are missing」两节 + smoke 腿 `fleet: a lane that names its collector is not told nothing can be done`。
 
+
+### E402 板面把一个 owner 印成事实，不等于代码里有人守着它（r1267 bm-a）
+
+位置：`scripts/update_futures.py` / `scripts/update_lhb.py`（`LANE_OWNER` + `takeover_decision` 单源 import）+ `scripts/data_lane_freshness.py` 的 owner 行。
+
+实锚三点：
+- **板子说「是 bm-a 的」，代码里三个人都写得动**：`futures` 与 `lhb` 在车道板上是 `owner=bm-a` / `verdict=in_sync`，但两个写入器既无 R31 归属守卫、也无任何接管路径——任何机器跑一次就能改写共享封套，而 bm-a 一旦沉默，没有一台机被允许顶班，面板只会冻在最后一次读数上。
+- **两处 owner 必须单源**：代码内默认值必须与 `config.lane_io.lane_host` 同源读（缺键才回落），否则「板子说是谁的」与「代码认是谁的」各自为政，且漂移时两边都不报错。
+- **属主分支要静默直行**：属主自己跑 gate 时先打印 `this machine (bm-a) stdout-only; takeover refused`，随后照常写封套——名字与值相反（r1315 族），守卫分支必须先判「我是属主」再打印。
+
+**How to apply**：任何「板面写着 X 是这条车道的属主」的行，先去写者源码里找那个 owner 的守卫与接管开关；找不到＝板子在陈述愿望，不是在陈述守备。补法＝守卫 + 接管开关 + `authority{}` 三件齐（r1256/r1257 两个 authority 读者真正读的键）。
+
+实锚：`update_futures.py selftest 12/12`（S12 三态腿）· `update_lhb.py` 接管三态腿绿 · `data_lane_freshness.py` 的 `takeover_capable` False→True（`frozen_without_takeover` 归空）。
+
+### E403 落在本机的提交不是交付——分叉要分「孪生」与「独有」，碰撞要 git 自己算（r1268 bm-a）
+
+位置：`scripts/git_divergence_report.py`（`results/git_divergence_report.json`，selftest 6/6）。
+
+实锚三点：
+- **ahead/behind 不回答「这份活是不是只在这台机上」**：本机实测 `ahead=28 behind=4`，`git cherry origin/main HEAD` 判 28 条全为 `+`（无一条在上游有等价补丁）＝真独有工作；若全是 `-`，回到远端 tip 是零损失。两种状态在 `git status` 里长得一样。
+- **碰撞清单必须由 git 算，不能靠记忆或上一次 rebase 的报错**：`git merge-tree --write-tree --name-only origin/main HEAD` 给出现刻的碰撞面——本机 16 件里 **12 件是 `results/` 下的可再生工件**（订单/生产/账本/审计/状态面），正解是让生产腿在新基座上重生，而不是把这些面当代码重放一遍。
+- **merge-tree 输出混着提示行**：`Auto-merging …` / `CONFLICT (content): …` 与裸路径同流，第一版按「含 `/` 或 `.`」筛，把提示行本身算成路径（16 → 假 50），过滤必须显式按前缀剔除。
+
+**How to apply**：任何机器自称「已推送/已交付」之前跑一次；`verdict=STRANDED_CONFLICTS`（unique>0 且碰撞）＝「这台机的活只有它自己知道」，必须保全到 `machine/<id>-r<N>` 分支再谈整合；`TWINS_ONLY`＝可直接回远端 tip；`STRANDED_REPLAYABLE`＝当天可整合。
+
+实锚：`python scripts\git_divergence_report.py --selftest` → 6/6 PASS（in-sync / 孪生 / 冲突 / 净路径 / 台账计数五态各一腿）；实跑 `verdict=STRANDED_CONFLICTS ahead=28 behind=4 unique=28 twins=0 n_paths=16`。
