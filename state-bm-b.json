@@ -522,6 +522,7 @@
   "files": 114,
   "unacked": 0
  },
+ "orders_ack_scan": "114 order files / 115 acks / 0 unacked at the S7 re-scan; inbox empty",
  "orders_delta_pending": 0,
  "orders_note": "r1337 consumed the orders delta on the group face: OB-20261031-174059-609 (resume, bm-b = voice lane) and OB-20261031-182307-132 (executor unification). The executor order was EXECUTED on this machine: Tools/fleet/agent.py materialised from the origin blob (the stale worktree did not carry Tools/fleet at all), tick verified hb=0 lane=0 in <1s, FluxGroup-Agent-bm-b registered via Tools/task-register.ps1 (every:5m, S4U, hidden wscript->pythonw) with fire result=0, HQ-ProductionClaim disabled. Deviation disclosed in the receipt: the registered arg is '--node bm-b --no-pull' because an unattended 5-min pull --rebase from this 195-behind promisor worktree wedges (r1255 family).",
  "orders_sweep_r1420": {
@@ -5924,6 +5925,13 @@
   "side_finding": "e514._empty_container answers False for [] and {} on this interpreter (`ctx` is a child node), so trace's empty-container escape hatch never fires -- 3 initial-value arms reach upstream faces as literals",
   "ts": "2026-11-08T04:57:12"
  },
+ "r1552_delivery": {
+  "branch": "machine/bm-b-r1552",
+  "main_push_blocker": "local main is 592 ahead / 365 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243",
+  "sha": "fd0bfa3437db0c798f1f3cd81ab3eefd36507c4e",
+  "ts": "2026-11-08T07:08:00+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1552 == fd0bfa3437db0c798f1f3cd81ab3eefd36507c4e"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -6025,7 +6033,7 @@
  "three_line_artifact": "results/state_tilt/FORWARDEDARG-2026-11-08.json",
  "three_line_artifact_ts": "2026-11-08T07:04:00+08:00",
  "three_line_current": "r1552 E520 -- E519's two non-answers followed one hop: 7 locals that are a parameter of the caller resolve to 20 call sites of which 1 writes a value, 12 forward again, 6 take the default and 1 function is never called; the 5 'unbound' names are all tuple unpacking targets, so the true unbound count is 0",
- "three_line_delivery": "",
+ "three_line_delivery": "machine/bm-b-r1552 @ fd0bfa343 (git ls-remote equal); local main is 592 ahead / 365 behind origin/main (two blood lines on a promisor clone, no unattended rebase per r1243 -- the machine branch is the delivery channel per D-20261106-03)",
  "three_line_next": "burn E521 or E525 or the seeded E526 within 48h",
  "timestamp": "2026-11-08T07:04:00+08:00",
  "ts": "2026-11-08T07:04:00+08:00",
