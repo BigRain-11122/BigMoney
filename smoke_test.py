@@ -492,6 +492,12 @@ def main() -> int:
             # own verdict.
             ("product: lane silence audit (gaps between rounds, quiet windows subtracted)",
              "scripts/lane_silence_audit.py", ["selftest"]),
+            # r1399: the line charges 13.041bp per side and had never looked at a fill.
+            # This ruler prices the opening minute from the minute archive, and it
+            # refuses a session whose first bar is 13:53 -- a fabricated open print is
+            # worse than no reading.
+            ("product: open print ruler (first-minute drift, spread, and the size that fits)",
+             "scripts/open_print_ruler.py", ["selftest"]),
             # r1223: "the lane was re-enabled" and "the lane stayed on" are two
             # claims; only the second is a fix. This one measures the second, and
             # its own failure mode (an unreadable tick read as "still on") is what
