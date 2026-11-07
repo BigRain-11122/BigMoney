@@ -12694,3 +12694,19 @@ cause_verdict=`the_one_day_cases_split_between_structured_fields_and_free_text`�
 **边界**：②臂按源文本分类而不是跑一遍；diff 是结构化的（点号路径），所以**元素相同但顺序不同会读成变化**，且 diff 截断在 40 行；③臂只能测零参 `corpus()`，需要参数的语料如实记不可测；全树 BOM 比正典多 206 个，逐研究语料看得比正典宽，两个人口都发布。
 
 **验证**：`scripts/e502_bom_census.py`（`run` rc0 / `check` problems=[] / `verify` 重建恒等 / **selftest 24/24**）；产物 `results/state_tilt/BOMCENSUS-2026-11-07.json` + `bomcensus_latest.json`（逐行带 reader_class / exposure / replay / 变化键 / 还原动作；`population_source` 三块与 `replay_budget` 含被取代的 240s 读数）；S6 腿 `bom_census`；smoke 腿 `E502 ...` + `scripts/run_e502_smoke_leg.py`。
+
+## E503 -- 链条自己的证人：205 个只读步骤里有 852 个关系证的是一张谁都不刷新的面（409 面 / 71,751,994 B）（r1532 bm-b）
+
+**问题**：E501（r1528）发布了 8 张「有生产者写、没消费者读」的面，它们全部只被只读的链条步骤持有。那是对**被钉住的人口**的一句话；本研把它问到**链条本身**上：对每个只读步骤，它读的是哪张面、那张面的 payload 自己声明了什么日期、以及同一链条里有没有任何写模式步骤点过这个名字。
+
+**方法**：`Tools/s6_chain_bmb.py` 的 LEGS 表**静态折叠**（常量 / 列表 / `os.path.join`，不 import 链条模块，所以什么都不跑）。四臂：①**模式**——按该 leg 自己的 argv 判，`verify`/`check`/`selftest`/`status`/`doctor`/`scan` 是只读，`run`/`probe`/`apply`/… 或无子命令是写；②**面**——把 leg 的脚本同样折叠出它点名的面（模板 `%s`/`{…}`/`<cutoff>`/`*` 按一棵索引解析，并原样发布模板文本）；③**年龄**——从 payload 自己的 `generated`/`evidence_cutoff`/`as_of`/`date`/`ts` 读，**绝不用 mtime**（E453 地板 21 天随行发布）；④**写者可达**——只看同一张表里的写模式 leg 是否点名同一个 relpath。
+
+**读数**（2026-11-07）：264 个 leg = **205 只读 / 59 写 / 1 自排除**（本研自己的 `chain_stale` leg 不测自己）。2932 个 (leg, face) 关系：**1254 bounded**（同一链条里有写 leg 点同名）、**852 widening**（链条里没有任何写 leg 碰它、年龄>0）、**101 当天新鲜但无人写**、**725 张面 payload 里根本没有可解析日期**（年龄不可定价）、命名面缺席 0、模板匹配 0。Widening 人口 = **409 个不同面 / 71,751,994 B**，年龄最大 **46 天**、中位 **7 天**；见证字段 `generated` 236 / `evidence_cutoff` 143 / `date` 19 / `ts` 11。另有 2 个只读 leg（`guard_reach_claw`、`machine_health`）**一张面都点不出来**，如实记 `certifies_nothing`，不当零风险折叠。判决由闸从 rows 重算：`read_only_steps_certify_faces_that_no_writing_mode_leg_in_the_chain_reaches_and_those_gaps_widen_every_round`。
+
+**本轮自捕两个度量 bug**：①**字节数按关系边求和，不是按文件**——首版发布 194,476,736 B，因为被三个 clean 步骤读的同一张面被数了三遍；按文件去重是 71,751,994 B（差 2.7 倍，而两个数在同一张面里都不标口径）。②**每个 leg 一次递归 glob 跑不完**——首版用 `results/**/<name>` 解析（几百个 leg × 每次全树 walk），后台跑了几分钟被叫停；**一棵索引建一次**是同一件事的另一种做法。小坑两枚：同一张面常在同一脚本里被点名两次（折叠后的 `os.path.join` **和**组成它的模板常量），关系数会翻倍（按 (leg, face) 去重）；`*` 起初没被当成模板标记，于是 glob 型 leg 价格为零张面却看起来很干净。
+
+**可复用四条**：1. **只读步骤不是校验器，是会叫的读者**——同一张表里没有写 leg 点它时，它的年龄**按构造每轮涨一天**，而链条照样为一份几周前就停住的证据打绿行；2. **「没有写模式 leg 点过它」≠「没有写者」**——写者可能是手跑、池卡、另一台机；409 面 / 68 MB 是链条可归因陈旧度的**上界**，必须按上界发布；3. **年龄只从 payload 读**（E453 地板 21 天），725 个关系证的是一张**根本没有可解析日期**的面——这个桶比已定价臂更大，它是 E506 的人口；4. **同一个 tally 有两个说得通的分母时必须点名分母**——按边 vs 按文件的字节差一个扇入倍数，只有一个是「有多少证据」。
+
+**边界**：人口是链条 LEGS 表，不是全仓脚本；写者可达只在本链条内判；面只有在 leg 脚本点名且盘上存在时才计入；日期只认 payload 字段，只有散文日期的面记「无可解析日期」而不是陈旧；模板匹配不到记缺席不记陈旧。
+
+**验证**：`scripts/e503_chain_stale.py`（`run` rc0 / `check` problems=[] / `verify` 重建恒等 / **selftest 23/23**）；产物 `results/state_tilt/CHAINSTALE-2026-11-07.json` + `chainstale_latest.json`；S6 腿 `chain_stale` rc0 0.06s（receipt `results/_r1532bmb_s6_chain.json`）；smoke 腿 `E503 ...` 原文单跑 1/1 绿、doctored 1/1 红（sha 还原 a1929505ae97）；digest `research/digests/DIGEST-20261107-r1532-e503-chain-stale.md`。

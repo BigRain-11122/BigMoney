@@ -1865,6 +1865,14 @@ LEGS = [
     # read by no consumer at all.  A leading-BOM source is disclosed rather than silently counted
     # as naming nothing.  `check` re-derives every tally and the verdict from the rows.
     ("doctor_pub", ["python", "scripts/e495_doctorpub.py", "check"]),
+
+    # E503 prices the chain's own certifiers: every read-only step in this table is matched to the
+    # faces its script names, each face's published date is read from the payload (never st_mtime),
+    # and the face is called writer-free only when no writing-mode leg in this same table names it.
+    # A read-only step whose face nothing here writes widens one day per round by construction.
+    # `check` re-derives the class table, the widening byte tally and the verdict from the rows.
+    # This leg is excluded from its own population (the scanner must not measure itself).
+    ("chain_stale", ["python", "scripts/e503_chain_stale.py", "check"]),
 ]
 
 

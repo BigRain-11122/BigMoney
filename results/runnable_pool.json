@@ -28863,9 +28863,18 @@
    "priority": "normal",
    "question": "For each chain step that runs a script in a read-only mode, read the cutoff the face publishes (generated/evidence_cutoff) and the chain step's own claim; classify by age gap and by whether the gap grows with every round (a frozen face re-validated forever) or stays bounded. Publish the per-leg age gap, the writer-free count, and the bytes certified as stale.",
    "source": "E501 (r1528 bm-b) published 0 live / 8 chain-pinned unread faces over 2,781,043 B; a read-only step pins a face without refreshing it, so the chain can keep certifying evidence that no longer moves",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/chainstale_latest.json",
-   "title": "E501 found 8 faces that nothing rewrites and only a read-only chain step requires (2,781,043 B). For every verify/check step in Tools/s6_chain_bmb.py, compare the cutoff the step validates against the cutoff the face declares: which chain legs are certifying evidence older than the study that produced them, and by how many days?"
+   "title": "E501 found 8 faces that nothing rewrites and only a read-only chain step requires (2,781,043 B). For every verify/check step in Tools/s6_chain_bmb.py, compare the cutoff the step validates against the cutoff the face declares: which chain legs are certifying evidence older than the study that produced them, and by how many days?",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-07T19:17:49+08:00",
+   "done_by": "bm-b",
+   "done_round": 1532,
+   "done_at": "2026-11-07T19:17:49+08:00",
+   "result_ref": "results/state_tilt/CHAINSTALE-2026-11-07.json",
+   "script": "scripts/e503_chain_stale.py",
+   "selftest": "23/23",
+   "result_note": "264 legs / 205 read-only / 59 writing; 2932 (leg,face) relations: 1254 read a face a writing leg in the same chain also names, 852 certify 409 faces over 71,751,994 B that no writing-mode leg reaches (age max 46d, median 7d), 725 certify faces that publish no parseable date, 101 are dated today, 2 legs name no face at all. Verdict by gate: the chain keeps certifying evidence nothing in it refreshes."
   },
   {
    "deliverable": "results/state_tilt/NAMECOMPOSE-<cutoff>.json",
@@ -28893,6 +28902,20 @@
    "source": "E502 (r1531 bm-b): 183 of 201 studies with build() are published as unmeasured because they expose no zero-argument corpus(); that bucket is larger than every priced arm combined and nobody has asked whether it is a property of the studies or of the convention the instrument looks for",
    "entered_at": "2026-11-07T18:25:20+08:00",
    "entered_by": "bm-b r1531 (supply floor refill after E502)"
+  },
+  {
+   "id": "E506-WHAT-DO-THE-725-CERTIFICATIONS-WITH-NO-PARSEABLE-DATE-ACTUALLY-READ",
+   "title": "E503 priced 2932 (read-only leg, face) relations and 725 of them certify a face whose payload publishes no parseable date, so its age cannot be computed at all. Read those 725 relations: for each distinct face, what does it publish as its freshness witness -- a prose field that carries a date out of format position, a bare mtime, or nothing -- and does the chain step that reads it rely on the date or only on the file existing? Publish the witness class per face, the bytes certified with no witness at all, and whether any of those faces is also writer-free (which would make it both stale-unmeasurable and unrefreshed).",
+   "deliverable": "results/state_tilt/NODATEWITNESS-<cutoff>.json",
+   "target": "results/state_tilt/nodatewitness_latest.json",
+   "evidence_cutoff": "2026-11-07",
+   "lane": "cpu-only",
+   "lane_note": "static: payload field census + chain leg table, no network, no rewrites",
+   "priority": "normal",
+   "status": "ready",
+   "entered_at": "2026-11-07T19:17:49+08:00",
+   "entered_by": "bm-b r1532 (supply floor refill after E503)",
+   "source": "E503 (r1532 bm-b): 725 of 2932 read-only certifications point at a face with no parseable date"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28907,6 +28930,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T15:57:13+0800",
+ "updated_at": "2026-11-07T19:17:49+08:00",
  "version": 1
 }

@@ -20394,5 +20394,82 @@ except Exception as _e495x:
     _d495 = "leg could not run"
 check(_name495, not _bad495, "; ".join(_bad495)[:240] or _d495)
 
+# E503 (r1532 bm-b): E501 published eight faces that only a read-only chain step holds.  This leg
+# holds that the chain's own certifiers are priced: every read-only leg in LEGS carries relations,
+# no writing-mode leg is published as a certifier, each relation's class re-derives from its own
+# writer reach and age, the widening byte tally is the sum of the widening rows, and the verdict is
+# the one the rows imply -- plus four doctored copies (a moved class count, a hand-written verdict,
+# a widening row given a writer, and a writing-mode leg published as a row).
+_name503 = ("E503 the chain's read-only steps re-derive their face classes, byte tally and verdict "
+            "from the published rows (r1532 bm-b)")
+_bad503 = []
+try:
+    _m503 = __import__("importlib").import_module("e503_chain_stale")
+    _f503 = json.load(open(os.path.join("results", "state_tilt", "chainstale_latest.json"),
+                           encoding="utf-8"))
+    _s503 = _f503.get("summary") or {}
+    _r503 = _f503.get("rows") or []
+    _l503 = _f503.get("legs") or []
+    _bad503.extend(_m503.row_problems(_f503))
+    if not _r503:
+        _bad503.append("the study population is empty")
+    if _s503.get("legs_read_only") != len(_r503):
+        _bad503.append("the published read-only leg count is not the row count")
+    if any(row.get("mode") != "read_only" for row in _r503):
+        _bad503.append("a writing-mode leg was published as a certifier")
+    if _s503.get("legs_read_only") + _s503.get("legs_writing") != _s503.get("legs"):
+        _bad503.append("the leg modes do not add up to the leg total")
+    _widen503 = [rel for row in _r503 for rel in (row.get("relations") or [])
+                 if rel.get("class") == _m503.C_WIDENS]
+    _widenbytes503 = {}
+    for _rel503 in _widen503:
+        _widenbytes503[_rel503.get("face")] = _rel503.get("bytes") or 0
+    if sum(_widenbytes503.values()) != (_s503.get("bytes_certified_while_widening") or 0):
+        _bad503.append("the widening byte tally is not the distinct-file sum")
+    if len(_widenbytes503) != (_s503.get("faces_certified_while_widening") or 0):
+        _bad503.append("the widening face count is not the distinct faces")
+    if _f503.get("verdict") != _m503._verdict(
+            _m503.summary_of(_l503, _r503, {
+                "evidence_cutoff": _s503.get("evidence_cutoff"),
+                "mtime_floor_days": _s503.get("mtime_floor_days"),
+                "excluded_legs": _f503.get("excluded_legs") or []})):
+        _bad503.append("the verdict is not the one the rows imply")
+    _w503 = json.loads(json.dumps(_f503))
+    _k503 = next(iter(_w503["summary"]["relations_by_class"]), None)
+    _w503["summary"]["relations_by_class"][_k503] = (
+        (_w503["summary"]["relations_by_class"].get(_k503) or 0) + 1)
+    if not _m503.row_problems(_w503):
+        _bad503.append("a doctored class count survived the guard")
+    _w503b = json.loads(json.dumps(_f503))
+    _w503b["verdict"] = _m503.V_BOUNDED
+    if not _m503.row_problems(_w503b):
+        _bad503.append("a hand-written verdict survived the guard")
+    _w503c = json.loads(json.dumps(_f503))
+    _hit503 = next((rel for row in _w503c["rows"] for rel in (row.get("relations") or [])
+                    if rel.get("class") == _m503.C_WIDENS), None)
+    if _hit503 is None:
+        _bad503.append("the live face carries no widening relation to doctor")
+    else:
+        _hit503["writer_legs"] = ["a_leg_that_writes"]
+        if not _m503.row_problems(_w503c):
+            _bad503.append("a widening face given a writer survived the guard")
+    _w503d = json.loads(json.dumps(_f503))
+    _w503d["rows"].append({"leg": "a_writing_leg", "mode": "writing",
+                           "relations": [{"face": "x", "class": _m503.C_BOUNDED}]})
+    if not _m503.row_problems(_w503d):
+        _bad503.append("a writing-mode leg row survived the guard")
+    _d503 = ("legs %r (%r read-only / %r writing, %r unparsed) | relations %r %r | widening "
+             "%r faces / %r B | age max %r median %r | mtime floor %r | verdict %r" % (
+                 _s503.get("legs"), _s503.get("legs_read_only"), _s503.get("legs_writing"),
+                 _s503.get("legs_unparsed_source"), _s503.get("relations"),
+                 _s503.get("relations_by_class"), _s503.get("faces_certified_while_widening"),
+                 _s503.get("bytes_certified_while_widening"), _s503.get("age_days_max"),
+                 _s503.get("age_days_median"), _s503.get("mtime_floor_days"),
+                 _f503.get("verdict")))
+except Exception as _e503x:
+    _bad503.append(repr(_e503x)[:160])
+    _d503 = "leg could not run"
+check(_name503, not _bad503, "; ".join(_bad503)[:240] or _d503)
+
 if __name__ == "__main__":
     sys.exit(main())
