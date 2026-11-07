@@ -1796,12 +1796,23 @@ def main() -> int:
             _a = _env[1]["authority"]
             _need = ("lane_owner", "writer_machine", "data_face_machine",
                      "declared_takeover", "took_over_by", "reason")
+            _lh_heat = next((r.get("lane_host") for r in _rws
+                             if r["lane"] == "heat"), None)
             _auth_ok = (all(k in _a for k in _need)
                         and bool(_a.get("data_face_machine"))
                         and (_a.get("data_face_machine") == _env[1].get("machine"))
-                        and (_a.get("lane_owner")
-                             == next((r.get("lane_host") for r in _rws
-                                      if r["lane"] == "heat"), None)))
+                        and (_a.get("lane_owner") == _lh_heat
+                             # r1414: the envelope records the owner AT WRITE TIME.
+                             # A later lane_hosts reassignment that hands the lane to
+                             # the very machine that declared the takeover is the
+                             # same fact being ratified, not a contradiction. Judging
+                             # it by today's config alone makes every reassignment red
+                             # until a new envelope lands -- and the writer cannot
+                             # land one while this leg is red (live 2026-11-08: bm-a
+                             # took heat over on 11-07, r1270 then gave it the lane).
+                             or (_a.get("declared_takeover") is True
+                                 and _a.get("took_over_by") == _lh_heat
+                                 and _a.get("data_face_machine") == _lh_heat)))
             _auth_why = f"{_env[0]}: {_a}"
         _tk_ok = all(
             (r.get("authority") != "non_host_envelope"
@@ -2244,9 +2255,31 @@ def main() -> int:
             _heat_matches = bool(_disk.get("sentence"))
             _zt_ok = bool(_disk.get("offhost_lanes") or _disk.get("groups"))
         else:
-            _heat_matches = (_heat_row.get("tail") == _heat_tail) if _heat_tail else (
+            # r1414: two honest shapes when this machine holds no heat bytes
+            # (data/heat is gitignored, so only the collector ever has them).
+            # Either the row refuses to certify (unverifiable + a tail_source
+            # naming the copy), or the lane's OWN host publishes the envelope
+            # and the row says so in machine-readable form. Demanding local
+            # bytes in both cases asserts a deployment layout: this leg went
+            # red for a whole round after lane_hosts put heat back on bm-a
+            # (bm-a writes results/heat_update_status.json), which is exactly
+            # the r1135 family -- the board was correct and the leg was not.
+            _heat_uncertified = (
                 _heat_row.get("verdict") in ("unverifiable", "absent", "retired")
                 and bool(_heat_row.get("tail_source")))
+            _heat_host_vouched = (
+                _heat_row.get("verdict") not in ("unverifiable", "absent",
+                                                 "retired", "stalled",
+                                                 "unreadable")
+                and _heat_row.get("authority") in ("host_envelope",
+                                                   "host_copy",
+                                                   "declared_takeover")
+                and bool(_heat_row.get("auditable"))
+                and bool(_heat_row.get("data_face_machine"))
+                and _heat_row.get("data_face_machine") == _heat_row.get("lane_host")
+                and _heat_row.get("reported_by") == _heat_row.get("lane_host"))
+            _heat_matches = (_heat_row.get("tail") == _heat_tail) if _heat_tail else (
+                _heat_uncertified or _heat_host_vouched)
             _zt_ok = _rows["zt_pool"]["tail"] == _zt_tail
         _ok_lf = (_heat_matches
                   and _zt_ok
@@ -7840,6 +7873,8 @@ def main() -> int:
         check("product: a rewritten mark keeps the value it replaced", False, repr(e)[:180])
     _leg_width_growth()
     _leg_size_decomp()
+    _leg_size_age_control()
+    _leg_smallcap_book()
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
 _SMOKE_GC = None
@@ -8018,6 +8053,220 @@ def _leg_size_decomp():
               or "size-linked tape lifts EW over CW and small over large; flat tape does not")
     except Exception as e:
         check("product: the equal-weight premium is priced against cap weights",
+              False, repr(e)[:180])
+
+
+def _leg_smallcap_book():
+    """(r1414) a size premium you cannot size is not money: width and capacity must move together.
+
+    Three mechanical facts on synthetic tapes: the bottom-N sort really takes the
+    smallest caps and never promotes a NaN, a wider book carries strictly more money
+    (capacity is a sum of turnover, so it cannot be width-blind), and the frozen
+    four-gate verdict must be able to reach each of its three answers. The last one
+    matters most: a verdict function that can only say REFUSE would read as safety
+    while hiding the fact that nothing is being tested.
+    """
+    try:
+        import importlib as _il82
+        import numpy as _np82
+        if "scripts" not in sys.path:
+            sys.path.insert(0, "scripts")
+        _F82 = _il82.import_module("astock_smallcap_book")
+        _bad82 = []
+        _p82 = _F82._synth(size_link=0.0)
+        _cap82 = _F82.caps_at(_p82, 50, _np82.arange(60))
+        _cap82[3] = float("nan")
+        _idx82, _sub82 = _F82.cap_sorted(_np82.arange(60), _cap82)
+        if _idx82.size != 59:
+            _bad82.append("a NaN cap survived the sort (n=%r)" % (_idx82.size,))
+        if _idx82.size > 1 and not (_sub82[0] <= _sub82[-1]):
+            _bad82.append("cap_sorted is not ascending")
+        _rows82 = _F82.cohort_rows(_F82._synth(size_link=0.4))
+        _c20, _c500 = _F82.capacity_median(_rows82, 20), _F82.capacity_median(_rows82, 500)
+        if not (_c20 and _c500 and _c500 > _c20):
+            _bad82.append("capacity did not grow with width (%r vs %r)" % (_c20, _c500))
+        if not (_F82.net_chain(_rows82, "n20")["cagr"]
+                > _F82.net_chain(_rows82, "n500")["cagr"]):
+            _bad82.append("small-linked tape did not lift n20 above n500")
+        def _ph(flag):
+            s = {f"n{w}": {"all_positive": flag, "min": 1.0 if flag else -1.0,
+                           "max": 2.0, "spread": 5.0} for w in _F82.WIDTHS}
+            s["sml_all"] = s["n20"]
+            return {"summary": s}
+        def _ch(c):
+            d = {f"n{w}": {"cagr": c, "maxdd": -0.1, "cohorts": 5} for w in _F82.WIDTHS}
+            d["sml_all"] = d["n20"]
+            return d
+        _v_ref = _F82.verdict_block(_ch(-0.1), _ch(-0.3), {f"n{w}": 1e6 for w in _F82.WIDTHS},
+                                    _ph(False))["verdict"]
+        _v_cap = _F82.verdict_block(_ch(0.15), _ch(0.10), {f"n{w}": 1e6 for w in _F82.WIDTHS},
+                                    _ph(True))["verdict"]
+        _v_ok = _F82.verdict_block(_ch(0.15), _ch(0.10), {f"n{w}": 5e7 for w in _F82.WIDTHS},
+                                   _ph(True))
+        if _v_ref != "REFUSE_AS_CANDIDATE":
+            _bad82.append("a negative book read %r" % (_v_ref,))
+        if _v_cap != "CAPACITY_LIMITED":
+            _bad82.append("a rich book with no capacity read %r" % (_v_cap,))
+        if _v_ok["verdict"] != "ADOPT_AS_CANDIDATE" or _v_ok["candidate_width"] != 20:
+            _bad82.append("a passing book read %r at width %r"
+                          % (_v_ok["verdict"], _v_ok["candidate_width"]))
+        # the two frozen rules must be allowed to disagree; a book whose floor is
+        # high but whose phases are scattered has to show up in the conflict block
+        if "n20" not in _v_ok["conflict_with_r1411_rule"][
+                "widths_that_pass_this_gate_would_fail_that_one"]:
+            _bad82.append("a 4.03pp+ phase spread was not disclosed as a rule conflict")
+        check("product: a size premium that cannot be sized is not money",
+              not _bad82, "; ".join(_bad82)[:200]
+              or "width takes the smallest caps, capacity grows with width, all three gates reachable")
+    except Exception as e:
+        check("product: a size premium that cannot be sized is not money",
+              False, repr(e)[:180])
+
+
+def _leg_size_age_control():
+    """(r1413) "small" and "young" are two names for the same cohort unless tested.
+
+    The discriminator is the pre-panel tier: names already listed when the panel starts
+    cannot be new listings. A tape where only the late listers carry drift must show the
+    confound in the pooled spread and have it collapse inside that tier; a tape where the
+    return follows the cap must keep the spread in the tier. Both directions are pinned,
+    because a leg that only fires one way would pass on a broken splitter.
+    """
+    try:
+        import importlib as _il81
+        import numpy as _np81
+        if "scripts" not in sys.path:
+            sys.path.insert(0, "scripts")
+        _F81 = _il81.import_module("astock_size_age_control")
+        _bad81 = []
+        _p81 = _F81._synth(young_from=0, young_until=30, young_starts=100)
+        _f81 = _F81.first_bar(_p81)
+        if _f81[0] != 100 or _f81[60] != 0:
+            _bad81.append("first_bar read late=%r early=%r (expected 100 and 0)"
+                          % (_f81[0], _f81[60]))
+        _p81["close"][:, 70] = _np81.nan
+        if _F81.first_bar(_p81)[70] != -1:
+            _bad81.append("a never-priced symbol did not read first_bar -1")
+        _flat81 = _F81.tercile_pair(_np81.arange(1, 61, dtype=_np81.float64) * 1e8,
+                                    _np81.zeros(60))
+        for _s81 in ("sml", "lrg"):
+            if abs(_flat81[_s81] + 2.0 * _F81.COST) > 1e-12:
+                _bad81.append("a flat tape read %s=%r instead of -2*cost"
+                              % (_s81, _flat81[_s81]))
+        _tiny81 = _F81.tercile_pair(_np81.array([1e8, 2e8, 3e8]),
+                                    _np81.array([0.01, 0.02, 0.03]))
+        if _np81.isfinite(_tiny81["sml"]) or _np81.isfinite(_tiny81["lrg"]):
+            _bad81.append("a three-name subset produced a tercile reading")
+        # size-only tape: every name is pre-panel, the spread must survive there
+        _p82 = _F81._synth(size_link=0.004)
+        _ch82 = _F81.chain_arms(_F81.cohort_rows(_p82, _F81.first_bar(_p82)))
+        _sp82 = _ch82["prepanel_sml"]["cagr"] - _ch82["prepanel_lrg"]["cagr"]
+        if not (_sp82 > 0):
+            _bad81.append("a size-only tape lost the pre-panel spread (%r)" % _sp82)
+        # age-only tape: the confound must appear pooled and vanish pre-panel
+        _p83 = _F81._synth(size_link=0.0, age_link=0.0025, young_from=0,
+                           young_until=40, young_starts=200)
+        _ch83 = _F81.chain_arms(_F81.cohort_rows(_p83, _F81.first_bar(_p83)))
+        _ph83 = _F81.phase_readings(_p83, _F81.first_bar(_p83))
+        _vb83 = _F81.verdict_block(_ch83, _ph83)
+        if _vb83["verdict"] != "AGE_IS_THE_PREMIUM":
+            _bad81.append("an age-only tape read %r (pooled %r / pre-panel %r)"
+                          % (_vb83["verdict"], _vb83["pooled_spread_pp"],
+                             _vb83["prepanel_spread_pp"]))
+        if not (_vb83["pooled_spread_pp"] and _vb83["pooled_spread_pp"] > 0):
+            _bad81.append("the age-only tape never showed up in the pooled spread")
+        if not (_vb83["prepanel_spread_pp"] is not None
+                and _vb83["pooled_spread_pp"] is not None
+                and _vb83["prepanel_spread_pp"] <= 0.25 * _vb83["pooled_spread_pp"]):
+            _bad81.append("the pre-panel spread did not collapse on an age-only tape")
+        # an unreadable tier is skipped, never chained as a zero return
+        _rows84 = [{"date": "d0", "n_members": 2, "pooled_sml": 0.01,
+                    "pooled_lrg": 0.01,
+                    "tiers": {t: {"n": 0, "sml": float("nan"), "lrg": float("nan")}
+                              for t in _F81.TIERS}}]
+        if _F81.chain_arms(_rows84)["prepanel_sml"]["cohorts"] != 0:
+            _bad81.append("a NaN tier reading entered the chain")
+        check("product: the size ladder is separated from the listing cohort",
+              not _bad81, "; ".join(_bad81)[:200]
+              or "late listers move the pooled spread and none of the pre-panel one")
+    except Exception as e:
+        check("product: the size ladder is separated from the listing cohort",
+              False, repr(e)[:180])
+
+
+# ---------------------------------------------------------------- r1414 product legs
+    try:
+        import update_lhb_inst as _LI
+        import pandas as _pd
+        _badli = []
+        _raw = _pd.DataFrame({
+            "代码": ["600000", "600000", "000001", "900001"],
+            "名称": ["A", "A", "B", "C"],
+            "收盘价": [1, 1, 2, 3], "涨跌幅": [1, 1, 2, 3],
+            "买方机构数": [1, 1, 2, 3], "卖方机构数": [0, 0, 1, 1],
+            "机构买入总额": [1.0, 1.0, 2.0, 3.0],
+            "机构卖出总额": [0.0, 0.0, 1.0, 1.0],
+            "机构买入净额": [1.0, 1.0, 1.0, 2.0],
+            "市场总成交额": [10, 10, 20, 30],
+            "机构净买额占总成交额比": [10.0, 10.0, 5.0, 6.7],
+            "上榜原因": ["r1", "r1", "r2", "r3"],
+            "上榜日期": ["2020-01-02"] * 4,
+        })
+        _pg, _dr = _LI.normalise(_raw)
+        if _dr != 1:
+            _badli.append("a non-A-share code survived the panel")
+        if len(_pg) != 2:
+            _badli.append("the (code, day, reason) key did not collapse duplicates")
+        if "上榜原因" not in _pg.columns:
+            _badli.append("the reason column was thrown away")
+        _m = _LI.merge(None, _pg)
+        if len(_LI.merge(_m, _pg)) != len(_m):
+            _badli.append("re-merging the same page grew the panel")
+        if _LI.overlap_check(_m, _pg, "20200102", "20200102")["mismatch"] != 0:
+            _badli.append("an identical overlap was read as a history edit")
+        _ed = _pg.copy()
+        _ed.loc[0, "机构买入净额"] = float(_ed.loc[0, "机构买入净额"]) + 1e7
+        if _LI.overlap_check(_m, _ed, "20200102", "20200102")["mismatch"] != 1:
+            _badli.append("a vendor history edit went unnoticed")
+        try:
+            _LI.normalise(_raw.drop(columns=["上榜原因"]))
+            _badli.append("a missing reason column passed the shape guard")
+        except ValueError:
+            pass
+        check("product: the institutional seat panel keeps its reason face and refuses drift",
+              not _badli, "; ".join(_badli)[:200]
+              or "duplicates collapse on the key, non-A codes drop, drift raises, edits are caught")
+    except Exception as e:
+        check("product: the institutional seat panel keeps its reason face and refuses drift",
+              False, repr(e)[:180])
+
+    try:
+        import zoo99_lhb_inst_netratio_probe as _Z99
+        _bad99 = []
+        _cfg = _Z99._synthetic_cfg(320, 120)
+        _sc, _fw, _lq, _dt, _al = _Z99._fake_score(_cfg)
+        def _mk(_f):
+            return {"dates": _dt, "amount": __import__("numpy").ones((320, 120)) * 1e8,
+                    "open": __import__("numpy").cumprod(1 + _f, axis=0) * 10.0,
+                    "close": __import__("numpy").cumprod(1 + _f, axis=0) * 10.0}
+        _up = _Z99.judge(_mk(_fw + 0.0008 * _al[None, :]), _sc, {}, cfg=_cfg, draws=30)
+        _dn = _Z99.judge(_mk(_fw - 0.0008 * _al[None, :]), _sc, {}, cfg=_cfg, draws=30)
+        if _up["verdict"] != "ADMIT_TO_PREREG":
+            _bad99.append("an injected premium was not admitted (%r)" % _up["verdict"])
+        if _dn["verdict"] != "REFUSE_AS_CANDIDATE":
+            _bad99.append("an inverted signal was admitted (%r)" % _dn["verdict"])
+        if not (_up["criteria"]["null_p"] < 0.1):
+            _bad99.append("the null never separated an injected premium (p=%r)"
+                          % _up["criteria"]["null_p"])
+        _tm = _Z99.trailing_mean(__import__("numpy").array([[1.0], [float("nan")],
+                                                            [float("nan")]]), 2)
+        if not __import__("numpy").isnan(_tm[2, 0]):
+            _bad99.append("a window with no observation was read as a zero")
+        check("product: institutional LHB net buying separates returns only beside its null",
+              not _bad99, "; ".join(_bad99)[:200]
+              or "injected premium admits, inverted signal refuses, empty windows stay NaN")
+    except Exception as e:
+        check("product: institutional LHB net buying separates returns only beside its null",
               False, repr(e)[:180])
 
 
