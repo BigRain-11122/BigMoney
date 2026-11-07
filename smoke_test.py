@@ -21909,5 +21909,77 @@ except Exception as _e520x:
 check(_name520, not _bad520, "; ".join(_bad520)[:240] or _d520)
 
 
+# E521: a count of unguarded reads is not a count of crashes.  Every one of E515's
+# 199 unguarded production reads must publish which empty arms its callee actually
+# has (including the implicit fallthrough a return-path census cannot count),
+# whether the guard is a conditional expression on the read's own line, and a
+# verdict that re-derives from those two fields; the summary must re-derive from
+# the rows; and four doctored copies (a flipped site verdict, a self-declared
+# conditional guard, a hand-written summary count, a shortened population) must
+# all be refused.
+_name521 = ("E521 prices E515's unguarded production reads: every one publishes its "
+            "callee's empty arms and whether the read's own line already guards it "
+            "(r1553 bm-b)")
+_bad521 = []
+try:
+    _m521 = __import__("importlib").import_module("e521_reachable_empty_arm")
+    _f521 = json.load(open(os.path.join("results", "state_tilt", "emptyarmreach_latest.json"),
+                           encoding="utf-8"))
+    _s521 = _f521.get("summary") or {}
+    _r521 = _f521.get("sites") or []
+    _p521 = _m521.load_parent()
+    _bad521.extend(_m521.site_problems(_f521))
+    if not _r521:
+        _bad521.append("the priced site population is empty")
+    if len(_r521) != len(_m521.population(_p521)):
+        _bad521.append("the priced population is not the parent's unguarded read set")
+    _guarded = 0
+    for _r in _r521:
+        if not os.path.exists(_r.get("source") or ""):
+            _bad521.append("%s names a source that is not on disk" % _r.get("source"))
+            continue
+        if _r.get("read_guard") not in _m521.READ_GUARDS:
+            _bad521.append("%s:%s carries no read_guard" % (_r.get("source"), _r.get("line")))
+            continue
+        _want = _m521.read_line_guard(".", _r["source"], _r.get("first_read_line"),
+                                      _r.get("first_read_expression"))
+        if _want != _r["read_guard"]:
+            _bad521.append("%s:%s read_guard does not re-derive (%s vs %s)"
+                           % (_r.get("source"), _r.get("line"), _r["read_guard"], _want))
+        if _r["read_guard"] == _m521.GUARD_TERNARY:
+            _guarded += 1
+    if _guarded != _s521.get("sites_the_parent_called_unguarded_that_a_conditional_expression_already_guards"):
+        _bad521.append("the conditional-expression guard count does not re-derive")
+    if _s521.get("raising_sites", 0) + _s521.get("benign_truth_tests", 0) + _guarded != len(_r521):
+        _bad521.append("the verdict split does not add up to the population")
+
+    _doc521 = json.loads(json.dumps(_f521))
+    _raising = [r for r in _doc521["sites"] if r.get("read_kind") in _m521.READ_RAISES]
+    if _raising:
+        _raising[0]["verdict"] = _m521.V_RAISES_ALL_ARMS_EXCLUDED
+    if not any("does not re-derive" in _p for _p in _m521.site_problems(_doc521)):
+        _bad521.append("a flipped site verdict was accepted")
+    _doc521 = json.loads(json.dumps(_f521))
+    _doc521["sites"][0]["read_guard"] = _m521.GUARD_TERNARY
+    if not any("does not re-derive" in _p for _p in _m521.site_problems(_doc521)):
+        _bad521.append("a self-declared conditional guard was accepted")
+    _doc521 = json.loads(json.dumps(_f521))
+    _doc521["summary"]["sites_where_a_raising_read_takes_a_reachable_empty_arm"] = 99
+    if not any("does not re-derive" in _p for _p in _m521.site_problems(_doc521)):
+        _bad521.append("a hand-written summary count was accepted")
+    _doc521 = json.loads(json.dumps(_f521))
+    _doc521["sites"].pop()
+    if not any("population" in _p for _p in _m521.site_problems(_doc521)):
+        _bad521.append("a shortened population was accepted")
+    _d521 = ("%d sites | raised if taken %s | guarded by a conditional %s | truth tests %s | rows "
+             "with no empty arm %s" % (
+                 _s521.get("population"), _s521.get("sites_where_a_raising_read_takes_a_reachable_empty_arm"),
+                 _guarded, _s521.get("benign_truth_tests"), _s521.get("rows_with_no_empty_arm_located_here")))
+except Exception as _e521x:
+    _bad521.append(repr(_e521x)[:160])
+    _d521 = "leg could not run"
+check(_name521, not _bad521, "; ".join(_bad521)[:240] or _d521)
+
+
 if __name__ == "__main__":
     sys.exit(main())

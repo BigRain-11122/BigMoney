@@ -1,0 +1,4128 @@
+{
+ "arm_kind_vocab": [
+  "an_explicit_return_that_names_nothing",
+  "an_explicit_return_of_an_empty_container_literal",
+  "the_body_can_fall_off_its_own_end"
+ ],
+ "callee_lookup_errors": {},
+ "card": "E521-WHICH-OF-THE-199-UNGUARDED-PRODUCTION-READS-SIT-ON-A-REACHABLE-EMPTY-ARM",
+ "evidence_cutoff": "2026-11-08",
+ "generated": "2026-11-08T07:18:07",
+ "method_limits": [
+  "reachability is decided only for the shape `if not x:` / `if x is None:` on a parameter; any other test is published as undecided rather than guessed",
+  "a literal argument excludes an arm only when the guard is the emptiness test on that very parameter; a truthy literal passed to `if x > 0:` proves nothing and is not counted",
+  "the implicit fallthrough arm is detected with a conservative always-terminates walk (Return/Raise, if/else, try with all handlers); a loop-only body is treated as falling through",
+  "the read would raise is inferred from the read kind the parent published (subscript / method call), not from re-reading the site",
+  "the conditional-expression guard is line-scoped: an IfExp that spans the read line and names the read's root counts as a guard, even where it guards a sibling expression on the same line"
+ ],
+ "population_source": "E515's published face results/state_tilt/EMPTYARMCOVER-2026-11-08.json, rows with reach=inside_a_function_production_code_calls and verdict in (the_result_is_subscripted_with_no_guard_between, the_result_is_read_in_production_with_no_guard_between); arm reachability measured here by re-parsing the callee's own source at the pinned (rel, line)",
+ "reachability_vocab": [
+  "the_arm_sits_outside_every_branch_of_the_callee",
+  "the_call_site_passes_a_literal_that_the_arm_s_guard_rejects",
+  "the_call_site_passes_a_literal_that_the_arm_s_guard_accepts",
+  "the_arm_s_guard_names_a_parameter_but_the_site_passes_no_literal",
+  "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+ ],
+ "read_guard_vocab": [
+  "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+  "no_guard_is_visible_on_the_read_line"
+ ],
+ "sites": [
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "A_stats(single)",
+   "callee": "A_stats",
+   "callee_line": 140,
+   "callee_rel": "scripts/etf_book_spanning_pre2020.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if single_stats:\n    arms['single']['stats'] = single_stats",
+   "first_read_line": 214,
+   "line": 212,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/etf_book_spanning_pre2020.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "A_stats(stagger)",
+   "callee": "A_stats",
+   "callee_line": 140,
+   "callee_rel": "scripts/etf_book_spanning_pre2020.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if stagger_stats:\n    arms['staggered']['stats'] = stagger_stats",
+   "first_read_line": 216,
+   "line": 213,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/etf_book_spanning_pre2020.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_binding_of(node, symbol)",
+   "callee": "_binding_of",
+   "callee_line": 117,
+   "callee_rel": "scripts/e511_collision_anatomy.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if got:\n    kind, rhs, line = got\n    head = excl[0] if excl else None\n    out.append({'line': line, 'kind': kind, 's...",
+   "first_read_line": 199,
+   "line": 198,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e511_collision_anatomy.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_call_name(sub)",
+   "callee": "_call_name",
+   "callee_line": 38,
+   "callee_rel": "scripts/e79_face_screen_matrix.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if name:\n    calls.add(name.split('.')[-1])",
+   "first_read_line": 61,
+   "line": 60,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e79_face_screen_matrix.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_s_guard_names_a_parameter_but_the_site_passes_no_literal"
+   ],
+   "call_expression": "_classify_folded(expected, folded)",
+   "callee": "_classify_folded",
+   "callee_line": 329,
+   "callee_rel": "scripts/e490_write_helper.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "not klass",
+   "first_read_line": 459,
+   "line": 458,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e490_write_helper.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_compare_with_avail_first(face, event)",
+   "callee": "_compare_with_avail_first",
+   "callee_line": 176,
+   "callee_rel": "scripts/fund_avail_filing_event.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if cmp:\n    entry['vs_avail_first'] = cmp",
+   "first_read_line": 297,
+   "line": 296,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/fund_avail_filing_event.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_const_str(sub.args[0])",
+   "callee": "_const_str",
+   "callee_line": 116,
+   "callee_rel": "scripts/e299_rounded_vs_tolerance_census.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if k:\n    keys.append(k)",
+   "first_read_line": 479,
+   "line": 478,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e299_rounded_vs_tolerance_census.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_default_row(rel, lineno, body, handles, cuts, pointers, paths, payloads, consts, func)",
+   "callee": "_default_row",
+   "callee_line": 283,
+   "callee_rel": "scripts/e330_unpinned_choice.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if row:\n    rows.append(row)",
+   "first_read_line": 215,
+   "line": 213,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e330_unpinned_choice.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "_descriptive_face(up, up)",
+   "callee": "_descriptive_face",
+   "callee_line": 1185,
+   "callee_rel": "scripts/trial_labor_w2.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "d15['clause_ann_pos']",
+   "first_read_line": 2182,
+   "line": 2179,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/trial_labor_w2.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "_descriptive_face(crash, crash)",
+   "callee": "_descriptive_face",
+   "callee_line": 1185,
+   "callee_rel": "scripts/trial_labor_w2.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "dcr['clause_no_crash_year']",
+   "first_read_line": 2193,
+   "line": 2190,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/trial_labor_w2.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "_descriptive_face(oos_eq, oos_eq)",
+   "callee": "_descriptive_face",
+   "callee_line": 1185,
+   "callee_rel": "scripts/trial_labor_w2.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "doo['clause_oos_dual_pos']",
+   "first_read_line": 2202,
+   "line": 2200,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/trial_labor_w2.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_diff_of(beta, cov, 1, [2])",
+   "callee": "_diff_of",
+   "callee_line": 107,
+   "callee_rel": "scripts/e242_omission_inflation_sweep.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "d['diff']",
+   "first_read_line": 194,
+   "line": 193,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e242_omission_inflation_sweep.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_diff_of(beta, cov, 1, list(range(2, 2 + len(others))))",
+   "callee": "_diff_of",
+   "callee_line": 107,
+   "callee_rel": "scripts/e242_omission_inflation_sweep.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "d['diff']",
+   "first_read_line": 220,
+   "line": 217,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e242_omission_inflation_sweep.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_diff_of(beta, cov, 1, list(range(2, 2 + len(cs_d))))",
+   "callee": "_diff_of",
+   "callee_line": 107,
+   "callee_rel": "scripts/e242_omission_inflation_sweep.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "d['diff']",
+   "first_read_line": 240,
+   "line": 238,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e242_omission_inflation_sweep.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_digests(os.path.join(ROOT, rel[0]))",
+   "callee": "_digests",
+   "callee_line": 133,
+   "callee_rel": "scripts/group_root_dialect_census.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if d:\n    row['artifact'] = rel[0]\n    row['artifact_worktree_crlf'] = d['worktree_crlf']\n    row['matches_raw'] = d[...",
+   "first_read_line": 171,
+   "line": 170,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/group_root_dialect_census.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_dotted(node.func)",
+   "callee": "_dotted",
+   "callee_line": 147,
+   "callee_rel": "scripts/e453_abandoned_stale.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "name.rsplit",
+   "first_read_line": 167,
+   "line": 166,
+   "read_guard": "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+   "read_kind": "method_call_on_the_result",
+   "source": "scripts/e453_abandoned_stale.py",
+   "verdict": "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_e223_month_mde()",
+   "callee": "_e223_month_mde",
+   "callee_line": 301,
+   "callee_rel": "scripts/e224_vol_gate.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if ref:\n    face['calendar_reference'] = ref\n    primary = panels[0]['arms']\n    best = None\n    for a in primary:\n  ...",
+   "first_read_line": 382,
+   "line": 381,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e224_vol_gate.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_e224_reference()",
+   "callee": "_e224_reference",
+   "callee_line": 318,
+   "callee_rel": "scripts/e225_state_tilt.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if ref:\n    face['episode_lock_reference'] = ref\n    primary = panels[0]['arms']\n    tilt_like = [a for a in primary ...",
+   "first_read_line": 426,
+   "line": 425,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e225_state_tilt.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_e225_crosscheck(face)",
+   "callee": "_e225_crosscheck",
+   "callee_line": 245,
+   "callee_rel": "scripts/e228_matched_exposure.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if chk:\n    face['e225_crosscheck'] = chk",
+   "first_read_line": 378,
+   "line": 377,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e228_matched_exposure.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_e228_crosscheck(face)",
+   "callee": "_e228_crosscheck",
+   "callee_line": 222,
+   "callee_rel": "scripts/e229_timing_selection.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if chk:\n    face['e228_crosscheck'] = chk",
+   "first_read_line": 352,
+   "line": 351,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e229_timing_selection.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "tl14._excluded_w14(probe_cand, excl_rows)",
+   "callee": "_excluded_w14",
+   "callee_line": 1391,
+   "callee_rel": "scripts/trial_labor_w14.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "not excl_hit",
+   "first_read_line": 2269,
+   "line": 2267,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/perpetual_faces_n2.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_follow_path(closes, exec_i, BL_MAIN, COST_X2, win_end)",
+   "callee": "_follow_path",
+   "callee_line": 173,
+   "callee_rel": "scripts/theme_deepen_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "r2[0]",
+   "first_read_line": 405,
+   "line": 404,
+   "read_guard": "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+   "read_kind": "subscripted",
+   "source": "scripts/theme_deepen_p1.py",
+   "verdict": "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_hist_row('etf_composite_pf_open.json')",
+   "callee": "_hist_row",
+   "callee_line": 174,
+   "callee_rel": "scripts/etf_composite_live.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if hist:\n    lines += ['## 历史回测（next-open 口径，仅供对照，不是前向成绩）', '| 区间 | 年化 | 夏普 | 最大回撤 |', '|---|---|---|---|']\n    p2 = ...",
+   "first_read_line": 211,
+   "line": 201,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/etf_composite_live.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_holder_block(full, _STRUCT_MARKER, ['§', '份额变动', '重大事件揭示'])",
+   "callee": "_holder_block",
+   "callee_line": 567,
+   "callee_rel": "scripts/national_team_face.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if b:\n    faces['structure_raw'] = b[:1600]",
+   "first_read_line": 706,
+   "line": 704,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/national_team_face.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_holder_block(full, _TOP10_MARKER, ['注：前十名持有人', '期末基金管理人的从业人员', '§', '份额变动'])",
+   "callee": "_holder_block",
+   "callee_line": 567,
+   "callee_rel": "scripts/national_team_face.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if b:\n    faces['top10'] = parse_top10(b)",
+   "first_read_line": 712,
+   "line": 709,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/national_team_face.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_holder_block(full, _GE20_MARKER, ['影响投资者决策的其他重要信息', '备查文件目录', '§'])",
+   "callee": "_holder_block",
+   "callee_line": 567,
+   "callee_rel": "scripts/national_team_face.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if b:\n    faces['ge20'] = parse_ge20(b)",
+   "first_read_line": 716,
+   "line": 714,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/national_team_face.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "_key_accesses(tree, keys)",
+   "callee": "_key_accesses",
+   "callee_line": 124,
+   "callee_rel": "scripts/e346_status_writer_unread.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "accesses[key]",
+   "first_read_line": 224,
+   "line": 200,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e346_status_writer_unread.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_key_of(node.value, keys)",
+   "callee": "_key_of",
+   "callee_line": 314,
+   "callee_rel": "scripts/e466_pointer_join.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if key:\n    derived[node.targets[0].id] = key",
+   "first_read_line": 346,
+   "line": 345,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e466_pointer_join.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_key_of(arg, keys)",
+   "callee": "_key_of",
+   "callee_line": 314,
+   "callee_rel": "scripts/e466_pointer_join.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if key:\n    inline.add(key)",
+   "first_read_line": 355,
+   "line": 354,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e466_pointer_join.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_kinship_hit(stem, engine_names)",
+   "callee": "_kinship_hit",
+   "callee_line": 306,
+   "callee_rel": "scripts/g2_overlap_census.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if kin:\n    verdict = 'DUP-FAMILY-DRIFT'\n    kin_note = 'kin=%s (name-level; construction verdict deferred to SLOT pr...",
+   "first_read_line": 423,
+   "line": 419,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/g2_overlap_census.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_kinship_hit(face['meta_id'], engine_names)",
+   "callee": "_kinship_hit",
+   "callee_line": 306,
+   "callee_rel": "scripts/g2_overlap_census.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if kin:\n    verdict = 'DUP-FAMILY-DRIFT'\n    status = ''\n    note = 'kin=%s (name-level; formula face absent in mine ...",
+   "first_read_line": 841,
+   "line": 830,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/g2_overlap_census.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "_ladder_comp_verdict(full['arith_bp'], full['comp_bp'], per)",
+   "callee": "_ladder_comp_verdict",
+   "callee_line": 23309,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "v['level_sign_arith']",
+   "first_read_line": 23442,
+   "line": 23426,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_load(RECONCILE)",
+   "callee": "_load",
+   "callee_line": 59,
+   "callee_rel": "scripts/capital_placement.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if rc:\n    br = rc.get('bridge') or {}\n    to, frm = (br.get('to') or {}, br.get('from') or {})\n    if _num(to.get('c...",
+   "first_read_line": 125,
+   "line": 124,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/capital_placement.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_load('etf_book_production/latest.json')",
+   "callee": "_load",
+   "callee_line": 32,
+   "callee_rel": "scripts/etf_book_publish_decision.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if card:\n    bt = (card.get('backtest') or {}).get('n12_vt08') or {}\n    full = bt.get('full') or {}\n    cfg = card.g...",
+   "first_read_line": 57,
+   "line": 56,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/etf_book_publish_decision.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_load('etf_stagger_capacity.json')",
+   "callee": "_load",
+   "callee_line": 32,
+   "callee_rel": "scripts/etf_book_publish_decision.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if stag:\n    s = stag.get('staggered') or {}\n    arms.append({'config': '10@vol', 'label': 'staggered 5+5 ledger (R10...",
+   "first_read_line": 111,
+   "line": 110,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/etf_book_publish_decision.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_load(p)",
+   "callee": "_load",
+   "callee_line": 79,
+   "callee_rel": "scripts/science_audit.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "d.get",
+   "first_read_line": 424,
+   "line": 423,
+   "read_guard": "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+   "read_kind": "method_call_on_the_result",
+   "source": "scripts/science_audit.py",
+   "verdict": "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_load(os.path.join(rd, 'regime5_bull_scan', 'F1-BULL-COND-2026-09-30.json'))",
+   "callee": "_load",
+   "callee_line": 44,
+   "callee_rel": "scripts/strategy_scorecard.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "f1v.get",
+   "first_read_line": 1148,
+   "line": 1147,
+   "read_guard": "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+   "read_kind": "method_call_on_the_result",
+   "source": "scripts/strategy_scorecard.py",
+   "verdict": "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_load(os.path.join(rd, 'g2_slot_mon_p1', 'g2_slot_mon_p1_census.json'))",
+   "callee": "_load",
+   "callee_line": 44,
+   "callee_rel": "scripts/strategy_scorecard.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "g2v.get",
+   "first_read_line": 1176,
+   "line": 1175,
+   "read_guard": "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+   "read_kind": "method_call_on_the_result",
+   "source": "scripts/strategy_scorecard.py",
+   "verdict": "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_load(os.path.join(pdir, fn))",
+   "callee": "_load",
+   "callee_line": 44,
+   "callee_rel": "scripts/strategy_scorecard.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if d:\n    papers[d.get('trader')] = d",
+   "first_read_line": 1321,
+   "line": 1320,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/strategy_scorecard.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_load_calib_for_emission()",
+   "callee": "_load_calib_for_emission",
+   "callee_line": 628,
+   "callee_rel": "scripts/strategy_scorecard.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if calib:\n    _attach_composites(built['trader_cards'], calib['tw'], calib['tb'], trader_face_scores, TRADER_FACES)\n ...",
+   "first_read_line": 1338,
+   "line": 1337,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/strategy_scorecard.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_load_o1600()",
+   "callee": "_load_o1600",
+   "callee_line": 71,
+   "callee_rel": "scripts/daily_scorecard.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if o1600:\n    passive_pct = o1600.get('passive_ew48_ret_pct')\n    o1600_rows = list(o1600.get('traders', []))",
+   "first_read_line": 176,
+   "line": 172,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/daily_scorecard.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_load_paper_export()",
+   "callee": "_load_paper_export",
+   "callee_line": 79,
+   "callee_rel": "scripts/daily_scorecard.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if pe:\n    pes = pe.get('summary') or {}\n    first_snap = bool(pes.get('exits_not_derivable_first_snapshot'))\n    A(\"...",
+   "first_read_line": 211,
+   "line": 210,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/daily_scorecard.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_load_post_review()",
+   "callee": "_load_post_review",
+   "callee_line": 135,
+   "callee_rel": "scripts/daily_scorecard.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if pr_rows:\n    A(\"<div class='sub'>复审=确定性重derive（零 LLM·判据事前冻结·执行侧不自证）；✗=判据红=下一轮 P0 修复单；🟡=在制/未到期（pending 诚实标注，禁折算成成果）...",
+   "first_read_line": 508,
+   "line": 506,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/daily_scorecard.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_local_last_close(sym, daily_dir)",
+   "callee": "_local_last_close",
+   "callee_line": 117,
+   "callee_rel": "scripts/update_intraday_marks.py",
+   "empty_arms": 3,
+   "error": null,
+   "first_read_expression": "if lc:\n    mark, src = (lc, 'local_daily')\nelse:\n    mark, src = (None, 'unpriced')",
+   "first_read_line": 272,
+   "line": 271,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/update_intraday_marks.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_locate_writer(key, stem)",
+   "callee": "_locate_writer",
+   "callee_line": 204,
+   "callee_rel": "scripts/e303_recover_unmeasurable_basis.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if writer:\n    src = open(writer, encoding='utf-8-sig').read()\n    tree = ast.parse(src)\n    holder, rhs = _find_key_...",
+   "first_read_line": 350,
+   "line": 346,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e303_recover_unmeasurable_basis.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_mode_of(m.group('rest'))",
+   "callee": "_mode_of",
+   "callee_line": 65,
+   "callee_rel": "scripts/group_root_sweep.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if mode:\n    hits.append({'kind': 'literal', 'mode': mode, 'line': i, 'text': line.strip()[:200]})",
+   "first_read_line": 102,
+   "line": 101,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/group_root_sweep.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_monthly_start_ann(eq_d, {'n_win_days': 9}, [0, 4])",
+   "callee": "_monthly_start_ann",
+   "callee_line": 559,
+   "callee_rel": "scripts/portfolio_book.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "msa['best']",
+   "first_read_line": 1309,
+   "line": 1307,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/portfolio_book.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_name_of(sub)",
+   "callee": "_name_of",
+   "callee_line": 133,
+   "callee_rel": "scripts/e427_opener_flow.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if n:\n    out.append(n)",
+   "first_read_line": 154,
+   "line": 153,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e427_opener_flow.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_pad_ref_silence(ref_wav, 3.05)",
+   "callee": "_pad_ref_silence",
+   "callee_line": 183,
+   "callee_rel": "content/drama/runner_assets/pitch_tier_test_synth.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if pad_note:\n    say('%s: ref %s' % (cid, pad_note))",
+   "first_read_line": 212,
+   "line": 211,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "content/drama/runner_assets/pitch_tier_test_synth.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_parse_name(os.path.basename(_member))",
+   "callee": "_parse_name",
+   "callee_line": 118,
+   "callee_rel": "scripts/e472_vintage_read.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if _parsed:\n    member_dates.add(_parsed['date'])",
+   "first_read_line": 519,
+   "line": 518,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e472_vintage_read.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_passive_window(lo, hi)",
+   "callee": "_passive_window",
+   "callee_line": 615,
+   "callee_rel": "scripts/fund_divlowvol_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "rel.pct_change",
+   "first_read_line": 1448,
+   "line": 1447,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "method_call_on_the_result",
+   "source": "scripts/fund_divlowvol_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_passive_window(lo, hi)",
+   "callee": "_passive_window",
+   "callee_line": 521,
+   "callee_rel": "scripts/fund_quality_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "rel.pct_change",
+   "first_read_line": 1376,
+   "line": 1375,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "method_call_on_the_result",
+   "source": "scripts/fund_quality_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_passive_window(plo, hi)",
+   "callee": "_passive_window",
+   "callee_line": 508,
+   "callee_rel": "scripts/fund_value_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "rel.pct_change",
+   "first_read_line": 1322,
+   "line": 1317,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "method_call_on_the_result",
+   "source": "scripts/fund_value_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_pool_lookup(by_name, name, exit_r)",
+   "callee": "_pool_lookup",
+   "callee_line": 183,
+   "callee_rel": "scripts/t33_corps_roster.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "cand['recorded_max_dd']",
+   "first_read_line": 206,
+   "line": 203,
+   "read_guard": "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+   "read_kind": "subscripted",
+   "source": "scripts/t33_corps_roster.py",
+   "verdict": "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(os.path.join(PATHS.results_dir, 'watermark_red.json'))",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if rf:\n    out['red'] = bool(rf.get('red'))\n    out['lane'] = rf.get('lane') or '—'\n    out['zombies_killed'] = rf.ge...",
+   "first_read_line": 412,
+   "line": 411,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(p)",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if d:\n    head = d.get('headline') or {}\n    dsr = (d.get('gates') or {}).get('dsr') or {}\n    led = d.get('trials_le...",
+   "first_read_line": 959,
+   "line": 958,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(p)",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if d:\n    members = d.get('members') or {}\n    pos = 0\n    for v in members.values():\n        ci = (v or {}).get('boo...",
+   "first_read_line": 972,
+   "line": 971,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(p)",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if d:\n    packs = d.get('packs') or []\n    judged = sum((1 for x in packs if x.get('status') == 'judged'))\n    _add('...",
+   "first_read_line": 987,
+   "line": 986,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(os.path.join(PATHS.results_dir, 'marks_coverage.json'))",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if mc:\n    c = mc.get('counters') or {}\n    out['marks_as_of'] = mc.get('as_of')\n    out['marks_coverage_pct'] = c.ge...",
+   "first_read_line": 1612,
+   "line": 1611,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(os.path.join(PATHS.results_dir, 't35_open_fill_verify.json'))",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if fv:\n    out['fill_verify_tier'] = fv.get('evidence_tier')\n    out['fill_verify_verdict'] = fv.get('verdict')\n    o...",
+   "first_read_line": 1627,
+   "line": 1625,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(os.path.join(PATHS.results_dir, 'strategy_scorecard.json'))",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "three.get",
+   "first_read_line": 1678,
+   "line": 1677,
+   "read_guard": "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+   "read_kind": "method_call_on_the_result",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(os.path.join(PATHS.results_dir, 'lhb_update_status.json'))",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if lhb:\n    out['lhb'] = {'verdict': lhb.get('verdict'), 'cutoff': lhb.get('cutoff'), 'updated': lhb.get('updated'), ...",
+   "first_read_line": 1883,
+   "line": 1882,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(os.path.join(PATHS.results_dir, 't24_prospect_onboard.json'))",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if b:\n    out['anchor_pass'] = b.get('n_pass')\n    out['anchor_complete'] = b.get('complete')\n    out['batch'] = b.ge...",
+   "first_read_line": 1971,
+   "line": 1970,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(os.path.join(PATHS.results_dir, 'prospect_paper', '_summary.json'))",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if s:\n    out['paper'] = {'n_pass': s.get('n_pass'), 'n_drift': s.get('n_drift'), 'months_total': s.get('months_total...",
+   "first_read_line": 1977,
+   "line": 1975,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(os.path.join(PATHS.results_dir, 'prospect_promotion', '_summary.json'))",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if g:\n    out['promotion'] = {'n_eligible': g.get('n_eligible'), 'n_members': g.get('n_members'), 'leg_pass': g.get('...",
+   "first_read_line": 1986,
+   "line": 1984,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(os.path.join(res_dir, judge_name))",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if j:\n    face = {'n_judged': j.get('n_judged_cells') if j.get('n_judged_cells') is not None else j.get('n_judge_cell...",
+   "first_read_line": 2290,
+   "line": 2288,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(os.path.join(res_dir, intake_name))",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if it:\n    face = face or {}\n    face['intake_n_eligible'] = it.get('n_eligible')\n    face['intake_n'] = len(it.get('...",
+   "first_read_line": 2301,
+   "line": 2300,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(os.path.join(d1, 'judge_state.json'))",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if jst:\n    w['judge_prep'] = {'n_judge_cells': jst.get('n_judge_cells'), 'seed': jst.get('seed_judge')}",
+   "first_read_line": 2342,
+   "line": 2331,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(os.path.join(d3, 'judge_state.json'))",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if jst3:\n    w3['judge_prep'] = {'n_judge_cells': jst3.get('n_survivors')}",
+   "first_read_line": 2394,
+   "line": 2383,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_read_json(os.path.join(d4, 'judge_state.json'))",
+   "callee": "_read_json",
+   "callee_line": 35,
+   "callee_rel": "monitor/build_status.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if jst4:\n    w4['judge_prep'] = {'n_judge_cells': jst4.get('n_survivors')}",
+   "first_read_line": 2420,
+   "line": 2409,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "monitor/build_status.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "_regime_nan_profile(h)",
+   "callee": "_regime_nan_profile",
+   "callee_line": 134,
+   "callee_rel": "scripts/northbound_probe.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "prof['rows_pre']",
+   "first_read_line": 358,
+   "line": 357,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/northbound_probe.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "_round_quantum(comp)",
+   "callee": "_round_quantum",
+   "callee_line": 252,
+   "callee_rel": "scripts/e299_rounded_vs_tolerance_census.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if q:\n    quanta.append(q)",
+   "first_read_line": 295,
+   "line": 294,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e299_rounded_vs_tolerance_census.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "_strike_from_trading_code(long_code)",
+   "callee": "_strike_from_trading_code",
+   "callee_line": 78,
+   "callee_rel": "scripts/option_s3_audit_probe.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "parsed['strike']",
+   "first_read_line": 254,
+   "line": 248,
+   "read_guard": "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+   "read_kind": "subscripted",
+   "source": "scripts/option_s3_audit_probe.py",
+   "verdict": "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "analyse_face('results/fixture.json', face=fx)",
+   "callee": "analyse_face",
+   "callee_line": 428,
+   "callee_rel": "scripts/e317_print_coverage_census.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "rec['face']",
+   "first_read_line": 1084,
+   "line": 1083,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e317_print_coverage_census.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "arm_decomposition(w_null, ret_bp, split, COST_SIDE_BP, bar_channel)",
+   "callee": "arm_decomposition",
+   "callee_line": 206,
+   "callee_rel": "scripts/e229_timing_selection.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "null_dec[k]",
+   "first_read_line": 284,
+   "line": 283,
+   "read_guard": "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+   "read_kind": "subscripted",
+   "source": "scripts/e229_timing_selection.py",
+   "verdict": "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "build()",
+   "callee": "build",
+   "callee_line": 237,
+   "callee_rel": "scripts/e320_decoy_resolution.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "fresh['verdict']",
+   "first_read_line": 441,
+   "line": 439,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e320_decoy_resolution.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "build(head=face.get('replay_head'))",
+   "callee": "build",
+   "callee_line": 290,
+   "callee_rel": "scripts/e348_restored_gate_retrospect.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "fresh.get",
+   "first_read_line": 690,
+   "line": 688,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "method_call_on_the_result",
+   "source": "scripts/e348_restored_gate_retrospect.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "card_book()",
+   "callee": "card_book",
+   "callee_line": 596,
+   "callee_rel": "scripts/etf_book_order.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if cb:\n    agreement = {'card_decided_at': cb['decided_at'], 'ticket_book_decided_at': str(dec_bar.date()), 'same_dec...",
+   "first_read_line": 488,
+   "line": 486,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/etf_book_order.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "card_line('M05')",
+   "callee": "card_line",
+   "callee_line": 31,
+   "callee_rel": "scripts/tactics_report.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if m05:\n    rows[-1]['card_quote'] = m05",
+   "first_read_line": 145,
+   "line": 129,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/tactics_report.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "card_line('N02')",
+   "callee": "card_line",
+   "callee_line": 31,
+   "callee_rel": "scripts/tactics_report.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if n02:\n    rows.append({'id': 'MOM', 'name': '动量（追涨杀跌）', 'mechanism': '买过去一段时间涨得最猛的，赌强者恒强。', 'evidence': 'knowledge/...",
+   "first_read_line": 152,
+   "line": 151,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/tactics_report.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "cell_stats(E, tr, 'W_full', W_FULL_FROM, idx[-1], 'x1')",
+   "callee": "cell_stats",
+   "callee_line": 651,
+   "callee_rel": "scripts/wild_route_lab.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "st['sharpe_full']",
+   "first_read_line": 969,
+   "line": 968,
+   "read_guard": "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+   "read_kind": "subscripted",
+   "source": "scripts/wild_route_lab.py",
+   "verdict": "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "compares_two_copies(unit, tree)",
+   "callee": "compares_two_copies",
+   "callee_line": 214,
+   "callee_rel": "scripts/e499_helperprice.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if copies:\n    price = e483.D_BYTES\n    evidence['bytes_evidence'] = copies\nelif raises_on_the_payload(unit, roots):\n...",
+   "first_read_line": 324,
+   "line": 323,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e499_helperprice.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "composition_parts(arg)",
+   "callee": "composition_parts",
+   "callee_line": 257,
+   "callee_rel": "scripts/e448_dropped_path.py",
+   "empty_arms": 3,
+   "error": null,
+   "first_read_expression": "if parts:\n    values = [_resolve(p, env) for p in parts]\n    if values and all((isinstance(v, str) for v in values)):...",
+   "first_read_line": 326,
+   "line": 325,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e448_dropped_path.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "consumer_signal(entry['signal'], path, src, rel, src_to_rel)",
+   "callee": "consumer_signal",
+   "callee_line": 140,
+   "callee_rel": "scripts/e333_surviving_e3xx_conclusions.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "sig['delta']",
+   "first_read_line": 292,
+   "line": 291,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e333_surviving_e3xx_conclusions.py",
+   "verdict": "the_read_would_raise_and_no_empty_arm_is_excluded_by_the_call_s_own_arguments"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_s_guard_names_a_parameter_but_the_site_passes_no_literal"
+   ],
+   "call_expression": "current_block(firing, idx)",
+   "callee": "current_block",
+   "callee_line": 68,
+   "callee_rel": "scripts/divlowvol_live_picks.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "b['month_pos']",
+   "first_read_line": 354,
+   "line": 353,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/divlowvol_live_picks.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "d6_ths_grids(cal, codes, ths_dir)",
+   "callee": "d6_ths_grids",
+   "callee_line": 259,
+   "callee_rel": "scripts/mf_ic_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if ths:\n    d6_refs.update(ths)\nelse:\n    print('d6: ths aggregate panel absent on this machine -> weak-check declare...",
+   "first_read_line": 358,
+   "line": 357,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/mf_ic_p1.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "d6_ths_grids(cal, codes, ths_dir)",
+   "callee": "d6_ths_grids",
+   "callee_line": 259,
+   "callee_rel": "scripts/mf_ic_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if ths:\n    d6_refs.update(ths)\nelse:\n    print('d6: ths aggregate panel absent on this machine -> weak-check declare...",
+   "first_read_line": 357,
+   "line": 356,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/sina_construct_ic.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "d6_ths_grids(cal_us, syms, ths_dir)",
+   "callee": "d6_ths_grids",
+   "callee_line": 259,
+   "callee_rel": "scripts/mf_ic_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if ths:\n    d6_refs.update(ths)\nelse:\n    print('d6: ths aggregate panel absent -> weak-check declared', flush=True)",
+   "first_read_line": 341,
+   "line": 340,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/sina_mf_ic_p1.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "deepest_name(close, amt, cols)",
+   "callee": "deepest_name",
+   "callee_line": 68,
+   "callee_rel": "scripts/etf_book_commodity_split.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if g:\n    ser_g = buy_and_hold(close, g)\n    if ser_g is not None and len(ser_g) > 40:\n        gm = add('deepest_name...",
+   "first_read_line": 214,
+   "line": 212,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/etf_book_commodity_split.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "derive_faces(mem, price_rows)",
+   "callee": "derive_faces",
+   "callee_line": 250,
+   "callee_rel": "scripts/innovation_quota_w10.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "P['universe']",
+   "first_read_line": 708,
+   "line": 706,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/innovation_quota_w10.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "derive_faces(mem, price_rows)",
+   "callee": "derive_faces",
+   "callee_line": 250,
+   "callee_rel": "scripts/innovation_quota_w10.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "P['universe']",
+   "first_read_line": 924,
+   "line": 923,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/innovation_quota_w10.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "derive_faces(mem, price_rows)",
+   "callee": "derive_faces",
+   "callee_line": 250,
+   "callee_rel": "scripts/innovation_quota_w10.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "P['universe']",
+   "first_read_line": 1054,
+   "line": 1053,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/innovation_quota_w10.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "distribution_record(win, b, leg=leg, e258_face=e258_face)",
+   "callee": "distribution_record",
+   "callee_line": 261,
+   "callee_rel": "scripts/e259_band_multiplier_distribution.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if rec:\n    table['%s:%d' % (leg, b)] = rec",
+   "first_read_line": 322,
+   "line": 321,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e259_band_multiplier_distribution.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_s_guard_names_a_parameter_but_the_site_passes_no_literal"
+   ],
+   "call_expression": "edge_at(series, draws)",
+   "callee": "edge_at",
+   "callee_line": 103,
+   "callee_rel": "scripts/e257_band_at_top_flips.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if e:\n    pts.append((n, e))",
+   "first_read_line": 305,
+   "line": 304,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e257_band_at_top_flips.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "e328.face_name(name)",
+   "callee": "face_name",
+   "callee_line": 73,
+   "callee_rel": "scripts/e328_quoted_number_staleness.py",
+   "empty_arms": 3,
+   "error": null,
+   "first_read_expression": "if parsed:\n    key = parsed[0].lower()\n    cuts.setdefault(key, set()).add(parsed[1].isoformat())\n    spellings.setde...",
+   "first_read_line": 196,
+   "line": 195,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e329_two_vintage_binding.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "face_of_module(module, root)",
+   "callee": "face_of_module",
+   "callee_line": 296,
+   "callee_rel": "scripts/e502_bom_census.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if face_rel:\n    try:\n        payload = _load_json(os.path.join(root, face_rel))\n    except (OSError, ValueError):\n  ...",
+   "first_read_line": 525,
+   "line": 523,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e502_bom_census.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "first_present(order, lambda sha: row['name'] in check_labels(file_at(sha) or ''))",
+   "callee": "first_present",
+   "callee_line": 161,
+   "callee_rel": "scripts/e345_gate_absence_windows.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if restore_sha:\n    meta = git('log', '-1', '--format=%at', restore_sha) or ''\n    restore_ts = int(meta.strip() or 0)",
+   "first_read_line": 327,
+   "line": 324,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e345_gate_absence_windows.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "forward_bias(diag, openp)",
+   "callee": "forward_bias",
+   "callee_line": 103,
+   "callee_rel": "scripts/etf_vol_delivery_audit.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "bias['est_mean']",
+   "first_read_line": 187,
+   "line": 158,
+   "read_guard": "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+   "read_kind": "subscripted",
+   "source": "scripts/etf_vol_delivery_audit.py",
+   "verdict": "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "fstats(f)",
+   "callee": "fstats",
+   "callee_line": 18,
+   "callee_rel": "Tools/_r698bmc_s3_probe.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if s:\n    w14['dir'][os.path.basename(f)] = s",
+   "first_read_line": 100,
+   "line": 99,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "Tools/_r698bmc_s3_probe.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "fstats(f)",
+   "callee": "fstats",
+   "callee_line": 18,
+   "callee_rel": "Tools/_r698bmc_s3_probe.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if s:\n    w16['products'].append({'path': rel, **s})",
+   "first_read_line": 162,
+   "line": 161,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "Tools/_r698bmc_s3_probe.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "head_bytes(rel)",
+   "callee": "head_bytes",
+   "callee_line": 73,
+   "callee_rel": "Tools/memory_face_guard.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if prev:\n    prev_facts = measure(prev)\n    if prev_facts.get('decodable') and prev_facts['lf'] >= MIN_LF:\n        ba...",
+   "first_read_line": 94,
+   "line": 92,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "Tools/memory_face_guard.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "interval(rows, 'tight')",
+   "callee": "interval",
+   "callee_line": 108,
+   "callee_rel": "scripts/e285_interrange_gap_ceiling.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "tight['hi']",
+   "first_read_line": 181,
+   "line": 179,
+   "read_guard": "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+   "read_kind": "subscripted",
+   "source": "scripts/e285_interrange_gap_ceiling.py",
+   "verdict": "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "interval(rows, 'wide')",
+   "callee": "interval",
+   "callee_line": 108,
+   "callee_rel": "scripts/e285_interrange_gap_ceiling.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "wide['lo']",
+   "first_read_line": 182,
+   "line": 180,
+   "read_guard": "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+   "read_kind": "subscripted",
+   "source": "scripts/e285_interrange_gap_ceiling.py",
+   "verdict": "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "interval(arm['rows'], 'tight')",
+   "callee": "interval",
+   "callee_line": 108,
+   "callee_rel": "scripts/e285_interrange_gap_ceiling.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "tight_hull['lo']",
+   "first_read_line": 500,
+   "line": 499,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e285_interrange_gap_ceiling.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "joined_key(row['values'])",
+   "callee": "joined_key",
+   "callee_line": 100,
+   "callee_rel": "scripts/e381_component_key_blind_spot.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if key:\n    joined.add(key)\n    sites.setdefault(key, []).append('%s:%d %s' % (rel, row['line'], row['values']))",
+   "first_read_line": 144,
+   "line": 143,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e381_component_key_blind_spot.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "e381.joined_key(row['values'])",
+   "callee": "joined_key",
+   "callee_line": 100,
+   "callee_rel": "scripts/e381_component_key_blind_spot.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if key:\n    joined.add(key)\n    joined_sites.setdefault(key, []).append('%s:%d %s' % (relpath, row['line'], row['valu...",
+   "first_read_line": 165,
+   "line": 164,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e382_key_projection_delta.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "level_class_by_shape(leaf)",
+   "callee": "level_class_by_shape",
+   "callee_line": 803,
+   "callee_rel": "scripts/e97_routing.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if legacy:\n    tallies_legacy[legacy] = tallies_legacy.get(legacy, 0) + 1",
+   "first_read_line": 1390,
+   "line": 1388,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e97_routing.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "llama_server_port()",
+   "callee": "llama_server_port",
+   "callee_line": 84,
+   "callee_rel": "scripts/model_slot_bench_bma.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if port:\n    try:\n        llama = bench_llama(port)\n    except Exception as exc:\n        llama = {'port': port, 'erro...",
+   "first_read_line": 142,
+   "line": 141,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/model_slot_bench_bma.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "load('results/theme_ring/theme_events_v01.json')",
+   "callee": "load",
+   "callee_line": 20,
+   "callee_rel": "scripts/tactics_report.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if t:\n    ps = t.get('persistence_summary', {})\n    evs = t.get('events', [])\n    dds = [e.get('dd_after_peak') for e...",
+   "first_read_line": 68,
+   "line": 67,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/tactics_report.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "load('results/grid_sleeve_p1.json')",
+   "callee": "load",
+   "callee_line": 20,
+   "callee_rel": "scripts/tactics_report.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if g:\n    n_surv = len(g.get('survivors_science') or [])\n    n_paper = len(g.get('paper_candidates') or [])\n    nulls...",
+   "first_read_line": 91,
+   "line": 90,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/tactics_report.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "load('results/rev_osc/p1_results.json')",
+   "callee": "load",
+   "callee_line": 20,
+   "callee_rel": "scripts/tactics_report.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if r:\n    gates = r.get('gates') or {}\n    n_face, n_pass, sharpes = g1_pass_count(gates)\n    s_lo = min(sharpes) if ...",
+   "first_read_line": 109,
+   "line": 108,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/tactics_report.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "load('results/lowamp_deepscan_p1/stats.json')",
+   "callee": "load",
+   "callee_line": 20,
+   "callee_rel": "scripts/tactics_report.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if s:\n    bn = s.get('band_neighborhood') or {}\n    bm = s.get('benchmarks') or {}\n    rows.append({'id': 'LOWAMP', '...",
+   "first_read_line": 130,
+   "line": 128,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/tactics_report.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "load_local_panel()",
+   "callee": "load_local_panel",
+   "callee_line": 227,
+   "callee_rel": "scripts/stagestyle_combo_p1_backtest.py",
+   "empty_arms": 3,
+   "error": null,
+   "first_read_expression": "if panel:\n    _idx, _syms, _arrays, meta = panel\n    doc['panel'] = {'shape': meta['shape'], 'cutoff': meta['cutoff']...",
+   "first_read_line": 843,
+   "line": 841,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/stagestyle_combo_p1_backtest.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "load_ohlc(code)",
+   "callee": "load_ohlc",
+   "callee_line": 68,
+   "callee_rel": "scripts/theme_ignition_face_probe.py",
+   "empty_arms": 3,
+   "error": null,
+   "first_read_expression": "df['date']",
+   "first_read_line": 124,
+   "line": 123,
+   "read_guard": "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+   "read_kind": "subscripted",
+   "source": "scripts/theme_ignition_face_probe.py",
+   "verdict": "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "load_sites(text)",
+   "callee": "load_sites",
+   "callee_line": 246,
+   "callee_rel": "scripts/e379_unkeyed_face_reader.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if sites:\n    all_sites.extend(sites)",
+   "first_read_line": 403,
+   "line": 402,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e379_unkeyed_face_reader.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "lot_curve(tk['order'], scale=tk['scale'])",
+   "callee": "lot_curve",
+   "callee_line": 925,
+   "callee_rel": "scripts/etf_book_order.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "curve['asof_bar']",
+   "first_read_line": 1036,
+   "line": 1035,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/etf_book_order.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "match_reference(text, forms)",
+   "callee": "match_reference",
+   "callee_line": 282,
+   "callee_rel": "scripts/e326_template_parameter_consumers.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if hit:\n    mentioned.append((lineno, hit[0], hit[1], text))",
+   "first_read_line": 322,
+   "line": 321,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e326_template_parameter_consumers.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "matched_seed_mults(base, top)",
+   "callee": "matched_seed_mults",
+   "callee_line": 127,
+   "callee_rel": "scripts/e295_supply_gap_closure.py",
+   "empty_arms": 3,
+   "error": null,
+   "first_read_expression": "not seeds",
+   "first_read_line": 159,
+   "line": 153,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e295_supply_gap_closure.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "matched_seed_mults(a, b)",
+   "callee": "matched_seed_mults",
+   "callee_line": 127,
+   "callee_rel": "scripts/e295_supply_gap_closure.py",
+   "empty_arms": 3,
+   "error": null,
+   "first_read_expression": "not seeds",
+   "first_read_line": 196,
+   "line": 191,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e295_supply_gap_closure.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_s_guard_names_a_parameter_but_the_site_passes_no_literal"
+   ],
+   "call_expression": "median(vals)",
+   "callee": "median",
+   "callee_line": 106,
+   "callee_rel": "scripts/e254_band_exponent_inside_cell.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if m:\n    pts.append((p['sessions'], m))",
+   "first_read_line": 263,
+   "line": 262,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e254_band_exponent_inside_cell.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "newest_face(pattern)",
+   "callee": "newest_face",
+   "callee_line": 174,
+   "callee_rel": "scripts/e97_routing.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if face:\n    declared[face] = leg",
+   "first_read_line": 537,
+   "line": 536,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e97_routing.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "sg.null_sharpes()",
+   "callee": "null_sharpes",
+   "callee_line": 145,
+   "callee_rel": "scripts/science_gates.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "v2_pool['coverage']",
+   "first_read_line": 270,
+   "line": 269,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/p2_null_calibration_ext.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "sg.null_sharpes()",
+   "callee": "null_sharpes",
+   "callee_line": 145,
+   "callee_rel": "scripts/science_gates.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "v1_pool['coverage']",
+   "first_read_line": 114,
+   "line": 113,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/p2_null_calibration_v2.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "sg.null_sharpes()",
+   "callee": "null_sharpes",
+   "callee_line": 145,
+   "callee_rel": "scripts/science_gates.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "canon_pool['coverage']",
+   "first_read_line": 14476,
+   "line": 14475,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/perpetual_faces_n1.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "sg.null_sharpes()",
+   "callee": "null_sharpes",
+   "callee_line": 145,
+   "callee_rel": "scripts/science_gates.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "pool['coverage']",
+   "first_read_line": 96,
+   "line": 95,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/science_audit.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "null_sharpes(results_dir)",
+   "callee": "null_sharpes",
+   "callee_line": 145,
+   "callee_rel": "scripts/science_gates.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "null_pool['coverage']",
+   "first_read_line": 431,
+   "line": 430,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/science_gates.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "null_sharpes()",
+   "callee": "null_sharpes",
+   "callee_line": 145,
+   "callee_rel": "scripts/science_gates.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "nulls['coverage']",
+   "first_read_line": 3329,
+   "line": 3323,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/science_gates.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "panel_tail(contents[b].decode('utf-8', 'replace'))",
+   "callee": "panel_tail",
+   "callee_line": 141,
+   "callee_rel": "scripts/e348_restored_gate_retrospect.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if t:\n    tails.append(t)",
+   "first_read_line": 345,
+   "line": 344,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e348_restored_gate_retrospect.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "panel_tail('\\n'.join(lines))",
+   "callee": "panel_tail",
+   "callee_line": 141,
+   "callee_rel": "scripts/e348_restored_gate_retrospect.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if t:\n    tails.append(t)",
+   "first_read_line": 527,
+   "line": 526,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e348_restored_gate_retrospect.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_s_guard_names_a_parameter_but_the_site_passes_no_literal"
+   ],
+   "call_expression": "parse_ge20(GE20_BLOCK_FIXTURE)",
+   "callee": "parse_ge20",
+   "callee_line": 637,
+   "callee_rel": "scripts/national_team_face.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "ge20['n_rows']",
+   "first_read_line": 1154,
+   "line": 1153,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/national_team_face.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_s_guard_names_a_parameter_but_the_site_passes_no_literal"
+   ],
+   "call_expression": "parse_ge20(GE20_NONE_FIXTURE)",
+   "callee": "parse_ge20",
+   "callee_line": 637,
+   "callee_rel": "scripts/national_team_face.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "ge20n['n_rows']",
+   "first_read_line": 1163,
+   "line": 1162,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/national_team_face.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_s_guard_names_a_parameter_but_the_site_passes_no_literal"
+   ],
+   "call_expression": "parse_ge20(GE20_SOUTH_FIXTURE)",
+   "callee": "parse_ge20",
+   "callee_line": 637,
+   "callee_rel": "scripts/national_team_face.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "ge20s['n_rows']",
+   "first_read_line": 1200,
+   "line": 1199,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/national_team_face.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_s_guard_names_a_parameter_but_the_site_passes_no_literal"
+   ],
+   "call_expression": "parse_ge20(GE20_RANK_ALONE_FIXTURE)",
+   "callee": "parse_ge20",
+   "callee_line": 637,
+   "callee_rel": "scripts/national_team_face.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "ge20r['n_rows']",
+   "first_read_line": 1207,
+   "line": 1206,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/national_team_face.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_s_guard_names_a_parameter_but_the_site_passes_no_literal"
+   ],
+   "call_expression": "parse_ge20(GE20_CLASS_YEAR_FIXTURE)",
+   "callee": "parse_ge20",
+   "callee_line": 637,
+   "callee_rel": "scripts/national_team_face.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "ge20y['n_rows']",
+   "first_read_line": 1214,
+   "line": 1213,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/national_team_face.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "parse_when(v)",
+   "callee": "parse_when",
+   "callee_line": 75,
+   "callee_rel": "Tools/_r805bmc_resolver.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if w:\n    cands.append(w)",
+   "first_read_line": 98,
+   "line": 97,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "Tools/_r805bmc_resolver.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "parse_when(v2)",
+   "callee": "parse_when",
+   "callee_line": 75,
+   "callee_rel": "Tools/_r805bmc_resolver.py",
+   "empty_arms": 2,
+   "error": null,
+   "first_read_expression": "if w:\n    cands.append(w)",
+   "first_read_line": 105,
+   "line": 104,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "Tools/_r805bmc_resolver.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "price_rung(rung, draws, base_draws)",
+   "callee": "price_rung",
+   "callee_line": 145,
+   "callee_rel": "scripts/e295_supply_gap_closure.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if rec:\n    out.append(rec)",
+   "first_read_line": 174,
+   "line": 173,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e295_supply_gap_closure.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "price_rung(r, 240, 60)",
+   "callee": "price_rung",
+   "callee_line": 145,
+   "callee_rel": "scripts/e295_supply_gap_closure.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "got['multiplier_central']",
+   "first_read_line": 634,
+   "line": 633,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e295_supply_gap_closure.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_s_guard_names_a_parameter_but_the_site_passes_no_literal"
+   ],
+   "call_expression": "ranges_are_row_identical(off['rows'], 'tight', interval(off['rows'], 'tight'))",
+   "callee": "ranges_are_row_identical",
+   "callee_line": 124,
+   "callee_rel": "scripts/e285_interrange_gap_ceiling.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "chk['identical']",
+   "first_read_line": 506,
+   "line": 505,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e285_interrange_gap_ceiling.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "read_bars(os.path.join(d, bm + '.csv'))",
+   "callee": "read_bars",
+   "callee_line": 34,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "bars_bm[-1]",
+   "first_read_line": 29194,
+   "line": 29193,
+   "read_guard": "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "e39.run_burncontrol()",
+   "callee": "run_burncontrol",
+   "callee_line": 20788,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "control.get",
+   "first_read_line": 100,
+   "line": 95,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "method_call_on_the_result",
+   "source": "scripts/e111_face_factor_stamp.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_burncontrol()",
+   "callee": "run_burncontrol",
+   "callee_line": 20788,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 28127,
+   "line": 28124,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_burnin(None, starts=starts, pick_n=pick_n, exclude=exclude, min_bars=mb)",
+   "callee": "run_burnin",
+   "callee_line": 3352,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "cached['evidence_cutoff']",
+   "first_read_line": 3849,
+   "line": 3846,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_burnin(None)",
+   "callee": "run_burnin",
+   "callee_line": 3352,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 27116,
+   "line": 27114,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(spans, face, _G['_t0_pos'], len(_G['idx']) - 1, keep_trades=True)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 566,
+   "callee_rel": "scripts/fund_divlowvol_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['trades']",
+   "first_read_line": 1330,
+   "line": 1326,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/fund_divlowvol_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(spans, face, _G['_t0_pos'], len(_G['idx']) - 1, keep_trades=True)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 472,
+   "callee_rel": "scripts/fund_quality_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['trades']",
+   "first_read_line": 1258,
+   "line": 1254,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/fund_quality_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(spans, face, _G['_t0_pos'], len(_G['idx']) - 1, keep_trades=True)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 459,
+   "callee_rel": "scripts/fund_value_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['trades']",
+   "first_read_line": 1182,
+   "line": 1178,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/fund_value_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, face, active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 347,
+   "callee_rel": "scripts/lowamp_deep_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 491,
+   "line": 490,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_deep_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(_G['prices'], close, null_entry, null_w, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 347,
+   "callee_rel": "scripts/lowamp_deep_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 536,
+   "line": 533,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_deep_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 347,
+   "callee_rel": "scripts/lowamp_deep_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 566,
+   "line": 563,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_deep_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 347,
+   "callee_rel": "scripts/lowamp_deep_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 685,
+   "line": 684,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_deep_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 347,
+   "callee_rel": "scripts/lowamp_deep_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 1355,
+   "line": 1353,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_deep_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'x2', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 347,
+   "callee_rel": "scripts/lowamp_deep_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "runx['pnl']",
+   "first_read_line": 1368,
+   "line": 1366,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_deep_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 347,
+   "callee_rel": "scripts/lowamp_deep_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 1386,
+   "line": 1383,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_deep_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, face, active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 270,
+   "callee_rel": "scripts/lowamp_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 409,
+   "line": 408,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(_G['prices'], close, null_entry, null_w, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 270,
+   "callee_rel": "scripts/lowamp_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 453,
+   "line": 450,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 270,
+   "callee_rel": "scripts/lowamp_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 493,
+   "line": 490,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 270,
+   "callee_rel": "scripts/lowamp_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 600,
+   "line": 599,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 270,
+   "callee_rel": "scripts/lowamp_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 1140,
+   "line": 1138,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'x2', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 270,
+   "callee_rel": "scripts/lowamp_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "runx['pnl']",
+   "first_read_line": 1153,
+   "line": 1151,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 270,
+   "callee_rel": "scripts/lowamp_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 1171,
+   "line": 1168,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, face, active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 279,
+   "callee_rel": "scripts/lowamp_p2.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 428,
+   "line": 427,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p2.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(_G['prices'], close, null_entry, null_w, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 279,
+   "callee_rel": "scripts/lowamp_p2.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 472,
+   "line": 469,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p2.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 279,
+   "callee_rel": "scripts/lowamp_p2.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 512,
+   "line": 509,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p2.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 279,
+   "callee_rel": "scripts/lowamp_p2.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 619,
+   "line": 618,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p2.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 279,
+   "callee_rel": "scripts/lowamp_p2.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 1162,
+   "line": 1160,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p2.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'x2', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 279,
+   "callee_rel": "scripts/lowamp_p2.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "runx['pnl']",
+   "first_read_line": 1175,
+   "line": 1173,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p2.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 279,
+   "callee_rel": "scripts/lowamp_p2.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 1193,
+   "line": 1190,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p2.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, face, active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 311,
+   "callee_rel": "scripts/lowamp_p3.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 453,
+   "line": 452,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p3.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(_G['prices'], close, null_entry, null_w, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 311,
+   "callee_rel": "scripts/lowamp_p3.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 497,
+   "line": 494,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p3.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 311,
+   "callee_rel": "scripts/lowamp_p3.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 537,
+   "line": 534,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p3.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 311,
+   "callee_rel": "scripts/lowamp_p3.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 644,
+   "line": 643,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p3.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 311,
+   "callee_rel": "scripts/lowamp_p3.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 1261,
+   "line": 1259,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p3.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'x2', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 311,
+   "callee_rel": "scripts/lowamp_p3.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "runx['pnl']",
+   "first_read_line": 1274,
+   "line": 1272,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p3.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_line": 311,
+   "callee_rel": "scripts/lowamp_p3.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "run['pnl']",
+   "first_read_line": 1292,
+   "line": 1289,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/lowamp_p3.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_gap_limit_ladder(outdir, start=args.start, max_limit=args.max_limit)",
+   "callee": "run_gap_limit_ladder",
+   "callee_line": 21885,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 26901,
+   "line": 26899,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_gaparm_topnames(outdir, start=args.start)",
+   "callee": "run_gaparm_topnames",
+   "callee_line": 22766,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 26969,
+   "line": 26967,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_heldsplit(outdir, start=args.start)",
+   "callee": "run_heldsplit",
+   "callee_line": 22551,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 26947,
+   "line": 26945,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_midscreen(None, start=args.start)",
+   "callee": "run_midscreen",
+   "callee_line": 14515,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 27954,
+   "line": 27951,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_neighborhood(None, start=args.start, costs=costs, neighbors=tuple((int(x) for x in args.neighbors.split(',') if x...",
+   "callee": "run_neighborhood",
+   "callee_line": 11109,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 27739,
+   "line": 27732,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_screenreg(None, start=args.start)",
+   "callee": "run_screenreg",
+   "callee_line": 13781,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 27884,
+   "line": 27882,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_screenweek(None, start=args.start)",
+   "callee": "run_screenweek",
+   "callee_line": 14292,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 27935,
+   "line": 27932,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_screenwide(None)",
+   "callee": "run_screenwide",
+   "callee_line": 14114,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 27919,
+   "line": 27916,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_sharedbook(outdir, start=args.start)",
+   "callee": "run_sharedbook",
+   "callee_line": 9135,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 27275,
+   "line": 27273,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_sharedbook_width(outdir, start=start, pick_n=int(w), exclude=exclude, mid_day=mid_day, raw=raw_all, seed=seed, ke...",
+   "callee": "run_sharedbook_width",
+   "callee_line": 9424,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 9855,
+   "line": 9851,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_sharedbook_width(outdir, start=args.start)",
+   "callee": "run_sharedbook_width",
+   "callee_line": 9424,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 27284,
+   "line": 27282,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_skinloo(None, core=core)",
+   "callee": "run_skinloo",
+   "callee_line": 3203,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 27137,
+   "line": 27135,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_tilt3screened(outdir)",
+   "callee": "run_tilt3screened",
+   "callee_line": 5117,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 27497,
+   "line": 27495,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_tilt3screensign(outdir)",
+   "callee": "run_tilt3screensign",
+   "callee_line": 5372,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 27516,
+   "line": 27514,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_tilt3sign(None)",
+   "callee": "run_tilt3sign",
+   "callee_line": 4830,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 27458,
+   "line": 27456,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_warmspread(None)",
+   "callee": "run_warmspread",
+   "callee_line": 3937,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 27162,
+   "line": 27160,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [],
+   "arm_reaches": [],
+   "call_expression": "run_weeklyclash(None, start=args.start, costs=costs)",
+   "callee": "run_weeklyclash",
+   "callee_line": 11872,
+   "callee_rel": "scripts/e39_panel_census.py",
+   "empty_arms": 0,
+   "error": null,
+   "first_read_expression": "f['evidence_cutoff']",
+   "first_read_line": 27791,
+   "line": 27786,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/e39_panel_census.py",
+   "verdict": "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_s_guard_names_a_parameter_but_the_site_passes_no_literal"
+   ],
+   "call_expression": "state_table(eff, r_next, stats_idxs)",
+   "callee": "state_table",
+   "callee_line": 123,
+   "callee_rel": "scripts/regime5_validation.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "tab['unconditional_mean']",
+   "first_read_line": 175,
+   "line": 173,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/regime5_validation.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_s_guard_names_a_parameter_but_the_site_passes_no_literal"
+   ],
+   "call_expression": "state_table(eff3, r_next, win_stats)",
+   "callee": "state_table",
+   "callee_line": 123,
+   "callee_rel": "scripts/regime5_validation.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "main_table['states']",
+   "first_read_line": 335,
+   "line": 319,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/regime5_validation.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_s_guard_names_a_parameter_but_the_site_passes_no_literal"
+   ],
+   "call_expression": "state_table(eff6, r6, list(range(6)))",
+   "callee": "state_table",
+   "callee_line": 123,
+   "callee_rel": "scripts/regime5_validation.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "tab['states']",
+   "first_read_line": 582,
+   "line": 577,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/regime5_validation.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "stint_cell(close, 5, cp, COST_RT_X1)",
+   "callee": "stint_cell",
+   "callee_line": 164,
+   "callee_rel": "scripts/parking_p1.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "cell['entries']",
+   "first_read_line": 562,
+   "line": 561,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "subscripted",
+   "source": "scripts/parking_p1.py",
+   "verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "take_side(p)",
+   "callee": "take_side",
+   "callee_line": 55,
+   "callee_rel": "Tools/_r505bmc_merge_resolve.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if side:\n    resolved = strip_conflicts_keep(p, side)\n    io.open(os.path.join(ROOT, p), 'w', encoding='utf-8', newli...",
+   "first_read_line": 161,
+   "line": 160,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "Tools/_r505bmc_merge_resolve.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters",
+    "the_arm_sits_outside_every_branch_of_the_callee"
+   ],
+   "call_expression": "template_writer(src, face)",
+   "callee": "template_writer",
+   "callee_line": 158,
+   "callee_rel": "scripts/e325_orphan_gate_faces.py",
+   "empty_arms": 3,
+   "error": null,
+   "first_read_expression": "if fam:\n    family.append({'producer': relp(path), 'evidence': fam})",
+   "first_read_line": 224,
+   "line": 223,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "scripts/e325_orphan_gate_faces.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  },
+  {
+   "arm_kinds": [
+    "an_explicit_return_that_names_nothing"
+   ],
+   "arm_reaches": [
+    "the_arm_is_behind_a_test_that_does_not_name_the_callee_s_parameters"
+   ],
+   "call_expression": "tier_search(sorted(ids), stats)",
+   "callee": "tier_search",
+   "callee_line": 122,
+   "callee_rel": "content/drama/runner_assets/voice_differentiation_eval.py",
+   "empty_arms": 1,
+   "error": null,
+   "first_read_expression": "if t:\n    tiers[fam] = t",
+   "first_read_line": 184,
+   "line": 183,
+   "read_guard": "no_guard_is_visible_on_the_read_line",
+   "read_kind": "truth_tested_only",
+   "source": "content/drama/runner_assets/voice_differentiation_eval.py",
+   "verdict": "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+  }
+ ],
+ "study": "E521_reachable_empty_arm",
+ "summary": {
+  "benign_truth_tests": 92,
+  "by_read_guard": {
+   "a_conditional_expression_on_the_read_line_tests_the_read_s_own_root_name": 15,
+   "no_guard_is_visible_on_the_read_line": 184
+  },
+  "by_read_kind": {
+   "method_call_on_the_result": {
+    "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see": 5,
+    "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site": 3,
+    "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path": 2
+   },
+   "subscripted": {
+    "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see": 10,
+    "the_read_would_raise_and_no_empty_arm_is_excluded_by_the_call_s_own_arguments": 1,
+    "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site": 49,
+    "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path": 37
+   },
+   "truth_tested_only": {
+    "the_read_is_a_truth_test_so_an_empty_value_does_not_raise": 92
+   }
+  },
+  "by_verdict": {
+   "the_read_is_a_truth_test_so_an_empty_value_does_not_raise": 92,
+   "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see": 15,
+   "the_read_would_raise_and_no_empty_arm_is_excluded_by_the_call_s_own_arguments": 1,
+   "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site": 52,
+   "the_read_would_raise_but_every_empty_arm_is_excluded_by_the_call_s_own_literal_arguments": 0,
+   "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path": 39
+  },
+  "distinct_callees": 118,
+  "distinct_sources": 91,
+  "parent_population": 199,
+  "parent_verdict": "some_production_site_reads_the_empty_arm_unguarded",
+  "population": 199,
+  "raising_sites": 92,
+  "rows_with_no_empty_arm_located_here": 40,
+  "sites_that_carry_an_implicit_fallthrough_arm_the_return_path_census_cannot_count": 0,
+  "sites_the_parent_called_unguarded_that_a_conditional_expression_already_guards": 15,
+  "sites_where_a_raising_read_takes_a_reachable_empty_arm": 1,
+  "sites_whose_only_empty_arm_is_the_implicit_fallthrough": 0,
+  "ternary_guarded_sites_that_would_have_raised": 7
+ },
+ "title": "A count of unguarded reads is not a count of crashes: for each of E515's 199 unguarded production reads, enumerate every empty arm of the callee -- including the implicit one a return-path census cannot see -- and ask whether that arm is reachable from this call site's own literal arguments",
+ "verdict": "some_unguarded_production_read_reaches_an_empty_arm_with_nothing_between_it_and_the_crash",
+ "verdict_vocab": [
+  "the_read_sits_inside_a_conditional_expression_that_tests_the_same_name_a_guard_the_parent_cannot_see",
+  "the_read_would_raise_and_no_empty_arm_is_excluded_by_the_call_s_own_arguments",
+  "the_read_would_raise_but_every_empty_arm_is_excluded_by_the_call_s_own_literal_arguments",
+  "the_read_would_raise_on_nothing_but_the_callee_has_no_empty_arm_on_any_path",
+  "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+  "the_read_is_a_truth_test_so_an_empty_value_does_not_raise"
+ ]
+}

@@ -13045,3 +13045,18 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 - **连字符串引用也别信**：本窗一度把「5 个未绑定」写进结论，是逐行看源码（`_arms()` / `corpus()` / `for name, payload in ...`）才推翻的——上游的类名只是线索。
 
 **验证**：`scripts/e520_forwarded_argument.py`（`build` rc0 / `check` problems=0 / `verify` 重建 problems=0——与磁盘面逐字节一致 / **selftest 0 problems**：7 行固定语料（字面量、模块常量、跨模块调用、文件读、整号形参、解构目标、真未绑定 + 同模块调用者 + 漏传无默认值形参）+ 八枚 doctored 面全被拒：手写 verdict、形参行携带 binding、arrival 与 binding 矛盾、改 provenance）＋ `results/state_tilt/FORWARDEDARG-2026-11-08.json` + `forwardedarg_latest.json` 同源 ＋ S6 链腿 `forwarded_argument`（rc0 0.06s）＋ smoke 腿 `# E520`（`scripts/run_e520_smoke_leg.py` 单跑 1/1 绿、`--doctor` 1/1 红且面字节还原 sha `eb97c93ec38b`）＋ digest `research/digests/DIGEST-20261108-r1552-e520-forwarded-argument-origin.md`。未跑：全量 smoke 套件、其余 S6 链腿、`monitor.build_status`、`daily_scorecard`、采集器族与 market/paper 链（不宣称）。
+
+## E521 · 无卫读不是崩溃计数：199 条里 92 条是真理测试、15 条被读自己那行的条件表达式看着、1 条真空臂无遮拦（2026-11-08 r1553 bm-b）
+
+**立论**：E515 发布了 199 个「生产代码无卫读取分支型被调方结果」的站点。无卫读只有在被调方的空臂**真能从该站点走到**时才炸，所以本轮给每一行定价：被调方有几条空臂（含 return-path 普查数不到的隐式落空）、读法会不会抛、站点自己的字面量把空臂排除还是保证。
+
+**读数**（199 站点 / 118 被调方 / 91 源）：真理测试 92（空值不抛）；**读会抛且读这一行自带条件表达式守卫 15**（其中 7 个否则会走到可达空臂）；会抛但被调方任何路径无空臂 39；会抛且可达性不可判 52；**会抛且空臂无遮拦可达 1**。唯一那条＝`scripts/e333_surviving_e3xx_conclusions.py:291→292`：`consumer_signal` 第 184 行有分支外 `return None`，站点直接下标 `sig["delta"]`；今天靠入口表第四个 entry 的 `signal=None` 被 `if entry.get("signal"):` 挡掉，换一个未知 signal 名即在 None 上下标。
+
+**可复用教训**：
+- **条件表达式是守卫，但写在读那一行里**：`d.get("k") if isinstance(d, dict) else None`、`name.rsplit('.',1)[-1] if name else None`、`three.get('summary') or {} if three else {}` —— 语句级「call 与 read 之间」的普查对这 15 个站点一律读成无卫；本窗首版同样看不见（8 条「可达」里 7 条是这个形状），加 `read_line_guard`（同行 `IfExp` 测试点名读表达式的根名）后才收敛到 1 条。
+- **隐式落空在本人口是测出来的 0**：父面 1,186 个被调方全有显式空返回，故「跑到末尾掉下来」一条都没出现在 199 站点里；单列成字段而不是并进总数。
+- **「守卫点名参数」不等于「站点能满足」**：`if not x: return None` 遇 `[2]` 是排除、遇 `None` 是保证、遇 `vals` 是不可判——三档分开，禁把不可判洗成任一侧。
+- **不是空值测试就当没测**：`if n > 3: return None` 与实参空不空无关，一律 `UNDECIDED_OTHER_GUARD`；把「提到参数的任何测试」当空值守卫会把 52 条不可判缩成几条假安全。
+- **计数名要数它自己**：39 是「会抛且无空臂」的站点，不是「被调方没有空臂」（40 行 `empty_arms==0` 里 1 行是真理测试）；字段改名 `rows_with_no_empty_arm_located_here`（E207 名即语义族）。
+
+**验证**：`scripts/e521_reachable_empty_arm.py`（`build` rc0 / `check` problems=0 / `verify` 重建 problems=0 / **selftest 25/25**：无条件 None、隐式落空、空值守卫三档、别的测试不当守卫、无空臂＋条件表达式守卫三腿；四枚 doctored 面全拒）＋ `results/state_tilt/EMPTYARMREACH-2026-11-08.json` + `emptyarmreach_latest.json` 同源 ＋ smoke 腿 `# E521`（`scripts/run_e521_smoke_leg.py` 1/1 绿、`--doctor` 1/1 红且面还原 sha `d3dc311a249a`）＋ digest `research/digests/DIGEST-20261108-r1553-e521-reachable-empty-arm.md`。未跑：全量 smoke 套件、其余 S6 链腿、`monitor.build_status`、`daily_scorecard`、采集器族与 market/paper 链（不宣称）。
