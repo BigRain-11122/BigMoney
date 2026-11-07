@@ -1,11 +1,13 @@
 {
-  "ts": "2026-10-29T04:32:21",
-  "mode": "refresh source-blocked (connection-level)",
+  "ts": "2026-11-08T06:34:20",
+  "mode": "refresh in progress (todo=5226/5226, done=0, quarantined=0)",
   "panel": {
-    "cutoff": "2026-10-19",
+    "cutoff": "2026-11-06",
     "complete": false,
     "n_symbols": 5222,
-    "universe_n": 5222
+    "universe_n": 5226,
+    "mirror_cutoff": "2026-10-19",
+    "cutoff_from_bytes": "2026-11-06"
   },
   "claim": "MSG-20260924-0920-bm-a-moneyflow-collector",
   "last_refresh": {
@@ -25,25 +27,38 @@
     "fuse_stopped": false,
     "conn_stopped": true
   },
-  "last_spawn_attempt": "2026-10-19T17:45:49",
+  "last_spawn_attempt": "2026-11-08T06:33:50",
   "spawn_reason": "no local panel (first run)",
   "rank": {
-    "ts": "2026-10-20T13:36:16",
-    "mode": "spawn: detached rank pass",
-    "last_spawn_attempt": "2026-10-29T04:32:21",
-    "spawn_reason": "rank stamp 2026-10-13 lags expected 2026-10-28",
-    "last_stamp": "2026-10-13",
-    "rank_face_n": 5923,
-    "total": 5923,
+    "ts": "2026-11-08T06:32:32",
+    "mode": "ok",
+    "last_spawn_attempt": "2026-11-08T06:24:02",
+    "spawn_reason": "rank stamp 2026-10-13 lags expected 2026-11-06",
+    "last_stamp": "2026-11-06",
+    "rank_face_n": 5927,
+    "total": 5927,
     "pages": 60,
-    "universe_n": 5222,
-    "appended": 5222,
+    "universe_n": 5226,
+    "appended": 5225,
     "skipped_same_day": 0,
-    "not_in_rank_face": 0,
-    "skipped_not_in_universe": 701,
+    "not_in_rank_face": 1,
+    "skipped_not_in_universe": 702,
     "mismatches_n": 0,
     "mismatch_head": [],
-    "last_run_elapsed_s": 158.2
+    "last_run_elapsed_s": 197.0
   },
-  "spawn_mode": "first-pull/continuation"
+  "spawn_mode": "first-pull/continuation",
+  "authority": {
+    "lane_owner": "bm-c",
+    "writer_machine": "bm-c",
+    "data_face_machine": "bm-c",
+    "declared_takeover": false,
+    "took_over_by": null,
+    "took_over_at": null,
+    "reason": null
+  },
+  "machine": "bm-c",
+  "lane_host": "bm-c",
+  "universe_source": "data/fundamental/eligibility.csv",
+  "universe_n_gate": 5226
 }
