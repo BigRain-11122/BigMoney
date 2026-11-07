@@ -12775,3 +12775,23 @@ cause_verdict=`the_one_day_cases_split_between_structured_fields_and_free_text`�
 **边界**：静态、单仓、导入一跳（深度 ≤ 8）。历史臂是**带标签的快照**（110 个 blob，禁懒取），零命中说的是本 clone 不是远端；闸除历史臂外全部可从行重算。`mixed` 永不折进 clock 或 data。
 
 **正向证据**：`scripts/e507_unresolved_origin.py`（`run` rc0 / `check` problems=[] / `verify` problems=[] 重建恒等 / **selftest 18/18**），产物 `results/state_tilt/UNRESOLVEDORIGIN-2026-11-07.json` + `unresolvedorigin_latest.json`；S6 腿 `unresolved_origin` rc0 0.06s；smoke 腿 `# E507 (r1536 bm-b)` 原文单跑 1/1 绿、`--doctor` 1/1 红后逐字节还原。
+
+
+## E510 -- 42 对「有歧义」的日期符号只落在 13 个位置上：作用域表收敛 8 个、留 4 个真复用、1 个要靠模块级兜底（r1537 bm-b）
+
+**触发**：E507 把 169 对残差判成 42 对 mixed（同一个日期符号「承载不止一个来源」），但它的绑定表是模块级的——模块里任何一处的赋值都能到达模块里任何一处，于是 comprehension 目标、无关函数的局部变量都会把同一个名字并进同一个答案。悬案是：这 42 对里有多少是**代码真的复用了同一个名字**，有多少是**解析器自己造的歧义**？
+
+**方法**：不改上游，只换表。对 E507 自己发布的面取 tracks=mixed 的 42 行，按 (source, date_expression, line) 归成「pair site」；每个 site 跑两臂——wide=模块级表（E507 口径），scoped=最近包围函数优先、再模块、comprehension 目标遮蔽、lambda 视为独立作用域、参数只取包围函数自己的形参。两臂各自出 (class, tracks, binding)，再按 `collapse_class(wide, narrow)` 机械判类：single origin（clock/data）/ caller-supplied（R_CALLER）/ not-a-date / stays mixed / no binding / **operand out of scope**（符号在域内绑定，但它的操作数在别的域绑定）。同时发布「作用域丢掉的绑定位置」= wide 表里有、scoped 表里没有的赋值行。
+
+**读数**：42 对 → **13 个 pair site**（42 行里 29 行是同一个站点的重复成员），涉 5 个源文件、4 个符号、29 个成员面。wide 臂 13/13 全是 mixed；scoped 臂：**7 个收敛到单一来源（全为 data）**、**1 个收敛到 caller-supplied**（`etf_book_order.py` 的 `asof` 在 `card()` 里是形参，域内正确读法是「调用方决定」，wide 表把它和另外两个函数各自的 `asof` 局部并成了 mixed）、**4 个仍然 mixed**（`etf_book_cash_ladder.py` 的 `idx`、`etf_book_order.py` 的 `asof` 在 `run_card()` 内 3 处——这些是同一作用域里真的两次绑定）、**1 个靠作用域读不出来**（`stagestyle_combo_p1_backtest.py` 的 `cutoff`：符号在 `cmd_run` 内绑定成 `str(idx[hi].date())`，但 `idx` 不在该作用域绑定）。作用域在 10 个 pair site 上一共丢掉了 **13 个绑定位置**——这就是「45% 的歧义是解析器造的」的机械证据。
+
+**可复用教训**：
+
+1. **广度不是深度**：42 对 mixed 只落在 13 个位置上。先按 (文件, 表达式, 行号) 去重再谈「有多少歧义」，否则「42 处歧义」这个数说的是同一个站点被多少张面引用，不是代码有几个问题。
+2. **作用域更严格 ≠ 读得更多**：13 个 site 里 8 个被收敛，但 1 个因为操作数跨作用域反而读不出来。两类必须分开命名（`no binding` vs `operand out of scope`），否则「scoped 更好」会把丢信息的那个当成功，反过来「wide 更好」会把 4 个真复用当解析器问题。正法=scoped 为主 + 模块级兜底，并逐 site 披露是哪一臂决定的。
+3. **解析器缓存不能与表无关**：`_RES_CACHE` 的键里没有「哪张表」，两臂共用一个缓存会拿 wide 的答案回答 scoped（首版就撞在 `_cal` 上：narrow 表只有 1 个赋值却读出 4 个 binding）。每臂解析前清缓存是他研究里最便宜的防线。
+4. **smoke_test.py 不读 argv**（r1499 复现）：本窗用它跑单腿，`--only` 被忽略、整轮开跑、5 分钟无输出被取消——单腿复检只能另写 `_r<N>_legcheck.py` 复刻该腿断言。
+
+**边界**：作用域是**词法**的，不是数据流：同一作用域内先后两次赋值都算「可达」，所以 4 个 stays-mixed 是这套方法的上限而不是代码的定论；历史臂完全没跑（E507 的 git blob 索引不重放），只读工作树；`caller_supplied` 只是「域内看是形参」，调用方到底传什么不在这项研究射程内；`drop` 的绑定位置只按行号集合差算，同一行多次赋值算一个。
+
+**验证**：`scripts/e510_binding_scope.py`（run rc0 / check problems=[] / verify problems=[] 且重导一致 / **selftest 20/20**）+ `results/state_tilt/SCOPEDBINDING-2026-11-07.json` + `scopedbinding_latest.json`（13 个 pair + 42 行 + 两臂完整读数 + bindings 差异）；S6 腿 `binding_scope` rc0 0.05s（receipt `results/_r1537bmb_s6_chain.json`）；smoke 腿 `# E510 (r1537 bm-b)` 原文文档化（单腿复检 `_r1537_leg510.py` bad=[]）；digest=`research/digests/DIGEST-20261107-r1537-e510-binding-scope.md`。未跑：全量 smoke 套件、其余 S6 链、采集器、GPU 面（法定停车）。

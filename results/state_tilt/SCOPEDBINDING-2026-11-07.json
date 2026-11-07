@@ -1,0 +1,1257 @@
+{
+ "answers": {
+  "how_many_ambiguous_pairs_did_e507_publish": 42,
+  "how_many_become_unreadable": 0,
+  "how_many_binding_locations_the_scope_drops": 13,
+  "how_many_collapse_to_a_single_origin": 7,
+  "how_many_collapse_to_caller_supplied": 1,
+  "how_many_distinct_pair_sites_are_behind_them": 13,
+  "how_many_pairs_need_the_module_wide_fallback": 1,
+  "how_many_stay_ambiguous": 4,
+  "how_many_stay_unreadable_because_an_operand_binds_elsewhere": 1,
+  "which_table_is_the_reading": "scoped_nearest_enclosing_function_first_then_the_module"
+ },
+ "card": "E510-WHICH-OF-THE-42-AMBIGUOUS-RESIDUALS-BECOME-SINGLE-ORIGIN-WHEN-THE-BINDING-TABLE-IS-SCOPED",
+ "collapse_vocab": [
+  "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+  "collapsed_to_caller_supplied_the_symbol_is_a_parameter_of_the_enclosing_function",
+  "collapsed_to_not_a_date_the_enclosing_scope_binds_no_day_at_all",
+  "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+  "became_unreadable_the_enclosing_scope_holds_no_binding_at_all",
+  "stays_unreadable_the_symbol_binds_in_scope_but_its_operand_binds_elsewhere"
+ ],
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T21:55:37+08:00",
+ "method_limits": [
+  "the population is E507's own published face; a pair appears here because that face called it ambiguous, not because this study re-read the upstream rows",
+  "the scoped table resolves a name to the nearest enclosing scope that binds it, then the module; it is not a dataflow analysis, so a name rebound later in the same scope still contributes every assignment to that scope",
+  "comprehension targets are shadowed (E507 already did this) and a lambda body is treated as its own scope",
+  "a symbol that the enclosing scope does not bind and that is a parameter of the enclosing function is published as caller-supplied, never folded into clock/data",
+  "the resolver cache is keyed without the table in key, so it is cleared per arm; a shared cache would answer one table with the other table's result",
+  "only the tree is read: the git-history arm of E507 is not replayed here, so a pair whose only binding was historical is out of this study's reach"
+ ],
+ "pairs": [
+  {
+   "bindings": {
+    "dropped_locations": [
+     "scripts/e39_panel_census.py:16456",
+     "scripts/e39_panel_census.py:17181"
+    ],
+    "scoped_assignments": 2,
+    "symbol": "_cal",
+    "wide_assignments": 3
+   },
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "scope": "main",
+   "scope_chain": [
+    "FunctionDef",
+    "Module"
+   ],
+   "scoped": {
+    "binding": "scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54",
+    "chain": [
+     "_cal[-1]",
+     "_cal",
+     "cycle:d",
+     "_base_ll.load_panel()[0]",
+     "load_panel()"
+    ],
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "expression": "_cal[-1]",
+    "tracks": "data_the_name_states_the_data_day"
+   },
+   "source": "scripts/e39_panel_census.py",
+   "symbol": "_cal",
+   "tables": [
+    "module_wide_every_assignment_in_the_module_can_reach_every_site",
+    "scoped_nearest_enclosing_function_first_then_the_module"
+   ],
+   "wide": {
+    "binding": "scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54 ; scripts/e24_ladder_weighting.py:54",
+    "chain": [
+     "_cal[-1]",
+     "_cal",
+     "literal_tag",
+     "cycle:d",
+     "literal_number",
+     "cycle:m",
+     "_base_ll.load_panel()[0]",
+     "load_panel()"
+    ],
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "expression": "_cal[-1]",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   }
+  },
+  {
+   "bindings": {
+    "dropped_locations": [
+     "scripts/etf_book_cash_ladder.py:100",
+     "scripts/etf_book_cash_ladder.py:269"
+    ],
+    "scoped_assignments": 4,
+    "symbol": "idx",
+    "wide_assignments": 5
+   },
+   "collapse": "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+   "date_expression": "idx[-1].date()",
+   "line": 575,
+   "scope": "main",
+   "scope_chain": [
+    "FunctionDef",
+    "Module"
+   ],
+   "scoped": {
+    "binding": "scripts/etf_book_cash_ladder.py:idx",
+    "chain": [
+     "idx[-1]",
+     "idx",
+     "literal_number",
+     "s.index",
+     "series_attribute",
+     "idx.union",
+     "method_unbound",
+     "idx[idx >= WINDOW_START]"
+    ],
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "expression": "idx[-1]",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   },
+   "source": "scripts/etf_book_cash_ladder.py",
+   "symbol": "idx",
+   "tables": [
+    "module_wide_every_assignment_in_the_module_can_reach_every_site",
+    "scoped_nearest_enclosing_function_first_then_the_module"
+   ],
+   "wide": {
+    "binding": "scripts/etf_book_cash_ladder.py:idx",
+    "chain": [
+     "idx[-1]",
+     "idx",
+     "pd.DatetimeIndex",
+     "date_index_constructor",
+     "literal_number",
+     "idx[idx >= WINDOW_START]",
+     "subscript_base_unreadable",
+     "s.index"
+    ],
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "expression": "idx[-1]",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   }
+  },
+  {
+   "bindings": {
+    "dropped_locations": [
+     "scripts/etf_book_order.py:1019"
+    ],
+    "scoped_assignments": 1,
+    "symbol": "asof",
+    "wide_assignments": 2
+   },
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 542,
+   "scope": "run",
+   "scope_chain": [
+    "FunctionDef",
+    "Module"
+   ],
+   "scoped": {
+    "binding": "scripts/etf_book_order.py:asof",
+    "chain": [
+     "asof",
+     "slip.index",
+     "element_of_loaded_series"
+    ],
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "expression": "slip.index[-1]",
+    "tracks": "data_the_name_states_the_data_day"
+   },
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "tables": [
+    "module_wide_every_assignment_in_the_module_can_reach_every_site",
+    "scoped_nearest_enclosing_function_first_then_the_module"
+   ],
+   "wide": {
+    "binding": "scripts/etf_book_order.py:asof",
+    "chain": [
+     "asof",
+     "slip.index",
+     "element_of_loaded_series",
+     "tk['priced_bar']",
+     "payload_field",
+     "literal_tag"
+    ],
+    "class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+    "expression": "slip.index[-1]",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   }
+  },
+  {
+   "bindings": {
+    "dropped_locations": [
+     "scripts/etf_book_order.py:467"
+    ],
+    "scoped_assignments": 1,
+    "symbol": "asof",
+    "wide_assignments": 2
+   },
+   "collapse": "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+   "date_expression": "asof",
+   "line": 1033,
+   "scope": "run_card",
+   "scope_chain": [
+    "FunctionDef",
+    "Module"
+   ],
+   "scoped": {
+    "binding": "scripts/etf_book_order.py:asof",
+    "chain": [
+     "asof",
+     "tk['priced_bar']",
+     "payload_field",
+     "literal_tag"
+    ],
+    "class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+    "expression": "tk['priced_bar']",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   },
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "tables": [
+    "module_wide_every_assignment_in_the_module_can_reach_every_site",
+    "scoped_nearest_enclosing_function_first_then_the_module"
+   ],
+   "wide": {
+    "binding": "scripts/etf_book_order.py:asof",
+    "chain": [
+     "asof",
+     "slip.index",
+     "element_of_loaded_series",
+     "tk['priced_bar']",
+     "payload_field",
+     "literal_tag"
+    ],
+    "class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+    "expression": "slip.index[-1]",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   }
+  },
+  {
+   "bindings": {
+    "dropped_locations": [
+     "scripts/etf_book_order.py:1019"
+    ],
+    "scoped_assignments": 1,
+    "symbol": "asof",
+    "wide_assignments": 2
+   },
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 543,
+   "scope": "run",
+   "scope_chain": [
+    "FunctionDef",
+    "Module"
+   ],
+   "scoped": {
+    "binding": "scripts/etf_book_order.py:asof",
+    "chain": [
+     "asof",
+     "slip.index",
+     "element_of_loaded_series"
+    ],
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "expression": "slip.index[-1]",
+    "tracks": "data_the_name_states_the_data_day"
+   },
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "tables": [
+    "module_wide_every_assignment_in_the_module_can_reach_every_site",
+    "scoped_nearest_enclosing_function_first_then_the_module"
+   ],
+   "wide": {
+    "binding": "scripts/etf_book_order.py:asof",
+    "chain": [
+     "asof",
+     "slip.index",
+     "element_of_loaded_series",
+     "tk['priced_bar']",
+     "payload_field",
+     "literal_tag"
+    ],
+    "class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+    "expression": "slip.index[-1]",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   }
+  },
+  {
+   "bindings": {
+    "dropped_locations": [
+     "scripts/etf_book_order.py:1019"
+    ],
+    "scoped_assignments": 1,
+    "symbol": "asof",
+    "wide_assignments": 2
+   },
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 568,
+   "scope": "run",
+   "scope_chain": [
+    "FunctionDef",
+    "Module"
+   ],
+   "scoped": {
+    "binding": "scripts/etf_book_order.py:asof",
+    "chain": [
+     "asof",
+     "slip.index",
+     "element_of_loaded_series"
+    ],
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "expression": "slip.index[-1]",
+    "tracks": "data_the_name_states_the_data_day"
+   },
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "tables": [
+    "module_wide_every_assignment_in_the_module_can_reach_every_site",
+    "scoped_nearest_enclosing_function_first_then_the_module"
+   ],
+   "wide": {
+    "binding": "scripts/etf_book_order.py:asof",
+    "chain": [
+     "asof",
+     "slip.index",
+     "element_of_loaded_series",
+     "tk['priced_bar']",
+     "payload_field",
+     "literal_tag"
+    ],
+    "class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+    "expression": "slip.index[-1]",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   }
+  },
+  {
+   "bindings": {
+    "dropped_locations": [
+     "scripts/etf_book_order.py:467"
+    ],
+    "scoped_assignments": 1,
+    "symbol": "asof",
+    "wide_assignments": 2
+   },
+   "collapse": "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+   "date_expression": "asof",
+   "line": 1059,
+   "scope": "run_card",
+   "scope_chain": [
+    "FunctionDef",
+    "Module"
+   ],
+   "scoped": {
+    "binding": "scripts/etf_book_order.py:asof",
+    "chain": [
+     "asof",
+     "tk['priced_bar']",
+     "payload_field",
+     "literal_tag"
+    ],
+    "class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+    "expression": "tk['priced_bar']",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   },
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "tables": [
+    "module_wide_every_assignment_in_the_module_can_reach_every_site",
+    "scoped_nearest_enclosing_function_first_then_the_module"
+   ],
+   "wide": {
+    "binding": "scripts/etf_book_order.py:asof",
+    "chain": [
+     "asof",
+     "slip.index",
+     "element_of_loaded_series",
+     "tk['priced_bar']",
+     "payload_field",
+     "literal_tag"
+    ],
+    "class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+    "expression": "slip.index[-1]",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   }
+  },
+  {
+   "bindings": {
+    "dropped_locations": [
+     "scripts/etf_book_order.py:1019"
+    ],
+    "scoped_assignments": 1,
+    "symbol": "asof",
+    "wide_assignments": 2
+   },
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 545,
+   "scope": "run",
+   "scope_chain": [
+    "FunctionDef",
+    "Module"
+   ],
+   "scoped": {
+    "binding": "scripts/etf_book_order.py:asof",
+    "chain": [
+     "asof",
+     "slip.index",
+     "element_of_loaded_series"
+    ],
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "expression": "slip.index[-1]",
+    "tracks": "data_the_name_states_the_data_day"
+   },
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "tables": [
+    "module_wide_every_assignment_in_the_module_can_reach_every_site",
+    "scoped_nearest_enclosing_function_first_then_the_module"
+   ],
+   "wide": {
+    "binding": "scripts/etf_book_order.py:asof",
+    "chain": [
+     "asof",
+     "slip.index",
+     "element_of_loaded_series",
+     "tk['priced_bar']",
+     "payload_field",
+     "literal_tag"
+    ],
+    "class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+    "expression": "slip.index[-1]",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   }
+  },
+  {
+   "bindings": {
+    "dropped_locations": [
+     "scripts/etf_book_order.py:467"
+    ],
+    "scoped_assignments": 1,
+    "symbol": "asof",
+    "wide_assignments": 2
+   },
+   "collapse": "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+   "date_expression": "asof",
+   "line": 1043,
+   "scope": "run_card",
+   "scope_chain": [
+    "FunctionDef",
+    "Module"
+   ],
+   "scoped": {
+    "binding": "scripts/etf_book_order.py:asof",
+    "chain": [
+     "asof",
+     "tk['priced_bar']",
+     "payload_field",
+     "literal_tag"
+    ],
+    "class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+    "expression": "tk['priced_bar']",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   },
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "tables": [
+    "module_wide_every_assignment_in_the_module_can_reach_every_site",
+    "scoped_nearest_enclosing_function_first_then_the_module"
+   ],
+   "wide": {
+    "binding": "scripts/etf_book_order.py:asof",
+    "chain": [
+     "asof",
+     "slip.index",
+     "element_of_loaded_series",
+     "tk['priced_bar']",
+     "payload_field",
+     "literal_tag"
+    ],
+    "class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+    "expression": "slip.index[-1]",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   }
+  },
+  {
+   "bindings": {
+    "dropped_locations": [
+     "scripts/etf_book_order.py:1019",
+     "scripts/etf_book_order.py:467"
+    ],
+    "scoped_assignments": 0,
+    "symbol": "asof",
+    "wide_assignments": 2
+   },
+   "collapse": "collapsed_to_caller_supplied_the_symbol_is_a_parameter_of_the_enclosing_function",
+   "date_expression": "asof",
+   "line": 227,
+   "scope": "card",
+   "scope_chain": [
+    "FunctionDef",
+    "Module"
+   ],
+   "scoped": {
+    "binding": "scripts/etf_book_order.py:param:asof",
+    "chain": [
+     "asof",
+     "function_parameter"
+    ],
+    "class": "caller_supplied_the_symbol_is_a_function_parameter",
+    "expression": "",
+    "tracks": "unknown_no_binding_could_be_read"
+   },
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "tables": [
+    "module_wide_every_assignment_in_the_module_can_reach_every_site",
+    "scoped_nearest_enclosing_function_first_then_the_module"
+   ],
+   "wide": {
+    "binding": "scripts/etf_book_order.py:asof",
+    "chain": [
+     "asof",
+     "slip.index",
+     "element_of_loaded_series",
+     "tk['priced_bar']",
+     "payload_field",
+     "literal_tag"
+    ],
+    "class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+    "expression": "slip.index[-1]",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   }
+  },
+  {
+   "bindings": {
+    "dropped_locations": [],
+    "scoped_assignments": 1,
+    "symbol": "cutoff",
+    "wide_assignments": 1
+   },
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "cutoff",
+   "line": 209,
+   "scope": "cmd_run",
+   "scope_chain": [
+    "FunctionDef",
+    "Module"
+   ],
+   "scoped": {
+    "binding": "scripts/regime5_labeler.py:85",
+    "chain": [
+     "cutoff",
+     "bench[-1][0]",
+     "bench[-1]",
+     "bench",
+     "_load()",
+     "helper_reads_a_file"
+    ],
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "expression": "bench[-1][0]",
+    "tracks": "data_the_name_states_the_data_day"
+   },
+   "source": "scripts/regime5_labeler.py",
+   "symbol": "cutoff",
+   "tables": [
+    "module_wide_every_assignment_in_the_module_can_reach_every_site",
+    "scoped_nearest_enclosing_function_first_then_the_module"
+   ],
+   "wide": {
+    "binding": "scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:229",
+    "chain": [
+     "cutoff",
+     "bench[-1][0]",
+     "bench[-1]",
+     "bench",
+     "_load()",
+     "helper_reads_a_file",
+     "_panel_a()"
+    ],
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "expression": "bench[-1][0]",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   }
+  },
+  {
+   "bindings": {
+    "dropped_locations": [],
+    "scoped_assignments": 1,
+    "symbol": "cutoff",
+    "wide_assignments": 1
+   },
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "cutoff",
+   "line": 215,
+   "scope": "cmd_run",
+   "scope_chain": [
+    "FunctionDef",
+    "Module"
+   ],
+   "scoped": {
+    "binding": "scripts/regime5_labeler.py:85",
+    "chain": [
+     "cutoff",
+     "bench[-1][0]",
+     "bench[-1]",
+     "bench",
+     "_load()",
+     "helper_reads_a_file"
+    ],
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "expression": "bench[-1][0]",
+    "tracks": "data_the_name_states_the_data_day"
+   },
+   "source": "scripts/regime5_labeler.py",
+   "symbol": "cutoff",
+   "tables": [
+    "module_wide_every_assignment_in_the_module_can_reach_every_site",
+    "scoped_nearest_enclosing_function_first_then_the_module"
+   ],
+   "wide": {
+    "binding": "scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:rows ; scripts/regime5_labeler.py:229",
+    "chain": [
+     "cutoff",
+     "bench[-1][0]",
+     "bench[-1]",
+     "bench",
+     "_load()",
+     "helper_reads_a_file",
+     "_panel_a()"
+    ],
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "expression": "bench[-1][0]",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   }
+  },
+  {
+   "bindings": {
+    "dropped_locations": [],
+    "scoped_assignments": 1,
+    "symbol": "cutoff",
+    "wide_assignments": 1
+   },
+   "collapse": "stays_unreadable_the_symbol_binds_in_scope_but_its_operand_binds_elsewhere",
+   "date_expression": "cutoff",
+   "line": 630,
+   "scope": "cmd_run",
+   "scope_chain": [
+    "FunctionDef",
+    "Module"
+   ],
+   "scoped": {
+    "binding": "scripts/stagestyle_combo_p1_backtest.py:cutoff",
+    "chain": [
+     "cutoff",
+     "idx[hi]",
+     "subscript_base_unreadable"
+    ],
+    "class": "same_module_binding_the_symbol_binds_here_and_its_right_hand_side_resolves",
+    "expression": "idx[hi]",
+    "tracks": "unknown_no_binding_could_be_read"
+   },
+   "source": "scripts/stagestyle_combo_p1_backtest.py",
+   "symbol": "cutoff",
+   "tables": [
+    "module_wide_every_assignment_in_the_module_can_reach_every_site",
+    "scoped_nearest_enclosing_function_first_then_the_module"
+   ],
+   "wide": {
+    "binding": "scripts/stagestyle_combo_p1_backtest.py:syms ; scripts/stagestyle_combo_p1_backtest.py:arrays ; scripts/stagestyle_combo_p1_backtest.py:meta ; scripts/stagestyle_combo_p1_backtest.py:syms ; scripts/stagestyle_combo_p1_backtest.py:arrays ; s",
+    "chain": [
+     "cutoff",
+     "idx[hi]",
+     "idx",
+     "pd.to_datetime",
+     "date_index_constructor",
+     "panel",
+     "load_local_panel()",
+     "pd.date_range"
+    ],
+    "class": "series_element_the_date_is_an_element_of_loaded_data",
+    "expression": "idx[hi]",
+    "tracks": "mixed_the_binding_carries_more_than_one_origin"
+   }
+  }
+ ],
+ "population_source": "results/state_tilt/UNRESOLVEDORIGIN-2026-11-07.json rows with tracks=mixed",
+ "rows": [
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "path": "results/e44_midmonth/WIDTHLADDER-20261028.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "symbol": "_cal",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "path": "results/e44_midmonth/WIDTHLADDER-20261029.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "symbol": "_cal",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "path": "results/e44_midmonth/WIDTHLADDER-20261030.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "symbol": "_cal",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "path": "results/e44_midmonth/WIDTHLADDER-20261102.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "symbol": "_cal",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "path": "results/e44_midmonth/WIDTHLADDER-20261103.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "symbol": "_cal",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "path": "results/e44_midmonth/WIDTHLADDER-20261104.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "symbol": "_cal",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "path": "results/e44_midmonth/WIDTHLADDER-20261105.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "symbol": "_cal",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "_cal[-1].replace('-', '')",
+   "line": 27299,
+   "path": "results/e44_midmonth/WIDTHLADDER-20261106.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0054",
+   "source": "scripts/e39_panel_census.py",
+   "symbol": "_cal",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+   "date_expression": "idx[-1].date()",
+   "line": 575,
+   "path": "results/etf_book_cash_ladder/CASH-TICKET-2026-10-19.json",
+   "scoped_tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "site": "S0087",
+   "source": "scripts/etf_book_cash_ladder.py",
+   "symbol": "idx",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+   "date_expression": "idx[-1].date()",
+   "line": 575,
+   "path": "results/etf_book_cash_ladder/CASH-TICKET-2026-10-23.json",
+   "scoped_tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "site": "S0087",
+   "source": "scripts/etf_book_cash_ladder.py",
+   "symbol": "idx",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 542,
+   "path": "results/etf_book_order/TICKET-2026-10-23.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0089",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 542,
+   "path": "results/etf_book_order/TICKET-2026-10-26.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0089",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 542,
+   "path": "results/etf_book_order/TICKET-2026-10-27.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0089",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 542,
+   "path": "results/etf_book_order/TICKET-2026-10-28.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0089",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+   "date_expression": "asof",
+   "line": 1033,
+   "path": "results/etf_book_order/TICKET-2026-10-28-card.json",
+   "scoped_tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "site": "S0090",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 543,
+   "path": "results/etf_book_order/TICKET-2026-10-23.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0091",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 543,
+   "path": "results/etf_book_order/TICKET-2026-10-26.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0091",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 543,
+   "path": "results/etf_book_order/TICKET-2026-10-27.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0091",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 543,
+   "path": "results/etf_book_order/TICKET-2026-10-28.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0091",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 568,
+   "path": "results/etf_book_order/TICKET-2026-10-23.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0092",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 568,
+   "path": "results/etf_book_order/TICKET-2026-10-26.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0092",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 568,
+   "path": "results/etf_book_order/TICKET-2026-10-27.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0092",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 568,
+   "path": "results/etf_book_order/TICKET-2026-10-28.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0092",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+   "date_expression": "asof",
+   "line": 1059,
+   "path": "results/etf_book_order/ORDER-2026-10-28-card.md",
+   "scoped_tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "site": "S0093",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 545,
+   "path": "results/etf_book_order/ORDER-2026-10-23.md",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0094",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 545,
+   "path": "results/etf_book_order/ORDER-2026-10-26.md",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0094",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 545,
+   "path": "results/etf_book_order/ORDER-2026-10-27.md",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0094",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "asof",
+   "line": 545,
+   "path": "results/etf_book_order/ORDER-2026-10-28.md",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0094",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin",
+   "date_expression": "asof",
+   "line": 1043,
+   "path": "results/etf_book_order/ORDER-2026-10-28-card.md",
+   "scoped_tracks": "mixed_the_binding_carries_more_than_one_origin",
+   "site": "S0095",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_caller_supplied_the_symbol_is_a_parameter_of_the_enclosing_function",
+   "date_expression": "asof",
+   "line": 227,
+   "path": "results/etf_book_order/TICKET-2026-10-23.json",
+   "scoped_tracks": "unknown_no_binding_could_be_read",
+   "site": "S0096",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_caller_supplied_the_symbol_is_a_parameter_of_the_enclosing_function",
+   "date_expression": "asof",
+   "line": 227,
+   "path": "results/etf_book_order/TICKET-2026-10-26.json",
+   "scoped_tracks": "unknown_no_binding_could_be_read",
+   "site": "S0096",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_caller_supplied_the_symbol_is_a_parameter_of_the_enclosing_function",
+   "date_expression": "asof",
+   "line": 227,
+   "path": "results/etf_book_order/TICKET-2026-10-27.json",
+   "scoped_tracks": "unknown_no_binding_could_be_read",
+   "site": "S0096",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_caller_supplied_the_symbol_is_a_parameter_of_the_enclosing_function",
+   "date_expression": "asof",
+   "line": 227,
+   "path": "results/etf_book_order/TICKET-2026-10-28.json",
+   "scoped_tracks": "unknown_no_binding_could_be_read",
+   "site": "S0096",
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "cutoff",
+   "line": 209,
+   "path": "results/regime5_labels/REGIME5-2026-09-30.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0101",
+   "source": "scripts/regime5_labeler.py",
+   "symbol": "cutoff",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "cutoff",
+   "line": 209,
+   "path": "results/regime5_labels/REGIME5-2026-10-19.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0101",
+   "source": "scripts/regime5_labeler.py",
+   "symbol": "cutoff",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "cutoff",
+   "line": 209,
+   "path": "results/regime5_labels/REGIME5-2026-11-03.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0101",
+   "source": "scripts/regime5_labeler.py",
+   "symbol": "cutoff",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "cutoff",
+   "line": 215,
+   "path": "results/regime5_diag/REGIME5-DIAG-2026-09-30.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0102",
+   "source": "scripts/regime5_labeler.py",
+   "symbol": "cutoff",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "cutoff",
+   "line": 215,
+   "path": "results/regime5_diag/REGIME5-DIAG-2026-10-19.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0102",
+   "source": "scripts/regime5_labeler.py",
+   "symbol": "cutoff",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day",
+   "date_expression": "cutoff",
+   "line": 215,
+   "path": "results/regime5_diag/REGIME5-DIAG-2026-11-03.json",
+   "scoped_tracks": "data_the_name_states_the_data_day",
+   "site": "S0102",
+   "source": "scripts/regime5_labeler.py",
+   "symbol": "cutoff",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "stays_unreadable_the_symbol_binds_in_scope_but_its_operand_binds_elsewhere",
+   "date_expression": "cutoff",
+   "line": 630,
+   "path": "results/stagestyle_combo_p1/SSCOMBO-P1-2013-10-15.json",
+   "scoped_tracks": "unknown_no_binding_could_be_read",
+   "site": "S0105",
+   "source": "scripts/stagestyle_combo_p1_backtest.py",
+   "symbol": "cutoff",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "stays_unreadable_the_symbol_binds_in_scope_but_its_operand_binds_elsewhere",
+   "date_expression": "cutoff",
+   "line": 630,
+   "path": "results/stagestyle_combo_p1/SSCOMBO-P1-2014-04-18.json",
+   "scoped_tracks": "unknown_no_binding_could_be_read",
+   "site": "S0105",
+   "source": "scripts/stagestyle_combo_p1_backtest.py",
+   "symbol": "cutoff",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  },
+  {
+   "collapse": "stays_unreadable_the_symbol_binds_in_scope_but_its_operand_binds_elsewhere",
+   "date_expression": "cutoff",
+   "line": 630,
+   "path": "results/stagestyle_combo_p1/SSCOMBO-P1-2026-10-19.json",
+   "scoped_tracks": "unknown_no_binding_could_be_read",
+   "site": "S0105",
+   "source": "scripts/stagestyle_combo_p1_backtest.py",
+   "symbol": "cutoff",
+   "upstream_chain": [],
+   "wide_tracks": "mixed_the_binding_carries_more_than_one_origin"
+  }
+ ],
+ "study": "E510_binding_scope",
+ "summary": {
+  "became_unreadable_pairs": 0,
+  "collapsed_pairs": 8,
+  "dropped_binding_locations": 13,
+  "evidence_cutoff": "2026-11-07",
+  "members_touched": 29,
+  "operand_out_of_scope_pairs": 1,
+  "pair_sites": 13,
+  "pairs_by_collapse": {
+   "became_unreadable_the_enclosing_scope_holds_no_binding_at_all": 0,
+   "collapsed_to_a_single_origin_the_enclosing_scope_names_one_day": 7,
+   "collapsed_to_caller_supplied_the_symbol_is_a_parameter_of_the_enclosing_function": 1,
+   "collapsed_to_not_a_date_the_enclosing_scope_binds_no_day_at_all": 0,
+   "stays_ambiguous_the_enclosing_scope_itself_holds_more_than_one_origin": 4,
+   "stays_unreadable_the_symbol_binds_in_scope_but_its_operand_binds_elsewhere": 1
+  },
+  "pairs_carrying_a_dropped_binding": 10,
+  "pairs_needing_a_module_wide_fallback": 1,
+  "residual_pairs": 42,
+  "scoped_tracks_by_pair": {
+   "clock_the_name_states_the_run_day": 0,
+   "data_the_name_states_the_data_day": 7,
+   "mixed_the_binding_carries_more_than_one_origin": 4,
+   "neither_the_gap_carries_no_date": 0,
+   "unknown_no_binding_could_be_read": 2
+  },
+  "sources_touched": 5,
+  "stays_ambiguous_pairs": 4,
+  "symbols_touched": 4,
+  "wide_tracks_by_pair": {
+   "clock_the_name_states_the_run_day": 0,
+   "data_the_name_states_the_data_day": 0,
+   "mixed_the_binding_carries_more_than_one_origin": 13,
+   "neither_the_gap_carries_no_date": 0,
+   "unknown_no_binding_could_be_read": 0
+  }
+ },
+ "table_vocab": [
+  "module_wide_every_assignment_in_the_module_can_reach_every_site",
+  "scoped_nearest_enclosing_function_first_then_the_module"
+ ],
+ "title": "Re-read E507's 42 ambiguous pairs with a scoped binding table: which of them become single-origin, and which are a real reuse of one symbol?",
+ "tracks_vocab": [
+  "clock_the_name_states_the_run_day",
+  "data_the_name_states_the_data_day",
+  "mixed_the_binding_carries_more_than_one_origin",
+  "neither_the_gap_carries_no_date",
+  "unknown_no_binding_could_be_read"
+ ],
+ "verdict": "the_scope_collapses_part_of_the_bucket_and_the_rest_is_real_symbol_reuse",
+ "verdict_vocab": [
+  "the_scope_collapses_every_ambiguous_pair_so_the_bucket_was_the_resolvers",
+  "the_scope_collapses_part_of_the_bucket_and_the_rest_is_real_symbol_reuse",
+  "the_scope_changes_nothing_so_the_ambiguity_lives_in_the_code",
+  "the_scoped_table_reads_less_than_the_module_wide_one_so_it_cannot_be_adopted_alone",
+  "no_pair_carries_an_ambiguous_symbol_at_all"
+ ]
+}

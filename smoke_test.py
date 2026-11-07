@@ -20793,5 +20793,65 @@ except Exception as _e507x:
     _d507 = "leg could not run"
 check(_name507, not _bad507, "; ".join(_bad507)[:240] or _d507)
 
+# E510: read the published scoped-binding face the way a consumer would -- every pair's collapse
+# label must re-derive from its own two arms, the class tallies must add up to the pair count, the
+# wide arm must still be mixed for every pair it selected, and three doctored copies (a flipped
+# collapse label, a hand-written verdict, a track outside the vocabulary) must all be refused.
+_name510 = ("E510 each E507 ambiguous pair's scoped reading re-derives from its own two arms, "
+            "so the resolver's ambiguity is separated from a real symbol reuse (r1537 bm-b)")
+_bad510 = []
+try:
+    _m510 = __import__("importlib").import_module("e510_binding_scope")
+    _f510 = json.load(open(os.path.join("results", "state_tilt", "scopedbinding_latest.json"),
+                           encoding="utf-8"))
+    _s510 = _f510.get("summary") or {}
+    _p510 = _f510.get("pairs") or []
+    _r510 = _f510.get("rows") or []
+    _bad510.extend(_m510.row_problems(_f510))
+    if not _p510 or not _r510:
+        _bad510.append("the pair population is empty")
+    if _s510.get("pair_sites") != len(_p510):
+        _bad510.append("the published pair-site count is not the pair table length")
+    if _s510.get("residual_pairs") != len(_r510):
+        _bad510.append("the published row count is not the row table length")
+    if sum((_s510.get("pairs_by_collapse") or {}).values()) != len(_p510):
+        _bad510.append("the collapse classes do not add up to the pair total")
+    if any(p.get("wide", {}).get("tracks") != _m510.T_MIXED for p in _p510):
+        _bad510.append("a pair the module-wide table did not call ambiguous was selected")
+    _single510 = sum(1 for p in _p510 if p.get("collapse") == _m510.K_SINGLE)
+    if _s510.get("collapsed_pairs") != sum(
+            (_s510.get("pairs_by_collapse") or {}).get(k) for k in _m510.COLLAPSED):
+        _bad510.append("collapsed_pairs is not the collapsed class total")
+    if _s510.get("pairs_needing_a_module_wide_fallback") != sum(
+            (_s510.get("pairs_by_collapse") or {}).get(k) for k in _m510.NEEDS_FALLBACK):
+        _bad510.append("the fallback count is not the fallback class total")
+    if _f510.get("verdict") != _m510._verdict(_s510):
+        _bad510.append("the verdict is not the one the pairs imply")
+    _w510 = json.loads(json.dumps(_f510))
+    _w510["pairs"][0]["collapse"] = _m510.K_MIXED
+    if not _m510.row_problems(_w510):
+        _bad510.append("a flipped collapse label survived the guard")
+    _w510b = json.loads(json.dumps(_f510))
+    _w510b["verdict"] = _m510.V_SCOPE
+    if not _m510.row_problems(_w510b):
+        _bad510.append("a hand-written verdict survived the guard")
+    _w510c = json.loads(json.dumps(_f510))
+    _w510c["pairs"][0]["scoped"]["tracks"] = "guessed"
+    if not _m510.row_problems(_w510c):
+        _bad510.append("a track outside the vocabulary survived the guard")
+    _d510 = ("%r pairs behind %r pair sites | collapsed %r (single origin %r / caller %r) | "
+             "stays ambiguous %r | needs the module-wide fallback %r | dropped binding "
+             "locations %r | verdict %r" % (
+                 _s510.get("residual_pairs"), _s510.get("pair_sites"),
+                 _s510.get("collapsed_pairs"), _single510,
+                 (_s510.get("pairs_by_collapse") or {}).get(_m510.K_CALLER),
+                 _s510.get("stays_ambiguous_pairs"),
+                 _s510.get("pairs_needing_a_module_wide_fallback"),
+                 _s510.get("dropped_binding_locations"), _f510.get("verdict")))
+except Exception as _e510x:
+    _bad510.append(repr(_e510x)[:160])
+    _d510 = "leg could not run"
+check(_name510, not _bad510, "; ".join(_bad510)[:240] or _d510)
+
 if __name__ == "__main__":
     sys.exit(main())

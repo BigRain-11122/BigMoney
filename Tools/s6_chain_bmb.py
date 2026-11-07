@@ -1899,6 +1899,12 @@ LEGS = [
     # `check` re-derives the class/track tallies, the attributable/ambiguous split, the no-site
     # table and the verdict from the published rows -- the history arm is a labelled snapshot.
     ("unresolved_origin", ["python", "scripts/e507_unresolved_origin.py", "check"]),
+
+    # E510 re-reads E507's 42 ambiguous pairs with a scoped binding table (nearest enclosing
+    # function first, then the module, comprehension targets shadowed) and publishes, per pair
+    # site, the reading under each table plus what the scope did to the ambiguity.  `check`
+    # re-derives the collapse class from the pair's own two arms, so a hand-written label fails.
+    ("binding_scope", ["python", "scripts/e510_binding_scope.py", "check"]),
 ]
 
 
