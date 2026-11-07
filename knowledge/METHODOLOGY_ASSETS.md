@@ -12638,3 +12638,20 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 
 **验证**：`scripts/e495_doctorpub.py`（`run` rc0 / `check` problems=[] / `verify` problems=[] 重建恒等 / **selftest 13/13**）；产物 `results/state_tilt/DOCTORPUB-2026-11-07.json` + `doctorpub_latest.json`（13 行，逐面带跑腿纪律、写者分档与站点、读者价格、payload 哈希/字节/自述 study、BOM 与不解析源清单）；S6 腿 `doctor_pub` rc0 0.07s；smoke 腿 `E495 (r1527 bm-b)` 原文单跑 1/1 绿 + 独立跑腿 `scripts/run_e495_smoke_leg.py` 9/9（含两条 doctored 红腿）；digest `research/digests/DIGEST-20261107-r1527-e495-doctorpub.md`。
 
+
+## E501 -- 八个「被写但无人读」的面：谁还在刷新它，还是谁都只是在验证一具尸体（r1528 bm-b）
+
+**问题**：E495 量出 8 个面「有生产者写、无消费者读」（2,781,043 B）。但「没人读」和「没人刷新」是两句话——只有后者才能让一个面被安全退休而不打断生产者的工作。本轮把第二句给每个面定价：写者还能从自己的模块入口到达吗？树里还有没有一条**写模式**的刷新路径在动它？
+
+**方法**：全静态、零网络、零写盘。三段：**A 写者可达性**（入口 = `__main__` 体或模块级派发表；写者必须与面名**连通**——名字含面名/常量、或被 namer 把面名当参数传进去的 opener，模块里的通用 opener（缓存/临时文件 helper）不算）；**B 调用者分级**（同一个模块被谁点名、怎么点名：写模式命令启动 > 导入且调写到写者 > 只读模式命令（check/verify/selftest/status/probe/scan）= 永不重写 > 导入但从不调写者 > 报告/账本提及；`results/` 不计入调用面，因为一个面提到一个 study 不是调用者）；**C payload 年龄**（读面自己的 `generated`/`evidence_cutoff`，不读 `st_mtime`——E453 的检出地板本轮实测 21 天，一并发布）。
+
+**答案**：8 个面里**0 个**被任何写模式路径重写；**8 个全部**只被 S6 链的 `check`/`verify` 步点名（`Tools/s6_chain_bmb.py` 七条：e432 verify / e434 verify / e437 verify / e440 verify / e443 check / e450 check / e456 check）。所以这批面既**不是活的**（树里没有一条路径会重写它们）也**不是可以退休的**（链的只读腿要求它存在且可校验）：2,781,043 B 被链钉住但内容冻在各自 study 的 cutoff 上。
+
+**可复用三条**：
+1. **「被调用」有三种价钱，混为一谈就是一个假结论**：`python scripts/eNNN.py check` 确实启动了脚本，但它不写面；把它算成刷新路径，就会得出「8 个面都还活着」——本轮首版正是这么错的（把 `e450._tree` 这种通用 opener 当成写者，把 e456 调 `_tree` 当成刷新，结果一度报 2 个 live）。
+2. **写者必须与面名连通，不能只看「模块里有 opener」**：`write_face(os.path.join(OUTDIR, FACE_NAME), face)` 是连通（面名作为参数流进 opener），`_tree(rel)` 不连通。差别就是一个面「有人在刷新」与「模块里有人会写别的东西」。
+3. **只读链步是「钉住」，不是「刷新」**：它让退休变成断链，却不阻止内容腐坏。要判断一个面能不能删，两个问题必须分开问：谁写它（本文 A/B），谁要求它在（链步）。
+
+**边界**：调用面扫描覆盖 `scripts/`、`Tools/`、`docs/`、`research/` 与五个根文档，`results/` 排除；入口只认 `__main__` 体与模块级派发表（更深的反射/注册表入口不可见，如实披露）；写者判定是 AST 近似（面名常量、字面量、或作为实参流入 opener），未走数据流。
+
+**验证**：`scripts/e501_unread_refresh.py`：`run` rc0 / `check` problems=[] / `verify` problems=[] 重导出 / **selftest 17/17**；产物 `results/state_tilt/UNREADREFRESH-2026-11-07.json` + `unreadrefresh_latest.json`（8 行，判决由闸从 summary 重算）；池卡 E501 已 done；digest `research/digests/DIGEST-20261107-r1528-e501-unread-refresh.md`。

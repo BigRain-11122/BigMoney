@@ -1,0 +1,762 @@
+{
+ "caller_vocab": [
+  "a_file_launches_the_module_as_a_command_in_a_writing_mode",
+  "another_module_imports_it_and_calls_the_function_that_writes_the_face",
+  "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten",
+  "another_module_imports_it_but_never_calls_the_writer",
+  "only_reports_and_ledgers_mention_the_name_and_they_call_nothing",
+  "no_other_file_in_the_scan_names_the_module_at_all"
+ ],
+ "card": "E501-WHICH-OF-THE-EIGHT-WRITTEN-BUT-UNREAD-FACES-IS-STILL-BEING-REFRESHED",
+ "evidence_cutoff": "2026-11-07",
+ "face_vocab": [
+  "a_writing_mode_caller_still_reaches_the_writer_so_the_face_is_live",
+  "no_writing_mode_caller_exists_but_a_read_only_chain_step_requires_the_face",
+  "the_writer_is_reachable_only_by_hand_and_nothing_in_the_tree_names_it",
+  "no_entry_path_reaches_the_writer_so_the_face_is_a_leftover",
+  "the_writer_source_cannot_be_read_so_refresh_cannot_be_priced"
+ ],
+ "generated": "2026-11-07 15:44:31",
+ "method_limits": [
+  "writer reachability is static: entry = __main__ body or a module-level dispatch dict",
+  "the caller scan covers scripts/, Tools/, docs/, research/ and five root documents; results/ is excluded because a published face naming a study is not a caller",
+  "a command site whose mode is check/verify/selftest/status/probe/scan is graded read-only even though it launches the script",
+  "payload age uses the face's own generated/evidence_cutoff field, not st_mtime (E453 mtime floor is published next to it)",
+  "caller kinds are ranked per source: a writing-mode launch outranks an importer that calls the writer, which outranks a read-only chain step, which outranks a report"
+ ],
+ "population_source": "results/state_tilt/doctorpub_latest.json (E495) rows whose reader_class is C_NONE",
+ "read_only_modes": [
+  "check",
+  "verify",
+  "selftest",
+  "status",
+  "probe",
+  "scan",
+  "doctor"
+ ],
+ "rows": [
+  {
+   "bytes": 108508,
+   "caller_class_by_source": {
+    "scripts/e443_bare_call_resolve.py": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten"
+   },
+   "caller_sites": [
+    {
+     "kind": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten",
+     "mode": "check",
+     "names": "e443_bare_call_resolve.py",
+     "source": "Tools/s6_chain_bmb.py"
+    },
+    {
+     "kind": "only_reports_and_ledgers_mention_the_name_and_they_call_nothing",
+     "mode": null,
+     "names": "e443_bare_call_resolve.py",
+     "source": "research/digests/DIGEST-20261105-r1461-e443-bare-call-resolve.md"
+    }
+   ],
+   "chain_pinned_by_sources": [
+    "scripts/e443_bare_call_resolve.py"
+   ],
+   "face": "results/state_tilt/barecallresolve_latest.json",
+   "face_class": "no_writing_mode_caller_exists_but_a_read_only_chain_step_requires_the_face",
+   "face_git_last_commit": "2026-11-05",
+   "hand_only_sources": [
+    "scripts/e443_bare_call_resolve.py"
+   ],
+   "live_caller_sources": [],
+   "payload": {
+    "age_days": 2,
+    "bytes": 108508,
+    "declared_date": "2026-11-05",
+    "exists": true,
+    "mtime": "2026-11-05",
+    "witness_field": "generated"
+   },
+   "producer_sources": [
+    "scripts/e443_bare_call_resolve.py"
+   ],
+   "writer_reach": [
+    {
+     "class": "the_writing_function_is_reachable_from_its_own_module_entry",
+     "module_entries": [
+      "main"
+     ],
+     "name_constants": [
+      "FACE_NAME"
+     ],
+     "note": "writers_are_openers_tied_to_the_face_name_not_every_opener_in_the_module",
+     "reached_functions": [
+      "write_face"
+     ],
+     "source": "scripts/e443_bare_call_resolve.py",
+     "writer_functions": [
+      "write_face"
+     ],
+     "writer_reaching": [
+      "main",
+      "write_face"
+     ]
+    }
+   ]
+  },
+  {
+   "bytes": 11797,
+   "caller_class_by_source": {
+    "scripts/e450_caller_class.py": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten"
+   },
+   "caller_sites": [
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e450_caller_class.py",
+     "source": "scripts/e456_import_class.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e450_caller_class.py",
+     "source": "scripts/e459_stdlib_class.py"
+    },
+    {
+     "kind": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten",
+     "mode": "check",
+     "names": "e450_caller_class.py",
+     "source": "Tools/s6_chain_bmb.py"
+    },
+    {
+     "kind": "only_reports_and_ledgers_mention_the_name_and_they_call_nothing",
+     "mode": null,
+     "names": "e450_caller_class.py",
+     "source": "research/digests/DIGEST-20261106-r1475-e450-caller-class.md"
+    }
+   ],
+   "chain_pinned_by_sources": [
+    "scripts/e450_caller_class.py"
+   ],
+   "face": "results/state_tilt/callerclass_latest.json",
+   "face_class": "no_writing_mode_caller_exists_but_a_read_only_chain_step_requires_the_face",
+   "face_git_last_commit": "2026-11-06",
+   "hand_only_sources": [
+    "scripts/e450_caller_class.py"
+   ],
+   "live_caller_sources": [],
+   "payload": {
+    "age_days": 1,
+    "bytes": 11797,
+    "declared_date": "2026-11-06",
+    "exists": true,
+    "mtime": "2026-11-06",
+    "witness_field": "generated"
+   },
+   "producer_sources": [
+    "scripts/e450_caller_class.py"
+   ],
+   "writer_reach": [
+    {
+     "class": "the_writing_function_is_reachable_from_its_own_module_entry",
+     "module_entries": [
+      "main"
+     ],
+     "name_constants": [
+      "FACE_NAME"
+     ],
+     "note": "writers_are_openers_tied_to_the_face_name_not_every_opener_in_the_module",
+     "reached_functions": [
+      "write_face"
+     ],
+     "source": "scripts/e450_caller_class.py",
+     "writer_functions": [
+      "write_face"
+     ],
+     "writer_reaching": [
+      "main",
+      "write_face"
+     ]
+    }
+   ]
+  },
+  {
+   "bytes": 13905,
+   "caller_class_by_source": {
+    "scripts/e434_fixture_beyond.py": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten"
+   },
+   "caller_sites": [
+    {
+     "kind": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten",
+     "mode": "verify",
+     "names": "e434_fixture_beyond.py",
+     "source": "Tools/s6_chain_bmb.py"
+    },
+    {
+     "kind": "only_reports_and_ledgers_mention_the_name_and_they_call_nothing",
+     "mode": null,
+     "names": "e434_fixture_beyond.py",
+     "source": "research/digests/DIGEST-20261105-r1455-e434-fixture-beyond.md"
+    }
+   ],
+   "chain_pinned_by_sources": [
+    "scripts/e434_fixture_beyond.py"
+   ],
+   "face": "results/state_tilt/fixturebeyond_latest.json",
+   "face_class": "no_writing_mode_caller_exists_but_a_read_only_chain_step_requires_the_face",
+   "face_git_last_commit": "2026-11-05",
+   "hand_only_sources": [
+    "scripts/e434_fixture_beyond.py"
+   ],
+   "live_caller_sources": [],
+   "payload": {
+    "age_days": 2,
+    "bytes": 13905,
+    "declared_date": "2026-11-05",
+    "exists": true,
+    "mtime": "2026-11-05",
+    "witness_field": "generated"
+   },
+   "producer_sources": [
+    "scripts/e434_fixture_beyond.py"
+   ],
+   "writer_reach": [
+    {
+     "class": "the_writing_function_is_reachable_from_its_own_module_entry",
+     "module_entries": [
+      "main"
+     ],
+     "name_constants": [],
+     "note": "writers_are_openers_tied_to_the_face_name_not_every_opener_in_the_module",
+     "reached_functions": [
+      "write_face"
+     ],
+     "source": "scripts/e434_fixture_beyond.py",
+     "writer_functions": [
+      "write_face"
+     ],
+     "writer_reaching": [
+      "main",
+      "write_face"
+     ]
+    }
+   ]
+  },
+  {
+   "bytes": 31250,
+   "caller_class_by_source": {
+    "scripts/e432_fixture_write.py": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten"
+   },
+   "caller_sites": [
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e432_fixture_write.py",
+     "source": "scripts/e434_fixture_beyond.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e432_fixture_write.py",
+     "source": "scripts/e437_name_recall.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e432_fixture_write.py",
+     "source": "scripts/e438_temp_write_base.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e432_fixture_write.py",
+     "source": "scripts/e439_file_slot_callers.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e432_fixture_write.py",
+     "source": "scripts/e440_shared_wrapper_names.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e432_fixture_write.py",
+     "source": "scripts/e443_bare_call_resolve.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e432_fixture_write.py",
+     "source": "scripts/e467_docstringcard.py"
+    },
+    {
+     "kind": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten",
+     "mode": "verify",
+     "names": "e432_fixture_write.py",
+     "source": "Tools/s6_chain_bmb.py"
+    }
+   ],
+   "chain_pinned_by_sources": [
+    "scripts/e432_fixture_write.py"
+   ],
+   "face": "results/state_tilt/fixturewrite_latest.json",
+   "face_class": "no_writing_mode_caller_exists_but_a_read_only_chain_step_requires_the_face",
+   "face_git_last_commit": "2026-11-05",
+   "hand_only_sources": [
+    "scripts/e432_fixture_write.py"
+   ],
+   "live_caller_sources": [],
+   "payload": {
+    "age_days": 2,
+    "bytes": 31250,
+    "declared_date": "2026-11-05",
+    "exists": true,
+    "mtime": "2026-11-05",
+    "witness_field": "generated"
+   },
+   "producer_sources": [
+    "scripts/e432_fixture_write.py"
+   ],
+   "writer_reach": [
+    {
+     "class": "the_writing_function_is_reachable_from_its_own_module_entry",
+     "module_entries": [
+      "main"
+     ],
+     "name_constants": [],
+     "note": "writers_are_openers_tied_to_the_face_name_not_every_opener_in_the_module",
+     "reached_functions": [
+      "write_face"
+     ],
+     "source": "scripts/e432_fixture_write.py",
+     "writer_functions": [
+      "write_face"
+     ],
+     "writer_reaching": [
+      "main",
+      "write_face"
+     ]
+    }
+   ]
+  },
+  {
+   "bytes": 13761,
+   "caller_class_by_source": {
+    "scripts/e456_import_class.py": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten"
+   },
+   "caller_sites": [
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e456_import_class.py",
+     "source": "scripts/e457_namecollide.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e456_import_class.py",
+     "source": "scripts/e459_stdlib_class.py"
+    },
+    {
+     "kind": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten",
+     "mode": "check",
+     "names": "e456_import_class.py",
+     "source": "Tools/s6_chain_bmb.py"
+    },
+    {
+     "kind": "only_reports_and_ledgers_mention_the_name_and_they_call_nothing",
+     "mode": null,
+     "names": "e456_import_class.py",
+     "source": "research/digests/DIGEST-20261106-r1478-e456-import-class.md"
+    }
+   ],
+   "chain_pinned_by_sources": [
+    "scripts/e456_import_class.py"
+   ],
+   "face": "results/state_tilt/importclass_latest.json",
+   "face_class": "no_writing_mode_caller_exists_but_a_read_only_chain_step_requires_the_face",
+   "face_git_last_commit": "2026-11-06",
+   "hand_only_sources": [
+    "scripts/e456_import_class.py"
+   ],
+   "live_caller_sources": [],
+   "payload": {
+    "age_days": 1,
+    "bytes": 13761,
+    "declared_date": "2026-11-06",
+    "exists": true,
+    "mtime": "2026-11-06",
+    "witness_field": "generated"
+   },
+   "producer_sources": [
+    "scripts/e456_import_class.py"
+   ],
+   "writer_reach": [
+    {
+     "class": "the_writing_function_is_reachable_from_its_own_module_entry",
+     "module_entries": [
+      "main"
+     ],
+     "name_constants": [
+      "FACE_NAME"
+     ],
+     "note": "writers_are_openers_tied_to_the_face_name_not_every_opener_in_the_module",
+     "reached_functions": [
+      "write_face"
+     ],
+     "source": "scripts/e456_import_class.py",
+     "writer_functions": [
+      "write_face"
+     ],
+     "writer_reaching": [
+      "main",
+      "write_face"
+     ]
+    }
+   ]
+  },
+  {
+   "bytes": 78526,
+   "caller_class_by_source": {
+    "scripts/e437_name_recall.py": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten"
+   },
+   "caller_sites": [
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e437_name_recall.py",
+     "source": "scripts/e438_temp_write_base.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e437_name_recall.py",
+     "source": "scripts/e439_file_slot_callers.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e437_name_recall.py",
+     "source": "scripts/e440_shared_wrapper_names.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e437_name_recall.py",
+     "source": "scripts/e443_bare_call_resolve.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e437_name_recall.py",
+     "source": "scripts/e444_attr_method.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e437_name_recall.py",
+     "source": "scripts/e450_caller_class.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e437_name_recall.py",
+     "source": "scripts/e456_import_class.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e437_name_recall.py",
+     "source": "scripts/e457_namecollide.py"
+    },
+    {
+     "kind": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten",
+     "mode": "verify",
+     "names": "e437_name_recall.py",
+     "source": "Tools/s6_chain_bmb.py"
+    },
+    {
+     "kind": "only_reports_and_ledgers_mention_the_name_and_they_call_nothing",
+     "mode": null,
+     "names": "e437_name_recall.py",
+     "source": "research/digests/DIGEST-20261105-r1456-e437-name-recall.md"
+    }
+   ],
+   "chain_pinned_by_sources": [
+    "scripts/e437_name_recall.py"
+   ],
+   "face": "results/state_tilt/namerecall_latest.json",
+   "face_class": "no_writing_mode_caller_exists_but_a_read_only_chain_step_requires_the_face",
+   "face_git_last_commit": "2026-11-05",
+   "hand_only_sources": [
+    "scripts/e437_name_recall.py"
+   ],
+   "live_caller_sources": [],
+   "payload": {
+    "age_days": 2,
+    "bytes": 78526,
+    "declared_date": "2026-11-05",
+    "exists": true,
+    "mtime": "2026-11-05",
+    "witness_field": "generated"
+   },
+   "producer_sources": [
+    "scripts/e437_name_recall.py"
+   ],
+   "writer_reach": [
+    {
+     "class": "the_writing_function_is_reachable_from_its_own_module_entry",
+     "module_entries": [
+      "main"
+     ],
+     "name_constants": [],
+     "note": "writers_are_openers_tied_to_the_face_name_not_every_opener_in_the_module",
+     "reached_functions": [
+      "write_face"
+     ],
+     "source": "scripts/e437_name_recall.py",
+     "writer_functions": [
+      "write_face"
+     ],
+     "writer_reaching": [
+      "main",
+      "write_face"
+     ]
+    }
+   ]
+  },
+  {
+   "bytes": 52539,
+   "caller_class_by_source": {
+    "scripts/e432_fixture_write.py": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten"
+   },
+   "caller_sites": [
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e432_fixture_write.py",
+     "source": "scripts/e434_fixture_beyond.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e432_fixture_write.py",
+     "source": "scripts/e437_name_recall.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e432_fixture_write.py",
+     "source": "scripts/e438_temp_write_base.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e432_fixture_write.py",
+     "source": "scripts/e439_file_slot_callers.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e432_fixture_write.py",
+     "source": "scripts/e440_shared_wrapper_names.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e432_fixture_write.py",
+     "source": "scripts/e443_bare_call_resolve.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e432_fixture_write.py",
+     "source": "scripts/e467_docstringcard.py"
+    },
+    {
+     "kind": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten",
+     "mode": "verify",
+     "names": "e432_fixture_write.py",
+     "source": "Tools/s6_chain_bmb.py"
+    }
+   ],
+   "chain_pinned_by_sources": [
+    "scripts/e432_fixture_write.py"
+   ],
+   "face": "results/state_tilt/no_caller_latest.json",
+   "face_class": "no_writing_mode_caller_exists_but_a_read_only_chain_step_requires_the_face",
+   "face_git_last_commit": "2026-11-05",
+   "hand_only_sources": [],
+   "live_caller_sources": [],
+   "payload": {
+    "age_days": 2,
+    "bytes": 52539,
+    "declared_date": "2026-11-05",
+    "exists": true,
+    "mtime": "2026-11-05",
+    "witness_field": "generated"
+   },
+   "producer_sources": [
+    "scripts/e432_fixture_write.py"
+   ],
+   "writer_reach": [
+    {
+     "class": "no_function_in_the_module_visibly_names_the_face_and_writes",
+     "module_entries": [
+      "main"
+     ],
+     "name_constants": [],
+     "note": "writers_are_openers_tied_to_the_face_name_not_every_opener_in_the_module",
+     "reached_functions": [],
+     "source": "scripts/e432_fixture_write.py",
+     "writer_functions": [],
+     "writer_reaching": []
+    }
+   ]
+  },
+  {
+   "bytes": 2470757,
+   "caller_class_by_source": {
+    "scripts/e440_shared_wrapper_names.py": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten",
+    "scripts/e443_bare_call_resolve.py": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten"
+   },
+   "caller_sites": [
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e440_shared_wrapper_names.py",
+     "source": "scripts/e443_bare_call_resolve.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e440_shared_wrapper_names.py",
+     "source": "scripts/e444_attr_method.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e440_shared_wrapper_names.py",
+     "source": "scripts/e450_caller_class.py"
+    },
+    {
+     "kind": "another_module_imports_it_but_never_calls_the_writer",
+     "mode": null,
+     "names": "e440_shared_wrapper_names.py",
+     "source": "scripts/e456_import_class.py"
+    },
+    {
+     "kind": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten",
+     "mode": "verify",
+     "names": "e440_shared_wrapper_names.py",
+     "source": "Tools/s6_chain_bmb.py"
+    },
+    {
+     "kind": "only_reports_and_ledgers_mention_the_name_and_they_call_nothing",
+     "mode": null,
+     "names": "e440_shared_wrapper_names.py",
+     "source": "research/digests/DIGEST-20261105-r1460-e440-shared-names.md"
+    },
+    {
+     "kind": "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten",
+     "mode": "check",
+     "names": "e443_bare_call_resolve.py",
+     "source": "Tools/s6_chain_bmb.py"
+    },
+    {
+     "kind": "only_reports_and_ledgers_mention_the_name_and_they_call_nothing",
+     "mode": null,
+     "names": "e443_bare_call_resolve.py",
+     "source": "research/digests/DIGEST-20261105-r1461-e443-bare-call-resolve.md"
+    }
+   ],
+   "chain_pinned_by_sources": [
+    "scripts/e440_shared_wrapper_names.py",
+    "scripts/e443_bare_call_resolve.py"
+   ],
+   "face": "results/state_tilt/sharedname_latest.json",
+   "face_class": "no_writing_mode_caller_exists_but_a_read_only_chain_step_requires_the_face",
+   "face_git_last_commit": "2026-11-05",
+   "hand_only_sources": [
+    "scripts/e440_shared_wrapper_names.py"
+   ],
+   "live_caller_sources": [],
+   "payload": {
+    "age_days": 2,
+    "bytes": 2470757,
+    "declared_date": "2026-11-05",
+    "exists": true,
+    "mtime": "2026-11-05",
+    "witness_field": "generated"
+   },
+   "producer_sources": [
+    "scripts/e440_shared_wrapper_names.py",
+    "scripts/e443_bare_call_resolve.py"
+   ],
+   "writer_reach": [
+    {
+     "class": "the_writing_function_is_reachable_from_its_own_module_entry",
+     "module_entries": [
+      "main"
+     ],
+     "name_constants": [
+      "FACE_NAME"
+     ],
+     "note": "writers_are_openers_tied_to_the_face_name_not_every_opener_in_the_module",
+     "reached_functions": [
+      "write_face"
+     ],
+     "source": "scripts/e440_shared_wrapper_names.py",
+     "writer_functions": [
+      "write_face"
+     ],
+     "writer_reaching": [
+      "main",
+      "write_face"
+     ]
+    },
+    {
+     "class": "no_function_in_the_module_visibly_names_the_face_and_writes",
+     "module_entries": [
+      "main"
+     ],
+     "name_constants": [],
+     "note": "writers_are_openers_tied_to_the_face_name_not_every_opener_in_the_module",
+     "reached_functions": [],
+     "source": "scripts/e443_bare_call_resolve.py",
+     "writer_functions": [],
+     "writer_reaching": []
+    }
+   ]
+  }
+ ],
+ "study": "E501_unreadrefresh",
+ "summary": {
+  "bytes_live": 0,
+  "bytes_on_faces_with_no_entry_path": 0,
+  "bytes_pinned": 2781043,
+  "bytes_total": 2781043,
+  "caller_class_counts": {
+   "every_command_site_asks_for_a_read_only_mode_so_the_face_is_never_rewritten": 9
+  },
+  "evidence_cutoff": "2026-11-07",
+  "faces": 8,
+  "faces_live_with_a_writing_mode_caller": 0,
+  "faces_pinned_by_a_read_only_chain_step": 8,
+  "faces_reachable_only_by_hand": 0,
+  "faces_unmeasurable": 0,
+  "faces_with_no_entry_path_to_the_writer": 0,
+  "mtime_floor_days": 21,
+  "writer_sources": 9
+ },
+ "title": "For each of E495's 8 written-but-unread faces: is the writer still reachable and still rewritten by a writing-mode path, or is the file a leftover?",
+ "verdict": "no_unread_face_has_a_writing_mode_caller_and_the_population_is_held_only_by_read_only_chain_steps_or_a_hand_run",
+ "verdict_vocab": [
+  "at_least_one_unread_face_is_rewritten_by_a_writing_mode_path_and_the_rest_split_between_chain_pinned_and_writer_free",
+  "no_unread_face_has_a_writing_mode_caller_and_the_population_is_held_only_by_read_only_chain_steps_or_a_hand_run",
+  "every_unread_face_either_has_no_entry_path_to_its_writer_or_is_named_by_nothing_so_the_population_is_retirable",
+  "no_unread_face_was_found_in_the_parent_face"
+ ],
+ "writer_vocab": [
+  "the_writing_function_is_reachable_from_its_own_module_entry",
+  "no_function_in_the_module_visibly_names_the_face_and_writes",
+  "the_module_defines_a_writer_but_no_entry_path_reaches_it",
+  "the_writer_source_is_absent_or_does_not_parse"
+ ]
+}
