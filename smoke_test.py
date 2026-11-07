@@ -7922,6 +7922,41 @@ def _marker_fragments():
             bad.append((path, blob.stdout.count(b"\n") + 1, "unclosed-hunk"))
     return bad
 
+    # (r1411) width is not where the breadth premium lives: on a tape where every name is
+    # identical, every width must earn the same number, and a frozen book must shrink (drop
+    # the name it can no longer see) instead of refilling the seat or losing a whole cohort
+    try:
+        import importlib as _il77
+        if "scripts" not in sys.path:
+            sys.path.insert(0, "scripts")
+        _F77 = _il77.import_module("astock_breadth_book")
+        _bad77 = []
+        _p77 = _F77._synth(T=400, S=300, drift=0.0008, noise=0.0)
+        _cs77, _sk77 = _F77.cohorts(_p77)
+        _all77 = _F77.chained(_F77.arm_all(_cs77))[0]
+        for _n77 in (20, 100):
+            _s77 = _F77.summarise(_F77.arm_width(_cs77, _n77, draws=2))
+            if _s77["cagr_mean"] is None or abs(_s77["cagr_mean"] - _all77) > 1e-9:
+                _bad77.append("identical tape: N%d reads %r vs ALL %r"
+                              % (_n77, _s77["cagr_mean"], _all77))
+        _p77b = _F77._synth(T=400, S=300, drift=0.0008, noise=0.0)
+        _p77b["open"][250:, :60] = float("nan")
+        _p77b["close"][250:, :60] = float("nan")
+        _cs77b, _sk77b = _F77.cohorts(_p77b)
+        _fr77 = _F77.arm_width_frozen(_cs77b, 100, draws=1, seed=3)
+        if not _fr77 or _fr77[0]["cohorts"] != len(_cs77b):
+            _bad77.append("a frozen book lost a whole cohort instead of shrinking: %r of %d"
+                          % (_fr77[0]["cohorts"] if _fr77 else None, len(_cs77b)))
+        if not _fr77 or _fr77[0]["attrition"] <= 0:
+            _bad77.append("a frozen book reported zero attrition while 60 names left the panel")
+        check("product: breadth width is not the risk axis and a frozen book shrinks, "
+              "it does not refill",
+              not _bad77, "; ".join(_bad77)[:200]
+              or "identical tape: every width == ALL; frozen book shrinks on attrition")
+    except Exception as e:
+        check("product: breadth width is not the risk axis and a frozen book shrinks, "
+              "it does not refill", False, repr(e)[:180])
+
 
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
