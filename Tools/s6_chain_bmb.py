@@ -1821,6 +1821,13 @@ LEGS = [
     # parent's never-opened class is a reader-instrument limit rather than a dead face.  `check`
     # re-derives every tally, every member reading and the family verdict from the rows.
     ("twin_dead", ["python", "scripts/e497_twindead.py", "check"]),
+
+    # E498 runs the same helper arm over the whole 36-twin population E479 froze rather than the
+    # one twin: the arm is discriminating (1 of 2 unread twins becomes read, the other stays
+    # unread) and it adds read sites to eleven twins that already had a literal reader, so a
+    # class delta of 1 hides 24 invisible sites.  `check` re-derives the gained-reader count, the
+    # invisible-site count and the verdict from the rows.
+    ("helper_read", ["python", "scripts/e498_helperread.py", "check"]),
 ]
 
 

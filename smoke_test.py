@@ -19954,5 +19954,60 @@ except Exception as _e497x:
     _d497 = "leg could not run"
 check(_name497, not _bad497, "; ".join(_bad497)[:240] or _d497)
 
+# E498 -- which helpers hide readers across the other families?  E497's helper arm found the three
+# readers of the CALL twin; this leg holds it against the whole population E479 froze (36 twins,
+# re-classed by E496 with the mode arm only).  The arm must be discriminating: it turns one of the
+# two unread twins into a read twin and leaves the other unread, and it adds read sites to eleven
+# twins that already had a literal reader -- a class delta of 1 hiding 24 sites.
+_name498 = ("E498 re-measuring E479's 36 twins with the helper arm turns 1 of the 2 unread twins "
+            "into a read twin (3 helper readers) and leaves the other unread, while adding 24 "
+            "read sites no literal census can see (r1524 bm-b)")
+_bad498 = []
+try:
+    _m498 = __import__("importlib").import_module("e498_helperread")
+    _f498 = json.load(open(os.path.join("results", "state_tilt", "helperread_latest.json"),
+                           encoding="utf-8"))
+    _s498 = _f498.get("summary") or {}
+    _r498 = _f498.get("rows") or []
+    _bad498.extend(_m498.tally_problems(_f498))
+    if not _r498:
+        _bad498.append("the population is empty")
+    if _f498.get("verdict") not in _m498.VERDICT_VOCAB:
+        _bad498.append("the verdict is not in the vocabulary")
+    _p498 = json.load(open(os.path.join("results", "state_tilt", "twinmode_latest.json"),
+                           encoding="utf-8"))
+    if len(_p498.get("rows") or []) != len(_r498):
+        _bad498.append("the population is %r twins, the parent face carries %r"
+                       % (len(_r498), len(_p498.get("rows") or [])))
+    _gained498 = [r for r in _r498 if r.get("gained_a_reader")]
+    if not _gained498:
+        _bad498.append("the helper arm found no reader anywhere -- the arm is not being applied")
+    if _s498.get("still_no_reader") != len([r for r in _r498
+                                            if r.get("reading") == _m498.R_NO_READER]):
+        _bad498.append("the still-unread count does not re-derive from the rows")
+    if not _s498.get("still_no_reader"):
+        _bad498.append("every twin now has a reader -- an arm that reads everything measures "
+                       "nothing")
+    if (_s498.get("read_sites_invisible_to_a_literal_census") or 0) < 1:
+        _bad498.append("no read site is invisible to a literal census, contradicting E497")
+    if int(_s498.get("twins_that_gain_extra_read_sites_but_were_already_read") or 0) < 1:
+        _bad498.append("no already-read twin gained a helper read site")
+    _w498 = json.loads(json.dumps(_f498))
+    _w498["summary"]["read_sites_invisible_to_a_literal_census"] = 0
+    if not _m498.tally_problems(_w498):
+        _bad498.append("a site count that does not re-derive survived the guard")
+    _d498 = ("population %r | gained %r (still unread %r) | already-read twins with extra sites "
+             "%r | invisible sites %r | verdict %r"
+             % (_s498.get("twins_in_the_population"),
+                _s498.get("gained_a_reader_under_the_helper_arm"),
+                _s498.get("still_no_reader"),
+                _s498.get("twins_that_gain_extra_read_sites_but_were_already_read"),
+                _s498.get("read_sites_invisible_to_a_literal_census"),
+                _f498.get("verdict")))
+except Exception as _e498x:
+    _bad498.append(repr(_e498x)[:160])
+    _d498 = "leg could not run"
+check(_name498, not _bad498, "; ".join(_bad498)[:240] or _d498)
+
 if __name__ == "__main__":
     sys.exit(main())

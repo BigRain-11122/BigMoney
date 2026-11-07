@@ -12544,3 +12544,26 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 **验证**：`scripts/e497_twindead.py`（`run` rc0 / `check` problems=[] / `verify` problems=[] 重建恒等 / **selftest 26/26**：helper 臂读出读模式、折出常量、跳过句柄 load、本地模式阶梯与 `e483.mode_of_site` 三行等价、机器车道不等于孪生 basename、组合拼名对不上任何日期成员、五个 reading 阶梯、三个家族判决、六种篡改面全红、模式词表与 E483 同源）；产物 `results/state_tilt/TWINDEAD-2026-11-07.json` + `twindead_latest.json`（20 行，逐成员带 tier/mode/role/helper 与 `cross_check_vs_the_parent` 机读块）；S6 腿 `twin_dead` rc0 0.07s（receipt `results/_r1523bmb_s6_chain.json`）；smoke 腿 `E497 ...` 单跑 1/1 绿，doctored（把孪生读者清零）1/1 红，面字节归位（sha `8c00e4754f7da2c9` 进出一致）。
 
 **适用范围**：只回答 `results/market_clock` 这一个家族这一时点的成员；臂 B 只认**本模块内**定义的 helper，跨模块 helper（`from x import read_json`）不在人口内；臂 C 的效果表是按 `config/lane_io.py` 三个函数的源码冻结的，`lane_io` 改了必须同步改表。文本预筛的前提是成员名（或其分段）以字面量出现在源里——把路径从别的模块 import 进来的读者看不见，这一条作为边界发布。
+
+## E498 -- E497 的 helper 臂只在 CALL 一个孪生上用过；把它开回 E479 冻结的 36 个孪生，1/2 个「无人读」孪生变成有读者，另一个仍是零，同时还给 11 个本来有字面读者的孪生补了 24 个普查看不见的读站点（r1524 bm-b）
+
+**问题**：E497 用「把路径交给本模块 helper」这一臂找出了 CALL 孪生的 3 个读者，把 E496 的 `never_opened` 判词改成「仪器看不见」。但那是一个孪生上的一个实例。如果这是全树性的读法，那么 E479/E496 判过「无人读」的其余孪生也该同样被翻案；如果不是，它只是那一家的巧合。要把「仪器盲区」当机制而不是当个案，必须回到**同一个人口**上重测——E479 冻结的 36 个 latest 指针孪生，E496 已用「只读口径」重判过一遍，本研加第三条臂而不换人口，类变化才可与 E496 直接对齐。
+
+**方法**：不重实现任何一臂。`e497.scan()` 已经带着三条臂（字面 opener / 交给 helper / 车道 face key），本研只换三样东西：①人口换成 E496 的 36 行；②候选预筛令牌换成这 36 个孪生的 basename 与家族目录名（否则 35/36 在扫之前就被筛掉）；③把 `FAMILY_DIR`/`LITERAL_FAMILY_PREFIX` 换成不会命中的哨兵值，让 `CALL-*.md` 的组合写与 glob 不进这批孪生（这批孪生里没有一个车道成员，所以臂 C 自然为空）。换完立刻在 `finally` 里还原，selftest 逐项钉住「换的只有预筛与家族前缀，臂本身一字未动」。
+- **口径要分两层发**：类变化（0 读者 → 有读者）和站点增量（本来有读者，又多出 helper 读点）是两个不同的量。只报类变化会把盲区报成一个孪生，而实际被看不见的读站点是 24 个。
+- **`kind` 是继承面的必填字段**：`e497.scan()` 只在车道臂里读成员 `kind`，人口换成非车道时必须显式给中性 kind，否则 `KeyError`；这不是装饰，是「复用别人的扫描器要把它要的字段补齐」。
+- **夹具要连祖先 ROOT 一起换**：`e483.source_tree()` 用**它自己的**模块级 `ROOT` 解析仓相对路径，夹具只换 `e497` 的人口是看不到夹具源的——所有夹具源「读不出来」会被印成「没有读者」，正好是本研要测的那种假阴性。
+
+**读数**（2026-11-07，人口 36 孪生 / 1553 源带树 / 预筛后候选 1646 源）：
+- **2 个基线「无人读」孪生 → 1 个变读、1 个仍零**。变的是 `results/market_clock/CALL_latest.json`（3 个 helper 读点，`_read_json`）；仍零的是 `results/state_tilt/BASISRECOVERY_latest.json`——臂是**可分辨的**，不是「一律翻案」。
+- **11 个本来有字面读者的孪生各多出 helper 读点**，合计 **24 个普查看不见的读站点**（`_load` 7 / `sha` 3 / `_read_json`·`_read_face`·`_read`·`read_callee` 各 1）。也就是说「这个面有人读」这句话在 12/36 的孪生上是**靠第二臂才成立**的，其中 11 个被字面普查蒙对了结论、错了读者数。
+- **类变化 1 vs 站点增量 24**：单看类变化，会把「helper 盲区影响 1/36」当成结论；实际影响面是 12/36。这就是本卡最想留下的一条：**结论对不代表测量对**。
+
+**三条可复用**：
+1. **翻案要回到同一个人口**——「E497 只是一个实例」只能由「同一批 36 个孪生重测」回答；换人口重扫会得到无法对齐的数（E496/E483 的 36 vs 30 已踩过一次）。
+2. **类变化与站点增量必须同时发**——一个孪生从「零读者」变「有读者」是类变化，一个孪生从「3 个读者」变「6 个读者」是站点增量；只发前者会把 24 个不可见读点压成 1。
+3. **复用扫描器 = 补齐它要的字段 + 连它的 ROOT 一起搬**——`kind` 缺字段会 KeyError，祖先 `ROOT` 不搬会把夹具的空结果读成零读者（与本研主题同构的假阴性）。
+
+**边界**：只回答这 36 个孪生在这一时点的读法；不是全树面普查，某个孪生在本研里没有 helper 读者**不等于**它死了，只等于「语料里没有 helper 打开它」。臂 B 只认本模块内定义的 helper，跨模块 `from x import read_json` 不在人口内。
+
+**验证**：`scripts/e498_helperread.py`（`run` rc0 / `check` problems=[] / `verify` problems=[] 重建恒等 / **selftest 9/9**：面可建、check 干净、篡改行与篡改判词各 1 腿红、夹具 helper 归因、夹具未开孪生仍零、helper 名被记录、预筛令牌由人口派生）；产物 `results/state_tilt/HELPERREAD-20261107.json` + `helperread_latest.json`（36 行，逐孪生带 baseline/helper_sites/helpers）；S6 腿 `helper_read` rc0 0.07s；smoke 腿 `E498 ...` 单跑 1/1 绿（篡改面 1/1 红，面字节归位）。
