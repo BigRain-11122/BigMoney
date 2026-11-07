@@ -19826,5 +19826,74 @@ except Exception as _e483x:
     _d483 = "leg could not run"
 check(_name483, not _bad483, "; ".join(_bad483)[:240] or _d483)
 
+# E496 -- does E479's residue class survive the mode arm?  E483 showed 18 of the 78 opener
+# sites write the twin they name.  This leg holds the reads-only re-read: per-site mode sums
+# to the row, the 30 leg-only twins keep their label and their readers, the one twin whose
+# every opener writes reads as never-opened, and E483's 30-twin subset reconciles (57/18/3).
+_name496 = ("E496 re-deriving E479's residue with read-mode openers only changes 1 of 36 twins "
+            "-- the one whose 7 opener sites are all writes -- and no twin loses its last "
+            "reader (r1522 bm-b)")
+_bad496 = []
+try:
+    _m496 = __import__("importlib").import_module("e496_twin_mode")
+    _f496 = json.load(open(os.path.join("results", "state_tilt", "twinmode_latest.json"),
+                           encoding="utf-8"))
+    _s496 = _f496.get("summary") or {}
+    _r496 = _f496.get("rows") or []
+    _bad496.extend(_m496.tally_problems(_f496))
+    if not _r496:
+        _bad496.append("the twin population is empty")
+    if _f496.get("verdict") not in _m496.VERDICT_VOCAB:
+        _bad496.append("the verdict is not in the vocabulary")
+    if len(_r496) != 36:
+        _bad496.append("the population is %d twins, not the 36 E479 published" % len(_r496))
+    _by496 = {r.get("twin"): r for r in _r496}
+    _call496 = _by496.get("results/market_clock/CALL_latest.json") or {}
+    if (_call496.get("write_sites"), _call496.get("read_sites")) != (7, 0):
+        _bad496.append("the write-only twin no longer reads as 7 writes / 0 reads")
+    if _call496.get("read_only_residue") != "never_opened_by_any_site_in_the_corpus":
+        _bad496.append("the write-only twin is not published as never opened under reads only")
+    _legs496 = [r for r in _r496
+                if r.get("baseline_residue") == "opened_only_by_a_smoke_or_runner_leg"]
+    if len(_legs496) != 30:
+        _bad496.append("the leg-only population is %d, not the 30 E479 published"
+                       % len(_legs496))
+    if any(r.get("read_only_residue") != "opened_only_by_a_smoke_or_runner_leg"
+           for r in _legs496):
+        _bad496.append("a leg-only twin left its class under the reads-only arm")
+    if _s496.get("twins_that_lose_their_last_reader"):
+        _bad496.append("a twin loses its last reader, so the class change is not the only one")
+    _cross496 = _f496.get("cross_check_vs_e483") or {}
+    if _cross496.get("agrees") is not True:
+        _bad496.append("the 30-twin mode totals no longer reconcile with E483")
+    if any((_cross496.get("deltas") or {}).values()):
+        _bad496.append("the reconciliation still carries a delta")
+    _w496 = json.loads(json.dumps(_f496))
+    for _row496 in _w496.get("rows") or []:
+        if _row496.get("twin") == "results/market_clock/CALL_latest.json":
+            _row496["read_only_residue"] = "opened_only_by_a_smoke_or_runner_leg"
+    if not _m496.tally_problems(_w496):
+        _bad496.append("a row whose reads-only residue contradicts its own sites survived")
+    _w496b = json.loads(json.dumps(_f496))
+    _w496b["summary"]["twins_that_lose_their_last_reader"] = 9
+    if not _m496.tally_problems(_w496b):
+        _bad496.append("a reader-loss count that does not re-derive survived the guard")
+    _d496 = ("%d twins / %d sites = %d read + %d write + %d indirect | class changes %d | "
+             "leg-only %d -> %d | last reader lost %d | retirable %d members / %d B | "
+             "E483 subset deltas %s"
+             % (len(_r496), _s496.get("opener_sites") or 0, _s496.get("read_sites") or 0,
+                _s496.get("write_sites") or 0, _s496.get("unresolved_sites") or 0,
+                _s496.get("twins_whose_class_changed") or 0,
+                _s496.get("twins_labelled_leg_only_in_the_baseline") or 0,
+                _s496.get("twins_labelled_leg_only_with_reads_only") or 0,
+                _s496.get("twins_that_lose_their_last_reader") or 0,
+                _s496.get("members_behind_the_retirable_twins_reads_only") or 0,
+                _s496.get("bytes_behind_the_retirable_twins_reads_only") or 0,
+                _cross496.get("deltas") or {}))
+except Exception as _e496x:
+    _bad496.append(repr(_e496x)[:160])
+    _d496 = "leg could not run"
+check(_name496, not _bad496, "; ".join(_bad496)[:240] or _d496)
+
 if __name__ == "__main__":
     sys.exit(main())

@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1521 bm-b: E483 published (LEGDEBT-2026-11-07: of E479's 30 leg-only twins, 78 opener sites split 57 read / 18 write / 3 indirect -- 10 twins are opened for writing by the script that publishes them; the 57 read sites are 39 pins, 7 existence-only, 4 re-derivations, 4 byte-copies, 1 presence, 2 no-field, so 0 twins retire on an existence-only edit and 30 owe an assertion rewrite). E483 closed, E496 seeded.",
+ "_stamp_note": "r1522 bm-b: E496 published (TWINMODE-2026-11-07: re-deriving E479's residue with read-mode openers only changes 1 of 36 twins -- CALL_latest, 7 write sites and 0 reads -- while all 30 leg-only labels, every leg reader and the 21-member/125,541 B retirement price survive; 57/18/3 on E483's 30-twin subset, deltas 0). E496 closed, E497 seeded.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -28725,6 +28725,23 @@
    "source": "r1521 E483: 57 read / 18 write / 3 indirect sites over 30 leg-only twins; the writer is counted as an opener on 10 twins",
    "deliverable": "results/state_tilt/TWINMODE-<cutoff>.json",
    "evidence_cutoff": "2026-11-07",
+   "status": "done",
+   "outcome": "ok",
+   "result_ref": "results/state_tilt/TWINMODE-2026-11-07.json",
+   "closed_at": "2026-11-07T13:11:57+08:00",
+   "closed_by": "bm-b r1522"
+  },
+  {
+   "id": "E497-IS-THE-ONE-WRITE-ONLY-TWIN-S-RETIREMENT-FREE-BECAUSE-ITS-DATED-MEMBERS-ARE-WHAT-GETS-READ",
+   "title": "E496 found exactly one of the 36 latest-pointer twins whose every opener writes it (results/market_clock/CALL_latest.json: 7 write sites, 0 reads). If nothing reads the twin, does anything read the dated members of the same family? Publish the family's members, which of them any source opens for reading, whether a reader that names the family basename resolves to a dated member or to the twin, and whether retiring the twin alone breaks any site -- so a dead family is reported as dead rather than a dead twin being reported on its own.",
+   "source": "E496 (r1522): CALL_latest is the only twin whose reads-only residue is never_opened_by_any_site_in_the_corpus, and its 7 write sites are all listed producers",
+   "lane": "cpu-only",
+   "lane_note": "static: opener scan over the same corpus as E479/E496, no network",
+   "priority": "normal",
+   "deliverable": "results/state_tilt/TWINDEAD-<cutoff>.json",
+   "evidence_cutoff": "2026-11-07",
+   "entered_at": "2026-11-07T13:11:57+08:00",
+   "entered_by": "bm-b r1522 (supply floor refill after E496)",
    "status": "ready"
   }
  ],
@@ -28740,6 +28757,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T12:22:32",
+ "updated_at": "2026-11-07T13:11:57+08:00",
  "version": 1
 }

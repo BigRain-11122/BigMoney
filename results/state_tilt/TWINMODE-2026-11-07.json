@@ -1,0 +1,2548 @@
+{
+ "study": "E496",
+ "card": "E496-DOES-E479-S-RESIDUE-CLASS-SURVIVE-THE-MODE-ARM",
+ "title": "Does E479's residue class survive the mode arm -- with write-mode openers removed, which twins were never leg-only and what does a retirement cost",
+ "generated": "2026-11-07T13:08:47+08:00",
+ "evidence_cutoff": "2026-11-07",
+ "source_faces": {
+  "population_and_residue": "results/state_tilt/twinread_latest.json (E479)",
+  "opener_modes": "results/state_tilt/legdebt_latest.json (E483)"
+ },
+ "population_meta": {
+  "source_face": "vintageread_latest.json",
+  "source_face_verdict": "no_vintage_family_is_opened_by_a_study_that_does_not_write_it",
+  "source_face_cutoff": "2026-11-06",
+  "families_total": 97,
+  "families_without_a_latest_pointer": 61
+ },
+ "site_meta": {
+  "sources_scanned_with_a_candidate": 482,
+  "distinct_basenames": 36,
+  "unmatched_latest_sites": 826,
+  "unmatched_latest_sources": 170,
+  "unmatched_latest_examples": [
+   "%s_latest.json",
+   "/bandswitch_latest.json",
+   "_latest.json",
+   "_n3r1_probe_latest.json",
+   "_n3r2_probe_latest.json",
+   "a_latest.json",
+   "abandonedguard_latest.json",
+   "abandonedread_latest.json",
+   "abandonedstale_latest.json",
+   "allowance_latest.json"
+  ]
+ },
+ "verdict": "every_leg_only_twin_stays_leg_only_when_only_read_mode_openers_count",
+ "verdict_vocab": [
+  "every_leg_only_twin_stays_leg_only_when_only_read_mode_openers_count",
+  "some_leg_only_twins_were_only_ever_written_and_lose_their_last_reader_when_only_read_mode_openers_count",
+  "no_twin_to_re_read"
+ ],
+ "summary": {
+  "twins_in_the_population": 36,
+  "baseline_residue_counts": {
+   "opened_by_a_source_that_writes_neither_this_twin_nor_its_family": 4,
+   "opened_only_by_a_smoke_or_runner_leg": 30,
+   "opened_only_by_a_one_off_round_script": 0,
+   "opened_only_by_the_script_that_writes_it": 1,
+   "reached_only_through_a_glob_and_no_site_opens_it": 0,
+   "never_opened_by_any_site_in_the_corpus": 1,
+   "the_named_twin_is_not_on_disk": 0
+  },
+  "read_only_residue_counts": {
+   "opened_by_a_source_that_writes_neither_this_twin_nor_its_family": 4,
+   "opened_only_by_a_smoke_or_runner_leg": 30,
+   "opened_only_by_a_one_off_round_script": 0,
+   "opened_only_by_the_script_that_writes_it": 0,
+   "reached_only_through_a_glob_and_no_site_opens_it": 0,
+   "never_opened_by_any_site_in_the_corpus": 2,
+   "the_named_twin_is_not_on_disk": 0
+  },
+  "twins_whose_class_changed": 1,
+  "twins_labelled_leg_only_in_the_baseline": 30,
+  "twins_labelled_leg_only_with_reads_only": 30,
+  "leg_only_label_survived": true,
+  "twins_that_lose_their_last_reader": 0,
+  "twins_where_the_writer_is_the_only_remaining_opener": 0,
+  "leg_labelled_twins_that_were_never_leg_only": 0,
+  "twins_whose_opener_set_is_writes_only": 1,
+  "opener_sites": 95,
+  "read_sites": 66,
+  "write_sites": 26,
+  "unresolved_sites": 3,
+  "producer_write_sites": 26,
+  "write_sites_not_from_a_listed_producer": 0,
+  "write_sites_from_a_leg_role_source": 7,
+  "write_sites_by_role": {
+   "a_one_off_round_script": 6,
+   "a_standalone_leg_runner": 7,
+   "an_instrument": 13
+  },
+  "twins_where_a_leg_role_source_writes_it": 4,
+  "mode_totals_agree_with_e483_on_the_30_twin_subset": true,
+  "twins_with_an_unresolved_site": 1,
+  "members_behind_the_retirable_twins_baseline": 21,
+  "members_behind_the_retirable_twins_reads_only": 21,
+  "bytes_behind_the_retirable_twins_baseline": 125541,
+  "bytes_behind_the_retirable_twins_reads_only": 125541
+ },
+ "cross_check_vs_e483": {
+  "source_face": "results/state_tilt/legdebt_latest.json (E483)",
+  "population_note": "E483 measured the 30 leg-only twins; this study measures all 36, so whole-tree site totals differ by construction.  Compared here on the 30-twin subset E483 measured.",
+  "subset_twins": 30,
+  "subset_read_sites": 57,
+  "subset_write_sites": 18,
+  "subset_indirect_sites": 3,
+  "subset_sites": 78,
+  "available": true,
+  "agrees": true,
+  "e483_twins": 30,
+  "e483_sites_in_population": 78,
+  "e483_read_sites": 57,
+  "e483_write_sites": 18,
+  "e483_indirect_sites": 3,
+  "deltas": {
+   "read": 0,
+   "write": 0,
+   "indirect": 0
+  }
+ },
+ "rows": [
+  {
+   "twin": "results/market_clock/CALL_latest.json",
+   "twin_basename": "CALL_latest.json",
+   "family_dir": "results/market_clock",
+   "members": 16,
+   "bytes": 30743,
+   "baseline_residue": "opened_only_by_the_script_that_writes_it",
+   "read_only_residue": "never_opened_by_any_site_in_the_corpus",
+   "class_changed": true,
+   "opener_sites": 7,
+   "read_sites": 0,
+   "write_sites": 7,
+   "unresolved_sites": 0,
+   "producer_write_sites": 7,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {
+    "a_one_off_round_script": 6,
+    "an_instrument": 1
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 0,
+   "sites": [
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 64,
+     "literal": "results/market_clock/call_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "a_one_off_round_script",
+     "is_producer": true
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 87,
+     "literal": "results/market_clock/call_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "a_one_off_round_script",
+     "is_producer": true
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 96,
+     "literal": "results/market_clock/call_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='wb'",
+     "role": "a_one_off_round_script",
+     "is_producer": true
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 117,
+     "literal": "results/market_clock/call_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "a_one_off_round_script",
+     "is_producer": true
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 142,
+     "literal": "results/market_clock/call_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "a_one_off_round_script",
+     "is_producer": true
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 153,
+     "literal": "results/market_clock/call_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "a_one_off_round_script",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/market_clock_call.py",
+     "line": 406,
+     "literal": "call_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "an_instrument",
+     "is_producer": true
+    }
+   ],
+   "unresolved": [],
+   "cause": [
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 64,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 87,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 96,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='wb'",
+     "is_producer": true
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 117,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 142,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 153,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/market_clock_call.py",
+     "line": 406,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    }
+   ],
+   "producers": [
+    "Tools/_r749bmc_pit_append.py",
+    "_e436_card.py",
+    "_r1367bmb_closeout.py",
+    "_r1404bmb_card.py",
+    "_r1440_row.py",
+    "_r1461_report.py",
+    "_r1480_closeout.py",
+    "_r1498_row.py",
+    "_r1504bmb_report.py",
+    "_tmp_e229_card.py",
+    "_tmp_e343_card.py",
+    "_tmp_r1256_card.py",
+    "_tmp_r1281_close.py",
+    "_tmp_r1283_close.py",
+    "_tmp_r1378_report.py",
+    "results/_r1284bmb_closeout_faces.py",
+    "results/_r1292bmb_report_row.py",
+    "results/_r1309bmb_closeout.py",
+    "results/_r1315bmb_closeout.py",
+    "results/_r1456_closeout.py",
+    "results/_r239_wire_prompt.py",
+    "results/_r269bmb_t81_postreview.py",
+    "results/_r392_resolve6.py",
+    "scripts/_append_e491_card.py",
+    "scripts/_closeout_r1438.py",
+    "scripts/_e472_card.py",
+    "scripts/_insert_e401_leg.py",
+    "scripts/_r1369_card.py",
+    "scripts/_r1421bmb_card_seed.py",
+    "scripts/_r1421bmb_closeout.py",
+    "scripts/_r1430_report_row.py",
+    "scripts/_r1436_card.py",
+    "scripts/_r1436_insert_e418_leg.py",
+    "scripts/_r1439_closeout.py",
+    "scripts/_r1495_closeout.py",
+    "scripts/_r1509_report_row.py",
+    "scripts/_r1513bmb_pool.py",
+    "scripts/e299_rounded_vs_tolerance_census.py",
+    "scripts/e331_pointer_only_readers.py",
+    "scripts/e371_store_member_cost.py",
+    "scripts/e377_unresolved_destination.py",
+    "scripts/e388_schema_accretion.py",
+    "scripts/e390_wrong_side_reader.py",
+    "scripts/e392_read_resolve.py",
+    "scripts/e395_conditional_write.py",
+    "scripts/e398_latest_family.py",
+    "scripts/e401_local_reader.py",
+    "scripts/e402_fragment_producers.py",
+    "scripts/e404_constant_directory_resolution.py",
+    "scripts/e414_unsupplied_read.py",
+    "scripts/e415_cwd_accident.py",
+    "scripts/e426_dynamic_face_names.py",
+    "scripts/e428_no_caller.py",
+    "scripts/e438_temp_write_base.py",
+    "scripts/e439_file_slot_callers.py",
+    "scripts/e440_shared_wrapper_names.py",
+    "scripts/e442_deadpath.py",
+    "scripts/e443_bare_call_resolve.py",
+    "scripts/e444_attr_method.py",
+    "scripts/e450_caller_class.py",
+    "scripts/e452_abandoned_guard.py",
+    "scripts/e456_import_class.py",
+    "scripts/e459_stdlib_class.py",
+    "scripts/e472_vintage_read.py",
+    "scripts/e473_producer_spill.py",
+    "scripts/e488_writer_directory.py",
+    "scripts/e489_write_wire.py",
+    "scripts/e490_write_helper.py",
+    "scripts/e491_latest_copier.py",
+    "scripts/market_clock_call.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/ADDOS_latest.json",
+   "twin_basename": "ADDOS_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 348559,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 2,
+   "read_sites": 2,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "scripts/e244_pair_heterogeneity.py",
+     "line": 62,
+     "literal": "addos_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3502,
+     "literal": "results/state_tilt/addos_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/e244_pair_heterogeneity.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/BANDPATH_latest.json",
+   "twin_basename": "BANDPATH_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 4238518,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 1,
+   "read_sites": 1,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "smoke_test.py",
+     "line": 2725,
+     "literal": "results/state_tilt/bandpath_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "_tmp_r1257_close.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/BASENAMECENSUS_latest.json",
+   "twin_basename": "BASENAMECENSUS_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "bytes": 286347,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 2,
+   "read_sites": 1,
+   "write_sites": 1,
+   "unresolved_sites": 0,
+   "producer_write_sites": 1,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {
+    "an_instrument": 1
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "scripts/e422_basename_census_audit.py",
+     "line": 540,
+     "literal": "basenamecensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 16050,
+     "literal": "basenamecensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [
+    {
+     "source": "scripts/e422_basename_census_audit.py",
+     "line": 540,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    }
+   ],
+   "producers": [
+    "_r1440_row.py",
+    "scripts/e422_basename_census_audit.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/BASISRECOVERY_latest.json",
+   "twin_basename": "BASISRECOVERY_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 5,
+   "bytes": 94798,
+   "baseline_residue": "never_opened_by_any_site_in_the_corpus",
+   "read_only_residue": "never_opened_by_any_site_in_the_corpus",
+   "class_changed": false,
+   "opener_sites": 0,
+   "read_sites": 0,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 0,
+   "sites": [],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/e303_recover_unmeasurable_basis.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/BOOKECHO_latest.json",
+   "twin_basename": "BOOKECHO_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "bytes": 219951,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 3,
+   "read_sites": 3,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 3,
+   "sites": [
+    {
+     "source": "_tmp_r1277_view.py",
+     "line": 5,
+     "literal": "results/state_tilt/bookecho_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "a_one_off_round_script",
+     "is_producer": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3900,
+     "literal": "bookecho_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 4013,
+     "literal": "bookecho_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/e250_book_turnover_echo.py",
+    "scripts/e407_leg_input_stability.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/BREAKEVEN_latest.json",
+   "twin_basename": "BREAKEVEN_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 8,
+   "bytes": 354588,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 2,
+   "read_sites": 1,
+   "write_sites": 1,
+   "unresolved_sites": 0,
+   "producer_write_sites": 1,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {
+    "an_instrument": 1
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "scripts/e226_tilt_breakeven.py",
+     "line": 387,
+     "literal": "breakeven_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 2420,
+     "literal": "results/state_tilt/breakeven_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [
+    {
+     "source": "scripts/e226_tilt_breakeven.py",
+     "line": 387,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    }
+   ],
+   "producers": [
+    "_tmp_r1254_card.py",
+    "scripts/e226_tilt_breakeven.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/COSTCURVE_latest.json",
+   "twin_basename": "COSTCURVE_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 570452,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 2,
+   "read_sites": 1,
+   "write_sites": 1,
+   "unresolved_sites": 0,
+   "producer_write_sites": 1,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {
+    "an_instrument": 1
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "scripts/e232_cost_curvature.py",
+     "line": 366,
+     "literal": "costcurve_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 2830,
+     "literal": "results/state_tilt/costcurve_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [
+    {
+     "source": "scripts/e232_cost_curvature.py",
+     "line": 366,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    }
+   ],
+   "producers": [
+    "scripts/e232_cost_curvature.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/DIRFIELD_latest.json",
+   "twin_basename": "DIRFIELD_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "bytes": 82724,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 4,
+   "read_sites": 3,
+   "write_sites": 1,
+   "unresolved_sites": 0,
+   "producer_write_sites": 1,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 1,
+   "write_sites_by_role": {
+    "a_standalone_leg_runner": 1
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "scripts/run_e423_smoke_leg.py",
+     "line": 55,
+     "literal": "dirfield_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "role": "a_standalone_leg_runner",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/run_e423_smoke_leg.py",
+     "line": 74,
+     "literal": "dirfield_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='wb'",
+     "role": "a_standalone_leg_runner",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/run_e423_smoke_leg.py",
+     "line": 75,
+     "literal": "dirfield_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "role": "a_standalone_leg_runner",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 16825,
+     "literal": "dirfield_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [
+    {
+     "source": "scripts/run_e423_smoke_leg.py",
+     "line": 74,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='wb'",
+     "is_producer": true
+    }
+   ],
+   "producers": [
+    "_r1498_row.py",
+    "scripts/e423_dirfield_join.py",
+    "scripts/e433_republication_chain.py",
+    "scripts/run_e423_smoke_leg.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/DIRISFACE_latest.json",
+   "twin_basename": "DIRISFACE_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "bytes": 359657,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 6,
+   "read_sites": 4,
+   "write_sites": 2,
+   "unresolved_sites": 0,
+   "producer_write_sites": 2,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 2,
+   "write_sites_by_role": {
+    "a_standalone_leg_runner": 2
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "scripts/e435_dir_is_a_face.py",
+     "line": 226,
+     "literal": "dirisface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/e441_facehome_family.py",
+     "line": 63,
+     "literal": "dirisface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/run_e435_smoke_leg.py",
+     "line": 61,
+     "literal": "dirisface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "role": "a_standalone_leg_runner",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/run_e435_smoke_leg.py",
+     "line": 67,
+     "literal": "dirisface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "a_standalone_leg_runner",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/run_e435_smoke_leg.py",
+     "line": 75,
+     "literal": "dirisface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "a_standalone_leg_runner",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 17457,
+     "literal": "dirisface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [
+    {
+     "source": "scripts/run_e435_smoke_leg.py",
+     "line": 67,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/run_e435_smoke_leg.py",
+     "line": 75,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    }
+   ],
+   "producers": [
+    "_r1498_row.py",
+    "scripts/e435_dir_is_a_face.py",
+    "scripts/e441_facehome_family.py",
+    "scripts/run_e435_smoke_leg.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/FAMILYARG_latest.json",
+   "twin_basename": "FAMILYARG_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 119400,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 2,
+   "read_sites": 2,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "scripts/e403_family_arg.py",
+     "line": 854,
+     "literal": "familyarg_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 15638,
+     "literal": "familyarg_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/e403_family_arg.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/FRESHAIM_latest.json",
+   "twin_basename": "FRESHAIM_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 125823,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 2,
+   "read_sites": 2,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "scripts/e416_fresh_aim.py",
+     "line": 402,
+     "literal": "freshaim_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 15809,
+     "literal": "freshaim_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "results/_r1435bmb_round_row.py",
+    "scripts/e416_fresh_aim.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/GRANULARITY_latest.json",
+   "twin_basename": "GRANULARITY_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 287855,
+   "baseline_residue": "opened_by_a_source_that_writes_neither_this_twin_nor_its_family",
+   "read_only_residue": "opened_by_a_source_that_writes_neither_this_twin_nor_its_family",
+   "class_changed": false,
+   "opener_sites": 3,
+   "read_sites": 2,
+   "write_sites": 1,
+   "unresolved_sites": 0,
+   "producer_write_sites": 1,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {
+    "an_instrument": 1
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 2,
+   "sites": [
+    {
+     "source": "scripts/e235_charge_granularity.py",
+     "line": 654,
+     "literal": "granularity_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/e236_share_difference.py",
+     "line": 636,
+     "literal": "granularity_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "an_instrument",
+     "is_producer": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3006,
+     "literal": "results/state_tilt/granularity_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [
+    {
+     "source": "scripts/e235_charge_granularity.py",
+     "line": 654,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    }
+   ],
+   "producers": [
+    "scripts/e235_charge_granularity.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/HYSTERESIS_latest.json",
+   "twin_basename": "HYSTERESIS_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 560341,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 3,
+   "read_sites": 2,
+   "write_sites": 1,
+   "unresolved_sites": 0,
+   "producer_write_sites": 1,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {
+    "an_instrument": 1
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 2,
+   "sites": [
+    {
+     "source": "scripts/e230_hysteresis_toll.py",
+     "line": 504,
+     "literal": "hysteresis_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 2639,
+     "literal": "results/state_tilt/hysteresis_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 2786,
+     "literal": "results/state_tilt/hysteresis_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [
+    {
+     "source": "scripts/e230_hysteresis_toll.py",
+     "line": 504,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    }
+   ],
+   "producers": [
+    "_tmp_e229_card.py",
+    "_tmp_r1255_close.py",
+    "_tmp_r1255_handover.py",
+    "_tmp_r1256_card.py",
+    "_tmp_r1257_close.py",
+    "scripts/_r1383_report.py",
+    "scripts/e230_hysteresis_toll.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/INFOSTRUCT_latest.json",
+   "twin_basename": "INFOSTRUCT_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 224528,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 1,
+   "read_sites": 1,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "smoke_test.py",
+     "line": 3117,
+     "literal": "results/state_tilt/infostruct_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/e237_information_structure.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/LEADCOUNTER_latest.json",
+   "twin_basename": "LEADCOUNTER_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "bytes": 257509,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 2,
+   "read_sites": 2,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 2,
+   "sites": [
+    {
+     "source": "_tmp_r1275_smoke_leg.py",
+     "line": 7,
+     "literal": "leadcounter_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "a_one_off_round_script",
+     "is_producer": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3802,
+     "literal": "leadcounter_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/e249_lead_counterfactual.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/LOOBOOK_latest.json",
+   "twin_basename": "LOOBOOK_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 178958,
+   "baseline_residue": "opened_by_a_source_that_writes_neither_this_twin_nor_its_family",
+   "read_only_residue": "opened_by_a_source_that_writes_neither_this_twin_nor_its_family",
+   "class_changed": false,
+   "opener_sites": 3,
+   "read_sites": 3,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 3,
+   "sites": [
+    {
+     "source": "scripts/e239_own_vs_cross.py",
+     "line": 262,
+     "literal": "loobook_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r'",
+     "role": "an_instrument",
+     "is_producer": false
+    },
+    {
+     "source": "scripts/e240_aggregate_attenuation.py",
+     "line": 657,
+     "literal": "loobook_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r'",
+     "role": "an_instrument",
+     "is_producer": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3173,
+     "literal": "results/state_tilt/loobook_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/e238_leave_one_out_book.py",
+    "scripts/e241_pair_reproduction.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/MATCHED_latest.json",
+   "twin_basename": "MATCHED_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 8,
+   "bytes": 253161,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 2,
+   "read_sites": 1,
+   "write_sites": 1,
+   "unresolved_sites": 0,
+   "producer_write_sites": 1,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {
+    "an_instrument": 1
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "scripts/e228_matched_exposure.py",
+     "line": 445,
+     "literal": "matched_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 2491,
+     "literal": "results/state_tilt/matched_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [
+    {
+     "source": "scripts/e228_matched_exposure.py",
+     "line": 445,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    }
+   ],
+   "producers": [
+    "_r1075bmb_report.py",
+    "_tmp_e229_card.py",
+    "_tmp_r1254_card.py",
+    "_tmp_r1255_handover.py",
+    "_tmp_r1378_report.py",
+    "scripts/_r1372_closeout.py",
+    "scripts/_r1430_report_row.py",
+    "scripts/e228_matched_exposure.py",
+    "scripts/e392_read_resolve.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/OMISSION_latest.json",
+   "twin_basename": "OMISSION_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 101049,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 1,
+   "read_sites": 1,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "smoke_test.py",
+     "line": 3435,
+     "literal": "results/state_tilt/omission_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/_r1372_closeout.py",
+    "scripts/e242_omission_inflation_sweep.py",
+    "scripts/e405_dead_read_failure_mode.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/OWNCROSS_latest.json",
+   "twin_basename": "OWNCROSS_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 161607,
+   "baseline_residue": "opened_by_a_source_that_writes_neither_this_twin_nor_its_family",
+   "read_only_residue": "opened_by_a_source_that_writes_neither_this_twin_nor_its_family",
+   "class_changed": false,
+   "opener_sites": 2,
+   "read_sites": 2,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 2,
+   "sites": [
+    {
+     "source": "scripts/e240_aggregate_attenuation.py",
+     "line": 657,
+     "literal": "owncross_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r'",
+     "role": "an_instrument",
+     "is_producer": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3230,
+     "literal": "results/state_tilt/owncross_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/e239_own_vs_cross.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/PAIRHET_latest.json",
+   "twin_basename": "PAIRHET_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 81201,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 2,
+   "read_sites": 2,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "scripts/e245_pair_slope_matrix.py",
+     "line": 261,
+     "literal": "pairhet_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3549,
+     "literal": "results/state_tilt/pairhet_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/e244_pair_heterogeneity.py",
+    "scripts/e245_pair_slope_matrix.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/PRECISIONCENSUS_latest.json",
+   "twin_basename": "PRECISIONCENSUS_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "bytes": 240985,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 1,
+   "read_sites": 1,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "smoke_test.py",
+     "line": 8357,
+     "literal": "precisioncensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/e299_rounded_vs_tolerance_census.py",
+    "scripts/e305_face_level_row_pricing.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/PRECISIONGAP_latest.json",
+   "twin_basename": "PRECISIONGAP_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 123540,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 1,
+   "read_sites": 1,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "smoke_test.py",
+     "line": 8433,
+     "literal": "precisiongap_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "_r1498_row.py",
+    "scripts/e305_face_level_row_pricing.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/READERTIERS_latest.json",
+   "twin_basename": "READERTIERS_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 1346018,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 4,
+   "read_sites": 3,
+   "write_sites": 1,
+   "unresolved_sites": 0,
+   "producer_write_sites": 1,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {
+    "an_instrument": 1
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "scripts/e411_reader_tiers.py",
+     "line": 98,
+     "literal": "readertiers_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/e411_reader_tiers.py",
+     "line": 433,
+     "literal": "readertiers_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/e411_reader_tiers.py",
+     "line": 446,
+     "literal": "readertiers_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 15574,
+     "literal": "readertiers_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [
+    {
+     "source": "scripts/e411_reader_tiers.py",
+     "line": 433,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    }
+   ],
+   "producers": [
+    "_r1498_row.py",
+    "scripts/e411_reader_tiers.py",
+    "scripts/e416_fresh_aim.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/REFRESHSIGNAL_latest.json",
+   "twin_basename": "REFRESHSIGNAL_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 116749,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 3,
+   "read_sites": 3,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 2,
+   "sites": [
+    {
+     "source": "scripts/e408_writer_refresh_signal.py",
+     "line": 722,
+     "literal": "refreshsignal_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/run_e408_smoke_leg.py",
+     "line": 25,
+     "literal": "refreshsignal_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "a_standalone_leg_runner",
+     "is_producer": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 15381,
+     "literal": "refreshsignal_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/e408_writer_refresh_signal.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/REPLAYCENSUS_latest.json",
+   "twin_basename": "REPLAYCENSUS_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 81029,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 7,
+   "read_sites": 2,
+   "write_sites": 2,
+   "unresolved_sites": 3,
+   "producer_write_sites": 2,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {
+    "an_instrument": 2
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 2,
+   "sites": [
+    {
+     "source": "scripts/e414_unsupplied_read.py",
+     "line": 210,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "hands_the_path_to_a_helper_that_opens_it",
+     "mode_evidence": "no open call carries this line",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/e414_unsupplied_read.py",
+     "line": 215,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "hands_the_path_to_a_helper_that_opens_it",
+     "mode_evidence": "no open call carries this line",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/e414_unsupplied_read.py",
+     "line": 471,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/e414_unsupplied_read.py",
+     "line": 537,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 674,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 1857,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 7988,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "hands_the_path_to_a_helper_that_opens_it",
+     "mode_evidence": "no open call carries this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [
+    {
+     "source": "scripts/e414_unsupplied_read.py",
+     "line": 210,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "hands_the_path_to_a_helper_that_opens_it",
+     "mode_evidence": "no open call carries this line",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/e414_unsupplied_read.py",
+     "line": 215,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "hands_the_path_to_a_helper_that_opens_it",
+     "mode_evidence": "no open call carries this line",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 7988,
+     "literal": "replaycensus_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "hands_the_path_to_a_helper_that_opens_it",
+     "mode_evidence": "no open call carries this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "cause": [
+    {
+     "source": "scripts/e414_unsupplied_read.py",
+     "line": 210,
+     "mode": "hands_the_path_to_a_helper_that_opens_it",
+     "mode_evidence": "no open call carries this line",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/e414_unsupplied_read.py",
+     "line": 215,
+     "mode": "hands_the_path_to_a_helper_that_opens_it",
+     "mode_evidence": "no open call carries this line",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/e414_unsupplied_read.py",
+     "line": 471,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/e414_unsupplied_read.py",
+     "line": 537,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 7988,
+     "mode": "hands_the_path_to_a_helper_that_opens_it",
+     "mode_evidence": "no open call carries this line",
+     "is_producer": false
+    }
+   ],
+   "producers": [
+    "scripts/e298_replay_control_census.py",
+    "scripts/e414_unsupplied_read.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/REPRO_latest.json",
+   "twin_basename": "REPRO_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 36117,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 1,
+   "read_sites": 1,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "smoke_test.py",
+     "line": 3363,
+     "literal": "results/state_tilt/repro_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "Tools/_r1353bmb_closeout.py",
+    "Tools/_r1390_closeout.py",
+    "_r1362_smokeleg.py",
+    "_r1392_state.py",
+    "_tmp_e273_smoke.py",
+    "_tmp_r1256_card.py",
+    "_tmp_r1257_close.py",
+    "_tmp_r1297_close.py",
+    "logs/_r1391_closeout.py",
+    "results/_r1284bmb_closeout_faces.py",
+    "scripts/_r1369_card.py",
+    "scripts/_r1383_report.py",
+    "scripts/_r1430_report_row.py",
+    "scripts/_r1512bmb_close.py",
+    "scripts/_r1512bmb_closeout.py",
+    "scripts/e241_pair_reproduction.py",
+    "scripts/e294_live_universe_drift.py",
+    "scripts/e325_orphan_gate_faces.py",
+    "scripts/e335_sibling_entry_point.py",
+    "scripts/e363_corpus_vintage.py",
+    "scripts/e368_seam_replay.py",
+    "scripts/e369_pin_at_publishing_commit.py",
+    "scripts/e372_store_the_absent_members.py",
+    "scripts/e373_two_pins_one_replay.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/REPUBLISHCHAIN_latest.json",
+   "twin_basename": "REPUBLISHCHAIN_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 2,
+   "bytes": 40438,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 4,
+   "read_sites": 2,
+   "write_sites": 2,
+   "unresolved_sites": 0,
+   "producer_write_sites": 2,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 2,
+   "write_sites_by_role": {
+    "a_standalone_leg_runner": 2
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "scripts/run_e433_smoke_leg.py",
+     "line": 60,
+     "literal": "republishchain_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "role": "a_standalone_leg_runner",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/run_e433_smoke_leg.py",
+     "line": 67,
+     "literal": "republishchain_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "a_standalone_leg_runner",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/run_e433_smoke_leg.py",
+     "line": 75,
+     "literal": "republishchain_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "a_standalone_leg_runner",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 16287,
+     "literal": "republishchain_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [
+    {
+     "source": "scripts/run_e433_smoke_leg.py",
+     "line": 67,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/run_e433_smoke_leg.py",
+     "line": 75,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    }
+   ],
+   "producers": [
+    "scripts/e433_republication_chain.py",
+    "scripts/run_e433_smoke_leg.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/SHADOWFACE_latest.json",
+   "twin_basename": "SHADOWFACE_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 473672,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 6,
+   "read_sites": 4,
+   "write_sites": 2,
+   "unresolved_sites": 0,
+   "producer_write_sites": 2,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 2,
+   "write_sites_by_role": {
+    "a_standalone_leg_runner": 2
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "scripts/e417_shadow_face.py",
+     "line": 232,
+     "literal": "shadowface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/e417_shadow_face.py",
+     "line": 426,
+     "literal": "shadowface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/run_e417_smoke_leg.py",
+     "line": 61,
+     "literal": "shadowface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a text read on a handle opened at this line",
+     "role": "a_standalone_leg_runner",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/run_e417_smoke_leg.py",
+     "line": 66,
+     "literal": "shadowface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "a_standalone_leg_runner",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/run_e417_smoke_leg.py",
+     "line": 74,
+     "literal": "shadowface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "a_standalone_leg_runner",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 16141,
+     "literal": "shadowface_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [
+    {
+     "source": "scripts/run_e417_smoke_leg.py",
+     "line": 66,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/run_e417_smoke_leg.py",
+     "line": 74,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    }
+   ],
+   "producers": [
+    "scripts/e417_shadow_face.py",
+    "scripts/run_e417_smoke_leg.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/SHAREDIFF_latest.json",
+   "twin_basename": "SHAREDIFF_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 225240,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 1,
+   "read_sites": 1,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "smoke_test.py",
+     "line": 3068,
+     "literal": "results/state_tilt/sharediff_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/e236_share_difference.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/SLOPEMATRIX_latest.json",
+   "twin_basename": "SLOPEMATRIX_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 7,
+   "bytes": 423061,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 1,
+   "read_sites": 1,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "smoke_test.py",
+     "line": 3593,
+     "literal": "slopematrix_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/_r1439_closeout.py",
+    "scripts/e245_pair_slope_matrix.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/STARDIR_latest.json",
+   "twin_basename": "STARDIR_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "bytes": 198566,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 1,
+   "read_sites": 1,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "smoke_test.py",
+     "line": 3646,
+     "literal": "stardir_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/e246_star_direction.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/STARLAGBAND_latest.json",
+   "twin_basename": "STARLAGBAND_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "bytes": 200862,
+   "baseline_residue": "opened_by_a_source_that_writes_neither_this_twin_nor_its_family",
+   "read_only_residue": "opened_by_a_source_that_writes_neither_this_twin_nor_its_family",
+   "class_changed": false,
+   "opener_sites": 2,
+   "read_sites": 2,
+   "write_sites": 0,
+   "unresolved_sites": 0,
+   "producer_write_sites": 0,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {},
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 2,
+   "sites": [
+    {
+     "source": "scripts/e249_lead_counterfactual.py",
+     "line": 379,
+     "literal": "starlagband_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r'",
+     "role": "an_instrument",
+     "is_producer": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3734,
+     "literal": "starlagband_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [],
+   "producers": [
+    "scripts/e248_star_lag_band.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/STAROWN_latest.json",
+   "twin_basename": "STAROWN_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 6,
+   "bytes": 177181,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 6,
+   "read_sites": 5,
+   "write_sites": 1,
+   "unresolved_sites": 0,
+   "producer_write_sites": 1,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {
+    "an_instrument": 1
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 4,
+   "sites": [
+    {
+     "source": "_tmp_r1277_nums.py",
+     "line": 4,
+     "literal": "results/state_tilt/starown_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "a_one_off_round_script",
+     "is_producer": false
+    },
+    {
+     "source": "_tmp_r1277_view.py",
+     "line": 4,
+     "literal": "results/state_tilt/starown_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "a_one_off_round_script",
+     "is_producer": false
+    },
+    {
+     "source": "scripts/e252_star_prices_itself.py",
+     "line": 731,
+     "literal": "starown_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/e252_star_prices_itself.py",
+     "line": 795,
+     "literal": "starown_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 3966,
+     "literal": "starown_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 4113,
+     "literal": "starown_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [
+    {
+     "source": "scripts/e252_star_prices_itself.py",
+     "line": 731,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    }
+   ],
+   "producers": [
+    "scripts/e251_star_own_component.py",
+    "scripts/e252_star_prices_itself.py",
+    "scripts/e258_band_multiplier_per_window.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/TIMINGSEL_latest.json",
+   "twin_basename": "TIMINGSEL_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 8,
+   "bytes": 191167,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 2,
+   "read_sites": 1,
+   "write_sites": 1,
+   "unresolved_sites": 0,
+   "producer_write_sites": 1,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {
+    "an_instrument": 1
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "scripts/e229_timing_selection.py",
+     "line": 431,
+     "literal": "timingsel_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 2562,
+     "literal": "results/state_tilt/timingsel_latest.json",
+     "match": "the_whole_repo_relative_path",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "mode='r (default)'",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [
+    {
+     "source": "scripts/e229_timing_selection.py",
+     "line": 431,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    }
+   ],
+   "producers": [
+    "_tmp_e229_card.py",
+    "_tmp_r1255_close.py",
+    "_tmp_r1255_handover.py",
+    "scripts/e229_timing_selection.py"
+   ]
+  },
+  {
+   "twin": "results/state_tilt/UNFLOORED_latest.json",
+   "twin_basename": "UNFLOORED_latest.json",
+   "family_dir": "results/state_tilt",
+   "members": 3,
+   "bytes": 22470,
+   "baseline_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "read_only_residue": "opened_only_by_a_smoke_or_runner_leg",
+   "class_changed": false,
+   "opener_sites": 3,
+   "read_sites": 2,
+   "write_sites": 1,
+   "unresolved_sites": 0,
+   "producer_write_sites": 1,
+   "write_sites_not_from_a_listed_producer": 0,
+   "write_sites_from_a_leg_role_source": 0,
+   "write_sites_by_role": {
+    "an_instrument": 1
+   },
+   "loses_its_last_reader": false,
+   "writer_is_the_only_remaining_opener": false,
+   "non_producer_reads": 1,
+   "sites": [
+    {
+     "source": "scripts/e409_unfloored_faces.py",
+     "line": 479,
+     "literal": "unfloored_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/e409_unfloored_faces.py",
+     "line": 492,
+     "literal": "unfloored_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "an_instrument",
+     "is_producer": true
+    },
+    {
+     "source": "smoke_test.py",
+     "line": 15440,
+     "literal": "unfloored_latest.json",
+     "match": "only_the_basename_the_base_is_not_proven",
+     "mode": "opens_it_for_reading",
+     "mode_evidence": "a json load at this line",
+     "role": "the_smoke_suite",
+     "is_producer": false
+    }
+   ],
+   "unresolved": [],
+   "cause": [
+    {
+     "source": "scripts/e409_unfloored_faces.py",
+     "line": 479,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    }
+   ],
+   "producers": [
+    "_r1498_row.py",
+    "scripts/e409_unfloored_faces.py"
+   ]
+  }
+ ],
+ "class_changes": [
+  {
+   "twin": "results/market_clock/CALL_latest.json",
+   "from": "opened_only_by_the_script_that_writes_it",
+   "to": "never_opened_by_any_site_in_the_corpus",
+   "cause": [
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 64,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 87,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 96,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='wb'",
+     "is_producer": true
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 117,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 142,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    },
+    {
+     "source": "results/_r392_resolve6.py",
+     "line": 153,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    },
+    {
+     "source": "scripts/market_clock_call.py",
+     "line": 406,
+     "mode": "opens_it_for_writing",
+     "mode_evidence": "mode='w'",
+     "is_producer": true
+    }
+   ],
+   "members": 16,
+   "bytes": 30743
+  }
+ ],
+ "reading": "Mode is resolved per site off the live tree (E483's resolver).  A write-mode open is not a reader: a twin whose opener set is the writer's write plus legs was never 'opened only by a leg'.  Unresolved sites are published as their own reading -- they are counted neither as reads nor as writes, so a twin whose only openers are unresolved is reported as such rather than being retired on a guess."
+}
