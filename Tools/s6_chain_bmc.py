@@ -628,6 +628,19 @@ LEGS = [
     # r1170: the page prints the regime cap and the ticket prints the deployed book, and
     # nothing compared them. On the first RED day (cap 20%) three of six paper accounts
     # sat above it. Reads published faces only; changes no rule.
+    # r1265 (bm-a): the freshness board is written near the TOP of this table, before the
+    # lanes it judges update (update_zt_pool / update_heat / update_astock_daily /
+    # fund_statements all run below it). Inside one chain cycle it therefore always names
+    # the tail of the PREVIOUS cycle, and an update that lands outside the chain leaves it
+    # a whole cycle behind: at 14:32 a `--takeover` heat snapshot wrote 2026-11-06 while
+    # the 14:19 board still said 2026-11-05, so the smoke leg that compares the two faces
+    # went red on a lane that was correct. Same producer-before-consumer rule as r1318:
+    # the board is a CONSUMER of every lane face, so after the last lane producer
+    # (fund_statements, above) and before the two human faces that quote it
+    # (daily_report / ceo_live_usage) it is re-derived from the same lanes.
+    # Idempotent derivation, ~0.2s, no network. The early leg stays: the ownership and
+    # silence legs in between read its face.
+    ("data_lane_freshness_close", ["python", "scripts/data_lane_freshness.py", "run"]),
     # r1171: ORDER MATTERS (r1318 class) -- the daily report (sec.1) and the CEO page
     # (sec.2) now QUOTE this verdict, so the producer has to run before both consumers
     # or two human faces print yesterday's sentence all round.

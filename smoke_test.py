@@ -1917,6 +1917,55 @@ def main() -> int:
         check("fleet: a lane whose clock is the statute is judged on the statute",
               False, str(e))
     try:
+        # r1266: a lane whose row named no collector printed "nothing to
+        # reassign" -- a give-up sentence about a lane whose collector had
+        # shipped a takeover path eight rounds earlier (marks / r1101). This leg
+        # re-derives both halves from the published faces: the capability must
+        # come from the collector's own source, and any per-hole cause table the
+        # auditing face publishes must reach the row unchanged (a count printed
+        # without its causes is how "6 missing days" reads as "6 days a stand-in
+        # will soon fill").
+        import data_lane_freshness as _dlf6
+        _lf6 = json.load(open("results/data_lane_freshness.json",
+                              encoding="utf-8"))
+        _why6 = []
+        for _r6 in _lf6.get("lanes") or []:
+            _cap6 = _dlf6.takeover_capable(_r6.get("writer"))
+            if bool(_r6.get("takeover_capable")) != _cap6:
+                _why6.append(f"{_r6['lane']}: capability disagrees with "
+                             f"writer `{_r6.get('writer')}`")
+            if (not _r6.get("writer") and _r6.get("frozen_without_takeover") is not True
+                    and _r6.get("host_alive") is False
+                    and _r6.get("verdict") == "unverifiable"):
+                _why6.append(f"{_r6['lane']}: an unowned frozen lane is not "
+                             "named as a decision")
+        _mc6 = json.load(open("results/marks_coverage.json", encoding="utf-8"))
+        _mr6 = next((r for r in (_lf6.get("lanes") or [])
+                     if r["lane"] == "marks"), {})
+        if _mr6:
+            if _mr6.get("holes_by_cause") != _mc6.get("holes_by_cause"):
+                _why6.append("marks: the board's cause table is not the "
+                             "collector's")
+            if _mr6.get("writer") != "update_intraday_marks":
+                _why6.append("marks: the row does not name its collector")
+        _md6 = open("docs/data_lanes/FRESHNESS.md", encoding="utf-8").read()
+        if _mr6.get("holes_by_cause"):
+            if "Who was awake" not in _md6:
+                _why6.append("the human page carries no per-hole cause section")
+            else:
+                _sec6 = _md6.split("Who was awake")[1].split("\n## ")[0]
+                if "`marks`" not in _sec6:
+                    _why6.append("the cause section does not name the marks holes")
+        check("fleet: a lane that names its collector is not told nothing can be done",
+              not _why6, "; ".join(_why6) or
+              f"{len(_lf6.get('lanes') or [])} lane(s) re-read against their "
+              f"collectors; cause tables carried for "
+              f"{sum(1 for r in (_lf6.get('lanes') or []) if r.get('holes_by_cause'))} "
+              "lane(s)")
+    except Exception as e:
+        check("fleet: a lane that names its collector is not told nothing can be done",
+              False, str(e))
+    try:
         # r1162: "cannot certify here" is about our copy; whose disk the rows are
         # on is the actionable half. The board derives that sentence ONCE, and the
         # two faces a human opens must carry it verbatim -- so this leg recomputes

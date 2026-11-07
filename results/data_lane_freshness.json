@@ -1,6 +1,6 @@
 {
  "schema": "data-lane-freshness/v1",
- "as_of": "2026-11-07T15:29:54",
+ "as_of": "2026-11-07T15:49:19",
  "close_accept_time": "15:30",
  "calendar_path": "data/exchange_calendar.csv",
  "calendar_days": 8797,
@@ -28,8 +28,8 @@
     "lhb"
    ],
    "lanes_unverifiable": [],
-   "last_seen": "2026-11-07T14:51:04+08:00",
-   "age_h": 0.65,
+   "last_seen": "2026-11-07T15:33:20+08:00",
+   "age_h": 0.27,
    "alive": true
   },
   "bm-b": {
@@ -49,7 +49,7 @@
     "astock_daily"
    ],
    "last_seen": "2026-10-30T12:43:06+08:00",
-   "age_h": 194.78,
+   "age_h": 195.1,
    "alive": false
   }
  },
@@ -62,9 +62,7 @@
   "moneyflow",
   "zt_pool"
  ],
- "frozen_without_takeover": [
-  "marks"
- ],
+ "frozen_without_takeover": [],
  "host_down_hours": 2.0,
  "worst": "moneyflow",
  "disk": {
@@ -86,7 +84,7 @@
     ],
     "n": 4,
     "alive": false,
-    "age_h": 194.78,
+    "age_h": 195.1,
     "last_seen": "2026-10-30T12:43:06+08:00"
    }
   ],
@@ -96,7 +94,7 @@
    "moneyflow",
    "zt_pool"
   ],
-  "sentence": "以本机 bm-a 的盘为基准：9 条在役车道里有 4 条的数字不在本机盘上：4 条在 bm-b 的盘上（194.78h 未报到）；留在本机盘上的 5 条里 5 条可核实。",
+  "sentence": "以本机 bm-a 的盘为基准：9 条在役车道里有 4 条的数字不在本机盘上：4 条在 bm-b 的盘上（195.1h 未报到）；留在本机盘上的 5 条里 5 条可核实。",
   "labels": {
    "moneyflow": "无主封套",
    "marks": "无主封套",
@@ -153,7 +151,7 @@
    "copy_verdict": "stalled",
    "retired_reason": "O-20261009-1105 -- the options face is closed; the panel is a historical wave-2 batch with no forward accumulation",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 194.78,
+   "host_age_h": 195.1,
    "host_alive": false
   },
   {
@@ -203,14 +201,14 @@
    "copy_verdict": "stalled",
    "why": "the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 194.78,
+   "host_age_h": 195.1,
    "host_alive": false
   },
   {
    "lane": "marks",
    "dept": "data",
    "owner": "bm-b",
-   "writer": null,
+   "writer": "update_intraday_marks",
    "kind": "external",
    "tail": "2026-10-29",
    "expected": "2026-11-06",
@@ -225,15 +223,22 @@
    "n_missing": 6,
    "verdict": "unverifiable",
    "reported_by": null,
-   "audited_by": "marks_coverage (the paper marks lane keeps its own hole counters; this row reads only its last captured day)",
+   "audited_by": "marks_coverage (the paper marks lane keeps its own hole counters; this row reads its last captured day and its per-hole causes)",
+   "holes_by_cause": {
+    "host_offhours": 4,
+    "takeover_possible": 2,
+    "lane_missed": 1,
+    "host_down": 2
+   },
+   "loss_mode": "an intraday tick capture: a day with no marks file cannot be rebuilt by any machine -- the file is append-only and the ticks it would have held are gone",
    "lane_host": "bm-b",
-   "takeover_capable": false,
+   "takeover_capable": true,
    "authority": "unattributed",
    "auditable": false,
    "copy_verdict": "stalled",
    "why": "the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 194.78,
+   "host_age_h": 195.1,
    "host_alive": false
   },
   {
@@ -268,7 +273,7 @@
    "copy_verdict": "stalled",
    "why": "read from this machine's local copy; the lane is hosted by bm-b",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 194.78,
+   "host_age_h": 195.1,
    "host_alive": false
   },
   {
@@ -298,7 +303,7 @@
    "copy_verdict": "in_sync",
    "why": "bm-a declared a stand-in in `takeover{}` but published no `authority.took_over_by` -- the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 194.78,
+   "host_age_h": 195.1,
    "host_alive": false
   },
   {
@@ -320,8 +325,8 @@
    "takeover_capable": true,
    "authority": "host_envelope",
    "auditable": true,
-   "host_last_seen": "2026-11-07T14:51:04+08:00",
-   "host_age_h": 0.65,
+   "host_last_seen": "2026-11-07T15:33:20+08:00",
+   "host_age_h": 0.27,
    "host_alive": true
   },
   {
@@ -345,8 +350,8 @@
    "takeover_capable": false,
    "authority": "host_envelope",
    "auditable": true,
-   "host_last_seen": "2026-11-07T14:51:04+08:00",
-   "host_age_h": 0.65,
+   "host_last_seen": "2026-11-07T15:33:20+08:00",
+   "host_age_h": 0.27,
    "host_alive": true
   },
   {
@@ -369,7 +374,7 @@
    "authority": "declared_takeover",
    "auditable": true,
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 194.78,
+   "host_age_h": 195.1,
    "host_alive": false
   },
   {
@@ -388,8 +393,8 @@
    "takeover_capable": false,
    "authority": "host_envelope",
    "auditable": true,
-   "host_last_seen": "2026-11-07T14:51:04+08:00",
-   "host_age_h": 0.65,
+   "host_last_seen": "2026-11-07T15:33:20+08:00",
+   "host_age_h": 0.27,
    "host_alive": true
   },
   {
@@ -416,7 +421,7 @@
    "authority": "declared_takeover",
    "auditable": true,
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 194.78,
+   "host_age_h": 195.1,
    "host_alive": false
   }
  ],
@@ -442,12 +447,12 @@
     "cashflow",
     "income"
    ],
-   "as_of": "2026-11-07T15:29:54",
+   "as_of": "2026-11-07T15:49:19",
    "verdict": "period_missing",
    "why": "the statute demanded 20260930 from 2026-10-31; the panel on this disk stops at 20260630 (1 period(s) missing)",
    "lane_host": "bm-b",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 194.78,
+   "host_age_h": 195.1,
    "host_alive": false,
    "takeover_capable": true
   }

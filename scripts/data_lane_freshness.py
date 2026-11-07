@@ -105,11 +105,21 @@ LANES = [
      "writer": "update_etf_daily", "kind": "external",
      "path": "results/data_lag_audit.json", "tail_key": "panel.effective_cutoff",
      "verdict_key": "verdict", "audited_by": "exchange_calendar_audit (E136)"},
-    {"lane": "marks", "dept": "data", "owner": "bm-b", "writer": None,
+    # r1266: this row said `writer: None`, so the board's hostage section told
+    # readers "the row reads another face rather than a collector of its own, so
+    # there is nothing to reassign" about a lane whose collector shipped a
+    # declared-takeover path back at r1101. A capability the board cannot see is
+    # a sentence telling the reader to give up. The collector now names itself.
+    {"lane": "marks", "dept": "data", "owner": "bm-b",
+     "writer": "update_intraday_marks",
      "kind": "external",
      "path": "results/marks_coverage.json", "tail_key": "last_captured",
+     "fatal_loss": "an intraday tick capture: a day with no marks file cannot be "
+                   "rebuilt by any machine -- the file is append-only and the "
+                   "ticks it would have held are gone",
      "audited_by": "marks_coverage (the paper marks lane keeps its own hole "
-                   "counters; this row reads only its last captured day)"},
+                   "counters; this row reads its last captured day and its "
+                   "per-hole causes)"},
 ]
 
 
@@ -427,6 +437,13 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
                         extra["audited_by"] = spec.get("audited_by")
                         if spec.get("verdict_key"):
                             extra["cited_verdict"] = _get(doc, spec["verdict_key"])
+                        # r1266: when the auditing face keeps a per-hole cause
+                        # table, carry it. "6 days missing" is one number for
+                        # two very different histories -- days when a stand-in
+                        # was awake inside the window and did not capture, and
+                        # days when nobody could have.
+                        if isinstance(doc.get("holes_by_cause"), dict):
+                            extra["holes_by_cause"] = doc["holes_by_cause"]
                 else:
                     extra["missing_artifact"] = spec["path"]
                 # r1255: the envelope is a report ABOUT the panel, so when this
@@ -916,6 +933,37 @@ def render_md(report, cert="auto"):
         tailnote = "\n## Lanes where a missed day cannot be recovered\n\n"
         for r in fatal:
             tailnote += f"- `{r['lane']}`: {r['loss_mode']}\n"
+    # r1266: a hole count hides which holes were somebody's decision. The
+    # auditing face already sorts every past hole by cause; print the split so a
+    # reader stops waiting for a stand-in to fill days that are simply gone.
+    bycause = [r for r in report["lanes"]
+               if isinstance(r.get("holes_by_cause"), dict)
+               and r["holes_by_cause"]]
+    if bycause:
+        tailnote += ("\n## Who was awake on the days that are missing\n\n"
+                     "Each missing day below is classified by its own collector. "
+                     "`takeover_possible` means another machine was awake inside "
+                     "the capture window and nobody declared a stand-in: that day "
+                     "was movable *at the time*. Every other cause means no "
+                     "machine was sampling. Either way the day is behind us -- a "
+                     "takeover declared today starts capturing today.\n\n")
+        for r in bycause:
+            parts = ", ".join(f"{k} {v}" for k, v in
+                              sorted(r["holes_by_cause"].items()))
+            # The collector's ledger covers the whole lane history; this row's
+            # `missing` only counts days after the lane's last captured day.
+            # Printing one number over the other's breakdown would be a count
+            # that does not match its parts, so both are named.
+            holes_total = sum(int(v) for v in r["holes_by_cause"].values()
+                              if isinstance(v, int))
+            tail_gap = (f"{r.get('n_missing')} missing day(s) after the lane's "
+                        f"last captured day")
+            if holes_total == r.get("n_missing"):
+                scope = tail_gap
+            else:
+                scope = (f"{tail_gap}, out of {holes_total} hole(s) recorded "
+                         f"since the lane started")
+            tailnote += f"- `{r['lane']}`: {scope} ({parts})\n"
     why = [r for r in report["lanes"] if r.get("why")]
     disk = report.get("disk") or {}
     disks = ""
@@ -1592,7 +1640,95 @@ def selftest():
     print("[PASS] L25 a statutory-clock lane is judged on the statute, and its "
           "takeover path is read off the writer", flush=True)
 
-    print("selftest: 23/23 PASS", flush=True)
+    # L26 a lane whose row did not name its collector reads as "nothing to
+    # reassign" -- a sentence that tells the reader to give up on a lane two
+    # machines could already move. Live 2026-11-07: `marks` had `writer: None`
+    # while update_intraday_marks had shipped the takeover rule at r1101, so the
+    # board printed that give-up sentence about the only intraday evidence face.
+    # The fixture asserts both halves: an undeclared collector reads frozen with
+    # the give-up wording, and declaring it flips the reading and the sentence.
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "m"))
+        os.makedirs(os.path.join(td, "scripts"))
+        json.dump({"clock_read": "2026-10-29T04:18:13+08:00"},
+                  open(os.path.join(td, "m", "bm-b.json"), "w"))
+        with open(os.path.join(td, "scripts", "w_coll.py"), "w") as fh:
+            fh.write(f"print('{TAKEOVER_MARKER} bm-b marks lane')\n")
+        json.dump({"last_captured": "2026-10-20"},
+                  open(os.path.join(td, "cov.json"), "w"))
+        undeclared = [{"lane": "marksx", "kind": "external", "path": "cov.json",
+                       "tail_key": "last_captured", "owner": "bm-b",
+                       "writer": None}]
+        rep26a = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                       lanes=undeclared)
+        assert rep26a["frozen_without_takeover"] == ["marksx"], rep26a
+        md26a = render_md(rep26a)
+        _s26a = md26a.split("Lanes nobody can pick up")[1].split("\n## ")[0]
+        assert "nothing to reassign" in _s26a, _s26a
+        declared = [dict(undeclared[0], writer="w_coll")]
+        rep26b = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                       lanes=declared)
+        assert rep26b["lanes"][0]["takeover_capable"] is True, rep26b["lanes"][0]
+        assert rep26b["frozen_without_takeover"] == [], rep26b
+        _md26b = render_md(rep26b)
+        assert "Lanes nobody can pick up" not in _md26b, _md26b
+        # declaring a writer whose collector has no path still names the reason
+        with open(os.path.join(td, "scripts", "w_dumb.py"), "w") as fh:
+            fh.write("print('no-op')\n")
+        rep26c = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                       lanes=[dict(undeclared[0], writer="w_dumb")])
+        _s26c = (render_md(rep26c).split("Lanes nobody can pick up")[1]
+                 .split("\n## ")[0])
+        assert "`w_dumb` has no" in _s26c and "nothing to reassign" not in _s26c, _s26c
+    print("[PASS] L26 an undeclared collector is not the same as a collector "
+          "with no takeover path -- and only the second is a decision", flush=True)
+
+    # L27 a hole count hides who could have acted. The auditing face already
+    # classifies every past hole by cause; the board has to carry that split to
+    # the human page, or "6 days missing" keeps reading as "6 days a stand-in
+    # will soon fill". Both halves are asserted: the split is printed, and the
+    # sentence says a takeover starts today rather than backfilling.
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "m"))
+        json.dump({"machine": "bm-b", "last_captured": "2026-10-20",
+                   "holes_by_cause": {"host_down": 2, "takeover_possible": 2,
+                                      "host_offhours": 1}},
+                  open(os.path.join(td, "cov.json"), "w"))
+        spec27 = [{"lane": "hole_lane", "kind": "external", "path": "cov.json",
+                   "tail_key": "last_captured", "owner": "bm-b", "writer": None}]
+        rep27 = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                      lanes=spec27)
+        _r27 = rep27["lanes"][0]
+        assert _r27["holes_by_cause"]["takeover_possible"] == 2, _r27
+        md27 = render_md(rep27)
+        assert "Who was awake on the days that are missing" in md27, md27
+        _s27 = md27.split("Who was awake on the days that are missing")[1]
+        assert "takeover_possible 2" in _s27, _s27
+        assert f"{_r27['n_missing']} missing day(s)" in _s27, _s27
+        assert "starts capturing today" in _s27, _s27
+        # the collector's ledger covers the lane's whole history while this row
+        # counts only days after the last capture: the two numbers must both be
+        # named, or the line reads as a count that contradicts its own breakdown
+        assert "out of 5 hole(s) recorded since the lane started" in _s27, _s27
+        # when the two agree, the extra clause is not printed
+        json.dump({"last_captured": "2026-10-20",
+                   "holes_by_cause": {"host_down": _r27["n_missing"]}},
+                  open(os.path.join(td, "same.json"), "w"))
+        rep27c = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                       lanes=[dict(spec27[0], path="same.json")])
+        _s27c = (render_md(rep27c)
+                 .split("Who was awake on the days that are missing")[1])
+        assert "out of" not in _s27c, _s27c
+        # a lane whose auditing face keeps no cause table does not get a section
+        json.dump({"machine": "bm-b", "last_captured": "2026-10-20"},
+                  open(os.path.join(td, "nocause.json"), "w"))
+        rep27b = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                       lanes=[dict(spec27[0], path="nocause.json")])
+        assert "Who was awake" not in render_md(rep27b), rep27b
+    print("[PASS] L27 a missing day is printed with who could have captured it, "
+          "and a takeover is not sold as backfill", flush=True)
+
+    print("selftest: 25/25 PASS", flush=True)
     return 0
 
 

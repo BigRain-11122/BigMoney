@@ -1,4 +1,4 @@
-# Lane ownership declaration (2026-11-07T14:16:45)
+# Lane ownership declaration (2026-11-07T15:49:19)
 
 > derived by `scripts/lane_ownership_declaration.py` from `results/data_lane_freshness.json`,
 > `config/lane_hosts.json` and the `owner` defaults inside `data_lane_freshness.LANES`.
@@ -13,10 +13,10 @@
 | moneyflow | bm-b | config/lane_hosts.json | bm-a | none (unattributed) | no | **DECLARED_ONLY** |
 | marks | bm-b | data_lane_freshness.LANES | bm-b | none (unattributed) | no | **DECLARED_ONLY** |
 | zt_pool | bm-b | config/lane_hosts.json | bm-a | none (non_host_copy) | no | **DECLARED_ONLY** |
-| heat | bm-b | config/lane_hosts.json | bm-a | none (unattributed) | no | **DECLARED_ONLY** |
 | astock_daily | bm-b | data_lane_freshness.LANES | bm-b | none (unattributed) | no | **DECLARED_ONLY** |
 | etf_panel | bm-a | data_lane_freshness.LANES | bm-a | bm-a | yes | **DECLARED_AND_OBSERVED** |
 | futures | bm-a | data_lane_freshness.LANES | bm-a | bm-a | yes | **DECLARED_AND_OBSERVED** |
+| heat | bm-b | config/lane_hosts.json | bm-a | bm-a | no | **DECLARED_TAKEOVER** |
 | lhb | bm-a | data_lane_freshness.LANES | bm-a | bm-a | yes | **DECLARED_AND_OBSERVED** |
 | repo | bm-b | config/lane_hosts.json | bm-a | bm-a | no | **DECLARED_TAKEOVER** |
 
@@ -26,9 +26,9 @@ The config wins (it is the 2026-10-21 CEO redline); the code default is what a r
 
 ## Owned but never observed
 
-Declared on a host that has not produced an envelope this machine can read: options, moneyflow, marks, zt_pool, heat, astock_daily. That is an absence of evidence, not evidence of a second writer -- it is what the 2026-11-08 enable decision must not read as 'safe'.
+Declared on a host that has not produced an envelope this machine can read: options, moneyflow, marks, zt_pool, astock_daily. That is an absence of evidence, not evidence of a second writer -- it is what the 2026-11-08 enable decision must not read as 'safe'.
 
 ## Owned, currently served by a declared stand-in
 
-repo (by bm-a) -- the owner is unchanged and the envelope names both the owner and the stand-in, so this is a standby rule in force, not two writers. The 2026-11-08 enable decision should check whether the owner has come back before re-enabling anything that would run on both.
+heat (by bm-a), repo (by bm-a) -- the owner is unchanged and the envelope names both the owner and the stand-in, so this is a standby rule in force, not two writers. The 2026-11-08 enable decision should check whether the owner has come back before re-enabling anything that would run on both.
 
