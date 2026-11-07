@@ -28,6 +28,7 @@ Design notes:
 """
 import argparse
 import datetime as dt
+import fnmatch
 import json
 import os
 import re
@@ -77,9 +78,11 @@ LANES = [
     {"lane": "lhb", "dept": "data", "owner": "bm-a", "writer": "update_lhb",
      "kind": "status", "path": "results/lhb_update_status.json", "key": "cutoff"},
     {"lane": "futures", "dept": "data", "owner": "bm-a", "writer": "update_futures",
-     "kind": "status", "path": "results/futures_update_status.json", "key": "data_cutoff"},
+     "kind": "status", "path": "results/futures_update_status.json", "key": "data_cutoff",
+     "panel_csv": {"dir": "data/futures_daily", "pattern": "*.csv"}},
     {"lane": "repo", "dept": "data", "owner": "bm-a", "writer": "update_repo",
-     "kind": "status", "path": "results/repo_update_status.json", "key": "data_cutoff"},
+     "kind": "status", "path": "results/repo_update_status.json", "key": "data_cutoff",
+     "panel_csv": {"dir": "data/repo_daily", "pattern": "*.csv"}},
     {"lane": "moneyflow", "dept": "data", "owner": "bm-a",
      "writer": "update_moneyflow", "kind": "status",
      "path": "results/moneyflow_update_status.json", "key": "panel.cutoff"},
@@ -145,6 +148,38 @@ def tail_day_files(dirpath, pattern=DAY8_RE):
     if not days:
         return None, {"files": 0}
     return max(days), {"files": len(days), "first": min(days)}
+
+
+def panel_tail_csv(dirpath, pattern="*.csv", max_files=40):
+    """Newest YYYY-MM-DD first column across a CSV panel -> (date|None, info).
+
+    r1255: a status envelope is a committed file, so a rebase/branch switch can
+    restore an OLDER copy of it while the panel on disk is newer. The panel is
+    the measurement (this module's own rule); the envelope is a report about it.
+    Cheap by design: 9-11 small CSVs, last line only.
+    """
+    if not os.path.isdir(dirpath):
+        return None, {"files": 0}
+    names = sorted(n for n in os.listdir(dirpath) if fnmatch.fnmatch(n, pattern))
+    tails = {}
+    for name in names[:max_files]:
+        p = os.path.join(dirpath, name)
+        try:
+            with open(p, "rb") as f:
+                f.seek(0, os.SEEK_END)
+                size = f.tell()
+                f.seek(max(0, size - 4096))
+                tail = f.read().decode("utf-8", "replace").strip().splitlines()
+        except OSError:
+            continue
+        for line in reversed(tail):
+            day = _as_date(line.split(",")[0])
+            if day:
+                tails[name] = day
+                break
+    if not tails:
+        return None, {"files": len(names)}
+    return max(tails.values()), {"files": len(names), "per_file": len(tails)}
 
 
 def tail_zt_days(path):
@@ -253,6 +288,17 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
                             "data_face_machine")
                         extra["declared_takeover_by"] = auth_blk.get(
                             "took_over_by")
+                        # r1256: an envelope that carries the canonical authority
+                        # block already names its writer there, so an absent
+                        # top-level reporter key must not read as "somebody
+                        # anonymous wrote this". Live 2026-11-07: astock_daily
+                        # held authority.took_over_by=bm-a and still printed
+                        # `unverifiable / the envelope does not name the machine
+                        # whose data it describes`, on a panel this host was
+                        # building at that minute.
+                        if extra["reported_by"] is None and isinstance(
+                                auth_blk.get("writer_machine"), str):
+                            extra["reported_by"] = auth_blk["writer_machine"]
                     if tail is None and spec.get("fallback_day_files"):
                         # the lane publishes no tail yet: read the copy on this
                         # disk, say so, and let the authority layer refuse to
@@ -268,6 +314,33 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
                             extra["cited_verdict"] = _get(doc, spec["verdict_key"])
                 else:
                     extra["missing_artifact"] = spec["path"]
+                # r1255: the envelope is a report ABOUT the panel, so when this
+                # host can read the panel itself the panel wins. A committed
+                # envelope restored by a rebase is how a healthy lane reads
+                # "stalled" (live 2026-11-07: futures envelope said 11-05 while
+                # data/futures_daily held 11-06).
+                if spec.get("panel_csv") and tail is not None:
+                    spec_dir = spec["panel_csv"]
+                    ptail, pinfo = panel_tail_csv(
+                        os.path.join(root, spec_dir["dir"]),
+                        spec_dir.get("pattern", "*.csv"))
+                    extra["panel_read"] = pinfo
+                    if ptail:
+                        extra["panel_tail"] = ptail
+                        if ptail != tail:
+                            extra["envelope_tail"] = tail
+                            extra["envelope_stale"] = ptail > tail
+                            lag = [d for d in days if tail < d <= ptail]
+                            extra["envelope_lag_until"] = ptail
+                            # a panel can hold a bar the calendar has not been
+                            # extended to; count only days the calendar knows,
+                            # and say so instead of printing a silent 0
+                            beyond = bool(days) and ptail > max(days)
+                            extra["envelope_lag_days"] = (
+                                len(lag) if not beyond else None)
+                            extra["envelope_lag_beyond_calendar"] = beyond
+                        if ptail > tail:
+                            tail = ptail   # the panel is the measurement
             else:
                 raise ValueError(f"unknown lane kind {spec['kind']!r}")
         except Exception as ex:  # noqa: BLE001
@@ -588,6 +661,20 @@ def render_md(report):
                      "late can be a dead lane or a stale copy of a live one.\n\n")
         for r in why:
             tailnote += f"- `{r['lane']}`: {r['why']}\n"
+    stale_env = [r for r in report["lanes"] if r.get("envelope_stale")]
+    if stale_env:
+        tailnote += ("\n## Envelopes older than the panel they describe\n\n"
+                     "A status envelope is a committed file, so a branch switch or "
+                     "a rebase can restore an older copy of it. Where this host can "
+                     "read the panel itself the panel is the measurement: the "
+                     "staleness is printed here instead of being read as a stall.\n\n")
+        for r in stale_env:
+            lag = r.get("envelope_lag_days")
+            tailnote += (f"- `{r['lane']}`: envelope says {r['envelope_tail']}, "
+                         f"panel holds {r['panel_tail']}"
+                         + (f" ({lag} official days behind)" if lag is not None
+                            else " (past the calendar, day count N/A)")
+                         + "\n")
     return head + disks + cols + body + tailnote
 
 
@@ -818,6 +905,26 @@ def selftest():
         print("[PASS] L13 a declared takeover is auditable, an undeclared "
               "foreign envelope is not", flush=True)
 
+        # L19 (r1256) the canonical authority block IS an attribution: an
+        # envelope that names its writer only there must not read as "somebody
+        # anonymous wrote this". Live 2026-11-07: update_astock_daily declared
+        # its takeover and the board still refused to certify a panel this very
+        # host was building.
+        json.dump({"latest_snapshot": "2026-10-20",
+                   "authority": {"lane_owner": "bm-b", "writer_machine": "bm-a",
+                                 "data_face_machine": "bm-a",
+                                 "declared_takeover": True,
+                                 "took_over_by": "bm-a"}},
+                  open(os.path.join(td, "h.json"), "w"))
+        r3 = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                   lanes=spec)["lanes"][0]
+        assert r3["reported_by"] == "bm-a", r3
+        assert r3["authority"] == "declared_takeover", r3
+        assert r3["verdict"] != "unverifiable", r3
+        print("[PASS] L19 an authority block attributes the writer, so a "
+              "declared stand-in is not read as an anonymous foreign write",
+              flush=True)
+
     # L14 whose disk: a lane this machine cannot certify is not a gap on this
     # machine -- it is somebody else's disk, and the sentence must name it
     # (r1162: r1159 named the dead host, but the two human faces still only
@@ -884,7 +991,49 @@ def selftest():
     print("[PASS] L16 the disk sentence names its observer, so the same rows "
           "read from two hosts are attributable, not contradictory", flush=True)
 
-    print("selftest: 16/16 PASS", flush=True)
+    # L17 (r1255) the envelope is a report about the panel, never a substitute
+    # for it: an OLDER committed envelope (restored by a rebase) must not make a
+    # lane that already holds newer bars read as stalled.
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "m"))
+        os.makedirs(os.path.join(td, "px"))
+        json.dump({"heartbeat_epoch_utc": int(dt.datetime.now().timestamp())},
+                  open(os.path.join(td, "m", "bm-a.json"), "w"))
+        json.dump({"machine": "bm-a", "data_cutoff": "2026-10-30"},
+                  open(os.path.join(td, "s.json"), "w"))
+        for name, day in (("IF.csv", "2026-11-06"), ("AU.csv", "2026-11-06")):
+            with open(os.path.join(td, "px", name), "w") as f:
+                f.write("2026-10-30,1,2,3,4\n" + day + ",9,9,9,9\n")
+        spec = [{"lane": "futures", "kind": "status", "path": "s.json",
+                 "key": "data_cutoff", "owner": "bm-a",
+                 "panel_csv": {"dir": "px", "pattern": "*.csv"}}]
+        r = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                  lanes=spec)["lanes"][0]
+        assert r["tail"] == "2026-11-06", r          # the panel wins
+        assert r["verdict"] == "in_sync", r
+        assert r["envelope_stale"] is True, r
+        assert r["envelope_tail"] == "2026-10-30", r
+        assert r["envelope_lag_days"] is None and \
+            r["envelope_lag_beyond_calendar"] is True, r
+        assert r["panel_tail"] == "2026-11-06", r
+
+        # L18 the opposite direction is NOT a licence to borrow: a panel that
+        # lags its own envelope must not heal the verdict.
+        json.dump({"machine": "bm-a", "data_cutoff": "2026-11-06"},
+                  open(os.path.join(td, "s.json"), "w"))
+        for name in ("IF.csv", "AU.csv"):
+            with open(os.path.join(td, "px", name), "w") as f:
+                f.write("2026-10-20,1,2,3,4\n")
+        r2 = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                   lanes=spec)["lanes"][0]
+        assert r2["tail"] == "2026-11-06", r2         # envelope still governs
+        assert r2["envelope_stale"] is False, r2
+        assert r2["verdict"] in ("in_sync", "today_pending"), r2
+    print("[PASS] L17/L18 an older envelope cannot stall a lane that holds "
+          "newer bars, and a lagging panel cannot heal a lagging envelope",
+          flush=True)
+
+    print("selftest: 19/19 PASS", flush=True)
     return 0
 
 
