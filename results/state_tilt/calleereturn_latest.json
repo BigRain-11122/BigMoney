@@ -1,0 +1,452 @@
+{
+ "answers": {
+  "how_many_callees_are_builtins": 5,
+  "how_many_callees_are_repo_functions": 3,
+  "how_many_callees_branch_over_more_than_one_kind": 3,
+  "how_many_distinct_callees": 1,
+  "how_many_empty_arms_are_filtered_by_a_guard": 3,
+  "how_many_return_paths_were_examined": 9,
+  "how_many_sites": 8,
+  "how_many_sites_are_answered_by_the_callee": 8,
+  "how_many_sites_still_read_whatever_arrives": 0
+ },
+ "arm_vocab": [
+  "the_sites_own_binding_is_a_call_result",
+  "the_sites_value_reads_an_operand_that_is_a_call_result"
+ ],
+ "callee_vocab": [
+  "callee_defined_in_the_site_module",
+  "callee_defined_in_another_repo_module",
+  "callee_is_a_builtin_that_coerces_its_argument",
+  "callee_is_neither_a_repo_function_nor_a_builtin",
+  "the_call_could_not_be_resolved",
+  "the_binding_is_not_a_call_at_all"
+ ],
+ "card": "E512-WHAT-DOES-THE-CALLEE-RETURN-WHEN-THE-SITES-ONLY-BINDING-READS-A-CALL",
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T23:36:20+08:00",
+ "method_limits": [
+  "the population is two published faces (E510's pairs, E511's operand sites); no site enters because this study re-read E507's raw pairs",
+  "the callee hop follows one call resolved through the site module's own imports; a callee reached through an attribute chain longer than one module hop is published as not-resolved, not guessed",
+  "return paths are syntactic: a path that raises, or that returns from inside a branch the site can never reach, is still counted, so 'the callee branches' means 'more than one kind of value is named', not 'more than one can arrive'",
+  "the guard test is name-membership and termination only; a guard that narrows the value without terminating is published as a guard that does not filter",
+  "field provenance follows names inside the callee and then module-level assignments, bounded at eight hops; a value built through a helper the callee calls is published as something_else, and a call into an imported module is published as built-by-another-module rather than followed further",
+  "the field key is read syntactically off the binding's subscript, so a site that reads its dict through a helper is published with no field key rather than a guessed one"
+ ],
+ "origin_vocab": [
+  "a_value_read_from_a_file",
+  "an_element_of_a_loaded_series",
+  "a_parameter_of_the_callee",
+  "the_run_clock",
+  "a_literal_constant",
+  "a_value_built_by_a_call_into_another_module",
+  "something_else",
+  "the_site_reads_no_field_off_the_call"
+ ],
+ "population_source": "results/state_tilt/SCOPEDBINDING-2026-11-07.json pairs whose single in-scope binding has shape call_result, plus results/state_tilt/COLLISIONANATOMY-2026-11-07.json sites whose resolution is operand_read_what_the_right_hand_side_actually_returns",
+ "return_kind_vocab": [
+  "bare_return_names_nothing",
+  "literal_None",
+  "dict_literal",
+  "tuple_literal",
+  "comprehension_built_from_something",
+  "call_result",
+  "subscript_of_another_object",
+  "another_name",
+  "literal_constant",
+  "an_expression",
+  "other"
+ ],
+ "site_verdict_vocab": [
+  "the_callee_names_one_kind_on_every_path_so_it_answers_the_site",
+  "the_callee_branches_but_a_terminating_guard_filters_the_empty_arm",
+  "the_callee_branches_and_nothing_filters_an_arm_at_the_site",
+  "the_call_is_not_a_repo_function_so_the_value_is_its_argument",
+  "the_binding_does_not_call_anything"
+ ],
+ "sites": [
+  {
+   "arm": "the_sites_own_binding_is_a_call_result",
+   "binding_line": 467,
+   "binding_shape": "call_result",
+   "call_expression": "str(slip.index[-1].date())",
+   "call_line": 467,
+   "callee": {
+    "class": "callee_is_a_builtin_that_coerces_its_argument",
+    "line": 0,
+    "name": "str",
+    "rel": ""
+   },
+   "callee_class": "callee_is_a_builtin_that_coerces_its_argument",
+   "callee_line": 0,
+   "callee_name": "str",
+   "callee_rel": "",
+   "date_expression": "asof",
+   "empty_arm_filtered": false,
+   "field_key": "",
+   "field_origin": "a_value_built_by_a_call_into_another_module",
+   "field_origin_via": "date()",
+   "guards_between": [],
+   "line": 542,
+   "nested_def_return_count": 0,
+   "return_kinds": {},
+   "return_path_count": 0,
+   "return_paths": [],
+   "returns_one_kind": false,
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "verdict": "the_call_is_not_a_repo_function_so_the_value_is_its_argument"
+  },
+  {
+   "arm": "the_sites_own_binding_is_a_call_result",
+   "binding_line": 467,
+   "binding_shape": "call_result",
+   "call_expression": "str(slip.index[-1].date())",
+   "call_line": 467,
+   "callee": {
+    "class": "callee_is_a_builtin_that_coerces_its_argument",
+    "line": 0,
+    "name": "str",
+    "rel": ""
+   },
+   "callee_class": "callee_is_a_builtin_that_coerces_its_argument",
+   "callee_line": 0,
+   "callee_name": "str",
+   "callee_rel": "",
+   "date_expression": "asof",
+   "empty_arm_filtered": false,
+   "field_key": "",
+   "field_origin": "a_value_built_by_a_call_into_another_module",
+   "field_origin_via": "date()",
+   "guards_between": [],
+   "line": 543,
+   "nested_def_return_count": 0,
+   "return_kinds": {},
+   "return_path_count": 0,
+   "return_paths": [],
+   "returns_one_kind": false,
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "verdict": "the_call_is_not_a_repo_function_so_the_value_is_its_argument"
+  },
+  {
+   "arm": "the_sites_own_binding_is_a_call_result",
+   "binding_line": 467,
+   "binding_shape": "call_result",
+   "call_expression": "str(slip.index[-1].date())",
+   "call_line": 467,
+   "callee": {
+    "class": "callee_is_a_builtin_that_coerces_its_argument",
+    "line": 0,
+    "name": "str",
+    "rel": ""
+   },
+   "callee_class": "callee_is_a_builtin_that_coerces_its_argument",
+   "callee_line": 0,
+   "callee_name": "str",
+   "callee_rel": "",
+   "date_expression": "asof",
+   "empty_arm_filtered": false,
+   "field_key": "",
+   "field_origin": "a_value_built_by_a_call_into_another_module",
+   "field_origin_via": "date()",
+   "guards_between": [],
+   "line": 545,
+   "nested_def_return_count": 0,
+   "return_kinds": {},
+   "return_path_count": 0,
+   "return_paths": [],
+   "returns_one_kind": false,
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "verdict": "the_call_is_not_a_repo_function_so_the_value_is_its_argument"
+  },
+  {
+   "arm": "the_sites_own_binding_is_a_call_result",
+   "binding_line": 467,
+   "binding_shape": "call_result",
+   "call_expression": "str(slip.index[-1].date())",
+   "call_line": 467,
+   "callee": {
+    "class": "callee_is_a_builtin_that_coerces_its_argument",
+    "line": 0,
+    "name": "str",
+    "rel": ""
+   },
+   "callee_class": "callee_is_a_builtin_that_coerces_its_argument",
+   "callee_line": 0,
+   "callee_name": "str",
+   "callee_rel": "",
+   "date_expression": "asof",
+   "empty_arm_filtered": false,
+   "field_key": "",
+   "field_origin": "a_value_built_by_a_call_into_another_module",
+   "field_origin_via": "date()",
+   "guards_between": [],
+   "line": 568,
+   "nested_def_return_count": 0,
+   "return_kinds": {},
+   "return_path_count": 0,
+   "return_paths": [],
+   "returns_one_kind": false,
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "verdict": "the_call_is_not_a_repo_function_so_the_value_is_its_argument"
+  },
+  {
+   "arm": "the_sites_value_reads_an_operand_that_is_a_call_result",
+   "binding_line": 1015,
+   "binding_shape": "defaulted_expression",
+   "call_expression": "card_config_ticket(nav=nav)",
+   "call_line": 1015,
+   "callee": {
+    "class": "callee_defined_in_the_site_module",
+    "line": 688,
+    "name": "card_config_ticket",
+    "rel": "scripts/etf_book_order.py"
+   },
+   "callee_class": "callee_defined_in_the_site_module",
+   "callee_line": 688,
+   "callee_name": "card_config_ticket",
+   "callee_rel": "scripts/etf_book_order.py",
+   "date_expression": "asof",
+   "empty_arm_filtered": true,
+   "field_key": "priced_bar",
+   "field_origin": "a_value_read_from_a_file",
+   "field_origin_via": "get",
+   "guards_between": [
+    {
+     "line": 1016,
+     "terminates_before_the_site": true,
+     "test": "not tk"
+    }
+   ],
+   "line": 1033,
+   "nested_def_return_count": 0,
+   "return_kinds": {
+    "dict_literal": 1,
+    "literal_None": 2
+   },
+   "return_path_count": 3,
+   "return_paths": [
+    {
+     "expr": "None",
+     "kind": "literal_None",
+     "line": 699
+    },
+    {
+     "expr": "None",
+     "kind": "literal_None",
+     "line": 705
+    },
+    {
+     "expr": "{'kind': 'card_config', 'nav': stated, 'card_capital': cap, 'scale': float(card_scale or 0.0), 'config': cfg, 'order': r",
+     "kind": "dict_literal",
+     "line": 767
+    }
+   ],
+   "returns_one_kind": false,
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "verdict": "the_callee_branches_but_a_terminating_guard_filters_the_empty_arm"
+  },
+  {
+   "arm": "the_sites_value_reads_an_operand_that_is_a_call_result",
+   "binding_line": 1015,
+   "binding_shape": "defaulted_expression",
+   "call_expression": "card_config_ticket(nav=nav)",
+   "call_line": 1015,
+   "callee": {
+    "class": "callee_defined_in_the_site_module",
+    "line": 688,
+    "name": "card_config_ticket",
+    "rel": "scripts/etf_book_order.py"
+   },
+   "callee_class": "callee_defined_in_the_site_module",
+   "callee_line": 688,
+   "callee_name": "card_config_ticket",
+   "callee_rel": "scripts/etf_book_order.py",
+   "date_expression": "asof",
+   "empty_arm_filtered": true,
+   "field_key": "priced_bar",
+   "field_origin": "a_value_read_from_a_file",
+   "field_origin_via": "get",
+   "guards_between": [
+    {
+     "line": 1016,
+     "terminates_before_the_site": true,
+     "test": "not tk"
+    }
+   ],
+   "line": 1043,
+   "nested_def_return_count": 0,
+   "return_kinds": {
+    "dict_literal": 1,
+    "literal_None": 2
+   },
+   "return_path_count": 3,
+   "return_paths": [
+    {
+     "expr": "None",
+     "kind": "literal_None",
+     "line": 699
+    },
+    {
+     "expr": "None",
+     "kind": "literal_None",
+     "line": 705
+    },
+    {
+     "expr": "{'kind': 'card_config', 'nav': stated, 'card_capital': cap, 'scale': float(card_scale or 0.0), 'config': cfg, 'order': r",
+     "kind": "dict_literal",
+     "line": 767
+    }
+   ],
+   "returns_one_kind": false,
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "verdict": "the_callee_branches_but_a_terminating_guard_filters_the_empty_arm"
+  },
+  {
+   "arm": "the_sites_value_reads_an_operand_that_is_a_call_result",
+   "binding_line": 1015,
+   "binding_shape": "defaulted_expression",
+   "call_expression": "card_config_ticket(nav=nav)",
+   "call_line": 1015,
+   "callee": {
+    "class": "callee_defined_in_the_site_module",
+    "line": 688,
+    "name": "card_config_ticket",
+    "rel": "scripts/etf_book_order.py"
+   },
+   "callee_class": "callee_defined_in_the_site_module",
+   "callee_line": 688,
+   "callee_name": "card_config_ticket",
+   "callee_rel": "scripts/etf_book_order.py",
+   "date_expression": "asof",
+   "empty_arm_filtered": true,
+   "field_key": "priced_bar",
+   "field_origin": "a_value_read_from_a_file",
+   "field_origin_via": "get",
+   "guards_between": [
+    {
+     "line": 1016,
+     "terminates_before_the_site": true,
+     "test": "not tk"
+    }
+   ],
+   "line": 1059,
+   "nested_def_return_count": 0,
+   "return_kinds": {
+    "dict_literal": 1,
+    "literal_None": 2
+   },
+   "return_path_count": 3,
+   "return_paths": [
+    {
+     "expr": "None",
+     "kind": "literal_None",
+     "line": 699
+    },
+    {
+     "expr": "None",
+     "kind": "literal_None",
+     "line": 705
+    },
+    {
+     "expr": "{'kind': 'card_config', 'nav': stated, 'card_capital': cap, 'scale': float(card_scale or 0.0), 'config': cfg, 'order': r",
+     "kind": "dict_literal",
+     "line": 767
+    }
+   ],
+   "returns_one_kind": false,
+   "source": "scripts/etf_book_order.py",
+   "symbol": "asof",
+   "verdict": "the_callee_branches_but_a_terminating_guard_filters_the_empty_arm"
+  },
+  {
+   "arm": "the_sites_own_binding_is_a_call_result",
+   "binding_line": 599,
+   "binding_shape": "call_result",
+   "call_expression": "str(idx[hi].date())",
+   "call_line": 599,
+   "callee": {
+    "class": "callee_is_a_builtin_that_coerces_its_argument",
+    "line": 0,
+    "name": "str",
+    "rel": ""
+   },
+   "callee_class": "callee_is_a_builtin_that_coerces_its_argument",
+   "callee_line": 0,
+   "callee_name": "str",
+   "callee_rel": "",
+   "date_expression": "cutoff",
+   "empty_arm_filtered": false,
+   "field_key": "",
+   "field_origin": "an_element_of_a_loaded_series",
+   "field_origin_via": "date()",
+   "guards_between": [],
+   "line": 630,
+   "nested_def_return_count": 0,
+   "return_kinds": {},
+   "return_path_count": 0,
+   "return_paths": [],
+   "returns_one_kind": false,
+   "source": "scripts/stagestyle_combo_p1_backtest.py",
+   "symbol": "cutoff",
+   "verdict": "the_call_is_not_a_repo_function_so_the_value_is_its_argument"
+  }
+ ],
+ "study": "E512_callee_return",
+ "summary": {
+  "distinct_callees": 1,
+  "return_paths_examined": 9,
+  "sites": 8,
+  "sites_answered_by_reading_their_callee_or_argument": 8,
+  "sites_by_arm": {
+   "the_sites_own_binding_is_a_call_result": 5,
+   "the_sites_value_reads_an_operand_that_is_a_call_result": 3
+  },
+  "sites_by_callee_class": {
+   "callee_defined_in_another_repo_module": 0,
+   "callee_defined_in_the_site_module": 3,
+   "callee_is_a_builtin_that_coerces_its_argument": 5,
+   "callee_is_neither_a_repo_function_nor_a_builtin": 0,
+   "the_binding_is_not_a_call_at_all": 0,
+   "the_call_could_not_be_resolved": 0
+  },
+  "sites_by_field_origin": {
+   "a_literal_constant": 0,
+   "a_parameter_of_the_callee": 0,
+   "a_value_built_by_a_call_into_another_module": 4,
+   "a_value_read_from_a_file": 3,
+   "an_element_of_a_loaded_series": 1,
+   "something_else": 0,
+   "the_run_clock": 0,
+   "the_site_reads_no_field_off_the_call": 0
+  },
+  "sites_by_verdict": {
+   "the_binding_does_not_call_anything": 0,
+   "the_call_is_not_a_repo_function_so_the_value_is_its_argument": 5,
+   "the_callee_branches_and_nothing_filters_an_arm_at_the_site": 0,
+   "the_callee_branches_but_a_terminating_guard_filters_the_empty_arm": 3,
+   "the_callee_names_one_kind_on_every_path_so_it_answers_the_site": 0
+  },
+  "sites_that_read_whatever_arrives": 0,
+  "sites_whose_callee_branches_over_more_than_one_kind": 3,
+  "sites_whose_callee_is_a_builtin": 5,
+  "sites_whose_callee_is_a_repo_function": 3,
+  "sites_whose_empty_arm_is_filtered_by_a_guard": 3,
+  "sites_whose_field_comes_from_a_file": 3,
+  "sites_whose_field_comes_from_a_loaded_series": 1,
+  "sites_whose_field_is_built_by_another_module_call": 4
+ },
+ "title": "E511 left three sites whose value enters through a call. Follow that hop: resolve the call to an in-repo function, enumerate its return statements, publish the kind of value each path names, whether a terminating guard filters the empty arm before the site, and where the field the site reads ultimately comes from.",
+ "verdict": "every_site_is_answered_by_reading_its_callee_or_its_argument",
+ "verdict_vocab": [
+  "every_site_is_answered_by_reading_its_callee_or_its_argument",
+  "some_sites_are_answered_by_the_callee_and_some_really_read_whatever_arrives",
+  "no_site_is_answered_by_its_callee",
+  "the_published_faces_hold_no_operand_level_site"
+ ]
+}

@@ -21043,5 +21043,62 @@ except Exception as _e509x:
     _d509 = "leg could not run"
 check(_name509, not _bad509, "; ".join(_bad509)[:240] or _d509)
 
+# E512: read the published callee-return face the way a consumer would -- every site of E511's
+# operand population must be here, every site whose callee is a repo function must publish its
+# return paths, a verdict must match the paths it names, and four doctored copies (a flipped
+# verdict, a hand-written kind table, an origin outside the vocabulary, a filtered arm with no
+# filtering guard) must all be refused.
+_name512 = ("E512 every published site whose value enters through a call is answered by reading "
+            "its callee's return paths or its argument (r1540 bm-b)")
+_bad512 = []
+try:
+    _m512 = __import__("importlib").import_module("e512_callee_return")
+    _f512 = json.load(open(os.path.join("results", "state_tilt", "calleereturn_latest.json"),
+                           encoding="utf-8"))
+    _s512 = _f512.get("summary") or {}
+    _g512 = _f512.get("sites") or []
+    _bad512.extend(_m512.site_problems(_f512))
+    if not _g512:
+        _bad512.append("the site population is empty")
+    for _r in _g512:
+        if _r.get("callee_class") in (_m512.CALLEE_SAME_MODULE, _m512.CALLEE_IMPORTED) \
+                and not _r.get("return_path_count"):
+            _bad512.append("%s:%s names a repo callee without a return path"
+                           % (_r.get("source"), _r.get("line")))
+    _w512 = json.loads(json.dumps(_f512))
+    _w512["sites"][0]["verdict"] = _m512.S_REAL
+    if not _m512.site_problems(_w512):
+        _bad512.append("a flipped verdict survived the guard")
+    _w512b = json.loads(json.dumps(_f512))
+    _w512b["sites"][0]["return_kinds"] = {"a_kind_nobody_published": 1}
+    if not _m512.site_problems(_w512b):
+        _bad512.append("a hand-written return-kind table survived the guard")
+    _w512c = json.loads(json.dumps(_f512))
+    _w512c["sites"][0]["field_origin"] = "an_origin_nobody_published"
+    if not _m512.site_problems(_w512c):
+        _bad512.append("an origin outside the vocabulary survived the guard")
+    _w512d = json.loads(json.dumps(_f512))
+    _w512d["sites"][0]["empty_arm_filtered"] = True
+    if not _m512.site_problems(_w512d):
+        _bad512.append("a filtered arm with no filtering guard survived the guard")
+    _d512 = ("%r sites / %r callees (repo %r builtin %r) / %r paths | branching %r filtered %r "
+             "reads-whatever-arrives %r | origin file %r series %r other-module-call %r | "
+             "verdict %r"
+             % (_s512.get("sites"), _s512.get("distinct_callees"),
+                _s512.get("sites_whose_callee_is_a_repo_function"),
+                _s512.get("sites_whose_callee_is_a_builtin"),
+                _s512.get("return_paths_examined"),
+                _s512.get("sites_whose_callee_branches_over_more_than_one_kind"),
+                _s512.get("sites_whose_empty_arm_is_filtered_by_a_guard"),
+                _s512.get("sites_that_read_whatever_arrives"),
+                _s512.get("sites_whose_field_comes_from_a_file"),
+                _s512.get("sites_whose_field_comes_from_a_loaded_series"),
+                _s512.get("sites_whose_field_is_built_by_another_module_call"),
+                _f512.get("verdict")))
+except Exception as _e512x:
+    _bad512.append(repr(_e512x)[:160])
+    _d512 = "leg could not run"
+check(_name512, not _bad512, "; ".join(_bad512)[:240] or _d512)
+
 if __name__ == "__main__":
     sys.exit(main())

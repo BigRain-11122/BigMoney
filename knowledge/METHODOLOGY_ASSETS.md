@@ -12843,3 +12843,22 @@ E506 把 16 张面归入"日期写在见证词表之外的字段名下"时，量
 **窗内两个自踩**：①字段名全树匹配会把 14/20 对错读成"字面量常量"（某个一次性研究里的 `"asof": "2026-10-29"` 不关这张面的事）——写入臂必须限制到"点名这张面的文件"，且版本臂优先（历史里动过的字段不是常量）；②按行求和字节会把两个字段的面算两次（74,507→72,500）——字节必须按面去重，并写成 smoke 断言。
 
 **验证**：`scripts/e509_unlisted_date_origin.py`：`run` rc0 / `check` problems=[] / `verify` problems=[] / **selftest 20/20**；+ `results/state_tilt/UNLISTEDDATEORIGIN-2026-11-07.json` 与 `unlisteddateorigin_latest.json`；+ S6 腿 `unlisted_date_origin` rc0 0.05s；receipt `results/_r1539bmb_s6_chain.json`；+ smoke 腿 `# E509` 原文单独执行 1/1 绿，`--doctor` 1/1 红且面字节已还原（sha `ddc6f0de984f`）；+ digest `research/digests/DIGEST-20261107-r1539-e509-unlisted-date-origin.md`。未做：全量 smoke 套件。
+## E512 -- 站点只有一个绑定而值是从 call 进来时，callee 能说出什么（r1540 bm-b）
+
+**立论**：E511 把 4 个 pair site 解剖完，留 3 个"只写一次、值从右手边进来"。那句话停在半路：右手边是 **call** 就等于还有第二个作者（callee）。callee 若每条 return 路径都命名同一种值，残余歧义可以**读出来**；若它自己分叉（dict 或 None），歧义是真的、归它的契约。本研究补这一跳。
+
+**方法**：人口=两个**已发布面**（不复读 E507 原始对）：① E510 发布的 pair 里单一绑定 shape=call_result 的站点（E511 的 binder 重导出 shape）；② E511 发布的 resolution=operand_read 的站点。逐站点发布：call 表达式、callee（同模块/跨模块/builtin/非本仓）、callee **每条 return 路径的值种类**、站点读的 dict 键与**该键的最终出处**（文件读取/载入序列元素/参数/运行时钟/常量/另一模块造的值），以及 call 与站点之间是否存在**终止性 guard** 挡住"什么都不给"那条臂。
+
+**读数**：8 站点 / 2 臂（call_result 绑定 5 + operand 读 3）/ 1 个 distinct callee / 9 条 return 路径。**3 个站点**的 callee=`card_config_ticket`：3 条路径（`return None` ×2 + `return {...}` ×1），中间 `if not tk: return 2` 终止 ⇒ 空臂到不了站点 ⇒ 站点只可能收到 dict，其 `priced_bar` 一路回溯到 `doc=_read_card(card_dir)` → **文件读**（不是钟，不是常量）。**5 个站点**是 builtin 强转 `str(...)`：callee 没有契约但它决定参数形状，1 个追溯到载入序列元素、4 个追溯到 `BT.apply_overlay(...)`（另一模块造的值）。**0 个站点**"收到什么就算什么"。verdict=`every_site_is_answered_by_reading_its_callee_or_its_argument` —— E510/E511 的"operand read"桶到这里**整体消解**。
+
+**可复用教训**：
+
+1. **"值从右手边进来"不是终点**：右手边是 call，就有一份可读的契约；不读它等于把"分不清"当成"不可读"。给一个 bucket 命名"需要读操作数"时，下一步必须问"读谁"。
+2. **"callee 有两条返回路径" ≠ "站点能收到两个值"**：中间有**终止性** guard（`if not tk: return 2`）时，空臂到不了站点。guard 必须按"是否终止"判定——不终止的 guard 不遮蔽任何东西（selftest 的 gamma 就是这一格，2/2 对偶）。
+3. **站点读的键要在站点自己的绑定上取**：首版拿 operand（`tk = ticket(...)`）的绑定当键源，`field_key` 恒空，读数变成"读不出字段"；同族=按名字取证先问"哪一行的名字"。
+4. **沿名字回溯必须跳过已消费的赋值行**：`slip = slip[slip.index >= start]` 这类自引用重绑会让回溯钉在原地直到深度上限，于是诚实标成 `something_else`——那条"讲不出来源"其实是仪器伤（本轮实弹：4 站点从 something_else 翻成 built-by-another-module，**零改判**）。姊妹面=重绑优先取上一次写，而不是取自己。
+
+**边界**：只跟一跳；跨模块 callee 的返回路径会读，但它的**字段出处**只标"另一模块造的"，不继续跟（那是 E514）；return 路径按语法计（`raise` 分支不算路径，嵌套 def 的 return 不计入本 callee 并单列）；不执行数据流，只说"命名了几种值"。
+
+**验证**：`scripts/e512_callee_return.py`，`run` rc0 / `check` problems=[] / `verify` 重建 problems=[] / **selftest 28/28**（5 夹具：单路径同模块 / 有 guard 的分叉 / 无 guard 的分叉 / builtin 强转 / 非 call 绑定，+ 7 个 doctored 均被拒）+ `results/state_tilt/CALLEERETURN-2026-11-07.json` 与 `calleereturn_latest.json`（8 站点 / 2 臂 / 9 路径；确定性重导，仅 `generated` 漂移）+ S6 腿 `callee_return` rc0 0.05s（receipt `results/_r1540bmb_s6_chain.json`）+ smoke 腿 `# E512` 原文独跑 1/1 绿、`--doctor` 1/1 红且字节还原（sha `78b96c2500d8`）+ digest `research/digests/DIGEST-20261107-r1540-e512-callee-return.md`；未跑全套 smoke 套件。
+

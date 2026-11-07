@@ -1927,6 +1927,13 @@ LEGS = [
     # own payload.  `check` re-derives every class, every count and the verdict from the published
     # readings and deltas, so a hand-written reading fails.
     ("unlisted_date_origin", ["python", "scripts/e509_unlisted_date_origin.py", "check"]),
+
+    # E512 follows the hop E511 stopped at: for every published site whose value enters through a
+    # call, resolve the callee, enumerate its return statements, publish the kind of value each
+    # path names, whether a terminating guard filters the empty arm before the site, and where the
+    # field the site reads ultimately comes from.  `check` re-derives the verdict, the kind table
+    # and every count from the published paths, so a hand-written reading fails.
+    ("callee_return", ["python", "scripts/e512_callee_return.py", "check"]),
 ]
 
 
