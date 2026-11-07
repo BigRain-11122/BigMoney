@@ -1,0 +1,188 @@
+{
+ "artifact": "zoo85_salience_panic supply berth probe",
+ "batch": "SUPPLY_BERTH_STOCK_FACTOR",
+ "construct": {
+  "cost_per_side": 0.0013041,
+  "entry": "next bar open, exit h bars later open",
+  "factor": "trailing 20-bar sum of salience * r_i (complete windows only)",
+  "liq_gate": "trailing 20-bar mean amount >= 20000000",
+  "market_leg": "510300 close-to-close",
+  "rank": "ascending; bottom decile = least-chased names",
+  "salience": "|r_i - r_m| / (|r_i| + |r_m| + 0.1)"
+ },
+ "evidence_cutoff": "2026-11-06",
+ "family": "zoo85_salience_panic",
+ "honest": [
+  "probe only: one window, one decile, no grid. A positive here buys a frozen prereg and a judge, not a claim that the factor pays.",
+  "the pool control is the same denominator zoo #93 used; it is the honest comparison because the factor picks from that pool, not from the index",
+  "the market leg is 510300, the in-house priced proxy for the registry's 中证全指; a different market leg changes the salience weights slightly, not the sign of the construct",
+  "the short decile is reported for context and is NOT part of the verdict: a single A-share cannot be shorted here",
+  "the panel is today's list applied to history (survivor caveat), unchanged from every other berth probe in this repo",
+  "no look-ahead by construction: factor uses bars up to t, entry is t+1 open"
+ ],
+ "horizons": {
+  "h20": {
+   "null": {
+    "draws": 16200,
+    "mean": -0.002628522913382288,
+    "p_floor": 6.172458490216653e-05,
+    "p_two_sided": 0.9549410530214184,
+    "per_cohort_draws": 200,
+    "sd": 0.005767216741069583
+   },
+   "overall": {
+    "n_phases": 4,
+    "phases_positive": 2,
+    "x1_excess_pp": 0.4609617880814404,
+    "x3_excess_pp": -6.824216368940683
+   },
+   "phases": {
+    "p0": {
+     "high_mean": -0.00675813465136681,
+     "low_mean": 0.013732477120323295,
+     "n_cohorts": 81,
+     "pool_mean": 0.011323921857577803,
+     "spread_gross": -0.020490611771690107,
+     "x1_equity": {
+      "cagr": 0.026666223903954345,
+      "maxdd": -0.1471209622596381,
+      "n": 81,
+      "sharpe": 0.3340106557168746
+     },
+     "x1_excess_pp": -0.251552368940681
+    },
+    "p10": {
+     "high_mean": -0.006886069475303369,
+     "low_mean": 0.015395691292671635,
+     "n_cohorts": 81,
+     "pool_mean": 0.009511895488019468,
+     "spread_gross": -0.022281760767975004,
+     "x1_equity": {
+      "cagr": 0.07231257543678415,
+      "maxdd": -0.08331888699434098,
+      "n": 81,
+      "sharpe": 0.8053082811811672
+     },
+     "x1_excess_pp": 4.1272507138617325
+    },
+    "p15": {
+     "high_mean": -0.009647425003665312,
+     "low_mean": 0.013772413028776886,
+     "n_cohorts": 81,
+     "pool_mean": 0.009952590708993026,
+     "spread_gross": -0.0234198380324422,
+     "x1_equity": {
+      "cagr": 0.04390473179446519,
+      "maxdd": -0.1395691504925164,
+      "n": 81,
+      "sharpe": 0.4656099078011843
+     },
+     "x1_excess_pp": 1.5266441229276655
+    },
+    "p5": {
+     "high_mean": -0.004091791805783585,
+     "low_mean": 0.010476128667075835,
+     "n_cohorts": 81,
+     "pool_mean": 0.01069213129844326,
+     "spread_gross": -0.01456792047285942,
+     "x1_equity": {
+      "cagr": -0.0061539533598056195,
+      "maxdd": -0.11638170517258883,
+      "n": 81,
+      "sharpe": -0.032475054264355104
+     },
+     "x1_excess_pp": -3.5584953155229555
+    }
+   },
+   "verdict_block": {
+    "conditions": {
+     "beats_null": false,
+     "four_phases_positive": false,
+     "long_excess_over_gate": false,
+     "survives_x3_cost": false
+    },
+    "note": "supply verdict only: it buys a frozen prereg and a judge, never a money claim",
+    "thresholds": {
+     "four_of_four": true,
+     "gate_pp": 1.0,
+     "max_p": 0.05
+    },
+    "verdict": "REFUSE_AS_CANDIDATE"
+   }
+  },
+  "h60": {
+   "overall": {
+    "n_phases": 4,
+    "phases_positive": 0,
+    "x1_excess_pp": -1.9075942201471692,
+    "x3_excess_pp": -2.3039426666524467
+   },
+   "phases": {
+    "p0": {
+     "high_mean": 0.004866352949971895,
+     "low_mean": 0.03620289836195434,
+     "n_cohorts": 26,
+     "pool_mean": 0.03386387613969827,
+     "spread_gross": -0.03133654541198244,
+     "x1_equity": {
+      "cagr": 0.006754057777822009,
+      "maxdd": -0.09678394757664366,
+      "n": 26,
+      "sharpe": 0.12241821033852002
+     },
+     "x1_excess_pp": -0.11305466665244594
+    },
+    "p10": {
+     "high_mean": 0.003679710568467197,
+     "low_mean": 0.03488345378413614,
+     "n_cohorts": 26,
+     "pool_mean": 0.0343179214578777,
+     "spread_gross": -0.031203743215668944,
+     "x1_equity": {
+      "cagr": -0.0010981487466352746,
+      "maxdd": -0.1711755328665362,
+      "n": 26,
+      "sharpe": 0.027591092877855397
+     },
+     "x1_excess_pp": -0.8579204229714585
+    },
+    "p15": {
+     "high_mean": -0.0008360636547989054,
+     "low_mean": 0.024236605577282667,
+     "n_cohorts": 26,
+     "pool_mean": 0.031796117993587183,
+     "spread_gross": -0.02507266923208157,
+     "x1_equity": {
+      "cagr": -0.03279803170639073,
+      "maxdd": -0.25597760173677575,
+      "n": 26,
+      "sharpe": -0.5772915529241597
+     },
+     "x1_excess_pp": -4.270439214847896
+    },
+    "p5": {
+     "high_mean": 0.007535129989647748,
+     "low_mean": 0.029358603047758527,
+     "n_cohorts": 26,
+     "pool_mean": 0.03243840918137013,
+     "spread_gross": -0.02182347305811078,
+     "x1_equity": {
+      "cagr": -0.016234112678924162,
+      "maxdd": -0.24767045298992008,
+      "n": 26,
+      "sharpe": -0.15419171015619132
+     },
+     "x1_excess_pp": -2.3889625761168762
+    }
+   }
+  }
+ },
+ "machine": "bm-c",
+ "panel": {
+  "bars": 1658,
+  "first_bar": "2020-01-02",
+  "last_bar": "2026-11-06",
+  "n_symbols": 5199
+ },
+ "ts": "2026-11-08T00:01:41+0800"
+}

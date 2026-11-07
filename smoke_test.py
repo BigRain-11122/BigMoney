@@ -454,6 +454,16 @@ def main() -> int:
             # all-defense rather than as "keep yesterday's book".
             ("product: dual momentum supply probe (exit-code contract)",
              "scripts/zoo82_dual_momentum_probe.py", ["--selftest"]),
+            # r1410: zoo #85 (salience-panic, Barberis/Cosemans-Frehen) is the last
+            # registered STOCK-domain behavioural berth that had never been burned. Its legs
+            # pin the four ways a weighted-past-return factor lies: a partial window must not
+            # produce a factor (a shorter window is a different construct), the forward matrix
+            # must enter on the NEXT bar's open (no same-bar fill anywhere), the long-only leg
+            # must pay two sides of cost per cohort rather than one, and the null must be
+            # centred on that same cost -- a random draw of the whole pool returns -2*cost,
+            # not zero.
+            ("product: salience panic supply probe (exit-code contract)",
+             "scripts/zoo85_salience_panic_probe.py", ["--selftest"]),
             # r1396: the last free berth on the supply line is the volume state machine (zoo
             # #96) -- HMA(5)/HMA(100) over the market's own traded value, long above 1.15 or
             # below 0.807, cash in between because an ETF book cannot short spot. Its legs pin
