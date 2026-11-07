@@ -1742,6 +1742,12 @@ LEGS = [
     # class, the span class against the published family table, the compact-name census and
     # both verdicts.
     ("undated_vintage", ["python", "scripts/e484_undated_vintage.py", "check"]),
+    # E485 takes the two one-day name/payload disagreements E484 read by hand: each dated
+    # member is compared with the closest date its payload states, the witness field and its
+    # tier (frozen / structured / prose) are published per row, and every non-same row carries
+    # the sources that name it.  `check` re-derives every class, the tier and span histograms,
+    # the one-day case list and both verdicts from the published rows.
+    ("vintage_date_lag", ["python", "scripts/e485_vintage_date_lag.py", "check"]),
     # E481 takes up E478's residue: a vintage that differs from its twin beyond the frozen clock
     # names is only expensive to keep if it also reaches a different conclusion.  `check` re-derives
     # every class, byte tally, scalar-arm count, arm cross-tab and the vocabulary histogram from the

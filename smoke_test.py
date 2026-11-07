@@ -19048,6 +19048,81 @@ except Exception as _e484x:
     _d484 = "leg could not run"
 check(_name484, not _bad484, "; ".join(_bad484)[:240] or _d484)
 
+# E485 (r1529 bm-b): E484 read the two one-day name/payload disagreements by hand and called them
+# "a late-run stamp or a misname".  This leg holds that every class, byte tally, witness-tier
+# histogram, span-position histogram, spelling histogram and writer histogram re-derives from the
+# published rows, that every compared row states a delta its own two dates reproduce, that the
+# one-day case list is exactly the earlier+later rows, that each case names a cause and a writer
+# evidence list, and that both verdicts are the ones the counts/cases imply -- plus four doctored
+# copies (a class count moved, a witness tier outside the vocabulary, a one-day case whose cause
+# contradicts its tier, and a cause verdict the cases do not imply).
+_name485 = ("E485 a one-day vintage lag re-derives from its rows, its cause from its witness tier "
+            "and its verdict from its counts (r1529 bm-b)")
+_bad485 = []
+try:
+    _m485 = __import__("importlib").import_module("e485_vintage_date_lag")
+    _f485 = json.load(open(os.path.join("results", "state_tilt", "datelag_latest.json"),
+                           encoding="utf-8"))
+    _s485 = _f485.get("summary") or {}
+    _r485 = _f485.get("rows") or []
+    _bad485.extend(_m485.check(_f485))
+    if not _r485:
+        _bad485.append("the dated vintage population is empty")
+    _c485 = _s485.get("class_counts") or {}
+    if _f485.get("verdict") != _m485._expect_verdict(_c485):
+        _bad485.append("the verdict is not the one the class counts imply")
+    _od485 = _f485.get("one_day_cases") or []
+    if _f485.get("cause_verdict") != _m485._expect_cause(_od485):
+        _bad485.append("the cause verdict is not the one the one-day cases imply")
+    if _s485.get("one_day_cases") != len(_od485):
+        _bad485.append("the published one-day tally is not the case list's length")
+    for _case in _od485:
+        if _case.get("delta_days") not in (-1, 1):
+            _bad485.append("a one-day case does not carry a +/-1 delta")
+            break
+        if not isinstance(_case.get("writer_evidence"), list):
+            _bad485.append("a one-day case carries no writer evidence list")
+            break
+    _w485 = json.loads(json.dumps(_f485))
+    _w485["summary"]["class_counts"][_m485.C_SAME] = (
+        (_w485["summary"]["class_counts"].get(_m485.C_SAME) or 0) + 1)
+    if not _m485.row_problems(_w485):
+        _bad485.append("a doctored same-day tally survived the guard")
+    _w485b = json.loads(json.dumps(_f485))
+    _cmp485 = next((r for r in _w485b["rows"] if r.get("class") in _m485.COMPARED), None)
+    if _cmp485 is None:
+        _bad485.append("no compared row to doctor")
+    else:
+        _cmp485["witness"]["tier"] = "guess"
+        if not _m485.row_problems(_w485b):
+            _bad485.append("a witness tier outside the frozen vocabulary survived")
+    if _od485:
+        _w485c = json.loads(json.dumps(_f485))
+        _w485c["one_day_cases"][0]["cause"] = (
+            "free_text" if _w485c["one_day_cases"][0].get("cause") != "free_text"
+            else "structured_field")
+        if not _m485.row_problems(_w485c):
+            _bad485.append("a one-day case whose cause contradicts its tier survived")
+        _w485d = json.loads(json.dumps(_f485))
+        _w485d["cause_verdict"] = (_m485.K_MIXED if _w485d.get("cause_verdict") != _m485.K_MIXED
+                                   else _m485.K_NONE)
+        if not _m485.check(_w485d):
+            _bad485.append("a cause verdict the cases do not imply survived")
+    _d485 = ("compared %d of %d members: same day %d, one day earlier %d, one day later %d, "
+             "outside %d, before span %d, no payload date %d; witness tiers %r; causes %r" % (
+                 _s485.get("compared_files") or 0, _s485.get("member_files") or 0,
+                 _s485.get("names_matching_the_payload_day") or 0,
+                 _s485.get("one_day_earlier") or 0, _s485.get("one_day_later") or 0,
+                 _s485.get("outside_one_day_window") or 0,
+                 _s485.get("before_family_span") or 0,
+                 _c485.get(_m485.C_NO_PAYLOAD) or 0,
+                 _s485.get("witness_field_tiers"),
+                 _s485.get("one_day_cause_counts")))
+except Exception as _e485x:
+    _bad485.append(repr(_e485x)[:160])
+    _d485 = "leg could not run"
+check(_name485, not _bad485, "; ".join(_bad485)[:240] or _d485)
+
 # E481 (r1510 bm-b): E478 charged a vintage for any difference beyond the clock names, but never
 # asked whether the two files reach the same conclusion.  This leg holds that every class, byte
 # tally, scalar-arm count, cross-tab and vocabulary histogram re-derives from the published rows,

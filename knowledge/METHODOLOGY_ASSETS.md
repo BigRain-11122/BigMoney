@@ -12655,3 +12655,26 @@ cannot be named at all cannot be fixed at the source and is a publishing decisio
 **边界**：调用面扫描覆盖 `scripts/`、`Tools/`、`docs/`、`research/` 与五个根文档，`results/` 排除；入口只认 `__main__` 体与模块级派发表（更深的反射/注册表入口不可见，如实披露）；写者判定是 AST 近似（面名常量、字面量、或作为实参流入 opener），未走数据流。
 
 **验证**：`scripts/e501_unread_refresh.py`：`run` rc0 / `check` problems=[] / `verify` problems=[] 重导出 / **selftest 17/17**；产物 `results/state_tilt/UNREADREFRESH-2026-11-07.json` + `unreadrefresh_latest.json`（8 行，判决由闸从 summary 重算）；池卡 E501 已 done；digest `research/digests/DIGEST-20261107-r1528-e501-unread-refresh.md`。
+
+## E485 -- 名字说 10-21、payload 说 10-20：402 个有日期的古老成员里只有 2 个差一天，一个见证在散文里、一个见证在数据截止日上（r1529 bm-b）
+
+**问题**：E484 把 5 个「名字日期 ≠ payload 日期」的成员读出两个真差一天（都叫 2026-10-21、payload 都写 2026-10-20），然后用一句「late-run stamp or misname」收尾——那是手读出来的分类，不是测量。本研把这一天之差定价：名字日期（ISO 或紧凑 YYYYMMDD 两种拼写）与 payload 最近的日期比，每一行落到一个类，并把**见证字段与见证层**（frozen / 其他结构化字段 / 散文里的日期）逐行发布；每个非 same_day 行再带「谁命名了它、其中有没有写上下文」。
+
+**方法**：全静态、零网络。人口=E480 的 571 个成员（与 E484 同源）。三段：①名字日期双拼写解析（ISO + 紧凑，去重、记拼写）；②payload 见证按层取：先冻结的七个名字（顶层），再深度 ≤2 的其他结构化字符串字段，最后才是长串散文里的日期——比较用**最好的一层里离名字最近的那个日期**，并把候选日期全集与出现过的层一起发布；③家庭跨度=同家庭兄弟**名字**的最小值，payload 日期早于它=数据日期（`payload_before_family_span`），否则才按 ±1/超窗分。④非 same_day 行做写者证据：名字字面量出现且 5 行窗内有写动词=write_context，只有字面量=names_only，只有词干=stem_mentioned。
+
+**读数**（2026-11-07）：571 成员里 **402 个可比较**（名字 278 ISO / 124 紧凑）——**same_day 400（0.9950）**、**差一天早 2**、晚 0、超窗 0、早于家庭跨度 0；不可比较 169（非 .json 165 / 双日期名 4）；无名字日期 0、无 payload 日期 0、读不出 0。见证层：**frozen 388 / 其他结构化 12 / 散文 2**；跨度位置 inside 402（全部）、before 0——即两个差一天都落在家庭自己的日期跨度内，不是跨代数据。
+两个一天之差（唯一真差）：
+- `results/_w280bmc_20261021_probe_receipt.json`：见证字段 `probe`（**散文**，正文里写「2026-10-20 ~01:4x」），payload 里根本没有日期字段；命名源 4 个（`_r1509_pool_update` / `_r1509_report_row` / `perpetual_faces` / `perpetual_faces_n1`），**全是 names_only（只读提及），0 个写上下文**。
+- `results/e24_ladder_weighting/WEIGHTING-20261021.json`：见证字段 `evidence_cutoff`（**frozen**，2026-10-20）；命名源 2 个（同上两个轮脚本），**0 个写上下文**。
+非 same_day 171 行里：write_context 4 / names_only 11 / 无命名源 156（156 全是那 165 个非 json + 4 个双日期名，它们本来就不会有 json 写者）。
+cause_verdict=`the_one_day_cases_split_between_structured_fields_and_free_text`——两个案子不是同一种东西。
+
+**四条可复用**：
+1. **一天之差必须连见证层一起发**：散文里的「2026-10-20 ~01:4x」和 `evidence_cutoff=2026-10-20` 是两件不同的事——前者是笔记里的时间提示（payload 可能根本没有日期字段），后者是数据的截止日。E484 把两类压成一句「late-run stamp or misname」，压完之后没人能判断该改名字还是该改字段。凡「名字与内容不符」的读数，先问是哪个字段作证、这一层有多硬。
+2. **分母必须点名「有日期且读得出日期」**：0.995 只有在分母=402 时成立；把 169 个不可比较的成员塞进分母会得到一个毫无意义的 0.70。E392 的分母律在日期面上重演——率必须说它除的是谁。
+3. **紧凑拼写是 31% 的人口，不是边角**：124/402 的名字用 YYYYMMDD。一个只认 ISO 的索引会漏掉这些人，而「名字里有没有日期」这件事对每个成员都要单独记数（本研 0 个无日期名字，是因为 E472 的人口已经筛过；E484 的 201 个是另一半）。
+4. **「名字晚一天」不是写点能修的**：两个案子的命名源都只有只读提及，0 个写上下文——名字由轮脚本用日期变量组出来，字面量根本不在源里。任何以「按字面找写者、找不到就判无名」为判据的规则，会在这类文件上系统性失明（E495 三种写者形状同族）。
+
+**边界**：比较用「最近的那个日期」，多日期的 payload 会被压缩成一个代表值（全集逐行发布）。散文层与结构化层同权参与「最近日期」的选择，但层名一定在行里；payload 里日期字段叫 `run_at`/`written` 之类的写法读成不可比较（不判负）。写者证据是源级近似（字面量 + 两行内写动词），跨模块 helper 拼名看不见——所以 `write_context=0` 的正确读法是「没有源在写上下文里点它的名」，不是「没有写者」。
+
+**验证**：`scripts/e485_vintage_date_lag.py`（`run` rc0 / `check` problems=[] / `verify` problems=[] 重建恒等 / **selftest 47/47**：12 个文件类、8 个见证/层读、4 个日期助手、5 个 verdict 分支、4 个 cause 分支、2 个写者信号、12 个篡改面各 1 腿红）；产物 `results/state_tilt/DATELAG-2026-11-07.json` + `datelag_latest.json`（571 行，逐行带类/见证字段/层/跨度位置/写者证据）；S6 腿 `vintage_date_lag` rc0 0.05s（receipt `results/_r1529bmb_s6_chain.json`）；smoke 腿 `E485 ...` 原文单跑 1/1 绿、doctored 1/1 红（sha 还原 f867d012e811）；digest `research/digests/DIGEST-20261107-r1529-e485-vintage-date-lag.md`。
