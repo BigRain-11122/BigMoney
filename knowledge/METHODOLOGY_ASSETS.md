@@ -12728,3 +12728,15 @@ cause_verdict=`the_one_day_cases_split_between_structured_fields_and_free_text`�
 **边界**：人口是 E485 的成员表；名字只有区间名的 4 个成员不参与匹配；来源只在**单个模块内**溯源，跨模块常量记 unresolved；`e485_compared_subset` 的成员归属是 E485 的 class 字段带过来的路径表，闸只复核计数、无法重新裁定 E485 比了谁；站点级 mixed 与行级 mixed 是两个不同的类。
 
 **验证**：`scripts/e504_name_compose.py`（`run` rc0 / `check` problems=[] / `verify` 重建恒等 problems=[] 33s / **selftest 23/23**）；smoke 腿原文单跑 **1/1 绿**、`--doctor` 1/1 红且面逐字节还原（sha 311105084107）；S6 腿 `name_compose` rc0。产物=`results/state_tilt/NAMECOMPOSE-2026-11-07.json`（560 KB）+ `namecompose_latest.json`；digest=`research/digests/DIGEST-20261107-r1533-e504-name-compose.md`。未做不宣称：全量 smoke 套件未跑、其余 S6 链腿未重跑、无云端无 GPU 无删除。
+
+## E505 -- 「未测量」的 183 项里有多少真的不可测：63 项一行适配器能读出、35 项要调用方给参数、82 项什么都没有（r1534 bm-b）
+
+**读数**：E502（r1531）把 183/201 项研究挂成未测量，只因为仪器认字面的零参 `def corpus()`。本轮把这 183 项逐模块静态读一遍（不 import、不执行）：183 里 180 项可解析、**3 项本身是 BOM 前缀源**（U+FEFF 让 `ast` 直接拒解，正是 E502 在量的那个毛病落在它自己的人群里）；180 项中 **25 项有零参「走树」函数**（`face_files` / `py_corpus` / `json_corpus` / `scan` / `panel_files` / `producer_paths` …）、**24 项有零参的人口名函数**、**10 项常量直接握着名字表**（`GLOBAL_SOURCES` / `SCAN_DIRS` / `CORPUS_ROOTS` …）、**3 项常量在 import 时算出名字表**、**1 项 corpus 来自 import**（`from e361_census_corpus_pin import stamp_sources`）、**35 项唯一的人口面需要调用方给参数**、**82 项什么都没有**。即 63 项（35%）一行适配器可读；按 E502 的 reader 类交叉：**97 项根本不解析源码文本**（BOM 问题对它们根本咬不住）、75 项读时按原样解析（会中 BOM）、8 项去 BOM 后解析。判决=桶是「命名约定 + 真空白」两半，不是 183 个不可测的研究。
+
+**产品**：`scripts/e505_unmeasured_reach.py`（run rc0 / check problems=[] / verify 重导一致 problems=[] / **selftest 32/32**）+ `results/state_tilt/UNMEASUREDREACH-2026-11-07.json` + `unmeasuredreach_latest.json`（180 行，逐行 class、adapter、chosen_surface、全部候选面、build 签名）+ smoke 腿 `# E505 (r1534 bm-b)` + `scripts/run_e505_smoke_leg.py`（1/1 绿、`--doctor` 1/1 红、面字节还原）+ S6 腿 `unmeasured_reach` rc0 0.05s + 本卡 + `research/digests/DIGEST-20261107-r1534-e505-unmeasured-reach.md`。
+
+**可复用结论**：①**「未测量」桶若是仪器找名字的产物，必须拆成逐项的面再报**——一个不透明数字被反复引用时（183 大于所有已定价臂之和），先问它说的是研究还是约定；本轮 183 → 63 可读 / 35 要参数 / 82 空 / 3 不可解析。②**判类必须先过反义词表**：`SKIP_DIRS` 同样是「字符串列表、名字里有 files/dirs 味道」，不设负词表（skip/ignore/exclude/deny/block/forbid/ban/black/unwanted/bad/not_/drop/dead/legacy/tmp）就会把排除名单发布成成员名单。③**常量类要按「population 由它建起」命名，别叫「成员表」**：`PATHS=['scripts','Tools','live']` 是根目录不是成员，`UNIVERSE_KEYS=['faces_censused',…]` 是字段名不是成员——命名过强等于发布了一个没测的东西。④**桶的大小不等于暴露面的大小**：必须交叉 reader 类才定价，97/183 从不解析源码文本，BOM 对它们没有意义。⑤**不可解析的行本身是证据，要单列**：3 行 BOM 前缀源与被测毛病同源，混进 `unreadable` 总数就丢了这个巧合。
+
+**边界**：只读模块级语句，函数体内/分支内构造的面看不见；面按名字 token（corpus/sources/members/universe/panel/files/census/targets/inputs/studies/paths/scan）加负词表判定，**命中不代表它返回的就是该研究的人口**；`adapter` 串只给「最便宜怎么读」，不声明返回值等价（那需要执行）；`reader_class` 是 E502 字段原样搬运，交叉表不能重判该类；`population_declared_by_upstream` 来自 E502 summary，闸只校验「解析行＋不可解析行＝该数」，不能重定 E502 谁可定价。
+
+**验证**：run rc0 / check problems=[] / verify problems=[]（重导一致）/ selftest 32/32；smoke 腿原文档独立 1/1 绿、`--doctor` 1/1 红且面字节还原（sha 614fd85c18d0）；S6 腿 `unmeasured_reach` rc0 0.05s。未做不宣称：全量 smoke 套件未跑、其余 S6 链腿未重跑、无云端无 GPU 无删除。

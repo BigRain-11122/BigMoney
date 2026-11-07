@@ -28906,10 +28906,15 @@
    "lane": "cpu-only",
    "lane_note": "static: read each module's own corpus surface, no network, no rewrites",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E502 (r1531 bm-b): 183 of 201 studies with build() are published as unmeasured because they expose no zero-argument corpus(); that bucket is larger than every priced arm combined and nobody has asked whether it is a property of the studies or of the convention the instrument looks for",
    "entered_at": "2026-11-07T18:25:20+08:00",
-   "entered_by": "bm-b r1531 (supply floor refill after E502)"
+   "entered_by": "bm-b r1531 (supply floor refill after E502)",
+   "owner": "bm-b",
+   "claimed_at": "2026-11-07T19:53+08:00",
+   "done_at": "2026-11-07T20:10+08:00",
+   "result_ref": "results/state_tilt/UNMEASUREDREACH-2026-11-07.json",
+   "result_note": "r1534 bm-b: static read of all 183 rows (180 parsed, 3 BOM-prefixed so unparseable -- the same defect E502 was measuring). 63 (35%) are readable by a one-line adapter: 25 zero-arg callables that walk the tree (face_files / py_corpus / json_corpus / scan / panel_files), 24 zero-arg population-named callables, 10 module constants holding the names, 3 constants that compute them at import, 1 corpus that arrives through an import. 35 need caller arguments, 82 name nothing at all. Crossed with E502's reader class: 97 never parse source text, so the BOM question cannot bite them; 75 parse as read (BOM-fatal), 8 strip the BOM first. Verdict: the bucket is a naming convention plus a hole, not 183 unmeasurable studies."
   },
   {
    "id": "E506-WHAT-DO-THE-725-CERTIFICATIONS-WITH-NO-PARSEABLE-DATE-ACTUALLY-READ",
@@ -28934,6 +28939,20 @@
    "status": "ready",
    "entered_at": "2026-11-07T19:43+08:00",
    "entered_by": "bm-b r1533 (supply floor refill after E504)"
+  },
+  {
+   "id": "E508-WHICH-CALLER-SUPPLIES-THE-POPULATION-TO-THE-35-ARGUMENT-ONLY-SURFACES",
+   "title": "E505 published 35 studies whose only population-naming surface takes caller arguments, so no adapter can call it and the arm stays unpriced. Read those surfaces' call sites inside this repository: does any caller pass a literal corpus, or is the argument built from a constant, a glob, or the caller's own cwd? Publish, per surface, the calling sites, the argument each supplies and whether the population is recoverable from a call site -- so the bucket stops having a class that no instrument can read.",
+   "deliverable": "results/state_tilt/CALLERSUPPLIED-<cutoff>.json",
+   "target": "results/state_tilt/callersupplied_latest.json",
+   "evidence_cutoff": "2026-11-07",
+   "lane": "cpu-only",
+   "lane_note": "static: read the call sites of E505's argument-only surfaces, no network, no rewrites",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E505 (r1534 bm-b): 35 of 183 unmeasured studies expose a population-naming function that nothing can call without an argument, and 82 more expose nothing under a population name",
+   "entered_at": "2026-11-07T20:10+08:00",
+   "entered_by": "bm-b r1534 (supply floor refill after E505)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28948,6 +28967,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T19:35:11+0800",
+ "updated_at": "2026-11-07T20:10+08:00",
  "version": 1
 }

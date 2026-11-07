@@ -1879,6 +1879,12 @@ LEGS = [
     # by a run clock rather than a payload cutoff.  `check` re-derives the naming-site table, the
     # per-spelling clock/payload split and the verdict from the published rows.
     ("name_compose", ["python", "scripts/e504_name_compose.py", "check"]),
+
+    # E505 decomposes E502's 183-study unmeasured bucket: a zero-argument callable under another
+    # name, a module constant holding the names, a corpus that arrives through an import, a surface
+    # that needs caller arguments, or nothing at all -- crossed with the reader class E502 already
+    # published.  `check` re-derives the class table, the cross table and the verdict from rows.
+    ("unmeasured_reach", ["python", "scripts/e505_unmeasured_reach.py", "check"]),
 ]
 
 

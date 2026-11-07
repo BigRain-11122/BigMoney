@@ -20552,5 +20552,85 @@ except Exception as _e504x:
     _d504 = "leg could not run"
 check(_name504, not _bad504, "; ".join(_bad504)[:240] or _d504)
 
+# E505 (r1534 bm-b): E502 published 183 studies as unmeasured because the instrument looks for a
+# literal zero-argument corpus().  This leg holds that the bucket is decomposed instead of restated:
+# the parsed rows plus the unreadable rows are the declared population, the per-class counts add up
+# to the parsed rows, readable + needs-arguments + nothing add up to the same total, the published
+# adapter count is the number of rows carrying one, the cross table totals the population, the
+# unreadable rows that are BOM-prefixed are counted, and the verdict is the one the rows imply --
+# plus three doctored copies (a moved class count, a hand-written verdict, and an adapter on a row
+# that names nothing).
+_name505 = ("E505 the unmeasured bucket decomposes into readable surfaces, argument-only surfaces "
+            "and nothing at all, and its verdict re-derives from the rows (r1534 bm-b)")
+_bad505 = []
+try:
+    _m505 = __import__("importlib").import_module("e505_unmeasured_reach")
+    _f505 = json.load(open(os.path.join("results", "state_tilt", "unmeasuredreach_latest.json"),
+                           encoding="utf-8"))
+    _s505 = _f505.get("summary") or {}
+    _r505 = _f505.get("rows") or []
+    _u505 = _f505.get("unreadable") or []
+    _bad505.extend(_m505.row_problems(_f505))
+    if not _r505:
+        _bad505.append("the parsed population is empty")
+    if _s505.get("population") != len(_r505):
+        _bad505.append("the published population is not the parsed row count")
+    if (_s505.get("population") or 0) + (_s505.get("unreadable") or 0) \
+            != _s505.get("population_declared_by_upstream"):
+        _bad505.append("parsed plus unreadable is not the population E502 declared")
+    if _s505.get("unreadable") != len(_u505):
+        _bad505.append("the published unreadable count is not the unreadable list length")
+    if sum((_s505.get("by_class") or {}).values()) != len(_r505):
+        _bad505.append("the per-class counts do not add up to the parsed rows")
+    _parts505 = ((_s505.get("readable_by_a_one_line_adapter") or 0)
+                 + (_s505.get("needs_caller_arguments") or 0)
+                 + (_s505.get("names_nothing") or 0))
+    if _parts505 != len(_r505):
+        _bad505.append("readable + needs-arguments + nothing is not the parsed row count")
+    _with505 = sum(1 for _row505 in _r505 if _row505.get("adapter"))
+    if _with505 != _s505.get("adapters_published"):
+        _bad505.append("the published adapter count is not the rows carrying one")
+    if sum((_s505.get("cross_tab") or {}).values()) != len(_r505):
+        _bad505.append("the cross table does not total the parsed rows")
+    _bom505 = sum(1 for _u in _u505 if "U+FEFF" in (_u.get("why") or ""))
+    if _bom505 != _s505.get("unreadable_bom_prefixed"):
+        _bad505.append("the BOM-prefixed unreadable count does not re-derive")
+    for _row505 in _r505:
+        if _row505.get("class") not in _m505.CLASS_VOCAB:
+            _bad505.append("%s carries a class outside the vocabulary" % _row505.get("source"))
+            break
+    if _f505.get("verdict") != _m505._verdict(_s505):
+        _bad505.append("the verdict is not the one the rows imply")
+    _w505 = json.loads(json.dumps(_f505))
+    _k505 = next(iter(_w505["summary"]["by_class"]), None)
+    _w505["summary"]["by_class"][_k505] = (
+        (_w505["summary"]["by_class"].get(_k505) or 0) + 1)
+    if not _m505.row_problems(_w505):
+        _bad505.append("a doctored class count survived the guard")
+    _w505b = json.loads(json.dumps(_f505))
+    _w505b["verdict"] = _m505.V_CONVENTION
+    if not _m505.row_problems(_w505b):
+        _bad505.append("a hand-written verdict survived the guard")
+    _w505c = json.loads(json.dumps(_f505))
+    _nothing505 = [r for r in _w505c["rows"] if r.get("class") == _m505.C_NOTHING]
+    if not _nothing505:
+        _bad505.append("no names_nothing row to doctor")
+    else:
+        _nothing505[0]["adapter"] = "getattr(mod,'X')"
+        if not _m505.row_problems(_w505c):
+            _bad505.append("an adapter on a names_nothing row survived the guard")
+    _d505 = ("parsed %r + unreadable %r (BOM %r) = %r declared | by class %r | readable %r "
+             "needs-args %r nothing %r | adapters %r | verdict %r" % (
+                 _s505.get("population"), _s505.get("unreadable"),
+                 _s505.get("unreadable_bom_prefixed"),
+                 _s505.get("population_declared_by_upstream"), _s505.get("by_class"),
+                 _s505.get("readable_by_a_one_line_adapter"),
+                 _s505.get("needs_caller_arguments"), _s505.get("names_nothing"),
+                 _s505.get("adapters_published"), _f505.get("verdict")))
+except Exception as _e505x:
+    _bad505.append(repr(_e505x)[:160])
+    _d505 = "leg could not run"
+check(_name505, not _bad505, "; ".join(_bad505)[:240] or _d505)
+
 if __name__ == "__main__":
     sys.exit(main())

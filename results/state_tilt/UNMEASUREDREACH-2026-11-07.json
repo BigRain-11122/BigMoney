@@ -1,0 +1,5018 @@
+{
+ "answers": {
+  "adapter_shapes": {
+   "a_module_constant_computing_a_list_of_names_the_population_is_built_from_at_import": "read it: getattr(mod,'<NAME>') (valued at import time)",
+   "a_module_constant_holding_a_list_of_names_the_population_is_built_from": "read it: getattr(mod,'<NAME>')",
+   "a_zero_arg_callable_that_walks_the_tree_under_another_name": "call it: getattr(mod,'<name>')()",
+   "a_zero_arg_callable_with_a_population_name_under_another_name": "call it: getattr(mod,'<name>')()",
+   "nothing_in_the_module_names_a_population": "no adapter -- there is nothing to read",
+   "the_corpus_arrives_through_an_import_the_local_def_test_cannot_see": "follow the import: from <module> import <name>",
+   "the_only_surface_that_names_a_population_requires_caller_arguments": "no adapter -- the caller supplies the population"
+  },
+  "how_many_name_nothing": 82,
+  "how_many_need_arguments": 35,
+  "how_many_of_the_bucket_could_an_adapter_read": 63,
+  "is_the_bucket_about_the_studies_or_the_instrument": "the instrument: the members exist under another name or in a constant for 63 of 180 studies, and 107 of them never parse source text at all, so the BOM question cannot bite them whether or not their corpus is readable",
+  "unreadable_rows": {
+   "count": 3,
+   "of_which_bom_prefixed": 3,
+   "reading": "the rows this scan cannot parse are themselves BOM-prefixed sources, so three members of E502's own bucket are unreadable for exactly the reason E502 was measuring"
+  }
+ },
+ "card": "E505-HOW-MANY-OF-THE-183-UNMEASURED-STUDIES-ARE-ACTUALLY-UNMEASURABLE",
+ "class_vocab": [
+  "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+  "a_zero_arg_callable_with_a_population_name_under_another_name",
+  "a_module_constant_holding_a_list_of_names_the_population_is_built_from",
+  "a_module_constant_computing_a_list_of_names_the_population_is_built_from_at_import",
+  "the_corpus_arrives_through_an_import_the_local_def_test_cannot_see",
+  "the_only_surface_that_names_a_population_requires_caller_arguments",
+  "nothing_in_the_module_names_a_population"
+ ],
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T19:55:23+08:00",
+ "method_limits": [
+  "the population is E502's corpus_exposed=false rows (183 of 201) carried as a set of source paths; the gate re-derives every count from the rows, but cannot re-decide which studies E502 could price",
+  "surfaces are read statically from the module's own AST -- nothing is imported, executed or fetched, so a callable that would fail at runtime still counts as a surface and no constant is valued",
+  "name matching is a token test (corpus/sources/members/universe/panel/files/...), with a negative token list (skip/ignore/exclude/...) so an exclusion list is not published as a member list; a plausible-looking name that fails the test is published as names_nothing, never guessed",
+  "only module-level statements are read: a surface built inside a function body or assigned in a branch is invisible to this scan",
+  "the adapter string is a suggestion of the cheapest read, not a claim that the value it returns equals the study's corpus -- that would need execution",
+  "reader_class is E502's field carried verbatim; the cross table prices the question 'does this study even parse source text' but cannot re-decide the class"
+ ],
+ "parent_card": "E502-DOES-THE-BOM-SOURCE-LIST-CHANGE-ANY-PUBLISHED-CENSUS",
+ "population_source": "results/state_tilt/BOMCENSUS-2026-11-07.json rows with corpus_exposed=false",
+ "rows": [
+  {
+   "adapter": "getattr(mod, 'CORPUS_DIRS')",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "elements": null,
+    "expression": "tuple(e346.CORPUS_DIRS)",
+    "kind": "constant_computed",
+    "line": 66,
+    "name": "CORPUS_DIRS",
+    "source": "scripts/e369_pin_at_publishing_commit.py"
+   },
+   "class": "a_module_constant_computing_a_list_of_names_the_population_is_built_from_at_import",
+   "module": "e369_pin_at_publishing_commit",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e369_pin_at_publishing_commit.py",
+   "surface_count": 3,
+   "surfaces": [
+    {
+     "elements": null,
+     "expression": "tuple(e346.CORPUS_DIRS)",
+     "kind": "constant_computed",
+     "line": 66,
+     "name": "CORPUS_DIRS",
+     "source": "scripts/e369_pin_at_publishing_commit.py"
+    },
+    {
+     "elements": null,
+     "expression": "tuple(e346.CORPUS_FILES)",
+     "kind": "constant_computed",
+     "line": 67,
+     "name": "CORPUS_FILES",
+     "source": "scripts/e369_pin_at_publishing_commit.py"
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 96,
+     "name": "tree_members",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e369_pin_at_publishing_commit.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'OWN_FILES')",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "elements": null,
+    "expression": "tuple(e392.OWN_FILES) + ('scripts/e393_read_cap_price.py', 'scripts/run_e393_smoke_leg.py')",
+    "kind": "constant_computed",
+    "line": 60,
+    "name": "OWN_FILES",
+    "source": "scripts/e393_read_cap_price.py"
+   },
+   "class": "a_module_constant_computing_a_list_of_names_the_population_is_built_from_at_import",
+   "module": "e393_read_cap_price",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e393_read_cap_price.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "elements": null,
+     "expression": "tuple(e392.OWN_FILES) + ('scripts/e393_read_cap_price.py', 'scripts/run_e393_smoke_leg.py')",
+     "kind": "constant_computed",
+     "line": 60,
+     "name": "OWN_FILES",
+     "source": "scripts/e393_read_cap_price.py"
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'OWN_FILES')",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "elements": null,
+    "expression": "tuple(e394.OWN_FILES) + ('scripts/e395_conditional_write.py', 'scripts/run_e395_smoke_leg.py')",
+    "kind": "constant_computed",
+    "line": 61,
+    "name": "OWN_FILES",
+    "source": "scripts/e395_conditional_write.py"
+   },
+   "class": "a_module_constant_computing_a_list_of_names_the_population_is_built_from_at_import",
+   "module": "e395_conditional_write",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e395_conditional_write.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "elements": null,
+     "expression": "tuple(e394.OWN_FILES) + ('scripts/e395_conditional_write.py', 'scripts/run_e395_smoke_leg.py')",
+     "kind": "constant_computed",
+     "line": 61,
+     "name": "OWN_FILES",
+     "source": "scripts/e395_conditional_write.py"
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'UNIVERSE_KEYS')",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "elements": 6,
+    "expression": "('faces_censused', 'census_faces', 'universe_faces', 'faces_used', 'faces_in_scope', 'source_faces')",
+    "kind": "constant_literal",
+    "line": 94,
+    "name": "UNIVERSE_KEYS",
+    "sample": [
+     "faces_censused",
+     "census_faces",
+     "universe_faces"
+    ],
+    "source": "scripts/e294_live_universe_drift.py"
+   },
+   "class": "a_module_constant_holding_a_list_of_names_the_population_is_built_from",
+   "module": "e294_live_universe_drift",
+   "reader_class": "the_reader_removes_the_bom_before_parsing",
+   "source": "scripts/e294_live_universe_drift.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "elements": 6,
+     "expression": "('faces_censused', 'census_faces', 'universe_faces', 'faces_used', 'faces_in_scope', 'source_faces')",
+     "kind": "constant_literal",
+     "line": 94,
+     "name": "UNIVERSE_KEYS",
+     "sample": [
+      "faces_censused",
+      "census_faces",
+      "universe_faces"
+     ],
+     "source": "scripts/e294_live_universe_drift.py"
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 176,
+     "name": "census_glob",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e294_live_universe_drift.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'PANEL_EXPRS')",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "elements": 8,
+    "expression": "('single_panel', 'basket_panel', 'load_panel', 'panel_dir', 'common_dates', 'common_grid', '_panel(', 'live panel')",
+    "kind": "constant_literal",
+    "line": 60,
+    "name": "PANEL_EXPRS",
+    "sample": [
+     "single_panel",
+     "basket_panel",
+     "load_panel"
+    ],
+    "source": "scripts/e303_recover_unmeasurable_basis.py"
+   },
+   "class": "a_module_constant_holding_a_list_of_names_the_population_is_built_from",
+   "module": "e303_recover_unmeasurable_basis",
+   "reader_class": "the_reader_removes_the_bom_before_parsing",
+   "source": "scripts/e303_recover_unmeasurable_basis.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "elements": 8,
+     "expression": "('single_panel', 'basket_panel', 'load_panel', 'panel_dir', 'common_dates', 'common_grid', '_panel(', 'live panel')",
+     "kind": "constant_literal",
+     "line": 60,
+     "name": "PANEL_EXPRS",
+     "sample": [
+      "single_panel",
+      "basket_panel",
+      "load_panel"
+     ],
+     "source": "scripts/e303_recover_unmeasurable_basis.py"
+    },
+    {
+     "elements": 3,
+     "expression": "('e298_replay_control_census.py', 'e299_rounded_vs_tolerance_census.py', 'e303_recover_unmeasurable_basis.py')",
+     "kind": "constant_literal",
+     "line": 69,
+     "name": "CENSUS_SCRIPTS",
+     "sample": [
+      "e298_replay_control_census.py",
+      "e299_rounded_vs_tolerance_census.py",
+      "e303_recover_unmeasurable_basis.py"
+     ],
+     "source": "scripts/e303_recover_unmeasurable_basis.py"
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'GLOBAL_SOURCES')",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "elements": 2,
+    "expression": "('Tools/s6_chain_bmb.py', 'smoke_test.py')",
+    "kind": "constant_literal",
+    "line": 91,
+    "name": "GLOBAL_SOURCES",
+    "sample": [
+     "Tools/s6_chain_bmb.py",
+     "smoke_test.py"
+    ],
+    "source": "scripts/e330_unpinned_choice.py"
+   },
+   "class": "a_module_constant_holding_a_list_of_names_the_population_is_built_from",
+   "module": "e330_unpinned_choice",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e330_unpinned_choice.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "elements": 2,
+     "expression": "('Tools/s6_chain_bmb.py', 'smoke_test.py')",
+     "kind": "constant_literal",
+     "line": 91,
+     "name": "GLOBAL_SOURCES",
+     "sample": [
+      "Tools/s6_chain_bmb.py",
+      "smoke_test.py"
+     ],
+     "source": "scripts/e330_unpinned_choice.py"
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'GLOBAL_SOURCES')",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "elements": 2,
+    "expression": "('Tools/s6_chain_bmb.py', 'smoke_test.py')",
+    "kind": "constant_literal",
+    "line": 120,
+    "name": "GLOBAL_SOURCES",
+    "sample": [
+     "Tools/s6_chain_bmb.py",
+     "smoke_test.py"
+    ],
+    "source": "scripts/e331_pointer_only_readers.py"
+   },
+   "class": "a_module_constant_holding_a_list_of_names_the_population_is_built_from",
+   "module": "e331_pointer_only_readers",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e331_pointer_only_readers.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "elements": 2,
+     "expression": "('Tools/s6_chain_bmb.py', 'smoke_test.py')",
+     "kind": "constant_literal",
+     "line": 120,
+     "name": "GLOBAL_SOURCES",
+     "sample": [
+      "Tools/s6_chain_bmb.py",
+      "smoke_test.py"
+     ],
+     "source": "scripts/e331_pointer_only_readers.py"
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'PATHS')",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "elements": 5,
+    "expression": "('scripts', 'Tools', 'live', 'monitor', 'firm')",
+    "kind": "constant_literal",
+    "line": 49,
+    "name": "PATHS",
+    "sample": [
+     "scripts",
+     "Tools",
+     "live"
+    ],
+    "source": "scripts/e338_census_green_window.py"
+   },
+   "class": "a_module_constant_holding_a_list_of_names_the_population_is_built_from",
+   "module": "e338_census_green_window",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e338_census_green_window.py",
+   "surface_count": 3,
+   "surfaces": [
+    {
+     "elements": 5,
+     "expression": "('scripts', 'Tools', 'live', 'monitor', 'firm')",
+     "kind": "constant_literal",
+     "line": 49,
+     "name": "PATHS",
+     "sample": [
+      "scripts",
+      "Tools",
+      "live"
+     ],
+     "source": "scripts/e338_census_green_window.py"
+    },
+    {
+     "elements": 16,
+     "expression": "('scripts/e322_residual_refusal_causes.py', 'scripts/e323_reach_under_wider_needle.py', 'scripts/e324_unpublished_key_causes.py', 'scripts/e325_orphan_gate_faces.py', 'scripts/e326_template_parameter_",
+     "kind": "constant_literal",
+     "line": 54,
+     "name": "CENSUS_FAMILY",
+     "sample": [
+      "scripts/e322_residual_refusal_causes.py",
+      "scripts/e323_reach_under_wider_needle.py",
+      "scripts/e324_unpublished_key_causes.py"
+     ],
+     "source": "scripts/e338_census_green_window.py"
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 245,
+     "name": "is_census_only",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e338_census_green_window.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'GUARDED_FILES')",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "elements": 2,
+    "expression": "('smoke_test.py', 'Tools/s6_chain_bmb.py')",
+    "kind": "constant_literal",
+    "line": 49,
+    "name": "GUARDED_FILES",
+    "sample": [
+     "smoke_test.py",
+     "Tools/s6_chain_bmb.py"
+    ],
+    "source": "scripts/e339_literal_count_guards.py"
+   },
+   "class": "a_module_constant_holding_a_list_of_names_the_population_is_built_from",
+   "module": "e339_literal_count_guards",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e339_literal_count_guards.py",
+   "surface_count": 3,
+   "surfaces": [
+    {
+     "elements": 2,
+     "expression": "('smoke_test.py', 'Tools/s6_chain_bmb.py')",
+     "kind": "constant_literal",
+     "line": 49,
+     "name": "GUARDED_FILES",
+     "sample": [
+      "smoke_test.py",
+      "Tools/s6_chain_bmb.py"
+     ],
+     "source": "scripts/e339_literal_count_guards.py"
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 257,
+     "name": "commit_paths",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e339_literal_count_guards.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 264,
+     "name": "results_paths_touched",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e339_literal_count_guards.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'CORPUS_ROOTS')",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "elements": 5,
+    "expression": "('scripts', 'Tools', 'live', 'monitor', 'firm')",
+    "kind": "constant_literal",
+    "line": 45,
+    "name": "CORPUS_ROOTS",
+    "sample": [
+     "scripts",
+     "Tools",
+     "live"
+    ],
+    "source": "scripts/e363_corpus_vintage.py"
+   },
+   "class": "a_module_constant_holding_a_list_of_names_the_population_is_built_from",
+   "module": "e363_corpus_vintage",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e363_corpus_vintage.py",
+   "surface_count": 4,
+   "surfaces": [
+    {
+     "elements": 5,
+     "expression": "('scripts', 'Tools', 'live', 'monitor', 'firm')",
+     "kind": "constant_literal",
+     "line": 45,
+     "name": "CORPUS_ROOTS",
+     "sample": [
+      "scripts",
+      "Tools",
+      "live"
+     ],
+     "source": "scripts/e363_corpus_vintage.py"
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 70,
+     "name": "corpus_paths",
+     "required_args": 2,
+     "returns_a_value": true,
+     "source": "scripts/e363_corpus_vintage.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 87,
+     "name": "files_from",
+     "required_args": 2,
+     "returns_a_value": true,
+     "source": "scripts/e363_corpus_vintage.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 115,
+     "name": "git_paths",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e363_corpus_vintage.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'STUDIES')",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "elements": 2,
+    "expression": "('E350', 'E353')",
+    "kind": "constant_literal",
+    "line": 62,
+    "name": "STUDIES",
+    "sample": [
+     "E350",
+     "E353"
+    ],
+    "source": "scripts/e373_two_pins_one_replay.py"
+   },
+   "class": "a_module_constant_holding_a_list_of_names_the_population_is_built_from",
+   "module": "e373_two_pins_one_replay",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e373_two_pins_one_replay.py",
+   "surface_count": 5,
+   "surfaces": [
+    {
+     "elements": null,
+     "expression": "tuple(e346.CORPUS_DIRS)",
+     "kind": "constant_computed",
+     "line": 59,
+     "name": "CORPUS_DIRS",
+     "source": "scripts/e373_two_pins_one_replay.py"
+    },
+    {
+     "elements": null,
+     "expression": "tuple(e346.CORPUS_FILES)",
+     "kind": "constant_computed",
+     "line": 60,
+     "name": "CORPUS_FILES",
+     "source": "scripts/e373_two_pins_one_replay.py"
+    },
+    {
+     "elements": 2,
+     "expression": "('E350', 'E353')",
+     "kind": "constant_literal",
+     "line": 62,
+     "name": "STUDIES",
+     "sample": [
+      "E350",
+      "E353"
+     ],
+     "source": "scripts/e373_two_pins_one_replay.py"
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 87,
+     "name": "tree_members",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e373_two_pins_one_replay.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 126,
+     "name": "pinned_members",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e373_two_pins_one_replay.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'SCAN_DIRS')",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "elements": 5,
+    "expression": "('scripts', 'Tools', 'monitor', 'live', 'firm')",
+    "kind": "constant_literal",
+    "line": 53,
+    "name": "SCAN_DIRS",
+    "sample": [
+     "scripts",
+     "Tools",
+     "monitor"
+    ],
+    "source": "scripts/e408_writer_refresh_signal.py"
+   },
+   "class": "a_module_constant_holding_a_list_of_names_the_population_is_built_from",
+   "module": "e408_writer_refresh_signal",
+   "reader_class": "the_reader_removes_the_bom_before_parsing",
+   "source": "scripts/e408_writer_refresh_signal.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "elements": 5,
+     "expression": "('scripts', 'Tools', 'monitor', 'live', 'firm')",
+     "kind": "constant_literal",
+     "line": 53,
+     "name": "SCAN_DIRS",
+     "sample": [
+      "scripts",
+      "Tools",
+      "monitor"
+     ],
+     "source": "scripts/e408_writer_refresh_signal.py"
+    },
+    {
+     "elements": 4,
+     "expression": "('.py', '.ps1', '.psm1', '.cmd')",
+     "kind": "constant_literal",
+     "line": 54,
+     "name": "SCAN_EXT",
+     "sample": [
+      ".py",
+      ".ps1",
+      ".psm1"
+     ],
+     "source": "scripts/e408_writer_refresh_signal.py"
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'SCAN_DIRS')",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "elements": 5,
+    "expression": "('scripts', 'Tools', 'monitor', 'live', 'firm')",
+    "kind": "constant_literal",
+    "line": 37,
+    "name": "SCAN_DIRS",
+    "sample": [
+     "scripts",
+     "Tools",
+     "monitor"
+    ],
+    "source": "scripts/e411_reader_tiers.py"
+   },
+   "class": "a_module_constant_holding_a_list_of_names_the_population_is_built_from",
+   "module": "e411_reader_tiers",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e411_reader_tiers.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "elements": 5,
+     "expression": "('scripts', 'Tools', 'monitor', 'live', 'firm')",
+     "kind": "constant_literal",
+     "line": 37,
+     "name": "SCAN_DIRS",
+     "sample": [
+      "scripts",
+      "Tools",
+      "monitor"
+     ],
+     "source": "scripts/e411_reader_tiers.py"
+    },
+    {
+     "elements": 4,
+     "expression": "('.py', '.ps1', '.psm1', '.cmd')",
+     "kind": "constant_literal",
+     "line": 38,
+     "name": "SCAN_EXT",
+     "sample": [
+      ".py",
+      ".ps1",
+      ".psm1"
+     ],
+     "source": "scripts/e411_reader_tiers.py"
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'face_files')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 95,
+    "name": "face_files",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e282_substitution_disagreement_census.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e282_substitution_disagreement_census",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e282_substitution_disagreement_census.py",
+   "surface_count": 4,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 95,
+     "name": "face_files",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e282_substitution_disagreement_census.py",
+     "walks_the_tree": true
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 142,
+     "name": "scope_census",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e282_substitution_disagreement_census.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 229,
+     "name": "census_row",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e282_substitution_disagreement_census.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 252,
+     "name": "censused",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e282_substitution_disagreement_census.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'face_files')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 93,
+    "name": "face_files",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e283_degenerate_range_reachable.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e283_degenerate_range_reachable",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e283_degenerate_range_reachable.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 93,
+     "name": "face_files",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e283_degenerate_range_reachable.py",
+     "walks_the_tree": true
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 112,
+     "name": "scope_census",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e283_degenerate_range_reachable.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'face_files')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 101,
+    "name": "face_files",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e284_disagreement_field_scope.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e284_disagreement_field_scope",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e284_disagreement_field_scope.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 101,
+     "name": "face_files",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e284_disagreement_field_scope.py",
+     "walks_the_tree": true
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 133,
+     "name": "leg_universe",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e284_disagreement_field_scope.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'face_universe')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 104,
+    "name": "face_universe",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e286_count_field_scope.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e286_count_field_scope",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e286_count_field_scope.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 104,
+     "name": "face_universe",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e286_count_field_scope.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'live_universe')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 102,
+    "name": "live_universe",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e302_universe_switch_backfill.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e302_universe_switch_backfill",
+   "reader_class": "the_reader_removes_the_bom_before_parsing",
+   "source": "scripts/e302_universe_switch_backfill.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "elements": 3,
+     "expression": "('e290_selfauditable_face_profile.py', 'e291_ambiguity_chance.py', 'e292_scope_fix_plan.py')",
+     "kind": "constant_literal",
+     "line": 68,
+     "name": "TARGETS",
+     "sample": [
+      "e290_selfauditable_face_profile.py",
+      "e291_ambiguity_chance.py",
+      "e292_scope_fix_plan.py"
+     ],
+     "source": "scripts/e302_universe_switch_backfill.py"
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 102,
+     "name": "live_universe",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e302_universe_switch_backfill.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'face_census')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 276,
+    "name": "face_census",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e307_undated_face_vintage.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e307_undated_face_vintage",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e307_undated_face_vintage.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 93,
+     "name": "universe_for",
+     "required_args": 2,
+     "returns_a_value": true,
+     "source": "scripts/e307_undated_face_vintage.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 276,
+     "name": "face_census",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e307_undated_face_vintage.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'scan')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 505,
+    "name": "scan",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e317_print_coverage_census.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e317_print_coverage_census",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e317_print_coverage_census.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 505,
+     "name": "scan",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e317_print_coverage_census.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'py_sources')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 316,
+    "name": "py_sources",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e352_staleness_window.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e352_staleness_window",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e352_staleness_window.py",
+   "surface_count": 3,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 238,
+     "name": "tree_paths",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e352_staleness_window.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 275,
+     "name": "round_sources",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e352_staleness_window.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 316,
+     "name": "py_sources",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e352_staleness_window.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'producer_paths')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 86,
+    "name": "producer_paths",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e364_unstamped_census.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e364_unstamped_census",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e364_unstamped_census.py",
+   "surface_count": 7,
+   "surfaces": [
+    {
+     "elements": 6,
+     "expression": "('corpus_paths(', '_corpus(', 'e361.stamp(', 'CORPUS_ROOTS', 'iter_corpus(', 'corpus_files(')",
+     "kind": "constant_literal",
+     "line": 51,
+     "name": "SOURCE_CORPUS_MARKS",
+     "sample": [
+      "corpus_paths(",
+      "_corpus(",
+      "e361.stamp("
+     ],
+     "source": "scripts/e364_unstamped_census.py"
+    },
+    {
+     "elements": 3,
+     "expression": "('glob(', 'iglob(', 'os.walk(')",
+     "kind": "constant_literal",
+     "line": 53,
+     "name": "FACE_CORPUS_MARKS",
+     "sample": [
+      "glob(",
+      "iglob(",
+      "os.walk("
+     ],
+     "source": "scripts/e364_unstamped_census.py"
+    },
+    {
+     "elements": 11,
+     "expression": "('corpus', 'sources', 'source', 'files', 'file', 'faces', 'face', 'scripts', 'modules', 'paths', 'members')",
+     "kind": "constant_literal",
+     "line": 60,
+     "name": "CENSUS_WORDS",
+     "sample": [
+      "corpus",
+      "sources",
+      "source"
+     ],
+     "source": "scripts/e364_unstamped_census.py"
+    },
+    {
+     "elements": 11,
+     "expression": "('trade', 'bar', 'signal', 'position', 'account', 'cell', 'order', 'row', 'day', 'session', 'pair')",
+     "kind": "constant_literal",
+     "line": 62,
+     "name": "NON_CENSUS_WORDS",
+     "sample": [
+      "trade",
+      "bar",
+      "signal"
+     ],
+     "source": "scripts/e364_unstamped_census.py"
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 86,
+     "name": "producer_paths",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e364_unstamped_census.py",
+     "walks_the_tree": true
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 132,
+     "name": "has_files_seam",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e364_unstamped_census.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 160,
+     "name": "census_counts",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e364_unstamped_census.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'reader_census')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 262,
+    "name": "reader_census",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e386_merged_key_cost.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e386_merged_key_cost",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e386_merged_key_cost.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 103,
+     "name": "field_census",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e386_merged_key_cost.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 262,
+     "name": "reader_census",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e386_merged_key_cost.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'json_corpus')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 193,
+    "name": "json_corpus",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e391_key_name_two_meanings.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e391_key_name_two_meanings",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e391_key_name_two_meanings.py",
+   "surface_count": 3,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 193,
+     "name": "json_corpus",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e391_key_name_two_meanings.py",
+     "walks_the_tree": true
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 215,
+     "name": "py_corpus",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e391_key_name_two_meanings.py",
+     "walks_the_tree": true
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 253,
+     "name": "scan_readers",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e391_key_name_two_meanings.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'scan')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 227,
+    "name": "scan",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e392_read_resolve.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e392_read_resolve",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e392_read_resolve.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "elements": 2,
+     "expression": "('scripts/e392_read_resolve.py', 'scripts/run_e392_smoke_leg.py')",
+     "kind": "constant_literal",
+     "line": 65,
+     "name": "OWN_FILES",
+     "sample": [
+      "scripts/e392_read_resolve.py",
+      "scripts/run_e392_smoke_leg.py"
+     ],
+     "source": "scripts/e392_read_resolve.py"
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 227,
+     "name": "scan",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e392_read_resolve.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'pointer_files')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 131,
+    "name": "pointer_files",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e398_latest_family.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e398_latest_family",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e398_latest_family.py",
+   "surface_count": 3,
+   "surfaces": [
+    {
+     "elements": 2,
+     "expression": "('scripts/e398_latest_family.py', 'scripts/run_e398_smoke_leg.py')",
+     "kind": "constant_literal",
+     "line": 59,
+     "name": "OWN_FILES",
+     "sample": [
+      "scripts/e398_latest_family.py",
+      "scripts/run_e398_smoke_leg.py"
+     ],
+     "source": "scripts/e398_latest_family.py"
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 131,
+     "name": "pointer_files",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e398_latest_family.py",
+     "walks_the_tree": true
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 777,
+     "name": "scan_file",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e398_latest_family.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'panel_files')()",
+   "build_found": false,
+   "build_required_args": null,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 51,
+    "name": "panel_files",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e39_panel_census.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e39_panel_census",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e39_panel_census.py",
+   "surface_count": 5,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 51,
+     "name": "panel_files",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e39_panel_census.py",
+     "walks_the_tree": true
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 53,
+     "name": "panel_calendar",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e39_panel_census.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 13379,
+     "name": "run_panelsplit",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e39_panel_census.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 13498,
+     "name": "run_panelsplitscreen",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e39_panel_census.py",
+     "walks_the_tree": true
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 29213,
+     "name": "run_reviewwindowcrosspanel",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e39_panel_census.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'scan_sites')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 187,
+    "name": "scan_sites",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e415_cwd_accident.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e415_cwd_accident",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e415_cwd_accident.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "elements": 5,
+     "expression": "('scripts', 'Tools', 'firm', 'live', 'engine')",
+     "kind": "constant_literal",
+     "line": 51,
+     "name": "CORPUS_DIRS",
+     "sample": [
+      "scripts",
+      "Tools",
+      "firm"
+     ],
+     "source": "scripts/e415_cwd_accident.py"
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 187,
+     "name": "scan_sites",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e415_cwd_accident.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'python_corpus')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 113,
+    "name": "python_corpus",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e426_dynamic_face_names.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e426_dynamic_face_names",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e426_dynamic_face_names.py",
+   "surface_count": 4,
+   "surfaces": [
+    {
+     "elements": 5,
+     "expression": "('scripts', 'Tools', 'firm', 'live', 'monitor')",
+     "kind": "constant_literal",
+     "line": 45,
+     "name": "CORPUS_DIRS",
+     "sample": [
+      "scripts",
+      "Tools",
+      "firm"
+     ],
+     "source": "scripts/e426_dynamic_face_names.py"
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 113,
+     "name": "python_corpus",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e426_dynamic_face_names.py",
+     "walks_the_tree": true
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 276,
+     "name": "collect_corpus",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e426_dynamic_face_names.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 292,
+     "name": "face_paths",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e426_dynamic_face_names.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'py_corpus')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 91,
+    "name": "py_corpus",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e446_frozen_writer.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e446_frozen_writer",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e446_frozen_writer.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 91,
+     "name": "py_corpus",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e446_frozen_writer.py",
+     "walks_the_tree": true
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 398,
+     "name": "scan_corpus",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e446_frozen_writer.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'scan_corpus')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 149,
+    "name": "scan_corpus",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e447_abandoned_read.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e447_abandoned_read",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e447_abandoned_read.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "elements": 4,
+     "expression": "{'copy', 'copy2', 'copyfile', 'move'}",
+     "kind": "constant_literal",
+     "line": 60,
+     "name": "READ_COPY_SOURCES",
+     "sample": [
+      "copy",
+      "copy2",
+      "copyfile"
+     ],
+     "source": "scripts/e447_abandoned_read.py"
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 149,
+     "name": "scan_corpus",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e447_abandoned_read.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'walk_corpus_files')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 128,
+    "name": "walk_corpus_files",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e449_dead_document_pointer.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e449_dead_document_pointer",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e449_dead_document_pointer.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 128,
+     "name": "walk_corpus_files",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e449_dead_document_pointer.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'census')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 231,
+    "name": "census",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e466_pointer_join.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e466_pointer_join",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e466_pointer_join.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 231,
+     "name": "census",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e466_pointer_join.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'scan')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 146,
+    "name": "scan",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e482_latest_outside.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e482_latest_outside",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e482_latest_outside.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 146,
+     "name": "scan",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e482_latest_outside.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'scan')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 300,
+    "name": "scan",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e487_composed_writer.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e487_composed_writer",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e487_composed_writer.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 300,
+     "name": "scan",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e487_composed_writer.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'scan_sources')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 115,
+    "name": "scan_sources",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e491_latest_copier.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e491_latest_copier",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e491_latest_copier.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "elements": 3,
+     "expression": "('scripts', 'Tools', 'firm')",
+     "kind": "constant_literal",
+     "line": 55,
+     "name": "SCAN_DIRS",
+     "sample": [
+      "scripts",
+      "Tools",
+      "firm"
+     ],
+     "source": "scripts/e491_latest_copier.py"
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 115,
+     "name": "scan_sources",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e491_latest_copier.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'family_members')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 157,
+    "name": "family_members",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e497_twindead.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e497_twindead",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e497_twindead.py",
+   "surface_count": 3,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 157,
+     "name": "family_members",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e497_twindead.py",
+     "walks_the_tree": true
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 197,
+     "name": "sources",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e497_twindead.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 316,
+     "name": "scan",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e497_twindead.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'scan_caller_files')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 313,
+    "name": "scan_caller_files",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e501_unread_refresh.py",
+    "walks_the_tree": true
+   },
+   "class": "a_zero_arg_callable_that_walks_the_tree_under_another_name",
+   "module": "e501_unread_refresh",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e501_unread_refresh.py",
+   "surface_count": 3,
+   "surfaces": [
+    {
+     "elements": 4,
+     "expression": "('scripts', 'Tools', 'docs', 'research')",
+     "kind": "constant_literal",
+     "line": 86,
+     "name": "SCAN_DIRS",
+     "sample": [
+      "scripts",
+      "Tools",
+      "docs"
+     ],
+     "source": "scripts/e501_unread_refresh.py"
+    },
+    {
+     "elements": 5,
+     "expression": "('README.md', 'PLAN.md', 'HANDOVER.md', 'HQ-FEEDBACK.md', 'CODELY.md')",
+     "kind": "constant_literal",
+     "line": 87,
+     "name": "SCAN_ROOT_FILES",
+     "sample": [
+      "README.md",
+      "PLAN.md",
+      "HANDOVER.md"
+     ],
+     "source": "scripts/e501_unread_refresh.py"
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 313,
+     "name": "scan_caller_files",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e501_unread_refresh.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'census')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 243,
+    "name": "census",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e273_guard_from_threshold.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e273_guard_from_threshold",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e273_guard_from_threshold.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 243,
+     "name": "census",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e273_guard_from_threshold.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'census')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 182,
+    "name": "census",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e281_substitution_dependency_audit.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e281_substitution_dependency_audit",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e281_substitution_dependency_audit.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 182,
+     "name": "census",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e281_substitution_dependency_audit.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'census_names')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 115,
+    "name": "census_names",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e291_ambiguity_chance.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e291_ambiguity_chance",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e291_ambiguity_chance.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 115,
+     "name": "census_names",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e291_ambiguity_chance.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 135,
+     "name": "census",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e291_ambiguity_chance.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'census_names')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 99,
+    "name": "census_names",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e293_duplicate_list_census.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e293_duplicate_list_census",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e293_duplicate_list_census.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 99,
+     "name": "census_names",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e293_duplicate_list_census.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'sources')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 109,
+    "name": "sources",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e312_gate_operand_identity.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e312_gate_operand_identity",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e312_gate_operand_identity.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 109,
+     "name": "sources",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e312_gate_operand_identity.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'producer_sources')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 404,
+    "name": "producer_sources",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e313_gate_form_and_scale.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e313_gate_form_and_scale",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e313_gate_form_and_scale.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 404,
+     "name": "producer_sources",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e313_gate_form_and_scale.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'corpus_texts')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 86,
+    "name": "corpus_texts",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e335_sibling_entry_point.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e335_sibling_entry_point",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e335_sibling_entry_point.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 86,
+     "name": "corpus_texts",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e335_sibling_entry_point.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'recovered_sources')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 143,
+    "name": "recovered_sources",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e336_consumer_optin_ranking.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e336_consumer_optin_ranking",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e336_consumer_optin_ranking.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 143,
+     "name": "recovered_sources",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e336_consumer_optin_ranking.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'downstream_studies')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 210,
+    "name": "downstream_studies",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e337_optin_executed.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e337_optin_executed",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e337_optin_executed.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 210,
+     "name": "downstream_studies",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e337_optin_executed.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'census')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 177,
+    "name": "census",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e346_status_writer_unread.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e346_status_writer_unread",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e346_status_writer_unread.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "elements": 6,
+     "expression": "['scripts', 'monitor', 'Tools', 'firm', 'live', 'content']",
+     "kind": "constant_literal",
+     "line": 42,
+     "name": "CORPUS_DIRS",
+     "sample": [
+      "scripts",
+      "monitor",
+      "Tools"
+     ],
+     "source": "scripts/e346_status_writer_unread.py"
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 177,
+     "name": "census",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e346_status_writer_unread.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'list_panel_paths')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 136,
+    "name": "list_panel_paths",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e348_restored_gate_retrospect.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e348_restored_gate_retrospect",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e348_restored_gate_retrospect.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 136,
+     "name": "list_panel_paths",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e348_restored_gate_retrospect.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 141,
+     "name": "panel_tail",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e348_restored_gate_retrospect.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'load_corpus')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 157,
+    "name": "load_corpus",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e361_census_corpus_pin.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e361_census_corpus_pin",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e361_census_corpus_pin.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 157,
+     "name": "load_corpus",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e361_census_corpus_pin.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'measure_corpus_family')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 153,
+    "name": "measure_corpus_family",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e366_pinable_queue_size.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e366_pinable_queue_size",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e366_pinable_queue_size.py",
+   "surface_count": 3,
+   "surfaces": [
+    {
+     "elements": 6,
+     "expression": "('e322_residual_refusal_causes', 'e323_reach_under_wider_needle', 'e324_unpublished_key_causes', 'e325_orphan_gate_faces', 'e326_template_parameter_consumers', 'e327_who_reads_a_face_through_a_pointer",
+     "kind": "constant_literal",
+     "line": 71,
+     "name": "CORPUS_MODULES",
+     "sample": [
+      "e322_residual_refusal_causes",
+      "e323_reach_under_wider_needle",
+      "e324_unpublished_key_causes"
+     ],
+     "source": "scripts/e366_pinable_queue_size.py"
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 126,
+     "name": "own_sources",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e366_pinable_queue_size.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 153,
+     "name": "measure_corpus_family",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e366_pinable_queue_size.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'scan')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 228,
+    "name": "scan",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e389_family_glob_readers.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e389_family_glob_readers",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e389_family_glob_readers.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 228,
+     "name": "scan",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e389_family_glob_readers.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'census')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 503,
+    "name": "census",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e390_wrong_side_reader.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e390_wrong_side_reader",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e390_wrong_side_reader.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 409,
+     "name": "scan_site",
+     "required_args": 3,
+     "returns_a_value": true,
+     "source": "scripts/e390_wrong_side_reader.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 503,
+     "name": "census",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e390_wrong_side_reader.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'basename_census')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 383,
+    "name": "basename_census",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e396_face_basename_suffix.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e396_face_basename_suffix",
+   "reader_class": "the_reader_removes_the_bom_before_parsing",
+   "source": "scripts/e396_face_basename_suffix.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 383,
+     "name": "basename_census",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e396_face_basename_suffix.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'deleted_paths')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 140,
+    "name": "deleted_paths",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e399_unresolved_names.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e399_unresolved_names",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e399_unresolved_names.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 140,
+     "name": "deleted_paths",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e399_unresolved_names.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'e305_inputs')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 85,
+    "name": "e305_inputs",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e407_leg_input_stability.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e407_leg_input_stability",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e407_leg_input_stability.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 85,
+     "name": "e305_inputs",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e407_leg_input_stability.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 175,
+     "name": "leg_census",
+     "required_args": 3,
+     "returns_a_value": true,
+     "source": "scripts/e407_leg_input_stability.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'dirty_paths')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 425,
+    "name": "dirty_paths",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e412_blob_guard_decision.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e412_blob_guard_decision",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e412_blob_guard_decision.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 425,
+     "name": "dirty_paths",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e412_blob_guard_decision.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'scan')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 335,
+    "name": "scan",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e427_opener_flow.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e427_opener_flow",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e427_opener_flow.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 335,
+     "name": "scan",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e427_opener_flow.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'repo_files')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 99,
+    "name": "repo_files",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e456_import_class.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e456_import_class",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e456_import_class.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 99,
+     "name": "repo_files",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e456_import_class.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'scan_corpus')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 210,
+    "name": "scan_corpus",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e473_producer_spill.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e473_producer_spill",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e473_producer_spill.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 210,
+     "name": "scan_corpus",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e473_producer_spill.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'scan_sources')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 238,
+    "name": "scan_sources",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e492_multi_composer_doctor.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e492_multi_composer_doctor",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e492_multi_composer_doctor.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 238,
+     "name": "scan_sources",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e492_multi_composer_doctor.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": "getattr(mod, 'scan_sources')()",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": true,
+    "kind": "function",
+    "line": 127,
+    "name": "scan_sources",
+    "required_args": 0,
+    "returns_a_value": true,
+    "source": "scripts/e495_doctorpub.py",
+    "walks_the_tree": false
+   },
+   "class": "a_zero_arg_callable_with_a_population_name_under_another_name",
+   "module": "e495_doctorpub",
+   "reader_class": "the_reader_removes_the_bom_before_parsing",
+   "source": "scripts/e495_doctorpub.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": true,
+     "kind": "function",
+     "line": 127,
+     "name": "scan_sources",
+     "required_args": 0,
+     "returns_a_value": true,
+     "source": "scripts/e495_doctorpub.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 1,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e247_era_cell_power",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e247_era_cell_power.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e285_interrange_gap_ceiling",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e285_interrange_gap_ceiling.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e287_supply_ceiling_axes",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e287_supply_ceiling_axes.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e288_below_floor_narrowing",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e288_below_floor_narrowing.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e290_selfauditable_face_profile",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e290_selfauditable_face_profile.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e292_scope_fix_plan",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e292_scope_fix_plan.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e295_supply_gap_closure",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e295_supply_gap_closure.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e299_rounded_vs_tolerance_census",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e299_rounded_vs_tolerance_census.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e300_window_local_margin_census",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e300_window_local_margin_census.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e30_readout",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e30_readout.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e314_clamped_gate_census",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e314_clamped_gate_census.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e315_leg_epsilon_vs_flat_regime",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e315_leg_epsilon_vs_flat_regime.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e316_gate_print_requirements",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e316_gate_print_requirements.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e318_count_named_gate_leaves",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e318_count_named_gate_leaves.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e320_decoy_resolution",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e320_decoy_resolution.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e321_quantity_name_reach",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e321_quantity_name_reach.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e329_two_vintage_binding",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e329_two_vintage_binding.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e334_helper_repair_blast_radius",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e334_helper_repair_blast_radius.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e343_bound_grant_decisions",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e343_bound_grant_decisions.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e344_face_consumer_census",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e344_face_consumer_census.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e345_gate_absence_windows",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e345_gate_absence_windows.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e353_unwritten_guard_presence",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e353_unwritten_guard_presence.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e357_channel_writer_cadence",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e357_channel_writer_cadence.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e371_store_member_cost",
+   "reader_class": "the_reader_removes_the_bom_before_parsing",
+   "source": "scripts/e371_store_member_cost.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e378_store_load_bearing_e350_arm",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e378_store_load_bearing_e350_arm.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e380_ballast_keys_and_readers",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e380_ballast_keys_and_readers.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e382_key_projection_delta",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e382_key_projection_delta.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e384_never_opened_key",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e384_never_opened_key.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e385_merged_key_split",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e385_merged_key_split.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e388_schema_accretion",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e388_schema_accretion.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e397_walk_ambiguity",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e397_walk_ambiguity.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e403_family_arg",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e403_family_arg.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e404_constant_directory_resolution",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e404_constant_directory_resolution.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e405_dead_read_failure_mode",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e405_dead_read_failure_mode.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e409_unfloored_faces",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e409_unfloored_faces.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e416_fresh_aim",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e416_fresh_aim.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e417_shadow_face",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e417_shadow_face.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e418_face_age",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e418_face_age.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e420_corpus_pin_instability",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e420_corpus_pin_instability.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e421_strong_basis_resolution",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e421_strong_basis_resolution.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e422_basename_census_audit",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e422_basename_census_audit.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e433_republication_chain",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e433_republication_chain.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e434_fixture_beyond",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e434_fixture_beyond.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e435_dir_is_a_face",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e435_dir_is_a_face.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e436_double_join",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e436_double_join.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e438_temp_write_base",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e438_temp_write_base.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e439_file_slot_callers",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e439_file_slot_callers.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e440_shared_wrapper_names",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e440_shared_wrapper_names.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e443_bare_call_resolve",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e443_bare_call_resolve.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e445_facehome_target",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e445_facehome_target.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e450_caller_class",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e450_caller_class.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e451_prereg_digest",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e451_prereg_digest.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e452_abandoned_guard",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e452_abandoned_guard.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e453_abandoned_stale",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e453_abandoned_stale.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e455_growth_census",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e455_growth_census.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e457_namecollide",
+   "reader_class": "the_reader_removes_the_bom_before_parsing",
+   "source": "scripts/e457_namecollide.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e458_face_identity",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e458_face_identity.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e459_stdlib_class",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e459_stdlib_class.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e460_facegap",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e460_facegap.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e463_identity_split",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e463_identity_split.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e464_producer_intent",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e464_producer_intent.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e468_pointer_reach",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e468_pointer_reach.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e470_target_read",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e470_target_read.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e471_dead_copy",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e471_dead_copy.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e475_multideclared",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e475_multideclared.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e476_payload_writer",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e476_payload_writer.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e477_vintage_retire",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e477_vintage_retire.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e478_vintage_clock_diff",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e478_vintage_clock_diff.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e480_vintage_date_agree",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e480_vintage_date_agree.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e481_vintage_conclusion",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e481_vintage_conclusion.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e483_leg_debt",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e483_leg_debt.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e484_undated_vintage",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e484_undated_vintage.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e485_vintage_date_lag",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e485_vintage_date_lag.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e488_writer_directory",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e488_writer_directory.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e490_write_helper",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e490_write_helper.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e494_latest_authors",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e494_latest_authors.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e496_twin_mode",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e496_twin_mode.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e498_helperread",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e498_helperread.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e499_helperprice",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e499_helperprice.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e500_strictgap",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e500_strictgap.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e96_level_label_audit",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e96_level_label_audit.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": null,
+   "class": "nothing_in_the_module_names_a_population",
+   "module": "e97_routing",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e97_routing.py",
+   "surface_count": 0,
+   "surfaces": []
+  },
+  {
+   "adapter": "from e361_census_corpus_pin import stamp_sources",
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "from_module": "e361_census_corpus_pin",
+    "imported_name": "stamp",
+    "kind": "imported_symbol",
+    "line": 70,
+    "name": "stamp_sources",
+    "source": "scripts/e365_face_population_pin.py"
+   },
+   "class": "the_corpus_arrives_through_an_import_the_local_def_test_cannot_see",
+   "module": "e365_face_population_pin",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e365_face_population_pin.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "from_module": "e361_census_corpus_pin",
+     "imported_name": "stamp",
+     "kind": "imported_symbol",
+     "line": 70,
+     "name": "stamp_sources",
+     "source": "scripts/e365_face_population_pin.py"
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 166,
+    "name": "census_groups",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e278_spread_floor.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e278_spread_floor",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e278_spread_floor.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 166,
+     "name": "census_groups",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e278_spread_floor.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 196,
+    "name": "census",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e279_substitution_soundness.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e279_substitution_soundness",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e279_substitution_soundness.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 196,
+     "name": "census",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e279_substitution_soundness.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 237,
+     "name": "censused",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e279_substitution_soundness.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 137,
+    "name": "census_face",
+    "required_args": 2,
+    "returns_a_value": true,
+    "source": "scripts/e298_replay_control_census.py",
+    "walks_the_tree": true
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e298_replay_control_census",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e298_replay_control_census.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 137,
+     "name": "census_face",
+     "required_args": 2,
+     "returns_a_value": true,
+     "source": "scripts/e298_replay_control_census.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 101,
+    "name": "scan_key",
+    "required_args": 2,
+    "returns_a_value": true,
+    "source": "scripts/e305_face_level_row_pricing.py",
+    "walks_the_tree": true
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e305_face_level_row_pricing",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e305_face_level_row_pricing.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 101,
+     "name": "scan_key",
+     "required_args": 2,
+     "returns_a_value": true,
+     "source": "scripts/e305_face_level_row_pricing.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 237,
+    "name": "build_census",
+    "required_args": 4,
+    "returns_a_value": true,
+    "source": "scripts/e319_census_self_inclusion_sweep.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e319_census_self_inclusion_sweep",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e319_census_self_inclusion_sweep.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 237,
+     "name": "build_census",
+     "required_args": 4,
+     "returns_a_value": true,
+     "source": "scripts/e319_census_self_inclusion_sweep.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 145,
+    "name": "scan_faces",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e328_quoted_number_staleness.py",
+    "walks_the_tree": true
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e328_quoted_number_staleness",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e328_quoted_number_staleness.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 145,
+     "name": "scan_faces",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e328_quoted_number_staleness.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 156,
+    "name": "scan",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e332_invisible_tail_recovery.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e332_invisible_tail_recovery",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e332_invisible_tail_recovery.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 156,
+     "name": "scan",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e332_invisible_tail_recovery.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 223,
+    "name": "corpus_facts",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e333_surviving_e3xx_conclusions.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e333_surviving_e3xx_conclusions",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e333_surviving_e3xx_conclusions.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 223,
+     "name": "corpus_facts",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e333_surviving_e3xx_conclusions.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 126,
+    "name": "python_files",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e340_who_authorizes_whose_allowance.py",
+    "walks_the_tree": true
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e340_who_authorizes_whose_allowance",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e340_who_authorizes_whose_allowance.py",
+   "surface_count": 3,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 126,
+     "name": "python_files",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e340_who_authorizes_whose_allowance.py",
+     "walks_the_tree": true
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 165,
+     "name": "scan_faces",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e340_who_authorizes_whose_allowance.py",
+     "walks_the_tree": true
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 205,
+     "name": "declared_paths",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e340_who_authorizes_whose_allowance.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 177,
+    "name": "pinned_corpus",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e341_sibling_closer_what_changed.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e341_sibling_closer_what_changed",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e341_sibling_closer_what_changed.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 177,
+     "name": "pinned_corpus",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e341_sibling_closer_what_changed.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 142,
+    "name": "commit_paths",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e342_guard_rewrite_records.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e342_guard_rewrite_records",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e342_guard_rewrite_records.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 142,
+     "name": "commit_paths",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e342_guard_rewrite_records.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 378,
+    "name": "measure_corpus",
+    "required_args": 2,
+    "returns_a_value": true,
+    "source": "scripts/e347_published_number_gate_census.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e347_published_number_gate_census",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e347_published_number_gate_census.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 378,
+     "name": "measure_corpus",
+     "required_args": 2,
+     "returns_a_value": true,
+     "source": "scripts/e347_published_number_gate_census.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 722,
+     "name": "pinned_face_paths",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e347_published_number_gate_census.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 126,
+    "name": "repo_corpus",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e349_latest_mirror_census.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e349_latest_mirror_census",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e349_latest_mirror_census.py",
+   "surface_count": 3,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 126,
+     "name": "repo_corpus",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e349_latest_mirror_census.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 160,
+     "name": "channel_paths",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e349_latest_mirror_census.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 243,
+     "name": "wired_sources",
+     "required_args": 2,
+     "returns_a_value": true,
+     "source": "scripts/e349_latest_mirror_census.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 666,
+    "name": "pin_members",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e350_field_branch_census.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e350_field_branch_census",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e350_field_branch_census.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 666,
+     "name": "pin_members",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e350_field_branch_census.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 104,
+    "name": "resolve_members",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e368_seam_replay.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e368_seam_replay",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e368_seam_replay.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 104,
+     "name": "resolve_members",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e368_seam_replay.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 186,
+    "name": "store_members",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e372_store_the_absent_members.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e372_store_the_absent_members",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e372_store_the_absent_members.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 186,
+     "name": "store_members",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e372_store_the_absent_members.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 94,
+    "name": "store_members",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e374_store_load_bearing_members.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e374_store_load_bearing_members",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e374_store_load_bearing_members.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 94,
+     "name": "store_members",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e374_store_load_bearing_members.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 99,
+     "name": "pin_members",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e374_store_load_bearing_members.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 317,
+    "name": "census",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e377_unresolved_destination.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e377_unresolved_destination",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e377_unresolved_destination.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 317,
+     "name": "census",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e377_unresolved_destination.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 304,
+    "name": "census",
+    "required_args": 2,
+    "returns_a_value": true,
+    "source": "scripts/e379_unkeyed_face_reader.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e379_unkeyed_face_reader",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e379_unkeyed_face_reader.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 304,
+     "name": "census",
+     "required_args": 2,
+     "returns_a_value": true,
+     "source": "scripts/e379_unkeyed_face_reader.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 128,
+    "name": "scan",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e381_component_key_blind_spot.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e381_component_key_blind_spot",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e381_component_key_blind_spot.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 128,
+     "name": "scan",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e381_component_key_blind_spot.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 163,
+     "name": "classify_targets",
+     "required_args": 3,
+     "returns_a_value": true,
+     "source": "scripts/e381_component_key_blind_spot.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 294,
+    "name": "consumer_scan",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e383_shared_key_collision.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e383_shared_key_collision",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e383_shared_key_collision.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 294,
+     "name": "consumer_scan",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e383_shared_key_collision.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 99,
+    "name": "dump_link_targets",
+    "required_args": 2,
+    "returns_a_value": true,
+    "source": "scripts/e396_last_tick.py",
+    "walks_the_tree": true
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e396_last_tick",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e396_last_tick.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 99,
+     "name": "dump_link_targets",
+     "required_args": 2,
+     "returns_a_value": true,
+     "source": "scripts/e396_last_tick.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 434,
+    "name": "scan_sources",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e402_fragment_producers.py",
+    "walks_the_tree": true
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e402_fragment_producers",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e402_fragment_producers.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 434,
+     "name": "scan_sources",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e402_fragment_producers.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 146,
+    "name": "census_modules",
+    "required_args": 2,
+    "returns_a_value": true,
+    "source": "scripts/e406_blob_vs_tree_readers.py",
+    "walks_the_tree": true
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e406_blob_vs_tree_readers",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e406_blob_vs_tree_readers.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 146,
+     "name": "census_modules",
+     "required_args": 2,
+     "returns_a_value": true,
+     "source": "scripts/e406_blob_vs_tree_readers.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 242,
+    "name": "scan_pointer_families",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e414_unsupplied_read.py",
+    "walks_the_tree": true
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e414_unsupplied_read",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e414_unsupplied_read.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 242,
+     "name": "scan_pointer_families",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e414_unsupplied_read.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 97,
+    "name": "members_of",
+    "required_args": 4,
+    "returns_a_value": true,
+    "source": "scripts/e441_facehome_family.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e441_facehome_family",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e441_facehome_family.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 97,
+     "name": "members_of",
+     "required_args": 4,
+     "returns_a_value": true,
+     "source": "scripts/e441_facehome_family.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 209,
+    "name": "module_class_census",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e444_attr_method.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e444_attr_method",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e444_attr_method.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 209,
+     "name": "module_class_census",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e444_attr_method.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 115,
+    "name": "read_census",
+    "required_args": 2,
+    "returns_a_value": true,
+    "source": "scripts/e462_identity_dialect.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e462_identity_dialect",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e462_identity_dialect.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 115,
+     "name": "read_census",
+     "required_args": 2,
+     "returns_a_value": true,
+     "source": "scripts/e462_identity_dialect.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 232,
+    "name": "registry_corpus",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e469_face_producer_edge.py",
+    "walks_the_tree": true
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e469_face_producer_edge",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e469_face_producer_edge.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 232,
+     "name": "registry_corpus",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e469_face_producer_edge.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 253,
+    "name": "scan_sites",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e472_vintage_read.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e472_vintage_read",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e472_vintage_read.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 253,
+     "name": "scan_sites",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e472_vintage_read.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 284,
+    "name": "reader_census",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e474_identity_dialect_census.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e474_identity_dialect_census",
+   "reader_class": "the_study_never_parses_source_text",
+   "source": "scripts/e474_identity_dialect_census.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 284,
+     "name": "reader_census",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e474_identity_dialect_census.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 87,
+    "name": "declaring_sources",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e475_multideclared_ids.py",
+    "walks_the_tree": true
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e475_multideclared_ids",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e475_multideclared_ids.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 87,
+     "name": "declaring_sources",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e475_multideclared_ids.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 253,
+    "name": "producer_sources",
+    "required_args": 2,
+    "returns_a_value": true,
+    "source": "scripts/e479_twin_read.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e479_twin_read",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e479_twin_read.py",
+   "surface_count": 2,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 253,
+     "name": "producer_sources",
+     "required_args": 2,
+     "returns_a_value": true,
+     "source": "scripts/e479_twin_read.py",
+     "walks_the_tree": false
+    },
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 375,
+     "name": "scan",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e479_twin_read.py",
+     "walks_the_tree": true
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 293,
+    "name": "write_call_paths",
+    "required_args": 3,
+    "returns_a_value": true,
+    "source": "scripts/e489_write_wire.py",
+    "walks_the_tree": false
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e489_write_wire",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e489_write_wire.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 293,
+     "name": "write_call_paths",
+     "required_args": 3,
+     "returns_a_value": true,
+     "source": "scripts/e489_write_wire.py",
+     "walks_the_tree": false
+    }
+   ]
+  },
+  {
+   "adapter": null,
+   "build_found": true,
+   "build_required_args": 0,
+   "chosen_surface": {
+    "callable_with_no_arguments": false,
+    "kind": "function",
+    "line": 153,
+    "name": "scan_harness",
+    "required_args": 1,
+    "returns_a_value": true,
+    "source": "scripts/e493_latest_copy_owner.py",
+    "walks_the_tree": true
+   },
+   "class": "the_only_surface_that_names_a_population_requires_caller_arguments",
+   "module": "e493_latest_copy_owner",
+   "reader_class": "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse",
+   "source": "scripts/e493_latest_copy_owner.py",
+   "surface_count": 1,
+   "surfaces": [
+    {
+     "callable_with_no_arguments": false,
+     "kind": "function",
+     "line": 153,
+     "name": "scan_harness",
+     "required_args": 1,
+     "returns_a_value": true,
+     "source": "scripts/e493_latest_copy_owner.py",
+     "walks_the_tree": true
+    }
+   ]
+  }
+ ],
+ "study": "E505_unmeasured_reach",
+ "summary": {
+  "adapters_published": 63,
+  "build_needs_arguments": 1,
+  "build_zero_arg": 178,
+  "by_class": {
+   "a_module_constant_computing_a_list_of_names_the_population_is_built_from_at_import": 3,
+   "a_module_constant_holding_a_list_of_names_the_population_is_built_from": 10,
+   "a_zero_arg_callable_that_walks_the_tree_under_another_name": 25,
+   "a_zero_arg_callable_with_a_population_name_under_another_name": 24,
+   "nothing_in_the_module_names_a_population": 82,
+   "the_corpus_arrives_through_an_import_the_local_def_test_cannot_see": 1,
+   "the_only_surface_that_names_a_population_requires_caller_arguments": 35
+  },
+  "by_reader_class": {
+   "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse": 75,
+   "the_reader_removes_the_bom_before_parsing": 8,
+   "the_study_never_parses_source_text": 97
+  },
+  "cross_tab": {
+   "a_module_constant_computing_a_list_of_names_the_population_is_built_from_at_import|the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse": 1,
+   "a_module_constant_computing_a_list_of_names_the_population_is_built_from_at_import|the_study_never_parses_source_text": 2,
+   "a_module_constant_holding_a_list_of_names_the_population_is_built_from|the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse": 1,
+   "a_module_constant_holding_a_list_of_names_the_population_is_built_from|the_reader_removes_the_bom_before_parsing": 3,
+   "a_module_constant_holding_a_list_of_names_the_population_is_built_from|the_study_never_parses_source_text": 6,
+   "a_zero_arg_callable_that_walks_the_tree_under_another_name|the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse": 16,
+   "a_zero_arg_callable_that_walks_the_tree_under_another_name|the_reader_removes_the_bom_before_parsing": 1,
+   "a_zero_arg_callable_that_walks_the_tree_under_another_name|the_study_never_parses_source_text": 8,
+   "a_zero_arg_callable_with_a_population_name_under_another_name|the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse": 10,
+   "a_zero_arg_callable_with_a_population_name_under_another_name|the_reader_removes_the_bom_before_parsing": 2,
+   "a_zero_arg_callable_with_a_population_name_under_another_name|the_study_never_parses_source_text": 12,
+   "nothing_in_the_module_names_a_population|the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse": 31,
+   "nothing_in_the_module_names_a_population|the_reader_removes_the_bom_before_parsing": 2,
+   "nothing_in_the_module_names_a_population|the_study_never_parses_source_text": 49,
+   "the_corpus_arrives_through_an_import_the_local_def_test_cannot_see|the_study_never_parses_source_text": 1,
+   "the_only_surface_that_names_a_population_requires_caller_arguments|the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse": 16,
+   "the_only_surface_that_names_a_population_requires_caller_arguments|the_study_never_parses_source_text": 19
+  },
+  "evidence_cutoff": "2026-11-07",
+  "names_nothing": 82,
+  "needs_caller_arguments": 35,
+  "population": 180,
+  "population_declared_by_upstream": 183,
+  "readable_by_a_one_line_adapter": 63,
+  "unreadable": 3,
+  "unreadable_bom_prefixed": 3,
+  "upstream_reader_class_counts": {
+   "the_reader_parses_the_text_as_it_is_read_so_a_bom_source_cannot_parse": 83,
+   "the_reader_removes_the_bom_before_parsing": 11,
+   "the_study_never_parses_source_text": 107
+  }
+ },
+ "title": "Of the studies E502 could not price for want of a zero-argument corpus(), what does each module actually expose, and could a one-line adapter read it?",
+ "unreadable": [
+  {
+   "module": "e308_leg_vs_producer_tolerance",
+   "source": "scripts/e308_leg_vs_producer_tolerance.py",
+   "why": "syntax error: invalid non-printable character U+FEFF (<unknown>, line 1)"
+  },
+  {
+   "module": "e387_republish_audit",
+   "source": "scripts/e387_republish_audit.py",
+   "why": "syntax error: invalid non-printable character U+FEFF (<unknown>, line 1)"
+  },
+  {
+   "module": "e394_phantom_why",
+   "source": "scripts/e394_phantom_why.py",
+   "why": "syntax error: invalid non-printable character U+FEFF (<unknown>, line 1)"
+  }
+ ],
+ "verdict": "the_unmeasured_bucket_splits_between_a_naming_convention_and_a_genuinely_absent_surface",
+ "verdict_vocab": [
+  "the_unmeasured_bucket_is_mostly_a_naming_convention_the_members_exist_under_another_name",
+  "the_unmeasured_bucket_is_mostly_surfaces_that_need_arguments_so_no_adapter_can_call_them",
+  "the_unmeasured_bucket_is_mostly_studies_that_never_name_a_population_at_all",
+  "the_unmeasured_bucket_splits_between_a_naming_convention_and_a_genuinely_absent_surface"
+ ]
+}
