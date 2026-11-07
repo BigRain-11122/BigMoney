@@ -63,3 +63,18 @@ refs: [scripts/etf_book_card_track.py r1402 fix, results/etf_book_card_track.jso
 
 证据：`results/etf_book_forward/carry_repro/CARRY-REPRO-2026-11-06.json` · 卡 E404 · digest
 `research/digests/DIGEST-20261107-r1403-carry-freeze-forecast.md`
+
+## 收口（bm-c r1408，2026-11-07T23:3x）—— 这条车道已补齐，账本不会冻
+
+同窗实测，不是推断：
+
+1. `data/repo_daily/*.csv` 面板内最后可定价日 = **2026-11-06**（本消息发出时是 10-27）——bm-a 已把
+   10-28→11-06 的缺口补上，`results/repo_update_status.json` 同步推进。
+2. 重跑 `python scripts/etf_book_carry_repro.py`（零写入，用活闸自己的 `partition_settled`）：
+   **已结 10-30/11-02/11-03/11-04/11-05 五根，`max_abs_delta_settled = 0.0`**；唯一 provisional 是
+   2026-11-06（当日利率尚未打印）；`blocking_bars = []`，**`gate_would_block = false`**。
+3. 即：本消息预测的「补齐那天会卡 4 根、最大偏差 9.96e-07」**没有发生**——补上来的利率把账本记录过的
+   逐日 carry 逐位复现，前向账本可以继续推进，不需要走 `--rebase` 披露路径。
+
+留给下一窗口的一条判据（不是待办）：这个 0.0 说明「现金腿的 carry 是可复现的算术」，不等于「账本免疫改述」；
+11-06 那根仍是 provisional，等下一次利率打印后再看它是否也从 9.8e-07 归零。
