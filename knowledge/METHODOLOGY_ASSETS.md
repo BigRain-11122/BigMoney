@@ -12678,3 +12678,19 @@ cause_verdict=`the_one_day_cases_split_between_structured_fields_and_free_text`�
 **边界**：比较用「最近的那个日期」，多日期的 payload 会被压缩成一个代表值（全集逐行发布）。散文层与结构化层同权参与「最近日期」的选择，但层名一定在行里；payload 里日期字段叫 `run_at`/`written` 之类的写法读成不可比较（不判负）。写者证据是源级近似（字面量 + 两行内写动词），跨模块 helper 拼名看不见——所以 `write_context=0` 的正确读法是「没有源在写上下文里点它的名」，不是「没有写者」。
 
 **验证**：`scripts/e485_vintage_date_lag.py`（`run` rc0 / `check` problems=[] / `verify` problems=[] 重建恒等 / **selftest 47/47**：12 个文件类、8 个见证/层读、4 个日期助手、5 个 verdict 分支、4 个 cause 分支、2 个写者信号、12 个篡改面各 1 腿红）；产物 `results/state_tilt/DATELAG-2026-11-07.json` + `datelag_latest.json`（571 行，逐行带类/见证字段/层/跨度位置/写者证据）；S6 腿 `vintage_date_lag` rc0 0.05s（receipt `results/_r1529bmb_s6_chain.json`）；smoke 腿 `E485 ...` 原文单跑 1/1 绿、doctored 1/1 红（sha 还原 f867d012e811）；digest `research/digests/DIGEST-20261107-r1529-e485-vintage-date-lag.md`。
+
+## E502 -- BOM 源被静默丢掉的代价：7 个可重放的研究里 3 个载荷会变（56 个字段位），而 83 个读者按原文解析、只有 11 个会剥 BOM（r1531 bm-b）
+
+**问题**：E495 披露了它与 E491/E492 共享的语料里有 9 个源以 UTF-8 BOM 开头，其中一个（`scripts/e429_two_hop_writer.py`）会让 `ast.parse` 直接抛错，即那个源在**所有复用同一读取器的普查里贡献为零**。E495 只给自己那张面剥了 BOM，把语料其余部分留成未定价：到底有多少已发布的普查行是建在一个悄悄少了 9 个文件的语料上的？
+
+**方法**：全静态、零网络，四臂。①**BOM 普查**——共享正典扫描（364 源）里 9 个带 BOM；全树扫描 215 个带 BOM，其中 **206 个在正典扫描之外**（逐研究 corpus 走的文件比正典多）。②**读者普查**——201 个定义了 `build()` 的模块按源文本分类：**83 个照原文解析**（BOM 源必然解析失败）、11 个解析前剥 BOM、107 个根本不解析源码文本。③**暴露面**——只有暴露零参 `corpus()` 的研究才可能被 BOM 源伤到：9 个语料内有 BOM 源、9 个没有、**183 个无法测量**（记 `unmeasured`，不记 safe）。④**重放**——对 7 个已暴露研究在子进程里各跑两臂（原文 / 剥 BOM 后），结构化 diff 两个载荷；重放中的每一次写盘都先备份、事后按文件逐个还原并断言。
+
+**读数**（2026-11-07，预算 900s）：7 个重放里 **3 个载荷变化，共 56 个字段位**——`e442_deadpath`（40 位，行数 17797→17978）、`e429_two_hop_writer`（15 位，`caller_hits 37→38`）、`e432_fixture_write`（1 位）；4 个不变（e419 / e423 / e448 / e467）。**5 个研究照原文解析、语料内确有 BOM 源、且载荷从不点名解析失败的源**（e419 / e423 / e432 / e442 / e448）＝真「静默丢失」面。重放里有 1 个研究（e467_docstringcard）真的写了盘，两个文件按原字节还原，**还原失败 0**。判决由闸从 rows 重算：`at_least_one_published_payload_moves_when_the_bom_sources_parse`。
+
+**最关键的一条：预算是仪器的一部分，它会替你决定答案。** 同一份代码在 240s 预算下把 `e429_two_hop_writer` 判成 `timeout after 240s`（不可测），于是读数变成「2 个研究变化 / 41 位」；实测该研究两臂耗时 **231.9s / 237.0s，正好是旧预算的 99%**。预算改到 900s 后同一研究给出「变化 / 15 位」，读数变回「3 个研究 / 56 位」。所以：**任何带超时的重放，超时必须作为独立类发布（timeout≠这项研究不可重放），预算必须取实测最慢臂的数倍，且预算值必须写进产物**；否则换个负载就换个结论，而两次运行看起来都「通过」。
+
+**可复用四条**：1. **先说「这个研究根本读不到那个文件」，再说「读到会怎样」**——201 个研究里 183 个暴露不出零参 corpus，把它们记成 safe 就是把边界冒充成结论（本研记 `unmeasured`）；2. **剥 BOM 的读者不等于免疫**——11 个剥 BOM 的研究里 `e429_two_hop_writer` 照样变（剥了之后一个原本解析不了的源突然出现，`caller_hits` 37→38）；「已经处理过这个输入」和「结论不受这个输入影响」是两件事；3. **披露要能点出被丢的源，不是把它丢掉就算处理**——83 个读者静默、只有 11 个剥 BOM，而「静默 vs 已披露」的判据是载荷里有没有一个可读字段点出解析失败的源（`sources.do_not_parse` 这类）；4. **重放必须自己保证可还原**——本研 1 个研究在重放中写了 2 个面，逐文件 `removed`/`rewritten` 还原并断言，**还原失败进闸**（E493 族）。
+
+**边界**：②臂按源文本分类而不是跑一遍；diff 是结构化的（点号路径），所以**元素相同但顺序不同会读成变化**，且 diff 截断在 40 行；③臂只能测零参 `corpus()`，需要参数的语料如实记不可测；全树 BOM 比正典多 206 个，逐研究语料看得比正典宽，两个人口都发布。
+
+**验证**：`scripts/e502_bom_census.py`（`run` rc0 / `check` problems=[] / `verify` 重建恒等 / **selftest 24/24**）；产物 `results/state_tilt/BOMCENSUS-2026-11-07.json` + `bomcensus_latest.json`（逐行带 reader_class / exposure / replay / 变化键 / 还原动作；`population_source` 三块与 `replay_budget` 含被取代的 240s 读数）；S6 腿 `bom_census`；smoke 腿 `E502 ...` + `scripts/run_e502_smoke_leg.py`。

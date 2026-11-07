@@ -1748,6 +1748,14 @@ LEGS = [
     # the sources that name it.  `check` re-derives every class, the tier and span histograms,
     # the one-day case list and both verdicts from the published rows.
     ("vintage_date_lag", ["python", "scripts/e485_vintage_date_lag.py", "check"]),
+    # E502 takes the nine sources E495 disclosed as UTF-8-with-BOM and prices what the rest of
+    # the census body did with them: every E-series study that defines build() is graded by its
+    # reader (strips the BOM / parses it raw / never parses), by whether its published payload
+    # names a source it could not parse, and -- for the studies whose own corpus holds a BOM
+    # source -- by a two-arm replay of build() with the BOM kept and stripped, every write
+    # backed up and restored.  `check` re-derives the reader/exposure/replay censuses, the
+    # at-risk module list and both verdicts from the published rows.
+    ("bom_census", ["python", "scripts/e502_bom_census.py", "check"]),
     # E481 takes up E478's residue: a vintage that differs from its twin beyond the frozen clock
     # names is only expensive to keep if it also reaches a different conclusion.  `check` re-derives
     # every class, byte tally, scalar-arm count, arm cross-tab and the vocabulary histogram from the

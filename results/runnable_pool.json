@@ -28844,9 +28844,13 @@
    "lane_note": "static: re-run the published censuses with BOM stripping on/off, no network",
    "priority": "normal",
    "source": "E495 (r1527 bm-b): 9 scanned sources start with a UTF-8 BOM and one of them (scripts/e429_two_hop_writer.py) made ast.parse raise, so that source contributed nothing to every census that reused the same parse. The BOM was only priced for one face",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/bomcensus_latest.json",
-   "title": "Which published census rows change when the 9 BOM-prefixed sources are parsed with the BOM stripped -- i.e. how much of the existing census body was built with a subset of the corpus and never disclosed it?"
+   "title": "Which published census rows change when the 9 BOM-prefixed sources are parsed with the BOM stripped -- i.e. how much of the existing census body was built with a subset of the corpus and never disclosed it?",
+   "done_at": "2026-11-07T18:25:20+08:00",
+   "done_by": "bm-b r1531",
+   "result_ref": "results/state_tilt/BOMCENSUS-2026-11-07.json",
+   "done_note": "7 exposed studies replayed twice (raw / BOM stripped): 3 payloads move over 56 field positions (e442_deadpath 40, e429_two_hop_writer 15, e432_fixture_write 1), 4 unchanged; 5 studies parse raw with a BOM source in their corpus and name nothing (e419/e423/e432/e442/e448); 183 of 201 studies are unmeasured because they expose no zero-argument corpus(); 206 BOM sources sit outside the canonical scan; 1 replay wrote 2 files, both restored, 0 restore failures. The replay budget decided the reading: 240s priced e429 as timeout (2 changed / 41 rows) while its measured arms cost 231.9s/237.0s, so the budget is now 900s and both readings are published in the face."
   },
   {
    "deliverable": "results/state_tilt/CHAINSTALE-<cutoff>.json",
@@ -28875,6 +28879,20 @@
    "status": "ready",
    "target": "results/state_tilt/namecompose_latest.json",
    "title": "E485 found the two one-day lags have no source that names the file in a write context: the basename is composed by round scripts from a date variable, so the literal never appears in a write statement. Read the composing expression in those scripts (_r1509_pool_update.py / _r1509_report_row.py and their siblings) and answer: which date symbol forms the name -- the run day or the payload's own evidence_cutoff -- and is the same pattern used for the 124 compact-named members? Publish, per naming site, the composed expression, the date symbol it binds and whether that symbol is derived from a clock read or from the payload, so a name-based retention rule can know whether a name tracks the write day or the data day before it decides a file is misnamed."
+  },
+  {
+   "id": "E505-HOW-MANY-OF-THE-183-UNMEASURED-STUDIES-ARE-ACTUALLY-UNMEASURABLE",
+   "title": "E502 could not price 183 of 201 studies because they expose no zero-argument corpus(), so membership of the nine BOM sources in their corpus is unmeasured. Read what each of those modules actually exposes: a corpus function under another name (corpus_dir / sources / _corpus(args=None)), a module-level constant that already holds the member list, or nothing at all. Publish, per study, the callable or constant that would make it measurable and whether it can be called with no arguments, so the unmeasured bucket stops being one opaque number.",
+   "deliverable": "results/state_tilt/UNMEASUREDREACH-<cutoff>.json",
+   "target": "results/state_tilt/unmeasuredreach_latest.json",
+   "evidence_cutoff": "2026-11-07",
+   "lane": "cpu-only",
+   "lane_note": "static: read each module's own corpus surface, no network, no rewrites",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E502 (r1531 bm-b): 183 of 201 studies with build() are published as unmeasured because they expose no zero-argument corpus(); that bucket is larger than every priced arm combined and nobody has asked whether it is a property of the studies or of the convention the instrument looks for",
+   "entered_at": "2026-11-07T18:25:20+08:00",
+   "entered_by": "bm-b r1531 (supply floor refill after E502)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

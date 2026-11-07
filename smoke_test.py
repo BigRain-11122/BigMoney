@@ -19123,6 +19123,88 @@ except Exception as _e485x:
     _d485 = "leg could not run"
 check(_name485, not _bad485, "; ".join(_bad485)[:240] or _d485)
 
+# E502 (r1530 bm-b): E495 disclosed nine UTF-8-with-BOM sources and stripped the BOM for its own
+# face only.  This leg holds that the BOM census, the reader census, the exposure census, the
+# replay census and the at-risk module list all re-derive from the published rows, that the
+# verdict is the one the rows imply, that every changed row carries the keys that moved, that no
+# replay failed to restore a file it wrote, and that the canonical BOM list is the count the
+# summary publishes -- plus three doctored copies (a moved reader count, a changed row with no
+# changed key, and a restore failure).
+_name502 = ("E502 the BOM census re-derives its reader/exposure/replay arms, its "
+            "population_source and its verdict from the published rows (r1530 bm-b, "
+            "extended r1531)")
+_bad502 = []
+try:
+    _m502 = __import__("importlib").import_module("e502_bom_census")
+    _f502 = json.load(open(os.path.join("results", "state_tilt", "bomcensus_latest.json"),
+                           encoding="utf-8"))
+    _s502 = _f502.get("summary") or {}
+    _r502 = _f502.get("rows") or []
+    _bad502.extend(_m502.row_problems(_f502))
+    if not _r502:
+        _bad502.append("the study population is empty")
+    _cen502 = _f502.get("bom_census") or {}
+    if len(_cen502.get("canonical_bom") or []) != _s502.get("canonical_bom_sources"):
+        _bad502.append("the canonical BOM list is not the count the summary publishes")
+    if _f502.get("verdict") != _m502._verdict(
+            _m502.summary_of(_r502, {
+                "canonical_sources": _s502.get("canonical_sources"),
+                "canonical_bom": _cen502.get("canonical_bom") or [],
+                "tree_bom": _cen502.get("tree_bom") or [],
+                "bom_outside_the_canonical_scan": _cen502.get("bom_outside_the_canonical_scan")
+                or []})):
+        _bad502.append("the verdict is not the one the rows imply")
+    if _s502.get("restores_that_failed"):
+        _bad502.append("a replay left a file it wrote unrestored")
+    for _row in _r502:
+        if _row.get("replay") == _m502.P_CHANGED and not _row.get("changed_keys"):
+            _bad502.append("a changed row carries no changed key")
+            break
+        if _row.get("exposure") == _m502.X_IN_CORPUS and not _row.get("bom_members_in_corpus"):
+            _bad502.append("a row claims a BOM member in its corpus without naming one")
+            break
+    _w502 = json.loads(json.dumps(_f502))
+    _k502 = next(iter(_w502["summary"]["reader_class_counts"]), None)
+    _w502["summary"]["reader_class_counts"][_k502] = (
+        (_w502["summary"]["reader_class_counts"].get(_k502) or 0) + 1)
+    if not _m502.row_problems(_w502):
+        _bad502.append("a doctored reader count survived the guard")
+    _w502b = json.loads(json.dumps(_f502))
+    _ch502 = next((r for r in _w502b["rows"] if r.get("replay") == _m502.P_CHANGED), None)
+    if _ch502 is None:
+        _w502b["rows"][0]["replay"] = _m502.P_CHANGED
+        _w502b["rows"][0]["changed_keys"] = []
+    else:
+        _ch502["changed_keys"] = []
+    if not _m502.row_problems(_w502b):
+        _bad502.append("a changed row with no changed key survived the guard")
+    _w502c = json.loads(json.dumps(_f502))
+    _w502c["rows"][0]["restore_actions"] = [{"path": "x", "action": "restore_failed: x"}]
+    if not _m502.row_problems(_w502c):
+        _bad502.append("a failed restore survived the guard")
+    _w502d = json.loads(json.dumps(_f502))
+    _pop502 = _w502d.get("population_source") or {}
+    _blk502 = next((b for b in _pop502 if isinstance(_pop502.get(b), dict)
+                    and "sources" in _pop502[b]), None)
+    if _blk502 is None:
+        _bad502.append("the face publishes no population_source block to doctor")
+    else:
+        _pop502[_blk502]["sources"] = (_pop502[_blk502].get("sources") or 0) + 1
+        if not _m502.row_problems(_w502d):
+            _bad502.append("a carried population_source survived the guard")
+    _d502 = ("canonical %d sources / %d BOM, tree %d / %d BOM; %d studies with build(); readers "
+             "%r; exposure %r; replays %r; changed payloads %d over %d rows; at risk %r" % (
+                 _s502.get("canonical_sources") or 0, _s502.get("canonical_bom_sources") or 0,
+                 _cen502.get("tree_sources") or 0, _s502.get("tree_bom_sources") or 0,
+                 _s502.get("studies_with_build") or 0, _s502.get("reader_class_counts"),
+                 _s502.get("exposure_counts"), _s502.get("replay_counts"),
+                 _s502.get("studies_whose_payload_changed") or 0,
+                 _s502.get("rows_changed_total") or 0, _s502.get("at_risk_modules")))
+except Exception as _e502x:
+    _bad502.append(repr(_e502x)[:160])
+    _d502 = "leg could not run"
+check(_name502, not _bad502, "; ".join(_bad502)[:240] or _d502)
+
 # E481 (r1510 bm-b): E478 charged a vintage for any difference beyond the clock names, but never
 # asked whether the two files reach the same conclusion.  This leg holds that every class, byte
 # tally, scalar-arm count, cross-tab and vocabulary histogram re-derives from the published rows,
