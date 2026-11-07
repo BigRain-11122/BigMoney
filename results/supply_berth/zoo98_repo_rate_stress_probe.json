@@ -1,0 +1,127 @@
+{
+ "artifact": "zoo98_repo_rate_stress supply berth probe",
+ "batch": "SUPPLY_BERTH_SLOT_14_CANDIDATE",
+ "construct": {
+  "allocation": "tight -> 0%% equity, else 100%% equity (no partial sizing)",
+  "confirm_bars": 2,
+  "cost_per_side": 0.0013041,
+  "execution": "decided on the close of bar t, held from bar t+1",
+  "legs": {
+   "cash": "511260",
+   "equity": "510300"
+  },
+  "quantile": 0.9,
+  "rate_column": "close (annualised %, GC001 exchange close)",
+  "rate_panel": "data/repo_daily/GC001.csv",
+  "state": "pct_rank(close_t within trailing 252 bars) >= 0.90 for 2 consecutive bars -> tight",
+  "turnover_convention": "sum |dw| over both legs (a switch = 2.0)",
+  "window": 252
+ },
+ "evidence_cutoff": "2026-11-06",
+ "family": "zoo98_repo_rate_stress",
+ "honest": [
+  "probe only: one construct, one frozen parameter set, no grid -- a positive here buys a frozen prereg and a proper judge, not a claim that the gate makes money",
+  "GC001's close is quoted annualised and is not the rate any particular position pays; a funding-stress level is a proxy for the price of leverage, not the price of our position",
+  "the rate panel starts 2011 but the equity leg starts 2020, so the probe only ever sees the recent shape of the funding cycle",
+  "the cash leg is an investable treasury ETF with its own positive return, so part of any excess is bond carry rather than timing",
+  "the circular null conserves the equity share, so a rule that is simply out of the market most of the time cannot win on share alone",
+  "the rate series is reindexed onto the equity calendar with a forward fill: a holiday carries the previous level, never a fabricated new one"
+ ],
+ "machine": "bm-c",
+ "null": {
+  "k": 200,
+  "mean": -0.01887505200472082,
+  "method": "circular phase rotation of the equity-weight series (conserves equity share and persistence)",
+  "p_floor": 0.004975124378109453,
+  "p_two_sided": 0.8955223880597015,
+  "sd": 0.014788454995966663,
+  "seed": 20981007
+ },
+ "panel": {
+  "bars": 1650,
+  "first_bar": "2020-01-02",
+  "last_bar": "2026-10-27",
+  "n_members": 48,
+  "rate_first_bar": "2011-05-13",
+  "rate_last_bar": "2026-10-27"
+ },
+ "per_year": {
+  "2021": {
+   "bars": 234,
+   "benchmark": -0.09651813097600659,
+   "excess": -0.003759090056326908,
+   "net": -0.1002772210323335
+  },
+  "2022": {
+   "bars": 242,
+   "benchmark": -0.21365814696485674,
+   "excess": 0.0027481311561707855,
+   "net": -0.21091001580868596
+  },
+  "2023": {
+   "bars": 242,
+   "benchmark": -0.11147790756729359,
+   "excess": -0.08691047763927895,
+   "net": -0.19838838520657254
+  },
+  "2024": {
+   "bars": 242,
+   "benchmark": 0.1494712775078586,
+   "excess": 0.09334635319918605,
+   "net": 0.24281763070704465
+  },
+  "2025": {
+   "bars": 243,
+   "benchmark": 0.18175037294878105,
+   "excess": 0.0002766996161027713,
+   "net": 0.18202707256488382
+  },
+  "2026": {
+   "bars": 195,
+   "benchmark": -0.13254786450662825,
+   "excess": 0.0,
+   "net": -0.13254786450662825
+  }
+ },
+ "summary": {
+  "bars": 1398,
+  "buyhold_cagr": -0.05195004081088073,
+  "buyhold_maxdd": -0.45100740485620816,
+  "buyhold_sharpe": -0.20239362381317746,
+  "cash_only_cagr": 0.03690966146525665,
+  "cash_only_maxdd": -0.024901780367758142,
+  "cost_drag_per_year": 0.024917824892703867,
+  "equity_share": 0.9656652360515021,
+  "excess_cagr_net": -0.0043142253447566725,
+  "first_bar": "2021-01-15",
+  "last_bar": "2026-10-27",
+  "maxdd_delta": -0.06596540156330921,
+  "rate_bars_in_window": 1398,
+  "switches": 53,
+  "tight_bars": 48,
+  "tight_share": 0.034334763948497854,
+  "timing_cagr": -0.0562642661556374,
+  "timing_maxdd": -0.5169728064195174,
+  "timing_sharpe": -0.23988606200401166,
+  "turnover_per_year": 19.107296137339056
+ },
+ "ts": "2026-11-07T10:01:09+0800",
+ "verdict_block": {
+  "conditions": {
+   "beats_null": false,
+   "drawdown_improves": false,
+   "enough_bars": true,
+   "net_excess_positive": false,
+   "turnover_sane": true
+  },
+  "note": "supply verdict only: it decides whether this family earns a frozen prereg + judge, never what the judge will find",
+  "thresholds": {
+   "dd_must_improve": true,
+   "max_p": 0.05,
+   "max_turnover_per_year": 24.0,
+   "min_bars": 750,
+   "min_excess": 0.0
+  },
+  "verdict": "REFUSE_AS_CANDIDATE"
+ }
+}

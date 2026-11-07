@@ -425,6 +425,16 @@ def main() -> int:
             # The last leg keeps an impossible turnover from making a weight negative.
             ("product: disposition CGO supply probe (exit-code contract)",
              "scripts/zoo93_disposition_cgo_probe.py", ["--selftest"]),
+            # r1394: the supply berth leaves the price/chips axis for the MONEY axis -- the
+            # exchange repo rate's own trailing percentile as a funding-stress gate (zoo #98).
+            # Its legs pin the three ways a percentile gate lies: a later bar must never move an
+            # earlier rank, a flat rate must not read as stress (ties sit at the average rank,
+            # 0.525, which is why the naive "newest of a rising window = 1.0" reading is wrong),
+            # and one bar of quarter-end noise must not act (confirmation is consecutive bars,
+            # and a no-reading gap breaks the run instead of continuing it). The last leg keeps
+            # the evaluated window inside the bars the rate archive actually measured.
+            ("product: repo rate stress supply probe (exit-code contract)",
+             "scripts/zoo98_repo_rate_stress_probe.py", ["--selftest"]),
             # r1393: the D-19 watermark gate itself, priced because the live defect was a
             # watermark stored in DISPLAY form (a bare 16-hex prefix). The gate read that as
             # "no previous watermark" and re-consumed the whole decisions ledger every round
