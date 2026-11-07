@@ -12833,3 +12833,13 @@ cause_verdict=`the_one_day_cases_split_between_structured_fields_and_free_text`�
 
 **验证**：`scripts/e508_caller_supplied_population.py`（`run` rc0 / `check` problems=[] / `verify` 重建 problems=[] / **selftest 18/18**）+ `results/state_tilt/CALLERSUPPLIED-2026-11-07.json` 与 `callersupplied_latest.json`（35 面 / 119 站点，双胞胎逐字节相等）+ S6 leg `caller_supplied` rc0 0.06s（receipt `results/_r1538bmb_s6_chain.json`）+ smoke leg `# E508` 原文单独执行 1/1 绿（`_r1538_leg508.py`）+ digest `research/digests/DIGEST-20261107-r1538-e508-caller-supplied-population.md`。未跑：全量 smoke 套件、其余 S6 链腿、采集器族（不宣称）。
 
+
+## E509 — "未列入目录的日期字段"是时效见证还是常量：只能用同一面的另一个版本去量（r1539 bm-b）
+
+E506 把 16 张面归入"日期写在见证词表之外的字段名下"时，量的是**名字**：`report_date` 与 `inception` 同档，但一个是建面那天、另一个是 `2024-01-01` 写死的常量。雾区只能用反事实回答：面被重建时这个值动不动。两臂并存：①**版本臂**读同一面的其他版本（盘上同名日期件/归档副本 166 个读点 + 同一路径 git 历史 63 个读点，20 对共 249 个读点）；②**写入臂**只看同时点名了这张面的源码里的字典字面量/下标赋值（未点名面的字面量只计数不归因）。每个读点与**该面自身其他最新日期**相比，差天数直接入面。
+
+读数：16 面 / 20 对 / 8 个字段名，249 读点。严格时效见证 **仅 1 对**（`regime_gate_dualarm` 的 `asof`，四次读点均 0 天落后）；部分见证 5 对；自己走自己的钟 1 对（`market_clock` 顶层 `asof` 是 bar 日，面里还有更新的 `regime_v3.asof`）；**常量 13 对**（其中 3 对在面被重建后仍一动不动）。**10 张面（18,198/72,500 字节 = 25%）的未列入日期没有一个能证明它新不新**。典型陷阱：`etf_composite_live/state.json` 的 `inception` 恰等于 `last_bar`，**只有一个版本时它会被读成见证**，第二个版本证实它从来没动。卡上写 17，树上重导出 20 对/16 面，两个数都发布。
+
+**窗内两个自踩**：①字段名全树匹配会把 14/20 对错读成"字面量常量"（某个一次性研究里的 `"asof": "2026-10-29"` 不关这张面的事）——写入臂必须限制到"点名这张面的文件"，且版本臂优先（历史里动过的字段不是常量）；②按行求和字节会把两个字段的面算两次（74,507→72,500）——字节必须按面去重，并写成 smoke 断言。
+
+**验证**：`scripts/e509_unlisted_date_origin.py`：`run` rc0 / `check` problems=[] / `verify` problems=[] / **selftest 20/20**；+ `results/state_tilt/UNLISTEDDATEORIGIN-2026-11-07.json` 与 `unlisteddateorigin_latest.json`；+ S6 腿 `unlisted_date_origin` rc0 0.05s；receipt `results/_r1539bmb_s6_chain.json`；+ smoke 腿 `# E509` 原文单独执行 1/1 绿，`--doctor` 1/1 红且面字节已还原（sha `ddc6f0de984f`）；+ digest `research/digests/DIGEST-20261107-r1539-e509-unlisted-date-origin.md`。未做：全量 smoke 套件。

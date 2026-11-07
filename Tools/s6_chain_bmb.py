@@ -1919,6 +1919,14 @@ LEGS = [
     # / constant / walk / file / derived / call / caller parameter) and a reach axis.
     # `check` re-derives both arms from the sites, so a hand-written reading fails.
     ("caller_supplied", ["python", "scripts/e508_caller_supplied_population.py", "check"]),
+
+    # E509 asks the counterfactual question about the 20 (face, field) pairs E506 classed as a
+    # structured date under a name outside the witness list: does the value move when the face is
+    # rebuilt?  It reads other vintages of the same face (dated siblings, archival copies, git
+    # versions of the same path) and compares the field against the newest date elsewhere in its
+    # own payload.  `check` re-derives every class, every count and the verdict from the published
+    # readings and deltas, so a hand-written reading fails.
+    ("unlisted_date_origin", ["python", "scripts/e509_unlisted_date_origin.py", "check"]),
 ]
 
 

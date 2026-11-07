@@ -1,0 +1,2966 @@
+{
+ "answers": {
+  "how_many_are_constant_or_own_clock": 19,
+  "how_many_bytes_do_those_faces_hold": 18198,
+  "how_many_faces_do_their_unlisted_dates_never_certify": 10,
+  "how_many_pairs_are_decided": 20,
+  "how_many_pairs_does_the_card_name_and_how_many_are_here": [
+   17,
+   20
+  ],
+  "how_many_pairs_have_a_counterfactual": 20,
+  "how_many_unlisted_dates_track_the_data": 1
+ },
+ "card": "E509-WHICH-OF-THE-17-UNLISTED-DATE-FIELDS-IS-A-FRESHNESS-WITNESS-AND-WHICH-IS-A-CONSTANT",
+ "class_vocab": [
+  "a_constant_written_as_a_string_literal",
+  "a_constant_the_face_was_rebuilt_under_and_it_did_not_move",
+  "a_constant_but_no_vintage_shows_the_face_itself_moving_so_the_axis_is_unexercised",
+  "a_date_that_is_the_newest_one_in_its_face_in_some_vintages_but_not_in_others",
+  "a_date_that_moves_but_never_agrees_with_the_newest_date_elsewhere_in_the_face",
+  "a_freshness_witness_it_equals_the_newest_date_elsewhere_in_every_vintage",
+  "no_second_vintage_so_no_counterfactual",
+  "the_field_is_not_readable_in_any_vintage"
+ ],
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07 23:12:27",
+ "method_limits": [
+  "the population is E506's published face; a pair appears here because that face classed the name as outside the witness vocabulary, not because this study re-read E506's rows",
+  "a vintage is only evidence if the field is readable in it; a commit whose blob is not local to this promisor clone is counted as unread, never as unchanged",
+  "the writing arm reads dict literals and subscript assignments in scripts/ and Tools/ only; a face written by a YAML/JSON template, by a pandas to_json, or by code outside those two directories shows no writing site",
+  "a literal writing site is treated as proof of a constant even where vintages exist: one literal in the producer outweighs a value that happened to be equal in two siblings",
+  "the date anchor is the newest date anywhere else in the same payload; a face that knows its data only under a non-date-shaped string (a bar number, an epoch int) has no anchor and its field is classed undecided rather than guessed",
+  "archival copies under results/_quarantine/ and results/_r*_rollback_side/ are read as vintages of the live face and are published as such beside the live one"
+ ],
+ "population_source": "results/state_tilt/NODATEWITNESS-2026-11-07.json rows whose witness_class is a structured date under a name outside the witness list",
+ "rows": [
+  {
+   "class": "a_date_that_is_the_newest_one_in_its_face_in_some_vintages_but_not_in_others",
+   "face": "results/_quarantine/20261006T2225_r784bmb_worksnap_r783/_worksnap_r783bmb_merge/docs__daily_report__REPORT-2026-10-06.json",
+   "face_bytes": 23398,
+   "face_mtime_age_days": 21,
+   "field": "report_date",
+   "field_name": "report_date",
+   "git_note": "ok",
+   "sample": "2026-10-06",
+   "vintage_sources": [
+    "disk:current",
+    "disk:docs/daily_report/REPORT-2026-09-26.json",
+    "disk:docs/daily_report/REPORT-2026-09-27.json",
+    "disk:docs/daily_report/REPORT-2026-09-28.json",
+    "disk:docs/daily_report/REPORT-2026-09-28的冲突文件 2026-09-29 15：36：12.828242.json",
+    "disk:docs/daily_report/REPORT-2026-09-28的冲突文件 2026-09-29 15：42：03.677752.json",
+    "disk:docs/daily_report/REPORT-2026-09-29.json",
+    "disk:docs/daily_report/REPORT-2026-09-30.json",
+    "disk:docs/daily_report/REPORT-2026-10-01.json",
+    "disk:docs/daily_report/REPORT-2026-10-02.json",
+    "disk:docs/daily_report/REPORT-2026-10-03.json",
+    "disk:docs/daily_report/REPORT-2026-10-04.json",
+    "disk:docs/daily_report/REPORT-2026-10-05.json",
+    "disk:docs/daily_report/REPORT-2026-10-06.json",
+    "disk:docs/daily_report/REPORT-2026-10-07.json",
+    "disk:docs/daily_report/REPORT-2026-10-08.json",
+    "disk:docs/daily_report/REPORT-2026-10-09.json",
+    "disk:docs/daily_report/REPORT-2026-10-10.json",
+    "disk:docs/daily_report/REPORT-2026-10-11.json",
+    "disk:docs/daily_report/REPORT-2026-10-12.json",
+    "disk:docs/daily_report/REPORT-2026-10-13.json",
+    "disk:docs/daily_report/REPORT-2026-10-14.json",
+    "disk:docs/daily_report/REPORT-2026-10-15.json",
+    "disk:docs/daily_report/REPORT-2026-10-16.json",
+    "disk:docs/daily_report/REPORT-2026-10-17.json",
+    "disk:docs/daily_report/REPORT-2026-10-18.json",
+    "disk:docs/daily_report/REPORT-2026-10-19.json",
+    "disk:docs/daily_report/REPORT-2026-10-20.json",
+    "disk:docs/daily_report/REPORT-2026-10-21.json",
+    "disk:docs/daily_report/REPORT-2026-10-22.json",
+    "disk:docs/daily_report/REPORT-2026-10-23.json",
+    "disk:docs/daily_report/REPORT-2026-10-24.json",
+    "disk:docs/daily_report/REPORT-2026-10-25.json",
+    "disk:docs/daily_report/REPORT-2026-10-26.json",
+    "disk:docs/daily_report/REPORT-2026-10-27.json",
+    "disk:docs/daily_report/REPORT-2026-10-28.json",
+    "disk:docs/daily_report/REPORT-2026-10-29.json",
+    "disk:docs/daily_report/REPORT-2026-10-30.json",
+    "disk:docs/daily_report/REPORT-2026-10-31.json",
+    "disk:docs/daily_report/REPORT-2026-11-02.json",
+    "disk:docs/daily_report/REPORT-2026-11-03.json",
+    "disk:docs/daily_report/REPORT-2026-11-04.json",
+    "disk:results/_quarantine/r964-estate-20261013/docs__daily_report__REPORT-2026-10-11.json",
+    "disk:results/_r1024bma_rollback_side/docs__daily_report__REPORT-2026-10-15.json",
+    "disk:results/_r399bmc_ring_aside/docs__daily_report__REPORT-2026-10-03.json",
+    "disk:results/_r753bmc_churn_backup/docs__daily_report__REPORT-2026-10-08.json",
+    "disk:results/_r903bmc_ff_backup/docs__daily_report__REPORT-2026-10-12.json",
+    "git:54cf371b21"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-10-06",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:current",
+     "value": "2026-10-06"
+    },
+    {
+     "anchor": "2026-09-24",
+     "days_behind_the_newest_date": -2,
+     "source": "disk:docs/daily_report/REPORT-2026-09-26.json",
+     "value": "2026-09-26"
+    },
+    {
+     "anchor": "2026-09-24",
+     "days_behind_the_newest_date": -3,
+     "source": "disk:docs/daily_report/REPORT-2026-09-27.json",
+     "value": "2026-09-27"
+    },
+    {
+     "anchor": "2026-09-28",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-09-28.json",
+     "value": "2026-09-28"
+    },
+    {
+     "anchor": "2026-09-28",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-09-28的冲突文件 2026-09-29 15：36：12.828242.json",
+     "value": "2026-09-28"
+    },
+    {
+     "anchor": "2026-09-28",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-09-28的冲突文件 2026-09-29 15：42：03.677752.json",
+     "value": "2026-09-28"
+    },
+    {
+     "anchor": "2026-10-01",
+     "days_behind_the_newest_date": 2,
+     "source": "disk:docs/daily_report/REPORT-2026-09-29.json",
+     "value": "2026-09-29"
+    },
+    {
+     "anchor": "2026-10-01",
+     "days_behind_the_newest_date": 1,
+     "source": "disk:docs/daily_report/REPORT-2026-09-30.json",
+     "value": "2026-09-30"
+    },
+    {
+     "anchor": "2026-10-01",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-01.json",
+     "value": "2026-10-01"
+    },
+    {
+     "anchor": "2026-10-02",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-02.json",
+     "value": "2026-10-02"
+    },
+    {
+     "anchor": "2026-10-03",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-03.json",
+     "value": "2026-10-03"
+    },
+    {
+     "anchor": "2026-10-04",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-04.json",
+     "value": "2026-10-04"
+    },
+    {
+     "anchor": "2026-10-05",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-05.json",
+     "value": "2026-10-05"
+    },
+    {
+     "anchor": "2026-10-06",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-06.json",
+     "value": "2026-10-06"
+    },
+    {
+     "anchor": "2026-10-07",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-07.json",
+     "value": "2026-10-07"
+    },
+    {
+     "anchor": "2026-10-08",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-08.json",
+     "value": "2026-10-08"
+    },
+    {
+     "anchor": "2026-10-09",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-09.json",
+     "value": "2026-10-09"
+    },
+    {
+     "anchor": "2026-10-10",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-10.json",
+     "value": "2026-10-10"
+    },
+    {
+     "anchor": "2026-10-11",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-11.json",
+     "value": "2026-10-11"
+    },
+    {
+     "anchor": "2026-10-12",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-12.json",
+     "value": "2026-10-12"
+    },
+    {
+     "anchor": "2026-10-13",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-13.json",
+     "value": "2026-10-13"
+    },
+    {
+     "anchor": "2026-10-14",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-14.json",
+     "value": "2026-10-14"
+    },
+    {
+     "anchor": "2026-10-15",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-15.json",
+     "value": "2026-10-15"
+    },
+    {
+     "anchor": "2026-10-16",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-16.json",
+     "value": "2026-10-16"
+    },
+    {
+     "anchor": "2026-10-17",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-17.json",
+     "value": "2026-10-17"
+    },
+    {
+     "anchor": "2026-10-18",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-18.json",
+     "value": "2026-10-18"
+    },
+    {
+     "anchor": "2026-10-19",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-19.json",
+     "value": "2026-10-19"
+    },
+    {
+     "anchor": "2026-10-20",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-20.json",
+     "value": "2026-10-20"
+    },
+    {
+     "anchor": "2026-10-21",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-21.json",
+     "value": "2026-10-21"
+    },
+    {
+     "anchor": "2026-10-22",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-22.json",
+     "value": "2026-10-22"
+    },
+    {
+     "anchor": "2026-10-23",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-23.json",
+     "value": "2026-10-23"
+    },
+    {
+     "anchor": "2026-10-24",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-24.json",
+     "value": "2026-10-24"
+    },
+    {
+     "anchor": "2026-10-25",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-25.json",
+     "value": "2026-10-25"
+    },
+    {
+     "anchor": "2026-10-26",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-26.json",
+     "value": "2026-10-26"
+    },
+    {
+     "anchor": "2026-10-27",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-27.json",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-28.json",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-10-29",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-29.json",
+     "value": "2026-10-29"
+    },
+    {
+     "anchor": "2026-10-30",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-30.json",
+     "value": "2026-10-30"
+    },
+    {
+     "anchor": "2026-10-31",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-31.json",
+     "value": "2026-10-31"
+    },
+    {
+     "anchor": "2026-11-02",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-11-02.json",
+     "value": "2026-11-02"
+    },
+    {
+     "anchor": "2026-11-03",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-11-03.json",
+     "value": "2026-11-03"
+    },
+    {
+     "anchor": "2026-11-04",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-11-04.json",
+     "value": "2026-11-04"
+    },
+    {
+     "anchor": "2026-10-11",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/_quarantine/r964-estate-20261013/docs__daily_report__REPORT-2026-10-11.json",
+     "value": "2026-10-11"
+    },
+    {
+     "anchor": "2026-10-15",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/_r1024bma_rollback_side/docs__daily_report__REPORT-2026-10-15.json",
+     "value": "2026-10-15"
+    },
+    {
+     "anchor": "2026-10-03",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/_r399bmc_ring_aside/docs__daily_report__REPORT-2026-10-03.json",
+     "value": "2026-10-03"
+    },
+    {
+     "anchor": "2026-10-08",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/_r753bmc_churn_backup/docs__daily_report__REPORT-2026-10-08.json",
+     "value": "2026-10-08"
+    },
+    {
+     "anchor": "2026-10-12",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/_r903bmc_ff_backup/docs__daily_report__REPORT-2026-10-12.json",
+     "value": "2026-10-12"
+    },
+    {
+     "anchor": "2026-10-06",
+     "days_behind_the_newest_date": 0,
+     "source": "git:54cf371b21",
+     "value": "2026-10-06"
+    }
+   ],
+   "vintages_read": 48,
+   "vintages_with_the_field": 48,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "a_string_literal_at_the_writing_site",
+   "writing_site_count": 4,
+   "writing_sites": [
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 577,
+     "sample": null
+    },
+    {
+     "file": "scripts/e97_routing.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 4889,
+     "sample": "2026-10-29"
+    },
+    {
+     "file": "scripts/tactics_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 172,
+     "sample": null
+    },
+    {
+     "file": "scripts/theme_methodology_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 212,
+     "sample": null
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 0
+  },
+  {
+   "class": "a_constant_the_face_was_rebuilt_under_and_it_did_not_move",
+   "face": "results/_quarantine/manifest.json",
+   "face_bytes": 1349,
+   "face_mtime_age_days": 21,
+   "field": "[0].window_until",
+   "field_name": "window_until",
+   "git_note": "ok",
+   "sample": "2026-10-13",
+   "vintage_sources": [
+    "disk:current",
+    "disk:results/_quarantine/manifest-r791.json",
+    "git:081ebf82a0",
+    "git:bdb92652c1"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-10-21",
+     "days_behind_the_newest_date": 8,
+     "source": "disk:current",
+     "value": "2026-10-13"
+    },
+    {
+     "anchor": null,
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/_quarantine/manifest-r791.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-10-21",
+     "days_behind_the_newest_date": 8,
+     "source": "git:081ebf82a0",
+     "value": "2026-10-13"
+    },
+    {
+     "anchor": "2026-10-13",
+     "days_behind_the_newest_date": 0,
+     "source": "git:bdb92652c1",
+     "value": "2026-10-13"
+    }
+   ],
+   "vintages_read": 4,
+   "vintages_with_the_field": 3,
+   "witness_class": "the_face_carries_a_structured_date_under_a_nested_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "no_writing_site_found_in_the_static_arm",
+   "writing_site_count": 0,
+   "writing_sites": [],
+   "writing_sites_rejected_for_not_naming_the_face": 0
+  },
+  {
+   "class": "a_constant_the_face_was_rebuilt_under_and_it_did_not_move",
+   "face": "results/_quarantine/manifest.json",
+   "face_bytes": 1349,
+   "face_mtime_age_days": 21,
+   "field": "[1].window_until",
+   "field_name": "window_until",
+   "git_note": "ok",
+   "sample": "2026-10-13",
+   "vintage_sources": [
+    "disk:current",
+    "disk:results/_quarantine/manifest-r791.json",
+    "git:081ebf82a0",
+    "git:bdb92652c1"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-10-21",
+     "days_behind_the_newest_date": 8,
+     "source": "disk:current",
+     "value": "2026-10-13"
+    },
+    {
+     "anchor": null,
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/_quarantine/manifest-r791.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-10-21",
+     "days_behind_the_newest_date": 8,
+     "source": "git:081ebf82a0",
+     "value": "2026-10-13"
+    },
+    {
+     "anchor": "2026-10-13",
+     "days_behind_the_newest_date": 0,
+     "source": "git:bdb92652c1",
+     "value": "2026-10-13"
+    }
+   ],
+   "vintages_read": 4,
+   "vintages_with_the_field": 3,
+   "witness_class": "the_face_carries_a_structured_date_under_a_nested_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "no_writing_site_found_in_the_static_arm",
+   "writing_site_count": 0,
+   "writing_sites": [],
+   "writing_sites_rejected_for_not_naming_the_face": 0
+  },
+  {
+   "class": "a_date_that_is_the_newest_one_in_its_face_in_some_vintages_but_not_in_others",
+   "face": "results/_r1024bma_rollback_side/docs__daily_report__REPORT-2026-10-15.json",
+   "face_bytes": 23925,
+   "face_mtime_age_days": 21,
+   "field": "report_date",
+   "field_name": "report_date",
+   "git_note": "ok",
+   "sample": "2026-10-15",
+   "vintage_sources": [
+    "disk:current",
+    "disk:docs/daily_report/REPORT-2026-09-26.json",
+    "disk:docs/daily_report/REPORT-2026-09-27.json",
+    "disk:docs/daily_report/REPORT-2026-09-28.json",
+    "disk:docs/daily_report/REPORT-2026-09-28的冲突文件 2026-09-29 15：36：12.828242.json",
+    "disk:docs/daily_report/REPORT-2026-09-28的冲突文件 2026-09-29 15：42：03.677752.json",
+    "disk:docs/daily_report/REPORT-2026-09-29.json",
+    "disk:docs/daily_report/REPORT-2026-09-30.json",
+    "disk:docs/daily_report/REPORT-2026-10-01.json",
+    "disk:docs/daily_report/REPORT-2026-10-02.json",
+    "disk:docs/daily_report/REPORT-2026-10-03.json",
+    "disk:docs/daily_report/REPORT-2026-10-04.json",
+    "disk:docs/daily_report/REPORT-2026-10-05.json",
+    "disk:docs/daily_report/REPORT-2026-10-06.json",
+    "disk:docs/daily_report/REPORT-2026-10-07.json",
+    "disk:docs/daily_report/REPORT-2026-10-08.json",
+    "disk:docs/daily_report/REPORT-2026-10-09.json",
+    "disk:docs/daily_report/REPORT-2026-10-10.json",
+    "disk:docs/daily_report/REPORT-2026-10-11.json",
+    "disk:docs/daily_report/REPORT-2026-10-12.json",
+    "disk:docs/daily_report/REPORT-2026-10-13.json",
+    "disk:docs/daily_report/REPORT-2026-10-14.json",
+    "disk:docs/daily_report/REPORT-2026-10-15.json",
+    "disk:docs/daily_report/REPORT-2026-10-16.json",
+    "disk:docs/daily_report/REPORT-2026-10-17.json",
+    "disk:docs/daily_report/REPORT-2026-10-18.json",
+    "disk:docs/daily_report/REPORT-2026-10-19.json",
+    "disk:docs/daily_report/REPORT-2026-10-20.json",
+    "disk:docs/daily_report/REPORT-2026-10-21.json",
+    "disk:docs/daily_report/REPORT-2026-10-22.json",
+    "disk:docs/daily_report/REPORT-2026-10-23.json",
+    "disk:docs/daily_report/REPORT-2026-10-24.json",
+    "disk:docs/daily_report/REPORT-2026-10-25.json",
+    "disk:docs/daily_report/REPORT-2026-10-26.json",
+    "disk:docs/daily_report/REPORT-2026-10-27.json",
+    "disk:docs/daily_report/REPORT-2026-10-28.json",
+    "disk:docs/daily_report/REPORT-2026-10-29.json",
+    "disk:docs/daily_report/REPORT-2026-10-30.json",
+    "disk:docs/daily_report/REPORT-2026-10-31.json",
+    "disk:docs/daily_report/REPORT-2026-11-02.json",
+    "disk:docs/daily_report/REPORT-2026-11-03.json",
+    "disk:docs/daily_report/REPORT-2026-11-04.json",
+    "disk:results/_quarantine/20261006T2225_r784bmb_worksnap_r783/_worksnap_r783bmb_merge/docs__daily_report__REPORT-2026-10-06.json",
+    "disk:results/_quarantine/r964-estate-20261013/docs__daily_report__REPORT-2026-10-11.json",
+    "disk:results/_r399bmc_ring_aside/docs__daily_report__REPORT-2026-10-03.json",
+    "disk:results/_r753bmc_churn_backup/docs__daily_report__REPORT-2026-10-08.json",
+    "disk:results/_r903bmc_ff_backup/docs__daily_report__REPORT-2026-10-12.json",
+    "git:6071573d1c"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-10-15",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:current",
+     "value": "2026-10-15"
+    },
+    {
+     "anchor": "2026-09-24",
+     "days_behind_the_newest_date": -2,
+     "source": "disk:docs/daily_report/REPORT-2026-09-26.json",
+     "value": "2026-09-26"
+    },
+    {
+     "anchor": "2026-09-24",
+     "days_behind_the_newest_date": -3,
+     "source": "disk:docs/daily_report/REPORT-2026-09-27.json",
+     "value": "2026-09-27"
+    },
+    {
+     "anchor": "2026-09-28",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-09-28.json",
+     "value": "2026-09-28"
+    },
+    {
+     "anchor": "2026-09-28",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-09-28的冲突文件 2026-09-29 15：36：12.828242.json",
+     "value": "2026-09-28"
+    },
+    {
+     "anchor": "2026-09-28",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-09-28的冲突文件 2026-09-29 15：42：03.677752.json",
+     "value": "2026-09-28"
+    },
+    {
+     "anchor": "2026-10-01",
+     "days_behind_the_newest_date": 2,
+     "source": "disk:docs/daily_report/REPORT-2026-09-29.json",
+     "value": "2026-09-29"
+    },
+    {
+     "anchor": "2026-10-01",
+     "days_behind_the_newest_date": 1,
+     "source": "disk:docs/daily_report/REPORT-2026-09-30.json",
+     "value": "2026-09-30"
+    },
+    {
+     "anchor": "2026-10-01",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-01.json",
+     "value": "2026-10-01"
+    },
+    {
+     "anchor": "2026-10-02",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-02.json",
+     "value": "2026-10-02"
+    },
+    {
+     "anchor": "2026-10-03",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-03.json",
+     "value": "2026-10-03"
+    },
+    {
+     "anchor": "2026-10-04",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-04.json",
+     "value": "2026-10-04"
+    },
+    {
+     "anchor": "2026-10-05",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-05.json",
+     "value": "2026-10-05"
+    },
+    {
+     "anchor": "2026-10-06",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-06.json",
+     "value": "2026-10-06"
+    },
+    {
+     "anchor": "2026-10-07",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-07.json",
+     "value": "2026-10-07"
+    },
+    {
+     "anchor": "2026-10-08",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-08.json",
+     "value": "2026-10-08"
+    },
+    {
+     "anchor": "2026-10-09",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-09.json",
+     "value": "2026-10-09"
+    },
+    {
+     "anchor": "2026-10-10",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-10.json",
+     "value": "2026-10-10"
+    },
+    {
+     "anchor": "2026-10-11",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-11.json",
+     "value": "2026-10-11"
+    },
+    {
+     "anchor": "2026-10-12",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-12.json",
+     "value": "2026-10-12"
+    },
+    {
+     "anchor": "2026-10-13",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-13.json",
+     "value": "2026-10-13"
+    },
+    {
+     "anchor": "2026-10-14",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-14.json",
+     "value": "2026-10-14"
+    },
+    {
+     "anchor": "2026-10-15",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-15.json",
+     "value": "2026-10-15"
+    },
+    {
+     "anchor": "2026-10-16",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-16.json",
+     "value": "2026-10-16"
+    },
+    {
+     "anchor": "2026-10-17",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-17.json",
+     "value": "2026-10-17"
+    },
+    {
+     "anchor": "2026-10-18",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-18.json",
+     "value": "2026-10-18"
+    },
+    {
+     "anchor": "2026-10-19",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-19.json",
+     "value": "2026-10-19"
+    },
+    {
+     "anchor": "2026-10-20",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-20.json",
+     "value": "2026-10-20"
+    },
+    {
+     "anchor": "2026-10-21",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-21.json",
+     "value": "2026-10-21"
+    },
+    {
+     "anchor": "2026-10-22",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-22.json",
+     "value": "2026-10-22"
+    },
+    {
+     "anchor": "2026-10-23",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-23.json",
+     "value": "2026-10-23"
+    },
+    {
+     "anchor": "2026-10-24",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-24.json",
+     "value": "2026-10-24"
+    },
+    {
+     "anchor": "2026-10-25",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-25.json",
+     "value": "2026-10-25"
+    },
+    {
+     "anchor": "2026-10-26",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-26.json",
+     "value": "2026-10-26"
+    },
+    {
+     "anchor": "2026-10-27",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-27.json",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-28.json",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-10-29",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-29.json",
+     "value": "2026-10-29"
+    },
+    {
+     "anchor": "2026-10-30",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-30.json",
+     "value": "2026-10-30"
+    },
+    {
+     "anchor": "2026-10-31",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-10-31.json",
+     "value": "2026-10-31"
+    },
+    {
+     "anchor": "2026-11-02",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-11-02.json",
+     "value": "2026-11-02"
+    },
+    {
+     "anchor": "2026-11-03",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-11-03.json",
+     "value": "2026-11-03"
+    },
+    {
+     "anchor": "2026-11-04",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:docs/daily_report/REPORT-2026-11-04.json",
+     "value": "2026-11-04"
+    },
+    {
+     "anchor": "2026-10-06",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/_quarantine/20261006T2225_r784bmb_worksnap_r783/_worksnap_r783bmb_merge/docs__daily_report__REPORT-2026-10-06.json",
+     "value": "2026-10-06"
+    },
+    {
+     "anchor": "2026-10-11",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/_quarantine/r964-estate-20261013/docs__daily_report__REPORT-2026-10-11.json",
+     "value": "2026-10-11"
+    },
+    {
+     "anchor": "2026-10-03",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/_r399bmc_ring_aside/docs__daily_report__REPORT-2026-10-03.json",
+     "value": "2026-10-03"
+    },
+    {
+     "anchor": "2026-10-08",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/_r753bmc_churn_backup/docs__daily_report__REPORT-2026-10-08.json",
+     "value": "2026-10-08"
+    },
+    {
+     "anchor": "2026-10-12",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/_r903bmc_ff_backup/docs__daily_report__REPORT-2026-10-12.json",
+     "value": "2026-10-12"
+    },
+    {
+     "anchor": "2026-10-15",
+     "days_behind_the_newest_date": 0,
+     "source": "git:6071573d1c",
+     "value": "2026-10-15"
+    }
+   ],
+   "vintages_read": 48,
+   "vintages_with_the_field": 48,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "a_string_literal_at_the_writing_site",
+   "writing_site_count": 4,
+   "writing_sites": [
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 577,
+     "sample": null
+    },
+    {
+     "file": "scripts/e97_routing.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 4889,
+     "sample": "2026-10-29"
+    },
+    {
+     "file": "scripts/tactics_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 172,
+     "sample": null
+    },
+    {
+     "file": "scripts/theme_methodology_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 212,
+     "sample": null
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 0
+  },
+  {
+   "class": "a_date_that_is_the_newest_one_in_its_face_in_some_vintages_but_not_in_others",
+   "face": "results/_r1024bma_rollback_side/results__market_clock__call_latest.json",
+   "face_bytes": 2625,
+   "face_mtime_age_days": 21,
+   "field": "asof",
+   "field_name": "asof",
+   "git_note": "ok",
+   "sample": "2026-10-14",
+   "vintage_sources": [
+    "disk:current",
+    "disk:results/_r1024bma_rollback_side/results__market_clock__call_latest.bm-c.json",
+    "disk:results/market_clock/call_latest.bm-a.json",
+    "disk:results/market_clock/call_latest.bm-b.json",
+    "disk:results/market_clock/call_latest.bm-c.json",
+    "disk:results/market_clock/call_latest.json",
+    "git:6071573d1c"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-10-15",
+     "days_behind_the_newest_date": 1,
+     "source": "disk:current",
+     "value": "2026-10-14"
+    },
+    {
+     "anchor": "2026-10-15",
+     "days_behind_the_newest_date": 1,
+     "source": "disk:results/_r1024bma_rollback_side/results__market_clock__call_latest.bm-c.json",
+     "value": "2026-10-14"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/market_clock/call_latest.bm-a.json",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-11-06",
+     "days_behind_the_newest_date": 10,
+     "source": "disk:results/market_clock/call_latest.bm-b.json",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/market_clock/call_latest.bm-c.json",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-11-06",
+     "days_behind_the_newest_date": 10,
+     "source": "disk:results/market_clock/call_latest.json",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-15",
+     "days_behind_the_newest_date": 1,
+     "source": "git:6071573d1c",
+     "value": "2026-10-14"
+    }
+   ],
+   "vintages_read": 7,
+   "vintages_with_the_field": 7,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "a_string_literal_at_the_writing_site",
+   "writing_site_count": 60,
+   "writing_sites": [
+    {
+     "file": "scripts/ceo_live_usage.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 306,
+     "sample": null
+    },
+    {
+     "file": "scripts/ceo_live_usage.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 449,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 346,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 419,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 457,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 495,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 337,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "another_expression_at_the_writing_site",
+     "line": 386,
+     "sample": null
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 54
+  },
+  {
+   "class": "a_constant_but_no_vintage_shows_the_face_itself_moving_so_the_axis_is_unexercised",
+   "face": "results/alphagen_rl_p1/probe_latest.json",
+   "face_bytes": 3828,
+   "face_mtime_age_days": 21,
+   "field": "cutoff_pin",
+   "field_name": "cutoff_pin",
+   "git_note": "ok",
+   "sample": "2026-10-09",
+   "vintage_sources": [
+    "disk:current",
+    "git:859a1e0baf",
+    "git:ec5afc7703"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-10-09",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:current",
+     "value": "2026-10-09"
+    },
+    {
+     "anchor": "2026-10-09",
+     "days_behind_the_newest_date": 0,
+     "source": "git:859a1e0baf",
+     "value": "2026-10-09"
+    },
+    {
+     "anchor": "2026-10-09",
+     "days_behind_the_newest_date": 0,
+     "source": "git:ec5afc7703",
+     "value": "2026-10-09"
+    }
+   ],
+   "vintages_read": 3,
+   "vintages_with_the_field": 3,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "a_name_that_is_not_a_literal_at_the_writing_site",
+   "writing_site_count": 4,
+   "writing_sites": [
+    {
+     "file": "scripts/alphagen_beam_w19.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 647,
+     "sample": null
+    },
+    {
+     "file": "scripts/alphagen_beam_w20.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 714,
+     "sample": null
+    },
+    {
+     "file": "scripts/alphagen_rl_p1.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 961,
+     "sample": null
+    },
+    {
+     "file": "scripts/alphagen_rl_p1.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 1944,
+     "sample": null
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 0
+  },
+  {
+   "class": "a_constant_the_face_was_rebuilt_under_and_it_did_not_move",
+   "face": "results/etf_book_order/state.json",
+   "face_bytes": 159,
+   "face_mtime_age_days": 10,
+   "field": "inception",
+   "field_name": "inception",
+   "git_note": "ok",
+   "sample": "2024-01-01",
+   "vintage_sources": [
+    "disk:current",
+    "git:a4694c2924",
+    "git:c528fe34f2",
+    "git:06e99d7986",
+    "git:cfe97b1558",
+    "git:a8fc76102c"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 1031,
+     "source": "disk:current",
+     "value": "2024-01-01"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 1031,
+     "source": "git:a4694c2924",
+     "value": "2024-01-01"
+    },
+    {
+     "anchor": "2026-10-27",
+     "days_behind_the_newest_date": 1030,
+     "source": "git:c528fe34f2",
+     "value": "2024-01-01"
+    },
+    {
+     "anchor": "2026-10-27",
+     "days_behind_the_newest_date": 1030,
+     "source": "git:06e99d7986",
+     "value": "2024-01-01"
+    },
+    {
+     "anchor": "2026-10-26",
+     "days_behind_the_newest_date": 1029,
+     "source": "git:cfe97b1558",
+     "value": "2024-01-01"
+    },
+    {
+     "anchor": "2026-10-23",
+     "days_behind_the_newest_date": 1026,
+     "source": "git:a8fc76102c",
+     "value": "2024-01-01"
+    }
+   ],
+   "vintages_read": 6,
+   "vintages_with_the_field": 6,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "a_string_literal_at_the_writing_site",
+   "writing_site_count": 12,
+   "writing_sites": [
+    {
+     "file": "scripts/etf_book_ceo_page.py",
+     "kind": "another_expression_at_the_writing_site",
+     "line": 547,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_ceo_page.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 550,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 183,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "another_expression_at_the_writing_site",
+     "line": 511,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 1196,
+     "sample": "2021-01-04"
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 1209,
+     "sample": "2021-01-04"
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 1372,
+     "sample": "2024-01-01"
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 1393,
+     "sample": "2024-01-01"
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 0
+  },
+  {
+   "class": "a_date_that_moves_but_never_agrees_with_the_newest_date_elsewhere_in_the_face",
+   "face": "results/etf_book_order/state.json",
+   "face_bytes": 159,
+   "face_mtime_age_days": 10,
+   "field": "last_bar",
+   "field_name": "last_bar",
+   "git_note": "ok",
+   "sample": "2026-10-28",
+   "vintage_sources": [
+    "disk:current",
+    "git:a4694c2924",
+    "git:c528fe34f2",
+    "git:06e99d7986",
+    "git:cfe97b1558",
+    "git:a8fc76102c"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2024-01-01",
+     "days_behind_the_newest_date": -1031,
+     "source": "disk:current",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2024-01-01",
+     "days_behind_the_newest_date": -1031,
+     "source": "git:a4694c2924",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2024-01-01",
+     "days_behind_the_newest_date": -1030,
+     "source": "git:c528fe34f2",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2024-01-01",
+     "days_behind_the_newest_date": -1030,
+     "source": "git:06e99d7986",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2024-01-01",
+     "days_behind_the_newest_date": -1029,
+     "source": "git:cfe97b1558",
+     "value": "2026-10-26"
+    },
+    {
+     "anchor": "2024-01-01",
+     "days_behind_the_newest_date": -1026,
+     "source": "git:a8fc76102c",
+     "value": "2026-10-23"
+    }
+   ],
+   "vintages_read": 6,
+   "vintages_with_the_field": 6,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "another_expression_at_the_writing_site",
+   "writing_site_count": 20,
+   "writing_sites": [
+    {
+     "file": "scripts/e39_panel_census.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 97,
+     "sample": null
+    },
+    {
+     "file": "scripts/e39_panel_census.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 198,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_cagr_reconcile.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 225,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_capacity.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 161,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_capacity.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 193,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_forward.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 686,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_forward.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 740,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_forward.py",
+     "kind": "another_expression_at_the_writing_site",
+     "line": 857,
+     "sample": null
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 5
+  },
+  {
+   "class": "a_constant_but_no_vintage_shows_the_face_itself_moving_so_the_axis_is_unexercised",
+   "face": "results/etf_book_order_fresh/state.json",
+   "face_bytes": 150,
+   "face_mtime_age_days": 11,
+   "field": "inception",
+   "field_name": "inception",
+   "git_note": "ok",
+   "sample": "2024-01-01",
+   "vintage_sources": [
+    "disk:current",
+    "git:a8fc76102c"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-10-23",
+     "days_behind_the_newest_date": 1026,
+     "source": "disk:current",
+     "value": "2024-01-01"
+    },
+    {
+     "anchor": "2026-10-23",
+     "days_behind_the_newest_date": 1026,
+     "source": "git:a8fc76102c",
+     "value": "2024-01-01"
+    }
+   ],
+   "vintages_read": 2,
+   "vintages_with_the_field": 2,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "a_string_literal_at_the_writing_site",
+   "writing_site_count": 11,
+   "writing_sites": [
+    {
+     "file": "scripts/etf_book_ceo_page.py",
+     "kind": "another_expression_at_the_writing_site",
+     "line": 547,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_ceo_page.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 550,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 183,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "another_expression_at_the_writing_site",
+     "line": 511,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 1196,
+     "sample": "2021-01-04"
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 1209,
+     "sample": "2021-01-04"
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 1372,
+     "sample": "2024-01-01"
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 1393,
+     "sample": "2024-01-01"
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 1
+  },
+  {
+   "class": "a_constant_but_no_vintage_shows_the_face_itself_moving_so_the_axis_is_unexercised",
+   "face": "results/etf_book_order_fresh/state.json",
+   "face_bytes": 150,
+   "face_mtime_age_days": 11,
+   "field": "last_bar",
+   "field_name": "last_bar",
+   "git_note": "ok",
+   "sample": "2026-10-23",
+   "vintage_sources": [
+    "disk:current",
+    "git:a8fc76102c"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2024-01-01",
+     "days_behind_the_newest_date": -1026,
+     "source": "disk:current",
+     "value": "2026-10-23"
+    },
+    {
+     "anchor": "2024-01-01",
+     "days_behind_the_newest_date": -1026,
+     "source": "git:a8fc76102c",
+     "value": "2026-10-23"
+    }
+   ],
+   "vintages_read": 2,
+   "vintages_with_the_field": 2,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "another_expression_at_the_writing_site",
+   "writing_site_count": 20,
+   "writing_sites": [
+    {
+     "file": "scripts/e39_panel_census.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 97,
+     "sample": null
+    },
+    {
+     "file": "scripts/e39_panel_census.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 198,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_cagr_reconcile.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 225,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_capacity.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 161,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_capacity.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 193,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_forward.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 686,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_forward.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 740,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_forward.py",
+     "kind": "another_expression_at_the_writing_site",
+     "line": 857,
+     "sample": null
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 5
+  },
+  {
+   "class": "a_constant_but_no_vintage_shows_the_face_itself_moving_so_the_axis_is_unexercised",
+   "face": "results/etf_composite_live/state.json",
+   "face_bytes": 349,
+   "face_mtime_age_days": 11,
+   "field": "inception",
+   "field_name": "inception",
+   "git_note": "ok",
+   "sample": "2026-10-23",
+   "vintage_sources": [
+    "disk:current",
+    "git:50c7970fae"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-10-23",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:current",
+     "value": "2026-10-23"
+    },
+    {
+     "anchor": "2026-10-23",
+     "days_behind_the_newest_date": 0,
+     "source": "git:50c7970fae",
+     "value": "2026-10-23"
+    }
+   ],
+   "vintages_read": 2,
+   "vintages_with_the_field": 2,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "a_string_literal_at_the_writing_site",
+   "writing_site_count": 11,
+   "writing_sites": [
+    {
+     "file": "scripts/etf_book_ceo_page.py",
+     "kind": "another_expression_at_the_writing_site",
+     "line": 547,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_ceo_page.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 550,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 183,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "another_expression_at_the_writing_site",
+     "line": 511,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 1196,
+     "sample": "2021-01-04"
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 1209,
+     "sample": "2021-01-04"
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 1372,
+     "sample": "2024-01-01"
+    },
+    {
+     "file": "scripts/etf_book_order.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 1393,
+     "sample": "2024-01-01"
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 1
+  },
+  {
+   "class": "a_constant_but_no_vintage_shows_the_face_itself_moving_so_the_axis_is_unexercised",
+   "face": "results/etf_composite_live/state.json",
+   "face_bytes": 349,
+   "face_mtime_age_days": 11,
+   "field": "last_bar",
+   "field_name": "last_bar",
+   "git_note": "ok",
+   "sample": "2026-10-23",
+   "vintage_sources": [
+    "disk:current",
+    "git:50c7970fae"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-10-23",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:current",
+     "value": "2026-10-23"
+    },
+    {
+     "anchor": "2026-10-23",
+     "days_behind_the_newest_date": 0,
+     "source": "git:50c7970fae",
+     "value": "2026-10-23"
+    }
+   ],
+   "vintages_read": 2,
+   "vintages_with_the_field": 2,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "another_expression_at_the_writing_site",
+   "writing_site_count": 20,
+   "writing_sites": [
+    {
+     "file": "scripts/e39_panel_census.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 97,
+     "sample": null
+    },
+    {
+     "file": "scripts/e39_panel_census.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 198,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_cagr_reconcile.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 225,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_capacity.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 161,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_capacity.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 193,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_forward.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 686,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_forward.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 740,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_forward.py",
+     "kind": "another_expression_at_the_writing_site",
+     "line": 857,
+     "sample": null
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 5
+  },
+  {
+   "class": "a_constant_but_no_vintage_shows_the_face_itself_moving_so_the_axis_is_unexercised",
+   "face": "results/futures_tsmom_signal.json",
+   "face_bytes": 4117,
+   "face_mtime_age_days": 9,
+   "field": "generated_for_bar",
+   "field_name": "generated_for_bar",
+   "git_note": "ok",
+   "sample": "2026-10-28",
+   "vintage_sources": [
+    "disk:current",
+    "disk:results/futures_overlay_fliprate.json",
+    "disk:results/futures_overlay_fliprate_paths.json",
+    "disk:results/futures_overlay_sweep.json",
+    "disk:results/futures_sleeve_economics.json",
+    "disk:results/futures_tsmom_probe.json",
+    "disk:results/futures_update_status.bm-a.json",
+    "disk:results/futures_update_status.bm-b.json",
+    "disk:results/futures_update_status.bm-c.json",
+    "disk:results/futures_update_status.json",
+    "git:d1fb606ffc",
+    "git:b0bae650fb",
+    "git:7abea5da0d",
+    "git:8edefde2a8",
+    "git:23f7cfe022",
+    "git:6c5d8fc061",
+    "git:15810874ee",
+    "git:91efbbd937",
+    "git:ad1fbf434f"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:current",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/futures_overlay_fliprate.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/futures_overlay_fliprate_paths.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/futures_overlay_sweep.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-10-26",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/futures_sleeve_economics.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-10-26",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/futures_tsmom_probe.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/futures_update_status.bm-a.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/futures_update_status.bm-b.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/futures_update_status.bm-c.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/futures_update_status.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "git:d1fb606ffc",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "git:b0bae650fb",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "git:7abea5da0d",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "git:8edefde2a8",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "git:23f7cfe022",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "git:6c5d8fc061",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "git:15810874ee",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "git:91efbbd937",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "git:ad1fbf434f",
+     "value": "2026-10-28"
+    }
+   ],
+   "vintages_read": 19,
+   "vintages_with_the_field": 10,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "a_string_literal_at_the_writing_site",
+   "writing_site_count": 5,
+   "writing_sites": [
+    {
+     "file": "scripts/e345_gate_absence_windows.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 151,
+     "sample": null
+    },
+    {
+     "file": "scripts/e345_gate_absence_windows.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 538,
+     "sample": "2026-10-28"
+    },
+    {
+     "file": "scripts/e348_restored_gate_retrospect.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 563,
+     "sample": "2026-10-28"
+    },
+    {
+     "file": "scripts/futures_overlay_fliprate_paths.py",
+     "kind": "a_string_literal_at_the_writing_site",
+     "line": 427,
+     "sample": "2026-10-28"
+    },
+    {
+     "file": "scripts/futures_tsmom_signal.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 227,
+     "sample": null
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 0
+  },
+  {
+   "class": "a_constant_but_no_vintage_shows_the_face_itself_moving_so_the_axis_is_unexercised",
+   "face": "results/m6_regime5/latest.json",
+   "face_bytes": 4628,
+   "face_mtime_age_days": 21,
+   "field": "asof",
+   "field_name": "asof",
+   "git_note": "ok",
+   "sample": "2026-10-08",
+   "vintage_sources": [
+    "disk:current",
+    "git:3641fbbeeb"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-10-08",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:current",
+     "value": "2026-10-08"
+    },
+    {
+     "anchor": "2026-10-08",
+     "days_behind_the_newest_date": 0,
+     "source": "git:3641fbbeeb",
+     "value": "2026-10-08"
+    }
+   ],
+   "vintages_read": 2,
+   "vintages_with_the_field": 2,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "another_expression_at_the_writing_site",
+   "writing_site_count": 1,
+   "writing_sites": [
+    {
+     "file": "scripts/m6_regime5_probe.py",
+     "kind": "another_expression_at_the_writing_site",
+     "line": 249,
+     "sample": null
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 113
+  },
+  {
+   "class": "a_date_that_is_the_newest_one_in_its_face_in_some_vintages_but_not_in_others",
+   "face": "results/market_clock/call_latest.bm-b.json",
+   "face_bytes": 1067,
+   "face_mtime_age_days": 0,
+   "field": "asof",
+   "field_name": "asof",
+   "git_note": "ok",
+   "sample": "2026-10-27",
+   "vintage_sources": [
+    "disk:current",
+    "disk:results/_r1024bma_rollback_side/results__market_clock__call_latest.bm-c.json",
+    "disk:results/_r1024bma_rollback_side/results__market_clock__call_latest.json",
+    "disk:results/market_clock/call_latest.bm-a.json",
+    "disk:results/market_clock/call_latest.bm-c.json",
+    "disk:results/market_clock/call_latest.json",
+    "git:5acc6ec470",
+    "git:d0f0146ef3",
+    "git:d43ed3e397",
+    "git:a0bcae1b8b",
+    "git:9f8010c78f",
+    "git:7f8a2dcd74",
+    "git:06523baf2a",
+    "git:2c68051ecf",
+    "git:ea990ba95a",
+    "git:eaf7ba0b62",
+    "git:77e313db25",
+    "git:41bed57ea5"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-11-06",
+     "days_behind_the_newest_date": 10,
+     "source": "disk:current",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-15",
+     "days_behind_the_newest_date": 1,
+     "source": "disk:results/_r1024bma_rollback_side/results__market_clock__call_latest.bm-c.json",
+     "value": "2026-10-14"
+    },
+    {
+     "anchor": "2026-10-15",
+     "days_behind_the_newest_date": 1,
+     "source": "disk:results/_r1024bma_rollback_side/results__market_clock__call_latest.json",
+     "value": "2026-10-14"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/market_clock/call_latest.bm-a.json",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/market_clock/call_latest.bm-c.json",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-11-06",
+     "days_behind_the_newest_date": 10,
+     "source": "disk:results/market_clock/call_latest.json",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-11-03",
+     "days_behind_the_newest_date": 7,
+     "source": "git:5acc6ec470",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-29",
+     "days_behind_the_newest_date": 2,
+     "source": "git:d0f0146ef3",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 1,
+     "source": "git:d43ed3e397",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "git:a0bcae1b8b",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 1,
+     "source": "git:9f8010c78f",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-27",
+     "days_behind_the_newest_date": 0,
+     "source": "git:7f8a2dcd74",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-27",
+     "days_behind_the_newest_date": 1,
+     "source": "git:06523baf2a",
+     "value": "2026-10-26"
+    },
+    {
+     "anchor": "2026-10-26",
+     "days_behind_the_newest_date": 0,
+     "source": "git:2c68051ecf",
+     "value": "2026-10-26"
+    },
+    {
+     "anchor": "2026-10-26",
+     "days_behind_the_newest_date": 0,
+     "source": "git:ea990ba95a",
+     "value": "2026-10-26"
+    },
+    {
+     "anchor": "2026-10-26",
+     "days_behind_the_newest_date": 0,
+     "source": "git:eaf7ba0b62",
+     "value": "2026-10-26"
+    },
+    {
+     "anchor": "2026-10-22",
+     "days_behind_the_newest_date": 1,
+     "source": "git:77e313db25",
+     "value": "2026-10-21"
+    },
+    {
+     "anchor": "2026-10-21",
+     "days_behind_the_newest_date": 0,
+     "source": "git:41bed57ea5",
+     "value": "2026-10-21"
+    }
+   ],
+   "vintages_read": 18,
+   "vintages_with_the_field": 18,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "a_string_literal_at_the_writing_site",
+   "writing_site_count": 60,
+   "writing_sites": [
+    {
+     "file": "scripts/ceo_live_usage.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 306,
+     "sample": null
+    },
+    {
+     "file": "scripts/ceo_live_usage.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 449,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 346,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 419,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 457,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 495,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 337,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "another_expression_at_the_writing_site",
+     "line": 386,
+     "sample": null
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 54
+  },
+  {
+   "class": "a_date_that_is_the_newest_one_in_its_face_in_some_vintages_but_not_in_others",
+   "face": "results/market_clock/call_latest.json",
+   "face_bytes": 1005,
+   "face_mtime_age_days": 0,
+   "field": "asof",
+   "field_name": "asof",
+   "git_note": "ok",
+   "sample": "2026-10-27",
+   "vintage_sources": [
+    "disk:current",
+    "disk:results/_r1024bma_rollback_side/results__market_clock__call_latest.bm-c.json",
+    "disk:results/_r1024bma_rollback_side/results__market_clock__call_latest.json",
+    "disk:results/market_clock/call_latest.bm-a.json",
+    "disk:results/market_clock/call_latest.bm-b.json",
+    "disk:results/market_clock/call_latest.bm-c.json",
+    "git:5acc6ec470",
+    "git:d0f0146ef3",
+    "git:d43ed3e397",
+    "git:a0bcae1b8b",
+    "git:9f8010c78f",
+    "git:91efbbd937",
+    "git:0d380d005b",
+    "git:7f8a2dcd74",
+    "git:24ae7bc678",
+    "git:06523baf2a",
+    "git:bedf2e9e42",
+    "git:2ab7199852"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-11-06",
+     "days_behind_the_newest_date": 10,
+     "source": "disk:current",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-15",
+     "days_behind_the_newest_date": 1,
+     "source": "disk:results/_r1024bma_rollback_side/results__market_clock__call_latest.bm-c.json",
+     "value": "2026-10-14"
+    },
+    {
+     "anchor": "2026-10-15",
+     "days_behind_the_newest_date": 1,
+     "source": "disk:results/_r1024bma_rollback_side/results__market_clock__call_latest.json",
+     "value": "2026-10-14"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/market_clock/call_latest.bm-a.json",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-11-06",
+     "days_behind_the_newest_date": 10,
+     "source": "disk:results/market_clock/call_latest.bm-b.json",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:results/market_clock/call_latest.bm-c.json",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-11-03",
+     "days_behind_the_newest_date": 7,
+     "source": "git:5acc6ec470",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-29",
+     "days_behind_the_newest_date": 2,
+     "source": "git:d0f0146ef3",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 1,
+     "source": "git:d43ed3e397",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "git:a0bcae1b8b",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 1,
+     "source": "git:9f8010c78f",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 0,
+     "source": "git:91efbbd937",
+     "value": "2026-10-28"
+    },
+    {
+     "anchor": "2026-10-28",
+     "days_behind_the_newest_date": 1,
+     "source": "git:0d380d005b",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-27",
+     "days_behind_the_newest_date": 0,
+     "source": "git:7f8a2dcd74",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-27",
+     "days_behind_the_newest_date": 0,
+     "source": "git:24ae7bc678",
+     "value": "2026-10-27"
+    },
+    {
+     "anchor": "2026-10-27",
+     "days_behind_the_newest_date": 1,
+     "source": "git:06523baf2a",
+     "value": "2026-10-26"
+    },
+    {
+     "anchor": "2026-10-26",
+     "days_behind_the_newest_date": 0,
+     "source": "git:bedf2e9e42",
+     "value": "2026-10-26"
+    },
+    {
+     "anchor": "2026-10-26",
+     "days_behind_the_newest_date": 0,
+     "source": "git:2ab7199852",
+     "value": "2026-10-26"
+    }
+   ],
+   "vintages_read": 18,
+   "vintages_with_the_field": 18,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "a_string_literal_at_the_writing_site",
+   "writing_site_count": 60,
+   "writing_sites": [
+    {
+     "file": "scripts/ceo_live_usage.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 306,
+     "sample": null
+    },
+    {
+     "file": "scripts/ceo_live_usage.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 449,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 346,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 419,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 457,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 495,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 337,
+     "sample": null
+    },
+    {
+     "file": "scripts/daily_report.py",
+     "kind": "another_expression_at_the_writing_site",
+     "line": 386,
+     "sample": null
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 54
+  },
+  {
+   "class": "a_freshness_witness_it_equals_the_newest_date_elsewhere_in_every_vintage",
+   "face": "results/regime_gate_dualarm/latest.json",
+   "face_bytes": 2282,
+   "face_mtime_age_days": 0,
+   "field": "asof",
+   "field_name": "asof",
+   "git_note": "ok",
+   "sample": "2026-11-03",
+   "vintage_sources": [
+    "disk:current",
+    "git:eede241e64",
+    "git:14b714184c",
+    "git:38267202bd"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-11-03",
+     "days_behind_the_newest_date": 0,
+     "source": "disk:current",
+     "value": "2026-11-03"
+    },
+    {
+     "anchor": "2026-11-03",
+     "days_behind_the_newest_date": 0,
+     "source": "git:eede241e64",
+     "value": "2026-11-03"
+    },
+    {
+     "anchor": "2026-10-19",
+     "days_behind_the_newest_date": 0,
+     "source": "git:14b714184c",
+     "value": "2026-10-19"
+    },
+    {
+     "anchor": "2026-09-30",
+     "days_behind_the_newest_date": 0,
+     "source": "git:38267202bd",
+     "value": "2026-09-30"
+    }
+   ],
+   "vintages_read": 4,
+   "vintages_with_the_field": 4,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "a_name_that_is_not_a_literal_at_the_writing_site",
+   "writing_site_count": 1,
+   "writing_sites": [
+    {
+     "file": "scripts/regime_gate_dualarm.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 164,
+     "sample": null
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 113
+  },
+  {
+   "class": "a_constant_but_no_vintage_shows_the_face_itself_moving_so_the_axis_is_unexercised",
+   "face": "results/shortline/p1e_nulls_M_arc.json",
+   "face_bytes": 1252,
+   "face_mtime_age_days": 21,
+   "field": "is_end",
+   "field_name": "is_end",
+   "git_note": "ok",
+   "sample": "2024-12-31",
+   "vintage_sources": [
+    "disk:current",
+    "disk:results/shortline/p1c_nulls.json",
+    "disk:results/shortline/p1c_stage_b_probe.json",
+    "disk:results/shortline/p1c_stock_ic.json",
+    "disk:results/shortline/p1c_wq_probe.json",
+    "disk:results/shortline/p1d_ext_slots_ic.json",
+    "disk:results/shortline/p1d_gdhs_quarterly.json",
+    "disk:results/shortline/p1e_equiv.json",
+    "disk:results/shortline/p1e_neighbor_corr.json",
+    "disk:results/shortline/p1e_nulls_M_close.json",
+    "disk:results/shortline/p1e_nulls_M_close_tr.json",
+    "disk:results/shortline/p1e_probe.json",
+    "disk:results/shortline/p1e_synth.json",
+    "disk:results/shortline/p1e_synth_parts.json",
+    "disk:results/shortline/p1e_zoo_behavior.json",
+    "disk:results/shortline/p5c_grid_probe.json",
+    "disk:results/shortline/p5c_virtual_timepoint.json",
+    "git:14dae7190e"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": 630,
+     "source": "disk:current",
+     "value": "2024-12-31"
+    },
+    {
+     "anchor": null,
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1c_nulls.json",
+     "value": null
+    },
+    {
+     "anchor": null,
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1c_stage_b_probe.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1c_stock_ic.json",
+     "value": null
+    },
+    {
+     "anchor": null,
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1c_wq_probe.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1d_ext_slots_ic.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1d_gdhs_quarterly.json",
+     "value": null
+    },
+    {
+     "anchor": null,
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_equiv.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_neighbor_corr.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": 630,
+     "source": "disk:results/shortline/p1e_nulls_M_close.json",
+     "value": "2024-12-31"
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": 630,
+     "source": "disk:results/shortline/p1e_nulls_M_close_tr.json",
+     "value": "2024-12-31"
+    },
+    {
+     "anchor": "2024-12-31",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_probe.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_synth.json",
+     "value": null
+    },
+    {
+     "anchor": "2024-12-31",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_synth_parts.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_zoo_behavior.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p5c_grid_probe.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p5c_virtual_timepoint.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": 630,
+     "source": "git:14dae7190e",
+     "value": "2024-12-31"
+    }
+   ],
+   "vintages_read": 18,
+   "vintages_with_the_field": 4,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "another_expression_at_the_writing_site",
+   "writing_site_count": 24,
+   "writing_sites": [
+    {
+     "file": "scripts/a158_truegap_ic.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 622,
+     "sample": null
+    },
+    {
+     "file": "scripts/composite_ic.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 158,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_spanning_pre2020.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 219,
+     "sample": null
+    },
+    {
+     "file": "scripts/j13v2_mill.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 352,
+     "sample": null
+    },
+    {
+     "file": "scripts/lhb_thermo_ic_p1.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 383,
+     "sample": null
+    },
+    {
+     "file": "scripts/og1_overnight_ic.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 599,
+     "sample": null
+    },
+    {
+     "file": "scripts/p1c_stock_ic_batch.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 566,
+     "sample": null
+    },
+    {
+     "file": "scripts/p1d_ext_slots_ic.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 597,
+     "sample": null
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 0
+  },
+  {
+   "class": "a_constant_but_no_vintage_shows_the_face_itself_moving_so_the_axis_is_unexercised",
+   "face": "results/shortline/p1e_nulls_M_close.json",
+   "face_bytes": 1115,
+   "face_mtime_age_days": 21,
+   "field": "is_end",
+   "field_name": "is_end",
+   "git_note": "ok",
+   "sample": "2024-12-31",
+   "vintage_sources": [
+    "disk:current",
+    "disk:results/shortline/p1c_nulls.json",
+    "disk:results/shortline/p1c_stage_b_probe.json",
+    "disk:results/shortline/p1c_stock_ic.json",
+    "disk:results/shortline/p1c_wq_probe.json",
+    "disk:results/shortline/p1d_ext_slots_ic.json",
+    "disk:results/shortline/p1d_gdhs_quarterly.json",
+    "disk:results/shortline/p1e_equiv.json",
+    "disk:results/shortline/p1e_neighbor_corr.json",
+    "disk:results/shortline/p1e_nulls_M_arc.json",
+    "disk:results/shortline/p1e_nulls_M_close_tr.json",
+    "disk:results/shortline/p1e_probe.json",
+    "disk:results/shortline/p1e_synth.json",
+    "disk:results/shortline/p1e_synth_parts.json",
+    "disk:results/shortline/p1e_zoo_behavior.json",
+    "disk:results/shortline/p5c_grid_probe.json",
+    "disk:results/shortline/p5c_virtual_timepoint.json",
+    "git:2bc41f9029"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": 630,
+     "source": "disk:current",
+     "value": "2024-12-31"
+    },
+    {
+     "anchor": null,
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1c_nulls.json",
+     "value": null
+    },
+    {
+     "anchor": null,
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1c_stage_b_probe.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1c_stock_ic.json",
+     "value": null
+    },
+    {
+     "anchor": null,
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1c_wq_probe.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1d_ext_slots_ic.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1d_gdhs_quarterly.json",
+     "value": null
+    },
+    {
+     "anchor": null,
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_equiv.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_neighbor_corr.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": 630,
+     "source": "disk:results/shortline/p1e_nulls_M_arc.json",
+     "value": "2024-12-31"
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": 630,
+     "source": "disk:results/shortline/p1e_nulls_M_close_tr.json",
+     "value": "2024-12-31"
+    },
+    {
+     "anchor": "2024-12-31",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_probe.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_synth.json",
+     "value": null
+    },
+    {
+     "anchor": "2024-12-31",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_synth_parts.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_zoo_behavior.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p5c_grid_probe.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p5c_virtual_timepoint.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": 630,
+     "source": "git:2bc41f9029",
+     "value": "2024-12-31"
+    }
+   ],
+   "vintages_read": 18,
+   "vintages_with_the_field": 4,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "another_expression_at_the_writing_site",
+   "writing_site_count": 24,
+   "writing_sites": [
+    {
+     "file": "scripts/a158_truegap_ic.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 622,
+     "sample": null
+    },
+    {
+     "file": "scripts/composite_ic.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 158,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_spanning_pre2020.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 219,
+     "sample": null
+    },
+    {
+     "file": "scripts/j13v2_mill.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 352,
+     "sample": null
+    },
+    {
+     "file": "scripts/lhb_thermo_ic_p1.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 383,
+     "sample": null
+    },
+    {
+     "file": "scripts/og1_overnight_ic.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 599,
+     "sample": null
+    },
+    {
+     "file": "scripts/p1c_stock_ic_batch.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 566,
+     "sample": null
+    },
+    {
+     "file": "scripts/p1d_ext_slots_ic.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 597,
+     "sample": null
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 0
+  },
+  {
+   "class": "a_constant_but_no_vintage_shows_the_face_itself_moving_so_the_axis_is_unexercised",
+   "face": "results/shortline/p1e_nulls_M_close_tr.json",
+   "face_bytes": 1251,
+   "face_mtime_age_days": 21,
+   "field": "is_end",
+   "field_name": "is_end",
+   "git_note": "ok",
+   "sample": "2024-12-31",
+   "vintage_sources": [
+    "disk:current",
+    "disk:results/shortline/p1c_nulls.json",
+    "disk:results/shortline/p1c_stage_b_probe.json",
+    "disk:results/shortline/p1c_stock_ic.json",
+    "disk:results/shortline/p1c_wq_probe.json",
+    "disk:results/shortline/p1d_ext_slots_ic.json",
+    "disk:results/shortline/p1d_gdhs_quarterly.json",
+    "disk:results/shortline/p1e_equiv.json",
+    "disk:results/shortline/p1e_neighbor_corr.json",
+    "disk:results/shortline/p1e_nulls_M_arc.json",
+    "disk:results/shortline/p1e_nulls_M_close.json",
+    "disk:results/shortline/p1e_probe.json",
+    "disk:results/shortline/p1e_synth.json",
+    "disk:results/shortline/p1e_synth_parts.json",
+    "disk:results/shortline/p1e_zoo_behavior.json",
+    "disk:results/shortline/p5c_grid_probe.json",
+    "disk:results/shortline/p5c_virtual_timepoint.json",
+    "git:42c0d4b0e4"
+   ],
+   "vintage_values": [
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": 630,
+     "source": "disk:current",
+     "value": "2024-12-31"
+    },
+    {
+     "anchor": null,
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1c_nulls.json",
+     "value": null
+    },
+    {
+     "anchor": null,
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1c_stage_b_probe.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1c_stock_ic.json",
+     "value": null
+    },
+    {
+     "anchor": null,
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1c_wq_probe.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1d_ext_slots_ic.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1d_gdhs_quarterly.json",
+     "value": null
+    },
+    {
+     "anchor": null,
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_equiv.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_neighbor_corr.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": 630,
+     "source": "disk:results/shortline/p1e_nulls_M_arc.json",
+     "value": "2024-12-31"
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": 630,
+     "source": "disk:results/shortline/p1e_nulls_M_close.json",
+     "value": "2024-12-31"
+    },
+    {
+     "anchor": "2024-12-31",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_probe.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_synth.json",
+     "value": null
+    },
+    {
+     "anchor": "2024-12-31",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_synth_parts.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p1e_zoo_behavior.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p5c_grid_probe.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": null,
+     "source": "disk:results/shortline/p5c_virtual_timepoint.json",
+     "value": null
+    },
+    {
+     "anchor": "2026-09-22",
+     "days_behind_the_newest_date": 630,
+     "source": "git:42c0d4b0e4",
+     "value": "2024-12-31"
+    }
+   ],
+   "vintages_read": 18,
+   "vintages_with_the_field": 4,
+   "witness_class": "the_face_carries_a_top_level_date_field_whose_name_is_not_in_the_witness_list",
+   "writing_site_class": "another_expression_at_the_writing_site",
+   "writing_site_count": 24,
+   "writing_sites": [
+    {
+     "file": "scripts/a158_truegap_ic.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 622,
+     "sample": null
+    },
+    {
+     "file": "scripts/composite_ic.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 158,
+     "sample": null
+    },
+    {
+     "file": "scripts/etf_book_spanning_pre2020.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 219,
+     "sample": null
+    },
+    {
+     "file": "scripts/j13v2_mill.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 352,
+     "sample": null
+    },
+    {
+     "file": "scripts/lhb_thermo_ic_p1.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 383,
+     "sample": null
+    },
+    {
+     "file": "scripts/og1_overnight_ic.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 599,
+     "sample": null
+    },
+    {
+     "file": "scripts/p1c_stock_ic_batch.py",
+     "kind": "a_call_result_at_the_writing_site",
+     "line": 566,
+     "sample": null
+    },
+    {
+     "file": "scripts/p1d_ext_slots_ic.py",
+     "kind": "a_name_that_is_not_a_literal_at_the_writing_site",
+     "line": 597,
+     "sample": null
+    }
+   ],
+   "writing_sites_rejected_for_not_naming_the_face": 0
+  }
+ ],
+ "study": "E509_unlisted_date_origin",
+ "summary": {
+  "by_class": {
+   "a_constant_but_no_vintage_shows_the_face_itself_moving_so_the_axis_is_unexercised": 10,
+   "a_constant_the_face_was_rebuilt_under_and_it_did_not_move": 3,
+   "a_constant_written_as_a_string_literal": 0,
+   "a_date_that_is_the_newest_one_in_its_face_in_some_vintages_but_not_in_others": 5,
+   "a_date_that_moves_but_never_agrees_with_the_newest_date_elsewhere_in_the_face": 1,
+   "a_freshness_witness_it_equals_the_newest_date_elsewhere_in_every_vintage": 1,
+   "no_second_vintage_so_no_counterfactual": 0,
+   "the_field_is_not_readable_in_any_vintage": 0
+  },
+  "by_writing_site_class": {
+   "a_call_result_at_the_writing_site": 0,
+   "a_name_that_is_not_a_literal_at_the_writing_site": 2,
+   "a_string_literal_at_the_writing_site": 9,
+   "another_expression_at_the_writing_site": 7,
+   "no_writing_site_found_in_the_static_arm": 2
+  },
+  "bytes_of_faces_carrying_a_constant_date": 18198,
+  "bytes_of_faces_whose_unlisted_dates_never_track_the_data": 18198,
+  "bytes_total": 72500,
+  "card_population_claim": 17,
+  "evidence_cutoff": "2026-11-07",
+  "faces": 16,
+  "faces_carrying_a_constant_date": 10,
+  "faces_whose_unlisted_dates_never_track_the_data": 10,
+  "faces_with_a_witness_or_a_partial_witness": 6,
+  "fields": 8,
+  "pairs": 20,
+  "pairs_decided": 20,
+  "pairs_that_are_not_a_witness": 19,
+  "pairs_undecided": 0,
+  "pairs_with_a_second_vintage": 20,
+  "pairs_with_a_witness": 1,
+  "population_delta_vs_card": 3,
+  "population_re_derived": 20,
+  "upstream_faces_in_this_class": 16,
+  "vintages_from_disk_siblings": 166,
+  "vintages_from_git": 63,
+  "vintages_read": 249
+ },
+ "title": "For every face E506 classed as carrying a structured date under a name outside the witness list: does that field move when the face is rebuilt, and is it a freshness witness at all?",
+ "verdict": "the_unlisted_dates_split_between_ones_that_track_the_data_and_ones_that_do_not",
+ "verdict_vocab": [
+  "every_unlisted_date_that_has_a_counterfactual_is_a_constant_or_a_stamp_of_its_own_clock_and_none_of_them_tracks_the_data",
+  "every_unlisted_date_that_has_a_counterfactual_tracks_the_data",
+  "the_unlisted_dates_split_between_ones_that_track_the_data_and_ones_that_do_not",
+  "no_pair_had_a_counterfactual_so_nothing_is_decided"
+ ],
+ "writing_site_vocab": [
+  "a_string_literal_at_the_writing_site",
+  "a_name_that_is_not_a_literal_at_the_writing_site",
+  "a_call_result_at_the_writing_site",
+  "another_expression_at_the_writing_site",
+  "no_writing_site_found_in_the_static_arm"
+ ]
+}

@@ -20978,5 +20978,70 @@ except Exception as _e508x:
     _d508 = "leg could not run"
 check(_name508, not _bad508, "; ".join(_bad508)[:240] or _d508)
 
+# E509: read the published unlisted-date face the way a consumer would -- the population must be
+# the pairs E506 classed as an unlisted structured date, every row's class must be the one its own
+# readings and deltas imply, the byte total must count each face once, and three doctored copies
+# (a flipped class, a witness whose deltas are never zero, a hand-written witness count) must all
+# be refused.
+_name509 = ("E509 every unlisted date field in E506's population is read across vintages of its "
+            "own face, so a constant and a freshness witness are separated (r1539 bm-b)")
+_bad509 = []
+try:
+    _m509 = __import__("importlib").import_module("e509_unlisted_date_origin")
+    _f509 = json.load(open(os.path.join("results", "state_tilt",
+                                       "unlisteddateorigin_latest.json"), encoding="utf-8"))
+    _s509 = _f509.get("summary") or {}
+    _r509 = _f509.get("rows") or []
+    _bad509.extend(_m509.surface_problems(_f509))
+    if not _r509:
+        _bad509.append("the pair population is empty")
+    _up509 = json.load(open(os.path.join("results", "state_tilt",
+                                        "NODATEWITNESS-2026-11-07.json"), encoding="utf-8"))
+    _pop509 = {(p["face"], p["field"]) for p in _m509.population(_up509)}
+    _got509 = {(r.get("face"), r.get("field")) for r in _r509}
+    if _pop509 - _got509:
+        _bad509.append("a pair E506 published is missing here")
+    if _got509 - _pop509:
+        _bad509.append("the face carries a pair E506 never published")
+    if any(r.get("vintages_read", 0) != len(r.get("vintage_sources") or []) for r in _r509):
+        _bad509.append("a row does not publish one source per vintage")
+    if any(r.get("vintages_with_the_field", 0) > r.get("vintages_read", 0) for r in _r509):
+        _bad509.append("a row reports more readable vintages than vintages read")
+    _seen509 = {}
+    for _r in _r509:
+        _seen509.setdefault(_r.get("face"), _r.get("face_bytes") or 0)
+    if _s509.get("bytes_total") != sum(_seen509.values()):
+        _bad509.append("the byte total counts a face more than once")
+    if _f509.get("verdict") != _m509._verdict(_s509):
+        _bad509.append("the verdict is not the one the summary implies")
+    _w509 = json.loads(json.dumps(_f509))
+    _w509["rows"][0]["class"] = _m509.K_WITNESS
+    if not _m509.surface_problems(_w509):
+        _bad509.append("a flipped class survived the guard")
+    _w509b = json.loads(json.dumps(_f509))
+    _k509 = next(i for i, _r in enumerate(_w509b["rows"])
+                 if _r.get("class") == _m509.K_WITNESS)
+    _w509b["rows"][_k509]["vintage_values"] = [
+        dict(v, days_behind_the_newest_date=1) for v in _w509b["rows"][_k509]["vintage_values"]]
+    if not _m509.surface_problems(_w509b):
+        _bad509.append("a witness whose deltas are never zero survived the guard")
+    _w509c = json.loads(json.dumps(_f509))
+    _w509c["summary"]["pairs_with_a_witness"] += 1
+    if not _m509.surface_problems(_w509c):
+        _bad509.append("a hand-written witness count survived the guard")
+    _d509 = ("%r faces / %r pairs / %r fields | witness %r not-a-witness %r | constants %r | "
+             "vintages %r (git %r) | faces that never certify %r (%r of %r bytes) | verdict %r"
+             % (_s509.get("faces"), _s509.get("pairs"), _s509.get("fields"),
+                _s509.get("pairs_with_a_witness"), _s509.get("pairs_that_are_not_a_witness"),
+                _s509.get("faces_carrying_a_constant_date"), _s509.get("vintages_read"),
+                _s509.get("vintages_from_git"),
+                _s509.get("faces_whose_unlisted_dates_never_track_the_data"),
+                _s509.get("bytes_of_faces_whose_unlisted_dates_never_track_the_data"),
+                _s509.get("bytes_total"), _f509.get("verdict")))
+except Exception as _e509x:
+    _bad509.append(repr(_e509x)[:160])
+    _d509 = "leg could not run"
+check(_name509, not _bad509, "; ".join(_bad509)[:240] or _d509)
+
 if __name__ == "__main__":
     sys.exit(main())
