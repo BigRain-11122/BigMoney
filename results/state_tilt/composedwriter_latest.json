@@ -1,0 +1,3933 @@
+{
+ "card": "E487-OF-THE-SPELLINGS-NO-SOURCE-WRITES-LITERALLY-HOW-MANY-HAVE-A-COMPOSED-WRITER",
+ "study": "E487_of_the_spellings_no_source_writes_literally_how_many_have_a_composed_writer",
+ "title": "of the spellings no source writes literally, how many have a composed writer?",
+ "evidence_cutoff": "2026-11-07",
+ "generated": "2026-11-07T08:18:42+0800",
+ "population_source": {
+  "face": "latestoutside_latest.json",
+  "face_verdict": "most_outside_opener_sites_resolve_to_a_file_but_some_open_a_spelling_no_file_carries",
+  "face_evidence_cutoff": "2026-11-07",
+  "parent_distinct_spellings": 201,
+  "parent_class_counts": {
+   "a_file_carries_this_spelling_and_a_source_writes_it": 111,
+   "a_file_carries_this_spelling_but_no_source_writes_it": 84,
+   "no_file_carries_this_spelling_although_a_source_writes_it": 3,
+   "no_file_carries_this_spelling_and_no_source_writes_it": 0,
+   "the_spelling_names_no_concrete_file_at_all": 3
+  },
+  "parent_unwritten_spellings": 84,
+  "population_rows_agree_with_the_parent_tally": true,
+  "excluded_source_prefixes": [
+   "e479_",
+   "run_e479",
+   "e480_",
+   "run_e480",
+   "e481_",
+   "run_e481",
+   "e482_",
+   "run_e482",
+   "e484_",
+   "run_e484",
+   "e487_",
+   "run_e487"
+  ]
+ },
+ "route_definition": {
+  "direct": "a literal that carries the stem is bound to a name used in the write call's own path expression (assignments followed up to 3 hops)",
+  "helper": "the literal reaches the path parameter of a *local* write helper and the helper is called with it: one interprocedural hop, a helper imported from another module is not traced",
+  "loop": "the name only resolves once a ``for`` target iterating a tuple/dict of name constants is followed: the weakest route, so it is only claimed when no stronger one exists"
+ },
+ "class_definition": {
+  "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem": "a write path traces back to a letter-for-letter stem literal directly",
+  "the_write_path_reaches_the_stem_only_through_a_write_helper_argument": "the stem only reaches a write path through a local helper's argument",
+  "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants": "the stem only reaches a write path through a loop target over name constants",
+  "the_stem_is_named_by_writing_sources_that_this_census_excludes": "no in-corpus source traces the stem, but a source this census excludes does name it and writes: the blindness the population inherits is named",
+  "only_a_non_python_source_names_the_stem": "no python source traces the stem, a non-python source names it",
+  "a_source_that_writes_names_the_stem_but_no_write_path_is_traced": "an in-corpus source names the stem and writes files, but no write path traces back to it: the name is incidental to that source's writes",
+  "only_its_readers_name_the_stem": "only the sources that already open this spelling name its stem",
+  "no_source_in_the_corpus_names_the_stem": "no source in the corpus names the stem at all"
+ },
+ "directory_class_definition": {
+  "the_writer_path_reaches_the_directory_the_reader_resolves_to": "a string the traced path reaches names the directory the reader resolves to",
+  "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced": "the traced path reaches only bare basenames, so the directory comes from somewhere this analysis does not follow",
+  "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory": "the traced path reaches a stated path in a different directory"
+ },
+ "summary": {
+  "population_spellings": 84,
+  "population_reader_sources": 18,
+  "class_counts": {
+   "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem": 20,
+   "the_write_path_reaches_the_stem_only_through_a_write_helper_argument": 5,
+   "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants": 42,
+   "the_stem_is_named_by_writing_sources_that_this_census_excludes": 3,
+   "only_a_non_python_source_names_the_stem": 0,
+   "a_source_that_writes_names_the_stem_but_no_write_path_is_traced": 11,
+   "only_its_readers_name_the_stem": 3,
+   "no_source_in_the_corpus_names_the_stem": 0
+  },
+  "spellings_whose_write_path_traces_to_the_stem": 67,
+  "spellings_traced_directly": 20,
+  "spellings_traced_through_a_write_helper": 5,
+  "spellings_traced_through_a_loop_over_name_constants": 42,
+  "spellings_named_only_by_excluded_sources": 3,
+  "spellings_named_only_by_a_non_python_source": 0,
+  "spellings_named_by_writers_but_not_traced": 11,
+  "spellings_named_only_by_their_readers": 3,
+  "spellings_no_source_names": 0,
+  "spellings_with_a_generic_stem_flag": 0,
+  "directory_class_counts": {
+   "the_writer_path_reaches_the_directory_the_reader_resolves_to": 1,
+   "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced": 51,
+   "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory": 15
+  },
+  "traced_spellings_whose_path_reaches_the_reader_directory": 1,
+  "traced_spellings_whose_path_reaches_only_a_basename": 51,
+  "traced_spellings_whose_path_reaches_another_directory": 15,
+  "python_sources_scanned": 12292,
+  "python_sources_naming_a_stem": 610,
+  "python_sources_scanned_but_excluded": 11,
+  "excluded_sources_naming_a_stem": 9,
+  "non_python_sources_scanned": 531,
+  "non_python_sources_naming_a_stem": 4,
+  "parent_unwritten_spellings": 84,
+  "population_reproduced": true
+ },
+ "verdict": "most_unwritten_spellings_have_a_writing_source_whose_path_traces_back_to_the_stem",
+ "verdict_vocab": [
+  "the_parent_published_no_unwritten_spelling",
+  "no_unwritten_spelling_has_a_write_path_that_traces_back_to_its_stem",
+  "every_unwritten_spelling_has_a_write_path_that_traces_back_to_its_stem",
+  "most_unwritten_spellings_have_a_writing_source_whose_path_traces_back_to_the_stem",
+  "most_unwritten_spellings_have_no_writing_source_whose_path_traces_to_the_stem"
+ ],
+ "rows": [
+  {
+   "spelling": "abandonedstale_latest.json",
+   "stem": "abandonedstale",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/abandonedstale_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e453_abandoned_stale.py",
+     "route": "loop",
+     "line": 383
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e453_abandoned_stale.py"
+   ],
+   "naming_source_count": 2,
+   "naming_sources_outside_the_readers": [
+    "scripts/e453_abandoned_stale.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "ABANDONEDSTALE"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "allowance_latest.json",
+   "stem": "allowance",
+   "class": "the_write_path_reaches_the_stem_only_through_a_write_helper_argument",
+   "route": "helper",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/allowance_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/_r1439_closeout.py",
+     "route": "helper",
+     "line": 232
+    },
+    {
+     "source": "scripts/e340_who_authorizes_whose_allowance.py",
+     "route": "loop",
+     "line": 540
+    }
+   ],
+   "tracing_source_count": 2,
+   "tracing_sources_outside_the_readers": [
+    "Tools/s6_chain_bmb.py",
+    "_e337_card.py",
+    "_e340_check.py",
+    "_e340_probe.py",
+    "_e340_probe2.py",
+    "_r1357_close.py",
+    "results/_r830bmc_closeout_write.py",
+    "scripts/_r1439_closeout.py",
+    "scripts/e335_sibling_entry_point.py",
+    "scripts/e340_who_authorizes_whose_allowance.py",
+    "scripts/e341_sibling_closer_what_changed.py",
+    "scripts/e343_bound_grant_decisions.py"
+   ],
+   "naming_source_count": 18,
+   "naming_sources_outside_the_readers": [
+    "Tools/s6_chain_bmb.py",
+    "_e337_card.py",
+    "_e340_check.py",
+    "_e340_probe.py",
+    "_e340_probe2.py",
+    "_r1357_close.py",
+    "results/_r830bmc_closeout_write.py",
+    "scripts/_r1439_closeout.py",
+    "scripts/e335_sibling_entry_point.py",
+    "scripts/e340_who_authorizes_whose_allowance.py",
+    "scripts/e341_sibling_closer_what_changed.py",
+    "scripts/e343_bound_grant_decisions.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "ALLOWANCE-%s.json",
+    "FACE = 'results/x/ALLOWANCE-%s.json'\ndef build():\n    return {'optin_allowlist': [1]}\ndef verify():\n    disk = json.load(open(path))\n    if (disk.get('optin_allowlist') or []) != (fresh.get('optin_allowlist') or []):\n        pass\n    if disk.get('whitelist'):\n        pass\n    assert disk.get('exempt')\ndef cmd_selftest():\n    check('L1', 'optin_allowlist' == 'optin_allowlist')",
+    "^([A-Z][A-Z0-9_]*)/s*=/s*[/[/(/{'/\"]",
+    "^[ /t]*(?:([A-Za-z_]/w*)[ /t]*,[^=]*|[ /t]*([A-Za-z_]/w*)[ /t]*)=[ /t]*([A-Za-z_]/w*)/(",
+    "^def ([A-Za-z_]/w*)/(",
+    "allowance_latest.json",
+    "| 2026-11-04T21:20:00+08:00 | r1439 | bm-b | **watermark: red=true lane=pool-batch-runnable-idle-low-cpu** (escalation lane; the round took the ready head E413 in-window). E421: the 33 names E406 could not resolve are resolved by the directory their literal is joined against, not by the attribution basis E412 disqualified -- **18 resolve to a file the reader itself spells** (`docs/live_usage/` 9, `docs/daily_report/` 9, `results/state_tilt/` 1), **9 are written only into a selftest `tempfile.mkdtemp()` tree**, **5 are named only by the census's own selftest**, 1 is on disk and absent only at the census's HEAD, and **0 are joined into the repo and genuinely missing**. The two strong-basis names (`CORPUSPIN-2026-01-01/02.json`) are both fixtures: 0 of 2 resolve, so basis does not predict resolution. The mechanism is upstream of both: E406 recorded **32 of the 33 rows as a bare basename with no directory** (`unresolved_census_directory = {'.': 32}`), and a bare basename cannot resolve to a file. CONTROL: the 25 faces E406 compared resolve 25 of 25 and 0 are called fixtures -- the classifier discriminates rather than calling everything a fixture. PRODUCT: `scripts/e421_strong_basis_resolution.py` (run / verify problems=0 / selftest 27/27) + `results/state_tilt/NAMERESOLVE-2026-11-04.json` (+`nameresolve_latest.json`, byte-identical on re-run) + smoke leg `# E421 (r1439 bm-b)` 1/1 via `scripts/run_e421_smoke_leg.py`, proved red on a doctored summary then restored byte-identical (sha 815f02e2a6...) + S6 leg `name_resolve` rc=0 + card E421 + digest `research/digests/DIGEST-20261104-r1439-e421-name-resolution.md` + pool E413 done with result_ref and E422 seeded. PITS (four, three of them mechanical): (1) `endswith(base)` is not 'names the base' -- `delta_latest.json` sits inside `keydelta_latest.json` and `x_latest.json` inside `slopematrix_latest.json`, so three names came out as genuinely missing repo files on the first burn (E330 family); (2) self-inclusion, fourth recurrence -- after exact matching the same three reappeared as repo reads because this study's own selftest spells them, so the study now excludes itself and publishes `corpus.self_excluded`; (3) a count over a growing corpus cannot sit in an equality gate (E420's law met again one round later): `modules_scanned` moved the moment the smoke-leg runner file appeared, so corpus size lives outside the pinned summary; (4) evidence ordering -- putting a temp join above existence called 5 of the 25 control faces fixtures, because those are real faces whose basename a round script's fixture also spells. Also published, not counted: a same-stem sibling (`ALLOWANCE-2026-11-01.json` beside `ALLOWANCE-2099-01-01.json`) makes a fixture look like a renamed face. S0/S0.5: machine id bm-b from `fleet/machine.json`; `git pull --rebase` refused (unstaged changes in a tree carrying ~350 untracked scratch faces, unchanged wedge), so no remote sync was attempted; orders diff = 114 files / 115 acks / 0 unacked (no order to execute); decisions hash read from the cached origin blob -- D-20261104-05 (single-host ownership) already satisfied on this host, nothing new owed. S6/S7: name_resolve leg (this study's own `verify`) rc=0 | orphan probe py_faces=8 orphans=0 residents=0 | the rest of the S6 chain and the lane collectors were NOT re-run this window (wall budget, stated plainly). NOT RUN / NOT CLAIMED: the full ~320-leg smoke suite was not re-run, so 320/320 is not claimed; no GPU work (parked C-20261014-01); no cloud call; nothing deleted. 登记簿零命中 (no sweep/archive action). | 本地未达 origin main commit = 355 (delivery on the machine branch) |"
+   ],
+   "directory_class": "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory"
+  },
+  {
+   "spelling": "ballastkeys_latest.json",
+   "stem": "ballastkeys",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/ballastkeys_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e380_ballast_keys_and_readers.py",
+     "route": "loop",
+     "line": 280
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e380_ballast_keys_and_readers.py"
+   ],
+   "naming_source_count": 2,
+   "naming_sources_outside_the_readers": [
+    "scripts/e380_ballast_keys_and_readers.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BALLASTKEYS-%s.json",
+    "ballastkeys_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "bandambient_latest.json",
+   "stem": "bandambient",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/bandambient_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e291_ambiguity_chance.py",
+     "route": "loop",
+     "line": 435
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_r1313bmb_card.py",
+    "_r1313bmb_closeout.py",
+    "_r1313bmb_pooledit.py",
+    "scripts/e291_ambiguity_chance.py"
+   ],
+   "naming_source_count": 5,
+   "naming_sources_outside_the_readers": [
+    "_r1313bmb_card.py",
+    "_r1313bmb_closeout.py",
+    "_r1313bmb_pooledit.py",
+    "scripts/e291_ambiguity_chance.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDAMBIENT-%s.json",
+    "bandambient_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "bandclosure_latest.json",
+   "stem": "bandclosure",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/bandclosure_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e295_supply_gap_closure.py",
+     "route": "loop",
+     "line": 535
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_e295_closeout.py",
+    "_e295_poolpatch.py",
+    "results/_r1315bmb_pool_patch.py",
+    "scripts/e295_supply_gap_closure.py",
+    "scripts/e300_window_local_margin_census.py"
+   ],
+   "naming_source_count": 6,
+   "naming_sources_outside_the_readers": [
+    "_e295_closeout.py",
+    "_e295_poolpatch.py",
+    "results/_r1315bmb_pool_patch.py",
+    "scripts/e295_supply_gap_closure.py",
+    "scripts/e300_window_local_margin_census.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDCLOSURE-%s.json",
+    "bandclosure_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "bandcountscope_latest.json",
+   "stem": "bandcountscope",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/bandcountscope_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e286_count_field_scope.py",
+     "route": "loop",
+     "line": 414
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_e286_card.py",
+    "_e286_probe6.py",
+    "_e286_smokeleg.py",
+    "_r1311bmb_closeout.py",
+    "_r1311bmb_pool.py",
+    "results/_r1309bmb_pool_edit.py",
+    "scripts/e286_count_field_scope.py",
+    "scripts/e290_selfauditable_face_profile.py",
+    "scripts/e292_scope_fix_plan.py"
+   ],
+   "naming_source_count": 10,
+   "naming_sources_outside_the_readers": [
+    "_e286_card.py",
+    "_e286_probe6.py",
+    "_e286_smokeleg.py",
+    "_r1311bmb_closeout.py",
+    "_r1311bmb_pool.py",
+    "results/_r1309bmb_pool_edit.py",
+    "scripts/e286_count_field_scope.py",
+    "scripts/e290_selfauditable_face_profile.py",
+    "scripts/e292_scope_fix_plan.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDCOUNTSCOPE-%s.json",
+    "bandcountscope_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "banddisagree_latest.json",
+   "stem": "banddisagree",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/banddisagree_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e282_substitution_disagreement_census.py",
+     "route": "direct",
+     "line": 649
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "results/_r1305bmb_pool_surgery.py",
+    "results/_r1315bmb_card.py",
+    "scripts/e282_substitution_disagreement_census.py",
+    "scripts/e287_supply_ceiling_axes.py"
+   ],
+   "naming_source_count": 5,
+   "naming_sources_outside_the_readers": [
+    "results/_r1305bmb_pool_surgery.py",
+    "results/_r1315bmb_card.py",
+    "scripts/e282_substitution_disagreement_census.py",
+    "scripts/e287_supply_ceiling_axes.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDDISAGREE-%s.json",
+    "banddisagree_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "banddraw-d1920_latest.json",
+   "stem": "banddraw-d1920",
+   "class": "a_source_that_writes_names_the_stem_but_no_write_path_is_traced",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/banddraw-d1920_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [
+    "_tmp_r1283_close.py"
+   ],
+   "naming_source_count": 2,
+   "naming_sources_outside_the_readers": [
+    "_tmp_r1283_close.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "banddraw-d960_latest.json",
+   "stem": "banddraw-d960",
+   "class": "a_source_that_writes_names_the_stem_but_no_write_path_is_traced",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/banddraw-d960_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [
+    "_tmp_r1283_close.py"
+   ],
+   "naming_source_count": 2,
+   "naming_sources_outside_the_readers": [
+    "_tmp_r1283_close.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "banddraw_latest.json",
+   "stem": "banddraw",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/banddraw_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "scripts/e255_band_draw_starvation.py",
+    "smoke_test.py"
+   ],
+   "reader_source_count": 2,
+   "tracing_sources": [
+    {
+     "source": "scripts/e255_band_draw_starvation.py",
+     "route": "loop",
+     "line": 508
+    },
+    {
+     "source": "scripts/e256_band_draw_continuation.py",
+     "route": "direct",
+     "line": 337
+    }
+   ],
+   "tracing_source_count": 2,
+   "tracing_sources_outside_the_readers": [
+    "_e286_fix_digest.py",
+    "_r1511bmb_card.py",
+    "_r1511bmb_report.py",
+    "_tmp_r1281_pool.py",
+    "_tmp_r1282_amend.py",
+    "_tmp_r1282_card.py",
+    "_tmp_r1282_close.py",
+    "_tmp_r1282_pool.py",
+    "_tmp_r1282_report.py",
+    "_tmp_r1282_seed.py",
+    "_tmp_r1282_seed2.py",
+    "_tmp_r1282_tag2.py"
+   ],
+   "naming_source_count": 20,
+   "naming_sources_outside_the_readers": [
+    "_e286_fix_digest.py",
+    "_r1511bmb_card.py",
+    "_r1511bmb_report.py",
+    "_tmp_r1281_pool.py",
+    "_tmp_r1282_amend.py",
+    "_tmp_r1282_card.py",
+    "_tmp_r1282_close.py",
+    "_tmp_r1282_pool.py",
+    "_tmp_r1282_report.py",
+    "_tmp_r1282_seed.py",
+    "_tmp_r1282_seed2.py",
+    "_tmp_r1282_tag2.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDDRAW-",
+    "BANDDRAW-%s%s.json",
+    "banddraw%s_latest.json",
+    "banddraw_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "banddupes_latest.json",
+   "stem": "banddupes",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/banddupes_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e293_duplicate_list_census.py",
+     "route": "loop",
+     "line": 464
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_r1313bmb_pooledit.py",
+    "results/_r1315bmb_pool_seed2.py",
+    "results/_r1318_closeout.py",
+    "scripts/e293_duplicate_list_census.py"
+   ],
+   "naming_source_count": 5,
+   "naming_sources_outside_the_readers": [
+    "_r1313bmb_pooledit.py",
+    "results/_r1315bmb_pool_seed2.py",
+    "results/_r1318_closeout.py",
+    "scripts/e293_duplicate_list_census.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDDUPES-%s.json",
+    "banddupes_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "bandexp_latest.json",
+   "stem": "bandexp",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/bandexp_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "scripts/e254_band_exponent_inside_cell.py",
+    "smoke_test.py"
+   ],
+   "reader_source_count": 2,
+   "tracing_sources": [
+    {
+     "source": "scripts/e254_band_exponent_inside_cell.py",
+     "route": "loop",
+     "line": 452
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_tmp_r1281_close.py",
+    "_tmp_r1281_docs.py",
+    "_tmp_r1281_pool.py",
+    "scripts/e312_gate_operand_identity.py"
+   ],
+   "naming_source_count": 6,
+   "naming_sources_outside_the_readers": [
+    "_tmp_r1281_close.py",
+    "_tmp_r1281_docs.py",
+    "_tmp_r1281_pool.py",
+    "scripts/e312_gate_operand_identity.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDEXP-%s.json",
+    "bandexp_latest.json",
+    "does the shuffled band really shrink as 1/sqrt(n) inside one era?"
+   ],
+   "directory_class": "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory"
+  },
+  {
+   "spelling": "bandflipbudget_latest.json",
+   "stem": "bandflipbudget",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/bandflipbudget_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e272_flip_budget_two_tails.py",
+     "route": "loop",
+     "line": 387
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_r1313bmb_card.py",
+    "_r1313bmb_closeout.py",
+    "results/_r1295bmb_pool_update.py",
+    "results/_r1300bmb_amend_row.py",
+    "results/_r1300bmb_card_append.py",
+    "results/_r1300bmb_closeout.py",
+    "results/_r1300bmb_pool_update.py",
+    "results/_r1300bmb_report_row.py",
+    "results/_r1306bmb_state_write.py",
+    "results/_r1310bmb_pool.py",
+    "scripts/e272_flip_budget_two_tails.py",
+    "scripts/e277_tight_multiplier_floor.py"
+   ],
+   "naming_source_count": 19,
+   "naming_sources_outside_the_readers": [
+    "_r1313bmb_card.py",
+    "_r1313bmb_closeout.py",
+    "results/_r1295bmb_pool_update.py",
+    "results/_r1300bmb_amend_row.py",
+    "results/_r1300bmb_card_append.py",
+    "results/_r1300bmb_closeout.py",
+    "results/_r1300bmb_pool_update.py",
+    "results/_r1300bmb_report_row.py",
+    "results/_r1306bmb_state_write.py",
+    "results/_r1310bmb_pool.py",
+    "scripts/e272_flip_budget_two_tails.py",
+    "scripts/e277_tight_multiplier_floor.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDFLIPBUDGET-%s%s.json",
+    "bandflipbudget_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "bandfloor_latest.json",
+   "stem": "bandfloor",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/bandfloor_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e277_tight_multiplier_floor.py",
+     "route": "loop",
+     "line": 411
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "Tools/s6_chain_bmb.py",
+    "_tmp_r1320_report.py",
+    "_tmp_r1320_report2.py",
+    "results/_r1300bmb_pool_update.py",
+    "results/_r1306bmb_report_row.py",
+    "results/_r1306bmb_state_write.py",
+    "results/_r1315bmb_pool_patch.py",
+    "results/_r1317bmb_closeout.py",
+    "results/_r1317bmb_closeout_prep.py",
+    "scripts/e277_tight_multiplier_floor.py",
+    "scripts/e278_spread_floor.py",
+    "scripts/e281_substitution_dependency_audit.py"
+   ],
+   "naming_source_count": 18,
+   "naming_sources_outside_the_readers": [
+    "Tools/s6_chain_bmb.py",
+    "_tmp_r1320_report.py",
+    "_tmp_r1320_report2.py",
+    "results/_r1300bmb_pool_update.py",
+    "results/_r1306bmb_report_row.py",
+    "results/_r1306bmb_state_write.py",
+    "results/_r1315bmb_pool_patch.py",
+    "results/_r1317bmb_closeout.py",
+    "results/_r1317bmb_closeout_prep.py",
+    "scripts/e277_tight_multiplier_floor.py",
+    "scripts/e278_spread_floor.py",
+    "scripts/e281_substitution_dependency_audit.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDFLOOR-%s.json",
+    "bandfloor_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "bandfloormirror_latest.json",
+   "stem": "bandfloormirror",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/bandfloormirror_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e288_below_floor_narrowing.py",
+     "route": "loop",
+     "line": 400
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "results/_r1310bmb_pool.py",
+    "results/_r1317bmb_closeout.py",
+    "results/_r1317bmb_closeout_prep.py",
+    "results/_r1317bmb_pool_flip.py",
+    "scripts/e288_below_floor_narrowing.py"
+   ],
+   "naming_source_count": 6,
+   "naming_sources_outside_the_readers": [
+    "results/_r1310bmb_pool.py",
+    "results/_r1317bmb_closeout.py",
+    "results/_r1317bmb_closeout_prep.py",
+    "results/_r1317bmb_pool_flip.py",
+    "scripts/e288_below_floor_narrowing.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDFLOORMIRROR-%s.json",
+    "bandfloormirror_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "bandgapceiling_latest.json",
+   "stem": "bandgapceiling",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/bandgapceiling_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e285_interrange_gap_ceiling.py",
+     "route": "loop",
+     "line": 406
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_e286_fix_digest.py",
+    "_r1313bmb_card.py",
+    "_r1313bmb_closeout.py",
+    "results/_r1310bmb_card.py",
+    "results/_r1310bmb_closeout.py",
+    "results/_r1310bmb_pool.py",
+    "scripts/e285_interrange_gap_ceiling.py",
+    "scripts/e287_supply_ceiling_axes.py"
+   ],
+   "naming_source_count": 9,
+   "naming_sources_outside_the_readers": [
+    "_e286_fix_digest.py",
+    "_r1313bmb_card.py",
+    "_r1313bmb_closeout.py",
+    "results/_r1310bmb_card.py",
+    "results/_r1310bmb_closeout.py",
+    "results/_r1310bmb_pool.py",
+    "scripts/e285_interrange_gap_ceiling.py",
+    "scripts/e287_supply_ceiling_axes.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDGAPCEILING-%s.json",
+    "bandgapceiling_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "bandmarginwindow_latest.json",
+   "stem": "bandmarginwindow",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/bandmarginwindow_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e300_window_local_margin_census.py",
+     "route": "loop",
+     "line": 434
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_e295_poolpatch.py",
+    "_tmp_r1320_hb.py",
+    "_tmp_r1320_pool.py",
+    "_tmp_r1320_report.py",
+    "_tmp_r1320_report2.py",
+    "scripts/e300_window_local_margin_census.py"
+   ],
+   "naming_source_count": 7,
+   "naming_sources_outside_the_readers": [
+    "_e295_poolpatch.py",
+    "_tmp_r1320_hb.py",
+    "_tmp_r1320_pool.py",
+    "_tmp_r1320_report.py",
+    "_tmp_r1320_report2.py",
+    "scripts/e300_window_local_margin_census.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDMARGINWINDOW-%s.json",
+    "bandmarginwindow_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "bandscopefix_latest.json",
+   "stem": "bandscopefix",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/bandscopefix_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e292_scope_fix_plan.py",
+     "route": "loop",
+     "line": 539
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e292_scope_fix_plan.py"
+   ],
+   "naming_source_count": 2,
+   "naming_sources_outside_the_readers": [
+    "scripts/e292_scope_fix_plan.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDSCOPEFIX-%s.json",
+    "bandscopefix_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "bandscreenbudget_latest.json",
+   "stem": "bandscreenbudget",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/bandscreenbudget_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e275_screen_margin_budget.py",
+     "route": "loop",
+     "line": 290
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_tmp_r1301_card_pool.py",
+    "_tmp_r1301_receipt.py",
+    "_tmp_r1301_report.py",
+    "_tmp_r1301_smokewire.py",
+    "_tmp_r1301_state.py",
+    "results/_r1299bmb_pool_surgery.py",
+    "scripts/e275_screen_margin_budget.py"
+   ],
+   "naming_source_count": 8,
+   "naming_sources_outside_the_readers": [
+    "_tmp_r1301_card_pool.py",
+    "_tmp_r1301_receipt.py",
+    "_tmp_r1301_report.py",
+    "_tmp_r1301_smokewire.py",
+    "_tmp_r1301_state.py",
+    "results/_r1299bmb_pool_surgery.py",
+    "scripts/e275_screen_margin_budget.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDSCREENBUDGET-%s.json",
+    "bandscreenbudget_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "bandselfaudit_latest.json",
+   "stem": "bandselfaudit",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/bandselfaudit_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e290_selfauditable_face_profile.py",
+     "route": "loop",
+     "line": 408
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_r1311bmb_pool.py",
+    "_r1313bmb_card.py",
+    "_r1313bmb_closeout.py",
+    "scripts/e290_selfauditable_face_profile.py",
+    "scripts/e291_ambiguity_chance.py",
+    "scripts/e292_scope_fix_plan.py"
+   ],
+   "naming_source_count": 7,
+   "naming_sources_outside_the_readers": [
+    "_r1311bmb_pool.py",
+    "_r1313bmb_card.py",
+    "_r1313bmb_closeout.py",
+    "scripts/e290_selfauditable_face_profile.py",
+    "scripts/e291_ambiguity_chance.py",
+    "scripts/e292_scope_fix_plan.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDSELFAUDIT-%s.json",
+    "bandselfaudit_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "bandsupply_latest.json",
+   "stem": "bandsupply",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/bandsupply_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e287_supply_ceiling_axes.py",
+     "route": "loop",
+     "line": 589
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "results/_r1315bmb_card.py",
+    "results/_r1315bmb_closeout.py",
+    "results/_r1315bmb_handover.py",
+    "results/_r1315bmb_pool_patch.py",
+    "results/_r1315bmb_roundrow.py",
+    "scripts/e287_supply_ceiling_axes.py",
+    "scripts/e295_supply_gap_closure.py",
+    "scripts/e300_window_local_margin_census.py"
+   ],
+   "naming_source_count": 9,
+   "naming_sources_outside_the_readers": [
+    "results/_r1315bmb_card.py",
+    "results/_r1315bmb_closeout.py",
+    "results/_r1315bmb_handover.py",
+    "results/_r1315bmb_pool_patch.py",
+    "results/_r1315bmb_roundrow.py",
+    "scripts/e287_supply_ceiling_axes.py",
+    "scripts/e295_supply_gap_closure.py",
+    "scripts/e300_window_local_margin_census.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDSUPPLY-%s.json",
+    "bandsupply_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "bandthreshguard_latest.json",
+   "stem": "bandthreshguard",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/bandthreshguard_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e273_guard_from_threshold.py",
+     "route": "direct",
+     "line": 381
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_tmp_e273_card.py",
+    "_tmp_e273_pool.py",
+    "_tmp_e273_smoke.py",
+    "_tmp_r1297_close.py",
+    "results/_r1296bmb_pool_surgery.py",
+    "scripts/e273_guard_from_threshold.py"
+   ],
+   "naming_source_count": 7,
+   "naming_sources_outside_the_readers": [
+    "_tmp_e273_card.py",
+    "_tmp_e273_pool.py",
+    "_tmp_e273_smoke.py",
+    "_tmp_r1297_close.py",
+    "results/_r1296bmb_pool_surgery.py",
+    "scripts/e273_guard_from_threshold.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "BANDTHRESHGUARD-%s.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "chwrcad_latest.json",
+   "stem": "chwrcad",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/chwrcad_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e357_channel_writer_cadence.py",
+     "route": "direct",
+     "line": 343
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/_r1379bmb_closeout.py",
+    "scripts/e357_channel_writer_cadence.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "scripts/_r1379bmb_closeout.py",
+    "scripts/e357_channel_writer_cadence.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "CHWRCAD-%s.json",
+    "chwrcad_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "collisionkey_latest.json",
+   "stem": "collisionkey",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/collisionkey_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e383_shared_key_collision.py",
+     "route": "loop",
+     "line": 467
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e383_shared_key_collision.py"
+   ],
+   "naming_source_count": 2,
+   "naming_sources_outside_the_readers": [
+    "scripts/e383_shared_key_collision.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "COLLISIONKEY-%s.json",
+    "collisionkey_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "conditionalwrite_latest.json",
+   "stem": "conditionalwrite",
+   "class": "a_source_that_writes_names_the_stem_but_no_write_path_is_traced",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/conditionalwrite_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [
+    "_r1411bmb_pool.py",
+    "scripts/e395_conditional_write.py",
+    "scripts/e396_last_tick.py"
+   ],
+   "naming_source_count": 4,
+   "naming_sources_outside_the_readers": [
+    "_r1411bmb_pool.py",
+    "scripts/e395_conditional_write.py",
+    "scripts/e396_last_tick.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "consumercensus_latest.json",
+   "stem": "consumercensus",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/consumercensus_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "scripts/e344_face_consumer_census.py",
+    "smoke_test.py"
+   ],
+   "reader_source_count": 2,
+   "tracing_sources": [
+    {
+     "source": "scripts/e344_face_consumer_census.py",
+     "route": "loop",
+     "line": 661
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [],
+   "naming_source_count": 2,
+   "naming_sources_outside_the_readers": [],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "CONSUMERCENSUS-%s.json",
+    "consumercensus_latest.json",
+    "results/state_tilt"
+   ],
+   "directory_class": "the_writer_path_reaches_the_directory_the_reader_resolves_to"
+  },
+  {
+   "spelling": "deadread_latest.json",
+   "stem": "deadread",
+   "class": "the_write_path_reaches_the_stem_only_through_a_write_helper_argument",
+   "route": "helper",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/deadread_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e405_dead_read_failure_mode.py",
+     "route": "helper",
+     "line": 496
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/_r1421bmb_card_seed.py",
+    "scripts/e405_dead_read_failure_mode.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "scripts/_r1421bmb_card_seed.py",
+    "scripts/e405_dead_read_failure_mode.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "DEADREAD-%s.json",
+    "deadread_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "decidegate_latest.json",
+   "stem": "decidegate",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/decidegate_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e347_published_number_gate_census.py",
+     "route": "loop",
+     "line": 822
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e347_published_number_gate_census.py",
+    "scripts/e349_latest_mirror_census.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "scripts/e347_published_number_gate_census.py",
+    "scripts/e349_latest_mirror_census.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "DECIDEGATE-%s.json",
+    "decidegate_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "declaration_latest.json",
+   "stem": "declaration",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/lane_hosts/declaration_latest.json"
+   ],
+   "resolved_directories": [
+    "results/lane_hosts"
+   ],
+   "reader_sources": [
+    "scripts/lane_host_declaration.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/divlowvol_nulls_face.py",
+     "route": "direct",
+     "line": 212
+    },
+    {
+     "source": "scripts/lane_host_declaration.py",
+     "route": "direct",
+     "line": 247
+    }
+   ],
+   "tracing_source_count": 2,
+   "tracing_sources_outside_the_readers": [
+    "Money0923/quant/audit.py",
+    "Tools/_r1071bmc_close.py",
+    "Tools/_r1184bmb_closeout.py",
+    "Tools/_r1232bmb_pool.py",
+    "Tools/_r557bmc_bookkeeping.py",
+    "Tools/_r662bmc_close.py",
+    "Tools/_r663bmc_close.py",
+    "Tools/_r664bmc_close.py",
+    "Tools/_r665bmc_close.py",
+    "Tools/_r724bmc_close.py",
+    "Tools/_r781bmc_close.py",
+    "Tools/_r789bmc_w17_first_runs.py"
+   ],
+   "naming_source_count": 188,
+   "naming_sources_outside_the_readers": [
+    "Money0923/quant/audit.py",
+    "Tools/_r1071bmc_close.py",
+    "Tools/_r1184bmb_closeout.py",
+    "Tools/_r1232bmb_pool.py",
+    "Tools/_r557bmc_bookkeeping.py",
+    "Tools/_r662bmc_close.py",
+    "Tools/_r663bmc_close.py",
+    "Tools/_r664bmc_close.py",
+    "Tools/_r665bmc_close.py",
+    "Tools/_r724bmc_close.py",
+    "Tools/_r781bmc_close.py",
+    "Tools/_r789bmc_w17_first_runs.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "D-20261104-05_lane_host_declaration",
+    "DECLARATION-%s.json",
+    "LANE-HOST-DECLARATION.md",
+    "a lane appears here only when it declares a host (`lane_host(...)`/`LANE_OWNER`) or is named in the registry; a collector with neither is invisible to this bill.",
+    "combo finalize r1053 'nulls: pending' declaration for the U-divlowvol control face",
+    "declaration_latest.json",
+    "frozen family _null_task (same rank universe / firing months / eq-weight / engine cost x1)",
+    "null definition imported from scripts/fund_divlowvol_p1.py::_null_task; panel wired by stagestyle_combo_p1_backtest",
+    "supporting readout only -- G1'/G2/DSR/M1 stay with the family finalize over frozen gates",
+    "task_level_declaration",
+    "the task-level half of D-20261104-05 belongs to `scripts/lane_host_ownership.py` (eight whitelisted tasks, receipt F-20261104-01). This bill covers the collector lanes and the chains; it does not re-declare a task."
+   ],
+   "directory_class": "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory"
+  },
+  {
+   "spelling": "facenamesuffix_latest.json",
+   "stem": "facenamesuffix",
+   "class": "a_source_that_writes_names_the_stem_but_no_write_path_is_traced",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/facenamesuffix_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [
+    "_r1413_book.py",
+    "_r1413_hb2.py",
+    "_r1413_read2.py",
+    "scripts/e396_face_basename_suffix.py"
+   ],
+   "naming_source_count": 5,
+   "naming_sources_outside_the_readers": [
+    "_r1413_book.py",
+    "_r1413_hb2.py",
+    "_r1413_read2.py",
+    "scripts/e396_face_basename_suffix.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "facererun_latest.json",
+   "stem": "facererun",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/facererun_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e365_face_population_pin.py",
+     "route": "direct",
+     "line": 316
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "results/_r1387_booking.py",
+    "results/_r1387_report.py",
+    "scripts/e365_face_population_pin.py"
+   ],
+   "naming_source_count": 4,
+   "naming_sources_outside_the_readers": [
+    "results/_r1387_booking.py",
+    "results/_r1387_report.py",
+    "scripts/e365_face_population_pin.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "FACERERUN-%s.json",
+    "STALECUTOFF-*.json",
+    "facererun_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "facevintage_latest.json",
+   "stem": "facevintage",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/facevintage_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e363_corpus_vintage.py",
+     "route": "loop",
+     "line": 324
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_tmp_r1385_book.py",
+    "_tmp_r1385_pool.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "_tmp_r1385_book.py",
+    "_tmp_r1385_pool.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "FACEVINTAGE-2026-11-02.json",
+    "facevintage_latest.json",
+    "pointeronly_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "fragmentproducers_latest.json",
+   "stem": "fragmentproducers",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/fragmentproducers_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e402_fragment_producers.py",
+     "route": "direct",
+     "line": 654
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_r1440_probe.py",
+    "_r1440_probe2.py",
+    "_r1440_probe3.py",
+    "scripts/e402_fragment_producers.py",
+    "scripts/e404_constant_directory_resolution.py"
+   ],
+   "naming_source_count": 6,
+   "naming_sources_outside_the_readers": [
+    "_r1440_probe.py",
+    "_r1440_probe2.py",
+    "_r1440_probe3.py",
+    "scripts/e402_fragment_producers.py",
+    "scripts/e404_constant_directory_resolution.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "FRAGMENTPRODUCERS-%s.json",
+    "UNRESOLVED-2026-11-04.json",
+    "fragmentproducers_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "gatestate_latest.json",
+   "stem": "gatestate",
+   "class": "the_write_path_reaches_the_stem_only_through_a_write_helper_argument",
+   "route": "helper",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/gatestate_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/_r1372_closeout.py",
+     "route": "helper",
+     "line": 360
+    },
+    {
+     "source": "scripts/e351_gate_state_census.py",
+     "route": "loop",
+     "line": 375
+    }
+   ],
+   "tracing_source_count": 2,
+   "tracing_sources_outside_the_readers": [
+    "scripts/_r1372_closeout.py",
+    "scripts/e351_gate_state_census.py",
+    "scripts/e358_subject_resolution.py"
+   ],
+   "naming_source_count": 4,
+   "naming_sources_outside_the_readers": [
+    "scripts/_r1372_closeout.py",
+    "scripts/e351_gate_state_census.py",
+    "scripts/e358_subject_resolution.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "## E351 -- a green suite and a suite that has been asked something are different objects\n\nE348 published one `product:` gate that stayed green for 279 commits against a face that never\nchanged.  The census question is cheap because a gate's subject is a file, and a file has blobs:\n\n1. **The subject is the try-body's literals, not the function's.**  A `product:` check loads its\n   face inside the `try` that wraps it; taking the enclosing function instead collected a literal\n   that another statement happened to read (selftest leg).  92 gates, 37 resolve at least one\n   literal face, 55 resolve none -- those read through `os.path.join`/f-strings and are published\n   as `unresolved_subject` rather than counted as frozen.\n2. **A glob is not a subject.**  `results/b/*.json` is published in `wildcard_literals_published_\n   unexpanded` and never expanded: the number of states behind a glob is a fact about the disk,\n   not about the commit the gate ran at.\n3. **The state is per commit, not per write.**  One `git log --raw --no-abbrev` over the union of\n   subject paths gives every blob transition; the state at commit k is the blob as of k (absent\n   before the first write), so `distinct_states` counts observations, not edits.\n4. **A young subject is not a freeze.**  All 6 frozen gates had been present for 6-42 commits\n   (threshold 50), so the honest verdict is \"no gate has been green against a long still\n   subject\", not \"16.2% of greens are the same observation\".  The headline number and the\n   maturity split are published together; the verdict changes shape when `frozen_mature` is empty.\n5. **`--no-abbrev` is load-bearing.**  `git log --raw` abbreviates blob ids by default, so a\n   strict 40-hex parse silently matched nothing and first reported 0 evaluated gates.  A parse\n   that fails closed on its own regex looks exactly like a population with no states.\n6. **A study that reads `smoke_test.py` must exclude the leg it adds to it.**  The E351 leg is a\n   `product:` gate whose subject is this face; counting it would make the census a function of its\n   own publication (E319/E207 family).  `self_legs_excluded` publishes the omission.\n\nReadings: 92 gates, 37 evaluated (6 frozen / 31 live), 55 unresolved, most-moved subject\n`product: dashboard carries the marks coverage gap` at 221 distinct states of 300 commits.\n\nEvidence: scripts/e351_gate_state_census.py (selftest 25/25, verify 0 problems) ->\nresults/state_tilt/GATESTATE-2026-11-01.json + gatestate_latest.json; S6 leg `gate_state_census`\n(9.7s); smoke leg E351 (scripts/run_e351_smoke_leg.py, standalone PASS);\nresearch/digests/DIGEST-20261101-r1372-e351-gate-state-census.md",
+    "GATESTATE-%s.json",
+    "gatestate_latest.json",
+    "| %s | r%d closeout | %s | orphan py_faces=7 orphans=0 residents=0 | dualrun **ZERO-DRIFT** 843 entries (drift-free streak 5) | compute_audit **FLAG:supply_gap** with supply_floor ready 3/floor 3 breach=false (ready_ignitable 3) | py_watermark insufficient_history (3 runnable cards, legal-idle not satisfied) | attrition CLEAN 4 ledgers (1 historical shrink healed) | sat engine rc=0 idle | orders 114 files / 115 acks / 0 unacked at S0.5 | decisions.md unchanged at ecc7fbac (hash-only, no new row) | claws and loop tasks were not re-registered this window (no red on either; stated plainly) | the full ~340-leg smoke suite was **not** re-run: the new leg was executed standalone PASS and r1364's 11 census-corpus reds stand published | local main diverged from origin/main (no unattended rebase per r1243 -- delivery goes to machine/bm-b-r1372) | GPU untouched (parked C-20261014-01), cloud untouched, nothing deleted, no quarantine action |",
+    "| %s | r%d evidence | %s | five defects were caught in this study's **own drafts** before publish, four of them in the reader: (1) the scope was the enclosing *function*, so a literal another statement read became the subject -- the scope is now the `try` body with the check's own arguments as the only fallback; (2) **`git log --raw` abbreviates blob ids**, so the strict 40-hex parse matched no raw line and the first build reported **0 evaluated gates out of 92** -- a parse that fails closed on its own regex looks exactly like a population with no states (`--no-abbrev`); (3) a fixture asserted `frozen_subject` on a subject absent in every commit, which is `never_evaluated` -- the assertion was wrong, not the code; (4) the verdict claimed green-by-freeze before the maturity split existed, so six subjects six commits old would have been published as 16.2%% vacuous greens; (5) the leg this study wires into smoke_test.py is itself a `product:` gate whose subject is this face, so it is excluded and `self_legs_excluded` publishes the omission. | selftest 25/25 (each defect has a named leg) | the frozen share is published with its maturity split, so a young subject can never be sold as a freeze |",
+    "| %s | r%d | %s | **watermark: pool floor 3/3 at open (E351/E352/E353, py idle) -- burned the ready head in-window** | **CURRENT: E351 executed -- a green `product:` gate is not evidence when its subject never moved, but in this window it is not proof either.** Of 92 distinct `product:` smoke labels, 37 resolve at least one literal face and 55 resolve none (computed paths, published as `unresolved_subject`). Of the 37: **6 frozen / 31 live**, i.e. 16.2%% of evaluated gates have only ever seen one subject state -- **but all 6 frozen subjects are younger than the 50-commit maturity threshold** (present 6/6/9/9/11/42 commits), so the verdict is *no gate has been green against a subject that stopped moving long ago*, not *16.2%% of green runs are vacuous*. Most-moved subject: `product: dashboard carries the marks coverage gap` at 221 distinct states of 300 commits. **PRODUCT:** scripts/e351_gate_state_census.py (build / verify problems=[] / selftest 25/25) -> results/state_tilt/GATESTATE-2026-11-01.json + gatestate_latest.json | S6 leg `gate_state_census` rc=0 9.73s | smoke leg E351 executed standalone PASS | card E351 | digest DIGEST-20261101-r1372-e351-gate-state-census.md | pool E351 done + E354 seeded | **RECENT ARTIFACT:** results/state_tilt/GATESTATE-2026-11-01.json @ %s | **NEXT MILESTONE:** E352-WHAT-THE-STALENESS-WINDOW-COSTS-WHEN-NOBODY-ASKS (ready head, floor holds at 3) within 48h |"
+   ],
+   "directory_class": "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory"
+  },
+  {
+   "spelling": "greenwindow_latest.json",
+   "stem": "greenwindow",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/greenwindow_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e338_census_green_window.py",
+     "route": "loop",
+     "line": 477
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e338_census_green_window.py",
+    "scripts/e341_sibling_closer_what_changed.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "scripts/e338_census_green_window.py",
+    "scripts/e341_sibling_closer_what_changed.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "GREENWINDOW-%s.json",
+    "greenwindow_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "guardloosen_latest.json",
+   "stem": "guardloosen",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/guardloosen_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e339_literal_count_guards.py",
+     "route": "loop",
+     "line": 491
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e339_literal_count_guards.py",
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "scripts/e339_literal_count_guards.py",
+    "scripts/e340_who_authorizes_whose_allowance.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "GUARDLOOSEN-%s.json",
+    "guardloosen_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "helperrepair_latest.json",
+   "stem": "helperrepair",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/helperrepair_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e334_helper_repair_blast_radius.py",
+     "route": "loop",
+     "line": 520
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_r1357_close.py",
+    "_r1357_post.py",
+    "scripts/e334_helper_repair_blast_radius.py"
+   ],
+   "naming_source_count": 4,
+   "naming_sources_outside_the_readers": [
+    "_r1357_close.py",
+    "_r1357_post.py",
+    "scripts/e334_helper_repair_blast_radius.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "HELPERREPAIR-%s.json",
+    "helperrepair_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "identityconsumers_latest.json",
+   "stem": "identityconsumers",
+   "class": "only_its_readers_name_the_stem",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/identityconsumers_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [],
+   "naming_source_count": 1,
+   "naming_sources_outside_the_readers": [],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "identitydialect_latest.json",
+   "stem": "identitydialect",
+   "class": "only_its_readers_name_the_stem",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/identitydialect_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [],
+   "naming_source_count": 1,
+   "naming_sources_outside_the_readers": [],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "identitysplit_latest.json",
+   "stem": "identitysplit",
+   "class": "only_its_readers_name_the_stem",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/identitysplit_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [],
+   "naming_source_count": 1,
+   "naming_sources_outside_the_readers": [],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "invisibletail_latest.json",
+   "stem": "invisibletail",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/invisibletail_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e332_invisible_tail_recovery.py",
+     "route": "direct",
+     "line": 383
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e332_invisible_tail_recovery.py"
+   ],
+   "naming_source_count": 2,
+   "naming_sources_outside_the_readers": [
+    "scripts/e332_invisible_tail_recovery.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "INVISIBLETAIL-%s.json",
+    "invisibletail_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "keydelta_latest.json",
+   "stem": "keydelta",
+   "class": "the_write_path_reaches_the_stem_only_through_a_write_helper_argument",
+   "route": "helper",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/keydelta_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/_r1439_closeout.py",
+     "route": "helper",
+     "line": 232
+    },
+    {
+     "source": "scripts/e382_key_projection_delta.py",
+     "route": "loop",
+     "line": 390
+    }
+   ],
+   "tracing_source_count": 2,
+   "tracing_sources_outside_the_readers": [
+    "scripts/_r1439_closeout.py",
+    "scripts/e382_key_projection_delta.py",
+    "scripts/e421_strong_basis_resolution.py",
+    "scripts/e422_basename_census_audit.py"
+   ],
+   "naming_source_count": 5,
+   "naming_sources_outside_the_readers": [
+    "scripts/_r1439_closeout.py",
+    "scripts/e382_key_projection_delta.py",
+    "scripts/e421_strong_basis_resolution.py",
+    "scripts/e422_basename_census_audit.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "KEYDELTA-%s.json",
+    "keydelta_latest.json",
+    "| 2026-11-04T21:20:00+08:00 | r1439 | bm-b | **watermark: red=true lane=pool-batch-runnable-idle-low-cpu** (escalation lane; the round took the ready head E413 in-window). E421: the 33 names E406 could not resolve are resolved by the directory their literal is joined against, not by the attribution basis E412 disqualified -- **18 resolve to a file the reader itself spells** (`docs/live_usage/` 9, `docs/daily_report/` 9, `results/state_tilt/` 1), **9 are written only into a selftest `tempfile.mkdtemp()` tree**, **5 are named only by the census's own selftest**, 1 is on disk and absent only at the census's HEAD, and **0 are joined into the repo and genuinely missing**. The two strong-basis names (`CORPUSPIN-2026-01-01/02.json`) are both fixtures: 0 of 2 resolve, so basis does not predict resolution. The mechanism is upstream of both: E406 recorded **32 of the 33 rows as a bare basename with no directory** (`unresolved_census_directory = {'.': 32}`), and a bare basename cannot resolve to a file. CONTROL: the 25 faces E406 compared resolve 25 of 25 and 0 are called fixtures -- the classifier discriminates rather than calling everything a fixture. PRODUCT: `scripts/e421_strong_basis_resolution.py` (run / verify problems=0 / selftest 27/27) + `results/state_tilt/NAMERESOLVE-2026-11-04.json` (+`nameresolve_latest.json`, byte-identical on re-run) + smoke leg `# E421 (r1439 bm-b)` 1/1 via `scripts/run_e421_smoke_leg.py`, proved red on a doctored summary then restored byte-identical (sha 815f02e2a6...) + S6 leg `name_resolve` rc=0 + card E421 + digest `research/digests/DIGEST-20261104-r1439-e421-name-resolution.md` + pool E413 done with result_ref and E422 seeded. PITS (four, three of them mechanical): (1) `endswith(base)` is not 'names the base' -- `delta_latest.json` sits inside `keydelta_latest.json` and `x_latest.json` inside `slopematrix_latest.json`, so three names came out as genuinely missing repo files on the first burn (E330 family); (2) self-inclusion, fourth recurrence -- after exact matching the same three reappeared as repo reads because this study's own selftest spells them, so the study now excludes itself and publishes `corpus.self_excluded`; (3) a count over a growing corpus cannot sit in an equality gate (E420's law met again one round later): `modules_scanned` moved the moment the smoke-leg runner file appeared, so corpus size lives outside the pinned summary; (4) evidence ordering -- putting a temp join above existence called 5 of the 25 control faces fixtures, because those are real faces whose basename a round script's fixture also spells. Also published, not counted: a same-stem sibling (`ALLOWANCE-2026-11-01.json` beside `ALLOWANCE-2099-01-01.json`) makes a fixture look like a renamed face. S0/S0.5: machine id bm-b from `fleet/machine.json`; `git pull --rebase` refused (unstaged changes in a tree carrying ~350 untracked scratch faces, unchanged wedge), so no remote sync was attempted; orders diff = 114 files / 115 acks / 0 unacked (no order to execute); decisions hash read from the cached origin blob -- D-20261104-05 (single-host ownership) already satisfied on this host, nothing new owed. S6/S7: name_resolve leg (this study's own `verify`) rc=0 | orphan probe py_faces=8 orphans=0 residents=0 | the rest of the S6 chain and the lane collectors were NOT re-run this window (wall budget, stated plainly). NOT RUN / NOT CLAIMED: the full ~320-leg smoke suite was not re-run, so 320/320 is not claimed; no GPU work (parked C-20261014-01); no cloud call; nothing deleted. 登记簿零命中 (no sweep/archive action). | 本地未达 origin main commit = 355 (delivery on the machine branch) |"
+   ],
+   "directory_class": "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory"
+  },
+  {
+   "spelling": "keysens_latest.json",
+   "stem": "keysens",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/keysens_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "scripts/e370_key_sensitivity.py",
+    "smoke_test.py"
+   ],
+   "reader_source_count": 2,
+   "tracing_sources": [
+    {
+     "source": "scripts/e370_key_sensitivity.py",
+     "route": "loop",
+     "line": 354
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "logs/_r1394_closeout.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "logs/_r1394_closeout.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "KEYSENS-%s.json",
+    "keysens_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "latestfamily_latest.json",
+   "stem": "latestfamily",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/latestfamily_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "scripts/e403_family_arg.py",
+    "smoke_test.py"
+   ],
+   "reader_source_count": 2,
+   "tracing_sources": [
+    {
+     "source": "scripts/e398_latest_family.py",
+     "route": "direct",
+     "line": 1077
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_r1452bmb_closeout.py",
+    "_r1461_stage.py",
+    "_r1479_livebuild.py",
+    "_r1479_rederive.py",
+    "scripts/e398_latest_family.py",
+    "scripts/e433_republication_chain.py",
+    "scripts/e455_growth_census.py"
+   ],
+   "naming_source_count": 9,
+   "naming_sources_outside_the_readers": [
+    "_r1452bmb_closeout.py",
+    "_r1461_stage.py",
+    "_r1479_livebuild.py",
+    "_r1479_rederive.py",
+    "scripts/e398_latest_family.py",
+    "scripts/e433_republication_chain.py",
+    "scripts/e455_growth_census.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "%s/__init__.py",
+    "/",
+    "LATESTFAMILY-%s.json",
+    "def f(d=\"results/x\"):\n    return open(os.path.join(d, \"latest.json\"), encoding=\"utf-8\")",
+    "latestfamily_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory"
+  },
+  {
+   "spelling": "leg_isolation_latest.json",
+   "stem": "leg_isolation",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/leg_isolation_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "scripts/prove_smoke_leg_isolation.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/prove_smoke_leg_isolation.py",
+     "route": "loop",
+     "line": 233
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_tmp_r1378_runleg.py",
+    "smoke_test.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "_tmp_r1378_runleg.py",
+    "smoke_test.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "leg_isolation_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "leginput_latest.json",
+   "stem": "leginput",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/leginput_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e407_leg_input_stability.py",
+     "route": "loop",
+     "line": 284
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_r1461_stage.py",
+    "scripts/_postscript_r1422.py",
+    "scripts/e407_leg_input_stability.py",
+    "scripts/e408_writer_refresh_signal.py"
+   ],
+   "naming_source_count": 5,
+   "naming_sources_outside_the_readers": [
+    "_r1461_stage.py",
+    "scripts/_postscript_r1422.py",
+    "scripts/e407_leg_input_stability.py",
+    "scripts/e408_writer_refresh_signal.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "LEGINPUT-%s.json",
+    "leginput_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "localreader_latest.json",
+   "stem": "localreader",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/localreader_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e401_local_reader.py",
+     "route": "direct",
+     "line": 578
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/_closeout_r1422.py",
+    "scripts/_insert_e401_leg.py",
+    "scripts/e401_local_reader.py"
+   ],
+   "naming_source_count": 4,
+   "naming_sources_outside_the_readers": [
+    "scripts/_closeout_r1422.py",
+    "scripts/_insert_e401_leg.py",
+    "scripts/e401_local_reader.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "LOCALREADER-%s.json",
+    "localreader_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "neveropened_latest.json",
+   "stem": "neveropened",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/neveropened_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e384_never_opened_key.py",
+     "route": "direct",
+     "line": 359
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e384_never_opened_key.py"
+   ],
+   "naming_source_count": 2,
+   "naming_sources_outside_the_readers": [
+    "scripts/e384_never_opened_key.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "NEVEROPENED-%s.json",
+    "neveropened_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "optinrank_latest.json",
+   "stem": "optinrank",
+   "class": "the_write_path_reaches_the_stem_only_through_a_write_helper_argument",
+   "route": "helper",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/optinrank_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "_r1356bmb_closeout.py",
+     "route": "helper",
+     "line": 207
+    },
+    {
+     "source": "scripts/e336_consumer_optin_ranking.py",
+     "route": "loop",
+     "line": 347
+    }
+   ],
+   "tracing_source_count": 2,
+   "tracing_sources_outside_the_readers": [
+    "_r1356bmb_closeout.py",
+    "scripts/e336_consumer_optin_ranking.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "_r1356bmb_closeout.py",
+    "scripts/e336_consumer_optin_ranking.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "OPTINRANK-%s.json",
+    "optinrank_latest.json",
+    "| %s | r1356 | bm-b | **watermark: RED pool-batch-runnable-idle-low-cpu at open (1 ready card = E336, py idle); the round burned the ready head E336 in-round** | E336 per-consumer opt-in ranking. E334 priced the repository (6 faces / 37 numbers) and a reader cannot act on that, so each of the six consumers is priced TWICE over one corpus: reading A (delta = shipped build vs tokenized build, how much of its own answer is the helper's defect) E331 8/30, E329 8/17, E328 6/13, E327 4/23, E326 3/18, E330 0/21; reading B (publish = published face vs tokenized build, what a reader must re-read) E328 9/13, E331 9/30, E329 8/17, E326 6/18, E327 4/23, E330 1/21. E334's published delta re-derives **6 of 6 rows** and the totals agree with it (29 delta / 37 published). Both readings put E330_unpinned_choice first but swap E328 and E329 at positions 3/4, so **orders_agree=false and the frozen rule names NOBODY** -- the cheapest name is a property of the yardstick, not of a consumer; 4 of 6 positions are stable (the head among them) so the face publishes E330+E326 as a **floor**, not a ranking. E327 sorts last on both readings because its published verdict does not survive the switch. **CURRENT:** E336 done; chain leg + smoke leg + card wired. **LATEST PHYSICAL:** results/state_tilt/OPTINRANK-2026-11-01.json. **NEXT MILESTONE:** E337 take the floor -- actually switch E330 onto the tokenized reading and republish its face with a before/after diff (ready, due next round, <=48h). **PRODUCT:** a repository-wide price is not a decision; a per-consumer price is two different quantities and the ranking is only real when both yardsticks agree | e336 selftest 20/20, verify 0 problems (12 builds), S6 leg wired, smoke leg extracted verbatim and run standalone PASS + 1 doctored face caught with 3 named problems and bytes restored; dualrun ZERO-DRIFT 827 streak 51; compute_audit FLAG supply_gap+supply_floor (1 < 3, honest); py_watermark py_low_board_clear; attrition CLEAN 4 ledgers; orphan 0/7; sat engine rc=0; pool E336 done with result_ref + E337 seeded; orders 0 unacked | next=r1357: E337 take the floor and opt one consumer in"
+   ],
+   "directory_class": "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory"
+  },
+  {
+   "spelling": "phantomwhy_latest.json",
+   "stem": "phantomwhy",
+   "class": "a_source_that_writes_names_the_stem_but_no_write_path_is_traced",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/phantomwhy_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [
+    "_r1411bmb_close.py",
+    "_r1411bmb_mem.py",
+    "_r1411bmb_pool.py",
+    "_r1411bmb_report.py",
+    "scripts/e394_phantom_why.py",
+    "scripts/e395_conditional_write.py"
+   ],
+   "naming_source_count": 7,
+   "naming_sources_outside_the_readers": [
+    "_r1411bmb_close.py",
+    "_r1411bmb_mem.py",
+    "_r1411bmb_pool.py",
+    "_r1411bmb_report.py",
+    "scripts/e394_phantom_why.py",
+    "scripts/e395_conditional_write.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "pininstability_latest.json",
+   "stem": "pininstability",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/pininstability_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e420_corpus_pin_instability.py",
+     "route": "direct",
+     "line": 271
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/_closeout_r1438.py",
+    "scripts/e420_corpus_pin_instability.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "scripts/_closeout_r1438.py",
+    "scripts/e420_corpus_pin_instability.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "PININSTABILITY-%s.json",
+    "PININSTABILITY-2026-11-04.json",
+    "pininstability_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "pinplusstore_latest.json",
+   "stem": "pinplusstore",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/pinplusstore_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e372_store_the_absent_members.py",
+     "route": "loop",
+     "line": 180
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_r1392_state.py",
+    "scripts/e372_store_the_absent_members.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "_r1392_state.py",
+    "scripts/e372_store_the_absent_members.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "/",
+    "PINPLUSSTORE-%s.json",
+    "pinplusstore_latest.json",
+    "scripts/a.py",
+    "scripts/b.py",
+    "scripts/c.py"
+   ],
+   "directory_class": "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory"
+  },
+  {
+   "spelling": "pinqueue_latest.json",
+   "stem": "pinqueue",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/pinqueue_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e366_pinable_queue_size.py",
+     "route": "loop",
+     "line": 434
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/_r1389_closeout.py",
+    "scripts/_r1389_memory.py",
+    "scripts/_r1389_pool.py",
+    "scripts/e366_pinable_queue_size.py"
+   ],
+   "naming_source_count": 5,
+   "naming_sources_outside_the_readers": [
+    "scripts/_r1389_closeout.py",
+    "scripts/_r1389_memory.py",
+    "scripts/_r1389_pool.py",
+    "scripts/e366_pinable_queue_size.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "PINQUEUE-%s.json",
+    "pinqueue_latest.json",
+    "published face JSON under results/ as e328's scan walks them"
+   ],
+   "directory_class": "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory"
+  },
+  {
+   "spelling": "pointeronly_latest.json",
+   "stem": "pointeronly",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/pointeronly_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "_e363_probe2.py",
+    "_e363_probe3.py",
+    "smoke_test.py"
+   ],
+   "reader_source_count": 3,
+   "tracing_sources": [
+    {
+     "source": "scripts/e331_pointer_only_readers.py",
+     "route": "direct",
+     "line": 905
+    },
+    {
+     "source": "scripts/e363_corpus_vintage.py",
+     "route": "loop",
+     "line": 324
+    }
+   ],
+   "tracing_source_count": 2,
+   "tracing_sources_outside_the_readers": [
+    "_tmp_r1385_book.py",
+    "_tmp_r1385_post.py",
+    "scripts/e331_pointer_only_readers.py",
+    "scripts/e356_census_red_triage.py",
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "naming_source_count": 8,
+   "naming_sources_outside_the_readers": [
+    "_tmp_r1385_book.py",
+    "_tmp_r1385_post.py",
+    "scripts/e331_pointer_only_readers.py",
+    "scripts/e356_census_red_triage.py",
+    "scripts/e363_corpus_vintage.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "(?P<stem>[A-Za-z0-9_.+/-]*?)-(?P<date>/d{4}-/d{2}-/d{2})/.(?:json|md|csv)$",
+    "([A-Za-z_][A-Za-z0-9_]*)/s*/(",
+    "FACEVINTAGE-2026-11-02.json",
+    "PATH = \"results/state_tilt/KKK_latest.json\"\ndef selftest():\n    return True",
+    "POINTERONLY-%s.json",
+    "^/s*([A-Za-z_][A-Za-z0-9_]*)/s*=",
+    "^/s*try/s*:",
+    "^def/s+([A-Za-z_][A-Za-z0-9_]*)/s*/(",
+    "facevintage_latest.json",
+    "pointeronly_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory"
+  },
+  {
+   "spelling": "pointerread_latest.json",
+   "stem": "pointerread",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/pointerread_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+     "route": "loop",
+     "line": 348
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e327_who_reads_a_face_through_a_pointer.py"
+   ],
+   "naming_source_count": 2,
+   "naming_sources_outside_the_readers": [
+    "scripts/e327_who_reads_a_face_through_a_pointer.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "POINTERREAD-%s.json",
+    "pointerread_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "producerintent_latest.json",
+   "stem": "producerintent",
+   "class": "a_source_that_writes_names_the_stem_but_no_write_path_is_traced",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/producerintent_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [
+    "_r1487_pool3.py"
+   ],
+   "naming_source_count": 2,
+   "naming_sources_outside_the_readers": [
+    "_r1487_pool3.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "reachwide_latest.json",
+   "stem": "reachwide",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/reachwide_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e323_reach_under_wider_needle.py",
+     "route": "loop",
+     "line": 413
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/_r1379bmb_closeout.py",
+    "scripts/e323_reach_under_wider_needle.py",
+    "scripts/e324_unpublished_key_causes.py",
+    "scripts/e325_orphan_gate_faces.py",
+    "scripts/e341_sibling_closer_what_changed.py",
+    "scripts/e356_census_red_triage.py"
+   ],
+   "naming_source_count": 7,
+   "naming_sources_outside_the_readers": [
+    "scripts/_r1379bmb_closeout.py",
+    "scripts/e323_reach_under_wider_needle.py",
+    "scripts/e324_unpublished_key_causes.py",
+    "scripts/e325_orphan_gate_faces.py",
+    "scripts/e341_sibling_closer_what_changed.py",
+    "scripts/e356_census_red_triage.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "REACHWIDE-%s.json",
+    "reachwide_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "readcap_latest.json",
+   "stem": "readcap",
+   "class": "a_source_that_writes_names_the_stem_but_no_write_path_is_traced",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/readcap_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e393_read_cap_price.py",
+    "scripts/e394_phantom_why.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "scripts/e393_read_cap_price.py",
+    "scripts/e394_phantom_why.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "readresolve_latest.json",
+   "stem": "readresolve",
+   "class": "a_source_that_writes_names_the_stem_but_no_write_path_is_traced",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/readresolve_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e392_read_resolve.py",
+    "scripts/e393_read_cap_price.py",
+    "scripts/e394_phantom_why.py"
+   ],
+   "naming_source_count": 4,
+   "naming_sources_outside_the_readers": [
+    "scripts/e392_read_resolve.py",
+    "scripts/e393_read_cap_price.py",
+    "scripts/e394_phantom_why.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "refusalcause_latest.json",
+   "stem": "refusalcause",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/refusalcause_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e322_residual_refusal_causes.py",
+     "route": "loop",
+     "line": 296
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "Tools/s6_chain_bmc.py",
+    "_tmp_closeout_r1342.py",
+    "_tmp_pool_seed_r1342.py",
+    "scripts/_r1373_pit.py",
+    "scripts/_r1373_rows.py",
+    "scripts/e322_residual_refusal_causes.py",
+    "scripts/e341_sibling_closer_what_changed.py"
+   ],
+   "naming_source_count": 8,
+   "naming_sources_outside_the_readers": [
+    "Tools/s6_chain_bmc.py",
+    "_tmp_closeout_r1342.py",
+    "_tmp_pool_seed_r1342.py",
+    "scripts/_r1373_pit.py",
+    "scripts/_r1373_rows.py",
+    "scripts/e322_residual_refusal_causes.py",
+    "scripts/e341_sibling_closer_what_changed.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "REFUSALCAUSE-%s.json",
+    "refusalcause_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "repairrecord_latest.json",
+   "stem": "repairrecord",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/repairrecord_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e342_guard_rewrite_records.py",
+     "route": "loop",
+     "line": 657
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_r1362_pool.py",
+    "_r1362_report.py",
+    "_r1362_smokeleg.py",
+    "_r1362_state.py",
+    "scripts/e342_guard_rewrite_records.py",
+    "scripts/e345_gate_absence_windows.py"
+   ],
+   "naming_source_count": 7,
+   "naming_sources_outside_the_readers": [
+    "_r1362_pool.py",
+    "_r1362_report.py",
+    "_r1362_smokeleg.py",
+    "_r1362_state.py",
+    "scripts/e342_guard_rewrite_records.py",
+    "scripts/e345_gate_absence_windows.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "REPAIRRECORD-%s.json",
+    "repairrecord_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "restoredgate_latest.json",
+   "stem": "restoredgate",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/restoredgate_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e348_restored_gate_retrospect.py",
+     "route": "loop",
+     "line": 551
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/_r1369_card.py",
+    "scripts/_r1369_close.py",
+    "scripts/_r1369_pool.py",
+    "scripts/_r1369_state.py",
+    "scripts/e348_restored_gate_retrospect.py"
+   ],
+   "naming_source_count": 6,
+   "naming_sources_outside_the_readers": [
+    "scripts/_r1369_card.py",
+    "scripts/_r1369_close.py",
+    "scripts/_r1369_pool.py",
+    "scripts/_r1369_state.py",
+    "scripts/e348_restored_gate_retrospect.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "RESTOREDGATE-2026-11-01.json",
+    "restoredgate_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "scaffold_latest.json",
+   "stem": "scaffold",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/scaffold_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "run_e359_smoke_leg.py",
+    "scripts/e359_census_scaffolding_split.py",
+    "smoke_test.py"
+   ],
+   "reader_source_count": 3,
+   "tracing_sources": [
+    {
+     "source": "scripts/e359_census_scaffolding_split.py",
+     "route": "loop",
+     "line": 561
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_r1381_pool.py",
+    "results/_r237bmb_final_fixups.py",
+    "scripts/_r1383_report.py",
+    "scripts/_r1383_stage.py",
+    "scripts/optuna_refine_skeleton.py"
+   ],
+   "naming_source_count": 8,
+   "naming_sources_outside_the_readers": [
+    "_r1381_pool.py",
+    "results/_r237bmb_final_fixups.py",
+    "scripts/_r1383_report.py",
+    "scripts/_r1383_stage.py",
+    "scripts/optuna_refine_skeleton.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "SCAFFOLD-%s.json",
+    "scaffold_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "seamreplay_latest.json",
+   "stem": "seamreplay",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/seamreplay_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e368_seam_replay.py",
+     "route": "loop",
+     "line": 304
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "Tools/_r1390_closeout.py",
+    "Tools/_r1390_memory.py",
+    "Tools/_r1390_supply.py",
+    "logs/_r1395_pool.py",
+    "scripts/e368_seam_replay.py",
+    "scripts/e371_one_store_member.py"
+   ],
+   "naming_source_count": 7,
+   "naming_sources_outside_the_readers": [
+    "Tools/_r1390_closeout.py",
+    "Tools/_r1390_memory.py",
+    "Tools/_r1390_supply.py",
+    "logs/_r1395_pool.py",
+    "scripts/e368_seam_replay.py",
+    "scripts/e371_one_store_member.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "SEAMREPLAY-%s.json",
+    "seamreplay_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "selfres_latest.json",
+   "stem": "selfres",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/selfres_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "scripts/e253_self_row_resolution.py",
+    "smoke_test.py"
+   ],
+   "reader_source_count": 2,
+   "tracing_sources": [
+    {
+     "source": "scripts/e253_self_row_resolution.py",
+     "route": "loop",
+     "line": 447
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_r1487_pool3.py",
+    "scripts/e254_band_exponent_inside_cell.py"
+   ],
+   "naming_source_count": 4,
+   "naming_sources_outside_the_readers": [
+    "_r1487_pool3.py",
+    "scripts/e254_band_exponent_inside_cell.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "SELFRES-%s.json",
+    "selfres_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "siblingcloser_latest.json",
+   "stem": "siblingcloser",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/siblingcloser_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "scripts/e341_sibling_closer_what_changed.py",
+    "smoke_test.py"
+   ],
+   "reader_source_count": 2,
+   "tracing_sources": [
+    {
+     "source": "scripts/e341_sibling_closer_what_changed.py",
+     "route": "loop",
+     "line": 518
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "_r1361bmb_close_e341.py",
+    "_r1361bmb_closeout.py",
+    "_r1361bmb_report.py",
+    "scripts/e344_face_consumer_census.py"
+   ],
+   "naming_source_count": 6,
+   "naming_sources_outside_the_readers": [
+    "_r1361bmb_close_e341.py",
+    "_r1361bmb_closeout.py",
+    "_r1361bmb_report.py",
+    "scripts/e344_face_consumer_census.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "SIBLINGCLOSER-%s.json",
+    "siblingcloser_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "splitprice_latest.json",
+   "stem": "splitprice",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/splitprice_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e385_merged_key_split.py",
+     "route": "direct",
+     "line": 391
+    },
+    {
+     "source": "scripts/e397_walk_ambiguity.py",
+     "route": "direct",
+     "line": 368
+    }
+   ],
+   "tracing_source_count": 2,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e385_merged_key_split.py",
+    "scripts/e397_walk_ambiguity.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "scripts/e385_merged_key_split.py",
+    "scripts/e397_walk_ambiguity.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "SPLITPRICE-%s.json",
+    "WALKAMBIG-%s.json",
+    "splitprice_latest.json",
+    "walkambig_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "stalecutoff_latest.json",
+   "stem": "stalecutoff",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/stalecutoff_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e328_quoted_number_staleness.py",
+     "route": "direct",
+     "line": 505
+    },
+    {
+     "source": "scripts/e365_face_population_pin.py",
+     "route": "direct",
+     "line": 316
+    }
+   ],
+   "tracing_source_count": 2,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e328_quoted_number_staleness.py",
+    "scripts/e365_face_population_pin.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "scripts/e328_quoted_number_staleness.py",
+    "scripts/e365_face_population_pin.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "FACERERUN-%s.json",
+    "STALECUTOFF-%s.json",
+    "STALECUTOFF-*.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "starownrepin_latest.json",
+   "stem": "starownrepin",
+   "class": "a_source_that_writes_names_the_stem_but_no_write_path_is_traced",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/starownrepin_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [
+    "_tmp_r1303_pool.py",
+    "scripts/e280_e251_rng_drift_repin.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "_tmp_r1303_pool.py",
+    "scripts/e280_e251_rng_drift_repin.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "storemembercost_latest.json",
+   "stem": "storemembercost",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/storemembercost_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e371_store_member_cost.py",
+     "route": "loop",
+     "line": 311
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "logs/_r1395_close.py",
+    "logs/_r1395_pool.py",
+    "logs/_r1395_report.py",
+    "scripts/e371_store_member_cost.py"
+   ],
+   "naming_source_count": 5,
+   "naming_sources_outside_the_readers": [
+    "logs/_r1395_close.py",
+    "logs/_r1395_pool.py",
+    "logs/_r1395_report.py",
+    "scripts/e371_store_member_cost.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "STOREMEMBERCOST-%s.json",
+    "storemembercost_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "subjres_latest.json",
+   "stem": "subjres",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/subjres_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "scripts/e358_subject_resolution.py",
+    "smoke_test.py"
+   ],
+   "reader_source_count": 2,
+   "tracing_sources": [
+    {
+     "source": "scripts/e358_subject_resolution.py",
+     "route": "loop",
+     "line": 507
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [],
+   "naming_source_count": 2,
+   "naming_sources_outside_the_readers": [],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "SUBJRES-%s.json",
+    "f'results/{d}.json'",
+    "subjres_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory"
+  },
+  {
+   "spelling": "survivingconclusions_latest.json",
+   "stem": "survivingconclusions",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/survivingconclusions_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e333_surviving_e3xx_conclusions.py",
+     "route": "loop",
+     "line": 446
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "Tools/_r1353bmb_card.py",
+    "Tools/_r1353bmb_closeout.py",
+    "Tools/_r1353bmb_pool.py",
+    "Tools/_r1353bmb_report.py",
+    "scripts/e333_surviving_e3xx_conclusions.py"
+   ],
+   "naming_source_count": 6,
+   "naming_sources_outside_the_readers": [
+    "Tools/_r1353bmb_card.py",
+    "Tools/_r1353bmb_closeout.py",
+    "Tools/_r1353bmb_pool.py",
+    "Tools/_r1353bmb_report.py",
+    "scripts/e333_surviving_e3xx_conclusions.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "SURVIVINGCONCLUSIONS-%s.json",
+    "survivingconclusions_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "twinread_latest.json",
+   "stem": "twinread",
+   "class": "the_stem_is_named_by_writing_sources_that_this_census_excludes",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/twinread_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [],
+   "naming_source_count": 1,
+   "naming_sources_outside_the_readers": [],
+   "excluded_source_namers": [
+    "scripts/e479_twin_read.py",
+    "scripts/e482_latest_outside.py",
+    "scripts/run_e479_smoke_leg.py"
+   ],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "twovintage_latest.json",
+   "stem": "twovintage",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/twovintage_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e329_two_vintage_binding.py",
+     "route": "direct",
+     "line": 693
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e329_two_vintage_binding.py"
+   ],
+   "naming_source_count": 2,
+   "naming_sources_outside_the_readers": [
+    "scripts/e329_two_vintage_binding.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "TWOVINTAGE-%s.json",
+    "^/s*([A-Za-z_][A-Za-z0-9_]*)/s*=/s*",
+    "twovintage_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory"
+  },
+  {
+   "spelling": "undated_latest.json",
+   "stem": "undated",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/undated_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e302_universe_switch_backfill.py",
+     "route": "direct",
+     "line": 798
+    },
+    {
+     "source": "scripts/e307_undated_face_vintage.py",
+     "route": "helper",
+     "line": 438
+    },
+    {
+     "source": "scripts/e_band_family_vintage.py",
+     "route": "helper",
+     "line": 147
+    },
+    {
+     "source": "scripts/science_audit.py",
+     "route": "direct",
+     "line": 874
+    }
+   ],
+   "tracing_source_count": 4,
+   "tracing_sources_outside_the_readers": [
+    "Tools/s6_chain_bmb.py",
+    "_r1328bmb_log.py",
+    "_r1508_closeout.py",
+    "_r1508_docs.py",
+    "_r1508_pool.py",
+    "_r1508_pool2.py",
+    "results/_r773bma_d19_probe2.py",
+    "scripts/_r1436bmb_closeout.py",
+    "scripts/_r1509_closeout.py",
+    "scripts/_r1509_guard_note.py",
+    "scripts/_r1509_pool_update.py",
+    "scripts/_r1509_quarantine_e484_misnamed.py"
+   ],
+   "naming_source_count": 24,
+   "naming_sources_outside_the_readers": [
+    "Tools/s6_chain_bmb.py",
+    "_r1328bmb_log.py",
+    "_r1508_closeout.py",
+    "_r1508_docs.py",
+    "_r1508_pool.py",
+    "_r1508_pool2.py",
+    "results/_r773bma_d19_probe2.py",
+    "scripts/_r1436bmb_closeout.py",
+    "scripts/_r1509_closeout.py",
+    "scripts/_r1509_guard_note.py",
+    "scripts/_r1509_pool_update.py",
+    "scripts/_r1509_quarantine_e484_misnamed.py"
+   ],
+   "excluded_source_namers": [
+    "scripts/e484_undated_vintage.py",
+    "scripts/run_e484_smoke_leg.py"
+   ],
+   "non_python_namers": [],
+   "traced_literals": [
+    "UNDATED.json",
+    "state-bm-undated.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "unkeyedreader_latest.json",
+   "stem": "unkeyedreader",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/unkeyedreader_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e379_unkeyed_face_reader.py",
+     "route": "loop",
+     "line": 448
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e379_unkeyed_face_reader.py"
+   ],
+   "naming_source_count": 2,
+   "naming_sources_outside_the_readers": [
+    "scripts/e379_unkeyed_face_reader.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "UNKEYEDREADER-%s.json",
+    "unkeyedreader_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "unpinnedchoice_latest.json",
+   "stem": "unpinnedchoice",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/unpinnedchoice_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e330_unpinned_choice.py",
+     "route": "direct",
+     "line": 773
+    },
+    {
+     "source": "scripts/e337_optin_executed.py",
+     "route": "direct",
+     "line": 125
+    }
+   ],
+   "tracing_source_count": 2,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e330_unpinned_choice.py",
+    "scripts/e337_optin_executed.py"
+   ],
+   "naming_source_count": 3,
+   "naming_sources_outside_the_readers": [
+    "scripts/e330_unpinned_choice.py",
+    "scripts/e337_optin_executed.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "/bdefault/s*=",
+    "OPTINSWITCH-before-UNPINNEDCHOICE-%s.json",
+    "Tools/s6_chain_bmb.py",
+    "UNPINNEDCHOICE-%s.json",
+    "^([A-Za-z_][A-Za-z0-9_]*)/s*=/s*/S",
+    "unpinnedchoice_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory"
+  },
+  {
+   "spelling": "unpublishedkey_latest.json",
+   "stem": "unpublishedkey",
+   "class": "a_source_that_writes_names_the_stem_but_no_write_path_is_traced",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/unpublishedkey_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [
+    "_r1498_legcheck.py",
+    "_r1498_row.py",
+    "_r1498_state.py",
+    "scripts/e324_unpublished_key_causes.py",
+    "scripts/e408_writer_refresh_signal.py"
+   ],
+   "naming_source_count": 6,
+   "naming_sources_outside_the_readers": [
+    "_r1498_legcheck.py",
+    "_r1498_row.py",
+    "_r1498_state.py",
+    "scripts/e324_unpublished_key_causes.py",
+    "scripts/e408_writer_refresh_signal.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "unresolved_latest.json",
+   "stem": "unresolved",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/unresolved_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/_r1372_closeout.py",
+     "route": "helper",
+     "line": 360
+    },
+    {
+     "source": "scripts/_r1439_closeout.py",
+     "route": "helper",
+     "line": 232
+    },
+    {
+     "source": "scripts/e222_tom_overlay.py",
+     "route": "loop",
+     "line": 376
+    },
+    {
+     "source": "scripts/e223_obs_rate_ladder.py",
+     "route": "loop",
+     "line": 329
+    },
+    {
+     "source": "scripts/e230_hysteresis_toll.py",
+     "route": "direct",
+     "line": 502
+    },
+    {
+     "source": "scripts/e235_charge_granularity.py",
+     "route": "direct",
+     "line": 652
+    },
+    {
+     "source": "scripts/e237_information_structure.py",
+     "route": "loop",
+     "line": 548
+    },
+    {
+     "source": "scripts/e238_leave_one_out_book.py",
+     "route": "direct",
+     "line": 582
+    },
+    {
+     "source": "scripts/e239_own_vs_cross.py",
+     "route": "direct",
+     "line": 416
+    },
+    {
+     "source": "scripts/e242_omission_inflation_sweep.py",
+     "route": "direct",
+     "line": 729
+    },
+    {
+     "source": "scripts/e318_count_named_gate_leaves.py",
+     "route": "direct",
+     "line": 549
+    },
+    {
+     "source": "scripts/e390_wrong_side_reader.py",
+     "route": "loop",
+     "line": 722
+    }
+   ],
+   "tracing_source_count": 17,
+   "tracing_sources_outside_the_readers": [
+    "Tools/_r422bmc_rebase_resolve.py",
+    "Tools/_r514bmc_close.py",
+    "Tools/_r514bmc_s3.py",
+    "Tools/_r515bmc_close.py",
+    "Tools/_r515bmc_handover.py",
+    "Tools/_r518bmc_close.py",
+    "Tools/_r518bmc_postreview.py",
+    "Tools/_r526bmc_bookkeeping.py",
+    "Tools/_r648bmc_close.py",
+    "Tools/_r675bmc_merge_resolve.py",
+    "Tools/_r678bmc_rebase_resolve.py",
+    "Tools/_r693bmc_close.py"
+   ],
+   "naming_source_count": 201,
+   "naming_sources_outside_the_readers": [
+    "Tools/_r422bmc_rebase_resolve.py",
+    "Tools/_r514bmc_close.py",
+    "Tools/_r514bmc_s3.py",
+    "Tools/_r515bmc_close.py",
+    "Tools/_r515bmc_handover.py",
+    "Tools/_r518bmc_close.py",
+    "Tools/_r518bmc_postreview.py",
+    "Tools/_r526bmc_bookkeeping.py",
+    "Tools/_r648bmc_close.py",
+    "Tools/_r675bmc_merge_resolve.py",
+    "Tools/_r678bmc_rebase_resolve.py",
+    "Tools/_r693bmc_close.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [
+    "results/_r635bmb_reland3.ps1",
+    "results/_r635bmb_reland4.ps1",
+    "results/_r949bmb_restore_worker_v2.ps1",
+    "results/_r952bmb_watch_restore.ps1"
+   ],
+   "traced_literals": [
+    "## E351 -- a green suite and a suite that has been asked something are different objects\n\nE348 published one `product:` gate that stayed green for 279 commits against a face that never\nchanged.  The census question is cheap because a gate's subject is a file, and a file has blobs:\n\n1. **The subject is the try-body's literals, not the function's.**  A `product:` check loads its\n   face inside the `try` that wraps it; taking the enclosing function instead collected a literal\n   that another statement happened to read (selftest leg).  92 gates, 37 resolve at least one\n   literal face, 55 resolve none -- those read through `os.path.join`/f-strings and are published\n   as `unresolved_subject` rather than counted as frozen.\n2. **A glob is not a subject.**  `results/b/*.json` is published in `wildcard_literals_published_\n   unexpanded` and never expanded: the number of states behind a glob is a fact about the disk,\n   not about the commit the gate ran at.\n3. **The state is per commit, not per write.**  One `git log --raw --no-abbrev` over the union of\n   subject paths gives every blob transition; the state at commit k is the blob as of k (absent\n   before the first write), so `distinct_states` counts observations, not edits.\n4. **A young subject is not a freeze.**  All 6 frozen gates had been present for 6-42 commits\n   (threshold 50), so the honest verdict is \"no gate has been green against a long still\n   subject\", not \"16.2% of greens are the same observation\".  The headline number and the\n   maturity split are published together; the verdict changes shape when `frozen_mature` is empty.\n5. **`--no-abbrev` is load-bearing.**  `git log --raw` abbreviates blob ids by default, so a\n   strict 40-hex parse silently matched nothing and first reported 0 evaluated gates.  A parse\n   that fails closed on its own regex looks exactly like a population with no states.\n6. **A study that reads `smoke_test.py` must exclude the leg it adds to it.**  The E351 leg is a\n   `product:` gate whose subject is this face; counting it would make the census a function of its\n   own publication (E319/E207 family).  `self_legs_excluded` publishes the omission.\n\nReadings: 92 gates, 37 evaluated (6 frozen / 31 live), 55 unresolved, most-moved subject\n`product: dashboard carries the marks coverage gap` at 221 distinct states of 300 commits.\n\nEvidence: scripts/e351_gate_state_census.py (selftest 25/25, verify 0 problems) ->\nresults/state_tilt/GATESTATE-2026-11-01.json + gatestate_latest.json; S6 leg `gate_state_census`\n(9.7s); smoke leg E351 (scripts/run_e351_smoke_leg.py, standalone PASS);\nresearch/digests/DIGEST-20261101-r1372-e351-gate-state-census.md",
+    "ADOPT iff OOS periods >= floor AND OOS net excess/yr > 0 AND OOS t >= the 4-way Bonferroni bar AND still net at x2 costs; REJECT if the OOS window is long enough and any test fails; UNRESOLVED below the floor. Frozen before reading.",
+    "ADOPT iff oos_months>=min AND oos net excess/yr>0 AND oos t >= multiple-comparison bar AND still net at x2 costs; REJECT if oos_months>=min and any test fails; UNRESOLVED below min oos months. Frozen before reading.",
+    "FRAGMENTPRODUCERS-%s.json",
+    "JSON faces at the results/ root: lane state (marks, pool, idle trigger), not study publications; graded by nothing here",
+    "S1 own + one (omits 3; E239/E240 form)",
+    "UNRESOLVED",
+    "UNRESOLVED-%s.json",
+    "UNRESOLVED-2026-11-04.json",
+    "WALKAMBIG-2026-11-03.json",
+    "[A-Z][A-Z0-9/-]*-P[0-9]+",
+    "bigmoney/e318-zerotolprune/v1"
+   ],
+   "directory_class": "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory"
+  },
+  {
+   "spelling": "vintageconc_latest.json",
+   "stem": "vintageconc",
+   "class": "the_stem_is_named_by_writing_sources_that_this_census_excludes",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/vintageconc_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [],
+   "naming_source_count": 1,
+   "naming_sources_outside_the_readers": [],
+   "excluded_source_namers": [
+    "scripts/e481_vintage_conclusion.py",
+    "scripts/run_e481_smoke_leg.py"
+   ],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "vintagedate_latest.json",
+   "stem": "vintagedate",
+   "class": "the_stem_is_named_by_writing_sources_that_this_census_excludes",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/vintagedate_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [
+    "_r1508_closeout.py",
+    "_r1508_deliver.py",
+    "_r1508_docs.py",
+    "_r1508_pool.py",
+    "_r1508_pool2.py"
+   ],
+   "naming_source_count": 6,
+   "naming_sources_outside_the_readers": [
+    "_r1508_closeout.py",
+    "_r1508_deliver.py",
+    "_r1508_docs.py",
+    "_r1508_pool.py",
+    "_r1508_pool2.py"
+   ],
+   "excluded_source_namers": [
+    "scripts/e480_vintage_date_agree.py",
+    "scripts/e484_undated_vintage.py",
+    "scripts/run_e480_smoke_leg.py"
+   ],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  },
+  {
+   "spelling": "vintageretire_latest.json",
+   "stem": "vintageretire",
+   "class": "the_write_path_reaches_the_stem_only_through_a_loop_over_name_constants",
+   "route": "loop",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/vintageretire_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "scripts/e477_vintage_retire.py",
+    "scripts/e478_vintage_clock_diff.py"
+   ],
+   "reader_source_count": 2,
+   "tracing_sources": [
+    {
+     "source": "scripts/e477_vintage_retire.py",
+     "route": "loop",
+     "line": 315
+    }
+   ],
+   "tracing_source_count": 1,
+   "tracing_sources_outside_the_readers": [],
+   "naming_source_count": 2,
+   "naming_sources_outside_the_readers": [],
+   "excluded_source_namers": [
+    "scripts/e479_twin_read.py",
+    "scripts/e480_vintage_date_agree.py",
+    "scripts/e481_vintage_conclusion.py"
+   ],
+   "non_python_namers": [],
+   "traced_literals": [
+    "VINTAGERETIRE",
+    "no byte-identical partner anywhere in the results/ payload tree",
+    "same sha256 as a results/ payload outside the unread membership",
+    "the corpus is results/ payload extensions only; a partner in docs/ or in a non-payload extension is not seen, so the duplicate count is a lower bound",
+    "vintageretire_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory"
+  },
+  {
+   "spelling": "walkambig_latest.json",
+   "stem": "walkambig",
+   "class": "the_write_path_reaches_a_name_bound_to_a_literal_that_carries_the_stem",
+   "route": "direct",
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/walkambig_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [
+    {
+     "source": "scripts/e397_walk_ambiguity.py",
+     "route": "direct",
+     "line": 368
+    },
+    {
+     "source": "scripts/e399_unresolved_names.py",
+     "route": "direct",
+     "line": 482
+    }
+   ],
+   "tracing_source_count": 2,
+   "tracing_sources_outside_the_readers": [
+    "scripts/e384_never_opened_key.py",
+    "scripts/e397_walk_ambiguity.py",
+    "scripts/e399_unresolved_names.py"
+   ],
+   "naming_source_count": 4,
+   "naming_sources_outside_the_readers": [
+    "scripts/e384_never_opened_key.py",
+    "scripts/e397_walk_ambiguity.py",
+    "scripts/e399_unresolved_names.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [
+    "SPLITPRICE-%s.json",
+    "UNRESOLVED-%s.json",
+    "WALKAMBIG-%s.json",
+    "WALKAMBIG-2026-11-03.json",
+    "unresolved_latest.json",
+    "walkambig_latest.json"
+   ],
+   "directory_class": "the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced"
+  },
+  {
+   "spelling": "wrongside_latest.json",
+   "stem": "wrongside",
+   "class": "a_source_that_writes_names_the_stem_but_no_write_path_is_traced",
+   "route": null,
+   "stem_is_generic": false,
+   "resolved_paths": [
+    "results/state_tilt/wrongside_latest.json"
+   ],
+   "resolved_directories": [
+    "results/state_tilt"
+   ],
+   "reader_sources": [
+    "smoke_test.py"
+   ],
+   "reader_source_count": 1,
+   "tracing_sources": [],
+   "tracing_source_count": 0,
+   "tracing_sources_outside_the_readers": [
+    "scripts/_r1436_card.py",
+    "scripts/_r1436bmb_closeout.py",
+    "scripts/e390_wrong_side_reader.py"
+   ],
+   "naming_source_count": 4,
+   "naming_sources_outside_the_readers": [
+    "scripts/_r1436_card.py",
+    "scripts/_r1436bmb_closeout.py",
+    "scripts/e390_wrong_side_reader.py"
+   ],
+   "excluded_source_namers": [],
+   "non_python_namers": [],
+   "traced_literals": [],
+   "directory_class": null
+  }
+ ],
+ "method_limits": [
+  "a writer that passes the name to a helper imported from another module, or builds it from a dict keyed by something else, is not traced: those rows land in the residue class, never in a traced class",
+  "the residue class is not 'no writer'. It says that this source names the stem and writes files but no write path traces back to that name -- the same statement the parent made about literals, one level up",
+  "a stem hit is a token match on the source text, so a comment, a docstring or a test assertion counts as naming; the route says whether that naming reaches a write",
+  "the population is defined under E482's exclusion list; this face keeps it and then scans those excluded sources as its own arm so the inherited blindness is counted instead of being silently inherited twice",
+  "a generic stem (shorter than five characters or an ordinary word) is flagged on its row and NOT moved between classes: pruning a real trace is worse than publishing the caveat (E208)",
+  "no data flow across modules and no runtime tracing: this is a static path census of one file at a time"
+ ]
+}

@@ -19171,5 +19171,66 @@ except Exception as _e482x:
     _d482 = "leg could not run"
 check(_name482, not _bad482, "; ".join(_bad482)[:240] or _d482)
 
+# E487 (r1512 bm-b): E482 left 84 spellings that resolve to a file no source writes as a literal.
+# This leg holds that every row re-derives (class, route, directory class, generic flag), that the
+# parent's population tally is reproduced, that the verdict is the one the counts imply, that a
+# traced class always carries the source and literal it claims, and that three doctored copies go red.
+_name487 = ("E487 an unwritten latest spelling is attributed to the source that composes its stem "
+            "(r1512 bm-b)")
+_bad487 = []
+try:
+    _m487 = __import__("importlib").import_module("e487_composed_writer")
+    _f487 = json.load(open(os.path.join("results", "state_tilt", "composedwriter_latest.json"),
+                           encoding="utf-8"))
+    _s487 = _f487.get("summary") or {}
+    _r487 = _f487.get("rows") or []
+    _bad487.extend(_m487.row_problems(_f487))
+    if not _r487:
+        _bad487.append("the unwritten-spelling population is empty")
+    if _s487.get("population_reproduced") is not True:
+        _bad487.append("the parent's population tally is not reproduced")
+    if _f487.get("verdict") != _m487._verdict(_m487._recompute(_f487)):
+        _bad487.append("the verdict is not the one the counts imply")
+    _untraced487 = next((r for r in _r487 if r.get("class") not in _m487.TRACED), None)
+    if _untraced487 is None:
+        _bad487.append("no untraced row: the leg cannot be shown to measure anything")
+    else:
+        _w487 = json.loads(json.dumps(_f487))
+        for _row in _w487["rows"]:
+            if _row.get("spelling") == _untraced487.get("spelling"):
+                _row["class"] = _m487.C_DIRECT
+                _row["route"] = _m487.R_DIRECT
+        if not _m487.row_problems(_w487):
+            _bad487.append("a traced class with no tracing source survived the guard")
+        _w487b = json.loads(json.dumps(_f487))
+        for _row in _w487b["rows"]:
+            if _row.get("spelling") == _untraced487.get("spelling"):
+                _row["directory_class"] = _m487.D_SAME
+        if not _m487.row_problems(_w487b):
+            _bad487.append("an untraced row with a directory class survived the guard")
+    _w487c = json.loads(json.dumps(_f487))
+    _w487c["verdict"] = _m487.V_ALL
+    if not _m487.row_problems(_w487c):
+        _bad487.append("a verdict that does not re-derive survived the guard")
+    _c487 = _s487.get("class_counts") or {}
+    _d487 = ("%d unwritten spellings | traced %d (direct %d / helper %d / loop %d) | "
+             "writer names stem but untraced %d | reader only %d | pipeline %d | non-python %d | "
+             "unnamed %d | parent reproduced %s" % (
+                 len(_r487),
+                 _s487.get("spellings_whose_write_path_traces_to_the_stem") or 0,
+                 _c487.get(_m487.C_DIRECT) or 0,
+                 _c487.get(_m487.C_HELPER) or 0,
+                 _c487.get(_m487.C_LOOP) or 0,
+                 _c487.get(_m487.C_RESIDUE) or 0,
+                 _c487.get(_m487.C_READER_ONLY) or 0,
+                 _c487.get(_m487.C_EXCLUDED) or 0,
+                 _c487.get(_m487.C_NONPY) or 0,
+                 _c487.get(_m487.C_UNNAMED) or 0,
+                 _s487.get("population_reproduced")))
+except Exception as _e487x:
+    _bad487.append(repr(_e487x)[:160])
+    _d487 = "leg could not run"
+check(_name487, not _bad487, "; ".join(_bad487)[:240] or _d487)
+
 if __name__ == "__main__":
     sys.exit(main())

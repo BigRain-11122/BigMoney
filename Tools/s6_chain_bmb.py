@@ -1753,6 +1753,11 @@ LEGS = [
     # and joined to the sources that write it.  `check` re-derives each row's site count, tier
     # census, class, and the verdict, and re-tests the parent's source tally.
     ("latest_spelling_exists", ["python", "scripts/e482_latest_outside.py", "check"]),
+    # E487 takes E482's 84 unwritten spellings and asks who writes them if not a literal: the
+    # module constants of every source are scanned for the stem and the write path is followed
+    # (direct name / one helper hop / a loop over name constants).  `check` re-derives every class
+    # tally, the directory split and the verdict from the published rows.
+    ("composed_writer", ["python", "scripts/e487_composed_writer.py", "check"]),
 ]
 
 

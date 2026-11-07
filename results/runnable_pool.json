@@ -28567,11 +28567,26 @@
    "lane": "cpu-only",
    "lane_note": "static: module-constant scan plus the E482 rows, no network",
    "source": "E482 published 84 spellings with a file and no literal writer; a face whose writer only composes its name cannot be retired by a literal-writer census",
-   "status": "ready",
-   "result_ref": null,
+   "status": "done",
+   "result_ref": "results/state_tilt/COMPOSEDWRITER-2026-11-07.json",
    "entered_at": "2026-11-07T05:57+08:00",
    "entered_by": "bm-b r1511 (supply floor refill after E482)",
-   "evidence_cutoff": "2026-11-07"
+   "evidence_cutoff": "2026-11-07",
+   "done_note": "r1512 bm-b: of the 84 spellings E482 left that no source writes as a literal, 67 have a writing source whose own path traces back to the stem (20 direct literal, 5 through a write helper, 42 through a loop over name constants), 11 name the stem only from sources that never write it, 3 are named only by this census's excluded sources, 3 only by their readers; 0 are unnamed, 0 have a generic stem and the parent population reproduces 84/84. The directory is the residue: of the 67 traced spellings only 1 writer path reaches the directory its reader resolves to, 51 reach a bare basename and 15 reach a stated directory that is not the reader's."
+  },
+  {
+   "id": "E488-FOR-THE-BASENAME-ONLY-WRITERS-DOES-THE-MODULE-OWN-DIRECTORY-CONSTANT-NAME-THE-READER-DIRECTORY",
+   "title": "E487 traced 67 of 84 unwritten spellings back to a writing source, but only 1 of those writer paths reaches the directory its reader resolves to: 51 reach a bare basename and 15 reach a stated directory that is not the reader's. For the 51 basename-only writers, read the module's own directory expression (the OUTDIR/FACE_DIR constant or the join that carries it) and ask whether it names the reader's resolved directory, so a writer that writes into the right directory under a composed path is separated from a writer that genuinely writes elsewhere.",
+   "source": "E487 (r1512 bm-b) published directory_class_counts: 1 the_writer_path_reaches_the_directory_the_reader_resolves_to / 51 the_writer_path_reaches_only_a_bare_basename_so_the_directory_is_untraced / 15 the_writer_path_reaches_a_stated_directory_that_is_not_the_reader_directory. A basename-only class is an unfinished trace, not a finding.",
+   "lane": "cpu-only",
+   "lane_note": "static: AST read of the tracing module's directory expression, no network",
+   "deliverable": "results/state_tilt/WRITERDIR-<cutoff>.json",
+   "target": "results/state_tilt/writerdir_latest.json",
+   "evidence_cutoff": "2026-11-07",
+   "entered_at": "2026-11-07T08:2x+08:00",
+   "entered_by": "bm-b r1512 (supply floor refill after E487)",
+   "status": "ready",
+   "result_ref": null
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -28586,6 +28601,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-07T05:57:12+08:00",
+ "updated_at": "2026-11-07T08:25:00+08:00",
  "version": 1
 }
