@@ -30336,14 +30336,18 @@
    "lane": "cpu-only",
    "lane_note": "static: name-match every opener of results/etf_book_order/TICKET-*.json and ORDER-*.md (scripts + Tools + monitor + docs) and ask which fields it reads; no runner, no rebuild",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E581/E582 fixed the producer and E583 priced the sheets already on disk; both left the disclosure question open -- a ticket is only useful to a follower if the page they read says which bar the money came from.",
    "target": "results/state_tilt/TICKETREADERBAR.json",
    "deliverable": "results/state_tilt/TICKETREADERBAR.json",
    "title": "For every in-repo consumer of a published ticket (the ORDER-*.md renderer, the dashboard/status faces, ceo_live_usage, any monitor script), publish whether the surface it emits carries the pricing bar, the decision bar, or neither -- and count the readers that would print a notional without saying which bar priced it.",
    "entered_at": "2026-11-09T05:05:00+08:00",
    "entered_by": "bm-b r1612",
-   "evidence_cutoff": "2026-11-06"
+   "evidence_cutoff": "2026-11-06",
+   "result_ref": "results/state_tilt/TICKETREADERBAR.json",
+   "done_by": "bm-b r1621",
+   "done_at": "2026-11-09T07:45:00+08:00",
+   "done_note": "0 silent readers and 0 silent surfaces: of 21 modules that address a ticket, 9 name a strict money field and all 9 also name a bar field (3 modules hit only generic names -- legs/weight/order -- and are published as such, not counted); of 10 surfaces that name the newest ticket, 6 carry its money and all 6 state a bar, in three dialects (8 field_names, 1 dated_field via latest.json's as_of, 1 prose_dates on the ORDER page). Script scripts/e586_ticket_reader_bar.py, selftest 27/27, check/verify problems=[]; no ticket, ledger, panel or state face written."
   },
   {
    "id": "E588-WHETHER-ANY-READER-OF-THE-LEDGER-TAKES-ITS-BAR-COUNT-AS-A-DENOMINATOR",
@@ -30435,6 +30439,21 @@
    "title": "Establish whether the ticket's advertised cash yield survives its own arithmetic: recompute the mean GC001 accrual over the exact window the ticket prints, under the ticket's 252-bar convention and under the ladder's calendar-day convention, price the difference on the ticket's cash, and publish which of the two the ticket's own number is.",
    "entered_at": "2026-11-09T07:05:00+08:00",
    "entered_by": "bm-b r1619",
+   "evidence_cutoff": "2026-11-06",
+   "wiring_note": "S6 leg cash_convention added in r1621 (rc0 0.70s); the r1620 close shipped the script and the face but not the chain leg."
+  },
+  {
+   "id": "E594-WHETHER-THE-THREE-BAR-SPELLINGS-CAN-BE-JOINED-WITHOUT-A-HAND-MAP",
+   "lane": "cpu-only",
+   "lane_note": "static: take the reader population E586 published and ask, for each reader, which spelling it uses for the bar (pricing_bar / ticket_bar / evidence_cutoff / as_of / prose) and whether the face it reads carries that spelling; no runner, no rebuild",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E586 (r1621 bm-b) closed the consumer-side question with zero silent readers and zero silent money-carrying surfaces, but the witnesses split into three dialects, and the pointer face a follow-up page uses spells the bar as as_of. A reader that joins on the wrong spelling reads nothing and still looks fine.",
+   "target": "results/state_tilt/BARDIALECTJOIN.json",
+   "deliverable": "results/state_tilt/BARDIALECTJOIN.json",
+   "title": "For every reader E586 found, publish which spelling it uses to obtain the bar and whether the face it reads carries that spelling, then count the readers whose spelling has no carrier -- those joins silently return nothing.",
+   "entered_at": "2026-11-09T07:45:00+08:00",
+   "entered_by": "bm-b r1621",
    "evidence_cutoff": "2026-11-06"
   }
  ],

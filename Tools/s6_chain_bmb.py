@@ -2393,6 +2393,18 @@ LEGS = [
     # ranges to add back up to the searched window.
     ("carry_phase",
      ["python", "scripts/e592_carry_phase.py", "check"]),
+    # E593 (r1620 bm-b): the ticket prints 2.079%/yr with bars_per_year=252 on a window whose own
+    # calendar frequency is 242.07 bar steps per year.  This leg re-derives the printed figure from
+    # its own mean accrual, the calendar figure from the window's own day count, and the gap from
+    # the two -- a conversion that does not re-derive is a convention artefact, not a rate.
+    ("cash_convention",
+     ["python", "scripts/e593_cash_convention.py", "check"]),
+    # E586 (r1621 bm-b): the writer now stamps the bar it priced on, but the consumer side was
+    # never enumerated.  This leg re-derives the reader and surface counts from the published rows
+    # and refuses a verdict that contradicts them -- a page that prints a ticket's money without
+    # saying which bar priced it is the defect this census exists to find.
+    ("ticket_reader_bar",
+     ["python", "scripts/e586_ticket_reader_bar.py", "check"]),
 ]
 
 

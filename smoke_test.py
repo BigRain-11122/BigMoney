@@ -25634,6 +25634,47 @@ except Exception as _e592x:
     _d592 = "study could not be read"
 check(_name592, not _bad592, "; ".join(_bad592)[:240] or _d592)
 
+# E586: the ticket writer now stamps the bar it priced on (E581/E582) and the sheets on disk were
+# repriced (E583), but nobody had enumerated the CONSUMER side.  This leg reads the reader/surface
+# census: every module that addresses a ticket, split into modules that name the ticket's money and
+# modules that name the bar; and every published surface that names the newest ticket, split into
+# those carrying its money and the witnesses they state it with.  It refuses the ways that reading
+# could be a wish: a count that does not re-derive from its own rows, a silent reader/surface that
+# is named while the count says there are none, a verdict that contradicts the counts, a machine
+# face credited with prose dates instead of a field, and a reader row that does not say how it
+# addresses a ticket at all.
+_name586 = ("E586 whether a follower surface prints a ticket's money without the bar that priced "
+            "it (r1621 bm-b)")
+_bad586 = []
+_d586 = "no reading"
+try:
+    _p586 = os.path.join("results", "state_tilt", "TICKETREADERBAR.json")
+    _f586 = json.load(open(_p586, encoding="utf-8"))
+    _m586 = importlib.import_module("e586_ticket_reader_bar")
+    _bad586.extend(_m586.face_problems(_f586))
+    _rc586 = _f586.get("reader_counts") or {}
+    _sc586 = _f586.get("surface_counts") or {}
+    if _rc586.get("readers_naming_strict_money_with_no_bar") == 0 and _rc586.get("silent_readers"):
+        _bad586.append("silent readers are named while the count says there are none")
+    if _sc586.get("surfaces_carrying_money_with_no_bar") == 0 and _sc586.get("silent_surfaces"):
+        _bad586.append("silent surfaces are named while the count says there are none")
+    for _r586 in _f586.get("surfaces") or []:
+        if _r586.get("bar_witness") == "prose_dates" and _r586.get("kind") != "order_page":
+            _bad586.append("a machine face is credited with prose instead of a bar field")
+            break
+    _d586 = ("readers=%d money_readers=%d silent=%d | surfaces=%d money_surfaces=%d silent=%d "
+             "witnesses=%s"
+             % (_rc586.get("readers", 0), _rc586.get("readers_naming_strict_money", 0),
+                _rc586.get("readers_naming_strict_money_with_no_bar", 0),
+                _sc586.get("surfaces", 0), _sc586.get("surfaces_carrying_ticket_money", 0),
+                _sc586.get("surfaces_carrying_money_with_no_bar", 0),
+                _sc586.get("surfaces_stating_a_bar_by_witness")))
+except Exception as _e586x:
+    _bad586.append(repr(_e586x)[:160])
+    _d586 = "study could not be read"
+check(_name586, not _bad586, "; ".join(_bad586)[:240] or _d586)
+
+
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -1,0 +1,953 @@
+{
+ "answer": "Of 21 in-repo modules that address a ticket, 9 name one of the ticket's 7 strict money fields and 9 of those also name a bar field -- 0 silent reader(s). On the follower side 10 of 10 surfaces name this ticket and 6 carry its money; 6 of those state a bar (3 by the pricing-bar field, 2 by the decision-bar field), and 0 of 1 human ORDER page(s) name no bar. The ticket itself prints 2026-11-06 priced / 2026-10-14 decided.",
+ "candidates_globs": [
+  "results/etf_book_order/*.json",
+  "results/etf_book_order/*.md",
+  "docs/live_usage/LIVE-latest.*",
+  "docs/daily_report/REPORT-*.md",
+  "results/dashboard_status.json",
+  "results/paper_export/latest.json",
+  "results/state_tilt/*TICKET*.json"
+ ],
+ "evidence_cutoff": "2026-11-06",
+ "excluded_readers": [
+  {
+   "module": "e586_ticket_reader_bar.py",
+   "why": "this study"
+  },
+  {
+   "count": 2560,
+   "module": "<one-shot round helpers and smoke-leg mirrors>",
+   "why": "name starts with _r or run_"
+  }
+ ],
+ "field_sets": {
+  "bar_fields": [
+   "book_decided_at",
+   "card_decided_at",
+   "card_priced_bar",
+   "decision_bar",
+   "evidence_cutoff",
+   "expected_bar",
+   "price_bar",
+   "priced_bar",
+   "priced_on_decision_bar",
+   "pricing_bar",
+   "ticket_bar",
+   "ticket_priced_bar"
+  ],
+  "generic_notional_fields_published_not_deciding": [
+   "amount",
+   "holdings",
+   "legs",
+   "order",
+   "picks",
+   "shares",
+   "weight"
+  ],
+  "strict_notional_fields": [
+   "beta_k",
+   "book_amount",
+   "book_weight",
+   "cash_amount",
+   "cash_weight",
+   "k_now",
+   "nav"
+  ]
+ },
+ "reader_counts": {
+  "generic_only_readers": [
+   {
+    "module": "Tools/s6_chain_bmb.py",
+    "names": [
+     "legs"
+    ]
+   },
+   {
+    "module": "scripts/etf_book_cash_ladder.py",
+    "names": [
+     "weight"
+    ]
+   },
+   {
+    "module": "scripts/etf_book_ticket_audit.py",
+    "names": [
+     "order",
+     "weight"
+    ]
+   }
+  ],
+  "readers": 21,
+  "readers_addressing_by_family_dir": 20,
+  "readers_addressing_by_producer_import": 1,
+  "readers_addressing_by_ticket_literal": 12,
+  "readers_naming_only_generic_money_names": 3,
+  "readers_naming_strict_money": 9,
+  "readers_naming_strict_money_and_a_bar": 9,
+  "readers_naming_strict_money_with_no_bar": 0,
+  "silent_readers": []
+ },
+ "readers": [
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [],
+   "cutoff_fields": [],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [
+    "legs"
+   ],
+   "module": "Tools/s6_chain_bmb.py",
+   "notional_fields": [
+    "legs"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "strict_notional_fields": []
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [],
+   "cutoff_fields": [],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "Tools/s6_chain_bmc.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "strict_notional_fields": []
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/e403_family_arg.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "strict_notional_fields": []
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/e446_frozen_writer.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "strict_notional_fields": []
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/e511_collision_anatomy.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "strict_notional_fields": []
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "book_decided_at",
+    "evidence_cutoff",
+    "pricing_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [
+    "book_decided_at"
+   ],
+   "generic_notional_fields": [
+    "amount",
+    "legs",
+    "order",
+    "shares",
+    "weight"
+   ],
+   "module": "scripts/e583_ticket_repricing.py",
+   "notional_fields": [
+    "amount",
+    "legs",
+    "nav",
+    "order",
+    "shares",
+    "weight"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "pricing_bar"
+   ],
+   "strict_notional_fields": [
+    "nav"
+   ]
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "book_decided_at",
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [
+    "book_decided_at"
+   ],
+   "generic_notional_fields": [],
+   "module": "scripts/e585_cash_leg_pricing.py",
+   "notional_fields": [
+    "cash_amount",
+    "cash_weight",
+    "nav"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "strict_notional_fields": [
+    "cash_amount",
+    "cash_weight",
+    "nav"
+   ]
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/e587_cash_window.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "strict_notional_fields": []
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff",
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/e590_cash_silence.py",
+   "notional_fields": [
+    "cash_amount",
+    "cash_weight",
+    "nav"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "strict_notional_fields": [
+    "cash_amount",
+    "cash_weight",
+    "nav"
+   ]
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/e591_cash_diverge.py",
+   "notional_fields": [
+    "cash_amount",
+    "nav"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "strict_notional_fields": [
+    "cash_amount",
+    "nav"
+   ]
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff",
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/e593_cash_convention.py",
+   "notional_fields": [
+    "cash_amount"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "strict_notional_fields": [
+    "cash_amount"
+   ]
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/etf_book_bridge.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "strict_notional_fields": []
+  },
+  {
+   "addressing": [
+    "ticket_literal"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [
+    "weight"
+   ],
+   "module": "scripts/etf_book_cash_ladder.py",
+   "notional_fields": [
+    "weight"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "strict_notional_fields": []
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [
+    "book_decided_at",
+    "evidence_cutoff",
+    "priced_bar",
+    "ticket_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [
+    "book_decided_at"
+   ],
+   "generic_notional_fields": [
+    "amount",
+    "order",
+    "shares",
+    "weight"
+   ],
+   "module": "scripts/etf_book_ceo_page.py",
+   "notional_fields": [
+    "amount",
+    "book_amount",
+    "cash_amount",
+    "cash_weight",
+    "k_now",
+    "nav",
+    "order",
+    "shares",
+    "weight"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "priced_bar",
+    "ticket_bar"
+   ],
+   "strict_notional_fields": [
+    "book_amount",
+    "cash_amount",
+    "cash_weight",
+    "k_now",
+    "nav"
+   ]
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "book_decided_at",
+    "card_decided_at",
+    "card_priced_bar",
+    "evidence_cutoff",
+    "expected_bar",
+    "price_bar",
+    "priced_bar",
+    "priced_on_decision_bar",
+    "pricing_bar",
+    "ticket_bar",
+    "ticket_priced_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [
+    "book_decided_at",
+    "card_decided_at",
+    "card_priced_bar",
+    "priced_on_decision_bar",
+    "ticket_priced_bar"
+   ],
+   "generic_notional_fields": [
+    "amount",
+    "legs",
+    "order",
+    "picks",
+    "shares",
+    "weight"
+   ],
+   "module": "scripts/etf_book_order.py",
+   "notional_fields": [
+    "amount",
+    "beta_k",
+    "book_amount",
+    "book_weight",
+    "cash_amount",
+    "cash_weight",
+    "k_now",
+    "legs",
+    "nav",
+    "order",
+    "picks",
+    "shares",
+    "weight"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "expected_bar",
+    "price_bar",
+    "priced_bar",
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "strict_notional_fields": [
+    "beta_k",
+    "book_amount",
+    "book_weight",
+    "cash_amount",
+    "cash_weight",
+    "k_now",
+    "nav"
+   ]
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/etf_book_publish_decision.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "strict_notional_fields": []
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff",
+    "priced_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [
+    "legs",
+    "order",
+    "picks",
+    "weight"
+   ],
+   "module": "scripts/etf_book_registry.py",
+   "notional_fields": [
+    "k_now",
+    "legs",
+    "nav",
+    "order",
+    "picks",
+    "weight"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "priced_bar"
+   ],
+   "strict_notional_fields": [
+    "k_now",
+    "nav"
+   ]
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir",
+    "producer_import"
+   ],
+   "bar_fields": [
+    "evidence_cutoff",
+    "price_bar",
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [
+    "order",
+    "weight"
+   ],
+   "module": "scripts/etf_book_ticket_audit.py",
+   "notional_fields": [
+    "order",
+    "weight"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "price_bar",
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "strict_notional_fields": []
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/etf_book_width_audit.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "strict_notional_fields": []
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [],
+   "cutoff_fields": [],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/reader_text_audit.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "strict_notional_fields": []
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "book_decided_at",
+    "evidence_cutoff",
+    "priced_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [
+    "book_decided_at"
+   ],
+   "generic_notional_fields": [
+    "legs",
+    "order",
+    "weight"
+   ],
+   "module": "smoke_test.py",
+   "notional_fields": [
+    "cash_amount",
+    "k_now",
+    "legs",
+    "nav",
+    "order",
+    "weight"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "priced_bar"
+   ],
+   "strict_notional_fields": [
+    "cash_amount",
+    "k_now",
+    "nav"
+   ]
+  }
+ ],
+ "readers_addressing_in_prose_only": [],
+ "study": "E586_ticket_reader_bar",
+ "surface_counts": {
+  "human_order_pages": 1,
+  "human_order_pages_naming_no_bar": 0,
+  "silent_surfaces": [],
+  "surfaces": 10,
+  "surfaces_carrying_money_and_stating_a_bar": 6,
+  "surfaces_carrying_money_with_no_bar": 0,
+  "surfaces_carrying_ticket_money": 6,
+  "surfaces_naming_the_decision_bar_field": 2,
+  "surfaces_naming_the_pricing_bar_field": 3,
+  "surfaces_stating_a_bar_by_witness": {
+   "dated_field": 1,
+   "field_names": 8,
+   "prose_dates": 1
+  }
+ },
+ "surface_verdict": "every_surface_that_carries_ticket_money_states_a_bar",
+ "surfaces": [
+  {
+   "bar_dated_key_hits": [
+    "breadth_by_bar.2026-11-06.date",
+    "evidence_cutoff",
+    "tickets.bar",
+    "tickets.breadth_at_bar.date",
+    "tickets.claim.claim_panel_breadth.newest_bar_dense_enough",
+    "tickets.claim.claim_panel_breadth.priced_bar"
+   ],
+   "bar_field_hits": [
+    "evidence_cutoff",
+    "tickets.claim.claim_panel_breadth.priced_bar",
+    "tickets.price_bar"
+   ],
+   "bar_witness": "field_names",
+   "bytes": 16339,
+   "carries_ticket_money": false,
+   "decision_dated_key_hits": [
+    "tickets.claim.claim_pricing_bar",
+    "tickets.claim_vs_measurement.claim_pricing_bar",
+    "tickets.claim_vs_measurement.measured_price_bar",
+    "tickets.held_priced_on_an_earlier_bar.price_bar_last",
+    "tickets.price_bar"
+   ],
+   "kind": "face",
+   "mentions_decision_bar_date": true,
+   "mentions_pricing_bar_date": true,
+   "money_fields_named": [],
+   "money_numbers_found": [],
+   "names_decision_bar_field": false,
+   "names_pricing_bar_field": true,
+   "path": "results/etf_book_order/BREADTHAUDIT-2026-11-06.json"
+  },
+  {
+   "bar_dated_key_hits": [
+    "evidence_cutoff",
+    "ticket_bar"
+   ],
+   "bar_field_hits": [
+    "evidence_cutoff",
+    "ticket_bar"
+   ],
+   "bar_witness": "field_names",
+   "bytes": 2139,
+   "carries_ticket_money": true,
+   "decision_dated_key_hits": [],
+   "kind": "face",
+   "mentions_decision_bar_date": false,
+   "mentions_pricing_bar_date": true,
+   "money_fields_named": [],
+   "money_numbers_found": [
+    "528774",
+    "528774.5"
+   ],
+   "names_decision_bar_field": false,
+   "names_pricing_bar_field": false,
+   "path": "results/etf_book_order/CASHCONVENTION.json"
+  },
+  {
+   "bar_dated_key_hits": [
+    "bars.bar",
+    "evidence_cutoff"
+   ],
+   "bar_field_hits": [
+    "evidence_cutoff"
+   ],
+   "bar_witness": "field_names",
+   "bytes": 9390,
+   "carries_ticket_money": false,
+   "decision_dated_key_hits": [],
+   "kind": "face",
+   "mentions_decision_bar_date": false,
+   "mentions_pricing_bar_date": true,
+   "money_fields_named": [],
+   "money_numbers_found": [],
+   "names_decision_bar_field": false,
+   "names_pricing_bar_field": false,
+   "path": "results/etf_book_order/CASHDIVERGE.json"
+  },
+  {
+   "bar_dated_key_hits": [
+    "bars_past_the_panel.rows.bar",
+    "evidence_cutoff",
+    "tickets.step_rows.bar",
+    "tickets.ticket_bar"
+   ],
+   "bar_field_hits": [
+    "evidence_cutoff",
+    "tickets.ticket_bar"
+   ],
+   "bar_witness": "field_names",
+   "bytes": 10661,
+   "carries_ticket_money": true,
+   "decision_dated_key_hits": [],
+   "kind": "face",
+   "mentions_decision_bar_date": false,
+   "mentions_pricing_bar_date": true,
+   "money_fields_named": [
+    "cash_weight"
+   ],
+   "money_numbers_found": [
+    "528774",
+    "528774.5"
+   ],
+   "names_decision_bar_field": false,
+   "names_pricing_bar_field": false,
+   "path": "results/etf_book_order/CASHSILENCE.json"
+  },
+  {
+   "bar_dated_key_hits": [
+    "evidence_cutoff",
+    "rows.bar",
+    "summary.ledger_last_bar",
+    "summary.ticket_window_end",
+    "tickets.evidence_cutoff"
+   ],
+   "bar_field_hits": [
+    "evidence_cutoff",
+    "tickets.evidence_cutoff"
+   ],
+   "bar_witness": "field_names",
+   "bytes": 15089,
+   "carries_ticket_money": false,
+   "decision_dated_key_hits": [],
+   "kind": "face",
+   "mentions_decision_bar_date": false,
+   "mentions_pricing_bar_date": true,
+   "money_fields_named": [],
+   "money_numbers_found": [],
+   "names_decision_bar_field": false,
+   "names_pricing_bar_field": false,
+   "path": "results/etf_book_order/CASHWINDOW-latest.json"
+  },
+  {
+   "bar_dated_key_hits": [
+    "evidence_cutoff",
+    "rows.bar",
+    "summary.ledger_last_bar",
+    "summary.ticket_window_end",
+    "tickets.evidence_cutoff"
+   ],
+   "bar_field_hits": [
+    "evidence_cutoff",
+    "tickets.evidence_cutoff"
+   ],
+   "bar_witness": "field_names",
+   "bytes": 15089,
+   "carries_ticket_money": false,
+   "decision_dated_key_hits": [],
+   "kind": "face",
+   "mentions_decision_bar_date": false,
+   "mentions_pricing_bar_date": true,
+   "money_fields_named": [],
+   "money_numbers_found": [],
+   "names_decision_bar_field": false,
+   "names_pricing_bar_field": false,
+   "path": "results/etf_book_order/CASHWINDOW.json"
+  },
+  {
+   "bar_dated_key_hits": [],
+   "bar_field_hits": [],
+   "bar_witness": "prose_dates",
+   "bytes": 5163,
+   "carries_ticket_money": true,
+   "decision_dated_key_hits": [],
+   "kind": "order_page",
+   "mentions_decision_bar_date": true,
+   "mentions_pricing_bar_date": true,
+   "money_fields_named": [],
+   "money_numbers_found": [
+    "471,225"
+   ],
+   "names_decision_bar_field": false,
+   "names_pricing_bar_field": false,
+   "path": "results/etf_book_order/ORDER-2026-11-06.md"
+  },
+  {
+   "bar_dated_key_hits": [
+    "as_of"
+   ],
+   "bar_field_hits": [],
+   "bar_witness": "dated_field",
+   "bytes": 106,
+   "carries_ticket_money": true,
+   "decision_dated_key_hits": [],
+   "kind": "face",
+   "mentions_decision_bar_date": false,
+   "mentions_pricing_bar_date": true,
+   "money_fields_named": [
+    "k_now"
+   ],
+   "money_numbers_found": [],
+   "names_decision_bar_field": false,
+   "names_pricing_bar_field": false,
+   "path": "results/etf_book_order/latest.json"
+  },
+  {
+   "bar_dated_key_hits": [
+    "evidence_cutoff",
+    "rows.declared_pricing_bar",
+    "rows.named_bar"
+   ],
+   "bar_field_hits": [
+    "evidence_cutoff",
+    "rows.decision_bar"
+   ],
+   "bar_witness": "field_names",
+   "bytes": 13362,
+   "carries_ticket_money": true,
+   "decision_dated_key_hits": [
+    "rows.decision_bar"
+   ],
+   "kind": "face",
+   "mentions_decision_bar_date": true,
+   "mentions_pricing_bar_date": true,
+   "money_fields_named": [
+    "nav"
+   ],
+   "money_numbers_found": [
+    "471225.5"
+   ],
+   "names_decision_bar_field": true,
+   "names_pricing_bar_field": true,
+   "path": "results/state_tilt/REPRICEDTICKETS-2026-11-06.json"
+  },
+  {
+   "bar_dated_key_hits": [
+    "evidence_cutoff",
+    "rows.declared_pricing_bar",
+    "rows.named_bar"
+   ],
+   "bar_field_hits": [
+    "evidence_cutoff",
+    "rows.decision_bar"
+   ],
+   "bar_witness": "field_names",
+   "bytes": 13362,
+   "carries_ticket_money": true,
+   "decision_dated_key_hits": [
+    "rows.decision_bar"
+   ],
+   "kind": "face",
+   "mentions_decision_bar_date": true,
+   "mentions_pricing_bar_date": true,
+   "money_fields_named": [
+    "nav"
+   ],
+   "money_numbers_found": [
+    "471225.5"
+   ],
+   "names_decision_bar_field": true,
+   "names_pricing_bar_field": true,
+   "path": "results/state_tilt/repricedtickets_latest.json"
+  }
+ ],
+ "ticket": {
+  "bar": "2026-11-06",
+  "book_decided_at": "2026-10-14",
+  "field_names_on_the_ticket": 160,
+  "path": "results/etf_book_order/TICKET-2026-11-06.json",
+  "pricing_bar": "2026-11-06"
+ },
+ "verdict": "no_reader_that_names_ticket_money_omits_the_bar"
+}
