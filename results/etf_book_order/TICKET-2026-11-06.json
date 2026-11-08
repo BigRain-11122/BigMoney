@@ -37,9 +37,165 @@
  "panel_degraded": false,
  "k_now": 0.47149,
  "book_decided_at": "2026-10-14",
- "pricing_bar": "2026-10-14",
- "pricing_bar_is_the_priced_bar": false,
+ "pricing_bar": "2026-11-06",
+ "pricing_bar_is_the_priced_bar": true,
+ "pricing_bar_note": "lots/shares/amounts are rounded on this bar's closes; the selection is the 2026-10-14 decision bar",
+ "priced_on_decision_bar": [],
  "pricing_drift_vs_priced_bar": 0.064251,
+ "ticket_as_issued": {
+  "beta_k": 0.47149,
+  "book_weight": 0.47149,
+  "cash_weight": 0.52851,
+  "nav": 1000000.0,
+  "order": [
+   {
+    "symbol": "159501",
+    "weight": 0.094298,
+    "price": 2.229,
+    "price_bar": "2026-10-14",
+    "priced_on_decision_bar": true,
+    "lots": 423,
+    "shares": 42300,
+    "amount": 94286.7,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "513100",
+    "weight": 0.094298,
+    "price": 2.399,
+    "price_bar": "2026-10-14",
+    "priced_on_decision_bar": true,
+    "lots": 393,
+    "shares": 39300,
+    "amount": 94280.7,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "513690",
+    "weight": 0.094298,
+    "price": 1.137,
+    "price_bar": "2026-10-14",
+    "priced_on_decision_bar": true,
+    "lots": 829,
+    "shares": 82900,
+    "amount": 94257.3,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "159577",
+    "weight": 0.094298,
+    "price": 1.75,
+    "price_bar": "2026-10-14",
+    "priced_on_decision_bar": true,
+    "lots": 538,
+    "shares": 53800,
+    "amount": 94150.0,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "159263",
+    "weight": 0.094298,
+    "price": 1.148,
+    "price_bar": "2026-10-14",
+    "priced_on_decision_bar": true,
+    "lots": 821,
+    "shares": 82100,
+    "amount": 94250.8,
+    "class": "equity",
+    "note": ""
+   }
+  ],
+  "book_amount": 471225.5,
+  "cash_amount": 528774.5,
+  "cash_leg": "GC001 (1-day repo, observed close)",
+  "basket_drift": [],
+  "priced_on_decision_bar": [
+   "159501",
+   "513100",
+   "513690",
+   "159577",
+   "159263"
+  ],
+  "underspend_pct": 0.0265
+ },
+ "reprice_correction": {
+  "same_selection": true,
+  "book_amount_issued": 471225.5,
+  "book_amount_repriced": 470927.8,
+  "delta_book_amount": -297.7,
+  "delta_cash_amount": 297.7,
+  "shares_issued": 300400,
+  "shares_repriced": 311400,
+  "delta_shares": 11000,
+  "book_amount_if_shares_followed": 448892.2,
+  "overspend_if_shares_followed": -22333.3,
+  "overspend_pct_if_shares_followed": -4.7394,
+  "legs": [
+   {
+    "symbol": "159501",
+    "price_issued": 2.229,
+    "price_repriced": 2.069,
+    "shares_issued": 42300,
+    "shares_repriced": 45500,
+    "delta_shares": 3200,
+    "amount_issued": 94286.7,
+    "amount_repriced": 94139.5,
+    "delta_amount": -147.2
+   },
+   {
+    "symbol": "513100",
+    "price_issued": 2.399,
+    "price_repriced": 2.158,
+    "shares_issued": 39300,
+    "shares_repriced": 43600,
+    "delta_shares": 4300,
+    "amount_issued": 94280.7,
+    "amount_repriced": 94088.8,
+    "delta_amount": -191.9
+   },
+   {
+    "symbol": "513690",
+    "price_issued": 1.137,
+    "price_repriced": 1.158,
+    "shares_issued": 82900,
+    "shares_repriced": 81400,
+    "delta_shares": -1500,
+    "amount_issued": 94257.3,
+    "amount_repriced": 94261.2,
+    "delta_amount": 3.9
+   },
+   {
+    "symbol": "159577",
+    "price_issued": 1.75,
+    "price_repriced": 1.612,
+    "shares_issued": 53800,
+    "shares_repriced": 58400,
+    "delta_shares": 4600,
+    "amount_issued": 94150.0,
+    "amount_repriced": 94140.8,
+    "delta_amount": -9.2
+   },
+   {
+    "symbol": "159263",
+    "price_issued": 1.148,
+    "price_repriced": 1.143,
+    "shares_issued": 82100,
+    "shares_repriced": 82500,
+    "delta_shares": 400,
+    "amount_issued": 94250.8,
+    "amount_repriced": 94297.5,
+    "delta_amount": 46.7
+   }
+  ],
+  "leg_delta_sum": -297.7,
+  "leg_delta_matches_total": true,
+  "cash_plus_book_is_nav": true
+ },
+ "reissue_note": "tickets for this bar published before r1611 rounded their lots on the decision bar's closes; this file supersedes them and carries the correction in reprice_correction",
  "card_agreement": {
   "card_decided_at": "2026-10-14",
   "ticket_book_decided_at": "2026-10-14",
@@ -61,59 +217,70 @@
    {
     "symbol": "159501",
     "weight": 0.094298,
-    "price": 2.229,
-    "lots": 423,
-    "shares": 42300,
-    "amount": 94286.7,
+    "price": 2.069,
+    "price_bar": "2026-11-06",
+    "priced_on_decision_bar": false,
+    "lots": 455,
+    "shares": 45500,
+    "amount": 94139.5,
     "class": "crossborder",
     "note": ""
    },
    {
     "symbol": "513100",
     "weight": 0.094298,
-    "price": 2.399,
-    "lots": 393,
-    "shares": 39300,
-    "amount": 94280.7,
+    "price": 2.158,
+    "price_bar": "2026-11-06",
+    "priced_on_decision_bar": false,
+    "lots": 436,
+    "shares": 43600,
+    "amount": 94088.8,
     "class": "crossborder",
     "note": ""
    },
    {
     "symbol": "513690",
     "weight": 0.094298,
-    "price": 1.137,
-    "lots": 829,
-    "shares": 82900,
-    "amount": 94257.3,
+    "price": 1.158,
+    "price_bar": "2026-11-06",
+    "priced_on_decision_bar": false,
+    "lots": 814,
+    "shares": 81400,
+    "amount": 94261.2,
     "class": "crossborder",
     "note": ""
    },
    {
     "symbol": "159577",
     "weight": 0.094298,
-    "price": 1.75,
-    "lots": 538,
-    "shares": 53800,
-    "amount": 94150.0,
+    "price": 1.612,
+    "price_bar": "2026-11-06",
+    "priced_on_decision_bar": false,
+    "lots": 584,
+    "shares": 58400,
+    "amount": 94140.8,
     "class": "crossborder",
     "note": ""
    },
    {
     "symbol": "159263",
     "weight": 0.094298,
-    "price": 1.148,
-    "lots": 821,
-    "shares": 82100,
-    "amount": 94250.8,
+    "price": 1.143,
+    "price_bar": "2026-11-06",
+    "priced_on_decision_bar": false,
+    "lots": 825,
+    "shares": 82500,
+    "amount": 94297.5,
     "class": "equity",
     "note": ""
    }
   ],
-  "book_amount": 471225.5,
-  "cash_amount": 528774.5,
+  "book_amount": 470927.8,
+  "cash_amount": 529072.2,
   "cash_leg": "GC001 (1-day repo, observed close)",
   "basket_drift": [],
-  "underspend_pct": 0.0265
+  "priced_on_decision_bar": [],
+  "underspend_pct": 0.0563
  },
  "metrics": {
   "book": {
@@ -165,15 +332,15 @@
    "vol": 0.0879
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1229,
-    "card_width_cagr": 0.1257,
-    "pp": 0.28
-   },
    "beta": {
     "ticket_width_cagr": 0.1139,
     "card_width_cagr": 0.0983,
     "pp": -1.56
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1229,
+    "card_width_cagr": 0.1257,
+    "pp": 0.28
    }
   },
   "rules_differ": true,
@@ -243,7 +410,7 @@
   "GC001 single tenor, rolling assumed cost-free",
   "k revised every 20 bars so delivered beta still wanders",
   "exploratory: no preregistration, no verdict, no ledger booking",
-  "PRICING BAR: lots/shares/amounts are rounded on 2026-10-14 closes (the decision bar), not on the priced bar 2026-11-06 -- the printed order is +6.43% off the closes it names",
+  "PRICING BAR CORRECTED: the sheet published for this bar before r1611 rounded lots on the 2026-10-14 decision bar's closes and was +6.43% off the closes it named -- the order below is priced on 2026-11-06, and reprice_correction carries the leg-by-leg difference",
   "this ticket is the 5-name aggressive end of the book; the production card runs 12 names -- see width_disclosure"
  ]
 }

@@ -98,23 +98,38 @@ def in_force(sched, dates):
 
 
 # ---------------------------------------------------------------------------- ticket
-def build_ticket(score_last, close_last, k, nav, n_hold=N_HOLD, lot=LOT, classes=None):
+def build_ticket(score_last, close_last, k, nav, n_hold=N_HOLD, lot=LOT, classes=None,
+                 close_price=None, price_bar=None, decision_bar=None):
     """Whole-lot order sheet: k of NAV spread equally over the picks, rest to GC001.
 
     Weights always sum to 1 (book + cash). Amounts are floor'ed to whole lots, so the
     ticket can only ever spend less than NAV -- the unspent remainder stays in cash and
     is reported, never silently redistributed.
+
+    ``close_last`` decides the weights -- that is the decision bar, and ranking anywhere
+    else would hand an operator a book the engine does not hold. ``close_price`` is the
+    series the lots are rounded on and defaults to the same one; pass the ticket bar's
+    closes and a ticket dated B is priced at B. r1610 measured every published ticket
+    printing the decision bar's closes while naming a newer bar (2.6%-6.4% off, one card
+    44% off, no ticket saying so). A pick with no close on the pricing bar falls back to
+    the decision bar and says so on its own row instead of pricing silently.
     """
     s = score_last.dropna()
     if len(s) < n_hold:
         return None
+    px_ser = close_last if close_price is None else close_price
+    dpriced = close_price is None
     picks = list(s.nlargest(n_hold).index)
     w_each = float(k) / len(picks)
     rows, spent = [], 0.0
     for p in picks:
-        px = close_last.get(p, np.nan)
+        px = px_ser.get(p, np.nan)
+        on_decision = dpriced
+        if not np.isfinite(px) or px <= 0:
+            px, on_decision = close_last.get(p, np.nan), True
         if not np.isfinite(px) or px <= 0:
             rows.append({"symbol": p, "weight": round(w_each, 6), "price": None,
+                         "price_bar": None, "priced_on_decision_bar": None,
                          "lots": None, "shares": None, "amount": None,
                          "class": (classes or {}).get(p), "note": "no live price"})
             continue
@@ -123,10 +138,16 @@ def build_ticket(score_last, close_last, k, nav, n_hold=N_HOLD, lot=LOT, classes
         shares = lots * lot
         amt = shares * px
         spent += amt
+        note = "" if lots else "budget below one lot"
+        if on_decision and not dpriced:
+            note = ("no close on the pricing bar; priced on the %s decision bar"
+                    % (decision_bar or "its"))
         rows.append({"symbol": p, "weight": round(w_each, 6), "price": round(float(px), 4),
+                     "price_bar": (decision_bar if dpriced else
+                                   (decision_bar if on_decision else price_bar)),
+                     "priced_on_decision_bar": bool(on_decision),
                      "lots": lots, "shares": shares, "amount": round(amt, 2),
-                     "class": (classes or {}).get(p),
-                     "note": "" if lots else "budget below one lot"})
+                     "class": (classes or {}).get(p), "note": note})
     cash_amt = float(nav) - spent
     return {"beta_k": round(float(k), 6), "book_weight": round(float(k), 6),
             "cash_weight": round(1.0 - float(k), 6),
@@ -134,7 +155,64 @@ def build_ticket(score_last, close_last, k, nav, n_hold=N_HOLD, lot=LOT, classes
             "book_amount": round(spent, 2), "cash_amount": round(cash_amt, 2),
             "cash_leg": "GC001 (1-day repo, observed close)",
             "basket_drift": [n["symbol"] for n in rows if n["amount"] is None],
+            "priced_on_decision_bar": [n["symbol"] for n in rows
+                                       if n.get("priced_on_decision_bar")],
             "underspend_pct": round(100.0 * cash_amt / float(nav) - 100.0 * (1.0 - k), 4)}
+
+
+def reprice_delta(issued, repriced):
+    """What re-pricing on the ticket bar costs or saves, leg by leg.
+
+    ``issued`` is the sheet as it was published (decision-bar closes); ``repriced`` is the
+    same selection at the closes of the bar the ticket names. Weights and picks must be
+    identical -- only the money may move -- so the caller can publish the difference as a
+    correction instead of a new decision.
+    """
+    if not issued or not repriced:
+        return None
+    a = {r["symbol"]: r for r in issued["order"]}
+    b = {r["symbol"]: r for r in repriced["order"]}
+    if list(a) != list(b):
+        return {"same_selection": False, "picks_issued": list(a), "picks_repriced": list(b)}
+    legs = []
+    for sym, ra in a.items():
+        rb = b[sym]
+        sa = ra.get("shares") or 0
+        sb = rb.get("shares") or 0
+        aa = float(ra.get("amount") or 0.0)
+        ab = float(rb.get("amount") or 0.0)
+        legs.append({"symbol": sym,
+                     "price_issued": ra.get("price"), "price_repriced": rb.get("price"),
+                     "shares_issued": sa, "shares_repriced": sb,
+                     "delta_shares": sb - sa,
+                     "amount_issued": round(aa, 2), "amount_repriced": round(ab, 2),
+                     "delta_amount": round(ab - aa, 2)})
+    d_book = float(repriced["book_amount"]) - float(issued["book_amount"])
+    d_cash = float(repriced["cash_amount"]) - float(issued["cash_amount"])
+    # The number an operator actually loses by following the old sheet is not the amount
+    # line -- it is the share counts. Whole lots are floored, so a correct re-pricing leaves
+    # the money almost where it was and moves the shares; paying the old share counts at the
+    # new closes is what overspends.
+    follow = sum(float(l["shares_issued"] or 0) * float(l["price_repriced"] or 0.0)
+                 for l in legs)
+    d_shares = sum(int(l["delta_shares"]) for l in legs)
+    return {"same_selection": True,
+            "book_amount_issued": issued["book_amount"],
+            "book_amount_repriced": repriced["book_amount"],
+            "delta_book_amount": round(d_book, 2),
+            "delta_cash_amount": round(d_cash, 2),
+            "shares_issued": sum(int(l["shares_issued"] or 0) for l in legs),
+            "shares_repriced": sum(int(l["shares_repriced"] or 0) for l in legs),
+            "delta_shares": d_shares,
+            "book_amount_if_shares_followed": round(follow, 2),
+            "overspend_if_shares_followed": round(follow - float(issued["book_amount"]), 2),
+            "overspend_pct_if_shares_followed": (round(100.0 * (follow /
+                                                               float(issued["book_amount"]) - 1.0), 4)
+                                                 if issued["book_amount"] else None),
+            "legs": legs,
+            "leg_delta_sum": round(sum(l["delta_amount"] for l in legs), 2),
+            "leg_delta_matches_total": abs(sum(l["delta_amount"] for l in legs) - d_book) < 0.02,
+            "cash_plus_book_is_nav": abs(d_book + d_cash) < 0.02}
 
 
 # ----------------------------------------------------------------------------- ledger
@@ -253,6 +331,34 @@ def card(ticket, mk, sched, asof, beta, extra):
                         r["shares"] if r["shares"] is not None else "-",
                         format(int(r["amount"]), ",") if r["amount"] else "-"))
         L += ["", "整手取整后欠投 %.2f%% NAV（留在现金腿，不重分配）。" % ticket["underspend_pct"]]
+        far = ticket.get("priced_on_decision_bar") or []
+        bars = sorted({r.get("price_bar") for r in ticket["order"] if r.get("price_bar")})
+        if bars:
+            L += ["", "## 定价 bar", "- 本单每一格的价格来自：%s" % "、".join(bars),
+                  "- 选择（哪 5 个名字、各多少权重）来自 %s 的决策 bar —— 这是策略，不动；"
+                  "整手取整与金额只跟定价 bar 走。" % (extra.get("decision_bar") or "其")]
+            if far:
+                L += ["- ⚠ %d 格在 %s 没有收盘价，退回决策 bar 定价（行内 note 已标）：%s"
+                      % (len(far), asof, "、".join(far))]
+        rc = extra.get("repricing")
+        if rc and rc.get("same_selection"):
+            L += ["", "## 与已发出旧单的差（同一批名字，只差定价 bar）",
+                  "- 旧单印的是决策 bar 的价，股数按那个价取整。把它的**股数**拿去按 %s 的收盘真实成交，"
+                  "实际要花 ¥%s，而旧单印的是 ¥%s —— 差 **%+.0f CNY（%+.2f%%）**。"
+                  % (asof, format(int(rc["book_amount_if_shares_followed"]), ","),
+                     format(int(rc["book_amount_issued"]), ","),
+                     rc["overspend_if_shares_followed"],
+                     rc["overspend_pct_if_shares_followed"] or 0.0),
+                  "- 本单按 %s 价重算整手：书 ¥%s（%+.0f CNY 对旧单），股数总量 %d → %d（%+d 股）。"
+                  "整手取整下金额几乎不动、动的是股数 —— 这正是「按它自己写的 bar 定价」的实际含义。"
+                  % (asof, format(int(rc["book_amount_repriced"]), ","),
+                     rc["delta_book_amount"], rc["shares_issued"], rc["shares_repriced"],
+                     rc["delta_shares"]),
+                  "", "| 代码 | 旧价 | 新价 | 旧股数 | 新股数 | 金额差 |", "|---|---|---|---|---|---|"]
+            for l in rc["legs"]:
+                L.append("| %s | %s | %s | %s | %s | %+.0f |"
+                         % (l["symbol"], l["price_issued"], l["price_repriced"],
+                            l["shares_issued"], l["shares_repriced"], l["delta_amount"]))
     else:
         L += ["## 今日目标", "当日无有效信号（可选池不足），不下单。"]
     if sched:
@@ -526,31 +632,48 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     if k_now is None:
         k_now = 1.0
     cls_map = dict(zip(close.columns, classes))
-    ticket = build_ticket(score.loc[dec_bar], close.loc[dec_bar],
-                          k_now, nav, classes=cls_map) if dec_bar is not None else None
+    ts_asof = pd.Timestamp(asof)
+    price_bar = close.loc[ts_asof] if ts_asof in close.index else None
+    # Two sheets from one selection: `issued` is what every ticket published so far said
+    # (lots rounded on the DECISION bar's closes), `ticket` is the same picks and weights
+    # rounded on the closes of the bar the file is named after. Only the second one can be
+    # executed at the prices it prints.
+    issued = build_ticket(score.loc[dec_bar], close.loc[dec_bar], k_now, nav,
+                          classes=cls_map, decision_bar=str(dec_bar.date())
+                          ) if dec_bar is not None else None
+    ticket = build_ticket(score.loc[dec_bar], close.loc[dec_bar], k_now, nav,
+                          classes=cls_map, close_price=price_bar, price_bar=asof,
+                          decision_bar=str(dec_bar.date())
+                          ) if dec_bar is not None else None
     if ticket is None:
         print("FATAL: no decision bar on the grid -- panel too short")
         return 2
+    repriced = reprice_delta(issued, ticket)
     ticket_picks = [r["symbol"] for r in ticket["order"]]
-    # The order is built (and its lots/amounts rounded) on the DECISION bar's closes, while
-    # `evidence_cutoff` / `feed_status` / `panel_breadth` all name the newest bar. Those are
-    # two different bars and only one of them was advertised (r1610 measured every published
-    # ticket pricing 2.6%-6.4% off the bar it named, none of them saying so). The drift is
-    # computed here so a stale price level cannot be read as a current one.
+    # The drift of the sheet as previously issued, weighted the same way the money is:
+    # r1610 measured 2.6%-6.4% on the five main tickets and 44% on the 10-28 card ticket.
     pricing_drift = None
-    if dec_bar is not None and asof in close.index:
-        wsum = sum(float(r["weight"]) for r in ticket["order"] if r.get("price"))
+    if dec_bar is not None and price_bar is not None and issued is not None:
+        wsum = sum(float(r["weight"]) for r in issued["order"] if r.get("price"))
         if wsum > 0:
             printed = sum(float(r["weight"]) * float(r["price"])
-                          for r in ticket["order"] if r.get("price"))
-            now = sum(float(r["weight"]) * float(close.loc[asof].get(r["symbol"], np.nan))
-                      for r in ticket["order"] if r.get("price"))
+                          for r in issued["order"] if r.get("price"))
+            now = sum(float(r["weight"]) * float(price_bar.get(r["symbol"], np.nan))
+                      for r in issued["order"] if r.get("price"))
             if np.isfinite(now) and now > 0:
                 pricing_drift = float(printed / now - 1.0)
     if pricing_drift is not None and abs(pricing_drift) > 1e-9:
-        print("pricing bar: %s (decision) vs priced bar %s -> the printed order is %+.2f%% off "
-              "the closes of the bar it names"
-              % (dec_bar.date(), asof, 100.0 * pricing_drift), flush=True)
+        print("pricing bar: the previously issued sheet rounded lots on %s (decision) closes; "
+              "filling its share counts at the %s closes costs %+.2f%% (%+.0f CNY) of what "
+              "it printed -- this ticket buys %+d shares for %+.0f CNY on the book"
+              % (dec_bar.date(), asof,
+                 repriced["overspend_pct_if_shares_followed"] if repriced and
+                 repriced.get("same_selection") else float("nan"),
+                 repriced["overspend_if_shares_followed"] if repriced and
+                 repriced.get("same_selection") else float("nan"),
+                 repriced["delta_shares"] if repriced and repriced.get("same_selection") else 0,
+                 repriced["delta_book_amount"] if repriced and repriced.get("same_selection")
+                 else float("nan")), flush=True)
     cb = card_book()
     agreement = None
     if cb:
@@ -585,10 +708,19 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "panel_degraded": not bool(breadth.get("breadth_ok")),
                "k_now": round(float(k_now), 6),
                "book_decided_at": str(dec_bar.date()),
-               "pricing_bar": str(dec_bar.date()),
-               "pricing_bar_is_the_priced_bar": str(dec_bar.date()) == asof,
+               "pricing_bar": asof,
+               "pricing_bar_is_the_priced_bar": True,
+               "pricing_bar_note": ("lots/shares/amounts are rounded on this bar's closes; "
+                                    "the selection is the %s decision bar"
+                                    % dec_bar.date()),
+               "priced_on_decision_bar": ticket.get("priced_on_decision_bar") or [],
                "pricing_drift_vs_priced_bar": (round(pricing_drift, 6)
                                                if pricing_drift is not None else None),
+               "ticket_as_issued": issued,
+               "reprice_correction": repriced,
+               "reissue_note": ("tickets for this bar published before r1611 rounded their "
+                                "lots on the decision bar's closes; this file supersedes "
+                                "them and carries the correction in reprice_correction"),
                "card_agreement": agreement,
                "next_decision_bars": _next_decision(close.index, slip.index[-1]),
                "ticket": ticket, "metrics": mk,
@@ -605,12 +737,17 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                            "GC001 single tenor, rolling assumed cost-free",
                            "k revised every %d bars so delivered beta still wanders" % REBAL,
                            "exploratory: no preregistration, no verdict, no ledger booking"]
-                          + (["PRICING BAR: lots/shares/amounts are rounded on %s closes "
-                              "(the decision bar), not on the priced bar %s -- the printed "
-                              "order is %+.2f%% off the closes it names"
-                              % (dec_bar.date(), asof, 100.0 * pricing_drift)]
+                          + (["PRICING BAR CORRECTED: the sheet published for this bar before "
+                              "r1611 rounded lots on the %s decision bar's closes and was "
+                              "%+.2f%% off the closes it named -- the order below is priced on "
+                              "%s, and reprice_correction carries the leg-by-leg difference"
+                              % (dec_bar.date(), 100.0 * pricing_drift, asof)]
                              if pricing_drift is not None and abs(pricing_drift) > 1e-9
                              else [])
+                          + (["%d leg(s) have no close on %s and are priced on the decision "
+                              "bar -- see each row's price_bar/note"
+                              % (len(ticket.get("priced_on_decision_bar") or []), asof)]
+                             if ticket.get("priced_on_decision_bar") else [])
                           + (["PANEL DEGRADED: only %d/%d symbols printed on %s (gate %.0f%%) "
                               "-- this ticket is not executable as the tested book; the last "
                               "bar that carried the universe was %s"
@@ -632,7 +769,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     with open(os.path.join(OUT_DIR, "ORDER-%s.md" % asof), "w", encoding="utf-8") as f:
         f.write(card(ticket, mk, sched, asof, beta,
                      {"inception": payload["inception"], "stale": stale, "width": wd,
-                      "feed": feed, "agreement": agreement}))
+                      "feed": feed, "agreement": agreement,
+                      "decision_bar": str(dec_bar.date()), "repricing": repriced}))
 
     print("as_of=%s beta=%.2f k=%.2f nav=%.4f rows+=%d drift=%s"
           % (asof, beta, k_now, state["nav"], len(merged), drift))
@@ -1629,6 +1767,69 @@ def selftest():
     chk("leg38c an empty panel reports unavailable instead of a false pass",
         panel_breadth(pd.DataFrame()) == {"available": False},
         "empty=%s" % panel_breadth(pd.DataFrame()))
+
+    # leg39 (r1611): a ticket dated B must be priced at B's closes. The selection and the
+    # weights stay on the decision bar -- only the money may move -- and a pick with no
+    # close on the pricing bar must say so rather than price from a five-week-old bar.
+    sc = pd.Series({"AAA": 3.0, "BBB": 2.0, "CCC": 1.0, "DDD": 0.5})
+    dec_cl = pd.Series({"AAA": 10.0, "BBB": 20.0, "CCC": 5.0, "DDD": 50.0}, dtype=float)
+    tk_cl = dec_cl * 1.10
+    t_iss = build_ticket(sc, dec_cl, 0.4, 1_000_000.0, n_hold=2, decision_bar="2022-01-03")
+    t_rep = build_ticket(sc, dec_cl, 0.4, 1_000_000.0, n_hold=2, close_price=tk_cl,
+                         price_bar="2022-01-07", decision_bar="2022-01-03")
+    chk("leg39a re-pricing on the ticket bar keeps picks and weights, moves only the money",
+        [r["symbol"] for r in t_iss["order"]] == [r["symbol"] for r in t_rep["order"]]
+        and t_iss["book_weight"] == t_rep["book_weight"]
+        and all(abs(r["price"] / b["price"] - 1.10) < 1e-9
+                for r, b in zip(t_rep["order"], t_iss["order"]))
+        and [r["price_bar"] for r in t_rep["order"]] == ["2022-01-07", "2022-01-07"]
+        and [r["price_bar"] for r in t_iss["order"]] == ["2022-01-03", "2022-01-03"]
+        and t_rep["book_amount"] < t_iss["book_amount"],
+        "issued=%.0f repriced=%.0f" % (t_iss["book_amount"], t_rep["book_amount"]))
+    tk_gap = tk_cl.copy()
+    tk_gap["BBB"] = np.nan
+    t_gap = build_ticket(sc, dec_cl, 0.4, 1_000_000.0, n_hold=2, close_price=tk_gap,
+                         price_bar="2022-01-07", decision_bar="2022-01-03")
+    row_b = [r for r in t_gap["order"] if r["symbol"] == "BBB"][0]
+    chk("leg39b a pick with no close on the pricing bar falls back and says so on its row",
+        row_b["price"] == 20.0 and row_b["price_bar"] == "2022-01-03"
+        and row_b["priced_on_decision_bar"] is True
+        and "decision bar" in row_b["note"]
+        and t_gap["priced_on_decision_bar"] == ["BBB"]
+        and [r for r in t_gap["order"] if r["symbol"] == "AAA"][0]["price_bar"] == "2022-01-07",
+        "BBB price_bar=%s note=%s" % (row_b["price_bar"], row_b["note"]))
+    rc_fx = reprice_delta(t_iss, t_rep)
+    chk("leg39c the correction re-derives: leg deltas sum to the book delta, cash + book = NAV",
+        rc_fx["same_selection"] and rc_fx["leg_delta_matches_total"]
+        and rc_fx["cash_plus_book_is_nav"]
+        and abs(rc_fx["delta_book_amount"]
+                - (t_rep["book_amount"] - t_iss["book_amount"])) < 0.02,
+        "delta_book=%.2f legs=%.2f" % (rc_fx["delta_book_amount"], rc_fx["leg_delta_sum"]))
+    chk("leg39d the re-priced sheet still never overspends NAV and its weights still sum to 1",
+        t_rep["book_amount"] <= t_rep["nav"]
+        and abs(sum(r["weight"] for r in t_rep["order"]) + t_rep["cash_weight"] - 1.0) < 1e-9
+        and all(r["shares"] % LOT == 0 for r in t_rep["order"]),
+        "book=%.0f nav=%.0f" % (t_rep["book_amount"], t_rep["nav"]))
+    md_rp = card(t_rep, {}, [], "2022-01-07", 0.2,
+                 {"decision_bar": "2022-01-03", "repricing": rc_fx})
+    chk("leg39e the operator's page names the pricing bar and the correction against the old sheet",
+        "## 定价 bar" in md_rp and "## 与已发出旧单的差" in md_rp
+        and "2022-01-07" in md_rp and "2022-01-03" in md_rp,
+        "chars=%d" % len(md_rp))
+    chk("leg39f a different selection is refused as a correction, never published as one",
+        reprice_delta(t_iss, build_ticket(sc * -1.0, dec_cl, 0.4, 1_000_000.0, n_hold=2,
+                                          close_price=tk_cl, price_bar="2022-01-07",
+                                          decision_bar="2022-01-03"))["same_selection"] is False,
+        "refused")
+    # the loss is in the share counts: a correct re-pricing keeps the money and moves the
+    # shares, so the honest headline is what following the OLD counts would cost.
+    chk("leg39g the overspend is priced on the old share counts, not on the amount line",
+        abs(rc_fx["overspend_pct_if_shares_followed"] - 10.0) < 0.05
+        and rc_fx["delta_shares"] < 0
+        and rc_fx["book_amount_if_shares_followed"] > rc_fx["book_amount_issued"]
+        and abs(rc_fx["delta_book_amount"]) < 0.01 * rc_fx["book_amount_issued"],
+        "pct=%+.2f%% shares %d->%d" % (rc_fx["overspend_pct_if_shares_followed"],
+                                       rc_fx["shares_issued"], rc_fx["shares_repriced"]))
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

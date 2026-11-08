@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1605 bm-b: E577 closed (all 31 of E576's late gaps are closed by the machine's own row within 6h once rows printed without a leading pipe are read) and E578 seeded (which other consumers lose the same 1,534 rows).",
+ "_stamp_note": "r1611 bm-b: E582 burned in-round (the ticket now prices on the bar it names; the error lives in the share counts, not the amount line). Seeded E583 (re-issue the five remaining tickets + one correction table) and E584 (does the forward ledger accrue on the bar its rows name).",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -30245,6 +30245,28 @@
    "target": "results/state_tilt/FACEAGED_latest.json",
    "deliverable": "results/state_tilt/FACEAGED-<cutoff>.json",
    "title": "For every published verdict face under results/ (including state_tilt), publish: whether it carries a timestamp field at all, whether that field parses as a date, the age it implies, and whether the face's verdict is something a reader could decide was still current. Split faces that carry a cutoff date from faces that carry only a build time from faces that carry nothing, and refuse to call a face fresh when its own bytes cannot say when it was made."
+  },
+  {
+   "id": "E583-THE-FIVE-OLD-TICKETS-STILL-ON-DISK-CARRY-THE-SAME-DEFECT",
+   "lane": "cpu-only",
+   "lane_note": "static replay: re-run the ticket builder for each historical ticket bar it already published and diff against the file on disk; no runner, no ledger write, no GPU",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E582 (r1611 bm-b): the ticket builder now rounds lots on the bar the file is named after, and the 11-06 ticket was re-issued with a leg-by-leg correction block. The other five published tickets (10-23, 10-26, 10-27, 10-28 main + the 10-28 card variant) still carry the decision-bar prices, so the tree now holds two pricing conventions that look identical to a reader.",
+   "target": "results/etf_book_order/REISSUE-CORRECTION.json",
+   "deliverable": "results/etf_book_order/TICKET-<bar>.json for each historical bar, each carrying its own reprice_correction, plus one table: per ticket, shares before/after, the tracking error of following the old sheet at that bar's closes, and whether the bar's closes were knowable when the ticket was issued.",
+   "title": "Re-issue every ticket this book has already published, priced on the bar each file is named after, and publish one correction table over all six: what the old share counts would actually have cost at that bar's closes, which legs moved and which did not, and whether any ticket named a bar whose price data did not exist yet at issue time (that would be a look-ahead, not just a staleness)."
+  },
+  {
+   "id": "E584-WHETHER-THE-FORWARD-LEDGER-ACCRUES-ON-THE-BAR-ITS-ROWS-NAME",
+   "lane": "cpu-only",
+   "lane_note": "static: read results/etf_book_forward/LEDGER.json + results/etf_book_order/ledger.jsonl and compare each row's date against the decision bar and the return series it was accrued from; no runner",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E582 (r1611 bm-b): the defect one layer up was a ticket printing one bar's prices while naming another. The forward ledger accrues the same book from a return series -- if a row's date and the bar its return came from can disagree, the published NAV curve is the same class of error and nobody has asked.",
+   "target": "results/etf_book_forward/ACCRUALBAR.json",
+   "deliverable": "results/etf_book_forward/ACCRUALBAR.json",
+   "title": "For every accrued row in the forward ledger, publish whether the date on the row is the bar whose return it charges, whether the decision that set k was in force at that bar, and whether any row silently carries a return from a bar before the one it names. Same question as E582 one layer down: a number is only as trustworthy as its ability to say which bar it came from."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30259,6 +30281,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T03:13:00+08:00",
+ "updated_at": "2026-11-09T04:50:00+08:00",
  "version": 1
 }
