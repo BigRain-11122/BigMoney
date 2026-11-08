@@ -653,6 +653,13 @@ def main() -> int:
              "scripts/etf_book_cut_order_gap.py", ["selftest"]),
             ("product: etf_book_cut_order_gap (gap and consumers re-derived)",
              "scripts/etf_book_cut_order_gap.py", ["--check"]),
+            # r1455: a receipt that audits the permission is not the document a desk
+            # executes. The legs pin that the sheet itself reads the permission (trim
+            # required / unused readings / unreadable never reads as a pass / two faces
+            # disagreeing print a CONFLICT), and that the published ORDER page prints the
+            # same floor and the same per-leg lots the audit receipt publishes.
+            ("product: etf_book_order (the sheet sizes to the permission it must obey)",
+             "scripts/etf_book_order.py", ["--selftest"]),
             # r1452: a cut is not a scaling. The legs pin that a cap only ever shrinks a
             # decision (never moves a date, a cap above every k is a no-op, and a cap from
             # a date leaves earlier decisions untouched), that constant-k scaling moves the
@@ -3252,6 +3259,38 @@ def main() -> int:
                   "face missing but the ticket did not say so")
     except Exception as e:
         check("product: the order ticket discloses how many bets the sleeve holds", False, str(e))
+    # r1455: the ORDER page a desk executes must carry the permission, not only a receipt
+    # that audits it. Re-derived from the two published faces -- if the page and the audit
+    # receipt disagree, one of them is stale and the operator cannot tell which.
+    try:
+        import json as _j3
+        _md3, _gap3 = None, None
+        _lp3 = os.path.join("results", "etf_book_order", "latest.json")
+        if os.path.exists(_lp3):
+            _ptr3 = _j3.load(open(_lp3, encoding="utf-8"))
+            _mp = os.path.join("results", "etf_book_order",
+                               "ORDER-%s.md" % _ptr3.get("as_of"))
+            if os.path.exists(_mp):
+                _md3 = open(_mp, encoding="utf-8").read()
+        _gp = os.path.join("results", "etf_book_cut_order_gap.json")
+        if os.path.exists(_gp):
+            _gap3 = _j3.load(open(_gp, encoding="utf-8"))
+        if not _md3 or not _gap3:
+            check("product: the order sheet carries the permission it must obey", False,
+                  "no published ORDER page or no cut-order-gap receipt")
+        else:
+            _tr3 = (_gap3.get("trim") or {})
+            _legs3 = [r for r in _tr3.get("legs") or [] if r.get("priced")]
+            _rows3 = all(("| %s |" % r["symbol"]) in _md3 for r in _legs3)
+            _word3 = ("不可执行" in _md3) if _gap3.get("order_exceeds_permission") else (
+                "WITHIN_PERMISSION" in _md3)
+            check("product: the order sheet carries the permission it must obey",
+                  "按谁的额度下单" in _md3
+                  and ("%.6f" % float(_gap3.get("permitted_k"))) in _md3
+                  and _rows3 and _word3,
+                  "sheet does not print the floor/lots the audit receipt publishes")
+    except Exception as e:
+        check("product: the order sheet carries the permission it must obey", False, str(e))
     # r1229: the sheet used to quote the DECISION bar's close as its reference price while
     # its header claimed the priced bar -- so every lot count was a twelve-day-old
     # arithmetic (2026-10-30: 159501 quoted 2.229 against a 2.158 close). Re-derived from

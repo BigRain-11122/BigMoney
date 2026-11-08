@@ -49,6 +49,10 @@ IDENT_TOL = 1e-6
 
 # keys whose presence in another module means someone consumes the permission
 PERMISSION_KEYS = ("permitted_k", "permitted_book_cny", "cut_cny", "etf_book_rebalance_permission.json")
+# reading a number is not the same as acting on it (E206: a name must say what it measures).
+# A module counts as an ENFORCER only if it calls the shared trim that lands the book at or
+# below the floor -- otherwise it is a printer, and a printer cannot bind an order.
+ENFORCER_KEYS = ("trim_legs(", "permission_block(")
 SELF_NAME = "etf_book_cut_order_gap"
 
 VERDICT_UNBOUND = "ORDER_EXCEEDS_PERMISSION_NOBODY_READS_IT"
@@ -116,7 +120,57 @@ def readers_of(corpus, producer="scripts/etf_book_rebalance_permission.py"):
     return sorted(hits)
 
 
-def plan_cut(perm, ticket, repo_rate, repo_date, readers, cost_bp=COST_BP_PER_SIDE):
+def enforcers_of(corpus, readers):
+    """Readers that actually apply the trim. A printer is not an enforcer (E206)."""
+    return sorted(r for r in readers
+                  if any(k in (corpus.get(r) or "") for k in ENFORCER_KEYS))
+
+
+def trim_legs(legs, permitted, nav, und):
+    """Integer-lot trim that lands the sleeve at or below `permitted` k.
+
+    Shared by this face and the order sheet itself (r1455): the sheet a desk executes and
+    the receipt that audits it must be the same arithmetic, or obeying the permission
+    depends on which file someone happened to open.
+
+    Floored, never rounded: an integer-lot trim that rounded could put the book back over
+    the permission it is trying to obey.
+    """
+    legs = legs or []
+    n_hold = len(legs)
+    out = []
+    sold = 0.0
+    kept = 0.0
+    target_w = (permitted / float(n_hold)) if n_hold else None
+    for row in legs:
+        px = float(row.get("price") or 0.0)
+        cur_lots = int(row.get("lots") or 0)
+        if px <= 0 or target_w is None:
+            out.append({"symbol": row.get("symbol"), "price": row.get("price"),
+                        "lots_now": cur_lots, "lots_target": None,
+                        "priced": False, "why": "no price on the ticket row"})
+            continue
+        target_lots = int(math.floor((target_w * nav) / (px * 100.0)))  # floor: never round up
+        sell = max(cur_lots - target_lots, 0)
+        sold += sell * px * 100.0
+        kept += target_lots * px * 100.0
+        out.append({"symbol": row.get("symbol"), "price": px, "lots_now": cur_lots,
+                    "lots_target": target_lots, "lots_sell": sell,
+                    "sell_cny": round(sell * px * 100.0, 2), "priced": True})
+    k_after = ((kept + nav * und / 100.0) / nav) if n_hold else None
+    return {
+        "n_legs": n_hold,
+        "target_weight_per_leg": None if target_w is None else round(target_w, 6),
+        "legs": out,
+        "lots_sell_total": sum(int(r.get("lots_sell") or 0) for r in out if r.get("priced")),
+        "sold": sold,
+        "sold_cny": round(sold, 2),
+        "k_after": k_after,
+    }
+
+
+def plan_cut(perm, ticket, repo_rate, repo_date, readers, cost_bp=COST_BP_PER_SIDE,
+             enforcers=None):
     """Pure function of published receipts + the consumer list."""
     if perm is None:
         return {"verdict": VERDICT_UNREADABLE, "reason": "missing_permission_receipt",
@@ -142,29 +196,11 @@ def plan_cut(perm, ticket, repo_rate, repo_date, readers, cost_bp=COST_BP_PER_SI
     cut_cny = ordered_book - permitted_book
     exceeds = k_now > permitted + SIZE_TOL
 
-    legs = tk.get("order") or []
-    n_hold = len(legs)
-    trim = []
-    sold = 0.0
-    kept_book = 0.0
-    if n_hold:
-        target_w = permitted / float(n_hold)
-        for L in legs:
-            px = float(L.get("price") or 0.0)
-            cur_lots = int(L.get("lots") or 0)
-            if px <= 0:
-                trim.append({"symbol": L.get("symbol"), "price": L.get("price"),
-                             "lots_now": cur_lots, "lots_target": None,
-                             "priced": False, "why": "no price on the ticket row"})
-                continue
-            target_lots = int(math.floor((target_w * nav) / (px * 100.0)))  # floor: never round up
-            sell = max(cur_lots - target_lots, 0)
-            sold += sell * px * 100.0
-            kept_book += target_lots * px * 100.0
-            trim.append({"symbol": L.get("symbol"), "price": px, "lots_now": cur_lots,
-                         "lots_target": target_lots, "lots_sell": sell,
-                         "sell_cny": round(sell * px * 100.0, 2), "priced": True})
-    k_after = (kept_book + nav * und / 100.0) / nav if n_hold else None
+    t = trim_legs(tk.get("order") or [], permitted, nav, und)
+    n_hold = t["n_legs"]
+    trim = t["legs"]
+    sold = t["sold"]
+    k_after = t["k_after"]
 
     tx = sold * cost_bp / 10000.0
     carry = None if repo_rate is None else cut_cny * float(repo_rate) / 100.0
@@ -187,12 +223,21 @@ def plan_cut(perm, ticket, repo_rate, repo_date, readers, cost_bp=COST_BP_PER_SI
                     % (k_now, format(ordered_book, ",.0f"), permitted,
                        format(permitted_book, ",.0f"), perm.get("decision_date")))
     elif readers:
-        sentence = ("the ticket orders k=%.6f (CNY %s) against a permission of %.6f (CNY %s) "
-                    "-- CNY %s over -- and %d module(s) read the permission, so the cut is "
-                    "enforced by %s"
-                    % (k_now, format(ordered_book, ",.0f"), permitted,
-                       format(permitted_book, ",.0f"), format(cut_cny, ",.0f"),
-                       len(readers), ", ".join(readers)))
+        enforcers = list(enforcers or [])
+        if enforcers:
+            sentence = ("the ticket orders k=%.6f (CNY %s) against a permission of %.6f "
+                        "(CNY %s) -- CNY %s over -- and %d module(s) read the permission, "
+                        "%d of which apply the trim: %s"
+                        % (k_now, format(ordered_book, ",.0f"), permitted,
+                           format(permitted_book, ",.0f"), format(cut_cny, ",.0f"),
+                           len(readers), len(enforcers), ", ".join(sorted(enforcers))))
+        else:
+            sentence = ("the ticket orders k=%.6f (CNY %s) against a permission of %.6f "
+                        "(CNY %s) -- CNY %s over -- and %d module(s) read the permission, "
+                        "but none applies the trim, so reading it does not bind the order"
+                        % (k_now, format(ordered_book, ",.0f"), permitted,
+                           format(permitted_book, ",.0f"), format(cut_cny, ",.0f"),
+                           len(readers)))
     else:
         sentence = ("the ticket path will order k=%.6f (CNY %s) on %s while the permission "
                     "allows %.6f (CNY %s): CNY %s (%.2fpp) is refused on paper and NO module "
@@ -216,7 +261,8 @@ def plan_cut(perm, ticket, repo_rate, repo_date, readers, cost_bp=COST_BP_PER_SI
         "cut_cny": round(cut_cny, 2),
         "order_exceeds_permission": bool(exceeds),
         "permission_readers": readers,
-        "permission_is_binding": bool(readers) or not exceeds,
+        "permission_enforcers": sorted(enforcers or []),
+        "permission_is_binding": bool(enforcers or []) or not exceeds,
         "verdict": verdict,
         "sentence": sentence,
         "trim": {
@@ -256,8 +302,10 @@ def run():
     perm = _read_json(PERMISSION_RECEIPT)
     _, ticket = latest_ticket()
     rate, rdate = latest_repo_rate()
-    readers = readers_of(source_corpus())
-    d = plan_cut(perm, ticket, rate, rdate, readers)
+    corpus = source_corpus()
+    readers = readers_of(corpus)
+    d = plan_cut(perm, ticket, rate, rdate, readers,
+                 enforcers=enforcers_of(corpus, readers))
     d["repo_source"] = "data/repo_daily/GC001.csv (observed close)"
     return d
 
@@ -337,6 +385,9 @@ def check():
     leg(fresh.get("permission_readers") == d.get("permission_readers"),
         "consumer list drifted: disk=%r fresh=%r"
         % (d.get("permission_readers"), fresh.get("permission_readers")))
+    leg(fresh.get("permission_enforcers") == d.get("permission_enforcers"),
+        "enforcer list drifted: disk=%r fresh=%r"
+        % (d.get("permission_enforcers"), fresh.get("permission_enforcers")))
     leg(fresh.get("ticket_file") == d.get("ticket_file"),
         "a newer ticket landed since this receipt was written (disk=%r fresh=%r): re-run"
         % (d.get("ticket_file"), fresh.get("ticket_file")))
@@ -386,7 +437,8 @@ def selftest():
     leg(d["permission_is_binding"] is False, "L1 binding=%r" % d.get("permission_is_binding"))
 
     # L2 a reader flips the verdict -- a leg that can only say "unbound" is not evidence
-    d = plan_cut(_perm(), _tk(0.460253), rate, rdate, readers=["scripts/etf_book_order.py"])
+    d = plan_cut(_perm(), _tk(0.460253), rate, rdate, readers=["scripts/etf_book_order.py"],
+                 enforcers=["scripts/etf_book_order.py"])
     leg(d["verdict"] == VERDICT_BOUND and d["permission_is_binding"] is True,
         "L2 verdict=%r binding=%r" % (d["verdict"], d.get("permission_is_binding")))
 
@@ -429,6 +481,20 @@ def selftest():
               "scripts/consumer.py": "p = json.load(open('results/etf_book_rebalance_permission.json'))"}
     leg(readers_of(corpus) == ["scripts/consumer.py"], "L8 readers=%r" % readers_of(corpus))
 
+    # L8b reading a permission is not the same as enforcing it (E206). A printer that only
+    # loads the receipt must never be counted as the thing that binds the order.
+    corpus_ro = dict(corpus, **{"scripts/printer.py":
+                                "p = json.load(open('results/etf_book_rebalance_permission.json'))"
+                                "\nprint(p['permitted_k'])"})
+    leg(enforcers_of(corpus_ro, readers_of(corpus_ro)) == [],
+        "L8b printer counted as enforcer=%r" % enforcers_of(corpus_ro, readers_of(corpus_ro)))
+    corpus_en = dict(corpus, **{"scripts/applier.py":
+                                "p = json.load(open('results/etf_book_rebalance_permission.json'))"
+                                "\nfrom scripts.etf_book_cut_order_gap import trim_legs"
+                                "\nprint(trim_legs([], p['permitted_k'], 1e6, 0))"})
+    leg(enforcers_of(corpus_en, readers_of(corpus_en)) == ["scripts/applier.py"],
+        "L8b applier missed=%r" % enforcers_of(corpus_en, readers_of(corpus_en)))
+
     # L9 the two book sides must add back to the ticket's own amount
     d = plan_cut(_perm(), _tk(0.460253), rate, rdate, readers=[])
     leg(abs((d["permitted_book_cny"] + d["cut_cny"]) - d["ordered_book_cny"]) <= 1.0,
@@ -438,9 +504,17 @@ def selftest():
     leg(("%.6f" % d["k_now"]) in (d.get("sentence") or ""), "L10 sentence=%r" % d.get("sentence"))
     leg(format(d["cut_cny"], ",.0f") in (d.get("sentence") or ""), "L10 cut in sentence")
 
+    # L11 the sentence must not call a printer an enforcer
+    _s_ro = plan_cut(_perm(), _tk(0.460253), rate, rdate, readers=["scripts/printer.py"],
+                     enforcers=[])["sentence"]
+    _s_en = plan_cut(_perm(), _tk(0.460253), rate, rdate, readers=["scripts/applier.py"],
+                     enforcers=["scripts/applier.py"])["sentence"]
+    leg("none applies the trim" in _s_ro and "apply the trim" in _s_en,
+        "L11 ro=%r en=%r" % (_s_ro[:70], _s_en[:70]))
+
     for f in fails:
         print("  FAIL " + f)
-    print("[selftest] %d/%d PASS" % (10 - len(fails), 10))
+    print("[selftest] %d/%d PASS" % (12 - len(fails), 12))
     return 0 if not fails else 1
 
 

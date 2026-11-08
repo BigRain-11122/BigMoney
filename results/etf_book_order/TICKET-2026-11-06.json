@@ -1,6 +1,96 @@
 {
  "evidence_cutoff": "2026-11-06",
  "beta_target": 0.2,
+ "permission": {
+  "status": "trim_required",
+  "k_now": 0.460253,
+  "permitted_k": 0.393073,
+  "ceiling_k": 0.544424,
+  "decision_date": "2026-11-11",
+  "nav_cny": 1000000.0,
+  "ordered_book_cny": 460253.0,
+  "permitted_book_cny": 393073.0,
+  "over_by_cny": 67180.0,
+  "trim": {
+   "n_legs": 5,
+   "target_weight_per_leg": 0.078615,
+   "legs": [
+    {
+     "symbol": "159501",
+     "price": 2.069,
+     "lots_now": 444,
+     "lots_target": 379,
+     "lots_sell": 65,
+     "sell_cny": 13448.5,
+     "priced": true
+    },
+    {
+     "symbol": "513100",
+     "price": 2.158,
+     "lots_now": 426,
+     "lots_target": 364,
+     "lots_sell": 62,
+     "sell_cny": 13379.6,
+     "priced": true
+    },
+    {
+     "symbol": "513690",
+     "price": 1.158,
+     "lots_now": 794,
+     "lots_target": 678,
+     "lots_sell": 116,
+     "sell_cny": 13432.8,
+     "priced": true
+    },
+    {
+     "symbol": "159577",
+     "price": 1.612,
+     "lots_now": 571,
+     "lots_target": 487,
+     "lots_sell": 84,
+     "sell_cny": 13540.8,
+     "priced": true
+    },
+    {
+     "symbol": "159263",
+     "price": 1.143,
+     "lots_now": 805,
+     "lots_target": 687,
+     "lots_sell": 118,
+     "sell_cny": 13487.4,
+     "priced": true
+    }
+   ],
+   "lots_sell_total": 445,
+   "sold": 67289.1,
+   "sold_cny": 67289.1,
+   "k_after": 0.39296419999999993
+  },
+  "trim_lands_within": true,
+  "unused_readings": [
+   {
+    "ruler": "window",
+    "k": 0.412669,
+    "delta_vs_now_pp": -4.76,
+    "kind": "path"
+   },
+   {
+    "ruler": "universe",
+    "k": 0.432195,
+    "delta_vs_now_pp": -2.81,
+    "kind": "path"
+   },
+   {
+    "ruler": "denominator",
+    "k": 0.544424,
+    "delta_vs_now_pp": 8.42,
+    "kind": "static"
+   }
+  ],
+  "conflicts": [],
+  "artifact": "results/etf_book_rebalance_permission.json",
+  "verdict": "TRIM_REQUIRED"
+ },
  "inception": "2024-01-02",
  "rebal": 20,
  "n_hold": 5,
@@ -328,15 +418,15 @@
    "vol": 0.0884
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1089,
-    "card_width_cagr": 0.0942,
-    "pp": -1.47
-   },
    "vol": {
     "ticket_width_cagr": 0.1149,
     "card_width_cagr": 0.1173,
     "pp": 0.24
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1089,
+    "card_width_cagr": 0.0942,
+    "pp": -1.47
    }
   },
   "rules_differ": true,
@@ -521,7 +611,7 @@
   "identity_matched": true
  },
  "restatements": {
-  "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
+  "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
   "readable": true,
   "source": "restatements",
   "notices": [

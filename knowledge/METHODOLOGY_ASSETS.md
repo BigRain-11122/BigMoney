@@ -11228,3 +11228,20 @@ YEAR-GATE），输出一行可执行句子（尺寸、手数、三条代价）�
 **顺带机械坑**：同一条 k 规则在两处各调一次会被「起点不同」改成另一条路径——「同一个 beta 目标」不担保「同一条 k 路径」；复现必须按同一起点（本窗 `ticket_construction` 臂 k_last 0.464029 vs 票据 k_now 0.460253，gap 0.003776 来自最后一个决策 bar 不同，已印在面上并由 `--check` 重算）。
 
 **正身**：`scripts/etf_book_wrapper_year_gate.py`（selftest 8/8、`--check` 15/15）+ `results/etf_book_year_gate/WRAPPER-GATE.json` + S6 腿 `wrapper_year_gate`。
+
+## E461 — 「有人读」不等于「有东西被执行」：审计件说清了许可，执行件仍照旧下单（r1455 bm-c）
+
+r1450 把五条尺子折成一个许可（下限 k=0.393073），r1451 量出票面照旧按 k=0.460253 下单，并在收据里写了「permission_readers=[] —— 没人读它」。三轮之后再看这份收据：readers 已经有 2 个（`etf_book_cut_gate_pass` 与 `etf_book_decision_line`），判词自动从 `NOBODY_READS_IT` 翻成 `BUT_WIRED` —— 而**手里的单子一分钱没变**。原因很朴素：那两个模块是**打印器**，它们读数字是为了写审计面，不是为了改下单量。
+
+**三类角色必须分开命名**（这是 E206「名即语义」在人工流程面上的版本）：
+- **producer**：算出许可（`etf_book_rebalance_permission.py`）；
+- **printer / reader**：读数字并复述（审计面、决策行）——读得再准也不能约束下单；
+- **enforcer**：真的用这个数字改了下单量（本窗之后只有 `etf_book_order.py`：它把裁剪表印进 `ORDER-*.md` 并标注未裁剪表**不可执行**）。
+
+只数「有没有人读」会把 2 个打印器判成已接线，于是「许可已生效」这句话在三个文件里都成立、而在下单处一个字都没生效。修法：收据增 `permission_enforcers`（判据=模块源码里是否调用共用裁剪函数 `trim_legs`），句子从「the cut is enforced by X」改成「N 个模块读它，其中 M 个用它裁剪」，M=0 时明写 **reading it does not bind the order**。
+
+**第二条：审计件与执行件必须是同一份算术。** 裁剪逻辑原本只活在 `etf_book_cut_order_gap.py` 里，执行面要照做就得抄一份（E289「同一缺陷的第二份拷贝」）。本窗把它提成 `trim_legs()` 单实现，两边 import 同一个函数；`ORDER-*.md` 里那 5 行手数（65/62/116/84/118，合计 445 手 / ¥67,289，k 落到 0.392964）与审计收据逐位相同，并且由一条 smoke 腿从两份已发布面反查（页面与收据不一致即红）。
+
+**第三条：缺件必须印「无法核验」，不能静默略过。** 第一版读的是 `etf_book_size_rulers_decision.json` 的 `k_floor`（那份面确实有），而真正被审计面消费的是 `etf_book_rebalance_permission.json` 的 `permitted_k`——两枚面同源不同字段，第一版当场印出「缺 k_floor，额度无从对照」。这不是坏运气：**同一个数在两份已发布面上各有一个名字时，读者随手挑一个就会读到「未知」或「另一个数」**。正法=主读被审计面消费的那份，另一份只做交叉校验，两者不一致时印 `PERMISSION_FACES_CONFLICT` 并拒绝宣称「按额度执行」。
+
+**正身**：`scripts/etf_book_order.py`（selftest 98/98，新增 leg49a–49f）+ `scripts/etf_book_cut_order_gap.py`（`trim_legs` 单实现 + `permission_enforcers`，selftest 12/12、`--check` 7/7）+ 已发布面 `results/etf_book_order/ORDER-2026-11-06.md`、`results/etf_book_cut_order_gap.json`；S6 腿 8/8 rc0（含 etf_book_order/cut_order_gap/cut_gate_pass/decision_line/wrapper_year_gate）；smoke 新增 2 腿。

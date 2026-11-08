@@ -1,11 +1,11 @@
 # The size the permission refuses vs the size the desk orders
 
-- 判定：**ORDER_EXCEEDS_PERMISSION_NOBODY_READS_IT**
+- 判定：**ORDER_EXCEEDS_PERMISSION_BUT_WIRED**
 - 决策日：2026-11-11 ｜ 票据：TICKET-2026-11-06.json ｜ 证据截止：2026-11-06
 
 ## 一句话
 
-the ticket path will order k=0.460253 (CNY 459,796) on 2026-11-11 while the permission allows 0.393073 (CNY 392,616): CNY 67,180 (6.72pp) is refused on paper and NO module reads the permission receipt, so nothing in the order path will trim it
+the ticket orders k=0.460253 (CNY 459,796) against a permission of 0.393073 (CNY 392,616) -- CNY 67,180 over -- and 3 module(s) read the permission, 1 of which apply the trim: scripts/etf_book_order.py
 
 ## 两侧的数
 

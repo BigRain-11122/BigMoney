@@ -53,6 +53,7 @@ from scripts import exchange_calendar_audit as CA   # noqa: E402
 from scripts.etf_asset_class import classify       # noqa: E402
 from scripts.etf_book_bets_face import read_published as read_bets_face  # noqa: E402
 from scripts.etf_book_concentration import read_published as read_concentration  # noqa: E402
+from scripts.etf_book_cut_order_gap import trim_legs        # noqa: E402  (r1455: one trim rule)
 from config import PATHS                           # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -510,6 +511,172 @@ def entry_gate_md(eg):
     return L
 
 
+PERMISSION_FACE = "results/etf_book_rebalance_permission.json"
+RULERS_FACE = "results/etf_book_size_rulers_decision.json"
+
+
+def _json_face(rel):
+    p = os.path.join(PATHS.results_dir, os.path.basename(rel))
+    if not os.path.exists(p):
+        return None
+    try:
+        with open(p, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return None
+
+
+def _permission_receipt():
+    return _json_face(PERMISSION_FACE)
+
+
+def permission_block(ticket, perm, rulers=None):
+    """r1455: does this sheet size to what the desk's own permission allows?
+
+    r1450 turned five readings of one sizing rule into a permission (floor k=0.393073,
+    ceiling k=0.544424) and its prereg requirement 4 asked for the chosen size to be carried
+    into the 2026-11-11 ticket with the unused readings printed beside it. Nothing carried
+    it: r1451 measured the ticket in force at k=0.460253 and found no module reading the
+    receipt, so the file an operator executes ordered 6.72pp more than the file that
+    authorises it (r1108 有产无读 in its most expensive form -- a *smaller* order is not what
+    a missing reader costs you).
+
+    So this sheet now reads the permission itself and prints, next to the weights:
+    the floor, the ceiling, the size it is about to order, and -- when the order is over --
+    the integer-lot trim that lands at or below the floor (shared arithmetic with
+    scripts/etf_book_cut_order_gap.py, floor-and-never-round). An absent or unreadable
+    receipt reads as UNKNOWN, never as a pass.
+
+    Two published faces quote this number (results/etf_book_rebalance_permission.json and
+    results/etf_book_size_rulers_decision.json). They are allowed to disagree in the world;
+    they are NOT allowed to disagree silently (E289): a mismatch is printed as CONFLICT and
+    the sheet refuses to call itself executable.
+    """
+    if not ticket:
+        return {"status": "unreadable", "reason": "no_ticket",
+                "sentence": "本单没有可定价的仓位，额度无从对照"}
+    k_now = ticket.get("beta_k")
+    if k_now is None:
+        return {"status": "unreadable", "reason": "ticket_missing_k",
+                "sentence": "票据里没有 k，额度无从对照"}
+    k_now = float(k_now)
+    if not perm:
+        return {"status": "unreadable", "reason": "missing_permission_receipt", "k_now": k_now,
+                "sentence": ("缺 %s：本单是否超出批准额度**未知**（缺件不等于合规）"
+                             % PERMISSION_FACE)}
+    floor = perm.get("permitted_k")
+    if floor is None:
+        return {"status": "unreadable", "reason": "permission_missing_floor", "k_now": k_now,
+                "sentence": "%s 里没有 permitted_k，额度无从对照" % PERMISSION_FACE}
+    floor = float(floor)
+    ceiling = ((perm.get("naive_max_over_all_readings") or {}).get("k"))
+    if ceiling is None and rulers:
+        ceiling = rulers.get("k_ceiling")
+    ceiling = None if ceiling is None else float(ceiling)
+    nav = ticket.get("nav")
+    undeployed = float(ticket.get("underspend_pct") or 0.0)
+
+    # E289: two copies of one number must agree, or the reader is told they do not.
+    conflicts = []
+    if rulers and rulers.get("k_floor") is not None:
+        if abs(float(rulers["k_floor"]) - floor) > 1e-6:
+            conflicts.append("%s 的 k_floor=%r 与权限面 permitted_k=%.6f 不一致"
+                             % (RULERS_FACE, rulers.get("k_floor"), floor))
+
+    over = k_now > floor + 1e-6
+    trim = None
+    if over and nav:
+        trim = trim_legs(ticket.get("order") or [], floor, float(nav), undeployed)
+
+    unused = []
+    for name, cell in (perm.get("readings") or {}).items():
+        k = (cell or {}).get("k")
+        if k is None:
+            continue
+        k = float(k)
+        if abs(k - floor) <= 1e-6 or abs(k - k_now) <= 1e-6:
+            continue
+        unused.append({"ruler": name, "k": k,
+                       "delta_vs_now_pp": (cell or {}).get("delta_vs_now_pp"),
+                       "kind": (cell or {}).get("kind")})
+
+    if conflicts:
+        status = "conflict"
+    elif over:
+        status = "trim_required"
+    else:
+        status = "within_permission"
+    return {"status": status,
+            "k_now": k_now, "permitted_k": floor, "ceiling_k": ceiling,
+            "decision_date": perm.get("decision_date"),
+            "nav_cny": None if nav is None else float(nav),
+            "ordered_book_cny": None if nav is None else round(k_now * float(nav), 2),
+            "permitted_book_cny": None if nav is None else round(floor * float(nav), 2),
+            "over_by_cny": None if nav is None else round((k_now - floor) * float(nav), 2),
+            "trim": trim,
+            "trim_lands_within": (None if not trim or trim.get("k_after") is None
+                                  else bool(trim["k_after"] <= floor + 1e-6)),
+            "unused_readings": unused,
+            "conflicts": conflicts,
+            "artifact": PERMISSION_FACE,
+            "verdict": ("PERMISSION_FACES_CONFLICT" if conflicts else
+                        "TRIM_REQUIRED" if over else "WITHIN_PERMISSION")}
+
+
+def permission_md(pb):
+    """Print the permission next to the weights. Silence is not an option (r1108)."""
+    if pb is None:
+        return []
+    L = ["", "## 这张单按谁的额度下单（r1455·批准额度）"]
+    if pb.get("status") == "unreadable":
+        L += ["- **无法核验**：%s。" % (pb.get("sentence") or "额度读不出来"),
+              "- 读法：缺件读成「合规」是最贵的一种误读，所以这一节一旦读不出来就只印这一行。", ""]
+        return L
+    L += ["- 额度下限 k=%.6f（风险腿 ¥%s），上限 k=%s；本单 k=%.6f（¥%s）"
+          % (pb["permitted_k"], format(pb.get("permitted_book_cny") or 0, ",.0f"),
+             "-" if pb.get("ceiling_k") is None else "%.6f" % pb["ceiling_k"],
+             pb["k_now"], format(pb.get("ordered_book_cny") or 0, ",.0f")),
+          "- 判定：**%s**%s" % (pb["verdict"],
+                              "" if pb["status"] == "within_permission"
+                              else "｜超出 ¥%s" % format(pb.get("over_by_cny") or 0, ",.0f"))]
+    if pb.get("conflicts"):
+        L += ["- ⚠ **两张已发布的额度面互相矛盾**：%s。在它们一致之前，本单不宣称自己按额度执行。"
+              % "；".join(pb["conflicts"])]
+    t = pb.get("trim")
+    if pb["status"] != "within_permission":
+        L += ["", "上面那张表是**未裁剪的下单量（不可执行）**；按额度执行要这样卖：", "",
+              "| 代码 | 价 | 现手数 | 目标手数 | 卖出手数 | 卖出 CNY |",
+              "|---|---|---|---|---|---|"]
+        for r in (t or {}).get("legs") or []:
+            if not r.get("priced"):
+                L += ["| %s | %s | %s | — | — | 未定价 |"
+                      % (r.get("symbol"), r.get("price"), r.get("lots_now"))]
+                continue
+            L += ["| %s | %s | %d | %d | %d | %s |"
+                  % (r.get("symbol"), r.get("price"), r.get("lots_now"), r.get("lots_target"),
+                     r.get("lots_sell"), format(r.get("sell_cny") or 0, ",.0f"))]
+        L += ["",
+              "- 卖出合计 %s 手 / ¥%s，整手取整后 k=%.6f（%s）"
+              % ((t or {}).get("lots_sell_total"),
+                 format((t or {}).get("sold_cny") or 0, ",.0f"),
+                 (t or {}).get("k_after") or 0.0,
+                 "不超过额度" if pb.get("trim_lands_within") else "**仍超出额度**")]
+        if not pb.get("trim_lands_within"):
+            L += ["- ⚠ 取整后仍超额度：这正是「四舍五入会把仓位顶回去」的地方，本单拒绝把这一版当可执行单。"]
+        if t and pb["status"] == "trim_required":
+            L += ["- 读法：上面那张未裁剪表是「按规则算出来的仓位」，这张裁剪表是「按额度允许的仓位」；"
+                  "两者差的就是批准额度这一步，缺了它，票面读起来完全一样。"]
+    if pb.get("unused_readings"):
+        L += ["", "- 额度没采用的读数（同一规则、同一面板，只换尺子）：%s"
+              % "；".join("%s k=%.6f（%+.2fpp，%s）"
+                          % (u["ruler"], u["k"], u.get("delta_vs_now_pp") or 0.0,
+                             u.get("kind") or "?")
+                          for u in pb["unused_readings"])]
+    L += ["- 出处：%s（决策日 %s）；裁剪算术与 scripts/etf_book_cut_order_gap.py 共用一处实现。"
+          % (pb.get("artifact"), pb.get("decision_date") or "?"), ""]
+    return L
+
+
 def card(ticket, mk, sched, asof, beta, extra):
     L = ["# ETF 复合书 · 可执行订单单（%s）" % asof, "",
          "当前活：β 目标 %.2f 的单本 R%d N%d + GC001 现金腿，每 %d 个交易日重算一次 k。"
@@ -545,6 +712,7 @@ def card(ticket, mk, sched, asof, beta, extra):
                         r["shares"] if r["shares"] is not None else "-",
                         format(int(r["amount"]), ",") if r["amount"] else "-"))
         L += ["", "整手取整后欠投 %.2f%% NAV（留在现金腿，不重分配）。" % ticket["underspend_pct"]]
+        L += permission_md(extra.get("permission"))
         cm = extra.get("cash_money")
         if cm:
             L += ["", "## 现金那一半今天赚多少钱（r1245）"]
@@ -1076,6 +1244,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
         conc_line = ("where this book's return actually comes from is unpublished (%s); "
                      "run scripts/etf_book_concentration.py run" % (conc.get("status") or "absent"))
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
+               "permission": permission_block(ticket, _permission_receipt(),
+                                              _json_face(RULERS_FACE)),
                "inception": str(slip.index[0].date()) if len(slip) else inception,
                "rebal": REBAL, "n_hold": N_HOLD, "cost_bp_per_side": COST_BP,
                "fresh_gate": bool(fresh_gate), "staleness": stale,
@@ -1133,6 +1303,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "carry": carry, "restatements": payload["restatements"],
                       "cash_money": payload["cash_leg"]["money"],
                       "entry_gate": payload["entry_gate"],
+                      "permission": payload["permission"],
                       "bets_line": bets_line,
                       "conc_line": conc_line,
                       "family_coherence": fam,
@@ -3071,6 +3242,66 @@ def selftest():
         "cannot be answered instead of vanishing",
         "这本书能买哪些票" in _tk_md and "容量来源" in _tk_md
         and "这一问答不了" in _tk_absent and "容量来源" not in _tk_absent)
+
+    # 49a-e. r1455: the sheet sizes to the permission the desk itself published. r1450
+    # printed a floor (k=0.393073) and its prereg requirement 4 asked for it to be carried
+    # into the 11-11 ticket with the unused readings beside it; nobody read it, so the file
+    # a desk executes ordered 6.72pp more than the file that authorises it. Legs: the trim
+    # exists and lands under the floor / the unused readings are the ones NOT chosen /
+    # inside the floor prints nothing to sell / a missing receipt is UNKNOWN not a pass /
+    # the section actually reaches the page.
+    _pb_tk = {"nav": 100000.0, "beta_k": 0.50, "book_weight": 0.50, "cash_weight": 0.50,
+              "cash_leg": "GC001 (1-day repo, observed close)", "cash_amount": 50000.0,
+              "underspend_pct": 0.0,
+              "order": [{"symbol": "A", "price": 3.33, "lots": 75, "shares": 7500,
+                         "amount": 24975.0, "weight": 0.25, "class": "equity"},
+                        {"symbol": "B", "price": 3.33, "lots": 75, "shares": 7500,
+                         "amount": 24975.0, "weight": 0.25, "class": "equity"}]}
+    _pb_perm = {"decision_date": "2026-11-11", "permitted_k": 0.40, "k_now": 0.50,
+                "naive_max_over_all_readings": {"k": 0.55},
+                "readings": {"baseline_published": {"k": 0.50, "kind": "circular",
+                                                    "delta_vs_now_pp": 0.0},
+                             "window": {"k": 0.412, "kind": "path", "delta_vs_now_pp": -4.76},
+                             "universe": {"k": 0.432, "kind": "path", "delta_vs_now_pp": -2.81},
+                             "window_x_universe": {"k": 0.40, "kind": "path",
+                                                   "delta_vs_now_pp": -6.72},
+                             "denominator": {"k": 0.544, "kind": "static",
+                                             "delta_vs_now_pp": 8.42}}}
+    _pb = permission_block(_pb_tk, _pb_perm)
+    chk("leg49a permission: an order over the floor carries the integer-lot trim, and the "
+        "trim lands at or below the floor (never rounded back over it)",
+        _pb["status"] == "trim_required" and _pb["verdict"] == "TRIM_REQUIRED"
+        and _pb["trim"]["lots_sell_total"] == 30 and _pb["trim"]["k_after"] <= 0.40 + 1e-9
+        and [r["lots_target"] for r in _pb["trim"]["legs"]] == [60, 60],
+        "k_after=%.6f" % _pb["trim"]["k_after"])
+    chk("leg49b permission: the unused readings are the ones the order did NOT choose "
+        "(three of them here, and never the floor or the size in force)",
+        len(_pb["unused_readings"]) == 3
+        and {u["ruler"] for u in _pb["unused_readings"]} == {"window", "universe", "denominator"}, "")
+    _pb_in = permission_block(dict(_pb_tk, beta_k=0.35), _pb_perm)
+    _pb_in_md = "\n".join(permission_md(_pb_in))
+    chk("leg49c permission: inside the floor there is nothing to sell and the page says so",
+        _pb_in["verdict"] == "WITHIN_PERMISSION" and _pb_in["trim"] is None
+        and "卖出合计" not in _pb_in_md and "WITHIN_PERMISSION" in _pb_in_md, "")
+    _pb_unk = permission_block(_pb_tk, None)
+    _pb_unk_md = "\n".join(permission_md(_pb_unk))
+    chk("leg49d permission: a missing receipt reads as UNKNOWN, never as a pass",
+        _pb_unk["status"] == "unreadable" and "无法核验" in _pb_unk_md
+        and "WITHIN_PERMISSION" not in _pb_unk_md and "卖出合计" not in _pb_unk_md, "")
+    _pb_md = "\n".join(permission_md(_pb))
+    chk("leg49e permission: the sheet carries the section, and an absent block prints "
+        "nothing rather than a blank claim",
+        "按谁的额度下单" in _pb_md and "TRIM_REQUIRED" in _pb_md and "不可执行" in _pb_md
+        and "按谁的额度下单" not in card(_pb_tk, None, None, "2026-11-30", 0.2,
+                                         {"inception": "2024-01-01"})
+        and "按谁的额度下单" in card(_pb_tk, None, None, "2026-11-30", 0.2,
+                                    {"inception": "2024-01-01", "permission": _pb}), "")
+    _pb_cf = permission_block(_pb_tk, _pb_perm, {"k_floor": 0.45})
+    _pb_cf_md = "\n".join(permission_md(_pb_cf))
+    chk("leg49f permission: two published faces quoting different floors are printed as a "
+        "CONFLICT, and the sheet stops claiming it obeys the permission",
+        _pb_cf["status"] == "conflict" and _pb_cf["verdict"] == "PERMISSION_FACES_CONFLICT"
+        and "矛盾" in _pb_cf_md and "PERMISSION_FACES_CONFLICT" in _pb_cf_md, "")
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

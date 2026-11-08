@@ -12,10 +12,17 @@
  "permitted_book_cny": 392616.0,
  "cut_cny": 67180.0,
  "order_exceeds_permission": true,
- "permission_readers": [],
- "permission_is_binding": false,
- "verdict": "ORDER_EXCEEDS_PERMISSION_NOBODY_READS_IT",
- "sentence": "the ticket path will order k=0.460253 (CNY 459,796) on 2026-11-11 while the permission allows 0.393073 (CNY 392,616): CNY 67,180 (6.72pp) is refused on paper and NO module reads the permission receipt, so nothing in the order path will trim it",
+ "permission_readers": [
+  "scripts/etf_book_cut_gate_pass.py",
+  "scripts/etf_book_decision_line.py",
+  "scripts/etf_book_order.py"
+ ],
+ "permission_enforcers": [
+  "scripts/etf_book_order.py"
+ ],
+ "permission_is_binding": true,
+ "verdict": "ORDER_EXCEEDS_PERMISSION_BUT_WIRED",
+ "sentence": "the ticket orders k=0.460253 (CNY 459,796) against a permission of 0.393073 (CNY 392,616) -- CNY 67,180 over -- and 3 module(s) read the permission, 1 of which apply the trim: scripts/etf_book_order.py",
  "trim": {
   "basis": "the 11-06 pick set; the 11-11 decision bar re-derives the names, so these rows are illustrative while the sleeve total is exact",
   "n_legs": 5,
@@ -90,6 +97,6 @@
   "the carry accrual path: one observed GC001 close is used for the annualised figure; a holiday gap accrues more days than the rate implies"
  ],
  "repo_source": "data/repo_daily/GC001.csv (observed close)",
- "elapsed_sec": 1.83,
- "generated": "2026-11-09T00:45:03+0800"
+ "elapsed_sec": 1.27,
+ "generated": "2026-11-09T02:04:41+0800"
 }
