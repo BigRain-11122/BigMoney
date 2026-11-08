@@ -24214,5 +24214,75 @@ except Exception as _e558x:
     _d558 = "study could not be read"
 check(_name558, not _bad558, "; ".join(_bad558)[:240] or _d558)
 
+# E559: does anything read a chain runner's exit code, or the receipt it writes?  * two channels are
+#   measured apart: a spawn site that never waits on the child cannot be an observer, and a writer
+#   opening its own receipt is never a reader * a bare `run(...)` is only a spawn when the name was
+#   imported from subprocess or os -- a local helper named run was the first cut's false positive *
+#   the wrapper classes keep '$LASTEXITCODE after a .ps1 call' apart from 'does not check the rc',
+#   because a null-vs-zero comparison cannot fail * every classifier carries a fixture that proves it
+#   can say the harder thing, and a hand-written verdict or a relabelled class is refused
+_name559 = "E559 whether any task or source reads a chain receipt or a leg rc (r1585 bm-b)"
+_bad559 = []
+try:
+    _m559 = __import__("importlib").import_module("e559_chain_rc_consumer")
+    _f559 = json.load(open(os.path.join("results", "state_tilt", "chainrcconsumer_latest.json"),
+                           encoding="utf-8"))
+    _s559 = _f559.get("summary") or {}
+    _r559 = _f559.get("spawn_sites") or []
+    _bad559.extend(_m559.face_problems(_f559))
+    if not _r559:
+        _bad559.append("the spawn population is empty, so 'nobody observes' is unmeasured")
+    if sum((_s559.get("by_class") or {}).values()) != len(_r559):
+        _bad559.append("the class table does not partition the spawn rows")
+    if any(r.get("class") != _m559.classify_spawn(bool(r.get("waits")),
+                                                  bool(r.get("reads_rc")),
+                                                  bool(r.get("can_fail")))
+           for r in _r559):
+        _bad559.append("a spawn row's class is not what its own fields say")
+    if not _s559.get("runners_present"):
+        _bad559.append("no chain runner is on disk, so the producer arm is empty")
+    if _s559.get("runners_exiting_non_zero_on_a_failing_leg"):
+        _bad559.append("a runner carries a failing leg out of the process -- E558's premise broke")
+    if _s559.get("receipt_writers", 0) < 1:
+        _bad559.append("no writer of a chain receipt was found, so the reader question is vacuous")
+    if any(not (a or {}).get("found") for a in (_f559.get("control_arms") or {}).values()):
+        _bad559.append("a control arm is blind")
+    _doc559 = json.loads(json.dumps(_f559))
+    _doc559["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m559.face_problems(_doc559):
+        _bad559.append("a hand-written verdict was accepted")
+    _doc559 = json.loads(json.dumps(_f559))
+    if _doc559["spawn_sites"]:
+        _doc559["spawn_sites"][0]["class"] = _m559.S_FAILS
+        _doc559["spawn_sites"][0]["can_fail"] = False
+        if not any("class is not what its own fields say" in _p
+                   for _p in _m559.face_problems(_doc559)):
+            _bad559.append("a detached spawn relabelled failing was accepted")
+    _doc559 = json.loads(json.dumps(_f559))
+    _doc559["summary"]["receipt_readers_outside_the_writer"] = (
+        (_s559.get("receipt_readers_outside_the_writer") or 0) + 1)
+    if not any("reader count" in _p for _p in _m559.face_problems(_doc559)):
+        _bad559.append("an inflated outside-reader count was accepted")
+    if _m559._wrapper_class_in_text(
+            "& T\\outer.ps1\nif ($LASTEXITCODE -ne 0) { exit 1 }\n") != _m559.W_NULL:
+        _bad559.append("the $LASTEXITCODE-after-a-ps1-call trap is no longer separated")
+    if _m559._spawn_class_from_source(
+            "import subprocess\ndef run(a, b):\n    return 0\n"
+            "run('x', ['Tools/s6_chain_bmb.py'])\n"):
+        _bad559.append("a local helper named run is counted as a spawn again")
+    _d559 = ("%d spawn sites / %s / %d receipt writers / %d readers outside the writer / "
+             "control %s / %s"
+             % (len(_r559),
+                ",".join("%s=%d" % (k, v) for k, v in (_s559.get("by_class") or {}).items() if v)
+                or "no rows",
+                _s559.get("receipt_writers", 0),
+                _s559.get("receipt_readers_outside_the_writer", 0),
+                all((a or {}).get("found") for a in (_f559.get("control_arms") or {}).values()),
+                _f559.get("verdict")))
+except Exception as _e559x:
+    _bad559.append(repr(_e559x)[:160])
+    _d559 = "study could not be read"
+check(_name559, not _bad559, "; ".join(_bad559)[:240] or _d559)
+
 if __name__ == "__main__":
     sys.exit(main())

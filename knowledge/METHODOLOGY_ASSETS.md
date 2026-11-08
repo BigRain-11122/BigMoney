@@ -13743,3 +13743,22 @@ digest `research/digests/DIGEST-20261108-r1575-e546-filepathjoined.md`
 **边界（随面发布）**：纯静态 AST；运行期拼出的路径读成 unfoldable 而不是「没有加载」；跨模块 helper 不跟随，所以那种 gate 会读成「从未打开这张面」——控制臂（同一模块里 `etf_book_hysteresis` 的门面必须判 refused、它写出的 `.md` 必须判 invisible）就是防这条被当成结论的闸；「会被发现」是关于腿退出码的话，不是关于有人读 receipt 的话，runner 臂单独发布。
 
 **载体** = `scripts/e558_gate_reach.py`（build/check/verify + selftest 28/28）、`results/state_tilt/GATEREAD-2026-11-08.json` + `gateread_latest.json` + S6 腿 `gate_reach`（1.9s rc=0）+ smoke 腿 `# E558` + digest `research/digests/DIGEST-20261108-r1584-e558-gate-reach.md`
+
+### E559 — 有没有任何任务或源码去读一条链的退出码，或它写的那张 receipt（r1585 bm-b）
+
+**触发**：E558 的收尾句只说了「拒绝」看得见在 receipt 里、看不见在进程退出里。那句话有一个未测的假设：**另一端有人收**。收件人可以是进程退出码的消费者（计划任务、看门狗、父进程），也可以是 receipt 的读者（轮次、看板、下一轮）。两个通道必须分开量，因为「父进程退 0」和「没人打开这张 json」是两种不同的失联。
+
+**方法**：population = 仓内活代码（`scripts/` `Tools/` `monitor/` `firm/` `live/` `tests/` `knowledge/` + 仓根文件，扩展名 py/ps1/cmd/bat/vbs；`results/`、`data/`、`logs/`、`media/` 是历史不是代码）。三臂：①**spawn 臂**——AST 找所有启动链运行器的调用点，逐个问「等不等子进程」（`Popen` 有无 `wait/communicate/poll`）、「读不读 `returncode`」、「读到之后能不能让调用方失败」（同函数内 `raise`/`sys.exit`/`return 非零`）；四类 = 失败会传播 / 读了但不会失败 / 等了但不读 / 分离式（根本观察不到）。②**receipt 臂**——AST 找所有把路径折叠到 `*_s6_chain.json` 的 open/load，按 open 模式切成 writer / reader，**writer 打开自己的 receipt 永远不算 reader**。③**任务/包装器臂**——仓内声明计划任务动作的源里点没点名链运行器；活体计划任务普查单独落 receipt（`results/_r1585bmb_task_census.json`），因为它不满足 build 时复现性。
+
+**读数**：**2 个活 spawn 点，0 个能让调用方失败**——两个都是 `subprocess.Popen(..., DETACHED_PROCESS|CREATE_NO_WINDOW)` 打印 pid 就结束（`Tools/_r1208bmb_s6_spawn.py`、`Tools/_r1210bmb_s6_spawn.py`），等了才有 rc，它们连等都不等。**receipt：3 个 writer（三条链自己），writer 之外 0 个 reader**。**仓内声明链动作的源：0**；活体普查（bm-b 当场 296 个动作 / 15 个 bigmoney 动作）**0 个跑链运行器**——S6 链根本不是被调度跑的，只在某个轮次里被人或代理手动拉起来。另有 18 个 import 点（`smoke_test.py` 15、`scripts/etf_book_registry.py` 等）只读链的**腿表**，不读链的结果。判词 = `nothing_on_any_machine_reads_the_exit_code_or_the_receipt`。
+
+**四条可复用教训**：
+
+1. **「有人记录」不等于「有人收」** —— 三条链都做了正确的事：记 rc、比 0、打印 NONZERO、写 receipt。而消费侧是两个分离式 Popen（连等都不等）+ 零个 receipt 读者 + 零个计划任务。所以 E558 的「失败只在 receipt 一行里」还可以再加一层：那一行也是**写给一个不存在的读者**。判「一个信号有没有人收」必须量消费侧，不能从「生产侧做得很好」推。
+2. **本地同名函数会把 spawn 点凭空造出来** —— 首版把 `_tmp_r1251_chainseq.py` 里 `run("CHAIN", [sys.executable, "Tools/s6_chain_bmb.py"], ...)` 判成一个等待型 spawn 点（增幅 +1，且类别从「分离」变「等了但不读」）。真相是那个 `run` 是本文件里自己定义的 helper，收链 argv 的是**调用它的地方**，进程根本不是它起的。正法=先解析模块的 import（`from subprocess import run` / `import subprocess as sp`），裸名只有在该名字确实来自 subprocess/os 时才当 spawn；否则一律要求 `subprocess.` / `os.` 限定。控制臂把这条钉住。
+3. **BOM 让「读不出」伪装成「没有」** —— 首版对 7 个文件报 `spawn_shape_this_scan_cannot_fold`，看着像「7 个扫描不了的点」；实际全是 UTF-8 BOM（`xml`/PS 写出来的文件，`ast.parse` 直接抛），换 `utf-8-sig` 后归零。同族还有「整表 `literal_eval` 返回空」「`os.path.join` 参数字面量读不出」——一律发布成 unreadable 计数，禁并进「没有」。
+4. **面自己会出现在自己的语料里** —— 加一个点名 `s6_chain_bm` 的普查脚本（`Tools/_r1585bmb_task_census.py`），`corpus_files` 立刻 3892→3893，`check` 报 `summary does not re-derive`。这不是漂移，是**语料含自身**：任何「本仓有多少文件提到 X」的普查器，加一件提到 X 的新工具就改自己的分母。正法=把本轮新增件点名列出并重建（本窗），且摘要里分开报 `corpus_files` 与「其中点名运行器的文件数」，让读者能看到这句话的分母。
+
+**边界（随面发布）**：纯静态 AST；运行期拼出的 argv 看不见（读成 unfoldable 而不是「没有」）；`results/` 里 300+ 个历史 per-round 链副本会读自己的 receipt，那是历史不是消费者，已排除并说明；包装器类别在活体为零件时只由 fixture 训练，面里明写「这一类的正例来自夹具」；活体计划任务普查是一次性 receipt，不进闸，因为它在 build 时不可复现。
+
+**载体** = `scripts/e559_chain_rc_consumer.py`（build/check/verify + selftest 24/24）+ `results/state_tilt/CHAINRCCONSUMER-2026-11-08.json` + `chainrcconsumer_latest.json` + S6 腿 `chain_rc_consumer`（4.4s rc=0）+ smoke 腿 `# E559` + 独立腿 `scripts/run_e559_smoke_leg.py` + 活体普查 `results/_r1585bmb_task_census.json` + digest `research/digests/DIGEST-20261108-r1585-e559-chain-rc-consumer.md`

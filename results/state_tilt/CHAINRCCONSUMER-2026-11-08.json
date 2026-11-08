@@ -1,0 +1,269 @@
+{
+ "card": "E559",
+ "control_arms": {
+  "local_helper_named_run_is_not_a_spawn": {
+   "class": null,
+   "found": true
+  },
+  "receipt_mode": {
+   "class": "writer_of_a_receipt",
+   "found": true
+  },
+  "spawn_discards_rc": {
+   "class": "waits_for_the_child_and_discards_the_rc",
+   "found": true
+  },
+  "spawn_fails": {
+   "class": "fails_when_the_chain_fails",
+   "found": true
+  },
+  "spawn_never_waits": {
+   "class": "detached_spawn_never_observes_the_rc",
+   "found": true
+  },
+  "wrapper_checks_rc_but_cannot_fail": {
+   "class": "wrapper_checks_the_rc_then_exits_zero",
+   "found": true
+  },
+  "wrapper_fails": {
+   "class": "wrapper_fails_when_the_chain_fails",
+   "found": true
+  },
+  "wrapper_null_trap": {
+   "class": "wrapper_checks_LASTEXITCODE_after_a_ps1_call_cannot_fail",
+   "found": true
+  }
+ },
+ "evidence_cutoff": "2026-11-08",
+ "import_sites": [
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 274,
+   "module": "Tools.s6_chain_bmc",
+   "path": "scripts/etf_book_registry.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 461,
+   "module": "Tools.s6_chain_bmc",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 836,
+   "module": "Tools.s6_chain_bmc",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 962,
+   "module": "Tools.s6_chain_bmc",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 968,
+   "module": "Tools.s6_chain_bmc",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 978,
+   "module": "Tools.s6_chain_bmb",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 989,
+   "module": "Tools.s6_chain_bmb",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 1007,
+   "module": "Tools.s6_chain_bmb",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 1032,
+   "module": "Tools.s6_chain_bmb",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 1060,
+   "module": "Tools.s6_chain_bmb",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 1089,
+   "module": "Tools.s6_chain_bmb",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 1121,
+   "module": "Tools.s6_chain_bmb",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 1162,
+   "module": "Tools.s6_chain_bmb",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 1163,
+   "module": "Tools.s6_chain_bmb",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 1597,
+   "module": "Tools.s6_chain_bmc",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 1614,
+   "module": "Tools.s6_chain_bmc",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 1829,
+   "module": "Tools.s6_chain_bma",
+   "path": "smoke_test.py"
+  },
+  {
+   "class": "reads_the_leg_table_not_the_result",
+   "line": 1830,
+   "module": "Tools.s6_chain_bmc",
+   "path": "smoke_test.py"
+  }
+ ],
+ "population_rule": "live code under scripts/Tools/monitor/firm/live/tests/knowledge plus repo-root files (.py .ps1 .cmd .bat .vbs); results/ and data/ are history, not code; the three chain runners are the producers, never their own consumer",
+ "producers": [
+  {
+   "exits_non_zero_on_a_failing_leg": false,
+   "machine": "bm-a",
+   "path": "Tools/s6_chain_bma.py",
+   "present": true,
+   "receipt_template": "_r{round_no}bma_s6_chain.json",
+   "receipt_tokens": [
+    "NONZERO",
+    "failed"
+   ]
+  },
+  {
+   "exits_non_zero_on_a_failing_leg": false,
+   "machine": "bm-b",
+   "path": "Tools/s6_chain_bmb.py",
+   "present": true,
+   "receipt_template": "_r%sbmb_s6_chain.json",
+   "receipt_tokens": [
+    "NONZERO",
+    "failed"
+   ]
+  },
+  {
+   "exits_non_zero_on_a_failing_leg": false,
+   "machine": "bm-c",
+   "path": "Tools/s6_chain_bmc.py",
+   "present": true,
+   "receipt_template": null,
+   "receipt_tokens": [
+    "NONZERO"
+   ]
+  }
+ ],
+ "receipts": {
+  "readers": [],
+  "readers_outside_the_writer": [],
+  "writers": [
+   {
+    "class": "writer_of_a_receipt",
+    "folded": "results/_r{}bmb_s6_chain.json",
+    "line": 2277,
+    "mode": "w",
+    "path": "Tools/s6_chain_bmb.py",
+    "tracked": true
+   },
+   {
+    "class": "writer_of_a_receipt",
+    "folded": "results/_r{}bmc_s6_chain.json",
+    "line": 396,
+    "mode": "w",
+    "path": "Tools/s6_chain_bmc.py",
+    "tracked": true
+   },
+   {
+    "class": "writer_of_a_receipt",
+    "folded": "results/_r1573bmb_s6_chain.json",
+    "line": 32,
+    "mode": "w",
+    "path": "_tmp_e544_s6.py",
+    "tracked": false
+   }
+  ]
+ },
+ "root": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
+ "spawn_sites": [
+  {
+   "callee": "subprocess.Popen",
+   "can_fail": false,
+   "class": "detached_spawn_never_observes_the_rc",
+   "evidence": "no wait/communicate/poll on the child; never reads .returncode; no raise/sys.exit in the same function",
+   "line": 21,
+   "path": "Tools/_r1208bmb_s6_spawn.py",
+   "reads_rc": false,
+   "tracked": false,
+   "waits": false
+  },
+  {
+   "callee": "subprocess.Popen",
+   "can_fail": false,
+   "class": "detached_spawn_never_observes_the_rc",
+   "evidence": "no wait/communicate/poll on the child; never reads .returncode; no raise/sys.exit in the same function",
+   "line": 21,
+   "path": "Tools/_r1210bmb_s6_spawn.py",
+   "reads_rc": false,
+   "tracked": false,
+   "waits": false
+  }
+ ],
+ "study": "E559",
+ "summary": {
+  "by_class": {
+   "detached_spawn_never_observes_the_rc": 2,
+   "fails_when_the_chain_fails": 0,
+   "reads_the_rc_but_cannot_fail_the_caller": 0,
+   "spawn_shape_this_scan_cannot_fold": 0,
+   "waits_for_the_child_and_discards_the_rc": 0
+  },
+  "corpus_files": 3893,
+  "import_sites": 18,
+  "receipt_readers": 0,
+  "receipt_readers_outside_the_writer": 0,
+  "receipt_writers": 3,
+  "runners_exiting_non_zero_on_a_failing_leg": 0,
+  "runners_present": 3,
+  "spawn_sites": 2,
+  "task_sources_declaring_a_chain_action": 0,
+  "wrappers_naming_a_runner": 0
+ },
+ "task_definitions": {
+  "note": "repo sources that declare a scheduled-task action.  The live census is disclosed in the digest: 296 actions on bm-b, 0 of them run a chain runner",
+  "rows": []
+ },
+ "title": "whether any task or source reads a chain receipt or a leg rc",
+ "verdict": "nothing_on_any_machine_reads_the_exit_code_or_the_receipt",
+ "verdict_line": "2 live sources spawn a chain runner; 0 of them can fail on a failing chain (detached_spawn_never_observes_the_rc=2).  The receipt the runner writes has 3 writers and 0 readers outside the writer, and 0 repo task-sources declare a chain action.",
+ "wrappers": {
+  "note": "a wrapper is only counted when a live shell file names a runner in a non-comment line; the classes that need a live row are exercised by fixtures while this list is empty",
+  "rows": []
+ }
+}

@@ -29846,11 +29846,30 @@
    "lane_note": "static census over task definitions and wrappers; no GPU, no cloud, no price",
    "target": "task definitions (× machines) + wrappers + the receipt faces under results/",
    "deliverable": "results/state_tilt/CHAINRCCONSUMER-<cutoff>.json + latest + scripts/e559_chain_rc_consumer.py (build/check/verify/selftest)",
-   "status": "ready",
+   "status": "done",
    "priority": "normal",
    "worker_class": "cpu",
    "evidence_cutoff": "2026-11-08",
    "entered_at": "2026-11-08T19:45:00+08:00",
+   "entered_by": "bm-b",
+   "result_ref": "results/state_tilt/CHAINRCCONSUMER-2026-11-08.json",
+   "done_at": "2026-11-08T20:2x+08:00",
+   "done_by": "bm-b",
+   "outcome": "verdict nothing_on_any_machine_reads_the_exit_code_or_the_receipt: 2 live spawn sites of a chain runner, 0 can fail the caller (both detached Popen, no wait); 3 receipt writers (the runners), 0 readers outside the writer; 0 repo sources declare a chain action; live census 296 actions / 0 chain runner"
+  },
+  {
+   "id": "E560-WHETHER-THE-CHAIN-RECEIPT-CARRIES-ENOUGH-TO-TRIAGE-WITHOUT-THE-CONSOLE",
+   "title": "E559 found nobody reads a chain receipt and nothing schedules the chain, so the only record of a failing leg is a file. The next question is whether that file would even be usable by a consumer that did exist: for each runner, does it keep running the remaining legs after one fails (or abort), and does the receipt carry the first failing leg's name, its rc and enough of its output to triage -- or only a count? Measure statically whether a non-zero rc short-circuits the loop, whether the receipt row schema distinguishes rc from exception/timeout, and whether a leg that never ran is representable at all (a missing row and a passed row look the same to a reader who only counts). Publish per runner: the loop's failure policy, the row schema, and the three triage fields a reader would need.",
+   "source": "E559",
+   "lane": "cpu-only",
+   "lane_note": "static read of three runner sources plus the receipts they have already written; no GPU, no cloud, no price",
+   "target": "results/state_tilt/CHAINRECEIPTSHAPE-<cutoff>.json",
+   "deliverable": "results/state_tilt/CHAINRECEIPTSHAPE-<cutoff>.json + latest",
+   "status": "ready",
+   "priority": "normal",
+   "worker_class": "cpu",
+   "evidence_cutoff": "2026-11-08",
+   "entered_at": "2026-11-08T20:2x+08:00",
    "entered_by": "bm-b"
   }
  ],
@@ -29866,6 +29885,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T19:45:00+08:00",
+ "updated_at": "2026-11-08T20:2x+08:00",
  "version": 1
 }

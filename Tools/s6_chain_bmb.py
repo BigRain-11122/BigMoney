@@ -2175,6 +2175,14 @@ LEGS = [
     # three collect the non-zero legs into a receipt and then exit 0, so a refusal is a line in a
     # log, not a failure any process carries.  `check` re-derives every class from the sources.
     ("gate_reach", ["python", "scripts/e558_gate_reach.py", "check"]),
+    # E559 asks the other half of E558's sentence: the runners record rc and then exit 0,
+    # so is anything on the other end?  Two channels are measured apart -- the process exit
+    # code of a runner (every live spawn site: 2, both detached, 0 can fail) and the receipt
+    # the runner writes (3 writers, 0 readers outside the writer).  Repo sources that could
+    # schedule a chain action: 0 (the live census on bm-b is 296 actions, 0 of them a chain
+    # runner -- disclosed in the digest, not gated because a live census does not reproduce
+    # at build time).  `check` re-derives every class from the sources.
+    ("chain_rc_consumer", ["python", "scripts/e559_chain_rc_consumer.py", "check"]),
 ]
 
 
