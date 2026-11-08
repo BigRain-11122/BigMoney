@@ -23,6 +23,14 @@ from datetime import datetime
 LEGS = [
     ("dualrun", ["python", "scripts/pool_dualrun_reconcile.py", "run"]),
     ("compute_audit", ["python", "scripts/compute_audit.py"]),
+    # r1422: compute_audit has raised supply_floor (ready 0 < floor 3) for thirty
+    # rounds and names fill_ladder as the remediation face -- but the ladder's own
+    # report could not distinguish "22 of 23 catalog rows already burned" from "one
+    # row is gated", because the id-idempotency skip drops spent rows silently. The
+    # face below classifies every catalog row and joins the calendar verdict (r1421),
+    # so the red carries both halves of its cause: nothing left to offer, and no
+    # candidate passing its own calendar. Runs right after the audit that raises it.
+    ("ladder_face", ["python", "Tools/fill_ladder.py", "explain"]),
     ("py_watermark", ["python", "scripts/py_watermark.py", "probe"]),
     ("update_daily", ["python", "scripts/update_daily.py"]),
     # The official exchange calendar, so "no new bar" stops being ambiguous: on

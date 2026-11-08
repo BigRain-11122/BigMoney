@@ -10306,3 +10306,25 @@ PowerShell 双引号字符串传给 `python -c` 时，` 是 PowerShell 的转义
 
 正身 = knowledge/METHODOLOGY_ASSETS.md 本轮两处修复 + Tools/card_text_hygiene.py（470 文件 0/0 读绿）
 + 本轮 smoke 首跑 399/401 的两条红（同窗修复）
+
+## E428 — 幂等把「已经烧完」从报告里删掉，于是「目录耗尽」印成了「有一行被卡」（r1422 bm-c）
+
+`fill_ladder.run()` 用 id 幂等跳过已在池里的行，这是对的；错的是它同时把那些行从**报告**里删掉了。
+三十轮 `ready 0 < floor 3` 里，工具最多只印一行 `blocked: INNOVATION-QUOTA-SLOT-3 (prereg closed)`，
+读者合理的读法是「修好这一行的预注册就有供给」。实测：目录 23 行，22 行早已入池且全部 `done`，
+剩 1 行是按法不该再烧的判负族，**可入池 0 行**。于是「没有货了，去写一份新预注册」与
+「有一行被门挡着，去解门」印出同一句「stands until preregs land」——两种相反的动作，一个词。
+
+三条可复用：
+①**幂等是写面的规则，不是读面的规则**。跳过要保持，但被跳过的行必须进报告并带上类
+（spent / blocked / lane_foreign / available）；缺了它，面就只能说「我没加东西」，不能说「我没东西可加」。
+②**一个工具的全部输出只有一句 no-op 时，那句话就是它唯一的说明面**——所以它必须同时回答
+「还剩多少可投」与「为什么不可投」，否则连红多久都不会有人能对着它做事（r1199 同族第三层）。
+③**门要为将来准备好，但不许假装已经咬合**：`calendar_admitted:<book>` 门已实现并自检（ADMIT 放行 /
+拒并点名失败检查 / UNKNOWN 拒 / 未判决拒），但今天零命中——目录没有任何一行声明 `book_key`。
+在回执里写清「在岗但零命中」，比把一条永不触发的门说成防线要诚实。
+
+正身 = `Tools/fill_ladder.py`（`explain` + `calendar_admitted` 门 + selftest 新腿）
++ `results/fill_ladder_face.json`（实测：spent 22 / blocked 1 / available 0 →
+EXHAUSTED_NO_LAWFUL_SUPPLY | calendar 4 candidates 4 refused）
++ `Tools/s6_chain_bmc.py` 的 `ladder_face` 腿 + digest DIGEST-20261108-r1422-ladder-face.md

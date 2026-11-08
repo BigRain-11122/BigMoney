@@ -107,7 +107,7 @@ def _closed_marker(text):
     return ""
 
 
-def _gate_pass(gate, machine_id, pool, cand_runner=None):
+def _gate_pass(gate, machine_id, pool, cand_runner=None, calendar=None):
     """Catalog gate: list of requirement strings, all must hold.
 
     Supported requirement forms (extensible, D4 will add):
@@ -188,6 +188,26 @@ def _gate_pass(gate, machine_id, pool, cand_runner=None):
                 if "JUDGE" in (e.get("id") or "") and e.get("status") in ("ready", "waiting"):
                     return False, "judge batch %s still %s (TRIAL_LABOR_LAW sec.1)" % (
                         e.get("id"), e.get("status"))
+        elif req.startswith("calendar_admitted:"):
+            # r1422: a candidate book the desk already judged and refused by its
+            # own calendar must not be offered to the supply floor as "startable
+            # today" -- the same defect class as the r1381 closed-family refusal,
+            # one layer up. Only the literal word ADMIT passes; a book no receipt
+            # declares is UNJUDGED, which is not admitted either (r98: unknown is
+            # not empty, and unknown is not a pass).
+            book = req.split(":", 1)[1].strip()
+            cal = calendar if calendar is not None else _calendar_block()
+            if cal.get("verdict") == "UNKNOWN":
+                return False, "calendar face unreadable (unknown is not admitted): %s" % book
+            rows = [r for r in (cal.get("candidates") or []) if r.get("candidate") == book]
+            if not rows:
+                return False, "book not declared in any calendar receipt " \
+                              "(unjudged is not admitted): %s" % book
+            row = rows[0]
+            if not row.get("pass"):
+                return False, "calendar refused %s (%s via %s)" % (
+                    book, row.get("state"),
+                    ", ".join(row.get("failing_checks") or []) or "no named check")
         else:
             return False, "unknown gate req: %s" % req
     return True, ""
@@ -266,6 +286,145 @@ def _merged_pool_view(shared_path):
         or {"entries": []}
 
 
+FACE_PATH = os.path.join(ROOT, "results", "fill_ladder_face.json")
+
+
+def _pool_entry_map(pool):
+    return {(e.get("id") or ""): e for e in (pool or {}).get("entries", [])}
+
+
+def _classify(cand, machine_id, pool, existing):
+    """One catalog row -> (class, reason).
+
+    Classes: spent / lane_foreign / blocked / available. The gate chain is the
+    one run() applies, in the same order and with the same grandfather boundary
+    (a row already in the pool is spent, never re-judged on schema), so this
+    face cannot drift from the tool it reports on (single implementation, E289).
+    """
+    cid = cand.get("id") or ""
+    if cid in existing:
+        e = existing[cid]
+        return "spent", "in pool as %s (entered %s)" % (
+            e.get("status"), e.get("entered_at") or "?")
+    if not _lane_ok(cand, machine_id):
+        return "lane_foreign", "lane_owner=%s" % cand.get("lane_owner")
+    ok, why = _gate_pass(cand.get("enqueue_gates"), machine_id, pool,
+                         cand.get("runner"))
+    if not ok:
+        return "blocked", why
+    if consumer_plan_missing(cand):
+        return "blocked", "consumer_plan missing (O-1820 meaning law)"
+    if workers_plan_missing(cand):
+        return "blocked", "workers_plan missing (O-2130 multi-core law)"
+    if runner_args_missing(cand):
+        return "blocked", "runner_args missing (r444 no-arg-leg family)"
+    return "available", ""
+
+
+def _verdict_of_counts(counts):
+    """Pure. 'nothing left to offer' and 'everything is gated' are opposite
+    repair actions (write a prereg vs unblock a row) and run() printed the same
+    sentence for both."""
+    if counts.get("available"):
+        return "SUPPLY_AVAILABLE"
+    if not counts.get("catalog"):
+        return "CATALOG_EMPTY"
+    if counts.get("blocked") and not counts.get("spent") and not counts.get("lane_foreign"):
+        return "ALL_ROWS_BLOCKED"
+    return "EXHAUSTED_NO_LAWFUL_SUPPLY"
+
+
+def _calendar_block():
+    """The other half of "why is the floor red": the desk may hold candidates
+    and every one of them was refused by its own calendar (r1421
+    supply_calendar_face). Imported, never re-derived; an unreadable face is
+    UNKNOWN, which is not "no candidates" (r98)."""
+    sdir = os.path.join(ROOT, "scripts")
+    try:
+        if sdir not in sys.path:
+            sys.path.insert(0, sdir)
+        import supply_calendar_face as scf
+        face = scf.build()
+        return {
+            "verdict": face.get("verdict"),
+            "n_candidates": face.get("n_candidates"),
+            "n_refused": face.get("n_refused"),
+            "reading": face.get("reading"),
+            "candidates": [
+                {"candidate": r.get("candidate"), "state": r.get("state"),
+                 "pass": bool(r.get("pass")),
+                 "failing_checks": r.get("failing_checks") or []}
+                for r in (face.get("candidates") or [])],
+        }
+    except Exception as exc:  # unreadable is not empty
+        return {"verdict": "UNKNOWN",
+                "reading": "calendar face unreadable: %s: %s" % (
+                    type(exc).__name__, exc)}
+
+
+def _explain_line(face):
+    c = face["counts"]
+    cal = face.get("calendar") or {}
+    return ("[ladder-face] ready=%d floor=%d | catalog %d rows: spent %d / blocked %d "
+            "/ lane_foreign %d / available %d -> %s | calendar: %s (%s candidates, "
+            "%s refused)" % (
+                face["compatible_ready"], face["floor"], c["catalog"], c["spent"],
+                c["blocked"], c["lane_foreign"], c["available"], face["verdict"],
+                cal.get("verdict"), cal.get("n_candidates"), cal.get("n_refused")))
+
+
+def explain(machine_id=None, dry_run=False, out_path=None):
+    """FACE (not a gate): classify every catalog row and join the calendar face.
+
+    Why this exists: the pool has read `ready 0 < floor 3` for thirty rounds
+    while run() printed at most one blocked row per tick. `existing_ids`
+    idempotency silently drops every already-burned row from the report, so a
+    catalog that is fully SPENT and one that is fully BLOCKED print the same
+    sentence ("stands until preregs land") -- and only one of them is fixed by
+    writing a prereg. r1199's rule (a red that cannot be acted on is not a
+    flag) one layer up.
+    """
+    machine_id = machine_id or _machine_id()
+    shared_path, _lane_path = _pool_paths(machine_id)
+    pool = _merged_pool_view(shared_path)
+    existing = _pool_entry_map(pool)
+    with open(CATALOG_PATH, encoding="utf-8") as f:
+        catalog = json.load(f)
+    rows = []
+    for cand in catalog.get("entries", []):
+        cls, why = _classify(cand, machine_id, pool, existing)
+        rows.append({"id": cand.get("id"), "class": cls, "reason": why})
+    counts = {k: sum(1 for r in rows if r["class"] == k)
+              for k in ("spent", "blocked", "lane_foreign", "available")}
+    counts["catalog"] = len(rows)
+    face = {
+        "tool": "fill_ladder explain",
+        "generated_at": _now(),
+        "machine_id": machine_id,
+        "floor": FLOOR_DEFAULT,
+        "compatible_ready": _compatible_ready_count(pool, machine_id),
+        "pool_entries": len(pool.get("entries", [])),
+        "verdict": _verdict_of_counts(counts),
+        "counts": counts,
+        "rows": rows,
+        "calendar": _calendar_block(),
+    }
+    print(_explain_line(face))
+    if not dry_run:
+        path = out_path or FACE_PATH
+        d = os.path.dirname(path)
+        if d and not os.path.isdir(d):
+            os.makedirs(d, exist_ok=True)
+        tmp = path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.write(json.dumps(face, ensure_ascii=False, indent=1) + "\n")
+        os.replace(tmp, path)
+    for r in rows:
+        if r["class"] != "spent":
+            print("[ladder-face]   %s: %s (%s)" % (r["id"], r["class"], r["reason"]))
+    return 0
+
+
 def run(dry_run=False, floor=FLOOR_DEFAULT):
     machine_id = _machine_id()
     shared_path, lane_path = _pool_paths(machine_id)
@@ -279,6 +438,7 @@ def run(dry_run=False, floor=FLOOR_DEFAULT):
         return 0
     with open(CATALOG_PATH, encoding="utf-8") as f:
         catalog = json.load(f)
+    spent_n = sum(1 for cand in catalog.get("entries", []) if cand["id"] in existing_ids)
     added, blocked = [], []
     for cand in catalog.get("entries", []):
         cid = cand["id"]
@@ -322,7 +482,9 @@ def run(dry_run=False, floor=FLOOR_DEFAULT):
             print("[ladder] enqueued (shared+lane double-file): %s" % added)
     else:
         print("[ladder] no lawful supply candidate passed gates -- honest no-op; "
-              "floor breach %d<%d stands until preregs land" % (ready_n, floor))
+              "floor breach %d<%d stands until preregs land (%d of %d catalog rows "
+              "are already in the pool; `explain` names every row's class)"
+              % (ready_n, floor, spent_n, len(catalog.get("entries", []))))
         for cid, why in blocked:
             print("[ladder]   blocked: %s (%s)" % (cid, why))
     return 0
@@ -473,10 +635,92 @@ def selftest():
         # candidates newly appended to the catalog from r193 on. Live
         # verification below documents current rows carry post-hoc
         # consumer faces in ticket_ref/note history (no rewrite).
+        # r1422 explain() legs: a fully SPENT catalog and a fully BLOCKED one
+        # must not read the same -- that identity is the defect this face
+        # makes visible (run()'s idempotency drops spent rows from its report,
+        # so thirty rounds of `ready 0 < floor 3` printed one blocked row and
+        # said "stands until preregs land" either way).
+        e_spent = {"id": "S1"}
+        e_free = {"id": "S2", "enqueue_gates": [],
+                  "consumer_plan": "judged verdict -> ledger row",
+                  "workers_plan": {"workers": 4}, "runner_args": ["run"]}
+        e_blocked = {"id": "S3",
+                     "enqueue_gates": ["prereg_frozen:research/__absent__.md"]}
+        e_foreign = {"id": "S4", "lane_owner": "bm-b", "enqueue_gates": [],
+                     "consumer_plan": "x", "workers_plan": {"workers": 2},
+                     "runner_args": ["run"]}
+        pool_fx = {"entries": [{"id": "S1", "status": "done",
+                               "entered_at": "2026-09-01 00:00:00"}]}
+        existing_fx = _pool_entry_map(pool_fx)
+        c_spent, w_spent = _classify(e_spent, "bm-c", pool_fx, existing_fx)
+        assert c_spent == "spent" and "in pool as done" in w_spent, w_spent
+        assert _classify(e_free, "bm-c", pool_fx, existing_fx)[0] == "available"
+        assert _classify(e_blocked, "bm-c", pool_fx, existing_fx)[0] == "blocked"
+        assert _classify(e_foreign, "bm-c", pool_fx, existing_fx)[0] == "lane_foreign"
+        # grandfather boundary: schema-less row already in the pool is spent,
+        # never "blocked by schema" -- run() skips it for the same reason.
+        pool_bare = {"entries": [{"id": "S5", "status": "done"}]}
+        assert _classify({"id": "S5"}, "bm-c", pool_bare,
+                         _pool_entry_map(pool_bare))[0] == "spent"
+        # a schema-less row NOT in the pool is blocked (the gate that binds new
+        # candidates only -- the boundary has to cut on both sides)
+        assert _classify({"id": "S6", "enqueue_gates": []}, "bm-c",
+                         {"entries": []}, {})[0] == "blocked"
+        # verdict words: an exhausted catalog is not an unblockable one
+        assert _verdict_of_counts({"catalog": 3, "spent": 3, "blocked": 0,
+                                   "lane_foreign": 0, "available": 0}) == \
+            "EXHAUSTED_NO_LAWFUL_SUPPLY"
+        assert _verdict_of_counts({"catalog": 2, "spent": 0, "blocked": 2,
+                                   "lane_foreign": 0, "available": 0}) == \
+            "ALL_ROWS_BLOCKED"
+        assert _verdict_of_counts({"catalog": 0, "spent": 0, "blocked": 0,
+                                   "lane_foreign": 0, "available": 0}) == \
+            "CATALOG_EMPTY"
+        assert _verdict_of_counts({"catalog": 1, "spent": 0, "blocked": 0,
+                                   "lane_foreign": 0, "available": 1}) == \
+            "SUPPLY_AVAILABLE"
+        # calendar join speaks only the frozen vocabulary (unknown is a word,
+        # never silently "no candidates")
+        cal = _calendar_block()
+        assert cal.get("verdict") in ("ADMITTED_CANDIDATE_EXISTS",
+                                      "NO_CANDIDATE_PASSES_CALENDAR",
+                                      "NO_CANDIDATES", "UNKNOWN"), cal
+        # one-line summary must carry both halves, else the reader cannot tell
+        # "write a prereg" from "wait for a year of evidence"
+        line = _explain_line({"compatible_ready": 0, "floor": 3,
+                              "counts": {"catalog": 23, "spent": 22, "blocked": 1,
+                                         "lane_foreign": 0, "available": 0},
+                              "verdict": "EXHAUSTED_NO_LAWFUL_SUPPLY",
+                              "calendar": {"verdict": "NO_CANDIDATE_PASSES_CALENDAR",
+                                           "n_candidates": 4, "n_refused": 4}})
+        assert "spent 22" in line and "NO_CANDIDATE_PASSES_CALENDAR" in line, line
+        # r1422 calendar_admitted gate: the supply floor must never be offered a
+        # book the desk already refused by its own calendar, and an UNJUDGED book
+        # is not admitted either. Four legs, injected calendar (hermetic):
+        cal_admit = {"verdict": "ADMITTED_CANDIDATE_EXISTS", "candidates": [
+            {"candidate": "BOOK-A", "state": "ADMIT", "pass": True,
+             "failing_checks": []}]}
+        okca, _ = _gate_pass(["calendar_admitted:BOOK-A"], "bm-c", {"entries": []},
+                             None, cal_admit)
+        assert okca, "admitted book must pass the calendar gate"
+        cal_refuse = {"verdict": "NO_CANDIDATE_PASSES_CALENDAR", "candidates": [
+            {"candidate": "BOOK-B", "state": "CONDITIONAL", "pass": False,
+             "failing_checks": ["Y4_top2_share"]}]}
+        okcr, whycr = _gate_pass(["calendar_admitted:BOOK-B"], "bm-c",
+                                 {"entries": []}, None, cal_refuse)
+        assert not okcr and "calendar refused" in whycr and "Y4_top2_share" in whycr, whycr
+        okcu, whycu = _gate_pass(["calendar_admitted:BOOK-B"], "bm-c",
+                                 {"entries": []}, None,
+                                 {"verdict": "UNKNOWN", "candidates": []})
+        assert not okcu and "unreadable" in whycu, whycu
+        okcn, whycn = _gate_pass(["calendar_admitted:BOOK-C"], "bm-c",
+                                 {"entries": []}, None, cal_refuse)
+        assert not okcn and "not declared" in whycn, whycn
         print("selftest: all assertions PASS (double-file law / lane guard / "
               "ready count / gate refusal matrix / shard synthesis / "
               "consumer_plan schema gate / workers_plan schema gate / "
-              "runner_args schema gate)")
+              "runner_args schema gate / r1422 explain class matrix + "
+              "verdict words + calendar join + calendar_admitted gate)")
         return 0
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -487,6 +731,8 @@ if __name__ == "__main__":
     flags = [a for a in sys.argv[1:] if a.startswith("--")]
     if args and args[0] == "selftest":
         sys.exit(selftest())
+    if args and args[0] == "explain":
+        sys.exit(explain(dry_run=("--dry-run" in flags)))
     floor = FLOOR_DEFAULT
     for a in flags:
         if a.startswith("--floor="):

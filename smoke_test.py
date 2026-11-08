@@ -596,6 +596,16 @@ def main() -> int:
              "scripts/supply_calendar_face.py", ["--selftest"]),
             ("product: supply calendar verdict recomputed from its published rows",
              "scripts/supply_calendar_face.py", ["--check"]),
+            # r1422: the floor read `ready 0 < floor 3` for thirty rounds while the
+            # ladder printed at most one blocked row per tick -- its id carried an
+            # idempotency skip, so 22 rows that had already burned were INVISIBLE and
+            # "catalog exhausted" read exactly like "one row is gated". The selftest
+            # pins the class matrix and the grandfather boundary; the explain leg is
+            # dry-run on purpose (a suite must not rewrite the published face).
+            ("product: fill ladder face (an exhausted catalog is not an unblockable one)",
+             "Tools/fill_ladder.py", ["selftest"]),
+            ("product: fill ladder explain names every row's class and the calendar refusal",
+             "Tools/fill_ladder.py", ["explain", "--dry-run"]),
             # r1205: the line's freshness faces all read the instant, so a
             # stall followed by one heartbeat is invisible. This leg prices the
             # history reader: fuzzy stamps widen instead of narrowing, quiet
