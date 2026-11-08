@@ -25568,5 +25568,72 @@ except Exception as _e591x:
 check(_name591, not _bad591, "; ".join(_bad591)[:240] or _d591)
 
 
+# E592: E591 left the ledger's carry unexplained -- a fresh-phase replay reproduced four of the
+# eight bars past the repo panel.  Reading the writer instead of guessing says why: the carry is
+# the ladder replayed over the ledger's WHOLE date grid (2020-01-02.., 1,658 bars), so the phase is
+# anchored ~1,647 bars before the first published bar.  From that origin every published bar
+# reproduces at the printed precision of the carry field (max gap 0.000755% against a printed
+# precision of 0.001302%), no bar is left unexplained, and 75.6% of 68,921 sampled three-rung
+# phases reproduce every bar too because only the GC028 rung's offset is constrained.  This leg
+# refuses the ways that reading could be a wish: an origin the face cannot reconstruct, a
+# replayed rate that does not re-derive its own gap, a reproduce flag that contradicts its own
+# gap, a phase class larger than the phases tested, pass/fail offset ranges that do not add back
+# up to the window, and a residual that claims no unexplained bar while a row is not reproduced.
+_name592 = ("E592 whether the ledger's carry is reproducible once the ladder's roll phase is "
+            "inferred from its own bars (r1619 bm-b)")
+_bad592 = []
+_d592 = "no reading"
+try:
+    _p592 = os.path.join("results", "etf_book_forward", "CARRYPHASE.json")
+    _f592 = json.load(open(_p592, encoding="utf-8"))
+    _m592 = importlib.import_module("e592_carry_phase")
+    _bad592.extend(_m592.face_problems(_f592))
+    _led592 = json.load(open(os.path.join("results", "etf_book_forward", "LEDGER.json"),
+                             encoding="utf-8"))
+    _lbars592 = [b.get("bar") for b in _led592.get("bars") or []]
+    _rows592 = _f592.get("bars") or []
+    if _rows592 and any(r.get("bar") not in _lbars592 for r in _rows592):
+        _bad592.append("the face measures a bar the ledger does not publish")
+    _ph592 = _f592.get("published_phase") or {}
+    if _ph592.get("reconstructable"):
+        if not _ph592.get("origin_date"):
+            _bad592.append("a reconstructable origin has no date")
+        if _ph592.get("seed_position_in_grid") is not None and \
+                _ph592.get("seed_grid_index") is not None:
+            want = int(_ph592["seed_position_in_grid"]) - int(_ph592["seed_grid_index"])
+            if int(_ph592.get("origin_index", -1)) != want:
+                _bad592.append("the origin index is not the seed position minus grid_index")
+    _arms592 = _f592.get("arms") or {}
+    _a592 = _arms592.get("published_origin") or {}
+    _b592 = _arms592.get("fresh_phase_at_first_bar") or {}
+    if _a592.get("bars_reproduced_at_0_001pct") is not None and \
+            _b592.get("bars_reproduced_at_0_001pct") is not None:
+        if int(_a592["bars_reproduced_at_0_001pct"]) <= int(_b592["bars_reproduced_at_0_001pct"]):
+            _bad592.append("replaying from the face's own origin reproduces no more bars than a "
+                           "fresh phase -- the phase is not shown to matter")
+    _res592 = _f592.get("residual") or {}
+    if _res592.get("bars_no_phase_reproduces_at_0_001pct") and \
+            _f592.get("verdict") and "reproducible" in _f592["verdict"]:
+        _bad592.append("the face is called reproducible while no phase explains some bar")
+    _prod592 = (_f592.get("sweep") or {}).get("product") or {}
+    if _prod592.get("phases_reproducing_every_bar") is not None and \
+            _prod592.get("phases_tested") and \
+            _prod592["phases_reproducing_every_bar"] > _prod592["phases_tested"]:
+        _bad592.append("more phases reproduce than were tested")
+    _d592 = ("%d/%d bars at the printed precision (max gap %.4f%% vs %.4f%%), fresh phase %s, "
+             "phase class %s/%s, verdict=%s"
+             % (_res592.get("bars_reproduced_at_0_001pct") or 0,
+                _res592.get("bars_judged") or 0,
+                _res592.get("max_abs_gap_pct") or 0.0,
+                _res592.get("max_printed_precision_pct") or 0.0,
+                _b592.get("bars_reproduced_at_0_001pct"),
+                _prod592.get("phases_reproducing_every_bar"),
+                _prod592.get("phases_tested"), _f592.get("verdict")))
+except Exception as _e592x:
+    _bad592.append(repr(_e592x)[:160])
+    _d592 = "study could not be read"
+check(_name592, not _bad592, "; ".join(_bad592)[:240] or _d592)
+
+
 if __name__ == "__main__":
     sys.exit(main())

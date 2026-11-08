@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1611 bm-b: E582 burned in-round (the ticket now prices on the bar it names; the error lives in the share counts, not the amount line). Seeded E583 (re-issue the five remaining tickets + one correction table) and E584 (does the forward ledger accrue on the bar its rows name).",
+ "_stamp_note": "r1619 bm-b: E592 burned in-round -- the ledger's carry is reproducible from the grid origin the face names only as seed.grid_index (11/11 bars at the printed precision) but 75.6% of sampled phases reproduce every bar, so the bars pin a class, not a phase. Seeded E593 (does the ticket's advertised cash yield survive its own 252-bar convention).",
  "entries": [
   {
    "id": "E590-WHETHER-THE-REPO-PANEL-LEAVING-THE-CASH-LEG-UNQUOTED-IS-PRICED-ANYWHERE",
@@ -30404,13 +30404,33 @@
    "lane": "cpu-only",
    "lane_note": "static: replay etf_book_cash_ladder.ladder3 over the ledger's bars under every contract start offset and rung phase, compare each replay with the published carry; no runner, no fetch, no panel write",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E591 (r1618 bm-b): a clean-phase replay of the shipped ladder3 reproduces only 4 of 8 bars past the repo panel within 0.5% (one bar is off by 82%, another 46%, and one flips sign), so the ledger's carry is not re-derivable from the panel plus the published face -- the contract phase is unpublished state.",
    "target": "results/etf_book_forward/CARRYPHASE.json",
    "deliverable": "results/etf_book_forward/CARRYPHASE.json: the best-fitting phase per rung, the bars each candidate phase reproduces within a stated tolerance, the residual it cannot explain, and one sentence naming the state a reader would need for the ledger's carry to be reproducible",
    "title": "Establish whether the forward ledger's published carry can be reproduced by inferring its ladder roll phase from its own bars: search the contract start offsets and rung phases, publish which phase reproduces which bars, and price the residual that no phase explains.",
    "entered_at": "2026-11-09T06:58:00+08:00",
    "entered_by": "bm-b r1618",
+   "evidence_cutoff": "2026-11-06",
+   "claimed_by": "bm-b",
+   "done_at": "2026-11-09T07:05:00+08:00",
+   "done_by": "bm-b r1619",
+   "done_round": "r1619",
+   "result_ref": "results/etf_book_forward/CARRYPHASE.json (origin reconstruction + two arms + marginal and product phase sweeps + residual) + scripts/e592_carry_phase.py (selftest 38/38, check/verify problems=[], standalone smoke leg PASS + 1/1 red under --doctor) + S6 leg carry_phase + smoke_test.py leg E592",
+   "done_note": "r1619 bm-b: the carry is reproducible -- 11 of 11 published bars at the printed precision (max gap 0.000755% against a printed precision of 0.001302%) once the replay starts at 2020-01-02, the origin the face names only as seed.grid_index 1647; a fresh phase at the ledger's first published bar reproduces 0 of 11 at that precision (6 of 11 at 0.5%, and 4 of the 8 bars past the panel, which is exactly what E591 measured). But 52,111 of 68,921 sampled three-rung phases (75.6%) reproduce every bar too: GC007/GC014 are offset-invariant on this window and all discrimination sits on the GC028 rung, so the bars pin a class of phases, not one, and no bar is left unexplained."
+  },
+  {
+   "id": "E593-WHETHER-THE-TICKETS-ADVERTISED-CASH-YIELD-SURVIVES-ITS-OWN-252-CONVENTION",
+   "lane": "cpu-only",
+   "lane_note": "static: recompute the newest ticket's cash_leg mean accrual from data/repo_daily/GC001.csv over the window the ticket itself prints (window_start..window_end, window_bars) under the printed 252-bar convention and under the ladder's calendar-day/365 convention, then price the gap on the ticket's own cash; no runner, no fetch, no panel write",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E589 (r1616 bm-b) made the ticket print the cash window it averages (2020-01-02, 1,658 bars, 2,500 calendar days) and E592 (r1619 bm-b) showed the ledger's ladder3 carry over that same grid runs at ~1.88%/yr while the ticket advertises 2.079% with bars_per_year=252 -- the ladder module's own docstring says a 252-day model of a 365-day market goes wrong, so the ticket's headline may be a convention artefact rather than a rate.",
+   "target": "results/etf_book_order/CASHCONVENTION.json",
+   "deliverable": "results/etf_book_order/CASHCONVENTION.json: the ticket's advertised cash yield recomputed on its own printed window under (a) its printed method (mean bar-to-bar accrual x 252) and (b) calendar days / 365 as the ladder module prices it, the per-bar accrual each convention implies, the gap between them in CNY on the ticket's own cash, and one sentence saying whether the printed figure survives its own method",
+   "title": "Establish whether the ticket's advertised cash yield survives its own arithmetic: recompute the mean GC001 accrual over the exact window the ticket prints, under the ticket's 252-bar convention and under the ladder's calendar-day convention, price the difference on the ticket's cash, and publish which of the two the ticket's own number is.",
+   "entered_at": "2026-11-09T07:05:00+08:00",
+   "entered_by": "bm-b r1619",
    "evidence_cutoff": "2026-11-06"
   }
  ],
@@ -30426,6 +30446,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T06:58:00+0800",
+ "updated_at": "2026-11-09T07:05:00+0800",
  "version": 1
 }

@@ -2382,6 +2382,17 @@ LEGS = [
     # and a replay's verdict must follow its own relative gap.
     ("cash_diverge",
      ["python", "scripts/e591_cash_diverge.py", "check"]),
+    # E592 (r1619 bm-b): E591 left the ledger's carry unreproduced by a fresh-phase replay.  The
+    # writer answers it -- carry is the ladder replayed over the ledger's whole date grid from
+    # 2020-01-02, not over the eleven published bars -- so from that origin every published bar
+    # reproduces at the printed precision of the carry field, while a fresh phase at the first
+    # published bar reproduces none of them, and 75.6% of the sampled three-rung phases reproduce
+    # every bar because only the GC028 rung's offset is constrained.  This leg requires the
+    # reconstructed origin to be the seed position minus its grid_index, the origin arm to beat
+    # the fresh-phase arm, the residual's unexplained list to match the rows, and pass/fail offset
+    # ranges to add back up to the searched window.
+    ("carry_phase",
+     ["python", "scripts/e592_carry_phase.py", "check"]),
 ]
 
 
