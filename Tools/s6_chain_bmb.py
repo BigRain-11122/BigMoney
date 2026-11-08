@@ -2198,6 +2198,13 @@ LEGS = [
     # run and an --only run look identical.  `check` re-derives each file's class; the live
     # directory is drift, never a gate.
     ("receipt_table_join", ["python", "scripts/e561_receipt_table_join.py", "check"]),
+    # E562 answers the sentence E561 had to leave open: is a short receipt a deliberate one-leg
+    # run or a chain killed mid-run?  No field inside the receipt says (0 of 159 echo a
+    # selection); the answer is in the RUNNER at the receipt's own join commit -- all three
+    # runners close the receipt only AFTER the leg loop, no loop can drop a leg by a continue,
+    # and a raising leg still gets its own row, so a kill leaves no receipt at all.  `check`
+    # re-derives every short receipt's class from that blob.
+    ("single_leg_provenance", ["python", "scripts/e562_single_leg_provenance.py", "check"]),
 ]
 
 

@@ -24400,5 +24400,60 @@ except Exception as _e561x:
     _d561 = "study could not be read"
 check(_name561, not _bad561, "; ".join(_bad561)[:240] or _d561)
 
+# E562: E561 ended on "a stopped run and an --only run look identical".  This leg refuses the two
+# easy ways that sentence gets resolved without measuring anything:
+#   * a short receipt is called deliberate by ASSUMING the writer closes after the loop -- the
+#     class must come from the runner blob at the receipt's own join commit, and a per-leg writer
+#     must make the same row killable instead
+#   * the population is a VINTAGE (E561's face), so the pin must name the artefact it read
+_name562 = "E562 whether an existing field separates a deliberate one-leg run from a killed chain (r1588 bm-b)"
+_bad562 = []
+_d562 = "no reading"
+try:
+    _m562 = __import__("importlib").import_module("e562_single_leg_provenance")
+    _f562 = json.load(open(os.path.join("results", "state_tilt",
+                                        "singlelegprovenance_latest.json"), encoding="utf-8"))
+    _s562 = _f562.get("summary") or {}
+    _r562 = _f562.get("rows") or []
+    _bad562.extend(_m562.face_problems(_f562))
+    if not _r562:
+        _bad562.append("the short-receipt population is empty, so nothing is priced")
+    if _s562.get("short_receipts") != len(_r562):
+        _bad562.append("the short count is not the row count")
+    if sum(_s562.get(k, 0) for k in ("deliberate_subset", "killed_chain_could_leave_this_file",
+                                     "unexplained", "runners_unreachable")) != len(_r562):
+        _bad562.append("a short receipt is in no class or in two")
+    if _s562.get("runners_joined", 0) <= 0:
+        _bad562.append("not one short receipt joined to its runner blob, so the git arm is empty")
+    if not (_f562.get("population_source") or {}).get("sha16"):
+        _bad562.append("the population is not pinned to a vintage")
+    if _m562.analyse_runner(_m562.FIXTURES["inside_loop"])["writer_position"] != _m562.W_INSIDE:
+        _bad562.append("a per-leg writer is no longer visible")
+    if _m562.classify(1, _m562.analyse_runner(_m562.FIXTURES["inside_loop"])) != _m562.C_KILL:
+        _bad562.append("a per-leg writer no longer admits a killed chain")
+    if _m562.classify(1, _m562.analyse_runner(_m562.FIXTURES["skip_arm"])) != _m562.C_SKIP:
+        _bad562.append("a skipping loop is no longer its own explanation")
+    _doc562 = json.loads(json.dumps(_f562))
+    _doc562["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m562.face_problems(_doc562):
+        _bad562.append("a hand-written verdict was accepted")
+    if any(r.get("class") == _m562.C_SUBSET for r in _r562):
+        _victim562 = json.loads(json.dumps(_f562))
+        _row562 = next(r for r in _victim562["rows"] if r.get("class") == _m562.C_SUBSET)
+        _row562["writer_position"] = _m562.W_INSIDE
+        if not _m562.face_problems(_victim562):
+            _bad562.append("a subset class beside an inside-loop writer was accepted")
+    _d562 = ("%d short receipts / %d single-leg / joined=%d / after-loop=%d / only-arm=%d / "
+             "killed-could-leave=%d / subset=%d / %s"
+             % (_s562.get("short_receipts", 0), _s562.get("single_leg_receipts", 0),
+                _s562.get("runners_joined", 0), _s562.get("writer_after_the_loop", 0),
+                _s562.get("honours_an_only_argument", 0),
+                _s562.get("killed_chain_could_leave_this_file", 0),
+                _s562.get("deliberate_subset", 0), _f562.get("verdict")))
+except Exception as _e562x:
+    _bad562.append(repr(_e562x)[:160])
+    _d562 = "study could not be read"
+check(_name562, not _bad562, "; ".join(_bad562)[:240] or _d562)
+
 if __name__ == "__main__":
     sys.exit(main())

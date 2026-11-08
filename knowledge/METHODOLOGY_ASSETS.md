@@ -13796,3 +13796,26 @@ E560 量的是回执**说过什么**。本卡片问它的下游：手上这份�
 **边界（随面发布）**：轮→提交的接合窗口=最近 4000 条提交；窗外或未被 `round N:` 命名的轮一律记无证人（禁猜）；bm-a 的表是 import 来的，按同一提交取兄弟模块解析；blob 不可达=合法答（promisor clone 不必持有旧 blob），不重试不懒取。
 
 **载体** = `scripts/e561_receipt_table_join.py`（build/check/verify + selftest 19/19）、`results/state_tilt/RECEIPTTABLE-2026-11-08.json` + `receipttable_latest.json` + S6 腿 `receipt_table_join`（1.1s rc=0）+ smoke 腿 `# E561` + 单跑器 `scripts/run_e561_smoke_leg.py`（含 --doctor）+ digest `research/digests/DIGEST-20261108-r1587-e561-receipt-table-join.md`
+
+### E562 — 短回执：是「故意的单腿运行」还是「跑到一半被杀的链」，已有的字段能不能分开（r1588 bm-b·2026-11-08）
+
+E561 的结论是「159 份短回执，一个停住的运行和一次 `--only` 运行在文件里完全相同」。本条直接对那句话下刀：到底**有没有任何一个已经存在的字段**能分开它们？如果有，在哪；如果没有，那件决定性问题的事实写在哪。
+
+**种群：**E561 已发布的 short 类 159 份（bm-b 151 / bm-c 8，其中 135 份只有 1 行）。按「旧版本面」处理（E369 律）：`population_source.sha16` 指向 E561 面，short 类在本地从 `rows < table_at_its_round` 重算，不采信标签。
+
+**方法（全静态，不跑任何 runner）：**每份短回执按 `join_commit:Tools/s6_chain_bm<X>.py` 取它**自己那一轮**的 runner 瘦身 blob（一次 `cat-file --batch`），再用 AST 量四件事：
+1. **writer position**——回执是在 leg 循环之后一次性落盘，还是每腿落一次？
+2. **selection arm**——runner 收不收 `--only` 参数？
+3. **skip arm**——循环体里有没有 `continue`，能不能自己少跑一腿？
+4. **per-leg catch**——某一腿抛异常时是否仍然写一行？
+
+**读数：**159/159 都能取到 runner blob；**159/159 的 runner 都只在循环结束后一次性写回执**；159/159 接受 `--only`；**0 个**循环能靠 `continue` 漏腿；159/159 的抛异常腿仍然有自己的一行。于是：**0 份短回执可能是被杀死的链**——进程在循环里被杀时根本不会有文件存在，写盘发生在循环之后；159/159 = 有意的 `--only` 子集。另一面同样清楚：**0 份回执记录了「哪些腿被点名」**（全库回执键扫命中 0）；唯一的人类书面见证是轮报告，其中只有 7 行提到 `--only`、覆盖 17 个轮次，135 份单腿回执只有 5 份的轮次被提到。
+
+**可资复用的教训（坑律偏工程侧）：**
+1. **区分「回执里写了什么」与「写回执的代码怎么写」**——同一份异常结构，落盘在循环内=被杀会留下半截文件；落盘在循环后=被杀只留下「没有文件」。这条事实在 runner 里而不在数据里，「读不到字段」不等于「没有答案」。
+2. **旧版本证据要用各自轮次的 blob，不要用今天的源**——文件面能证明「今天怎么写」，证明不了「那一轮怎么写」；pin 必须是该面自己的 join commit（E369 族）。
+3. **一份被保存的产物要能被后人复核，就得把「谁问的」也写进去**——哪怕测量今天做完了，将来某轮拿到一份残件也无从判断；轮报告只覆盖 5/135，正是这个缺口的实证。
+
+**边界（如实披露）：**结论是静态的：不执行 runner、不重写任何回执；读不到 blob 的族（promisor clone 本地缺件）一律是「不可证」类而不是沉默跳过；runner 一旦改写法，per-row 类自动失效，闸随源 re-derive。
+
+**产物指针**=`scripts/e562_single_leg_provenance.py`（build/check/verify + selftest 14/14）·`results/state_tilt/SINGLELEGPROVENANCE-2026-11-08.json` + `singlelegprovenance_latest.json`·S6 腿 `single_leg_provenance`（1.3s rc=0）·smoke 腿 `# E562` + 单独运行器 `scripts/run_e562_smoke_leg.py`（含 --doctor）·digest `research/digests/DIGEST-20261108-r1588-e562-single-leg-provenance.md`
