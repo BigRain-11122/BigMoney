@@ -1,0 +1,471 @@
+{
+ "study": "E558",
+ "card": "E558",
+ "title": "whether a --check gate leg reads the face it gates and can notice its absence",
+ "evidence_cutoff": "2026-11-08",
+ "machine": "bm-b",
+ "population_source": {
+  "face": "results/state_tilt/faceentryreach_latest.json",
+  "field": "rows[].gate_entry_points where kind == a_live_chain_leg_runs_the_writer_with_a_gate_verb",
+  "selector": "every gate leg E557 published over E556's message-only faces",
+  "published": 5
+ },
+ "rows": [
+  {
+   "face": "research/ETF_BOOK_BUFFER_ADOPTION.md",
+   "face_kind": "rendered_face_a_human_reads",
+   "writer": "scripts/etf_book_buffer_adoption.py",
+   "writer_in_corpus": true,
+   "gate_source": "Tools/s6_chain_bmc.py",
+   "gate_leg": "etf_book_buffer_adoption",
+   "gate_argv": [
+    "python",
+    "scripts/etf_book_buffer_adoption.py",
+    "--check"
+   ],
+   "gate_machine": "bm-c",
+   "also_run_by": [
+    "bm-a"
+   ],
+   "reach_class": "a_live_chain_only_gates_it_and_no_leg_rebuilds_it",
+   "gate_entry": {
+    "resolved": true,
+    "why": null,
+    "functions": [
+     "check",
+     "check_payload",
+     "verdict"
+    ],
+    "flag_dest": "check"
+   },
+   "loads": [
+    {
+     "function": "check",
+     "line": 510,
+     "how": "read_text",
+     "path": "results/etf_book_buffer_adoption.json",
+     "why": null,
+     "expression": "OUT_JSON.read_text(encoding='utf-8')"
+    },
+    {
+     "function": "check",
+     "line": 513,
+     "how": "read_text",
+     "path": "results/etf_book_production/latest.json",
+     "why": null,
+     "expression": "PRODUCTION_FACE.read_text(encoding='utf-8')"
+    }
+   ],
+   "missing_file_guards": [
+    {
+     "kind": "explicit_missing_file_branch",
+     "function": "check",
+     "line": 507,
+     "about_the_gated_face": false,
+     "path": "results/etf_book_buffer_adoption.json",
+     "negated": true,
+     "exit": "returns_non_zero",
+     "expression": "not OUT_JSON.exists()"
+    }
+   ],
+   "outcome": "the_gate_never_opens_the_face_so_a_missing_one_is_invisible",
+   "why": "no load in the gate path opens this face",
+   "would_a_deleted_face_be_detected": false,
+   "would_a_deleted_face_be_refused": false
+  },
+  {
+   "face": "research/ETF_BOOK_PREMIUM_PHASES.md",
+   "face_kind": "rendered_face_a_human_reads",
+   "writer": "scripts/etf_book_premium_phases.py",
+   "writer_in_corpus": true,
+   "gate_source": "Tools/s6_chain_bmc.py",
+   "gate_leg": "premium_phases",
+   "gate_argv": [
+    "python",
+    "scripts/etf_book_premium_phases.py",
+    "--check"
+   ],
+   "gate_machine": "bm-c",
+   "also_run_by": [
+    "bm-a"
+   ],
+   "reach_class": "a_live_chain_only_gates_it_and_no_leg_rebuilds_it",
+   "gate_entry": {
+    "resolved": true,
+    "why": null,
+    "functions": [
+     "check",
+     "check_payload",
+     "verdict_for"
+    ],
+    "flag_dest": "check"
+   },
+   "loads": [
+    {
+     "function": "check",
+     "line": 347,
+     "how": "open",
+     "path": "results/etf_book_premium_phases.json",
+     "why": null,
+     "expression": "open(OUT_JSON, encoding='utf-8')"
+    },
+    {
+     "function": "check",
+     "line": 348,
+     "how": "load_of_a_with_bound_handle",
+     "path": "results/etf_book_premium_phases.json",
+     "why": null,
+     "expression": "json.load(fh)"
+    }
+   ],
+   "missing_file_guards": [
+    {
+     "kind": "explicit_missing_file_branch",
+     "function": "check",
+     "line": 345,
+     "about_the_gated_face": false,
+     "path": "results/etf_book_premium_phases.json",
+     "negated": true,
+     "exit": "raises",
+     "expression": "not OUT_JSON.exists()"
+    }
+   ],
+   "outcome": "the_gate_never_opens_the_face_so_a_missing_one_is_invisible",
+   "why": "no load in the gate path opens this face",
+   "would_a_deleted_face_be_detected": false,
+   "would_a_deleted_face_be_refused": false
+  },
+  {
+   "face": "results/etf_book_premium_phases.json",
+   "face_kind": "machine_readable_face",
+   "writer": "scripts/etf_book_premium_phases.py",
+   "writer_in_corpus": true,
+   "gate_source": "Tools/s6_chain_bmc.py",
+   "gate_leg": "premium_phases",
+   "gate_argv": [
+    "python",
+    "scripts/etf_book_premium_phases.py",
+    "--check"
+   ],
+   "gate_machine": "bm-c",
+   "also_run_by": [
+    "bm-a"
+   ],
+   "reach_class": "a_live_chain_only_gates_it_and_no_leg_rebuilds_it",
+   "gate_entry": {
+    "resolved": true,
+    "why": null,
+    "functions": [
+     "check",
+     "check_payload",
+     "verdict_for"
+    ],
+    "flag_dest": "check"
+   },
+   "loads": [
+    {
+     "function": "check",
+     "line": 347,
+     "how": "open",
+     "path": "results/etf_book_premium_phases.json",
+     "why": null,
+     "expression": "open(OUT_JSON, encoding='utf-8')"
+    },
+    {
+     "function": "check",
+     "line": 348,
+     "how": "load_of_a_with_bound_handle",
+     "path": "results/etf_book_premium_phases.json",
+     "why": null,
+     "expression": "json.load(fh)"
+    }
+   ],
+   "missing_file_guards": [
+    {
+     "kind": "explicit_missing_file_branch",
+     "function": "check",
+     "line": 345,
+     "about_the_gated_face": true,
+     "path": "results/etf_book_premium_phases.json",
+     "negated": true,
+     "exit": "raises",
+     "expression": "not OUT_JSON.exists()"
+    }
+   ],
+   "outcome": "the_gate_reads_the_face_and_refuses_a_missing_one",
+   "why": "a missing file is refused at line 345 (raises)",
+   "would_a_deleted_face_be_detected": true,
+   "would_a_deleted_face_be_refused": true
+  },
+  {
+   "face": "research/ETF_BOOK_VOLTARGET_PHASE.md",
+   "face_kind": "rendered_face_a_human_reads",
+   "writer": "scripts/etf_book_voltarget_phase.py",
+   "writer_in_corpus": true,
+   "gate_source": "Tools/s6_chain_bmc.py",
+   "gate_leg": "etf_book_voltarget_phase",
+   "gate_argv": [
+    "python",
+    "scripts/etf_book_voltarget_phase.py",
+    "--check"
+   ],
+   "gate_machine": "bm-c",
+   "also_run_by": [
+    "bm-a"
+   ],
+   "reach_class": "a_live_chain_only_gates_it_and_no_leg_rebuilds_it",
+   "gate_entry": {
+    "resolved": true,
+    "why": null,
+    "functions": [
+     "check",
+     "check_payload",
+     "verdict_for"
+    ],
+    "flag_dest": "check"
+   },
+   "loads": [
+    {
+     "function": "check",
+     "line": 441,
+     "how": "open",
+     "path": "results/etf_book_voltarget_phase.json",
+     "why": null,
+     "expression": "open(OUT_JSON, encoding='utf-8')"
+    },
+    {
+     "function": "check",
+     "line": 442,
+     "how": "load_of_a_with_bound_handle",
+     "path": "results/etf_book_voltarget_phase.json",
+     "why": null,
+     "expression": "json.load(fh)"
+    }
+   ],
+   "missing_file_guards": [
+    {
+     "kind": "explicit_missing_file_branch",
+     "function": "check",
+     "line": 439,
+     "about_the_gated_face": false,
+     "path": "results/etf_book_voltarget_phase.json",
+     "negated": true,
+     "exit": "raises",
+     "expression": "not OUT_JSON.exists()"
+    }
+   ],
+   "outcome": "the_gate_never_opens_the_face_so_a_missing_one_is_invisible",
+   "why": "no load in the gate path opens this face",
+   "would_a_deleted_face_be_detected": false,
+   "would_a_deleted_face_be_refused": false
+  },
+  {
+   "face": "results/etf_book_voltarget_phase.json",
+   "face_kind": "machine_readable_face",
+   "writer": "scripts/etf_book_voltarget_phase.py",
+   "writer_in_corpus": true,
+   "gate_source": "Tools/s6_chain_bmc.py",
+   "gate_leg": "etf_book_voltarget_phase",
+   "gate_argv": [
+    "python",
+    "scripts/etf_book_voltarget_phase.py",
+    "--check"
+   ],
+   "gate_machine": "bm-c",
+   "also_run_by": [
+    "bm-a"
+   ],
+   "reach_class": "a_live_chain_only_gates_it_and_no_leg_rebuilds_it",
+   "gate_entry": {
+    "resolved": true,
+    "why": null,
+    "functions": [
+     "check",
+     "check_payload",
+     "verdict_for"
+    ],
+    "flag_dest": "check"
+   },
+   "loads": [
+    {
+     "function": "check",
+     "line": 441,
+     "how": "open",
+     "path": "results/etf_book_voltarget_phase.json",
+     "why": null,
+     "expression": "open(OUT_JSON, encoding='utf-8')"
+    },
+    {
+     "function": "check",
+     "line": 442,
+     "how": "load_of_a_with_bound_handle",
+     "path": "results/etf_book_voltarget_phase.json",
+     "why": null,
+     "expression": "json.load(fh)"
+    }
+   ],
+   "missing_file_guards": [
+    {
+     "kind": "explicit_missing_file_branch",
+     "function": "check",
+     "line": 439,
+     "about_the_gated_face": true,
+     "path": "results/etf_book_voltarget_phase.json",
+     "negated": true,
+     "exit": "raises",
+     "expression": "not OUT_JSON.exists()"
+    }
+   ],
+   "outcome": "the_gate_reads_the_face_and_refuses_a_missing_one",
+   "why": "a missing file is refused at line 439 (raises)",
+   "would_a_deleted_face_be_detected": true,
+   "would_a_deleted_face_be_refused": true
+  }
+ ],
+ "writers": [
+  {
+   "writer": "scripts/etf_book_buffer_adoption.py",
+   "faces": [
+    "research/ETF_BOOK_BUFFER_ADOPTION.md"
+   ],
+   "outcomes": {
+    "research/ETF_BOOK_BUFFER_ADOPTION.md": "the_gate_never_opens_the_face_so_a_missing_one_is_invisible"
+   },
+   "legs": [
+    "etf_book_buffer_adoption"
+   ],
+   "gate_entry_functions": [
+    "check",
+    "check_payload",
+    "verdict"
+   ],
+   "paths_its_gate_opens": [
+    "results/etf_book_buffer_adoption.json",
+    "results/etf_book_production/latest.json"
+   ],
+   "every_face_refused": false,
+   "any_face_invisible": true
+  },
+  {
+   "writer": "scripts/etf_book_premium_phases.py",
+   "faces": [
+    "research/ETF_BOOK_PREMIUM_PHASES.md",
+    "results/etf_book_premium_phases.json"
+   ],
+   "outcomes": {
+    "research/ETF_BOOK_PREMIUM_PHASES.md": "the_gate_never_opens_the_face_so_a_missing_one_is_invisible",
+    "results/etf_book_premium_phases.json": "the_gate_reads_the_face_and_refuses_a_missing_one"
+   },
+   "legs": [
+    "premium_phases"
+   ],
+   "gate_entry_functions": [
+    "check",
+    "check_payload",
+    "verdict_for"
+   ],
+   "paths_its_gate_opens": [
+    "results/etf_book_premium_phases.json"
+   ],
+   "every_face_refused": false,
+   "any_face_invisible": true
+  },
+  {
+   "writer": "scripts/etf_book_voltarget_phase.py",
+   "faces": [
+    "research/ETF_BOOK_VOLTARGET_PHASE.md",
+    "results/etf_book_voltarget_phase.json"
+   ],
+   "outcomes": {
+    "research/ETF_BOOK_VOLTARGET_PHASE.md": "the_gate_never_opens_the_face_so_a_missing_one_is_invisible",
+    "results/etf_book_voltarget_phase.json": "the_gate_reads_the_face_and_refuses_a_missing_one"
+   },
+   "legs": [
+    "etf_book_voltarget_phase"
+   ],
+   "gate_entry_functions": [
+    "check",
+    "check_payload",
+    "verdict_for"
+   ],
+   "paths_its_gate_opens": [
+    "results/etf_book_voltarget_phase.json"
+   ],
+   "every_face_refused": false,
+   "any_face_invisible": true
+  }
+ ],
+ "summary": {
+  "row_leg_pairs": 5,
+  "distinct_gate_legs": 3,
+  "distinct_writers": 3,
+  "rows_whose_gate_entry_could_be_followed": 5,
+  "rows_a_deleted_face_would_be_refused": 2,
+  "rows_a_deleted_face_would_only_crash": 0,
+  "rows_a_deleted_face_would_be_noticed_at_all": 2,
+  "rows_where_a_deleted_face_is_invisible_to_its_own_gate": 3,
+  "rows_read_but_not_refused": 0,
+  "rows_whose_gate_reads_a_path_it_cannot_fold": 0,
+  "rows_whose_gate_entry_is_unresolvable": 0,
+  "by_outcome": {
+   "the_gate_reads_the_face_and_refuses_a_missing_one": 2,
+   "the_gate_never_opens_the_face_so_a_missing_one_is_invisible": 3
+  },
+  "by_face_kind": {
+   "machine_readable_face": {
+    "rows": 2,
+    "refused": 2,
+    "invisible": 0
+   },
+   "rendered_face_a_human_reads": {
+    "rows": 3,
+    "refused": 0,
+    "invisible": 3
+   }
+  },
+  "writers_whose_every_face_is_refused": 0,
+  "writers_with_at_least_one_invisible_face": 3,
+  "gate_entry_depth": [
+   3
+  ],
+  "machine_faces_a_gate_opens_that_E556_did_not_carry": [
+   "results/etf_book_buffer_adoption.json",
+   "results/etf_book_production/latest.json"
+  ],
+  "runner_arms": [
+   {
+    "chain": "Tools/s6_chain_bmc.py",
+    "readable": true,
+    "records_each_legs_return_code": true,
+    "compares_a_return_code_against_zero": true,
+    "prints_the_non_zero_legs": true,
+    "failing_legs_are_collected_after_line": 398,
+    "what_main_returns_after_that": [],
+    "process_exit_carries_the_failure": false,
+    "note": "carries is read as: any return/raise/sys.exit after the failing-legs list is built and whose value is non-zero; a plain `return 0`, or no return at all (the function falls off the end), does not carry"
+   }
+  ],
+  "runners_whose_process_exit_carries_a_failing_leg": 0,
+  "control_arm": {
+   "found": true,
+   "why": null,
+   "module": "scripts/etf_book_hysteresis.py",
+   "face_that_must_be_refused": "results/etf_book_hysteresis.json",
+   "face_that_must_be_invisible": "results/etf_book_hysteresis.md",
+   "outcomes": {
+    "results/etf_book_hysteresis.json": "the_gate_reads_the_face_and_refuses_a_missing_one",
+    "results/etf_book_hysteresis.md": "the_gate_never_opens_the_face_so_a_missing_one_is_invisible"
+   },
+   "entry_functions": [
+    "check",
+    "check_payload"
+   ],
+   "why_refused": "a missing file is refused at line 356 (returns_non_zero)"
+  }
+ },
+ "verdict": "some_gated_faces_would_vanish_without_their_gate_noticing",
+ "verdict_line": "2 of 5 gated faces would be refused if they vanished and 3 would not be noticed at all (research/ETF_BOOK_BUFFER_ADOPTION.md, research/ETF_BOOK_PREMIUM_PHASES.md, research/ETF_BOOK_VOLTARGET_PHASE.md); the 2 machine-readable faces are refused 2/2 while the 3 rendered faces a human reads are read by no gate at all (0/3)",
+ "method_note": "The gate entry is followed statically from main() through the branch on the --check flag into every local function it calls; a guard inside a helper counts, and a load confined to the build path (outside that branch) does not.  A face is 'read' only when a load call's argument folds to the face path through the module's own constants, including Path(...).parents[N], and a write-mode open is never a read.  'Refused' means an explicit missing-file branch that returns non-zero or raises; an unguarded open is published as its own class because the leg still ends non-zero, but by a traceback rather than a refusal.",
+ "disclosure": "the gate opens results/etf_book_buffer_adoption.json, results/etf_book_production/latest.json beyond the faces E556 carried; those extra machine faces are refused by the same gate, so they are not part of this population and are published here only so the count is not read as 'no gate opens a JSON here'",
+ "method_bound": "static only: a path assembled from a run-time variable is published as unfoldable rather than guessed; a loader reached through a function in another module is not followed, so such a gate would read as 'never opens the face' -- the control arm is the guard against that being taken as proof (scripts/etf_book_hysteresis.py); 'would be noticed' is a statement about the leg's exit code, not about any human reading the receipt, and the runner arm is published separately because all three runners print the non-zero legs into a receipt."
+}

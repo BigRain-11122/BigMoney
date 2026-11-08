@@ -24143,5 +24143,76 @@ except Exception as _e557x:
     _d557 = "study could not be read"
 check(_name557, not _bad557, "; ".join(_bad557)[:240] or _d557)
 
+# E558: does a --check gate leg read the face it gates, and would it notice its absence?
+#   * the population must be E557's own gate entry points, read out of its published face, never
+#   retyped * the gate entry is followed from main() through the branch on the --check flag into
+#   every local function it calls, so a guard inside a helper counts and a load confined to the
+#   build path does not * a refusal needs an explicit missing-file branch that returns non-zero or
+#   raises -- an unguarded open is its own class, a warning-only branch is not a refusal, and a
+#   write is never a read * the control arm must separate 'refused' from 'never opened' inside one
+#   module, and a hand-written verdict or a relabelled outcome is refused
+_name558 = "E558 whether a --check gate leg would notice its face going missing (r1584 bm-b)"
+_bad558 = []
+try:
+    _m558 = __import__("importlib").import_module("e558_gate_reach")
+    _f558 = json.load(open(os.path.join("results", "state_tilt", "gateread_latest.json"),
+                           encoding="utf-8"))
+    _s558 = _f558.get("summary") or {}
+    _r558 = _f558.get("rows") or []
+    _bad558.extend(_m558.face_problems(_f558))
+    if not _r558:
+        _bad558.append("the gate population is empty")
+    if sum((_s558.get("by_outcome") or {}).values()) != len(_r558):
+        _bad558.append("the outcome table does not partition the rows")
+    if not (_s558.get("control_arm") or {}).get("found"):
+        _bad558.append("the gate census cannot separate refuse from invisible (blind)")
+    if _s558.get("distinct_writers") != len(_f558.get("writers") or []):
+        _bad558.append("the writer count is not the writer table's")
+    if any(r.get("would_a_deleted_face_be_refused") and
+           r.get("outcome") != _m558.G_REFUSED for r in _r558):
+        _bad558.append("a row claims refusal with a class that is not a refusal")
+    if any(r.get("outcome") == _m558.G_INVISIBLE and [
+            l for l in r.get("loads") or [] if l.get("path") == r.get("face")]
+           for r in _r558):
+        _bad558.append("a row is called invisible and its own loads open the face")
+    if [r for r in _r558 if not r.get("gate_entry", {}).get("resolved")]:
+        _bad558.append("a gate entry could not be followed, so a class is unassessable")
+    if not _s558.get("runner_arms"):
+        _bad558.append("the runner arm is missing, so 'refused' is never priced")
+    if _r558:
+        _doc558 = json.loads(json.dumps(_f558))
+        _doc558["verdict"] = "a_verdict_this_study_never_publishes"
+        if not _m558.face_problems(_doc558):
+            _bad558.append("a hand-written verdict was accepted")
+        _doc558 = json.loads(json.dumps(_f558))
+        for _row in _doc558["rows"]:
+            if _row["outcome"] == _m558.G_INVISIBLE:
+                _row["outcome"] = _m558.G_REFUSED
+                break
+        if not any("called refused without a refusing guard" in _p
+                   for _p in _m558.face_problems(_doc558)):
+            _bad558.append("an invisible row relabelled refused was accepted")
+        _doc558 = json.loads(json.dumps(_f558))
+        _doc558["summary"]["rows_a_deleted_face_would_be_refused"] = 99
+        if not any("rows_a_deleted_face_would_be_refused" in _p
+                   for _p in _m558.face_problems(_doc558)):
+            _bad558.append("a refusal count that does not re-derive was accepted")
+        _doc558 = json.loads(json.dumps(_f558))
+        _doc558["summary"]["runner_arms"][0]["process_exit_carries_the_failure"] = True
+        if not any("runner_arms" in _p for _p in _m558.face_problems(_doc558)):
+            _bad558.append("a runner arm that does not re-derive was accepted")
+    _d558 = ("%d gate-leg rows / %d writers / refused %d / invisible %d / control %s / "
+             "runners carrying a failure %s / %s"
+             % (len(_r558), _s558.get("distinct_writers", 0),
+                _s558.get("rows_a_deleted_face_would_be_refused", 0),
+                _s558.get("rows_where_a_deleted_face_is_invisible_to_its_own_gate", 0),
+                (_s558.get("control_arm") or {}).get("found"),
+                _s558.get("runners_whose_process_exit_carries_a_failing_leg"),
+                _f558.get("verdict")))
+except Exception as _e558x:
+    _bad558.append(repr(_e558x)[:160])
+    _d558 = "study could not be read"
+check(_name558, not _bad558, "; ".join(_bad558)[:240] or _d558)
+
 if __name__ == "__main__":
     sys.exit(main())

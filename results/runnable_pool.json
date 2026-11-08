@@ -29828,12 +29828,30 @@
    "lane_note": "static: the five gate legs are read out of the live chain LEGS tables; the gate functions are parsed, no execution and no face is touched",
    "target": "results/state_tilt/gateread_latest.json",
    "deliverable": "results/state_tilt/GATEREAD-<cutoff>.json",
-   "status": "ready",
-   "priority": "normal",
+   "status": "done",
    "worker_class": "self-contained",
    "evidence_cutoff": "2026-11-08",
    "entered_at": "2026-11-08T19:24:00+08:00",
-   "entered_by": "bm-b r1583 (supply floor refill after E557)"
+   "entered_by": "bm-b r1583 (supply floor refill after E557)",
+   "completed_at": "2026-11-08T19:45:00+08:00",
+   "completed_by": "bm-b",
+   "result_ref": "results/state_tilt/GATEREAD-2026-11-08.json",
+   "result_line": "2 of 5 gated faces refused (both machine-readable); the 3 rendered faces a human reads are opened by no gate at all; 0/3 chain runners carry a failing leg out of the process"
+  },
+  {
+   "id": "E559-WHETHER-ANY-TASK-OR-SOURCE-READS-A-CHAIN-RECEIPT-OR-A-LEG-RC",
+   "title": "E558 measured that all three chain runners record each leg's return code, compare it to zero, print the NONZERO lines and then exit 0 -- so a refusing gate leg leaves the process green. The next question is whether anything on any machine consumes that channel: take the population of scheduled-task definitions and shell wrappers whose action runs a chain runner (s6_chain_bm[abc].py) and ask statically whether the same action (or a wrapper it calls) looks at the process exit code AND whether anything reads the receipt file the runner writes (results/_r<N>bm?.json) -- a leg rc read out of the receipt is a second consumption path that survives an exit 0. Publish each task in classes: it fails when the chain fails / it ignores the chain's exit code / it ignores the exit code but something else opens the receipt / nothing anywhere reads either. Keep 'the wrapper checks $LASTEXITCODE' separate from 'the wrapper checks the receipt', because the r-study lesson is that $LASTEXITCODE is null after a .ps1 call and a null-vs-zero comparison is always true.",
+   "source": "E558",
+   "lane": "cpu-only",
+   "lane_note": "static census over task definitions and wrappers; no GPU, no cloud, no price",
+   "target": "task definitions (× machines) + wrappers + the receipt faces under results/",
+   "deliverable": "results/state_tilt/CHAINRCCONSUMER-<cutoff>.json + latest + scripts/e559_chain_rc_consumer.py (build/check/verify/selftest)",
+   "status": "ready",
+   "priority": "normal",
+   "worker_class": "cpu",
+   "evidence_cutoff": "2026-11-08",
+   "entered_at": "2026-11-08T19:45:00+08:00",
+   "entered_by": "bm-b"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29848,6 +29866,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T19:24:00+08:00",
+ "updated_at": "2026-11-08T19:45:00+08:00",
  "version": 1
 }

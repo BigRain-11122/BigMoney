@@ -2165,6 +2165,16 @@ LEGS = [
     # ever gated with --check, which proves a face is still right but cannot restore it.  `check`
     # re-derives every class from the leg table itself.
     ("face_entry_reach", ["python", "scripts/e557_face_entry_reach.py", "check"]),
+    # E558 prices E557's closing sentence: a gate leg "proves the face is still right but can
+    # never rebuild it" -- but does it even NOTICE the face going missing?  For each of the five
+    # gate legs E557 published, the gate verb's own entry path is followed statically (main() ->
+    # the branch on --check -> every local function it calls) and asked whether it opens the face
+    # it gates and refuses a missing one.  Reading: the 2 machine-readable faces are refused 2/2,
+    # while the 3 rendered faces a human reads (research/ETF_BOOK_*.md) are opened by no gate at
+    # all -- their absence is invisible by construction.  A third arm measures the runners: all
+    # three collect the non-zero legs into a receipt and then exit 0, so a refusal is a line in a
+    # log, not a failure any process carries.  `check` re-derives every class from the sources.
+    ("gate_reach", ["python", "scripts/e558_gate_reach.py", "check"]),
 ]
 
 

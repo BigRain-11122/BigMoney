@@ -13724,3 +13724,22 @@ digest `research/digests/DIGEST-20261108-r1575-e546-filepathjoined.md`
 **边界（诚实发布）**：纯静态；运行期拼出来的 argv 看不见；计划任务只在源（py/ps1/bat/cmd/sh）里点名写者时才计；指针只扫 `results/state_tilt/*_latest.json`；一次性快照只作历史发布、永不升级为入口点；控制臂两条方向都对。
 
 **载体** = `scripts/e557_face_entry_reach.py`（build/check/verify + selftest 36/36）+ `results/state_tilt/FACEENTRYREACH-2026-11-08.json` + `faceentryreach_latest.json` + S6 腿 `face_entry_reach`（32.0s rc=0）与补接的 `rescued_face`（19.2s rc=0）+ smoke 腿 `# E557` + digest `research/digests/DIGEST-20261108-r1583-e557-face-entry-reach.md`
+
+### E558 — 只把关不重建的腿，到底看不看得见它把的那张面消失（r1584 bm-b）
+
+**触发**：E557 把三/四个写者的收尾写成「`--check` 只能证明面还对不对，不能把删掉的面恢复」。那句话只说了「不能修」，没说「会不会发现」。发现与修复是两种能力：一条 `--check` 腿可以完全正确地拒绝一张被删的面，也可以在面消失时照常 rc=0 走过去——这两件事产出的 `--check` 输出长得很像，只有把 gate 的入口路径拆开才分得清。
+
+**方法**：population 机读 E557 自己发布的 `rows[].gate_entry_points`（kind=chain gate），共 5 个「腿×面」对 / 3 条不同腿 / 3 个写者（premium_phases 与 voltarget_phase 各一条腿服务两张面）。对每一行，静态跟随 gate 动词自己的入口路径：`main()` → 解析 `add_argument("--check")` 的 dest（含被 rename 成 `gate` 的写法）→ 该 flag 分支体 → 它调用的每个本地函数（传递闭包，深度 ≤4，实测都是 `check` / `check_payload` / `verdict_for` 三个）。在这个函数集里问两件事：①有没有一次**加载**的实参折叠到这张面的路径（`open`/`read_text`/`json.load`，`with open(...) as fh` 的句柄要跟，写模式 `open(...,"w")` 与 `write_text` 不算读）；②缺失是否被**拒绝**（显式 `if not <face>.exists():` 分支里 `return 非零`/`raise`/`sys.exit(非零)`，或 `except FileNotFoundError/OSError` 体里有同样动作）。无卫的 open 单列为第三类：进程仍以非零收场，但收场方式是一个 traceback 而不是一次拒绝。第三臂另测 runner：一条腿拒绝之后，链的运行器自己会不会带着失败退出。
+
+**读数**：**5 行里 2 行被拒、3 行完全不被发现**。按面种类切开就一目了然：**机器可读面 2/2 被拒**（`results/etf_book_premium_phases.json`、`results/etf_book_voltarget_phase.json` 的 `check()` 都是 `if not OUT_JSON.exists(): raise SystemExit(...)`），**人读的渲染面 3/3 没有任何 gate 打开过**（`research/ETF_BOOK_BUFFER_ADOPTION.md`、`research/ETF_BOOK_PREMIUM_PHASES.md`、`research/ETF_BOOK_VOLTARGET_PHASE.md`）——同一模块、同一次 build 写出的两份产物，gate 只开 `.json` 那一份。buffer 的 gate 甚至有一处真正的拒绝分支（`return 1`），只是它拒的是 `results/etf_book_buffer_adoption.json`，而 E556 这一行带的是 `.md`。runner 臂：三条链（bm-b 308 腿 / bm-c 81 腿 / bm-a 转 import）**全部记录每条腿的 rc、全部与 0 比较、全部打印 NONZERO**，而 **0/3 的进程退出携带失败**（bm-b 的 `main` 在 bad 列表之后 `return 0`，bm-c/bm-a 的 `main` 干脆没有 return，落到末尾即 None→0）。经验校准：`raise SystemExit("...")` 与 `sys.exit(1)` 实测 rc 都是 1，所以「拒绝」在 runner 的记录面上确实看得见——看不见的是它对进程结果的影响。判词 = `some_gated_faces_would_vanish_without_their_gate_noticing`。
+
+**四条可复用教训**：
+
+1. **「拒绝」是腿的能力，「被发现」是 runner 的能力** —— 三条 runner 都做了正确的记录（rc、NONZERO 行、receipt），但都把失败留在了 receipt 里：进程仍然 exit 0。所以「有一条会拒绝的 gate」这句话的真值只在 receipt 的一行里；任何依赖进程退出码的上游（计划任务、看门狗、CI）看到的是绿的。要判「这张面丢了会不会有人知道」，必须把 runner 的退出语义单独量一遍，不能用 gate 的 rc 代答。
+2. **gate 守的是机器面，人读的那份没人打开** —— 三个写者在同一次 build 里写 `.md` 与 `.json`，`--check` 只 open `.json`。于是「gate 存在」被顺手读成「产物存在」：删掉 `.md`，`--check` 全绿，而 `.md` 正是研究结论对外的那张脸。判「产物有没有守护」必须逐产物问「谁打开它」，文件名相近不算。
+3. **静态跟随必须走「flag 分支 + 局部函数闭包」，build 侧不算** —— 守卫常常坐在 `check_payload` 里而不是 `check` 里（本族三个都是），只认 `check()` 一个函数体会漏；反过来，把整模块的 load 都算成 gate 读，则把 build 侧的读当成 gate 读（fixture 钉死：一段只在 build 路径上 load 面的源必须判 invisible）。「argparse 把 `--check` 改名成 `gate`」也要跟（fixture 11）。
+4. **路径折叠必须覆盖 `Path(__file__).resolve().parents[N]`** —— 父面 E554 的折叠器停在 Path 链上，本族四个写者里三个正是这么写 `ROOT` 的；直接复用父面的 folder，五行会全部读成「从未打开这张面」，判词从「2 拒 / 3 隐形」变成「0 拒 / 5 隐形」——同一个仓库、同一批源，结论方向不变但**幅度被仪器放大一倍**。复用一个折叠器之前，先量它在这批源上折不折得动（本窗实测：只折出 1/4 个 `OUT_JSON`）。
+
+**边界（随面发布）**：纯静态 AST；运行期拼出的路径读成 unfoldable 而不是「没有加载」；跨模块 helper 不跟随，所以那种 gate 会读成「从未打开这张面」——控制臂（同一模块里 `etf_book_hysteresis` 的门面必须判 refused、它写出的 `.md` 必须判 invisible）就是防这条被当成结论的闸；「会被发现」是关于腿退出码的话，不是关于有人读 receipt 的话，runner 臂单独发布。
+
+**载体** = `scripts/e558_gate_reach.py`（build/check/verify + selftest 28/28）、`results/state_tilt/GATEREAD-2026-11-08.json` + `gateread_latest.json` + S6 腿 `gate_reach`（1.9s rc=0）+ smoke 腿 `# E558` + digest `research/digests/DIGEST-20261108-r1584-e558-gate-reach.md`
