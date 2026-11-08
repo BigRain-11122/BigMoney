@@ -670,6 +670,12 @@ LEGS = [
     # compression_note instead of a clean bill of health. `--check` re-derives published
     # JSON only (1.7s warm, no panel).
     ("wrapper_year_gate", ["python", "scripts/etf_book_wrapper_year_gate.py", "--check"]),
+    # r1456: every 11-11 face treats the trim as the end of the story, but k_schedule
+    # re-derives k every 20 bars and carries no memory of it. This leg re-derives the
+    # published lifetime face from the same panel (control arm first: the schedule's last
+    # decision bar must reproduce the ticket k, or nothing is published). ~50s (panel).
+    ("permission_persistence",
+     ["python", "scripts/etf_book_permission_persistence.py", "--check"]),
     # r1329: the register summarises the faces, so it must be the LAST book leg. Until
     # this round it sat ~50 legs earlier, ahead of etf_book_ceo_page and etf_paper_signal,
     # and its rows for those two faces were therefore always one run old (as_of

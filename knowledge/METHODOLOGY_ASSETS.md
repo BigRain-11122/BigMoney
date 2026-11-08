@@ -11261,6 +11261,6 @@ un() 里硬断言排程末决策 bar 的 k 复现票据 k_now（0.460253，差 0
 3. **没有先例不等于空答案**：样本内零事件时，用观测步伐律给一条算术期望（slack / 均值上行步），并明写「期望，不是模拟」；把「无先例」直接印成「削减不会被抹平」是拿缺席当证据。
 
 **正身**：scripts/etf_book_permission_persistence.py（selftest 15/15、--check 6 腿 CHECK_OK、run 50s）→ 
-esults/etf_book_permission_persistence.json + 
-esearch/ETF_BOOK_PERMISSION_PERSISTENCE.md。
+results/etf_book_permission_persistence.json + 
+research/ETF_BOOK_PERMISSION_PERSISTENCE.md。
 

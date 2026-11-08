@@ -687,6 +687,14 @@ def main() -> int:
              "scripts/etf_book_wrapper_year_gate.py", ["selftest"]),
             ("product: etf_book_wrapper_year_gate (every arm re-derived)",
              "scripts/etf_book_wrapper_year_gate.py", ["--check"]),
+            # r1456: the trim the 11-11 sheet applies is not a one-off -- k_schedule re-derives
+            # k every 20 bars and remembers nothing. The legs pin the control arm (the schedule's
+            # last decision bar reproduces the ticket k, or the face refuses to publish) and that
+            # the published lifetime re-derives from the same panel. Censored drops stay None.
+            ("product: etf_book_permission_persistence (how long a trim survives)",
+             "scripts/etf_book_permission_persistence.py", ["selftest"]),
+            ("product: etf_book_permission_persistence (lifetime re-derived)",
+             "scripts/etf_book_permission_persistence.py", ["--check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a
