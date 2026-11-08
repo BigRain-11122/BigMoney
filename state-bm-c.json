@@ -58,8 +58,8 @@
  "delivery_behind": 0,
  "delivery_state": "delivered",
  "dept": "research/engineering",
- "did": "etf_premium daily gate + S6 leg + dynamic ticket path + execution hurdle (selftest 16->24)",
- "did_round": 1436,
+ "did": "r1441",
+ "did_round": 1441,
  "free_ram_gb": 5.2,
  "free_vram_mb": 1147,
  "full_load_selfproof": {
@@ -146,7 +146,7 @@
  "next_milestone": "the daily premium series has a second session (>48h: needs the 2026-11-09 close)",
  "next_pick": "r1420: make the yearly gate adjudicate over a phase set (print median and worst phase; refuse to adjudicate when the phase spread exceeds the distance to the line), then re-judge the adopted book with it",
  "next_pointer": "adoption-round evidence package for WHICH QUESTION the calendar asks (r1428 ETA + r1433 window sensitivity + r1434 operator wiring) -- needs GM signature; no more knobs on this caliber",
- "next_round": 1439,
+ "next_round": 1442,
  "note": "Bigmoney-IterationLoop and Bigmoney-LoopWatchdog both at LogonType=Interactive; register_watchdog_task.ps1 S4U XML flip returns access denied without elevation -> manual S4U re-pass owed (fleet law: every lane task on bm-c must be S4U)",
  "note_r1350": "r1350: PRODUCT + ABSORB. State said 1348 and HEAD said round 1349 (a dead window's absorb commit), so the round number comes off the commit chain; the tree also carried that window's uncommitted smoke fix (the heat lane's face-vs-local-bytes assertion read a deployment layout, not a fact) which this round verified and keeps. Product = the cell-vs-calendar question, priced for the whole grid instead of one arm: every decision origin inside one rebalance cycle for 12 (names x cadence) cells = 280 engine runs through the production engine on 8 ProcessPool workers. READING: spread 5.22pp < median band 6.68pp -> CONFIG_ORDER_WITHIN_PHASE_NOISE; the top cell changes 5 times across 10 aligned slots (N3R10/N3R20/N5R10/N8R10/N12R20) while the ranking holds at 0.58-0.90 Spearman; R10 bands 2.8-4.2pp vs R40 bands 6.9-12.4pp, and width alone moves the median ~1.1pp inside a cadence -- so the cadence is quotable and the width is not. The two live faces are named from their own artifacts (card N12/R20 9.64pp over a 7.87pp band, ticket N5/R20 9.13pp over 6.25pp), and the atlas reproduces the ticket's published 9.13pp on the engine's own calendar. SUPPLY: the 55.8h supply-floor breach is closed with 3 ignitable MULTICORE rows (the runner delegates to parallel_runner/ProcessPool, so law-1 admits them) -- buffer k=0.05, cost 5bp, cost 20bp -- each writing its own face path so two ignited rows cannot clobber each other; fill_ladder now reads compatible_ready=3 floor=3. COST NOTE: the first two smoke invocations looked hung (flat CPU, silent file) and were killed; they were not hung -- a redirected stdout plus a slow child leg (etf_book_forward selftest) reads exactly like a stall, so Tools/smoke_watchdog.py now dumps every thread's stack after N seconds instead of costing another window the diagnosis.",
  "now_active": "r1331: ex-ante identifiability of the carrier month that every E186/E189/E190 verdict rests on",
@@ -785,7 +785,7 @@
  "ram_total_gb": 23.9,
  "recent_artifact": "results/etf_book_admission_eta.json",
  "round": 1436,
- "round_no": 1441,
+ "round_no": 1442,
  "round_no_label": "r1436",
  "round_r1390_closeout_note": "r1390: PRODUCT window (state round_no=1389 at open, HEAD round 1389 pushed clean -> zero absorb owed). PRODUCT = the first supply berth whose exposure is structurally 1.0 (both earlier berths were timing families and lost to the exit tax by construction): scripts/zoo_supply_xs_reversal_probe.py (selftest 9/9) buys the 10 worst trailing-20-bar ETFs from the published book eligibility, holds 20 bars, next-open fill, 8bp/side, and rides run_next_open instead of re-implementing the fill. Rule -8.15%/yr maxdd -59.4% vs SAME-POOL equal-weight +1.86%/-39.9% -> -10.01pp excess, 113.7 slot swaps/yr, all four admit conditions false -> REFUSE_AS_CANDIDATE. The reading that outlives the verdict: 200 same-exposure random-rank nulls average -3.38pp/yr (sd 3.44), so 10-name concentration plus its monthly swap is itself negative alpha on this panel (card E387). Two pits: np.nanmean(P).prod() is not compounding (needs np.prod(1+mean); the basis leg caught the equal-weight control reading -100% before publication), and run_next_open returns a 3-tuple. S6: dualrun streak 14, compute_audit FLAG pool_starvation+supply_floor (ready 0 floor 3, breach 10122 min), update_daily rc0 0 new rows cutoff 2026-11-06, regime RED raw ORANGE shadow, attrition CLEAN. S0.5 orders 0 unacked. orphan 0. SMOKE HONESTY: suite launched 06:57 stalled at 07:05 on an unprinted external-source leg (191 PASS/0 FAIL), killed 07:15, relaunched pid 67412 -- no suite total claimed. next=r1391: an EVENT family (forced trading), because breadth is now measured as a tax and holdings count is no longer a free axis.",
  "round_r1403_next": "supply floor still 0<3 (AGENDA_DEBT, streak 10,709 min): next berth is new supply; the repo-lane refill must land with its restatement in one window (bm-a), else the ledger exits 3 on 4 bars",
@@ -897,7 +897,7 @@
   "origin_tip": "5db8683246f2db59e38d225a02bc8d51d6d18fb7",
   "ts": "2026-11-08T15:07:10+08:00"
  },
- "task": "r1440: the wrapper the desk runs is inert on the book the gate judges, and the book it does run passes the calendar on a partial year",
+ "task": "r1441: the supply ruler has no forward content - four reads BLIND; the gate as a selector never passes at a 3y window (2/n floor leaves 3.3pp of room)",
  "total_ram_gb": 23.9,
  "ts": "2026-11-08T19:26:16+08:00",
  "updated": "2026-11-08T19:26:16+08:00",
@@ -905,5 +905,6 @@
  "verdict": "green; wrapper inert on judged book (k=1.0 from 2021, top2 75.74->75.88); ticket construction ADMITs at 67.52% but 77.57% without the partial year; supply_floor ready 0/3 cause=calendar; dualrun ZERO-DRIFT streak 51",
  "verify": "wrapper_year_gate selftest 8/8 + --check 15/15 + run rc0 (81s total incl. three open_to_open repricings); pool_dualrun ZERO-DRIFT 51; compute_audit rc0 cpu 52% py 6.5% FLAG pool_starvation+supply_floor; py_watermark py_low_with_work_cands (local batch 1 = r1439 smoke pid); update_daily rc0 cutoff 2026-11-06; market_regime rc0 RED shadow day 3; attrition 4 CLEAN; orders_ack 114 vs 241 = 0 unacked; decisions blob 451b8600 (watermark key corrected from the drifted 0689d12a)",
  "verify_smoke_closed": "running at close: 341 PASS / 0 FAIL (pid 21916, results/_smoke_r1439.out); the new face is not in that suite and its three commands were run individually",
- "vram_free_gb": 11.91
+ "vram_free_gb": 11.91,
+ "round_t1441_note": "r1441 PRODUCT round (round_no 1441 at open; tree carried other windows uncommitted regenerated data faces, only own files staged). Product = the forward question nobody had asked about the admission ruler. scripts/etf_book_ruler_forward.py prices 18 arms on one panel, cuts them into fixed 3-year rolling windows, and pairs each window concentration with the NEXT year return; criteria frozen before reading (negative+significant = SEES_FORWARD, positive+significant = INVERTED i.e. worse than blind, else BLIND). READINGS: primary rho -0.0302 p 0.8301, secondary effective_years +0.0261 p 0.8536, disjoint-window +0.0609 p 0.8201 and -0.3168 p 0.1964 -> all four BLIND, composite BLIND, agreement true. Selector read: at 3y windows all four year-ends pass nothing (best 0.79/0.82/0.88/0.79 vs line 0.70) so the gate equals the published book (+76.13% vs all-arms +72.68%); at 4y windows 2 arms pass once but there are only four decision points (r1316). SELF-CATCHES: (1) combine() listed BLIND before INVERTED, so a backwards ruler read as merely decorative - severity order is now frozen in CRITERIA with the reason written in and a selftest leg pins it; (2) the first selector compared a 3-year window to a 0.70 line without printing that a positive n-year record cannot read below 2/n (0.667 at n=3, 3.3pp of room) - that arithmetic is now printed with the numbers and re-derived by --check; (3) the disjoint read was added AFTER seeing the main result and is documented as one-way (it can only weaken a claim), which is why it needs no prereg. NOT WIRED: the 58s repricing would land on every 10-minute round; --check stands ready as a chain leg. NOT VERIFIED: full smoke still running at close (pid 11212); the new face is not in that suite."
 }
