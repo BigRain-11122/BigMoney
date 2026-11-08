@@ -829,6 +829,17 @@ LEGS = [
     # would go stale on its own (r1290 class). Nothing here is adopted; production is A.
     ("partial_year_caliber",
      ["python", "scripts/etf_book_partial_year_caliber.py", "run"]),
+    # r1446: the two receipts above are true and a desk cannot hold both at once -- the
+    # caliber dispute (r1445) says the gate is one decision away from disagreeing with
+    # itself, the forward read (r1444) says the deciding check is decorative. This leg
+    # answers the question that actually lands on 2026-11-11: the executed book's word is
+    # INVARIANT (A/B/P all CONDITIONAL, 71.08% vs 72.78% against a 70% line), so the
+    # caliber argument cannot move the money; meanwhile the construction the ticket prices
+    # is one of four gift arms whose ADMIT exists only because a partial year counts as a
+    # year. `run` form (0.01s, pure JSON reads): every input republishes as prices move
+    # (r1290 class).
+    ("supply_gate_decision",
+     ["python", "scripts/etf_book_supply_gate_decision.py", "run"]),
     # r1428: "refused" with no horizon is an observation, not a plan. This leg re-checks
     # the published ETA face (identity against the phase gate's phase 0, so a drifted
     # repricing turns the leg red instead of silently promising a date). Read-only JSON,

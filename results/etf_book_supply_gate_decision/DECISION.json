@@ -1,0 +1,491 @@
+{
+ "face": "etf_book_supply_gate_decision",
+ "question": "two receipts read separately -- does the caliber dispute (r1445) and the blind ruler (r1444) combine into one answer for the 2026-11-11 rebalance?",
+ "generated": "2026-11-08T21:17:21+0800",
+ "evidence_cutoff": "2026-11-06",
+ "forward": {
+  "composite": "RULER_BLIND",
+  "reads": {
+   "primary": "RULER_BLIND",
+   "secondary": "RULER_BLIND",
+   "disjoint_primary": "RULER_BLIND",
+   "disjoint_secondary": "RULER_BLIND"
+  },
+  "source": "RULER-FORWARD.json verdict.composite (no per-check split published)"
+ },
+ "books": [
+  {
+   "face": "year_gate",
+   "name": "nobond_vt08_adopted",
+   "class": "INVARIANT",
+   "words": {
+    "A": "CONDITIONAL",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "year_gate",
+   "name": "nobond_base",
+   "class": "MOVES_ON_BLIND_CHECK",
+   "words": {
+    "A": "ADMIT",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [
+    "Y4_top2_share"
+   ],
+   "reason": "word moves on Y4_top2_share; every moving check reads RULER_BLIND"
+  },
+  {
+   "face": "year_gate",
+   "name": "all_classes_published",
+   "class": "INVARIANT",
+   "words": {
+    "A": "CONDITIONAL",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "wrapper_gate",
+   "name": "plain_book_n5_r20_vt08",
+   "class": "INVARIANT",
+   "words": {
+    "A": "CONDITIONAL",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "wrapper_gate",
+   "name": "book_plus_execution_wrapper",
+   "class": "INVARIANT",
+   "words": {
+    "A": "CONDITIONAL",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "wrapper_gate",
+   "name": "ticket_construction_plain_plus_overlay",
+   "class": "MOVES_ON_BLIND_CHECK",
+   "words": {
+    "A": "ADMIT",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [
+    "Y4_top2_share"
+   ],
+   "reason": "word moves on Y4_top2_share; every moving check reads RULER_BLIND"
+  },
+  {
+   "face": "admission",
+   "name": "n20",
+   "class": "MOVES_ON_CONTROL_ONLY",
+   "words": {
+    "A": "CONDITIONAL",
+    "B": "ADMIT",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [
+    "Y3_worst_year"
+   ],
+   "reason": "A and P agree on this book; only the full-years control B disagrees, so no production-side caliber choice changes it"
+  },
+  {
+   "face": "admission",
+   "name": "ALL",
+   "class": "MOVES_ON_BLIND_CHECK",
+   "words": {
+    "A": "CONDITIONAL",
+    "B": "ADMIT",
+    "P": "ADMIT"
+   },
+   "moving_checks": [
+    "Y4_top2_share"
+   ],
+   "reason": "word moves on Y4_top2_share; every moving check reads RULER_BLIND"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n3_r10_plain",
+   "class": "INVARIANT",
+   "words": {
+    "A": "ADMIT",
+    "B": "ADMIT",
+    "P": "ADMIT"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n3_r10_vt08",
+   "class": "INVARIANT",
+   "words": {
+    "A": "ADMIT",
+    "B": "ADMIT",
+    "P": "ADMIT"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n3_r20_plain",
+   "class": "INVARIANT",
+   "words": {
+    "A": "CONDITIONAL",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n3_r20_vt08",
+   "class": "INVARIANT",
+   "words": {
+    "A": "CONDITIONAL",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n3_r40_plain",
+   "class": "INVARIANT",
+   "words": {
+    "A": "REFUSE",
+    "B": "REFUSE",
+    "P": "REFUSE"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n3_r40_vt08",
+   "class": "INVARIANT",
+   "words": {
+    "A": "REFUSE",
+    "B": "REFUSE",
+    "P": "REFUSE"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n5_r10_plain",
+   "class": "INVARIANT",
+   "words": {
+    "A": "ADMIT",
+    "B": "ADMIT",
+    "P": "ADMIT"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n5_r10_vt08",
+   "class": "INVARIANT",
+   "words": {
+    "A": "ADMIT",
+    "B": "ADMIT",
+    "P": "ADMIT"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n5_r20_plain",
+   "class": "MOVES_ON_BLIND_CHECK",
+   "words": {
+    "A": "ADMIT",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [
+    "Y4_top2_share"
+   ],
+   "reason": "word moves on Y4_top2_share; every moving check reads RULER_BLIND"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n5_r20_vt08",
+   "class": "INVARIANT",
+   "words": {
+    "A": "CONDITIONAL",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n5_r40_plain",
+   "class": "INVARIANT",
+   "words": {
+    "A": "CONDITIONAL",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n5_r40_vt08",
+   "class": "INVARIANT",
+   "words": {
+    "A": "CONDITIONAL",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n8_r10_plain",
+   "class": "INVARIANT",
+   "words": {
+    "A": "ADMIT",
+    "B": "ADMIT",
+    "P": "ADMIT"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n8_r10_vt08",
+   "class": "INVARIANT",
+   "words": {
+    "A": "CONDITIONAL",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n8_r20_plain",
+   "class": "INVARIANT",
+   "words": {
+    "A": "CONDITIONAL",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n8_r20_vt08",
+   "class": "INVARIANT",
+   "words": {
+    "A": "CONDITIONAL",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n8_r40_plain",
+   "class": "INVARIANT",
+   "words": {
+    "A": "REFUSE",
+    "B": "REFUSE",
+    "P": "REFUSE"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  },
+  {
+   "face": "gate_forward",
+   "name": "n8_r40_vt08",
+   "class": "INVARIANT",
+   "words": {
+    "A": "REFUSE",
+    "B": "REFUSE",
+    "P": "REFUSE"
+   },
+   "moving_checks": [],
+   "reason": "the calendar word is identical under all three calibers"
+  }
+ ],
+ "desk": {
+  "verdict": "CALIBER_IRRELEVANT_TO_MONEY",
+  "sentence": "the executed book's word does not depend on the caliber choice (A and P agree), so the caliber argument cannot change what the gate says about the money",
+  "executed_book": {
+   "candidate": "nobond_vt08_adopted",
+   "class": "INVARIANT",
+   "words": {
+    "A": "CONDITIONAL",
+    "B": "CONDITIONAL",
+    "P": "CONDITIONAL"
+   },
+   "moving_checks": [],
+   "calendar_state": "CONDITIONAL",
+   "calendar_sentence": "years_for_half median 2 vs line 3 (FAIL)",
+   "failing_checks": [
+    "Y4_top2_share"
+   ],
+   "top2_share_frac_A": 0.7108,
+   "top2_share_frac_full_only": 0.7278,
+   "top2_share_pct_A": 71.08,
+   "top2_share_pct_full_only": 72.78,
+   "nav_cny": 1000000.0,
+   "book_weight": 0.460253,
+   "book_amount_cny": 459796.3,
+   "names_in_ticket": 5
+  },
+  "money_constructions_that_are_gifts": [
+   {
+    "name": "ticket_construction_plain_plus_overlay",
+    "wrapper_word": "ADMIT",
+    "class": "MOVES_ON_BLIND_CHECK",
+    "words": {
+     "A": "ADMIT",
+     "B": "CONDITIONAL",
+     "P": "CONDITIONAL"
+    }
+   }
+  ],
+  "second_reading": "the judge and the money are two different objects: the judged book's word survives the caliber choice, while ticket_construction_plain_plus_overlay -- the construction the ticket prices -- reads ADMIT only while a partial year counts as a year (r1440 priced the same k_now)",
+  "cross_receipt_agreement": [
+   {
+    "name": "plain_book_n5_r20_vt08",
+    "wrapper_word": "CONDITIONAL",
+    "caliber_A_word": "CONDITIONAL",
+    "agree": true
+   },
+   {
+    "name": "book_plus_execution_wrapper",
+    "wrapper_word": "CONDITIONAL",
+    "caliber_A_word": "CONDITIONAL",
+    "agree": true
+   },
+   {
+    "name": "ticket_construction_plain_plus_overlay",
+    "wrapper_word": "ADMIT",
+    "caliber_A_word": "ADMIT",
+    "agree": true
+   }
+  ],
+  "gift_arms": [
+   {
+    "face": "year_gate",
+    "name": "nobond_base",
+    "words": {
+     "A": "ADMIT",
+     "B": "CONDITIONAL",
+     "P": "CONDITIONAL"
+    },
+    "moving_checks": [
+     "Y4_top2_share"
+    ]
+   },
+   {
+    "face": "wrapper_gate",
+    "name": "ticket_construction_plain_plus_overlay",
+    "words": {
+     "A": "ADMIT",
+     "B": "CONDITIONAL",
+     "P": "CONDITIONAL"
+    },
+    "moving_checks": [
+     "Y4_top2_share"
+    ]
+   },
+   {
+    "face": "admission",
+    "name": "ALL",
+    "words": {
+     "A": "CONDITIONAL",
+     "B": "ADMIT",
+     "P": "ADMIT"
+    },
+    "moving_checks": [
+     "Y4_top2_share"
+    ]
+   },
+   {
+    "face": "gate_forward",
+    "name": "n5_r20_plain",
+    "words": {
+     "A": "ADMIT",
+     "B": "CONDITIONAL",
+     "P": "CONDITIONAL"
+    },
+    "moving_checks": [
+     "Y4_top2_share"
+    ]
+   }
+  ],
+  "floored_arms": [],
+  "class_counts": {
+   "INVARIANT": 21,
+   "MOVES_ON_CONTROL_ONLY": 1,
+   "MOVES_ON_BLIND_CHECK": 4,
+   "MOVES_ON_SEEN_CHECK": 0,
+   "UNREADABLE": 0
+  },
+  "money_changes_under_P": false,
+  "size_cap_note": "no size change may cite an arm whose word moves on a blind check; the weight in force is the weight until a prereg lands"
+ },
+ "prereg_requirements": [
+  "freeze the caliber in the receipt, not in a sentence: every book re-read under the chosen caliber and the parity table published with the choice (r1445 rows are the baseline to hold identical)",
+  "state the forward test that would settle it before reading it: fixed-length windows, min_cells 12, 2000 permutations, and the same severity order used in r1444 (inverted is worse than blind)",
+  "carry a power floor: with four decision points the selector cannot settle a strategy question (r1316) -- a caliber that only re-ranks blind checks is a re-labeling, not an admission rule",
+  "name what changes for money on adoption: which executing book's word moves, at what weight, and the size cap in force while the caliber is unsettled"
+ ],
+ "honest": [
+  "no repricing and no engine call: every number is re-read from published receipts, so a word here is a statement about the same numbers",
+  "the forward receipt publishes one composite verdict per axis, not per check; every year-axis check inherits it and that inheritance is printed in forward.source",
+  "classification says what the receipts can support, nothing about expected return",
+  "caliber P stays unadopted: this page decides what to do while the caliber is unsettled, it does not choose the caliber",
+  "the gift-arm list is a reading of the caliber receipt; the cross-receipt block re-checks each wrapper word against the caliber receipt's A word"
+ ],
+ "sources": {
+  "caliber": {
+   "path": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "sha16": "f179785fcdbe4935"
+  },
+  "forward": {
+   "path": "results/etf_book_ruler_forward/RULER-FORWARD.json",
+   "sha16": "4e21b70d03a43b23"
+  },
+  "gap": {
+   "path": "results/etf_book_execution_admission_gap.json",
+   "sha16": "a13e500842452c13"
+  },
+  "wrapper": {
+   "path": "results/etf_book_year_gate/WRAPPER-GATE.json",
+   "sha16": "a05ac1a8b90a0a28"
+  }
+ }
+}

@@ -591,6 +591,17 @@ def main() -> int:
              "scripts/etf_book_year_gate.py", ["selftest"]),
             ("product: etf_book_year_gate (published verdicts re-derived)",
              "scripts/etf_book_year_gate.py", ["check"]),
+            # r1446: two true receipts that a desk cannot hold at once (the caliber dispute
+            # says the gate is one decision from disagreeing with itself; the forward read
+            # says the deciding check is decorative). The legs pin the four frozen classes
+            # and that a movement the code cannot attribute is UNREADABLE rather than a
+            # quiet INVARIANT, that one seen check floors a book, that the money book is
+            # named by a receipt rather than hardcoded, and that the face prints both
+            # calibers' numbers instead of one.
+            ("product: etf_book_supply_gate_decision (one word for the rebalance)",
+             "scripts/etf_book_supply_gate_decision.py", ["selftest"]),
+            ("product: etf_book_supply_gate_decision (verdict re-derived from receipts)",
+             "scripts/etf_book_supply_gate_decision.py", ["--check"]),
             # r1423: r1421 showed the concentration lives in the MAGNITUDES (2025 is a big
             # share of everything that moved) but no face said WHICH names produced them --
             # "the book had a big year" and "one bet had a big year" printed the same number

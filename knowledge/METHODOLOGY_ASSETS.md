@@ -10969,3 +10969,29 @@ C1 不动）；阈值一个未动。26 本书 A=8 ADMIT/14 CONDITIONAL/4 REFUSE�
 故 P 的合法性只来自语义一致，不来自选书更优。
 正身 = results/etf_book_partial_year_caliber/CALIBER.json + research/ETF_BOOK_PARTIAL_YEAR_CALIBER.md
 + DIGEST-20261108-r1445-partial-year-caliber.md ｜ S6 腿 partial_year_caliber（run 形）
+## E451 — 两份都真的收据要先按「争论参数有没有碰到钱」分档，再谈该不该拦（r1446 bm-c）
+
+**读法**：r1444 说四条年度判据对下一年全盲，r1445 说同一批数字在两种口径下差出四本书。
+两份并读，桌面只剩两种说法：「闸在该吵架」和「吵架的那条判据本来就没信息」。本轮把问题收回
+到它唯一落地的地方——2026-11-11 的调仓单——并对 26 本已发布书只做**一个**分类动作：
+判决在 A/B/P 三口径下是否改变（invariance），改变时动的是不是有前向关系的判据。
+读数：21 本 INVARIANT、1 本只与「全完整年对照 B」不一致（A==P，生产面无争论）、4 本
+MOVES_ON_BLIND_CHECK、0 本落在「有前向关系」档。而**被执行的那本书是 INVARIANT**：
+nobond_vt08_adopted 在三种口径下都是 CONDITIONAL（Y4 71.08% vs 72.78%，线 70%，两种记法都不过）
+⇒ 口径之争改不了钱上的那句话；反过来，真正在定价的那条构造
+（ticket_construction_plain_plus_overlay）恰好是四个「白送」之一，它的 ADMIT 只在部分年算一年时成立。
+
+三条可复用：
+1. **争论参数先做不变性测试，再谈裁决**——「这个口径对不对」是规范问题，可以吵很久；
+   「换口径之后这本书的判决变不变」是测量问题，一次就能答。不变的那部分根本不需要裁决，
+   变了的那部分才需要预注册。
+2. **把「钱在哪」和「判的是什么」并排印**——同一个桌面可以同时成立：被审书的判决硬如铁
+   （口径无关）、定价的构造软如纸（靠部分年过关）。只报其中一半，读者会得出相反的结论：
+   看着前一半觉得「闸该让路」，看着后一半觉得「闸该加严」。
+3. **分类里必须有「只与对照组不一致」这一档**——首版把 A==P 而 B≠A 的书读成 UNREADABLE
+   （把一条正常的对照差异报成收据缺陷）；不变性测试的对象必须是决策轴（A→P），不是三口径全等。
+   一个把合法状态读成缺陷的分类器，会让人去修没坏的东西。
+
+边界：不重定价、不调引擎，全部读已发布收据；口径 P 仍未采纳；分档只说收据能支持什么，不说期望收益。
+正身 = scripts/etf_book_supply_gate_decision.py（selftest 21/21 · --check 9/9 · run 0.01s）+
+results/etf_book_supply_gate_decision/DECISION.json + DECISION-20261106.md ｜ S6 腿 supply_gate_decision（run 形）
