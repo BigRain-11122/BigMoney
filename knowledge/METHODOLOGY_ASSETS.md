@@ -13855,3 +13855,15 @@ E547 量了八个「被创建但没人读」的条目（out['verdict'] / rows['_
 **方法教训（本轮自踩）**：第一版把 6 行判成「identity」但三条的证据行是那行 print —— t73 那三个 run() 其实经**模块级 helper** _flush(art) 才落盘，io.open(OUT_JSON,'w').write(json.dumps(art))。结论对、理由错，正是这张卡要排除的形状。正法=拿调用点做一跳参数绑定（helper 形参 ← 调用实参）后再扫 sinks，且 **stdout 不是面**：print 只是终端回声，还可能用 {k: art[k] for k in (...)} 把条目再筛掉，故单独一类 carried_only_to_stdout，不并入 identity。
 **边界**：只跟到一跳 helper、只认 8 个父行指定的 store 行；跨模块的持久面（E547 已断：无人经面读取）不重跑。
 **正身** = scripts/e552_created_item_presence.py（build/check/verify + selftest 13 arms）→ results/state_tilt/CREATEDITEMPRESENCE-2026-11-08.json + createditempresence_latest.json；S6 腿 created_item_presence（0.13s rc=0）；digest research/digests/DIGEST-20261108-r1591-e552-created-item-presence.md
+
+
+### E565 · 冻结词是通用词，冻结原因不是：一次 9bp 的漂移其实是池子长大了（r1592 bm-b·2026-11-08）
+
+**问**：一条前向账本的「已发布标记」在重算后不再复现时，drift 这个词能不能告诉读者它为什么动？
+
+**读数**：5 条已发布 bar 里 4 条逐位复现，只有 2026-10-29 动了 **8.964e-04**（9bp）。修好的价格翻转数没变（168 前后同为 168），现金权重每一条 bar 上都逐位相同——**定仓路径没动**，动的是打分用的横截面：票池 1609 -> **1613**（四个新上市 ETF 进了池子）。
+**结论**：这不是价格修订，是**成员扩张**。同一个词 drift 把两者写成一个东西，而 --rebase 一旦执行就把两者一起洗白。
+**正身**：scripts/etf_book_forward.py 新增 _universe(cls) 指纹（排序名集的 sha16 + n），seed 落 ledger.universe，run() 先比指纹再比价格——冻结条目带 drift.cause（universe_membership_drift / panel_rederivation_drift）与 drift.universe（旧 n -> 新 n），rebase 条目同字段记录；selftest 加 2 腿（指纹与容器类型/顺序无关；加一名即变）。
+**可见性教训**：S6 链调这条腿时**不带参数**，冻结 exit 3，而链跑器记下非零码继续跑（E558/E560 已证），于是 CEO 面上的账本**静默停了八天**没人报警。修完之后账本转 live：17 bar，2026-11-06 nav 1.00866、回撤 -0.67%、持仓 12 名（scale 0.70、现金 30%），对四 ETF 等权篮子 **+1.49pp**。
+**边界**：本次只用计数比对历史成员（镜前未存名集），指纹从此向前有效；--rebase 仍是唯一逃生口，但从此必须带一个可读的原因。
+**证据** = results/etf_book_forward/DRIFTPROVENANCE-2026-11-08.json + results/_r1592_etfbk_diag.json（诊断）+ results/_r1592_etfbk_run3.txt（rebase 与追加输出）

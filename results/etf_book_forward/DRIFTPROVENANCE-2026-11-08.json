@@ -1,0 +1,35 @@
+{
+ "schema": "etf-book-forward-drift-provenance/v1",
+ "study": "ETF forward ledger: why the 2026-10-29 mark stopped re-deriving",
+ "evidence_cutoff": "2026-11-08",
+ "machine": "bm-b",
+ "round": "r1592",
+ "dept": "research+engineering",
+ "population_source": {
+  "face": "results/etf_book_forward/LEDGER.json",
+  "ledger_status_at_read": "frozen"
+ },
+ "finding": "the published 2026-10-29 mark moved by 8.964e-04 (9bp) because the instrument set grew 1609 -> 1613 between the seed and the re-derivation; every other published bar re-derives exactly",
+ "readings": {
+  "bars_compared": 5,
+  "bars_that_no_longer_rederive": [
+   "2026-10-29"
+  ],
+  "max_abs": 0.0008964117,
+  "drift_tol": 1e-09,
+  "n_instruments_at_seed": 1609,
+  "n_instruments_now": 1613,
+  "flips_repaired_unchanged": true,
+  "cash_identical_on_every_bar": true
+ },
+ "cause": "universe_membership_drift",
+ "why_not_price_revision": "the repaired-flip count is unchanged (168) and the cash weight is identical on every bar, so the sizing path did not move; only the cross-section the picks are ranked in did",
+ "action": {
+  "kind": "logged rebase",
+  "code": "scripts/etf_book_forward.py run --rebase",
+  "new_field": "ledger.universe = {n, sha16} so the next growth event is named instead of generic drift",
+  "rebases_entry": true
+ },
+ "visibility_finding": "the S6 chain calls this leg with no arguments; a frozen ledger exits 3 and the chain runner records the non-zero code and keeps going (E558/E560), so an eight-day stall on the CEO-facing record left no alarm",
+ "verdict": "one_published_mark_moved_by_a_universe_listing_not_by_a_price_revision"
+}

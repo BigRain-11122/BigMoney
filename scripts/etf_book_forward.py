@@ -34,6 +34,7 @@ Gates: recorded bars are re-derived every run; if any published mark no longer r
 quietly rewriting history -- `--rebase` is the logged escape and stays visible in the file.
 It trades nothing, touches no registry, and claims no edge.
 """
+import hashlib
 import json
 import os
 import sys
@@ -689,6 +690,22 @@ def _noop_stub(led, headed, day=None):
     return True
 
 
+def _universe(cls):
+    """Fingerprint of the instrument set a mark was computed on.
+
+    The pool is today's listed set, so it GROWS. A new listing changes the
+    cross-section that every past decision bar is scored on, so a published mark
+    stops re-deriving without any price having changed. Without a membership
+    fingerprint a listing event is indistinguishable from a price revision and
+    `--rebase` launders both under one label (r1592: the panel grew 1609 -> 1613
+    and moved the 2026-10-29 mark by 8.96e-4 = 9bp, freezing the ledger for eight
+    days under the generic word "drift").
+    """
+    names = sorted(str(k) for k in (cls.keys() if hasattr(cls, "keys") else cls))
+    return {"n": len(names),
+            "sha16": hashlib.sha256("\n".join(names).encode("utf-8")).hexdigest()[:16]}
+
+
 def _fresh(fwd, dates, cls, n_flip, capital):
     return {
         "schema": SCHEMA,
@@ -707,6 +724,7 @@ def _fresh(fwd, dates, cls, n_flip, capital):
         "rebases": [],
         "runs": [],
         "panel": {"n_instruments": len(cls), "flips_repaired": n_flip},
+        "universe": _universe(cls),
         "caveats": CAVEATS,
     }
 
@@ -787,6 +805,21 @@ def run(rebase=False):
     seed_bar = led["seed"]["bar"]
     fresh = {b["bar"]: b for b in _indexed(marks, seed_bar)}
 
+    # membership gate: the pool grows, and a listing re-scores every past decision bar.
+    # Compare the fingerprint first so a growth event is never published as a price revision.
+    uni_now = _universe(cls)
+    uni_pub = led.get("universe")
+    uni_delta = None
+    if uni_pub and uni_pub.get("sha16") != uni_now["sha16"]:
+        uni_delta = {"published": uni_pub, "now": uni_now,
+                     "n_delta": int(uni_now["n"]) - int(uni_pub.get("n") or 0)}
+    elif uni_pub is None and isinstance((led.get("panel") or {}).get("n_instruments"), int):
+        n_pub = led["panel"]["n_instruments"]
+        if uni_now["n"] != n_pub:
+            uni_delta = {"published": {"n": n_pub, "sha16": None}, "now": uni_now,
+                         "n_delta": int(uni_now["n"]) - int(n_pub),
+                         "note": "membership was not recorded before r1592; only the count compares"}
+
     # drift gate: every already-published mark must re-derive exactly
     faces, worst = [], 0.0
     for b in led["bars"]:
@@ -805,23 +838,35 @@ def run(rebase=False):
     bench_faces = bench_drift(led.get("benchmark"), _bench_with_book(led["bars"], dates, seed_bar))
 
     new_bars = [f for f in _indexed(marks, seed_bar) if f["bar"] > led["bars"][-1]["bar"]]
+    cause = None
+    if faces or bench_faces:
+        cause = ("universe_membership_drift" if uni_delta is not None
+                 else "panel_rederivation_drift")
     if (faces or bench_faces) and not rebase:
         led["status"] = "frozen"
         led["drift"]["benchmark_faces"] = bench_faces
+        led["drift"]["cause"] = cause
+        if uni_delta is not None:
+            led["drift"]["universe"] = uni_delta
         save_ledger(led)
-        print("DRIFT %d faces (bench %d) max_abs=%.3e -> FROZEN (exit 3); "
-              "--rebase is the logged escape" % (len(faces), len(bench_faces), worst), flush=True)
+        print("DRIFT %d faces (bench %d) max_abs=%.3e cause=%s -> FROZEN (exit 3); " % (
+            len(faces), len(bench_faces), worst, cause) + "--rebase is the logged escape", flush=True)
+        if uni_delta is not None:
+            print("UNIVERSE %s -> %s (n_delta=%+d)" %
+                  (uni_delta["published"], uni_delta["now"], uni_delta["n_delta"]), flush=True)
         return 3
     if (faces or bench_faces) and rebase:
         led["rebases"].append({
             "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
             "n_faces": len(faces), "n_bench_faces": len(bench_faces),
             "max_abs": worst, "sample": (faces + bench_faces)[:10],
+            "cause": cause, "universe": uni_delta,
         })
         led["bars"] = _indexed(marks, seed_bar)
         led["status"] = "live"
-        print("REBASED %d faces (bench %d) max_abs=%.3e (logged in rebases)" %
-              (len(faces), len(bench_faces), worst), flush=True)
+        print("REBASED %d faces (bench %d) max_abs=%.3e cause=%s (logged in rebases)" %
+              (len(faces), len(bench_faces), worst, cause), flush=True)
+    led["universe"] = uni_now
 
     if not new_bars:
         headed = led["bars"][-1] if led["bars"] else {}
@@ -1119,6 +1164,17 @@ def selftest():
     doctored["nav"] = doctored["nav"] + 1e-6
     d = abs(fresh[doctored["bar"]]["nav"] - doctored["nav"])
     chk("drift gate fires on a doctored mark", d > DRIFT_TOL, "delta=%.2e" % d)
+
+    # 7b. the membership fingerprint separates a listing from a price revision: the same
+    #     marks re-derived under a pool that gained a name are a DIFFERENT record, not a
+    #     doctored one. r1592 froze on a 1609 -> 1613 listing event published as "drift".
+    u_dict = _universe({"510300": None, "510500": None})
+    u_list = _universe(["510300", "510500"])
+    u_more = _universe({"510300": None, "510500": None, "159915": None})
+    chk("universe fingerprint ignores container type and order", u_dict == u_list, str(u_dict))
+    chk("universe fingerprint moves when a name is added",
+        u_dict["sha16"] != u_more["sha16"] and u_more["n"] == 3,
+        "n %d -> %d" % (u_dict["n"], u_more["n"]))
 
     # 8. THE BUG CATCHER: with the vol target ON the accrual must still be the book's
     #    weighted return. r1267's equivalence leg ran with vol_target=None, where every
