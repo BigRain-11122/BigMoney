@@ -29339,6 +29339,8 @@
    "title": "E528 published that _resolve's recursion ends at `if depth > 6: return None`, so a caller cannot tell 'the repository does not contain this path' from 'the recursion ran out of depth'. Find every function in the corpus that carries a depth/level counter, tests it against a constant, and returns a null sentinel (None / () / {} / [] / False / \"\") from that arm; for each, publish the sentinel, the cap, and the call sites that read the return value, separating callers that can distinguish the cap from callers that cannot -- keeping 'the cap is a publishable hole' and 'the cap is unreachable in production' as separate classes."
   },
   {
+   "closed_at": "2026-11-08T08:5x+08:00",
+   "closed_by": "bm-b r1557",
    "deliverable": "results/state_tilt/THIRDHOP-<cutoff>.json",
    "entered_at": "2026-11-08T08:5x+08:00",
    "entered_by": "bm-b r1556 (supply floor refill after E526)",
@@ -29347,10 +29349,25 @@
    "lane": "cpu-only",
    "lane_note": "static: two parcels, their call sites and the binding statements of the locals; no network, no rewrites",
    "priority": "normal",
+   "result": "results/state_tilt/THIRDHOP-2026-11-08.json -- 5 chains: 3 end at a value (1 hop each), 1 mixed (1 arm lands at 2 hops, 7 sites take the signature default), 1 lands on the default only; 0 dead ends, 0 loops. Verdict: some_chain_ends_at_a_signature_default_rather_than_at_a_caller",
    "source": "E526 (r1556 bm-b): 1 parcel forwards again at every supplying site and 1 is mixed, so the chain E520 left open is still open in exactly 2 places",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/thirdhop_latest.json",
    "title": "E526 followed the second hop and found the chain still moving in 2 parcels: e489_write_wire.classify(root) hands root to every call site as a parameter again, and e328_quoted_number_staleness.build(root) is supplied a local at 3 of its 4 call sites. Follow those 2 to the third hop and publish, per parcel, whether the value ever reaches a non-parameter origin (a literal, a constant, a call result, a read) and how many hops it takes -- keeping loop-shaped chains apart from chains that end."
+  },
+  {
+   "deliverable": "results/state_tilt/DEFAULTPARAM-<cutoff>.json",
+   "entered_at": "2026-11-08T08:5x+08:00",
+   "entered_by": "bm-b r1557 (supply floor refill after E530)",
+   "evidence_cutoff": "2026-11-08",
+   "id": "E531-WHAT-DOES-THE-SIGNATURE-DEFAULT-THAT-SUPPLIES-ROOT-TO-THE-8-OMITTING-CALL-SITES-ACTUALLY-NAME",
+   "lane": "cpu-only",
+   "lane_note": "static: the signature definition, its default expression and every caller that omits the argument; no network, no rewrites",
+   "priority": "normal",
+   "source": "E530 (r1557 bm-b): of the 5 chains E526 left moving, one lands on the signature default rather than on any caller -- e489_write_wire.build(root) omits root at 8 sites -- and another has 7 of its 8 sites do the same",
+   "status": "ready",
+   "target": "results/state_tilt/defaultparam_latest.json",
+   "title": "E530 published that a chain can end at a signature default rather than at a caller. A default is a value the signature itself writes, so the chain does reach something -- but whether that something is a population is unread. For every parameter that E530 or E526 published as reaching the default, read the signature's own default expression and publish what it names: a literal, a module constant of the defining module, a call result, a read/scan of the tree, or nothing at all (a sentinel such as None or an empty container). Then read whether any caller that omits it could have supplied something more specific, so 'the default supplies it' stops standing in for 'the population is whatever the signature happens to hold'."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

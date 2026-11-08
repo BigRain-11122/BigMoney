@@ -13109,3 +13109,18 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 - **局部要回到绑定语句，不是函数边界**：停在边界只能得到“它是局部”，得不到“它从哪来”；绑定语句（赋值/循环目标/with 海象）可以用与调用点参数同一套词汇分类。
 
 **验证**：`scripts/e526_second_hop.py` build rc0 / check problems=0 / verify problems=0 / **selftest 11/11**（4 个 fixture 形态：参数混合、局部自调用结果、循环目标、无调用点的函数 + 3 个 doctored 面全部拒绝：藏起转发点、到达类别改写成定值、population 与 E520 计数不符）；面 `results/state_tilt/SECONDHOP-2026-11-08.json` + `secondhop_latest.json` 同源；S6 腿 `second_hop` rc0 0.06s；smoke 腿 `# E526` + `scripts/run_e526_smoke_leg.py` 1/1 绿、`--doctor` 1/1 红并字节还原 sha `00567c31567d`；digest `research/digests/DIGEST-20261108-r1556-e526-second-hop.md`。
+## E530 第三跳：E526 留下的 5 条「仍在动」的值全部落地——3 条一跳定值、1 条混合、1 条落在签名默认（2026-11-08 r1557 bm-b）
+
+**命题**：E526 说链条在 2 个 parcel 里还开着（`e489_write_wire.classify(root)` 每个调用点都把 `root` 再转发、`e328_quoted_number_staleness.build(root)` 3/4 调用点传局部）。「还在动」是位置不是来源：没说会不会落地、跳几跳。
+
+**方法**：取 E526 第二跳里仍是参数/局部的 5 个交接点，用同一套 hop 机器（`e526.hop_of_parcel` + E520 的语料/分类器/形参追踪器，import 不克隆）一跳一跳跟到停，跳数上限 6。每个 hop 记录站点与分类；链形六分：落在本树写或读的值 / 部分落地部分吃默认 / 只吃签名默认 / 死在没有调用点的参数 / 绕回已访问过的函数 / 到上限仍在动。`hops_to_origin`=越过第二跳到落地的跳数。
+
+**读数**（5 条链 / 2,743 源）：落地 3（全是「另一个调用的结果」，各 1 跳）、混合 1（1 个分支 2 跳落到调用结果，其余 7 个站点全吃签名默认）、只吃默认 1（1 跳、无 `hops_to_origin`）、死端 0、回环 0、到顶 0。判词由闸从 summary 重算：`some_chain_ends_at_a_signature_default_rather_than_at_a_caller`。点名：`e328.build(root)` 3 处局部绑的都是 `_fixture()`/`mkdtemp()` 一类调用结果；`e489_write_wire.build(root)` 一处 8 个站点全省略 `root`（吃默认），另一处 1 个省略 + 2 个跨模块局部（`etf_book_capacity_carry` 的 `dates`）→ 2 跳落地。
+
+**可复用教训**：
+- **「一个 parcel 还在动」不等于「一个值还在动」**：2 个 parcel 展开成 5 条链；拿 parcel 数当分母会把 5 个值读成 2 个。
+- **吃默认的臂要单列形状**：一条链同时有「落地的臂」和「吃签名默认的臂」时，只报「落地」会把 7 个没人传的站点藏起来；`mixed_value_and_default` 让两种命运都可见。
+- **分支链的深度不是 1..n**：同一 parcel 在 depth 1 有 8 个站点、depth 2 有 2 个，深度序列是 [1,2,2]，闸必须断言「首项为 1、逐项非增或 +1」，而不是「等于 range」——本窗首版闸就是这样把真结果判红的。
+- **桩值也是写出来的值，但不是生产供给**：`_fixture()`/`mkdtemp()` 的返回值确实是本树写出来的值，本面记成「调用结果」，不升级成「生产人口」，这一层留给下游读者。
+
+**验证**：`scripts/e530_third_hop.py` run rc0 / check problems=0 / verify problems=0 / **selftest 13/13**（夹具六形态：三跳落地、无人供的参数、自环、省略走默认 + 四枚 doctored 面全拒：无 `hops_to_origin` 的「落地」、最后一跳仍转发的「落地」、hop_count 不重导、手写 verdict）；面 `results/state_tilt/THIRDHOP-2026-11-08.json` + `thirdhop_latest.json` 同源；S6 腿 `third_hop` rc0 0.06s；smoke 腿 `# E530` 单跑 1/1（`scripts/_r1557_leg530.py` 从 smoke_test.py 逐字抽出执行）；digest `research/digests/DIGEST-20261108-r1557-e530-third-hop.md`。未跑：全量 smoke 套件（~20-30min）、S6 其余腿、采集器族与 market/paper 链（不宣称）。

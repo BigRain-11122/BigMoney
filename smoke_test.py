@@ -22203,5 +22203,79 @@ except Exception as _e526x:
 check(_name526, not _bad526, "; ".join(_bad526)[:240] or _d526)
 
 
+# E530: the third hop past the 5 values E526 still called forwarded.  Every chain must start on one
+# of E526's own forwarding sites (count asserted against E526's summary), every hop must move a value
+# that is again a parameter or a local, a chain published as ending must have a terminal that writes
+# or reads the value, and doctored copies (a verdict that does not re-derive, a chain that ends with
+# a hop still forwarding, a hop count its own hops do not derive) must be refused.
+_name530 = "E530 follows the 5 chains E526 left moving until they end, default or loop (r1557 bm-b)"
+_bad530 = []
+try:
+    _m530 = __import__("importlib").import_module("e530_third_hop")
+    _f530 = json.load(open(os.path.join("results", "state_tilt", "thirdhop_latest.json"),
+                           encoding="utf-8"))
+    _s530 = _f530.get("summary") or {}
+    _c530 = _f530.get("chains") or []
+    _up530 = _m530.load_upstream()[0]
+    _bad530.extend(_m530.face_problems(_f530))
+    _pop530 = _m530.population(_up530)
+    if not _c530:
+        _bad530.append("the chain population is empty")
+    if len(_c530) != len(_pop530):
+        _bad530.append("the examined population is not E526's forwarding set")
+    if (_up530.get("summary") or {}).get("second_hop_values_forwarded_again") != len(_c530):
+        _bad530.append("the chain count drifts from E526's forwarded-again count")
+    for _c in _c530:
+        if not os.path.exists(os.path.join("scripts", (_c.get("second_hop_module") or "") + ".py")):
+            _bad530.append("%s names a module that is not on disk" % _c.get("second_hop_module"))
+            continue
+        if _c.get("shape") == _m530.SH_ENDS and not [
+                _t for _t in _c.get("terminals") or [] if _t.get("kind") in _m530.ENDED]:
+            _bad530.append("%s:%s ends without a terminal that writes the value"
+                           % (_c.get("second_hop_module"), _c.get("second_hop_line")))
+        if _c.get("shape") in (_m530.SH_LOOP, _m530.SH_DEAD) and \
+                _c.get("hops_to_origin") is not None:
+            _bad530.append("%s:%s publishes hops_to_origin for a chain that never lands"
+                           % (_c.get("second_hop_module"), _c.get("second_hop_line")))
+
+    _doc530 = json.loads(json.dumps(_f530))
+    _doc530["verdict"] = (_m530.V_ENDS if _f530["verdict"] != _m530.V_ENDS
+                          else _m530.V_DEFAULT)
+    if not _m530.face_problems(_doc530):
+        _bad530.append("a hand-written verdict was accepted")
+    _doc530 = json.loads(json.dumps(_f530))
+    _target530 = None
+    for _row in _doc530["chains"]:
+        if _row.get("shape") == _m530.SH_ENDS and _row.get("hops"):
+            _target530 = _row
+            break
+    if _target530 is None and _doc530["chains"]:
+        _target530 = _doc530["chains"][0]
+    if _target530 is not None:
+        _target530["hops"][-1]["out_kinds"] = [_m530.e520.A_PARAMETER_AGAIN]
+        _target530["hops"][-1]["sites"] = [{"argument_kind": _m530.e520.A_PARAMETER_AGAIN}]
+        _target530["hops_to_origin"] = None
+        if not _m530.face_problems(_doc530):
+            _bad530.append("a chain whose last hop forwards again was accepted as ending")
+    _doc530 = json.loads(json.dumps(_f530))
+    if _doc530["chains"]:
+        _doc530["chains"][0]["hop_count"] = 99
+        if not _m530.face_problems(_doc530):
+            _bad530.append("a hop count its own hops do not derive was accepted")
+    _d530 = ("%d chains | ends at a value %s | mixed value+default %s | default %s | dead end %s "
+             "| looped %s | hops_to_origin %r" % (
+                 len(_c530),
+                 _s530.get("chains_ending_at_a_value"),
+                 _s530.get("chains_mixed_value_and_default"),
+                 _s530.get("chains_ending_at_a_default"),
+                 _s530.get("chains_dead_ending"),
+                 _s530.get("chains_looped_back"),
+                 _s530.get("hops_to_origin_histogram")))
+except Exception as _e530x:
+    _bad530.append(repr(_e530x)[:160])
+    _d530 = "leg could not run"
+check(_name530, not _bad530, "; ".join(_bad530)[:240] or _d530)
+
+
 if __name__ == "__main__":
     sys.exit(main())

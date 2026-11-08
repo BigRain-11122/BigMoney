@@ -1985,6 +1985,13 @@ LEGS = [
     # forwarded`.  `check` re-derives every arrival from its own sites, refuses a row that hides a
     # forwarding site, and asserts the parcel count against E520's own summary.
     ("second_hop", ["python", "scripts/e526_second_hop.py", "check"]),
+    # E530 takes the five second-hop hand-overs E526 still calls forwards and follows each one
+    # until it stops: every further hop is recorded, `hops_to_origin` counts the hops past the
+    # second, and a chain is published as ending at a value, ending at a signature default,
+    # dead-ending on a parameter nobody supplies, or looping back into a function it already
+    # visited.  `check` re-derives every shape and hop count from the chains and asserts the chain
+    # count against E526's own forwarded-again total.
+    ("third_hop", ["python", "scripts/e530_third_hop.py", "check"]),
     # E520 takes E519's own two non-answers one hop further: a local that is a *parameter of the
     # caller* is supplied by that function's call sites, and a name bound nowhere in the caller is
     # bound by another scope.  `check` re-derives the argument histogram from the rows, the
