@@ -2118,6 +2118,12 @@ LEGS = [
     # argument whose callee probes then opens the path. `check` re-derives every row class from
     # the sources and refuses a row whose class is not what its own loads say.
     ("unclassified_site", ["python", "scripts/e549_unclassified_site.py", "check"]),
+    # E550 follows the seventeen sites E546 classed as handed to a callee one hop into that callee:
+    # the callee is looked up in the same module (then as `def <name>(` in scripts/*.py), its
+    # parameter is classed by what the body does with it, and rows sharing one source line are
+    # folded into one location. `check` re-derives every site class and the verdict from the
+    # sources, and the container arm outranks the benign arms so the failure mode cannot hide.
+    ("called_consumer", ["python", "scripts/e550_called_consumer.py", "check"]),
 ]
 
 

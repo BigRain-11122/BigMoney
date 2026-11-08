@@ -13590,3 +13590,21 @@ digest `research/digests/DIGEST-20261108-r1575-e546-filepathjoined.md`
 
 **产物**：`scripts/e549_unclassified_site.py`（selftest 17/17·`check` problems=[]·`verify` 两次构建恒等）+ `results/state_tilt/UNCLASSIFIEDSITE-2026-11-08.json`（+`unclassifiedsite_latest.json`）+ smoke 腿 `# E549`（`scripts/run_e549_smoke_leg.py`，`--doctor` 红）+ S6 腿 `unclassified_site` + digest `research/digests/DIGEST-20261108-r1576-e549-unclassified-site.md`。
 
+
+### E550 -- 把常量交出去的那 17 个站点，往里跟一跳（r1577 bm-b）
+
+**触发**：E546 把 35 个文件型常量的站点分成 file/unknown 两类，E549 把 4 个 unknown 行读进外层函数后只剩一类没被任何研究打开过：17 个 `the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow`。卡面问的是一次具体的跟跳：那个被调者拿这个参数做了什么——open、当容器 join、只测存在、只比较、还是继续往下传？并分别报出「一跳外被当文件读」「一跳外被当容器（E546 要找的失效模式往下挪了一层）」「调用方建了但没人读的死胡同」。
+
+**做法**：种群仍从父面机读（`filepathjoined_latest.json` 里 shape == 上述词的站点行，禁手列），**按源码行折叠**（父面把 `scan_site(NAME)` 与它的实参 `NAME` 记成两条拼写，实为同一位置），对每个位置只跟一跳：交给调用的→先找同模块 `def`、再找 `scripts/*.py` 里的 `def <name>(`；默认实参的→callee 就是持有默认值的那个函数，按参数名在体内走；`abspath` 之后被比较的→没有 callee 在读它，是身份令牌。callee 体内每个 load 分类（open / join 首位=容器 / join 非首位=子件 / exists / 比较 / dirname 类拆解 / 继续外传 / 从不读）。
+
+**读数**：17 个父站点 = **15 个不同位置**（2 处各被父面记了两次拼写），**容器站点 = 0**，直接文件读 = 2（`e390.scan_site` 首参在体内被 `open`；`marks_coverage.load_calendar(path=CAL_PATH)` 体内 `exists` 后 `open`），**内建渲染 = 6**（全部是 `print("wrote", OUT_PATH, …)` 一类——常量被印进消息、从不被当数据读），**身份令牌 = 7**（`os.path.abspath(...) == SELF` 一类，常量只是把模块自己的文件排出去），未决 = 0。判词 = `no_site_that_hands_the_constant_on_reads_it_as_a_container_one_hop_out`。E546 的失效模式在第二层也不存在，但这一层多出了两条以前没有的读数：**一半的「传递」其实是往 stdout 印一行**，以及**17 条站点只有 15 个位置**。
+
+**四条可复用教训**：
+1. **父面的「站点数」先问是不是「位置数」**：同一处调用的 call 节点与实参节点会被同一个扫描记成两条拼写（`scan_site(NAME)` + `NAME`），17 与 15 两个数都要发布、且行上带 `parent_site_count`，否则「读了 17 个站点」这句话本身就是重复计数。
+2. **失效模式要在聚合时压过良性臂**：一个 callee 若同时 join 与 open 同一参数，按 open 判会把这个缺陷藏起来；分类器必须让**容器臂优先**，并在行上把两条 use 都留着——「优先」是判据，「两条都在」是证据。
+3. **内建也是 callee，而且是最常见的那一个**：`print` 不读路径，却也接住了常量的 load；不把它单列成 `renders_only`，这 6 个站点就会被含糊地算进「被跟随的函数」，读出来像有人在读，其实只印了个名字。
+4. **verdict 必须由行重算，且整洁的判词要自证看过**：判词按「容器数 > 0 / 存在未定义的 callee / 否则干净」三级重算；smoke 腿另外要求「干净判词旁边必须至少有一条真的跟到的 callee 与至少一条内建渲染」，否则一个什么都没扫到的扫描器也能产出这条干净判词。
+
+**边界（已随面发布）**：只跟一跳，继续外传的记 forwarded 不再跟；repo 兜底只查 `scripts/*.py` 里的 `def <name>(`，`Tools/*.py` 与包不在索引内，「没找到」只能读作「本扫描没找到」；无执行，`opened` 指 load 到达 `open()`，不指文件存在。
+
+**载体** = `scripts/e550_called_consumer.py`（build/check/verify + selftest 23/23）+ `results/state_tilt/CALLEDCONSUMER-2026-11-08.json` + `calledconsumer_latest.json` + S6 腿 `called_consumer` + smoke 腿 `# E550`（`scripts/run_e550_smoke_leg.py`，1/1 绿，`--doctor` 红）+ digest `research/digests/DIGEST-20261108-r1577-e550-called-consumer.md`。

@@ -29696,14 +29696,35 @@
    "source": "E549 (r1576 bm-b): the enclosing-function read settled 4 rows and left E546's 17 passed-to-a-callee sites as the only part of that population no study has opened",
    "lane": "cpu-only",
    "lane_note": "static: AST read of each passed site's callee in the same module (then one in-repo module lookup); no execution, no network",
-   "status": "ready",
+   "status": "done",
    "priority": "normal",
    "entered_at": "2026-11-08T15:52:00+08:00",
    "entered_by": "bm-b r1576 (supply floor refill after E549)",
    "deliverable": "results/state_tilt/CALLEDCONSUMER-<cutoff>.json",
    "target": "results/state_tilt/calledconsumer_latest.json",
    "worker_class": "self-contained",
-   "evidence_cutoff": "2026-11-08"
+   "evidence_cutoff": "2026-11-08",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-08T15:52:00+08:00",
+   "done_at": "2026-11-08T15:52:00+08:00",
+   "done_by": "bm-b",
+   "result_ref": "results/state_tilt/CALLEDCONSUMER-2026-11-08.json",
+   "result_note": "17 parent sites fold into 15 locations; 2 opened, 0 container one hop out, 6 builtin renders, 7 identity tokens, 0 unsettled"
+  },
+  {
+   "id": "E551-WHETHER-THE-SIX-WROTE-PATH-MESSAGES-ARE-READ-BACK-BY-ANY-MACHINE-CODE",
+   "title": "E550 published six sites where the constant is only rendered into a message -- print(\"wrote\", OUT_PATH, ...) across the six etf_phase_* scripts -- and found no container use one hop out. A printed output path looks like a contract. Ask whether anything in the repository reads those lines back (a subprocess caller parsing stdout, a log scraper keyed on \"wrote\", a test asserting on the line), and publish how many of the six messages are consumed by machine code, how many are human-only, and whether the printed path is the only machine-visible announcement of the face it names.",
+   "lane": "cpu-only",
+   "lane_note": "static: AST + text scan of stdout parsers keyed on the message word; no execution, no network",
+   "status": "ready",
+   "priority": "normal",
+   "source": "E550 (r1577 bm-b): the six render sites are the only arm of E546's 35-constant population whose use is a message rather than a read",
+   "deliverable": "results/state_tilt/RENDERREADER-<cutoff>.json",
+   "target": "results/state_tilt/renderreader_latest.json",
+   "worker_class": "self-contained",
+   "evidence_cutoff": "2026-11-08",
+   "entered_at": "2026-11-08T15:52:00+08:00",
+   "entered_by": "bm-b r1577 (supply floor refill after E550)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29718,6 +29739,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T16:05:00+08:00",
+ "updated_at": "2026-11-08T15:52:00+08:00",
  "version": 1
 }

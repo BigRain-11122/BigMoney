@@ -23654,5 +23654,73 @@ except Exception as _e549x:
     _d549 = "study could not be read"
 check(_name549, not _bad549, "; ".join(_bad549)[:240] or _d549)
 
+# E550: what the callee does with the constant at the sites that hand it on?  * the population must be
+#   E546's own "handed to a callee this scan does not follow" sites (machine-read from the parent face)
+#   and every parent row must be represented once its duplicate spellings are folded * a site whose
+#   callee joins the parameter as a container is the failure mode and must drive the verdict * a clean
+#   verdict must come from a read that actually followed at least one callee and found at least one
+#   builtin renderer * a doctored copy (hand-written verdict, truncated rows, flipped site class, a
+#   container row with no join-as-base load) must be refused
+_name550 = "E550 the passed-to-a-callee sites followed one hop (r1577 bm-b)"
+_bad550 = []
+try:
+    _m550 = __import__("importlib").import_module("e550_called_consumer")
+    _f550 = json.load(open(os.path.join("results", "state_tilt", "calledconsumer_latest.json"),
+                           encoding="utf-8"))
+    _s550 = _f550.get("summary") or {}
+    _r550 = _f550.get("rows") or []
+    _bad550.extend(_m550.face_problems(_f550))
+    if not _r550:
+        _bad550.append("the passed-to-a-callee population is empty")
+    if _s550.get("parent_sites_published_as_passed_to_a_callee") != 17:
+        _bad550.append("the population is not the parent's own seventeen passed sites")
+    if sum(_r550r.get("parent_site_count", 0) for _r550r in _r550) != \
+            _s550.get("parent_sites_published_as_passed_to_a_callee"):
+        _bad550.append("the rows do not carry every parent site")
+    if _s550.get("reproduction_matches_the_parent") is not True:
+        _bad550.append("the population is not published as reproducing the parent")
+    if _f550.get("verdict") == _m550.V_NO_CONTAINER:
+        if _s550.get("rows_read_as_a_container_one_hop_out"):
+            _bad550.append("a no-container verdict sits beside container rows")
+        if not _s550.get("rows_read_as_a_file_one_hop_out"):
+            _bad550.append("a clean verdict came from a read that followed no callee")
+        if not _s550.get("rows_whose_callee_is_a_builtin"):
+            _bad550.append("a clean verdict came from a read that found no builtin renderer")
+    if _r550:
+        _doc550 = json.loads(json.dumps(_f550))
+        _doc550["verdict"] = "a_verdict_this_study_never_publishes"
+        if not _m550.face_problems(_doc550):
+            _bad550.append("a hand-written verdict was accepted")
+        _doc550 = json.loads(json.dumps(_f550))
+        _doc550["rows"] = _doc550["rows"][:-1]
+        if not _m550.face_problems(_doc550):
+            _bad550.append("a summary that outlives its rows was accepted")
+        _doc550 = json.loads(json.dumps(_f550))
+        for _r550r in _doc550["rows"]:
+            if _r550r["site_class"] == _m550.S_RENDER:
+                _r550r["site_class"] = _m550.S_UNDEFINED
+                break
+        if not _m550.face_problems(_doc550):
+            _bad550.append("a flipped site class was accepted")
+        _doc550 = json.loads(json.dumps(_f550))
+        for _r550r in _doc550["rows"]:
+            if _r550r["site_class"] == _m550.S_IDENTITY:
+                _r550r["site_class"] = _m550.S_CONTAINER
+                break
+        if not _m550.face_problems(_doc550):
+            _bad550.append("a row called a container with no join-as-base load was accepted")
+    _d550 = ("%d/%d sites (parent/locations) / %d file / %d container / %d render / %d identity / verdict %s"
+             % (len(_r550),
+                _s550.get("parent_sites_published_as_passed_to_a_callee", 0),
+                _s550.get("rows_read_as_a_file_one_hop_out", 0),
+                _s550.get("rows_read_as_a_container_one_hop_out", 0),
+                _s550.get("rows_whose_callee_is_a_builtin", 0),
+                _s550.get("by_class", {}).get(_m550.S_IDENTITY, 0),
+                _f550.get("verdict")))
+except Exception as _e550x:
+    _bad550.append(repr(_e550x)[:160])
+    _d550 = "study could not be read"
+check(_name550, not _bad550, "; ".join(_bad550)[:240] or _d550)
+
 if __name__ == "__main__":
     sys.exit(main())

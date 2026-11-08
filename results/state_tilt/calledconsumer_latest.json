@@ -1,0 +1,552 @@
+{
+ "study": "E550",
+ "card": "E550",
+ "title": "what the callee actually does with the constant at the sites that hand it on",
+ "generated": "2026-11-08T15:46:36+08:00",
+ "evidence_cutoff": "2026-11-08",
+ "population_source": {
+  "parent_face": "results/state_tilt/filepathjoined_latest.json",
+  "parent_study": "E546_file_named_constant_use",
+  "parent_evidence_cutoff": "2026-11-08",
+  "parent_site_shape_consumed": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+  "parent_sites_published_as_passed_to_a_callee": 17,
+  "how_the_population_was_taken": "the parent's own site rows with its own shape word -- machine-read, never hand-listed; rows sharing one source line are folded into one location"
+ },
+ "method_limits": [
+  "exactly one hop: a parameter handed on again is published as forwarded, not followed",
+  "the repository fallback looks for `def <name>(` in scripts/*.py only -- packages and Tools/*.py are outside this index, so a miss there is 'not found by this scan', not 'absent'",
+  "the container class wins when a callee both joins and opens the parameter, so the defect cannot be hidden behind a benign arm",
+  "no execution: classes are static, and 'opened' means a load reaches open(), not that the file exists",
+  "a parent row pair such as scan_site(NAME) plus NAME is one location with two spellings, so the seventeen parent sites are reported beside their distinct-location count"
+ ],
+ "summary": {
+  "parent_sites_published_as_passed_to_a_callee": 17,
+  "distinct_locations": 15,
+  "locations_the_parent_published_twice": 2,
+  "loads_analysed": 15,
+  "by_class": {
+   "one_hop_into_the_callee_the_parameter_is_opened": 2,
+   "one_hop_into_the_callee_the_parameter_is_the_container_base": 0,
+   "one_hop_into_the_callee_the_parameter_is_only_tested_for_existence": 0,
+   "one_hop_into_the_callee_the_parameter_is_only_compared": 0,
+   "one_hop_into_the_callee_the_parameter_is_only_taken_apart_as_a_path": 0,
+   "one_hop_into_the_callee_the_parameter_is_handed_on_again": 0,
+   "one_hop_into_the_callee_the_parameter_is_never_read": 0,
+   "the_callee_uses_the_parameter_in_ways_this_scan_does_not_order": 0,
+   "the_callee_is_a_builtin_that_only_renders_the_value": 6,
+   "the_site_compares_a_normalised_own_path_and_no_callee_reads_it": 7,
+   "the_callee_is_not_defined_in_this_module_or_in_the_repository": 0,
+   "the_loads_at_this_line_do_not_agree": 0
+  },
+  "rows_whose_callee_is_a_builtin": 6,
+  "rows_whose_callee_is_a_repository_function": 1,
+  "rows_whose_value_is_a_default_argument": 1,
+  "use_classes_over_callee_parameters": {
+   "the_load_reaches_open_so_the_parameter_is_read_as_a_file": 2,
+   "the_load_is_the_first_argument_of_a_join_so_the_parameter_is_a_container": 0,
+   "the_load_is_a_later_argument_of_a_join_so_the_parameter_is_a_child_component": 0,
+   "the_load_only_asks_whether_the_path_exists": 1,
+   "the_load_is_one_side_of_a_comparison": 0,
+   "the_load_is_only_taken_apart_with_dirname_basename_or_splitext": 0,
+   "the_load_is_handed_to_another_callee_this_hop_does_not_follow": 1
+  },
+  "callee_use_loads_published": 4,
+  "rows_read_as_a_file_one_hop_out": 2,
+  "rows_read_as_a_container_one_hop_out": 0,
+  "rows_the_caller_builds_and_no_callee_reads_as_data": 13,
+  "rows_not_settled": 0,
+  "distinct_callees": [
+   "load_calendar",
+   "print",
+   "scan_site"
+  ],
+  "callees_followed_into_a_definition": [
+   "scan_site"
+  ],
+  "reproduction_matches_the_parent": true
+ },
+ "verdict": "no_site_that_hands_the_constant_on_reads_it_as_a_container_one_hop_out",
+ "verdict_vocab": [
+  "no_site_that_hands_the_constant_on_reads_it_as_a_container_one_hop_out",
+  "some_sites_that_hand_the_constant_on_read_it_as_a_container_one_hop_out",
+  "some_callees_at_these_sites_are_defined_nowhere_in_the_repository"
+ ],
+ "site_vocab": [
+  "one_hop_into_the_callee_the_parameter_is_opened",
+  "one_hop_into_the_callee_the_parameter_is_the_container_base",
+  "one_hop_into_the_callee_the_parameter_is_only_tested_for_existence",
+  "one_hop_into_the_callee_the_parameter_is_only_compared",
+  "one_hop_into_the_callee_the_parameter_is_only_taken_apart_as_a_path",
+  "one_hop_into_the_callee_the_parameter_is_handed_on_again",
+  "one_hop_into_the_callee_the_parameter_is_never_read",
+  "the_callee_uses_the_parameter_in_ways_this_scan_does_not_order",
+  "the_callee_is_a_builtin_that_only_renders_the_value",
+  "the_site_compares_a_normalised_own_path_and_no_callee_reads_it",
+  "the_callee_is_not_defined_in_this_module_or_in_the_repository",
+  "the_loads_at_this_line_do_not_agree"
+ ],
+ "use_vocab": [
+  "the_load_reaches_open_so_the_parameter_is_read_as_a_file",
+  "the_load_is_the_first_argument_of_a_join_so_the_parameter_is_a_container",
+  "the_load_is_a_later_argument_of_a_join_so_the_parameter_is_a_child_component",
+  "the_load_only_asks_whether_the_path_exists",
+  "the_load_is_one_side_of_a_comparison",
+  "the_load_is_only_taken_apart_with_dirname_basename_or_splitext",
+  "the_load_is_handed_to_another_callee_this_hop_does_not_follow"
+ ],
+ "hop_kind_vocab": [
+  "a_builtin",
+  "a_function_in_the_same_module",
+  "a_function_defined_in_another_in_repo_module",
+  "the_function_that_owns_the_default_argument",
+  "no_callee_because_the_value_is_normalised_and_compared",
+  "no_definition_was_found"
+ ],
+ "rows": [
+  {
+   "source": "scripts/e390_wrong_side_reader.py",
+   "name": "SELF",
+   "line": 508,
+   "declaration_line": 52,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\e390_wrong_side_reader.py",
+   "parent_site_count": 1,
+   "parent_spellings": [
+    "NAME"
+   ],
+   "hop": {
+    "kind": "no_callee_because_the_value_is_normalised_and_compared",
+    "callee": null,
+    "callee_source": null,
+    "parameter": null,
+    "use_classes": [],
+    "uses": [],
+    "site_class": "the_site_compares_a_normalised_own_path_and_no_callee_reads_it",
+    "detail": {
+     "climbed_through": null,
+     "statement": "os.path.abspath(path) == SELF"
+    }
+   },
+   "site_class": "the_site_compares_a_normalised_own_path_and_no_callee_reads_it",
+   "loads_at_this_line": 1,
+   "what_the_callee_does": "an_identity_token_never_read"
+  },
+  {
+   "source": "scripts/e390_wrong_side_reader.py",
+   "name": "SELF",
+   "line": 816,
+   "declaration_line": 52,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\e390_wrong_side_reader.py",
+   "parent_site_count": 2,
+   "parent_spellings": [
+    "scan_site(NAME)",
+    "NAME"
+   ],
+   "hop": {
+    "kind": "a_function_in_the_same_module",
+    "callee": "scan_site",
+    "callee_source": "scripts/e390_wrong_side_reader.py",
+    "parameter": "path",
+    "use_classes": [
+     "the_load_reaches_open_so_the_parameter_is_read_as_a_file",
+     "the_load_is_handed_to_another_callee_this_hop_does_not_follow"
+    ],
+    "uses": [
+     {
+      "use_class": "the_load_reaches_open_so_the_parameter_is_read_as_a_file",
+      "detail": {
+       "line": 412,
+       "callee": "open",
+       "argument_position": 0
+      }
+     },
+     {
+      "use_class": "the_load_is_handed_to_another_callee_this_hop_does_not_follow",
+      "detail": {
+       "line": 427,
+       "callee": "os.path.relpath",
+       "argument_position": 0
+      }
+     }
+    ],
+    "site_class": "one_hop_into_the_callee_the_parameter_is_opened"
+   },
+   "site_class": "one_hop_into_the_callee_the_parameter_is_opened",
+   "loads_at_this_line": 1,
+   "what_the_callee_does": "a_file_read_one_hop_out"
+  },
+  {
+   "source": "scripts/e390_wrong_side_reader.py",
+   "name": "SELF",
+   "line": 818,
+   "declaration_line": 52,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\e390_wrong_side_reader.py",
+   "parent_site_count": 2,
+   "parent_spellings": [
+    "os.path.abspath(NAME)",
+    "NAME"
+   ],
+   "hop": {
+    "kind": "no_callee_because_the_value_is_normalised_and_compared",
+    "callee": null,
+    "callee_source": null,
+    "parameter": null,
+    "use_classes": [],
+    "uses": [],
+    "site_class": "the_site_compares_a_normalised_own_path_and_no_callee_reads_it",
+    "detail": {
+     "climbed_through": "os.path.abspath",
+     "statement": "os.path.abspath(SELF) != os.path.abspath(os.path.join(ROOT, 'scripts', 'e390_wrong_side_reader.py'))"
+    }
+   },
+   "site_class": "the_site_compares_a_normalised_own_path_and_no_callee_reads_it",
+   "loads_at_this_line": 1,
+   "what_the_callee_does": "an_identity_token_never_read"
+  },
+  {
+   "source": "scripts/e390_wrong_side_reader.py",
+   "name": "SELF",
+   "line": 823,
+   "declaration_line": 52,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\e390_wrong_side_reader.py",
+   "parent_site_count": 1,
+   "parent_spellings": [
+    "NAME"
+   ],
+   "hop": {
+    "kind": "no_callee_because_the_value_is_normalised_and_compared",
+    "callee": null,
+    "callee_source": null,
+    "parameter": null,
+    "use_classes": [],
+    "uses": [],
+    "site_class": "the_site_compares_a_normalised_own_path_and_no_callee_reads_it",
+    "detail": {
+     "climbed_through": null,
+     "statement": "os.path.abspath(p) == SELF"
+    }
+   },
+   "site_class": "the_site_compares_a_normalised_own_path_and_no_callee_reads_it",
+   "loads_at_this_line": 1,
+   "what_the_callee_does": "an_identity_token_never_read"
+  },
+  {
+   "source": "scripts/e391_key_name_two_meanings.py",
+   "name": "SELF",
+   "line": 222,
+   "declaration_line": 62,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\e391_key_name_two_meanings.py",
+   "parent_site_count": 1,
+   "parent_spellings": [
+    "NAME"
+   ],
+   "hop": {
+    "kind": "no_callee_because_the_value_is_normalised_and_compared",
+    "callee": null,
+    "callee_source": null,
+    "parameter": null,
+    "use_classes": [],
+    "uses": [],
+    "site_class": "the_site_compares_a_normalised_own_path_and_no_callee_reads_it",
+    "detail": {
+     "climbed_through": null,
+     "statement": "os.path.abspath(p) == SELF"
+    }
+   },
+   "site_class": "the_site_compares_a_normalised_own_path_and_no_callee_reads_it",
+   "loads_at_this_line": 1,
+   "what_the_callee_does": "an_identity_token_never_read"
+  },
+  {
+   "source": "scripts/e391_key_name_two_meanings.py",
+   "name": "SELF",
+   "line": 551,
+   "declaration_line": 62,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\e391_key_name_two_meanings.py",
+   "parent_site_count": 1,
+   "parent_spellings": [
+    "NAME"
+   ],
+   "hop": {
+    "kind": "no_callee_because_the_value_is_normalised_and_compared",
+    "callee": null,
+    "callee_source": null,
+    "parameter": null,
+    "use_classes": [],
+    "uses": [],
+    "site_class": "the_site_compares_a_normalised_own_path_and_no_callee_reads_it",
+    "detail": {
+     "climbed_through": null,
+     "statement": "os.path.abspath(p) == SELF"
+    }
+   },
+   "site_class": "the_site_compares_a_normalised_own_path_and_no_callee_reads_it",
+   "loads_at_this_line": 1,
+   "what_the_callee_does": "an_identity_token_never_read"
+  },
+  {
+   "source": "scripts/e392_read_resolve.py",
+   "name": "SELF",
+   "line": 236,
+   "declaration_line": 62,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\e392_read_resolve.py",
+   "parent_site_count": 1,
+   "parent_spellings": [
+    "NAME"
+   ],
+   "hop": {
+    "kind": "no_callee_because_the_value_is_normalised_and_compared",
+    "callee": null,
+    "callee_source": null,
+    "parameter": null,
+    "use_classes": [],
+    "uses": [],
+    "site_class": "the_site_compares_a_normalised_own_path_and_no_callee_reads_it",
+    "detail": {
+     "climbed_through": null,
+     "statement": "os.path.abspath(path) == SELF"
+    }
+   },
+   "site_class": "the_site_compares_a_normalised_own_path_and_no_callee_reads_it",
+   "loads_at_this_line": 1,
+   "what_the_callee_does": "an_identity_token_never_read"
+  },
+  {
+   "source": "scripts/e446_frozen_writer.py",
+   "name": "SELF",
+   "line": 101,
+   "declaration_line": 37,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\e446_frozen_writer.py",
+   "parent_site_count": 1,
+   "parent_spellings": [
+    "NAME"
+   ],
+   "hop": {
+    "kind": "no_callee_because_the_value_is_normalised_and_compared",
+    "callee": null,
+    "callee_source": null,
+    "parameter": null,
+    "use_classes": [],
+    "uses": [],
+    "site_class": "the_site_compares_a_normalised_own_path_and_no_callee_reads_it",
+    "detail": {
+     "climbed_through": null,
+     "statement": "os.path.abspath(p) == SELF"
+    }
+   },
+   "site_class": "the_site_compares_a_normalised_own_path_and_no_callee_reads_it",
+   "loads_at_this_line": 1,
+   "what_the_callee_does": "an_identity_token_never_read"
+  },
+  {
+   "source": "scripts/etf_phase_beta_split.py",
+   "name": "OUT_PATH",
+   "line": 408,
+   "declaration_line": 49,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_phase_beta_split.json",
+   "parent_site_count": 1,
+   "parent_spellings": [
+    "NAME"
+   ],
+   "hop": {
+    "kind": "a_builtin",
+    "callee": "print",
+    "callee_source": null,
+    "parameter": null,
+    "use_classes": [
+     "renders_only"
+    ],
+    "uses": [],
+    "site_class": "the_callee_is_a_builtin_that_only_renders_the_value",
+    "detail": {
+     "statement": "print('wrote', OUT_PATH, '(%.0fs total)' % (time.time() - t_all), flush=True)"
+    }
+   },
+   "site_class": "the_callee_is_a_builtin_that_only_renders_the_value",
+   "loads_at_this_line": 1,
+   "what_the_callee_does": "rendered_into_a_message_and_never_read_as_data"
+  },
+  {
+   "source": "scripts/etf_phase_beta_target.py",
+   "name": "OUT_PATH",
+   "line": 374,
+   "declaration_line": 53,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_phase_beta_target.json",
+   "parent_site_count": 1,
+   "parent_spellings": [
+    "NAME"
+   ],
+   "hop": {
+    "kind": "a_builtin",
+    "callee": "print",
+    "callee_source": null,
+    "parameter": null,
+    "use_classes": [
+     "renders_only"
+    ],
+    "uses": [],
+    "site_class": "the_callee_is_a_builtin_that_only_renders_the_value",
+    "detail": {
+     "statement": "print('wrote', OUT_PATH, '(%.0fs total)' % (time.time() - t_all), flush=True)"
+    }
+   },
+   "site_class": "the_callee_is_a_builtin_that_only_renders_the_value",
+   "loads_at_this_line": 1,
+   "what_the_callee_does": "rendered_into_a_message_and_never_read_as_data"
+  },
+  {
+   "source": "scripts/etf_phase_cadence.py",
+   "name": "OUT_PATH",
+   "line": 185,
+   "declaration_line": 40,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_phase_cadence.json",
+   "parent_site_count": 1,
+   "parent_spellings": [
+    "NAME"
+   ],
+   "hop": {
+    "kind": "a_builtin",
+    "callee": "print",
+    "callee_source": null,
+    "parameter": null,
+    "use_classes": [
+     "renders_only"
+    ],
+    "uses": [],
+    "site_class": "the_callee_is_a_builtin_that_only_renders_the_value",
+    "detail": {
+     "statement": "print('wrote', OUT_PATH, '(%.0fs total)' % (time.time() - t0), flush=True)"
+    }
+   },
+   "site_class": "the_callee_is_a_builtin_that_only_renders_the_value",
+   "loads_at_this_line": 1,
+   "what_the_callee_does": "rendered_into_a_message_and_never_read_as_data"
+  },
+  {
+   "source": "scripts/etf_phase_cost_rolling.py",
+   "name": "OUT_PATH",
+   "line": 272,
+   "declaration_line": 42,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_phase_cost_rolling.json",
+   "parent_site_count": 1,
+   "parent_spellings": [
+    "NAME"
+   ],
+   "hop": {
+    "kind": "a_builtin",
+    "callee": "print",
+    "callee_source": null,
+    "parameter": null,
+    "use_classes": [
+     "renders_only"
+    ],
+    "uses": [],
+    "site_class": "the_callee_is_a_builtin_that_only_renders_the_value",
+    "detail": {
+     "statement": "print('wrote', OUT_PATH, '(%.0fs total)' % (time.time() - t_all), flush=True)"
+    }
+   },
+   "site_class": "the_callee_is_a_builtin_that_only_renders_the_value",
+   "loads_at_this_line": 1,
+   "what_the_callee_does": "rendered_into_a_message_and_never_read_as_data"
+  },
+  {
+   "source": "scripts/etf_phase_ensemble.py",
+   "name": "EW_PATH",
+   "line": 215,
+   "declaration_line": 39,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_phase_ensemble.json",
+   "parent_site_count": 1,
+   "parent_spellings": [
+    "NAME"
+   ],
+   "hop": {
+    "kind": "a_builtin",
+    "callee": "print",
+    "callee_source": null,
+    "parameter": null,
+    "use_classes": [
+     "renders_only"
+    ],
+    "uses": [],
+    "site_class": "the_callee_is_a_builtin_that_only_renders_the_value",
+    "detail": {
+     "statement": "print('wrote', EW_PATH, '(%.0fs total)' % (time.time() - t0))"
+    }
+   },
+   "site_class": "the_callee_is_a_builtin_that_only_renders_the_value",
+   "loads_at_this_line": 1,
+   "what_the_callee_does": "rendered_into_a_message_and_never_read_as_data"
+  },
+  {
+   "source": "scripts/etf_phase_package_n.py",
+   "name": "OUT_PATH",
+   "line": 409,
+   "declaration_line": 46,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_phase_package_n.json",
+   "parent_site_count": 1,
+   "parent_spellings": [
+    "NAME"
+   ],
+   "hop": {
+    "kind": "a_builtin",
+    "callee": "print",
+    "callee_source": null,
+    "parameter": null,
+    "use_classes": [
+     "renders_only"
+    ],
+    "uses": [],
+    "site_class": "the_callee_is_a_builtin_that_only_renders_the_value",
+    "detail": {
+     "statement": "print('wrote', OUT_PATH, '(%.0fs total)' % (time.time() - t_all), flush=True)"
+    }
+   },
+   "site_class": "the_callee_is_a_builtin_that_only_renders_the_value",
+   "loads_at_this_line": 1,
+   "what_the_callee_does": "rendered_into_a_message_and_never_read_as_data"
+  },
+  {
+   "source": "scripts/marks_coverage.py",
+   "name": "CAL_PATH",
+   "line": 150,
+   "declaration_line": 44,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data\\exchange_calendar.csv",
+   "parent_site_count": 1,
+   "parent_spellings": [
+    "NAME"
+   ],
+   "hop": {
+    "kind": "the_function_that_owns_the_default_argument",
+    "callee": "load_calendar",
+    "callee_source": "scripts/marks_coverage.py",
+    "parameter": "path",
+    "use_classes": [
+     "the_load_only_asks_whether_the_path_exists",
+     "the_load_reaches_open_so_the_parameter_is_read_as_a_file"
+    ],
+    "uses": [
+     {
+      "use_class": "the_load_only_asks_whether_the_path_exists",
+      "detail": {
+       "line": 153,
+       "callee": "os.path.exists",
+       "argument_position": 0
+      }
+     },
+     {
+      "use_class": "the_load_reaches_open_so_the_parameter_is_read_as_a_file",
+      "detail": {
+       "line": 156,
+       "callee": "open",
+       "argument_position": 0
+      }
+     }
+    ],
+    "site_class": "one_hop_into_the_callee_the_parameter_is_opened"
+   },
+   "site_class": "one_hop_into_the_callee_the_parameter_is_opened",
+   "loads_at_this_line": 1,
+   "what_the_callee_does": "a_file_read_one_hop_out"
+  }
+ ]
+}
