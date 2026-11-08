@@ -2256,6 +2256,14 @@ LEGS = [
     # (`gates["_GB_nan_skipped"] = rows["_GB_nan_skipped"]`), 1 never leaves its own function.
     # `check` re-derives every row's class and its evidence line from the sources.
     ("created_item_presence", ["python", "scripts/e552_created_item_presence.py", "check"]),
+    # E571 asks the question every receipt join skips: does the round *inside* the receipt say
+    # the same round as its own file name?  327 receipts, 242 state a round, and 0 disagree on
+    # value -- the defect is a dialect, not a lie: 12 spell it as an int, 209 as a decimal
+    # string, 16 as an `rNNNN` label, 5 as free text (three of those are ad-hoc test runs such
+    # as `_rverifybmb`), so an int-keyed consumer misses 230 of the 242.  `check` re-derives the
+    # dialect split, every identity class and every delta from the receipts on disk.
+    ("receipt_round_identity",
+     ["python", "scripts/e571_receipt_round_identity.py", "check"]),
 ]
 
 

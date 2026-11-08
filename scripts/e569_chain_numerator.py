@@ -395,14 +395,32 @@ def check():
         return 1
     fresh = build(write=False)
     problems = face_problems(fresh)
-    if published.get("summary") != fresh.get("summary"):
-        problems.append("the receipt recount moved since the face was published")
-    if published.get("verdict") != fresh.get("verdict"):
-        problems.append("the verdict moved since the face was published")
+
+    # The chain writes a new receipt into this corpus every time it runs, so the population
+    # grows under the leg that measures it and a whole-corpus compare went red every round
+    # (r1598 saw the leg red for a receipt the chain itself had just appended).  `check`
+    # therefore re-derives the *published* population; arrivals are a note, not a defect.
+    pinned = {r["file"] for r in published.get("rows") or [] if r.get("file")}
+    fresh_by_file = {r["file"]: r for r in fresh.get("rows") or [] if r.get("file")}
+    missing = sorted(f for f in pinned if f not in fresh_by_file)
+    if missing:
+        problems.append("pinned receipt(s) disappeared: %s" % ", ".join(missing[:3]))
+    newly = sorted(f for f in fresh_by_file if f not in pinned)
+
+    subset = [fresh_by_file[f] for f in sorted(pinned) if f in fresh_by_file]
+    joined_subset = [r for r in subset if r.get("printed_matches_derived_rc0") is not None]
+    subset_summary = _summarize(subset, joined_subset)
+    if published.get("summary") != subset_summary:
+        problems.append("the published population no longer re-derives from the receipts "
+                        "pinned in this face")
+    if published.get("verdict") != _verdict(subset_summary):
+        problems.append("the verdict does not re-derive from the pinned population")
     if problems:
         print("CHECK FAIL: %d problems; first=%s" % (len(problems), str(problems[0])[:300]))
         return 1
-    print("CHECK PASS: %s" % fresh["verdict_line"])
+    note = (" | %d receipt(s) arrived after the face was pinned (rebuild extends it)"
+            % len(newly)) if newly else ""
+    print("CHECK PASS: %s%s" % (_verdict_line(subset_summary), note))
     return 0
 
 

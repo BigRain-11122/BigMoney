@@ -13921,3 +13921,10 @@ eceipts_stating_no_count，混进分母会把「没写」读成「写错」。�
 **边界**：纯静态、只读回执与已发布面；不跑 runner、不改回执、不判三条偏差的成因（下一张卡 E572 定价「换了一次运行 / 引了一个子集 / 写错了数」三选一）。
 
 **证据** = scripts/e569_chain_numerator.py（build/check/verify + selftest 8/8）· results/state_tilt/CHAINNUMERATOR-2026-11-08.json + chainnumerator_latest.json · S6 腿 chain_numerator（rc=0 0.14s）· smoke # E569 + scripts/run_e569_smoke_leg.py（--doctor 拒改数）· digest research/digests/DIGEST-20261109-r1597-e569-chain-numerator.md
+
+### E571 · 回执的轮号「对不上」是方言不是谎，且测它的那条腿会被链自己写红（r1598 bm-b·2026-11-09）
+**问**：E561 数出 17 份回执的 ound\ 字段与文件名里的轮号「不一致」，从没定价过。一个把字段当权威的读者会把这些回执 join 到错误的轮上，而两边都是整数时错得无声。
+**读数**：328 份回执 / **243** 份写了轮号 / **值不一致 = 0**（238 一致，5 值非数字，61 无字段）/ 方言分布 **int=12、十进制字符串=210、NNNN\ 标签=16、自由文本=5** / **231/243 会被「按 int 查表」的读者漏掉** / 自由文本那 5 份里 3 份是临时测试件（\_rverifybmb\、\_rrunbmb\、\_rspread_floorbmb\）。**E561 数的 17 份「不一致」在值层面是 0，全是类型方言。**
+**教训**：① **「不一致」这个词必须带单位**——同一批 17 份，按值判是 0，按类型判是 17；把两种合成一个词会让下一位读者去找 17 个幽灵，也会让一次真正的值错淹没在 17 个类型噪音里。② **值分歧才需要 ts/commit 见证**（决定哪一侧是真），方言分歧不需要——所以本面把「需见证的人群」压到 0，卡里那条 ts 臂诚实地没跑。③ **同名两份方言分布要一起发布**：只报「一致 238」会读成 238/243 健康，漏掉 231 个 join 陷阱。④ **测人口的那条腿会被人口自己写红**：链每跑一次就往回执目录追加一份，E569 的 \check\ 拿全目录比发布面，于是 r1596/r1597 各写一份之后它每轮必红（本轮开局实测 red）。E570 的卡在 r1596 就把这条规律写下来了，但**没有任何人把它接进那条更老的腿**——规律写进卡不等于接进代码。正法=**按名钉住发布人口**：\check\ 只对「本面 rows 里的文件」重新导数，新到的回执记一行 note（rebuild 再扩），消失才是故障。E569 同法修复（red→green）。
+**边界**：纯静态、只读回执；不执行 runner、不改回执、不判 ts 与 commit 谁对（值分歧为 0 时该问题不存在）。bm-a/bm-c 的 other 方言只记录不修。
+**证据** = scripts/e571_receipt_round_identity.py（build/check/verify + selftest 7/7）· results/state_tilt/RECEIPTROUNDCONF-2026-11-08.json + receiptroundconf_latest.json · S6 腿 receipt_round_identity（rc=0 0.13s）· smoke #E571 + scripts/run_e571_smoke_leg.py（--doctor 拒改）· 同轮修复 scripts/e569_chain_numerator.py 的钉人口 check · digest research/digests/DIGEST-20261109-r1598-e571-receipt-round-identity.md
