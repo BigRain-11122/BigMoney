@@ -24206,6 +24206,52 @@
    "done_at": "2026-10-31 05:12:03"
   },
   {
+   "id": "EXEC-BOOK-SIZE-PROVENANCE-20261108",
+   "title": "which rule sizes the money that is about to be traded: beta target vs the adjudicated book's 8% vol target, both repriced at the ticket's own decision bar.",
+   "target": "scripts/etf_book_live_size_provenance.py",
+   "runner": "python scripts/etf_book_live_size_provenance.py run",
+   "lane": "cpu-only",
+   "lane_owner": "",
+   "status": "done",
+   "deliverable": "results/etf_book_live_size_provenance/SIZE-PROVENANCE.json",
+   "evidence_cutoff": "2026-11-06",
+   "entered_at": "2026-11-08T22:04+08:00",
+   "entered_by": "bm-c r1447",
+   "source": "r1446 left it open: the weight in force 0.460253 comes from k=beta_target/beta_hat, while the book the year gate adjudicates sizes itself with an 8% vol target",
+   "result_ref": "results/etf_book_live_size_provenance/SIZE-PROVENANCE.json",
+   "outcome": "done",
+   "closed_by": "bm-c r1447",
+   "closed_at": "2026-11-08T22:04+08:00",
+   "close_note": "DIFFERENT_BOOK_AND_SIZE with five identity legs green: beta rule 0.460253 (reproduces the ticket) vs vol rule 0.648195 at the same decision bar 2026-10-14, gap -18.79pp = -187,755 CNY on the ticket's NAV; 4 of 5 names differ and 4 of the 5 held names are crossborder, a class the graded card never prices."
+  },
+  {
+   "id": "EXEC-BOOK-CLASS-BETA-20261108",
+   "title": "who supplies the beta the rule measures? Decompose the executed book's beta_hat 0.4345 across its names and asset classes, and size the same rule on the graded universe alone (equity/commodity/convertible) to see whether 0.46 is still the number once the four ungraded crossborder names are removed.",
+   "target": "scripts/etf_book_class_beta_split.py (to be written)",
+   "runner": "python scripts/etf_book_class_beta_split.py run",
+   "lane": "cpu-only",
+   "lane_owner": "",
+   "status": "done",
+   "deliverable": "results/etf_book_class_beta_split.json -- beta/vol contribution per name and per class for the book in force, plus the beta rule re-run on the graded universe only, so a size quoted for 2026-11-11 names which class it is betting on.",
+   "evidence_cutoff": "2026-11-06",
+   "entered_at": "2026-11-08T22:04+08:00",
+   "entered_by": "bm-c r1447",
+   "source": "r1447: the executed book holds 4 crossborder names the graded card never prices; 0.46 measured on a book including them is not the size of the book the gate graded, and nothing yet says which class carries the beta_hat the rule divides by.",
+   "shards": [
+    {
+     "key": "class-beta-0of1",
+     "owner": "bm-c",
+     "owner_since": "2026-11-08T23:26+08:00",
+     "status": "done",
+     "checkpoint": "results/etf_book_class_beta_split.json",
+     "result_ref": "results/etf_book_class_beta_split.json"
+    }
+   ],
+   "result_ref": "results/etf_book_class_beta_split.json",
+   "closed_at": "2026-11-08T23:26+08:00",
+   "closed_by": "bm-c r1448"
+  },
+  {
    "claimed_at": "2026-11-04T21:22+08:00",
    "deliverable": "results/state_tilt/BASENAMECENSUS-<cutoff>.json",
    "done_at": "2026-11-04T21:52+08:00",
@@ -30122,13 +30168,30 @@
    "lane": "cpu-only",
    "lane_note": "static: this host's session transcripts (executed command lines only), the round rows they were attributed to, and nothing else; no runner executed",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E575 (r1603 bm-b): 490 chain executions were read out of the transcripts and 38 of them fell outside every round row inside the 6h tolerance -- they are published as unattributable, so the per-round answer silently excludes whatever ran in a gap between rounds (an interactive session, a manual rerun, a hang).",
    "target": "results/state_tilt/GAPCALLS_latest.json",
    "deliverable": "results/state_tilt/GAPCALLS-<cutoff>.json",
    "title": "For the chain executions that no round row follows inside the tolerance, publish where they sit: which hours, whether a report row of any machine follows later than the tolerance, whether they carry --only, and whether the same command also appears inside an attributed round. The population is E575's unattributable list; a gap command that is a duplicate of an attributed one must be published as a duplicate, not as an extra run.",
    "entered_at": "2026-11-09T02:5x+08:00",
    "entered_by": "bm-b r1603",
+   "evidence_cutoff": "2026-11-08",
+   "closed_at": "2026-11-09T03:05+08:00",
+   "result_ref": "results/state_tilt/gapcalls_latest.json",
+   "closed_by": "bm-b r1604"
+  },
+  {
+   "id": "E577-WHETHER-NIGHT-BATCH-WORK-IS-WHAT-THE-GAP-CLASS-ACTUALLY-CONTAINS",
+   "lane": "cpu-only",
+   "lane_note": "static: this host transcripts + round rows + the S6 chain receipts on disk; no runner executed",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E576 (r1604 bm-b): 31 of 39 gap executions sit 6.5-14.8h after the previous row, which reads like overnight batch work left outside the 6h window rather than unattended automation.",
+   "target": "results/state_tilt/NIGHTGAP_latest.json",
+   "deliverable": "results/state_tilt/NIGHTGAP-<cutoff>.json",
+   "title": "For each of E576 class only_a_row_beyond_the_tolerance_follows, ask what actually ran in that gap: publish the hour span, whether any S6 chain receipt on disk was written inside the gap, whether the machine heartbeat was silent for the whole gap, and whether the gap ends at the first row of a round whose own row says it started then. A gap that ends where the next round begins is a boundary artifact, not an unrecorded run, and must be published as such.",
+   "entered_at": "2026-11-09T03:05+08:00",
+   "entered_by": "bm-b r1604",
    "evidence_cutoff": "2026-11-08"
   }
  ],
@@ -30144,6 +30207,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T02:5x+08:00",
+ "updated_at": "2026-11-09T03:05+08:00",
  "version": 1
 }

@@ -25013,5 +25013,63 @@ except Exception as _e575x:
     _d575 = "study could not be read"
 check(_name575, not _bad575, "; ".join(_bad575)[:240] or _d575)
 
+# E576: E575 left 38-39 chain executions outside every round row of their own machine and stopped
+# there, which makes the per-round answer silently exclude whatever ran between rounds.  This leg
+# re-derives that population from the transcripts and refuses the two ways the partition could be
+# a wish: a duplicate published as an extra run (the doctored copy below relabels it), and a class
+# that no longer agrees with the row it sits on (a next-row inside the tolerance named as late).
+_name576 = "E576 where the chain executions no round row follows actually sit (r1604 bm-b)"
+_bad576 = []
+_d576 = "no reading"
+try:
+    _m576 = importlib.import_module("e576_gap_calls")
+    _f576 = json.load(open(os.path.join("results", "state_tilt",
+                                        "gapcalls_latest.json"), encoding="utf-8"))
+    _s576 = _f576.get("summary") or {}
+    _r576 = _f576.get("rows") or []
+    _bad576.extend(_m576.face_problems(_f576))
+    if _s576.get("population_agrees_with_e575") is not True:
+        _bad576.append("the re-derived population disagrees with E575's own count")
+    if _s576.get("corpus_executions", 0) < 1:
+        _bad576.append("no chain execution was read, so the population was not rebuilt")
+    if _s576.get("rows") != _s576.get("corpus_unattributed"):
+        _bad576.append("the published rows do not equal the unattributed executions")
+    for _r776 in _r576:
+        _k = _r776.get("class")
+        _nr = _r776.get("next_row_any_machine")
+        if _k == _m576.C_CROSS and not (_nr and _nr.get("inside_tolerance")):
+            _bad576.append("%s: a cross-machine row names no row inside the tolerance"
+                           % _r776.get("ts"))
+            break
+        if _k == _m576.C_DUP and not _r776.get("duplicate_of"):
+            _bad576.append("%s: a duplicate was published without what it duplicates"
+                           % _r776.get("ts"))
+            break
+    _doc576 = json.loads(json.dumps(_f576))
+    for _r776 in _doc576.get("rows") or []:
+        if _r776.get("class") == _m576.C_LATE:
+            _r776["class"] = _m576.C_CROSS
+            break
+    else:
+        _bad576.append("no late row exists to doctor, so the guard was not exercised")
+    if not _m576.face_problems(_doc576):
+        _bad576.append("a late row relabelled as cross-machine was accepted")
+    _d576 = ("gap=%d duplicate=%d cross=%d late=%d nothing=%d | hours=%d with_switch=%d "
+             "| corpus=%d e575=%d | %s"
+             % (_s576.get("rows", 0),
+                _s576.get("duplicates_of_attributed_runs", 0),
+                _s576.get("cross_machine_inside_tolerance", 0),
+                _s576.get("beyond_tolerance", 0),
+                _s576.get("no_later_row_at_all", 0),
+                _s576.get("hours_hit", 0),
+                _s576.get("executions_carrying_the_switch", 0),
+                _s576.get("corpus_executions", 0),
+                _s576.get("e575_unattributed_again", 0),
+                _f576.get("verdict")))
+except Exception as _e576x:
+    _bad576.append(repr(_e576x)[:160])
+    _d576 = "study could not be read"
+check(_name576, not _bad576, "; ".join(_bad576)[:240] or _d576)
+
 if __name__ == "__main__":
     sys.exit(main())

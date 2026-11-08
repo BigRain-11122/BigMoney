@@ -2299,6 +2299,12 @@ LEGS = [
     # rather than silent.  `check` re-derives every class from the rows.
     ("only_flag",
      ["python", "scripts/e575_only_flag.py", "check"]),
+    # E576 (r1604 bm-b): E575's 39 unattributable executions are priced where they sit -- 0 are
+    # duplicates of an attributed run, 7 fall inside another machine's window, 31 sit after a gap
+    # beyond the 6h tolerance, and 1 has no row of any machine after it.  `check` re-derives the
+    # partition, the hour histogram and the duplicate arm from the published rows.
+    ("gap_calls",
+     ["python", "scripts/e576_gap_calls.py", "check"]),
 ]
 
 
