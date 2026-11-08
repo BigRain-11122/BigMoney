@@ -30384,13 +30384,33 @@
    "lane": "cpu-only",
    "lane_note": "static: read results/etf_book_order/CASHSILENCE.json + results/etf_book_forward/LEDGER.json and put each book bar's ledger carry beside the ticket's per-step accrual on that bar; no runner, no fetch, no panel write",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E590 (r1617 bm-b): the ticket's cash leg accrues nothing on 7 bar-steps because the GC001 panel ends 2026-10-27, while the forward ledger books carry on all eight of those same bars (1.10e-05 .. 3.34e-05 per bar). One face is silent and the other is not, on identical bars.",
    "target": "results/etf_book_order/CASHDIVERGE.json",
    "deliverable": "results/etf_book_order/CASHDIVERGE.json: per book bar since the GC001 panel ends, the ledger's booked carry, the GC001 accrual the ticket's own rule would have booked, the ticket's actual zero, and the gap in CNY on the publishing ticket's cash",
    "title": "Publish, per bar since 2026-10-27, whether the forward ledger and the ticket's cash leg accrue on the same bars: the ledger's booked carry from the three-rung ladder beside what the ticket's GC001 rule would have booked and what it actually booked (zero), priced on the 2026-11-06 ticket's own cash.",
    "entered_at": "2026-11-09T06:35:00+08:00",
    "entered_by": "bm-b r1617",
+   "evidence_cutoff": "2026-11-06",
+   "claimed_by": "bm-b",
+   "done_at": "2026-11-09T06:58:00+08:00",
+   "done_by": "bm-b r1618",
+   "done_round": "r1618",
+   "result_ref": "results/etf_book_order/CASHDIVERGE.json (per-bar ledger carry against the ticket's accrual on one cash base, with the replay column) + scripts/e591_cash_diverge.py (selftest 29/29, check/verify problems=[], standalone smoke leg PASS + 1/1 red under --doctor) + S6 leg cash_diverge",
+   "done_note": "r1618 bm-b: on the 8 book bars past the repo panel's last real quote (2026-10-27) the ledger books carry on all 8 while the ticket books on 1 -- 161.13 CNY against 0.00 on the publishing ticket's 529,072 CNY cash, a gap of 3.046 bp, of which the ticket's own rule would have explained 15.80 had the prior bar been quoted. Both faces read the same stale panel; the difference is forward-fill versus zero. The printed carry is cash-weighted (x3.342 when repriced on the ticket's cash) and one bar is negative."
+  },
+  {
+   "id": "E592-WHETHER-THE-LEDGERS-CARRY-IS-REPRODUCIBLE-WHEN-THE-ROLL-PHASE-IS-INFERRED-FROM-ITS-OWN-BARS",
+   "lane": "cpu-only",
+   "lane_note": "static: replay etf_book_cash_ladder.ladder3 over the ledger's bars under every contract start offset and rung phase, compare each replay with the published carry; no runner, no fetch, no panel write",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E591 (r1618 bm-b): a clean-phase replay of the shipped ladder3 reproduces only 4 of 8 bars past the repo panel within 0.5% (one bar is off by 82%, another 46%, and one flips sign), so the ledger's carry is not re-derivable from the panel plus the published face -- the contract phase is unpublished state.",
+   "target": "results/etf_book_forward/CARRYPHASE.json",
+   "deliverable": "results/etf_book_forward/CARRYPHASE.json: the best-fitting phase per rung, the bars each candidate phase reproduces within a stated tolerance, the residual it cannot explain, and one sentence naming the state a reader would need for the ledger's carry to be reproducible",
+   "title": "Establish whether the forward ledger's published carry can be reproduced by inferring its ladder roll phase from its own bars: search the contract start offsets and rung phases, publish which phase reproduces which bars, and price the residual that no phase explains.",
+   "entered_at": "2026-11-09T06:58:00+08:00",
+   "entered_by": "bm-b r1618",
    "evidence_cutoff": "2026-11-06"
   }
  ],
@@ -30406,6 +30426,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T06:35:00+0800",
+ "updated_at": "2026-11-09T06:58:00+0800",
  "version": 1
 }

@@ -2372,6 +2372,16 @@ LEGS = [
     # must agree with that table.
     ("cash_silence",
      ["python", "scripts/e590_cash_silence.py", "check"]),
+    # E591 (r1618 bm-b): E590 priced the ticket's silence; reading the forward ledger for the same
+    # stretch shows the opposite treatment of the same stale panel -- the ledger forward-fills and
+    # books carry on all eight bars past the panel (161.13 CNY on the publishing ticket's cash),
+    # the ticket zeroes all but the one step whose prior bar was still quoted (15.80).  This leg
+    # reads the bar-by-bar face: every ladder rate must un-weight from the published carry/cash
+    # pair, every CNY must price on the ticket's own cash, the gap must be the ledger total minus
+    # what the ticket actually booked, "the ticket books here" must agree with the prior-bar quote,
+    # and a replay's verdict must follow its own relative gap.
+    ("cash_diverge",
+     ["python", "scripts/e591_cash_diverge.py", "check"]),
 ]
 
 

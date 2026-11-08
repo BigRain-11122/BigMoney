@@ -25516,5 +25516,57 @@ except Exception as _e590x:
 check(_name590, not _bad590, "; ".join(_bad590)[:240] or _d590)
 
 
+# E591: E590 priced the ticket's silence and left the asymmetry visible in the same window -- the
+# ledger books carry on all eight bars past the repo panel's last quote while the ticket books on
+# one.  E591 puts the two faces bar by bar on one cash base: 161.13 CNY against the ticket's zero
+# (3.046 bp of its 529,072 CNY cash), of which the ticket's own rule would have explained 15.80
+# had the prior bar been quoted.  This leg reads the published face and refuses the ways that
+# could be a wish: a rate that does not re-derive from the published carry/cash pair, a CNY that
+# does not price on the ticket's own cash, a gap that is not the ledger total minus what the
+# ticket actually booked, a "the ticket books here" flag that disagrees with the prior-bar quote,
+# a replay verdict that does not follow its own relative gap, and a summary that drifts from its
+# rows.
+_name591 = ("E591 whether the ledger and the ticket accrue on the same bars past the repo panel "
+            "(r1618 bm-b)")
+_bad591 = []
+_d591 = "no reading"
+try:
+    _p591 = os.path.join("results", "etf_book_order", "CASHDIVERGE.json")
+    _f591 = json.load(open(_p591, encoding="utf-8"))
+    _s591 = _f591.get("summary") or {}
+    _m591 = importlib.import_module("e591_cash_diverge")
+    _bad591.extend(_m591.face_problems(_f591))
+    _led591 = json.load(open(os.path.join("results", "etf_book_forward", "LEDGER.json"),
+                             encoding="utf-8"))
+    _lbars591 = [b.get("bar") for b in _led591.get("bars") or []]
+    _r591 = _f591.get("bars") or []
+    if _r591 and not set(r.get("bar") for r in _r591) <= set(_lbars591):
+        _bad591.append("a measured bar is not one of the ledger's own bars")
+    if _r591 and any(r.get("bar") not in _lbars591 for r in _r591):
+        _bad591.append("the face measures a bar the ledger does not publish")
+    if _s591.get("gap_cny_total") and not _s591.get("bars_where_the_ticket_books"):
+        _bad591.append("a gap is published while the ticket is said to book nothing")
+    if _s591.get("ledger_caveat_claims_cash_earns_zero") and not _s591.get(
+            "ledger_bars_posting_carry"):
+        _bad591.append("the caveat is flagged as contradicted but no bar posts carry")
+    _d591 = ("bars=%d ledger=%.2f CNY vs ticket=%.2f (rule would give %.2f) gap=%.2f (%.3f bp) "
+             "ticket_books=%d/ledger_books=%d replay=%d/%d | %s"
+             % (_s591.get("book_bars_past_the_panel", 0),
+                _s591.get("ledger_cny_total_on_ticket_cash") or 0.0,
+                _s591.get("ticket_actual_cny_total") or 0.0,
+                _s591.get("ticket_rule_cny_total") or 0.0,
+                _s591.get("gap_cny_total") or 0.0,
+                _s591.get("gap_bp_of_ticket_cash") or 0.0,
+                _s591.get("bars_where_the_ticket_books", 0),
+                _s591.get("ledger_bars_posting_carry", 0),
+                (_f591.get("reproducibility") or {}).get("bars_reproduced") or 0,
+                (_f591.get("reproducibility") or {}).get("bars_judged") or 0,
+                _f591.get("verdict")))
+except Exception as _e591x:
+    _bad591.append(repr(_e591x)[:160])
+    _d591 = "study could not be read"
+check(_name591, not _bad591, "; ".join(_bad591)[:240] or _d591)
+
+
 if __name__ == "__main__":
     sys.exit(main())
