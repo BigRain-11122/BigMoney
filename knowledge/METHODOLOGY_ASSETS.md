@@ -11167,3 +11167,33 @@ ORDER_EXCEEDS_PERMISSION_NOBODY_READS_IT。
 Pos=scripts/etf_book_cut_order_gap.py（selftest 10/10 · check 7/7 · S6 腿 cut_order_gap）
 + results/etf_book_cut_order_gap.json + research/ETF_BOOK_CUT_ORDER_GAP.md
 + research/digests/DIGEST-20261109-r1451-cut-order-gap.md
+
+## E459 — 削减不是缩放：夹小规模能改集中度，改不了合格（r1452 bm-c）
+
+r1450 判出 11-11 必须落 k=0.393073（比票面的 0.460253 少 6.72pp），r1451 又在自己的未测
+清单里写下第一条：k 变小不等于书变好。本轮把每一根 bar 的 k 夹在该许可之下，用同一套冻结
+日历闸重判票面所用的那条构造（构造全部 import 自 etf_book_wrapper_year_gate.py）。
+
+读数（同窗 2020-07-16..2026-11-06 · 1530 bar，剪在 490 根 = 32.0%）：不削臂 ADMIT
+（top-2 0.6752 / 只算完整年 0.7757 / 年度和 44.32% / CAGR 7.15%）；全史夹紧臂 ADMIT
+（0.6465 / 0.7484 / 39.81% / 6.47%）；仅决策日起夹紧臂**与不削臂一字不差**（只碰 3 根 bar）。
+逐年差 2020-23 全零，2025 −3.94pp（承载年 23.25%→19.31%）。
+
+三条可复用：
+①**纯缩放不买合格，时变削减才动日历**——常数 k 0.50 vs 0.40 零现金零成本时 top-2 只差
+0.16pp（夹具），而时间变动的 cap 差 1.9pp，因为它同时改了 k 路径和它省下的换手成本。
+所以「削一点会不会更稳」只能测不能推；反过来，任何「小仓位所以更安全」的话都得给出路径。
+②**闸的年行必须带证据单位**——首版只给 net_pct + bars，缺 cohorts，七个真年份被
+admission_block 读成 **0 年证据**并给出全 False 的 REFUSE：不是异常，是合法形状的假读数。
+夹具两条钉死：无 cohort 的年份＝零证据 / 补上 cohort 就数回来。
+③**反事实与可实施臂并列印**——全史夹紧是唯一能回答「小书是不是好书」的形状，但从未被持有；
+真正能下的单只影响 3 根 bar。两个数字分开印，读者才知道哪一个是决策面（本例：服从许可在闸面上免费，
+只花机会成本 0.68pp/年 ≈ CNY 6,800）。
+副产品：yearly_level_returns 收到收益序列（首值 0.0）会除零崩——现在印 None，
+夹具钉「收益序列当净值读不产出数字」。
+
+一句话：**削减把书变分散 2.87pp，却没把「白送的 ADMIT」变成「合格」**——只算完整年仍 74.84% > 70%。
+
+Pos=scripts/etf_book_cut_gate_pass.py（selftest 16/16 · run 70s · check 待接线）
++ results/etf_book_cut_gate_pass/CUT-GATE-PASS.json + research/ETF_BOOK_CUT_GATE_PASS.md
++ research/digests/DIGEST-20261109-r1452-cut-gate-pass.md

@@ -653,6 +653,16 @@ def main() -> int:
              "scripts/etf_book_cut_order_gap.py", ["selftest"]),
             ("product: etf_book_cut_order_gap (gap and consumers re-derived)",
              "scripts/etf_book_cut_order_gap.py", ["--check"]),
+            # r1452: a cut is not a scaling. The legs pin that a cap only ever shrinks a
+            # decision (never moves a date, a cap above every k is a no-op, and a cap from
+            # a date leaves earlier decisions untouched), that constant-k scaling moves the
+            # concentration reading by under 0.5pp while a time-varying cap does move it,
+            # and that a year row without the gate's cohort unit is counted as zero
+            # evidence rather than as a small sample.
+            ("product: etf_book_cut_gate_pass (a cut is not a scaling)",
+             "scripts/etf_book_cut_gate_pass.py", ["selftest"]),
+            ("product: etf_book_cut_gate_pass (three arms re-derived)",
+             "scripts/etf_book_cut_gate_pass.py", ["--check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a
