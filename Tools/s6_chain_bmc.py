@@ -909,6 +909,13 @@ LEGS = [
     # from the ticket's own bar and that session's IOPV (0.3s, no repricing).
     ("premium_leak",
      ["python", "scripts/etf_book_premium_leak.py", "check"]),
+    # r1464: premium_leak priced WHAT the ticket pays above the basket but could not answer
+    # "is 23% high?" (one observation of history). The answerable question is relative: the
+    # same basket is sold under several tickers on the same board. `check` re-reads the board
+    # and refuses a face that quotes a sibling at a premium the board does not carry, whose
+    # label phrases resolve nothing, or whose totals do not add up line by line (0.2s).
+    ("sibling_entry",
+     ["python", "scripts/etf_book_sibling_entry.py", "check"]),
     # r1440: forty rounds read the calendar and the order page as two separate
     # subjects. This leg puts them in one sentence from receipts only (no
     # repricing): today the ticket executes nobond_vt08_adopted at book_weight

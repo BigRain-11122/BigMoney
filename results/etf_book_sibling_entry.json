@@ -1,0 +1,168 @@
+{
+ "artifact": "etf_book_sibling_entry",
+ "session": "2026-11-06",
+ "ticket": "TICKET-2026-11-06.json",
+ "criteria": {
+  "liq_floor_cny": 20000000.0,
+  "material_gap_pp": 0.5,
+  "min_family_members": 2
+ },
+ "summary": {
+  "legs": [
+   {
+    "symbol": "159501",
+    "amount_cny": 91863.6,
+    "premium_pct": 23.6405,
+    "label": "纳指ETF",
+    "index": "NDX100",
+    "sibling_count": 12,
+    "cheapest": {
+     "code": "159513",
+     "name": "纳斯达克100ETF大成",
+     "premium_pct": 14.9697,
+     "amount_cny": 404332609.0
+    },
+    "gap_pp": 8.6708,
+    "basket_gain_cny": 5612.5,
+    "family_floor_pct": 14.9697,
+    "verdict": "SWAP_SAVES",
+    "why": ""
+   },
+   {
+    "symbol": "513100",
+    "amount_cny": 91930.8,
+    "premium_pct": 21.2564,
+    "label": "纳指ETF",
+    "index": "NDX100",
+    "sibling_count": 12,
+    "cheapest": {
+     "code": "159513",
+     "name": "纳斯达克100ETF大成",
+     "premium_pct": 14.9697,
+     "amount_cny": 404332609.0
+    },
+    "gap_pp": 6.2867,
+    "basket_gain_cny": 4149.3,
+    "family_floor_pct": 14.9697,
+    "verdict": "SWAP_SAVES",
+    "why": ""
+   },
+   {
+    "symbol": "513690",
+    "amount_cny": 91945.2,
+    "premium_pct": 0.0778,
+    "label": "港股红利ETF",
+    "index": null,
+    "sibling_count": 0,
+    "cheapest": null,
+    "gap_pp": null,
+    "basket_gain_cny": null,
+    "family_floor_pct": null,
+    "verdict": "CANNOT_VERIFY",
+    "why": "label 港股红利ETF names no other live ticker on this board (no sibling group)"
+   },
+   {
+    "symbol": "159577",
+    "amount_cny": 92045.2,
+    "premium_pct": 9.6673,
+    "label": "美国50ETF",
+    "index": "US50",
+    "sibling_count": 2,
+    "cheapest": {
+     "code": "513850",
+     "name": "美国50ETF易方达",
+     "premium_pct": 9.477,
+     "amount_cny": 307608856.0
+    },
+    "gap_pp": 0.1903,
+    "basket_gain_cny": 145.8,
+    "family_floor_pct": 9.477,
+    "verdict": "GAP_IMMATERIAL",
+    "why": "0.19pp below the 0.50pp materiality line"
+   },
+   {
+    "symbol": "159263",
+    "amount_cny": 92011.5,
+    "premium_pct": -0.1834,
+    "label": "价值ETF",
+    "index": null,
+    "sibling_count": 0,
+    "cheapest": null,
+    "gap_pp": null,
+    "basket_gain_cny": null,
+    "family_floor_pct": null,
+    "verdict": "CANNOT_VERIFY",
+    "why": "label 价值ETF names no other live ticker on this board (no sibling group)"
+   }
+  ],
+  "planned_amount_cny": 459796.3,
+  "swappable_legs": 2,
+  "unverifiable_legs": 2,
+  "basket_gain_cny": 9761.9,
+  "immaterial_gain_cny": 145.8,
+  "all_priced_gain_cny": 9907.7,
+  "gain_share_of_order_pct": 2.123
+ },
+ "sentence": "same cash, same index, other ticker: 9,762 CNY more basket (2.123% of the 459,796 ordered) from 2 of 5 legs",
+ "families": [
+  {
+   "index": "NDX100",
+   "members": 12,
+   "live_members": 12,
+   "cheapest": {
+    "code": "159513",
+    "name": "纳斯达克100ETF大成",
+    "premium_pct": 14.9697
+   },
+   "dearest": {
+    "code": "159501",
+    "name": "纳指ETF嘉实",
+    "premium_pct": 23.6405
+   },
+   "min_pct": 14.9697,
+   "members_at_a_discount": 0,
+   "spread_pp": 8.6708
+  },
+  {
+   "index": "US50",
+   "members": 2,
+   "live_members": 2,
+   "cheapest": {
+    "code": "513850",
+    "name": "美国50ETF易方达",
+    "premium_pct": 9.477
+   },
+   "dearest": {
+    "code": "159577",
+    "name": "美国50ETF汇添富",
+    "premium_pct": 9.6673
+   },
+   "min_pct": 9.477,
+   "members_at_a_discount": 0,
+   "spread_pp": 0.1903
+  }
+ ],
+ "labels_in_board": 14,
+ "unresolved_labels": {
+  "A500ETF": 20,
+  "沪深300ETF": 18,
+  "证券ETF": 17,
+  "机器人ETF": 17,
+  "电力ETF": 16,
+  "中证500ETF": 16,
+  "电池ETF": 16,
+  "科创综指ETF": 16,
+  "光伏ETF": 15,
+  "工程机械ETF": 15
+ },
+ "unresolved_names": 1652,
+ "dead_label_phrases": [],
+ "caveats": [
+  "the label is read from the NAME, not from a fund document: two tickers that carry different words for the same basket are not merged, and under-merging can only understate the saving",
+  "premium = price / IOPV - 1 on one session snapshot; IOPV is a real-time estimate, not a published NAV, so a cross-border leg's number inherits that error (it is the same ruler r1463 uses)",
+  "a swap is a different ISIN holding the same index -- tracking difference, fee, size and quotation width are NOT priced here",
+  "the basket gain assumes the cash stays the same; buying the cheaper sibling therefore buys more units, not the same units",
+  "liquidity floor is a session turnover number, not a depth test: a 20M-turning ETF can still be thin at the moment of a 92k order",
+  "this face says nothing about whether the index itself should be bought today"
+ ]
+}

@@ -752,6 +752,15 @@ def main() -> int:
              "scripts/etf_book_premium_leak.py", ["selftest"]),
             ("product: etf_book_premium_leak (published premium and rank re-derived)",
              "scripts/etf_book_premium_leak.py", ["check"]),
+            # r1464: the premium is paid per ticker but charged per index. The legs pin the
+            # house-stripping (a 4-character house must not eat a letter of the label, and a
+            # board that repeats houses must derive them by itself), the basket arithmetic,
+            # and the three ways the swap column can lie: an off-board leg, an unpriced
+            # sibling read as 0%, and an "already cheapest" leg booking a saving.
+            ("product: etf_book_sibling_entry (same index, cheapest ticker)",
+             "scripts/etf_book_sibling_entry.py", ["selftest"]),
+            ("product: etf_book_sibling_entry (quoted sibling premiums re-derived off the board)",
+             "scripts/etf_book_sibling_entry.py", ["check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a
