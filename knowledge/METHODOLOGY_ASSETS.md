@@ -10867,3 +10867,28 @@ never strengthen one」。
 正身 = scripts/etf_book_ruler_forward.py（selftest 29/29 · --check 0.2s rc0 · run 58s rc0）+
 results/etf_book_ruler_forward/RULER-FORWARD.json + research/ETF_BOOK_RULER_FORWARD.md
 （未接 S6：58s 会压每 10 分钟一轮的链；--check 备作后续链腿）
+
+## E447 — 「符号会不会过期」不能靠重估来回答，而「按年计票」和「合计 IC」会给出相反答案（r1442 bm-c）
+
+六个因子的符号从一张**样本内** IC 表冻结而来（etf_composite_pf.SIGNS），没人问过两件事：
+逐年还在不在方向、以及「重估」能不能救。本轮的答案是一句不能直接照做的：**别去修符号**。
+
+① **重估符号是最差的选项，而且差得很大**：按滚动三年 IC 的符号逐次重估（严格 shift(1)，
+决定日之前全部收口），同一面板同一网格下 CAGR 7.56% → 5.83%、夏普 0.788 → 0.395、
+回撤 -13.1% → -40.5%、OOS 13.25% → 7.65%。一个改法若在「更不稳」和「更贵」之间只买到了噪声，
+它就不是稳健化，是把拟合误差当成新信息。**冻结的符号之所以好，一部分原因正是它不再动**。
+
+② **「按年计票」与「合计 IC」会互相矛盾，而两个都不能当选符号的裁判**：drawdown_60 合计
+mean IC 是正的（+0.0398），但 7 年里只有 3 年同号 → 判 CONTRARY；把它翻过来 CAGR +87bp、
+OOS +72bp、夏普 +0.004。反过来只用 2 个 STABLE 因子（丢掉 4 个）CAGR 掉 364bp。同一份数据里
+「少数年份很强的因子」既可能该留也可能该翻，取决于你看合计还是看年数 —— 这说明**两种读法
+都不是选择器**，只是一个描述。任何「我数了年数所以我知道方向」的推理都该当场打住。
+
+③ **选择风险必须写在同一条读数旁边**：诊断臂是看过年表之后选的，六个因子里只印了最好看的
+那一个；87bp 相对本书已测得的相位散度（~0.5pp）还没有分离。因此本轮**不改生产配置**，
+只把「相位扫描」记成下一步。凡是「看完全部候选再报最好的那个」，缺口至少要自带一句
+「这是 6 选 1，且未过相位门」。
+
+正身 = scripts/etf_factor_sign_stability.py（selftest 7/7 · --check 0.2s rc0 · run 79s rc0）+
+results/etf_factor_sign_stability.json + research/digests/DIGEST-20261108-r1442-factor-sign-stability.md
+（未接 S6：79s 会压每 10 分钟一轮的链；--check 备作后续链腿）
