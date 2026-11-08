@@ -22817,5 +22817,62 @@ except Exception as _e532x:
 check(_name532, not _bad532, "; ".join(_bad532)[:240] or _d532)
 
 
+# E539: does every class label E398 publishes survive the evidence row it travels with?
+#   * each row's agreement is re-read from its own evidence object (a sentinel "None" is a
+#     published absence, not a published default)
+#   * the source leg must charge nothing at file level: a name that appears somewhere in the file
+#     is published as a coarse pointer, not as a contradiction
+#   * doctored copies (a hand-written verdict, a row moved out of its bucket, an inflated
+#     contradiction count) must be refused
+_name539 = "E539 the census class labels read against their own evidence rows (r1567 bm-b)"
+_bad539 = []
+try:
+    _m539 = __import__("importlib").import_module("e539_label_vs_evidence")
+    _f539 = json.load(open(os.path.join("results", "state_tilt", "labelvsevidence_latest.json"),
+                           encoding="utf-8"))
+    _s539 = _f539.get("summary") or {}
+    _r539 = _f539.get("sites") or []
+    _bad539.extend(_m539.face_problems(_f539))
+    if not _r539:
+        _bad539.append("the row population is empty")
+    if _s539.get("rows") != len(_r539):
+        _bad539.append("rows does not equal the published site rows")
+    if not _s539.get("agreement_sums_to_the_rows"):
+        _bad539.append("the agreement buckets do not add up to the rows")
+    for _row539 in _r539:
+        _again = _m539.agree({"class": _row539.get("class"),
+                              "evidence": _row539.get("evidence")})[0]
+        if _again != _row539.get("agreement"):
+            _bad539.append("row %s re-reads as %r rather than %r"
+                           % (_row539.get("site"), _again, _row539.get("agreement")))
+            break
+    if _m539.present("None") or _m539.present(None) or not _m539.present("data/live"):
+        _bad539.append("a published absence is being read as a published value")
+    if _s539.get("source_contradicted"):
+        _bad539.append("a name the evidence row names is missing from its own file")
+
+    _doc539 = json.loads(json.dumps(_f539))
+    _doc539["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m539.face_problems(_doc539):
+        _bad539.append("a hand-written verdict was accepted")
+    _doc539 = json.loads(json.dumps(_f539))
+    _doc539["sites"][0]["agreement"] = _m539.K_AGREES
+    if _doc539["sites"][0].get("agreement") != _m539.agree(
+            {"class": _doc539["sites"][0].get("class"),
+             "evidence": _doc539["sites"][0].get("evidence")})[0]:
+        if not _m539.face_problems(_doc539):
+            _bad539.append("a row re-labelled against its own evidence was accepted")
+    _doc539 = json.loads(json.dumps(_f539))
+    _doc539["summary"]["rows_contradicting_their_evidence"] += 1
+    if not _m539.face_problems(_doc539):
+        _bad539.append("an inflated contradiction count was accepted")
+    _d539 = ("%d rows / %d contradicting their own evidence / %d contradicted at file level"
+             % (_s539.get("rows", 0), _s539.get("rows_contradicting_their_evidence", 0),
+                _s539.get("source_contradicted", 0)))
+except Exception as _e539x:
+    _bad539.append(repr(_e539x)[:160])
+    _d539 = "study could not be read"
+check(_name539, not _bad539, "; ".join(_bad539)[:240] or _d539)
+
 if __name__ == "__main__":
     sys.exit(main())

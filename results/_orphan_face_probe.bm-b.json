@@ -1,77 +1,31 @@
 {
- "ts": "2026-11-08T11:36:16",
+ "ts": "2026-11-08T12:03:32",
  "mode": "probe",
- "py_faces_seen": 10,
+ "py_faces_seen": 6,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 0,
  "faces": [
   {
-   "pid": 13256,
+   "pid": 14996,
    "name": "python.exe",
-   "cmd": "C:\\Program Files\\Python311\\python.exe Tools/fleet/lane_agent.py --node bm-b --root C:\\Fluxgroup\\FleetAgent",
-   "age_min": 0.3,
+   "cmd": "C:\\Program Files\\Python311\\python.exe Tools\\queue_claim.py --node bm-b",
+   "age_min": 0.4,
    "cpu_delta_20s": 999.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "python.exe",
     "cmd.exe",
     "wscript.exe"
-   ]
-  },
-  {
-   "pid": 19020,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\tools\\mcpforunityserver\\Scripts\\python.exe C:\\Users\\Administrator\\.local\\bin\\m",
-   "age_min": 14.9,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "mcp-for-unity.exe",
-    "codely.exe",
-    "powershell.exe",
-    "wscript.exe"
-   ]
-  },
-  {
-   "pid": 23160,
-   "name": "python.exe",
-   "cmd": "C:\\Program Files\\Python311\\python.exe Tools\\orphan_face_probe.py",
-   "age_min": 0.7,
-   "cpu_delta_20s": 0.203,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "powershell.exe",
-    "codely.exe",
-    "powershell.exe",
-    "wscript.exe"
-   ]
-  },
-  {
-   "pid": 29836,
-   "name": "python.exe",
-   "cmd": "C:\\Program Files\\Python311\\python.exe Tools\\s6_chain_bmb.py 1564",
-   "age_min": 23.0,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
    ]
   },
   {
    "pid": 30656,
    "name": "python.exe",
    "cmd": "C:\\Program Files\\Tuanjie\\Hub\\Editor\\2022.3.62t15\\Editor\\Data\\PlaybackEngines\\WeixinMiniGameSupport\\BuildTools\\Emscripten",
-   "age_min": 6776.3,
+   "age_min": 6803.6,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": true,
@@ -82,10 +36,10 @@
    ]
   },
   {
-   "pid": 32792,
+   "pid": 36060,
    "name": "python.exe",
    "cmd": "C:\\Program Files\\Python311\\python.exe C:\\Users\\Administrator\\.local\\bin\\mcp-for-unity.exe --transport stdio",
-   "age_min": 14.9,
+   "age_min": 7.2,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -99,37 +53,42 @@
    ]
   },
   {
-   "pid": 32808,
+   "pid": 36872,
    "name": "python.exe",
-   "cmd": "C:\\Program Files\\Python311\\python.exe -m smoke_test",
-   "age_min": 33.7,
-   "cpu_delta_20s": 30.391,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 33832,
-   "name": "python.exe",
-   "cmd": "python scripts/e333_surviving_e3xx_conclusions.py verify",
-   "age_min": 5.6,
-   "cpu_delta_20s": 30.297,
+   "cmd": "C:\\Program Files\\Python311\\python.exe Tools\\orphan_face_probe.py",
+   "age_min": 0.7,
+   "cpu_delta_20s": 0.125,
    "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
+   "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "python.exe",
-    "DEAD"
+    "powershell.exe",
+    "codely.exe",
+    "powershell.exe",
+    "wscript.exe"
    ]
   },
   {
-   "pid": 38420,
+   "pid": 38416,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\tools\\mcpforunityserver\\Scripts\\python.exe C:\\Users\\Administrator\\.local\\bin\\m",
+   "age_min": 7.2,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "mcp-for-unity.exe",
+    "codely.exe",
+    "powershell.exe",
+    "wscript.exe"
+   ]
+  },
+  {
+   "pid": 38648,
    "name": "python.exe",
    "cmd": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\5.2\\python\\bin\\python.exe C:\\Program Files\\Blender Foundation\\Blender 5.",
-   "age_min": 14.9,
+   "age_min": 7.2,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -138,20 +97,6 @@
     "blender-mcp.exe",
     "codely.exe",
     "powershell.exe",
-    "wscript.exe"
-   ]
-  },
-  {
-   "pid": 38800,
-   "name": "python.exe",
-   "cmd": "python Tools\\fleet\\agent.py --node bm-b --push",
-   "age_min": 0.7,
-   "cpu_delta_20s": 999.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "cmd.exe",
     "wscript.exe"
    ]
   }

@@ -13256,3 +13256,35 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 - **出口要有字段、结不能带字段**：闸里补两条腿（结站点带具名字段=拒；出口不带字段=拒），否则「结」与「出口」只靠 disposition 自述，doctored 面能过。
 
 **验证**：`scripts/e538_third_hop.py` run rc0 / check problems=0 / verify problems=0（重建字节一致）/ **selftest clean**（6 臂：结×2 / 出口 / 丢弃 / 仅测试 / 未定义，加 4 张 doctored 面全拒，含上面两条新腿）；S6 腿 `parcel_landing` rc0 0.06s（注册在 `next_consumer` 之后）；smoke 腿 `# E538` 1/1、`scripts/run_e538_smoke_leg.py --doctor` 1/1 复红；面 `results/state_tilt/PARCELLANDING-2026-11-08.json` + `parcellanding_latest.json`；digest `research/digests/DIGEST-20261108-r1566-e538-parcel-landing.md`。未跑全量 smoke 与 S6 其余腿（采集器、market/paper 等）。
+
+
+## E539 · 2026-11-08（r1567 bm-b）标签必须过自己那行证据
+
+**问题**：E398 的普查面（304 行 = 237 读点 + 67 写点）每行同时带 `class`（家族目录从哪来）与
+`evidence`（具体的表达式/常量/绑定）。E538 抓到 4 行标成 "stated_at_the_site" 而证据写的是
+"imported constant"，这是 4 行还是一个类？
+
+**读数**：275 行标签与自己的证据一致，**29 行相矛盾**——全部是 `family_stated_at_the_site` 而行
+自己的 how 说的是名字（4 imported constant / 20 module constant / 5 local binding），分布 24 个文件、
+其中 17 行在 `live_tooling` 档（真正决定实盘读哪份面的那档）；其余三类桶 0 矛盾。每行证据行自带的
+`how` 直方图：literal 195（185+10）/ 名字 29。
+
+**两枚仪器教训**：
+1. **已发布的"缺失"不是已发布的"值"**。E398 在每个签名行都写 `default_expr`，没默认值的行填的是
+   四个字母 `None`。按 key 存在或字符串真值判"有默认值"会凭空造出 27 行的"签名行了没发布默认值"类——
+   而那 27 行其实是自洽的（`required_by_the_signature` 本就允许无默认）。正法=`present()` 点名哨兵
+   （None/"None"/""/"null"/"na"/引号对 一律算缺席），27 行降级为**测量计数**而不是指控；闸与自检各留一线。
+2. **已发布的 `line` 是语句锚点，不是表达式行**。源腿第一版对 294 行里 194 行判"该行没有证据行点名的
+   名字"；读源即知指针常落在表达式前后 4–30 行（`Money02/preflight_data.py:58` 表达式在 59，
+   `scripts/e235_charge_granularity.py:683` 在 681）。换成四级阶梯（精确 → ±3 → 所在函数 → 全文件）
+   后**文件级指控归零**：53 精确 / 47 ±3 / 158 同函数别处 / 36 同文件别处 / 0 全文件无。故诚实读数不是
+   "标签在源面上是错的"而是"指针粒度未被测量"——残渣即 E540。
+
+**读者面**：`results/` 之外只有 4 个文件 9 个类名字面读点，**恰好 1 处按标签分支**
+（`scripts/e403_family_arg.py:535` `if s.get("class") != "family_required_by_the_signature"`）——标签
+被当作判据而非证据被消费的只有这一处。
+
+**How**：凡"某面发布的分类"要定价，先问它的证据行是否真能支撑那个类名，且把"缺失哨兵"与"缺失"分开；
+凡"行号指针"要用于源面复核，先量指针到表达式的距离分布再决定要不要指控。正身
+`scripts/e539_label_vs_evidence.py`（selftest 17/17）+ 面 `results/state_tilt/LABELVSEVIDENCE-2026-11-08.json`
++ digest `research/digests/DIGEST-20261108-r1567-e539-label-vs-evidence.md`。
