@@ -22873,6 +22873,78 @@ except Exception as _e539x:
     _bad539.append(repr(_e539x)[:160])
     _d539 = "study could not be read"
 check(_name539, not _bad539, "; ".join(_bad539)[:240] or _d539)
+# E540: is the line a census face publishes the expression a reader lands on, or a statement anchor?
+#   * every row's anchor is re-classified from its own published spans (line, expression span,
+#     statement span, loop start, same-function) -- the verdict is not a stored string
+#   * the distance and its bucket are re-derived from those spans, and the buckets must add up to
+#     the measured rows
+#   * doctored copies (a hand-written verdict, a row moved to another anchor class, a distance the
+#     spans do not derive, an inflated consumer count) must be refused
+_name540 = "E540 the published line read as an anchor rather than the expression (r1567 bm-b)"
+_bad540 = []
+try:
+    _m540 = __import__("importlib").import_module("e540_line_pointer_distance")
+    _f540 = json.load(open(os.path.join("results", "state_tilt", "linepointer_latest.json"),
+                           encoding="utf-8"))
+    _s540 = _f540.get("summary") or {}
+    _r540 = _f540.get("sites") or []
+    _bad540.extend(_m540.face_problems(_f540))
+    if not _r540:
+        _bad540.append("the row population is empty")
+    if _s540.get("rows") != len(_r540):
+        _bad540.append("rows does not equal the published site rows")
+    if not _s540.get("anchor_sums_to_the_rows"):
+        _bad540.append("the anchor buckets do not add up to the rows")
+    if not _s540.get("distance", {}).get("buckets_sum_to_the_measured_rows"):
+        _bad540.append("the distance buckets do not add up to the measured rows")
+    for _row540 in _r540:
+        _span540 = _row540.get("expression_span")
+        if _span540 is None:
+            if _row540.get("distance") is not None:
+                _bad540.append("row %s carries a distance with no expression span"
+                               % (_row540.get("site"),))
+            continue
+        _again540 = _m540.classify(
+            _row540.get("published_line"), tuple(_span540),
+            tuple(_row540["statement_span"]) if _row540.get("statement_span") else None,
+            _row540.get("loop_start"), bool(_row540.get("same_function")))
+        if _again540 != _row540.get("anchor"):
+            _bad540.append("row %s re-classifies as %r rather than %r"
+                           % (_row540.get("site"), _again540, _row540.get("anchor")))
+            break
+        if _row540.get("distance") != _span540[0] - _row540.get("published_line"):
+            _bad540.append("row %s publishes a distance its spans do not derive"
+                           % (_row540.get("site"),))
+            break
+
+    _doc540 = json.loads(json.dumps(_f540))
+    _doc540["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m540.face_problems(_doc540):
+        _bad540.append("a hand-written verdict was accepted")
+    _doc540 = json.loads(json.dumps(_f540))
+    _moved540 = [i for i, _r in enumerate(_f540["sites"])
+                 if _r.get("anchor") != _m540.A_OTHER_STMT_IN_FILE]
+    if _moved540:
+        _doc540["sites"][_moved540[0]]["anchor"] = _m540.A_OTHER_STMT_IN_FILE
+        if not _m540.face_problems(_doc540):
+            _bad540.append("a row moved to another anchor class was accepted")
+    _doc540 = json.loads(json.dumps(_f540))
+    _doc540["sites"][0]["distance"] = (_f540["sites"][0].get("distance") or 0) + 7
+    if not _m540.face_problems(_doc540):
+        _bad540.append("a distance its spans do not derive was accepted")
+    _doc540 = json.loads(json.dumps(_f540))
+    _doc540["summary"]["line_pointer_consumers"]["reads_a_line_field"] += 1
+    if not _m540.face_problems(_doc540):
+        _bad540.append("an inflated consumer count was accepted")
+    _d540 = ("%d rows / %d measured / %d on the expression line / median offset %s / %d anchored"
+             % (_s540.get("rows", 0), _s540.get("expressions_located", 0),
+                _s540.get("rows_published_on_the_expression_line", 0),
+                _s540.get("distance", {}).get("median"),
+                _s540.get("rows", 0) - _s540.get("rows_published_on_the_expression_line", 0)))
+except Exception as _e540x:
+    _bad540.append(repr(_e540x)[:160])
+    _d540 = "study could not be read"
+check(_name540, not _bad540, "; ".join(_bad540)[:240] or _d540)
 
 if __name__ == "__main__":
     sys.exit(main())

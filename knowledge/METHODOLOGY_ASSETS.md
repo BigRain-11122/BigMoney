@@ -13288,3 +13288,35 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 凡"行号指针"要用于源面复核，先量指针到表达式的距离分布再决定要不要指控。正身
 `scripts/e539_label_vs_evidence.py`（selftest 17/17）+ 面 `results/state_tilt/LABELVSEVIDENCE-2026-11-08.json`
 + digest `research/digests/DIGEST-20261108-r1567-e539-label-vs-evidence.md`。
+
+## E540 · 2026-11-08（r1567 bm-b）发布的“行号”问的是“哪一行”，不是“哪个值”
+
+**问题**：E398 的普查面每行都发布 `file` + `line` + `expr`。E539 顺带发现那条 line 常常不是
+表达式所在行（158/294 名字只在同函数别处）。E540 把它测成完整问题：那一行到底是什么？
+
+**读数**：304 行（237 读点 + 67 写点），303 行能在文件里定位到该表达式（按 AST 节点形状匹配，
+非文本），只剩 1 行定位不到。**56 行**发布的正是表达式本身；**248 行**发布的是锚点——
+其中 206 行是“同函数里的另一条语句”、40 行是“同文件里的另一条语句”、1 行是语句起始行、
+0 行是续行、0 行是循环头。距离：中位 12 行、平均 |距离| 13.34 行、范围 −68..+42；桶 = 0 行 56 / 1-3 43 /
+4-10 14 / 11-30 148 / 31+ 42。按档：`smoke_harness` 181 行**0 行落在表达式行**（全部锚点），`live_tooling` 45 行里
+只有 13 行是表达式行，`scratch_or_estate` 11 行里 10 行是表达式行——落差本身就是“这批行号服务于什么”的答案：
+审计轨迹取的是**打开/读取那条语句**，不是表达式。
+
+**可读性后果**：228 行的发布行**一个表达式标识符都不含**（76 行至少含一个）。样本：
+`scripts/divlowvol_live_picks.py:301` 发布行是 `prev = json.load(open(latest, ...))`，表达式在 305。
+
+**消费者面**：语料里读 `line` 字段的站点 641、能在运行时解析源码位置的站点 488、点名这张面的站点 10，
+但没有一处把这些行号当值读——这一面只有人读的锚点语义。
+
+**两枚仪器教训**：
+1. **形状匹配比文本匹配稳，但要公布歧义**。表达式按 AST 节点形状（`ast.dump` 无属性）在文件里找，
+   避开行号偏移；代价是同形状节点可能不止一个——48 行的表达式在文件里出现 ≥2 次，取最近者，
+   这是上界不是精确解；已作为 `rows_whose_expression_shape_appears_more_than_once_in_the_file` 发布。
+2. **“没有 span”与“锚点不对”必须分桶**。定位失败的那 1 行若折进“别处”桶，会把仪器缺席说成发布缺陷；
+   故 anchor 词表里 `no_node_for_the_published_expression_was_located` / 文件不可读 / 行越界三类单列，
+   且没有 span 的行**禁止**携带 distance（闸里断言）。
+
+**How**：凡“某面发布的定位指针”要拿来用，先量它到目标的距离分布并公布“落点是什么语句”；
+把发布行当值读之前，先问这一行到底写了什么。正身 = `scripts/e540_line_pointer_distance.py`
+（run/check/verify/selftest 12 臂）+ 面 `results/state_tilt/LINEPOINTER-2026-11-08.json` + `linepointer_latest.json`；S6 腿 `line_pointer`；
+smoke 腿 `# E540`；digest `research/digests/DIGEST-20261108-r1567-e540-line-pointer-distance.md`。

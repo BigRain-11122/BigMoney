@@ -2058,6 +2058,13 @@ LEGS = [
     # that forwards again is still_forwarded, not replaced, so "nothing replaces it" never survives
     # as a sentence about a value. `check` re-derives every class, every count and the verdict.
     ("one_hop_out", ["python", "scripts/e532_one_hop_out.py", "check"]),
+    # E540 asks what the "line" a census face publishes actually is. The expression a row names is
+    # located as an AST node of the file (node shape, not text), the innermost statement and
+    # function that hold it are found, and the published line is classed against those spans: the
+    # expression itself, the statement's opening line, a continuation, a loop header, another
+    # statement in the same function, or another statement in the file. `check` re-classifies every
+    # row from its own published spans and re-derives the distance buckets and the verdict.
+    ("line_pointer", ["python", "scripts/e540_line_pointer_distance.py", "check"]),
 ]
 
 

@@ -29507,17 +29507,36 @@
    "title": "For every row in the census face E398 writes, read the class it carries against the evidence it carries and publish the rows where the two disagree: a stated-at-the-site row whose how is not a literal at the site, a signature row with no default published, a written row with no written expression. Publish the count per class, the rows, and whether any consumer reads the class label (rather than the evidence) to decide something."
   },
   {
-   "deliverable": "scripts/e540_line_pointer_distance.py + results/state_tilt/LINEPOINTER-<cutoff>.json",
+   "closed_at": "2026-11-08T12:15:22+08:00",
+   "closed_by": "bm-b r1567",
+   "deliverable": "scripts/e540_line_pointer_distance.py + results/state_tilt/LINEPOINTER-*.json",
    "entered_at": "2026-11-08T12:1x+08:00",
    "entered_by": "bm-b r1567 (supply floor refill after E539)",
    "evidence_cutoff": "2026-11-08",
    "id": "E540-WHICH-LINE-POINTER-A-FACE-PUBLISHES-IS-A-STATEMENT-ANCHOR-RATHER-THAN-THE-EXPRESSION-LINE",
    "lane": "static",
    "lane_note": "static: the face and the sources are both on disk; the question is what a line pointer means",
+   "result_note": "304 rows (237 read + 67 write), 303 located by AST node shape; 56 rows publish the expression itself and 248 publish an anchor -- 206 another statement in the same function, 40 another statement in the file, 1 the statement's opening line, 0 continuations, 0 loop headers. Distance median 12 lines, mean |distance| 13.34, range -68..+42; buckets 0:56 / 1-3:43 / 4-10:14 / 11-30:148 / 31+:42. By tier smoke_harness 181 rows with 0 on the expression line, live_tooling 45 rows with 13, scratch_or_estate 11 rows with 10. 228 published lines name no identifier from the expression. 48 rows publish an expression shape that occurs more than once in their file (nearest-to-anchor is an upper bound, not a resolution). Consumers: 641 sites read a line field, 488 resolve a source position at run time, 10 name the census face, 0 tie a published line to a value read.",
+   "result_ref": "results/state_tilt/LINEPOINTER-2026-11-08.json",
    "source": "E539 (r1567 bm-b): the \"line\" every face row publishes is a statement anchor, not the line the evidence row names -- 158 of 294 checkable rows carry their name elsewhere in the enclosing function, 36 only elsewhere in the file, 47 within +-3, and only 53 on the published line itself",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/",
    "title": "For every row in the census face E398 writes, publish the DISTANCE between the published line and the expression the row names: is the anchor the statement start, the enclosing statement, the loop header, or an unrelated nearest line? Resolve the expression with ast (statement span, then the call/assignment that owns it) and publish the offset distribution, the arm shapes, and whether any consumer ever lands on the published line to read a value."
+  },
+  {
+   "deliverable": "results/state_tilt/BRANCHAMBIGUITY-<cutoff>.json",
+   "entered_at": "2026-11-08T12:15:22+08:00",
+   "entered_by": "bm-b r1567 (supply floor refill after E540)",
+   "evidence_cutoff": "2026-11-08",
+   "id": "E541-WHICH-OF-THE-ROWS-WHOSE-EXPRESSION-SHAPE-APPEARS-MORE-THAN-ONCE-IS-THE-NEAREST-OCCURRENCE-THE-ONE-THE-EVIDENCE-NAMES",
+   "lane": "cpu-only",
+   "lane_note": "static: the census rows and the sources are both on disk; the question is whether the row's own evidence can pick among shape-identical nodes",
+   "priority": "normal",
+   "source": "E540 (r1567 bm-b): 48 of 303 located rows have more than one node of the published expression's shape in the file, so E540's nearest-to-anchor rule is an upper bound rather than a resolution of which occurrence the row means.",
+   "status": "ready",
+   "target": "results/state_tilt/branchambiguity_latest.json",
+   "title": "For the 48 rows where the published expression's AST shape occurs more than once in the file, decide each candidate with the rest of the row's own evidence (constant, family_dir, function name, class) instead of by distance to the anchor: publish how many rows the evidence decides, how many stay ambiguous, and whether the nearest-occurrence rule E540 used picks the same node the evidence decides.",
+   "worker_class": "self-contained"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29532,6 +29551,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T12:1x+08:00",
+ "updated_at": "2026-11-08T12:15:22+08:00",
  "version": 1
 }
