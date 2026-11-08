@@ -536,6 +536,14 @@ def main() -> int:
              "scripts/etf_book_year_gate.py", ["selftest"]),
             ("product: etf_book_year_gate (published verdicts re-derived)",
              "scripts/etf_book_year_gate.py", ["check"]),
+            # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
+            # whose phase spread is wider than its distance to the 70% line still got a
+            # word. The legs pin the third word in both directions (a split verdict and a
+            # unanimous verdict whose spread exceeds the margin are both UNADJUDICABLE;
+            # a unanimous verdict inside the margin keeps its own word) and pin that the
+            # five-phase adjudicator reproduces r1418's published rows at phase 0.
+            ("product: candidate_year_gate_phases (the gate can say it cannot tell)",
+             "scripts/candidate_year_gate_phases.py", ["selftest"]),
             # r1403: the ledger's freeze question is arithmetic, not a fear -- re-derive
             # every published bar read-only and split it with the LIVE settle rule. The
             # legs pin that a settled bar below tol stays silent, that the same numbers DO

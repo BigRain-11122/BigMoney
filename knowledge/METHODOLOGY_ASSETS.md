@@ -10204,3 +10204,30 @@ CAGR 12.08%、Sharpe 1.148、回撤 **-10.56% 与基线完全相同** —— 集
 
 正身 = scripts/etf_book_scale_floor.py (selftest 7/7) + results/etf_book_scale_floor.json
 + research/ETF_BOOK_SCALE_FLOOR.md
+
+
+## E424 — 判据必须能说「我分不清」，否则它只是在抽签（r1420 bm-c）
+
+r1419 自己留的下轮问题：判据在相位间动摇超过它与阈值的距离时，先相位稳健化再裁决。
+本窗把它做成词：同一本书在 **五个相隔一周的决策起点**（0/5/10/15/20 bar = 恰好一个
+20 bar 调仓块）各过一遍冻结的年度闸（candidate_year_gate.admission_block 与四条线全
+import，不重写），再按冻结规则聚合：len(verdicts)==1 且 spread<=|median-线| → 该判决，
+否则 **UNADJUDICABLE_PHASE**。位恒等腿：起点 2020-01-01 复现 r1418 已发布逐年行
+max|diff| 0.0 与同一判决。
+
+三个读数，按改变判断的分量排：①**r1418 给兄弟书的 ADMIT 是相位抽签**——nobond_base
+在它用的那个相位读 68.98%（差 1.02pp 未过线），此后三周读 82.07 / 88.80 / 83.25，其中
+一个相位是 REFUSE（还破了 Y3）；已发布的读数是五读里最有利的一个。②**把书推过线的那层
+风控，恰恰是让它可判的那层**：跨相位排名反转——采用书是唯一全相位同词的臂、spread 最小
+（8.74pp），没叠波动目标的兄弟摆 20.82pp 完全不可判；一个降低相位敏感度的风控层，在做
+闸真正在意的事。③r1419 拒采用 floor 0.5 是对的，但正法不是数 3/4 相位赢，而是那五读
+落在 ADMIT 与 CONDITIONAL 两侧 → 老实的话是「分不清」。
+
+三条可复用：①**判决词集必须含第三态**——只有 ADMIT/REFUSE 的判据会把采样噪声读成信号，
+且越接近阈值越危险（本例 1.08pp 的「差一点」其实是四读里最好的一个）；②阈值距离
+（margin）与噪声（spread）必须用同一量纲并排印出，闸自己承认分不清时才允许「接近通过」
+这种说法消失；③**跨臂排名要在相位集上重算**——单相位的臂间比较可以整条反向，本窗把
+「叠层把书推过线」翻成「叠层让书可判」。
+
+正身 = scripts/candidate_year_gate_phases.py (selftest 13/13) + results/etf_book_phase_gate.json
++ research/ETF_BOOK_PHASE_GATE.md
