@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1603 bm-b: E575 closed (1 of 11 rounds leaves a recorded chain execution and it carries --only; 4 of this machine's rounds leave none; 6 are off-host) and E576 seeded (what the unattributable executions actually are).",
+ "_stamp_note": "r1605 bm-b: E577 closed (all 31 of E576's late gaps are closed by the machine's own row within 6h once rows printed without a leading pipe are read) and E578 seeded (which other consumers lose the same 1,534 rows).",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -30185,13 +30185,31 @@
    "lane": "cpu-only",
    "lane_note": "static: this host transcripts + round rows + the S6 chain receipts on disk; no runner executed",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E576 (r1604 bm-b): 31 of 39 gap executions sit 6.5-14.8h after the previous row, which reads like overnight batch work left outside the 6h window rather than unattended automation.",
    "target": "results/state_tilt/NIGHTGAP_latest.json",
    "deliverable": "results/state_tilt/NIGHTGAP-<cutoff>.json",
    "title": "For each of E576 class only_a_row_beyond_the_tolerance_follows, ask what actually ran in that gap: publish the hour span, whether any S6 chain receipt on disk was written inside the gap, whether the machine heartbeat was silent for the whole gap, and whether the gap ends at the first row of a round whose own row says it started then. A gap that ends where the next round begins is a boundary artifact, not an unrecorded run, and must be published as such.",
    "entered_at": "2026-11-09T03:05+08:00",
    "entered_by": "bm-b r1604",
+   "evidence_cutoff": "2026-11-08",
+   "closed_at": "2026-11-09T02:40:03+08:00",
+   "closed_by": "bm-b r1605",
+   "result_ref": "results/state_tilt/nightgap_latest.json",
+   "close_note": "31/31 gaps are closed by the machine's own row within 6h (median 4.8 min) once rows written without a leading pipe are read; 1,534 of 2,247 round rows were invisible to the strict index"
+  },
+  {
+   "id": "E578-WHICH-OTHER-CONSUMERS-READ-THE-ROUND-INDEX-AND-LOSE-THE-SAME-1-534-ROWS",
+   "lane": "cpu-only",
+   "lane_note": "static: in-repo sources that import or re-implement the round-row parser; no runner executed",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E577 (r1605 bm-b): E573's strict row parser sees 759 of 2,247 round rows -- 1,534 rows printed without a leading pipe are invisible, and all 31 of E576's late gaps were closed by such rows.",
+   "target": "results/state_tilt/ROWINDEXCONSUMERS_latest.json",
+   "deliverable": "results/state_tilt/ROWINDEXCONSUMERS-<cutoff>.json",
+   "title": "Publish every consumer of the round-row index (importers of e573.round_of_row / e575.round_index, plus re-implementations of the same regex) and for each one whether its published number changes when the pipe-less rows are read too. A consumer that only uses the index to count rounds is a note; a consumer whose verdict moves is a repair.",
+   "entered_at": "2026-11-09T02:40:03+08:00",
+   "entered_by": "bm-b r1605",
    "evidence_cutoff": "2026-11-08"
   }
  ],
