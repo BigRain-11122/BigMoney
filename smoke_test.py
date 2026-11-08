@@ -714,6 +714,17 @@ def main() -> int:
              "scripts/etf_book_floor_toll.py", ["selftest"]),
             ("product: etf_book_floor_toll (identity and toll re-derived)",
              "scripts/etf_book_floor_toll.py", ["--check"]),
+            # r1460: compute_audit has printed NO_CANDIDATE_PASSES_CALENDAR for rounds, and a
+            # refusal with no distance cannot be told apart from "we do not know". The legs pin
+            # that the flip point is a real minimum (one step lower must not pass), that a
+            # failure booked on a COMPLETED year is reported unreachable instead of optimistic,
+            # that a fully booked book publishes no hurdle, that capacity is not a calendar
+            # check, and that a single-phase pass printed against a phase refusal is separated
+            # into READINGS_DISAGREE rather than read as a clean pass (E206 class).
+            ("product: etf_book_calendar_distance (how far each refusal is from flipping)",
+             "scripts/etf_book_calendar_distance.py", ["selftest"]),
+            ("product: etf_book_calendar_distance (published distances re-derived)",
+             "scripts/etf_book_calendar_distance.py", ["--check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a

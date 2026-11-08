@@ -11304,3 +11304,16 @@ r1456 的结论写成了一句看起来像工单的话——「削减不是一�
 3. **「服从的代价」要拆成敞口与费用两笔**：实测 7.15%→6.47%（0.68pp/年）全部是敞口，换手反而从 76 次/0.3427 单位降到 52 次/0.2043 单位（费用代理 -0.0018pp/年）——少买不等于多花钱，把两者混成一句「成本」会让决策读错方向。
 
 **正身**：scripts/etf_book_floor_toll.py（selftest 18/18，check CHECK_OK，run 55s）→ results/etf_book_floor_toll/FLOOR-TOLL.json；控制臂逐位复现 r1452 的 ticket 臂（k_last 0.464029、gap 0.0，复现不了则拒绝发布代价数）。S6 腿 floor_toll（check 1.1s）+ smoke 两腿。
+
+## E466 — 拒绝必须带距离：一条红旗如果印不出「还差多少」，读者分不清「等一个月」和「换一个家族」（r1460 bm-c）
+
+compute_audit 连着多轮印同一句话：`supply_candidates.verdict=AGENDA_DEBT`、`agenda_cause=calendar`、`NO_CANDIDATE_PASSES_CALENDAR`（4 个候选、4 个被拒）。这句话在操作上是空的——它把「这个月就能过」「还要等一年」「今年怎么等都过不去」压成同一个词，而三者要的动作相反（等 / 等 / 换家族）。r1415–r1459 建了闸、给了「判不了」态、证明 Y4 其实是年化夏普检验，却从没有人问过红线上真正该问的那句：**还差多少**。
+
+每一个日历拒绝都是七个年度数字的函数，其中六个已经定稿；唯一还能动的是当年（partial）那一年。所以每个拒绝都有一个以「当年收益率」计量的距离，以及「剩下几个 cohort 要交付多少」的门槛。实测：被采纳的书距 Y4 通过只差 **1.24pp** 的 2026 年收益率（剩余 1 个 cohort 需 **1.22%**），all_classes 差 **6.80pp**——红旗从此有了可盯的数。
+
+三条可复用：
+1. **翻转点必须靠「跑规则」求出，不能靠代数重推**：闸的判线写在 candidate_year_gate 里，本面 import 它并按 0.01pp 步长扫，自检腿钉「报出的翻转点确能过、低一步必须不过」。代数重推一旦和规则分叉（本例 Y4 在 v 越过次高年时会换分母里的分子），报告就会印一个规则不认的数。
+2. **「今年修不了」必须与「还差一点」分开印**：失败项落在**已完成年度**（例如某年 -20%）时，当年收益率取任何值都不可能翻转 → `UNREACHABLE_THIS_YEAR`；把它和 1.24pp 混在一张表里，等于教读者去等一个永远不会来的年。
+3. **单相位读数与相位中位数读数不许互相冒充**（E206/E319 族的又一面）：本轮自查抓到 nobond_base——单相位年度块读 ADMIT，而供给面按 5 个决策相位的中位数判 UNADJUDICABLE_PHASE。若照单相位印「已有候选通过」，就把「跨相位判不了」复原成「已经通过」。正法=两读数并列 + `READINGS_DISAGREE` + 不在此读数上宣称距离（自踩腿 L4b 钉死）。
+
+**正身**：scripts/etf_book_calendar_distance.py（selftest 14/14、run 0.4s、--check CHECK_OK）→ results/etf_book_calendar_distance.json + .md；S6 腿 calendar_distance（紧随 supply_calendar）+ smoke 两腿。

@@ -1,0 +1,291 @@
+{
+ "face": "etf_book_calendar_distance",
+ "asof": "2026-11-09T04:27:03+08:00",
+ "evidence_cutoff": "2026",
+ "question": "how far is each refused supply candidate from passing its own calendar?",
+ "rule": {
+  "source": "scripts/candidate_year_gate.py (imported, not transcribed)",
+  "checks": [
+   "Y1_positive_years_share",
+   "Y2_median_positive",
+   "Y3_worst_year",
+   "Y4_top2_share"
+  ],
+  "sweep_pp": [
+   -100.0,
+   300.0,
+   0.01
+  ],
+  "note": "the flip point is found by running the frozen rule, never by algebra"
+ },
+ "sources": {
+  "supply": {
+   "path": "results/supply_calendar.json",
+   "sha16": "84fa232ffad3448c"
+  },
+  "year_gate": {
+   "path": "results/etf_book_year_gate/YEAR-GATE.json",
+   "sha16": "e2ca77132edd58ce"
+  },
+  "candidates": {
+   "path": "results/admission/CANDIDATES.json",
+   "sha16": "8b1707e8346b9444"
+  }
+ },
+ "candidates": [
+  {
+   "state": "FINITE_DISTANCE",
+   "verdict_now": "CONDITIONAL",
+   "checks_now": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": true
+   },
+   "metrics_now": {
+    "years": 7,
+    "positive_years": 7,
+    "median": 5.6072,
+    "worst": 1.898,
+    "best": 43.0627,
+    "annual_sum": 81.0578,
+    "top2_share": 0.7108,
+    "worst_full_only": 2.8393,
+    "top2_share_full_only": 0.7278
+   },
+   "partial_year": "2026",
+   "partial_now_pct": 1.898,
+   "cohorts": 3,
+   "cohorts_booked": 3,
+   "cohorts_left": 1,
+   "flip_min_pct": 3.14,
+   "distance_pp": 1.242,
+   "hurdle_pct": 1.2189,
+   "note": "the remaining cohorts of this year must return hurdle_pct to end it at flip_min_pct and pass every calendar check",
+   "candidate": "nobond_vt08_adopted",
+   "supply_state": "CONDITIONAL",
+   "supply_pass": false,
+   "supply_median_top2": 0.7958,
+   "supply_phases": 5,
+   "supply_receipt": "results/etf_book_phase_gate.json",
+   "yearly_receipt": "results/etf_book_year_gate/YEAR-GATE.json",
+   "capacity_cny": 48664681.0,
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 5.6072,
+     "cohorts": 4
+    },
+    {
+     "year": "2021",
+     "net_pct": 7.6281,
+     "cohorts": 4
+    },
+    {
+     "year": "2022",
+     "net_pct": 2.8393,
+     "cohorts": 4
+    },
+    {
+     "year": "2023",
+     "net_pct": 5.473,
+     "cohorts": 4
+    },
+    {
+     "year": "2024",
+     "net_pct": 14.5496,
+     "cohorts": 4
+    },
+    {
+     "year": "2025",
+     "net_pct": 43.0627,
+     "cohorts": 4
+    },
+    {
+     "year": "2026",
+     "net_pct": 1.898,
+     "cohorts": 3
+    }
+   ],
+   "reading_agrees_with_supply": true
+  },
+  {
+   "state": "READINGS_DISAGREE",
+   "verdict_now": "ADMIT",
+   "checks_now": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true,
+    "C1_capacity": null
+   },
+   "metrics_now": {
+    "years": 7,
+    "positive_years": 7,
+    "median": 9.3091,
+    "worst": 2.3313,
+    "best": 53.7327,
+    "annual_sum": 110.0665,
+    "top2_share": 0.6898,
+    "worst_full_only": 2.3313,
+    "top2_share_full_only": 0.7176
+   },
+   "partial_year": "2026",
+   "partial_now_pct": 4.2625,
+   "cohorts": 3,
+   "flip_min_pct": null,
+   "distance_pp": null,
+   "hurdle_pct": null,
+   "note": "single-phase block reads ADMIT while the supply face reads UNADJUDICABLE_PHASE across 5 phases; no distance is claimed on the untrusted reading",
+   "candidate": "nobond_base",
+   "supply_state": "UNADJUDICABLE_PHASE",
+   "supply_pass": false,
+   "supply_median_top2": 0.8207,
+   "supply_phases": 5,
+   "supply_receipt": "results/etf_book_phase_gate.json",
+   "yearly_receipt": "results/etf_book_year_gate/YEAR-GATE.json",
+   "capacity_cny": null,
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 22.1943,
+     "cohorts": 4
+    },
+    {
+     "year": "2021",
+     "net_pct": 9.3091,
+     "cohorts": 4
+    },
+    {
+     "year": "2022",
+     "net_pct": 2.3313,
+     "cohorts": 4
+    },
+    {
+     "year": "2023",
+     "net_pct": 5.2676,
+     "cohorts": 4
+    },
+    {
+     "year": "2024",
+     "net_pct": 12.969,
+     "cohorts": 4
+    },
+    {
+     "year": "2025",
+     "net_pct": 53.7327,
+     "cohorts": 4
+    },
+    {
+     "year": "2026",
+     "net_pct": 4.2625,
+     "cohorts": 3
+    }
+   ],
+   "reading_agrees_with_supply": false
+  },
+  {
+   "candidate": "nobond_vt08_floor_050",
+   "state": "NO_YEARLY_BLOCK",
+   "note": "the supply face lists this candidate but no receipt publishes its yearly rows",
+   "supply_receipt": "results/etf_book_phase_gate.json",
+   "supply_pass": false
+  },
+  {
+   "state": "FINITE_DISTANCE",
+   "verdict_now": "CONDITIONAL",
+   "checks_now": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": null
+   },
+   "metrics_now": {
+    "years": 7,
+    "positive_years": 6,
+    "median": 4.51,
+    "worst": -1.17,
+    "best": 36.34,
+    "annual_sum": 66.16,
+    "top2_share": 0.7719,
+    "worst_full_only": -1.17,
+    "top2_share_full_only": 0.785
+   },
+   "partial_year": "2026",
+   "partial_now_pct": 1.1,
+   "cohorts": 3,
+   "cohorts_booked": 3,
+   "cohorts_left": 1,
+   "flip_min_pct": 7.9,
+   "distance_pp": 6.8,
+   "hurdle_pct": 6.726,
+   "note": "the remaining cohorts of this year must return hurdle_pct to end it at flip_min_pct and pass every calendar check",
+   "candidate": "all_classes_published",
+   "supply_state": "CONDITIONAL",
+   "supply_pass": false,
+   "supply_median_top2": null,
+   "supply_phases": 1,
+   "supply_receipt": "results/etf_book_year_gate/YEAR-GATE.json",
+   "yearly_receipt": "results/etf_book_year_gate/YEAR-GATE.json",
+   "capacity_cny": null,
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 14.73,
+     "cohorts": 4
+    },
+    {
+     "year": "2021",
+     "net_pct": 4.51,
+     "cohorts": 4
+    },
+    {
+     "year": "2022",
+     "net_pct": -1.17,
+     "cohorts": 4
+    },
+    {
+     "year": "2023",
+     "net_pct": 2.73,
+     "cohorts": 4
+    },
+    {
+     "year": "2024",
+     "net_pct": 7.92,
+     "cohorts": 4
+    },
+    {
+     "year": "2025",
+     "net_pct": 36.34,
+     "cohorts": 4
+    },
+    {
+     "year": "2026",
+     "net_pct": 1.1,
+     "cohorts": 3
+    }
+   ],
+   "reading_agrees_with_supply": true
+  }
+ ],
+ "summary": {
+  "verdict": "WAIT_ON_A_WATCHABLE_NUMBER",
+  "sentence": "nobond_vt08_adopted is 1.24pp of 2026 return away from ADMIT; the remaining 1 cohort(s) must return 1.22%",
+  "n_candidates": 4,
+  "n_finite": 2,
+  "n_unreachable": 0,
+  "n_admit_now": 0,
+  "n_readings_disagree": 1,
+  "nearest": "nobond_vt08_adopted",
+  "nearest_distance_pp": 1.242
+ },
+ "honest": [
+  "no book is re-priced here: every yearly row is copied from a published receipt",
+  "the partial year is not annualised; the hurdle is the return needed over the remaining cohorts, which is a different number from an annualised rate",
+  "a finite distance is not a forecast: it says what the current year must deliver for the calendar gate to pass, not what it will deliver",
+  "distance is measured on the return of one year; a book can also be re-cut, and that path is not priced here"
+ ],
+ "elapsed_sec": 0.2
+}

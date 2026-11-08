@@ -875,6 +875,19 @@ LEGS = [
     # in its own round (~2 min).
     ("sign_flip_phase", ["python", "scripts/etf_sign_flip_phase_test.py", "--check"]),
     ("supply_calendar", ["python", "scripts/supply_calendar_face.py", "run"]),
+    # r1460: the supply calendar names the refusal but never says how far away it is, and a
+    # refusal with no distance cannot be told apart from "we do not know" -- is the desk
+    # waiting a month, a year, or a new family? Every calendar check is a function of seven
+    # annual numbers, six of them finished, so each refusal has a distance in the only number
+    # that can still move (this year's return) and a hurdle for the months left. Reads
+    # published receipts only; the flip point is found by RUNNING candidate_year_gate's frozen
+    # rule, never by algebra. Live: adopted book is 1.24pp of 2026 away (remaining cohort must
+    # return 1.22%), all_classes 6.80pp away, and one candidate whose single-phase block says
+    # ADMIT while the phase median refuses it is printed as READINGS_DISAGREE instead of a
+    # clean pass (E206 class). `run` form: every input republishes as prices move, so a frozen
+    # receipt would go stale on its own (r1290 class); 0.4s, pure JSON reads, no panel.
+    ("calendar_distance",
+     ["python", "scripts/etf_book_calendar_distance.py", "run"]),
     # r1440: forty rounds read the calendar and the order page as two separate
     # subjects. This leg puts them in one sentence from receipts only (no
     # repricing): today the ticket executes nobond_vt08_adopted at book_weight
