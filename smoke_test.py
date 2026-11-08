@@ -544,6 +544,15 @@ def main() -> int:
             # five-phase adjudicator reproduces r1418's published rows at phase 0.
             ("product: candidate_year_gate_phases (the gate can say it cannot tell)",
              "scripts/candidate_year_gate_phases.py", ["selftest"]),
+            # r1421: the concentration line that refused three of the desk's five books had
+            # never been asked what it measures. It measures annual Sharpe (the share is
+            # scale invariant, so the null depends on m/s alone) and it has no power -- a
+            # book whose two years carry 95% of profit reads the 70th percentile of its own
+            # Sharpe peers. The legs pin the scale/order invariance, the monotone null, the
+            # inversion off the frozen grid, that a signed-sum statistic is unbounded, and
+            # that the absolute-share alternative is nearly Sharpe-flat.
+            ("product: year concentration calibration (the line measures Sharpe, not shape)",
+             "scripts/year_concentration_calibration.py", ["selftest"]),
             # r1403: the ledger's freeze question is arithmetic, not a fear -- re-derive
             # every published bar read-only and split it with the LIVE settle rule. The
             # legs pin that a settled bar below tol stays silent, that the same numbers DO
@@ -578,6 +587,15 @@ def main() -> int:
              "scripts/supply_candidate_face.py", ["--selftest"]),
             ("product: supply candidate verdict recomputed from its published rows",
              "scripts/supply_candidate_face.py", ["--check"]),
+            # r1421: agenda debt split one layer further -- "nobody wrote a
+            # topic" and "every candidate we judged fails its own calendar"
+            # printed the same word and take opposite orders. The --check leg
+            # re-derives the verdict from the published candidate rows, so
+            # "a candidate passed" cannot be typed in.
+            ("product: supply calendar face (no topic vs no candidate passes its calendar)",
+             "scripts/supply_calendar_face.py", ["--selftest"]),
+            ("product: supply calendar verdict recomputed from its published rows",
+             "scripts/supply_calendar_face.py", ["--check"]),
             # r1205: the line's freshness faces all read the instant, so a
             # stall followed by one heartbeat is invisible. This leg prices the
             # history reader: fuzzy stamps widen instead of narrowing, quiet

@@ -330,7 +330,10 @@ def supply_candidates_face(path=None):
     except (OSError, ValueError):
         return None
     return {k: d.get(k) for k in ("verdict", "pool_ready", "tickets_unclaimed",
-                                  "startable_now", "shortfall", "floor")}
+                                  "startable_now", "shortfall", "floor",
+                                  # r1421: agenda debt split one layer further
+                                  # (mechanism / calendar / no_topics / unknown)
+                                  "agenda_cause", "calendar")}
 
 
 def _ts_age_min(stamp, now_epoch=None):

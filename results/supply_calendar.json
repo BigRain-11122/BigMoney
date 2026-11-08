@@ -1,0 +1,94 @@
+{
+ "candidates": [
+  {
+   "candidate": "nobond_vt08_adopted",
+   "failing_checks": [
+    "Y4_top2_share"
+   ],
+   "margin_pp": 9.58,
+   "median_top2_share": 0.7958,
+   "pass": false,
+   "phases": 5,
+   "reading": "phase",
+   "receipt": "results/etf_book_phase_gate.json",
+   "receipt_asof": "2026-11-08T09:25:05+08:00",
+   "single_phase_verdict": "CONDITIONAL",
+   "spread_pp": 8.74,
+   "state": "CONDITIONAL",
+   "superseded_receipts": [
+    "results/etf_book_year_gate/YEAR-GATE.json"
+   ]
+  },
+  {
+   "candidate": "nobond_base",
+   "failing_checks": [
+    "Y3_worst_year",
+    "Y4_top2_share"
+   ],
+   "margin_pp": 12.07,
+   "median_top2_share": 0.8207,
+   "pass": false,
+   "phases": 5,
+   "reading": "phase",
+   "receipt": "results/etf_book_phase_gate.json",
+   "receipt_asof": "2026-11-08T09:25:05+08:00",
+   "single_phase_verdict": "ADMIT",
+   "spread_pp": 20.82,
+   "state": "UNADJUDICABLE_PHASE",
+   "superseded_receipts": [
+    "results/etf_book_year_gate/YEAR-GATE.json"
+   ]
+  },
+  {
+   "candidate": "nobond_vt08_floor_050",
+   "failing_checks": [
+    "Y4_top2_share"
+   ],
+   "margin_pp": 8.92,
+   "median_top2_share": 0.7892,
+   "pass": false,
+   "phases": 5,
+   "reading": "phase",
+   "receipt": "results/etf_book_phase_gate.json",
+   "receipt_asof": "2026-11-08T09:25:05+08:00",
+   "single_phase_verdict": "ADMIT",
+   "spread_pp": 13.96,
+   "state": "UNADJUDICABLE_PHASE",
+   "superseded_receipts": []
+  },
+  {
+   "candidate": "all_classes_published",
+   "failing_checks": [
+    "Y4_top2_share"
+   ],
+   "pass": false,
+   "phases": 1,
+   "positive_years": 6,
+   "reading": "single_phase",
+   "receipt": "results/etf_book_year_gate/YEAR-GATE.json",
+   "receipt_asof": "2026-11-08T08:38:12+0800",
+   "state": "CONDITIONAL",
+   "superseded_receipts": [],
+   "top2_share": 0.7719,
+   "worst_year_pp": -1.17,
+   "years": 7
+  }
+ ],
+ "generated": "2026-11-08T10:30:08+0800",
+ "n_admitted": 0,
+ "n_candidates": 4,
+ "n_refused": 4,
+ "pass_word": "ADMIT",
+ "reading": "every candidate the desk has judged was refused by its own calendar: the empty pool is not a missing topic, it is a missing year of evidence",
+ "receipts_declared": [
+  "results/etf_book_phase_gate.json",
+  "results/etf_book_year_gate/YEAR-GATE.json"
+ ],
+ "receipts_read": [
+  "results/etf_book_phase_gate.json",
+  "results/etf_book_year_gate/YEAR-GATE.json"
+ ],
+ "receipts_unreadable": [],
+ "tool": "supply_calendar_face",
+ "verdict": "NO_CANDIDATE_PASSES_CALENDAR"
+}

@@ -1,0 +1,954 @@
+{
+ "face": "year_concentration_calibration",
+ "asof": "2026-11-08T10:14:07+0800",
+ "evidence_cutoff": "2026",
+ "question": "does the frozen Y4 line measure calendar concentration, or is it an annual-Sharpe test wearing a concentration word?",
+ "rule": {
+  "statistic_c1": "top-2 calendar years / sum of calendar years (the published gate)",
+  "statistic_c2": "top-2 |calendar years| / sum |calendar years| (proposed reading)",
+  "null": "stationary iid normal annual returns with mean 10.0% and the book's own annual Sharpe; 200000 draws, seed 20261108",
+  "second_aggregator": "empirical bootstrap of the book's own seven years",
+  "inversion": "the Sharpe at which the null MEDIAN equals the frozen line",
+  "conditional_line": "pass if the observed statistic is at or below the null's 95% quantile at the book's own Sharpe",
+  "frozen_before_read": true
+ },
+ "sharpe_table": [
+  {
+   "annual_sharpe": 0.2,
+   "c1_median": 1.1455,
+   "c1_q05": 0.5547,
+   "c1_q95": 8.3597,
+   "c2_median": 0.5288,
+   "c2_q05": 0.4136,
+   "c2_q95": 0.687,
+   "p_c1_above_line": 0.8346
+  },
+  {
+   "annual_sharpe": 0.25,
+   "c1_median": 1.082,
+   "c1_q05": 0.5418,
+   "c1_q95": 7.408,
+   "c2_median": 0.5287,
+   "c2_q05": 0.4136,
+   "c2_q95": 0.6863,
+   "p_c1_above_line": 0.8115
+  },
+  {
+   "annual_sharpe": 0.3,
+   "c1_median": 1.0231,
+   "c1_q05": 0.5296,
+   "c1_q95": 6.6175,
+   "c2_median": 0.5283,
+   "c2_q05": 0.4134,
+   "c2_q95": 0.6861,
+   "p_c1_above_line": 0.7871
+  },
+  {
+   "annual_sharpe": 0.35,
+   "c1_median": 0.968,
+   "c1_q05": 0.5185,
+   "c1_q95": 5.6026,
+   "c2_median": 0.5283,
+   "c2_q05": 0.4132,
+   "c2_q95": 0.6856,
+   "p_c1_above_line": 0.7596
+  },
+  {
+   "annual_sharpe": 0.4,
+   "c1_median": 0.918,
+   "c1_q05": 0.5075,
+   "c1_q95": 4.8682,
+   "c2_median": 0.5279,
+   "c2_q05": 0.4128,
+   "c2_q95": 0.6851,
+   "p_c1_above_line": 0.7295
+  },
+  {
+   "annual_sharpe": 0.45,
+   "c1_median": 0.8724,
+   "c1_q05": 0.4972,
+   "c1_q95": 4.2251,
+   "c2_median": 0.5275,
+   "c2_q05": 0.4121,
+   "c2_q95": 0.6841,
+   "p_c1_above_line": 0.6966
+  },
+  {
+   "annual_sharpe": 0.5,
+   "c1_median": 0.8315,
+   "c1_q05": 0.4872,
+   "c1_q95": 3.6953,
+   "c2_median": 0.5267,
+   "c2_q05": 0.4116,
+   "c2_q95": 0.6833,
+   "p_c1_above_line": 0.6608
+  },
+  {
+   "annual_sharpe": 0.55,
+   "c1_median": 0.7944,
+   "c1_q05": 0.478,
+   "c1_q95": 3.1927,
+   "c2_median": 0.5258,
+   "c2_q05": 0.4113,
+   "c2_q95": 0.6819,
+   "p_c1_above_line": 0.624
+  },
+  {
+   "annual_sharpe": 0.6,
+   "c1_median": 0.7606,
+   "c1_q05": 0.4695,
+   "c1_q95": 2.8041,
+   "c2_median": 0.5248,
+   "c2_q05": 0.4105,
+   "c2_q95": 0.6802,
+   "p_c1_above_line": 0.5843
+  },
+  {
+   "annual_sharpe": 0.65,
+   "c1_median": 0.7301,
+   "c1_q05": 0.4615,
+   "c1_q95": 2.4442,
+   "c2_median": 0.5232,
+   "c2_q05": 0.4098,
+   "c2_q95": 0.6782,
+   "p_c1_above_line": 0.5445
+  },
+  {
+   "annual_sharpe": 0.7,
+   "c1_median": 0.7027,
+   "c1_q05": 0.454,
+   "c1_q95": 2.1382,
+   "c2_median": 0.5214,
+   "c2_q05": 0.4089,
+   "c2_q95": 0.6761,
+   "p_c1_above_line": 0.5042
+  },
+  {
+   "annual_sharpe": 0.75,
+   "c1_median": 0.6774,
+   "c1_q05": 0.447,
+   "c1_q95": 1.8746,
+   "c2_median": 0.5195,
+   "c2_q05": 0.4078,
+   "c2_q95": 0.6737,
+   "p_c1_above_line": 0.4625
+  },
+  {
+   "annual_sharpe": 0.8,
+   "c1_median": 0.6546,
+   "c1_q05": 0.4403,
+   "c1_q95": 1.6589,
+   "c2_median": 0.5175,
+   "c2_q05": 0.4064,
+   "c2_q95": 0.6712,
+   "p_c1_above_line": 0.4205
+  },
+  {
+   "annual_sharpe": 0.85,
+   "c1_median": 0.6342,
+   "c1_q05": 0.434,
+   "c1_q95": 1.4807,
+   "c2_median": 0.5148,
+   "c2_q05": 0.4049,
+   "c2_q95": 0.6682,
+   "p_c1_above_line": 0.3792
+  },
+  {
+   "annual_sharpe": 0.9,
+   "c1_median": 0.6155,
+   "c1_q05": 0.4281,
+   "c1_q95": 1.3334,
+   "c2_median": 0.5121,
+   "c2_q05": 0.4034,
+   "c2_q95": 0.6645,
+   "p_c1_above_line": 0.3377
+  },
+  {
+   "annual_sharpe": 0.95,
+   "c1_median": 0.5984,
+   "c1_q05": 0.4227,
+   "c1_q95": 1.2143,
+   "c2_median": 0.5092,
+   "c2_q05": 0.4016,
+   "c2_q95": 0.6606,
+   "p_c1_above_line": 0.2991
+  },
+  {
+   "annual_sharpe": 1.0,
+   "c1_median": 0.583,
+   "c1_q05": 0.4176,
+   "c1_q95": 1.1161,
+   "c2_median": 0.506,
+   "c2_q05": 0.3999,
+   "c2_q95": 0.6563,
+   "p_c1_above_line": 0.2628
+  },
+  {
+   "annual_sharpe": 1.05,
+   "c1_median": 0.5691,
+   "c1_q05": 0.4128,
+   "c1_q95": 1.0357,
+   "c2_median": 0.5026,
+   "c2_q05": 0.398,
+   "c2_q95": 0.6515,
+   "p_c1_above_line": 0.2284
+  },
+  {
+   "annual_sharpe": 1.1,
+   "c1_median": 0.5561,
+   "c1_q05": 0.4082,
+   "c1_q95": 0.9693,
+   "c2_median": 0.499,
+   "c2_q05": 0.3959,
+   "c2_q95": 0.6463,
+   "p_c1_above_line": 0.1974
+  },
+  {
+   "annual_sharpe": 1.15,
+   "c1_median": 0.5442,
+   "c1_q05": 0.404,
+   "c1_q95": 0.9144,
+   "c2_median": 0.4954,
+   "c2_q05": 0.3937,
+   "c2_q95": 0.6416,
+   "p_c1_above_line": 0.1687
+  },
+  {
+   "annual_sharpe": 1.2,
+   "c1_median": 0.5334,
+   "c1_q05": 0.3999,
+   "c1_q95": 0.8652,
+   "c2_median": 0.4915,
+   "c2_q05": 0.3916,
+   "c2_q95": 0.6361,
+   "p_c1_above_line": 0.1427
+  },
+  {
+   "annual_sharpe": 1.25,
+   "c1_median": 0.5234,
+   "c1_q05": 0.3962,
+   "c1_q95": 0.8239,
+   "c2_median": 0.4875,
+   "c2_q05": 0.3894,
+   "c2_q95": 0.6306,
+   "p_c1_above_line": 0.1196
+  },
+  {
+   "annual_sharpe": 1.3,
+   "c1_median": 0.5142,
+   "c1_q05": 0.3928,
+   "c1_q95": 0.7889,
+   "c2_median": 0.4835,
+   "c2_q05": 0.3872,
+   "c2_q95": 0.6243,
+   "p_c1_above_line": 0.0993
+  },
+  {
+   "annual_sharpe": 1.35,
+   "c1_median": 0.5056,
+   "c1_q05": 0.3894,
+   "c1_q95": 0.7584,
+   "c2_median": 0.4795,
+   "c2_q05": 0.3849,
+   "c2_q95": 0.6185,
+   "p_c1_above_line": 0.0816
+  },
+  {
+   "annual_sharpe": 1.4,
+   "c1_median": 0.4976,
+   "c1_q05": 0.3863,
+   "c1_q95": 0.7317,
+   "c2_median": 0.4754,
+   "c2_q05": 0.3826,
+   "c2_q95": 0.6126,
+   "p_c1_above_line": 0.067
+  },
+  {
+   "annual_sharpe": 1.45,
+   "c1_median": 0.4903,
+   "c1_q05": 0.3833,
+   "c1_q95": 0.7079,
+   "c2_median": 0.4713,
+   "c2_q05": 0.3804,
+   "c2_q95": 0.6062,
+   "p_c1_above_line": 0.0542
+  },
+  {
+   "annual_sharpe": 1.5,
+   "c1_median": 0.4833,
+   "c1_q05": 0.3807,
+   "c1_q95": 0.6867,
+   "c2_median": 0.4673,
+   "c2_q05": 0.3782,
+   "c2_q95": 0.6,
+   "p_c1_above_line": 0.0433
+  },
+  {
+   "annual_sharpe": 1.55,
+   "c1_median": 0.4769,
+   "c1_q05": 0.3781,
+   "c1_q95": 0.6675,
+   "c2_median": 0.4633,
+   "c2_q05": 0.3762,
+   "c2_q95": 0.5932,
+   "p_c1_above_line": 0.0346
+  },
+  {
+   "annual_sharpe": 1.6,
+   "c1_median": 0.4708,
+   "c1_q05": 0.3756,
+   "c1_q95": 0.6504,
+   "c2_median": 0.4593,
+   "c2_q05": 0.374,
+   "c2_q95": 0.5867,
+   "p_c1_above_line": 0.0272
+  },
+  {
+   "annual_sharpe": 1.65,
+   "c1_median": 0.4651,
+   "c1_q05": 0.3732,
+   "c1_q95": 0.6344,
+   "c2_median": 0.4555,
+   "c2_q05": 0.372,
+   "c2_q95": 0.5804,
+   "p_c1_above_line": 0.0213
+  },
+  {
+   "annual_sharpe": 1.7,
+   "c1_median": 0.4598,
+   "c1_q05": 0.3709,
+   "c1_q95": 0.6201,
+   "c2_median": 0.4517,
+   "c2_q05": 0.37,
+   "c2_q95": 0.5737,
+   "p_c1_above_line": 0.0165
+  },
+  {
+   "annual_sharpe": 1.75,
+   "c1_median": 0.4547,
+   "c1_q05": 0.3688,
+   "c1_q95": 0.6072,
+   "c2_median": 0.448,
+   "c2_q05": 0.3681,
+   "c2_q95": 0.5673,
+   "p_c1_above_line": 0.0128
+  },
+  {
+   "annual_sharpe": 1.8,
+   "c1_median": 0.45,
+   "c1_q05": 0.3667,
+   "c1_q95": 0.5952,
+   "c2_median": 0.4443,
+   "c2_q05": 0.3662,
+   "c2_q95": 0.5612,
+   "p_c1_above_line": 0.0097
+  },
+  {
+   "annual_sharpe": 1.85,
+   "c1_median": 0.4455,
+   "c1_q05": 0.3648,
+   "c1_q95": 0.5843,
+   "c2_median": 0.4408,
+   "c2_q05": 0.3643,
+   "c2_q95": 0.5553,
+   "p_c1_above_line": 0.0073
+  },
+  {
+   "annual_sharpe": 1.9,
+   "c1_median": 0.4413,
+   "c1_q05": 0.3629,
+   "c1_q95": 0.574,
+   "c2_median": 0.4373,
+   "c2_q05": 0.3626,
+   "c2_q95": 0.5494,
+   "p_c1_above_line": 0.0057
+  },
+  {
+   "annual_sharpe": 1.95,
+   "c1_median": 0.4373,
+   "c1_q05": 0.3611,
+   "c1_q95": 0.5645,
+   "c2_median": 0.434,
+   "c2_q05": 0.3608,
+   "c2_q95": 0.5435,
+   "p_c1_above_line": 0.004
+  },
+  {
+   "annual_sharpe": 2.0,
+   "c1_median": 0.4334,
+   "c1_q05": 0.3593,
+   "c1_q95": 0.5557,
+   "c2_median": 0.4307,
+   "c2_q05": 0.3591,
+   "c2_q95": 0.5379,
+   "p_c1_above_line": 0.0029
+  },
+  {
+   "annual_sharpe": 2.05,
+   "c1_median": 0.4297,
+   "c1_q05": 0.3577,
+   "c1_q95": 0.5475,
+   "c2_median": 0.4275,
+   "c2_q05": 0.3576,
+   "c2_q95": 0.5324,
+   "p_c1_above_line": 0.0021
+  },
+  {
+   "annual_sharpe": 2.1,
+   "c1_median": 0.4262,
+   "c1_q05": 0.3561,
+   "c1_q95": 0.5398,
+   "c2_median": 0.4244,
+   "c2_q05": 0.356,
+   "c2_q95": 0.5267,
+   "p_c1_above_line": 0.0015
+  },
+  {
+   "annual_sharpe": 2.15,
+   "c1_median": 0.423,
+   "c1_q05": 0.3546,
+   "c1_q95": 0.5324,
+   "c2_median": 0.4214,
+   "c2_q05": 0.3545,
+   "c2_q95": 0.5212,
+   "p_c1_above_line": 0.0011
+  },
+  {
+   "annual_sharpe": 2.2,
+   "c1_median": 0.4198,
+   "c1_q05": 0.3531,
+   "c1_q95": 0.5255,
+   "c2_median": 0.4185,
+   "c2_q05": 0.3531,
+   "c2_q95": 0.5161,
+   "p_c1_above_line": 0.0007
+  },
+  {
+   "annual_sharpe": 2.25,
+   "c1_median": 0.4168,
+   "c1_q05": 0.3518,
+   "c1_q95": 0.519,
+   "c2_median": 0.4157,
+   "c2_q05": 0.3517,
+   "c2_q95": 0.5111,
+   "p_c1_above_line": 0.0005
+  },
+  {
+   "annual_sharpe": 2.3,
+   "c1_median": 0.4139,
+   "c1_q05": 0.3504,
+   "c1_q95": 0.513,
+   "c2_median": 0.413,
+   "c2_q05": 0.3503,
+   "c2_q95": 0.5063,
+   "p_c1_above_line": 0.0003
+  },
+  {
+   "annual_sharpe": 2.35,
+   "c1_median": 0.4111,
+   "c1_q05": 0.3491,
+   "c1_q95": 0.5072,
+   "c2_median": 0.4104,
+   "c2_q05": 0.3491,
+   "c2_q95": 0.5016,
+   "p_c1_above_line": 0.0002
+  },
+  {
+   "annual_sharpe": 2.4,
+   "c1_median": 0.4085,
+   "c1_q05": 0.3479,
+   "c1_q95": 0.5017,
+   "c2_median": 0.4079,
+   "c2_q05": 0.3479,
+   "c2_q95": 0.4969,
+   "p_c1_above_line": 0.0002
+  },
+  {
+   "annual_sharpe": 2.45,
+   "c1_median": 0.406,
+   "c1_q05": 0.3467,
+   "c1_q95": 0.4964,
+   "c2_median": 0.4055,
+   "c2_q05": 0.3467,
+   "c2_q95": 0.4924,
+   "p_c1_above_line": 0.0001
+  },
+  {
+   "annual_sharpe": 2.5,
+   "c1_median": 0.4036,
+   "c1_q05": 0.3456,
+   "c1_q95": 0.4915,
+   "c2_median": 0.4032,
+   "c2_q05": 0.3456,
+   "c2_q95": 0.4882,
+   "p_c1_above_line": 0.0001
+  },
+  {
+   "annual_sharpe": 2.55,
+   "c1_median": 0.4012,
+   "c1_q05": 0.3445,
+   "c1_q95": 0.487,
+   "c2_median": 0.4009,
+   "c2_q05": 0.3444,
+   "c2_q95": 0.484,
+   "p_c1_above_line": 0.0
+  },
+  {
+   "annual_sharpe": 2.6,
+   "c1_median": 0.399,
+   "c1_q05": 0.3434,
+   "c1_q95": 0.4825,
+   "c2_median": 0.3987,
+   "c2_q05": 0.3434,
+   "c2_q95": 0.48,
+   "p_c1_above_line": 0.0
+  },
+  {
+   "annual_sharpe": 2.65,
+   "c1_median": 0.3969,
+   "c1_q05": 0.3424,
+   "c1_q95": 0.4783,
+   "c2_median": 0.3967,
+   "c2_q05": 0.3424,
+   "c2_q95": 0.4762,
+   "p_c1_above_line": 0.0
+  },
+  {
+   "annual_sharpe": 2.7,
+   "c1_median": 0.3948,
+   "c1_q05": 0.3414,
+   "c1_q95": 0.4742,
+   "c2_median": 0.3946,
+   "c2_q05": 0.3414,
+   "c2_q95": 0.4725,
+   "p_c1_above_line": 0.0
+  },
+  {
+   "annual_sharpe": 2.75,
+   "c1_median": 0.3928,
+   "c1_q05": 0.3405,
+   "c1_q95": 0.4703,
+   "c2_median": 0.3927,
+   "c2_q05": 0.3405,
+   "c2_q95": 0.4689,
+   "p_c1_above_line": 0.0
+  },
+  {
+   "annual_sharpe": 2.8,
+   "c1_median": 0.3909,
+   "c1_q05": 0.3396,
+   "c1_q95": 0.4665,
+   "c2_median": 0.3908,
+   "c2_q05": 0.3396,
+   "c2_q95": 0.4654,
+   "p_c1_above_line": 0.0
+  },
+  {
+   "annual_sharpe": 2.85,
+   "c1_median": 0.389,
+   "c1_q05": 0.3386,
+   "c1_q95": 0.463,
+   "c2_median": 0.3889,
+   "c2_q05": 0.3386,
+   "c2_q95": 0.4621,
+   "p_c1_above_line": 0.0
+  },
+  {
+   "annual_sharpe": 2.9,
+   "c1_median": 0.3872,
+   "c1_q05": 0.3378,
+   "c1_q95": 0.4596,
+   "c2_median": 0.3872,
+   "c2_q05": 0.3378,
+   "c2_q95": 0.4589,
+   "p_c1_above_line": 0.0
+  },
+  {
+   "annual_sharpe": 2.95,
+   "c1_median": 0.3855,
+   "c1_q05": 0.3369,
+   "c1_q95": 0.4563,
+   "c2_median": 0.3854,
+   "c2_q05": 0.3369,
+   "c2_q95": 0.4557,
+   "p_c1_above_line": 0.0
+  },
+  {
+   "annual_sharpe": 3.0,
+   "c1_median": 0.3838,
+   "c1_q05": 0.3361,
+   "c1_q95": 0.4531,
+   "c2_median": 0.3838,
+   "c2_q05": 0.3361,
+   "c2_q95": 0.4526,
+   "p_c1_above_line": 0.0
+  }
+ ],
+ "inversion": {
+  "c1_sharpe_that_reads_70pct_on_the_median": 0.705,
+  "c2_sharpe_that_reads_70pct_on_the_median": 0.2,
+  "reading": "a book with annual Sharpe below this number fails Y4 by arithmetic even when its years are exactly independent draws"
+ },
+ "sources": {
+  "year_gate": {
+   "path": "results/etf_book_year_gate/YEAR-GATE.json",
+   "sha16": "e2ca77132edd58ce",
+   "asof": "2026-11-08T08:38:12+0800",
+   "cell": "N5_R20_10bp"
+  },
+  "candidates": {
+   "path": "results/admission/CANDIDATES.json",
+   "sha16": "8b1707e8346b9444",
+   "asof": "2026-11-08T07:04:20+0800"
+  }
+ },
+ "books": [
+  {
+   "book": "nobond_vt08_adopted",
+   "years": {
+    "2020": 5.607211539627377,
+    "2021": 7.628116174581678,
+    "2022": 2.8392743924003705,
+    "2023": 5.473011567332842,
+    "2024": 14.549563099483409,
+    "2025": 43.062681571816256,
+    "2026": 1.8979707833962411
+   },
+   "n_years": 7,
+   "annual_mean_pct": 11.5797,
+   "annual_sd_pct": 14.4839,
+   "annual_sharpe": 0.7995,
+   "c1_top2_share": 0.7108,
+   "c2_top2_abs_share": 0.7108,
+   "verdict_published": "CONDITIONAL",
+   "source": "results/etf_book_year_gate/YEAR-GATE.json",
+   "null_A1_normal": {
+    "reps": 196584,
+    "c1_median": 0.6553,
+    "c1_q05": 0.4403,
+    "c1_q95": 1.662,
+    "c1_percentile_of_observed": 0.5952,
+    "c2_median": 0.5174,
+    "c2_q95": 0.6712,
+    "c2_percentile_of_observed": 0.9784
+   },
+   "implied_sharpe_from_c1": 0.685,
+   "realized_minus_implied_sharpe": 0.1145,
+   "passes_conditional_line_c1": true,
+   "passes_conditional_line_c2": false,
+   "passes_fixed_line_c1": false,
+   "null_A1_state": "typical",
+   "null_A2_bootstrap": {
+    "reps": 200000,
+    "c1_median": 0.6434,
+    "c1_q95": 0.7879,
+    "c1_percentile_of_observed": 0.7332,
+    "c2_median": 0.6434,
+    "c2_q95": 0.7879,
+    "c2_percentile_of_observed": 0.7332,
+    "degenerate_samples": 0
+   },
+   "null_A2_state": "typical",
+   "aggregators_agree": true
+  },
+  {
+   "book": "nobond_base",
+   "years": {
+    "2020": 22.194307431386907,
+    "2021": 9.30910349218892,
+    "2022": 2.3313486840226494,
+    "2023": 5.26763184475072,
+    "2024": 12.968990956914816,
+    "2025": 53.73270259039855,
+    "2026": 4.2624542031370005
+   },
+   "n_years": 7,
+   "annual_mean_pct": 15.7238,
+   "annual_sd_pct": 18.0524,
+   "annual_sharpe": 0.871,
+   "c1_top2_share": 0.6898,
+   "c2_top2_abs_share": 0.6898,
+   "verdict_published": "ADMIT",
+   "source": "results/etf_book_year_gate/YEAR-GATE.json",
+   "null_A1_normal": {
+    "reps": 197874,
+    "c1_median": 0.6265,
+    "c1_q05": 0.4316,
+    "c1_q95": 1.4161,
+    "c1_percentile_of_observed": 0.6211,
+    "c2_median": 0.5137,
+    "c2_q95": 0.6667,
+    "c2_percentile_of_observed": 0.969
+   },
+   "implied_sharpe_from_c1": 0.725,
+   "realized_minus_implied_sharpe": 0.146,
+   "passes_conditional_line_c1": true,
+   "passes_conditional_line_c2": false,
+   "passes_fixed_line_c1": true,
+   "null_A1_state": "typical",
+   "null_A2_bootstrap": {
+    "reps": 200000,
+    "c1_median": 0.6226,
+    "c1_q95": 0.776,
+    "c1_percentile_of_observed": 0.7322,
+    "c2_median": 0.6226,
+    "c2_q95": 0.776,
+    "c2_percentile_of_observed": 0.7322,
+    "degenerate_samples": 0
+   },
+   "null_A2_state": "typical",
+   "aggregators_agree": true
+  },
+  {
+   "book": "all_classes_published",
+   "years": {
+    "2020": 14.73,
+    "2021": 4.51,
+    "2022": -1.17,
+    "2023": 2.73,
+    "2024": 7.92,
+    "2025": 36.34,
+    "2026": 1.1
+   },
+   "n_years": 7,
+   "annual_mean_pct": 9.4514,
+   "annual_sd_pct": 12.9445,
+   "annual_sharpe": 0.7302,
+   "c1_top2_share": 0.7719,
+   "c2_top2_abs_share": 0.7455,
+   "verdict_published": "CONDITIONAL",
+   "source": "results/etf_book_year_gate/YEAR-GATE.json",
+   "null_A1_normal": {
+    "reps": 194674,
+    "c1_median": 0.6878,
+    "c1_q05": 0.4497,
+    "c1_q95": 1.9817,
+    "c1_percentile_of_observed": 0.6214,
+    "c2_median": 0.5202,
+    "c2_q95": 0.6749,
+    "c2_percentile_of_observed": 0.9896
+   },
+   "implied_sharpe_from_c1": 0.583,
+   "realized_minus_implied_sharpe": 0.1472,
+   "passes_conditional_line_c1": true,
+   "passes_conditional_line_c2": false,
+   "passes_fixed_line_c1": false,
+   "null_A1_state": "typical",
+   "null_A2_bootstrap": {
+    "reps": 199955,
+    "c1_median": 0.7065,
+    "c1_q95": 0.9237,
+    "c1_percentile_of_observed": 0.6896,
+    "c2_median": 0.6781,
+    "c2_q95": 0.839,
+    "c2_percentile_of_observed": 0.7307,
+    "degenerate_samples": 45
+   },
+   "null_A2_state": "typical",
+   "aggregators_agree": true
+  },
+  {
+   "book": "smallcap_n20",
+   "years": {
+    "2020": 41.862,
+    "2021": 35.722,
+    "2022": 3.501,
+    "2023": -7.608,
+    "2024": 48.927,
+    "2025": 75.939,
+    "2026": -18.709
+   },
+   "n_years": 7,
+   "annual_mean_pct": 25.662,
+   "annual_sd_pct": 34.1552,
+   "annual_sharpe": 0.7513,
+   "c1_top2_share": 0.6951,
+   "c2_top2_abs_share": 0.5376,
+   "verdict_published": "CONDITIONAL",
+   "source": "results/admission/CANDIDATES.json",
+   "null_A1_normal": {
+    "reps": 195336,
+    "c1_median": 0.6774,
+    "c1_q05": 0.4467,
+    "c1_q95": 1.8728,
+    "c1_percentile_of_observed": 0.5299,
+    "c2_median": 0.5194,
+    "c2_q95": 0.6738,
+    "c2_percentile_of_observed": 0.5868
+   },
+   "implied_sharpe_from_c1": 0.715,
+   "realized_minus_implied_sharpe": 0.0363,
+   "passes_conditional_line_c1": true,
+   "passes_conditional_line_c2": true,
+   "passes_fixed_line_c1": true,
+   "null_A1_state": "typical",
+   "null_A2_bootstrap": {
+    "reps": 197242,
+    "c1_median": 0.6592,
+    "c1_q95": 1.7858,
+    "c1_percentile_of_observed": 0.5609,
+    "c2_median": 0.5131,
+    "c2_q95": 0.6936,
+    "c2_percentile_of_observed": 0.6093,
+    "degenerate_samples": 2758
+   },
+   "null_A2_state": "typical",
+   "aggregators_agree": true
+  },
+  {
+   "book": "breadth_ALL",
+   "years": {
+    "2020": 15.317468787482479,
+    "2021": 13.19332971461189,
+    "2022": 7.339577742349501,
+    "2023": -12.496061740813602,
+    "2024": 22.140205481740118,
+    "2025": 31.244340844927333,
+    "2026": -9.451591685173423
+   },
+   "n_years": 7,
+   "annual_mean_pct": 9.6125,
+   "annual_sd_pct": 15.9564,
+   "annual_sharpe": 0.6024,
+   "c1_top2_share": 0.7934,
+   "c2_top2_abs_share": 0.4802,
+   "verdict_published": "CONDITIONAL",
+   "source": "results/admission/CANDIDATES.json",
+   "null_A1_normal": {
+    "reps": 188831,
+    "c1_median": 0.7602,
+    "c1_q05": 0.469,
+    "c1_q95": 2.8114,
+    "c1_percentile_of_observed": 0.5405,
+    "c2_median": 0.5245,
+    "c2_q95": 0.6803,
+    "c2_percentile_of_observed": 0.2837
+   },
+   "implied_sharpe_from_c1": 0.552,
+   "realized_minus_implied_sharpe": 0.0504,
+   "passes_conditional_line_c1": true,
+   "passes_conditional_line_c2": true,
+   "passes_fixed_line_c1": false,
+   "null_A1_state": "typical",
+   "null_A2_bootstrap": {
+    "reps": 190827,
+    "c1_median": 0.7149,
+    "c1_q95": 2.6862,
+    "c1_percentile_of_observed": 0.6047,
+    "c2_median": 0.4433,
+    "c2_q95": 0.5226,
+    "c2_percentile_of_observed": 0.7752,
+    "degenerate_samples": 9173
+   },
+   "null_A2_state": "typical",
+   "aggregators_agree": true
+  }
+ ],
+ "power": {
+  "fixture_95pct_carried": {
+   "c1_top2_share": 0.9487,
+   "annual_sharpe": 0.6305,
+   "c1_percentile_under_own_sharpe_null": 0.7028,
+   "would_the_fixed_line_flag_it": false,
+   "read": "a book whose two years carry 95% of its whole profit is not beyond 95% of its own-Sharpe peers; the check cannot see the thing it names"
+  },
+  "books_beyond_95pct_c1": [],
+  "books_beyond_95pct_c2": [
+   "nobond_vt08_adopted",
+   "nobond_base",
+   "all_classes_published"
+  ],
+  "c1_band_above_one_at_sharpe_le_1": [
+   0.2,
+   0.25,
+   0.3,
+   0.35,
+   0.4,
+   0.45,
+   0.5,
+   0.55,
+   0.6,
+   0.65,
+   0.7,
+   0.75,
+   0.8,
+   0.85,
+   0.9,
+   0.95,
+   1.0
+  ],
+  "note": "C1's denominator is a signed sum, so the statistic is unbounded and its 95% band exceeds 1.0 wherever the annual Sharpe is at or below ~1.0"
+ },
+ "discrimination": {
+  "c1_median_moves_with_sharpe_pp": 32.72,
+  "c2_median_moves_with_sharpe_pp": 9.41,
+  "reading": "C1's median falls with Sharpe by an order of magnitude more than C2's; C1 is an annual-Sharpe test in a concentration costume"
+ },
+ "summary": {
+  "nobond_vt08_adopted": {
+   "c1_top2_share": 0.7108,
+   "annual_sharpe": 0.7995,
+   "implied_sharpe_from_c1": 0.685,
+   "null_state": "typical",
+   "A2_state": "typical",
+   "passes_fixed_line": false,
+   "passes_conditional_line": true,
+   "verdict_published": "CONDITIONAL"
+  },
+  "nobond_base": {
+   "c1_top2_share": 0.6898,
+   "annual_sharpe": 0.871,
+   "implied_sharpe_from_c1": 0.725,
+   "null_state": "typical",
+   "A2_state": "typical",
+   "passes_fixed_line": true,
+   "passes_conditional_line": true,
+   "verdict_published": "ADMIT"
+  },
+  "all_classes_published": {
+   "c1_top2_share": 0.7719,
+   "annual_sharpe": 0.7302,
+   "implied_sharpe_from_c1": 0.583,
+   "null_state": "typical",
+   "A2_state": "typical",
+   "passes_fixed_line": false,
+   "passes_conditional_line": true,
+   "verdict_published": "CONDITIONAL"
+  },
+  "smallcap_n20": {
+   "c1_top2_share": 0.6951,
+   "annual_sharpe": 0.7513,
+   "implied_sharpe_from_c1": 0.715,
+   "null_state": "typical",
+   "A2_state": "typical",
+   "passes_fixed_line": true,
+   "passes_conditional_line": true,
+   "verdict_published": "CONDITIONAL"
+  },
+  "breadth_ALL": {
+   "c1_top2_share": 0.7934,
+   "annual_sharpe": 0.6024,
+   "implied_sharpe_from_c1": 0.552,
+   "null_state": "typical",
+   "A2_state": "typical",
+   "passes_fixed_line": false,
+   "passes_conditional_line": true,
+   "verdict_published": "CONDITIONAL"
+  }
+ },
+ "flips_under_conditional_line": [
+  "nobond_vt08_adopted",
+  "all_classes_published",
+  "breadth_ALL"
+ ],
+ "at_risk_under_conditional_line": [],
+ "honest": [
+  "no book is re-priced here: every year row is read from a published receipt",
+  "the null is iid normal; real books cluster (crisis years) and would be MORE concentrated, so a book inside the null band is not proof of independence",
+  "the Sharpe in the null is plugged in from the same seven years, so the null band is narrower than a fully accounting-for-estimation null would be",
+  "C2 is published as a READING; replacing Y4 is a law change and needs its own prereg, not a line chosen after seeing these numbers",
+  "a non-positive annual sum publishes no share; it is never read as 0 or 1",
+  "seven annual observations cannot separate a book's luck from its process; the percentile here says only whether the shape is unusual for its own Sharpe"
+ ],
+ "elapsed_sec": 3.6
+}

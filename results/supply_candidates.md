@@ -1,6 +1,6 @@
 # 供给面：池子空着，是因为没有活，还是因为没人把活放进池子
 
-判词 **AGENDA_DEBT** —— nothing to enqueue: the red names topic generation, not the pool
+判词 **AGENDA_DEBT** —— no candidate passes its calendar (4 refused): nobond_vt08_adopted: CONDITIONAL via Y4_top2_share; nobond_base: UNADJUDICABLE_PHASE via Y3_worst_year, Y4_top2_share (phase spread 20.82pp vs margin 12.07pp); nobond_vt08_floor_050: UNADJUDICABLE_PHASE via Y4_top2_share (phase spread 13.96pp vs margin 8.92pp); all_classes_published: CONDITIONAL via Y4_top2_share
 
 | 来源 | 数 | 能不能立刻点火 |
 |---|---|---|
@@ -14,3 +14,15 @@
 地板 3，当前差 **3** 个批次。
 
 读法：池子空是一种状态，两种原因。有活没入池=机制故障（该入池）；根本没活=选题债（该开题）。把两种都印成 supply_floor，红就一直红着、而且没人能对着它做事。
+
+## 归因：calendar
+
+已判过的候选，一个都没过自己的日历闸：
+
+| 候选 | 判决 | 未过的检查 | 收据 |
+|---|---|---|---|
+| nobond_vt08_adopted | CONDITIONAL | Y4_top2_share | results/etf_book_phase_gate.json |
+| nobond_base | UNADJUDICABLE_PHASE | Y3_worst_year, Y4_top2_share | results/etf_book_phase_gate.json |
+| nobond_vt08_floor_050 | UNADJUDICABLE_PHASE | Y4_top2_share | results/etf_book_phase_gate.json |
+| all_classes_published | CONDITIONAL | Y4_top2_share | results/etf_book_year_gate/YEAR-GATE.json |
+

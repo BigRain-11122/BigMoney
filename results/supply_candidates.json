@@ -1,8 +1,54 @@
 {
+ "agenda_cause": "calendar",
  "backlog_claimed": 16,
  "backlog_unclaimed_cross_company": 2,
+ "calendar": {
+  "candidates": [
+   {
+    "candidate": "nobond_vt08_adopted",
+    "failing_checks": [
+     "Y4_top2_share"
+    ],
+    "receipt": "results/etf_book_phase_gate.json",
+    "state": "CONDITIONAL"
+   },
+   {
+    "candidate": "nobond_base",
+    "failing_checks": [
+     "Y3_worst_year",
+     "Y4_top2_share"
+    ],
+    "receipt": "results/etf_book_phase_gate.json",
+    "state": "UNADJUDICABLE_PHASE"
+   },
+   {
+    "candidate": "nobond_vt08_floor_050",
+    "failing_checks": [
+     "Y4_top2_share"
+    ],
+    "receipt": "results/etf_book_phase_gate.json",
+    "state": "UNADJUDICABLE_PHASE"
+   },
+   {
+    "candidate": "all_classes_published",
+    "failing_checks": [
+     "Y4_top2_share"
+    ],
+    "receipt": "results/etf_book_year_gate/YEAR-GATE.json",
+    "state": "CONDITIONAL"
+   }
+  ],
+  "n_candidates": 4,
+  "n_refused": 4,
+  "receipts_declared": [
+   "results/etf_book_phase_gate.json",
+   "results/etf_book_year_gate/YEAR-GATE.json"
+  ],
+  "receipts_unreadable": [],
+  "verdict": "NO_CANDIDATE_PASSES_CALENDAR"
+ },
  "floor": 3,
- "generated": "2026-11-08T03:21:25+0800",
+ "generated": "2026-11-08T10:31:52+0800",
  "pool_ready": 0,
  "pool_ready_ids": [],
  "queue_consumed": {
@@ -31,7 +77,7 @@
   ],
   "tech.md": []
  },
- "reading": "nothing to enqueue: the red names topic generation, not the pool",
+ "reading": "no candidate passes its calendar (4 refused): nobond_vt08_adopted: CONDITIONAL via Y4_top2_share; nobond_base: UNADJUDICABLE_PHASE via Y3_worst_year, Y4_top2_share (phase spread 20.82pp vs margin 12.07pp); nobond_vt08_floor_050: UNADJUDICABLE_PHASE via Y4_top2_share (phase spread 13.96pp vs margin 8.92pp); all_classes_published: CONDITIONAL via Y4_top2_share",
  "shortfall": 3,
  "startable_now": 0,
  "tickets_unclaimed": 0,

@@ -60,6 +60,44 @@ def _audit():
     return compute_audit
 
 
+def _calendar():
+    """supply_calendar_face is the single owner of the calendar reading."""
+    sdir = os.path.join(ROOT, "scripts")
+    if sdir not in sys.path:
+        sys.path.insert(0, sdir)
+    import supply_calendar_face
+    return supply_calendar_face
+
+
+def agenda_cause(verdict, startable, shortfall, calendar_verdict):
+    """Why the red exists when the pool is short. Pure -- pinned by selftest.
+
+    r1199 split the pool red into 'mechanism' vs 'agenda debt'. This splits
+    agenda debt one layer further (r1421): 'nobody wrote a topic' and 'every
+    topic we have fails its own calendar' read the same word and need
+    opposite responses.
+
+      mechanism  startable work exists and was not enqueued
+      calendar   no startable work, and every judged candidate was refused
+                 by its own calendar gauge
+      no_topics  no startable work, no calendar refusals to blame
+      unknown    the reading could not be made (never reads as no_topics)
+    """
+    if verdict == "SUPPLY_OK":
+        return None
+    if startable is None or shortfall is None:
+        return "unknown"
+    if startable >= shortfall:
+        return "mechanism"
+    if calendar_verdict == "NO_CANDIDATE_PASSES_CALENDAR":
+        return "calendar"
+    if calendar_verdict == "ADMITTED_CANDIDATE_EXISTS":
+        return "no_topics"
+    if calendar_verdict == "NO_CANDIDATES":
+        return "no_topics"
+    return "unknown"
+
+
 def count_backlog(path):
     """(unclaimed, claimed) rows of a claim-by-file backlog.
 
@@ -154,7 +192,7 @@ def classify(ready, tickets, floor):
 
 
 def build(pool_ready=None, pool_ids=None, tickets=None, backlog_path=None,
-          queue_paths=None, floor=None):
+          queue_paths=None, floor=None, calendar=None):
     """Assemble the face. Every input may be injected (selftest hermeticity)."""
     ca = _audit()
     floor = ca.SUPPLY_FLOOR_READY if floor is None else floor
@@ -182,6 +220,12 @@ def build(pool_ready=None, pool_ids=None, tickets=None, backlog_path=None,
         if sc and sc["live"]:
             queue.setdefault("_rows", {})[name] = sc["live"]
     verdict, startable = classify(pool_ready, tickets, floor)
+    if calendar is None:
+        cal_face = _calendar().build()
+    else:
+        cal_face = calendar
+    shortfall = (None if pool_ready is None else max(0, floor - pool_ready))
+    cause = agenda_cause(verdict, startable, shortfall, cal_face.get("verdict"))
     return {
         "tool": "supply_candidate_face",
         "floor": floor,
@@ -190,8 +234,22 @@ def build(pool_ready=None, pool_ids=None, tickets=None, backlog_path=None,
         "tickets_unclaimed": tickets,
         # startable = what can be ignited today without a new freeze
         "startable_now": startable,
-        "shortfall": (None if pool_ready is None
-                      else max(0, floor - pool_ready)),
+        "shortfall": shortfall,
+        # one layer under AGENDA_DEBT: did anything we already judged get
+        # refused by its own calendar? (single owner: supply_calendar_face)
+        "agenda_cause": cause,
+        "calendar": {
+            "verdict": cal_face.get("verdict"),
+            "n_candidates": cal_face.get("n_candidates"),
+            "n_refused": cal_face.get("n_refused"),
+            "receipts_declared": cal_face.get("receipts_declared"),
+            "receipts_unreadable": cal_face.get("receipts_unreadable"),
+            "candidates": [
+                {"candidate": c.get("candidate"), "state": c.get("state"),
+                 "failing_checks": c.get("failing_checks"),
+                 "receipt": c.get("receipt")}
+                for c in (cal_face.get("candidates") or [])],
+        },
         # counted, deliberately NOT startable: cross-company, or needs prereg
         "backlog_unclaimed_cross_company": b_unclaimed,
         "backlog_claimed": b_claimed,
@@ -205,15 +263,37 @@ def build(pool_ready=None, pool_ids=None, tickets=None, backlog_path=None,
         "queue_status_unreadable": unreadable,
         "queue_open_names": queue.get("_rows", {}),
         "verdict": verdict,
-        "reading": {
-            "SUPPLY_OK": "pool holds floor-many ready batches",
-            "SUPPLY_BROKEN": "startable work exists and is not in the pool: "
-                             "enqueue it, this is a mechanism fault",
-            "AGENDA_DEBT": "nothing to enqueue: the red names topic "
-                           "generation, not the pool",
-            "UNKNOWN": "pool unreadable -- unknown is not empty (r98)",
-        }[verdict],
+        "agenda_cause": cause,
+        "reading": _reading(verdict, cause, cal_face),
     }
+
+
+READINGS = {
+    "SUPPLY_OK": "pool holds floor-many ready batches",
+    "SUPPLY_BROKEN": "startable work exists and is not in the pool: "
+                     "enqueue it, this is a mechanism fault",
+    "AGENDA_DEBT": "nothing to enqueue: the red names topic "
+                   "generation, not the pool",
+    "UNKNOWN": "pool unreadable -- unknown is not empty (r98)",
+}
+
+
+def _reading(verdict, cause, cal_face):
+    """The sentence an operator acts on. For AGENDA_DEBT the calendar layer
+    replaces the generic wording, because 'write a topic' and 'wait for the
+    book to pass its calendar' are different orders."""
+    if verdict == "AGENDA_DEBT" and cause == "calendar":
+        try:
+            cal = _calendar()
+            return cal.summary_line(cal_face)
+        except Exception:                          # noqa: BLE001 - reported
+            names = [c.get("candidate") for c in cal_face.get("candidates") or []]
+            return ("no candidate passes its calendar (%d refused: %s)"
+                    % (len(names), ", ".join(names)))
+    if verdict == "AGENDA_DEBT" and cause == "unknown":
+        return ("nothing to enqueue, and the calendar reading could not be "
+                "made -- unknown is not 'no topics' (r98)")
+    return READINGS[verdict]
 
 
 def write_md(face, path):
@@ -242,6 +322,28 @@ def write_md(face, path):
         "而且没人能对着它做事。",
         "",
     ]
+    cal = face.get("calendar") or {}
+    if face.get("agenda_cause"):
+        lines += ["## 归因：%s" % face["agenda_cause"], ""]
+        if face["agenda_cause"] == "calendar":
+            lines += ["已判过的候选，一个都没过自己的日历闸：", "",
+                      "| 候选 | 判决 | 未过的检查 | 收据 |", "|---|---|---|---|"]
+            for c in cal.get("candidates") or []:
+                lines.append("| %s | %s | %s | %s |" % (
+                    c.get("candidate"), c.get("state"),
+                    ", ".join(c.get("failing_checks") or []) or "—",
+                    c.get("receipt")))
+            lines.append("")
+        elif face["agenda_cause"] == "no_topics":
+            lines.append("日历面里没有「被判过但被拒」的候选：确实是没人写题（开题）。")
+        elif face["agenda_cause"] == "mechanism":
+            lines.append("有活没入池：机制故障，该入池。")
+        else:
+            lines.append("日历面读不出来——未知不是「没题」（r98）。")
+        if cal.get("receipts_unreadable"):
+            lines.append("读不到的收据：%s"
+                         % json.dumps(cal["receipts_unreadable"], ensure_ascii=False))
+        lines.append("")
     with io.open(path, "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(lines))
 
@@ -268,6 +370,25 @@ def _selftest():
           classify(1, 2, 3), ("SUPPLY_BROKEN", 3))
     check("unreadable pool never reads as agenda debt",
           classify(None, 0, 3), ("UNKNOWN", None))
+
+    # (1b) the layer under AGENDA_DEBT (r1421): "write a topic" and "every
+    # candidate we judged fails its own calendar" are different orders.
+    CHECK_WORD = "NO_CANDIDATE_PASSES_CALENDAR"
+    check("startable work -> mechanism",
+          agenda_cause("SUPPLY_BROKEN", 3, 3, None), "mechanism")
+    check("all candidates refused by calendar -> calendar",
+          agenda_cause("AGENDA_DEBT", 0, 3, CHECK_WORD), "calendar")
+    check("no candidate declared -> no_topics",
+          agenda_cause("AGENDA_DEBT", 0, 3, "NO_CANDIDATES"), "no_topics")
+    check("admitted candidate but nothing enqueued -> no_topics",
+          agenda_cause("AGENDA_DEBT", 0, 3, "ADMITTED_CANDIDATE_EXISTS"),
+          "no_topics")
+    check("unreadable calendar is not no_topics",
+          agenda_cause("AGENDA_DEBT", 0, 3, "UNKNOWN"), "unknown")
+    check("unreadable pool -> unknown cause",
+          agenda_cause("UNKNOWN", None, None, "NO_CANDIDATES"), "unknown")
+    check("no cause when the floor is satisfied",
+          agenda_cause("SUPPLY_OK", 3, 0, None), None)
 
     # (2) backlog parser: claimed/done rows are not candidates
     import tempfile
@@ -315,15 +436,36 @@ def _selftest():
           [r[0] for r in open_queue_rows(q2)], ["E2"])
 
     # (4) end to end on fixtures, then the same call twice must be identical
+    NO_TOPICS = {"verdict": "NO_CANDIDATES", "n_candidates": 0,
+                 "n_refused": 0, "candidates": [], "receipts_unreadable": []}
     f1 = build(pool_ready=0, pool_ids=[], tickets=0, backlog_path=bl,
-               queue_paths=[q], floor=3)
+               queue_paths=[q], floor=3, calendar=NO_TOPICS)
     f2 = build(pool_ready=0, pool_ids=[], tickets=0, backlog_path=bl,
-               queue_paths=[q], floor=3)
+               queue_paths=[q], floor=3, calendar=NO_TOPICS)
     check("fixture verdict", f1["verdict"], "AGENDA_DEBT")
+    check("fixture cause is no_topics", f1["agenda_cause"], "no_topics")
     check("deterministic", json.dumps(f1, sort_keys=True),
           json.dumps(f2, sort_keys=True))
     check("startable excludes queue drafts", f1["startable_now"], 0)
     check("shortfall named", f1["shortfall"], 3)
+
+    # (4b) the live shape r1421 exists for: same verdict, different sentence
+    REFUSED = {"verdict": CHECK_WORD, "n_candidates": 1, "n_refused": 1,
+               "candidates": [{"candidate": "nobond_vt08_adopted",
+                               "state": "CONDITIONAL",
+                               "failing_checks": ["Y4_top2_share"],
+                               "receipt": "results/x.json"}],
+               "receipts_unreadable": []}
+    f3 = build(pool_ready=0, pool_ids=[], tickets=0, backlog_path=bl,
+               queue_paths=[q], floor=3, calendar=REFUSED)
+    check("refused calendar keeps the same verdict", f3["verdict"],
+          "AGENDA_DEBT")
+    check("refused calendar changes the cause", f3["agenda_cause"], "calendar")
+    check("the sentence names the candidate and its failing check",
+          ("nobond_vt08_adopted" in f3["reading"]
+           and "Y4_top2_share" in f3["reading"]), True)
+    check("the cause sentence is not the generic agenda wording",
+          f3["reading"] == READINGS["AGENDA_DEBT"], False)
 
     print("selftest %d/%d PASS" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1
@@ -356,6 +498,12 @@ def check_published(path=None):
         if d.get("shortfall") != want_short:
             problems.append("shortfall %r != recomputed %r"
                             % (d.get("shortfall"), want_short))
+        want_cause = agenda_cause(
+            want, startable, want_short,
+            (d.get("calendar") or {}).get("verdict"))
+        if d.get("agenda_cause") != want_cause:
+            problems.append("agenda_cause %r != recomputed %r"
+                            % (d.get("agenda_cause"), want_cause))
     if problems:
         print("supply_candidate_face: FAIL " + "; ".join(problems))
         return 1
