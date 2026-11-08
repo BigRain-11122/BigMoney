@@ -29478,12 +29478,29 @@
   },
   {
    "id": "E538-WHICH-CONSUMER-THREE-HOPS-OUT-WRITES-A-PAYLOAD-WITH-THE-SENTINEL-THAT-KEPT-MOVING",
-   "status": "ready",
+   "status": "done",
    "entered_by": "bm-b r1565 (supply floor refill after E535)",
    "entered_at": "2026-11-08T12:5x+08:00",
    "source": "E535 (r1565 bm-b): 1 of the 6 sites E534 published as handed onward is still moving -- e398 _resolve_module_chain:410's return is forwarded again by all 3 of its consumers (_resolve_chain_text:440, _attr_static_dir:445, classify:646), so the third hop is unmeasured",
    "title": "Follow the one parcel E535 still saw moving: for each consumer that forwards _resolve_module_chain's return, resolve the receiving callee's parameter and publish whether that body writes a payload, folds a sentence, counts it, or forwards again. The question is whether an unguarded depth-cap null ends up inside a published face's text three hops out, or whether the chain dead-ends in another pure helper.",
-   "lane_note": "static: one more hop through the same parameter-binding walk E535 already uses; no execution, no network, no rewrites"
+   "lane_note": "static: one more hop through the same parameter-binding walk E535 already uses; no execution, no network, no rewrites",
+   "result_ref": "results/state_tilt/PARCELLANDING-2026-11-08.json",
+   "result_note": "2 of 3 consumers return into the resolver family they came from (a call-graph knot, not a hand-off); 1 names family_dir in the payload it returns and the module writes it (json.dump:1078); priced at 4 of 237 published read sites, all 4 labelled family_stated_at_the_site although the family came from an imported constant resolved three functions away",
+   "closed_at": "2026-11-08T12:0x+08:00",
+   "closed_by": "bm-b r1566"
+  },
+  {
+   "id": "E539-WHICH-PUBLISHED-ROWS-CARRY-A-CLASS-THEIR-EVIDENCE-CONTRADICTS",
+   "status": "ready",
+   "entered_by": "bm-b r1566 (supply floor refill after E538)",
+   "entered_at": "2026-11-08T12:0x+08:00",
+   "source": "E538 (r1566 bm-b): 4 of 237 rows are classed family_stated_at_the_site while their evidence says the family came from an imported constant resolved three functions away, so a class label and its own evidence row can disagree",
+   "title": "For every row in the census face E398 writes, read the class it carries against the evidence it carries and publish the rows where the two disagree: a stated-at-the-site row whose how is not a literal at the site, a signature row with no default published, a written row with no written expression. Publish the count per class, the rows, and whether any consumer reads the class label (rather than the evidence) to decide something.",
+   "lane_note": "static: the face is already on disk; the question is whether its labels survive their own evidence rows",
+   "deliverable": "scripts/e539_label_vs_evidence.py + results/state_tilt/LABELVSEVIDENCE-*.json",
+   "target": "results/state_tilt/",
+   "evidence_cutoff": "2026-11-08",
+   "lane": "static"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29498,6 +29515,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T13:0x+0800",
+ "updated_at": "2026-11-08T12:0x+08:00",
  "version": 1
 }

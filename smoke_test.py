@@ -22640,6 +22640,63 @@ except Exception as _e535x:
 check(_name535, not _bad535, "; ".join(_bad535)[:240] or _d535)
 
 
+# E538: where does the one parcel E535 still saw moving land three hops out?
+#   * every consumer is classified from its own body: returning into the resolver family it came
+#     from is a call-graph knot, not a hand-off; naming a field for the value is an exit
+#   * the field is priced against the census face as it is written on disk, not asserted
+#   * doctored copies (a hand-written verdict, a knot site carrying a field, an off-vocabulary
+#     disposition, a zeroed price) must be refused
+_name538 = "E538 follows the one parcel E535 still saw moving three hops out (r1566 bm-b)"
+_bad538 = []
+try:
+    _m538 = __import__("importlib").import_module("e538_third_hop")
+    _f538 = json.load(open(os.path.join("results", "state_tilt", "parcellanding_latest.json"),
+                           encoding="utf-8"))
+    _s538 = _f538.get("summary") or {}
+    _r538 = _f538.get("sites") or []
+    _bad538.extend(_m538.face_problems(_f538))
+    if not _r538:
+        _bad538.append("the consumer population is empty")
+    if sum((_s538.get("by_disposition") or {}).values()) != len(_r538):
+        _bad538.append("the per-disposition counts do not add up to the rows")
+    for _row in _r538:
+        if _row.get("disposition") == _m538.D_CYCLE and _row.get("field"):
+            _bad538.append("a consumer published as a knot also names a field")
+            break
+    _p538 = _m538.price(json.load(open(os.path.join("results", "state_tilt",
+                                                    "latestfamily_latest.json"),
+                                      encoding="utf-8")))
+    if _p538["rows_carrying_the_field"] != _s538.get("price_rows_carrying_the_field"):
+        _bad538.append("the price does not re-join the census face on disk")
+
+    _doc538 = json.loads(json.dumps(_f538))
+    _doc538["verdict"] = _m538.V_MULTI_EXIT
+    if not _m538.face_problems(_doc538):
+        _bad538.append("a hand-written verdict was accepted")
+    _doc538 = json.loads(json.dumps(_f538))
+    _knot538 = [r for r in _doc538["sites"] if r.get("disposition") == _m538.D_CYCLE]
+    if _knot538:
+        _knot538[0]["field"] = "family_dir"
+        if not _m538.face_problems(_doc538):
+            _bad538.append("a knot site carrying a named field was accepted")
+    _doc538 = json.loads(json.dumps(_f538))
+    _doc538["sites"][0]["disposition"] = "a_disposition_this_study_never_publishes"
+    if not _m538.face_problems(_doc538):
+        _bad538.append("an off-vocabulary disposition was accepted")
+    _doc538 = json.loads(json.dumps(_f538))
+    _doc538["summary"]["price_rows_carrying_the_field"] = 0
+    if _doc538["summary"]["price_rows_carrying_the_field"] == _p538["rows_carrying_the_field"]:
+        _bad538.append("a zeroed price was accepted")
+    _d538 = "%d consumers / %d knot / %d exit / field %s / price %d of %d / verdict %s" % (
+        len(_r538), _s538.get("knot_consumers"), _s538.get("exits"),
+        ",".join(_s538.get("fields_named") or []), _s538.get("price_rows_carrying_the_field"),
+        _s538.get("price_read_sites_total"), _f538.get("verdict"))
+except Exception as _e538x:
+    _bad538.append(repr(_e538x)[:160])
+    _d538 = "leg could not run"
+check(_name538, not _bad538, "; ".join(_bad538)[:240] or _d538)
+
+
 # E533: which open arm's argument is a call that folds to a literal at its own site.  The population
 # must be exactly E527's still-open followable arms (a face that widened or narrowed it would be
 # answering a different question), an arm closed by the fold must carry the literal it folded to, an

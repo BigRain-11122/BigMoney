@@ -2047,6 +2047,11 @@ LEGS = [
     # call are named as such, and a publication needs a consumer that writes a payload.
     # 0.1s, check only.
     ("next_consumer", ["python", "scripts/e535_next_consumer.py", "check"]),
+    # E538 takes the one parcel E535 still saw moving three hops out and reads each consumer's own
+    # body: two of the three return the value into the resolver family they came from (a call-graph
+    # knot, not a hand-off) and exactly one names a field (family_dir) that the module writes into
+    # its census face -- priced at 4 of 237 published read sites. 0.1s, check only.
+    ("parcel_landing", ["python", "scripts/e538_third_hop.py", "check"]),
     # E532 follows E531's one passed-on-unchanged arm (plus E530's signature-default chains) one
     # hop out: for every call inside the owning body that hands the sentinel onward, map the
     # argument onto the callee's own parameter and publish what THAT body does with it. A callee

@@ -13238,3 +13238,21 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 - **解构绑定会伪装成「停在读者里」**：`why, target = _why(...)` 这种形状，只记 `ast.Name` 目标的扫描器看不见（E519 同族），本面补臂后夹具证明能跟到写出点。
 
 **验证**：`scripts/e535_next_consumer.py` run rc0 / check problems=0 / verify problems=0（重建逐字节一致）/ **selftest clean**（3 个夹具源、2 站、3 个消费者含解构臂，6 枚 doctored 全拒）；S6 腿 `next_consumer` rc0 0.06s（排在 `cap_to_payload` 之后）；smoke 腿 `# E535` 1/1（`scripts/run_e535_smoke_leg.py --doctor` 1/1 假红）；digest `research/digests/DIGEST-20261108-r1565-e535-next-consumer.md`。未跑：全量 smoke 套件、S6 其余腿、采集器族与 market/paper 链。
+## E538 那个还在转手的包裹落到了哪里：三个消费者里两个是递归结（回到解析器自己），只有一个进具名字段 `family_dir` 并被写进已发布的普查面——代价是 237 个已发布读站点里有 4 个被记成「家族写在站点上」（2026-11-08 r1566 bm-b）
+
+**问题**：E535 的六个站点只剩一个还在转手——e398 `_resolve_module_chain`:410 的返回值交给 `_resolve_chain_text`，三个消费者（440/445/646）全部被判「再次转手」。但「消费者又转手了」是关于消费者的一句话，不是关于值去了哪里的一句话。
+
+**量**（静态读消费者自己的函数体，不执行、不改写）：
+- **2 个是递归结**：440 `_resolve_chain_text` 与 445 `_attr_static_dir` 都 `return _resolve_module_chain(...)`，也就是 `_resolve_module_chain → _resolve_chain_text → _resolve_module_chain`。E535 看到的「还在转手」在这两处其实是回到了同一个解析器的入口，**没有任何值从这两处离开**。
+- **1 个真出口**：`classify`:646 `found = _resolve_module_chain(...)` → `if found:`（真值测试）→ 648 `dict(evidence, family_dir=found, constant=".".join(chain))` 返回，最终由同模块 `_write` 的 `json.dump`（1078 行）写进普查面。
+
+**定价**（对 E398 已经写出的普查面做 join 读，不是本批断言）：237 个已发布读站点里 **4 个**的 `family_dir` 由这条臂产生（share 0.0169）——`Money02/live_pull.py:12`、`Money02/live_view.py:16`、`Money02/preflight_data.py:58`、`:59`，**这四个全部记作 `family_stated_at_the_site`**。也就是说「家族写在站点上」的 206 行里有 4 行的家族其实来自一个穿过三层函数才解出来的导入常量：标签说的是站点，值是链路。
+
+**可复用教训**：
+- **「消费者又转手了」是图论问题，不是链论问题**：一个函数族内部的互相调用会伪装成转手链；先判是不是回到同一入口（本例 2/3），否则会把圈数当跳数写进结论。
+- **定价必须 join 已写出的面**：4/237 只能从磁盘上的普查面读出来，在同一批里写死就是自证（E207/E319 族）。
+- **发布面文件名是一种所有权**：本轮首跑把 E538 的面写进了 E530 的 `thirdhop_latest.json` 并覆盖了它（`git checkout` 已恢复，E530 腿复绿）。写面之前先读盘上那份的 `study` 键，不同就拒写——同名不同义判例（r1292/r1315）同族第三次。
+- **腿名也是所有权**：`third_hop` 已被 E530 占用，重名会让 `--only` 静默跑两条腿、只报其中一条红（本轮实证：rc=1 且输出空的那条正是别人的腿）。
+- **出口要有字段、结不能带字段**：闸里补两条腿（结站点带具名字段=拒；出口不带字段=拒），否则「结」与「出口」只靠 disposition 自述，doctored 面能过。
+
+**验证**：`scripts/e538_third_hop.py` run rc0 / check problems=0 / verify problems=0（重建字节一致）/ **selftest clean**（6 臂：结×2 / 出口 / 丢弃 / 仅测试 / 未定义，加 4 张 doctored 面全拒，含上面两条新腿）；S6 腿 `parcel_landing` rc0 0.06s（注册在 `next_consumer` 之后）；smoke 腿 `# E538` 1/1、`scripts/run_e538_smoke_leg.py --doctor` 1/1 复红；面 `results/state_tilt/PARCELLANDING-2026-11-08.json` + `parcellanding_latest.json`；digest `research/digests/DIGEST-20261108-r1566-e538-parcel-landing.md`。未跑全量 smoke 与 S6 其余腿（采集器、market/paper 等）。

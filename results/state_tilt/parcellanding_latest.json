@@ -1,0 +1,165 @@
+{
+ "card": "E538-WHICH-CONSUMER-THREE-HOPS-OUT-WRITES-A-PAYLOAD-WITH-THE-SENTINEL-THAT-KEPT-MOVING",
+ "disposition_vocab": [
+  "the_consumer_returns_the_value_to_the_resolver_it_came_from_so_the_chain_is_a_call_graph_knot",
+  "the_consumer_places_the_value_in_a_named_field_of_a_payload_it_returns",
+  "the_consumer_names_a_field_for_the_value_but_returns_no_payload",
+  "the_consumer_only_tests_the_value_for_truthiness",
+  "the_value_stops_inside_the_consumer",
+  "the_consumer_discards_the_value",
+  "the_receiving_callee_is_not_defined_in_this_corpus",
+  "the_consumer_site_could_not_be_read_statically"
+ ],
+ "evidence_cutoff": "2026-11-08",
+ "generated": "2026-11-08T11:53:55",
+ "method_limits": [
+  "one hop further than E535: a consumer that returns the value is classified by the callee name only; two functions that share a name across modules would be read as the same knot",
+  "a field is named only when it is a dict(...) keyword or a dict-literal key whose value is the bound name; a field assembled in a separate statement is published as D_STOPS rather than guessed",
+  "the price is read off the census face as it is published on disk; that face is written by another study at its own cutoff, so the count is a joined reading and is published with the face name rather than asserted as this study's own measurement",
+  "nothing is executed and no source is rewritten"
+ ],
+ "parse_failures": [],
+ "population_source": "e538_third_hop.py::population() -- every consumer site of an E535 row whose disposition is still being forwarded",
+ "price": {
+  "classes_those_rows_carry": [
+   "family_stated_at_the_site"
+  ],
+  "files": [
+   "Money02/live_pull.py",
+   "Money02/live_view.py",
+   "Money02/preflight_data.py"
+  ],
+  "read_sites_total": 237,
+  "rows": [
+   {
+    "class": "family_stated_at_the_site",
+    "constant": "D.LIVE_DIR",
+    "family_dir": "data/live",
+    "site": "Money02/live_pull.py:12"
+   },
+   {
+    "class": "family_stated_at_the_site",
+    "constant": "D.LIVE_DIR",
+    "family_dir": "data/live",
+    "site": "Money02/live_view.py:16"
+   },
+   {
+    "class": "family_stated_at_the_site",
+    "constant": "D.LIVE_DIR",
+    "family_dir": "data/live",
+    "site": "Money02/preflight_data.py:58"
+   },
+   {
+    "class": "family_stated_at_the_site",
+    "constant": "D.LIVE_DIR",
+    "family_dir": "data/live",
+    "site": "Money02/preflight_data.py:59"
+   }
+  ],
+  "rows_carrying_the_field": 4,
+  "share_of_read_sites": 0.0169
+ },
+ "price_face": "results/state_tilt/latestfamily_latest.json",
+ "question": "where does the value E535 still saw moving land: do the consumers three hops out write it into a payload, return it into the resolver they came from, or drop it?",
+ "sites": [
+  {
+   "caller": "_resolve_chain_text",
+   "detail": {
+    "is_the_reader_itself": true,
+    "returns_into": "_resolve_module_chain",
+    "statement": "Return"
+   },
+   "disposition": "the_consumer_returns_the_value_to_the_resolver_it_came_from_so_the_chain_is_a_call_graph_knot",
+   "field": null,
+   "line": 440,
+   "module": "scripts/e398_latest_family.py",
+   "payload_write_line": null,
+   "reader_function": "_resolve_module_chain",
+   "reader_site_line": 410,
+   "resolver_family": [
+    "_resolve_chain_text",
+    "_resolve_module_chain"
+   ],
+   "upstream_disposition": "the_next_consumer_hands_the_value_on_again"
+  },
+  {
+   "caller": "_attr_static_dir",
+   "detail": {
+    "is_the_reader_itself": true,
+    "returns_into": "_resolve_module_chain",
+    "statement": "Return"
+   },
+   "disposition": "the_consumer_returns_the_value_to_the_resolver_it_came_from_so_the_chain_is_a_call_graph_knot",
+   "field": null,
+   "line": 445,
+   "module": "scripts/e398_latest_family.py",
+   "payload_write_line": null,
+   "reader_function": "_resolve_module_chain",
+   "reader_site_line": 410,
+   "resolver_family": [
+    "_resolve_chain_text",
+    "_resolve_module_chain"
+   ],
+   "upstream_disposition": "the_next_consumer_hands_the_value_on_again"
+  },
+  {
+   "caller": "classify",
+   "detail": {
+    "bound_name": "found",
+    "field": "family_dir",
+    "field_line": 671,
+    "statement": "Assign",
+    "truth_tested_at": 669
+   },
+   "disposition": "the_consumer_places_the_value_in_a_named_field_of_a_payload_it_returns",
+   "field": "family_dir",
+   "line": 646,
+   "module": "scripts/e398_latest_family.py",
+   "payload_write_line": 1078,
+   "reader_function": "_resolve_module_chain",
+   "reader_site_line": 410,
+   "resolver_family": [
+    "_resolve_chain_text",
+    "_resolve_module_chain"
+   ],
+   "upstream_disposition": "the_next_consumer_hands_the_value_on_again"
+  }
+ ],
+ "sources_read": [
+  "scripts/e398_latest_family.py"
+ ],
+ "study": "E538_third_hop",
+ "summary": {
+  "by_disposition": {
+   "the_consumer_discards_the_value": 0,
+   "the_consumer_names_a_field_for_the_value_but_returns_no_payload": 0,
+   "the_consumer_only_tests_the_value_for_truthiness": 0,
+   "the_consumer_places_the_value_in_a_named_field_of_a_payload_it_returns": 1,
+   "the_consumer_returns_the_value_to_the_resolver_it_came_from_so_the_chain_is_a_call_graph_knot": 2,
+   "the_consumer_site_could_not_be_read_statically": 0,
+   "the_receiving_callee_is_not_defined_in_this_corpus": 0,
+   "the_value_stops_inside_the_consumer": 0
+  },
+  "consumer_sites": 3,
+  "dispositions_sum_to_the_sites": true,
+  "distinct_modules": 1,
+  "exits": 1,
+  "fields_named": [
+   "family_dir"
+  ],
+  "knot_consumers": 2,
+  "payload_write_line": 1078,
+  "price_read_sites_total": 237,
+  "price_rows_carrying_the_field": 4,
+  "upstream_rows": 3
+ },
+ "upstream_face": "results/state_tilt/nextconsumer_latest.json",
+ "upstream_sha256": "58187ffbaabbe7a1093f3eda0f3fc304d0d3f279b9405c8ef37b3b85708243b1",
+ "verdict": "the_parcel_leaves_the_resolver_at_exactly_one_consumer_and_lands_in_a_named_field_of_a_written_payload_while_the_other_consumers_are_a_recursive_knot",
+ "verdict_vocab": [
+  "the_parcel_leaves_the_resolver_at_exactly_one_consumer_and_lands_in_a_named_field_of_a_written_payload_while_the_other_consumers_are_a_recursive_knot",
+  "the_parcel_never_leaves_the_resolver_family",
+  "the_parcel_leaves_the_resolver_family_at_more_than_one_consumer",
+  "the_upstream_face_carries_no_site_that_is_still_being_forwarded"
+ ]
+}
