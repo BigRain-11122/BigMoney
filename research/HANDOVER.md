@@ -756,3 +756,33 @@ ls-remote == HEAD；**origin/main 未推**——领先 31 / 落后 40，promisor
   667 ahead / 413 behind，双血线 + promisor 懒取，r1243 禁无人 rebase；集团侧因此长期把本仓读成「未达」，
   已写 HQ-FEEDBACK `F-20261108-02`。
 - 未跑未宣称：完整 smoke 套件、S6 其余 update_*/market_*/paper 链。
+
+## r1595 5x 对账（2026-11-08 23:5x · bm-b）
+
+> 口径声明：本节只做指针核对，不重写历史。窗口 = r1586..r1595，明细在
+> `logs/iteration-loop/round_reports.md` 的对应行里（含每轮的 delivery sha）。
+
+- **窗口实体产品（6 件，全部有 check/verify/selftest 三腿）**：
+  `e560_chain_receipt_shape`（r1586：3 runner / 473 legs，全部在失败腿之后继续，0 个保留 stderr，
+  0 个写明表长，1 个能表示「没跑」的腿 → 5/9 三分类字段，盘上 320 份回执里 18 份带非零行、1 份带输出字段）、
+  `e552_created_item_presence`（r1591：E547 八件造物中 6 件按身份进入自己 fold 写的文件、1 件只以手抄副本进
+  第二个容器、1 件从未离开自己的函数 ——「没人读」与「不存在」是两种缺陷）、
+  ETF 前向账本解冻 + 池成员指纹（r1592：冻结八天是**上市**事件，1609→1613 只改截面不改 sizing，
+  1/5 marks 动 8.964e-04；`ledger.universe={n,sha16}` 让下一次增长自带名字）、
+  `e562_single_leg_provenance` 面重发布（r1593：卡片/摘要/S6 腿都在树里，**发布面本身缺席**，
+  故 smoke 腿在窗口里没人看见；重建立刻，159 份短回执 0 份可能是被杀链条）、
+  `e566_receipt_coverage_consumer`（r1594：158 源 77 写 / 7 读 / 74 只命名；2 对可定价、1 对是短回执）、
+  **`e567_chain_claim`（r1595：877 句邻接链计数句 join 回自己那一轮的回执与腿表 —— 28 句可判，
+  22 句分母等于表、2 句写明是子集、4 句读起来像全链、0 句高于表；849 句判不了）**。
+- **池面**：窗口内 E548/E552/E562/E560/E566/E567 全部结清（每条带 result_ref）；E567 结清后
+  floor 曾见底，r1595 补货 **E568/E569/E570**（ready 3 = floor 3）：
+  从 git 取回回执语料起点之前的腿表 / 分母是否等于回执自己的 rc0 数 / 三个 runner 印的句子是派生还是计数器。
+- **心跳面**：`fleet/machines/bm-b.json` round_no 1595，`state-bm-b.json` round_no 1595；
+  loop pin=2 current=2 no-op、LoopWatchdog 在位（last result 0）、pre-commit/pre-push 与源内容恒等、
+  attrition CLEAN 4 ledgers、orphan probe py_faces=8 / orphans=0。
+- **交付面**：`machine/bm-b-r1595` @ `f7f72fa8585e4b75675ed0748f528e8561350535`（ls-remote == HEAD 实测）；
+  **origin/main 仍未进**——本地 main 693 ahead / 424 behind（双血线 + promisor 懒取，r1243 禁止无人值守
+  rebase），交付走机器分支。
+- **未跑未宣称**：整套 smoke（无腿过滤，r1499）、S6 其余腿（本轮只跑了新增 `chain_claim` 一条，
+  `--only` 子集，回执 1/1 对表 318 —— 这正是 E567 自己的结论，已在轮报告里自我标注）、
+  `update_*` / `market_*` / `paper` 数据链。
