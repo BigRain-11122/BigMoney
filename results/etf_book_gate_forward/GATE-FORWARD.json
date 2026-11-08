@@ -1,0 +1,703 @@
+{
+  "face": "etf_book_gate_forward_content",
+  "generated": "2026-11-08T20:47:43+0800",
+  "evidence_cutoff": "2026-11-06",
+  "question": "which of the year gate's four refusals can see the year after?",
+  "criteria": {
+    "assay": "each year-axis check's own statistic on a leading fixed-length window vs the NEXT calendar year's return of the same arm",
+    "window_years": 3,
+    "window_years_secondary": 4,
+    "forward_years": 1,
+    "signs": {
+      "Y1_positive_years_share": 1,
+      "Y2_median_positive": 1,
+      "Y3_worst_year": 1,
+      "Y4_top2_share": -1
+    },
+    "sign_why": "aligned rho is computed in the gate's own direction: for Y1/Y2/Y3 a higher value is a stronger book, for Y4 a higher value is a more concentrated (worse) book; a refusal only protects money if the bad side of its statistic predicts a worse forward year",
+    "decision": {
+      "CARRIES_FORWARD": "aligned_rho >= +0.35 and perm_p < 0.10",
+      "BACKWARDS": "aligned_rho <= -0.35 and perm_p < 0.10",
+      "BLIND": "otherwise"
+    },
+    "severity_worst_first": [
+      "BACKWARDS",
+      "BLIND",
+      "NOT_ASSESSED",
+      "CARRIES_FORWARD"
+    ],
+    "severity_why": "a backwards check is worse than a decorative one: it refuses the books that then do better",
+    "min_cells": 12,
+    "permutations": 2000,
+    "seed": 20261108,
+    "partial_year_rule": "a cell whose leading window OR forward year touches a partial year is published but excluded from the pooled reading",
+    "repoint_rule": "SCENARIO ONLY, no gate is changed: with a check dropped from the refusal set, ADMIT = every remaining check passes, CONDITIONAL = exactly one remaining check fails, REFUSE = two or more fail; capacity column is left exactly as published",
+    "repoint_candidates": {
+      "nobond_vt08_adopted": "results/etf_book_phase_gate.json",
+      "nobond_base": "results/etf_book_phase_gate.json",
+      "nobond_vt08_floor_050": "results/etf_book_phase_gate.json",
+      "all_classes_published": "results/etf_book_year_gate/YEAR-GATE.json"
+    },
+    "grid": "full (width 3/5/8 x rebalance 10/20/40 x vol target on/off) -- the same family the desk runs, varying only width and rebalance"
+  },
+  "panel": {
+    "arms": [
+      "n3_r10_vt08",
+      "n3_r20_vt08",
+      "n3_r40_vt08",
+      "n5_r10_vt08",
+      "n5_r20_vt08",
+      "n5_r40_vt08",
+      "n8_r10_vt08",
+      "n8_r20_vt08",
+      "n8_r40_vt08",
+      "n3_r10_plain",
+      "n3_r20_plain",
+      "n3_r40_plain",
+      "n5_r10_plain",
+      "n5_r20_plain",
+      "n5_r40_plain",
+      "n8_r10_plain",
+      "n8_r20_plain",
+      "n8_r40_plain"
+    ],
+    "bars": 5275,
+    "from": "2005-02-23",
+    "to": "2026-11-06",
+    "flips_repaired": 169
+  },
+  "arms": {
+    "n3_r10_vt08": {
+      "turnover": 0.9937,
+      "years": {
+        "2020": 13.5666,
+        "2021": 9.0786,
+        "2022": -5.6549,
+        "2023": 14.2422,
+        "2024": 14.9638,
+        "2025": 39.9889,
+        "2026": -3.0579
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n3_r20_vt08": {
+      "turnover": 1.0827,
+      "years": {
+        "2020": 8.5401,
+        "2021": 9.1448,
+        "2022": -1.871,
+        "2023": 4.2915,
+        "2024": 10.2184,
+        "2025": 45.4621,
+        "2026": 0.5733
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n3_r40_vt08": {
+      "turnover": 1.1459,
+      "years": {
+        "2020": 8.7339,
+        "2021": 11.6555,
+        "2022": -3.3605,
+        "2023": -3.1714,
+        "2024": 5.0863,
+        "2025": 28.8508,
+        "2026": -4.3571
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n5_r10_vt08": {
+      "turnover": 0.9433,
+      "years": {
+        "2020": 7.7706,
+        "2021": 7.1304,
+        "2022": -0.8829,
+        "2023": 14.1448,
+        "2024": 15.547,
+        "2025": 43.9834,
+        "2026": -0.7384
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n5_r20_vt08": {
+      "turnover": 1.0803,
+      "years": {
+        "2020": 5.6072,
+        "2021": 7.6281,
+        "2022": 2.8393,
+        "2023": 5.473,
+        "2024": 14.5496,
+        "2025": 43.0627,
+        "2026": 1.898
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n5_r40_vt08": {
+      "turnover": 1.1323,
+      "years": {
+        "2020": 9.8062,
+        "2021": 8.623,
+        "2022": 2.4886,
+        "2023": -1.4673,
+        "2024": 4.6607,
+        "2025": 25.2851,
+        "2026": -2.7799
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n8_r10_vt08": {
+      "turnover": 0.906,
+      "years": {
+        "2020": 8.8652,
+        "2021": 3.6342,
+        "2022": -1.4089,
+        "2023": 15.7038,
+        "2024": 21.0844,
+        "2025": 45.4832,
+        "2026": -0.1693
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n8_r20_vt08": {
+      "turnover": 1.0177,
+      "years": {
+        "2020": 3.5745,
+        "2021": 5.1021,
+        "2022": 1.6994,
+        "2023": 7.1923,
+        "2024": 11.8501,
+        "2025": 46.4107,
+        "2026": 0.3902
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n8_r40_vt08": {
+      "turnover": 1.1095,
+      "years": {
+        "2020": 8.3075,
+        "2021": 7.4856,
+        "2022": -2.1056,
+        "2023": -1.571,
+        "2024": 7.369,
+        "2025": 26.6195,
+        "2026": -1.4132
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n3_r10_plain": {
+      "turnover": 1.4799,
+      "years": {
+        "2020": 44.5295,
+        "2021": 12.0716,
+        "2022": -8.7205,
+        "2023": 21.2417,
+        "2024": 26.1757,
+        "2025": 53.0486,
+        "2026": -6.5836
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n3_r20_plain": {
+      "turnover": 1.6265,
+      "years": {
+        "2020": 24.1019,
+        "2021": 10.0938,
+        "2022": -1.5999,
+        "2023": 7.1681,
+        "2024": 11.2102,
+        "2025": 60.2037,
+        "2026": 0.3968
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n3_r40_plain": {
+      "turnover": 1.7222,
+      "years": {
+        "2020": 17.4172,
+        "2021": 20.3157,
+        "2022": -3.2391,
+        "2023": -3.9984,
+        "2024": 4.7913,
+        "2025": 42.7317,
+        "2026": -7.5289
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n5_r10_plain": {
+      "turnover": 1.3289,
+      "years": {
+        "2020": 35.9326,
+        "2021": 10.167,
+        "2022": -2.2202,
+        "2023": 17.9389,
+        "2024": 25.2553,
+        "2025": 52.9255,
+        "2026": -0.1563
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n5_r20_plain": {
+      "turnover": 1.5301,
+      "years": {
+        "2020": 22.1943,
+        "2021": 9.3091,
+        "2022": 2.3313,
+        "2023": 5.2676,
+        "2024": 12.969,
+        "2025": 53.7327,
+        "2026": 4.2625
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n5_r40_plain": {
+      "turnover": 1.6333,
+      "years": {
+        "2020": 22.9327,
+        "2021": 13.3946,
+        "2022": 1.6771,
+        "2023": -1.8855,
+        "2024": 4.1607,
+        "2025": 35.5345,
+        "2026": -4.8794
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n8_r10_plain": {
+      "turnover": 1.2274,
+      "years": {
+        "2020": 29.555,
+        "2021": 7.5911,
+        "2022": -1.7283,
+        "2023": 19.1408,
+        "2024": 31.278,
+        "2025": 55.9659,
+        "2026": -2.1766
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n8_r20_plain": {
+      "turnover": 1.3886,
+      "years": {
+        "2020": 18.132,
+        "2021": 7.5498,
+        "2022": 1.148,
+        "2023": 6.5443,
+        "2024": 10.9335,
+        "2025": 61.6839,
+        "2026": 2.1801
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    },
+    "n8_r40_plain": {
+      "turnover": 1.5655,
+      "years": {
+        "2020": 21.8699,
+        "2021": 10.9298,
+        "2022": -2.8212,
+        "2023": -1.4337,
+        "2024": 7.1805,
+        "2025": 41.2133,
+        "2026": -1.1712
+      },
+      "partial_years": [
+        "2026"
+      ],
+      "cells": 4
+    }
+  },
+  "cells": 72,
+  "forward_relation": {
+    "Y1_positive_years_share": {
+      "primary_3y": {
+        "check": "Y1_positive_years_share",
+        "sign": 1,
+        "cells": 54,
+        "cells_published": 72,
+        "excluded_partial": 18,
+        "rho": -0.0572,
+        "aligned_rho": -0.0572,
+        "perm_p": 0.6862,
+        "verdict": "BLIND"
+      },
+      "secondary_4y": {
+        "check": "Y1_positive_years_share",
+        "sign": 1,
+        "cells": 36,
+        "cells_published": 54,
+        "excluded_partial": 18,
+        "rho": 0.2407,
+        "aligned_rho": 0.2407,
+        "perm_p": 0.1569,
+        "verdict": "BLIND"
+      },
+      "windows": [
+        "BLIND",
+        "BLIND"
+      ],
+      "composite": "BLIND",
+      "windows_agree": true
+    },
+    "Y2_median_positive": {
+      "primary_3y": {
+        "check": "Y2_median_positive",
+        "sign": 1,
+        "cells": 54,
+        "cells_published": 72,
+        "excluded_partial": 18,
+        "rho": 0.0801,
+        "aligned_rho": 0.0801,
+        "perm_p": 0.5672,
+        "verdict": "BLIND"
+      },
+      "secondary_4y": {
+        "check": "Y2_median_positive",
+        "sign": 1,
+        "cells": 36,
+        "cells_published": 54,
+        "excluded_partial": 18,
+        "rho": 0.2899,
+        "aligned_rho": 0.2899,
+        "perm_p": 0.094,
+        "verdict": "BLIND"
+      },
+      "windows": [
+        "BLIND",
+        "BLIND"
+      ],
+      "composite": "BLIND",
+      "windows_agree": true
+    },
+    "Y3_worst_year": {
+      "primary_3y": {
+        "check": "Y3_worst_year",
+        "sign": 1,
+        "cells": 54,
+        "cells_published": 72,
+        "excluded_partial": 18,
+        "rho": -0.0242,
+        "aligned_rho": -0.0242,
+        "perm_p": 0.8661,
+        "verdict": "BLIND"
+      },
+      "secondary_4y": {
+        "check": "Y3_worst_year",
+        "sign": 1,
+        "cells": 36,
+        "cells_published": 54,
+        "excluded_partial": 18,
+        "rho": 0.1113,
+        "aligned_rho": 0.1113,
+        "perm_p": 0.5067,
+        "verdict": "BLIND"
+      },
+      "windows": [
+        "BLIND",
+        "BLIND"
+      ],
+      "composite": "BLIND",
+      "windows_agree": true
+    },
+    "Y4_top2_share": {
+      "primary_3y": {
+        "check": "Y4_top2_share",
+        "sign": -1,
+        "cells": 52,
+        "cells_published": 72,
+        "excluded_partial": 20,
+        "rho": -0.0302,
+        "aligned_rho": 0.0302,
+        "perm_p": 0.8301,
+        "verdict": "BLIND"
+      },
+      "secondary_4y": {
+        "check": "Y4_top2_share",
+        "sign": -1,
+        "cells": 36,
+        "cells_published": 54,
+        "excluded_partial": 18,
+        "rho": -0.27,
+        "aligned_rho": 0.27,
+        "perm_p": 0.1059,
+        "verdict": "BLIND"
+      },
+      "windows": [
+        "BLIND",
+        "BLIND"
+      ],
+      "composite": "BLIND",
+      "windows_agree": true
+    }
+  },
+  "judgement": "NO_YEAR_CHECK_SEES_FORWARD",
+  "judgement_why": "every check the year gate refuses on is blind to the next year; the supply floor is not a risk control, it is a shape filter",
+  "informed_checks": [],
+  "blind_checks": [
+    "Y1_positive_years_share",
+    "Y2_median_positive",
+    "Y3_worst_year",
+    "Y4_top2_share"
+  ],
+  "backwards_checks": [],
+  "repoint": {
+    "rule": "SCENARIO ONLY, no gate is changed: with a check dropped from the refusal set, ADMIT = every remaining check passes, CONDITIONAL = exactly one remaining check fails, REFUSE = two or more fail; capacity column is left exactly as published",
+    "candidates": [
+      {
+        "book": "all_classes_published",
+        "source": "results/etf_book_year_gate/YEAR-GATE.json",
+        "verdict_published": "CONDITIONAL",
+        "phases": 1,
+        "phases_flipped": 1,
+        "without_Y4_words": [
+          "ADMIT"
+        ],
+        "without_Y4_stable_across_phases": true,
+        "detail": [
+          {
+            "start": "2026-11-08T08:38:12+0800",
+            "failing": [
+              "Y4_top2_share"
+            ],
+            "as_published": "CONDITIONAL",
+            "without_Y4": "ADMIT",
+            "flips": true
+          }
+        ]
+      },
+      {
+        "book": "nobond_base",
+        "source": "results/etf_book_year_gate/YEAR-GATE.json",
+        "verdict_published": "ADMIT",
+        "phases": 1,
+        "phases_flipped": 0,
+        "without_Y4_words": [
+          "ADMIT"
+        ],
+        "without_Y4_stable_across_phases": true,
+        "detail": [
+          {
+            "start": "2026-11-08T08:38:12+0800",
+            "failing": [],
+            "as_published": "ADMIT",
+            "without_Y4": "ADMIT",
+            "flips": false
+          }
+        ]
+      },
+      {
+        "book": "nobond_vt08_adopted",
+        "source": "results/etf_book_year_gate/YEAR-GATE.json",
+        "verdict_published": "CONDITIONAL",
+        "phases": 1,
+        "phases_flipped": 1,
+        "without_Y4_words": [
+          "ADMIT"
+        ],
+        "without_Y4_stable_across_phases": true,
+        "detail": [
+          {
+            "start": "2026-11-08T08:38:12+0800",
+            "failing": [
+              "Y4_top2_share"
+            ],
+            "as_published": "CONDITIONAL",
+            "without_Y4": "ADMIT",
+            "flips": true
+          }
+        ]
+      },
+      {
+        "book": "nobond_vt08_floor_050",
+        "source": "results/etf_book_phase_gate.json",
+        "verdict_published": "UNADJUDICABLE_PHASE",
+        "phases": 5,
+        "phases_flipped": 4,
+        "without_Y4_words": [
+          "ADMIT"
+        ],
+        "without_Y4_stable_across_phases": true,
+        "detail": [
+          {
+            "start": "2020-01-01",
+            "failing": [],
+            "as_published": "ADMIT",
+            "without_Y4": "ADMIT",
+            "flips": false
+          },
+          {
+            "start": "2020-01-08",
+            "failing": [
+              "Y4_top2_share"
+            ],
+            "as_published": "CONDITIONAL",
+            "without_Y4": "ADMIT",
+            "flips": true
+          },
+          {
+            "start": "2020-01-15",
+            "failing": [
+              "Y4_top2_share"
+            ],
+            "as_published": "CONDITIONAL",
+            "without_Y4": "ADMIT",
+            "flips": true
+          },
+          {
+            "start": "2020-01-22",
+            "failing": [
+              "Y4_top2_share"
+            ],
+            "as_published": "CONDITIONAL",
+            "without_Y4": "ADMIT",
+            "flips": true
+          },
+          {
+            "start": "2020-01-29",
+            "failing": [
+              "Y4_top2_share"
+            ],
+            "as_published": "CONDITIONAL",
+            "without_Y4": "ADMIT",
+            "flips": true
+          }
+        ]
+      }
+    ],
+    "books_all_phases_admit_without_Y4": [
+      "all_classes_published",
+      "nobond_vt08_adopted",
+      "nobond_vt08_floor_050"
+    ],
+    "n_flipped": 3,
+    "note": "scenario only: no gate line is changed by this file, and a book that only admits in some phases is printed as phase-unstable (r1325/E188: adoption needs a path test, not one decision sequence)",
+    "refusal_provenance": {
+      "caliber_receipt": "results/etf_book_year_caliber.json",
+      "trusted_calibers": [
+        "effective_years",
+        "years_for_half"
+      ],
+      "trusted_self_adjudication": {
+        "effective_years": "PASS",
+        "years_for_half": "FAIL"
+      },
+      "trusted_that_fail_self_adjudication": [
+        "years_for_half"
+      ],
+      "composite_verdict": "FAIL",
+      "phase_receipts": [
+        {
+          "book": "nobond_vt08_adopted",
+          "word": "REFUSAL_SURVIVES_TRUSTED_RULER",
+          "trusted_states": {
+            "net_top2_share": "FAIL",
+            "gross_top2_share": "UNADJUDICABLE_CALIBER",
+            "effective_years": "PASS",
+            "years_for_half": "FAIL"
+          },
+          "trusted_refusing": [
+            "years_for_half"
+          ],
+          "refusing_calibers_that_fail_self_adjudication": [
+            "years_for_half"
+          ]
+        },
+        {
+          "book": "nobond_base",
+          "word": "REFUSAL_SURVIVES_TRUSTED_RULER",
+          "trusted_states": {
+            "net_top2_share": "UNADJUDICABLE_CALIBER",
+            "gross_top2_share": "UNADJUDICABLE_CALIBER",
+            "effective_years": "PASS",
+            "years_for_half": "FAIL"
+          },
+          "trusted_refusing": [
+            "years_for_half"
+          ],
+          "refusing_calibers_that_fail_self_adjudication": [
+            "years_for_half"
+          ]
+        },
+        {
+          "book": "nobond_vt08_floor_050",
+          "word": "REFUSAL_SURVIVES_TRUSTED_RULER",
+          "trusted_states": {
+            "net_top2_share": "UNADJUDICABLE_CALIBER",
+            "gross_top2_share": "UNADJUDICABLE_CALIBER",
+            "effective_years": "PASS",
+            "years_for_half": "FAIL"
+          },
+          "trusted_refusing": [
+            "years_for_half"
+          ],
+          "refusing_calibers_that_fail_self_adjudication": [
+            "years_for_half"
+          ]
+        }
+      ],
+      "refusal_rests_only_on_unadjudicable_calibers": [
+        "nobond_base",
+        "nobond_vt08_adopted",
+        "nobond_vt08_floor_050"
+      ],
+      "reading": "the refusal survives only through calibers that fail their own self-adjudication (years_for_half): the second line of defence is the same question asked twice"
+    }
+  },
+  "honest": {
+    "one_family": "the arms are one ETF family; most cells share one bet, so the cross-section is narrower than the cell count suggests",
+    "decision_points": "at most three forward years per arm; this can settle whether a check carries forward information, never a strategy question (r1316 power floor)",
+    "no_line_changed": "no gate line, no refusal set and no production book was modified by this file",
+    "arithmetic_floor": "on a 3-year window all-positive record, Y4 cannot go below 0.667 and Y1 cannot reach 0.70 unless all three years are positive -- part of 'never passes' is the window's arithmetic, printed rather than netted out"
+  },
+  "elapsed_sec": 166.2,
+  "repoint_regenerated": "2026-11-08T20:49:26+0800"
+}

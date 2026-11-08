@@ -10915,3 +10915,31 @@ r1442 报了一个好看的臂（翻 drawdown_60 的符号，CAGR +87bp），并
 正身 = scripts/etf_sign_flip_phase_test.py（selftest 17/17 · --check 0.2s rc0 · run ~2min/40 格）
 + results/etf_sign_flip_phase_test.json + research/ETF_SIGN_FLIP_PHASE_TEST.md
 + digest DIGEST-20261108-r1443-sign-flip-phase-test.md ｜ S6 腿 `sign_flip_phase`（check 形）
+
+## E449 — 一条判据失明不等于整门失明（r1444 bm-c）
+
+r1441 只测了年度门的 Y4（top-2 年占比）就判 RULER_BLIND，而门实际拥有四条拒收判据
+（Y1 正年占比 / Y2 年度中位 / Y3 最差年 / Y4 top-2 占比），且四只在册候选**全部只因 Y4 被拒**。
+「一条瞎了」同时支持两种相反处置：废门，或把拒收重新指向会说话的那几条 —— 只有整门测完才知道哪种。
+
+scripts/etf_book_gate_forward_content.py（selftest 14/14）对四条判据逐条做同一项前向检验：
+18 支臂 × 固定 3 年/4 年滚动窗，窗口内统计量由冻结实现 candidate_year_gate.year_metrics 算出，
+对照同一臂紧接下一年的收益；方向先声明并按门语义对齐（Y1/Y2/Y3 越高越好、Y4 越高越差）。
+8 个读数（4 判据 × 2 窗）**全部 BLIND**：对齐 |rho| ≤ 0.29、置换 p ≥ 0.09、格数 52-54/36。
+Y4 原始 rho −0.0302 与 r1441 独立发布值逐位一致（跨文件一致性腿）。
+
+三条可复用：
+1. **整门测，不要抽样**——门的拒收集合是它自己的定义；只测构成当前拒收的那一条，
+   无法区分「废门」与「换指向」。
+2. **兜底要读兜底者自己的体检单**——相位票据写 REFUSAL_SURVIVES_TRUSTED_RULER，并排读
+   
+esults/etf_book_year_caliber.json 才发现承担拒收的 years_for_half 自判判决是 FAIL（r1426 四臂）：
+   能拒绝的那把尺子，正好是不能自判的那把。两份已发布面并排即可，无需重算。
+3. **场景腿与判决分开印**——「拿掉 Y4 后 3 本书在每个相位都 ADMIT」只是如果，写进
+   
+epoint（场景），不写进判决；改线是决策轮的事，且改线须同批预注册。
+
+测不了：单一家族横截面、每臂最多三个前向年（r1316 功效地板）；3 年窗算术下限
+（全正记录 top-2 ≥ 0.667、Y1 需三年全正）已在面上印出，不净掉。
+正身 = results/etf_book_gate_forward/GATE-FORWARD.json + research/ETF_BOOK_GATE_FORWARD_CONTENT.md
++ DIGEST-20261108-r1444-gate-forward-content.md
