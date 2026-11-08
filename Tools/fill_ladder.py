@@ -355,6 +355,11 @@ def _calendar_block():
                  "pass": bool(r.get("pass")),
                  "failing_checks": r.get("failing_checks") or []}
                 for r in (face.get("candidates") or [])],
+            # r1432: the reason a book was refused now comes from the ruler the
+            # desk elected (r1431), not from the one r1426 disqualified; the
+            # ladder prints it so "no lawful supply" also says why.
+            "elected_ruler": face.get("elected_ruler"),
+            "elected_reasons": face.get("elected_reasons") or [],
         }
     except Exception as exc:  # unreadable is not empty
         return {"verdict": "UNKNOWN",
@@ -365,12 +370,16 @@ def _calendar_block():
 def _explain_line(face):
     c = face["counts"]
     cal = face.get("calendar") or {}
-    return ("[ladder-face] ready=%d floor=%d | catalog %d rows: spent %d / blocked %d "
+    line = ("[ladder-face] ready=%d floor=%d | catalog %d rows: spent %d / blocked %d "
             "/ lane_foreign %d / available %d -> %s | calendar: %s (%s candidates, "
             "%s refused)" % (
                 face["compatible_ready"], face["floor"], c["catalog"], c["spent"],
                 c["blocked"], c["lane_foreign"], c["available"], face["verdict"],
                 cal.get("verdict"), cal.get("n_candidates"), cal.get("n_refused")))
+    if cal.get("elected_reasons"):
+        line += " | reason (%s): %s" % (cal.get("elected_ruler") or "no election",
+                                        "; ".join(cal["elected_reasons"]))
+    return line
 
 
 def explain(machine_id=None, dry_run=False, out_path=None):

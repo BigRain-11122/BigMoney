@@ -2,6 +2,21 @@
  "candidates": [
   {
    "candidate": "nobond_vt08_adopted",
+   "degenerate_phases": 0,
+   "elected_reason": {
+    "reading": {
+     "line": 3,
+     "margin": 1.0,
+     "median": 2.0,
+     "spread": 1.0,
+     "state": "FAIL",
+     "unit": "years (best years that add up to half the calendar sum)"
+    },
+    "ruler": "years_for_half",
+    "sentence": "years_for_half median 2 vs line 3 (FAIL)",
+    "state": "FAIL",
+    "word": "refuse"
+   },
    "failing_checks": [
     "Y4_top2_share"
    ],
@@ -19,6 +34,24 @@
    "superseded_receipts": [
     "results/etf_book_year_gate/YEAR-GATE.json"
    ],
+   "trusted_readings": {
+    "effective_years": {
+     "line": 3.0,
+     "margin": 1.98223,
+     "median": 4.98223,
+     "spread": 1.246657,
+     "state": "PASS",
+     "unit": "years (exp of entropy over gross shares)"
+    },
+    "years_for_half": {
+     "line": 3,
+     "margin": 1.0,
+     "median": 2.0,
+     "spread": 1.0,
+     "state": "FAIL",
+     "unit": "years (best years that add up to half the calendar sum)"
+    }
+   },
    "trusted_states": {
     "effective_years": "PASS",
     "years_for_half": "FAIL"
@@ -26,6 +59,21 @@
   },
   {
    "candidate": "nobond_base",
+   "degenerate_phases": 0,
+   "elected_reason": {
+    "reading": {
+     "line": 3,
+     "margin": 1.0,
+     "median": 2.0,
+     "spread": 0.0,
+     "state": "FAIL",
+     "unit": "years (best years that add up to half the calendar sum)"
+    },
+    "ruler": "years_for_half",
+    "sentence": "years_for_half median 2 vs line 3 (FAIL)",
+    "state": "FAIL",
+    "word": "refuse"
+   },
    "failing_checks": [
     "Y3_worst_year",
     "Y4_top2_share"
@@ -44,6 +92,24 @@
    "superseded_receipts": [
     "results/etf_book_year_gate/YEAR-GATE.json"
    ],
+   "trusted_readings": {
+    "effective_years": {
+     "line": 3.0,
+     "margin": 1.705631,
+     "median": 4.705631,
+     "spread": 1.636504,
+     "state": "PASS",
+     "unit": "years (exp of entropy over gross shares)"
+    },
+    "years_for_half": {
+     "line": 3,
+     "margin": 1.0,
+     "median": 2.0,
+     "spread": 0.0,
+     "state": "FAIL",
+     "unit": "years (best years that add up to half the calendar sum)"
+    }
+   },
    "trusted_states": {
     "effective_years": "PASS",
     "years_for_half": "FAIL"
@@ -51,6 +117,21 @@
   },
   {
    "candidate": "nobond_vt08_floor_050",
+   "degenerate_phases": 0,
+   "elected_reason": {
+    "reading": {
+     "line": 3,
+     "margin": 1.0,
+     "median": 2.0,
+     "spread": 1.0,
+     "state": "FAIL",
+     "unit": "years (best years that add up to half the calendar sum)"
+    },
+    "ruler": "years_for_half",
+    "sentence": "years_for_half median 2 vs line 3 (FAIL)",
+    "state": "FAIL",
+    "word": "refuse"
+   },
    "failing_checks": [
     "Y4_top2_share"
    ],
@@ -66,6 +147,24 @@
    "spread_pp": 13.96,
    "state": "UNADJUDICABLE_PHASE",
    "superseded_receipts": [],
+   "trusted_readings": {
+    "effective_years": {
+     "line": 3.0,
+     "margin": 1.985936,
+     "median": 4.985936,
+     "spread": 1.302796,
+     "state": "PASS",
+     "unit": "years (exp of entropy over gross shares)"
+    },
+    "years_for_half": {
+     "line": 3,
+     "margin": 1.0,
+     "median": 2.0,
+     "spread": 1.0,
+     "state": "FAIL",
+     "unit": "years (best years that add up to half the calendar sum)"
+    }
+   },
    "trusted_states": {
     "effective_years": "PASS",
     "years_for_half": "FAIL"
@@ -73,6 +172,10 @@
   },
   {
    "candidate": "all_classes_published",
+   "elected_reason": {
+    "ruler": "years_for_half",
+    "word": "not_on_record"
+   },
    "failing_checks": [
     "Y4_top2_share"
    ],
@@ -89,7 +192,17 @@
    "years": 7
   }
  ],
- "generated": "2026-11-08T14:36:41+0800",
+ "elected_notes": [
+  "all_classes_published has no years_for_half reading on record"
+ ],
+ "elected_reasons": [
+  "nobond_vt08_adopted refused at years_for_half median 2 vs line 3 (FAIL)",
+  "nobond_base refused at years_for_half median 2 vs line 3 (FAIL)",
+  "nobond_vt08_floor_050 refused at years_for_half median 2 vs line 3 (FAIL)"
+ ],
+ "elected_ruler": "years_for_half",
+ "election_error": "",
+ "generated": "2026-11-08T16:08:19+0800",
  "n_admitted": 0,
  "n_candidates": 4,
  "n_refused": 4,

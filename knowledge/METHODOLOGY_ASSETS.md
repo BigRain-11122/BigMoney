@@ -10591,7 +10591,7 @@ et_top2_share < 0.5 < 0.70 ⇒ 旧尺子必然也过。
 一把能判自己的尺子上。
 
 **坑（同族 r1429 L8，第五现）**：
-ead_ruler() 吃**序列**不吃字典——它 numerate 参数并自己
+read_ruler() 吃**序列**不吃字典——它 enumerate 参数并自己
 重建年份标签（2000+i），传 {year: net} 进去会把**年份标签当收益率**算，不报错、结果看起来正常。
 凡「读器接受序列」的接口，喂它结构化表之前先看它内部怎么用参数；本轮修法=按年份排序取数值的
 series() + selftest「非 mapping 即抛」「按年份而非插入顺序」两腿。
@@ -10599,3 +10599,26 @@ series() + selftest「非 mapping 即抛」「按年份而非插入顺序」两�
 正身 = scripts/etf_book_admission_refusal_caliber_adoption.py（selftest 12/12 + check 复 derive）
 + results/etf_book_admission_refusal_caliber_adoption.json + research/ETF_BOOK_ADMISSION_REFUSAL_CALIBER.md
 + S6 腿 refusal_caliber_adoption + smoke 双腿。
+
+## E438 — 采纳一条判据，最后一步是把它印出来；而印这句话的地方不止一处（r1432 bm-c）
+
+r1431 把「拒绝的理由」换成了当选的尺子（years_for_half），并且故意不动生产——那是准入规则变更，
+要自己的采纳轮。于是有一轮时间，桌面拥有一个读者看不见的决定：操作面板还印着
+`CONDITIONAL via Y4_top2_share`，那是 r1426 已取消资格的尺子，读起来像「钱太集中」，
+真实结论却是「钱早就赚完了」。判据换没换，不看决定签没签，看每一处印这句话的地方换没换。
+
+实读（供给日历 + 阶梯面同一句）：4 个候选 4 拒，其中 3 个现在印
+`refused at years_for_half median 2 vs line 3 (FAIL)`；`all_classes_published` 无相位集，
+诚实印「尺子未复读」，不继承别人的句子。判决词一个没动（4 拒→4 拒），换的只是拒的理由。
+
+可复用三条：
+①理由是一条有读者的输出，不是决定的注脚——换尺子的动作清单=「所有印理由的面」，
+不是「决定书提到的那个面」（本轮漏掉的第二个面是阶梯板，操作员真正读的那块）。
+②「没有这个尺子的读数」不是关于书的原因——把它塞进操作摘要会让每个候选都长出一句
+「no reading on record」。正法=面分两列发布（elected_reasons 可行动 / elected_notes 仪器缺失），
+摘要只印前者，md 页两个都印。这一条是本轮被既有断言腿抓出来的，不是审出来的。
+③默认值会吞掉一个状态：build(elected=None) 用 None 兼任「没传」和「确实没有当选尺子」，
+于是 no_election 这条腿永远读成 refuse——需要真哨兵对象（_AUTO）而不是假值。
+
+正身 = scripts/supply_calendar_face.py（selftest 37→39）/ Tools/fill_ladder.py（explain 印同一句）
++ research/digests/DIGEST-20261108-r1432-refusal-reason-wired.md + smoke 腿扩注（--check 现在复 derive 每一句）。

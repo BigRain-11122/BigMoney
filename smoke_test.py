@@ -657,7 +657,11 @@ def main() -> int:
             # topic" and "every candidate we judged fails its own calendar"
             # printed the same word and take opposite orders. The --check leg
             # re-derives the verdict from the published candidate rows, so
-            # "a candidate passed" cannot be typed in.
+            # "a candidate passed" cannot be typed in. r1432 extends the same leg:
+            # the refusal REASON must now name the ruler r1431 adopted (years_for_half)
+            # with its own median-vs-line reading, and --check re-derives every sentence
+            # from the row plus the published election -- a hand-typed reason is red, and
+            # a flat (degenerate) book may carry no sentence at all.
             ("product: supply calendar face (no topic vs no candidate passes its calendar)",
              "scripts/supply_calendar_face.py", ["--selftest"]),
             ("product: supply calendar verdict recomputed from its published rows",

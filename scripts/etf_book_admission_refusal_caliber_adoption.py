@@ -116,11 +116,29 @@ def _cells_from_candidates(receipt: dict) -> dict:
     return out
 
 
+def net_over_gross(net_sum_pct, gross_sum_pct):
+    """|net|/gross from two published sums; None when nothing was grossed.
+
+    Single implementation of the A5 input: any face that prints a refusal
+    sentence under this ruler must ask the same question of the same numbers.
+    """
+    if net_sum_pct is None or gross_sum_pct is None:
+        return None
+    if gross_sum_pct <= 0:
+        return None
+    return abs(float(net_sum_pct)) / float(gross_sum_pct)
+
+
+def is_degenerate(ratio):
+    """A5: 'half' is a rounding artefact, not a shape -- no refusal sentence."""
+    return ratio is None or ratio <= FLAT_NET_RATIO
+
+
 def _net_ratio(years: dict) -> dict:
     vals = [float(v) for v in years.values()]
     gross = sum(abs(v) for v in vals)
     net = sum(vals)
-    ratio = (abs(net) / gross) if gross > 0 else None
+    ratio = net_over_gross(net, gross)
     return {"gross_sum_pct": round(gross, 6), "net_sum_pct": round(net, 6),
             "net_over_gross": (round(ratio, 6) if ratio is not None else None)}
 
@@ -146,8 +164,7 @@ def read_cell(cell: dict) -> dict:
     new = E.read_ruler(NEW_RULER, seq)
     ratio = _net_ratio(cell["years"])
     n = len(cell["years"])
-    degenerate = (ratio["net_over_gross"] is None
-                  or ratio["net_over_gross"] <= FLAT_NET_RATIO)
+    degenerate = is_degenerate(ratio["net_over_gross"])
     # A refusal sentence may only be printed when the ruler's reading is not a rounding artefact.
     new_reason = "indeterminate" if degenerate else ("REFUSE" if new["word"] == "REFUSE" else "ADMIT")
     return {

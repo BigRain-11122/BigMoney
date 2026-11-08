@@ -51,10 +51,16 @@ import os
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
 OUT_JSON = os.path.join(ROOT, "results", "supply_calendar.json")
 OUT_MD = os.path.join(ROOT, "results", "supply_calendar.md")
 
 PASS_WORD = "ADMIT"
+
+# "the caller said nothing about the ruler" -- distinct from "the caller proved
+# there is no elected ruler" (r1432 selftest leg: no_election must be reachable).
+_AUTO = object()
 
 # Declared receipts, in preference order. The phase-aware reading supersedes a
 # single-phase one for the same book, so it is listed first and wins the merge.
@@ -62,6 +68,19 @@ RECEIPTS = (
     ("results/etf_book_phase_gate.json", "phase_gate"),
     ("results/etf_book_year_gate/YEAR-GATE.json", "year_gate"),
 )
+
+
+def elected_ruler():
+    """The ruler the desk elected on fixtures (r1429), imported -- never retyped.
+
+    r1431 adopted it as the calendar's refusal reason; this face therefore names
+    the reason with the same ruler instead of with the one r1426 disqualified.
+    Returns (name_or_None, error)."""
+    try:
+        from scripts import etf_book_admission_ruler_election as E
+        return (E.elect() or {}).get("elected"), ""
+    except Exception as exc:                      # noqa: BLE001 - reported, not swallowed
+        return None, "election unreadable: %s" % exc
 
 
 def _rel(path, root):
@@ -132,8 +151,100 @@ def read_phase_gate(path, obj, err, root=ROOT):
             "trusted_states": {
                 c: (b.get("caliber_adjudication") or {}).get(c, {}).get("state")
                 for c in ((b.get("refusal_survival") or {}).get("trusted") or [])},
+            # r1432: the WORD above says a trusted ruler also refuses; the operator
+            # still had to open the receipt to learn with what number. Carry the
+            # adjudicated reading (median against its own line) for every trusted
+            # caliber so the refusal sentence can be printed from a ruler we trust.
+            "trusted_readings": {
+                c: _reading_of((b.get("caliber_adjudication") or {}).get(c))
+                for c in ((b.get("refusal_survival") or {}).get("trusted") or [])},
+            # A5 input, from the receipt's own published sums (never re-derived
+            # from returns): how many phases would make "half" a rounding artefact.
+            "degenerate_phases": _degenerate_phases(phases),
         })
     return rows, ""
+
+
+def _reading_of(adj):
+    """Compact copy of one caliber adjudication block (median vs its own line)."""
+    if not isinstance(adj, dict):
+        return None
+    return {k: adj.get(k) for k in ("state", "median", "line", "spread", "margin", "unit")
+            if adj.get(k) is not None} or None
+
+
+def _degenerate_phases(phases):
+    """Count phases where |net|/gross <= 0.5 -- the A5 printing rule's input."""
+    from scripts import etf_book_admission_refusal_caliber_adoption as A
+    n = 0
+    for p in phases:
+        cal = p.get("calibers") or {}
+        ratio = A.net_over_gross(cal.get("net_sum_pct"), cal.get("gross_sum_pct"))
+        if A.is_degenerate(ratio):
+            n += 1
+    return n
+
+
+def _fmt(value):
+    if value is None:
+        return "?"
+    try:
+        f = float(value)
+    except (TypeError, ValueError):
+        return str(value)
+    return ("%d" % f) if abs(f - round(f)) < 1e-9 else ("%.3f" % f)
+
+
+def elected_reason(row, elected):
+    """The refusal sentence under the ruler r1431 adopted, or an honest 'cannot'.
+
+    Pure given `elected` (which the caller takes from the election, never from a
+    constant here). Words:
+      refuse         the elected ruler refuses this book, reading carried here
+      admitted       the elected ruler admits it -- r1431 A2 says this cannot
+                     happen for a cell refused today; printed, never hidden
+      indeterminate  every phase is flat (A5): 'half' is a rounding artefact
+      not_on_record  the receipt carries no reading for the elected ruler
+      no_election    the election could not be read
+    """
+    if row.get("pass"):
+        return None
+    if not elected:
+        return {"ruler": None, "word": "no_election"}
+    readings = row.get("trusted_readings") or {}
+    got = readings.get(elected)
+    if not got:
+        return {"ruler": elected, "word": "not_on_record"}
+    state = got.get("state")
+    if state and "UNADJUDICABLE" in str(state):
+        return {"ruler": elected, "word": "cannot_adjudicate", "state": state,
+                "reading": got}
+    if row.get("phases") and row.get("degenerate_phases") == row.get("phases"):
+        return {"ruler": elected, "word": "indeterminate", "state": state,
+                "reading": got}
+    word = "refuse" if state != PASS_WORD else "admitted"
+    return {"ruler": elected, "word": word, "state": state, "reading": got,
+            "sentence": "%s median %s vs line %s (%s)" % (
+                elected, _fmt(got.get("median")), _fmt(got.get("line")), state)}
+
+
+def _reason_clause(row):
+    """(name, phrase) for the summary, or None when nothing may be printed."""
+    reason = row.get("elected_reason") or {}
+    word = reason.get("word")
+    if word == "refuse":
+        return "%s refused at %s" % (row["candidate"], reason["sentence"])
+    if word == "admitted":
+        return ("%s is ADMITTED by %s -- not a refusal any more"
+                % (row["candidate"], reason["ruler"]))
+    if word == "indeterminate":
+        return "%s indeterminate under %s (flat years, no sentence)" % (
+            row["candidate"], reason["ruler"])
+    if word == "cannot_adjudicate":
+        return "%s cannot be judged by %s (phase spread)" % (row["candidate"], reason["ruler"])
+    if word == "not_on_record":
+        return "%s has no %s reading on record" % (row["candidate"], reason["ruler"])
+    return None
 
 
 def read_year_gate(path, obj, err, root=ROOT):
@@ -193,10 +304,14 @@ READING = {
 }
 
 
-def build(receipts=None, root=None):
+def build(receipts=None, root=None, elected=_AUTO):
     """Assemble the face. Injection exists for hermetic selftests."""
     root = root or ROOT
     receipts = RECEIPTS if receipts is None else receipts
+    if elected is _AUTO:
+        elected, election_err = elected_ruler()
+    else:
+        election_err = ""
     rows, by_name, unreadable, seen = [], {}, [], []
     for rel, kind in receipts:
         path = rel if os.path.isabs(rel) else os.path.join(root, rel)
@@ -217,6 +332,22 @@ def build(receipts=None, root=None):
             by_name[r["candidate"]] = r
             rows.append(r)
     verdict = verdict_of(rows, unreadable)
+    # The refusal reason is printed with the ruler r1431 adopted, not with the
+    # one r1426 disqualified; the verdict words above are untouched (A2: a
+    # reporting change may only ever refuse more, never fewer).
+    for r in rows:
+        r["elected_reason"] = elected_reason(r, elected)
+    # The summary carries only reasons that say something about the book; "the
+    # receipt has no reading for this ruler" is a note for the md page (the ruler
+    # split line already says when a book was not re-read).
+    active = ("refuse", "admitted", "indeterminate", "cannot_adjudicate")
+    sentences, notes = [], []
+    for r in rows:
+        clause = _reason_clause(r)
+        if not clause:
+            continue
+        (sentences if (r.get("elected_reason") or {}).get("word") in active
+         else notes).append(clause)
     return {
         "tool": "supply_calendar_face",
         "pass_word": PASS_WORD,
@@ -228,6 +359,10 @@ def build(receipts=None, root=None):
         "n_refused": sum(1 for r in rows if not r["pass"]),
         "n_admitted": sum(1 for r in rows if r["pass"]),
         "ruler_split": ruler_split(rows),
+        "elected_ruler": elected,
+        "election_error": election_err,
+        "elected_reasons": sentences,
+        "elected_notes": notes,
         "verdict": verdict,
         "reading": READING[verdict],
     }
@@ -289,6 +424,8 @@ def summary_line(face):
                                        or rs.get("partial") or rs.get("uncertified")):
             line += (" | no phase set, ruler not re-read (%s)"
                      % ", ".join(rs["no_phase_set"]))
+        if face.get("elected_reasons"):
+            line += " | reason: " + "; ".join(face["elected_reasons"])
         return line
     return face["reading"]
 
@@ -325,6 +462,18 @@ def write_md(face, path):
             lines.append("- 无在册可自判尺子：%s（不猜）" % ", ".join(rs["uncertified"]))
         if rs.get("no_phase_set"):
             lines.append("- 无相位集、尺子未复读：%s" % ", ".join(rs["no_phase_set"]))
+    if face.get("elected_reasons") or face.get("elected_notes") or face.get("election_error"):
+        lines += ["", "## 拒的理由用的是哪把尺子（r1431 采纳：%s）"
+                  % (face.get("elected_ruler") or "选举读不出"), ""]
+        if face.get("election_error"):
+            lines.append("- 选举不可读：%s（不猜尺子）" % face["election_error"])
+        for clause in face.get("elected_reasons") or []:
+            lines.append("- %s" % clause)
+        for clause in face.get("elected_notes") or []:
+            lines.append("- %s" % clause)
+        lines += ["", "选举来自 `scripts/etf_book_admission_ruler_election.py`（fixtures 上选出"
+                  "，不在本书上挑）；每本候选的读数抄自相位闸收据的 caliber 裁定块，本面不重算。"
+                  "判决词不变：换的只是「拒的理由」，不是「拒」本身。"]
     lines += [
         "",
         "读法：只有字面 `ADMIT` 算过。CONDITIONAL / REFUSE / UNADJUDICABLE_PHASE "
@@ -511,6 +660,70 @@ def _selftest():
           {r["candidate"]: r["trusted_states"] for r in f8["candidates"]}["artifact_book"],
           {"years_for_half": "PASS"})
 
+    # (9) r1432: the refusal sentence must come from the ELECTED ruler, and a flat
+    # book may not carry one at all (r1431's A5 printing rule).
+    pg_elected = write("elected.json", {
+        "asof": "r1432", "summary": {
+            "book_a": {"state": "CONDITIONAL"},
+            "book_flat": {"state": "CONDITIONAL"},
+            "book_norec": {"state": "CONDITIONAL"},
+        },
+        "books": [
+            {"book": "book_a", "phase_rows": [
+                {"start": "p1", "verdict": "CONDITIONAL",
+                 "failing_checks": ["Y4_top2_share"],
+                 "calibers": {"net_sum_pct": 81.0, "gross_sum_pct": 81.0}},
+                {"start": "p2", "verdict": "CONDITIONAL",
+                 "failing_checks": ["Y4_top2_share"],
+                 "calibers": {"net_sum_pct": 78.9, "gross_sum_pct": 91.9}}],
+             "refusal_survival": {"word": "REFUSAL_SURVIVES_TRUSTED_RULER",
+                                  "trusted": ["years_for_half", "effective_years"]},
+             "caliber_adjudication": {
+                 "years_for_half": {"state": "FAIL", "median": 2, "line": 3,
+                                    "unit": "years"},
+                 "effective_years": {"state": "PASS", "median": 4.98, "line": 3}}},
+            {"book": "book_flat", "phase_rows": [
+                {"start": "p1", "verdict": "CONDITIONAL",
+                 "failing_checks": ["Y4_top2_share"],
+                 "calibers": {"net_sum_pct": 10.0, "gross_sum_pct": 100.0}}],
+             "refusal_survival": {"word": "REFUSAL_SURVIVES_TRUSTED_RULER",
+                                  "trusted": ["years_for_half"]},
+             "caliber_adjudication": {"years_for_half": {"state": "FAIL", "median": 1,
+                                                         "line": 3}}},
+            {"book": "book_norec", "phase_rows": [
+                {"start": "p1", "verdict": "CONDITIONAL", "failing_checks": []}],
+             "refusal_survival": {"word": "REFUSAL_SURVIVES_TRUSTED_RULER",
+                                  "trusted": ["years_for_half"]},
+             "caliber_adjudication": {}},
+        ]})
+    f9 = build(receipts=[(pg_elected, "phase_gate")], root=tmp, elected="years_for_half")
+    rows9 = {r["candidate"]: r for r in f9["candidates"]}
+    check("elected ruler reading carried",
+          rows9["book_a"]["trusted_readings"]["years_for_half"],
+          {"state": "FAIL", "median": 2, "line": 3, "unit": "years"})
+    check("refusal sentence names the elected ruler and its own line",
+          rows9["book_a"]["elected_reason"]["sentence"],
+          "years_for_half median 2 vs line 3 (FAIL)")
+    check("the sentence reaches the operator summary",
+          "book_a refused at years_for_half median 2 vs line 3 (FAIL)"
+          in summary_line(f9), True)
+    check("a flat book prints indeterminate, not a refusal sentence",
+          rows9["book_flat"]["elected_reason"]["word"], "indeterminate")
+    check("flat book carries no sentence into the summary",
+          "book_flat refused" in summary_line(f9), False)
+    check("no reading for the elected ruler is named, never guessed",
+          rows9["book_norec"]["elected_reason"]["word"], "not_on_record")
+    check("the ruler is not pinned to the election's current answer",
+          build(receipts=[(pg_elected, "phase_gate")], root=tmp,
+                elected="effective_years")["candidates"][0]["elected_reason"]["ruler"],
+          "effective_years")
+    check("the new block cannot turn a refusal into a pass",
+          (f9["verdict"], [r["pass"] for r in f9["candidates"]]),
+          ("NO_CANDIDATE_PASSES_CALENDAR", [False, False, False]))
+    check("no elected ruler prints no_election, never a sentence",
+          build(receipts=[(pg_elected, "phase_gate")], root=tmp,
+                elected=None)["candidates"][0]["elected_reason"]["word"], "no_election")
+
     print("selftest %d/%d PASS" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1
 
@@ -532,6 +745,15 @@ def check_published(path=None):
         if r.get("pass") != (r.get("state") == PASS_WORD):
             problems.append("%s: pass flag %r != state %r"
                             % (r.get("candidate"), r.get("pass"), r.get("state")))
+        # r1432: the printed refusal reason must re-derive from the row itself and
+        # the elected ruler the face published -- a hard-coded sentence is red.
+        want_reason = elected_reason(r, d.get("elected_ruler")) or {}
+        if (r.get("elected_reason") or {}) != want_reason:
+            problems.append("%s: elected_reason %r != recomputed %r"
+                            % (r.get("candidate"), r.get("elected_reason"), want_reason))
+        if (r.get("elected_reason") or {}).get("word") == "refuse" and r.get("pass"):
+            problems.append("%s: a refusal sentence on a passing candidate"
+                            % r.get("candidate"))
     if problems:
         print("supply_calendar_face: FAIL " + "; ".join(problems))
         return 1

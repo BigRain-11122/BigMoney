@@ -14,4 +14,13 @@
 - 尺子可自判且同样拒：nobond_vt08_adopted, nobond_base, nobond_vt08_floor_050 —— 拒是真的，处置是等证据或重切书
 - 无相位集、尺子未复读：all_classes_published
 
+## 拒的理由用的是哪把尺子（r1431 采纳：years_for_half）
+
+- nobond_vt08_adopted refused at years_for_half median 2 vs line 3 (FAIL)
+- nobond_base refused at years_for_half median 2 vs line 3 (FAIL)
+- nobond_vt08_floor_050 refused at years_for_half median 2 vs line 3 (FAIL)
+- all_classes_published has no years_for_half reading on record
+
+选举来自 `scripts/etf_book_admission_ruler_election.py`（fixtures 上选出，不在本书上挑）；每本候选的读数抄自相位闸收据的 caliber 裁定块，本面不重算。判决词不变：换的只是「拒的理由」，不是「拒」本身。
+
 读法：只有字面 `ADMIT` 算过。CONDITIONAL / REFUSE / UNADJUDICABLE_PHASE 在本面一律是拒——日历闸不肯放行的候选，不能当作「今天就能点火」的供给。「没人写题」要开题，「题都过不了日历」要等证据或重切书，两件事的处置相反，把两种都印成 agenda debt 等于没说。
