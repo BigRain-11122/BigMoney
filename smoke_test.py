@@ -24631,5 +24631,65 @@ except Exception as _e566x:
     _d566 = "study could not be read"
 check(_name566, not _bad566, "; ".join(_bad566)[:240] or _d566)
 
+# E567: E566 found one closeout printing a 39-row receipt as "39/39 rc0" over a 61-leg round.
+# This leg refuses the three ways the prose corpus gets counted without a join:
+#   * "adjacent" is a rule, not a vibe -- a pair far from any chain word (and a streak counter,
+#     and a fraction above one) must not become a claim, and the fixture must say so
+#   * a silent subset must be split from a labelled one -- a sentence that says "--only" is not a
+#     defect, and a class the face cannot re-derive from its own numbers is refused
+#   * the unjudged rows must stay unjudged -- an unjudged claim relabelled as a match is refused
+_name567 = "E567 whether printed chain sentences understate the table of their round (r1595 bm-b)"
+_bad567 = []
+_d567 = "no reading"
+try:
+    _m567 = __import__("importlib").import_module("e567_chain_claim")
+    _f567 = json.load(open(os.path.join("results", "state_tilt", "chainclaim_latest.json"),
+                           encoding="utf-8"))
+    _s567 = _f567.get("summary") or {}
+    _c567 = _f567.get("claims") or []
+    _bad567.extend(_m567.face_problems(_f567))
+    if not _c567:
+        _bad567.append("no claim was parsed, so the parse rule is untested")
+    if not _s567.get(_m567.CNT_EQUALS):
+        _bad567.append("no claim names a whole table, so the join is untested")
+    _arm567 = _m567._check_arms()
+    if _arm567:
+        _bad567.append("control arms moved: %s" % _arm567[0][:160])
+    if _s567.get(_m567.CNT_SILENT) != sum(1 for _c in _c567
+                                          if _c.get("class") == _m567.CNT_SILENT):
+        _bad567.append("the silent-subset counter does not re-derive from the claim list")
+    if _s567.get(_m567.CNT_LABELLED) and not any(
+            _c.get("subset_label") for _c in _c567 if _c.get("class") == _m567.CNT_LABELLED):
+        _bad567.append("a labelled subset carries no label")
+    _doc567 = json.loads(json.dumps(_f567))
+    for _c in _doc567.get("claims") or []:
+        if _c.get("class") == _m567.CNT_SILENT:
+            _c["class"] = _m567.CNT_EQUALS
+            break
+    if not _m567.face_problems(_doc567):
+        _bad567.append("a silent subset relabelled as the whole table was accepted")
+    _doc567 = json.loads(json.dumps(_f567))
+    for _c in _doc567.get("claims") or []:
+        if _c.get("class") == _m567.CNT_NO_RECEIPT:
+            _c["receipt"] = "results/_r0bmx_s6_chain.json"
+            _c["table_at_its_round"] = _c["denominator"]
+            _c["class"] = _m567.CNT_EQUALS
+            break
+    if not _m567.face_problems(_doc567):
+        _bad567.append("an unjudged claim was accepted as judged")
+    _doc567 = json.loads(json.dumps(_f567))
+    _doc567["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m567.face_problems(_doc567):
+        _bad567.append("a hand-written verdict was accepted")
+    _d567 = ("%d claims / equals=%d labelled=%d silent=%d above=%d / unjudged=%d / %s"
+             % (_s567.get("claims_total", 0), _s567.get(_m567.CNT_EQUALS, 0),
+                _s567.get(_m567.CNT_LABELLED, 0), _s567.get(_m567.CNT_SILENT, 0),
+                _s567.get(_m567.CNT_ABOVE, 0), _s567.get("unjudgeable", 0),
+                _f567.get("verdict")))
+except Exception as _e567x:
+    _bad567.append(repr(_e567x)[:160])
+    _d567 = "study could not be read"
+check(_name567, not _bad567, "; ".join(_bad567)[:240] or _d567)
+
 if __name__ == "__main__":
     sys.exit(main())

@@ -13878,3 +13878,17 @@ c0/
 c=/legs（第一版纯 /digits 把 4 个读者全判成 literal，收紧后 2 个）。③**证据行号可发布但不要进闸**——158 个源里有 2,000 行 runner，顶部加一行注释就让所有行号下移；check 门分类与计数，不门行号，否则 S6 腿每轮必红。
 **边界**：纯静态，不执行 runner、不重写回执、不打开回执内容；只有 2 对可定价，其余如实进 unpriced_pairs。
 **载体** = scripts/e566_receipt_coverage_consumer.py（build/check/verify + selftest 10 arms/158 rows）·results/state_tilt/RECEIPTCOVERAGE-2026-11-08.json + receiptcoverage_latest.json·S6 腿 receipt_coverage_consumer·smoke 腿 # E566 + scripts/run_e566_smoke_leg.py（含 --doctor）·digest research/digests/DIGEST-20261108-r1594-e566-receipt-coverage-consumer.md
+
+### E567 · 轮报告里那句「链全绿」，有多少是在说自己那张表（r1595 bm-b·2026-11-08）
+
+**问**：E566 只定价了 2 对「读者 × 回执」，1 对已印错。那些句子是每轮人写进轮报告的散文，不是代码字面量——全量问：邻接链词汇的 a/b 计数句，把分母连回自己那一轮的腿表后，判成什么？
+
+**读数**：三份轮报告共 **877** 句；可判 **28** 句（回执语料只从 r1204 起）：**22** 句分母正好等于自己那张表、**2** 句低于表且写明是子集（`via --only`、「the full 85-leg chain was NOT re-run」）、**4** 句低于表却读起来像全链（bm-c r1204 `39/39` vs 表 58、r1206 `39/39` vs 59；bm-b r1331 `4/4` vs 106、r1246 `25/25` vs 28）、**0** 句高于表；**849** 句判不了（808 无回执 / 12 有回执无表 / 29 行里没写轮号）。再下一层：6 句低于表的里 **4 句与自己回执行数一致**、**2 句连自己那张回执都报少**（r1246 回执 28 行全 rc0，句子印 25/25；r1285 回执 1 行，句子印 7/7）。
+
+**机制（首版踩的坑）**：「S6/chain 附近出现 a/b 就是链句」会把三类噪声吃进统计——`pool_dualrun streak 17/3`（分子>分母的计数器）、`S6: orphan 0/7 py faces`（不是腿）、`AMP 73/55`（分子>分母的分数）。正法=解析规则当数据发布（3 条锚定正则+4 个窗宽+4 条排除全写进面的 `parse_rule`），并把「配对与链词相距太远」的 **2,128 行**单独计数：它们不是「解析失败」，是「不在口径内」，混桶会把 22 句真读数淹进 2,000 行噪声。
+
+**教训**：① 散文里的数字也要 join 才有意义——分母只有连回「自己那一轮的表」才可判，连不上的必须单列 unjudged，不能当「没说错」；② **分母对得上回执 ≠ 分母对得上表**，两个集合不同（4 vs 2），只报一个会把「诚实报告子集」和「连自己文件都报少」混为一谈；③ 自我引用也要标注——本轮 S6 腿就是 `--only chain_claim`（回执 1/1、表 318），轮报告若不写 `--only` 就是第 5 条无声子集；④ 行号可发布不进闸（轮报告追加式，插入一行全体平移），`check` 门住 claim 多重集（报告/机/轮/分子/分母/类）与全部计数器。
+
+**边界**：纯静态，不跑 runner、不改轮报告；分子/分母本身无论证。808 句「语料起点之前」永远不可判，除非从 git 取回当年那张腿表（下一张卡）。
+
+**证据** = scripts/e567_chain_claim.py（build/check/verify + selftest 17 arms/877 claims）· results/state_tilt/CHAINCLAIM-2026-11-08.json + chainclaim_latest.json · S6 腿 chain_claim（rc=0 0.9s）· smoke # E567 + scripts/run_e567_smoke_leg.py（--doctor 拒改类）· digest research/digests/DIGEST-20261108-r1595-e567-chain-claim.md

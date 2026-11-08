@@ -2225,6 +2225,14 @@ LEGS = [
     # re-derives every source class from AST ancestry and every priced pair from E561's join.
     ("receipt_coverage_consumer",
      ["python", "scripts/e566_receipt_coverage_consumer.py", "check"]),
+    # E567 turns E566's single finding into the whole corpus: every adjacent chain-count
+    # sentence in the three round reports, joined to the receipt of its own round and to that
+    # round's legs table.  Of 877 claims only 28 are judgeable (the receipt corpus starts at
+    # r1204); 22 name the whole table, 2 say they are a subset, 4 read as the whole chain --
+    # and 2 of those 6 understate even their own receipt (r1246 printed 25/25 over a 28-row
+    # all-green receipt).  `check` re-derives the claim multiset and every counter.
+    ("chain_claim",
+     ["python", "scripts/e567_chain_claim.py", "check"]),
     # E552 takes E547's eight created items and asks what E547 did not: is the item in the
     # container the fold actually publishes?  6 travel by identity into the file write (three of
     # them only through a module-level `_flush(art)` helper -- the first draft missed that hop and

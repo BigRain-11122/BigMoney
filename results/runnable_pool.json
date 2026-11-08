@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1594 bm-b: E566 closed (158 sources: 77 write / 7 read / 74 name-only; one closeout printed a 39-row receipt as 39/39 rc0 against a 61-leg table) and E567 seeded (supply floor refill)",
+ "_stamp_note": "r1595 bm-b: E567 closed (877 chain-count sentences joined to their own round's receipt and legs table: 22 name the whole table, 2 label themselves a subset, 4 read as the whole chain, 849 unjudgeable) and E568/E569/E570 seeded (supply floor refill)",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -29966,14 +29966,59 @@
    "lane": "cpu-only",
    "lane_note": "static: round-report sentences that quote a chain leg count, joined to E561 receipt/table joins; no runner executed",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E566 (r1594 bm-b): a closeout printed a 39-row receipt as 39/39 rc0 while its round table held 61 legs, and the denominators in both operational readers are literals in the source rather than the table size. E566 priced two pairs; the corpus of such sentences is the round reports themselves.",
    "target": "results/state_tilt/chainclaim_latest.json",
    "deliverable": "results/state_tilt/CHAINCLAIM-<cutoff>.json",
    "entered_at": "2026-11-08T23:22:23+08:00",
    "entered_by": "bm-b r1594 (supply floor refill after E566)",
    "evidence_cutoff": "2026-11-08",
-   "title": "Every sentence in logs/iteration-loop/round_reports.md and round_reports-<id>.md that states a chain leg count (shapes such as S6 30/30, chain 39/39 rc0, N legs rc0): parse the numerator and denominator, recover the round and the machine from the report row, join to the receipt of that round in E561 join and to the legs table of its own round, and publish three counts -- (a) claims whose denominator equals the table, (b) claims whose denominator is smaller than the table (a green sentence printed over a subset), (c) claims that cannot be judged because no receipt or no table is reachable. Because the claim is prose, the first deliverable is the parse itself: sentences that do not parse are published in their own list rather than dropped, and the parse rule is echoed in the face so a reader can refute it."
+   "title": "Every sentence in logs/iteration-loop/round_reports.md and round_reports-<id>.md that states a chain leg count (shapes such as S6 30/30, chain 39/39 rc0, N legs rc0): parse the numerator and denominator, recover the round and the machine from the report row, join to the receipt of that round in E561 join and to the legs table of its own round, and publish three counts -- (a) claims whose denominator equals the table, (b) claims whose denominator is smaller than the table (a green sentence printed over a subset), (c) claims that cannot be judged because no receipt or no table is reachable. Because the claim is prose, the first deliverable is the parse itself: sentences that do not parse are published in their own list rather than dropped, and the parse rule is echoed in the face so a reader can refute it.",
+   "done_at": "2026-11-08T23:5x+08:00",
+   "done_by": "bm-b r1595",
+   "result_ref": "results/state_tilt/CHAINCLAIM-2026-11-08.json"
+  },
+  {
+   "id": "E568-WHETHER-THE-TABLE-OF-A-PRE-RECEIPT-ROUND-IS-STILL-RECOVERABLE-FROM-GIT",
+   "lane": "cpu-only",
+   "lane_note": "static: git history of Tools/s6_chain_bm<a|b|c>.py only; no runner executed and no report rewritten",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E567 (r1595 bm-b): 808 of the 877 chain sentences cannot be judged because the receipt corpus starts at r1204 -- but the table is a property of the runner source at that round, and git still has every version of it.",
+   "target": "results/state_tilt/OLDCHAINTABLE_latest.json",
+   "deliverable": "results/state_tilt/OLDCHAINTABLE-<cutoff>.json",
+   "entered_at": "2026-11-08T23:5x+08:00",
+   "entered_by": "bm-b r1595",
+   "evidence_cutoff": "2026-11-08",
+   "title": "For every round that E567 published as unjudged-for-want-of-a-receipt, recover the legs table the runner carried at that round directly from git (`git log --follow` on Tools/s6_chain_bm<a|b|c>.py, one blob per round subject), then re-judge the 808 claims against those recovered tables and publish: how many become judgeable, how the classes split, and every claim that flips to a silent subset. State explicitly which rounds cannot be recovered at all (no round-subject commit, runner renamed, round predates the runner) instead of quietly dropping them."
+  },
+  {
+   "id": "E569-WHETHER-THE-NUMERATOR-OF-A-CHAIN-SENTENCE-EQUALS-THE-RECEIPT-S-OWN-RC0-COUNT",
+   "lane": "cpu-only",
+   "lane_note": "static: receipts already on disk; no runner executed",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E567 (r1595 bm-b): r1246 printed 25/25 over a 28-row all-green receipt -- three legs vanished from the prose without a single failure to explain it.",
+   "target": "results/state_tilt/CHAINNUMERATOR_latest.json",
+   "deliverable": "results/state_tilt/CHAINNUMERATOR-<cutoff>.json",
+   "entered_at": "2026-11-08T23:5x+08:00",
+   "entered_by": "bm-b r1595",
+   "evidence_cutoff": "2026-11-08",
+   "title": "Take every receipt on disk that carries both a legs array and a legs_rc0 count, and price the numerator of the sentence that reported it: does the printed numerator equal rows-minus-nonzero (the receipt's own rc0 count)? Publish the pairs that differ, split by whether the receipt was complete or a subset, and say whether a dropped leg was ever a failing leg (a green sentence hiding a red one is a different defect from a green sentence hiding three green ones)."
+  },
+  {
+   "id": "E570-WHETHER-EACH-RUNNER-PRINTS-ITS-CHAIN-SENTENCE-FROM-THE-RECEIPT-OR-FROM-A-COUNTER",
+   "lane": "cpu-only",
+   "lane_note": "static: source text of the three runners at HEAD; no runner executed",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E567 (r1595 bm-b): the prose understated its table 6 times in 28 judgeable sentences, and 2 of those understated even their own receipt. If the printed line is derived from the payload, the prose cannot drift from the file; if it is a counter, it can.",
+   "target": "results/state_tilt/CHAINPRINTSOURCE_latest.json",
+   "deliverable": "results/state_tilt/CHAINPRINTSOURCE-<cutoff>.json",
+   "entered_at": "2026-11-08T23:5x+08:00",
+   "entered_by": "bm-b r1595",
+   "evidence_cutoff": "2026-11-08",
+   "title": "For each of the three S6 runners, follow the expression that fills the printed chain sentence back to its origin: is the denominator `len(rows)`/`legs_total` taken from the payload that was just written, a literal in the source, or a counter that can diverge from the file? Publish the origin per runner with the evidence line, and classify each as `derived_from_the_payload`, `literal_in_the_source` or `counter_that_can_drift`; a class the face cannot re-derive from the runner's own AST is refused."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29988,6 +30033,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T23:22:23+08:00",
+ "updated_at": "2026-11-08T23:5x+08:00",
  "version": 1
 }
