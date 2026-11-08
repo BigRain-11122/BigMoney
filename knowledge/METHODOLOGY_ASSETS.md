@@ -10892,3 +10892,26 @@ OOS +72bp、夏普 +0.004。反过来只用 2 个 STABLE 因子（丢掉 4 个�
 正身 = scripts/etf_factor_sign_stability.py（selftest 7/7 · --check 0.2s rc0 · run 79s rc0）+
 results/etf_factor_sign_stability.json + research/digests/DIGEST-20261108-r1442-factor-sign-stability.md
 （未接 S6：79s 会压每 10 分钟一轮的链；--check 备作后续链腿）
+
+## E448 — 「效应比噪声大」要在效应自己的格子旁边量：相位 IQR 是分母，不是背景（r1443 bm-c）
+
+r1442 报了一个好看的臂（翻 drawdown_60 的符号，CAGR +87bp），并自己写下缺口：只有一条决策
+相位，未过相位门。本轮把那句话做实——同一条臂放进 5 本书 × 4 个相位（决策网格在 20 根周期内
+错开起点）= 20 个比较格，每格对**它自己那一格**的冻结符号控制臂取差。
+
+① **换相位不换书，结论就会翻**：翻转臂在 20 格中 17 格为正、中位 **+1.25pp**、最好 +6.05pp，
+看起来"稳"。但同一批控制臂在相位之间自己就能散开 **2.54pp**（中位 IQR）；**生产那一格
+（5 名/20 根）自己的相位 IQR 是 3.35pp，最差格 −2.63pp**——正是产出 87bp 的那一格。判词
+`PHASE_FRAGILE`：效应落在自己的网格噪声里，不构成可采纳的边。
+
+② **身份腿的两种读法都不能省**：①用生产符号字典重建的分面必须 **逐元素等于**
+`build_score`（gap 0.0），否则"控制臂"就成了第二份实现；②把同一分面在 4 个相位上再跑一遍，
+每格必须 **恰好 0.0bp**。两条都过，才说明格子量的是臂不是夹具。恒等腿若被跳过，"翻符号有效"
+与"翻符号测了引擎"长得一模一样。
+
+③ **中位数比"多数格为正"更能抓假象**：85% 的格为正仍可判负，因为分布的另一半（−2.63pp）
+比中位效应大一倍。报"胜率"而不报**相位 IQR / 最差格**，等于把 6 选 1 的选择风险洗成概率。
+
+正身 = scripts/etf_sign_flip_phase_test.py（selftest 17/17 · --check 0.2s rc0 · run ~2min/40 格）
++ results/etf_sign_flip_phase_test.json + research/ETF_SIGN_FLIP_PHASE_TEST.md
++ digest DIGEST-20261108-r1443-sign-flip-phase-test.md ｜ S6 腿 `sign_flip_phase`（check 形）

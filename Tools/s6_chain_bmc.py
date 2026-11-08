@@ -802,6 +802,14 @@ LEGS = [
     # of the 50.92pp its own equal-weight buy-and-hold would have paid (the book held
     # LESS gold beta than passive, not more). ~1s, reads only the published receipt.
     ("book_2025_repro", ["python", "scripts/etf_book_2025_repro.py", "check"]),
+    # r1443: r1442 measured one flattering arm (flip drawdown_60, +87bp) on a single
+    # decision phase and named a phase sweep as its own next step. This leg re-derives the
+    # 5-book x 4-phase press from its receipt: the flip is up in 85% of 20 cells with a
+    # median +1.25pp, but the control arm's own phase IQR is 2.54pp (3.35pp on the
+    # production cell itself) -> PHASE_FRAGILE, i.e. not separable from the grid. Read-only
+    # JSON plus a recompute of the frozen rule; the 44-cell repricing runs only with `run`
+    # in its own round (~2 min).
+    ("sign_flip_phase", ["python", "scripts/etf_sign_flip_phase_test.py", "--check"]),
     ("supply_calendar", ["python", "scripts/supply_calendar_face.py", "run"]),
     # r1440: forty rounds read the calendar and the order page as two separate
     # subjects. This leg puts them in one sentence from receipts only (no
