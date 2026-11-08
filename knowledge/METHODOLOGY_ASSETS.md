@@ -13906,3 +13906,18 @@ c=/legs（第一版纯 /digits 把 4 个读者全判成 literal，收紧后 2 �
 **边界**：纯静态 + 只读回执重数；不执行 runner、不改回执、不判句子对不对（那是 E567 的活）。bm-a/bm-c 不写计数字段这一事实只记录不修——改 runner 不等于修句子，且会动三台共用的链。
 
 **证据** = scripts/e570_chain_print_source.py（build/check/verify + selftest 9 arms/6 numbers + doctor 副本对照）· results/state_tilt/CHAINPRINTSOURCE-2026-11-08.json + chainprintsource_latest.json · S6 腿 chain_print_source（rc=0 0.18s）· smoke # E570 + scripts/run_e570_smoke_leg.py（--doctor）· digest research/digests/DIGEST-20261109-r1596-e570-chain-print-source.md
+
+### E569 · 回执自己数得对，句子引的却不一定对——225/225 的自洽把错误赶到散文一侧（r1597 bm-b·2026-11-09）
+**问**：E567 把散文连回回执、E570 追到 runner 的打印表达式，两者都没问更里面一层：回执里那个被引用的 rc0 数字，对得上它自己的 rows 吗？若对得上，所有偏差就只能出现在「谁引用了哪一份」上。
+
+**读数**：326 份回执，**225** 份写明计数，**225/225** 与自己逐行重数一致（0 份不符、0 份用 offset 字段换算）；**0** 份少报、**0** 份把失败的腿写成绿。可 join 到散文句子的 **38** 份里 **35** 份与自家 rc0 相等，**3** 份不等，且三份各是一种不同形状：_r1246bmb（28 行全绿，句子印 25/25）、_r1285bmb（回执 1 行，句子印 7/7 是个腿族）、_r406bma（盘上 36 行完整，句子印的是死亡当时的 6/36）。
+
+**教训**：① **自洽的文件不能证明句子对**——把「文件内部算术」与「文件被谁引用」分成两臂，读数才分得开：本轮 225/225 全绿恰恰说明缺陷只在引用侧，若只看总一致率会把两类混成一个。② **偏移型字段必须换算再比较**：
+onzero_count/
+onzero_legs/
+onzero 记的是失败数，直接与 rc0 比会把 4 份正确的旧信封判成错（本轮实际 0 份命中，规则仍要写在面上）。③ **「字段缺席」不等于「字段不符」**：101 份旧回执不带任何计数，单列 
+eceipts_stating_no_count，混进分母会把「没写」读成「写错」。④ 复用上游 join 而不重解析散文（直接机读 E567 的 claim 面）——重解析等于再造一个可能漂移的读者。
+
+**边界**：纯静态、只读回执与已发布面；不跑 runner、不改回执、不判三条偏差的成因（下一张卡 E572 定价「换了一次运行 / 引了一个子集 / 写错了数」三选一）。
+
+**证据** = scripts/e569_chain_numerator.py（build/check/verify + selftest 8/8）· results/state_tilt/CHAINNUMERATOR-2026-11-08.json + chainnumerator_latest.json · S6 腿 chain_numerator（rc=0 0.14s）· smoke # E569 + scripts/run_e569_smoke_leg.py（--doctor 拒改数）· digest research/digests/DIGEST-20261109-r1597-e569-chain-numerator.md

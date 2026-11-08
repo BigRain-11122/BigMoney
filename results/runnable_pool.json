@@ -29997,14 +29997,18 @@
    "lane": "cpu-only",
    "lane_note": "static: receipts already on disk; no runner executed",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E567 (r1595 bm-b): r1246 printed 25/25 over a 28-row all-green receipt -- three legs vanished from the prose without a single failure to explain it.",
    "target": "results/state_tilt/CHAINNUMERATOR_latest.json",
    "deliverable": "results/state_tilt/CHAINNUMERATOR-<cutoff>.json",
    "entered_at": "2026-11-08T23:5x+08:00",
    "entered_by": "bm-b r1595",
    "evidence_cutoff": "2026-11-08",
-   "title": "Take every receipt on disk that carries both a legs array and a legs_rc0 count, and price the numerator of the sentence that reported it: does the printed numerator equal rows-minus-nonzero (the receipt's own rc0 count)? Publish the pairs that differ, split by whether the receipt was complete or a subset, and say whether a dropped leg was ever a failing leg (a green sentence hiding a red one is a different defect from a green sentence hiding three green ones)."
+   "title": "Take every receipt on disk that carries both a legs array and a legs_rc0 count, and price the numerator of the sentence that reported it: does the printed numerator equal rows-minus-nonzero (the receipt's own rc0 count)? Publish the pairs that differ, split by whether the receipt was complete or a subset, and say whether a dropped leg was ever a failing leg (a green sentence hiding a red one is a different defect from a green sentence hiding three green ones).",
+   "done_by": "bm-b r1597",
+   "done_at": "2026-11-09T00:2x+08:00",
+   "result_ref": "results/state_tilt/CHAINNUMERATOR-2026-11-08.json",
+   "result_note": "225 of 326 receipts state an rc0 count and all 225 agree with a recount of their own rows (0 disagree, 0 offset-style), so the arithmetic inside the files is clean; of the 38 receipts that E567 joins to a printed sentence 35 print exactly their own rc0 and 3 do not: _r1246bmb (28 all-green rows vs 25/25 printed), _r1285bmb (one-row receipt vs a 7/7 family sentence), _r406bma (complete 36-row file vs the 6/36 printed at the death) -- selftest 8/8, check/verify problems=0"
   },
   {
    "id": "E570-WHETHER-EACH-RUNNER-PRINTS-ITS-CHAIN-SENTENCE-FROM-THE-RECEIPT-OR-FROM-A-COUNTER",
@@ -30037,6 +30041,20 @@
    "entered_by": "bm-b r1596",
    "evidence_cutoff": "2026-11-08",
    "title": "For every receipt on disk whose `round` field disagrees with the round carried by its own file name, decide which round the file belongs to from the payload's own evidence (its `ts` against the commit times around each candidate round), publish the three witnesses side by side, and say which published joins (E561's table join, E567's claim join) would move if the field were the truth. A file whose round cannot be decided from its own bytes stays undecidable and is published as such -- the file name alone is not a witness."
+  },
+  {
+   "id": "E572-WHICH-OF-THE-THREE-RECEIPT-VERSUS-SENTENCE-DISAGREEMENTS-IS-A-DIFFERENT-RUN-RATHER-THAN-A-WRONG-COUNT",
+   "lane": "cpu-only",
+   "lane_note": "static: the three receipt files E569 flagged, their own ts, and the round report lines",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E569 (r1597 bm-b): 225 of 326 receipts agree with a recount of their own rows, but 3 of the 38 joined to a printed sentence do not -- _r1246bmb prints 25/25 over 28 all-green rows, _r1285bmb prints 7/7 over a one-row file, _r406bma prints 6/36 over a complete 36-row file. Each may be a different defect: a wrong count, a family sentence quoted against a subset receipt, or a file rewritten by a later run than the sentence describes.",
+   "target": "results/state_tilt/RECEIPTRUNID_latest.json",
+   "deliverable": "results/state_tilt/RECEIPTRUNID-<cutoff>.json",
+   "entered_at": "2026-11-09T00:2x+08:00",
+   "entered_by": "bm-b r1597",
+   "evidence_cutoff": "2026-11-08",
+   "title": "For each of the three receipts E569 published as printing a numerator its own rows do not give, decide from the file's own bytes which run it belongs to: its own \ts/elapsed against the round commit time, whether its leg names are a prefix of the round's table, and whether the sentence the report quotes names the same leg family. Publish the three witnesses per file and classify each as \u0007_wrong_count_in_the_prose, \u0007_family_sentence_against_a_subset_receipt, or \u0007_receipt_rewritten_after_the_sentence; a case the bytes cannot decide is published undecidable and the file name alone is not a witness."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30051,6 +30069,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T00:05+08:00",
+ "updated_at": "2026-11-09T00:2x+08:00",
  "version": 1
 }

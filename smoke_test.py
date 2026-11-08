@@ -24745,5 +24745,53 @@ except Exception as _e570x:
     _d570 = "study could not be read"
 check(_name570, not _bad570, "; ".join(_bad570)[:240] or _d570)
 
+# E569: E567 joined the prose to a receipt and E570 traced where the runner's number comes from.
+# This leg asks whether the counted field inside the receipt is true of its own rows:
+#   * 225 of 326 receipts state an rc0 count -- if none did, the agreeing arm would be vacuous
+#   * a receipt must not state a count its own rows do not give
+#   * an inflated stated count and a hand-written verdict must both be refused
+_name569 = "E569 whether the numerator a chain sentence prints equals its receipt's rc0 count (r1597 bm-b)"
+_bad569 = []
+_d569 = "no reading"
+try:
+    _m569 = __import__("importlib").import_module("e569_chain_numerator")
+    _f569 = json.load(open(os.path.join("results", "state_tilt",
+                                        "chainnumerator_latest.json"), encoding="utf-8"))
+    _s569 = _f569.get("summary") or {}
+    _r569 = _f569.get("rows") or []
+    _bad569.extend(_m569.face_problems(_f569))
+    if not _r569:
+        _bad569.append("no receipt was recounted, so the count rule is untested")
+    if _s569.get("receipts_stating_a_count", 0) == 0:
+        _bad569.append("no receipt states a count, so the agreeing arm is vacuous")
+    if (_s569.get("count_disagrees_with_its_own_rows") or 0) != 0:
+        _bad569.append("a receipt states a count its own rows do not give")
+    _doc569 = json.loads(json.dumps(_f569))
+    _doc569["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m569.face_problems(_doc569):
+        _bad569.append("a hand-written verdict was accepted")
+    _doc569 = json.loads(json.dumps(_f569))
+    for _r in _doc569.get("rows") or []:
+        if isinstance(_r.get("stated_rc0"), int) and isinstance(_r.get("derived_rc0"), int):
+            _r["stated_rc0"] += 1
+            break
+    if not _m569.face_problems(_doc569):
+        _bad569.append("an inflated stated count was accepted")
+    _d569 = ("receipts=%d stating=%d agree=%d disagree=%d | understate=%d red_green=%d | "
+             "joined=%d equal=%d differ=%d | %s"
+             % (_s569.get("receipts_on_disk", 0), _s569.get("receipts_stating_a_count", 0),
+                _s569.get("count_agrees_with_its_own_rows", 0),
+                _s569.get("count_disagrees_with_its_own_rows", 0),
+                _s569.get("receipts_understating_their_own_rc0", 0),
+                _s569.get("receipts_claiming_a_failing_row_is_green", 0),
+                _s569.get("joined_to_a_printed_sentence", 0),
+                _s569.get("printed_numerator_equals_derived_rc0", 0),
+                _s569.get("printed_numerator_differs_from_derived_rc0", 0),
+                _f569.get("verdict")))
+except Exception as _e569x:
+    _bad569.append(repr(_e569x)[:160])
+    _d569 = "study could not be read"
+check(_name569, not _bad569, "; ".join(_bad569)[:240] or _d569)
+
 if __name__ == "__main__":
     sys.exit(main())

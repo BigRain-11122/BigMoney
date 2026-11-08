@@ -2241,6 +2241,14 @@ LEGS = [
     # `check` re-derives each origin class from the stored expression plus its name bindings.
     ("chain_print_source",
      ["python", "scripts/e570_chain_print_source.py", "check"]),
+    # E569 counts the field *inside* the receipt against the receipt's own rows: 225 of 326
+    # receipts state an rc0 count and all 225 agree with a recount, so the arithmetic in the
+    # files is clean; of the 38 that E567 joins to a printed sentence 35 print exactly their own
+    # rc0 and 3 do not (a 28-row all-green file printed as 25/25, a one-row file printed as a
+    # 7/7 family, a complete 36-row file printed as the 6/36 at its death).  `check` re-derives
+    # every agree/disagree flag and both counters from the receipts on disk.
+    ("chain_numerator",
+     ["python", "scripts/e569_chain_numerator.py", "check"]),
     # E552 takes E547's eight created items and asks what E547 did not: is the item in the
     # container the fold actually publishes?  6 travel by identity into the file write (three of
     # them only through a module-level `_flush(art)` helper -- the first draft missed that hop and
