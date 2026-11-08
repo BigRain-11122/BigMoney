@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1583 bm-b: E557 burned (1 of 4 writers has a build leg, on bm-c/bm-a's list; bm-b's own 308-leg chain names none of them; 6/6 rows carry 'no source spawns this writer' while a chain leg names the writer -- a leg's argv is data, so a call-site spawn scan is blind to it), E558 seeded (supply floor refill: ready E548/E552/E558)",
+ "_stamp_note": "r1593 bm-b: E562 face republished (it was absent on disk, a smoke red nobody saw because the full suite is not run in a 10-minute window) and its pool row closed; E564 seeded (supply floor refill: E562 was the last ready id)",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -29910,12 +29910,16 @@
    "lane_note": "static: receipts on disk plus each runner's own stdout convention read from source; no network, no GPU, no price",
    "target": "results/state_tilt/SHORTRECEIPTSEP-<cutoff>.json",
    "deliverable": "results/state_tilt/SHORTRECEIPTSEP-<cutoff>.json + latest",
-   "status": "ready",
+   "status": "done",
    "priority": "normal",
    "worker_class": "cpu",
    "evidence_cutoff": "2026-11-08",
    "entered_at": "2026-11-08T21:1x+08:00",
-   "entered_by": "bm-b"
+   "entered_by": "bm-b",
+   "result_ref": "results/state_tilt/SINGLELEGPROVENANCE-2026-11-08.json",
+   "closed_at": "2026-11-08T23:10:00+08:00",
+   "closed_by": "bm-b r1593",
+   "close_note": "published face was ABSENT on disk this window although the study had been carded at r1588; rebuilt (159 rows, verify two builds identical, selftest 14/14), S6 leg single_leg_provenance rc=0 1.25s, standalone replica of the smoke leg PASS. verdict: a_killed_chain_cannot_leave_a_short_receipt_in_any_runner_that_wrote_one"
   },
   {
    "id": "E563-WHETHER-ANY-SHORT-RECEIPT-HOLDS-A-PREFIX-OF-ITS-OWN-ROUND-S-TABLE",
@@ -29934,6 +29938,21 @@
    "claimed_by": "bm-b",
    "claimed_at": "2026-11-08T21:58:00+08:00",
    "result_ref": "results/state_tilt/RECEIPTPREFIX-2026-11-08.json"
+  },
+  {
+   "id": "E566-WHETHER-ANY-CONSUMER-OF-A-CHAIN-RECEIPT-NEEDS-TO-KNOW-ITS-COVERAGE",
+   "lane": "cpu-only",
+   "lane_note": "static: readers of results/_r*bm*_s6_chain.json across the repo; no execution of any consumer",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E562+E563 (r1588/r1590 bm-b): a receipt records no selection at all (0 of 159 echo it) and 138 of the 159 short receipts are arbitrary subsets rather than ordered prefixes, so a reader holding one cannot recover which legs it covers. Before proposing a selection field, price the cost of that blindness.",
+   "target": "results/state_tilt/receiptcoverage_latest.json",
+   "deliverable": "results/state_tilt/RECEIPTCOVERAGE-<cutoff>.json",
+   "entered_at": "2026-11-08T23:10:00+08:00",
+   "entered_by": "bm-b r1593",
+   "evidence_cutoff": "2026-11-08",
+   "title": "Every in-repo site that opens a chain receipt (name-matched on _s6_chain.json, the runner's own receipt write, and any family pointer to it): for each, publish whether it reads a completeness signal (a leg count, the table size, the runner's LEGS list) or only the receipt's own rc/verdict -- i.e. whether a 1-leg receipt would make it report a chain that passed what it did not check. Report the reading both as a rate with its denominator named (consumers found vs consumers that could have cared) and as the complement (sites that open a receipt and read nothing about coverage), and state plainly if the population is empty, in which case the finding is that the receipt has no consumer that needs coverage and no field should be added.",
+   "id_note": "E564/E565 are already carded in knowledge/METHODOLOGY_ASSETS.md (r1591/r1592); this seed was drafted as E564 and renumbered to E566 per collision-yield law (a card id is taken once it is carded)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
