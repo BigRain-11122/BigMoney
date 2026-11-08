@@ -6141,11 +6141,11 @@
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1593,
  "round_delivery": {
-  "branch": "machine/bm-b-r1592",
-  "main_push_blocker": "local main is 619 ahead / 380 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel",
-  "sha": "44c29e8897e23b741a9145f74a24929743934bfa",
-  "ts": "2026-11-08T22:48:00+0800",
-  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1592 == HEAD"
+  "branch": "machine/bm-b-r1593",
+  "main_push_blocker": "local main is far ahead/behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel",
+  "sha": "c6f486b33fed5ec15827151957339f31b34a2f86",
+  "ts": "2026-11-08T23:20:00+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1593 == HEAD"
  },
  "round_entries_tail": "r1583 E557 entry reach: 6 rows / 4 writers -- 1 build leg (other machine's list), 3 gate-only, 0 typed-only, 6/6 rows contradict the call-site spawn arm",
  "round_entry": {
@@ -6173,10 +6173,11 @@
  "s0": "no rebase (local main 667 ahead / 413 behind on a promisor clone, r1243); machine branch is the delivery channel",
  "s0_5": "orders ack scan CLEAN (unacked=[])",
  "s0_sync": {
-  "ahead_of_origin_main": 619,
-  "behind_origin_main": 380,
-  "note": "local main is far ahead/behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel",
-  "peer": "origin"
+  "ahead_of_origin_main": 687,
+  "behind_origin_main": 418,
+  "note": "measured this window; no unattended rebase (r1243), machine branch is the delivery channel",
+  "peer": "origin",
+  "ts": "2026-11-08T23:20:00+08:00"
  },
  "s1": "full suite NOT launched this window (no leg filter, r1499, ~20min vs a 10-minute budget); the E562 leg was replicated standalone instead",
  "s1_note": "smoke_test.py has no leg filter, so a flag would launch the whole suite",
