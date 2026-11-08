@@ -2131,6 +2131,14 @@ LEGS = [
     # containers, so a name census would invent consumers. `check` re-derives every outcome from
     # the row's own read list and refuses a producer-only verdict beside a proved face reader.
     ("created_item_read", ["python", "scripts/e547_created_item_read.py", "check"]),
+    # E553 asks whether the six `print("wrote", OUT_PATH, ...)` messages E550 found are read back by
+    # machine code.  Three routes are measured per row: an importer (the render sits inside main(), so
+    # an import never executes it), a spawner (nobody spawns these six, so no stdout can be captured),
+    # and a parser of the message word (one exists repo-wide, in a one-off ring script that parses a
+    # different command's output).  The face also prices the *announcement* question: with no canonical
+    # pointer and no source literal, all six faces are announced only by the message nobody reads.
+    # `check` re-derives every reader and announcement class from the row's own facts.
+    ("render_reader", ["python", "scripts/e553_render_reader.py", "check"]),
 ]
 
 

@@ -23775,5 +23775,83 @@ except Exception as _e547x:
     _d547 = "study could not be read"
 check(_name547, not _bad547, "; ".join(_bad547)[:240] or _d547)
 
+# E553: is any of the six "wrote <path>" messages read back by machine code?  * the population must be
+#   E550's own six builtin-render rows (machine-read from the parent face) * a parser of the message word
+#   only counts as a reader of a row when its own source also spawns that writer -- a parser somewhere
+#   else parses some other command's output * an import of a writer whose render sits inside main() never
+#   executes the line, so importers alone are not a reader * a study face that merely mentions a path is
+#   a reference, not an announcement -- counting it made all six faces look announced on the first draft *
+#   a doctored copy (hand-written verdict, announcement verdict, a "captured" row with no capturing
+#   spawner, a message-only row that lists an announcement, a read-back count that is not the rows')
+#   must be refused
+_name553 = "E553 the six wrote-path messages read back (r1579 bm-b)"
+_bad553 = []
+try:
+    _m553 = __import__("importlib").import_module("e553_render_reader")
+    _f553 = json.load(open(os.path.join("results", "state_tilt", "renderreader_latest.json"),
+                           encoding="utf-8"))
+    _s553 = _f553.get("summary") or {}
+    _r553 = _f553.get("rows") or []
+    _bad553.extend(_m553.face_problems(_f553))
+    if not _r553:
+        _bad553.append("the render population is empty")
+    if _s553.get("rows") != 6:
+        _bad553.append("the population is not the parent's six builtin-render rows")
+    if _s553.get("reproduction_matches_the_parent") is not True:
+        _bad553.append("the population is not published as reproducing the parent")
+    if sum(_s553.get("by_reader_class", {}).values()) != len(_r553):
+        _bad553.append("the reader table does not partition the rows")
+    if _s553.get("messages_read_back_by_machine_code") != \
+            _s553.get("by_reader_class", {}).get(_m553.R_PROCESS_CAPTURED, 0) + \
+            _s553.get("by_reader_class", {}).get(_m553.R_IN_PROCESS_REACHABLE, 0):
+        _bad553.append("the read-back count is not the sum of the two reader classes")
+    if _s553.get("parsers_that_could_receive_any_of_the_six_lines"):
+        _bad553.append("a parser is claimed to receive a line nobody spawns")
+    if _f553.get("verdict") == _m553.V_NO_READER:
+        if _s553.get("messages_read_back_by_machine_code"):
+            _bad553.append("a no-reader verdict sits beside read-back messages")
+        if _s553.get("writers_spawned_by_any_source"):
+            _bad553.append("a no-reader verdict sits beside a spawned writer")
+        if not _s553.get("writers_imported_by_any_source"):
+            _bad553.append("a clean verdict came from a read that found no importer at all")
+    if _r553:
+        _doc553 = json.loads(json.dumps(_f553))
+        _doc553["verdict"] = "a_verdict_this_study_never_publishes"
+        if not _m553.face_problems(_doc553):
+            _bad553.append("a hand-written verdict was accepted")
+        _doc553 = json.loads(json.dumps(_f553))
+        _doc553["announcement_verdict"] = "a_verdict_this_study_never_publishes"
+        if not _m553.face_problems(_doc553):
+            _bad553.append("a hand-written announcement verdict was accepted")
+        _doc553 = json.loads(json.dumps(_f553))
+        _doc553["rows"][0]["reader_class"] = _m553.R_PROCESS_CAPTURED
+        if not _m553.face_problems(_doc553):
+            _bad553.append("a row called captured with no capturing spawner was accepted")
+        _doc553 = json.loads(json.dumps(_f553))
+        for _r553r in _doc553["rows"]:
+            if _r553r["announcement_class"] == _m553.A_ONLY_MESSAGE:
+                _r553r["facts"]["announcements"] = [{"source": "someone.py",
+                                                     "kind": "source_literal"}]
+                break
+        if not any("lists an announcement" in _p for _p in _m553.face_problems(_doc553)):
+            _bad553.append("a message-only row that lists an announcement was accepted")
+        _doc553 = json.loads(json.dumps(_f553))
+        _doc553["summary"]["messages_read_back_by_machine_code"] = \
+            _s553.get("messages_read_back_by_machine_code", 0) + 1
+        if not _m553.face_problems(_doc553):
+            _bad553.append("a read-back count that is not the rows' was accepted")
+    _d553 = ("%d rows / %d read back / %d human-only / %d message-only faces / %d importers / %d spawners / %s"
+             % (len(_r553),
+                _s553.get("messages_read_back_by_machine_code", 0),
+                _s553.get("messages_human_only", 0),
+                _s553.get("faces_announced_only_by_the_message", 0),
+                _s553.get("writers_imported_by_any_source", 0),
+                _s553.get("writers_spawned_by_any_source", 0),
+                _f553.get("verdict")))
+except Exception as _e553x:
+    _bad553.append(repr(_e553x)[:160])
+    _d553 = "study could not be read"
+check(_name553, not _bad553, "; ".join(_bad553)[:240] or _d553)
+
 if __name__ == "__main__":
     sys.exit(main())

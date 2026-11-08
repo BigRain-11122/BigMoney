@@ -13628,3 +13628,23 @@ digest `research/digests/DIGEST-20261108-r1575-e546-filepathjoined.md`
 **边界（随面发布）**：纯静态 AST；try/except KeyError 包住的 subscript 仍记无守卫（守卫在调用方不在站点）；面路径解析只认字面量 / join / dirname / abspath(__file__) 族，解析不出的表达式**发布为 unresolved**，不记成“没人读”；跨模块只用键名普查，不做全量数据流。
 
 **证据** = `scripts/e547_created_item_read.py`（build/check/verify + selftest 16/16）+ `results/state_tilt/CREATEDITEMREAD-2026-11-08.json` + `createditemread_latest.json` + S6 腿 `created_item_read` + smoke 腿 `# E547`（`scripts/run_e547_smoke_leg.py` 1/1 绿，`--doctor` 红）+ digest `research/digests/DIGEST-20261108-r1578-e547-created-item-read.md`。
+
+
+### E553 -- 六条 "wrote <路径>" 消息有没有被任何机器代码读回（r1579 bm-b）
+
+**问题**：E550 发布六个站点，常量只被渲染进一条消息（`print("wrote", OUT_PATH, ...)`，六个 `etf_phase_*` 脚本），一跳出去没有任何容器用法。可是**一个打印出来的输出路径看起来像一份契约**——调用者可以解析它、日志抓取器可以按这个词建键、测试可以对这一行断言。E553 问的是：有没有谁真的在读？
+
+**方法**：population 机读自父面（`calledconsumer_latest.json` 里 `hop.kind == a_builtin` 且 `use_classes == [renders_only]` 的六行），不手抄。每行测三条路线：①进程内——谁 `import` 了这个 writer，且渲染坐在 `main()` 里、只有 `if __name__ == "__main__"` 才到得了它；②进程——谁 spawn 了这个脚本并且**捕获** stdout（不捕获的 spawn 方拿不到可解析的输出）；③文本——仓库里有没有任何源（py/ps1/bat/cmd/sh）把消息词放在**解析位置**（startswith / split / partition / regex / 成员测试 / grep）。关键分离：**一个解析器只有在自己也 spawn 这个 writer 时才算这条消息的读者**——别处的解析器解析的是别的命令的输出。另一半问公告面：消息没人读，那这张面还对机器可见吗？三类分开记：`pointer`（存在规范 `<stem>_latest.json` 指针）、`source_literal`（除 writer 外的代码/脚本点名了这条路径）、`study_reference`（文档或别的面里提到——**发布但不计为公告**）。
+
+**读数**：6 条消息 / **0 条被机器代码读回** / 6 条纯人看。6 个渲染全部在 `main()` 里、只有 `__main__` 闸可达；**4 个 writer 被 import**（etf_book_bridge / cagr_reconcile / capacity_rule / order / width_audit 与 phase 兄弟之间），但 import 从不执行那一行；**0 个 writer 被任何源 spawn**——所以没人可能捕获 stdout。仓库里唯一按 `wrote` 解析的地方是 `results/_r634bma_resolve_ring3.py:59`：一次性环形脚本把 resolve 命令输出里的 wrote 行捡出来再打印一遍，**能收到这六行的解析器 = 0**。公告面：**0 个规范指针 + 0 个源字面**，6/6 面**只由那条没人读的消息宣布**；12 条 `study_reference` 全部落在 `calledconsumer_latest.json` / `filepathjoined_latest.json` 里，是提到不是公告。判决 = `no_repository_code_reads_back_any_of_the_six_rendered_paths` + `every_one_of_the_six_faces_is_announced_only_by_the_message_that_nobody_reads`。
+
+**可复用教训**：
+1. **"谁解析这个词" ≠ "谁读这条消息"**——首版让仓库里唯一那个解析器把六行全判成"被读回"，而它解析的是另一条命令的输出。读者资格必须带上"这条线有没有可能到达它"（这里 = 同一源是否 spawn 这个 writer）。
+2. **提到不是公告**——首版把"某个研究面里出现过这个路径"当公告，六个面立刻全变成"已被宣布"（两个面还都是我自己家族的研究面在原地提到）。三类必须分开：规范指针 / 代码字面 / 研究提及，只有前两类算机器可见。
+3. **import 不等于执行**——4/6 被导入，但渲染在 `main()` 内、只能从 `__main__` 闸进；把 import 当读者，等于把"模块被别的脚本复用"读成"那行被消费"。
+4. **字段名就是语义**（E206/E462 族）：首版把"可达"的计数命名成 `renders_unreachable_from_the_main_guard`，值 6 而名字说 0。改名，并加一条"名字与它数的东西一致"的腿。
+5. **一份语料读一次，别每个问句读一次**：全仓面盘 6 万文件、`results/` 下 1.2GB JSON；首版逐行全仓读把 selftest 拖过 5 分钟没输出。改单次语料缓存 + 指针面只取 `*_latest.json` 小件后，45 腿 6 秒（E442 族 I/O 版）。
+
+**边界**：纯静态，不执行任何脚本；只测仓库内消费者（外部 CI 与人眼不在射程）；`source_literal` 只看 py/ps1/bat/cmd/sh 语料，`.md` 里提到路径不算机器可见；判决只覆盖 E550 那六行，不推广到仓库其余 `print("wrote", ...)` 站点（那些是 E554 的事）。
+
+**正身** = `scripts/e553_render_reader.py`（build/check/verify + selftest 45/45）+ `results/state_tilt/RENDERREADER-2026-11-08.json` + `renderreader_latest.json` + S6 腿 `render_reader` + smoke 腿 `# E553`（`scripts/run_e553_smoke_leg.py` 1/1 绿，`--doctor` 1/1 红）+ digest `research/digests/DIGEST-20261108-r1579-e553-render-reader.md`。
