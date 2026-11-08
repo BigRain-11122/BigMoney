@@ -1,0 +1,127 @@
+{
+ "face": "etf_book_floor_toll",
+ "asof": "2026-11-09T03:49:50+0800",
+ "evidence_cutoff": "2026-11-06",
+ "criteria": {
+  "path_tol": 1e-09,
+  "toll_tol_pp": 0.05,
+  "cost_bp_per_side": 8.0,
+  "beta_target": 0.2
+ },
+ "permission": {
+  "permitted_k": 0.393073,
+  "k_now": 0.460253,
+  "cut_k": 0.06718,
+  "decision_date": "2026-11-11",
+  "generated": "2026-11-09T00:12:18+0800",
+  "verdict": "KEEP_STANDS_ON_NON_PATH_ARGUMENT"
+ },
+ "window": {
+  "first": "2020-07-16",
+  "last": "2026-11-06",
+  "bars": 1530,
+  "decisions": 77
+ },
+ "control": {
+  "arm": "ticket_k_no_cut",
+  "k_last": 0.464029,
+  "published_k_last": 0.464029,
+  "source": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_cut_gate_pass\\CUT-GATE-PASS.json",
+  "gap": 0.0,
+  "ok": true
+ },
+ "arms": {
+  "ticket_k_no_cut": {
+   "cagr_pct": 7.15,
+   "sharpe": 1.29,
+   "mdd_pct": -5.87,
+   "vol_pct": 5.69,
+   "k_last": 0.464029,
+   "k_mean": 0.36081,
+   "k_max": 0.48131,
+   "overage": {
+    "n_bars": 1530,
+    "n_over": 490,
+    "max_overage": 0.088237,
+    "mean_overage": 0.023485
+   },
+   "turnover": {
+    "n_moves": 76,
+    "sum_abs_dk": 0.342737
+   },
+   "note": "the size the ticket orders today"
+  },
+  "cap_at_decisions": {
+   "cagr_pct": 6.47,
+   "sharpe": 1.298,
+   "mdd_pct": -5.87,
+   "vol_pct": 5.13,
+   "k_last": 0.393073,
+   "k_mean": 0.337325,
+   "k_max": 0.393073,
+   "overage": {
+    "n_bars": 1530,
+    "n_over": 0,
+    "max_overage": 0.0,
+    "mean_overage": 0.0
+   },
+   "turnover": {
+    "n_moves": 52,
+    "sum_abs_dk": 0.20434
+   },
+   "note": "the sheet's trim, re-applied at each decision"
+  },
+  "cap_every_bar": {
+   "cagr_pct": 6.47,
+   "sharpe": 1.298,
+   "mdd_pct": -5.87,
+   "vol_pct": 5.13,
+   "k_last": 0.393073,
+   "k_mean": 0.337325,
+   "k_max": 0.393073,
+   "overage": {
+    "n_bars": 1530,
+    "n_over": 0,
+    "max_overage": 0.0,
+    "mean_overage": 0.0
+   },
+   "turnover": {
+    "n_moves": 52,
+    "sum_abs_dk": 0.20434
+   },
+   "note": "COUNTERFACTUAL: the floor applied on every bar"
+  }
+ },
+ "rules": {
+  "max_abs_dk_between_rules": 0.0,
+  "max_nav_gap_between_rules": 0.0,
+  "pending_decisions_after_receipt": 0,
+  "clipping_from_receipt_date_is_noop": true
+ },
+ "obedience": {
+  "cagr_pct": {
+   "ticket_k_no_cut": 7.15,
+   "cap_at_decisions": 6.47,
+   "cap_every_bar": 6.47
+  },
+  "price_of_obedience_pp_per_yr": 0.68,
+  "turnover_delta_units": -0.138397,
+  "turnover_fee_proxy_pp_per_yr": -0.0018,
+  "uncut_overage": {
+   "n_bars": 1530,
+   "n_over": 490,
+   "max_overage": 0.088237,
+   "mean_overage": 0.023485
+  }
+ },
+ "toll": {
+  "toll_pp_per_yr": 0.0
+ },
+ "flags": {
+  "control_ok": true,
+  "same_path": true
+ },
+ "verdict": "CONTINUOUS_EQUALS_DECISIONS",
+ "sentence": "clipping every bar and clipping at each decision produce the same path (max |dk| 0.0e+00) -- continuous enforcement adds no safety and costs nothing, so it is not a work item",
+ "elapsed_sec": 54.97
+}

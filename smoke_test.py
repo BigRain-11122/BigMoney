@@ -704,6 +704,16 @@ def main() -> int:
              "scripts/etf_book_floor_ledger.py", ["selftest"]),
             ("product: etf_book_floor_ledger (verdict re-derived from the receipts)",
              "scripts/etf_book_floor_ledger.py", ["check"]),
+            # r1459: r1456 ended with what looked like a work order -- re-apply the trim on
+            # every bar. The legs pin that this is a phantom control on this construction
+            # (k is a step function, so clipping every bar and clipping at each decision are
+            # ONE path, while a path that never trims does separate from the clamp), that
+            # the clamp is a pure floor never an uplift, and that the price of obedience is
+            # re-derived from the published CAGR readings.
+            ("product: etf_book_floor_toll (continuous enforcement is not a second rule)",
+             "scripts/etf_book_floor_toll.py", ["selftest"]),
+            ("product: etf_book_floor_toll (identity and toll re-derived)",
+             "scripts/etf_book_floor_toll.py", ["--check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a

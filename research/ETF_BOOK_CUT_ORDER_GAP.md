@@ -5,7 +5,7 @@
 
 ## 一句话
 
-the ticket orders k=0.460253 (CNY 459,796) against a permission of 0.393073 (CNY 392,616) -- CNY 67,180 over -- and 3 module(s) read the permission, 1 of which apply the trim: scripts/etf_book_order.py
+the ticket orders k=0.460253 (CNY 459,796) against a permission of 0.393073 (CNY 392,616) -- CNY 67,180 over -- and 7 module(s) read the permission, 2 of which apply the trim: scripts/etf_book_ceo_page.py, scripts/etf_book_order.py
 
 ## 两侧的数
 

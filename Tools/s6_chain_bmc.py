@@ -683,6 +683,14 @@ LEGS = [
     # still in force on the PATH (HOLDING / REAPPLY_REQUIRED / NOT_ENFORCED / REISSUE_REQUIRED).
     # `check` re-derives 7 fields from the four input faces (0.1s, no panel).
     ("floor_ledger", ["python", "scripts/etf_book_floor_ledger.py", "check"]),
+    # r1459: the ledger says the floor must be re-applied on the next decision bar, which
+    # reads like a second control (clip every bar). This leg prices both rules on the panel
+    # and proves they are ONE path on this construction -- so the obligation is to trim at
+    # each decision, not to add a continuous clamp -- while quoting what obedience costs
+    # (pp/yr of exposure, and whether trading goes up or down). `check` re-derives the
+    # identity gap, the obedience price and the verdict from the published arms (0.2s, no
+    # panel; the `run` form is the 55s panel measurement and lives off-chain).
+    ("floor_toll", ["python", "scripts/etf_book_floor_toll.py", "check"]),
     # r1329: the register summarises the faces, so it must be the LAST book leg. Until
     # this round it sat ~50 legs earlier, ahead of etf_book_ceo_page and etf_paper_signal,
     # and its rows for those two faces were therefore always one run old (as_of
