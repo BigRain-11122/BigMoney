@@ -23594,5 +23594,65 @@ except Exception as _e546x:
     _d546 = "study could not be read"
 check(_name546, not _bad546, "; ".join(_bad546)[:240] or _d546)
 
+# E549: what the four unclassified sites actually do with the constant?  * every row E546 left as
+#   "consumed but no site says what it is" must be read out of its own enclosing function -- no row
+#   may stay unknown, and the population must be E546's own unknown rows (machine-read from the parent
+#   face) * a comparison must be published as a class of its own, not as unknown, and the row class
+#   must be what the row's own loads say * a doctored copy (a flipped row class, a hand-written
+#   verdict, an "opened" row whose loads never reach open(), a population size that is not the
+#   parent's) must be refused
+_name549 = "E549 the four unclassified sites read out of their enclosing functions (r1576 bm-b)"
+_bad549 = []
+try:
+    _m549 = __import__("importlib").import_module("e549_unclassified_site")
+    _f549 = json.load(open(os.path.join("results", "state_tilt", "unclassifiedsite_latest.json"),
+                           encoding="utf-8"))
+    _s549 = _f549.get("summary") or {}
+    _r549 = _f549.get("rows") or []
+    _bad549.extend(_m549.face_problems(_f549))
+    if not _r549:
+        _bad549.append("the unclassified population is empty")
+    if _s549.get("rows_the_parent_published_as_unknown") != _s549.get("rows"):
+        _bad549.append("the study's population is not the parent's own unknown-row count")
+    if _s549.get("reproduction_matches_the_parent") is not True:
+        _bad549.append("the population is not published as reproducing the parent")
+    if _f549.get("verdict") == _m549.V_ALL:
+        if _s549.get("residual_rows"):
+            _bad549.append("a verdict with no row left unknown sits beside residual rows")
+        if not _s549.get("identity_token_rows"):
+            _bad549.append("a clean verdict came from a read that classed nothing as an identity token")
+        if not _s549.get("uses"):
+            _bad549.append("a clean verdict came from a read that published no load at all")
+    if _r549:
+        _doc549 = json.loads(json.dumps(_f549))
+        _doc549["verdict"] = "a_verdict_this_study_never_publishes"
+        if not _m549.face_problems(_doc549):
+            _bad549.append("a hand-written verdict was accepted")
+        _doc549 = json.loads(json.dumps(_f549))
+        _doc549["rows"] = _doc549["rows"][:-1]
+        if not _m549.face_problems(_doc549):
+            _bad549.append("a summary that outlives its rows was accepted")
+        _doc549 = json.loads(json.dumps(_f549))
+        for _r549r in _doc549["rows"]:
+            if _r549r["row_class"] == _m549.R_IDENTITY:
+                _r549r["row_class"] = _m549.R_RESIDUAL
+                break
+        if not _m549.face_problems(_doc549):
+            _bad549.append("a flipped row class was accepted")
+        _doc549 = json.loads(json.dumps(_f549))
+        for _r549r in _doc549["rows"]:
+            if _r549r["row_class"] == _m549.R_OPENED:
+                _r549r["sites"][0]["uses"] = [{"use_class": _m549.U_COMPARED, "detail": {"line": 1}}]
+                break
+        if not _m549.face_problems(_doc549):
+            _bad549.append("an opened row whose loads only compare was accepted")
+    _d549 = ("%d rows / %d identity tokens / %d opened / %d residual / %d loads / verdict %s"
+             % (len(_r549), _s549.get("identity_token_rows", 0), _s549.get("opened_rows", 0),
+                _s549.get("residual_rows", 0), _s549.get("uses", 0), _f549.get("verdict")))
+except Exception as _e549x:
+    _bad549.append(repr(_e549x)[:160])
+    _d549 = "study could not be read"
+check(_name549, not _bad549, "; ".join(_bad549)[:240] or _d549)
+
 if __name__ == "__main__":
     sys.exit(main())

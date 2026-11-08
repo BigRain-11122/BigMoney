@@ -2112,6 +2112,12 @@ LEGS = [
     # same face read. `check` re-derives every pass class, every call site and the verdict, and
     # refuses a face whose witness arm is not in the population.
     ("resolver_retry", ["python", "scripts/e545_resolver_retry.py", "check"]),
+    # E549 reads the four rows E546 left as 'consumed but no site says what it is' out of their
+    # own enclosing functions: three are identity tokens (the constant is normalised with abspath
+    # and compared, so the module's own file is excluded from its corpus) and one is a default
+    # argument whose callee probes then opens the path. `check` re-derives every row class from
+    # the sources and refuses a row whose class is not what its own loads say.
+    ("unclassified_site", ["python", "scripts/e549_unclassified_site.py", "check"]),
 ]
 
 

@@ -29676,7 +29676,7 @@
    "title": "E546 published four rows where the constant is consumed but no site says whether it is a file or a directory: three os.path.abspath(SELF) identity comparisons and one default argument def load_calendar(path=CAL_PATH). Read each one out of its own enclosing function: does the path get handed to a callee that opens it, joined, or only compared? Where a comparison is the whole use, say so and publish it as a class of its own rather than as unknown -- so 'unknown' stops standing in for 'we never read the enclosing function'.",
    "lane": "cpu-only",
    "lane_note": "static: AST read of the enclosing function and one callee hop; no execution",
-   "status": "ready",
+   "status": "done",
    "priority": "normal",
    "source": "E546 (r1575 bm-b): the 4 unclassified rows are the only place left in a population of 35 where the answer is not published",
    "deliverable": "results/state_tilt/UNCLASSIFIEDSITE-<cutoff>.json",
@@ -29684,7 +29684,26 @@
    "worker_class": "self-contained",
    "evidence_cutoff": "2026-11-08",
    "entered_at": "2026-11-08T15:26:00+08:00",
-   "entered_by": "bm-b r1575 (supply floor refill after E546)"
+   "entered_by": "bm-b r1575 (supply floor refill after E546)",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-08T15:35:00+08:00",
+   "done_at": "2026-11-08T15:52:00+08:00",
+   "result_ref": "results/state_tilt/UNCLASSIFIEDSITE-2026-11-08.json"
+  },
+  {
+   "id": "E550-WHAT-THE-CALLEE-ACTUALLY-DOES-WITH-THE-CONSTANT-AT-THE-SEVENTEEN-SITES-THAT-HAND-IT-ON",
+   "title": "E546 published 49 direct sites over 35 constants: 32 read the constant as a file, 0 as a container, and 17 hand it to a callee the site scan does not follow. E549 showed what the four 'nobody says which' rows turn out to be once the enclosing function is read; the 17 passed sites were never read at all -- not even as rows. For each of them, follow one hop into the callee it names (same module first, then an in-repo module of the same name) and publish what that callee does with its parameter: opens it, joins it as a container, only tests or compares it, or passes it further. Report how many of the 17 are read as a file one hop out, how many are containers one hop out (the failure mode E546 was looking for, one layer down), and how many are dead ends the caller builds and never reads.",
+   "source": "E549 (r1576 bm-b): the enclosing-function read settled 4 rows and left E546's 17 passed-to-a-callee sites as the only part of that population no study has opened",
+   "lane": "cpu-only",
+   "lane_note": "static: AST read of each passed site's callee in the same module (then one in-repo module lookup); no execution, no network",
+   "status": "ready",
+   "priority": "normal",
+   "entered_at": "2026-11-08T15:52:00+08:00",
+   "entered_by": "bm-b r1576 (supply floor refill after E549)",
+   "deliverable": "results/state_tilt/CALLEDCONSUMER-<cutoff>.json",
+   "target": "results/state_tilt/calledconsumer_latest.json",
+   "worker_class": "self-contained",
+   "evidence_cutoff": "2026-11-08"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29699,6 +29718,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T15:26:00+08:00",
+ "updated_at": "2026-11-08T16:05:00+08:00",
  "version": 1
 }

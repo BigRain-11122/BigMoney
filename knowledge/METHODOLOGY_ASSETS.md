@@ -13574,3 +13574,19 @@ digest `research/digests/DIGEST-20261108-r1574-e545-resolver-retry.md`。
 `results/state_tilt/FILEPATHJOINED-2026-11-08.json` + `filepathjoined_latest.json` +
 S6 腿 `file_named_constant_use` + smoke 腿 `# E546` + `scripts/run_e546_smoke_leg.py`（1/1 绿，--doctor 红）+
 digest `research/digests/DIGEST-20261108-r1575-e546-filepathjoined.md`
+
+### E549 -- 四个「被消费但没有任何站点说明它是什么」的行，读进自己的外层函数（r1576 bm-b）
+
+**触发器**：E546 把 35 个「终值是模块文件本身」的常量逐站点分类后，留下 4 行 `the_name_is_consumed_but_no_site_says_what_it_is`——常量交给了扫描不跟随的东西。卡面问的不是再扫更多站点，而是**读外层函数**：路径是被 open、被 join，还是只被比较？只被比较的使用要单独成一类，让「unknown」不再替「我们没读外层函数」站岗。
+
+**做法**：种群从父面机读（`filepathjoined_latest.json` 里 `row_class == the_name_is_consumed_but_no_site_says_what_it_is` 的行，禁手列）；每个站点定位**最内层外层函数**，绑定常量名——若常量是默认参数，再绑定它经参数抵达的那个名字——然后在该函数体内走遍这些名字的每一次 load，按 AST 分类：比较 / 到达 open / 只问 existence / 被 join / 交给不跟随的 callee / 只是重绑。行类由这些 load 派生，verdict 由行类重新算（禁手写）。
+
+**读数**：4 行 → **3 个身份令牌**（`e391:222`/`e391:551`/`e392:236`/`e446:101` 共 4 个比较站点，另一侧恒是 `os.path.abspath(<own path>)`——模块把自己的文件排除出它本来会扫进去的语料，常量从不被读）+ **1 个经默认参数被打开**（`marks_coverage.load_calendar(path=CAL_PATH)` 体内先 `os.path.exists` 再 `open`）。residual=0。
+
+**三律**：
+1. **「unknown」是关于仪器的话，不是关于世界的话**——残留类必须先读它所在的最小上下文（这里是外层函数），再决定是类还是真的不可知；读完之后一行都不该留在 unknown。判据写成 `residual_rows == 0`，不写「看着差不多」。
+2. **比较自成一类**：把常量 `abspath` 之后拿来比，是把路径当**身份令牌**用，不是当文件用；继续把它混在 unknown 里，会让「没人读它」这种正常用法读起来像缺陷。
+3. **默认参数是「一跳」，不是「没跟随」**：常量的 callee 就是默认参数所在的函数本身，那一行恰好是允许的一跳，读它就是读完了；把它和「交给不跟随的 callee」归成一类，等于把可读的当不可读。
+
+**产物**：`scripts/e549_unclassified_site.py`（selftest 17/17·`check` problems=[]·`verify` 两次构建恒等）+ `results/state_tilt/UNCLASSIFIEDSITE-2026-11-08.json`（+`unclassifiedsite_latest.json`）+ smoke 腿 `# E549`（`scripts/run_e549_smoke_leg.py`，`--doctor` 红）+ S6 腿 `unclassified_site` + digest `research/digests/DIGEST-20261108-r1576-e549-unclassified-site.md`。
+

@@ -1,0 +1,230 @@
+{
+ "study": "E549",
+ "card": "E549",
+ "title": "what the four unclassified sites actually do with the constant",
+ "generated": "2026-11-08T15:35:38+08:00",
+ "evidence_cutoff": "2026-11-08",
+ "population_source": {
+  "parent_face": "results/state_tilt/filepathjoined_latest.json",
+  "parent_study": "E546_file_named_constant_use",
+  "parent_evidence_cutoff": "2026-11-08",
+  "parent_row_class_consumed": "the_name_is_consumed_but_no_site_says_what_it_is",
+  "rows_the_parent_published_as_unknown": 4,
+  "parent_rows_total": 35,
+  "how_the_population_was_taken": "the parent's own rows with its own class word -- machine-read, never hand-listed"
+ },
+ "method_limits": [
+  "one enclosing function per site: a load handed to another callee is published as passed, not followed",
+  "for the default-argument row the callee IS the enclosing function, so that row is exactly one hop and no further",
+  "a comparison class says what the AST does (compare), not what the compared value means at run time",
+  "no execution: the classes are static, and 'read as a file' means a load reaches open(), not that the file exists"
+ ],
+ "summary": {
+  "rows_the_parent_published_as_unknown": 4,
+  "parent_rows_total": 35,
+  "rows": 4,
+  "reproduction_matches_the_parent": true,
+  "by_class": {
+   "the_whole_use_is_a_comparison_and_the_constant_is_an_identity_token": 3,
+   "the_constant_arrives_as_a_default_argument_and_the_callee_opens_it": 1,
+   "the_constant_arrives_as_a_default_argument_and_the_callee_only_tests_it": 0,
+   "the_site_still_needs_a_read_this_scan_does_not_do": 0
+  },
+  "sites": 5,
+  "uses": 6,
+  "uses_by_class": {
+   "the_load_is_one_side_of_a_comparison_and_the_value_is_never_read": 4,
+   "the_load_reaches_open_so_the_constant_is_read_as_a_file": 1,
+   "the_load_only_asks_whether_the_path_exists": 1,
+   "the_load_is_joined_with_a_child_name_so_the_constant_is_a_container": 0,
+   "the_load_is_handed_to_a_callee_this_scan_does_not_follow": 0,
+   "the_load_is_only_rebound_to_another_name": 0
+  },
+  "identity_token_rows": 3,
+  "opened_rows": 1,
+  "probe_rows": 0,
+  "residual_rows": 0,
+  "rows_whose_constant_is_never_read": 3,
+  "rows_whose_constant_is_read_as_a_file": 1,
+  "sites_where_a_climbed_frame_normalised_the_path": 0,
+  "comparison_sites_whose_other_side_is_the_normalised_own_path": 4
+ },
+ "verdict": "every_unclassified_site_was_read_out_of_its_enclosing_function_and_no_row_stays_unknown",
+ "verdict_vocab": [
+  "every_unclassified_site_was_read_out_of_its_enclosing_function_and_no_row_stays_unknown",
+  "some_unclassified_sites_still_need_a_read_this_scan_does_not_do"
+ ],
+ "row_vocab": [
+  "the_whole_use_is_a_comparison_and_the_constant_is_an_identity_token",
+  "the_constant_arrives_as_a_default_argument_and_the_callee_opens_it",
+  "the_constant_arrives_as_a_default_argument_and_the_callee_only_tests_it",
+  "the_site_still_needs_a_read_this_scan_does_not_do"
+ ],
+ "use_vocab": [
+  "the_load_is_one_side_of_a_comparison_and_the_value_is_never_read",
+  "the_load_reaches_open_so_the_constant_is_read_as_a_file",
+  "the_load_only_asks_whether_the_path_exists",
+  "the_load_is_joined_with_a_child_name_so_the_constant_is_a_container",
+  "the_load_is_handed_to_a_callee_this_scan_does_not_follow",
+  "the_load_is_only_rebound_to_another_name"
+ ],
+ "rows": [
+  {
+   "source": "scripts/e391_key_name_two_meanings.py",
+   "name": "SELF",
+   "declaration_line": 62,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\e391_key_name_two_meanings.py",
+   "sites": [
+    {
+     "line": 222,
+     "enclosing": {
+      "function": "py_corpus",
+      "start_line": 215,
+      "end_line": 225
+     },
+     "the_constant_arrives_as": "a_bare_name_inside_the_enclosing_function",
+     "uses": [
+      {
+       "use_class": "the_load_is_one_side_of_a_comparison_and_the_value_is_never_read",
+       "detail": {
+        "line": 222,
+        "the_other_side": "os.path.abspath(p)",
+        "operator": "",
+        "statement": "os.path.abspath(p) == SELF"
+       }
+      }
+     ],
+     "site_class": "the_whole_use_is_a_comparison_and_the_constant_is_an_identity_token"
+    },
+    {
+     "line": 551,
+     "enclosing": {
+      "function": "selftest",
+      "start_line": 461,
+      "end_line": 558
+     },
+     "the_constant_arrives_as": "a_bare_name_inside_the_enclosing_function",
+     "uses": [
+      {
+       "use_class": "the_load_is_one_side_of_a_comparison_and_the_value_is_never_read",
+       "detail": {
+        "line": 551,
+        "the_other_side": "os.path.abspath(p)",
+        "operator": "",
+        "statement": "os.path.abspath(p) == SELF"
+       }
+      }
+     ],
+     "site_class": "the_whole_use_is_a_comparison_and_the_constant_is_an_identity_token"
+    }
+   ],
+   "site_count": 2,
+   "row_class": "the_whole_use_is_a_comparison_and_the_constant_is_an_identity_token",
+   "what_the_constant_is_used_as": "an_identity_token_never_read"
+  },
+  {
+   "source": "scripts/e392_read_resolve.py",
+   "name": "SELF",
+   "declaration_line": 62,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\e392_read_resolve.py",
+   "sites": [
+    {
+     "line": 236,
+     "enclosing": {
+      "function": "scan",
+      "start_line": 227,
+      "end_line": 310
+     },
+     "the_constant_arrives_as": "a_bare_name_inside_the_enclosing_function",
+     "uses": [
+      {
+       "use_class": "the_load_is_one_side_of_a_comparison_and_the_value_is_never_read",
+       "detail": {
+        "line": 236,
+        "the_other_side": "os.path.abspath(path)",
+        "operator": "",
+        "statement": "os.path.abspath(path) == SELF"
+       }
+      }
+     ],
+     "site_class": "the_whole_use_is_a_comparison_and_the_constant_is_an_identity_token"
+    }
+   ],
+   "site_count": 1,
+   "row_class": "the_whole_use_is_a_comparison_and_the_constant_is_an_identity_token",
+   "what_the_constant_is_used_as": "an_identity_token_never_read"
+  },
+  {
+   "source": "scripts/e446_frozen_writer.py",
+   "name": "SELF",
+   "declaration_line": 37,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\e446_frozen_writer.py",
+   "sites": [
+    {
+     "line": 101,
+     "enclosing": {
+      "function": "py_corpus",
+      "start_line": 91,
+      "end_line": 112
+     },
+     "the_constant_arrives_as": "a_bare_name_inside_the_enclosing_function",
+     "uses": [
+      {
+       "use_class": "the_load_is_one_side_of_a_comparison_and_the_value_is_never_read",
+       "detail": {
+        "line": 101,
+        "the_other_side": "os.path.abspath(p)",
+        "operator": "",
+        "statement": "os.path.abspath(p) == SELF"
+       }
+      }
+     ],
+     "site_class": "the_whole_use_is_a_comparison_and_the_constant_is_an_identity_token"
+    }
+   ],
+   "site_count": 1,
+   "row_class": "the_whole_use_is_a_comparison_and_the_constant_is_an_identity_token",
+   "what_the_constant_is_used_as": "an_identity_token_never_read"
+  },
+  {
+   "source": "scripts/marks_coverage.py",
+   "name": "CAL_PATH",
+   "declaration_line": 44,
+   "the_value_the_parent_published": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data\\exchange_calendar.csv",
+   "sites": [
+    {
+     "line": 150,
+     "enclosing": {
+      "function": "load_calendar",
+      "start_line": 150,
+      "end_line": 162
+     },
+     "the_constant_arrives_as": "a_default_argument_of_the_enclosing_function",
+     "the_parameter_that_carries_it": "path",
+     "uses": [
+      {
+       "use_class": "the_load_only_asks_whether_the_path_exists",
+       "detail": {
+        "line": 153,
+        "callee": "os.path.exists",
+        "argument_position": 0
+       }
+      },
+      {
+       "use_class": "the_load_reaches_open_so_the_constant_is_read_as_a_file",
+       "detail": {
+        "line": 156,
+        "callee": "open",
+        "argument_position": 0
+       }
+      }
+     ],
+     "site_class": "the_constant_arrives_as_a_default_argument_and_the_callee_opens_it"
+    }
+   ],
+   "site_count": 1,
+   "row_class": "the_constant_arrives_as_a_default_argument_and_the_callee_opens_it",
+   "what_the_constant_is_used_as": "a_file_read_through_a_default_parameter"
+  }
+ ]
+}
