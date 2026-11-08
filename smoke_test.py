@@ -536,6 +536,17 @@ def main() -> int:
              "scripts/etf_book_year_gate.py", ["selftest"]),
             ("product: etf_book_year_gate (published verdicts re-derived)",
              "scripts/etf_book_year_gate.py", ["check"]),
+            # r1423: r1421 showed the concentration lives in the MAGNITUDES (2025 is a big
+            # share of everything that moved) but no face said WHICH names produced them --
+            # "the book had a big year" and "one bet had a big year" printed the same number
+            # and need opposite repairs. The legs pin that the copied state machine
+            # reproduces the engine bit for bit, that the name split re-adds to the year
+            # rows exactly, that only the mover is credited, that toll is its own line, and
+            # that a flat year never publishes a signed share or an exploded HHI.
+            ("product: etf_book_year_attribution (which names carried which year)",
+             "scripts/etf_book_year_attribution.py", ["selftest"]),
+            ("product: etf_book_year_attribution (published split re-adds to its own rows)",
+             "scripts/etf_book_year_attribution.py", ["check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a

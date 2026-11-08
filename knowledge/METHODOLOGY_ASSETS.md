@@ -10328,3 +10328,31 @@ PowerShell 双引号字符串传给 `python -c` 时，` 是 PowerShell 的转义
 + `results/fill_ladder_face.json`（实测：spent 22 / blocked 1 / available 0 →
 EXHAUSTED_NO_LAWFUL_SUPPLY | calendar 4 candidates 4 refused）
 + `Tools/s6_chain_bmc.py` 的 `ladder_face` 腿 + digest DIGEST-20261108-r1422-ladder-face.md
+
+## E429 — 集中度统计报的是「哪一年」，但没人问「哪一手」；归因桶要按「步」分年（r1423 bm-c）
+
+r1421 已把 top-2 年度线钉成 Sharpe 换装，并留下唯一起作用的替代量 `C2 = top-2|年| / Σ|年|`
+（采纳书 97.8 分位）。那条读数说的是**量级集中**，但代价在哪儿没有面回答：「这本书有过一个大年」
+与「有一注有过一个大年」印出同一个数，而修法相反（持有不动 vs 给某个袖上帽）。
+
+正身 = `scripts/etf_book_year_attribution.py`（自检 6/6 + `check`）。把引擎每一步的对数收益拆进
+（年 × 名字）与（年 × 资产类）桶，toll 单列，逐年恒等式 `sleeves + toll == 该年对数收益`（最大残差
+6e-7 pp），并且复制出的状态机与引擎**逐位相同**（`max|diff| 0.0`）才算数。读数（生产臂，10bp/边）：
+2020 权益 +6.94 / 2022 商品 +9.55（权益 −3.37、转债 −2.04）/ 2024 商品 +12.85 占该年 94.4%（前三名
+全是黄金 ETF）/ 2025 商品 +18.56 与权益 +17.65 近乎对半、名字 HHI 0.057 为样本最低、头名只占
+一切波动的 11.4%。
+
+三条可复用：
+①**「大年」不是「一注」**：年度集中度必须再往下拆一层名字/袖，否则会朝反方向修——本例真正单袖的
+是安静的 2024（94.4% 黄金），而让人紧张的大年 2025 是双引擎宽年；按名字上帽不会动任何东西（头名
+11%），按**袖**上帽才是匹配的杠杆。②**归因桶按「步」分年，不按决策日分年**：toll 是在 d→nxt 这一步
+扣的，把 toll 记到 `d.year` 会让跨年那一步被劈成两半，逐年恒等式当场差一个入场 bar（本窗自检抓出，
+改记 `nxt.year` 即愈合）。③**同一指标换个口径必须把差印出来**：本面按「上年末 bar 起点」算年收益，
+年度闸按「年内首 bar」算，两者差每年一个入场 bar——面里带 `cross_check_vs_year_gate` 逐行差值
+（最大 1.94pp），否则两个都对的口径会被读成算错。
+
+姊妹面（同族第三次）：有符号分母上的份额统计会炸——2022/2026 的 net 接近零时，`v/total` 印出
+−0.82 与 HHI 3.06；正法=份额只在 `total > FLAT_EPS` 时发布，HHI 一律按**绝对贡献**归一（≤1）。
+
+正身 = `scripts/etf_book_year_attribution.py`（selftest 6 腿）+ `results/etf_book_year_attribution.json`
++ smoke 两腿 + digest DIGEST-20261108-r1423-year-attribution.md
