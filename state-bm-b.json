@@ -6190,14 +6190,14 @@
  "three_line_artifact": "results/state_tilt/GATEREAD-2026-11-08.json",
  "three_line_artifact_ts": "2026-11-08T19:50:00+08:00",
  "three_line_current": "r1584: E558 -- gate legs guard the machine face only.  2/5 faces refused (both JSON), 3/5 rendered faces (.md) opened by no gate, and 0/3 chain runners exit non-zero when a leg fails",
- "three_line_delivery": "machine/bm-b-r1583 @ ff7b420b3b",
+ "three_line_delivery": "machine/bm-b-r1584 @ d4dcce468",
  "three_line_next": "burn E559 (who consumes a chain receipt or a leg rc, if anything) or E548/E552 within 48h",
  "timestamp": "2026-11-08T19:50:00+08:00",
- "ts": "2026-11-08T19:50:00+08:00",
+ "ts": "2026-11-08T19:56+08:00",
  "ts_utc_ms": 1794133491586,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-08T19:50:00+08:00",
- "updated_at": "2026-11-08T19:50:00+08:00",
+ "updated_at": "2026-11-08T19:56+08:00",
  "verdict": "some_gated_faces_would_vanish_without_their_gate_noticing",
  "verdict_line": "2 of 5 gated faces would be refused if they vanished (both machine-readable JSONs); the 3 rendered faces a human reads are opened by no gate at all; and 0/3 chain runners carry a failing leg out of the process",
  "verdict_note": "product round; both control arms exercised (hysteresis JSON refused / its .md invisible); the full smoke suite was NOT launched",
@@ -6235,5 +6235,12 @@
   "ts": "2026-11-08T19:34:19+08:00",
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1583 == HEAD",
   "main_push_blocker": "local main is far ahead/behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243 -- the machine branch is the delivery channel"
+ },
+ "r1584_delivery": {
+  "branch": "machine/bm-b-r1584",
+  "sha": "d4dcce46820fd533b723dfd445e01360bd4f814b",
+  "ts": "2026-11-08T19:56+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1584 == HEAD",
+  "local_commits_not_at_origin_main": 666
  }
 }
