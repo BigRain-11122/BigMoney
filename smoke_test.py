@@ -602,6 +602,17 @@ def main() -> int:
              "scripts/etf_book_supply_gate_decision.py", ["selftest"]),
             ("product: etf_book_supply_gate_decision (verdict re-derived from receipts)",
              "scripts/etf_book_supply_gate_decision.py", ["--check"]),
+            # r1447: r1446 said the caliber dispute cannot move the money but never asked
+            # whether the weight in force is the weight of a graded rule. The legs pin that
+            # the ticket's own decision grid is the fixed 2020-01-01 20-bar grid (not the
+            # last bar -- r1229's defect, which the first draft of this face repeated -- and
+            # not the engine's re-decision phase), that a panel before the grid start reads
+            # UNKNOWN rather than today, that an unreadable sizing never prints money, and
+            # that every published figure re-derives from the ticket plus its own inputs.
+            ("product: etf_book_live_size_provenance (which rule sizes the money)",
+             "scripts/etf_book_live_size_provenance.py", ["selftest"]),
+            ("product: etf_book_live_size_provenance (figures re-derived)",
+             "scripts/etf_book_live_size_provenance.py", ["--check"]),
             # r1423: r1421 showed the concentration lives in the MAGNITUDES (2025 is a big
             # share of everything that moved) but no face said WHICH names produced them --
             # "the book had a big year" and "one bet had a big year" printed the same number
@@ -613,6 +624,16 @@ def main() -> int:
              "scripts/etf_book_year_attribution.py", ["selftest"]),
             ("product: etf_book_year_attribution (published split re-adds to its own rows)",
              "scripts/etf_book_year_attribution.py", ["check"]),
+            # r1449: three rulers were each priced on their own face and the cell they never
+            # shared (graded universe x the common window) is the lowest of the five. The legs
+            # pin that the prose cannot claim a ceiling/flip the table contradicts, that an
+            # unread ruler reads UNREADABLE instead of agreement, that the clip is the
+            # engine's (de-risking only), and that the desk sentence re-derives from the
+            # receipt's own cells.
+            ("product: etf_book_size_rulers_decision (one size out of three rulers)",
+             "scripts/etf_book_size_rulers_decision.py", ["selftest"]),
+            ("product: etf_book_size_rulers_decision (desk sentence re-derived)",
+             "scripts/etf_book_size_rulers_decision.py", ["check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a

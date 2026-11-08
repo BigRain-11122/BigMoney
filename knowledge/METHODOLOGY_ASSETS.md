@@ -11098,3 +11098,24 @@ r1447 把 `EXEC-BOOK-CLASS-BETA-20261108` 入池时 `target` 写的是
 **How to apply**：①入池时 `target` 若含 "to be written"，该条不能是 `ready`；②任何连红超过
 一天的旗，先问它读的是登记字段还是产物；③任何 selftest 里出现全库扫描，先算它在本机机队负载下的
 最坏耗时，超过夹具上限就重定根，别调上限。
+
+## E456 — 三把尺子各自 2.8–4.8pp，交叉格 6.7pp：尺子不是可加的，歧义要先合成一格再谈（r1449 bm-c）
+
+同一个规则、同一张面板、同一个 beta 目标（0.20），只换「分母 / 窗长 / 类别宇宙」三把尺子，
+在途仓位 k=0.460253 旁边读出五格：基线 0.4603、窗长（306 根共同窗）0.4127、类别（只留评级宇宙）
+0.4322、静态组合分母（今日 5 名全投入，除 covered weight）0.5444，**而三把尺子里选两把
+（评级宇宙 × 共同窗）落 0.3931**——比任何单把尺子都低 2.0–4.8pp。
+
+两条可复用律：
+①**交叉格必须单独量**：单尺差 2.8pp + 4.8pp，交叉格相对基线差 6.7pp，不是加和；「哪把尺最宽」
+（本轮是分母 +8.42pp）也不告诉钱该往哪边走——三格在钱下方、一格在上方。
+②**判决句必须从旗标派生**：首版把「仓位正在天花板」写死在文案里，而同一张表的 ceiling
+（0.5444）在钱之上；旗标 `the_size_in_force_is_the_ceiling` 是对的、句子是错的。
+正法=句子里每个位置词都由 `n_below/n_above/floor==money/ceiling==money` 分支生成，
+并加一条只钉「文案与旗标不许互相矛盾」的自检腿（能失败的腿才算证据）。
+
+**How to apply**：①一张表里出现多把尺子时，先把交叉格补上再下结论；②任何「钱在区间底部/顶部」
+的结论都要印出「低于它 N 格、高于它 M 格」，否则读者无法判断这句话是不是旧文案。
+Pos=scripts/etf_book_size_rulers_decision.py（selftest 10/10 · check 0.1s）
++ results/etf_book_size_rulers_decision.json + research/ETF_BOOK_SIZE_RULERS.md
++ research/digests/DIGEST-20261108-r1449-size-rulers.md

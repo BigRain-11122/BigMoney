@@ -627,6 +627,12 @@ LEGS = [
     # idempotent per signal date (re-running a date replaces that row), so riding the chain
     # cannot double-count a bar; the scheduled task, if it ever returns, is harmless too.
     ("etf_paper_signal", ["python", "scripts/etf_paper_signal.py"]),
+    # r1449: three rulers (denominator / window / universe) each priced on their own face,
+    # and the cell they never shared -- graded universe x the common window -- is the one
+    # that lands lowest (k 0.3931 vs the 0.4603 in force). This leg re-derives the desk
+    # sentence from the receipt's own cells and the newest ticket (0.1s, no panel): a stale
+    # receipt after a new ticket lands raises rc1 and the round re-runs the 73s table.
+    ("etf_book_size_rulers", ["python", "scripts/etf_book_size_rulers_decision.py", "check"]),
     # r1329: the register summarises the faces, so it must be the LAST book leg. Until
     # this round it sat ~50 legs earlier, ahead of etf_book_ceo_page and etf_paper_signal,
     # and its rows for those two faces were therefore always one run old (as_of
