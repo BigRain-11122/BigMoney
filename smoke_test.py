@@ -22367,5 +22367,86 @@ except Exception as _e531x:
 check(_name531, not _bad531, "; ".join(_bad531)[:240] or _d531)
 
 
+# E527: which of E521's undecidable arms becomes decidable when the guard's argument is followed one
+# hop into the caller.  The population must be exactly E521's undecidable rows (a face that widened it
+# would be answering a different question), an arm whose guard names no parameter of the callee must
+# never be published as open, a settled arm must carry the literal that settled it, and doctored
+# copies (a hand-written verdict, a structural arm published as open, a settled arm with no literal,
+# a site outcome its own arms do not derive) must be refused.
+_name527 = ("E527 follows the undecidable arms' guard argument one hop into the caller (r1559 bm-b)")
+_bad527 = []
+try:
+    _m527 = __import__("importlib").import_module("e527_undecidable_arm")
+    _f527 = json.load(open(os.path.join("results", "state_tilt", "undecidablearm_latest.json"),
+                          encoding="utf-8"))
+    _s527 = _f527.get("summary") or {}
+    _r527 = _f527.get("sites") or []
+    _bad527.extend(_m527.face_problems(_f527))
+    _pop527 = _m527.population(_m527.load_parent())
+    if not _r527:
+        _bad527.append("the undecidable-arm population is empty")
+    if len(_r527) != len(_pop527):
+        _bad527.append("the examined population is not E521's undecidable set")
+    if sorted((_x.get("source"), _x.get("line")) for _x in _r527) != \
+            sorted((_x.get("source"), _x.get("line")) for _x in _pop527):
+        _bad527.append("the examined sites are not the sites E521 published")
+    if not _s527.get("arms_that_no_argument_can_settle"):
+        _bad527.append("no structural arm was found, which this population always carries")
+    if (_s527.get("arms_settled") or 0) > (_s527.get("arms_examined") or 0):
+        _bad527.append("more arms settled than examined")
+
+    _doc527 = json.loads(json.dumps(_f527))
+    _doc527["verdict"] = (_m527.V_ALL_STRUCTURAL if _f527["verdict"] != _m527.V_ALL_STRUCTURAL
+                          else _m527.V_SOME_DECIDABLE)
+    if not _m527.face_problems(_doc527):
+        _bad527.append("a hand-written verdict was accepted")
+    _doc527 = json.loads(json.dumps(_f527))
+    _flipped = False
+    for _row in _doc527["sites"]:
+        for _arm in _row["arms"]:
+            if _arm.get("arm_class") == _m527.ARM_CLASS_OF[_m527.ARM_STRUCTURAL]:
+                _arm["arm_outcome"] = _m527.A_CALL_RESULT
+                _flipped = True
+                break
+        if _flipped:
+            break
+    if _flipped and not _m527.face_problems(_doc527):
+        _bad527.append("a structural arm published as open was accepted")
+    _doc527 = json.loads(json.dumps(_f527))
+    _stripped = False
+    for _row in _doc527["sites"]:
+        for _arm in _row["arms"]:
+            if _arm.get("arm_outcome") in _m527.SETTLED:
+                _arm.pop("literal_text", None)
+                _stripped = True
+                break
+        if _stripped:
+            break
+    if _stripped and not _m527.face_problems(_doc527):
+        _bad527.append("a settled arm with no literal text was accepted")
+    _doc527 = json.loads(json.dumps(_f527))
+    for _row in _doc527["sites"]:
+        if _row.get("site_outcome") == _m527.S_DECIDABLE:
+            _row["site_outcome"] = _m527.S_STILL_OPEN
+            break
+    if not _m527.face_problems(_doc527):
+        _bad527.append("a site outcome its own arms do not derive was accepted")
+
+    _d527 = ("%d sites / %d arms | settled %s | structural %s | sites decidable %s / partial %s / "
+             "structural %s / open %s" % (
+                 len(_r527),
+                 _s527.get("arms_examined"),
+                 _s527.get("arms_settled"),
+                 _s527.get("arms_that_no_argument_can_settle"),
+                 _s527.get("sites_whose_arms_are_settled_entirely"),
+                 _s527.get("sites_partly_settled"),
+                 _s527.get("sites_where_no_parameter_can_ever_settle_the_arm"),
+                 _s527.get("sites_still_open_after_the_hop")))
+except Exception as _e527x:
+    _bad527.append(repr(_e527x)[:160])
+    _d527 = "leg could not run"
+check(_name527, not _bad527, "; ".join(_bad527)[:240] or _d527)
+
+
 if __name__ == "__main__":
     sys.exit(main())

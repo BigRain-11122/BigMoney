@@ -1,0 +1,1313 @@
+{
+ "study": "E527_undecidable_arm",
+ "card": "E527-WHICH-OF-THE-52-UNDECIDABLE-ARMS-BECOMES-DECIDABLE-WHEN-THE-PARAMETER-IS-FOLLOWED-ONE-HOP",
+ "title": "which of E521's undecidable arms becomes decidable when the guard's argument is followed one hop into the caller",
+ "generated": "2026-11-08T09:26:00",
+ "evidence_cutoff": "2026-11-08",
+ "population_source": "e527_undecidable_arm.py::population() -- E521's published sites whose verdict is exactly 'raises and the arm's reachability is not decidable from the call site'",
+ "parent_face": "EMPTYARMREACH-2026-11-08.json",
+ "method_limits": [
+  "one hop only: a name the caller binds from a call result or from its own parameter is published as still open rather than followed further",
+  "a literal binding is accepted only when it dominates the call -- a binding inside an if/for/while/try that the call does not itself sit in, and a name bound more than once before the call, both stay open",
+  "the guard parameter is taken from the same first-parameter-naming `if` walk E521 used, so a parameter published here is the parameter E521's reach class named",
+  "an arm behind a test that names no parameter of the callee is published as structural: following an argument cannot settle an arm that does not read the call",
+  "a name the caller function never binds is looked up once in the module scope: a module-level literal settles the arm, any other module binding is published as module-scope-only rather than as an unbound name",
+  "nothing is executed and no source is rewritten",
+  "sources_read is a snapshot of a live tree other lanes write to; it is published but not gated, while every class, every outcome and the verdict are re-derived"
+ ],
+ "summary": {
+  "sites_examined": 52,
+  "arms_examined": 53,
+  "sites_by_outcome": {
+   "every_undecided_arm_of_the_site_is_settled_by_a_literal_one_hop_out": 5,
+   "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee": 42,
+   "some_arms_are_settled_and_at_least_one_is_still_open": 1,
+   "the_arms_name_parameters_but_following_them_does_not_settle_any_of_them": 4
+  },
+  "arms_by_class": {
+   "the_guard_names_a_parameter_and_the_site_passes_no_literal": 10,
+   "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee": 43
+  },
+  "arms_by_outcome": {
+   "the_argument_is_not_a_plain_name": 2,
+   "the_argument_is_the_caller_s_own_parameter_so_the_value_moved_one_scope_out": 1,
+   "the_arm_is_excluded_by_the_literal_the_caller_binds_one_hop_out": 6,
+   "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it": 43,
+   "the_binding_is_not_a_literal": 1
+  },
+  "arms_by_binding_class": {
+   "a_name_the_caller_binds_to_a_literal": 1,
+   "a_name_the_caller_binds_to_a_module_constant_that_folds_to_a_literal": 5,
+   "a_non_literal_expression_the_caller_binds": 1,
+   "not_a_plain_name": 2,
+   "not_applicable": 43,
+   "the_caller_function_s_own_parameter": 1
+  },
+  "sites_whose_arms_are_settled_entirely": 5,
+  "sites_partly_settled": 1,
+  "sites_where_no_parameter_can_ever_settle_the_arm": 42,
+  "sites_still_open_after_the_hop": 4,
+  "arms_settled": 6,
+  "arms_settled_by_a_literal_the_caller_binds": 6,
+  "arms_that_no_argument_can_settle": 43,
+  "arms_with_an_error": 0,
+  "distinct_callees": 20,
+  "distinct_parameters_followed": 4,
+  "sources_read": 2753
+ },
+ "verdict": "following_the_argument_settles_at_least_one_arm_but_not_all_of_them",
+ "verdict_vocab": [
+  "no_site_in_the_population",
+  "following_the_argument_settles_at_least_one_arm_but_not_all_of_them",
+  "following_the_argument_settles_none_of_the_arms_that_name_a_parameter",
+  "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee_so_no_argument_can_settle_any_of_them"
+ ],
+ "arm_class_vocab": [
+  "the_guard_names_a_parameter_and_the_site_passes_no_literal",
+  "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee"
+ ],
+ "binding_vocab": [
+  "a_name_the_caller_binds_to_a_literal",
+  "a_name_the_caller_binds_to_a_module_constant_that_folds_to_a_literal",
+  "a_name_the_caller_binds_from_a_call_result",
+  "the_caller_function_s_own_parameter",
+  "a_loop_or_with_target",
+  "a_binding_inside_a_branch_the_call_does_not_sit_in",
+  "a_name_that_is_rebound_before_the_call",
+  "a_non_literal_expression_the_caller_binds",
+  "a_name_that_only_the_module_scope_binds",
+  "a_name_no_scope_of_the_caller_binds",
+  "not_a_plain_name"
+ ],
+ "arm_outcome_vocab": [
+  "the_arm_is_excluded_by_the_literal_the_caller_binds_one_hop_out",
+  "the_arm_is_reached_by_the_falsy_literal_the_caller_binds_one_hop_out",
+  "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it",
+  "the_argument_is_a_call_result_so_the_value_is_one_hop_further_away",
+  "the_argument_is_the_caller_s_own_parameter_so_the_value_moved_one_scope_out",
+  "the_argument_is_a_loop_or_with_target",
+  "the_deciding_binding_sits_inside_a_branch_the_call_does_not_sit_in",
+  "the_deciding_name_is_rebound_before_the_call",
+  "the_binding_is_not_a_literal",
+  "only_the_module_scope_binds_the_name",
+  "the_name_has_no_binding_anywhere_in_the_caller",
+  "the_argument_is_not_a_plain_name",
+  "the_call_site_itself_passes_a_literal_so_E521_should_not_have_left_it_open"
+ ],
+ "site_outcome_vocab": [
+  "every_undecided_arm_of_the_site_is_settled_by_a_literal_one_hop_out",
+  "some_arms_are_settled_and_at_least_one_is_still_open",
+  "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+  "the_arms_name_parameters_but_following_them_does_not_settle_any_of_them"
+ ],
+ "sites": [
+  {
+   "source": "scripts/e242_omission_inflation_sweep.py",
+   "line": 193,
+   "call_expression": "_diff_of(beta, cov, 1, [2])",
+   "callee": "_diff_of",
+   "callee_rel": "scripts/e242_omission_inflation_sweep.py",
+   "callee_line": 107,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 111,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/e242_omission_inflation_sweep.py",
+   "line": 217,
+   "call_expression": "_diff_of(beta, cov, 1, list(range(2, 2 + len(others))))",
+   "callee": "_diff_of",
+   "callee_rel": "scripts/e242_omission_inflation_sweep.py",
+   "callee_line": 107,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 111,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/e242_omission_inflation_sweep.py",
+   "line": 238,
+   "call_expression": "_diff_of(beta, cov, 1, list(range(2, 2 + len(cs_d))))",
+   "callee": "_diff_of",
+   "callee_rel": "scripts/e242_omission_inflation_sweep.py",
+   "callee_line": 107,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 111,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/portfolio_book.py",
+   "line": 1307,
+   "call_expression": "_monthly_start_ann(eq_d, {'n_win_days': 9}, [0, 4])",
+   "callee": "_monthly_start_ann",
+   "callee_rel": "scripts/portfolio_book.py",
+   "callee_line": 559,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 570,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/fund_divlowvol_p1.py",
+   "line": 1447,
+   "call_expression": "_passive_window(lo, hi)",
+   "callee": "_passive_window",
+   "callee_rel": "scripts/fund_divlowvol_p1.py",
+   "callee_line": 615,
+   "read_kind": "method_call_on_the_result",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 623,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/fund_quality_p1.py",
+   "line": 1375,
+   "call_expression": "_passive_window(lo, hi)",
+   "callee": "_passive_window",
+   "callee_rel": "scripts/fund_quality_p1.py",
+   "callee_line": 521,
+   "read_kind": "method_call_on_the_result",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 527,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/fund_value_p1.py",
+   "line": 1317,
+   "call_expression": "_passive_window(plo, hi)",
+   "callee": "_passive_window",
+   "callee_rel": "scripts/fund_value_p1.py",
+   "callee_line": 508,
+   "read_kind": "method_call_on_the_result",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 514,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/e317_print_coverage_census.py",
+   "line": 1083,
+   "call_expression": "analyse_face('results/fixture.json', face=fx)",
+   "callee": "analyse_face",
+   "callee_rel": "scripts/e317_print_coverage_census.py",
+   "callee_line": 428,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 451,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/divlowvol_live_picks.py",
+   "line": 353,
+   "call_expression": "current_block(firing, idx)",
+   "callee": "current_block",
+   "callee_rel": "scripts/divlowvol_live_picks.py",
+   "callee_line": 68,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 75,
+     "arm_class": "the_guard_names_a_parameter_and_the_site_passes_no_literal",
+     "parameter": "firing",
+     "argument_expression": "firing",
+     "binding_class": "a_name_the_caller_binds_to_a_literal",
+     "arm_outcome": "the_arm_is_excluded_by_the_literal_the_caller_binds_one_hop_out",
+     "literal_text": "[(0, 1, np.array([3, 1]), 0.5), (1, 3, np.array([2, 5]), 0.5)]",
+     "literal_truth": "truthy_literal"
+    },
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 78,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "some_arms_are_settled_and_at_least_one_is_still_open",
+   "parameters_followed": [
+    "firing"
+   ]
+  },
+  {
+   "source": "scripts/e285_interrange_gap_ceiling.py",
+   "line": 499,
+   "call_expression": "interval(arm['rows'], 'tight')",
+   "callee": "interval",
+   "callee_rel": "scripts/e285_interrange_gap_ceiling.py",
+   "callee_line": 108,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 119,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/national_team_face.py",
+   "line": 1153,
+   "call_expression": "parse_ge20(GE20_BLOCK_FIXTURE)",
+   "callee": "parse_ge20",
+   "callee_rel": "scripts/national_team_face.py",
+   "callee_line": 637,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 645,
+     "arm_class": "the_guard_names_a_parameter_and_the_site_passes_no_literal",
+     "parameter": "block",
+     "argument_expression": "GE20_BLOCK_FIXTURE",
+     "binding_class": "a_name_the_caller_binds_to_a_module_constant_that_folds_to_a_literal",
+     "arm_outcome": "the_arm_is_excluded_by_the_literal_the_caller_binds_one_hop_out",
+     "literal_text": "'12.1 报告期内单一投资者持有基金份额比例达到或超过 20%的情况 \\n机构 \\n1  20250101-\\n20251231;  \\n26,621,32\\n8,344.00  \\n11,237,\\n146,630\\n.00  \\n0.00  37,858,474,97\\n4.00  42.62  \\n2  20250101-\\n20251231;  \\n35,654,59\\n8,859.00 0.00 0.00  35,654,598,85\\n9.00 40.14  \\n产品特有风险 \\n本基金报告期内有单一持有人持有基金份额超过20%的情形。'",
+     "literal_truth": "truthy_literal",
+     "note": "bound_at_module_scope"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_of_the_site_is_settled_by_a_literal_one_hop_out",
+   "parameters_followed": [
+    "block"
+   ]
+  },
+  {
+   "source": "scripts/national_team_face.py",
+   "line": 1162,
+   "call_expression": "parse_ge20(GE20_NONE_FIXTURE)",
+   "callee": "parse_ge20",
+   "callee_rel": "scripts/national_team_face.py",
+   "callee_line": 637,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 645,
+     "arm_class": "the_guard_names_a_parameter_and_the_site_passes_no_literal",
+     "parameter": "block",
+     "argument_expression": "GE20_NONE_FIXTURE",
+     "binding_class": "a_name_the_caller_binds_to_a_module_constant_that_folds_to_a_literal",
+     "arm_outcome": "the_arm_is_excluded_by_the_literal_the_caller_binds_one_hop_out",
+     "literal_text": "'11.1 报告期内单一投资者持有基金份额比例达到或超过 20%的情况 \\n注：本基金本报告期内无需要披露的单一投资者持有基金份额比例达到或超过20%的情况。'",
+     "literal_truth": "truthy_literal",
+     "note": "bound_at_module_scope"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_of_the_site_is_settled_by_a_literal_one_hop_out",
+   "parameters_followed": [
+    "block"
+   ]
+  },
+  {
+   "source": "scripts/national_team_face.py",
+   "line": 1199,
+   "call_expression": "parse_ge20(GE20_SOUTH_FIXTURE)",
+   "callee": "parse_ge20",
+   "callee_rel": "scripts/national_team_face.py",
+   "callee_line": 637,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 645,
+     "arm_class": "the_guard_names_a_parameter_and_the_site_passes_no_literal",
+     "parameter": "block",
+     "argument_expression": "GE20_SOUTH_FIXTURE",
+     "binding_class": "a_name_the_caller_binds_to_a_module_constant_that_folds_to_a_literal",
+     "arm_outcome": "the_arm_is_excluded_by_the_literal_the_caller_binds_one_hop_out",
+     "literal_text": "'单一投资者持有基金份额比例达到或超过20%的情况\\n机构 1\\n20250408-\\n20251231\\n2,615,889,75\\n5.00\\n3,366,087,76\\n3.00 - 5,981,977,51\\n8.00\\n31.3\\n8%\\n产品特有风险\\n'",
+     "literal_truth": "truthy_literal",
+     "note": "bound_at_module_scope"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_of_the_site_is_settled_by_a_literal_one_hop_out",
+   "parameters_followed": [
+    "block"
+   ]
+  },
+  {
+   "source": "scripts/national_team_face.py",
+   "line": 1206,
+   "call_expression": "parse_ge20(GE20_RANK_ALONE_FIXTURE)",
+   "callee": "parse_ge20",
+   "callee_rel": "scripts/national_team_face.py",
+   "callee_line": 637,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 645,
+     "arm_class": "the_guard_names_a_parameter_and_the_site_passes_no_literal",
+     "parameter": "block",
+     "argument_expression": "GE20_RANK_ALONE_FIXTURE",
+     "binding_class": "a_name_the_caller_binds_to_a_module_constant_that_folds_to_a_literal",
+     "arm_outcome": "the_arm_is_excluded_by_the_literal_the_caller_binds_one_hop_out",
+     "literal_text": "'单一投资者持有基金份额比例达到或超过 20%的情况 \\n机构\\n1\\n2025-\\n01-01\\n至\\n2025-\\n12-31 28,791,513,899.00 - - 28,791,513,899.00 50.81%\\n产品特有风险 \\n'",
+     "literal_truth": "truthy_literal",
+     "note": "bound_at_module_scope"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_of_the_site_is_settled_by_a_literal_one_hop_out",
+   "parameters_followed": [
+    "block"
+   ]
+  },
+  {
+   "source": "scripts/national_team_face.py",
+   "line": 1213,
+   "call_expression": "parse_ge20(GE20_CLASS_YEAR_FIXTURE)",
+   "callee": "parse_ge20",
+   "callee_rel": "scripts/national_team_face.py",
+   "callee_line": 637,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 645,
+     "arm_class": "the_guard_names_a_parameter_and_the_site_passes_no_literal",
+     "parameter": "block",
+     "argument_expression": "GE20_CLASS_YEAR_FIXTURE",
+     "binding_class": "a_name_the_caller_binds_to_a_module_constant_that_folds_to_a_literal",
+     "arm_outcome": "the_arm_is_excluded_by_the_literal_the_caller_binds_one_hop_out",
+     "literal_text": "'单一投资者持有基金份额比例达到或超过20%的情况 \\n机构 1 2025年 01月 01日\\n~2025年 12月 31日\\n11,362,9\\n62,941.0\\n0 0.00 0.00\\n11,362,9\\n62,941.0\\n0\\n36.06\\n%\\n产品特有风险\\n'",
+     "literal_truth": "truthy_literal",
+     "note": "bound_at_module_scope"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_of_the_site_is_settled_by_a_literal_one_hop_out",
+   "parameters_followed": [
+    "block"
+   ]
+  },
+  {
+   "source": "scripts/e295_supply_gap_closure.py",
+   "line": 633,
+   "call_expression": "price_rung(r, 240, 60)",
+   "callee": "price_rung",
+   "callee_rel": "scripts/e295_supply_gap_closure.py",
+   "callee_line": 145,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 150,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/e285_interrange_gap_ceiling.py",
+   "line": 505,
+   "call_expression": "ranges_are_row_identical(off['rows'], 'tight', interval(off['rows'], 'tight'))",
+   "callee": "ranges_are_row_identical",
+   "callee_rel": "scripts/e285_interrange_gap_ceiling.py",
+   "callee_line": 124,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 127,
+     "arm_class": "the_guard_names_a_parameter_and_the_site_passes_no_literal",
+     "parameter": "hull",
+     "argument_expression": "interval(off['rows'], 'tight')",
+     "binding_class": "not_a_plain_name",
+     "arm_outcome": "the_argument_is_not_a_plain_name"
+    }
+   ],
+   "site_outcome": "the_arms_name_parameters_but_following_them_does_not_settle_any_of_them",
+   "parameters_followed": [
+    "hull"
+   ]
+  },
+  {
+   "source": "scripts/fund_divlowvol_p1.py",
+   "line": 1326,
+   "call_expression": "run_cell_portfolio(spans, face, _G['_t0_pos'], len(_G['idx']) - 1, keep_trades=True)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/fund_divlowvol_p1.py",
+   "callee_line": 566,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 604,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/fund_quality_p1.py",
+   "line": 1254,
+   "call_expression": "run_cell_portfolio(spans, face, _G['_t0_pos'], len(_G['idx']) - 1, keep_trades=True)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/fund_quality_p1.py",
+   "callee_line": 472,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 510,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/fund_value_p1.py",
+   "line": 1178,
+   "call_expression": "run_cell_portfolio(spans, face, _G['_t0_pos'], len(_G['idx']) - 1, keep_trades=True)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/fund_value_p1.py",
+   "callee_line": 459,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 497,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_deep_p1.py",
+   "line": 490,
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, face, active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_deep_p1.py",
+   "callee_line": 347,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 386,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_deep_p1.py",
+   "line": 533,
+   "call_expression": "run_cell_portfolio(_G['prices'], close, null_entry, null_w, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_deep_p1.py",
+   "callee_line": 347,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 386,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_deep_p1.py",
+   "line": 563,
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_deep_p1.py",
+   "callee_line": 347,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 386,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_deep_p1.py",
+   "line": 684,
+   "call_expression": "run_cell_portfolio(prices, close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_deep_p1.py",
+   "callee_line": 347,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 386,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_deep_p1.py",
+   "line": 1353,
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_deep_p1.py",
+   "callee_line": 347,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 386,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_deep_p1.py",
+   "line": 1366,
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'x2', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_deep_p1.py",
+   "callee_line": 347,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 386,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_deep_p1.py",
+   "line": 1383,
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_deep_p1.py",
+   "callee_line": 347,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 386,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p1.py",
+   "line": 408,
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, face, active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p1.py",
+   "callee_line": 270,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 306,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p1.py",
+   "line": 450,
+   "call_expression": "run_cell_portfolio(_G['prices'], close, null_entry, null_w, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p1.py",
+   "callee_line": 270,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 306,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p1.py",
+   "line": 490,
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p1.py",
+   "callee_line": 270,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 306,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p1.py",
+   "line": 599,
+   "call_expression": "run_cell_portfolio(prices, close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p1.py",
+   "callee_line": 270,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 306,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p1.py",
+   "line": 1138,
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p1.py",
+   "callee_line": 270,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 306,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p1.py",
+   "line": 1151,
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'x2', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p1.py",
+   "callee_line": 270,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 306,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p1.py",
+   "line": 1168,
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p1.py",
+   "callee_line": 270,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 306,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p2.py",
+   "line": 427,
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, face, active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p2.py",
+   "callee_line": 279,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 325,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p2.py",
+   "line": 469,
+   "call_expression": "run_cell_portfolio(_G['prices'], close, null_entry, null_w, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p2.py",
+   "callee_line": 279,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 325,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p2.py",
+   "line": 509,
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p2.py",
+   "callee_line": 279,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 325,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p2.py",
+   "line": 618,
+   "call_expression": "run_cell_portfolio(prices, close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p2.py",
+   "callee_line": 279,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 325,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p2.py",
+   "line": 1160,
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p2.py",
+   "callee_line": 279,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 325,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p2.py",
+   "line": 1173,
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'x2', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p2.py",
+   "callee_line": 279,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 325,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p2.py",
+   "line": 1190,
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p2.py",
+   "callee_line": 279,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 325,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p3.py",
+   "line": 452,
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, face, active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p3.py",
+   "callee_line": 311,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 350,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p3.py",
+   "line": 494,
+   "call_expression": "run_cell_portfolio(_G['prices'], close, null_entry, null_w, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p3.py",
+   "callee_line": 311,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 350,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p3.py",
+   "line": 534,
+   "call_expression": "run_cell_portfolio(_G['prices'], close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p3.py",
+   "callee_line": 311,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 350,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p3.py",
+   "line": 643,
+   "call_expression": "run_cell_portfolio(prices, close, entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p3.py",
+   "callee_line": 311,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 350,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p3.py",
+   "line": 1259,
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p3.py",
+   "callee_line": 311,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 350,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p3.py",
+   "line": 1272,
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'x2', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p3.py",
+   "callee_line": 311,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 350,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/lowamp_p3.py",
+   "line": 1289,
+   "call_expression": "run_cell_portfolio(prices, P['close'], entry, weights, 'base', active)",
+   "callee": "run_cell_portfolio",
+   "callee_rel": "scripts/lowamp_p3.py",
+   "callee_line": 311,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 350,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  },
+  {
+   "source": "scripts/regime5_validation.py",
+   "line": 173,
+   "call_expression": "state_table(eff, r_next, stats_idxs)",
+   "callee": "state_table",
+   "callee_rel": "scripts/regime5_validation.py",
+   "callee_line": 123,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 128,
+     "arm_class": "the_guard_names_a_parameter_and_the_site_passes_no_literal",
+     "parameter": "idxs",
+     "argument_expression": "stats_idxs",
+     "binding_class": "the_caller_function_s_own_parameter",
+     "arm_outcome": "the_argument_is_the_caller_s_own_parameter_so_the_value_moved_one_scope_out"
+    }
+   ],
+   "site_outcome": "the_arms_name_parameters_but_following_them_does_not_settle_any_of_them",
+   "parameters_followed": [
+    "idxs"
+   ]
+  },
+  {
+   "source": "scripts/regime5_validation.py",
+   "line": 319,
+   "call_expression": "state_table(eff3, r_next, win_stats)",
+   "callee": "state_table",
+   "callee_rel": "scripts/regime5_validation.py",
+   "callee_line": 123,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 128,
+     "arm_class": "the_guard_names_a_parameter_and_the_site_passes_no_literal",
+     "parameter": "idxs",
+     "argument_expression": "win_stats",
+     "binding_class": "a_non_literal_expression_the_caller_binds",
+     "arm_outcome": "the_binding_is_not_a_literal"
+    }
+   ],
+   "site_outcome": "the_arms_name_parameters_but_following_them_does_not_settle_any_of_them",
+   "parameters_followed": [
+    "idxs"
+   ]
+  },
+  {
+   "source": "scripts/regime5_validation.py",
+   "line": 577,
+   "call_expression": "state_table(eff6, r6, list(range(6)))",
+   "callee": "state_table",
+   "callee_rel": "scripts/regime5_validation.py",
+   "callee_line": 123,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 128,
+     "arm_class": "the_guard_names_a_parameter_and_the_site_passes_no_literal",
+     "parameter": "idxs",
+     "argument_expression": "list(range(6))",
+     "binding_class": "not_a_plain_name",
+     "arm_outcome": "the_argument_is_not_a_plain_name"
+    }
+   ],
+   "site_outcome": "the_arms_name_parameters_but_following_them_does_not_settle_any_of_them",
+   "parameters_followed": [
+    "idxs"
+   ]
+  },
+  {
+   "source": "scripts/parking_p1.py",
+   "line": 561,
+   "call_expression": "stint_cell(close, 5, cp, COST_RT_X1)",
+   "callee": "stint_cell",
+   "callee_rel": "scripts/parking_p1.py",
+   "callee_line": 164,
+   "read_kind": "subscripted",
+   "e521_verdict": "the_read_would_raise_and_the_arm_s_reachability_is_not_decidable_from_the_call_site",
+   "error": null,
+   "arms": [
+    {
+     "kind": "an_explicit_return_that_names_nothing",
+     "line": 171,
+     "arm_class": "the_guard_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+     "parameter": null,
+     "arm_outcome": "the_arm_s_guard_names_no_parameter_so_no_argument_can_settle_it"
+    }
+   ],
+   "site_outcome": "every_undecided_arm_sits_behind_a_test_that_names_no_parameter_of_the_callee",
+   "parameters_followed": []
+  }
+ ]
+}

@@ -1999,6 +1999,14 @@ LEGS = [
     # (rebind, guard every use, pass it on unchanged, or never read it).  `check` re-derives every
     # class and refuses an unresolved site that still carries a default class.
     ("default_param", ["python", "scripts/e531_default_param.py", "check"]),
+    # E527 takes E521's 52 arms whose reachability is undecidable from the call site and follows the
+    # guard's argument one hop into the caller: a literal the caller binds (or a module constant that
+    # folds to one) settles the arm, while a call result, a caller parameter, a loop target, a
+    # branch-only binding, a rebound name or a non-name argument leaves it open -- and an arm behind a
+    # test that names no parameter of the callee is published as structural, because no argument can
+    # ever settle an arm that does not read the call.  `check` re-derives every class, every outcome
+    # and the verdict, and refuses a settled arm that carries no literal.
+    ("undecidable_arm", ["python", "scripts/e527_undecidable_arm.py", "check"]),
     # E520 takes E519's own two non-answers one hop further: a local that is a *parameter of the
     # caller* is supplied by that function's call sites, and a name bound nowhere in the caller is
     # bound by another scope.  `check` re-derives the argument histogram from the rows, the

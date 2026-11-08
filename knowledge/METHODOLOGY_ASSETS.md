@@ -13139,3 +13139,17 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 - **未解析的行要换一套标签、且不带默认类别**：首版把未解析行也标成「默认已是值」，4 个碰撞混进 4 个真值档——名即语义，计数一读就错。
 
 **验证**：`scripts/e531_default_param.py` run rc0 / check problems=0 / verify problems=0 / **selftest 19/19**（哨兵改绑常量、改绑调用、每用兜底、从不读四档 + 5 个 doctored 全拒：手写 verdict、哨兵写成已供给、未解析行带默认类别、值默认带 rescue、rescue 无源）；产物 `results/state_tilt/DEFAULTPARAM-2026-11-08.json` + `defaultparam_latest.json` 同源；S6 腿 `default_param` rc0；smoke 腿 `# E531` 1/1（`scripts/run_e531_smoke_leg.py` 从 smoke_test.py 按锚点切出来执行）；digest `research/digests/DIGEST-20261108-r1558-e531-default-param.md`。未能：全套 smoke 未启动（~20-30min），S6 只跑了本腿。
+## E527 52 条不可判臂只有 6 条能被一跳字面量判定，43 条根本不由调用决定（2026-11-08 r1559 bm-b）
+**问题**：E521 留下 52 个站点，判词是「读会抛且空臂可达性不可从调用点判定」。卡片问的是：把参数往回跟一跳，有几条就定了？问题的隐含假设是「值就在调用者手里」——本轮把这个假设当成要测的东西。
+**方法**：人口＝E521 面里判词恰为 `..._is_not_decidable_from_the_call_site` 的行（52，与卡片数字当场重导）。逐站点：①复算被调方空臂普查（直接 import E521 的 arm 机器，不克隆），逐站点断言 reach 列表与 E521 发布的一致（52/52 一致、0 误差），同时把每条臂**守卫点名的参数**取出来（同一个 first-if-with-hit 规则）；②分两类——守卫点名了被调方参数（可跟随）／守卫是「不点名任何参数的测试」（结构上不可跟随）；③可跟随的臂：取调用点上该参数的实参表达式，回到调用者函数 AST 里一跳解析最近的**前置**绑定，只接受三档决定性：字面量本身、折叠到字面量的模块级常量（含模块作用域解析）；④保守三条：绑定在 if/for/while/try 分支里而调用不在同一分支＝不判定；同名多点绑定＝不判定；实参不是裸名＝不判定；⑤站点判词由各臂结果机械派生，总判词由 summary 重算。
+**读数**（52 站点／53 条不可判臂／2,753 源）：
+- **43 条臂（81%）根本不由调用决定**：42 个站点的空臂坐在「不点名任何被调参数的测试」后面，跟随任何实参都不可能判定——不是「再跟一跳」的问题，是作用域问题。
+- 可跟随 10 条：**6 条被一跳字面量判定**（全部是「空臂被排除」）——5 条是模块级 fixture 常量（`national_team_face.py` 的 `GE20_*_FIXTURE`，非空字符串）、1 条是调用者局部字面量（`divlowvol_live_picks.py:352` `firing = [(0, 1, ...), ...]`，非空列表 ⇒ `current_block` 的 `if not x: return None` 走不到）。
+- 剩下 4 条：1 条实参是调用者自己的参数（值又出了一层）、1 条绑到非字面表达式、2 条实参不是裸名（`interval(off['rows'], 'tight')` / `list(range(6))`——都是调用，不是值）。
+- 站点面：5 全判定／1 部分／42 结构不可跟随／4 跟完仍开。总判词：`following_the_argument_settles_at_least_one_arm_but_not_all_of_them`。
+**可复用教训**：
+- **「不可从调用点判定」多半不是「再跟一跳就判定」**：92% 的站点（42/52）的空臂读的是被调方自己的状态，实参与它无关。给这类问题配「跟随一跳」的解法，会把作用域问题读成缺一层。
+- **模块作用域也是调用者的作用域**：首版把 5 个 `GE20_*_FIXTURE` 标成「任何作用域都没绑」——它们绑在模块级且是字面量，本来就该判定。名字写「no scope binds」而实际是「扫描器不看模块体」＝名即语义族新一例（E207/E462 谱系），修法是加模块作用域腿而不是放宽阈值。
+- **判定必须要求绑定支配调用**：分支内绑定、重复绑定、调用点之后的绑定，三档一律不判定——静态最近绑定不等于运行时的值。
+- **「测试不点名参数」要单列成一类**，不能并进「未判定」：并进去读者会以为 43 条只是「还没看」，实际它们没有可看的东西。
+**验证**：`scripts/e527_undecidable_arm.py`（build rc0 / check problems=0 / verify 重建 problems=0 / **selftest 11 例 + 6 枚 doctored 全拒**：手写 verdict、结构臂写成 open、判定臂无字面量、站点判词不重导、结算臂绑到调用结果、summary 计数不重导）；面 `results/state_tilt/UNDECIDABLEARM-2026-11-08.json` + `undecidablearm_latest.json` 同源；S6 腿 `undecidable_arm` rc0 0.05s；smoke 腿 `# E527` 1/1（`scripts/_r1559_leg527.py` 按锚点从 smoke_test.py 逐字切出执行）；digest `research/digests/DIGEST-20261108-r1559-e527-undecidable-arm.md`。未跑：全量 smoke 套件（~20-30min）、S6 其余腿、采集器族与 market/paper 链（不宣称）。
