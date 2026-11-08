@@ -9957,16 +9957,7 @@ How to apply：①任何截面因子判决前，把「长腿相对对照」与�
 正身=scripts/astock_size_decomp.py（selftest 8/8）+ results/size_decomp/astock_size_decomp.json
 + research/digests/DIGEST-20261108-r1412-size-decomp.md；孪生面=scripts/astock_breadth_book.py（r1411）
 
-
-### E416 · 图也是交付面，图也必须带控制臂（r1271 bm-a）
-一张图比一页数字更容易被当成事实——它没有「口径」可读。所以渲染器不能只负责好看：
-①先复现已发布的那一格（cagr/sharpe/maxDD，容差 5e-5），复现不了就**拒绝出图**，
-而不是画一张另一本书的图（本轮实读：书 11.46%/-10.56%、等权 ETF 1.87%/-21.3%、510300 -0.05%/-45.1%）；
-②生产件把 full/is/oos 嵌在块里，直接读外层会拿回三个 None，控制臂随即说「复现失败」——
-**错的名字会把人指向错的修法**（r1292 名字≠值族）；整档必须经 full_block() 取 whole-sample 块。
-正身=scripts/etf_book_tearsheet.py（selftest 11/11）+ results/etf_book_tearsheet.png/.json。
-
-### E419 · 规模阶梯要先过「上市批次」这道门，判据落在唯一不含新股的档上（r1413 bm-c）
+### E416 · 规模阶梯要先过「上市批次」这道门，判据落在唯一不含新股的档上（r1413 bm-c）
 
 **背景。** r1412 把等权溢价分解成规模阶梯（小 +14.98% / 中 +9.97% / 大 +0.55%，规模差 14.43pp，
 12 相位全正）。这是本产线第一个可持有的分解结构，所以下一个问题不是「多大」而是「是什么」。
@@ -10013,7 +10004,7 @@ cap = close×总股本；age = t − 该票首根有效 close，`first==0` = 面
 
 正身=scripts/astock_size_age_control.py（selftest 8/8）+ results/size_decomp/astock_size_age_control.json
 + research/digests/DIGEST-20261108-r1413-size-age-control.md；上游=astock_size_decomp（r1412）/astock_breadth_book（r1411）
-### E420 · 机构席位净买比只在它自己的池子里有意义（r1414 bm-c）
+### E417 · 机构席位净买比只在它自己的池子里有意义（r1414 bm-c）
 
 r1405 把 zoo #94 判成「冻结规则未测」，理由是 `lhb_detail.parquet` 没有席位列、机构分子在库里不存在。
 它其实存在：EM datacenter 的 `stock_lhb_jgmmtj_em` 按（股票, 上榜日, 上榜原因）给买方机构数/卖方机构数/
@@ -10042,7 +10033,7 @@ ADMIT_TO_PREREG 只买到一张冻结 prereg，下一步应把它当 **r1412 全
 + research/digests/DIGEST-20261108-r1414-lhb-inst-seat.md；上游 zoo#94（r1405）/ astock_breadth_book（r1411）/
 astock_size_decomp（r1412）。
 
-## E421 — 搬到新机器的车道会先继承「面」，再继承那面说的数
+## E418 — 搬到新机器的车道会先继承「面」，再继承那面说的数
 
 **现象（2026-11-08 实弹，bm-c r1413）**：`update_moneyflow` 在 10-21 红线后归 bm-b，11-08 03:30 按
 `MSG-20261108-0330-bma-lane-reassign` 转给 bm-c。随 git 过来的 `results/moneyflow_update_status.json` 写着
@@ -10120,3 +10111,35 @@ C1 一日 5% 参与容量 ≥2,000 万。C1=null 表示该 receipt 不发布容�
 
 测不了：年度收益是年内队列和的年化口径而非复利序列；容量是一日建仓数（限跌停出场更糟）。
 正身 = scripts/candidate_year_gate.py + results/admission/CANDIDATES.json + DIGEST-20261108-r1415-candidate-year-gate.md
+
+## E421 — 分离的子进程不是孤儿，它只是换了个会死的爹（r1417 bm-c）
+
+**现象（2026-11-08 实弹）**：`update_moneyflow` 的首拉 06:33 起跑，`_progress.json` 在 07:19:32 停在
+`done=758/5226`，此后 54 分钟零推进，而 gate 每轮回读状态面仍是一句健康的「spawned detached refresh」。
+死因不是网络也不是熔断：`spawn_detached()` 用的是 `DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP |
+CREATE_NO_WINDOW`，这三个标志都不脱离创建者的 **job object**——`DETACHED_PROCESS` 管的是控制台附着，
+不是作业归属。种子来自交互 CLI 会话（或一个跑完就退出的车道 tick），窗口一退整个作业连坐，
+子进程一起消失；留下的是一把 `_refresh.lock`（pid 早已不在进程表里）和一张看起来很正常的进度面。
+
+**正法（已落盘）**：长活的**承载者**必须是活得比窗口久的进程——计划任务前台跑：
+`Tools/register_moneyflow_pull_task.ps1` 注册 `Bigmoney-MoneyflowPull`（每 20 分钟，
+MultipleInstances IgnoreNew，ExecutionTimeLimit 7h）+ `Tools/moneyflow_pull_task.py`
+（锁活即 no-op、panel complete 即 no-op、否则前台跑 `refresh()`）。任务实例本身持有进程，
+跑完才结束，任何窗口关闭都碰不到它。实证：python 114108 ← wscript 117712 ← svchost 2876，
+`done` 从 822 连续推进。
+
+**同窗第二枚（同一根因的另一条腿）**：任务第一次跑返回 exit 2「universe unavailable (0 codes)」——
+`eligibility_codes()` 里 `from update_sina_mf import universe_codes` 依赖 `sys.path[0]` 落在
+`scripts/`，那是 `python scripts/x.py` 的偶然产物；`python Tools/moneyflow_pull_task.py` 把
+`Tools/` 放上栈顶，fallback 宇宙就静默读成 0。已在模块头部补 `sys.path.insert(0, _HERE)`：
+**模块的自足性属于模块本身，不属于它的调用方式**。
+
+**How to apply**：① 任何 >10 分钟的网络/算力批，先问「谁持有这个进程」——交互会话、车道 tick、
+detached spawn 三者都是会死的爹，只有计划任务/常驻服务是真承载；② 反面自查口径：进度面 mtime
+老于 15 分钟且锁 pid 不在进程表里 = 死，不要等 gate 的下一次「成功 spawn」骗人；③ 凡「另一次入口」
+跑同一模块，第一件事是验证它仍能解析同目录 import（从仓库根用 `python -c "import scripts.x"` 跑一遍，
+别从脚本所在目录跑）。
+
+正身 = Tools/moneyflow_pull_task.py + Tools/register_moneyflow_pull_task.ps1 +
+scripts/update_moneyflow.py（selftest 26/26，S21 refresh 锁守卫腿 + 模块级 sys.path 自足）
+

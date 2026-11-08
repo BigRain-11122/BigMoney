@@ -57,6 +57,14 @@ import traceback
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# r1417: eligibility_codes() imports update_sina_mf from this same directory.
+# python <path> puts that directory on sys.path[0], but a caller that runs us
+# as a module from elsewhere (Tools/moneyflow_pull_task.py) does not -- the
+# fallback universe then silently reads 0 codes and every pull exits 2. Adding
+# it here makes the module self-sufficient from any entry point.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+if _HERE not in sys.path:
+    sys.path.insert(0, _HERE)
 DATA_DIR = os.path.join(ROOT, "data", "moneyflow")
 PER_DIR = os.path.join(DATA_DIR, "per")
 PROGRESS = os.path.join(DATA_DIR, "_progress.json")
@@ -628,6 +636,14 @@ def refresh(limit=None, repull=False):
             "owner": LANE_OWNER, "by": _lane_owner_id(),
             "reason": ab.get("reason") or "inherited from the gate",
             "ts": ab.get("took_over_at")}
+    # r1417 birth-station gate: refresh() itself never asked whether another
+    # puller holds the panel. The gate did (lock alive -> no-op), but a
+    # task-carried pull (Tools/moneyflow_pull_task.py) calls refresh() directly,
+    # and two pullers walk the same `todo` face while each rewrites the other's
+    # lock -- double burn on the source with no face that ever shows it.
+    if _lock_alive():
+        print("no-op: refresh lock alive (another puller owns the panel)")
+        return 0
     codes, skipped_glob = universe_codes()
     if len(codes) < 100:
         print(f"universe unavailable ({len(codes)} codes) -- refusing honest exit 2")
@@ -1619,7 +1635,28 @@ def _selftest():
         finally:
             PER_DIR, LOCK, STATUS, LANE_OWNER, _lane_owner_id, sys.argv = saved
             globals()["spawn_detached"] = saved_spawn
-    print("selftest: 25/25 PASS")
+    # S21 (r1417): refresh() refuses while another puller holds the lock. The
+    # gate already asked this question, but a task-carried pull
+    # (Tools/moneyflow_pull_task.py) calls refresh() directly -- without the
+    # check two pullers walk the same todo face and each rewrites the other's
+    # lock, so the double burn has no face that shows it.
+    with tempfile.TemporaryDirectory() as td:
+        saved = (LOCK, STATUS, LANE_OWNER, _lane_owner_id)
+        try:
+            LOCK = os.path.join(td, "refresh.lock")
+            STATUS = os.path.join(td, "mf_status.json")
+            LANE_OWNER = "bm-c"
+            _lane_owner_id = lambda: "bm-c"
+            write_status({"ts": "2026-11-08T08:00:00", "panel": {"complete": False}})
+            before = io.open(STATUS, "rb").read()
+            atomic_write(LOCK, json.dumps({"pid": os.getpid(), "ts": "x"}))
+            assert _lock_alive()
+            assert refresh(limit=0) == 0                       # refused, no burn
+            assert io.open(STATUS, "rb").read() == before      # no status write
+            assert json.load(io.open(LOCK, encoding="utf-8"))["pid"] == os.getpid()
+        finally:
+            LOCK, STATUS, LANE_OWNER, _lane_owner_id = saved
+    print("selftest: 26/26 PASS")
     return 0
 
 
