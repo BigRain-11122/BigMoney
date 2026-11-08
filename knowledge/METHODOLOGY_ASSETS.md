@@ -13684,3 +13684,22 @@ digest `research/digests/DIGEST-20261108-r1575-e546-filepathjoined.md`
 **边界（随面发布）**：只读模块级绑定与平铺导入到 4 层；不跟属性链（`E.PATHS.results_dir`、`config.PATHS` 这类仍是不可折，导入的模块若不在树内则单列 `a_name_imported_from_a_module_outside_the_tree`）；不跟函数返回与 `os.environ`。「可折」只等于「整条表达式从字面量折得出」，不含任何运行期事实。
 
 **正身** = `scripts/e555_unfolded_second_arg.py`（build/check/verify + selftest 19/19）+ `results/state_tilt/UNFOLDEDNAME-2026-11-08.json` + `unfoldedname_latest.json` + S6 腿 `unfolded_second_arg` + smoke 腿 `# E555`（`scripts/run_e555_smoke_leg.py` 1/1 绿，`--doctor` 1/1 红）+ digest `research/digests/DIGEST-20261108-r1581-e555-unfolded-second-arg.md`
+
+### E556 -- E555 救回来的六张面，在「点名它们的那条消息丢了」之后还活着吗（r1582 bm-b）
+
+**触发**：E555 用 `parents[k]` 把六行从 E554 的残留里折出了面路径，并报告「六张面全部在盘上」。但**在盘上不等于被宣布**：E554 自己的 at-risk 臂（有没有规范 `<stem>_latest.json` 指针、有没有别的源点名这条路径）从来没在这六行上跑过——因为 E554 根本折不出它们的路径。E556 把这一臂补上，并把它拆成两问：**指针面**（存在且真的点名这张面）与**源加载**（除 writer 外的源真的 `open`/`read_text`/`json.load` 到这张面），而把 E554 的「源字面提到」单列为提及，**提及不计为加载**。
+
+**方法**：population 机读 E555 的 `folded_faces`（六张，禁手抄）。每张面三臂：①指针臂扫 `results/state_tilt/*_latest.json`，必须内容里真的出现这张面的文件名才算「点名」——存在同名指针但从不提到它不算；②加载臂把候选源的每个 load 调用实参通过模块常量**与该函数在调用行之前的赋值**折叠成路径再比对（`json.load(f)` 不在加载函数表里，因为路径由产生 f 的那个 `open`/`Path` 绑定，扫描跟的是那一层）；③提及臂=复跑 E554 的字面臂，只按 py/ps1/bat/cmd/sh 语料计，**不计 `.md` 里的引用**。第三臂单列 `announced_but_never_loaded`——E554 把提及当公告，这一列把差别摊开。**控制臂**：同一加载臂对一个「树确实会加载」的面（`unfoldedname_latest.json`）跑一遍，返回 0 个加载就抛异常——盲的臂不许发布「没人读」。
+
+**读数**：6 张面 / **6 张在盘** / **指针面 0** / **加载 0（0 个加载源）** / 提及 1（`scripts/e323_reach_under_wider_needle.py` 提到 `etf_book_premium_phases.json` 的路径，但不是加载）/ **6 张只由那条没人读的消息宣布** / 控制臂 1 个加载（臂没瞎）。其中 5 张的 writer 连任何源都 spawn 不起来（E554 的 spawn 臂），1 张（capital_placement.json）的 writer 被别的研究脚本提到过——提到不等于能跑。判决 = `some_rescued_faces_are_announced_only_by_the_message_that_names_them`。
+
+**四条可复用教训**：
+
+1. **「在盘上」不是「被宣布」** —— E555 的结论「六张面全部存在」在语义上是一句关于文件系统的话，被顺手读成了「这些面可用」。面存在、且只有一条没人读的 print 在说它在哪，等于**只有人手敲那条命令**才能再造出来。
+2. **提及不是加载，指针不是点名** —— 两条都要各自的可证伪条件：提及要问「这条路径是加载的实参还是只是被写进某段文本」；指针要问「这个 `_latest` 文件里到底有没有出现这张面的名字」（存在同名指针但内容是别的东西=不算）。
+3. **盲臂必须自己抛异常** —— 一个对所有面都返回「0 个加载」的扫描器，与一个真的发现没人加载的扫描器，产出的面完全一样。控制臂（对一个已知被加载的面跑同一臂）必须是断言而不是脚注，否则「没人读」这句话不可证伪（E207/E453 族）。
+4. **逐调用求作用域会 O(n²)，等价的重写要证明等价** —— 直接复用父面的 `_local_scope`（每个调用都 `ast.walk` 整个外层函数），在 24k 行的 gate 文件上第一次 build 烧了 6 分多钟 CPU 零输出。改成「每文件每个函数一次，按赋值点做累积快照，调用行二分取快照」后 16.5 秒出件；证据等价（同样的赋值、同样的折叠顺序），只是 walk 只做一次。（E442 族「每节点工作的最贵版本」第三现。）
+
+**边界（随面发布）**：纯静态 AST；运行期才拼出的路径读成「没有加载」而不是「未被读」；指针臂只扫 `results/state_tilt/*_latest.json`，放在别处的指针算缺席；提及只在可执行源（py/ps1/bat/cmd/sh）里计，另一份 markdown 引用不是公告；加载臂以 `unfoldedname_latest.json` 为控制面。
+
+**正身** = `scripts/e556_rescued_face.py`（build/check/verify + selftest 12/12）、`results/state_tilt/RESCUEDFACE-2026-11-08.json` + `rescuedface_latest.json` + S6 腿 `rescued_face` + smoke 腿 `# E556`（`scripts/run_e556_smoke_leg.py` 1/1 绿，`--doctor` 1/1 红）+ digest `research/digests/DIGEST-20261108-r1582-e556-rescued-face.md`

@@ -24004,5 +24004,70 @@ except Exception as _e555x:
     _d555 = "study could not be read"
 check(_name555, not _bad555, "; ".join(_bad555)[:240] or _d555)
 
+# E556: whether the six faces E555 folded survive the loss of the message that names them
+#   * the population must be E555's own folded_faces, read out of its published face, never
+#   retyped * every row must say which arm keeps it alive (a naming pointer, a source load, both
+#   or neither) and the class must re-derive from its own facts * a pointer that exists but never
+#   names the face is not an announcement, and a mention is never counted as a load * the reader
+#   arm is controlled against a face the tree does load, so a "nobody reads these" verdict cannot
+#   be published by a blind arm * a doctored copy (hand-written verdict, a load beside a
+#   message-only class, a naming pointer beside a message-only class) is refused
+_name556 = "E556 whether the six rescued faces survive the loss of their message (r1582 bm-b)"
+_bad556 = []
+try:
+    _m556 = __import__("importlib").import_module("e556_rescued_face")
+    _f556 = json.load(open(os.path.join("results", "state_tilt", "rescuedface_latest.json"),
+                           encoding="utf-8"))
+    _s556 = _f556.get("summary") or {}
+    _r556 = _f556.get("rows") or []
+    _bad556.extend(_m556.face_problems(_f556))
+    if not _r556:
+        _bad556.append("the rescued population is empty")
+    if _s556.get("rows") != len(_r556):
+        _bad556.append("the summary row count is not the face's")
+    if sum((_s556.get("by_survival_class") or {}).values()) != len(_r556):
+        _bad556.append("the survival table does not partition the rows")
+    if not _s556.get("control_loads_found"):
+        _bad556.append("the reader arm cannot see a load of its own control face")
+    if _s556.get("loads_found") != sum(len(r["facts"]["readers"]) for r in _r556):
+        _bad556.append("the load count is not the rows' loads")
+    if _s556.get("rows_message_only") != sum(
+            1 for r in _r556 if r.get("survival_class") == _m556.S_MESSAGE_ONLY):
+        _bad556.append("the message-only count is not the rows'")
+    if any(r.get("survival_class") != _m556._rederive_survival(r) for r in _r556):
+        _bad556.append("a row's survival class is not what its own facts say")
+    if _f556.get("verdict") == _m556.V_ALL_SURVIVE and _s556.get("rows_message_only"):
+        _bad556.append("a survive verdict sits beside message-only faces")
+    if _f556.get("verdict") == _m556.V_SOME_DIE and not _s556.get("rows_message_only"):
+        _bad556.append("a die verdict sits beside zero message-only faces")
+    if _r556:
+        _doc556 = json.loads(json.dumps(_f556))
+        _doc556["verdict"] = "a_verdict_this_study_never_publishes"
+        if not _m556.face_problems(_doc556):
+            _bad556.append("a hand-written verdict was accepted")
+        _doc556 = json.loads(json.dumps(_f556))
+        _doc556["rows"][0]["survival_class"] = _m556.S_MESSAGE_ONLY
+        _doc556["rows"][0]["facts"]["readers"] = [
+            {"source": "scripts/e556_rescued_face.py", "line": 1, "call": "open",
+             "argument": "x"}]
+        if not any("a row with a load is classed message-only" in _p
+                   for _p in _m556.face_problems(_doc556)):
+            _bad556.append("a load beside a message-only class was accepted")
+        _doc556 = json.loads(json.dumps(_f556))
+        _doc556["rows"][0]["survival_class"] = _m556.S_MESSAGE_ONLY
+        _doc556["rows"][0]["facts"]["pointer_faces"] = [
+            {"path": "results/state_tilt/x_latest.json", "names_the_face": True}]
+        if not any("a row with a naming pointer is classed message-only" in _p
+                   for _p in _m556.face_problems(_doc556)):
+            _bad556.append("a naming pointer beside a message-only class was accepted")
+    _d556 = ("%d faces / %d pointer faces / %d loads / %d message-only / control %d / %s"
+             % (len(_r556), _s556.get("pointer_faces_found", 0), _s556.get("loads_found", 0),
+                _s556.get("rows_message_only", 0), _s556.get("control_loads_found", 0),
+                _f556.get("verdict")))
+except Exception as _e556x:
+    _bad556.append(repr(_e556x)[:160])
+    _d556 = "study could not be read"
+check(_name556, not _bad556, "; ".join(_bad556)[:240] or _d556)
+
 if __name__ == "__main__":
     sys.exit(main())

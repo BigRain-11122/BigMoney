@@ -1,0 +1,154 @@
+{
+ "study": "E556",
+ "card": "E556",
+ "title": "whether the six faces E555 folded survive the loss of the message that names them",
+ "evidence_cutoff": "2026-11-08",
+ "population_source": {
+  "face": "results/state_tilt/unfoldedname_latest.json",
+  "field": "folded_faces",
+  "selector": "every row E555 folded by evaluating parents[k]",
+  "published": 6
+ },
+ "rows": [
+  {
+   "face": "research/ETF_BOOK_BUFFER_ADOPTION.md",
+   "face_exists_on_disk": true,
+   "writer": "scripts/etf_book_buffer_adoption.py",
+   "writer_line": 716,
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "only_the_rendered_message_announces_this_face",
+   "risk_class": "message_only_and_no_source_can_spawn_the_writer",
+   "survival_class": "only_the_message_names_it",
+   "announced_but_never_loaded": false,
+   "facts": {
+    "pointer_faces": [],
+    "readers": [],
+    "announcements": []
+   }
+  },
+  {
+   "face": "research/ETF_BOOK_PREMIUM_PHASES.md",
+   "face_exists_on_disk": true,
+   "writer": "scripts/etf_book_premium_phases.py",
+   "writer_line": 227,
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "only_the_rendered_message_announces_this_face",
+   "risk_class": "message_only_and_no_source_can_spawn_the_writer",
+   "survival_class": "only_the_message_names_it",
+   "announced_but_never_loaded": false,
+   "facts": {
+    "pointer_faces": [],
+    "readers": [],
+    "announcements": []
+   }
+  },
+  {
+   "face": "research/ETF_BOOK_VOLTARGET_PHASE.md",
+   "face_exists_on_disk": true,
+   "writer": "scripts/etf_book_voltarget_phase.py",
+   "writer_line": 309,
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "only_the_rendered_message_announces_this_face",
+   "risk_class": "message_only_and_no_source_can_spawn_the_writer",
+   "survival_class": "only_the_message_names_it",
+   "announced_but_never_loaded": false,
+   "facts": {
+    "pointer_faces": [],
+    "readers": [],
+    "announcements": []
+   }
+  },
+  {
+   "face": "results/capital_placement.json",
+   "face_exists_on_disk": true,
+   "writer": "scripts/capital_placement.py",
+   "writer_line": 615,
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "only_the_rendered_message_announces_this_face",
+   "risk_class": "message_only_and_no_source_can_spawn_the_writer",
+   "survival_class": "only_the_message_names_it",
+   "announced_but_never_loaded": false,
+   "facts": {
+    "pointer_faces": [],
+    "readers": [],
+    "announcements": []
+   }
+  },
+  {
+   "face": "results/etf_book_premium_phases.json",
+   "face_exists_on_disk": true,
+   "writer": "scripts/etf_book_premium_phases.py",
+   "writer_line": 224,
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "only_the_rendered_message_announces_this_face",
+   "risk_class": "message_only_and_no_source_can_spawn_the_writer",
+   "survival_class": "only_the_message_names_it",
+   "announced_but_never_loaded": false,
+   "facts": {
+    "pointer_faces": [],
+    "readers": [],
+    "announcements": []
+   }
+  },
+  {
+   "face": "results/etf_book_voltarget_phase.json",
+   "face_exists_on_disk": true,
+   "writer": "scripts/etf_book_voltarget_phase.py",
+   "writer_line": 306,
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_source_literal_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message",
+   "survival_class": "only_the_message_names_it",
+   "announced_but_never_loaded": true,
+   "facts": {
+    "pointer_faces": [],
+    "readers": [],
+    "announcements": [
+     {
+      "source": "scripts/e323_reach_under_wider_needle.py",
+      "kind": "source_literal"
+     }
+    ]
+   }
+  }
+ ],
+ "summary": {
+  "rows": 6,
+  "parent_faces_published": 6,
+  "control_face": "results/state_tilt/unfoldedname_latest.json",
+  "control_loads_found": 1,
+  "faces_that_exist_on_disk": 6,
+  "pointer_faces_found": 0,
+  "pointer_faces_that_name_the_face": 0,
+  "loads_found": 0,
+  "distinct_loading_sources": 0,
+  "loading_sources": [],
+  "rows_with_a_load": 0,
+  "rows_with_a_naming_pointer": 0,
+  "rows_announced_but_never_loaded": 1,
+  "rows_message_only": 6,
+  "message_only_faces": [
+   "research/ETF_BOOK_BUFFER_ADOPTION.md",
+   "research/ETF_BOOK_PREMIUM_PHASES.md",
+   "research/ETF_BOOK_VOLTARGET_PHASE.md",
+   "results/capital_placement.json",
+   "results/etf_book_premium_phases.json",
+   "results/etf_book_voltarget_phase.json"
+  ],
+  "by_survival_class": {
+   "only_the_message_names_it": 6
+  },
+  "by_announcement_class": {
+   "a_source_literal_announces_this_face": 1,
+   "only_the_rendered_message_announces_this_face": 5
+  },
+  "by_risk_class": {
+   "message_only_and_no_source_can_spawn_the_writer": 5,
+   "the_face_is_announced_without_the_message": 1
+  }
+ },
+ "verdict": "some_rescued_faces_are_announced_only_by_the_message_that_names_them",
+ "verdict_line": "6 of 6 rescued faces are announced only by the message: research/ETF_BOOK_BUFFER_ADOPTION.md, research/ETF_BOOK_PREMIUM_PHASES.md, research/ETF_BOOK_VOLTARGET_PHASE.md, results/capital_placement.json, results/etf_book_premium_phases.json, results/etf_book_voltarget_phase.json",
+ "method_note": "The reader arm folds a load call's argument through module constants and the enclosing function's assignments before comparing; a mention without a load is republished as the E554 literal arm and never counted as a reader.",
+ "method_bound": "static AST only: a load through a variable built at run time is not seen and is published as no reader rather than as unread; the pointer arm inspects only results/state_tilt/*_latest.json, so a pointer kept elsewhere counts as absent; mentions are counted in executable sources only (py/ps1/bat/cmd/sh), so a reference from another markdown document is not an announcement; the reader arm is controlled against results/state_tilt/unfoldedname_latest.json, which the tree does load."
+}

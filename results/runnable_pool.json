@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1579 bm-b: E551 burned as E553 (6 messages, 0 read back, 6 faces announced only by the message), E554 seeded (supply floor refill: ready E548/E552/E554)",
+ "_stamp_note": "r1582 bm-b: E556 burned (6 rescued faces, all message-only, control arm 1 load), E557 seeded (supply floor refill: ready E548/E552/E557)",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -29796,9 +29796,26 @@
    "target": "results/state_tilt/rescuedface_latest.json",
    "deliverable": "results/state_tilt/RESCUEDFACE-<cutoff>.json",
    "source": "E555 (r1581 bm-b): six rows fold once parents[k] is evaluated, all six faces exist on disk, and the parent's at-risk arm was never run over them",
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-11-08T19:05:00+08:00",
    "entered_by": "bm-b r1581 (supply floor refill after E555)",
+   "worker_class": "self-contained",
+   "result_ref": "results/state_tilt/RESCUEDFACE-2026-11-08.json",
+   "completed_at": "2026-11-08T19:02:00+08:00",
+   "completed_by": "bm-b r1582"
+  },
+  {
+   "id": "E557-WHETHER-THE-WRITERS-OF-THE-MESSAGE-ONLY-FACES-ARE-REACHABLE-FROM-ANY-ENTRY-POINT",
+   "title": "E556 priced the six faces E555 folded and found all six announced only by the message that names them: no pointer face, no source load. E556's own spawn arm then says five of the six writers cannot be spawned by any source either. The next question is the one that decides whether the loss is recoverable: is the writer reachable from an entry point at all -- the S6 chain, a smoke leg, a run_* wrapper, a scheduled task -- or can the face be rebuilt only by a human typing the command line it was built from?",
+   "lane": "cpu-only",
+   "lane_note": "static: the six writers are read from E556's published face; reachability is a name census over executable sources plus the smoke chain and the S6 run list",
+   "target": "results/state_tilt/faceentryreach_latest.json",
+   "deliverable": "results/state_tilt/FACEENTRYREACH-<cutoff>.json",
+   "source": "E556 (r1582 bm-b): 6/6 faces message-only, 0 pointer faces, 0 loads, and the reader arm controlled against a face the tree does load",
+   "status": "ready",
+   "result_ref": null,
+   "entered_at": "2026-11-08T19:02:00+08:00",
+   "entered_by": "bm-b r1582 (supply floor refill after E556)",
    "worker_class": "self-contained"
   }
  ],
@@ -29814,6 +29831,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T19:05:00+08:00",
+ "updated_at": "2026-11-08T19:02:00+08:00",
  "version": 1
 }
