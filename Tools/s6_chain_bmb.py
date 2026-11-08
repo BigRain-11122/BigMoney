@@ -2305,6 +2305,8 @@ LEGS = [
     # partition, the hour histogram and the duplicate arm from the published rows.
     ("gap_calls",
      ["python", "scripts/e576_gap_calls.py", "check"]),
+    ("round_index_consumers",
+     ["python", "scripts/e578_round_index_consumers.py", "check"]),
 ]
 
 

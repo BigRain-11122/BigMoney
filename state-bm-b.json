@@ -35,6 +35,15 @@
   "smoke_leg": "e539 label vs evidence",
   "verify": "rebuild identical (sites/summary/readers)"
  },
+ "E578": {
+  "check": "problems=[]",
+  "face": "results/state_tilt/ROUNDIDXCONSUMERS-2026-11-08.json",
+  "finding": "5 row-index readers; 3 (e573/e575/lane_round_liveness) lose every row without a leading pipe; automation_line_audit reads both shapes but only a 20-line window (9 rows reachable, 1,542 unreachable); e409 reads one ledger; E577's 759+1,534 vs 2,247 gap is the 46 pipe rows with a space stamp",
+  "s6_leg": "round_index_consumers",
+  "selftest": "35/35",
+  "smoke_leg": "e578 round index consumers",
+  "verify": "problems=[]"
+ },
  "absorb": "r1476: five of the ten suite reds were the E421-family class -- a census that grows. Two of them already had the declaration machinery (population_keys) but had not declared the population itself, so an upstream face appearing re-red the leg for growth alone. E417 now declares faces/faces_literal/faces_templated and E422 declares rows_in_population / rows_recording_a_bare_name / rows_spelling_a_directory / control_path_rows / control_path_rows_whose_file_exists; both faces were republished and both gates now compare every reading exactly (bare-literal exposure 0; rows_whose_reading_changes_if_rejoined 0).",
  "agenda_starved": false,
  "aggregate": "engineering",
@@ -337,6 +346,7 @@
  "last_push_ts": "2026-11-07T08:56:42+08:00",
  "last_round": 1582,
  "last_round_at": "2026-11-09T01:36:24+08:00",
+ "last_round_label": "r1606",
  "last_round_report": "logs/iteration-loop/round_reports.md",
  "last_round_summary": "E556 priced the six faces E555 folded: 6/6 exist on disk, 0 naming pointer faces, 0 source loads, 1 mention that is not a load, 6/6 announced only by the message nobody reads; the reader arm is controlled against unfoldedname_latest.json (1 load). Five of the six writers cannot be spawned by any source, so the faces can be rebuilt only by hand.",
  "last_round_ts": "2026-11-08T16:18:14+08:00",
@@ -6159,7 +6169,7 @@
   "verify": "problems=[]"
  },
  "round_label": "r1605",
- "round_no": 1605,
+ "round_no": 1606,
  "round_no_label": "r1602",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
  "round_no_ts": "2026-11-09T02:39:48+08:00",

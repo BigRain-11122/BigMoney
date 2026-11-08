@@ -25071,5 +25071,61 @@ except Exception as _e576x:
     _d576 = "study could not be read"
 check(_name576, not _bad576, "; ".join(_bad576)[:240] or _d576)
 
+# E578: E577 published 1,534 ledger rows its own index cannot read.  This leg asks which other
+# readers inherit that blind spot, and refuses the two ways the answer could be a wish: a reader
+# named "loses every row without a leading pipe" that turns out to read one ledger only, and a
+# published population whose 2x2 of pipe/no-pipe x stamp no longer adds up to its own total.
+_name578 = "E578 which round-ledger readers lose the rows without a leading pipe (r1606 bm-b)"
+_bad578 = []
+_d578 = "no reading"
+try:
+    _m578 = importlib.import_module("e578_round_index_consumers")
+    _f578 = json.load(open(os.path.join("results", "state_tilt",
+                                        "rowindexconsumers_latest.json"), encoding="utf-8"))
+    _s578 = _f578.get("summary") or {}
+    _p578 = _f578.get("population") or {}
+    _c578 = _p578.get("by_cell") or {}
+    _r578 = _p578.get("e577_reconciliation") or {}
+    _bad578.extend(_m578.face_problems(_f578))
+    if sum(_c578.values()) != _p578.get("rows"):
+        _bad578.append("the 2x2 cells no longer add up to the row population")
+    if not _s578.get("lose_every_row_without_a_leading_pipe"):
+        _bad578.append("the verdict names no reader that loses every row without a leading pipe")
+    if not _s578.get("pipe_tolerant_readers"):
+        _bad578.append("no pipe-tolerant reader was measured, so the contrast arm is empty")
+    if (_r578.get("strict_plus_no_pipe_minus_lenient") or 0) <= 0:
+        _bad578.append("E577's published triple was not reconciled")
+    for _cid in _s578.get("lose_every_row_without_a_leading_pipe") or []:
+        _cc = next((x for x in (_f578.get("consumers") or []) if x.get("id") == _cid), None)
+        if _cc is None:
+            _bad578.append("%s is named by the verdict but absent from the consumers" % _cid)
+            break
+        if (_cc.get("loss_in_scope") or 0) < (_cc.get("no_pipe_rows_in_scope") or 0):
+            _bad578.append("%s: loss is below its own no-pipe count" % _cid)
+            break
+    _doc578 = json.loads(json.dumps(_f578))
+    for _cc in _doc578.get("consumers") or []:
+        if _cc.get("class") == "loses_the_same_rows_as_the_index_it_inherits":
+            _cc["reads_files"] = _cc["reads_files"][:1]
+            break
+    if not _m578.face_problems(_doc578):
+        _bad578.append("a reader labelled as losing every no-pipe row while reading one ledger "
+                       "was accepted")
+    _d578 = ("rows=%d cells=%s | index_readers=%d lose_every_no_pipe=%d pipe_tolerant=%d "
+             "window=%d | e577_gap=%s | %s"
+             % (_p578.get("rows", 0),
+                ",".join("%s:%d" % (k, v) for k, v in sorted(_c578.items())),
+                _s578.get("index_readers", 0),
+                len(_s578.get("lose_every_row_without_a_leading_pipe") or []),
+                len(_s578.get("pipe_tolerant_readers") or []),
+                len(_s578.get("window_limited_readers") or []),
+                _r578.get("strict_plus_no_pipe_minus_lenient"),
+                _f578.get("verdict")))
+except Exception as _e578x:
+    _bad578.append(repr(_e578x)[:160])
+    _d578 = "study could not be read"
+check(_name578, not _bad578, "; ".join(_bad578)[:240] or _d578)
+
+
 if __name__ == "__main__":
     sys.exit(main())

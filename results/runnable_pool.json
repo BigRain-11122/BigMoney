@@ -30203,14 +30203,28 @@
    "lane": "cpu-only",
    "lane_note": "static: in-repo sources that import or re-implement the round-row parser; no runner executed",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E577 (r1605 bm-b): E573's strict row parser sees 759 of 2,247 round rows -- 1,534 rows printed without a leading pipe are invisible, and all 31 of E576's late gaps were closed by such rows.",
    "target": "results/state_tilt/ROWINDEXCONSUMERS_latest.json",
    "deliverable": "results/state_tilt/ROWINDEXCONSUMERS-<cutoff>.json",
    "title": "Publish every consumer of the round-row index (importers of e573.round_of_row / e575.round_index, plus re-implementations of the same regex) and for each one whether its published number changes when the pipe-less rows are read too. A consumer that only uses the index to count rounds is a note; a consumer whose verdict moves is a repair.",
    "entered_at": "2026-11-09T02:40:03+08:00",
    "entered_by": "bm-b r1605",
-   "evidence_cutoff": "2026-11-08"
+   "evidence_cutoff": "2026-11-08",
+   "result_ref": "results/state_tilt/ROWINDEXCONSUMERS-2026-11-08.json",
+   "closed_at": "2026-11-09T03:0x+08:00",
+   "result_note": "5 row-index readers measured through their own predicates: 3 lose every row without a leading pipe (e573/e575/lane_round_liveness), automation_line_audit reads both shapes but only a 20-line window (9 rows reachable, 1,542 unreachable), e409 reads one ledger, marks_coverage scans timestamps. E577's 759+1,534 vs 2,247 gap is 46 pipe rows with a space stamp, reconciled at its own vintage."
+  },
+  {
+   "id": "E579-WHETHER-THE-LIVENESS-LINE-WOULD-CALL-A-PEER-DEAD-THAT-THE-WIDE-READER-CALLS-ALIVE",
+   "lane": "cpu-only",
+   "lane_note": "static: Tools/lane_round_liveness.py re-run in both dialects over this host's three ledgers and the origin/main copies; no runner, no heartbeat written, no peer contacted",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E578 (r1606 bm-b): Tools/lane_round_liveness.ledger_times_text is pipe-strict (it loses all 1,986 rows without a leading pipe) and additionally needs seconds or an offset (it loses 107 more pipe rows), while the module's own docstring warns that judging a peer DEAD off a lagging copy is the D-20261101-15 error.",
+   "target": "results/state_tilt/LIVENESSDIALECT_latest.json",
+   "deliverable": "results/state_tilt/LIVENESSDIALECT-<cutoff>.json",
+   "title": "Re-run the liveness verdict for every machine in both dialects (strict ledger reader as shipped vs the pipe-tolerant reader) and publish, per machine and per day: the newest row each dialect can see, the DEAD/ALIVE verdict each implies, and the number of verdicts that flip. Publish the origin/main and worktree arms apart; do not change the tool."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

@@ -1,0 +1,669 @@
+{
+ "bounds": [
+  "file sets are the constants each reader declares; a reader that names a file which does not exist is published with that file missing rather than repaired",
+  "lane_round_liveness prefers origin/main, so its two counts are published apart and never reconciled into one number",
+  "a module that only sizes, hashes, moves or scans prose is counted in the census but is given no row count -- naming a ledger is not reading its index",
+  "the population is this host's ledgers at this cutoff; E577's 1,534 is the same cell two rounds earlier and the growth is published, not smoothed"
+ ],
+ "census": [
+  {
+   "declared_files": [],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": false,
+   "named_files": [
+    "round_reports-bm-c.md"
+   ],
+   "path": "Tools/idle_trigger.py"
+  },
+  {
+   "declared_files": [],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": true,
+   "named_files": [
+    "round_reports.md"
+   ],
+   "path": "Tools/lane_round_liveness.py"
+  },
+  {
+   "declared_files": [
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-c.md",
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": true,
+   "named_files": [
+    "round_reports-bm-a.md",
+    "round_reports-bm-c.md",
+    "round_reports.md"
+   ],
+   "path": "Tools/post_review.py"
+  },
+  {
+   "declared_files": [],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": true,
+   "named_files": [
+    "round_reports-bm-a.md"
+   ],
+   "path": "Tools/skills/bigmoney-conflict-resolve/scripts/classify_conflicts.py"
+  },
+  {
+   "declared_files": [],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": true,
+   "named_files": [
+    "round_reports-bm-a.md"
+   ],
+   "path": "Tools/treasure_guard.py"
+  },
+  {
+   "declared_files": [],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": false,
+   "named_files": [
+    "round_reports-bm-a.md"
+   ],
+   "path": "Tools/tree_poison_probe.py"
+  },
+  {
+   "declared_files": [],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": true,
+   "named_files": [
+    "round_reports.md"
+   ],
+   "path": "scripts/automation_line_audit.py"
+  },
+  {
+   "declared_files": [
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": true,
+   "named_files": [
+    "round_reports.md"
+   ],
+   "path": "scripts/e345_gate_absence_windows.py"
+  },
+  {
+   "declared_files": [
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": true,
+   "named_files": [
+    "round_reports.md"
+   ],
+   "path": "scripts/e348_restored_gate_retrospect.py"
+  },
+  {
+   "declared_files": [
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": true,
+   "named_files": [
+    "round_reports.md"
+   ],
+   "path": "scripts/e409_unfloored_faces.py"
+  },
+  {
+   "declared_files": [
+    "logs/iteration-loop/round_reports-bm-b.md",
+    "logs/iteration-loop/round_reports-bm-c.md"
+   ],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": false,
+   "named_files": [
+    "round_reports-bm-b.md",
+    "round_reports-bm-c.md"
+   ],
+   "path": "scripts/e562_single_leg_provenance.py"
+  },
+  {
+   "declared_files": [
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-c.md",
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": true,
+   "named_files": [
+    "round_reports-bm-a.md",
+    "round_reports-bm-c.md",
+    "round_reports.md"
+   ],
+   "path": "scripts/e567_chain_claim.py"
+  },
+  {
+   "declared_files": [],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": false,
+   "named_files": [
+    "round_reports.md"
+   ],
+   "path": "scripts/e568_old_chain_table.py"
+  },
+  {
+   "declared_files": [],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": true,
+   "named_files": [
+    "round_reports.md"
+   ],
+   "path": "scripts/e573_silent_chain.py"
+  },
+  {
+   "declared_files": [],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": false,
+   "named_files": [],
+   "path": "scripts/e574_receipt_tracking.py"
+  },
+  {
+   "declared_files": [
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-c.md",
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": true,
+   "named_files": [
+    "round_reports-bm-a.md",
+    "round_reports-bm-c.md",
+    "round_reports.md"
+   ],
+   "path": "scripts/e575_only_flag.py"
+  },
+  {
+   "declared_files": [
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-c.md",
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": true,
+   "named_files": [
+    "round_reports-bm-a.md",
+    "round_reports-bm-c.md",
+    "round_reports.md"
+   ],
+   "path": "scripts/e578_round_index_consumers.py"
+  },
+  {
+   "declared_files": [],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": true,
+   "named_files": [
+    "round_reports-bm-a.md",
+    "round_reports-bm-c.md",
+    "round_reports.md"
+   ],
+   "path": "scripts/governance_audit_s2.py"
+  },
+  {
+   "declared_files": [],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": false,
+   "named_files": [
+    "round_reports.md"
+   ],
+   "path": "scripts/llm_assist.py"
+  },
+  {
+   "declared_files": [
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-b.md",
+    "logs/iteration-loop/round_reports-bm-c.md",
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": true,
+   "named_files": [
+    "round_reports-bm-a.md",
+    "round_reports-bm-b.md",
+    "round_reports-bm-c.md",
+    "round_reports.md"
+   ],
+   "path": "scripts/marks_coverage.py"
+  },
+  {
+   "declared_files": [],
+   "has_pipe_startswith_gate": false,
+   "has_row_regex": false,
+   "named_files": [],
+   "path": "scripts/token_meter.py"
+  }
+ ],
+ "consumers": [
+  {
+   "class": "loses_the_same_rows_as_the_index_it_inherits",
+   "class_reason": "saw 760 of 2752 rows in the 3 ledger(s) it reads; 1986 rows without a leading pipe went unread, and 6 rows with a pipe did too",
+   "declared_files": [],
+   "dialect": "row_head_with_a_leading_pipe",
+   "extra_pipe_rows_lost": 6,
+   "id": "scripts/e573_silent_chain.round_of_row",
+   "kind": "index",
+   "loss_in_scope": 1992,
+   "no_pipe_rows_in_scope": 1986,
+   "path": "scripts/e573_silent_chain.py",
+   "pipe_rows_in_scope": 766,
+   "probe": {
+    "indented_table": false,
+    "legacy_space": false,
+    "no_leading_pipe": false,
+    "no_pipe_minute": false,
+    "prose_full": false,
+    "prose_short": false,
+    "table_full": true,
+    "table_minute": true
+   },
+   "reads_files": [
+    "logs/iteration-loop/round_reports.md",
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-c.md"
+   ],
+   "refuses_every_no_pipe_row": true,
+   "refuses_indented_row": true,
+   "refuses_minute_stamp": false,
+   "refuses_some_pipe_row": true,
+   "refuses_space_stamp": true,
+   "rows_in_its_scope": 2752,
+   "rows_seen": 760,
+   "scope_note": "declares no ledger of its own: its scope is inherited from the caller that passes the files in"
+  },
+  {
+   "class": "loses_the_same_rows_as_the_index_it_inherits",
+   "class_reason": "saw 760 of 2752 rows in the 3 ledger(s) it reads; 1986 rows without a leading pipe went unread, and 6 rows with a pipe did too",
+   "declared_files": [
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-c.md",
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "dialect": "row_head_with_a_leading_pipe",
+   "extra_pipe_rows_lost": 6,
+   "id": "scripts/e575_only_flag.round_index",
+   "kind": "index",
+   "loss_in_scope": 1992,
+   "no_pipe_rows_in_scope": 1986,
+   "path": "scripts/e575_only_flag.py",
+   "pipe_rows_in_scope": 766,
+   "probe": {
+    "indented_table": false,
+    "legacy_space": false,
+    "no_leading_pipe": false,
+    "no_pipe_minute": false,
+    "prose_full": false,
+    "prose_short": false,
+    "table_full": true,
+    "table_minute": true
+   },
+   "reads_files": [
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-c.md",
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "refuses_every_no_pipe_row": true,
+   "refuses_indented_row": true,
+   "refuses_minute_stamp": false,
+   "refuses_some_pipe_row": true,
+   "refuses_space_stamp": true,
+   "rows_in_its_scope": 2752,
+   "rows_seen": 760
+  },
+  {
+   "class": "loses_a_different_number_of_the_same_rows",
+   "class_reason": "saw 434 of 1552 rows in the 1 ledger(s) it reads; 846 rows without a leading pipe went unread, and 272 rows with a pipe did too",
+   "declared_files": [
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "dialect": "row_head_with_a_leading_pipe",
+   "extra_pipe_rows_lost": 272,
+   "id": "scripts/e409_unfloored_faces._round_rows",
+   "kind": "index",
+   "loss_in_scope": 1118,
+   "no_pipe_rows_in_scope": 846,
+   "path": "scripts/e409_unfloored_faces.py",
+   "pipe_rows_in_scope": 706,
+   "predicate_source": "regex lifted from e409_unfloored_faces.py: \\|\\s*(\\d{4}-\\d{2}-\\d{2}T[0-9:+\\-]+)\\s*\\|\\s*(r\\d+[a-z]?)\\s*\\|",
+   "probe": {
+    "indented_table": false,
+    "legacy_space": false,
+    "no_leading_pipe": false,
+    "no_pipe_minute": false,
+    "prose_full": false,
+    "prose_short": false,
+    "table_full": true,
+    "table_minute": true
+   },
+   "reads_files": [
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "refuses_every_no_pipe_row": true,
+   "refuses_indented_row": true,
+   "refuses_minute_stamp": false,
+   "refuses_some_pipe_row": true,
+   "refuses_space_stamp": true,
+   "rows_in_its_scope": 1552,
+   "rows_seen": 434,
+   "scope_note": "declares one ledger in its own REPORT constant"
+  },
+  {
+   "class": "loses_the_same_rows_as_the_index_it_inherits",
+   "class_reason": "saw 659 of 2752 rows in the 3 ledger(s) it reads; 1986 rows without a leading pipe went unread, and 107 rows with a pipe did too",
+   "declared_files": [],
+   "dialect": "row_head_with_a_leading_pipe",
+   "extra_pipe_rows_lost": 107,
+   "id": "Tools/lane_round_liveness.ledger_times_text",
+   "kind": "index",
+   "loss_in_scope": 2093,
+   "no_pipe_rows_in_scope": 1986,
+   "path": "Tools/lane_round_liveness.py",
+   "pipe_rows_in_scope": 766,
+   "probe": {
+    "indented_table": false,
+    "legacy_space": false,
+    "no_leading_pipe": false,
+    "no_pipe_minute": false,
+    "prose_full": false,
+    "prose_short": false,
+    "table_full": true,
+    "table_minute": false
+   },
+   "reads_files": [
+    "logs/iteration-loop/round_reports.md",
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-c.md"
+   ],
+   "refuses_every_no_pipe_row": true,
+   "refuses_indented_row": true,
+   "refuses_minute_stamp": true,
+   "refuses_some_pipe_row": true,
+   "refuses_space_stamp": true,
+   "rows_in_its_scope": 2752,
+   "rows_seen": 659,
+   "rows_seen_from_origin_main_per_file": {
+    "logs/iteration-loop/round_reports-bm-a.md": 0,
+    "logs/iteration-loop/round_reports-bm-c.md": 17,
+    "logs/iteration-loop/round_reports.md": 326
+   },
+   "scope_note": "declares no ledger of its own: its scope is inherited from the caller that passes the files in"
+  },
+  {
+   "class": "sees_every_row_shape_and_loses_only_a_window",
+   "class_reason": "saw 2715 of 2752 rows in the 3 ledger(s) it reads; 'some_of_1986' rows without a leading pipe went unread, and 0 rows with a pipe did too",
+   "declared_files": [],
+   "dialect": "row_head_with_or_without_a_leading_pipe",
+   "extra_pipe_rows_lost": 0,
+   "id": "scripts/automation_line_audit.round_report_ts",
+   "kind": "index",
+   "loss_in_scope": 37,
+   "newest_row_parsed": true,
+   "newest_ts": "2026-11-09T03:22:00+08:00",
+   "no_pipe_rows_in_scope": 1986,
+   "path": "scripts/automation_line_audit.py",
+   "pipe_rows_in_scope": 766,
+   "probe": {
+    "indented_table": true,
+    "legacy_space": true,
+    "no_leading_pipe": true,
+    "no_pipe_minute": true,
+    "prose_full": false,
+    "prose_short": false,
+    "table_full": true,
+    "table_minute": true
+   },
+   "reads_files": [
+    "logs/iteration-loop/round_reports.md",
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-c.md"
+   ],
+   "refuses_every_no_pipe_row": false,
+   "refuses_indented_row": false,
+   "refuses_minute_stamp": false,
+   "refuses_some_pipe_row": false,
+   "refuses_space_stamp": false,
+   "rows_in_its_scope": 2752,
+   "rows_seen": 2715,
+   "rows_the_window_never_reaches": 1543,
+   "scope_note": "declares no ledger of its own: its scope is inherited from the caller that passes the files in",
+   "window_lines": 20,
+   "window_rows_reachable": 9
+  },
+  {
+   "class": "sees_dates_anywhere_not_rows",
+   "class_reason": "saw None of 2752 rows in the 4 ledger(s) it reads; 'some_of_1986' rows without a leading pipe went unread, and 0 rows with a pipe did too",
+   "declared_files": [
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-b.md",
+    "logs/iteration-loop/round_reports-bm-c.md",
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "dialect": "reads_a_timestamp_anywhere_in_the_line",
+   "id": "scripts/marks_coverage.host_samples",
+   "kind": "samples",
+   "loss_in_scope": null,
+   "no_pipe_rows_in_scope": 1986,
+   "note": "scans timestamps anywhere, so it sees rows and prose alike and holds no row index",
+   "path": "scripts/marks_coverage.py",
+   "pipe_rows_in_scope": 766,
+   "predicate_source": "regex lifted from marks_coverage.py: (20\\d{2}-\\d{2}-\\d{2})[T ](\\d{2}:\\d{2})",
+   "probe": {
+    "indented_table": true,
+    "legacy_space": true,
+    "no_leading_pipe": true,
+    "no_pipe_minute": true,
+    "prose_full": true,
+    "prose_short": true,
+    "table_full": true,
+    "table_minute": true
+   },
+   "reads_files": [
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-b.md",
+    "logs/iteration-loop/round_reports-bm-c.md",
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "refuses_every_no_pipe_row": null,
+   "refuses_indented_row": false,
+   "refuses_minute_stamp": false,
+   "refuses_some_pipe_row": null,
+   "refuses_space_stamp": false,
+   "rows_in_its_scope": 2752,
+   "rows_seen": null
+  },
+  {
+   "class": "does_not_read_the_row_index",
+   "class_reason": "saw None of 2752 rows in the 3 ledger(s) it reads; 'some_of_1986' rows without a leading pipe went unread, and 0 rows with a pipe did too",
+   "declared_files": [
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-c.md",
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "dialect": null,
+   "id": "scripts/e567_chain_claim.extract_claims",
+   "kind": "prose",
+   "loss_in_scope": null,
+   "no_pipe_rows_in_scope": 1986,
+   "path": "scripts/e567_chain_claim.py",
+   "pipe_rows_in_scope": 766,
+   "probe": {},
+   "reads_files": [
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-c.md",
+    "logs/iteration-loop/round_reports.md"
+   ],
+   "refuses_every_no_pipe_row": null,
+   "refuses_some_pipe_row": null,
+   "rows_in_its_scope": 2752,
+   "rows_seen": null
+  },
+  {
+   "class": "does_not_read_the_row_index",
+   "class_reason": "saw None of 2752 rows in the 3 ledger(s) it reads; 'some_of_1986' rows without a leading pipe went unread, and 0 rows with a pipe did too",
+   "declared_files": [],
+   "dialect": null,
+   "id": "scripts/e574_receipt_tracking.report_corpus",
+   "kind": "blob",
+   "loss_in_scope": null,
+   "no_pipe_rows_in_scope": 1986,
+   "path": "scripts/e574_receipt_tracking.py",
+   "pipe_rows_in_scope": 766,
+   "probe": {},
+   "reads_files": [
+    "logs/iteration-loop/round_reports.md",
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-c.md"
+   ],
+   "refuses_every_no_pipe_row": null,
+   "refuses_some_pipe_row": null,
+   "rows_in_its_scope": 2752,
+   "rows_seen": null,
+   "scope_note": "declares no ledger of its own: its scope is inherited from the caller that passes the files in"
+  },
+  {
+   "class": "does_not_read_the_row_index",
+   "class_reason": "saw None of 774 rows in the 2 ledger(s) it reads; 'some_of_758' rows without a leading pipe went unread, and 0 rows with a pipe did too",
+   "declared_files": [
+    "logs/iteration-loop/round_reports-bm-b.md",
+    "logs/iteration-loop/round_reports-bm-c.md"
+   ],
+   "dialect": null,
+   "id": "scripts/e562_single_leg_provenance.round_report_only_witness",
+   "kind": "flag_scan",
+   "loss_in_scope": null,
+   "no_pipe_rows_in_scope": 758,
+   "path": "scripts/e562_single_leg_provenance.py",
+   "pipe_rows_in_scope": 16,
+   "probe": {},
+   "reads_files": [
+    "logs/iteration-loop/round_reports-bm-b.md",
+    "logs/iteration-loop/round_reports-bm-c.md"
+   ],
+   "refuses_every_no_pipe_row": null,
+   "refuses_some_pipe_row": null,
+   "rows_in_its_scope": 774,
+   "rows_seen": null
+  },
+  {
+   "class": "does_not_read_the_row_index",
+   "class_reason": "saw None of 2752 rows in the 3 ledger(s) it reads; 'some_of_1986' rows without a leading pipe went unread, and 0 rows with a pipe did too",
+   "declared_files": [],
+   "dialect": null,
+   "id": "scripts/token_meter._states_and_reports",
+   "kind": "size_only",
+   "loss_in_scope": null,
+   "no_pipe_rows_in_scope": 1986,
+   "path": "scripts/token_meter.py",
+   "pipe_rows_in_scope": 766,
+   "probe": {},
+   "reads_files": [
+    "logs/iteration-loop/round_reports.md",
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-c.md"
+   ],
+   "refuses_every_no_pipe_row": null,
+   "refuses_some_pipe_row": null,
+   "rows_in_its_scope": 2752,
+   "rows_seen": null,
+   "scope_note": "declares no ledger of its own: its scope is inherited from the caller that passes the files in"
+  },
+  {
+   "class": "does_not_read_the_row_index",
+   "class_reason": "saw None of 2752 rows in the 3 ledger(s) it reads; 'some_of_1986' rows without a leading pipe went unread, and 0 rows with a pipe did too",
+   "declared_files": [],
+   "dialect": null,
+   "id": "Tools/tree_poison_probe.classify",
+   "kind": "path_only",
+   "loss_in_scope": null,
+   "no_pipe_rows_in_scope": 1986,
+   "path": "Tools/tree_poison_probe.py",
+   "pipe_rows_in_scope": 766,
+   "probe": {},
+   "reads_files": [
+    "logs/iteration-loop/round_reports.md",
+    "logs/iteration-loop/round_reports-bm-a.md",
+    "logs/iteration-loop/round_reports-bm-c.md"
+   ],
+   "refuses_every_no_pipe_row": null,
+   "refuses_some_pipe_row": null,
+   "rows_in_its_scope": 2752,
+   "rows_seen": null,
+   "scope_note": "declares no ledger of its own: its scope is inherited from the caller that passes the files in"
+  }
+ ],
+ "dept": "研究+工程",
+ "evidence_cutoff": "2026-11-08",
+ "generated_by": "scripts/e578_round_index_consumers.py",
+ "machine": "bm-b",
+ "population": {
+  "agrees_with_e577_on_the_cell": true,
+  "by_cell": {
+   "no_pipe_T": 1536,
+   "no_pipe_space": 450,
+   "pipe_T": 714,
+   "pipe_space": 52
+  },
+  "cell_rule": "pipe/no_pipe x T/space separator; a row is a dated stamp plus a round token in its own round slot",
+  "e577_reconciliation": {
+   "e577_implied_pipe_T_rows": 713,
+   "e577_lenient_rows_indexed": 2247,
+   "e577_rows_without_a_leading_pipe": 1534,
+   "e577_strict_rows_indexed": 759,
+   "explanation": "at E577's own vintage strict counted 759 pipe rows and lenient counted 713 of them plus 1534 without a pipe; the 46-row gap between the two definitions is the pipe rows whose stamp is space-separated, which the strict reader takes and the lenient one does not. This round's population is larger by 1 pipe and 2 no-pipe rows, both published as growth",
+   "growth_in_pipe_T": 1,
+   "growth_since_that_vintage": 2,
+   "strict_plus_no_pipe_minus_lenient": 46,
+   "this_round_no_pipe_T_rows": 1536,
+   "this_round_pipe_T_rows": 714
+  },
+  "ledger_files": [
+   "logs/iteration-loop/round_reports.md",
+   "logs/iteration-loop/round_reports-bm-a.md",
+   "logs/iteration-loop/round_reports-bm-c.md"
+  ],
+  "modules_naming_a_ledger": 21,
+  "rows": 2752,
+  "rows_with_a_leading_pipe": 766,
+  "rows_without_a_leading_pipe": 1986
+ },
+ "rule": "a reader's dialect is read off the six probe shapes it accepts; its loss is the subtraction of the rows it accepts from the dated rows in its own declared ledgers",
+ "study": "E578",
+ "summary": {
+  "by_class": {
+   "does_not_read_the_row_index": 5,
+   "loses_a_different_number_of_the_same_rows": 1,
+   "loses_the_same_rows_as_the_index_it_inherits": 3,
+   "sees_dates_anywhere_not_rows": 1,
+   "sees_every_row_shape_and_loses_only_a_window": 1
+  },
+  "four_axes": [
+   "row shape (leading pipe)",
+   "stamp shape (T vs space)",
+   "window (tail lines)",
+   "vintage (origin/main vs worktree)"
+  ],
+  "index_readers": 5,
+  "lose_every_row_without_a_leading_pipe": [
+   "scripts/e573_silent_chain.round_of_row",
+   "scripts/e575_only_flag.round_index",
+   "Tools/lane_round_liveness.ledger_times_text"
+  ],
+  "narrower_scope_readers": [
+   "scripts/e409_unfloored_faces._round_rows"
+  ],
+  "non_index_modules_naming_the_ledger": 10,
+  "pipe_tolerant_readers": [
+   "scripts/automation_line_audit.round_report_ts"
+  ],
+  "reads_a_timestamp_anywhere": [
+   "scripts/marks_coverage.host_samples"
+  ],
+  "window_limited_readers": [
+   "scripts/automation_line_audit.round_report_ts"
+  ]
+ },
+ "verdict": "the_leading_pipe_blind_spot_is_inherited_by_the_whole_index_family",
+ "verdict_line": "5 row-index readers; 3 lose every row without a leading pipe (e573_silent_chain, e575_only_flag, lane_round_liveness); pipe-tolerant: automation_line_audit"
+}
