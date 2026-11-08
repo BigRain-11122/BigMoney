@@ -25466,5 +25466,55 @@ except Exception as _e587x:
 check(_name587, not _bad587, "; ".join(_bad587)[:240] or _d587)
 
 
+# E590: E589 made the ticket's cash_leg block name its window and disclose that the repo panel
+# stops before the book's own bar (7 unquoted steps, the quote 8 bars old on 2026-11-06).  E590
+# prices those steps: 142.20 CNY at the nearest prior quote (271.25 at the window mean, 2.69 bp of
+# the 529,072 CNY they leave idle), and it asks whether "8 bars stale" is one fact -- it is not,
+# the age grows one bar per bar from 1 to 8, and 7 of those 8 steps accrue nothing.  This leg
+# reads the published face and refuses the ways that could be a wish: a step forfeit that does not
+# re-derive from its own cash and gap, a ticket total that does not add up from its rows, an age
+# table that skips a bar, and a summary whose flat-age claim disagrees with the table.
+_name590 = "E590 what an unquoted cash step is worth, and whether the quote age is flat (r1617 bm-b)"
+_bad590 = []
+_d590 = "no reading"
+try:
+    _p590 = os.path.join("results", "etf_book_order", "CASHSILENCE.json")
+    _f590 = json.load(open(_p590, encoding="utf-8"))
+    _s590 = _f590.get("summary") or {}
+    _m590 = importlib.import_module("e590_cash_silence")
+    _bad590.extend(_m590.face_problems(_f590))
+    _rows590 = (_f590.get("bars_past_the_panel") or {}).get("rows") or []
+    _ages590 = [r.get("quote_age_bars") for r in _rows590]
+    if len(set(_ages590)) > 1 and _s590.get("quote_age_is_the_same_on_every_bar_past_the_panel"):
+        _bad590.append("a moving age table is published flat")
+    if _s590.get("forfeited_at_nearest_quote_cny_total") and not any(
+            t.get("step_rows") for t in _f590.get("tickets") or []):
+        _bad590.append("a forfeit total is published with no step rows behind it")
+    for _t590 in _f590.get("tickets") or []:
+        if _t590.get("steps_rederive_the_ticket_block") is False:
+            _bad590.append("%s: the step count disagrees with the ticket's own block"
+                           % _t590.get("ticket"))
+        _w590 = _t590.get("window") or {}
+        if _w590.get("calendar_matches_published_bars") is False:
+            _bad590.append("%s: the calendar misses the ticket's own window_bars"
+                           % _t590.get("ticket"))
+    _d590 = ("tickets=%d with_steps=%d steps=%d forfeit=%.2f CNY at the prior quote / %.2f at "
+             "the window mean (%.3f bp) | quote age %s..%s bars over %s bars past the panel "
+             "(%s) | %s"
+             % (_s590.get("tickets", 0), _s590.get("tickets_with_unquoted_steps", 0),
+                _s590.get("unquoted_steps_total", 0),
+                _s590.get("forfeited_at_nearest_quote_cny_total") or 0.0,
+                _s590.get("forfeited_at_window_mean_cny_total") or 0.0,
+                _s590.get("forfeited_bp_of_that_cash") or 0.0,
+                (_rows590[0].get("quote_age_bars") if _rows590 else None),
+                (_rows590[-1].get("quote_age_bars") if _rows590 else None),
+                _s590.get("book_bars_past_the_panel"),
+                _s590.get("repo_panel_last_bar"), _f590.get("verdict")))
+except Exception as _e590x:
+    _bad590.append(repr(_e590x)[:160])
+    _d590 = "study could not be read"
+check(_name590, not _bad590, "; ".join(_bad590)[:240] or _d590)
+
+
 if __name__ == "__main__":
     sys.exit(main())

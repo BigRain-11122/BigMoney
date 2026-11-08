@@ -14101,3 +14101,26 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 **边界**：只改 `scripts/etf_book_order.py` 的现金腿块与账本块 + 重发一张票；不动现金腿算法、不改账本任何一行、不碰 alpha、无 GPU、无云端。
 
 **证据** = scripts/etf_book_order.py（selftest 53/53，新增 leg40/40b/40c/40d）→ results/etf_book_order/TICKET-2026-11-06.json + ORDER-2026-11-06.md（操作页新增「现金腿口径」一行）+ S6 leg `cash_leg_window`（`--verify-cash-window`，rc0 0.59s）
+
+### E590 无报价的现金步子值多少钱，以及“8 根 bar 旧”是不是同一个事实（r1617 bm-b，2026-11-09）
+
+**问题**：E589 让票面 `cash_leg` 说出自己的窗口，并披露回购面板在 book 自己的 bar 之前就停了——2026-11-06 票面窗口 1658 根 bar，GC001 停在 2026-10-27，窗口里 7 个 bar-step 完全没有报价（accrued as 0），票面 bar 的报价其实是 8 根 bar 之前的。数字都披露了，没人给它定价。
+
+**读数**（results/etf_book_order/CASHSILENCE.json）：
+
+- 5 张已发票面里 **1 张**带无报价步子：2026-11-06 票的 7 个 bar-step，按最近前一条报价 1.09% 计 **142.20 CNY**，按窗口均值 2.079% 计 **271.25 CNY**，是该票 529,072 CNY 现金的 **2.69 bp**；
+- “8 根 bar 旧”不是同一个事实：面板停后 book 走过 8 根 bar，报价年龄 **1..8** 单调增长（2026-10-28 = 1 … 2026-11-06 = 8），“8”只在最后一根 bar 上成立；
+- 8 根 bar 里 **7 个 step 归零**（第一个 step 10-27→10-28 仍按 10-27 的 1.09% 计息，因为规则看的是**前一根** bar 的报价）；
+- 更早 4 张票（10-23/26/27/28）窗口都早于面板尾，重算 0 个无报价 step，且与票面自己的 `missing_bar_steps` 逐张吻合；票面自报的窗口 bar 数（1658）与 book 日历重算一致。
+
+**教训**：
+
+- **“缺报价”这类静默要按步计价，不能只数步数**：7 和 142.20 CNY 是两件事，只给步数的读者无法判断严重性。
+- **单调增长的量不能压成一个标量外发布**：把 1..8 写成“8 根 bar 旧”，等于把最坏值当成全窗事实；年龄表整列传，summary 里带 `quote_age_is_the_same_on_every_bar_past_the_panel=false`，并由守卫重算。
+- **守卫要覆盖 summary 与表的重复读数**（本轮 selftest 自捕）：表判“不齐”、summary 却写“齐”时，只看表的守卫不会红；重复发布的读数必须逐项与出处比对。
+- **日历要从 book 自己的面板取**（`data/daily/sh510300.csv`）并把一致断言发布出来（1658==1658），否则“窗口 bar 数”只是把票面的话复述一遍。
+- **计息规则看前一根 bar**：`repo_daily_cash` 用 prior bar 的报价，所以“面板停后第一根 bar 仍有报价、从第二根起归零”——按“当天有没有报价”去数会把 7 数成 8，把 1 个计息步当成归零步。
+
+**边界**：现金取票面 `cash_amount`（nav 100 万）；forfeit 假设现金整步停 GC001，生产滚的是三档 ladder，故为参考读数、不是 book 自己的 carry；日历是宽基日线代理（与票面 `window_bars` 逐张对账）；只读，不写票面/账本/面板/状态面。
+
+**证据** = scripts/e590_cash_silence.py（selftest 17/17，check/verify problems=[]）+ scripts/run_e590_smoke_leg.py（PASS，--doctor 1/1 红）+ results/etf_book_order/CASHSILENCE.json + S6 leg `cash_silence`（rc0 0.58s）。

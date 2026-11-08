@@ -1,0 +1,329 @@
+{
+ "bars_past_the_panel": {
+  "age_is_the_same_on_every_bar": false,
+  "available": true,
+  "bars_past_the_panel": 8,
+  "quote_age_bars_max": 8,
+  "quote_age_bars_min": 1,
+  "repo_panel_last_bar": "2026-10-27",
+  "rows": [
+   {
+    "bar": "2026-10-28",
+    "nearest_prior_quote_bar": "2026-10-27",
+    "nearest_prior_quote_pct": 1.09,
+    "quote_age_bars": 1,
+    "quote_age_days": 1
+   },
+   {
+    "bar": "2026-10-29",
+    "nearest_prior_quote_bar": "2026-10-27",
+    "nearest_prior_quote_pct": 1.09,
+    "quote_age_bars": 2,
+    "quote_age_days": 2
+   },
+   {
+    "bar": "2026-10-30",
+    "nearest_prior_quote_bar": "2026-10-27",
+    "nearest_prior_quote_pct": 1.09,
+    "quote_age_bars": 3,
+    "quote_age_days": 3
+   },
+   {
+    "bar": "2026-11-02",
+    "nearest_prior_quote_bar": "2026-10-27",
+    "nearest_prior_quote_pct": 1.09,
+    "quote_age_bars": 4,
+    "quote_age_days": 6
+   },
+   {
+    "bar": "2026-11-03",
+    "nearest_prior_quote_bar": "2026-10-27",
+    "nearest_prior_quote_pct": 1.09,
+    "quote_age_bars": 5,
+    "quote_age_days": 7
+   },
+   {
+    "bar": "2026-11-04",
+    "nearest_prior_quote_bar": "2026-10-27",
+    "nearest_prior_quote_pct": 1.09,
+    "quote_age_bars": 6,
+    "quote_age_days": 8
+   },
+   {
+    "bar": "2026-11-05",
+    "nearest_prior_quote_bar": "2026-10-27",
+    "nearest_prior_quote_pct": 1.09,
+    "quote_age_bars": 7,
+    "quote_age_days": 9
+   },
+   {
+    "bar": "2026-11-06",
+    "nearest_prior_quote_bar": "2026-10-27",
+    "nearest_prior_quote_pct": 1.09,
+    "quote_age_bars": 8,
+    "quote_age_days": 10
+   }
+  ],
+  "the_fallback_rate_is_the_same_on_every_bar": true
+ },
+ "calendar": {
+  "bars": 3510,
+  "from": "2012-05-28",
+  "source": "data/daily/sh510300.csv",
+  "to": "2026-11-06"
+ },
+ "caveats": [
+  "the calendar is the wide-base daily panel's trading days, not a stored index of the backtester's panel; where a ticket publishes window_bars the count is compared",
+  "the forfeit assumes the cash sat at GC001 for the whole step; production rolls the three-rung ladder, so this is a reference reading, not the book's own carry",
+  "only the 2026-11-06 ticket publishes its window; earlier tickets are read against the writer's own constant and marked reconstructed_from_the_writers_constant",
+  "read-only: no ticket, ledger row, panel or state face is written"
+ ],
+ "dept": "research+engineering",
+ "evidence_cutoff": "2026-11-06",
+ "generated_by": "scripts/e590_cash_silence.py",
+ "machine": "bm-b",
+ "question": "what is an unquoted cash step worth, and is '8 bars stale' one fact or a moving one?",
+ "repo_panel_source": "data/repo_daily/GC001.csv",
+ "rule": "a step accrues at the quote on its PRIOR bar, 1-day repo pays calendar days, and a step whose prior bar has no quote accrues nothing and is counted (etf_phase_beta_window.repo_daily_cash); the forfeit prices those steps at the nearest prior quote and, separately, at the window mean",
+ "study": "E590_cash_silence",
+ "summary": {
+  "book_bars_past_the_panel": 8,
+  "cash_cny_on_tickets_with_unquoted_steps": 529072.2,
+  "every_published_step_count_rederives": true,
+  "every_published_window_bar_count_matches_the_calendar": true,
+  "forfeited_at_nearest_quote_cny_total": 142.2,
+  "forfeited_at_window_mean_cny_total": 271.25,
+  "forfeited_bp_of_that_cash": 2.688,
+  "quote_age_bars_at_the_newest_book_bar": 8,
+  "quote_age_is_the_same_on_every_bar_past_the_panel": false,
+  "repo_panel_last_bar": "2026-10-27",
+  "tickets": 5,
+  "tickets_publishing_a_step_count": 5,
+  "tickets_publishing_a_window_bar_count": 1,
+  "tickets_with_unquoted_steps": 1,
+  "unquoted_steps_total": 7
+ },
+ "tickets": [
+  {
+   "bars_in_window": 1648,
+   "book_nav_cny": 1000000.0,
+   "cash_amount_cny": 393884.9,
+   "cash_weight": 0.393621,
+   "forfeited_at_nearest_quote_cny": 0,
+   "forfeited_at_window_mean_cny": 0,
+   "forfeited_bp_of_cash": 0.0,
+   "mean_accrual_ann_pct": 2.09,
+   "nearest_prior_quote_bar": "2026-10-23",
+   "nearest_prior_quote_pct": 1.015,
+   "quote_age_bars_at_ticket_bar": -2,
+   "quote_age_days_at_ticket_bar": -4,
+   "quoted_bars_in_window": 1648,
+   "repo_panel_last_bar": "2026-10-27",
+   "step_rows": [],
+   "steps_published_by_ticket": 0,
+   "steps_rederive_the_ticket_block": true,
+   "ticket": "TICKET-2026-10-23.json",
+   "ticket_bar": "2026-10-23",
+   "unquoted_bars_in_window": 0,
+   "unquoted_steps": 0,
+   "window": {
+    "bars_from_calendar": 1648,
+    "bars_published_by_ticket": null,
+    "calendar_matches_published_bars": null,
+    "end": "2026-10-23",
+    "source": "reconstructed_from_the_writers_constant",
+    "start": "2020-01-02"
+   }
+  },
+  {
+   "bars_in_window": 1649,
+   "book_nav_cny": 1000000.0,
+   "cash_amount_cny": 528774.5,
+   "cash_weight": 0.52851,
+   "forfeited_at_nearest_quote_cny": 0,
+   "forfeited_at_window_mean_cny": 0,
+   "forfeited_bp_of_cash": 0.0,
+   "mean_accrual_ann_pct": 2.09,
+   "nearest_prior_quote_bar": "2026-10-26",
+   "nearest_prior_quote_pct": 1.015,
+   "quote_age_bars_at_ticket_bar": -1,
+   "quote_age_days_at_ticket_bar": -1,
+   "quoted_bars_in_window": 1649,
+   "repo_panel_last_bar": "2026-10-27",
+   "step_rows": [],
+   "steps_published_by_ticket": 0,
+   "steps_rederive_the_ticket_block": true,
+   "ticket": "TICKET-2026-10-26.json",
+   "ticket_bar": "2026-10-26",
+   "unquoted_bars_in_window": 0,
+   "unquoted_steps": 0,
+   "window": {
+    "bars_from_calendar": 1649,
+    "bars_published_by_ticket": null,
+    "calendar_matches_published_bars": null,
+    "end": "2026-10-26",
+    "source": "reconstructed_from_the_writers_constant",
+    "start": "2020-01-02"
+   }
+  },
+  {
+   "bars_in_window": 1650,
+   "book_nav_cny": 1000000.0,
+   "cash_amount_cny": 528774.5,
+   "cash_weight": 0.52851,
+   "forfeited_at_nearest_quote_cny": 0,
+   "forfeited_at_window_mean_cny": 0,
+   "forfeited_bp_of_cash": 0.0,
+   "mean_accrual_ann_pct": 2.089,
+   "nearest_prior_quote_bar": "2026-10-27",
+   "nearest_prior_quote_pct": 1.09,
+   "quote_age_bars_at_ticket_bar": 0,
+   "quote_age_days_at_ticket_bar": 0,
+   "quoted_bars_in_window": 1650,
+   "repo_panel_last_bar": "2026-10-27",
+   "step_rows": [],
+   "steps_published_by_ticket": 0,
+   "steps_rederive_the_ticket_block": true,
+   "ticket": "TICKET-2026-10-27.json",
+   "ticket_bar": "2026-10-27",
+   "unquoted_bars_in_window": 0,
+   "unquoted_steps": 0,
+   "window": {
+    "bars_from_calendar": 1650,
+    "bars_published_by_ticket": null,
+    "calendar_matches_published_bars": null,
+    "end": "2026-10-27",
+    "source": "reconstructed_from_the_writers_constant",
+    "start": "2020-01-02"
+   }
+  },
+  {
+   "bars_in_window": 1651,
+   "book_nav_cny": 1000000.0,
+   "cash_amount_cny": 528774.5,
+   "cash_weight": 0.52851,
+   "forfeited_at_nearest_quote_cny": 0,
+   "forfeited_at_window_mean_cny": 0,
+   "forfeited_bp_of_cash": 0.0,
+   "mean_accrual_ann_pct": 2.088,
+   "nearest_prior_quote_bar": "2026-10-27",
+   "nearest_prior_quote_pct": 1.09,
+   "quote_age_bars_at_ticket_bar": 1,
+   "quote_age_days_at_ticket_bar": 1,
+   "quoted_bars_in_window": 1650,
+   "repo_panel_last_bar": "2026-10-27",
+   "step_rows": [],
+   "steps_published_by_ticket": 0,
+   "steps_rederive_the_ticket_block": true,
+   "ticket": "TICKET-2026-10-28.json",
+   "ticket_bar": "2026-10-28",
+   "unquoted_bars_in_window": 1,
+   "unquoted_steps": 0,
+   "window": {
+    "bars_from_calendar": 1651,
+    "bars_published_by_ticket": null,
+    "calendar_matches_published_bars": null,
+    "end": "2026-10-28",
+    "source": "reconstructed_from_the_writers_constant",
+    "start": "2020-01-02"
+   }
+  },
+  {
+   "bars_in_window": 1658,
+   "book_nav_cny": 1000000.0,
+   "cash_amount_cny": 529072.2,
+   "cash_weight": 0.52851,
+   "forfeited_at_nearest_quote_cny": 142.2,
+   "forfeited_at_window_mean_cny": 271.25,
+   "forfeited_bp_of_cash": 2.688,
+   "mean_accrual_ann_pct": 2.079,
+   "nearest_prior_quote_bar": "2026-10-27",
+   "nearest_prior_quote_pct": 1.09,
+   "quote_age_bars_at_ticket_bar": 8,
+   "quote_age_days_at_ticket_bar": 10,
+   "quoted_bars_in_window": 1650,
+   "repo_panel_last_bar": "2026-10-27",
+   "step_rows": [
+    {
+     "bar": "2026-10-29",
+     "forfeited_at_nearest_quote_cny": 15.8,
+     "forfeited_at_window_mean_cny": 30.14,
+     "gap_days": 1,
+     "nearest_prior_quote_bar": "2026-10-27",
+     "nearest_prior_quote_pct": 1.09,
+     "prev_bar": "2026-10-28"
+    },
+    {
+     "bar": "2026-10-30",
+     "forfeited_at_nearest_quote_cny": 15.8,
+     "forfeited_at_window_mean_cny": 30.14,
+     "gap_days": 1,
+     "nearest_prior_quote_bar": "2026-10-27",
+     "nearest_prior_quote_pct": 1.09,
+     "prev_bar": "2026-10-29"
+    },
+    {
+     "bar": "2026-11-02",
+     "forfeited_at_nearest_quote_cny": 47.4,
+     "forfeited_at_window_mean_cny": 90.41,
+     "gap_days": 3,
+     "nearest_prior_quote_bar": "2026-10-27",
+     "nearest_prior_quote_pct": 1.09,
+     "prev_bar": "2026-10-30"
+    },
+    {
+     "bar": "2026-11-03",
+     "forfeited_at_nearest_quote_cny": 15.8,
+     "forfeited_at_window_mean_cny": 30.14,
+     "gap_days": 1,
+     "nearest_prior_quote_bar": "2026-10-27",
+     "nearest_prior_quote_pct": 1.09,
+     "prev_bar": "2026-11-02"
+    },
+    {
+     "bar": "2026-11-04",
+     "forfeited_at_nearest_quote_cny": 15.8,
+     "forfeited_at_window_mean_cny": 30.14,
+     "gap_days": 1,
+     "nearest_prior_quote_bar": "2026-10-27",
+     "nearest_prior_quote_pct": 1.09,
+     "prev_bar": "2026-11-03"
+    },
+    {
+     "bar": "2026-11-05",
+     "forfeited_at_nearest_quote_cny": 15.8,
+     "forfeited_at_window_mean_cny": 30.14,
+     "gap_days": 1,
+     "nearest_prior_quote_bar": "2026-10-27",
+     "nearest_prior_quote_pct": 1.09,
+     "prev_bar": "2026-11-04"
+    },
+    {
+     "bar": "2026-11-06",
+     "forfeited_at_nearest_quote_cny": 15.8,
+     "forfeited_at_window_mean_cny": 30.14,
+     "gap_days": 1,
+     "nearest_prior_quote_bar": "2026-10-27",
+     "nearest_prior_quote_pct": 1.09,
+     "prev_bar": "2026-11-05"
+    }
+   ],
+   "steps_published_by_ticket": 7,
+   "steps_rederive_the_ticket_block": true,
+   "ticket": "TICKET-2026-11-06.json",
+   "ticket_bar": "2026-11-06",
+   "unquoted_bars_in_window": 8,
+   "unquoted_steps": 7,
+   "window": {
+    "bars_from_calendar": 1658,
+    "bars_published_by_ticket": 1658,
+    "calendar_matches_published_bars": true,
+    "end": "2026-11-06",
+    "source": "published_block",
+    "start": "2020-01-02"
+   }
+  }
+ ],
+ "verdict": "the_unquoted_steps_are_priceable",
+ "verdict_line": "1 of 5 tickets price a cash leg over 7 unquoted bar-steps worth 142.20 CNY at the nearest prior quote (271.25 CNY at the window mean, 2.69 bp of the 529072 CNY cash they leave idle); the quote is 8 bars old on the newest book bar, and that age is not the same on every bar past the panel (2026-10-27)"
+}

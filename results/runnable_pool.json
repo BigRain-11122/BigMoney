@@ -6,14 +6,20 @@
    "lane": "cpu-only",
    "lane_note": "static: read data/repo_daily/GC001.csv + every published ticket's cash_leg block and count the bars each ticket's window has no quote for; no runner, no fetch, no panel write",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E589 (r1616 bm-b): the ticket names 2026-11-06 and the repo panel it prices from ends 2026-10-27, so the quote printed beside the window is 8 bars old and the window itself carries 7 steps with no quote at all (accrued as 0). The face now discloses both; nobody has priced what the silence is worth.",
    "target": "results/etf_book_order/CASHSILENCE.json",
    "deliverable": "results/etf_book_order/CASHSILENCE.json: per ticket, the unquoted bar steps in its window, the CNY left accruing nothing at the quoted rate, and the age of the nearest prior quote",
    "title": "Every published ticket prices its cash leg off a repo panel that ends earlier than the book's own bar. Publish, per ticket, how many steps of its window carry no quote at all, what those steps would have earned at the nearest prior quote, and whether the panel's staleness is the same 8 bars for every bar the book has processed since 2026-10-27.",
    "entered_at": "2026-11-09T05:58:00+08:00",
    "entered_by": "bm-b r1616",
-   "evidence_cutoff": "2026-11-06"
+   "evidence_cutoff": "2026-11-06",
+   "claimed_by": "bm-b",
+   "done_at": "2026-11-09T06:35:00+08:00",
+   "done_by": "bm-b r1617",
+   "done_round": "r1617",
+   "result_ref": "results/etf_book_order/CASHSILENCE.json (per-ticket unquoted steps with their fallback quote and CNY; the bars-past-the-panel age table) + scripts/e590_cash_silence.py (selftest 17/17, check/verify problems=[], standalone smoke leg PASS + 1/1 red under --doctor) + S6 leg cash_silence",
+   "done_note": "r1617 bm-b: 1 of 5 published tickets prices a cash leg over unquoted steps -- the 2026-11-06 ticket leaves 7 bar-steps worth 142.20 CNY at the nearest prior quote (271.25 CNY at the window mean, 2.69 bp of the 529,072 CNY cash they idle). The '8 bars stale' disclosure is not one fact: the quote age runs 1..8 bars across the eight book bars since the panel ends, and 7 of the 8 steps accrue nothing."
   },
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -30372,6 +30378,20 @@
    "done_round": "r1616",
    "result_ref": "results/etf_book_order/TICKET-2026-11-06.json + ORDER-2026-11-06.md (cash_leg block now carries window_start/window_end/window_bars/window_calendar_days/bars_per_year/method/ticket_bar_quote_pct/ticket_bar_quote_note/repo_panel_last_bar; ledger block publishes accrued bars on disk); script scripts/etf_book_order.py (selftest 53/53); S6 leg cash_leg_window",
    "done_note": "r1616 bm-b: the re-issued 2026-11-06 ticket now prints its own window -- 2020-01-02..2026-11-06, 1658 bars, x252 -- beside the ticket bar's quote 1.09%, which the note discloses is the 2026-10-27 quote because the repo panel ends 8 bars early; the ledger block reads the file back (688 rows / 688 bars, rows_equal_bars true) instead of trusting its own counter"
+  },
+  {
+   "id": "E591-WHETHER-THE-TWO-CASH-FACES-ACCRUE-ON-THE-SAME-BARS-WHEN-THE-REPO-PANEL-IS-SHORT",
+   "lane": "cpu-only",
+   "lane_note": "static: read results/etf_book_order/CASHSILENCE.json + results/etf_book_forward/LEDGER.json and put each book bar's ledger carry beside the ticket's per-step accrual on that bar; no runner, no fetch, no panel write",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E590 (r1617 bm-b): the ticket's cash leg accrues nothing on 7 bar-steps because the GC001 panel ends 2026-10-27, while the forward ledger books carry on all eight of those same bars (1.10e-05 .. 3.34e-05 per bar). One face is silent and the other is not, on identical bars.",
+   "target": "results/etf_book_order/CASHDIVERGE.json",
+   "deliverable": "results/etf_book_order/CASHDIVERGE.json: per book bar since the GC001 panel ends, the ledger's booked carry, the GC001 accrual the ticket's own rule would have booked, the ticket's actual zero, and the gap in CNY on the publishing ticket's cash",
+   "title": "Publish, per bar since 2026-10-27, whether the forward ledger and the ticket's cash leg accrue on the same bars: the ledger's booked carry from the three-rung ladder beside what the ticket's GC001 rule would have booked and what it actually booked (zero), priced on the 2026-11-06 ticket's own cash.",
+   "entered_at": "2026-11-09T06:35:00+08:00",
+   "entered_by": "bm-b r1617",
+   "evidence_cutoff": "2026-11-06"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30386,6 +30406,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T05:52:00+0800",
+ "updated_at": "2026-11-09T06:35:00+0800",
  "version": 1
 }

@@ -2365,6 +2365,13 @@ LEGS = [
     # reads the published ticket back and refuses a block that names a mean without its window.
     ("cash_leg_window",
      ["python", "scripts/etf_book_order.py", "--verify-cash-window"]),
+    # E590 (r1617 bm-b): E589 disclosed the silence (7 unquoted steps, 8 bars of quote age) and
+    # priced nothing.  This leg reads the priced face: every step's forfeit must re-derive from
+    # the cash it sits on and the calendar gap it closes, the ticket totals must add up from
+    # their own rows, the age table must grow one bar per bar, and the summary's flat-age claim
+    # must agree with that table.
+    ("cash_silence",
+     ["python", "scripts/e590_cash_silence.py", "check"]),
 ]
 
 
