@@ -513,6 +513,7 @@ def entry_gate_md(eg):
 
 PERMISSION_FACE = "results/etf_book_rebalance_permission.json"
 RULERS_FACE = "results/etf_book_size_rulers_decision.json"
+FLOOR_FACE = "results/etf_book_floor_ledger.json"
 
 
 def _json_face(rel):
@@ -528,6 +529,44 @@ def _json_face(rel):
 
 def _permission_receipt():
     return _json_face(PERMISSION_FACE)
+
+
+def _floor_face():
+    return _json_face(FLOOR_FACE)
+
+
+def floor_ledger_md(fl):
+    """r1457: a trim printed on one sheet is not obedience on the next decision bar.
+
+    r1456 measured the schedule that erases it. This line makes the sheet itself carry
+    the answer, so the desk does not have to remember a verdict from another file:
+    a floor that is no longer satisfied by the path is printed as REAPPLY_REQUIRED here,
+    on the sheet someone actually executes. A missing ledger reads as UNKNOWN (r1108).
+    """
+    if fl is None:
+        return ["- **额度是否仍在生效：无法核验** —— %s 缺失；票面裁剪只对这一张单有效，"
+                "下一决策 bar 要重新施加（r1456）。" % FLOOR_FACE]
+    a = fl.get("assessed") or {}
+    v = a.get("verdict")
+    if not v:
+        return ["- **额度是否仍在生效：无法核验** —— %s 里没有 assessed 块。" % FLOOR_FACE]
+    floor = a.get("floor")
+    floor_s = "无法核验" if floor is None else "%.6f" % floor
+    L = ["- 地板台账（%s）：**%s** ← 当期 floor k=%s，签发于 %s；排程末决策 bar k=%s"
+         % (FLOOR_FACE, v, floor_s, a.get("floor_issued") or "?",
+            "无法核验" if a.get("k_schedule_last") is None else "%.6f" % a["k_schedule_last"])]
+    if v == "REAPPLY_REQUIRED":
+        L += ["- ⚠ **下一决策 bar 要重新裁剪**：这一张单守住了额度，但排程在那一个 bar 上 still "
+              "sizes at the ordered size —— 不重新施加，下一张单就会重新超额度。"]
+    elif v == "NOT_ENFORCED":
+        L += ["- ⚠ **无人执行这条额度**：排程与票面都在 floor 之上。"]
+    elif v == "REISSUE_REQUIRED":
+        L += ["- ⚠ **额度要重签**：它由旧票面定价，最新票面已换代。"]
+    elif v == "HOLDING":
+        L += ["- 路径本身已在 floor 之下，下张单无需再裁剪。"]
+    if a.get("action"):
+        L += ["- 该做什么：%s" % a["action"]]
+    return L
 
 
 def permission_block(ticket, perm, rulers=None):
@@ -674,6 +713,8 @@ def permission_md(pb):
                           for u in pb["unused_readings"])]
     L += ["- 出处：%s（决策日 %s）；裁剪算术与 scripts/etf_book_cut_order_gap.py 共用一处实现。"
           % (pb.get("artifact"), pb.get("decision_date") or "?"), ""]
+    L += floor_ledger_md(_floor_face())
+    L.append("")
     return L
 
 
@@ -3302,6 +3343,27 @@ def selftest():
         "CONFLICT, and the sheet stops claiming it obeys the permission",
         _pb_cf["status"] == "conflict" and _pb_cf["verdict"] == "PERMISSION_FACES_CONFLICT"
         and "矛盾" in _pb_cf_md and "PERMISSION_FACES_CONFLICT" in _pb_cf_md, "")
+
+    # 50a-c. r1457: the sheet carries whether the floor is still in force on the PATH,
+    # not only whether this one sheet was trimmed. A trim printed here is not obedience
+    # on the next decision bar (r1456: the schedule carries no memory of it).
+    _fl_re = {"assessed": {"verdict": "REAPPLY_REQUIRED", "floor": 0.393073,
+                           "floor_issued": "2026-11-11", "k_schedule_last": 0.460253,
+                           "action": "apply the trim again on the next decision bar"}}
+    _fl_re_md = "\n".join(floor_ledger_md(_fl_re))
+    chk("leg50a floor ledger: a floor the path no longer satisfies is printed on the sheet "
+        "as REAPPLY_REQUIRED, with the action",
+        "REAPPLY_REQUIRED" in _fl_re_md and "重新裁剪" in _fl_re_md
+        and "apply the trim again" in _fl_re_md, "")
+    _fl_none_md = "\n".join(floor_ledger_md(None))
+    chk("leg50b floor ledger: a missing ledger reads as UNVERIFIABLE, never as compliance",
+        "无法核验" in _fl_none_md and "REAPPLY_REQUIRED" not in _fl_none_md, "")
+    _fl_h = {"assessed": {"verdict": "HOLDING", "floor": 0.393073,
+                          "floor_issued": "2026-11-11", "k_schedule_last": 0.38}}
+    _fl_h_md = "\n".join(floor_ledger_md(_fl_h))
+    chk("leg50c floor ledger: HOLDING says the path itself is under the floor and no re-trim "
+        "is needed",
+        "HOLDING" in _fl_h_md and "无需再裁剪" in _fl_h_md, "")
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

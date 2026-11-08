@@ -676,6 +676,13 @@ LEGS = [
     # decision bar must reproduce the ticket k, or nothing is published). ~50s (panel).
     ("permission_persistence",
      ["python", "scripts/etf_book_permission_persistence.py", "--check"]),
+    # r1457: r1456 proved a one-off trim can be erased by a single upward step, but nothing
+    # stored the floor between decision bars -- each permit is regenerated from the current
+    # ticket and the sheet reads it only when printing. This leg keeps an append-only ledger
+    # of issued floors and re-derives, from published receipts only, whether the floor is
+    # still in force on the PATH (HOLDING / REAPPLY_REQUIRED / NOT_ENFORCED / REISSUE_REQUIRED).
+    # `check` re-derives 7 fields from the four input faces (0.1s, no panel).
+    ("floor_ledger", ["python", "scripts/etf_book_floor_ledger.py", "check"]),
     # r1329: the register summarises the faces, so it must be the LAST book leg. Until
     # this round it sat ~50 legs earlier, ahead of etf_book_ceo_page and etf_paper_signal,
     # and its rows for those two faces were therefore always one run old (as_of

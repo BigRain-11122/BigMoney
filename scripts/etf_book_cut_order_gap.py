@@ -109,13 +109,49 @@ def source_corpus():
     return out
 
 
+def _code_only(text):
+    """Drop comments and docstrings before scanning for behaviour (r1457).
+
+    A name in prose is not a behaviour (E206). r1457's floor ledger mentions
+    trim_legs() in a docstring explaining which key it reads; the raw text scan read
+    that sentence as 'this module applies the trim' and the receipt counted a printer
+    as an enforcer. Scanning code only is the cheap fix, and it cuts the false
+    positives in the other direction too (a module whose comment names permitted_k is
+    not a reader).
+    """
+    out = []
+    quote = None
+    for line in text.splitlines():
+        stripped = line.strip()
+        if quote:
+            if quote in stripped:
+                quote = None
+            continue
+        if stripped.startswith('"""') or stripped.startswith("'''"):
+            q = stripped[:3]
+            rest = stripped[3:]
+            if q in rest:
+                # one-line docstring: keep what follows it, if anything
+                after = rest.split(q, 1)[1]
+                if "#" in after:
+                    after = after.split("#", 1)[0]
+                out.append(after)
+            else:
+                quote = q
+            continue
+        if "#" in line:
+            line = line.split("#", 1)[0]
+        out.append(line)
+    return "\n".join(out)
+
+
 def readers_of(corpus, producer="scripts/etf_book_rebalance_permission.py"):
     """Modules that consume the permission's NUMBERS (not the ones that merely run it)."""
     hits = []
     for name, text in corpus.items():
         if name == producer or SELF_NAME in name:
             continue
-        if any(k in text for k in PERMISSION_KEYS):
+        if any(k in _code_only(text) for k in PERMISSION_KEYS):
             hits.append(name)
     return sorted(hits)
 
@@ -123,7 +159,7 @@ def readers_of(corpus, producer="scripts/etf_book_rebalance_permission.py"):
 def enforcers_of(corpus, readers):
     """Readers that actually apply the trim. A printer is not an enforcer (E206)."""
     return sorted(r for r in readers
-                  if any(k in (corpus.get(r) or "") for k in ENFORCER_KEYS))
+                  if any(k in _code_only(corpus.get(r) or "") for k in ENFORCER_KEYS))
 
 
 def trim_legs(legs, permitted, nav, und):
@@ -512,9 +548,25 @@ def selftest():
     leg("none applies the trim" in _s_ro and "apply the trim" in _s_en,
         "L11 ro=%r en=%r" % (_s_ro[:70], _s_en[:70]))
 
+    # L12/L13 (r1457): a name in prose is not a behaviour. The floor ledger explains in a
+    # docstring which key it reads and which shared trim publishes it; the raw text scan
+    # read that sentence as "this module applies the trim" and the receipt counted a
+    # printer as an enforcer -- the live 6/7 red on the --check face. Both directions are
+    # pinned here so the classifier cannot regress to substring-over-whole-file.
+    _corpus = {
+        "scripts/doc_only.py": '"""doc\n\nreads permitted_k and calls trim_legs(legs, k, nav, und)\n"""\n'
+                               'def f():\n    return 1  # trim_legs( mentioned in a comment\n',
+        "scripts/real.py": 'from scripts.etf_book_cut_order_gap import trim_legs\n'
+                           'k = perm["permitted_k"]\nt = trim_legs(legs, k, nav, und)\n',
+    }
+    _rd = readers_of(_corpus)
+    leg(_rd == ["scripts/real.py"], "L12 readers=%r" % _rd)
+    _en = enforcers_of(_corpus, _rd)
+    leg(_en == ["scripts/real.py"], "L13 enforcers=%r" % _en)
+
     for f in fails:
         print("  FAIL " + f)
-    print("[selftest] %d/%d PASS" % (12 - len(fails), 12))
+    print("[selftest] %d/%d PASS" % (14 - len(fails), 14))
     return 0 if not fails else 1
 
 

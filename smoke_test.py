@@ -695,6 +695,15 @@ def main() -> int:
              "scripts/etf_book_permission_persistence.py", ["selftest"]),
             ("product: etf_book_permission_persistence (lifetime re-derived)",
              "scripts/etf_book_permission_persistence.py", ["--check"]),
+            # r1457: a trim on one sheet is not obedience on the next decision bar. The
+            # floor ledger is the only thing that remembers a floor between bars; the legs
+            # pin that it re-derives its verdict from the published receipts (HOLDING vs
+            # REAPPLY_REQUIRED), that a missing input reads as UNKNOWN not compliance, and
+            # that the order sheet itself prints the verdict.
+            ("product: etf_book_floor_ledger (who remembers the floor between bars)",
+             "scripts/etf_book_floor_ledger.py", ["selftest"]),
+            ("product: etf_book_floor_ledger (verdict re-derived from the receipts)",
+             "scripts/etf_book_floor_ledger.py", ["check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a
