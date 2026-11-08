@@ -2218,6 +2218,13 @@ LEGS = [
     # does not contain.  Each row carries the table index of every name, so `check` re-derives
     # the class without any blob.
     ("receipt_prefix", ["python", "scripts/e563_receipt_prefix.py", "check"]),
+    # E552 takes E547's eight created items and asks what E547 did not: is the item in the
+    # container the fold actually publishes?  6 travel by identity into the file write (three of
+    # them only through a module-level `_flush(art)` helper -- the first draft missed that hop and
+    # credited the `print` beside it), 1 travels as a hand-written copy into a second container
+    # (`gates["_GB_nan_skipped"] = rows["_GB_nan_skipped"]`), 1 never leaves its own function.
+    # `check` re-derives every row's class and its evidence line from the sources.
+    ("created_item_presence", ["python", "scripts/e552_created_item_presence.py", "check"]),
 ]
 
 

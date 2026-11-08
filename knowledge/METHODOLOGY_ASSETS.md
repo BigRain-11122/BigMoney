@@ -13849,3 +13849,9 @@ esults/state_tilt/RECEIPTPREFIX-2026-11-08.json +
 eceiptprefix_latest.json·S6 腿 
 eceipt_prefix（0.74s rc=0）·smoke 腿 # E563 + scripts/run_e563_smoke_leg.py（含 --doctor）·digest 
 esearch/digests/DIGEST-20261108-r1590-e563-receipt-prefix.md
+
+### E564 — 「实体在哪里」要问发布物，「有没有人读」问的是另一个容器（r1591 bm-b，2026-11-08）
+E547 量了八个「被创建但没人读」的条目（out['verdict'] / rows['_GB_nan_skipped'] / art['trials_N'] / probe['params']['report_num_entries']），可它量的是**内存里的容器**。E552 换成问发布物：折叠函数真正交出去的那个容器里，条目在不在？八行结果三分：**6 行靠同一个对象直达文件写**（out 交给 _dump、art 交给 _flush），**1 行是手抄进第二个容器后再发布**（gates['_GB_nan_skipped'] = rows['_GB_nan_skipped'] 然后 return gates），**1 行根本没离开函数**（t33 的 probe 只在断言里活着）。所以「unread」和「absent」是两种病：前者随时可以加一个读者，后者不加生产者就永远读不到。
+**方法教训（本轮自踩）**：第一版把 6 行判成「identity」但三条的证据行是那行 print —— t73 那三个 run() 其实经**模块级 helper** _flush(art) 才落盘，io.open(OUT_JSON,'w').write(json.dumps(art))。结论对、理由错，正是这张卡要排除的形状。正法=拿调用点做一跳参数绑定（helper 形参 ← 调用实参）后再扫 sinks，且 **stdout 不是面**：print 只是终端回声，还可能用 {k: art[k] for k in (...)} 把条目再筛掉，故单独一类 carried_only_to_stdout，不并入 identity。
+**边界**：只跟到一跳 helper、只认 8 个父行指定的 store 行；跨模块的持久面（E547 已断：无人经面读取）不重跑。
+**正身** = scripts/e552_created_item_presence.py（build/check/verify + selftest 13 arms）→ results/state_tilt/CREATEDITEMPRESENCE-2026-11-08.json + createditempresence_latest.json；S6 腿 created_item_presence（0.13s rc=0）；digest research/digests/DIGEST-20261108-r1591-e552-created-item-presence.md
