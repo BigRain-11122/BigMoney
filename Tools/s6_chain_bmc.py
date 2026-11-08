@@ -791,6 +791,12 @@ LEGS = [
     # repricing turns the leg red instead of silently promising a date). Read-only JSON,
     # milliseconds; the expensive repricing runs only with `run` in its own round.
     ("admission_eta", ["python", "scripts/etf_book_admission_eta.py", "check"]),
+    # r1429: the two certified rulers disagree on the held book, so "use the trusted ruler"
+    # silently became a choice. This leg re-derives the fixture election and the witness
+    # reading from the published face -- if a ruler or a fixture verdict moves, the leg goes
+    # red instead of leaving a stated choice on disk describing an older table. Read-only
+    # JSON, ~0.1s.
+    ("ruler_election", ["python", "scripts/etf_book_admission_ruler_election.py", "check"]),
     # r1331: E196 answers the question E190 left open -- whether the month the
     # ladder-drop verdict rests on is knowable in advance. It is a ~1s JSON read of
     # the E186 month table (no panel, no network, no engine), and it belongs on the

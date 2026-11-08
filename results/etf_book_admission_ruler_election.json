@@ -1,0 +1,685 @@
+{
+ "face": "etf_book_admission_ruler_election",
+ "asof": "2026-11-08T15:23:29",
+ "question": "which of the two certified rulers is the one the gate asks with",
+ "election": {
+  "elected": "years_for_half",
+  "rule": {
+   "question": "the gate decides whether the realised record supports deploying capital and holding it -- so the ruler must answer 'is this result repeatable', not 'is this result spread out'",
+   "disqualify_if": "a ruler admits any fixture whose verdict was declared REFUSE first",
+   "then": "more correct fixtures wins",
+   "tie_break": [
+    "fewer false refusals",
+    "declared priority order"
+   ],
+   "priority_order": [
+    "years_for_half",
+    "effective_years"
+   ],
+   "witness_is_not_an_input": "elect() takes fixtures only; the desk book is applied after"
+  },
+  "scores": [
+   {
+    "caliber": "effective_years",
+    "fixtures_scored": 8,
+    "correct": 4,
+    "false_admit": 4,
+    "false_refuse": 0,
+    "admits_something": true,
+    "refuses_something": true,
+    "fixtures": [
+     {
+      "fixture": "uniform_7y",
+      "declared": "ADMIT",
+      "class": "healthy",
+      "read": {
+       "value": 7.0,
+       "pass": true,
+       "word": "ADMIT"
+      },
+      "scored": true,
+      "correct": true
+     },
+     {
+      "fixture": "uniform_3y",
+      "declared": "REFUSE",
+      "class": "too-short",
+      "read": {
+       "value": 3.0,
+       "pass": true,
+       "word": "ADMIT"
+      },
+      "scored": true,
+      "correct": false
+     },
+     {
+      "fixture": "one_lucky_year",
+      "declared": "REFUSE",
+      "class": "single-year",
+      "read": {
+       "value": 1.0,
+       "pass": false,
+       "word": "REFUSE"
+      },
+      "scored": true,
+      "correct": true
+     },
+     {
+      "fixture": "broad_but_spent",
+      "declared": "REFUSE",
+      "class": "front-loaded",
+      "read": {
+       "value": 3.954937,
+       "pass": true,
+       "word": "ADMIT"
+      },
+      "scored": true,
+      "correct": false
+     },
+     {
+      "fixture": "narrow_start",
+      "declared": "REFUSE",
+      "class": "front-loaded",
+      "read": {
+       "value": 3.794198,
+       "pass": true,
+       "word": "ADMIT"
+      },
+      "scored": true,
+      "correct": false
+     },
+     {
+      "fixture": "decaying",
+      "declared": "REFUSE",
+      "class": "front-loaded",
+      "read": {
+       "value": 4.875388,
+       "pass": true,
+       "word": "ADMIT"
+      },
+      "scored": true,
+      "correct": false
+     },
+     {
+      "fixture": "healthy_realistic",
+      "declared": "ADMIT",
+      "class": "healthy",
+      "read": {
+       "value": 6.906846,
+       "pass": true,
+       "word": "ADMIT"
+      },
+      "scored": true,
+      "correct": true
+     },
+     {
+      "fixture": "long_thin",
+      "declared": "ADMIT",
+      "class": "healthy",
+      "read": {
+       "value": 10.0,
+       "pass": true,
+       "word": "ADMIT"
+      },
+      "scored": true,
+      "correct": true
+     },
+     {
+      "fixture": "two_halves",
+      "declared": "DISPUTED",
+      "class": "contested",
+      "read": {
+       "value": 7.087056,
+       "pass": true,
+       "word": "ADMIT"
+      },
+      "scored": false
+     }
+    ]
+   },
+   {
+    "caliber": "years_for_half",
+    "fixtures_scored": 8,
+    "correct": 8,
+    "false_admit": 0,
+    "false_refuse": 0,
+    "admits_something": true,
+    "refuses_something": true,
+    "fixtures": [
+     {
+      "fixture": "uniform_7y",
+      "declared": "ADMIT",
+      "class": "healthy",
+      "read": {
+       "value": 4,
+       "pass": true,
+       "word": "ADMIT"
+      },
+      "scored": true,
+      "correct": true
+     },
+     {
+      "fixture": "uniform_3y",
+      "declared": "REFUSE",
+      "class": "too-short",
+      "read": {
+       "value": 2,
+       "pass": false,
+       "word": "REFUSE"
+      },
+      "scored": true,
+      "correct": true
+     },
+     {
+      "fixture": "one_lucky_year",
+      "declared": "REFUSE",
+      "class": "single-year",
+      "read": {
+       "value": 1,
+       "pass": false,
+       "word": "REFUSE"
+      },
+      "scored": true,
+      "correct": true
+     },
+     {
+      "fixture": "broad_but_spent",
+      "declared": "REFUSE",
+      "class": "front-loaded",
+      "read": {
+       "value": 2,
+       "pass": false,
+       "word": "REFUSE"
+      },
+      "scored": true,
+      "correct": true
+     },
+     {
+      "fixture": "narrow_start",
+      "declared": "REFUSE",
+      "class": "front-loaded",
+      "read": {
+       "value": 1,
+       "pass": false,
+       "word": "REFUSE"
+      },
+      "scored": true,
+      "correct": true
+     },
+     {
+      "fixture": "decaying",
+      "declared": "REFUSE",
+      "class": "front-loaded",
+      "read": {
+       "value": 2,
+       "pass": false,
+       "word": "REFUSE"
+      },
+      "scored": true,
+      "correct": true
+     },
+     {
+      "fixture": "healthy_realistic",
+      "declared": "ADMIT",
+      "class": "healthy",
+      "read": {
+       "value": 3,
+       "pass": true,
+       "word": "ADMIT"
+      },
+      "scored": true,
+      "correct": true
+     },
+     {
+      "fixture": "long_thin",
+      "declared": "ADMIT",
+      "class": "healthy",
+      "read": {
+       "value": 5,
+       "pass": true,
+       "word": "ADMIT"
+      },
+      "scored": true,
+      "correct": true
+     },
+     {
+      "fixture": "two_halves",
+      "declared": "DISPUTED",
+      "class": "contested",
+      "read": {
+       "value": 3,
+       "pass": true,
+       "word": "ADMIT"
+      },
+      "scored": false
+     }
+    ]
+   }
+  ],
+  "disqualified": {
+   "effective_years": "admits declared pathologies: uniform_3y, broad_but_spent, narrow_start, decaying"
+  },
+  "margin": {
+   "effective_years": 4,
+   "years_for_half": 8
+  },
+  "reason": "survived the fixture disqualification and answered 8/8 fixtures correctly"
+ },
+ "implicit_record_floor": {
+  "effective_years": {
+   "caliber": "effective_years",
+   "even_book_readings": [
+    {
+     "years": 2,
+     "value": 2.0,
+     "word": "REFUSE"
+    },
+    {
+     "years": 3,
+     "value": 3.0,
+     "word": "ADMIT"
+    },
+    {
+     "years": 4,
+     "value": 4.0,
+     "word": "ADMIT"
+    },
+    {
+     "years": 5,
+     "value": 5.0,
+     "word": "ADMIT"
+    },
+    {
+     "years": 6,
+     "value": 6.0,
+     "word": "ADMIT"
+    },
+    {
+     "years": 7,
+     "value": 7.0,
+     "word": "ADMIT"
+    },
+    {
+     "years": 8,
+     "value": 8.0,
+     "word": "ADMIT"
+    },
+    {
+     "years": 9,
+     "value": 9.0,
+     "word": "ADMIT"
+    },
+    {
+     "years": 10,
+     "value": 10.0,
+     "word": "ADMIT"
+    },
+    {
+     "years": 11,
+     "value": 11.0,
+     "word": "ADMIT"
+    },
+    {
+     "years": 12,
+     "value": 12.0,
+     "word": "ADMIT"
+    }
+   ],
+   "first_n_that_passes": 3
+  },
+  "years_for_half": {
+   "caliber": "years_for_half",
+   "even_book_readings": [
+    {
+     "years": 2,
+     "value": 1,
+     "word": "REFUSE"
+    },
+    {
+     "years": 3,
+     "value": 2,
+     "word": "REFUSE"
+    },
+    {
+     "years": 4,
+     "value": 2,
+     "word": "REFUSE"
+    },
+    {
+     "years": 5,
+     "value": 3,
+     "word": "ADMIT"
+    },
+    {
+     "years": 6,
+     "value": 3,
+     "word": "ADMIT"
+    },
+    {
+     "years": 7,
+     "value": 4,
+     "word": "ADMIT"
+    },
+    {
+     "years": 8,
+     "value": 4,
+     "word": "ADMIT"
+    },
+    {
+     "years": 9,
+     "value": 5,
+     "word": "ADMIT"
+    },
+    {
+     "years": 10,
+     "value": 5,
+     "word": "ADMIT"
+    },
+    {
+     "years": 11,
+     "value": 6,
+     "word": "ADMIT"
+    },
+    {
+     "years": 12,
+     "value": 6,
+     "word": "ADMIT"
+    }
+   ],
+   "first_n_that_passes": 5
+  }
+ },
+ "degeneracy": {
+  "rule": "years_for_half is degenerate when |net|/gross <= 0.50",
+  "probes": [
+   {
+    "name": "net_negative",
+    "net_sum_pct": -1.0,
+    "gross_sum_pct": 29.0,
+    "net_over_gross": 0.034483,
+    "years_for_half": null,
+    "degenerate": true
+   },
+   {
+    "name": "churn_flat_positive",
+    "net_sum_pct": 0.0,
+    "gross_sum_pct": 6.0,
+    "net_over_gross": 0.0,
+    "years_for_half": null,
+    "degenerate": true
+   },
+   {
+    "name": "nearly_flat_positive",
+    "net_sum_pct": 0.5,
+    "gross_sum_pct": 1.7,
+    "net_over_gross": 0.294118,
+    "years_for_half": 1,
+    "degenerate": true
+   },
+   {
+    "name": "earned_opening_year",
+    "net_sum_pct": 32.0,
+    "gross_sum_pct": 32.0,
+    "net_over_gross": 1.0,
+    "years_for_half": 1,
+    "degenerate": false
+   }
+  ],
+  "degenerate_count": 3
+ },
+ "refusal_reason_audit": {
+  "state": "OK",
+  "source": "results\\etf_book_phase_gate.json",
+  "elected_ruler": "years_for_half",
+  "printed_reason_ruler": "net_top2_share",
+  "printed_reason_disqualified_by_election": true,
+  "refusals": [
+   {
+    "book": "nobond_vt08_adopted",
+    "state": "CONDITIONAL",
+    "printed_reason": "Y4_top2_share",
+    "printed_reason_ruler": "net_top2_share",
+    "printed_reason_is_disqualified": true,
+    "median_top2_share": 0.7958,
+    "line": 0.7,
+    "refusal_survival": "REFUSAL_SURVIVES_TRUSTED_RULER",
+    "trusted_states": {
+     "effective_years": "PASS",
+     "years_for_half": "FAIL"
+    },
+    "survives_under_elected_ruler": true
+   },
+   {
+    "book": "nobond_base",
+    "state": "UNADJUDICABLE_PHASE",
+    "printed_reason": "Y4_top2_share",
+    "printed_reason_ruler": "net_top2_share",
+    "printed_reason_is_disqualified": true,
+    "median_top2_share": 0.8207,
+    "line": 0.7,
+    "refusal_survival": "REFUSAL_SURVIVES_TRUSTED_RULER",
+    "trusted_states": {
+     "effective_years": "PASS",
+     "years_for_half": "FAIL"
+    },
+    "survives_under_elected_ruler": true
+   },
+   {
+    "book": "nobond_vt08_floor_050",
+    "state": "UNADJUDICABLE_PHASE",
+    "printed_reason": "Y4_top2_share",
+    "printed_reason_ruler": "net_top2_share",
+    "printed_reason_is_disqualified": true,
+    "median_top2_share": 0.7892,
+    "line": 0.7,
+    "refusal_survival": "REFUSAL_SURVIVES_TRUSTED_RULER",
+    "trusted_states": {
+     "effective_years": "PASS",
+     "years_for_half": "FAIL"
+    },
+    "survives_under_elected_ruler": true
+   }
+  ],
+  "refusals_that_survive_elected_ruler": 3,
+  "refusals_total": 3,
+  "divergence": "the printed reason and the surviving reason are different rulers: the refusal is real, the receipt cites a disqualified instrument"
+ },
+ "witness": {
+  "state": "OK",
+  "source": "results\\etf_book_year_caliber.json",
+  "identity_max_abs_dev_vs_published": 0.000209,
+  "identity_tol": 0.001,
+  "identity_ok": true,
+  "phases": [
+   {
+    "start": "2020-01-01",
+    "years": 7,
+    "year_net_pct": [
+     5.6072,
+     7.6281,
+     2.8393,
+     5.473,
+     14.5496,
+     43.0627,
+     1.898
+    ],
+    "readings": {
+     "effective_years": {
+      "value": 4.215657,
+      "pass": true,
+      "word": "ADMIT"
+     },
+     "years_for_half": {
+      "value": 1,
+      "pass": false,
+      "word": "REFUSE"
+     }
+    }
+   },
+   {
+    "start": "2020-01-08",
+    "years": 7,
+    "year_net_pct": [
+     4.9946,
+     2.7844,
+     0.7794,
+     14.1691,
+     23.4099,
+     39.2869,
+     -6.5228
+    ],
+    "readings": {
+     "effective_years": {
+      "value": 4.446401,
+      "pass": true,
+      "word": "ADMIT"
+     },
+     "years_for_half": {
+      "value": 2,
+      "pass": false,
+      "word": "REFUSE"
+     }
+    }
+   },
+   {
+    "start": "2020-01-15",
+    "years": 7,
+    "year_net_pct": [
+     10.8498,
+     10.3215,
+     -12.1773,
+     4.0923,
+     22.4433,
+     24.9357,
+     -0.9304
+    ],
+    "readings": {
+     "effective_years": {
+      "value": 5.462306,
+      "pass": true,
+      "word": "ADMIT"
+     },
+     "years_for_half": {
+      "value": 2,
+      "pass": false,
+      "word": "REFUSE"
+     }
+    }
+   },
+   {
+    "start": "2020-01-22",
+    "years": 7,
+    "year_net_pct": [
+     16.8148,
+     9.1705,
+     -1.2484,
+     2.6739,
+     4.1239,
+     22.3104,
+     -4.8311
+    ],
+    "readings": {
+     "effective_years": {
+      "value": 4.982229,
+      "pass": true,
+      "word": "ADMIT"
+     },
+     "years_for_half": {
+      "value": 2,
+      "pass": false,
+      "word": "REFUSE"
+     }
+    }
+   },
+   {
+    "start": "2020-01-29",
+    "years": 7,
+    "year_net_pct": [
+     13.4225,
+     7.2295,
+     -3.9842,
+     10.1634,
+     4.3865,
+     35.6294,
+     -5.2422
+    ],
+    "readings": {
+     "effective_years": {
+      "value": 5.082583,
+      "pass": true,
+      "word": "ADMIT"
+     },
+     "years_for_half": {
+      "value": 1,
+      "pass": false,
+      "word": "REFUSE"
+     }
+    }
+   }
+  ],
+  "summary": {
+   "effective_years": {
+    "median": 4.982229,
+    "min": 4.215657,
+    "max": 5.462306,
+    "words": [
+     "ADMIT"
+    ],
+    "line": 3.0,
+    "pass_when": "ge"
+   },
+   "years_for_half": {
+    "median": 2.0,
+    "min": 1,
+    "max": 2,
+    "words": [
+     "REFUSE"
+    ],
+    "line": 3,
+    "pass_when": "ge"
+   }
+  },
+  "phases_count": 5
+ },
+ "witness_reading": {
+  "ruler": "years_for_half",
+  "median": 2.0,
+  "words": [
+   "REFUSE"
+  ],
+  "verdict": "REFUSE",
+  "record_years": [
+   7
+  ],
+  "length_floor": 5,
+  "length_floor_binding": false
+ },
+ "decision": {
+  "elected_ruler": "years_for_half",
+  "election_reason": "survived the fixture disqualification and answered 8/8 fixtures correctly",
+  "disqualified": {
+   "effective_years": "admits declared pathologies: uniform_3y, broad_but_spent, narrow_start, decaying"
+  },
+  "witness_verdict_under_election": "REFUSE",
+  "was_the_election_picked_to_pass": "NO -- the elected ruler refuses the book the desk holds",
+  "consequence": "the gate asks the half-life question; a record that spent itself early is refused no matter how broad it looks",
+  "honest": [
+   "the election reads no book of ours; elect() has no witness parameter",
+   "fixtures are synthetic year tables, not backtest output",
+   "the half-life ruler conflates 'short' with 'spent' -- see implicit_record_floor",
+   "no production file, engine, prereg or gate line changed by this face"
+  ],
+  "next_action": "the calendar's refusals stand under the elected ruler but are printed with a disqualified one -- the receipt's reason should name the ruler that survived, which is an adoption-round change, not this face's"
+ },
+ "gate_lines_imported": {
+  "effective_years": {
+   "line": 3.0,
+   "pass_when": "ge"
+  },
+  "years_for_half": {
+   "line": 3,
+   "pass_when": "ge"
+  }
+ },
+ "elapsed_sec": 0.0
+}

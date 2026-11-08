@@ -561,6 +561,16 @@ def main() -> int:
              "scripts/etf_book_admission_eta.py", ["selftest"]),
             ("product: etf_book_admission_eta (published ETA still matches the phase gate)",
              "scripts/etf_book_admission_eta.py", ["check"]),
+            # r1429: with two certified rulers disagreeing on the held book, "use the trusted
+            # ruler" became a choice, and picking the one that says PASS is the forbidden
+            # "run until it passes". The legs pin that the election reads fixtures only
+            # (elect() takes no parameter, and swapping a passing for a failing witness does
+            # not move it), that a ruler admitting a declared pathology is disqualified even
+            # when it scores well, and that the published face still re-derives.
+            ("product: etf_book_admission_ruler_election (which ruler the gate asks with)",
+             "scripts/etf_book_admission_ruler_election.py", ["selftest"]),
+            ("product: etf_book_admission_ruler_election (published election re-derived)",
+             "scripts/etf_book_admission_ruler_election.py", ["check"]),
             # r1418: the calendar gate existed but had only ever judged CANDIDATE books; the
             # book the desk actually holds never faced it. The legs pin that yearly returns
             # come off the book's own LEVEL curve (treating a level series as returns
