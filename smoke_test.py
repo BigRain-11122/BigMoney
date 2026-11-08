@@ -676,6 +676,17 @@ def main() -> int:
              "Tools/fill_ladder.py", ["selftest"]),
             ("product: fill ladder explain names every row's class and the calendar refusal",
              "Tools/fill_ladder.py", ["explain", "--dry-run"]),
+            # r1435: "median 2 years" was printed for thirty-nine rounds and read as
+            # "front-loaded, the money is spent" -- but the ruler sorts the year nets
+            # descending and cannot tell early from late. The legs pin that the direction
+            # word is read off the MEMBERS (not every year), that a non-positive calendar
+            # sum publishes no_half rather than "one year explains it", that the half
+            # boundary is >= inclusive exactly like the ruler, and that the published
+            # sentences re-derive from their own year tables (a typed story is red).
+            ("product: etf_book_half_year_provenance (which years are in the half)",
+             "scripts/etf_book_half_year_provenance.py", ["selftest"]),
+            ("product: etf_book_half_year_provenance (published sentences re-derived)", 
+             "scripts/etf_book_half_year_provenance.py", ["check"]),
             # r1205: the line's freshness faces all read the instant, so a
             # stall followed by one heartbeat is invisible. This leg prices the
             # history reader: fuzzy stamps widen instead of narrowing, quiet

@@ -785,6 +785,14 @@ LEGS = [
     # only (no repricing, milliseconds), so it is regenerated every round -- a reading left
     # on disk is the r1290 class: the pool stops being empty and the sentence still says
     # "no candidate passes its calendar".
+    # r1435: the sentence "refused at years_for_half median 2" has been on the board for
+    # thirty-nine rounds, always read as front-loading -- but the ruler sorts the year nets
+    # descending and is order-free, so it never claimed a direction. This leg re-derives
+    # every published sentence FROM ITS OWN YEAR TABLE before the face below consumes it
+    # (pure JSON read, no repricing), so a stale receipt or a hand-typed "front-loaded"
+    # turns red instead of feeding the operator sentence again.
+    ("half_year_provenance",
+     ["python", "scripts/etf_book_half_year_provenance.py", "check"]),
     ("supply_calendar", ["python", "scripts/supply_calendar_face.py", "run"]),
     # r1428: "refused" with no horizon is an observation, not a plan. This leg re-checks
     # the published ETA face (identity against the phase gate's phase 0, so a drifted
@@ -804,6 +812,14 @@ LEGS = [
     # turns red instead of leaving "the reason may be switched" on disk describing older data.
     ("refusal_caliber_adoption",
      ["python", "scripts/etf_book_admission_refusal_caliber_adoption.py", "check"]),
+    # r1433: four rounds went into the RULER that refuses the book and none into the dial the
+    # desk actually owns. The vol target was the obvious candidate ("make the book steadier and
+    # it stops earning its money too early"), so the sweep was run and published instead of
+    # assumed: six scalings x the frozen phase set x both trusted rulers, every arm refused.
+    # This leg re-derives each arm word and the scale-invariance deltas FROM THE PUBLISHED
+    # CELLS (JSON read, no repricing), so a stale sweep cannot keep claiming it was run and a
+    # hand-typed verdict cannot pass.
+    ("vol_target_gate", ["python", "scripts/etf_book_vol_target_gate.py", "check"]),
     # r1331: E196 answers the question E190 left open -- whether the month the
     # ladder-drop verdict rests on is knowable in advance. It is a ~1s JSON read of
     # the E186 month table (no panel, no network, no engine), and it belongs on the

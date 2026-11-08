@@ -37,4 +37,16 @@
 
 读数抄自 `results/etf_book_window_sensitivity.json`（arm=plain · cutoff 2026-11-06），只重排不重算；这是**探索性**探针：无预注册、无判决、不入账本——它不安检任何人，只是让读者知道「2 年」这个数是不是换个窗就变。
 
+## 这「2 年」是哪两年（r1435 取证 · 只印不改）
+
+- half_year: nobond_vt08_adopted: half of its 7-year net (+81.06pp) is supplied by 2025 +43.06pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +43.06pp = 53.1% of net) -> one year supplies the half [phase set: one_year 2/5 phases] (exploratory -- decides nothing)
+
+| 书 | 方向 | 中位年数 | 主年 |
+|---|---|---|---|
+| nobond_vt08_adopted | one_year | 2 | 2025 |
+| nobond_base | interleaved | 2 | 2020, 2025 |
+| nobond_vt08_floor_050 | one_year | 2 | 2025 |
+
+读数抄自 `results/etf_book_half_year_provenance.json`（cutoff 2026-11-06），只重排不重算。这张表要说的是：尺子把各年净值降序累到一半，它**分不出先后**——所以「前置」是读的人加的词，不是尺子说的。若主年在窗口末尾，那么「钱早就赚完了」这话方向反了：真正要问的是「这一年还能不能复现」。
+
 读法：只有字面 `ADMIT` 算过。CONDITIONAL / REFUSE / UNADJUDICABLE_PHASE 在本面一律是拒——日历闸不肯放行的候选，不能当作「今天就能点火」的供给。「没人写题」要开题，「题都过不了日历」要等证据或重切书，两件事的处置相反，把两种都印成 agenda debt 等于没说。

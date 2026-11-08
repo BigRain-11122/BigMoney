@@ -1,0 +1,1383 @@
+{
+ "tool": "etf_book_half_year_provenance",
+ "asof": "2026-11-08T17:45:23+0800",
+ "evidence_cutoff": "2026-11-06",
+ "question": "when a book is refused by years_for_half, WHICH years make up the half -- and is the operator's word for that refusal ('front-loaded') the ruler's own claim or the desk's reading of it?",
+ "rule": {
+  "kind": "exploratory",
+  "prereg": null,
+  "verdict": null,
+  "ledger": null,
+  "why": "decomposes an already-published ruler value into the years it is made of; it admits nothing and refuses nothing -- it only says whether the sentence the operator reads next to the refusal ('front-loaded') is the ruler's own claim",
+  "frozen": {
+   "half_rule": "the best years (descending) that reach HALF of the calendar net sum, >= inclusive, exactly as etf_book_year_caliber.calibers counts them",
+   "member_order": "members are reported in CALENDAR order, not in ranking order, because the direction word is about calendar position",
+   "direction_rule": "mid = (n - 1) / 2 over the table's own years; k = 1 -> one_year; mean calendar index of the members < mid - 0.5 -> early; > mid + 0.5 -> late; otherwise interleaved",
+   "no_half": "net <= 0 publishes no_half -- 'this book has no half to explain' is a different statement from 'one year explains it' (r1426 family)",
+   "partial_years": "partial years stay in the table (that is how the ruler counts them) and are named in partial_years / half_from_partial",
+   "engine": "candidate_year_gate_phases.arm (imported, never retyped)",
+   "annual_rows": "etf_book_year_gate.yearly_returns + candidate_year_gate._year_rows (imported, never retyped)",
+   "calibers": "etf_book_year_caliber.calibers (imported, never retyped)"
+  },
+  "frozen_before_read": true
+ },
+ "direction_words": {
+  "one_year": "one year supplies the half",
+  "early": "the half sits in the early years",
+  "late": "the half sits in the late years",
+  "interleaved": "the half's years alternate through the window",
+  "no_half": "the calendar sum is not positive, so it has no half to explain"
+ },
+ "books": [
+  {
+   "book": "nobond_vt08_adopted",
+   "aggregate": {
+    "phases": 5,
+    "direction_counts": {
+     "one_year": 2,
+     "late": 2,
+     "interleaved": 1
+    },
+    "direction": "one_year",
+    "dominant_years": [
+     "2025"
+    ],
+    "years_for_half_median": 2,
+    "any_half_from_partial": true
+   },
+   "sentence": "nobond_vt08_adopted: half of its 7-year net (+81.06pp) is supplied by 2025 +43.06pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +43.06pp = 53.1% of net) -> one year supplies the half [phase set: one_year 2/5 phases]",
+   "phase_cells": [
+    {
+     "book": "nobond_vt08_adopted",
+     "start": "2020-01-01",
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 81.057829,
+      "gross_sum_pct": 81.057829,
+      "net_top2_share": 0.710755,
+      "gross_top2_share": 0.710755,
+      "effective_years": 4.215653,
+      "years_for_half": 1
+     },
+     "year_table": [
+      {
+       "year": "2020",
+       "net_pct": 5.607212,
+       "partial": false
+      },
+      {
+       "year": "2021",
+       "net_pct": 7.628116,
+       "partial": false
+      },
+      {
+       "year": "2022",
+       "net_pct": 2.839274,
+       "partial": false
+      },
+      {
+       "year": "2023",
+       "net_pct": 5.473012,
+       "partial": false
+      },
+      {
+       "year": "2024",
+       "net_pct": 14.549563,
+       "partial": false
+      },
+      {
+       "year": "2025",
+       "net_pct": 43.062682,
+       "partial": false
+      },
+      {
+       "year": "2026",
+       "net_pct": 1.897971,
+       "partial": true
+      }
+     ],
+     "provenance": {
+      "years": 7,
+      "net_sum_pct": 81.05783,
+      "years_for_half": 1,
+      "members": [
+       {
+        "year": "2025",
+        "net_pct": 43.062682,
+        "share": 0.531259,
+        "position": 5,
+        "partial": false
+       }
+      ],
+      "first_year": "2025",
+      "last_year": "2025",
+      "mean_position": 5.0,
+      "direction": "one_year",
+      "dominant_year": "2025",
+      "dominant_net_pct": 43.062682,
+      "dominant_share": 0.531259,
+      "early_half_share": 0.19831,
+      "late_half_share": 0.80169,
+      "partial_years": [
+       "2026"
+      ],
+      "half_from_partial": false
+     }
+    },
+    {
+     "book": "nobond_vt08_adopted",
+     "start": "2020-01-08",
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 78.901542,
+      "gross_sum_pct": 91.947146,
+      "net_top2_share": 0.794621,
+      "gross_top2_share": 0.681879,
+      "effective_years": 4.446401,
+      "years_for_half": 2
+     },
+     "year_table": [
+      {
+       "year": "2020",
+       "net_pct": 4.994646,
+       "partial": true
+      },
+      {
+       "year": "2021",
+       "net_pct": 2.784431,
+       "partial": false
+      },
+      {
+       "year": "2022",
+       "net_pct": 0.779354,
+       "partial": false
+      },
+      {
+       "year": "2023",
+       "net_pct": 14.169122,
+       "partial": false
+      },
+      {
+       "year": "2024",
+       "net_pct": 23.409903,
+       "partial": false
+      },
+      {
+       "year": "2025",
+       "net_pct": 39.286887,
+       "partial": false
+      },
+      {
+       "year": "2026",
+       "net_pct": -6.522802,
+       "partial": true
+      }
+     ],
+     "provenance": {
+      "years": 7,
+      "net_sum_pct": 78.901541,
+      "years_for_half": 2,
+      "members": [
+       {
+        "year": "2024",
+        "net_pct": 23.409903,
+        "share": 0.296698,
+        "position": 4,
+        "partial": false
+       },
+       {
+        "year": "2025",
+        "net_pct": 39.286887,
+        "share": 0.497923,
+        "position": 5,
+        "partial": false
+       }
+      ],
+      "first_year": "2024",
+      "last_year": "2025",
+      "mean_position": 4.5,
+      "direction": "late",
+      "dominant_year": "2025",
+      "dominant_net_pct": 39.286887,
+      "dominant_share": 0.497923,
+      "early_half_share": 0.10847,
+      "late_half_share": 0.89153,
+      "partial_years": [
+       "2020",
+       "2026"
+      ],
+      "half_from_partial": false
+     }
+    },
+    {
+     "book": "nobond_vt08_adopted",
+     "start": "2020-01-15",
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 59.534691,
+      "gross_sum_pct": 85.750179,
+      "net_top2_share": 0.79582,
+      "gross_top2_share": 0.552523,
+      "effective_years": 5.46231,
+      "years_for_half": 2
+     },
+     "year_table": [
+      {
+       "year": "2020",
+       "net_pct": 10.849811,
+       "partial": true
+      },
+      {
+       "year": "2021",
+       "net_pct": 10.321463,
+       "partial": false
+      },
+      {
+       "year": "2022",
+       "net_pct": -12.177313,
+       "partial": false
+      },
+      {
+       "year": "2023",
+       "net_pct": 4.092252,
+       "partial": false
+      },
+      {
+       "year": "2024",
+       "net_pct": 22.443256,
+       "partial": false
+      },
+      {
+       "year": "2025",
+       "net_pct": 24.935654,
+       "partial": false
+      },
+      {
+       "year": "2026",
+       "net_pct": -0.93043,
+       "partial": true
+      }
+     ],
+     "provenance": {
+      "years": 7,
+      "net_sum_pct": 59.534693,
+      "years_for_half": 2,
+      "members": [
+       {
+        "year": "2024",
+        "net_pct": 22.443256,
+        "share": 0.376978,
+        "position": 4,
+        "partial": false
+       },
+       {
+        "year": "2025",
+        "net_pct": 24.935654,
+        "share": 0.418842,
+        "position": 5,
+        "partial": false
+       }
+      ],
+      "first_year": "2024",
+      "last_year": "2025",
+      "mean_position": 4.5,
+      "direction": "late",
+      "dominant_year": "2025",
+      "dominant_net_pct": 24.935654,
+      "dominant_share": 0.418842,
+      "early_half_share": 0.151071,
+      "late_half_share": 0.848929,
+      "partial_years": [
+       "2020",
+       "2026"
+      ],
+      "half_from_partial": false
+     }
+    },
+    {
+     "book": "nobond_vt08_adopted",
+     "start": "2020-01-22",
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 49.013933,
+      "gross_sum_pct": 61.173021,
+      "net_top2_share": 0.798247,
+      "gross_top2_share": 0.639583,
+      "effective_years": 4.98223,
+      "years_for_half": 2
+     },
+     "year_table": [
+      {
+       "year": "2020",
+       "net_pct": 16.814755,
+       "partial": true
+      },
+      {
+       "year": "2021",
+       "net_pct": 9.170477,
+       "partial": false
+      },
+      {
+       "year": "2022",
+       "net_pct": -1.2484,
+       "partial": false
+      },
+      {
+       "year": "2023",
+       "net_pct": 2.673878,
+       "partial": false
+      },
+      {
+       "year": "2024",
+       "net_pct": 4.123918,
+       "partial": false
+      },
+      {
+       "year": "2025",
+       "net_pct": 22.310449,
+       "partial": false
+      },
+      {
+       "year": "2026",
+       "net_pct": -4.831144,
+       "partial": true
+      }
+     ],
+     "provenance": {
+      "years": 7,
+      "net_sum_pct": 49.013933,
+      "years_for_half": 2,
+      "members": [
+       {
+        "year": "2020",
+        "net_pct": 16.814755,
+        "share": 0.343061,
+        "position": 0,
+        "partial": true
+       },
+       {
+        "year": "2025",
+        "net_pct": 22.310449,
+        "share": 0.455186,
+        "position": 5,
+        "partial": false
+       }
+      ],
+      "first_year": "2020",
+      "last_year": "2025",
+      "mean_position": 2.5,
+      "direction": "interleaved",
+      "dominant_year": "2025",
+      "dominant_net_pct": 22.310449,
+      "dominant_share": 0.455186,
+      "early_half_share": 0.50469,
+      "late_half_share": 0.49531,
+      "partial_years": [
+       "2020",
+       "2026"
+      ],
+      "half_from_partial": true
+     }
+    },
+    {
+     "book": "nobond_vt08_adopted",
+     "start": "2020-01-29",
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 61.60477,
+      "gross_sum_pct": 80.057596,
+      "net_top2_share": 0.796235,
+      "gross_top2_share": 0.612707,
+      "effective_years": 5.08258,
+      "years_for_half": 1
+     },
+     "year_table": [
+      {
+       "year": "2020",
+       "net_pct": 13.42252,
+       "partial": true
+      },
+      {
+       "year": "2021",
+       "net_pct": 7.229453,
+       "partial": false
+      },
+      {
+       "year": "2022",
+       "net_pct": -3.984193,
+       "partial": false
+      },
+      {
+       "year": "2023",
+       "net_pct": 10.163408,
+       "partial": false
+      },
+      {
+       "year": "2024",
+       "net_pct": 4.386452,
+       "partial": false
+      },
+      {
+       "year": "2025",
+       "net_pct": 35.62935,
+       "partial": false
+      },
+      {
+       "year": "2026",
+       "net_pct": -5.24222,
+       "partial": true
+      }
+     ],
+     "provenance": {
+      "years": 7,
+      "net_sum_pct": 61.60477,
+      "years_for_half": 1,
+      "members": [
+       {
+        "year": "2025",
+        "net_pct": 35.62935,
+        "share": 0.578354,
+        "position": 5,
+        "partial": false
+       }
+      ],
+      "first_year": "2025",
+      "last_year": "2025",
+      "mean_position": 5.0,
+      "direction": "one_year",
+      "dominant_year": "2025",
+      "dominant_net_pct": 35.62935,
+      "dominant_share": 0.578354,
+      "early_half_share": 0.27056,
+      "late_half_share": 0.72944,
+      "partial_years": [
+       "2020",
+       "2026"
+      ],
+      "half_from_partial": false
+     }
+    }
+   ]
+  },
+  {
+   "book": "nobond_base",
+   "aggregate": {
+    "phases": 5,
+    "direction_counts": {
+     "interleaved": 4,
+     "late": 1
+    },
+    "direction": "interleaved",
+    "dominant_years": [
+     "2020",
+     "2025"
+    ],
+    "years_for_half_median": 2,
+    "any_half_from_partial": true
+   },
+   "sentence": "nobond_base: half of its 7-year net (+110.07pp) is supplied by 2020 +22.19pp, 2025 +53.73pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +53.73pp = 48.8% of net) -> the half's years alternate through the window [phase set: interleaved 4/5 phases]",
+   "phase_cells": [
+    {
+     "book": "nobond_base",
+     "start": "2020-01-01",
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 110.066539,
+      "gross_sum_pct": 110.066539,
+      "net_top2_share": 0.689828,
+      "gross_top2_share": 0.689828,
+      "effective_years": 4.423162,
+      "years_for_half": 2
+     },
+     "year_table": [
+      {
+       "year": "2020",
+       "net_pct": 22.194307,
+       "partial": false
+      },
+      {
+       "year": "2021",
+       "net_pct": 9.309103,
+       "partial": false
+      },
+      {
+       "year": "2022",
+       "net_pct": 2.331349,
+       "partial": false
+      },
+      {
+       "year": "2023",
+       "net_pct": 5.267632,
+       "partial": false
+      },
+      {
+       "year": "2024",
+       "net_pct": 12.968991,
+       "partial": false
+      },
+      {
+       "year": "2025",
+       "net_pct": 53.732703,
+       "partial": false
+      },
+      {
+       "year": "2026",
+       "net_pct": 4.262454,
+       "partial": true
+      }
+     ],
+     "provenance": {
+      "years": 7,
+      "net_sum_pct": 110.066539,
+      "years_for_half": 2,
+      "members": [
+       {
+        "year": "2020",
+        "net_pct": 22.194307,
+        "share": 0.201644,
+        "position": 0,
+        "partial": false
+       },
+       {
+        "year": "2025",
+        "net_pct": 53.732703,
+        "share": 0.488184,
+        "position": 5,
+        "partial": false
+       }
+      ],
+      "first_year": "2020",
+      "last_year": "2025",
+      "mean_position": 2.5,
+      "direction": "interleaved",
+      "dominant_year": "2025",
+      "dominant_net_pct": 53.732703,
+      "dominant_share": 0.488184,
+      "early_half_share": 0.307403,
+      "late_half_share": 0.692597,
+      "partial_years": [
+       "2026"
+      ],
+      "half_from_partial": false
+     }
+    },
+    {
+     "book": "nobond_base",
+     "start": "2020-01-08",
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 146.771937,
+      "gross_sum_pct": 159.031253,
+      "net_top2_share": 0.679798,
+      "gross_top2_share": 0.627395,
+      "effective_years": 4.705631,
+      "years_for_half": 2
+     },
+     "year_table": [
+      {
+       "year": "2020",
+       "net_pct": 23.802431,
+       "partial": true
+      },
+      {
+       "year": "2021",
+       "net_pct": 5.6022,
+       "partial": false
+      },
+      {
+       "year": "2022",
+       "net_pct": 1.528938,
+       "partial": false
+      },
+      {
+       "year": "2023",
+       "net_pct": 22.192692,
+       "partial": false
+      },
+      {
+       "year": "2024",
+       "net_pct": 35.705411,
+       "partial": false
+      },
+      {
+       "year": "2025",
+       "net_pct": 64.069924,
+       "partial": false
+      },
+      {
+       "year": "2026",
+       "net_pct": -6.129658,
+       "partial": true
+      }
+     ],
+     "provenance": {
+      "years": 7,
+      "net_sum_pct": 146.771938,
+      "years_for_half": 2,
+      "members": [
+       {
+        "year": "2024",
+        "net_pct": 35.705411,
+        "share": 0.243271,
+        "position": 4,
+        "partial": false
+       },
+       {
+        "year": "2025",
+        "net_pct": 64.069924,
+        "share": 0.436527,
+        "position": 5,
+        "partial": false
+       }
+      ],
+      "first_year": "2024",
+      "last_year": "2025",
+      "mean_position": 4.5,
+      "direction": "late",
+      "dominant_year": "2025",
+      "dominant_net_pct": 64.069924,
+      "dominant_share": 0.436527,
+      "early_half_share": 0.210759,
+      "late_half_share": 0.789241,
+      "partial_years": [
+       "2020",
+       "2026"
+      ],
+      "half_from_partial": false
+     }
+    },
+    {
+     "book": "nobond_base",
+     "start": "2020-01-15",
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 92.436895,
+      "gross_sum_pct": 150.839865,
+      "net_top2_share": 0.820738,
+      "gross_top2_share": 0.50296,
+      "effective_years": 5.765824,
+      "years_for_half": 2
+     },
+     "year_table": [
+      {
+       "year": "2020",
+       "net_pct": 37.389458,
+       "partial": true
+      },
+      {
+       "year": "2021",
+       "net_pct": 9.912435,
+       "partial": false
+      },
+      {
+       "year": "2022",
+       "net_pct": -18.54059,
+       "partial": false
+      },
+      {
+       "year": "2023",
+       "net_pct": 4.701308,
+       "partial": false
+      },
+      {
+       "year": "2024",
+       "net_pct": 31.158171,
+       "partial": false
+      },
+      {
+       "year": "2025",
+       "net_pct": 38.477008,
+       "partial": false
+      },
+      {
+       "year": "2026",
+       "net_pct": -10.660895,
+       "partial": true
+      }
+     ],
+     "provenance": {
+      "years": 7,
+      "net_sum_pct": 92.436895,
+      "years_for_half": 2,
+      "members": [
+       {
+        "year": "2020",
+        "net_pct": 37.389458,
+        "share": 0.404486,
+        "position": 0,
+        "partial": true
+       },
+       {
+        "year": "2025",
+        "net_pct": 38.477008,
+        "share": 0.416252,
+        "position": 5,
+        "partial": false
+       }
+      ],
+      "first_year": "2020",
+      "last_year": "2025",
+      "mean_position": 2.5,
+      "direction": "interleaved",
+      "dominant_year": "2025",
+      "dominant_net_pct": 38.477008,
+      "dominant_share": 0.416252,
+      "early_half_share": 0.311145,
+      "late_half_share": 0.688855,
+      "partial_years": [
+       "2020",
+       "2026"
+      ],
+      "half_from_partial": true
+     }
+    },
+    {
+     "book": "nobond_base",
+     "start": "2020-01-22",
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 82.172318,
+      "gross_sum_pct": 94.774988,
+      "net_top2_share": 0.887957,
+      "gross_top2_share": 0.769881,
+      "effective_years": 4.12932,
+      "years_for_half": 2
+     },
+     "year_table": [
+      {
+       "year": "2020",
+       "net_pct": 36.752881,
+       "partial": true
+      },
+      {
+       "year": "2021",
+       "net_pct": 6.956006,
+       "partial": false
+      },
+      {
+       "year": "2022",
+       "net_pct": -1.194714,
+       "partial": false
+      },
+      {
+       "year": "2023",
+       "net_pct": 4.792894,
+       "partial": false
+      },
+      {
+       "year": "2024",
+       "net_pct": 3.759307,
+       "partial": false
+      },
+      {
+       "year": "2025",
+       "net_pct": 36.212565,
+       "partial": false
+      },
+      {
+       "year": "2026",
+       "net_pct": -5.106621,
+       "partial": true
+      }
+     ],
+     "provenance": {
+      "years": 7,
+      "net_sum_pct": 82.172318,
+      "years_for_half": 2,
+      "members": [
+       {
+        "year": "2020",
+        "net_pct": 36.752881,
+        "share": 0.447266,
+        "position": 0,
+        "partial": true
+       },
+       {
+        "year": "2025",
+        "net_pct": 36.212565,
+        "share": 0.440691,
+        "position": 5,
+        "partial": false
+       }
+      ],
+      "first_year": "2020",
+      "last_year": "2025",
+      "mean_position": 2.5,
+      "direction": "interleaved",
+      "dominant_year": "2020",
+      "dominant_net_pct": 36.752881,
+      "dominant_share": 0.447266,
+      "early_half_share": 0.517378,
+      "late_half_share": 0.482622,
+      "partial_years": [
+       "2020",
+       "2026"
+      ],
+      "half_from_partial": true
+     }
+    },
+    {
+     "book": "nobond_base",
+     "start": "2020-01-29",
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 104.865436,
+      "gross_sum_pct": 130.25083,
+      "net_top2_share": 0.832512,
+      "gross_top2_share": 0.670259,
+      "effective_years": 4.942383,
+      "years_for_half": 2
+     },
+     "year_table": [
+      {
+       "year": "2020",
+       "net_pct": 35.197274,
+       "partial": true
+      },
+      {
+       "year": "2021",
+       "net_pct": 11.728951,
+       "partial": false
+      },
+      {
+       "year": "2022",
+       "net_pct": -4.23791,
+       "partial": false
+      },
+      {
+       "year": "2023",
+       "net_pct": 11.452596,
+       "partial": false
+      },
+      {
+       "year": "2024",
+       "net_pct": 7.074847,
+       "partial": false
+      },
+      {
+       "year": "2025",
+       "net_pct": 52.104465,
+       "partial": false
+      },
+      {
+       "year": "2026",
+       "net_pct": -8.454788,
+       "partial": true
+      }
+     ],
+     "provenance": {
+      "years": 7,
+      "net_sum_pct": 104.865435,
+      "years_for_half": 2,
+      "members": [
+       {
+        "year": "2020",
+        "net_pct": 35.197274,
+        "share": 0.335642,
+        "position": 0,
+        "partial": true
+       },
+       {
+        "year": "2025",
+        "net_pct": 52.104465,
+        "share": 0.49687,
+        "position": 5,
+        "partial": false
+       }
+      ],
+      "first_year": "2020",
+      "last_year": "2025",
+      "mean_position": 2.5,
+      "direction": "interleaved",
+      "dominant_year": "2025",
+      "dominant_net_pct": 52.104465,
+      "dominant_share": 0.49687,
+      "early_half_share": 0.407077,
+      "late_half_share": 0.592923,
+      "partial_years": [
+       "2020",
+       "2026"
+      ],
+      "half_from_partial": true
+     }
+    }
+   ]
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "aggregate": {
+    "phases": 5,
+    "direction_counts": {
+     "one_year": 2,
+     "late": 2,
+     "interleaved": 1
+    },
+    "direction": "one_year",
+    "dominant_years": [
+     "2025"
+    ],
+    "years_for_half_median": 2,
+    "any_half_from_partial": true
+   },
+   "sentence": "nobond_vt08_floor_050: half of its 7-year net (+84.99pp) is supplied by 2025 +42.65pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +42.65pp = 50.2% of net) -> one year supplies the half [phase set: one_year 2/5 phases]",
+   "phase_cells": [
+    {
+     "book": "nobond_vt08_floor_050",
+     "start": "2020-01-01",
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 84.988659,
+      "gross_sum_pct": 84.988659,
+      "net_top2_share": 0.668549,
+      "gross_top2_share": 0.668549,
+      "effective_years": 4.460861,
+      "years_for_half": 1
+     },
+     "year_table": [
+      {
+       "year": "2020",
+       "net_pct": 10.241121,
+       "partial": false
+      },
+      {
+       "year": "2021",
+       "net_pct": 7.495949,
+       "partial": false
+      },
+      {
+       "year": "2022",
+       "net_pct": 3.001431,
+       "partial": false
+      },
+      {
+       "year": "2023",
+       "net_pct": 5.473012,
+       "partial": false
+      },
+      {
+       "year": "2024",
+       "net_pct": 14.165005,
+       "partial": false
+      },
+      {
+       "year": "2025",
+       "net_pct": 42.654057,
+       "partial": false
+      },
+      {
+       "year": "2026",
+       "net_pct": 1.958085,
+       "partial": true
+      }
+     ],
+     "provenance": {
+      "years": 7,
+      "net_sum_pct": 84.98866,
+      "years_for_half": 1,
+      "members": [
+       {
+        "year": "2025",
+        "net_pct": 42.654057,
+        "share": 0.501879,
+        "position": 5,
+        "partial": false
+       }
+      ],
+      "first_year": "2025",
+      "last_year": "2025",
+      "mean_position": 5.0,
+      "direction": "one_year",
+      "dominant_year": "2025",
+      "dominant_net_pct": 42.654057,
+      "dominant_share": 0.501879,
+      "early_half_share": 0.244015,
+      "late_half_share": 0.755985,
+      "partial_years": [
+       "2026"
+      ],
+      "half_from_partial": false
+     }
+    },
+    {
+     "book": "nobond_vt08_floor_050",
+     "start": "2020-01-08",
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 86.695601,
+      "gross_sum_pct": 97.984197,
+      "net_top2_share": 0.745795,
+      "gross_top2_share": 0.659873,
+      "effective_years": 4.693551,
+      "years_for_half": 2
+     },
+     "year_table": [
+      {
+       "year": "2020",
+       "net_pct": 9.084348,
+       "partial": true
+      },
+      {
+       "year": "2021",
+       "net_pct": 3.309394,
+       "partial": false
+      },
+      {
+       "year": "2022",
+       "net_pct": 1.119861,
+       "partial": false
+      },
+      {
+       "year": "2023",
+       "net_pct": 14.169122,
+       "partial": false
+      },
+      {
+       "year": "2024",
+       "net_pct": 25.329796,
+       "partial": false
+      },
+      {
+       "year": "2025",
+       "net_pct": 39.327376,
+       "partial": false
+      },
+      {
+       "year": "2026",
+       "net_pct": -5.644298,
+       "partial": true
+      }
+     ],
+     "provenance": {
+      "years": 7,
+      "net_sum_pct": 86.695599,
+      "years_for_half": 2,
+      "members": [
+       {
+        "year": "2024",
+        "net_pct": 25.329796,
+        "share": 0.292169,
+        "position": 4,
+        "partial": false
+       },
+       {
+        "year": "2025",
+        "net_pct": 39.327376,
+        "share": 0.453626,
+        "position": 5,
+        "partial": false
+       }
+      ],
+      "first_year": "2024",
+      "last_year": "2025",
+      "mean_position": 4.5,
+      "direction": "late",
+      "dominant_year": "2025",
+      "dominant_net_pct": 39.327376,
+      "dominant_share": 0.453626,
+      "early_half_share": 0.155874,
+      "late_half_share": 0.844126,
+      "partial_years": [
+       "2020",
+       "2026"
+      ],
+      "half_from_partial": false
+     }
+    },
+    {
+     "book": "nobond_vt08_floor_050",
+     "start": "2020-01-15",
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 61.134745,
+      "gross_sum_pct": 92.164487,
+      "net_top2_share": 0.78918,
+      "gross_top2_share": 0.52348,
+      "effective_years": 5.763657,
+      "years_for_half": 2
+     },
+     "year_table": [
+      {
+       "year": "2020",
+       "net_pct": 14.326671,
+       "partial": true
+      },
+      {
+       "year": "2021",
+       "net_pct": 10.084054,
+       "partial": false
+      },
+      {
+       "year": "2022",
+       "net_pct": -12.498685,
+       "partial": false
+      },
+      {
+       "year": "2023",
+       "net_pct": 3.992594,
+       "partial": false
+      },
+      {
+       "year": "2024",
+       "net_pct": 23.185454,
+       "partial": false
+      },
+      {
+       "year": "2025",
+       "net_pct": 25.060842,
+       "partial": false
+      },
+      {
+       "year": "2026",
+       "net_pct": -3.016186,
+       "partial": true
+      }
+     ],
+     "provenance": {
+      "years": 7,
+      "net_sum_pct": 61.134744,
+      "years_for_half": 2,
+      "members": [
+       {
+        "year": "2024",
+        "net_pct": 23.185454,
+        "share": 0.379252,
+        "position": 4,
+        "partial": false
+       },
+       {
+        "year": "2025",
+        "net_pct": 25.060842,
+        "share": 0.409928,
+        "position": 5,
+        "partial": false
+       }
+      ],
+      "first_year": "2024",
+      "last_year": "2025",
+      "mean_position": 4.5,
+      "direction": "late",
+      "dominant_year": "2025",
+      "dominant_net_pct": 25.060842,
+      "dominant_share": 0.409928,
+      "early_half_share": 0.194849,
+      "late_half_share": 0.805151,
+      "partial_years": [
+       "2020",
+       "2026"
+      ],
+      "half_from_partial": false
+     }
+    },
+    {
+     "book": "nobond_vt08_floor_050",
+     "start": "2020-01-22",
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 51.736588,
+      "gross_sum_pct": 64.124303,
+      "net_top2_share": 0.799492,
+      "gross_top2_share": 0.645044,
+      "effective_years": 4.985936,
+      "years_for_half": 2
+     },
+     "year_table": [
+      {
+       "year": "2020",
+       "net_pct": 18.90095,
+       "partial": true
+      },
+      {
+       "year": "2021",
+       "net_pct": 9.199518,
+       "partial": false
+      },
+      {
+       "year": "2022",
+       "net_pct": -1.362714,
+       "partial": false
+      },
+      {
+       "year": "2023",
+       "net_pct": 2.673878,
+       "partial": false
+      },
+      {
+       "year": "2024",
+       "net_pct": 4.694055,
+       "partial": false
+      },
+      {
+       "year": "2025",
+       "net_pct": 22.462045,
+       "partial": false
+      },
+      {
+       "year": "2026",
+       "net_pct": -4.831144,
+       "partial": true
+      }
+     ],
+     "provenance": {
+      "years": 7,
+      "net_sum_pct": 51.736588,
+      "years_for_half": 2,
+      "members": [
+       {
+        "year": "2020",
+        "net_pct": 18.90095,
+        "share": 0.36533,
+        "position": 0,
+        "partial": true
+       },
+       {
+        "year": "2025",
+        "net_pct": 22.462045,
+        "share": 0.434162,
+        "position": 5,
+        "partial": false
+       }
+      ],
+      "first_year": "2020",
+      "last_year": "2025",
+      "mean_position": 2.5,
+      "direction": "interleaved",
+      "dominant_year": "2025",
+      "dominant_net_pct": 22.462045,
+      "dominant_share": 0.434162,
+      "early_half_share": 0.516806,
+      "late_half_share": 0.483194,
+      "partial_years": [
+       "2020",
+       "2026"
+      ],
+      "half_from_partial": true
+     }
+    },
+    {
+     "book": "nobond_vt08_floor_050",
+     "start": "2020-01-29",
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 66.130109,
+      "gross_sum_pct": 84.470162,
+      "net_top2_share": 0.808115,
+      "gross_top2_share": 0.632658,
+      "effective_years": 5.069122,
+      "years_for_half": 1
+     },
+     "year_table": [
+      {
+       "year": "2020",
+       "net_pct": 17.512589,
+       "partial": true
+      },
+      {
+       "year": "2021",
+       "net_pct": 7.560729,
+       "partial": false
+      },
+      {
+       "year": "2022",
+       "net_pct": -3.834839,
+       "partial": false
+      },
+      {
+       "year": "2023",
+       "net_pct": 10.163408,
+       "partial": false
+      },
+      {
+       "year": "2024",
+       "net_pct": 4.135271,
+       "partial": false
+      },
+      {
+       "year": "2025",
+       "net_pct": 35.928139,
+       "partial": false
+      },
+      {
+       "year": "2026",
+       "net_pct": -5.335188,
+       "partial": true
+      }
+     ],
+     "provenance": {
+      "years": 7,
+      "net_sum_pct": 66.130109,
+      "years_for_half": 1,
+      "members": [
+       {
+        "year": "2025",
+        "net_pct": 35.928139,
+        "share": 0.543295,
+        "position": 5,
+        "partial": false
+       }
+      ],
+      "first_year": "2025",
+      "last_year": "2025",
+      "mean_position": 5.0,
+      "direction": "one_year",
+      "dominant_year": "2025",
+      "dominant_net_pct": 35.928139,
+      "dominant_share": 0.543295,
+      "early_half_share": 0.321162,
+      "late_half_share": 0.678838,
+      "partial_years": [
+       "2020",
+       "2026"
+      ],
+      "half_from_partial": false
+     }
+    }
+   ]
+  }
+ ],
+ "identity": {
+  "checked": true,
+  "cells_compared": 15,
+  "max_abs_dev_years_for_half": 0,
+  "max_abs_dev_net_top2_share": 0.0,
+  "mismatches": []
+ },
+ "reading": "every refusal sentence on the supply ladder names a concentration, not a start date; this receipt prints the start date",
+ "elapsed_sec": 61.0,
+ "summary": {
+  "books": 3,
+  "directions": [
+   "interleaved",
+   "one_year"
+  ],
+  "per_book": [
+   {
+    "book": "nobond_vt08_adopted",
+    "direction": "one_year",
+    "years_for_half_median": 2,
+    "dominant_years": [
+     "2025"
+    ]
+   },
+   {
+    "book": "nobond_base",
+    "direction": "interleaved",
+    "years_for_half_median": 2,
+    "dominant_years": [
+     "2020",
+     "2025"
+    ]
+   },
+   {
+    "book": "nobond_vt08_floor_050",
+    "direction": "one_year",
+    "years_for_half_median": 2,
+    "dominant_years": [
+     "2025"
+    ]
+   }
+  ],
+  "any_early": false,
+  "any_late": false
+ },
+ "last_year_in_tables": "2026"
+}

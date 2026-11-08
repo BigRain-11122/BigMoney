@@ -366,6 +366,11 @@ def _calendar_block():
             # without one prints nothing (exploratory probe, decides nothing).
             "window_sensitivity": (
                 (face.get("window_sensitivity") or {}).get("sentence") or ""),
+            # r1435: "median 2 years" is order-free -- the ruler sorts the year nets and
+            # can never say whether the half sits early or late, so "front-loaded" is a
+            # word the reader added. The board prints WHICH years those are; absent
+            # receipt = no sentence (an absent probe is not a pass).
+            "half_year": ((face.get("half_year") or {}).get("sentence") or ""),
         }
     except Exception as exc:  # unreadable is not empty
         return {"verdict": "UNKNOWN",
@@ -387,6 +392,8 @@ def _explain_line(face):
                                         "; ".join(cal["elected_reasons"]))
     if cal.get("window_sensitivity"):
         line += " | " + cal["window_sensitivity"]
+    if cal.get("half_year"):
+        line += " | " + cal["half_year"]
     return line
 
 
@@ -724,6 +731,18 @@ def selftest():
                                     "window_sensitivity": "window: SENTINEL-READING"}})
         assert "window: SENTINEL-READING" in line_w, line_w
         assert "window:" not in line, line
+        # r1435: and when the calendar face carries the year-provenance note, the board
+        # must print it too -- an unchallenged "front-loaded" is what this leg prevents.
+        line_h = _explain_line({"compatible_ready": 0, "floor": 3,
+                                "counts": {"catalog": 23, "spent": 22, "blocked": 1,
+                                           "lane_foreign": 0, "available": 0},
+                                "verdict": "EXHAUSTED_NO_LAWFUL_SUPPLY",
+                                "calendar": {
+                                    "verdict": "NO_CANDIDATE_PASSES_CALENDAR",
+                                    "n_candidates": 4, "n_refused": 4,
+                                    "half_year": "half_year: SENTINEL-YEARS"}})
+        assert "half_year: SENTINEL-YEARS" in line_h, line_h
+        assert "half_year:" not in line, line
         # r1422 calendar_admitted gate: the supply floor must never be offered a
         # book the desk already refused by its own calendar, and an UNJUDGED book
         # is not admitted either. Four legs, injected calendar (hermetic):

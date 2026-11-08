@@ -10696,3 +10696,35 @@ net_top2/gross_top2），手写 `years_for_half` 就是把 r1429 的选举结果
 
 正身 = scripts/supply_calendar_face.py（selftest 39→49/49 · --check OK）+ Tools/fill_ladder.py
 （selftest PASS·explain 印出整句）+ results/supply_calendar.json/md
+
+## E441 — 一个数字的名字可以撒谎：`years_for_half` 从不说话，是读的人在说（r1435 bm-c）
+
+供给梯板连续三十九轮印着 `nobond_vt08_adopted refused at years_for_half median 2 vs line 3`，
+桌面上下（研究笔记、供给面、阶梯板）都把它读成**前置**——「钱早就赚完了，花完了」。
+本轮把它拆开：尺子的算法是**把各年净值降序累加到一半**，排序把年份信息抹掉了，
+它按定义分不出钱是早赚的还是晚赚的。
+
+实读（3 本书 × 5 相位 = 15 格，同一引擎 import 不重写）：主年在三本里**全是 2025**——
+7 年表里最新一个完整年（2026 是残年），一本书一半的净额由这一年单独供给（53.1% / 48.8% / 50.2%）。
+`early` 在 15 格里出现 **0 次**。集中度在**末尾**，而桌面读成了开头。
+
+三条可复用：
+
+① **顺序无关的统计量不许被读出方向**。任何「降序累加到 k」的读数只承诺集中度；把集中度
+翻译成前/后必须另行测量（本轮 `members` 按日历顺序列出、`direction` 用位置阈值判）。
+判据：一个数字的解释里出现「早/晚/前置/后置」，就要能在同一个回执里指出是哪几行造成的。
+
+② **拆开之后结论会换方向，而不是换措辞**。「钱花完了」的处置是「换书」，
+「一年异常值能不能复现」的处置是「给那一年做预注册批」——两个动作相反，
+错的那一个已经在供给面里印了三十九轮。
+
+③ **规则可以只加解释、不动判决**：本轮 4 拒→4 拒不变，只把拒因的年份归属印到面与板上
+（r1434 同族）。且方向判据是**结构性**的（位置阈值，不是收益阈值），所以它不可能被调成通行证。
+
+坑：首版 `provenance` 从**全精度**年行算、而 `check` 从**已发布年表**（6 位小数）重算，
+在第六位小数上炸（8 格）；正法＝provenance 也从发布表算——一个不能自我复现的回执
+等于没人能审计的回执（r1317 族）。
+
+正身 = scripts/etf_book_half_year_provenance.py（selftest 15/15 · check 0 problem）+
+results/etf_book_half_year_provenance.json + research/ETF_BOOK_HALF_YEAR_PROVENANCE.md +
+supply_calendar_face 49→58/58 自检 + S6 腿 half_year_provenance

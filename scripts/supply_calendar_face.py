@@ -196,6 +196,63 @@ def window_sensitivity(elected, root=ROOT, path=None):
     return block, ""
 
 
+HALF_RECEIPT = "results/etf_book_half_year_provenance.json"
+
+
+def half_year_sentence(block):
+    """One line: WHICH years are in the half the refusal is about.  Pure given the block."""
+    rows = block.get("books") or []
+    if not rows:
+        return ""
+    book = block.get("book") or rows[0].get("book")
+    row = next((r for r in rows if r.get("book") == book), rows[0])
+    body = row.get("sentence") or ""
+    if not body:
+        return ""
+    return "half_year: %s (exploratory -- decides nothing)" % body
+
+
+def half_year(elected, root=ROOT, path=None, candidates=()):
+    """Decompose the refusal number into the years it is made of.
+
+    r1433 asked whether the refusal moves with the window and r1428 how many years of
+    new data would heal it; neither said WHICH years make up the half, so the desk has
+    been reading `years_for_half` as "front-loaded" on no evidence at all.  The ruler
+    sorts the year nets descending -- it is order-free and never claimed a direction.
+
+    Same rules as window_sensitivity: the receipt decides nothing, so it travels as a
+    NOTE; the ruler name is the ELECTED one (never retyped here); and an absent receipt
+    prints nothing rather than a guess.  The book named is the first candidate this
+    receipt also knows, so the sentence the operator reads is about a book on the board.
+    """
+    if not elected:
+        return None, "no elected ruler"
+    p = path or os.path.join(root, HALF_RECEIPT)
+    obj, err = _load(p)
+    if obj is None:
+        return None, err
+    rows = [{"book": b.get("book"),
+             "direction": (b.get("aggregate") or {}).get("direction"),
+             "years_for_half_median": (b.get("aggregate") or {}).get("years_for_half_median"),
+             "dominant_years": (b.get("aggregate") or {}).get("dominant_years") or [],
+             "sentence": b.get("sentence") or ""}
+            for b in obj.get("books") or []]
+    if not rows:
+        return None, "no book rows"
+    known = {r["book"] for r in rows}
+    picked = next((c for c in candidates if c in known), None)
+    block = {
+        "receipt": _rel(p, root),
+        "evidence_cutoff": obj.get("evidence_cutoff"),
+        "ruler": elected,
+        "book": picked or rows[0]["book"],
+        "book_is_a_candidate": bool(picked),
+        "books": rows,
+    }
+    block["sentence"] = half_year_sentence(block)
+    return block, ""
+
+
 def _rel(path, root):
     """Repo-relative label, safe across drives (a temp fixture on C: under a
     repo on K: makes os.path.relpath raise -- r1371 family)."""
@@ -451,6 +508,11 @@ def build(receipts=None, root=None, elected=_AUTO):
     # receipt under the ELECTED ruler, and a missing receipt prints nothing
     # rather than a guess (r98: unknown is not empty).
     window, window_err = window_sensitivity(elected, root)
+    # r1435: and when the operator is told "median 2 years", which years are those?
+    # The ruler sorts year nets descending, so it is order-free; the desk's word for
+    # the refusal ("front-loaded") is a reading nobody measured.  Note only, same
+    # guards as the window block: elected ruler, absent receipt prints nothing.
+    half, half_err = half_year(elected, root, candidates=tuple(r["candidate"] for r in rows))
     # The refusal reason is printed with the ruler r1431 adopted, not with the
     # one r1426 disqualified; the verdict words above are untouched (A2: a
     # reporting change may only ever refuse more, never fewer).
@@ -484,6 +546,8 @@ def build(receipts=None, root=None, elected=_AUTO):
         "elected_notes": notes,
         "window_sensitivity": window,
         "window_sensitivity_error": window_err,
+        "half_year": half,
+        "half_year_error": half_err,
         "verdict": verdict,
         "reading": READING[verdict],
     }
@@ -549,6 +613,8 @@ def summary_line(face):
             line += " | reason: " + "; ".join(face["elected_reasons"])
         if (face.get("window_sensitivity") or {}).get("sentence"):
             line += " | " + face["window_sensitivity"]["sentence"]
+        if (face.get("half_year") or {}).get("sentence"):
+            line += " | " + face["half_year"]["sentence"]
         return line
     return face["reading"]
 
@@ -618,6 +684,26 @@ def write_md(face, path):
                      "「2 年」这个数是不是换个窗就变。"
                      % (window["receipt"], window.get("arm") or "?",
                         window.get("evidence_cutoff") or "?"))
+    half = face.get("half_year")
+    lines += ["", "## 这「2 年」是哪两年（r1435 取证 · 只印不改）", ""]
+    if not half:
+        lines.append("- 年份归属收据读不出：%s（不猜）"
+                     % (face.get("half_year_error") or "absent"))
+    else:
+        lines.append("- %s" % half["sentence"])
+        lines.append("")
+        lines.append("| 书 | 方向 | 中位年数 | 主年 |")
+        lines.append("|---|---|---|---|")
+        for b in half["books"]:
+            lines.append("| %s | %s | %s | %s |" % (
+                b["book"], b["direction"] or "?",
+                _fmt(b["years_for_half_median"]), ", ".join(b["dominant_years"]) or "—"))
+        lines.append("")
+        lines.append("读数抄自 `%s`（cutoff %s），只重排不重算。这张表要说的是："
+                     "尺子把各年净值降序累到一半，它**分不出先后**——所以「前置」"
+                     "是读的人加的词，不是尺子说的。若主年在窗口末尾，那么「钱早就赚"
+                     "完了」这话方向反了：真正要问的是「这一年还能不能复现」。"
+                     % (half["receipt"], half.get("evidence_cutoff") or "?"))
     lines += [
         "",
         "读法：只有字面 `ADMIT` 算过。CONDITIONAL / REFUSE / UNADJUDICABLE_PHASE "
@@ -921,6 +1007,47 @@ def _selftest():
     check("missing window receipt adds no clause to the summary",
           "window:" in summary_line(nowin), False)
 
+    # r1435: the half-year note. It must name the book the board carries, say who supplied
+    # the half, and never be able to change the verdict.
+    half_path = os.path.join(tmp, "results", "etf_book_half_year_provenance.json")
+    os.makedirs(os.path.dirname(half_path), exist_ok=True)
+    with io.open(half_path, "w", encoding="utf-8") as fh_:
+        json.dump({
+            "evidence_cutoff": "2026-11-06",
+            "books": [
+                {"book": "OTHER_BOOK",
+                 "aggregate": {"direction": "early", "years_for_half_median": 2,
+                               "dominant_years": ["2020"]},
+                 "sentence": "OTHER_BOOK: half supplied by 2020 -> early"},
+                {"book": "book_a",
+                 "aggregate": {"direction": "one_year", "years_for_half_median": 1,
+                               "dominant_years": ["2025"]},
+                 "sentence": "book_a: half supplied by 2025 -> one_year"},
+            ]}, fh_, ensure_ascii=False)
+    fh1 = build(receipts=[(pg_elected, "phase_gate")], root=tmp, elected="years_for_half")
+    hb = fh1["half_year"] or {}
+    check("half-year block names the book the board carries",
+          hb.get("book"), "book_a")
+    check("half-year block says that book is a real candidate",
+          hb.get("book_is_a_candidate"), True)
+    check("half-year sentence quotes the receipt, not a default",
+          (hb.get("sentence") or "").startswith(
+              "half_year: book_a: half supplied by 2025"), True)
+    check("half-year sentence says it decides nothing",
+          "decides nothing" in (hb.get("sentence") or ""), True)
+    check("half-year note reaches the operator summary",
+          (hb.get("sentence") or "") in summary_line(fh1), True)
+    check("a half-year note can never turn a refusal into a pass",
+          fh1["verdict"], "NO_CANDIDATE_PASSES_CALENDAR")
+    check("no elected ruler -> no half-year sentence at all",
+          build(receipts=[(pg_elected, "phase_gate")], root=tmp,
+                elected=None)["half_year"], None)
+    nohalf = build(receipts=[(yg, "year_gate")], root=tmp2, elected="years_for_half")
+    check("missing half-year receipt prints nothing and says why",
+          (nohalf["half_year"], nohalf["half_year_error"]), (None, "absent"))
+    check("missing half-year receipt adds no clause to the summary",
+          "half_year:" in summary_line(nohalf), False)
+
     print("selftest %d/%d PASS" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1
 
@@ -958,6 +1085,16 @@ def check_published(path=None):
     if (d.get("window_sensitivity_error") or "") != (win_err or "") and want_win is None:
         problems.append("window_sensitivity_error %r != %r"
                         % (d.get("window_sensitivity_error"), win_err))
+    # r1435: the half-year note must re-derive from its own receipt under the elected
+    # ruler -- a hand-typed "this is where the money came from" sentence is red.
+    want_half, half_err = half_year(d.get("elected_ruler"),
+                                    candidates=tuple(r.get("candidate") or ""
+                                                     for r in d.get("candidates") or []))
+    if (d.get("half_year") or None) != (want_half or None):
+        problems.append("half_year does not re-derive from the receipt "
+                        "(a hand-written year-provenance clause is red)")
+    if (d.get("half_year_error") or "") != (half_err or "") and want_half is None:
+        problems.append("half_year_error %r != %r" % (d.get("half_year_error"), half_err))
     if problems:
         print("supply_calendar_face: FAIL " + "; ".join(problems))
         return 1
