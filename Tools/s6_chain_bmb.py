@@ -2007,6 +2007,14 @@ LEGS = [
     # ever settle an arm that does not read the call.  `check` re-derives every class, every outcome
     # and the verdict, and refuses a settled arm that carries no literal.
     ("undecidable_arm", ["python", "scripts/e527_undecidable_arm.py", "check"]),
+    # E533 takes E527's four still-open arms and asks whether the argument is a call that folds to a
+    # literal at its own site: a direct call or a name bound from one is folded through a strict
+    # whitelist (literals, containers of literals, arithmetic over those, builtin calls with folding
+    # arguments), while a call that reads a name, a repo callee this fold does not inline, or an
+    # argument that is not a call at all stays open and is published with its kind.  `check`
+    # re-derives every class, every count and the verdict, and refuses a closed arm with no folded
+    # value.
+    ("call_pure_arm", ["python", "scripts/e533_call_pure_arm.py", "check"]),
     # E520 takes E519's own two non-answers one hop further: a local that is a *parameter of the
     # caller* is supplied by that function's call sites, and a name bound nowhere in the caller is
     # bound by another scope.  `check` re-derives the argument histogram from the rows, the

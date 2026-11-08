@@ -22580,5 +22580,74 @@ except Exception as _e534x:
 check(_name534, not _bad534, "; ".join(_bad534)[:240] or _d534)
 
 
+# E533: which open arm's argument is a call that folds to a literal at its own site.  The population
+# must be exactly E527's still-open followable arms (a face that widened or narrowed it would be
+# answering a different question), an arm closed by the fold must carry the literal it folded to, an
+# arm whose argument is not a call must be published with its kind rather than dropped, and doctored
+# copies (a hand-written verdict, a closed arm with no folded value, a folded value on a call that
+# did not fold, an out-of-scope arm published as open) must be refused.
+_name533 = ("E533 folds a call argument that is pure in literals at the site (r1563 bm-b)")
+_bad533 = []
+try:
+    _m533 = __import__("importlib").import_module("e533_call_pure_arm")
+    _f533 = json.load(open(os.path.join("results", "state_tilt", "callpurearm_latest.json"),
+                           encoding="utf-8"))
+    _s533 = _f533.get("summary") or {}
+    _r533 = _f533.get("arms") or []
+    _bad533.extend(_m533.face_problems(_f533))
+    _pop533 = _m533.population(_m533.load_parent())
+    if not _r533:
+        _bad533.append("the open-arm population is empty")
+    if len(_r533) != len(_pop533):
+        _bad533.append("the examined population is not E527's still-open set")
+    if sorted((_x.get("source"), _x.get("line")) for _x in _r533) != \
+            sorted((_x["site"].get("source"), _x["site"].get("line")) for _x in _pop533):
+        _bad533.append("the examined arms are not the arms E527 left open")
+    if (_s533.get("arms_closed_by_the_fold") or 0) > (_s533.get("arms_whose_argument_is_a_call") or 0):
+        _bad533.append("more arms closed than there are call arguments")
+
+    _doc533 = json.loads(json.dumps(_f533))
+    _doc533["verdict"] = (_m533.V_ALL_FOLD if _f533["verdict"] != _m533.V_ALL_FOLD
+                          else _m533.V_NONE_FOLD)
+    if not _m533.face_problems(_doc533):
+        _bad533.append("a hand-written verdict was accepted")
+    _doc533 = json.loads(json.dumps(_f533))
+    _stripped = False
+    for _row in _doc533["arms"]:
+        if _row.get("arm_outcome") == _m533.O_CLOSED:
+            _row["folded_value"] = None
+            _stripped = True
+            break
+    if _stripped and not _m533.face_problems(_doc533):
+        _bad533.append("an arm closed with no folded value was accepted")
+    _doc533 = json.loads(json.dumps(_f533))
+    _faked = False
+    for _row in _doc533["arms"]:
+        if _row.get("fold_class") != _m533.F_FOLDS:
+            _row["folded_value"] = "[1]"
+            _faked = True
+            break
+    if _faked and not _m533.face_problems(_doc533):
+        _bad533.append("a folded value on a call that did not fold was accepted")
+    _doc533 = json.loads(json.dumps(_f533))
+    _opened = False
+    for _row in _doc533["arms"]:
+        if _row.get("argument_kind") == _m533.K_CALLER_PARAM:
+            _row["arm_outcome"] = _m533.O_OPEN_READS
+            _opened = True
+            break
+    if _opened and not _m533.face_problems(_doc533):
+        _bad533.append("an out-of-scope arm published as open was accepted")
+
+    _d533 = "%d open arms / %d call args / closed %d / out of scope %d | verdict %s" % (
+        len(_r533), _s533.get("arms_whose_argument_is_a_call"),
+        _s533.get("arms_closed_by_the_fold"), _s533.get("arms_out_of_scope"),
+        _f533.get("verdict"))
+except Exception as _e533x:
+    _bad533.append(repr(_e533x)[:160])
+    _d533 = "leg could not run"
+check(_name533, not _bad533, "; ".join(_bad533)[:240] or _d533)
+
+
 if __name__ == "__main__":
     sys.exit(main())

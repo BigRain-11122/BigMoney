@@ -13185,3 +13185,13 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 - **空的档要如实发布**：本轮「到达写出的载荷」是 0，比为了凑故事放宽判据强——放宽就会把 `text` 这个没被写出的字段读成一次发布。
 
 **验证**：`scripts/e534_cap_to_payload.py` run rc0 / check problems=0 / verify 重导 problems=0 / **selftest clean**（夹具六形态：丢弃、绑了不读、计数、写的载荷字段、只装配不写、句子 + 6 枚 doctored 全拒：手写 verdict、改臂数、清零句子计数、载荷臂不点键、已发布字段改写成没读、改上游 pin）；面 `results/state_tilt/CAPTOPAYLOAD-2026-11-08.json` + `captopayload_latest.json` 同源；S6 腿 `cap_to_payload` rc0 0.06s（排在 `depth_cap_null` 之后）；smoke 腿 `# E534` 1/1（`scripts/run_e534_smoke_leg.py` 按锚点从 smoke_test.py 切出执行），`--doctor` 1/1 红；digest `research/digests/DIGEST-20261108-r1561-e534-cap-to-payload.md`。未跑：全量 smoke 套件（~20-30min）、S6 其余腿、采集器族与 market/paper 链（不宣称）。
+
+## E533 — 「一调用外」不是一种状态而是两种：四个未决臂里只有一个的实参是纯字面量调用（2026-11-08 r1563 bm-b）
+
+- **实测**：E527 留下的 4 个仍开着的臂，只有 2 个的实参是「调用」（直接 call 1 个 = `interval(...)`；名字由调用绑定 0 个）；另 2 个根本不是调用（1 个是调用方自己的参数 `stats_idxs`，1 个是 `win_stats` —— E533 卡片源里写的「由调用绑定」，实读是 `[j for j in rb if dates[j] >= MAIN_START]` 一条读取面板的列表推导，不是调用）。**「找不到能折叠的调用」和「实参不是调用」必须分开报**，否则「仍开着」会把两种完全不同的成因压成一句。
+- **一个真的折了**：`state_table(eff6, r6, list(range(6)))`（`scripts/regime5_validation.py:577`，selftest t6 known-value 腿）——内层 `range(6)` 全是字面量、外层 `list` 是白名单内建，折出 `[0, 1, 2, 3, 4, 5]`，该臂当场可判定。所以「仍在调用之上一跳」对其中 1/2 是错的，对另 1/2 才是对的。
+- **另一个不该说「读不到」**：`interval(off['rows'], 'tight', interval(...))`（`scripts/e285_interrange_gap_ceiling.py:505`）——`interval` 是本仓 `scripts/e285_interrange_gap_ceiling.py:108` 定义的函数，不是「折叠不认识的内建」。**归类必须区分「本仓源码不可内联」与「陌生内建」，并把参数读名一并点名**：它的实参还读 `off['rows']`，两层原因都在。
+- **折叠器的价值在它拒绝什么**：白名单（字面量/字面量容器/其上的算术/下标/白名单内建）之外一律停手并公布原因。`Name`、属性、推导式、对名字取切片=停手，不猜值。四个 fixture 臂（直接折、直接读名、名字由调用绑、名字由推导式绑、调用方参数、非调用表达式）各自落一格，任何一格错位或面被手改（关臂无折值/无折有折值/域外臂当开着）都拒收。
+- **成本**：`check` 0.05s，纯静态零执行零改写。
+
+**验证**：`scripts/e533_call_pure_arm.py` build rc0 / check problems=0 / verify 重 derive problems=0 / **selftest green**（6 fixture 臂 + 5 面手改拒收）；S6 腿 `call_pure_arm` rc0 0.05s；smoke 腿独立跑绿。

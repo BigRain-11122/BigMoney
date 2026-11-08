@@ -1,0 +1,121 @@
+{
+ "study": "E533_call_pure_arm",
+ "card": "E533-WHICH-OPEN-ARM-S-ARGUMENT-IS-A-CALL-THAT-IS-ITSELF-PURE-IN-LITERALS-AT-THE-SITE",
+ "title": "which open arm's argument is a call that folds to a literal at its own site",
+ "generated": "2026-11-08T10:35:56",
+ "evidence_cutoff": "2026-11-08",
+ "population_source": "e533_call_pure_arm.py::population() -- E527's published arms whose class is the followable one and whose outcome is still open",
+ "parent_face": "UNDECIDABLEARM-2026-11-08.json",
+ "method_limits": [
+  "the fold is a strict whitelist: literals, containers of literals, unary/binary arithmetic over those, subscripts of a folded container, and calls to a fixed set of builtins whose arguments all fold; anything else stops the fold and is published with the reason instead of being guessed at",
+  "a call to a name defined in this repository is published as repo source rather than inlined, so 'the callee is not a pure chain of literals' is a statement about what this fold does, not about the callee's purity",
+  "only the four arms E527 left open are examined here; an arm E527 already settled with a literal one hop out is not re-opened even if its argument is also a call",
+  "an arm whose argument is not a call at all is published with its kind and counted as out of scope rather than dropped, so the population cannot shrink silently",
+  "nothing is executed and no source is rewritten",
+  "sources_read is a snapshot of a live tree other lanes write to; it is published but not gated, while every class, every count and the verdict are re-derived"
+ ],
+ "summary": {
+  "sources_read": 1162,
+  "open_arms_in_parent": 4,
+  "arms_whose_argument_is_a_call": 2,
+  "arms_closed_by_the_fold": 1,
+  "arms_that_stay_open": 3,
+  "arms_out_of_scope": 2,
+  "arms_by_argument_kind": {
+   "a_direct_call_at_the_site": 2,
+   "the_caller_function_s_own_parameter": 1,
+   "a_name_the_caller_binds_from_an_expression_that_is_not_a_call": 1
+  },
+  "arms_by_fold_class": {
+   "the_callee_is_repo_source_and_is_not_inlined_here": 1,
+   "there_is_no_call_to_fold": 2,
+   "the_call_folds_to_a_literal_value": 1
+  },
+  "arms_by_outcome": {
+   "the_arm_stays_open_because_the_callee_is_not_a_pure_chain_of_literals": 1,
+   "the_arm_is_out_of_this_population_because_its_argument_is_not_a_call": 2,
+   "the_arm_becomes_decidable_because_the_call_folds_to_a_literal_value": 1
+  }
+ },
+ "verdict": "a_one_call_fold_closes_some_of_the_call_argument_arms_but_not_all_of_them",
+ "verdict_vocab": [
+  "no_open_arm_in_the_population_passes_a_call",
+  "every_open_arm_whose_argument_is_a_call_folds_to_a_literal_value",
+  "a_one_call_fold_closes_some_of_the_call_argument_arms_but_not_all_of_them",
+  "no_open_arm_whose_argument_is_a_call_folds_to_a_literal_value"
+ ],
+ "argument_kind_vocab": [
+  "a_direct_call_at_the_site",
+  "a_name_the_caller_binds_from_a_call",
+  "a_name_the_caller_binds_from_an_expression_that_is_not_a_call",
+  "the_caller_function_s_own_parameter",
+  "an_expression_that_is_not_a_call"
+ ],
+ "fold_class_vocab": [
+  "the_call_folds_to_a_literal_value",
+  "the_call_reads_a_name_so_its_arguments_are_not_all_literals",
+  "the_callee_is_repo_source_and_is_not_inlined_here",
+  "the_callee_is_not_a_builtin_this_fold_knows",
+  "there_is_no_call_to_fold"
+ ],
+ "arm_outcome_vocab": [
+  "the_arm_becomes_decidable_because_the_call_folds_to_a_literal_value",
+  "the_arm_stays_open_because_the_call_reads_a_name_rather_than_literals",
+  "the_arm_stays_open_because_the_callee_is_not_a_pure_chain_of_literals",
+  "the_arm_is_out_of_this_population_because_its_argument_is_not_a_call"
+ ],
+ "arms": [
+  {
+   "source": "scripts/e285_interrange_gap_ceiling.py",
+   "line": 505,
+   "callee": "ranges_are_row_identical",
+   "parameter": "hull",
+   "argument_expression": "interval(off['rows'], 'tight')",
+   "e527_binding_class": "not_a_plain_name",
+   "argument_kind": "a_direct_call_at_the_site",
+   "fold_class": "the_callee_is_repo_source_and_is_not_inlined_here",
+   "folded_value": null,
+   "arm_outcome": "the_arm_stays_open_because_the_callee_is_not_a_pure_chain_of_literals",
+   "error": null
+  },
+  {
+   "source": "scripts/regime5_validation.py",
+   "line": 173,
+   "callee": "state_table",
+   "parameter": "idxs",
+   "argument_expression": "stats_idxs",
+   "e527_binding_class": "the_caller_function_s_own_parameter",
+   "argument_kind": "the_caller_function_s_own_parameter",
+   "fold_class": "there_is_no_call_to_fold",
+   "folded_value": null,
+   "arm_outcome": "the_arm_is_out_of_this_population_because_its_argument_is_not_a_call",
+   "error": null
+  },
+  {
+   "source": "scripts/regime5_validation.py",
+   "line": 319,
+   "callee": "state_table",
+   "parameter": "idxs",
+   "argument_expression": "win_stats",
+   "e527_binding_class": "a_non_literal_expression_the_caller_binds",
+   "argument_kind": "a_name_the_caller_binds_from_an_expression_that_is_not_a_call",
+   "fold_class": "there_is_no_call_to_fold",
+   "folded_value": null,
+   "arm_outcome": "the_arm_is_out_of_this_population_because_its_argument_is_not_a_call",
+   "error": null
+  },
+  {
+   "source": "scripts/regime5_validation.py",
+   "line": 577,
+   "callee": "state_table",
+   "parameter": "idxs",
+   "argument_expression": "list(range(6))",
+   "e527_binding_class": "not_a_plain_name",
+   "argument_kind": "a_direct_call_at_the_site",
+   "fold_class": "the_call_folds_to_a_literal_value",
+   "folded_value": "[0, 1, 2, 3, 4, 5]",
+   "arm_outcome": "the_arm_becomes_decidable_because_the_call_folds_to_a_literal_value",
+   "error": null
+  }
+ ]
+}
