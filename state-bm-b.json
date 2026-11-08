@@ -6191,10 +6191,10 @@
   "extended_resolver leg rc0 0.05s (results/_r1589bmb_s6_chain.json)",
   "attrition_ledger_guard scan CLEAN 4 ledgers (3 historical shrinks healed)"
  ],
- "s7": "loop/watchdog/claws not re-checked this window -- stated, not claimed",
- "s7_checked_at": "2026-11-08T21:48:00+08:00",
+ "s7": "loop pin=2 current=2 no-op (first fire 22:12) | Bigmoney-LoopWatchdog present, next run 22:13",
+ "s7_checked_at": "2026-11-08T22:10:00+08:00",
  "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
- "s7_note": "loop pin 2/2 no-op; watchdog present; claws MATCH",
+ "s7_note": "checked after the delivery commit; the earlier field said \"not re-checked\" and was corrected here rather than left standing (r1448: write after you do)",
  "s7_pit": "Tools/Invoke-SilentExe.ps1 takes -Exe/-ArgString, not -FilePath; the first query failed with ParameterBindingException and an empty result, which reads exactly like 'task absent' -- an empty wrapper output is not evidence of absence (R49 family)",
  "s7_r1439": "loop pin=2 no-op | LoopWatchdog RE-REGISTERED (absent on this box; S4U, SWA=false) | pre-commit + pre-push claws reinstalled | attrition CLEAN 4 ledgers (3 healed) | sat engine status rc=0 idle",
  "s8": "n/a (idle_trigger not green: the pool carried 3 ready cards at open)",
