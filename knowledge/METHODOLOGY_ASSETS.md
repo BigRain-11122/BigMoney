@@ -13090,3 +13090,22 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 - **返回一个由值算出来的表达式 ≠ 返回那个值**——`return all(...)` 里对容器的读是读；判「交给调用方」要求 Return 路径不经过推导式/布尔组合（首版把 is_literal_side 判成 returns_it，修后 reads_it）。
 
 **验证**：`scripts/e528_recursive_read.py` build rc0 / check problems=0 / verify problems=0 / **selftest 8/8**（夹具 4 函数覆盖读到/无守卫/有守卫没人读三态 + 2 枚 doctored 面全拒）；面 `results/state_tilt/RECURSIVEREAD-2026-11-08.json` + `recursiveread_latest.json` 同源；S6 腿 `recursive_read` rc0（0.05s）；smoke 腿 `# E528` + `scripts/run_e528_smoke_leg.py` 1/1 绿、`--doctor` 1/1 红并字节还原 sha `41210d9facc1`；digest `research/digests/DIGEST-20261108-r1555-e528-recursive-read.md`。
+
+## E526 第二跳：E520 的 12 个“再转发”值里 15/23 交接点在第二跳就定值，链条只在 3 处继续（2026-11-08 r1556 bm-b）
+
+**命题**：E520 把“再转发一层”压成一个计数 `arguments_forwarded_again = 12`；一个数字说不出链条在哪结束——12 个值看起来像 12 条悬空的线。
+
+**方法**：每个 parcel 回到 E520 的转发调用点。转发的是**参数**→枚举拥有该参数的函数的全部调用点（E520 的 tracer 直接 import，不克隆）；转发的是**局部**→找调用者体内绑定该名的那条语句，并分类它的右值（赋值 / 循环目标 / with 目标 / 海象）。到达类别把“在这里就定值（字面量 / 常量 / 属性 / 调用结果 / 读）”与“还在继续转发”分开，不再并进一个 mixed 桶。
+
+**读数**：12 parcel（4 参数 / 8 局部），2,741 个源文件，第二跳 23 个交接点 = 字面量 9 + 另一调用返回值 6 + 再转发（参数 2 / 局部 3）5 + 走默认值 3。到达分类：9 定值 / 1 全转发 / 1 混合 / 1 全默认 / 0 无调用点。判词（由闸从 summary 重算）= `the_chain_continues_past_the_second_hop`。链条只在三处还开着：
+
+- `scripts/e489_write_wire.py:448` `classify(root)`：两个调用点都把 `root` 再当参数传下去 → 第三跳
+- `scripts/e328_quoted_number_staleness.py:358` `build(root)`：4 个调用点里 3 个传名为 `root` 的局部、1 个省略（默认）
+- `scripts/e445_facehome_target.py:144` `build(index)`：**两个**调用点都省略该参数 → 值来自签名默认，不是任何调用者
+
+**可复用教训**：
+- **“再转发”不等于“没到达”**：把“又一层参数”和“命名无处绑”并成一个 forwarded 计数，会让 12 个值读成 12 条悬空线；实际 3/4 在下一跳就定值，23 个交接点里只有 5 个还在动。
+- **默认值也是供给者**：当**所有**调用点都省略某个参数时，值来自签名默认而不是任何调用者；把它计进“书面值”会把“没人传”读成“有人传”。
+- **局部要回到绑定语句，不是函数边界**：停在边界只能得到“它是局部”，得不到“它从哪来”；绑定语句（赋值/循环目标/with 海象）可以用与调用点参数同一套词汇分类。
+
+**验证**：`scripts/e526_second_hop.py` build rc0 / check problems=0 / verify problems=0 / **selftest 11/11**（4 个 fixture 形态：参数混合、局部自调用结果、循环目标、无调用点的函数 + 3 个 doctored 面全部拒绝：藏起转发点、到达类别改写成定值、population 与 E520 计数不符）；面 `results/state_tilt/SECONDHOP-2026-11-08.json` + `secondhop_latest.json` 同源；S6 腿 `second_hop` rc0 0.06s；smoke 腿 `# E526` + `scripts/run_e526_smoke_leg.py` 1/1 绿、`--doctor` 1/1 红并字节还原 sha `00567c31567d`；digest `research/digests/DIGEST-20261108-r1556-e526-second-hop.md`。

@@ -22130,6 +22130,78 @@ except Exception as _e528x:
     _d528 = "leg could not run"
 check(_name528, not _bad528, "; ".join(_bad528)[:240] or _d528)
 
+# E526: the second hop past the 12 values E520 said are forwarded again.  Every parcel must be one
+# of E520's forwarding call sites (count asserted against E520's own summary), a forwarded parameter
+# must be followed through the call sites of the function that owns it and a forwarded local to the
+# statement that binds it, and doctored copies (a hidden forwarding site, an arrival relabelled
+# resolved, a population that no longer adds up to E520's count) must be refused.
+_name526 = ("E526 follows the second hop of the 12 arguments E520 said are forwarded again "
+            "(r1556 bm-b)")
+_bad526 = []
+try:
+    _m526 = __import__("importlib").import_module("e526_second_hop")
+    _f526 = json.load(open(os.path.join("results", "state_tilt", "secondhop_latest.json"),
+                           encoding="utf-8"))
+    _s526 = _f526.get("summary") or {}
+    _r526 = _f526.get("sites") or []
+    _up526 = _m526.load_upstream()[0]
+    _bad526.extend(_m526.face_problems(_f526))
+    _pop526 = _m526.population(_up526)
+    if not _r526:
+        _bad526.append("the forwarded parcel population is empty")
+    if len(_r526) != len(_pop526):
+        _bad526.append("the examined population is not the E520 forwarding set")
+    if (_up526.get("summary") or {}).get("arguments_forwarded_again") != len(_r526):
+        _bad526.append("the parcel count drifts from E520's forwarded count")
+    for _r in _r526:
+        if not os.path.exists(os.path.join("scripts", (_r.get("site_module") or "") + ".py")):
+            _bad526.append("%s names a module that is not on disk" % _r.get("site_module"))
+            continue
+        if _r.get("hop_style") != _m526.S_NO_BINDING and not _r.get("hop_sites"):
+            _bad526.append("%s:%s publishes no second-hop site"
+                           % (_r.get("site_module"), _r.get("site_line")))
+        if _r.get("hop1_kind") == _m526.H_PARAMETER and \
+                _r.get("hop_style") != _m526.S_CALL_SITE:
+            _bad526.append("%s:%s follows a forwarded parameter through %r"
+                           % (_r.get("site_module"), _r.get("site_line"),
+                              _r.get("hop_style")))
+
+    _doc526 = json.loads(json.dumps(_f526))
+    _doc526["verdict"] = (_m526.V_RESOLVED if _f526["verdict"] != _m526.V_RESOLVED
+                          else _m526.V_FORWARDED)
+    if not _m526.face_problems(_doc526):
+        _bad526.append("a hand-written verdict was accepted")
+    _doc526 = json.loads(json.dumps(_f526))
+    for _row in _doc526["sites"]:
+        if _row.get("arrival") == _m526.R_MIXED:
+            _row["hop_sites"] = [_s for _s in _row["hop_sites"]
+                                 if _s.get("argument_kind") in _m526.RESOLVED]
+            _row["hop_site_count"] = len(_row["hop_sites"])
+            _row["second_hop_kind_counts"] = {}
+            _row["arrival"] = _m526.R_RESOLVED
+            break
+    if not _m526.face_problems(_doc526):
+        _bad526.append("an arrival relabelled resolved while a site forwards again was accepted")
+    _doc526 = json.loads(json.dumps(_f526))
+    _doc526["summary"]["parcels_examined"] = len(_r526) + 1
+    if not _m526.face_problems(_doc526):
+        _bad526.append("a population that does not add up to E520's count was accepted")
+    _d526 = ("%d parcels (%s params / %s locals) | %d second-hop sites | resolved there %s | "
+             "forwarded again %s | default %s | resolved parcels %s | mixed %s" % (
+                 len(_r526),
+                 (_s526.get("parcels_by_hop1_kind") or {}).get(_m526.H_PARAMETER),
+                 (_s526.get("parcels_by_hop1_kind") or {}).get(_m526.H_LOCAL),
+                 _s526.get("second_hop_sites"),
+                 _s526.get("second_hop_values_resolved_there"),
+                 _s526.get("second_hop_values_forwarded_again"),
+                 _s526.get("second_hop_values_at_the_default"),
+                 _s526.get("parcels_resolved_at_the_second_hop"),
+                 _s526.get("parcels_mixed_at_the_second_hop")))
+except Exception as _e526x:
+    _bad526.append(repr(_e526x)[:160])
+    _d526 = "leg could not run"
+check(_name526, not _bad526, "; ".join(_bad526)[:240] or _d526)
+
 
 if __name__ == "__main__":
     sys.exit(main())

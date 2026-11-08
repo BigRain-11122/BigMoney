@@ -1,0 +1,547 @@
+{
+ "arrival_vocab": [
+  "resolved_at_the_second_hop",
+  "forwarded_again_at_the_second_hop",
+  "mixed_resolved_and_forwarded",
+  "left_at_the_default_at_the_second_hop",
+  "no_supplying_site_in_this_tree"
+ ],
+ "card": "E526-WHAT-HAPPENS-AT-THE-SECOND-HOP-OF-THE-12-ARGUMENTS-THAT-ARE-FORWARDED-AGAIN",
+ "evidence_cutoff": "2026-11-08",
+ "generated": "2026-11-08T08:25:45",
+ "hop_style_vocab": [
+  "a_call_site_of_the_function_that_owns_the_parameter",
+  "the_statement_inside_the_caller_that_binds_the_local",
+  "no_binding_anywhere_inside_the_caller"
+ ],
+ "method_limits": [
+  "a forwarded *parameter* is followed through the call sites of the function that owns it; a function reached through a container, a callback or an instance attribute is outside this scan and is published as no_supplying_site_in_this_tree, never as a written value",
+  "a forwarded *local* is followed to the statement that binds it inside the caller at or before the forwarding line; a name bound later in the same body is still published because Python binds it before the call only when the path runs through the statement",
+  "the second hop is never followed a third time: a value that is again a parameter or a local is published as forwarded_again_at_the_second_hop and the chain ends there in this face",
+  "the argument classifier and the parameter tracer are imported from E520, so a change in E520 moves this face and verify reports it",
+  "nothing is executed and no source is rewritten",
+  "sources_read is a snapshot of a live tree other lanes write to; it is published but not gated, while every arrival, kind and verdict is re-derived"
+ ],
+ "population_source": "e526_second_hop.py::population() -- every E520 call site whose argument_kind is a_parameter_of_the_function_that_contains_the_call_site or a_local_of_the_function_that_contains_the_call_site",
+ "sites": [
+  {
+   "arrival": "resolved_at_the_second_hop",
+   "def_line": 239,
+   "function": "censused",
+   "hop1_kind": "a_local_of_the_function_that_contains_the_call_site",
+   "hop_site_count": 1,
+   "hop_sites": [
+    {
+     "argument": "rows_from(budget)",
+     "argument_kind": "the_result_of_another_call",
+     "bound_how": "an_assignment_inside_the_caller",
+     "caller_module": "e279_substitution_soundness",
+     "hop_function": "build",
+     "line": 421,
+     "ownership": null
+    }
+   ],
+   "hop_style": "the_statement_inside_the_caller_that_binds_the_local",
+   "local": "rows",
+   "module": "e279_substitution_soundness",
+   "note": null,
+   "rows_that_share_this_parcel": 1,
+   "second_hop_kind_counts": {
+    "the_result_of_another_call": 1
+   },
+   "site_argument": "rows",
+   "site_line": 422,
+   "site_module": "e279_substitution_soundness",
+   "site_ownership": "the_call_is_inside_the_module_that_defines_the_function",
+   "source": "scripts/e279_substitution_soundness.py"
+  },
+  {
+   "arrival": "resolved_at_the_second_hop",
+   "def_line": 239,
+   "function": "censused",
+   "hop1_kind": "a_parameter_of_the_function_that_contains_the_call_site",
+   "hop_site_count": 7,
+   "hop_sites": [
+    {
+     "argument": "[_row(0, 'widening_reenters', 2.0, (0.0, None, 2.0, 2.0), (16.0, 0.4, 5.0, 6.0))]",
+     "argument_kind": "a_literal_written_at_the_call_site",
+     "caller_module": "e279_substitution_soundness",
+     "hop_function": "_one",
+     "line": 554,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "[_row(0, 'widening_reenters', 3.0, (0.0, None, 1.0, 1.0), (16.0, 0.4, 2.5, 3.5))]",
+     "argument_kind": "a_literal_written_at_the_call_site",
+     "caller_module": "e279_substitution_soundness",
+     "hop_function": "_one",
+     "line": 564,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "[_row(0, 'widening_reenters', 9.0, (0.0, None, 1.0, 1.0), (16.0, 0.4, 2.5, 3.5))]",
+     "argument_kind": "a_literal_written_at_the_call_site",
+     "caller_module": "e279_substitution_soundness",
+     "hop_function": "_one",
+     "line": 571,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "[_row(0, 'widening_reenters', 9.0, (0.0, None, 1.0, 1.0), (16.0, 2.0, 2.5, 3.5))]",
+     "argument_kind": "a_literal_written_at_the_call_site",
+     "caller_module": "e279_substitution_soundness",
+     "hop_function": "_one",
+     "line": 578,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "[r]",
+     "argument_kind": "a_literal_written_at_the_call_site",
+     "caller_module": "e279_substitution_soundness",
+     "hop_function": "_one",
+     "line": 596,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "[_row(0, 'widening_reenters', 3.0, (0.0, None, 1.0, 1.0), (0.0, None, 1.0, 1.0))]",
+     "argument_kind": "a_literal_written_at_the_call_site",
+     "caller_module": "e279_substitution_soundness",
+     "hop_function": "_one",
+     "line": 603,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "[_row(0, 'widening_reenters', 1.55, (10.0, 5.0, 1.0, 1.1), (9.0, 1.2, 1.5, 1.6))]",
+     "argument_kind": "a_literal_written_at_the_call_site",
+     "caller_module": "e279_substitution_soundness",
+     "hop_function": "_one",
+     "line": 611,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    }
+   ],
+   "hop_style": "a_call_site_of_the_function_that_owns_the_parameter",
+   "local": "rows",
+   "module": "e279_substitution_soundness",
+   "note": null,
+   "rows_that_share_this_parcel": 1,
+   "second_hop_kind_counts": {
+    "a_literal_written_at_the_call_site": 7
+   },
+   "site_argument": "rows",
+   "site_line": 526,
+   "site_module": "e279_substitution_soundness",
+   "site_ownership": "the_call_is_inside_the_module_that_defines_the_function",
+   "source": "scripts/e279_substitution_soundness.py"
+  },
+  {
+   "arrival": "mixed_resolved_and_forwarded",
+   "def_line": 234,
+   "function": "build",
+   "hop1_kind": "a_parameter_of_the_function_that_contains_the_call_site",
+   "hop_site_count": 4,
+   "hop_sites": [
+    {
+     "argument": "root",
+     "argument_kind": "a_local_of_the_function_that_contains_the_call_site",
+     "caller_module": "e328_quoted_number_staleness",
+     "hop_function": "verify",
+     "line": 500,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "root",
+     "argument_kind": "a_local_of_the_function_that_contains_the_call_site",
+     "caller_module": "e328_quoted_number_staleness",
+     "hop_function": "verify",
+     "line": 501,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "root",
+     "argument_kind": "a_local_of_the_function_that_contains_the_call_site",
+     "caller_module": "e328_quoted_number_staleness",
+     "hop_function": "verify",
+     "line": 507,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": null,
+     "argument_kind": "nothing_is_passed_so_the_signature_default_applies",
+     "caller_module": "e328_quoted_number_staleness",
+     "hop_function": "verify",
+     "line": 536,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    }
+   ],
+   "hop_style": "a_call_site_of_the_function_that_owns_the_parameter",
+   "local": "root",
+   "module": "e328_quoted_number_staleness",
+   "note": null,
+   "rows_that_share_this_parcel": 1,
+   "second_hop_kind_counts": {
+    "a_local_of_the_function_that_contains_the_call_site": 3,
+    "nothing_is_passed_so_the_signature_default_applies": 1
+   },
+   "site_argument": "root",
+   "site_line": 358,
+   "site_module": "e328_quoted_number_staleness",
+   "site_ownership": "the_call_is_inside_the_module_that_defines_the_function",
+   "source": "scripts/e365_face_population_pin.py"
+  },
+  {
+   "arrival": "resolved_at_the_second_hop",
+   "def_line": 234,
+   "function": "build",
+   "hop1_kind": "a_local_of_the_function_that_contains_the_call_site",
+   "hop_site_count": 1,
+   "hop_sites": [
+    {
+     "argument": "_fixture()",
+     "argument_kind": "the_result_of_another_call",
+     "bound_how": "an_assignment_inside_the_caller",
+     "caller_module": "e328_quoted_number_staleness",
+     "hop_function": "cmd_selftest",
+     "line": 469,
+     "ownership": null
+    }
+   ],
+   "hop_style": "the_statement_inside_the_caller_that_binds_the_local",
+   "local": "root",
+   "module": "e328_quoted_number_staleness",
+   "note": null,
+   "rows_that_share_this_parcel": 1,
+   "second_hop_kind_counts": {
+    "the_result_of_another_call": 1
+   },
+   "site_argument": "root",
+   "site_line": 482,
+   "site_module": "e328_quoted_number_staleness",
+   "site_ownership": "the_call_is_inside_the_module_that_defines_the_function",
+   "source": "scripts/e365_face_population_pin.py"
+  },
+  {
+   "arrival": "resolved_at_the_second_hop",
+   "def_line": 234,
+   "function": "build",
+   "hop1_kind": "a_local_of_the_function_that_contains_the_call_site",
+   "hop_site_count": 1,
+   "hop_sites": [
+    {
+     "argument": "tempfile.mkdtemp(prefix='e365_rerun_')",
+     "argument_kind": "the_result_of_another_call",
+     "bound_how": "an_assignment_inside_the_caller",
+     "caller_module": "e365_face_population_pin",
+     "hop_function": "rerun",
+     "line": 479,
+     "ownership": null
+    }
+   ],
+   "hop_style": "the_statement_inside_the_caller_that_binds_the_local",
+   "local": "root",
+   "module": "e328_quoted_number_staleness",
+   "note": null,
+   "rows_that_share_this_parcel": 1,
+   "second_hop_kind_counts": {
+    "the_result_of_another_call": 1
+   },
+   "site_argument": "tmp",
+   "site_line": 484,
+   "site_module": "e365_face_population_pin",
+   "site_ownership": "the_call_is_an_attribute_on_a_name_imported_at_the_call_site",
+   "source": "scripts/e365_face_population_pin.py"
+  },
+  {
+   "arrival": "resolved_at_the_second_hop",
+   "def_line": 121,
+   "function": "attribute",
+   "hop1_kind": "a_local_of_the_function_that_contains_the_call_site",
+   "hop_site_count": 1,
+   "hop_sites": [
+    {
+     "argument": "load_json(os.path.join(ROOT, STORE_FILE))",
+     "argument_kind": "the_result_of_another_call",
+     "bound_how": "an_assignment_inside_the_caller",
+     "caller_module": "e374_store_load_bearing_members",
+     "hop_function": "build",
+     "line": 168,
+     "ownership": null
+    }
+   ],
+   "hop_style": "the_statement_inside_the_caller_that_binds_the_local",
+   "local": "store",
+   "module": "e374_store_load_bearing_members",
+   "note": null,
+   "rows_that_share_this_parcel": 1,
+   "second_hop_kind_counts": {
+    "the_result_of_another_call": 1
+   },
+   "site_argument": "store",
+   "site_line": 184,
+   "site_module": "e374_store_load_bearing_members",
+   "site_ownership": "the_call_is_inside_the_module_that_defines_the_function",
+   "source": "scripts/e374_store_load_bearing_members.py"
+  },
+  {
+   "arrival": "resolved_at_the_second_hop",
+   "def_line": 121,
+   "function": "attribute",
+   "hop1_kind": "a_local_of_the_function_that_contains_the_call_site",
+   "hop_site_count": 1,
+   "hop_sites": [
+    {
+     "argument": "load_json(os.path.join(ROOT, STORE_FILE))",
+     "argument_kind": "the_result_of_another_call",
+     "bound_how": "an_assignment_inside_the_caller",
+     "caller_module": "e374_store_load_bearing_members",
+     "hop_function": "verify",
+     "line": 262,
+     "ownership": null
+    }
+   ],
+   "hop_style": "the_statement_inside_the_caller_that_binds_the_local",
+   "local": "store",
+   "module": "e374_store_load_bearing_members",
+   "note": null,
+   "rows_that_share_this_parcel": 1,
+   "second_hop_kind_counts": {
+    "the_result_of_another_call": 1
+   },
+   "site_argument": "store",
+   "site_line": 281,
+   "site_module": "e374_store_load_bearing_members",
+   "site_ownership": "the_call_is_inside_the_module_that_defines_the_function",
+   "source": "scripts/e374_store_load_bearing_members.py"
+  },
+  {
+   "arrival": "resolved_at_the_second_hop",
+   "def_line": 121,
+   "function": "attribute",
+   "hop1_kind": "a_local_of_the_function_that_contains_the_call_site",
+   "hop_site_count": 1,
+   "hop_sites": [
+    {
+     "argument": "{'members': [{'path': p, 'text': t} for p, t in files]}",
+     "argument_kind": "a_literal_written_at_the_call_site",
+     "bound_how": "an_assignment_inside_the_caller",
+     "caller_module": "e374_store_load_bearing_members",
+     "hop_function": "selftest",
+     "line": 338,
+     "ownership": null
+    }
+   ],
+   "hop_style": "the_statement_inside_the_caller_that_binds_the_local",
+   "local": "store",
+   "module": "e374_store_load_bearing_members",
+   "note": null,
+   "rows_that_share_this_parcel": 1,
+   "second_hop_kind_counts": {
+    "a_literal_written_at_the_call_site": 1
+   },
+   "site_argument": "fake_store",
+   "site_line": 340,
+   "site_module": "e374_store_load_bearing_members",
+   "site_ownership": "the_call_is_inside_the_module_that_defines_the_function",
+   "source": "scripts/e374_store_load_bearing_members.py"
+  },
+  {
+   "arrival": "resolved_at_the_second_hop",
+   "def_line": 121,
+   "function": "attribute",
+   "hop1_kind": "a_local_of_the_function_that_contains_the_call_site",
+   "hop_site_count": 1,
+   "hop_sites": [
+    {
+     "argument": "{'members': [{'path': p, 'text': t} for p, t in files]}",
+     "argument_kind": "a_literal_written_at_the_call_site",
+     "bound_how": "an_assignment_inside_the_caller",
+     "caller_module": "e374_store_load_bearing_members",
+     "hop_function": "selftest",
+     "line": 338,
+     "ownership": null
+    }
+   ],
+   "hop_style": "the_statement_inside_the_caller_that_binds_the_local",
+   "local": "store",
+   "module": "e374_store_load_bearing_members",
+   "note": null,
+   "rows_that_share_this_parcel": 1,
+   "second_hop_kind_counts": {
+    "a_literal_written_at_the_call_site": 1
+   },
+   "site_argument": "fake_store",
+   "site_line": 344,
+   "site_module": "e374_store_load_bearing_members",
+   "site_ownership": "the_call_is_inside_the_module_that_defines_the_function",
+   "source": "scripts/e374_store_load_bearing_members.py"
+  },
+  {
+   "arrival": "left_at_the_default_at_the_second_hop",
+   "def_line": 141,
+   "function": "build",
+   "hop1_kind": "a_parameter_of_the_function_that_contains_the_call_site",
+   "hop_site_count": 2,
+   "hop_sites": [
+    {
+     "argument": null,
+     "argument_kind": "nothing_is_passed_so_the_signature_default_applies",
+     "caller_module": "e445_facehome_target",
+     "hop_function": "build",
+     "line": 374,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": null,
+     "argument_kind": "nothing_is_passed_so_the_signature_default_applies",
+     "caller_module": "e445_facehome_target",
+     "hop_function": "build",
+     "line": 502,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    }
+   ],
+   "hop_style": "a_call_site_of_the_function_that_owns_the_parameter",
+   "local": "index",
+   "module": "e441_facehome_family",
+   "note": null,
+   "rows_that_share_this_parcel": 1,
+   "second_hop_kind_counts": {
+    "nothing_is_passed_so_the_signature_default_applies": 2
+   },
+   "site_argument": "index",
+   "site_line": 144,
+   "site_module": "e445_facehome_target",
+   "site_ownership": "the_call_is_an_attribute_on_a_name_imported_at_the_call_site",
+   "source": "scripts/e441_facehome_family.py"
+  },
+  {
+   "arrival": "forwarded_again_at_the_second_hop",
+   "def_line": 365,
+   "function": "classify",
+   "hop1_kind": "a_parameter_of_the_function_that_contains_the_call_site",
+   "hop_site_count": 2,
+   "hop_sites": [
+    {
+     "argument": "root",
+     "argument_kind": "a_parameter_of_the_function_that_contains_the_call_site",
+     "caller_module": "e489_write_wire",
+     "hop_function": "build",
+     "line": 579,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    },
+    {
+     "argument": "root",
+     "argument_kind": "a_parameter_of_the_function_that_contains_the_call_site",
+     "caller_module": "e489_write_wire",
+     "hop_function": "build",
+     "line": 738,
+     "ownership": "the_call_is_inside_the_module_that_defines_the_function"
+    }
+   ],
+   "hop_style": "a_call_site_of_the_function_that_owns_the_parameter",
+   "local": "root",
+   "module": "e489_write_wire",
+   "note": null,
+   "rows_that_share_this_parcel": 1,
+   "second_hop_kind_counts": {
+    "a_parameter_of_the_function_that_contains_the_call_site": 2
+   },
+   "site_argument": "root",
+   "site_line": 448,
+   "site_module": "e489_write_wire",
+   "site_ownership": "the_call_is_inside_the_module_that_defines_the_function",
+   "source": "scripts/e489_write_wire.py"
+  },
+  {
+   "arrival": "resolved_at_the_second_hop",
+   "def_line": 365,
+   "function": "classify",
+   "hop1_kind": "a_local_of_the_function_that_contains_the_call_site",
+   "hop_site_count": 1,
+   "hop_sites": [
+    {
+     "argument": "_fixture(tmp)",
+     "argument_kind": "the_result_of_another_call",
+     "bound_how": "an_assignment_inside_the_caller",
+     "caller_module": "e489_write_wire",
+     "hop_function": "selftest",
+     "line": 672,
+     "ownership": null
+    }
+   ],
+   "hop_style": "the_statement_inside_the_caller_that_binds_the_local",
+   "local": "root",
+   "module": "e489_write_wire",
+   "note": null,
+   "rows_that_share_this_parcel": 1,
+   "second_hop_kind_counts": {
+    "the_result_of_another_call": 1
+   },
+   "site_argument": "root",
+   "site_line": 684,
+   "site_module": "e489_write_wire",
+   "site_ownership": "the_call_is_inside_the_module_that_defines_the_function",
+   "source": "scripts/e489_write_wire.py"
+  }
+ ],
+ "study": "E526_second_hop",
+ "summary": {
+  "distinct_supplying_modules": [
+   "e279_substitution_soundness",
+   "e328_quoted_number_staleness",
+   "e365_face_population_pin",
+   "e374_store_load_bearing_members",
+   "e489_write_wire"
+  ],
+  "parcels_by_arrival": {
+   "forwarded_again_at_the_second_hop": 1,
+   "left_at_the_default_at_the_second_hop": 1,
+   "mixed_resolved_and_forwarded": 1,
+   "no_supplying_site_in_this_tree": 0,
+   "resolved_at_the_second_hop": 9
+  },
+  "parcels_by_hop1_kind": {
+   "a_local_of_the_function_that_contains_the_call_site": 8,
+   "a_parameter_of_the_function_that_contains_the_call_site": 4
+  },
+  "parcels_by_hop_style": {
+   "a_call_site_of_the_function_that_owns_the_parameter": 4,
+   "no_binding_anywhere_inside_the_caller": 0,
+   "the_statement_inside_the_caller_that_binds_the_local": 8
+  },
+  "parcels_examined": 12,
+  "parcels_forwarded_again_at_the_second_hop": 1,
+  "parcels_left_at_the_default": 1,
+  "parcels_mixed_at_the_second_hop": 1,
+  "parcels_resolved_at_the_second_hop": 9,
+  "parcels_with_no_supplying_site": 0,
+  "second_hop_kind_counts": {
+   "a_file_or_directory_read_at_the_call_site": 0,
+   "a_literal_written_at_the_call_site": 9,
+   "a_local_of_the_function_that_contains_the_call_site": 3,
+   "a_module_constant_of_the_calling_module": 0,
+   "a_parameter_of_the_function_that_contains_the_call_site": 2,
+   "a_star_argument_the_scan_does_not_expand": 0,
+   "an_attribute_on_a_name_imported_at_the_call_site": 0,
+   "an_expression_computed_at_the_call_site": 0,
+   "nothing_is_passed_and_the_parameter_has_no_default_so_the_call_would_raise": 0,
+   "nothing_is_passed_so_the_signature_default_applies": 3,
+   "the_result_of_another_call": 6
+  },
+  "second_hop_sites": 23,
+  "second_hop_values_at_the_default": 3,
+  "second_hop_values_forwarded_again": 5,
+  "second_hop_values_resolved_there": 15,
+  "sources_read": 2741,
+  "upstream_arguments_forwarded_again": 12
+ },
+ "title": "what happens at the second hop of the arguments that are forwarded again",
+ "upstream_face": "results/state_tilt/FORWARDEDARG-2026-11-08.json",
+ "upstream_face_sha256": "91c9e2dd6eaf7e087e4d226f6a6c36d5e859f70a14e27c2c4829b2538125de18",
+ "upstream_study": "E520_forwarded_argument_origin",
+ "verdict": "the_chain_continues_past_the_second_hop",
+ "verdict_vocab": [
+  "every_second_hop_resolves_to_a_value_that_is_not_forwarded_again",
+  "the_chain_continues_past_the_second_hop",
+  "some_second_hop_never_reaches_a_supplying_site_so_the_population_stays_unmeasured",
+  "no_forwarded_argument_in_the_upstream_face"
+ ]
+}

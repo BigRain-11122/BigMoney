@@ -1979,6 +1979,12 @@ LEGS = [
     # comprehension iterates).  `check` re-derives every verdict, arm and guard from the rows and
     # refuses a face that calls an unguarded recursion readable.
     ("recursive_read", ["python", "scripts/e528_recursive_read.py", "check"]),
+    # E526 takes the 12 values E520 said are forwarded again one hop further: a forwarded parameter
+    # through the call sites of the function that owns it, a forwarded local to the statement that
+    # binds it, and each parcel gets an arrival class that keeps `resolved here` apart from `still
+    # forwarded`.  `check` re-derives every arrival from its own sites, refuses a row that hides a
+    # forwarding site, and asserts the parcel count against E520's own summary.
+    ("second_hop", ["python", "scripts/e526_second_hop.py", "check"]),
     # E520 takes E519's own two non-answers one hop further: a local that is a *parameter of the
     # caller* is supplied by that function's call sites, and a name bound nowhere in the caller is
     # bound by another scope.  `check` re-derives the argument histogram from the rows, the
