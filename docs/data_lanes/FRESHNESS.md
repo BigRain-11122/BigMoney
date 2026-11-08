@@ -7,7 +7,7 @@ Verdict: **host_down** -- 13/15 lanes in sync, 13/15 auditable from this machine
 
 ## Whose disk these numbers are on
 
-以本机 bm-c 的盘为基准：14 条在役车道里有 1 条的数字不在本机盘上：1 条在 bm-b 的盘上（221.77h 未报到）；留在本机盘上的 13 条里 13 条可核实。
+以本机 bm-c 的盘为基准：14 条在役车道里有 1 条的数字不在本机盘上：1 条在 bm-b 的盘上（222.25h 未报到）；留在本机盘上的 13 条里 13 条可核实。
 
 - `bm-b`: marks (host down)
 | lane | host | tail | missing (official days) | verdict | authority |
@@ -42,14 +42,17 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 These lanes cannot be certified here and the machine that is supposed to collect them has not written a heartbeat for more than 2.0h. Until it comes back the numbers below are this machine's stale copies, not the company's data.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (221.77h ago) -- holding back marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (222.25h ago) -- holding back marks
 
 ## Owners that stopped reporting
 
 A different question from the section above: these machines have written no heartbeat for more than 24.0h, so the lanes they own are being judged from whatever was last committed. A lane here can still read `in_sync` -- the number is old, the owner is gone, and nobody would notice the day the file stops being written.
 
-- `bm-a`: last seen 2026-11-07T16:29:11+08:00 (26.0h ago) -- owns futures, heat, lhb, repo
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (221.77h ago) -- owns astock_daily, marks
+- `bm-a`: last seen 2026-11-07T16:29:11+08:00 (26.49h ago) -- owns futures, heat, lhb, repo
+  - nobody is covering these: futures, heat, lhb, repo
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (222.25h ago) -- owns astock_daily, marks
+  - already covered by a declared stand-in: astock_daily <- bm-c (nothing to wait for)
+  - nobody is covering these: marks
 
 ## Why some lanes cannot be certified here
 

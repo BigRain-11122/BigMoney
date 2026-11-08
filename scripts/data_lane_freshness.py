@@ -725,8 +725,18 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
             continue
         h = hosts.setdefault(host, {"host": host, "lanes": [],
                                     "lanes_unverifiable": [], "last_seen": None,
-                                    "age_h": None, "alive": None})
+                                    "age_h": None, "alive": None,
+                                    "lanes_taken_over": {}})
         h["lanes"].append(r["lane"])
+        # D-20261108-14 follow-up: a lane already being run by a declared
+        # stand-in is a different situation from one waiting for its owner.
+        # Measured 2026-11-08: astock_daily published authority.took_over_by=bm-c
+        # every day, yet the board printed "bm-b silent 222h owns astock_daily"
+        # -- a sentence that tells a reader to wait for a machine that is not
+        # needed. Silence stays a fact; who is covering it is the actionable half.
+        standin = r.get("declared_takeover_by")
+        if standin and standin != host:
+            h["lanes_taken_over"][r["lane"]] = standin
         if r["verdict"] == "unverifiable":
             h["lanes_unverifiable"].append(r["lane"])
         if hh["last_seen"] is not None:
@@ -748,6 +758,9 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
         h["silent"] = silent
         if silent:
             h["silent_lanes"] = sorted(h["lanes"])
+            over = h.get("lanes_taken_over") or {}
+            h["silent_taken_over"] = {k: over[k] for k in sorted(over)}
+            h["silent_waiting"] = [l for l in h["silent_lanes"] if l not in over]
             hosts_silent.append(h["host"])
     hosts_silent.sort()
     # a lane nobody can certify AND whose host stopped reporting is not an open
@@ -1162,6 +1175,15 @@ def render_md(report, cert="auto"):
             tailnote += (f"- `{host}`: last seen {h.get('last_seen')}"
                          + (f" ({age}h ago)" if age is not None else "")
                          + f" -- owns {', '.join(h.get('silent_lanes') or [])}\n")
+            over = h.get("silent_taken_over") or {}
+            if over:
+                tailnote += ("  - already covered by a declared stand-in: "
+                             + ", ".join(f"{l} <- {b}" for l, b in over.items())
+                             + " (nothing to wait for)\n")
+            waiting = h.get("silent_waiting") or []
+            if waiting:
+                tailnote += ("  - nobody is covering these: "
+                             + ", ".join(waiting) + "\n")
     unm = report.get("unmeasured_lanes") or []
     if unm:
         tailnote += ("\n## Lanes the coverage rule caught, with no reader\n\n"
@@ -2010,7 +2032,42 @@ def selftest():
     print("[PASS] L30 a silent owner is its own alarm -- a fresh-looking lane "
           "does not clear it, and 3h of silence does not raise it", flush=True)
 
-    print("selftest: 28/28 PASS", flush=True)
+    # L31 (D-20261108-14 follow-up) a silent owner is a fact; "who is covering
+    # its lanes" is the actionable half. Measured 2026-11-08: astock_daily
+    # published authority.took_over_by=bm-c every run, yet the board said
+    # "bm-b silent 222h owns astock_daily" -- telling a reader to wait for a
+    # machine nobody needs. Silence stays printed; the two situations separate.
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "m"))
+        json.dump({"machine": "bm-c", "cutoff": "2026-11-06",
+                   "authority": {"lane_owner": "bm-b", "writer_machine": "bm-c",
+                                 "data_face_machine": "bm-c",
+                                 "declared_takeover": True,
+                                 "took_over_by": "bm-c"}},
+                  open(os.path.join(td, "covered.json"), "w"))
+        json.dump({"machine": "bm-b", "cutoff": "2026-11-06"},
+                  open(os.path.join(td, "orphan.json"), "w"))
+        spec31 = [{"lane": "covered_lane", "kind": "status",
+                   "path": "covered.json", "key": "cutoff",
+                   "owner": "bm-b", "writer": None},
+                  {"lane": "orphan_lane", "kind": "status",
+                   "path": "orphan.json", "key": "cutoff",
+                   "owner": "bm-b", "writer": None}]
+        json.dump({"clock_read": "2026-10-28T10:00:00+08:00"},
+                  open(os.path.join(td, "m", "bm-b.json"), "w"))
+        rep31 = audit(days, now, root=td,
+                      machines_dir=os.path.join(td, "m"), lanes=spec31)
+        hb = rep31["hosts"]["bm-b"]
+        assert hb["silent_lanes"] == ["covered_lane", "orphan_lane"], hb
+        assert hb["silent_taken_over"] == {"covered_lane": "bm-c"}, hb
+        assert hb["silent_waiting"] == ["orphan_lane"], hb
+        sec31 = render_md(rep31).split("Owners that stopped reporting")[1]
+        assert "covered_lane <- bm-c" in sec31, sec31
+        assert "nobody is covering these: orphan_lane" in sec31, sec31
+    print("[PASS] L31 a lane a stand-in already runs is not printed as waiting "
+          "for its silent owner", flush=True)
+
+    print("selftest: 29/29 PASS", flush=True)
     return 0
 
 
@@ -2214,8 +2271,13 @@ def run(now=None, allow_network=False):
               f"{','.join(h.get('lanes_unverifiable') or []) or '-'}", flush=True)
     for host in report.get("hosts_silent") or []:
         h = (report.get("hosts") or {}).get(host) or {}
+        over = h.get("silent_taken_over") or {}
         print(f"SILENT-OWNER {host} age_h={h.get('age_h')} "
-              f"lanes={','.join(h.get('silent_lanes') or []) or '-'}", flush=True)
+              f"lanes={','.join(h.get('silent_lanes') or []) or '-'} "
+              f"waiting={','.join(h.get('silent_waiting') or []) or '-'} "
+              f"taken_over="
+              f"{','.join(f'{l}<-{b}' for l, b in over.items()) or '-'}",
+              flush=True)
     print(f"verdict={report['verdict']} counts={report['counts']} "
           f"worst={report['worst']}", flush=True)
     return 0

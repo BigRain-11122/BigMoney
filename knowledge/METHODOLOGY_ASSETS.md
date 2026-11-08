@@ -10793,3 +10793,24 @@ results/etf_book_2025_repro.json + research/ETF_BOOK_2025_REPRO.md + S6 腿 book
 正身 = scripts/etf_book_execution_admission_gap.py（selftest 18/18 · run rc0 · --check OK）+
 results/etf_book_execution_admission_gap.json + research/digests/DIGEST-20261108-r1438-execution-admission-gap.md +
 S6 腿 execution_admission_gap
+
+
+## E444 — 「属主不说话了」是一个事实，「谁在替它跑」是另一个答案（r1439 bm-c）
+
+**读法**：新鲜度板 2026-11-08 打出 `SILENT-OWNER bm-b age_h=222 lanes=astock_daily,marks`。
+两个数字都真：bm-b 确实 222 小时没心跳，astock_daily 确实挂在它名下。但 `astock_daily`
+的封套里每一轮都写着 `authority.took_over_by=bm-c`，面板 tail 2026-11-06、覆盖率 99.9%、
+当轮封套 ts 就是今天 10:41 —— 一句话把「等 bm-b 回来」印在了一个不需要等的道旁边。
+可行动的那半句（还得有人管的是什么）被并进了同一个 `lanes=` 列表。
+
+三条可复用：
+① **静默是事实，覆盖是行动**：属主静默照印（不许因为有人接管就把告警消掉），但行上必须
+再分两栏 —— `waiting=`（真没人管）与 `taken_over=lane<-machine`（已有替班）。
+读者要的是「我要做什么」，不是「谁不在」。
+② **接管事实的来源是行上已有的字段，不是又一把尺子**：`declared_takeover_by` 板子早就在读了
+（r1256/r1257 用于 authority 判定），但只在判决层用，没进聚合层；补的是消费，不是新建测量。
+③ **不许把「接管」当「消警」**：本轮的 selftest 腿钉的是两栏的值（waiting 与 taken_over 各是什么），
+不是「告警消失」；一条只能变绿不能变红的腿不是证据。
+
+正身 = scripts/data_lane_freshness.py（selftest 28→29/29 · L31）+ results/data_lane_freshness.json +
+results/data_lane_freshness.md
