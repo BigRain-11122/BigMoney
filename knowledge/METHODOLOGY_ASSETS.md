@@ -11213,3 +11213,18 @@ YEAR-GATE），输出一行可执行句子（尺寸、手数、三条代价）�
 
 坑：--check 首版打印「3 fields re-derived」，因为从 4 键的 body 里减掉了 face 键——
 回执自己的回执也会差一。计数要数真正比较过的键。
+
+## E460 — 闸判的是书，人跑的是书加包装：把「同一个目标」当成「同一个对象」，会让合格词落在错的那本书上（r1454 bm-c）
+
+**判例**：年闸（`candidate_year_gate.admission_block`）从建立起只吃「选股账簿」，而执行单实际跑的是「选股账簿 + beta 0.20 覆盖 + GC001 现金腿」。两张纸都在说 beta 0.20，却不是同一本书：
+- `plain_book_n5_r20_vt08`（8% 波动目标那本）+ beta 覆盖 → k 均值 0.9958（波动目标已把 beta 压到 0.20 附近，覆盖几乎没活干）→ **CONDITIONAL**，与裸书同判（裸书 top-2 0.7574 / 包装 0.7588，四条判据一条都没动）；
+- 票据自己的构造（未加波动目标的裸书 + 同一 beta 覆盖）→ k 在 0.232~0.473 之间 → **ADMIT**，top-2 0.6752。
+同一窗口（2020-07-17..2026-11-06）、同一批 bar，两条臂一个 CONDITIONAL 一个 ADMIT，差别全在「k 有多大」，不在「书有多好」。
+
+**两条可复用律**：
+1. **判据对象必须与执行对象同构**，否则改一个旋钮（这里是「哪本账簿进覆盖」）就能改判词而账簿本身分毫未动。修法不是改阈值，是把两条臂都印出来，并把这条缝隙作为字段公开（`k_gap_vs_ticket` / `compression_note`）。
+2. **靠少持有换来的通过，是关于暴露的通过，不是关于书的通过**（`compression_note`：the wrapper owns 1-k of its own book; a pass that comes from owning less is a pass about exposure）。凡「降风险后跨线」的合格语，必须同时印 k 与 top-2 绝对值，禁单印判词。
+
+**顺带机械坑**：同一条 k 规则在两处各调一次会被「起点不同」改成另一条路径——「同一个 beta 目标」不担保「同一条 k 路径」；复现必须按同一起点（本窗 `ticket_construction` 臂 k_last 0.464029 vs 票据 k_now 0.460253，gap 0.003776 来自最后一个决策 bar 不同，已印在面上并由 `--check` 重算）。
+
+**正身**：`scripts/etf_book_wrapper_year_gate.py`（selftest 8/8、`--check` 15/15）+ `results/etf_book_year_gate/WRAPPER-GATE.json` + S6 腿 `wrapper_year_gate`。

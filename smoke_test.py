@@ -672,6 +672,14 @@ def main() -> int:
              "scripts/etf_book_decision_line.py", ["selftest"]),
             ("product: etf_book_decision_line (row re-derived from the receipts)",
              "scripts/etf_book_decision_line.py", ["--check"]),
+            # r1454: the gate has always judged the book BEFORE the execution wrapper while
+            # the desk runs the book AFTER it. The legs pin that the three arms are published
+            # on identical bars, that each verdict re-derives from its own checks, and that
+            # the flip list and the ticket's k reproduction are re-derived, not asserted.
+            ("product: etf_book_wrapper_year_gate (three arms, one gate)",
+             "scripts/etf_book_wrapper_year_gate.py", ["selftest"]),
+            ("product: etf_book_wrapper_year_gate (every arm re-derived)",
+             "scripts/etf_book_wrapper_year_gate.py", ["--check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a

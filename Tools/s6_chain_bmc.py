@@ -660,6 +660,16 @@ LEGS = [
     # figure cannot survive. `check` form re-derives from the same files (0.1s, no panel).
     ("cut_gate_pass", ["python", "scripts/etf_book_cut_gate_pass.py", "--check"]),
     ("decision_line", ["python", "scripts/etf_book_decision_line.py", "--check"]),
+    # r1454: the decision row sized the order but asked nothing about the object being
+    # judged. The year gate has always judged the book BEFORE the execution wrapper; the
+    # desk runs the book AFTER it. etf_book_wrapper_year_gate prices all three arms on
+    # identical bars (plain / book+beta-overlay+repo-cash / the ticket's own untargeted
+    # construction) and hands them to the same frozen gate. Live: plain CONDITIONAL,
+    # wrapped CONDITIONAL (no check moves), ticket construction ADMIT at top2 0.6752 --
+    # and that pass comes from owning less (k 0.23-0.47), which the face prints as
+    # compression_note instead of a clean bill of health. `--check` re-derives published
+    # JSON only (1.7s warm, no panel).
+    ("wrapper_year_gate", ["python", "scripts/etf_book_wrapper_year_gate.py", "--check"]),
     # r1329: the register summarises the faces, so it must be the LAST book leg. Until
     # this round it sat ~50 legs earlier, ahead of etf_book_ceo_page and etf_paper_signal,
     # and its rows for those two faces were therefore always one run old (as_of
