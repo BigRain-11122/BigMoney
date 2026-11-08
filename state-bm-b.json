@@ -5971,7 +5971,7 @@
  "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
  "s0_sync": {
   "behind_origin_main": 365,
-  "note": "pull --rebase refused (tree has tracked modifications from prior windows); fetched only, delivery on machine/bm-b-r1553"
+  "note": "not rebased (r1243); delivery on machine/bm-b-r1555"
  },
  "s1": "no full suite launched this window (a suite is ~20-30 min); the E525 leg ran standalone 1/1",
  "s1_note": "the E508 leg was exec'd verbatim from smoke_test.py with a stub check (_r1538_leg508.py): 1/1 green, three doctored arms refused",
@@ -6082,5 +6082,12 @@
   "study": "E528",
   "ts": "2026-11-08T08:20:20+08:00",
   "verdict": "read_by_a_terminating_arm"
+ },
+ "r1555_delivery": {
+  "branch": "machine/bm-b-r1555",
+  "sha": "b5401bf2daa7539c342e78f38cd779e28d2fd1ff",
+  "ts": "2026-11-08T08:4x+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1555 == HEAD",
+  "main_push_blocker": "local main is 600 ahead / 365 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243 -- the machine branch is the delivery channel"
  }
 }
