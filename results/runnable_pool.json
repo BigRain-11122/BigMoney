@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1601 bm-b: E573 closed (of the 22 sentences that print less than their round's legs table while reading as the whole chain, 0 are declared subsets anywhere in their round's report, 10 rows carry a bare marker word and all 10 are about research families or leg seeds, and 13 rounds' own scripts carry a scope switch) and E575 seeded (supply floor refill)",
+ "_stamp_note": "r1603 bm-b: E575 closed (1 of 11 rounds leaves a recorded chain execution and it carries --only; 4 of this machine's rounds leave none; 6 are off-host) and E576 seeded (what the unattributable executions actually are).",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -30087,7 +30087,10 @@
    "lane": "cpu-only",
    "lane_note": "static: every receipt on disk, git ls-files, and the round report row that cites it; no runner executed",
    "priority": "normal",
-   "status": "done", "claimed_by": "bm-b", "claimed_at": "2026-11-09T01:30:00+08:00", "result_ref": "results/state_tilt/RECEIPTTRACK-2026-11-08.json",
+   "status": "done",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-09T01:30:00+08:00",
+   "result_ref": "results/state_tilt/RECEIPTTRACK-2026-11-08.json",
    "source": "E572 (r1600 bm-b): 2 of the 3 receipts it priced are not tracked in git at all -- _r1246bmb and _r1285bmb exist only on disk -- so mtime==own-ts was the only evidence that nobody rewrote them. A receipt git never sees also never reaches the delivery channel (machine branch), so the round report line is the only surviving witness of that run.",
    "target": "results/state_tilt/RECEIPTTRACK_latest.json",
    "deliverable": "results/state_tilt/RECEIPTTRACK-<cutoff>.json",
@@ -30101,14 +30104,32 @@
    "lane": "cpu-only",
    "lane_note": "static: the round's own report row, the round's own script at its commit, and the receipt/log the row names; no runner executed",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E573 (r1601 bm-b): 11 of the 22 silent sentences belong to rounds whose chain script carries a `--only` switch.  Whether the run actually passed it is the witness E573 could not read from the report, so the report stays silent while the mechanism exists.",
    "target": "results/state_tilt/ONLYFLAG_latest.json",
    "deliverable": "results/state_tilt/ONLYFLAG-<cutoff>.json",
    "entered_at": "2026-11-09T02:1x+08:00",
    "entered_by": "bm-b r1601",
    "evidence_cutoff": "2026-11-08",
-   "title": "For every round whose chain script declares a `--only` switch, ask whether that run passed it: read the invocation out of the round's own row, out of the log the row names, and out of the receipt when one exists, and classify `flag_passed` / `flag_declared_but_not_passed` / `no_invocation_recorded`. Publish the class counts and the witnesses per round; a round whose scope cannot be recovered from any of the three stays `not_recoverable` rather than being inferred from the denominator."
+   "title": "For every round whose chain script declares a `--only` switch, ask whether that run passed it: read the invocation out of the round's own row, out of the log the row names, and out of the receipt when one exists, and classify `flag_passed` / `flag_declared_but_not_passed` / `no_invocation_recorded`. Publish the class counts and the witnesses per round; a round whose scope cannot be recovered from any of the three stays `not_recoverable` rather than being inferred from the denominator.",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-09T02:35:00+08:00",
+   "result_ref": "results/state_tilt/ONLYFLAG-2026-11-08.json",
+   "closed_at": "2026-11-09T02:5x+08:00"
+  },
+  {
+   "id": "E576-WHETHER-THE-COMMANDS-THAT-RUN-THE-CHAIN-FROM-OUTSIDE-A-ROUND-ARE-COUNTED-IN-THAT-ROUND",
+   "lane": "cpu-only",
+   "lane_note": "static: this host's session transcripts (executed command lines only), the round rows they were attributed to, and nothing else; no runner executed",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E575 (r1603 bm-b): 490 chain executions were read out of the transcripts and 38 of them fell outside every round row inside the 6h tolerance -- they are published as unattributable, so the per-round answer silently excludes whatever ran in a gap between rounds (an interactive session, a manual rerun, a hang).",
+   "target": "results/state_tilt/GAPCALLS_latest.json",
+   "deliverable": "results/state_tilt/GAPCALLS-<cutoff>.json",
+   "title": "For the chain executions that no round row follows inside the tolerance, publish where they sit: which hours, whether a report row of any machine follows later than the tolerance, whether they carry --only, and whether the same command also appears inside an attributed round. The population is E575's unattributable list; a gap command that is a duplicate of an attributed one must be published as a duplicate, not as an extra run.",
+   "entered_at": "2026-11-09T02:5x+08:00",
+   "entered_by": "bm-b r1603",
+   "evidence_cutoff": "2026-11-08"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30123,6 +30144,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T02:1x+08:00",
+ "updated_at": "2026-11-09T02:5x+08:00",
  "version": 1
 }

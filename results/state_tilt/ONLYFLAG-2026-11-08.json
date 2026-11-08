@@ -1,0 +1,473 @@
+{
+ "card": "E575",
+ "dept": "research+engineering",
+ "evidence_cutoff": "2026-11-08",
+ "machine": "bm-b",
+ "population": "every E573 row whose round's own chain script carries a scope switch (`--only`), machine-read from silentchain_latest.json",
+ "rows": [
+  {
+   "call_arm": {
+    "executions": [
+     {
+      "carries_the_switch": true,
+      "command": "cd C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney; python Tools\\s6_chain_bmb.py --only gate_state_census 2>&1 | Select-Object -Last 4; Write-Output \"=== dualrun ===\"; python scripts\\pool_dualrun_reconcile.py run 2>&1 | Select-Object -Last 2; Write-Output \"=== attrition ===\"; python scripts\\attrition_ledger_g",
+      "flag_token": "--only gate_state_census",
+      "line": "cd C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney; python Tools\\s6_chain_bmb.py --only gate_state_census 2>&1 | Select-Object -Last 4; Write-Output \"=== dualrun ===\"; python scripts\\pool_dualrun_reconcile.py run 2>&1 | Select-Object -Last 2; Write-O",
+      "snapshot": "chat-auto-save-2026-11-01-22-18-33-603.json",
+      "ts": "2026-11-01T22:15:12"
+     },
+     {
+      "carries_the_switch": true,
+      "command": "cd C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney; python Tools\\s6_chain_bmb.py 1372 --only gate_state_census 2>&1 | Select-Object -Last 6; Write-Output \"=== compute_audit ===\"; python scripts\\compute_audit.py 2>&1 | Select-Object -Last 3",
+      "flag_token": "--only gate_state_census",
+      "line": "cd C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney; python Tools\\s6_chain_bmb.py 1372 --only gate_state_census 2>&1 | Select-Object -Last 6; Write-Output \"=== compute_audit ===\"; python scripts\\compute_audit.py 2>&1 | Select-Object -Last 3",
+      "snapshot": "chat-auto-save-2026-11-01-22-18-33-603.json",
+      "ts": "2026-11-01T22:15:37"
+     }
+    ],
+    "mentions_that_do_not_execute": 0,
+    "with_switch": 2,
+    "without_switch": 0
+   },
+   "class": "the_round_s_chain_was_invoked_with_the_switch",
+   "decided_by": "2 executed command(s) of this round's chain carry the switch; first witness: 'cd C:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney; python Tools\\\\s6_chain_bmb.py --only gate_state_census 2>&1 | Select-Object -Last 4; Write-Output \"=== dualrun ===\"; python scripts\\\\pool_dualrun_reconcile.py run 2>&1 | Select-Object -Last 2; Write-O'",
+   "disk_arm": {
+    "declared_flag_hits": [],
+    "files": []
+   },
+   "line": 2319,
+   "machine": "b",
+   "printed": {
+    "denominator": 14,
+    "numerator": 14
+   },
+   "report": "logs/iteration-loop/round_reports.md",
+   "round": 1373,
+   "row_arm": {
+    "declared_flag_lines": [],
+    "script_mentions": []
+   },
+   "row_ts": "2026-11-02T00:45:00",
+   "row_ts_source": "the row's own printed timestamp",
+   "script_commit": "e847e0997d7cfa1901586a8842f12d19143a2e7b",
+   "script_path": "Tools/s6_chain_bmb.py",
+   "table_from_E568": 146
+  },
+  {
+   "call_arm": {
+    "executions": [],
+    "mentions_that_do_not_execute": 0,
+    "with_switch": 0,
+    "without_switch": 0
+   },
+   "class": "no_invocation_of_the_chain_is_recorded_on_this_host",
+   "decided_by": "this machine's round: no executed command naming the chain script was attributed to it and no chain file survives",
+   "disk_arm": {
+    "declared_flag_hits": [],
+    "files": []
+   },
+   "line": 2444,
+   "machine": "b",
+   "printed": {
+    "denominator": 2,
+    "numerator": 1
+   },
+   "report": "logs/iteration-loop/round_reports.md",
+   "round": 1447,
+   "row_arm": {
+    "declared_flag_lines": [],
+    "script_mentions": []
+   },
+   "row_ts": "2026-11-05T05:00:57",
+   "row_ts_source": "the row's own printed timestamp",
+   "script_commit": "4020f3fd100e189aa5c23309e910452ec87d6dc9",
+   "script_path": "Tools/s6_chain_bmb.py",
+   "table_from_E568": 201
+  },
+  {
+   "call_arm": {
+    "executions": [],
+    "mentions_that_do_not_execute": 0,
+    "with_switch": 0,
+    "without_switch": 0
+   },
+   "class": "no_invocation_of_the_chain_is_recorded_on_this_host",
+   "decided_by": "this machine's round: no executed command naming the chain script was attributed to it and no chain file survives",
+   "disk_arm": {
+    "declared_flag_hits": [],
+    "files": []
+   },
+   "line": 2508,
+   "machine": "b",
+   "printed": {
+    "denominator": 34,
+    "numerator": 34
+   },
+   "report": "logs/iteration-loop/round_reports.md",
+   "round": 1481,
+   "row_arm": {
+    "declared_flag_lines": [],
+    "script_mentions": []
+   },
+   "row_ts": "2026-11-06T11:36:00",
+   "row_ts_source": "the row's own printed timestamp",
+   "script_commit": "39945d893ac75d91882689b05609a296de7916f9",
+   "script_path": "Tools/s6_chain_bmb.py",
+   "table_from_E568": 225
+  },
+  {
+   "call_arm": {
+    "executions": [],
+    "mentions_that_do_not_execute": 0,
+    "with_switch": 0,
+    "without_switch": 0
+   },
+   "class": "no_invocation_of_the_chain_is_recorded_on_this_host",
+   "decided_by": "this machine's round: no executed command naming the chain script was attributed to it and no chain file survives",
+   "disk_arm": {
+    "declared_flag_hits": [],
+    "files": []
+   },
+   "line": 2619,
+   "machine": "b",
+   "printed": {
+    "denominator": 114,
+    "numerator": 114
+   },
+   "report": "logs/iteration-loop/round_reports.md",
+   "round": 1544,
+   "row_arm": {
+    "declared_flag_lines": [],
+    "script_mentions": []
+   },
+   "row_ts": null,
+   "row_ts_source": "the row prints a placeholder instead of a timestamp",
+   "script_commit": "e89873daef630d72bba50349dea65c47a33817f8",
+   "script_path": "Tools/s6_chain_bmb.py",
+   "table_from_E568": 275
+  },
+  {
+   "call_arm": {
+    "executions": [],
+    "mentions_that_do_not_execute": 0,
+    "with_switch": 0,
+    "without_switch": 0
+   },
+   "class": "no_invocation_of_the_chain_is_recorded_on_this_host",
+   "decided_by": "this machine's round: no executed command naming the chain script was attributed to it and no chain file survives",
+   "disk_arm": {
+    "declared_flag_hits": [],
+    "files": []
+   },
+   "line": 2711,
+   "machine": "b",
+   "printed": {
+    "denominator": 39,
+    "numerator": 39
+   },
+   "report": "logs/iteration-loop/round_reports.md",
+   "round": 1594,
+   "row_arm": {
+    "declared_flag_lines": [],
+    "script_mentions": []
+   },
+   "row_ts": "2026-11-08T23:26:00",
+   "row_ts_source": "the row's own printed timestamp",
+   "script_commit": "3f8e0525fd0034c01a6573597509a96d210392e1",
+   "script_path": "Tools/s6_chain_bmb.py",
+   "table_from_E568": 317
+  },
+  {
+   "call_arm": {
+    "executions": [],
+    "mentions_that_do_not_execute": 0,
+    "with_switch": 0,
+    "without_switch": 0
+   },
+   "class": "not_recoverable_on_this_host",
+   "decided_by": "another machine's round: its commands ran on a host whose transcripts are not here, and no chain file for it survives on this one",
+   "disk_arm": {
+    "declared_flag_hits": [],
+    "files": []
+   },
+   "line": 1545,
+   "machine": "c",
+   "printed": {
+    "denominator": 39,
+    "numerator": 39
+   },
+   "report": "logs/iteration-loop/round_reports-bm-c.md",
+   "round": 1178,
+   "row_arm": {
+    "declared_flag_lines": [],
+    "script_mentions": []
+   },
+   "row_ts": "2026-10-24T01:17:21",
+   "row_ts_source": "the row's own printed timestamp",
+   "script_commit": "4d4915fae8c4775d1c4cc73882eaff7ee1d846d3",
+   "script_path": "Tools/s6_chain_bmc.py",
+   "table_from_E568": 50
+  },
+  {
+   "call_arm": {
+    "executions": [],
+    "mentions_that_do_not_execute": 0,
+    "with_switch": 0,
+    "without_switch": 0
+   },
+   "class": "not_recoverable_on_this_host",
+   "decided_by": "another machine's round: its commands ran on a host whose transcripts are not here, and no chain file for it survives on this one",
+   "disk_arm": {
+    "declared_flag_hits": [],
+    "files": []
+   },
+   "line": 1548,
+   "machine": "c",
+   "printed": {
+    "denominator": 39,
+    "numerator": 39
+   },
+   "report": "logs/iteration-loop/round_reports-bm-c.md",
+   "round": 1205,
+   "row_arm": {
+    "declared_flag_lines": [],
+    "script_mentions": []
+   },
+   "row_ts": null,
+   "row_ts_source": "the row prints a placeholder instead of a timestamp",
+   "script_commit": "6da2a6b20f5cc9c95e283ba6bc4e2930e1690abe",
+   "script_path": "Tools/s6_chain_bmc.py",
+   "table_from_E568": 58
+  },
+  {
+   "call_arm": {
+    "executions": [],
+    "mentions_that_do_not_execute": 0,
+    "with_switch": 0,
+    "without_switch": 0
+   },
+   "class": "not_recoverable_on_this_host",
+   "decided_by": "another machine's round: its commands ran on a host whose transcripts are not here, and no chain file for it survives on this one",
+   "disk_arm": {
+    "declared_flag_hits": [],
+    "files": []
+   },
+   "line": 1553,
+   "machine": "c",
+   "printed": {
+    "denominator": 39,
+    "numerator": 39
+   },
+   "report": "logs/iteration-loop/round_reports-bm-c.md",
+   "round": 1215,
+   "row_arm": {
+    "declared_flag_lines": [],
+    "script_mentions": []
+   },
+   "row_ts": "2026-10-24T22:59:31",
+   "row_ts_source": "the row's own printed timestamp",
+   "script_commit": "d0c305609091c0d1d4ac80d99b39145c400e25eb",
+   "script_path": "Tools/s6_chain_bmc.py",
+   "table_from_E568": 61
+  },
+  {
+   "call_arm": {
+    "executions": [],
+    "mentions_that_do_not_execute": 0,
+    "with_switch": 0,
+    "without_switch": 0
+   },
+   "class": "not_recoverable_on_this_host",
+   "decided_by": "another machine's round: its commands ran on a host whose transcripts are not here, and no chain file for it survives on this one",
+   "disk_arm": {
+    "declared_flag_hits": [],
+    "files": []
+   },
+   "line": 1554,
+   "machine": "c",
+   "printed": {
+    "denominator": 40,
+    "numerator": 39
+   },
+   "report": "logs/iteration-loop/round_reports-bm-c.md",
+   "round": 1218,
+   "row_arm": {
+    "declared_flag_lines": [],
+    "script_mentions": []
+   },
+   "row_ts": "2026-10-25T00:05:23",
+   "row_ts_source": "the row's own printed timestamp",
+   "script_commit": "bbc16f597e30a82631b90a59f25bfb968ed38bc7",
+   "script_path": "Tools/s6_chain_bmc.py",
+   "table_from_E568": 63
+  },
+  {
+   "call_arm": {
+    "executions": [],
+    "mentions_that_do_not_execute": 0,
+    "with_switch": 0,
+    "without_switch": 0
+   },
+   "class": "not_recoverable_on_this_host",
+   "decided_by": "another machine's round: its commands ran on a host whose transcripts are not here, and no chain file for it survives on this one",
+   "disk_arm": {
+    "declared_flag_hits": [],
+    "files": []
+   },
+   "line": 1555,
+   "machine": "c",
+   "printed": {
+    "denominator": 40,
+    "numerator": 39
+   },
+   "report": "logs/iteration-loop/round_reports-bm-c.md",
+   "round": 1219,
+   "row_arm": {
+    "declared_flag_lines": [],
+    "script_mentions": []
+   },
+   "row_ts": null,
+   "row_ts_source": "the row prints a placeholder instead of a timestamp",
+   "script_commit": "fbfb58e29c8f7c65fcf5a518fd5ae564b597f196",
+   "script_path": "Tools/s6_chain_bmc.py",
+   "table_from_E568": 63
+  },
+  {
+   "call_arm": {
+    "executions": [],
+    "mentions_that_do_not_execute": 0,
+    "with_switch": 0,
+    "without_switch": 0
+   },
+   "class": "not_recoverable_on_this_host",
+   "decided_by": "another machine's round: its commands ran on a host whose transcripts are not here, and no chain file for it survives on this one",
+   "disk_arm": {
+    "declared_flag_hits": [],
+    "files": []
+   },
+   "line": 1579,
+   "machine": "c",
+   "printed": {
+    "denominator": 42,
+    "numerator": 42
+   },
+   "report": "logs/iteration-loop/round_reports-bm-c.md",
+   "round": 1285,
+   "row_arm": {
+    "declared_flag_lines": [],
+    "script_mentions": []
+   },
+   "row_ts": "2026-10-26T16:22:00",
+   "row_ts_source": "the row's own printed timestamp",
+   "script_commit": "627e932735813b5cf8fbfe508d9ea443150a8304",
+   "script_path": "Tools/s6_chain_bmc.py",
+   "table_from_E568": 78
+  }
+ ],
+ "rule": "a printed invocation in the row or a surviving chain file -> decided; else the executed commands in this host's transcripts, attributed by first-following-row; this machine with no such command -> none; another machine -> off host",
+ "study": "E575_only_flag",
+ "summary": {
+  "attributed_executions": 2,
+  "attributed_executions_other_rounds": 450,
+  "attribution_rule": "a command belongs to the first row of the same machine printed at or after it, within 6:00:00",
+  "by_class": {
+   "no_invocation_of_the_chain_is_recorded_on_this_host": 4,
+   "not_recoverable_on_this_host": 6,
+   "the_round_s_chain_was_invoked_with_the_switch": 1,
+   "the_round_s_chain_was_invoked_without_the_switch": 0
+  },
+  "corpus_executions": 490,
+  "corpus_executions_with_flag": 291,
+  "corpus_mentions_that_do_not_execute": 1166,
+  "disk_files": 0,
+  "executions_with_flag_other_rounds": 266,
+  "off_host_rows": 6,
+  "row_arm_flag_lines": 0,
+  "rows": 11,
+  "rows_whose_row_prints_no_timestamp": 3,
+  "snapshots_parsed": 601,
+  "switchable_scripts": 11,
+  "unattributable_calls": 38,
+  "unattributable_executions": 38,
+  "unattributable_executions_with_flag": 23,
+  "unnamed_witnesses": [
+   "whether_an_unrecorded_run_passed_the_flag"
+  ]
+ },
+ "unattributable_sample": [
+  {
+   "carries_the_switch": false,
+   "line": "cd C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney; $t=Get-Date; python Tools\\s6_chain_bmc.py 2>&1 | Select-Object -Last 25; \"elapsed: \" + [int]((Get-Date)-$t).TotalSeconds + \"s\"",
+   "reason": "no following row of that machine inside the tolerance",
+   "ts": "2026-10-28T07:58:19"
+  },
+  {
+   "carries_the_switch": false,
+   "line": "cd C:\\Fluxgroup\\_merge_bmb; echo \"===MARKERS===\"; (Select-String -Path CODELY.md,HQ-FEEDBACK.md,knowledge\\METHODOLOGY_ASSETS.md,Tools\\s6_chain_bmc.py,scripts\\e39_panel_census.py,smoke_test.py -Pattern '^<<<<<<<|^>>>>>>>' | Measure-Object).C",
+   "reason": "no following row of that machine inside the tolerance",
+   "ts": "2026-10-29T09:32:07"
+  },
+  {
+   "carries_the_switch": false,
+   "line": "cd C:\\Fluxgroup\\_merge_bmb; python -m py_compile Tools\\s6_chain_bmc.py smoke_test.py; echo \"compile_rc=$LASTEXITCODE\"; git add -A 2>&1 | Select-Object -Last 3; echo \"===UNMERGED===\"; (git diff --name-only --diff-filter=U | Measure-Object -L",
+   "reason": "no following row of that machine inside the tolerance",
+   "ts": "2026-10-29T09:34:39"
+  },
+  {
+   "carries_the_switch": true,
+   "line": "cd C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney; Get-Content _tmp_smoke.log -Tail 4; \"---running---\"; (Get-CimInstance Win32_Process -Filter \"Name='python.exe'\" | Where-Object {$_.CommandLine -like '*smoke_test*'}).ProcessId; \"---only leg---\"; pyt",
+   "reason": "no following row of that machine inside the tolerance",
+   "ts": "2026-10-30T13:46:50"
+  },
+  {
+   "carries_the_switch": true,
+   "line": "cd C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney; python Tools\\s6_chain_bmb.py --only star_self_price 2>&1 | Select-Object -Last 6; \"rc=$LASTEXITCODE\"",
+   "reason": "no following row of that machine inside the tolerance",
+   "ts": "2026-10-30T13:55:08"
+  },
+  {
+   "carries_the_switch": false,
+   "line": "python Tools\\s6_chain_bmb.py cal_audit 2>&1 | Select-Object -Last 6; Write-Output \"rc=$LASTEXITCODE\"",
+   "reason": "no following row of that machine inside the tolerance",
+   "ts": "2026-10-30T14:50:19"
+  },
+  {
+   "carries_the_switch": true,
+   "line": "python Tools\\s6_chain_bmc.py --only=replaycensus 1373 2>&1 | Select-Object -Last 4; echo \"=== refusalcause ===\"; python Tools\\s6_chain_bmc.py --only=refusalcause 1373 2>&1 | Select-Object -Last 3",
+   "reason": "no following row of that machine inside the tolerance",
+   "ts": "2026-11-02T00:35:37"
+  },
+  {
+   "carries_the_switch": false,
+   "line": "python -m py_compile smoke_test.py Tools\\heartbeat_write.py Tools\\s6_chain_bmc.py; echo \"compile rc=$LASTEXITCODE\"; python -c \"",
+   "reason": "no following row of that machine inside the tolerance",
+   "ts": "2026-11-02T00:56:25"
+  },
+  {
+   "carries_the_switch": false,
+   "line": "python -c \"import os,re;[print(f, len(open(f,encoding='utf-8').read().splitlines())) for f in ['Tools/s6_chain_bmc.py','Tools/s6_chain.py'] if os.path.exists(f)]\"; python -c \"",
+   "reason": "no following row of that machine inside the tolerance",
+   "ts": "2026-11-04T17:43:36"
+  },
+  {
+   "carries_the_switch": true,
+   "line": "cd C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney; $env:PYTHONIOENCODING='utf-8'; python Tools\\s6_chain_bmb.py --only multi_composer_doctor 2>&1 | Select-Object -Last 8",
+   "reason": "no following row of that machine inside the tolerance",
+   "ts": "2026-11-07T11:33:30"
+  },
+  {
+   "carries_the_switch": true,
+   "line": "cd C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney; $env:PYTHONIOENCODING='utf-8'; python Tools\\s6_chain_bmb.py 1518 --only multi_composer_doctor 2>&1 | Select-Object -Last 8",
+   "reason": "no following row of that machine inside the tolerance",
+   "ts": "2026-11-07T11:33:35"
+  },
+  {
+   "carries_the_switch": true,
+   "line": "cd C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney; Remove-Item results\\state_tilt\\multicomposerdoc_latest.json,results\\state_tilt\\MULTICOMPOSERDOC-2026-11-07.json -ErrorAction SilentlyContinue; $env:PYTHONIOENCODING='utf-8'; python scripts\\e492_mult",
+   "reason": "no following row of that machine inside the tolerance",
+   "ts": "2026-11-07T11:36:10"
+  }
+ ],
+ "verdict": "1_of_11_rounds_leave_a_recorded_chain_invocation_and_1_of_those_pass_the_switch",
+ "verdict_line": "rows=11 passed=1 without_it=0 none=4 off_host=6 | row_arm_flag_lines=0 disk_files=0 | corpus_executions=490 of_which_with_flag=291 unattributable=38 | snapshots_parsed=601"
+}

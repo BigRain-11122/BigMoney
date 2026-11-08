@@ -2289,6 +2289,16 @@ LEGS = [
     # `check` re-derives every class from the rows and every table from the witness blob in git.
     ("silent_chain",
      ["python", "scripts/e573_silent_chain.py", "check"]),
+    # E575 asks the question E573 could not: for the 11 rounds whose chain script carries a
+    # `--only` switch, did the run pass it?  No row is evidence (0 printed flag lines), no chain
+    # log or receipt for any of the 11 survives on disk, so the arm that can speak is this
+    # host's own session transcripts -- and only an *executed* line counts, never a mention
+    # (`git add -- Tools/s6_chain_bmb.py` names the script and executes nothing).  Answer:
+    # 1 round leaves a recorded execution and it carries the switch; 4 of this machine's rounds
+    # leave no execution at all; 6 belong to another machine and are published as off-host
+    # rather than silent.  `check` re-derives every class from the rows.
+    ("only_flag",
+     ["python", "scripts/e575_only_flag.py", "check"]),
 ]
 
 

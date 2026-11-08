@@ -13956,3 +13956,9 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 **教训**：①**「不在 git 里」要先问是谁关的**——同一条 git 事实（untracked）在有 `.gitignore` 命中与无命中时含义相反：前者是设计好的唯一见证（报告行），后者才是载体丢失；不查 `check-ignore -v` 就发布「64% 的回执 git 看不见」，读者会去修一个没坏的东西。②**「轮有日期」不等于「这次运行有余证」**——180/187 的轮号都能在 commit subject 里找到，但那是轮的文本标签，不是那份回执的见证：本轮把 round_named_by_a_commit 与 cited 分成两列，才没把「轮存在」读成「运行有据」。③**cited 的宽窄两面都要发**——只按 `r1246bmb_s6`（回执自己的 token）判是 26 份，按 `r1246bmb`（整轮 token）判会变成 90 份，差出来的 64 份是「点名了这一轮、没点名这份回执」；把宽的当窄的用，就会宣布 26 份「无人提及」其实是 90 份被提过。
 **边界**：纯静态，只读盘面/`git ls-files`/报告文本/一次 commit subject 扫描；不执行 runner、不改回执、不改 `.gitignore`（关掉它与否是另一张卡）。`git ls-files` 是名字面，因此「已跟踪但字节不在工作树」不会被本面区分（on_disk 与 tracked 两列分开发布）；报告语料只取 `logs/iteration-loop/round_reports*.md`，其它地方的引用不计。
 **证据** = scripts/e574_receipt_tracking.py（build/check/verify + selftest 16/16）· results/state_tilt/RECEIPTTRACK-2026-11-08.json + RECEIPTTRACK_latest.json · digest research/digests/DIGEST-20261109-r1602-e574-receipt-tracking.md（S6 腿未接、smoke 块未加：本轮窗口只做到独立腿，如实披露）
+
+### E575 「脚本带 --only」不等于「这一跑用了 --only」：唯一能回答的是执行行（r1603 bm-b·2026-11-09）
+**问题**：E573 把 11 个「链脚本里有 --only 开关」的轮挑出来了，但报告里一个印刷的开关都没有，于是「报告沉默」到底是因为那一跑跑了全链、还是跑了子集但没说，从报告面永远读不出来。
+**答**：只能从执行面读。三臂——①轮行/sibling 行印刷的调用：**0**；②盘上为该轮留存的链日志/回执：**0 份**（11 轮一份都没有）；③本机 601 份会话快照里的 **执行命令**：490 条链执行，其中 **291 条带 --only**（59%），另有 **1166 条提到脚本却什么也没执行**的命令（git add、Select-String）。落到 11 轮：**1 轮有执行记录且带开关**（r1373 两次 --only gate_state_census）、**0 轮有执行但没带开关**、**4 轮本机没有任何该链执行**、**6 轮是另一台机的（off-host）**。
+**三条教训**：①**单位是执行行不是命令**——一条 tool call 常先 git add 再跑链两次（一次带开关一次不带），命令级答案必须挑其中一跑来描述，等于凭空丢失一次；②**「提到脚本」不是「跑脚本」**：\bpy\b 会匹配到 guard.py 的扩展名，首版把 4 条 git add 数成跑了链，解释器锚必须是行首或分隔符之后 + 其后有空白；③**时区**：transcript 的 tool call 时间戳是 UTC（...Z），轮行是 +08:00，当成本地钟读会把整窗命令前移 8 小时、归到上一轮（首版实证：r1594 的执行被划到了上一轮）。附：另一台机的轮要记 **off-host**，不能记「没跑」——absent 不是 silent。
+正身=scripts/e575_only_flag.py（selftest 37/37·check/verify 全绿）+results/state_tilt/ONLYFLAG-2026-11-08.json+onlyflag_latest.json+S6 腿 only_flag+smoke #E575。

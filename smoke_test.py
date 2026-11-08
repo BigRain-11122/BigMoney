@@ -24954,5 +24954,64 @@ except Exception as _e573x:
     _d573 = "study could not be read"
 check(_name573, not _bad573, "; ".join(_bad573)[:240] or _d573)
 
+# E575: E573 published 11 rounds whose chain script carries a `--only` switch and could not say
+# whether any run passed it.  This leg re-derives the answer and refuses the two ways it could be
+# a wish: a witness that is only a *mention* of the script (a `git add` line names it and runs
+# nothing -- exactly the mistake the first build of this study made), and a class that survives
+# with its witness removed (the doctored copy below empties the executions of a passing row).
+_name575 = "E575 whether the rounds whose chain script takes --only ever passed it (r1603 bm-b)"
+_bad575 = []
+_d575 = "no reading"
+try:
+    _m575 = importlib.import_module("e575_only_flag")
+    _f575 = json.load(open(os.path.join("results", "state_tilt",
+                                        "onlyflag_latest.json"), encoding="utf-8"))
+    _s575 = _f575.get("summary") or {}
+    _r575 = _f575.get("rows") or []
+    _f573b = json.load(open(os.path.join("results", "state_tilt",
+                                         "silentchain_latest.json"), encoding="utf-8"))
+    _pop575 = [r for r in (_f573b.get("rows") or [])
+               if (r.get("script") or {}).get("scope_switch_tokens")]
+    _bad575.extend(_m575.face_problems(_f575))
+    if len(_pop575) != len(_r575):
+        _bad575.append("the population no longer matches E573's scope-switch rows (%d vs %d)"
+                       % (len(_pop575), len(_r575)))
+    if _s575.get("corpus_executions", 0) < 1:
+        _bad575.append("no chain execution was read, so the arm that decides did not run")
+    for _r in _r575:
+        for _x in (_r.get("call_arm") or {}).get("executions") or []:
+            if "git add" in _x.get("line", "") or "Select-String" in _x.get("line", ""):
+                _bad575.append("r%s: a mention was published as an execution"
+                               % _r.get("round"))
+                break
+            if not _m575.EXEC_LINE.search(_x.get("line", "")):
+                _bad575.append("r%s: a published witness is not an interpreter launch"
+                               % _r.get("round"))
+                break
+    _doc575 = json.loads(json.dumps(_f575))
+    for _r in _doc575.get("rows") or []:
+        if _r.get("class") == _m575.C_FLAG and (_r.get("call_arm") or {}).get("executions"):
+            _r["call_arm"]["executions"] = []
+            _r["call_arm"]["with_switch"] = 0
+            break
+    if not _m575.face_problems(_doc575):
+        _bad575.append("a passing row whose executions were emptied was accepted")
+    _d575 = ("rows=%d passed=%d without_it=%d none=%d off_host=%d "
+             "| corpus_executions=%d with_flag=%d mentions_not_executions=%d "
+             "| %s"
+             % (_s575.get("rows", 0),
+                _s575.get("by_class", {}).get(_m575.C_FLAG, 0),
+                _s575.get("by_class", {}).get(_m575.C_NOFLAG, 0),
+                _s575.get("by_class", {}).get(_m575.C_NONE, 0),
+                _s575.get("by_class", {}).get(_m575.C_OFF, 0),
+                _s575.get("corpus_executions", 0),
+                _s575.get("corpus_executions_with_flag", 0),
+                _s575.get("corpus_mentions_that_do_not_execute", 0),
+                _f575.get("verdict")))
+except Exception as _e575x:
+    _bad575.append(repr(_e575x)[:160])
+    _d575 = "study could not be read"
+check(_name575, not _bad575, "; ".join(_bad575)[:240] or _d575)
+
 if __name__ == "__main__":
     sys.exit(main())
