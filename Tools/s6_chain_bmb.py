@@ -2264,6 +2264,14 @@ LEGS = [
     # dialect split, every identity class and every delta from the receipts on disk.
     ("receipt_round_identity",
      ["python", "scripts/e571_receipt_round_identity.py", "check"]),
+    # E568 asks whether the table of a round that predates the receipt corpus is still in git.
+    # It is: 192 of the 727 rounds behind E567's 809 unjudged sentences yield a legs table, which
+    # makes 206 of those sentences judgeable -- but 173 of the 192 are found only by scanning the
+    # commit's tree, because the runner was a per-round script (`results/_r098bmc_s6_chain.ps1`),
+    # and guessing `Tools/s6_chain_bm<X>.py` finds 19.  `check-fast` re-reads every published
+    # witness (206/206 in <1s); the full rediscovery costs ~165s and stays out of the chain.
+    ("old_chain_table",
+     ["python", "scripts/e568_old_chain_table.py", "check-fast"]),
 ]
 
 

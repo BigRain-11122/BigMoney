@@ -29983,14 +29983,18 @@
    "lane": "cpu-only",
    "lane_note": "static: git history of Tools/s6_chain_bm<a|b|c>.py only; no runner executed and no report rewritten",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E567 (r1595 bm-b): 808 of the 877 chain sentences cannot be judged because the receipt corpus starts at r1204 -- but the table is a property of the runner source at that round, and git still has every version of it.",
    "target": "results/state_tilt/OLDCHAINTABLE_latest.json",
    "deliverable": "results/state_tilt/OLDCHAINTABLE-<cutoff>.json",
    "entered_at": "2026-11-08T23:5x+08:00",
    "entered_by": "bm-b r1595",
    "evidence_cutoff": "2026-11-08",
-   "title": "For every round that E567 published as unjudged-for-want-of-a-receipt, recover the legs table the runner carried at that round directly from git (`git log --follow` on Tools/s6_chain_bm<a|b|c>.py, one blob per round subject), then re-judge the 808 claims against those recovered tables and publish: how many become judgeable, how the classes split, and every claim that flips to a silent subset. State explicitly which rounds cannot be recovered at all (no round-subject commit, runner renamed, round predates the runner) instead of quietly dropping them."
+   "title": "For every round that E567 published as unjudged-for-want-of-a-receipt, recover the legs table the runner carried at that round directly from git (`git log --follow` on Tools/s6_chain_bm<a|b|c>.py, one blob per round subject), then re-judge the 808 claims against those recovered tables and publish: how many become judgeable, how the classes split, and every claim that flips to a silent subset. State explicitly which rounds cannot be recovered at all (no round-subject commit, runner renamed, round predates the runner) instead of quietly dropping them.",
+   "result_ref": "results/state_tilt/OLDCHAINTABLE-2026-11-08.json",
+   "result_note": "r1599 bm-b: git recovers a legs table for 192 of the 727 rounds behind E567's 809 unjudged sentences (26%), which makes 206 of those sentences judgeable -- 175 name the table, 1 says it is a subset, 22 are below the table and read as the whole chain, 8 are above it; 569 rounds carry no chain script naming the round, 34 carry one with no readable table. The guessing arm (Tools/s6_chain_bm<X>.py) finds 19; the tree scan finds 173 more, because the early runner was a per-round script (results/_r098bmc_s6_chain.ps1).",
+   "closed_at": "2026-11-09T01:5x+08:00",
+   "closed_by": "bm-b r1599"
   },
   {
    "id": "E569-WHETHER-THE-NUMERATOR-OF-A-CHAIN-SENTENCE-EQUALS-THE-RECEIPT-S-OWN-RC0-COUNT",
@@ -30056,6 +30060,20 @@
    "entered_by": "bm-b r1597",
    "evidence_cutoff": "2026-11-08",
    "title": "For each of the three receipts E569 published as printing a numerator its own rows do not give, decide from the file's own bytes which run it belongs to: its own \ts/elapsed against the round commit time, whether its leg names are a prefix of the round's table, and whether the sentence the report quotes names the same leg family. Publish the three witnesses per file and classify each as \u0007_wrong_count_in_the_prose, \u0007_family_sentence_against_a_subset_receipt, or \u0007_receipt_rewritten_after_the_sentence; a case the bytes cannot decide is published undecidable and the file name alone is not a witness."
+  },
+  {
+   "id": "E573-WHETHER-THE-SENTENCES-THAT-READ-AS-THE-WHOLE-CHAIN-STILL-DO-WHEN-THE-ROUND-DID-RUN-EVERYTHING",
+   "lane": "cpu-only",
+   "lane_note": "static: the 22 sentences E568 reclassifies as silent, their round's own script and the report row's other statements about the same round; no runner executed",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E568 (r1599 bm-b): with the table recovered from git, 22 sentences print a denominator below it without saying they are a subset. E563 already showed a receipt cannot state what it selected, so the question is whether the round's own row says elsewhere that it ran a subset (a checkpoint, a resumed window, a deliberate --only) -- i.e. whether the prose is wrong or merely quoted from a second run.",
+   "target": "results/state_tilt/SILENTCHAIN_latest.json",
+   "deliverable": "results/state_tilt/SILENTCHAIN-<cutoff>.json",
+   "evidence_cutoff": "2026-11-08",
+   "entered_at": "2026-11-09T01:5x+08:00",
+   "entered_by": "bm-b r1599",
+   "title": "Take every sentence E568 reclassifies as below-the-table-and-silent, and ask whether the same round's report row states elsewhere that it ran a subset"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30070,6 +30088,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T00:2x+08:00",
+ "updated_at": "2026-11-09T01:5x+08:00",
  "version": 1
 }

@@ -24793,5 +24793,53 @@ except Exception as _e569x:
     _d569 = "study could not be read"
 check(_name569, not _bad569, "; ".join(_bad569)[:240] or _d569)
 
+# E568: E567 left 809 printed chain sentences unjudged because the receipt corpus starts at r1204.
+# This leg asks whether git still holds those rounds' tables, and refuses the two ways the answer
+# could be a wish: a table with no witness to re-read, and a class that its own numbers contradict.
+_name568 = "E568 whether the table of a pre-receipt round is still recoverable from git (r1599 bm-b)"
+_bad568 = []
+_d568 = "no reading"
+try:
+    _m568 = importlib.import_module("e568_old_chain_table")
+    _f568 = json.load(open(os.path.join("results", "state_tilt",
+                                        "oldchaintable_latest.json"), encoding="utf-8"))
+    _s568 = _f568.get("summary") or {}
+    _r568 = _f568.get("rows") or []
+    _bad568.extend(_m568.face_problems(_f568))
+    if not _r568:
+        _bad568.append("no sentence was read, so the recovery rule is untested")
+    if not _s568.get("rounds_with_a_recovered_table"):
+        _bad568.append("no table was recovered, so the study concluded nothing")
+    if _s568.get("claims_with_a_recovered_table") != sum(
+            1 for _r in _r568 if _r.get("table") is not None):
+        _bad568.append("the recovered-table count does not re-derive from the rows")
+    # the finding this study exists to publish: guessing the canonical path is nearly blind
+    if _s568.get("tree_scan_only_tables", 0) <= _s568.get("canonical_only_tables", 0):
+        _bad568.append("the canonical-path arm is not the losing arm, so the scan finding is stale")
+    _doc568 = json.loads(json.dumps(_f568))
+    _doc568["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m568.face_problems(_doc568):
+        _bad568.append("a hand-written verdict was accepted")
+    _doc568 = json.loads(json.dumps(_f568))
+    for _r in _doc568.get("rows") or []:
+        if _r.get("table") is not None:
+            _r["table"] = _r["table"] + 1
+            break
+    if not _m568.face_problems(_doc568):
+        _bad568.append("a table that contradicts its own row was accepted")
+    _d568 = ("population=%d rounds=%d recovered_rounds=%d | judged=%d equal=%d below=%d above=%d "
+             "| no_commit=%d no_script=%d no_table=%d | scan_only=%d canonical_only=%d | %s"
+             % (_s568.get("population", 0), _s568.get("rounds_in_population", 0),
+                _s568.get("rounds_with_a_recovered_table", 0),
+                _s568.get("judged_from_git", 0), _s568.get(_m568.G_EQUALS, 0),
+                _s568.get(_m568.G_SILENT, 0), _s568.get(_m568.G_ABOVE, 0),
+                _s568.get(_m568.G_NO_COMMIT, 0), _s568.get(_m568.G_NO_SCRIPT, 0),
+                _s568.get(_m568.G_NO_TABLE, 0), _s568.get("tree_scan_only_tables", 0),
+                _s568.get("canonical_only_tables", 0), _f568.get("verdict")))
+except Exception as _e568x:
+    _bad568.append(repr(_e568x)[:160])
+    _d568 = "study could not be read"
+check(_name568, not _bad568, "; ".join(_bad568)[:240] or _d568)
+
 if __name__ == "__main__":
     sys.exit(main())
