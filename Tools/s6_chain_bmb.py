@@ -2096,6 +2096,14 @@ LEGS = [
     # assertion consumes. `check` re-derives every body class, every site-argument class, every
     # attribution and the verdict from the published rows.
     ("inlined_fold", ["python", "scripts/e536_inlined_fold.py", "check"]),
+    # E537 resolves the constant chain behind every arm E532 published as replaced by a module
+    # constant, evaluates the terminal expression with __file__ bound to the owning module, and
+    # publishes the directory it names -- plus, for the whole scripts/ corpus, which directory each
+    # __file__-derived name reaches. The same two-line idiom (`ROOT = dirname(__file__)` then
+    # `ROOT = dirname(ROOT)`) is read as one population here, with the binding a first-reader would
+    # have stopped at published beside it. `check` re-derives every directory, every name count and
+    # the verdict from the published rows and refuses a directory that is not on disk.
+    ("constant_terminal", ["python", "scripts/e537_constant_terminal.py", "check"]),
 ]
 
 

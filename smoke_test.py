@@ -23281,6 +23281,100 @@ except Exception as _e536x:
     _bad536.append(repr(_e536x)[:160])
     _d536 = "study could not be read"
 check(_name536, not _bad536, "; ".join(_bad536)[:240] or _d536)
+# E537: what does the module constant that replaced the sentinel actually name, and is one name one
+#   population?  * every chain link is re-evaluated against the tree when verify runs, and the gate
+#   refuses a published directory that is not on disk * a name's directories must add up to its own
+#   count, and every row of a name that reaches more than one directory must be published as an
+#   outlier * a name bound twice publishes the binding the module holds with the first binding
+#   beside it, so a first-reader's false split is visible as one row, not as an extra directory *
+#   doctored copies (a hand-written verdict, an inflated constant count, a name flattened to one
+#   directory, a terminal directory that disagrees with its own chain, an unresolved link with no
+#   reason, an erased rebinding block, a first binding reported as the final one) must be refused
+_name537 = "E537 the directory the replacing constant actually names (r1572 bm-b)"
+_bad537 = []
+try:
+    _m537 = __import__("importlib").import_module("e537_constant_terminal")
+    _f537 = json.load(open(os.path.join("results", "state_tilt", "constantterminal_latest.json"),
+                           encoding="utf-8"))
+    _s537 = _f537.get("summary") or {}
+    _a537 = _f537.get("arms") or []
+    _n537 = _f537.get("names") or {}
+    _bad537.extend(_m537.face_problems(_f537))
+    if not _a537:
+        _bad537.append("the chain population is empty")
+    if not _n537:
+        _bad537.append("the name table is empty")
+    if _s537.get("corpus_constants") != sum((g.get("count") or 0) for g in _n537.values()):
+        _bad537.append("the per-name counts do not add up to the published constant count")
+    if _s537.get("distinct_arm_terminal_directories") != len(
+            set(a.get("terminal_directory") for a in _a537 if a.get("terminal_directory"))):
+        _bad537.append("the arm terminal directories do not re-derive")
+    for _arm537 in _a537:
+        _links537 = _arm537.get("chain") or []
+        if _arm537.get("chain_read_length") != len(_links537):
+            _bad537.append("arm %s publishes a chain length its links do not carry"
+                           % (_arm537.get("arm_id"),))
+            break
+        if _arm537.get("chain_agrees_with_parent") and \
+                [l.get("link") for l in _links537] != list(_arm537.get("chain_published") or []):
+            _bad537.append("arm %s says the chain agrees but the links differ"
+                           % (_arm537.get("arm_id"),))
+            break
+        if _arm537.get("terminal_directory") and not os.path.isdir(
+                _arm537.get("terminal_directory")):
+            _bad537.append("arm %s names a directory that is not on disk"
+                           % (_arm537.get("arm_id"),))
+            break
+    _split537 = _s537.get("names_reaching_more_than_one_directory") or []
+    for _nm537 in _split537:
+        if (_n537.get(_nm537) or {}).get("distinct_directories", 0) < 2:
+            _bad537.append("name %r is published as split but its own table says otherwise"
+                           % (_nm537,))
+            break
+        if not any(o.get("name") == _nm537 for o in (_f537.get("outliers") or [])):
+            _bad537.append("name %r reaches several directories with no outlier row" % (_nm537,))
+            break
+
+    _doc537 = json.loads(json.dumps(_f537))
+    _doc537["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m537.face_problems(_doc537):
+        _bad537.append("a hand-written verdict was accepted")
+    _doc537 = json.loads(json.dumps(_f537))
+    _doc537["summary"]["corpus_constants"] = _s537.get("corpus_constants", 0) + 11
+    if not _m537.face_problems(_doc537):
+        _bad537.append("an inflated constant count was accepted")
+    _doc537 = json.loads(json.dumps(_f537))
+    if _split537:
+        _flat = _split537[0]
+        _doc537["names"][_flat]["distinct_directories"] = 1
+        _doc537["names"][_flat]["directories"] = {
+            ".": _doc537["names"][_flat]["count"]}
+        if not _m537.face_problems(_doc537):
+            _bad537.append("a split name flattened to one directory was accepted")
+    if _a537:
+        _doc537 = json.loads(json.dumps(_f537))
+        _doc537["arms"][0]["terminal_directory"] = "scripts"
+        if not _m537.face_problems(_doc537):
+            _bad537.append("a terminal directory that disagrees with its own chain was accepted")
+    _doc537 = json.loads(json.dumps(_f537))
+    _doc537["rebindings"] = []
+    if not _m537.face_problems(_doc537):
+        _bad537.append("an erased rebinding block was accepted")
+    _doc537 = json.loads(json.dumps(_f537))
+    _doc537["rebindings"][0]["first_directory"] = _doc537["rebindings"][0]["directory"]
+    if not _m537.face_problems(_doc537):
+        _bad537.append("a first binding reported as the final one was accepted")
+    _d537 = ("%d arms / %d terminal on %r / %d constants over %d modules / %d names / %d names"
+             " reach more than one directory %r / %d bound twice"
+             % (len(_a537), _s537.get("arms_with_a_terminal_directory", 0),
+                _s537.get("arm_terminal_directories"), _s537.get("corpus_constants", 0),
+                _s537.get("corpus_modules", 0), _s537.get("corpus_names", 0),
+                len(_split537), _split537,
+                _s537.get("corpus_constants_bound_more_than_once", 0)))
+except Exception as _e537x:
+    _bad537.append(repr(_e537x)[:160])
+    _d537 = "study could not be read"
+check(_name537, not _bad537, "; ".join(_bad537)[:240] or _d537)
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -13441,3 +13441,33 @@ arguments_rather_than_the_callee`。
 **产物** = `scripts/e536_inlined_fold.py`（build/check/verify + selftest 12 臂）+
 `results/state_tilt/INLINEDFOLD-2026-11-08.json` + `inlinedfold_latest.json` + S6 腿 `inlined_fold` +
 smoke 腿 `# E536` + digest `research/digests/DIGEST-20261108-r1571-e536-inlined-fold.md`。
+
+### E537 被模块常量「救」回来的哨兵：那个常量究竟指向哪个目录（2026-11-08·r1572 bm-b）
+
+E532 把两臂判成 `replaced_by_module_constant`——被调体不用它收到的参数，而用它自己的 `ROOT`。
+「哨兵被换成了具体值」这句话在一个名字上停住，而名字不是总体。本卡把每条链解到终结表达式，用
+`__file__` 绑定到属主模块求值，发布它真正指向的目录（必须在盘上）。
+
+**读数**：两条链终结点相同——`e328:ROOT→e326.ROOT→e312.ROOT` 与 `e489:ROOT` 都折叠到
+`os.path.dirname(os.path.dirname(os.path.abspath(__file__)))`，都落在仓库根；链与树实读一致 2/2，
+所以两条「看起来一样被救」的臂读的是**同一个目录**。把问题推到名字层：`scripts/` 下 899 个由
+`__file__` 派生的模块常量（887 模块、24 个名字）里，`ROOT` 576 个全部落在仓库根，写法却有四种（546
+条 os.path 链 / 28 条 pathlib parents / 1 条 join(...,'..') / 1 条模块目录，值相同形状不同）；只有
+一个名字真的分裂：`HERE` 220 个→`scripts/`、1 个→仓库根（`scripts/fund_p2_burn_progress.py:18`，
+它故意把 HERE 定义成仓库根，`RES = join(HERE,'results')`）。
+
+**三条教训**：
+1. **名字是约定，不是总体。** 要回答「这是不是一个总体」，只能把每个名字的每个绑定求值成真实
+   目录、再按名字分组发布；按名字点名会同时造出假分裂（同名不同写法）和抹平真分裂（同名同写法
+   不同深度）。
+2. **「第一个绑定」是读者的坑，不是模块的错。** 两行惯用法 `ROOT = dirname(__file__)` 再
+   `ROOT = dirname(ROOT)` 在首版里被读成「ROOT 指向 scripts/」——一次惯用法被发布会读成一处异常。
+   正法是取最后一次绑定当真值，并把首绑定目录并列发布（本批 1 行 rebound），让「按首绑定读会
+   分裂」这件事本身成为一行证据。
+3. **发布出来的目录必须落盘验证。** 不 `os.path.isdir` 的「它指向 X」只是关于表达式的一句话；
+   闸里必须拒绝盘上不存在的目录，否则白名单缺口会伪装成结论。
+
+**产物** = `scripts/e537_constant_terminal.py`（build/check/verify + selftest 42 腿）+
+`results/state_tilt/CONSTTERM-2026-11-08.json` + `constantterminal_latest.json` + S6 腿
+`constant_terminal` + smoke 腿 `# E537` + `scripts/run_e537_smoke_leg.py`（1/1 绿 + --doctor 红）+
+digest `research/digests/DIGEST-20261108-r1572-e537-constant-terminal.md`。
