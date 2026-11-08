@@ -37,6 +37,9 @@
  "panel_degraded": false,
  "k_now": 0.47149,
  "book_decided_at": "2026-10-14",
+ "pricing_bar": "2026-10-14",
+ "pricing_bar_is_the_priced_bar": false,
+ "pricing_drift_vs_priced_bar": 0.064251,
  "card_agreement": {
   "card_decided_at": "2026-10-14",
   "ticket_book_decided_at": "2026-10-14",
@@ -162,15 +165,15 @@
    "vol": 0.0879
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1139,
-    "card_width_cagr": 0.0983,
-    "pp": -1.56
-   },
    "vol": {
     "ticket_width_cagr": 0.1229,
     "card_width_cagr": 0.1257,
     "pp": 0.28
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1139,
+    "card_width_cagr": 0.0983,
+    "pp": -1.56
    }
   },
   "rules_differ": true,
@@ -240,6 +243,7 @@
   "GC001 single tenor, rolling assumed cost-free",
   "k revised every 20 bars so delivered beta still wanders",
   "exploratory: no preregistration, no verdict, no ledger booking",
+  "PRICING BAR: lots/shares/amounts are rounded on 2026-10-14 closes (the decision bar), not on the priced bar 2026-11-06 -- the printed order is +6.43% off the closes it names",
   "this ticket is the 5-name aggressive end of the book; the production card runs 12 names -- see width_disclosure"
  ]
 }

@@ -53,17 +53,25 @@
   "smoke_leg": "e579 liveness dialect",
   "verify": "problems=[]"
  },
+ "E581": {
+  "check": "selftest 19/19",
+  "face": "results/etf_book_order/BREADTHAUDIT-2026-11-06.json",
+  "finding": "0 of 6 published ETF-book tickets are priced on the bar they name: 5 price on the 2026-10-14 decision bar while naming a bar 7-17 trading bars later (+2.65% to +6.43% weighted price level), 1 card leg 513100 @ 11.8419 matches no bar in the symbol history (2.17x its highest close); breadth was never binding (>99.6% on every named bar)",
+  "fix": "scripts/etf_book_order.py publishes pricing_bar / pricing_bar_is_the_priced_bar / pricing_drift_vs_priced_bar (module selftest 42/42; ticket regenerated, self-reports +6.43% and agrees with the audit to 1e-6)",
+  "rule": "scripts/etf_book_ticket_audit.py (shared-bar intersection across all off-bar names; a price matching no bar is its own class; panel_key normalises sz/sh spellings)",
+  "selftest": "19/19"
+ },
  "absorb": "r1476: five of the ten suite reds were the E421-family class -- a census that grows. Two of them already had the declaration machinery (population_keys) but had not declared the population itself, so an upstream face appearing re-red the leg for growth alone. E417 now declares faces/faces_literal/faces_templated and E422 declares rows_in_population / rows_recording_a_bare_name / rows_spelling_a_directory / control_path_rows / control_path_rows_whose_file_exists; both faces were republished and both gates now compare every reading exactly (bare-literal exposure 0; rows_whose_reading_changes_if_rejoined 0).",
  "agenda_starved": false,
  "aggregate": "engineering",
- "ahead_of_origin_main": 356,
- "attrition": "not re-scanned this round (product leg only; last scan clean r1607)",
+ "ahead_of_origin_main": 729,
+ "attrition": "CLEAN 4 ledgers (2 healed)",
  "audio_bgm_fill": "OB-611107-180106 item 4: rc=3 ready=0 gaps=10 (5 NO-SOURCE / 5 FETCH-FAIL) -- assets absent on this behind-origin clone, not claimed as delivered",
  "audit_flag_note": "compute_audit FLAG supply_gap: ready 3 vs floor 3 (breach=false, no ignition SLA breach)",
  "audit_flags": [
   "supply_gap"
  ],
- "behind_origin_main": 440,
+ "behind_origin_main": 442,
  "card": "E579",
  "check": "e456 check problems=0",
  "clock_read": "2026-11-09T03:22:51+08:00",
@@ -6177,8 +6185,8 @@
   "ts": "2026-11-08T22:07:22+08:00",
   "verify": "problems=[]"
  },
- "round_label": "r1605",
- "round_no": 1609,
+ "round_label": "r1610",
+ "round_no": 1610,
  "round_no_label": "r1603",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
  "round_no_ts": "2026-11-09T02:39:48+08:00",

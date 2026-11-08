@@ -1,0 +1,636 @@
+{
+ "breadth_by_bar": {
+  "2026-10-23": {
+   "breadth_ok": true,
+   "date": "2026-10-23",
+   "gate": 0.5,
+   "live_on_bar": 1675,
+   "share": 0.9988,
+   "universe": 1677
+  },
+  "2026-10-26": {
+   "breadth_ok": true,
+   "date": "2026-10-26",
+   "gate": 0.5,
+   "live_on_bar": 1675,
+   "share": 0.9988,
+   "universe": 1677
+  },
+  "2026-10-27": {
+   "breadth_ok": true,
+   "date": "2026-10-27",
+   "gate": 0.5,
+   "live_on_bar": 1672,
+   "share": 0.997,
+   "universe": 1677
+  },
+  "2026-10-28": {
+   "breadth_ok": true,
+   "date": "2026-10-28",
+   "gate": 0.5,
+   "live_on_bar": 1673,
+   "share": 0.9976,
+   "universe": 1677
+  },
+  "2026-11-06": {
+   "breadth_ok": true,
+   "date": "2026-11-06",
+   "gate": 0.5,
+   "live_on_bar": 1675,
+   "share": 0.9988,
+   "universe": 1677
+  }
+ },
+ "by_verdict": {
+  "ticket_price_matches_no_panel_bar": 1,
+  "ticket_prices_come_from_an_earlier_bar": 5
+ },
+ "caveats": [
+  "breadth is measured on the tree as it stands today; the daily panel only grew (r1609 appended 8,514 rows), so a historical reading is an upper bound on the breadth that existed when the ticket was written -- it can excuse a ticket it cannot condemn",
+  "the held-name and price checks carry no such weakness: a name either printed a row on that bar or it did not",
+  "the gate (0.50) is restated in this file rather than imported; the selftest pins it to scripts/etf_book_order.py BREADTH_GATE so drift is a red leg",
+  "no comparison is made to what the ticket would have earned -- this face answers only whether the ticket could have been executed at the price it printed"
+ ],
+ "duplicate_symbol_conflicts": [],
+ "evidence_cutoff": "2026-11-06",
+ "generated_by": "scripts/etf_book_ticket_audit.py run",
+ "panel_files": 1725,
+ "panel_measured_at": "2026-11-06",
+ "panel_symbols": 1677,
+ "study": "E581 etf book ticket breadth audit",
+ "summary": {
+  "n_certified": 0,
+  "n_held_name_not_priced": 0,
+  "n_not_certified": 0,
+  "n_price_matches_no_bar": 1,
+  "n_priced_on_an_earlier_bar": 5,
+  "n_tickets": 6,
+  "price_bar_by_ticket": {
+   "TICKET-2026-10-23.json": "2026-10-14",
+   "TICKET-2026-10-26.json": "2026-10-14",
+   "TICKET-2026-10-27.json": "2026-10-14",
+   "TICKET-2026-10-28.json": "2026-10-14",
+   "TICKET-2026-11-06.json": "2026-10-14"
+  }
+ },
+ "tickets": [
+  {
+   "bar": "2026-10-23",
+   "breadth_at_bar": {
+    "breadth_ok": true,
+    "date": "2026-10-23",
+    "gate": 0.5,
+    "live_on_bar": 1675,
+    "share": 0.9988,
+    "universe": 1677
+   },
+   "claim": {
+    "claim_symbols_total": 1498,
+    "claim_symbols_with_value_on_last_bar": 1496,
+    "feed_lag_days": 1,
+    "feed_status": "stale_feed"
+   },
+   "claim_vs_measurement": null,
+   "file": "TICKET-2026-10-23.json",
+   "held_missing": [],
+   "held_price_matches_no_bar": [],
+   "held_priced_on_an_earlier_bar": [
+    {
+     "panel_close_on_ticket_bar": 2.142,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2026-10-14"
+     ],
+     "rel_off": 0.039031,
+     "symbol": "159501",
+     "ticket_price": 2.229
+    },
+    {
+     "panel_close_on_ticket_bar": 2.243,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2018-12-11",
+      "2026-10-14"
+     ],
+     "rel_off": 0.065027,
+     "symbol": "513100",
+     "ticket_price": 2.399
+    },
+    {
+     "panel_close_on_ticket_bar": 1.089,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2025-11-20",
+      "2026-02-03",
+      "2026-09-14",
+      "2026-10-14"
+     ],
+     "rel_off": 0.042216,
+     "symbol": "513690",
+     "ticket_price": 1.137
+    },
+    {
+     "panel_close_on_ticket_bar": 1.664,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2026-10-14"
+     ],
+     "rel_off": 0.049143,
+     "symbol": "159577",
+     "ticket_price": 1.75
+    },
+    {
+     "panel_close_on_ticket_bar": 1.105,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [
+      "2026-11-04"
+     ],
+     "price_matches_bars_at_or_before": [
+      "2026-01-27",
+      "2026-08-11",
+      "2026-10-14"
+     ],
+     "rel_off": 0.037456,
+     "symbol": "159263",
+     "ticket_price": 1.148
+    }
+   ],
+   "held_priced_on_the_ticket_bar": 0,
+   "n_held": 5,
+   "price_bar": "2026-10-14",
+   "price_bar_candidates": [
+    "2026-10-14"
+   ],
+   "price_bar_shared_by_all_off_bar_names": [
+    "2026-10-14"
+   ],
+   "trading_bars_before_the_ticket_bar": 7,
+   "verdict": "ticket_prices_come_from_an_earlier_bar",
+   "weighted_price_drift": 0.050952,
+   "weighted_price_level_on_the_ticket_bar": 0.999678,
+   "weighted_price_level_printed": 1.050614
+  },
+  {
+   "bar": "2026-10-26",
+   "breadth_at_bar": {
+    "breadth_ok": true,
+    "date": "2026-10-26",
+    "gate": 0.5,
+    "live_on_bar": 1675,
+    "share": 0.9988,
+    "universe": 1677
+   },
+   "claim": {
+    "claim_symbols_total": 1498,
+    "claim_symbols_with_value_on_last_bar": 1494,
+    "feed_lag_days": 0,
+    "feed_status": "current"
+   },
+   "claim_vs_measurement": null,
+   "file": "TICKET-2026-10-26.json",
+   "held_missing": [],
+   "held_price_matches_no_bar": [],
+   "held_priced_on_an_earlier_bar": [
+    {
+     "panel_close_on_ticket_bar": 2.139,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2026-10-14"
+     ],
+     "rel_off": 0.040377,
+     "symbol": "159501",
+     "ticket_price": 2.229
+    },
+    {
+     "panel_close_on_ticket_bar": 2.236,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2018-12-11",
+      "2026-10-14"
+     ],
+     "rel_off": 0.067945,
+     "symbol": "513100",
+     "ticket_price": 2.399
+    },
+    {
+     "panel_close_on_ticket_bar": 1.103,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2025-11-20",
+      "2026-02-03",
+      "2026-09-14",
+      "2026-10-14"
+     ],
+     "rel_off": 0.029903,
+     "symbol": "513690",
+     "ticket_price": 1.137
+    },
+    {
+     "panel_close_on_ticket_bar": 1.643,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2026-10-14"
+     ],
+     "rel_off": 0.061143,
+     "symbol": "159577",
+     "ticket_price": 1.75
+    },
+    {
+     "panel_close_on_ticket_bar": 1.115,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [
+      "2026-11-04"
+     ],
+     "price_matches_bars_at_or_before": [
+      "2026-01-27",
+      "2026-08-11",
+      "2026-10-14"
+     ],
+     "rel_off": 0.028746,
+     "symbol": "159263",
+     "ticket_price": 1.148
+    }
+   ],
+   "held_priced_on_the_ticket_bar": 0,
+   "n_held": 5,
+   "price_bar": "2026-10-14",
+   "price_bar_candidates": [
+    "2026-10-14"
+   ],
+   "price_bar_shared_by_all_off_bar_names": [
+    "2026-10-14"
+   ],
+   "trading_bars_before_the_ticket_bar": 8,
+   "verdict": "ticket_prices_come_from_an_earlier_bar",
+   "weighted_price_drift": 0.051846,
+   "weighted_price_level_on_the_ticket_bar": 0.776638,
+   "weighted_price_level_printed": 0.816904
+  },
+  {
+   "bar": "2026-10-27",
+   "breadth_at_bar": {
+    "breadth_ok": true,
+    "date": "2026-10-27",
+    "gate": 0.5,
+    "live_on_bar": 1672,
+    "share": 0.997,
+    "universe": 1677
+   },
+   "claim": {
+    "claim_symbols_total": 1498,
+    "claim_symbols_with_value_on_last_bar": 1490,
+    "feed_lag_days": 0,
+    "feed_status": "current"
+   },
+   "claim_vs_measurement": null,
+   "file": "TICKET-2026-10-27.json",
+   "held_missing": [],
+   "held_price_matches_no_bar": [],
+   "held_priced_on_an_earlier_bar": [
+    {
+     "panel_close_on_ticket_bar": 2.152,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2026-10-14"
+     ],
+     "rel_off": 0.034545,
+     "symbol": "159501",
+     "ticket_price": 2.229
+    },
+    {
+     "panel_close_on_ticket_bar": 2.249,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2018-12-11",
+      "2026-10-14"
+     ],
+     "rel_off": 0.062526,
+     "symbol": "513100",
+     "ticket_price": 2.399
+    },
+    {
+     "panel_close_on_ticket_bar": 1.1,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2025-11-20",
+      "2026-02-03",
+      "2026-09-14",
+      "2026-10-14"
+     ],
+     "rel_off": 0.032542,
+     "symbol": "513690",
+     "ticket_price": 1.137
+    },
+    {
+     "panel_close_on_ticket_bar": 1.657,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2026-10-14"
+     ],
+     "rel_off": 0.053143,
+     "symbol": "159577",
+     "ticket_price": 1.75
+    },
+    {
+     "panel_close_on_ticket_bar": 1.118,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [
+      "2026-11-04"
+     ],
+     "price_matches_bars_at_or_before": [
+      "2026-01-27",
+      "2026-08-11",
+      "2026-10-14"
+     ],
+     "rel_off": 0.026132,
+     "symbol": "159263",
+     "ticket_price": 1.148
+    }
+   ],
+   "held_priced_on_the_ticket_bar": 0,
+   "n_held": 5,
+   "price_bar": "2026-10-14",
+   "price_bar_candidates": [
+    "2026-10-14"
+   ],
+   "price_bar_shared_by_all_off_bar_names": [
+    "2026-10-14"
+   ],
+   "trading_bars_before_the_ticket_bar": 9,
+   "verdict": "ticket_prices_come_from_an_earlier_bar",
+   "weighted_price_drift": 0.046762,
+   "weighted_price_level_on_the_ticket_bar": 0.78041,
+   "weighted_price_level_printed": 0.816904
+  },
+  {
+   "bar": "2026-10-28",
+   "breadth_at_bar": {
+    "breadth_ok": true,
+    "date": "2026-10-28",
+    "gate": 0.5,
+    "live_on_bar": 1673,
+    "share": 0.9976,
+    "universe": 1677
+   },
+   "claim": {},
+   "claim_vs_measurement": null,
+   "file": "TICKET-2026-10-28-card.json",
+   "held_missing": [],
+   "held_price_matches_no_bar": [
+    {
+     "nearest_bar": "2021-11-22",
+     "nearest_close": 5.448,
+     "panel_close_on_ticket_bar": 2.315,
+     "ratio": 2.1736,
+     "symbol": "513100",
+     "ticket_price": 11.8419
+    }
+   ],
+   "held_priced_on_an_earlier_bar": [],
+   "held_priced_on_the_ticket_bar": 11,
+   "n_held": 12,
+   "price_bar": null,
+   "price_bar_candidates": [],
+   "price_bar_shared_by_all_off_bar_names": [],
+   "trading_bars_before_the_ticket_bar": null,
+   "verdict": "ticket_price_matches_no_panel_bar",
+   "weighted_price_drift": 0.443194,
+   "weighted_price_level_on_the_ticket_bar": 1.255366,
+   "weighted_price_level_printed": 1.811737
+  },
+  {
+   "bar": "2026-10-28",
+   "breadth_at_bar": {
+    "breadth_ok": true,
+    "date": "2026-10-28",
+    "gate": 0.5,
+    "live_on_bar": 1673,
+    "share": 0.9976,
+    "universe": 1677
+   },
+   "claim": {
+    "claim_symbols_total": 1499,
+    "claim_symbols_with_value_on_last_bar": 1489,
+    "feed_lag_days": 0,
+    "feed_status": "current"
+   },
+   "claim_vs_measurement": null,
+   "file": "TICKET-2026-10-28.json",
+   "held_missing": [],
+   "held_price_matches_no_bar": [],
+   "held_priced_on_an_earlier_bar": [
+    {
+     "panel_close_on_ticket_bar": 2.194,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2026-10-14"
+     ],
+     "rel_off": 0.015702,
+     "symbol": "159501",
+     "ticket_price": 2.229
+    },
+    {
+     "panel_close_on_ticket_bar": 2.315,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2018-12-11",
+      "2026-10-14"
+     ],
+     "rel_off": 0.035015,
+     "symbol": "513100",
+     "ticket_price": 2.399
+    },
+    {
+     "panel_close_on_ticket_bar": 1.095,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2025-11-20",
+      "2026-02-03",
+      "2026-09-14",
+      "2026-10-14"
+     ],
+     "rel_off": 0.036939,
+     "symbol": "513690",
+     "ticket_price": 1.137
+    },
+    {
+     "panel_close_on_ticket_bar": 1.715,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2026-10-14"
+     ],
+     "rel_off": 0.02,
+     "symbol": "159577",
+     "ticket_price": 1.75
+    },
+    {
+     "panel_close_on_ticket_bar": 1.12,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [
+      "2026-11-04"
+     ],
+     "price_matches_bars_at_or_before": [
+      "2026-01-27",
+      "2026-08-11",
+      "2026-10-14"
+     ],
+     "rel_off": 0.02439,
+     "symbol": "159263",
+     "ticket_price": 1.148
+    }
+   ],
+   "held_priced_on_the_ticket_bar": 0,
+   "n_held": 5,
+   "price_bar": "2026-10-14",
+   "price_bar_candidates": [
+    "2026-10-14"
+   ],
+   "price_bar_shared_by_all_off_bar_names": [
+    "2026-10-14"
+   ],
+   "trading_bars_before_the_ticket_bar": 10,
+   "verdict": "ticket_prices_come_from_an_earlier_bar",
+   "weighted_price_drift": 0.026543,
+   "weighted_price_level_on_the_ticket_bar": 0.795781,
+   "weighted_price_level_printed": 0.816904
+  },
+  {
+   "bar": "2026-11-06",
+   "breadth_at_bar": {
+    "breadth_ok": true,
+    "date": "2026-11-06",
+    "gate": 0.5,
+    "live_on_bar": 1675,
+    "share": 0.9988,
+    "universe": 1677
+   },
+   "claim": {
+    "claim_panel_breadth": {
+     "available": true,
+     "bars_since_dense": 0,
+     "breadth_ok": true,
+     "gate_share": 0.5,
+     "live_on_priced_bar": 1512,
+     "newest_bar_dense_enough": "2026-11-06",
+     "priced_bar": "2026-11-06",
+     "share_on_priced_bar": 0.9987,
+     "universe": 1514
+    },
+    "claim_panel_degraded": false,
+    "claim_pricing_bar": "2026-10-14",
+    "claim_pricing_drift": 0.064251,
+    "claim_symbols_total": 1514,
+    "claim_symbols_with_value_on_last_bar": 1512,
+    "feed_lag_days": 0,
+    "feed_status": "current"
+   },
+   "claim_vs_measurement": {
+    "claim_pricing_bar": "2026-10-14",
+    "claim_pricing_drift": 0.064251,
+    "drift_agrees": true,
+    "measured_price_bar": "2026-10-14",
+    "measured_pricing_drift": 0.064251,
+    "pricing_bar_agrees": true
+   },
+   "file": "TICKET-2026-11-06.json",
+   "held_missing": [],
+   "held_price_matches_no_bar": [],
+   "held_priced_on_an_earlier_bar": [
+    {
+     "panel_close_on_ticket_bar": 2.069,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2026-10-14"
+     ],
+     "rel_off": 0.071781,
+     "symbol": "159501",
+     "ticket_price": 2.229
+    },
+    {
+     "panel_close_on_ticket_bar": 2.158,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2018-12-11",
+      "2026-10-14"
+     ],
+     "rel_off": 0.100459,
+     "symbol": "513100",
+     "ticket_price": 2.399
+    },
+    {
+     "panel_close_on_ticket_bar": 1.158,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2025-11-20",
+      "2026-02-03",
+      "2026-09-14",
+      "2026-10-14"
+     ],
+     "rel_off": 0.01847,
+     "symbol": "513690",
+     "ticket_price": 1.137
+    },
+    {
+     "panel_close_on_ticket_bar": 1.612,
+     "price_bar_last": "2026-10-14",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2026-10-14"
+     ],
+     "rel_off": 0.078857,
+     "symbol": "159577",
+     "ticket_price": 1.75
+    },
+    {
+     "panel_close_on_ticket_bar": 1.143,
+     "price_bar_last": "2026-11-04",
+     "price_matches_bars_after": [],
+     "price_matches_bars_at_or_before": [
+      "2026-01-27",
+      "2026-08-11",
+      "2026-10-14",
+      "2026-11-04"
+     ],
+     "rel_off": 0.004355,
+     "symbol": "159263",
+     "ticket_price": 1.148
+    }
+   ],
+   "held_priced_on_the_ticket_bar": 0,
+   "n_held": 5,
+   "price_bar": "2026-10-14",
+   "price_bar_candidates": [
+    "2026-10-14",
+    "2026-11-04"
+   ],
+   "price_bar_shared_by_all_off_bar_names": [
+    "2026-10-14"
+   ],
+   "trading_bars_before_the_ticket_bar": 17,
+   "verdict": "ticket_prices_come_from_an_earlier_bar",
+   "weighted_price_drift": 0.064251,
+   "weighted_price_level_on_the_ticket_bar": 0.767586,
+   "weighted_price_level_printed": 0.816904
+  }
+ ],
+ "universe": 1677
+}

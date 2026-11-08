@@ -532,6 +532,25 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
         print("FATAL: no decision bar on the grid -- panel too short")
         return 2
     ticket_picks = [r["symbol"] for r in ticket["order"]]
+    # The order is built (and its lots/amounts rounded) on the DECISION bar's closes, while
+    # `evidence_cutoff` / `feed_status` / `panel_breadth` all name the newest bar. Those are
+    # two different bars and only one of them was advertised (r1610 measured every published
+    # ticket pricing 2.6%-6.4% off the bar it named, none of them saying so). The drift is
+    # computed here so a stale price level cannot be read as a current one.
+    pricing_drift = None
+    if dec_bar is not None and asof in close.index:
+        wsum = sum(float(r["weight"]) for r in ticket["order"] if r.get("price"))
+        if wsum > 0:
+            printed = sum(float(r["weight"]) * float(r["price"])
+                          for r in ticket["order"] if r.get("price"))
+            now = sum(float(r["weight"]) * float(close.loc[asof].get(r["symbol"], np.nan))
+                      for r in ticket["order"] if r.get("price"))
+            if np.isfinite(now) and now > 0:
+                pricing_drift = float(printed / now - 1.0)
+    if pricing_drift is not None and abs(pricing_drift) > 1e-9:
+        print("pricing bar: %s (decision) vs priced bar %s -> the printed order is %+.2f%% off "
+              "the closes of the bar it names"
+              % (dec_bar.date(), asof, 100.0 * pricing_drift), flush=True)
     cb = card_book()
     agreement = None
     if cb:
@@ -566,6 +585,10 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "panel_degraded": not bool(breadth.get("breadth_ok")),
                "k_now": round(float(k_now), 6),
                "book_decided_at": str(dec_bar.date()),
+               "pricing_bar": str(dec_bar.date()),
+               "pricing_bar_is_the_priced_bar": str(dec_bar.date()) == asof,
+               "pricing_drift_vs_priced_bar": (round(pricing_drift, 6)
+                                               if pricing_drift is not None else None),
                "card_agreement": agreement,
                "next_decision_bars": _next_decision(close.index, slip.index[-1]),
                "ticket": ticket, "metrics": mk,
@@ -582,6 +605,12 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                            "GC001 single tenor, rolling assumed cost-free",
                            "k revised every %d bars so delivered beta still wanders" % REBAL,
                            "exploratory: no preregistration, no verdict, no ledger booking"]
+                          + (["PRICING BAR: lots/shares/amounts are rounded on %s closes "
+                              "(the decision bar), not on the priced bar %s -- the printed "
+                              "order is %+.2f%% off the closes it names"
+                              % (dec_bar.date(), asof, 100.0 * pricing_drift)]
+                             if pricing_drift is not None and abs(pricing_drift) > 1e-9
+                             else [])
                           + (["PANEL DEGRADED: only %d/%d symbols printed on %s (gate %.0f%%) "
                               "-- this ticket is not executable as the tested book; the last "
                               "bar that carried the universe was %s"
