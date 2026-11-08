@@ -904,6 +904,11 @@ LEGS = [
     # receipt's own rows (0.2s, no repricing).
     ("rebal_adoption",
      ["python", "scripts/etf_book_rebal_adoption.py", "check"]),
+    # r1463: the whole permission arc (r1451..r1459) prices how BIG the order may be and
+    # never what it PAYS above the basket it buys. This leg re-derives the entry premium
+    # from the ticket's own bar and that session's IOPV (0.3s, no repricing).
+    ("premium_leak",
+     ["python", "scripts/etf_book_premium_leak.py", "check"]),
     # r1440: forty rounds read the calendar and the order page as two separate
     # subjects. This leg puts them in one sentence from receipts only (no
     # repricing): today the ticket executes nobond_vt08_adopted at book_weight

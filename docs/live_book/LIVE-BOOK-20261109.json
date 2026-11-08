@@ -4929,6 +4929,168 @@
   "floor_issued": "2026-11-11",
   "floor_ledger_issued_at": "2026-11-09T02:53:27+0800"
  },
+ "premium_leak": {
+  "status": "ok",
+  "artifact": "results/etf_book_premium_leak.json",
+  "session": "2026-11-06",
+  "ticket_session": "2026-11-06",
+  "session_match": true,
+  "verdict": "ENTRY_PREMIUM_DOMINATES",
+  "verdict_reason": "the ticket pays 9.07% of its own amount above IOPV (CNY 41697)",
+  "names": [
+   {
+    "symbol": "159501",
+    "class": "crossborder",
+    "price": 2.069,
+    "shares": 44400.0,
+    "amount_cny": 91863.6,
+    "status": "OK",
+    "iopv": 1.6734,
+    "premium_pct": 23.6405,
+    "premium_paid_cny": 17564.64,
+    "market_pctile": 99.88,
+    "market_rank": 2,
+    "market_n": 1639
+   },
+   {
+    "symbol": "513100",
+    "class": "crossborder",
+    "price": 2.158,
+    "shares": 42600.0,
+    "amount_cny": 91930.8,
+    "status": "OK",
+    "iopv": 1.7797,
+    "premium_pct": 21.2564,
+    "premium_paid_cny": 16115.58,
+    "market_pctile": 99.82,
+    "market_rank": 3,
+    "market_n": 1639
+   },
+   {
+    "symbol": "513690",
+    "class": "crossborder",
+    "price": 1.158,
+    "shares": 79400.0,
+    "amount_cny": 91945.2,
+    "status": "OK",
+    "iopv": 1.1571,
+    "premium_pct": 0.0778,
+    "premium_paid_cny": 71.46,
+    "market_pctile": 77.85,
+    "market_rank": 363,
+    "market_n": 1639
+   },
+   {
+    "symbol": "159577",
+    "class": "crossborder",
+    "price": 1.612,
+    "shares": 57100.0,
+    "amount_cny": 92045.2,
+    "status": "OK",
+    "iopv": 1.4699,
+    "premium_pct": 9.6673,
+    "premium_paid_cny": 8113.91,
+    "market_pctile": 99.02,
+    "market_rank": 16,
+    "market_n": 1639
+   },
+   {
+    "symbol": "159263",
+    "class": "equity",
+    "price": 1.143,
+    "shares": 80500.0,
+    "amount_cny": 92011.5,
+    "status": "OK",
+    "iopv": 1.1451,
+    "premium_pct": -0.1834,
+    "premium_paid_cny": -169.05,
+    "market_pctile": 28.62,
+    "market_rank": 1170,
+    "market_n": 1639
+   }
+  ],
+  "totals": {
+   "n_names": 5,
+   "n_verified": 5,
+   "n_unverifiable": 0,
+   "premium_paid_cny": 41696.54,
+   "verified_amount_cny": 459796.3,
+   "book_amount_cny": 459796.3,
+   "nav_cny": 1000000.0,
+   "premium_share_of_order_pct": 9.0685,
+   "premium_share_of_nav_pct": 4.1697,
+   "book_cagr_pct": 12.46,
+   "years_of_backtest_return_paid": 0.73
+  },
+  "premium_names": [
+   "159501",
+   "513100",
+   "159577"
+  ],
+  "stress": {
+   "if_premium_reverts_to_zero_cny": -41696.54,
+   "if_premium_reverts_to_zero_pct_of_nav": -4.1697,
+   "note": "reversion is a stress, not a forecast: the gap can persist while the sleeve stays hard to buy"
+  },
+  "rulers": {
+   "entry": "price / IOPV - 1, same session (this is what the order pays)",
+   "history": "close / published unit NAV - 1, disclosure-lagged (NOT the same quantity, printed separately, never blended)"
+  },
+  "nav_ruler_history": {
+   "159501": {
+    "symbol": "159501",
+    "n_obs": 1,
+    "status": "NOT_ENOUGH_OBSERVATIONS",
+    "median_pct": null,
+    "max_pct": null,
+    "min_pct": null
+   },
+   "513100": {
+    "symbol": "513100",
+    "n_obs": 0,
+    "status": "NOT_ENOUGH_OBSERVATIONS",
+    "median_pct": null,
+    "max_pct": null,
+    "min_pct": null
+   },
+   "513690": {
+    "symbol": "513690",
+    "n_obs": 15,
+    "status": "OK",
+    "median_pct": -0.8272,
+    "max_pct": 1.1803,
+    "min_pct": -1.8377,
+    "first_day": "2026-09-24",
+    "last_day": "2026-10-29",
+    "last_pct": 1.1803
+   },
+   "159577": {
+    "symbol": "159577",
+    "n_obs": 0,
+    "status": "NOT_ENOUGH_OBSERVATIONS",
+    "median_pct": null,
+    "max_pct": null,
+    "min_pct": null
+   },
+   "159263": {
+    "symbol": "159263",
+    "n_obs": 15,
+    "status": "OK",
+    "median_pct": 0.009,
+    "max_pct": 0.5611,
+    "min_pct": -0.1536,
+    "first_day": "2026-09-24",
+    "last_day": "2026-10-29",
+    "last_pct": 0.5611
+   }
+  },
+  "criteria": {
+   "warn_share_pct": 1.0,
+   "dominate_share_pct": 5.0,
+   "top_pctile": 95.0,
+   "min_history_obs": 2
+  }
+ },
  "band_ruler": {
   "status": "ok",
   "artifact": "results/etf_book_band_ruler.json",
@@ -5543,8 +5705,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 35.1,
+  "owner_silent_h": 36.9,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 35.1 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 36.9 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

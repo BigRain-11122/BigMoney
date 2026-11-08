@@ -745,6 +745,13 @@ def main() -> int:
              "scripts/etf_book_rebal_adoption.py", ["selftest"]),
             ("product: etf_book_rebal_adoption (published cells and arithmetic re-derived)",
              "scripts/etf_book_rebal_adoption.py", ["check"]),
+            # r1463: the order prices its size but never what it pays above the basket. The
+            # legs pin the two ways that section can lie (absent read as zero, a foreign
+            # session pasted onto today) and the entry-cost arithmetic on a fixture.
+            ("product: etf_book_premium_leak (entry premium off the ticket's own bar)",
+             "scripts/etf_book_premium_leak.py", ["selftest"]),
+            ("product: etf_book_premium_leak (published premium and rank re-derived)",
+             "scripts/etf_book_premium_leak.py", ["check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a

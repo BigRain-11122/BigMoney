@@ -79,6 +79,7 @@ LIVE_QUOTE_DIR = os.path.join(ROOT, "results", "etf_book_live_quote")
 PERMISSION_JSON = os.path.join(ROOT, "results", "etf_book_rebalance_permission.json")
 CUT_GAP_JSON = os.path.join(ROOT, "results", "etf_book_cut_order_gap.json")
 PERMISSION_LEDGER_JSON = os.path.join(ROOT, "results", "etf_book_floor_ledger.json")
+PREMIUM_LEAK_JSON = os.path.join(ROOT, "results", "etf_book_premium_leak.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -759,6 +760,128 @@ def permission_block(pf):
                         for k, v in path_rows))
         if pf.get("naive_permits_keep"):
             add("- 如果拿「所有读数里最宽的那个」当许可，就会得出「可以不动」——这正是这一节要拦的那一步。")
+    add("")
+    return L
+
+
+def premium_face(path=PREMIUM_LEAK_JSON):
+    """What the order pays ABOVE the basket it buys (r1463).
+
+    Reads the published face only. Two rules carried here: an absent face is "cannot
+    verify" (never a clean zero), and a face priced on a different session than the page's
+    own bar is a mismatch, not freshness."""
+    if not os.path.exists(path):
+        return {"status": "unreadable",
+                "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+                "detail": "premium-leak face absent"}
+    f = _load(path) or {}
+    if f.get("status") != "ok":
+        return {"status": "unreadable",
+                "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+                "detail": "face status %r: %s" % (f.get("status"), f.get("note") or "")}
+    tot = f.get("totals") or {}
+    out = {
+        "status": "ok",
+        "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+        "session": f.get("iopv_session"),
+        "ticket_session": f.get("ticket_session"),
+        "session_match": f.get("session_match"),
+        "verdict": f.get("verdict"),
+        "verdict_reason": f.get("verdict_reason"),
+        "names": f.get("names") or [],
+        "totals": tot,
+        "premium_names": f.get("premium_names") or [],
+        "stress": f.get("stress") or {},
+        "rulers": f.get("rulers") or {},
+        "nav_ruler_history": f.get("nav_ruler_history") or {},
+        "criteria": f.get("criteria") or {},
+    }
+    return out
+
+
+def premium_block(pb, page_bar=None):
+    """The lines this page prints about what the order pays above the basket."""
+    L = []
+    add = L.append
+    add("## 这张单买的东西本身值多少（溢价）")
+    add("")
+    pb = pb or {}
+    if pb.get("status") != "ok":
+        add("这一节读不到溢价面（`%s`）：%s。**上面那张清单因此没有经过溢价检查**——"
+            "按什么价格买到多少篮子价值，本页分不出来。" % (
+                (pb.get("artifact") or "results/etf_book_premium_leak.json"),
+                pb.get("detail") or "无读数"))
+        add("")
+        return L
+    if page_bar and pb.get("session") and str(page_bar)[:10] != str(pb["session"])[:10]:
+        add("溢价面是按 **%s** 的 IOPV 算的，本页的价是 **%s**——两个日子对不上，"
+            "下面这些数不能直接搬到今天的单上。" % (pb["session"], page_bar))
+        add("")
+    tot = pb.get("totals") or {}
+    paid = tot.get("premium_paid_cny") or 0.0
+    share = tot.get("premium_share_of_order_pct")
+    share_nav = tot.get("premium_share_of_nav_pct")
+    top = [r for r in pb.get("names") or [] if r.get("status") == "OK"
+           and (r.get("market_pctile") or 0.0) >= ((pb.get("criteria") or {}).get("top_pctile") or 95.0)]
+    sentence = ("清单上 **¥%s** 的单里，有 **¥%s** 买的是**溢价**（价格高出这只 ETF 自己一篮子资产的部分），"
+                "不是篮子的价值" % (format(tot.get("book_amount_cny") or 0, ",.0f"),
+                                   format(paid, ",.0f")))
+    if share is not None:
+        sentence += "——占这张单的 **%.2f%%**" % share
+    if share_nav is not None:
+        sentence += "、占总资金的 **%.2f%%**" % share_nav
+    add("**%s。**" % sentence)
+    add("")
+    if top:
+        add("其中 %d 只票站在全市场 **%d** 只 ETF 溢价的最高 5%% 里（%s）。"
+            % (len(top), (top[0].get("market_n") or 0),
+               "、".join("%s 第 %s" % (r["symbol"], r.get("market_rank")) for r in top)))
+        add("")
+    add("| 代码 | 类别 | 参考价 | 同一日的 IOPV | 溢价 | 买溢价 ¥ | 全市场排名 |")
+    add("|---|---|---|---|---|---|---|")
+    for r in pb.get("names") or []:
+        if r.get("status") == "OK":
+            add("| %s | %s | %s | %s | %+.2f%% | %s | %s/%s |"
+                % (r["symbol"], r.get("class") or "", r.get("price"), r.get("iopv"),
+                   r.get("premium_pct") or 0.0, format(r.get("premium_paid_cny") or 0, ",.2f"),
+                   r.get("market_rank"), r.get("market_n")))
+        else:
+            add("| %s | %s | %s | — | — | 无法核验（%s） | — |"
+                % (r.get("symbol"), r.get("class") or "", r.get("price"), r.get("status")))
+    add("| — | **合计** | | | | **¥%s** | |"
+        % format(paid, ",.2f"))
+    add("")
+    if tot.get("n_unverifiable"):
+        add("- %d 只票这一天没有 IOPV 读数，上面的合计**不含**它们——是「查不到」，不是「没有溢价」。"
+            % tot["n_unverifiable"])
+    st = pb.get("stress") or {}
+    if st.get("if_premium_reverts_to_zero_cny") is not None:
+        add("- 如果溢价回落到 0（限购放开、套利关门被打开），这一笔就是 **¥%s** 的损失，"
+            "占总资金 %s%%——溢价不是手续费，它是一笔押在「别人继续愿意多付」上的钱。"
+            % (format(st["if_premium_reverts_to_zero_cny"], ",.0f"),
+               st.get("if_premium_reverts_to_zero_pct_of_nav")))
+    if tot.get("years_of_backtest_return_paid") is not None:
+        add("- 换个说法：按这本书自己回测的 %.2f%%/年，这一次入场先付出了 **%.2f 年**的收益。"
+            % (tot.get("book_cagr_pct") or 0.0, tot["years_of_backtest_return_paid"]))
+    add("- 但溢价可以长期存在——限购让一二级套利关不上门，这类 ETF 常年溢价。所以这不是卖出的理由，"
+        "是「这张单今天不便宜」的读数。")
+    hist = pb.get("nav_ruler_history") or {}
+    if hist:
+        rows = [v for v in hist.values() if (v or {}).get("status") == "OK"]
+        thin = [v for v in hist.values() if (v or {}).get("status") != "OK"]
+        if rows:
+            add("- **另一把尺子（收盘价 ÷ 已披露单位净值 − 1）**：%s。它和上面不是同一个量"
+                "（净值晚一天披露），并列放着不许相加。"
+                % "；".join("%s 中位 %+.2f%%（%d 次观测）" % (r["symbol"], r["median_pct"], r["n_obs"])
+                           for r in rows))
+        if thin:
+            add("- %s 在这把尺子上没有够用的历史观测（少于 %s 次），所以「今天这个溢价算不算高」"
+                "本页答不了——只能答「今天买它要付多少」。" % (
+                    "、".join(t.get("symbol") or "?" for t in thin),
+                    (pb.get("criteria") or {}).get("min_history_obs")))
+    add("")
+    add("- 机器判词（`%s`）：**%s** — %s。" % (pb.get("artifact"), pb.get("verdict"),
+                                              pb.get("verdict_reason")))
     add("")
     return L
 
@@ -3537,6 +3660,7 @@ def build(with_stress=False, window_label=None):
     page["capital"] = capital_face()
     page["gap"] = gap_face()
     page["permission"] = permission_face()
+    page["premium_leak"] = premium_face()
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
     page["envelope"] = envelope_face()
@@ -3601,6 +3725,8 @@ def render_md(p):
     add("")
     for _pf_line in permission_block(p.get("permission") or {}):
         add(_pf_line)
+    for _pl_line in premium_block(p.get("premium_leak") or {}, page_bar=p.get("priced_bar")):
+        add(_pl_line)
     bf = p.get("bets") or {}
     if bf.get("status") == "ok" and bf.get("sentence"):
         add("## 这几只票到底有几个赌注")
@@ -4581,7 +4707,7 @@ def selftest():
 
     # 8. the page must actually say the things a human needs
     md = render_md(page)
-    need = ["下单清单", "下次换仓", "该期待什么", "必须记住的四条"]
+    need = ["下单清单", "下次换仓", "该期待什么", "必须记住的四条", "这张单买的东西本身值多少"]
     missing = [k for k in need if k not in md]
     chk("L8 render: all required sections present", not missing, "missing=%s" % missing)
     chk("L9 render: no unformatted template leftovers", "{:" not in md and "%s" not in md and "%%" not in md)
@@ -6117,6 +6243,38 @@ def selftest():
         "没有超过额度" in _pf_under_txt and "卖出手数" not in _pf_under_txt
         and "超出额度" not in _pf_under_txt,
         "over=%s" % _pf_under.get("over_cny"))
+
+    # r1463: the premium section. Same three ways to lie as the size section above --
+    # absent must not read as "nothing paid", a different session must not be pasted onto
+    # today's prices, and the named top-premium rows must come off the face, not be written here.
+    _pb_fix = {"status": "ok", "artifact": "results/etf_book_premium_leak.json",
+               "session": "2026-11-06", "ticket_session": "2026-11-06", "session_match": True,
+               "verdict": "ENTRY_PREMIUM_DOMINATES", "verdict_reason": "x",
+               "criteria": {"top_pctile": 95.0, "min_history_obs": 2},
+               "totals": {"book_amount_cny": 459796.3, "premium_paid_cny": 41696.54,
+                          "premium_share_of_order_pct": 9.07, "premium_share_of_nav_pct": 4.17,
+                          "n_unverifiable": 0, "book_cagr_pct": 11.46,
+                          "years_of_backtest_return_paid": 0.73},
+               "stress": {"if_premium_reverts_to_zero_cny": -41696.54,
+                          "if_premium_reverts_to_zero_pct_of_nav": -4.17},
+               "names": [{"symbol": "159501", "class": "crossborder", "price": 2.069,
+                          "iopv": 1.6734, "premium_pct": 23.64,
+                          "premium_paid_cny": 17564.64, "market_pctile": 99.9,
+                          "market_rank": 2, "market_n": 1639, "status": "OK"}],
+               "nav_ruler_history": {"159501": {"symbol": "159501", "n_obs": 1,
+                                                "status": "NOT_ENOUGH_OBSERVATIONS"}}}
+    _pb_txt = "\n".join(premium_block(_pb_fix, page_bar="2026-11-06"))
+    chk("L149 premium block: the live face prints what the order pays above IOPV and names the top-premium row",
+        "41,697" in _pb_txt and "159501 第 2" in _pb_txt and "9.07%" in _pb_txt,
+        _pb_txt[:80])
+    _pb_missing_txt = "\n".join(premium_block({"status": "unreadable",
+                                               "artifact": "results/etf_book_premium_leak.json",
+                                               "detail": "face absent"}))
+    chk("L150 premium block: an absent face reads 'not checked', never 'nothing paid'",
+        "没有经过溢价检查" in _pb_missing_txt and "合计" not in _pb_missing_txt)
+    _pb_shift = premium_block(dict(_pb_fix, session="2026-11-05"), page_bar="2026-11-06")
+    chk("L151 premium block: a face priced on another session says so instead of pasting it on today",
+        "两个日子对不上" in "\n".join(_pb_shift))
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 
