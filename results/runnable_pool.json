@@ -30220,11 +30220,26 @@
    "lane": "cpu-only",
    "lane_note": "static: Tools/lane_round_liveness.py re-run in both dialects over this host's three ledgers and the origin/main copies; no runner, no heartbeat written, no peer contacted",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E578 (r1606 bm-b): Tools/lane_round_liveness.ledger_times_text is pipe-strict (it loses all 1,986 rows without a leading pipe) and additionally needs seconds or an offset (it loses 107 more pipe rows), while the module's own docstring warns that judging a peer DEAD off a lagging copy is the D-20261101-15 error.",
    "target": "results/state_tilt/LIVENESSDIALECT_latest.json",
    "deliverable": "results/state_tilt/LIVENESSDIALECT-<cutoff>.json",
-   "title": "Re-run the liveness verdict for every machine in both dialects (strict ledger reader as shipped vs the pipe-tolerant reader) and publish, per machine and per day: the newest row each dialect can see, the DEAD/ALIVE verdict each implies, and the number of verdicts that flip. Publish the origin/main and worktree arms apart; do not change the tool."
+   "title": "Re-run the liveness verdict for every machine in both dialects (strict ledger reader as shipped vs the pipe-tolerant reader) and publish, per machine and per day: the newest row each dialect can see, the DEAD/ALIVE verdict each implies, and the number of verdicts that flip. Publish the origin/main and worktree arms apart; do not change the tool.",
+   "done_ts": "2026-11-09T03:13:00+08:00",
+   "done_by": "bm-b",
+   "done_round": "r1607",
+   "result_ref": "results/state_tilt/LIVENESSDIALECT-2026-11-09.json (+ livenessdialect_latest.json, scripts/e579_liveness_dialect.py, card E579, S6 leg liveness_dialect, smoke #E579)"
+  },
+  {
+   "id": "E580-WHETHER-THE-JUDGED-VERDICT-FACES-CAN-BE-AGED-AT-ALL",
+   "lane": "cpu-only",
+   "lane_note": "static: read every results/*_latest.json and results/state_tilt/*_latest.json face, publish which carry a timestamp, which carry a timestamp that parses, and which publish a verdict a reader cannot date; no runner, no rewrite",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E579 (r1607 bm-b): all three results/lane_liveness.<machine>.json faces published a verdict (ALIVE / DEAD) and none of them carried a timestamp, so a reader cannot tell a five minute old verdict from a three day old one -- and 2 of the 3 disagreed with a recompute that same minute. The lane that judges peers is therefore publishing undateable statements.",
+   "target": "results/state_tilt/FACEAGED_latest.json",
+   "deliverable": "results/state_tilt/FACEAGED-<cutoff>.json",
+   "title": "For every published verdict face under results/ (including state_tilt), publish: whether it carries a timestamp field at all, whether that field parses as a date, the age it implies, and whether the face's verdict is something a reader could decide was still current. Split faces that carry a cutoff date from faces that carry only a build time from faces that carry nothing, and refuse to call a face fresh when its own bytes cannot say when it was made."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30239,6 +30254,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T03:05+08:00",
+ "updated_at": "2026-11-09T03:13:00+08:00",
  "version": 1
 }

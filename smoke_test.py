@@ -25126,6 +25126,55 @@ except Exception as _e578x:
     _d578 = "study could not be read"
 check(_name578, not _bad578, "; ".join(_bad578)[:240] or _d578)
 
+# E579: E578 stopped at a row count, and a row count is not a verdict.  This leg re-runs the
+# shipped ALIVE/NO-EVIDENCE/DEAD line for every machine in two dialects that differ only in the
+# leading pipe, and refuses the two ways the answer could be a wish: a summary whose invisible
+# row count does not re-derive from the two totals, and a machine whose rows really are lost
+# being labelled as a dialect that costs nothing.
+_name579 = "E579 whether the shipped liveness verdict survives the dialect it cannot read (r1607 bm-b)"
+_bad579 = []
+_d579 = "no reading"
+try:
+    _p579 = os.path.join("results", "state_tilt", "livenessdialect_latest.json")
+    _f579 = json.load(open(_p579, encoding="utf-8"))
+    _s579 = _f579.get("summary") or {}
+    _r579 = _f579.get("rows") or []
+    _m579 = importlib.import_module("e579_liveness_dialect")
+    _bad579.extend(_m579.face_problems(_f579))
+    if _s579.get("machines") != len(_r579):
+        _bad579.append("the summary machine count does not match the published rows")
+    if (_s579.get("wide_rows_total", 0) - _s579.get("strict_rows_total", 0)
+            != _s579.get("rows_invisible_to_the_shipped_reader")):
+        _bad579.append("the invisible row count does not re-derive from the two totals")
+    if not all(r.get("class") in (_m579.C_FLIP, _m579.C_MOVES, _m579.C_LOST, _m579.C_NOTHING)
+               for r in _r579):
+        _bad579.append("a machine carries a class the study does not define")
+    if any(not (r.get("strict") or {}).get("verdict") for r in _r579):
+        _bad579.append("a machine has no shipped verdict to compare against")
+    _doc579 = json.loads(json.dumps(_f579))
+    _rr = None
+    for _rr in _doc579.get("rows") or []:
+        if _rr.get("class") == _m579.C_LOST:
+            _rr["class"] = _m579.C_NOTHING
+            break
+    if (_rr is not None and _rr.get("class") == _m579.C_NOTHING
+            and len(_m579.face_problems(_doc579)) <= len(_m579.face_problems(_f579))):
+        _bad579.append("a machine whose rows are lost was accepted as a dialect that costs nothing")
+    _d579 = ("machines=%d flips=%d disclosure_moves=%d rows_lost=%d invisible=%d/%d worst_gap_"
+             "overstatement=%s | %s"
+             % (_s579.get("machines", 0),
+                _s579.get("machines_that_flip", 0),
+                _s579.get("machines_whose_disclosure_moves", 0),
+                _s579.get("machines_whose_rows_are_lost_without_a_number_moving", 0),
+                _s579.get("rows_invisible_to_the_shipped_reader", 0),
+                _s579.get("wide_rows_total", 0),
+                _s579.get("largest_worst_gap_overstatement_min"),
+                _f579.get("verdict")))
+except Exception as _e579x:
+    _bad579.append(repr(_e579x)[:160])
+    _d579 = "study could not be read"
+check(_name579, not _bad579, "; ".join(_bad579)[:240] or _d579)
+
 
 if __name__ == "__main__":
     sys.exit(main())

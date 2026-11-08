@@ -2307,6 +2307,12 @@ LEGS = [
      ["python", "scripts/e576_gap_calls.py", "check"]),
     ("round_index_consumers",
      ["python", "scripts/e578_round_index_consumers.py", "check"]),
+    # E579 (r1607 bm-b): E578 stopped at the row count and a row count is not a verdict.  This
+    # leg re-runs the shipped ALIVE/NO-EVIDENCE/DEAD line for all three machines with the only
+    # change being the leading pipe: no machine flips, but bm-b's published 7 day gap falls from
+    # 978 to 356 minutes once the unread rows count -- the disclosure is what the dialect costs.
+    ("liveness_dialect",
+     ["python", "scripts/e579_liveness_dialect.py", "check"]),
 ]
 
 
