@@ -23034,6 +23034,87 @@ except Exception as _e541x:
     _bad541.append(repr(_e541x)[:160])
     _d541 = "study could not be read"
 check(_name541, not _bad541, "; ".join(_bad541)[:240] or _d541)
+# E542: for the rows E541 left ambiguous, do the surviving candidates differ in anything a consumer
+#   of the published row could observe (function, innermost statement and its kind, enclosing loop,
+#   signed distance, tier)?  * every class is re-derived from the row's own survivors and separating
+#   fields * an indistinguishable row must have no separating field, a distance-only row must name
+#   none substantive * tier is a row-level field and may never be published as separating a row's
+#   own survivors * doctored copies (a hand-written verdict, a separating row relabelled
+#   indistinguishable, a survivor count its own list does not carry, an inflated field count, tier
+#   declared separating) must be refused
+_name542 = "E542 the survivors of an ambiguous row seen from a reader's side (r1569 bm-b)"
+_bad542 = []
+try:
+    _m542 = __import__("importlib").import_module("e542_survivor_spans")
+    _f542 = json.load(open(os.path.join("results", "state_tilt", "survivorspans_latest.json"),
+                           encoding="utf-8"))
+    _s542 = _f542.get("summary") or {}
+    _r542 = _f542.get("sites") or []
+    _bad542.extend(_m542.face_problems(_f542))
+    if not _r542:
+        _bad542.append("the row population is empty")
+    if _s542.get("rows") != len(_r542):
+        _bad542.append("rows does not equal the published site rows")
+    if not _s542.get("classes_sum_to_the_rows"):
+        _bad542.append("the classes do not add up to the rows")
+    if not _s542.get("substantive_plus_harmless_sums_to_the_rows"):
+        _bad542.append("the substantive and harmless classes do not add up to the rows")
+    if _s542.get("rows_where_tier_could_separate_the_survivors") != 0:
+        _bad542.append("a row publishes tier as able to separate its own survivors")
+    for _row542 in _r542:
+        _sv542 = _row542.get("survivors") or []
+        if _row542.get("survivor_count") != len(_sv542):
+            _bad542.append("row %s carries a survivor count its list does not match"
+                           % (_row542.get("site"),))
+            break
+        if _row542.get("class") == _m542.C_NOTHING and _m542._separators(_sv542):
+            _bad542.append("row %s is indistinguishable yet its survivors separate"
+                           % (_row542.get("site"),))
+            break
+        if _row542.get("class") == _m542.C_DISTANCE and _row542.get("substantive_fields"):
+            _bad542.append("row %s is distance-only yet names a substantive field"
+                           % (_row542.get("site"),))
+            break
+        if any(_v542.get("tier") != _row542.get("tier") for _v542 in _sv542):
+            _bad542.append("row %s carries a survivor whose tier disagrees with the row"
+                           % (_row542.get("site"),))
+            break
+
+    _doc542 = json.loads(json.dumps(_f542))
+    _doc542["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m542.face_problems(_doc542):
+        _bad542.append("a hand-written verdict was accepted")
+    _sub542 = [i for i, _r in enumerate(_f542["sites"])
+               if _r.get("class") in (_m542.C_SEVERAL, _m542.C_STATEMENT)]
+    if _sub542:
+        _doc542 = json.loads(json.dumps(_f542))
+        _doc542["sites"][_sub542[0]]["class"] = _m542.C_NOTHING
+        if not _m542.face_problems(_doc542):
+            _bad542.append("a separating row relabelled indistinguishable was accepted")
+    _doc542 = json.loads(json.dumps(_f542))
+    _doc542["sites"][0]["survivor_count"] = (_f542["sites"][0].get("survivor_count") or 0) + 5
+    if not _m542.face_problems(_doc542):
+        _bad542.append("a survivor count its own list does not carry was accepted")
+    _doc542 = json.loads(json.dumps(_f542))
+    _doc542["summary"]["substantive_field_hits"][_m542.F_STMT_LINE] += 1
+    if not _m542.face_problems(_doc542):
+        _bad542.append("an inflated substantive field count was accepted")
+    _doc542 = json.loads(json.dumps(_f542))
+    _doc542["summary"]["rows_where_tier_could_separate_the_survivors"] = 1
+    if not _m542.face_problems(_doc542):
+        _bad542.append("tier declared able to separate a row was accepted")
+    _d542 = ("%d ambiguous rows / %d survivors / %d substantive / %d distance-only / %d nothing"
+             " / statement_line separates %d, loop %d"
+             % (_s542.get("rows", 0), _s542.get("survivors_overall", 0),
+                _s542.get("rows_whose_survivors_differ_in_a_substantive_field", 0),
+                _s542.get("rows_whose_survivors_differ_only_in_distance", 0),
+                _s542.get("rows_whose_survivors_differ_on_nothing", 0),
+                (_s542.get("substantive_field_hits") or {}).get(_m542.F_STMT_LINE, 0),
+                (_s542.get("substantive_field_hits") or {}).get(_m542.F_LOOP, 0)))
+except Exception as _e542x:
+    _bad542.append(repr(_e542x)[:160])
+    _d542 = "study could not be read"
+check(_name542, not _bad542, "; ".join(_bad542)[:240] or _d542)
 
 if __name__ == "__main__":
     sys.exit(main())

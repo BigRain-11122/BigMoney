@@ -1,0 +1,1538 @@
+{
+ "card": "E542-WHICH-OF-THE-INDISTINGUISHABLE-SURVIVORS-DIFFER-IN-SOMETHING-A-READER-COULD-OBSERVE",
+ "class_vocab": [
+  "the_survivors_differ_on_nothing_a_consumer_could_observe",
+  "the_survivors_differ_only_in_the_signed_distance_to_the_published_line",
+  "the_survivors_sit_in_different_functions",
+  "the_survivors_sit_in_different_statements_or_statement_kinds",
+  "the_survivors_differ_in_the_loop_that_encloses_them",
+  "the_survivors_differ_on_more_than_one_substantive_field",
+  "a_survivor_could_not_be_resolved_to_a_context_in_its_file"
+ ],
+ "evidence_cutoff": "2026-11-08",
+ "field_vocab": [
+  "function",
+  "statement_kind",
+  "statement_line",
+  "loop",
+  "distance",
+  "tier"
+ ],
+ "generated": "2026-11-08T13:19:23+08:00",
+ "method_limits": [
+  "the population is E541's ambiguous rows only, and E541 decides by evidence the census row happens to carry; if that evidence is wrong this study measures the wrong surviving set and cannot tell",
+  "the function field can only separate survivors when E541's function arm was refused; whenever that arm applies, every survivor already matches the census function, so a zero function count is a consequence of the arm's order rather than a measurement",
+  "the context is the candidate's own AST ancestry at the face's cutoff; a file edited since the upstream face was published shifts the nodes and the row would be published with an unresolved context rather than silently re-located",
+  "tier is a property of the row, not of the node, so it can never separate a row's own survivors -- the face publishes that invariance instead of counting it as a difference",
+  "distance is candidate line minus published line, so two survivors inside one multi-line statement can differ in distance while agreeing on statement and loop",
+  "statement_kind and statement_line are the AST's own reading; a rewrite that changes only formatting moves both and is indistinguishable here from a change of meaning",
+  "the class names what separates the survivors, not which survivor the census meant -- a row whose survivors sit in different functions can still have an obvious intended node"
+ ],
+ "population_source": "e542_survivor_spans.py::ambiguous_sites() -- every row of the upstream face whose decided_by is E541's ambiguous class, recomputed by running E541's own build",
+ "question": "for the rows E541 left ambiguous, do the surviving candidates differ in anything a consumer of the published row could observe -- the function, the innermost statement and its kind, the enclosing loop, the signed distance to the published line, or the tier?",
+ "separating_field_vocab": [
+  "function",
+  "statement_kind",
+  "statement_line",
+  "loop",
+  "distance"
+ ],
+ "sites": [
+  {
+   "class": "the_survivors_differ_on_more_than_one_substantive_field",
+   "expr": "'docs/live_usage/LIVE-latest.json'",
+   "fields_that_separate_the_survivors": [
+    "statement_kind",
+    "statement_line",
+    "loop",
+    "distance"
+   ],
+   "file": "results/_r793bmb_rebase_resolve.py",
+   "published_line": 115,
+   "site": "results/_r793bmb_rebase_resolve.py:115",
+   "substantive_fields": [
+    "statement_kind",
+    "statement_line",
+    "loop"
+   ],
+   "survivor_count": 3,
+   "survivors": [
+    {
+     "col": 10,
+     "context_resolved": true,
+     "distance": -14,
+     "function": "<module>",
+     "line": 101,
+     "loop": [
+      "For",
+      100
+     ],
+     "statement_kind": "For",
+     "statement_line": 100,
+     "tier": "scratch_or_estate"
+    },
+    {
+     "col": 10,
+     "context_resolved": true,
+     "distance": -4,
+     "function": "<module>",
+     "line": 111,
+     "loop": [
+      "For",
+      110
+     ],
+     "statement_kind": "For",
+     "statement_line": 110,
+     "tier": "scratch_or_estate"
+    },
+    {
+     "col": 16,
+     "context_resolved": true,
+     "distance": 0,
+     "function": "<module>",
+     "line": 115,
+     "loop": null,
+     "statement_kind": "Expr",
+     "statement_line": 115,
+     "tier": "scratch_or_estate"
+    }
+   ],
+   "tier": "scratch_or_estate",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_differ_on_more_than_one_substantive_field",
+   "expr": "'docs/live_usage/LIVE-latest.json'",
+   "fields_that_separate_the_survivors": [
+    "statement_kind",
+    "statement_line",
+    "loop",
+    "distance"
+   ],
+   "file": "results/_r795bmb_rebase_resolve.py",
+   "published_line": 114,
+   "site": "results/_r795bmb_rebase_resolve.py:114",
+   "substantive_fields": [
+    "statement_kind",
+    "statement_line",
+    "loop"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 10,
+     "context_resolved": true,
+     "distance": -4,
+     "function": "<module>",
+     "line": 110,
+     "loop": [
+      "For",
+      109
+     ],
+     "statement_kind": "For",
+     "statement_line": 109,
+     "tier": "scratch_or_estate"
+    },
+    {
+     "col": 16,
+     "context_resolved": true,
+     "distance": 0,
+     "function": "<module>",
+     "line": 114,
+     "loop": null,
+     "statement_kind": "Expr",
+     "statement_line": 114,
+     "tier": "scratch_or_estate"
+    }
+   ],
+   "tier": "scratch_or_estate",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_differ_on_more_than_one_substantive_field",
+   "expr": "os.path.join(OUTDIR, 'fieldbranch_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_kind",
+    "statement_line",
+    "distance"
+   ],
+   "file": "scripts/e371_store_member_cost.py",
+   "published_line": 257,
+   "site": "scripts/e371_store_member_cost.py:257",
+   "substantive_fields": [
+    "statement_kind",
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 22,
+     "context_resolved": true,
+     "distance": -1,
+     "function": "build",
+     "line": 256,
+     "loop": null,
+     "statement_kind": "If",
+     "statement_line": 256,
+     "tier": "live_tooling"
+    },
+    {
+     "col": 18,
+     "context_resolved": true,
+     "distance": 0,
+     "function": "build",
+     "line": 257,
+     "loop": null,
+     "statement_kind": "With",
+     "statement_line": 257,
+     "tier": "live_tooling"
+    }
+   ],
+   "tier": "live_tooling",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_differ_on_more_than_one_substantive_field",
+   "expr": "os.path.join(OUT_DIR, 'pack_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_kind",
+    "statement_line",
+    "distance"
+   ],
+   "file": "scripts/o2115_acceptance_pack.py",
+   "published_line": 306,
+   "site": "scripts/o2115_acceptance_pack.py:306",
+   "substantive_fields": [
+    "statement_kind",
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 17,
+     "context_resolved": true,
+     "distance": 0,
+     "function": "cmd_run",
+     "line": 306,
+     "loop": null,
+     "statement_kind": "With",
+     "statement_line": 306,
+     "tier": "live_tooling"
+    },
+    {
+     "col": 48,
+     "context_resolved": true,
+     "distance": 8,
+     "function": "cmd_run",
+     "line": 314,
+     "loop": null,
+     "statement_kind": "Expr",
+     "statement_line": 312,
+     "tier": "live_tooling"
+    }
+   ],
+   "tier": "live_tooling",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "'results/etf_book_order/latest.json'",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 699,
+   "site": "smoke_test.py:699",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 29,
+     "context_resolved": true,
+     "distance": 12,
+     "function": "main",
+     "line": 711,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 711,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 29,
+     "context_resolved": true,
+     "distance": 924,
+     "function": "main",
+     "line": 1623,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 1623,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "'docs/live_book/latest.json'",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 700,
+   "site": "smoke_test.py:700",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 30,
+     "context_resolved": true,
+     "distance": 12,
+     "function": "main",
+     "line": 712,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 712,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 30,
+     "context_resolved": true,
+     "distance": 924,
+     "function": "main",
+     "line": 1624,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 1624,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "'docs/live_book/latest.json'",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 701,
+   "site": "smoke_test.py:701",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 30,
+     "context_resolved": true,
+     "distance": 11,
+     "function": "main",
+     "line": 712,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 712,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 30,
+     "context_resolved": true,
+     "distance": 923,
+     "function": "main",
+     "line": 1624,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 1624,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "'results/etf_book_order/latest.json'",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 1606,
+   "site": "smoke_test.py:1606",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 29,
+     "context_resolved": true,
+     "distance": -895,
+     "function": "main",
+     "line": 711,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 711,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 29,
+     "context_resolved": true,
+     "distance": 17,
+     "function": "main",
+     "line": 1623,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 1623,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "'docs/live_book/latest.json'",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 1607,
+   "site": "smoke_test.py:1607",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 30,
+     "context_resolved": true,
+     "distance": -895,
+     "function": "main",
+     "line": 712,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 712,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 30,
+     "context_resolved": true,
+     "distance": 17,
+     "function": "main",
+     "line": 1624,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 1624,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "'docs/live_book/latest.json'",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 1608,
+   "site": "smoke_test.py:1608",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 30,
+     "context_resolved": true,
+     "distance": -896,
+     "function": "main",
+     "line": 712,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 712,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 30,
+     "context_resolved": true,
+     "distance": 16,
+     "function": "main",
+     "line": 1624,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 1624,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_differ_on_more_than_one_substantive_field",
+   "expr": "'results/state_tilt/hysteresis_latest.json'",
+   "fields_that_separate_the_survivors": [
+    "statement_kind",
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 2622,
+   "site": "smoke_test.py:2622",
+   "substantive_fields": [
+    "statement_kind",
+    "statement_line"
+   ],
+   "survivor_count": 3,
+   "survivors": [
+    {
+     "col": 18,
+     "context_resolved": true,
+     "distance": 13,
+     "function": "main",
+     "line": 2635,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 2635,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 30,
+     "context_resolved": true,
+     "distance": 163,
+     "function": "main",
+     "line": 2785,
+     "loop": null,
+     "statement_kind": "If",
+     "statement_line": 2785,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 26,
+     "context_resolved": true,
+     "distance": 164,
+     "function": "main",
+     "line": 2786,
+     "loop": null,
+     "statement_kind": "With",
+     "statement_line": 2786,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_differ_on_more_than_one_substantive_field",
+   "expr": "'results/state_tilt/hysteresis_latest.json'",
+   "fields_that_separate_the_survivors": [
+    "statement_kind",
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 2769,
+   "site": "smoke_test.py:2769",
+   "substantive_fields": [
+    "statement_kind",
+    "statement_line"
+   ],
+   "survivor_count": 3,
+   "survivors": [
+    {
+     "col": 18,
+     "context_resolved": true,
+     "distance": -134,
+     "function": "main",
+     "line": 2635,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 2635,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 30,
+     "context_resolved": true,
+     "distance": 16,
+     "function": "main",
+     "line": 2785,
+     "loop": null,
+     "statement_kind": "If",
+     "statement_line": 2785,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 26,
+     "context_resolved": true,
+     "distance": 17,
+     "function": "main",
+     "line": 2786,
+     "loop": null,
+     "statement_kind": "With",
+     "statement_line": 2786,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join('results', 'state_tilt', 'bookecho_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 3883,
+   "site": "smoke_test.py:3883",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 15,
+     "context_resolved": true,
+     "distance": 14,
+     "function": "main",
+     "line": 3897,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 3897,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 25,
+     "context_resolved": true,
+     "distance": 128,
+     "function": "main",
+     "line": 4011,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 4011,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join('results', 'state_tilt', 'starown_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 3949,
+   "site": "smoke_test.py:3949",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 15,
+     "context_resolved": true,
+     "distance": 14,
+     "function": "main",
+     "line": 3963,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 3963,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 30,
+     "context_resolved": true,
+     "distance": 162,
+     "function": "main",
+     "line": 4111,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 4110,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join('results', 'state_tilt', 'bookecho_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 3996,
+   "site": "smoke_test.py:3996",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 15,
+     "context_resolved": true,
+     "distance": -99,
+     "function": "main",
+     "line": 3897,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 3897,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 25,
+     "context_resolved": true,
+     "distance": 15,
+     "function": "main",
+     "line": 4011,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 4011,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join('results', 'state_tilt', 'bandtransfer_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 5070,
+   "site": "smoke_test.py:5070",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 15,
+     "context_resolved": true,
+     "distance": 12,
+     "function": "main",
+     "line": 5082,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 5082,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 21,
+     "context_resolved": true,
+     "distance": 615,
+     "function": "main",
+     "line": 5685,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 5685,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_differ_on_more_than_one_substantive_field",
+   "expr": "os.path.join('results', 'state_tilt', 'bandscreen_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "loop",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 5305,
+   "site": "smoke_test.py:5305",
+   "substantive_fields": [
+    "statement_line",
+    "loop"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 15,
+     "context_resolved": true,
+     "distance": 12,
+     "function": "main",
+     "line": 5317,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 5317,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 28,
+     "context_resolved": true,
+     "distance": 137,
+     "function": "main",
+     "line": 5442,
+     "loop": [
+      "For",
+      5412
+     ],
+     "statement_kind": "Assign",
+     "statement_line": 5442,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_differ_on_more_than_one_substantive_field",
+   "expr": "os.path.join('results', 'state_tilt', 'bandscreen_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "loop",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 5427,
+   "site": "smoke_test.py:5427",
+   "substantive_fields": [
+    "statement_line",
+    "loop"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 15,
+     "context_resolved": true,
+     "distance": -110,
+     "function": "main",
+     "line": 5317,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 5317,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 28,
+     "context_resolved": true,
+     "distance": 15,
+     "function": "main",
+     "line": 5442,
+     "loop": [
+      "For",
+      5412
+     ],
+     "statement_kind": "Assign",
+     "statement_line": 5442,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join('results', 'state_tilt', 'bandtransfer_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 5670,
+   "site": "smoke_test.py:5670",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 15,
+     "context_resolved": true,
+     "distance": -588,
+     "function": "main",
+     "line": 5082,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 5082,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 21,
+     "context_resolved": true,
+     "distance": 15,
+     "function": "main",
+     "line": 5685,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 5685,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 9186,
+   "site": "smoke_test.py:9186",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 3,
+   "survivors": [
+    {
+     "col": 16,
+     "context_resolved": true,
+     "distance": 14,
+     "function": "main",
+     "line": 9200,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9200,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 20,
+     "context_resolved": true,
+     "distance": 107,
+     "function": "main",
+     "line": 9293,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9293,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 20,
+     "context_resolved": true,
+     "distance": 179,
+     "function": "main",
+     "line": 9365,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9365,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 9278,
+   "site": "smoke_test.py:9278",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 3,
+   "survivors": [
+    {
+     "col": 16,
+     "context_resolved": true,
+     "distance": -78,
+     "function": "main",
+     "line": 9200,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9200,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 20,
+     "context_resolved": true,
+     "distance": 15,
+     "function": "main",
+     "line": 9293,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9293,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 20,
+     "context_resolved": true,
+     "distance": 87,
+     "function": "main",
+     "line": 9365,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9365,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join('results', 'state_tilt', 'reachwide_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 9307,
+   "site": "smoke_test.py:9307",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 3,
+   "survivors": [
+    {
+     "col": 16,
+     "context_resolved": true,
+     "distance": 16,
+     "function": "main",
+     "line": 9323,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9323,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 20,
+     "context_resolved": true,
+     "distance": 115,
+     "function": "main",
+     "line": 9422,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9422,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 36,
+     "context_resolved": true,
+     "distance": 187,
+     "function": "main",
+     "line": 9494,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9494,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 9350,
+   "site": "smoke_test.py:9350",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 3,
+   "survivors": [
+    {
+     "col": 16,
+     "context_resolved": true,
+     "distance": -150,
+     "function": "main",
+     "line": 9200,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9200,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 20,
+     "context_resolved": true,
+     "distance": -57,
+     "function": "main",
+     "line": 9293,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9293,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 20,
+     "context_resolved": true,
+     "distance": 15,
+     "function": "main",
+     "line": 9365,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9365,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join('results', 'state_tilt', 'reachwide_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 9407,
+   "site": "smoke_test.py:9407",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 3,
+   "survivors": [
+    {
+     "col": 16,
+     "context_resolved": true,
+     "distance": -84,
+     "function": "main",
+     "line": 9323,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9323,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 20,
+     "context_resolved": true,
+     "distance": 15,
+     "function": "main",
+     "line": 9422,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9422,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 36,
+     "context_resolved": true,
+     "distance": 87,
+     "function": "main",
+     "line": 9494,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9494,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join('results', 'state_tilt', 'reachwide_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 9477,
+   "site": "smoke_test.py:9477",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 3,
+   "survivors": [
+    {
+     "col": 16,
+     "context_resolved": true,
+     "distance": -154,
+     "function": "main",
+     "line": 9323,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9323,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 20,
+     "context_resolved": true,
+     "distance": -55,
+     "function": "main",
+     "line": 9422,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9422,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 36,
+     "context_resolved": true,
+     "distance": 17,
+     "function": "main",
+     "line": 9494,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 9494,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join('results', 'state_tilt', 'publishpin_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 12448,
+   "site": "smoke_test.py:12448",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 16,
+     "context_resolved": true,
+     "distance": 16,
+     "function": "_r39",
+     "line": 12464,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 12464,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 41,
+     "context_resolved": true,
+     "distance": 124,
+     "function": "_r39",
+     "line": 12572,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 12572,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join('results', 'state_tilt', 'faceage_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 15853,
+   "site": "smoke_test.py:15853",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 27,
+     "context_resolved": true,
+     "distance": 34,
+     "function": "<module>",
+     "line": 15887,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 15887,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 31,
+     "context_resolved": true,
+     "distance": 91,
+     "function": "<module>",
+     "line": 15944,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 15944,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join('results', 'state_tilt', 'faceage_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "smoke_test.py",
+   "published_line": 15902,
+   "site": "smoke_test.py:15902",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 27,
+     "context_resolved": true,
+     "distance": -15,
+     "function": "<module>",
+     "line": 15887,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 15887,
+     "tier": "smoke_harness"
+    },
+    {
+     "col": 31,
+     "context_resolved": true,
+     "distance": 42,
+     "function": "<module>",
+     "line": 15944,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 15944,
+     "tier": "smoke_harness"
+    }
+   ],
+   "tier": "smoke_harness",
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join(cdt, 'latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "scripts/etf_book_order.py",
+   "published_line": 1384,
+   "site": "scripts/etf_book_order.py:1384",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 18,
+     "context_resolved": true,
+     "distance": 0,
+     "function": "selftest",
+     "line": 1384,
+     "loop": null,
+     "statement_kind": "With",
+     "statement_line": 1384,
+     "tier": null
+    },
+    {
+     "col": 18,
+     "context_resolved": true,
+     "distance": 44,
+     "function": "selftest",
+     "line": 1428,
+     "loop": null,
+     "statement_kind": "With",
+     "statement_line": 1428,
+     "tier": null
+    }
+   ],
+   "tier": null,
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join(cdt, 'latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "scripts/etf_book_order.py",
+   "published_line": 1428,
+   "site": "scripts/etf_book_order.py:1428",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 18,
+     "context_resolved": true,
+     "distance": -44,
+     "function": "selftest",
+     "line": 1384,
+     "loop": null,
+     "statement_kind": "With",
+     "statement_line": 1384,
+     "tier": null
+    },
+    {
+     "col": 18,
+     "context_resolved": true,
+     "distance": 0,
+     "function": "selftest",
+     "line": 1428,
+     "loop": null,
+     "statement_kind": "With",
+     "statement_line": 1428,
+     "tier": null
+    }
+   ],
+   "tier": null,
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join(PATHS.results_dir, '_n3r2_probe_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "scripts/perpetual_faces_n3.py",
+   "published_line": 785,
+   "site": "scripts/perpetual_faces_n3.py:785",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 9,
+     "context_resolved": true,
+     "distance": 58,
+     "function": "cmd_probe_r2",
+     "line": 843,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 843,
+     "tier": null
+    },
+    {
+     "col": 13,
+     "context_resolved": true,
+     "distance": -1,
+     "function": "cmd_probe_r2",
+     "line": 784,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 784,
+     "tier": null
+    }
+   ],
+   "tier": null,
+   "tier_is_structurally_constant": true
+  },
+  {
+   "class": "the_survivors_sit_in_different_statements_or_statement_kinds",
+   "expr": "os.path.join(PATHS.results_dir, '_n3r2_probe_latest.json')",
+   "fields_that_separate_the_survivors": [
+    "statement_line",
+    "distance"
+   ],
+   "file": "scripts/perpetual_faces_n3.py",
+   "published_line": 844,
+   "site": "scripts/perpetual_faces_n3.py:844",
+   "substantive_fields": [
+    "statement_line"
+   ],
+   "survivor_count": 2,
+   "survivors": [
+    {
+     "col": 9,
+     "context_resolved": true,
+     "distance": -1,
+     "function": "cmd_probe_r2",
+     "line": 843,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 843,
+     "tier": null
+    },
+    {
+     "col": 13,
+     "context_resolved": true,
+     "distance": -60,
+     "function": "cmd_probe_r2",
+     "line": 784,
+     "loop": null,
+     "statement_kind": "Assign",
+     "statement_line": 784,
+     "tier": null
+    }
+   ],
+   "tier": null,
+   "tier_is_structurally_constant": true
+  }
+ ],
+ "study": "E542_survivor_spans",
+ "substantive_field_vocab": [
+  "function",
+  "statement_kind",
+  "statement_line",
+  "loop"
+ ],
+ "summary": {
+  "class": {
+   "a_survivor_could_not_be_resolved_to_a_context_in_its_file": 0,
+   "the_survivors_differ_in_the_loop_that_encloses_them": 0,
+   "the_survivors_differ_on_more_than_one_substantive_field": 8,
+   "the_survivors_differ_on_nothing_a_consumer_could_observe": 0,
+   "the_survivors_differ_only_in_the_signed_distance_to_the_published_line": 0,
+   "the_survivors_sit_in_different_functions": 0,
+   "the_survivors_sit_in_different_statements_or_statement_kinds": 24
+  },
+  "classes_sum_to_the_rows": true,
+  "rows": 32,
+  "rows_where_tier_could_separate_the_survivors": 0,
+  "rows_whose_survivors_differ_in_a_substantive_field": 32,
+  "rows_whose_survivors_differ_in_distance": 32,
+  "rows_whose_survivors_differ_on_nothing": 0,
+  "rows_whose_survivors_differ_only_in_distance": 0,
+  "rows_with_an_unresolved_survivor_context": 0,
+  "substantive_field_hits": {
+   "distance": 0,
+   "function": 0,
+   "loop": 4,
+   "statement_kind": 6,
+   "statement_line": 32,
+   "tier": 0
+  },
+  "substantive_plus_harmless_sums_to_the_rows": true,
+  "substantive_share": 1.0,
+  "survivor_count_histogram": {
+   "2": 23,
+   "3": 9
+  },
+  "survivors_overall": 73
+ },
+ "upstream_face": "caller-supplied rows",
+ "upstream_sha256": "63423a3931c473142e5065fa741854daf8f8bd18065f86a3c803da4301c4bf3f",
+ "verdict": "most_ambiguous_rows_keep_survivors_that_differ_in_the_function_the_statement_or_the_loop_so_the_ambiguity_changes_what_the_row_teaches",
+ "verdict_vocab": [
+  "most_ambiguous_rows_keep_survivors_no_consumer_could_tell_apart_so_the_count_overstates_the_defect",
+  "most_ambiguous_rows_keep_survivors_that_differ_in_the_function_the_statement_or_the_loop_so_the_ambiguity_changes_what_the_row_teaches",
+  "the_ambiguous_rows_split_between_survivors_no_consumer_could_tell_apart_and_survivors_that_differ_in_what_the_row_teaches",
+  "the_upstream_face_published_no_ambiguous_rows"
+ ]
+}

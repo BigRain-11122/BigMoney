@@ -2074,6 +2074,14 @@ LEGS = [
     # inside the surviving set on all 32 ambiguous rows. `check` re-derives every arm trace, both
     # counts and the verdict from the published rows.
     ("branch_ambiguity", ["python", "scripts/e541_branch_ambiguity.py", "check"]),
+    # E542 prices the ambiguity E541 left open. For the 32 rows that keep 2-3 survivors, every
+    # survivor is resolved to what a consumer of the published row can observe (function,
+    # innermost statement and its kind, enclosing loop, signed distance, tier) and the survivors
+    # are compared field by field: 32 rows differ in the statement (24 there, 8 on more than one
+    # substantive field), 0 differ on nothing and 0 differ only in distance, so the ambiguity is
+    # a defect surface rather than an over-counted multiplicity. `check` re-derives every class,
+    # every field count and the verdict from the published rows.
+    ("survivor_spans", ["python", "scripts/e542_survivor_spans.py", "check"]),
     # Data-lane freshness board (OB-20261108-120628-589 leg 1 / D-20261108-02): the observed set is
     # the union of config/lane_hosts.json's lanes and the collector faces this repo declares, and the
     # two alarms are published apart -- lane_starved is about a data face, owner_silent is about a
