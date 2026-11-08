@@ -2280,6 +2280,15 @@ LEGS = [
     # `check` re-derives every class, every witness and the three-way split from the rows.
     ("receipt_run_identity",
      ["python", "scripts/e572_receipt_run_identity.py", "check"]),
+    # E573 asks whether the 22 sentences E568 reads as the whole chain are actually declared
+    # subsets somewhere in their own round's report: no row of any of those rounds declares one
+    # (0/22 own rows, 0 sibling rows across the rounds that have them), the bare words a reader
+    # might take for a declaration appear in 10 and every one is about a research family or a leg
+    # seed, and 13 of the 22 rounds' own scripts carry a scope switch (`--only`) -- so narrowing
+    # is a mechanism those scripts have, not something the report says was used.
+    # `check` re-derives every class from the rows and every table from the witness blob in git.
+    ("silent_chain",
+     ["python", "scripts/e573_silent_chain.py", "check"]),
 ]
 
 

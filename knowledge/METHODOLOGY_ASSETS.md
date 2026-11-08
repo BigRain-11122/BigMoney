@@ -13943,3 +13943,10 @@ eceipts_stating_no_count，混进分母会把「没写」读成「写错」。�
 ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见证，不能当顺序证明**（本轮把这句写进代码注释，并发布 commits_naming_the_round 与跨度）。
 **边界**：leg 名是否是轮表的**前缀**这一臂未测——E568 恢复出来的表是「腿数」不是「腿名」，本轮如实发布为 unnamed_witnesses（回执 3 份的轮表都没恢复，rounds_with_a_recovered_table=0），不拿计数冒充名单。
 **证据** = scripts/e572_receipt_run_identity.py（build/check/verify + selftest 18/18）+ results/state_tilt/RECEIPTRUNID-2026-11-08.json + receiptrunid_latest.json + S6 腿 receipt_run_identity（rc=0 0.04s）+ digest research/digests/DIGEST-20261109-r1600-e572-receipt-run-identity.md
+
+### E573 【表下句子：round 自己不承认跑的是子集】（r1601 bm-b·2026-11-09）
+**问**：E568 从 git 复原了 192 个 round 的 legs 表，其中 22 句的分子/分母低于表却读作整条链——同一 round 的报告里有没有明说它跑的是子集（`--only`/断点/续跑）？
+**答**：**没有，一句都没有（22 句自身 0，7 条同 round 的 closeout/postscript 兄弟行 0）**。裸词面（`family`/`subset`/`partial`/`--only`）在 10 行里出现，**10/10 全是研究家族、leg 种子家族、门族**，没有一条在说 legs 范围；按词判会把 10 个 round 判成"已声明"，按短语（`--only X`/`labelled subset`/`only the N legs`/`partial run`…）判是 0。机制面：13/22 个 round 自己的脚本（按 E568 给的 commit 从 git 读）含收窄 token，其中 **11 个带真开关 `--only`**，另 2 个只是列表切片；脚本 legs 表从同一批 blob 重数 **18/22 可读、18/18 与 E568 一致（0 分歧）**。
+**教训**：①**"可能"不是"发生过"**——脚本里有 `--only` 只证明这条链能跑子集，报告里没有一句说这次跑了，两者不能互相顶替；**能收窄的 round 与静默的句子是同 13 个**，所以"散文少报"和"确实跑子集"从报告文本里分不开，缺的证人是**调用本身**（E575）。②**裸词计数会把研究家族当范围声明**——`family` 在这批行里出现 10 次全是研究家族/种子家族，词面读法在本案上 **100% 假阳**；短语面（要求说"跑了 `--only X`/标了 subset"）才是判定面，两个面都要发布，词面当陷阱保留。③**别在"能读"和"读对"之间偷懒**：脚本表重数 18/18 与上游一致，才使得"表的差不是我们读错"这句话成立。
+**边界**：本次运行是否真传了旗标=未测（unnamed_witnesses）；4 个 round 的脚本表在本克隆读不出，沿 E568 的数不重判；兄弟行靠第 3 列的 round token 归属，续行不算行。
+**证据** = scripts/e573_silent_chain.py（build/check/verify + selftest 15/15）+ results/state_tilt/SILENTCHAIN-2026-11-08.json + silentchain_latest.json + S6 腿 `silent_chain`（rc=0 0.05s）+ smoke #E573 + scripts/run_e573_smoke_leg.py（--doctor 变红）+ digest research/digests/DIGEST-20261109-r1601-e573-silent-chain.md

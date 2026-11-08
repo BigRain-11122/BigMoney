@@ -24904,5 +24904,55 @@ except Exception as _e571x:
     _d571 = "study could not be read"
 check(_name571, not _bad571, "; ".join(_bad571)[:240] or _d571)
 
+# E573: E568 published 22 sentences that print less than their round's legs table while reading
+# as the whole chain.  This leg asks whether anything in those rounds says they ran a subset, and
+# refuses the two ways that answer could be a wish: a class that fires without its witness, and a
+# silent row that is hiding a declaration (the doctored copy below flips one row by hand).
+_name573 = "E573 whether the sentences below their round's legs table say they ran a subset (r1601 bm-b)"
+_bad573 = []
+_d573 = "no reading"
+try:
+    _m573 = importlib.import_module("e573_silent_chain")
+    _f573 = json.load(open(os.path.join("results", "state_tilt",
+                                        "silentchain_latest.json"), encoding="utf-8"))
+    _s573 = _f573.get("summary") or {}
+    _r573 = _f573.get("rows") or []
+    _e568f = json.load(open(os.path.join("results", "state_tilt",
+                                         "oldchaintable_latest.json"), encoding="utf-8"))
+    _pop573 = [r for r in (_e568f.get("rows") or [])
+               if r.get("class") == "the_denominator_is_below_the_table_and_the_sentence_reads_as_the_whole_chain"]
+    _bad573.extend(_m573.face_problems(_f573))
+    if len(_pop573) != len(_r573):
+        _bad573.append("the population no longer matches E568's silent class (%d vs %d)"
+                       % (len(_pop573), len(_r573)))
+    if not _s573.get("rows_with_a_naive_marker"):
+        _bad573.append("no naive marker was found, so the trap this study publishes is stale")
+    if _s573.get("rows_with_a_scoped_declaration", 0) > _s573.get("rows_with_a_naive_marker", 0) + 1:
+        _bad573.append("more scoped declarations than naive markers, which the rule cannot produce")
+    _doc573 = json.loads(json.dumps(_f573))
+    for _r in _doc573.get("rows") or []:
+        if _r.get("class") == "no_row_of_that_round_declares_a_subset":
+            _r["sibling_rows"] = [{"line": 1, "declares_a_subset": True,
+                                   "declaration": {"marker": "--only x", "chain_word": "legs"}}]
+            break
+    if not _m573.face_problems(_doc573):
+        _bad573.append("a silent row carrying a declaring sibling row was accepted")
+    _d573 = ("rows=%d own_row=%d sibling_row=%d mechanism_only=%d silent=%d "
+             "| naive_marker_rows=%d scoped=%d | scope_switch_scripts=%d tables_rederived=%d "
+             "| %s"
+             % (_s573.get("by_class", {}).get("rows", 0),
+                _s573.get("by_class", {}).get("the_sentence_s_own_row_declares_a_subset", 0),
+                _s573.get("by_class", {}).get("another_row_of_the_same_round_declares_a_subset", 0),
+                _s573.get("by_class", {}).get("no_row_but_the_round_s_script_can_narrow", 0),
+                _s573.get("by_class", {}).get("no_row_of_that_round_declares_a_subset", 0),
+                _s573.get("rows_with_a_naive_marker", 0),
+                _s573.get("rows_with_a_scoped_declaration", 0),
+                _s573.get("scripts_with_a_scope_switch", 0),
+                _s573.get("tables_rederived", 0), _f573.get("verdict")))
+except Exception as _e573x:
+    _bad573.append(repr(_e573x)[:160])
+    _d573 = "study could not be read"
+check(_name573, not _bad573, "; ".join(_bad573)[:240] or _d573)
+
 if __name__ == "__main__":
     sys.exit(main())

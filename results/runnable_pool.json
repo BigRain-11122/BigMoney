@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1600 bm-b: E572 closed (three receipt-vs-sentence disagreements are three causes: 1 wrong count in the prose, 1 family label vs subset receipt, 1 later-run receipt) + E574 seeded (receipts git never carries)",
+ "_stamp_note": "r1601 bm-b: E573 closed (of the 22 sentences that print less than their round's legs table while reading as the whole chain, 0 are declared subsets anywhere in their round's report, 10 rows carry a bare marker word and all 10 are about research families or leg seeds, and 13 rounds' own scripts carry a scope switch) and E575 seeded (supply floor refill)",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -30070,14 +30070,17 @@
    "lane": "cpu-only",
    "lane_note": "static: the 22 sentences E568 reclassifies as silent, their round's own script and the report row's other statements about the same round; no runner executed",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E568 (r1599 bm-b): with the table recovered from git, 22 sentences print a denominator below it without saying they are a subset. E563 already showed a receipt cannot state what it selected, so the question is whether the round's own row says elsewhere that it ran a subset (a checkpoint, a resumed window, a deliberate --only) -- i.e. whether the prose is wrong or merely quoted from a second run.",
    "target": "results/state_tilt/SILENTCHAIN_latest.json",
    "deliverable": "results/state_tilt/SILENTCHAIN-<cutoff>.json",
    "evidence_cutoff": "2026-11-08",
    "entered_at": "2026-11-09T01:5x+08:00",
    "entered_by": "bm-b r1599",
-   "title": "Take every sentence E568 reclassifies as below-the-table-and-silent, and ask whether the same round's report row states elsewhere that it ran a subset"
+   "title": "Take every sentence E568 reclassifies as below-the-table-and-silent, and ask whether the same round's report row states elsewhere that it ran a subset",
+   "done_at": "2026-11-09T02:1x+08:00",
+   "done_by": "bm-b r1601",
+   "result_ref": "results/state_tilt/SILENTCHAIN-2026-11-08.json"
   },
   {
    "id": "E574-WHETHER-A-ROUND-S-CHAIN-RUN-LEAVES-ANY-EVIDENCE-GIT-CAN-CARRY-WHEN-ITS-RECEIPT-IS-UNTRACKED",
@@ -30092,6 +30095,20 @@
    "entered_by": "bm-b r1600",
    "evidence_cutoff": "2026-11-08",
    "title": "For every receipt on disk, publish whether git carries it, whether a round-report row names it, and whether the round it belongs to is still reachable at all; the population to price is the class where BOTH answers are no -- a chain run whose only trace is a file that will vanish with the worktree."
+  },
+  {
+   "id": "E575-WHETHER-THE-ROUNDS-WHOSE-SCRIPT-TAKES-ONLY-EVER-PASSED-IT",
+   "lane": "cpu-only",
+   "lane_note": "static: the round's own report row, the round's own script at its commit, and the receipt/log the row names; no runner executed",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E573 (r1601 bm-b): 11 of the 22 silent sentences belong to rounds whose chain script carries a `--only` switch.  Whether the run actually passed it is the witness E573 could not read from the report, so the report stays silent while the mechanism exists.",
+   "target": "results/state_tilt/ONLYFLAG_latest.json",
+   "deliverable": "results/state_tilt/ONLYFLAG-<cutoff>.json",
+   "entered_at": "2026-11-09T02:1x+08:00",
+   "entered_by": "bm-b r1601",
+   "evidence_cutoff": "2026-11-08",
+   "title": "For every round whose chain script declares a `--only` switch, ask whether that run passed it: read the invocation out of the round's own row, out of the log the row names, and out of the receipt when one exists, and classify `flag_passed` / `flag_declared_but_not_passed` / `no_invocation_recorded`. Publish the class counts and the witnesses per round; a round whose scope cannot be recovered from any of the three stays `not_recoverable` rather than being inferred from the denominator."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30106,6 +30123,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T01:20+08:00",
+ "updated_at": "2026-11-09T02:1x+08:00",
  "version": 1
 }
