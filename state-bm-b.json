@@ -6190,14 +6190,14 @@
  "three_line_artifact": "results/state_tilt/FACEENTRYREACH-2026-11-08.json",
  "three_line_artifact_ts": "2026-11-08T19:32:30+08:00",
  "three_line_current": "r1583: E557 -- 1 of 4 writers has a build entry point and it lives on another machine's chain; the other 3 are gated (--check) but not rebuildable, and bm-b's own 308-leg chain names none of the four",
- "three_line_delivery": "machine/bm-b-r1581 @ 5db5d3944d",
+ "three_line_delivery": "machine/bm-b-r1583 @ ff7b420b3b",
  "three_line_next": "burn E558 (does a --check leg even read the face it gates, and would it notice the face going missing) or E548/E552 within 48h",
- "timestamp": "2026-11-08T19:32:30+08:00",
- "ts": "2026-11-08T19:32:30+08:00",
+ "timestamp": "2026-11-08T19:34:19+08:00",
+ "ts": "2026-11-08T19:34:19+08:00",
  "ts_utc_ms": 1794133491586,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-08T18:28:00+08:00",
- "updated_at": "2026-11-08T19:32:30+08:00",
+ "updated_at": "2026-11-08T19:34:19+08:00",
  "verdict": "some_message_only_faces_have_a_live_chain_leg_that_rebuilds_them",
  "verdict_line": "1 of 4 writers can be rebuilt by a live chain leg (scripts/capital_placement.py, on bm-c's/bm-a's list); 3 are only ever gated with --check; bm-b's own 308-leg chain names none of them",
  "verdict_note": "product round; both control arms exercised; the full smoke suite was not launched",
@@ -6226,6 +6226,13 @@
   "smoke": "standalone leg check 1/1 (suite has no leg filter, r1499)",
   "ts": "2026-11-08T19:32:30+08:00"
  },
- "round_delivery": "machine/bm-b-r1582 @ 58553ad31 (ls-remote verified)",
- "last_decisions_sha_note": "measured 2026-11-08 r1582 as sha256 of `git show origin/main:docs/decisions.md` joined by LF in this window's reader; the previous value (451b8600...) was produced by an earlier window's method, so only same-method comparisons are meaningful"
+ "round_delivery": "machine/bm-b-r1583 @ ff7b420b3 (ls-remote verified)",
+ "last_decisions_sha_note": "measured 2026-11-08 r1582 as sha256 of `git show origin/main:docs/decisions.md` joined by LF in this window's reader; the previous value (451b8600...) was produced by an earlier window's method, so only same-method comparisons are meaningful",
+ "r1583_delivery": {
+  "branch": "machine/bm-b-r1583",
+  "sha": "ff7b420b3bf0105b5608a8df33db57081959eee6",
+  "ts": "2026-11-08T19:34:19+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1583 == HEAD",
+  "main_push_blocker": "local main is far ahead/behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243 -- the machine branch is the delivery channel"
+ }
 }
