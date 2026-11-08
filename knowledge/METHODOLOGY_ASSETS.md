@@ -13777,3 +13777,22 @@ E559 判了「没人读回执」；本轮问「如果有人读，读得动吗」
 **边界（照报不藏）**：回执的人口是活目录，链一跑就多一份，所以它**不能进闸**——首版把 census 写进 summary，S6 腿自己写的那份回执立刻让 `check` 变红；正法=观测面单列（drift 只打印不判红），闸只吃三个源文件。
 
 **产物** = `scripts/e560_chain_receipt_shape.py`（build/check/verify + selftest 21/21）+ `results/state_tilt/CHAINRECEIPTSHAPE-2026-11-08.json` + `chainreceiptshape_latest.json` + S6 腿 `chain_receipt_shape`（0.2s rc=0）+ smoke 腿 `# E560` + 单跑器 `scripts/run_e560_smoke_leg.py` + digest `research/digests/DIGEST-20261108-r1586-e560-chain-receipt-shape.md`
+
+### E561 — 历史回执还能对着它当初那张表读吗（r1587 bm-b·2026-11-08）
+
+E560 量的是回执**说过什么**。本卡片问它的下游：手上这份回执是「当时的表只有这么长」还是「跑到一半停了 / 只跑了 --only 那几条」。两个证人分开量——
+
+1. **回执自己**：只有 bm-b 发 `legs_total`，而它是 `len(rows)`（bm-a/bm-c 根本不发这个字段）。自证字段的特征就是**永远不会与自己旁边的行数不一致**：320 份里 204 份带它，其中 202 份恰好等于自己的行数，另外 2 份（`_r252bmc` / `_r253bmc`）写 37 条而 rows=0（形状是 dict-with-a-count）。所以「总计对得上」不构成任何关于表的证据。
+2. **git**：回执名里带轮号（`_r<N>bm<X>_s6_chain.json`），按 `round <N>:` 提交消息取那一轮的 `Tools/s6_chain_bm<X>.py`，读它的 LEGS 表；blob 走一次 `git cat-file --batch` 批量取（3 个 blob 0.04s，promisor clone 上不触发懒取）。
+
+**读数**：320 份回执（118 份在 git 里）→ **190 份可接上自己那一轮的表**；其中 **31 份覆盖整张表**、**159 份比表短**、**0 份比表长**、**122 份无证人**、**8 份读不动**。159 份短回执里 **135 份只跑了 1 条腿**（`--only` 单腿验证），而它们在文件里与「跑到一半被杀」**完全同形**——回执既不记 `--only` 过滤，也不记表长。无证人按机分布 bm-a 53 / bm-c 35 / bm-b 34；可接上的 190 份里 bm-b 181 / bm-c 9。
+
+**四条可复用教训**：
+1. **自证字段先问「它能不能不一致」**——`legs_total = len(rows)` 是不可证伪字段，样本再多也不承载信息；判据=该字段与参照量的一致率是否恒 1.0，恒 1.0 就是构造性冗余而不是测量。
+2. **回执的接合键是文件名不是字段**：17 份的 `round` 字段写成 `r183` / `r848 bm-a`（带前缀或后缀），按字段接合会静默漏掉；另有 8 份文件名里根本没有轮号（`_rrunbmb`、`_rverifybmb`、`_r--allbmc`…），这类回执不可能被接上，只能按无证人发布。
+3. **写盘编码是接合的一部分**：`_r244bmc_s6_chain.json` 带 UTF-8 BOM，`json.load` 直接抛 `Unexpected UTF-8 BOM`——读数侧一律 `utf-8-sig`，否则有回执永远读不动。
+4. **live 目录里的普查必须自排除**：本轮 S6 腿用假轮号 9999 跑过一次，目录里立刻多出 `_r9999bmb` 并把面推翻（LEGS 表因为它自己那条 leg 加入而 311→312）——正法是先删自造件（prescan 零命中后才删）再重建面，并把闸写成「逐文件重 derive、新增文件只报 drift」，否则闸会因自己的执行而变红（E180/E207 同族）。
+
+**边界（随面发布）**：轮→提交的接合窗口=最近 4000 条提交；窗外或未被 `round N:` 命名的轮一律记无证人（禁猜）；bm-a 的表是 import 来的，按同一提交取兄弟模块解析；blob 不可达=合法答（promisor clone 不必持有旧 blob），不重试不懒取。
+
+**载体** = `scripts/e561_receipt_table_join.py`（build/check/verify + selftest 19/19）、`results/state_tilt/RECEIPTTABLE-2026-11-08.json` + `receipttable_latest.json` + S6 腿 `receipt_table_join`（1.1s rc=0）+ smoke 腿 `# E561` + 单跑器 `scripts/run_e561_smoke_leg.py`（含 --doctor）+ digest `research/digests/DIGEST-20261108-r1587-e561-receipt-table-join.md`

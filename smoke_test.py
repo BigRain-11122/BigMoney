@@ -24343,5 +24343,62 @@ except Exception as _e560x:
     _d560 = "study could not be read"
 check(_name560, not _bad560, "; ".join(_bad560)[:240] or _d560)
 
+# E561: E560 priced what the receipt says about itself.  This leg asks whether the table a receipt
+# was built from is still recoverable -- and refuses the ways that question gets answered wrongly:
+#   * `legs_total` is `len(rows)` in the runner that publishes it, so a receipt agreeing with
+#     itself is not evidence about the table: a one-row receipt must never read as complete
+#   * the join key is the round in the FILE NAME, and the table comes from the runner blob at that
+#     round's commit through one batched `git cat-file --batch`; a round without a commit is a
+#     published no-witness class, not a silent skip
+#   * the receipt directory is live, so the gate re-derives per-file classes; new files are drift
+_name561 = "E561 whether a historical receipt can be read against its own round's table (r1587 bm-b)"
+_bad561 = []
+_d561 = "no reading"
+try:
+    _m561 = __import__("importlib").import_module("e561_receipt_table_join")
+    _f561 = json.load(open(os.path.join("results", "state_tilt", "receipttable_latest.json"),
+                           encoding="utf-8"))
+    _s561 = _f561.get("summary") or {}
+    _r561 = _f561.get("rows") or []
+    _bad561.extend(_m561.face_problems(_f561))
+    if not _r561:
+        _bad561.append("the receipt population is empty, so the join is unmeasured")
+    if _s561.get("receipts_on_disk") != len(_r561):
+        _bad561.append("the receipt count is not the row count")
+    if sum(_s561.get(k, 0) for k in ("complete", "partial", "shrunk", "no_witness", "unreadable")) \
+            != _s561.get("receipts_on_disk"):
+        _bad561.append("a receipt is in no class or in two")
+    if _s561.get("joinable", 0) <= 0:
+        _bad561.append("not one receipt joined to a runner blob, so the git arm is empty")
+    if not all((a or {}).get("found") for a in (_f561.get("control_arms") or {}).values()):
+        _bad561.append("a control arm is blind")
+    if _m561.classify(1, 30) != _m561.C_PARTIAL:
+        _bad561.append("a one-row receipt is no longer read as short against a 30-leg table")
+    if _m561.classify(30, 30) != _m561.C_COMPLETE:
+        _bad561.append("equal row and table counts are no longer read as complete")
+    _doc561 = json.loads(json.dumps(_f561))
+    _doc561["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m561.face_problems(_doc561):
+        _bad561.append("a hand-written verdict was accepted")
+    _short561 = [r for r in _f561["rows"] if not r.get("unparsed") and r.get("rows") == 1
+                 and (r.get("table_at_its_round") or 0) > 1]
+    if _short561:
+        _doc561 = json.loads(json.dumps(_f561))
+        _victim = next(r for r in _doc561["rows"]
+                       if not r.get("unparsed") and r.get("rows") == 1
+                       and (r.get("table_at_its_round") or 0) > 1)
+        _victim["class"] = _m561.C_COMPLETE
+        if not _m561.face_problems(_doc561):
+            _bad561.append("a one-row receipt relabelled complete was accepted")
+    _d561 = ("%d receipts / %d joinable / complete=%d / short=%d / no-witness=%d / "
+             "unreadable=%d / %s"
+             % (_s561.get("receipts_on_disk", 0), _s561.get("joinable", 0),
+                _s561.get("complete", 0), _s561.get("partial", 0),
+                _s561.get("no_witness", 0), _s561.get("unreadable", 0), _f561.get("verdict")))
+except Exception as _e561x:
+    _bad561.append(repr(_e561x)[:160])
+    _d561 = "study could not be read"
+check(_name561, not _bad561, "; ".join(_bad561)[:240] or _d561)
+
 if __name__ == "__main__":
     sys.exit(main())

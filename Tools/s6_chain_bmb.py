@@ -2190,6 +2190,14 @@ LEGS = [
     # fields (3 runners x 3 fields) survive into the file.  `check` re-derives every class from
     # the three sources plus the receipts already on disk.
     ("chain_receipt_shape", ["python", "scripts/e560_chain_receipt_shape.py", "check"]),
+    # E561 asks whether the table a historical receipt was built from is still recoverable.  The
+    # receipt's own total is `len(rows)` in the one runner that publishes it, so a receipt that
+    # agrees with itself certifies nothing; the witness is git -- the receipt name carries a
+    # round, and the runner blob at that round's commit carries the LEGS table.  190 of 320
+    # receipts join, and 159 of those are shorter than their own round's table, where a stopped
+    # run and an --only run look identical.  `check` re-derives each file's class; the live
+    # directory is drift, never a gate.
+    ("receipt_table_join", ["python", "scripts/e561_receipt_table_join.py", "check"]),
 ]
 
 

@@ -29884,11 +29884,31 @@
    "lane_note": "static: local git object reads for per-round runner blobs plus the receipts on disk; no network, no GPU, no price",
    "target": "results/state_tilt/RECEIPTVSTABLE-<cutoff>.json",
    "deliverable": "results/state_tilt/RECEIPTVSTABLE-<cutoff>.json + latest",
-   "status": "ready",
+   "status": "done",
    "priority": "normal",
    "worker_class": "cpu",
    "evidence_cutoff": "2026-11-08",
    "entered_at": "2026-11-08T20:4x+08:00",
+   "entered_by": "bm-b",
+   "done_at": "2026-11-08T21:1x+08:00",
+   "result_ref": "results/state_tilt/RECEIPTTABLE-2026-11-08.json",
+   "card": "E561",
+   "outcome": "320 receipts / 118 in git / 190 joinable; 31 cover their own round's table, 159 are short (135 of them single-leg runs), 0 long, 122 no witness, 8 unparsable",
+   "verdict": "a_receipts_own_total_is_len_rows_so_it_certifies_nothing_about_the_table_and_135_of_159_short_receipts_are_single_leg_runs"
+  },
+  {
+   "id": "E562-WHETHER-A-SINGLE-LEG-RUN-AND-A-KILLED-RUN-ARE-SEPARABLE-FROM-ANY-FIELD-THE-CHAIN-ALREADY-WRITES",
+   "title": "E561 found 135 of its 159 short receipts ran exactly one leg and look identical to a chain that died: the receipt records neither the --only filter nor the table size. Before proposing a new field, measure whether the existing payload already separates the two runs by some observable it does not advertise -- the runner's own stdout banner (it prints the leg count it is about to run), elapsed_sec against the single leg's own summary, a leg name that appears in today's LEGS table, or the presence of the runner's usage line. For each of the 135 receipts and a control set of killed runs, publish whether an unaided reader can recover which of the two it is holding, and which observable (if any) does it.",
+   "source": "E561",
+   "lane": "cpu-only",
+   "lane_note": "static: receipts on disk plus each runner's own stdout convention read from source; no network, no GPU, no price",
+   "target": "results/state_tilt/SHORTRECEIPTSEP-<cutoff>.json",
+   "deliverable": "results/state_tilt/SHORTRECEIPTSEP-<cutoff>.json + latest",
+   "status": "ready",
+   "priority": "normal",
+   "worker_class": "cpu",
+   "evidence_cutoff": "2026-11-08",
+   "entered_at": "2026-11-08T21:1x+08:00",
    "entered_by": "bm-b"
   }
  ],
@@ -29904,6 +29924,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T20:4x+08:00",
+ "updated_at": "2026-11-08T21:1x+08:00",
  "version": 1
 }
