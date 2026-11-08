@@ -1,0 +1,3398 @@
+{
+ "study": "E554",
+ "card": "E554",
+ "title": "the repository's whole wrote-path render population, split by spawnability and by what else announces the face",
+ "evidence_cutoff": "2026-11-08",
+ "population_source": {
+  "method": "AST discovery over every .py source; a render call whose first argument's statically readable first word is 'wrote'",
+  "render_functions": [
+   "print",
+   "p",
+   "log"
+  ]
+ },
+ "rows": [
+  {
+   "writer": "Tools/_r824bmc_logtail.py",
+   "line": 10,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote', dst, len(out), 'lines')",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "_r1052bmb_sscombo_report.py",
+   "line": 148,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote', MD)",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": "docs/stagestyle/REPORT-STAGESTYLE-v1.md",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "_r1052bmb_closeout.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/stagestyle_combo_p1_report.py",
+      "kind": "source_literal"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_source_literal_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "_r1052bmb_sscombo_report.py",
+   "line": 149,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote', JS)",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": "docs/stagestyle/REPORT-STAGESTYLE-v1.json",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "scripts/stagestyle_combo_p1_report.py",
+      "kind": "source_literal"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_source_literal_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "_r1111bmb_arrival_trace.py",
+   "line": 57,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote', OUT)",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": "results/e38_panel_drift_census/ARRIVAL-TRACE-20261021.json",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "_r1111bmb_closeout.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "_r1111bmb_pool_close.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "_r1111bmb_report.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/state_tilt/facepoppin_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/identitydialectcensus_latest.json",
+      "kind": "pointer"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "both_a_source_literal_and_a_pointer_face_announce_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "_r1146bmb_product.py",
+   "line": 119,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote', path)",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": "research/digests/DIGEST-20261021-e75-panelsplit.md",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "_r1146bmb_closeout.py",
+      "kind": "source_literal"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_source_literal_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "_r1571_dec.py",
+   "line": 15,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote _r1571_dec_hits.txt')",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_message_names_nothing_besides_the_word"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "_tmp_r1260_ordtail.py",
+   "line": 10,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote', len(lines))",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_count_or_a_flag_not_a_path"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "_tmp_r1297_close.py",
+   "line": 186,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote state, heartbeat, round report row')",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_message_names_nothing_besides_the_word"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "results/_r1084bmc_extract.py",
+   "line": 6,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote', out, len(r.stdout), 'bytes')",
+    "enclosing_function": "show",
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "results/_r1084bmc_ordtail.py",
+   "line": 6,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote', len(lines[-36:]), 'tail lines; total', len(lines))",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_count_or_a_flag_not_a_path"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "results/_r1198bmc_mk_s6.py",
+   "line": 11,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote results/_r1198bmc_s6_chain.py')",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": "results/_r1198bmc_s6_chain.py",
+    "resolution": "resolved_from_the_message_text",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "only_the_rendered_message_announces_this_face",
+   "risk_class": "message_only_and_no_source_can_spawn_the_writer"
+  },
+  {
+   "writer": "results/_r264bmb_resolve.py",
+   "line": 18,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print(' wrote', path, len(data), 'bytes')",
+    "enclosing_function": "w",
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "results/_r591bmb_s6_keys.py",
+   "line": 19,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote', len(out), 'keys')",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_count_or_a_flag_not_a_path"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "results/_r834bma_resolve2.py",
+   "line": 82,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print(' wrote %s (%d B, side %d)' % (p, len(blob), side))",
+    "enclosing_function": "resolve_pair",
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "results/_r86bmc_fund_premium_data_loss.py",
+   "line": 110,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote', out_path)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/_r86bmc_fund_premium_data_loss.json",
+    "resolution": "resolved_computed_path",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "only_the_rendered_message_announces_this_face",
+   "risk_class": "message_only_and_no_source_can_spawn_the_writer"
+  },
+  {
+   "writer": "results/_r963_resolve.py",
+   "line": 93,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print(' wrote %s <- %s side (%d bytes)' % (path, side, len(b)))",
+    "enclosing_function": "write_side",
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "results/_r963bma_resolve4.py",
+   "line": 85,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print(' wrote %s <- :%s: (%d bytes)' % (path, side, len(b)))",
+    "enclosing_function": "write_side",
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "results/_r963bma_resolve5.py",
+   "line": 86,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print(' wrote %s <- :%s: (%d bytes)' % (path, side, len(b)))",
+    "enclosing_function": "write_side",
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "results/_w322bmc_clone_from_w321.py",
+   "line": 86,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote', DST, len(t3), 'chars')",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": "results/_w322bmc_freeze_edits.py",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "results/_w322bmc_heal_digits.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_w322bmc_heal_header.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_w323bmc_clone_from_w322.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_w323bmc_freeze_edits.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_w323bmc_prereg_derive.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_w324bmc_prereg_derive.py",
+      "kind": "source_literal"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_source_literal_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "results/_w323bmc_clone_from_w322.py",
+   "line": 107,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote', DST, len(t3), 'chars')",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": "results/_w323bmc_freeze_edits.py",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "results/_w324bmc_clone_from_w323.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_w324bmc_freeze_edits.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_w324bmc_prereg_derive.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_w325bmc_prereg_derive.py",
+      "kind": "source_literal"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_source_literal_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "results/_w324bmc_clone_from_w323.py",
+   "line": 100,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote', DST, len(t3), 'chars')",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": "results/_w324bmc_freeze_edits.py",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "results/_w325bmc_clone_from_w324.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_w325bmc_prereg_derive.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_w326bmc_prereg_derive.py",
+      "kind": "source_literal"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_source_literal_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "results/_w325bmc_clone_from_w324.py",
+   "line": 148,
+   "workspace_class": "a_scratch_script_under_the_root_or_results",
+   "render": {
+    "text": "print('wrote', DST, len(t3), 'chars')",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": "results/_w325bmc_freeze_edits.py",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "results/_w325bmc_freeze_edits.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_w325bmc_heal_bladaw.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_w325bmc_heal_keys.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_w326bmc_freeze_edits.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_w326bmc_prereg_derive.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_w327bmc_prereg_derive.py",
+      "kind": "source_literal"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_source_literal_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "scripts/capital_placement.py",
+   "line": 615,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s + %s' % (OUT_JSON.relative_to(ROOT), OUT_MD.relative_to(ROOT)))",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/cn_regime_policy_p1.py",
+   "line": 1080,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT_JSON)",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/cn_regime_policy/p1_results.json",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "monitor/build_status.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r1038bmb_postscript.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r259bmb_cap_join.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r259bmb_cap_view.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r259bmb_close.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r259bmb_t80_progress.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r286bmb_wrap.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r287bmb_cntrend_harvest.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r295bmb_chain_reanchor.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r307bmb_wrap.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r397bmc_e1_three_leg.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r600bma_t150_wip/fund_value_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r611bma_family_verdict_wiring.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r668bmb_rr_append.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r670bma_closeout.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r670bma_extract_verdict.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r670bma_sec13_dist.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r678bma_pooled_check.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r695bma_anchor_deltas.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r807bmb_ledger_reanchor.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r943bma_flip.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r945bma_handover_5x.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/_r947bma_read_cells.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/aggr_capacity_probe.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/aggr_fullpool_battery.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/cn_core_ddctl_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/cn_core_sat_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/cn_div_lowvol_rot_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/cn_kline_pattern_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/cn_mkneutral_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/cn_rev_tilt_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/cn_sector_leader_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/cn_soe_etf_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/cn_trend_etf_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/decision_chain_v2.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/divlowvol_nulls_face.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/fund_divlowvol_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/fund_quality_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/fund_trio_p1_diagnostics.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/fund_value_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/fusion_grid_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/lhb_thermo_ic_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/lowamp_deep_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/lowamp_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/portfolio_recommend.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/regime_matrix_p0.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/rev_osc_stock_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/science_gates.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/strategy_scorecard.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/tactics_report.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/theme_judge_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/theme_methodology_report.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/thermo_overlay_p1.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/state_tilt/allowance_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/dirisface_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/droppedpath_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/emptyarmreach_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/facehome_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/fieldbranch_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/frozenwriter_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/identitydialectcensus_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/phantomwhy_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/prereghash_latest.json",
+      "kind": "pointer"
+     }
+    ],
+    "self_reread": [
+     {
+      "line": 574,
+      "call": "json.load",
+      "constant": "OUT_JSON"
+     },
+     {
+      "line": 574,
+      "call": "open",
+      "constant": "OUT_JSON"
+     }
+    ]
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "both_a_source_literal_and_a_pointer_face_announce_this_face",
+   "risk_class": "the_writer_itself_reads_the_face_back"
+  },
+  {
+   "writer": "scripts/e224_vol_gate.py",
+   "line": 466,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % face['_written'])",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e225_state_tilt.py",
+   "line": 565,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % face['_written'])",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e226_tilt_breakeven.py",
+   "line": 406,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % face['_written'])",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e228_matched_exposure.py",
+   "line": 485,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % face['_written'])",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e229_timing_selection.py",
+   "line": 474,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % face['_written'])",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e230_hysteresis_toll.py",
+   "line": 521,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % face['_written'])",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e232_cost_curvature.py",
+   "line": 369,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % face['_written'])",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e233_empirical_gamma.py",
+   "line": 558,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % face['_written'])",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e234_per_member_gamma.py",
+   "line": 551,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % face['_written'])",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e235_charge_granularity.py",
+   "line": 659,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % face['_written'])",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e236_share_difference.py",
+   "line": 606,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % face['_written'])",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e237_information_structure.py",
+   "line": 552,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % face['_written'])",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e238_leave_one_out_book.py",
+   "line": 588,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % ' + '.join(face['_written']))",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e239_own_vs_cross.py",
+   "line": 422,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % ' + '.join(face['_written']))",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e240_aggregate_attenuation.py",
+   "line": 683,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % ' + '.join(written))",
+    "enclosing_function": "_write",
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e242_omission_inflation_sweep.py",
+   "line": 734,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % ' + '.join(face['_written']))",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e318_count_named_gate_leaves.py",
+   "line": 561,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % os.path.relpath(p, ROOT))",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e390_wrong_side_reader.py",
+   "line": 872,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % os.path.relpath(OUT_FACE, ROOT))",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/state_tilt/WRONGSIDE-2026-11-03.json",
+    "resolution": "resolved_from_the_format_middle",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "results/state_tilt/identityconsumers_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/identitydialect_latest.json",
+      "kind": "pointer"
+     }
+    ],
+    "self_reread": [
+     {
+      "line": 588,
+      "call": "open",
+      "constant": "OUT_FACE"
+     }
+    ]
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_pointer_face_announces_this_face",
+   "risk_class": "the_writer_itself_reads_the_face_back"
+  },
+  {
+   "writer": "scripts/e408_writer_refresh_signal.py",
+   "line": 699,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', path)",
+    "enclosing_function": "publish",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e422_basename_census_audit.py",
+   "line": 543,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s (sha %s)' % (_rel(path), hashlib.sha256(blob.encode('utf-8')).hexdigest()[:16]))",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e446_frozen_writer.py",
+   "line": 821,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % _rel(path))",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e447_abandoned_read.py",
+   "line": 631,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % _rel(path))",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e451_prereg_digest.py",
+   "line": 645,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % _rel(path))",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e452_abandoned_guard.py",
+   "line": 822,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % _rel(path))",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e453_abandoned_stale.py",
+   "line": 617,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % _rel(path))",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e455_growth_census.py",
+   "line": 125,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % os.path.relpath(path, ROOT))",
+    "enclosing_function": "build",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e458_face_identity.py",
+   "line": 462,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote results/state_tilt/%s-%s.json' % (DATED_PREFIX, payload['evidence_cutoff']))",
+    "enclosing_function": "build",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e460_facegap.py",
+   "line": 421,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote results/state_tilt/%s-%s.json' % (DATED_PREFIX, payload['evidence_cutoff']))",
+    "enclosing_function": "build",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e467_docstringcard.py",
+   "line": 562,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote results/state_tilt/%s-%s.json' % (DATED_PREFIX, payload['evidence_cutoff']))",
+    "enclosing_function": "build",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_key_of_a_dict_built_at_run_time"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e475_multideclared_ids.py",
+   "line": 305,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', dated)",
+    "enclosing_function": "build",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e496_twin_mode.py",
+   "line": 538,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', _rel(dated), '+', _rel(latest))",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e497_twindead.py",
+   "line": 1005,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', _rel(dated), '+', _rel(latest))",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e90_churnse_block.py",
+   "line": 426,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', path, '(%.0fs total)' % (time.time() - t0), flush=True)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e94_readset_triage.py",
+   "line": 403,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "log('wrote %s (%d rows, %.1fs)' % (os.path.relpath(path, ROOT).replace('\\\\', '/'), len(out_rows), face['elapsed_sec']))",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 697,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(out, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_screenreach",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 1329,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(out, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_levelquotes",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 1496,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(out, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_classcountdelta",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 1906,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(out, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_labelduty",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 2425,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(out, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_deltastance",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 2657,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(out, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_nearzerosign",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 2881,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(out, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_deltasign",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 3216,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(bpath, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_signgrowth",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 3223,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(out, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_signgrowth",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 3497,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(bpath, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_signleaf",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 3504,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(out, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_signleaf",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 3861,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(out, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_quotecount",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 4199,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(out, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_docquotes",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 4350,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(out, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_countwitness",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 4502,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(path, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_pagegate",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 4509,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(out, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_pagegate",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 4531,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(out, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run_signexposure",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 4635,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', path)",
+    "enclosing_function": "render_md",
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/e97_routing.py",
+   "line": 4647,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(out, ROOT).replace('\\\\', '/'))",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_breadth.py",
+   "line": 334,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', path)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_bridge.py",
+   "line": 420,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', lp, flush=True)",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/etf_book_bridge.json",
+    "resolution": "resolved_computed_path",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "only_the_rendered_message_announces_this_face",
+   "risk_class": "message_only_and_no_source_can_spawn_the_writer"
+  },
+  {
+   "writer": "scripts/etf_book_buffer_adoption.py",
+   "line": 716,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s + %s' % (out.relative_to(ROOT), OUT_MD.relative_to(ROOT)))",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_capacity.py",
+   "line": 413,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % args.out)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_capacity_rule.py",
+   "line": 568,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('\\nwrote %s' % dest)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_card_track.py",
+   "line": 288,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % os.path.relpath(OUT), flush=True)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_cash_ladder.py",
+   "line": 587,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s (%.0fs)' % (OUT_PATH, time.time() - t_all), flush=True)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/etf_book_cash_ladder.json",
+    "resolution": "resolved_from_the_format_middle",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "results/state_tilt/dirisface_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/droppedpath_latest.json",
+      "kind": "pointer"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_pointer_face_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "scripts/etf_book_commodity_split.py",
+   "line": 274,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT, flush=True)",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_hysteresis.py",
+   "line": 649,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s + %s' % (out.relative_to(ROOT), md_path.relative_to(ROOT)))",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_order.py",
+   "line": 568,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.join(OUT_DIR, 'TICKET-%s.json' % asof))",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_order.py",
+   "line": 1059,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.join(OUT_DIR, 'ORDER-%s-card.md' % asof))",
+    "enclosing_function": "run_card",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_passive_mix.py",
+   "line": 409,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT, flush=True)",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_pre2020.py",
+   "line": 321,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s in %.0fs' % (os.path.relpath(OUT_PATH, _REPO_ROOT), out['elapsed_sec']))",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/etf_book_pre2020.json",
+    "resolution": "resolved_from_the_format_middle",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "scripts/etf_book_production.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "scripts/etf_book_window_decomp.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/state_tilt/unpublishedkey_latest.json",
+      "kind": "pointer"
+     }
+    ],
+    "self_reread": [
+     {
+      "line": 243,
+      "call": "open",
+      "constant": "OUT_PATH"
+     }
+    ]
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "both_a_source_literal_and_a_pointer_face_announce_this_face",
+   "risk_class": "the_writer_itself_reads_the_face_back"
+  },
+  {
+   "writer": "scripts/etf_book_pre2020_wf.py",
+   "line": 213,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT, flush=True)",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_premium_phases.py",
+   "line": 224,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT_JSON, flush=True)",
+    "enclosing_function": "build",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_premium_phases.py",
+   "line": 227,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT_MD, flush=True)",
+    "enclosing_function": "build",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_publish_decision.py",
+   "line": 279,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', out)",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/etf_book_publish_decision.json",
+    "resolution": "resolved_computed_path",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "only_the_rendered_message_announces_this_face",
+   "risk_class": "message_only_and_no_source_can_spawn_the_writer"
+  },
+  {
+   "writer": "scripts/etf_book_registry.py",
+   "line": 418,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('\\nwrote %s' % _rel(JSON_OUT))",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_spanning_pre2020.py",
+   "line": 282,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(RESULT, _REPO), flush=True)",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_turnover.py",
+   "line": 453,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', path)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_voltarget_phase.py",
+   "line": 306,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT_JSON, flush=True)",
+    "enclosing_function": "build",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_voltarget_phase.py",
+   "line": 309,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT_MD, flush=True)",
+    "enclosing_function": "build",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_book_window_decomp.py",
+   "line": 245,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT, flush=True)",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_breadth_sweep.py",
+   "line": 449,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', path)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_phase_beta_split.py",
+   "line": 408,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT_PATH, '(%.0fs total)' % (time.time() - t_all), flush=True)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/etf_phase_beta_split.json",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "results/state_tilt/calledconsumer_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/filepathjoined_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/renderreader_latest.json",
+      "kind": "pointer"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_pointer_face_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "scripts/etf_phase_beta_target.py",
+   "line": 374,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT_PATH, '(%.0fs total)' % (time.time() - t_all), flush=True)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/etf_phase_beta_target.json",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "results/state_tilt/calledconsumer_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/filepathjoined_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/renderreader_latest.json",
+      "kind": "pointer"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_pointer_face_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "scripts/etf_phase_beta_window.py",
+   "line": 426,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s (%.0fs total)' % (OUT_PATH, time.time() - t_all), flush=True)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/etf_phase_beta_window.json",
+    "resolution": "resolved_from_the_format_middle",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "scripts/etf_book_cash_ladder.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/state_tilt/droppedpath_latest.json",
+      "kind": "pointer"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "both_a_source_literal_and_a_pointer_face_announce_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "scripts/etf_phase_cadence.py",
+   "line": 185,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT_PATH, '(%.0fs total)' % (time.time() - t0), flush=True)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/etf_phase_cadence.json",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "results/state_tilt/calledconsumer_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/filepathjoined_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/renderreader_latest.json",
+      "kind": "pointer"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_pointer_face_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "scripts/etf_phase_cost_rolling.py",
+   "line": 272,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT_PATH, '(%.0fs total)' % (time.time() - t_all), flush=True)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/etf_phase_cost_rolling.json",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "results/state_tilt/calledconsumer_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/filepathjoined_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/renderreader_latest.json",
+      "kind": "pointer"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_pointer_face_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "scripts/etf_phase_ensemble.py",
+   "line": 215,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', EW_PATH, '(%.0fs total)' % (time.time() - t0))",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/etf_phase_ensemble.json",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "results/state_tilt/calledconsumer_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/filepathjoined_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/renderreader_latest.json",
+      "kind": "pointer"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_pointer_face_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "scripts/etf_phase_package_n.py",
+   "line": 409,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT_PATH, '(%.0fs total)' % (time.time() - t_all), flush=True)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/etf_phase_package_n.json",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "results/state_tilt/calledconsumer_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/filepathjoined_latest.json",
+      "kind": "pointer"
+     },
+     {
+      "source": "results/state_tilt/renderreader_latest.json",
+      "kind": "pointer"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_pointer_face_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "scripts/etf_vol_calibration.py",
+   "line": 330,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT)",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/etf_vol_delivery_audit.py",
+   "line": 209,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT)",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/fund_avail_pit_t27.py",
+   "line": 144,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(SUMMARY, ROOT))",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/fund_avail_pit_t27.json",
+    "resolution": "resolved_computed_path",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "only_the_rendered_message_announces_this_face",
+   "risk_class": "message_only_and_no_source_can_spawn_the_writer"
+  },
+  {
+   "writer": "scripts/fund_pit_avail.py",
+   "line": 186,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(SUMMARY, ROOT))",
+    "enclosing_function": "build",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/fund_pitv_t27.json",
+    "resolution": "resolved_computed_path",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "only_the_rendered_message_announces_this_face",
+   "risk_class": "message_only_and_no_source_can_spawn_the_writer"
+  },
+  {
+   "writer": "scripts/model_slot_profile_bmc.py",
+   "line": 138,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s (bench %s, %d model(s) measured)' % (os.path.relpath(p, PATHS.root), b.get('measured_at'), len(b.get('results') or [])))",
+    "enclosing_function": "run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/panel_coverage_report.py",
+   "line": 286,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % os.path.relpath(js, ROOT))",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/panel_coverage_report.py",
+   "line": 287,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote %s' % os.path.relpath(md, ROOT))",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": null,
+    "resolution": null,
+    "unresolved_because": "the_second_argument_is_a_name_this_scan_cannot_fold"
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "the_message_names_no_face_this_scan_can_resolve",
+   "risk_class": "the_message_names_no_resolvable_face"
+  },
+  {
+   "writer": "scripts/r1098bma_t27_notice_rca.py",
+   "line": 113,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', path)",
+    "enclosing_function": "main",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/fund_avail_notice_rca.json",
+    "resolution": "resolved_computed_path",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "only_the_rendered_message_announces_this_face",
+   "risk_class": "message_only_and_no_source_can_spawn_the_writer"
+  },
+  {
+   "writer": "scripts/sina_mf_ic_census_p1.py",
+   "line": 313,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT)",
+    "enclosing_function": "cmd_run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/sina_mf_ic_census_p1.json",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "scripts/sina_mf_ic_p1.py",
+      "kind": "source_literal"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_source_literal_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "scripts/stagestyle_combo_p1_report.py",
+   "line": 148,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', MD)",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": "docs/stagestyle/REPORT-STAGESTYLE-v1.md",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "_r1052bmb_closeout.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "_r1052bmb_sscombo_report.py",
+      "kind": "source_literal"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_source_literal_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "scripts/stagestyle_combo_p1_report.py",
+   "line": 149,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', JS)",
+    "enclosing_function": null,
+    "reachable_from_the_main_guard": false
+   },
+   "face": {
+    "path": "docs/stagestyle/REPORT-STAGESTYLE-v1.json",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "_r1052bmb_sscombo_report.py",
+      "kind": "source_literal"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "a_source_literal_announces_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  },
+  {
+   "writer": "scripts/style_rot_census_p1.py",
+   "line": 250,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', OUT)",
+    "enclosing_function": "cmd_run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/style_rot_census_p1.json",
+    "resolution": "resolved_module_constant",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "only_the_rendered_message_announces_this_face",
+   "risk_class": "message_only_and_no_source_can_spawn_the_writer"
+  },
+  {
+   "writer": "scripts/w22_window_forecast.py",
+   "line": 201,
+   "workspace_class": "a_script_under_scripts_that_a_lane_could_run",
+   "render": {
+    "text": "print('wrote', os.path.relpath(OUT_JSON, _ROOT))",
+    "enclosing_function": "_run",
+    "reachable_from_the_main_guard": true
+   },
+   "face": {
+    "path": "results/trial_labor_w22_confirm/w22_window_forecast.json",
+    "resolution": "resolved_computed_path",
+    "unresolved_because": null
+   },
+   "facts": {
+    "spawners": [],
+    "announcements": [
+     {
+      "source": "_r1087bmb_closeout.py",
+      "kind": "source_literal"
+     },
+     {
+      "source": "results/state_tilt/allowance_latest.json",
+      "kind": "pointer"
+     }
+    ],
+    "self_reread": []
+   },
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "announcement_class": "both_a_source_literal_and_a_pointer_face_announce_this_face",
+   "risk_class": "the_face_is_announced_without_the_message"
+  }
+ ],
+ "summary": {
+  "rows": 121,
+  "distinct_writers": 97,
+  "distinct_resolved_faces": 29,
+  "by_spawn_class": {
+   "spawned_by_a_source_that_captures_its_stdout": 0,
+   "spawned_by_a_source_that_leaves_stdout_on_the_console": 0,
+   "no_source_in_the_repository_spawns_this_writer": 121
+  },
+  "by_announcement_class": {
+   "only_the_rendered_message_announces_this_face": 8,
+   "a_source_literal_announces_this_face": 10,
+   "a_pointer_face_announces_this_face": 8,
+   "both_a_source_literal_and_a_pointer_face_announce_this_face": 5,
+   "the_message_names_no_face_this_scan_can_resolve": 90
+  },
+  "by_risk_class": {
+   "message_only_and_a_source_can_spawn_the_writer": 0,
+   "message_only_and_no_source_can_spawn_the_writer": 8,
+   "the_face_is_announced_without_the_message": 20,
+   "the_writer_itself_reads_the_face_back": 3,
+   "the_message_names_no_resolvable_face": 90
+  },
+  "by_workspace_class": {
+   "a_script_under_scripts_that_a_lane_could_run": 99,
+   "a_scratch_script_under_the_root_or_results": 22,
+   "a_python_source_somewhere_else_in_the_tree": 0
+  },
+  "by_unresolved_reason": {
+   "the_message_names_nothing_besides_the_word": 2,
+   "the_second_argument_is_a_count_or_a_flag_not_a_path": 3,
+   "the_second_argument_is_computed_at_run_time": 0,
+   "the_second_argument_is_a_key_of_a_dict_built_at_run_time": 18,
+   "the_second_argument_is_a_name_this_scan_cannot_fold": 67
+  },
+  "cross_tab_spawn_x_announce": {
+   "no_source_in_the_repository_spawns_this_writer|the_message_names_no_face_this_scan_can_resolve": 90,
+   "no_source_in_the_repository_spawns_this_writer|a_source_literal_announces_this_face": 10,
+   "no_source_in_the_repository_spawns_this_writer|both_a_source_literal_and_a_pointer_face_announce_this_face": 5,
+   "no_source_in_the_repository_spawns_this_writer|only_the_rendered_message_announces_this_face": 8,
+   "no_source_in_the_repository_spawns_this_writer|a_pointer_face_announces_this_face": 8
+  },
+  "resolvable_faces": 31,
+  "writers_spawned_by_any_source": 0,
+  "writers_spawned_by_a_capturing_source": 0,
+  "message_only_faces_whose_writer_is_spawnable": 0,
+  "message_only_faces_whose_writer_nobody_can_spawn": 8,
+  "at_risk_rows": 8,
+  "self_announcing_rows": 3,
+  "unassessable_rows": 90,
+  "lane_scripts_in_the_population": 99,
+  "scratch_scripts_in_the_population": 22
+ },
+ "verdict": "some_wrote_messages_are_the_only_announcement_of_a_face_that_nothing_else_names",
+ "verdict_line": "some_wrote_messages_are_the_only_announcement_of_a_face_that_nothing_else_names",
+ "method_note": "a spawn that does not capture stdout cannot be parsed by the spawner; a writer no source spawns is only run by a human; an unresolved message names no face this scan can see (published as unassessable, never as unannounced)",
+ "method_bound": "spawn detection is static: a source that names the script inside a spawn function's arguments or a shell command line, nothing follows an alias or a variable-built path; announcement detection reads literals in sources and small *_latest.json pointer faces only"
+}

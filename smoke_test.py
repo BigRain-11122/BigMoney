@@ -23853,5 +23853,88 @@ except Exception as _e553x:
     _d553 = "study could not be read"
 check(_name553, not _bad553, "; ".join(_bad553)[:240] or _d553)
 
+# E554: the repository's whole "wrote <path>" render population, split by two facts  * the population is
+#   discovered by AST from the render call, never hand-listed, and must be larger than the parent's six *
+#   a row whose message names no face this scan can resolve is UNASSESSABLE -- it may never be counted as
+#   "message only", because unassessable is not unannounced * the spawn counts, announcement counts,
+#   workspace counts and the spawn x announce cross-tab must each partition the rows * at-risk is the sum
+#   of its two arms (message-only beside a spawnable writer, message-only beside an unspawnable one) and a
+#   writer that reads its own face back is kept out of both, with its own count * a doctored copy
+#   (hand-written verdict, a message-only row that lists an announcement, an unassessable row with a
+#   reason outside the vocabulary, an at-risk count that is not the rows') must be refused
+_name554 = "E554 the repository's wrote-path render population (r1580 bm-b)"
+_bad554 = []
+try:
+    _m554 = __import__("importlib").import_module("e554_wrote_population")
+    _f554 = json.load(open(os.path.join("results", "state_tilt", "wrotepopulation_latest.json"),
+                           encoding="utf-8"))
+    _s554 = _f554.get("summary") or {}
+    _r554 = _f554.get("rows") or []
+    _bad554.extend(_m554.face_problems(_f554))
+    if not _r554:
+        _bad554.append("the wrote population is empty")
+    if _s554.get("rows") != len(_r554):
+        _bad554.append("the summary row count is not the face's")
+    if _s554.get("rows", 0) <= 6:
+        _bad554.append("the population is not larger than the parent's six rows")
+    if sum(_s554.get("by_spawn_class", {}).values()) != len(_r554):
+        _bad554.append("the spawn table does not partition the rows")
+    if sum(_s554.get("by_announcement_class", {}).values()) != len(_r554):
+        _bad554.append("the announcement table does not partition the rows")
+    if sum(_s554.get("by_workspace_class", {}).values()) != len(_r554):
+        _bad554.append("the workspace table does not partition the rows")
+    if sum((_s554.get("cross_tab_spawn_x_announce") or {}).values()) != len(_r554):
+        _bad554.append("the spawn x announce cross-tab does not sum to the rows")
+    if _s554.get("at_risk_rows") != (_s554.get("by_risk_class", {}).get(
+            _m554.R_MESSAGE_ONLY_RUNNABLE, 0) + _s554.get("by_risk_class", {}).get(
+            _m554.R_MESSAGE_ONLY_UNRUNNABLE, 0)):
+        _bad554.append("the at-risk count is not the sum of its two arms")
+    if _s554.get("resolvable_faces") != len(_r554) - _s554.get("by_announcement_class", {}).get(
+            _m554.A_UNASSESSABLE, 0):
+        _bad554.append("an unassessable row was counted as resolving a face")
+    if _s554.get("unassessable_rows") != _s554.get("by_announcement_class", {}).get(
+            _m554.A_UNASSESSABLE, 0):
+        _bad554.append("unassessable rows and unassessable faces disagree")
+    if _f554.get("verdict") == _m554.V_NONE_AT_RISK and _s554.get("at_risk_rows"):
+        _bad554.append("a no-risk verdict sits beside at-risk rows")
+    if _r554:
+        if not any(_r["face"].get("path") for _r in _r554):
+            _bad554.append("a verdict came from a fold that resolved no face at all")
+        _doc554 = json.loads(json.dumps(_f554))
+        _doc554["verdict"] = "a_verdict_this_study_never_publishes"
+        if not _m554.face_problems(_doc554):
+            _bad554.append("a hand-written verdict was accepted")
+        _doc554 = json.loads(json.dumps(_f554))
+        for _r554r in _doc554["rows"]:
+            if _r554r["announcement_class"] == _m554.A_ONLY_MESSAGE:
+                _r554r["facts"]["announcements"] = [{"source": "someone.py",
+                                                     "kind": "source_literal"}]
+                break
+        if not any("lists an announcement" in _p for _p in _m554.face_problems(_doc554)):
+            _bad554.append("a message-only row that lists an announcement was accepted")
+        _doc554 = json.loads(json.dumps(_f554))
+        for _r554r in _doc554["rows"]:
+            if _r554r["announcement_class"] == _m554.A_UNASSESSABLE:
+                _r554r["face"]["unresolved_because"] = "a reason this study never publishes"
+                break
+        if not _m554.face_problems(_doc554):
+            _bad554.append("an unassessable row with an unpublished reason was accepted")
+        _doc554 = json.loads(json.dumps(_f554))
+        _doc554["summary"]["at_risk_rows"] = _s554.get("at_risk_rows", 0) + 1
+        if not _m554.face_problems(_doc554):
+            _bad554.append("an at-risk count that is not the rows' was accepted")
+    _d554 = ("%d rows / %d writers / %d resolvable / %d message-only / %d announced elsewhere / "
+             "%d self re-read / %d unassessable / %d spawned / %s"
+             % (len(_r554), _s554.get("distinct_writers", 0), _s554.get("resolvable_faces", 0),
+                _s554.get("by_risk_class", {}).get(_m554.R_MESSAGE_ONLY_UNRUNNABLE, 0) +
+                _s554.get("by_risk_class", {}).get(_m554.R_MESSAGE_ONLY_RUNNABLE, 0),
+                _s554.get("by_risk_class", {}).get(_m554.R_ANNOUNCED_ELSEWHERE, 0),
+                _s554.get("self_announcing_rows", 0), _s554.get("unassessable_rows", 0),
+                _s554.get("writers_spawned_by_any_source", 0), _f554.get("verdict")))
+except Exception as _e554x:
+    _bad554.append(repr(_e554x)[:160])
+    _d554 = "study could not be read"
+check(_name554, not _bad554, "; ".join(_bad554)[:240] or _d554)
+
 if __name__ == "__main__":
     sys.exit(main())

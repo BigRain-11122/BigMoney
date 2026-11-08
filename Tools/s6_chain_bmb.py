@@ -2139,6 +2139,13 @@ LEGS = [
     # pointer and no source literal, all six faces are announced only by the message nobody reads.
     # `check` re-derives every reader and announcement class from the row's own facts.
     ("render_reader", ["python", "scripts/e553_render_reader.py", "check"]),
+    # E554 widens E553's six rows to the repository's whole `print("wrote", <path>)` population
+    # (121 rows / 97 writers).  Two facts decide whether a rendered path is a machine-visible
+    # announcement: can any source spawn the writer at all (0 of 121 can, so stdout is never
+    # captured), and does the named face have another announcement (8 have neither a source
+    # literal nor a `_latest` pointer).  90 rows name no foldable face and are published as
+    # unassessable rather than folded into the at-risk class.  `check` re-derives every class.
+    ("wrote_population", ["python", "scripts/e554_wrote_population.py", "check"]),
 ]
 
 

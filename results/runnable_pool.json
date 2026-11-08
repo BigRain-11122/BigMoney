@@ -29759,14 +29759,30 @@
    "source": "E553 (r1579 bm-b): its six-row population is the parent face's own render rows, not the repository's render population -- the other 40+ print(\"wrote\") sites were never counted",
    "lane": "cpu-only",
    "lane_note": "static: AST discovery of print calls plus the same three routes E553 measured; no execution, no network",
-   "status": "ready",
+   "status": "done",
    "priority": "normal",
    "entered_at": "2026-11-08T16:53:00+08:00",
    "entered_by": "bm-b r1579 (supply floor refill after E551)",
    "deliverable": "results/state_tilt/WROTEPOPULATION-<cutoff>.json",
    "target": "results/state_tilt/wrotepopulation_latest.json",
    "worker_class": "self-contained",
-   "evidence_cutoff": "2026-11-08"
+   "evidence_cutoff": "2026-11-08",
+   "done_at": "2026-11-08T18:20:00+08:00",
+   "done_by": "bm-b r1580",
+   "result_ref": "results/state_tilt/WROTEPOPULATION-2026-11-08.json",
+   "done_note": "inherited from the killed round at 17:52 (pid 37472) and closed out by r1580: 121 render rows / 97 writers / 0 spawnable, 8 faces announced only by the message, 90 names this scan cannot fold"
+  },
+  {
+   "id": "E555-WHICH-OF-THE-67-UNFOLDED-SECOND-ARGUMENTS-ARE-A-CONSTANT-THE-SCAN-COULD-HAVE-EVALUATED",
+   "title": "E554 sorted 90 of 121 render rows into \"the message names no face this scan can resolve\"; 67 of those say the second argument is a NAME the scan cannot fold. But a name is only unfoldable relative to an evaluator: many are module-level constants that a one-hop evaluator can resolve. For each of the 67, try the same fold the parent uses on literals, one hop out, and report how many rows move out of unassessable and whether any of them lands in message_only -- i.e. whether the 8-face at-risk count was an artifact of the evaluator's reach.",
+   "lane": "cpu-only",
+   "target": "results/state_tilt/unfoldedname_latest.json",
+   "deliverable": "results/state_tilt/UNFOLDEDNAME-<cutoff>.json",
+   "source": "E554 (r1580 bm-b): 67 of its 90 unassessable rows carry the same reason \"the second argument is a name this scan cannot fold\", never priced",
+   "status": "ready",
+   "entered_at": "2026-11-08T18:20:00+08:00",
+   "entered_by": "bm-b r1580 (supply floor refill after E554)",
+   "worker_class": "self-contained"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29781,6 +29797,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T16:53:00+08:00",
+ "updated_at": "2026-11-08T18:20:00+08:00",
  "version": 1
 }

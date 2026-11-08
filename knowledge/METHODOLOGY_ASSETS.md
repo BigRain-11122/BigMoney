@@ -13648,3 +13648,21 @@ digest `research/digests/DIGEST-20261108-r1575-e546-filepathjoined.md`
 **边界**：纯静态，不执行任何脚本；只测仓库内消费者（外部 CI 与人眼不在射程）；`source_literal` 只看 py/ps1/bat/cmd/sh 语料，`.md` 里提到路径不算机器可见；判决只覆盖 E550 那六行，不推广到仓库其余 `print("wrote", ...)` 站点（那些是 E554 的事）。
 
 **正身** = `scripts/e553_render_reader.py`（build/check/verify + selftest 45/45）+ `results/state_tilt/RENDERREADER-2026-11-08.json` + `renderreader_latest.json` + S6 腿 `render_reader` + smoke 腿 `# E553`（`scripts/run_e553_smoke_leg.py` 1/1 绿，`--doctor` 1/1 红）+ digest `research/digests/DIGEST-20261108-r1579-e553-render-reader.md`。
+
+### E554 -- 全仓 `print("wrote", <路径>)` 渲染面的普查：谁能跑它、这张面还有没有别的公告（r1580 bm-b·继承死窗面并收口）
+
+**问题**：E553 量了六个 `etf_phase_*` 的 wrote 消息，结论是没有任何机器读回。但那六行只是父面自己的渲染行，不是仓库的渲染总体。本轮把总体从**渲染调用本身**发现出来（`print("wrote", ...)` 及短别名 `p`/`log`，静态可读的第一词是 `wrote`），问两个决定「一条渲染出来的路径算不算机器可见的公告」的事实：①**这个 writer 在这个仓库里跑得起来吗**——有源 spawn 它并捕获 stdout，才可能有人解析；有源 spawn 但把 stdout 留在控制台，spawner 自己解析不到；没有任何源 spawn，则只有人手敲命令才跑得起来。②**消息点名的这张面有没有别的公告**——存在规范的 `<stem>_latest.json` 指针，或除 writer 外的源字面量点名了这条路径，机器就能绕过消息找到面；两者都没有，这张面就只由那条没人读的消息宣布。第三臂单列「writer 自己写完又读回自己的面」，把这类从风险类里摘出去。
+
+**方法**：静态 AST 普查，语料=仓库内 py/ps1/bat/cmd/sh；渲染行按调用名（`print`/`p`/`log`）与首参常量 `wrote` 匹配；第二参按字面量 / `os.path.join` / `Path` / `dirname` / `abspath(__file__)` 族折叠成面路径，折不动的按**理由**发布为 `unassessable`（消息只给了一个词、是计数或开关、是运行期 dict 的键、是本扫描折不动的名字），禁折进 `message_only`——不可判 ≠ 未公告。每个页面问三件事：是不是某源 spawn 的目标（spawn 函数实参/命令行里点名）、有没有 `<stem>_latest.json` 指针面、有没有别的源字面量点名。判决由行重算，禁手写。
+
+**读数**：**121 行 / 97 个 writer / 31 张可解析的面**。spawn 面：**捕获 stdout 的源 = 0，留下控制台的源 = 0，无任何源 spawn 的 writer = 121**——整个渲染总体都只能由人手动跑，stdout 从来没有接收方。公告面：**只由消息宣布 = 8**、源字面量宣布 = 10、指针面宣布 = 8、两者都有 = 5、消息没有点名本扫描能解析的面 = 90。风险类：**message_only 且没人能 spawn = 8**（影子里「能 spawn」的那一格是 0）、不必靠消息就已被公告 = 20、writer 自己读回 = 3、消息不可解析 = 90。工作区面：99 行在 `scripts/`（车道能跑）、22 行是根目录或 `results/` 下的一次性草稿脚本。判决 = `some_wrote_messages_are_the_only_announcement_of_a_face_that_nothing_else_names`。
+
+**四条可复用教训**：
+1. **总体的规模是上一轮边界的函数，不是上一轮的结论**：E553 的边界那句「其余 `print("wrote", ...)` 站点不归本面」，正是 E554 的总体；把边界当待办清单读，比把结论再推一遍有用。
+2. **「没人读」要拆成两问才成立**：能跑起来谁看得到（spawn 面）＋面还有没有第二条公告路径（公告面）。只问第一问会把「人手能跑」误读成「机器可见」；只问第二问会把指针面误判成消费者。
+3. **不可判必须按理由分类**：90 行不可解析里 67 行是同一个理由「第二参是一个本扫描折不动的名字」——这个数比总数更有用，它直接生成下一个问题（E555：这些名字里有多少是模块级常量、一跳就能折出来）。
+4. **干净的读数要自证看过**：腿里钉「至少一条真的跟到的解析面」与「至少一条不可判行」，否则一个什么都没扫到的扫描器也能产出同一条判词。
+
+**边界（随面发布）**：spawn 检测纯静态——源在 spawn 函数实参或命令行里点名脚本才算，别名与变量拼出来的路径不跟；公告检测只读源字面量与小件 `*_latest.json` 指针面，不读 `results/` 里的大面；只测仓库内消费者，外部 CI 与人眼不在射程。
+
+**正身** = `scripts/e554_wrote_population.py`（build/check/verify + selftest 46/46）+ `results/state_tilt/WROTEPOPULATION-2026-11-08.json` + `wrotepopulation_latest.json` + S6 腿 `wrote_population` + smoke 腿 `# E554`（`scripts/run_e554_smoke_leg.py` 1/1 绿，`--doctor` 1/1 红）+ digest `research/digests/DIGEST-20261108-r1580-e554-wrote-population.md`。
