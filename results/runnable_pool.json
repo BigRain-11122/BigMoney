@@ -29629,7 +29629,7 @@
    "title": "E537 published six names whose __file__-derived constant names a file rather than a directory (SRC 23, OUT_PATH 5, SELF 5, CAL_PATH, EW_PATH, RESULTS_JSON). For each, publish every site that consumes it as a directory -- join(NAME, ...), NAME / x, os.makedirs(NAME), listdir/walk(NAME), dirname is NOT such a site -- and what the consumer actually gets. The question is whether a constant whose name promises a path prefix is ever used as one.",
    "lane": "cpu-only",
    "lane_note": "static: AST call shapes over scripts/, no execution, no network, no rewrites",
-   "status": "ready",
+   "status": "done",
    "priority": "normal",
    "source": "E537 (r1572 bm-b): the corpus split into 855 constants naming a directory and 35 naming a file, and the second class is only safe while nothing joins it",
    "deliverable": "results/state_tilt/filepathjoined-<cutoff>.json",
@@ -29637,7 +29637,11 @@
    "worker_class": "self-contained",
    "evidence_cutoff": "2026-11-08",
    "entered_at": "2026-11-08T14:35:00+08:00",
-   "entered_by": "bm-b r1572 (supply floor refill after E537)"
+   "entered_by": "bm-b r1572 (supply floor refill after E537)",
+   "done_at": "2026-11-08T15:26:00+08:00",
+   "done_by": "bm-b r1575",
+   "result_ref": "results/state_tilt/FILEPATHJOINED-2026-11-08.json",
+   "result_note": "35 file-naming constants over 6 names, 49 direct sites + 1 one-hop site: 0 directory sites in either layer, 31 rows file-only, 4 rows consumed but unclassified (abspath identity comparisons and one default argument). Verdict every_file_named_constant_is_read_as_a_file_where_a_site_says_which -- the risk the parent card named does not materialise, and the four residual rows are published as unknown, not as clean."
   },
   {
    "id": "E547-WHETHER-THE-EIGHT-CREATED-ITEMS-ARE-READ-BY-THE-CODE-THAT-THE-SAME-STATEMENT-FEEDS",
@@ -29666,6 +29670,21 @@
    "evidence_cutoff": "2026-11-08",
    "target": "results/state_tilt/extendedresolver_latest.json",
    "deliverable": "results/state_tilt/EXTENDEDRESOLVER-<cutoff>.json"
+  },
+  {
+   "id": "E549-WHAT-THE-FOUR-UNCLASSIFIED-SITES-ACTUALLY-DO-WITH-THE-CONSTANT",
+   "title": "E546 published four rows where the constant is consumed but no site says whether it is a file or a directory: three os.path.abspath(SELF) identity comparisons and one default argument def load_calendar(path=CAL_PATH). Read each one out of its own enclosing function: does the path get handed to a callee that opens it, joined, or only compared? Where a comparison is the whole use, say so and publish it as a class of its own rather than as unknown -- so 'unknown' stops standing in for 'we never read the enclosing function'.",
+   "lane": "cpu-only",
+   "lane_note": "static: AST read of the enclosing function and one callee hop; no execution",
+   "status": "ready",
+   "priority": "normal",
+   "source": "E546 (r1575 bm-b): the 4 unclassified rows are the only place left in a population of 35 where the answer is not published",
+   "deliverable": "results/state_tilt/UNCLASSIFIEDSITE-<cutoff>.json",
+   "target": "results/state_tilt/unclassifiedsite_latest.json",
+   "worker_class": "self-contained",
+   "evidence_cutoff": "2026-11-08",
+   "entered_at": "2026-11-08T15:26:00+08:00",
+   "entered_by": "bm-b r1575 (supply floor refill after E546)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29680,6 +29699,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T14:52:00+08:00",
+ "updated_at": "2026-11-08T15:26:00+08:00",
  "version": 1
 }

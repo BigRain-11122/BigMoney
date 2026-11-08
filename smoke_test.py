@@ -23511,5 +23511,88 @@ except Exception as _e545x:
     _d545 = "study could not be read"
 check(_name545, not _bad545, "; ".join(_bad545)[:240] or _d545)
 
+# E546: which of the names that name a file are read as a directory?  * the published face must
+#   re-derive from its own rows and gate clean * the population must be E537's own file-naming rows
+#   (machine-read from the parent face), so the question is not answered off a subset this study chose
+#   * a "no directory site" verdict must be backed by both site layers -- the direct sites and the
+#     one-hop sites -- and by the directory-row count, so the clean reading cannot come from a scan
+#     that simply never looked * a doctored copy (a flipped row class, a hand-written verdict, a
+#     directory site whose constant is a directory, a summary that outlives its rows) must be refused
+_name546 = "E546 the file-naming constant read as a directory (r1575 bm-b)"
+_bad546 = []
+try:
+    _m546 = __import__("importlib").import_module("e546_file_named_constant_use")
+    _f546 = json.load(open(os.path.join("results", "state_tilt", "filepathjoined_latest.json"),
+                           encoding="utf-8"))
+    _s546 = _f546.get("summary") or {}
+    _r546 = _f546.get("rows") or []
+    _bad546.extend(_m546.face_problems(_f546))
+    if not _r546:
+        _bad546.append("the file-naming population is empty")
+    if _s546.get("file_naming_rows") != _s546.get("file_naming_rows_as_published_by_the_parent"):
+        _bad546.append("the study's population is not the parent's own file-naming count")
+    if _s546.get("reproduction_matches_the_parent") is not True:
+        _bad546.append("the population is not published as reproducing the parent")
+    if _s546.get("by_class", {}).get(_m546.R_FILE_ONLY, 0) + \
+            _s546.get("by_class", {}).get(_m546.R_UNKNOWN_ONLY, 0) != len(_r546):
+        _bad546.append("the rows are not all classed as file-only or unknown")
+    if _f546.get("verdict") == "every_file_named_constant_is_read_as_a_file_where_a_site_says_which":
+        if (_s546.get("sites_by_shape") or {}).get(_m546.S_DIRECTORY, 0) != 0:
+            _bad546.append("a clean verdict sits beside a directory site")
+        if (_s546.get("one_hop_by_shape") or {}).get(_m546.S_DIRECTORY, 0) != 0:
+            _bad546.append("a clean verdict sits beside a one-hop directory site")
+        if _s546.get("directory_rows") or _s546.get("directory_rows_found_only_one_hop_out"):
+            _bad546.append("a clean verdict sits beside a directory row")
+        if not _s546.get("sites"):
+            _bad546.append("a clean verdict came from a scan that published no sites at all")
+        if not _s546.get("by_class", {}).get(_m546.R_FILE_ONLY):
+            _bad546.append("a clean verdict came from a scan with no file site")
+    if _s546.get("by_class", {}).get(_m546.R_UNKNOWN_ONLY):
+        _unknown546 = [r for r in _r546 if r["row_class"] == _m546.R_UNKNOWN_ONLY]
+        for _r546r in _unknown546:
+            if not _r546r.get("sites"):
+                _bad546.append("an unknown row publishes no site to be unknown about (%s)"
+                               % _r546r.get("source"))
+                break
+    if _r546:
+        _doc546 = json.loads(json.dumps(_f546))
+        for _r546r in _doc546["rows"]:
+            if _r546r["row_class"] == _m546.R_FILE_ONLY:
+                _r546r["row_class"] = _m546.R_UNREAD
+                break
+        if not _m546.face_problems(_doc546):
+            _bad546.append("a flipped row class was accepted")
+        _doc546 = json.loads(json.dumps(_f546))
+        _doc546["verdict"] = "a_verdict_this_study_never_publishes"
+        if not _m546.face_problems(_doc546):
+            _bad546.append("a hand-written verdict was accepted")
+        _doc546 = json.loads(json.dumps(_f546))
+        _doc546["rows"] = _doc546["rows"][:-1]
+        if not _m546.face_problems(_doc546):
+            _bad546.append("a summary that outlives its rows was accepted")
+        _doc546 = json.loads(json.dumps(_f546))
+        _doc546["rows"][0]["sites"].append({
+            "shape": _m546.S_DIRECTORY, "line": _doc546["rows"][0]["sites"][0]["line"],
+            "spelling": "os.path.join(NAME, ...)",
+            "what_the_consumer_gets": {"path_the_site_builds": "/tmp/x",
+                                       "the_constant_itself_is_a_file": False,
+                                       "the_constant_itself_is_a_directory": True}})
+        _doc546["rows"][0]["site_count"] = len(_doc546["rows"][0]["sites"])
+        _doc546["rows"][0]["directory_sites"] = 1
+        if not _m546.face_problems(_doc546):
+            _bad546.append("a directory site whose constant is a directory was accepted as a defect")
+    _d546 = ("%d constants over %d names / %d file-only / %d unknown / %d direct sites "
+             "(%d directory) / %d one-hop sites / verdict %s"
+             % (len(_r546), _s546.get("names", 0),
+                _s546.get("by_class", {}).get(_m546.R_FILE_ONLY, 0),
+                _s546.get("by_class", {}).get(_m546.R_UNKNOWN_ONLY, 0),
+                _s546.get("sites", 0),
+                (_s546.get("sites_by_shape") or {}).get(_m546.S_DIRECTORY, 0),
+                _s546.get("one_hop_sites", 0), _f546.get("verdict")))
+except Exception as _e546x:
+    _bad546.append(repr(_e546x)[:160])
+    _d546 = "study could not be read"
+check(_name546, not _bad546, "; ".join(_bad546)[:240] or _d546)
+
 if __name__ == "__main__":
     sys.exit(main())

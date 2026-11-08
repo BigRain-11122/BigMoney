@@ -1,0 +1,972 @@
+{
+ "study": "E546_file_named_constant_use",
+ "card": "E546-WHICH-OF-THE-NAMES-THAT-NAME-A-FILE-ARE-READ-AS-A-DIRECTORY",
+ "title": "which of the names that name a file are read as a directory",
+ "generated": "2026-11-08T00:00:00+08:00",
+ "evidence_cutoff": "2026-11-08",
+ "population_source": {
+  "parent_face": "CONSTTERM-2026-11-08.json",
+  "census_rows_total": 904,
+  "file_naming_rows": 35,
+  "file_naming_rows_as_published_by_the_parent": 35,
+  "reproduction_matches_the_parent": true
+ },
+ "method_limits": [
+  "the scan reads the module that defines the constant; an import-side consumer is counted and named (imports_published_elsewhere) but not classified",
+  "a site that hands the name to a callee is published as S_UNKNOWN, not as clean",
+  "dirname/basename/splitext of the constant are file sites by the card's own definition, not directory sites",
+  "what_the_consumer_gets is a spelling of the join, not a runtime path: the other join arguments are often not literal",
+  "a default-argument binding (``def f(p=NAME)``) is published as a bare-name site and the callee's own use of ``p`` is not followed from there; the four residual rows are of this kind or are ``os.path.abspath(NAME)`` identity comparisons, neither of which says whether the constant is a file or a directory -- they are published as unknown, not as clean"
+ ],
+ "summary": {
+  "census_rows_total": 904,
+  "file_naming_rows": 35,
+  "file_naming_rows_as_published_by_the_parent": 35,
+  "reproduction_matches_the_parent": true,
+  "rows": 35,
+  "by_class": {
+   "every_site_that_says_what_it_is_reads_it_as_a_file": 31,
+   "the_name_is_consumed_but_no_site_says_what_it_is": 4
+  },
+  "names": 6,
+  "by_name": {
+   "RESULTS_JSON": {
+    "constants": 1,
+    "directory_rows": 0
+   },
+   "SELF": {
+    "constants": 4,
+    "directory_rows": 0
+   },
+   "OUT_PATH": {
+    "constants": 5,
+    "directory_rows": 0
+   },
+   "EW_PATH": {
+    "constants": 1,
+    "directory_rows": 0
+   },
+   "CAL_PATH": {
+    "constants": 1,
+    "directory_rows": 0
+   },
+   "SRC": {
+    "constants": 23,
+    "directory_rows": 0
+   }
+  },
+  "directory_rows": 0,
+  "directory_rows_found_only_one_hop_out": 0,
+  "one_hop_sites": 1,
+  "one_hop_by_shape": {
+   "the_site_reads_the_constant_as_a_container": 0,
+   "the_site_reads_the_constant_as_a_file": 1,
+   "the_site_asks_whether_the_path_exists_and_says_neither": 0,
+   "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow": 1
+  },
+  "unknown_spellings": [
+   "NAME",
+   "os.path.abspath(NAME)",
+   "scan_site(NAME)"
+  ],
+  "directory_rows_whose_constant_is_a_file_on_disk": 0,
+  "directory_rows_with_a_self_import_elsewhere": 0,
+  "sites": 49,
+  "sites_by_shape": {
+   "the_site_reads_the_constant_as_a_container": 0,
+   "the_site_reads_the_constant_as_a_file": 32,
+   "the_site_asks_whether_the_path_exists_and_says_neither": 0,
+   "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow": 17
+  },
+  "constants_read_as_a_directory": []
+ },
+ "verdict": "every_file_named_constant_is_read_as_a_file_where_a_site_says_which",
+ "verdict_vocab": [
+  "every_file_named_constant_is_read_as_a_file_where_a_site_says_which",
+  "some_file_named_constants_are_joined_as_if_they_were_directories",
+  "no_site_says_which_so_the_question_stays_open"
+ ],
+ "row_vocab": [
+  "a_site_builds_a_path_under_this_constant_as_if_it_were_a_directory",
+  "every_site_that_says_what_it_is_reads_it_as_a_file",
+  "only_existence_probes_none_of_which_says_which",
+  "the_name_is_consumed_but_no_site_says_what_it_is",
+  "no_site_in_its_own_module_names_the_constant"
+ ],
+ "shape_vocab": [
+  "the_site_reads_the_constant_as_a_container",
+  "the_site_reads_the_constant_as_a_file",
+  "the_site_asks_whether_the_path_exists_and_says_neither",
+  "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow"
+ ],
+ "rows": [
+  {
+   "source": "scripts/bond_w3a_d6_backfill.py",
+   "name": "RESULTS_JSON",
+   "line": 29,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\bond_carry_w3a.json",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 3,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 39,
+     "spelling": "open(NAME)"
+    },
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 89,
+     "spelling": "open(NAME, ...)"
+    },
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 92,
+     "spelling": "open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/e390_wrong_side_reader.py",
+   "name": "SELF",
+   "line": 52,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\e390_wrong_side_reader.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 6,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 508,
+     "spelling": "NAME"
+    },
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 816,
+     "spelling": "scan_site(NAME)",
+     "callee": "scan_site",
+     "arg_index": 0
+    },
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 816,
+     "spelling": "NAME"
+    },
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 818,
+     "spelling": "os.path.abspath(NAME)",
+     "callee": "os.path.abspath",
+     "arg_index": 0
+    },
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 818,
+     "spelling": "NAME"
+    },
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 823,
+     "spelling": "NAME"
+    }
+   ],
+   "one_hop": [
+    {
+     "line": 816,
+     "callee": "scan_site",
+     "parameter": "path",
+     "shapes": [
+      "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+      "the_site_reads_the_constant_as_a_file"
+     ],
+     "reads_as": "every_site_that_says_what_it_is_reads_it_as_a_file",
+     "sites": 3
+    }
+   ],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": [
+    "scripts/e392_read_resolve.py"
+   ]
+  },
+  {
+   "source": "scripts/e391_key_name_two_meanings.py",
+   "name": "SELF",
+   "line": 62,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\e391_key_name_two_meanings.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "the_name_is_consumed_but_no_site_says_what_it_is",
+   "site_count": 2,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 222,
+     "spelling": "NAME"
+    },
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 551,
+     "spelling": "NAME"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": [
+    "scripts/e392_read_resolve.py"
+   ]
+  },
+  {
+   "source": "scripts/e392_read_resolve.py",
+   "name": "SELF",
+   "line": 62,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\e392_read_resolve.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "the_name_is_consumed_but_no_site_says_what_it_is",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 236,
+     "spelling": "NAME"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/e446_frozen_writer.py",
+   "name": "SELF",
+   "line": 37,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\e446_frozen_writer.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "the_name_is_consumed_but_no_site_says_what_it_is",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 101,
+     "spelling": "NAME"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/etf_phase_beta_split.py",
+   "name": "OUT_PATH",
+   "line": 49,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_phase_beta_split.json",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 2,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 406,
+     "spelling": "open(NAME, ...)"
+    },
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 408,
+     "spelling": "NAME"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/etf_phase_beta_target.py",
+   "name": "OUT_PATH",
+   "line": 53,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_phase_beta_target.json",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 2,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 372,
+     "spelling": "open(NAME, ...)"
+    },
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 374,
+     "spelling": "NAME"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": [
+    "scripts/etf_phase_beta_window.py"
+   ]
+  },
+  {
+   "source": "scripts/etf_phase_cadence.py",
+   "name": "OUT_PATH",
+   "line": 40,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_phase_cadence.json",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 2,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 183,
+     "spelling": "open(NAME, ...)"
+    },
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 185,
+     "spelling": "NAME"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/etf_phase_cost_rolling.py",
+   "name": "OUT_PATH",
+   "line": 42,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_phase_cost_rolling.json",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 2,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 270,
+     "spelling": "open(NAME, ...)"
+    },
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 272,
+     "spelling": "NAME"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": [
+    "scripts/etf_phase_beta_split.py",
+    "scripts/etf_phase_beta_target.py",
+    "scripts/etf_phase_beta_window.py"
+   ]
+  },
+  {
+   "source": "scripts/etf_phase_ensemble.py",
+   "name": "EW_PATH",
+   "line": 39,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_phase_ensemble.json",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 2,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 213,
+     "spelling": "open(NAME, ...)"
+    },
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 215,
+     "spelling": "NAME"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/etf_phase_package_n.py",
+   "name": "OUT_PATH",
+   "line": 46,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_phase_package_n.json",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 2,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 407,
+     "spelling": "open(NAME, ...)"
+    },
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 409,
+     "spelling": "NAME"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": [
+    "scripts/etf_phase_cost_rolling.py"
+   ]
+  },
+  {
+   "source": "scripts/marks_coverage.py",
+   "name": "CAL_PATH",
+   "line": 44,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data\\exchange_calendar.csv",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "the_name_is_consumed_but_no_site_says_what_it_is",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_hands_the_constant_to_a_callee_this_scan_does_not_follow",
+     "line": 150,
+     "spelling": "NAME"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e336_smoke_leg.py",
+   "name": "SRC",
+   "line": 10,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 14,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e338_smoke_leg.py",
+   "name": "SRC",
+   "line": 10,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 14,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e339_smoke_leg.py",
+   "name": "SRC",
+   "line": 10,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 14,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e340_smoke_leg.py",
+   "name": "SRC",
+   "line": 10,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 14,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e342_smoke_leg.py",
+   "name": "SRC",
+   "line": 10,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 14,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e385_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e391_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e392_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e393_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e394_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e395_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e396_smoke_leg.py",
+   "name": "SRC",
+   "line": 12,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 16,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e397_smoke_leg.py",
+   "name": "SRC",
+   "line": 12,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 16,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e398_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e399_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e401_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e402_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e404_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e405_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e406_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e407_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e412_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  },
+  {
+   "source": "scripts/run_e416_smoke_leg.py",
+   "name": "SRC",
+   "line": 11,
+   "form": "the_module_file_itself_rather_than_a_directory",
+   "value": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\smoke_test.py",
+   "value_is_a_file": true,
+   "value_is_a_directory": false,
+   "row_class": "every_site_that_says_what_it_is_reads_it_as_a_file",
+   "site_count": 1,
+   "directory_sites": 0,
+   "sites": [
+    {
+     "shape": "the_site_reads_the_constant_as_a_file",
+     "line": 15,
+     "spelling": "io.open(NAME)"
+    }
+   ],
+   "one_hop": [],
+   "directory_found_only_one_hop_out": false,
+   "imports_published_elsewhere": []
+  }
+ ]
+}

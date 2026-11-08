@@ -13554,3 +13554,23 @@ store 不重放；解释器白名单之外的语句/表达式一律带名停住�
 `results/state_tilt/RESOLVERRETRY-2026-11-08.json` + `resolverretry_latest.json` + S6 腿
 `resolver_retry` + smoke 腿 `# E545` + `scripts/run_e545_smoke_leg.py`（1/1 绿 + --doctor 红）+
 digest `research/digests/DIGEST-20261108-r1574-e545-resolver-retry.md`。
+## E546（2026-11-08·r1575 bm-b）「名字承诺的是前缀，用的人得当它是文件」：35 个命名文件的常量全仓定价
+
+**问题**：E537 把 `scripts/` 里 899 个 `__file__` 派生常量按终端分了两类——855 个命名目录、**35 个命名文件**（`SRC` 23、`OUT_PATH` 5、`SELF` 4、`RESULTS_JSON`、`EW_PATH`、`CAL_PATH`）。第二类只在**没人把它当目录 join** 时才安全：`os.path.join(SRC, "x")` 得到 `scripts/run_e336_smoke_leg.py/x`，这个路径既打不开也列不出。这一轮不是把风险记一行，而是把它量到零或量出洞。
+
+**做法**：总体**机器读 E537 的普查**（不手抄、不另选子集），每个常量用 E537 的求值器重折出自己的值；然后扫**定义它的那个模块**，把每一处消费按「站点自己说这个常量是什么」分类——`S_DIRECTORY`（`join(NAME, …)`／`Path(NAME)/x`／`joinpath`／`listdir/walk/scandir/makedirs/mkdir/chdir/rmtree/isdir`／`NAME+"/x"`／`f"{NAME}/…"`）、`S_FILE`（`open`／`io.open`／`Path(NAME).read_text`／`isfile/getsize`／**以及卡片明说的 `dirname/basename/splitext`——那不是目录站点**）、`S_PROBE`（`exists`，两面都不说）、`S_UNKNOWN`（交给一个本扫描不跟的函数、比较、默认实参）。每个目录站点额外发布**消费者真正拿到的路径**、它是否存在、以及它的父级是不是那个文件（这才是「缺陷」而不是「风格」）。再补一跳（E545 的教训：「不可判」与「没人指过」是两句话）：交给**同模块自己定义的函数**的站点，用形参名在那个函数体里再扫一遍。
+
+**读数**：35 个常量、6 个名字、49 个直接站点 + 1 个一跳站点。**目录站点 = 0**（直接层 0、一跳层 0），`directory_rows = 0`；31 行「每一个说了话的站点都把它当文件读」，4 行「消费了但没有站点说它是什么」（三处 `os.path.abspath(SELF)` 恒等式比较、一处 `def load_calendar(path=CAL_PATH)` 默认实参）。判词 = `every_file_named_constant_is_read_as_a_file_where_a_site_says_which`。
+
+**四条可复用教训**：
+1. **「类名必须命名测量本身」的反面同样成立**：把 `dirname/basename` 算成目录站点，会让这 35 个常量里绝大多数直接变成「缺陷」——而 `dirname(file)` 正是把文件当文件用。站点的判据必须来自**调用语义**，不能来自「参数里有个名字」。
+2. **干净的读数必须先证明自己看过**：本批的 verdict 是「没有目录站点」，这种判词最容易被一个什么都没扫到的扫描器伪造。闸因此把三层都钉住：直接层 `sites_by_shape[S_DIRECTORY]==0`、一跳层同为 0、`directory_rows==0`，且 `sites>0` 与「至少一个 file 站点」必须同时成立。
+3. **一跳要跟，但不能乱跟**：只跟**同一模块内定义的**被调函数、按形参位置取名字；比较式与跨模块导入一律保留为 unknown（`imports_published_elsewhere` 逐行披露），不把「没跟」写成「干净」。
+4. **自踩两处**（都在闸前抓住）：`{s["shape"]: 0 for s in SHAPE_VOCAB}` 把字符串当字典下标（Vocabulary 改字典后忘了改推导式）；fixture 里 `HERE` 既被 `dirname` 又被 `join` 用到，于是它**本来就该**被判成目录行——是自测的期望写错了，不是分类器错了。
+
+**边界（已随面发布）**：只扫定义常量的那个模块，导入侧消费只计数不分类；`what_the_consumer_gets` 是 join 的拼写（其余参数常非字面量）；`def f(p=NAME)` 记裸名站点、不跟被调方对 `p` 的使用；四条残余行以 unknown 发布，**不是 clean**。
+
+**载体** = `scripts/e546_file_named_constant_use.py`（build/check/verify + selftest 20/20）·
+`results/state_tilt/FILEPATHJOINED-2026-11-08.json` + `filepathjoined_latest.json` +
+S6 腿 `file_named_constant_use` + smoke 腿 `# E546` + `scripts/run_e546_smoke_leg.py`（1/1 绿，--doctor 红）+
+digest `research/digests/DIGEST-20261108-r1575-e546-filepathjoined.md`
