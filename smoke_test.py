@@ -22517,5 +22517,68 @@ except Exception as _e529x:
 check(_name529, not _bad529, "; ".join(_bad529)[:240] or _d529)
 
 
+# E534: does a depth-cap null that no reader can tell from an absence reach a published payload?
+#   * a field is only a publication when the same reader contains a write call, and a published
+#     field must name the literal key the value is written under
+#   * the two reader classes are E529's own, and a chain class must be backed by a count
+#   * the disagreement with E529 is published, not absorbed: an arm E529 called never-tested that
+#     this scan finds a narrow test for has to appear in that list
+#   * doctored copies (a hand-written verdict, a zeroed payload count, a payload arm naming no key,
+#     a published field relabelled as unread, an edited upstream pin) must be refused
+_name534 = ("E534 traces a depth-cap null out of its reader into a payload (r1561 bm-b)")
+_bad534 = []
+try:
+    _m534 = __import__("importlib").import_module("e534_cap_to_payload")
+    _f534 = json.load(open(os.path.join("results", "state_tilt", "captopayload_latest.json"),
+                           encoding="utf-8"))
+    _s534 = _f534.get("summary") or {}
+    _a534 = _f534.get("arms") or []
+    _bad534.extend(_m534.face_problems(_f534))
+    if not _a534:
+        _bad534.append("the arm population is empty")
+    for _row in _a534:
+        if _row.get("chain") not in _m534.CHAIN_VOCAB:
+            _bad534.append("an arm publishes a chain class outside the vocabulary")
+            break
+        if _row.get("chain") == _m534.C_PAYLOAD_FIELD and not _row.get("payload_keys"):
+            _bad534.append("an arm claims a published field and names no key")
+            break
+    if _s534.get("arms_e529_published_as_never_tested_that_do_test") is None:
+        _bad534.append("the disagreement with E529 is not published")
+    if _s534.get("arms_in_population") != len(_a534):
+        _bad534.append("summary.arms_in_population does not count the rows")
+    if sum((_s534.get("sites_by_chain") or {}).values()) != _s534.get("call_sites_followed"):
+        _bad534.append("the per-site chain counts do not add up to the followed sites")
+
+    _doc534 = json.loads(json.dumps(_f534))
+    _doc534["verdict"] = _m534.V_ABSENCE_IS_PUBLISHED
+    if not _m534.face_problems(_doc534):
+        _bad534.append("a hand-written verdict was accepted")
+    _doc534 = json.loads(json.dumps(_f534))
+    _doc534["summary"]["arms_reaching_a_sentence"] = 5
+    if not _m534.face_problems(_doc534):
+        _bad534.append("an inflated sentence count was accepted")
+    _doc534 = json.loads(json.dumps(_f534))
+    for _x in _doc534["arms"]:
+        if _x.get("chain") == _m534.C_PAYLOAD_FIELD:
+            _x["payload_keys"] = []
+            break
+    else:
+        _doc534["arms"][0]["payload_keys"] = ["invented"]
+    if not _m534.face_problems(_doc534):
+        _bad534.append("a payload arm that names no key was accepted")
+    _doc534 = json.loads(json.dumps(_f534))
+    _doc534["upstream_face_sha256"] = "0" * 64
+    if not _m534.face_problems(_doc534):
+        _bad534.append("an edited upstream pin was accepted")
+    _d534 = "%d arms / %d sites / %d named keys / verdict %s" % (
+        len(_a534), _s534.get("call_sites_followed"),
+        len(_s534.get("payload_keys_named") or []), _f534.get("verdict"))
+except Exception as _e534x:
+    _bad534.append(repr(_e534x)[:160])
+    _d534 = "leg could not run"
+check(_name534, not _bad534, "; ".join(_bad534)[:240] or _d534)
+
+
 if __name__ == "__main__":
     sys.exit(main())

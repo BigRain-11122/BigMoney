@@ -1,0 +1,786 @@
+{
+ "arms": [
+  {
+   "cap": 4,
+   "cap_class": "tested_against_an_int_constant",
+   "chain": "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap",
+   "counter": "depth",
+   "dead_arm": false,
+   "distinguish": "reads_the_sentinel_without_testing_it",
+   "function": "string_values",
+   "has_recursive_call": true,
+   "lines": [
+    185
+   ],
+   "module": "scripts/e344_face_consumer_census.py",
+   "payload_keys": [],
+   "readers_that_write_a_payload": 0,
+   "sentinel": "[]",
+   "sites": [
+    {
+     "callee": "string_values",
+     "caller": "constants",
+     "chain": "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 172,
+     "module": "scripts/e344_face_consumer_census.py",
+     "payload_keys": [],
+     "reader_function": "constants",
+     "reader_writes_a_payload": false,
+     "sentinel": "[]",
+     "terminal_classes": [
+      "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap"
+     ],
+     "use": "binds_the_result_and_never_reads_it"
+    },
+    {
+     "callee": "string_values",
+     "caller": "dir_bindings",
+     "chain": "the_value_stops_inside_the_reader",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 252,
+     "module": "scripts/e344_face_consumer_census.py",
+     "payload_keys": [],
+     "reader_function": "dir_bindings",
+     "reader_writes_a_payload": false,
+     "sentinel": "[]",
+     "terminal_classes": [
+      "the_value_stops_inside_the_reader"
+     ],
+     "use": "binds_the_result_and_never_reads_it"
+    },
+    {
+     "callee": "string_values",
+     "caller": "dir_bindings",
+     "chain": "the_value_stops_inside_the_reader",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 255,
+     "module": "scripts/e344_face_consumer_census.py",
+     "payload_keys": [],
+     "reader_function": "dir_bindings",
+     "reader_writes_a_payload": false,
+     "sentinel": "[]",
+     "terminal_classes": [
+      "the_value_stops_inside_the_reader"
+     ],
+     "use": "binds_the_result_and_never_reads_it"
+    },
+    {
+     "callee": "string_values",
+     "caller": "enumerations",
+     "chain": "the_value_stops_inside_the_reader",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 318,
+     "module": "scripts/e344_face_consumer_census.py",
+     "payload_keys": [],
+     "reader_function": "enumerations",
+     "reader_writes_a_payload": false,
+     "sentinel": "[]",
+     "terminal_classes": [
+      "the_value_stops_inside_the_reader"
+     ],
+     "use": "binds_the_result_and_never_reads_it"
+    }
+   ],
+   "sites_by_chain": {
+    "the_chain_could_not_be_followed_statically": 0,
+    "the_reader_discards_the_value": 0,
+    "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap": 1,
+    "the_value_becomes_a_counted_quantity": 0,
+    "the_value_is_assembled_as_a_payload_body_but_the_reader_writes_no_payload": 0,
+    "the_value_is_bound_and_never_read": 0,
+    "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload": 0,
+    "the_value_is_carried_into_a_named_field_of_a_payload_this_reader_writes": 0,
+    "the_value_is_folded_into_a_sentence_a_human_reads": 0,
+    "the_value_is_the_body_of_a_payload_this_reader_writes_so_no_key_names_it": 0,
+    "the_value_leaves_the_reader_as_an_argument_or_a_return": 0,
+    "the_value_stops_inside_the_reader": 3
+   },
+   "sites_total": 4
+  },
+  {
+   "cap": 6,
+   "cap_class": "tested_against_an_int_constant",
+   "chain": "the_value_leaves_the_reader_as_an_argument_or_a_return",
+   "counter": "depth",
+   "dead_arm": false,
+   "distinguish": "tests_against_the_same_null_so_the_cap_looks_like_absence",
+   "function": "_resolve",
+   "has_recursive_call": true,
+   "lines": [
+    122
+   ],
+   "module": "scripts/e379_unkeyed_face_reader.py",
+   "payload_keys": [],
+   "readers_that_write_a_payload": 0,
+   "sentinel": "None",
+   "sites": [
+    {
+     "callee": "_resolve",
+     "caller": "_why",
+     "chain": "the_value_leaves_the_reader_as_an_argument_or_a_return",
+     "distinguish": "tests_against_the_same_null_so_the_cap_looks_like_absence",
+     "line": 178,
+     "module": "scripts/e379_unkeyed_face_reader.py",
+     "payload_keys": [],
+     "reader_function": "_why",
+     "reader_writes_a_payload": false,
+     "sentinel": "None",
+     "terminal_classes": [
+      "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap",
+      "the_value_leaves_the_reader_as_an_argument_or_a_return"
+     ],
+     "use": "binds_the_result_then_tests_it"
+    },
+    {
+     "callee": "_resolve",
+     "caller": "_why",
+     "chain": "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap",
+     "distinguish": "tests_against_the_same_null_so_the_cap_looks_like_absence",
+     "line": 203,
+     "module": "scripts/e379_unkeyed_face_reader.py",
+     "payload_keys": [],
+     "reader_function": "_why",
+     "reader_writes_a_payload": false,
+     "sentinel": "None",
+     "terminal_classes": [
+      "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap"
+     ],
+     "use": "tests_the_result_at_the_call_site"
+    }
+   ],
+   "sites_by_chain": {
+    "the_chain_could_not_be_followed_statically": 0,
+    "the_reader_discards_the_value": 0,
+    "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap": 1,
+    "the_value_becomes_a_counted_quantity": 0,
+    "the_value_is_assembled_as_a_payload_body_but_the_reader_writes_no_payload": 0,
+    "the_value_is_bound_and_never_read": 0,
+    "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload": 0,
+    "the_value_is_carried_into_a_named_field_of_a_payload_this_reader_writes": 0,
+    "the_value_is_folded_into_a_sentence_a_human_reads": 0,
+    "the_value_is_the_body_of_a_payload_this_reader_writes_so_no_key_names_it": 0,
+    "the_value_leaves_the_reader_as_an_argument_or_a_return": 1,
+    "the_value_stops_inside_the_reader": 0
+   },
+   "sites_total": 2
+  },
+  {
+   "cap": 6,
+   "cap_class": "tested_against_an_int_constant",
+   "chain": "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap",
+   "counter": "depth",
+   "dead_arm": false,
+   "distinguish": "reads_the_sentinel_without_testing_it",
+   "function": "binding_exprs",
+   "has_recursive_call": true,
+   "lines": [
+    282
+   ],
+   "module": "scripts/e390_wrong_side_reader.py",
+   "payload_keys": [],
+   "readers_that_write_a_payload": 0,
+   "sentinel": "[]",
+   "sites": [
+    {
+     "callee": "binding_exprs",
+     "caller": "collect_face_literals",
+     "chain": "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 265,
+     "module": "scripts/e390_wrong_side_reader.py",
+     "payload_keys": [],
+     "reader_function": "collect_face_literals",
+     "reader_writes_a_payload": false,
+     "sentinel": "[]",
+     "terminal_classes": [
+      "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap"
+     ],
+     "use": "other_use"
+    },
+    {
+     "callee": "binding_exprs",
+     "caller": "scan_site",
+     "chain": "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 454,
+     "module": "scripts/e390_wrong_side_reader.py",
+     "payload_keys": [],
+     "reader_function": "scan_site",
+     "reader_writes_a_payload": false,
+     "sentinel": "[]",
+     "terminal_classes": [
+      "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap"
+     ],
+     "use": "other_use"
+    },
+    {
+     "callee": "binding_exprs",
+     "caller": "scan",
+     "chain": "the_value_stops_inside_the_reader",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 279,
+     "module": "scripts/e392_read_resolve.py",
+     "payload_keys": [],
+     "reader_function": "scan",
+     "reader_writes_a_payload": false,
+     "sentinel": "[]",
+     "terminal_classes": [
+      "the_value_stops_inside_the_reader"
+     ],
+     "use": "other_use"
+    }
+   ],
+   "sites_by_chain": {
+    "the_chain_could_not_be_followed_statically": 0,
+    "the_reader_discards_the_value": 0,
+    "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap": 2,
+    "the_value_becomes_a_counted_quantity": 0,
+    "the_value_is_assembled_as_a_payload_body_but_the_reader_writes_no_payload": 0,
+    "the_value_is_bound_and_never_read": 0,
+    "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload": 0,
+    "the_value_is_carried_into_a_named_field_of_a_payload_this_reader_writes": 0,
+    "the_value_is_folded_into_a_sentence_a_human_reads": 0,
+    "the_value_is_the_body_of_a_payload_this_reader_writes_so_no_key_names_it": 0,
+    "the_value_leaves_the_reader_as_an_argument_or_a_return": 0,
+    "the_value_stops_inside_the_reader": 1
+   },
+   "sites_total": 3
+  },
+  {
+   "cap": 3,
+   "cap_class": "tested_against_an_int_constant",
+   "chain": "the_value_leaves_the_reader_as_an_argument_or_a_return",
+   "counter": "depth",
+   "dead_arm": false,
+   "distinguish": "reads_the_sentinel_without_testing_it",
+   "function": "_resolve_chain_text",
+   "has_recursive_call": false,
+   "lines": [
+    431
+   ],
+   "module": "scripts/e398_latest_family.py",
+   "payload_keys": [],
+   "readers_that_write_a_payload": 0,
+   "sentinel": "None",
+   "sites": [
+    {
+     "callee": "_resolve_chain_text",
+     "caller": "_resolve_module_chain",
+     "chain": "the_value_leaves_the_reader_as_an_argument_or_a_return",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 410,
+     "module": "scripts/e398_latest_family.py",
+     "payload_keys": [],
+     "reader_function": "_resolve_module_chain",
+     "reader_writes_a_payload": false,
+     "sentinel": "None",
+     "terminal_classes": [
+      "the_value_leaves_the_reader_as_an_argument_or_a_return"
+     ],
+     "use": "returns_the_result"
+    }
+   ],
+   "sites_by_chain": {
+    "the_chain_could_not_be_followed_statically": 0,
+    "the_reader_discards_the_value": 0,
+    "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap": 0,
+    "the_value_becomes_a_counted_quantity": 0,
+    "the_value_is_assembled_as_a_payload_body_but_the_reader_writes_no_payload": 0,
+    "the_value_is_bound_and_never_read": 0,
+    "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload": 0,
+    "the_value_is_carried_into_a_named_field_of_a_payload_this_reader_writes": 0,
+    "the_value_is_folded_into_a_sentence_a_human_reads": 0,
+    "the_value_is_the_body_of_a_payload_this_reader_writes_so_no_key_names_it": 0,
+    "the_value_leaves_the_reader_as_an_argument_or_a_return": 1,
+    "the_value_stops_inside_the_reader": 0
+   },
+   "sites_total": 1
+  },
+  {
+   "cap": 12,
+   "cap_class": "tested_against_an_int_constant",
+   "chain": "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap",
+   "counter": "depth",
+   "dead_arm": false,
+   "distinguish": "tests_against_the_same_null_so_the_cap_looks_like_absence",
+   "function": "complete_resolve",
+   "has_recursive_call": true,
+   "lines": [
+    214
+   ],
+   "module": "scripts/e452_abandoned_guard.py",
+   "payload_keys": [],
+   "readers_that_write_a_payload": 0,
+   "sentinel": "None",
+   "sites": [
+    {
+     "callee": "complete_resolve",
+     "caller": "strict_consts",
+     "chain": "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap",
+     "distinguish": "tests_against_the_same_null_so_the_cap_looks_like_absence",
+     "line": 289,
+     "module": "scripts/e452_abandoned_guard.py",
+     "payload_keys": [],
+     "reader_function": "strict_consts",
+     "reader_writes_a_payload": false,
+     "sentinel": "None",
+     "terminal_classes": [
+      "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap",
+      "the_value_stops_inside_the_reader"
+     ],
+     "use": "binds_the_result_then_tests_it"
+    },
+    {
+     "callee": "complete_resolve",
+     "caller": "resolve_for_site",
+     "chain": "the_value_stops_inside_the_reader",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 303,
+     "module": "scripts/e452_abandoned_guard.py",
+     "payload_keys": [],
+     "reader_function": "resolve_for_site",
+     "reader_writes_a_payload": false,
+     "sentinel": "None",
+     "terminal_classes": [
+      "the_value_stops_inside_the_reader"
+     ],
+     "use": "other_use"
+    }
+   ],
+   "sites_by_chain": {
+    "the_chain_could_not_be_followed_statically": 0,
+    "the_reader_discards_the_value": 0,
+    "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap": 1,
+    "the_value_becomes_a_counted_quantity": 0,
+    "the_value_is_assembled_as_a_payload_body_but_the_reader_writes_no_payload": 0,
+    "the_value_is_bound_and_never_read": 0,
+    "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload": 0,
+    "the_value_is_carried_into_a_named_field_of_a_payload_this_reader_writes": 0,
+    "the_value_is_folded_into_a_sentence_a_human_reads": 0,
+    "the_value_is_the_body_of_a_payload_this_reader_writes_so_no_key_names_it": 0,
+    "the_value_leaves_the_reader_as_an_argument_or_a_return": 0,
+    "the_value_stops_inside_the_reader": 1
+   },
+   "sites_total": 2
+  },
+  {
+   "cap": 6,
+   "cap_class": "tested_against_an_int_constant",
+   "chain": "the_reader_discards_the_value",
+   "counter": "depth",
+   "dead_arm": false,
+   "distinguish": "reads_the_sentinel_without_testing_it",
+   "function": "_strings",
+   "has_recursive_call": true,
+   "lines": [
+    119
+   ],
+   "module": "scripts/e469_face_producer_edge.py",
+   "payload_keys": [],
+   "readers_that_write_a_payload": 0,
+   "sentinel": "None",
+   "sites": [
+    {
+     "callee": "_strings",
+     "caller": "payload_channels",
+     "chain": "the_reader_discards_the_value",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 136,
+     "module": "scripts/e469_face_producer_edge.py",
+     "payload_keys": [],
+     "reader_function": "payload_channels",
+     "reader_writes_a_payload": false,
+     "sentinel": "None",
+     "terminal_classes": [
+      "the_reader_discards_the_value"
+     ],
+     "use": "discards_the_result"
+    }
+   ],
+   "sites_by_chain": {
+    "the_chain_could_not_be_followed_statically": 0,
+    "the_reader_discards_the_value": 1,
+    "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap": 0,
+    "the_value_becomes_a_counted_quantity": 0,
+    "the_value_is_assembled_as_a_payload_body_but_the_reader_writes_no_payload": 0,
+    "the_value_is_bound_and_never_read": 0,
+    "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload": 0,
+    "the_value_is_carried_into_a_named_field_of_a_payload_this_reader_writes": 0,
+    "the_value_is_folded_into_a_sentence_a_human_reads": 0,
+    "the_value_is_the_body_of_a_payload_this_reader_writes_so_no_key_names_it": 0,
+    "the_value_leaves_the_reader_as_an_argument_or_a_return": 0,
+    "the_value_stops_inside_the_reader": 0
+   },
+   "sites_total": 1
+  },
+  {
+   "cap": "MAX_SCAN_DEPTH",
+   "cap_class": "tested_against_a_name_whose_value_this_scan_does_not_resolve",
+   "chain": "the_reader_discards_the_value",
+   "counter": "depth",
+   "dead_arm": false,
+   "distinguish": "reads_the_sentinel_without_testing_it",
+   "function": "_walk_dates",
+   "has_recursive_call": true,
+   "lines": [
+    120
+   ],
+   "module": "scripts/e484_undated_vintage.py",
+   "payload_keys": [],
+   "readers_that_write_a_payload": 0,
+   "sentinel": "None",
+   "sites": [
+    {
+     "callee": "_walk_dates",
+     "caller": "non_frozen_dates",
+     "chain": "the_reader_discards_the_value",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 155,
+     "module": "scripts/e484_undated_vintage.py",
+     "payload_keys": [],
+     "reader_function": "non_frozen_dates",
+     "reader_writes_a_payload": false,
+     "sentinel": "None",
+     "terminal_classes": [
+      "the_reader_discards_the_value"
+     ],
+     "use": "discards_the_result"
+    }
+   ],
+   "sites_by_chain": {
+    "the_chain_could_not_be_followed_statically": 0,
+    "the_reader_discards_the_value": 1,
+    "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap": 0,
+    "the_value_becomes_a_counted_quantity": 0,
+    "the_value_is_assembled_as_a_payload_body_but_the_reader_writes_no_payload": 0,
+    "the_value_is_bound_and_never_read": 0,
+    "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload": 0,
+    "the_value_is_carried_into_a_named_field_of_a_payload_this_reader_writes": 0,
+    "the_value_is_folded_into_a_sentence_a_human_reads": 0,
+    "the_value_is_the_body_of_a_payload_this_reader_writes_so_no_key_names_it": 0,
+    "the_value_leaves_the_reader_as_an_argument_or_a_return": 0,
+    "the_value_stops_inside_the_reader": 0
+   },
+   "sites_total": 1
+  },
+  {
+   "cap": "max_depth",
+   "cap_class": "tested_against_a_name_whose_value_this_scan_does_not_resolve",
+   "chain": "the_reader_discards_the_value",
+   "counter": "depth",
+   "dead_arm": false,
+   "distinguish": "reads_the_sentinel_without_testing_it",
+   "function": "walk",
+   "has_recursive_call": true,
+   "lines": [
+    135,
+    141
+   ],
+   "module": "scripts/e485_vintage_date_lag.py",
+   "payload_keys": [],
+   "readers_that_write_a_payload": 0,
+   "sentinel": "None",
+   "sites": [
+    {
+     "callee": "walk",
+     "caller": "witnesses",
+     "chain": "the_reader_discards_the_value",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 158,
+     "module": "scripts/e485_vintage_date_lag.py",
+     "payload_keys": [],
+     "reader_function": "witnesses",
+     "reader_writes_a_payload": false,
+     "sentinel": "None",
+     "terminal_classes": [
+      "the_reader_discards_the_value"
+     ],
+     "use": "discards_the_result"
+    },
+    {
+     "callee": "walk",
+     "caller": "_source_texts",
+     "chain": "the_value_stops_inside_the_reader",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 261,
+     "module": "scripts/e485_vintage_date_lag.py",
+     "payload_keys": [],
+     "reader_function": "_source_texts",
+     "reader_writes_a_payload": false,
+     "sentinel": "None",
+     "terminal_classes": [
+      "the_value_stops_inside_the_reader"
+     ],
+     "use": "other_use"
+    }
+   ],
+   "sites_by_chain": {
+    "the_chain_could_not_be_followed_statically": 0,
+    "the_reader_discards_the_value": 1,
+    "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap": 0,
+    "the_value_becomes_a_counted_quantity": 0,
+    "the_value_is_assembled_as_a_payload_body_but_the_reader_writes_no_payload": 0,
+    "the_value_is_bound_and_never_read": 0,
+    "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload": 0,
+    "the_value_is_carried_into_a_named_field_of_a_payload_this_reader_writes": 0,
+    "the_value_is_folded_into_a_sentence_a_human_reads": 0,
+    "the_value_is_the_body_of_a_payload_this_reader_writes_so_no_key_names_it": 0,
+    "the_value_leaves_the_reader_as_an_argument_or_a_return": 0,
+    "the_value_stops_inside_the_reader": 1
+   },
+   "sites_total": 2
+  },
+  {
+   "cap": 8,
+   "cap_class": "tested_against_an_int_constant",
+   "chain": "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload",
+   "counter": "depth",
+   "dead_arm": false,
+   "distinguish": "reads_the_sentinel_without_testing_it",
+   "function": "_eval",
+   "has_recursive_call": true,
+   "lines": [
+    110
+   ],
+   "module": "scripts/e503_chain_stale.py",
+   "payload_keys": [
+    "text"
+   ],
+   "readers_that_write_a_payload": 0,
+   "sentinel": "None",
+   "sites": [
+    {
+     "callee": "_eval",
+     "caller": "module_consts",
+     "chain": "the_value_leaves_the_reader_as_an_argument_or_a_return",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 148,
+     "module": "scripts/e503_chain_stale.py",
+     "payload_keys": [],
+     "reader_function": "module_consts",
+     "reader_writes_a_payload": false,
+     "sentinel": "None",
+     "terminal_classes": [
+      "the_value_leaves_the_reader_as_an_argument_or_a_return",
+      "the_value_stops_inside_the_reader"
+     ],
+     "use": "binds_the_result_then_passes_it_on"
+    },
+    {
+     "callee": "_eval",
+     "caller": "chain_legs",
+     "chain": "the_value_leaves_the_reader_as_an_argument_or_a_return",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 165,
+     "module": "scripts/e503_chain_stale.py",
+     "payload_keys": [],
+     "reader_function": "chain_legs",
+     "reader_writes_a_payload": false,
+     "sentinel": "None",
+     "terminal_classes": [
+      "the_value_leaves_the_reader_as_an_argument_or_a_return",
+      "the_value_stops_inside_the_reader"
+     ],
+     "use": "binds_the_result_then_passes_it_on"
+    },
+    {
+     "callee": "_eval",
+     "caller": "script_refs",
+     "chain": "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload",
+     "distinguish": "tests_against_a_value_that_is_not_a_null_sentinel_so_the_cap_is_visible",
+     "line": 223,
+     "module": "scripts/e503_chain_stale.py",
+     "payload_keys": [
+      "text"
+     ],
+     "reader_function": "script_refs",
+     "reader_writes_a_payload": false,
+     "sentinel": "None",
+     "terminal_classes": [
+      "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap",
+      "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload",
+      "the_value_leaves_the_reader_as_an_argument_or_a_return"
+     ],
+     "use": "binds_the_result_then_tests_it"
+    }
+   ],
+   "sites_by_chain": {
+    "the_chain_could_not_be_followed_statically": 0,
+    "the_reader_discards_the_value": 0,
+    "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap": 0,
+    "the_value_becomes_a_counted_quantity": 0,
+    "the_value_is_assembled_as_a_payload_body_but_the_reader_writes_no_payload": 0,
+    "the_value_is_bound_and_never_read": 0,
+    "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload": 1,
+    "the_value_is_carried_into_a_named_field_of_a_payload_this_reader_writes": 0,
+    "the_value_is_folded_into_a_sentence_a_human_reads": 0,
+    "the_value_is_the_body_of_a_payload_this_reader_writes_so_no_key_names_it": 0,
+    "the_value_leaves_the_reader_as_an_argument_or_a_return": 2,
+    "the_value_stops_inside_the_reader": 0
+   },
+   "sites_total": 3
+  },
+  {
+   "cap": 6,
+   "cap_class": "tested_against_an_int_constant",
+   "chain": "the_value_leaves_the_reader_as_an_argument_or_a_return",
+   "counter": "depth",
+   "dead_arm": false,
+   "distinguish": "reads_the_sentinel_without_testing_it",
+   "function": "static_strings",
+   "has_recursive_call": true,
+   "lines": [
+    233
+   ],
+   "module": "scripts/e504_name_compose.py",
+   "payload_keys": [],
+   "readers_that_write_a_payload": 0,
+   "sentinel": "set()",
+   "sites": [
+    {
+     "callee": "static_strings",
+     "caller": "analyse",
+     "chain": "the_value_leaves_the_reader_as_an_argument_or_a_return",
+     "distinguish": "reads_the_sentinel_without_testing_it",
+     "line": 452,
+     "module": "scripts/e504_name_compose.py",
+     "payload_keys": [],
+     "reader_function": "analyse",
+     "reader_writes_a_payload": false,
+     "sentinel": "set()",
+     "terminal_classes": [
+      "the_value_leaves_the_reader_as_an_argument_or_a_return"
+     ],
+     "use": "passes_the_result_on"
+    }
+   ],
+   "sites_by_chain": {
+    "the_chain_could_not_be_followed_statically": 0,
+    "the_reader_discards_the_value": 0,
+    "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap": 0,
+    "the_value_becomes_a_counted_quantity": 0,
+    "the_value_is_assembled_as_a_payload_body_but_the_reader_writes_no_payload": 0,
+    "the_value_is_bound_and_never_read": 0,
+    "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload": 0,
+    "the_value_is_carried_into_a_named_field_of_a_payload_this_reader_writes": 0,
+    "the_value_is_folded_into_a_sentence_a_human_reads": 0,
+    "the_value_is_the_body_of_a_payload_this_reader_writes_so_no_key_names_it": 0,
+    "the_value_leaves_the_reader_as_an_argument_or_a_return": 1,
+    "the_value_stops_inside_the_reader": 0
+   },
+   "sites_total": 1
+  }
+ ],
+ "card": "E534-WHICH-DEPTH-CAP-NULL-THAT-NO-READER-TESTS-REACHES-A-PUBLISHED-PAYLOAD-AS-A-CLAIM-THAT-THE-THING-IS-NOT-THERE",
+ "chain_vocab": [
+  "the_value_is_carried_into_a_named_field_of_a_payload_this_reader_writes",
+  "the_value_is_the_body_of_a_payload_this_reader_writes_so_no_key_names_it",
+  "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload",
+  "the_value_is_assembled_as_a_payload_body_but_the_reader_writes_no_payload",
+  "the_value_becomes_a_counted_quantity",
+  "the_value_is_folded_into_a_sentence_a_human_reads",
+  "the_value_leaves_the_reader_as_an_argument_or_a_return",
+  "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap",
+  "the_reader_discards_the_value",
+  "the_value_is_bound_and_never_read",
+  "the_value_stops_inside_the_reader",
+  "the_chain_could_not_be_followed_statically"
+ ],
+ "evidence_cutoff": "2026-11-08",
+ "generated": "2026-11-08T10:08:27",
+ "method_limits": [
+  "one hop out of the reader: a value handed to another call or returned is published as that class and the next consumer is not followed",
+  "a field is only called a publication when the same reader function contains a write call; a dict assembled and never dumped is its own class",
+  "the reader's payload keys are the literal keys the value is written under; a computed key is not named and does not count as a named field",
+  "a bound value is followed by NAME inside its reader and the walk stops at a later rebinding of that name; a load of the rebound value is therefore never counted as a read of the sentinel",
+  "the population is E529's two reader classes verbatim; a site E529 could not attribute to the defining module is out of scope here too",
+  "nothing is executed and no source is rewritten",
+  "sources_read and parse_failures are a snapshot of a live tree other lanes write to; they are published but not gated, while every chain class is re-derived"
+ ],
+ "parse_failures": [
+  "Tools/_r820bmc_close.py"
+ ],
+ "population_source": "e534_cap_to_payload.py::population() -- the E529 arms whose reader cannot separate the cap from the absence",
+ "study": "E534_cap_to_payload",
+ "summary": {
+  "arms_by_chain": {
+   "the_chain_could_not_be_followed_statically": 0,
+   "the_reader_discards_the_value": 3,
+   "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap": 3,
+   "the_value_becomes_a_counted_quantity": 0,
+   "the_value_is_assembled_as_a_payload_body_but_the_reader_writes_no_payload": 0,
+   "the_value_is_bound_and_never_read": 0,
+   "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload": 1,
+   "the_value_is_carried_into_a_named_field_of_a_payload_this_reader_writes": 0,
+   "the_value_is_folded_into_a_sentence_a_human_reads": 0,
+   "the_value_is_the_body_of_a_payload_this_reader_writes_so_no_key_names_it": 0,
+   "the_value_leaves_the_reader_as_an_argument_or_a_return": 3,
+   "the_value_stops_inside_the_reader": 0
+  },
+  "arms_by_e529_reader_class": {
+   "reads_the_sentinel_without_testing_it": 8,
+   "tests_against_the_same_null_so_the_cap_looks_like_absence": 2
+  },
+  "arms_e529_published_as_never_tested_that_do_test": [
+   "scripts/e344_face_consumer_census.py::string_values",
+   "scripts/e390_wrong_side_reader.py::binding_exprs"
+  ],
+  "arms_in_population": 10,
+  "arms_reaching_a_count": 0,
+  "arms_reaching_a_payload_body": 0,
+  "arms_reaching_a_payload_field": 0,
+  "arms_reaching_a_sentence": 0,
+  "arms_that_stop_inside_the_reader": 6,
+  "arms_unresolved": 0,
+  "arms_whose_body_is_never_written": 0,
+  "arms_whose_field_is_never_written": 1,
+  "arms_whose_reader_tests_the_value_narrowly": 4,
+  "arms_whose_value_leaves_by_a_call": 3,
+  "call_sites_followed": 20,
+  "parse_failures": 1,
+  "payload_keys_named": [
+   "text"
+  ],
+  "rows_that_publish_no_chain_class": 0,
+  "sites_by_chain": {
+   "the_chain_could_not_be_followed_statically": 0,
+   "the_reader_discards_the_value": 3,
+   "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap": 5,
+   "the_value_becomes_a_counted_quantity": 0,
+   "the_value_is_assembled_as_a_payload_body_but_the_reader_writes_no_payload": 0,
+   "the_value_is_bound_and_never_read": 0,
+   "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload": 1,
+   "the_value_is_carried_into_a_named_field_of_a_payload_this_reader_writes": 0,
+   "the_value_is_folded_into_a_sentence_a_human_reads": 0,
+   "the_value_is_the_body_of_a_payload_this_reader_writes_so_no_key_names_it": 0,
+   "the_value_leaves_the_reader_as_an_argument_or_a_return": 5,
+   "the_value_stops_inside_the_reader": 6
+  },
+  "sources_read": 2754
+ },
+ "title": "does a depth-cap null that no reader tests reach a published payload as the claim that the thing is not there",
+ "upstream_face": "results/state_tilt/depthcapnull_latest.json",
+ "upstream_face_sha256": "7949762e59189ba1d7757f5bf17b4f1b26bb718a6d3c91e40308ef9725bff608",
+ "upstream_study": "E529_depth_cap_null",
+ "use_vocab": [
+  "discards_the_result",
+  "tests_the_result_at_the_call_site",
+  "binds_the_result_then_tests_it",
+  "binds_the_result_then_indexes_it",
+  "binds_the_result_then_passes_it_on",
+  "binds_the_result_then_returns_it",
+  "binds_the_result_and_never_reads_it",
+  "passes_the_result_on",
+  "returns_the_result",
+  "the_function_calls_itself",
+  "other_use"
+ ],
+ "verdict": "cap_nulls_reach_named_fields_but_no_reader_in_the_population_writes_a_payload",
+ "verdict_vocab": [
+  "a_cap_null_reaches_a_published_payload_a_sentence_or_a_count_so_the_cap_can_be_read_as_absence",
+  "cap_nulls_reach_named_fields_but_no_reader_in_the_population_writes_a_payload",
+  "every_cap_null_stops_inside_its_reader_so_silently_read_is_not_published_as_a_fact",
+  "the_upstream_face_carries_no_arm_in_the_two_reader_classes"
+ ]
+}

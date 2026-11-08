@@ -2027,6 +2027,12 @@ LEGS = [
     # defining module (same module, or a module that imports its stem) and classified by what it does
     # with the return value.  `check` re-derives every counts, attribution and verdict.
     ("depth_cap_null", ["python", "scripts/e529_depth_cap_null.py", "check"]),
+    # E534 follows every arm E529 published in its two reader classes out of the reader:
+    # discarded, bound and never read, tested narrowly, carried into a named field, turned
+    # into a count, folded into a sentence, handed on, or returned. A field only counts as a
+    # publication when the same reader writes a payload, and the exact key is named -- so
+    # "silently read" never stands in for "published as a fact". 0.1s, check only.
+    ("cap_to_payload", ["python", "scripts/e534_cap_to_payload.py", "check"]),
 ]
 
 

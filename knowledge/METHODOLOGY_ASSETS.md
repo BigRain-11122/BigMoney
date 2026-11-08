@@ -13163,3 +13163,25 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 - **同名调用会把一个臂的读者算成上千个**：归属前 `main` 一条臂拿到 1,836 个「读者」，全是各模块自己的 `sys.exit(main())`。归属后这些一次也不落在别的模块的 `main` 臂上。
 - **空的那一档要如实发布**：本轮「生产到不了的上限」= 0，比为了凑两类放宽判据强——放宽就会重新把这些臂读成安全的。
 **验证**：`scripts/e529_depth_cap_null.py` run rc0 / check problems=0 / verify 逐字节相同 / **selftest 27/27**（4 条死臂判据边界腿 + 5 枚 doctored 全拒）；S6 腿 `depth_cap_null` rc0 0.05s；smoke 腿 `# E529` 1/1（`scripts/run_e529_smoke_leg.py` 按锚点切出执行），`--doctor` 1 红且面还原；digest `research/digests/DIGEST-20261108-r1560-e529-depth-cap-null.md`。未跑：全量 smoke 套件、S6 其余腿、采集器与 market/paper 链（不宣称）。
+
+## E534 深度上限空哨兵走不出读者体内：10 条臂 0 条写进载荷、6 条死在函数里；E529 说的「8 条没人测」里 2 条其实测了（2026-11-08 r1561 bm-b）
+
+**问题**：E529 发布 12 条深度上限臂，其中 8 条被读作「读者从不测这个值」、2 条「拿同一个空值去测」——两类都说读者分不出「撞上限」与「不存在」。但「无守卫地读」是关于调用点的话，不是关于出版物的话：一个绑定后被丢掉的值、一个只喂局部分支的值，从来没变成别人会读的事实。卡片问的是后半句：这些值到底有没有流进已写出的 results 载荷、判词句子或计数。
+
+**方法**：人口＝E529 面里 `distinguish` 恰为那两类的臂（10 条，当场按面重导，不抄卡片数字）。逐臂取 E529 归属给它的调用点（同模块或显式导入定义模块，排除递归自调用），回到 `module:line` 定位那个 Call，再沿「值去了哪」走：
+
+- 绑定名→在读者函数体内按名追每一次 load，**遇到同名再绑定就停**（之后读到的是另一个值）；
+- 终局十二分：进 dict 字面量的常量键＝字段（键名发布）／进 `json.dump`/`write` 的实参＝载荷本身（无键可名）／进 `len`/`sum`/`any`/`all`＝计数／进 f-string、`%` 格式化、`+` 拼字符串＝句子／交另一个调用或 return＝转发／丢掉、绑了不读、只做窄测试＝停在体内；
+- **字段算不算「发布」看接收者本身有没有写动作**：同一个读者函数里出现 `dump/dumps/write/writelines/write_face` 才算写出，否则记「assembled 但没写」。
+
+**读数**（10 臂 / 20 站点 / 2,754 源，1 源语法失败如实少计）：**0 条臂到达写出的载荷、0 条变成计数、0 条变成句子**；1 条把值装进名为 `text` 的字段而那个读者根本不写载荷（`e503_chain_stale._eval`）；3 条只把值转发出去（`e379._resolve` 2 站点、`e398._resolve_chain_text` 1 站点）；6 条停在读者体内（3 丢弃 `e469`/`e484`/`e485`、3 窄测试）。判词由闸从 summary 重算：`cap_nulls_reach_named_fields_but_no_reader_in_the_population_writes_a_payload`——「读到但没测」在这批人口里**没有被发布成事实**。
+
+**与 E529 的分歧要发出来，不能吸收掉**：本扫描在 4 条臂上找到窄测试，其中 **2 条 E529 明确发布为「从不测」**（`e344_face_consumer_census.string_values`、`e390_wrong_side_reader.binding_exprs`）。根因可点名：E529 的哨兵测试判据只认 `Compare`（拿值去比空字面量），而 `if not values: continue` 是 `UnaryOp(Not, Name)`，不带 Compare——所以「没人测」这一类会多计。本面把 `arms_e529_published_as_never_tested_that_do_test` 作为字段发布，闸重导这条名单，不许它随人数漂移。
+
+**可复用教训**：
+- **「无守卫地读」不是「被发布成事实」**：把调用点的读法当结论，会把「绑了丢掉」读成「写进了面」。要分两段量：读→终局（丢弃/窄测/字段/计数/句子/转发），再把「字段」乘上「接收者有没有写动作」。
+- **名字追值必须停在再绑定处**：函数体内同名再赋值之后读到的是另一个值；不停会把别人的测试算成哨兵的测试（本窗首版就这样把 e344 的 4 个站点读成「窄测试」，加了再绑定守卫后仍然成立，但两条读数的可信度靠这道守卫）。
+- **判据只认一种 AST 形状就会漏一整类**：`Compare` 之外还有 `not x`、`if x:`、`bool(x)`、`x or 默认` 四种假值测试；E529 漏的就是这种。凡「有没有测」的判据，必须按假值语义枚举，而不是按比较运算符枚举。
+- **空的档要如实发布**：本轮「到达写出的载荷」是 0，比为了凑故事放宽判据强——放宽就会把 `text` 这个没被写出的字段读成一次发布。
+
+**验证**：`scripts/e534_cap_to_payload.py` run rc0 / check problems=0 / verify 重导 problems=0 / **selftest clean**（夹具六形态：丢弃、绑了不读、计数、写的载荷字段、只装配不写、句子 + 6 枚 doctored 全拒：手写 verdict、改臂数、清零句子计数、载荷臂不点键、已发布字段改写成没读、改上游 pin）；面 `results/state_tilt/CAPTOPAYLOAD-2026-11-08.json` + `captopayload_latest.json` 同源；S6 腿 `cap_to_payload` rc0 0.06s（排在 `depth_cap_null` 之后）；smoke 腿 `# E534` 1/1（`scripts/run_e534_smoke_leg.py` 按锚点从 smoke_test.py 切出执行），`--doctor` 1/1 红；digest `research/digests/DIGEST-20261108-r1561-e534-cap-to-payload.md`。未跑：全量 smoke 套件（~20-30min）、S6 其余腿、采集器族与 market/paper 链（不宣称）。
