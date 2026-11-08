@@ -10143,3 +10143,37 @@ detached spawn 三者都是会死的爹，只有计划任务/常驻服务是真�
 正身 = Tools/moneyflow_pull_task.py + Tools/register_moneyflow_pull_task.ps1 +
 scripts/update_moneyflow.py（selftest 26/26，S21 refresh 锁守卫腿 + 模块级 sys.path 自足）
 
+## E422 — 筛了两个月候选，从没筛过自己手上那本（r1418 bm-c）
+
+r1415 立了年度闸，然后只用它判过**候选书**；本司真正在册的采用书（去债 ETF 复合 + 8% 波动目标，
+
+esults/etf_nobond_vt.json 的 nobond_vt08）从没进过这道闸。只判候选的闸不是对桌子上的闸。
+
+scripts/etf_book_year_gate.py（selftest 10/10，另 check 18/18）用已发布引擎重价三条腿，
+把年度收益从**书自己的净值曲线**上切出来，再交给 candidate_year_gate.admission_block()
+——判据行是 import 进来的，不是抄过来的，两个文件的线不会各自漂移。
+
+实跑读数（1657 bar，2020-01..2026-11-06，费用 10bp/边）：
+
+- **采用书 nobond_vt08 → CONDITIONAL**，唯一失败项 Y4：top-2 年占年度和 **71.08%**，
+  压 70% 线 **超出 1.08pp**。其余全过：7/7 正年、中位 +5.61pp、最差年 +1.90pp、
+  一日 5% 参与容量 4,867 万。
+- 不加波动目标的亲兄弟 nobond_base → **ADMIT**（top-2 占 68.98%）。也就是说，
+  让这本书「四项全面占优」的那个风控叠层，是把它推过线的那一步。
+- 全类书（已发布年度面）→ CONDITIONAL（top-2 占 77.19%）。
+
+根因印在同一张脸上：8% 目标的**逐年平均仓位** 2020=0.455 / 2021=0.735 / 2022=0.800 /
+2023=0.858 / 2024=0.712 / 2025=0.665。它把 2020 砍到不足半仓（那正是基础书 +22.19% 的年），
+2025 只砍到 0.665 却仍 +43.06% —— 削峰不减峰，日历集中度因此升高。
+
+三条可复用：① **风险叠层也有日历副作用**——「回撤/夏普变好」与「收益来源变窄」是两件事，
+采用判据里不写年度轴，等于看不见后者；② **判据必须 import，不能抄**：两份文件各写一遍 70%，
+下一次调线就会调出一个只有一处生效的世界；③ **净值曲线不是收益率序列**——把 level 当
+return 去 cumprod，年度收益会读到 3.7e76/inf（本窗第一版就这么错了一次，靠 selftest 的
+「每年 = 年内 last/first」腿当场抓住），任何在既有曲线上切窗口的函数先问它拿到的是哪一种。
+
+测不了：ETF 票池为现存标的（幸存者）；2026 是 8.6 个月的残年，只作披露不作年化；
+容量按当前五槽 5% 参与推导，不是申报 AUM。
+
+正身 = scripts/etf_book_year_gate.py + results/etf_book_year_gate/YEAR-GATE.json +
+research/digests/DIGEST-20261108-r1418-adopted-book-year-gate.md

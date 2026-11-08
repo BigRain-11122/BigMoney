@@ -527,6 +527,15 @@ def main() -> int:
              "scripts/etf_book_exit_tax.py", ["--selftest"]),
             ("product: etf_book_exit_tax (published hurdle recomputed, control reproduced)",
              "scripts/etf_book_exit_tax.py", ["--check"]),
+            # r1418: the calendar gate existed but had only ever judged CANDIDATE books; the
+            # book the desk actually holds never faced it. The legs pin that yearly returns
+            # come off the book's own LEVEL curve (treating a level series as returns
+            # compounds to inf), that the frozen line is imported rather than re-typed, and
+            # that every published verdict re-derives from the receipt's own rows.
+            ("product: etf_book_year_gate (adopted book judged by its own calendar)",
+             "scripts/etf_book_year_gate.py", ["selftest"]),
+            ("product: etf_book_year_gate (published verdicts re-derived)",
+             "scripts/etf_book_year_gate.py", ["check"]),
             # r1403: the ledger's freeze question is arithmetic, not a fear -- re-derive
             # every published bar read-only and split it with the LIVE settle rule. The
             # legs pin that a settled bar below tol stays silent, that the same numbers DO

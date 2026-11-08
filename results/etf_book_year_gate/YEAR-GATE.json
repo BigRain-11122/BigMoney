@@ -1,0 +1,337 @@
+{
+ "face": "etf_book_year_gate",
+ "asof": "2026-11-08T08:38:12+0800",
+ "cell": "N5_R20_10bp",
+ "gate_rules": {
+  "source": "scripts/candidate_year_gate.py (imported, not copied)",
+  "positive_years_share_min": 0.7,
+  "worst_year_floor_pp": -15.0,
+  "top2_share_max": 0.7,
+  "capacity_floor_cny": 20000000.0,
+  "cohorts_analog": "60-bar windows per calendar year"
+ },
+ "data": {
+  "bars": 1657,
+  "first": "2005-02-23",
+  "last": "2026-11-06",
+  "flips_repaired": 169,
+  "bond_free_universe": 1515,
+  "live_picks": [
+   "512040",
+   "159519",
+   "515450",
+   "510760",
+   "515300"
+  ],
+  "live_picks_asof": "2026-11-06"
+ },
+ "books": [
+  {
+   "verdict": "CONDITIONAL",
+   "capacity_checked": true,
+   "cagr_pct": 11.46,
+   "capacity_cny_1day_5pct": 48664681.0,
+   "year_metrics": {
+    "years": 7,
+    "positive_years": 7,
+    "median": 5.6072,
+    "worst": 1.898,
+    "best": 43.0627,
+    "annual_sum": 81.0578,
+    "top2_share": 0.7108,
+    "worst_full_only": 2.8393,
+    "top2_share_full_only": 0.7278
+   },
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": true
+   },
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 5.607211539627377,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 7.628116174581678,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": 2.8392743924003705,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 5.473011567332842,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 14.549563099483409,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 43.062681571816256,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": 1.8979707833962411,
+     "cohorts": 3,
+     "partial": true
+    }
+   ],
+   "partial_years": [
+    {
+     "year": "2026",
+     "net_pct": 1.8979707833962411,
+     "cohorts": 3,
+     "approx_months_of_evidence": 8.6
+    }
+   ],
+   "gate_conflict": null,
+   "book": "nobond_vt08_adopted",
+   "note": "repriced here with the published engine; turnover/side 1.08",
+   "yearly_returns_pct": {
+    "2020": 5.607211539627377,
+    "2021": 7.628116174581678,
+    "2022": 2.8392743924003705,
+    "2023": 5.473011567332842,
+    "2024": 14.549563099483409,
+    "2025": 43.062681571816256,
+    "2026": 1.8979707833962411
+   },
+   "yearly_bars": {
+    "2020": 242,
+    "2021": 243,
+    "2022": 242,
+    "2023": 242,
+    "2024": 242,
+    "2025": 243,
+    "2026": 203
+   },
+   "sizing_scale_by_year": {
+    "2020": 0.455,
+    "2021": 0.735,
+    "2022": 0.8,
+    "2023": 0.858,
+    "2024": 0.712,
+    "2025": 0.665,
+    "2026": 0.665
+   },
+   "sizing_note": "average position scale the 8% target applied per calendar year (1.0 = fully invested); this is what moves the calendar, not the selection"
+  },
+  {
+   "verdict": "ADMIT",
+   "capacity_checked": false,
+   "cagr_pct": 15.51,
+   "capacity_cny_1day_5pct": null,
+   "year_metrics": {
+    "years": 7,
+    "positive_years": 7,
+    "median": 9.3091,
+    "worst": 2.3313,
+    "best": 53.7327,
+    "annual_sum": 110.0665,
+    "top2_share": 0.6898,
+    "worst_full_only": 2.3313,
+    "top2_share_full_only": 0.7176
+   },
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true,
+    "C1_capacity": null
+   },
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 22.194307431386907,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 9.30910349218892,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": 2.3313486840226494,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 5.26763184475072,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 12.968990956914816,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 53.73270259039855,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": 4.2624542031370005,
+     "cohorts": 3,
+     "partial": true
+    }
+   ],
+   "partial_years": [
+    {
+     "year": "2026",
+     "net_pct": 4.2624542031370005,
+     "cohorts": 3,
+     "approx_months_of_evidence": 8.6
+    }
+   ],
+   "gate_conflict": null,
+   "book": "nobond_base",
+   "note": "repriced here with the published engine; turnover/side 1.53",
+   "yearly_returns_pct": {
+    "2020": 22.194307431386907,
+    "2021": 9.30910349218892,
+    "2022": 2.3313486840226494,
+    "2023": 5.26763184475072,
+    "2024": 12.968990956914816,
+    "2025": 53.73270259039855,
+    "2026": 4.2624542031370005
+   },
+   "yearly_bars": {
+    "2020": 242,
+    "2021": 243,
+    "2022": 242,
+    "2023": 242,
+    "2024": 242,
+    "2025": 243,
+    "2026": 203
+   }
+  },
+  {
+   "verdict": "CONDITIONAL",
+   "capacity_checked": false,
+   "cagr_pct": null,
+   "capacity_cny_1day_5pct": null,
+   "year_metrics": {
+    "years": 7,
+    "positive_years": 6,
+    "median": 4.51,
+    "worst": -1.17,
+    "best": 36.34,
+    "annual_sum": 66.16,
+    "top2_share": 0.7719,
+    "worst_full_only": -1.17,
+    "top2_share_full_only": 0.785
+   },
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": null
+   },
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 14.73,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 4.51,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": -1.17,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 2.73,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 7.92,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 36.34,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": 1.1,
+     "cohorts": 3,
+     "partial": true
+    }
+   ],
+   "partial_years": [
+    {
+     "year": "2026",
+     "net_pct": 1.1,
+     "cohorts": 3,
+     "approx_months_of_evidence": 8.6
+    }
+   ],
+   "gate_conflict": null,
+   "book": "all_classes_published",
+   "note": "yearly face read from results/etf_equity_alpha.json (daily bars not republished; 2026 marked partial by calendar, which the published file cannot attest)",
+   "yearly_returns_pct": {
+    "2020": 14.73,
+    "2021": 4.51,
+    "2022": -1.17,
+    "2023": 2.73,
+    "2024": 7.92,
+    "2025": 36.34,
+    "2026": 1.1
+   },
+   "yearly_bars": {
+    "2020": null,
+    "2021": null,
+    "2022": null,
+    "2023": null,
+    "2024": null,
+    "2025": null,
+    "2026": null
+   }
+  }
+ ],
+ "honest": [
+  "the adopted book is judged by the same frozen line it never faced",
+  "capacity is derived from the current five slots at 5% participation, not from a stated AUM",
+  "the published all-classes arm carries no bar counts; its 2026 partial flag is inferred from the calendar and printed as such"
+ ],
+ "elapsed_sec": 60.9
+}
