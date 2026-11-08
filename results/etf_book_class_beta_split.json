@@ -1,0 +1,213 @@
+{
+ "face": "etf_book_class_beta_split",
+ "evidence_cutoff": "2026-11-06",
+ "ticket_file": "TICKET-2026-11-06.json",
+ "beta_target": 0.2,
+ "k_now": 0.460253,
+ "book_weight": 0.460253,
+ "decision_bar": "2026-10-14",
+ "published_path_beta": 0.434543,
+ "names": [
+  {
+   "symbol": "159501",
+   "class": "crossborder",
+   "weight": 0.092051
+  },
+  {
+   "symbol": "513100",
+   "class": "crossborder",
+   "weight": 0.092051
+  },
+  {
+   "symbol": "513690",
+   "class": "crossborder",
+   "weight": 0.092051
+  },
+  {
+   "symbol": "159577",
+   "class": "crossborder",
+   "weight": 0.092051
+  },
+  {
+   "symbol": "159263",
+   "class": "equity",
+   "weight": 0.092051
+  }
+ ],
+ "class_census": {
+  "crossborder": 4,
+  "equity": 1
+ },
+ "classes_outside_graded_universe": {
+  "crossborder": 4
+ },
+ "graded_universe": [
+  "commodity",
+  "convertible",
+  "equity"
+ ],
+ "ticket_names_outside_graded_universe": 4,
+ "panel_work": "run",
+ "market_proxy": "510300",
+ "reproduced_path_beta": 0.434543,
+ "k_published": 0.460253,
+ "k_reproduced": 0.460253,
+ "graded_arm": {
+  "classes": [
+   "commodity",
+   "convertible",
+   "equity"
+  ],
+  "universe_symbols": 1279,
+  "path_beta": 0.462754,
+  "k": 0.432195,
+  "decision_bar": "2026-10-23",
+  "names_on_ticket_bar": [
+   "159263",
+   "159207",
+   "159307",
+   "159547",
+   "512040"
+  ],
+  "names_classes": {
+   "159263": "equity",
+   "159207": "equity",
+   "159307": "equity",
+   "159547": "equity",
+   "512040": "equity"
+  }
+ },
+ "split": {
+  "rows": [
+   {
+    "symbol": "159501",
+    "class": "crossborder",
+    "weight": 0.092051,
+    "overlap_bars": 805,
+    "beta": 0.3323150477500068,
+    "sigma_ann": 0.212000255862664,
+    "beta_contribution": 0.030589932460435874,
+    "vol_contribution": 0.016202515867233213,
+    "unreadable": null
+   },
+   {
+    "symbol": "513100",
+    "class": "crossborder",
+    "weight": 0.092051,
+    "overlap_bars": 3205,
+    "beta": 0.2960519083259131,
+    "sigma_ann": 0.21419494460365174,
+    "beta_contribution": 0.027251874213308627,
+    "vol_contribution": 0.018441043314154304,
+    "unreadable": null
+   },
+   {
+    "symbol": "513690",
+    "class": "crossborder",
+    "weight": 0.092051,
+    "overlap_bars": 1308,
+    "beta": 0.5897273369853689,
+    "sigma_ann": 0.1944242264618851,
+    "beta_contribution": 0.05428499109684019,
+    "vol_contribution": 0.007340358897262164,
+    "unreadable": null
+   },
+   {
+    "symbol": "159577",
+    "class": "crossborder",
+    "weight": 0.092051,
+    "overlap_bars": 638,
+    "beta": 0.3627011945059135,
+    "sigma_ann": 0.2181752278813298,
+    "beta_contribution": 0.03338700765546384,
+    "vol_contribution": 0.01694082185104784,
+    "unreadable": null
+   },
+   {
+    "symbol": "159263",
+    "class": "equity",
+    "weight": 0.092051,
+    "overlap_bars": 306,
+    "beta": 0.2560078270602887,
+    "sigma_ann": 0.1347278777763271,
+    "beta_contribution": 0.023565776488726632,
+    "vol_contribution": 0.006135793911250813,
+    "unreadable": null
+   }
+  ],
+  "by_class": {
+   "crossborder": {
+    "names": 4,
+    "readable_names": 4,
+    "weight": 0.368204,
+    "beta_contribution": 0.145514,
+    "vol_contribution": 0.058925
+   },
+   "equity": {
+    "names": 1,
+    "readable_names": 1,
+    "weight": 0.092051,
+    "beta_contribution": 0.023566,
+    "vol_contribution": 0.006136
+   }
+  },
+  "static_composition_beta": 0.16908,
+  "static_composition_beta_normalized": 0.367361,
+  "static_beta_denominator": "ticket weights sum to book_weight; normalized = divided by covered weight",
+  "book_sigma_ann": 0.065061,
+  "vol_contribution_total": 0.065061,
+  "weight_covered": 0.460255,
+  "weight_uncovered": 0.539745,
+  "unreadable_names": [],
+  "window_bars": 5258,
+  "window_span": {
+   "first": "2025-07-09",
+   "last": "2026-10-14"
+  },
+  "window_limited_by": "159263",
+  "book_bars_complete_case": 306
+ },
+ "static_composition_beta": 0.16908,
+ "static_composition_beta_normalized": 0.367361,
+ "book_sigma_ann": 0.065061,
+ "class_share_of_static_beta_pct": {
+  "crossborder": 86.06,
+  "equity": 13.94
+ },
+ "path_beta_same_window": {
+  "beta": 0.48465,
+  "bars": 306,
+  "span": [
+   "2025-07-09",
+   "2026-10-14"
+  ],
+  "published_path_beta_full_window": 0.434543
+ },
+ "beta_gap_normalized_pp": 11.73,
+ "beta_gap_sized_vs_path_pp_UNIT_MISMATCH": 31.56,
+ "unit_note": "the sized mix (46.0% invested) and an un-levered path (100%) are on different denominators; only beta_gap_normalized_pp compares like with like",
+ "beta_gap_vs_published_path_pp_FULL_WINDOW_MISMATCH": 6.72,
+ "verdict": "SIZE_MOVES",
+ "comparison": {
+  "verdict": "SIZE_MOVES",
+  "sentence": null,
+  "graded_k": 0.432195,
+  "published_k": 0.460253,
+  "gap_pp": -2.81,
+  "graded_beta": 0.462754,
+  "published_beta": 0.434543,
+  "size_same": false,
+  "tol_pp": 0.5
+ },
+ "identity_legs": {
+  "published_beta_matches_face": true,
+  "published_k_matches_ticket": true,
+  "vol_split_rebuilds_book_sigma": true,
+  "class_sums_match_name_sums": true,
+  "ticket_names_read_back": true
+ },
+ "identity_broken": [],
+ "sentence": "The book in force carries 0.169 of static beta (0.367 on the same names fully invested), split by class as crossborder 86.1%, equity 13.9%; dropping the 4 name(s) the graded card never prices moves the size from 0.460253 to 0.432195 (-2.81pp). The size does not name a class it bets on, and the class it is betting on is not one the gate graded.",
+ "generated": "2026-11-08T23:05:35+0800",
+ "elapsed_sec": 50.8
+}

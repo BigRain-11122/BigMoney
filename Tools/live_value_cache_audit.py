@@ -27,6 +27,12 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCAN_DIRS = ("scripts", "Tools")
+# the real faces the live legs name (r1448: scanning the whole tree inside selftest made
+# it a 233s job and a 300s smoke timeout read as an auditor defect).
+LIVE_LEG_FILES = ("scripts/alloc_backtest.py",
+                  "scripts/etf_book_beta_menu.py",
+                  "scripts/member_reinforce_p1.py",
+                  "scripts/p1e_neighbor_corr.py")
 
 CACHE_WORDS = ("cache", "replay")
 DIGEST_WORDS = ("digest", "fingerprint", "sha256", "sha1", "md5", "blake2", "hashlib")
@@ -920,13 +926,29 @@ def selftest():
     chk("L7 an unparsable file is reported, never silently skipped",
         any(r["verdict"] == "unreadable" for r in _unparsable()))
 
-    live = run()
-    chk("L8 the live scan reads both code trees", live["summary"]["files_scanned"] >= 100)
+    # The live two-tree scan belongs to `run`, not to selftest: it reads ~5k files, took
+    # 233s warm and >300s under load, and so turned the smoke leg into a timeout red that
+    # said nothing about the auditor (r1448). The selftest instead walks a tree ON DISK
+    # whose composition it wrote itself, so the walker is exercised end to end in
+    # milliseconds and the expected counts are exact instead of a `>= 100` floor.
+    fixture = _fixture_tree()
+    fx = run(scan_dirs=(".",), root=fixture)
+    chk("L8 the scan walks a real tree and counts what it read",
+        fx["summary"]["files_scanned"] == 3)
+    chk("L8b scratch files are counted, not silently dropped",
+        fx["summary"]["files_skipped_scratch"] == 1)
     chk("L9 every row carries a verdict",
-        all(r["verdict"] in VERDICT_ORDER + ("unreadable",) for r in live["rows"]))
+        all(r["verdict"] in VERDICT_ORDER + ("unreadable",) for r in fx["rows"]))
     chk("L10 the summary totals equal the rows",
-        live["summary"]["cache_writers"] == len(live["rows"]))
-    chk("L11 the run is deterministic", run()["rows"] == live["rows"])
+        fx["summary"]["cache_writers"] == len(fx["rows"]))
+    chk("L11 the run is deterministic",
+        run(scan_dirs=(".",), root=fixture)["rows"] == fx["rows"])
+    chk("L8c the shipped scan roots exist on disk",
+        all(os.path.isdir(os.path.join(ROOT, d)) for d in SCAN_DIRS))
+    # The legs below name four real faces. Scan exactly those, through the same run():
+    # the faces keep their real paths and the aggregates stay re-derivable, without
+    # paying for 792 files.
+    live = run(scan_dirs=("scripts",), root=_live_subset_tree(LIVE_LEG_FILES))
 
     half, _ig3 = audit_source(_FIX_HALF, "half.py")
     chk("L12 a module that hashes something else does NOT cover a date-keyed cache",
@@ -1068,6 +1090,45 @@ def selftest():
             print("FAIL", name)
     print("%d/%d legs %s" % (npass, len(ok), "PASS" if npass == len(ok) else "FAIL"))
     return 0 if npass == len(ok) else 1
+
+
+def _live_subset_tree(rels):
+    """A temp root holding exactly `rels`, copied under their real relative paths.
+
+    The live legs name files (`scripts/alloc_backtest.py` …). Re-rooting those copies
+    under a temp dir keeps `run()` as the single scan implementation -- same walk, same
+    summary, same blind-spot pass -- while cutting a 4-minute job to a few files.
+    """
+    import shutil
+    import tempfile
+    root = tempfile.mkdtemp(prefix="lvca-live-")
+    for rel in rels:
+        src = os.path.join(ROOT, rel)
+        if not os.path.exists(src):
+            continue
+        dst = os.path.join(root, rel)
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        shutil.copyfile(src, dst)
+    return root
+
+
+def _fixture_tree():
+    """A tree on disk whose composition the selftest wrote itself (r1448).
+
+    Scanning `scripts` + `Tools` here made the selftest a 233s live job; a smoke timeout
+    then read as an auditor defect. Keeping the walk (dot-dir scan, sorted listing,
+    scratch skip, counts) but on a tree of known composition keeps the leg fast AND
+    makes its expected numbers exact instead of a `>= 100` floor.
+    """
+    import tempfile
+    d = tempfile.mkdtemp(prefix="lvca-fixture-")
+    files = {"a_bad.py": _FIX_BAD,
+             "b_good.py": _FIX_GOOD,
+             "c_readonly.py": _FIX_NOWRITE,
+             "_scratch_close.py": "print('scratch')\n"}
+    for name, text in files.items():
+        io.open(os.path.join(d, name), "w", encoding="utf-8").write(text)
+    return d
 
 
 def _unparsable():

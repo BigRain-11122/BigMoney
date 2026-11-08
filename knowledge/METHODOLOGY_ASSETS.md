@@ -11055,3 +11055,46 @@ results/etf_book_live_size_provenance/SIZE-PROVENANCE.json ｜ S6 腿 live_size_
 正身 = scripts/etf_book_weight_provenance.py（selftest 12/12 · --check 11/11 · run ~2.5min）+
 results/etf_book_weight_provenance/PROVENANCE.json ｜ S6 腿 weight_provenance（--check 形）
 
+
+## E454 — 同一个 beta 印在两个分母上：46% 投入的组合和 100% 投入的路径不能相减（r1448 bm-c）
+
+被执行的书按 `k = 0.20 / beta_hat` 定量，`beta_hat` 0.434543（全窗 5,258 根）。票面五名里
+四名是 `crossborder`——评级卡的词汇表里没有这一类。把票面权重（各 0.092051，合计=book_weight
+0.460253）乘上每个名自己的 beta，得 `static_composition_beta` 0.169；把同一批名按**满仓**归一
+（÷0.460253）得 0.367。两个数都是真的，但只有后者能和一条未加杠杆的路径 beta 相减：
+拿 0.169 去比 0.4345 得到的是「26.55pp 的漂移」，实际量的是 46% 投入 vs 100% 投入的单位差。
+
+第二枚同类：票面里 159263 上市于 2025-07，complete-case 窗被它截成 306 根。
+用 306 根的静态 beta 比 5,258 根的路径 beta，量的是窗长不是成分——正法=把路径 beta 也截到
+同一 306 根上量（0.48465），再与归一后的静态 beta 相减，得 11.73pp。
+
+**三条可复用。** ①任何「A 的 beta 减去 B 的 beta」先问两侧分母是不是同一个（权重和=1？），
+不是就先归一，并把两个数分名字印出来（`static_composition_beta` / `..._normalized`）；
+②complete-case 交集窗由最年轻的那个成分决定，必须印 `window_limited_by` 与实得 `book_bars`
+，否则读者会以为是全窗；③同一个量在两种窗口上各印一次（全窗 vs 同窗），差值才归因到成分。
+
+读数：跨类别份额 crossborder 86.06% / equity 13.94%（beta 贡献口径）；只评级宇宙重跑同一规则
+（equity/commodity/convertible，1,279 只）得路径 beta 0.462754、k 0.432195，比票面 0.460253
+低 2.81pp——量级不大，但方向说明「去掉四个没被评级的名字」确实会改变定量，且定量从来不指名它押的是哪一类。
+身份腿五条全绿：复现 0.434543、复现 k、Euler 波动拆解重建 book sigma、类合计=名合计、票面名单回读。
+正身 = scripts/etf_book_class_beta_split.py（selftest 27/27 · --check 0.2s · run 54s）+
+results/etf_book_class_beta_split.json
+
+## E455 — 挂在「ready」上的批，如果 runner 是「待写」，红牌永远清不掉（r1448 bm-c）
+
+r1447 把 `EXEC-BOOK-CLASS-BETA-20261108` 入池时 `target` 写的是
+「scripts/etf_book_class_beta_split.py (to be written)」——脚本不存在，但条目 `status=ready`。
+水位面按 `status` 计数，于是此后每轮都印「池里有可点火活」的红牌，而任何执行体点火都会因为
+文件不存在而立刻失败：**红牌量的是登记状态，不是可执行性**。这类红牌连红时正确的动作不是发 waive，
+而是把 runner 写出来（本轮写成并实跑），或把条目改成不可点火态。关闭时按邻居先例写
+`result_ref/closed_at/closed_by`，池内 ready 归零。
+
+姊妹面（同一个词量错东西）：审计工具的 `selftest` 里跑整棵两棵代码树的活扫描（792 文件/36.5MB），
+冷 233s、有负载 >300s，撞上冒烟夹具 300s 上限 → smoke 报 `[FAIL] ... timed out`。
+那条红说的是夹具容量，不是审计器；而它的「修法」如果只是调超时，就等于把测量问题写成阈值问题。
+正法=把 selftest 的活扫描改成「它自己写的夹具树（计数精确）+ 只有活腿点到的那四个真实文件的
+重定根副本」，同一 `run()` 单一实现，43/43 在 0.61s 内跑完，活腿仍读真实面。
+
+**How to apply**：①入池时 `target` 若含 "to be written"，该条不能是 `ready`；②任何连红超过
+一天的旗，先问它读的是登记字段还是产物；③任何 selftest 里出现全库扫描，先算它在本机机队负载下的
+最坏耗时，超过夹具上限就重定根，别调上限。

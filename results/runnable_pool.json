@@ -24204,6 +24204,52 @@
    ],
    "done_by": "bm-a",
    "done_at": "2026-10-31 05:12:03"
+  },
+  {
+   "id": "EXEC-BOOK-SIZE-PROVENANCE-20261108",
+   "title": "which rule sizes the money that is about to be traded: beta target vs the adjudicated book's 8% vol target, both repriced at the ticket's own decision bar.",
+   "target": "scripts/etf_book_live_size_provenance.py",
+   "runner": "python scripts/etf_book_live_size_provenance.py run",
+   "lane": "cpu-only",
+   "lane_owner": "",
+   "status": "done",
+   "deliverable": "results/etf_book_live_size_provenance/SIZE-PROVENANCE.json",
+   "evidence_cutoff": "2026-11-06",
+   "entered_at": "2026-11-08T22:04+08:00",
+   "entered_by": "bm-c r1447",
+   "source": "r1446 left it open: the weight in force 0.460253 comes from k=beta_target/beta_hat, while the book the year gate adjudicates sizes itself with an 8% vol target",
+   "result_ref": "results/etf_book_live_size_provenance/SIZE-PROVENANCE.json",
+   "outcome": "done",
+   "closed_by": "bm-c r1447",
+   "closed_at": "2026-11-08T22:04+08:00",
+   "close_note": "DIFFERENT_BOOK_AND_SIZE with five identity legs green: beta rule 0.460253 (reproduces the ticket) vs vol rule 0.648195 at the same decision bar 2026-10-14, gap -18.79pp = -187,755 CNY on the ticket's NAV; 4 of 5 names differ and 4 of the 5 held names are crossborder, a class the graded card never prices."
+  },
+  {
+   "id": "EXEC-BOOK-CLASS-BETA-20261108",
+   "title": "who supplies the beta the rule measures? Decompose the executed book's beta_hat 0.4345 across its names and asset classes, and size the same rule on the graded universe alone (equity/commodity/convertible) to see whether 0.46 is still the number once the four ungraded crossborder names are removed.",
+   "target": "scripts/etf_book_class_beta_split.py (to be written)",
+   "runner": "python scripts/etf_book_class_beta_split.py run",
+   "lane": "cpu-only",
+   "lane_owner": "",
+   "status": "done",
+   "deliverable": "results/etf_book_class_beta_split.json -- beta/vol contribution per name and per class for the book in force, plus the beta rule re-run on the graded universe only, so a size quoted for 2026-11-11 names which class it is betting on.",
+   "evidence_cutoff": "2026-11-06",
+   "entered_at": "2026-11-08T22:04+08:00",
+   "entered_by": "bm-c r1447",
+   "source": "r1447: the executed book holds 4 crossborder names the graded card never prices; 0.46 measured on a book including them is not the size of the book the gate graded, and nothing yet says which class carries the beta_hat the rule divides by.",
+   "shards": [
+    {
+     "key": "class-beta-0of1",
+     "owner": "bm-c",
+     "owner_since": "2026-11-08T23:26+08:00",
+     "status": "done",
+     "checkpoint": "results/etf_book_class_beta_split.json",
+     "result_ref": "results/etf_book_class_beta_split.json"
+    }
+   ],
+   "result_ref": "results/etf_book_class_beta_split.json",
+   "closed_at": "2026-11-08T23:26+08:00",
+   "closed_by": "bm-c r1448"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -24218,6 +24264,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T04:25:00+08:00",
+ "updated_at": "2026-11-08T22:04+08:00",
  "version": 1
 }
