@@ -6186,8 +6186,8 @@
   "verify": "problems=[]"
  },
  "round_label": "r1613",
- "round_no": 1614,
- "round_no_label": "r1603",
+ "round_no": 1615,
+ "round_no_label": "r1615",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
  "round_no_ts": "2026-11-09T02:39:48+08:00",
  "round_no_ts_note": "r1455 closeout (label r1455: the 11:09 read-only YIELD row had already consumed the label r1454; the state counter moves 1453 -> 1454 once). state.json (legacy face) is 7 rounds behind this file and was NOT rewritten mid-round",
@@ -6280,7 +6280,7 @@
  "task": "E585 whether a ticket's cash leg is priced on the bar the file names",
  "task_short": "the cash-leg number is a whole-window mean (2.079-2.090%/yr), not the bar's rate (1.015-1.090%); the newest ticket accrues 0 over 7 steps",
  "task_short_note": "scripts/etf_book_order.py build_ticket(close_price=) + reprice_delta; card E582; digest DIGEST-20261109-r1611-e582-ticket-priced-on-its-own-bar.md",
- "this_round": "r1613",
+ "this_round": "r1615",
  "three_line": 3,
  "three_line_artifact": "results/state_tilt/CASHLEGPRICE-2026-11-06.json",
  "three_line_artifact_ts": "2026-11-09T05:1x",
@@ -6341,5 +6341,19 @@
   "defect_as_found": "results/state_tilt/LEDGERBARS-2026-11-06_defect-as-found.json",
   "fixed": "scripts/etf_book_forward.py _dedupe_bars at load + after extend; ledger repaired via --rebase (11 rows / 11 bars, inflation 0.00%)",
   "next": "E587"
+ },
+ "E587": {
+  "round": 1615,
+  "ts": "2026-11-09T05:55:00+08:00",
+  "study": "E587_cash_window",
+  "card": "E587",
+  "verdict": "the_two_cash_faces_do_not_share_a_window",
+  "face": "results/etf_book_order/CASHWINDOW.json (+ CASHWINDOW-latest.json)",
+  "script": "scripts/e587_cash_window.py",
+  "selftest": "13/13",
+  "s6": "python Tools/s6_chain_bmb.py 1615 --only cash_window -> rc0 0.04s",
+  "smoke": "standalone _r1615_legcheck.py problems=[]; the full suite was NOT launched (no leg filter, r1499) so no suite total is claimed",
+  "summary": "ledger ladder3 over its own 11 bars = 0.850%/yr vs GC001 1.040% there; the tickets print 2.079%..2.090%/yr because they feed 1650 bars from 2020-01-01 at 252; gap 1.237pp = 0.942 window + 0.190 instrument + 0.105 unexplained; 0 of 7 faces name the window; the carry column reproduces the ladder within 1% on 7/11 rows, is the neighbour bar's ladder on 1, gross-only on 1, nothing on 2; the prior-bar GC001 rule reproduces 0/3 -- the card's own hypothesis is falsified",
+  "next": "E589 (ready, cpu-only): the cash_leg block publishes window_start/bars/day_count"
  }
 }

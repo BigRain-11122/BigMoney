@@ -14068,3 +14068,20 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 **边界**：只读账本与 `data/repo_daily/GC001.csv`；不改任何一行账本内容、不改现金腿算法、不做 alpha 判断。写入侧去重是 `etf_book_forward.py` 的守卫（载入 + 追加两处），账本的修复由**重跑该工具**完成。
 
 **证据** = scripts/e584_ledger_bar_accrual.py（selftest 30/30·build/check/verify 全程）+ results/state_tilt/LEDGERBARS-2026-11-06.json + ledgerbars_latest.json + 修复前原样存档 LEDGERBARS-2026-11-06_defect-as-found.json（17 行/11 根，多记 carry 7.403e-05，按 100 万本金 = 74.03 CNY）+ S6 腿 `ledger_bar_accrual`（rc0 0.04s）+ smoke `# E584` 与 scripts/run_e584_smoke_leg.py（1/1 绿·--doctor 拒收）+ digest research/digests/DIGEST-20261109-r1614-e584-ledger-bar-accrual.md
+
+### E587 本书两个现金年化数字从来没在同一页上：票面印的是七年均值，账本按 bar 累的是梯子（r1615 bm-b，2026-11-09）
+
+**问题**：同一本账上有两张「现金年化」面。票面 `cash_leg.mean_accrual_ann_pct` 印 2.079%..2.090%/yr；前瞻账本的 `carry` 列是逐 bar 的梯子收益。它们用的是同一个回购窗口吗？
+
+**答**：**不是，而且差了 1.24pp/yr**。账本按自己的 11 根 bar（2026-10-23..11-06）累 ladder3（GC007/GC014/GC028 带佣金）年化 **0.85%**；同样这 11 根 bar 上 GC001 均值 **1.04%**（差 0.19pp = 梯子期限+佣金形状）；票面因为喂的是 **1650 根** 2020-01-01..cutoff 的窗口、按 252 折算，印 **2.08%**（该窗口 GC001 均值 1.98%）。算术拆分：**+0.94pp 来自窗口、+0.19pp 来自工具、剩 0.11pp 未归因**（拆分是算术不是归因）。七张面（5 票 + 账本 + 票面块）**全部不写自己用的哪个窗口**。
+
+**账本 carry 列本身也复现不干净**：按本行现金乘 ladder3 重建，**7/11 行落在 1% 带内、0/11 落在 1e-4 带内**（即「像但不是同一个数」）；**1 行恰好等于下一根 bar 的梯子**（对齐错位）、**1 行只有免佣金才对**、**2 行什么都对不上**（含 11-05 的负 carry）。E584 报过的 `rows_reproducing_the_ladder=0/11` 在此细化：不是「全错」，是「全都不精确，且四行的错法各不相同」。**卡面假设的错误也一并证伪**：E587 卡原问「账本 rf 是不是从上一根 bar 的 GC001 报价算的」——三种 GC001 规则（前一 bar 一日／前一 bar 日历差／当 bar 一日）**各 0/3 行命中**，账本用的是梯子，不是单日报价。
+
+**教训**：
+- **两个面各报一个年化数时，缺的不是数字而是参数**：`0.85%` 与 `2.08%` 各自都对，摆在一起才误导。凡「均值／年化」字段必须同页给 `window_start/window_bars/day_count`；否则读者只能拿两个数比大小（E585 是同族上一现）。
+- **复现检查要给「带」不给单点**：`exact 0/11` 听起来是「完全不复现＝坏了」，而 `1e-4 0 / 1% 7` 说的是「接近但不精确」——两者对下一步行动完全不同。三档容差（0 / 1e-4 / 1%）一起发布，并在行上分类（本行／邻行／免佣金／无规则）：错法本身是证据（邻行＝对齐 bug 的指纹）。
+- **卡面给的假设同样是被测对象**：卡里写「rf 来自前一 bar 报价」，实测 0/3；照卡面直接「验证」会把一个不存在的机制写成结论。先测规则表，再谈因果。
+
+**边界**：只读账本 + 票面 + `data/repo_daily/GC001.csv`；不写账本、不改票、不判 alpha。窗口效应与工具效应只是频度拆分，不能升格为收益判断。
+
+**证据** = scripts/e587_cash_window.py（selftest 13/13，build/check/verify 全绿）→ results/etf_book_order/CASHWINDOW.json + CASHWINDOW-latest.json + S6 腿 `cash_window`（rc0 0.04s）+ smoke `# E587`（独立腿 _r1615_legcheck.py problems=[]）+ digest research/digests/DIGEST-20261109-r1615-e587-cash-window.md

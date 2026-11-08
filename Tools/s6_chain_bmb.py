@@ -2347,6 +2347,16 @@ LEGS = [
     # and the bar-count inflation, and refuses a duplicate relabelled as an accruing row.
     ("ledger_bar_accrual",
      ["python", "scripts/e584_ledger_bar_accrual.py", "check"]),
+    # E587 (r1615 bm-b): the book publishes two annualised cash numbers that never sit on the same
+    # page -- the ticket prints the mean of GC001 over 2020-01-01..cutoff at 252, while the forward
+    # ledger accrues the three-rung ladder bar by bar at 244.  Side by side the accrued leg is
+    # 0.85%/yr, GC001 over those same 11 bars is 1.04%, and the ticket prints 2.08%: the 1.24pp gap
+    # is 0.94pp window + 0.19pp instrument + 0.11pp unexplained, and none of the seven faces names
+    # the window it used.  `check` re-derives every row's class (ladder / within 1% / neighbour's
+    # ladder / gross-only / no rule) and the window-instrument split, and refuses a carry called
+    # the ladder whose own numbers disagree.
+    ("cash_window",
+     ["python", "scripts/e587_cash_window.py", "check"]),
 ]
 
 

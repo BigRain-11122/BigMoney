@@ -25416,5 +25416,55 @@ except Exception as _e584x:
 check(_name584, not _bad584, "; ".join(_bad584)[:240] or _d584)
 
 
+# E587: the book publishes two annualised cash numbers and they never sit on the same page.  The
+# ticket prints the mean of GC001 over 2020-01-01..cutoff at 252 (2.079%..2.090%/yr); the forward
+# ledger accrues the three-rung ladder bar by bar at 244, which over its own 11 bars is 0.85%/yr
+# against a GC001 mean there of 1.04% (r1615 bm-b).  This leg reads the published face and refuses
+# the ways the comparison could be a wish: a row whose ladder diff does not re-derive, a class that
+# does not follow from its own numbers, a window/instrument split that does not add up to the
+# printed gap, and a verdict that does not follow from the summary.
+_name587 = "E587 whether the ledger carry and the ticket cash leg share a repo window (r1615 bm-b)"
+_bad587 = []
+_d587 = "no reading"
+try:
+    _p587 = os.path.join("results", "etf_book_order", "CASHWINDOW-latest.json")
+    _f587 = json.load(open(_p587, encoding="utf-8"))
+    _s587 = _f587.get("summary") or {}
+    _r587 = _f587.get("rows") or []
+    _m587 = importlib.import_module("e587_cash_window")
+    _bad587.extend(_m587.face_problems(_f587))
+    _led587 = json.load(open(os.path.join("results", "etf_book_forward", "LEDGER.json"),
+                             encoding="utf-8"))
+    if len(_r587) != len(_led587.get("bars") or []):
+        _bad587.append("the face's rows are not the ledger's rows")
+    if [r.get("bar") for r in _r587] != [b.get("bar") for b in _led587.get("bars") or []]:
+        _bad587.append("the face's bars are not the ledger's bars in order")
+    if abs(float(_s587.get("printed_minus_accrued_pp") or 0.0)
+           - float(_s587.get("window_effect_pp") or 0.0)
+           - float(_s587.get("instrument_effect_pp") or 0.0)
+           - float(_s587.get("residual_pp") or 0.0)) > 1e-6:
+        _bad587.append("the split does not add up to the printed gap")
+    if not _s587.get("same_window") and "same_window_and_an_instrument" in str(
+            _f587.get("verdict")):
+        _bad587.append("a differ-window summary carries the same-window verdict")
+    _d587 = ("rows=%d ledger=%.3f%%/yr gc001_on_ledger_bars=%.3f%% ticket=%s..%s%% "
+             "gap=%.3fpp window=%.3fpp instrument=%.3fpp residual=%.3fpp "
+             "ticket_window=%s bars from %s | %s"
+             % (_s587.get("ledger_bars", 0), _s587.get("ledger_ladder3_ann_pct") or 0.0,
+                _s587.get("gc001_mean_over_ledger_bars_pct") or 0.0,
+                _s587.get("ticket_published_mean_min_pct"),
+                _s587.get("ticket_published_mean_max_pct"),
+                _s587.get("printed_minus_accrued_pp") or 0.0,
+                _s587.get("window_effect_pp") or 0.0,
+                _s587.get("instrument_effect_pp") or 0.0,
+                _s587.get("residual_pp") or 0.0,
+                _s587.get("ticket_window_bars"), _s587.get("ticket_window_start"),
+                _f587.get("verdict")))
+except Exception as _e587x:
+    _bad587.append(repr(_e587x)[:160])
+    _d587 = "study could not be read"
+check(_name587, not _bad587, "; ".join(_bad587)[:240] or _d587)
+
+
 if __name__ == "__main__":
     sys.exit(main())
