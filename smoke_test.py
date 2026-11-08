@@ -713,7 +713,7 @@ def main() -> int:
             ("product: etf_book_floor_toll (continuous enforcement is not a second rule)",
              "scripts/etf_book_floor_toll.py", ["selftest"]),
             ("product: etf_book_floor_toll (identity and toll re-derived)",
-             "scripts/etf_book_floor_toll.py", ["--check"]),
+             "scripts/etf_book_floor_toll.py", ["check"]),
             # r1460: compute_audit has printed NO_CANDIDATE_PASSES_CALENDAR for rounds, and a
             # refusal with no distance cannot be told apart from "we do not know". The legs pin
             # that the flip point is a real minimum (one step lower must not pass), that a
@@ -725,6 +725,16 @@ def main() -> int:
              "scripts/etf_book_calendar_distance.py", ["selftest"]),
             ("product: etf_book_calendar_distance (published distances re-derived)",
              "scripts/etf_book_calendar_distance.py", ["--check"]),
+            # r1461: r1460 could only say "wait for the year". The levers that change which
+            # years carry a book had never been priced against the year axis. The legs pin
+            # that the control arm must reproduce the published calendar rows before any
+            # lever is priced, that a partial year is counted raw, that "free" is
+            # risk-adjusted rather than raw CAGR, and that a pass which dies at double cost
+            # is published as such instead of as a recommendation.
+            ("product: etf_book_concentration_levers (which knob buys the year gate)",
+             "scripts/etf_book_concentration_levers.py", ["selftest"]),
+            ("product: etf_book_concentration_levers (published arms re-derived)",
+             "scripts/etf_book_concentration_levers.py", ["check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a

@@ -1,0 +1,16 @@
+{
+ "round_no": 1461,
+ "round": 1461,
+ "task": "r1461: the concentration gate is not something you can only wait out -- rebalance 10d passes Y4 with higher CAGR and Sharpe, but doubles cost and it fails",
+ "status": "product-closeout",
+ "ts": "2026-11-09T04:47:03+08:00",
+ "updated": "2026-11-09T04:47:03+08:00",
+ "updated_at": "2026-11-09T04:47:03+08:00",
+ "verdict": "py_low_board_clear",
+ "recent_artifact": "results/etf_book_concentration_levers.json",
+ "ram_free_gb": 4.51,
+ "ram_load_pct": 81,
+ "cpu_pct": 5.0,
+ "vram_free_gb": 13.7,
+ "verify": "concentration_levers selftest 15/15 + run rc0 (control reproduces published yearly rows) + check CHECK_OK; S6 dualrun ZERO-DRIFT streak 51, compute_audit rc0 FLAG pool_starvation+supply_floor (AGENDA_DEBT calendar), watermark py_low_board_clear, update_daily rc0 zero new rows (cutoff 2026-11-06); attrition CLEAN; orphans 0"
+}

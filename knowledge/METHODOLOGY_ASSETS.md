@@ -11317,3 +11317,16 @@ compute_audit 连着多轮印同一句话：`supply_candidates.verdict=AGENDA_DE
 3. **单相位读数与相位中位数读数不许互相冒充**（E206/E319 族的又一面）：本轮自查抓到 nobond_base——单相位年度块读 ADMIT，而供给面按 5 个决策相位的中位数判 UNADJUDICABLE_PHASE。若照单相位印「已有候选通过」，就把「跨相位判不了」复原成「已经通过」。正法=两读数并列 + `READINGS_DISAGREE` + 不在此读数上宣称距离（自踩腿 L4b 钉死）。
 
 **正身**：scripts/etf_book_calendar_distance.py（selftest 14/14、run 0.4s、--check CHECK_OK）→ results/etf_book_calendar_distance.json + .md；S6 腿 calendar_distance（紧随 supply_calendar）+ smoke 两腿。
+
+## E467 — 集中度门不是只能等：能改变「哪一年扛着账」的旋钮必须被定价，而控制臂必须按已发布口径逐位复现（r1461 bm-c）
+
+r1460 把拒绝算成了距离（被采纳的书距 Y4 只差 2026 年 1.24pp），但印出来的唯一下一步是「等今年走完」——那是预测不是动作。书上有宽度、调仓周期、波动目标三个旋钮，它们决定**哪些年份扛着这本账**，却从没有人拿它们对年轴定价过。
+
+实测（单因素，其余保持 20 日 / 5 名 / 10bp / 8% 波动目标，面板到 2026-11-06、债券外 1515 员）：**调仓从 20 日改到 10 日，同一本书就过 Y4**——年化 12.17%（+0.71pp）、夏普 1.164（控制 1.128）、top-2 0.6846（控制 0.7108），代价是回撤 -12.70% 对 -10.56%。宽度三个方向全部不动集中度（3/8/10 名 top-2 分别 0.7292/0.7644/0.7332，全不过线）：**分散度不是集中度的解**，top-2 占比是收益份额，不是持仓数。更宽的 40 日调仓直接掉 4.68pp 且照样不过线。
+
+三条可复用：
+1. **控制臂必须按「已发布口径」逐位复现，CAGR 相同不等于同一本书**：首版自定义逐年切分（相对上一年末），CAGR 11.46% 与发布值一字不差、但逐年全偏（2021 8.63 vs 7.63）→ 榜单排序全错、控制臂本身被读成 ADMIT 而非 CONDITIONAL。正法=import 发布方的 yearly_returns（年内首末），并把「逐年行逐位相等」写进复现判据；CAGR 容差只是第二道。
+2. **「免代价」必须按风险调整判**：只按 CAGR 取最优会把「去掉波动目标」（+4.05pp 但夏普 0.999、回撤 -16.0%）排在推荐位，那是拿回撤换的。判据=CAGR 不降超 0.25pp **且** 夏普不低于控制臂。
+3. **成本翻倍压力臂必须与结论同面印出**：调仓 10 日在 10bp/边下过线，在 20bp/边下退回 CONDITIONAL（top-2 0.7652、年化 9.64%）——「这条臂依赖成本假设，不只依赖旋钮」必须写在判词里，否则一个利率环境变化就把结论吃掉。
+
+**正身**：scripts/etf_book_concentration_levers.py（selftest 15/15、run ~2min、check CHECK_OK）→ results/etf_book_concentration_levers.json；S6 腿 concentration_levers（紧随 calendar_distance）+ smoke 两腿；摘要 research/ETF_BOOK_CONCENTRATION_LEVERS.md。

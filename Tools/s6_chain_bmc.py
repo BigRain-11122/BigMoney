@@ -888,6 +888,14 @@ LEGS = [
     # receipt would go stale on its own (r1290 class); 0.4s, pure JSON reads, no panel.
     ("calendar_distance",
      ["python", "scripts/etf_book_calendar_distance.py", "run"]),
+    # r1461: calendar_distance answers "how far", but the desk's only printed path to
+    # passing Y4 was to wait for the year. This leg prices the levers that decide WHICH
+    # years carry the book (width / rebalance / vol target, one at a time) against the
+    # same frozen gate, after forcing the control arm to reproduce the published
+    # calendar rows. `check` re-derives every published verdict from the receipt's own
+    # rows; it does not reprice the panel, so it stays milliseconds (r1290 class).
+    ("concentration_levers",
+     ["python", "scripts/etf_book_concentration_levers.py", "check"]),
     # r1440: forty rounds read the calendar and the order page as two separate
     # subjects. This leg puts them in one sentence from receipts only (no
     # repricing): today the ticket executes nobond_vt08_adopted at book_weight
