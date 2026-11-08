@@ -25175,6 +25175,54 @@ except Exception as _e579x:
     _d579 = "study could not be read"
 check(_name579, not _bad579, "; ".join(_bad579)[:240] or _d579)
 
+# E580: a judged verdict face is only as current as the data date its own bytes carry.  This leg
+# reads the published population and refuses the three ways the face could be a wish: a summary
+# whose six classes do not sum, a freshness word on a face no cutoff can age, and mtime published
+# as freshness evidence (r1472/E453 measured this tree's mtime ceiling at 24 days).
+_name580 = "E580 whether a judged verdict face can be aged from its own bytes (r1608 bm-b)"
+_bad580 = []
+_d580 = "no reading"
+try:
+    _p580 = os.path.join("results", "state_tilt", "faceaged_latest.json")
+    _f580 = json.load(open(_p580, encoding="utf-8"))
+    _s580 = _f580.get("summary") or {}
+    _r580 = _f580.get("rows") or []
+    _m580 = importlib.import_module("e580_face_age")
+    _bad580.extend(_m580.face_problems(_f580))
+    if _s580.get("faces") != len(_r580):
+        _bad580.append("the summary face count does not match the published rows")
+    if sum([_s580.get("aged_by_their_own_cutoff", 0), _s580.get("cutoff_in_the_future", 0),
+            _s580.get("declares_a_cutoff_that_does_not_parse", 0),
+            _s580.get("only_a_build_time", 0), _s580.get("build_time_does_not_parse", 0),
+            _s580.get("no_date_signal_at_all", 0)]) != _s580.get("faces"):
+        _bad580.append("the six classes do not sum to the population")
+    if any(r.get("freshness") is not None for r in _r580 if not r.get("ageable")):
+        _bad580.append("a freshness word sits on a face no cutoff can age")
+    if (_f580.get("mtime_floor") or {}).get("usable_as_freshness_evidence"):
+        _bad580.append("mtime is published as usable freshness evidence")
+    if len([r for r in _r580 if r.get("freshness") == "fresh"]) != 0:
+        _bad580.append("a face is published as fresh; the vocabulary has no such word")
+    _doc580 = json.loads(json.dumps(_f580))
+    for _rr in _doc580.get("rows") or []:
+        if not _rr.get("ageable"):
+            _rr["freshness"] = "today"
+            break
+    if len(_m580.face_problems(_doc580)) <= len(_m580.face_problems(_f580)):
+        _bad580.append("a freshness word on an unageable face was accepted")
+    _d580 = ("faces=%d ageable=%d build_only=%d build_not_a_date=%d undated=%d unparseable=%d "
+             "future=%d stale30=%d oldest=%sd | %s"
+             % (_s580.get("faces", 0), _s580.get("aged_by_their_own_cutoff", 0),
+                _s580.get("only_a_build_time", 0), _s580.get("build_time_does_not_parse", 0),
+                _s580.get("no_date_signal_at_all", 0),
+                _s580.get("declares_a_cutoff_that_does_not_parse", 0),
+                _s580.get("cutoff_in_the_future", 0),
+                _s580.get("aged_faces_stale_beyond_30d", 0),
+                _s580.get("cutoff_age_days_max"), _f580.get("verdict")))
+except Exception as _e580x:
+    _bad580.append(repr(_e580x)[:160])
+    _d580 = "study could not be read"
+check(_name580, not _bad580, "; ".join(_bad580)[:240] or _d580)
+
 
 if __name__ == "__main__":
     sys.exit(main())

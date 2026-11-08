@@ -13992,3 +13992,12 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 **教训**：① **「词表/方言缺席」要按判决轴与披露轴分开报**——同一份文本，判决不动而披露动 622 分钟；只报「没翻」会让人以为方言无害，只报「丢了 1,596 行」又说不清谁受害。② **丢行但不动任何已发布数，不等于无代价**（`C_LOST`）：本轮的 `face_problems` 正是靠自审这一条抓出首版分类缺陷（把 bm-a/bm-c 归成 `the_dialect_costs_nothing_here`，被自己的 check 腿当场判红）。③ **判决面必须自带时间戳**：`lane_liveness.<机>.json` 没有 `generated`，读者无法区分「5 分钟前的 ALIVE」和「3 天前的 ALIVE」，本次实测 2/3 与重算不符。④ **阈值只能从被审模块 import**（ALIVE_MIN/DEAD_MIN/GAP_MIN），自审腿钉死 (25,360,90)，防止本卡与判活线悄悄分叉。⑤ **最新一行带不带竖线是判决的支点**：本期不翻是运气（三台最新行都带竖线），`invisible_rows_within_alive_min` 已作为余量披露（0），一旦有任何一台的最新行改成无竖线排版，25 分钟内它就会被判 NO-EVIDENCE/DEAD。
 **边界**：只读三份台账文本 + state/心跳面；**不改** `lane_round_liveness` 本体（改它会动 D-20261101-15 的验收面，须另轮立法）。对端台账走 `git show origin/main:<path>`，本机走工作树，逐台点名来源。两方言对同一份文本一致 ≠ 那条道真跑过（从未写下的行两方言都看不见）。
 **证据** = scripts/e579_liveness_dialect.py（build/check/verify + selftest 27/27）· results/state_tilt/LIVENESSDIALECT-2026-11-09.json + livenessdialect_latest.json · S6 腿 `liveness_dialect`（rc=0 0.04s）· smoke `#E579` + scripts/run_e579_smoke_leg.py（`--doctor` 变红）· digest research/digests/DIGEST-20261109-r1607-e579-liveness-dialect.md
+
+
+### E580 一个判过案的脸，它的字节能说出自己是关于哪天的数据吗（r1608 bm-b·2026-11-09）
+
+**问题**：`results/**/*.json` 里有 1,454 张带顶层 `verdict` 的脸，每张都在对某个时期下判断。读者想知道这个判断还成不成立，手上只有这张脸本身——那它自己的字节能不能说出「我是关于哪天的数据」？
+
+**答案**：**807 张能（55.5%）**，647 张不能。三类三种性质，必须分开：`cutoff` 类字段（evidence_cutoff/cutoff/asof/panel_cutoff…）说的是**数据**的日期，只有它能给判决定年龄；`build` 类字段（generated/ts/updated…）说的是**文件**的日期，一张今早从同一份冻结面板重算出来的脸，仍然是关于那份老面板的判决；`mtime` 是检出时刻，本树实测天花板 **24 天**（13,506 文件只有 22 个 mtime 日，10,187 个文件同属 2026-10-17），所以它不能作新鲜度证据。分类读数：**233 张只写文件时间**（173 一个可解析的 build 时间、**2 张 build 字段里写的根本不是日期**，例如 `generated: "deterministic"` 意思是可复现）、**471 张一个日期字段都没有**、**1 张写了 cutoff 却不解析**（一句话塞进日期位）、0 张未来日期。能定年龄的 807 张里，中位年龄 6 天、136 张声明今天或昨天、**90 张已过 30 天**、0 张过 365 天，最老 132 天（`results/fund_statement_update_status.json` 与 `fund_avail_tail_probe.json`，cutoff 2026-06-30）。另有 **215 张的 build 时间比它自己的 cutoff 更新**——正是「文件比结论新」那一类的数量。
+
+**教训**：① **「有日期字段」不是「能定年龄」**——`cutoff` 与 `build` 是两件事，混成一个布尔会让 173 张只写文件时间的脸读成新鲜。② **字段在场不等于它是日期**：`generated: "deterministic"` 这种词面会骗过按名字分类的读者，本面给了它独立类（`the_build_time_does_not_parse`），并在第一次 check 时就被它抓出 2 张。③ **mtime 的可用性要按天花板判，不按日数多样性判**：22 个不同 mtime 日看起来「很丰富」，但最老与最新只差 24 天，任何超过 24 天的陈旧判断在 mtime 上都**不可识别**（r1472/E453 律），所以本面把 `usable_as_freshness_evidence` 直接算成 False 并让 check 拒掉 True。

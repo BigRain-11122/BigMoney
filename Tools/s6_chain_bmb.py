@@ -2313,6 +2313,13 @@ LEGS = [
     # 978 to 356 minutes once the unread rows count -- the disclosure is what the dialect costs.
     ("liveness_dialect",
      ["python", "scripts/e579_liveness_dialect.py", "check"]),
+    # E580 (r1608 bm-b): every judged verdict face under results/ is asked one question -- can
+    # your own bytes say what data you are about?  A cutoff ages the verdict, a build time ages
+    # only the file, and this tree's mtimes are one bulk checkout with a 24 day ceiling.  `check`
+    # re-derives the six classes, refuses a freshness word on a face no cutoff can age, and
+    # refuses mtime published as usable evidence.
+    ("face_age",
+     ["python", "scripts/e580_face_age.py", "check"]),
 ]
 
 
