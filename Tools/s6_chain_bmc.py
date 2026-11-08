@@ -652,6 +652,14 @@ LEGS = [
     # nothing trims it; the trim block prints the per-leg lots so obeying it is mechanical.
     # `check` form (0.1s, published JSON + source scan, no panel).
     ("cut_order_gap", ["python", "scripts/etf_book_cut_order_gap.py", "check"]),
+    # r1453: cut_order_gap and cut_gate_pass answer two halves of the same 11-11 question --
+    # what the desk must SELL, and whether obeying that sale moves the calendar gate. Neither
+    # printed the other, so a desk had to hold two receipts at once. etf_book_decision_line
+    # folds both plus the year gate into ONE row (size, trim in lots, the three prices of
+    # obeying) and goes RED when the two receipts disagree on a shared number, so a hand-typed
+    # figure cannot survive. `check` form re-derives from the same files (0.1s, no panel).
+    ("cut_gate_pass", ["python", "scripts/etf_book_cut_gate_pass.py", "--check"]),
+    ("decision_line", ["python", "scripts/etf_book_decision_line.py", "--check"]),
     # r1329: the register summarises the faces, so it must be the LAST book leg. Until
     # this round it sat ~50 legs earlier, ahead of etf_book_ceo_page and etf_paper_signal,
     # and its rows for those two faces were therefore always one run old (as_of

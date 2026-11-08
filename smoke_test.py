@@ -663,6 +663,15 @@ def main() -> int:
              "scripts/etf_book_cut_gate_pass.py", ["selftest"]),
             ("product: etf_book_cut_gate_pass (three arms re-derived)",
              "scripts/etf_book_cut_gate_pass.py", ["--check"]),
+            # r1453: one row for the 11-11 decision. The legs pin that a held book and a
+            # ticket arm are printed with both denominators, that two receipts quoting the
+            # same k but disagreeing make the face RED rather than newer-wins, that a
+            # missing receipt is UNKNOWN and not zero, and that a trim which does not land
+            # under the permission (or whose arithmetic does not close) cannot pass.
+            ("product: etf_book_decision_line (one row, receipts must agree)",
+             "scripts/etf_book_decision_line.py", ["selftest"]),
+            ("product: etf_book_decision_line (row re-derived from the receipts)",
+             "scripts/etf_book_decision_line.py", ["--check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a
