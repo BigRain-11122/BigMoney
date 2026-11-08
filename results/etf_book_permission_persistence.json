@@ -1,0 +1,63 @@
+{
+ "face": "etf_book_permission_persistence",
+ "evidence_cutoff": "2026-11-06",
+ "question": "how many decision bars does the 11-11 trim (gap_k) survive before the schedule climbs back over the level it cut from?",
+ "slack_k": 0.06718,
+ "slack_source": "results/etf_book_cut_order_gap.json",
+ "decision_bar": "2026-11-11",
+ "k_order": 0.460253,
+ "k_permitted": 0.393073,
+ "permission_enforcers": [
+  "scripts/etf_book_order.py"
+ ],
+ "k_last_decision_bar": 0.460253,
+ "last_decision_date": "2026-10-23",
+ "identity": {
+  "k_schedule_last": 0.460253,
+  "k_ticket": 0.460253,
+  "delta": 0.0,
+  "ok": true
+ },
+ "schedule": {
+  "panel_last_bar": "2026-11-06",
+  "panel_symbols": 1514,
+  "market": "510300",
+  "beta_target": 0.2
+ },
+ "step_stats": {
+  "steps": 33,
+  "median_abs_dk": 0.003071,
+  "mean_abs_dk": 0.004965,
+  "p90_abs_dk": 0.006055,
+  "max_abs_dk": 0.067573,
+  "max_drop": 0.006127,
+  "max_up_step": 0.067573,
+  "up_steps": 19,
+  "up_steps_at_least_slack": 1,
+  "mean_up_step": 0.006851,
+  "share_steps_at_least_slack": 0.0303
+ },
+ "derived_erasure": {
+  "expected_bars_mean_up": 10,
+  "expected_bars_median_step": 22,
+  "mean_up_step": 0.006851,
+  "median_step": 0.003071,
+  "basis": "slack / observed step; an expectation on the step law, not a simulation"
+ },
+ "lifetime": {
+  "events": 0,
+  "steps": 33,
+  "event_share": 0.0,
+  "returned": 0,
+  "never_returned": 0,
+  "median_bars": null,
+  "mean_bars": null,
+  "max_bars": null,
+  "never_dates": []
+ },
+ "events": [],
+ "verdict": "NO_TRIM_SIZED_DROPS_IN_HISTORY",
+ "sentence": "No historical decision bar dropped k by as much as the 6.72pp trim (largest drop in 33 same-window steps was 0.61pp), so the record never tested whether such a cut holds; on the observed step law it takes about 10 upward steps of 0.69pp (mean) / 22 steps of 0.31pp (median) to walk the slack back -- but the largest single upward step (6.76pp over 19 up-steps) exceeds the whole cut, so the trim can be erased in one decision bar; walking it back at the mean step takes 10 bars. Nothing in the schedule remembers the floor, so it has to be re-applied every decision bar.",
+ "elapsed_sec": 50.1,
+ "generated": "2026-11-09T02:32:18+0800"
+}

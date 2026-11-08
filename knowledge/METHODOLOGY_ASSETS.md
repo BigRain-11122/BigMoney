@@ -11245,3 +11245,22 @@ r1450 把五条尺子折成一个许可（下限 k=0.393073），r1451 量出票
 **第三条：缺件必须印「无法核验」，不能静默略过。** 第一版读的是 `etf_book_size_rulers_decision.json` 的 `k_floor`（那份面确实有），而真正被审计面消费的是 `etf_book_rebalance_permission.json` 的 `permitted_k`——两枚面同源不同字段，第一版当场印出「缺 k_floor，额度无从对照」。这不是坏运气：**同一个数在两份已发布面上各有一个名字时，读者随手挑一个就会读到「未知」或「另一个数」**。正法=主读被审计面消费的那份，另一份只做交叉校验，两者不一致时印 `PERMISSION_FACES_CONFLICT` 并拒绝宣称「按额度执行」。
 
 **正身**：`scripts/etf_book_order.py`（selftest 98/98，新增 leg49a–49f）+ `scripts/etf_book_cut_order_gap.py`（`trim_legs` 单实现 + `permission_enforcers`，selftest 12/12、`--check` 7/7）+ 已发布面 `results/etf_book_order/ORDER-2026-11-06.md`、`results/etf_book_cut_order_gap.json`；S6 腿 8/8 rc0（含 etf_book_order/cut_order_gap/cut_gate_pass/decision_line/wrapper_year_gate）；smoke 新增 2 腿。
+
+## E462 — 一次削减的寿命只能由「会抹平它的排程」来量；而排程本身是方向不对称的（r1456 bm-c）
+
+r1450–r1455 把 11-11 的削减做成了可执行的一行（445 手 / ￥67,289 → k 0.392964 < 许可 0.393073）。所有这些面都把 11-11 当成故事的结尾。它不是：k_schedule() 每 20 个 bar 从扩张 beta 重推一次 k，**不认识任何削减**。所以真正的问题不是「削减要不要做」，而是「它撑几个决策 bar」。
+
+**办法**：拿会抹平它的那条排程来量它自己——统计相邻决策 bar 的 Δk 步伐分布，并把历史上每一次 ≥ 削减幅度的下跌当作一次事件，数回到跌前水平要几个决策 bar（未回补的一律 censored 记 None，绝不写 0：写 0 会让削减看起来比实际更快被抹平）。
+
+**读数（2024-01-01..2026-10-23，33 个决策 bar）**：样本内**没有任何一次下跌达到 6.72pp**（最大下跌 0.61pp）；按观测步伐律，抹平这个 slack 平均要 ~10 个决策 bar（均值上行步 0.685pp）、中位步长口径要 22 个。**但方向是不对称的**：19 次上行步里有一次单步 **6.76pp > 整个削减幅度**——即削减可以被**一个**决策 bar 抹掉。原因在规则本身：k = min(1, target/beta)，beta 跌时 k 一次性跳升、beta 升时 k 只能慢慢退。所以「削减会不会被立即抹平」没有单一答案，答案取决于下一个决策 bar 的 beta 走向落在分布的哪个尾巴。
+
+**三条可复用纪律**：
+1. **控制臂先行**（r1317 族）：量「这次削减的寿命」，必须先确认手上的排程就是票据标的那条——本面在 
+un() 里硬断言排程末决策 bar 的 k 复现票据 k_now（0.460253，差 0.0e0），复现不了直接 SystemExit，不发布。首版就是因为少了类过滤与翻转修复，末 bar 读到 k=1.0（量的不是这本书），**如果没这条腿，一份关于别人书的寿命表会被当成关于这本书的**。
+2. **censored 与方向分开印**：max_drop（最坏下跌）与 max_up_step（最大上行）是两个量，「有没有先例」与「能不能被一步抹平」是两个问题；只印 max|Δk| 会把 6.76pp 的上行当成一次下跌。
+3. **没有先例不等于空答案**：样本内零事件时，用观测步伐律给一条算术期望（slack / 均值上行步），并明写「期望，不是模拟」；把「无先例」直接印成「削减不会被抹平」是拿缺席当证据。
+
+**正身**：scripts/etf_book_permission_persistence.py（selftest 15/15、--check 6 腿 CHECK_OK、run 50s）→ 
+esults/etf_book_permission_persistence.json + 
+esearch/ETF_BOOK_PERMISSION_PERSISTENCE.md。
+
