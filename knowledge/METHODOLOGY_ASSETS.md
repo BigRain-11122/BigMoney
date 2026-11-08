@@ -11197,3 +11197,19 @@ admission_block 读成 **0 年证据**并给出全 False 的 REFUSE：不是异�
 Pos=scripts/etf_book_cut_gate_pass.py（selftest 16/16 · run 70s · check 待接线）
 + results/etf_book_cut_gate_pass/CUT-GATE-PASS.json + research/ETF_BOOK_CUT_GATE_PASS.md
 + research/digests/DIGEST-20261109-r1452-cut-gate-pass.md
+
+
+### E421 · 两份回执并置不等于一行决策（r1453 bm-c）
+
+r1451 说「该卖多少」（445 手 / CNY 67,289），r1452 说「照做对闸有没有影响」（ADMIT→ADMIT，
+闸面免费）。两条都对，但没有一处把它们印在同一行——于是下单的人要同时握住两份文件，
+而任何抄进票面的数字都来自记忆。
+
+正法=scripts/etf_book_decision_line.py：只读三份已发布回执（cut_order_gap / CUT-GATE-PASS /
+YEAR-GATE），输出一行可执行句子（尺寸、手数、三条代价），并带三条硬门：
+① 两份回执引用同一个 k 必须相等，否则**红**而不是「取新的那份」（E289 双份拷贝族）；
+② 回执缺席=UNKNOWN，永不当 0 也不当通过；
+③ 手数落不到权限之下、或 sold 与 ordered 减不出 k_after，一律不通过——界线写在夹具里，不写在散文里。
+
+坑：--check 首版打印「3 fields re-derived」，因为从 4 键的 body 里减掉了 face 键——
+回执自己的回执也会差一。计数要数真正比较过的键。
