@@ -10943,3 +10943,29 @@ epoint（场景），不写进判决；改线是决策轮的事，且改线须�
 （全正记录 top-2 ≥ 0.667、Y1 需三年全正）已在面上印出，不净掉。
 正身 = results/etf_book_gate_forward/GATE-FORWARD.json + research/ETF_BOOK_GATE_FORWARD_CONTENT.md
 + DIGEST-20261108-r1444-gate-forward-content.md
+
+## E450 — 同一条「部分年算一年」的规则，在一条判据上是保护、在另一条上是白送（r1445 bm-c）
+
+年度门把不足一年的窗口算成整年，注释给的理由是「本年已记的亏损就是亏损」——这对 Y3（最差年）
+成立（加进最小值只会更严），对 Y4（top-2 年占年度合计）恰好相反（短窗口同时缩小分子与分母）。
+同一行规则，一条保护、一条让利，没有一张收据说清哪条是哪条。
+
+scripts/etf_book_partial_year_caliber.py（selftest 12/12）只读四张已发布收据的 years 块，
+把同一套冻结判据跑三个口径：A 如发布 / B 只完整年 / P 保护一致（Y1/Y2/Y4 只完整年、Y3 全部年、
+C1 不动）；阈值一个未动。26 本书 A=8 ADMIT/14 CONDITIONAL/4 REFUSE，P=6/16/4，A→P 翻转 4 处
+且**方向不一**：nobond_base 68.98→71.76、票面在跑的 ticket_construction_plain_plus_overlay
+67.52→77.57、n5_r20_plain 68.98→71.76 三本 ADMIT 消失；admission/ALL 79.34→69.57 反被批准。
+口径 A 下 26 本判决逐本等于自身发布 verdict（0 破）=同一批数字的两种记法。
+
+三条可复用：
+1. **保护性规则逐判据核对方向**——含/不含部分年在「最小值」上是保护、在「占比」上是让利；
+   一张门的四条判据可以有相反符号，注释只写它保护的那一半。
+2. **两个方向同时印**——只报「三本靠部分年过关」会读成门偏松；把「一本因部分年被拒」并排印出，
+   结论才落在「记法不一致」而不是「偏置方向」。单侧读数会把测量问题写成偏见问题。
+3. **身份腿落在已发布判决上**——逐本用生产口径复现已发布 verdict，才好说这张表读的是同一批数字。
+
+边界：P 未采纳（改口径须决策轮 + 预注册）；未重定价（全部来自收据 years 块；gate_forward 18 支臂
+的 cohort 数是合成的，仅用于判「哪年是部分年」）；P 是否更准无证据——r1444 已证四条判据对下一年全盲，
+故 P 的合法性只来自语义一致，不来自选书更优。
+正身 = results/etf_book_partial_year_caliber/CALIBER.json + research/ETF_BOOK_PARTIAL_YEAR_CALIBER.md
++ DIGEST-20261108-r1445-partial-year-caliber.md ｜ S6 腿 partial_year_caliber（run 形）

@@ -821,6 +821,14 @@ LEGS = [
     # arrives (r1290 class); the leg is pure JSON reads, milliseconds.
     ("execution_admission_gap",
      ["python", "scripts/etf_book_execution_admission_gap.py", "run"]),
+    # r1445: the year gate counts a partial year as a year on all four checks. That is
+    # protective where the check asks for a booked loss (Y3) and a gift where it asks what
+    # a typical year looks like (Y1/Y2/Y4) -- and in the published set the SAME artifact
+    # both grants three ADMITs and denies one. `run` form (0.13s, pure JSON reads over four
+    # receipts): every year block is republished as prices move, so a frozen receipt face
+    # would go stale on its own (r1290 class). Nothing here is adopted; production is A.
+    ("partial_year_caliber",
+     ["python", "scripts/etf_book_partial_year_caliber.py", "run"]),
     # r1428: "refused" with no horizon is an observation, not a plan. This leg re-checks
     # the published ETA face (identity against the phase gate's phase 0, so a drifted
     # repricing turns the leg red instead of silently promising a date). Read-only JSON,
