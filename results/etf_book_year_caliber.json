@@ -1,0 +1,1503 @@
+{
+ "face": "etf_book_year_caliber",
+ "asof": "2026-11-08T14:10:54+08:00",
+ "question": "Y4's concentration line cannot adjudicate itself (r1419/r1425); which caliber of 'how many years does this book owe' can?",
+ "rule": {
+  "phase_set": [
+   "2020-01-01",
+   "2020-01-08",
+   "2020-01-15",
+   "2020-01-22",
+   "2020-01-29"
+  ],
+  "phase_set_source": "candidate_year_gate_phases.PHASE_STARTS (imported, never retyped)",
+  "arms": [
+   "plain",
+   "cap_comm_1",
+   "cap_comm_2",
+   "cap_comm_1_conv_1"
+  ],
+  "calibers": {
+   "net_top2_share": {
+    "line": 0.7,
+    "pass_when": "le",
+    "unit": "fraction of the annual net sum"
+   },
+   "gross_top2_share": {
+    "line": 0.7,
+    "pass_when": "le",
+    "unit": "fraction of total annual movement"
+   },
+   "effective_years": {
+    "line": 3.0,
+    "pass_when": "ge",
+    "unit": "years (exp of entropy over gross shares)"
+   },
+   "years_for_half": {
+    "line": 3,
+    "pass_when": "ge",
+    "unit": "years (best years that add up to half the calendar sum)"
+   }
+  },
+  "test_V_denominator": "the caliber's denominator is not a net sum that can be ~0 or change sign",
+  "test_S_self_adjudicable": "for EVERY arm: the phases land on one side of the line AND max-min across phases <= |median - line|. A caliber that is far from its line passes this for free, which is why D exists.",
+  "test_D_separates_arms": "some arm pair whose per-phase difference keeps one sign on at least 4 of 5 phases AND whose |median difference| is at least max(GAP_ABS_FLOOR, its own phase spread) -- a unit-aware version of the gate's own margin-vs-spread test",
+  "d_sign_consistency_floor": 0.8,
+  "d_gap_abs_floor": {
+   "net_top2_share": 0.02,
+   "gross_top2_share": 0.02,
+   "effective_years": 0.2,
+   "years_for_half": 1
+  },
+  "selection": "eligible calibers only; then prefer a continuous caliber over an integer one (an integer caliber can have zero spread and pass D trivially, so it corroborates rather than decides); then rank by the best pair gap ratio, tie-break by self-adjudication slack (margin - spread)",
+  "frozen_before_read": true,
+  "does_not_change_production": "candidate_year_gate.py and its Y1..Y4 lines are untouched by this file; a caliber change is an admission-rule change and needs its own adoption round"
+ },
+ "caliber_specs": {
+  "net_top2_share": {
+   "unit": "fraction of the annual net sum",
+   "line": 0.7,
+   "pass_when": "le",
+   "decimals": 4,
+   "denominator": "sum of annual net returns",
+   "denominator_can_vanish": true,
+   "why": "the control: Y4 exactly as the gate uses it today (r1421: Sharpe in costume)"
+  },
+  "gross_top2_share": {
+   "unit": "fraction of total annual movement",
+   "line": 0.7,
+   "pass_when": "le",
+   "decimals": 4,
+   "denominator": "sum of |annual net returns|",
+   "denominator_can_vanish": false,
+   "why": "same bar, denominator that cannot vanish; an even 7-year book reads 2/7"
+  },
+  "effective_years": {
+   "unit": "years (exp of entropy over gross shares)",
+   "line": 3.0,
+   "pass_when": "ge",
+   "decimals": 3,
+   "denominator": "sum of |annual net returns| (entropy shares)",
+   "denominator_can_vanish": false,
+   "why": "a count of years, not a percentage: 7 even years = 7, one year = 1"
+  },
+  "years_for_half": {
+   "unit": "years (best years that add up to half the calendar sum)",
+   "line": 3,
+   "pass_when": "ge",
+   "decimals": 0,
+   "denominator": "none (integer in [1, n]; a non-positive sum publishes None)",
+   "denominator_can_vanish": false,
+   "gap_abs_floor": 1,
+   "why": "the allocator's literal question, in years: half this book came from how many?"
+  }
+ },
+ "params": {
+  "n_hold": 5,
+  "rebal": 20,
+  "cost": 0.001,
+  "vol_target": 0.08
+ },
+ "data": {
+  "flips_repaired": 169,
+  "universe": 1515,
+  "bars": 5275,
+  "capacity_cny_1day_5pct": 48664681.0,
+  "capacity_from": "results/etf_book_year_gate/YEAR-GATE.json"
+ },
+ "published_arm": {
+  "numbers": {
+   "cagr": 0.1149,
+   "sharpe": 1.132,
+   "maxdd": -0.1056
+  },
+  "as_of": "2026-10-23",
+  "universe": 1499
+ },
+ "identity_deviation": {
+  "cagr": 0.0,
+  "sharpe": 0.0,
+  "maxdd": 0.0
+ },
+ "identity_ok": true,
+ "phase_identity_vs_r1425": {
+  "checked": true,
+  "cells": 20,
+  "max_abs_dev": 0.0,
+  "compared_at_decimals": 4,
+  "exact": true,
+  "source": "results/etf_book_sleeve_cap_phases.json"
+ },
+ "cells": {
+  "plain": [
+   {
+    "start": "2020-01-01",
+    "years": 7,
+    "net_sum_pct": 81.0578,
+    "cagr_pct": 11.46,
+    "sharpe": 1.128,
+    "year_net_pct": {
+     "2020": 5.6072,
+     "2021": 7.6281,
+     "2022": 2.8393,
+     "2023": 5.473,
+     "2024": 14.5496,
+     "2025": 43.0627,
+     "2026": 1.898
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 81.057829,
+     "gross_sum_pct": 81.057829,
+     "net_top2_share": 0.710755,
+     "gross_top2_share": 0.710755,
+     "effective_years": 4.215653,
+     "years_for_half": 1
+    }
+   },
+   {
+    "start": "2020-01-08",
+    "years": 7,
+    "net_sum_pct": 78.9015,
+    "cagr_pct": 10.99,
+    "sharpe": 1.041,
+    "year_net_pct": {
+     "2020": 4.9946,
+     "2021": 2.7844,
+     "2022": 0.7794,
+     "2023": 14.1691,
+     "2024": 23.4099,
+     "2025": 39.2869,
+     "2026": -6.5228
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 78.901542,
+     "gross_sum_pct": 91.947146,
+     "net_top2_share": 0.794621,
+     "gross_top2_share": 0.681879,
+     "effective_years": 4.446401,
+     "years_for_half": 2
+    }
+   },
+   {
+    "start": "2020-01-15",
+    "years": 7,
+    "net_sum_pct": 59.5347,
+    "cagr_pct": 8.33,
+    "sharpe": 0.769,
+    "year_net_pct": {
+     "2020": 10.8498,
+     "2021": 10.3215,
+     "2022": -12.1773,
+     "2023": 4.0923,
+     "2024": 22.4433,
+     "2025": 24.9357,
+     "2026": -0.9304
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 59.534691,
+     "gross_sum_pct": 85.750179,
+     "net_top2_share": 0.79582,
+     "gross_top2_share": 0.552523,
+     "effective_years": 5.46231,
+     "years_for_half": 2
+    }
+   },
+   {
+    "start": "2020-01-22",
+    "years": 7,
+    "net_sum_pct": 49.0139,
+    "cagr_pct": 7.03,
+    "sharpe": 0.678,
+    "year_net_pct": {
+     "2020": 16.8148,
+     "2021": 9.1705,
+     "2022": -1.2484,
+     "2023": 2.6739,
+     "2024": 4.1239,
+     "2025": 22.3104,
+     "2026": -4.8311
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 49.013933,
+     "gross_sum_pct": 61.173021,
+     "net_top2_share": 0.798247,
+     "gross_top2_share": 0.639583,
+     "effective_years": 4.98223,
+     "years_for_half": 2
+    }
+   },
+   {
+    "start": "2020-01-29",
+    "years": 7,
+    "net_sum_pct": 61.6048,
+    "cagr_pct": 8.53,
+    "sharpe": 0.886,
+    "year_net_pct": {
+     "2020": 13.4225,
+     "2021": 7.2295,
+     "2022": -3.9842,
+     "2023": 10.1634,
+     "2024": 4.3865,
+     "2025": 35.6294,
+     "2026": -5.2422
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 61.60477,
+     "gross_sum_pct": 80.057596,
+     "net_top2_share": 0.796235,
+     "gross_top2_share": 0.612707,
+     "effective_years": 5.08258,
+     "years_for_half": 1
+    }
+   }
+  ],
+  "cap_comm_1": [
+   {
+    "start": "2020-01-01",
+    "years": 7,
+    "net_sum_pct": 70.4654,
+    "cagr_pct": 9.82,
+    "sharpe": 0.99,
+    "year_net_pct": {
+     "2020": 6.2014,
+     "2021": 12.0093,
+     "2022": -6.5802,
+     "2023": 6.8996,
+     "2024": 10.2135,
+     "2025": 39.8239,
+     "2026": 1.898
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 70.465383,
+     "gross_sum_pct": 83.625689,
+     "net_top2_share": 0.735583,
+     "gross_top2_share": 0.619823,
+     "effective_years": 4.823598,
+     "years_for_half": 1
+    }
+   },
+   {
+    "start": "2020-01-08",
+    "years": 7,
+    "net_sum_pct": 72.8002,
+    "cagr_pct": 9.83,
+    "sharpe": 0.958,
+    "year_net_pct": {
+     "2020": 9.045,
+     "2021": 2.7844,
+     "2022": -7.009,
+     "2023": 9.9318,
+     "2024": 24.8439,
+     "2025": 39.7207,
+     "2026": -6.5165
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 72.800225,
+     "gross_sum_pct": 99.85125,
+     "net_top2_share": 0.886873,
+     "gross_top2_share": 0.646607,
+     "effective_years": 5.074952,
+     "years_for_half": 1
+    }
+   },
+   {
+    "start": "2020-01-15",
+    "years": 7,
+    "net_sum_pct": 58.064,
+    "cagr_pct": 8.04,
+    "sharpe": 0.765,
+    "year_net_pct": {
+     "2020": 13.3698,
+     "2021": 9.5519,
+     "2022": -11.038,
+     "2023": -1.9517,
+     "2024": 22.9304,
+     "2025": 26.3149,
+     "2026": -1.1133
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 58.064021,
+     "gross_sum_pct": 86.269893,
+     "net_top2_share": 0.848119,
+     "gross_top2_share": 0.570827,
+     "effective_years": 5.216937,
+     "years_for_half": 2
+    }
+   },
+   {
+    "start": "2020-01-22",
+    "years": 7,
+    "net_sum_pct": 47.1431,
+    "cagr_pct": 6.57,
+    "sharpe": 0.664,
+    "year_net_pct": {
+     "2020": 17.4418,
+     "2021": 11.9583,
+     "2022": -9.5256,
+     "2023": 3.3161,
+     "2024": 5.6335,
+     "2025": 23.1501,
+     "2026": -4.8311
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 47.143119,
+     "gross_sum_pct": 75.856562,
+     "net_top2_share": 0.861035,
+     "gross_top2_share": 0.535114,
+     "effective_years": 5.796712,
+     "years_for_half": 2
+    }
+   },
+   {
+    "start": "2020-01-29",
+    "years": 7,
+    "net_sum_pct": 55.264,
+    "cagr_pct": 7.71,
+    "sharpe": 0.817,
+    "year_net_pct": {
+     "2020": 10.2483,
+     "2021": 10.051,
+     "2022": -5.4196,
+     "2023": 10.4412,
+     "2024": 1.7898,
+     "2025": 33.3956,
+     "2026": -5.2422
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 55.264037,
+     "gross_sum_pct": 76.587752,
+     "net_top2_share": 0.793224,
+     "gross_top2_share": 0.572373,
+     "effective_years": 5.093562,
+     "years_for_half": 1
+    }
+   }
+  ],
+  "cap_comm_2": [
+   {
+    "start": "2020-01-01",
+    "years": 7,
+    "net_sum_pct": 75.2613,
+    "cagr_pct": 10.46,
+    "sharpe": 1.057,
+    "year_net_pct": {
+     "2020": 5.5123,
+     "2021": 9.4863,
+     "2022": -3.1403,
+     "2023": 6.2673,
+     "2024": 10.8804,
+     "2025": 44.3574,
+     "2026": 1.898
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 75.261265,
+     "gross_sum_pct": 81.541934,
+     "net_top2_share": 0.733947,
+     "gross_top2_share": 0.677415,
+     "effective_years": 4.231279,
+     "years_for_half": 1
+    }
+   },
+   {
+    "start": "2020-01-08",
+    "years": 7,
+    "net_sum_pct": 74.6895,
+    "cagr_pct": 10.27,
+    "sharpe": 1.007,
+    "year_net_pct": {
+     "2020": 7.5389,
+     "2021": 2.7844,
+     "2022": -2.4372,
+     "2023": 12.2012,
+     "2024": 21.4171,
+     "2025": 39.7078,
+     "2026": -6.5228
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 74.689531,
+     "gross_sum_pct": 92.609471,
+     "net_top2_share": 0.818386,
+     "gross_top2_share": 0.660029,
+     "effective_years": 4.763093,
+     "years_for_half": 1
+    }
+   },
+   {
+    "start": "2020-01-15",
+    "years": 7,
+    "net_sum_pct": 63.417,
+    "cagr_pct": 8.8,
+    "sharpe": 0.824,
+    "year_net_pct": {
+     "2020": 13.2956,
+     "2021": 10.7785,
+     "2022": -11.5833,
+     "2023": 0.6968,
+     "2024": 23.6252,
+     "2025": 27.7294,
+     "2026": -1.1253
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 63.417046,
+     "gross_sum_pct": 88.834112,
+     "net_top2_share": 0.809792,
+     "gross_top2_share": 0.578096,
+     "effective_years": 5.027145,
+     "years_for_half": 2
+    }
+   },
+   {
+    "start": "2020-01-22",
+    "years": 7,
+    "net_sum_pct": 51.1903,
+    "cagr_pct": 7.3,
+    "sharpe": 0.727,
+    "year_net_pct": {
+     "2020": 17.1604,
+     "2021": 11.0091,
+     "2022": -5.255,
+     "2023": 5.3957,
+     "2024": 5.5006,
+     "2025": 22.2106,
+     "2026": -4.8311
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 51.190283,
+     "gross_sum_pct": 71.362541,
+     "net_top2_share": 0.76911,
+     "gross_top2_share": 0.551703,
+     "effective_years": 5.821109,
+     "years_for_half": 2
+    }
+   },
+   {
+    "start": "2020-01-29",
+    "years": 7,
+    "net_sum_pct": 60.9941,
+    "cagr_pct": 8.53,
+    "sharpe": 0.897,
+    "year_net_pct": {
+     "2020": 11.2923,
+     "2021": 9.8438,
+     "2022": -3.0508,
+     "2023": 10.3639,
+     "2024": 2.9362,
+     "2025": 34.8509,
+     "2026": -5.2422
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 60.994096,
+     "gross_sum_pct": 77.580198,
+     "net_top2_share": 0.75652,
+     "gross_top2_share": 0.594781,
+     "effective_years": 4.973437,
+     "years_for_half": 1
+    }
+   }
+  ],
+  "cap_comm_1_conv_1": [
+   {
+    "start": "2020-01-01",
+    "years": 7,
+    "net_sum_pct": 65.2107,
+    "cagr_pct": 9.02,
+    "sharpe": 0.926,
+    "year_net_pct": {
+     "2020": 6.2014,
+     "2021": 11.4271,
+     "2022": -8.7445,
+     "2023": 7.3641,
+     "2024": 8.5376,
+     "2025": 39.3196,
+     "2026": 1.1055
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 65.210707,
+     "gross_sum_pct": 82.699703,
+     "net_top2_share": 0.778195,
+     "gross_top2_share": 0.613626,
+     "effective_years": 4.788724,
+     "years_for_half": 1
+    }
+   },
+   {
+    "start": "2020-01-08",
+    "years": 7,
+    "net_sum_pct": 69.4702,
+    "cagr_pct": 9.28,
+    "sharpe": 0.907,
+    "year_net_pct": {
+     "2020": 9.045,
+     "2021": 2.5313,
+     "2022": -8.5285,
+     "2023": 9.6976,
+     "2024": 24.8439,
+     "2025": 39.246,
+     "2026": -7.3651
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 69.470178,
+     "gross_sum_pct": 101.257398,
+     "net_top2_share": 0.922553,
+     "gross_top2_share": 0.63294,
+     "effective_years": 5.174648,
+     "years_for_half": 1
+    }
+   },
+   {
+    "start": "2020-01-15",
+    "years": 7,
+    "net_sum_pct": 58.066,
+    "cagr_pct": 8.07,
+    "sharpe": 0.767,
+    "year_net_pct": {
+     "2020": 13.3698,
+     "2021": 9.208,
+     "2022": -10.1329,
+     "2023": -1.7679,
+     "2024": 23.5695,
+     "2025": 25.7299,
+     "2026": -1.9104
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 58.065991,
+     "gross_sum_pct": 85.688436,
+     "net_top2_share": 0.849023,
+     "gross_top2_share": 0.575333,
+     "effective_years": 5.276025,
+     "years_for_half": 2
+    }
+   },
+   {
+    "start": "2020-01-22",
+    "years": 7,
+    "net_sum_pct": 43.915,
+    "cagr_pct": 6.1,
+    "sharpe": 0.622,
+    "year_net_pct": {
+     "2020": 17.4418,
+     "2021": 10.9098,
+     "2022": -9.2189,
+     "2023": 2.7733,
+     "2024": 3.9726,
+     "2025": 22.8675,
+     "2026": -4.8311
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 43.91504,
+     "gross_sum_pct": 72.015101,
+     "net_top2_share": 0.917892,
+     "gross_top2_share": 0.559734,
+     "effective_years": 5.602742,
+     "years_for_half": 1
+    }
+   },
+   {
+    "start": "2020-01-29",
+    "years": 7,
+    "net_sum_pct": 54.5561,
+    "cagr_pct": 7.59,
+    "sharpe": 0.817,
+    "year_net_pct": {
+     "2020": 10.2483,
+     "2021": 9.8215,
+     "2022": -5.9798,
+     "2023": 11.8299,
+     "2024": 1.9632,
+     "2025": 31.9151,
+     "2026": -5.2422
+    },
+    "calibers": {
+     "years": 7,
+     "net_sum_pct": 54.556088,
+     "gross_sum_pct": 77.000088,
+     "net_top2_share": 0.801835,
+     "gross_top2_share": 0.568116,
+     "effective_years": 5.25323,
+     "years_for_half": 1
+    }
+   }
+  ]
+ },
+ "calibers": {
+  "net_top2_share": {
+   "arms": {
+    "plain": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "fraction of the annual net sum",
+     "line": 0.7,
+     "pass_when": "le",
+     "median": 0.79582,
+     "spread": 0.087492,
+     "margin": 0.09582,
+     "side": "fail",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 0.710755,
+     "worst": 0.798247,
+     "state": "FAIL",
+     "reason": "all 5 phases fail and the spread 0.08749 is inside the 0.09582 distance to the line"
+    },
+    "cap_comm_1": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "fraction of the annual net sum",
+     "line": 0.7,
+     "pass_when": "le",
+     "median": 0.848119,
+     "spread": 0.15129,
+     "margin": 0.148119,
+     "side": "fail",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 0.735583,
+     "worst": 0.886873,
+     "state": "UNADJUDICABLE_CALIBER",
+     "reason": "phase spread 0.1513 is wider than the 0.1481 distance from the median to the line"
+    },
+    "cap_comm_2": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "fraction of the annual net sum",
+     "line": 0.7,
+     "pass_when": "le",
+     "median": 0.76911,
+     "spread": 0.084439,
+     "margin": 0.06911,
+     "side": "fail",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 0.733947,
+     "worst": 0.818386,
+     "state": "UNADJUDICABLE_CALIBER",
+     "reason": "phase spread 0.08444 is wider than the 0.06911 distance from the median to the line"
+    },
+    "cap_comm_1_conv_1": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "fraction of the annual net sum",
+     "line": 0.7,
+     "pass_when": "le",
+     "median": 0.849023,
+     "spread": 0.144358,
+     "margin": 0.149023,
+     "side": "fail",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 0.778195,
+     "worst": 0.922553,
+     "state": "FAIL",
+     "reason": "all 5 phases fail and the spread 0.1444 is inside the 0.149 distance to the line"
+    }
+   },
+   "arm_state_uniform": "MIXED_ACROSS_ARMS",
+   "even": {
+    "arms": {
+     "plain": {
+      "even_reference": 0.285714,
+      "distance": 0.510106,
+      "needs": 0.087492,
+      "resolves": true,
+      "gap_vs_floor": 25.5053
+     },
+     "cap_comm_1": {
+      "even_reference": 0.285714,
+      "distance": 0.562405,
+      "needs": 0.15129,
+      "resolves": true,
+      "gap_vs_floor": 28.1202
+     },
+     "cap_comm_2": {
+      "even_reference": 0.285714,
+      "distance": 0.483396,
+      "needs": 0.084439,
+      "resolves": true,
+      "gap_vs_floor": 24.1698
+     },
+     "cap_comm_1_conv_1": {
+      "even_reference": 0.285714,
+      "distance": 0.563309,
+      "needs": 0.144358,
+      "resolves": true,
+      "gap_vs_floor": 28.1654
+     }
+    },
+    "state": "RESOLVES_EVEN"
+   },
+   "separation": {
+    "pairs": [
+     {
+      "a": "plain",
+      "b": "cap_comm_1",
+      "sign_consistency": 0.8,
+      "median_diff": -0.052299,
+      "diff_spread": 0.095263,
+      "abs_floor": 0.02,
+      "gap_vs_floor": 2.6149,
+      "gap_vs_spread": 0.549,
+      "consistent": true,
+      "separated": false
+     },
+     {
+      "a": "plain",
+      "b": "cap_comm_2",
+      "sign_consistency": 0.6,
+      "median_diff": -0.013972,
+      "diff_spread": 0.06348,
+      "abs_floor": 0.02,
+      "gap_vs_floor": 0.6986,
+      "gap_vs_spread": 0.2201,
+      "consistent": false,
+      "separated": false
+     },
+     {
+      "a": "plain",
+      "b": "cap_comm_1_conv_1",
+      "sign_consistency": 1.0,
+      "median_diff": -0.06744,
+      "diff_spread": 0.122332,
+      "abs_floor": 0.02,
+      "gap_vs_floor": 3.372,
+      "gap_vs_spread": 0.5513,
+      "consistent": true,
+      "separated": false
+     },
+     {
+      "a": "cap_comm_1",
+      "b": "cap_comm_2",
+      "sign_consistency": 1.0,
+      "median_diff": 0.038327,
+      "diff_spread": 0.090289,
+      "abs_floor": 0.02,
+      "gap_vs_floor": 1.9163,
+      "gap_vs_spread": 0.4245,
+      "consistent": true,
+      "separated": false
+     },
+     {
+      "a": "cap_comm_1",
+      "b": "cap_comm_1_conv_1",
+      "sign_consistency": 1.0,
+      "median_diff": -0.03568,
+      "diff_spread": 0.055953,
+      "abs_floor": 0.02,
+      "gap_vs_floor": 1.784,
+      "gap_vs_spread": 0.6377,
+      "consistent": true,
+      "separated": false
+     },
+     {
+      "a": "cap_comm_2",
+      "b": "cap_comm_1_conv_1",
+      "sign_consistency": 1.0,
+      "median_diff": -0.045315,
+      "diff_spread": 0.109551,
+      "abs_floor": 0.02,
+      "gap_vs_floor": 2.2657,
+      "gap_vs_spread": 0.4136,
+      "consistent": true,
+      "separated": false
+     }
+    ],
+    "separated_pairs": 0,
+    "best_pair": null,
+    "state": "DOES_NOT_SEPARATE"
+   }
+  },
+  "gross_top2_share": {
+   "arms": {
+    "plain": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "fraction of total annual movement",
+     "line": 0.7,
+     "pass_when": "le",
+     "median": 0.639583,
+     "spread": 0.158232,
+     "margin": 0.060417,
+     "side": "mixed",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 0.552523,
+     "worst": 0.710755,
+     "state": "UNADJUDICABLE_CALIBER",
+     "reason": "phases land on both sides of the 0.7 line"
+    },
+    "cap_comm_1": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "fraction of total annual movement",
+     "line": 0.7,
+     "pass_when": "le",
+     "median": 0.572373,
+     "spread": 0.111493,
+     "margin": 0.127627,
+     "side": "pass",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 0.535114,
+     "worst": 0.646607,
+     "state": "PASS",
+     "reason": "all 5 phases pass and the spread 0.1115 is inside the 0.1276 distance to the line"
+    },
+    "cap_comm_2": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "fraction of total annual movement",
+     "line": 0.7,
+     "pass_when": "le",
+     "median": 0.594781,
+     "spread": 0.125712,
+     "margin": 0.105219,
+     "side": "pass",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 0.551703,
+     "worst": 0.677415,
+     "state": "UNADJUDICABLE_CALIBER",
+     "reason": "phase spread 0.1257 is wider than the 0.1052 distance from the median to the line"
+    },
+    "cap_comm_1_conv_1": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "fraction of total annual movement",
+     "line": 0.7,
+     "pass_when": "le",
+     "median": 0.575333,
+     "spread": 0.073206,
+     "margin": 0.124667,
+     "side": "pass",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 0.559734,
+     "worst": 0.63294,
+     "state": "PASS",
+     "reason": "all 5 phases pass and the spread 0.07321 is inside the 0.1247 distance to the line"
+    }
+   },
+   "arm_state_uniform": "MIXED_ACROSS_ARMS",
+   "even": {
+    "arms": {
+     "plain": {
+      "even_reference": 0.285714,
+      "distance": 0.353869,
+      "needs": 0.158232,
+      "resolves": true,
+      "gap_vs_floor": 17.6934
+     },
+     "cap_comm_1": {
+      "even_reference": 0.285714,
+      "distance": 0.286659,
+      "needs": 0.111493,
+      "resolves": true,
+      "gap_vs_floor": 14.3329
+     },
+     "cap_comm_2": {
+      "even_reference": 0.285714,
+      "distance": 0.309067,
+      "needs": 0.125712,
+      "resolves": true,
+      "gap_vs_floor": 15.4533
+     },
+     "cap_comm_1_conv_1": {
+      "even_reference": 0.285714,
+      "distance": 0.289619,
+      "needs": 0.073206,
+      "resolves": true,
+      "gap_vs_floor": 14.4809
+     }
+    },
+    "state": "RESOLVES_EVEN"
+   },
+   "separation": {
+    "pairs": [
+     {
+      "a": "plain",
+      "b": "cap_comm_1",
+      "sign_consistency": 0.8,
+      "median_diff": 0.040334,
+      "diff_spread": 0.122773,
+      "abs_floor": 0.02,
+      "gap_vs_floor": 2.0167,
+      "gap_vs_spread": 0.3285,
+      "consistent": true,
+      "separated": false
+     },
+     {
+      "a": "plain",
+      "b": "cap_comm_2",
+      "sign_consistency": 0.8,
+      "median_diff": 0.02185,
+      "diff_spread": 0.113453,
+      "abs_floor": 0.02,
+      "gap_vs_floor": 1.0925,
+      "gap_vs_spread": 0.1926,
+      "consistent": true,
+      "separated": false
+     },
+     {
+      "a": "plain",
+      "b": "cap_comm_1_conv_1",
+      "sign_consistency": 0.8,
+      "median_diff": 0.048939,
+      "diff_spread": 0.119939,
+      "abs_floor": 0.02,
+      "gap_vs_floor": 2.447,
+      "gap_vs_spread": 0.408,
+      "consistent": true,
+      "separated": false
+     },
+     {
+      "a": "cap_comm_1",
+      "b": "cap_comm_2",
+      "sign_consistency": 1.0,
+      "median_diff": -0.016589,
+      "diff_spread": 0.050323,
+      "abs_floor": 0.02,
+      "gap_vs_floor": 0.8295,
+      "gap_vs_spread": 0.3297,
+      "consistent": true,
+      "separated": false
+     },
+     {
+      "a": "cap_comm_1",
+      "b": "cap_comm_1_conv_1",
+      "sign_consistency": 0.6,
+      "median_diff": 0.004257,
+      "diff_spread": 0.038287,
+      "abs_floor": 0.02,
+      "gap_vs_floor": 0.2129,
+      "gap_vs_spread": 0.1112,
+      "consistent": false,
+      "separated": false
+     },
+     {
+      "a": "cap_comm_2",
+      "b": "cap_comm_1_conv_1",
+      "sign_consistency": 0.8,
+      "median_diff": 0.026665,
+      "diff_spread": 0.07182,
+      "abs_floor": 0.02,
+      "gap_vs_floor": 1.3333,
+      "gap_vs_spread": 0.3713,
+      "consistent": true,
+      "separated": false
+     }
+    ],
+    "separated_pairs": 0,
+    "best_pair": null,
+    "state": "DOES_NOT_SEPARATE"
+   }
+  },
+  "effective_years": {
+   "arms": {
+    "plain": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "years (exp of entropy over gross shares)",
+     "line": 3.0,
+     "pass_when": "ge",
+     "median": 4.98223,
+     "spread": 1.246657,
+     "margin": 1.98223,
+     "side": "pass",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 4.215653,
+     "worst": 5.46231,
+     "state": "PASS",
+     "reason": "all 5 phases pass and the spread 1.247 is inside the 1.982 distance to the line"
+    },
+    "cap_comm_1": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "years (exp of entropy over gross shares)",
+     "line": 3.0,
+     "pass_when": "ge",
+     "median": 5.093562,
+     "spread": 0.973114,
+     "margin": 2.093562,
+     "side": "pass",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 4.823598,
+     "worst": 5.796712,
+     "state": "PASS",
+     "reason": "all 5 phases pass and the spread 0.9731 is inside the 2.094 distance to the line"
+    },
+    "cap_comm_2": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "years (exp of entropy over gross shares)",
+     "line": 3.0,
+     "pass_when": "ge",
+     "median": 4.973437,
+     "spread": 1.58983,
+     "margin": 1.973437,
+     "side": "pass",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 4.231279,
+     "worst": 5.821109,
+     "state": "PASS",
+     "reason": "all 5 phases pass and the spread 1.59 is inside the 1.973 distance to the line"
+    },
+    "cap_comm_1_conv_1": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "years (exp of entropy over gross shares)",
+     "line": 3.0,
+     "pass_when": "ge",
+     "median": 5.25323,
+     "spread": 0.814018,
+     "margin": 2.25323,
+     "side": "pass",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 4.788724,
+     "worst": 5.602742,
+     "state": "PASS",
+     "reason": "all 5 phases pass and the spread 0.814 is inside the 2.253 distance to the line"
+    }
+   },
+   "arm_state_uniform": "PASS",
+   "even": {
+    "arms": {
+     "plain": {
+      "even_reference": 7.0,
+      "distance": 2.01777,
+      "needs": 1.246657,
+      "resolves": true,
+      "gap_vs_floor": 10.0888
+     },
+     "cap_comm_1": {
+      "even_reference": 7.0,
+      "distance": 1.906438,
+      "needs": 0.973114,
+      "resolves": true,
+      "gap_vs_floor": 9.5322
+     },
+     "cap_comm_2": {
+      "even_reference": 7.0,
+      "distance": 2.026563,
+      "needs": 1.58983,
+      "resolves": true,
+      "gap_vs_floor": 10.1328
+     },
+     "cap_comm_1_conv_1": {
+      "even_reference": 7.0,
+      "distance": 1.74677,
+      "needs": 0.814018,
+      "resolves": true,
+      "gap_vs_floor": 8.7338
+     }
+    },
+    "state": "RESOLVES_EVEN"
+   },
+   "separation": {
+    "pairs": [
+     {
+      "a": "plain",
+      "b": "cap_comm_1",
+      "sign_consistency": 0.8,
+      "median_diff": -0.607945,
+      "diff_spread": 1.059855,
+      "abs_floor": 0.2,
+      "gap_vs_floor": 3.0397,
+      "gap_vs_spread": 0.5736,
+      "consistent": true,
+      "separated": false
+     },
+     {
+      "a": "plain",
+      "b": "cap_comm_2",
+      "sign_consistency": 0.6,
+      "median_diff": -0.015626,
+      "diff_spread": 1.274044,
+      "abs_floor": 0.2,
+      "gap_vs_floor": 0.0781,
+      "gap_vs_spread": 0.0123,
+      "consistent": false,
+      "separated": false
+     },
+     {
+      "a": "plain",
+      "b": "cap_comm_1_conv_1",
+      "sign_consistency": 0.8,
+      "median_diff": -0.573071,
+      "diff_spread": 0.914532,
+      "abs_floor": 0.2,
+      "gap_vs_floor": 2.8654,
+      "gap_vs_spread": 0.6266,
+      "consistent": true,
+      "separated": false
+     },
+     {
+      "a": "cap_comm_1",
+      "b": "cap_comm_2",
+      "sign_consistency": 0.8,
+      "median_diff": 0.189792,
+      "diff_spread": 0.616716,
+      "abs_floor": 0.2,
+      "gap_vs_floor": 0.949,
+      "gap_vs_spread": 0.3077,
+      "consistent": true,
+      "separated": false
+     },
+     {
+      "a": "cap_comm_1",
+      "b": "cap_comm_1_conv_1",
+      "sign_consistency": 0.6,
+      "median_diff": -0.059088,
+      "diff_spread": 0.353638,
+      "abs_floor": 0.2,
+      "gap_vs_floor": 0.2954,
+      "gap_vs_spread": 0.1671,
+      "consistent": false,
+      "separated": false
+     },
+     {
+      "a": "cap_comm_2",
+      "b": "cap_comm_1_conv_1",
+      "sign_consistency": 0.8,
+      "median_diff": -0.279793,
+      "diff_spread": 0.775812,
+      "abs_floor": 0.2,
+      "gap_vs_floor": 1.399,
+      "gap_vs_spread": 0.3606,
+      "consistent": true,
+      "separated": false
+     }
+    ],
+    "separated_pairs": 0,
+    "best_pair": null,
+    "state": "DOES_NOT_SEPARATE"
+   }
+  },
+  "years_for_half": {
+   "arms": {
+    "plain": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "years (best years that add up to half the calendar sum)",
+     "line": 3,
+     "pass_when": "ge",
+     "median": 2.0,
+     "spread": 1.0,
+     "margin": 1.0,
+     "side": "fail",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 1.0,
+     "worst": 2.0,
+     "state": "FAIL",
+     "reason": "all 5 phases fail and the spread 1 is inside the 1 distance to the line"
+    },
+    "cap_comm_1": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "years (best years that add up to half the calendar sum)",
+     "line": 3,
+     "pass_when": "ge",
+     "median": 1.0,
+     "spread": 1.0,
+     "margin": 2.0,
+     "side": "fail",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 1.0,
+     "worst": 2.0,
+     "state": "FAIL",
+     "reason": "all 5 phases fail and the spread 1 is inside the 2 distance to the line"
+    },
+    "cap_comm_2": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "years (best years that add up to half the calendar sum)",
+     "line": 3,
+     "pass_when": "ge",
+     "median": 1.0,
+     "spread": 1.0,
+     "margin": 2.0,
+     "side": "fail",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 1.0,
+     "worst": 2.0,
+     "state": "FAIL",
+     "reason": "all 5 phases fail and the spread 1 is inside the 2 distance to the line"
+    },
+    "cap_comm_1_conv_1": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "years (best years that add up to half the calendar sum)",
+     "line": 3,
+     "pass_when": "ge",
+     "median": 1.0,
+     "spread": 1.0,
+     "margin": 2.0,
+     "side": "fail",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 1.0,
+     "worst": 2.0,
+     "state": "FAIL",
+     "reason": "all 5 phases fail and the spread 1 is inside the 2 distance to the line"
+    }
+   },
+   "arm_state_uniform": "FAIL",
+   "even": {
+    "arms": {
+     "plain": {
+      "even_reference": 4,
+      "distance": 2.0,
+      "needs": 1,
+      "resolves": true,
+      "gap_vs_floor": 2.0
+     },
+     "cap_comm_1": {
+      "even_reference": 4,
+      "distance": 3.0,
+      "needs": 1,
+      "resolves": true,
+      "gap_vs_floor": 3.0
+     },
+     "cap_comm_2": {
+      "even_reference": 4,
+      "distance": 3.0,
+      "needs": 1,
+      "resolves": true,
+      "gap_vs_floor": 3.0
+     },
+     "cap_comm_1_conv_1": {
+      "even_reference": 4,
+      "distance": 3.0,
+      "needs": 1,
+      "resolves": true,
+      "gap_vs_floor": 3.0
+     }
+    },
+    "state": "RESOLVES_EVEN"
+   },
+   "separation": {
+    "pairs": [
+     {
+      "a": "plain",
+      "b": "cap_comm_1",
+      "sign_consistency": 0.2,
+      "median_diff": 0.0,
+      "diff_spread": 1.0,
+      "abs_floor": 1,
+      "gap_vs_floor": 0.0,
+      "gap_vs_spread": 0.0,
+      "consistent": false,
+      "separated": false
+     },
+     {
+      "a": "plain",
+      "b": "cap_comm_2",
+      "sign_consistency": 0.2,
+      "median_diff": 0.0,
+      "diff_spread": 1.0,
+      "abs_floor": 1,
+      "gap_vs_floor": 0.0,
+      "gap_vs_spread": 0.0,
+      "consistent": false,
+      "separated": false
+     },
+     {
+      "a": "plain",
+      "b": "cap_comm_1_conv_1",
+      "sign_consistency": 0.4,
+      "median_diff": 0.0,
+      "diff_spread": 1.0,
+      "abs_floor": 1,
+      "gap_vs_floor": 0.0,
+      "gap_vs_spread": 0.0,
+      "consistent": false,
+      "separated": false
+     },
+     {
+      "a": "cap_comm_1",
+      "b": "cap_comm_2",
+      "sign_consistency": 0.0,
+      "median_diff": 0.0,
+      "diff_spread": 0.0,
+      "abs_floor": 1,
+      "gap_vs_floor": 0.0,
+      "gap_vs_spread": null,
+      "consistent": false,
+      "separated": false
+     },
+     {
+      "a": "cap_comm_1",
+      "b": "cap_comm_1_conv_1",
+      "sign_consistency": 0.2,
+      "median_diff": 0.0,
+      "diff_spread": 1.0,
+      "abs_floor": 1,
+      "gap_vs_floor": 0.0,
+      "gap_vs_spread": 0.0,
+      "consistent": false,
+      "separated": false
+     },
+     {
+      "a": "cap_comm_2",
+      "b": "cap_comm_1_conv_1",
+      "sign_consistency": 0.2,
+      "median_diff": 0.0,
+      "diff_spread": 1.0,
+      "abs_floor": 1,
+      "gap_vs_floor": 0.0,
+      "gap_vs_spread": 0.0,
+      "consistent": false,
+      "separated": false
+     }
+    ],
+    "separated_pairs": 0,
+    "best_pair": null,
+    "state": "DOES_NOT_SEPARATE"
+   }
+  }
+ },
+ "decision": {
+  "calibers": [
+   {
+    "caliber": "net_top2_share",
+    "trusted": false,
+    "V": false,
+    "S": false,
+    "D_even": true,
+    "D_arms": false,
+    "failed": [
+     "V_denominator_can_vanish",
+     "S_cannot_adjudicate_itself(plain=FAIL,cap_comm_1=UNADJUDICABLE_CALIBER,cap_comm_2=UNADJUDICABLE_CALIBER,cap_comm_1_conv_1=FAIL)"
+    ],
+    "integer": false,
+    "verdict_per_arm": {
+     "plain": "FAIL",
+     "cap_comm_1": "UNADJUDICABLE_CALIBER",
+     "cap_comm_2": "UNADJUDICABLE_CALIBER",
+     "cap_comm_1_conv_1": "FAIL"
+    },
+    "uniform_verdict": "MIXED_ACROSS_ARMS",
+    "min_gap_vs_even_floor": 24.1698,
+    "min_slack": -0.015329
+   },
+   {
+    "caliber": "gross_top2_share",
+    "trusted": false,
+    "V": true,
+    "S": false,
+    "D_even": true,
+    "D_arms": false,
+    "failed": [
+     "S_cannot_adjudicate_itself(plain=UNADJUDICABLE_CALIBER,cap_comm_1=PASS,cap_comm_2=UNADJUDICABLE_CALIBER,cap_comm_1_conv_1=PASS)"
+    ],
+    "integer": false,
+    "verdict_per_arm": {
+     "plain": "UNADJUDICABLE_CALIBER",
+     "cap_comm_1": "PASS",
+     "cap_comm_2": "UNADJUDICABLE_CALIBER",
+     "cap_comm_1_conv_1": "PASS"
+    },
+    "uniform_verdict": "MIXED_ACROSS_ARMS",
+    "min_gap_vs_even_floor": 14.333,
+    "min_slack": -0.097815
+   },
+   {
+    "caliber": "effective_years",
+    "trusted": true,
+    "V": true,
+    "S": true,
+    "D_even": true,
+    "D_arms": false,
+    "failed": [],
+    "integer": false,
+    "verdict_per_arm": {
+     "plain": "PASS",
+     "cap_comm_1": "PASS",
+     "cap_comm_2": "PASS",
+     "cap_comm_1_conv_1": "PASS"
+    },
+    "uniform_verdict": "PASS",
+    "min_gap_vs_even_floor": 8.7338,
+    "min_slack": 0.383607
+   },
+   {
+    "caliber": "years_for_half",
+    "trusted": true,
+    "V": true,
+    "S": true,
+    "D_even": true,
+    "D_arms": false,
+    "failed": [],
+    "integer": true,
+    "verdict_per_arm": {
+     "plain": "FAIL",
+     "cap_comm_1": "FAIL",
+     "cap_comm_2": "FAIL",
+     "cap_comm_1_conv_1": "FAIL"
+    },
+    "uniform_verdict": "FAIL",
+    "min_gap_vs_even_floor": 2.0,
+    "min_slack": 0.0
+   }
+  ],
+  "primary_caliber": "effective_years",
+  "corroborating_caliber": "years_for_half",
+  "trusted_calibers": [
+   "effective_years",
+   "years_for_half"
+  ],
+  "trusted_verdicts": {
+   "effective_years": "PASS",
+   "years_for_half": "FAIL"
+  },
+  "composite_verdict": "FAIL",
+  "composite_rule": "worst word among the trusted calibers; rulers are never averaged (broad and front-loaded at once is possible, and only the failing half is actionable)",
+  "excluded_V": [
+   "net_top2_share"
+  ],
+  "excluded_S": [
+   "gross_top2_share"
+  ],
+  "arm_separation_is_informational": true,
+  "rule_revision": {
+   "original_D": "some arm pair separated (sign-consistent and gap > noise)",
+   "original_D_result": "no caliber passed it: the four arms are not measurably different in concentration",
+   "revised_D": "resolves the book against an EVEN book at a resolution finer than its own phase spread",
+   "why_revised": "the original test cannot tell a dead ruler from a sample of identical books; four genuinely equal books can never be separated by any ruler, and that is a finding about r1425's caps, not about the instrument",
+   "disclosed_because": "the revision was made after the first run and its result is published either way (see arm_separation_is_informational and D_arms)"
+  }
+ },
+ "honest": [
+  "no pricing rule, no gate line and no production file is changed here; a caliber change is an admission-rule change and needs its own adoption round",
+  "calibers are read on the same 20 cells r1425 published (identity leg above); phase cells are 4 arms x 5 weekly starts, not an i.i.d. sample",
+  "the three numeric bars are declared before the read: 0.70 is Y4's own line so the control is judged at the bar it is used at; 3-of-7 years is a design choice, not a fit",
+  "test S is passed for free by any caliber parked far from its line -- that is why a caliber is only trusted when D also holds",
+  "D's first form (does the caliber separate the ARMS) is published beside its replacement: no caliber passed the arm form, because the four arms are not measurably different in concentration -- that is r1425's cap finding, not a defect of any ruler",
+  "an integer caliber can show zero phase spread; it is published as corroboration and still contributes to the composite verdict, which takes the WORST word"
+ ],
+ "elapsed_sec": 71.0
+}

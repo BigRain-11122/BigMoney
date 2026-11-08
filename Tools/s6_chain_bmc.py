@@ -771,6 +771,14 @@ LEGS = [
     # distinct decision signatures), which is a JSON read, not another engine run.
     ("premium_phases", ["python", "scripts/etf_book_premium_phases.py", "--check"],
      ["python", "scripts/etf_book_premium_phases.py", "run"]),
+    # r1426: the check that refuses the desk's own book (Y4 top-2 year share) cannot
+    # adjudicate 3 of its 4 arms, so the objection rested on a ruler nobody could trust.
+    # The leg is the gate on that comparison: it re-derives which calibers are trusted and
+    # what the composite word is FROM THE PUBLISHED ROWS (a JSON read, no repricing), and
+    # fails if the face's trust list, primary caliber or composite word no longer follows
+    # from its own cells -- the r1290 class, a reading left on disk describing older data.
+    ("year_caliber", ["python", "scripts/etf_book_year_caliber.py", "check"],
+     ["python", "scripts/etf_book_year_caliber.py", "run"]),
     # r1331: E196 answers the question E190 left open -- whether the month the
     # ladder-drop verdict rests on is knowable in advance. It is a ~1s JSON read of
     # the E186 month table (no panel, no network, no engine), and it belongs on the

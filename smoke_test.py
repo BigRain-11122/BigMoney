@@ -541,6 +541,17 @@ def main() -> int:
             # UNADJUDICABLE and that each clause is the one that fires.
             ("product: etf_book_sleeve_cap_phases (a cap is a rule, read as a phase set)",
              "scripts/etf_book_sleeve_cap_phases.py", ["selftest"]),
+            # r1426: r1425 left the desk holding a check it could not trust -- Y4's top-2
+            # year share cannot adjudicate 3 of its own 4 arms (phase spread wider than the
+            # distance to the line). The legs pin that a caliber is only trusted when its
+            # denominator cannot vanish, its phases land on one side inside the margin, and
+            # it resolves the book against an EVEN book; that a consistent but microscopic
+            # arm gap is not separation; and that the composite verdict takes the worst word
+            # (broad on one ruler never excuses front-loaded on another).
+            ("product: etf_book_year_caliber (which year concentration ruler can judge itself)",
+             "scripts/etf_book_year_caliber.py", ["selftest"]),
+            ("product: etf_book_year_caliber (published reading re-derived, nothing renamed)",
+             "scripts/etf_book_year_caliber.py", ["check"]),
             # r1418: the calendar gate existed but had only ever judged CANDIDATE books; the
             # book the desk actually holds never faced it. The legs pin that yearly returns
             # come off the book's own LEVEL curve (treating a level series as returns
