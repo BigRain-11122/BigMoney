@@ -738,3 +738,21 @@ ls-remote == HEAD；**origin/main 未推**——领先 31 / 落后 40，promisor
   empirical gamma 区间端点不在点集），已立卡 E297 未硬修；被前一窗丢下的 E293 接线缺腿立卡 E296。
 - 被抑制面：`results/runnable_pool.json` 的 CRLF 归属（工作树曾被他窗改写成 LF，整档重排 2.5 万行
   为二条目改动的第三次现）——写池子前先探回写参数与本档行尾。
+
+## r1585 5x 核对面（2026-11-08 20:2x · bm-b）
+
+> 口径不变：本节只做「指针核对」，产物清单正身=logs/iteration-loop/round_reports.md 与 round_reports-bm-b.md 的 r1580..r1585 行；只补新落盘的家族面。
+
+- 本轮产品：`scripts/e559_chain_rc_consumer.py`（build/check/verify + selftest 24/24）→
+  `results/state_tilt/CHAINRCCONSUMER-2026-11-08.json` + `chainrcconsumer_latest.json`；S6 腿
+  `chain_rc_consumer`（rc=0, 4.4s）；smoke 腿 `# E559` + 独立腿 `scripts/run_e559_smoke_leg.py`（PASS）；
+  卡 `knowledge/METHODOLOGY_ASSETS.md` E559；digest `research/digests/DIGEST-20261108-r1585-e559-chain-rc-consumer.md`。
+- 读数：**2 个活 spawn 点、0 个能让调用方失败**（两个都是 `Popen(DETACHED_PROCESS)`，不等子进程）；
+  receipt 3 writer / **writer 之外 0 reader**；仓内声明链动作的源 **0**，活体普查 bm-b **296 个动作 0 个跑链**。
+  判词 `nothing_on_any_machine_reads_the_exit_code_or_the_receipt`。
+- 任务板：`results/runnable_pool.json`：E559 done（带 result_ref），ready = E548 / E552 / **E560**（供给底线 3/3）。
+- 机队面：`fleet/machines/bm-b.json` round 1585；`state-bm-b.json` round 1585。
+- 交付面：`machine/bm-b-r1585`（`f21552215`，ls-remote == HEAD 实核）。**origin/main 仍未推**——本地 main
+  667 ahead / 413 behind，双血线 + promisor 懒取，r1243 禁无人 rebase；集团侧因此长期把本仓读成「未达」，
+  已写 HQ-FEEDBACK `F-20261108-02`。
+- 未跑未宣称：完整 smoke 套件、S6 其余 update_*/market_*/paper 链。
