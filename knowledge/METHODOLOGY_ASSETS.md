@@ -10147,7 +10147,7 @@ scripts/update_moneyflow.py（selftest 26/26，S21 refresh 锁守卫腿 + 模块
 
 r1415 立了年度闸，然后只用它判过**候选书**；本司真正在册的采用书（去债 ETF 复合 + 8% 波动目标，
 
-esults/etf_nobond_vt.json 的 nobond_vt08）从没进过这道闸。只判候选的闸不是对桌子上的闸。
+results/etf_nobond_vt.json 的 nobond_vt08）从没进过这道闸。只判候选的闸不是对桌子上的闸。
 
 scripts/etf_book_year_gate.py（selftest 10/10，另 check 18/18）用已发布引擎重价三条腿，
 把年度收益从**书自己的净值曲线**上切出来，再交给 candidate_year_gate.admission_block()
@@ -10276,7 +10276,7 @@ CONDITIONAL 差 1.08pp、UNADJUDICABLE_PHASE 摆 20.82pp。于是「没人写题
 本窗做成一句话加一个词：scripts/supply_calendar_face.py 只读已发布收据（相位读法优先、单相位
 次之；同一本书两处出现时列在前面的赢、输家记 superseded_receipts），只有字面 ADMIT 算过，四态判词
 （ADMITTED / NO_CANDIDATE_PASSES_CALENDAR / NO_CANDIDATES / UNKNOWN）；supply_candidate_face
-新增 genda_cause ∈ {mechanism, calendar, no_topics, unknown}，把日历面的句子直接当 AGENDA_DEBT
+新增 agenda_cause ∈ {mechanism, calendar, no_topics, unknown}，把日历面的句子直接当 AGENDA_DEBT
 的读法；compute_audit 的供给块键集 +2，审计面因此也带归因。地板没有搬、红没有消，只是红现在
 指得出人：4 拒 0 过，逐名带未过的检查（Y4_top2_share / Y3_worst_year）。
 
@@ -10288,3 +10288,21 @@ CONDITIONAL 差 1.08pp、UNADJUDICABLE_PHASE 摆 20.82pp。于是「没人写题
 正身 = scripts/supply_calendar_face.py (selftest 22/22 + --check)
 + scripts/supply_candidate_face.py (selftest 34/34, agenda_cause)
 + results/supply_calendar.json + research/digests/DIGEST-20261108-r1421-supply-calendar.md
+
+## E427 — 写入面自己会把反引号吃掉：PowerShell 双引号里 `` `a `` 是 BEL、`` `r `` 是回车（r1421 bm-c）
+
+E351/E1383 记的是**读**的一面——`\r` 落在路径前会把首字母吃掉、控制字符闸按字节扫而 CR 属合法结构。
+本窗踩到的是**写**的一面，而且入口不是 git 也不是编码：把 markdown（含行内代码反引号）塞进
+PowerShell 双引号字符串传给 `python -c` 时，` 是 PowerShell 的转义符——` 加 a = BEL(0x07)、` 加 r = CR。
+于是同一条卡里同时出现两种残留：`新增 `agenda_cause` 变成 `新增 <BEL>genda_cause`（可扫出），
+`results/etf_nobond_vt.json` 丢掉开头那个字母 `r`（CR 成了合法换行，只能按 token 形状找）。全量套件当场
+两条红，都是同一处生成的。
+
+三条可复用：①**含反引号/反斜杠的文本一律不经 shell 双引号过手**——要么用文件写入工具落盘，要么写成
+`.ps1`/`.py` 文件再执行；要一次成型的长文本走临时文件 + `git commit -F` 同一路子；②**写完立刻用发布面
+自己的闸验**（本例 `python Tools/card_text_hygiene.py` 与两条 smoke 腿是同一实现，一次读绿即证），
+不要用「看起来正常」替代；③**修复要满足 E351 的文件系统证明**——把被吃的首字母补回去之后，
+`Test-Path results/etf_nobond_vt.json` 必须为真才算修复，按拼写猜等于创作。
+
+正身 = knowledge/METHODOLOGY_ASSETS.md 本轮两处修复 + Tools/card_text_hygiene.py（470 文件 0/0 读绿）
++ 本轮 smoke 首跑 399/401 的两条红（同窗修复）
