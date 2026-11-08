@@ -1,0 +1,2050 @@
+{
+ "answer": "Of 21 readers that address a ticket, 13 name a published face this census can resolve and 8 name only fragments. They spell the bar in 4 dialect(s): pricing(11), decision(10), evidence_cutoff(16), as_of(11). Across the 27 candidate faces no single spelling is carried by all of them (no universal spelling), so a consumer cannot join on one name. 48 of 88 graded (reader, spelling, face) pairs miss -- and 3 reader(s) miss on EVERY pair they can make, which is the class where the join silently returns nothing: scripts/e403_family_arg.py, scripts/e446_frozen_writer.py, scripts/etf_book_bridge.py. 10 reader(s) can obtain the bar from at least one face they name.",
+ "candidate_faces": [
+  "docs/live_usage/LIVE-latest.json",
+  "results/dashboard_status.json",
+  "results/etf_book_order/BREADTHAUDIT-2026-11-06.json",
+  "results/etf_book_order/CASHCONVENTION.json",
+  "results/etf_book_order/CASHDIVERGE.json",
+  "results/etf_book_order/CASHSILENCE.json",
+  "results/etf_book_order/CASHWINDOW-latest.json",
+  "results/etf_book_order/CASHWINDOW.json",
+  "results/etf_book_order/LOTCURVE-2026-10-28-card.json",
+  "results/etf_book_order/ORDER-2026-10-23.md",
+  "results/etf_book_order/ORDER-2026-10-26.md",
+  "results/etf_book_order/ORDER-2026-10-27.md",
+  "results/etf_book_order/ORDER-2026-10-28-card.md",
+  "results/etf_book_order/ORDER-2026-10-28.md",
+  "results/etf_book_order/ORDER-2026-11-06.md",
+  "results/etf_book_order/TICKET-2026-10-23.json",
+  "results/etf_book_order/TICKET-2026-10-26.json",
+  "results/etf_book_order/TICKET-2026-10-27.json",
+  "results/etf_book_order/TICKET-2026-10-28-card.json",
+  "results/etf_book_order/TICKET-2026-10-28.json",
+  "results/etf_book_order/TICKET-2026-11-06.json",
+  "results/etf_book_order/latest.json",
+  "results/etf_book_order/state.json",
+  "results/state_tilt/REPRICEDTICKETS-2026-11-06.json",
+  "results/state_tilt/TICKETREADERBAR-latest.json",
+  "results/state_tilt/TICKETREADERBAR.json",
+  "results/state_tilt/repricedtickets_latest.json"
+ ],
+ "counts": {
+  "candidate_faces": 27,
+  "pairs": 88,
+  "pairs_by_outcome": {
+   "carried": 30,
+   "not_carried": 48,
+   "unresolved": 10
+  },
+  "pairs_by_spelling": {
+   "as_of": {
+    "carried": 7,
+    "not_carried": 10,
+    "unresolved": 3
+   },
+   "decision": {
+    "carried": 4,
+    "not_carried": 11,
+    "unresolved": 1
+   },
+   "evidence_cutoff": {
+    "carried": 16,
+    "not_carried": 11,
+    "unresolved": 5
+   },
+   "pricing": {
+    "carried": 3,
+    "not_carried": 16,
+    "unresolved": 1
+   }
+  },
+  "pairs_joining_a_spelling_the_face_lacks": 48,
+  "readers": 21,
+  "readers_joining_a_spelling_the_face_lacks": 9,
+  "readers_with_a_resolved_target": 13,
+  "readers_with_at_least_one_carried_pair": 10,
+  "readers_with_no_resolved_target": 8,
+  "silent_join_readers": [
+   "scripts/e403_family_arg.py",
+   "scripts/e446_frozen_writer.py",
+   "scripts/etf_book_bridge.py"
+  ]
+ },
+ "evidence_cutoff": "2026-11-06",
+ "joins": [
+  {
+   "carried_names": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/e403_family_arg.py",
+   "spelling": "evidence_cutoff",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/e446_frozen_writer.py",
+   "spelling": "evidence_cutoff",
+   "target": "latest.json"
+  },
+  {
+   "names": [
+    "asof"
+   ],
+   "outcome": "unresolved",
+   "reader": "scripts/e511_collision_anatomy.py",
+   "spelling": "as_of",
+   "target": null
+  },
+  {
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "unresolved",
+   "reader": "scripts/e511_collision_anatomy.py",
+   "spelling": "evidence_cutoff",
+   "target": null
+  },
+  {
+   "carried_names": [
+    "book_decided_at"
+   ],
+   "names": [
+    "book_decided_at",
+    "decision_bar"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e583_ticket_repricing.py",
+   "spelling": "decision",
+   "target": "TICKET-2026-10-23.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "book_decided_at",
+    "decision_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/e583_ticket_repricing.py",
+   "spelling": "decision",
+   "target": "TICKET-2026-10-28-card.json"
+  },
+  {
+   "carried_names": [
+    "book_decided_at"
+   ],
+   "names": [
+    "book_decided_at",
+    "decision_bar"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e583_ticket_repricing.py",
+   "spelling": "decision",
+   "target": "TICKET-2026-11-06.json"
+  },
+  {
+   "carried_names": [
+    "decision_bar"
+   ],
+   "names": [
+    "book_decided_at",
+    "decision_bar"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e583_ticket_repricing.py",
+   "spelling": "decision",
+   "target": "repricedtickets_latest.json"
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e583_ticket_repricing.py",
+   "spelling": "evidence_cutoff",
+   "target": "TICKET-2026-10-23.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/e583_ticket_repricing.py",
+   "spelling": "evidence_cutoff",
+   "target": "TICKET-2026-10-28-card.json"
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e583_ticket_repricing.py",
+   "spelling": "evidence_cutoff",
+   "target": "TICKET-2026-11-06.json"
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e583_ticket_repricing.py",
+   "spelling": "evidence_cutoff",
+   "target": "repricedtickets_latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "pricing_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/e583_ticket_repricing.py",
+   "spelling": "pricing",
+   "target": "TICKET-2026-10-23.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "pricing_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/e583_ticket_repricing.py",
+   "spelling": "pricing",
+   "target": "TICKET-2026-10-28-card.json"
+  },
+  {
+   "carried_names": [
+    "pricing_bar"
+   ],
+   "names": [
+    "pricing_bar"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e583_ticket_repricing.py",
+   "spelling": "pricing",
+   "target": "TICKET-2026-11-06.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "pricing_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/e583_ticket_repricing.py",
+   "spelling": "pricing",
+   "target": "repricedtickets_latest.json"
+  },
+  {
+   "names": [
+    "book_decided_at",
+    "decision_bar"
+   ],
+   "outcome": "unresolved",
+   "reader": "scripts/e585_cash_leg_pricing.py",
+   "spelling": "decision",
+   "target": null
+  },
+  {
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "unresolved",
+   "reader": "scripts/e585_cash_leg_pricing.py",
+   "spelling": "evidence_cutoff",
+   "target": null
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e587_cash_window.py",
+   "spelling": "evidence_cutoff",
+   "target": "CASHWINDOW-latest.json"
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e587_cash_window.py",
+   "spelling": "evidence_cutoff",
+   "target": "CASHWINDOW.json"
+  },
+  {
+   "carried_names": [
+    "ticket_bar"
+   ],
+   "names": [
+    "ticket_bar"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e590_cash_silence.py",
+   "spelling": "as_of",
+   "target": "CASHSILENCE.json"
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e590_cash_silence.py",
+   "spelling": "evidence_cutoff",
+   "target": "CASHSILENCE.json"
+  },
+  {
+   "carried_names": [
+    "ticket_bar"
+   ],
+   "names": [
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e590_cash_silence.py",
+   "spelling": "pricing",
+   "target": "CASHSILENCE.json"
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e591_cash_diverge.py",
+   "spelling": "evidence_cutoff",
+   "target": "CASHDIVERGE.json"
+  },
+  {
+   "carried_names": [
+    "ticket_bar"
+   ],
+   "names": [
+    "ticket_bar"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e593_cash_convention.py",
+   "spelling": "as_of",
+   "target": "CASHCONVENTION.json"
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e593_cash_convention.py",
+   "spelling": "evidence_cutoff",
+   "target": "CASHCONVENTION.json"
+  },
+  {
+   "carried_names": [
+    "ticket_bar"
+   ],
+   "names": [
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/e593_cash_convention.py",
+   "spelling": "pricing",
+   "target": "CASHCONVENTION.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_bridge.py",
+   "spelling": "evidence_cutoff",
+   "target": "latest.json"
+  },
+  {
+   "names": [
+    "as_of"
+   ],
+   "outcome": "unresolved",
+   "reader": "scripts/etf_book_cash_ladder.py",
+   "spelling": "as_of",
+   "target": null
+  },
+  {
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "unresolved",
+   "reader": "scripts/etf_book_cash_ladder.py",
+   "spelling": "evidence_cutoff",
+   "target": null
+  },
+  {
+   "carried_names": [
+    "as_of"
+   ],
+   "names": [
+    "as_of",
+    "ticket_bar"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/etf_book_ceo_page.py",
+   "spelling": "as_of",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "book_decided_at"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_ceo_page.py",
+   "spelling": "decision",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_ceo_page.py",
+   "spelling": "evidence_cutoff",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "priced_bar",
+    "ticket_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_ceo_page.py",
+   "spelling": "pricing",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [
+    "as_of"
+   ],
+   "names": [
+    "as_of",
+    "ticket_bar"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/etf_book_order.py",
+   "spelling": "as_of",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "as_of",
+    "ticket_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_order.py",
+   "spelling": "as_of",
+   "target": "state.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "book_decided_at",
+    "card_decided_at",
+    "card_priced_bar",
+    "decision_bar",
+    "priced_on_decision_bar",
+    "ticket_priced_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_order.py",
+   "spelling": "decision",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "book_decided_at",
+    "card_decided_at",
+    "card_priced_bar",
+    "decision_bar",
+    "priced_on_decision_bar",
+    "ticket_priced_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_order.py",
+   "spelling": "decision",
+   "target": "state.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_order.py",
+   "spelling": "evidence_cutoff",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_order.py",
+   "spelling": "evidence_cutoff",
+   "target": "state.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "expected_bar",
+    "price_bar",
+    "priced_bar",
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_order.py",
+   "spelling": "pricing",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "expected_bar",
+    "price_bar",
+    "priced_bar",
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_order.py",
+   "spelling": "pricing",
+   "target": "state.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "as_of"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_publish_decision.py",
+   "spelling": "as_of",
+   "target": "TICKET-2026-10-26.json"
+  },
+  {
+   "carried_names": [
+    "as_of"
+   ],
+   "names": [
+    "as_of"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/etf_book_publish_decision.py",
+   "spelling": "as_of",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/etf_book_publish_decision.py",
+   "spelling": "evidence_cutoff",
+   "target": "TICKET-2026-10-26.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_publish_decision.py",
+   "spelling": "evidence_cutoff",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "as_of"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_registry.py",
+   "spelling": "as_of",
+   "target": "TICKET-2026-10-26.json"
+  },
+  {
+   "carried_names": [
+    "as_of"
+   ],
+   "names": [
+    "as_of"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/etf_book_registry.py",
+   "spelling": "as_of",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "scripts/etf_book_registry.py",
+   "spelling": "evidence_cutoff",
+   "target": "TICKET-2026-10-26.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_registry.py",
+   "spelling": "evidence_cutoff",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "priced_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_registry.py",
+   "spelling": "pricing",
+   "target": "TICKET-2026-10-26.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "priced_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "scripts/etf_book_registry.py",
+   "spelling": "pricing",
+   "target": "latest.json"
+  },
+  {
+   "names": [
+    "ticket_bar"
+   ],
+   "outcome": "unresolved",
+   "reader": "scripts/etf_book_ticket_audit.py",
+   "spelling": "as_of",
+   "target": null
+  },
+  {
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "unresolved",
+   "reader": "scripts/etf_book_ticket_audit.py",
+   "spelling": "evidence_cutoff",
+   "target": null
+  },
+  {
+   "names": [
+    "price_bar",
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "outcome": "unresolved",
+   "reader": "scripts/etf_book_ticket_audit.py",
+   "spelling": "pricing",
+   "target": null
+  },
+  {
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "unresolved",
+   "reader": "scripts/etf_book_width_audit.py",
+   "spelling": "evidence_cutoff",
+   "target": null
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "as_of"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "as_of",
+   "target": "dashboard_status.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "as_of"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "as_of",
+   "target": "CASHDIVERGE.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "as_of"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "as_of",
+   "target": "CASHSILENCE.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "as_of"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "as_of",
+   "target": "CASHWINDOW-latest.json"
+  },
+  {
+   "carried_names": [
+    "as_of"
+   ],
+   "names": [
+    "as_of"
+   ],
+   "outcome": "carried",
+   "reader": "smoke_test.py",
+   "spelling": "as_of",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "as_of"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "as_of",
+   "target": "state.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "as_of"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "as_of",
+   "target": "TICKETREADERBAR.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "as_of"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "as_of",
+   "target": "repricedtickets_latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "book_decided_at"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "decision",
+   "target": "dashboard_status.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "book_decided_at"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "decision",
+   "target": "CASHDIVERGE.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "book_decided_at"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "decision",
+   "target": "CASHSILENCE.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "book_decided_at"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "decision",
+   "target": "CASHWINDOW-latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "book_decided_at"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "decision",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "book_decided_at"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "decision",
+   "target": "state.json"
+  },
+  {
+   "carried_names": [
+    "book_decided_at"
+   ],
+   "names": [
+    "book_decided_at"
+   ],
+   "outcome": "carried",
+   "reader": "smoke_test.py",
+   "spelling": "decision",
+   "target": "TICKETREADERBAR.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "book_decided_at"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "decision",
+   "target": "repricedtickets_latest.json"
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "smoke_test.py",
+   "spelling": "evidence_cutoff",
+   "target": "dashboard_status.json"
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "smoke_test.py",
+   "spelling": "evidence_cutoff",
+   "target": "CASHDIVERGE.json"
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "smoke_test.py",
+   "spelling": "evidence_cutoff",
+   "target": "CASHSILENCE.json"
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "smoke_test.py",
+   "spelling": "evidence_cutoff",
+   "target": "CASHWINDOW-latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "evidence_cutoff",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "evidence_cutoff",
+   "target": "state.json"
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "smoke_test.py",
+   "spelling": "evidence_cutoff",
+   "target": "TICKETREADERBAR.json"
+  },
+  {
+   "carried_names": [
+    "evidence_cutoff"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "outcome": "carried",
+   "reader": "smoke_test.py",
+   "spelling": "evidence_cutoff",
+   "target": "repricedtickets_latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "priced_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "pricing",
+   "target": "dashboard_status.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "priced_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "pricing",
+   "target": "CASHDIVERGE.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "priced_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "pricing",
+   "target": "CASHSILENCE.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "priced_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "pricing",
+   "target": "CASHWINDOW-latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "priced_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "pricing",
+   "target": "latest.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "priced_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "pricing",
+   "target": "state.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "priced_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "pricing",
+   "target": "TICKETREADERBAR.json"
+  },
+  {
+   "carried_names": [],
+   "names": [
+    "priced_bar"
+   ],
+   "outcome": "not_carried",
+   "reader": "smoke_test.py",
+   "spelling": "pricing",
+   "target": "repricedtickets_latest.json"
+  }
+ ],
+ "limits": [
+  "a name match cannot prove the join runs; each pair carries the literal family that produced it",
+  "a reader with no resolved target is 'unresolved', which is not evidence of a broken join but of an instrument that cannot see it",
+  "text faces are graded by name occurrence, so prose that never names the field is counted as not carrying it"
+ ],
+ "readers": [
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [],
+   "cutoff_fields": [],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [
+    "legs"
+   ],
+   "module": "Tools/s6_chain_bmb.py",
+   "notional_fields": [
+    "legs"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "spellings": {},
+   "strict_notional_fields": [],
+   "targets": [],
+   "unresolved_ticket_literals": []
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [],
+   "cutoff_fields": [],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "Tools/s6_chain_bmc.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "spellings": {},
+   "strict_notional_fields": [],
+   "targets": [],
+   "unresolved_ticket_literals": []
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/e403_family_arg.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "spellings": {
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ]
+   },
+   "strict_notional_fields": [],
+   "targets": [
+    "latest.json"
+   ],
+   "unresolved_ticket_literals": []
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/e446_frozen_writer.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "spellings": {
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ]
+   },
+   "strict_notional_fields": [],
+   "targets": [
+    "latest.json"
+   ],
+   "unresolved_ticket_literals": []
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/e511_collision_anatomy.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "spellings": {
+    "as_of": [
+     "asof"
+    ],
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ]
+   },
+   "strict_notional_fields": [],
+   "targets": [],
+   "unresolved_ticket_literals": []
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "book_decided_at",
+    "evidence_cutoff",
+    "pricing_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [
+    "book_decided_at"
+   ],
+   "generic_notional_fields": [
+    "amount",
+    "legs",
+    "order",
+    "shares",
+    "weight"
+   ],
+   "module": "scripts/e583_ticket_repricing.py",
+   "notional_fields": [
+    "amount",
+    "legs",
+    "nav",
+    "order",
+    "shares",
+    "weight"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "pricing_bar"
+   ],
+   "spellings": {
+    "decision": [
+     "book_decided_at",
+     "decision_bar"
+    ],
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ],
+    "pricing": [
+     "pricing_bar"
+    ]
+   },
+   "strict_notional_fields": [
+    "nav"
+   ],
+   "targets": [
+    "TICKET-2026-10-23.json",
+    "TICKET-2026-10-28-card.json",
+    "TICKET-2026-11-06.json",
+    "repricedtickets_latest.json"
+   ],
+   "unresolved_ticket_literals": [
+    "TICKET-*.json"
+   ]
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "book_decided_at",
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [
+    "book_decided_at"
+   ],
+   "generic_notional_fields": [],
+   "module": "scripts/e585_cash_leg_pricing.py",
+   "notional_fields": [
+    "cash_amount",
+    "cash_weight",
+    "nav"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "spellings": {
+    "decision": [
+     "book_decided_at",
+     "decision_bar"
+    ],
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ]
+   },
+   "strict_notional_fields": [
+    "cash_amount",
+    "cash_weight",
+    "nav"
+   ],
+   "targets": [],
+   "unresolved_ticket_literals": [
+    "TICKET-*.json",
+    "TICKET-2020-01-03.json",
+    "TICKET-2020-01-08.json",
+    "TICKET-2020-01-09-card.json"
+   ]
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/e587_cash_window.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "spellings": {
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ]
+   },
+   "strict_notional_fields": [],
+   "targets": [
+    "CASHWINDOW-latest.json",
+    "CASHWINDOW.json"
+   ],
+   "unresolved_ticket_literals": [
+    "TICKET-*.json"
+   ]
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff",
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/e590_cash_silence.py",
+   "notional_fields": [
+    "cash_amount",
+    "cash_weight",
+    "nav"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "spellings": {
+    "as_of": [
+     "ticket_bar"
+    ],
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ],
+    "pricing": [
+     "pricing_bar",
+     "ticket_bar"
+    ]
+   },
+   "strict_notional_fields": [
+    "cash_amount",
+    "cash_weight",
+    "nav"
+   ],
+   "targets": [
+    "CASHSILENCE.json"
+   ],
+   "unresolved_ticket_literals": [
+    "TICKET-*.json",
+    "TICKET-x.json"
+   ]
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/e591_cash_diverge.py",
+   "notional_fields": [
+    "cash_amount",
+    "nav"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "spellings": {
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ]
+   },
+   "strict_notional_fields": [
+    "cash_amount",
+    "nav"
+   ],
+   "targets": [
+    "CASHDIVERGE.json"
+   ],
+   "unresolved_ticket_literals": [
+    "TICKET-*.json"
+   ]
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff",
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/e593_cash_convention.py",
+   "notional_fields": [
+    "cash_amount"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "spellings": {
+    "as_of": [
+     "ticket_bar"
+    ],
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ],
+    "pricing": [
+     "pricing_bar",
+     "ticket_bar"
+    ]
+   },
+   "strict_notional_fields": [
+    "cash_amount"
+   ],
+   "targets": [
+    "CASHCONVENTION.json"
+   ],
+   "unresolved_ticket_literals": [
+    "TICKET-*.json"
+   ]
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/etf_book_bridge.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "spellings": {
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ]
+   },
+   "strict_notional_fields": [],
+   "targets": [
+    "latest.json"
+   ],
+   "unresolved_ticket_literals": []
+  },
+  {
+   "addressing": [
+    "ticket_literal"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [
+    "weight"
+   ],
+   "module": "scripts/etf_book_cash_ladder.py",
+   "notional_fields": [
+    "weight"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "spellings": {
+    "as_of": [
+     "as_of"
+    ],
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ]
+   },
+   "strict_notional_fields": [],
+   "targets": [],
+   "unresolved_ticket_literals": [
+    "CASH-TICKET-%s.json"
+   ]
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [
+    "book_decided_at",
+    "evidence_cutoff",
+    "priced_bar",
+    "ticket_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [
+    "book_decided_at"
+   ],
+   "generic_notional_fields": [
+    "amount",
+    "order",
+    "shares",
+    "weight"
+   ],
+   "module": "scripts/etf_book_ceo_page.py",
+   "notional_fields": [
+    "amount",
+    "book_amount",
+    "cash_amount",
+    "cash_weight",
+    "k_now",
+    "nav",
+    "order",
+    "shares",
+    "weight"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "priced_bar",
+    "ticket_bar"
+   ],
+   "spellings": {
+    "as_of": [
+     "as_of",
+     "ticket_bar"
+    ],
+    "decision": [
+     "book_decided_at"
+    ],
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ],
+    "pricing": [
+     "priced_bar",
+     "ticket_bar"
+    ]
+   },
+   "strict_notional_fields": [
+    "book_amount",
+    "cash_amount",
+    "cash_weight",
+    "k_now",
+    "nav"
+   ],
+   "targets": [
+    "latest.json"
+   ],
+   "unresolved_ticket_literals": []
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "book_decided_at",
+    "card_decided_at",
+    "card_priced_bar",
+    "evidence_cutoff",
+    "expected_bar",
+    "price_bar",
+    "priced_bar",
+    "priced_on_decision_bar",
+    "pricing_bar",
+    "ticket_bar",
+    "ticket_priced_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [
+    "book_decided_at",
+    "card_decided_at",
+    "card_priced_bar",
+    "priced_on_decision_bar",
+    "ticket_priced_bar"
+   ],
+   "generic_notional_fields": [
+    "amount",
+    "legs",
+    "order",
+    "picks",
+    "shares",
+    "weight"
+   ],
+   "module": "scripts/etf_book_order.py",
+   "notional_fields": [
+    "amount",
+    "beta_k",
+    "book_amount",
+    "book_weight",
+    "cash_amount",
+    "cash_weight",
+    "k_now",
+    "legs",
+    "nav",
+    "order",
+    "picks",
+    "shares",
+    "weight"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "expected_bar",
+    "price_bar",
+    "priced_bar",
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "spellings": {
+    "as_of": [
+     "as_of",
+     "ticket_bar"
+    ],
+    "decision": [
+     "book_decided_at",
+     "card_decided_at",
+     "card_priced_bar",
+     "decision_bar",
+     "priced_on_decision_bar",
+     "ticket_priced_bar"
+    ],
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ],
+    "pricing": [
+     "expected_bar",
+     "price_bar",
+     "priced_bar",
+     "pricing_bar",
+     "ticket_bar"
+    ]
+   },
+   "strict_notional_fields": [
+    "beta_k",
+    "book_amount",
+    "book_weight",
+    "cash_amount",
+    "cash_weight",
+    "k_now",
+    "nav"
+   ],
+   "targets": [
+    "latest.json",
+    "state.json"
+   ],
+   "unresolved_ticket_literals": [
+    "ORDER-%s-card.md",
+    "ORDER-%s.md",
+    "TICKET-%s-card.json",
+    "TICKET-%s.json",
+    "TICKET-latest.json"
+   ]
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/etf_book_publish_decision.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "spellings": {
+    "as_of": [
+     "as_of"
+    ],
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ]
+   },
+   "strict_notional_fields": [],
+   "targets": [
+    "TICKET-2026-10-26.json",
+    "latest.json"
+   ],
+   "unresolved_ticket_literals": []
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff",
+    "priced_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [
+    "legs",
+    "order",
+    "picks",
+    "weight"
+   ],
+   "module": "scripts/etf_book_registry.py",
+   "notional_fields": [
+    "k_now",
+    "legs",
+    "nav",
+    "order",
+    "picks",
+    "weight"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "priced_bar"
+   ],
+   "spellings": {
+    "as_of": [
+     "as_of"
+    ],
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ],
+    "pricing": [
+     "priced_bar"
+    ]
+   },
+   "strict_notional_fields": [
+    "k_now",
+    "nav"
+   ],
+   "targets": [
+    "TICKET-2026-10-26.json",
+    "latest.json"
+   ],
+   "unresolved_ticket_literals": []
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir",
+    "producer_import"
+   ],
+   "bar_fields": [
+    "evidence_cutoff",
+    "price_bar",
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [
+    "order",
+    "weight"
+   ],
+   "module": "scripts/etf_book_ticket_audit.py",
+   "notional_fields": [
+    "order",
+    "weight"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "price_bar",
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "spellings": {
+    "as_of": [
+     "ticket_bar"
+    ],
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ],
+    "pricing": [
+     "price_bar",
+     "pricing_bar",
+     "ticket_bar"
+    ]
+   },
+   "strict_notional_fields": [],
+   "targets": [],
+   "unresolved_ticket_literals": [
+    "TICKET-*.json",
+    "TICKET-a.json",
+    "TICKET-b.json",
+    "TICKET-c.json",
+    "TICKET-d.json"
+   ]
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [
+    "evidence_cutoff"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/etf_book_width_audit.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "spellings": {
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ]
+   },
+   "strict_notional_fields": [],
+   "targets": [],
+   "unresolved_ticket_literals": []
+  },
+  {
+   "addressing": [
+    "family_dir"
+   ],
+   "bar_fields": [],
+   "cutoff_fields": [],
+   "decision_bar_fields": [],
+   "generic_notional_fields": [],
+   "module": "scripts/reader_text_audit.py",
+   "notional_fields": [],
+   "parsed": true,
+   "pricing_bar_fields": [],
+   "spellings": {},
+   "strict_notional_fields": [],
+   "targets": [
+    "latest.json"
+   ],
+   "unresolved_ticket_literals": []
+  },
+  {
+   "addressing": [
+    "ticket_literal",
+    "family_dir"
+   ],
+   "bar_fields": [
+    "book_decided_at",
+    "evidence_cutoff",
+    "priced_bar"
+   ],
+   "cutoff_fields": [
+    "evidence_cutoff"
+   ],
+   "decision_bar_fields": [
+    "book_decided_at"
+   ],
+   "generic_notional_fields": [
+    "legs",
+    "order",
+    "weight"
+   ],
+   "module": "smoke_test.py",
+   "notional_fields": [
+    "cash_amount",
+    "k_now",
+    "legs",
+    "nav",
+    "order",
+    "weight"
+   ],
+   "parsed": true,
+   "pricing_bar_fields": [
+    "priced_bar"
+   ],
+   "spellings": {
+    "as_of": [
+     "as_of"
+    ],
+    "decision": [
+     "book_decided_at"
+    ],
+    "evidence_cutoff": [
+     "evidence_cutoff"
+    ],
+    "pricing": [
+     "priced_bar"
+    ]
+   },
+   "strict_notional_fields": [
+    "cash_amount",
+    "k_now",
+    "nav"
+   ],
+   "targets": [
+    "CASHDIVERGE.json",
+    "CASHSILENCE.json",
+    "CASHWINDOW-latest.json",
+    "TICKETREADERBAR.json",
+    "dashboard_status.json",
+    "latest.json",
+    "repricedtickets_latest.json",
+    "state.json"
+   ],
+   "unresolved_ticket_literals": [
+    "TICKET-1970-01-01.json"
+   ]
+  }
+ ],
+ "spelling_carrier_census": {
+  "as_of": {
+   "carried_by": [
+    "LIVE-latest.json",
+    "dashboard_status.json",
+    "CASHCONVENTION.json",
+    "CASHSILENCE.json",
+    "TICKET-2026-10-23.json",
+    "TICKET-2026-10-26.json",
+    "TICKET-2026-10-27.json",
+    "TICKET-2026-10-28-card.json",
+    "TICKET-2026-10-28.json",
+    "TICKET-2026-11-06.json",
+    "latest.json"
+   ],
+   "carrier_count": 11,
+   "names": [
+    "as_of",
+    "asof",
+    "as_of_date",
+    "bar_date",
+    "ticket_bar"
+   ]
+  },
+  "decision": {
+   "carried_by": [
+    "TICKET-2026-10-23.json",
+    "TICKET-2026-10-26.json",
+    "TICKET-2026-10-27.json",
+    "TICKET-2026-10-28-card.json",
+    "TICKET-2026-10-28.json",
+    "TICKET-2026-11-06.json",
+    "REPRICEDTICKETS-2026-11-06.json",
+    "TICKETREADERBAR-latest.json",
+    "TICKETREADERBAR.json",
+    "repricedtickets_latest.json"
+   ],
+   "carrier_count": 10,
+   "names": [
+    "book_decided_at",
+    "card_decided_at",
+    "card_priced_bar",
+    "decision_bar",
+    "priced_on_decision_bar",
+    "ticket_priced_bar"
+   ]
+  },
+  "evidence_cutoff": {
+   "carried_by": [
+    "dashboard_status.json",
+    "BREADTHAUDIT-2026-11-06.json",
+    "CASHCONVENTION.json",
+    "CASHDIVERGE.json",
+    "CASHSILENCE.json",
+    "CASHWINDOW-latest.json",
+    "CASHWINDOW.json",
+    "TICKET-2026-10-23.json",
+    "TICKET-2026-10-26.json",
+    "TICKET-2026-10-27.json",
+    "TICKET-2026-10-28.json",
+    "TICKET-2026-11-06.json",
+    "REPRICEDTICKETS-2026-11-06.json",
+    "TICKETREADERBAR-latest.json",
+    "TICKETREADERBAR.json",
+    "repricedtickets_latest.json"
+   ],
+   "carrier_count": 16,
+   "names": [
+    "evidence_cutoff"
+   ]
+  },
+  "pricing": {
+   "carried_by": [
+    "BREADTHAUDIT-2026-11-06.json",
+    "CASHCONVENTION.json",
+    "CASHSILENCE.json",
+    "TICKET-2026-10-23.json",
+    "TICKET-2026-10-26.json",
+    "TICKET-2026-10-27.json",
+    "TICKET-2026-10-28-card.json",
+    "TICKET-2026-10-28.json",
+    "TICKET-2026-11-06.json",
+    "TICKETREADERBAR-latest.json",
+    "TICKETREADERBAR.json"
+   ],
+   "carrier_count": 11,
+   "names": [
+    "expected_bar",
+    "price_bar",
+    "priced_bar",
+    "pricing_bar",
+    "ticket_bar"
+   ]
+  }
+ },
+ "spelling_families": {
+  "as_of": [
+   "as_of",
+   "asof",
+   "as_of_date",
+   "bar_date",
+   "ticket_bar"
+  ],
+  "decision": [
+   "book_decided_at",
+   "card_decided_at",
+   "card_priced_bar",
+   "decision_bar",
+   "priced_on_decision_bar",
+   "ticket_priced_bar"
+  ],
+  "evidence_cutoff": [
+   "evidence_cutoff"
+  ],
+  "pricing": [
+   "expected_bar",
+   "price_bar",
+   "priced_bar",
+   "pricing_bar",
+   "ticket_bar"
+  ]
+ },
+ "spellings_carried_by_every_candidate": [],
+ "study": "E594_bar_dialect_join",
+ "ticket": {
+  "bar": "2026-11-06",
+  "book_decided_at": "2026-10-14",
+  "path": "results/etf_book_order/TICKET-2026-11-06.json",
+  "pricing_bar": "2026-11-06"
+ },
+ "verdict": "some_reader_asks_for_a_spelling_the_face_it_reads_does_not_carry"
+}

@@ -14194,3 +14194,30 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 - **先量再判两次**：第一版用宽松金额名与"两个日期都要有"的判据，读出 1 个静默读者（实为 `legs` 撞名）与 2 个静默面（实为 `as_of` 被漏读、研究面本就不承钱）——三个都是仪器造的缺陷。宽/严双档与值取证各自跑一遍后，结论从"有缺口"翻成"没有缺口，但方言不统一"，且两次读数都留在面里。
 
 **边界**：读者人口按"寻址方式"取（字面量/目录/import），不做调用图解析，所以模块可以只是引用票路径而不真的读它；面人口是**有界候选集**（票/订单目录、CEO 页、最近三份日报、看板面、纸盘导出、票名 state_tilt 面），因为 results/ 全递归约 1.3 GB——候选 glob 写在面里以便审边界；散文取证只在 md 面上成立，机器面一律要求字段或键值。
+
+
+## E594 bar 能不能 join：四种拼法，没有一个通用（r1622 bm-b，2026-11-09）
+
+**问题**：E586（r1621）把「有没有漏」问完了——静默读者 0、承钱却不说 bar 的面 0——但留下一个残留：bar 在已发布面上有四种写法（`pricing_bar` / `ticket_bar`·`evidence_cutoff` / `as_of` / 散文）。读者按某一种拼法去取、而它读的那个面没有这个名字时，拿到的是 `None`，和「这根 bar 上没有值」长得一模一样。这一轮问：**能不能不用手写映射表就 join 上**。
+
+**读数**（results/state_tilt/BARDIALECTJOIN.json，票=TICKET-2026-11-06.json）：
+
+- 21 个模块寻址一张票，其中 **13 个点名了本普查解析得到的已发布面**，8 个只写名字碎片（发布为 `unresolved`，这只说明仪器看不见那个 join，不是 join 坏了）；
+- 四种方言：pricing(11)、decision(10)、evidence_cutoff(16)、as_of(11)；
+- **27 个候选面里没有任何一种拼法被全部承载** → 消费者无法只按一个名字 join，必须按面分别写映射表，这就是卡片标题的答案（"不能"）；
+- **88 个（读者, 拼法, 面）三元组、48 个 miss**。宽读者（`smoke_test.py` 几乎点名了所有已发布面）会把每种拼法与每个面做笛卡尔积，所以**逐对计数只作宽档公开、永不判定**；
+- **判定档=逐读者全败**：**3 个读者在它能做的每一个 pair 上都 miss**——`scripts/e403_family_arg.py`、`scripts/e446_frozen_writer.py`、`scripts/etf_book_bridge.py`，三个都在向 `results/etf_book_order/latest.json` 要 `evidence_cutoff`，而那个指针面只有 `as_of`/`k_now`/`beta_target`/`file`（**没有** `evidence_cutoff`、`pricing_bar`、`book_decided_at`）；**而这个指针面正是 CEO 页所跟随的那一个**；
+- 另有 10 个读者能从它点名的至少一个面上取到 bar，因此不判静默。
+
+**判词**：`some_reader_asks_for_a_spelling_the_face_it_reads_does_not_carry`。
+
+**教训**：
+
+- **读者人口 × 它点名的面 = 笛卡尔积，逐对当 join 判会造缺陷**：首版就是逐对判定，`smoke_test.py` 一个模块被算成静默；两档分流（逐对=公开的宽度，逐读者全败=判定）之后数字从 9 收到 3，且三个都是真向指针面要错的键。
+- **缺名字与空值是同一个观测**：只看读者侧永远答不出"他到底拿到 bar 没有"，必须拿那个面自己的键集对证——这类"同名不同方言"的缺陷在调用点无痕。
+- **指针面的方言就是人类页继承的方言**：修好票面的 `pricing_bar` 没有修好指针面的 `as_of`，而被跟随的恰恰是指针面。
+- **自排除**：本研究的字面量本身就是拼法表，首版把自己算进了读者人口（E180/E207/E319 族），必须按自身文件名从人口里剔掉。
+
+**边界**：静态匹配不能证明 join 真的执行（字面量可能只是拼路径或打日志），每个三元组都带产生它的字面量族；`unresolved` 不等于坏 join；文本面按名字出现判定，纯散文不提字段名的面会被读成"不承载"。
+
+**证据** = scripts/e594_bar_dialect_join.py（selftest 27/27·check/verify problems=[]）+ scripts/run_e594_smoke_leg.py（PASS，--doctor 1/1 红）+ results/state_tilt/BARDIALECTJOIN.json + S6 leg `bar_dialect_join`（rc0 2.00s）+ smoke_test.py leg `E594`。

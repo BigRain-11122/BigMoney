@@ -25675,6 +25675,43 @@ except Exception as _e586x:
 check(_name586, not _bad586, "; ".join(_bad586)[:240] or _d586)
 
 
+# E594: E586 left the bar spelled three ways, and a reader asking for a spelling the face it reads
+# does not carry gets None -- indistinguishable from a bar with no value.  This leg reads the
+# (reader, spelling, face) join census and refuses the ways that reading could be a wish: a count
+# that does not re-derive from its own pairs, a verdict that contradicts the pairs, a pair that
+# grades a face it never names, and a carrier list whose count disagrees with it.  It also refuses
+# the two-arm collapse: a reader credited silent while its own pairs carry the bar.
+_name594 = ("E594 whether the three bar spellings can be joined without a hand map (r1622 bm-b)")
+_bad594 = []
+_d594 = "no reading"
+try:
+    _p594 = os.path.join("results", "state_tilt", "BARDIALECTJOIN.json")
+    _f594 = json.load(open(_p594, encoding="utf-8"))
+    _m594 = importlib.import_module("e594_bar_dialect_join")
+    _bad594.extend(_m594.face_problems(_f594))
+    _c594 = _f594.get("counts") or {}
+    _seen594 = set()
+    for _q594 in _f594.get("joins") or []:
+        if _q594.get("outcome", "").startswith("carried"):
+            _seen594.add(_q594.get("reader"))
+    _overlap594 = sorted(set(_c594.get("silent_join_readers") or []) & _seen594)
+    if _overlap594:
+        _bad594.append("a reader is graded silent while its own pairs carry the bar: %s"
+                       % ", ".join(_overlap594[:3]))
+    if _c594.get("pairs_joining_a_spelling_the_face_lacks", 0) != sum(
+            1 for _q594 in (_f594.get("joins") or [])
+            if _q594.get("outcome") in ("not_carried", "not_carried_in_text")):
+        _bad594.append("the pair-level miss count does not re-derive from the pairs")
+    _d594 = ("readers=%d resolved=%d dialects=%d pairs=%d miss=%d silent_readers=%d"
+             % (_c594.get("readers", 0), _c594.get("readers_with_a_resolved_target", 0),
+                len(_f594.get("spelling_carrier_census") or {}), _c594.get("pairs", 0),
+                _c594.get("pairs_joining_a_spelling_the_face_lacks", 0),
+                len(_c594.get("silent_join_readers") or [])))
+except Exception as _e594x:
+    _bad594.append(repr(_e594x)[:160])
+    _d594 = "study could not be read"
+check(_name594, not _bad594, "; ".join(_bad594)[:240] or _d594)
+
 
 if __name__ == "__main__":
     sys.exit(main())

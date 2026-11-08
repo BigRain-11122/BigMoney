@@ -2399,6 +2399,13 @@ LEGS = [
     # the two -- a conversion that does not re-derive is a convention artefact, not a rate.
     ("cash_convention",
      ["python", "scripts/e593_cash_convention.py", "check"]),
+    # E594 (r1622 bm-b): the bar is spelled pricing/decision/evidence_cutoff/as_of across the
+    # published faces, and a reader asking for a spelling the face it reads does not carry gets
+    # None.  This leg re-derives the (reader, spelling, face) join census from its own pairs and
+    # refuses a count, verdict or carrier list that does not follow them -- and refuses a reader
+    # graded silent while its own pairs carry the bar.
+    ("bar_dialect_join",
+     ["python", "scripts/e594_bar_dialect_join.py", "check"]),
     # E586 (r1621 bm-b): the writer now stamps the bar it priced on, but the consumer side was
     # never enumerated.  This leg re-derives the reader and surface counts from the published rows
     # and refuses a verdict that contradicts them -- a page that prints a ticket's money without

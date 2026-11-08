@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1619 bm-b: E592 burned in-round -- the ledger's carry is reproducible from the grid origin the face names only as seed.grid_index (11/11 bars at the printed precision) but 75.6% of sampled phases reproduce every bar, so the bars pin a class, not a phase. Seeded E593 (does the ticket's advertised cash yield survive its own 252-bar convention).",
+ "_stamp_note": "r1622 bm-b: E594 burned in-round -- no spelling of the bar is carried by all 27 candidate faces, and the three readers that ask the CEO-page pointer face for evidence_cutoff silently get None because that face spells the bar as_of. E595 seeded: can the pointer face carry the alias without moving a settled reading.",
  "entries": [
   {
    "id": "E590-WHETHER-THE-REPO-PANEL-LEAVING-THE-CASH-LEG-UNQUOTED-IS-PRICED-ANYWHERE",
@@ -30447,13 +30447,45 @@
    "lane": "cpu-only",
    "lane_note": "static: take the reader population E586 published and ask, for each reader, which spelling it uses for the bar (pricing_bar / ticket_bar / evidence_cutoff / as_of / prose) and whether the face it reads carries that spelling; no runner, no rebuild",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E586 (r1621 bm-b) closed the consumer-side question with zero silent readers and zero silent money-carrying surfaces, but the witnesses split into three dialects, and the pointer face a follow-up page uses spells the bar as as_of. A reader that joins on the wrong spelling reads nothing and still looks fine.",
    "target": "results/state_tilt/BARDIALECTJOIN.json",
    "deliverable": "results/state_tilt/BARDIALECTJOIN.json",
    "title": "For every reader E586 found, publish which spelling it uses to obtain the bar and whether the face it reads carries that spelling, then count the readers whose spelling has no carrier -- those joins silently return nothing.",
    "entered_at": "2026-11-09T07:45:00+08:00",
    "entered_by": "bm-b r1621",
+   "evidence_cutoff": "2026-11-06",
+   "closed_at": "2026-11-09T07:47:00+08:00",
+   "closed_by": "bm-b r1622",
+   "result_ref": "results/state_tilt/BARDIALECTJOIN.json",
+   "result_note": "21 readers / 13 resolved / 4 dialects / 27 candidate faces and no universal spelling; 48 of 88 graded (reader, spelling, face) pairs miss, and 3 readers miss on every pair they can make (e403_family_arg, e446_frozen_writer, etf_book_bridge all ask results/etf_book_order/latest.json for evidence_cutoff, which that pointer face spells as_of); 10 readers can obtain the bar from at least one face they name"
+  },
+  {
+   "id": "E595-WHETHER-ALIASING-THE-POINTER-FACE-CHANGES-ANY-READERS-ANSWER",
+   "lane": "cpu-only",
+   "lane_note": "static+fixture: publish the bar on results/etf_book_order/latest.json under every spelling its own readers use (as_of / evidence_cutoff / pricing_bar) pointing at the same bar, then re-run every resolving reader's join and prove which answers move; no runner, no rebuild, no panel refresh",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E594 (r1622 bm-b): the pointer face carries only as_of/k_now/beta_target/file, so the three readers that ask it for evidence_cutoff silently get None, while the same face's as_of is the bar the CEO page follows. Adding an alias is a one-line writer change with an unmeasured blast radius: it can also make a reader that previously fell through to a default start reading a real value.",
+   "target": "results/state_tilt/BARALIAS.json",
+   "deliverable": "results/state_tilt/BARALIAS.json",
+   "title": "For each spelling a reader asks of the pointer face, publish whether adding that alias would change that reader's own answer (join flips from None to the bar) and whether any reader that currently resolves through as_of would change; then name the alias set that repairs every silent join without moving any settled reading",
+   "entered_at": "2026-11-09T07:47:00+08:00",
+   "entered_by": "bm-b r1622",
+   "evidence_cutoff": "2026-11-06"
+  },
+  {
+   "id": "E596-WHETHER-A-VALUE-JOIN-REPLACES-THE-NAME-JOIN",
+   "lane": "cpu-only",
+   "lane_note": "static: for every resolving reader, take the bar it actually receives (its own spelling resolved against the face it names) and ask whether joining on the VALUE (the bar date) instead of the NAME would have reached the same bar on every candidate face; no runner, no rebuild",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E594 (r1622 bm-b) found the bar is spelled four ways with no universal spelling, and repairing that by aliasing names is per-face work. The value is the same object in all four dialects, so the cheaper repair is to stop joining on the name -- but nobody has measured whether the values actually coincide across the faces a reader reads, or whether a value join would silently match the decision bar instead of the pricing bar (E586: the ticket prints both).",
+   "target": "results/state_tilt/VALUEJOIN.json",
+   "deliverable": "results/state_tilt/VALUEJOIN.json",
+   "title": "Publish, per candidate face and per bar role (pricing vs decision), the date each face states, then count the faces where a value join lands on the pricing bar, on the decision bar, on several dates at once (ambiguous) or on nothing -- the ambiguity count is what decides whether the name join can be replaced at all",
+   "entered_at": "2026-11-09T07:50:00+08:00",
+   "entered_by": "bm-b r1622",
    "evidence_cutoff": "2026-11-06"
   }
  ],
@@ -30469,6 +30501,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T07:05:00+0800",
+ "updated_at": "2026-11-09T07:50:00+0800",
  "version": 1
 }
