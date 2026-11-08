@@ -72,6 +72,13 @@ ENTRY_GATE_JSON = os.path.join(ROOT, "results", "etf_book_entry_gate.json")
 # that gap; the page must carry it, and must refuse it the moment its own rows stop
 # reproducing it (a quote the chain gate would reject is not something to print here).
 LIVE_QUOTE_DIR = os.path.join(ROOT, "results", "etf_book_live_quote")
+# r1458: r1451-r1457 built a permission (how big this book is allowed to be), proved the
+# order sheet can be trimmed to it, and stored the floor in a ledger. None of it reached
+# THIS page, so the one face a human reads still sizes at the ordered k -- the page said
+# buy CNY 459,796 while the executable sheet said only 392,616 is allowed.
+PERMISSION_JSON = os.path.join(ROOT, "results", "etf_book_rebalance_permission.json")
+CUT_GAP_JSON = os.path.join(ROOT, "results", "etf_book_cut_order_gap.json")
+PERMISSION_LEDGER_JSON = os.path.join(ROOT, "results", "etf_book_floor_ledger.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -570,6 +577,190 @@ def band_ruler_block(br):
 
 CAUSAL_REBUILD_JSON = os.path.join(ROOT, "results", "etf_book_causal_rebuild.json")
 GAP_JSON = os.path.join(ROOT, "results", "etf_book_overnight_gap.json")
+
+
+def permission_face(perm_path=PERMISSION_JSON, gap_path=CUT_GAP_JSON,
+                    ledger_path=PERMISSION_LEDGER_JSON):
+    """How big this book is ALLOWED to be, against how big the list above orders (r1458).
+
+    Three published receipts already hold this: the permission prices a floor from the
+    sizing rulers, the cut-gap receipt turns that floor into integer lots to sell, and the
+    floor ledger remembers the floor across rounds. This reader only reads them, and it
+    refuses to print an obedience claim when two receipts quote different floors (two
+    copies of one number is an E289 defect, not freshness). A missing receipt is UNKNOWN
+    -- never a zero that would read as "no cut needed"."""
+    perm = _load(perm_path) if os.path.exists(perm_path) else None
+    gap = _load(gap_path) if os.path.exists(gap_path) else None
+    led = _load(ledger_path) if os.path.exists(ledger_path) else None
+    if not perm or perm.get("permitted_k") is None or perm.get("k_now") is None:
+        return {"status": "unreadable",
+                "artifact": _rel(perm_path, ROOT).replace(os.sep, "/"),
+                "detail": "permission receipt absent or carries no permitted_k"}
+    k_allowed = float(perm["permitted_k"])
+    k_order = float(perm["k_now"])
+    out = {
+        "status": "ok",
+        "artifact": _rel(perm_path, ROOT).replace(os.sep, "/"),
+        "decision_date": perm.get("decision_date"),
+        "ticket_file": perm.get("ticket_file"),
+        "k_order": round(k_order, 6),
+        "k_allowed": round(k_allowed, 6),
+        "ordered_cny": perm.get("book_amount_cny"),
+        "allowed_cny": perm.get("permitted_book_cny"),
+        "over_cny": perm.get("cut_cny"),
+        "over_pp": perm.get("cut_pp"),
+        "keep_allowed": perm.get("keep_allowed"),
+        "readings": {k: {"k": v.get("k"), "delta_pp": v.get("delta_vs_now_pp"), "kind": v.get("kind")}
+                     for k, v in (perm.get("readings") or {}).items()},
+        "naive_permits_keep": (perm.get("naive_max_over_all_readings") or {}).get("keep_allowed"),
+        "trim": None,
+        "cost": None,
+        "floor_verdict": None,
+        "floor_sentence": None,
+        "floor_k": None,
+        "k_schedule_last": None,
+        "consistency": {},
+    }
+    # the trim: integer lots off the published gap receipt, never re-derived here
+    tr = (gap or {}).get("trim") or {}
+    if tr.get("legs"):
+        out["trim"] = {
+            "legs": [{"symbol": l.get("symbol"), "price": l.get("price"),
+                      "lots_now": l.get("lots_now"), "lots_target": l.get("lots_target"),
+                      "lots_sell": l.get("lots_sell"), "sell_cny": l.get("sell_cny")}
+                     for l in tr["legs"]],
+            "lots_total": tr.get("lots_sell_total"),
+            "sold_cny": tr.get("sold_cny"),
+            "k_after": tr.get("k_after_integer_lots"),
+            "within": tr.get("trim_within_permission"),
+            "basis": tr.get("basis"),
+        }
+        out["cost"] = {k: (gap.get("cost") or {}).get(k)
+                       for k in ("cost_bp_per_side", "tx_cny_one_side", "carry_cny_per_year",
+                                 "repo_rate_pct", "repo_rate_date")}
+        gu = (gap.get("cost") or {}).get("giveup_cny_per_year_ex_post") or {}
+        out["cost"]["give_up_book_realized"] = gu.get("book_realized")
+        out["cost"]["give_up_at_benchmark"] = gu.get("same_beta_benchmark")
+    # the ledger: what the floor's own memory says about the NEXT decision bar
+    asd = (led or {}).get("assessed") or {}
+    if asd:
+        out["floor_verdict"] = asd.get("verdict")
+        out["floor_k"] = asd.get("floor")
+        out["k_schedule_last"] = asd.get("k_schedule_last")
+        out["schedule_last_date"] = asd.get("schedule_last_date")
+        out["floor_action"] = asd.get("action")
+        out["floor_sentence"] = (led or {}).get("sentence")
+        out["floor_issued"] = asd.get("floor_issued")
+        rows = (led or {}).get("rows") or []
+        if rows:
+            out["floor_ledger_issued_at"] = rows[-1].get("issued_at")
+    # two receipts quoting the same floor must agree, or the page says so instead of obeying
+    cons = out["consistency"]
+    if gap and gap.get("permitted_k") is not None:
+        cons["permission_vs_gap"] = abs(float(gap["permitted_k"]) - k_allowed) < 1e-6
+    if out["floor_k"] is not None:
+        cons["permission_vs_ledger"] = abs(float(out["floor_k"]) - k_allowed) < 1e-6
+    cons["agree"] = all(cons.get(k) is not False for k in
+                        ("permission_vs_gap", "permission_vs_ledger"))
+    return out
+
+
+def permission_block(pf):
+    """The lines this page prints about the size limit behind the list above."""
+    L = []
+    add = L.append
+    add("## 这张单能下多大（额度）")
+    add("")
+    pf = pf or {}
+    if pf.get("status") != "ok":
+        add("这一节读不到额度面（`%s`）：%s。**上面那张清单没有经过额度检查**——"
+            "它可能是按规则算出来的仓位，也可能是超过额度的仓位，本页分不出来。"
+            % ((pf.get("artifact") or "results/etf_book_rebalance_permission.json"),
+               pf.get("detail") or "无读数"))
+        add("")
+        return L
+    if pf.get("consistency", {}).get("agree") is False:
+        add("**两张收据对同一个额度报了不同的数**（%s）——本页不宣称这张单守住了额度。"
+            % json.dumps(pf.get("consistency"), ensure_ascii=False))
+        add("")
+        return L
+    allowed = pf.get("allowed_cny")
+    ordered = pf.get("ordered_cny")
+    over = pf.get("over_cny")
+    add("- 允许的仓位：**k=%.6f**（风险腿 ¥%s）；上面那张清单下的仓位：k=%.6f（¥%s）"
+        % (pf["k_allowed"], format(allowed or 0, ",.0f"), pf["k_order"], format(ordered or 0, ",.0f")))
+    if over and over > 0:
+        add("- 所以上面那张表**超出额度 ¥%s（%.2f 个百分点）**，它不是可以照着下的单。"
+            % (format(over, ",.0f"), pf.get("over_pp") or 0.0))
+    else:
+        add("- 这张单没有超过额度。")
+    tr = pf.get("trim") or {}
+    if over and over > 0 and tr.get("legs"):
+        add("")
+        add("按额度执行要这样卖（整数手，卖出后 k=%.6f）：" % (tr.get("k_after") or 0.0))
+        add("")
+        add("| 代码 | 价 | 现在手数 | 目标手数 | 卖出手数 | 卖出 ¥ |")
+        add("|---|---|---|---|---|---|")
+        for l in tr["legs"]:
+            add("| %s | %s | %s | %s | %s | %s |"
+                % (l["symbol"], l["price"], format(l["lots_now"] or 0, ","),
+                   format(l["lots_target"] or 0, ","), format(l["lots_sell"] or 0, ","),
+                   format(l["sell_cny"] or 0, ",.0f")))
+        add("| — | **合计** | | | **%s 手** | **¥%s** |"
+            % (format(tr.get("lots_total") or 0, ","), format(tr.get("sold_cny") or 0, ",.0f")))
+        add("")
+        if tr.get("basis"):
+            add("- 读法：%s" % tr["basis"])
+        _tgt_cny = sum((l.get("lots_target") or 0) * 100 * float(l.get("price") or 0)
+                       for l in tr["legs"])
+        add("- 今天才建仓的话：照「目标手数」那一列买（%s 手），实际投入 **¥%s**——"
+            "与额度的差是整手取整（欠投留在现金腿，不重分配）。"
+            % ("/".join(format(l.get("lots_target") or 0, ",") for l in tr["legs"]),
+               format(_tgt_cny, ",.0f")))
+        if tr.get("within") is False:
+            add("- ⚠ 这张裁剪表本身没有落回额度内，不许照它下单。")
+        cost = pf.get("cost") or {}
+        if cost.get("tx_cny_one_side") is not None:
+            bits = ["一次卖出成本 ¥%s（%s bp/边）" % (format(cost["tx_cny_one_side"], ",.2f"),
+                                                   cost.get("cost_bp_per_side"))]
+            if cost.get("carry_cny_per_year") is not None:
+                bits.append("少拿一年逆回购利息 ¥%s（按 %s%% 报价）"
+                            % (format(cost["carry_cny_per_year"], ",.0f"),
+                               cost.get("repo_rate_pct")))
+            if cost.get("give_up_book_realized") is not None:
+                bits.append("如果这条袖继续按自己实现过的收益走，一年少赚 ¥%s（按同 β 基准算只有 ¥%s）"
+                            % (format(cost["give_up_book_realized"], ",.0f"),
+                               format(cost.get("give_up_at_benchmark") or 0, ",.0f")))
+            add("- 守额度的代价：%s。" % "；".join(bits))
+    elif over and over > 0:
+        add("- 裁剪表读不到（`results/etf_book_cut_order_gap.json` 缺席）：知道超了 ¥%s，但不知道该卖多少手。"
+            % format(over, ",.0f"))
+    fv = pf.get("floor_verdict")
+    if fv:
+        zh = {"REAPPLY_REQUIRED": "**这张单守住了，但排程没有**：下一张单会重新超额度，除非在那根决策 bar 上重新裁一次",
+              "HOLDING": "**仓位本身就在额度之下**，没有需要修剪的东西",
+              "NOT_ENFORCED": "**这张单也没有守住额度**",
+              "REISSUE_REQUIRED": "**额度是按一张已经被取代的票定的**，要重新签发"}.get(fv, "**%s**" % fv)
+        add("")
+        add("- 地板台账（`results/etf_book_floor_ledger.json`）：%s。" % zh)
+        if pf.get("floor_sentence"):
+            add("- 台账原话：%s" % pf["floor_sentence"])
+        if pf.get("k_schedule_last") is not None:
+            add("- 地板 k=%.6f（签给 %s 这一次换仓）；排程最后一根决策 bar k=%.6f（%s）。"
+                % (pf.get("floor_k") or 0.0, pf.get("floor_issued") or "—",
+                   pf.get("k_schedule_last") or 0.0, pf.get("schedule_last_date") or "—"))
+    # the trap that a "keep it" reading falls into
+    rd = pf.get("readings") or {}
+    path_rows = [(k, v) for k, v in rd.items() if v.get("kind") == "path"]
+    if path_rows:
+        add("")
+        add("- 额度没采用的读数（同一规则、同一面板，只换尺子）：%s。"
+            % "；".join("%s k=%.6f (%+.2fpp)" % (k, v["k"], v.get("delta_pp") or 0.0)
+                        for k, v in path_rows))
+        if pf.get("naive_permits_keep"):
+            add("- 如果拿「所有读数里最宽的那个」当许可，就会得出「可以不动」——这正是这一节要拦的那一步。")
+    add("")
+    return L
 
 
 def gap_face(path=GAP_JSON):
@@ -3345,6 +3536,7 @@ def build(with_stress=False, window_label=None):
     page["sellability"] = sellability_face()
     page["capital"] = capital_face()
     page["gap"] = gap_face()
+    page["permission"] = permission_face()
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
     page["envelope"] = envelope_face()
@@ -3407,6 +3599,8 @@ def render_md(p):
     add("")
     add("剩余现金 ¥%s 买 %s（或等价），不要留活期。" % (format(p["cash_amount_cny"], ",.0f"), p["cash_leg"]))
     add("")
+    for _pf_line in permission_block(p.get("permission") or {}):
+        add(_pf_line)
     bf = p.get("bets") or {}
     if bf.get("status") == "ok" and bf.get("sentence"):
         add("## 这几只票到底有几个赌注")
@@ -4493,10 +4687,19 @@ def selftest():
     _cl = _pd.DataFrame({"A": [10.0, 10.0, 1.0, 1.05], "B": [10.0, 10.2, 10.3, 10.4]},
                         index=["2026-01-0%d" % i for i in range(1, 5)])
     _cleanA, _nflat, _thr = clean_panel(_cl)
-    chk("L27b flip: the imported repair flattens a -90%% quote flip and keeps the level",
+    # r1458: this leg pinned the pre-r1400 convention (a repaired column walked forward from
+    # the panel's first bar, ending at 10.5 on a 1:5 print). r1400 re-anchors each column to
+    # its own last traded print, because a level is only a scale and the sheet was quoting a
+    # pre-split price. The property that matters did not change: the flip bar is a 0% day and
+    # every return the column feeds is untouched -- so the leg now asserts that, plus the
+    # anchor, instead of a level the producer deliberately abandoned (E289 stale-leg family).
+    chk("L27b flip: the imported repair flattens a -90%% quote flip, keeps the returns it feeds, "
+        "and anchors the level to the column's own traded print",
         _nflat == 1 and abs(float(_cleanA["A"].pct_change().iloc[2])) < 1e-12
-        and abs(float(_cleanA["A"].iloc[3]) - 10.5) < 1e-9,
-        "n=%s thr=%s last=%.4f" % (_nflat, _thr, float(_cleanA["A"].iloc[3])))
+        and abs(float(_cleanA["A"].iloc[3]) - 1.05) < 1e-9
+        and abs(float(_cleanA["A"].pct_change().iloc[3]) - 0.05) < 1e-9,
+        "n=%s thr=%s last=%.4f ret_after=%.4f" % (_nflat, _thr, float(_cleanA["A"].iloc[3]),
+                                                 float(_cleanA["A"].pct_change().iloc[3])))
     _raws = stress_stats(book_returns(_cl, ["A"], [1.0]), capital=1000000.0)
     _cleans = stress_stats(book_returns(_cleanA, ["A"], [1.0]), capital=1000000.0)
     _cb = contamination_block(_raws, _cleans, _nflat, _thr)
@@ -5861,6 +6064,59 @@ def selftest():
         ("+0.70%" in _ok_txt and "+0.56%" in _ok_txt and "20.00%" in _ok_txt
          and "2/2" in _ok_txt),
         "txt=%s" % " | ".join(x for x in _ok_txt.splitlines() if "持仓腿" in x)[:120])
+    # r1458: the permission reached the order sheet but not this page. The page is the only
+    # face a human reads, so "how big am I allowed to be" has to be on it -- and it has to
+    # stay honest when a receipt is missing or two receipts disagree.
+    _pf = page.get("permission") or {}
+    chk("L144 permission: the live page carries a floor, and the trim it prints lands under it",
+        _pf.get("status") == "ok" and _pf.get("consistency", {}).get("agree") is True
+        and _pf.get("k_allowed") is not None and _pf.get("k_order") is not None
+        and (_pf.get("trim") or {}).get("k_after") is not None
+        and (_pf["trim"]["k_after"] <= _pf["k_allowed"] + 1e-9)
+        == (_pf["k_order"] > _pf["k_allowed"]),
+        "allowed=%s order=%s after=%s" % (_pf.get("k_allowed"), _pf.get("k_order"),
+                                          ((_pf.get("trim") or {}).get("k_after"))))
+    _pf_txt = "\n".join(permission_block(_pf))
+    chk("L145 permission block: the live face says you are over, names the lots to sell, and "
+        "warns that the next decision bar re-sizes over the floor",
+        ("超出额度" in _pf_txt if (_pf.get("over_cny") or 0) > 0 else "没有超过额度" in _pf_txt)
+        and "卖出手数" in _pf_txt and "排程没有" in _pf_txt,
+        "over=%s txt_has_trim=%s" % (_pf.get("over_cny"), "卖出手数" in _pf_txt))
+    _pf_missing = permission_face(perm_path=os.path.join(tempfile.mkdtemp(), "absent.json"))
+    _pf_missing_txt = "\n".join(permission_block(_pf_missing))
+    chk("L146 permission block: a missing receipt reads 'cannot verify', never 'no cut needed'",
+        _pf_missing.get("status") == "unreadable" and "没有经过额度检查" in _pf_missing_txt
+        and "没有超过额度" not in _pf_missing_txt,
+        "status=%s" % _pf_missing.get("status"))
+    _pf_dir = tempfile.mkdtemp()
+    _perm_fix = {"decision_date": "2026-11-11", "ticket_file": "T-fix.json",
+                 "k_now": 0.46, "permitted_k": 0.40, "book_amount_cny": 460000.0,
+                 "permitted_book_cny": 400000.0, "cut_cny": 60000.0, "cut_pp": 6.0,
+                 "keep_allowed": False, "readings": {}}
+    _gap_fix = {"permitted_k": 0.39, "trim": {"legs": [], "lots_sell_total": 0}}
+    _led_fix = {"assessed": {"floor": 0.40, "verdict": "REAPPLY_REQUIRED"}, "rows": []}
+    _p_fix, _g_fix, _l_fix = (os.path.join(_pf_dir, n) for n in ("p.json", "g.json", "l.json"))
+    for _path, _obj in ((_p_fix, _perm_fix), (_g_fix, _gap_fix), (_l_fix, _led_fix)):
+        with open(_path, "w", encoding="utf-8") as _fh:
+            json.dump(_obj, _fh, ensure_ascii=False)
+    _pf_conflict = permission_face(_p_fix, _g_fix, _l_fix)
+    _pf_conflict_txt = "\n".join(permission_block(_pf_conflict))
+    chk("L147 permission block: two receipts quoting different floors stop the page from "
+        "claiming obedience (E289 two copies of one number)",
+        _pf_conflict.get("consistency", {}).get("agree") is False
+        and "两张收据对同一个额度报了不同的数" in _pf_conflict_txt
+        and "没有超过额度" not in _pf_conflict_txt,
+        "consistency=%s" % json.dumps(_pf_conflict.get("consistency"), ensure_ascii=False))
+    _p_under = os.path.join(_pf_dir, "p_under.json")
+    with open(_p_under, "w", encoding="utf-8") as _fh:
+        json.dump(dict(_perm_fix, k_now=0.35, cut_cny=0.0, keep_allowed=True), _fh, ensure_ascii=False)
+    _pf_under = permission_face(_p_under, os.path.join(_pf_dir, "absent_g.json"),
+                                os.path.join(_pf_dir, "absent_l.json"))
+    _pf_under_txt = "\n".join(permission_block(_pf_under))
+    chk("L148 permission block: a sheet already under the floor says so and prints no sell table",
+        "没有超过额度" in _pf_under_txt and "卖出手数" not in _pf_under_txt
+        and "超出额度" not in _pf_under_txt,
+        "over=%s" % _pf_under.get("over_cny"))
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 
