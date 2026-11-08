@@ -2124,6 +2124,13 @@ LEGS = [
     # folded into one location. `check` re-derives every site class and the verdict from the
     # sources, and the container arm outranks the benign arms so the failure mode cannot hide.
     ("called_consumer", ["python", "scripts/e550_called_consumer.py", "check"]),
+    # E547 takes E544's eight 'the store creates an item the fold never publishes' rows and asks
+    # what a consumer that took the fold's container would meet: an unguarded subscript read of
+    # the created key (KeyError), a guard or a default, or no read at all.  The face also prices
+    # the name-collision trap -- the key literal `verdict` alone is named on 3,257 other
+    # containers, so a name census would invent consumers. `check` re-derives every outcome from
+    # the row's own read list and refuses a producer-only verdict beside a proved face reader.
+    ("created_item_read", ["python", "scripts/e547_created_item_read.py", "check"]),
 ]
 
 

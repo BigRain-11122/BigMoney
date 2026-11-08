@@ -13608,3 +13608,23 @@ digest `research/digests/DIGEST-20261108-r1575-e546-filepathjoined.md`
 **边界（已随面发布）**：只跟一跳，继续外传的记 forwarded 不再跟；repo 兜底只查 `scripts/*.py` 里的 `def <name>(`，`Tools/*.py` 与包不在索引内，「没找到」只能读作「本扫描没找到」；无执行，`opened` 指 load 到达 `open()`，不指文件存在。
 
 **载体** = `scripts/e550_called_consumer.py`（build/check/verify + selftest 23/23）+ `results/state_tilt/CALLEDCONSUMER-2026-11-08.json` + `calledconsumer_latest.json` + S6 腿 `called_consumer` + smoke 腿 `# E550`（`scripts/run_e550_smoke_leg.py`，1/1 绿，`--doctor` 红）+ digest `research/digests/DIGEST-20261108-r1577-e550-called-consumer.md`。
+
+
+### E547 -- 八条“商店创建了折叠里不存在的项”，有没有代码把它读回来（r1578 bm-b）
+
+**问句**：E544 的 13 条 (store, later read) 里有 8 条是反的：store **创建**了折叠本身不会发布的项（`out['verdict']`、`rows['_GB_nan_skipped']`、`art['trials_N']`、`probe['params']['report_num_entries']`）。E544 只命名了分歧，没说后果。E547 问的是：**一个拿到“折叠版容器”（没有这项的那个）的消费者会撞上什么**——KeyError、读默认值、还是根本不碰这个键。
+
+**做法**：population 机读父面（`row_class == the_store_creates_an_item_the_fold_never_publishes`，8 条，绝不手抄）。每条做读点普查：同模块里 `<name>[<path>]` 的全部读点，分 subscript / get / membership / pop / setdefault，并标记是否在最后一次 store 之后、是否坐在创建它的那个函数里；跨模块的同名键读点按“同一个容器”与“只是名字撞车”分开；持久面通道只有在创建函数把容器交给 dump/open 且路径常量能解析时才开，且读取方必须**证到**自己从该面绑定了一个局部名（只提名不算）。
+
+**读数**：8/8 全是 KeyError 类——10 条无守卫 subscript 读 + 2 条 `.get` 守卫（两条都在 t19 的同一处循环里，落在 1 条 row 上）。但没有一条通过持久面被别人读回：唯一能解析出面路径的是三条 `alphagen_beam_w1x`（各写 `results/alphagen_w1x/probe_latest.json`），另有 5 个模块提名同一个 basename 却一个都没从它绑定过东西——那不是通道，是同名撞车。判决 `the_created_items_are_read_only_inside_the_module_that_creates_them_and_never_through_a_persisted_face`。
+
+**名字即陷阱（本轮最贵的一课）**：键名 `verdict` 在语料里被命名 3,374 处，其中 3,257 处落在**别的容器**上；四个键名合起来有 741 个模块命名过。按名数“消费者”会把 741 个模块读成“读过这八条”，真值是 0——名字普查必须先问“哪个容器的这个名字”，再问“读过没有”。
+
+**三条可复用律**：
+1. **同名不是同容器**——`out['verdict']` 在三个 probe 里各是一个不同的 dict；跨模块同名键读点一律进“撞车”桶，没有从该面绑定的证据就不许算消费者。
+2. **名字普查的分子要能被容器证伪**——先给“同一个容器”的证明（面路径解析 + 绑定局部名），再数读点；否则 741 与 0 的差别没人看得出来。
+3. **“永不读到”和“生产者自己读”是两种风险**——6/8 的读点就坐在创建它的函数里，是生产者自己的 print/累加；只有离开模块才可能伤到别人。判决必须把 `read_scope` 单列（本面：只在自己模块内）。
+
+**边界（随面发布）**：纯静态 AST；try/except KeyError 包住的 subscript 仍记无守卫（守卫在调用方不在站点）；面路径解析只认字面量 / join / dirname / abspath(__file__) 族，解析不出的表达式**发布为 unresolved**，不记成“没人读”；跨模块只用键名普查，不做全量数据流。
+
+**证据** = `scripts/e547_created_item_read.py`（build/check/verify + selftest 16/16）+ `results/state_tilt/CREATEDITEMREAD-2026-11-08.json` + `createditemread_latest.json` + S6 腿 `created_item_read` + smoke 腿 `# E547`（`scripts/run_e547_smoke_leg.py` 1/1 绿，`--doctor` 红）+ digest `research/digests/DIGEST-20261108-r1578-e547-created-item-read.md`。

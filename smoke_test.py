@@ -23722,5 +23722,58 @@ except Exception as _e550x:
     _d550 = "study could not be read"
 check(_name550, not _bad550, "; ".join(_bad550)[:240] or _d550)
 
+# E547: does anything read back the item a store creates?  * the population must be E544's own
+#   "creates an item the fold never publishes" rows (machine-read from the parent face) * every row's
+#   outcome must re-derive from its own read list * a "never read" verdict may not sit beside a read of
+#   the item and a producer-only verdict may not sit beside a read proved through a persisted face *
+#   a doctored copy (hand-written verdict, flipped outcome, count that is not the row list's, summary
+#   table that is not the rows') must be refused
+_name547 = "E547 the created items and who reads them back (r1578 bm-b)"
+_bad547 = []
+try:
+    _m547 = __import__("importlib").import_module("e547_created_item_read")
+    _f547 = json.load(open(os.path.join("results", "state_tilt", "createditemread_latest.json"),
+                           encoding="utf-8"))
+    _s547 = _f547.get("summary") or {}
+    _r547 = _f547.get("rows") or []
+    _bad547.extend(_m547.face_problems(_f547))
+    if not _r547:
+        _bad547.append("the created-item population is empty")
+    if _s547.get("parent_rows_published_as_created") != len(_r547):
+        _bad547.append("the rows are not the parent's own created rows")
+    if _s547.get("parent_rows_published_as_created") != 8:
+        _bad547.append("the population is not the parent's own eight created rows")
+    if _f547.get("verdict") == _m547.V_NEVER and _s547.get("reads_of_the_created_item_total"):
+        _bad547.append("a never-read verdict sits beside reads of the item")
+    if _f547.get("verdict") == _m547.V_PRODUCER_ONLY and \
+            _s547.get("rows_read_by_a_different_module_through_a_persisted_face"):
+        _bad547.append("a producer-only verdict sits beside a read proved through a persisted face")
+    if _r547:
+        _doc547 = json.loads(json.dumps(_f547))
+        _doc547["verdict"] = "a_verdict_this_study_never_publishes"
+        if not _m547.face_problems(_doc547):
+            _bad547.append("a hand-written verdict was accepted")
+        _doc547 = json.loads(json.dumps(_f547))
+        _doc547["rows"][0]["outcome"] = _m547.O_NEVER
+        if not _m547.face_problems(_doc547):
+            _bad547.append("an outcome that does not re-derive from its own reads was accepted")
+        _doc547 = json.loads(json.dumps(_f547))
+        _doc547["rows"][0]["unguarded_reads"] = 99
+        if not _m547.face_problems(_doc547):
+            _bad547.append("a published count that is not the row list's was accepted")
+        _doc547 = json.loads(json.dumps(_f547))
+        _doc547["summary"]["by_outcome"] = {}
+        if not _m547.face_problems(_doc547):
+            _bad547.append("a summary table that is not its rows' was accepted")
+    _d547 = ("%d rows / %d unguarded / %d guarded / %d key reads on a colliding container / %s"
+             % (len(_r547), _s547.get("unguarded_reads_total", 0),
+                _s547.get("guarded_reads_total", 0),
+                _s547.get("key_reads_on_another_container_total", 0),
+                _f547.get("verdict")))
+except Exception as _e547x:
+    _bad547.append(repr(_e547x)[:160])
+    _d547 = "study could not be read"
+check(_name547, not _bad547, "; ".join(_bad547)[:240] or _d547)
+
 if __name__ == "__main__":
     sys.exit(main())

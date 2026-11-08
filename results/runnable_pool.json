@@ -29649,13 +29649,19 @@
    "source": "E544 (r1573 bm-b): eight of its thirteen rows are stores that create the item rather than change it, and the face says nothing about what happens to a reader that gets the pre-store container",
    "lane": "cpu-only",
    "lane_note": "static: AST + the E536 literal interpreter over scripts/, no execution, no network, no rewrites",
-   "status": "ready",
+   "status": "done",
    "priority": "normal",
    "entered_at": "2026-11-08T15:05:00+08:00",
    "entered_by": "bm-b r1573 (supply floor refill after E544)",
    "evidence_cutoff": "2026-11-08",
    "deliverable": "results/state_tilt/CREATEDREAD-<cutoff>.json",
-   "target": "results/state_tilt/createdread_latest.json"
+   "target": "results/state_tilt/createdread_latest.json",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-08T16:05:00+08:00",
+   "done_at": "2026-11-08T16:05:00+08:00",
+   "done_by": "bm-b",
+   "result_ref": "results/state_tilt/CREATEDITEMREAD-2026-11-08.json",
+   "result_note": "8 created items: 8/8 read with an unguarded subscript (KeyError class), 2 guarded reads on one row, 0 read through a persisted face; 3,257 of 3,374 key reads sit on a colliding container so a name census would have invented 741 consumer modules for an item nobody reads"
   },
   {
    "id": "E548-HOW-MUCH-OF-THE-WHOLE-UNDECIDABLE-POPULATION-CLOSES-ONCE-THE-RESOLVER-HAS-THE-CALLER-S-MODULE-AND-BINDS-FREE-NAMES-INSIDE-CALL-ARGUMENTS",
@@ -29725,6 +29731,21 @@
    "evidence_cutoff": "2026-11-08",
    "entered_at": "2026-11-08T15:52:00+08:00",
    "entered_by": "bm-b r1577 (supply floor refill after E550)"
+  },
+  {
+   "id": "E552-WHETHER-THE-OWNER-OF-A-CREATED-ITEM-IS-EVER-THE-FOLD-THAT-PUBLISHES-IT",
+   "title": "E547 followed the eight created items from the store to every later read and found all eight read only inside the module that creates them. The parent (E544) also published the container the item is folded from: it binds one container (e.g. out = {...}) and the site reads a different one. For each of the eight, take the container the fold actually publishes (the returned dict, the dumped JSON, the object the caller receives) and ask whether the created item's key is present in it: if the fold publishes a container whose copy the store never touched, the item is not merely unread, it is absent from the published artefact -- publish which of the eight are missing from the face their own module writes, and how a downstream reader of that face would discover the absence.",
+   "source": "E547 (r1578 bm-b): the read census settled who reads each created item (nobody outside its producer) but measured reads of the in-memory container, not presence in the artefact the module publishes",
+   "lane": "cpu-only",
+   "lane_note": "static: AST walk from the store to the return/dump of the enclosing function; no execution",
+   "status": "ready",
+   "priority": "normal",
+   "deliverable": "results/state_tilt/CREATEDITEMPRESENCE-<cutoff>.json",
+   "target": "results/state_tilt/createditempresence_latest.json",
+   "worker_class": "self-contained",
+   "evidence_cutoff": "2026-11-08",
+   "entered_at": "2026-11-08T16:05:00+08:00",
+   "entered_by": "bm-b r1578 (supply floor refill after E547)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29739,6 +29760,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T15:52:00+08:00",
+ "updated_at": "2026-11-08T16:10:00+08:00",
  "version": 1
 }
