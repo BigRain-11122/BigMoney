@@ -896,6 +896,14 @@ LEGS = [
     # rows; it does not reprice the panel, so it stays milliseconds (r1290 class).
     ("concentration_levers",
      ["python", "scripts/etf_book_concentration_levers.py", "check"]),
+    # r1462: concentration_levers recommended exactly one arm (rebalance 10 bars, ADMIT at
+    # 10bp) and then said it turns CONDITIONAL at 20bp. This leg is the adoption round that
+    # sentence asked for: the rule is priced on five decision calendars x two cost
+    # assumptions, with the frozen criteria and the control book's own phase dependence
+    # printed. `check` re-derives every cell verdict and the cost arithmetic from the
+    # receipt's own rows (0.2s, no repricing).
+    ("rebal_adoption",
+     ["python", "scripts/etf_book_rebal_adoption.py", "check"]),
     # r1440: forty rounds read the calendar and the order page as two separate
     # subjects. This leg puts them in one sentence from receipts only (no
     # repricing): today the ticket executes nobond_vt08_adopted at book_weight

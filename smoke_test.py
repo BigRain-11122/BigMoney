@@ -735,6 +735,16 @@ def main() -> int:
              "scripts/etf_book_concentration_levers.py", ["selftest"]),
             ("product: etf_book_concentration_levers (published arms re-derived)",
              "scripts/etf_book_concentration_levers.py", ["check"]),
+            # r1462: the arm that receipt recommended was one decision calendar. The legs pin
+             # that the phase ruler moves the calendar, that a pass which only appears on some
+             # calendars reads PHASE_DEPENDENT, that a pass which only exists at 10bp reads
+             # COST_DEPENDENT, that a margin thinner than the book's own phase spread reads
+             # WITHIN_NOISE, that an empty grid is never a pass, and that the fee a faster grid
+             # pays is derived from its own extra turnover rather than assumed.
+            ("product: etf_book_rebal_adoption (is the 10-bar grid a rule or one calendar)",
+             "scripts/etf_book_rebal_adoption.py", ["selftest"]),
+            ("product: etf_book_rebal_adoption (published cells and arithmetic re-derived)",
+             "scripts/etf_book_rebal_adoption.py", ["check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a
