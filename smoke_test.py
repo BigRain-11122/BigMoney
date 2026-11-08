@@ -23376,5 +23376,71 @@ except Exception as _e537x:
     _d537 = "study could not be read"
 check(_name537, not _bad537, "; ".join(_bad537)[:240] or _d537)
 
+# E544: which item store between a binding and a site changes the value the fold publishes?  * the
+#   published face must re-derive from its own rows and gate clean, and every classed-changed row must
+#   publish two different values (the fold's and the site's) * the e285 witness E536 named as its own
+#   limit must actually be in the population, so "priced the pattern" cannot be claimed off an empty or
+#   witness-free scan * a store below the read's path must count: reading a container after one of its
+#   items was stored is a row * doctored copies (a flipped class, a hand-written verdict, a row with no
+#   store, a store before its binding, a summary that outlives its rows) must be refused
+_name544 = "E544 the item store between a binding and its site (r1573 bm-b)"
+_bad544 = []
+try:
+    _m544 = __import__("importlib").import_module("e544_item_store_between")
+    _f544 = json.load(open(os.path.join("results", "state_tilt", "itemstorebetween_latest.json"),
+                           encoding="utf-8"))
+    _s544 = _f544.get("summary") or {}
+    _r544 = _f544.get("rows") or []
+    _bad544.extend(_m544.face_problems(_f544))
+    if not _r544:
+        _bad544.append("the store population is empty")
+    if _s544.get("rows") != len(_r544):
+        _bad544.append("the published row count is not the number of published rows")
+    if _s544.get("changed", 0) + _s544.get("created", 0) + _s544.get("same", 0) != len(_r544):
+        _bad544.append("the row classes do not add up to the published rows")
+    for _row544 in _r544:
+        if _row544.get("row_class") != _m544.R_CHANGED:
+            continue
+        if _row544.get("fold_value") == _row544.get("site_value"):
+            _bad544.append("a row classed changed publishes one value twice (%s:%s)"
+                           % (_row544.get("source"), _row544.get("read_line")))
+            break
+    if not _s544.get("witness_rows"):
+        _bad544.append("the e285 witness E536 published as its own limit is not in the population")
+    if _s544.get("witness_rows_changed") != _s544.get("witness_rows"):
+        _bad544.append("the e285 witness is in the population but not priced as changed")
+    if _r544:
+        _doc544 = json.loads(json.dumps(_f544))
+        for _r544r in _doc544["rows"]:
+            if _r544r["row_class"] == _m544.R_CHANGED:
+                _r544r["row_class"] = _m544.R_SAME
+                break
+        if not _m544.face_problems(_doc544):
+            _bad544.append("a flipped row class was accepted")
+        _doc544 = json.loads(json.dumps(_f544))
+        _doc544["verdict"] = "a_verdict_this_study_never_publishes"
+        if not _m544.face_problems(_doc544):
+            _bad544.append("a hand-written verdict was accepted")
+        _doc544 = json.loads(json.dumps(_f544))
+        _doc544["rows"][0]["store_lines"] = []
+        if not _m544.face_problems(_doc544):
+            _bad544.append("a row with no store was accepted")
+        _doc544 = json.loads(json.dumps(_f544))
+        _doc544["rows"][0]["store_lines"] = [0]
+        if not _m544.face_problems(_doc544):
+            _bad544.append("a store before its binding was accepted")
+        _doc544 = json.loads(json.dumps(_f544))
+        _doc544["rows"] = [r for r in _doc544["rows"] if r["row_class"] != _m544.R_SAME]
+        if not _m544.face_problems(_doc544):
+            _bad544.append("a summary that outlives its rows was accepted")
+    _d544 = ("%d rows over %d sources / %d changed / %d created / %d same / witness %d rows %d changed"
+             % (len(_r544), _s544.get("sources_scanned", 0), _s544.get("changed", 0),
+                _s544.get("created", 0), _s544.get("same", 0),
+                _s544.get("witness_rows", 0), _s544.get("witness_rows_changed", 0)))
+except Exception as _e544x:
+    _bad544.append(repr(_e544x)[:160])
+    _d544 = "study could not be read"
+check(_name544, not _bad544, "; ".join(_bad544)[:240] or _d544)
+
 if __name__ == "__main__":
     sys.exit(main())

@@ -1,0 +1,302 @@
+{
+ "study": "E544_item_store_between",
+ "card": "E544-WHICH-ITEM-STORE-BETWEEN-A-BINDING-AND-A-SITE-CHANGES-THE-VALUE-THE-FOLD-PUBLISHES",
+ "date": "2026-11-08",
+ "evidence_cutoff": "2026-11-08 (corpus read from the working tree at build time)",
+ "parent_face": "INLINEDFOLD-2026-11-08.json",
+ "witness": "scripts/e285_interrange_gap_ceiling.py",
+ "row_vocab": [
+  "the_value_the_site_reads_differs_from_the_one_the_fold_publishes",
+  "the_store_creates_an_item_the_fold_never_publishes",
+  "the_store_leaves_the_value_the_site_reads_unchanged"
+ ],
+ "limits": [
+  "the_population_is_only_the_containers_this_interpreter_can_bind: a name bound to a literal container, or to a repo function whose body is a supported statement chain -- a container built from a tree read is not in the population and is not counted as clean",
+  "a store whose value the interpreter cannot evaluate is skipped rather than priced",
+  "a row is a (store, later read) pair on one name where one path contains the other, not a statement that only one consumer sees: two reads of the same container on one line publish two rows"
+ ],
+ "summary": {
+  "sources_scanned": 1180,
+  "rows": 13,
+  "changed": 4,
+  "created": 8,
+  "same": 1,
+  "sources_with_a_changed_row": 3,
+  "witness_rows": 2,
+  "witness_rows_changed": 2,
+  "by_row_class": {
+   "the_store_creates_an_item_the_fold_never_publishes": 8,
+   "the_value_the_site_reads_differs_from_the_one_the_fold_publishes": 4,
+   "the_store_leaves_the_value_the_site_reads_unchanged": 1
+  },
+  "top_sources_by_changed": [
+   [
+    "scripts/e285_interrange_gap_ceiling.py",
+    2
+   ],
+   [
+    "scripts/prospect_regime_segments.py",
+    1
+   ],
+   [
+    "scripts/t33_attack_wave.py",
+    1
+   ]
+  ]
+ },
+ "verdict": "item_stores_between_a_binding_and_its_site_both_change_published_values_and_publish_items_the_fold_never_sees",
+ "rows": [
+  {
+   "source": "scripts/alphagen_beam_w18.py",
+   "function": "cmd_probe",
+   "name": "out",
+   "path": [
+    "'verdict'"
+   ],
+   "binding_line": 488,
+   "store_lines": [
+    567
+   ],
+   "store_targets": [
+    "out['verdict']"
+   ],
+   "read_line": 570,
+   "row_class": "the_store_creates_an_item_the_fold_never_publishes",
+   "fold_value": null,
+   "site_value": "'PASS'"
+  },
+  {
+   "source": "scripts/alphagen_beam_w19.py",
+   "function": "cmd_probe",
+   "name": "out",
+   "path": [
+    "'verdict'"
+   ],
+   "binding_line": 577,
+   "store_lines": [
+    675
+   ],
+   "store_targets": [
+    "out['verdict']"
+   ],
+   "read_line": 678,
+   "row_class": "the_store_creates_an_item_the_fold_never_publishes",
+   "fold_value": null,
+   "site_value": "'PASS'"
+  },
+  {
+   "source": "scripts/alphagen_beam_w20.py",
+   "function": "cmd_probe",
+   "name": "out",
+   "path": [
+    "'verdict'"
+   ],
+   "binding_line": 624,
+   "store_lines": [
+    742
+   ],
+   "store_targets": [
+    "out['verdict']"
+   ],
+   "read_line": 745,
+   "row_class": "the_store_creates_an_item_the_fold_never_publishes",
+   "fold_value": null,
+   "site_value": "'PASS'"
+  },
+  {
+   "source": "scripts/e285_interrange_gap_ceiling.py",
+   "function": "cmd_selftest",
+   "name": "off",
+   "path": [
+    "'rows'"
+   ],
+   "binding_line": 503,
+   "store_lines": [
+    504
+   ],
+   "store_targets": [
+    "off['rows'][1]['tight']"
+   ],
+   "read_line": 505,
+   "row_class": "the_value_the_site_reads_differs_from_the_one_the_fold_publishes",
+   "fold_value": "[{'row': 'cross', 'leg': 'cross', 'base': 60, 'index': 1, 'flip_multiplier': 2.2, 'tight': {'multiplier_min': 1.0, 'multiplier_max': 1.1}, 'wide': {'multiplier_min': 2.0, 'multiplier_max': 2.3, 'reachable': True}}, {'row': 'cross', 'leg': 'cross', 'base': 60, 'index': 2, 'flip_multiplier': 1.5, 'tight': {'multiplier_min': 1.0, 'multiplier_max': 1.1}, 'wide': {'multiplier_min': 2.0, 'multiplier_max': 2.3}}]",
+   "site_value": "[{'row': 'cross', 'leg': 'cross', 'base': 60, 'index': 1, 'flip_multiplier': 2.2, 'tight': {'multiplier_min': 1.0, 'multiplier_max': 1.1}, 'wide': {'multiplier_min': 2.0, 'multiplier_max': 2.3, 'reachable': True}}, {'row': 'cross', 'leg': 'cross', 'base': 60, 'index': 2, 'flip_multiplier': 1.5, 'tight': {'multiplier_min': 0.9, 'multiplier_max': 1.2}, 'wide': {'multiplier_min': 2.0, 'multiplier_max': 2.3}}]"
+  },
+  {
+   "source": "scripts/e285_interrange_gap_ceiling.py",
+   "function": "cmd_selftest",
+   "name": "off",
+   "path": [
+    "'rows'"
+   ],
+   "binding_line": 503,
+   "store_lines": [
+    504
+   ],
+   "store_targets": [
+    "off['rows'][1]['tight']"
+   ],
+   "read_line": 505,
+   "row_class": "the_value_the_site_reads_differs_from_the_one_the_fold_publishes",
+   "fold_value": "[{'row': 'cross', 'leg': 'cross', 'base': 60, 'index': 1, 'flip_multiplier': 2.2, 'tight': {'multiplier_min': 1.0, 'multiplier_max': 1.1}, 'wide': {'multiplier_min': 2.0, 'multiplier_max': 2.3, 'reachable': True}}, {'row': 'cross', 'leg': 'cross', 'base': 60, 'index': 2, 'flip_multiplier': 1.5, 'tight': {'multiplier_min': 1.0, 'multiplier_max': 1.1}, 'wide': {'multiplier_min': 2.0, 'multiplier_max': 2.3}}]",
+   "site_value": "[{'row': 'cross', 'leg': 'cross', 'base': 60, 'index': 1, 'flip_multiplier': 2.2, 'tight': {'multiplier_min': 1.0, 'multiplier_max': 1.1}, 'wide': {'multiplier_min': 2.0, 'multiplier_max': 2.3, 'reachable': True}}, {'row': 'cross', 'leg': 'cross', 'base': 60, 'index': 2, 'flip_multiplier': 1.5, 'tight': {'multiplier_min': 0.9, 'multiplier_max': 1.2}, 'wide': {'multiplier_min': 2.0, 'multiplier_max': 2.3}}]"
+  },
+  {
+   "source": "scripts/e331_pointer_only_readers.py",
+   "function": "build",
+   "name": "stats",
+   "path": [
+    "'sources'"
+   ],
+   "binding_line": 460,
+   "store_lines": [
+    542
+   ],
+   "store_targets": [
+    "stats['sources']"
+   ],
+   "read_line": 570,
+   "row_class": "the_store_leaves_the_value_the_site_reads_unchanged",
+   "fold_value": "0",
+   "site_value": "0"
+  },
+  {
+   "source": "scripts/prospect_regime_segments.py",
+   "function": "gate_anchor",
+   "name": "rep",
+   "path": [
+    "'cuts'"
+   ],
+   "binding_line": 127,
+   "store_lines": [
+    148
+   ],
+   "store_targets": [
+    "rep['cuts']"
+   ],
+   "read_line": 149,
+   "row_class": "the_value_the_site_reads_differs_from_the_one_the_fold_publishes",
+   "fold_value": "set([])",
+   "site_value": "[]"
+  },
+  {
+   "source": "scripts/t19_adjust_view.py",
+   "function": "_gate_results",
+   "name": "rows",
+   "path": [
+    "'_GB_nan_skipped'"
+   ],
+   "binding_line": 233,
+   "store_lines": [
+    292
+   ],
+   "store_targets": [
+    "rows['_GB_nan_skipped']"
+   ],
+   "read_line": 297,
+   "row_class": "the_store_creates_an_item_the_fold_never_publishes",
+   "fold_value": null,
+   "site_value": "0"
+  },
+  {
+   "source": "scripts/t33_attack_wave.py",
+   "function": "cmd_selftest",
+   "name": "probe",
+   "path": [
+    "'params'"
+   ],
+   "binding_line": 813,
+   "store_lines": [
+    815,
+    816
+   ],
+   "store_targets": [
+    "probe['params']",
+    "probe['params']['report_num_entries']"
+   ],
+   "read_line": 817,
+   "row_class": "the_value_the_site_reads_differs_from_the_one_the_fold_publishes",
+   "fold_value": "{'entry': 'x'}",
+   "site_value": "{'entry': 'x', 'report_num_entries': True}"
+  },
+  {
+   "source": "scripts/t33_attack_wave.py",
+   "function": "cmd_selftest",
+   "name": "probe",
+   "path": [
+    "'params'",
+    "'report_num_entries'"
+   ],
+   "binding_line": 813,
+   "store_lines": [
+    815,
+    816
+   ],
+   "store_targets": [
+    "probe['params']",
+    "probe['params']['report_num_entries']"
+   ],
+   "read_line": 817,
+   "row_class": "the_store_creates_an_item_the_fold_never_publishes",
+   "fold_value": null,
+   "site_value": "True"
+  },
+  {
+   "source": "scripts/t73_s2_factor_history.py",
+   "function": "run",
+   "name": "art",
+   "path": [
+    "'trials_N'"
+   ],
+   "binding_line": 205,
+   "store_lines": [
+    248
+   ],
+   "store_targets": [
+    "art['trials_N']"
+   ],
+   "read_line": 271,
+   "row_class": "the_store_creates_an_item_the_fold_never_publishes",
+   "fold_value": null,
+   "site_value": "{'ic_faces_this_batch': 0, 'nulls_reference_in_ledger': 50}"
+  },
+  {
+   "source": "scripts/t73_s2_retail_herding.py",
+   "function": "run",
+   "name": "art",
+   "path": [
+    "'trials_N'"
+   ],
+   "binding_line": 141,
+   "store_lines": [
+    167
+   ],
+   "store_targets": [
+    "art['trials_N']"
+   ],
+   "read_line": 181,
+   "row_class": "the_store_creates_an_item_the_fold_never_publishes",
+   "fold_value": null,
+   "site_value": "{'ic_faces_this_batch': 0, 'nulls_reference_in_ledger': 50}"
+  },
+  {
+   "source": "scripts/t73_s2_reversal_momentum.py",
+   "function": "run",
+   "name": "art",
+   "path": [
+    "'trials_N'"
+   ],
+   "binding_line": 93,
+   "store_lines": [
+    112
+   ],
+   "store_targets": [
+    "art['trials_N']"
+   ],
+   "read_line": 124,
+   "row_class": "the_store_creates_an_item_the_fold_never_publishes",
+   "fold_value": null,
+   "site_value": "{'ic_faces_this_batch': 0, 'mirror_verify_faces': 0}"
+  }
+ ]
+}

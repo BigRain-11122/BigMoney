@@ -13471,3 +13471,40 @@ E532 把两臂判成 `replaced_by_module_constant`——被调体不用它收到
 `results/state_tilt/CONSTTERM-2026-11-08.json` + `constantterminal_latest.json` + S6 腿
 `constant_terminal` + smoke 腿 `# E537` + `scripts/run_e537_smoke_leg.py`（1/1 绿 + --doctor 红）+
 digest `research/digests/DIGEST-20261108-r1572-e537-constant-terminal.md`。
+
+### E544 · 绑定与使用点之间的那次 item store，改的是不是折叠发布的那个值（2026-11-08，r1573 bm-b）
+
+E536 把自己发现的那处 store 当成「局限」写进了面：`scripts/e285_interrange_gap_ceiling.py:503`
+把 `off` 绑到 `_fixture_arm()`，`:504` 存 `off["rows"][1]["tight"] = _td(0.9, 1.2)`，`:505` 才读
+`off["rows"]`。折叠停在绑定处发布 lo=1.0 的 hull，断言吃的是 lo=0.9 的那个。这张卡不问那一个
+证人，问这个形状在全仓有多贵。
+
+**做法**：按行序在一份同一白名单的字面解释器上重放每个函数的语句（常量/容器/下标/算术/固定
+内建/纯语句链的仓库函数），沿途记录三类事件——`bind`（可求值的 `NAME = expr`）、`store`
+（目标是以绑定名为根的下标路径，`NAME[k]` 与 `NAME[k1][k2]` 同样算）、`read`（以绑定名为根的
+被加载下标路径）。只有当一次 store 与它之后的一次 read 落在同一个名字、且两条路径互为前缀（或
+相同）时才出行：这正是卡名所指的总体。
+
+**读数**：1180 个模块 → **13 行**；其中 **4 行**读出与折叠发布值不同的值、**8 行**是 store 造出
+了折叠根本不会发布的项（读的时候拿到值，折叠的容器里根本没有这个键）、**1 行**是幂等回写。
+E536 点名的 e285 证人在总体里（2 行、2 行判改），所以「给这个形状定价」不是靠空扫描说出来的。
+判词 = `item_stores_between_a_binding_and_its_site_both_change_published_values_and_publish_items_the_fold_never_sees`。
+
+**三条可复用教训**：
+1. **「store 之后读」要在自己那一行之前结算**。`rep["cuts"] = list(rep["cuts"])` 这类自引用
+   回写里，右值的读发生在写之前；初版按列号排序把写排在读前面，于是同一行被读成「读在写之后」，
+   行数从 25 掉到 13 才算对。排序键 =（语句位置、语句内相位：读 0 写/绑 1），不是列号。
+2. **深一层的 store 改的是上层容器**。`off["rows"][1]["tight"] = ...` 之后读 `off["rows"]` 同样
+   是受影响的读；只比较「路径完全相同」会把唯一证人排除在总体之外（初版就是这么空扫描的）。
+   判据 = 两条路径互为前缀。
+3. **赋值目标的内部下标在 AST 里是 Load**。`a[b][c] = v` 的内层 `a[b]` 带 Load 上下文，不排掉
+   就会在同一行伪造出一条「读」，且它的行号等于 store 行号。正法 = 先收集所有赋值目标子树里
+   的节点 id，收 read 时跳过。
+
+**边界（已随面发布）**：总体只含解释器能绑定的容器（字面量，或纯语句链仓库函数的返回值）；
+从树读出来的容器不在总体里，且不被算成「干净」。求值不了值的 store 是跳过而不是定价。
+
+**载体** = `scripts/e544_item_store_between.py`（build/check/verify + selftest 13 臂）+
+`results/state_tilt/ITEMSTOREBETWEEN-2026-11-08.json` + `itemstorebetween_latest.json` + S6 腿
+`item_store_between` + smoke 腿 `# E544` + `scripts/run_e544_smoke_leg.py`（1/1 绿 + --doctor 红）+
+digest `research/digests/DIGEST-20261108-r1573-e544-item-store-between.md`。
