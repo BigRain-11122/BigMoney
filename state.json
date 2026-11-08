@@ -1484,11 +1484,11 @@
  "three_line_delivery": "machine/bm-b-r1523 @ a53ab1468 (ls-remote verified)",
  "three_line_next": "burn E518 or E520 (both ready); E521 seeded -- within 48h",
  "timestamp": "2026-11-08T03:47:30+08:00",
- "ts": "2026-11-08T09:57:05+08:00",
+ "ts": "2026-11-08T09:58:07+08:00",
  "ts_utc_ms": 1794030144262,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-08T03:47:30+08:00",
- "updated_at": "2026-11-08T09:57:05+08:00",
+ "updated_at": "2026-11-08T09:58:07+08:00",
  "verdict": "E529: 12 depth-cap null arms / 12 functions; 118 rejected constant tests (index or length guards); 274 attributed call sites (562 unattributed same-name); 0 arms whose reader can see the cap; 0 dead arms (every surviving arm is recursive)",
  "verdict_line": "12 depth-cap null arms / 12 functions; 118 rejected constant tests (index or length guards); 274 attributed call sites (562 unattributed same-name); 0 arms whose reader can see the cap; 0 dead arms (every surviving arm is recursive)",
  "verdict_note": "product round; the full suite was not launched, so no suite total is claimed",
@@ -1527,5 +1527,12 @@
   "study": "E529_depth_cap_null",
   "ts": "2026-11-08T09:57:05+08:00"
  },
- "ram_note": "psutil probe at close"
+ "ram_note": "psutil probe at close",
+ "r1560_delivery": {
+  "branch": "machine/bm-b-r1560",
+  "sha": "40d8c2849b8ac6e69324a7feeefc14c9ca368848",
+  "ts": "2026-11-08T09:58:07+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1560 equals HEAD",
+  "main_push_blocker": "local main is far ahead/behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243 -- the machine branch is the delivery channel"
+ }
 }
