@@ -22060,6 +22060,76 @@ except Exception as _e525x:
     _d525 = "leg could not run"
 check(_name525, not _bad525, "; ".join(_bad525)[:240] or _d525)
 
+# E528: E525's self-recursive parcels must publish whether the recursion ends on something a
+# caller can read.  Every parcel in the face must be a parcel of the upstream E525 face, the arm
+# and the guard must come from the function's own source, a recursive call must never be counted
+# as a read, and doctored copies (an unguarded recursion relabelled readable, a hand-written
+# verdict, a parcel renamed to a function the module does not define) must be refused.
+_name528 = ("E528 says whether each self-recursive forward is read by a terminating arm "
+            "(r1555 bm-b)")
+_bad528 = []
+try:
+    _m528 = __import__("importlib").import_module("e528_recursive_read")
+    _f528 = json.load(open(os.path.join("results", "state_tilt", "recursiveread_latest.json"),
+                           encoding="utf-8"))
+    _s528 = _f528.get("summary") or {}
+    _r528 = _f528.get("sites") or []
+    _up528 = _m528.load_upstream()[0]
+    _bad528.extend(_m528.face_problems(_f528))
+    _pop528 = _m528.population(_up528)
+    if not _r528:
+        _bad528.append("the self-recursive parcel population is empty")
+    if len(_r528) != len(_pop528):
+        _bad528.append("the examined population is not the E525 self-recursive set")
+    if _s528.get("parcels_read_by_a_terminating_arm", 0) + \
+            _s528.get("parcels_with_unguarded_recursion", 0) + \
+            _s528.get("parcels_guarded_but_never_read", 0) != len(_r528):
+        _bad528.append("the three verdict classes do not add up to the population")
+    for _r in _r528:
+        if not os.path.exists(_r.get("module") or ""):
+            _bad528.append("%s names a module that is not on disk" % _r.get("module"))
+            continue
+        if not _r.get("recursive_calls"):
+            _bad528.append("%s:%s publishes no recursive call line"
+                           % (_r.get("module"), _r.get("line")))
+        if _r.get("arg_base") is None:
+            _bad528.append("%s:%s names no value the recursion carries"
+                           % (_r.get("module"), _r.get("line")))
+
+    _doc528 = json.loads(json.dumps(_f528))
+    _doc528["verdict"] = (_m528.V_UNGUARDED if _f528["verdict"] != _m528.V_UNGUARDED
+                          else _m528.V_READ)
+    if not _m528.face_problems(_doc528):
+        _bad528.append("a hand-written verdict was accepted")
+    _doc528 = json.loads(json.dumps(_f528))
+    _doc528["sites"][-1]["verdict"] = _m528.V_READ
+    _doc528["sites"][-1]["guards"] = [_m528.G_NONE]
+    _doc528["sites"][-1]["arm"] = _m528.A_RETURNS
+    _doc528["summary"] = _m528._summary(_doc528["sites"], 1)
+    if not _m528.face_problems(_doc528):
+        _bad528.append("an unguarded recursion relabelled readable was accepted")
+    _doc528 = json.loads(json.dumps(_f528))
+    _doc528["sites"][0]["function"] = "no_such_function_in_this_module"
+    _fresh528 = _m528.analyse_parcel({"source": _doc528["sites"][0]["module"],
+                                      "line": _doc528["sites"][0]["line"],
+                                      "callee": _doc528["sites"][0]["function"],
+                                      "enclosing_function": "no_such_function_in_this_module"})
+    if _fresh528.get("verdict") == _doc528["sites"][0].get("verdict") and \
+            _fresh528.get("arm") == _doc528["sites"][0].get("arm"):
+        _bad528.append("a parcel pointing at a function the module does not define re-derived")
+    _d528 = ("%d parcels | read by a terminating arm %s | unguarded %s | guarded but never read %s | "
+             "depth+type guard %s | type guard %s" % (
+                 len(_r528),
+                 _s528.get("parcels_read_by_a_terminating_arm"),
+                 _s528.get("parcels_with_unguarded_recursion"),
+                 _s528.get("parcels_guarded_but_never_read"),
+                 (_s528.get("parcels_by_guard") or {}).get(_m528.G_BOTH),
+                 (_s528.get("parcels_by_guard") or {}).get(_m528.G_TYPE)))
+except Exception as _e528x:
+    _bad528.append(repr(_e528x)[:160])
+    _d528 = "leg could not run"
+check(_name528, not _bad528, "; ".join(_bad528)[:240] or _d528)
+
 
 if __name__ == "__main__":
     sys.exit(main())

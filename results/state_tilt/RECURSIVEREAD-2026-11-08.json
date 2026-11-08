@@ -1,0 +1,403 @@
+{
+ "arm_vocab": [
+  "returns_it_to_a_caller",
+  "reads_it_without_returning_it",
+  "only_tests_its_type",
+  "discards_it",
+  "never_mentions_it_outside_the_recursive_call"
+ ],
+ "card": "E528-WHICH-OF-THE-SELF-RECURSIVE-FORWARDS-IS-READ-BY-A-TERMINATING-ARM-OF-THE-SAME-FUNCTION",
+ "evidence_cutoff": "2026-11-08",
+ "generated": "2026-11-08T08:16:03",
+ "guard_vocab": [
+  "guarded_by_a_depth_counter",
+  "guarded_by_a_type_or_none_test",
+  "guarded_by_a_depth_counter_and_a_type_test",
+  "no_guard_found_on_the_recursive_path"
+ ],
+ "method_limits": [
+  "a recursive call is never counted as a read: the arm is measured on the parameter's uses outside every recursive call of the same function",
+  "a type/None test counts as a terminating arm because it decides the branch, and it is published under its own arm class so a value that is only tested is never reported as a value a caller reads",
+  "the guard is read from the call's own ancestors: a depth counter must both be passed forward (``depth + 1``) and be tested against a constant somewhere in the function; a type guard must test the name (or the container a comprehension iterates) the recursed argument reads off",
+  "a function reached through a container, a callback or an attribute of an instance is outside this scan and is never silently published as guarded",
+  "nothing is executed and no source is rewritten",
+  "sources_read is a snapshot of a live tree that other lanes write to; it is published but not gated, while every verdict, arm and guard class is re-derived"
+ ],
+ "population_source": "e528_recursive_read.py::population() -- the E525 residue parcels whose boundary is `the_same_function_again_so_the_chain_closes_inside_one_body`",
+ "sites": [
+  {
+   "arg_base": "expr",
+   "arm": "returns_it_to_a_caller",
+   "arm_evidence_lines": {
+    "discards": [],
+    "reads": [
+     137,
+     139,
+     144,
+     148,
+     149,
+     153,
+     156,
+     160,
+     161,
+     162,
+     166,
+     168
+    ],
+    "returns": [
+     125,
+     129
+    ],
+    "tests": [
+     124,
+     126,
+     127,
+     130,
+     136,
+     159
+    ]
+   },
+   "call_expression": "_resolve(expr.args[0], consts, roots, depth + 1)",
+   "callee": "_resolve",
+   "callee_module": "scripts/e379_unkeyed_face_reader.py",
+   "enclosing_function": "_resolve",
+   "evidence": [],
+   "function": "_resolve",
+   "guards": [
+    "guarded_by_a_depth_counter_and_a_type_test"
+   ],
+   "line": 145,
+   "module": "scripts/e379_unkeyed_face_reader.py",
+   "recursive_calls": [
+    131,
+    132,
+    145,
+    154,
+    157,
+    167,
+    169,
+    139,
+    148,
+    162
+   ],
+   "rows_that_share_this_parcel": 5,
+   "source": "scripts/e379_unkeyed_face_reader.py",
+   "verdict": "read_by_a_terminating_arm"
+  },
+  {
+   "arg_base": "expr",
+   "arm": "returns_it_to_a_caller",
+   "arm_evidence_lines": {
+    "discards": [],
+    "reads": [
+     137,
+     139,
+     144,
+     148,
+     149,
+     153,
+     156,
+     160,
+     161,
+     162,
+     166,
+     168
+    ],
+    "returns": [
+     125,
+     129
+    ],
+    "tests": [
+     124,
+     126,
+     127,
+     130,
+     136,
+     159
+    ]
+   },
+   "call_expression": "_resolve(expr.args[0], consts, roots, depth + 1)",
+   "callee": "_resolve",
+   "callee_module": "scripts/e379_unkeyed_face_reader.py",
+   "enclosing_function": "_resolve",
+   "evidence": [],
+   "function": "_resolve",
+   "guards": [
+    "guarded_by_a_depth_counter_and_a_type_test"
+   ],
+   "line": 154,
+   "module": "scripts/e379_unkeyed_face_reader.py",
+   "recursive_calls": [
+    131,
+    132,
+    145,
+    154,
+    157,
+    167,
+    169,
+    139,
+    148,
+    162
+   ],
+   "rows_that_share_this_parcel": 5,
+   "source": "scripts/e379_unkeyed_face_reader.py",
+   "verdict": "read_by_a_terminating_arm"
+  },
+  {
+   "arg_base": "expr",
+   "arm": "returns_it_to_a_caller",
+   "arm_evidence_lines": {
+    "discards": [],
+    "reads": [
+     137,
+     139,
+     144,
+     148,
+     149,
+     153,
+     156,
+     160,
+     161,
+     162,
+     166,
+     168
+    ],
+    "returns": [
+     125,
+     129
+    ],
+    "tests": [
+     124,
+     126,
+     127,
+     130,
+     136,
+     159
+    ]
+   },
+   "call_expression": "_resolve(expr.func.value, consts, roots, depth + 1)",
+   "callee": "_resolve",
+   "callee_module": "scripts/e379_unkeyed_face_reader.py",
+   "enclosing_function": "_resolve",
+   "evidence": [],
+   "function": "_resolve",
+   "guards": [
+    "guarded_by_a_depth_counter_and_a_type_test"
+   ],
+   "line": 157,
+   "module": "scripts/e379_unkeyed_face_reader.py",
+   "recursive_calls": [
+    131,
+    132,
+    145,
+    154,
+    157,
+    167,
+    169,
+    139,
+    148,
+    162
+   ],
+   "rows_that_share_this_parcel": 5,
+   "source": "scripts/e379_unkeyed_face_reader.py",
+   "verdict": "read_by_a_terminating_arm"
+  },
+  {
+   "arg_base": "expr",
+   "arm": "returns_it_to_a_caller",
+   "arm_evidence_lines": {
+    "discards": [],
+    "reads": [
+     137,
+     139,
+     144,
+     148,
+     149,
+     153,
+     156,
+     160,
+     161,
+     162,
+     166,
+     168
+    ],
+    "returns": [
+     125,
+     129
+    ],
+    "tests": [
+     124,
+     126,
+     127,
+     130,
+     136,
+     159
+    ]
+   },
+   "call_expression": "_resolve(expr.args[0], consts, roots, depth + 1)",
+   "callee": "_resolve",
+   "callee_module": "scripts/e379_unkeyed_face_reader.py",
+   "enclosing_function": "_resolve",
+   "evidence": [],
+   "function": "_resolve",
+   "guards": [
+    "guarded_by_a_depth_counter_and_a_type_test"
+   ],
+   "line": 167,
+   "module": "scripts/e379_unkeyed_face_reader.py",
+   "recursive_calls": [
+    131,
+    132,
+    145,
+    154,
+    157,
+    167,
+    169,
+    139,
+    148,
+    162
+   ],
+   "rows_that_share_this_parcel": 5,
+   "source": "scripts/e379_unkeyed_face_reader.py",
+   "verdict": "read_by_a_terminating_arm"
+  },
+  {
+   "arg_base": "expr",
+   "arm": "returns_it_to_a_caller",
+   "arm_evidence_lines": {
+    "discards": [],
+    "reads": [
+     137,
+     139,
+     144,
+     148,
+     149,
+     153,
+     156,
+     160,
+     161,
+     162,
+     166,
+     168
+    ],
+    "returns": [
+     125,
+     129
+    ],
+    "tests": [
+     124,
+     126,
+     127,
+     130,
+     136,
+     159
+    ]
+   },
+   "call_expression": "_resolve(expr.args[0], consts, roots, depth + 1)",
+   "callee": "_resolve",
+   "callee_module": "scripts/e379_unkeyed_face_reader.py",
+   "enclosing_function": "_resolve",
+   "evidence": [],
+   "function": "_resolve",
+   "guards": [
+    "guarded_by_a_depth_counter_and_a_type_test"
+   ],
+   "line": 169,
+   "module": "scripts/e379_unkeyed_face_reader.py",
+   "recursive_calls": [
+    131,
+    132,
+    145,
+    154,
+    157,
+    167,
+    169,
+    139,
+    148,
+    162
+   ],
+   "rows_that_share_this_parcel": 5,
+   "source": "scripts/e379_unkeyed_face_reader.py",
+   "verdict": "read_by_a_terminating_arm"
+  },
+  {
+   "arg_base": "expr",
+   "arm": "reads_it_without_returning_it",
+   "arm_evidence_lines": {
+    "discards": [],
+    "reads": [
+     329,
+     331
+    ],
+    "returns": [],
+    "tests": [
+     326,
+     328,
+     330,
+     332
+    ]
+   },
+   "call_expression": "is_literal_side(expr.operand)",
+   "callee": "is_literal_side",
+   "callee_module": "scripts/e483_leg_debt.py",
+   "enclosing_function": "is_literal_side",
+   "evidence": [],
+   "function": "is_literal_side",
+   "guards": [
+    "guarded_by_a_type_or_none_test"
+   ],
+   "line": 333,
+   "module": "scripts/e483_leg_debt.py",
+   "recursive_calls": [
+    333,
+    329,
+    331
+   ],
+   "rows_that_share_this_parcel": 1,
+   "source": "scripts/e483_leg_debt.py",
+   "verdict": "read_by_a_terminating_arm"
+  }
+ ],
+ "study": "E528_recursive_read",
+ "summary": {
+  "functions_examined": 2,
+  "modules_that_carry_a_self_recursive_parcel": 2,
+  "parcels_by_arm": {
+   "discards_it": 0,
+   "never_mentions_it_outside_the_recursive_call": 0,
+   "only_tests_its_type": 0,
+   "reads_it_without_returning_it": 1,
+   "returns_it_to_a_caller": 5
+  },
+  "parcels_by_guard": {
+   "guarded_by_a_depth_counter": 0,
+   "guarded_by_a_depth_counter_and_a_type_test": 5,
+   "guarded_by_a_type_or_none_test": 1,
+   "no_guard_found_on_the_recursive_path": 0
+  },
+  "parcels_by_verdict": {
+   "guarded_but_the_value_is_never_read": 0,
+   "no_self_recursive_parcel_in_the_upstream_face": 0,
+   "read_by_a_terminating_arm": 6,
+   "the_recursion_is_unguarded": 0
+  },
+  "parcels_examined": 6,
+  "parcels_guarded_but_never_read": 0,
+  "parcels_read_by_a_terminating_arm": 6,
+  "parcels_whose_recursed_value_is_not_a_parameter": 0,
+  "parcels_with_unguarded_recursion": 0,
+  "rows_that_publish_no_verdict": 0,
+  "sources_read": 2739
+ },
+ "title": "which of the self-recursive forwards is read by a terminating arm of the same function",
+ "upstream_face": "results/state_tilt/onwardresidue_latest.json",
+ "upstream_face_sha256": "b307c8ff0dfe71dd54a2be720cd0dcb3a936a626001d27402fbe5e197a91be7a",
+ "upstream_study": "E525_onward_residue",
+ "verdict": "read_by_a_terminating_arm",
+ "verdict_vocab": [
+  "read_by_a_terminating_arm",
+  "the_recursion_is_unguarded",
+  "guarded_but_the_value_is_never_read",
+  "no_self_recursive_parcel_in_the_upstream_face"
+ ]
+}

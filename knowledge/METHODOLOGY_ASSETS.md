@@ -13075,3 +13075,18 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 - **check 只需解析被引用的 29 个文件**（0.86s），不比全树 2731 文件慢一个量级的前提是「边界由源码行重推」而非「重跑上游」。
 
 **验证**：`scripts/e525_onward_residue.py` build rc0 / check problems=0 / verify problems=0 / selftest clean（6 类边界 + 3 类 doctored 全拒）；`results/state_tilt/ONWARDRESIDUE-2026-11-08.json` + `onwardresidue_latest.json` 同源；S6 腿 `onward_residue` rc0（0.86s）；smoke 腿 `# E525` 1/1 绿、`--doctor` 1/1 红且字节还原 sha `b307c8ff0dfe`；digest `research/digests/DIGEST-20261108-r1554-e525-onward-residue.md`。
+
+## E528 自递归转发：6/6 被终止臂读到（递归调用不是读；参数不是载体；返回派生表达式≠返回值）（2026-11-08 r1555 bm-b）
+
+**问题**：E525 把 6 个「又交回同一个函数」的 parcel 收成一个类名（`the_same_function_again_so_the_chain_closes_inside_one_body`）——它只说明链没出函数体，没说递归会不会停在调用方读得到的东西上。
+
+**做法**：逐 parcel 回到 `source:line`，把所在函数 AST 全读：①臂=递归调用**之外**参数的使用（进 return / 读属性下标 / 只测类型 / 丢弃 / 从不提）；②守卫=沿该递归调用自己的祖先链（`depth+1` 递进且体内有 `depth > 常数` = 深度守卫；祖先 `if` 测的是该名字或它被遍历的容器 = 类型守卫）；③判决三分（读到 / 无守卫 / 有守卫但没人读）。
+
+**读数**：6 parcel（2 函数 / 2 模块）= 全部 `read_by_a_terminating_arm`；深度+类型双守卫 5（`_resolve`）、类型守卫 1（`is_literal_side`）；无守卫 0、有守卫没人读 0。
+
+**三枚可复用判例**：
+- **递归调用不是读**——把递归调用算进「值被使用」会让每个递归函数自动变成「有人读」；臂必须在递归调用之外测量。
+- **参数不是载体**——`all(typed(e) for e in expr)` 递进去的是推导变量 `e`，被臂处理的是 `expr`；不顺着 `for`/推导式折回容器，就会把值判成「递归之外从不出现」（本轮首版实弹：typed 判成 never_mentions）。
+- **返回一个由值算出来的表达式 ≠ 返回那个值**——`return all(...)` 里对容器的读是读；判「交给调用方」要求 Return 路径不经过推导式/布尔组合（首版把 is_literal_side 判成 returns_it，修后 reads_it）。
+
+**验证**：`scripts/e528_recursive_read.py` build rc0 / check problems=0 / verify problems=0 / **selftest 8/8**（夹具 4 函数覆盖读到/无守卫/有守卫没人读三态 + 2 枚 doctored 面全拒）；面 `results/state_tilt/RECURSIVEREAD-2026-11-08.json` + `recursiveread_latest.json` 同源；S6 腿 `recursive_read` rc0（0.05s）；smoke 腿 `# E528` + `scripts/run_e528_smoke_leg.py` 1/1 绿、`--doctor` 1/1 红并字节还原 sha `41210d9facc1`；digest `research/digests/DIGEST-20261108-r1555-e528-recursive-read.md`。

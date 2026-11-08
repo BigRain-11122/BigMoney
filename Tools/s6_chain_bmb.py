@@ -1972,6 +1972,13 @@ LEGS = [
     # a value "still handed on" is published as the container or hand-on form that stopped the scan.
     # `check` re-reads every cited line and refuses a face whose boundary drifts from its source.
     ("onward_residue", ["python", "scripts/e525_onward_residue.py", "check"]),
+    # E528 opens E525's last unmeasured residue: the parcels handed back into the function they are
+    # already inside.  A recursive call is never counted as a read -- the arm is measured on the
+    # parameter's uses outside every recursive call, and the guard on the call's own ancestors (a
+    # depth counter tested against a constant, a type/None test on the name or the container a
+    # comprehension iterates).  `check` re-derives every verdict, arm and guard from the rows and
+    # refuses a face that calls an unguarded recursion readable.
+    ("recursive_read", ["python", "scripts/e528_recursive_read.py", "check"]),
     # E520 takes E519's own two non-answers one hop further: a local that is a *parameter of the
     # caller* is supplied by that function's call sites, and a name bound nowhere in the caller is
     # bound by another scope.  `check` re-derives the argument histogram from the rows, the

@@ -29312,9 +29312,28 @@
    "lane_note": "static: read the terminating arms of the same function, no network, no rewrites",
    "priority": "normal",
    "source": "E525 (r1554 bm-b): of the de-duplicated second-hop parcels behind E524's residue, 6 return into the same function (a self-recursive forward); E524 had counted them as unresolved because its hop model cannot follow recursion",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/recursiveread_latest.json",
-   "title": "E525 found 6 second-hop parcels whose value is handed back into the same function it is already inside (`_resolve` calling `_resolve`, `is_literal_side` calling `is_literal_side`). A self-recursive forward says the chain does not leave the body, but it does not say whether the recursion ever terminates on a value the caller can read. For each of those 6 parcels publish what the same function's non-recursive arms do with the value -- return it, read it, discard it, or never mention it -- and whether every recursive path is guarded by a depth or type test that can end the recursion. Keep 'read by a terminating arm' and 'the recursion is unguarded' as separate classes; do not count a recursive call as a read."
+   "title": "E525 found 6 second-hop parcels whose value is handed back into the same function it is already inside (`_resolve` calling `_resolve`, `is_literal_side` calling `is_literal_side`). A self-recursive forward says the chain does not leave the body, but it does not say whether the recursion ever terminates on a value the caller can read. For each of those 6 parcels publish what the same function's non-recursive arms do with the value -- return it, read it, discard it, or never mention it -- and whether every recursive path is guarded by a depth or type test that can end the recursion. Keep 'read by a terminating arm' and 'the recursion is unguarded' as separate classes; do not count a recursive call as a read.",
+   "done_at": "2026-11-08T08:35+08:00",
+   "done_by": "bm-b r1555",
+   "result_ref": "results/state_tilt/RECURSIVEREAD-2026-11-08.json",
+   "evidence": "scripts/e528_recursive_read.py (build rc0, check/verify problems=0, selftest 8/8), S6 leg recursive_read, smoke leg # E528",
+   "work": "all 6 self-recursive parcels are read by a terminating arm (5 depth+type guarded in _resolve, 1 type guarded in is_literal_side); 0 unguarded, 0 guarded-but-never-read"
+  },
+  {
+   "id": "E529-WHICH-RESOLVER-IN-THIS-CORPUS-RETURNS-A-NULL-SENTINEL-AT-A-DEPTH-CAP-AND-WHICH-CALLER-READS-THAT-NULL-AS-ABSENCE",
+   "title": "E528 published that _resolve's recursion ends at `if depth > 6: return None`, so a caller cannot tell 'the repository does not contain this path' from 'the recursion ran out of depth'. Find every function in the corpus that carries a depth/level counter, tests it against a constant, and returns a null sentinel (None / () / {} / [] / False / \"\") from that arm; for each, publish the sentinel, the cap, and the call sites that read the return value, separating callers that can distinguish the cap from callers that cannot -- keeping 'the cap is a publishable hole' and 'the cap is unreachable in production' as separate classes.",
+   "deliverable": "results/state_tilt/DEPTHCAPNULL-<cutoff>.json",
+   "target": "results/state_tilt/depthcapnull_latest.json",
+   "status": "ready",
+   "priority": "normal",
+   "lane": "cpu-only",
+   "lane_note": "static: one function's own guard and its call sites, no network, no rewrites",
+   "evidence_cutoff": "2026-11-08",
+   "source": "E528 (r1555 bm-b): _resolve's depth guard returns None, which downstream reads as 'the path does not resolve' -- the terminating arm is real but its stop value is indistinguishable from absence",
+   "entered_at": "2026-11-08T08:35+08:00",
+   "entered_by": "bm-b r1555 (supply floor refill after E528)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29329,6 +29348,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T07:46+08:00",
+ "updated_at": "2026-11-08T08:35+08:00",
  "version": 1
 }
