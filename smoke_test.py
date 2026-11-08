@@ -23442,5 +23442,74 @@ except Exception as _e544x:
     _d544 = "study could not be read"
 check(_name544, not _bad544, "; ".join(_bad544)[:240] or _d544)
 
+# E545: E533 left three arms open for reasons that were never re-read with E536's interpreter * the
+#   face must re-derive from its own rows and gate clean * the e285 arm E536 named as its own limit must
+#   be in the population and must actually move under the extension, so "the resolver settles it" cannot
+#   be claimed off an arm that never folded * the parameter arm must publish its call sites and at least
+#   one of them must fold, which separates "not decidable" from "nobody pointed the resolver at it" *
+#   a store between a binding and the site must be published beside the folded value * doctored copies
+#   (a flipped outcome, a hand-written verdict, a summary that outlives its rows, an emptied call-site
+#   list) must be refused
+_name545 = "E545 the open arms re-read with E536's resolver (r1574 bm-b)"
+_bad545 = []
+try:
+    _m545 = __import__("importlib").import_module("e545_resolver_retry")
+    _f545 = json.load(open(os.path.join("results", "state_tilt", "resolverretry_latest.json"),
+                           encoding="utf-8"))
+    _s545 = _f545.get("summary") or {}
+    _r545 = _f545.get("arms") or []
+    _bad545.extend(_m545.face_problems(_f545))
+    if not _r545:
+        _bad545.append("the arm population is empty")
+    if _s545.get("arms_closed", 0) + _s545.get("arms_still_open", 0) != len(_r545):
+        _bad545.append("the arm classes do not add up to the published arms")
+    if not _s545.get("witness_in_population"):
+        _bad545.append("the e285 arm E536 named as its own limit is not in the population")
+    _wit = [r for r in _r545 if (r.get("source"), r.get("line")) == _m545.WITNESS]
+    if not _wit:
+        _bad545.append("the witness arm could not be located by its own coordinates")
+    elif _wit[0].get("arm_outcome") != _m545.O_CLOSED_EXTENDED:
+        _bad545.append("the witness arm is in the population but does not move under the extension")
+    _par = [r for r in _r545 if r.get("arm_outcome") == _m545.O_OPEN_PARAM]
+    if not _par:
+        _bad545.append("no arm is published as a caller's parameter")
+    elif not any(s.get("class") == _m545.R_VALUE for s in _par[0].get("one_hop_out") or []):
+        _bad545.append("the parameter arm's call sites are published but none of them folds")
+    if _s545.get("arms_with_a_store_between_binding_and_site", 0) < 1:
+        _bad545.append("no arm publishes a store between its binding and its site")
+    if _r545:
+        _doc545 = json.loads(json.dumps(_f545))
+        for _r545r in _doc545["arms"]:
+            if _r545r["arm_outcome"] == _m545.O_CLOSED_EXTENDED:
+                _r545r["arm_outcome"] = _m545.O_OPEN_READ
+                break
+        if not _m545.face_problems(_doc545):
+            _bad545.append("a flipped arm outcome was accepted")
+        _doc545 = json.loads(json.dumps(_f545))
+        _doc545["verdict"] = "a_verdict_this_study_never_publishes"
+        if not _m545.face_problems(_doc545):
+            _bad545.append("a hand-written verdict was accepted")
+        _doc545 = json.loads(json.dumps(_f545))
+        _doc545["arms"] = [r for r in _doc545["arms"] if r["arm_outcome"] != _m545.O_OPEN_READ]
+        if not _m545.face_problems(_doc545):
+            _bad545.append("a summary that outlives its rows was accepted")
+        if _par:
+            _doc545 = json.loads(json.dumps(_f545))
+            for _r545r in _doc545["arms"]:
+                if _r545r["arm_outcome"] == _m545.O_OPEN_PARAM:
+                    _r545r["one_hop_out"] = []
+                    break
+            if not _m545.face_problems(_doc545):
+                _bad545.append("an emptied call-site list on a parameter arm was accepted")
+    _d545 = ("%d arms / %d closed (%d only under the extension) / %d open / call sites %d (%d fold)"
+             % (len(_r545), _s545.get("arms_closed", 0),
+                _s545.get("arms_closed_by_the_extension_only", 0),
+                _s545.get("arms_still_open", 0), _s545.get("call_sites_published", 0),
+                _s545.get("call_sites_that_fold", 0)))
+except Exception as _e545x:
+    _bad545.append(repr(_e545x)[:160])
+    _d545 = "study could not be read"
+check(_name545, not _bad545, "; ".join(_bad545)[:240] or _d545)
+
 if __name__ == "__main__":
     sys.exit(main())

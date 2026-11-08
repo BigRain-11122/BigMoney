@@ -2104,6 +2104,14 @@ LEGS = [
     # have stopped at published beside it. `check` re-derives every directory, every name count and
     # the verdict from the published rows and refuses a directory that is not on disk.
     ("constant_terminal", ["python", "scripts/e537_constant_terminal.py", "check"]),
+    # E545 re-reads the three arms E533 left open with E536's interpreter: the e285 arm E536 named
+    # as its own limit folds once `off` is bound to `_fixture_arm()` and `interval` is the caller's
+    # own module function (the store at :504 sits between and is published beside the value), the
+    # caller's-parameter arm publishes its four call sites (three self-test sites fold to
+    # list(range(59)), the production site reads the anchor face), and the third stays open on the
+    # same face read. `check` re-derives every pass class, every call site and the verdict, and
+    # refuses a face whose witness arm is not in the population.
+    ("resolver_retry", ["python", "scripts/e545_resolver_retry.py", "check"]),
 ]
 
 

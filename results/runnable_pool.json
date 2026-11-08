@@ -29613,12 +29613,16 @@
    "lane": "cpu-only",
    "lane_note": "static: three published arms re-read with an existing resolver; no network, no rewrites",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-11-08T13:55:04+08:00",
    "entered_by": "bm-b r1571 (supply floor refill after E536)",
    "evidence_cutoff": "2026-11-08",
    "target": "results/state_tilt/resolverretry_latest.json",
-   "deliverable": "results/state_tilt/RESOLVERRETRY-<cutoff>.json"
+   "deliverable": "results/state_tilt/RESOLVERRETRY-<cutoff>.json",
+   "done_by": "bm-b r1574",
+   "done_at": "2026-11-08T15:30:00+08:00",
+   "result_ref": "results/state_tilt/RESOLVERRETRY-2026-11-08.json",
+   "done_note": "3 arms re-read with three passes. verbatim E536: 3 of 3 stay open (an unbound name inside a call's argument). extended (the caller module's own top functions in _fn_map + every free name bound one hop back): 1 arm closes -- e285:505 interval(off['rows'], 'tight') folds to {'lo':1.0,'hi':1.1,'spread':0.1,'n_rows_with_interval':2} -- and its binding/site pair publishes the store at :504 (off['rows'][1]['tight'] = _td(0.9,1.2)) beside the folded value, so the closed arm is closed about the pre-store container E544 already priced. The caller's-parameter arm publishes 4 call sites: 3 self-test sites fold to list(range(59)) and the production site (:329) passes a comprehension over rb, which is built from the anchor face's labels/r_next. The third arm stays open on the same face read. Verdict the_arms_that_stay_open_stay_open_on_a_callers_parameter_or_a_read_no_resolver_follows. Evidence results/state_tilt/RESOLVERRETRY-2026-11-08.json; card E545."
   },
   {
    "id": "E546-WHICH-OF-THE-NAMES-THAT-NAME-A-FILE-ARE-READ-AS-A-DIRECTORY",
@@ -29648,6 +29652,20 @@
    "evidence_cutoff": "2026-11-08",
    "deliverable": "results/state_tilt/CREATEDREAD-<cutoff>.json",
    "target": "results/state_tilt/createdread_latest.json"
+  },
+  {
+   "id": "E548-HOW-MUCH-OF-THE-WHOLE-UNDECIDABLE-POPULATION-CLOSES-ONCE-THE-RESOLVER-HAS-THE-CALLER-S-MODULE-AND-BINDS-FREE-NAMES-INSIDE-CALL-ARGUMENTS",
+   "title": "E545 moved 1 of E533's 3 open arms by adding exactly two things E536's interpreter did not have: the caller module's own top-level functions in its _fn_map, and one hop of binding for the free names *inside* a call's arguments (E536 bound a bare base name only). Those two additions were chosen on three arms. Re-run E527's whole published population -- every arm E527 left undecidable, not just the four E533 carried -- through the same verbatim/extended pair, and publish how many arms each addition moves on its own and together, so 'the resolver cannot settle it' becomes a count over the population instead of a statement about three rows. Keep the arms that stay open split by which layer stopped them (a caller's parameter with no same-module call site, a binding that reads module state, a binding that reads the tree) so the residue is actionable rather than a single bucket.",
+   "source": "E545 (r1574 bm-b): one of its two additions closed the only arm it was pointed at, and the other addition's value is unmeasured -- three arms cannot price either.",
+   "lane": "cpu-only",
+   "lane_note": "static: E527's published arms re-read with E536's interpreter plus E545's two additions; no network, no rewrites",
+   "priority": "normal",
+   "status": "ready",
+   "entered_at": "2026-11-08T14:52+08:00",
+   "entered_by": "bm-b r1574 (supply floor refill after E545)",
+   "evidence_cutoff": "2026-11-08",
+   "target": "results/state_tilt/extendedresolver_latest.json",
+   "deliverable": "results/state_tilt/EXTENDEDRESOLVER-<cutoff>.json"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29662,6 +29680,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T15:05:00+08:00",
+ "updated_at": "2026-11-08T14:52:00+08:00",
  "version": 1
 }

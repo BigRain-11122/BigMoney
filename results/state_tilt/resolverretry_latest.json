@@ -1,0 +1,208 @@
+{
+ "study": "E545_resolver_retry",
+ "card": "E545-WHICH-OF-E533-S-REMAINING-OPEN-ARMS-THE-E536-RESOLVER-CAN-SETTLE-ONCE-THE-INTERPRETER-IS-IN-HAND",
+ "title": "whether E533's three remaining open arms move once E536's literal interpreter has the caller module's own functions and one hop of free-name binding",
+ "generated": "2026-11-08T14:49:07",
+ "evidence_cutoff": "2026-11-08",
+ "population_source": "e545_resolver_retry.py::population() -- every arm E533 published whose call did not fold to a literal",
+ "parent_face": "CALLPUREARM-2026-11-08.json",
+ "method_limits": [
+  "the resolver is E536's interpreter unchanged plus two things it did not have: the caller module's own top-level functions in its _fn_map, and every free name inside the argument expression bound one hop back in the caller",
+  "an item store between a binding and the site is counted and published but NOT replayed -- the folded value is the unmutated container's, which is E544's subject",
+  "one_hop_out is published only for an arm whose argument is the caller's own parameter; it reads that caller's call sites in the same module and resolves the argument passed at that position, so a parameter filled by another module's caller stays 'not measured'",
+  "nothing in this repository is executed and no source is rewritten",
+  "a fixture corpus is not a repository: the selftest proves the resolver's behaviour on constructed arms, the face is the repository's own reading"
+ ],
+ "summary": {
+  "open_arms_in_parent": 3,
+  "arms_closed": 1,
+  "arms_closed_by_the_extension_only": 1,
+  "arms_still_open": 2,
+  "arms_by_outcome": {
+   "the_arm_closes_once_the_free_names_are_bound_one_hop_back": 1,
+   "the_arm_stays_open_because_its_argument_is_the_callers_parameter": 1,
+   "the_arm_stays_open_because_the_expression_reads_a_value_no_static_resolver_follows": 1
+  },
+  "verbatim_by_class": {
+   "the_expression_reads_something_this_resolver_cannot_follow": 3
+  },
+  "extended_by_class": {
+   "the_expression_folds_to_a_value": 1,
+   "the_expression_is_a_parameter_of_the_caller": 1,
+   "the_expression_reads_something_this_resolver_cannot_follow": 1
+  },
+  "arms_with_call_sites_published": 1,
+  "call_sites_published": 4,
+  "call_sites_that_fold": 3,
+  "witness_in_population": true,
+  "arms_with_a_store_between_binding_and_site": 1
+ },
+ "verdict": "the_arms_that_stay_open_stay_open_on_a_callers_parameter_or_a_read_no_resolver_follows",
+ "verdict_vocab": [
+  "every_open_arm_E533_left_closes_once_the_interpreters_own_module_functions_are_in_hand",
+  "the_arms_that_stay_open_stay_open_on_a_callers_parameter_or_a_read_no_resolver_follows",
+  "no_open_arm_moves_under_the_extension_so_the_refusal_was_never_about_the_resolver",
+  "no_open_arm_in_the_parent_was_available_to_re_read"
+ ],
+ "result_vocab": [
+  "the_expression_folds_to_a_value",
+  "the_expression_is_a_parameter_of_the_caller",
+  "the_expression_reads_something_this_resolver_cannot_follow",
+  "the_expression_could_not_be_read"
+ ],
+ "pass_vocab": [
+  "verbatim_e536_resolver_at_the_published_site",
+  "extended_resolver_with_free_names_bound_one_hop_back",
+  "one_hop_out_to_the_callers_call_sites"
+ ],
+ "arm_outcome_vocab": [
+  "the_arm_closes_under_the_unmodified_resolver",
+  "the_arm_closes_once_the_free_names_are_bound_one_hop_back",
+  "the_arm_stays_open_because_its_argument_is_the_callers_parameter",
+  "the_arm_stays_open_because_the_expression_reads_a_value_no_static_resolver_follows",
+  "the_arm_could_not_be_re_read_because_the_published_expression_does_not_parse"
+ ],
+ "arms": [
+  {
+   "source": "scripts/e285_interrange_gap_ceiling.py",
+   "line": 505,
+   "callee": "ranges_are_row_identical",
+   "parameter": "hull",
+   "argument_expression": "interval(off['rows'], 'tight')",
+   "e533_argument_kind": "a_direct_call_at_the_site",
+   "e533_fold_class": "the_callee_is_repo_source_and_is_not_inlined_here",
+   "verbatim": {
+    "pass": "verbatim_e536_resolver_at_the_published_site",
+    "class": "the_expression_reads_something_this_resolver_cannot_follow",
+    "value_text": null,
+    "reason": "name_not_bound_in_the_inlined_scope:off"
+   },
+   "extended": {
+    "pass": "extended_resolver_with_free_names_bound_one_hop_back",
+    "class": "the_expression_folds_to_a_value",
+    "value_text": "{'lo': 1.0, 'hi': 1.1, 'spread': 0.10000000000000009, 'n_rows_with_interval': 2}",
+    "reason": null,
+    "bindings": [
+     {
+      "name": "off",
+      "binding_kind": "assign",
+      "bound_line": 503,
+      "class": "the_expression_folds_to_a_value",
+      "value_text": "{'arm': 'cross:60', 'leg': 'cross', 'base': 60, 'n_rows': 2, 'rows': [{'row': 'cross', 'leg': 'cross', 'base': 60, 'index': 1, 'flip_multiplier': 2.2, 'tight': ",
+      "reason": null
+     }
+    ]
+   },
+   "one_hop_out": [],
+   "intervening_item_stores": [
+    {
+     "binding": "off",
+     "store_line": 504,
+     "target": "off['rows'][1]['tight']"
+    }
+   ],
+   "arm_outcome": "the_arm_closes_once_the_free_names_are_bound_one_hop_back",
+   "error": null
+  },
+  {
+   "source": "scripts/regime5_validation.py",
+   "line": 173,
+   "callee": "state_table",
+   "parameter": "idxs",
+   "argument_expression": "stats_idxs",
+   "e533_argument_kind": "the_caller_function_s_own_parameter",
+   "e533_fold_class": "there_is_no_call_to_fold",
+   "verbatim": {
+    "pass": "verbatim_e536_resolver_at_the_published_site",
+    "class": "the_expression_reads_something_this_resolver_cannot_follow",
+    "value_text": null,
+    "reason": "the_name_is_the_caller_s_own_parameter"
+   },
+   "extended": {
+    "pass": "extended_resolver_with_free_names_bound_one_hop_back",
+    "class": "the_expression_is_a_parameter_of_the_caller",
+    "value_text": null,
+    "reason": "a_free_name_in_the_expression_is_the_caller_s_parameter",
+    "bindings": [
+     {
+      "name": "stats_idxs",
+      "binding_kind": "parameter",
+      "bound_line": -1,
+      "class": "the_expression_is_a_parameter_of_the_caller",
+      "value_text": null,
+      "reason": "the_name_is_the_caller_s_own_parameter"
+     }
+    ]
+   },
+   "one_hop_out": [
+    {
+     "site_line": 329,
+     "argument_expression": "win_stats",
+     "class": "the_expression_reads_something_this_resolver_cannot_follow",
+     "value_text": null,
+     "reason": "win_stats_binds_to_name_not_bound_in_the_inlined_scope:rb"
+    },
+    {
+     "site_line": 598,
+     "argument_expression": "stats_idx",
+     "class": "the_expression_folds_to_a_value",
+     "value_text": "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 5",
+     "reason": null
+    },
+    {
+     "site_line": 635,
+     "argument_expression": "stats_idx",
+     "class": "the_expression_folds_to_a_value",
+     "value_text": "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 5",
+     "reason": null
+    },
+    {
+     "site_line": 637,
+     "argument_expression": "stats_idx",
+     "class": "the_expression_folds_to_a_value",
+     "value_text": "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 5",
+     "reason": null
+    }
+   ],
+   "intervening_item_stores": [],
+   "arm_outcome": "the_arm_stays_open_because_its_argument_is_the_callers_parameter",
+   "error": null,
+   "caller_parameter": "stats_idxs"
+  },
+  {
+   "source": "scripts/regime5_validation.py",
+   "line": 319,
+   "callee": "state_table",
+   "parameter": "idxs",
+   "argument_expression": "win_stats",
+   "e533_argument_kind": "a_name_the_caller_binds_from_an_expression_that_is_not_a_call",
+   "e533_fold_class": "there_is_no_call_to_fold",
+   "verbatim": {
+    "pass": "verbatim_e536_resolver_at_the_published_site",
+    "class": "the_expression_reads_something_this_resolver_cannot_follow",
+    "value_text": null,
+    "reason": "name_not_bound_in_the_inlined_scope:rb"
+   },
+   "extended": {
+    "pass": "extended_resolver_with_free_names_bound_one_hop_back",
+    "class": "the_expression_reads_something_this_resolver_cannot_follow",
+    "value_text": null,
+    "reason": "win_stats_binds_to_name_not_bound_in_the_inlined_scope:rb",
+    "bindings": [
+     {
+      "name": "win_stats",
+      "binding_kind": "assign",
+      "bound_line": 312,
+      "class": "the_expression_reads_something_this_resolver_cannot_follow",
+      "value_text": null,
+      "reason": "name_not_bound_in_the_inlined_scope:rb"
+     }
+    ]
+   },
+   "one_hop_out": [],
+   "intervening_item_stores": [],
+   "arm_outcome": "the_arm_stays_open_because_the_expression_reads_a_value_no_static_resolver_follows",
+   "error": null
+  }
+ ]
+}

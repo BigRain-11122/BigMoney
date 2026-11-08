@@ -13508,3 +13508,49 @@ E536 点名的 e285 证人在总体里（2 行、2 行判改），所以「给�
 `results/state_tilt/ITEMSTOREBETWEEN-2026-11-08.json` + `itemstorebetween_latest.json` + S6 腿
 `item_store_between` + smoke 腿 `# E544` + `scripts/run_e544_smoke_leg.py`（1/1 绿 + --doctor 红）+
 digest `research/digests/DIGEST-20261108-r1573-e544-item-store-between.md`。
+
+## E545（2026-11-08·r1574 bm-b）「不可判」与「没人试过」是同一句话：把旧臂重新指着新解析器
+
+**问题**：E533 发布了四条臂，只关掉一条（参数是 `list(range(6))`）。剩下三条的理由写的是
+「这个参数不是字面量链」——可这句话对**任何**没被解析过的表达式都成立。E536 之后已经有了一台
+字面解释器（跑仓库源码的身体、把站点的参数绑上去），但这三条臂从没被重新指过去：
+`not decidable`（静态上真不可决）与 `not measured`（没人拿新工具量过）在面上长得一模一样。
+
+**做法**：每条臂跑三遍——①`verbatim`：E536 的 `evaluate_argument` 原封不动，在发布的那一行；
+②`extended`：同一台解释器，补两件它当时没有的东西——调用方模块自己的顶层函数进 `_fn_map`、
+表达式里**每个自由名**在调用方里回溯一跳绑值（E536 只处理裸名基底，不处理调用实参内部的名字）；
+③`one_hop_out`：只对「实参就是调用方自己的形参」的臂，读那个调用方的调用点，把该位置上真正的
+实参用同一套规则解一遍。绑定与站点之间的 item store **不重放**（属 E544），只在值旁边发布。
+
+**读数**：3 条臂 → verbatim **3/3 全不解**（`name_not_bound_in_the_inlined_scope:off` 等）；
+extended → **1 条关掉**（e285:505 `interval(off['rows'], 'tight')` 折出
+`{'lo':1.0,'hi':1.1,'spread':0.1,'n_rows_with_interval':2}`）、1 条是调用方形参、
+1 条读 `rb`（由锚面派生的列表推导）；形参臂的 **4 个调用点 3 个折得出**（三个 selftest 站点
+是 `stats_idx = list(range(59))` → `[0..58]`），**生产站点（:329）折不出**（`win_stats` 是对
+`rb` 的推导，`rb` 从锚面 `labels`/`r_next` 来）。判词 =
+`the_arms_that_stay_open_stay_open_on_a_callers_parameter_or_a_read_no_resolver_follows`。
+另：E536 点名的证人臂同时暴露它自己的边界——绑定在 :503、store 在 :504、站点在 :505，折出来的
+hull 是 **store 之前**的容器（lo=1.0），站点看到的是 lo=0.9；这条 store 现在从 E544 和 E545
+两个面同时可见。
+
+**四条可复用教训**：
+1. **「上一版工具解不了」不等于「不可决」**。一旦工具换了代，旧臂必须被重新指一遍；本批唯一关掉
+   的那条臂之所以能关，缺的不是可决性而是两跳绑定——而且是**调用实参内部**的自由名，不是裸名。
+2. **调用目标不是自由名**。把 `interval` 当成「站点之前没有绑定」发布，会在同一行里既写「读到了
+   解不了的东西」又折出一个值——类与值自相矛盾。正法 = 出现在 `Call.func` 且能在 `_fn_map` 里
+   找到的名字，交给解释器自己解，不进绑定表。闸没抓住它，读行的人一眼就看见了（门测的是重导，
+   测不了自相矛盾）。
+3. **绑定里的内建调用不是仓库被调方**。`stats_idx = list(range(59))` 一度被判成
+   「调用了一个没有单一模块定义的名字：list」——一个 bug 决定 4 个调用点里 3 个的读数，会把
+   「三个可量」写成「四个都不可决」。内建/FOLDERS 必须直接交解释器。
+4. **闸要钉住证人，而不只是「总体非空」**。smoke 腿要求 e285 那条臂**在总体里**且**真的动了**
+   （`arm_outcome == 仅扩展关闭`），并拒四份涂改件：翻转的 outcome、手写 verdict、summary 活得
+   比 rows 长、形参臂的调用点列表被清空。
+
+**边界（已随面发布）**：`one_hop_out` 只读同一模块内的调用点，跨模块调用方仍记「未测」；
+store 不重放；解释器白名单之外的语句/表达式一律带名停住、不猜。
+
+**载体** = `scripts/e545_resolver_retry.py`（build/check/verify + selftest 12/12）+
+`results/state_tilt/RESOLVERRETRY-2026-11-08.json` + `resolverretry_latest.json` + S6 腿
+`resolver_retry` + smoke 腿 `# E545` + `scripts/run_e545_smoke_leg.py`（1/1 绿 + --doctor 红）+
+digest `research/digests/DIGEST-20261108-r1574-e545-resolver-retry.md`。
