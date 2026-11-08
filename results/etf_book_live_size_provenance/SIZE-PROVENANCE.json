@@ -1,0 +1,143 @@
+{
+  "face": "live_size_provenance",
+  "evidence_cutoff": "2026-11-06",
+  "ticket_file": "TICKET-2026-11-06.json",
+  "ticket_rel": "results\\etf_book_order\\TICKET-2026-11-06.json",
+  "ticket": {
+    "beta_target": 0.2,
+    "k_now": 0.460253,
+    "book_weight": 0.460253,
+    "cash_weight": 0.539747,
+    "book_amount_cny": 459796.3,
+    "names": [
+      "159501",
+      "513100",
+      "513690",
+      "159577",
+      "159263"
+    ]
+  },
+  "decision_desk": {
+    "executed_book": "nobond_vt08_adopted",
+    "book_weight_in_desk": 0.460253,
+    "book_amount_cny_in_desk": 459796.3,
+    "names_in_ticket_in_desk": 5,
+    "class": "INVARIANT"
+  },
+  "provenance": {
+    "beta_target": {
+      "value": 0.2,
+      "commit": "a8fc76102c",
+      "round": 1256,
+      "sentence": "the ETF book now ships an executable ticket (k=0.61 at beta 0.20)"
+    },
+    "vol_target": {
+      "value": 0.08,
+      "commit": null,
+      "round": null,
+      "sentence": "drop the bond sleeve, then apply the 8%/12% vol target"
+    }
+  },
+  "desk_reads_the_ticket_weight": true,
+  "verdict": "DIFFERENT_BOOK_AND_SIZE",
+  "comparison": {
+    "verdict": "DIFFERENT_BOOK_AND_SIZE",
+    "sentence": null,
+    "k_beta": 0.460253,
+    "k_vol": 0.648195,
+    "gap_pp": -18.79,
+    "size_same": false,
+    "same_names": false,
+    "names_only_in_ticket": [
+      "159501",
+      "513100",
+      "513690",
+      "159577"
+    ],
+    "names_only_in_adjudicated": [
+      "159207",
+      "159307",
+      "159547",
+      "512040"
+    ],
+    "tol_pp": 0.5
+  },
+  "ticket_class_census": {
+    "crossborder": 4,
+    "equity": 1
+  },
+  "ticket_classes_outside_graded_universe": {
+    "crossborder": 4
+  },
+  "graded_universe": [
+    "commodity",
+    "convertible",
+    "equity"
+  ],
+  "ticket_names_outside_graded_universe": 4,
+  "decision_bar": "2026-10-14",
+  "names_bar": "2026-11-06",
+  "vol_rule_bar": "2026-10-14",
+  "beta_hat": 0.434543,
+  "names_beta_rule": [
+    "159501",
+    "513100",
+    "513690",
+    "159577",
+    "159263"
+  ],
+  "names_vol_rule": [
+    "159263",
+    "159207",
+    "159307",
+    "159547",
+    "512040"
+  ],
+  "vol_rule_estimated_vol": 0.12342,
+  "money": {
+    "nav_cny": 999007.7196672264,
+    "book_cny_beta_rule": 459796.75,
+    "book_cny_vol_rule": 647551.69,
+    "delta_cny": -187754.94
+  },
+  "identity_legs": {
+    "L_beta": {
+      "published": 0.460253,
+      "derived": 0.460253,
+      "ok": true
+    },
+    "L_names": {
+      "published": [
+        "159501",
+        "513100",
+        "513690",
+        "159577",
+        "159263"
+      ],
+      "derived": [
+        "159501",
+        "513100",
+        "513690",
+        "159577",
+        "159263"
+      ],
+      "ok": true
+    },
+    "L_constant": {
+      "cited": 0.2,
+      "module": 0.2,
+      "ok": true
+    },
+    "L_bar": {
+      "published": "2026-11-06",
+      "derived": "2026-11-06",
+      "ok": true
+    },
+    "L_decision": {
+      "published": "2026-10-14",
+      "derived": "2026-10-14",
+      "ok": true
+    }
+  },
+  "identity_ok": true
+}

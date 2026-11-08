@@ -840,6 +840,23 @@ LEGS = [
     # (r1290 class).
     ("supply_gate_decision",
      ["python", "scripts/etf_book_supply_gate_decision.py", "run"]),
+    # r1447: r1446 left one question open -- is the weight in force (0.460253) even the
+    # weight of a rule that was graded? This leg re-derives the published size-provenance
+    # receipt from the ticket and its own inputs (same decision grid as the ticket, beta
+    # rule repriced, graded book's vol rule repriced, five identity legs: k / names /
+    # constant / priced bar / decision bar). `--check` form (0.2s, ticket + JSON only):
+    # the 2-minute repricing runs only with `run` in its own round, and a drifted receipt
+    # turns this leg red instead of leaving a stale gap on disk (r1290 class).
+    ("live_size_provenance",
+     ["python", "scripts/etf_book_live_size_provenance.py", "--check"]),
+    # r1447: the horizontal question above ("is the running weight the graded rule's
+    # weight") has a vertical twin -- DEFAULT_BETA is a literal, so the weight is
+    # k = target/beta and the target could have been any point on a ladder. This leg
+    # re-derives the published ladder receipt (9 targets, one engine, one panel) and
+    # refuses a receipt whose verdict no longer follows from its own rows. `--check`
+    # (0.2s, published JSON only); the 2.5-minute repricing runs with `run` in its round.
+    ("weight_provenance",
+     ["python", "scripts/etf_book_weight_provenance.py", "--check"]),
     # r1428: "refused" with no horizon is an observation, not a plan. This leg re-checks
     # the published ETA face (identity against the phase gate's phase 0, so a drifted
     # repricing turns the leg red instead of silently promising a date). Read-only JSON,

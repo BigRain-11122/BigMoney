@@ -1,0 +1,452 @@
+{
+ "face": "etf_book_weight_provenance",
+ "asof": "2026-11-06",
+ "bars": 1658,
+ "declared_beta": 0.2,
+ "sharpe_tol": 0.02,
+ "oos_start": "2024-01-02",
+ "rules": {
+  "provenance": "a value is DECLARED only if some tracked file states the objective it serves; a commit message that reports the value it produced is a receipt, not a declaration",
+  "frontier": "the running target is ON_FRONTIER only if no other listed target beats its Sharpe by more than SHARPE_TOL in BOTH the full and the 2024+ window; one window alone is a sample"
+ },
+ "provenance": {
+  "constant": "DEFAULT_BETA = 0.2",
+  "introduced_sha": "a8fc76102c0eb5d676af54e1b04eba4253065b3b",
+  "introduced_date": "2026-10-25",
+  "introduced_subject": "round 1256: the ETF book now ships an executable ticket (k=0.61 at beta 0.20, 39% to GC001) and the zombie test clears history -- 0/415 picks were ever stale, yet today's ungated ticket was 5/5 unbuyable",
+  "statement_hits": [
+   {
+    "path": "research/CAPITAL_PLACEMENT.md",
+    "line": 22,
+    "quote": "* The card headline and the executable ticket are DIFFERENT books: the card prints a 12-name 8%-vol-target run, the order sheet trades 5 names with a 0.20 beta cover at 8bp. The distance between them (+3.7pp/yr on the same stack) is decompo",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_BAND_RULER.md",
+    "line": 23,
+    "quote": "被固定的那本书＝可执行票自己那一本（5 名·beta 目标 0.20·逆回购现金腿·8bp）。然后一次只动一个旋钮；正号＝「到」那一侧读得更高。",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_BRIDGE.md",
+    "line": 15,
+    "quote": "| executable ticket | `scripts/etf_book_order.py` | 5 | beta 0.20 overlay + GC001 ladder | **11.05%** (since 2024) |",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_BRIDGE.md",
+    "line": 27,
+    "quote": "{names: 5, 12} × {rule: none, vol 8%, vol+repo, beta 0.20, beta+repo}; plus three",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_BRIDGE.md",
+    "line": 51,
+    "quote": "| 6 | rule | vol 8% → beta 0.20 | −2.69 |",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_CAGR_RECONCILE.md",
+    "line": 16,
+    "quote": "| `results/etf_book_capacity_rule.json:rule_at_8bp_no_size` | 5 names, beta 0.20 cover, 8bp, raw panel | **7.80%** |",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_CAGR_RECONCILE.md",
+    "line": 17,
+    "quote": "| same face, ladder NAV = 1e6 | 5 names, beta 0.20, 8bp **+ impact** | **7.38%** |",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_CAGR_RECONCILE.md",
+    "line": 23,
+    "quote": "a 0.20 beta cover at 8bp.",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_CAGR_RECONCILE.md",
+    "line": 36,
+    "quote": "| 12 | beta 0.20 | 12.66% | 12.31% |",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_CAGR_RECONCILE.md",
+    "line": 39,
+    "quote": "| 5 | beta 0.20 | **13.35%** (ticket) | 12.95% |",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_CAGR_RECONCILE.md",
+    "line": 46,
+    "quote": "| 12 | beta 0.20 | 6.47% | 6.27% |",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_CAGR_RECONCILE.md",
+    "line": 48,
+    "quote": "| 5 | beta 0.20 | **7.80%** (published) | 7.55% |",
+    "declarative": false
+   }
+  ],
+  "mentions_only": [
+   {
+    "path": "research/CAPITAL_PLACEMENT.md",
+    "line": 22,
+    "quote": "* The card headline and the executable ticket are DIFFERENT books: the card prints a 12-name 8%-vol-target run, the order sheet trades 5 names with a 0.20 beta cover at 8bp. The distance between them (+3.7pp/yr on the same stack) is decompo",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_BAND_RULER.md",
+    "line": 23,
+    "quote": "被固定的那本书＝可执行票自己那一本（5 名·beta 目标 0.20·逆回购现金腿·8bp）。然后一次只动一个旋钮；正号＝「到」那一侧读得更高。",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_BRIDGE.md",
+    "line": 15,
+    "quote": "| executable ticket | `scripts/etf_book_order.py` | 5 | beta 0.20 overlay + GC001 ladder | **11.05%** (since 2024) |",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_BRIDGE.md",
+    "line": 27,
+    "quote": "{names: 5, 12} × {rule: none, vol 8%, vol+repo, beta 0.20, beta+repo}; plus three",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_BRIDGE.md",
+    "line": 51,
+    "quote": "| 6 | rule | vol 8% → beta 0.20 | −2.69 |",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_CAGR_RECONCILE.md",
+    "line": 16,
+    "quote": "| `results/etf_book_capacity_rule.json:rule_at_8bp_no_size` | 5 names, beta 0.20 cover, 8bp, raw panel | **7.80%** |",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_CAGR_RECONCILE.md",
+    "line": 17,
+    "quote": "| same face, ladder NAV = 1e6 | 5 names, beta 0.20, 8bp **+ impact** | **7.38%** |",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_CAGR_RECONCILE.md",
+    "line": 23,
+    "quote": "a 0.20 beta cover at 8bp.",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_CAGR_RECONCILE.md",
+    "line": 36,
+    "quote": "| 12 | beta 0.20 | 12.66% | 12.31% |",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_CAGR_RECONCILE.md",
+    "line": 39,
+    "quote": "| 5 | beta 0.20 | **13.35%** (ticket) | 12.95% |",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_CAGR_RECONCILE.md",
+    "line": 46,
+    "quote": "| 12 | beta 0.20 | 6.47% | 6.27% |",
+    "declarative": false
+   },
+   {
+    "path": "research/ETF_BOOK_CAGR_RECONCILE.md",
+    "line": 48,
+    "quote": "| 5 | beta 0.20 | **7.80%** (published) | 7.55% |",
+    "declarative": false
+   }
+  ],
+  "declarations": [],
+  "code_notes": [
+   "by +1.53/+1.00/+0.46pp at beta 0.10/0.20/0.30.",
+   "python scripts/etf_book_order.py run [--beta=0.20] [--nav=1000000] [--inception=2024-01-01]"
+  ],
+  "declared": false,
+  "rationale_axis": "cash_leg_return",
+  "verdict": "SCHEME_CHOSEN_BY_CASH_RETURN_ONLY"
+ },
+ "ladder": {
+  "asof": "2026-11-06",
+  "bars": 1658,
+  "cash_leg_missing_days": 0,
+  "ladder": [
+   {
+    "target": 0.02,
+    "k_now": 0.046025,
+    "k_mean": 0.0359,
+    "k_min": 0.0226,
+    "clip_share": 0.0,
+    "full": {
+     "cagr": 0.0258,
+     "sharpe": 4.208,
+     "maxdd": -0.0047,
+     "vol": 0.0061,
+     "bars": 1530
+    },
+    "oos": {
+     "cagr": 0.0271,
+     "sharpe": 3.573,
+     "maxdd": -0.0047,
+     "vol": 0.0076,
+     "bars": 688
+    }
+   },
+   {
+    "target": 0.05,
+    "k_now": 0.115063,
+    "k_mean": 0.0896,
+    "k_min": 0.0564,
+    "clip_share": 0.0,
+    "full": {
+     "cagr": 0.0342,
+     "sharpe": 2.297,
+     "maxdd": -0.0133,
+     "vol": 0.0149,
+     "bars": 1530
+    },
+    "oos": {
+     "cagr": 0.043,
+     "sharpe": 2.312,
+     "maxdd": -0.0133,
+     "vol": 0.0186,
+     "bars": 688
+    }
+   },
+   {
+    "target": 0.1,
+    "k_now": 0.230127,
+    "k_mean": 0.1793,
+    "k_min": 0.1128,
+    "clip_share": 0.0,
+    "full": {
+     "cagr": 0.0481,
+     "sharpe": 1.628,
+     "maxdd": -0.0277,
+     "vol": 0.0295,
+     "bars": 1530
+    },
+    "oos": {
+     "cagr": 0.0699,
+     "sharpe": 1.886,
+     "maxdd": -0.0277,
+     "vol": 0.0371,
+     "bars": 688
+    }
+   },
+   {
+    "target": 0.15,
+    "k_now": 0.34519,
+    "k_mean": 0.2689,
+    "k_min": 0.1693,
+    "clip_share": 0.0,
+    "full": {
+     "cagr": 0.062,
+     "sharpe": 1.402,
+     "maxdd": -0.0428,
+     "vol": 0.0442,
+     "bars": 1530
+    },
+    "oos": {
+     "cagr": 0.0971,
+     "sharpe": 1.749,
+     "maxdd": -0.0428,
+     "vol": 0.0555,
+     "bars": 688
+    }
+   },
+   {
+    "target": 0.2,
+    "k_now": 0.460253,
+    "k_mean": 0.3585,
+    "k_min": 0.2257,
+    "clip_share": 0.0,
+    "full": {
+     "cagr": 0.0759,
+     "sharpe": 1.287,
+     "maxdd": -0.0578,
+     "vol": 0.0589,
+     "bars": 1530
+    },
+    "oos": {
+     "cagr": 0.1246,
+     "sharpe": 1.684,
+     "maxdd": -0.0578,
+     "vol": 0.074,
+     "bars": 688
+    }
+   },
+   {
+    "target": 0.25,
+    "k_now": 0.575317,
+    "k_mean": 0.4482,
+    "k_min": 0.2821,
+    "clip_share": 0.0,
+    "full": {
+     "cagr": 0.0897,
+     "sharpe": 1.218,
+     "maxdd": -0.0726,
+     "vol": 0.0736,
+     "bars": 1530
+    },
+    "oos": {
+     "cagr": 0.1524,
+     "sharpe": 1.649,
+     "maxdd": -0.0726,
+     "vol": 0.0924,
+     "bars": 688
+    }
+   },
+   {
+    "target": 0.3,
+    "k_now": 0.69038,
+    "k_mean": 0.5378,
+    "k_min": 0.3385,
+    "clip_share": 0.0,
+    "full": {
+     "cagr": 0.1035,
+     "sharpe": 1.171,
+     "maxdd": -0.0872,
+     "vol": 0.0883,
+     "bars": 1530
+    },
+    "oos": {
+     "cagr": 0.1806,
+     "sharpe": 1.628,
+     "maxdd": -0.0872,
+     "vol": 0.1109,
+     "bars": 688
+    }
+   },
+   {
+    "target": 0.5,
+    "k_now": 1.0,
+    "k_mean": 0.8474,
+    "k_min": 0.5642,
+    "clip_share": 0.3203,
+    "full": {
+     "cagr": 0.1434,
+     "sharpe": 1.059,
+     "maxdd": -0.1439,
+     "vol": 0.1355,
+     "bars": 1530
+    },
+    "oos": {
+     "cagr": 0.2602,
+     "sharpe": 1.589,
+     "maxdd": -0.1439,
+     "vol": 0.1637,
+     "bars": 688
+    }
+   },
+   {
+    "target": 1.0,
+    "k_now": 1.0,
+    "k_mean": 1.0,
+    "k_min": 1.0,
+    "clip_share": 1.0,
+    "full": {
+     "cagr": 0.1491,
+     "sharpe": 0.933,
+     "maxdd": -0.1519,
+     "vol": 0.1598,
+     "bars": 1530
+    },
+    "oos": {
+     "cagr": 0.2633,
+     "sharpe": 1.586,
+     "maxdd": -0.1519,
+     "vol": 0.166,
+     "bars": 688
+    }
+   }
+  ],
+  "frontier": {
+   "verdict": "WEIGHT_IS_A_SCALE_CHOICE",
+   "declared_sharpe": {
+    "full": 1.287,
+    "oos": 1.684
+   },
+   "best": null,
+   "margin": null,
+   "tol": 0.02,
+   "scale_axis": {
+    "scale_axis": true,
+    "monotone_sharpe": true,
+    "monotone_retdd": true,
+    "retdd_by_target": {
+     "0.02": 5.489,
+     "0.05": 2.571,
+     "0.1": 1.736,
+     "0.15": 1.449,
+     "0.2": 1.313,
+     "0.25": 1.236,
+     "0.3": 1.187,
+     "0.5": 0.997,
+     "1.0": 0.982
+    }
+   },
+   "declared_absolute": {
+    "cagr": 0.0759,
+    "vol": 0.0589,
+    "maxdd": -0.0578
+   },
+   "note": "every ratio falls as the target rises, so no ratio ranks the targets; the declared target is a risk budget stated in absolute terms (vol 0.0589 / maxdd -0.0578) and no tracked file declares that budget"
+  }
+ },
+ "identity": {
+  "published_k_now": 0.460253,
+  "published_book_weight": null,
+  "published_cutoff": null,
+  "recomputed_k_now": 0.460253,
+  "delta": 0.0,
+  "within_tol": true
+ },
+ "peer": {
+  "nobond_base": {
+   "years": 6.8,
+   "cagr": 0.1556,
+   "vol": 0.1638,
+   "sharpe": 1.002,
+   "maxdd": -0.1604,
+   "cagr_oos": 0.2364,
+   "sharpe_oos": 1.489,
+   "maxdd_oos": -0.1604
+  },
+  "nobond_vt08": {
+   "years": 6.8,
+   "cagr": 0.1149,
+   "vol": 0.105,
+   "sharpe": 1.132,
+   "maxdd": -0.1056,
+   "cagr_oos": 0.2014,
+   "sharpe_oos": 1.836,
+   "maxdd_oos": -0.1056
+  },
+  "nobond_vt12": {
+   "years": 6.8,
+   "cagr": 0.1331,
+   "vol": 0.1388,
+   "sharpe": 1.008,
+   "maxdd": -0.1499,
+   "cagr_oos": 0.2364,
+   "sharpe_oos": 1.638,
+   "maxdd_oos": -0.1499
+  }
+ },
+ "money_cny": null,
+ "n_hold": null,
+ "book_weight": 0.460253,
+ "ticket_metrics": null,
+ "honest": [
+  "the declared beta is a literal; its only written rationale prices the cash leg",
+  "a target that wins after the fact is a disclosure, not a recommendation",
+  "the running weight and the judged book are two different objects on two windows",
+  "survivorship bias in the ETF universe is inherited from the production panel"
+ ]
+}
