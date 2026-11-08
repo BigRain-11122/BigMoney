@@ -24069,5 +24069,79 @@ except Exception as _e556x:
     _d556 = "study could not be read"
 check(_name556, not _bad556, "; ".join(_bad556)[:240] or _d556)
 
+# E557: whether the writers of the message-only faces are reachable from any entry point
+#   * the population must be E556's own rows, read out of its published face, never retyped * a
+#   chain leg is read as DATA out of the runner's LEGS literal -- the one shape a call-site spawn
+#   scan cannot see -- so a leg whose argv names the writer counts as an entry point * a leg's verb
+#   decides the class: run/no-argument rebuilds, --check/--selftest only gates, and a gate leg is
+#   never counted as a rebuild * a one-off round snapshot is history, never an entry point, and a
+#   hand-written verdict or a gated-only row relabelled rebuildable is refused
+_name557 = "E557 whether the message-only writers are reachable from any entry point (r1583 bm-b)"
+_bad557 = []
+try:
+    _m557 = __import__("importlib").import_module("e557_face_entry_reach")
+    _f557 = json.load(open(os.path.join("results", "state_tilt", "faceentryreach_latest.json"),
+                           encoding="utf-8"))
+    _s557 = _f557.get("summary") or {}
+    _r557 = _f557.get("rows") or []
+    _w557 = _f557.get("writers") or []
+    _bad557.extend(_m557.face_problems(_f557))
+    if not _r557:
+        _bad557.append("the reachability population is empty")
+    if _s557.get("rows") != len(_r557):
+        _bad557.append("the summary row count is not the face's")
+    if sum((_s557.get("by_reach_class_rows") or {}).values()) != len(_r557):
+        _bad557.append("the reach table does not partition the rows")
+    if sum((_s557.get("by_reach_class_writers") or {}).values()) != len(_w557):
+        _bad557.append("the writer reach table does not partition the writers")
+    if not (_s557.get("control_arm") or {}).get("found"):
+        _bad557.append("the entry-point census cannot see its own controls (blind)")
+    if any(r.get("reach_class") != _m557.classify_reach(r["naming_sites"]) for r in _r557):
+        _bad557.append("a row's reach class is not what its own sites say")
+    if any(r.get("reach_class") in _m557.REBUILD_CLASSES and not [
+            x for x in r["naming_sites"] if x["kind"] == _m557.N_CHAIN_BUILD] for r in _r557):
+        _bad557.append("a row is called rebuildable without a build leg")
+    if _f557.get("verdict") == _m557.V_SOME_REBUILD and not _s557.get(
+            "writers_with_a_build_entry_point"):
+        _bad557.append("a rebuild verdict sits beside zero rebuildable writers")
+    if _f557.get("verdict") == _m557.V_NONE_REBUILD and _s557.get(
+            "writers_with_a_build_entry_point"):
+        _bad557.append("a no-rebuild verdict sits beside rebuildable writers")
+    if _r557:
+        _doc557 = json.loads(json.dumps(_f557))
+        _doc557["verdict"] = "a_verdict_this_study_never_publishes"
+        if not _m557.face_problems(_doc557):
+            _bad557.append("a hand-written verdict was accepted")
+        _doc557 = json.loads(json.dumps(_f557))
+        _doc557["rows"][0]["naming_sites"].append(
+            {"source": "Tools/_r1003bmb_s6.py", "kind": _m557.N_CHAIN_BUILD,
+             "leg": "x", "argv": ["python", "scripts/x.py"], "verb": "build",
+             "machine": "bm-b"})
+        if not any("counted as a live chain build leg" in _p
+                   for _p in _m557.face_problems(_doc557)):
+            _bad557.append("a one-off snapshot counted as a chain build leg was accepted")
+        _doc557 = json.loads(json.dumps(_f557))
+        for _row in _doc557["rows"]:
+            if _row["reach_class"] == _m557.R_GATED_ONLY:
+                _row["reach_class"] = _m557.R_OTHER_CHAIN_BUILD
+                break
+        if not any("reach class is not what its own sites say" in _p
+                   for _p in _m557.face_problems(_doc557)):
+            _bad557.append("a gated-only row relabelled rebuildable was accepted")
+        _doc557 = json.loads(json.dumps(_f557))
+        _doc557["summary"]["chain_inventory"][1]["legs_run_as_data"] = 0
+        if not any("chain_inventory" in _p for _p in _m557.face_problems(_doc557)):
+            _bad557.append("a leg count that does not re-derive was accepted")
+    _d557 = ("%d rows / %d writers / %d rebuildable / %d gated-only / %d spawn-arm "
+             "contradictions / control %s / %s"
+             % (len(_r557), len(_w557), _s557.get("writers_with_a_build_entry_point", 0),
+                _s557.get("writers_only_gated", 0),
+                _s557.get("rows_whose_spawn_arm_says_no_source_yet_a_chain_leg_runs_them", 0),
+                (_s557.get("control_arm") or {}).get("found"), _f557.get("verdict")))
+except Exception as _e557x:
+    _bad557.append(repr(_e557x)[:160])
+    _d557 = "study could not be read"
+check(_name557, not _bad557, "; ".join(_bad557)[:240] or _d557)
+
 if __name__ == "__main__":
     sys.exit(main())

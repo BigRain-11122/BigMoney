@@ -2153,6 +2153,18 @@ LEGS = [
     # parameters, 4 tuple targets of a helper call, 3 loop targets.  The control arm runs the published
     # resolver over the same rows and must fold none of them, or the population is not a residue.
     ("unfolded_second_arg", ["python", "scripts/e555_unfolded_second_arg.py", "check"]),
+    # E556 prices the six faces E555 folded: all six are announced only by the message (0 pointer
+    # faces, 0 loads, controlled against a face the tree does load), so the loss of the message
+    # loses the only announcement anyone gets.
+    ("rescued_face", ["python", "scripts/e556_rescued_face.py", "check"]),
+    # E557 asks the question that decides whether that loss is recoverable: can anything RUN the
+    # writer again?  A chain leg's argv is data inside LEGS, so the earlier spawn arm (which looks
+    # for a call site) is blind to it -- and indeed all six rows carry "no source spawns this
+    # writer" while a live chain names all four writers.  Read as legs: 1 of 4 has a build verb
+    # (capital_placement, on bm-c's/bm-a's list, not this host's 306-leg table) and 3 are only
+    # ever gated with --check, which proves a face is still right but cannot restore it.  `check`
+    # re-derives every class from the leg table itself.
+    ("face_entry_reach", ["python", "scripts/e557_face_entry_reach.py", "check"]),
 ]
 
 

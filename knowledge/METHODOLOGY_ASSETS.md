@@ -13703,3 +13703,24 @@ digest `research/digests/DIGEST-20261108-r1575-e546-filepathjoined.md`
 **边界（随面发布）**：纯静态 AST；运行期才拼出的路径读成「没有加载」而不是「未被读」；指针臂只扫 `results/state_tilt/*_latest.json`，放在别处的指针算缺席；提及只在可执行源（py/ps1/bat/cmd/sh）里计，另一份 markdown 引用不是公告；加载臂以 `unfoldedname_latest.json` 为控制面。
 
 **正身** = `scripts/e556_rescued_face.py`（build/check/verify + selftest 12/12）、`results/state_tilt/RESCUEDFACE-2026-11-08.json` + `rescuedface_latest.json` + S6 腿 `rescued_face` + smoke 腿 `# E556`（`scripts/run_e556_smoke_leg.py` 1/1 绿，`--doctor` 1/1 红）+ digest `research/digests/DIGEST-20261108-r1582-e556-rescued-face.md`
+
+### E557 -- 只由消息命名的面：它的写者到底在不在任何入口点的射程内（r1583 bm-b）
+
+**问题**：E556 把 E555 救回的六行定价成「6/6 只由消息命名：0 个指针面、0 个 load」，并以一句「六张面除了人工敲命令行之外无法重建」收尾。那句收尾是假设不是测量。入口点是 S6 链腿、smoke 腿、run 包装器、计划任务；如果一条都不跑这个写者，那这张面丢了就只能靠人记得脚本名。
+
+**方法**：population 机读 E556 自己的 `rows`（6 行 / 4 个不同写者）。对每个写者做「命名站点」普查，站点带**类型**：①**活链腿**——`Tools/s6_chain_bm[abc].py` 的 `LEGS` 当**数据**读（label + argv），腿的动词决定它是重建（`run`/无参数）还是只把关（`--check`/`check`/`--selftest`），bm-a 是 `import s6_chain_bmc as canonical` / `LEGS = canonical.LEGS`，所以共享一张表就被多机共享；②**smoke 腿**（常见 `--selftest`：模块能导入、不变量成立，但**不写任何东西**）；③**言语行为**（subprocess spawn / import / 任务或 shell 定义）；④**一次性脚本**（`Tools/_r<N>`、`scripts/e<N>_`、`_dbg`、`_tmp`，=历史命令行，永不算入口点）。双臂控制：`regime_thermo_build.py` 必须在本机自己链上被认成 build 腿，`etf_book_hysteresis.py` 必须被认成 gate 腿——否则「build 腿」与「gate 腿」会塌成一类，而「没人能跑到这些写者」也可能只是仪器瞎。
+
+**读数**：6 行 / 4 写者；**有 build 入口的写者 1 个**（`scripts/capital_placement.py`），**在本机（bm-b）上的 0 个**；**只被链腿把关的 3 个**（`etf_book_buffer_adoption` / `etf_book_premium_phases` / `etf_book_voltarget_phase`，全是 `--check`）；**bm-b 自己 308 条腿一条都不点这四个写者**，而 bm-c 的 81 条腿（bm-a 也跑这张表）四个全点：`capital_placement` 是 `run`（会重建），另三个是 `--check`（只把关）。原始代码级命名来源 33 个，其中 **19 个是一次性脚本**。**6/6 行仍背着 E554/E556 的「没有任何源码 spawn 这个写者」，而同一条链的腿在上面点名它**——不是矛盾，是盲区。4/4 写者的 docstring 里都记着自己的命令行（所以「人工敲」这条路确实存在，代价是要知道去看哪个脚本）。研究 = `some_message_only_faces_have_a_live_chain_leg_that_rebuilds_them`。
+
+**四条可复用教训**：
+
+1. **链腿的 argv 是数据，call-site spawn 扫描结构上看不见它**。六行全带「没有源码 spawn 这个写者」而活链点名四个写者，正是 E554 那条臂的问法错了：`LEGS` 是 `(label, argv)` 元组表，没有任何调用站点提到脚本名。要量的是**运行器自己的表**，不是调用。
+2. **把关不是重建**。`--check` 只能证明面还对不对，不能把删掉/过期的面恢复；`premium_phases --check`/`voltarget_phase --check` 都走 `check()` 且什么都不写。任何「腿点名了这个脚本就算可达」的宽松判法，会把三个没有重建路径的写者变成三个有。**动词是测量的一部分。**
+3. **一个非字面量 argv 元素不许抹掉整张表——BOM 也一样**。首次构建读 bm-b 的 306 条腿边界结果为**空**：文件开头有 UTF-8 BOM（`ast.parse` 直接抛），而三条腿的 argv 里有 `os.path.join(...)`（整表 `literal_eval` 返回空）。两种失败都**长得像**「这个 runner 什么都不跑」。正法=逐元素读、读不出的元素发布成 `<unreadable:...>`（且仍在其源码文本里找写者名）、把读不出的腿数与读出的腿数并排发布。
+4. **共享腿表与复制腿表是不同的可达性**。bm-a 靠 import 跑 bm-c 的表，所以「哪台机重建得起来」不能只看持有腿表的那个文件；面里逐 runner 发布 `machines_that_run_this_list`。
+
+附测：33 个原始命名来源里 19 个是一次性轮次快照，所以「谁命名了这个写者」的无分类 grep 答案把接线高估了一半以上（E444/E470 同型）。
+
+**边界（诚实发布）**：纯静态；运行期拼出来的 argv 看不见；计划任务只在源（py/ps1/bat/cmd/sh）里点名写者时才计；指针只扫 `results/state_tilt/*_latest.json`；一次性快照只作历史发布、永不升级为入口点；控制臂两条方向都对。
+
+**载体** = `scripts/e557_face_entry_reach.py`（build/check/verify + selftest 36/36）+ `results/state_tilt/FACEENTRYREACH-2026-11-08.json` + `faceentryreach_latest.json` + S6 腿 `face_entry_reach`（32.0s rc=0）与补接的 `rescued_face`（19.2s rc=0）+ smoke 腿 `# E557` + digest `research/digests/DIGEST-20261108-r1583-e557-face-entry-reach.md`

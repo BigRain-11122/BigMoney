@@ -1,0 +1,719 @@
+{
+ "study": "E557",
+ "card": "E557",
+ "title": "whether the writers of the message-only faces are reachable from any entry point",
+ "evidence_cutoff": "2026-11-08",
+ "machine": "bm-b",
+ "population_source": {
+  "face": "results/state_tilt/rescuedface_latest.json",
+  "field": "rows",
+  "selector": "every row E556 published",
+  "published": 6
+ },
+ "rows": [
+  {
+   "face": "results/capital_placement.json",
+   "writer": "scripts/capital_placement.py",
+   "writer_exists_on_disk": true,
+   "survival_class": "only_the_message_names_it",
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "leg_contradicts_the_spawn_arm": true,
+   "reach_class": "a_live_chain_on_another_machine_rebuilds_it",
+   "naming_sites": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_build_verb",
+     "leg": "capital_placement",
+     "argv": [
+      "python",
+      "scripts/capital_placement.py",
+      "run"
+     ],
+     "verb": "build",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    },
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/capital_placement.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    }
+   ],
+   "build_entry_points": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_build_verb",
+     "leg": "capital_placement",
+     "argv": [
+      "python",
+      "scripts/capital_placement.py",
+      "run"
+     ],
+     "verb": "build",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    }
+   ],
+   "gate_entry_points": [
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/capital_placement.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    }
+   ],
+   "fired_by_nothing_but_a_one_off": false,
+   "raw_naming_sources": 4,
+   "raw_one_off_sources": 2,
+   "own_command_line": "python scripts/capital_placement.py run          # write results/capital_placement.json + md"
+  },
+  {
+   "face": "research/ETF_BOOK_BUFFER_ADOPTION.md",
+   "writer": "scripts/etf_book_buffer_adoption.py",
+   "writer_exists_on_disk": true,
+   "survival_class": "only_the_message_names_it",
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "leg_contradicts_the_spawn_arm": true,
+   "reach_class": "a_live_chain_only_gates_it_and_no_leg_rebuilds_it",
+   "naming_sites": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_gate_verb",
+     "leg": "etf_book_buffer_adoption",
+     "argv": [
+      "python",
+      "scripts/etf_book_buffer_adoption.py",
+      "--check"
+     ],
+     "verb": "gate",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    },
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/etf_book_buffer_adoption.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    },
+    {
+     "source": "scripts/etf_book_premium_phases.py",
+     "kind": "another_source_imports_the_module",
+     "line": 234,
+     "is_live_chain": false,
+     "is_smoke": false
+    },
+    {
+     "source": "scripts/etf_book_voltarget_phase.py",
+     "kind": "another_source_imports_the_module",
+     "line": 100,
+     "is_live_chain": false,
+     "is_smoke": false
+    }
+   ],
+   "build_entry_points": [],
+   "gate_entry_points": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_gate_verb",
+     "leg": "etf_book_buffer_adoption",
+     "argv": [
+      "python",
+      "scripts/etf_book_buffer_adoption.py",
+      "--check"
+     ],
+     "verb": "gate",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    },
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/etf_book_buffer_adoption.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    }
+   ],
+   "fired_by_nothing_but_a_one_off": false,
+   "raw_naming_sources": 7,
+   "raw_one_off_sources": 3,
+   "own_command_line": "python scripts/etf_book_buffer_adoption.py run [--out=...]"
+  },
+  {
+   "face": "research/ETF_BOOK_PREMIUM_PHASES.md",
+   "writer": "scripts/etf_book_premium_phases.py",
+   "writer_exists_on_disk": true,
+   "survival_class": "only_the_message_names_it",
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "leg_contradicts_the_spawn_arm": true,
+   "reach_class": "a_live_chain_only_gates_it_and_no_leg_rebuilds_it",
+   "naming_sites": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_gate_verb",
+     "leg": "premium_phases",
+     "argv": [
+      "python",
+      "scripts/etf_book_premium_phases.py",
+      "--check"
+     ],
+     "verb": "gate",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    },
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/etf_book_premium_phases.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    }
+   ],
+   "build_entry_points": [],
+   "gate_entry_points": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_gate_verb",
+     "leg": "premium_phases",
+     "argv": [
+      "python",
+      "scripts/etf_book_premium_phases.py",
+      "--check"
+     ],
+     "verb": "gate",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    },
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/etf_book_premium_phases.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    }
+   ],
+   "fired_by_nothing_but_a_one_off": false,
+   "raw_naming_sources": 5,
+   "raw_one_off_sources": 3,
+   "own_command_line": "python scripts/etf_book_premium_phases.py run"
+  },
+  {
+   "face": "results/etf_book_premium_phases.json",
+   "writer": "scripts/etf_book_premium_phases.py",
+   "writer_exists_on_disk": true,
+   "survival_class": "only_the_message_names_it",
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "leg_contradicts_the_spawn_arm": true,
+   "reach_class": "a_live_chain_only_gates_it_and_no_leg_rebuilds_it",
+   "naming_sites": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_gate_verb",
+     "leg": "premium_phases",
+     "argv": [
+      "python",
+      "scripts/etf_book_premium_phases.py",
+      "--check"
+     ],
+     "verb": "gate",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    },
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/etf_book_premium_phases.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    }
+   ],
+   "build_entry_points": [],
+   "gate_entry_points": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_gate_verb",
+     "leg": "premium_phases",
+     "argv": [
+      "python",
+      "scripts/etf_book_premium_phases.py",
+      "--check"
+     ],
+     "verb": "gate",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    },
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/etf_book_premium_phases.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    }
+   ],
+   "fired_by_nothing_but_a_one_off": false,
+   "raw_naming_sources": 5,
+   "raw_one_off_sources": 3,
+   "own_command_line": "python scripts/etf_book_premium_phases.py run"
+  },
+  {
+   "face": "research/ETF_BOOK_VOLTARGET_PHASE.md",
+   "writer": "scripts/etf_book_voltarget_phase.py",
+   "writer_exists_on_disk": true,
+   "survival_class": "only_the_message_names_it",
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "leg_contradicts_the_spawn_arm": true,
+   "reach_class": "a_live_chain_only_gates_it_and_no_leg_rebuilds_it",
+   "naming_sites": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_gate_verb",
+     "leg": "etf_book_voltarget_phase",
+     "argv": [
+      "python",
+      "scripts/etf_book_voltarget_phase.py",
+      "--check"
+     ],
+     "verb": "gate",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    },
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/etf_book_voltarget_phase.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    }
+   ],
+   "build_entry_points": [],
+   "gate_entry_points": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_gate_verb",
+     "leg": "etf_book_voltarget_phase",
+     "argv": [
+      "python",
+      "scripts/etf_book_voltarget_phase.py",
+      "--check"
+     ],
+     "verb": "gate",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    },
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/etf_book_voltarget_phase.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    }
+   ],
+   "fired_by_nothing_but_a_one_off": false,
+   "raw_naming_sources": 6,
+   "raw_one_off_sources": 4,
+   "own_command_line": "python scripts/etf_book_voltarget_phase.py run"
+  },
+  {
+   "face": "results/etf_book_voltarget_phase.json",
+   "writer": "scripts/etf_book_voltarget_phase.py",
+   "writer_exists_on_disk": true,
+   "survival_class": "only_the_message_names_it",
+   "spawn_class": "no_source_in_the_repository_spawns_this_writer",
+   "leg_contradicts_the_spawn_arm": true,
+   "reach_class": "a_live_chain_only_gates_it_and_no_leg_rebuilds_it",
+   "naming_sites": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_gate_verb",
+     "leg": "etf_book_voltarget_phase",
+     "argv": [
+      "python",
+      "scripts/etf_book_voltarget_phase.py",
+      "--check"
+     ],
+     "verb": "gate",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    },
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/etf_book_voltarget_phase.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    }
+   ],
+   "build_entry_points": [],
+   "gate_entry_points": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_gate_verb",
+     "leg": "etf_book_voltarget_phase",
+     "argv": [
+      "python",
+      "scripts/etf_book_voltarget_phase.py",
+      "--check"
+     ],
+     "verb": "gate",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    },
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/etf_book_voltarget_phase.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    }
+   ],
+   "fired_by_nothing_but_a_one_off": false,
+   "raw_naming_sources": 6,
+   "raw_one_off_sources": 4,
+   "own_command_line": "python scripts/etf_book_voltarget_phase.py run"
+  }
+ ],
+ "writers": [
+  {
+   "writer": "scripts/capital_placement.py",
+   "faces": [
+    "results/capital_placement.json"
+   ],
+   "reach_class": "a_live_chain_on_another_machine_rebuilds_it",
+   "naming_sites": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_build_verb",
+     "leg": "capital_placement",
+     "argv": [
+      "python",
+      "scripts/capital_placement.py",
+      "run"
+     ],
+     "verb": "build",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    },
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/capital_placement.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    }
+   ],
+   "own_command_line": "python scripts/capital_placement.py run          # write results/capital_placement.json + md",
+   "raw_naming_sources": 4,
+   "raw_one_off_sources": 2
+  },
+  {
+   "writer": "scripts/etf_book_buffer_adoption.py",
+   "faces": [
+    "research/ETF_BOOK_BUFFER_ADOPTION.md"
+   ],
+   "reach_class": "a_live_chain_only_gates_it_and_no_leg_rebuilds_it",
+   "naming_sites": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_gate_verb",
+     "leg": "etf_book_buffer_adoption",
+     "argv": [
+      "python",
+      "scripts/etf_book_buffer_adoption.py",
+      "--check"
+     ],
+     "verb": "gate",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    },
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/etf_book_buffer_adoption.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    },
+    {
+     "source": "scripts/etf_book_premium_phases.py",
+     "kind": "another_source_imports_the_module",
+     "line": 234,
+     "is_live_chain": false,
+     "is_smoke": false
+    },
+    {
+     "source": "scripts/etf_book_voltarget_phase.py",
+     "kind": "another_source_imports_the_module",
+     "line": 100,
+     "is_live_chain": false,
+     "is_smoke": false
+    }
+   ],
+   "own_command_line": "python scripts/etf_book_buffer_adoption.py run [--out=...]",
+   "raw_naming_sources": 7,
+   "raw_one_off_sources": 3
+  },
+  {
+   "writer": "scripts/etf_book_premium_phases.py",
+   "faces": [
+    "research/ETF_BOOK_PREMIUM_PHASES.md",
+    "results/etf_book_premium_phases.json"
+   ],
+   "reach_class": "a_live_chain_only_gates_it_and_no_leg_rebuilds_it",
+   "naming_sites": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_gate_verb",
+     "leg": "premium_phases",
+     "argv": [
+      "python",
+      "scripts/etf_book_premium_phases.py",
+      "--check"
+     ],
+     "verb": "gate",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    },
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/etf_book_premium_phases.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    }
+   ],
+   "own_command_line": "python scripts/etf_book_premium_phases.py run",
+   "raw_naming_sources": 5,
+   "raw_one_off_sources": 3
+  },
+  {
+   "writer": "scripts/etf_book_voltarget_phase.py",
+   "faces": [
+    "research/ETF_BOOK_VOLTARGET_PHASE.md",
+    "results/etf_book_voltarget_phase.json"
+   ],
+   "reach_class": "a_live_chain_only_gates_it_and_no_leg_rebuilds_it",
+   "naming_sites": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "kind": "a_live_chain_leg_runs_the_writer_with_a_gate_verb",
+     "leg": "etf_book_voltarget_phase",
+     "argv": [
+      "python",
+      "scripts/etf_book_voltarget_phase.py",
+      "--check"
+     ],
+     "verb": "gate",
+     "machine": "bm-c",
+     "also_run_by": [
+      "bm-a"
+     ],
+     "matched_in_unreadable_token": false
+    },
+    {
+     "source": "smoke_test.py",
+     "kind": "a_smoke_leg_runs_the_writer_selftest",
+     "label": "scripts/etf_book_voltarget_phase.py",
+     "argv": [
+      "--selftest"
+     ],
+     "verb": "selftest"
+    }
+   ],
+   "own_command_line": "python scripts/etf_book_voltarget_phase.py run",
+   "raw_naming_sources": 6,
+   "raw_one_off_sources": 4
+  }
+ ],
+ "summary": {
+  "rows": 6,
+  "distinct_writers": 4,
+  "parent_faces_published": 6,
+  "rows_on_disk": 6,
+  "rows_with_a_build_entry_point": 1,
+  "writers_with_a_build_entry_point": 1,
+  "writers_rebuilt_on_this_machine": 0,
+  "writers_rebuilt_only_on_another_machine": 1,
+  "writers_only_gated": 3,
+  "writers_only_self_tested": 0,
+  "writers_only_typed": 0,
+  "writers_named_nowhere": 0,
+  "typed_writers": [],
+  "writers_with_their_command_line_in_their_own_docstring": 4,
+  "rows_whose_spawn_arm_says_no_source_yet_a_chain_leg_runs_them": 6,
+  "raw_naming_sources": 33,
+  "raw_one_off_sources": 19,
+  "naming_sites": 14,
+  "by_reach_class_rows": {
+   "a_live_chain_on_another_machine_rebuilds_it": 1,
+   "a_live_chain_only_gates_it_and_no_leg_rebuilds_it": 5
+  },
+  "by_reach_class_writers": {
+   "a_live_chain_on_another_machine_rebuilds_it": 1,
+   "a_live_chain_only_gates_it_and_no_leg_rebuilds_it": 3
+  },
+  "by_naming_site_kind": {
+   "a_live_chain_leg_runs_the_writer_with_a_build_verb": 1,
+   "a_live_chain_leg_runs_the_writer_with_a_gate_verb": 5,
+   "a_smoke_leg_runs_the_writer_selftest": 6,
+   "another_source_imports_the_module": 2
+  },
+  "chain_inventory": [
+   {
+    "chain": "Tools/s6_chain_bma.py",
+    "machine": "bm-a",
+    "legs_run_as_data": 0,
+    "source_parsed": true,
+    "legs_not_readable_as_data": 0,
+    "unreadable_legs": [],
+    "leg_list_imported_from": "Tools/s6_chain_bmc.py",
+    "machines_that_run_this_list": [
+     "bm-a"
+    ]
+   },
+   {
+    "chain": "Tools/s6_chain_bmb.py",
+    "machine": "bm-b",
+    "legs_run_as_data": 308,
+    "source_parsed": true,
+    "legs_not_readable_as_data": 0,
+    "unreadable_legs": [],
+    "leg_list_imported_from": null,
+    "machines_that_run_this_list": [
+     "bm-b"
+    ]
+   },
+   {
+    "chain": "Tools/s6_chain_bmc.py",
+    "machine": "bm-c",
+    "legs_run_as_data": 81,
+    "source_parsed": true,
+    "legs_not_readable_as_data": 0,
+    "unreadable_legs": [],
+    "leg_list_imported_from": null,
+    "machines_that_run_this_list": [
+     "bm-c",
+     "bm-a"
+    ]
+   }
+  ],
+  "control_arm": {
+   "found": true,
+   "why": null,
+   "build_control": "scripts/regime_thermo_build.py",
+   "build_control_legs": [
+    {
+     "source": "Tools/s6_chain_bmb.py",
+     "leg": "regime_thermo",
+     "argv": [
+      "python",
+      "scripts/regime_thermo_build.py"
+     ],
+     "machine": "bm-b"
+    },
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "leg": "regime_thermo",
+     "argv": [
+      "python",
+      "scripts/regime_thermo_build.py"
+     ],
+     "machine": "bm-c"
+    }
+   ],
+   "gate_control": "scripts/etf_book_hysteresis.py",
+   "gate_control_legs": [
+    {
+     "source": "Tools/s6_chain_bmc.py",
+     "leg": "etf_book_hysteresis",
+     "argv": [
+      "python",
+      "scripts/etf_book_hysteresis.py",
+      "--check"
+     ],
+     "machine": "bm-c"
+    }
+   ]
+  }
+ },
+ "verdict": "some_message_only_faces_have_a_live_chain_leg_that_rebuilds_them",
+ "verdict_line": "1 of 4 writers can be rebuilt by a live chain leg (scripts/capital_placement.py); 0 can only be rebuilt by typing the command line",
+ "method_note": "A chain leg is read out of the LEGS literal as data (label, argv), so a leg whose argv names the script counts as an entry point even though no call site mentions it -- the blind spot E554's spawn arm had.  A leg's verb decides whether it rebuilds (run / no argument) or only gates (--check / check), and a gate leg is never counted as a rebuild path.",
+ "method_bound": "static only: a run-time argv assembled from variables is not seen; a scheduled task is counted only when its definition file names the writer in a source the corpus reads (py/ps1/bat/cmd/sh); one-off round snapshots (Tools/_r<N>, scripts/e<N>_, _dbg, _tmp) are published as history and never as entry points; the census is controlled against scripts/regime_thermo_build.py, scripts/etf_book_hysteresis.py"
+}

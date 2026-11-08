@@ -124,3 +124,14 @@
   造卡（编造）或记阻塞；后者应被计为上游缺件而不是承办逾期。leg 1（新鲜度并集+owner 静默分离）
   已实跑取证：assigned_without_a_data_face=0、owner_silent=0、lane_starved=10（= lane_hosts.json
   把 R31 属 bm-a 的九道挂在 bm-b 名下，属主表本身待裁定，非断供）。
+
+- 2026-11-08 19:3x bm-b（r1583）· **OB-20261108-120628-589 / D-20261108-14 双腿收口：leg 1 达标；leg 2 只达字面不达实质**。leg 1 实跑
+  取证（`results/_r1583bmb_ob_acceptance.json`）：并集 16 道（lane_hosts 9 ＋ 本仓声明 7）；静默臂用历史心跳回放（2026-10-30T12:43、
+  now=11-08T00:30）实测判 silent=true/age=203.78h ⇒ 该臂会响；断供臂今日 10 道（bm-b 名下 9 道全在册）；minute_feed 内容日
+  2026-11-06（lag 0），即 D-02 的「8 日无数据」已愈合，剩 owner 复活与断供并存＝正是派单要的「静默与断供分开报」。leg 2：
+  `fleet/backlog.md` 已补 4 行（19-22，`git diff --numstat` = 6 添加 0 删除，四个卡号各 1 命中=字面达标），**但卡体内容仍缺**——
+  `state/batch-pool-registration-20261105.txt` 在 FluxGroup / BigCompute / bigmoney 三仓 `git ls-tree -r HEAD` 与全树 grep 均零命中，
+  故四行只承载「卡号＋线＋D-15 实测门槛（CITY3D 两卡显存不足、XIDUDU 两卡无算力门槛）」，并逐行写明「认领前须由 BigCompute 席补规格，
+  禁按卡号臆造」。判据建议（一行）：**以「某文件里的 N 张卡」为验收物时，派单须同批给出卡文本本体或 origin 可读路径；否则承办方
+  只能在「造卡」与「记阻塞」之间二选一，字面达标与实质达标会永久错位**（本条即实例：字面 4/4 命中，实质 0/4 可执行）。
+  状态=leg1 closed / leg2 open（候卡体）

@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1582 bm-b: E556 burned (6 rescued faces, all message-only, control arm 1 load), E557 seeded (supply floor refill: ready E548/E552/E557)",
+ "_stamp_note": "r1583 bm-b: E557 burned (1 of 4 writers has a build leg, on bm-c/bm-a's list; bm-b's own 308-leg chain names none of them; 6/6 rows carry 'no source spawns this writer' while a chain leg names the writer -- a leg's argv is data, so a call-site spawn scan is blind to it), E558 seeded (supply floor refill: ready E548/E552/E558)",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -29812,11 +29812,28 @@
    "target": "results/state_tilt/faceentryreach_latest.json",
    "deliverable": "results/state_tilt/FACEENTRYREACH-<cutoff>.json",
    "source": "E556 (r1582 bm-b): 6/6 faces message-only, 0 pointer faces, 0 loads, and the reader arm controlled against a face the tree does load",
-   "status": "ready",
-   "result_ref": null,
+   "status": "done",
+   "result_ref": "results/state_tilt/FACEENTRYREACH-2026-11-08.json",
    "entered_at": "2026-11-08T19:02:00+08:00",
    "entered_by": "bm-b r1582 (supply floor refill after E556)",
-   "worker_class": "self-contained"
+   "worker_class": "self-contained",
+   "completed_at": "2026-11-08T19:24:00+08:00",
+   "completed_by": "bm-b r1583"
+  },
+  {
+   "id": "E558-WHETHER-A-GATE-LEG-READS-THE-FACE-IT-GATES-AND-CAN-NOTICE-ITS-ABSENCE",
+   "title": "E557 found three of the four writers (etf_book_buffer_adoption, etf_book_premium_phases, etf_book_voltarget_phase) are named by a live chain leg only with --check: the leg proves the face is still right but can never rebuild it. The next question is whether that gate would at least NOTICE the loss. For each of the five gate legs naming these writers, measure statically whether the gate's own entry function loads the face it gates (a load call whose argument folds to the face path, the E556 arm) and whether the same function contains a missing-file branch (exists()/isfile/FileNotFoundError/except OSError) that returns non-zero or raises. Publish the classes -- the gate reads and refuses a missing face / the gate reads but a missing face is not refused / the gate never opens the face, so its absence is invisible -- and say for each writer whether a deleted face would be detected or silently pass. Keep 'the gate never opens the face' separate from 'the gate opens it through a helper this scan cannot follow': the second is unassessable, not silent.",
+   "source": "E557 (r1583 bm-b): 1 of 4 writers has a build leg (on bm-c/bm-a's list, not bm-b's), 3 are gate-only, and a gate leg cannot restore a face",
+   "lane": "cpu-only",
+   "lane_note": "static: the five gate legs are read out of the live chain LEGS tables; the gate functions are parsed, no execution and no face is touched",
+   "target": "results/state_tilt/gateread_latest.json",
+   "deliverable": "results/state_tilt/GATEREAD-<cutoff>.json",
+   "status": "ready",
+   "priority": "normal",
+   "worker_class": "self-contained",
+   "evidence_cutoff": "2026-11-08",
+   "entered_at": "2026-11-08T19:24:00+08:00",
+   "entered_by": "bm-b r1583 (supply floor refill after E557)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29831,6 +29848,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T19:02:00+08:00",
+ "updated_at": "2026-11-08T19:24:00+08:00",
  "version": 1
 }
