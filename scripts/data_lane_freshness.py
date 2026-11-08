@@ -2198,6 +2198,24 @@ def run(now=None, allow_network=False):
     for r in report["lanes"]:
         print(f"{r['verdict']:>14}  {r['lane']:<14} tail={r.get('tail') or '--':<10} "
               f"missing={r.get('n_missing', 0)}", flush=True)
+    # D-20261108-14 acceptance: the printed face itself must carry the union
+    # width and the silent owners, not only the JSON/MD. A board whose stdout
+    # says "15 lanes" without saying 11 registry + 4 map-only lets a reader
+    # believe the map was read when it was not.
+    cov = report.get("coverage") or {}
+    print(f"lanes={report.get('n_lanes')} "
+          f"(registry={cov.get('registry_lanes')} "
+          f"+lane_hosts_union={cov.get('lane_hosts_union_lanes')} "
+          f"declared_writers={cov.get('declared_writers')})", flush=True)
+    for host in report.get("hosts_down") or []:
+        h = (report.get("hosts") or {}).get(host) or {}
+        print(f"SILENT-HOST-DOWN {host} age_h={h.get('age_h')} "
+              f"unverifiable="
+              f"{','.join(h.get('lanes_unverifiable') or []) or '-'}", flush=True)
+    for host in report.get("hosts_silent") or []:
+        h = (report.get("hosts") or {}).get(host) or {}
+        print(f"SILENT-OWNER {host} age_h={h.get('age_h')} "
+              f"lanes={','.join(h.get('silent_lanes') or []) or '-'}", flush=True)
     print(f"verdict={report['verdict']} counts={report['counts']} "
           f"worst={report['worst']}", flush=True)
     return 0
