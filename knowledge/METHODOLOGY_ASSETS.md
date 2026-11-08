@@ -14040,3 +14040,15 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 **边界**：只读票文件与面板，不改任何票、不记任何 ledger 行、不做 alpha 判断。「票该不该按票面 bar 定价」是产品决策（r1611 已定），本轮只测一个事实：**旧票上写的钱是按哪个 bar 算出来的**。
 
 **证据** = scripts/e583_ticket_repricing.py（selftest 29/29，build/check/verify 全绿）+ results/state_tilt/REPRICEDTICKETS-2026-11-06.json + repricedtickets_latest.json + smoke leg `# E583` 与 scripts/run_e583_smoke_leg.py（1/1 绿、--doctor 拒收）+ Tools/s6_chain_bmb.py leg `ticket_repricing`（rc0 0.10s）+ digest research/digests/DIGEST-20261109-r1612-e583-ticket-repricing.md
+
+### E585 票面上的现金腿不是利率，是整段窗口的均值（r1613 bm-b·2026-11-09）
+
+**问题**：E583 量的是票上的**股数**腿按哪根 bar 定价；每张票还带一个现金腿块 `{"mean_accrual_ann_pct": 2.09, "missing_bar_steps": 0}`，读起来像一个利率。本轮问同一个问题：这个数是不是它旁边那根 bar 上的 GC001 报价？
+
+**答案**：**0/5 张带块的票按它命名的 bar 定价**。生产者 `etf_book_order.run` 算的是 `BW.repo_daily_cash(idx, rates).mean()*252*100`，而 `idx` 是**整个 2020-01-01..cutoff 的活窗**——所以公布的是扩窗均值。5 张票印 **2.079%..2.090%/yr**（跨窗只动 **1.1bp**，因为它只是变长），而它们命名的几根 bar 上 GC001 收盘 **1.015%..1.090%**（**7.5bp** 跨度），印出的数最高是旁边那一刻利率的 **2.06 倍**。3/5 张的命名 bar 在回购面板上有报价，另 2 张（10-28、11-06）已超出面板末 bar（**2026-10-27**，bm-a 车道 `update_repo` 落后 ETF 面板 7 根）。`repo_daily_cash` 对无报价的步子计 0 只记数，于是 11-06 票在末段 **7 步一分不计**——按末次报价折算的上界 **160.19 CNY**（cash_amount 529,072 × 1.09%/252 × 7）。分类：整窗均值 3 · 面板未达 2 · 无块 1（10-28-card 的 cash_leg 是字符串标签）· 按 bar 定价 **0**。重算值与已发布值逐张吻合到 3 位小数（2.090/2.090/2.089/2.088/2.079），这就是「窗口起点是 2020-01-01」的证据，不是猜的。
+
+**教训**：① **名字像利率不等于它是利率**——同张票上「股数用哪根 bar」与「现金用哪段窗口」是两根轴，E583 查了前者，后者没人查过。② **跨文件的小幅漂移可能只是窗口长度**：2.090→2.079 看着像利率下行，实际是后 10 根低利率 bar 并进分母；本面把 `window_mean_spread_bp`(1.05) 与 `bar_rate_spread_bp`(7.5) 并排发布，相差 7 倍一眼可见。③ **「缺报价计 0」是会静默吃钱的记账规则**：它把上游数据延迟伪装成零收益，所以缺步数必须与它的人民币上界一起公布（上界是 disclosure，不是测量）。④ **守卫的两条臂不能靠人口恰好含有目标行**：首版 smoke/腿检用「找到一行再篡改」的循环，而这批人口没有 bar-rate 行，循环空转=假绿；正法=用一行内部自洽的合成行做臂，并断言未篡改版本被接受、篡改版本被拒（r1339 族）。
+
+**边界**：只读票文件与 `data/repo_daily/GC001.csv`；不改任何票、不改现金腿算法、不记 ledger 行。「现金腿该印 bar 报价还是窗口均值」是产品决策（另轮 prereg）。
+
+**证据** = scripts/e585_cash_leg_pricing.py（selftest 28/28，build/check/verify 全绿）· results/state_tilt/CASHLEGPRICE-2026-11-06.json + cashlegprice_latest.json · S6 腿 `cash_leg_pricing`（rc0 0.04s）· smoke `# E585` · 本窗腿检 _r1613_legcheck.py · digest research/digests/DIGEST-20261109-r1613-e585-cash-leg-pricing.md

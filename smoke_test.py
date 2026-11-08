@@ -25280,5 +25280,74 @@ except Exception as _e583x:
 check(_name583, not _bad583, "; ".join(_bad583)[:240] or _d583)
 
 
+# E585: E583 priced the share legs; every ticket also carries a cash_leg block that reads like a
+# rate.  It is the mean of GC001 over the whole 2020-01-01..cutoff window, so five tickets named on
+# five different bars print 2.079%..2.090%/yr while the quote on those bars runs 1.015%..1.090%
+# (r1613 bm-b).  This leg reads the published face and refuses the three ways it could be a wish:
+# a ticket called "the bar's own rate" whose numbers disagree, a ticket called a window mean whose
+# printed number is not the re-derived window mean, and money on a ticket that publishes none.
+_name585 = "E585 whether a ticket's cash leg is priced on the bar the ticket names (r1613 bm-b)"
+_bad585 = []
+_d585 = "no reading"
+try:
+    _p585 = os.path.join("results", "state_tilt", "cashlegprice_latest.json")
+    _f585 = json.load(open(_p585, encoding="utf-8"))
+    _s585 = _f585.get("summary") or {}
+    _r585 = _f585.get("rows") or []
+    _m585 = importlib.import_module("e585_cash_leg_pricing")
+    _bad585.extend(_m585.face_problems(_f585))
+    if _s585.get("tickets_total") != len(_r585):
+        _bad585.append("the summary ticket count does not match the published rows")
+    if (_s585.get("tickets_whose_number_is_the_bar_rate", 0)
+            + _s585.get("tickets_whose_number_is_the_window_mean", 0)
+            + _s585.get("tickets_with_no_cash_leg_block", 0)
+            + _s585.get("tickets_whose_bar_is_not_on_the_repo_panel", 0)
+            + _s585.get("tickets_matching_neither", 0)) != len(_r585):
+        _bad585.append("the classes do not cover every ticket")
+    # build the two arms from a synthetic, internally consistent row: the live population has no
+    # bar-rate row, and a doctoring loop that finds nothing would pass without testing anything
+    # (r1339 family)
+    _acc585 = round(100000.0 * 2.0 / 100.0 / 252.0, 2)
+    _row585 = {"file": "TICKET-1970-01-01.json", "named_bar": "1970-01-01",
+               "ticket_cutoff": "1970-01-01", "published_mean_accrual_ann_pct": 2.0,
+               "rederived_window_mean_ann_pct": 1.5, "repo_number_on_named_bar": 2.0,
+               "published_over_bar_rate": 1.0, "nav": 1000000.0, "cash_amount": 100000.0,
+               "accrual_one_bar_cny_at_bar_rate": _acc585,
+               "accrual_one_bar_cny_at_published_rate": _acc585,
+               "unaccrued_steps_upper_bound": None, "rederived_missing_bar_steps": 0,
+               "class": "the_number_is_the_bar_it_names"}
+    _syn585 = {"rows": [_row585], "summary": _m585.summarise([_row585])}
+    if _m585.face_problems(_syn585):
+        _bad585.append("the guard refused a synthetic bar-rate row it should accept")
+    _doc585 = json.loads(json.dumps(_syn585))
+    _doc585["rows"][0]["repo_number_on_named_bar"] = 99.0
+    if not _m585.face_problems(_doc585):
+        _bad585.append("a ticket called the bar's own rate with disagreeing numbers "
+                       "was accepted")
+    _doc585b = json.loads(json.dumps(_syn585))
+    _doc585b["rows"][0]["class"] = "the_number_is_the_whole_window_mean"
+    _doc585b["summary"] = _m585.summarise(_doc585b["rows"])
+    if not _m585.face_problems(_doc585b):
+        _bad585.append("a window mean whose number equals the bar's own rate was accepted")
+    _d585 = ("tickets=%d with_block=%d is_the_bar_rate=%d is_window_mean=%d no_block=%d "
+             "published=%s..%s bar_rate=%s..%s worst_ratio=%s unaccrued_steps=%s "
+             "unaccrued_cny=%s | %s"
+             % (_s585.get("tickets_total", 0), _s585.get("tickets_with_a_cash_leg_block", 0),
+                _s585.get("tickets_whose_number_is_the_bar_rate", 0),
+                _s585.get("tickets_whose_number_is_the_window_mean", 0),
+                _s585.get("tickets_with_no_cash_leg_block", 0),
+                _s585.get("published_mean_min"), _s585.get("published_mean_max"),
+                _s585.get("repo_number_on_named_bar_min"),
+                _s585.get("repo_number_on_named_bar_max"),
+                _s585.get("worst_published_over_bar_rate"),
+                _s585.get("newest_ticket_missing_steps"),
+                _s585.get("newest_ticket_unaccrued_cny_upper_bound"),
+                _f585.get("verdict")))
+except Exception as _e585x:
+    _bad585.append(repr(_e585x)[:160])
+    _d585 = "study could not be read"
+check(_name585, not _bad585, "; ".join(_bad585)[:240] or _d585)
+
+
 if __name__ == "__main__":
     sys.exit(main())

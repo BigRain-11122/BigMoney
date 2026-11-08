@@ -30277,13 +30277,30 @@
    "lane": "cpu-only",
    "lane_note": "static: read results/etf_book_order/TICKET-*.json, take cash_amount and the repo rate the sheet implies, and compare it against the GC001 close on both the named bar and the decision bar; no runner, no ledger write",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E583 (r1612 bm-b): the equity legs of 4 of 5 published sheets price on the 2026-10-14 decision bar while the file names a later bar. Every sheet also carries a cash leg (\"GC001 (1-day repo, observed close)\") and a cash_amount, so the same question is unanswered for half of the money on the page.",
    "target": "results/etf_book_order/CASHBAR.json",
    "deliverable": "results/etf_book_order/CASHBAR.json",
    "title": "For every published ticket, publish whether its cash leg is priced on the bar the file name carries: the implied repo rate to 4dp against the GC001 close on the named bar and on the decision bar, whether the two bars share that rate (a coincidence is not a witness -- E583 measured 17/25 legs in that state), and the cash amount that would follow from each bar.",
    "entered_at": "2026-11-09T05:05:00+08:00",
    "entered_by": "bm-b r1612",
+   "evidence_cutoff": "2026-11-06",
+   "done_at": "2026-11-09T05:25:00+08:00",
+   "result_ref": "results/state_tilt/CASHLEGPRICE-2026-11-06.json + cashlegprice_latest.json (verdict the_cash_leg_number_is_a_window_mean_not_a_priced_leg; script scripts/e585_cash_leg_pricing.py; S6 leg cash_leg_pricing; smoke # E585)",
+   "done_note": "r1613 bm-b: 5 of 6 tickets print a cash-leg accrual of 2.079%..2.090%/yr, the mean of GC001 over 2020-01-01..cutoff (1.1bp across tickets), not the quote on the bar each ticket names (1.015%..1.090%, 7.5bp apart); the printed value is up to 2.06x the bar rate, 2 of 5 name a bar past the repo panel's last quote (2026-10-27), and the newest ticket accrues nothing over 7 steps (upper bound 160.19 CNY)"
+  },
+  {
+   "id": "E587-WHETHER-THE-BOOK-CAGR-AND-THE-TICKET-CASH-LEG-USE-THE-SAME-REPO-WINDOW",
+   "lane": "cpu-only",
+   "lane_note": "static: read results/etf_book_order/ledger.jsonl + the cash_leg block + data/repo_daily/GC001.csv; no runner, no ledger write",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E585 (r1613 bm-b): the ticket's published cash leg is the mean of GC001 over 2020-01-01..cutoff, not the quote on the bar the ticket names. The forward ledger accrues a different thing again -- bar-to-bar rf from the prior bar's quote -- so two faces of the same cash state different windows and neither says which.",
+   "target": "results/etf_book_order/CASHWINDOW.json",
+   "deliverable": "results/etf_book_order/CASHWINDOW.json",
+   "title": "Publish whether the accrued cash in the forward ledger and the mean printed in the ticket's cash_leg block come from the same repo window: rebuild both from the repo panel over the ledger's own bar list, publish the two annualised numbers side by side, and check that the ledger's rf column reproduces from the prior bar's quote.",
+   "entered_at": "2026-11-09T05:25:00+08:00",
+   "entered_by": "bm-b r1613",
    "evidence_cutoff": "2026-11-06"
   },
   {
@@ -30313,6 +30330,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T05:05:00+08:00",
+ "updated_at": "2026-11-09T05:25:00+08:00",
  "version": 1
 }

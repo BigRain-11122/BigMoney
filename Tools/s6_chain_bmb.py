@@ -2329,6 +2329,16 @@ LEGS = [
     # refuses money on a ticket that carries no order sheet.
     ("ticket_repricing",
      ["python", "scripts/e583_ticket_repricing.py", "check"]),
+    # E585 (r1613 bm-b): E583 priced the share legs; every ticket also carries a cash_leg block
+    # that reads like a rate.  It is not: etf_book_order feeds the whole 2020-01-01..cutoff window
+    # to BW.repo_daily_cash and publishes its mean, so five tickets named on five different bars
+    # all print 2.079%..2.090%/yr while the GC001 quote on those bars runs 1.015%..1.090%.  The
+    # newest ticket also accrues nothing over 7 steps because the repo panel (a bm-a lane) stops
+    # a week behind the ETF panel.  `check` re-derives the window mean, the bar quote, both
+    # one-bar accruals and the unaccrued count, and refuses a ticket called "the bar's own rate"
+    # whose numbers disagree.
+    ("cash_leg_pricing",
+     ["python", "scripts/e585_cash_leg_pricing.py", "check"]),
 ]
 
 
