@@ -13762,3 +13762,18 @@ digest `research/digests/DIGEST-20261108-r1575-e546-filepathjoined.md`
 **边界（随面发布）**：纯静态 AST；运行期拼出的 argv 看不见（读成 unfoldable 而不是「没有」）；`results/` 里 300+ 个历史 per-round 链副本会读自己的 receipt，那是历史不是消费者，已排除并说明；包装器类别在活体为零件时只由 fixture 训练，面里明写「这一类的正例来自夹具」；活体计划任务普查是一次性 receipt，不进闸，因为它在 build 时不可复现。
 
 **载体** = `scripts/e559_chain_rc_consumer.py`（build/check/verify + selftest 24/24）+ `results/state_tilt/CHAINRCCONSUMER-2026-11-08.json` + `chainrcconsumer_latest.json` + S6 腿 `chain_rc_consumer`（4.4s rc=0）+ smoke 腿 `# E559` + 独立腿 `scripts/run_e559_smoke_leg.py` + 活体普查 `results/_r1585bmb_task_census.json` + digest `research/digests/DIGEST-20261108-r1585-e559-chain-rc-consumer.md`
+
+### E560 — 回执的**形状**也是测量对象：谁没跑、错在哪一步、留没留下话（r1586 bm-b·2026-11-08）
+
+E559 判了「没人读回执」；本轮问「如果有人读，读得动吗」。三个链跑器（`Tools/s6_chain_bma.py` / `bmb` / `bmc`，共 473 条腿，其中 bm-a 的表**是 import 来的**不是自己抄的）+ 盘上已写的 320 份回执，静态 + 观测两手量：
+
+1. **失败即继续 = 3/3**：没有任何一个跑器在非零 rc 后 break/return，所以「下游腿没跑」不会被这一条解释掉，它只会是**别的原因**——而回执里没有这个原因的位置。
+2. **三合一塌缩**：bm-b 用 `except Exception` → 超时和任何异常都写成 `rc=99`，与真进程退出码同形；bm-a/bm-c 只捕 `TimeoutExpired`（124 与退出码可区分），但**其它异常直接结束整轮、回执一个字节都不落**——「没跑」和「跑了且全绿」在盘面上是同一件事（都没有文件 / 都有且无 rc≠0 行）。
+3. **输出只留一行**：三个跑器的行都只有 `leg / rc / elapsed_sec / tail`，tail 是 stdout 的**最后一行**、按 220/300 字符截断；`.stderr` 在三个文件里一次都没出现。320 份回执里只有 1 份带任何输出字段（且那是历史遗留的自定义形状）。
+4. **表的大小不写进回执**：bm-b 的 `legs_total` 是 `len(rows)`＝**跑了几条**，不是**表里有几条**；bm-a/bm-c 的回执是裸 list，连计数都没有。于是「47 行的回执」既可能是 47 条表的全绿，也可能是 473 条表跑到第 47 条被杀——读者无从分辨。
+5. **唯一表示「没跑」的地方**：bm-a 的表脚本缺失时写 `rc=127 / tail=MISSING <script>` 的占位行；另两台没有。三人九格（三字段 × 三跑器）里只有 **5 格**可读。
+
+**自己的两枚坑（本轮首版实犯，已修并写进闸）**：①`LEGS = canonical.LEGS` —— bm-a 的表是 import 的，只认 `LEGS = [...]` 的扫描把它读成「零腿」，正是本轮要测的「看不见就没发生」；②输出预算在 **Slice 的 upper**（`tail[0][:220]`）不在 Constant slice，首版把三个跑器都报成「保留 0 字符」。
+**边界（照报不藏）**：回执的人口是活目录，链一跑就多一份，所以它**不能进闸**——首版把 census 写进 summary，S6 腿自己写的那份回执立刻让 `check` 变红；正法=观测面单列（drift 只打印不判红），闸只吃三个源文件。
+
+**产物** = `scripts/e560_chain_receipt_shape.py`（build/check/verify + selftest 21/21）+ `results/state_tilt/CHAINRECEIPTSHAPE-2026-11-08.json` + `chainreceiptshape_latest.json` + S6 腿 `chain_receipt_shape`（0.2s rc=0）+ smoke 腿 `# E560` + 单跑器 `scripts/run_e560_smoke_leg.py` + digest `research/digests/DIGEST-20261108-r1586-e560-chain-receipt-shape.md`

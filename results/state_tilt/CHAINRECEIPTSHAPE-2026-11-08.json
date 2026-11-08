@@ -1,0 +1,6374 @@
+{
+ "card": "E560",
+ "control_arms": {
+  "abort_on_failure": {
+   "found": true,
+   "value": "stops_the_chain_at_the_first_failure"
+  },
+  "collapses_exceptions": {
+   "found": true,
+   "value": "every_exception_collapses_into_one_sentinel"
+  },
+  "incremental_receipt": {
+   "found": true,
+   "value": true
+  },
+  "states_table_size": {
+   "found": true,
+   "value": "the_receipt_states_the_table_size"
+  },
+  "stderr_kept": {
+   "found": true,
+   "value": "stdout_and_stderr_kept"
+  },
+  "synthetic_unrun_row": {
+   "found": true,
+   "value": "a_missing_script_gets_a_placeholder_row"
+  }
+ },
+ "dept": "research+engineering",
+ "evidence_cutoff": "2026-11-08",
+ "machine": "bm-b",
+ "population": {
+  "receipt_sources": "results/_r*bm*_s6_chain.json",
+  "runners": [
+   "Tools/s6_chain_bma.py",
+   "Tools/s6_chain_bmb.py",
+   "Tools/s6_chain_bmc.py"
+  ]
+ },
+ "producers": {
+  "card": "knowledge/METHODOLOGY_ASSETS.md E560",
+  "script": "scripts/e560_chain_receipt_shape.py",
+  "selftest": "python scripts/e560_chain_receipt_shape.py selftest"
+ },
+ "receipt_census": {
+  "by_machine": {
+   "bm-a": {
+    "files": 53,
+    "rows_max": 40,
+    "rows_min": 0,
+    "shapes": [
+     "dict",
+     "list"
+    ],
+    "with_nonzero": 2,
+    "with_stderr_field": 1
+   },
+   "bm-b": {
+    "files": 219,
+    "rows_max": 147,
+    "rows_min": 0,
+    "shapes": [
+     "dict",
+     "list"
+    ],
+    "with_nonzero": 16,
+    "with_stderr_field": 0
+   },
+   "bm-c": {
+    "files": 48,
+    "rows_max": 65,
+    "rows_min": 0,
+    "shapes": [
+     "dict",
+     "list"
+    ],
+    "with_nonzero": 1,
+    "with_stderr_field": 0
+   }
+  },
+  "count": 320,
+  "files": [
+   {
+    "carries_stderr": false,
+    "file": "_r--allbmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 43,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r--roundbmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r0bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 61,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1183bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1191bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1194bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1204bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1206bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1210bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1213bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 21,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1214bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 21,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1215bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 21,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1217bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 21,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1218bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 21,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1219bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 1,
+    "rc_values": [
+     0,
+     2
+    ],
+    "rows": 21,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1221bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 21,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1222bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 1,
+    "rc_values": [
+     0,
+     1
+    ],
+    "rows": 40,
+    "shape": "dict",
+    "top_keys": [
+     "finished",
+     "legs",
+     "started",
+     "summary"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1225bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 21,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1227bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 1,
+    "rc_values": [
+     0,
+     2
+    ],
+    "rows": 21,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1228bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 1,
+    "rc_values": [
+     0,
+     2
+    ],
+    "rows": 21,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1231bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 21,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1234bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 21,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1237bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 22,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1238bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 22,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1238bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1239bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 1,
+    "rc_values": [
+     0,
+     2
+    ],
+    "rows": 23,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1240bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 23,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1240bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1241bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 24,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1242bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 25,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1245bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 1,
+    "rc_values": [
+     0,
+     2
+    ],
+    "rows": 27,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1246bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 28,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1247bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 29,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1248bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 1,
+    "rc_values": [
+     0,
+     2
+    ],
+    "rows": 30,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1249bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 31,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1250bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 32,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1251bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 33,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1252bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 34,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1253bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 35,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1254bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1255bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 37,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1256bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 38,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1257bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1260bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 1,
+    "rc_values": [
+     0,
+     1
+    ],
+    "rows": 42,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1264bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 2,
+    "rc_values": [
+     0,
+     1,
+     2
+    ],
+    "rows": 46,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1268bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 2,
+    "rc_values": [
+     0,
+     1,
+     2
+    ],
+    "rows": 49,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1284bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 2,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1285bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1287bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1288bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1289bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 4,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1290bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1291bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 4,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1292bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1293bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1294bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 6,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1295bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1296bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "machine",
+     "nonzero",
+     "rc0",
+     "round",
+     "rows"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1297bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1298bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1299bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1300bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1301bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1305bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 3,
+    "rc_values": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "rows": 84,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1306bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 2,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1307bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 4,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1308bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1309bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1310bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1311bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1312bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1317bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1318bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1319bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 2,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1320bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1321bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1322bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1323bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1324bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1325bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1326bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1327bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1330bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1331bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 4,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1333bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1334bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 4,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1335bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1336bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 3,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1337bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1338bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1342bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1344bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1352bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1355bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1364bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1365bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1366bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1372bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1373bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1374bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 30,
+    "rc_values": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "rows": 147,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1375bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1379bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1380bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1389bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1397bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1402bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1403bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1405bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1407bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1411bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1413bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 2,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1415bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1418bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1420bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1421bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1425bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1426bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1429bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1430bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1431bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1432bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1433bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1434bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1435bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1436bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1437bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1438bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1440bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1443bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1444bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1445bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 1,
+    "rc_values": [
+     1
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1449bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1450bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1451bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1453bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1458bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 2,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1462bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1468bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1475bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1476bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1477bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1480bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1482bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1485bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1488bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1490bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1492bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1494bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1497bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1502bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1504bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1506bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1507bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1508bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1509bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1510bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1511bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1512bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1514bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1515bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 2,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1516bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1518bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1519bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1520bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1521bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1523bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1524bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1525bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1526bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 2,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1527bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1529bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1531bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1532bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1534bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1535bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1536bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 5,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1537bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1538bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1539bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1540bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1542bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1543bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 7,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "note",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1546bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1548bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1549bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1550bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1551bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1552bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1554bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 3,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1555bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1556bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1557bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1558bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1559bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1560bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1561bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 2,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1563bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1565bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1566bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 2,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1567bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1568bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 2,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1569bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1572bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1573bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "face",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1574bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1576bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1577bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1578bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1579bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1580bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1583bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1584bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1585bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1586bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 1,
+    "rc_values": [
+     1
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1587bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r1588bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r159bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "fails",
+     "finished",
+     "legs",
+     "pre_run_done",
+     "skipped",
+     "started",
+     "total"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r160bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "fails",
+     "finished",
+     "legs",
+     "skipped",
+     "started",
+     "total"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r161bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "fails",
+     "finished",
+     "legs",
+     "skipped",
+     "started",
+     "total"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r168bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "fails",
+     "finished",
+     "legs",
+     "skipped",
+     "started",
+     "total"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r170bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "fails",
+     "finished",
+     "legs",
+     "skipped",
+     "started",
+     "total"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r171bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "fails",
+     "finished",
+     "legs",
+     "skipped",
+     "started",
+     "total"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r172bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "data_cutoff",
+     "fails",
+     "finished",
+     "legs",
+     "new_bar",
+     "skipped",
+     "started",
+     "today",
+     "total"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r179bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 31,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "new_bar"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r180bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 31,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "round"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r183bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "nonzero_count",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r184bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "new_bar_today",
+     "nonzero",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r189bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "new_bar_today",
+     "nonzero",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r190bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "new_bar_today",
+     "nonzero",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r191bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "bars_present",
+     "legs",
+     "machine",
+     "nonzero_count",
+     "round"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r192bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "bars_present",
+     "legs",
+     "machine",
+     "nonzero_count",
+     "round"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r193bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "bars_present",
+     "legs",
+     "machine",
+     "nonzero_count",
+     "round"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r194bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "nonzero_count",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r195bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "nonzero_count",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r196bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 37,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "nonzero_count",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r197bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 37,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "nonzero_count",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r198bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 37,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "nonzero_count",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r199bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 37,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "nonzero_count",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r200bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 37,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "nonzero_count",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r235bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "non_green",
+     "runner"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r236bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "non_green",
+     "runner"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r238bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "non_green",
+     "round",
+     "runner"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r239bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "round",
+     "runner"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r240bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "round",
+     "runner"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r241bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "round",
+     "runner"
+    ]
+   },
+   {
+    "file": "_r244bmc_s6_chain.json",
+    "machine": "bm-c",
+    "unreadable": "Unexpected UTF-8 BOM (decode using utf-8-sig): line 1 column 1 (char 0)"
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r245bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "round",
+     "runner"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r247bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 37,
+    "shape": "dict",
+    "top_keys": [
+     "finished",
+     "legs",
+     "machine",
+     "n_green",
+     "n_total",
+     "round",
+     "started"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r252bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs_total",
+     "machine",
+     "non_green",
+     "round",
+     "rows",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r253bmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs_total",
+     "machine",
+     "non_green",
+     "note",
+     "round",
+     "rows"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r390bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 34,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "machine",
+     "n_bad",
+     "n_ok",
+     "round",
+     "runner",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r404bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "finished",
+     "legs",
+     "nonzero_legs",
+     "started"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r405bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "finished",
+     "legs",
+     "nonzero_legs",
+     "started"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r405bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "finished",
+     "legs",
+     "nonzero_legs",
+     "started"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r406bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "finished",
+     "legs",
+     "nonzero_legs",
+     "started"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r406bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "finished",
+     "legs",
+     "nonzero_legs",
+     "started"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r408bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "finished",
+     "legs",
+     "nonzero_legs",
+     "started"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r408bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 37,
+    "shape": "dict",
+    "top_keys": [
+     "finished",
+     "legs",
+     "nonzero_legs",
+     "started"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r409bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "finished",
+     "legs",
+     "nonzero_legs",
+     "started"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r410bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "finished",
+     "legs",
+     "nonzero_legs",
+     "started"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r411bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 36,
+    "shape": "dict",
+    "top_keys": [
+     "finished",
+     "legs",
+     "nonzero_legs",
+     "started"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r413bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 37,
+    "shape": "dict",
+    "top_keys": [
+     "finished",
+     "legs",
+     "nonzero_legs",
+     "started"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r447bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "bad",
+     "legs",
+     "machine",
+     "results",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r449bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 1,
+    "rc_values": [
+     0,
+     3
+    ],
+    "rows": 37,
+    "shape": "dict",
+    "top_keys": [
+     "legs",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r480bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 37,
+    "shape": "dict",
+    "top_keys": [
+     "generated",
+     "legs",
+     "machine",
+     "round",
+     "schema",
+     "total_sec"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r582bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 33,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r586bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 33,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r587bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 33,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r770bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 35,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r771bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 35,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": true,
+    "file": "_r778bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 37,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r848bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [],
+    "rows": 0,
+    "shape": "dict",
+    "top_keys": [
+     "evidence",
+     "legs_rc0",
+     "n_rc0",
+     "round",
+     "skipped",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r872bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 40,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r875bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 40,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r877bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 40,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r879bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 40,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r881bmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 1,
+    "rc_values": [
+     0,
+     2
+    ],
+    "rows": 41,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r886bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r887bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r888bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r889bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r890bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r891bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r892bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r895bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r896bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r897bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r898bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r899bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r900bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r902bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r904bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r905bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r907bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r908bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r909bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r910bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r914bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 38,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r915bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 38,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r916bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 38,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r919bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 38,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r923bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 38,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r926bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 38,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r927bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 38,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r931bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r934bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 2,
+    "rc_values": [
+     0,
+     1,
+     2
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r937bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r939bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r940bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r942bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r943bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r944bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r945bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r948bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_r950bma_s6_chain.json",
+    "machine": "bm-a",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 39,
+    "shape": "dict",
+    "top_keys": [
+     "bad_legs",
+     "end",
+     "legs",
+     "new_bar",
+     "panel_post",
+     "panel_pre",
+     "start"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_rr1483legbmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_rrunbmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 1,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_rrunbmc_s6_chain.json",
+    "machine": "bm-c",
+    "nonzero_rows": 0,
+    "rc_values": [
+     0
+    ],
+    "rows": 65,
+    "shape": "list",
+    "top_keys": []
+   },
+   {
+    "carries_stderr": false,
+    "file": "_rspread_floorbmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 4,
+    "rc_values": [
+     0,
+     1,
+     3
+    ],
+    "rows": 82,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   },
+   {
+    "carries_stderr": false,
+    "file": "_rverifybmb_s6_chain.json",
+    "machine": "bm-b",
+    "nonzero_rows": 8,
+    "rc_values": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "rows": 107,
+    "shape": "dict",
+    "top_keys": [
+     "elapsed_sec",
+     "legs",
+     "legs_rc0",
+     "legs_total",
+     "machine",
+     "round",
+     "ts"
+    ]
+   }
+  ],
+  "note": "observation over results/_r*bm*_s6_chain.json; grows whenever a chain runs",
+  "with_a_nonzero_row": 19,
+  "with_any_output_field": 1
+ },
+ "round": "r1586",
+ "runner_table": {
+  "s6_chain_bma.py": {
+   "a_non_timeout_exception_ends_the_run": true,
+   "caught_exceptions": [
+    "TimeoutExpired"
+   ],
+   "expected_total": "the_receipt_states_no_total_at_all",
+   "its_own_output": "one_truncated_stdout_line",
+   "legs_in_table": 81,
+   "legs_table_source": "imported:Tools/s6_chain_bmc.py",
+   "loop_failure_policy": "runs_every_leg_after_a_failure",
+   "output_chars_kept": 220,
+   "rc_with_its_kind": "timeout_is_distinct_from_a_plain_exit",
+   "receipt_keys": [],
+   "receipt_shape": "list",
+   "receipt_written_inside_loop": false,
+   "row_keys": [
+    "elapsed_sec",
+    "leg",
+    "rc",
+    "tail"
+   ],
+   "triage_fields_usable": 2,
+   "unrun_representable": "a_missing_script_gets_a_placeholder_row"
+  },
+  "s6_chain_bmb.py": {
+   "a_non_timeout_exception_ends_the_run": false,
+   "caught_exceptions": [
+    "Exception"
+   ],
+   "expected_total": "the_receipt_states_no_total_at_all",
+   "its_own_output": "one_truncated_stdout_line",
+   "legs_in_table": 311,
+   "legs_table_source": "own",
+   "loop_failure_policy": "runs_every_leg_after_a_failure",
+   "output_chars_kept": 300,
+   "rc_with_its_kind": "every_exception_collapses_into_one_sentinel",
+   "receipt_keys": [],
+   "receipt_shape": "list",
+   "receipt_written_inside_loop": false,
+   "row_keys": [
+    "elapsed_sec",
+    "leg",
+    "rc",
+    "tail"
+   ],
+   "triage_fields_usable": 1,
+   "unrun_representable": "a_leg_that_never_ran_leaves_no_row"
+  },
+  "s6_chain_bmc.py": {
+   "a_non_timeout_exception_ends_the_run": true,
+   "caught_exceptions": [
+    "TimeoutExpired"
+   ],
+   "expected_total": "the_receipt_states_no_total_at_all",
+   "its_own_output": "one_truncated_stdout_line",
+   "legs_in_table": 81,
+   "legs_table_source": "own",
+   "loop_failure_policy": "runs_every_leg_after_a_failure",
+   "output_chars_kept": 220,
+   "rc_with_its_kind": "timeout_is_distinct_from_a_plain_exit",
+   "receipt_keys": [],
+   "receipt_shape": "list",
+   "receipt_written_inside_loop": false,
+   "row_keys": [
+    "elapsed_sec",
+    "leg",
+    "rc",
+    "tail"
+   ],
+   "triage_fields_usable": 2,
+   "unrun_representable": "a_leg_that_never_ran_leaves_no_row"
+  }
+ },
+ "runners": [
+  {
+   "a_non_timeout_exception_ends_the_run": true,
+   "breaks_or_returns_in_loop": 0,
+   "caught_exceptions": [
+    "TimeoutExpired"
+   ],
+   "expected_total": "the_receipt_states_no_total_at_all",
+   "first_failing_leg": "derivable_from_the_first_nonzero_row",
+   "its_own_output": "one_truncated_stdout_line",
+   "leg_loops": 1,
+   "legs_in_table": 81,
+   "legs_table_source": "imported:Tools/s6_chain_bmc.py",
+   "loop_failure_policy": "runs_every_leg_after_a_failure",
+   "output_chars_kept": 220,
+   "path": "Tools/s6_chain_bma.py",
+   "rc_constants": {
+    "TimeoutExpired": 124
+   },
+   "rc_with_its_kind": "timeout_is_distinct_from_a_plain_exit",
+   "receipt_keys": [],
+   "receipt_shape": "list",
+   "receipt_written_inside_loop": false,
+   "row_keys": [
+    "elapsed_sec",
+    "leg",
+    "rc",
+    "tail"
+   ],
+   "row_names_stderr": false,
+   "stderr_read": false,
+   "synthetic_unrun_row": true,
+   "triage_fields_usable": 2,
+   "unrun_representable": "a_missing_script_gets_a_placeholder_row"
+  },
+  {
+   "a_non_timeout_exception_ends_the_run": false,
+   "breaks_or_returns_in_loop": 0,
+   "caught_exceptions": [
+    "Exception"
+   ],
+   "expected_total": "the_receipt_states_no_total_at_all",
+   "first_failing_leg": "derivable_from_the_first_nonzero_row",
+   "its_own_output": "one_truncated_stdout_line",
+   "leg_loops": 1,
+   "legs_in_table": 311,
+   "legs_table_source": "own",
+   "loop_failure_policy": "runs_every_leg_after_a_failure",
+   "output_chars_kept": 300,
+   "path": "Tools/s6_chain_bmb.py",
+   "rc_constants": {},
+   "rc_with_its_kind": "every_exception_collapses_into_one_sentinel",
+   "receipt_keys": [],
+   "receipt_shape": "list",
+   "receipt_written_inside_loop": false,
+   "row_keys": [
+    "elapsed_sec",
+    "leg",
+    "rc",
+    "tail"
+   ],
+   "row_names_stderr": false,
+   "stderr_read": false,
+   "synthetic_unrun_row": false,
+   "triage_fields_usable": 1,
+   "unrun_representable": "a_leg_that_never_ran_leaves_no_row"
+  },
+  {
+   "a_non_timeout_exception_ends_the_run": true,
+   "breaks_or_returns_in_loop": 0,
+   "caught_exceptions": [
+    "TimeoutExpired"
+   ],
+   "expected_total": "the_receipt_states_no_total_at_all",
+   "first_failing_leg": "derivable_from_the_first_nonzero_row",
+   "its_own_output": "one_truncated_stdout_line",
+   "leg_loops": 1,
+   "legs_in_table": 81,
+   "legs_table_source": "own",
+   "loop_failure_policy": "runs_every_leg_after_a_failure",
+   "output_chars_kept": 220,
+   "path": "Tools/s6_chain_bmc.py",
+   "rc_constants": {
+    "TimeoutExpired": 124
+   },
+   "rc_with_its_kind": "timeout_is_distinct_from_a_plain_exit",
+   "receipt_keys": [],
+   "receipt_shape": "list",
+   "receipt_written_inside_loop": false,
+   "row_keys": [
+    "elapsed_sec",
+    "leg",
+    "rc",
+    "tail"
+   ],
+   "row_names_stderr": false,
+   "stderr_read": false,
+   "synthetic_unrun_row": false,
+   "triage_fields_usable": 2,
+   "unrun_representable": "a_leg_that_never_ran_leaves_no_row"
+  }
+ ],
+ "study": "E560",
+ "summary": {
+  "aborts_after_failure": 0,
+  "continues_after_failure": 3,
+  "die_on_a_plain_exception": 2,
+  "keeps_stderr": 0,
+  "legs_total_in_tables": 473,
+  "rc_kind_distinguished": 2,
+  "receipt_written_inside_loop": 0,
+  "runners": 3,
+  "states_expected_total": 0,
+  "tables_imported": 1,
+  "triage_fields_available": 9,
+  "unrun_row_exists": 1,
+  "usable_triage_fields_total": 5
+ },
+ "verdict": "the_receipt_names_every_leg_that_ran_but_no_leg_that_did_not_and_keeps_one_truncated_stdout_line",
+ "verdict_line": "3 runners continue past a failing leg (of 3), 0 keep stderr, 2 distinguish a timeout from an exit (but 2 of those end the run with no receipt at all on any other exception), 0 state the table size and 1 can represent a leg that never ran; 5 of 9 triage fields survive into the file."
+}

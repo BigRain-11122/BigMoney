@@ -29865,11 +29865,30 @@
    "lane_note": "static read of three runner sources plus the receipts they have already written; no GPU, no cloud, no price",
    "target": "results/state_tilt/CHAINRECEIPTSHAPE-<cutoff>.json",
    "deliverable": "results/state_tilt/CHAINRECEIPTSHAPE-<cutoff>.json + latest",
-   "status": "ready",
+   "status": "done",
    "priority": "normal",
    "worker_class": "cpu",
    "evidence_cutoff": "2026-11-08",
    "entered_at": "2026-11-08T20:2x+08:00",
+   "entered_by": "bm-b",
+   "done_at": "2026-11-08T20:4x+08:00",
+   "done_by": "bm-b",
+   "result_ref": "results/state_tilt/CHAINRECEIPTSHAPE-2026-11-08.json",
+   "result_note": "3 runners / 473 legs: all continue past a failing leg, 0 keep stderr, 0 state the table size, 1 can represent an unrun leg; 5 of 9 triage fields survive; 320 receipts on disk, 18 with a non-zero row, 1 with any output field"
+  },
+  {
+   "id": "E561-WHETHER-THE-HISTORICAL-RECEIPTS-CAN-STILL-BE-READ-AGAINST-THE-TABLE-THEY-WERE-BUILT-FROM",
+   "title": "E560 showed the receipt never states the table size it was built from, so a short receipt and a small table look the same. The 320 receipts already on disk were each written by a runner version of their own round; that version is in git. Join them: for each receipt take its round number, read Tools/s6_chain_bmb.py (and bma/bmc for their own receipts) at the commit nearest that round, count its LEGS table, and publish how the receipt's row count compares with the table size of its era -- how many receipts under-report the table (a run cut short), how many match, and how many cannot be judged because no runner blob for that round carries a readable table. That decides whether historical receipts are usable evidence or only a log.",
+   "source": "E560",
+   "lane": "cpu-only",
+   "lane_note": "static: local git object reads for per-round runner blobs plus the receipts on disk; no network, no GPU, no price",
+   "target": "results/state_tilt/RECEIPTVSTABLE-<cutoff>.json",
+   "deliverable": "results/state_tilt/RECEIPTVSTABLE-<cutoff>.json + latest",
+   "status": "ready",
+   "priority": "normal",
+   "worker_class": "cpu",
+   "evidence_cutoff": "2026-11-08",
+   "entered_at": "2026-11-08T20:4x+08:00",
    "entered_by": "bm-b"
   }
  ],
@@ -29885,6 +29904,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T20:2x+08:00",
+ "updated_at": "2026-11-08T20:4x+08:00",
  "version": 1
 }

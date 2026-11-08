@@ -24284,5 +24284,64 @@ except Exception as _e559x:
     _d559 = "study could not be read"
 check(_name559, not _bad559, "; ".join(_bad559)[:240] or _d559)
 
+# E560: E559 left the receipt unread; if a reader existed, could it triage from the file alone?
+#   * the leg table may be IMPORTED (bm-a imports bm-c's list) -- a scan that only reads
+#     `LEGS = [...]` reports that runner as having no legs, which was this study's own first bug
+#   * the output budget lives in a Slice's upper bound (`tail[0][:220]`), not in a Constant slice
+#   * the receipt census is an observation, never gated: every chain run adds a file to the
+#     directory it counts, so gating it would turn the leg red when the leg itself ran
+#   * fixture arms prove each classifier can say the harder thing; a runner credited with stderr
+#     it never reads, an inflated count and a hand-written verdict are all refused
+_name560 = "E560 whether the chain receipt carries enough to triage (r1586 bm-b)"
+_bad560 = []
+_d560 = "no reading"
+try:
+    _m560 = __import__("importlib").import_module("e560_chain_receipt_shape")
+    _f560 = json.load(open(os.path.join("results", "state_tilt",
+                                        "chainreceiptshape_latest.json"), encoding="utf-8"))
+    _s560 = _f560.get("summary") or {}
+    _r560 = _f560.get("runners") or []
+    _bad560.extend(_m560.face_problems(_f560))
+    if not _r560:
+        _bad560.append("the runner population is empty, so the receipt shape is unmeasured")
+    if _s560.get("runners") != len(_r560):
+        _bad560.append("the runner count is not the row count")
+    if any(r.get("legs_in_table", 0) <= 0 for r in _r560):
+        _bad560.append("a runner's leg table could not be read")
+    if any(r.get("output_chars_kept", 0) <= 0 for r in _r560):
+        _bad560.append("a runner's output budget could not be read")
+    if _s560.get("tables_imported", 0) < 1:
+        _bad560.append("no imported leg table is published (bm-a imports bm-c's list)")
+    if (_f560.get("receipt_census") or {}).get("count", 0) <= 0:
+        _bad560.append("no receipt on disk was measured, so the triage arm is empty")
+    if not all((a or {}).get("found") for a in (_f560.get("control_arms") or {}).values()):
+        _bad560.append("a control arm is blind")
+    # the gate must refuse a stored lie, exactly like the standalone leg does
+    _doc560 = json.loads(json.dumps(_f560))
+    _doc560["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m560.face_problems(_doc560):
+        _bad560.append("a hand-written verdict was accepted")
+    if _r560:
+        _doc560 = json.loads(json.dumps(_f560))
+        _doc560["runners"][0]["its_own_output"] = _m560.OUT_WITH_STDERR
+        if not _m560.face_problems(_doc560):
+            _bad560.append("a runner credited with stderr it never reads was accepted")
+    if _m560._facts_from_source(
+            _m560.CONTROL_SOURCES["abort_on_failure"])["loop_failure_policy"] != _m560.P_ABORTS:
+        _bad560.append("a break in the leg loop is no longer read as an abort")
+    if _m560._facts_from_source(
+            _m560.CONTROL_SOURCES["states_table_size"])["expected_total"] != _m560.TOT_EXPECTED:
+        _bad560.append("len(LEGS) in the payload is no longer read as the table size")
+    _d560 = ("%d runners / %d legs / continues=%d / stderr=%d / triage=%d of %d / %d receipts / %s"
+             % (len(_r560), _s560.get("legs_total_in_tables", 0),
+                _s560.get("continues_after_failure", 0), _s560.get("keeps_stderr", 0),
+                _s560.get("usable_triage_fields_total", 0),
+                _s560.get("triage_fields_available", 0),
+                (_f560.get("receipt_census") or {}).get("count", 0), _f560.get("verdict")))
+except Exception as _e560x:
+    _bad560.append(repr(_e560x)[:160])
+    _d560 = "study could not be read"
+check(_name560, not _bad560, "; ".join(_bad560)[:240] or _d560)
+
 if __name__ == "__main__":
     sys.exit(main())

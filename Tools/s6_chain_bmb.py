@@ -2183,6 +2183,13 @@ LEGS = [
     # runner -- disclosed in the digest, not gated because a live census does not reproduce
     # at build time).  `check` re-derives every class from the sources.
     ("chain_rc_consumer", ["python", "scripts/e559_chain_rc_consumer.py", "check"]),
+    # E560 prices the receipt E559 found unread: if a consumer existed, could it triage from the
+    # file alone?  All three runners continue past a failing leg and none keeps stderr, none
+    # states the table size it was built from, two die with no receipt at all on a non-timeout
+    # exception, and only bm-a has a placeholder row for a leg that never ran -- so 5 of 9 triage
+    # fields (3 runners x 3 fields) survive into the file.  `check` re-derives every class from
+    # the three sources plus the receipts already on disk.
+    ("chain_receipt_shape", ["python", "scripts/e560_chain_receipt_shape.py", "check"]),
 ]
 
 
