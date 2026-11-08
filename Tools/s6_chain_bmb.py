@@ -2233,6 +2233,14 @@ LEGS = [
     # all-green receipt).  `check` re-derives the claim multiset and every counter.
     ("chain_claim",
      ["python", "scripts/e567_chain_claim.py", "check"]),
+    # E570 answers the source-level question E561 (receipt field) and E567 (prose) both stepped
+    # past: the printed denominator is read from the very object the runner writes -- 2 from the
+    # bm-b envelope's own fields, 2 from len(out), 2 from len(out)-len(bad) where bad is a
+    # comprehension over that same out; 0 literals and 0 outside the written object.  So a
+    # sentence cannot drift from its receipt by arithmetic; the census turns on population only.
+    # `check` re-derives each origin class from the stored expression plus its name bindings.
+    ("chain_print_source",
+     ["python", "scripts/e570_chain_print_source.py", "check"]),
     # E552 takes E547's eight created items and asks what E547 did not: is the item in the
     # container the fold actually publishes?  6 travel by identity into the file write (three of
     # them only through a module-level `_flush(art)` helper -- the first draft missed that hop and

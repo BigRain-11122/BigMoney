@@ -13892,3 +13892,17 @@ c=/legs（第一版纯 /digits 把 4 个读者全判成 literal，收紧后 2 �
 **边界**：纯静态，不跑 runner、不改轮报告；分子/分母本身无论证。808 句「语料起点之前」永远不可判，除非从 git 取回当年那张腿表（下一张卡）。
 
 **证据** = scripts/e567_chain_claim.py（build/check/verify + selftest 17 arms/877 claims）· results/state_tilt/CHAINCLAIM-2026-11-08.json + chainclaim_latest.json · S6 腿 chain_claim（rc=0 0.9s）· smoke # E567 + scripts/run_e567_smoke_leg.py（--doctor 拒改类）· digest research/digests/DIGEST-20261108-r1595-e567-chain-claim.md
+
+### E570 · 印出来的「N/M 绿」，那个 M 是从刚写出去的对象里读的，还是另立的一个数（r1596 bm-b·2026-11-09）
+
+**问**：E561 定价的是回执字段（bm-b 信封的 legs_total = len(rows)，另两台根本没有这字段），E567 定价的是散文。两者都绕过了源码层最直接的一问：句子里的分母，是不是刚刚 json.dump 出去的那个对象的长度？若是，句子的错只可能来自**人口**（--only / 早停），不可能来自算术漂移。
+
+**读数**：三台 runner 共 **6** 个印出来的链计数（分子+分母各 3）：**2** 个读 bm-b 信封自己的字段（legs_rc0 / legs_total）、**2** 个是 len(out)（bm-a/bm-c 写的裸列表）、**2** 个是 len(out)-len(bad)（bad 是对同一个 out 的列表推导）→ 全 **6/6 来自「刚写出的对象」**；0 个字面量、0 个外部计数器。回执侧：325 份里 **213** 份带 legs_total、**213/213** 与逐行重数一致（0 份不符）、211 份带 legs_rc0 全对、**112** 份不带任何计数字段（24 裸列表 + 88 旧信封）、0 份不可解析（1 份 BOM 由 utf-8-sig 吃掉）。句子侧：E567 面里能连回回执的 **40** 句，38 句分母等于自己回执行数、2 句更小。
+
+**机制（首版三处误判）**：① 按「print 里所有占位符」取人口会把路径和耗时也算成计数（12 个里 6 个噪声），正法=只在静态文本里找`{?}/{?}`这一对、按斜杠定位分子与分母，并把对子当数据写进面的 print_rule；② dump 检索先被「路径含 s6_chain」掐空（bm-b 的路径在变量里），再叠加 `for _, name in RUNNERS` 名字解包写反，两个 bug 叠加让 12/12 全判 not_from_object——**看上去像一个结论**；正法=取「print 之前最近一次 json.dump」不看路径字面量，并用一条真读数做锚；③ 「字段缺席」不是「字段不符」（2 份 bm-c 旧信封只有 legs_total），缺席单列。
+
+**教训**：① 这类问题必须带**可证伪对照臂**——本轮把真源码里的分母换成 312（只改字符串副本），分类器必须改判 literal；那一句若已不在源码里，对照臂如实报 applied=false，不许静默通过。② 一旦 6/6 都来自载荷，剩下的错只能是人口（--only / 早停），这条把 E561/E566/E567 三张面收敛到同一个根因：**句子的错不在算术，在它数的是哪一段**。③ 三台 runner 回执形状不同（信封带计数 / 裸列表 / 旧信封无计数），读者往往要重数才知道 M，这正是「句子无法自证」的物理原因。④ **回执目录是活的**（本轮自己的 S6 腿就追加一份），check 对回执计数只门「增长」不门「恒等」，否则每轮假红。
+
+**边界**：纯静态 + 只读回执重数；不执行 runner、不改回执、不判句子对不对（那是 E567 的活）。bm-a/bm-c 不写计数字段这一事实只记录不修——改 runner 不等于修句子，且会动三台共用的链。
+
+**证据** = scripts/e570_chain_print_source.py（build/check/verify + selftest 9 arms/6 numbers + doctor 副本对照）· results/state_tilt/CHAINPRINTSOURCE-2026-11-08.json + chainprintsource_latest.json · S6 腿 chain_print_source（rc=0 0.18s）· smoke # E570 + scripts/run_e570_smoke_leg.py（--doctor）· digest research/digests/DIGEST-20261109-r1596-e570-chain-print-source.md

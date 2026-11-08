@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1595 bm-b: E567 closed (877 chain-count sentences joined to their own round's receipt and legs table: 22 name the whole table, 2 label themselves a subset, 4 read as the whole chain, 849 unjudgeable) and E568/E569/E570 seeded (supply floor refill)",
+ "_stamp_note": "r1596 bm-b: E570 closed (6/6 printed chain numbers read from the object the runner writes -- 2 payload fields, 2 len(out), 2 len(out)-len(bad); 0 literals, 0 counters; 213 receipts carry a count and 213 agree with a recount) and E571 seeded (which round a receipt belongs to when its round field disagrees with its name)",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -30011,14 +30011,32 @@
    "lane": "cpu-only",
    "lane_note": "static: source text of the three runners at HEAD; no runner executed",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E567 (r1595 bm-b): the prose understated its table 6 times in 28 judgeable sentences, and 2 of those understated even their own receipt. If the printed line is derived from the payload, the prose cannot drift from the file; if it is a counter, it can.",
    "target": "results/state_tilt/CHAINPRINTSOURCE_latest.json",
    "deliverable": "results/state_tilt/CHAINPRINTSOURCE-<cutoff>.json",
    "entered_at": "2026-11-08T23:5x+08:00",
    "entered_by": "bm-b r1595",
    "evidence_cutoff": "2026-11-08",
-   "title": "For each of the three S6 runners, follow the expression that fills the printed chain sentence back to its origin: is the denominator `len(rows)`/`legs_total` taken from the payload that was just written, a literal in the source, or a counter that can diverge from the file? Publish the origin per runner with the evidence line, and classify each as `derived_from_the_payload`, `literal_in_the_source` or `counter_that_can_drift`; a class the face cannot re-derive from the runner's own AST is refused."
+   "title": "For each of the three S6 runners, follow the expression that fills the printed chain sentence back to its origin: is the denominator `len(rows)`/`legs_total` taken from the payload that was just written, a literal in the source, or a counter that can diverge from the file? Publish the origin per runner with the evidence line, and classify each as `derived_from_the_payload`, `literal_in_the_source` or `counter_that_can_drift`; a class the face cannot re-derive from the runner's own AST is refused.",
+   "done_by": "bm-b r1596",
+   "done_at": "2026-11-09T00:05+08:00",
+   "result_ref": "results/state_tilt/CHAINPRINTSOURCE-2026-11-08.json",
+   "result_note": "6/6 printed chain numbers read from the object the runner writes (2 payload fields, 2 len(out), 2 len(out)-len(bad)); 0 literals, 0 counters; 213 receipts carry a count and 213 agree with a recount of their own rows; selftest 9 arms + a doctored-copy arm"
+  },
+  {
+   "id": "E571-WHICH-ROUND-A-RECEIPT-BELONGS-TO-WHEN-ITS-ROUND-FIELD-DISAGREES-WITH-ITS-NAME",
+   "lane": "cpu-only",
+   "lane_note": "static: the receipt files on disk and the round field inside each",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E561 (r1587 bm-b) counted 17 receipts whose `round` field disagrees with the round in their own file name and never priced it: the name, the field and the payload's own ts are three witnesses that can disagree, and every join that trusts the field rather than the name inherits the wrong round.",
+   "target": "results/state_tilt/RECEIPTROUNDCONF_latest.json",
+   "deliverable": "results/state_tilt/RECEIPTROUNDCONF-<cutoff>.json",
+   "entered_at": "2026-11-09T00:05+08:00",
+   "entered_by": "bm-b r1596",
+   "evidence_cutoff": "2026-11-08",
+   "title": "For every receipt on disk whose `round` field disagrees with the round carried by its own file name, decide which round the file belongs to from the payload's own evidence (its `ts` against the commit times around each candidate round), publish the three witnesses side by side, and say which published joins (E561's table join, E567's claim join) would move if the field were the truth. A file whose round cannot be decided from its own bytes stays undecidable and is published as such -- the file name alone is not a witness."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30033,6 +30051,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T23:5x+08:00",
+ "updated_at": "2026-11-09T00:05+08:00",
  "version": 1
 }

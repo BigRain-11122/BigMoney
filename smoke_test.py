@@ -24691,5 +24691,59 @@ except Exception as _e567x:
     _d567 = "study could not be read"
 check(_name567, not _bad567, "; ".join(_bad567)[:240] or _d567)
 
+# E570: E561 priced the receipt field and E567 the prose.  This leg asks the source-level question
+# neither touched: is the printed denominator the length of the very object the runner writes?
+#   * the trace must find all three runners -- a classifier that reads one and misses two would
+#     still report a clean grid
+#   * the doctored copy is the load-bearing arm -- a literal spliced into the real source must
+#     move the class, or the trace is reading its own answer
+#   * an unpinned runner and a hand-written verdict must both be refused
+_name570 = "E570 whether the printed chain count comes from the object the runner writes (r1596 bm-b)"
+_bad570 = []
+_d570 = "no reading"
+try:
+    _m570 = __import__("importlib").import_module("e570_chain_print_source")
+    _f570 = json.load(open(os.path.join("results", "state_tilt",
+                                        "chainprintsource_latest.json"), encoding="utf-8"))
+    _s570 = _f570.get("summary") or {}
+    _r570 = _f570.get("rows") or []
+    _bad570.extend(_m570.face_problems(_f570))
+    if not _r570:
+        _bad570.append("no printed chain number was traced, so the trace rule is untested")
+    if len({_r.get("runner") for _r in _r570}) != 3:
+        _bad570.append("the three runners do not all contribute a printed number")
+    _arm570 = _m570._check_arms()
+    if _arm570:
+        _bad570.append("control arms moved: %s" % _arm570[0][:160])
+    _doc570 = _m570.doctored_arm()
+    if not _doc570.get("applied"):
+        _bad570.append("the doctored-copy arm could not be applied")
+    elif not _doc570.get("detected"):
+        _bad570.append("a doctored denominator was not detected")
+    if _s570.get(_m570.LITERAL) != sum(1 for _r in _r570
+                                       if _r.get("origin_kind") == _m570.LITERAL):
+        _bad570.append("the literal counter does not re-derive from the rows")
+    if (_s570.get("receipts_whose_total_disagrees_with_their_rows") or 0) != 0:
+        _bad570.append("a receipt disagrees with its own rows")
+    _doc570 = json.loads(json.dumps(_f570))
+    _doc570["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m570.face_problems(_doc570):
+        _bad570.append("a hand-written verdict was accepted")
+    _doc570 = json.loads(json.dumps(_f570))
+    _doc570["population_source"]["sha16"]["Tools/s6_chain_bma.py"] = ""
+    if not _m570.face_problems(_doc570):
+        _bad570.append("an unpinned runner was accepted")
+    _d570 = ("%d printed numbers / from_payload=%d literal=%d outside=%d | receipts=%d "
+             "with_count=%d no_count=%d | %s"
+             % (_s570.get("printed_numbers", 0),
+                _s570.get("printed_numbers_read_from_the_written_object", 0),
+                _s570.get(_m570.LITERAL, 0), _s570.get(_m570.NOT_FROM_OBJECT, 0),
+                _s570.get("receipts_on_disk", 0), _s570.get("receipts_carrying_legs_total", 0),
+                _s570.get("receipts_with_no_count_field", 0), _f570.get("verdict")))
+except Exception as _e570x:
+    _bad570.append(repr(_e570x)[:160])
+    _d570 = "study could not be read"
+check(_name570, not _bad570, "; ".join(_bad570)[:240] or _d570)
+
 if __name__ == "__main__":
     sys.exit(main())

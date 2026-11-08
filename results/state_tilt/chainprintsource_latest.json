@@ -1,0 +1,325 @@
+{
+ "card": "E570",
+ "claims_arm": {
+  "face": "results/state_tilt/CHAINCLAIM-2026-11-08.json",
+  "face_sha16": "180841b70f6ede14",
+  "per_machine": {
+   "a": {
+    "claims": 106,
+    "denominator_below_its_receipt_rows": 0,
+    "denominator_equals_its_receipt_rows": 6,
+    "judged_against_a_receipt": 6,
+    "numerator_below_the_receipt_rc0_rows": 1
+   },
+   "b": {
+    "claims": 237,
+    "denominator_below_its_receipt_rows": 2,
+    "denominator_equals_its_receipt_rows": 28,
+    "judged_against_a_receipt": 30,
+    "numerator_below_the_receipt_rc0_rows": 2
+   },
+   "c": {
+    "claims": 534,
+    "denominator_below_its_receipt_rows": 0,
+    "denominator_equals_its_receipt_rows": 4,
+    "judged_against_a_receipt": 4,
+    "numerator_below_the_receipt_rc0_rows": 0
+   }
+  },
+  "read": true
+ },
+ "control_arms": {
+  "a_comprehension_over_something_else_is_not_the_written_rows": [
+   "an_expression_whose_value_is_not_read_from_the_written_object",
+   "the_length_of_the_rows_the_runner_writes"
+  ],
+  "a_literal_denominator_is_a_literal": [
+   "an_expression_whose_value_is_not_read_from_the_written_object",
+   "a_literal_in_the_source"
+  ],
+  "a_payload_field_is_read_from_the_payload": [
+   "read_from_the_payload_that_is_written",
+   "read_from_the_payload_that_is_written"
+  ],
+  "a_separate_counter_is_not_the_written_object": [
+   "an_expression_whose_value_is_not_read_from_the_written_object",
+   "an_expression_whose_value_is_not_read_from_the_written_object"
+  ],
+  "an_f_string_payload_field_is_read_from_the_payload": [
+   "read_from_the_payload_that_is_written",
+   "read_from_the_payload_that_is_written"
+  ],
+  "the_length_of_another_list_is_not_the_written_object": [
+   "an_expression_whose_value_is_not_read_from_the_written_object",
+   "the_length_of_the_rows_the_runner_writes"
+  ],
+  "the_length_of_the_dumped_envelopes_rows_is_the_written_rows": [
+   "the_length_of_the_rows_the_runner_writes",
+   "the_length_of_the_rows_the_runner_writes"
+  ],
+  "the_length_of_the_dumped_list_is_the_written_rows": [
+   "the_length_of_the_rows_the_runner_writes",
+   "the_length_of_the_rows_the_runner_writes"
+  ],
+  "the_written_rows_minus_a_comprehension_over_them_is_still_the_payload": [
+   "the_written_rows_minus_their_own_nonzero_rows",
+   "the_length_of_the_rows_the_runner_writes"
+  ]
+ },
+ "dept": "research+engineering",
+ "evidence_cutoff": "2026-11-08",
+ "machine": "bm-b",
+ "note": "the origin class is decided by the expression and by the binding of every name it reads, both stored per row, so `check` can re-derive it without re-parsing",
+ "population_source": {
+  "claims_face": "results/state_tilt/CHAINCLAIM-2026-11-08.json",
+  "receipts": "results/_r<round>bm<a|b|c>_s6_chain.json",
+  "runners": [
+   "Tools/s6_chain_bma.py",
+   "Tools/s6_chain_bmb.py",
+   "Tools/s6_chain_bmc.py"
+  ],
+  "sha16": {
+   "Tools/s6_chain_bma.py": "e5f3c65b8e0f215f",
+   "Tools/s6_chain_bmb.py": "dc83cad0c6545aba",
+   "Tools/s6_chain_bmc.py": "bf242181f2377b81"
+  }
+ },
+ "print_rule": {
+  "chain_words": [
+   "s6",
+   "chain"
+  ],
+  "count_shape": [
+   "/",
+   "rc0",
+   "rc=0"
+  ],
+  "how_a_name_is_bound": "the last assignment to that name above the print, in the same function, at any nesting depth; a list-comprehension over the dumped object is what makes a difference of lengths legitimate",
+  "how_a_print_is_found": "a call to print whose argument is statically readable (constant, f-string, or %-format)",
+  "how_thedump_is_found": "the nearest ast.Call to <json>.dump in the same function that comes before the print and whose path names an s6_chain receipt"
+ },
+ "producers": {
+  "card": "knowledge/METHODOLOGY_ASSETS.md E570",
+  "script": "scripts/e570_chain_print_source.py",
+  "selftest": "python scripts/e570_chain_print_source.py selftest"
+ },
+ "receipt_arm": {
+  "a": {
+   "bare_lists": 5,
+   "carrying_legs_rc0": 0,
+   "carrying_legs_total": 0,
+   "envelopes_with_rows_and_no_count": 47,
+   "envelopes_without_a_count": 1,
+   "legs_rc0_agrees_with_the_recount": 0,
+   "legs_rc0_differs_from_the_recount": 0,
+   "legs_total_agrees_with_the_recount": 0,
+   "legs_total_differs_from_the_recount": 0,
+   "receipts": 53,
+   "unparsed": 0
+  },
+  "b": {
+   "bare_lists": 5,
+   "carrying_legs_rc0": 212,
+   "carrying_legs_total": 212,
+   "envelopes_with_rows_and_no_count": 8,
+   "envelopes_without_a_count": 0,
+   "legs_rc0_agrees_with_the_recount": 212,
+   "legs_rc0_differs_from_the_recount": 0,
+   "legs_total_agrees_with_the_recount": 212,
+   "legs_total_differs_from_the_recount": 0,
+   "receipts": 225,
+   "unparsed": 0
+  },
+  "c": {
+   "bare_lists": 14,
+   "carrying_legs_rc0": 0,
+   "carrying_legs_total": 2,
+   "envelopes_with_rows_and_no_count": 18,
+   "envelopes_without_a_count": 14,
+   "legs_rc0_agrees_with_the_recount": 0,
+   "legs_rc0_differs_from_the_recount": 0,
+   "legs_total_agrees_with_the_recount": 2,
+   "legs_total_differs_from_the_recount": 0,
+   "receipts": 48,
+   "unparsed": 0
+  }
+ },
+ "round": "r1596",
+ "rows": [
+  {
+   "bindings": {
+    "bad": "comprehension_over:out"
+   },
+   "dump_keys": [],
+   "dump_kind": "list",
+   "dump_line": 112,
+   "dump_target": "out",
+   "expr_kind": "difference_of_two_lengths",
+   "expression": "len(out) - len(bad)",
+   "line": 114,
+   "origin_kind": "the_written_rows_minus_their_own_nonzero_rows",
+   "placeholder_index": 0,
+   "reads": "out|bad",
+   "runner": "a",
+   "sentence": "chain: {?}/{?} rc0 -> {?} ({?})"
+  },
+  {
+   "bindings": {},
+   "dump_keys": [],
+   "dump_kind": "list",
+   "dump_line": 112,
+   "dump_target": "out",
+   "expr_kind": "len_of_name",
+   "expression": "len(out)",
+   "line": 114,
+   "origin_kind": "the_length_of_the_rows_the_runner_writes",
+   "placeholder_index": 1,
+   "reads": "out",
+   "runner": "a",
+   "sentence": "chain: {?}/{?} rc0 -> {?} ({?})"
+  },
+  {
+   "bindings": {},
+   "dump_keys": [
+    "round",
+    "machine",
+    "ts",
+    "elapsed_sec",
+    "legs_total",
+    "legs_rc0",
+    "legs"
+   ],
+   "dump_kind": "dict",
+   "dump_line": 2343,
+   "dump_target": "payload",
+   "expr_kind": "subscript_of",
+   "expression": "payload['legs_rc0']",
+   "line": 2345,
+   "origin_kind": "read_from_the_payload_that_is_written",
+   "placeholder_index": 0,
+   "reads": "payload.legs_rc0",
+   "runner": "b",
+   "sentence": "\nS6 {?}/{?} rc=0  ({?}s)  receipt={?}"
+  },
+  {
+   "bindings": {},
+   "dump_keys": [
+    "round",
+    "machine",
+    "ts",
+    "elapsed_sec",
+    "legs_total",
+    "legs_rc0",
+    "legs"
+   ],
+   "dump_kind": "dict",
+   "dump_line": 2343,
+   "dump_target": "payload",
+   "expr_kind": "subscript_of",
+   "expression": "payload['legs_total']",
+   "line": 2345,
+   "origin_kind": "read_from_the_payload_that_is_written",
+   "placeholder_index": 1,
+   "reads": "payload.legs_total",
+   "runner": "b",
+   "sentence": "\nS6 {?}/{?} rc=0  ({?}s)  receipt={?}"
+  },
+  {
+   "bindings": {
+    "bad": "comprehension_over:out"
+   },
+   "dump_keys": [],
+   "dump_kind": "list",
+   "dump_line": 397,
+   "dump_target": "out",
+   "expr_kind": "difference_of_two_lengths",
+   "expression": "len(out) - len(bad)",
+   "line": 399,
+   "origin_kind": "the_written_rows_minus_their_own_nonzero_rows",
+   "placeholder_index": 0,
+   "reads": "out|bad",
+   "runner": "c",
+   "sentence": "chain: {?}/{?} rc0 -> {?} ({?})"
+  },
+  {
+   "bindings": {},
+   "dump_keys": [],
+   "dump_kind": "list",
+   "dump_line": 397,
+   "dump_target": "out",
+   "expr_kind": "len_of_name",
+   "expression": "len(out)",
+   "line": 399,
+   "origin_kind": "the_length_of_the_rows_the_runner_writes",
+   "placeholder_index": 1,
+   "reads": "out",
+   "runner": "c",
+   "sentence": "chain: {?}/{?} rc0 -> {?} ({?})"
+  }
+ ],
+ "sources": [
+  {
+   "chain_sentences": 1,
+   "dump_kind": "list",
+   "dump_target": "out",
+   "has_bom": false,
+   "lines": 122,
+   "path": "Tools/s6_chain_bma.py",
+   "print_calls": 6,
+   "printed_numbers": 2,
+   "runner": "a",
+   "sha16": "e5f3c65b8e0f215f",
+   "writes_count_fields": false
+  },
+  {
+   "chain_sentences": 1,
+   "dump_kind": "dict",
+   "dump_target": "payload",
+   "has_bom": true,
+   "lines": 2353,
+   "path": "Tools/s6_chain_bmb.py",
+   "print_calls": 10,
+   "printed_numbers": 2,
+   "runner": "b",
+   "sha16": "dc83cad0c6545aba",
+   "writes_count_fields": true
+  },
+  {
+   "chain_sentences": 1,
+   "dump_kind": "list",
+   "dump_target": "out",
+   "has_bom": false,
+   "lines": 406,
+   "path": "Tools/s6_chain_bmc.py",
+   "print_calls": 4,
+   "printed_numbers": 2,
+   "runner": "c",
+   "sha16": "bf242181f2377b81",
+   "writes_count_fields": false
+  }
+ ],
+ "study": "E570",
+ "summary": {
+  "a_literal_in_the_source": 0,
+  "an_expression_whose_value_is_not_read_from_the_written_object": 0,
+  "printed_numbers": 6,
+  "printed_numbers_read_from_the_written_object": 6,
+  "read_from_the_payload_that_is_written": 2,
+  "receipts_carrying_legs_rc0": 212,
+  "receipts_carrying_legs_total": 214,
+  "receipts_on_disk": 326,
+  "receipts_unparsed": 0,
+  "receipts_whose_rc0_disagrees_with_their_rows": 0,
+  "receipts_whose_total_disagrees_with_their_rows": 0,
+  "receipts_with_no_count_field": 112,
+  "runners": 3,
+  "runners_printing_a_chain_count": 3,
+  "runners_whose_receipt_carries_a_count_field": 1,
+  "sentences": 3,
+  "the_length_of_the_rows_the_runner_writes": 2,
+  "the_written_object_itself": 0,
+  "the_written_rows_minus_their_own_nonzero_rows": 2
+ },
+ "verdict": "every_printed_chain_count_is_read_from_the_object_its_runner_writes_so_a_sentence_cannot_drift_from_its_own_receipt",
+ "verdict_line": "3 runners / 6 printed chain numbers: 2 read from the payload, 2 the length of the written rows, 2 rows-minus-nonzero, 0 literal, 0 outside the written object; 214 receipts carry a count field and 214 agree with a recount of their own rows (0 disagree); 24 bare lists and 88 envelopes carry no count; of 40 sentences E567 could judge against their receipt, 38 equal it and 2 print less"
+}
