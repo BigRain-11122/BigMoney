@@ -30087,7 +30087,7 @@
    "lane": "cpu-only",
    "lane_note": "static: every receipt on disk, git ls-files, and the round report row that cites it; no runner executed",
    "priority": "normal",
-   "status": "ready",
+   "status": "done", "claimed_by": "bm-b", "claimed_at": "2026-11-09T01:30:00+08:00", "result_ref": "results/state_tilt/RECEIPTTRACK-2026-11-08.json",
    "source": "E572 (r1600 bm-b): 2 of the 3 receipts it priced are not tracked in git at all -- _r1246bmb and _r1285bmb exist only on disk -- so mtime==own-ts was the only evidence that nobody rewrote them. A receipt git never sees also never reaches the delivery channel (machine branch), so the round report line is the only surviving witness of that run.",
    "target": "results/state_tilt/RECEIPTTRACK_latest.json",
    "deliverable": "results/state_tilt/RECEIPTTRACK-<cutoff>.json",
