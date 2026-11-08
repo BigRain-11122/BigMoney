@@ -208,8 +208,8 @@
  "decisions_sha": "451b86003bc7afac",
  "decisions_watermark": "abd700a9e1ec0ce2",
  "decisions_watermark_note": "fetch rc!=0 (cannot lock refs/remotes/origin/main); read origin/main:docs/decisions.md from the existing ref, 239 lines, newest D-20261104-01/02, bigmoney rows = no-op",
- "delivery": "machine/bm-b-r1578",
- "delivery_branch": "machine/bm-b-r1592",
+ "delivery": "machine/bm-b-r1608",
+ "delivery_branch": "machine/bm-b-r1608",
  "delivery_note": "git ls-remote origin refs/heads/machine/bm-b-r1514 == HEAD",
  "delivery_r1472": {
   "behind_origin_main": 295,
@@ -224,10 +224,10 @@
   "ts": "2026-11-06T10:21:48+08:00",
   "verified": true
  },
- "delivery_sha": "44c29e8897e23b741a9145f74a24929743934bfa",
+ "delivery_sha": "35d7c07384e83d02b250fc425b938b6843fa2c75",
  "delivery_sha_local": "b58b5a1c0d818a102af0958dc99d6160a44da7a8",
- "delivery_ts": "2026-11-08T16:22:00+08:00",
- "delivery_verified": "git ls-remote origin refs/heads/machine/bm-b-r1592 == 44c29e8897e23b741a9145f74a24929743934bfa",
+ "delivery_ts": "2026-11-09T03:22:51+08:00",
+ "delivery_verified": "git ls-remote origin refs/heads/machine/bm-b-r1608 == 35d7c07384e83d02b250fc425b938b6843fa2c75",
  "dept": "research",
  "did": "r1608: took E579's aside that the lane_liveness faces publish a verdict with no timestamp and asked every judged face under results/ the same question -- 807/1454 carry a cutoff that ages the verdict, 647 cannot (173 build-only, 2 build field that is not a date, 471 nothing, 1 unparseable cutoff)",
  "did_round": 1608,
@@ -316,7 +316,7 @@
    "verdict": "two_members_pay_differently"
   }
  ],
- "honest_note": "five reds were opened and repaired this window, each re-verified by its own producer: e411_reader_tiers and e418_face_age republished (verify problems=[]) after the growth of the tree moved their populations, the heartbeat GPU face healed by one Tools.gpu_face probe (audit findings=[] over 38 keys), and two growth reds found mid-run republished from their producers (e335_sibling_entry_point, e402_fragment_producers; both verify problems=[]). The suite is STILL RUNNING at close (54 PASS / 2 FAIL read, both of those legs evaluated before their producers were republished), so NO SUITE TOTAL IS CLAIMED",
+ "honest_note": "the full smoke suite was started at round open and was still running at close, so no suite total is claimed; it read 1 FAIL (E402 bare-basename leg) whose face had grown under it (bm-x.json n_sites 3->5) and which was republished from its producer in-window -> verify problems=[]",
  "idle_rounds": 0,
  "incident": "Tools/s6_chain_bmb.py was truncated to 0 bytes by a helper that opened it with an illegal newline value; index blob == HEAD, restored byte-exactly from git show HEAD:, leg re-inserted with the line editor (7/0 numstat)",
  "incident_r1566": "own face-name collision: E538's first run overwrote E530's thirdhop_latest.json (restored via git checkout; write_face now refuses a foreign study). Duplicate S6 leg name third_hop made --only run both legs and report one empty rc=1; renamed parcel_landing",
@@ -607,7 +607,7 @@
   "results/runnable_pool.json E561 done + E562 seeded (ready 3)"
  ],
  "product_this_round": "results/state_tilt/FACEAGED-2026-11-09.json",
- "push": "machine/bm-b-r1578",
+ "push": "machine/bm-b-r1608",
  "push_note": "git ls-remote origin refs/heads/machine/bm-b-r1578 == HEAD (261627f206); main push not attempted (two blood lines, promisor clone, r1243)",
  "push_receipt_pending": false,
  "push_receipts_r1049": {
@@ -616,7 +616,7 @@
   "sha": "a9dd8e61c4",
   "verified_at": "2026-10-20T04:34:36+08:00"
  },
- "push_sha": "261627f206349e37d9ea8f3f50dfa2da5b177e50",
+ "push_sha": "35d7c07384e83d02b250fc425b938b6843fa2c75",
  "py_cpu_pct": 0.0,
  "py_watermark_note": "dualrun ZERO-DRIFT 959 entries streak 5 -> py_watermark insufficient_history",
  "py_watermark_verdict": "py_low_with_work_cands at open (pool ready 1 = E580, py idle); the round burned it",
@@ -6214,7 +6214,7 @@
  "s6_run_in_window": [
   "receipt_coverage_consumer rc=0 0.3s"
  ],
- "s7": "loop pin=2 no-op | watchdog + claws checked by the loop's own S7",
+ "s7": "loop pin=2 no-op | LoopWatchdog re-registered S4U SWA=false | pre-commit + pre-push claws reinstalled",
  "s7_checked_at": "2026-11-09T01:21:00+08:00",
  "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
  "s7_note": "checked after the delivery commit; the earlier field said \"not re-checked\" and was corrected here rather than left standing (r1448: write after you do)",

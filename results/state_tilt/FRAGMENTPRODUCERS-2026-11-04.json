@@ -1012,14 +1012,14 @@
   {
    "classes_at_this_fragment": {
     "directory_expression_not_traceable_statically": 1,
-    "temporary_directory_deleted_by_design": 1
+    "temporary_directory_deleted_by_design": 2
    },
    "classified_from": "write_site",
    "fragment": "bm-x.json",
    "n_read_sites": 0,
-   "n_sites": 3,
-   "n_untagged_sites": 1,
-   "n_write_sites": 2,
+   "n_sites": 5,
+   "n_untagged_sites": 2,
+   "n_write_sites": 3,
    "producer_class": "directory_expression_not_traceable_statically",
    "producer_composed_path": null,
    "producer_directory_expression": "os.path.join(MACHINES_DIR, \"bm-x.json\")",
@@ -1050,6 +1050,24 @@
      "directory_expression": "os.path.join(f1, \"fleet\", \"machines\", \"bm-x.json\")",
      "exists": false,
      "site": "Tools/s05_probe.py:189",
+     "why": "temporary directory",
+     "write_kind": "write"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"fleet\", \"machines\", \"bm-x.json\")",
+     "exists": false,
+     "site": "scripts/data_lane_freshness.py:651",
+     "why": "temporary directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "temporary_directory_deleted_by_design",
+     "composed_path": null,
+     "directory_expression": "os.path.join(tmp, \"fleet\", \"machines\", \"bm-x.json\")",
+     "exists": false,
+     "site": "scripts/data_lane_freshness.py:552",
      "why": "temporary directory",
      "write_kind": "write"
     }
@@ -2185,7 +2203,7 @@
    "cwd_relative_no_directory_supplied": 8,
    "directory_expression_not_traceable_statically": 16,
    "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename": 5,
-   "temporary_directory_deleted_by_design": 67
+   "temporary_directory_deleted_by_design": 68
   },
   "by_classified_from": {
    "nothing": 8,
@@ -2202,7 +2220,7 @@
    "temporary_directory_deleted_by_design": 26
   },
   "classes_sum_to_sites": true,
-  "corpus_sources": 2589,
+  "corpus_sources": 2877,
   "fragments": 52,
   "fragments_no_site_named": [
    "REGIME5-DIAG-.json",
@@ -2238,15 +2256,15 @@
    }
   ],
   "keys_total_checked": 884,
-  "producer_sites_total": 103,
+  "producer_sites_total": 104,
   "published_keys": 884,
   "published_keys_note": "taken from the E399 face's own summary: that face carries only the 98 unresolved rows, so the total cannot be counted from rows",
   "read_sites_total": 14,
   "share_of_published_keys_that_are_fragments": 0.0588,
-  "sites_total": 158,
+  "sites_total": 160,
   "verdict": "the_fragments_split_between_design_names_and_joins_that_cannot_land_so_the_residual_is_partly_a_real_gap",
-  "write_sites_total": 19
+  "write_sites_total": 20
  },
- "ts": "2026-11-06T20:09:26+08:00",
+ "ts": "2026-11-09T03:29:02+08:00",
  "verdict": "the_fragments_split_between_design_names_and_joins_that_cannot_land_so_the_residual_is_partly_a_real_gap"
 }
