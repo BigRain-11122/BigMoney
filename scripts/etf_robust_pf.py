@@ -26,9 +26,12 @@ TARGET_VOL = 0.08
 
 def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
                         vol_target=None, start=START, vol_window=60,
-                        vol_cap=1.0, diag=None, ratio_hook=None, select_hook=None,
-                        weight_hook=None):
+                        vol_cap=1.0, vol_floor=0.0, diag=None, ratio_hook=None,
+                        select_hook=None, weight_hook=None):
     """vol_cap caps the sizing scale (1.0 = de-lever only, the published behaviour).
+    vol_floor (default 0.0 = bit-identical to every published run) is a lower bound on the
+    scale: the sizing rule may never take the book below this fraction. Without a floor a
+    single noisy 60-bar window can park the book at half size through a whole recovery.
     diag, if a list, collects one {date, est_vol, scale, ratio} row per decision.
 
     ratio_hook(est_vol, date, picks) -> float optionally supplies the expected
@@ -105,7 +108,7 @@ def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
                             ratio = float(ratio_hook(est, d, picks))
                             if not np.isfinite(ratio) or ratio <= 0:
                                 ratio = 1.0
-                        scale = float(min(vol_cap, vol_target / (v * ratio)))
+                        scale = float(max(vol_floor, min(vol_cap, vol_target / (v * ratio))))
                 w = {k: v * scale for k, v in w.items()}
                 turn = sum(abs(w.get(k, 0.0) - held.get(k, 0.0)) for k in set(w) | set(held))
                 equity *= (1.0 - cost * turn)

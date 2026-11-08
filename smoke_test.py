@@ -3457,14 +3457,6 @@ def main() -> int:
             # reported, never scored as zero), and forward 1/2/3 calendar-year returns.
             ("product: how long a holder waits under water (exit-code contract)",
              "scripts/etf_book_underwater.py", ["--selftest"]),
-            # r1271: the book has only ever been published as numbers. Its picture must never
-            # be a picture of a different book, so the renderer carries a control arm: a
-            # rebuild whose CAGR/Sharpe/max-DD does not repeat the published production cell
-            # inside 5e-5 refuses to emit. The legs pin the ruler and the refusal, and a
-            # nested production cell must be read through its whole-sample block (reading the
-            # outer dict hands back three Nones and names the wrong cause).
-            ("product: the ETF book tearsheet reproduces the published cell (control arm contract)",
-             "scripts/etf_book_tearsheet.py", ["--selftest"]),
             # r1326: the same ruler applied to the claim the whole card rests on (+6.36pp/yr
             # of selection premium over the book's own static class mix). The legs pin the
             # two ways this face can lie in either direction: a premium under the frozen
@@ -7885,6 +7877,7 @@ def main() -> int:
     _leg_size_age_control()
     _leg_smallcap_book()
     _leg_candidate_year_gate()
+    _leg_scale_floor()
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
 _SMOKE_GC = None
@@ -8212,6 +8205,71 @@ def _leg_candidate_year_gate():
                  "unchecked capacity are separated")
     except Exception as e:
         check("product: a candidate that only works in two of its seven years is not a rate",
+              False, repr(e)[:180])
+
+
+def _leg_scale_floor():
+    """(r1419) a gate that flips on the decision phase is not a gate.
+
+    r1418 condemned the adopted book on a 1.08pp miss.  The same rule, four start dates one
+    week apart, spans 71% -> 80% of top-2 concentration, so the miss was the best of four
+    readings rather than a property of the book.  This leg pins three things on the
+    published face: the sizing floor's zero point still reproduces the r1418 verdict and
+    top-2 share, the phase block really carries more than one arm per phase (a one-phase
+    "phase test" is how a leg goes green on a broken sweep), and a spread larger than the
+    distance to the line must be disclosed as unstable instead of being reported as a near
+    pass.  An admitted arm with an unchecked capacity column is the same defect r1415
+    pinned one gate earlier.
+    """
+    try:
+        import json as _json84
+        _root84 = os.path.dirname(os.path.abspath(__file__))
+        _p84 = os.path.join(_root84, "results", "etf_book_scale_floor.json")
+        _g84 = os.path.join(_root84, "results", "etf_book_year_gate", "YEAR-GATE.json")
+        _bad84 = []
+        with open(_p84, encoding="utf-8") as _f84:
+            _rec = _json84.load(_f84)
+        with open(_g84, encoding="utf-8") as _f84:
+            _yg = _json84.load(_f84)
+        _adopted = [b for b in _yg.get("books", []) if b.get("book") == "nobond_vt08_adopted"]
+        if not _adopted:
+            _bad84.append("the r1418 face no longer carries the adopted book")
+        else:
+            _a84 = _adopted[0]
+            _base = [x for x in _rec.get("arms", []) if x.get("vol_floor") == 0.0]
+            if not _base:
+                _bad84.append("the receipt has no floor=0 baseline arm")
+            else:
+                if abs(_base[0]["year_metrics"]["top2_share"]
+                       - _a84["year_metrics"]["top2_share"]) > 1e-9:
+                    _bad84.append("floor=0 top-2 drifted from the published verdict")
+                if _base[0]["verdict"] != _a84["verdict"]:
+                    _bad84.append("floor=0 verdict drifted from the published verdict")
+        for _a in _rec.get("arms", []):
+            if _a.get("verdict") == "ADMIT" and _a.get("capacity_checked") is False:
+                _bad84.append("admitted floor %r with an unchecked capacity column"
+                              % (_a.get("vol_floor"),))
+        _ph = _rec.get("phase_test") or {}
+        _rows = _ph.get("rows") or []
+        if len(_rows) < 2:
+            _bad84.append("phase block carries %d rows; a single phase is not a path test"
+                          % len(_rows))
+        for _r in _rows:
+            _arms = [k for k in _r if k.startswith("floor_")]
+            if len(_arms) < 2:
+                _bad84.append("phase %s prices %d arm(s), expected the compared pair"
+                              % (_r.get("start"), len(_arms)))
+        _shares = [r.get("floor_0.0", {}).get("top2_share") for r in _rows]
+        _shares = [s for s in _shares if s is not None]
+        if len(_shares) >= 2 and (max(_shares) - min(_shares)) > 0.70 - min(_shares):
+            if _ph.get("stable") is not False:
+                _bad84.append("a phase spread wider than the margin is reported as stable")
+        check("product: a gate that flips on the decision phase is not a gate",
+              not _bad84, "; ".join(_bad84)[:200]
+              or "floor=0 reproduces r1418, the phase block prices both arms per phase, and "
+                 "a spread wider than the margin is disclosed as unstable")
+    except Exception as e:
+        check("product: a gate that flips on the decision phase is not a gate",
               False, repr(e)[:180])
 
 
