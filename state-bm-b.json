@@ -6041,6 +6041,13 @@
   "ts": "2026-11-08T13:23:16+08:00",
   "verdict": "the_ambiguity_is_a_defect_surface_not_an_over_counted_multiplicity"
  },
+ "r1569_delivery": {
+  "branch": "machine/bm-b-r1569",
+  "main_push_blocker": "local main is 633 ahead / 385 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243 -- the machine branch is the delivery channel",
+  "sha": "3a23492dfefed481fd8811e21757dc0b9b9c3f60",
+  "ts": "2026-11-08T13:24:30+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1569 equals local HEAD"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -6068,6 +6075,7 @@
  "round_number_heal": null,
  "round_pit": "a chain runner's flag is `--only <leg>` with a positional round number; `--leg <name>` is silently consumed as the round number and starts the FULL chain (r1508 first occurrence, r1509 second). An unrecognised-looking flag is accepted silently, so the guard is `s6_chain_bmb.py <round> --only <leg>` typed from the usage line, never a near-miss spelling -- GUARD INSTALLED IN-WINDOW: s6_chain_bmb.py now refuses any unrecognised option (rc2, 'unknown option(s)') instead of folding it into the round number, so a second one-word typo cannot select the whole chain",
  "round_report_line_ts": "2026-11-08T09:32:11+08:00",
+ "round_start_dirty": "data/daily/*.csv and content/drama/* carried another writer's uncommitted changes at round open -> targeted add only",
  "round_summary": "r1556: E526 followed E520's 12 'forwarded again' values one hop further -- 23 second-hop hand-overs, 15 settle right there (9 literals / 6 call results), 5 are forwarded again, 3 fall back to a signature default; arrivals 9 resolved / 1 forwarded / 1 mixed / 1 default-only / 0 with no supplying site. The chain stays open in exactly 3 places: e489_write_wire.classify(root) forwards root again at both call sites, e328.build(root) is handed a local at 3 of 4 sites, and e445.build(index) is omitted at both sites so the default -- not a caller -- supplies it.",
  "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
  "s0_5": "orders sweep: 114 O-*.md on disk vs 115 acks -> 0 unacked, 1 stale ack (O-20261020-1335-bmc-w288-seat.md, its order file no longer on disk); decisions watermark not advanced this window",
@@ -6086,8 +6094,8 @@
  "s6_note": "one leg exercised alone via --only; the rest of the S6 chain not re-run and not claimed",
  "s6_r1424": "dualrun ZERO-DRIFT 888 entries streak 50; attrition guard CLEAN (4 ledgers); orphan probe py_faces=10 orphans=0 residents=0; E305 re-derived; the rest of the S6 chain (update_*, market_regime, scorecards, papers) not re-run this window and not claimed",
  "s6_run_in_window": "line_pointer rc0 (S6 1/1, receipt results/_r1567bmb_s6_chain.json)",
- "s7": "loop pin=2 no-op | LoopWatchdog checked | pre-commit + pre-push claws checked | attrition CLEAN 4 ledgers",
- "s7_checked_at": "2026-11-08T11:55+08:00",
+ "s7": "loop pin=2 no-op (first fire 13:27) | Bigmoney-LoopWatchdog was ABSENT, rebuilt S4U this window (first fire 13:26) | pre-commit + pre-push claws (re)installed",
+ "s7_checked_at": "2026-11-08T13:24:30+08:00",
  "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
  "s7_note": "watchdog and claws were checked last window (04:57) and were not re-checked here",
  "s7_pit": "Tools/Invoke-SilentExe.ps1 takes -Exe/-ArgString, not -FilePath; the first query failed with ParameterBindingException and an empty result, which reads exactly like 'task absent' -- an empty wrapper output is not evidence of absence (R49 family)",
