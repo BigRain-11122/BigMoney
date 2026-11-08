@@ -370,6 +370,41 @@ def staleness_stats(score, close, rebal=REBAL, n_hold=N_HOLD, start="2020-01-01"
             "decisions_with_too_few_picks": impossible}
 
 
+# A ticket is only the tested strategy if the bar it is priced on carries the universe.
+# r1256 already showed the failure mode (5 of 1,547 ETFs live -> an unbuyable 5-name
+# "book") and this round found the same thing silently passing as "feed: current":
+# `live_feed_status` compares the panel to the official calendar, so a panel whose 97%
+# froze last week still reports lag 0. Breadth is the missing face.
+BREADTH_GATE = 0.50
+
+
+def panel_breadth(close):
+    """Share of the eligible universe that actually printed on the newest bar.
+
+    `staleness_stats` looks *backwards* along the decision grid; this looks at the bar
+    the ticket is priced on. Both are needed: a grid decision 4 bars old can be dense
+    while the priced bar is 5/1,503, and that ticket is not buyable.
+    """
+    if close is None or close.shape[1] == 0:
+        return {"available": False}
+    total = int(close.shape[1])
+    last = close.index[-1]
+    live = int(close.iloc[-1].notna().sum())
+    shares = close.notna().sum(axis=1) / float(total)
+    dense = shares[shares >= BREADTH_GATE]
+    ref = dense.index[-1] if len(dense) else None
+    return {"available": True,
+            "priced_bar": str(last.date()),
+            "universe": total,
+            "live_on_priced_bar": live,
+            "share_on_priced_bar": round(live / float(total), 4),
+            "gate_share": BREADTH_GATE,
+            "breadth_ok": bool(live / float(total) >= BREADTH_GATE),
+            "newest_bar_dense_enough": str(ref.date()) if ref is not None else None,
+            "bars_since_dense": (int((close.index > ref).sum())
+                                 if ref is not None else None)}
+
+
 def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_gate=False):
     global OUT_DIR
     if fresh_gate:
@@ -390,6 +425,20 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     print("feed: %s | ticket bar %s vs official %s | lag %s day(s)"
           % (feed["status"], feed["ticket_bar"], feed["expected_bar"],
              "-" if feed["lag_days"] is None else feed["lag_days"]), flush=True)
+    # third, independent face: the bar the ticket is priced on must actually carry the
+    # universe. `feed` says the panel reaches the official date; it cannot say that 97%
+    # of the panel stopped five bars earlier, which is exactly the state this round found.
+    breadth = panel_breadth(close[cols])
+    if breadth.get("available"):
+        print("breadth: %d/%d symbols live on %s (%.1f%%, gate %.0f%%) -> %s | newest "
+              "dense bar %s (%s bars earlier)"
+              % (breadth["live_on_priced_bar"], breadth["universe"],
+                 breadth["priced_bar"], 100.0 * breadth["share_on_priced_bar"],
+                 100.0 * breadth["gate_share"],
+                 "OK" if breadth["breadth_ok"] else "DEGRADED",
+                 breadth["newest_bar_dense_enough"],
+                 "-" if breadth["bars_since_dense"] is None else breadth["bars_since_dense"]),
+              flush=True)
     if fresh_gate:
         # only instruments that actually printed a close on the decision bar are eligible
         score = score.where(close[cols].notna())
@@ -513,6 +562,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "rebal": REBAL, "n_hold": N_HOLD, "cost_bp_per_side": COST_BP,
                "fresh_gate": bool(fresh_gate), "staleness": stale,
                "feed_status": feed,
+               "panel_breadth": breadth,
+               "panel_degraded": not bool(breadth.get("breadth_ok")),
                "k_now": round(float(k_now), 6),
                "book_decided_at": str(dec_bar.date()),
                "card_agreement": agreement,
@@ -531,6 +582,13 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                            "GC001 single tenor, rolling assumed cost-free",
                            "k revised every %d bars so delivered beta still wanders" % REBAL,
                            "exploratory: no preregistration, no verdict, no ledger booking"]
+                          + (["PANEL DEGRADED: only %d/%d symbols printed on %s (gate %.0f%%) "
+                              "-- this ticket is not executable as the tested book; the last "
+                              "bar that carried the universe was %s"
+                              % (breadth["live_on_priced_bar"], breadth["universe"],
+                                 breadth["priced_bar"], 100.0 * breadth["gate_share"],
+                                 breadth["newest_bar_dense_enough"])]
+                             if breadth.get("available") and not breadth["breadth_ok"] else [])
                           + (["this ticket is the %d-name aggressive end of the book; the "
                               "production card runs %d names -- see width_disclosure"
                               % (N_HOLD, wd["card_names"])] if wd else
@@ -566,6 +624,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     else:
         print("width: disclosure unavailable (width audit or card width missing)")
     print("wrote", os.path.join(OUT_DIR, "TICKET-%s.json" % asof))
+    if breadth.get("available") and not breadth["breadth_ok"]:
+        print("TICKET NOT EXECUTABLE: panel_degraded (see caveats / panel_breadth)")
     return 0
 
 
@@ -1521,6 +1581,25 @@ def selftest():
                 - lc["points"][-1]["cash_vs_target_cny"])
             < lc["shortfall_bound_cny"],
         "bound=%s max=%s" % (lc["shortfall_bound_cny"], lc["max_observed_shortfall_cny"]))
+
+    # leg38: breadth is a separate face from `feed` -- a panel can reach the official
+    # date while 97% of its columns stopped earlier, and only breadth says so.
+    b_idx = pd.bdate_range("2021-01-04", periods=6)
+    dense = pd.DataFrame(1.0, index=b_idx, columns=["S%02d" % i for i in range(40)])
+    thin = dense.copy()
+    thin.iloc[-1, 5:] = np.nan          # newest bar carries 5/40 = 12.5%
+    bd, bt = panel_breadth(dense), panel_breadth(thin)
+    chk("leg38a a fully printed bar passes the breadth gate",
+        bd["breadth_ok"] and bd["live_on_priced_bar"] == 40
+        and bd["bars_since_dense"] == 0, "share=%.3f" % bd["share_on_priced_bar"])
+    chk("leg38b a 5/40 tail bar is DEGRADED and names the last dense bar",
+        (not bt["breadth_ok"]) and bt["live_on_priced_bar"] == 5
+        and bt["newest_bar_dense_enough"] == str(b_idx[-2].date())
+        and bt["bars_since_dense"] == 1,
+        "share=%.3f ref=%s" % (bt["share_on_priced_bar"], bt["newest_bar_dense_enough"]))
+    chk("leg38c an empty panel reports unavailable instead of a false pass",
+        panel_breadth(pd.DataFrame()) == {"available": False},
+        "empty=%s" % panel_breadth(pd.DataFrame()))
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1
