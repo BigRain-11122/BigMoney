@@ -916,6 +916,13 @@ LEGS = [
     # label phrases resolve nothing, or whose totals do not add up line by line (0.2s).
     ("sibling_entry",
      ["python", "scripts/etf_book_sibling_entry.py", "check"]),
+    # r1465: sibling_entry prices ONE session, so it cannot tell a permanent toll from an
+    # episode -- and those are different trades. `check` re-derives both tickers' gap
+    # history from the local panels, re-pins the NAV-base constant on today's IOPV pair,
+    # and refuses a face whose reconstruction does not land on the anchor or whose
+    # verdict drifted (0.4s).
+    ("sibling_gap",
+     ["python", "scripts/etf_book_sibling_gap.py", "check"]),
     # r1440: forty rounds read the calendar and the order page as two separate
     # subjects. This leg puts them in one sentence from receipts only (no
     # repricing): today the ticket executes nobond_vt08_adopted at book_weight

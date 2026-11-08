@@ -80,6 +80,7 @@ PERMISSION_JSON = os.path.join(ROOT, "results", "etf_book_rebalance_permission.j
 CUT_GAP_JSON = os.path.join(ROOT, "results", "etf_book_cut_order_gap.json")
 PERMISSION_LEDGER_JSON = os.path.join(ROOT, "results", "etf_book_floor_ledger.json")
 PREMIUM_LEAK_JSON = os.path.join(ROOT, "results", "etf_book_premium_leak.json")
+SIBLING_GAP_JSON = os.path.join(ROOT, "results", "etf_book_sibling_gap.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -882,6 +883,113 @@ def premium_block(pb, page_bar=None):
     add("")
     add("- 机器判词（`%s`）：**%s** — %s。" % (pb.get("artifact"), pb.get("verdict"),
                                               pb.get("verdict_reason")))
+    add("")
+    return L
+
+
+SIBLING_GAP_WORDS = {
+    "PERSISTENT_GAP": "长期收的",
+    "EPISODIC_GAP": "今天才有",
+    "NO_GAP": "今天没有价差",
+    "AMBIGUOUS_GAP": "读不出方向",
+    "INSUFFICIENT_HISTORY": "历史太短，读不出",
+    "CANNOT_VERIFY": "无法核验",
+}
+
+
+def sibling_gap_face(path=SIBLING_GAP_JSON):
+    """Whether today's sibling premium gap is a rate or an episode (r1465).
+
+    Read-only over the published face. An absent face is "cannot verify" -- never "the gap
+    repeats" -- and a face anchored on another session is a mismatch, not freshness."""
+    if not os.path.exists(path):
+        return {"status": "unreadable", "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+                "detail": "sibling-gap face absent"}
+    f = _load(path) or {}
+    if not f.get("pairs"):
+        return {"status": "unreadable", "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+                "detail": "face carries no priced pair"}
+    return {
+        "status": "ok",
+        "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+        "session": f.get("session"),
+        "pairs": f.get("pairs") or [],
+        "skipped_legs": f.get("skipped_legs") or [],
+        "sentence": f.get("sentence"),
+        "today_gain_cny": f.get("today_gain_cny"),
+        "repeatable_gain_cny": f.get("repeatable_gain_cny"),
+        "one_off_gain_cny": f.get("one_off_gain_cny"),
+        "immaterial_gain_cny": f.get("immaterial_gain_cny"),
+        "criteria": f.get("criteria") or {},
+        "caveats": f.get("caveats") or [],
+    }
+
+
+def sibling_gap_block(sg, page_bar=None):
+    """The lines this page prints about whether the swap saving repeats."""
+    L = []
+    add = L.append
+    add("## 这个价差是长期收的，还是今天才有的")
+    add("")
+    sg = sg or {}
+    if sg.get("status") != "ok":
+        add("这一节读不到价差历史面（`%s`）：%s。**因此本页只有今天的价差，说不出它会不会天天有**——"
+            "把今天的一次价差当成长期成本，和把它当成可以永远重复的收益，都是本页现在不能支持的说法。"
+            % (sg.get("artifact") or "results/etf_book_sibling_gap.json", sg.get("detail") or "无读数"))
+        add("")
+        return L
+    if page_bar and sg.get("session") and str(page_bar)[:10] != str(sg["session"])[:10]:
+        add("价差历史面是拿 **%s** 的盘口锚定的，本页的价是 **%s**——两个日子对不上，"
+            "下面这些历史分位不能搬到今天的单上。" % (sg["session"], page_bar))
+        add("")
+    today = sg.get("today_gain_cny") or 0.0
+    rep = sg.get("repeatable_gain_cny") or 0.0
+    one = sg.get("one_off_gain_cny") or 0.0
+    if today:
+        add("**同一笔钱换只票能多买 ￥%s 的篮子，其中按历史平均价差只算得上 ￥%s 是「以后还能再拿到」的，"
+            "剩下 ￥%s 是今天这一次。**" % (format(today, ",.0f"), format(rep, ",.0f"), format(one, ",.0f")))
+        add("")
+    add("| 这只票 | 换到 | 今天价差 | 历史平均 | 多少交易日 | 今天分位 | 读法 |")
+    add("|---|---|---|---|---|---|---|")
+    for pr in sg.get("pairs") or []:
+        d = pr.get("stats") or {}
+        word = SIBLING_GAP_WORDS.get(pr.get("verdict"), pr.get("verdict") or "")
+        if pr.get("verdict") == "PERSISTENT_GAP" and (pr.get("flags") or {}).get("today_is_tail"):
+            word += "（但今天是最高分位）"
+        add("| %s | %s %s | %+.2fpp | %s | %s | %s | %s |" % (
+            pr.get("leg_symbol"), pr.get("sibling_symbol") or "", pr.get("sibling_name") or "",
+            pr.get("gap_today_pp") or 0.0,
+            ("%+.2fpp" % d["mean_pp"]) if d.get("mean_pp") is not None else "—",
+            d.get("days", "—"),
+            ("%.0f%%" % d["today_percentile"]) if d.get("today_percentile") is not None else "—",
+            word))
+    add("")
+    for pr in sg.get("pairs") or []:
+        d = pr.get("stats") or {}
+        if pr.get("verdict") in ("PERSISTENT_GAP", "EPISODIC_GAP") and d:
+            tail = (pr.get("flags") or {}).get("today_is_tail")
+            if pr["verdict"] == "PERSISTENT_GAP":
+                say = ("这只票历史上多数日子都比换过去那只贵，平均 %+.2fpp（%d 个交易日，同向占 %.0f%%）——"
+                       "长期换掉它是对的；但今天的 %+.2fpp 是这段历史里的第 %.0f 分位，"
+                       "高出来的那部分是今天这一次，不是长期成本。"
+                       % (d["mean_pp"], d["days"], 100 * d["share_days_positive"],
+                          pr.get("gap_today_pp") or 0.0, d["today_percentile"]))
+                if not tail:
+                    say = ("这只票历史上多数日子都比换过去那只贵，平均 %+.2fpp（%d 个交易日，同向占 %.0f%%）"
+                           "——今天的 %+.2fpp 与它一致，长期换掉它就是一次性的修正。"
+                           % (d["mean_pp"], d["days"], 100 * d["share_days_positive"],
+                              pr.get("gap_today_pp") or 0.0))
+            else:
+                say = ("%d 个交易日里两边平均只差 %+.2fpp，今天的 %+.2fpp 落在第 %.0f 分位"
+                       "——这是今天的一次，别把它当成年年有的收益。"
+                       % (d["days"], d["mean_pp"], pr.get("gap_today_pp") or 0.0, d["today_percentile"]))
+            add("- %s→%s：%s" % (pr.get("leg_symbol"), pr.get("sibling_symbol"), say))
+    if sg.get("skipped_legs"):
+        add("- 这一节读不出价的腿：%s。**读不出不是「没有价差」**——这几只票的同类标签上今天没有"
+            "第二只活着的票，所以页面只能给「无法核验」。"
+            % "；".join("%s（%s）" % (x.get("leg_symbol"), x.get("label") or "无同类标签")
+                       if x.get("label") else "%s（无同类标签）" % x.get("leg_symbol")
+                       for x in sg["skipped_legs"]))
     add("")
     return L
 
@@ -3661,6 +3769,7 @@ def build(with_stress=False, window_label=None):
     page["gap"] = gap_face()
     page["permission"] = permission_face()
     page["premium_leak"] = premium_face()
+    page["sibling_gap"] = sibling_gap_face()
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
     page["envelope"] = envelope_face()
@@ -3727,6 +3836,8 @@ def render_md(p):
         add(_pf_line)
     for _pl_line in premium_block(p.get("premium_leak") or {}, page_bar=p.get("priced_bar")):
         add(_pl_line)
+    for _sg_line in sibling_gap_block(p.get("sibling_gap") or {}, page_bar=p.get("priced_bar")):
+        add(_sg_line)
     bf = p.get("bets") or {}
     if bf.get("status") == "ok" and bf.get("sentence"):
         add("## 这几只票到底有几个赌注")
@@ -5459,7 +5570,9 @@ def selftest():
     chk("L80 vol window: the paired band and the older face's own ruler reach the page",
         all(_x in _md_vwp for _x in ("MIXED_ACROSS_PHASES", "+0.83pp", "[-0.10, +1.92]",
                                      "within noise", "1.81pp", "+1.50pp"))
-        and "0.83pp" not in _md_vw, "")
+        and "[-0.10, +1.92]" not in _md_vw, "")   # the CI is unique to the paired block;
+    # the bare mean "+0.83pp" now also appears in the gap-history section (r1465), so it can
+    # no longer serve as the evidence that the paired numbers stayed out of the plain page
     chk("L77 vol window: the adoption names the grid edge and the exposure cost, and it "
         "does not silently rewrite the shipped config",
         "网格边缘" in _md_vw and "多拿" in _md_vw and "不改出货配置" in _md_vw, "")
@@ -6275,6 +6388,31 @@ def selftest():
     _pb_shift = premium_block(dict(_pb_fix, session="2026-11-05"), page_bar="2026-11-06")
     chk("L151 premium block: a face priced on another session says so instead of pasting it on today",
         "两个日子对不上" in "\n".join(_pb_shift))
+    # r1465: the gap-history section. The ways it can lie are its own: an absent face would
+    # otherwise read as "the gap repeats", a face anchored on another session cannot lend its
+    # percentiles to today's sheet, and the repeatable money must come off the face.
+    _sg_fix = {"status": "ok", "artifact": "results/etf_book_sibling_gap.json", "session": "2026-11-06",
+               "today_gain_cny": 9761.9, "repeatable_gain_cny": 1540.1, "one_off_gain_cny": 8221.8,
+               "criteria": {"min_days": 120},
+               "pairs": [{"leg_symbol": "159501", "sibling_symbol": "159513",
+                          "sibling_name": "纳斯达克100ETF大成", "gap_today_pp": 8.6708,
+                          "verdict": "PERSISTENT_GAP", "flags": {"today_is_tail": True},
+                          "advice": "x",
+                          "stats": {"mean_pp": 0.832, "days": 793, "share_days_positive": 0.70,
+                                    "today_percentile": 100.0}}]}
+    _sg_txt = "\n".join(sibling_gap_block(_sg_fix, page_bar="2026-11-06"))
+    chk("L152 sibling gap block: the saving is split into the part that repeats and the part that does not",
+        "9,762" in _sg_txt and "1,540" in _sg_txt and "8,222" in _sg_txt and "793" in _sg_txt,
+        _sg_txt[:80])
+    _sg_missing = "\n".join(sibling_gap_block({"status": "unreadable",
+                                               "artifact": "results/etf_book_sibling_gap.json",
+                                               "detail": "face absent"}))
+    chk("L153 sibling gap block: an absent face never reads as 'the gap repeats'",
+        "说不出它会不会天天有" in _sg_missing and "长期收的（" not in _sg_missing
+        and "| 这只票 |" not in _sg_missing)
+    _sg_shift = "\n".join(sibling_gap_block(dict(_sg_fix, session="2026-11-05"), page_bar="2026-11-06"))
+    chk("L154 sibling gap block: a face anchored on another session refuses to lend its percentiles",
+        "两个日子对不上" in _sg_shift)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

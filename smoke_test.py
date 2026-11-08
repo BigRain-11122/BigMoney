@@ -761,6 +761,16 @@ def main() -> int:
              "scripts/etf_book_sibling_entry.py", ["selftest"]),
             ("product: etf_book_sibling_entry (quoted sibling premiums re-derived off the board)",
              "scripts/etf_book_sibling_entry.py", ["check"]),
+            # r1465: the premium arc priced today's swap but never asked whether the gap
+            # repeats -- a persistent toll is a one-time re-tickering, an episode is a daily
+            # decision and most of the CNY is a one-off. The legs pin the anchored
+            # reconstruction (it lands exactly on today's IOPV pair), the three words
+            # (persistent / episodic / no gap), and that a step in the close ratio is
+            # flagged rather than smoothed.
+            ("product: etf_book_sibling_gap (does the premium gap repeat or was it an episode)",
+             "scripts/etf_book_sibling_gap.py", ["selftest"]),
+            ("product: etf_book_sibling_gap (history re-derived from the panels, anchor re-checked)",
+             "scripts/etf_book_sibling_gap.py", ["check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a
