@@ -1,0 +1,393 @@
+{
+ "generated": "2026-11-08 18:10:53",
+ "evidence_cutoff": "2026-11-06",
+ "question": "is the book's 2025 a readable year or a single-phase, cost-edged, gold-beta year?",
+ "rule": {
+  "kind": "exploratory",
+  "prereg": null,
+  "verdict": null,
+  "ledger": null,
+  "why": "decomposes and re-prices an already-published year; it admits nothing and refuses nothing",
+  "frozen": {
+   "spread_pp_max": 15.0,
+   "cost3x_floor_pp": 0.0,
+   "words": {
+    "REPRODUCES": "2025 is positive on every phase, the phase spread is inside spread_pp_max, and 3x toll still leaves it positive",
+    "PHASE_FRAGILE": "the phases disagree in sign, or the spread is wider than spread_pp_max -- 2025 belongs to a grid, not to the book",
+    "COST_FRAGILE": "2025 turns non-positive at 3x toll -- the year is a cost artifact",
+    "NOT_REPRODUCIBLE": "2025 is non-positive on the median phase"
+   },
+   "beta_words": {
+    "SELECTION_ADDS": "the book collected MORE than simply holding the same names over the same bars -- the sleeve's timing/selection paid",
+    "BETA_EXPLAINS": "the passive equal-weight sleeve paid at least what the book collected -- nothing in this sleeve needs a selection story",
+    "BOOK_LAGS_SLEEVE": "the book collected a negative amount in a sleeve that the passive holding priced above zero"
+   }
+  },
+  "frozen_before_read": true
+ },
+ "config": {
+  "year": "2025",
+  "rebal": 20,
+  "n_hold": 5,
+  "cost_per_side": 0.001,
+  "vol_target": 0.08,
+  "phase_set": [
+   "2020-01-01",
+   "2020-01-08",
+   "2020-01-15",
+   "2020-01-22",
+   "2020-01-29"
+  ],
+  "cost_multiples": [
+   1.0,
+   2.0,
+   3.0
+  ],
+  "walk": "etf_book_year_attribution.walk (imported)"
+ },
+ "identity": {
+  "phase": "2020-01-01",
+  "max_abs_gap_vs_engine": 0.0
+ },
+ "phases": [
+  {
+   "start": "2020-01-01",
+   "row": {
+    "year": "2025",
+    "log_pp": 35.7763,
+    "net_pct": 43.0127,
+    "sleeves": {
+     "commodity": 18.5611,
+     "convertible": 0.8875,
+     "equity": 17.6508
+    },
+    "toll_pp": -1.3231,
+    "top_names": [
+     {
+      "name": "518800",
+      "log_pp": 0.0571,
+      "class": "commodity",
+      "share_of_year": 0.1596
+     },
+     {
+      "name": "518600",
+      "log_pp": 0.0474,
+      "class": "equity",
+      "share_of_year": 0.1324
+     },
+     {
+      "name": "518660",
+      "log_pp": 0.0457,
+      "class": "commodity",
+      "share_of_year": 0.1279
+     },
+     {
+      "name": "518680",
+      "log_pp": 0.045,
+      "class": "equity",
+      "share_of_year": 0.1258
+     },
+     {
+      "name": "518880",
+      "log_pp": 0.0387,
+      "class": "commodity",
+      "share_of_year": 0.1082
+     }
+    ]
+   }
+  },
+  {
+   "start": "2020-01-08",
+   "row": {
+    "year": "2025",
+    "log_pp": 33.0235,
+    "net_pct": 39.1295,
+    "sleeves": {
+     "commodity": 14.4179,
+     "convertible": -0.5657,
+     "equity": 20.4993
+    },
+    "toll_pp": -1.3279,
+    "top_names": [
+     {
+      "name": "518680",
+      "log_pp": 0.0424,
+      "class": "equity",
+      "share_of_year": 0.1283
+     },
+     {
+      "name": "518660",
+      "log_pp": 0.0358,
+      "class": "commodity",
+      "share_of_year": 0.1085
+     },
+     {
+      "name": "159934",
+      "log_pp": 0.0289,
+      "class": "commodity",
+      "share_of_year": 0.0875
+     },
+     {
+      "name": "518800",
+      "log_pp": 0.0288,
+      "class": "commodity",
+      "share_of_year": 0.0872
+     },
+     {
+      "name": "518850",
+      "log_pp": 0.0264,
+      "class": "commodity",
+      "share_of_year": 0.0798
+     }
+    ]
+   }
+  },
+  {
+   "start": "2020-01-15",
+   "row": {
+    "year": "2025",
+    "log_pp": 22.3153,
+    "net_pct": 25.0012,
+    "sleeves": {
+     "commodity": 7.9316,
+     "convertible": 1.4809,
+     "equity": 14.3053
+    },
+    "toll_pp": -1.4025,
+    "top_names": [
+     {
+      "name": "510580",
+      "log_pp": 0.0306,
+      "class": "equity",
+      "share_of_year": 0.1372
+     },
+     {
+      "name": "518800",
+      "log_pp": 0.0239,
+      "class": "commodity",
+      "share_of_year": 0.1073
+     },
+     {
+      "name": "518850",
+      "log_pp": 0.0235,
+      "class": "commodity",
+      "share_of_year": 0.1052
+     },
+     {
+      "name": "518660",
+      "log_pp": 0.0187,
+      "class": "commodity",
+      "share_of_year": 0.0837
+     },
+     {
+      "name": "515380",
+      "log_pp": 0.0145,
+      "class": "equity",
+      "share_of_year": 0.0649
+     }
+    ]
+   }
+  },
+  {
+   "start": "2020-01-22",
+   "row": {
+    "year": "2025",
+    "log_pp": 20.1268,
+    "net_pct": 22.2952,
+    "sleeves": {
+     "commodity": 3.9848,
+     "convertible": 1.0052,
+     "equity": 16.6556
+    },
+    "toll_pp": -1.5188,
+    "top_names": [
+     {
+      "name": "588800",
+      "log_pp": 0.0228,
+      "class": "equity",
+      "share_of_year": 0.1135
+     },
+     {
+      "name": "518600",
+      "log_pp": 0.018,
+      "class": "equity",
+      "share_of_year": 0.0892
+     },
+     {
+      "name": "510580",
+      "log_pp": 0.015,
+      "class": "equity",
+      "share_of_year": 0.0745
+     },
+     {
+      "name": "159633",
+      "log_pp": 0.0123,
+      "class": "equity",
+      "share_of_year": 0.0612
+     },
+     {
+      "name": "159834",
+      "log_pp": 0.0121,
+      "class": "equity",
+      "share_of_year": 0.0602
+     }
+    ]
+   }
+  },
+  {
+   "start": "2020-01-29",
+   "row": {
+    "year": "2025",
+    "log_pp": 30.5705,
+    "net_pct": 35.7582,
+    "sleeves": {
+     "commodity": 9.5037,
+     "convertible": 1.3419,
+     "equity": 21.1231
+    },
+    "toll_pp": -1.3982,
+    "top_names": [
+     {
+      "name": "518600",
+      "log_pp": 0.037,
+      "class": "equity",
+      "share_of_year": 0.121
+     },
+     {
+      "name": "518680",
+      "log_pp": 0.036,
+      "class": "equity",
+      "share_of_year": 0.1178
+     },
+     {
+      "name": "518800",
+      "log_pp": 0.035,
+      "class": "commodity",
+      "share_of_year": 0.1144
+     },
+     {
+      "name": "518660",
+      "log_pp": 0.0339,
+      "class": "commodity",
+      "share_of_year": 0.111
+     },
+     {
+      "name": "510580",
+      "log_pp": 0.0274,
+      "class": "equity",
+      "share_of_year": 0.0895
+     }
+    ]
+   }
+  }
+ ],
+ "cost_ladder": [
+  {
+   "multiple": 1.0,
+   "cost_per_side": 0.001,
+   "net_pct": 43.0127,
+   "toll_pp": -1.3231,
+   "commodity_pp": 18.5611
+  },
+  {
+   "multiple": 2.0,
+   "cost_per_side": 0.002,
+   "net_pct": 41.1306,
+   "toll_pp": -2.6478,
+   "commodity_pp": 18.5611
+  },
+  {
+   "multiple": 3.0,
+   "cost_per_side": 0.003,
+   "net_pct": 39.2711,
+   "toll_pp": -3.9742,
+   "commodity_pp": 18.5611
+  }
+ ],
+ "verdict": {
+  "median_net_pct": 35.7582,
+  "spread_pp": 20.7175,
+  "min_net_pct": 22.2952,
+  "max_net_pct": 43.0127,
+  "phases": 5,
+  "state": "PHASE_FRAGILE",
+  "reason": "the phases disagree in sign, or the spread is wider than spread_pp_max -- 2025 belongs to a grid, not to the book"
+ },
+ "sleeve_beta": {
+  "reading": {
+   "state": "BETA_EXPLAINS",
+   "reason": "the passive equal-weight sleeve paid at least what the book collected -- nothing in this sleeve needs a selection story",
+   "book_commodity_log_pp": 18.5611,
+   "passive_log_pp": 50.9164,
+   "share_of_passive": 0.3645
+  },
+  "commodity_names_in_panel": 41,
+  "top_commodity_names": [
+   "518800",
+   "518660",
+   "518880"
+  ],
+  "passive_all_commodity": {
+   "names": [
+    "159029",
+    "159032",
+    "159049",
+    "159157",
+    "159162",
+    "159163",
+    "159168",
+    "159171",
+    "159315",
+    "159321",
+    "159322",
+    "159562",
+    "159652",
+    "159690",
+    "159812",
+    "159871",
+    "159876",
+    "159880",
+    "159881",
+    "159934",
+    "159937",
+    "159980",
+    "159981",
+    "159985",
+    "510170",
+    "512400",
+    "512940",
+    "515040",
+    "516650",
+    "517400",
+    "517520",
+    "518660",
+    "518800",
+    "518850",
+    "518880",
+    "560290",
+    "560470",
+    "560490",
+    "560860",
+    "560870",
+    "560970"
+   ],
+   "per_name_log_pp": 50.9164,
+   "log_pp": 50.9164,
+   "net_pct": 66.3899,
+   "n_names": 26
+  },
+  "passive_top_names": {
+   "names": [
+    "518800",
+    "518660",
+    "518880"
+   ],
+   "per_name_log_pp": 45.9781,
+   "log_pp": 45.9781,
+   "net_pct": 58.3727,
+   "n_names": 3
+  }
+ },
+ "reading_note": "net_pct is a calendar-year return from the previous year's last level to this year's last bar (etf_book_year_attribution's own definition). passive_* is equal-weight buy-and-hold of the same names over the same boundary. A bet and a book print the same headline until they are separated like this.",
+ "elapsed_sec": 59.08
+}

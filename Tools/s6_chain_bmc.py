@@ -793,6 +793,15 @@ LEGS = [
     # turns red instead of feeding the operator sentence again.
     ("half_year_provenance",
      ["python", "scripts/etf_book_half_year_provenance.py", "check"]),
+    # r1436: r1435 named the years that make up the half (2025 for all three refused
+    # books), but nothing said whether that year is READABLE -- it is the newest full
+    # year, a gold year, and the top-2 share moves with the decision phase. This leg
+    # re-derives the verdict from its own receipt: 2025 net +43.0pp on the first phase
+    # falls to 22.3pp on another (spread 20.7pp > 15 -> PHASE_FRAGILE), 3x toll still
+    # leaves 39.3pp (cost is not the issue), and the commodity sleeve collected 18.56pp
+    # of the 50.92pp its own equal-weight buy-and-hold would have paid (the book held
+    # LESS gold beta than passive, not more). ~1s, reads only the published receipt.
+    ("book_2025_repro", ["python", "scripts/etf_book_2025_repro.py", "check"]),
     ("supply_calendar", ["python", "scripts/supply_calendar_face.py", "run"]),
     # r1428: "refused" with no horizon is an observation, not a plan. This leg re-checks
     # the published ETA face (identity against the phase gate's phase 0, so a drifted
