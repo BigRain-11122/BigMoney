@@ -13666,3 +13666,21 @@ digest `research/digests/DIGEST-20261108-r1575-e546-filepathjoined.md`
 **边界（随面发布）**：spawn 检测纯静态——源在 spawn 函数实参或命令行里点名脚本才算，别名与变量拼出来的路径不跟；公告检测只读源字面量与小件 `*_latest.json` 指针面，不读 `results/` 里的大面；只测仓库内消费者，外部 CI 与人眼不在射程。
 
 **正身** = `scripts/e554_wrote_population.py`（build/check/verify + selftest 46/46）+ `results/state_tilt/WROTEPOPULATION-2026-11-08.json` + `wrotepopulation_latest.json` + S6 腿 `wrote_population` + smoke 腿 `# E554`（`scripts/run_e554_smoke_leg.py` 1/1 绿，`--doctor` 1/1 红）+ digest `research/digests/DIGEST-20261108-r1580-e554-wrote-population.md`。
+### E555 -- 67 条「本扫描折不动的名字」里，有多少其实是扫描本来就能算出来的常量（r1581 bm-b）
+
+**触发**：E554 把 90 行判为「消息没点名本扫描能解析的面」，其中 67 行是同一个理由：「第二参是一个本扫描折不动的名字」。这句话是关于**折叠器**的，不是关于代码的——如果一个名字是模块级常量、或在条件块里赋值、或从别的模块导入，静态求值器本来就能点名这张面。卡面问：这 67 行里有多少是这种情况。
+
+**做法**：种群**机读父面**（`wrotepopulation_latest.json` 里 `unresolved_because == the_second_argument_is_a_name_this_scan_cannot_fold` 的 67 行，禁手列），每行回到自己的 `writer:line` 重解析渲染调用（含 `print("wrote %s + %s" % (a, b))` 这类**没有第二参、面在格式元组里**的形态），对第二参里每个自由名做绑定普查，按固定顺序判：函数参数 → 导入（模块不在树内也算一次导入）→ 模块级赋值（按值本身能不能折）→ for/with 目标 → 容器 store → 外层函数局部 → 本模块从不绑定。然后**加两个能力再折一次**并在行上发布 `closed_by`：①`Path(__file__).resolve().parents[k]` 按**writer 自己的相对路径**求 dirname^k（不是猜「脚本都在下一层」），②顺序无关的模块常量搜索（含导入）。控制臂＝**用父面自己的折叠器重扫同一批行**，它必须折出 0 行，否则这批不是「父面的残留」。
+
+**读数**：67 行 → **6 行可折**（全部靠 `parents[k]`，6 张面**全部在盘上存在**：capital_placement 的结果面与 md 面、etf_book_buffer_adoption 的 md、etf_book_premium_phases 的 json+md、etf_book_voltarget_phase 的 json+md）+ **61 行是构造性运行期**：38 外层函数局部变量、10 个装着时钟或 `sys.argv` 的模块常量、6 个调用方参数、4 个「helper 返回值的元组目标」、3 个 for 目标。控制臂折出 **0**。判词 = `some_of_the_unfolded_names_are_constants_a_wider_evaluator_can_name`。
+
+**四条可复用教训**：
+
+1. **「折不动的名字」要先问它属于谁的话** —— 首版把 49 行判成「本模块从不绑定」，其中绝大多数是 `for path in ...:` 的目标：折的是外层函数的 `ast.Assign`，不认循环目标。把绑定普查扩到外层函数（循环 / with / 解包 / 局部）后，这 49 行**全部迁走**（38 局部 + 3 循环 + 4 解包），`never_binds` 归零。一个「从不」类只要还占多数，先怀疑它量的是自己的盲区。
+2. **命名能力前先量它到底关了什么** —— 首版把 6 行标成「定义在消息下方的模块常量」，可父面的 `_module_constants` 本来就是**顺序无关**的（同一测试夹具下它也折得动）。真正关掉这 6 行的是 `parents[1]` 这一个下标。于是把类名改成「更宽的折叠能点名的常量」，另用 `closed_by` 单独发布能力，并用一条腿**钉住「父面对模块常量已顺序无关」**这个事实，而不是假设它。
+3. **折叠必须按 writer 自己的路径求 `parents[k]`** —— `Path(__file__).resolve().parents[1]` 是根，只对「脚本在下一层」成立；按 `dirname^k` 对行自己的 relpath 迭代，结论不依赖布局假设，也让 `parents[0]` 这种「脚本目录」有确定的读数。
+4. **格式元组里的面也要算** —— 一参消息（`print("wrote %s + %s" % (...))`）没有第二参，首版直接记成「该行已无渲染调用」（24 行）。按父面的 `Mod` 分支取右侧候选后，这 24 行归零，且其中 2 行正好是那 6 个可折行。
+
+**边界（随面发布）**：只读模块级绑定与平铺导入到 4 层；不跟属性链（`E.PATHS.results_dir`、`config.PATHS` 这类仍是不可折，导入的模块若不在树内则单列 `a_name_imported_from_a_module_outside_the_tree`）；不跟函数返回与 `os.environ`。「可折」只等于「整条表达式从字面量折得出」，不含任何运行期事实。
+
+**正身** = `scripts/e555_unfolded_second_arg.py`（build/check/verify + selftest 19/19）+ `results/state_tilt/UNFOLDEDNAME-2026-11-08.json` + `unfoldedname_latest.json` + S6 腿 `unfolded_second_arg` + smoke 腿 `# E555`（`scripts/run_e555_smoke_leg.py` 1/1 绿，`--doctor` 1/1 红）+ digest `research/digests/DIGEST-20261108-r1581-e555-unfolded-second-arg.md`

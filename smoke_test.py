@@ -23936,5 +23936,73 @@ except Exception as _e554x:
     _d554 = "study could not be read"
 check(_name554, not _bad554, "; ".join(_bad554)[:240] or _d554)
 
+# E555: whether the 67 second arguments the wrote-population scan could not fold are constants
+#   * the population must be E554's own residue, read out of its published face, never retyped *
+#   a folded row must name a face path, publish which capability closed it, and say where its name
+#   is bound * a row that is not folded must name its blocker among its own free names * the fold
+#   classes must partition the rows and the control arm (the published resolver over the same rows)
+#   must fold none of them, or the residue is not what it claims * a doctored copy (hand-written
+#   verdict, a folded row with no closing capability, a blocker outside the free names) is refused
+_name555 = "E555 the unfolded second arguments of the wrote population (r1581 bm-b)"
+_bad555 = []
+try:
+    _m555 = __import__("importlib").import_module("e555_unfolded_second_arg")
+    _f555 = json.load(open(os.path.join("results", "state_tilt", "unfoldedname_latest.json"),
+                           encoding="utf-8"))
+    _s555 = _f555.get("summary") or {}
+    _r555 = _f555.get("rows") or []
+    _bad555.extend(_m555.face_problems(_f555))
+    if not _r555:
+        _bad555.append("the unfolded population is empty")
+    if _s555.get("rows") != len(_r555):
+        _bad555.append("the summary row count is not the face's")
+    if sum((_s555.get("by_fold_class") or {}).values()) != len(_r555):
+        _bad555.append("the fold table does not partition the rows")
+    _fold555 = [r for r in _r555 if r.get("resolution")]
+    if _s555.get("foldable_rows") != len(_fold555):
+        _bad555.append("the foldable count is not the rows that resolved")
+    if _s555.get("control_arm_folds_by_the_published_resolver") not in (0,):
+        _bad555.append("the control arm folded rows of a residue")
+    if any(not str((r.get("resolution") or {}).get("path") or "").startswith(
+            ("results/", "docs/", "data/", "state/", "research/", "knowledge/", "logs/"))
+            for r in _fold555):
+        _bad555.append("a folded row names something that is not a face path")
+    if any(r.get("fold_class") != _m555._rederive_class(r) for r in _r555):
+        _bad555.append("a row's class is not what its own bindings say")
+    if _f555.get("verdict") == _m555.V_SOME_CONSTANTS and not _fold555:
+        _bad555.append("a constants verdict sits beside zero folded rows")
+    if _f555.get("verdict") == _m555.V_ALL_RUNTIME and _fold555:
+        _bad555.append("a no-constants verdict sits beside folded rows")
+    if _r555:
+        _doc555 = json.loads(json.dumps(_f555))
+        _doc555["verdict"] = "a_verdict_this_study_never_publishes"
+        if not _m555.face_problems(_doc555):
+            _bad555.append("a hand-written verdict was accepted")
+        if _fold555:
+            _doc555 = json.loads(json.dumps(_f555))
+            for _r555r in _doc555["rows"]:
+                if _r555r.get("resolution"):
+                    _r555r["closed_by"] = None
+                    break
+            if not any("capability closed it" in _p for _p in _m555.face_problems(_doc555)):
+                _bad555.append("a folded row with no closing capability was accepted")
+        _doc555 = json.loads(json.dumps(_f555))
+        for _r555r in _doc555["rows"]:
+            if not _r555r.get("resolution"):
+                _r555r["blocker"] = "a_name_this_row_never_names"
+                break
+        if not any("name the blocker" in _p for _p in _m555.face_problems(_doc555)):
+            _bad555.append("a blocker outside the row's free names was accepted")
+    _d555 = ("%d rows / %d folded / %d run-time by construction / %d faces named / "
+             "%d control-arm folds / %s"
+             % (len(_r555), len(_fold555), _s555.get("rows_that_are_run_time_by_construction", 0),
+                _s555.get("distinct_faces_named_by_the_folded_rows", 0),
+                _s555.get("control_arm_folds_by_the_published_resolver", 0),
+                _f555.get("verdict")))
+except Exception as _e555x:
+    _bad555.append(repr(_e555x)[:160])
+    _d555 = "study could not be read"
+check(_name555, not _bad555, "; ".join(_bad555)[:240] or _d555)
+
 if __name__ == "__main__":
     sys.exit(main())

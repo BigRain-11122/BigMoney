@@ -2146,6 +2146,13 @@ LEGS = [
     # literal nor a `_latest` pointer).  90 rows name no foldable face and are published as
     # unassessable rather than folded into the at-risk class.  `check` re-derives every class.
     ("wrote_population", ["python", "scripts/e554_wrote_population.py", "check"]),
+    # E555 prices E554's 67-row residue ("a name this scan cannot fold").  It re-reads the rows and asks
+    # what binds each free name: 6 fold once `Path(__file__).resolve().parents[k]` is evaluated against
+    # the writer's own path (all six faces exist on disk), and the other 61 are run-time by
+    # construction -- 38 locals, 10 module constants holding a clock or an argv value, 6 caller
+    # parameters, 4 tuple targets of a helper call, 3 loop targets.  The control arm runs the published
+    # resolver over the same rows and must fold none of them, or the population is not a residue.
+    ("unfolded_second_arg", ["python", "scripts/e555_unfolded_second_arg.py", "check"]),
 ]
 
 

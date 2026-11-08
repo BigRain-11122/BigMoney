@@ -29779,9 +29779,26 @@
    "target": "results/state_tilt/unfoldedname_latest.json",
    "deliverable": "results/state_tilt/UNFOLDEDNAME-<cutoff>.json",
    "source": "E554 (r1580 bm-b): 67 of its 90 unassessable rows carry the same reason \"the second argument is a name this scan cannot fold\", never priced",
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-11-08T18:20:00+08:00",
    "entered_by": "bm-b r1580 (supply floor refill after E554)",
+   "worker_class": "self-contained",
+   "owner": "bm-b",
+   "done_at": "2026-11-08T19:05:00+08:00",
+   "result_ref": "results/state_tilt/UNFOLDEDNAME-2026-11-08.json",
+   "result_line": "of the 67 rows the wrote-population scan called unfoldable, 6 fold once Path(__file__).resolve().parents[k] is evaluated against the writer's path (all six faces exist on disk) and 61 are run-time by construction: 38 enclosing-function locals, 10 module constants holding a clock or an argv value, 6 caller parameters, 4 tuple targets of a helper call, 3 loop targets; the published resolver folds 0 of them (control arm)"
+  },
+  {
+   "id": "E556-WHETHER-THE-SIX-FACES-THAT-CLOSE-UNDER-THE-WIDER-FOLD-SURVIVE-THE-LOSS-OF-THE-MESSAGE-THAT-NAMES-THEM",
+   "title": "E555 moved six of E554's 67 unfolded rows into a named face by evaluating Path(__file__).resolve().parents[k] against the writer's own path, and all six faces exist on disk. A named face is not an announced one: E554's own at-risk arm asks whether the face has a canonical _latest pointer or a source literal naming it. Take the six (capital placement, etf_book_buffer_adoption, etf_book_premium_phases x2, etf_book_voltarget_phase x2) and run that arm on each: publish whether the face is announced anywhere but in the message, whether any reader opens it, and whether the row would have joined E554's at-risk count had the fold reached it -- i.e. whether E554's 8-face at-risk number is short by the rows its evaluator could not see.",
+   "lane": "cpu-only",
+   "lane_note": "static: the six rows are read from E555's published face; announcement and reader detection reuse E554's literal/pointer scan over the same corpus",
+   "target": "results/state_tilt/rescuedface_latest.json",
+   "deliverable": "results/state_tilt/RESCUEDFACE-<cutoff>.json",
+   "source": "E555 (r1581 bm-b): six rows fold once parents[k] is evaluated, all six faces exist on disk, and the parent's at-risk arm was never run over them",
+   "status": "ready",
+   "entered_at": "2026-11-08T19:05:00+08:00",
+   "entered_by": "bm-b r1581 (supply floor refill after E555)",
    "worker_class": "self-contained"
   }
  ],
@@ -29797,6 +29814,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T18:20:00+08:00",
+ "updated_at": "2026-11-08T19:05:00+08:00",
  "version": 1
 }
