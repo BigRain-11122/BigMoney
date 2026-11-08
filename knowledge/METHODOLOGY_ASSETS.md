@@ -14052,3 +14052,19 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 **边界**：只读票文件与 `data/repo_daily/GC001.csv`；不改任何票、不改现金腿算法、不记 ledger 行。「现金腿该印 bar 报价还是窗口均值」是产品决策（另轮 prereg）。
 
 **证据** = scripts/e585_cash_leg_pricing.py（selftest 28/28，build/check/verify 全绿）· results/state_tilt/CASHLEGPRICE-2026-11-06.json + cashlegprice_latest.json · S6 腿 `cash_leg_pricing`（rc0 0.04s）· smoke `# E585` · 本窗腿检 _r1613_legcheck.py · digest research/digests/DIGEST-20261109-r1613-e585-cash-leg-pricing.md
+
+### E584 账本每一行记的那笔钱，是不是记在它自己点名的那根 bar 上（r1614 bm-b·2026-11-09）
+
+**问题**：E583/E585 查的是**票据**；前向账本（`results/etf_book_forward/LEDGER.json`）是这本书唯一在公众面前按日累钱的东西，每行带 `bar`/`nav`/`carry`。两个问题：①每一行是不是**独立的** bar；②行上的 carry 是**这根 bar 所跨的日历天数**的利息（周五的 1 天合约在周末吃 3 天），还是每行都只记 1 天。
+
+**答**：**周末确实吃 3 天，但账本把 6 根 bar 印了两遍**。10-26 与 11-02 两处三日缺口，carry 分别是 3.312e-05 / 3.337e-05，恰是相邻单日行 1.104e-05 的 3 倍——**宽限期按日历计，没被 252 天模型压扁**。可是 `bars` 数组 **17 行只对应 11 根 bar**：10-30、11-02、11-03、11-04、11-05、11-06 各出现两次（行内容逐字相同）。根因在写入侧：一次运行**同时**触发了 rebase（`led["bars"] = _indexed(marks, seed_bar)` 整条重建）与 append（`new_bars` 是按重建**前**的末行算出来的），于是 `extend` 又把刚重建好的 6 根加了第二遍——`rebases[0].ts`=22:35:12 与 `runs[-1]`=22:35:15 `new_bars=6` 是同一次运行，重复日期与这 6 根**逐一对上**。后果不止账面难看：`significance(..., len(led["bars"]))` 吃的是 17，**bar 数被报高 54.55%**，而 significance 块的条数正是这条前向账本「多久才能裁决自己」的尺子（E316 族）。
+
+**教训**：
+- **重放面与增量面在同一函数里必须只有一个真源**——先重建整条序列再 `extend` 增量，等于把增量记账两遍。判据不是「代码看起来还行」，而是**同一根 bar 只准出现一次**这个常量断言。
+- **重复行不会让 nav/dd 变形，所以肉眼与净值都对不出来**：真正被污染的只有**计数类消费面**（significance 的 bar 数、power 的行数）。查这类账本先问「谁在用 len()」，再问「数对不对」。
+- **修复必须走工具自己的逃生口**：把重复行手工从 JSON 里删掉会留下与 `len(bars)` 不一致的 significance 块。正法=在写入侧装守卫（载入时与追加后各去重一次并把丢掉的行打出），再让工具按自己的 `--rebase` 通道重算——账本记录 `rebases` 里多一条 `universe_membership_drift`（宇宙当晚 1613→1624），这是数据事实，不是这次修复制造的。
+- **参考利率不可得时要如实说「没有参考」而不是判错**：回购面板（bm-a 车道）停在 2026-10-28，账本行到 11-06，**6 行没有参考价**；11-05 那行 carry 为负（-3.84e-06）而同一窗口无参考价，只按 `negative_carry` 分类、不宣称它是缺陷。同理，引擎的现金腿是 **GC007/GC014/GC028 三档梯 + 佣金**，合约到期利息会跨 bar 摊分，**用 GC001 单档还原不出来**（`rows_reproducing_the_ladder`=0/11 如实发布、不参与判词）。
+
+**边界**：只读账本与 `data/repo_daily/GC001.csv`；不改任何一行账本内容、不改现金腿算法、不做 alpha 判断。写入侧去重是 `etf_book_forward.py` 的守卫（载入 + 追加两处），账本的修复由**重跑该工具**完成。
+
+**证据** = scripts/e584_ledger_bar_accrual.py（selftest 30/30·build/check/verify 全程）+ results/state_tilt/LEDGERBARS-2026-11-06.json + ledgerbars_latest.json + 修复前原样存档 LEDGERBARS-2026-11-06_defect-as-found.json（17 行/11 根，多记 carry 7.403e-05，按 100 万本金 = 74.03 CNY）+ S6 腿 `ledger_bar_accrual`（rc0 0.04s）+ smoke `# E584` 与 scripts/run_e584_smoke_leg.py（1/1 绿·--doctor 拒收）+ digest research/digests/DIGEST-20261109-r1614-e584-ledger-bar-accrual.md

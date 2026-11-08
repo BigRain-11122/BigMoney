@@ -2339,6 +2339,14 @@ LEGS = [
     # whose numbers disagree.
     ("cash_leg_pricing",
      ["python", "scripts/e585_cash_leg_pricing.py", "check"]),
+    # E584 (r1614 bm-b): the forward ledger is the artefact that accrues money in public, and one
+    # run both rebased (rebuilding the whole series) and appended the six bars it had already
+    # rebuilt -- the record published 17 rows over 11 bars, and the significance block was fed all
+    # 17, so its bar count read +54.55% of what exists.  The writer now keeps one row per bar at
+    # load and after append; `check` re-derives every row's class, the duplicate's carry in CNY,
+    # and the bar-count inflation, and refuses a duplicate relabelled as an accruing row.
+    ("ledger_bar_accrual",
+     ["python", "scripts/e584_ledger_bar_accrual.py", "check"]),
 ]
 
 

@@ -30266,11 +30266,15 @@
    "lane": "cpu-only",
    "lane_note": "static: read results/etf_book_forward/LEDGER.json + results/etf_book_order/ledger.jsonl and compare each row's date against the decision bar and the return series it was accrued from; no runner",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E582 (r1611 bm-b): the defect one layer up was a ticket printing one bar's prices while naming another. The forward ledger accrues the same book from a return series -- if a row's date and the bar its return came from can disagree, the published NAV curve is the same class of error and nobody has asked.",
    "target": "results/etf_book_forward/ACCRUALBAR.json",
    "deliverable": "results/etf_book_forward/ACCRUALBAR.json",
-   "title": "For every accrued row in the forward ledger, publish whether the date on the row is the bar whose return it charges, whether the decision that set k was in force at that bar, and whether any row silently carries a return from a bar before the one it names. Same question as E582 one layer down: a number is only as trustworthy as its ability to say which bar it came from."
+   "title": "For every accrued row in the forward ledger, publish whether the date on the row is the bar whose return it charges, whether the decision that set k was in force at that bar, and whether any row silently carries a return from a bar before the one it names. Same question as E582 one layer down: a number is only as trustworthy as its ability to say which bar it came from.",
+   "claimed_by": "bm-b",
+   "done_at": "2026-11-09T05:25:11+0800",
+   "result_ref": "results/state_tilt/LEDGERBARS-2026-11-06.json",
+   "card": "E584"
   },
   {
    "id": "E585-WHETHER-THE-CASH-LEG-ON-A-TICKET-IS-PRICED-ON-THE-BAR-THE-FILE-NAMES",
@@ -30316,6 +30320,20 @@
    "entered_at": "2026-11-09T05:05:00+08:00",
    "entered_by": "bm-b r1612",
    "evidence_cutoff": "2026-11-06"
+  },
+  {
+   "id": "E588-WHETHER-ANY-READER-OF-THE-LEDGER-TAKES-ITS-BAR-COUNT-AS-A-DENOMINATOR",
+   "lane": "cpu-only",
+   "lane_note": "static: name-match every opener of results/etf_book_forward/LEDGER.json and ask whether it reads len(bars)/the last bar as a count or a denominator; no runner, no rebuild",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E584 (r1614 bm-b): a run that rebased and appended published 6 bars twice, so the ledger's bar list was 17 rows over 11 bars and the significance block was fed all 17 (+54.55%). The record is repaired, but the class of consumer that could not tell has not been enumerated: any reader that uses the row count as a denominator (per-bar averages, power tables, 'bars since seed') inherits whatever the file holds.",
+   "target": "results/state_tilt/LEDGERROWCOUNT.json",
+   "deliverable": "results/state_tilt/LEDGERROWCOUNT.json",
+   "title": "For every in-repo consumer of the forward ledger (the writer's own len(led['bars']) legs, the monthly exam, ceo_live_usage, dashboard/status faces, any monitor script), publish whether it uses the row count as a denominator or a bar lookup as a key, and whether it would have noticed the duplicated record",
+   "entered_at": "2026-11-09T05:25:11+0800",
+   "entered_by": "bm-b",
+   "evidence_cutoff": "2026-11-06"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30330,6 +30348,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T05:25:00+08:00",
+ "updated_at": "2026-11-09T05:25:11+0800",
  "version": 1
 }

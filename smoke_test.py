@@ -25349,5 +25349,72 @@ except Exception as _e585x:
 check(_name585, not _bad585, "; ".join(_bad585)[:240] or _d585)
 
 
+# E584: the forward ledger is the one artefact of this book that accrues money in public, and its
+# rows are the record a follower reads.  A run that rebased and appended published six bars twice
+# (17 rows / 11 bars) and the significance block was fed all 17, so the bar count it reports was
+# +54.55% of what exists (r1614 bm-b).  This leg reads the published face and refuses the ways it
+# could be a wish: rows that are not the ledger's rows, a record with no duplicate that still
+# charges itself extra carry, a multi-day gap carrying no class, and a duplicate relabelled as an
+# accruing row.
+_name584 = "E584 whether the forward ledger accrues on the bar each row names (r1614 bm-b)"
+_bad584 = []
+_d584 = "no reading"
+try:
+    _p584 = os.path.join("results", "state_tilt", "ledgerbars_latest.json")
+    _f584 = json.load(open(_p584, encoding="utf-8"))
+    _s584 = _f584.get("summary") or {}
+    _r584 = _f584.get("rows") or []
+    _led584 = json.load(open(os.path.join("results", "etf_book_forward", "LEDGER.json"),
+                            encoding="utf-8"))
+    _m584 = importlib.import_module("e584_ledger_bar_accrual")
+    _bad584.extend(_m584.face_problems(_f584))
+    if len(_r584) != len(_led584.get("bars") or []):
+        _bad584.append("the face's rows are not the ledger's rows")
+    if [r.get("bar") for r in _r584] != [b.get("bar") for b in _led584.get("bars") or []]:
+        _bad584.append("the face's bars are not the ledger's bars in order")
+    if not _s584.get("duplicated_bars"):
+        if abs(float(_s584.get("duplicating_extra_carry") or 0.0)) > 1e-15:
+            _bad584.append("a record with no duplicated bar still books extra carry")
+        if abs(float(_s584.get("bar_count_inflation_pct") or 0.0)) > 1e-9:
+            _bad584.append("a record with no duplicated bar reports a bar-count inflation")
+    _multi584 = [r for r in _r584 if (r.get("gap_days") or 0) > 1 and not r.get("is_duplicate")]
+    if any(r.get("class") not in (_m584.C_GAP, _m584.C_UNDER, _m584.C_NEG, _m584.C_NO_RATE)
+           for r in _multi584):
+        _bad584.append("a multi-day gap carries no class")
+    # the duplicate arm is exercised on a synthetic row: the repaired record has no duplicate on
+    # disk, and a doctoring loop that finds nothing would pass without testing anything (r1339)
+    _syn584 = {"study": "E584", "rows": json.loads(json.dumps(_r584)), "summary": dict(_s584)}
+    _dup584 = dict(_syn584["rows"][-1])
+    _dup584["is_duplicate"] = True
+    _dup584["class"] = _m584.C_DUP
+    _syn584["rows"].append(_dup584)
+    _syn584["summary"] = _m584.summarise(_syn584["rows"], _led584)
+    _syn584["verdict"] = _m584.verdict_of(_syn584["summary"])
+    if _m584.face_problems(_syn584):
+        _bad584.append("the guard refused a synthetic duplicated record it should accept")
+    _doc584 = json.loads(json.dumps(_syn584))
+    _doc584["rows"][-1]["class"] = _m584.C_GAP
+    if not _m584.face_problems(_doc584):
+        _bad584.append("a duplicate row relabelled as an accruing row was accepted")
+    _doc584b = json.loads(json.dumps(_syn584))
+    _doc584b["summary"]["duplicating_extra_cny"] = 999.0
+    if not _m584.face_problems(_doc584b):
+        _bad584.append("an extra-cny that does not re-derive was accepted")
+    _d584 = ("rows=%d distinct=%d dup=%d gaps=%d multi_day=%d no_ref=%d extra_cny=%s "
+             "bar_count=%s/%s | %s"
+             % (_s584.get("rows_published", 0), _s584.get("distinct_bars", 0),
+                _s584.get("duplicated_bars", 0),
+                _s584.get("rows_that_pay_the_calendar_gap", 0),
+                _s584.get("multi_day_gaps", 0),
+                _s584.get("rows_without_a_reference_rate", 0),
+                _s584.get("duplicating_extra_cny"),
+                _s584.get("significance_bar_count_published"),
+                _s584.get("significance_bar_count_distinct"), _f584.get("verdict")))
+except Exception as _e584x:
+    _bad584.append(repr(_e584x)[:160])
+    _d584 = "study could not be read"
+check(_name584, not _bad584, "; ".join(_bad584)[:240] or _d584)
+
+
 if __name__ == "__main__":
     sys.exit(main())

@@ -644,6 +644,24 @@ def _indexed(marks, seed_bar):
     return out
 
 
+def _dedupe_bars(bars):
+    """Keep one row per bar, in file order, and say what was dropped.
+
+    A rebase rebuilds the whole series while ``new_bars`` was computed from the pre-rebase list,
+    so a run that both rebases and appends used to publish those bars twice (E584, r1614: six
+    rows doubled, and the significance block was fed 17 bars where 11 exist).
+    """
+    out, seen = [], {}
+    for b in bars:
+        bar = b.get("bar")
+        if bar in seen:
+            seen[bar] += 1
+            continue
+        seen[bar] = 0
+        out.append(b)
+    return out, {k: v for k, v in seen.items() if v}
+
+
 def _engine_block(fwd):
     """Which return path and which cash leg produced these marks (re-read by a human)."""
     return {
@@ -801,6 +819,11 @@ def run(rebase=False):
               "and rerun with --rebase to adopt the re-derived history", flush=True)
         return 3
 
+    led["bars"], dup = _dedupe_bars(led["bars"])
+    if dup:
+        print("DEDUPED %d duplicated bar rows already on disk: %s" %
+              (sum(dup.values()), ",".join(sorted(dup))), flush=True)
+
     fwd, marks, dates, cls, n_flip = compute_marks()
     seed_bar = led["seed"]["bar"]
     fresh = {b["bar"]: b for b in _indexed(marks, seed_bar)}
@@ -886,6 +909,12 @@ def run(rebase=False):
         return 0
 
     led["bars"].extend(new_bars)
+    # the rebase above may already hold the bars in new_bars (E584): one row per bar, or the
+    # drawdown pass and the significance bar count both read a doubled record
+    led["bars"], dup2 = _dedupe_bars(led["bars"])
+    if dup2:
+        print("DEDUPED %d bar rows the rebase had already published: %s" %
+              (sum(dup2.values()), ",".join(sorted(dup2))), flush=True)
     # peak must be re-derived across the whole published series after appending
     peak = 1.0
     for b in led["bars"]:
