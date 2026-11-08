@@ -1,0 +1,395 @@
+{
+ "face": "etf_book_wrapper_year_gate",
+ "asof": "2026-11-08T19:25:15+0800",
+ "evidence_cutoff": "2026-11-06",
+ "question": "does the object the desk executes (book + beta overlay + repo cash) face the same calendar verdict as the book the gate judges?",
+ "wrapper": {
+  "source": "scripts/etf_phase_beta_target.py + scripts/etf_phase_beta_window.py (both imported; the ticket in scripts/etf_book_order.py uses the same two)",
+  "beta_target": 0.2,
+  "k_rule": "k = min(1, max(0, beta_target / expanding_beta)), decision on close applies next bar",
+  "cost_bp_per_k_change": 8.0,
+  "cash_leg": "GC001 observed close, accrued over the calendar gap",
+  "cash_dates_missing": 0,
+  "k_mean_window": 0.9958,
+  "k_min_window": 0.8171,
+  "n_decisions": 77
+ },
+ "window": {
+  "first": "2020-07-17",
+  "last": "2026-11-06",
+  "bars": 1529,
+  "why": "the overlay only lives from the first beta estimate; both arms are judged on that same later window (no warm-up for the plain arm)"
+ },
+ "books": [
+  {
+   "verdict": "CONDITIONAL",
+   "capacity_checked": false,
+   "cagr_pct": 11.63,
+   "capacity_cny_1day_5pct": null,
+   "year_metrics": {
+    "years": 7,
+    "positive_years": 7,
+    "median": 5.473,
+    "worst": 0.6171,
+    "best": 43.0627,
+    "annual_sum": 76.0677,
+    "top2_share": 0.7574,
+    "worst_full_only": 2.8393,
+    "top2_share_full_only": 0.7833
+   },
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": null
+   },
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 0.6170607196690048,
+     "cohorts": 1,
+     "partial": true
+    },
+    {
+     "year": "2021",
+     "net_pct": 7.628116174581678,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": 2.8392743924003705,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 5.473011567332842,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 14.549563099483409,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 43.062681571816256,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": 1.8979707833962411,
+     "cohorts": 3,
+     "partial": true
+    }
+   ],
+   "partial_years": [
+    {
+     "year": "2020",
+     "net_pct": 0.6170607196690048,
+     "cohorts": 1,
+     "approx_months_of_evidence": 2.9
+    },
+    {
+     "year": "2026",
+     "net_pct": 1.8979707833962411,
+     "cohorts": 3,
+     "approx_months_of_evidence": 8.6
+    }
+   ],
+   "gate_conflict": null,
+   "book": "plain_book_n5_r20_vt08",
+   "note": "the adopted book as the year gate already judges it (r1429/r1435)",
+   "yearly_returns_pct": {
+    "2020": 0.6171,
+    "2021": 7.6281,
+    "2022": 2.8393,
+    "2023": 5.473,
+    "2024": 14.5496,
+    "2025": 43.0627,
+    "2026": 1.898
+   },
+   "yearly_bars": {
+    "2020": 114,
+    "2021": 243,
+    "2022": 242,
+    "2023": 242,
+    "2024": 242,
+    "2025": 243,
+    "2026": 203
+   }
+  },
+  {
+   "verdict": "CONDITIONAL",
+   "capacity_checked": false,
+   "cagr_pct": 11.61,
+   "capacity_cny_1day_5pct": null,
+   "year_metrics": {
+    "years": 7,
+    "positive_years": 7,
+    "median": 5.473,
+    "worst": 0.4785,
+    "best": 43.0627,
+    "annual_sum": 75.9291,
+    "top2_share": 0.7588,
+    "worst_full_only": 2.8393,
+    "top2_share_full_only": 0.7833
+   },
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": null
+   },
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 0.47851042076780814,
+     "cohorts": 1,
+     "partial": true
+    },
+    {
+     "year": "2021",
+     "net_pct": 7.628116174581656,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": 2.839274392400104,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 5.473011567333019,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 14.549563099483409,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 43.06268157181605,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": 1.897970783396219,
+     "cohorts": 3,
+     "partial": true
+    }
+   ],
+   "partial_years": [
+    {
+     "year": "2020",
+     "net_pct": 0.47851042076780814,
+     "cohorts": 1,
+     "approx_months_of_evidence": 2.9
+    },
+    {
+     "year": "2026",
+     "net_pct": 1.897970783396219,
+     "cohorts": 3,
+     "approx_months_of_evidence": 8.6
+    }
+   ],
+   "gate_conflict": null,
+   "book": "book_plus_execution_wrapper",
+   "note": "THE JUDGED BOOK through the ticket's own wrapper: beta 0.20 overlay, k = target/beta clipped [0,1], observed GC001 cash on the remainder. k stays near 1 because the 8% vol target already held beta near 0.20",
+   "yearly_returns_pct": {
+    "2020": 0.4785,
+    "2021": 7.6281,
+    "2022": 2.8393,
+    "2023": 5.473,
+    "2024": 14.5496,
+    "2025": 43.0627,
+    "2026": 1.898
+   },
+   "yearly_bars": {
+    "2020": 114,
+    "2021": 243,
+    "2022": 242,
+    "2023": 242,
+    "2024": 242,
+    "2025": 243,
+    "2026": 203
+   },
+   "sizing_scale_by_year": {
+    "2020": 0.9441,
+    "2021": 1.0,
+    "2022": 1.0,
+    "2023": 1.0,
+    "2024": 1.0,
+    "2025": 1.0,
+    "2026": 1.0
+   },
+   "cash_carry_pp_per_year": {
+    "2020": 1.208,
+    "2021": 0.0,
+    "2022": 0.0,
+    "2023": 0.0,
+    "2024": 0.0,
+    "2025": 0.0,
+    "2026": 0.0
+   }
+  },
+  {
+   "verdict": "ADMIT",
+   "capacity_checked": true,
+   "cagr_pct": 7.15,
+   "capacity_cny_1day_5pct": 48664681.0,
+   "year_metrics": {
+    "years": 7,
+    "positive_years": 7,
+    "median": 3.4877,
+    "worst": 2.1025,
+    "best": 23.2517,
+    "annual_sum": 44.3191,
+    "top2_share": 0.6752,
+    "worst_full_only": 2.4042,
+    "top2_share_full_only": 0.7757
+   },
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true,
+    "C1_capacity": true
+   },
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 2.102493863860988,
+     "cohorts": 1,
+     "partial": true
+    },
+    {
+     "year": "2021",
+     "net_pct": 3.4877278942822887,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": 2.7609287882798483,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 2.4041726614168812,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 6.670682251589732,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 23.251700194608894,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": 3.6413856666896782,
+     "cohorts": 3,
+     "partial": true
+    }
+   ],
+   "partial_years": [
+    {
+     "year": "2020",
+     "net_pct": 2.102493863860988,
+     "cohorts": 1,
+     "approx_months_of_evidence": 2.9
+    },
+    {
+     "year": "2026",
+     "net_pct": 3.6413856666896782,
+     "cohorts": 3,
+     "approx_months_of_evidence": 8.6
+    }
+   ],
+   "gate_conflict": null,
+   "book": "ticket_construction_plain_plus_overlay",
+   "note": "the series scripts/etf_book_order.py actually accrues: untargeted book, same beta-0.20 overlay, repo cash -- this is what the money is in",
+   "yearly_returns_pct": {
+    "2020": 2.1025,
+    "2021": 3.4877,
+    "2022": 2.7609,
+    "2023": 2.4042,
+    "2024": 6.6707,
+    "2025": 23.2517,
+    "2026": 3.6414
+   },
+   "yearly_bars": {
+    "2020": 115,
+    "2021": 243,
+    "2022": 242,
+    "2023": 242,
+    "2024": 242,
+    "2025": 243,
+    "2026": 203
+   },
+   "sizing_scale_by_year": {
+    "2020": 0.232,
+    "2021": 0.2498,
+    "2022": 0.3127,
+    "2023": 0.3532,
+    "2024": 0.3941,
+    "2025": 0.473,
+    "2026": 0.4591
+   },
+   "cash_carry_pp_per_year": {
+    "2020": 2.0885,
+    "2021": 1.8198,
+    "2022": 1.455,
+    "2023": 1.5972,
+    "2024": 1.2395,
+    "2025": 0.8985,
+    "2026": 0.7298
+   },
+   "k_last": 0.464029,
+   "ticket_k_now": 0.460253,
+   "k_gap_vs_ticket": 0.003776
+  }
+ ],
+ "checks_flipped": [],
+ "compression_note": "the wrapper owns 1-k of its own book; a pass that comes from owning less is a pass about exposure, not about the book",
+ "data": {
+  "flips_repaired": 169,
+  "bond_free_universe": 1515,
+  "live_picks": [
+   "512040",
+   "159519",
+   "515450",
+   "510760",
+   "515300"
+  ],
+  "live_picks_asof": "2026-11-06",
+  "market_column": "510300",
+  "turnover_per_side": 1.0803
+ },
+ "honest": [
+  "the plain arm here is judged on the wrapper's shorter window, so its verdict may differ from results/etf_book_year_gate/YEAR-GATE.json (2020 start)",
+  "the wrapper is a de-risking overlay: beta 0.20 with an expanding beta estimate means k < 1 in most bars, and the cash leg is the published repo panel",
+  "no ticket, ledger or order file is read or written here -- this prices the wrapper's shape with the same components, not this morning's fills"
+ ],
+ "elapsed_sec": 48.8
+}
