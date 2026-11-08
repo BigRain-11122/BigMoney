@@ -14085,3 +14085,19 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 **边界**：只读账本 + 票面 + `data/repo_daily/GC001.csv`；不写账本、不改票、不判 alpha。窗口效应与工具效应只是频度拆分，不能升格为收益判断。
 
 **证据** = scripts/e587_cash_window.py（selftest 13/13，build/check/verify 全绿）→ results/etf_book_order/CASHWINDOW.json + CASHWINDOW-latest.json + S6 腿 `cash_window`（rc0 0.04s）+ smoke `# E587`（独立腿 _r1615_legcheck.py problems=[]）+ digest research/digests/DIGEST-20261109-r1615-e587-cash-window.md
+
+### E589 票面的现金年化必须带着它自己那扇窗口出门（r1616 bm-b·2026-11-09）
+
+**问题**：E587 量出票面 `cash_leg.mean_accrual_ann_pct` 印的是 2020-01-02..cutoff 的整窗均值（2.079%/yr），而账本按自己的 bar 累出 0.85%/yr；两张面都不写自己用的哪扇窗。这一轮改写入侧：让票面的 `cash_leg` 块把**自己的参数**印在同一行。
+
+**读数（改动后重新发出的 TICKET-2026-11-06.json）**：`window_start=2020-01-02`、`window_end=2026-11-06`、`window_bars=1658`、`window_calendar_days=2500`、`bars_per_year=252`、`method="mean of bar-to-bar GC001 accrual over this window x bars_per_year"`、`is_a_window_mean_not_a_priced_leg=true`；旁边并排印本 bar 的报价 **1.09%**，附注 **"no GC001 quote on this bar; nearest prior quote is 2026-10-27"**，并把 `repo_panel_last_bar=2026-10-27` 一起印出来。账本侧 `ledger` 块由行数改为读回文件：`accrued_rows_on_disk=688 == accrued_bars_on_disk=688`（`rows_equal_bars=true`，E584 的去重守卫在生效）、`bar_from=2024-01-02`、`bar_to=2026-11-06`。
+
+**教训**：
+- **一个均值字段旁边必须有它的参数，否则读者只能拿两个数比大小**：窗口 2.079% 与本 bar 1.09% 相差 0.99pp，差的是窗口不是能力；把 `window_*` + `bars_per_year` + `method` 三个字段落在同一块里，读者才可能看出「这不是一根 bar 的价」。E587 卡面提的正是这条，这一轮把它落到产物形状上。
+- **「本 bar 没有报价」要印成一句话，不能印成 null**：本 bar 2026-11-06 的回购面板停在 2026-10-27，`ticket_bar_quote_pct=1.09` 是**8 根 bar 之前**的报价。若只印 1.09，读者会以为这就是本 bar 的价——所以 `ticket_bar_quote_note` 是面的一部分，verify 腿把「有 panel、无 note」判红。
+- **行数不是 bar 数**：`ledger.bars` 是写入侧计数器，读者拿它当分母就等于信任记录本身。正法=读回文件、发布 `accrued_bars_on_disk` 与 `rows_equal_bars`，让「重复行」这类旧病一露就现。
+- **改写入侧要同轮重发一张票**：只改代码不重发票面，盘上就同时存在两种形状（E583 的教训同族）。
+
+**边界**：只改 `scripts/etf_book_order.py` 的现金腿块与账本块 + 重发一张票；不动现金腿算法、不改账本任何一行、不碰 alpha、无 GPU、无云端。
+
+**证据** = scripts/etf_book_order.py（selftest 53/53，新增 leg40/40b/40c/40d）→ results/etf_book_order/TICKET-2026-11-06.json + ORDER-2026-11-06.md（操作页新增「现金腿口径」一行）+ S6 leg `cash_leg_window`（`--verify-cash-window`，rc0 0.59s）

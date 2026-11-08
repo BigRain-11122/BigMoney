@@ -306,13 +306,29 @@
  "cash_leg": {
   "source": "data/repo_daily/GC001.csv",
   "mean_accrual_ann_pct": 2.079,
-  "missing_bar_steps": 7
+  "missing_bar_steps": 7,
+  "method": "mean of bar-to-bar GC001 accrual over this window x bars_per_year",
+  "is_a_window_mean_not_a_priced_leg": true,
+  "bars_per_year": 252,
+  "window_start": "2020-01-02",
+  "window_end": "2026-11-06",
+  "window_bars": 1658,
+  "window_calendar_days": 2500,
+  "ticket_bar": "2026-11-06",
+  "ticket_bar_quote_pct": 1.09,
+  "ticket_bar_quote_note": "no GC001 quote on this bar; nearest prior quote is 2026-10-27",
+  "repo_panel_last_bar": "2026-10-27"
  },
  "ledger": {
   "bars": 688,
   "nav": 1.46793171,
   "rows_added": 0,
-  "engine_naive_vs_ledger": null
+  "engine_naive_vs_ledger": null,
+  "accrued_rows_on_disk": 688,
+  "accrued_bars_on_disk": 688,
+  "bar_from": "2024-01-02",
+  "bar_to": "2026-11-06",
+  "rows_equal_bars": true
  },
  "width_disclosure": {
   "ticket_names": 5,
@@ -332,15 +348,15 @@
    "vol": 0.0879
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1139,
-    "card_width_cagr": 0.0983,
-    "pp": -1.56
-   },
    "vol": {
     "ticket_width_cagr": 0.1229,
     "card_width_cagr": 0.1257,
     "pp": 0.28
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1139,
+    "card_width_cagr": 0.0983,
+    "pp": -1.56
    }
   },
   "rules_differ": true,

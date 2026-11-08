@@ -2,6 +2,20 @@
  "_stamp_note": "r1611 bm-b: E582 burned in-round (the ticket now prices on the bar it names; the error lives in the share counts, not the amount line). Seeded E583 (re-issue the five remaining tickets + one correction table) and E584 (does the forward ledger accrue on the bar its rows name).",
  "entries": [
   {
+   "id": "E590-WHETHER-THE-REPO-PANEL-LEAVING-THE-CASH-LEG-UNQUOTED-IS-PRICED-ANYWHERE",
+   "lane": "cpu-only",
+   "lane_note": "static: read data/repo_daily/GC001.csv + every published ticket's cash_leg block and count the bars each ticket's window has no quote for; no runner, no fetch, no panel write",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E589 (r1616 bm-b): the ticket names 2026-11-06 and the repo panel it prices from ends 2026-10-27, so the quote printed beside the window is 8 bars old and the window itself carries 7 steps with no quote at all (accrued as 0). The face now discloses both; nobody has priced what the silence is worth.",
+   "target": "results/etf_book_order/CASHSILENCE.json",
+   "deliverable": "results/etf_book_order/CASHSILENCE.json: per ticket, the unquoted bar steps in its window, the CNY left accruing nothing at the quoted rate, and the age of the nearest prior quote",
+   "title": "Every published ticket prices its cash leg off a repo panel that ends earlier than the book's own bar. Publish, per ticket, how many steps of its window carry no quote at all, what those steps would have earned at the nearest prior quote, and whether the panel's staleness is the same 8 bars for every bar the book has processed since 2026-10-27.",
+   "entered_at": "2026-11-09T05:58:00+08:00",
+   "entered_by": "bm-b r1616",
+   "evidence_cutoff": "2026-11-06"
+  },
+  {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
    "entered_at": "2026-10-21T05:40:00+08:00",
    "entered_by": "bm-b r1118",
@@ -30344,14 +30358,20 @@
    "lane": "cpu-only",
    "lane_note": "product: code change in scripts/etf_book_order.py cash_leg block + a rebuilt ticket; no runner, no engine change",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E587 (r1615 bm-b): neither cash face names the window it used, and the two disagree by 1.24pp/yr; a reader cannot tell a priced leg from a seven-year mean.",
    "target": "results/etf_book_order/TICKET-<cutoff>.json",
    "deliverable": "the cash_leg block names window_start, window_bars, day_count, repo_panel_last_bar and the quote on the ticket bar, so the printed number carries its own parameter",
    "title": "Make the ticket's cash_leg block publish the window it actually feeds (2020-01-01..cutoff, bar count, 252) beside the repo quote on the ticket bar and the panel's last bar, and re-issue one ticket to show the shape; the ledger side keeps its own carry note but publishes the bar list it accrued over.",
    "entered_at": "2026-11-09T05:52:00+08:00",
    "entered_by": "bm-b r1615",
-   "evidence_cutoff": "2026-11-06"
+   "evidence_cutoff": "2026-11-06",
+   "claimed_by": "bm-b",
+   "done_at": "2026-11-09T05:58:00+08:00",
+   "done_by": "bm-b r1616",
+   "done_round": "r1616",
+   "result_ref": "results/etf_book_order/TICKET-2026-11-06.json + ORDER-2026-11-06.md (cash_leg block now carries window_start/window_end/window_bars/window_calendar_days/bars_per_year/method/ticket_bar_quote_pct/ticket_bar_quote_note/repo_panel_last_bar; ledger block publishes accrued bars on disk); script scripts/etf_book_order.py (selftest 53/53); S6 leg cash_leg_window",
+   "done_note": "r1616 bm-b: the re-issued 2026-11-06 ticket now prints its own window -- 2020-01-02..2026-11-06, 1658 bars, x252 -- beside the ticket bar's quote 1.09%, which the note discloses is the 2026-10-27 quote because the repo panel ends 8 bars early; the ledger block reads the file back (688 rows / 688 bars, rows_equal_bars true) instead of trusting its own counter"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

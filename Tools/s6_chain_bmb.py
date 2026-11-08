@@ -2357,6 +2357,14 @@ LEGS = [
     # the ladder whose own numbers disagree.
     ("cash_window",
      ["python", "scripts/e587_cash_window.py", "check"]),
+    # E589 (r1616 bm-b): E587 showed the two cash faces keep different windows and that neither
+    # of them named one.  The producer's fix is that the ticket's cash_leg block now carries its
+    # own parameters -- window_start/end/bars, bars_per_year, the method sentence, the repo
+    # panel's last bar and the quote (or its absence) on the ticket bar -- and the ledger block
+    # publishes the bars it accrued over instead of a bare row count.  `--verify-cash-window`
+    # reads the published ticket back and refuses a block that names a mean without its window.
+    ("cash_leg_window",
+     ["python", "scripts/etf_book_order.py", "--verify-cash-window"]),
 ]
 
 

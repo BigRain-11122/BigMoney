@@ -321,8 +321,15 @@ def card(ticket, mk, sched, asof, beta, extra):
               "k=%.2f（书内 %.0f%%、现金 %.0f%%）｜ 现金腿=%s ｜ 现金 ¥%s"
               % (ticket["beta_k"], ticket["book_weight"] * 100,
                  ticket["cash_weight"] * 100, ticket["cash_leg"],
-                 format(int(ticket["cash_amount"]), ",")),
-              "", "| 代码 | 权重 | 类别 | 参考价 | 手数 | 股数 | 金额 |", "|---|---|---|---|---|---|---|"]
+                 format(int(ticket["cash_amount"]), ","))]
+        _cl = extra.get("cash_leg") or {}
+        if _cl:
+            L.append("现金腿口径：%s（窗口 %s..%s，%d 根 bar，年化 %s%%；本 bar 报价 %s%%——%s）"
+                     % (_cl.get("method"), _cl.get("window_start"), _cl.get("window_end"),
+                        _cl.get("window_bars") or 0, _cl.get("mean_accrual_ann_pct"),
+                        _cl.get("ticket_bar_quote_pct"),
+                        _cl.get("ticket_bar_quote_note")))
+        L += ["", "| 代码 | 权重 | 类别 | 参考价 | 手数 | 股数 | 金额 |", "|---|---|---|---|---|---|---|"]
         for r in ticket["order"]:
             L.append("| %s | %.1f%% | %s | %s | %s | %s | %s |"
                      % (r["symbol"], r["weight"] * 100, r.get("class") or "?",
@@ -509,6 +516,121 @@ def panel_breadth(close):
             "newest_bar_dense_enough": str(ref.date()) if ref is not None else None,
             "bars_since_dense": (int((close.index > ref).sum())
                                  if ref is not None else None)}
+
+
+# ------------------------------------------------------------------ cash leg (E589)
+CASH_LEG_SOURCE = "data/repo_daily/GC001.csv"
+CASH_LEG_METHOD = "mean of bar-to-bar GC001 accrual over this window x bars_per_year"
+
+
+def cash_leg_block(cash_rf, missing, idx, rates, ticket_bar):
+    """Publish the window the printed cash accrual actually averages (E589).
+
+    ``cash_rf`` is the bar-to-bar GC001 accrual over the whole backtest index, so its mean
+    times 252 is a WINDOW mean, never the quote on the bar the ticket names. Printing the
+    number without its window let a 2020-onward mean pass for a priced leg: the tickets
+    printed 2.08%/yr while the same book's forward ledger accrued 0.85%/yr over its own
+    bars (E587). Every field here is a parameter of that printed number, and the quote on
+    the ticket bar is carried beside it so a reader can see the two are different things.
+    """
+    idx = pd.DatetimeIndex(idx)
+    block = {"source": CASH_LEG_SOURCE,
+             "mean_accrual_ann_pct": (round(float(cash_rf.mean() * 252.0) * 100, 3)
+                                      if len(cash_rf) else None),
+             "missing_bar_steps": int(missing),
+             "method": CASH_LEG_METHOD,
+             "is_a_window_mean_not_a_priced_leg": True,
+             "bars_per_year": 252,
+             "window_start": str(idx[0].date()) if len(idx) else None,
+             "window_end": str(idx[-1].date()) if len(idx) else None,
+             "window_bars": int(len(idx)),
+             "window_calendar_days": (int((idx[-1] - idx[0]).days) if len(idx) else None),
+             "ticket_bar": str(ticket_bar.date()) if ticket_bar is not None else None,
+             "ticket_bar_quote_pct": None,
+             "ticket_bar_quote_note": "repo panel is empty",
+             "repo_panel_last_bar": (str(rates.index[-1].date()) if len(rates) else None)}
+    if len(rates) and ticket_bar is not None:
+        pos = int(rates.index.searchsorted(ticket_bar, side="right")) - 1
+        if pos >= 0:
+            block["ticket_bar_quote_pct"] = round(float(rates.iloc[pos]), 4)
+            if rates.index[pos] == ticket_bar:
+                block["ticket_bar_quote_note"] = "GC001 close quoted on this bar"
+            else:
+                block["ticket_bar_quote_note"] = (
+                    "no GC001 quote on this bar; nearest prior quote is %s"
+                    % str(rates.index[pos].date()))
+    return block
+
+
+def ledger_block(state, merged, drift, out_dir=None):
+    """Publish the bars the forward ledger actually accrued over (E589).
+
+    The writer's own ``bars`` counter is a row count, so it cannot say which bars those rows
+    sit on. Reading the file back makes the accrued bar list part of the published face --
+    the ticket's cash window and the ledger's carry can then be compared by a reader.
+    """
+    out_dir = out_dir or OUT_DIR
+    dates = []
+    path = os.path.join(out_dir, "ledger.jsonl")
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    d = json.loads(line).get("date")
+                except ValueError:
+                    continue
+                if d:
+                    dates.append(d)
+    uniq = sorted(set(dates))
+    return {"bars": int(state.get("rows", 0)), "nav": round(float(state.get("nav", 1.0)), 8),
+            "rows_added": len(merged), "engine_naive_vs_ledger": drift,
+            "accrued_rows_on_disk": len(dates), "accrued_bars_on_disk": len(uniq),
+            "bar_from": uniq[0] if uniq else None, "bar_to": uniq[-1] if uniq else None,
+            "rows_equal_bars": len(dates) == len(uniq)}
+
+
+def verify_cash_leg_window(path=None):
+    """Re-check a published ticket's cash_leg block carries its own window (E589).
+
+    A receipt check, not a rebuild: the block must name the window, the bar count, the bars
+    per year, the repo panel's last bar and the quote (or its absence) on the ticket bar,
+    and its window must not be silently replaced by that single quote.
+    """
+    path = path or os.path.join(OUT_DIR, "TICKET-latest.json")
+    latest = os.path.join(OUT_DIR, "latest.json")
+    if not os.path.exists(path) and os.path.exists(latest):
+        with open(latest, encoding="utf-8") as f:
+            path = os.path.join(OUT_DIR, json.load(f)["file"])
+    problems = []
+    if not os.path.exists(path):
+        return {"ok": False, "problems": ["no published ticket to check: %s" % path]}
+    with open(path, encoding="utf-8") as f:
+        doc = json.load(f)
+    blk = doc.get("cash_leg") or {}
+    for key in ("window_start", "window_end", "window_bars", "bars_per_year", "method",
+                "repo_panel_last_bar", "ticket_bar", "ticket_bar_quote_note",
+                "is_a_window_mean_not_a_priced_leg"):
+        if key not in blk:
+            problems.append("cash_leg block is missing %r" % key)
+    if blk.get("window_bars") in (None, 0):
+        problems.append("cash_leg block names no window bars")
+    if blk.get("bars_per_year") != 252:
+        problems.append("bars_per_year is %r, expected 252" % blk.get("bars_per_year"))
+    if blk.get("is_a_window_mean_not_a_priced_leg") is not True:
+        problems.append("the block does not say the number is a window mean")
+    if blk.get("ticket_bar_quote_note") in (None, "", "repo panel is empty") \
+            and blk.get("repo_panel_last_bar"):
+        problems.append("no note explaining the ticket bar's quote (panel ends %s)"
+                        % blk.get("repo_panel_last_bar"))
+    led = doc.get("ledger") or {}
+    for key in ("bar_from", "bar_to", "accrued_bars_on_disk", "rows_equal_bars"):
+        if key not in led:
+            problems.append("ledger block is missing %r" % key)
+    return {"ok": not problems, "problems": problems, "ticket": os.path.relpath(path, BASE),
+            "cash_leg": blk, "ledger": led}
 
 
 def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_gate=False):
@@ -699,6 +821,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                  agreement["same_priced_bar"], cb.get("priced_bar"), asof), flush=True)
     mk = metrics(slip, blip)
     wd = width_disclosure()
+    cash_blk = cash_leg_block(cash_rf, cash_missing, idx, rates, slip.index[-1])
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
                "inception": str(slip.index[0].date()) if len(slip) else inception,
                "rebal": REBAL, "n_hold": N_HOLD, "cost_bp_per_side": COST_BP,
@@ -726,11 +849,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "ticket": ticket, "metrics": mk,
                "book_leg": {"turnover_per_rebal": round(float(turnover), 4),
                             "open_gapfill": int(gapfill)},
-               "cash_leg": {"source": "data/repo_daily/GC001.csv",
-                            "mean_accrual_ann_pct": round(float(cash_rf.mean() * 252.0) * 100, 3),
-                            "missing_bar_steps": int(cash_missing)},
-               "ledger": {"bars": int(state.get("rows", 0)), "nav": round(float(state["nav"]), 8),
-                          "rows_added": len(merged), "engine_naive_vs_ledger": drift},
+               "cash_leg": cash_blk,
+               "ledger": ledger_block(state, merged, drift),
                "width_disclosure": wd,
                "caveats": ["survivorship: on-disk panel holds ETFs that still exist",
                            "ticket prices are closes; no impact cost, no limit-move guard",
@@ -770,7 +890,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
         f.write(card(ticket, mk, sched, asof, beta,
                      {"inception": payload["inception"], "stale": stale, "width": wd,
                       "feed": feed, "agreement": agreement,
-                      "decision_bar": str(dec_bar.date()), "repricing": repriced}))
+                      "decision_bar": str(dec_bar.date()), "repricing": repriced,
+                      "cash_leg": cash_blk}))
 
     print("as_of=%s beta=%.2f k=%.2f nav=%.4f rows+=%d drift=%s"
           % (asof, beta, k_now, state["nav"], len(merged), drift))
@@ -1831,6 +1952,37 @@ def selftest():
         "pct=%+.2f%% shares %d->%d" % (rc_fx["overspend_pct_if_shares_followed"],
                                        rc_fx["shares_issued"], rc_fx["shares_repriced"]))
 
+    # E589: the printed cash accrual is a window mean, so the face must carry its window,
+    # and the ledger must publish the bars it accrued over rather than a bare row count.
+    fi = pd.DatetimeIndex(["2021-01-04", "2021-01-05", "2021-01-06"])
+    frates = pd.Series([2.0, 3.0], index=pd.DatetimeIndex(["2021-01-04", "2021-01-06"]))
+    fcash, fmiss = BW.repo_daily_cash(fi, frates)
+    b1 = cash_leg_block(fcash, fmiss, fi, frates, pd.Timestamp("2021-01-06"))
+    chk("leg40 the cash_leg block names the window its mean averages",
+        b1["window_start"] == "2021-01-04" and b1["window_end"] == "2021-01-06"
+        and b1["window_bars"] == 3 and b1["window_calendar_days"] == 2
+        and b1["bars_per_year"] == 252 and b1["is_a_window_mean_not_a_priced_leg"] is True
+        and b1["repo_panel_last_bar"] == "2021-01-06",
+        "window=%s..%s bars=%d" % (b1["window_start"], b1["window_end"], b1["window_bars"]))
+    chk("leg40b the bar's quote is carried beside the window mean and is not that number",
+        b1["ticket_bar_quote_pct"] == 3.0
+        and b1["ticket_bar_quote_note"] == "GC001 close quoted on this bar"
+        and abs((b1["mean_accrual_ann_pct"] or 0.0) - 3.0) > 1e-6,
+        "quote=%.2f mean=%.4f" % (b1["ticket_bar_quote_pct"], b1["mean_accrual_ann_pct"]))
+    b2 = cash_leg_block(fcash, fmiss, fi, frates, pd.Timestamp("2021-01-08"))
+    chk("leg40c a bar past the last quote discloses the nearest prior quote, not a bar quote",
+        b2["ticket_bar_quote_pct"] == 3.0 and "no GC001 quote" in b2["ticket_bar_quote_note"]
+        and b2["repo_panel_last_bar"] == "2021-01-06",
+        "note=%s" % b2["ticket_bar_quote_note"])
+    with tempfile.TemporaryDirectory() as tdl:
+        with open(os.path.join(tdl, "ledger.jsonl"), "w", encoding="utf-8") as f:
+            f.write('{"date": "2021-01-04"}\n{"date": "2021-01-05"}\n')
+        lb = ledger_block({"rows": 2, "nav": 1.01}, [], None, out_dir=tdl)
+    chk("leg40d the ledger block publishes the bars it accrued over, not just a row count",
+        lb["accrued_bars_on_disk"] == 2 and lb["bar_from"] == "2021-01-04"
+        and lb["bar_to"] == "2021-01-05" and lb["rows_equal_bars"] is True,
+        "bars=%d from=%s" % (lb["accrued_bars_on_disk"], lb["bar_from"]))
+
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1
 
@@ -1838,6 +1990,12 @@ def selftest():
 def main():
     if "--selftest" in sys.argv:
         return selftest()
+    if "--verify-cash-window" in sys.argv:
+        res = verify_cash_leg_window()
+        print(json.dumps(res, ensure_ascii=False, indent=1))
+        for prob in res["problems"]:
+            print("PROBLEM:", prob)
+        return 0 if res["ok"] else 1
 
     def arg(name, default, cast):
         for a in sys.argv:
