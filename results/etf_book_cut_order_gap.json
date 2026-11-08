@@ -1,0 +1,95 @@
+{
+ "face": "etf_book_cut_order_gap",
+ "decision_date": "2026-11-11",
+ "ticket_file": "TICKET-2026-11-06.json",
+ "evidence_cutoff": "2026-11-06",
+ "k_now": 0.460253,
+ "permitted_k": 0.393073,
+ "gap_k": 0.06718,
+ "gap_pp": 6.72,
+ "nav_cny": 1000000.0,
+ "ordered_book_cny": 459796.0,
+ "permitted_book_cny": 392616.0,
+ "cut_cny": 67180.0,
+ "order_exceeds_permission": true,
+ "permission_readers": [],
+ "permission_is_binding": false,
+ "verdict": "ORDER_EXCEEDS_PERMISSION_NOBODY_READS_IT",
+ "sentence": "the ticket path will order k=0.460253 (CNY 459,796) on 2026-11-11 while the permission allows 0.393073 (CNY 392,616): CNY 67,180 (6.72pp) is refused on paper and NO module reads the permission receipt, so nothing in the order path will trim it",
+ "trim": {
+  "basis": "the 11-06 pick set; the 11-11 decision bar re-derives the names, so these rows are illustrative while the sleeve total is exact",
+  "n_legs": 5,
+  "target_weight_per_leg": 0.078615,
+  "legs": [
+   {
+    "symbol": "159501",
+    "price": 2.069,
+    "lots_now": 444,
+    "lots_target": 379,
+    "lots_sell": 65,
+    "sell_cny": 13448.5,
+    "priced": true
+   },
+   {
+    "symbol": "513100",
+    "price": 2.158,
+    "lots_now": 426,
+    "lots_target": 364,
+    "lots_sell": 62,
+    "sell_cny": 13379.6,
+    "priced": true
+   },
+   {
+    "symbol": "513690",
+    "price": 1.158,
+    "lots_now": 794,
+    "lots_target": 678,
+    "lots_sell": 116,
+    "sell_cny": 13432.8,
+    "priced": true
+   },
+   {
+    "symbol": "159577",
+    "price": 1.612,
+    "lots_now": 571,
+    "lots_target": 487,
+    "lots_sell": 84,
+    "sell_cny": 13540.8,
+    "priced": true
+   },
+   {
+    "symbol": "159263",
+    "price": 1.143,
+    "lots_now": 805,
+    "lots_target": 687,
+    "lots_sell": 118,
+    "sell_cny": 13487.4,
+    "priced": true
+   }
+  ],
+  "lots_sell_total": 445,
+  "sold_cny": 67289.1,
+  "k_after_integer_lots": 0.392964,
+  "trim_within_permission": true
+ },
+ "cost": {
+  "cost_bp_per_side": 8.0,
+  "tx_cny_one_side": 53.83,
+  "repo_rate_pct": 1.185,
+  "repo_rate_date": "2026-11-06",
+  "carry_cny_per_year": 796.08,
+  "giveup_cny_per_year_ex_post": {
+   "book_realized": 7574.55,
+   "same_beta_benchmark": 1131.98
+  },
+  "note": "give-up is the sleeve's own realized CAGR minus the observed repo rate on the trimmed amount: an ex-post reading, not a forecast, and it is the price of obeying a gate that failed on concentration, not a return estimate"
+ },
+ "not_measured": [
+  "the year gate on the trimmed book: a smaller k is not automatically a passing book (r1438/r1450: the wrapper's yearly shape has never been through it)",
+  "whether the 11-11 pick set changes names: the trim ratio holds at the sleeve level, the per-leg rows do not survive a re-pick",
+  "the carry accrual path: one observed GC001 close is used for the annualised figure; a holiday gap accrues more days than the rate implies"
+ ],
+ "repo_source": "data/repo_daily/GC001.csv (observed close)",
+ "elapsed_sec": 1.83,
+ "generated": "2026-11-09T00:45:03+0800"
+}

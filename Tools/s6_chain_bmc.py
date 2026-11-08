@@ -644,6 +644,14 @@ LEGS = [
     # instead of leaving a stale permission on disk (r1290 class).
     ("rebalance_permission",
      ["python", "scripts/etf_book_rebalance_permission.py", "check"]),
+    # r1451: the permission says what the desk MAY hold; it says nothing about what the desk
+    # will ORDER. The order path derives its own k from an expanding beta and reads no
+    # permission, so this leg measures the gap between the two published surfaces and scans
+    # the source tree for a consumer of the permission's numbers. Live: order 0.460253 vs
+    # permission 0.393073 (CNY 67,180 over), zero readers -> the cut is refused on paper and
+    # nothing trims it; the trim block prints the per-leg lots so obeying it is mechanical.
+    # `check` form (0.1s, published JSON + source scan, no panel).
+    ("cut_order_gap", ["python", "scripts/etf_book_cut_order_gap.py", "check"]),
     # r1329: the register summarises the faces, so it must be the LAST book leg. Until
     # this round it sat ~50 legs earlier, ahead of etf_book_ceo_page and etf_paper_signal,
     # and its rows for those two faces were therefore always one run old (as_of

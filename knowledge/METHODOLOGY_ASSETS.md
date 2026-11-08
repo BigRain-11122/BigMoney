@@ -11139,3 +11139,31 @@ keep 允许 ⇔ 有 path 读数在钱上方。
 Pos=scripts/etf_book_rebalance_permission.py（selftest 9/9 · check 6/6）
 + results/etf_book_rebalance_permission.json + research/ETF_BOOK_REBALANCE_PERMISSION.md
 + research/digests/DIGEST-20261109-r1450-rebalance-permission.md
+
+## E458 — 说了「不许」不等于有人会「不做」：许可件没人读，它就是装饰（r1451 bm-c）
+
+r1450 把五把尺子读成一句许可：11-11 必须落 k=0.393073（CNY 392,616），比在飞的
+k=0.460253（CNY 459,796）少 CNY 67,180。**这句话从来没约束过下单路径**——`etf_book_order.py`
+自己的 k 是扩张 beta 推出来的（k = beta_target/beta_hat），它不读任何许可件。于是两个
+已发布面相隔 6.72pp 并存，而读许可的人无法判断那 67,180 是决定还是装饰。
+
+新面只问一件事，且答得死：**有没有别的程序读许可件里的数**（扫 scripts/ + Tools/ 全部 .py，
+排除生产者和自己；只跑 `check` 的调度器不算读者）。实测 readers=[] →
+ORDER_EXCEEDS_PERMISSION_NOBODY_READS_IT。
+
+三条可复用：
+①**「谁读了它」是可机检的**——receipt 的键名（permitted_k / cut_cny）在别处出现与否就够了，
+不需要人来记「我们说过要听它」；一个不被读的门与一个不存在的门，阻塞效果相同。
+②**整数手削减必须取 floor 且要证明它没有向上取整**——同一价位两侧各测一次（78.6146→50 手，
+78.6147→49 手）；只测一侧的 floor 腿在实现写成 round 时照样绿。实盘读数：卖 445 手 CNY 67,289，
+取整后 k=0.392964，恰在许可**下方** 0.011pp（不会因凑整把仓位顶回去）。
+③**削减的代价要两面印**：交易成本 8bp 只有 CNY 53.83（可忽略），真正的代价是机会面——
+释放现金按 GC001 1.185% 计年化 CNY 796，而风险腿若维持已实现 12.46% 则年化少赚 CNY 7,575
+（按同 beta 基准 2.87% 则 CNY 1,132）。这是**服从一个因集中度失败的门**的价钱，不是收益预测，
+所以三档并列印、不取一档说事。
+
+副产品：夹具必须自洽——首版 selftest 的 L3 让票面写 k=0.393 而腿仍是 0.46 的手数，
+腿立刻"证明"了一个不存在的削减；现在夹具的 lot 数由 k 派生（且能逐手复现真票 444/426/794/571/805）。
+Pos=scripts/etf_book_cut_order_gap.py（selftest 10/10 · check 7/7 · S6 腿 cut_order_gap）
++ results/etf_book_cut_order_gap.json + research/ETF_BOOK_CUT_ORDER_GAP.md
++ research/digests/DIGEST-20261109-r1451-cut-order-gap.md

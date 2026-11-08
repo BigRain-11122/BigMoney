@@ -643,6 +643,16 @@ def main() -> int:
              "scripts/etf_book_rebalance_permission.py", ["selftest"]),
             ("product: etf_book_rebalance_permission (permission re-derived)",
              "scripts/etf_book_rebalance_permission.py", ["--check"]),
+            # r1451: a permission nobody reads is a decoration. The legs pin that an order
+            # over the permission with zero consumers reads UNBOUND (and flips to BOUND the
+            # moment a reader exists -- a leg that can only say "unbound" is not evidence),
+            # that a ticket already inside the permission owes no trim, that an integer-lot
+            # trim floors (both sides of a lot boundary), and that a missing receipt never
+            # becomes a default cut.
+            ("product: etf_book_cut_order_gap (does the permission bind the order)",
+             "scripts/etf_book_cut_order_gap.py", ["selftest"]),
+            ("product: etf_book_cut_order_gap (gap and consumers re-derived)",
+             "scripts/etf_book_cut_order_gap.py", ["--check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a
