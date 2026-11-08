@@ -7,7 +7,7 @@ Verdict: **host_down** -- 9/11 lanes in sync, 9/11 auditable from this machine, 
 
 ## Whose disk these numbers are on
 
-以本机 bm-c 的盘为基准：10 条在役车道里有 1 条的数字不在本机盘上：1 条在 bm-b 的盘上（210.73h 未报到）；留在本机盘上的 9 条里 9 条可核实。
+以本机 bm-c 的盘为基准：10 条在役车道里有 1 条的数字不在本机盘上：1 条在 bm-b 的盘上（211.3h 未报到）；留在本机盘上的 9 条里 9 条可核实。
 
 - `bm-b`: marks (host down)
 | lane | host | tail | missing (official days) | verdict | authority |
@@ -38,7 +38,7 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 These lanes cannot be certified here and the machine that is supposed to collect them has not written a heartbeat for more than 2.0h. Until it comes back the numbers below are this machine's stale copies, not the company's data.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (210.73h ago) -- holding back marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (211.3h ago) -- holding back marks
 
 ## Why some lanes cannot be certified here
 
@@ -50,8 +50,8 @@ A status envelope is committed by whichever machine ran the leg, and every machi
 
 The per-symbol panels hold thousands of files, so their tail is read through an evenly spaced sample rather than a full sweep. A sample can miss a single laggard symbol; it cannot miss a panel that stopped weeks ago. Each row below says how many symbols were read out of how many.
 
-- `astock_daily`: 40 of 5223 symbols read, tail 2026-11-06; the full scan holds it in 4,783 of 5,222 symbols (91.59%) (certified 2026-11-07T13:47:58)
-- `moneyflow`: 40 of 5226 symbols read, tail 2026-11-06 (certification is older than this scan: full scan read 2026-10-19, this row reads 2026-11-06)
+- `astock_daily`: 40 of 5223 symbols read, tail 2026-11-06; the full scan holds it in 5,216 of 5,223 symbols (99.87%) (certified 2026-11-08T07:59:06)
+- `moneyflow`: 40 of 5226 symbols read, tail 2026-11-06; the full scan holds it in 5,225 of 5,226 symbols (100.00%) (certified 2026-11-08T07:59:06)
 
 Full-scan certification of exactly these rows: `scripts/data_lane_freshness.py certify` -> `docs/data_lanes/TAIL_CERTIFICATION.md` (it re-reads every file and names the symbols that sit behind the newest bar).
 
