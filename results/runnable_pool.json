@@ -29365,9 +29365,26 @@
    "lane_note": "static: the signature definition, its default expression and every caller that omits the argument; no network, no rewrites",
    "priority": "normal",
    "source": "E530 (r1557 bm-b): of the 5 chains E526 left moving, one lands on the signature default rather than on any caller -- e489_write_wire.build(root) omits root at 8 sites -- and another has 7 of its 8 sites do the same",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/defaultparam_latest.json",
-   "title": "E530 published that a chain can end at a signature default rather than at a caller. A default is a value the signature itself writes, so the chain does reach something -- but whether that something is a population is unread. For every parameter that E530 or E526 published as reaching the default, read the signature's own default expression and publish what it names: a literal, a module constant of the defining module, a call result, a read/scan of the tree, or nothing at all (a sentinel such as None or an empty container). Then read whether any caller that omits it could have supplied something more specific, so 'the default supplies it' stops standing in for 'the population is whatever the signature happens to hold'."
+   "title": "E530 published that a chain can end at a signature default rather than at a caller. A default is a value the signature itself writes, so the chain does reach something -- but whether that something is a population is unread. For every parameter that E530 or E526 published as reaching the default, read the signature's own default expression and publish what it names: a literal, a module constant of the defining module, a call result, a read/scan of the tree, or nothing at all (a sentinel such as None or an empty container). Then read whether any caller that omits it could have supplied something more specific, so 'the default supplies it' stops standing in for 'the population is whatever the signature happens to hold'.",
+   "closed_at": "2026-11-08T09:1x+08:00",
+   "closed_by": "bm-b r1558",
+   "result": "results/state_tilt/DEFAULTPARAM-2026-11-08.json -- 9 omission sites, 5 resolve to a signature on disk (4 are name collisions on a `run` attribute call, published not merged); all 5 resolved defaults are the sentinel None, 0 are themselves a value; 4 are replaced inside the defining body (2 from the module constant ROOT -- e489_write_wire.verify/run -- and 2 from the call e435.face_index(root)); 1 is passed on unchanged (e328_quoted_number_staleness.verify, which forwards it to build()); 0 omitting caller holds a value of that name in scope. Verdict: some_default_is_a_sentinel_that_nothing_in_the_body_replaces"
+  },
+  {
+   "id": "E532-WHICH-SENTINEL-THAT-NOTHING-REPLACES-IN-ITS-OWN-BODY-IS-REPLACED-ONE-HOP-OUT-BY-THE-CALLEE-IT-IS-FORWARDED-TO",
+   "lane": "cpu-only",
+   "lane_note": "static: one forwarded argument and the callee signature it lands on; no network, no rewrites",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E531 (r1558 bm-b): of the 5 signature defaults E530/E526 landed on, 4 are replaced inside the defining body and 1 -- e328_quoted_number_staleness.verify(root=None) -- is passed on unchanged, yet it forwards root to build(), whose own body does `root = root or ROOT`",
+   "target": "results/state_tilt/passedon_latest.json",
+   "deliverable": "results/state_tilt/PASSEDON-<cutoff>.json",
+   "evidence_cutoff": "2026-11-08",
+   "entered_at": "2026-11-08T09:1x+08:00",
+   "entered_by": "bm-b r1558 (supply floor refill after E531)",
+   "title": "E531 published 1 of its 5 sentinel defaults as passed on unchanged because its own body neither rebinds nor guards every use. For every parameter E531 or E530 published as passed_on_unchanged (a sentinel forwarded rather than replaced), follow the argument one hop to the callee that receives it and publish whether that callee rebinds it from a named value, guards every use, forwards it again, or never reads it -- so 'nothing in the body replaces it' stops standing in for 'the population really is the sentinel'. Publish, per hop, the value the argument finally lands on (a module constant with its chain, a call, a read of the tree, or nothing)."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29382,6 +29399,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T08:5x+08:00",
+ "updated_at": "2026-11-08T09:1x+08:00",
  "version": 1
 }

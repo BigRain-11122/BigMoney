@@ -1992,6 +1992,13 @@ LEGS = [
     # visited.  `check` re-derives every shape and hop count from the chains and asserts the chain
     # count against E526's own forwarded-again total.
     ("third_hop", ["python", "scripts/e530_third_hop.py", "check"]),
+    # E531 reads the signature default E530/E526 landed on: every omission site is resolved through
+    # E520's ownership classifier, a name no import binds is published as a collision instead of
+    # resolved, and each default is asked both what it names (a sentinel, a literal, a module
+    # constant with its chain, a call, a read of the tree) and what the defining body does with it
+    # (rebind, guard every use, pass it on unchanged, or never read it).  `check` re-derives every
+    # class and refuses an unresolved site that still carries a default class.
+    ("default_param", ["python", "scripts/e531_default_param.py", "check"]),
     # E520 takes E519's own two non-answers one hop further: a local that is a *parameter of the
     # caller* is supplied by that function's call sites, and a name bound nowhere in the caller is
     # bound by another scope.  `check` re-derives the argument histogram from the rows, the

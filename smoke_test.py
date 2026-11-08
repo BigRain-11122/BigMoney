@@ -22277,5 +22277,95 @@ except Exception as _e530x:
 check(_name530, not _bad530, "; ".join(_bad530)[:240] or _d530)
 
 
+# E531: what the signature default E530/E526 landed on actually names, and whether the body ever
+# replaces it.  Every omission site must resolve to a signature that is on disk or be published as a
+# name collision carrying no default class at all (merging the two back would invent a population),
+# a sentinel must never be published as an already-supplied value or the reverse, the two rescue
+# buckets must add up to the sentinel count, and doctored copies (a hand-written verdict, a sentinel
+# reported as a value, an unresolved site carrying a default class) must be refused.
+_name531 = ("E531 reads what the default behind E530/E526 actually names and what the body does "
+            "with it (r1558 bm-b)")
+_bad531 = []
+try:
+    _m531 = __import__("importlib").import_module("e531_default_param")
+    _f531 = json.load(open(os.path.join("results", "state_tilt", "defaultparam_latest.json"),
+                           encoding="utf-8"))
+    _s531 = _f531.get("summary") or {}
+    _r531 = _f531.get("sites") or []
+    _bad531.extend(_m531.face_problems(_f531))
+    _pop531 = _m531.population(_m531.load_upstream())
+    if not _r531:
+        _bad531.append("the omission-site population is empty")
+    if len(_r531) != len(_pop531):
+        _bad531.append("the examined population is not the upstream omission set")
+    _res531 = 0
+    for _row in _r531:
+        _where = "%s:%s" % (_row.get("caller_module"), _row.get("line"))
+        if _row.get("resolution") != _m531.X_RESOLVED:
+            if _row.get("default_class") != _m531.D_NO_DEFAULT:
+                _bad531.append("%s is unresolved but carries a default class" % _where)
+            if _row.get("rescue_class") != _m531.R_NO_SIGNATURE:
+                _bad531.append("%s is unresolved but carries a rescue class" % _where)
+            continue
+        _res531 += 1
+        if not os.path.exists(os.path.join("scripts",
+                                          (_row.get("callee_module") or "") + ".py")):
+            _bad531.append("%s resolves to a module that is not on disk" % _where)
+        _is_sentinel = _row.get("default_class") in _m531.SENTINELS
+        if _is_sentinel and _row.get("rescue_class") == _m531.R_VALUE:
+            _bad531.append("%s publishes a sentinel as an already-supplied value" % _where)
+        if not _is_sentinel and _row.get("rescue_class") != _m531.R_VALUE:
+            _bad531.append("%s publishes a rescue for a default that is already a value" % _where)
+        if _row.get("caller_could_have_supplied") == _m531.C_OWN_PARAMETER and \
+                not (_row.get("caller_function") and _row.get("parameter")):
+            _bad531.append("%s says its caller holds the name but names no holder" % _where)
+    if _res531 != _s531.get("resolved_signatures"):
+        _bad531.append("the resolved count does not add up")
+    if (_s531.get("sentinel_defaults_the_body_replaces") or 0) + \
+            (_s531.get("sentinel_defaults_nothing_replaces") or 0) != \
+            (_s531.get("defaults_that_are_a_sentinel") or 0):
+        _bad531.append("the two rescue buckets do not add up to the sentinel count")
+
+    _doc531 = json.loads(json.dumps(_f531))
+    _doc531["verdict"] = (_m531.V_RESCUED if _f531["verdict"] != _m531.V_RESCUED
+                          else _m531.V_VALUE)
+    if not _m531.face_problems(_doc531):
+        _bad531.append("a hand-written verdict was accepted")
+    _doc531 = json.loads(json.dumps(_f531))
+    _hit531 = None
+    for _row in _doc531["sites"]:
+        if _row.get("default_class") in _m531.SENTINELS:
+            _hit531 = _row
+            break
+    if _hit531 is not None:
+        _hit531["rescue_class"] = _m531.R_VALUE
+        if not _m531.face_problems(_doc531):
+            _bad531.append("a sentinel reported as already supplied was accepted")
+    _doc531 = json.loads(json.dumps(_f531))
+    _hit531 = None
+    for _row in _doc531["sites"]:
+        if _row.get("resolution") != _m531.X_RESOLVED:
+            _hit531 = _row
+            break
+    if _hit531 is not None:
+        _hit531["default_class"] = _m531.D_NONE
+        if not _m531.face_problems(_doc531):
+            _bad531.append("an unresolved site carrying a default class was accepted")
+    _d531 = ("%d sites | resolved %s | sentinel %s | value %s | rescued %s | nothing replaces %s "
+             "| caller held the name %s | rescue classes %r" % (
+                 len(_r531),
+                 _s531.get("resolved_signatures"),
+                 _s531.get("defaults_that_are_a_sentinel"),
+                 _s531.get("defaults_that_are_themselves_a_value"),
+                 _s531.get("sentinel_defaults_the_body_replaces"),
+                 _s531.get("sentinel_defaults_nothing_replaces"),
+                 _s531.get("omissions_whose_caller_had_the_name_in_scope"),
+                 _s531.get("sites_by_rescue_class")))
+except Exception as _e531x:
+    _bad531.append(repr(_e531x)[:160])
+    _d531 = "leg could not run"
+check(_name531, not _bad531, "; ".join(_bad531)[:240] or _d531)
+
+
 if __name__ == "__main__":
     sys.exit(main())

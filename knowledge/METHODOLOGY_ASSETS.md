@@ -13124,3 +13124,18 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 - **桩值也是写出来的值，但不是生产供给**：`_fixture()`/`mkdtemp()` 的返回值确实是本树写出来的值，本面记成「调用结果」，不升级成「生产人口」，这一层留给下游读者。
 
 **验证**：`scripts/e530_third_hop.py` run rc0 / check problems=0 / verify problems=0 / **selftest 13/13**（夹具六形态：三跳落地、无人供的参数、自环、省略走默认 + 四枚 doctored 面全拒：无 `hops_to_origin` 的「落地」、最后一跳仍转发的「落地」、hop_count 不重导、手写 verdict）；面 `results/state_tilt/THIRDHOP-2026-11-08.json` + `thirdhop_latest.json` 同源；S6 腿 `third_hop` rc0 0.06s；smoke 腿 `# E530` 单跑 1/1（`scripts/_r1557_leg530.py` 从 smoke_test.py 逐字抽出执行）；digest `research/digests/DIGEST-20261108-r1557-e530-third-hop.md`。未跑：全量 smoke 套件（~20-30min）、S6 其余腿、采集器族与 market/paper 链（不宣称）。
+
+## E531 签名默认值到底写了什么、函数体有没有把它换掉（2026-11-08 r1558 bm-b）
+
+**问题**：E530 说 5 条链里有一部分终点是「签名默认值」——默认值是签名自己写的，所以链确实到了东西，但那东西是不是 population 没人读过。卡片点名：`e489_write_wire.build(root)` 在 8 个站点全被省略。
+
+**方法**：取 E530 chains 与 E526 hop sites 里所有 `argument_kind=签名默认` 的省略站点（9 个），用 E520 的 ownership 分类器把每个调用点解析到定义模块的签名——同模块 / 按名导入 / 导入模块的属性才解析；只同名（没有 import 绑定）或接收者不是名字 = 按「名碰撞」发布、不合并。对每个解析到的签名发布两件事：①默认表达式本身是什么（哨兵 None / 空容器 / 字面量 / 本模块常量+常量链 / 他模块名 / 调用结果 / 树读取 / 计算式）；②定义函数体对哨兵做了什么（改绑本模块常量 / 改绑调用结果 / 每次使用都用 `or` 兜底 / 原样转发 / 从不读）。最后问一句：省略的那一方手里有没有同名值（自己的参数 / 局部 / 模块常量）。
+
+**读数**：9 个省略站点，5 个解析到本地签名（另 4 个是 `PaperSession().run(...)` / `LiveSession().run(...)` 的属性接收者，按碰撞发布）。**5 个默认全是哨兵 `None`，0 个是本身的值**；4 个在定义体内被换掉——2 个换成本模块常量 `ROOT`（= `os.path.dirname(os.path.dirname(os.path.abspath(__file__)))`，即仓库根）：`e489_write_wire.verify` / `.run`；2 个换成调用 `e435.face_index(root)`：`e445_facehome_target.build(index)`；1 个原样转发：`e328_quoted_number_staleness.verify` 把 `root` 交给 `build()`，而 `build()` 自己第 233 行就是 `root = root or ROOT`；**0 个省略者手里握有同名值**（它们都没有 `root` 参数/局部，模块里是 `ROOT`，大小写不同名）。
+
+**可复用教训**：
+- **「默认值供给它」要拆三步**：签名默认写什么（哨兵还是值）→ 函数体对它做什么（改绑/兜底/转发）→ 省略的那一方有没有更具体的值。三步都空，才配叫「population 就是签名手里那个东西」；本例三步都不空，落在仓库根上。
+- **同名函数不是同一个签名**：`run` 在 `PaperSession().run(...)`/`LiveSession().run(...)` 上命中 4 次，接收者是调用而不是名字 = 不解析。合并回去就会凭空造 4 个「签名默认」。
+- **未解析的行要换一套标签、且不带默认类别**：首版把未解析行也标成「默认已是值」，4 个碰撞混进 4 个真值档——名即语义，计数一读就错。
+
+**验证**：`scripts/e531_default_param.py` run rc0 / check problems=0 / verify problems=0 / **selftest 19/19**（哨兵改绑常量、改绑调用、每用兜底、从不读四档 + 5 个 doctored 全拒：手写 verdict、哨兵写成已供给、未解析行带默认类别、值默认带 rescue、rescue 无源）；产物 `results/state_tilt/DEFAULTPARAM-2026-11-08.json` + `defaultparam_latest.json` 同源；S6 腿 `default_param` rc0；smoke 腿 `# E531` 1/1（`scripts/run_e531_smoke_leg.py` 从 smoke_test.py 按锚点切出来执行）；digest `research/digests/DIGEST-20261108-r1558-e531-default-param.md`。未能：全套 smoke 未启动（~20-30min），S6 只跑了本腿。
