@@ -634,6 +634,15 @@ def main() -> int:
              "scripts/etf_book_size_rulers_decision.py", ["selftest"]),
             ("product: etf_book_size_rulers_decision (desk sentence re-derived)",
              "scripts/etf_book_size_rulers_decision.py", ["check"]),
+            # r1450: the rulers table said how wide the argument is; this face says whether
+            # the weight in force may stay. The legs pin all three dispositions (a path
+            # reading above the money permits, a static mix above it does not, nothing
+            # above it refuses), pin that a broken baseline identity and an unclassified
+            # cell both read UNREADABLE, and re-derive the permission from receipts.
+            ("product: etf_book_rebalance_permission (may this size stay)",
+             "scripts/etf_book_rebalance_permission.py", ["selftest"]),
+            ("product: etf_book_rebalance_permission (permission re-derived)",
+             "scripts/etf_book_rebalance_permission.py", ["--check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a

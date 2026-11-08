@@ -633,6 +633,17 @@ LEGS = [
     # sentence from the receipt's own cells and the newest ticket (0.1s, no panel): a stale
     # receipt after a new ticket lands raises rc1 and the round re-runs the 73s table.
     ("etf_book_size_rulers", ["python", "scripts/etf_book_size_rulers_decision.py", "check"]),
+    # r1450: the rulers table answers "how wide is the argument"; the desk has to answer
+    # "may the weight in force stay" before the 2026-11-11 rebalance. This leg re-derives
+    # the permission from the same receipt: circular (the ticket's own construction),
+    # path (measured on decision bars) and static (a mix, not a path) readings are told
+    # apart, and keeping the size is allowed only if a PATH reading reaches the money.
+    # Live: every path reading is below the money, the only reading above it is the static
+    # denominator mix -> size at k=0.393073 (CNY 392,616), a cut of CNY 67,180. `check`
+    # form (0.1s, published JSON only) so a drifted receipt or a newer ticket turns red
+    # instead of leaving a stale permission on disk (r1290 class).
+    ("rebalance_permission",
+     ["python", "scripts/etf_book_rebalance_permission.py", "check"]),
     # r1329: the register summarises the faces, so it must be the LAST book leg. Until
     # this round it sat ~50 legs earlier, ahead of etf_book_ceo_page and etf_paper_signal,
     # and its rows for those two faces were therefore always one run old (as_of

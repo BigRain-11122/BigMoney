@@ -11119,3 +11119,23 @@ r1447 把 `EXEC-BOOK-CLASS-BETA-20261108` 入池时 `target` 写的是
 Pos=scripts/etf_book_size_rulers_decision.py（selftest 10/10 · check 0.1s）
 + results/etf_book_size_rulers_decision.json + research/ETF_BOOK_SIZE_RULERS.md
 + research/digests/DIGEST-20261108-r1449-size-rulers.md
+
+
+## E457 — 许可不是投票：钱要留下，必须有「决策路径」说它可以（r1450 bm-c）
+
+五格表能回答「争论多宽」（E456），不能回答「这仓能不能在 11-11 保持」。本轮把表变成许可：
+读数分三类——circular（票面自己的构造，k==k_now 由恒等给出，永远不可能反对钱）、
+path（在决策 bar 上量出来，bars≥60）、static（自己的注记声明是静态组合，不是决策路径）；
+「支持」= 读数落在钱之上或同高（k ≥ k_now − 0.5pp），permitted_k = 可读 path 读数的最小值，
+keep 允许 ⇔ 有 path 读数在钱上方。
+
+读数：三条 path 全在钱下方（最高 0.432195），唯一在钱上方的是静态分母 0.544424
+⇒ KEEP_STANDS_ON_NON_PATH_ARGUMENT，11-11 应落 k=0.393073（CNY 392,616），减仓 CNY 67,180（6.72pp）。
+
+三条可复用：①「有尺子说能更大」≠「现在的仓位被允许」——把 max 当许可读完瞬时就是 keep；
+②自指读数必须显式排除，否则取 min 恒等于钱、取 max 恒放行（表会永远回答「保留」）；
+③**恒等断言按发布精度比**：票面 k 印 6 位（0.460253）而构造面存全精度（0.460253452），
+用 1e-9 判恒等会让整张面在舍入上拒绝运行（本窗首跑 rc1 实弹）。
+Pos=scripts/etf_book_rebalance_permission.py（selftest 9/9 · check 6/6）
++ results/etf_book_rebalance_permission.json + research/ETF_BOOK_REBALANCE_PERMISSION.md
++ research/digests/DIGEST-20261109-r1450-rebalance-permission.md

@@ -1,0 +1,98 @@
+{
+ "face": "etf_book_rebalance_permission",
+ "decision_date": "2026-11-11",
+ "ticket_file": "TICKET-2026-11-06.json",
+ "evidence_cutoff": "2026-11-06",
+ "beta_target": 0.2,
+ "size_tol": 0.005,
+ "k_now": 0.460253,
+ "nav_cny": 1000000.0,
+ "book_amount_cny": 459796.3,
+ "cash_amount_cny": 540203.7,
+ "readings": {
+  "baseline_published": {
+   "k": 0.460253,
+   "delta_vs_now_pp": 0.0,
+   "kind": "circular",
+   "why": "the construction the ticket was priced from (k == k_now by identity)",
+   "bars": 1658
+  },
+  "window": {
+   "k": 0.412669,
+   "delta_vs_now_pp": -4.76,
+   "kind": "path",
+   "why": "measured on 306 bars",
+   "bars": 306
+  },
+  "universe": {
+   "k": 0.432195,
+   "delta_vs_now_pp": -2.81,
+   "kind": "path",
+   "why": "measured on 1658 bars",
+   "bars": 1658
+  },
+  "window_x_universe": {
+   "k": 0.393073,
+   "delta_vs_now_pp": -6.72,
+   "kind": "path",
+   "why": "measured on 306 bars",
+   "bars": 306
+  },
+  "denominator": {
+   "k": 0.544424,
+   "delta_vs_now_pp": 8.42,
+   "kind": "static",
+   "why": "static composition, not a path: only comparable with the path rows because it is divided by covered weight",
+   "bars": 306
+  }
+ },
+ "readings_unreadable": {},
+ "circular_readings": [
+  "baseline_published"
+ ],
+ "path_readings": [
+  "universe",
+  "window",
+  "window_x_universe"
+ ],
+ "static_readings": [
+  "denominator"
+ ],
+ "permitted_k": 0.393073,
+ "permitted_book_cny": 392616.0,
+ "cut_k": 0.06718,
+ "cut_pp": 6.72,
+ "cut_cny": 67180.0,
+ "supporters": [
+  "denominator"
+ ],
+ "supporters_path": [],
+ "supporters_static": [
+  "denominator"
+ ],
+ "keep_allowed": false,
+ "naive_max_over_all_readings": {
+  "k": 0.544424,
+  "keep_allowed": true,
+  "why": "a ruler that permits a LARGER size is read as permission for this one; the permitting reading need not be a decision path (E456: the rulers are not additive and not interchangeable)"
+ },
+ "verdict": "KEEP_STANDS_ON_NON_PATH_ARGUMENT",
+ "sentence": "keeping k=0.460253 stands only on denominator, which is a static mix and not a decision path; all 3 path reading(s) sit below the money (highest k=0.432195), so the 2026-11-11 rebalance must size at k=0.393073 (CNY 392,616, a cut of CNY 67,180 = 6.72pp) unless a caliber prereg lands first",
+ "supply_side": {
+  "book": "nobond_vt08_adopted",
+  "verdict": "CONDITIONAL",
+  "failed_check": [
+   "Y4_top2_share"
+  ],
+  "top2_share": 0.7108,
+  "top2_line": 0.7,
+  "asof": "2026-11-08T08:38:12+0800"
+ },
+ "not_measured": [
+  "the wrapper's yearly shape: beta overlay + GC001 cash leg have never been through the year gate (r1438), so a smaller k is not automatically a passing book",
+  "which reading is the RIGHT measurement: the four-cell spread is a ruler choice and no caliber prereg has landed (r1446 four requirements)",
+  "the cost of the cut: the ticket's own reprice delta (CNY 91.7 at the 11-06 bar) is not carried into the gate, and a 6.72pp cut pays one more round of 8bp"
+ ],
+ "elapsed_sec": 0.01,
+ "generated": "2026-11-09T00:12:18+0800"
+}
