@@ -6176,10 +6176,10 @@
  "s6_run_in_window": [
   "chain_rc_consumer rc0 (S6 1/1, receipt results/_r1585bmb_s6_chain.json)"
  ],
- "s7": "not re-run this window -- stated, not claimed",
+ "s7": "loop pin=2 current=2 no-op (first fire 21:02) | Bigmoney-LoopWatchdog re-registered S4U | pre-commit + pre-push claws MATCH",
  "s7_checked_at": "2026-11-08T20:36:44+08:00",
  "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
- "s7_note": "loop pin / watchdog / claws NOT checked this window",
+ "s7_note": "loop pin 2/2 no-op; watchdog present; claws MATCH",
  "s7_pit": "Tools/Invoke-SilentExe.ps1 takes -Exe/-ArgString, not -FilePath; the first query failed with ParameterBindingException and an empty result, which reads exactly like 'task absent' -- an empty wrapper output is not evidence of absence (R49 family)",
  "s7_r1439": "loop pin=2 no-op | LoopWatchdog RE-REGISTERED (absent on this box; S4U, SWA=false) | pre-commit + pre-push claws reinstalled | attrition CLEAN 4 ledgers (3 healed) | sat engine status rc=0 idle",
  "s8": "n/a (idle_trigger not green: pool carried 3 ready cards)",
@@ -6233,7 +6233,7 @@
  "three_line_artifact": "results/state_tilt/RECEIPTTABLE-2026-11-08.json",
  "three_line_artifact_ts": "2026-11-08T20:56:00+08:00",
  "three_line_current": "r1587: E561 -- the table a receipt was built from survives only in git: 190 of 320 join, 159 of those are short and 135 are single-leg runs nobody can tell from a killed chain",
- "three_line_delivery": "machine/bm-b-r1587 (pushed this round; see postscript)",
+ "three_line_delivery": "machine/bm-b-r1587 @ 8bc3ebd33 (ls-remote verified)",
  "three_line_next": "burn E562 (can an existing field separate a single-leg run from a killed one) or E548/E552 within 48h",
  "timestamp": "2026-11-08T20:56:00+08:00",
  "ts": "2026-11-08T20:56:00+08:00",
@@ -6258,5 +6258,12 @@
  "watermark_verdict": "board had 3 ready cards at open; burned E561 and refilled to 3 (E548/E552/E562)",
  "work": "190 of 320 receipts join to the runner blob of their own round; 31 cover that round's table, 159 are short and 135 of those are single-leg runs that are indistinguishable in the file from a chain that died; the receipt's own legs_total is len(rows) in the one runner that publishes it, so it certifies nothing about the table",
  "worker": "r1584",
- "ram_note": "psutil probe at close"
+ "ram_note": "psutil probe at close",
+ "r1587_delivery": {
+  "branch": "machine/bm-b-r1587",
+  "sha": "8bc3ebd3360f3514dca7bdb52c3b7b1b9a1a5453",
+  "ts": "2026-11-08T21:12:00+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1587 equals HEAD",
+  "main_push_blocker": "local main is far ahead/behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243"
+ }
 }
