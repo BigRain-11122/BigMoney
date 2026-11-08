@@ -19,7 +19,8 @@
   "scripts/etf_book_floor_ledger.py",
   "scripts/etf_book_floor_toll.py",
   "scripts/etf_book_order.py",
-  "scripts/etf_book_permission_persistence.py"
+  "scripts/etf_book_permission_persistence.py",
+  "scripts/etf_book_swap_stack.py"
  ],
  "permission_enforcers": [
   "scripts/etf_book_ceo_page.py",
@@ -27,7 +28,7 @@
  ],
  "permission_is_binding": true,
  "verdict": "ORDER_EXCEEDS_PERMISSION_BUT_WIRED",
- "sentence": "the ticket orders k=0.460253 (CNY 459,796) against a permission of 0.393073 (CNY 392,616) -- CNY 67,180 over -- and 7 module(s) read the permission, 2 of which apply the trim: scripts/etf_book_ceo_page.py, scripts/etf_book_order.py",
+ "sentence": "the ticket orders k=0.460253 (CNY 459,796) against a permission of 0.393073 (CNY 392,616) -- CNY 67,180 over -- and 8 module(s) read the permission, 2 of which apply the trim: scripts/etf_book_ceo_page.py, scripts/etf_book_order.py",
  "trim": {
   "basis": "the 11-06 pick set; the 11-11 decision bar re-derives the names, so these rows are illustrative while the sleeve total is exact",
   "n_legs": 5,
@@ -102,6 +103,6 @@
   "the carry accrual path: one observed GC001 close is used for the annualised figure; a holiday gap accrues more days than the rate implies"
  ],
  "repo_source": "data/repo_daily/GC001.csv (observed close)",
- "elapsed_sec": 2.32,
- "generated": "2026-11-09T03:57:49+0800"
+ "elapsed_sec": 1.95,
+ "generated": "2026-11-09T07:08:01+0800"
 }
