@@ -514,6 +514,7 @@ def entry_gate_md(eg):
 PERMISSION_FACE = "results/etf_book_rebalance_permission.json"
 RULERS_FACE = "results/etf_book_size_rulers_decision.json"
 FLOOR_FACE = "results/etf_book_floor_ledger.json"
+SWAP_FACE = "results/etf_book_swap_trigger.json"
 
 
 def _json_face(rel):
@@ -533,6 +534,43 @@ def _permission_receipt():
 
 def _floor_face():
     return _json_face(FLOOR_FACE)
+
+
+def swap_trigger_md(sw):
+    """r1466: the ticket says what the swap is worth; it has to say when to look again too.
+    Absent or unreadable prints one line -- an empty section would read as "nothing to watch"
+    (r1108 有产无读)."""
+    if sw is None:
+        return ["", "## 换票之后什么时候再看一次（r1466）",
+                "- **这一问答不了**：没有已发布的换票触发面（跑 "
+                "scripts/etf_book_swap_trigger.py run）。缺面不等于没有要看的数。", ""]
+    L = ["", "## 换票之后什么时候再看一次（r1466）",
+         "- %s" % sw["recheck_rule"]]
+    for r in sw.get("pairs") or []:
+        exp = r.get("expiry") or {}
+        med = exp.get("median_sessions")
+        exp_s = ("未测（%d 例全部未愈合）" % (exp.get("n_censored") or 0) if med is None
+                 else "中位 %.0f 个交易日（%d 例回均值，%d 例未愈合）"
+                 % (med, exp.get("n_completed") or 0, exp.get("n_censored") or 0))
+        # an immaterial pair never had its split computed: print "not counted", not ¥0 --
+        # a zero reads as "measured, and it is zero" (E206 名即语义)
+        if r.get("source_verdict") == "SWAP_SAVES" and r.get("one_off_gain_cny") is not None:
+            split = "一次性 ¥%s / 可重复 ¥%s" % (format(r["one_off_gain_cny"], ",.0f"),
+                                                format(r.get("repeatable_gain_cny") or 0, ",.0f"))
+        else:
+            split = "钱不单列（上游面判为 %s）" % (r.get("source_verdict") or "?")
+        L.append("- `%s → %s`：今日 %s pp 对历史均值 %s pp｜%s｜"
+                 "超过触发价占比 %s｜%s｜**%s**"
+                 % (r["leg_symbol"], r["sibling_symbol"],
+                    ("%+.2f" % r["today_gap_pp"]) if r.get("today_gap_pp") is not None else "?",
+                    ("%+.2f" % r["mean_gap_pp"]) if r.get("mean_gap_pp") is not None else "?",
+                    split,
+                    ("%.0f%%" % (100.0 * r["window_share"]))
+                    if r.get("window_share") is not None else "?", exp_s, r["verdict"]))
+    L += ["- 读法：这条不是日历提醒。书每 %d 个交易日重排，那一天换票本来就会被重新决定；"
+          "两次决策之间唯一能改主意的是价差——只有它越过来回成本（%.2f pp），再动一次才不亏。"
+          % (REBAL, float((sw.get("criteria") or {}).get("toll_pp") or 0.0)), ""]
+    return L
 
 
 def floor_ledger_md(fl):
@@ -754,6 +792,7 @@ def card(ticket, mk, sched, asof, beta, extra):
                         format(int(r["amount"]), ",") if r["amount"] else "-"))
         L += ["", "整手取整后欠投 %.2f%% NAV（留在现金腿，不重分配）。" % ticket["underspend_pct"]]
         L += permission_md(extra.get("permission"))
+        L += swap_trigger_md(extra.get("swap_trigger"))
         cm = extra.get("cash_money")
         if cm:
             L += ["", "## 现金那一半今天赚多少钱（r1245）"]
@@ -1308,6 +1347,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "ledger": {"bars": int(state.get("rows", 0)), "nav": round(float(state["nav"]), 8),
                           "rows_added": len(merged), "engine_naive_vs_ledger": drift},
                "entry_gate": entry_gate_support(),
+               "swap_trigger": _json_face(SWAP_FACE),
                "width_disclosure": wd,
                "live_width_ruler": ruler,
                "price_basis": basis,
@@ -1344,6 +1384,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "carry": carry, "restatements": payload["restatements"],
                       "cash_money": payload["cash_leg"]["money"],
                       "entry_gate": payload["entry_gate"],
+                      "swap_trigger": payload["swap_trigger"],
                       "permission": payload["permission"],
                       "bets_line": bets_line,
                       "conc_line": conc_line,
@@ -3364,6 +3405,32 @@ def selftest():
     chk("leg50c floor ledger: HOLDING says the path itself is under the floor and no re-trim "
         "is needed",
         "HOLDING" in _fl_h_md and "无需再裁剪" in _fl_h_md, "")
+
+    # 51a-b. r1466: the sheet that carries the swap has to carry the trigger too, and an
+    # absent trigger face prints one line instead of an empty section that reads as
+    # "there is nothing to watch".
+    _sw = {"criteria": {"toll_pp": 0.16}, "recheck_rule": "act on this bar: ...",
+           "pairs": [{"leg_symbol": "159501", "sibling_symbol": "159513",
+                      "today_gap_pp": 8.6708, "mean_gap_pp": 0.8316,
+                      "one_off_gain_cny": 5038.7, "repeatable_gain_cny": 573.8,
+                      "window_share": 0.6343, "source_verdict": "SWAP_SAVES",
+                      "expiry": {"n_completed": 0, "n_censored": 1, "median_sessions": None},
+                      "verdict": "ACT_ON_THIS_BAR"},
+                     {"leg_symbol": "159577", "sibling_symbol": "513850",
+                      "today_gap_pp": 0.19, "mean_gap_pp": -0.0758,
+                      "one_off_gain_cny": None, "repeatable_gain_cny": None,
+                      "window_share": 0.3948, "source_verdict": "GAP_IMMATERIAL",
+                      "expiry": {"n_completed": 27, "n_censored": 1, "median_sessions": 3.0},
+                      "verdict": "NOT_ACTIONABLE"}]}
+    _sw_md = "\n".join(swap_trigger_md(_sw))
+    chk("leg51a swap trigger: the sheet states when to look again, a censored episode is "
+        "printed as unmeasured (not 0 sessions), and an immaterial pair is not priced at 0",
+        "换票之后什么时候再看一次" in _sw_md and "未测" in _sw_md
+        and "ACT_ON_THIS_BAR" in _sw_md and "钱不单列" in _sw_md
+        and " volte" not in _sw_md, "")
+    chk("leg51b swap trigger: an absent face prints one line, never a silent pass",
+        "这一问答不了" in "\n".join(swap_trigger_md(None))
+        and "换票之后什么时候再看一次" in "\n".join(swap_trigger_md(None)), "")
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

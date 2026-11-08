@@ -400,6 +400,116 @@
    "tol_pp": 0.25
   }
  },
+ "swap_trigger": {
+  "artifact": "etf_book_swap_trigger",
+  "session": "2026-11-06",
+  "ticket": "TICKET-2026-11-06.json",
+  "source_face": "results/etf_book_sibling_gap.json",
+  "criteria": {
+   "episode_share": 0.5,
+   "tail_percentile": 90.0,
+   "fast_expiry_sessions": 20,
+   "structural_share": 0.8,
+   "cost_bp_per_side": 8.0,
+   "toll_pp": 0.16
+  },
+  "pairs": [
+   {
+    "leg_symbol": "159501",
+    "sibling_symbol": "159513",
+    "sibling_name": "纳斯达克100ETF大成",
+    "index": "NDX100",
+    "source_verdict": "SWAP_SAVES",
+    "today_gap_pp": 8.6708,
+    "mean_gap_pp": 0.8316,
+    "toll_pp": 0.16,
+    "today_excess_pp": 7.8392,
+    "window_share": 0.6343,
+    "percentile": 100.0,
+    "expiry": {
+     "n_episodes": 1,
+     "n_completed": 0,
+     "n_censored": 1,
+     "median_sessions": null,
+     "p25_sessions": null,
+     "p75_sessions": null,
+     "max_sessions": null
+    },
+    "repeatable_gain_cny": 573.8,
+    "one_off_gain_cny": 5038.7,
+    "verdict": "ACT_ON_THIS_BAR",
+    "advice": "this episode is a tail of the pair's own history and either heals inside one rebalancing grid or was never healed inside the panel -- the one-off part does not wait for the next decision bar",
+    "why": ""
+   },
+   {
+    "leg_symbol": "513100",
+    "sibling_symbol": "159513",
+    "sibling_name": "纳斯达克100ETF大成",
+    "index": "NDX100",
+    "source_verdict": "SWAP_SAVES",
+    "today_gap_pp": 6.2867,
+    "mean_gap_pp": 1.4062,
+    "toll_pp": 0.16,
+    "today_excess_pp": 4.8805,
+    "window_share": 0.8462,
+    "percentile": 99.62,
+    "expiry": {
+     "n_episodes": 2,
+     "n_completed": 1,
+     "n_censored": 1,
+     "median_sessions": 22.0,
+     "p25_sessions": 22.0,
+     "p75_sessions": 22.0,
+     "max_sessions": 22.0
+    },
+    "repeatable_gain_cny": 966.2,
+    "one_off_gain_cny": 3183.1,
+    "verdict": "WINDOW_ALWAYS_OPEN",
+    "advice": "the pair trades wider than the round-trip toll on almost every session: this is a standing condition, so the swap is a permanent re-tickering and there is nothing to watch between decision bars",
+    "why": ""
+   },
+   {
+    "leg_symbol": "159577",
+    "sibling_symbol": "513850",
+    "sibling_name": "美国50ETF易方达",
+    "index": "US50",
+    "source_verdict": "GAP_IMMATERIAL",
+    "today_gap_pp": 0.1903,
+    "mean_gap_pp": -0.0758,
+    "toll_pp": 0.16,
+    "today_excess_pp": 0.2661,
+    "window_share": 0.3948,
+    "percentile": 63.72,
+    "expiry": {
+     "n_episodes": 28,
+     "n_completed": 27,
+     "n_censored": 1,
+     "median_sessions": 3.0,
+     "p25_sessions": 1.0,
+     "p75_sessions": 13.0,
+     "max_sessions": 188.0
+    },
+    "repeatable_gain_cny": null,
+    "one_off_gain_cny": null,
+    "verdict": "NOT_ACTIONABLE",
+    "advice": "the gap does not clear the round-trip toll: swapping would pay more to move than it saves, so the trigger is the gap itself (re-read on the next decision bar)",
+    "why": ""
+   }
+  ],
+  "verdict_counts": {
+   "ACT_ON_THIS_BAR": 1,
+   "WINDOW_ALWAYS_OPEN": 1,
+   "NOT_ACTIONABLE": 1
+  },
+  "repeatable_gain_cny": 1540.0,
+  "one_off_gain_cny": 8221.8,
+  "recheck_rule": "act on this bar: the one-off part of 8,222 CNY is unmeasured -- no comparable episode in the panel ever healed, so nothing here says the window waits. After execution the only number that can bring the decision back is the round-trip toll: re-read this face on the next decision bar, and act again only if a pair's gap exceeds 0.16 pp (2 x 8 bp per side).",
+  "caveats": [
+   "the trigger is priced in pp of notional and compared against the round-trip cost only; it does not price tracking difference, fee, size or FX-hedge policy between the two tickers",
+   "episode lengths are measured on the reconstructed gap, which inherits the single IOPV anchor of the gap face; censored episodes are reported, never scored as zero",
+   "a 'window always open' reading means the pair is structurally wide, not that the swap has to be repeated: the book only has to hold it once"
+  ]
+ },
  "width_disclosure": {
   "ticket_names": 5,
   "card_names": 12,

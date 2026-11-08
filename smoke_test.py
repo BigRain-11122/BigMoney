@@ -771,6 +771,15 @@ def main() -> int:
              "scripts/etf_book_sibling_gap.py", ["selftest"]),
             ("product: etf_book_sibling_gap (history re-derived from the panels, anchor re-checked)",
              "scripts/etf_book_sibling_gap.py", ["check"]),
+            # r1466: the swap was priced but the sheet carrying it did not say when to look
+            # again. The legs pin that the action price is the round-trip toll (not a mean,
+            # not a percentile), that a censored episode is reported rather than scored as
+            # zero sessions, that an unmeasured perishability resolves toward acting, and
+            # that a pair the upstream face called immaterial is never an action.
+            ("product: etf_book_swap_trigger (when does the swap have to be looked at again)",
+             "scripts/etf_book_swap_trigger.py", ["selftest"]),
+            ("product: etf_book_swap_trigger (trigger re-derived from the gap face's own panels)",
+             "scripts/etf_book_swap_trigger.py", ["check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a

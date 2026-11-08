@@ -923,6 +923,12 @@ LEGS = [
     # verdict drifted (0.4s).
     ("sibling_gap",
      ["python", "scripts/etf_book_sibling_gap.py", "check"]),
+    # r1466: sibling_gap answers "does the gap repeat" and leaves the reader holding a sheet
+    # with two numbers and no next action. This leg re-derives the trigger from the gap
+    # face's own reconstruction: the round-trip toll as the action price, the measured
+    # lifetime of a comparable episode, and the word that says act-now / any-bar / nothing.
+    ("swap_trigger",
+     ["python", "scripts/etf_book_swap_trigger.py", "check"]),
     # r1440: forty rounds read the calendar and the order page as two separate
     # subjects. This leg puts them in one sentence from receipts only (no
     # repricing): today the ticket executes nobond_vt08_adopted at book_weight
