@@ -140,7 +140,12 @@ def _lane_freshness_state() -> dict:
                "why": l.get("why")}
               for l in lanes
               if l.get("verdict") in ("stalled", "behind_1d", "absent",
-                                      "unreadable", "unverifiable")]
+                                      "unreadable", "unverifiable",
+                                      # D-20261108-14: a lane the coverage rule
+                                      # caught but which has no reader is behind
+                                      # nothing measurable -- it must still reach
+                                      # the page instead of vanishing
+                                      "unmeasured")]
     return {"present": bool(doc), "as_of": doc.get("as_of"),
             "verdict": doc.get("verdict"), "n_lanes": doc.get("n_lanes"),
             "n_auditable": doc.get("n_auditable"),
@@ -151,6 +156,13 @@ def _lane_freshness_state() -> dict:
             # machine that stopped reporting is (page shows who owes the data)
             "hosts_down": doc.get("hosts_down") or [],
             "lanes_hostage": doc.get("lanes_hostage") or [],
+            # D-20261108-14: silence (>24h) and a stopped lane are two alarms;
+            # the page carries both rather than the louder of the two
+            "hosts_silent": doc.get("hosts_silent") or [],
+            "silence_verdict": doc.get("silence_verdict"),
+            "host_silent_hours": doc.get("host_silent_hours"),
+            "unmeasured_lanes": doc.get("unmeasured_lanes") or [],
+            "coverage": doc.get("coverage") or {},
             "hosts": {k: {kk: v.get(kk) for kk in
                           ("last_seen", "age_h", "alive", "lanes_unverifiable")}
                       for k, v in (doc.get("hosts") or {}).items()},

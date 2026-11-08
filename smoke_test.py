@@ -8467,6 +8467,50 @@ def _leg_size_age_control():
               False, repr(e)[:180])
 
 
+    try:
+        # D-20261108-14: the coverage contract is the map UNION the lanes this
+        # board reads. The leg recomputes the union from config/lane_hosts.json
+        # (a typed-in count reads red), demands a row for every declared writer,
+        # and keeps the second half honest too: silence (>24h) is its own alarm
+        # and must be derived from the heartbeat ages, not copied onto the page.
+        import data_lane_freshness as _dlfc
+        _lfdc = json.load(open("results/data_lane_freshness.json",
+                               encoding="utf-8"))
+        _badc = []
+        _decl = _dlfc.declared_lane_hosts()
+        _covered = {r.get("writer") for r in (_lfdc.get("lanes") or [])}
+        # a lane judged on the statute lives in `period_lanes`, not in `lanes`
+        _covered |= {r.get("writer")
+                     for r in (_lfdc.get("period_lanes") or [])}
+        _miss = sorted(w for w in _decl if w not in _covered)
+        if _miss:
+            _badc.append("declared lanes with no row: " + ",".join(_miss))
+        _cov = _lfdc.get("coverage") or {}
+        if _cov.get("declared_writers") != len(_decl):
+            _badc.append(f"coverage says {_cov.get('declared_writers')} writers, "
+                         f"the map holds {len(_decl)}")
+        _sil = set(_lfdc.get("hosts_silent") or [])
+        _derived = {h for h, v in (_lfdc.get("hosts") or {}).items()
+                    if (v.get("age_h") or 0) > _dlfc.HOST_SILENT_H
+                    and (v.get("lanes") or [])}
+        if _sil != _derived:
+            _badc.append(f"silent hosts printed {sorted(_sil)} vs derived "
+                         f"{sorted(_derived)}")
+        _unm = set(_lfdc.get("unmeasured_lanes") or [])
+        _unm_rows = {r["lane"] for r in (_lfdc.get("lanes") or [])
+                     if r.get("verdict") == "unmeasured"}
+        if _unm != _unm_rows:
+            _badc.append("unmeasured list disagrees with the rows")
+        check("product: the freshness board covers the lane map, and a silent "
+              "owner is its own alarm",
+              not _badc, "; ".join(_badc)[:200]
+              or f"{len(_decl)} declared writers all have rows; "
+                 f"{len(_sil)} silent owner(s) derived from heartbeats")
+    except Exception as e:
+        check("product: the freshness board covers the lane map, and a silent "
+              "owner is its own alarm", False, repr(e)[:180])
+
+
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
     n_fail = len(RESULTS) - n_pass

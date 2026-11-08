@@ -10356,3 +10356,30 @@ r1421 已把 top-2 年度线钉成 Sharpe 换装，并留下唯一起作用的�
 
 正身 = `scripts/etf_book_year_attribution.py`（selftest 6 腿）+ `results/etf_book_year_attribution.json`
 + smoke 两腿 + digest DIGEST-20261108-r1423-year-attribution.md
+
+
+## E430 — 覆盖契约要是「声明面 ∪ 已读面」，而不是已读面；静默与断供是两条旗（r1424 bm-c）
+
+集团 D-20261108-14 的实证：`config/lane_hosts.json` 声明 9 条道全部挂在一台静默 194h 的机器名下，
+而新鲜度板一条都没有它们——于是「这条道不产数」与「没人看这条道」印出来是同一片空白。板子的覆盖面
+自己就是缺口，且缺口和正常长得一模一样。
+
+正身 = `scripts/data_lane_freshness.py`（自检 25→28）。三条可复用：
+①**遵守契约要用「声明面 ∪ 已读面」**：`board_lanes()` 读 map 的每个 writer，已有 reader 的复用，
+没有的产一行 `kind=undeclared` → `verdict=unmeasured`（**不是** `absent`，也**不是**静默丢弃）。
+一行的缺席和一条道的沉默必须是两句话。实测本窗 11 条 registry + 4 条 union = 15 行，12 个声明 writer
+全部有行（period_lanes 的 `update_fund_statements` 在另一个区段，只有把两区合起来才算覆盖）。
+②**「滚动窗道」必须按它自己的窗判**：sina 资金流自述「尾落后 >20 交易日才刷新」，用真日历逐日判会
+每天印一条假警；给它 `window_trading_days=20`，窗内读 `in_sync` 且把 `days_behind` 一起印出来，
+同时 `worst` 不许把这条道当最差（假警报=把警报变成噪音）。
+③**静默是独立闹钟**：认证书面线 2h 回答「这台机器能不能为自己的行作证」，24h 回答「这个属主还报不
+报到」——两条完全不同的旗。实况：一条道 `in_sync` 而其属主静默 215h，合并成一条旗就只剩「绿」。
+板面 `silence_verdict` / `hosts_silent` 独立成块，md 里独立成节。
+
+自摘自足：新腿首跑即红——覆盖判据只数 `lanes`，漏了 `period_lanes` 里的 `update_fund_statements`，
+于是「已覆盖」被读成「缺行」。**两个区段的面，判决必须从两段合起来读**。
+
+正身 = `scripts/data_lane_freshness.py`（selftest 28/28：L28 覆盖并集 / L29 窗口 vs 最差 / L30 静默
+与 3h 不触发）+ `results/data_lane_freshness.json` + `monitor/build_status.py` 新字段
++ smoke 腿「the freshness board covers the lane map, and a silent owner is its own alarm」
++ `fleet/backlog.md` 四卡行（D-20261108-14 第二腿：B-CITY3D-01/02、B-XIDUDU-01/02）

@@ -53,6 +53,10 @@ MACHINES_DIR = os.path.join(ROOT, "fleet", "machines")
 # every few minutes, so two hours of silence on the owning machine means nobody
 # is collecting, not that the copy on this disk is authoritative.
 HOST_DOWN_H = 2.0
+# D-20261108-14: the certification line (2h) and the silence alarm (24h) answer
+# different questions. 2h = "can this host vouch for the row it wrote?"; 24h =
+# "has the owner stopped reporting at all?" -- reported separately.
+HOST_SILENT_H = 24.0
 
 DAY8_RE = re.compile(r"^(\d{4})(\d{2})(\d{2})\.json$")
 # envelope keys that name the machine whose data the number describes
@@ -78,6 +82,10 @@ LANES = [
      "fatal_loss": "pool day slices are terminal at the close; no superset arrives later"},
     {"lane": "lhb", "dept": "data", "owner": "bm-a", "writer": "update_lhb",
      "kind": "status", "path": "results/lhb_update_status.json", "key": "cutoff"},
+    {"lane": "lhb_inst", "dept": "data", "owner": "bm-c",
+     "writer": "update_lhb_inst", "kind": "status",
+     "path": "results/lhb_inst_update_status.json", "key": "cutoff",
+     "fatal_loss": "vendor re-serves the range on later pulls, so a missed month is recoverable by moving FIRST_DATE; the panel is append-only by key"},
     {"lane": "futures", "dept": "data", "owner": "bm-a", "writer": "update_futures",
      "kind": "status", "path": "results/futures_update_status.json", "key": "data_cutoff",
      "panel_csv": {"dir": "data/futures_daily", "pattern": "*.csv"}},
@@ -121,6 +129,79 @@ LANES = [
                    "counters; this row reads its last captured day and its "
                    "per-hole causes)"},
 ]
+
+
+# --------------------------------------------- coverage: the map, not the list
+# D-20261108-14 (group, 12:00 batch): the coverage contract is
+# `config/lane_hosts.json` UNION the lanes this board already reads. Measured
+# 2026-11-08: the map declared nine lanes owned by a machine that had been
+# silent for 194h, and none of them had a row here -- so "the lane produces
+# nothing" and "nobody is looking at the lane" printed as the same blank space.
+# A lane declared by the map but missing from this file is now a ROW, not a
+# silent omission: the map says it exists, so the board has to say either what
+# it reads or that it has no reader for it.
+#
+# `window_trading_days` marks a lane whose own contract is a rolling window
+# (sina money flow keeps a rolling 250-trading-day window and refreshes only
+# when the tail is 20 days stale). Judging such a lane against "every official
+# day since the tail" would print a permanent false alarm; the window is the
+# lane's declared promise, so the window is the measurement (r1201 class: judge
+# a lane by its own contract, never by another lane's).
+WRITER_FACES = [
+    {"lane": "ah_panel", "dept": "data", "writer": "ah_panel_puller",
+     "kind": "status", "path": "results/ah_panel_status.json", "key": "cutoff",
+     "panel_csv": {"dir": "data/ah_panel/per", "pattern": "*.csv"},
+     "machine_local": True,
+     "fatal_loss": "a premium pair day is quotable only from that day's closes"},
+    {"lane": "minute_feed", "dept": "data", "writer": "update_minute_feed",
+     "kind": "panel_csv", "dir": "data/minute_feed", "pattern": "*.csv",
+     "machine_local": True,
+     "fatal_loss": "a minute bar outside the source's rolling window is gone"},
+    {"lane": "sina_mf", "dept": "data", "writer": "update_sina_mf",
+     "kind": "status", "path": "results/sina_mf_update_status.json",
+     "key": "panel.cutoff", "window_trading_days": 20,
+     "window_basis": "the collector's own no-op rule: it refreshes only when "
+                     "the panel tail is more than 20 trading days stale"},
+    {"lane": "ths_panel", "dept": "data", "writer": "update_ths_panel",
+     "kind": "status", "path": "data/ths_ggzjl/status.json", "key": "cutoff"},
+]
+
+
+def declared_lane_hosts(root=ROOT):
+    """{writer: host} exactly as the collector family resolves it (single source)."""
+    try:
+        with open(os.path.join(root, "config", "lane_hosts.json"),
+                  encoding="utf-8") as f:
+            doc = json.load(f)
+    except Exception:                                   # noqa: BLE001
+        return {}
+    hosts = doc.get("lane_hosts") if isinstance(doc, dict) else None
+    return hosts if isinstance(hosts, dict) else {}
+
+
+def board_lanes(root=ROOT):
+    """LANES + every writer the map declares that this file still has no row for.
+
+    Returned rows carry `origin`: "registry" for the hand-written entries and
+    "lane_hosts_union" for the map-derived ones, so a reader can tell a lane
+    somebody measured from a lane the coverage rule just caught. An unmapped
+    writer becomes an `undeclared` row with its own verdict -- never dropped.
+    """
+    out = [dict(s) for s in LANES]
+    covered = {s.get("writer") for s in LANES + PERIOD_LANES if s.get("writer")}
+    by_writer = {s["writer"]: s for s in WRITER_FACES}
+    for writer in sorted(declared_lane_hosts(root)):
+        if writer in covered:
+            continue
+        spec = by_writer.get(writer)
+        if spec is None:
+            out.append({"lane": writer, "writer": writer, "kind": "undeclared",
+                        "origin": "lane_hosts_union"})
+        else:
+            out.append(dict(spec, origin="lane_hosts_union"))
+    for s in out:
+        s.setdefault("origin", "registry")
+    return out
 
 
 # ------------------------------------------------------------ takeover face
@@ -368,14 +449,42 @@ def _host_health(host, now, machines_dir=None):
 def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
     rows = []
     here = _machine_id() or "unknown"
-    for spec in (lanes if lanes is not None else LANES):
+    specs = list(lanes) if lanes is not None else board_lanes(root)
+    for spec in specs:
         row = {"lane": spec["lane"], "dept": spec.get("dept"),
                "owner": spec.get("owner"), "writer": spec.get("writer"),
-               "kind": spec["kind"]}
+               "kind": spec["kind"], "origin": spec.get("origin", "registry")}
+        if spec.get("window_trading_days"):
+            row["window_trading_days"] = spec["window_trading_days"]
+            row["window_basis"] = spec.get("window_basis")
+        if spec["kind"] == "undeclared":
+            # the map declares this lane and this board has no reader for it:
+            # that is a coverage gap with a name, not an empty space
+            row.update({"tail": None, "expected": None, "missing_days": [],
+                        "n_missing": 0, "verdict": "unmeasured",
+                        "why": ("declared in config/lane_hosts.json but this "
+                                "board has no reader for the lane -- nobody is "
+                                "measuring it (D-20261108-14 union rule)")})
+            rows.append(row)
+            continue
         tail, extra = None, {}
         try:
             if spec["kind"] == "day_files":
                 tail, extra = tail_day_files(os.path.join(root, spec["dir"]))
+            elif spec["kind"] == "panel_csv":
+                # the panel IS the measurement here: a status envelope whose
+                # only date field is a run timestamp (minute_feed publishes
+                # last_success_ts) cannot say which bar day exists
+                tail, extra = panel_tail_csv(
+                    os.path.join(root, spec["dir"]),
+                    spec.get("pattern", "*.csv"))
+                extra["tail_source"] = "panel_csv"
+                # a panel on THIS disk is this machine's own archive, so the
+                # reading is attributable to `here` even though no envelope says
+                # it -- the data is the evidence
+                if spec.get("machine_local"):
+                    extra["reported_by"] = here
+                    extra["data_scope"] = "machine_local"
             elif spec["kind"] == "zt_days":
                 tail, faces = tail_zt_days(os.path.join(root, spec["path"]))
                 extra["faces"] = faces   # nested: a face name is not a lane key
@@ -495,6 +604,13 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
         verdict, missing, exp = judge(tail, days, now)
         row.update({"tail": tail, "expected": exp, "missing_days": missing,
                     "n_missing": len(missing), "verdict": verdict})
+        # a rolling-window lane is late only past its own declared window; inside
+        # it the gap is the design, and the number still travels (days_behind)
+        win = spec.get("window_trading_days")
+        if win and verdict in ("behind_1d", "stalled") and len(missing) <= win:
+            row["verdict"] = "in_sync"
+            row["within_window"] = True
+            row["days_behind"] = len(missing)
         row.update(extra)
         if spec.get("fatal_loss"):
             row["loss_mode"] = spec["fatal_loss"]
@@ -519,8 +635,7 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
     # behind: the computed reading survives as `copy_verdict`, the verdict
     # itself becomes `unverifiable` unless a host's own face vouches for it.
     for r in rows:
-        spec = next((s for s in (lanes if lanes is not None else LANES)
-                     if s["lane"] == r["lane"]), {})
+        spec = next((s for s in specs if s["lane"] == r["lane"]), {})
         host = None
         if _lane_host is not None and spec.get("writer"):
             try:
@@ -532,6 +647,12 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
         rep = r.get("reported_by")
         if r["kind"] in ("day_files", "zt_days"):
             # a day-file dir is always somebody's local copy -- this machine's
+            rep = rep or here
+            auth = "host_copy" if (host and rep == host) else "non_host_copy"
+        elif spec.get("machine_local"):
+            # same rule for a lane whose data lives in a local panel dir: the
+            # panel is the machine's own archive, so it is a host copy on the
+            # host and somebody else's copy anywhere else
             rep = rep or here
             auth = "host_copy" if (host and rep == host) else "non_host_copy"
         elif rep is None:
@@ -562,7 +683,8 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
             r["verdict"] = "retired"
             r["retired_reason"] = spec["retired"]
             continue
-        if not r["auditable"] and r["verdict"] not in ("absent", "unreadable"):
+        if not r["auditable"] and r["verdict"] not in ("absent", "unreadable",
+                                                     "unmeasured"):
             r["copy_verdict"] = r["verdict"]
             r["verdict"] = "unverifiable"
             r["why"] = (
@@ -610,6 +732,24 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
         if hh["last_seen"] is not None:
             h["last_seen"], h["age_h"], h["alive"] = (
                 hh["last_seen"], hh["age_h"], hh["alive"])
+    # D-20261108-14: "the lane stopped producing" and "the owner stopped
+    # reporting" are two different alarms and must not collapse into one flag.
+    # A lane can be in_sync while its owner is silent (the file on this disk was
+    # written days ago and still covers the window), and a host can be silent
+    # with every lane still fresh (it wrote everything before going quiet). So
+    # silence is its own block, its own window (24h, not the 2h certification
+    # line), and its own verdict word.
+    hosts_silent = []
+    for h in hosts.values():
+        if not h["lanes"]:
+            continue
+        age = h.get("age_h")
+        silent = age is not None and age > HOST_SILENT_H
+        h["silent"] = silent
+        if silent:
+            h["silent_lanes"] = sorted(h["lanes"])
+            hosts_silent.append(h["host"])
+    hosts_silent.sort()
     # a lane nobody can certify AND whose host stopped reporting is not an open
     # question any more -- it is an outage with a name on it
     hosts_down = sorted(h["host"] for h in hosts.values()
@@ -629,7 +769,10 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
                ("host_down" if hosts_down else
                 ("uncertified" if uncertified else "all_fresh")))
     live = [r for r in rows if r["verdict"] != "retired"]
-    worst_row = max(live, key=lambda r: r.get("n_missing", 0)) if live else None
+    # "worst" must be a lane that is actually late: a rolling-window lane can
+    # carry nine missing calendar days by design and still be in_sync
+    late = [r for r in live if r["verdict"] != "in_sync"]
+    worst_row = max(late, key=lambda r: r.get("n_missing", 0)) if late else None
     exp = rows[0].get("expected") if rows else None
     return {
         "schema": "data-lane-freshness/v1",
@@ -645,6 +788,22 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
         "verdict": verdict,
         "hosts": {k: v for k, v in sorted(hosts.items())},
         "hosts_down": hosts_down,
+        "hosts_silent": hosts_silent,
+        "host_silent_hours": HOST_SILENT_H,
+        "silence_verdict": ("hosts_silent" if hosts_silent else "none"),
+        "unmeasured_lanes": [r["lane"] for r in rows
+                             if r["verdict"] == "unmeasured"],
+        "coverage": {
+            "registry_lanes": len([r for r in rows
+                                   if r.get("origin") == "registry"]),
+            "lane_hosts_union_lanes": len([r for r in rows
+                                           if r.get("origin")
+                                           == "lane_hosts_union"]),
+            "declared_writers": len(declared_lane_hosts(root)),
+            "rule": "config/lane_hosts.json owners UNION the lanes this board "
+                    "reads; a declared lane with no reader is `unmeasured`, "
+                    "never absent (D-20261108-14)",
+        },
         "lanes_hostage": lanes_hostage,
         "frozen_without_takeover": frozen,
         "host_down_hours": HOST_DOWN_H,
@@ -986,6 +1145,32 @@ def render_md(report, cert="auto"):
             tailnote += (f"- `{host}`: last seen {h.get('last_seen')}"
                          + (f" ({age}h ago)" if age is not None else "")
                          + f" -- holding back {', '.join(h.get('lanes_unverifiable') or [])}\n")
+    if report.get("hosts_silent"):
+        # D-20261108-14: its own section -- a silent owner is not the same alarm
+        # as a lane that stopped, and merging the two hid nine lanes for 194h
+        tailnote += ("\n## Owners that stopped reporting\n\n"
+                     "A different question from the section above: these "
+                     "machines have written no heartbeat for more than "
+                     f"{report.get('host_silent_hours')}h, so the lanes they own "
+                     "are being judged from whatever was last committed. A lane "
+                     "here can still read `in_sync` -- the number is old, the "
+                     "owner is gone, and nobody would notice the day the file "
+                     "stops being written.\n\n")
+        for host in report["hosts_silent"]:
+            h = (report.get("hosts") or {}).get(host) or {}
+            age = h.get("age_h")
+            tailnote += (f"- `{host}`: last seen {h.get('last_seen')}"
+                         + (f" ({age}h ago)" if age is not None else "")
+                         + f" -- owns {', '.join(h.get('silent_lanes') or [])}\n")
+    unm = report.get("unmeasured_lanes") or []
+    if unm:
+        tailnote += ("\n## Lanes the coverage rule caught, with no reader\n\n"
+                     "`config/lane_hosts.json` declares these lanes; this board "
+                     "has no extractor for them, so nothing is measuring them. "
+                     "They are listed instead of omitted -- a lane nobody reads "
+                     "and a lane that produces nothing must not look the same.\n\n")
+        for name in unm:
+            tailnote += f"- `{name}`: declared by the map, unmeasured here\n"
     frozen = report.get("frozen_without_takeover") or []
     if frozen:
         tailnote += ("\n## Lanes nobody can pick up while the host is away\n\n"
@@ -1728,7 +1913,104 @@ def selftest():
     print("[PASS] L27 a missing day is printed with who could have captured it, "
           "and a takeover is not sold as backfill", flush=True)
 
-    print("selftest: 25/25 PASS", flush=True)
+    # L28 (D-20261108-14) the coverage contract is the MAP, not the hand list.
+    # Measured 2026-11-08: nine lanes were declared in config/lane_hosts.json
+    # under a machine silent for 194h and none of them had a row here, so "the
+    # lane produces nothing" and "nobody is looking" printed as the same blank.
+    # Both halves are asserted: a mapped writer this file can read becomes a
+    # row with its own tail, and a mapped writer it cannot read becomes an
+    # `unmeasured` row -- never a silent omission and never `absent`.
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "config"))
+        os.makedirs(os.path.join(td, "results"))
+        os.makedirs(os.path.join(td, "m"))
+        json.dump({"lane_hosts": {"update_sina_mf": "bm-c",
+                                  "update_heat": "bm-c",
+                                  "some_unmapped_puller": "bm-b"}},
+                  open(os.path.join(td, "config", "lane_hosts.json"), "w"))
+        json.dump({"machine": "bm-c", "panel": {"cutoff": "2026-10-20"}},
+                  open(os.path.join(td, "results",
+                                    "sina_mf_update_status.json"), "w"))
+        _b28 = {s["lane"]: s for s in board_lanes(td)}
+        assert _b28["some_unmapped_puller"]["kind"] == "undeclared", _b28.keys()
+        assert _b28["sina_mf"]["kind"] == "status", _b28["sina_mf"]
+        # update_heat already has a registry row: the union must not duplicate it
+        assert [s["lane"] for s in board_lanes(td)].count("heat") == 1, _b28
+        _union = [s for s in board_lanes(td)
+                  if s.get("origin") == "lane_hosts_union"]
+        assert {s["lane"] for s in _union} == {"sina_mf",
+                                               "some_unmapped_puller"}, _union
+        rep28 = audit(days, now, root=td,
+                      machines_dir=os.path.join(td, "m"), lanes=_union)
+        _o28 = {r["lane"]: r for r in rep28["lanes"]}
+        assert _o28["sina_mf"]["verdict"] == "in_sync", _o28["sina_mf"]
+        assert _o28["sina_mf"]["days_behind"] == 7, _o28["sina_mf"]
+        assert _o28["some_unmapped_puller"]["verdict"] == "unmeasured", _o28
+        assert rep28["unmeasured_lanes"] == ["some_unmapped_puller"], rep28
+        assert rep28["counts"].get("absent", 0) == 0, rep28["counts"]
+        assert rep28["coverage"]["lane_hosts_union_lanes"] == 2, rep28["coverage"]
+        assert "Lanes the coverage rule caught" in render_md(rep28)
+    print("[PASS] L28 a lane the map declares but this file cannot read is "
+          "`unmeasured`, and a readable one joins the board instead of hiding",
+          flush=True)
+
+    # L29 a rolling-window lane is late only past its own window. Judging it by
+    # "every official day since the tail" would print a permanent false alarm on
+    # a lane whose contract is a 20-trading-day window -- and a false alarm is
+    # how an alert becomes noise (r1201 class).
+    with tempfile.TemporaryDirectory() as td:
+        json.dump({"machine": "bm-c", "panel": {"cutoff": "2026-10-20"}},
+                  open(os.path.join(td, "p.json"), "w"))
+        _base = {"kind": "status", "path": "p.json", "key": "panel.cutoff",
+                 "writer": "update_sina_mf", "owner": "bm-c"}
+        spec29 = [dict(_base, lane="w_window", window_trading_days=20),
+                  dict(_base, lane="w_plain")]
+        rep29 = audit(days, now, root=td, lanes=spec29)
+        _o29 = {r["lane"]: r for r in rep29["lanes"]}
+        assert _o29["w_window"]["verdict"] == "in_sync", _o29["w_window"]
+        assert _o29["w_window"]["days_behind"] == 7, _o29["w_window"]
+        assert _o29["w_window"]["n_missing"] == 7, _o29["w_window"]
+        assert _o29["w_plain"]["verdict"] == "stalled", _o29["w_plain"]
+        # the window lane carries nine calendar days of gap and still may not be
+        # published as the worst lane: it is inside its own contract
+        assert rep29["worst"] == "w_plain", rep29["worst"]
+    print("[PASS] L29 a rolling-window lane is judged by its window and never "
+          "quoted as the worst lane", flush=True)
+
+    # L30 (D-20261108-14) "the lane stopped" and "the owner stopped reporting"
+    # are two alarms. A lane whose file was written before the host went quiet
+    # can still cover the window -- the number is in_sync and the machine is
+    # gone, and nothing would notice the day the file stops being written.
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "m"))
+        json.dump({"machine": "bm-b", "cutoff": "2026-10-29"},
+                  open(os.path.join(td, "f.json"), "w"))
+        spec30 = [{"lane": "fresh_lane", "kind": "status", "path": "f.json",
+                   "key": "cutoff", "owner": "bm-b", "writer": None}]
+        json.dump({"clock_read": "2026-10-28T10:00:00+08:00"},
+                  open(os.path.join(td, "m", "bm-b.json"), "w"))
+        rep30 = audit(days, now, root=td,
+                      machines_dir=os.path.join(td, "m"), lanes=spec30)
+        assert rep30["lanes"][0]["verdict"] == "in_sync", rep30["lanes"][0]
+        assert rep30["verdict"] == "all_fresh", rep30["verdict"]
+        assert rep30["hosts_silent"] == ["bm-b"], rep30["hosts_silent"]
+        assert rep30["silence_verdict"] == "hosts_silent", rep30
+        assert rep30["hosts"]["bm-b"]["silent_lanes"] == ["fresh_lane"], rep30
+        _md30 = render_md(rep30)
+        assert "Owners that stopped reporting" in _md30, _md30
+        assert "`bm-b`" in _md30.split("Owners that stopped reporting")[1], _md30
+        # a host inside the 24h window is not silent, and the section disappears
+        json.dump({"clock_read": "2026-10-29T17:00:00+08:00"},
+                  open(os.path.join(td, "m", "bm-b.json"), "w"))
+        rep30b = audit(days, now, root=td,
+                       machines_dir=os.path.join(td, "m"), lanes=spec30)
+        assert rep30b["hosts_silent"] == [], rep30b["hosts_silent"]
+        assert rep30b["silence_verdict"] == "none", rep30b
+        assert "Owners that stopped reporting" not in render_md(rep30b), rep30b
+    print("[PASS] L30 a silent owner is its own alarm -- a fresh-looking lane "
+          "does not clear it, and 3h of silence does not raise it", flush=True)
+
+    print("selftest: 28/28 PASS", flush=True)
     return 0
 
 
