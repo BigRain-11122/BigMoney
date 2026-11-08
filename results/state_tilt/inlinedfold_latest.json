@@ -1,0 +1,158 @@
+{
+ "study": "E536_inlined_fold",
+ "card": "E536-WHICH-REPO-SOURCE-CALLEE-THE-FOLD-REFUSED-TO-INLINE-IS-ACTUALLY-PURE-IN-LITERALS-ONCE-ITS-PARAMETERS-ARE-BOUND-TO-THE-SITE-S-ARGUMENTS",
+ "title": "whether the repo-source callee E533's fold refused to inline is pure in literals once its parameters are bound to the site's own arguments",
+ "generated": "2026-11-08T13:52:09",
+ "evidence_cutoff": "2026-11-08",
+ "population_source": "e536_inlined_fold.py::population() -- every arm E533 published open, split by whether E533 refused it because the callee is repository source",
+ "parent_face": "CALLPUREARM-2026-11-08.json",
+ "method_limits": [
+  "one level of inlining only: the callee's body is read and interpreted with its parameters bound to the arguments the site passes, and a call inside that body to another repo function is followed only while the chain stays under four hops",
+  "the interpreter is a whitelist: constants, containers, subscripts, arithmetic, comparisons, if/for/return/continue/break and a fixed builtin set; a statement or expression kind outside it stops the run and is published with its name",
+  "nothing in this repository is executed -- the tree is read as text and interpreted here, and no source is rewritten",
+  "a site argument whose expression is a name is followed through the nearest binding before the site in the caller, so 'literal once its binding is folded' is a statement about that one binding, not about the whole call stack",
+  "an item store that sits between a binding and the site is counted and published, and the folded value is published as the value of the unmutated container",
+  "sources_read is a snapshot of a live tree other lanes write to; it is published but not gated, while every class, every count and the verdict are re-derived"
+ ],
+ "summary": {
+  "sources_read": 1177,
+  "open_arms_in_parent": 4,
+  "arms_refused_because_the_callee_is_repo_source": 1,
+  "arms_out_of_scope": 3,
+  "arms_whose_inlined_body_runs_on_a_literal_argument": 1,
+  "arms_staying_open_because_of_the_body": 0,
+  "arms_staying_open_because_of_the_site_s_argument": 0,
+  "arms_by_body_class": {
+   "the_body_only_moves_its_parameters_around": 1
+  },
+  "arms_by_site_argument_class": {
+   "the_site_s_argument_is_a_literal_once_its_binding_is_folded": 1
+  },
+  "arms_by_refusal_attribution": {
+   "the_refusal_was_about_the_site_s_own_arguments": 1
+  },
+  "arms_by_outcome": {
+   "the_arm_becomes_decidable_because_the_inlined_body_runs_on_a_literal_argument": 1,
+   "the_arm_is_out_of_this_population_because_E533_did_not_refuse_it_over_repo_source": 3
+  }
+ },
+ "verdict": "every_repo_source_refusal_was_about_the_site_s_own_arguments_rather_than_the_callee",
+ "verdict_vocab": [
+  "every_repo_source_refusal_was_about_the_site_s_own_arguments_rather_than_the_callee",
+  "every_repo_source_refusal_was_about_the_callee_reading_module_state_or_the_tree",
+  "the_repo_source_refusals_split_between_the_callee_and_the_site_s_own_arguments",
+  "no_open_arm_in_the_parent_was_refused_because_its_callee_is_repo_source"
+ ],
+ "body_class_vocab": [
+  "the_body_only_moves_its_parameters_around",
+  "the_body_reads_module_state",
+  "the_body_reads_the_tree",
+  "the_body_calls_another_repo_function",
+  "the_callee_definition_could_not_be_read"
+ ],
+ "site_argument_class_vocab": [
+  "the_site_s_argument_is_a_literal",
+  "the_site_s_argument_is_a_literal_once_its_binding_is_folded",
+  "the_site_s_argument_resolves_through_its_binding_but_does_not_fold",
+  "the_site_s_argument_reads_a_name_the_fold_cannot_resolve"
+ ],
+ "refusal_attribution_vocab": [
+  "the_refusal_was_about_the_callee",
+  "the_refusal_was_about_the_site_s_own_arguments",
+  "the_refusal_was_about_both_the_callee_and_the_site_s_arguments",
+  "the_refusal_could_not_be_attributed_because_the_callee_could_not_be_read"
+ ],
+ "arm_outcome_vocab": [
+  "the_arm_becomes_decidable_because_the_inlined_body_runs_on_a_literal_argument",
+  "the_arm_stays_open_because_the_body_reads_module_state_or_the_tree",
+  "the_arm_stays_open_because_the_site_s_own_argument_is_not_literal",
+  "the_arm_is_out_of_this_population_because_E533_did_not_refuse_it_over_repo_source"
+ ],
+ "arms": [
+  {
+   "source": "scripts/e285_interrange_gap_ceiling.py",
+   "line": 505,
+   "callee": "ranges_are_row_identical",
+   "parameter": "hull",
+   "argument_expression": "interval(off['rows'], 'tight')",
+   "e533_fold_class": "the_callee_is_repo_source_and_is_not_inlined_here",
+   "in_population": true,
+   "callee_rel": "scripts/e285_interrange_gap_ceiling.py",
+   "callee_line": 108,
+   "body_class": "the_body_only_moves_its_parameters_around",
+   "body_reads": [],
+   "site_argument_class": "the_site_s_argument_is_a_literal_once_its_binding_is_folded",
+   "site_argument_value": null,
+   "intervening_item_stores": [
+    {
+     "line": 504,
+     "target": "off['rows'][1]['tight']"
+    }
+   ],
+   "inlined_value": "{'lo': 1.0, 'hi': 1.1, 'spread': 0.10000000000000009, 'n_rows_with_interval': 2}",
+   "refusal_attribution": "the_refusal_was_about_the_site_s_own_arguments",
+   "arm_outcome": "the_arm_becomes_decidable_because_the_inlined_body_runs_on_a_literal_argument",
+   "error": null
+  },
+  {
+   "source": "scripts/regime5_validation.py",
+   "line": 173,
+   "callee": "state_table",
+   "parameter": "idxs",
+   "argument_expression": "stats_idxs",
+   "e533_fold_class": "there_is_no_call_to_fold",
+   "in_population": false,
+   "callee_rel": null,
+   "callee_line": null,
+   "body_class": null,
+   "body_reads": [],
+   "site_argument_class": null,
+   "site_argument_value": null,
+   "intervening_item_stores": [],
+   "inlined_value": null,
+   "refusal_attribution": null,
+   "arm_outcome": "the_arm_is_out_of_this_population_because_E533_did_not_refuse_it_over_repo_source",
+   "error": null
+  },
+  {
+   "source": "scripts/regime5_validation.py",
+   "line": 319,
+   "callee": "state_table",
+   "parameter": "idxs",
+   "argument_expression": "win_stats",
+   "e533_fold_class": "there_is_no_call_to_fold",
+   "in_population": false,
+   "callee_rel": null,
+   "callee_line": null,
+   "body_class": null,
+   "body_reads": [],
+   "site_argument_class": null,
+   "site_argument_value": null,
+   "intervening_item_stores": [],
+   "inlined_value": null,
+   "refusal_attribution": null,
+   "arm_outcome": "the_arm_is_out_of_this_population_because_E533_did_not_refuse_it_over_repo_source",
+   "error": null
+  },
+  {
+   "source": "scripts/regime5_validation.py",
+   "line": 577,
+   "callee": "state_table",
+   "parameter": "idxs",
+   "argument_expression": "list(range(6))",
+   "e533_fold_class": "the_call_folds_to_a_literal_value",
+   "in_population": false,
+   "callee_rel": null,
+   "callee_line": null,
+   "body_class": null,
+   "body_reads": [],
+   "site_argument_class": null,
+   "site_argument_value": null,
+   "intervening_item_stores": [],
+   "inlined_value": null,
+   "refusal_attribution": null,
+   "arm_outcome": "the_arm_is_out_of_this_population_because_E533_did_not_refuse_it_over_repo_source",
+   "error": null
+  }
+ ]
+}

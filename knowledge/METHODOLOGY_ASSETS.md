@@ -13411,3 +13411,33 @@ smoke 腿 `# E542`；digest `research/digests/DIGEST-20261108-r1569-e542-survivo
 **落点** = \scripts/e543_statement_anchor.py\（run/check/verify + selftest 28 髓）+
 esults/state_tilt/STATEMENTANCHOR-2026-11-08.json\ + \statementanchor_latest.json\；smoke 腿 \# E543\；
 digest esearch/digests/DIGEST-20261108-r1570-e543-statement-anchor.md\。
+
+### E536 被拒绝内联的库内被调函数，绑定实参后到底是「纯」还是「真的读状态」（2026-11-08，r1571 bm-b）
+
+**链条**：E533 把「被调函数是本仓源码」当作折叠停止的理由。这句话说的是折叠器做了什么，不是被调函数
+本身。它把两种完全不同的东西归成一类：①被调体真的读模块状态/读树，怎么内联也没用；②被调体只是在搬
+参数，拒绝其实出在**调用点的实参**上。
+
+**读数**：母集 4 臂 → 只有 1 臂因「库内被调」被拒（`scripts/e285_interrange_gap_ceiling.py:505`
+`ranges_are_row_identical(..., interval(off['rows'], 'tight'))`）。内联一层后：`interval`
+（同文件 108）**只搬参数**（无模块状态、无读树）→ 拒因是**调用点的实参**，不是被调函数；沿一个绑定跳
+（503 行 `off = _fixture_arm()`）实参变成字面容器，内联体真的跑出值
+`{'lo': 1.0, 'hi': 1.1, 'spread': 0.1, 'n_rows_with_interval': 2}`。另 3 臂不属于本人口（E533 不是
+因库内被调而拒它们），照原样发布不丢。判决：`every_repo_source_refusal_was_about_the_site_s_own_
+arguments_rather_than_the_callee`。
+
+**三条教训**：
+1. **「折叠器拒绝」≠「对象不可判定」**——拒绝理由是折叠器的能力声明。要判归属，唯一办法是把被调体读
+   进来、把实参绑上去、让它跑出值；跑出值的那一刻，「拒因在谁身上」自己就分开了。
+2. **绑定一跳会跨过中间写**——505 行读的容器，在 503 行产生与 505 行之间被 504 行
+   `off['rows'][1]['tight'] = _td(0.9, 1.2)` 改过一格，而折出的 hull 恰好读这个键 → **折叠跑出来的值
+   是「未改容器」的值，不是调用点看到的值**。行内必须把中间 store 逐条发布并声明口径；否则「这条臂闭合
+   了」会被读成「这条臂的值复现了」。
+3. **解释器要按「读什么」分类，不按「叫什么」**——首版把仓库内顶层函数名当成模块状态（`_td` 被算成
+   module_state），于是纯函数被判成不纯；正解是顶层函数名单独成类（repo_call），是否真的不可折叠交给
+   跑一遍决定，而不是交给名字决定。同族坑：内建名（`float`/`min`）必须从「自由名」里排除，否则每个用
+   内建的纯函数都被判成读模块状态。
+
+**产物** = `scripts/e536_inlined_fold.py`（build/check/verify + selftest 12 臂）+
+`results/state_tilt/INLINEDFOLD-2026-11-08.json` + `inlinedfold_latest.json` + S6 腿 `inlined_fold` +
+smoke 腿 `# E536` + digest `research/digests/DIGEST-20261108-r1571-e536-inlined-fold.md`。

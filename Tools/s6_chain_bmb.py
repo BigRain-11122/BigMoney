@@ -2088,6 +2088,14 @@ LEGS = [
     # machine, and a third bucket names the faces only a checkout mtime could date. `check`
     # re-derives every lane's reading, both alarm lists and the verdict from the published rows.
     ("lane_freshness", ["python", "scripts/data_lane_freshness.py", "check"]),
+    # E536 asks whether the one repo-source callee E533's fold refused to inline is actually pure
+    # once its parameters are bound to the site's own arguments. The body of `interval`
+    # (e285_interrange_gap_ceiling.py:108) only moves its parameters around, so the refusal was
+    # about the site's argument `off['rows']`, not about the callee; following that one binding
+    # (`off = _fixture_arm()`) makes the argument literal and the inlined body runs to the hull the
+    # assertion consumes. `check` re-derives every body class, every site-argument class, every
+    # attribution and the verdict from the published rows.
+    ("inlined_fold", ["python", "scripts/e536_inlined_fold.py", "check"]),
 ]
 
 

@@ -23201,6 +23201,86 @@ except Exception as _e543x:
     _bad543.append(repr(_e543x)[:160])
     _d543 = "study could not be read"
 check(_name543, not _bad543, "; ".join(_bad543)[:240] or _d543)
+# E536: was the one repo-source callee E533's fold refused to inline actually impure, or was the
+#   refusal about the site's own argument?  * every body class, site-argument class and refusal
+#   attribution is re-derived from the published rows * an arm is closed only when the inlined body
+#   is pure and every argument is literal, and a closed arm must carry the value it ran to * an
+#   out-of-scope arm carries no attribution * doctored copies (a hand-written verdict, re-summed
+#   counts, a closed arm with no value, a value on an arm that did not run, a pure body blamed on
+#   the callee, a reading body credited to the site) must be refused
+_name536 = "E536 the repo-source callee inlined against the site's own arguments (r1571 bm-b)"
+_bad536 = []
+try:
+    _m536 = __import__("importlib").import_module("e536_inlined_fold")
+    _f536 = json.load(open(os.path.join("results", "state_tilt", "inlinedfold_latest.json"),
+                           encoding="utf-8"))
+    _s536 = _f536.get("summary") or {}
+    _r536 = _f536.get("arms") or []
+    _bad536.extend(_m536.face_problems(_f536))
+    if not _r536:
+        _bad536.append("the arm population is empty")
+    if _s536.get("open_arms_in_parent") != len(_r536):
+        _bad536.append("open_arms_in_parent does not equal the published arms")
+    _pop536 = [r for r in _r536 if r.get("in_population")]
+    if _s536.get("arms_refused_because_the_callee_is_repo_source") != len(_pop536):
+        _bad536.append("the repo-source population does not re-derive")
+    for _row536 in _pop536:
+        if _row536.get("body_class") not in _m536.BODY_VOCAB:
+            _bad536.append("row %s:%s carries no body class"
+                           % (_row536.get("source"), _row536.get("line")))
+            break
+        if _row536.get("arm_outcome") == _m536.O_CLOSED and not _row536.get("inlined_value"):
+            _bad536.append("row %s:%s is closed with no inlined value"
+                           % (_row536.get("source"), _row536.get("line")))
+            break
+    _doc536 = json.loads(json.dumps(_f536))
+    _doc536["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m536.face_problems(_doc536):
+        _bad536.append("a hand-written verdict was accepted")
+    _doc536 = json.loads(json.dumps(_f536))
+    _doc536["summary"]["arms_by_outcome"] = {"x": 1}
+    if not _m536.face_problems(_doc536):
+        _bad536.append("summary counts that do not re-derive were accepted")
+    _closed536 = [i for i, _r in enumerate(_f536["arms"])
+                  if _r.get("arm_outcome") == _m536.O_CLOSED]
+    if _closed536:
+        _doc536 = json.loads(json.dumps(_f536))
+        _doc536["arms"][_closed536[0]]["inlined_value"] = None
+        if not _m536.face_problems(_doc536):
+            _bad536.append("a closed arm without an inlined value was accepted")
+    _open536 = [i for i, _r in enumerate(_f536["arms"])
+                if _r.get("arm_outcome") == _m536.O_OPEN_ARG and _r.get("in_population")]
+    if _open536:
+        _doc536 = json.loads(json.dumps(_f536))
+        _doc536["arms"][_open536[0]]["inlined_value"] = "{'lo': 1}"
+        if not _m536.face_problems(_doc536):
+            _bad536.append("an inlined value on an arm that did not run was accepted")
+    _pure536 = [i for i, _r in enumerate(_f536["arms"])
+                if _r.get("body_class") == _m536.B_PURE and _r.get("in_population")]
+    if _pure536:
+        _doc536 = json.loads(json.dumps(_f536))
+        _doc536["arms"][_pure536[0]]["refusal_attribution"] = _m536.A_CALLEE
+        if not _m536.face_problems(_doc536):
+            _bad536.append("a pure body blamed on the callee was accepted")
+    _imp536 = [i for i, _r in enumerate(_f536["arms"])
+               if _r.get("body_class") in (_m536.B_MODULE, _m536.B_TREE)]
+    if _imp536:
+        _doc536 = json.loads(json.dumps(_f536))
+        _doc536["arms"][_imp536[0]]["refusal_attribution"] = _m536.A_SITE
+        if not _m536.face_problems(_doc536):
+            _bad536.append("a reading body credited to the site was accepted")
+    _d536 = ("%d arms / %d refused over repo source / closed %d / body-open %d / arg-open %d"
+             " / bodies %r / attribution %r"
+             % (len(_r536), _s536.get("arms_refused_because_the_callee_is_repo_source", 0),
+                _s536.get("arms_whose_inlined_body_runs_on_a_literal_argument", 0),
+                _s536.get("arms_staying_open_because_of_the_body", 0),
+                _s536.get("arms_staying_open_because_of_the_site_s_argument", 0),
+                _s536.get("arms_by_body_class", {}),
+                _s536.get("arms_by_refusal_attribution", {})))
+except Exception as _e536x:
+    _bad536.append(repr(_e536x)[:160])
+    _d536 = "study could not be read"
+check(_name536, not _bad536, "; ".join(_bad536)[:240] or _d536)
 
 if __name__ == "__main__":
     sys.exit(main())
