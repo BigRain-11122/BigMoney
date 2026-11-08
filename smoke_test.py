@@ -571,6 +571,17 @@ def main() -> int:
              "scripts/etf_book_admission_ruler_election.py", ["selftest"]),
             ("product: etf_book_admission_ruler_election (published election re-derived)",
              "scripts/etf_book_admission_ruler_election.py", ["check"]),
+            # r1431: the election named a ruler but no reason was switched, because that is
+            # an admission-rule change with its own round. The legs pin the conservativeness
+            # clause (a reporting change may never admit what is refused today -- checked as
+            # a property over 600 random year tables, since the two rulers cannot disagree
+            # that way by algebra), the degenerate-cell printing rule (a flat year table may
+            # not print a refusal), and that the published verdict re-derives from its own
+            # conditions rather than from a hand-written word.
+            ("product: etf_book_admission_refusal_caliber_adoption (selftest 12 legs)",
+             "scripts/etf_book_admission_refusal_caliber_adoption.py", ["selftest"]),
+            ("product: etf_book_admission_refusal_caliber_adoption (verdict re-derived)",
+             "scripts/etf_book_admission_refusal_caliber_adoption.py", ["check"]),
             # r1418: the calendar gate existed but had only ever judged CANDIDATE books; the
             # book the desk actually holds never faced it. The legs pin that yearly returns
             # come off the book's own LEVEL curve (treating a level series as returns

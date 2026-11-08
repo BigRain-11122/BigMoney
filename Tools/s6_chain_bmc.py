@@ -797,6 +797,13 @@ LEGS = [
     # red instead of leaving a stated choice on disk describing an older table. Read-only
     # JSON, ~0.1s.
     ("ruler_election", ["python", "scripts/etf_book_admission_ruler_election.py", "check"]),
+    # r1431: r1429's election named a ruler, but nothing was switched: replacing a gate's
+    # refusal reason is an admission-rule change and needs its own round. This leg re-derives
+    # the adoption verdict FROM the receipt's own five conditions and re-checks the year-table
+    # identity against the published calibers, so a hand-edited verdict or a drifted series
+    # turns red instead of leaving "the reason may be switched" on disk describing older data.
+    ("refusal_caliber_adoption",
+     ["python", "scripts/etf_book_admission_refusal_caliber_adoption.py", "check"]),
     # r1331: E196 answers the question E190 left open -- whether the month the
     # ladder-drop verdict rests on is knowable in advance. It is a ~1s JSON read of
     # the E186 month table (no panel, no network, no engine), and it belongs on the

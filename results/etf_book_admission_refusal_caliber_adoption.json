@@ -1,0 +1,654 @@
+{
+ "face": "etf_book_admission_refusal_caliber_adoption",
+ "asof": "2026-11-08T15:45:32+0800",
+ "prereg": {
+  "round": "r1431",
+  "question": "does switching the calendar refusal reason to the elected ruler admit anything refused today?",
+  "old_ruler": "net_top2_share",
+  "new_ruler": "years_for_half",
+  "conditions": {
+   "A1_elected": "r1429 election re-run (imported) still elects years_for_half",
+   "A2_no_new_admissions": "no (book, phase) cell flips to ADMIT from non-ADMIT",
+   "A3_self_adjudicable": "years_for_half adjudicates itself on every book with a phase set",
+   "A4_length_floor": "n_years >= 5 for every judged book",
+   "A5_not_degenerate": "|net|/gross > 0.5 else the cell prints indeterminate"
+  },
+  "decision_rule": "ADOPT iff A1..A4 pass; A5 is a printing rule",
+  "frozen_before_reading": true
+ },
+ "inputs": {
+  "caliber_receipt": "results/etf_book_year_caliber.json",
+  "candidate_receipt": "results/admission/CANDIDATES.json",
+  "ruler_source": "scripts/etf_book_year_caliber.py (CALIBERS/passes/adjudicate_caliber)",
+  "election_source": "scripts/etf_book_admission_ruler_election.py (elect/read_ruler)"
+ },
+ "identity_years_for_half_vs_published": {
+  "cells": 20,
+  "max_abs_dev": 0.0,
+  "ok": true
+ },
+ "decision": {
+  "verdict": "ADOPT",
+  "failing_conditions": [],
+  "refusal_reason_after": "years_for_half",
+  "books_judged": 6,
+  "cells_judged": 22
+ },
+ "checks": {
+  "A1_elected": {
+   "pass": true,
+   "elected": "years_for_half"
+  },
+  "A2_no_new_admissions": {
+   "pass": true,
+   "cells": 22,
+   "expected": "0 by algebra (new PASS implies old PASS); non-zero = implementation deviation",
+   "loosened": [],
+   "tightened": [
+    {
+     "label": "smallcap_book:n20",
+     "old": 0.695113,
+     "new": 2
+    }
+   ]
+  },
+  "A3_self_adjudicable": {
+   "pass": true,
+   "books": {
+    "plain": {
+     "state": "FAIL",
+     "reason": "all 5 phases fail and the spread 1 is inside the 1 distance to the line",
+     "cells": 5,
+     "detail": {
+      "median": 2.0,
+      "spread": 1.0,
+      "margin": 1.0,
+      "side": "fail",
+      "book_years": 7
+     }
+    },
+    "cap_comm_1": {
+     "state": "FAIL",
+     "reason": "all 5 phases fail and the spread 1 is inside the 2 distance to the line",
+     "cells": 5,
+     "detail": {
+      "median": 1.0,
+      "spread": 1.0,
+      "margin": 2.0,
+      "side": "fail",
+      "book_years": 7
+     }
+    },
+    "cap_comm_2": {
+     "state": "FAIL",
+     "reason": "all 5 phases fail and the spread 1 is inside the 2 distance to the line",
+     "cells": 5,
+     "detail": {
+      "median": 1.0,
+      "spread": 1.0,
+      "margin": 2.0,
+      "side": "fail",
+      "book_years": 7
+     }
+    },
+    "cap_comm_1_conv_1": {
+     "state": "FAIL",
+     "reason": "all 5 phases fail and the spread 1 is inside the 2 distance to the line",
+     "cells": 5,
+     "detail": {
+      "median": 1.0,
+      "spread": 1.0,
+      "margin": 2.0,
+      "side": "fail",
+      "book_years": 7
+     }
+    },
+    "smallcap_book:n20": {
+     "state": "no_phase_set",
+     "cells": 1
+    },
+    "breadth_book:ALL": {
+     "state": "no_phase_set",
+     "cells": 1
+    }
+   }
+  },
+  "A4_length_floor": {
+   "pass": true,
+   "floor_years": 5,
+   "failing_books": []
+  },
+  "A5_not_degenerate": {
+   "enforced": "printing rule",
+   "degenerate_cells": 0,
+   "of_cells": 22,
+   "labels": []
+  }
+ },
+ "books": {
+  "plain": [
+   {
+    "label": "plain/phase0",
+    "years": 7,
+    "old": {
+     "value": 0.710755,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 1,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 81.0579,
+     "net_sum_pct": 81.0579,
+     "net_over_gross": 1.0
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "plain/phase1",
+    "years": 7,
+    "old": {
+     "value": 0.794621,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 2,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 91.9471,
+     "net_sum_pct": 78.9015,
+     "net_over_gross": 0.858118
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "plain/phase2",
+    "years": 7,
+    "old": {
+     "value": 0.795819,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 2,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 85.7503,
+     "net_sum_pct": 59.5349,
+     "net_over_gross": 0.694282
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "plain/phase3",
+    "years": 7,
+    "old": {
+     "value": 0.798245,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 2,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 61.173,
+     "net_sum_pct": 49.014,
+     "net_over_gross": 0.801236
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "plain/phase4",
+    "years": 7,
+    "old": {
+     "value": 0.796234,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 1,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 80.0577,
+     "net_sum_pct": 61.6049,
+     "net_over_gross": 0.769506
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   }
+  ],
+  "cap_comm_1": [
+   {
+    "label": "cap_comm_1/phase0",
+    "years": 7,
+    "old": {
+     "value": 0.735583,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 1,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 83.6259,
+     "net_sum_pct": 70.4655,
+     "net_over_gross": 0.842628
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "cap_comm_1/phase1",
+    "years": 7,
+    "old": {
+     "value": 0.886873,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 1,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 99.8513,
+     "net_sum_pct": 72.8003,
+     "net_over_gross": 0.729087
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "cap_comm_1/phase2",
+    "years": 7,
+    "old": {
+     "value": 0.848121,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 2,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 86.27,
+     "net_sum_pct": 58.064,
+     "net_over_gross": 0.67305
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "cap_comm_1/phase3",
+    "years": 7,
+    "old": {
+     "value": 0.861036,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 2,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 75.8565,
+     "net_sum_pct": 47.1431,
+     "net_over_gross": 0.621477
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "cap_comm_1/phase4",
+    "years": 7,
+    "old": {
+     "value": 0.793224,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 1,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 76.5877,
+     "net_sum_pct": 55.2641,
+     "net_over_gross": 0.721579
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   }
+  ],
+  "cap_comm_2": [
+   {
+    "label": "cap_comm_2/phase0",
+    "years": 7,
+    "old": {
+     "value": 0.733946,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 1,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 81.542,
+     "net_sum_pct": 75.2614,
+     "net_over_gross": 0.922977
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "cap_comm_2/phase1",
+    "years": 7,
+    "old": {
+     "value": 0.818388,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 1,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 92.6094,
+     "net_sum_pct": 74.6894,
+     "net_over_gross": 0.806499
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "cap_comm_2/phase2",
+    "years": 7,
+    "old": {
+     "value": 0.809794,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 2,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 88.8341,
+     "net_sum_pct": 63.4169,
+     "net_over_gross": 0.71388
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "cap_comm_2/phase3",
+    "years": 7,
+    "old": {
+     "value": 0.769111,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 2,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 71.3625,
+     "net_sum_pct": 51.1903,
+     "net_over_gross": 0.717328
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "cap_comm_2/phase4",
+    "years": 7,
+    "old": {
+     "value": 0.756519,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 1,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 77.5801,
+     "net_sum_pct": 60.9941,
+     "net_over_gross": 0.786208
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   }
+  ],
+  "cap_comm_1_conv_1": [
+   {
+    "label": "cap_comm_1_conv_1/phase0",
+    "years": 7,
+    "old": {
+     "value": 0.778195,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 1,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 82.6998,
+     "net_sum_pct": 65.2108,
+     "net_over_gross": 0.788524
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "cap_comm_1_conv_1/phase1",
+    "years": 7,
+    "old": {
+     "value": 0.922552,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 1,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 101.2574,
+     "net_sum_pct": 69.4702,
+     "net_over_gross": 0.686075
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "cap_comm_1_conv_1/phase2",
+    "years": 7,
+    "old": {
+     "value": 0.849024,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 2,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 85.6884,
+     "net_sum_pct": 58.066,
+     "net_over_gross": 0.677641
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "cap_comm_1_conv_1/phase3",
+    "years": 7,
+    "old": {
+     "value": 0.917894,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 1,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 72.015,
+     "net_sum_pct": 43.915,
+     "net_over_gross": 0.609804
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   },
+   {
+    "label": "cap_comm_1_conv_1/phase4",
+    "years": 7,
+    "old": {
+     "value": 0.801837,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 1,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 77.0,
+     "net_sum_pct": 54.556,
+     "net_over_gross": 0.708519
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   }
+  ],
+  "smallcap_book:n20": [
+   {
+    "label": "smallcap_book:n20",
+    "years": 7,
+    "old": {
+     "value": 0.695113,
+     "pass": true,
+     "word": "ADMIT"
+    },
+    "new": {
+     "value": 2,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 232.268,
+     "net_sum_pct": 179.634,
+     "net_over_gross": 0.773391
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "tightened"
+   }
+  ],
+  "breadth_book:ALL": [
+   {
+    "label": "breadth_book:ALL",
+    "years": 7,
+    "old": {
+     "value": 0.793383,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "new": {
+     "value": 2,
+     "pass": false,
+     "word": "REFUSE"
+    },
+    "net": {
+     "gross_sum_pct": 111.182576,
+     "net_sum_pct": 67.287269,
+     "net_over_gross": 0.605196
+    },
+    "degenerate": false,
+    "new_reason_word": "REFUSE",
+    "flipped_to_admit": false,
+    "direction": "same"
+   }
+  ]
+ },
+ "honest": {
+  "no_new_pricing": "reads published receipts only; does not re-run the book engine",
+  "no_second_implementation": "both rulers come from r1426's CALIBERS via r1429's read_ruler",
+  "production_unchanged": "this receipt is the adoption evidence; the gate still prints its old reason until the adoption is wired"
+ },
+ "elapsed_sec": 0.0
+}
