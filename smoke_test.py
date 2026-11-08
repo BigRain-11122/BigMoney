@@ -22945,6 +22945,95 @@ except Exception as _e540x:
     _bad540.append(repr(_e540x)[:160])
     _d540 = "study could not be read"
 check(_name540, not _bad540, "; ".join(_bad540)[:240] or _d540)
+# E541: when the published expression's shape occurs more than once, does the row's own evidence
+#   name the occurrence, and does E540's nearest-to-anchor rule land on the node it names?
+#   * every arm trace is re-derived from the row's own candidates: an arm that would empty the
+#     surviving set must be published as refused rather than applied
+#   * a decided row's node must be both a candidate and a survivor, an ambiguous row must keep at
+#     least two survivors, and the decided + ambiguous + unresolvable rows must add up to the rows
+#   * doctored copies (a hand-written verdict, a decided row relabelled ambiguous, a decision moved
+#     onto a node the evidence excluded, an inflated agreement count) must be refused
+_name541 = "E541 branch ambiguity decided by the row's own evidence (r1568 bm-b)"
+_bad541 = []
+try:
+    _m541 = __import__("importlib").import_module("e541_branch_ambiguity")
+    _f541 = json.load(open(os.path.join("results", "state_tilt", "branchambiguity_latest.json"),
+                           encoding="utf-8"))
+    _s541 = _f541.get("summary") or {}
+    _r541 = _f541.get("sites") or []
+    _bad541.extend(_m541.face_problems(_f541))
+    if not _r541:
+        _bad541.append("the row population is empty")
+    if _s541.get("rows") != len(_r541):
+        _bad541.append("rows does not equal the published site rows")
+    if not _s541.get("decided_plus_ambiguous_sums_to_the_rows"):
+        _bad541.append("the decided and ambiguous rows do not add up to the rows")
+    if _s541.get("candidates_left_overall", 0) > _s541.get("candidates_overall", 0):
+        _bad541.append("the arms left more candidates than they started with")
+    for _row541 in _r541:
+        _surv541 = [(c.get("line"), c.get("col")) for c in (_row541.get("survivors") or [])]
+        _cands541 = [(c.get("line"), c.get("col")) for c in (_row541.get("candidates") or [])]
+        if any(c not in _cands541 for c in _surv541):
+            _bad541.append("row %s keeps a survivor that is not a candidate"
+                           % (_row541.get("site"),))
+            break
+        _dec541 = _row541.get("decided_node")
+        if _dec541 is not None:
+            _pair541 = (_dec541.get("line"), _dec541.get("col"))
+            if _pair541 not in _surv541 or _pair541 not in _cands541:
+                _bad541.append("row %s decided a node its evidence does not keep"
+                               % (_row541.get("site"),))
+                break
+            if _row541.get("nearest_agrees_with_the_decision") is None:
+                _bad541.append("row %s decided without comparing the nearest rule"
+                               % (_row541.get("site"),))
+                break
+        elif _row541.get("decided_by") == _m541.D_AMBIGUOUS and len(_surv541) < 2:
+            _bad541.append("row %s is ambiguous with fewer than two survivors"
+                           % (_row541.get("site"),))
+            break
+        for _step541 in _row541.get("arm_trace") or []:
+            if str(_step541.get("state", "")).startswith("refused"):
+                if _step541.get("after") != _step541.get("before"):
+                    _bad541.append("row %s applied a refused arm" % (_row541.get("site"),))
+                    break
+
+    _doc541 = json.loads(json.dumps(_f541))
+    _doc541["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m541.face_problems(_doc541):
+        _bad541.append("a hand-written verdict was accepted")
+    _amb541 = [i for i, _r in enumerate(_f541["sites"])
+               if _r.get("decided_by") == _m541.D_AMBIGUOUS]
+    if _amb541:
+        _doc541 = json.loads(json.dumps(_f541))
+        _doc541["sites"][_amb541[0]]["decided_by"] = _m541.D_FUNCTION
+        if not _m541.face_problems(_doc541):
+            _bad541.append("an ambiguity relabelled as a decision was accepted")
+    _dec541 = [i for i, _r in enumerate(_f541["sites"]) if _r.get("decided_node") is not None]
+    if _dec541:
+        _doc541 = json.loads(json.dumps(_f541))
+        _other541 = [c for c in _f541["sites"][_dec541[0]].get("candidates") or []
+                     if (c.get("line"), c.get("col"))
+                     != (_f541["sites"][_dec541[0]]["decided_node"]["line"],
+                         _f541["sites"][_dec541[0]]["decided_node"]["col"])]
+        if _other541:
+            _doc541["sites"][_dec541[0]]["decided_node"] = dict(_other541[0])
+            if not _m541.face_problems(_doc541):
+                _bad541.append("a decision moved onto a node the evidence excluded was accepted")
+    _doc541 = json.loads(json.dumps(_f541))
+    _doc541["summary"]["nearest_agrees_with_the_decision"] += 1
+    if not _m541.face_problems(_doc541):
+        _bad541.append("an inflated agreement count was accepted")
+    _d541 = ("%d rows / %d decided / %d ambiguous / %d candidates -> %d / nearest agrees %d of %d"
+             % (_s541.get("rows", 0), _s541.get("rows_decided", 0),
+                _s541.get("rows_ambiguous", 0), _s541.get("candidates_overall", 0),
+                _s541.get("candidates_left_overall", 0),
+                _s541.get("nearest_agrees_with_the_decision", 0),
+                _s541.get("rows_decided", 0)))
+except Exception as _e541x:
+    _bad541.append(repr(_e541x)[:160])
+    _d541 = "study could not be read"
+check(_name541, not _bad541, "; ".join(_bad541)[:240] or _d541)
 
 if __name__ == "__main__":
     sys.exit(main())

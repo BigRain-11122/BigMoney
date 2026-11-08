@@ -1,0 +1,4220 @@
+{
+ "arm_vocab": [
+  "the_candidate_segment_equals_the_published_expression_text",
+  "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+  "the_candidate_sits_in_the_function_the_census_row_names",
+  "the_candidate_segment_carries_the_constant_the_census_row_names"
+ ],
+ "card": "E541-WHICH-OF-THE-ROWS-WHOSE-EXPRESSION-SHAPE-APPEARS-MORE-THAN-ONCE-IS-THE-NEAREST-OCCURRENCE-THE-ONE-THE-EVIDENCE-NAMES",
+ "census_face": "results/state_tilt/latestfamily_latest.json",
+ "census_sha256": "576124264c485d403a856a6da897d73f830295406d6ba6de7459d02b846b895b",
+ "decided_by_vocab": [
+  "the_expression_text_narrowed_the_candidates_to_one",
+  "the_published_text_ignored_for_whitespace_and_quote_style_narrowed_them_to_one",
+  "the_census_row_s_function_narrowed_the_candidates_to_one",
+  "the_census_row_s_constant_narrowed_the_candidates_to_one",
+  "only_the_arms_together_narrowed_the_candidates_to_one",
+  "the_row_carried_a_single_candidate_so_no_arm_was_needed",
+  "the_arms_left_more_than_one_candidate",
+  "the_census_row_this_site_points_at_could_not_be_rejoined",
+  "the_file_this_site_points_at_could_not_be_read",
+  "no_node_of_the_published_shape_was_found_in_the_file"
+ ],
+ "decided_floor": 10,
+ "evidence_cutoff": "2026-11-08",
+ "generated": "2026-11-08T12:26:29+08:00",
+ "method_limits": [
+  "the arms are three constraints the census row happens to carry; a row whose evidence is wrong narrows the candidates to the wrong node and this study cannot tell -- it measures whether the evidence decides, not whether the evidence is right",
+  "an arm that would reject every surviving candidate is refused for that row, so a row can stay ambiguous when its evidence is present but miscalibrated; the refusal is published per row and per arm rather than being silently dropped",
+  "candidate identity is (lineno, col_offset) at the face's own cutoff; a file edited since the upstream face was published would shift both sides and the row would be published with no candidate instead of being silently re-located",
+  "the text arm compares whitespace-normalised source segments and is therefore blind to two candidates that differ only in line breaks or in quote style",
+  "the census's own expr is a re-serialized rendering rather than the source text, so the strict text arm refuses almost every row and the rendered arm carries the text evidence; both arms are published separately so the refusal is not read as absence",
+  "the rendered arm drops every apostrophe and every whitespace character before comparing, so two candidates that differ only inside a string literal's spacing are indistinguishable to it",
+  "the population is the upstream face's ambiguous rows only; the 255 rows E540 located unambiguously are outside this measurement by construction"
+ ],
+ "population_source": "e541_branch_ambiguity.py::population() -- every site of the upstream face whose shape_variants is greater than one, rejoined to the census row that published the same file+line+kind",
+ "question": "when the published expression's shape occurs more than once in the file, does the census row's own evidence pick the occurrence, and does E540's nearest-to-anchor rule pick the same node?",
+ "sites": [
+  {
+   "arm_trace": [
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 3,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 3,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 3,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 3,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 10,
+     "end_line": 101,
+     "function": "<module>",
+     "line": 101,
+     "text": "'docs/live_usage/LIVE-latest.json'"
+    },
+    {
+     "col": 10,
+     "end_line": 111,
+     "function": "<module>",
+     "line": 111,
+     "text": "'docs/live_usage/LIVE-latest.json'"
+    },
+    {
+     "col": 16,
+     "end_line": 115,
+     "function": "<module>",
+     "line": 115,
+     "text": "'docs/live_usage/LIVE-latest.json'"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "docs/live_usage",
+   "census_function": "<module>",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "'docs/live_usage/LIVE-latest.json'",
+   "expression_span": [
+    115,
+    115
+   ],
+   "file": "results/_r793bmb_rebase_resolve.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 16,
+    "function": "<module>",
+    "line": 115
+   },
+   "published_in": "read_sites",
+   "published_line": 115,
+   "shape_variants": 3,
+   "site": "results/_r793bmb_rebase_resolve.py:115",
+   "survivors": [
+    {
+     "col": 10,
+     "function": "<module>",
+     "line": 101
+    },
+    {
+     "col": 10,
+     "function": "<module>",
+     "line": 111
+    },
+    {
+     "col": 16,
+     "function": "<module>",
+     "line": 115
+    }
+   ],
+   "tier": "scratch_or_estate"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 10,
+     "end_line": 110,
+     "function": "<module>",
+     "line": 110,
+     "text": "'docs/live_usage/LIVE-latest.json'"
+    },
+    {
+     "col": 16,
+     "end_line": 114,
+     "function": "<module>",
+     "line": 114,
+     "text": "'docs/live_usage/LIVE-latest.json'"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "docs/live_usage",
+   "census_function": "<module>",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "'docs/live_usage/LIVE-latest.json'",
+   "expression_span": [
+    114,
+    114
+   ],
+   "file": "results/_r795bmb_rebase_resolve.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 16,
+    "function": "<module>",
+    "line": 114
+   },
+   "published_in": "read_sites",
+   "published_line": 114,
+   "shape_variants": 2,
+   "site": "results/_r795bmb_rebase_resolve.py:114",
+   "survivors": [
+    {
+     "col": 10,
+     "function": "<module>",
+     "line": 110
+    },
+    {
+     "col": 16,
+     "function": "<module>",
+     "line": 114
+    }
+   ],
+   "tier": "scratch_or_estate"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 13,
+     "end_line": 496,
+     "function": "_write",
+     "line": 496,
+     "text": "os.path.join(outdir, \"starself_latest.json\")"
+    },
+    {
+     "col": 11,
+     "end_line": 745,
+     "function": "verify",
+     "line": 745,
+     "text": "os.path.join(outdir, \"starself_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "verify",
+   "census_rejoin_note": null,
+   "class": "family_required_by_the_signature",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 11,
+    "function": "verify",
+    "line": 745
+   },
+   "expr": "os.path.join(outdir, 'starself_latest.json')",
+   "expression_span": [
+    745,
+    745
+   ],
+   "file": "scripts/e252_star_prices_itself.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 11,
+    "function": "verify",
+    "line": 745
+   },
+   "published_in": "read_sites",
+   "published_line": 749,
+   "shape_variants": 2,
+   "site": "scripts/e252_star_prices_itself.py:749",
+   "survivors": [
+    {
+     "col": 11,
+     "function": "verify",
+     "line": 745
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 13,
+     "end_line": 444,
+     "function": "_write",
+     "line": 444,
+     "text": "os.path.join(outdir, \"selfres_latest.json\")"
+    },
+    {
+     "col": 13,
+     "end_line": 637,
+     "function": "verify",
+     "line": 637,
+     "text": "os.path.join(outdir, \"selfres_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "verify",
+   "census_rejoin_note": null,
+   "class": "family_required_by_the_signature",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 13,
+    "function": "verify",
+    "line": 637
+   },
+   "expr": "os.path.join(outdir, 'selfres_latest.json')",
+   "expression_span": [
+    637,
+    637
+   ],
+   "file": "scripts/e253_self_row_resolution.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 13,
+    "function": "verify",
+    "line": 637
+   },
+   "published_in": "read_sites",
+   "published_line": 638,
+   "shape_variants": 2,
+   "site": "scripts/e253_self_row_resolution.py:638",
+   "survivors": [
+    {
+     "col": 13,
+     "function": "verify",
+     "line": 637
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 13,
+     "end_line": 449,
+     "function": "_write",
+     "line": 449,
+     "text": "os.path.join(outdir, \"bandexp_latest.json\")"
+    },
+    {
+     "col": 13,
+     "end_line": 573,
+     "function": "verify",
+     "line": 573,
+     "text": "os.path.join(outdir, \"bandexp_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "verify",
+   "census_rejoin_note": null,
+   "class": "family_required_by_the_signature",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 13,
+    "function": "verify",
+    "line": 573
+   },
+   "expr": "os.path.join(outdir, 'bandexp_latest.json')",
+   "expression_span": [
+    573,
+    573
+   ],
+   "file": "scripts/e254_band_exponent_inside_cell.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 13,
+    "function": "verify",
+    "line": 573
+   },
+   "published_in": "read_sites",
+   "published_line": 576,
+   "shape_variants": 2,
+   "site": "scripts/e254_band_exponent_inside_cell.py:576",
+   "survivors": [
+    {
+     "col": 13,
+     "function": "verify",
+     "line": 573
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 22,
+     "end_line": 256,
+     "function": "build",
+     "line": 256,
+     "text": "os.path.join(OUTDIR, \"fieldbranch_latest.json\")"
+    },
+    {
+     "col": 18,
+     "end_line": 257,
+     "function": "build",
+     "line": 257,
+     "text": "os.path.join(OUTDIR, \"fieldbranch_latest.json\")"
+    }
+   ],
+   "census_constant": "OUTDIR",
+   "census_family_dir": "results/state_tilt",
+   "census_function": "build",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join(OUTDIR, 'fieldbranch_latest.json')",
+   "expression_span": [
+    257,
+    257
+   ],
+   "file": "scripts/e371_store_member_cost.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 18,
+    "function": "build",
+    "line": 257
+   },
+   "published_in": "read_sites",
+   "published_line": 257,
+   "shape_variants": 2,
+   "site": "scripts/e371_store_member_cost.py:257",
+   "survivors": [
+    {
+     "col": 22,
+     "function": "build",
+     "line": 256
+    },
+    {
+     "col": 18,
+     "function": "build",
+     "line": 257
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "applied"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 16,
+     "end_line": 851,
+     "function": "verify",
+     "line": 851,
+     "text": "os.path.join(OUT_DIR, \"familyarg_latest.json\")"
+    },
+    {
+     "col": 24,
+     "end_line": 840,
+     "function": "build",
+     "line": 840,
+     "text": "os.path.join(OUT_DIR, \"familyarg_latest.json\")"
+    }
+   ],
+   "census_constant": "OUT_DIR",
+   "census_family_dir": "results/state_tilt",
+   "census_function": "verify",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 16,
+    "function": "verify",
+    "line": 851
+   },
+   "expr": "os.path.join(OUT_DIR, 'familyarg_latest.json')",
+   "expression_span": [
+    851,
+    851
+   ],
+   "file": "scripts/e403_family_arg.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 16,
+    "function": "verify",
+    "line": 851
+   },
+   "published_in": "read_sites",
+   "published_line": 854,
+   "shape_variants": 2,
+   "site": "scripts/e403_family_arg.py:854",
+   "survivors": [
+    {
+     "col": 16,
+     "function": "verify",
+     "line": 851
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "applied"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 16,
+     "end_line": 489,
+     "function": "verify",
+     "line": 489,
+     "text": "os.path.join(OUT_DIR, \"unfloored_latest.json\")"
+    },
+    {
+     "col": 17,
+     "end_line": 478,
+     "function": "build",
+     "line": 478,
+     "text": "os.path.join(OUT_DIR, \"unfloored_latest.json\")"
+    }
+   ],
+   "census_constant": "OUT_DIR",
+   "census_family_dir": "results/state_tilt",
+   "census_function": "verify",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 16,
+    "function": "verify",
+    "line": 489
+   },
+   "expr": "os.path.join(OUT_DIR, 'unfloored_latest.json')",
+   "expression_span": [
+    489,
+    489
+   ],
+   "file": "scripts/e409_unfloored_faces.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 16,
+    "function": "verify",
+    "line": 489
+   },
+   "published_in": "read_sites",
+   "published_line": 492,
+   "shape_variants": 2,
+   "site": "scripts/e409_unfloored_faces.py:492",
+   "survivors": [
+    {
+     "col": 16,
+     "function": "verify",
+     "line": 489
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 25,
+     "end_line": 337,
+     "function": "verify",
+     "line": 337,
+     "text": "os.path.join(OUTDIR, \"no_caller_latest.json\")"
+    },
+    {
+     "col": 25,
+     "end_line": 487,
+     "function": "main",
+     "line": 487,
+     "text": "os.path.join(OUTDIR, \"no_caller_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_not_supplied_anywhere",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 25,
+    "function": "main",
+    "line": 487
+   },
+   "expr": "os.path.join(OUTDIR, 'no_caller_latest.json')",
+   "expression_span": [
+    487,
+    487
+   ],
+   "file": "scripts/e428_no_caller.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 25,
+    "function": "main",
+    "line": 487
+   },
+   "published_in": "read_sites",
+   "published_line": 487,
+   "shape_variants": 2,
+   "site": "scripts/e428_no_caller.py:487",
+   "survivors": [
+    {
+     "col": 25,
+     "function": "main",
+     "line": 487
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 13,
+     "end_line": 401,
+     "function": "main",
+     "line": 401,
+     "text": "os.path.join(OUTDIR, \"dirisface_latest.json\")"
+    },
+    {
+     "col": 37,
+     "end_line": 226,
+     "function": "verify",
+     "line": 226,
+     "text": "os.path.join(OUTDIR, \"dirisface_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "verify",
+   "census_rejoin_note": null,
+   "class": "family_not_supplied_anywhere",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 37,
+    "function": "verify",
+    "line": 226
+   },
+   "expr": "os.path.join(OUTDIR, 'dirisface_latest.json')",
+   "expression_span": [
+    226,
+    226
+   ],
+   "file": "scripts/e435_dir_is_a_face.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 37,
+    "function": "verify",
+    "line": 226
+   },
+   "published_in": "read_sites",
+   "published_line": 226,
+   "shape_variants": 2,
+   "site": "scripts/e435_dir_is_a_face.py:226",
+   "survivors": [
+    {
+     "col": 37,
+     "function": "verify",
+     "line": 226
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 11,
+     "end_line": 286,
+     "function": "write_face",
+     "line": 286,
+     "text": "os.path.join(OUTDIR, \"tempwritebase_latest.json\")"
+    },
+    {
+     "col": 25,
+     "end_line": 352,
+     "function": "verify",
+     "line": 352,
+     "text": "os.path.join(OUTDIR, \"tempwritebase_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "write_face",
+   "census_rejoin_note": null,
+   "class": "family_not_supplied_anywhere",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 11,
+    "function": "write_face",
+    "line": 286
+   },
+   "expr": "os.path.join(OUTDIR, 'tempwritebase_latest.json')",
+   "expression_span": [
+    286,
+    286
+   ],
+   "file": "scripts/e438_temp_write_base.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 11,
+    "function": "write_face",
+    "line": 286
+   },
+   "published_in": "read_sites",
+   "published_line": 287,
+   "shape_variants": 2,
+   "site": "scripts/e438_temp_write_base.py:287",
+   "survivors": [
+    {
+     "col": 11,
+     "function": "write_face",
+     "line": 286
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 4,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 18,
+     "end_line": 584,
+     "function": "card_width",
+     "line": 584,
+     "text": "os.path.join(d, \"latest.json\")"
+    },
+    {
+     "col": 18,
+     "end_line": 605,
+     "function": "card_book",
+     "line": 605,
+     "text": "os.path.join(d, \"latest.json\")"
+    },
+    {
+     "col": 18,
+     "end_line": 638,
+     "function": "card_rule",
+     "line": 638,
+     "text": "os.path.join(d, \"latest.json\")"
+    },
+    {
+     "col": 18,
+     "end_line": 658,
+     "function": "_read_card",
+     "line": 658,
+     "text": "os.path.join(d, \"latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "card_width",
+   "census_rejoin_note": null,
+   "class": "family_required_by_the_signature",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 18,
+    "function": "card_width",
+    "line": 584
+   },
+   "expr": "os.path.join(d, 'latest.json')",
+   "expression_span": [
+    584,
+    584
+   ],
+   "file": "scripts/etf_book_order.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 18,
+    "function": "card_width",
+    "line": 584
+   },
+   "published_in": "read_sites",
+   "published_line": 584,
+   "shape_variants": 4,
+   "site": "scripts/etf_book_order.py:584",
+   "survivors": [
+    {
+     "col": 18,
+     "function": "card_width",
+     "line": 584
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 4,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 18,
+     "end_line": 584,
+     "function": "card_width",
+     "line": 584,
+     "text": "os.path.join(d, \"latest.json\")"
+    },
+    {
+     "col": 18,
+     "end_line": 605,
+     "function": "card_book",
+     "line": 605,
+     "text": "os.path.join(d, \"latest.json\")"
+    },
+    {
+     "col": 18,
+     "end_line": 638,
+     "function": "card_rule",
+     "line": 638,
+     "text": "os.path.join(d, \"latest.json\")"
+    },
+    {
+     "col": 18,
+     "end_line": 658,
+     "function": "_read_card",
+     "line": 658,
+     "text": "os.path.join(d, \"latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "card_book",
+   "census_rejoin_note": null,
+   "class": "family_required_by_the_signature",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 18,
+    "function": "card_book",
+    "line": 605
+   },
+   "expr": "os.path.join(d, 'latest.json')",
+   "expression_span": [
+    605,
+    605
+   ],
+   "file": "scripts/etf_book_order.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 18,
+    "function": "card_book",
+    "line": 605
+   },
+   "published_in": "read_sites",
+   "published_line": 605,
+   "shape_variants": 4,
+   "site": "scripts/etf_book_order.py:605",
+   "survivors": [
+    {
+     "col": 18,
+     "function": "card_book",
+     "line": 605
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 4,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 18,
+     "end_line": 584,
+     "function": "card_width",
+     "line": 584,
+     "text": "os.path.join(d, \"latest.json\")"
+    },
+    {
+     "col": 18,
+     "end_line": 605,
+     "function": "card_book",
+     "line": 605,
+     "text": "os.path.join(d, \"latest.json\")"
+    },
+    {
+     "col": 18,
+     "end_line": 638,
+     "function": "card_rule",
+     "line": 638,
+     "text": "os.path.join(d, \"latest.json\")"
+    },
+    {
+     "col": 18,
+     "end_line": 658,
+     "function": "_read_card",
+     "line": 658,
+     "text": "os.path.join(d, \"latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "card_rule",
+   "census_rejoin_note": null,
+   "class": "family_required_by_the_signature",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 18,
+    "function": "card_rule",
+    "line": 638
+   },
+   "expr": "os.path.join(d, 'latest.json')",
+   "expression_span": [
+    638,
+    638
+   ],
+   "file": "scripts/etf_book_order.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 18,
+    "function": "card_rule",
+    "line": 638
+   },
+   "published_in": "read_sites",
+   "published_line": 638,
+   "shape_variants": 4,
+   "site": "scripts/etf_book_order.py:638",
+   "survivors": [
+    {
+     "col": 18,
+     "function": "card_rule",
+     "line": 638
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 4,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 18,
+     "end_line": 584,
+     "function": "card_width",
+     "line": 584,
+     "text": "os.path.join(d, \"latest.json\")"
+    },
+    {
+     "col": 18,
+     "end_line": 605,
+     "function": "card_book",
+     "line": 605,
+     "text": "os.path.join(d, \"latest.json\")"
+    },
+    {
+     "col": 18,
+     "end_line": 638,
+     "function": "card_rule",
+     "line": 638,
+     "text": "os.path.join(d, \"latest.json\")"
+    },
+    {
+     "col": 18,
+     "end_line": 658,
+     "function": "_read_card",
+     "line": 658,
+     "text": "os.path.join(d, \"latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "_read_card",
+   "census_rejoin_note": null,
+   "class": "family_required_by_the_signature",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 18,
+    "function": "_read_card",
+    "line": 658
+   },
+   "expr": "os.path.join(d, 'latest.json')",
+   "expression_span": [
+    658,
+    658
+   ],
+   "file": "scripts/etf_book_order.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 18,
+    "function": "_read_card",
+    "line": 658
+   },
+   "published_in": "read_sites",
+   "published_line": 658,
+   "shape_variants": 4,
+   "site": "scripts/etf_book_order.py:658",
+   "survivors": [
+    {
+     "col": 18,
+     "function": "_read_card",
+     "line": 658
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 17,
+     "end_line": 306,
+     "function": "cmd_run",
+     "line": 306,
+     "text": "os.path.join(OUT_DIR, \"pack_latest.json\")"
+    },
+    {
+     "col": 48,
+     "end_line": 314,
+     "function": "cmd_run",
+     "line": 314,
+     "text": "os.path.join(OUT_DIR, \"pack_latest.json\")"
+    }
+   ],
+   "census_constant": "OUT_DIR",
+   "census_family_dir": "o2115_acceptance",
+   "census_function": "cmd_run",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join(OUT_DIR, 'pack_latest.json')",
+   "expression_span": [
+    306,
+    306
+   ],
+   "file": "scripts/o2115_acceptance_pack.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 17,
+    "function": "cmd_run",
+    "line": 306
+   },
+   "published_in": "read_sites",
+   "published_line": 306,
+   "shape_variants": 2,
+   "site": "scripts/o2115_acceptance_pack.py:306",
+   "survivors": [
+    {
+     "col": 17,
+     "function": "cmd_run",
+     "line": 306
+    },
+    {
+     "col": 48,
+     "function": "cmd_run",
+     "line": 314
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "applied"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 13,
+     "end_line": 230,
+     "function": "write_face",
+     "line": 230,
+     "text": "os.path.join(FACE_DIR, \"leg_isolation_latest.json\")"
+    },
+    {
+     "col": 13,
+     "end_line": 239,
+     "function": "verify_face",
+     "line": 239,
+     "text": "os.path.join(FACE_DIR, \"leg_isolation_latest.json\")"
+    }
+   ],
+   "census_constant": "FACE_DIR",
+   "census_family_dir": "results/state_tilt",
+   "census_function": "verify_face",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 13,
+    "function": "verify_face",
+    "line": 239
+   },
+   "expr": "os.path.join(FACE_DIR, 'leg_isolation_latest.json')",
+   "expression_span": [
+    239,
+    239
+   ],
+   "file": "scripts/prove_smoke_leg_isolation.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 13,
+    "function": "verify_face",
+    "line": 239
+   },
+   "published_in": "read_sites",
+   "published_line": 243,
+   "shape_variants": 2,
+   "site": "scripts/prove_smoke_leg_isolation.py:243",
+   "survivors": [
+    {
+     "col": 13,
+     "function": "verify_face",
+     "line": 239
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 29,
+     "end_line": 711,
+     "function": "main",
+     "line": 711,
+     "text": "\"results/etf_book_order/latest.json\""
+    },
+    {
+     "col": 29,
+     "end_line": 1623,
+     "function": "main",
+     "line": 1623,
+     "text": "\"results/etf_book_order/latest.json\""
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/etf_book_order",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "'results/etf_book_order/latest.json'",
+   "expression_span": [
+    711,
+    711
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 29,
+    "function": "main",
+    "line": 711
+   },
+   "published_in": "read_sites",
+   "published_line": 699,
+   "shape_variants": 2,
+   "site": "smoke_test.py:699",
+   "survivors": [
+    {
+     "col": 29,
+     "function": "main",
+     "line": 711
+    },
+    {
+     "col": 29,
+     "function": "main",
+     "line": 1623
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 30,
+     "end_line": 712,
+     "function": "main",
+     "line": 712,
+     "text": "\"docs/live_book/latest.json\""
+    },
+    {
+     "col": 30,
+     "end_line": 1624,
+     "function": "main",
+     "line": 1624,
+     "text": "\"docs/live_book/latest.json\""
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "docs/live_book",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "'docs/live_book/latest.json'",
+   "expression_span": [
+    712,
+    712
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 30,
+    "function": "main",
+    "line": 712
+   },
+   "published_in": "read_sites",
+   "published_line": 700,
+   "shape_variants": 2,
+   "site": "smoke_test.py:700",
+   "survivors": [
+    {
+     "col": 30,
+     "function": "main",
+     "line": 712
+    },
+    {
+     "col": 30,
+     "function": "main",
+     "line": 1624
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 30,
+     "end_line": 712,
+     "function": "main",
+     "line": 712,
+     "text": "\"docs/live_book/latest.json\""
+    },
+    {
+     "col": 30,
+     "end_line": 1624,
+     "function": "main",
+     "line": 1624,
+     "text": "\"docs/live_book/latest.json\""
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "docs/live_book",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "'docs/live_book/latest.json'",
+   "expression_span": [
+    712,
+    712
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 30,
+    "function": "main",
+    "line": 712
+   },
+   "published_in": "read_sites",
+   "published_line": 701,
+   "shape_variants": 2,
+   "site": "smoke_test.py:701",
+   "survivors": [
+    {
+     "col": 30,
+     "function": "main",
+     "line": 712
+    },
+    {
+     "col": 30,
+     "function": "main",
+     "line": 1624
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 29,
+     "end_line": 711,
+     "function": "main",
+     "line": 711,
+     "text": "\"results/etf_book_order/latest.json\""
+    },
+    {
+     "col": 29,
+     "end_line": 1623,
+     "function": "main",
+     "line": 1623,
+     "text": "\"results/etf_book_order/latest.json\""
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/etf_book_order",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "'results/etf_book_order/latest.json'",
+   "expression_span": [
+    1623,
+    1623
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 29,
+    "function": "main",
+    "line": 1623
+   },
+   "published_in": "read_sites",
+   "published_line": 1606,
+   "shape_variants": 2,
+   "site": "smoke_test.py:1606",
+   "survivors": [
+    {
+     "col": 29,
+     "function": "main",
+     "line": 711
+    },
+    {
+     "col": 29,
+     "function": "main",
+     "line": 1623
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 30,
+     "end_line": 712,
+     "function": "main",
+     "line": 712,
+     "text": "\"docs/live_book/latest.json\""
+    },
+    {
+     "col": 30,
+     "end_line": 1624,
+     "function": "main",
+     "line": 1624,
+     "text": "\"docs/live_book/latest.json\""
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "docs/live_book",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "'docs/live_book/latest.json'",
+   "expression_span": [
+    1624,
+    1624
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 30,
+    "function": "main",
+    "line": 1624
+   },
+   "published_in": "read_sites",
+   "published_line": 1607,
+   "shape_variants": 2,
+   "site": "smoke_test.py:1607",
+   "survivors": [
+    {
+     "col": 30,
+     "function": "main",
+     "line": 712
+    },
+    {
+     "col": 30,
+     "function": "main",
+     "line": 1624
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 30,
+     "end_line": 712,
+     "function": "main",
+     "line": 712,
+     "text": "\"docs/live_book/latest.json\""
+    },
+    {
+     "col": 30,
+     "end_line": 1624,
+     "function": "main",
+     "line": 1624,
+     "text": "\"docs/live_book/latest.json\""
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "docs/live_book",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "'docs/live_book/latest.json'",
+   "expression_span": [
+    1624,
+    1624
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 30,
+    "function": "main",
+    "line": 1624
+   },
+   "published_in": "read_sites",
+   "published_line": 1608,
+   "shape_variants": 2,
+   "site": "smoke_test.py:1608",
+   "survivors": [
+    {
+     "col": 30,
+     "function": "main",
+     "line": 712
+    },
+    {
+     "col": 30,
+     "function": "main",
+     "line": 1624
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 3,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 3,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 3,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 3,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 18,
+     "end_line": 2635,
+     "function": "main",
+     "line": 2635,
+     "text": "\"results/state_tilt/hysteresis_latest.json\""
+    },
+    {
+     "col": 30,
+     "end_line": 2785,
+     "function": "main",
+     "line": 2785,
+     "text": "\"results/state_tilt/hysteresis_latest.json\""
+    },
+    {
+     "col": 26,
+     "end_line": 2786,
+     "function": "main",
+     "line": 2786,
+     "text": "\"results/state_tilt/hysteresis_latest.json\""
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "'results/state_tilt/hysteresis_latest.json'",
+   "expression_span": [
+    2635,
+    2635
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 18,
+    "function": "main",
+    "line": 2635
+   },
+   "published_in": "read_sites",
+   "published_line": 2622,
+   "shape_variants": 3,
+   "site": "smoke_test.py:2622",
+   "survivors": [
+    {
+     "col": 18,
+     "function": "main",
+     "line": 2635
+    },
+    {
+     "col": 30,
+     "function": "main",
+     "line": 2785
+    },
+    {
+     "col": 26,
+     "function": "main",
+     "line": 2786
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 3,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 3,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 3,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 3,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 18,
+     "end_line": 2635,
+     "function": "main",
+     "line": 2635,
+     "text": "\"results/state_tilt/hysteresis_latest.json\""
+    },
+    {
+     "col": 30,
+     "end_line": 2785,
+     "function": "main",
+     "line": 2785,
+     "text": "\"results/state_tilt/hysteresis_latest.json\""
+    },
+    {
+     "col": 26,
+     "end_line": 2786,
+     "function": "main",
+     "line": 2786,
+     "text": "\"results/state_tilt/hysteresis_latest.json\""
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "'results/state_tilt/hysteresis_latest.json'",
+   "expression_span": [
+    2785,
+    2785
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 30,
+    "function": "main",
+    "line": 2785
+   },
+   "published_in": "read_sites",
+   "published_line": 2769,
+   "shape_variants": 3,
+   "site": "smoke_test.py:2769",
+   "survivors": [
+    {
+     "col": 18,
+     "function": "main",
+     "line": 2635
+    },
+    {
+     "col": 30,
+     "function": "main",
+     "line": 2785
+    },
+    {
+     "col": 26,
+     "function": "main",
+     "line": 2786
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 15,
+     "end_line": 3897,
+     "function": "main",
+     "line": 3897,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"bookecho_latest.json\")"
+    },
+    {
+     "col": 25,
+     "end_line": 4011,
+     "function": "main",
+     "line": 4011,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"bookecho_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'bookecho_latest.json')",
+   "expression_span": [
+    3897,
+    3897
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 15,
+    "function": "main",
+    "line": 3897
+   },
+   "published_in": "read_sites",
+   "published_line": 3883,
+   "shape_variants": 2,
+   "site": "smoke_test.py:3883",
+   "survivors": [
+    {
+     "col": 15,
+     "function": "main",
+     "line": 3897
+    },
+    {
+     "col": 25,
+     "function": "main",
+     "line": 4011
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 15,
+     "end_line": 3963,
+     "function": "main",
+     "line": 3963,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"starown_latest.json\")"
+    },
+    {
+     "col": 30,
+     "end_line": 4111,
+     "function": "main",
+     "line": 4111,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"starown_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'starown_latest.json')",
+   "expression_span": [
+    3963,
+    3963
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 15,
+    "function": "main",
+    "line": 3963
+   },
+   "published_in": "read_sites",
+   "published_line": 3949,
+   "shape_variants": 2,
+   "site": "smoke_test.py:3949",
+   "survivors": [
+    {
+     "col": 15,
+     "function": "main",
+     "line": 3963
+    },
+    {
+     "col": 30,
+     "function": "main",
+     "line": 4111
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 15,
+     "end_line": 3897,
+     "function": "main",
+     "line": 3897,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"bookecho_latest.json\")"
+    },
+    {
+     "col": 25,
+     "end_line": 4011,
+     "function": "main",
+     "line": 4011,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"bookecho_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'bookecho_latest.json')",
+   "expression_span": [
+    4011,
+    4011
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 25,
+    "function": "main",
+    "line": 4011
+   },
+   "published_in": "read_sites",
+   "published_line": 3996,
+   "shape_variants": 2,
+   "site": "smoke_test.py:3996",
+   "survivors": [
+    {
+     "col": 15,
+     "function": "main",
+     "line": 3897
+    },
+    {
+     "col": 25,
+     "function": "main",
+     "line": 4011
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 15,
+     "end_line": 5082,
+     "function": "main",
+     "line": 5082,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"bandtransfer_latest.json\")"
+    },
+    {
+     "col": 21,
+     "end_line": 5685,
+     "function": "main",
+     "line": 5685,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"bandtransfer_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'bandtransfer_latest.json')",
+   "expression_span": [
+    5082,
+    5082
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 15,
+    "function": "main",
+    "line": 5082
+   },
+   "published_in": "read_sites",
+   "published_line": 5070,
+   "shape_variants": 2,
+   "site": "smoke_test.py:5070",
+   "survivors": [
+    {
+     "col": 15,
+     "function": "main",
+     "line": 5082
+    },
+    {
+     "col": 21,
+     "function": "main",
+     "line": 5685
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 15,
+     "end_line": 5317,
+     "function": "main",
+     "line": 5317,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"bandscreen_latest.json\")"
+    },
+    {
+     "col": 28,
+     "end_line": 5442,
+     "function": "main",
+     "line": 5442,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"bandscreen_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'bandscreen_latest.json')",
+   "expression_span": [
+    5317,
+    5317
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 15,
+    "function": "main",
+    "line": 5317
+   },
+   "published_in": "read_sites",
+   "published_line": 5305,
+   "shape_variants": 2,
+   "site": "smoke_test.py:5305",
+   "survivors": [
+    {
+     "col": 15,
+     "function": "main",
+     "line": 5317
+    },
+    {
+     "col": 28,
+     "function": "main",
+     "line": 5442
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 15,
+     "end_line": 5317,
+     "function": "main",
+     "line": 5317,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"bandscreen_latest.json\")"
+    },
+    {
+     "col": 28,
+     "end_line": 5442,
+     "function": "main",
+     "line": 5442,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"bandscreen_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'bandscreen_latest.json')",
+   "expression_span": [
+    5442,
+    5442
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 28,
+    "function": "main",
+    "line": 5442
+   },
+   "published_in": "read_sites",
+   "published_line": 5427,
+   "shape_variants": 2,
+   "site": "smoke_test.py:5427",
+   "survivors": [
+    {
+     "col": 15,
+     "function": "main",
+     "line": 5317
+    },
+    {
+     "col": 28,
+     "function": "main",
+     "line": 5442
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 15,
+     "end_line": 5082,
+     "function": "main",
+     "line": 5082,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"bandtransfer_latest.json\")"
+    },
+    {
+     "col": 21,
+     "end_line": 5685,
+     "function": "main",
+     "line": 5685,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"bandtransfer_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'bandtransfer_latest.json')",
+   "expression_span": [
+    5685,
+    5685
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 21,
+    "function": "main",
+    "line": 5685
+   },
+   "published_in": "read_sites",
+   "published_line": 5670,
+   "shape_variants": 2,
+   "site": "smoke_test.py:5670",
+   "survivors": [
+    {
+     "col": 15,
+     "function": "main",
+     "line": 5082
+    },
+    {
+     "col": 21,
+     "function": "main",
+     "line": 5685
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 4,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 3,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 16,
+     "end_line": 9200,
+     "function": "main",
+     "line": 9200,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    },
+    {
+     "col": 20,
+     "end_line": 9293,
+     "function": "main",
+     "line": 9293,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    },
+    {
+     "col": 20,
+     "end_line": 9365,
+     "function": "main",
+     "line": 9365,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    },
+    {
+     "col": 28,
+     "end_line": 15547,
+     "function": "<module>",
+     "line": 15547,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+   "expression_span": [
+    9200,
+    9200
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 16,
+    "function": "main",
+    "line": 9200
+   },
+   "published_in": "read_sites",
+   "published_line": 9186,
+   "shape_variants": 4,
+   "site": "smoke_test.py:9186",
+   "survivors": [
+    {
+     "col": 16,
+     "function": "main",
+     "line": 9200
+    },
+    {
+     "col": 20,
+     "function": "main",
+     "line": 9293
+    },
+    {
+     "col": 20,
+     "function": "main",
+     "line": 9365
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 4,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 3,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 16,
+     "end_line": 9200,
+     "function": "main",
+     "line": 9200,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    },
+    {
+     "col": 20,
+     "end_line": 9293,
+     "function": "main",
+     "line": 9293,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    },
+    {
+     "col": 20,
+     "end_line": 9365,
+     "function": "main",
+     "line": 9365,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    },
+    {
+     "col": 28,
+     "end_line": 15547,
+     "function": "<module>",
+     "line": 15547,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+   "expression_span": [
+    9293,
+    9293
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 20,
+    "function": "main",
+    "line": 9293
+   },
+   "published_in": "read_sites",
+   "published_line": 9278,
+   "shape_variants": 4,
+   "site": "smoke_test.py:9278",
+   "survivors": [
+    {
+     "col": 16,
+     "function": "main",
+     "line": 9200
+    },
+    {
+     "col": 20,
+     "function": "main",
+     "line": 9293
+    },
+    {
+     "col": 20,
+     "function": "main",
+     "line": 9365
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 3,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 3,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 3,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 3,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 16,
+     "end_line": 9323,
+     "function": "main",
+     "line": 9323,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"reachwide_latest.json\")"
+    },
+    {
+     "col": 20,
+     "end_line": 9422,
+     "function": "main",
+     "line": 9422,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"reachwide_latest.json\")"
+    },
+    {
+     "col": 36,
+     "end_line": 9494,
+     "function": "main",
+     "line": 9494,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"reachwide_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'reachwide_latest.json')",
+   "expression_span": [
+    9323,
+    9323
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 16,
+    "function": "main",
+    "line": 9323
+   },
+   "published_in": "read_sites",
+   "published_line": 9307,
+   "shape_variants": 3,
+   "site": "smoke_test.py:9307",
+   "survivors": [
+    {
+     "col": 16,
+     "function": "main",
+     "line": 9323
+    },
+    {
+     "col": 20,
+     "function": "main",
+     "line": 9422
+    },
+    {
+     "col": 36,
+     "function": "main",
+     "line": 9494
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 4,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 3,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 16,
+     "end_line": 9200,
+     "function": "main",
+     "line": 9200,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    },
+    {
+     "col": 20,
+     "end_line": 9293,
+     "function": "main",
+     "line": 9293,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    },
+    {
+     "col": 20,
+     "end_line": 9365,
+     "function": "main",
+     "line": 9365,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    },
+    {
+     "col": 28,
+     "end_line": 15547,
+     "function": "<module>",
+     "line": 15547,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+   "expression_span": [
+    9365,
+    9365
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 20,
+    "function": "main",
+    "line": 9365
+   },
+   "published_in": "read_sites",
+   "published_line": 9350,
+   "shape_variants": 4,
+   "site": "smoke_test.py:9350",
+   "survivors": [
+    {
+     "col": 16,
+     "function": "main",
+     "line": 9200
+    },
+    {
+     "col": 20,
+     "function": "main",
+     "line": 9293
+    },
+    {
+     "col": 20,
+     "function": "main",
+     "line": 9365
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 3,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 3,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 3,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 3,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 16,
+     "end_line": 9323,
+     "function": "main",
+     "line": 9323,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"reachwide_latest.json\")"
+    },
+    {
+     "col": 20,
+     "end_line": 9422,
+     "function": "main",
+     "line": 9422,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"reachwide_latest.json\")"
+    },
+    {
+     "col": 36,
+     "end_line": 9494,
+     "function": "main",
+     "line": 9494,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"reachwide_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'reachwide_latest.json')",
+   "expression_span": [
+    9422,
+    9422
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 20,
+    "function": "main",
+    "line": 9422
+   },
+   "published_in": "read_sites",
+   "published_line": 9407,
+   "shape_variants": 3,
+   "site": "smoke_test.py:9407",
+   "survivors": [
+    {
+     "col": 16,
+     "function": "main",
+     "line": 9323
+    },
+    {
+     "col": 20,
+     "function": "main",
+     "line": 9422
+    },
+    {
+     "col": 36,
+     "function": "main",
+     "line": 9494
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 3,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 3,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 3,
+     "state": "applied"
+    },
+    {
+     "after": 3,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 3,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 16,
+     "end_line": 9323,
+     "function": "main",
+     "line": 9323,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"reachwide_latest.json\")"
+    },
+    {
+     "col": 20,
+     "end_line": 9422,
+     "function": "main",
+     "line": 9422,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"reachwide_latest.json\")"
+    },
+    {
+     "col": 36,
+     "end_line": 9494,
+     "function": "main",
+     "line": 9494,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"reachwide_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "main",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'reachwide_latest.json')",
+   "expression_span": [
+    9494,
+    9494
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 36,
+    "function": "main",
+    "line": 9494
+   },
+   "published_in": "read_sites",
+   "published_line": 9477,
+   "shape_variants": 3,
+   "site": "smoke_test.py:9477",
+   "survivors": [
+    {
+     "col": 16,
+     "function": "main",
+     "line": 9323
+    },
+    {
+     "col": 20,
+     "function": "main",
+     "line": 9422
+    },
+    {
+     "col": 36,
+     "function": "main",
+     "line": 9494
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 16,
+     "end_line": 12464,
+     "function": "_r39",
+     "line": 12464,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"publishpin_latest.json\")"
+    },
+    {
+     "col": 41,
+     "end_line": 12573,
+     "function": "_r39",
+     "line": 12572,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"publishpin_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "_r39",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'publishpin_latest.json')",
+   "expression_span": [
+    12464,
+    12464
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 16,
+    "function": "_r39",
+    "line": 12464
+   },
+   "published_in": "read_sites",
+   "published_line": 12448,
+   "shape_variants": 2,
+   "site": "smoke_test.py:12448",
+   "survivors": [
+    {
+     "col": 16,
+     "function": "_r39",
+     "line": 12464
+    },
+    {
+     "col": 41,
+     "function": "_r39",
+     "line": 12572
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 4,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 4,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 4,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 16,
+     "end_line": 9200,
+     "function": "main",
+     "line": 9200,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    },
+    {
+     "col": 20,
+     "end_line": 9293,
+     "function": "main",
+     "line": 9293,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    },
+    {
+     "col": 20,
+     "end_line": 9365,
+     "function": "main",
+     "line": 9365,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    },
+    {
+     "col": 28,
+     "end_line": 15547,
+     "function": "<module>",
+     "line": 15547,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"quantityname_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "<module>",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 28,
+    "function": "<module>",
+    "line": 15547
+   },
+   "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+   "expression_span": [
+    15547,
+    15547
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 28,
+    "function": "<module>",
+    "line": 15547
+   },
+   "published_in": "read_sites",
+   "published_line": 15522,
+   "shape_variants": 4,
+   "site": "smoke_test.py:15522",
+   "survivors": [
+    {
+     "col": 28,
+     "function": "<module>",
+     "line": 15547
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 27,
+     "end_line": 15887,
+     "function": "<module>",
+     "line": 15887,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"faceage_latest.json\")"
+    },
+    {
+     "col": 31,
+     "end_line": 15944,
+     "function": "<module>",
+     "line": 15944,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"faceage_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "<module>",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'faceage_latest.json')",
+   "expression_span": [
+    15887,
+    15887
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 27,
+    "function": "<module>",
+    "line": 15887
+   },
+   "published_in": "read_sites",
+   "published_line": 15853,
+   "shape_variants": 2,
+   "site": "smoke_test.py:15853",
+   "survivors": [
+    {
+     "col": 27,
+     "function": "<module>",
+     "line": 15887
+    },
+    {
+     "col": 31,
+     "function": "<module>",
+     "line": 15944
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 27,
+     "end_line": 15887,
+     "function": "<module>",
+     "line": 15887,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"faceage_latest.json\")"
+    },
+    {
+     "col": 31,
+     "end_line": 15944,
+     "function": "<module>",
+     "line": 15944,
+     "text": "os.path.join(\"results\", \"state_tilt\", \"faceage_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": "results/state_tilt",
+   "census_function": "<module>",
+   "census_rejoin_note": null,
+   "class": "family_stated_at_the_site",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join('results', 'state_tilt', 'faceage_latest.json')",
+   "expression_span": [
+    15887,
+    15887
+   ],
+   "file": "smoke_test.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 27,
+    "function": "<module>",
+    "line": 15887
+   },
+   "published_in": "read_sites",
+   "published_line": 15902,
+   "shape_variants": 2,
+   "site": "smoke_test.py:15902",
+   "survivors": [
+    {
+     "col": 27,
+     "function": "<module>",
+     "line": 15887
+    },
+    {
+     "col": 31,
+     "function": "<module>",
+     "line": 15944
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 14,
+     "end_line": 731,
+     "function": "_stub",
+     "line": 731,
+     "text": "os.path.join(outdir, \"starown_latest.json\")"
+    },
+    {
+     "col": 61,
+     "end_line": 790,
+     "function": "verify",
+     "line": 789,
+     "text": "os.path.join(outdir, \"starown_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "_stub",
+   "census_rejoin_note": null,
+   "class": "family_required_by_the_signature",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 14,
+    "function": "_stub",
+    "line": 731
+   },
+   "expr": "os.path.join(outdir, 'starown_latest.json')",
+   "expression_span": [
+    731,
+    731
+   ],
+   "file": "scripts/e252_star_prices_itself.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 14,
+    "function": "_stub",
+    "line": 731
+   },
+   "published_in": "write_sites",
+   "published_line": 731,
+   "shape_variants": 2,
+   "site": "scripts/e252_star_prices_itself.py:731",
+   "survivors": [
+    {
+     "col": 14,
+     "function": "_stub",
+     "line": 731
+    }
+   ],
+   "tier": null
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 1,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 1,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 16,
+     "end_line": 489,
+     "function": "verify",
+     "line": 489,
+     "text": "os.path.join(OUT_DIR, \"unfloored_latest.json\")"
+    },
+    {
+     "col": 17,
+     "end_line": 478,
+     "function": "build",
+     "line": 478,
+     "text": "os.path.join(OUT_DIR, \"unfloored_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "build",
+   "census_rejoin_note": null,
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "decided_by": "the_census_row_s_function_narrowed_the_candidates_to_one",
+   "decided_node": {
+    "col": 17,
+    "function": "build",
+    "line": 478
+   },
+   "expr": "os.path.join(OUT_DIR, 'unfloored_latest.json')",
+   "expression_span": [
+    478,
+    478
+   ],
+   "file": "scripts/e409_unfloored_faces.py",
+   "nearest_agrees_with_the_decision": true,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 17,
+    "function": "build",
+    "line": 478
+   },
+   "published_in": "write_sites",
+   "published_line": 479,
+   "shape_variants": 2,
+   "site": "scripts/e409_unfloored_faces.py:479",
+   "survivors": [
+    {
+     "col": 17,
+     "function": "build",
+     "line": 478
+    }
+   ],
+   "tier": null
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 18,
+     "end_line": 1384,
+     "function": "selftest",
+     "line": 1384,
+     "text": "os.path.join(cdt, \"latest.json\")"
+    },
+    {
+     "col": 18,
+     "end_line": 1428,
+     "function": "selftest",
+     "line": 1428,
+     "text": "os.path.join(cdt, \"latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "selftest",
+   "census_rejoin_note": null,
+   "class": "family_not_supplied_anywhere",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join(cdt, 'latest.json')",
+   "expression_span": [
+    1384,
+    1384
+   ],
+   "file": "scripts/etf_book_order.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 18,
+    "function": "selftest",
+    "line": 1384
+   },
+   "published_in": "write_sites",
+   "published_line": 1384,
+   "shape_variants": 2,
+   "site": "scripts/etf_book_order.py:1384",
+   "survivors": [
+    {
+     "col": 18,
+     "function": "selftest",
+     "line": 1384
+    },
+    {
+     "col": 18,
+     "function": "selftest",
+     "line": 1428
+    }
+   ],
+   "tier": null
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 18,
+     "end_line": 1384,
+     "function": "selftest",
+     "line": 1384,
+     "text": "os.path.join(cdt, \"latest.json\")"
+    },
+    {
+     "col": 18,
+     "end_line": 1428,
+     "function": "selftest",
+     "line": 1428,
+     "text": "os.path.join(cdt, \"latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "selftest",
+   "census_rejoin_note": null,
+   "class": "family_not_supplied_anywhere",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join(cdt, 'latest.json')",
+   "expression_span": [
+    1428,
+    1428
+   ],
+   "file": "scripts/etf_book_order.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 18,
+    "function": "selftest",
+    "line": 1428
+   },
+   "published_in": "write_sites",
+   "published_line": 1428,
+   "shape_variants": 2,
+   "site": "scripts/etf_book_order.py:1428",
+   "survivors": [
+    {
+     "col": 18,
+     "function": "selftest",
+     "line": 1384
+    },
+    {
+     "col": 18,
+     "function": "selftest",
+     "line": 1428
+    }
+   ],
+   "tier": null
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 9,
+     "end_line": 843,
+     "function": "cmd_probe_r2",
+     "line": 843,
+     "text": "os.path.join(PATHS.results_dir, \"_n3r2_probe_latest.json\")"
+    },
+    {
+     "col": 13,
+     "end_line": 784,
+     "function": "cmd_probe_r2",
+     "line": 784,
+     "text": "os.path.join(PATHS.results_dir, \"_n3r2_probe_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "cmd_probe_r2",
+   "census_rejoin_note": null,
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join(PATHS.results_dir, '_n3r2_probe_latest.json')",
+   "expression_span": [
+    784,
+    784
+   ],
+   "file": "scripts/perpetual_faces_n3.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 13,
+    "function": "cmd_probe_r2",
+    "line": 784
+   },
+   "published_in": "write_sites",
+   "published_line": 785,
+   "shape_variants": 2,
+   "site": "scripts/perpetual_faces_n3.py:785",
+   "survivors": [
+    {
+     "col": 9,
+     "function": "cmd_probe_r2",
+     "line": 843
+    },
+    {
+     "col": 13,
+     "function": "cmd_probe_r2",
+     "line": 784
+    }
+   ],
+   "tier": null
+  },
+  {
+   "arm_trace": [
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_expression_text",
+     "before": 2,
+     "state": "refused_because_it_rejects_every_candidate",
+     "would_have_left": 0
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_sits_in_the_function_the_census_row_names",
+     "before": 2,
+     "state": "applied"
+    },
+    {
+     "after": 2,
+     "arm": "the_candidate_segment_carries_the_constant_the_census_row_names",
+     "before": 2,
+     "state": "not_applicable"
+    }
+   ],
+   "candidates": [
+    {
+     "col": 9,
+     "end_line": 843,
+     "function": "cmd_probe_r2",
+     "line": 843,
+     "text": "os.path.join(PATHS.results_dir, \"_n3r2_probe_latest.json\")"
+    },
+    {
+     "col": 13,
+     "end_line": 784,
+     "function": "cmd_probe_r2",
+     "line": 784,
+     "text": "os.path.join(PATHS.results_dir, \"_n3r2_probe_latest.json\")"
+    }
+   ],
+   "census_constant": null,
+   "census_family_dir": null,
+   "census_function": "cmd_probe_r2",
+   "census_rejoin_note": null,
+   "class": "family_from_the_value_the_site_itself_wrote",
+   "decided_by": "the_arms_left_more_than_one_candidate",
+   "decided_node": null,
+   "expr": "os.path.join(PATHS.results_dir, '_n3r2_probe_latest.json')",
+   "expression_span": [
+    843,
+    843
+   ],
+   "file": "scripts/perpetual_faces_n3.py",
+   "nearest_agrees_with_the_decision": null,
+   "nearest_is_inside_the_surviving_set": true,
+   "nearest_node": {
+    "col": 9,
+    "function": "cmd_probe_r2",
+    "line": 843
+   },
+   "published_in": "write_sites",
+   "published_line": 844,
+   "shape_variants": 2,
+   "site": "scripts/perpetual_faces_n3.py:844",
+   "survivors": [
+    {
+     "col": 9,
+     "function": "cmd_probe_r2",
+     "line": 843
+    },
+    {
+     "col": 13,
+     "function": "cmd_probe_r2",
+     "line": 784
+    }
+   ],
+   "tier": null
+  }
+ ],
+ "study": "E541_branch_ambiguity",
+ "summary": {
+  "ambiguous_rows_where_nearest_is_inside_the_surviving_set": 32,
+  "ambiguous_rows_where_nearest_is_outside_the_surviving_set": 0,
+  "arms": {
+   "the_candidate_segment_carries_the_constant_the_census_row_names": {
+    "applied": 5,
+    "narrowed_the_row_to_one": 0,
+    "refused_because_it_rejects_every_candidate": 0
+   },
+   "the_candidate_segment_equals_the_published_expression_text": {
+    "applied": 2,
+    "narrowed_the_row_to_one": 0,
+    "refused_because_it_rejects_every_candidate": 46
+   },
+   "the_candidate_segment_equals_the_published_text_once_whitespace_and_quote_style_are_dropped": {
+    "applied": 48,
+    "narrowed_the_row_to_one": 0,
+    "refused_because_it_rejects_every_candidate": 0
+   },
+   "the_candidate_sits_in_the_function_the_census_row_names": {
+    "applied": 48,
+    "narrowed_the_row_to_one": 16,
+    "refused_because_it_rejects_every_candidate": 0
+   }
+  },
+  "arms_refused_overall": 46,
+  "candidates_left_overall": 89,
+  "candidates_overall": 118,
+  "decided_by": {
+   "no_node_of_the_published_shape_was_found_in_the_file": 0,
+   "only_the_arms_together_narrowed_the_candidates_to_one": 0,
+   "the_arms_left_more_than_one_candidate": 32,
+   "the_census_row_s_constant_narrowed_the_candidates_to_one": 0,
+   "the_census_row_s_function_narrowed_the_candidates_to_one": 16,
+   "the_census_row_this_site_points_at_could_not_be_rejoined": 0,
+   "the_expression_text_narrowed_the_candidates_to_one": 0,
+   "the_file_this_site_points_at_could_not_be_read": 0,
+   "the_published_text_ignored_for_whitespace_and_quote_style_narrowed_them_to_one": 0,
+   "the_row_carried_a_single_candidate_so_no_arm_was_needed": 0
+  },
+  "decided_plus_ambiguous_sums_to_the_rows": true,
+  "decided_share": 0.3333,
+  "nearest_agrees_with_the_decision": 16,
+  "nearest_disagrees_with_the_decision": 0,
+  "rows": 48,
+  "rows_addressed_by_the_evidence": 48,
+  "rows_ambiguous": 32,
+  "rows_decided": 16,
+  "rows_with_a_single_candidate": 0,
+  "rows_with_no_candidate": 0,
+  "rows_with_no_census_row": 0,
+  "rows_with_no_readable_file": 0
+ },
+ "upstream_face": "results/state_tilt/linepointer_latest.json",
+ "upstream_sha256": "9526189367967310bf231e3e75fa43c8e7a188fc0729af7f931efb7ea2ff85f9",
+ "verdict": "the_nearest_occurrence_rule_lands_on_the_node_the_evidence_decides_on_most_rows_the_evidence_can_decide",
+ "verdict_vocab": [
+  "the_nearest_occurrence_rule_lands_on_the_node_the_evidence_decides_on_most_rows_the_evidence_can_decide",
+  "the_nearest_occurrence_rule_lands_off_the_node_the_evidence_decides_on_most_rows_the_evidence_can_decide",
+  "the_row_evidence_decides_too_few_rows_for_the_nearest_occurrence_rule_to_be_tested",
+  "no_row_carries_more_than_one_candidate_so_there_is_no_ambiguity_to_decide",
+  "the_upstream_face_published_no_ambiguous_rows"
+ ]
+}

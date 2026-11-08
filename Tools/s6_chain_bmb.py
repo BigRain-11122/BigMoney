@@ -2065,6 +2065,21 @@ LEGS = [
     # statement in the same function, or another statement in the file. `check` re-classifies every
     # row from its own published spans and re-derives the distance buckets and the verdict.
     ("line_pointer", ["python", "scripts/e540_line_pointer_distance.py", "check"]),
+    # E541 prices the ambiguity E540 left open. For the 48 rows whose published expression's shape
+    # occurs more than once in the file, four constraints the census row already carries are applied
+    # conjunctively (strict source text, that text with whitespace and quote style dropped, the
+    # census function, the census constant), and an arm that would reject every candidate is refused
+    # for that row rather than applied. 16 rows decide -- all of them by the function -- 32 stay
+    # ambiguous, and the nearest-to-anchor rule E540 used lands on the decided node on 16 of 16 and
+    # inside the surviving set on all 32 ambiguous rows. `check` re-derives every arm trace, both
+    # counts and the verdict from the published rows.
+    ("branch_ambiguity", ["python", "scripts/e541_branch_ambiguity.py", "check"]),
+    # Data-lane freshness board (OB-20261108-120628-589 leg 1 / D-20261108-02): the observed set is
+    # the union of config/lane_hosts.json's lanes and the collector faces this repo declares, and the
+    # two alarms are published apart -- lane_starved is about a data face, owner_silent is about a
+    # machine, and a third bucket names the faces only a checkout mtime could date. `check`
+    # re-derives every lane's reading, both alarm lists and the verdict from the published rows.
+    ("lane_freshness", ["python", "scripts/data_lane_freshness.py", "check"]),
 ]
 
 

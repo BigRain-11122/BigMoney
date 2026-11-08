@@ -29533,9 +29533,28 @@
    "lane_note": "static: the census rows and the sources are both on disk; the question is whether the row's own evidence can pick among shape-identical nodes",
    "priority": "normal",
    "source": "E540 (r1567 bm-b): 48 of 303 located rows have more than one node of the published expression's shape in the file, so E540's nearest-to-anchor rule is an upper bound rather than a resolution of which occurrence the row means.",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/branchambiguity_latest.json",
    "title": "For the 48 rows where the published expression's AST shape occurs more than once in the file, decide each candidate with the rest of the row's own evidence (constant, family_dir, function name, class) instead of by distance to the anchor: publish how many rows the evidence decides, how many stay ambiguous, and whether the nearest-occurrence rule E540 used picks the same node the evidence decides.",
+   "worker_class": "self-contained",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-08T12:40:20+08:00",
+   "done_note": "48 ambiguous sites rejoined to their census rows (48/48 unique), 118 candidates narrowed to 89. 16 rows decided -- every one of them by the census function -- and 32 left ambiguous (2 survivors: 23 rows, 3 survivors: 9 rows). E540's nearest-to-anchor rule lands on the decided node on 16 of 16 rows and inside the surviving set on all 32 ambiguous rows. Per arm: the strict text arm was refused on 46 of 48 rows because the census publishes a RE-SERIALIZED expression (single-quoted literals against double-quoted sources), the rendered text arm applied on all 48 and narrowed none, the function narrowed 16, the constant narrowed none. Ambiguity is concentrated: 24 of the 32 ambiguous rows are smoke_harness rows where one fixture path is spelled identically in several test bodies. Evidence results/state_tilt/BRANCHAMBIGUITY-2026-11-08.json; card E541.",
+   "result_ref": "results/state_tilt/BRANCHAMBIGUITY-2026-11-08.json"
+  },
+  {
+   "id": "E542-WHICH-OF-THE-INDISTINGUISHABLE-SURVIVORS-DIFFER-IN-SOMETHING-A-READER-COULD-OBSERVE",
+   "status": "ready",
+   "entered_by": "bm-b r1568 (supply floor refill after E541)",
+   "entered_at": "2026-11-08T12:40:20+08:00",
+   "source": "E541 (r1568 bm-b): 32 of the 48 ambiguous rows keep 2-3 survivors that the text arm cannot separate at all (rendered text identical by construction of the shape match), so 'ambiguous' is currently a count of candidates rather than a statement about what a consumer would get wrong",
+   "title": "For the 32 rows E541 left ambiguous, compare the surviving candidates against each other on everything a consumer of the published row could observe -- the function they sit in, the innermost statement and its kind, the loop that encloses them, the signed distance to the published line, and the tier -- and publish how many rows have survivors that differ on nothing (so the ambiguity is invisible to any reader), how many differ only in distance, and how many differ in function or statement (where the ambiguity would actually change what a reader learns). The question is whether the 32 ambiguous rows are a defect surface or a number that overstates a harmless multiplicity.",
+   "lane": "cpu-only",
+   "lane_note": "static: the survivors are already addressed in the face; this is AST spans and set comparison over the same files, no execution, no network, no rewrites",
+   "target": "results/state_tilt/survivorspans_latest.json",
+   "deliverable": "results/state_tilt/SURVIVORSPANS-<cutoff>.json",
+   "evidence_cutoff": "2026-11-08",
+   "priority": "normal",
    "worker_class": "self-contained"
   }
  ],
@@ -29551,6 +29570,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T12:15:22+08:00",
+ "updated_at": "2026-11-08T12:40:20+08:00",
  "version": 1
 }
