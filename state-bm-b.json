@@ -232,7 +232,7 @@
   "ts": "2026-11-06T10:21:48+08:00",
   "verified": true
  },
- "delivery_sha": "de275fc0f4a5bde57175bf264ec623c93160e159",
+ "delivery_sha": "c5d9dd19432d70baf611e5289ecdec50d33dec48",
  "delivery_sha_local": "b58b5a1c0d818a102af0958dc99d6160a44da7a8",
  "delivery_ts": "2026-11-09T06:24:30+08:00",
  "delivery_verified": true,
@@ -6287,14 +6287,14 @@
  "three_line_artifact": "results/etf_book_order/CASHDIVERGE.json",
  "three_line_artifact_ts": "2026-11-09T06:41:00+08:00",
  "three_line_current": "r1618: E591 -- the same stale repo panel is forward-filled on the ledger and zeroed on the ticket: 161.13 CNY vs 0.00 on 8 bars (3.046 bp of the ticket's cash)",
- "three_line_delivery": "machine/bm-b-r1618 (delivery channel per r1243; sha in the postscript row)",
+ "three_line_delivery": "machine/bm-b-r1618 @ c5d9dd194",
  "three_line_next": "E592 (ready, cpu-only): whether the ledger's carry is reproducible once the roll phase is inferred from its own bars -- within 48h",
  "timestamp": "2026-11-09T06:41:00+08:00",
- "ts": "2026-11-09T06:41:00+08:00",
+ "ts": "2026-11-09T06:52:00+08:00",
  "ts_utc_ms": 1794171642000,
  "ts_utc_offset": "+08:00",
- "updated": "2026-11-09T06:41:00+08:00",
- "updated_at": "2026-11-09T06:41:00+08:00",
+ "updated": "2026-11-09T06:52:00+08:00",
+ "updated_at": "2026-11-09T06:52:00+08:00",
  "verdict": "the_same_stale_panel_is_forward_filled_on_one_face_and_zeroed_on_the_other",
  "verdict_line": "on the 8 book bars past the repo panel's last real quote the ledger posts carry on 8 of them while the ticket books on 1: 161.13 CNY versus 0.00 CNY on the publishing ticket's cash, a gap of 161.13 CNY (3.046 bp), of which the ticket's own rule would have explained 15.80 CNY had the panel been quoted",
  "verdict_note": "product round: a published bar-by-bar face with a re-deriving guard; the full smoke suite was not launched (no leg filter, r1499)",
@@ -6385,5 +6385,7 @@
   "smoke": "standalone run_e591_smoke_leg.py PASS + 1/1 red under --doctor; the full suite was NOT launched (no leg filter, r1499) so no suite total is claimed",
   "summary": "all 11 repo panels stop on 2026-10-27; on the 8 book bars past it the ledger books carry on 8 (its ladder panel is ffilled) while the ticket books on 1 (an unquoted prior bar accrues nothing): 161.13 CNY vs 0.00 on the 529,072 CNY ticket cash = 3.046 bp, and the ticket's own rule would have given 15.80. The printed carry is cash-weighted (x3.342 when repriced on the ticket's cash); one bar is negative (-6.79 CNY); a clean-phase replay reproduces 4 of 8 bars, so the roll phase is unpublished state; the ledger's caveat still says cash earns 0 while all 11 bars post carry",
   "next": "E592 (ready, cpu-only): whether the ledger's carry is reproducible once the roll phase is inferred from its own bars"
- }
+ },
+ "r1618_delivery": "c5d9dd19432d70baf611e5289ecdec50d33dec48",
+ "pool_dualrun": "ZERO-DRIFT 1062 entries streak 13 (cutoff 2026-11-09T06:58:00+0800)"
 }
