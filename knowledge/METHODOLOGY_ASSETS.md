@@ -13867,3 +13867,14 @@ E547 量了八个「被创建但没人读」的条目（out['verdict'] / rows['_
 **可见性教训**：S6 链调这条腿时**不带参数**，冻结 exit 3，而链跑器记下非零码继续跑（E558/E560 已证），于是 CEO 面上的账本**静默停了八天**没人报警。修完之后账本转 live：17 bar，2026-11-06 nav 1.00866、回撤 -0.67%、持仓 12 名（scale 0.70、现金 30%），对四 ETF 等权篮子 **+1.49pp**。
 **边界**：本次只用计数比对历史成员（镜前未存名集），指纹从此向前有效；--rebase 仍是唯一逃生口，但从此必须带一个可读的原因。
 **证据** = results/etf_book_forward/DRIFTPROVENANCE-2026-11-08.json + results/_r1592_etfbk_diag.json（诊断）+ results/_r1592_etfbk_run3.txt（rebase 与追加输出）
+
+### E566 · 「谁提到回执」和「谁在读回执」是两拨人——覆盖率盲区已经付过一次账（r1594 bm-b·2026-11-08）
+E563 把「短回执读不出覆盖了哪些腿」定案，本轮去定价：先问**有没有人真的需要这个覆盖信号**。全仓 12,599 个 .py 里 158 个载有链回执路径，按 **AST 祖先**（不是行内有没有 open 字样）分成三拨：**77 写、7 读、74 只提**（散文、git add 清单、docstring）。
+七个读者再分类：**3 个是研究本身**（E560/E561/E562 自己把行数接到腿表上＝覆盖自知）、**2 个一次性 closeout 打印 N/<字面量> rc0**、2 个读来做别的事。
+**付账的那一格**：results/_r1210bmc_closeout.py 读 _r1210bmc_s6_chain.json（39 行），而它那一轮的表有 **61 条腿**，落款写的是 **「S6 chain 39/39 rc0」**。E561 的 join 只给 2 对可定价（其余回执是 gitignore 运行时件，缺席＝unpriced 不是零覆盖），其中 1 对是短回执、1 对零行、1 对由盲读者读。
+**结论**：盲区不是假设，已经印过一次；但**不该因此给回执加字段**——selection 字段只是把同一件事再存一遍，而 E562/E563 已证 138/159 是任意子集：字段能回答「跑过哪些」，答不了「本该有哪些」。缺的是读者自己给分母，那是读者一侧的事。
+**三条可复用教训**：①**命名≠读取，别用一个 consumer 词合并两拨人**——74:7 的比例意味着不区分就会把 10 倍的散文当读者，判据必须是调用祖先（json.load(open(...)) 才算读，git add 清单只是名字）。②**「分母是字面量」可静态抓但要收紧**——}/39 rc0、39/39 rc0 是真形状，1/6、12/12 shards、173 rows / 是噪声，判据必须要求斜杠后数字紧贴 
+c0/
+c=/legs（第一版纯 /digits 把 4 个读者全判成 literal，收紧后 2 个）。③**证据行号可发布但不要进闸**——158 个源里有 2,000 行 runner，顶部加一行注释就让所有行号下移；check 门分类与计数，不门行号，否则 S6 腿每轮必红。
+**边界**：纯静态，不执行 runner、不重写回执、不打开回执内容；只有 2 对可定价，其余如实进 unpriced_pairs。
+**载体** = scripts/e566_receipt_coverage_consumer.py（build/check/verify + selftest 10 arms/158 rows）·results/state_tilt/RECEIPTCOVERAGE-2026-11-08.json + receiptcoverage_latest.json·S6 腿 receipt_coverage_consumer·smoke 腿 # E566 + scripts/run_e566_smoke_leg.py（含 --doctor）·digest research/digests/DIGEST-20261108-r1594-e566-receipt-coverage-consumer.md

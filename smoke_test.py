@@ -24569,5 +24569,67 @@ except Exception as _e563x:
     _d563 = "study could not be read"
 check(_name563, not _bad563, "; ".join(_bad563)[:240] or _d563)
 
+# E566: E563 left "a reader holding a short receipt cannot recover its coverage".  This leg refuses
+# the three ways that question gets answered without separating naming from reading:
+#   * every source that carries a receipt path is called a consumer (most are prose or a git add
+#     payload) -- the three populations must be counted separately and must add up to the rows
+#   * a path in a git payload list is read as a payload read -- the AST ancestry decides, so the
+#     fixture that only names a path must classify as a name
+#   * a short receipt that was actually printed as the whole chain is not counted -- if any priced
+#     pair is short, the short counter must say so
+_name566 = "E566 whether any consumer of a chain receipt needs to know its coverage (r1594 bm-b)"
+_bad566 = []
+_d566 = "no reading"
+try:
+    _m566 = __import__("importlib").import_module("e566_receipt_coverage_consumer")
+    _f566 = json.load(open(os.path.join("results", "state_tilt",
+                                        "receiptcoverage_latest.json"), encoding="utf-8"))
+    _s566 = _f566.get("summary") or {}
+    _r566 = _f566.get("rows") or []
+    _bad566.extend(_m566.face_problems(_f566))
+    if not _r566:
+        _bad566.append("no source carries a receipt path, so nothing is classified")
+    if _s566.get(_m566.C_NAMES) == 0 or _s566.get(_m566.C_READS) == 0:
+        _bad566.append("the naming/reading split is not populated, so the separation is untested")
+    if _m566._mode_of(_m566.FIX_NAME) != _m566.C_NAMES:
+        _bad566.append("a path in a payload list is no longer only a name")
+    if _m566._mode_of(_m566.FIX_WRITE) != _m566.C_WRITES:
+        _bad566.append("a dumped receipt is no longer a write")
+    _p566 = _f566.get("priced_pairs") or []
+    _short566 = [p for p in _p566 if isinstance(p.get("rows"), int)
+                 and isinstance(p.get("table_at_its_round"), int)
+                 and p["rows"] < p["table_at_its_round"]]
+    if _short566 and not _s566.get("pairs_where_the_receipt_was_short"):
+        _bad566.append("a priced short receipt was not counted")
+    if _short566 and not _f566.get("verdict_line", "").count("short"):
+        _bad566.append("a short pair is counted but the verdict line does not say it")
+    _doc566 = json.loads(json.dumps(_f566))
+    _doc566["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m566.face_problems(_doc566):
+        _bad566.append("a hand-written verdict was accepted")
+    _victim566 = json.loads(json.dumps(_f566))
+    for _r in _victim566.get("rows") or []:
+        if _r.get("source_class") == _m566.C_READS:
+            _r["class"] = _m566.R_OTHER
+            break
+    if not _m566.face_problems(_victim566):
+        _bad566.append("a hand-written reader class was accepted")
+    _d566 = ("%d sources / writes=%d / reads=%d / names-only=%d / readers: aware=%d literal=%d "
+             "rc-only=%d other=%d / pairs priced=%d short=%d blind-short=%d / %s"
+             % (_s566.get("sources_scanned", 0), _s566.get(_m566.C_WRITES, 0),
+                _s566.get(_m566.C_READS, 0), _s566.get(_m566.C_NAMES, 0),
+                _s566.get("readers_" + _m566.R_COVERAGE, 0),
+                _s566.get("readers_" + _m566.R_LITERAL, 0),
+                _s566.get("readers_" + _m566.R_RC_ONLY, 0),
+                _s566.get("readers_" + _m566.R_OTHER, 0),
+                _s566.get("reader_receipt_pairs_priced", 0),
+                _s566.get("pairs_where_the_receipt_was_short", 0),
+                _s566.get("pairs_where_a_blind_reader_read_a_short_receipt", 0),
+                _f566.get("verdict")))
+except Exception as _e566x:
+    _bad566.append(repr(_e566x)[:160])
+    _d566 = "study could not be read"
+check(_name566, not _bad566, "; ".join(_bad566)[:240] or _d566)
+
 if __name__ == "__main__":
     sys.exit(main())

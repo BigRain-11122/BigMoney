@@ -1,0 +1,3325 @@
+{
+ "card": "E566",
+ "control_arms": {
+  "a_count_joined_to_a_table_is_coverage_aware": "coverage_aware",
+  "a_coverage_reader_carries_no_literal_denominator": [],
+  "a_dump_is_a_write": "writes_a_receipt",
+  "a_glob_inside_json_load_is_a_read": "reads_the_payload",
+  "a_literal_denominator_is_not_coverage_aware": "literal_denominator",
+  "a_path_in_a_payload_list_is_only_a_name": "names_it_without_opening_it",
+  "a_payload_read_is_a_read": "reads_the_payload",
+  "an_rc_filter_without_a_count_is_blind": "rc_only_summary",
+  "an_unrelated_read_is_its_own_class": "other_read",
+  "literal_denominators_are_carried_not_dropped": [
+   39
+  ]
+ },
+ "dept": "research+engineering",
+ "evidence_cutoff": "2026-11-08",
+ "machine": "bm-b",
+ "note": "static only: no receipt is opened for its content beyond the scan of sources, no runner is executed, no receipt is rewritten; each reader row carries the evidence line numbers its class was derived from",
+ "population_source": {
+  "face": "results/state_tilt/RECEIPTTABLE-2026-11-08.json",
+  "note": "E561's join supplies each receipt's row count and the legs table of its own round; naming is separated from reading by AST ancestry, not by a word in the line",
+  "sha16": "ade79aae14f45386"
+ },
+ "priced_pairs": [
+  {
+   "join_class": "shorter_than_the_table_of_its_own_round",
+   "reader": "results/_r1210bmc_closeout.py",
+   "receipt": "_r1210bmc_s6_chain.json",
+   "rows": 39,
+   "table_at_its_round": 61
+  },
+  {
+   "join_class": "no_runner_blob_reachable_for_that_round",
+   "reader": "results/_r253bmc_s7_closeout.py",
+   "receipt": "_r253bmc_s6_chain.json",
+   "rows": 0,
+   "table_at_its_round": null
+  }
+ ],
+ "producers": {
+  "card": "knowledge/METHODOLOGY_ASSETS.md E566",
+  "script": "scripts/e566_receipt_coverage_consumer.py",
+  "selftest": "python scripts/e566_receipt_coverage_consumer.py selftest"
+ },
+ "round": "r1594",
+ "rows": [
+  {
+   "file": "Tools/_r1334bmb_closeout.py",
+   "receipts_it_names": [
+    "_r1334bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 2,
+     "literal": "r1334 bm-b closeout: state face + heartbeat (via the canonical writer) + round report.\n\nFacts only: every number below w",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "os.path.join"
+     ],
+     "line": 19,
+     "literal": "_r1334bmb_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 81,
+     "literal": "orphan face probe py_faces=7 orphans=0 residents=0 | dualrun ZERO-DRIFT 805 entries streak 51 rc=0 | pool_deliverable rc",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "Tools/s6_chain_bma.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [
+      "os.path.join"
+     ],
+     "line": 110,
+     "literal": "bma_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "Tools/s6_chain_bmb.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [
+      "os.path.join"
+     ],
+     "line": 2304,
+     "literal": "_r%sbmb_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "Tools/s6_chain_bmc.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 1,
+     "literal": "bm-c S6 chain runner (reusable).\n\nRuns the 43 S6 data/panel maintenance legs in the order fixed by the round\nprompt, rec",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 395,
+     "literal": "bmc_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "_r1311bmb_receipt.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 3,
+     "literal": "| %s | r1311 amendment | DELIVERY RECEIPT: machine/bm-b-r1311 == local HEAD **3dd0debc58688309d3ddf31eec196c24cc2e42c6**",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "_r1504bmb_report.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 6,
+     "literal": "| 2026-11-07T03:30+08:00 | r1504 | bm-b (dept=research+engineering) | **watermark: red=true lane=pool-batch-runnable-idl",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "_r1508_closeout.py",
+   "receipts_it_names": [
+    "_r1508bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 80,
+     "literal": "one leg run in isolation: vintage_date_agree rc=0 0.05s (receipt results/_r1508bmb_s6_chain.json); an accidental FULL ch",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "_r1511bmb_closeout.py",
+   "receipts_it_names": [
+    "_r1511bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 103,
+     "literal": "Tools/s6_chain_bmb.py leg latest_spelling_exists (rc0 0.07s, receipt results/_r1511bmb_s6_chain.json)",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "_r1511bmb_report.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 6,
+     "literal": "| 2026-11-07T06:0x+08:00 | r1511 | bm-b (dept=research+engineering) | **watermark: py_low_with_work_cands at open (E482/",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "_r1561_closeout.py",
+   "receipts_it_names": [
+    "_r1561bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "os.path.join"
+     ],
+     "line": 165,
+     "literal": "_r1561bmb_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "_r1586_closeout.py",
+   "receipts_it_names": [
+    "_r1586bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "state.update"
+     ],
+     "line": 134,
+     "literal": "chain_receipt_shape rc0 0.2s (S6 1/1, receipt results/_r1586bmb_s6_chain.json) | orphan probe py_faces=9 orphans=0 resid",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "_tmp_e179_close.py",
+   "receipts_it_names": [
+    "_r1213bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 50,
+     "literal": "Tools/s6_chain_bmb.py (reusable bm-b S6 runner; 21 legs, receipt results/_r1213bmb_s6_chain.json)",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 85,
+     "literal": "| %s | r%d | dept:research+strategy+engineering | **WATERMARK**: red at open (pool-batch-runnable-idle-low-cpu, py 0.1%%",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "_tmp_e544_s6.py",
+   "receipts_it_names": [
+    "_r1573bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 6,
+     "literal": "results/_r1573bmb_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "_tmp_r1320_report.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 3,
+     "literal": "| 2026-10-31T12:0x+08:00 | r1320 | **watermark: red at open (py_low_board_clear -- 5 pool-ready cards against py 0.1 pct",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "_tmp_r1320_report2.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 3,
+     "literal": "| 2026-10-31T12:0x+08:00 | r1320 | **watermark: red at open (py_low_board_clear -- 5 pool-ready cards against py 0.1 pct",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "logs/_r1395_report.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 7,
+     "literal": "| %s | r1395 | **watermark: insufficient_history at open (py 22.1%%, pool ready 2), so the round burned the ready head E",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r1183bmc_closeout.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 12,
+     "literal": " | r1183 | r1183 (resumed window): the previous window died right after the W300 finalize commit dad95fe359 -- seat ADMI",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r1191bmc_closeout_state.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 14,
+     "literal": "r1191: W306 CLOSED IN A RESUMED WINDOW (r1181/r1186/r1190 precedent: seat ADMIT 9da7091894 / prereg freeze 7ab2b459e2 / ",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r1191bmc_round_report.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 6,
+     "literal": "2026-10-24T10:4x+08:00 | r1191 | W306 CLOSED IN A RESUMED WINDOW (seat 9da7091894 / prereg freeze 7ab2b459e2 / splice aa",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r1191bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r1191bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r1191bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "json.dump",
+      "open"
+     ],
+     "line": 69,
+     "literal": "results/_r1191bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r1198bmc_mk_s6.py",
+   "receipts_it_names": [
+    "_r1197bmc_s6_chain.json",
+    "_r1198bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 6,
+     "literal": "_r1197bmc_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "src.replace"
+     ],
+     "line": 7,
+     "literal": "_r1197bmc_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "src.replace"
+     ],
+     "line": 7,
+     "literal": "_r1198bmc_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r1198bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r1198bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r1198bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "json.dump",
+      "open"
+     ],
+     "line": 69,
+     "literal": "results/_r1198bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r1202bmc_mk_s6.py",
+   "receipts_it_names": [
+    "_r1199bmc_s6_chain.json",
+    "_r1202bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "s.count"
+     ],
+     "line": 13,
+     "literal": "_r1199bmc_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "s.count"
+     ],
+     "line": 13,
+     "literal": "_r1199bmc_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "s.replace"
+     ],
+     "line": 15,
+     "literal": "_r1199bmc_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "s.replace"
+     ],
+     "line": 15,
+     "literal": "_r1202bmc_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r1202bmc_report_row.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 6,
+     "literal": "2026-10-24T17:18+08:00 | r1202 | W312 OPENED END-TO-END IN ONE WINDOW: seat ADMIT (A 701_701..703_700 / B 703_701..703_9",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r1202bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r1202bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r1202bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "json.dump",
+      "open"
+     ],
+     "line": 69,
+     "literal": "results/_r1202bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r1204bmc_closeout.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 88,
+     "literal": "%s | r1204 | %s | evidence: results/_w313bmc_20261024_probe_receipt.json verdict=ADMIT (A 703_901..705_900 / B 705_901..",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r1204bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r1204bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r1204bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "json.dump",
+      "open"
+     ],
+     "line": 69,
+     "literal": "results/_r1204bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r1206bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r1206bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r1206bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "json.dump",
+      "open"
+     ],
+     "line": 69,
+     "literal": "results/_r1206bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "class": "literal_denominator",
+   "evidence_lines": {
+    "literal_denominator": [
+     62,
+     113
+    ],
+    "rc_filter": [
+     37
+    ],
+    "row_count": [
+     62,
+     113
+    ],
+    "table_join": []
+   },
+   "file": "results/_r1208bmc_closeout.py",
+   "joins_a_legs_table": false,
+   "literal_denominators": [
+    39,
+    39
+   ],
+   "patterns_it_reads": [],
+   "reads_a_row_count": true,
+   "receipts_it_names": [
+    "_r1208bmc_s6_chain.json"
+   ],
+   "receipts_it_reads": [
+    "_r1208bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "json.load",
+      "io.open",
+      "os.path.join"
+     ],
+     "line": 31,
+     "literal": "results/_r1208bmc_s6_chain.json",
+     "mode": "reads_the_payload"
+    }
+   ],
+   "source_class": "reads_the_payload"
+  },
+  {
+   "class": "literal_denominator",
+   "evidence_lines": {
+    "literal_denominator": [
+     117
+    ],
+    "rc_filter": [
+     39
+    ],
+    "row_count": [],
+    "table_join": []
+   },
+   "file": "results/_r1210bmc_closeout.py",
+   "joins_a_legs_table": false,
+   "literal_denominators": [
+    39
+   ],
+   "patterns_it_reads": [],
+   "reads_a_row_count": false,
+   "receipts_it_names": [
+    "_r1210bmc_s6_chain.json"
+   ],
+   "receipts_it_reads": [
+    "_r1210bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "json.load",
+      "io.open",
+      "os.path.join"
+     ],
+     "line": 33,
+     "literal": "results/_r1210bmc_s6_chain.json",
+     "mode": "reads_the_payload"
+    },
+    {
+     "calls": [],
+     "line": 48,
+     "literal": "r1210 absorb note: the dead r1209 window landed W315 end-to-end (seat ADMIT eebc599c33 / prereg freeze 7f5421ec6f / five",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "reads_the_payload"
+  },
+  {
+   "file": "results/_r1222bmc_closeout.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 78,
+     "literal": "%s | r1222 | W320 CYCLE CLOSED IN ONE WINDOW (state round_no was 1222 at open, did_round=1221; the r1221 window had spli",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r1222bmc_s6chain.py",
+   "receipts_it_names": [
+    "_r1222bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r1222bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 65,
+     "literal": "results\\_r1222bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r1238bmc_closeout.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 116,
+     "literal": "r1238: dead-window absorb. The r1237 window committed the W328 freeze (ee00f6a9d6) and the five-face splice (91e318867f)",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r1238bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r1238bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r1238bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "json.dump",
+      "open",
+      "os.path.join"
+     ],
+     "line": 72,
+     "literal": "_r1238bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r1240bmc_closeout.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 119,
+     "literal": "r1240: dead-window absorb. The r1239 window committed the W329 prereg (c337566e2b) and the five-face splice (624c3d99a9)",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r1295bmb_report_row.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 4,
+     "literal": "| 2026-10-31T03:00:00+08:00 | r1295 | **watermark: red at open** (lane pool-batch-runnable-idle-low-cpu, 3 ready pool ro",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r1296bmb_s6_stream.py",
+   "receipts_it_names": [
+    "_r1296bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "os.path.join"
+     ],
+     "line": 58,
+     "literal": "_r1296bmb_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r1305bmb_amendment_row.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 12,
+     "literal": "| 2026-10-31T06:0x | r1305 amendment | DELIVERY RECEIPT: machine/bm-b-r1305 == local HEAD %s, verified by `git ls-remote",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r1317bmb_closeout.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 19,
+     "literal": "| 2026-10-31T11:0x | r1317 | **watermark: py_low_with_work_cands at open (pool_ready 7, py idle); the round burned the h",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r1572_closeout.py",
+   "receipts_it_names": [
+    "_r1572bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 27,
+     "literal": "S6 leg constant_terminal rc0 0.05s (receipt results/_r1572bmb_s6_chain.json); the rest of the S6 chain not re-run and no",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 70,
+     "literal": "constant_terminal rc0 (S6 1/1, receipt results/_r1572bmb_s6_chain.json)",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r159bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r159bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r159bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 91,
+     "literal": "results\\_r159bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r159bmc_s7_bookkeeping.py",
+   "receipts_it_names": [
+    "_r159bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 14,
+     "literal": "+08:00 | r159 | dept:舰队 绿维护轮+C族接管延续: WM first-line verdict: 绿（probe 11:21:26 py_low_board_clear 合法 idle〔板 0 open+池 2 rea",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 49,
+     "literal": "S6 all legs stdout rc=0 logged in results/_r159bmc_s6_chain.json + WM probe 11:21:26 py_low_board_clear (legal idle: boa",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r160bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r160bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r160bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 83,
+     "literal": "results\\_r160bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r161bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r161bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r161bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 78,
+     "literal": "results\\_r161bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r168bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r168bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r168bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 78,
+     "literal": "results\\_r168bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r170bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r170bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r170bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 77,
+     "literal": "results\\_r170bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r171bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r171bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r171bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 77,
+     "literal": "results\\_r171bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r172bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r172bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r172bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 113,
+     "literal": "results\\_r172bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r180bmc_s6_chain_runner.py",
+   "receipts_it_names": [
+    "_r180bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r180bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 50,
+     "literal": "results/_r180bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r184bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r184bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "os.path.join"
+     ],
+     "line": 18,
+     "literal": "_r184bmc_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r189bmc_closeout.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [
+      "state.update"
+     ],
+     "line": 57,
+     "literal": "S0-1 anchor bm-c -> S0 salvage-commit r188 legacy + pull --rebase (1 UU pool_worker.py -> union: origin S14/S15 + r188 l",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 133,
+     "literal": " | round 189 bm-c (r188 死窗抢救轮) | dept:工程/舰队 joint (T-107 supply-mechanism slice) | WM-VERDICT: 绿 (00:29 probe red=false ",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r189bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r189bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "os.path.join"
+     ],
+     "line": 18,
+     "literal": "_r189bmc_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r200bmc_amend.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 20,
+     "literal": "2026-09-29T05:52:00+08:00 | round 200 bm-c | dept:工程/舰队 (绿维护+W6 着陆验证+flip 门复查+5x HANDOVER) | WM-VERDICT: 绿 (red=false@05",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 78,
+     "literal": "W6 landing triple-verify (sha16 identical + json.loads + 5000->3952 count) + S6 chain 37 legs nonzero=0 (_r200bmc_s6_cha",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r200bmc_closeout.py",
+   "receipts_it_names": [
+    "_r200bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 15,
+     "literal": "2026-09-29T05:46:00+08:00 | round 200 bm-c | dept:工程/舰队 (绿维护+W6 燃烧监护+flip 门复查+5x HANDOVER) | WM-VERDICT: 绿 (red=false@05",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 79,
+     "literal": "S6 chain 37 legs nonzero=0 (_r200bmc_s6_chain.json) + orders 122/122 missing=0 programmatic + ledger head 328,987 (w5_ju",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r200bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r200bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "os.path.join"
+     ],
+     "line": 16,
+     "literal": "_r200bmc_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r235bmc_close.py",
+   "receipts_it_names": [
+    "_r235bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 14,
+     "literal": "2026-09-29T19:5x+08:00 | r235 bm-c (dept:数据+舰队·源分层定谳+5x 补账轮) | WM-VERDICT: 绿 (red=false@watermark_red.json 19:10 lane=he",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "st.update"
+     ],
+     "line": 55,
+     "literal": "smoke 26/26; S6 37 legs rc=0 evidence _r235bmc_s6_chain.json; probe/parity JSONs 3-symbol cross-validated; HANDOVER r235",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r235bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r235bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r235bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 1,
+     "literal": "_r235bmc_s6_chain.py -- bm-c r235 S6 maintenance chain runner (37 legs).\n\nCanon order per DEV prompt (pool_dualrun_recon",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 81,
+     "literal": "results/_r235bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    },
+    {
+     "calls": [
+      "print"
+     ],
+     "line": 83,
+     "literal": "evidence -> results/_r235bmc_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r236bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r236bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r236bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 1,
+     "literal": "_r236bmc_s6_chain.py -- bm-c r236 S6 maintenance chain runner (37 legs).\n\nCanon order per DEV prompt (pool_dualrun_recon",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 84,
+     "literal": "results/_r236bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    },
+    {
+     "calls": [
+      "print"
+     ],
+     "line": 86,
+     "literal": "evidence -> results/_r236bmc_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r238bmc_close.py",
+   "receipts_it_names": [
+    "_r238bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 38,
+     "literal": "smoke 26/26; S6 evidence results/_r238bmc_s6_chain.json (non_green=update_lhb rc3 only, quarantine legal); dualrun strea",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 80,
+     "literal": " | r238 bm-c (dept:舰队+数据·维护链复跑轮) | WM-VERDICT: 绿 (red=false@watermark_red.json 20:10 lane=healthy; probe 20:30:05 py_pro",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r238bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r238bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r238bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 1,
+     "literal": "_r238bmc_s6_chain.py -- bm-c r238 S6 maintenance chain runner (37 legs).\n\nCanon order per DEV prompt (pool_dualrun_recon",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 85,
+     "literal": "results/_r238bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    },
+    {
+     "calls": [
+      "print"
+     ],
+     "line": 87,
+     "literal": "evidence -> results/_r238bmc_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r239bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r239bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r239bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 84,
+     "literal": "results/_r239bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r240bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r240bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r240bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 84,
+     "literal": "results/_r240bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r241bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r241bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r241bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 84,
+     "literal": "results/_r241bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r245bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r245bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r245bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 84,
+     "literal": "results/_r245bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r247bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r247bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r247bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 2,
+     "literal": "_r247bmc_s6_chain.py -- S6 maintenance chain driver for bm-c r247.\nRuns the standing chain in order (pool_dualrun FIRST ",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 88,
+     "literal": "results/_r247bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r252bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r252bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r252bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 1,
+     "literal": "r252 bm-c S6 chain wrapper: reuse _r430bma driver LEGS (anti-rebuild), record per-leg rc\ninto results/_r252bmc_s6_chain.",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 50,
+     "literal": "results/_r252bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r253bmc_s6_chain.py",
+   "receipts_it_names": [
+    "_r253bmc_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r253bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 3,
+     "literal": "r253 bm-c S6 chain wrapper: reuse _r430bma driver LEGS (anti-rebuild), evidence -> _r253bmc_s6_chain.json.",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 50,
+     "literal": "results/_r253bmc_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "class": "other_read",
+   "evidence_lines": {
+    "literal_denominator": [],
+    "rc_filter": [],
+    "row_count": [],
+    "table_join": []
+   },
+   "file": "results/_r253bmc_s7_closeout.py",
+   "joins_a_legs_table": false,
+   "literal_denominators": [],
+   "patterns_it_reads": [],
+   "reads_a_row_count": false,
+   "receipts_it_names": [
+    "_r253bmc_s6_chain.json"
+   ],
+   "receipts_it_reads": [
+    "_r253bmc_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "json.load",
+      "open"
+     ],
+     "line": 14,
+     "literal": "results/_r253bmc_s6_chain.json",
+     "mode": "reads_the_payload"
+    },
+    {
+     "calls": [],
+     "line": 64,
+     "literal": "%s | r253 | rebase 双楔收口：r252 让路工件经两轮 origin 撞批（bm-b r446 窗+bm-a r458 窗）按 r443/r446/r449 union-blob 律解冲突 20+16 件（17+12 派生",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "reads_the_payload"
+  },
+  {
+   "file": "results/_r390bmb_s6_chain.py",
+   "receipts_it_names": [
+    "_r390bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 1,
+     "literal": "r390 bm-b S6 chain runner (r171 precedent pattern, per-leg rc capture).\n\nWrites results/_r390bmb_s6_chain.json evidence.",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "os.path.join"
+     ],
+     "line": 14,
+     "literal": "_r390bmb_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r401bmb_s6_chain.py",
+   "receipts_it_names": [
+    "_r401bmb_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r401bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 1,
+     "literal": "r401 bm-b S6 chain runner (68th-batch law: no inline cmd /c quoting in PS).\n\nPer-leg subprocess, rc + last stdout line c",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "json.dump",
+      "open"
+     ],
+     "line": 97,
+     "literal": "results/_r401bmb_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r405bmb_s6_chain.py",
+   "receipts_it_names": [
+    "_r405bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "os.path.join"
+     ],
+     "line": 74,
+     "literal": "_r405bmb_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r406bmb_s6_chain.py",
+   "receipts_it_names": [
+    "_r406bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "os.path.join"
+     ],
+     "line": 74,
+     "literal": "_r406bmb_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r408bmb_s6_chain.py",
+   "receipts_it_names": [
+    "_r408bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "os.path.join"
+     ],
+     "line": 76,
+     "literal": "_r408bmb_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r413bmb_s6_chain.py",
+   "receipts_it_names": [
+    "_r413bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "os.path.join"
+     ],
+     "line": 76,
+     "literal": "_r413bmb_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r480bmb_s6_chain.py",
+   "receipts_it_names": [
+    "_r480bmb_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r480bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 80,
+     "literal": "results/_r480bmb_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r582bmb_s6_runner.py",
+   "receipts_it_names": [
+    "_r582bmb_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r582bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "json.dump",
+      "open"
+     ],
+     "line": 92,
+     "literal": "results/_r582bmb_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r586bmb_close.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [
+      "'{ts} | r586 | WM=py_low_board_clear(板 0 open/bandit 0/池唯一件=W14 治理停泊 r483 裁定泊位=合法 idle 白名单面；W107=轮转 bm-a 位+finalize 链 W101 上游 FAIL-CLOSED=诚实等待) | 当前活=W106 12/12 烧录产物交付 origin(本轮主产出) | 最近实物=results/p2cal_ext/n1_w106/ 12 分片 2,200 回测(17:41-17:52 烧毕)+引擎台账 12 行 ride | 下个里程碑=W101 bm-a finalize 落地后链序推进 W102/W103 finalize(~24h 窗)+W109 bm-b 轮转波位待 W107/W108 注册 | 做了什么=S0 纯 FF 外科集成(e77cad0bb->e79dcf6b4 bm-c r377 wrap x2+bm-a r587 wrap 采纳;55 共享/他机面 checkout 取 origin;本机活写面保留;W106 seat MSG 位移伪影 blob 恒等治愈)+orders 143/143 差集空+D-19 诚实 skip(r481 特例)+smoke 47/47+W106 12/12 验核(audit 块逐件 n_backtests 总和=2,200·workers=8·machine=bm-b)+W14 治理面定谳=停泊非幽灵(r483 裁定+entry park honored r527 律=N2-W15 同语法连带自持=零动作)+S6 33 legs rc0(dualrun ZERO-DRIFT 30/3·REPORT/LIVE-2026-10-02 再生·host 守卫面诚实 skip)+S7 自愈 5/5(loop pin=2 no-op·watchdog 注册·双爪验证·attrition CLEAN 4-healed) | 验证证据=分片 audit 块逐件核+S6 回执 _r586bmb_s6_chain.json anomalies=NONE+推送后 origin ls-tree n1_w106 复达+fetch 复核 | 本地未达 origin commit 数=0(推送后复核) | 下轮指针=W107 bm-a 轮转位(bm-b 下一波=W109)·W101 落地后 W102/W103 链序 finalize·W14 泊位守 CEO §四闸解冻·S6 照常'.format"
+     ],
+     "line": 54,
+     "literal": "{ts} | r586 | WM=py_low_board_clear(板 0 open/bandit 0/池唯一件=W14 治理停泊 r483 裁定泊位=合法 idle 白名单面；W107=轮转 bm-a 位+finalize 链 W10",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r586bmb_push.py",
+   "receipts_it_names": [
+    "_r586bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 34,
+     "literal": "results/_r586bmb_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r586bmb_s6_runner.py",
+   "receipts_it_names": [
+    "_r586bmb_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r586bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "json.dump",
+      "open"
+     ],
+     "line": 92,
+     "literal": "results/_r586bmb_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "class": "other_read",
+   "evidence_lines": {
+    "literal_denominator": [],
+    "rc_filter": [],
+    "row_count": [],
+    "table_join": []
+   },
+   "file": "results/_r587bmb_close.py",
+   "joins_a_legs_table": false,
+   "literal_denominators": [],
+   "patterns_it_reads": [
+    "{ts} | r587 | WM=py_low_with_work_cands(py 55.3%@18:26 probe·合法面非违令：W109 引擎烧录在飞=本日供给步点火实证(audit 面 py_cpu 77.3%·30 py pro"
+   ],
+   "reads_a_row_count": false,
+   "receipts_it_names": [],
+   "receipts_it_reads": [],
+   "refs": [
+    {
+     "calls": [
+      "'{ts} | r587 | WM=py_low_with_work_cands(py 55.3%@18:26 probe·合法面非违令：W109 引擎烧录在飞=本日供给步点火实证(audit 面 py_cpu 77.3%·30 py procs)·moneyflow IC next_pick=claimed 在飞·W14/N2-W15 治理停泊 r483 合法持有·板 0 open=无可开新批候选) | 当前活=W109 冻结五面已交付+引擎 tick 自见点火烧录在飞(n1w109-1of12) | 最近实物=commit f077ae11b W109 FREEZE 五面+research/PERPETUAL_N1_W109_PREREG.md(锚滚至 W103 实测 K=224,520)+带闸回执 results/_r587bmb_w109_band_gate.py(18:2x·A 261_004..263_003/B 61_001..61_200) | 下个里程碑=W109 12/12 烧毕+引擎台账交付(今夜窗·tick 自燃)+W104 bm-a finalize 落地后链序推进 W105/W106(≤48h 窗·多机并跑) | 做了什么=S0-1 锚定 bm-b+orders 143/143 差集空(格式对齐 .md 后缀修正)+D-19 r481 特例诚实 skip+smoke 47/47+引擎活(30s 心跳)·**W109 供给步全链**(本机引擎队列清空=never-dry 律触发·r585 W106 全范式复用)=席位 MSG 首稿被 pre-push 爪拦=origin 前进分叉伪影 r374→amend 修正 B 投影(算术窗 60_801..61_000 撞 SEED_REGISTRY wild_route_s1=61_000·本机独立机验=bm-c W108 gate 尾披露交叉验证一致·首稿从未推送=零外见性·rev.B 唯一发布面)+外科推送席位 99e29877c(r523 律·单件 payload·18 面 checkout 同步)+带闸 ADMIT rc0(单态 W2..W108 全注册·A 算术续带 hops 0·B 撞值跳位首个净窗 hops 1·法典 §4 W5 先例族·99th/37th 序数机面 derive)+禁向闸 ADMIT 0+五面纯插入 +31/+194/+2(FIX-A/B/C+AST·n1 selftest W109 物化腿活体 PASS dep W17..W103 head 591,148·pf 9/9)+冻结 FF 直推 f077ae11b+引擎点火实证(saturation status active_burns=n1w109-1of12)+inbox 两枚他机席位 MSG(W107 bm-a/W108 bm-c)消费归档 processed | S6 33 legs rc0(pool_dualrun ZERO-DRIFT 31/3·REPORT/LIVE-2026-10-02 再生·金周 LAST_BAR=2026-09-30 无新 bar=paper 块诚实跳过·车道守卫面诚实 no-op) | S7 自愈 5/5(loop pin=2 no-op·watchdog 注册·pre-commit/pre-push 双爪装·attrition CLEAN 4-healed) | 验证证据=带闸/编辑/自测回执件 _r587bmb_w109_*+_r587bmb_seat_push.py 送达自证(seat on origin=True·ls-tree W109 prereg 在场)+S6 回执 _r587bmb_s6_chain.json anomalies=NONE+推送后 fetch 复核 | 本地未达 origin commit 数=0(冻结推送后复核·bm-a W107 ledger append 254b9d3f0 在后=他机前进非本机未达) | 下轮指针=W109 烧毕验证(产物增长面 r325 律·引擎台账 commit 自随)·W104 bm-a finalize 落地后 W105/W106 finalize 链序推进(本机 W106 finalize 待前置)·W110 席位=他机轮转位·orders 双扫照常'.format"
+     ],
+     "line": 60,
+     "literal": "{ts} | r587 | WM=py_low_with_work_cands(py 55.3%@18:26 probe·合法面非违令：W109 引擎烧录在飞=本日供给步点火实证(audit 面 py_cpu 77.3%·30 py pro",
+     "mode": "reads_the_payload"
+    }
+   ],
+   "source_class": "reads_the_payload"
+  },
+  {
+   "file": "results/_r587bmb_s6_runner.py",
+   "receipts_it_names": [
+    "_r587bmb_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r587bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "json.dump",
+      "open"
+     ],
+     "line": 94,
+     "literal": "results/_r587bmb_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r770bmb_s6_driver.py",
+   "receipts_it_names": [
+    "_r770bmb_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r770bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "json.dump",
+      "open"
+     ],
+     "line": 60,
+     "literal": "results/_r770bmb_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r771bmb_bookkeeping.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 9,
+     "literal": "2026-10-06T10:2x+08:00 | round 771 (bm-b, dept:engineering, r771 dead-session adoption + merge-mode integrate round) | [",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 107,
+     "literal": "qa/smoke-r771.md + qa/equity-curve-r771.png (QA pack 5/5, real backtest 93 trades determinism=True sharpe 0.1586) + merg",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r771bmb_s6_driver.py",
+   "receipts_it_names": [
+    "_r771bmb_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r771bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "json.dump",
+      "open"
+     ],
+     "line": 60,
+     "literal": "results/_r771bmb_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r872bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r872bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r872bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "io.open('results\\\\_r872bma_s6_chain.json', 'w', encoding='utf-8').write",
+      "io.open"
+     ],
+     "line": 73,
+     "literal": "results\\_r872bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r875bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r875bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r875bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "io.open('results\\\\_r875bma_s6_chain.json', 'w', encoding='utf-8').write",
+      "io.open"
+     ],
+     "line": 73,
+     "literal": "results\\_r875bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r877bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r877bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r877bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "io.open('results\\\\_r877bma_s6_chain.json', 'w', encoding='utf-8').write",
+      "io.open"
+     ],
+     "line": 73,
+     "literal": "results\\_r877bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r879bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r879bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r879bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "io.open('results\\\\_r879bma_s6_chain.json', 'w', encoding='utf-8').write",
+      "io.open"
+     ],
+     "line": 73,
+     "literal": "results\\_r879bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r881bmb_s6_driver.py",
+   "receipts_it_names": [
+    "_r881bmb_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r881bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 109,
+     "literal": "results/_r881bmb_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r883bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r883bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r883bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r883bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r886bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r886bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r886bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r886bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r887bma_closeout.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 10,
+     "literal": " | r887 | bm-a | dept:research/engine (perpetual line) | WM-VERDICT: green (red=false; engine rc0 idle-after-burn: W187 ",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "st.update"
+     ],
+     "line": 59,
+     "literal": "r887: W187 finalize one-pass (burn 12/12 engine-autonomous -> three-gate probe GREEN r831 half-open -> finalize EXACT le",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r887bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r887bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r887bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r887bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r888bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r888bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r888bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r888bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r889bma_closeout.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 21,
+     "literal": "+08:00 | r889 | bm-a | dept:research/engine (perpetual line+MV viewing gate) | WM-VERDICT: green (red=false lane=healthy",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "st.update"
+     ],
+     "line": 99,
+     "literal": "r889: W188 burn 12/12 engine-autonomous complete (18:06-18:19) -> pre-finalize three-gate probe GREEN (r831 half-open, r",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "st.update"
+     ],
+     "line": 116,
+     "literal": "results/perpetual_faces/n1_w188_results.json (K 411,520, ledger 820,928) + results/_r889bma_w188_prefinalize_probe.json ",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "hb.update"
+     ],
+     "line": 181,
+     "literal": "results/perpetual_faces/n1_w188_results.json (K 411,520 ledger 820,928) + _r889bma_w188_prefinalize_probe.json + _r889bm",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r889bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r889bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r889bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r889bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r890bma_close.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 50,
+     "literal": " | r890 | bm-a | dept:research/engine+data (perpetual line+CEO ticket T-177+engineering) | WM-VERDICT: green (red=false ",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r890bma_qa_pack.py",
+   "receipts_it_names": [
+    "_r890bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "os.path.join"
+     ],
+     "line": 61,
+     "literal": "_r890bma_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r890bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r890bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r890bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r890bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r891bma_close.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 87,
+     "literal": " | r891 | bm-a | dept:research/engine (perpetual line+engineering) | WM-VERDICT: green (red=false lane healthy; engine A",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r891bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r891bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r891bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r891bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r892bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r892bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r892bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r892bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r893bma_closeout_writes.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [
+      "\"{ts} | r{r} | bm-a | dept:research/engine+data (perpetual line+data red-fix; composite round r844/r888 dead-tail adoption) | WM-VERDICT: green (red=false lane healthy; next_pick moneyflow IC claimed=advisory panel-source-blocked; engine ALIVE rc0 idle queue 0) | 当前活: r892 收口 (孤儿面=0; 10-08 节后首 bar 全量落地: 12 SZ 159xxx laggard catch-up heal + paper marks settle; W190 finalize EXACT + W191 seat) | 本轮: dead#1 W190 five-face freeze chain (4 commits) + 39-leg S6 (3 reds hinged on stale SZ bars: live_paper/t24_prospect/aggressive_lab) + window#2 adoption (21:19) W190 pre-finalize 3-gate probe GREEN -> finalize one-pass EXACT (merged mu -0.0929 sigma 0.2451 K 415,920; ledger 823,128+2,200=825,328 == projection EXACT; pre-W190 K 413,720) -> W191 pre-seat probe ADMIT (A 435_004..437_003 staircase FIFTY-FIRST / B 437_004..437_203 mutual-exclusion own-A reserved; naive refused per seat leg4) -> W191 seat MSG published=reserved (2130) -> S0-leg daemon absorb (futures/repo 10-08 bars + zt_pool first-day 287 rows + W190 burn shards 12/12) -> died pre-closeout; this window (21:38) adoption closeout + S1 red fix: smoke 2 FAIL (RW-4 panel gate: 12 in-service members 159901/159915/159919/159920/159928/159934/159949/159980/159985/159992/159995/159996 last_bar=09-30 vs anchor=10-08) root-cause = sina SZ late-bar publish (09-23 同族 R54 先例) + 60-min catchup backoff (20:41->21:41 unlock) -> update_daily catch-up heal: new rows 12, failures 0, overlap_mismatch [], cutoff 2026-10-08 -> REGIME_GUARD enforce + live.paper marks settle OK (paper tracking OK) -> smoke 49/49 PASS -> targeted 15-leg S6 re-run (_r892bma_s6_rerun_driver.py, dead session's own prescription) 15/15 rc0 reds=[] (3 chain reds cured: live_paper/t24_prospect_paper/aggressive_lab) | 实物: ①12 SZ core48 members 10-08 bars landed (data/daily bare files, panel cutoff 2026-10-08) + paper marks settled for first post-holiday bar ②results/perpetual_faces/n1_w190_results.json (K 415,920, ledger 825,328 == projection EXACT) + _r892bma_w191_probe_receipt.json + MSG-2026-10-08-2130-bma-w191-seat.md (seat published on origin) ③results/_r892bma_s6_rerun.json (15/15 rc0) + _r893bma smoke rerun 49/49 + update_status.json (catchup fetched 12, backoff cleared) ④results/_r892bma_s6_chain.json (39-leg, 3 reds diagnosed to stale bars) | 下轮指针: ①W191 freeze chain (prereg buildgen + freeze-edits five-face insertion + tick ignite; seat 2130 published A 435_004..437_003 / B 437_004..437_203; W192+ re-derive-MANDATORY W141 leg2) ②GM bm-b reroute A/B decision watch (bm-b starved lanes etf_daily/minute_feed/astock_daily/rev_osc SIG 09-30) ③DEC ee70cef0/ORD caef5b78 unchanged zero new rows | 验证: smoke 49/49 + S6 39-leg(3 reds)->targeted 15/15 rc0 + attrition CLEAN (4 ledgers) + orphan face=0 (18 py faces) + engine ALIVE idle queue 0 + 自愈四件套绿 (loop pin=8 Running/watchdog rc0/双爪 PRESENT) + orders unacked=0 (local 51/51) + DEC/ORD 水位零变化 + 本地未达 origin commit 数=0 (push 后 fetch+rev-list 自证) + token: L1 零 API [via bm-a r892]\".format"
+     ],
+     "line": 21,
+     "literal": "{ts} | r{r} | bm-a | dept:research/engine+data (perpetual line+data red-fix; composite round r844/r888 dead-tail adoptio",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r895bma_closeout.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 12,
+     "literal": "2026-10-09T02:31:00+08:00 | r895 | bm-a | dept:research/engine (perpetual line W191 finalize closeout; dead-tail composi",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r895bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r895bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r895bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r895bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r896bma_roll_driver.py",
+   "receipts_it_names": [
+    "_r895bma_s6_chain.json",
+    "_r896bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "src.replace"
+     ],
+     "line": 2,
+     "literal": "_r895bma_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "src.replace"
+     ],
+     "line": 2,
+     "literal": "_r896bma_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 12,
+     "literal": "_r896bma_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 14,
+     "literal": "_r895bma_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r896bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r896bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r896bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r896bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r897bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r897bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r897bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r897bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r898bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r898bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r898bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r898bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r899bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r899bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r899bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 106,
+     "literal": "results/_r899bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r900bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r900bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r900bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r900bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r902bma_closeout.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 119,
+     "literal": " | r902 | bm-a | dept:research (W194 seat chain + r901 estate absorption; N1 supply line) | WM-VERDICT: green (red=false",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r902bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r902bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r902bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r902bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r904bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r904bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r904bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r904bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r905bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r905bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r905bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r905bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r907bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r907bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r907bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r907bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r908bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r908bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r908bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r908bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r909bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r909bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r909bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r909bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r910bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r910bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r910bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 107,
+     "literal": "results/_r910bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r914bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r914bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r914bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 105,
+     "literal": "results/_r914bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r915bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r915bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r915bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 105,
+     "literal": "results/_r915bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r916bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r916bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r916bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 105,
+     "literal": "results/_r916bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r919bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r919bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r919bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 105,
+     "literal": "results/_r919bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r920bma_handover_row.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 5,
+     "literal": "> bm-a round 920 五轮数对账（2026-10-09 16:5x·增量窗 r916-920 五轮）：增量窗 r916-920=bm-a 面（**N1 永续线 W198 finalize 收割→W199 全生命周期收口（esta",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r923bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r923bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r923bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 105,
+     "literal": "results/_r923bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r926bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r926bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r926bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 105,
+     "literal": "results/_r926bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r927bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r927bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r927bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 105,
+     "literal": "results/_r927bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r931bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r931bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r931bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 106,
+     "literal": "results/_r931bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r933bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r931bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r931bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 106,
+     "literal": "results/_r931bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r934bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r934bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r934bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 106,
+     "literal": "results/_r934bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r937bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r937bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r937bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 106,
+     "literal": "results/_r937bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r939bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r939bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r939bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 108,
+     "literal": "results/_r939bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r940bma_closeout.py",
+   "receipts_it_names": [
+    "_r940bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 21,
+     "literal": "2026-10-10T04:3x:00+08:00 | r940 | bm-a | dept:工程 (S0 dead-session rebase estate salvage + S6 maintenance; T-181 burn mo",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 72,
+     "literal": "results/_r940bma_rebase_resolver.py + resolver2.py + receipts + results/_r940bma_s6_chain.json (39 legs 0 bad)",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r940bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r940bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r940bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 108,
+     "literal": "results/_r940bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r942bma_closeout.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 63,
+     "literal": "results/thermo_overlay_p1/ + research/THERMO-OVERLAY-P1.md sec.7/8 + results/pool_claims/THERMO-OVERLAY-P1-BURN/ claim +",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r942bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r942bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r942bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 108,
+     "literal": "results/_r942bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r943bma_closeout.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 68,
+     "literal": "results/_r943bma_flip.py (two-layer pool done-flip) + results/watermark_red.json red=false 05:48:03 (probe-verified heal",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r943bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r943bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r943bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 108,
+     "literal": "results/_r943bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r944bma_closeout.py",
+   "receipts_it_names": [
+    "_r944bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 9,
+     "literal": " | bm-a | dept:工程 (watch-window round: S0 clean sync 0/0 + S6 39 legs rc0 + quartet green) | S0: origin==HEAD 0/0 zero-r",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 49,
+     "literal": "results/_r944bma_s6_chain.json (39 legs rc0, no new bar, panel 2026-10-09) + results/_r944bma_s6_driver.py (bloodline ro",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r944bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r944bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r944bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 108,
+     "literal": "results/_r944bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r945bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r945bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r945bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 108,
+     "literal": "results/_r945bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r948bma_report_append.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 6,
+     "literal": "2026-10-10T09:1x+08:00 | r948 | bm-a | dept:研究/数据 (E4 央行 OMO 流动性指标面可达性扫描·P3 队头消费 + S0 双风暴正典解 + S6 全链) | WM-VERDICT: red=",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r948bma_roll_driver.py",
+   "receipts_it_names": [
+    "_r945bma_s6_chain.json",
+    "_r948bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "src.replace"
+     ],
+     "line": 3,
+     "literal": "_r945bma_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "src.replace"
+     ],
+     "line": 3,
+     "literal": "_r948bma_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "results/_r948bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r948bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r948bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 109,
+     "literal": "results/_r948bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "results/_r950bma_s6_driver.py",
+   "receipts_it_names": [
+    "_r950bma_s6_chain.json"
+   ],
+   "receipts_it_writes": [
+    "_r950bma_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "open"
+     ],
+     "line": 110,
+     "literal": "results/_r950bma_s6_chain.json",
+     "mode": "writes_a_receipt"
+    }
+   ],
+   "source_class": "writes_a_receipt"
+  },
+  {
+   "file": "scripts/_r1509_closeout.py",
+   "receipts_it_names": [
+    "_r1509bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 91,
+     "literal": "Tools/s6_chain_bmb.py leg undated_vintage (rc0 via --only 0.05s, receipt results/_r1509bmb_s6_chain.json)",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "scripts/_r1509_report_row.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 5,
+     "literal": "| 2026-11-07T05:2x+08:00 | r1509 | bm-b (dept=research+engineering) | **watermark: red=true lane=pool-batch-runnable-idl",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "scripts/_r1516_closeout.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 24,
+     "literal": "| %s | r1516 | bm-b (dept=research+engineering) | **watermark: red=true pool-batch-runnable-idle-low-cpu at open (3 read",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "scripts/_r1535_card.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 12,
+     "literal": "\n## E506 -- 「没有可解析日期」的 725 条认证拆成三类：21 张面的日期藏在见证字段之外、12 张只有日志/散文里的日期、35 张一个日期都没有（r1535 bm-b）\n\n**问题**：E503（r1532）把 725 条只读",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "scripts/_r1540bmb_card_append.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 14,
+     "literal": "## E512 -- 站点只有一个绑定而值是从 call 进来时，callee 能说出什么（r1540 bm-b）\n\n**立论**：E511 把 4 个 pair site 解剖完，留 3 个\"只写一次、值从右手边进来\"。那句话停在半路：右",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "scripts/_r1540bmb_row.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 14,
+     "literal": "2026-11-07T23:5x+08:00 | r1540 | 活：E512 补 E511 停下的那一跳——8 个「值从 call 进来」的站点（人口＝E510 的 call_result 绑定 5 ＋ E511 的 operand 读 ",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "scripts/_r1540bmb_state.py",
+   "receipts_it_names": [
+    "_r1540bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [],
+     "line": 50,
+     "literal": "callee_return leg rc0 0.05s (receipt results/_r1540bmb_s6_chain.json); dualrun / attrition / watermark / collectors / pa",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "scripts/_r1589_closeout.py",
+   "receipts_it_names": [
+    "_r1589bmb_s6_chain.json"
+   ],
+   "refs": [
+    {
+     "calls": [
+      "st.update"
+     ],
+     "line": 63,
+     "literal": "extended_resolver leg rc0 0.05s (results/_r1589bmb_s6_chain.json)",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "scripts/e426_dynamic_face_names.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 293,
+     "literal": "Published faces under results/.\n\n    Three exclusions, each with a reason:\n      * files whose basename starts with ``_`",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "file": "scripts/e559_chain_rc_consumer.py",
+   "receipts_it_names": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 1,
+     "literal": "E559 -- does anything read a chain receipt, or a chain runner's return code?\n\nE558 (r1584) measured that all three chain",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 61,
+     "literal": "_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "names_it_without_opening_it"
+  },
+  {
+   "class": "coverage_aware",
+   "evidence_lines": {
+    "literal_denominator": [],
+    "rc_filter": [
+     316
+    ],
+    "row_count": [
+     364
+    ],
+    "table_join": [
+     37,
+     38,
+     39,
+     68
+    ]
+   },
+   "file": "scripts/e560_chain_receipt_shape.py",
+   "joins_a_legs_table": true,
+   "literal_denominators": [],
+   "patterns_it_reads": [
+    "_r*bm*_s6_chain.json"
+   ],
+   "reads_a_row_count": true,
+   "receipts_it_names": [],
+   "receipts_it_reads": [],
+   "refs": [
+    {
+     "calls": [
+      "sorted",
+      "glob.glob",
+      "os.path.join"
+     ],
+     "line": 339,
+     "literal": "_r*bm*_s6_chain.json",
+     "mode": "reads_the_payload"
+    },
+    {
+     "calls": [],
+     "line": 376,
+     "literal": "\nimport json, subprocess\nLEGS = [(\"a\", [\"python\", \"x.py\"]), (\"b\", [\"python\", \"y.py\"])]\nout = []\nfor name, cmd in LEGS:\n ",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 387,
+     "literal": "\nimport json, subprocess\nLEGS = [(\"a\", [\"python\", \"x.py\"])]\nout = []\nfor name, cmd in LEGS:\n    r = subprocess.run(cmd, ",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 396,
+     "literal": "\nimport json, subprocess\nLEGS = [(\"a\", [\"python\", \"x.py\"])]\nout = []\nfor name, cmd in LEGS:\n    r = subprocess.run(cmd, ",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 405,
+     "literal": "\nimport json, subprocess\nLEGS = [(\"a\", [\"python\", \"x.py\"]), (\"b\", [\"python\", \"y.py\"])]\nrows = []\nfor name, cmd in LEGS:\n",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 415,
+     "literal": "\nimport json, subprocess\nLEGS = [(\"a\", [\"python\", \"x.py\"])]\nrows = []\nfor name, cmd in LEGS:\n    try:\n        r = subpro",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 428,
+     "literal": "\nimport os, json, subprocess\nLEGS = [(\"a\", [\"python\", \"x.py\"])]\nout = []\nfor name, cmd in LEGS:\n    if not os.path.exist",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 560,
+     "literal": "observation over results/_r*bm*_s6_chain.json; grows whenever a chain runs",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [],
+     "line": 570,
+     "literal": "results/_r*bm*_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "reads_the_payload"
+  },
+  {
+   "class": "coverage_aware",
+   "evidence_lines": {
+    "literal_denominator": [],
+    "rc_filter": [],
+    "row_count": [
+     11,
+     394,
+     493,
+     507
+    ],
+    "table_join": [
+     16,
+     45,
+     46,
+     47
+    ]
+   },
+   "file": "scripts/e561_receipt_table_join.py",
+   "joins_a_legs_table": true,
+   "literal_denominators": [],
+   "patterns_it_reads": [
+    "_r*bm*_s6_chain.json"
+   ],
+   "reads_a_row_count": true,
+   "receipts_it_names": [],
+   "receipts_it_reads": [],
+   "refs": [
+    {
+     "calls": [
+      "_git"
+     ],
+     "line": 92,
+     "literal": "results/_r*bm*_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "sorted",
+      "glob.glob",
+      "os.path.join"
+     ],
+     "line": 216,
+     "literal": "_r*bm*_s6_chain.json",
+     "mode": "reads_the_payload"
+    },
+    {
+     "calls": [],
+     "line": 430,
+     "literal": "results/_r<round>bm<a|b|c>_s6_chain.json",
+     "mode": "names_it_without_opening_it"
+    }
+   ],
+   "source_class": "reads_the_payload"
+  },
+  {
+   "class": "coverage_aware",
+   "evidence_lines": {
+    "literal_denominator": [],
+    "rc_filter": [],
+    "row_count": [
+     310,
+     518
+    ],
+    "table_join": [
+     230,
+     238,
+     350,
+     407
+    ]
+   },
+   "file": "scripts/e562_single_leg_provenance.py",
+   "joins_a_legs_table": true,
+   "literal_denominators": [],
+   "patterns_it_reads": [
+    "_r*bm*_s6_chain.json"
+   ],
+   "reads_a_row_count": true,
+   "receipts_it_names": [],
+   "receipts_it_reads": [],
+   "refs": [
+    {
+     "calls": [],
+     "line": 1,
+     "literal": "E562 -- can an existing field tell a deliberate one-leg S6 run from a chain killed mid-run?\n\nE561 (r1587) ended on a sen",
+     "mode": "names_it_without_opening_it"
+    },
+    {
+     "calls": [
+      "sorted",
+      "glob.glob",
+      "os.path.join"
+     ],
+     "line": 250,
+     "literal": "_r*bm*_s6_chain.json",
+     "mode": "reads_the_payload"
+    }
+   ],
+   "source_class": "reads_the_payload"
+  }
+ ],
+ "study": "E566",
+ "summary": {
+  "_source_class_sum": 158,
+  "blind_short_example": {
+   "join_class": "shorter_than_the_table_of_its_own_round",
+   "reader": "results/_r1210bmc_closeout.py",
+   "receipt": "_r1210bmc_s6_chain.json",
+   "rows": 39,
+   "table_at_its_round": 61
+  },
+  "names_it_without_opening_it": 74,
+  "pairs_where_a_blind_reader_read_a_short_receipt": 1,
+  "pairs_where_the_receipt_had_zero_rows": 1,
+  "pairs_where_the_receipt_was_short": 1,
+  "reader_receipt_pairs_priced": 2,
+  "reader_receipt_pairs_unpriced": 1,
+  "readers_coverage_aware": 3,
+  "readers_literal_denominator": 2,
+  "readers_other_read": 2,
+  "readers_rc_only_summary": 0,
+  "reads_the_payload": 7,
+  "receipts_on_disk_in_e561": 320,
+  "short_receipts_in_e561": 159,
+  "sources_scanned": 158,
+  "the_source_cannot_be_parsed": 0,
+  "writes_a_receipt": 77
+ },
+ "unpriced_pairs": [
+  {
+   "reader": "results/_r1208bmc_closeout.py",
+   "receipt": "_r1208bmc_s6_chain.json",
+   "why": "not in E561's join (absent or unparsed)"
+  }
+ ],
+ "verdict": "a_short_receipt_has_already_been_printed_as_the_whole_chain_so_coverage_blindness_has_a_price",
+ "verdict_line": "158 sources carry a receipt path: 77 write one, 7 open one, 74 only name it, 0 do not parse. Of the 7 readers: coverage_aware=3, literal_denominator=2, rc_only_summary=0, other_read=2. 2 (reader, receipt) pairs could be priced against E561's join; 1 of those receipts were short against their own round's table (1 carried no rows at all) and 1 short ones were read by a reader that prints an rc verdict without a count. For example results/_r1210bmc_closeout.py printed _r1210bmc_s6_chain.json, a 39-row receipt against the 61-leg table of its own round."
+}

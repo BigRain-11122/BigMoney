@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1593 bm-b: E562 face republished (it was absent on disk, a smoke red nobody saw because the full suite is not run in a 10-minute window) and its pool row closed; E564 seeded (supply floor refill: E562 was the last ready id)",
+ "_stamp_note": "r1594 bm-b: E566 closed (158 sources: 77 write / 7 read / 74 name-only; one closeout printed a 39-row receipt as 39/39 rc0 against a 61-leg table) and E567 seeded (supply floor refill)",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -29944,7 +29944,7 @@
    "lane": "cpu-only",
    "lane_note": "static: readers of results/_r*bm*_s6_chain.json across the repo; no execution of any consumer",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E562+E563 (r1588/r1590 bm-b): a receipt records no selection at all (0 of 159 echo it) and 138 of the 159 short receipts are arbitrary subsets rather than ordered prefixes, so a reader holding one cannot recover which legs it covers. Before proposing a selection field, price the cost of that blindness.",
    "target": "results/state_tilt/receiptcoverage_latest.json",
    "deliverable": "results/state_tilt/RECEIPTCOVERAGE-<cutoff>.json",
@@ -29952,7 +29952,28 @@
    "entered_by": "bm-b r1593",
    "evidence_cutoff": "2026-11-08",
    "title": "Every in-repo site that opens a chain receipt (name-matched on _s6_chain.json, the runner's own receipt write, and any family pointer to it): for each, publish whether it reads a completeness signal (a leg count, the table size, the runner's LEGS list) or only the receipt's own rc/verdict -- i.e. whether a 1-leg receipt would make it report a chain that passed what it did not check. Report the reading both as a rate with its denominator named (consumers found vs consumers that could have cared) and as the complement (sites that open a receipt and read nothing about coverage), and state plainly if the population is empty, in which case the finding is that the receipt has no consumer that needs coverage and no field should be added.",
-   "id_note": "E564/E565 are already carded in knowledge/METHODOLOGY_ASSETS.md (r1591/r1592); this seed was drafted as E564 and renumbered to E566 per collision-yield law (a card id is taken once it is carded)"
+   "id_note": "E564/E565 are already carded in knowledge/METHODOLOGY_ASSETS.md (r1591/r1592); this seed was drafted as E564 and renumbered to E566 per collision-yield law (a card id is taken once it is carded)",
+   "closed_at": "2026-11-08T23:22:23+08:00",
+   "closed_by": "bm-b",
+   "result_ref": [
+    "results/state_tilt/RECEIPTCOVERAGE-2026-11-08.json",
+    "results/state_tilt/receiptcoverage_latest.json"
+   ],
+   "closed_note": "r1594: 158 sources split 77 write / 7 read / 74 name-only; 2 priced pairs, 1 short (39 rows vs a 61-leg table) read by a closeout that printed 39/39 rc0"
+  },
+  {
+   "id": "E567-WHETHER-THE-PRINTED-CHAIN-SENTENCES-UNDERSTATE-THE-TABLE-OF-THEIR-ROUND",
+   "lane": "cpu-only",
+   "lane_note": "static: round-report sentences that quote a chain leg count, joined to E561 receipt/table joins; no runner executed",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E566 (r1594 bm-b): a closeout printed a 39-row receipt as 39/39 rc0 while its round table held 61 legs, and the denominators in both operational readers are literals in the source rather than the table size. E566 priced two pairs; the corpus of such sentences is the round reports themselves.",
+   "target": "results/state_tilt/chainclaim_latest.json",
+   "deliverable": "results/state_tilt/CHAINCLAIM-<cutoff>.json",
+   "entered_at": "2026-11-08T23:22:23+08:00",
+   "entered_by": "bm-b r1594 (supply floor refill after E566)",
+   "evidence_cutoff": "2026-11-08",
+   "title": "Every sentence in logs/iteration-loop/round_reports.md and round_reports-<id>.md that states a chain leg count (shapes such as S6 30/30, chain 39/39 rc0, N legs rc0): parse the numerator and denominator, recover the round and the machine from the report row, join to the receipt of that round in E561 join and to the legs table of its own round, and publish three counts -- (a) claims whose denominator equals the table, (b) claims whose denominator is smaller than the table (a green sentence printed over a subset), (c) claims that cannot be judged because no receipt or no table is reachable. Because the claim is prose, the first deliverable is the parse itself: sentences that do not parse are published in their own list rather than dropped, and the parse rule is echoed in the face so a reader can refute it."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29967,6 +29988,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T21:1x+08:00",
+ "updated_at": "2026-11-08T23:22:23+08:00",
  "version": 1
 }

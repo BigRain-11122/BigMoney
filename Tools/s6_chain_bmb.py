@@ -2218,6 +2218,13 @@ LEGS = [
     # does not contain.  Each row carries the table index of every name, so `check` re-derives
     # the class without any blob.
     ("receipt_prefix", ["python", "scripts/e563_receipt_prefix.py", "check"]),
+    # E566 prices the blindness E563 published: 158 sources carry a receipt path but only 77 write
+    # one and 7 open one (74 only name it in prose or a git payload).  Of the 7 readers 3 are the
+    # studies that re-derive coverage themselves and 2 print "N/<literal> rc0" -- and one of those
+    # printed a 39-row receipt as "39/39 rc0" while its round's table held 61 legs.  `check`
+    # re-derives every source class from AST ancestry and every priced pair from E561's join.
+    ("receipt_coverage_consumer",
+     ["python", "scripts/e566_receipt_coverage_consumer.py", "check"]),
     # E552 takes E547's eight created items and asks what E547 did not: is the item in the
     # container the fold actually publishes?  6 travel by identity into the file write (three of
     # them only through a module-level `_flush(art)` helper -- the first draft missed that hop and
