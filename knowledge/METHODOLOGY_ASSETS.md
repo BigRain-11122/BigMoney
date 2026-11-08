@@ -13935,3 +13935,11 @@ eceipts_stating_no_count，混进分母会把「没写」读成「写错」。�
 **教训**：①**「git 里有」要做成「能取出来」才算**——同一句留话，按名字猜得 19 轮、按树扫得 192 轮，差十倍，而猜法看不出自己瞎在哪；②**机器不同表不同**——轮号全队共用，链条表不是：第一版把 bm-c 的脚本当成 bm-b 那一轮的见证，前十条「高于表」里八条来自这个错配，加了机器名门之后 92 条抹到 8 条；③**数表要数容器内**——ps1 的 `$legs = @(` 块有两种条目写法（`@{n=...}` 与 `@('名','脚本','参数')`），第二版按「行首 @(」数再减 1，把 30 条读成 29 条、连续 8 轮命中；正确做法是取块内、不减、两种条目都认。
 **边界**：这张表只在「脚本被提交过」时存在；没提交的轮次就是没有见证，不因为「应该有人跑过」而补出入。分类里的「高于表」(8) 尚未逐条查因——可能句子里的分子分母本来就不是腿数，如实单列、不并入结论。
 **证据** = scripts/e568_old_chain_table.py（build/check/check-fast + selftest 23/23）+ results/state_tilt/OLDCHAINTABLE-2026-11-08.json + oldchaintable_latest.json + S6 腿 `old_chain_table`（check-fast rc=0 0.35s·206/206 见证重读一致）+ smoke #E568 + scripts/run_e568_smoke_leg.py（--doctor 能改红）+ digest research/digests/DIGEST-20261109-r1599-e568-old-chain-table.md
+
+### E572 三处「分子不等于重算」里只有一处是散文数错，另两处是 join 假象（r1600 bm-b，2026-11-09）
+**问**：E569 把 38 份回执 join 到轮报告句子上，发现 3 份「印出的分子 ≠ 自己行重算」。这是散文数错了、拿家族句去比子集回执，还是磁盘上的回执根本属于后一次运行？
+**答**：三处各是一种，**没有一处能靠文件名判定**：①_r1246bmb 的句子引用的正是这份回执自己的日志（-r1246bmb_s6.log），却印 25/25，而文件写 28/28，且 mtime 等于文件自身 ts（无人事后重写）→ **散文数错**；②_r1285bmb 的句子自己写着 ia --only（star/band 家族 7/7），回执只有 1 行（pool_deliverable）→ **家族句 vs 子集回执**：散文诚实，是 join 不成立；③_r406bma 的句子写「chain had DIED at leg 6/36 (JSON absent)」，而盘上文件是 r406-cont 提交里的 36/36 重跑件 → **回执属于后一次运行**。
+**教训**：①**「分子不等」不等于「数错」**——先把 join 两侧的作用域对齐（家族 vs 子集、死跑 vs 重跑），否则 3 份「缺陷」里 2 份是仪器造的；②**回执不在 git 里时，mtime==自身 ts 就是「无人重写」的证据**（3 份里 2 份 untracked，git 历史为空不能读成「没跑过」）；③句子点名了回执自己的日志名时，那一句必须与文件同数——这是三处里唯一可判死的类别；④提交信息里的轮号会在轮跑之前出现（
+ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见证，不能当顺序证明**（本轮把这句写进代码注释，并发布 commits_naming_the_round 与跨度）。
+**边界**：leg 名是否是轮表的**前缀**这一臂未测——E568 恢复出来的表是「腿数」不是「腿名」，本轮如实发布为 unnamed_witnesses（回执 3 份的轮表都没恢复，rounds_with_a_recovered_table=0），不拿计数冒充名单。
+**证据** = scripts/e572_receipt_run_identity.py（build/check/verify + selftest 18/18）+ results/state_tilt/RECEIPTRUNID-2026-11-08.json + receiptrunid_latest.json + S6 腿 receipt_run_identity（rc=0 0.04s）+ digest research/digests/DIGEST-20261109-r1600-e572-receipt-run-identity.md

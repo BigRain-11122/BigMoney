@@ -2272,6 +2272,14 @@ LEGS = [
     # witness (206/206 in <1s); the full rediscovery costs ~165s and stays out of the chain.
     ("old_chain_table",
      ["python", "scripts/e568_old_chain_table.py", "check-fast"]),
+    # E572 asks which of E569's three receipt-vs-sentence disagreements is a different run rather
+    # than a wrong count, and answers from bytes plus git only: 1 is a wrong count in the prose
+    # (the sentence cites the receipt's own log and prints 25/25 where the file says 28/28),
+    # 1 is an honest family label against a one-row receipt (`--only ... 7/7`), and 1 is a later
+    # run (`... had DIED at leg 6/36 (JSON absent)` while the committed file is the 36/36 rerun).
+    # `check` re-derives every class, every witness and the three-way split from the rows.
+    ("receipt_run_identity",
+     ["python", "scripts/e572_receipt_run_identity.py", "check"]),
 ]
 
 

@@ -24841,5 +24841,68 @@ except Exception as _e568x:
     _d568 = "study could not be read"
 check(_name568, not _bad568, "; ".join(_bad568)[:240] or _d568)
 
+# E571: r1598 claimed this leg was "smoke #E571" while the suite ended at the E569 block, so the
+# card was published unguarded.  This leg asks whether the round a receipt states is the round its
+# own file name carries, and refuses the two ways that answer could be a wish: a verdict that does
+# not re-derive, and a row that says "disagrees" while carrying equal numbers.
+_name571 = "E571 whether the round a receipt states is the round its name carries (r1600 bm-b)"
+_bad571 = []
+_d571 = "no reading"
+try:
+    _m571 = importlib.import_module("e571_receipt_round_identity")
+    _f571 = json.load(open(os.path.join("results", "state_tilt",
+                                        "receiptroundconf_latest.json"), encoding="utf-8"))
+    _s571 = _f571.get("summary") or {}
+    _r571 = _f571.get("rows") or []
+    _bad571.extend(_m571.face_problems(_f571))
+    if not _r571:
+        _bad571.append("no receipt was read, so the identity rule is untested")
+    if not _s571.get("receipts_stating_a_round"):
+        _bad571.append("no receipt states a round, so the study concluded nothing")
+    if _s571.get("receipts_on_disk") != len(_r571):
+        _bad571.append("the on-disk count does not re-derive from the rows")
+    # the finding this study exists to publish: a dialect is not a disagreement
+    _miss571 = sum(1 for _r in _r571 if _r.get("int_keyed_consumer_misses"))
+    if _s571.get("receipts_an_int_keyed_consumer_would_miss") != _miss571:
+        _bad571.append("the int-keyed-miss count does not re-derive from the rows")
+    if _s571.get("value_disagreements_here") != 0:
+        _bad571.append("a value disagreement survived, so the dialect finding is stale")
+    if _s571.get("value_disagreements_here") != (_s571.get("identity") or {}).get("disagrees"):
+        _bad571.append("the value-disagreement count does not equal the disagreeing rows")
+    if _s571.get("dialect_only_disagreements_here") != (
+            (_s571.get("dialect") or {}).get("decimal_string", 0)
+            + (_s571.get("dialect") or {}).get("label_string", 0)):
+        _bad571.append("the dialect count does not re-derive from the dialect table")
+    if _s571.get("receipts_an_int_keyed_consumer_would_miss", 0) <= 0:
+        _bad571.append("no receipt would be missed by an int-keyed reader, so the trap is stale")
+    _doc571 = json.loads(json.dumps(_f571))
+    _doc571["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m571.face_problems(_doc571):
+        _bad571.append("a hand-written verdict was accepted")
+    _doc571 = json.loads(json.dumps(_f571))
+    for _r in _doc571.get("rows") or []:
+        if _r.get("identity") == "agrees":
+            _r["identity"] = "disagrees"
+            _r["field_round"] = _r.get("name_round")
+            _r["delta"] = 0
+            break
+    if not _m571.face_problems(_doc571):
+        _bad571.append("a row flagged disagree with equal numbers was accepted")
+    _d571 = ("receipts=%d stating=%d agrees=%d disagrees=%d unormalisable=%d no_field=%d "
+             "| int_keyed_miss=%d | E561_counted=%d value=%d dialect=%d | %s"
+             % (_s571.get("receipts_on_disk", 0), _s571.get("receipts_stating_a_round", 0),
+                (_s571.get("identity") or {}).get("agrees", 0),
+                (_s571.get("identity") or {}).get("disagrees", 0),
+                (_s571.get("identity") or {}).get("field_unormalisable", 0),
+                (_s571.get("identity") or {}).get("no_round_field", 0),
+                _s571.get("receipts_an_int_keyed_consumer_would_miss", 0),
+                _s571.get("disagreements_counted_by_E561", 0),
+                _s571.get("value_disagreements_here", 0),
+                _s571.get("dialect_only_disagreements_here", 0), _f571.get("verdict")))
+except Exception as _e571x:
+    _bad571.append(repr(_e571x)[:160])
+    _d571 = "study could not be read"
+check(_name571, not _bad571, "; ".join(_bad571)[:240] or _d571)
+
 if __name__ == "__main__":
     sys.exit(main())
