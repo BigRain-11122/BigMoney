@@ -1,0 +1,381 @@
+{
+ "card": "E535-WHICH-SENTINEL-A-READER-HANDS-ONWARD-IS-CONSUMED-BY-A-CALLER-THAT-WRITES-A-PAYLOAD",
+ "disposition_vocab": [
+  "the_next_consumer_puts_the_value_in_a_named_field_of_a_payload_it_writes",
+  "the_next_consumer_writes_the_value_out_as_the_body_of_a_payload",
+  "the_next_consumer_folds_the_value_into_a_sentence_a_human_reads",
+  "the_next_consumer_turns_the_value_into_a_counted_quantity",
+  "the_next_consumer_assembles_a_named_field_and_writes_no_payload",
+  "the_next_consumer_assembles_a_body_and_writes_no_payload",
+  "the_next_consumer_only_tests_the_value_against_the_same_null",
+  "the_value_is_tested_inline_by_a_builtin_type_or_length_test_so_the_hop_never_leaves_the_reader",
+  "the_value_is_handed_to_a_library_call_whose_body_this_corpus_cannot_read",
+  "the_read_sits_inside_a_branch_that_already_separated_the_null_from_the_absence",
+  "the_next_consumer_hands_the_value_on_again",
+  "the_next_consumer_discards_the_value",
+  "the_value_is_bound_in_the_next_consumer_and_never_read",
+  "the_value_stops_inside_the_next_consumer",
+  "no_consumer_of_the_reader_exists_in_the_corpus",
+  "the_receiving_callee_is_not_defined_in_this_corpus",
+  "the_container_never_leaves_the_reader_so_the_field_dies_there",
+  "the_next_consumer_could_not_be_followed_statically"
+ ],
+ "e534_class_vocab": [
+  "the_value_leaves_the_reader_as_an_argument_or_a_return",
+  "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload"
+ ],
+ "evidence_cutoff": "2026-11-08",
+ "generated": "2026-11-08T11:38:01",
+ "hop_vocab": [
+  "the_value_leaves_the_reader_as_its_own_return",
+  "the_value_leaves_the_reader_as_an_argument_to_a_named_call",
+  "the_value_sits_in_a_named_field_of_a_container_the_reader_never_writes",
+  "the_hop_out_of_the_reader_could_not_be_named_statically"
+ ],
+ "method_limits": [
+  "one hop out of E534's reader: a value that leaves again is published as still_forwarded and the third consumer is not followed",
+  "a return hop enumerates corpus call sites by name and attributes them by module equality or by importing the reader's module stem; a call reached through an alias the corpus does not import is out of scope and would show as no consumer",
+  "an argument hop resolves the callee by name under scripts/Tools/firm/live/monitor and binds the parameter at the passed position; a callee that is a library or a callable value is published as not_defined_in_this_corpus, not as a zero",
+  "the container of an unwritten field is followed only when it is a name; a field assembled inline and dropped is published as field_dies_there",
+  "dispositions use E534's reader classifier unchanged for the return hop, so the 'writes a payload' test is the same one E534 applies to its own readers",
+  "nothing is executed and no source is rewritten",
+  "sources_read and parse_failures are a snapshot of a live tree other lanes write to; they are published but not gated, while every disposition is re-derived"
+ ],
+ "parse_failures": [
+  "Tools/_r820bmc_close.py"
+ ],
+ "population_source": "e535_next_consumer.py::population() -- the E534 sites that only hand the value onward or assemble a field no reader writes",
+ "sites": [
+  {
+   "bound_name": "resolved",
+   "callee": "_resolve",
+   "consumer_sites": [],
+   "counter": "depth",
+   "disposition": "the_read_sits_inside_a_branch_that_already_separated_the_null_from_the_absence",
+   "dispositions": [
+    "the_read_sits_inside_a_branch_that_already_separated_the_null_from_the_absence"
+   ],
+   "e529_reader_class": "tests_against_the_same_null_so_the_cap_looks_like_absence",
+   "e534_chain": "the_value_leaves_the_reader_as_an_argument_or_a_return",
+   "e534_payload_keys": [],
+   "e534_terminal_classes": [
+    "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap",
+    "the_value_leaves_the_reader_as_an_argument_or_a_return"
+   ],
+   "function": "_resolve",
+   "guard": {
+    "line": 179,
+    "test": "resolved is not None"
+   },
+   "hop": "the_value_leaves_the_reader_as_its_own_return",
+   "hop_detail": {
+    "detail_line": 198,
+    "via": "return"
+   },
+   "hops_found": [
+    "the_value_leaves_the_reader_as_its_own_return"
+   ],
+   "module": "scripts/e379_unkeyed_face_reader.py",
+   "next_consumer": null,
+   "next_consumer_module": null,
+   "next_consumer_writes_a_payload": null,
+   "note": "the read sits inside resolved is not None at line 179 in the reader itself, so the null arm never reaches this hop",
+   "reader_function": "_why",
+   "sentinel": "None",
+   "site_line": 178
+  },
+  {
+   "bound_name": null,
+   "callee": "_resolve_chain_text",
+   "consumer_sites": [
+    {
+     "caller": "_resolve_chain_text",
+     "disposition": "the_next_consumer_hands_the_value_on_again",
+     "e534_dispositions": [
+      "the_value_leaves_the_reader_as_an_argument_or_a_return"
+     ],
+     "line": 440,
+     "module": "scripts/e398_latest_family.py",
+     "payload_keys": [],
+     "writes_a_payload": false
+    },
+    {
+     "caller": "_attr_static_dir",
+     "disposition": "the_next_consumer_hands_the_value_on_again",
+     "e534_dispositions": [
+      "the_value_leaves_the_reader_as_an_argument_or_a_return"
+     ],
+     "line": 445,
+     "module": "scripts/e398_latest_family.py",
+     "payload_keys": [],
+     "writes_a_payload": false
+    },
+    {
+     "caller": "classify",
+     "disposition": "the_next_consumer_hands_the_value_on_again",
+     "e534_dispositions": [
+      "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap",
+      "the_value_leaves_the_reader_as_an_argument_or_a_return"
+     ],
+     "line": 646,
+     "module": "scripts/e398_latest_family.py",
+     "payload_keys": [],
+     "writes_a_payload": false
+    }
+   ],
+   "counter": "depth",
+   "disposition": "the_next_consumer_hands_the_value_on_again",
+   "dispositions": [
+    "the_next_consumer_hands_the_value_on_again"
+   ],
+   "e529_reader_class": "reads_the_sentinel_without_testing_it",
+   "e534_chain": "the_value_leaves_the_reader_as_an_argument_or_a_return",
+   "e534_payload_keys": [],
+   "e534_terminal_classes": [
+    "the_value_leaves_the_reader_as_an_argument_or_a_return"
+   ],
+   "function": "_resolve_chain_text",
+   "guard": null,
+   "hop": "the_value_leaves_the_reader_as_its_own_return",
+   "hop_detail": {
+    "detail_line": 410,
+    "via": "return"
+   },
+   "hops_found": [
+    "the_value_leaves_the_reader_as_its_own_return"
+   ],
+   "module": "scripts/e398_latest_family.py",
+   "next_consumer": "_resolve_module_chain",
+   "next_consumer_module": "scripts/e398_latest_family.py",
+   "next_consumer_writes_a_payload": false,
+   "note": null,
+   "reader_function": "_resolve_module_chain",
+   "sentinel": "None",
+   "site_line": 410
+  },
+  {
+   "bound_name": "value",
+   "callee": "_eval",
+   "consumer_sites": [],
+   "counter": "depth",
+   "disposition": "the_value_is_tested_inline_by_a_builtin_type_or_length_test_so_the_hop_never_leaves_the_reader",
+   "dispositions": [
+    "the_value_is_tested_inline_by_a_builtin_type_or_length_test_so_the_hop_never_leaves_the_reader"
+   ],
+   "e529_reader_class": "reads_the_sentinel_without_testing_it",
+   "e534_chain": "the_value_leaves_the_reader_as_an_argument_or_a_return",
+   "e534_payload_keys": [],
+   "e534_terminal_classes": [
+    "the_value_leaves_the_reader_as_an_argument_or_a_return",
+    "the_value_stops_inside_the_reader"
+   ],
+   "function": "_eval",
+   "guard": null,
+   "hop": "the_value_leaves_the_reader_as_an_argument_to_a_named_call",
+   "hop_detail": {
+    "callee": "isinstance",
+    "detail_line": 166,
+    "keyword": null,
+    "position": 0,
+    "via": "argument"
+   },
+   "hops_found": [
+    "the_value_leaves_the_reader_as_an_argument_to_a_named_call"
+   ],
+   "module": "scripts/e503_chain_stale.py",
+   "next_consumer": "isinstance",
+   "next_consumer_module": null,
+   "next_consumer_writes_a_payload": null,
+   "note": "isinstance is a builtin test: the value is tested inline and the hop never leaves the reader",
+   "reader_function": "chain_legs",
+   "sentinel": "None",
+   "site_line": 165
+  },
+  {
+   "bound_name": "value",
+   "callee": "_eval",
+   "consumer_sites": [],
+   "counter": "depth",
+   "disposition": "the_value_is_tested_inline_by_a_builtin_type_or_length_test_so_the_hop_never_leaves_the_reader",
+   "dispositions": [
+    "the_value_is_tested_inline_by_a_builtin_type_or_length_test_so_the_hop_never_leaves_the_reader"
+   ],
+   "e529_reader_class": "reads_the_sentinel_without_testing_it",
+   "e534_chain": "the_value_leaves_the_reader_as_an_argument_or_a_return",
+   "e534_payload_keys": [],
+   "e534_terminal_classes": [
+    "the_value_leaves_the_reader_as_an_argument_or_a_return",
+    "the_value_stops_inside_the_reader"
+   ],
+   "function": "_eval",
+   "guard": null,
+   "hop": "the_value_leaves_the_reader_as_an_argument_to_a_named_call",
+   "hop_detail": {
+    "callee": "isinstance",
+    "detail_line": 149,
+    "keyword": null,
+    "position": 0,
+    "via": "argument"
+   },
+   "hops_found": [
+    "the_value_leaves_the_reader_as_an_argument_to_a_named_call"
+   ],
+   "module": "scripts/e503_chain_stale.py",
+   "next_consumer": "isinstance",
+   "next_consumer_module": null,
+   "next_consumer_writes_a_payload": null,
+   "note": "isinstance is a builtin test: the value is tested inline and the hop never leaves the reader",
+   "reader_function": "module_consts",
+   "sentinel": "None",
+   "site_line": 148
+  },
+  {
+   "bound_name": "value",
+   "callee": "_eval",
+   "consumer_sites": [],
+   "counter": "depth",
+   "disposition": "the_value_is_tested_inline_by_a_builtin_type_or_length_test_so_the_hop_never_leaves_the_reader",
+   "dispositions": [
+    "the_value_is_tested_inline_by_a_builtin_type_or_length_test_so_the_hop_never_leaves_the_reader"
+   ],
+   "e529_reader_class": "reads_the_sentinel_without_testing_it",
+   "e534_chain": "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload",
+   "e534_payload_keys": [
+    "text"
+   ],
+   "e534_terminal_classes": [
+    "the_reader_tests_the_value_narrowly_but_cannot_still_separate_the_cap",
+    "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload",
+    "the_value_leaves_the_reader_as_an_argument_or_a_return"
+   ],
+   "function": "_eval",
+   "guard": null,
+   "hop": "the_value_leaves_the_reader_as_an_argument_to_a_named_call",
+   "hop_detail": {
+    "callee": "isinstance",
+    "detail_line": 224,
+    "keyword": null,
+    "position": 0,
+    "via": "argument"
+   },
+   "hops_found": [
+    "the_value_leaves_the_reader_as_an_argument_to_a_named_call",
+    "the_value_sits_in_a_named_field_of_a_container_the_reader_never_writes"
+   ],
+   "module": "scripts/e503_chain_stale.py",
+   "next_consumer": "isinstance",
+   "next_consumer_module": null,
+   "next_consumer_writes_a_payload": null,
+   "note": "isinstance is a builtin test: the value is tested inline and the hop never leaves the reader",
+   "reader_function": "script_refs",
+   "sentinel": "None",
+   "site_line": 223
+  },
+  {
+   "bound_name": null,
+   "callee": "static_strings",
+   "consumer_sites": [],
+   "counter": "depth",
+   "disposition": "the_value_is_handed_to_a_library_call_whose_body_this_corpus_cannot_read",
+   "dispositions": [
+    "the_value_is_handed_to_a_library_call_whose_body_this_corpus_cannot_read"
+   ],
+   "e529_reader_class": "reads_the_sentinel_without_testing_it",
+   "e534_chain": "the_value_leaves_the_reader_as_an_argument_or_a_return",
+   "e534_payload_keys": [],
+   "e534_terminal_classes": [
+    "the_value_leaves_the_reader_as_an_argument_or_a_return"
+   ],
+   "function": "static_strings",
+   "guard": null,
+   "hop": "the_value_leaves_the_reader_as_an_argument_to_a_named_call",
+   "hop_detail": {
+    "callee": "sorted",
+    "detail_line": 452,
+    "keyword": null,
+    "position": 0,
+    "via": "argument"
+   },
+   "hops_found": [
+    "the_value_leaves_the_reader_as_an_argument_to_a_named_call"
+   ],
+   "module": "scripts/e504_name_compose.py",
+   "next_consumer": "sorted",
+   "next_consumer_module": null,
+   "next_consumer_writes_a_payload": null,
+   "note": "sorted is a library call whose body is not in this corpus, so what its result feeds is not measured here",
+   "reader_function": "analyse",
+   "sentinel": "set()",
+   "site_line": 452
+  }
+ ],
+ "study": "E535_sentinel_next_consumer",
+ "summary": {
+  "consumer_sites_followed": 3,
+  "next_consumers_named": [
+   "_resolve_module_chain",
+   "isinstance",
+   "sorted"
+  ],
+  "parse_failures": 1,
+  "payload_keys_named": [],
+  "rows_that_publish_no_disposition": 0,
+  "sites_by_disposition": {
+   "no_consumer_of_the_reader_exists_in_the_corpus": 0,
+   "the_container_never_leaves_the_reader_so_the_field_dies_there": 0,
+   "the_next_consumer_assembles_a_body_and_writes_no_payload": 0,
+   "the_next_consumer_assembles_a_named_field_and_writes_no_payload": 0,
+   "the_next_consumer_could_not_be_followed_statically": 0,
+   "the_next_consumer_discards_the_value": 0,
+   "the_next_consumer_folds_the_value_into_a_sentence_a_human_reads": 0,
+   "the_next_consumer_hands_the_value_on_again": 1,
+   "the_next_consumer_only_tests_the_value_against_the_same_null": 0,
+   "the_next_consumer_puts_the_value_in_a_named_field_of_a_payload_it_writes": 0,
+   "the_next_consumer_turns_the_value_into_a_counted_quantity": 0,
+   "the_next_consumer_writes_the_value_out_as_the_body_of_a_payload": 0,
+   "the_read_sits_inside_a_branch_that_already_separated_the_null_from_the_absence": 1,
+   "the_receiving_callee_is_not_defined_in_this_corpus": 0,
+   "the_value_is_bound_in_the_next_consumer_and_never_read": 0,
+   "the_value_is_handed_to_a_library_call_whose_body_this_corpus_cannot_read": 1,
+   "the_value_is_tested_inline_by_a_builtin_type_or_length_test_so_the_hop_never_leaves_the_reader": 3,
+   "the_value_stops_inside_the_next_consumer": 0
+  },
+  "sites_by_e534_class": {
+   "the_value_is_carried_into_a_named_field_but_the_reader_writes_no_payload": 1,
+   "the_value_leaves_the_reader_as_an_argument_or_a_return": 5
+  },
+  "sites_by_hop": {
+   "the_hop_out_of_the_reader_could_not_be_named_statically": 0,
+   "the_value_leaves_the_reader_as_an_argument_to_a_named_call": 4,
+   "the_value_leaves_the_reader_as_its_own_return": 2,
+   "the_value_sits_in_a_named_field_of_a_container_the_reader_never_writes": 0
+  },
+  "sites_in_population": 6,
+  "sites_only_tested": 0,
+  "sites_published_two_hops_out": 0,
+  "sites_separated_by_a_guard_inside_the_reader": 1,
+  "sites_still_forwarded": 1,
+  "sites_that_die_in_a_second_reader": 0,
+  "sites_that_never_leave_the_reader_at_the_second_hop": 5,
+  "sites_unresolved": 0,
+  "sites_whose_hop_is_a_builtin_test": 3,
+  "sites_whose_hop_is_a_library_call": 1,
+  "sites_whose_second_consumer_assembles_without_writing": 0,
+  "sites_with_no_defined_callee": 0,
+  "sources_read": 2758
+ },
+ "title": "is a sentinel handed onward by a reader that never tests it consumed by a caller that writes a payload",
+ "upstream_face": "results/state_tilt/captopayload_latest.json",
+ "upstream_face_sha256": "86f2be92bcc7e1d2c60f0cdf30f59ea31214ebb37043ef00774988ced473ce1f",
+ "upstream_study": "E534_cap_to_payload",
+ "verdict": "the_handed_on_class_is_not_one_shape_part_of_it_never_reaches_a_second_reader_and_part_is_still_moving",
+ "verdict_vocab": [
+  "a_sentinel_no_reader_in_the_population_tests_is_published_as_absence_by_a_consumer_two_hops_out",
+  "the_second_consumer_assembles_a_field_and_writes_no_payload_either",
+  "the_sentinel_is_still_being_forwarded_one_hop_out",
+  "every_sentinel_handed_onward_dies_in_its_second_consumer",
+  "the_handed_on_class_holds_no_second_reader_so_no_sentinel_is_published_two_hops_out",
+  "the_handed_on_class_is_not_one_shape_part_of_it_never_reaches_a_second_reader_and_part_is_still_moving",
+  "the_upstream_face_carries_no_site_in_the_two_follow_on_classes"
+ ]
+}

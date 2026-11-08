@@ -22580,6 +22580,66 @@ except Exception as _e534x:
 check(_name534, not _bad534, "; ".join(_bad534)[:240] or _d534)
 
 
+# E535: is a sentinel handed onward by a reader that never tests it consumed by a caller that
+#   writes a payload?
+#   * the population is E534's follow-on sites verbatim, and every hop kind is read off the tree
+#     rather than inherited from the upstream class
+#   * a publication needs a consumer that writes a payload; a guarded read is published with the
+#     test it sits behind, and a builtin test or a library call is its own class rather than a zero
+#   * doctored copies (a hand-written verdict, a publication carried by a non-writing consumer, a
+#     guard class with no guard published, a zeroed hop count) must be refused
+_name535 = ("E535 follows the sentinel E534 handed onward one hop further (r1565 bm-b)")
+_bad535 = []
+try:
+    _m535 = __import__("importlib").import_module("e535_next_consumer")
+    _f535 = json.load(open(os.path.join("results", "state_tilt", "nextconsumer_latest.json"),
+                           encoding="utf-8"))
+    _s535 = _f535.get("summary") or {}
+    _r535 = _f535.get("sites") or []
+    _bad535.extend(_m535.face_problems(_f535))
+    if not _r535:
+        _bad535.append("the site population is empty")
+    if sum((_s535.get("sites_by_hop") or {}).values()) != len(_r535):
+        _bad535.append("the per-site hop counts do not add up to the rows")
+    for _row in _r535:
+        if _row.get("hop") == _m535.H_ARGUMENT and _row.get("disposition") == _m535.S_UNRESOLVED:
+            _bad535.append("an argument hop is published as unresolved")
+            break
+
+    _doc535 = json.loads(json.dumps(_f535))
+    _doc535["verdict"] = _m535.V_PUBLISHED_TWO_HOPS_OUT
+    if not _m535.face_problems(_doc535):
+        _bad535.append("a hand-written verdict was accepted")
+    _doc535 = json.loads(json.dumps(_f535))
+    _old535 = _doc535["sites"][0]["disposition"]
+    _doc535["sites"][0]["disposition"] = _m535.S_PAYLOAD_FIELD
+    _doc535["sites"][0]["next_consumer_writes_a_payload"] = False
+    if _old535 in _doc535["summary"]["sites_by_disposition"]:
+        _doc535["summary"]["sites_by_disposition"][_old535] -= 1
+    _doc535["summary"]["sites_by_disposition"][_m535.S_PAYLOAD_FIELD] = 1
+    _doc535["summary"]["sites_published_two_hops_out"] = 1
+    _doc535["verdict"] = _m535._verdict(_doc535["summary"])
+    if not _m535.face_problems(_doc535):
+        _bad535.append("a publication carried by a consumer that writes no payload was accepted")
+    _doc535 = json.loads(json.dumps(_f535))
+    _guarded = [r for r in _doc535["sites"] if r.get("disposition") == _m535.S_SEPARATED_IN_THE_READER]
+    if _guarded:
+        _guarded[0]["guard"] = None
+        if not _m535.face_problems(_doc535):
+            _bad535.append("a guard class published without its guard was accepted")
+    _doc535 = json.loads(json.dumps(_f535))
+    _doc535["summary"]["sites_by_hop"][_m535.H_RETURN] = 0
+    if not _m535.face_problems(_doc535):
+        _bad535.append("a zeroed hop count was accepted")
+    _d535 = "%d sites / %d published / %d never leave at the second hop / verdict %s" % (
+        len(_r535), _s535.get("sites_published_two_hops_out"),
+        _s535.get("sites_that_never_leave_the_reader_at_the_second_hop"), _f535.get("verdict"))
+except Exception as _e535x:
+    _bad535.append(repr(_e535x)[:160])
+    _d535 = "leg could not run"
+check(_name535, not _bad535, "; ".join(_bad535)[:240] or _d535)
+
+
 # E533: which open arm's argument is a call that folds to a literal at its own site.  The population
 # must be exactly E527's still-open followable arms (a face that widened or narrowed it would be
 # answering a different question), an arm closed by the fold must carry the literal it folded to, an

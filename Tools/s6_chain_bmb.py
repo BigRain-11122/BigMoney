@@ -2041,6 +2041,12 @@ LEGS = [
     # publication when the same reader writes a payload, and the exact key is named -- so
     # "silently read" never stands in for "published as a fact". 0.1s, check only.
     ("cap_to_payload", ["python", "scripts/e534_cap_to_payload.py", "check"]),
+    # E535 follows the six sites E534 published as handed onward or as a field no reader
+    # writes: the hop kind (return / argument / unwritten field) is read off the tree, a
+    # read that sits behind a non-null guard is its own class, a builtin test and a library
+    # call are named as such, and a publication needs a consumer that writes a payload.
+    # 0.1s, check only.
+    ("next_consumer", ["python", "scripts/e535_next_consumer.py", "check"]),
     # E532 follows E531's one passed-on-unchanged arm (plus E530's signature-default chains) one
     # hop out: for every call inside the owning body that hands the sentinel onward, map the
     # argument onto the callee's own parameter and publish what THAT body does with it. A callee

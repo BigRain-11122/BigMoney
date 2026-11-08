@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1563 bm-b: E533 published (CALLPUREARM-2026-11-08: of E527's 4 still-open arms only 2 pass a call; list(range(6)) folds to [0, 1, 2, 3, 4, 5] and closes its arm, interval() stays open because it is repo source whose arguments also read off['rows'], and 2 arms are not calls at all -- stats_idxs is the caller's parameter and win_stats is a list comprehension, not the 'call result' the card's seed text claimed); pool E533 done, E536 seeded (ready 3: E532/E535/E536)",
+ "_stamp_note": "r1565 bm-b: E535 published (NEXTCONSUMER-2026-11-08: of the 6 sites E534 called handed-onward, 0 reach a payload-writing consumer -- 3 hops are builtin tests at the site, 1 is a library call, 1 read sits inside `if resolved is not None` in the reader itself, and 1 is still forwarded into 3 consumers that all forward again; E538 seeded from that residue). r1563 bm-b: E533 published (CALLPUREARM-2026-11-08: of E527's 4 still-open arms only 2 pass a call; list(range(6)) folds to [0, 1, 2, 3, 4, 5] and closes its arm, interval() stays open because it is repo source whose arguments also read off['rows'], and 2 arms are not calls at all -- stats_idxs is the caller's parameter and win_stats is a list comprehension, not the 'call result' the card's seed text claimed); pool E533 done, E536 seeded (ready 3: E532/E535/E536)",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -29435,7 +29435,7 @@
   },
   {
    "id": "E535-WHICH-SENTINEL-A-READER-HANDS-ONWARD-IS-CONSUMED-BY-A-CALLER-THAT-WRITES-A-PAYLOAD",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_note": "static: one forwarded argument per arm and the writer two hops out; no network, no rewrites",
    "priority": "normal",
@@ -29445,7 +29445,8 @@
    "deliverable": "results/state_tilt/FORWARDTOWRITE-<cutoff>.json",
    "target": "results/state_tilt/forwardtowrite_latest.json",
    "source": "E534 (r1561 bm-b): 3 of its 10 depth-cap arms only hand the value onward (5 sites) and 1 assembles a field no reader writes, so the write E534 could not find in the reader may sit one hop further out",
-   "title": "For every arm E534 published as forward-only or as an unwritten field, follow the handed-onward value to its next consumer and publish whether THAT caller writes a payload, a sentence or a count with it: a sentinel that reaches a writer two hops out is published as absence, and one that dies in a second reader is not. Publish the chain per arm (read -> hand on -> write) and name the exact key or the exact reason there is no key, so 'one hop further' stops standing in for 'measured'."
+   "title": "For every arm E534 published as forward-only or as an unwritten field, follow the handed-onward value to its next consumer and publish whether THAT caller writes a payload, a sentence or a count with it: a sentinel that reaches a writer two hops out is published as absence, and one that dies in a second reader is not. Publish the chain per arm (read -> hand on -> write) and name the exact key or the exact reason there is no key, so 'one hop further' stops standing in for 'measured'.",
+   "done_note": "6 sites (E534's 5 forwarded + 1 unwritten field): 0 reach a payload-writing consumer and 0 assemble an unwritten field; 3 hops are builtin tests at the site (isinstance, e503 x3), 1 is a library call (sorted, e504), 1 read sits inside `if resolved is not None` in the reader itself (e379), 1 is genuinely forwarded again into 3 consumers that all forward again (e398 _resolve_module_chain). Evidence results/state_tilt/NEXTCONSUMER-2026-11-08.json"
   },
   {
    "id": "E536-WHICH-REPO-SOURCE-CALLEE-THE-FOLD-REFUSED-TO-INLINE-IS-ACTUALLY-PURE-IN-LITERALS-ONCE-ITS-PARAMETERS-ARE-BOUND-TO-THE-SITE-S-ARGUMENTS",
@@ -29474,6 +29475,15 @@
    "entered_at": "2026-11-08T11:2x+08:00",
    "entered_by": "bm-b r1564 (supply floor refill after E532)",
    "title": "For every module-constant replacement E532 published, resolve the constant chain to its terminal expression and publish what that terminal actually names (which directory, computed how). The question is whether 'the sentinel is replaced by ROOT' is one population: if two callers' ROOT folds to different directories, then two arms that look identically rescued are reading different populations, and any face that counts them together is counting two things as one. Publish per chain the hop list, the terminal expression verbatim, and whether the terminal is literally the same expression as the callee module's own ROOT -- because a constant that folds to another module's root is a rescue into someone else's tree."
+  },
+  {
+   "id": "E538-WHICH-CONSUMER-THREE-HOPS-OUT-WRITES-A-PAYLOAD-WITH-THE-SENTINEL-THAT-KEPT-MOVING",
+   "status": "ready",
+   "entered_by": "bm-b r1565 (supply floor refill after E535)",
+   "entered_at": "2026-11-08T12:5x+08:00",
+   "source": "E535 (r1565 bm-b): 1 of the 6 sites E534 published as handed onward is still moving -- e398 _resolve_module_chain:410's return is forwarded again by all 3 of its consumers (_resolve_chain_text:440, _attr_static_dir:445, classify:646), so the third hop is unmeasured",
+   "title": "Follow the one parcel E535 still saw moving: for each consumer that forwards _resolve_module_chain's return, resolve the receiving callee's parameter and publish whether that body writes a payload, folds a sentence, counts it, or forwards again. The question is whether an unguarded depth-cap null ends up inside a published face's text three hops out, or whether the chain dead-ends in another pure helper.",
+   "lane_note": "static: one more hop through the same parameter-binding walk E535 already uses; no execution, no network, no rewrites"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29488,6 +29498,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T10:54:23+0800",
+ "updated_at": "2026-11-08T13:0x+0800",
  "version": 1
 }

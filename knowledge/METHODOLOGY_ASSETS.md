@@ -13215,3 +13215,26 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 - **E530 叫「终点」的那条链不是终点**：`build` 什么也没省略，它在转发。链之所以「终」，只是因为没人看被调方。
 
 **验证**：`scripts/e532_one_hop_out.py` run rc0 / check problems=0 / verify 重导 problems=0 / **selftest 15/15**（夹具五形态：常量改绑、调用结果改绑、从不读、每用兜底、又转发 ＋ 归属函数不在树时不判 ＋ 四档判词边界 ＋ 三枚 doctored 面全拒：手写 verdict、自带站点却声明 no_forwarding、缩人口）；产物 `results/state_tilt/ONEHOPOUT-2026-11-08.json` + `onehopout_latest.json` 同源；S6 腿 `one_hop_out` rc0（排在 `cap_to_payload` 之后，ghost_legs 空）；smoke 腿 `# E532`（人口与上游面计数一致、每站点点名被调方、替换必有源、两枚 doctored 必拒）；digest `research/digests/DIGEST-20261108-r1564-e532-one-hop-out.md`。未跑：全量 smoke 套件（本轮启动早于本面成形、收官时仍在飞且 0 FAIL，故不宣称套件总数）、S6 其余腿、采集器族与 market/paper 链。
+## E535 「交出去」的 6 个哨兵里 5 个根本没到第二个读者：3 次就地被内建测试、1 次交给库、1 次在读者体内已被守住；只有 1 个真的又转手（2026-11-08 r1565 bm-b）
+
+**问题**：E534 把 6 个站点归进「值被交出去」这一类（5 个 forwarded + 1 个装进没人写的字段），并在自己的限制条里写明「下一个消费者不跟」。于是「这个哨兵会不会被下游写成『东西不在』」在结构上是空的。
+
+**方法**：只跟这 6 站，跳型从树上读、不继承上游类——读者自己的 `return` / 交给具名调用的参数 / 装进容器字段。return 跳枚举语料里对该读者的调用点（同模块，或 import 其 stem），用 E534 的分类器原样重跑；参数跳把被调方定义从语料里找出来，按传参位置绑定形参后再走同一套 flow；字段跳先跟容器，容器不出读者则该字段死在此处。另加三件：①**守卫优先**——被读的值如果坐在 `if x is not None` 的 body 里，这一跳判「读者体内已把 null 与缺失分开」②`isinstance/len/bool/...` 是就地测试、`sorted/join/...` 是库调用，各自成类，不再并进「被调方不可解」③E534 的分类器看不见 `a, b = f()` 这种解构绑定（E519 老坑），本面补一条解构臂。
+
+**读数**：6 站 / 2758 源（1 源语法失败）。
+
+- **0 站**到达「写出载荷的消费者」，**0 站**装配进无人写的字段；
+- **3 站**的跳点是就地内建测试：`value = _eval(...)` 之后紧跟 `isinstance(value, str|list|dict)`（e503 `module_consts`:148、`chain_legs`:165、`script_refs`:223）——值没离开读者，是当场被类型测试筛掉；
+- **1 站**交给库：`sorted(static_strings(...))[:12]`（e504 `analyse`:452），库体不在语料里，返回值最终喂给谁本面不测；
+- **1 站**其实在读者体内就守住了：e379 `_why`:178 的 `_resolve(...)` 结果，其读点在 `if resolved is not None:` 的 body 里（179 行），null 分支根本到不了这次转手——E534 把它算成「交出去」，是把被守卫的读当成了同一次无守卫的读；
+- **1 站**真的又转手：e398 `_resolve_module_chain`:410 的返回值，3 个消费者（`_resolve_chain_text`:440、`_attr_static_dir`:445、`classify`:646）全部再次转手，没有一处落盘；
+- 判决（由闸从 summary 重算）：`the_handed_on_class_is_not_one_shape_part_of_it_never_reaches_a_second_reader_and_part_is_still_moving`。
+
+**可复用教训**：
+
+- **「交出去」不是一种形状**：一个上游类里混着「就地测试」「交给库」「读者体内已被守卫」「真的转手」。只报递交次数会把前三种读成第四种，从而把「没人测」写成「没人管」。
+- **守卫要先于跳型判**：读点坐在 `if x is not None` 的 body 里，这个值就不可能是 null；把它算成一次转手，等于把守卫当空气。
+- **内建名不是「未定义被调方」**：`isinstance`/`sorted` 的 body 本来就不该在语料里，把它们并进「被调方不可解」等于把两类完全不同的东西报成同一类；测试就地发生、变换进库，各自要自己的名字。
+- **解构绑定会伪装成「停在读者里」**：`why, target = _why(...)` 这种形状，只记 `ast.Name` 目标的扫描器看不见（E519 同族），本面补臂后夹具证明能跟到写出点。
+
+**验证**：`scripts/e535_next_consumer.py` run rc0 / check problems=0 / verify problems=0（重建逐字节一致）/ **selftest clean**（3 个夹具源、2 站、3 个消费者含解构臂，6 枚 doctored 全拒）；S6 腿 `next_consumer` rc0 0.06s（排在 `cap_to_payload` 之后）；smoke 腿 `# E535` 1/1（`scripts/run_e535_smoke_leg.py --doctor` 1/1 假红）；digest `research/digests/DIGEST-20261108-r1565-e535-next-consumer.md`。未跑：全量 smoke 套件、S6 其余腿、采集器族与 market/paper 链。
