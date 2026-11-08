@@ -22649,5 +22649,56 @@ except Exception as _e533x:
 check(_name533, not _bad533, "; ".join(_bad533)[:240] or _d533)
 
 
+# E532: the sentinel nothing replaces in its own body, followed one hop out.  The population must
+# be exactly the arms E531/E530 publish as passed-on (a face that widened it would answer a
+# different question), every arm that hands the value onward must name the callee it goes to, a
+# callee that forwards again must NOT be counted as a replacement, and doctored copies (a
+# hand-written verdict, an arm declared unforwarded while its own list carries sites, a
+# replacement with no source) must be refused.
+_name532 = ("E532 follows the passed-on sentinel one hop out (r1564 bm-b)")
+_bad532 = []
+try:
+    _m532 = __import__("importlib").import_module("e532_one_hop_out")
+    _f532 = json.load(open(os.path.join("results", "state_tilt", "onehopout_latest.json"),
+                           encoding="utf-8"))
+    _s532 = _f532.get("summary") or {}
+    _r532 = _f532.get("arms") or []
+    _bad532.extend(_m532.face_problems(_f532))
+    _pop532 = _m532.population(_m532.load_upstream())
+    if len(_pop532) != len(_r532):
+        _bad532.append("the published arm count %d is not the upstream population %d"
+                       % (len(_r532), len(_pop532)))
+    for _row in _r532:
+        _sites = _row.get("forwarding") or []
+        if _row.get("hop_out_class") == _m532.H_NO_FORWARDING and _sites:
+            _bad532.append("%s is unforwarded but carries sites" % _row.get("arm_id"))
+        for _site in _sites:
+            if not _site.get("callee"):
+                _bad532.append("%s:%s names no callee" % (_row.get("arm_id"), _site.get("line")))
+            if _site.get("hop_out_class") in _m532.REPLACED and not _site.get("hop_out_source"):
+                _bad532.append("%s:%s replaces the sentinel with no source"
+                               % (_row.get("arm_id"), _site.get("line")))
+    _doc532 = json.loads(json.dumps(_f532))
+    _doc532["verdict"] = _m532.V_NONE_REPLACED
+    if not _m532.face_problems(_doc532):
+        _bad532.append("a hand-written verdict was accepted")
+    _doc532 = json.loads(json.dumps(_f532))
+    for _row in _doc532["arms"]:
+        if _row.get("forwarding"):
+            _row["hop_out_class"] = _m532.H_NO_FORWARDING
+            break
+    if not _m532.face_problems(_doc532):
+        _bad532.append("an arm declared unforwarded beside its own sites was accepted")
+
+    _d532 = "%d arms / %d forwarding sites / replaced %d | still forwarded %d | verdict %s" % (
+        len(_r532), _s532.get("forwarding_sites_examined"),
+        _s532.get("arms_replaced_one_hop_out"),
+        _s532.get("arms_still_forwarded_one_hop_out"), _f532.get("verdict"))
+except Exception as _e532x:
+    _bad532.append(repr(_e532x)[:160])
+    _d532 = "leg could not run"
+check(_name532, not _bad532, "; ".join(_bad532)[:240] or _d532)
+
+
 if __name__ == "__main__":
     sys.exit(main())

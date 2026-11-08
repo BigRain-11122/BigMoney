@@ -2041,6 +2041,12 @@ LEGS = [
     # publication when the same reader writes a payload, and the exact key is named -- so
     # "silently read" never stands in for "published as a fact". 0.1s, check only.
     ("cap_to_payload", ["python", "scripts/e534_cap_to_payload.py", "check"]),
+    # E532 follows E531's one passed-on-unchanged arm (plus E530's signature-default chains) one
+    # hop out: for every call inside the owning body that hands the sentinel onward, map the
+    # argument onto the callee's own parameter and publish what THAT body does with it. A callee
+    # that forwards again is still_forwarded, not replaced, so "nothing replaces it" never survives
+    # as a sentence about a value. `check` re-derives every class, every count and the verdict.
+    ("one_hop_out", ["python", "scripts/e532_one_hop_out.py", "check"]),
 ]
 
 

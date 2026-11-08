@@ -29385,7 +29385,10 @@
    "lane": "cpu-only",
    "lane_note": "static: one forwarded argument and the callee signature it lands on; no network, no rewrites",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/state_tilt/ONEHOPOUT-2026-11-08.json",
+   "result": "2 arms / 3 forwarding sites: BOTH arms are replaced one hop out and both substitute the module constant ROOT. e328_quoted_number_staleness.verify(root=None) forwards to build(root=root) at line 358, whose first statement is `root = root or ROOT` (chain e328.ROOT -> e326.ROOT -> e312.ROOT). e489_write_wire.build(root=None) has TWO fates inside one arm: line 448 -> classify(root) forwards it AGAIN (still_forwarded, so that site stays open past this hop) while line 501 -> _write(root) replaces it with ROOT. Verdict: at_least_one_sentinel_that_nothing_replaces_in_its_own_body_is_replaced_one_hop_out",
+   "done_note": "deliverable filename deviates from the card (declared PASSEDON-<cutoff>.json, published ONEHOPOUT-<cutoff>.json) because the study is about the hop out, not only the passed-on arm; disclosed here and in the digest rather than renaming the face after the fact",
    "source": "E531 (r1558 bm-b): of the 5 signature defaults E530/E526 landed on, 4 are replaced inside the defining body and 1 -- e328_quoted_number_staleness.verify(root=None) -- is passed on unchanged, yet it forwards root to build(), whose own body does `root = root or ROOT`",
    "target": "results/state_tilt/passedon_latest.json",
    "deliverable": "results/state_tilt/PASSEDON-<cutoff>.json",
@@ -29457,6 +29460,20 @@
    "entered_at": "2026-11-08T10:54:23+0800",
    "entered_by": "bm-b r1563 (supply floor refill after E533)",
    "title": "For every arm E533 published as staying open because the callee is repo source, inline that callee one level with its parameters bound to the arguments the call site passes, and decide whether the body is then a chain of literal expressions: a body that only moves parameters around folds and closes the arm, a body that reads module state or the tree stays open with that read named. Publish which of the refusals were about the callee and which were about the site's own arguments."
+  },
+  {
+   "id": "E537-WHICH-SENTINEL-REPLACED-BY-A-MODULE-CONSTANT-ONE-HOP-OUT-LANDS-ON-A-TERMINAL-THAT-IS-NOT-THE-CALLEE-S-OWN-ROOT",
+   "lane": "cpu-only",
+   "lane_note": "static: module-constant chains already published; no network, no rewrites",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E532 (r1564 bm-b): both arms it followed are replaced one hop out by the module constant ROOT, but the two chains do not terminate in the same place -- e328_quoted_number_staleness.ROOT folds to e326.ROOT then e312.ROOT, while e489_write_wire.ROOT stops at its own module",
+   "target": "results/state_tilt/rootchain_latest.json",
+   "deliverable": "results/state_tilt/ROOTCHAIN-<cutoff>.json",
+   "evidence_cutoff": "2026-11-08",
+   "entered_at": "2026-11-08T11:2x+08:00",
+   "entered_by": "bm-b r1564 (supply floor refill after E532)",
+   "title": "For every module-constant replacement E532 published, resolve the constant chain to its terminal expression and publish what that terminal actually names (which directory, computed how). The question is whether 'the sentinel is replaced by ROOT' is one population: if two callers' ROOT folds to different directories, then two arms that look identically rescued are reading different populations, and any face that counts them together is counting two things as one. Publish per chain the hop list, the terminal expression verbatim, and whether the terminal is literally the same expression as the callee module's own ROOT -- because a constant that folds to another module's root is a rescue into someone else's tree."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

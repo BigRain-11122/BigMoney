@@ -13195,3 +13195,23 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 - **成本**：`check` 0.05s，纯静态零执行零改写。
 
 **验证**：`scripts/e533_call_pure_arm.py` build rc0 / check problems=0 / verify 重 derive problems=0 / **selftest green**（6 fixture 臂 + 5 面手改拒收）；S6 腿 `call_pure_arm` rc0 0.05s；smoke 腿独立跑绿。
+## E532 自己体内没人换掉的哨兵，往外一跳有没有被它交给的被调方换掉（2026-11-08 r1564 bm-b）
+
+**问题**：E531 按省略点发布「签名默认值写了什么」与「定义函数体对哨兵做了什么」。其中恰有一条判成 `the_body_passes_the_sentinel_on_unchanged`（体内既不改绑也不兜底），E530 早一跳也发布过同一形状。两张面都停在那一句上——那句话是真的，也是不可用的：「没人换掉它」说的是一个函数，不是这个值。卡片问后半句：把这个哨兵往外跟一跳，交出去的那个被调方换掉它了吗。
+
+**方法**：人口＝E531 面里 `rescue_class = the_body_passes_the_sentinel_on_unchanged` 的臂 ＋ E530 面里 terminal 含 `nothing_is_passed_so_the_signature_default_applies` 的链，按 `(module, function, parameter)` 去重。逐臂：在定义函数体内（不含嵌套 def）找每一个把该参数交出去的 `Call`；把实参映射到被调方自己的形参（关键字，或按被调方位置参数表定位）；用 E520 的 ownership 分类器解析被调方（同模块／按名导入／导入模块的属性才解析；裸名无 import 绑定、或接收者不是名字＝按 `no_signature` 发布，绝不合并到别处同名函数）；再读**那个**函数体对这个值的处理。档位：改绑模块常量／调用结果／树读取／字面量／计算式，每次使用兜底（常量或其它），`still_forwarded`（被调方又往下转），`never_read`，`no_signature`，`no_forwarding_site`。`still_forwarded` 刻意**不算**「已换掉」——那是「链比卡片长」这个答案。
+
+**读数**（2 臂／3 转发点／2,760 源）：
+- **2/2 臂都在往外一跳被换掉**，替换源都是模块常量 `ROOT`；`still_forwarded` 0、`never_read` 0、`no_signature` 0。
+- `e328_quoted_number_staleness.verify(root=None)`：体内第 358 行把 `root` 原样交给 `build(root=root, ...)`，而 `build` 开头就是 `root = root or ROOT` → 一跳外被模块常量替换，常量链 `e328_quoted_number_staleness:ROOT -> e326.ROOT -> e312.ROOT`。
+- `e489_write_wire.build(root=None)`：第 448 行交给 `classify(root)`（**又转发一次**，这一站点过了本跳仍然开着），第 501 行交给 `_write(root)`（换成模块自己的 `ROOT`）。**同一个臂，两个站点两种命运**。
+- 判词由闸从 summary 重算：`at_least_one_sentinel_that_nothing_replaces_in_its_own_body_is_replaced_one_hop_out`。
+
+**可复用教训**：
+- **「没人换掉它」是关于函数的话，不是关于值的话**：任何发布 rescue 类的面，要么往外跟一跳，要么点名自己停在第几跳。没有跳数的 rescue 类会被读者当成关于值的断言——本族两臂里，`None` 一次也没有留在值上，它一跳外落在仓库根。
+- **一个臂可以有多个命运**：N 个转发点里可以在一个点被换掉、在另一个点仍然开着。按站点发布、臂级类别由派生得出（本面的闸拒收「自带站点列表却声明 no_forwarding」的臂），把两种命运压成一个字就会漏掉一半。
+- **又往下转不算换掉**：把 `still_forwarded` 并进「已换掉」能得到整齐的 2/2，但那是一次不存在的救援。整齐是这条路线上最贵的东西。
+- **实参→形参的映射不是可选项**：值落在哪个形参上，和名字撞不撞只是巧合；分类器读被调方的位置参数表，所以落到别的形参名的站点不会被悄悄计功。
+- **E530 叫「终点」的那条链不是终点**：`build` 什么也没省略，它在转发。链之所以「终」，只是因为没人看被调方。
+
+**验证**：`scripts/e532_one_hop_out.py` run rc0 / check problems=0 / verify 重导 problems=0 / **selftest 15/15**（夹具五形态：常量改绑、调用结果改绑、从不读、每用兜底、又转发 ＋ 归属函数不在树时不判 ＋ 四档判词边界 ＋ 三枚 doctored 面全拒：手写 verdict、自带站点却声明 no_forwarding、缩人口）；产物 `results/state_tilt/ONEHOPOUT-2026-11-08.json` + `onehopout_latest.json` 同源；S6 腿 `one_hop_out` rc0（排在 `cap_to_payload` 之后，ghost_legs 空）；smoke 腿 `# E532`（人口与上游面计数一致、每站点点名被调方、替换必有源、两枚 doctored 必拒）；digest `research/digests/DIGEST-20261108-r1564-e532-one-hop-out.md`。未跑：全量 smoke 套件（本轮启动早于本面成形、收官时仍在飞且 0 FAIL，故不宣称套件总数）、S6 其余腿、采集器族与 market/paper 链。

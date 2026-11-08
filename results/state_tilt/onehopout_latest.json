@@ -1,0 +1,197 @@
+{
+ "arm_vocab": [
+  "e531_rescue_class_the_body_passes_the_sentinel_on_unchanged",
+  "e530_terminal_nothing_is_passed_so_the_signature_default_applies"
+ ],
+ "arms": [
+  {
+   "arm_id": "e328_quoted_number_staleness::verify(root)",
+   "arm_origin": "e531_rescue_class_the_body_passes_the_sentinel_on_unchanged",
+   "default_class": "a_sentinel_none",
+   "default_source": "None",
+   "forwarding": [
+    {
+     "as_keyword": "root",
+     "callee": "build",
+     "callee_module": "e328_quoted_number_staleness",
+     "callee_parameter": "root",
+     "constant_chain": [
+      "e328_quoted_number_staleness:ROOT",
+      "e326.ROOT",
+      "e312.ROOT"
+     ],
+     "hop_out_class": "replaced_by_module_constant",
+     "hop_out_line": 233,
+     "hop_out_source": "ROOT",
+     "line": 358,
+     "receiver": null,
+     "resolution": "the_signature_is_in_this_tree"
+    }
+   ],
+   "function": "verify",
+   "hop_out_class": "replaced_by_module_constant",
+   "hop_out_source": "ROOT",
+   "module": "e328_quoted_number_staleness",
+   "own_body_rescue": "the_body_passes_the_sentinel_on_unchanged",
+   "parameter": "root",
+   "resolved_own_body": true,
+   "upstream_lines": [
+    536
+   ],
+   "upstream_studies": [
+    "E531_default_param"
+   ]
+  },
+  {
+   "arm_id": "e489_write_wire::build(root)",
+   "arm_origin": "e530_terminal_nothing_is_passed_so_the_signature_default_applies",
+   "default_class": "a_sentinel_none",
+   "default_source": "None",
+   "forwarding": [
+    {
+     "as_keyword": null,
+     "callee": "classify",
+     "callee_module": "e489_write_wire",
+     "callee_parameter": "root",
+     "constant_chain": [],
+     "hop_out_class": "still_forwarded_by_the_callee_as_well",
+     "hop_out_line": null,
+     "hop_out_source": null,
+     "line": 448,
+     "receiver": null,
+     "resolution": "the_signature_is_in_this_tree"
+    },
+    {
+     "as_keyword": null,
+     "callee": "_write",
+     "callee_module": "e489_write_wire",
+     "callee_parameter": "root",
+     "constant_chain": [
+      "e489_write_wire:ROOT"
+     ],
+     "hop_out_class": "replaced_by_module_constant",
+     "hop_out_line": 506,
+     "hop_out_source": "ROOT",
+     "line": 501,
+     "receiver": null,
+     "resolution": "the_signature_is_in_this_tree"
+    }
+   ],
+   "function": "build",
+   "hop_out_class": "replaced_by_module_constant",
+   "hop_out_source": "ROOT",
+   "module": "e489_write_wire",
+   "own_body_rescue": "the_body_passes_the_sentinel_on_unchanged",
+   "parameter": "root",
+   "resolved_own_body": true,
+   "upstream_lines": [
+    579,
+    738
+   ],
+   "upstream_studies": [
+    "E530_third_hop"
+   ]
+  }
+ ],
+ "card": "E532-WHICH-SENTINEL-THAT-NOTHING-REPLACES-IN-ITS-OWN-BODY-IS-REPLACED-ONE-HOP-OUT-BY-THE-CALLEE-IT-IS-FORWARDED-TO",
+ "evidence_cutoff": "2026-11-08",
+ "generated": "2026-11-08T11:08:03",
+ "hop_out_vocab": [
+  "replaced_by_module_constant",
+  "replaced_by_call_result",
+  "replaced_by_read_or_scan_of_the_tree",
+  "replaced_by_a_literal",
+  "replaced_by_a_computed_expression",
+  "every_use_is_guarded_with_a_module_constant",
+  "every_use_is_guarded_with_another_value",
+  "still_forwarded_by_the_callee_as_well",
+  "the_callee_never_reads_it",
+  "the_callee_signature_is_not_in_this_tree",
+  "the_owning_body_hands_it_to_no_call_at_all"
+ ],
+ "method_limits": [
+  "one hop, not a chain: an arm whose callee also forwards the sentinel is published as still_forwarded and the next hop is out of scope",
+  "the callee is resolved only when the call names it through an import this tree binds; a bare name no import binds, or a receiver that is not a name, is published as no_signature rather than merged onto a same-named function elsewhere",
+  "the callee's parameter is mapped by keyword, or by position against the callee's positional list; a call that splats *args keeps the original name because the mapping is not decidable from the call node",
+  "the callee's treatment is read from its own body only -- a substitute supplied by a third function is out of scope and stays published as never_read or forwarded",
+  "nothing is executed and no source is rewritten",
+  "sources_read is a snapshot of a live tree other lanes write to; it is published but not gated, while every class and the verdict are re-derived"
+ ],
+ "population_source": "e532_one_hop_out.py::population() -- every arm E531 publishes with rescue_class the_body_passes_the_sentinel_on_unchanged and every E530 chain whose terminals include nothing_is_passed_so_the_signature_default_applies, keyed by (module, function, parameter)",
+ "study": "E532_one_hop_out",
+ "summary": {
+  "arms_by_hop_out_class": {
+   "every_use_is_guarded_with_a_module_constant": 0,
+   "every_use_is_guarded_with_another_value": 0,
+   "replaced_by_a_computed_expression": 0,
+   "replaced_by_a_literal": 0,
+   "replaced_by_call_result": 0,
+   "replaced_by_module_constant": 2,
+   "replaced_by_read_or_scan_of_the_tree": 0,
+   "still_forwarded_by_the_callee_as_well": 0,
+   "the_callee_never_reads_it": 0,
+   "the_callee_signature_is_not_in_this_tree": 0,
+   "the_owning_body_hands_it_to_no_call_at_all": 0
+  },
+  "arms_by_origin": {
+   "e530_terminal_nothing_is_passed_so_the_signature_default_applies": 1,
+   "e531_rescue_class_the_body_passes_the_sentinel_on_unchanged": 1
+  },
+  "arms_examined": 2,
+  "arms_replaced_one_hop_out": 2,
+  "arms_still_forwarded_one_hop_out": 0,
+  "arms_that_hand_it_onward": 2,
+  "arms_whose_callee_is_not_in_this_tree": 0,
+  "arms_whose_callee_never_reads_it": 0,
+  "distinct_callee_signatures": 3,
+  "distinct_owning_functions": 2,
+  "forwarding_sites_by_class": {
+   "every_use_is_guarded_with_a_module_constant": 0,
+   "every_use_is_guarded_with_another_value": 0,
+   "replaced_by_a_computed_expression": 0,
+   "replaced_by_a_literal": 0,
+   "replaced_by_call_result": 0,
+   "replaced_by_module_constant": 2,
+   "replaced_by_read_or_scan_of_the_tree": 0,
+   "still_forwarded_by_the_callee_as_well": 1,
+   "the_callee_never_reads_it": 0,
+   "the_callee_signature_is_not_in_this_tree": 0,
+   "the_owning_body_hands_it_to_no_call_at_all": 0
+  },
+  "forwarding_sites_examined": 3,
+  "forwarding_sites_replaced": 2,
+  "sources_read": 2760,
+  "upstream_faces": [
+   {
+    "path": "results/state_tilt/defaultparam_latest.json",
+    "sha256": "7168f7d2db19fc8a82de41e876f041e04008f4b68814a83c5e3115f45867790e",
+    "study": "E531_default_param"
+   },
+   {
+    "path": "results/state_tilt/thirdhop_latest.json",
+    "sha256": "8f5f6e826d893bc0f6defa6fbde4fc6528bae3d9e5e9f1c3af4eb77052818392",
+    "study": "E530_third_hop"
+   }
+  ]
+ },
+ "title": "is the sentinel nothing replaces in its own body replaced one hop out by the callee it is forwarded to",
+ "upstream_faces": [
+  {
+   "path": "results/state_tilt/defaultparam_latest.json",
+   "sha256": "7168f7d2db19fc8a82de41e876f041e04008f4b68814a83c5e3115f45867790e",
+   "study": "E531_default_param"
+  },
+  {
+   "path": "results/state_tilt/thirdhop_latest.json",
+   "sha256": "8f5f6e826d893bc0f6defa6fbde4fc6528bae3d9e5e9f1c3af4eb77052818392",
+   "study": "E530_third_hop"
+  }
+ ],
+ "verdict": "at_least_one_sentinel_that_nothing_replaces_in_its_own_body_is_replaced_one_hop_out",
+ "verdict_vocab": [
+  "at_least_one_sentinel_that_nothing_replaces_in_its_own_body_is_replaced_one_hop_out",
+  "no_forwarded_sentinel_is_replaced_by_the_callee_it_goes_to",
+  "no_arm_hands_its_sentinel_to_another_call",
+  "the_arms_that_could_answer_it_do_not_resolve_to_a_signature"
+ ]
+}
