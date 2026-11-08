@@ -1,0 +1,167 @@
+{
+ "artifact": "etf_book_swap_stack",
+ "asof": "2026-11-06",
+ "ticket": "TICKET-2026-11-06.json",
+ "sources": {
+  "swap_trigger": "results/etf_book_swap_trigger.json",
+  "order_ticket": "results/etf_book_order/TICKET-2026-11-06.json"
+ },
+ "verdict": "TWO_SECTIONS_OVERSELL_THE_LEG",
+ "k_ordered": 0.460253,
+ "k_after": 0.392401,
+ "floor_k": 0.393073,
+ "ceiling_k": 0.544424,
+ "within_permission": true,
+ "risk_book_before_cny": 459796.3,
+ "risk_book_after_cny": 392400.9,
+ "cash_cny": 607599.1,
+ "lot_residue_cny": 106.3,
+ "actions": [
+  {
+   "side": "SELL",
+   "symbol": "159501",
+   "lots": 379,
+   "price": 2.069,
+   "amount_cny": 78415.1,
+   "why": "swap 159501 → 159513 (r1466 verdict ACT_ON_THIS_BAR), sized on the trimmed 379 lots"
+  },
+  {
+   "side": "SELL",
+   "symbol": "513100",
+   "lots": 364,
+   "price": 2.158,
+   "amount_cny": 78551.2,
+   "why": "swap 513100 → 159513 (r1466 verdict WINDOW_ALWAYS_OPEN), sized on the trimmed 364 lots"
+  },
+  {
+   "side": "BUY",
+   "symbol": "159513",
+   "lots": 920,
+   "price": 1.705,
+   "amount_cny": 156860.0,
+   "why": "merged buy for 159501 + 513100"
+  }
+ ],
+ "holdings_after": [
+  {
+   "symbol": "159263",
+   "lots": 687,
+   "price": 1.143,
+   "amount_cny": 78524.1
+  },
+  {
+   "symbol": "159513",
+   "lots": 920,
+   "price": 1.705,
+   "amount_cny": 156860.0
+  },
+  {
+   "symbol": "159577",
+   "lots": 487,
+   "price": 1.612,
+   "amount_cny": 78504.4
+  },
+  {
+   "symbol": "513690",
+   "lots": 678,
+   "price": 1.158,
+   "amount_cny": 78512.4
+  }
+ ],
+ "widest_name": {
+  "symbol": "159513",
+  "share_of_risk_book": 0.3997
+ },
+ "baskets": {
+  "before": [
+   "159263",
+   "513690",
+   "NDX100",
+   "US50"
+  ],
+  "after": [
+   "159263",
+   "159513",
+   "513690",
+   "US50"
+  ],
+  "n_before": 4,
+  "n_after": 4
+ },
+ "oversell": [
+  {
+   "symbol": "159263",
+   "held": 805,
+   "trim_sells": 118,
+   "swapped": false,
+   "swap_sells": 0,
+   "sections_add_up_to": 118,
+   "as_printed_excess": -687
+  },
+  {
+   "symbol": "159501",
+   "held": 444,
+   "trim_sells": 65,
+   "swapped": true,
+   "swap_sells": 444,
+   "sections_add_up_to": 509,
+   "as_printed_excess": 65
+  },
+  {
+   "symbol": "159577",
+   "held": 571,
+   "trim_sells": 84,
+   "swapped": false,
+   "swap_sells": 0,
+   "sections_add_up_to": 84,
+   "as_printed_excess": -487
+  },
+  {
+   "symbol": "513100",
+   "held": 426,
+   "trim_sells": 62,
+   "swapped": true,
+   "swap_sells": 426,
+   "sections_add_up_to": 488,
+   "as_printed_excess": 62
+  },
+  {
+   "symbol": "513690",
+   "held": 794,
+   "trim_sells": 116,
+   "swapped": false,
+   "swap_sells": 0,
+   "sections_add_up_to": 116,
+   "as_printed_excess": -678
+  }
+ ],
+ "swap_repricing": [
+  {
+   "leg": "159501",
+   "sibling": "159513",
+   "ordered_lots": 444,
+   "trimmed_lots": 379,
+   "share": 0.8536,
+   "gain_published_cny": 5612.5,
+   "gain_on_trimmed_book_cny": 4790.85,
+   "overstated_cny": 821.65
+  },
+  {
+   "leg": "513100",
+   "sibling": "159513",
+   "ordered_lots": 426,
+   "trimmed_lots": 364,
+   "share": 0.8545,
+   "gain_published_cny": 4149.3,
+   "gain_on_trimmed_book_cny": 3545.41,
+   "overstated_cny": 603.89
+  }
+ ],
+ "overstated_total_cny": 1425.54,
+ "notes": [],
+ "caveats": [
+  "the merged name's share is a share of the risk book, not of NAV: it carries the same basket as the two legs it replaced, so the number of independent baskets is printed beside it and is what the concentration reading should use",
+  "swap benefits are re-scaled linearly with notional (the gap face prices them as a percentage of the traded amount); fees, tracking difference and FX-hedge policy between the two tickers are still not priced",
+  "the netted order is lot-rounded at the sibling's close on the priced bar; intraday execution will move both the proceeds and the bought lots"
+ ]
+}

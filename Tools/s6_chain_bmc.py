@@ -929,6 +929,12 @@ LEGS = [
     # lifetime of a comparable episode, and the word that says act-now / any-bar / nothing.
     ("swap_trigger",
      ["python", "scripts/etf_book_swap_trigger.py", "check"]),
+    # r1467: the trigger above and the permission trim (r1455) are two sections on one sheet
+    # and each ignores the other -- the trim sells 65 lots of a leg the swap line sells whole,
+    # and the swap's CNY gain is priced on the size the floor refused. This leg nets them into
+    # one order and re-derives it (trim-sized sells, merged sibling buy, lot residue, baskets).
+    ("swap_stack",
+     ["python", "scripts/etf_book_swap_stack.py", "check"]),
     # r1440: forty rounds read the calendar and the order page as two separate
     # subjects. This leg puts them in one sentence from receipts only (no
     # repricing): today the ticket executes nobond_vt08_adopted at book_weight

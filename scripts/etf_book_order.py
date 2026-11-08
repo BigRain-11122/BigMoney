@@ -515,6 +515,7 @@ PERMISSION_FACE = "results/etf_book_rebalance_permission.json"
 RULERS_FACE = "results/etf_book_size_rulers_decision.json"
 FLOOR_FACE = "results/etf_book_floor_ledger.json"
 SWAP_FACE = "results/etf_book_swap_trigger.json"
+SWAP_STACK_FACE = "results/etf_book_swap_stack.json"
 
 
 def _json_face(rel):
@@ -570,6 +571,67 @@ def swap_trigger_md(sw):
     L += ["- 读法：这条不是日历提醒。书每 %d 个交易日重排，那一天换票本来就会被重新决定；"
           "两次决策之间唯一能改主意的是价差——只有它越过来回成本（%.2f pp），再动一次才不亏。"
           % (REBAL, float((sw.get("criteria") or {}).get("toll_pp") or 0.0)), ""]
+    return L
+
+
+def swap_stack_md(ss):
+    """r1467: the sheet carries two sections that both sell the same leg.
+
+    The trim table sells the part the floor forbids; the swap line sells the whole leg and
+    prices its benefit on the *untrimmed* size. Read together the page sells more of that
+    ticker than the book holds, and quotes a swap gain the permission already refused. This
+    block prints the netted order -- what to type -- and the two numbers the two sections
+    disagree about. An absent face prints one line, never a silent pass (r1108).
+    """
+    if ss is None:
+        return ["", "## 这张单真正要下的是一笔还是两笔（r1467）",
+                "- **这一问答不了**：没有已发布的净额单面（跑 "
+                "scripts/etf_book_swap_stack.py run）。缺面不等于没有要合并的动作。", ""]
+    v = ss.get("verdict")
+    head = {
+        "TWO_SECTIONS_OVERSELL_THE_LEG":
+            "**两段话卖同一只票**：额度表卖一部分、换票线卖整只腿，照两段一起下单会卖超；"
+            "顺序只有一种——先按额度裁，再拿剩下的整只腿去换。",
+        "NETTED_WITH_RESIDUE":
+            "**两段合成一笔**：换票在裁剪后手数上重算，整手取整零头 ¥%s 留在现金腿。"
+            % format(ss.get("lot_residue_cny") or 0.0, ",.0f"),
+        "NETTED_CLEAN": "**两段合成一笔，整手正好对齐**。",
+        "NOTHING_TO_NET": "**今天没有要合并的动作**：本单只有额度裁剪这一件事。",
+        "CANNOT_VERIFY": "**这一问答不了**：票面或换票面读不出来，不给净额单。",
+    }.get(v, v or "?")
+    L = ["", "## 这张单真正要下的是一笔还是两笔（r1467）", "- %s" % head]
+    acts = ss.get("actions") or []
+    if acts:
+        L += ["", "| 方向 | 代码 | 价 | 手数 | 金额 |", "|---|---|---|---|---|"]
+        for r in acts:
+            L.append("| **%s** | %s | %.3f | %d | ¥%s |"
+                     % (r["side"], r["symbol"], r["price"], r["lots"],
+                        format(r["amount_cny"], ",.0f")))
+        L.append("")
+    for o in ss.get("oversell") or []:
+        if o.get("swapped") and o.get("as_printed_excess"):
+            L.append("- `%s`：额度表卖 %d 手 + 换票线卖 %d 手 = %d 手，账面只有 %d 手 → "
+                     "照两段念会多卖 **%d 手**（净额单里只卖 %d 手）。"
+                     % (o["symbol"], o["trim_sells"], o["swap_sells"],
+                        o["sections_add_up_to"], o["held"], o["as_printed_excess"],
+                        o["held"] - o["trim_sells"]))
+    rp = ss.get("swap_repricing") or []
+    if rp:
+        L.append("- 换票收益按**下单量**定价，额度裁掉的那部分不会发生：合计高估 **¥%s**"
+                 "（%s）。" % (format(ss.get("overstated_total_cny") or 0.0, ",.0f"),
+                              "；".join("%s %s→%s" % (r["leg"],
+                                                     format(r["gain_published_cny"], ",.0f"),
+                                                     format(r["gain_on_trimmed_book_cny"], ",.0f"))
+                                       for r in rp)))
+    w = ss.get("widest_name") or {}
+    b = ss.get("baskets") or {}
+    if w:
+        L.append("- 执行后最宽的一只是 `%s`（风险腿 %.1f%%），独立篮子数 %s → %s（%s）："
+                 "把两只同一篮子的票并成一只，票数变少、篮子没变。"
+                 % (w.get("symbol"), 100.0 * (w.get("share_of_risk_book") or 0.0),
+                    b.get("n_before"), b.get("n_after"),
+                    "未变" if b.get("n_before") == b.get("n_after") else "变了"))
+    L += ["- 出处：%s。" % SWAP_STACK_FACE, ""]
     return L
 
 
@@ -793,6 +855,7 @@ def card(ticket, mk, sched, asof, beta, extra):
         L += ["", "整手取整后欠投 %.2f%% NAV（留在现金腿，不重分配）。" % ticket["underspend_pct"]]
         L += permission_md(extra.get("permission"))
         L += swap_trigger_md(extra.get("swap_trigger"))
+        L += swap_stack_md(extra.get("swap_stack"))
         cm = extra.get("cash_money")
         if cm:
             L += ["", "## 现金那一半今天赚多少钱（r1245）"]
@@ -1348,6 +1411,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                           "rows_added": len(merged), "engine_naive_vs_ledger": drift},
                "entry_gate": entry_gate_support(),
                "swap_trigger": _json_face(SWAP_FACE),
+               "swap_stack": _json_face(SWAP_STACK_FACE),
                "width_disclosure": wd,
                "live_width_ruler": ruler,
                "price_basis": basis,
@@ -1385,6 +1449,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "cash_money": payload["cash_leg"]["money"],
                       "entry_gate": payload["entry_gate"],
                       "swap_trigger": payload["swap_trigger"],
+                      "swap_stack": payload["swap_stack"],
                       "permission": payload["permission"],
                       "bets_line": bets_line,
                       "conc_line": conc_line,
@@ -3431,6 +3496,27 @@ def selftest():
     chk("leg51b swap trigger: an absent face prints one line, never a silent pass",
         "这一问答不了" in "\n".join(swap_trigger_md(None))
         and "换票之后什么时候再看一次" in "\n".join(swap_trigger_md(None)), "")
+
+    _st = {"verdict": "TWO_SECTIONS_OVERSELL_THE_LEG", "lot_residue_cny": 106.3,
+           "actions": [{"side": "SELL", "symbol": "159501", "price": 2.069, "lots": 379,
+                        "amount_cny": 78415.1},
+                       {"side": "BUY", "symbol": "159513", "price": 1.705, "lots": 920,
+                        "amount_cny": 156860.0}],
+           "oversell": [{"symbol": "159501", "held": 444, "trim_sells": 65, "swapped": True,
+                         "swap_sells": 444, "sections_add_up_to": 509,
+                         "as_printed_excess": 65}],
+           "swap_repricing": [{"leg": "159501", "sibling": "159513", "gain_published_cny": 5612.5,
+                               "gain_on_trimmed_book_cny": 4791.3}],
+           "overstated_total_cny": 1425.9,
+           "widest_name": {"symbol": "159513", "share_of_risk_book": 0.3998},
+           "baskets": {"n_before": 4, "n_after": 4}}
+    _st_md = "\n".join(swap_stack_md(_st))
+    chk("leg51c swap stack: the sheet prints the netted order and the lot count both sections "
+        "would sell, instead of leaving two sections that disagree",
+        "这张单真正要下的是一笔还是两笔" in _st_md and "159513" in _st_md
+        and "多卖 **65 手**" in _st_md and "高估" in _st_md, "")
+    chk("leg51d swap stack: an absent face prints one line, never a silent pass",
+        "这一问答不了" in "\n".join(swap_stack_md(None)), "")
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

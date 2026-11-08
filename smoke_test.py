@@ -780,6 +780,16 @@ def main() -> int:
              "scripts/etf_book_swap_trigger.py", ["selftest"]),
             ("product: etf_book_swap_trigger (trigger re-derived from the gap face's own panels)",
              "scripts/etf_book_swap_trigger.py", ["check"]),
+            # r1467: the sheet carries a permission trim and a swap line that each ignore the
+            # other -- together they sell 509 lots of a 444-lot leg, and the swap's gain is
+            # priced on the size the floor refused. The legs pin the netting arithmetic
+            # (trim-sized sells, one merged buy per sibling, printed lot residue, an
+            # unpriced sibling not bought at a stale price) and that the published face is
+            # re-derivable from the ticket and the trigger.
+            ("product: etf_book_swap_stack (two sections on one sheet, netted to one order)",
+             "scripts/etf_book_swap_stack.py", ["selftest"]),
+            ("product: etf_book_swap_stack (netted order re-derived from the sheet it patches)",
+             "scripts/etf_book_swap_stack.py", ["check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a
