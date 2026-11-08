@@ -312,7 +312,7 @@
  "last_decisions_probe_at": "2026-11-01T00:28:21+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
  "last_decisions_read_at": "2026-11-08T16:18:00+08:00",
- "last_decisions_sha": "451b86003bc7afac890ca6d2f4e36db6d42f558885e91061ded8d7f2f6d75162",
+ "last_decisions_sha": "a8aa670b550a583a",
  "last_decisions_sha_method": "sha256(origin/main:docs/decisions.md)[:16]",
  "last_decisions_sha_prev": "0d09d6e9be1fdd42712d319f85bac5a0db48b1cb138fba8805e7d4293ddcddbc",
  "last_decisions_sha_probe": "17c2935984bde3ed8e1de2d998a4e67a646ce02b8cdad3dc6007c09a71ceafb6",
@@ -6226,11 +6226,6 @@
   "smoke": "leg # E555 1/1 green, --doctor 1/1 red",
   "ts": "2026-11-08T19:12:00+08:00"
  },
- "round_delivery": {
-  "branch": "machine/bm-b-r1581",
-  "sha": "5db5d3944d7aa46c5a637e75ee9c3e5cd28731ac",
-  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1581 equals local HEAD",
-  "main_push_blocker": "local main is far ahead/behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243 -- the machine branch is the delivery channel",
-  "ts": "2026-11-08T19:20:00+08:00"
- }
+ "round_delivery": "machine/bm-b-r1582 @ 58553ad31 (ls-remote verified)",
+ "last_decisions_sha_note": "measured 2026-11-08 r1582 as sha256 of `git show origin/main:docs/decisions.md` joined by LF in this window's reader; the previous value (451b8600...) was produced by an earlier window's method, so only same-method comparisons are meaningful"
 }
