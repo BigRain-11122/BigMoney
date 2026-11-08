@@ -23115,6 +23115,92 @@ except Exception as _e542x:
     _bad542.append(repr(_e542x)[:160])
     _d542 = "study could not be read"
 check(_name542, not _bad542, "; ".join(_bad542)[:240] or _d542)
+# E543: can the published line close E542's ambiguity by itself, read as a statement anchor -- keep
+#   only the survivors whose innermost statement opens on the published line?  * every class is
+#   re-derived from the row's own survivors and their statement lines * a decided row keeps exactly
+#   one survivor and publishes an agreement, an ambiguous or refused row publishes none * the kept
+#   and ruled-out survivors must add up to the row's count * doctored copies (a hand-written verdict,
+#   an inflated decided count, an erased agreement, an agreement on an ambiguous row, a selected
+#   count its own list does not carry) must be refused
+_name543 = "E543 the published line read as a statement anchor (r1570 bm-b)"
+_bad543 = []
+try:
+    _m543 = __import__("importlib").import_module("e543_statement_anchor")
+    _f543 = json.load(open(os.path.join("results", "state_tilt", "statementanchor_latest.json"),
+                           encoding="utf-8"))
+    _s543 = _f543.get("summary") or {}
+    _r543 = _f543.get("sites") or []
+    _bad543.extend(_m543.face_problems(_f543))
+    if not _r543:
+        _bad543.append("the row population is empty")
+    if _s543.get("rows") != len(_r543):
+        _bad543.append("rows does not equal the published site rows")
+    if not _s543.get("classes_sum_to_the_rows"):
+        _bad543.append("the classes do not add up to the rows")
+    if not _s543.get("survivors_accounted_for"):
+        _bad543.append("the kept and ruled-out survivors do not add up to the survivors")
+    for _row543 in _r543:
+        _kept = _row543.get("survivors_in_the_published_statement") or []
+        _out = _row543.get("survivors_ruled_out") or []
+        if _row543.get("selected_count") != len(_kept):
+            _bad543.append("row %s carries a selected count its list does not match"
+                           % (_row543.get("site"),))
+            break
+        if len(_kept) + len(_out) != _row543.get("survivor_count"):
+            _bad543.append("row %s loses a survivor between its lists" % (_row543.get("site"),))
+            break
+        if _row543.get("class") == _m543.C_DECIDED and len(_kept) != 1:
+            _bad543.append("row %s is decided with %d kept survivors"
+                           % (_row543.get("site"), len(_kept)))
+            break
+        if _row543.get("class") != _m543.C_DECIDED and _row543.get("agrees_with_e540") is not None:
+            _bad543.append("row %s publishes an agreement off a decided row"
+                           % (_row543.get("site"),))
+            break
+        if any(_k.get("statement_line") != _row543.get("published_line") for _k in _kept):
+            _bad543.append("row %s keeps a survivor whose statement is not the published line"
+                           % (_row543.get("site"),))
+            break
+
+    _doc543 = json.loads(json.dumps(_f543))
+    _doc543["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m543.face_problems(_doc543):
+        _bad543.append("a hand-written verdict was accepted")
+    _doc543 = json.loads(json.dumps(_f543))
+    _doc543["summary"]["rows_decided_by_the_statement_anchor"] += 1
+    if not _m543.face_problems(_doc543):
+        _bad543.append("an inflated decided count was accepted")
+    _dec543 = [i for i, _r in enumerate(_f543["sites"])
+               if _r.get("class") == _m543.C_DECIDED]
+    if _dec543:
+        _doc543 = json.loads(json.dumps(_f543))
+        _doc543["sites"][_dec543[0]]["agrees_with_e540"] = None
+        if not _m543.face_problems(_doc543):
+            _bad543.append("an erased agreement on a decided row was accepted")
+        _doc543 = json.loads(json.dumps(_f543))
+        _doc543["sites"][_dec543[0]]["selected_count"] += 1
+        if not _m543.face_problems(_doc543):
+            _bad543.append("a selected count its own list does not carry was accepted")
+    _amb543 = [i for i, _r in enumerate(_f543["sites"])
+               if _r.get("class") == _m543.C_AMBIGUOUS]
+    if _amb543:
+        _doc543 = json.loads(json.dumps(_f543))
+        _doc543["sites"][_amb543[0]]["agrees_with_e540"] = True
+        if not _m543.face_problems(_doc543):
+            _bad543.append("an agreement published on an ambiguous row was accepted")
+    _d543 = ("%d rows / %d survivors / decided %d / ambiguous %d / refused %d / unresolved %d"
+             " / e540 agrees %d of %d compared"
+             % (_s543.get("rows", 0), _s543.get("survivors_overall", 0),
+                _s543.get("rows_decided_by_the_statement_anchor", 0),
+                _s543.get("rows_that_stay_ambiguous_inside_the_published_statement", 0),
+                _s543.get("rows_the_statement_anchor_would_refuse_to_empty", 0),
+                _s543.get("rows_with_a_survivor_that_carries_no_statement_line", 0),
+                _s543.get("rows_where_the_statement_anchor_agrees_with_e540", 0),
+                _s543.get("decided_rows_compared_with_e540", 0)))
+except Exception as _e543x:
+    _bad543.append(repr(_e543x)[:160])
+    _d543 = "study could not be read"
+check(_name543, not _bad543, "; ".join(_bad543)[:240] or _d543)
 
 if __name__ == "__main__":
     sys.exit(main())

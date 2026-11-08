@@ -29570,10 +29570,13 @@
    "lane_note": "static: the survivors and the published lines are already in the face; AST spans over the same files, no execution, no network, no rewrites",
    "priority": "normal",
    "source": "E542 (r1569 bm-b): on all 32 ambiguous rows the survivors differ in the innermost statement's own line, and the census's published line lands on one of those statement lines in the sampled rows -- so the published line may already be a free discriminator that E541 never used as an arm",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/statementanchor_latest.json",
    "title": "For the 32 rows E542 measured, take the published line as a statement anchor: keep only the survivors whose innermost statement's opening line equals the published line, and publish how many rows that single zero-cost rule decides, how many it leaves ambiguous, how many it would empty (refused), and whether the survivor it picks agrees with E540's nearest-to-published rule. The question is whether the ambiguity can be closed by a field the census already publishes rather than by new evidence.",
-   "worker_class": "self-contained"
+   "worker_class": "self-contained",
+   "done_at": "2026-11-08T13:44:00+08:00",
+   "done_by": "bm-b r1570",
+   "result": "32 rows / 73 survivors: reading the published line as a statement anchor decides only 6 rows (6 survivors kept, 67 ruled out), leaves 0 ambiguous, and would empty 26 rows (no survivor's innermost statement opens on the published line); on the 6 decided rows E540's nearest rule agrees 6 of 6. results/state_tilt/STATEMENTANCHOR-2026-11-08.json"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -29588,6 +29591,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T12:40:20+08:00",
+ "updated_at": "2026-11-08T13:44:00+08:00",
  "version": 1
 }

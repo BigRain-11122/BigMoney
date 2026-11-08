@@ -13387,3 +13387,27 @@ smoke 腿 `# E541`；digest `research/digests/DIGEST-20261108-r1568-e541-branch-
 **落点** = `scripts/e542_survivor_spans.py`（run/check/verify + selftest 18 髓）+ 
 `results/state_tilt/SURVIVORSPANS-2026-11-08.json` + `survivorspans_latest.json`；S6 腿 `survivor_spans`；
 smoke 腿 `# E542`；digest `research/digests/DIGEST-20261108-r1569-e542-survivor-spans.md`。
+
+### E543 — 已发布的那一行能不能自己消掉 E542 的歧义（2026-11-08·r1570 bm-b）
+
+**问题**：E542 实测 32 行模糊、幸存者全部落在不同语句里。于是冒出一个**零成本**问题：把 census
+已经发布的 \line\ 当作**语句锚**读（只留「最内层语句起始行 == 发布行」的幸存者），能定几行？
+
+**读数**：32 行 / 73 个幸存者 → **只定 6 行**（留 6 个幸存者、否决 67 个），**0 行仍是多候选**，
+**26 行会被清空（判 refused）**、0 行缺语句行。6 个定下来的行里，**E540 的最近行规则 6/6 选中同一个节点**。
+
+**结论**：发布行**不是**通用语句锚——26/32 行上，发布行连一个幸存者的最内层语句都不开（多数是
+缩进块里的行，而幸存者的最内层语句是块内那条 \Assign\，起始行是它自己那一行）。所以「用已发布字段
+免费消歧」这条路只对 6/32 成立，E542 的账**不能**靠这一条关掉，仍需新证据或另一条已发布字段。
+
+**方法论三则**：
+1. **空集不是判定**——26 行规则会清空候选；把它们判 refused 并计数，而不是当「零候选 = 已定」。
+   一条会清空的行必须作为「这条规则不适用」的证据，不能当作它的胜利。
+2. **块头行 ≠ 语句起始行**：AST 的「最内层语句」是块里的 \Assign\/\Expr\，不是包住它的 \if\/\or   节点行；凡「行号即语句锚」的判据先问自己锚的是哪一个 \st.stmt\（fixture 实证：发布行 = \if\ 行时
+   三个幸存者无一命中）。
+3. **一致率只在「判得动」的行上算**——6/6 一致不能读成「两规则等价」，分母是 6 不是 32；面里把
+   \decided_rows_compared_with_e540\ 与 ows\ 并列发布。
+
+**落点** = \scripts/e543_statement_anchor.py\（run/check/verify + selftest 28 髓）+
+esults/state_tilt/STATEMENTANCHOR-2026-11-08.json\ + \statementanchor_latest.json\；smoke 腿 \# E543\；
+digest esearch/digests/DIGEST-20261108-r1570-e543-statement-anchor.md\。

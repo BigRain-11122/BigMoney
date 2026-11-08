@@ -1,0 +1,1184 @@
+{
+ "card": "E543-WHICH-SURVIVORS-THE-PUBLISHED-LINE-ITSELF-SELECTS-WHEN-IT-IS-READ-AS-A-STATEMENT-ANCHOR",
+ "class_vocab": [
+  "the_published_statement_line_selects_exactly_one_survivor",
+  "more_than_one_survivor_sits_in_the_statement_the_published_line_opens",
+  "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+  "a_survivor_carries_no_statement_line_to_anchor_on"
+ ],
+ "evidence_cutoff": "2026-11-08",
+ "generated": "2026-11-08T13:31:57+08:00",
+ "method_limits": [
+  "the population is E542's rows only; if E541 left the wrong surviving set, this rule selects from the wrong set and cannot tell",
+  "one kept survivor is called decided, but the rule says nothing about whether that survivor is the node the census meant -- it only says the published line stops being ambiguous",
+  "a row the rule would empty is published as refused rather than applied: silently dropping every survivor would delete the ambiguity instead of resolving it",
+  "E540's rule is recomputed through E541's implementation on the survivors of the row rather than re-implemented here, so agreement means what E541 would say, not what a reimplementation might",
+  "agreement compares the candidate's line and column; E540 publishes the located span, so two different nodes cannot be distinguished beyond that pair",
+  "statement_line is E542's AST reading at the face's cutoff; a file edited since then shifts the statement and the row is published with an unresolved context rather than silently re-located",
+  "a row whose survivor list is empty is classed as refused: there is nothing to anchor on, and this study does not manufacture a decision out of an empty set",
+  "the rule uses one row-level field the census already publishes; it is not evidence that the census always publishes a line that opens a statement"
+ ],
+ "pick_source_vocab": [
+  "the_file_was_read_so_e540_s_rule_has_an_opinion",
+  "the_file_could_not_be_read_so_e540_s_rule_has_no_opinion",
+  "the_row_carries_no_survivors_for_e540_s_rule_to_choose_between"
+ ],
+ "population_source": "e543_statement_anchor.py::ambiguous_sites() -- every row of E542's face, recomputed by running E542's own build over the faces on disk",
+ "question": "for the rows E542 measured as ambiguous, does reading the already-published line as a statement anchor -- keep only the survivors whose innermost statement opens on that line -- decide the row, leave it ambiguous, or refuse to empty it, and does the survivor it picks agree with E540's nearest-to-published rule?",
+ "rule": "keep the survivors whose innermost statement's opening line equals the row's published line; one kept survivor = decided, two or more = ambiguous, none = refused (the rule would empty the row)",
+ "sites": [
+  {
+   "agrees_with_e540": true,
+   "class": "the_published_statement_line_selects_exactly_one_survivor",
+   "e540_pick": {
+    "col": 16,
+    "function": "<module>",
+    "line": 115
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "'docs/live_usage/LIVE-latest.json'",
+   "file": "results/_r793bmb_rebase_resolve.py",
+   "published_line": 115,
+   "published_line_opens_a_statement_a_survivor_sits_in": true,
+   "selected_count": 1,
+   "site": "results/_r793bmb_rebase_resolve.py:115",
+   "survivor_count": 3,
+   "survivors_in_the_published_statement": [
+    {
+     "col": 16,
+     "line": 115,
+     "statement_kind": "Expr",
+     "statement_line": 115
+    }
+   ],
+   "survivors_ruled_out": [
+    {
+     "col": 10,
+     "line": 101,
+     "statement_kind": "For",
+     "statement_line": 100
+    },
+    {
+     "col": 10,
+     "line": 111,
+     "statement_kind": "For",
+     "statement_line": 110
+    }
+   ],
+   "tier": "scratch_or_estate"
+  },
+  {
+   "agrees_with_e540": true,
+   "class": "the_published_statement_line_selects_exactly_one_survivor",
+   "e540_pick": {
+    "col": 16,
+    "function": "<module>",
+    "line": 114
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "'docs/live_usage/LIVE-latest.json'",
+   "file": "results/_r795bmb_rebase_resolve.py",
+   "published_line": 114,
+   "published_line_opens_a_statement_a_survivor_sits_in": true,
+   "selected_count": 1,
+   "site": "results/_r795bmb_rebase_resolve.py:114",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [
+    {
+     "col": 16,
+     "line": 114,
+     "statement_kind": "Expr",
+     "statement_line": 114
+    }
+   ],
+   "survivors_ruled_out": [
+    {
+     "col": 10,
+     "line": 110,
+     "statement_kind": "For",
+     "statement_line": 109
+    }
+   ],
+   "tier": "scratch_or_estate"
+  },
+  {
+   "agrees_with_e540": true,
+   "class": "the_published_statement_line_selects_exactly_one_survivor",
+   "e540_pick": {
+    "col": 18,
+    "function": "build",
+    "line": 257
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join(OUTDIR, 'fieldbranch_latest.json')",
+   "file": "scripts/e371_store_member_cost.py",
+   "published_line": 257,
+   "published_line_opens_a_statement_a_survivor_sits_in": true,
+   "selected_count": 1,
+   "site": "scripts/e371_store_member_cost.py:257",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [
+    {
+     "col": 18,
+     "line": 257,
+     "statement_kind": "With",
+     "statement_line": 257
+    }
+   ],
+   "survivors_ruled_out": [
+    {
+     "col": 22,
+     "line": 256,
+     "statement_kind": "If",
+     "statement_line": 256
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "agrees_with_e540": true,
+   "class": "the_published_statement_line_selects_exactly_one_survivor",
+   "e540_pick": {
+    "col": 17,
+    "function": "cmd_run",
+    "line": 306
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join(OUT_DIR, 'pack_latest.json')",
+   "file": "scripts/o2115_acceptance_pack.py",
+   "published_line": 306,
+   "published_line_opens_a_statement_a_survivor_sits_in": true,
+   "selected_count": 1,
+   "site": "scripts/o2115_acceptance_pack.py:306",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [
+    {
+     "col": 17,
+     "line": 306,
+     "statement_kind": "With",
+     "statement_line": 306
+    }
+   ],
+   "survivors_ruled_out": [
+    {
+     "col": 48,
+     "line": 314,
+     "statement_kind": "Expr",
+     "statement_line": 312
+    }
+   ],
+   "tier": "live_tooling"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 29,
+    "function": "main",
+    "line": 711
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "'results/etf_book_order/latest.json'",
+   "file": "smoke_test.py",
+   "published_line": 699,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:699",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 29,
+     "line": 711,
+     "statement_kind": "Assign",
+     "statement_line": 711
+    },
+    {
+     "col": 29,
+     "line": 1623,
+     "statement_kind": "Assign",
+     "statement_line": 1623
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 30,
+    "function": "main",
+    "line": 712
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "'docs/live_book/latest.json'",
+   "file": "smoke_test.py",
+   "published_line": 700,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:700",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 30,
+     "line": 712,
+     "statement_kind": "Assign",
+     "statement_line": 712
+    },
+    {
+     "col": 30,
+     "line": 1624,
+     "statement_kind": "Assign",
+     "statement_line": 1624
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 30,
+    "function": "main",
+    "line": 712
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "'docs/live_book/latest.json'",
+   "file": "smoke_test.py",
+   "published_line": 701,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:701",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 30,
+     "line": 712,
+     "statement_kind": "Assign",
+     "statement_line": 712
+    },
+    {
+     "col": 30,
+     "line": 1624,
+     "statement_kind": "Assign",
+     "statement_line": 1624
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 29,
+    "function": "main",
+    "line": 1623
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "'results/etf_book_order/latest.json'",
+   "file": "smoke_test.py",
+   "published_line": 1606,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:1606",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 29,
+     "line": 711,
+     "statement_kind": "Assign",
+     "statement_line": 711
+    },
+    {
+     "col": 29,
+     "line": 1623,
+     "statement_kind": "Assign",
+     "statement_line": 1623
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 30,
+    "function": "main",
+    "line": 1624
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "'docs/live_book/latest.json'",
+   "file": "smoke_test.py",
+   "published_line": 1607,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:1607",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 30,
+     "line": 712,
+     "statement_kind": "Assign",
+     "statement_line": 712
+    },
+    {
+     "col": 30,
+     "line": 1624,
+     "statement_kind": "Assign",
+     "statement_line": 1624
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 30,
+    "function": "main",
+    "line": 1624
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "'docs/live_book/latest.json'",
+   "file": "smoke_test.py",
+   "published_line": 1608,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:1608",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 30,
+     "line": 712,
+     "statement_kind": "Assign",
+     "statement_line": 712
+    },
+    {
+     "col": 30,
+     "line": 1624,
+     "statement_kind": "Assign",
+     "statement_line": 1624
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 18,
+    "function": "main",
+    "line": 2635
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "'results/state_tilt/hysteresis_latest.json'",
+   "file": "smoke_test.py",
+   "published_line": 2622,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:2622",
+   "survivor_count": 3,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 18,
+     "line": 2635,
+     "statement_kind": "Assign",
+     "statement_line": 2635
+    },
+    {
+     "col": 30,
+     "line": 2785,
+     "statement_kind": "If",
+     "statement_line": 2785
+    },
+    {
+     "col": 26,
+     "line": 2786,
+     "statement_kind": "With",
+     "statement_line": 2786
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 30,
+    "function": "main",
+    "line": 2785
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "'results/state_tilt/hysteresis_latest.json'",
+   "file": "smoke_test.py",
+   "published_line": 2769,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:2769",
+   "survivor_count": 3,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 18,
+     "line": 2635,
+     "statement_kind": "Assign",
+     "statement_line": 2635
+    },
+    {
+     "col": 30,
+     "line": 2785,
+     "statement_kind": "If",
+     "statement_line": 2785
+    },
+    {
+     "col": 26,
+     "line": 2786,
+     "statement_kind": "With",
+     "statement_line": 2786
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 15,
+    "function": "main",
+    "line": 3897
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'bookecho_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 3883,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:3883",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 15,
+     "line": 3897,
+     "statement_kind": "Assign",
+     "statement_line": 3897
+    },
+    {
+     "col": 25,
+     "line": 4011,
+     "statement_kind": "Assign",
+     "statement_line": 4011
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 15,
+    "function": "main",
+    "line": 3963
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'starown_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 3949,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:3949",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 15,
+     "line": 3963,
+     "statement_kind": "Assign",
+     "statement_line": 3963
+    },
+    {
+     "col": 30,
+     "line": 4111,
+     "statement_kind": "Assign",
+     "statement_line": 4110
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 25,
+    "function": "main",
+    "line": 4011
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'bookecho_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 3996,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:3996",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 15,
+     "line": 3897,
+     "statement_kind": "Assign",
+     "statement_line": 3897
+    },
+    {
+     "col": 25,
+     "line": 4011,
+     "statement_kind": "Assign",
+     "statement_line": 4011
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 15,
+    "function": "main",
+    "line": 5082
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'bandtransfer_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 5070,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:5070",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 15,
+     "line": 5082,
+     "statement_kind": "Assign",
+     "statement_line": 5082
+    },
+    {
+     "col": 21,
+     "line": 5685,
+     "statement_kind": "Assign",
+     "statement_line": 5685
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 15,
+    "function": "main",
+    "line": 5317
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'bandscreen_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 5305,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:5305",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 15,
+     "line": 5317,
+     "statement_kind": "Assign",
+     "statement_line": 5317
+    },
+    {
+     "col": 28,
+     "line": 5442,
+     "statement_kind": "Assign",
+     "statement_line": 5442
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 28,
+    "function": "main",
+    "line": 5442
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'bandscreen_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 5427,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:5427",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 15,
+     "line": 5317,
+     "statement_kind": "Assign",
+     "statement_line": 5317
+    },
+    {
+     "col": 28,
+     "line": 5442,
+     "statement_kind": "Assign",
+     "statement_line": 5442
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 21,
+    "function": "main",
+    "line": 5685
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'bandtransfer_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 5670,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:5670",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 15,
+     "line": 5082,
+     "statement_kind": "Assign",
+     "statement_line": 5082
+    },
+    {
+     "col": 21,
+     "line": 5685,
+     "statement_kind": "Assign",
+     "statement_line": 5685
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 16,
+    "function": "main",
+    "line": 9200
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 9186,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:9186",
+   "survivor_count": 3,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 16,
+     "line": 9200,
+     "statement_kind": "Assign",
+     "statement_line": 9200
+    },
+    {
+     "col": 20,
+     "line": 9293,
+     "statement_kind": "Assign",
+     "statement_line": 9293
+    },
+    {
+     "col": 20,
+     "line": 9365,
+     "statement_kind": "Assign",
+     "statement_line": 9365
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 20,
+    "function": "main",
+    "line": 9293
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 9278,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:9278",
+   "survivor_count": 3,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 16,
+     "line": 9200,
+     "statement_kind": "Assign",
+     "statement_line": 9200
+    },
+    {
+     "col": 20,
+     "line": 9293,
+     "statement_kind": "Assign",
+     "statement_line": 9293
+    },
+    {
+     "col": 20,
+     "line": 9365,
+     "statement_kind": "Assign",
+     "statement_line": 9365
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 16,
+    "function": "main",
+    "line": 9323
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'reachwide_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 9307,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:9307",
+   "survivor_count": 3,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 16,
+     "line": 9323,
+     "statement_kind": "Assign",
+     "statement_line": 9323
+    },
+    {
+     "col": 20,
+     "line": 9422,
+     "statement_kind": "Assign",
+     "statement_line": 9422
+    },
+    {
+     "col": 36,
+     "line": 9494,
+     "statement_kind": "Assign",
+     "statement_line": 9494
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 20,
+    "function": "main",
+    "line": 9365
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'quantityname_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 9350,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:9350",
+   "survivor_count": 3,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 16,
+     "line": 9200,
+     "statement_kind": "Assign",
+     "statement_line": 9200
+    },
+    {
+     "col": 20,
+     "line": 9293,
+     "statement_kind": "Assign",
+     "statement_line": 9293
+    },
+    {
+     "col": 20,
+     "line": 9365,
+     "statement_kind": "Assign",
+     "statement_line": 9365
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 20,
+    "function": "main",
+    "line": 9422
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'reachwide_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 9407,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:9407",
+   "survivor_count": 3,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 16,
+     "line": 9323,
+     "statement_kind": "Assign",
+     "statement_line": 9323
+    },
+    {
+     "col": 20,
+     "line": 9422,
+     "statement_kind": "Assign",
+     "statement_line": 9422
+    },
+    {
+     "col": 36,
+     "line": 9494,
+     "statement_kind": "Assign",
+     "statement_line": 9494
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 36,
+    "function": "main",
+    "line": 9494
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'reachwide_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 9477,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:9477",
+   "survivor_count": 3,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 16,
+     "line": 9323,
+     "statement_kind": "Assign",
+     "statement_line": 9323
+    },
+    {
+     "col": 20,
+     "line": 9422,
+     "statement_kind": "Assign",
+     "statement_line": 9422
+    },
+    {
+     "col": 36,
+     "line": 9494,
+     "statement_kind": "Assign",
+     "statement_line": 9494
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 16,
+    "function": "_r39",
+    "line": 12464
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'publishpin_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 12448,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:12448",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 16,
+     "line": 12464,
+     "statement_kind": "Assign",
+     "statement_line": 12464
+    },
+    {
+     "col": 41,
+     "line": 12572,
+     "statement_kind": "Assign",
+     "statement_line": 12572
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 27,
+    "function": "<module>",
+    "line": 15887
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'faceage_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 15853,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:15853",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 27,
+     "line": 15887,
+     "statement_kind": "Assign",
+     "statement_line": 15887
+    },
+    {
+     "col": 31,
+     "line": 15944,
+     "statement_kind": "Assign",
+     "statement_line": 15944
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 27,
+    "function": "<module>",
+    "line": 15887
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join('results', 'state_tilt', 'faceage_latest.json')",
+   "file": "smoke_test.py",
+   "published_line": 15902,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "smoke_test.py:15902",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 27,
+     "line": 15887,
+     "statement_kind": "Assign",
+     "statement_line": 15887
+    },
+    {
+     "col": 31,
+     "line": 15944,
+     "statement_kind": "Assign",
+     "statement_line": 15944
+    }
+   ],
+   "tier": "smoke_harness"
+  },
+  {
+   "agrees_with_e540": true,
+   "class": "the_published_statement_line_selects_exactly_one_survivor",
+   "e540_pick": {
+    "col": 18,
+    "function": "selftest",
+    "line": 1384
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join(cdt, 'latest.json')",
+   "file": "scripts/etf_book_order.py",
+   "published_line": 1384,
+   "published_line_opens_a_statement_a_survivor_sits_in": true,
+   "selected_count": 1,
+   "site": "scripts/etf_book_order.py:1384",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [
+    {
+     "col": 18,
+     "line": 1384,
+     "statement_kind": "With",
+     "statement_line": 1384
+    }
+   ],
+   "survivors_ruled_out": [
+    {
+     "col": 18,
+     "line": 1428,
+     "statement_kind": "With",
+     "statement_line": 1428
+    }
+   ],
+   "tier": null
+  },
+  {
+   "agrees_with_e540": true,
+   "class": "the_published_statement_line_selects_exactly_one_survivor",
+   "e540_pick": {
+    "col": 18,
+    "function": "selftest",
+    "line": 1428
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join(cdt, 'latest.json')",
+   "file": "scripts/etf_book_order.py",
+   "published_line": 1428,
+   "published_line_opens_a_statement_a_survivor_sits_in": true,
+   "selected_count": 1,
+   "site": "scripts/etf_book_order.py:1428",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [
+    {
+     "col": 18,
+     "line": 1428,
+     "statement_kind": "With",
+     "statement_line": 1428
+    }
+   ],
+   "survivors_ruled_out": [
+    {
+     "col": 18,
+     "line": 1384,
+     "statement_kind": "With",
+     "statement_line": 1384
+    }
+   ],
+   "tier": null
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 13,
+    "function": "cmd_probe_r2",
+    "line": 784
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join(PATHS.results_dir, '_n3r2_probe_latest.json')",
+   "file": "scripts/perpetual_faces_n3.py",
+   "published_line": 785,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "scripts/perpetual_faces_n3.py:785",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 9,
+     "line": 843,
+     "statement_kind": "Assign",
+     "statement_line": 843
+    },
+    {
+     "col": 13,
+     "line": 784,
+     "statement_kind": "Assign",
+     "statement_line": 784
+    }
+   ],
+   "tier": null
+  },
+  {
+   "agrees_with_e540": null,
+   "class": "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse",
+   "e540_pick": {
+    "col": 9,
+    "function": "cmd_probe_r2",
+    "line": 843
+   },
+   "e540_pick_source": "the_file_was_read_so_e540_s_rule_has_an_opinion",
+   "expr": "os.path.join(PATHS.results_dir, '_n3r2_probe_latest.json')",
+   "file": "scripts/perpetual_faces_n3.py",
+   "published_line": 844,
+   "published_line_opens_a_statement_a_survivor_sits_in": false,
+   "selected_count": 0,
+   "site": "scripts/perpetual_faces_n3.py:844",
+   "survivor_count": 2,
+   "survivors_in_the_published_statement": [],
+   "survivors_ruled_out": [
+    {
+     "col": 9,
+     "line": 843,
+     "statement_kind": "Assign",
+     "statement_line": 843
+    },
+    {
+     "col": 13,
+     "line": 784,
+     "statement_kind": "Assign",
+     "statement_line": 784
+    }
+   ],
+   "tier": null
+  }
+ ],
+ "study": "E543_statement_anchor",
+ "summary": {
+  "agreement_share_among_decided_rows": 1.0,
+  "class": {
+   "a_survivor_carries_no_statement_line_to_anchor_on": 0,
+   "more_than_one_survivor_sits_in_the_statement_the_published_line_opens": 0,
+   "no_survivor_sits_in_the_statement_the_published_line_opens_so_the_rule_would_refuse": 26,
+   "the_published_statement_line_selects_exactly_one_survivor": 6
+  },
+  "classes_sum_to_the_rows": true,
+  "decided_ambiguous_refused_and_unresolved_sum_to_the_rows": true,
+  "decided_rows_compared_with_e540": 6,
+  "decided_share": 0.1875,
+  "rows": 32,
+  "rows_decided_by_the_statement_anchor": 6,
+  "rows_that_stay_ambiguous_inside_the_published_statement": 0,
+  "rows_the_statement_anchor_would_refuse_to_empty": 26,
+  "rows_where_e540_has_no_opinion": 0,
+  "rows_where_the_statement_anchor_agrees_with_e540": 6,
+  "rows_where_the_statement_anchor_disagrees_with_e540": 0,
+  "rows_whose_published_line_opens_a_statement_a_survivor_sits_in": 6,
+  "rows_with_a_survivor_that_carries_no_statement_line": 0,
+  "ruled_out_survivors_overall": 67,
+  "selected_survivors_overall": 6,
+  "survivors_accounted_for": true,
+  "survivors_overall": 73
+ },
+ "upstream_face": "caller-supplied rows",
+ "upstream_sha256": "35dcec87f0f705c1ad07822b12fefd40ea026b7c4da93de06eb9c2caee674379",
+ "verdict": "reading_the_published_line_as_a_statement_anchor_would_empty_most_ambiguous_rows_because_no_survivor_sits_in_it",
+ "verdict_vocab": [
+  "the_published_line_is_already_a_statement_anchor_that_decides_most_ambiguous_rows_at_no_cost",
+  "the_published_line_leaves_most_ambiguous_rows_ambiguous_because_several_survivors_open_in_the_same_statement",
+  "reading_the_published_line_as_a_statement_anchor_would_empty_most_ambiguous_rows_because_no_survivor_sits_in_it",
+  "the_ambiguous_rows_split_between_decided_ambiguity_kept_and_rows_the_rule_would_empty",
+  "the_upstream_face_published_no_ambiguous_rows"
+ ]
+}
