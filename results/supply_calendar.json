@@ -202,7 +202,7 @@
  ],
  "elected_ruler": "years_for_half",
  "election_error": "",
- "generated": "2026-11-08T16:08:19+0800",
+ "generated": "2026-11-08T17:20:27+0800",
  "n_admitted": 0,
  "n_candidates": 4,
  "n_refused": 4,
@@ -231,5 +231,76 @@
   "uncertified": []
  },
  "tool": "supply_calendar_face",
- "verdict": "NO_CANDIDATE_PASSES_CALENDAR"
+ "verdict": "NO_CANDIDATE_PASSES_CALENDAR",
+ "window_sensitivity": {
+  "arm": "plain",
+  "evidence_cutoff": "2026-11-06",
+  "reading": "fails_where_it_can_be_judged",
+  "receipt": "results/etf_book_window_sensitivity.json",
+  "ruler": "years_for_half",
+  "sentence": "window: years_for_half median 2/3 vs line 3, 3 fail/2 undecidable/0 pass over 5 starts -> a wider window changes nothing where it can be judged (widest start 2013-01-01 cagr 8.060% maxdd -16.850%; plain arm only, exploratory -- decides nothing)",
+  "windows": [
+   {
+    "cagr_pct": 8.06,
+    "line": 3,
+    "margin": 0.0,
+    "maxdd_pct": -16.85,
+    "median": 3.0,
+    "sharpe": 0.85,
+    "spread": 1.0,
+    "start": "2013-01-01",
+    "state": "UNADJUDICABLE_CALIBER",
+    "years": 14.0
+   },
+   {
+    "cagr_pct": 8.31,
+    "line": 3,
+    "margin": 1.0,
+    "maxdd_pct": -16.06,
+    "median": 2.0,
+    "sharpe": 0.871,
+    "spread": 1.0,
+    "start": "2015-01-01",
+    "state": "UNADJUDICABLE_CALIBER",
+    "years": 12.0
+   },
+   {
+    "cagr_pct": 8.1,
+    "line": 3,
+    "margin": 1.0,
+    "maxdd_pct": -15.87,
+    "median": 2.0,
+    "sharpe": 0.845,
+    "spread": 1.0,
+    "start": "2017-01-01",
+    "state": "FAIL",
+    "years": 10.0
+   },
+   {
+    "cagr_pct": 9.7,
+    "line": 3,
+    "margin": 1.0,
+    "maxdd_pct": -12.56,
+    "median": 2.0,
+    "sharpe": 1.0,
+    "spread": 0.0,
+    "start": "2019-01-01",
+    "state": "FAIL",
+    "years": 8.0
+   },
+   {
+    "cagr_pct": 8.53,
+    "line": 3,
+    "margin": 1.0,
+    "maxdd_pct": -12.99,
+    "median": 2.0,
+    "sharpe": 0.886,
+    "spread": 1.0,
+    "start": "2020-01-01",
+    "state": "FAIL",
+    "years": 7.0
+   }
+  ]
+ },
+ "window_sensitivity_error": ""
 }

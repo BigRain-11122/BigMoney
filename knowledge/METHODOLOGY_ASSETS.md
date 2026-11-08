@@ -10662,3 +10662,37 @@ r1431 把「拒绝的理由」换成了当选的尺子（years_for_half），并
 
 正身 = scripts/etf_book_window_sensitivity.py（selftest 9/9）+ results/etf_book_window_sensitivity.json
 （evidence_cutoff 2026-11-06）+ research/digests/DIGEST-20261108-r1433-window-sensitivity.md
+## E440 — 探针的读数如果不进操作员的眼睛，它就没发生过（r1434 bm-c）
+
+r1433 量出了「窗挪了，那句『2 年』不动」，然后按纪律**故意不动生产判据**（探索件无预注册无判决）。
+结果桌面出现一个纯粹的信息盲区：操作员在阶梯板上读到
+`nobond_vt08_adopted refused at years_for_half median 2 vs line 3`，
+而这句读数的**唯一逃逸可能性**（是不是窗的问题）藏在另一个 results 文件里，没人会去开它。
+
+做法＝只印不改：`supply_calendar_face` 新增 `window_sensitivity` 块，从 r1433 收据读五个窗的
+读数，**尺子名不写死**（用 `elected_ruler()` 的选举结果查每个窗的 adjudication 块；查不到就印
+`ruler_not_on_record`，禁猜），句子里带三个数：中位集合/失败-不可判-通过计数/最宽窗的年化与回撤，
+并原样注明「plain arm only, exploratory — decides nothing」。`Tools/fill_ladder.py` 的阶梯板
+把同一句接在后面（读者真正看的是那块板）。判决词零变化：4 拒→4 拒。
+
+三条可复用：
+
+① **探索件的产出也有交付义务**。它不判决、不入账本，但它的读数一旦能解释桌面上的红字，就必须
+印在红字旁边——否则「我量过了」只对量的人成立。判据：一个探索读数如果回答的是操作员面对
+当前红灯时的下一个疑问，它就该出现在那个红灯的同一行。
+
+② **「谁来决定用哪把尺子」在印数这一层同样成立**。窗收据里四把尺子都有裁定块（yfh/effective_years/
+net_top2/gross_top2），手写 `years_for_half` 就是把 r1429 的选举结果抄成常量；正解是
+`window_sensitivity(elected, ...)`，null 选举＝不印句子（不是印一个默认名的句子）。
+
+③ **`--check` 必须能重算这句话**：`check_published` 现在整块重 derive `window_sensitivity`
+并逐键比对，手改发布面即红；selftest 新增 10 条腿（49/49，含「无选举→无句子」「收据缺席→
+印 absent 不印猜测」「窗口注记不可能把拒变成过」）。`fill_ladder.selftest` 加两条：有注记必须
+出现在板面、无注记不得出现 `window:`。
+
+坑：`build(root=tmp)` 的 selftest 夹具把窗收据**放在被测根下**才生效——先写夹具再跑早先的腿
+会让历史断言悄悄换输入，所以夹具放在本批腿的第一行写、之前的腿跑在无收据态（那正是发布面
+此前的样子）。
+
+正身 = scripts/supply_calendar_face.py（selftest 39→49/49 · --check OK）+ Tools/fill_ladder.py
+（selftest PASS·explain 印出整句）+ results/supply_calendar.json/md

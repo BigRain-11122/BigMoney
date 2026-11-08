@@ -83,6 +83,119 @@ def elected_ruler():
         return None, "election unreadable: %s" % exc
 
 
+WINDOW_RECEIPT = "results/etf_book_window_sensitivity.json"
+
+WINDOW_WORDS = {
+    "does_not_heal": "a wider window does not heal it",
+    "heals": "a wider window heals it",
+    "heals_where_it_can_be_judged": "a wider window heals every start it can be judged at",
+    "fails_where_it_can_be_judged": "a wider window changes nothing where it can be judged",
+    "partly_heals": "a wider window heals some starts and not others",
+    "undecidable": "even a wider window cannot be judged",
+    "ruler_not_on_record": "the window receipt has no reading for this ruler",
+}
+
+
+
+
+def classify_windows(windows):
+    """Word for 'does the refusal number move when the window start moves'.
+
+    Derived from the per-start states only -- a caller cannot declare a verdict."""
+    fail = sum(1 for w in windows if w.get("state") == "FAIL")
+    und = sum(1 for w in windows if "UNADJUDICABLE" in str(w.get("state") or ""))
+    ok = len(windows) - fail - und
+    if not any(w.get("state") for w in windows):
+        return "ruler_not_on_record"
+    if fail == len(windows):
+        return "does_not_heal"
+    if ok == len(windows):
+        return "heals"
+    if ok and not fail:
+        return "heals_where_it_can_be_judged"
+    if fail and not ok:
+        return "fails_where_it_can_be_judged"
+    if ok and fail:
+        return "partly_heals"
+    return "undecidable"
+
+
+def window_sentence(block):
+    """The one line an operator reads next to the refusal. Pure given the block."""
+    ws = block.get("windows") or []
+    if not ws:
+        return ""
+    word = block.get("reading") or classify_windows(ws)
+    medians = sorted({w.get("median") for w in ws if w.get("median") is not None})
+    line = next((w.get("line") for w in ws if w.get("line") is not None), None)
+    fail = sum(1 for w in ws if w.get("state") == "FAIL")
+    und = sum(1 for w in ws if "UNADJUDICABLE" in str(w.get("state") or ""))
+    ok = len(ws) - fail - und
+    sentence = ("window: %s median %s vs line %s, %d fail/%d undecidable/%d pass "
+                "over %d starts -> %s" % (
+                    block.get("ruler"), "/".join(_fmt(m) for m in medians) or "?",
+                    _fmt(line), fail, und, ok, len(ws),
+                    WINDOW_WORDS.get(word, word)))
+    dated = [w for w in ws if w.get("start")]
+    widest = min(dated, key=lambda w: w["start"]) if dated else None
+    if widest is not None and widest.get("cagr_pct") is not None:
+        sentence += (" (widest start %s cagr %s%% maxdd %s%%; plain arm only, "
+                     "exploratory -- decides nothing)" % (
+                         widest["start"], _fmt(widest.get("cagr_pct")),
+                         _fmt(widest.get("maxdd_pct"))))
+    return sentence
+
+
+def window_sensitivity(elected, root=ROOT, path=None):
+    """Is the refusal number a property of the book, or of where the window starts?
+
+    r1433 re-priced the published plain arm at five window starts through the
+    frozen phase set; that receipt decides nothing (exploratory: no prereg, no
+    verdict, no ledger), so this face carries it as a NOTE and never as a pass.
+    The caliber is the one the desk ELECTED -- imported name, never retyped here;
+    when the receipt has no reading for it the block says so instead of guessing.
+
+    Returns (block_or_None, error)."""
+    if not elected:
+        # no elected ruler = nobody to nominate a caliber = no window sentence.
+        # Printing one under a default name would be the "picked to pass" error
+        # r1429 forbids, in the other direction.
+        return None, "no elected ruler"
+    p = path or os.path.join(root, WINDOW_RECEIPT)
+    obj, err = _load(p)
+    if obj is None:
+        return None, err
+    windows = []
+    for w in obj.get("windows") or []:
+        adj = (w.get("adjudication") or {}).get(elected) if elected else None
+        if not isinstance(adj, dict):
+            adj = {}
+        windows.append({
+            "start": w.get("start"),
+            "years": w.get("median_years"),
+            "state": adj.get("state"),
+            "median": adj.get("median"),
+            "spread": adj.get("spread"),
+            "margin": adj.get("margin"),
+            "line": adj.get("line"),
+            "cagr_pct": w.get("median_cagr_pct"),
+            "sharpe": w.get("median_sharpe"),
+            "maxdd_pct": w.get("median_maxdd_pct"),
+        })
+    if not windows:
+        return None, "no window rows"
+    block = {
+        "receipt": _rel(p, root),
+        "evidence_cutoff": obj.get("evidence_cutoff"),
+        "arm": (obj.get("arm") or {}).get("label"),
+        "ruler": elected,
+        "windows": windows,
+    }
+    block["reading"] = classify_windows(windows)
+    block["sentence"] = window_sentence(block)
+    return block, ""
+
+
 def _rel(path, root):
     """Repo-relative label, safe across drives (a temp fixture on C: under a
     repo on K: makes os.path.relpath raise -- r1371 family)."""
@@ -332,6 +445,12 @@ def build(receipts=None, root=None, elected=_AUTO):
             by_name[r["candidate"]] = r
             rows.append(r)
     verdict = verdict_of(rows, unreadable)
+    # r1434: the operator who reads "refused at <ruler> median 2" is owed the
+    # answer to "and is that 2 the book, or the window?" -- carried as a note
+    # only; both the block and its sentence are re-derived from the exploratory
+    # receipt under the ELECTED ruler, and a missing receipt prints nothing
+    # rather than a guess (r98: unknown is not empty).
+    window, window_err = window_sensitivity(elected, root)
     # The refusal reason is printed with the ruler r1431 adopted, not with the
     # one r1426 disqualified; the verdict words above are untouched (A2: a
     # reporting change may only ever refuse more, never fewer).
@@ -363,6 +482,8 @@ def build(receipts=None, root=None, elected=_AUTO):
         "election_error": election_err,
         "elected_reasons": sentences,
         "elected_notes": notes,
+        "window_sensitivity": window,
+        "window_sensitivity_error": window_err,
         "verdict": verdict,
         "reading": READING[verdict],
     }
@@ -426,6 +547,8 @@ def summary_line(face):
                      % ", ".join(rs["no_phase_set"]))
         if face.get("elected_reasons"):
             line += " | reason: " + "; ".join(face["elected_reasons"])
+        if (face.get("window_sensitivity") or {}).get("sentence"):
+            line += " | " + face["window_sensitivity"]["sentence"]
         return line
     return face["reading"]
 
@@ -474,6 +597,27 @@ def write_md(face, path):
         lines += ["", "选举来自 `scripts/etf_book_admission_ruler_election.py`（fixtures 上选出"
                   "，不在本书上挑）；每本候选的读数抄自相位闸收据的 caliber 裁定块，本面不重算。"
                   "判决词不变：换的只是「拒的理由」，不是「拒」本身。"]
+    window = face.get("window_sensitivity")
+    lines += ["", "## 这个拒法换个大点的窗还在吗（r1433 探针 · 只印不改）", ""]
+    if not window:
+        lines.append("- 窗敏感性收据读不出：%s（不猜）"
+                     % (face.get("window_sensitivity_error") or "absent"))
+    else:
+        lines.append("- %s" % window["sentence"])
+        lines.append("")
+        lines.append("| 起点 | 尺子中位 | 状态 | 年数 | 年化% | 夏普 | 回撤% |")
+        lines.append("|---|---|---|---|---|---|---|")
+        for w in window["windows"]:
+            lines.append("| %s | %s | %s | %s | %s | %s | %s |" % (
+                w.get("start"), _fmt(w.get("median")), w.get("state") or "?",
+                _fmt(w.get("years")), _fmt(w.get("cagr_pct")),
+                _fmt(w.get("sharpe")), _fmt(w.get("maxdd_pct"))))
+        lines.append("")
+        lines.append("读数抄自 `%s`（arm=%s · cutoff %s），只重排不重算；这是**探索性**"
+                     "探针：无预注册、无判决、不入账本——它不安检任何人，只是让读者知道"
+                     "「2 年」这个数是不是换个窗就变。"
+                     % (window["receipt"], window.get("arm") or "?",
+                        window.get("evidence_cutoff") or "?"))
     lines += [
         "",
         "读法：只有字面 `ADMIT` 算过。CONDITIONAL / REFUSE / UNADJUDICABLE_PHASE "
@@ -724,6 +868,59 @@ def _selftest():
           build(receipts=[(pg_elected, "phase_gate")], root=tmp,
                 elected=None)["candidates"][0]["elected_reason"]["word"], "no_election")
 
+    # (10) r1434: is the refusal number a property of the book or of the window?
+    # The fixture is written only now, so the earlier legs really did build
+    # without a window receipt (that is what the published face looked like).
+    win_path = os.path.join(tmp, "results", "etf_book_window_sensitivity.json")
+    os.makedirs(os.path.dirname(win_path), exist_ok=True)
+    with io.open(win_path, "w", encoding="utf-8") as fw_:
+        json.dump({
+            "evidence_cutoff": "2026-11-06",
+            "arm": {"label": "plain"},
+            "windows": [
+                {"start": "2013-01-01", "median_years": 15, "median_cagr_pct": 8.06,
+                 "median_sharpe": 0.845, "median_maxdd_pct": -16.9,
+                 "adjudication": {"years_for_half": {
+                     "state": "UNADJUDICABLE_CALIBER", "median": 3.0,
+                     "spread": 1.0, "margin": 0.0, "line": 3}}},
+                {"start": "2019-01-01", "median_years": 8, "median_cagr_pct": 9.7,
+                 "median_sharpe": 1.0, "median_maxdd_pct": -12.56,
+                 "adjudication": {"years_for_half": {
+                     "state": "FAIL", "median": 2.0, "spread": 0.0,
+                     "margin": 1.0, "line": 3}}},
+            ]}, fw_, ensure_ascii=False)
+    fw1 = build(receipts=[(pg_elected, "phase_gate")], root=tmp,
+                elected="years_for_half")
+    win = fw1["window_sensitivity"] or {}
+    check("window block re-derived from the receipt", win.get("reading"),
+          "fails_where_it_can_be_judged")
+    check("window sentence counts exactly what it read",
+          "1 fail/1 undecidable/0 pass over 2 starts" in win.get("sentence", ""), True)
+    check("window sentence says it decides nothing",
+          "decides nothing" in win.get("sentence", ""), True)
+    check("window sentence prints the widest start it priced",
+          "(widest start 2013-01-01 cagr 8.060% maxdd -16.900" in win.get("sentence", ""),
+          True)
+    check("window note reaches the operator summary",
+          win["sentence"] in summary_line(fw1), True)
+    check("a window note can never turn a refusal into a pass",
+          fw1["verdict"], "NO_CANDIDATE_PASSES_CALENDAR")
+    check("a ruler with no window reading is named, not guessed",
+          build(receipts=[(pg_elected, "phase_gate")], root=tmp,
+                elected="effective_years")["window_sensitivity"]["reading"],
+          "ruler_not_on_record")
+    check("no elected ruler -> no window sentence at all",
+          build(receipts=[(pg_elected, "phase_gate")], root=tmp,
+                elected=None)["window_sensitivity"], None)
+    tmp2 = tempfile.mkdtemp(prefix="supplycal-nowin-")
+    nowin = build(receipts=[(yg, "year_gate")], root=tmp2,
+                  elected="years_for_half")
+    check("missing window receipt prints nothing and says why",
+          (nowin["window_sensitivity"], nowin["window_sensitivity_error"]),
+          (None, "absent"))
+    check("missing window receipt adds no clause to the summary",
+          "window:" in summary_line(nowin), False)
+
     print("selftest %d/%d PASS" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1
 
@@ -754,6 +951,13 @@ def check_published(path=None):
         if (r.get("elected_reason") or {}).get("word") == "refuse" and r.get("pass"):
             problems.append("%s: a refusal sentence on a passing candidate"
                             % r.get("candidate"))
+    want_win, win_err = window_sensitivity(d.get("elected_ruler"))
+    if (d.get("window_sensitivity") or None) != (want_win or None):
+        problems.append("window_sensitivity does not re-derive from the receipt "
+                        "(a hand-written window clause is red)")
+    if (d.get("window_sensitivity_error") or "") != (win_err or "") and want_win is None:
+        problems.append("window_sensitivity_error %r != %r"
+                        % (d.get("window_sensitivity_error"), win_err))
     if problems:
         print("supply_calendar_face: FAIL " + "; ".join(problems))
         return 1

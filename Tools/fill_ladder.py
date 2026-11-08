@@ -360,6 +360,12 @@ def _calendar_block():
             # ladder prints it so "no lawful supply" also says why.
             "elected_ruler": face.get("elected_ruler"),
             "elected_reasons": face.get("elected_reasons") or [],
+            # r1434: "refused at <ruler> median 2" is meaningless to an operator
+            # unless the board also says whether that 2 moves when the window
+            # moves. Carried as the face's own re-derived sentence; a face
+            # without one prints nothing (exploratory probe, decides nothing).
+            "window_sensitivity": (
+                (face.get("window_sensitivity") or {}).get("sentence") or ""),
         }
     except Exception as exc:  # unreadable is not empty
         return {"verdict": "UNKNOWN",
@@ -379,6 +385,8 @@ def _explain_line(face):
     if cal.get("elected_reasons"):
         line += " | reason (%s): %s" % (cal.get("elected_ruler") or "no election",
                                         "; ".join(cal["elected_reasons"]))
+    if cal.get("window_sensitivity"):
+        line += " | " + cal["window_sensitivity"]
     return line
 
 
@@ -703,6 +711,19 @@ def selftest():
                               "calendar": {"verdict": "NO_CANDIDATE_PASSES_CALENDAR",
                                            "n_candidates": 4, "n_refused": 4}})
         assert "spent 22" in line and "NO_CANDIDATE_PASSES_CALENDAR" in line, line
+        # r1434: the board must also answer "does that number move if the window
+        # moves" whenever the calendar face carries the exploratory window note --
+        # and must print nothing when it does not (an absent probe is not a pass).
+        line_w = _explain_line({"compatible_ready": 0, "floor": 3,
+                                "counts": {"catalog": 23, "spent": 22, "blocked": 1,
+                                           "lane_foreign": 0, "available": 0},
+                                "verdict": "EXHAUSTED_NO_LAWFUL_SUPPLY",
+                                "calendar": {
+                                    "verdict": "NO_CANDIDATE_PASSES_CALENDAR",
+                                    "n_candidates": 4, "n_refused": 4,
+                                    "window_sensitivity": "window: SENTINEL-READING"}})
+        assert "window: SENTINEL-READING" in line_w, line_w
+        assert "window:" not in line, line
         # r1422 calendar_admitted gate: the supply floor must never be offered a
         # book the desk already refused by its own calendar, and an UNJUDGED book
         # is not admitted either. Four legs, injected calendar (hermetic):
