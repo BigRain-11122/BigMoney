@@ -29919,14 +29919,18 @@
    "lane": "cpu-only",
    "lane_note": "static: the receipt's leg names against the LEGS table at its own join commit; no network, no rewrites",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E562 (r1588 bm-b): all 159 short receipts are written after the leg loop, so a kill cannot leave one; the remaining question is whether a short receipt is a prefix of its table (an ordered stop) or an arbitrary subset (--only)",
    "target": "results/state_tilt/receiptprefix_latest.json",
    "deliverable": "results/state_tilt/RECEIPTPREFIX-<cutoff>.json",
    "evidence_cutoff": "2026-11-08",
    "entered_at": "2026-11-08T21:45+08:00",
    "entered_by": "bm-b r1589 (supply floor refill after E548)",
-   "title": "E562 settled that a short receipt cannot be a killed chain, but not what shape of short it is. For every short receipt E561 joined to its own round's table, compare its leg names to that table's order: publish how many are an exact prefix, how many are a prefix with a gap, how many name legs the table does not contain, and how many are an arbitrary subset in table order. An exact prefix is the only shape an ordered stop could take, so this decides whether the remaining ambiguity is about filtering (--only) or about stopping, without needing a new field in the receipt."
+   "title": "E562 settled that a short receipt cannot be a killed chain, but not what shape of short it is. For every short receipt E561 joined to its own round's table, compare its leg names to that table's order: publish how many are an exact prefix, how many are a prefix with a gap, how many name legs the table does not contain, and how many are an arbitrary subset in table order. An exact prefix is the only shape an ordered stop could take, so this decides whether the remaining ambiguity is about filtering (--only) or about stopping, without needing a new field in the receipt.",
+   "completed_at": "2026-11-08T22:07:00+08:00",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-08T21:58:00+08:00",
+   "result_ref": "results/state_tilt/RECEIPTPREFIX-2026-11-08.json"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

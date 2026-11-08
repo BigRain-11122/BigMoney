@@ -13836,3 +13836,16 @@ E545 只在 E533 带过的四条 arm 上给两个新增项定价，闭了 1 条�
 **产物** = scripts/e548_extended_resolver.py（build/check/verify + selftest 13/13）·
 esults/state_tilt/EXTENDEDRESOLVER-2026-11-08.json + extendedresolver_latest.json·S6 腿 extended_resolver（0.05s rc=0）·smoke 腿 # E548 + 单跑器 scripts/run_e548_smoke_leg.py（含 --doctor）·digest 
 esearch/digests/DIGEST-20261108-r1589-e548-extended-resolver.md
+
+
+### E563 · 短回执是「表的前缀」还是「过滤出来的子集」——要落到顺序上再判（r1590 bm-b·2026-11-08）
+E561 说「停住的运行和 --only 运行在文件里完全一样」，E562 排除了「被杀」这一支（三个跑器都在 leg 循环之后才落盘），剩「过滤」。本轮把这句话放到**顺序**上量：159 份短回执，各取自己那一轮 Tools/s6_chain_bm<X>.py blob 的 LEGS 表顺序，把回执里每条腿名映射成表内下标后判类。
+**读数**：精确前缀（table[0..n-1]）**4** 份；前缀但中间跳一条 **10** 份；表内有序但起点不在第一条 **138** 份；换顺序 **0**；名字不在那一轮表里 **6** 份（其中 **4 个名字在今天的表里存在**=该回执出自比接合提交更新的 runner；8 个任何现表都没有）；重复腿 **0**；表/回执不可读 0/1。152/159（95.6%）完全按表序；**135 份单腿回执里 0 份跑的是表头第一条腿**。
+**结论**：138 份只有「过滤」能解释（没有有序停止会从第 4 条腿开始）；但「停住」没被彻底排除——4 份精确前缀在文件里仍与「表到那里为止」两义并存。E561 那句话应收窄为：绝大多数短回执是过滤，**极少数（4/159）形状仍两义**。
+**三条可复用教训**：①**「看起来一样」要落到顺序上再判**——只看行数与表长 159 份全两义，映射成表内下标后 138 份只剩一个解释：分类的力度取决于证据的解析度，不是样本量。②**接合键正确≠接合时点正确**——按轮号找到的 runner 可能比产出回执的那份旧（4 个名字只在今天的表里），凡「拿提交时的源码当证人」的研究必须发布「证人比产物新/旧」这一列。③**空集也要有自己的类**——「单腿 & 表头」=0 是本轮最有力的一条读数，零命中的格单独发布、不要并进别类。
+**边界**：纯静态，不执行 runner、不重写回执；每行只带腿名与表内下标（leg_names/leg_indices），闸不读 blob 即可重算类；今天表只用于给外来名做注解，属漂移面不进闸。
+**载体** = scripts/e563_receipt_prefix.py（build/check/verify + selftest 10 arms/159 rows）·
+esults/state_tilt/RECEIPTPREFIX-2026-11-08.json + 
+eceiptprefix_latest.json·S6 腿 
+eceipt_prefix（0.74s rc=0）·smoke 腿 # E563 + scripts/run_e563_smoke_leg.py（含 --doctor）·digest 
+esearch/digests/DIGEST-20261108-r1590-e563-receipt-prefix.md

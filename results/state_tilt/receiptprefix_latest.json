@@ -1,0 +1,4268 @@
+{
+ "card": "E563",
+ "control_arms": {
+  "a_filtered_head_is_its_own_class": {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "leg_indices": [
+    3,
+    4
+   ]
+  },
+  "a_gap_after_the_head_is_not_an_exact_prefix": {
+   "class": "a_prefix_that_skips_a_leg_in_the_middle",
+   "leg_indices": [
+    0,
+    2,
+    3
+   ]
+  },
+  "a_name_absent_from_the_table_is_foreign": {
+   "class": "at_least_one_leg_name_is_not_in_the_table",
+   "leg_indices": [
+    0,
+    null
+   ]
+  },
+  "a_repeated_leg_is_not_a_prefix": {
+   "class": "a_leg_is_named_twice_in_the_receipt",
+   "leg_indices": [
+    0,
+    0
+   ]
+  },
+  "an_empty_receipt_is_not_a_prefix": {
+   "class": "an_exact_prefix_of_the_table",
+   "leg_indices": []
+  },
+  "an_exact_prefix_is_recognised": {
+   "class": "an_exact_prefix_of_the_table",
+   "leg_indices": [
+    0,
+    1,
+    2
+   ]
+  },
+  "an_unreadable_receipt_is_its_own_class": {
+   "class": "the_receipt_names_could_not_be_read",
+   "leg_indices": null
+  },
+  "an_unreadable_table_is_its_own_class": {
+   "class": "the_table_of_its_own_round_could_not_be_read",
+   "leg_indices": null
+  },
+  "another_order_is_published_not_folded": {
+   "class": "the_same_legs_in_a_different_order",
+   "leg_indices": [
+    1,
+    0
+   ]
+  },
+  "idx_classifier_round_trips": {
+   "class": "a_prefix_that_skips_a_leg_in_the_middle",
+   "same_as_names": "a_prefix_that_skips_a_leg_in_the_middle"
+  }
+ },
+ "dept": "research+engineering",
+ "evidence_cutoff": "2026-11-08",
+ "machine": "bm-b",
+ "note": "static only: no runner is executed and no receipt is rewritten; each row carries the index of its leg names inside its own round's LEGS table, so the class can be recomputed from the published row (classify_idx) without any blob",
+ "population_source": {
+  "face": "results/state_tilt/RECEIPTTABLE-2026-11-08.json",
+  "note": "read as a vintage (E369): the receipt directory is live, so this face answers for the short receipts E561 had classified on 2026-11-08; the short class is re-derived from rows < table_at_its_round rather than trusted",
+  "sha16": "ade79aae14f45386",
+  "short_rows_in_that_face": 159
+ },
+ "producers": {
+  "card": "knowledge/METHODOLOGY_ASSETS.md E563",
+  "script": "scripts/e563_receipt_prefix.py",
+  "selftest": "python scripts/e563_receipt_prefix.py selftest"
+ },
+ "round": "r1590",
+ "rows": [
+  {
+   "class": "an_exact_prefix_of_the_table",
+   "committed": false,
+   "file": "_r1284bmb_s6_chain.json",
+   "first_leg_is_the_table_head": true,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "7192924c2",
+   "leg_indices": [
+    0,
+    1
+   ],
+   "leg_names": [
+    "dualrun",
+    "pool_deliverable"
+   ],
+   "machine": "b",
+   "name_round": 1284,
+   "names_in_table_order": true,
+   "rows": 2,
+   "runner_spec": "7192924c2:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 64,
+   "table_reason": null,
+   "table_size": 64
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1285bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "143ffe18c",
+   "leg_indices": [
+    1
+   ],
+   "leg_names": [
+    "pool_deliverable"
+   ],
+   "machine": "b",
+   "name_round": 1285,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "143ffe18c:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 65,
+   "table_reason": null,
+   "table_size": 65
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1287bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "17ecca08f",
+   "leg_indices": [
+    55
+   ],
+   "leg_names": [
+    "band_endpoint_arrival"
+   ],
+   "machine": "b",
+   "name_round": 1287,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "17ecca08f:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 67,
+   "table_reason": null,
+   "table_size": 67
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1288bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "db5b8ae43",
+   "leg_indices": [
+    56
+   ],
+   "leg_names": [
+    "degenerate_seeds_leave_one_bucket"
+   ],
+   "machine": "b",
+   "name_round": 1288,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "db5b8ae43:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 68,
+   "table_reason": null,
+   "table_size": 68
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1289bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "06bce2c3b",
+   "leg_indices": [
+    56,
+    63,
+    64,
+    66
+   ],
+   "leg_names": [
+    "degenerate_seeds_leave_one_bucket",
+    "machine_health",
+    "gpu_face",
+    "pool_audit"
+   ],
+   "machine": "b",
+   "name_round": 1289,
+   "names_in_table_order": true,
+   "rows": 4,
+   "runner_spec": "06bce2c3b:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 68,
+   "table_reason": null,
+   "table_size": 68
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1290bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "ade18341d",
+   "leg_indices": [
+    57
+   ],
+   "leg_names": [
+    "p95_transfer_across_windows"
+   ],
+   "machine": "b",
+   "name_round": 1290,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "ade18341d:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 69,
+   "table_reason": null,
+   "table_size": 69
+  },
+  {
+   "class": "an_exact_prefix_of_the_table",
+   "committed": false,
+   "file": "_r1291bmb_s6_chain.json",
+   "first_leg_is_the_table_head": true,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "352adf99d",
+   "leg_indices": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "leg_names": [
+    "dualrun",
+    "pool_deliverable",
+    "compute_audit",
+    "py_watermark"
+   ],
+   "machine": "b",
+   "name_round": 1291,
+   "names_in_table_order": true,
+   "rows": 4,
+   "runner_spec": "352adf99d:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 70,
+   "table_reason": null,
+   "table_size": 70
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1292bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "8eff184e3",
+   "leg_indices": [
+    59
+   ],
+   "leg_names": [
+    "wide_end_screen"
+   ],
+   "machine": "b",
+   "name_round": 1292,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "8eff184e3:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 71,
+   "table_reason": null,
+   "table_size": 71
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1293bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "a76160521",
+   "leg_indices": [
+    60
+   ],
+   "leg_names": [
+    "screen_buffer_margin"
+   ],
+   "machine": "b",
+   "name_round": 1293,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "a76160521:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 72,
+   "table_reason": null,
+   "table_size": 72
+  },
+  {
+   "class": "a_prefix_that_skips_a_leg_in_the_middle",
+   "committed": false,
+   "file": "_r1294bmb_s6_chain.json",
+   "first_leg_is_the_table_head": true,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "3c466db53",
+   "leg_indices": [
+    0,
+    1,
+    2,
+    3,
+    61,
+    70
+   ],
+   "leg_names": [
+    "dualrun",
+    "pool_deliverable",
+    "compute_audit",
+    "py_watermark",
+    "screen_on_pooled_end",
+    "attrition_guard"
+   ],
+   "machine": "b",
+   "name_round": 1294,
+   "names_in_table_order": true,
+   "rows": 6,
+   "runner_spec": "3c466db53:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 73,
+   "table_reason": null,
+   "table_size": 73
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1295bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "b392d8bfc",
+   "leg_indices": [
+    62
+   ],
+   "leg_names": [
+    "tight_end_transfer"
+   ],
+   "machine": "b",
+   "name_round": 1295,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "b392d8bfc:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 74,
+   "table_reason": null,
+   "table_size": 74
+  },
+  {
+   "class": "the_receipt_names_could_not_be_read",
+   "committed": false,
+   "file": "_r1296bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "49f9c54ba",
+   "leg_indices": null,
+   "leg_names": null,
+   "machine": "b",
+   "name_round": 1296,
+   "names_in_table_order": false,
+   "rows": 9,
+   "runner_spec": "49f9c54ba:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 75,
+   "table_reason": null,
+   "table_size": 75
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1297bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "a39a18c13",
+   "leg_indices": [
+    64
+   ],
+   "leg_names": [
+    "guard_from_threshold"
+   ],
+   "machine": "b",
+   "name_round": 1297,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "a39a18c13:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 76,
+   "table_reason": null,
+   "table_size": 76
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1298bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "c57610390",
+   "leg_indices": [
+    65
+   ],
+   "leg_names": [
+    "donor_choice_sensitivity"
+   ],
+   "machine": "b",
+   "name_round": 1298,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "c57610390:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 77,
+   "table_reason": null,
+   "table_size": 77
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1299bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "b924fe4ac",
+   "leg_indices": [
+    63
+   ],
+   "leg_names": [
+    "spread_straddle_sweep"
+   ],
+   "machine": "b",
+   "name_round": 1299,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "b924fe4ac:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 78,
+   "table_reason": null,
+   "table_size": 78
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1300bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "9c6e2dbbe",
+   "leg_indices": [
+    75
+   ],
+   "leg_names": [
+    "gpu_face"
+   ],
+   "machine": "b",
+   "name_round": 1300,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "9c6e2dbbe:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 79,
+   "table_reason": null,
+   "table_size": 79
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1301bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "e4d4e1662",
+   "leg_indices": [
+    64
+   ],
+   "leg_names": [
+    "screen_margin_budget"
+   ],
+   "machine": "b",
+   "name_round": 1301,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "e4d4e1662:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 80,
+   "table_reason": null,
+   "table_size": 80
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1306bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "63e9c6c9c",
+   "leg_indices": [
+    69,
+    70
+   ],
+   "leg_names": [
+    "substitution_soundness",
+    "substitution_dependency_audit"
+   ],
+   "machine": "b",
+   "name_round": 1306,
+   "names_in_table_order": true,
+   "rows": 2,
+   "runner_spec": "63e9c6c9c:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 85,
+   "table_reason": null,
+   "table_size": 85
+  },
+  {
+   "class": "an_exact_prefix_of_the_table",
+   "committed": false,
+   "file": "_r1307bmb_s6_chain.json",
+   "first_leg_is_the_table_head": true,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "65cfe9ce7",
+   "leg_indices": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "leg_names": [
+    "dualrun",
+    "pool_deliverable",
+    "compute_audit",
+    "py_watermark"
+   ],
+   "machine": "b",
+   "name_round": 1307,
+   "names_in_table_order": true,
+   "rows": 4,
+   "runner_spec": "65cfe9ce7:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 86,
+   "table_reason": null,
+   "table_size": 86
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1308bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "1dc6ffe8d",
+   "leg_indices": [
+    72
+   ],
+   "leg_names": [
+    "degenerate_range_reachable"
+   ],
+   "machine": "b",
+   "name_round": 1308,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "1dc6ffe8d:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 87,
+   "table_reason": null,
+   "table_size": 87
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1309bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "7b015cd0d",
+   "leg_indices": [
+    73
+   ],
+   "leg_names": [
+    "disagreement_field_scope"
+   ],
+   "machine": "b",
+   "name_round": 1309,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "7b015cd0d:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 88,
+   "table_reason": null,
+   "table_size": 88
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": true,
+   "file": "_r1310bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "16491562a",
+   "leg_indices": [
+    74
+   ],
+   "leg_names": [
+    "interrange_gap_ceiling"
+   ],
+   "machine": "b",
+   "name_round": 1310,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "16491562a:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 89,
+   "table_reason": null,
+   "table_size": 89
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1311bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "3dd0debc5",
+   "leg_indices": [
+    75
+   ],
+   "leg_names": [
+    "count_field_scope"
+   ],
+   "machine": "b",
+   "name_round": 1311,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "3dd0debc5:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 90,
+   "table_reason": null,
+   "table_size": 90
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1312bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "09bc36797",
+   "leg_indices": [
+    76
+   ],
+   "leg_names": [
+    "self_auditable_face_profile"
+   ],
+   "machine": "b",
+   "name_round": 1312,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "09bc36797:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 91,
+   "table_reason": null,
+   "table_size": 91
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1317bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "110474adc",
+   "leg_indices": [
+    79
+   ],
+   "leg_names": [
+    "below_floor_narrowing"
+   ],
+   "machine": "b",
+   "name_round": 1317,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "110474adc:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 94,
+   "table_reason": null,
+   "table_size": 94
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1318bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "c64946005",
+   "leg_indices": [
+    80
+   ],
+   "leg_names": [
+    "duplicate_list_census"
+   ],
+   "machine": "b",
+   "name_round": 1318,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "c64946005:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 95,
+   "table_reason": null,
+   "table_size": 95
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1319bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "84a990bdd",
+   "leg_indices": [
+    80,
+    81
+   ],
+   "leg_names": [
+    "duplicate_list_census",
+    "supply_gap_closure"
+   ],
+   "machine": "b",
+   "name_round": 1319,
+   "names_in_table_order": true,
+   "rows": 2,
+   "runner_spec": "84a990bdd:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 96,
+   "table_reason": null,
+   "table_size": 96
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1320bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "32e63d7d2",
+   "leg_indices": [
+    82
+   ],
+   "leg_names": [
+    "window_local_margin_census"
+   ],
+   "machine": "b",
+   "name_round": 1320,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "32e63d7d2:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 97,
+   "table_reason": null,
+   "table_size": 97
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1321bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "b99926122",
+   "leg_indices": [
+    83
+   ],
+   "leg_names": [
+    "scope_fix_plan"
+   ],
+   "machine": "b",
+   "name_round": 1321,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "b99926122:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 98,
+   "table_reason": null,
+   "table_size": 98
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1322bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "1ac077bdb",
+   "leg_indices": [
+    84
+   ],
+   "leg_names": [
+    "live_universe_drift"
+   ],
+   "machine": "b",
+   "name_round": 1322,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "1ac077bdb:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 99,
+   "table_reason": null,
+   "table_size": 99
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1323bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "67e9af0b9",
+   "leg_indices": [
+    85
+   ],
+   "leg_names": [
+    "replay_control_census"
+   ],
+   "machine": "b",
+   "name_round": 1323,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "67e9af0b9:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 100,
+   "table_reason": null,
+   "table_size": 100
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1324bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "9f8f42076",
+   "leg_indices": [
+    86
+   ],
+   "leg_names": [
+    "precision_census"
+   ],
+   "machine": "b",
+   "name_round": 1324,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "9f8f42076:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 101,
+   "table_reason": null,
+   "table_size": 101
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1325bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "684061a91",
+   "leg_indices": [
+    85
+   ],
+   "leg_names": [
+    "universe_switch_backfill"
+   ],
+   "machine": "b",
+   "name_round": 1325,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "684061a91:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 102,
+   "table_reason": null,
+   "table_size": 102
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1326bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "90c027551",
+   "leg_indices": [
+    99
+   ],
+   "leg_names": [
+    "gpu_face"
+   ],
+   "machine": "b",
+   "name_round": 1326,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "90c027551:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 103,
+   "table_reason": null,
+   "table_size": 103
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1327bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "33ce3d670",
+   "leg_indices": [
+    89
+   ],
+   "leg_names": [
+    "face_level_row_pricing"
+   ],
+   "machine": "b",
+   "name_round": 1327,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "33ce3d670:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 104,
+   "table_reason": null,
+   "table_size": 104
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1330bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "d80d39ab7",
+   "leg_indices": [
+    90
+   ],
+   "leg_names": [
+    "gate_tolerance_census"
+   ],
+   "machine": "b",
+   "name_round": 1330,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "d80d39ab7:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 105,
+   "table_reason": null,
+   "table_size": 105
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1331bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "699bbc56b",
+   "leg_indices": [
+    86,
+    88,
+    90,
+    91
+   ],
+   "leg_names": [
+    "replay_control_census",
+    "precision_census",
+    "gate_tolerance_census",
+    "gate_operand_identity"
+   ],
+   "machine": "b",
+   "name_round": 1331,
+   "names_in_table_order": true,
+   "rows": 4,
+   "runner_spec": "699bbc56b:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 106,
+   "table_reason": null,
+   "table_size": 106
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1333bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "694d1a928",
+   "leg_indices": [
+    93
+   ],
+   "leg_names": [
+    "clamped_gate_census"
+   ],
+   "machine": "b",
+   "name_round": 1333,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "694d1a928:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 108,
+   "table_reason": null,
+   "table_size": 108
+  },
+  {
+   "class": "an_exact_prefix_of_the_table",
+   "committed": false,
+   "file": "_r1334bmb_s6_chain.json",
+   "first_leg_is_the_table_head": true,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "b90715171",
+   "leg_indices": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "leg_names": [
+    "dualrun",
+    "pool_deliverable",
+    "compute_audit",
+    "py_watermark"
+   ],
+   "machine": "b",
+   "name_round": 1334,
+   "names_in_table_order": true,
+   "rows": 4,
+   "runner_spec": "b90715171:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 109,
+   "table_reason": null,
+   "table_size": 109
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1335bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "67cddc0fc",
+   "leg_indices": [
+    95
+   ],
+   "leg_names": [
+    "gate_print_requirements"
+   ],
+   "machine": "b",
+   "name_round": 1335,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "67cddc0fc:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 110,
+   "table_reason": null,
+   "table_size": 110
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1336bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "6266c617b",
+   "leg_indices": [
+    84,
+    85,
+    89
+   ],
+   "leg_names": [
+    "live_universe_drift",
+    "universe_switch_backfill",
+    "face_level_row_pricing"
+   ],
+   "machine": "b",
+   "name_round": 1336,
+   "names_in_table_order": true,
+   "rows": 3,
+   "runner_spec": "6266c617b:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 111,
+   "table_reason": null,
+   "table_size": 111
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1337bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "83f4e32f8",
+   "leg_indices": [
+    97
+   ],
+   "leg_names": [
+    "zero_tolerance_prune"
+   ],
+   "machine": "b",
+   "name_round": 1337,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "83f4e32f8:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 112,
+   "table_reason": null,
+   "table_size": 112
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1338bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "33fe4b0c1",
+   "leg_indices": [
+    98
+   ],
+   "leg_names": [
+    "census_self_inclusion"
+   ],
+   "machine": "b",
+   "name_round": 1338,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "33fe4b0c1:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 113,
+   "table_reason": null,
+   "table_size": 113
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1344bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "d8bd1c572",
+   "leg_indices": [
+    103
+   ],
+   "leg_names": [
+    "unpublished_key_causes"
+   ],
+   "machine": "b",
+   "name_round": 1344,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "d8bd1c572:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 118,
+   "table_reason": null,
+   "table_size": 118
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1352bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "c63619881",
+   "leg_indices": [
+    111
+   ],
+   "leg_names": [
+    "invisible_tail_recovery"
+   ],
+   "machine": "b",
+   "name_round": 1352,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "c63619881:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 126,
+   "table_reason": null,
+   "table_size": 126
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1355bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "c1f05c511",
+   "leg_indices": [
+    114
+   ],
+   "leg_names": [
+    "sibling_entry_point"
+   ],
+   "machine": "b",
+   "name_round": 1355,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "c1f05c511:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 129,
+   "table_reason": null,
+   "table_size": 129
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1364bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "90c1fa8ae",
+   "leg_indices": [
+    126
+   ],
+   "leg_names": [
+    "bound_grant_decisions"
+   ],
+   "machine": "b",
+   "name_round": 1364,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "90c1fa8ae:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 138,
+   "table_reason": null,
+   "table_size": 138
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1365bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "2bf5e5dcc",
+   "leg_indices": [
+    127
+   ],
+   "leg_names": [
+    "face_consumer_census"
+   ],
+   "machine": "b",
+   "name_round": 1365,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "2bf5e5dcc:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 139,
+   "table_reason": null,
+   "table_size": 139
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1372bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "4927f5323",
+   "leg_indices": [
+    134
+   ],
+   "leg_names": [
+    "gate_state_census"
+   ],
+   "machine": "b",
+   "name_round": 1372,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "4927f5323:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 146,
+   "table_reason": null,
+   "table_size": 146
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1375bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "b55556acc",
+   "leg_indices": [
+    136
+   ],
+   "leg_names": [
+    "unwritten_guard_presence"
+   ],
+   "machine": "b",
+   "name_round": 1375,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "b55556acc:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 149,
+   "table_reason": null,
+   "table_size": 149
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1379bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "4ad5d6d7b",
+   "leg_indices": [
+    149
+   ],
+   "leg_names": [
+    "channel_writer_cadence"
+   ],
+   "machine": "b",
+   "name_round": 1379,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "4ad5d6d7b:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 150,
+   "table_reason": null,
+   "table_size": 150
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1380bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "fb330cd2b",
+   "leg_indices": [
+    135
+   ],
+   "leg_names": [
+    "subject_resolution"
+   ],
+   "machine": "b",
+   "name_round": 1380,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "fb330cd2b:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 151,
+   "table_reason": null,
+   "table_size": 151
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1389bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "bba984fc9",
+   "leg_indices": [
+    139
+   ],
+   "leg_names": [
+    "pinable_queue_size"
+   ],
+   "machine": "b",
+   "name_round": 1389,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "bba984fc9:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 155,
+   "table_reason": null,
+   "table_size": 155
+  },
+  {
+   "class": "at_least_one_leg_name_is_not_in_the_table",
+   "committed": false,
+   "file": "_r1397bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": [
+    {
+     "in_today_s_table": true,
+     "leg": "walk_ambiguity"
+    }
+   ],
+   "join_commit": "3958a1035",
+   "leg_indices": [
+    null
+   ],
+   "leg_names": [
+    "walk_ambiguity"
+   ],
+   "machine": "b",
+   "name_round": 1397,
+   "names_in_table_order": false,
+   "rows": 1,
+   "runner_spec": "3958a1035:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 159,
+   "table_reason": null,
+   "table_size": 159
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1402bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "5d6252852",
+   "leg_indices": [
+    161
+   ],
+   "leg_names": [
+    "shared_key_collision"
+   ],
+   "machine": "b",
+   "name_round": 1402,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "5d6252852:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 162,
+   "table_reason": null,
+   "table_size": 162
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1403bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "bb950086c",
+   "leg_indices": [
+    162
+   ],
+   "leg_names": [
+    "republish_audit"
+   ],
+   "machine": "b",
+   "name_round": 1403,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "bb950086c:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 163,
+   "table_reason": null,
+   "table_size": 163
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1405bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "67507a3d3",
+   "leg_indices": [
+    163
+   ],
+   "leg_names": [
+    "schema_accretion"
+   ],
+   "machine": "b",
+   "name_round": 1405,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "67507a3d3:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 164,
+   "table_reason": null,
+   "table_size": 164
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1407bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "9e34b61fb",
+   "leg_indices": [
+    164
+   ],
+   "leg_names": [
+    "wrong_side_reader"
+   ],
+   "machine": "b",
+   "name_round": 1407,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "9e34b61fb:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 165,
+   "table_reason": null,
+   "table_size": 165
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1411bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "4e8264c2c",
+   "leg_indices": [
+    168
+   ],
+   "leg_names": [
+    "phantom_why"
+   ],
+   "machine": "b",
+   "name_round": 1411,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "4e8264c2c:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 169,
+   "table_reason": null,
+   "table_size": 169
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1415bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "48cb3df82",
+   "leg_indices": [
+    172
+   ],
+   "leg_names": [
+    "merged_key_split"
+   ],
+   "machine": "b",
+   "name_round": 1415,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "48cb3df82:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 173,
+   "table_reason": null,
+   "table_size": 173
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1418bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "039e4a845",
+   "leg_indices": [
+    174
+   ],
+   "leg_names": [
+    "unresolved_names"
+   ],
+   "machine": "b",
+   "name_round": 1418,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "039e4a845:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 176,
+   "table_reason": null,
+   "table_size": 176
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1420bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "63bd2c8f8",
+   "leg_indices": [
+    175
+   ],
+   "leg_names": [
+    "fragment_producers"
+   ],
+   "machine": "b",
+   "name_round": 1420,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "63bd2c8f8:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 178,
+   "table_reason": null,
+   "table_size": 178
+  },
+  {
+   "class": "at_least_one_leg_name_is_not_in_the_table",
+   "committed": false,
+   "file": "_r1421bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": [
+    {
+     "in_today_s_table": true,
+     "leg": "local_reader_table"
+    }
+   ],
+   "join_commit": "f03b3b770",
+   "leg_indices": [
+    null
+   ],
+   "leg_names": [
+    "local_reader_table"
+   ],
+   "machine": "b",
+   "name_round": 1421,
+   "names_in_table_order": false,
+   "rows": 1,
+   "runner_spec": "f03b3b770:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 179,
+   "table_reason": null,
+   "table_size": 179
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1425bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "11a78359d",
+   "leg_indices": [
+    181
+   ],
+   "leg_names": [
+    "leg_input_stability"
+   ],
+   "machine": "b",
+   "name_round": 1425,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "11a78359d:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 182,
+   "table_reason": null,
+   "table_size": 182
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1426bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "66e76f349",
+   "leg_indices": [
+    182
+   ],
+   "leg_names": [
+    "writer_refresh_signal"
+   ],
+   "machine": "b",
+   "name_round": 1426,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "66e76f349:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 183,
+   "table_reason": null,
+   "table_size": 183
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1429bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "05fe30270",
+   "leg_indices": [
+    184
+   ],
+   "leg_names": [
+    "freshness_bound"
+   ],
+   "machine": "b",
+   "name_round": 1429,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "05fe30270:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 185,
+   "table_reason": null,
+   "table_size": 185
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1430bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "5bad3e726",
+   "leg_indices": [
+    185
+   ],
+   "leg_names": [
+    "blob_readers"
+   ],
+   "machine": "b",
+   "name_round": 1430,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "5bad3e726:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 186,
+   "table_reason": null,
+   "table_size": 186
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1431bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "6bd81850d",
+   "leg_indices": [
+    186
+   ],
+   "leg_names": [
+    "blob_guard_decision"
+   ],
+   "machine": "b",
+   "name_round": 1431,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "6bd81850d:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 187,
+   "table_reason": null,
+   "table_size": 187
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1432bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "54459a9b8",
+   "leg_indices": [
+    187
+   ],
+   "leg_names": [
+    "family_arg"
+   ],
+   "machine": "b",
+   "name_round": 1432,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "54459a9b8:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 188,
+   "table_reason": null,
+   "table_size": 188
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1433bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "53af0aadc",
+   "leg_indices": [
+    188
+   ],
+   "leg_names": [
+    "unsupplied_read"
+   ],
+   "machine": "b",
+   "name_round": 1433,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "53af0aadc:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 189,
+   "table_reason": null,
+   "table_size": 189
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1434bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "550785427",
+   "leg_indices": [
+    190
+   ],
+   "leg_names": [
+    "cwd_accident"
+   ],
+   "machine": "b",
+   "name_round": 1434,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "550785427:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 191,
+   "table_reason": null,
+   "table_size": 191
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1435bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "6af36eb91",
+   "leg_indices": [
+    191
+   ],
+   "leg_names": [
+    "fresh_aim"
+   ],
+   "machine": "b",
+   "name_round": 1435,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "6af36eb91:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 192,
+   "table_reason": null,
+   "table_size": 192
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1436bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "10092fb92",
+   "leg_indices": [
+    192
+   ],
+   "leg_names": [
+    "face_age"
+   ],
+   "machine": "b",
+   "name_round": 1436,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "10092fb92:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 193,
+   "table_reason": null,
+   "table_size": 193
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1437bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "0361c164f",
+   "leg_indices": [
+    193
+   ],
+   "leg_names": [
+    "unstampable"
+   ],
+   "machine": "b",
+   "name_round": 1437,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "0361c164f:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 194,
+   "table_reason": null,
+   "table_size": 194
+  },
+  {
+   "class": "at_least_one_leg_name_is_not_in_the_table",
+   "committed": false,
+   "file": "_r1438bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": [
+    {
+     "in_today_s_table": true,
+     "leg": "corpus_pin"
+    }
+   ],
+   "join_commit": "3e12fd938",
+   "leg_indices": [
+    null
+   ],
+   "leg_names": [
+    "corpus_pin"
+   ],
+   "machine": "b",
+   "name_round": 1438,
+   "names_in_table_order": false,
+   "rows": 1,
+   "runner_spec": "3e12fd938:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 194,
+   "table_reason": null,
+   "table_size": 194
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1440bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "2915d0505",
+   "leg_indices": [
+    196
+   ],
+   "leg_names": [
+    "basename_census"
+   ],
+   "machine": "b",
+   "name_round": 1440,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "2915d0505:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 197,
+   "table_reason": null,
+   "table_size": 197
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1443bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "d819b08ae",
+   "leg_indices": [
+    197
+   ],
+   "leg_names": [
+    "shadow_face"
+   ],
+   "machine": "b",
+   "name_round": 1443,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "d819b08ae:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 198,
+   "table_reason": null,
+   "table_size": 198
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1444bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "63c223cea",
+   "leg_indices": [
+    198
+   ],
+   "leg_names": [
+    "dynamic_face_names"
+   ],
+   "machine": "b",
+   "name_round": 1444,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "63c223cea:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 199,
+   "table_reason": null,
+   "table_size": 199
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1449bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "27c40daf1",
+   "leg_indices": [
+    201
+   ],
+   "leg_names": [
+    "dirfield_join"
+   ],
+   "machine": "b",
+   "name_round": 1449,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "27c40daf1:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 202,
+   "table_reason": null,
+   "table_size": 202
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1450bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "8199ec580",
+   "leg_indices": [
+    202
+   ],
+   "leg_names": [
+    "fixture_write"
+   ],
+   "machine": "b",
+   "name_round": 1450,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "8199ec580:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 203,
+   "table_reason": null,
+   "table_size": 203
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1451bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "830e93d16",
+   "leg_indices": [
+    203
+   ],
+   "leg_names": [
+    "opener_flow"
+   ],
+   "machine": "b",
+   "name_round": 1451,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "830e93d16:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 204,
+   "table_reason": null,
+   "table_size": 204
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1453bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "cd4b66120",
+   "leg_indices": [
+    204
+   ],
+   "leg_names": [
+    "republication_chain"
+   ],
+   "machine": "b",
+   "name_round": 1453,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "cd4b66120:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 205,
+   "table_reason": null,
+   "table_size": 205
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1462bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "12f5492d5",
+   "leg_indices": [
+    211
+   ],
+   "leg_names": [
+    "face_home_target"
+   ],
+   "machine": "b",
+   "name_round": 1462,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "12f5492d5:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 215,
+   "table_reason": null,
+   "table_size": 215
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1468bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "1560a8e25",
+   "leg_indices": [
+    212
+   ],
+   "leg_names": [
+    "dead_prereg_pointer"
+   ],
+   "machine": "b",
+   "name_round": 1468,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "1560a8e25:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 219,
+   "table_reason": null,
+   "table_size": 219
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1475bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "5885b6cb5",
+   "leg_indices": [
+    221
+   ],
+   "leg_names": [
+    "caller_class"
+   ],
+   "machine": "b",
+   "name_round": 1475,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "5885b6cb5:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 222,
+   "table_reason": null,
+   "table_size": 222
+  },
+  {
+   "class": "at_least_one_leg_name_is_not_in_the_table",
+   "committed": false,
+   "file": "_r1476bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": [
+    {
+     "in_today_s_table": true,
+     "leg": "prereg_digest"
+    }
+   ],
+   "join_commit": "9419001c0",
+   "leg_indices": [
+    null
+   ],
+   "leg_names": [
+    "prereg_digest"
+   ],
+   "machine": "b",
+   "name_round": 1476,
+   "names_in_table_order": false,
+   "rows": 1,
+   "runner_spec": "9419001c0:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 222,
+   "table_reason": null,
+   "table_size": 222
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1477bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "010902028",
+   "leg_indices": [
+    218
+   ],
+   "leg_names": [
+    "prereg_digest"
+   ],
+   "machine": "b",
+   "name_round": 1477,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "010902028:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 223,
+   "table_reason": null,
+   "table_size": 223
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1480bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "edfd9ef75",
+   "leg_indices": [
+    224
+   ],
+   "leg_names": [
+    "stdlib_class"
+   ],
+   "machine": "b",
+   "name_round": 1480,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "edfd9ef75:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 225,
+   "table_reason": null,
+   "table_size": 225
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1482bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "7cc16e7ad",
+   "leg_indices": [
+    225
+   ],
+   "leg_names": [
+    "face_identity"
+   ],
+   "machine": "b",
+   "name_round": 1482,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "7cc16e7ad:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 226,
+   "table_reason": null,
+   "table_size": 226
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1485bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "6cbb021e5",
+   "leg_indices": [
+    227
+   ],
+   "leg_names": [
+    "identity_dialect"
+   ],
+   "machine": "b",
+   "name_round": 1485,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "6cbb021e5:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 228,
+   "table_reason": null,
+   "table_size": 228
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1488bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "d00d6cbf8",
+   "leg_indices": [
+    230
+   ],
+   "leg_names": [
+    "name_collide"
+   ],
+   "machine": "b",
+   "name_round": 1488,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "d00d6cbf8:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 231,
+   "table_reason": null,
+   "table_size": 231
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1490bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "4c6e995df",
+   "leg_indices": [
+    230
+   ],
+   "leg_names": [
+    "pointer_join"
+   ],
+   "machine": "b",
+   "name_round": 1490,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "4c6e995df:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 233,
+   "table_reason": null,
+   "table_size": 233
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1492bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "4a7f88b90",
+   "leg_indices": [
+    234
+   ],
+   "leg_names": [
+    "pointer_reach"
+   ],
+   "machine": "b",
+   "name_round": 1492,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "4a7f88b90:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 235,
+   "table_reason": null,
+   "table_size": 235
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1494bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "17cd7e3ec",
+   "leg_indices": [
+    236
+   ],
+   "leg_names": [
+    "dead_copy"
+   ],
+   "machine": "b",
+   "name_round": 1494,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "17cd7e3ec:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 237,
+   "table_reason": null,
+   "table_size": 237
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1497bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "e6dbc4860",
+   "leg_indices": [
+    238
+   ],
+   "leg_names": [
+    "identity_dialect_census"
+   ],
+   "machine": "b",
+   "name_round": 1497,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "e6dbc4860:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 239,
+   "table_reason": null,
+   "table_size": 239
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1502bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "99c4b51e7",
+   "leg_indices": [
+    240
+   ],
+   "leg_names": [
+    "producer_spill"
+   ],
+   "machine": "b",
+   "name_round": 1502,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "99c4b51e7:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 241,
+   "table_reason": null,
+   "table_size": 241
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1504bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "85d3fc84c",
+   "leg_indices": [
+    241
+   ],
+   "leg_names": [
+    "payload_writer"
+   ],
+   "machine": "b",
+   "name_round": 1504,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "85d3fc84c:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 242,
+   "table_reason": null,
+   "table_size": 242
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1506bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "38176c675",
+   "leg_indices": [
+    242
+   ],
+   "leg_names": [
+    "vintage_clock_diff"
+   ],
+   "machine": "b",
+   "name_round": 1506,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "38176c675:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 243,
+   "table_reason": null,
+   "table_size": 243
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1507bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "fed1b8f2a",
+   "leg_indices": [
+    243
+   ],
+   "leg_names": [
+    "twin_read"
+   ],
+   "machine": "b",
+   "name_round": 1507,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "fed1b8f2a:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 244,
+   "table_reason": null,
+   "table_size": 244
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1508bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "b2e103d9c",
+   "leg_indices": [
+    244
+   ],
+   "leg_names": [
+    "vintage_date_agree"
+   ],
+   "machine": "b",
+   "name_round": 1508,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "b2e103d9c:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 245,
+   "table_reason": null,
+   "table_size": 245
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1509bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "ffb88f173",
+   "leg_indices": [
+    245
+   ],
+   "leg_names": [
+    "undated_vintage"
+   ],
+   "machine": "b",
+   "name_round": 1509,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "ffb88f173:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 246,
+   "table_reason": null,
+   "table_size": 246
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1510bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "ba3c30604",
+   "leg_indices": [
+    246
+   ],
+   "leg_names": [
+    "vintage_conclusion"
+   ],
+   "machine": "b",
+   "name_round": 1510,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "ba3c30604:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 247,
+   "table_reason": null,
+   "table_size": 247
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1511bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "6d41ad718",
+   "leg_indices": [
+    247
+   ],
+   "leg_names": [
+    "latest_spelling_exists"
+   ],
+   "machine": "b",
+   "name_round": 1511,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "6d41ad718:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 248,
+   "table_reason": null,
+   "table_size": 248
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1512bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "c887c5094",
+   "leg_indices": [
+    248
+   ],
+   "leg_names": [
+    "composed_writer"
+   ],
+   "machine": "b",
+   "name_round": 1512,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "c887c5094:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 249,
+   "table_reason": null,
+   "table_size": 249
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1514bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "034abd2ff",
+   "leg_indices": [
+    250
+   ],
+   "leg_names": [
+    "write_wire"
+   ],
+   "machine": "b",
+   "name_round": 1514,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "034abd2ff:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 251,
+   "table_reason": null,
+   "table_size": 251
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1516bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "b9ea5e8ff",
+   "leg_indices": [
+    251
+   ],
+   "leg_names": [
+    "write_helper"
+   ],
+   "machine": "b",
+   "name_round": 1516,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "b9ea5e8ff:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 253,
+   "table_reason": null,
+   "table_size": 253
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1518bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "0dee7a45f",
+   "leg_indices": [
+    253
+   ],
+   "leg_names": [
+    "multi_composer_doctor"
+   ],
+   "machine": "b",
+   "name_round": 1518,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "0dee7a45f:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 254,
+   "table_reason": null,
+   "table_size": 254
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1519bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "b58b5a1c0",
+   "leg_indices": [
+    254
+   ],
+   "leg_names": [
+    "latest_copy_owner"
+   ],
+   "machine": "b",
+   "name_round": 1519,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "b58b5a1c0:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 255,
+   "table_reason": null,
+   "table_size": 255
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1529bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "5bf3092a9",
+   "leg_indices": [
+    246
+   ],
+   "leg_names": [
+    "vintage_date_lag"
+   ],
+   "machine": "b",
+   "name_round": 1529,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "5bf3092a9:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 263,
+   "table_reason": null,
+   "table_size": 263
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1531bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "3c9cf41ea",
+   "leg_indices": [
+    247
+   ],
+   "leg_names": [
+    "bom_census"
+   ],
+   "machine": "b",
+   "name_round": 1531,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "3c9cf41ea:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 264,
+   "table_reason": null,
+   "table_size": 264
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1532bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "716d22793",
+   "leg_indices": [
+    264
+   ],
+   "leg_names": [
+    "chain_stale"
+   ],
+   "machine": "b",
+   "name_round": 1532,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "716d22793:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 265,
+   "table_reason": null,
+   "table_size": 265
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1534bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "424ab537b",
+   "leg_indices": [
+    266
+   ],
+   "leg_names": [
+    "unmeasured_reach"
+   ],
+   "machine": "b",
+   "name_round": 1534,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "424ab537b:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 267,
+   "table_reason": null,
+   "table_size": 267
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1535bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "2ac805f5c",
+   "leg_indices": [
+    267
+   ],
+   "leg_names": [
+    "nodate_witness"
+   ],
+   "machine": "b",
+   "name_round": 1535,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "2ac805f5c:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 268,
+   "table_reason": null,
+   "table_size": 268
+  },
+  {
+   "class": "a_prefix_that_skips_a_leg_in_the_middle",
+   "committed": false,
+   "file": "_r1536bmb_s6_chain.json",
+   "first_leg_is_the_table_head": true,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "e405b3770",
+   "leg_indices": [
+    0,
+    1,
+    2,
+    3,
+    268
+   ],
+   "leg_names": [
+    "dualrun",
+    "pool_deliverable",
+    "compute_audit",
+    "py_watermark",
+    "unresolved_origin"
+   ],
+   "machine": "b",
+   "name_round": 1536,
+   "names_in_table_order": true,
+   "rows": 5,
+   "runner_spec": "e405b3770:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 269,
+   "table_reason": null,
+   "table_size": 269
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1537bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "a4b342fd6",
+   "leg_indices": [
+    269
+   ],
+   "leg_names": [
+    "binding_scope"
+   ],
+   "machine": "b",
+   "name_round": 1537,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "a4b342fd6:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 271,
+   "table_reason": null,
+   "table_size": 271
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1538bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "97684b0e8",
+   "leg_indices": [
+    271
+   ],
+   "leg_names": [
+    "caller_supplied"
+   ],
+   "machine": "b",
+   "name_round": 1538,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "97684b0e8:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 272,
+   "table_reason": null,
+   "table_size": 272
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1539bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "83e7b5578",
+   "leg_indices": [
+    272
+   ],
+   "leg_names": [
+    "unlisted_date_origin"
+   ],
+   "machine": "b",
+   "name_round": 1539,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "83e7b5578:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 273,
+   "table_reason": null,
+   "table_size": 273
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1540bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "ace9c96b2",
+   "leg_indices": [
+    273
+   ],
+   "leg_names": [
+    "callee_return"
+   ],
+   "machine": "b",
+   "name_round": 1540,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "ace9c96b2:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 274,
+   "table_reason": null,
+   "table_size": 274
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1542bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "b0b283307",
+   "leg_indices": [
+    274
+   ],
+   "leg_names": [
+    "built_elsewhere"
+   ],
+   "machine": "b",
+   "name_round": 1542,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "b0b283307:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 275,
+   "table_reason": null,
+   "table_size": 275
+  },
+  {
+   "class": "at_least_one_leg_name_is_not_in_the_table",
+   "committed": false,
+   "file": "_r1543bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": [
+    {
+     "in_today_s_table": false,
+     "leg": "pool_dualrun_reconcile"
+    },
+    {
+     "in_today_s_table": false,
+     "leg": "py_watermark_probe"
+    },
+    {
+     "in_today_s_table": false,
+     "leg": "container_feed_check"
+    },
+    {
+     "in_today_s_table": false,
+     "leg": "container_feed_verify"
+    },
+    {
+     "in_today_s_table": false,
+     "leg": "container_feed_selftest"
+    },
+    {
+     "in_today_s_table": false,
+     "leg": "container_feed_smoke_leg"
+    },
+    {
+     "in_today_s_table": false,
+     "leg": "container_feed_smoke_leg_doctor"
+    }
+   ],
+   "join_commit": "d16b7af30",
+   "leg_indices": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "leg_names": [
+    "pool_dualrun_reconcile",
+    "py_watermark_probe",
+    "container_feed_check",
+    "container_feed_verify",
+    "container_feed_selftest",
+    "container_feed_smoke_leg",
+    "container_feed_smoke_leg_doctor"
+   ],
+   "machine": "b",
+   "name_round": 1543,
+   "names_in_table_order": false,
+   "rows": 7,
+   "runner_spec": "d16b7af30:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 275,
+   "table_reason": null,
+   "table_size": 275
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": true,
+   "file": "_r1546bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "a6f4fc4fd",
+   "leg_indices": [
+    275
+   ],
+   "leg_names": [
+    "empty_arm_cover"
+   ],
+   "machine": "b",
+   "name_round": 1546,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "a6f4fc4fd:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 276,
+   "table_reason": null,
+   "table_size": 276
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1548bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "28280ddaf",
+   "leg_indices": [
+    276
+   ],
+   "leg_names": [
+    "literal_guard"
+   ],
+   "machine": "b",
+   "name_round": 1548,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "28280ddaf:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 277,
+   "table_reason": null,
+   "table_size": 277
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1549bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "5539eda0a",
+   "leg_indices": [
+    277
+   ],
+   "leg_names": [
+    "silent_arm_read"
+   ],
+   "machine": "b",
+   "name_round": 1549,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "5539eda0a:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 278,
+   "table_reason": null,
+   "table_size": 278
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1550bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "594798a6c",
+   "leg_indices": [
+    277
+   ],
+   "leg_names": [
+    "handed_onward_reader"
+   ],
+   "machine": "b",
+   "name_round": 1550,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "594798a6c:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 279,
+   "table_reason": null,
+   "table_size": 279
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1551bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "a5c566349",
+   "leg_indices": [
+    278
+   ],
+   "leg_names": [
+    "reader_onward"
+   ],
+   "machine": "b",
+   "name_round": 1551,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "a5c566349:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 280,
+   "table_reason": null,
+   "table_size": 280
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1552bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "77e418302",
+   "leg_indices": [
+    279
+   ],
+   "leg_names": [
+    "forwarded_argument"
+   ],
+   "machine": "b",
+   "name_round": 1552,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "77e418302:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 281,
+   "table_reason": null,
+   "table_size": 281
+  },
+  {
+   "class": "a_prefix_that_skips_a_leg_in_the_middle",
+   "committed": true,
+   "file": "_r1554bmb_s6_chain.json",
+   "first_leg_is_the_table_head": true,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "9d59b75bd",
+   "leg_indices": [
+    0,
+    1,
+    3
+   ],
+   "leg_names": [
+    "dualrun",
+    "pool_deliverable",
+    "py_watermark"
+   ],
+   "machine": "b",
+   "name_round": 1554,
+   "names_in_table_order": true,
+   "rows": 3,
+   "runner_spec": "9d59b75bd:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 282,
+   "table_reason": null,
+   "table_size": 282
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1555bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "b5401bf2d",
+   "leg_indices": [
+    280
+   ],
+   "leg_names": [
+    "recursive_read"
+   ],
+   "machine": "b",
+   "name_round": 1555,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "b5401bf2d:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 283,
+   "table_reason": null,
+   "table_size": 283
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1556bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "2a5a66f90",
+   "leg_indices": [
+    281
+   ],
+   "leg_names": [
+    "second_hop"
+   ],
+   "machine": "b",
+   "name_round": 1556,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "2a5a66f90:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 284,
+   "table_reason": null,
+   "table_size": 284
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1557bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "2f0dfb52d",
+   "leg_indices": [
+    282
+   ],
+   "leg_names": [
+    "third_hop"
+   ],
+   "machine": "b",
+   "name_round": 1557,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "2f0dfb52d:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 285,
+   "table_reason": null,
+   "table_size": 285
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1558bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "33be423ab",
+   "leg_indices": [
+    283
+   ],
+   "leg_names": [
+    "default_param"
+   ],
+   "machine": "b",
+   "name_round": 1558,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "33be423ab:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 286,
+   "table_reason": null,
+   "table_size": 286
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1559bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "7d9ec718e",
+   "leg_indices": [
+    284
+   ],
+   "leg_names": [
+    "undecidable_arm"
+   ],
+   "machine": "b",
+   "name_round": 1559,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "7d9ec718e:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 287,
+   "table_reason": null,
+   "table_size": 287
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1561bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "ccfa16bf4",
+   "leg_indices": [
+    287,
+    288
+   ],
+   "leg_names": [
+    "depth_cap_null",
+    "cap_to_payload"
+   ],
+   "machine": "b",
+   "name_round": 1561,
+   "names_in_table_order": true,
+   "rows": 2,
+   "runner_spec": "ccfa16bf4:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 289,
+   "table_reason": null,
+   "table_size": 289
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1563bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "1766c124e",
+   "leg_indices": [
+    285
+   ],
+   "leg_names": [
+    "call_pure_arm"
+   ],
+   "machine": "b",
+   "name_round": 1563,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "1766c124e:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 290,
+   "table_reason": null,
+   "table_size": 290
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1565bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "ffcbb9dee",
+   "leg_indices": [
+    290
+   ],
+   "leg_names": [
+    "next_consumer"
+   ],
+   "machine": "b",
+   "name_round": 1565,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "ffcbb9dee:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 292,
+   "table_reason": null,
+   "table_size": 292
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1566bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "daaef85af",
+   "leg_indices": [
+    282,
+    291
+   ],
+   "leg_names": [
+    "third_hop",
+    "parcel_landing"
+   ],
+   "machine": "b",
+   "name_round": 1566,
+   "names_in_table_order": true,
+   "rows": 2,
+   "runner_spec": "daaef85af:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 293,
+   "table_reason": null,
+   "table_size": 293
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1567bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "ed2a9accb",
+   "leg_indices": [
+    293
+   ],
+   "leg_names": [
+    "line_pointer"
+   ],
+   "machine": "b",
+   "name_round": 1567,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "ed2a9accb:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 294,
+   "table_reason": null,
+   "table_size": 294
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1568bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "3d38c6b59",
+   "leg_indices": [
+    294,
+    295
+   ],
+   "leg_names": [
+    "branch_ambiguity",
+    "lane_freshness"
+   ],
+   "machine": "b",
+   "name_round": 1568,
+   "names_in_table_order": true,
+   "rows": 2,
+   "runner_spec": "3d38c6b59:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 296,
+   "table_reason": null,
+   "table_size": 296
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1569bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "3a23492df",
+   "leg_indices": [
+    295
+   ],
+   "leg_names": [
+    "survivor_spans"
+   ],
+   "machine": "b",
+   "name_round": 1569,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "3a23492df:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 297,
+   "table_reason": null,
+   "table_size": 297
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1572bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "cc5bac8f4",
+   "leg_indices": [
+    298
+   ],
+   "leg_names": [
+    "constant_terminal"
+   ],
+   "machine": "b",
+   "name_round": 1572,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "cc5bac8f4:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 299,
+   "table_reason": null,
+   "table_size": 299
+  },
+  {
+   "class": "at_least_one_leg_name_is_not_in_the_table",
+   "committed": false,
+   "file": "_r1573bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": [
+    {
+     "in_today_s_table": false,
+     "leg": "item_store_between"
+    }
+   ],
+   "join_commit": "d71b9f106",
+   "leg_indices": [
+    null
+   ],
+   "leg_names": [
+    "item_store_between"
+   ],
+   "machine": "b",
+   "name_round": 1573,
+   "names_in_table_order": false,
+   "rows": 1,
+   "runner_spec": "d71b9f106:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 299,
+   "table_reason": null,
+   "table_size": 299
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1574bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "83cd575fd",
+   "leg_indices": [
+    299
+   ],
+   "leg_names": [
+    "resolver_retry"
+   ],
+   "machine": "b",
+   "name_round": 1574,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "83cd575fd:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 300,
+   "table_reason": null,
+   "table_size": 300
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1576bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "7792a1284",
+   "leg_indices": [
+    300
+   ],
+   "leg_names": [
+    "unclassified_site"
+   ],
+   "machine": "b",
+   "name_round": 1576,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "7792a1284:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 301,
+   "table_reason": null,
+   "table_size": 301
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1577bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "06c91ac75",
+   "leg_indices": [
+    301
+   ],
+   "leg_names": [
+    "called_consumer"
+   ],
+   "machine": "b",
+   "name_round": 1577,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "06c91ac75:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 302,
+   "table_reason": null,
+   "table_size": 302
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1578bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "261627f20",
+   "leg_indices": [
+    302
+   ],
+   "leg_names": [
+    "created_item_read"
+   ],
+   "machine": "b",
+   "name_round": 1578,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "261627f20:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 303,
+   "table_reason": null,
+   "table_size": 303
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1579bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "b6c36d309",
+   "leg_indices": [
+    303
+   ],
+   "leg_names": [
+    "render_reader"
+   ],
+   "machine": "b",
+   "name_round": 1579,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "b6c36d309:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 304,
+   "table_reason": null,
+   "table_size": 304
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1580bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "de972389a",
+   "leg_indices": [
+    304
+   ],
+   "leg_names": [
+    "wrote_population"
+   ],
+   "machine": "b",
+   "name_round": 1580,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "de972389a:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 305,
+   "table_reason": null,
+   "table_size": 305
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1583bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "ff7b420b3",
+   "leg_indices": [
+    3
+   ],
+   "leg_names": [
+    "py_watermark"
+   ],
+   "machine": "b",
+   "name_round": 1583,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "ff7b420b3:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 308,
+   "table_reason": null,
+   "table_size": 308
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1584bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "d4dcce468",
+   "leg_indices": [
+    308
+   ],
+   "leg_names": [
+    "gate_reach"
+   ],
+   "machine": "b",
+   "name_round": 1584,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "d4dcce468:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 309,
+   "table_reason": null,
+   "table_size": 309
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1585bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "f21552215",
+   "leg_indices": [
+    309
+   ],
+   "leg_names": [
+    "chain_rc_consumer"
+   ],
+   "machine": "b",
+   "name_round": 1585,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "f21552215:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 310,
+   "table_reason": null,
+   "table_size": 310
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1586bmb_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "07a6d632e",
+   "leg_indices": [
+    310
+   ],
+   "leg_names": [
+    "chain_receipt_shape"
+   ],
+   "machine": "b",
+   "name_round": 1586,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "07a6d632e:Tools/s6_chain_bmb.py",
+   "table_at_its_round": 311,
+   "table_reason": null,
+   "table_size": 311
+  },
+  {
+   "class": "a_prefix_that_skips_a_leg_in_the_middle",
+   "committed": true,
+   "file": "_r1183bmc_s6_chain.json",
+   "first_leg_is_the_table_head": true,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "f86d9e14b",
+   "leg_indices": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49
+   ],
+   "leg_names": [
+    "dualrun",
+    "compute_audit",
+    "py_watermark",
+    "update_daily",
+    "market_regime",
+    "scorecard",
+    "market_clock",
+    "update_lhb",
+    "update_zt_pool",
+    "update_heat",
+    "update_futures",
+    "update_repo",
+    "update_options",
+    "update_moneyflow",
+    "update_sina_mf",
+    "update_astock_daily",
+    "update_etf_daily",
+    "regime_thermo",
+    "regime_dualarm",
+    "rev_osc_export",
+    "minute_feed",
+    "ths_panel",
+    "ah_panel",
+    "fund_premium",
+    "fundamental",
+    "b_layer",
+    "fund_statements",
+    "t24_paper",
+    "t24_promote",
+    "aggr_paper",
+    "alloc_paper",
+    "grid_paper",
+    "system_v1",
+    "t35_export",
+    "scorecard_daily",
+    "daily_report",
+    "ceo_live_usage",
+    "build_status",
+    "token_meter"
+   ],
+   "machine": "c",
+   "name_round": 1183,
+   "names_in_table_order": true,
+   "rows": 39,
+   "runner_spec": "f86d9e14b:Tools/s6_chain_bmc.py",
+   "table_at_its_round": 51,
+   "table_reason": null,
+   "table_size": 51
+  },
+  {
+   "class": "a_prefix_that_skips_a_leg_in_the_middle",
+   "committed": true,
+   "file": "_r1191bmc_s6_chain.json",
+   "first_leg_is_the_table_head": true,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "fb0cab60f",
+   "leg_indices": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50
+   ],
+   "leg_names": [
+    "dualrun",
+    "compute_audit",
+    "py_watermark",
+    "update_daily",
+    "market_regime",
+    "scorecard",
+    "market_clock",
+    "update_lhb",
+    "update_zt_pool",
+    "update_heat",
+    "update_futures",
+    "update_repo",
+    "update_options",
+    "update_moneyflow",
+    "update_sina_mf",
+    "update_astock_daily",
+    "update_etf_daily",
+    "regime_thermo",
+    "regime_dualarm",
+    "rev_osc_export",
+    "minute_feed",
+    "ths_panel",
+    "ah_panel",
+    "fund_premium",
+    "fundamental",
+    "b_layer",
+    "fund_statements",
+    "t24_paper",
+    "t24_promote",
+    "aggr_paper",
+    "alloc_paper",
+    "grid_paper",
+    "system_v1",
+    "t35_export",
+    "scorecard_daily",
+    "daily_report",
+    "ceo_live_usage",
+    "build_status",
+    "token_meter"
+   ],
+   "machine": "c",
+   "name_round": 1191,
+   "names_in_table_order": true,
+   "rows": 39,
+   "runner_spec": "fb0cab60f:Tools/s6_chain_bmc.py",
+   "table_at_its_round": 52,
+   "table_reason": null,
+   "table_size": 52
+  },
+  {
+   "class": "a_prefix_that_skips_a_leg_in_the_middle",
+   "committed": true,
+   "file": "_r1194bmc_s6_chain.json",
+   "first_leg_is_the_table_head": true,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "efb8f7f48",
+   "leg_indices": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50
+   ],
+   "leg_names": [
+    "dualrun",
+    "compute_audit",
+    "py_watermark",
+    "update_daily",
+    "market_regime",
+    "scorecard",
+    "market_clock",
+    "update_lhb",
+    "update_zt_pool",
+    "update_heat",
+    "update_futures",
+    "update_repo",
+    "update_options",
+    "update_moneyflow",
+    "update_sina_mf",
+    "update_astock_daily",
+    "update_etf_daily",
+    "regime_thermo",
+    "regime_dualarm",
+    "rev_osc_export",
+    "minute_feed",
+    "ths_panel",
+    "ah_panel",
+    "fund_premium",
+    "fundamental",
+    "b_layer",
+    "fund_statements",
+    "t24_paper",
+    "t24_promote",
+    "aggr_paper",
+    "alloc_paper",
+    "grid_paper",
+    "system_v1",
+    "t35_export",
+    "scorecard_daily",
+    "daily_report",
+    "ceo_live_usage",
+    "build_status",
+    "token_meter"
+   ],
+   "machine": "c",
+   "name_round": 1194,
+   "names_in_table_order": true,
+   "rows": 39,
+   "runner_spec": "efb8f7f48:Tools/s6_chain_bmc.py",
+   "table_at_its_round": 55,
+   "table_reason": null,
+   "table_size": 55
+  },
+  {
+   "class": "a_prefix_that_skips_a_leg_in_the_middle",
+   "committed": true,
+   "file": "_r1204bmc_s6_chain.json",
+   "first_leg_is_the_table_head": true,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "55b355807",
+   "leg_indices": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+   ],
+   "leg_names": [
+    "dualrun",
+    "compute_audit",
+    "py_watermark",
+    "update_daily",
+    "market_regime",
+    "scorecard",
+    "market_clock",
+    "update_lhb",
+    "update_zt_pool",
+    "update_heat",
+    "update_futures",
+    "update_repo",
+    "update_options",
+    "update_moneyflow",
+    "update_sina_mf",
+    "update_astock_daily",
+    "update_etf_daily",
+    "regime_thermo",
+    "regime_dualarm",
+    "rev_osc_export",
+    "minute_feed",
+    "ths_panel",
+    "ah_panel",
+    "fund_premium",
+    "fundamental",
+    "b_layer",
+    "fund_statements",
+    "t24_paper",
+    "t24_promote",
+    "aggr_paper",
+    "alloc_paper",
+    "grid_paper",
+    "system_v1",
+    "t35_export",
+    "scorecard_daily",
+    "daily_report",
+    "ceo_live_usage",
+    "build_status",
+    "token_meter"
+   ],
+   "machine": "c",
+   "name_round": 1204,
+   "names_in_table_order": true,
+   "rows": 39,
+   "runner_spec": "55b355807:Tools/s6_chain_bmc.py",
+   "table_at_its_round": 58,
+   "table_reason": null,
+   "table_size": 58
+  },
+  {
+   "class": "a_prefix_that_skips_a_leg_in_the_middle",
+   "committed": true,
+   "file": "_r1206bmc_s6_chain.json",
+   "first_leg_is_the_table_head": true,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "c8f8e6625",
+   "leg_indices": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    46,
+    47,
+    48,
+    49,
+    52,
+    53
+   ],
+   "leg_names": [
+    "dualrun",
+    "compute_audit",
+    "py_watermark",
+    "update_daily",
+    "market_regime",
+    "scorecard",
+    "market_clock",
+    "update_lhb",
+    "update_zt_pool",
+    "update_heat",
+    "update_futures",
+    "update_repo",
+    "update_options",
+    "update_moneyflow",
+    "update_sina_mf",
+    "update_astock_daily",
+    "update_etf_daily",
+    "regime_thermo",
+    "regime_dualarm",
+    "rev_osc_export",
+    "minute_feed",
+    "ths_panel",
+    "ah_panel",
+    "fund_premium",
+    "fundamental",
+    "b_layer",
+    "fund_statements",
+    "t24_paper",
+    "t24_promote",
+    "aggr_paper",
+    "alloc_paper",
+    "grid_paper",
+    "system_v1",
+    "t35_export",
+    "scorecard_daily",
+    "daily_report",
+    "ceo_live_usage",
+    "build_status",
+    "token_meter"
+   ],
+   "machine": "c",
+   "name_round": 1206,
+   "names_in_table_order": true,
+   "rows": 39,
+   "runner_spec": "c8f8e6625:Tools/s6_chain_bmc.py",
+   "table_at_its_round": 59,
+   "table_reason": null,
+   "table_size": 59
+  },
+  {
+   "class": "a_prefix_that_skips_a_leg_in_the_middle",
+   "committed": true,
+   "file": "_r1210bmc_s6_chain.json",
+   "first_leg_is_the_table_head": true,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "ce4e27c56",
+   "leg_indices": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    47,
+    48,
+    49,
+    50,
+    53,
+    54
+   ],
+   "leg_names": [
+    "dualrun",
+    "compute_audit",
+    "py_watermark",
+    "update_daily",
+    "market_regime",
+    "scorecard",
+    "market_clock",
+    "update_lhb",
+    "update_zt_pool",
+    "update_heat",
+    "update_futures",
+    "update_repo",
+    "update_options",
+    "update_moneyflow",
+    "update_sina_mf",
+    "update_astock_daily",
+    "update_etf_daily",
+    "regime_thermo",
+    "regime_dualarm",
+    "rev_osc_export",
+    "minute_feed",
+    "ths_panel",
+    "ah_panel",
+    "fund_premium",
+    "fundamental",
+    "b_layer",
+    "fund_statements",
+    "t24_paper",
+    "t24_promote",
+    "aggr_paper",
+    "alloc_paper",
+    "grid_paper",
+    "system_v1",
+    "t35_export",
+    "scorecard_daily",
+    "daily_report",
+    "ceo_live_usage",
+    "build_status",
+    "token_meter"
+   ],
+   "machine": "c",
+   "name_round": 1210,
+   "names_in_table_order": true,
+   "rows": 39,
+   "runner_spec": "ce4e27c56:Tools/s6_chain_bmc.py",
+   "table_at_its_round": 61,
+   "table_reason": null,
+   "table_size": 61
+  },
+  {
+   "class": "a_prefix_that_skips_a_leg_in_the_middle",
+   "committed": true,
+   "file": "_r1240bmc_s6_chain.json",
+   "first_leg_is_the_table_head": true,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "6e4f9ea8e",
+   "leg_indices": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    50,
+    51,
+    52,
+    53,
+    56,
+    57
+   ],
+   "leg_names": [
+    "dualrun",
+    "compute_audit",
+    "py_watermark",
+    "update_daily",
+    "market_regime",
+    "scorecard",
+    "market_clock",
+    "update_lhb",
+    "update_zt_pool",
+    "update_heat",
+    "update_futures",
+    "update_repo",
+    "update_options",
+    "update_moneyflow",
+    "update_sina_mf",
+    "update_astock_daily",
+    "update_etf_daily",
+    "regime_thermo",
+    "regime_dualarm",
+    "rev_osc_export",
+    "minute_feed",
+    "ths_panel",
+    "ah_panel",
+    "fund_premium",
+    "fundamental",
+    "b_layer",
+    "fund_statements",
+    "t24_paper",
+    "t24_promote",
+    "aggr_paper",
+    "alloc_paper",
+    "grid_paper",
+    "system_v1",
+    "t35_export",
+    "scorecard_daily",
+    "daily_report",
+    "ceo_live_usage",
+    "build_status",
+    "token_meter"
+   ],
+   "machine": "c",
+   "name_round": 1240,
+   "names_in_table_order": true,
+   "rows": 39,
+   "runner_spec": "6e4f9ea8e:Tools/s6_chain_bmc.py",
+   "table_at_its_round": 66,
+   "table_reason": null,
+   "table_size": 66
+  },
+  {
+   "class": "a_subset_in_table_order_that_starts_after_the_first_leg",
+   "committed": false,
+   "file": "_r1373bmc_s6_chain.json",
+   "first_leg_is_the_table_head": false,
+   "foreign_names_in_today_s_table": null,
+   "join_commit": "7cbf058e2",
+   "leg_indices": [
+    79
+   ],
+   "leg_names": [
+    "refusalcause"
+   ],
+   "machine": "c",
+   "name_round": 1373,
+   "names_in_table_order": true,
+   "rows": 1,
+   "runner_spec": "7cbf058e2:Tools/s6_chain_bmc.py",
+   "table_at_its_round": 81,
+   "table_reason": null,
+   "table_size": 81
+  }
+ ],
+ "study": "E563",
+ "summary": {
+  "_class_sum": 159,
+  "a_leg_is_named_twice_in_the_receipt": 0,
+  "a_prefix_that_skips_a_leg_in_the_middle": 10,
+  "a_subset_in_table_order_that_starts_after_the_first_leg": 138,
+  "an_exact_prefix_of_the_table": 4,
+  "at_least_one_leg_name_is_not_in_the_table": 6,
+  "first_leg_is_the_table_head": 14,
+  "foreign_names_that_exist_in_no_current_table": 8,
+  "foreign_names_that_exist_in_today_s_table": 4,
+  "foreign_rows": 6,
+  "names_in_table_order": 152,
+  "receipts_whose_names_were_recovered": 158,
+  "short_receipts": 159,
+  "single_leg_receipts": 135,
+  "single_leg_that_is_the_table_head": 0,
+  "tables_read": 159,
+  "tables_unreadable_reasons": [],
+  "the_receipt_names_could_not_be_read": 1,
+  "the_same_legs_in_a_different_order": 0,
+  "the_table_of_its_own_round_could_not_be_read": 0
+ },
+ "verdict": "a_short_receipt_can_be_an_exact_prefix_so_the_file_still_cannot_tell_an_ordered_stop_from_a_filtered_head",
+ "verdict_line": "159 short receipts; 159 read against the LEGS table of their own round: 4 are an exact prefix, 10 a prefix that skips a leg, 138 a subset in table order that starts after the first leg, 0 the same legs in another order, 6 name a leg the table does not contain (of those names 4 do exist in today's table, i.e. they postdate the join commit, and 8 exist in no current table), 0 repeat a leg; 0 of the 135 single-leg receipts ran the head of the table and 152 receipts are entirely in table order.  0 tables and 1 receipts were unreadable and are published as such."
+}

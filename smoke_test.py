@@ -24511,5 +24511,63 @@ except Exception as _e548x:
     _d548 = "study could not be read"
 check(_name548, not _bad548, "; ".join(_bad548)[:240] or _d548)
 
+# E563: E561 ended on "a stopped run and an --only run look identical" and E562 removed the kill.
+# This leg refuses the ways the remaining question gets answered without looking at the ORDER:
+#   * a short receipt is called a filtered subset because most others are -- the exact-prefix
+#     class must exist and must be counted separately, since it is the only shape a stop takes
+#   * a name missing from the join-commit table is folded into "foreign" without asking whether
+#     it exists in today's table (the receipt may postdate the commit it joins to)
+#   * the published class is trusted instead of re-derived from the row's own table indices
+_name563 = "E563 whether a short receipt is a prefix of its own round's leg table (r1590 bm-b)"
+_bad563 = []
+_d563 = "no reading"
+try:
+    _m563 = __import__("importlib").import_module("e563_receipt_prefix")
+    _f563 = json.load(open(os.path.join("results", "state_tilt",
+                                        "receiptprefix_latest.json"), encoding="utf-8"))
+    _s563 = _f563.get("summary") or {}
+    _r563 = _f563.get("rows") or []
+    _bad563.extend(_m563.face_problems(_f563))
+    if not _r563:
+        _bad563.append("the short-receipt population is empty, so nothing is classified")
+    if all(r.get("class") != _m563.C_EXACT_PREFIX for r in _r563) \
+            and _s563.get(_m563.C_EXACT_PREFIX) is None:
+        _bad563.append("the exact-prefix class is missing from the summary")
+    if _s563.get("names_in_table_order", 0) <= 0:
+        _bad563.append("no receipt is in table order, so the order arm measured nothing")
+    if not (_f563.get("population_source") or {}).get("sha16"):
+        _bad563.append("the population is not pinned to a vintage")
+    if _m563.classify(["dualrun", "compute_audit"], _m563.TABLE)[0] != _m563.C_EXACT_PREFIX:
+        _bad563.append("an exact prefix is no longer recognised")
+    if _m563.classify(["dualrun", "update_daily"], _m563.TABLE)[0] != _m563.C_PREFIX_GAP:
+        _bad563.append("a gap after the head is no longer its own class")
+    if _m563.classify(["update_daily"], _m563.TABLE)[0] != _m563.C_SUBSET:
+        _bad563.append("a filtered head is no longer its own class")
+    if _m563.classify(["dualrun", "ghost_leg"], _m563.TABLE)[0] != _m563.C_FOREIGN:
+        _bad563.append("a name absent from the table is no longer foreign")
+    _doc563 = json.loads(json.dumps(_f563))
+    _doc563["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m563.face_problems(_doc563):
+        _bad563.append("a hand-written verdict was accepted")
+    _victim563 = json.loads(json.dumps(_f563))
+    if _victim563["rows"]:
+        _victim563["rows"][0]["leg_indices"] = [0, 1, 2]
+        _victim563["rows"][0]["class"] = _m563.C_EXACT_PREFIX
+        if not _m563.face_problems(_victim563):
+            _bad563.append("a class that does not re-derive from its own indices was accepted")
+    _d563 = ("%d short receipts / exact-prefix=%d / prefix-with-gap=%d / subset=%d / "
+             "out-of-order=%d / foreign=%d (%d exist in today's table, %d in none) / "
+             "single-leg-at-head=%d / %s"
+             % (_s563.get("short_receipts", 0), _s563.get(_m563.C_EXACT_PREFIX, 0),
+                _s563.get(_m563.C_PREFIX_GAP, 0), _s563.get(_m563.C_SUBSET, 0),
+                _s563.get(_m563.C_OUT_OF_ORDER, 0), _s563.get(_m563.C_FOREIGN, 0),
+                _s563.get("foreign_names_that_exist_in_today_s_table", 0),
+                _s563.get("foreign_names_that_exist_in_no_current_table", 0),
+                _s563.get("single_leg_that_is_the_table_head", 0), _f563.get("verdict")))
+except Exception as _e563x:
+    _bad563.append(repr(_e563x)[:160])
+    _d563 = "study could not be read"
+check(_name563, not _bad563, "; ".join(_bad563)[:240] or _d563)
+
 if __name__ == "__main__":
     sys.exit(main())

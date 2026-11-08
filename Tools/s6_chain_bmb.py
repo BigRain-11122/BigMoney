@@ -2211,6 +2211,13 @@ LEGS = [
     # binding / both), so each addition's own contribution is readable.  `check` re-derives every
     # arm's outcome and the parent-reconciliation counters.
     ("extended_resolver", ["python", "scripts/e548_extended_resolver.py", "check"]),
+    # E563 closes E561's "a stopped run and an --only run look identical" by comparing the leg
+    # NAMES of each short receipt against the order of its own round's table: 4 are an exact
+    # prefix of the head (2-4 legs), 10 skip a leg after the head, 138 start after the first leg
+    # (only a filter explains that), 0 run out of order, 6 name a leg the table at that commit
+    # does not contain.  Each row carries the table index of every name, so `check` re-derives
+    # the class without any blob.
+    ("receipt_prefix", ["python", "scripts/e563_receipt_prefix.py", "check"]),
 ]
 
 
