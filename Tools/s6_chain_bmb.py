@@ -2320,6 +2320,15 @@ LEGS = [
     # refuses mtime published as usable evidence.
     ("face_age",
      ["python", "scripts/e580_face_age.py", "check"]),
+    # E583 (r1612 bm-b): r1611 fixed the producer so a ticket dated B can be priced at B, and said
+    # nothing about the sheets already on disk.  Every published TICKET-*.json is asked whether the
+    # money on it was priced on the bar its file name carries: 4 of 5 order sheets are not, and the
+    # two money arms separate the damage -- keeping the sheet's share counts on its own bar moves
+    # the notional by up to 2.82% of NAV, while re-issuing the same weights into whole lots moves
+    # it by at most 0.04%.  `check` re-derives every class, every delta from its own totals, and
+    # refuses money on a ticket that carries no order sheet.
+    ("ticket_repricing",
+     ["python", "scripts/e583_ticket_repricing.py", "check"]),
 ]
 
 

@@ -25224,5 +25224,61 @@ except Exception as _e580x:
 check(_name580, not _bad580, "; ".join(_bad580)[:240] or _d580)
 
 
+# E583: a ticket file is named after a bar, and r1610 showed the money on those sheets was priced
+# on an earlier one.  This leg reads the published repricing face and refuses the three ways it
+# could be a wish: money on a ticket that carries no order sheet (nothing to price), a delta that
+# does not re-derive from its own totals, and a sheet called priced-on-its-own-bar while one of its
+# legs prices somewhere else (r1604 bm-b).
+_name583 = "E583 whether every published ticket prices on the bar its file name carries (r1612 bm-b)"
+_bad583 = []
+_d583 = "no reading"
+try:
+    _p583 = os.path.join("results", "state_tilt", "repricedtickets_latest.json")
+    _f583 = json.load(open(_p583, encoding="utf-8"))
+    _s583 = _f583.get("summary") or {}
+    _r583 = _f583.get("rows") or []
+    _m583 = importlib.import_module("e583_ticket_repricing")
+    _bad583.extend(_m583.face_problems(_f583))
+    if _s583.get("tickets_total") != len(_r583):
+        _bad583.append("the summary ticket count does not match the published rows")
+    if (_s583.get("sheets_priced_on_the_bar_they_name", 0)
+            + _s583.get("sheets_priced_on_an_earlier_bar", 0)
+            + _s583.get("sheets_priced_on_a_later_bar", 0)) != _s583.get("order_sheets"):
+        _bad583.append("the sheet classes do not cover every order sheet")
+    if _s583.get("tickets_without_an_order_sheet") + _s583.get("order_sheets") != len(_r583):
+        _bad583.append("the no-sheet count does not re-derive from the population")
+    if _s583.get("legs_total") != sum((_s583.get("leg_adjudication") or {}).values()):
+        _bad583.append("the leg count does not re-derive from the leg classes")
+    _doc583 = json.loads(json.dumps(_f583))
+    for _rr in _doc583.get("rows") or []:
+        if _rr.get("money"):
+            _rr["money"]["keep_shares_delta_cny"] = 1.0
+            break
+    if len(_m583.face_problems(_doc583)) <= len(_m583.face_problems(_f583)):
+        _bad583.append("a keep-shares delta that does not re-derive from its totals was accepted")
+    _doc583b = json.loads(json.dumps(_f583))
+    for _rr in _doc583b.get("rows") or []:
+        if _rr.get("class") == "no_order_sheet":
+            _rr["money"] = {"issued_book_amount": 1.0}
+            break
+    if len(_m583.face_problems(_doc583b)) <= len(_m583.face_problems(_f583)):
+        _bad583.append("money on a ticket with no order sheet was accepted")
+    _d583 = ("tickets=%d sheets=%d priced_on_their_bar=%d earlier=%d later=%d legs=%d "
+             "decision_bar=%d unnamed_price=%d keep_delta_cny=%.2f worst=%.2f%% | %s"
+             % (_s583.get("tickets_total", 0), _s583.get("order_sheets", 0),
+                _s583.get("sheets_priced_on_the_bar_they_name", 0),
+                _s583.get("sheets_priced_on_an_earlier_bar", 0),
+                _s583.get("sheets_priced_on_a_later_bar", 0), _s583.get("legs_total", 0),
+                (_s583.get("leg_adjudication") or {}).get("priced_on_the_decision_bar", 0),
+                _s583.get("legs_whose_price_is_not_a_unique_witness", 0),
+                _s583.get("keep_shares_delta_cny_total") or 0.0,
+                _s583.get("keep_shares_delta_pct_nav_worst") or 0.0,
+                _f583.get("verdict")))
+except Exception as _e583x:
+    _bad583.append(repr(_e583x)[:160])
+    _d583 = "study could not be read"
+check(_name583, not _bad583, "; ".join(_bad583)[:240] or _d583)
+
+
 if __name__ == "__main__":
     sys.exit(main())
