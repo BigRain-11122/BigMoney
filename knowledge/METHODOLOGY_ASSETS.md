@@ -10502,3 +10502,32 @@ esults/etf_book_phase_gate.json
 esults/supply_calendar.{json,md} + S6 腿 supply_calendar + smoke 双腿（--selftest / --check）。
 坑：phase 模块与 caliber 模块互相 import = 循环（caliber → phases → caliber 死在 PHASE_STARTS），
 正法=caliber 侧 import 保持模块级、phases 侧改函数内惰性 import。
+
+## E435 — 「拒到什么时候才翻身」必须给日期；而两把都被认证的尺子给出的日期是 0 年和 10 年（r1428 bm-c）
+
+r1427 收尾时供给地板已经红了 35 轮，判词是「书是前置的」——一句观察，不是一个能排产的计划。
+本轮把同一张年度表往回续（算术续写，不重定价），算出每个候选要再走多少年才清闸，结果把
+「调闸 / 换书 / 等时间」三个动作分开了：
+
+①**尺子不是杠杆，但两把认证尺子互相矛盾**：effective_years 今天已 PASS（4.2–4.5 年 / 7，线 3）
+→ 若闸问的是它，采用书**今天就该过**；而 years_for_half 要再 **10 年**（最差相位）才到 3 年。
+r1426 认证的是「这两把尺子各自判得了自己」，不是「它们对同一本书说同一句话」——
+**仪器可靠 ≠ 仪器同义**。所以「换尺子」这个动作的真实形态不是「把假尺换成真尺」，而是
+「决定这张闸问的是哪一个问题」（分散度 or 前置度），必须点名其一。
+
+②**ETA 取最差相位，不取中位相位**：采用书 Y 闸的相位 ETA = [1,3,1,2,2] → 报 3。只报 1 就等于
+承诺一个只有 1/5 网格成立的日子。
+
+③**有的红没有日期**：Y3（最差年）是路径无关的——历史里那个 -7.6% / -18.7% 年永远不会因为
+再攒年份而消失，所以 smallcap_book（中位年 +35.7%）的 ETA 是 **None**，不是「很快」。
+凡是「等一等就好」的判断，先问这条线是不是只取决于新增数据。
+
+④**零收益年救不了 Y4**：分子分母同时不动，份额一模一样（面里带 trace 腿）。读者最直觉的
+「再混几年就摊薄了」只在新增年**有收益**时成立，且摊薄速度由 median 决定，不由年数决定。
+
+正身 = scripts/etf_book_admission_eta.py（selftest 14/14，L1 一年 median 清 Y4 / L2 零年永不清 /
+L3 years_for_half 非单调 / L5 非正和印 None / L7 发布面身份块）+ results/etf_book_admission_eta.json
++ S6 腿 admission_eta（只读 check，1.2s）。身份腿：三本书相位 0 的 top2 与 r1427 面 max|d| = 0.0，
+漂移即 rc3 不出文件。
+坑：`s6_chain_bmc.py --round N --only a,b` 的 --only 解析会 pop args[0]，当 --round 写在前面时
+pop 到的是 `--round`，报「unknown leg(s): ['--round']」——正法 `--only=a,b`，工具已加拒绝语。

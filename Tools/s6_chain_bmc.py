@@ -786,6 +786,11 @@ LEGS = [
     # on disk is the r1290 class: the pool stops being empty and the sentence still says
     # "no candidate passes its calendar".
     ("supply_calendar", ["python", "scripts/supply_calendar_face.py", "run"]),
+    # r1428: "refused" with no horizon is an observation, not a plan. This leg re-checks
+    # the published ETA face (identity against the phase gate's phase 0, so a drifted
+    # repricing turns the leg red instead of silently promising a date). Read-only JSON,
+    # milliseconds; the expensive repricing runs only with `run` in its own round.
+    ("admission_eta", ["python", "scripts/etf_book_admission_eta.py", "check"]),
     # r1331: E196 answers the question E190 left open -- whether the month the
     # ladder-drop verdict rests on is knowable in advance. It is a ~1s JSON read of
     # the E186 month table (no panel, no network, no engine), and it belongs on the
@@ -990,7 +995,14 @@ def main():
             only = a.split("=", 1)[1] if "=" in a else None
             args.remove(a)
             if only is None:
+                # r1428: `--only a,b --round 1` used to pop args[0], which is `--round`
+                # when the flag is written first -- the run then died with "unknown
+                # leg(s): ['--round']" and nothing said the flag form was the problem.
                 only = args.pop(0) if args else ""
+                if only.startswith("--"):
+                    print("refusing: --only needs its leg list attached; write "
+                          "--only=a,b (or put --only last). Got %r instead." % (only,))
+                    sys.exit(2)
     # r1343: `--all` used to be swallowed as the round number, so a chain run that way
     # wrote results/_r--allbmc_s6_chain.json (three such junk names are committed:
     # _r--all, _r--round, and _rrun). A flag is not an identity: take the round from

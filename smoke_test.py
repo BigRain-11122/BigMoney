@@ -552,6 +552,15 @@ def main() -> int:
              "scripts/etf_book_year_caliber.py", ["selftest"]),
             ("product: etf_book_year_caliber (published reading re-derived, nothing renamed)",
              "scripts/etf_book_year_caliber.py", ["check"]),
+            # r1428: "refused" with no horizon is an observation, not a plan. The legs pin
+            # that a zero-return continuation can never clear Y4 (share is unchanged), that
+            # years_for_half is not monotone as flat years accrue, that a losing book
+            # publishes None rather than a share, and that the published ETA face still
+            # reproduces r1427's phase-0 numbers (identity drift = refusal to ship).
+            ("product: etf_book_admission_eta (how many years until the gate can admit)",
+             "scripts/etf_book_admission_eta.py", ["selftest"]),
+            ("product: etf_book_admission_eta (published ETA still matches the phase gate)",
+             "scripts/etf_book_admission_eta.py", ["check"]),
             # r1418: the calendar gate existed but had only ever judged CANDIDATE books; the
             # book the desk actually holds never faced it. The legs pin that yearly returns
             # come off the book's own LEVEL curve (treating a level series as returns

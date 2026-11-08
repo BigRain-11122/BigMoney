@@ -1,0 +1,7831 @@
+{
+ "face": "etf_book_admission_eta",
+ "asof": "2026-11-08T15:09:18+0800",
+ "question": "the yearly gate refuses every candidate it has been given; is the lever the ruler, the book, or time -- and if time, how much?",
+ "assumption": "arithmetic continuation: the next years come in at a stated rate (median / worst_full / zero). Not a forecast, and no price is re-derived -- this file appends years to a published table.",
+ "rates": [
+  "median",
+  "worst_full",
+  "zero"
+ ],
+ "max_append_years": 15,
+ "gate_lines_imported": {
+  "positive_years_share": 0.7,
+  "worst_year_floor_pp": -15.0,
+  "top2_share_max": 0.7,
+  "capacity_floor_cny": 20000000.0
+ },
+ "trusted_calibers": [
+  "effective_years",
+  "years_for_half"
+ ],
+ "data": {
+  "universe": 1515,
+  "bars": 5275,
+  "flips_repaired": 169,
+  "capacity_cny_1day_5pct": 48664681.0,
+  "phase_starts": [
+   "2020-01-01",
+   "2020-01-08",
+   "2020-01-15",
+   "2020-01-22",
+   "2020-01-29"
+  ]
+ },
+ "identity": {
+  "published_phase0_top2": {
+   "nobond_vt08_adopted": 0.7108,
+   "nobond_base": 0.6898,
+   "nobond_vt08_floor_050": 0.6685
+  },
+  "max_abs_gap_vs_published": 0.0,
+  "tolerance": 1e-06,
+  "ok": true
+ },
+ "books": [
+  {
+   "book": "nobond_vt08_adopted",
+   "vol_target": 0.08,
+   "vol_floor": 0.0,
+   "phases": [
+    {
+     "start": "2020-01-01",
+     "years": {
+      "2020": 5.6072,
+      "2021": 7.6281,
+      "2022": 2.8393,
+      "2023": 5.473,
+      "2024": 14.5496,
+      "2025": 43.0627,
+      "2026": 1.898
+     },
+     "metrics": {
+      "years": 7,
+      "positive_years": 7,
+      "median": 5.6072,
+      "worst": 1.898,
+      "best": 43.0627,
+      "annual_sum": 81.0578,
+      "top2_share": 0.7108,
+      "worst_full_only": 2.8393,
+      "top2_share_full_only": 0.7278
+     },
+     "checks": {
+      "Y1_positive_years_share": true,
+      "Y2_median_positive": true,
+      "Y3_worst_year": true,
+      "Y4_top2_share": false,
+      "C1_capacity": true
+     },
+     "all_four_pass": false,
+     "failing": [
+      "Y4_top2_share"
+     ],
+     "rates_pct": {
+      "median": 5.6072,
+      "worst_full": 2.8393,
+      "zero": 0.0
+     },
+     "ruler_matrix": {
+      "net_top2_share": {
+       "state": "FAIL",
+       "value": 0.710755,
+       "trusted": false
+      },
+      "gross_top2_share": {
+       "state": "FAIL",
+       "value": 0.710755,
+       "trusted": false
+      },
+      "effective_years": {
+       "state": "PASS",
+       "value": 4.215653,
+       "trusted": true
+      },
+      "years_for_half": {
+       "state": "FAIL",
+       "value": 1,
+       "trusted": true
+      }
+     },
+     "etas": {
+      "median|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "median",
+       "rate_pct": 5.6072,
+       "eta_years": 1,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7108,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 0.6648,
+         "top2_share": 0.6648
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.6244,
+         "top2_share": 0.6244
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.5886,
+         "top2_share": 0.5886
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.5567,
+         "top2_share": 0.5567
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.5281,
+         "top2_share": 0.5281
+        }
+       ]
+      },
+      "median|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "median",
+       "rate_pct": 5.6072,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.215653,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.881352,
+         "top2_share": 0.6648
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.574234,
+         "top2_share": 0.6244
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 6.291272,
+         "top2_share": 0.5886
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 7.029842,
+         "top2_share": 0.5567
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 7.787663,
+         "top2_share": 0.5281
+        }
+       ]
+      },
+      "median|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "median",
+       "rate_pct": 5.6072,
+       "eta_years": 7,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6648
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6244
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5886
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5567
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5281
+        },
+        {
+         "n": 7,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4789
+        }
+       ]
+      },
+      "worst_full|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "worst_full",
+       "rate_pct": 2.8393,
+       "eta_years": 1,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7108,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 0.6867,
+         "top2_share": 0.6867
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.6642,
+         "top2_share": 0.6642
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.6432,
+         "top2_share": 0.6432
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.6234,
+         "top2_share": 0.6234
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.6048,
+         "top2_share": 0.6048
+        }
+       ]
+      },
+      "worst_full|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "worst_full",
+       "rate_pct": 2.8393,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.215653,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.655116,
+         "top2_share": 0.6867
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.112789,
+         "top2_share": 0.6642
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 5.587969,
+         "top2_share": 0.6432
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 6.079972,
+         "top2_share": 0.6234
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 6.588131,
+         "top2_share": 0.6048
+        }
+       ]
+      },
+      "worst_full|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "worst_full",
+       "rate_pct": 2.8393,
+       "eta_years": 13,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.6867
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6642
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6432
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6234
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6048
+        },
+        {
+         "n": 13,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4884
+        }
+       ]
+      },
+      "zero|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7108,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7108,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.7108,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.7108,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.7108,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.7108,
+         "top2_share": 0.7108
+        }
+       ]
+      },
+      "zero|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.215653,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.215653,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 4.215653,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 4.215653,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 4.215653,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 4.215653,
+         "top2_share": 0.7108
+        }
+       ]
+      },
+      "zero|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7108
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7108
+        }
+       ]
+      }
+     }
+    },
+    {
+     "start": "2020-01-08",
+     "years": {
+      "2020": 4.9946,
+      "2021": 2.7844,
+      "2022": 0.7794,
+      "2023": 14.1691,
+      "2024": 23.4099,
+      "2025": 39.2869,
+      "2026": -6.5228
+     },
+     "metrics": {
+      "years": 7,
+      "positive_years": 6,
+      "median": 4.9946,
+      "worst": -6.5228,
+      "best": 39.2869,
+      "annual_sum": 78.9015,
+      "top2_share": 0.7946,
+      "worst_full_only": 0.7794,
+      "top2_share_full_only": 0.7795
+     },
+     "checks": {
+      "Y1_positive_years_share": true,
+      "Y2_median_positive": true,
+      "Y3_worst_year": true,
+      "Y4_top2_share": false,
+      "C1_capacity": true
+     },
+     "all_four_pass": false,
+     "failing": [
+      "Y4_top2_share"
+     ],
+     "rates_pct": {
+      "median": 4.9946,
+      "worst_full": 0.7794,
+      "zero": 0.0
+     },
+     "ruler_matrix": {
+      "net_top2_share": {
+       "state": "FAIL",
+       "value": 0.794621,
+       "trusted": false
+      },
+      "gross_top2_share": {
+       "state": "PASS",
+       "value": 0.681879,
+       "trusted": false
+      },
+      "effective_years": {
+       "state": "PASS",
+       "value": 4.446401,
+       "trusted": true
+      },
+      "years_for_half": {
+       "state": "FAIL",
+       "value": 2,
+       "trusted": true
+      }
+     },
+     "etas": {
+      "median|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "median",
+       "rate_pct": 4.9946,
+       "eta_years": 3,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7946,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7473,
+         "top2_share": 0.7473
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.7053,
+         "top2_share": 0.7053
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.6678,
+         "top2_share": 0.6678
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.6341,
+         "top2_share": 0.6341
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.6036,
+         "top2_share": 0.6036
+        }
+       ]
+      },
+      "median|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "median",
+       "rate_pct": 4.9946,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.446401,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.043962,
+         "top2_share": 0.7473
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.665854,
+         "top2_share": 0.7053
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 6.3101,
+         "top2_share": 0.6678
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 6.974906,
+         "top2_share": 0.6341
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 7.658646,
+         "top2_share": 0.6036
+        }
+       ]
+      },
+      "median|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "median",
+       "rate_pct": 4.9946,
+       "eta_years": 10,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7473
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7053
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6678
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6341
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6036
+        },
+        {
+         "n": 10,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4866
+        }
+       ]
+      },
+      "worst_full|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "worst_full",
+       "rate_pct": 0.7794,
+       "eta_years": 14,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7946,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7868,
+         "top2_share": 0.7868
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.7792,
+         "top2_share": 0.7792
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.7718,
+         "top2_share": 0.7718
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.7644,
+         "top2_share": 0.7644
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.7572,
+         "top2_share": 0.7572
+        },
+        {
+         "n": 14,
+         "ok": true,
+         "value": 0.6981,
+         "top2_share": 0.6981
+        }
+       ]
+      },
+      "worst_full|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "worst_full",
+       "rate_pct": 0.7794,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.446401,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.609364,
+         "top2_share": 0.7868
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 4.775769,
+         "top2_share": 0.7792
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 4.945621,
+         "top2_share": 0.7718
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 5.118928,
+         "top2_share": 0.7644
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 5.295693,
+         "top2_share": 0.7572
+        }
+       ]
+      },
+      "worst_full|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "worst_full",
+       "rate_pct": 0.7794,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7868
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7792
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7718
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7644
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7572
+        }
+       ]
+      },
+      "zero|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7946,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7946,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.7946,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.7946,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.7946,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.7946,
+         "top2_share": 0.7946
+        }
+       ]
+      },
+      "zero|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.446401,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.446401,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 4.446401,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 4.446401,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 4.446401,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 4.446401,
+         "top2_share": 0.7946
+        }
+       ]
+      },
+      "zero|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7946
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7946
+        }
+       ]
+      }
+     }
+    },
+    {
+     "start": "2020-01-15",
+     "years": {
+      "2020": 10.8498,
+      "2021": 10.3215,
+      "2022": -12.1773,
+      "2023": 4.0923,
+      "2024": 22.4433,
+      "2025": 24.9357,
+      "2026": -0.9304
+     },
+     "metrics": {
+      "years": 7,
+      "positive_years": 5,
+      "median": 10.3215,
+      "worst": -12.1773,
+      "best": 24.9357,
+      "annual_sum": 59.5347,
+      "top2_share": 0.7958,
+      "worst_full_only": -12.1773,
+      "top2_share_full_only": 0.9549
+     },
+     "checks": {
+      "Y1_positive_years_share": true,
+      "Y2_median_positive": true,
+      "Y3_worst_year": true,
+      "Y4_top2_share": false,
+      "C1_capacity": true
+     },
+     "all_four_pass": false,
+     "failing": [
+      "Y4_top2_share"
+     ],
+     "rates_pct": {
+      "median": 10.3215,
+      "worst_full": -12.1773,
+      "zero": 0.0
+     },
+     "ruler_matrix": {
+      "net_top2_share": {
+       "state": "FAIL",
+       "value": 0.79582,
+       "trusted": false
+      },
+      "gross_top2_share": {
+       "state": "PASS",
+       "value": 0.552523,
+       "trusted": false
+      },
+      "effective_years": {
+       "state": "PASS",
+       "value": 5.46231,
+       "trusted": true
+      },
+      "years_for_half": {
+       "state": "FAIL",
+       "value": 2,
+       "trusted": true
+      }
+     },
+     "etas": {
+      "median|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "median",
+       "rate_pct": 10.3215,
+       "eta_years": 1,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7958,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 0.6782,
+         "top2_share": 0.6782
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.5909,
+         "top2_share": 0.5909
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.5235,
+         "top2_share": 0.5235
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.4699,
+         "top2_share": 0.4699
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.4263,
+         "top2_share": 0.4263
+        }
+       ]
+      },
+      "median|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "median",
+       "rate_pct": 10.3215,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 5.46231,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 6.401803,
+         "top2_share": 0.6782
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 7.35174,
+         "top2_share": 0.5909
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 8.309639,
+         "top2_share": 0.5235
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 9.273745,
+         "top2_share": 0.4699
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 10.242783,
+         "top2_share": 0.4263
+        }
+       ]
+      },
+      "median|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "median",
+       "rate_pct": 10.3215,
+       "eta_years": 4,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6782
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5909
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5235
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4699
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4263
+        }
+       ]
+      },
+      "worst_full|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "worst_full",
+       "rate_pct": -12.1773,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7958,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 1.0005,
+         "top2_share": 1.0005
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 1.3468,
+         "top2_share": 1.3468
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2.0597,
+         "top2_share": 2.0597
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 4.3766,
+         "top2_share": 4.3766
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": null,
+         "top2_share": null
+        }
+       ]
+      },
+      "worst_full|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "worst_full",
+       "rate_pct": -12.1773,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 5.46231,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 6.438173,
+         "top2_share": 1.0005
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 7.419027,
+         "top2_share": 1.3468
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 8.40347,
+         "top2_share": 2.0597
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 9.39058,
+         "top2_share": 4.3766
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 10.379727,
+         "top2_share": null
+        }
+       ]
+      },
+      "worst_full|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "worst_full",
+       "rate_pct": -12.1773,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 1,
+         "top2_share": 1.0005
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 1,
+         "top2_share": 1.3468
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 1,
+         "top2_share": 2.0597
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 1,
+         "top2_share": 4.3766
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": null,
+         "top2_share": null
+        }
+       ]
+      },
+      "zero|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7958,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7958,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.7958,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.7958,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.7958,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.7958,
+         "top2_share": 0.7958
+        }
+       ]
+      },
+      "zero|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 5.46231,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.46231,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.46231,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 5.46231,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 5.46231,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 5.46231,
+         "top2_share": 0.7958
+        }
+       ]
+      },
+      "zero|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7958
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7958
+        }
+       ]
+      }
+     }
+    },
+    {
+     "start": "2020-01-22",
+     "years": {
+      "2020": 16.8148,
+      "2021": 9.1705,
+      "2022": -1.2484,
+      "2023": 2.6739,
+      "2024": 4.1239,
+      "2025": 22.3104,
+      "2026": -4.8311
+     },
+     "metrics": {
+      "years": 7,
+      "positive_years": 5,
+      "median": 4.1239,
+      "worst": -4.8311,
+      "best": 22.3104,
+      "annual_sum": 49.0139,
+      "top2_share": 0.7982,
+      "worst_full_only": -1.2484,
+      "top2_share_full_only": 0.8501
+     },
+     "checks": {
+      "Y1_positive_years_share": true,
+      "Y2_median_positive": true,
+      "Y3_worst_year": true,
+      "Y4_top2_share": false,
+      "C1_capacity": true
+     },
+     "all_four_pass": false,
+     "failing": [
+      "Y4_top2_share"
+     ],
+     "rates_pct": {
+      "median": 4.1239,
+      "worst_full": -1.2484,
+      "zero": 0.0
+     },
+     "ruler_matrix": {
+      "net_top2_share": {
+       "state": "FAIL",
+       "value": 0.798247,
+       "trusted": false
+      },
+      "gross_top2_share": {
+       "state": "PASS",
+       "value": 0.639583,
+       "trusted": false
+      },
+      "effective_years": {
+       "state": "PASS",
+       "value": 4.98223,
+       "trusted": true
+      },
+      "years_for_half": {
+       "state": "FAIL",
+       "value": 2,
+       "trusted": true
+      }
+     },
+     "etas": {
+      "median|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "median",
+       "rate_pct": 4.1239,
+       "eta_years": 2,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7982,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7363,
+         "top2_share": 0.7363
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.6833,
+         "top2_share": 0.6833
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.6374,
+         "top2_share": 0.6374
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.5972,
+         "top2_share": 0.5972
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.5619,
+         "top2_share": 0.5619
+        }
+       ]
+      },
+      "median|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "median",
+       "rate_pct": 4.1239,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.98223,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.697467,
+         "top2_share": 0.7363
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 6.436484,
+         "top2_share": 0.6833
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 7.196528,
+         "top2_share": 0.6374
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 7.975234,
+         "top2_share": 0.5972
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 8.770565,
+         "top2_share": 0.5619
+        }
+       ]
+      },
+      "median|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "median",
+       "rate_pct": 4.1239,
+       "eta_years": 8,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7363
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6833
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6374
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5972
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5619
+        },
+        {
+         "n": 8,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4771
+        }
+       ]
+      },
+      "worst_full|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "worst_full",
+       "rate_pct": -1.2484,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7982,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.8191,
+         "top2_share": 0.8191
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.8411,
+         "top2_share": 0.8411
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.8643,
+         "top2_share": 0.8643
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.8888,
+         "top2_share": 0.8888
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.9147,
+         "top2_share": 0.9147
+        }
+       ]
+      },
+      "worst_full|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "worst_full",
+       "rate_pct": -1.2484,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.98223,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.321728,
+         "top2_share": 0.8191
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.671909,
+         "top2_share": 0.8411
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 6.032608,
+         "top2_share": 0.8643
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 6.403658,
+         "top2_share": 0.8888
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 6.784891,
+         "top2_share": 0.9147
+        }
+       ]
+      },
+      "worst_full|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "worst_full",
+       "rate_pct": -1.2484,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8191
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8411
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8643
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.8888
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.9147
+        }
+       ]
+      },
+      "zero|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7982,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7982,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.7982,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.7982,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.7982,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.7982,
+         "top2_share": 0.7982
+        }
+       ]
+      },
+      "zero|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.98223,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.98223,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 4.98223,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 4.98223,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 4.98223,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 4.98223,
+         "top2_share": 0.7982
+        }
+       ]
+      },
+      "zero|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7982
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7982
+        }
+       ]
+      }
+     }
+    },
+    {
+     "start": "2020-01-29",
+     "years": {
+      "2020": 13.4225,
+      "2021": 7.2295,
+      "2022": -3.9842,
+      "2023": 10.1634,
+      "2024": 4.3865,
+      "2025": 35.6294,
+      "2026": -5.2422
+     },
+     "metrics": {
+      "years": 7,
+      "positive_years": 5,
+      "median": 7.2295,
+      "worst": -5.2422,
+      "best": 35.6294,
+      "annual_sum": 61.6048,
+      "top2_share": 0.7962,
+      "worst_full_only": -3.9842,
+      "top2_share_full_only": 0.8571
+     },
+     "checks": {
+      "Y1_positive_years_share": true,
+      "Y2_median_positive": true,
+      "Y3_worst_year": true,
+      "Y4_top2_share": false,
+      "C1_capacity": true
+     },
+     "all_four_pass": false,
+     "failing": [
+      "Y4_top2_share"
+     ],
+     "rates_pct": {
+      "median": 7.2295,
+      "worst_full": -3.9842,
+      "zero": 0.0
+     },
+     "ruler_matrix": {
+      "net_top2_share": {
+       "state": "FAIL",
+       "value": 0.796235,
+       "trusted": false
+      },
+      "gross_top2_share": {
+       "state": "PASS",
+       "value": 0.612707,
+       "trusted": false
+      },
+      "effective_years": {
+       "state": "PASS",
+       "value": 5.08258,
+       "trusted": true
+      },
+      "years_for_half": {
+       "state": "FAIL",
+       "value": 1,
+       "trusted": true
+      }
+     },
+     "etas": {
+      "median|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "median",
+       "rate_pct": 7.2295,
+       "eta_years": 2,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7962,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7126,
+         "top2_share": 0.7126
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.6449,
+         "top2_share": 0.6449
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.5889,
+         "top2_share": 0.5889
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.5419,
+         "top2_share": 0.5419
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.5018,
+         "top2_share": 0.5018
+        }
+       ]
+      },
+      "median|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "median",
+       "rate_pct": 7.2295,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 5.08258,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.910764,
+         "top2_share": 0.7126
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 6.759714,
+         "top2_share": 0.6449
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 7.625932,
+         "top2_share": 0.5889
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 8.506652,
+         "top2_share": 0.5419
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 9.399661,
+         "top2_share": 0.5018
+        }
+       ]
+      },
+      "median|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "median",
+       "rate_pct": 7.2295,
+       "eta_years": 6,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7126
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6449
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5889
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5419
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5018
+        },
+        {
+         "n": 6,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4672
+        }
+       ]
+      },
+      "worst_full|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "worst_full",
+       "rate_pct": -3.9842,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7962,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.8513,
+         "top2_share": 0.8513
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.9145,
+         "top2_share": 0.9145
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.9879,
+         "top2_share": 0.9879
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 1.0741,
+         "top2_share": 1.0741
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 1.1768,
+         "top2_share": 1.1768
+        }
+       ]
+      },
+      "worst_full|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "worst_full",
+       "rate_pct": -3.9842,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 5.08258,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.694795,
+         "top2_share": 0.8513
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 6.328968,
+         "top2_share": 0.9145
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 6.983417,
+         "top2_share": 0.9879
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 7.656608,
+         "top2_share": 1.0741
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 8.347143,
+         "top2_share": 1.1768
+        }
+       ]
+      },
+      "worst_full|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "worst_full",
+       "rate_pct": -3.9842,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.8513
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.9145
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.9879
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 1,
+         "top2_share": 1.0741
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 1,
+         "top2_share": 1.1768
+        }
+       ]
+      },
+      "zero|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7962,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7962,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.7962,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.7962,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.7962,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.7962,
+         "top2_share": 0.7962
+        }
+       ]
+      },
+      "zero|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 5.08258,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.08258,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.08258,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 5.08258,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 5.08258,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 5.08258,
+         "top2_share": 0.7962
+        }
+       ]
+      },
+      "zero|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7962
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.7962
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "phase_robust_eta": {
+    "median|Y-GATE": {
+     "eta_years_worst_phase": 3,
+     "within_horizon": true,
+     "per_phase": [
+      1,
+      3,
+      1,
+      2,
+      2
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "median",
+     "caliber": null
+    },
+    "median|effective_years": {
+     "eta_years_worst_phase": 0,
+     "within_horizon": true,
+     "per_phase": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "median",
+     "caliber": "effective_years"
+    },
+    "median|years_for_half": {
+     "eta_years_worst_phase": 10,
+     "within_horizon": true,
+     "per_phase": [
+      7,
+      10,
+      4,
+      8,
+      6
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "median",
+     "caliber": "years_for_half"
+    },
+    "worst_full|Y-GATE": {
+     "eta_years_worst_phase": null,
+     "within_horizon": false,
+     "per_phase": [
+      1,
+      14,
+      null,
+      null,
+      null
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "worst_full",
+     "caliber": null
+    },
+    "worst_full|effective_years": {
+     "eta_years_worst_phase": 0,
+     "within_horizon": true,
+     "per_phase": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "worst_full",
+     "caliber": "effective_years"
+    },
+    "worst_full|years_for_half": {
+     "eta_years_worst_phase": null,
+     "within_horizon": false,
+     "per_phase": [
+      13,
+      null,
+      null,
+      null,
+      null
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "worst_full",
+     "caliber": "years_for_half"
+    },
+    "zero|Y-GATE": {
+     "eta_years_worst_phase": null,
+     "within_horizon": false,
+     "per_phase": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "zero",
+     "caliber": null
+    },
+    "zero|effective_years": {
+     "eta_years_worst_phase": 0,
+     "within_horizon": true,
+     "per_phase": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "zero",
+     "caliber": "effective_years"
+    },
+    "zero|years_for_half": {
+     "eta_years_worst_phase": null,
+     "within_horizon": false,
+     "per_phase": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "zero",
+     "caliber": "years_for_half"
+    }
+   },
+   "today_failing": [
+    "Y4_top2_share"
+   ]
+  },
+  {
+   "book": "nobond_base",
+   "vol_target": null,
+   "vol_floor": 0.0,
+   "phases": [
+    {
+     "start": "2020-01-01",
+     "years": {
+      "2020": 22.1943,
+      "2021": 9.3091,
+      "2022": 2.3313,
+      "2023": 5.2676,
+      "2024": 12.969,
+      "2025": 53.7327,
+      "2026": 4.2625
+     },
+     "metrics": {
+      "years": 7,
+      "positive_years": 7,
+      "median": 9.3091,
+      "worst": 2.3313,
+      "best": 53.7327,
+      "annual_sum": 110.0665,
+      "top2_share": 0.6898,
+      "worst_full_only": 2.3313,
+      "top2_share_full_only": 0.7176
+     },
+     "checks": {
+      "Y1_positive_years_share": true,
+      "Y2_median_positive": true,
+      "Y3_worst_year": true,
+      "Y4_top2_share": true,
+      "C1_capacity": true
+     },
+     "all_four_pass": true,
+     "failing": [],
+     "rates_pct": {
+      "median": 9.3091,
+      "worst_full": 2.3313,
+      "zero": 0.0
+     },
+     "ruler_matrix": {
+      "net_top2_share": {
+       "state": "PASS",
+       "value": 0.689828,
+       "trusted": false
+      },
+      "gross_top2_share": {
+       "state": "PASS",
+       "value": 0.689828,
+       "trusted": false
+      },
+      "effective_years": {
+       "state": "PASS",
+       "value": 4.423162,
+       "trusted": true
+      },
+      "years_for_half": {
+       "state": "FAIL",
+       "value": 2,
+       "trusted": true
+      }
+     },
+     "etas": {
+      "median|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "median",
+       "rate_pct": 9.3091,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 0.6898,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 0.636,
+         "top2_share": 0.636
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.59,
+         "top2_share": 0.59
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.5502,
+         "top2_share": 0.5502
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.5154,
+         "top2_share": 0.5154
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.4848,
+         "top2_share": 0.4848
+        }
+       ]
+      },
+      "median|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "median",
+       "rate_pct": 9.3091,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.423162,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.179556,
+         "top2_share": 0.636
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.96191,
+         "top2_share": 0.59
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 6.766387,
+         "top2_share": 0.5502
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 7.589849,
+         "top2_share": 0.5154
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 8.429709,
+         "top2_share": 0.4848
+        }
+       ]
+      },
+      "median|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "median",
+       "rate_pct": 9.3091,
+       "eta_years": 5,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.636
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.59
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5502
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5154
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4848
+        }
+       ]
+      },
+      "worst_full|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "worst_full",
+       "rate_pct": 2.3313,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 0.6898,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 0.6755,
+         "top2_share": 0.6755
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.6618,
+         "top2_share": 0.6618
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.6486,
+         "top2_share": 0.6486
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.6359,
+         "top2_share": 0.6359
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.6238,
+         "top2_share": 0.6238
+        }
+       ]
+      },
+      "worst_full|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "worst_full",
+       "rate_pct": 2.3313,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.423162,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.744221,
+         "top2_share": 0.6755
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.076253,
+         "top2_share": 0.6618
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 5.419101,
+         "top2_share": 0.6486
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 5.772601,
+         "top2_share": 0.6359
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 6.136589,
+         "top2_share": 0.6238
+        }
+       ]
+      },
+      "worst_full|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "worst_full",
+       "rate_pct": 2.3313,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6755
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6618
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6486
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6359
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6238
+        }
+       ]
+      },
+      "zero|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": true,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 0.6898,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 0.6898,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.6898,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.6898,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.6898,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.6898,
+         "top2_share": 0.6898
+        }
+       ]
+      },
+      "zero|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.423162,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.423162,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 4.423162,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 4.423162,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 4.423162,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 4.423162,
+         "top2_share": 0.6898
+        }
+       ]
+      },
+      "zero|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6898
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6898
+        }
+       ]
+      }
+     }
+    },
+    {
+     "start": "2020-01-08",
+     "years": {
+      "2020": 23.8024,
+      "2021": 5.6022,
+      "2022": 1.5289,
+      "2023": 22.1927,
+      "2024": 35.7054,
+      "2025": 64.0699,
+      "2026": -6.1297
+     },
+     "metrics": {
+      "years": 7,
+      "positive_years": 6,
+      "median": 22.1927,
+      "worst": -6.1297,
+      "best": 64.0699,
+      "annual_sum": 146.7719,
+      "top2_share": 0.6798,
+      "worst_full_only": 1.5289,
+      "top2_share_full_only": 0.7729
+     },
+     "checks": {
+      "Y1_positive_years_share": true,
+      "Y2_median_positive": true,
+      "Y3_worst_year": true,
+      "Y4_top2_share": true,
+      "C1_capacity": true
+     },
+     "all_four_pass": true,
+     "failing": [],
+     "rates_pct": {
+      "median": 22.1927,
+      "worst_full": 1.5289,
+      "zero": 0.0
+     },
+     "ruler_matrix": {
+      "net_top2_share": {
+       "state": "PASS",
+       "value": 0.679798,
+       "trusted": false
+      },
+      "gross_top2_share": {
+       "state": "PASS",
+       "value": 0.627395,
+       "trusted": false
+      },
+      "effective_years": {
+       "state": "PASS",
+       "value": 4.705631,
+       "trusted": true
+      },
+      "years_for_half": {
+       "state": "FAIL",
+       "value": 2,
+       "trusted": true
+      }
+     },
+     "etas": {
+      "median|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "median",
+       "rate_pct": 22.1927,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 0.6798,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 0.5905,
+         "top2_share": 0.5905
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.522,
+         "top2_share": 0.522
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.4677,
+         "top2_share": 0.4677
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.4236,
+         "top2_share": 0.4236
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.3871,
+         "top2_share": 0.3871
+        }
+       ]
+      },
+      "median|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "median",
+       "rate_pct": 22.1927,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.705631,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.645714,
+         "top2_share": 0.5905
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 6.597464,
+         "top2_share": 0.522
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 7.557784,
+         "top2_share": 0.4677
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 8.524582,
+         "top2_share": 0.4236
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 9.496395,
+         "top2_share": 0.3871
+        }
+       ]
+      },
+      "median|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "median",
+       "rate_pct": 22.1927,
+       "eta_years": 3,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5905
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.522
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4677
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4236
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 4,
+         "top2_share": 0.3871
+        }
+       ]
+      },
+      "worst_full|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "worst_full",
+       "rate_pct": 1.5289,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 0.6798,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 0.6728,
+         "top2_share": 0.6728
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.6659,
+         "top2_share": 0.6659
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.6592,
+         "top2_share": 0.6592
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.6526,
+         "top2_share": 0.6526
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.6461,
+         "top2_share": 0.6461
+        }
+       ]
+      },
+      "worst_full|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "worst_full",
+       "rate_pct": 1.5289,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.705631,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.89301,
+         "top2_share": 0.6728
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.08456,
+         "top2_share": 0.6659
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 5.280283,
+         "top2_share": 0.6592
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 5.480181,
+         "top2_share": 0.6526
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 5.684254,
+         "top2_share": 0.6461
+        }
+       ]
+      },
+      "worst_full|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "worst_full",
+       "rate_pct": 1.5289,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6728
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6659
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6592
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6526
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6461
+        }
+       ]
+      },
+      "zero|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": true,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 0.6798,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 0.6798,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.6798,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.6798,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.6798,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.6798,
+         "top2_share": 0.6798
+        }
+       ]
+      },
+      "zero|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.705631,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.705631,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 4.705631,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 4.705631,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 4.705631,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 4.705631,
+         "top2_share": 0.6798
+        }
+       ]
+      },
+      "zero|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6798
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6798
+        }
+       ]
+      }
+     }
+    },
+    {
+     "start": "2020-01-15",
+     "years": {
+      "2020": 37.3895,
+      "2021": 9.9124,
+      "2022": -18.5406,
+      "2023": 4.7013,
+      "2024": 31.1582,
+      "2025": 38.477,
+      "2026": -10.6609
+     },
+     "metrics": {
+      "years": 7,
+      "positive_years": 5,
+      "median": 9.9124,
+      "worst": -18.5406,
+      "best": 38.477,
+      "annual_sum": 92.4369,
+      "top2_share": 0.8207,
+      "worst_full_only": -18.5406,
+      "top2_share_full_only": 1.0598
+     },
+     "checks": {
+      "Y1_positive_years_share": true,
+      "Y2_median_positive": true,
+      "Y3_worst_year": false,
+      "Y4_top2_share": false,
+      "C1_capacity": true
+     },
+     "all_four_pass": false,
+     "failing": [
+      "Y3_worst_year",
+      "Y4_top2_share"
+     ],
+     "rates_pct": {
+      "median": 9.9124,
+      "worst_full": -18.5406,
+      "zero": 0.0
+     },
+     "ruler_matrix": {
+      "net_top2_share": {
+       "state": "FAIL",
+       "value": 0.820738,
+       "trusted": false
+      },
+      "gross_top2_share": {
+       "state": "PASS",
+       "value": 0.50296,
+       "trusted": false
+      },
+      "effective_years": {
+       "state": "PASS",
+       "value": 5.765824,
+       "trusted": true
+      },
+      "years_for_half": {
+       "state": "FAIL",
+       "value": 2,
+       "trusted": true
+      }
+     },
+     "etas": {
+      "median|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "median",
+       "rate_pct": 9.9124,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.8207,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7413,
+         "top2_share": 0.7413
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.6758,
+         "top2_share": 0.6758
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.621,
+         "top2_share": 0.621
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.5744,
+         "top2_share": 0.5744
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.5343,
+         "top2_share": 0.5343
+        }
+       ]
+      },
+      "median|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "median",
+       "rate_pct": 9.9124,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 5.765824,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 6.523666,
+         "top2_share": 0.7413
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 7.302114,
+         "top2_share": 0.6758
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 8.098716,
+         "top2_share": 0.621
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 8.911379,
+         "top2_share": 0.5744
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 9.738314,
+         "top2_share": 0.5343
+        }
+       ]
+      },
+      "median|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "median",
+       "rate_pct": 9.9124,
+       "eta_years": 6,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7413
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6758
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.621
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5744
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5343
+        },
+        {
+         "n": 6,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4994
+        }
+       ]
+      },
+      "worst_full|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "worst_full",
+       "rate_pct": -18.5406,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.8207,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 1.0267,
+         "top2_share": 1.0267
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 1.3705,
+         "top2_share": 1.3705
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2.0607,
+         "top2_share": 2.0607
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 4.1515,
+         "top2_share": 4.1515
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": null,
+         "top2_share": null
+        }
+       ]
+      },
+      "worst_full|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "worst_full",
+       "rate_pct": -18.5406,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 5.765824,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 6.723206,
+         "top2_share": 1.0267
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 7.688235,
+         "top2_share": 1.3705
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 8.659026,
+         "top2_share": 2.0607
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 9.634266,
+         "top2_share": 4.1515
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 10.613011,
+         "top2_share": null
+        }
+       ]
+      },
+      "worst_full|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "worst_full",
+       "rate_pct": -18.5406,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 1,
+         "top2_share": 1.0267
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 1,
+         "top2_share": 1.3705
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 1,
+         "top2_share": 2.0607
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 1,
+         "top2_share": 4.1515
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": null,
+         "top2_share": null
+        }
+       ]
+      },
+      "zero|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.8207,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.8207,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.8207,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.8207,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.8207,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.8207,
+         "top2_share": 0.8207
+        }
+       ]
+      },
+      "zero|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 5.765824,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.765824,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.765824,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 5.765824,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 5.765824,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 5.765824,
+         "top2_share": 0.8207
+        }
+       ]
+      },
+      "zero|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8207
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8207
+        }
+       ]
+      }
+     }
+    },
+    {
+     "start": "2020-01-22",
+     "years": {
+      "2020": 36.7529,
+      "2021": 6.956,
+      "2022": -1.1947,
+      "2023": 4.7929,
+      "2024": 3.7593,
+      "2025": 36.2126,
+      "2026": -5.1066
+     },
+     "metrics": {
+      "years": 7,
+      "positive_years": 5,
+      "median": 4.7929,
+      "worst": -5.1066,
+      "best": 36.7529,
+      "annual_sum": 82.1723,
+      "top2_share": 0.888,
+      "worst_full_only": -1.1947,
+      "top2_share_full_only": 0.8544
+     },
+     "checks": {
+      "Y1_positive_years_share": true,
+      "Y2_median_positive": true,
+      "Y3_worst_year": true,
+      "Y4_top2_share": false,
+      "C1_capacity": true
+     },
+     "all_four_pass": false,
+     "failing": [
+      "Y4_top2_share"
+     ],
+     "rates_pct": {
+      "median": 4.7929,
+      "worst_full": -1.1947,
+      "zero": 0.0
+     },
+     "ruler_matrix": {
+      "net_top2_share": {
+       "state": "FAIL",
+       "value": 0.887957,
+       "trusted": false
+      },
+      "gross_top2_share": {
+       "state": "FAIL",
+       "value": 0.769881,
+       "trusted": false
+      },
+      "effective_years": {
+       "state": "PASS",
+       "value": 4.12932,
+       "trusted": true
+      },
+      "years_for_half": {
+       "state": "FAIL",
+       "value": 2,
+       "trusted": true
+      }
+     },
+     "etas": {
+      "median|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "median",
+       "rate_pct": 4.7929,
+       "eta_years": 5,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.888,
+         "top2_share": 0.888
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.839,
+         "top2_share": 0.839
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.7952,
+         "top2_share": 0.7952
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.7557,
+         "top2_share": 0.7557
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.72,
+         "top2_share": 0.72
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.6875,
+         "top2_share": 0.6875
+        }
+       ]
+      },
+      "median|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "median",
+       "rate_pct": 4.7929,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.12932,
+         "top2_share": 0.888
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.677865,
+         "top2_share": 0.839
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.250513,
+         "top2_share": 0.7952
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 5.845577,
+         "top2_share": 0.7557
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 6.461495,
+         "top2_share": 0.72
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 7.096825,
+         "top2_share": 0.6875
+        }
+       ]
+      },
+      "median|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "median",
+       "rate_pct": 4.7929,
+       "eta_years": 14,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.888
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.839
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7952
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7557
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.72
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6875
+        },
+        {
+         "n": 14,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4888
+        }
+       ]
+      },
+      "worst_full|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "worst_full",
+       "rate_pct": -1.1947,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.888,
+         "top2_share": 0.888
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.9011,
+         "top2_share": 0.9011
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.9146,
+         "top2_share": 0.9146
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.9285,
+         "top2_share": 0.9285
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.9428,
+         "top2_share": 0.9428
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.9576,
+         "top2_share": 0.9576
+        }
+       ]
+      },
+      "worst_full|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "worst_full",
+       "rate_pct": -1.1947,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.12932,
+         "top2_share": 0.888
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.338082,
+         "top2_share": 0.9011
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 4.55257,
+         "top2_share": 0.9146
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 4.772779,
+         "top2_share": 0.9285
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 4.998697,
+         "top2_share": 0.9428
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 5.230315,
+         "top2_share": 0.9576
+        }
+       ]
+      },
+      "worst_full|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "worst_full",
+       "rate_pct": -1.1947,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.888
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.9011
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.9146
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.9285
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.9428
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.9576
+        }
+       ]
+      },
+      "zero|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.888,
+         "top2_share": 0.888
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.888,
+         "top2_share": 0.888
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.888,
+         "top2_share": 0.888
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.888,
+         "top2_share": 0.888
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.888,
+         "top2_share": 0.888
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.888,
+         "top2_share": 0.888
+        }
+       ]
+      },
+      "zero|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.12932,
+         "top2_share": 0.888
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.12932,
+         "top2_share": 0.888
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 4.12932,
+         "top2_share": 0.888
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 4.12932,
+         "top2_share": 0.888
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 4.12932,
+         "top2_share": 0.888
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 4.12932,
+         "top2_share": 0.888
+        }
+       ]
+      },
+      "zero|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.888
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.888
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.888
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.888
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.888
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.888
+        }
+       ]
+      }
+     }
+    },
+    {
+     "start": "2020-01-29",
+     "years": {
+      "2020": 35.1973,
+      "2021": 11.729,
+      "2022": -4.2379,
+      "2023": 11.4526,
+      "2024": 7.0748,
+      "2025": 52.1045,
+      "2026": -8.4548
+     },
+     "metrics": {
+      "years": 7,
+      "positive_years": 5,
+      "median": 11.4526,
+      "worst": -8.4548,
+      "best": 52.1045,
+      "annual_sum": 104.8654,
+      "top2_share": 0.8325,
+      "worst_full_only": -4.2379,
+      "top2_share_full_only": 0.8171
+     },
+     "checks": {
+      "Y1_positive_years_share": true,
+      "Y2_median_positive": true,
+      "Y3_worst_year": true,
+      "Y4_top2_share": false,
+      "C1_capacity": true
+     },
+     "all_four_pass": false,
+     "failing": [
+      "Y4_top2_share"
+     ],
+     "rates_pct": {
+      "median": 11.4526,
+      "worst_full": -4.2379,
+      "zero": 0.0
+     },
+     "ruler_matrix": {
+      "net_top2_share": {
+       "state": "FAIL",
+       "value": 0.832512,
+       "trusted": false
+      },
+      "gross_top2_share": {
+       "state": "PASS",
+       "value": 0.670259,
+       "trusted": false
+      },
+      "effective_years": {
+       "state": "PASS",
+       "value": 4.942383,
+       "trusted": true
+      },
+      "years_for_half": {
+       "state": "FAIL",
+       "value": 2,
+       "trusted": true
+      }
+     },
+     "etas": {
+      "median|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "median",
+       "rate_pct": 11.4526,
+       "eta_years": 2,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.8325,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7505,
+         "top2_share": 0.7505
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.6833,
+         "top2_share": 0.6833
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.6271,
+         "top2_share": 0.6271
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.5794,
+         "top2_share": 0.5794
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.5385,
+         "top2_share": 0.5385
+        }
+       ]
+      },
+      "median|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "median",
+       "rate_pct": 11.4526,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.942383,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.751598,
+         "top2_share": 0.7505
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 6.582938,
+         "top2_share": 0.6833
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 7.432828,
+         "top2_share": 0.6271
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 8.29841,
+         "top2_share": 0.5794
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 9.177374,
+         "top2_share": 0.5385
+        }
+       ]
+      },
+      "median|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "median",
+       "rate_pct": 11.4526,
+       "eta_years": 7,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7505
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6833
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6271
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5794
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5385
+        },
+        {
+         "n": 7,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4718
+        }
+       ]
+      },
+      "worst_full|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "worst_full",
+       "rate_pct": -4.2379,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.8325,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.8676,
+         "top2_share": 0.8676
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.9057,
+         "top2_share": 0.9057
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.9474,
+         "top2_share": 0.9474
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.993,
+         "top2_share": 0.993
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 1.0433,
+         "top2_share": 1.0433
+        }
+       ]
+      },
+      "worst_full|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "worst_full",
+       "rate_pct": -4.2379,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.942383,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.405701,
+         "top2_share": 0.8676
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.885837,
+         "top2_share": 0.9057
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 6.382146,
+         "top2_share": 0.9474
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 6.894004,
+         "top2_share": 0.993
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 7.420806,
+         "top2_share": 1.0433
+        }
+       ]
+      },
+      "worst_full|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "worst_full",
+       "rate_pct": -4.2379,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.8676
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.9057
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.9474
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.993
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 1,
+         "top2_share": 1.0433
+        }
+       ]
+      },
+      "zero|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.8325,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.8325,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.8325,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.8325,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.8325,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.8325,
+         "top2_share": 0.8325
+        }
+       ]
+      },
+      "zero|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.942383,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.942383,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 4.942383,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 4.942383,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 4.942383,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 4.942383,
+         "top2_share": 0.8325
+        }
+       ]
+      },
+      "zero|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8325
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8325
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "phase_robust_eta": {
+    "median|Y-GATE": {
+     "eta_years_worst_phase": null,
+     "within_horizon": false,
+     "per_phase": [
+      0,
+      0,
+      null,
+      5,
+      2
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "median",
+     "caliber": null
+    },
+    "median|effective_years": {
+     "eta_years_worst_phase": 0,
+     "within_horizon": true,
+     "per_phase": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "median",
+     "caliber": "effective_years"
+    },
+    "median|years_for_half": {
+     "eta_years_worst_phase": 14,
+     "within_horizon": true,
+     "per_phase": [
+      5,
+      3,
+      6,
+      14,
+      7
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "median",
+     "caliber": "years_for_half"
+    },
+    "worst_full|Y-GATE": {
+     "eta_years_worst_phase": null,
+     "within_horizon": false,
+     "per_phase": [
+      0,
+      0,
+      null,
+      null,
+      null
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "worst_full",
+     "caliber": null
+    },
+    "worst_full|effective_years": {
+     "eta_years_worst_phase": 0,
+     "within_horizon": true,
+     "per_phase": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "worst_full",
+     "caliber": "effective_years"
+    },
+    "worst_full|years_for_half": {
+     "eta_years_worst_phase": null,
+     "within_horizon": false,
+     "per_phase": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "worst_full",
+     "caliber": "years_for_half"
+    },
+    "zero|Y-GATE": {
+     "eta_years_worst_phase": null,
+     "within_horizon": false,
+     "per_phase": [
+      0,
+      0,
+      null,
+      null,
+      null
+     ],
+     "non_monotone_any_phase": true,
+     "rate_kind": "zero",
+     "caliber": null
+    },
+    "zero|effective_years": {
+     "eta_years_worst_phase": 0,
+     "within_horizon": true,
+     "per_phase": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "zero",
+     "caliber": "effective_years"
+    },
+    "zero|years_for_half": {
+     "eta_years_worst_phase": null,
+     "within_horizon": false,
+     "per_phase": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "zero",
+     "caliber": "years_for_half"
+    }
+   },
+   "today_failing": [
+    "Y3_worst_year",
+    "Y4_top2_share"
+   ]
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "vol_target": 0.08,
+   "vol_floor": 0.5,
+   "phases": [
+    {
+     "start": "2020-01-01",
+     "years": {
+      "2020": 10.2411,
+      "2021": 7.4959,
+      "2022": 3.0014,
+      "2023": 5.473,
+      "2024": 14.165,
+      "2025": 42.6541,
+      "2026": 1.9581
+     },
+     "metrics": {
+      "years": 7,
+      "positive_years": 7,
+      "median": 7.4959,
+      "worst": 1.9581,
+      "best": 42.6541,
+      "annual_sum": 84.9887,
+      "top2_share": 0.6685,
+      "worst_full_only": 3.0014,
+      "top2_share_full_only": 0.6843
+     },
+     "checks": {
+      "Y1_positive_years_share": true,
+      "Y2_median_positive": true,
+      "Y3_worst_year": true,
+      "Y4_top2_share": true,
+      "C1_capacity": true
+     },
+     "all_four_pass": true,
+     "failing": [],
+     "rates_pct": {
+      "median": 7.4959,
+      "worst_full": 3.0014,
+      "zero": 0.0
+     },
+     "ruler_matrix": {
+      "net_top2_share": {
+       "state": "PASS",
+       "value": 0.668549,
+       "trusted": false
+      },
+      "gross_top2_share": {
+       "state": "PASS",
+       "value": 0.668549,
+       "trusted": false
+      },
+      "effective_years": {
+       "state": "PASS",
+       "value": 4.460861,
+       "trusted": true
+      },
+      "years_for_half": {
+       "state": "FAIL",
+       "value": 1,
+       "trusted": true
+      }
+     },
+     "etas": {
+      "median|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "median",
+       "rate_pct": 7.4959,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 0.6685,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 0.6144,
+         "top2_share": 0.6144
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.5683,
+         "top2_share": 0.5683
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.5287,
+         "top2_share": 0.5287
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.4942,
+         "top2_share": 0.4942
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.4639,
+         "top2_share": 0.4639
+        }
+       ]
+      },
+      "median|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "median",
+       "rate_pct": 7.4959,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.460861,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.235548,
+         "top2_share": 0.6144
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 6.035588,
+         "top2_share": 0.5683
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 6.857023,
+         "top2_share": 0.5287
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 7.696656,
+         "top2_share": 0.4942
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 8.551883,
+         "top2_share": 0.4639
+        }
+       ]
+      },
+      "median|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "median",
+       "rate_pct": 7.4959,
+       "eta_years": 4,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6144
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5683
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5287
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4942
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4639
+        }
+       ]
+      },
+      "worst_full|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "worst_full",
+       "rate_pct": 3.0014,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 0.6685,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 0.6457,
+         "top2_share": 0.6457
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.6244,
+         "top2_share": 0.6244
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.6045,
+         "top2_share": 0.6045
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.5858,
+         "top2_share": 0.5858
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.5682,
+         "top2_share": 0.5682
+        }
+       ]
+      },
+      "worst_full|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "worst_full",
+       "rate_pct": 3.0014,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.460861,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.918916,
+         "top2_share": 0.6457
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.395211,
+         "top2_share": 0.6244
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 5.888998,
+         "top2_share": 0.6045
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 6.399556,
+         "top2_share": 0.5858
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 6.926185,
+         "top2_share": 0.5682
+        }
+       ]
+      },
+      "worst_full|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "worst_full",
+       "rate_pct": 3.0014,
+       "eta_years": 10,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6457
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6244
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6045
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5858
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5682
+        },
+        {
+         "n": 10,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4941
+        }
+       ]
+      },
+      "zero|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": true,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 0.6685,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 0.6685,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.6685,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.6685,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.6685,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.6685,
+         "top2_share": 0.6685
+        }
+       ]
+      },
+      "zero|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.460861,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.460861,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 4.460861,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 4.460861,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 4.460861,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 4.460861,
+         "top2_share": 0.6685
+        }
+       ]
+      },
+      "zero|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.6685
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.6685
+        }
+       ]
+      }
+     }
+    },
+    {
+     "start": "2020-01-08",
+     "years": {
+      "2020": 9.0843,
+      "2021": 3.3094,
+      "2022": 1.1199,
+      "2023": 14.1691,
+      "2024": 25.3298,
+      "2025": 39.3274,
+      "2026": -5.6443
+     },
+     "metrics": {
+      "years": 7,
+      "positive_years": 6,
+      "median": 9.0843,
+      "worst": -5.6443,
+      "best": 39.3274,
+      "annual_sum": 86.6956,
+      "top2_share": 0.7458,
+      "worst_full_only": 1.1199,
+      "top2_share_full_only": 0.7766
+     },
+     "checks": {
+      "Y1_positive_years_share": true,
+      "Y2_median_positive": true,
+      "Y3_worst_year": true,
+      "Y4_top2_share": false,
+      "C1_capacity": true
+     },
+     "all_four_pass": false,
+     "failing": [
+      "Y4_top2_share"
+     ],
+     "rates_pct": {
+      "median": 9.0843,
+      "worst_full": 1.1199,
+      "zero": 0.0
+     },
+     "ruler_matrix": {
+      "net_top2_share": {
+       "state": "FAIL",
+       "value": 0.745795,
+       "trusted": false
+      },
+      "gross_top2_share": {
+       "state": "PASS",
+       "value": 0.659873,
+       "trusted": false
+      },
+      "effective_years": {
+       "state": "PASS",
+       "value": 4.693551,
+       "trusted": true
+      },
+      "years_for_half": {
+       "state": "FAIL",
+       "value": 2,
+       "trusted": true
+      }
+     },
+     "etas": {
+      "median|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "median",
+       "rate_pct": 9.0843,
+       "eta_years": 1,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7458,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 0.6751,
+         "top2_share": 0.6751
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.6166,
+         "top2_share": 0.6166
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.5674,
+         "top2_share": 0.5674
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.5255,
+         "top2_share": 0.5255
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.4894,
+         "top2_share": 0.4894
+        }
+       ]
+      },
+      "median|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "median",
+       "rate_pct": 9.0843,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.693551,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.503861,
+         "top2_share": 0.6751
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 6.337234,
+         "top2_share": 0.6166
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 7.189773,
+         "top2_share": 0.5674
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 8.058395,
+         "top2_share": 0.5255
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 8.940635,
+         "top2_share": 0.4894
+        }
+       ]
+      },
+      "median|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "median",
+       "rate_pct": 9.0843,
+       "eta_years": 5,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6751
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6166
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5674
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5255
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4894
+        }
+       ]
+      },
+      "worst_full|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "worst_full",
+       "rate_pct": 1.1199,
+       "eta_years": 6,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7458,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7363,
+         "top2_share": 0.7363
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.727,
+         "top2_share": 0.727
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.718,
+         "top2_share": 0.718
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.7092,
+         "top2_share": 0.7092
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.7005,
+         "top2_share": 0.7005
+        },
+        {
+         "n": 6,
+         "ok": true,
+         "value": 0.6922,
+         "top2_share": 0.6922
+        }
+       ]
+      },
+      "worst_full|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "worst_full",
+       "rate_pct": 1.1199,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.693551,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.906743,
+         "top2_share": 0.7363
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.125176,
+         "top2_share": 0.727
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 5.348843,
+         "top2_share": 0.718
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 5.577734,
+         "top2_share": 0.7092
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 5.81184,
+         "top2_share": 0.7005
+        }
+       ]
+      },
+      "worst_full|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "worst_full",
+       "rate_pct": 1.1199,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7363
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.727
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.718
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7092
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7005
+        }
+       ]
+      },
+      "zero|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7458,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7458,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.7458,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.7458,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.7458,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.7458,
+         "top2_share": 0.7458
+        }
+       ]
+      },
+      "zero|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.693551,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.693551,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 4.693551,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 4.693551,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 4.693551,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 4.693551,
+         "top2_share": 0.7458
+        }
+       ]
+      },
+      "zero|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7458
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7458
+        }
+       ]
+      }
+     }
+    },
+    {
+     "start": "2020-01-15",
+     "years": {
+      "2020": 14.3267,
+      "2021": 10.0841,
+      "2022": -12.4987,
+      "2023": 3.9926,
+      "2024": 23.1855,
+      "2025": 25.0608,
+      "2026": -3.0162
+     },
+     "metrics": {
+      "years": 7,
+      "positive_years": 5,
+      "median": 10.0841,
+      "worst": -12.4987,
+      "best": 25.0608,
+      "annual_sum": 61.1347,
+      "top2_share": 0.7892,
+      "worst_full_only": -12.4987,
+      "top2_share_full_only": 0.9683
+     },
+     "checks": {
+      "Y1_positive_years_share": true,
+      "Y2_median_positive": true,
+      "Y3_worst_year": true,
+      "Y4_top2_share": false,
+      "C1_capacity": true
+     },
+     "all_four_pass": false,
+     "failing": [
+      "Y4_top2_share"
+     ],
+     "rates_pct": {
+      "median": 10.0841,
+      "worst_full": -12.4987,
+      "zero": 0.0
+     },
+     "ruler_matrix": {
+      "net_top2_share": {
+       "state": "FAIL",
+       "value": 0.78918,
+       "trusted": false
+      },
+      "gross_top2_share": {
+       "state": "PASS",
+       "value": 0.52348,
+       "trusted": false
+      },
+      "effective_years": {
+       "state": "PASS",
+       "value": 5.763657,
+       "trusted": true
+      },
+      "years_for_half": {
+       "state": "FAIL",
+       "value": 2,
+       "trusted": true
+      }
+     },
+     "etas": {
+      "median|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "median",
+       "rate_pct": 10.0841,
+       "eta_years": 1,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7892,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 0.6774,
+         "top2_share": 0.6774
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.5934,
+         "top2_share": 0.5934
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.5279,
+         "top2_share": 0.5279
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.4755,
+         "top2_share": 0.4755
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.4325,
+         "top2_share": 0.4325
+        }
+       ]
+      },
+      "median|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "median",
+       "rate_pct": 10.0841,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 5.763657,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 6.691739,
+         "top2_share": 0.6774
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 7.631142,
+         "top2_share": 0.5934
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 8.579399,
+         "top2_share": 0.5279
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 9.534707,
+         "top2_share": 0.4755
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 10.495722,
+         "top2_share": 0.4325
+        }
+       ]
+      },
+      "median|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "median",
+       "rate_pct": 10.0841,
+       "eta_years": 4,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6774
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5934
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5279
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4755
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4325
+        }
+       ]
+      },
+      "worst_full|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "worst_full",
+       "rate_pct": -12.4987,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7892,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.992,
+         "top2_share": 0.992
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 1.3351,
+         "top2_share": 1.3351
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2.041,
+         "top2_share": 2.041
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 4.3309,
+         "top2_share": 4.3309
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": null,
+         "top2_share": null
+        }
+       ]
+      },
+      "worst_full|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "worst_full",
+       "rate_pct": -12.4987,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 5.763657,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 6.74072,
+         "top2_share": 0.992
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 7.722364,
+         "top2_share": 1.3351
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 8.707343,
+         "top2_share": 2.041
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 9.694823,
+         "top2_share": 4.3309
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 10.684229,
+         "top2_share": null
+        }
+       ]
+      },
+      "worst_full|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "worst_full",
+       "rate_pct": -12.4987,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.992
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 1,
+         "top2_share": 1.3351
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 1,
+         "top2_share": 2.041
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 1,
+         "top2_share": 4.3309
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": null,
+         "top2_share": null
+        }
+       ]
+      },
+      "zero|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7892,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7892,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.7892,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.7892,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.7892,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.7892,
+         "top2_share": 0.7892
+        }
+       ]
+      },
+      "zero|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 5.763657,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.763657,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.763657,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 5.763657,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 5.763657,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 5.763657,
+         "top2_share": 0.7892
+        }
+       ]
+      },
+      "zero|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7892
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7892
+        }
+       ]
+      }
+     }
+    },
+    {
+     "start": "2020-01-22",
+     "years": {
+      "2020": 18.9009,
+      "2021": 9.1995,
+      "2022": -1.3627,
+      "2023": 2.6739,
+      "2024": 4.6941,
+      "2025": 22.462,
+      "2026": -4.8311
+     },
+     "metrics": {
+      "years": 7,
+      "positive_years": 5,
+      "median": 4.6941,
+      "worst": -4.8311,
+      "best": 22.462,
+      "annual_sum": 51.7366,
+      "top2_share": 0.7995,
+      "worst_full_only": -1.3627,
+      "top2_share_full_only": 0.8406
+     },
+     "checks": {
+      "Y1_positive_years_share": true,
+      "Y2_median_positive": true,
+      "Y3_worst_year": true,
+      "Y4_top2_share": false,
+      "C1_capacity": true
+     },
+     "all_four_pass": false,
+     "failing": [
+      "Y4_top2_share"
+     ],
+     "rates_pct": {
+      "median": 4.6941,
+      "worst_full": -1.3627,
+      "zero": 0.0
+     },
+     "ruler_matrix": {
+      "net_top2_share": {
+       "state": "FAIL",
+       "value": 0.799492,
+       "trusted": false
+      },
+      "gross_top2_share": {
+       "state": "PASS",
+       "value": 0.645044,
+       "trusted": false
+      },
+      "effective_years": {
+       "state": "PASS",
+       "value": 4.985936,
+       "trusted": true
+      },
+      "years_for_half": {
+       "state": "FAIL",
+       "value": 2,
+       "trusted": true
+      }
+     },
+     "etas": {
+      "median|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "median",
+       "rate_pct": 4.6941,
+       "eta_years": 2,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7995,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.733,
+         "top2_share": 0.733
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.6767,
+         "top2_share": 0.6767
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.6284,
+         "top2_share": 0.6284
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.5866,
+         "top2_share": 0.5866
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.55,
+         "top2_share": 0.55
+        }
+       ]
+      },
+      "median|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "median",
+       "rate_pct": 4.6941,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.985936,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.731726,
+         "top2_share": 0.733
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 6.501087,
+         "top2_share": 0.6767
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 7.290976,
+         "top2_share": 0.6284
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 8.098838,
+         "top2_share": 0.5866
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 8.922508,
+         "top2_share": 0.55
+        }
+       ]
+      },
+      "median|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "median",
+       "rate_pct": 4.6941,
+       "eta_years": 7,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.733
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6767
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6284
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5866
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.55
+        },
+        {
+         "n": 7,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.489
+        }
+       ]
+      },
+      "worst_full|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "worst_full",
+       "rate_pct": -1.3627,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7995,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.8211,
+         "top2_share": 0.8211
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.844,
+         "top2_share": 0.844
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.8681,
+         "top2_share": 0.8681
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.8936,
+         "top2_share": 0.8936
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.9208,
+         "top2_share": 0.9208
+        }
+       ]
+      },
+      "worst_full|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "worst_full",
+       "rate_pct": -1.3627,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.985936,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.335379,
+         "top2_share": 0.8211
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.695983,
+         "top2_share": 0.844
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 6.06756,
+         "top2_share": 0.8681
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 6.44992,
+         "top2_share": 0.8936
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 6.842871,
+         "top2_share": 0.9208
+        }
+       ]
+      },
+      "worst_full|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "worst_full",
+       "rate_pct": -1.3627,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8211
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.844
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8681
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.8936
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.9208
+        }
+       ]
+      },
+      "zero|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.7995,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7995,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.7995,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.7995,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.7995,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.7995,
+         "top2_share": 0.7995
+        }
+       ]
+      },
+      "zero|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 4.985936,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 4.985936,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 4.985936,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 4.985936,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 4.985936,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 4.985936,
+         "top2_share": 0.7995
+        }
+       ]
+      },
+      "zero|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7995
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7995
+        }
+       ]
+      }
+     }
+    },
+    {
+     "start": "2020-01-29",
+     "years": {
+      "2020": 17.5126,
+      "2021": 7.5607,
+      "2022": -3.8348,
+      "2023": 10.1634,
+      "2024": 4.1353,
+      "2025": 35.9281,
+      "2026": -5.3352
+     },
+     "metrics": {
+      "years": 7,
+      "positive_years": 5,
+      "median": 7.5607,
+      "worst": -5.3352,
+      "best": 35.9281,
+      "annual_sum": 66.1301,
+      "top2_share": 0.8081,
+      "worst_full_only": -3.8348,
+      "top2_share_full_only": 0.8543
+     },
+     "checks": {
+      "Y1_positive_years_share": true,
+      "Y2_median_positive": true,
+      "Y3_worst_year": true,
+      "Y4_top2_share": false,
+      "C1_capacity": true
+     },
+     "all_four_pass": false,
+     "failing": [
+      "Y4_top2_share"
+     ],
+     "rates_pct": {
+      "median": 7.5607,
+      "worst_full": -3.8348,
+      "zero": 0.0
+     },
+     "ruler_matrix": {
+      "net_top2_share": {
+       "state": "FAIL",
+       "value": 0.808115,
+       "trusted": false
+      },
+      "gross_top2_share": {
+       "state": "PASS",
+       "value": 0.632658,
+       "trusted": false
+      },
+      "effective_years": {
+       "state": "PASS",
+       "value": 5.069122,
+       "trusted": true
+      },
+      "years_for_half": {
+       "state": "FAIL",
+       "value": 1,
+       "trusted": true
+      }
+     },
+     "etas": {
+      "median|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "median",
+       "rate_pct": 7.5607,
+       "eta_years": 2,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.8081,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.7252,
+         "top2_share": 0.7252
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 0.6577,
+         "top2_share": 0.6577
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 0.6017,
+         "top2_share": 0.6017
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 0.5545,
+         "top2_share": 0.5545
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 0.5142,
+         "top2_share": 0.5142
+        }
+       ]
+      },
+      "median|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "median",
+       "rate_pct": 7.5607,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 5.069122,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.893305,
+         "top2_share": 0.7252
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 6.738495,
+         "top2_share": 0.6577
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 7.601192,
+         "top2_share": 0.6017
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 8.478623,
+         "top2_share": 0.5545
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 9.36856,
+         "top2_share": 0.5142
+        }
+       ]
+      },
+      "median|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "median",
+       "rate_pct": 7.5607,
+       "eta_years": 6,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.7252
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6577
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.6017
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5545
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 2,
+         "top2_share": 0.5142
+        },
+        {
+         "n": 6,
+         "ok": true,
+         "value": 3,
+         "top2_share": 0.4793
+        }
+       ]
+      },
+      "worst_full|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "worst_full",
+       "rate_pct": -3.8348,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.8081,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.8579,
+         "top2_share": 0.8579
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.9141,
+         "top2_share": 0.9141
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.9783,
+         "top2_share": 0.9783
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 1.0522,
+         "top2_share": 1.0522
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 1.1381,
+         "top2_share": 1.1381
+        }
+       ]
+      },
+      "worst_full|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "worst_full",
+       "rate_pct": -3.8348,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 5.069122,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.648359,
+         "top2_share": 0.8579
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 6.248642,
+         "top2_share": 0.9141
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 6.868567,
+         "top2_share": 0.9783
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 7.506834,
+         "top2_share": 1.0522
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 8.16224,
+         "top2_share": 1.1381
+        }
+       ]
+      },
+      "worst_full|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "worst_full",
+       "rate_pct": -3.8348,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.8579
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.9141
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.9783
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 1,
+         "top2_share": 1.0522
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 1,
+         "top2_share": 1.1381
+        }
+       ]
+      },
+      "zero|Y-GATE": {
+       "caliber": null,
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 0.8081,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 0.8081,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 0.8081,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 0.8081,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 0.8081,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 0.8081,
+         "top2_share": 0.8081
+        }
+       ]
+      },
+      "zero|effective_years": {
+       "caliber": "effective_years",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": 0,
+       "within_horizon": true,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": true,
+         "value": 5.069122,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 1,
+         "ok": true,
+         "value": 5.069122,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 2,
+         "ok": true,
+         "value": 5.069122,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 3,
+         "ok": true,
+         "value": 5.069122,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 4,
+         "ok": true,
+         "value": 5.069122,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 5,
+         "ok": true,
+         "value": 5.069122,
+         "top2_share": 0.8081
+        }
+       ]
+      },
+      "zero|years_for_half": {
+       "caliber": "years_for_half",
+       "rate_kind": "zero",
+       "rate_pct": 0.0,
+       "eta_years": null,
+       "within_horizon": false,
+       "non_monotone": false,
+       "trace": [
+        {
+         "n": 0,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 1,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 2,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 3,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 4,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.8081
+        },
+        {
+         "n": 5,
+         "ok": false,
+         "value": 1,
+         "top2_share": 0.8081
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "phase_robust_eta": {
+    "median|Y-GATE": {
+     "eta_years_worst_phase": 2,
+     "within_horizon": true,
+     "per_phase": [
+      0,
+      1,
+      1,
+      2,
+      2
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "median",
+     "caliber": null
+    },
+    "median|effective_years": {
+     "eta_years_worst_phase": 0,
+     "within_horizon": true,
+     "per_phase": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "median",
+     "caliber": "effective_years"
+    },
+    "median|years_for_half": {
+     "eta_years_worst_phase": 7,
+     "within_horizon": true,
+     "per_phase": [
+      4,
+      5,
+      4,
+      7,
+      6
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "median",
+     "caliber": "years_for_half"
+    },
+    "worst_full|Y-GATE": {
+     "eta_years_worst_phase": null,
+     "within_horizon": false,
+     "per_phase": [
+      0,
+      6,
+      null,
+      null,
+      null
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "worst_full",
+     "caliber": null
+    },
+    "worst_full|effective_years": {
+     "eta_years_worst_phase": 0,
+     "within_horizon": true,
+     "per_phase": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "worst_full",
+     "caliber": "effective_years"
+    },
+    "worst_full|years_for_half": {
+     "eta_years_worst_phase": null,
+     "within_horizon": false,
+     "per_phase": [
+      10,
+      null,
+      null,
+      null,
+      null
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "worst_full",
+     "caliber": "years_for_half"
+    },
+    "zero|Y-GATE": {
+     "eta_years_worst_phase": null,
+     "within_horizon": false,
+     "per_phase": [
+      0,
+      null,
+      null,
+      null,
+      null
+     ],
+     "non_monotone_any_phase": true,
+     "rate_kind": "zero",
+     "caliber": null
+    },
+    "zero|effective_years": {
+     "eta_years_worst_phase": 0,
+     "within_horizon": true,
+     "per_phase": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "zero",
+     "caliber": "effective_years"
+    },
+    "zero|years_for_half": {
+     "eta_years_worst_phase": null,
+     "within_horizon": false,
+     "per_phase": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "non_monotone_any_phase": false,
+     "rate_kind": "zero",
+     "caliber": "years_for_half"
+    }
+   },
+   "today_failing": [
+    "Y4_top2_share"
+   ]
+  }
+ ],
+ "single_phase_candidates": [
+  {
+   "candidate": "smallcap_book",
+   "arm": "n20",
+   "verdict_today": "CONDITIONAL",
+   "all_four_pass": false,
+   "failing": [
+    "Y3_worst_year"
+   ],
+   "metrics": {
+    "years": 7,
+    "positive_years": 5,
+    "median": 35.722,
+    "worst": -18.709,
+    "best": 75.939,
+    "annual_sum": 179.634,
+    "top2_share": 0.6951,
+    "worst_full_only": -7.608,
+    "top2_share_full_only": 0.6295
+   },
+   "rates_pct": {
+    "median": 35.722,
+    "worst_full": -7.608,
+    "zero": 0.0
+   },
+   "ruler_matrix": {
+    "net_top2_share": {
+     "state": "PASS",
+     "value": 0.695113,
+     "trusted": false
+    },
+    "gross_top2_share": {
+     "state": "PASS",
+     "value": 0.537595,
+     "trusted": false
+    },
+    "effective_years": {
+     "state": "PASS",
+     "value": 5.304049,
+     "trusted": true
+    },
+    "years_for_half": {
+     "state": "FAIL",
+     "value": 2,
+     "trusted": true
+    }
+   },
+   "eta_years": {
+    "median|Y-GATE": null,
+    "median|effective_years": 0,
+    "median|years_for_half": 2,
+    "worst_full|Y-GATE": null,
+    "worst_full|effective_years": 0,
+    "worst_full|years_for_half": null,
+    "zero|Y-GATE": null,
+    "zero|effective_years": 0,
+    "zero|years_for_half": null
+   },
+   "non_monotone": {
+    "median|Y-GATE": false,
+    "median|effective_years": false,
+    "median|years_for_half": false,
+    "worst_full|Y-GATE": false,
+    "worst_full|effective_years": false,
+    "worst_full|years_for_half": false,
+    "zero|Y-GATE": false,
+    "zero|effective_years": false,
+    "zero|years_for_half": false
+   }
+  },
+  {
+   "candidate": "breadth_book",
+   "arm": "ALL",
+   "verdict_today": "CONDITIONAL",
+   "all_four_pass": false,
+   "failing": [
+    "Y4_top2_share"
+   ],
+   "metrics": {
+    "years": 7,
+    "positive_years": 5,
+    "median": 13.1933,
+    "worst": -12.4961,
+    "best": 31.2443,
+    "annual_sum": 67.2873,
+    "top2_share": 0.7934,
+    "worst_full_only": -12.4961,
+    "top2_share_full_only": 0.6957
+   },
+   "rates_pct": {
+    "median": 13.1933,
+    "worst_full": -12.4961,
+    "zero": 0.0
+   },
+   "ruler_matrix": {
+    "net_top2_share": {
+     "state": "FAIL",
+     "value": 0.793383,
+     "trusted": false
+    },
+    "gross_top2_share": {
+     "state": "PASS",
+     "value": 0.480152,
+     "trusted": false
+    },
+    "effective_years": {
+     "state": "PASS",
+     "value": 6.288372,
+     "trusted": true
+    },
+    "years_for_half": {
+     "state": "FAIL",
+     "value": 2,
+     "trusted": true
+    }
+   },
+   "eta_years": {
+    "median|Y-GATE": 1,
+    "median|effective_years": 0,
+    "median|years_for_half": 3,
+    "worst_full|Y-GATE": null,
+    "worst_full|effective_years": 0,
+    "worst_full|years_for_half": null,
+    "zero|Y-GATE": null,
+    "zero|effective_years": 0,
+    "zero|years_for_half": null
+   },
+   "non_monotone": {
+    "median|Y-GATE": false,
+    "median|effective_years": false,
+    "median|years_for_half": false,
+    "worst_full|Y-GATE": false,
+    "worst_full|effective_years": false,
+    "worst_full|years_for_half": false,
+    "zero|Y-GATE": false,
+    "zero|effective_years": false,
+    "zero|years_for_half": false
+   }
+  }
+ ],
+ "elapsed_sec": 67.2
+}
