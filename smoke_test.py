@@ -22448,5 +22448,74 @@ except Exception as _e527x:
 check(_name527, not _bad527, "; ".join(_bad527)[:240] or _d527)
 
 
+# E529: every depth-cap arm that returns a null sentinel, and what a call site does with it.
+#   * every published arm must carry a justification a reader can check (a depth-worded name or a
+#     +1 into a recursive call); an index guard tested against a constant must never be published
+#   * the sentinel must be one of the null spellings, and the count of rejected counter tests must
+#     be published rather than silently dropped
+#   * a call site must carry its attribution list, and doctored copies (an unknown sentinel, a
+#     justification of "neither", a dropped attribution, an inflated call-site count) must be
+#     refused
+_name529 = ("E529 publishes every depth-cap null arm with its rejections and reads (r1560 bm-b)")
+_bad529 = []
+try:
+    _m529 = __import__("importlib").import_module("e529_depth_cap_null")
+    _f529 = json.load(open(os.path.join("results", "state_tilt", "depthcapnull_latest.json"),
+                           encoding="utf-8"))
+    _s529 = _f529.get("summary") or {}
+    _a529 = _f529.get("arms") or []
+    _c529 = _f529.get("call_sites") or []
+    _bad529.extend(_m529.face_problems(_f529))
+    if not _a529:
+        _bad529.append("the depth-cap arm population is empty")
+    for _row in _a529:
+        if _row.get("justification") not in _m529.JUSTIFY_VOCAB \
+                or _row.get("justification") == _m529.J_NONE:
+            _bad529.append("an arm was published without a depth-counter justification")
+            break
+        if _row.get("sentinel") not in _m529.NULL_SPELLINGS:
+            _bad529.append("an arm publishes a sentinel that is not a null spelling")
+            break
+        if not isinstance(_row.get("lines"), list) or not _row.get("lines"):
+            _bad529.append("an arm publishes no source line")
+            break
+    if _s529.get("rejected_counter_tests", 0) < 1:
+        _bad529.append("the index guards this scan refuses are not counted")
+    if not _s529.get("rejected_counter_test_examples"):
+        _bad529.append("no rejected counter test is shown, so the rejection is unreadable")
+    if _s529.get("call_sites") != len([_x for _x in _c529 if _x.get("attributed_modules")]):
+        _bad529.append("summary.call_sites does not count the attributed sites")
+    if any("attributed_modules" not in _x for _x in _c529):
+        _bad529.append("a call site carries no attribution list")
+
+    _doc529 = json.loads(json.dumps(_f529))
+    if _doc529["arms"]:
+        _doc529["arms"][0]["sentinel"] = "NO-WITNESS"
+    if not _m529.face_problems(_doc529):
+        _bad529.append("an unknown sentinel was accepted")
+    _doc529 = json.loads(json.dumps(_f529))
+    if _doc529["arms"]:
+        _doc529["arms"][0]["justification"] = _m529.J_NONE
+    if not _m529.face_problems(_doc529):
+        _bad529.append("an arm justified by neither a name nor a recursion was accepted")
+    _doc529 = json.loads(json.dumps(_f529))
+    for _x in _doc529.get("call_sites") or []:
+        _x.pop("attributed_modules", None)
+        break
+    if not _m529.face_problems(_doc529):
+        _bad529.append("a call site with no attribution was accepted")
+    _doc529 = json.loads(json.dumps(_f529))
+    if _doc529["arms"]:
+        _doc529["arms"][0]["call_site_count"] = (_doc529["arms"][0].get("call_site_count") or 0) + 7
+    if not _m529.face_problems(_doc529):
+        _bad529.append("an inflated call-site count was accepted")
+    _d529 = "%d arms / %d attributed sites / %d rejections" % (
+        len(_a529), _s529.get("call_sites"), _s529.get("rejected_counter_tests"))
+except Exception as _e529x:
+    _bad529.append(repr(_e529x)[:160])
+    _d529 = "leg could not run"
+check(_name529, not _bad529, "; ".join(_bad529)[:240] or _d529)
+
+
 if __name__ == "__main__":
     sys.exit(main())

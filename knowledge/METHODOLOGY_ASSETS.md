@@ -13153,3 +13153,13 @@ E523 把 351 个交接站点各跟了一跳就停：40 个到了会闸的读者�
 - **判定必须要求绑定支配调用**：分支内绑定、重复绑定、调用点之后的绑定，三档一律不判定——静态最近绑定不等于运行时的值。
 - **「测试不点名参数」要单列成一类**，不能并进「未判定」：并进去读者会以为 43 条只是「还没看」，实际它们没有可看的东西。
 **验证**：`scripts/e527_undecidable_arm.py`（build rc0 / check problems=0 / verify 重建 problems=0 / **selftest 11 例 + 6 枚 doctored 全拒**：手写 verdict、结构臂写成 open、判定臂无字面量、站点判词不重导、结算臂绑到调用结果、summary 计数不重导）；面 `results/state_tilt/UNDECIDABLEARM-2026-11-08.json` + `undecidablearm_latest.json` 同源；S6 腿 `undecidable_arm` rc0 0.05s；smoke 腿 `# E527` 1/1（`scripts/_r1559_leg527.py` 按锚点从 smoke_test.py 逐字切出执行）；digest `research/digests/DIGEST-20261108-r1559-e527-undecidable-arm.md`。未跑：全量 smoke 套件（~20-30min）、S6 其余腿、采集器族与 market/paper 链（不宣称）。
+## E529 深度上限返回空哨兵：12 条真臂、118 条被拒的索引守卫、没有一个调用点能分辨「上限」与「不存在」（2026-11-08 r1560 bm-b）
+**问题**：E528 发布 `_resolve` 的 `if depth > 6: return None`——递归在深度上限停下，停下的值与「路径不存在」是同一个字面量。卡片问全库版本：哪些函数带计数器、拿它与常量比较、从被选中那支返回空哨兵，调用点又拿这个值做了什么；并要求把「上限是能发布出去的洞」与「上限生产里到不了」分开。
+**方法**：人口＝scripts/Tools/firm/live/monitor 全 `FunctionDef`（2,753 源 / 2,752 可解析，1 源语法失败如实少计）。臂＝单 `Compare` × 常量或符号上限 × 被选中支直接 `return` 空哨兵（None/False/''/()/[]/{}/set()/frozenset()/dict()/list()/tuple()）。**计数器准入＝名字像计数器（depth/level/lvl/ply/hop）或被 `+1` 送进对自身的递归调用**，两者皆非＝索引守卫，计 `rejected_counter_tests` 并给示例。调用点归属＝同模块或显式 import 定义模块 stem，其余计入 `unattributed_same_name_calls`。读者三档＝无测试就读／拿同一个空值去测／当假值用；只有拿非空值比较才算真能看见上限。
+**读数**：12 条真臂 / 12 个函数 / **118 条被拒的比常量测试**；有归属调用点 274（未归属同名 562）；**12 条臂全部没有读者能分辨上限与不存在**（可见非空值的臂 0）；死臂 0——分类存在但为空，因为存活的臂全是递归的，递归总能走到自己的上限。三例：`e379._resolve`（depth>6→None，2 调用点全拿 None 去测）、`e404._contains_temp_helper`（depth>2→**False**，4 个调用点直接当布尔结论＝「太深没看完」读成「查过没有」）、`e494._fold_string`（hops>0→set()，空集与「没有」同形）。
+**可复用教训**：
+- **拿常量比较的名字九成不是计数器**：首版发布 88 条臂、其中 53 条「死」，两个数都是伪影——`_sd(x, n)` 的 `n` 是长度、`elig(prices, i)` 的 `i` 是 bar 索引。准入收紧后剩 12 条，同时把 118 条被拒测试计进面里。E207/E208「名即语义」族第五现：**换门槛必须公布拒掉了多少、拒的是什么**。
+- **循环计数器不可能被判死**：`counter_is_assigned_inside_the_body_only` 的计数器由函数体自己往上加，任何调用都能把循环推到上限。死臂判据＝计数器只由调用方供给（未被体内赋值）＋不递归＋int 上限＋每条调用路径（显式字面量或省略时的字面默认）都小于上限；任一值不可知则臂活着。
+- **同名调用会把一个臂的读者算成上千个**：归属前 `main` 一条臂拿到 1,836 个「读者」，全是各模块自己的 `sys.exit(main())`。归属后这些一次也不落在别的模块的 `main` 臂上。
+- **空的那一档要如实发布**：本轮「生产到不了的上限」= 0，比为了凑两类放宽判据强——放宽就会重新把这些臂读成安全的。
+**验证**：`scripts/e529_depth_cap_null.py` run rc0 / check problems=0 / verify 逐字节相同 / **selftest 27/27**（4 条死臂判据边界腿 + 5 枚 doctored 全拒）；S6 腿 `depth_cap_null` rc0 0.05s；smoke 腿 `# E529` 1/1（`scripts/run_e529_smoke_leg.py` 按锚点切出执行），`--doctor` 1 红且面还原；digest `research/digests/DIGEST-20261108-r1560-e529-depth-cap-null.md`。未跑：全量 smoke 套件、S6 其余腿、采集器与 market/paper 链（不宣称）。

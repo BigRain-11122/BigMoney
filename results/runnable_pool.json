@@ -29338,9 +29338,13 @@
    "lane_note": "static: one function's own guard and its call sites, no network, no rewrites",
    "priority": "normal",
    "source": "E528 (r1555 bm-b): _resolve's depth guard returns None, which downstream reads as 'the path does not resolve' -- the terminating arm is real but its stop value is indistinguishable from absence",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/depthcapnull_latest.json",
-   "title": "E528 published that _resolve's recursion ends at `if depth > 6: return None`, so a caller cannot tell 'the repository does not contain this path' from 'the recursion ran out of depth'. Find every function in the corpus that carries a depth/level counter, tests it against a constant, and returns a null sentinel (None / () / {} / [] / False / \"\") from that arm; for each, publish the sentinel, the cap, and the call sites that read the return value, separating callers that can distinguish the cap from callers that cannot -- keeping 'the cap is a publishable hole' and 'the cap is unreachable in production' as separate classes."
+   "title": "E528 published that _resolve's recursion ends at `if depth > 6: return None`, so a caller cannot tell 'the repository does not contain this path' from 'the recursion ran out of depth'. Find every function in the corpus that carries a depth/level counter, tests it against a constant, and returns a null sentinel (None / () / {} / [] / False / \"\") from that arm; for each, publish the sentinel, the cap, and the call sites that read the return value, separating callers that can distinguish the cap from callers that cannot -- keeping 'the cap is a publishable hole' and 'the cap is unreachable in production' as separate classes.",
+   "owner": "bm-b",
+   "result_ref": "results/state_tilt/DEPTHCAPNULL-2026-11-08.json",
+   "done_at": "2026-11-08T09:55:13+08:00",
+   "done_round": "r1560"
   },
   {
    "closed_at": "2026-11-08T08:5x+08:00",
@@ -29403,6 +29407,20 @@
    "source": "E527 (r1559 bm-b): the four followable arms that stayed open all pass a call rather than a value (interval(off['rows'], ...), list(range(6)), win_stats bound from a call), so the deciding value is one call further out",
    "lane_note": "static: fold one call whose arguments are literals at the site, no execution, no rewrites",
    "title": "For each open arm whose argument is a call, decide whether that callee is a pure function of literals at the site: if every argument it is given is a literal and its body is a chain of literals, the call folds to a value and the arm becomes decidable; anything that reads module state, the tree, or a non-literal argument stays open. Publish how many open arms a one-call fold closes, so 'still open' stops standing in for 'one call further'."
+  },
+  {
+   "id": "E534-WHICH-DEPTH-CAP-NULL-THAT-NO-READER-TESTS-REACHES-A-PUBLISHED-PAYLOAD-AS-A-CLAIM-THAT-THE-THING-IS-NOT-THERE",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_note": "static: one returned sentinel and the writer chain it flows into, no network, no rewrites",
+   "priority": "normal",
+   "entered_by": "bm-b r1560 (supply floor refill after E529)",
+   "entered_at": "2026-11-08T09:55:13+08:00",
+   "evidence_cutoff": "2026-11-08",
+   "deliverable": "results/state_tilt/CAPTOPAYLOAD-<cutoff>.json",
+   "target": "results/state_tilt/captopayload_latest.json",
+   "source": "E529 (r1560 bm-b): of 12 depth-cap arms that return a null sentinel, 8 have readers that never test the value and 2 test it against the same null, so no reader can separate 'the cap was hit' from 'the thing is not there'",
+   "title": "For each E529 arm whose reader never tests the sentinel (D_NO_TEST) or tests it against the same null (D_SAME_SENTINEL), follow the returned value out of that reader: does it reach a write to a published results/ payload, a verdict sentence, or a counted quantity? Publish the chain per arm (read -> bind -> write) and separate 'the cap can be published as absence' from 'the value stops inside the function'. An arm whose sentinel never leaves its module is not a publishable hole, and a chain that reaches a payload must name the exact key, so 'silently read' stops standing in for 'published as a fact'."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

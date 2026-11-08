@@ -2018,6 +2018,15 @@ LEGS = [
     # shape equals the read arm's is a silent default that is live in production.  `check`
     # re-derives every site verdict and every arm verdict and refuses a stale upstream pin.
     ("silent_arm_read", ["python", "scripts/e522_silent_arm_caller.py", "check"]),
+    # E529 answers the hole E528 found in `_resolve`: a recursion that ends by returning None makes
+    # "the path is not there" and "the recursion ran out of depth" the same value.  Every function
+    # whose body tests a counter against a constant and returns a null sentinel from that branch is
+    # published with the sentinel, the cap and a justification for calling the name a counter (a
+    # depth word, or a +1 into a call of the same function) -- the 118 index guards tested against
+    # constants are counted as rejections rather than dropped.  Each call site is attributed to the
+    # defining module (same module, or a module that imports its stem) and classified by what it does
+    # with the return value.  `check` re-derives every counts, attribution and verdict.
+    ("depth_cap_null", ["python", "scripts/e529_depth_cap_null.py", "check"]),
 ]
 
 
