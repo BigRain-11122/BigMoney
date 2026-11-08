@@ -2205,6 +2205,12 @@ LEGS = [
     # and a raising leg still gets its own row, so a kill leaves no receipt at all.  `check`
     # re-derives every short receipt's class from that blob.
     ("single_leg_provenance", ["python", "scripts/e562_single_leg_provenance.py", "check"]),
+    # E548 prices E545's two additions over the whole of E527's published population instead of
+    # three rows: 53 arms, 10 of which name a parameter (43 can never be moved by any argument
+    # resolver).  Published per arm are four passes (verbatim / +caller functions / +free-name
+    # binding / both), so each addition's own contribution is readable.  `check` re-derives every
+    # arm's outcome and the parent-reconciliation counters.
+    ("extended_resolver", ["python", "scripts/e548_extended_resolver.py", "check"]),
 ]
 
 

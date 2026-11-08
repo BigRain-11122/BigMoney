@@ -24455,5 +24455,61 @@ except Exception as _e562x:
     _d562 = "study could not be read"
 check(_name562, not _bad562, "; ".join(_bad562)[:240] or _d562)
 
+# E548: E545 priced two resolver additions on four rows.  This leg refuses the three ways that
+# becomes a claim about the population instead of a count over it:
+#   * the 43 arms whose guard names no parameter are folded into the denominator -- they must be
+#     counted as unmovable, not as "still open for the resolver"
+#   * a closed fraction is published without its per-addition split -- verbatim / +functions /
+#     +bindings / both must each be readable
+#   * the parent's own settlements are silently re-counted as open -- E527 declared six arms
+#     settled by a module-level literal, and this resolver refusing module state must show up as
+#     parent_settlement_reproduced=false rather than as a contradiction in the totals
+_name548 = "E548 how much of E527's whole undecidable population closes with the two resolver additions (r1589 bm-b)"
+_bad548 = []
+_d548 = "no reading"
+try:
+    _m548 = __import__("importlib").import_module("e548_extended_resolver")
+    _f548 = json.load(open(os.path.join("results", "state_tilt",
+                                        "extendedresolver_latest.json"), encoding="utf-8"))
+    _s548 = _f548.get("summary") or {}
+    _r548 = _f548.get("arms") or []
+    _bad548.extend(_m548.face_problems(_f548))
+    if not _r548:
+        _bad548.append("the parent's arm population is empty, so nothing is priced")
+    if _s548.get("arms_in_parent") != len(_r548):
+        _bad548.append("the published arm count is not the parent population")
+    if (_s548.get("arms_that_name_a_parameter", 0) +
+            _s548.get("arms_without_a_parameter", 0)) != len(_r548):
+        _bad548.append("movable and unmovable arms do not add up to the population")
+    if (_s548.get("parent_settlements_this_resolver_reproduces", 0) +
+            _s548.get("parent_settlements_this_resolver_leaves_open", 0)) != \
+            _s548.get("arms_the_parent_declared_settled", 0):
+        _bad548.append("the parent settlements do not add up")
+    if any(r.get("arm_outcome") != _m548.O_NO_PARAMETER and not r.get("argument_expression")
+           for r in _r548):
+        _bad548.append("an arm that names a parameter publishes no argument expression")
+    _doc548 = json.loads(json.dumps(_f548))
+    _doc548["verdict"] = "a_verdict_this_study_never_publishes"
+    if not _m548.face_problems(_doc548):
+        _bad548.append("a hand-written verdict was accepted")
+    _victim548 = json.loads(json.dumps(_f548))
+    _victim548["summary"]["arms_closed_by_bindings_alone"] += 1
+    if not _m548.face_problems(_victim548):
+        _bad548.append("a closed counter that does not add up was accepted")
+    _d548 = ("%d arms / %d movable / %d closed (%d verbatim, %d functions-only, %d bindings-only, "
+             "%d both) / parent settled=%d reproduced=%d / %s"
+             % (_s548.get("arms_in_parent", 0), _s548.get("arms_that_name_a_parameter", 0),
+                _s548.get("arms_closed", 0), _s548.get("arms_closed_verbatim", 0),
+                _s548.get("arms_closed_by_functions_alone", 0),
+                _s548.get("arms_closed_by_bindings_alone", 0),
+                _s548.get("arms_closed_by_both_together", 0),
+                _s548.get("arms_the_parent_declared_settled", 0),
+                _s548.get("parent_settlements_this_resolver_reproduces", 0),
+                _f548.get("verdict")))
+except Exception as _e548x:
+    _bad548.append(repr(_e548x)[:160])
+    _d548 = "study could not be read"
+check(_name548, not _bad548, "; ".join(_bad548)[:240] or _d548)
+
 if __name__ == "__main__":
     sys.exit(main())

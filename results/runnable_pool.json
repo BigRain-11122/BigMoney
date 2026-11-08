@@ -29670,12 +29670,15 @@
    "lane": "cpu-only",
    "lane_note": "static: E527's published arms re-read with E536's interpreter plus E545's two additions; no network, no rewrites",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-11-08T14:52+08:00",
    "entered_by": "bm-b r1574 (supply floor refill after E545)",
    "evidence_cutoff": "2026-11-08",
    "target": "results/state_tilt/extendedresolver_latest.json",
-   "deliverable": "results/state_tilt/EXTENDEDRESOLVER-<cutoff>.json"
+   "deliverable": "results/state_tilt/EXTENDEDRESOLVER-<cutoff>.json",
+   "closed_at": "2026-11-08T21:45+08:00",
+   "closed_by": "bm-b r1589",
+   "result": "results/state_tilt/EXTENDEDRESOLVER-2026-11-08.json -- E527's whole published population is 53 arms over 52 sites; 43 name no parameter of the callee and cannot be moved by any argument resolver, so the movable population is 10. Of those 10: 1 closes verbatim, 1 closes only when BOTH additions are present, 0 close under either addition alone, 5 stop at a binding that reads module state, 2 at a name the caller never binds, 1 is a caller parameter whose call site does fold. Parent reconciliation: E527 declared 6 arms settled, and 0 of those 6 reproduce under this resolver -- 5 rest on a module-level constant (this interpreter refuses to read module state) and 1 on an unbound name. Verdict: some_arms_that_name_a_parameter_close_and_the_rest_stop_at_a_named_layer"
   },
   {
    "id": "E549-WHAT-THE-FOUR-UNCLASSIFIED-SITES-ACTUALLY-DO-WITH-THE-CONSTANT",
@@ -29910,6 +29913,20 @@
    "evidence_cutoff": "2026-11-08",
    "entered_at": "2026-11-08T21:1x+08:00",
    "entered_by": "bm-b"
+  },
+  {
+   "id": "E563-WHETHER-ANY-SHORT-RECEIPT-HOLDS-A-PREFIX-OF-ITS-OWN-ROUND-S-TABLE",
+   "lane": "cpu-only",
+   "lane_note": "static: the receipt's leg names against the LEGS table at its own join commit; no network, no rewrites",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E562 (r1588 bm-b): all 159 short receipts are written after the leg loop, so a kill cannot leave one; the remaining question is whether a short receipt is a prefix of its table (an ordered stop) or an arbitrary subset (--only)",
+   "target": "results/state_tilt/receiptprefix_latest.json",
+   "deliverable": "results/state_tilt/RECEIPTPREFIX-<cutoff>.json",
+   "evidence_cutoff": "2026-11-08",
+   "entered_at": "2026-11-08T21:45+08:00",
+   "entered_by": "bm-b r1589 (supply floor refill after E548)",
+   "title": "E562 settled that a short receipt cannot be a killed chain, but not what shape of short it is. For every short receipt E561 joined to its own round's table, compare its leg names to that table's order: publish how many are an exact prefix, how many are a prefix with a gap, how many name legs the table does not contain, and how many are an arbitrary subset in table order. An exact prefix is the only shape an ordered stop could take, so this decides whether the remaining ambiguity is about filtering (--only) or about stopping, without needing a new field in the receipt."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

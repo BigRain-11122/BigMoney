@@ -13819,3 +13819,20 @@ E561 的结论是「159 份短回执，一个停住的运行和一次 `--only` �
 **边界（如实披露）：**结论是静态的：不执行 runner、不重写任何回执；读不到 blob 的族（promisor clone 本地缺件）一律是「不可证」类而不是沉默跳过；runner 一旦改写法，per-row 类自动失效，闸随源 re-derive。
 
 **产物指针**=`scripts/e562_single_leg_provenance.py`（build/check/verify + selftest 14/14）·`results/state_tilt/SINGLELEGPROVENANCE-2026-11-08.json` + `singlelegprovenance_latest.json`·S6 腿 `single_leg_provenance`（1.3s rc=0）·smoke 腿 `# E562` + 单独运行器 `scripts/run_e562_smoke_leg.py`（含 --doctor）·digest `research/digests/DIGEST-20261108-r1588-e562-single-leg-provenance.md`
+
+
+### E548 — 整个不可判定总体里，解析器多了「调用方模块的函数」和「表达式内自由名回追一跳」之后到底闭了多少（r1589 bm-b·2026-11-08）
+E545 只在 E533 带过的四条 arm 上给两个新增项定价，闭了 1 条。本卡把它放到 E527 已发布的整个总体上：52 个站点 / 53 条 arm，每条 arm 跑四个开关位（verbatim / +caller functions / +free-name binding / 两个都加），所有读数都是对**总体**的计数。全静态，不执行仓内任何代码。
+
+**读数：**53 条里 **43 条的 guard 根本不命名 callee 的任何参数**——任何「论证解析器」永远移不动它们，可移动总体只有 **10** 条。这 10 条里：**1 条 verbatim 就闭**；**1 条只有两个增项同时在才闭**；**单独加任一个增项都闭 0 条**；5 条卡在「绑定读模块状态」、2 条卡在「调用方从来没绑过这个名字」、1 条是调用方自己的参数且下游确有一个可折叠的调用点。
+
+**负载发现是对母面的对账：**E527 自己宣布「已定」的 6 条 arm，在本解析器下 **0 条复现**——其中 **5 条靠的是模块级常量**（本解释器拒绍读模块状态，这是纯度决定不是疏忽），1 条靠的是一个在站点前根本没绑定的名字。「6 已定」与「2 已闭」不是数字矛盾，是同一总体在两套规则下的两个读数，只有逐 arm 并存发布 parent_settlement_reproduced 才能读。
+
+**三条可复用教训：**
+1. **「闭合率」必须点名分母的结构**——台面上 43/53 根本不是候选项；报「2/53」会被读成解析器不行，真实情况是「可闭的 10 条里闭了 2」。
+2. **两个增项合在一起测，会被读成两个增项都在起作用**——单独上任一个都是 0 移动，只有四个开关位并列才能看见它们是「必须同时在」。
+3. **重跑母面的判词要拿母面的规则，不是拿它的算术**——差额本身就是测量结果，不是要被抹平的不一致。
+
+**产物** = scripts/e548_extended_resolver.py（build/check/verify + selftest 13/13）·
+esults/state_tilt/EXTENDEDRESOLVER-2026-11-08.json + extendedresolver_latest.json·S6 腿 extended_resolver（0.05s rc=0）·smoke 腿 # E548 + 单跑器 scripts/run_e548_smoke_leg.py（含 --doctor）·digest 
+esearch/digests/DIGEST-20261108-r1589-e548-extended-resolver.md
