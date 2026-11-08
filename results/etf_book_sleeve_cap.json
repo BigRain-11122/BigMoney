@@ -1,0 +1,213 @@
+{
+ "schema": "etf-book-sleeve-cap/v1",
+ "as_of": "2026-11-06",
+ "params": {
+  "n_hold": 5,
+  "rebal": 20,
+  "cost": 0.001,
+  "vol_target": 0.08
+ },
+ "universe": 1515,
+ "flips_repaired": 169,
+ "published_arm": {
+  "numbers": {
+   "cagr": 0.1149,
+   "sharpe": 1.132,
+   "maxdd": -0.1056
+  },
+  "as_of": "2026-10-23",
+  "universe": 1499
+ },
+ "identity_deviation": {
+  "cagr": 0.0,
+  "sharpe": 0.0,
+  "maxdd": 0.0
+ },
+ "identity_ok": true,
+ "identity_stats": {
+  "cagr": 0.1149,
+  "sharpe": 1.132,
+  "maxdd": -0.1056
+ },
+ "runs": [
+  {
+   "label": "plain",
+   "years": 6.84,
+   "start_level": 1.008,
+   "cagr": 0.1146,
+   "vol": 0.1051,
+   "sharpe": 1.128,
+   "maxdd": -0.1056,
+   "worst_year": 0.019,
+   "neg_years": 0,
+   "worst_month": -0.043,
+   "pos_months_pct": 0.598,
+   "cagr_is": 0.0581,
+   "sharpe_is": 0.621,
+   "maxdd_is": -0.088,
+   "cagr_oos": 0.1993,
+   "sharpe_oos": 1.812,
+   "maxdd_oos": -0.1056,
+   "turnover": 1.08,
+   "caps": null,
+   "sleeve": {
+    "bars": 83,
+    "top_sleeve_bars": {
+     "equity": 57,
+     "commodity": 24,
+     "convertible": 2
+    },
+    "top_sleeve_share": {
+     "equity": 0.687,
+     "commodity": 0.289,
+     "convertible": 0.024
+    }
+   }
+  },
+  {
+   "label": "cap_comm_1",
+   "years": 6.84,
+   "start_level": 1.008,
+   "cagr": 0.0982,
+   "vol": 0.104,
+   "sharpe": 0.99,
+   "maxdd": -0.1231,
+   "worst_year": -0.0658,
+   "neg_years": 1,
+   "worst_month": -0.034,
+   "pos_months_pct": 0.561,
+   "cagr_is": 0.0479,
+   "sharpe_is": 0.54,
+   "maxdd_is": -0.1231,
+   "cagr_oos": 0.1736,
+   "sharpe_oos": 1.565,
+   "maxdd_oos": -0.1056,
+   "turnover": 1.06,
+   "caps": {
+    "commodity": 1
+   },
+   "sleeve": {
+    "bars": 83,
+    "top_sleeve_bars": {
+     "equity": 76,
+     "convertible": 7
+    },
+    "top_sleeve_share": {
+     "equity": 0.916,
+     "convertible": 0.084
+    }
+   }
+  },
+  {
+   "label": "cap_comm_2",
+   "years": 6.84,
+   "start_level": 1.008,
+   "cagr": 0.1046,
+   "vol": 0.103,
+   "sharpe": 1.057,
+   "maxdd": -0.1056,
+   "worst_year": -0.0314,
+   "neg_years": 1,
+   "worst_month": -0.0372,
+   "pos_months_pct": 0.598,
+   "cagr_is": 0.0483,
+   "sharpe_is": 0.543,
+   "maxdd_is": -0.0944,
+   "cagr_oos": 0.1894,
+   "sharpe_oos": 1.728,
+   "maxdd_oos": -0.1056,
+   "turnover": 1.11,
+   "caps": {
+    "commodity": 2
+   },
+   "sleeve": {
+    "bars": 83,
+    "top_sleeve_bars": {
+     "equity": 70,
+     "commodity": 9,
+     "convertible": 4
+    },
+    "top_sleeve_share": {
+     "equity": 0.843,
+     "commodity": 0.108,
+     "convertible": 0.048
+    }
+   }
+  },
+  {
+   "label": "cap_comm_1_conv_1",
+   "years": 6.84,
+   "start_level": 1.008,
+   "cagr": 0.0902,
+   "vol": 0.1029,
+   "sharpe": 0.926,
+   "maxdd": -0.1466,
+   "worst_year": -0.0874,
+   "neg_years": 1,
+   "worst_month": -0.0434,
+   "pos_months_pct": 0.573,
+   "cagr_is": 0.0419,
+   "sharpe_is": 0.478,
+   "maxdd_is": -0.1466,
+   "cagr_oos": 0.1626,
+   "sharpe_oos": 1.517,
+   "maxdd_oos": -0.1056,
+   "turnover": 1.06,
+   "caps": {
+    "commodity": 1,
+    "convertible": 1
+   },
+   "sleeve": {
+    "bars": 83,
+    "top_sleeve_bars": {
+     "equity": 83
+    },
+    "top_sleeve_share": {
+     "equity": 1.0
+    }
+   }
+  }
+ ],
+ "deltas": [
+  {
+   "arm": "cap_comm_1",
+   "caps": {
+    "commodity": 1
+   },
+   "d_cagr": -0.0164,
+   "d_sharpe": -0.138,
+   "d_maxdd": -0.0175,
+   "d_cagr_oos": -0.0257,
+   "d_sharpe_oos": -0.247,
+   "d_maxdd_oos": 0.0,
+   "d_turnover": -0.02
+  },
+  {
+   "arm": "cap_comm_2",
+   "caps": {
+    "commodity": 2
+   },
+   "d_cagr": -0.01,
+   "d_sharpe": -0.071,
+   "d_maxdd": 0.0,
+   "d_cagr_oos": -0.0099,
+   "d_sharpe_oos": -0.084,
+   "d_maxdd_oos": 0.0,
+   "d_turnover": 0.03
+  },
+  {
+   "arm": "cap_comm_1_conv_1",
+   "caps": {
+    "commodity": 1,
+    "convertible": 1
+   },
+   "d_cagr": -0.0244,
+   "d_sharpe": -0.202,
+   "d_maxdd": -0.041,
+   "d_cagr_oos": -0.0367,
+   "d_sharpe_oos": -0.295,
+   "d_maxdd_oos": 0.0,
+   "d_turnover": -0.02
+  }
+ ]
+}

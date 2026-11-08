@@ -1,0 +1,542 @@
+{
+ "face": "etf_book_sleeve_cap_phases",
+ "asof": "2026-11-08T13:40:43+08:00",
+ "question": "does capping a sleeve buy the book anything, once the rule is read over a phase set instead of one decision sequence?",
+ "rule": {
+  "phase_set": [
+   "2020-01-01",
+   "2020-01-08",
+   "2020-01-15",
+   "2020-01-22",
+   "2020-01-29"
+  ],
+  "phase_rule_imported": "candidate_year_gate_phases.adjudicate (RULE frozen there)",
+  "admit_word": "ADMIT",
+  "not_worse_cagr_tol_pp": 0.1,
+  "not_worse_sharpe_tol": 0.01,
+  "not_worse_share_floor": 0.6,
+  "adopt_requires": [
+   "cap arm adjudication state == ADMIT",
+   "plain arm adjudication state != ADMIT (otherwise the cap can only remove names)",
+   "share of phases where cagr >= plain-0.10pp AND sharpe >= plain-0.01 >= 0.60"
+  ],
+  "reason": "a cap is a rule; E188/E199 say a rule that wins on one decision phase and loses on the next is not a rule, and an adoption must also answer whether it bought anything (a cap on a book that already ADMITs can only shrink it)",
+  "frozen_before_read": true
+ },
+ "gate_lines_imported": {
+  "top2_share_max": 0.7,
+  "positive_years_share": 0.7,
+  "worst_year_floor_pp": -15.0,
+  "capacity_floor_cny": 20000000.0
+ },
+ "params": {
+  "n_hold": 5,
+  "rebal": 20,
+  "cost": 0.001,
+  "vol_target": 0.08
+ },
+ "data": {
+  "flips_repaired": 169,
+  "universe": 1515,
+  "bars": 5275,
+  "capacity_cny_1day_5pct": 48664681.0,
+  "capacity_from": "results/etf_book_year_gate/YEAR-GATE.json"
+ },
+ "published_arm": {
+  "numbers": {
+   "cagr": 0.1149,
+   "sharpe": 1.132,
+   "maxdd": -0.1056
+  },
+  "as_of": "2026-10-23",
+  "universe": 1499
+ },
+ "identity_deviation": {
+  "cagr": 0.0,
+  "sharpe": 0.0,
+  "maxdd": 0.0
+ },
+ "identity_ok": true,
+ "books": [
+  {
+   "book": "plain",
+   "caps": null,
+   "phase_rows": [
+    {
+     "start": "2020-01-01",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.7108,
+     "positive_years_share": 7,
+     "worst_year_pp": 1.898,
+     "cagr_pct": 11.46,
+     "sharpe": 1.128,
+     "maxdd": -0.1056,
+     "turnover": 1.08,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-08",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.7946,
+     "positive_years_share": 6,
+     "worst_year_pp": -6.5228,
+     "cagr_pct": 10.99,
+     "sharpe": 1.041,
+     "maxdd": -0.1319,
+     "turnover": 1.03,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-15",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.7958,
+     "positive_years_share": 5,
+     "worst_year_pp": -12.1773,
+     "cagr_pct": 8.33,
+     "sharpe": 0.769,
+     "maxdd": -0.1587,
+     "turnover": 1.096,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-22",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.7982,
+     "positive_years_share": 5,
+     "worst_year_pp": -4.8311,
+     "cagr_pct": 7.03,
+     "sharpe": 0.678,
+     "maxdd": -0.1299,
+     "turnover": 1.083,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-29",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.7962,
+     "positive_years_share": 5,
+     "worst_year_pp": -5.2422,
+     "cagr_pct": 8.53,
+     "sharpe": 0.886,
+     "maxdd": -0.1256,
+     "turnover": 1.113,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    }
+   ],
+   "adjudication": {
+    "phases": 5,
+    "verdicts": [
+     "CONDITIONAL",
+     "CONDITIONAL",
+     "CONDITIONAL",
+     "CONDITIONAL",
+     "CONDITIONAL"
+    ],
+    "distinct_verdicts": [
+     "CONDITIONAL"
+    ],
+    "median_top2_share": 0.7958,
+    "spread_pp": 8.74,
+    "margin_pp": 9.58,
+    "worst_top2_share": 0.7982,
+    "best_top2_share": 0.7108,
+    "phases_above_line": 5,
+    "state": "CONDITIONAL",
+    "reason": "all 5 phases read CONDITIONAL and the spread 8.74pp is inside the 9.58pp distance to the line"
+   },
+   "single_phase_r1425_reading": "CONDITIONAL"
+  },
+  {
+   "book": "cap_comm_1",
+   "caps": {
+    "commodity": 1
+   },
+   "phase_rows": [
+    {
+     "start": "2020-01-01",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.7356,
+     "positive_years_share": 6,
+     "worst_year_pp": -6.5802,
+     "cagr_pct": 9.82,
+     "sharpe": 0.99,
+     "maxdd": -0.1231,
+     "turnover": 1.057,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-08",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.8869,
+     "positive_years_share": 5,
+     "worst_year_pp": -7.009,
+     "cagr_pct": 9.83,
+     "sharpe": 0.958,
+     "maxdd": -0.1587,
+     "turnover": 1.086,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-15",
+     "verdict": "REFUSE",
+     "top2_share": 0.8481,
+     "positive_years_share": 4,
+     "worst_year_pp": -11.038,
+     "cagr_pct": 8.04,
+     "sharpe": 0.765,
+     "maxdd": -0.1782,
+     "turnover": 1.079,
+     "failing_checks": [
+      "Y1_positive_years_share",
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-22",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.861,
+     "positive_years_share": 5,
+     "worst_year_pp": -9.5256,
+     "cagr_pct": 6.57,
+     "sharpe": 0.664,
+     "maxdd": -0.1516,
+     "turnover": 1.078,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-29",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.7932,
+     "positive_years_share": 5,
+     "worst_year_pp": -5.4196,
+     "cagr_pct": 7.71,
+     "sharpe": 0.817,
+     "maxdd": -0.15,
+     "turnover": 1.116,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    }
+   ],
+   "adjudication": {
+    "phases": 5,
+    "verdicts": [
+     "CONDITIONAL",
+     "CONDITIONAL",
+     "REFUSE",
+     "CONDITIONAL",
+     "CONDITIONAL"
+    ],
+    "distinct_verdicts": [
+     "CONDITIONAL",
+     "REFUSE"
+    ],
+    "median_top2_share": 0.8481,
+    "spread_pp": 15.13,
+    "margin_pp": 14.81,
+    "worst_top2_share": 0.8869,
+    "best_top2_share": 0.7356,
+    "phases_above_line": 5,
+    "state": "UNADJUDICABLE_PHASE",
+    "reason": "phases disagree on the verdict: CONDITIONAL, REFUSE"
+   },
+   "single_phase_r1425_reading": "CONDITIONAL"
+  },
+  {
+   "book": "cap_comm_2",
+   "caps": {
+    "commodity": 2
+   },
+   "phase_rows": [
+    {
+     "start": "2020-01-01",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.7339,
+     "positive_years_share": 6,
+     "worst_year_pp": -3.1403,
+     "cagr_pct": 10.46,
+     "sharpe": 1.057,
+     "maxdd": -0.1056,
+     "turnover": 1.108,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-08",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.8184,
+     "positive_years_share": 5,
+     "worst_year_pp": -6.5228,
+     "cagr_pct": 10.27,
+     "sharpe": 1.007,
+     "maxdd": -0.142,
+     "turnover": 1.087,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-15",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.8098,
+     "positive_years_share": 5,
+     "worst_year_pp": -11.5833,
+     "cagr_pct": 8.8,
+     "sharpe": 0.824,
+     "maxdd": -0.1727,
+     "turnover": 1.095,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-22",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.7691,
+     "positive_years_share": 5,
+     "worst_year_pp": -5.255,
+     "cagr_pct": 7.3,
+     "sharpe": 0.727,
+     "maxdd": -0.1299,
+     "turnover": 1.113,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-29",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.7565,
+     "positive_years_share": 5,
+     "worst_year_pp": -5.2422,
+     "cagr_pct": 8.53,
+     "sharpe": 0.897,
+     "maxdd": -0.1202,
+     "turnover": 1.127,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    }
+   ],
+   "adjudication": {
+    "phases": 5,
+    "verdicts": [
+     "CONDITIONAL",
+     "CONDITIONAL",
+     "CONDITIONAL",
+     "CONDITIONAL",
+     "CONDITIONAL"
+    ],
+    "distinct_verdicts": [
+     "CONDITIONAL"
+    ],
+    "median_top2_share": 0.7691,
+    "spread_pp": 8.45,
+    "margin_pp": 6.91,
+    "worst_top2_share": 0.8184,
+    "best_top2_share": 0.7339,
+    "phases_above_line": 5,
+    "state": "UNADJUDICABLE_PHASE",
+    "reason": "phase spread 8.45pp is wider than the 6.91pp distance from the median top-2 to the 70% line"
+   },
+   "single_phase_r1425_reading": "CONDITIONAL"
+  },
+  {
+   "book": "cap_comm_1_conv_1",
+   "caps": {
+    "commodity": 1,
+    "convertible": 1
+   },
+   "phase_rows": [
+    {
+     "start": "2020-01-01",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.7782,
+     "positive_years_share": 6,
+     "worst_year_pp": -8.7445,
+     "cagr_pct": 9.02,
+     "sharpe": 0.926,
+     "maxdd": -0.1466,
+     "turnover": 1.063,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-08",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.9226,
+     "positive_years_share": 5,
+     "worst_year_pp": -8.5285,
+     "cagr_pct": 9.28,
+     "sharpe": 0.907,
+     "maxdd": -0.1747,
+     "turnover": 1.09,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-15",
+     "verdict": "REFUSE",
+     "top2_share": 0.849,
+     "positive_years_share": 4,
+     "worst_year_pp": -10.1329,
+     "cagr_pct": 8.07,
+     "sharpe": 0.767,
+     "maxdd": -0.1741,
+     "turnover": 1.071,
+     "failing_checks": [
+      "Y1_positive_years_share",
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-22",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.9179,
+     "positive_years_share": 5,
+     "worst_year_pp": -9.2189,
+     "cagr_pct": 6.1,
+     "sharpe": 0.622,
+     "maxdd": -0.1602,
+     "turnover": 1.092,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    },
+    {
+     "start": "2020-01-29",
+     "verdict": "CONDITIONAL",
+     "top2_share": 0.8018,
+     "positive_years_share": 5,
+     "worst_year_pp": -5.9798,
+     "cagr_pct": 7.59,
+     "sharpe": 0.817,
+     "maxdd": -0.1582,
+     "turnover": 1.101,
+     "failing_checks": [
+      "Y4_top2_share"
+     ]
+    }
+   ],
+   "adjudication": {
+    "phases": 5,
+    "verdicts": [
+     "CONDITIONAL",
+     "CONDITIONAL",
+     "REFUSE",
+     "CONDITIONAL",
+     "CONDITIONAL"
+    ],
+    "distinct_verdicts": [
+     "CONDITIONAL",
+     "REFUSE"
+    ],
+    "median_top2_share": 0.849,
+    "spread_pp": 14.44,
+    "margin_pp": 14.9,
+    "worst_top2_share": 0.9226,
+    "best_top2_share": 0.7782,
+    "phases_above_line": 5,
+    "state": "UNADJUDICABLE_PHASE",
+    "reason": "phases disagree on the verdict: CONDITIONAL, REFUSE"
+   },
+   "single_phase_r1425_reading": "CONDITIONAL"
+  }
+ ],
+ "decisions": [
+  {
+   "cap_state": "UNADJUDICABLE_PHASE",
+   "plain_state": "CONDITIONAL",
+   "not_worse_share": 0.0,
+   "not_worse_phases": 0,
+   "phases": 5,
+   "decision": "UNADJUDICABLE_PHASE",
+   "reason": "the cap's own phase set cannot adjudicate itself",
+   "arm": "cap_comm_1",
+   "caps": {
+    "commodity": 1
+   }
+  },
+  {
+   "cap_state": "UNADJUDICABLE_PHASE",
+   "plain_state": "CONDITIONAL",
+   "not_worse_share": 0.6,
+   "not_worse_phases": 3,
+   "phases": 5,
+   "decision": "UNADJUDICABLE_PHASE",
+   "reason": "the cap's own phase set cannot adjudicate itself",
+   "arm": "cap_comm_2",
+   "caps": {
+    "commodity": 2
+   }
+  },
+  {
+   "cap_state": "UNADJUDICABLE_PHASE",
+   "plain_state": "CONDITIONAL",
+   "not_worse_share": 0.0,
+   "not_worse_phases": 0,
+   "phases": 5,
+   "decision": "UNADJUDICABLE_PHASE",
+   "reason": "the cap's own phase set cannot adjudicate itself",
+   "arm": "cap_comm_1_conv_1",
+   "caps": {
+    "commodity": 1,
+    "convertible": 1
+   }
+  }
+ ],
+ "summary": {
+  "plain": {
+   "state": "CONDITIONAL",
+   "median_top2_share": 0.7958,
+   "spread_pp": 8.74,
+   "margin_pp": 9.58,
+   "phases_above_line": 5,
+   "single_phase_verdict": "CONDITIONAL"
+  },
+  "cap_comm_1": {
+   "state": "UNADJUDICABLE_PHASE",
+   "median_top2_share": 0.8481,
+   "spread_pp": 15.13,
+   "margin_pp": 14.81,
+   "phases_above_line": 5,
+   "single_phase_verdict": "CONDITIONAL"
+  },
+  "cap_comm_2": {
+   "state": "UNADJUDICABLE_PHASE",
+   "median_top2_share": 0.7691,
+   "spread_pp": 8.45,
+   "margin_pp": 6.91,
+   "phases_above_line": 5,
+   "single_phase_verdict": "CONDITIONAL"
+  },
+  "cap_comm_1_conv_1": {
+   "state": "UNADJUDICABLE_PHASE",
+   "median_top2_share": 0.849,
+   "spread_pp": 14.44,
+   "margin_pp": 14.9,
+   "phases_above_line": 5,
+   "single_phase_verdict": "CONDITIONAL"
+  }
+ },
+ "elapsed_sec": 76.8
+}

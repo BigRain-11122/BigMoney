@@ -527,6 +527,20 @@ def main() -> int:
              "scripts/etf_book_exit_tax.py", ["--selftest"]),
             ("product: etf_book_exit_tax (published hurdle recomputed, control reproduced)",
              "scripts/etf_book_exit_tax.py", ["--check"]),
+            # r1425: the commodity sleeve's 30% share was an attribution, never a knob.
+            # The cap is now priced, and the offline legs pin that a cap fills its
+            # shortfall instead of thinning the book and that identity is judged at the
+            # published rounding, not on a panel that has since grown.
+            ("product: etf_book_sleeve_cap (per-sleeve cap priced against the plain book)",
+             "scripts/etf_book_sleeve_cap.py", ["--selftest"]),
+            # r1425: a cap is a rule, so it gets the phase test a book gets. The single
+            # phase said every cap loses; the phase set says something harder -- none of
+            # the caps pulls the top-2 year share under the 70% line on ANY of the five
+            # starts, and capping one sleeve makes the remaining years MORE concentrated.
+            # The legs pin that the frozen adoption rule can reach ADOPT/REJECT/
+            # UNADJUDICABLE and that each clause is the one that fires.
+            ("product: etf_book_sleeve_cap_phases (a cap is a rule, read as a phase set)",
+             "scripts/etf_book_sleeve_cap_phases.py", ["selftest"]),
             # r1418: the calendar gate existed but had only ever judged CANDIDATE books; the
             # book the desk actually holds never faced it. The legs pin that yearly returns
             # come off the book's own LEVEL curve (treating a level series as returns
