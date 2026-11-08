@@ -10770,3 +10770,26 @@ r1435 把「一半净额由 2025 供给」这件事拆出来了，但那只回�
 
 正身 = scripts/etf_book_2025_repro.py（selftest 13/13 · check OK · identity 对引擎 0.0）+
 results/etf_book_2025_repro.json + research/ETF_BOOK_2025_REPRO.md + S6 腿 book_2025_repro（0.8s rc0）
+
+## E443 — 被审对象不是被执行对象：两个面各自合法，不代表桌面没有矛盾（r1438 bm-c）
+
+**读法**：供给面板写 `nobond_vt08_adopted` = refuse（years_for_half 2 vs 3，floor 连红 40 轮），
+下单页同时写 book_weight 0.4603 / ¥459,796 五只 + ¥540,204 挂 GC001。两句话都真、
+都有出处，**没有一面把它们放在同一句里**——读者得到的是「今天没有合法供给」与「买这五只」并排。
+
+三条可复用：
+① **身份是四条 AND，不是名字像**：n_hold 相等、风险设定相等且无 floor、两侧都无债券袖、
+票是卡的宽度前缀（same_decision_bar + ticket_is_prefix_of_card）。任一不成立=UNMATCHED，
+**不许按顺序挑一本**（多本同风险设定=ambiguous 点名）。缺件=UNKNOWN，未知不是判决。
+② **壳没被审过必须印成字段**：gate 判的是去掉 beta/cash 的书；票跑的是 beta 0.20 + 现金腿
+（r1253 已证现金腿 +0.46~+1.53pp）。receipt 里没有 beta/cash 键 → `wrapper.gated=false`，
+措辞为「被审对象是壳之前的书」，而不是把票当归gate 过的那个东西。
+③ **夹具协变=失败不了的腿**：`_fx()` 若把 n_hold/vol_target 同时喂两侧，「打断身份」的腿打不断
+（首版 14/18 即此）。被审侧必须单独参数化，断一侧才断得开（r1371 臂类教训同族）。
+
+测不了：带壳（beta+cash）的年度形状本轮没测；票侧 `crossborder` 与 card 侧
+`equity/commodity/convertible` 分类名不同源，本轮只记不判。
+
+正身 = scripts/etf_book_execution_admission_gap.py（selftest 18/18 · run rc0 · --check OK）+
+results/etf_book_execution_admission_gap.json + research/digests/DIGEST-20261108-r1438-execution-admission-gap.md +
+S6 腿 execution_admission_gap

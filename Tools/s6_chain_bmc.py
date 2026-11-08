@@ -803,6 +803,16 @@ LEGS = [
     # LESS gold beta than passive, not more). ~1s, reads only the published receipt.
     ("book_2025_repro", ["python", "scripts/etf_book_2025_repro.py", "check"]),
     ("supply_calendar", ["python", "scripts/supply_calendar_face.py", "run"]),
+    # r1440: forty rounds read the calendar and the order page as two separate
+    # subjects. This leg puts them in one sentence from receipts only (no
+    # repricing): today the ticket executes nobond_vt08_adopted at book_weight
+    # 0.460 (CNY 459,796 in 5 names + GC001 cash) while the same desk's supply
+    # calendar says CONDITIONAL (years_for_half median 2 vs line 3) -- and the
+    # object the gate judged is the book BEFORE the beta 0.20 + cash wrapper.
+    # `run` form on purpose: a leftover receipt goes stale when tomorrow's ticket
+    # arrives (r1290 class); the leg is pure JSON reads, milliseconds.
+    ("execution_admission_gap",
+     ["python", "scripts/etf_book_execution_admission_gap.py", "run"]),
     # r1428: "refused" with no horizon is an observation, not a plan. This leg re-checks
     # the published ETA face (identity against the phase gate's phase 0, so a drifted
     # repricing turns the leg red instead of silently promising a date). Read-only JSON,

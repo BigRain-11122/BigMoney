@@ -1,0 +1,85 @@
+{
+  "face": "etf_book_execution_admission_gap",
+  "question": "is the book being executed today the book the supply calendar refuses, and is the thing actually running the thing that was judged?",
+  "verdict": "EXECUTES_REFUSED_BOOK",
+  "missing_receipts": [],
+  "identity": [
+    {
+      "condition": "I1_n_hold",
+      "ticket_or_card_side": 5,
+      "judged_side": 5,
+      "holds": true
+    },
+    {
+      "condition": "I2_vol_target_no_floor",
+      "ticket_or_card_side": 0.08,
+      "judged_side": "0.08/floor 0.0",
+      "holds": true
+    },
+    {
+      "condition": "I3_nobond_both_sides",
+      "ticket_or_card_side": "classes=equity,commodity,convertible",
+      "judged_side": "candidate=nobond_vt08_adopted",
+      "holds": true
+    },
+    {
+      "condition": "I4_ticket_is_card_prefix",
+      "ticket_or_card_side": true,
+      "judged_side": true,
+      "holds": true
+    }
+  ],
+  "identity_proved": true,
+  "candidate": "nobond_vt08_adopted",
+  "calendar_state": "CONDITIONAL",
+  "calendar_sentence": "years_for_half median 2 vs line 3 (FAIL)",
+  "failing_checks": [
+    "Y4_top2_share"
+  ],
+  "money": {
+    "nav_cny": 1000000.0,
+    "book_weight": 0.460253,
+    "book_amount_cny": 459796.3,
+    "cash_amount_cny": 540203.7,
+    "cash_leg": "GC001 (1-day repo, observed close)",
+    "beta_target": 0.2,
+    "k_now": 0.460253,
+    "names_in_ticket": 5
+  },
+  "wrapper": {
+    "beta_overlay_gated": false,
+    "cash_leg_gated": false,
+    "gated": false,
+    "note": "the judged object is the book before the execution wrapper"
+  },
+  "next_action": "two legal sentences on one desk: the ticket executes nobond_vt08_adopted at book_weight 0.460 while the supply calendar says CONDITIONAL (years_for_half median 2 vs line 3 (FAIL)). Put the execution wrapper (beta 0.20 + cash leg) through the same year gate before the next rebalance -- today the judged object is the un-overlaid book.",
+  "ticket_file": "results/etf_book_order/TICKET-2026-11-06.json",
+  "evidence_cutoff": "2026-11-06",
+  "match_note": "",
+  "judged_n_hold": 5,
+  "judged_vol_target": 0.08,
+  "judged_receipt": "results/etf_book_phase_gate.json",
+  "asof_bar": "2026-11-06",
+  "sources": {
+    "order_latest": {
+      "path": "results/etf_book_order/latest.json",
+      "error": ""
+    },
+    "ticket": {
+      "path": "results/etf_book_order/TICKET-2026-11-06.json",
+      "error": ""
+    },
+    "card": {
+      "path": "results/etf_book_production/latest.json",
+      "error": ""
+    },
+    "phase_gate": {
+      "path": "results/etf_book_phase_gate.json",
+      "error": ""
+    },
+    "supply_calendar": {
+      "path": "results/supply_calendar.json",
+      "error": ""
+    }
+  }
+}
