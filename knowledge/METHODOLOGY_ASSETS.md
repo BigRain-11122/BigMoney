@@ -10469,3 +10469,36 @@ CONDITIONAL），在两把帽臂上 8.44pp > 6.91pp、14.44pp > 14.90pp（判不
 正身 = `scripts/etf_book_year_caliber.py`（selftest 33/33）+ `results/etf_book_year_caliber.json` +
 `research/ETF_BOOK_YEAR_CALIBER.md` + S6 腿 `year_caliber` + smoke 腿「which year concentration ruler
 can judge itself」。
+
+## E434 — 拒绝要先问「哪把尺子拒的」：换个能判自己的尺子，还是拒，才算拒的是书（r1427 bm-c）
+
+r1426 证明 Y4（top-2 年占比）判不了自己三个臂之后，供给地板那颗连红 35 轮的灯就悬着：池子空，
+到底是书不行，还是尺子不行？本窗把 r1421 的三个相位书重新按「能判自己的两把尺子」复读
+（ffective_years / years_for_half，数值由 tf_book_year_caliber.calibers 现算、判决由
+djudicate_caliber 现判，禁第二实现），并把这句人话焊进操作面。
+
+①**控制尺自己先塌**：
+et_top2_share 在三本书里有两本是 UNADJUDICABLE_CALIBER（相位散度
+0.208 / 0.140 > 到线距离）——也就是说那两句「被日历拒了」里有两句，是拿一把判不了自己的尺子
+印出来的，结论只不过是碰巧成立。
+
+②**换尺子结论不变**：三本有相位集的书全部 REFUSAL_SURVIVES_TRUSTED_RULER——宽（有效年数
+4.71–4.99 年 / 7，PASS）且前置（一半收益来自 2 年，线是 3，FAIL）。所以供给地板红的是真因，
+不是尺子的假象；动作是「生成新题 / 重切书」，不是「调闸」。
+
+③**必须留一个诚实的空档**：ll_classes_published 只有单相位，没有相位集可复读 → 面里印
+
+o phase set, ruler not re-read，而不是跟着喊 survives，也不是默认它没事。
+
+④**拒词要能分开「书的问题」和「尺子的问题」**：供给日历面新增 
+uler_split
+（survives / artifact / partial / uncertified / no_phase_set），只有 rtifact 才打 WARNING；
+verdict 不变（拒仍是拒），变的是读者第一次能看见拒它的理由属于哪一类。
+
+正身 = scripts/candidate_year_gate_phases.py（selftest 21/21，含 L10–L13 生存词与口径块恒等腿）
++ scripts/supply_calendar_face.py（selftest 30/30，含 artifact WARNING 腿）+ 
+esults/etf_book_phase_gate.json
++ 
+esults/supply_calendar.{json,md} + S6 腿 supply_calendar + smoke 双腿（--selftest / --check）。
+坑：phase 模块与 caliber 模块互相 import = 循环（caliber → phases → caliber 死在 PHASE_STARTS），
+正法=caliber 侧 import 保持模块级、phases 侧改函数内惰性 import。

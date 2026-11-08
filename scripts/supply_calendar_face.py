@@ -123,6 +123,15 @@ def read_phase_gate(path, obj, err, root=ROOT):
             "spread_pp": summ.get("spread_pp"),
             "margin_pp": summ.get("margin_pp"),
             "single_phase_verdict": summ.get("single_phase_verdict"),
+            # r1427: a refusal is only as good as the ruler that produced it. The
+            # phase receipt now re-reads every book through the calibers r1426 proved
+            # self-adjudicable, so carry its word here instead of leaving the reader
+            # with a number nobody can trust (r1426: net_top2_share cannot adjudicate
+            # three of its own four arms).
+            "refusal_survival": (b.get("refusal_survival") or {}).get("word"),
+            "trusted_states": {
+                c: (b.get("caliber_adjudication") or {}).get(c, {}).get("state")
+                for c in ((b.get("refusal_survival") or {}).get("trusted") or [])},
         })
     return rows, ""
 
@@ -218,9 +227,39 @@ def build(receipts=None, root=None):
         "n_candidates": len(rows),
         "n_refused": sum(1 for r in rows if not r["pass"]),
         "n_admitted": sum(1 for r in rows if r["pass"]),
+        "ruler_split": ruler_split(rows),
         "verdict": verdict,
         "reading": READING[verdict],
     }
+
+
+RULER_WORDS = {
+    "REFUSAL_SURVIVES_TRUSTED_RULER": "survives",
+    "REFUSAL_WAS_RULER_ARTIFACT": "artifact",
+    "PARTIAL_TRUSTED_READ": "partial",
+    "UNCERTIFIED": "uncertified",
+}
+
+
+def ruler_split(rows):
+    """Split the refusals by whether a self-adjudicable ruler also refuses them --
+    a refusal carried only by a ruler that cannot judge itself is an artifact and
+    must not be read as evidence about the book (r1426/r1427)."""
+    out = {"survives": [], "artifact": [], "partial": [], "uncertified": [],
+           "no_phase_set": []}
+    for r in rows:
+        if r.get("pass"):
+            continue
+        word = r.get("refusal_survival")
+        if word is None:
+            out["no_phase_set"].append(r["candidate"])
+            continue
+        key = RULER_WORDS.get(word)
+        if key is None:
+            out["uncertified"].append(r["candidate"])
+        else:
+            out[key].append(r["candidate"])
+    return out
 
 
 def _one_line(row):
@@ -237,8 +276,20 @@ def summary_line(face):
     """The sentence an operator needs: why the pool is empty."""
     if face["verdict"] == "NO_CANDIDATE_PASSES_CALENDAR":
         names = "; ".join(_one_line(r) for r in face["candidates"])
-        return "no candidate passes its calendar (%d refused): %s" % (
+        line = "no candidate passes its calendar (%d refused): %s" % (
             face["n_refused"], names)
+        rs = face.get("ruler_split") or {}
+        if rs.get("survives"):
+            line += (" | ruler: %d refusal(s) survive a self-adjudicable caliber (%s)"
+                     % (len(rs["survives"]), ", ".join(rs["survives"])))
+        if rs.get("artifact"):
+            line += (" | WARNING %d refusal(s) only from an untrustworthy ruler (%s)"
+                     % (len(rs["artifact"]), ", ".join(rs["artifact"])))
+        if rs.get("no_phase_set") and (rs.get("survives") or rs.get("artifact")
+                                       or rs.get("partial") or rs.get("uncertified")):
+            line += (" | no phase set, ruler not re-read (%s)"
+                     % ", ".join(rs["no_phase_set"]))
+        return line
     return face["reading"]
 
 
@@ -259,6 +310,21 @@ def write_md(face, path):
         lines += ["", "读不到的收据（未知不是空）："]
         for u in face["receipts_unreadable"]:
             lines.append("- %s —— %s" % (u["receipt"], u["reason"]))
+    rs = face.get("ruler_split") or {}
+    if any(v for k, v in rs.items() if v):
+        lines += ["", "## 拒的是书还是尺子（r1426 口径复读）", ""]
+        if rs.get("survives"):
+            lines.append("- 尺子可自判且同样拒：%s —— 拒是真的，处置是等证据或重切书"
+                         % ", ".join(rs["survives"]))
+        if rs.get("artifact"):
+            lines.append("- **仅由不可自判的尺子拒**：%s —— 这是尺子的问题，不许当证据"
+                         % ", ".join(rs["artifact"]))
+        if rs.get("partial"):
+            lines.append("- 可自判尺子在本组相位上读不出：%s" % ", ".join(rs["partial"]))
+        if rs.get("uncertified"):
+            lines.append("- 无在册可自判尺子：%s（不猜）" % ", ".join(rs["uncertified"]))
+        if rs.get("no_phase_set"):
+            lines.append("- 无相位集、尺子未复读：%s" % ", ".join(rs["no_phase_set"]))
     lines += [
         "",
         "读法：只有字面 `ADMIT` 算过。CONDITIONAL / REFUSE / UNADJUDICABLE_PHASE "
@@ -401,6 +467,49 @@ def _selftest():
           json.dumps(build(receipts=[(pg_same, "phase_gate"),
                                      (yg_same, "year_gate")],
                            root=tmp), sort_keys=True))
+
+    # (8) r1427: the refusal is split by whether a self-adjudicable ruler agrees
+    pg_ruler = write("phase_ruler.json", {
+        "asof": "r", "summary": {"survives_book": {"state": "CONDITIONAL"},
+                                 "artifact_book": {"state": "CONDITIONAL"},
+                                 "unread_book": {"state": "CONDITIONAL"},
+                                 "old_book": {"state": "CONDITIONAL"}},
+        "books": [
+            {"book": "survives_book", "phase_rows": [
+                {"start": "p1", "verdict": "CONDITIONAL",
+                 "failing_checks": ["Y4_top2_share"]}],
+             "refusal_survival": {"word": "REFUSAL_SURVIVES_TRUSTED_RULER",
+                                  "trusted": ["years_for_half"]},
+             "caliber_adjudication": {"years_for_half": {"state": "FAIL"}}},
+            {"book": "artifact_book", "phase_rows": [
+                {"start": "p1", "verdict": "CONDITIONAL",
+                 "failing_checks": ["Y4_top2_share"]}],
+             "refusal_survival": {"word": "REFUSAL_WAS_RULER_ARTIFACT",
+                                  "trusted": ["years_for_half"]},
+             "caliber_adjudication": {"years_for_half": {"state": "PASS"}}},
+            {"book": "unread_book", "phase_rows": [
+                {"start": "p1", "verdict": "CONDITIONAL", "failing_checks": []}],
+             "refusal_survival": {"word": "PARTIAL_TRUSTED_READ",
+                                  "trusted": ["years_for_half"]},
+             "caliber_adjudication": {"years_for_half": {"state": "UNADJUDICABLE_CALIBER"}}},
+            {"book": "old_book", "phase_rows": [
+                {"start": "p1", "verdict": "CONDITIONAL", "failing_checks": []}]},
+        ]})
+    f8 = build(receipts=[(pg_ruler, "phase_gate")], root=tmp)
+    rs = f8["ruler_split"]
+    check("survives named", rs["survives"], ["survives_book"])
+    check("artifact named", rs["artifact"], ["artifact_book"])
+    check("partial named", rs["partial"], ["unread_book"])
+    check("no phase set is not called an artifact", rs["no_phase_set"], ["old_book"])
+    check("the split does not change the verdict", f8["verdict"],
+          "NO_CANDIDATE_PASSES_CALENDAR")
+    check("summary warns on an artifact-only refusal",
+          "WARNING 1 refusal(s) only from an untrustworthy ruler" in summary_line(f8), True)
+    check("summary states the surviving refusal",
+          "1 refusal(s) survive a self-adjudicable caliber" in summary_line(f8), True)
+    check("trusted states carried per row",
+          {r["candidate"]: r["trusted_states"] for r in f8["candidates"]}["artifact_book"],
+          {"years_for_half": "PASS"})
 
     print("selftest %d/%d PASS" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1

@@ -779,6 +779,13 @@ LEGS = [
     # from its own cells -- the r1290 class, a reading left on disk describing older data.
     ("year_caliber", ["python", "scripts/etf_book_year_caliber.py", "check"],
      ["python", "scripts/etf_book_year_caliber.py", "run"]),
+    # r1427: a refusal is only as good as the ruler behind it. The phase gate now re-reads
+    # every book through the calibers r1426 proved self-adjudicable, and this face is the
+    # operator sentence that says which refusals survive that re-read. It copies receipts
+    # only (no repricing, milliseconds), so it is regenerated every round -- a reading left
+    # on disk is the r1290 class: the pool stops being empty and the sentence still says
+    # "no candidate passes its calendar".
+    ("supply_calendar", ["python", "scripts/supply_calendar_face.py", "run"]),
     # r1331: E196 answers the question E190 left open -- whether the month the
     # ladder-drop verdict rests on is knowable in advance. It is a ~1s JSON read of
     # the E186 month table (no panel, no network, no engine), and it belongs on the

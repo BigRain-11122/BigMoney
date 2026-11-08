@@ -11,13 +11,18 @@
    "phases": 5,
    "reading": "phase",
    "receipt": "results/etf_book_phase_gate.json",
-   "receipt_asof": "2026-11-08T09:25:05+08:00",
+   "receipt_asof": "2026-11-08T14:31:26+08:00",
+   "refusal_survival": "REFUSAL_SURVIVES_TRUSTED_RULER",
    "single_phase_verdict": "CONDITIONAL",
    "spread_pp": 8.74,
    "state": "CONDITIONAL",
    "superseded_receipts": [
     "results/etf_book_year_gate/YEAR-GATE.json"
-   ]
+   ],
+   "trusted_states": {
+    "effective_years": "PASS",
+    "years_for_half": "FAIL"
+   }
   },
   {
    "candidate": "nobond_base",
@@ -31,13 +36,18 @@
    "phases": 5,
    "reading": "phase",
    "receipt": "results/etf_book_phase_gate.json",
-   "receipt_asof": "2026-11-08T09:25:05+08:00",
+   "receipt_asof": "2026-11-08T14:31:26+08:00",
+   "refusal_survival": "REFUSAL_SURVIVES_TRUSTED_RULER",
    "single_phase_verdict": "ADMIT",
    "spread_pp": 20.82,
    "state": "UNADJUDICABLE_PHASE",
    "superseded_receipts": [
     "results/etf_book_year_gate/YEAR-GATE.json"
-   ]
+   ],
+   "trusted_states": {
+    "effective_years": "PASS",
+    "years_for_half": "FAIL"
+   }
   },
   {
    "candidate": "nobond_vt08_floor_050",
@@ -50,11 +60,16 @@
    "phases": 5,
    "reading": "phase",
    "receipt": "results/etf_book_phase_gate.json",
-   "receipt_asof": "2026-11-08T09:25:05+08:00",
+   "receipt_asof": "2026-11-08T14:31:26+08:00",
+   "refusal_survival": "REFUSAL_SURVIVES_TRUSTED_RULER",
    "single_phase_verdict": "ADMIT",
    "spread_pp": 13.96,
    "state": "UNADJUDICABLE_PHASE",
-   "superseded_receipts": []
+   "superseded_receipts": [],
+   "trusted_states": {
+    "effective_years": "PASS",
+    "years_for_half": "FAIL"
+   }
   },
   {
    "candidate": "all_classes_published",
@@ -74,7 +89,7 @@
    "years": 7
   }
  ],
- "generated": "2026-11-08T10:30:08+0800",
+ "generated": "2026-11-08T14:36:41+0800",
  "n_admitted": 0,
  "n_candidates": 4,
  "n_refused": 4,
@@ -89,6 +104,19 @@
   "results/etf_book_year_gate/YEAR-GATE.json"
  ],
  "receipts_unreadable": [],
+ "ruler_split": {
+  "artifact": [],
+  "no_phase_set": [
+   "all_classes_published"
+  ],
+  "partial": [],
+  "survives": [
+   "nobond_vt08_adopted",
+   "nobond_base",
+   "nobond_vt08_floor_050"
+  ],
+  "uncertified": []
+ },
  "tool": "supply_calendar_face",
  "verdict": "NO_CANDIDATE_PASSES_CALENDAR"
 }

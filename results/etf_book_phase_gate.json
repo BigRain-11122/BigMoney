@@ -1,6 +1,6 @@
 {
  "face": "candidate_year_gate_phases",
- "asof": "2026-11-08T09:25:05+08:00",
+ "asof": "2026-11-08T14:31:26+08:00",
  "question": "should the desk's yearly gate be allowed to answer 'cannot tell', and what does it then say about the adopted book and r1419's floor arm?",
  "rule": {
   "phase_set": [
@@ -42,6 +42,15 @@
      "start": "2020-01-01",
      "verdict": "CONDITIONAL",
      "top2_share": 0.7108,
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 81.057829,
+      "gross_sum_pct": 81.057829,
+      "net_top2_share": 0.710755,
+      "gross_top2_share": 0.710755,
+      "effective_years": 4.215653,
+      "years_for_half": 1
+     },
      "positive_years_share": 7,
      "worst_year_pp": 1.898,
      "cagr_pct": 11.46,
@@ -56,6 +65,15 @@
      "start": "2020-01-08",
      "verdict": "CONDITIONAL",
      "top2_share": 0.7946,
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 78.901542,
+      "gross_sum_pct": 91.947146,
+      "net_top2_share": 0.794621,
+      "gross_top2_share": 0.681879,
+      "effective_years": 4.446401,
+      "years_for_half": 2
+     },
      "positive_years_share": 6,
      "worst_year_pp": -6.5228,
      "cagr_pct": 10.99,
@@ -70,6 +88,15 @@
      "start": "2020-01-15",
      "verdict": "CONDITIONAL",
      "top2_share": 0.7958,
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 59.534691,
+      "gross_sum_pct": 85.750179,
+      "net_top2_share": 0.79582,
+      "gross_top2_share": 0.552523,
+      "effective_years": 5.46231,
+      "years_for_half": 2
+     },
      "positive_years_share": 5,
      "worst_year_pp": -12.1773,
      "cagr_pct": 8.33,
@@ -84,6 +111,15 @@
      "start": "2020-01-22",
      "verdict": "CONDITIONAL",
      "top2_share": 0.7982,
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 49.013933,
+      "gross_sum_pct": 61.173021,
+      "net_top2_share": 0.798247,
+      "gross_top2_share": 0.639583,
+      "effective_years": 4.98223,
+      "years_for_half": 2
+     },
      "positive_years_share": 5,
      "worst_year_pp": -4.8311,
      "cagr_pct": 7.03,
@@ -98,6 +134,15 @@
      "start": "2020-01-29",
      "verdict": "CONDITIONAL",
      "top2_share": 0.7962,
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 61.60477,
+      "gross_sum_pct": 80.057596,
+      "net_top2_share": 0.796235,
+      "gross_top2_share": 0.612707,
+      "effective_years": 5.08258,
+      "years_for_half": 1
+     },
      "positive_years_share": 5,
      "worst_year_pp": -5.2422,
      "cagr_pct": 8.53,
@@ -130,6 +175,97 @@
     "state": "CONDITIONAL",
     "reason": "all 5 phases read CONDITIONAL and the spread 8.74pp is inside the 9.58pp distance to the line"
    },
+   "caliber_adjudication": {
+    "net_top2_share": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "fraction of the annual net sum",
+     "line": 0.7,
+     "pass_when": "le",
+     "median": 0.79582,
+     "spread": 0.087492,
+     "margin": 0.09582,
+     "side": "fail",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 0.710755,
+     "worst": 0.798247,
+     "state": "FAIL",
+     "reason": "all 5 phases fail and the spread 0.08749 is inside the 0.09582 distance to the line"
+    },
+    "gross_top2_share": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "fraction of total annual movement",
+     "line": 0.7,
+     "pass_when": "le",
+     "median": 0.639583,
+     "spread": 0.158232,
+     "margin": 0.060417,
+     "side": "mixed",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 0.552523,
+     "worst": 0.710755,
+     "state": "UNADJUDICABLE_CALIBER",
+     "reason": "phases land on both sides of the 0.7 line"
+    },
+    "effective_years": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "years (exp of entropy over gross shares)",
+     "line": 3.0,
+     "pass_when": "ge",
+     "median": 4.98223,
+     "spread": 1.246657,
+     "margin": 1.98223,
+     "side": "pass",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 4.215653,
+     "worst": 5.46231,
+     "state": "PASS",
+     "reason": "all 5 phases pass and the spread 1.247 is inside the 1.982 distance to the line"
+    },
+    "years_for_half": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "years (best years that add up to half the calendar sum)",
+     "line": 3,
+     "pass_when": "ge",
+     "median": 2.0,
+     "spread": 1.0,
+     "margin": 1.0,
+     "side": "fail",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 1.0,
+     "worst": 2.0,
+     "state": "FAIL",
+     "reason": "all 5 phases fail and the spread 1 is inside the 1 distance to the line"
+    }
+   },
+   "refusal_survival": {
+    "trusted": [
+     "effective_years",
+     "years_for_half"
+    ],
+    "states": {
+     "net_top2_share": "FAIL",
+     "gross_top2_share": "UNADJUDICABLE_CALIBER",
+     "effective_years": "PASS",
+     "years_for_half": "FAIL"
+    },
+    "fail": [
+     "years_for_half"
+    ],
+    "pass": [
+     "effective_years"
+    ],
+    "unreadable": [],
+    "word": "REFUSAL_SURVIVES_TRUSTED_RULER",
+    "reason": "years_for_half also fails: at least one self-adjudicable caliber also fails"
+   },
    "single_phase_r1418_reading": "CONDITIONAL",
    "single_phase_would_have_passed": false
   },
@@ -142,6 +278,15 @@
      "start": "2020-01-01",
      "verdict": "ADMIT",
      "top2_share": 0.6898,
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 110.066539,
+      "gross_sum_pct": 110.066539,
+      "net_top2_share": 0.689828,
+      "gross_top2_share": 0.689828,
+      "effective_years": 4.423162,
+      "years_for_half": 2
+     },
      "positive_years_share": 7,
      "worst_year_pp": 2.3313,
      "cagr_pct": 15.51,
@@ -154,6 +299,15 @@
      "start": "2020-01-08",
      "verdict": "ADMIT",
      "top2_share": 0.6798,
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 146.771937,
+      "gross_sum_pct": 159.031253,
+      "net_top2_share": 0.679798,
+      "gross_top2_share": 0.627395,
+      "effective_years": 4.705631,
+      "years_for_half": 2
+     },
      "positive_years_share": 6,
      "worst_year_pp": -6.1297,
      "cagr_pct": 20.12,
@@ -166,6 +320,15 @@
      "start": "2020-01-15",
      "verdict": "REFUSE",
      "top2_share": 0.8207,
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 92.436895,
+      "gross_sum_pct": 150.839865,
+      "net_top2_share": 0.820738,
+      "gross_top2_share": 0.50296,
+      "effective_years": 5.765824,
+      "years_for_half": 2
+     },
      "positive_years_share": 5,
      "worst_year_pp": -18.5406,
      "cagr_pct": 11.91,
@@ -181,6 +344,15 @@
      "start": "2020-01-22",
      "verdict": "CONDITIONAL",
      "top2_share": 0.888,
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 82.172318,
+      "gross_sum_pct": 94.774988,
+      "net_top2_share": 0.887957,
+      "gross_top2_share": 0.769881,
+      "effective_years": 4.12932,
+      "years_for_half": 2
+     },
      "positive_years_share": 5,
      "worst_year_pp": -5.1066,
      "cagr_pct": 11.34,
@@ -195,6 +367,15 @@
      "start": "2020-01-29",
      "verdict": "CONDITIONAL",
      "top2_share": 0.8325,
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 104.865436,
+      "gross_sum_pct": 130.25083,
+      "net_top2_share": 0.832512,
+      "gross_top2_share": 0.670259,
+      "effective_years": 4.942383,
+      "years_for_half": 2
+     },
      "positive_years_share": 5,
      "worst_year_pp": -8.4548,
      "cagr_pct": 14.2,
@@ -229,6 +410,97 @@
     "state": "UNADJUDICABLE_PHASE",
     "reason": "phases disagree on the verdict: ADMIT, CONDITIONAL, REFUSE"
    },
+   "caliber_adjudication": {
+    "net_top2_share": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "fraction of the annual net sum",
+     "line": 0.7,
+     "pass_when": "le",
+     "median": 0.820738,
+     "spread": 0.208159,
+     "margin": 0.120738,
+     "side": "mixed",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 0.679798,
+     "worst": 0.887957,
+     "state": "UNADJUDICABLE_CALIBER",
+     "reason": "phases land on both sides of the 0.7 line"
+    },
+    "gross_top2_share": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "fraction of total annual movement",
+     "line": 0.7,
+     "pass_when": "le",
+     "median": 0.670259,
+     "spread": 0.266921,
+     "margin": 0.029741,
+     "side": "mixed",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 0.50296,
+     "worst": 0.769881,
+     "state": "UNADJUDICABLE_CALIBER",
+     "reason": "phases land on both sides of the 0.7 line"
+    },
+    "effective_years": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "years (exp of entropy over gross shares)",
+     "line": 3.0,
+     "pass_when": "ge",
+     "median": 4.705631,
+     "spread": 1.636504,
+     "margin": 1.705631,
+     "side": "pass",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 4.12932,
+     "worst": 5.765824,
+     "state": "PASS",
+     "reason": "all 5 phases pass and the spread 1.637 is inside the 1.706 distance to the line"
+    },
+    "years_for_half": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "years (best years that add up to half the calendar sum)",
+     "line": 3,
+     "pass_when": "ge",
+     "median": 2.0,
+     "spread": 0.0,
+     "margin": 1.0,
+     "side": "fail",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 2.0,
+     "worst": 2.0,
+     "state": "FAIL",
+     "reason": "all 5 phases fail and the spread 0 is inside the 1 distance to the line"
+    }
+   },
+   "refusal_survival": {
+    "trusted": [
+     "effective_years",
+     "years_for_half"
+    ],
+    "states": {
+     "net_top2_share": "UNADJUDICABLE_CALIBER",
+     "gross_top2_share": "UNADJUDICABLE_CALIBER",
+     "effective_years": "PASS",
+     "years_for_half": "FAIL"
+    },
+    "fail": [
+     "years_for_half"
+    ],
+    "pass": [
+     "effective_years"
+    ],
+    "unreadable": [],
+    "word": "REFUSAL_SURVIVES_TRUSTED_RULER",
+    "reason": "years_for_half also fails: at least one self-adjudicable caliber also fails"
+   },
    "single_phase_r1418_reading": "ADMIT",
    "single_phase_would_have_passed": true
   },
@@ -241,6 +513,15 @@
      "start": "2020-01-01",
      "verdict": "ADMIT",
      "top2_share": 0.6685,
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 84.988659,
+      "gross_sum_pct": 84.988659,
+      "net_top2_share": 0.668549,
+      "gross_top2_share": 0.668549,
+      "effective_years": 4.460861,
+      "years_for_half": 1
+     },
      "positive_years_share": 7,
      "worst_year_pp": 1.9581,
      "cagr_pct": 12.08,
@@ -253,6 +534,15 @@
      "start": "2020-01-08",
      "verdict": "CONDITIONAL",
      "top2_share": 0.7458,
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 86.695601,
+      "gross_sum_pct": 97.984197,
+      "net_top2_share": 0.745795,
+      "gross_top2_share": 0.659873,
+      "effective_years": 4.693551,
+      "years_for_half": 2
+     },
      "positive_years_share": 6,
      "worst_year_pp": -5.6443,
      "cagr_pct": 12.15,
@@ -267,6 +557,15 @@
      "start": "2020-01-15",
      "verdict": "CONDITIONAL",
      "top2_share": 0.7892,
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 61.134745,
+      "gross_sum_pct": 92.164487,
+      "net_top2_share": 0.78918,
+      "gross_top2_share": 0.52348,
+      "effective_years": 5.763657,
+      "years_for_half": 2
+     },
      "positive_years_share": 5,
      "worst_year_pp": -12.4987,
      "cagr_pct": 8.49,
@@ -281,6 +580,15 @@
      "start": "2020-01-22",
      "verdict": "CONDITIONAL",
      "top2_share": 0.7995,
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 51.736588,
+      "gross_sum_pct": 64.124303,
+      "net_top2_share": 0.799492,
+      "gross_top2_share": 0.645044,
+      "effective_years": 4.985936,
+      "years_for_half": 2
+     },
      "positive_years_share": 5,
      "worst_year_pp": -4.8311,
      "cagr_pct": 7.41,
@@ -295,6 +603,15 @@
      "start": "2020-01-29",
      "verdict": "CONDITIONAL",
      "top2_share": 0.8081,
+     "calibers": {
+      "years": 7,
+      "net_sum_pct": 66.130109,
+      "gross_sum_pct": 84.470162,
+      "net_top2_share": 0.808115,
+      "gross_top2_share": 0.632658,
+      "effective_years": 5.069122,
+      "years_for_half": 1
+     },
      "positive_years_share": 5,
      "worst_year_pp": -5.3352,
      "cagr_pct": 9.19,
@@ -328,32 +645,149 @@
     "state": "UNADJUDICABLE_PHASE",
     "reason": "phases disagree on the verdict: ADMIT, CONDITIONAL"
    },
+   "caliber_adjudication": {
+    "net_top2_share": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "fraction of the annual net sum",
+     "line": 0.7,
+     "pass_when": "le",
+     "median": 0.78918,
+     "spread": 0.139566,
+     "margin": 0.08918,
+     "side": "mixed",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 0.668549,
+     "worst": 0.808115,
+     "state": "UNADJUDICABLE_CALIBER",
+     "reason": "phases land on both sides of the 0.7 line"
+    },
+    "gross_top2_share": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "fraction of total annual movement",
+     "line": 0.7,
+     "pass_when": "le",
+     "median": 0.645044,
+     "spread": 0.145069,
+     "margin": 0.054956,
+     "side": "pass",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 0.52348,
+     "worst": 0.668549,
+     "state": "UNADJUDICABLE_CALIBER",
+     "reason": "phase spread 0.1451 is wider than the 0.05496 distance from the median to the line"
+    },
+    "effective_years": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "years (exp of entropy over gross shares)",
+     "line": 3.0,
+     "pass_when": "ge",
+     "median": 4.985936,
+     "spread": 1.302796,
+     "margin": 1.985936,
+     "side": "pass",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 4.460861,
+     "worst": 5.763657,
+     "state": "PASS",
+     "reason": "all 5 phases pass and the spread 1.303 is inside the 1.986 distance to the line"
+    },
+    "years_for_half": {
+     "phases": 5,
+     "read_phases": 5,
+     "unit": "years (best years that add up to half the calendar sum)",
+     "line": 3,
+     "pass_when": "ge",
+     "median": 2.0,
+     "spread": 1.0,
+     "margin": 1.0,
+     "side": "fail",
+     "phases_read": 5,
+     "book_years": 7,
+     "best": 1.0,
+     "worst": 2.0,
+     "state": "FAIL",
+     "reason": "all 5 phases fail and the spread 1 is inside the 1 distance to the line"
+    }
+   },
+   "refusal_survival": {
+    "trusted": [
+     "effective_years",
+     "years_for_half"
+    ],
+    "states": {
+     "net_top2_share": "UNADJUDICABLE_CALIBER",
+     "gross_top2_share": "UNADJUDICABLE_CALIBER",
+     "effective_years": "PASS",
+     "years_for_half": "FAIL"
+    },
+    "fail": [
+     "years_for_half"
+    ],
+    "pass": [
+     "effective_years"
+    ],
+    "unreadable": [],
+    "word": "REFUSAL_SURVIVES_TRUSTED_RULER",
+    "reason": "years_for_half also fails: at least one self-adjudicable caliber also fails"
+   },
    "single_phase_r1418_reading": "ADMIT",
    "single_phase_would_have_passed": true
   }
  ],
+ "trusted_calibers": [
+  "effective_years",
+  "years_for_half"
+ ],
+ "trusted_calibers_rule": "a caliber may carry a re-adjudication only if the published r1426 face marks it trusted (V and S both true); the caliber VALUES are then re-derived here from the phase year tables by etf_book_year_caliber.calibers (imported, never retyped) and each caliber is adjudicated by etf_book_year_caliber.adjudicate_caliber, so the phase spread test is the same test, applied to this book's own phases",
+ "survival_words": {
+  "REFUSAL_SURVIVES_TRUSTED_RULER": "at least one self-adjudicable caliber also fails",
+  "REFUSAL_WAS_RULER_ARTIFACT": "every self-adjudicable caliber passes",
+  "PARTIAL_TRUSTED_READ": "some trusted calibers could not be read on these phases",
+  "UNCERTIFIED": "no trusted caliber is on record -- refuses to guess"
+ },
  "summary": {
   "nobond_vt08_adopted": {
    "state": "CONDITIONAL",
    "median_top2_share": 0.7958,
    "spread_pp": 8.74,
    "margin_pp": 9.58,
-   "single_phase_verdict": "CONDITIONAL"
+   "single_phase_verdict": "CONDITIONAL",
+   "refusal_survival": "REFUSAL_SURVIVES_TRUSTED_RULER",
+   "trusted_states": {
+    "effective_years": "PASS",
+    "years_for_half": "FAIL"
+   }
   },
   "nobond_base": {
    "state": "UNADJUDICABLE_PHASE",
    "median_top2_share": 0.8207,
    "spread_pp": 20.82,
    "margin_pp": 12.07,
-   "single_phase_verdict": "ADMIT"
+   "single_phase_verdict": "ADMIT",
+   "refusal_survival": "REFUSAL_SURVIVES_TRUSTED_RULER",
+   "trusted_states": {
+    "effective_years": "PASS",
+    "years_for_half": "FAIL"
+   }
   },
   "nobond_vt08_floor_050": {
    "state": "UNADJUDICABLE_PHASE",
    "median_top2_share": 0.7892,
    "spread_pp": 13.96,
    "margin_pp": 8.92,
-   "single_phase_verdict": "ADMIT"
+   "single_phase_verdict": "ADMIT",
+   "refusal_survival": "REFUSAL_SURVIVES_TRUSTED_RULER",
+   "trusted_states": {
+    "effective_years": "PASS",
+    "years_for_half": "FAIL"
+   }
   }
  },
- "elapsed_sec": 66.1
+ "elapsed_sec": 54.4
 }

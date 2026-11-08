@@ -9,4 +9,9 @@
 | nobond_vt08_floor_050 | phase | UNADJUDICABLE_PHASE | Y4_top2_share | results/etf_book_phase_gate.json |
 | all_classes_published | single_phase | CONDITIONAL | Y4_top2_share | results/etf_book_year_gate/YEAR-GATE.json |
 
+## 拒的是书还是尺子（r1426 口径复读）
+
+- 尺子可自判且同样拒：nobond_vt08_adopted, nobond_base, nobond_vt08_floor_050 —— 拒是真的，处置是等证据或重切书
+- 无相位集、尺子未复读：all_classes_published
+
 读法：只有字面 `ADMIT` 算过。CONDITIONAL / REFUSE / UNADJUDICABLE_PHASE 在本面一律是拒——日历闸不肯放行的候选，不能当作「今天就能点火」的供给。「没人写题」要开题，「题都过不了日历」要等证据或重切书，两件事的处置相反，把两种都印成 agenda debt 等于没说。

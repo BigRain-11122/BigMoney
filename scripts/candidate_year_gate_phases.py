@@ -52,7 +52,15 @@ import etf_book_scale_floor as S  # noqa: E402
 import etf_equity_alpha as A  # noqa: E402
 import etf_robust_pf as R  # noqa: E402
 
+# etf_book_year_caliber imports THIS module for its own phase set, so the caliber
+# arithmetic is imported lazily inside the functions that use it -- a module-level
+# import here is a cycle (caliber -> phases -> caliber) and dies on PHASE_STARTS.
+def _caliber_module():
+    import etf_book_year_caliber as Kmod
+    return Kmod
+
 OUT = os.path.join(ROOT, "results", "etf_book_phase_gate.json")
+CALIBER_RECEIPT = os.path.join(ROOT, "results", "etf_book_year_caliber.json")
 
 # five weekly starts span one 20-bar rebalance block (0, 5, 10, 15, 20 bars)
 PHASE_STARTS = ("2020-01-01", "2020-01-08", "2020-01-15", "2020-01-22", "2020-01-29")
@@ -80,6 +88,64 @@ RULE = {
     ),
     "frozen_before_read": True,
 }
+
+
+# --------------------------------------------------------------- trusted rulers
+# r1426 read four year-concentration calibers on the same 20 cells and showed that
+# net_top2_share -- the number Y4 actually uses -- cannot adjudicate three of its own
+# four arms (its phase spread is wider than its distance to the line).  It left two
+# calibers that CAN judge themselves.  So the question this file could not answer
+# before: when a book is refused, is the refusal about the book or about the ruler?
+TRUSTED_CALIBERS_RULE = (
+    "a caliber may carry a re-adjudication only if the published r1426 face marks it "
+    "trusted (V and S both true); the caliber VALUES are then re-derived here from the "
+    "phase year tables by etf_book_year_caliber.calibers (imported, never retyped) and "
+    "each caliber is adjudicated by etf_book_year_caliber.adjudicate_caliber, so the "
+    "phase spread test is the same test, applied to this book's own phases")
+SURVIVAL_WORDS = {
+    "REFUSAL_SURVIVES_TRUSTED_RULER": "at least one self-adjudicable caliber also fails",
+    "REFUSAL_WAS_RULER_ARTIFACT": "every self-adjudicable caliber passes",
+    "PARTIAL_TRUSTED_READ": "some trusted calibers could not be read on these phases",
+    "UNCERTIFIED": "no trusted caliber is on record -- refuses to guess",
+}
+
+
+def trusted_calibers(path=CALIBER_RECEIPT):
+    """The caliber names the r1426 receipt marks trusted.  Empty list = fail-closed."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            face = json.load(f)
+        return [c["caliber"] for c in face["decision"]["calibers"] if c.get("trusted")]
+    except Exception:
+        return []
+
+
+def survival_verdict(states: dict, trusted: list) -> dict:
+    """Pure: which trusted rulers, if any, also refuse this book."""
+    out = {"trusted": list(trusted), "states": dict(states),
+           "fail": [], "pass": [], "unreadable": []}
+    if not trusted:
+        out.update(word="UNCERTIFIED", reason=SURVIVAL_WORDS["UNCERTIFIED"])
+        return out
+    for c in trusted:
+        st = states.get(c)
+        if st == "FAIL":
+            out["fail"].append(c)
+        elif st == "PASS":
+            out["pass"].append(c)
+        else:
+            out["unreadable"].append(c)
+    if out["fail"]:
+        out.update(word="REFUSAL_SURVIVES_TRUSTED_RULER",
+                   reason="%s also fails: %s"
+                          % ("/".join(out["fail"]), SURVIVAL_WORDS["REFUSAL_SURVIVES_TRUSTED_RULER"]))
+    elif out["unreadable"]:
+        out.update(word="PARTIAL_TRUSTED_READ",
+                   reason="unreadable on these phases: %s" % "/".join(out["unreadable"]))
+    else:
+        out.update(word="REFUSAL_WAS_RULER_ARTIFACT",
+                   reason=SURVIVAL_WORDS["REFUSAL_WAS_RULER_ARTIFACT"])
+    return out
 
 
 def arm(close, openp, amt, sc, vol_target, vol_floor, start):
@@ -129,20 +195,25 @@ def adjudicate(rows, line=None):
 
 def run():
     t0 = time.time()
+    K = _caliber_module()
     close, openp, amt, sc, n_flip = S.nobond_universe()
     cap = S.published_capacity()
+    trusted = trusted_calibers()
     books = []
     for label, vt, floor in ARMS:
         rows = []
+        cells = []
         for start in PHASE_STARTS:
             ser, turn = arm(close, openp, amt, sc, vt, floor, start)
             yrs = Y.yearly_returns(ser)
             st = A.stats2(ser, "p")
             blk = G.admission_block(yrs, cap, None, st.get("cagr"))
+            yrows = list(yrs.values())
             rows.append({
                 "start": start,
                 "verdict": blk["verdict"],
                 "top2_share": blk["year_metrics"]["top2_share"],
+                "calibers": K.calibers(yrows),
                 "positive_years_share": blk["year_metrics"].get("positive_years"),
                 "worst_year_pp": blk["year_metrics"].get("worst"),
                 "cagr_pct": blk["cagr_pct"],
@@ -151,16 +222,28 @@ def run():
                 "turnover": round(turn, 3),
                 "failing_checks": [k for k, v in blk["checks"].items() if v is False],
             })
+            cells.append({"start": start, "calibers": rows[-1]["calibers"],
+                          "years": len(yrs)})
             print("  %-24s %s -> %-12s top2 %.4f cagr %7.3f sharpe %.3f"
                   % (label, start, blk["verdict"],
                      blk["year_metrics"]["top2_share"] or 0.0,
                      blk["cagr_pct"] or 0.0, st.get("sharpe") or 0.0), flush=True)
         agg = adjudicate(rows)
+        # every caliber Y4's control included, so the reader sees the control's own
+        # untrustworthiness beside the rulers that carry the verdict
+        by_cal = {c: K.adjudicate_caliber(c, cells) for c in K.CALIBERS}
+        surv = survival_verdict({c: by_cal[c]["state"] for c in by_cal}, trusted)
         books.append({"book": label, "vol_target": vt, "vol_floor": floor,
                       "phase_rows": rows, "adjudication": agg,
+                      "caliber_adjudication": by_cal,
+                      "refusal_survival": surv,
                       "single_phase_r1418_reading": rows[0]["verdict"],
                       "single_phase_would_have_passed": rows[0]["verdict"] == "ADMIT"})
         print("%-24s -> %-20s (%s)" % (label, agg["state"], agg["reason"]), flush=True)
+        print("%-24s -- trusted rulers: %-34s (%s)"
+              % (label, surv["word"], "/".join("%s=%s" % (c, by_cal[c]["state"])
+                                               for c in (trusted or [])) or "none on record"),
+              flush=True)
 
     out = {
         "face": "candidate_year_gate_phases",
@@ -180,11 +263,17 @@ def run():
                  "capacity_from": "results/etf_book_year_gate/YEAR-GATE.json"},
         "cost_per_side": 0.0010, "rebal_bars": 20, "n_hold": 5,
         "books": books,
+        "trusted_calibers": trusted,
+        "trusted_calibers_rule": TRUSTED_CALIBERS_RULE,
+        "survival_words": SURVIVAL_WORDS,
         "summary": {b["book"]: {"state": b["adjudication"]["state"],
                                 "median_top2_share": b["adjudication"]["median_top2_share"],
                                 "spread_pp": b["adjudication"]["spread_pp"],
                                 "margin_pp": b["adjudication"]["margin_pp"],
-                                "single_phase_verdict": b["single_phase_r1418_reading"]}
+                                "single_phase_verdict": b["single_phase_r1418_reading"],
+                                "refusal_survival": b["refusal_survival"]["word"],
+                                "trusted_states": {c: b["caliber_adjudication"][c]["state"]
+                                                   for c in trusted}}
                     for b in books},
         "elapsed_sec": round(time.time() - t0, 1),
     }
@@ -277,13 +366,59 @@ def selftest() -> int:
     else:
         chk(False, "L8 skipped: no published r1418 face")
 
+    # L10 the survival word is decided by the trusted rulers, not by Y4's control
+    s10 = survival_verdict({"net_top2_share": "FAIL", "years_for_half": "FAIL",
+                            "effective_years": "PASS"},
+                           ["years_for_half", "effective_years"])
+    chk(s10["word"] == "REFUSAL_SURVIVES_TRUSTED_RULER" and s10["fail"] == ["years_for_half"],
+        "L10 a failing trusted caliber survives the refusal (%s: %s)"
+        % (s10["word"], ",".join(s10["fail"])))
+
+    # L10b the control alone can never carry it: the same states, only untrusted names
+    s10b = survival_verdict({"net_top2_share": "FAIL", "effective_years": "PASS"},
+                            ["effective_years"])
+    chk(s10b["word"] == "REFUSAL_WAS_RULER_ARTIFACT",
+        "L10b a FAIL that no trusted caliber repeats reads as artifact, even though the "
+        "control fails (%s)" % s10b["word"])
+
+    # L11 fail-closed: no trusted caliber on record is UNCERTIFIED, never a pass
+    s11 = survival_verdict({"net_top2_share": "FAIL"}, [])
+    chk(s11["word"] == "UNCERTIFIED",
+        "L11 no trusted caliber on record -> UNCERTIFIED (%s)" % s11["word"])
+
+    # L12 unreadable is not a pass and not a fail
+    s12 = survival_verdict({"years_for_half": "UNADJUDICABLE_CALIBER"}, ["years_for_half"])
+    chk(s12["word"] == "PARTIAL_TRUSTED_READ",
+        "L12 a trusted caliber that cannot be read on these phases -> PARTIAL (%s)"
+        % s12["word"])
+    s12b = survival_verdict({"years_for_half": "FAIL",
+                             "effective_years": "UNADJUDICABLE_CALIBER"},
+                            ["years_for_half", "effective_years"])
+    chk(s12b["word"] == "REFUSAL_SURVIVES_TRUSTED_RULER",
+        "L12b one unreadable does not bury a trusted fail (%s)" % s12b["word"])
+
+    # L13 the published face must carry exactly the four calibers, derived from its own
+    # phases -- an empty/renamed block would leave the viability question unanswerable
+    if os.path.exists(OUT):
+        K = _caliber_module()
+        with open(OUT, encoding="utf-8") as f:
+            face = json.load(f)
+        cells_ok = all(set(K.CALIBERS) <= set(r.get("calibers") or {})
+                       for b in face.get("books", []) for r in b.get("phase_rows", []))
+        chk(cells_ok, "L13 every published phase row carries all %d calibers (%r)"
+            % (len(K.CALIBERS), cells_ok))
+        chk(face.get("trusted_calibers") is not None,
+            "L13b the face declares its trusted set (%r)" % (face.get("trusted_calibers"),))
+    else:
+        chk(False, "L13 skipped: no published phase face")
+
     # L9 the rule is declared before any number and pinned to the imported line
     chk(RULE["line_top2_share"] == G.TOP2_SHARE_MAX and RULE["frozen_before_read"] is True,
         "L9 the frozen rule quotes the imported line (%.2f)" % RULE["line_top2_share"])
     chk(len(PHASE_STARTS) == 5 and PHASE_STARTS[-1] > PHASE_STARTS[0],
         "L9b the phase set is five weekly starts")
 
-    tot = 13 if ref else 12
+    tot = 21 if ref else 20
     print("selftest %d/%d" % (tot - len(errs), tot), flush=True)
     return 0 if not errs else 1
 
