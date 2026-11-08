@@ -1,0 +1,53 @@
+{
+ "answer": "the printed 2.079%/yr reproduces exactly from its own window as mean accrual x 252 ; the same accrual stream annualised on calendar days /365 is 1.998%/yr (242.07 bar steps per calendar year, not 252), so the ticket overstates by 0.082 pp on that convention -- the printed number survives its own arithmetic and is not a calendar-annual rate.",
+ "calendar_days_365": {
+  "annual_pct": 1.99754,
+  "days_per_year": 365.0,
+  "label": "total accrual / (calendar_days / 365)",
+  "per_bar_accrual_implied_frac": 1.204788902291918e-05,
+  "total_accrual_frac": 0.13681780821917808
+ },
+ "card": "E593-WHETHER-THE-TICKETS-ADVERTISED-CASH-YIELD-SURVIVES-ITS-OWN-252-CONVENTION",
+ "convention_gap": {
+  "overstatement_as_share_of_printed_pct": 3.9413,
+  "printed_minus_calendar_pp": 0.081959,
+  "printed_over_calendar_ratio": 1.04103,
+  "ratio_identity_re_derives": true
+ },
+ "evidence_cutoff": "2026-11-06",
+ "generated_by": "scripts/e593_cash_convention.py",
+ "priced_on_the_tickets_own_cash": {
+  "cash_amount_as_issued": 528774.5,
+  "cash_amount_current_ticket": 529072.2,
+  "cny_per_year_as_issued": 433.38,
+  "cny_per_year_current_ticket": 433.62,
+  "note": "the gap is per year at constant cash; the ticket's cash is a 52.851% weight of its NAV"
+ },
+ "printed_method": {
+  "annual_pct": 2.079499,
+  "bars_per_year": 252,
+  "gap_vs_quoted_pp": 0.000499,
+  "label": "mean bar-to-bar accrual x 252",
+  "mean_bar_accrual_frac": 8.251978782821356e-05,
+  "quoted_on_ticket_pct": 2.079,
+  "reproduces_the_quoted_figure": true
+ },
+ "read_only": true,
+ "study": "E593_cash_convention",
+ "ticket_bar": "2026-11-06",
+ "ticket_path": "results/etf_book_order/TICKET-2026-11-06.json",
+ "verdict": "the_printed_cash_yield_is_its_own_method_recomputed_and_overstates_the_calendar_rate",
+ "window": {
+  "bars": 1658,
+  "bars_match_the_printed_window": true,
+  "calendar_days": 2500,
+  "calendar_days_match_the_printed_window": true,
+  "end": "2026-11-06",
+  "implied_bars_per_calendar_year": 242.068,
+  "missing_bar_steps": 7,
+  "printed_bars": 1658,
+  "printed_calendar_days": 2500,
+  "printed_missing_bar_steps": 7,
+  "start": "2020-01-02"
+ }
+}
