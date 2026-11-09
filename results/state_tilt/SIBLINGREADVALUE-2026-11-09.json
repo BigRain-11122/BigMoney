@@ -1,0 +1,1459 @@
+{
+ "study": "E625_sibling_read_value",
+ "script": "scripts/e625_sibling_read_value.py",
+ "evidence_cutoff": "2026-11-09",
+ "dept": "research+engineering",
+ "method": "take the same-object sibling reads E624 accepted (importing its object facts, not re-implementing them) and scan the interval between the dead line and each read for a write to that key on that object: a store/del/update/setdefault/pop that names the key means the read sees a different value, an unnamed write or the object handed to a call leaves it undecided, and only an untouched key means the two reads saw the same value",
+ "population_source": "scripts/*.py (AST) via e619.population, E624's same-object sibling reads over E623's live-holder line rows, less the E619/E622/E623/E624/this study self-exclusion sets",
+ "counts": {
+  "population_modules": 1099,
+  "skipped_modules": 14,
+  "live_dead_facekey_lines": 34,
+  "inert_dead_facekey_lines": 2,
+  "rows_with_a_same_object_sibling_read": 11,
+  "same_object_sibling_read_instances": 19,
+  "same_object_duplicate_rows": 4,
+  "same_object_duplicates_that_survive_the_value_test": 3,
+  "same_object_duplicates_the_key_is_stored_for": 0,
+  "same_object_duplicates_left_undecided": 1,
+  "rows_with_a_nested_definition_in_the_interval": 2,
+  "value_the_key_is_stored_between_the_two_lines": 0,
+  "value_the_object_is_written_without_the_key_being_named": 0,
+  "value_the_object_is_handed_to_a_call_between_the_two_lines": 1,
+  "value_the_key_is_not_stored_between_the_two_lines": 18
+ },
+ "e624_cross_check": {
+  "published": true,
+  "agrees": true,
+  "published_lines": 34,
+  "rederived_lines": 34,
+  "lines_whose_class_differs_n": 0,
+  "lines_whose_class_differs": [],
+  "lines_only_here": [],
+  "lines_only_in_the_published_face": [],
+  "published_superseded_same_object": 4,
+  "rederived_superseded_same_object": 4
+ },
+ "lines": [
+  {
+   "module": "scripts/backfill_heat_history.py",
+   "function": "validate_rows",
+   "def_line": 136,
+   "line": 144,
+   "local": "prev",
+   "key": "date",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    142,
+    143
+   ],
+   "key_read_elsewhere_in_the_module": 6,
+   "sibling_reads": [
+    {
+     "line": 142,
+     "relation": "same_receiver_bound_once",
+     "receiver": "row",
+     "sibling_receiver": "row",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    },
+    {
+     "line": 143,
+     "relation": "same_receiver_bound_once",
+     "receiver": "row",
+     "sibling_receiver": "row",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    }
+   ],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "row",
+   "corrected_class": "same_object_read_only_before_the_dead_line",
+   "same_object_sibling_reads": 2,
+   "same_object_sibling_reads_that_see_the_value": 2,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/cn_core_ddctl_p1.py",
+   "function": "run",
+   "def_line": 341,
+   "line": 367,
+   "local": "P_DAYS",
+   "key": "days",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 2,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    395
+   ],
+   "key_read_elsewhere_in_the_module": 4,
+   "sibling_reads": [
+    {
+     "line": 395,
+     "relation": "same_receiver_bound_once",
+     "receiver": "P",
+     "sibling_receiver": "P",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_object_is_handed_to_a_call_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": false,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [
+      {
+       "line": 372,
+       "form": "receiver_handed_to_a_call"
+      },
+      {
+       "line": 373,
+       "form": "receiver_handed_to_a_call"
+      }
+     ],
+     "nested_definitions_in_the_interval": []
+    }
+   ],
+   "nearest_later_sibling_relation": "same_receiver_bound_once",
+   "sibling_read_reads_the_same_object_after_the_dead_line": true,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P",
+   "corrected_class": "superseded_duplicate_read_on_the_same_object",
+   "same_object_sibling_reads": 1,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [
+    "the_object_is_handed_to_a_call_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/cn_core_ddctl_p1.py",
+   "function": "selftest",
+   "def_line": 822,
+   "line": 954,
+   "local": "P_DAYS",
+   "key": "days",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 5,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/cn_core_sat_p1.py",
+   "function": "_bind_panel",
+   "def_line": 333,
+   "line": 335,
+   "local": "SIG",
+   "key": "sig",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/cn_core_sat_p1.py",
+   "function": "_bind_panel",
+   "def_line": 333,
+   "line": 336,
+   "local": "MA",
+   "key": "ma",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/cn_core_sat_p1.py",
+   "function": "_bind_panel",
+   "def_line": 333,
+   "line": 337,
+   "local": "CL",
+   "key": "cl_sat",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/cn_kline_pattern_p1.py",
+   "function": "cmd_selftest",
+   "def_line": 1114,
+   "line": 1187,
+   "local": "ms_cal",
+   "key": "cal",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 3,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P['tabs']['MS']",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "simulate",
+   "def_line": 493,
+   "line": 507,
+   "local": "slip_exec",
+   "key": "slip_exec",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    589,
+    593
+   ],
+   "key_read_elsewhere_in_the_module": 2,
+   "sibling_reads": [
+    {
+     "line": 589,
+     "relation": "same_receiver_bound_once",
+     "receiver": "P",
+     "sibling_receiver": "P",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    },
+    {
+     "line": 593,
+     "relation": "same_receiver_bound_once",
+     "receiver": "P",
+     "sibling_receiver": "P",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    }
+   ],
+   "nearest_later_sibling_relation": "same_receiver_bound_once",
+   "sibling_read_reads_the_same_object_after_the_dead_line": true,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P",
+   "corrected_class": "superseded_duplicate_read_on_the_same_object",
+   "same_object_sibling_reads": 2,
+   "same_object_sibling_reads_that_see_the_value": 2,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": true,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "cmd_selftest",
+   "def_line": 1303,
+   "line": 1315,
+   "local": "BARS",
+   "key": "bars",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "fx",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/cn_sector_leader_p1.py",
+   "function": "cmd_selftest",
+   "def_line": 1399,
+   "line": 1411,
+   "local": "BARS",
+   "key": "bars",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "fx",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/cn_trend_etf_p1.py",
+   "function": "virtual_starts",
+   "def_line": 745,
+   "line": 749,
+   "local": "days",
+   "key": "idx",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 5,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/decision_chain_e2e.py",
+   "function": "_agg_arm",
+   "def_line": 310,
+   "line": 332,
+   "local": "last",
+   "key": "regime",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    323,
+    330
+   ],
+   "key_read_elsewhere_in_the_module": 1,
+   "sibling_reads": [
+    {
+     "line": 323,
+     "relation": "same_receiver_bound_once",
+     "receiver": "c",
+     "sibling_receiver": "c",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [
+      329
+     ]
+    },
+    {
+     "line": 330,
+     "relation": "same_receiver_bound_once",
+     "receiver": "c",
+     "sibling_receiver": "c",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    }
+   ],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "c",
+   "corrected_class": "same_object_read_only_before_the_dead_line",
+   "same_object_sibling_reads": 2,
+   "same_object_sibling_reads_that_see_the_value": 2,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": true
+  },
+  {
+   "module": "scripts/decision_chain_v2.py",
+   "function": "_agg",
+   "def_line": 498,
+   "line": 520,
+   "local": "last",
+   "key": "regime",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    511,
+    518
+   ],
+   "key_read_elsewhere_in_the_module": 1,
+   "sibling_reads": [
+    {
+     "line": 511,
+     "relation": "same_receiver_bound_once",
+     "receiver": "c",
+     "sibling_receiver": "c",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [
+      517
+     ]
+    },
+    {
+     "line": 518,
+     "relation": "same_receiver_bound_once",
+     "receiver": "c",
+     "sibling_receiver": "c",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    }
+   ],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "c",
+   "corrected_class": "same_object_read_only_before_the_dead_line",
+   "same_object_sibling_reads": 2,
+   "same_object_sibling_reads_that_see_the_value": 2,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": true
+  },
+  {
+   "module": "scripts/decision_chain_v2.py",
+   "function": "backfill_prereg",
+   "def_line": 811,
+   "line": 823,
+   "local": "jt",
+   "key": "j_target",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 2,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "payload['verdict']",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/divlowvol_nulls_face.py",
+   "function": "verdict_of",
+   "def_line": 78,
+   "line": 83,
+   "local": "z",
+   "key": "z",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 4,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "stats",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "def_line": 266,
+   "line": 332,
+   "local": "e377_pub_verdict",
+   "key": "verdict",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    284,
+    350
+   ],
+   "key_read_elsewhere_in_the_module": 2,
+   "sibling_reads": [
+    {
+     "line": 284,
+     "relation": "different_receiver_expression",
+     "receiver": "faces[UP_E377]",
+     "sibling_receiver": "got",
+     "same_object": false,
+     "relations_on_that_line": [
+      "different_receiver_expression"
+     ]
+    },
+    {
+     "line": 350,
+     "relation": "different_receiver_expression",
+     "receiver": "faces[UP_E377]",
+     "sibling_receiver": "faces[UP_E350]",
+     "same_object": false,
+     "relations_on_that_line": [
+      "different_receiver_expression"
+     ]
+    }
+   ],
+   "nearest_later_sibling_relation": "different_receiver_expression",
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "faces[UP_E377]",
+   "corrected_class": "another_object_is_read_instead",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/e396_face_basename_suffix.py",
+   "function": "derive_verdict",
+   "def_line": 431,
+   "line": 437,
+   "local": "census",
+   "key": "basename_census",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 4,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "m",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/e502_bom_census.py",
+   "function": "population",
+   "def_line": 585,
+   "line": 588,
+   "local": "boms",
+   "key": "canonical_bom",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 3,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "census",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/e504_name_compose.py",
+   "function": "selftest",
+   "def_line": 853,
+   "line": 879,
+   "local": "rows",
+   "key": "rows",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 2,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    919
+   ],
+   "key_read_elsewhere_in_the_module": 3,
+   "sibling_reads": [
+    {
+     "line": 919,
+     "relation": "different_receiver_expression",
+     "receiver": "face",
+     "sibling_receiver": "doctored4",
+     "same_object": false,
+     "relations_on_that_line": [
+      "different_receiver_expression"
+     ]
+    }
+   ],
+   "nearest_later_sibling_relation": "different_receiver_expression",
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "face",
+   "corrected_class": "another_object_is_read_instead",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/e505_unmeasured_reach.py",
+   "function": "_answers",
+   "def_line": 421,
+   "line": 422,
+   "local": "by_class",
+   "key": "by_class",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "summary",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/e507_unresolved_origin.py",
+   "function": "build",
+   "def_line": 733,
+   "line": 736,
+   "local": "up",
+   "key": "upstream",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "got",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/e584_ledger_bar_accrual.py",
+   "function": "ladder_check",
+   "def_line": 169,
+   "line": 184,
+   "local": "prev_cash",
+   "key": "cash",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 2,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    183
+   ],
+   "key_read_elsewhere_in_the_module": 4,
+   "sibling_reads": [
+    {
+     "line": 183,
+     "relation": "same_receiver_bound_once",
+     "receiver": "b",
+     "sibling_receiver": "b",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    }
+   ],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "b",
+   "corrected_class": "same_object_read_only_before_the_dead_line",
+   "same_object_sibling_reads": 1,
+   "same_object_sibling_reads_that_see_the_value": 1,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "function": "face_problems",
+   "def_line": 344,
+   "line": 364,
+   "local": "prev_key",
+   "key": "bar",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 5,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    362,
+    367,
+    372,
+    377
+   ],
+   "key_read_elsewhere_in_the_module": 3,
+   "sibling_reads": [
+    {
+     "line": 362,
+     "relation": "same_receiver_bound_once",
+     "receiver": "r",
+     "sibling_receiver": "r",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    },
+    {
+     "line": 367,
+     "relation": "same_receiver_bound_once",
+     "receiver": "r",
+     "sibling_receiver": "r",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    },
+    {
+     "line": 372,
+     "relation": "same_receiver_bound_once",
+     "receiver": "r",
+     "sibling_receiver": "r",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    },
+    {
+     "line": 377,
+     "relation": "same_receiver_bound_once",
+     "receiver": "r",
+     "sibling_receiver": "r",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    }
+   ],
+   "nearest_later_sibling_relation": "same_receiver_bound_once",
+   "sibling_read_reads_the_same_object_after_the_dead_line": true,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "r",
+   "corrected_class": "superseded_duplicate_read_on_the_same_object",
+   "same_object_sibling_reads": 4,
+   "same_object_sibling_reads_that_see_the_value": 4,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": true,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/e97_routing.py",
+   "function": "count_witness_sweep",
+   "def_line": 4244,
+   "line": 4296,
+   "local": "missed",
+   "key": "witnessed_measurement_named_word_missed",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 2,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "totals",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "def_line": 358,
+   "line": 393,
+   "local": "src",
+   "key": "x1",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 6,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    414,
+    424,
+    437,
+    438,
+    444
+   ],
+   "key_read_elsewhere_in_the_module": 5,
+   "sibling_reads": [
+    {
+     "line": 414,
+     "relation": "same_receiver_bound_once",
+     "receiver": "ports",
+     "sibling_receiver": "ports",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    },
+    {
+     "line": 424,
+     "relation": "different_receiver_expression",
+     "receiver": "ports",
+     "sibling_receiver": "sleeves[tid]",
+     "same_object": false,
+     "relations_on_that_line": [
+      "different_receiver_expression"
+     ]
+    },
+    {
+     "line": 437,
+     "relation": "different_receiver_expression",
+     "receiver": "ports",
+     "sibling_receiver": "sleeves[tid]",
+     "same_object": false,
+     "relations_on_that_line": [
+      "different_receiver_expression"
+     ]
+    },
+    {
+     "line": 438,
+     "relation": "different_receiver_expression",
+     "receiver": "ports",
+     "sibling_receiver": "sleeves[tid]",
+     "same_object": false,
+     "relations_on_that_line": [
+      "different_receiver_expression"
+     ]
+    },
+    {
+     "line": 444,
+     "relation": "different_receiver_expression",
+     "receiver": "ports",
+     "sibling_receiver": "sleeves[tid]",
+     "same_object": false,
+     "relations_on_that_line": [
+      "different_receiver_expression"
+     ]
+    }
+   ],
+   "nearest_later_sibling_relation": "same_receiver_bound_once",
+   "sibling_read_reads_the_same_object_after_the_dead_line": true,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "ports",
+   "corrected_class": "superseded_duplicate_read_on_the_same_object",
+   "same_object_sibling_reads": 1,
+   "same_object_sibling_reads_that_see_the_value": 1,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": true,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/innovation_quota_w8.py",
+   "function": "arm_series",
+   "def_line": 351,
+   "line": 382,
+   "local": "prev",
+   "key": "wA",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 2,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    381
+   ],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [
+    {
+     "line": 381,
+     "relation": "same_receiver_bound_once",
+     "receiver": "r",
+     "sibling_receiver": "r",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    }
+   ],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "r",
+   "corrected_class": "same_object_read_only_before_the_dead_line",
+   "same_object_sibling_reads": 1,
+   "same_object_sibling_reads_that_see_the_value": 1,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/mass_trial_w1.py",
+   "function": "draw_valid",
+   "def_line": 369,
+   "line": 371,
+   "local": "r",
+   "key": "ranges",
+   "reach": "reachable_through_a_registry_handoff",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 3,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "fam",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/perpetual_faces_n1.py",
+   "function": "_set_wave",
+   "def_line": 14167,
+   "line": 14175,
+   "local": "BATCH",
+   "key": "batch",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 2,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "cfg",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/perpetual_faces_n1.py",
+   "function": "_set_wave",
+   "def_line": 14167,
+   "line": 14176,
+   "local": "PREREG",
+   "key": "prereg",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "cfg",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/perpetual_faces_n1.py",
+   "function": "_set_wave",
+   "def_line": 14167,
+   "line": 14177,
+   "local": "A_SEED_BASE",
+   "key": "a_seed_base",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 948,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "cfg",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/perpetual_faces_n1.py",
+   "function": "_set_wave",
+   "def_line": 14167,
+   "line": 14178,
+   "local": "B_EXIT_SEED_BASE",
+   "key": "b_exit_seed_base",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 952,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "cfg",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/regime5_validation.py",
+   "function": "perm_nulls",
+   "def_line": 158,
+   "line": 175,
+   "local": "mu",
+   "key": "unconditional_mean",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "tab",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/regime_gate_dualarm.py",
+   "function": "validate_contract",
+   "def_line": 112,
+   "line": 138,
+   "local": "prev",
+   "key": "date",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    128,
+    135
+   ],
+   "key_read_elsewhere_in_the_module": 5,
+   "sibling_reads": [
+    {
+     "line": 128,
+     "relation": "same_receiver_bound_once",
+     "receiver": "ent",
+     "sibling_receiver": "ent",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    },
+    {
+     "line": 135,
+     "relation": "same_receiver_bound_once",
+     "receiver": "ent",
+     "sibling_receiver": "ent",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    }
+   ],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "ent",
+   "corrected_class": "same_object_read_only_before_the_dead_line",
+   "same_object_sibling_reads": 2,
+   "same_object_sibling_reads_that_see_the_value": 2,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  },
+  {
+   "module": "scripts/t28_stable_profit.py",
+   "function": "_grid_unit",
+   "def_line": 188,
+   "line": 216,
+   "local": "last",
+   "key": "segment",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 2,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    214
+   ],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [
+    {
+     "line": 214,
+     "relation": "same_receiver_bound_once",
+     "receiver": "c",
+     "sibling_receiver": "c",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": []
+    }
+   ],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "c",
+   "corrected_class": "same_object_read_only_before_the_dead_line",
+   "same_object_sibling_reads": 1,
+   "same_object_sibling_reads_that_see_the_value": 1,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false
+  }
+ ],
+ "skipped": [
+  {
+   "module": "scripts/e231_band_path_test.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e243_additivity_out_of_sample.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e280_e251_rng_drift_repin.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e308_leg_vs_producer_tolerance.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e371_one_store_member.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e387_republish_audit.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e394_phantom_why.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e429_two_hop_writer.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e335_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e349_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e353_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e463_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/t11_negday_ic.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/update_etf_universe.py",
+   "why": "SyntaxError"
+  }
+ ],
+ "limits": [
+  "no alias analysis: a write through another name bound to the same dict is invisible",
+  "a write inside a nested def that is called between the two lines is not descended into; rows that have a nested def in the interval are published with that flag",
+  "f(m) could write anything, so the object being handed to a call leaves the value undecided rather than unchanged",
+  "value identity is read off the interval's write marks only -- two reads of an untouched key are taken to see the same value, which is what immutability of a dict entry between two statements means, not a proof about concurrent writers",
+  "this study excludes itself and its smoke leg and probe, and keeps E619's, E622's, E623's and E624's self-exclusion sets, so the population is the one E624 published"
+ ],
+ "verdict": "3_of_4_same_object_duplicate_reads_sees_the_value_the_dead_line_saw",
+ "answer": "E624 accepted 19 sibling reads as reading the same object as their dead line, over 11 of the 34 live dead face-key lines.  Pricing the value now: 18 of those reads find no write to that key on that object between the two lines, 0 find a write that names the key, 0 a write that does not name it, and 1 the object handed to a call; so 3 of the 4 same-object duplicate rows survive the value test, 0 are stored over, and 1 stay undecided"
+}

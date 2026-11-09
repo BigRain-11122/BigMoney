@@ -1,4 +1,4 @@
-"""bm-b S6 chain runner (reusable).
+﻿"""bm-b S6 chain runner (reusable).
 
 Same shape and same reason as Tools/s6_chain_bmc.py: the per-round S6 chain used
 to be an ad-hoc script rebuilt every window, which spent the round's wall time
@@ -31,6 +31,12 @@ LEGS = [
     ("update_daily", ["python", "scripts/update_daily.py"]),
     # the official exchange calendar, so "no new bar" is not ambiguous
     ("cal_audit", ["python", "scripts/exchange_calendar_audit.py", "run"]),
+    # r1339: E30's standing coverage census existed since r1106 and was never in
+    # the chain -- its last published face was 11 days old while data/daily sat at
+    # 96% on 2026-10-28 with no 10-29/10-30 bars and cal_audit could only say
+    # "panel_gap" without naming the share. Counts dates already on disk, zero
+    # network, so it is cheap enough to hold the histogram current every round.
+    ("panel_coverage", ["python", "scripts/panel_coverage_report.py", "run"]),
     ("market_regime", ["python", "scripts/market_regime.py"]),
     ("market_clock", ["python", "scripts/market_clock_call.py", "run"]),
     # bm-b lanes (R31): the A-share daily panel and the five-member ETF panel
@@ -42,6 +48,14 @@ LEGS = [
     ("rev_osc_export", ["python", "scripts/rev_osc_signal_export.py", "run"]),
     ("update_minute_feed", ["python", "scripts/update_minute_feed.py"]),
     ("etf_book_forward", ["python", "scripts/etf_book_forward.py"]),
+    # r1626 bm-b: the CEO one-page was gated on a NAME (bm-a) rather than on a live machine.
+    # bm-a's heartbeat stopped 2026-10-29 and that page -- the only plain-language face of the
+    # money book -- froze for eleven days while every artefact under it kept moving. The gate
+    # now opens on evidence (assigned writer silent > TAKEOVER_HOST_SILENT_HOURS and this
+    # machine alive < TAKEOVER_SELF_ALIVE_HOURS) and prints which role it took; this leg is
+    # what turns that door into a daily refresh instead of a one-off repair. On a machine that
+    # is not the writer and not eligible it is an honest no-op rc 0.
+    ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # E214: the E60 off-book liquidity split carried across every era the panel
     # covers, so a two-era sign disagreement is not read as a flip on a sample of 2
     ("offbookera", ["python", "scripts/e39_panel_census.py", "offbookera"]),
@@ -206,6 +220,955 @@ LEGS = [
     # addition against the band its OWN time-shuffle produces, so an addition that merely fits
     # cannot claim the coefficient. ~20s.
     ("star_own_component", ["python", "scripts/e251_star_own_component.py", "run"]),
+    # E252: E251 priced the star's effect on OTHER members and settled its shape (its own lagged
+    # turnover, with volatility and age taking nothing). This leg turns the same design around --
+    # the star as the outcome -- and reads the coefficient it carries for others beside the one it
+    # carries for itself, with the difference on a paired block bootstrap. The burn costs minutes
+    # (200 permutation + 400 bootstrap draws on six cells), so the chain runs --verify: re-derive
+    # every published verdict from the face's own numbers and pin the cross column to E251's
+    # published statistic. Re-burning each cycle would be a re-measurement, not a check. <1s.
+    ("star_self_price", ["python", "scripts/e252_star_prices_itself.py", "verify"]),
+
+    # E280: the star_self_price leg went red at r1303 claiming an RNG drift (177 fields moved
+    # between E251's face and its rerun). Measured: the two implementations are one regression on
+    # one panel (0.0 difference), and the move came from one extra bar -- the verify was comparing
+    # faces priced on different worlds. This leg re-publishes the decision and re-pins E251's draw
+    # stream: same (panel, seed, draws) must reproduce the band, another seed must move it. ~4s.
+    ("star_own_rng_repin", ["python", "scripts/e280_e251_rng_drift_repin.py", "selftest"]),
+
+    # E253: E252 left one cell unmeasured (era_2025_now: the star's self coefficient -0.463 sits
+    # inside its own shuffled band while its cross column stays outside its own). This leg does
+    # the arithmetic that face did not: every band becomes the session count its own width implies,
+    # so "waiting for sessions" and "the channel weakened" stop being the same sentence. It reads
+    # the published face only -- no panel, no refit -- and the chain runs --verify, which re-derives
+    # every published number from the saved face. <1s.
+    ("self_row_resolution", ["python", "scripts/e253_self_row_resolution.py", "verify"]),
+
+    # E254: E253's session counts rest on edge(n) ~ n**-0.5, an exponent it only checked ACROSS
+    # heterogeneous eras (0.244). This leg rebuilds the shuffled band inside ONE cell at seven
+    # session counts and fits the exponent on the cell's own rungs; it answers with the ladder,
+    # not a date, and refuses to claim an exponent the rungs do not carry. Reads the published
+    # face only -- no panel, no refit -- and runs --verify. <1s.
+    ("band_exponent_inside_cell", ["python", "scripts/e254_band_exponent_inside_cell.py", "verify"]),
+    # E255: E254 could not name the exponent and blamed either too few permutation draws or too
+    # few rungs. This leg measures the same seven rungs at 60/120/240/480 draws, reading every
+    # smaller count as the PREFIX of one 480-draw stream so the four ladders are one experiment.
+    # Result: the band endpoint is still rising with draws (a 5% quantile read off too few draws
+    # sits inside the true boundary), so the shortfall is DRAWS, not rungs -- and the exponent
+    # itself has not converged either. Reads the published face only, no panel, no refit. <1s.
+    ("band_draw_starvation", ["python", "scripts/e255_band_draw_starvation.py", "verify"]),
+    # E256: E255 left the endpoint rising 9.8%/11.7% per doubling at 480 draws and asked at which
+    # count no rung moves more than 2%, or whether the increment per doubling is flat. This leg
+    # carries the answer: on the same prefix-nested ladder stretched to 960 and 1920 draws the
+    # endpoint moves 5.2/7.0% and then 10.3/8.8% per doubling -- it never settles, and the rise is
+    # not decaying (later doublings add more than earlier ones), so the band has no countable
+    # stopping point inside the budget and every session target divided by it is a floor.
+    # Reads the published faces only, no panel, no refit. <1s.
+    ("band_draw_continuation", ["python", "scripts/e256_band_draw_continuation.py", "verify",
+                                "--tag=-d1920"]),
+    # E257: E255/E256 showed the band's 5% endpoint was still rising at 1920 draws, so every
+    # published "outside the band" verdict had been judged against an edge read off a smaller
+    # grid. This leg re-judges every published (coefficient, band) pair in the star family against
+    # a band widened by the measured draw multiplier, at EVERY multiplier the ladder carries (2
+    # families x 7 rungs) rather than nominating one, and publishes which verdicts flip, which
+    # survive, and which only flip for some measurement. Reads published faces only, no panel,
+    # no refit, no coefficient re-priced. <1s.
+    ("band_at_top_flips", ["python", "scripts/e257_band_at_top_flips.py", "verify"]),
+
+    # E258: E257 borrowed era_2025_now's draw ladder and applied it to every window as a RANGE,
+    # because a fixed published window is neither that era's head nor its tail. This leg rebuilds
+    # the band INSIDE each published window (same dates, same published star, same published
+    # members, prefix-nested draw streams) and measures that window's OWN multiplier. The measured
+    # spread (1.27..1.84 at each window's own base count, ratio 1.45) is the finding: the borrowed
+    # range was not one object, and early_three's band was under-widened by the borrowed table
+    # range. Reads the panel (five-member ETF basket only), 3 seeds x 4 windows, ~85s.
+    ("band_multiplier_in_each_window",
+     ["python", "scripts/e258_band_multiplier_per_window.py", "verify"]),
+
+    # E259: E258 published each window's multiplier as min..max over THREE seeds. Three draws are
+    # not a distribution: this leg re-derives, from the published 40-stream sample, that every
+    # interval [p05,p95] is wider than the three-seed range it replaces (16/16, ratio median 2.25)
+    # and that three published rows change verdict between the tight and the wide end inside their
+    # own interval. Reads the published face only (raw per-seed edge tables are on it), no panel,
+    # no refit, no re-pricing. <1s.
+    ("band_multiplier_distribution",
+     ["python", "scripts/e259_band_multiplier_distribution.py", "verify"]),
+
+    # E260: E259 published 52 of 640 per-seed multipliers reading exactly 1.0 -- that is a
+    # prefix-nested endpoint which already arrived before the base count. This leg re-derives the
+    # arrival count per seed off E259's own edge tables and pins the arm-by-arm cross-check
+    # (16 arms x 40 seeds = 52), so "the published base count sits below the arrival count" cannot
+    # go stale silently. Reads the published face only, no panel, no refit, no re-pricing. <1s.
+    ("band_endpoint_arrival",
+     ["python", "scripts/e260_band_endpoint_arrival.py", "verify"]),
+
+    # E261: E259 published that 52 of 640 per-seed multipliers read exactly 1.0 (the band's lower
+    # endpoint had already stopped moving) and that they dragged p05 to 1.0 in 14 of 16 arms. This
+    # leg re-derives each interval twice -- over all seeds and over the seeds still free to move --
+    # and pins that (a) all 16 arms reproduce E259 bit-for-bit, (b) the 8 arms whose lower end sits
+    # at one are exactly the 8 whose floor moves off one once the bucket is removed, and (c) no
+    # published row verdict depends on the bucket. Reads E259's published per-seed tables only, no
+    # panel, no draw, no re-pricing. <1s.
+    ("degenerate_seeds_leave_one_bucket",
+     ["python", "scripts/e261_degenerate_seeds_leave_one_bucket.py", "verify"]),
+
+    # E262: E259 published a p05..p95 interval per (window, leg, base count). A reader borrows one:
+    # judge a row with another window's wide end. This leg re-derives that 2 of 48 ordered
+    # (donor, recipient) pairs move a verdict -- all_five's cross:60 p95 (2.2963, +13.9%/+16.7%)
+    # flips two cross rows outside->inside -- and that no single window is the widest at every
+    # (leg, base count) (all_five at base 60 both legs, early_three at self:200, era_2025_now at
+    # cross:200). Reads the published E259 face only, no draw, no panel, no re-pricing. <1s.
+    ("p95_transfer_across_windows",
+     ["python", "scripts/e262_p95_transfer_across_windows.py", "verify"]),
+
+    # E264: a row's whole verdict is its threshold m* = |b|/max(|lo|,|hi|) (outside <=> m < m*),
+    # so the row side needs no draws. This leg re-derives which published row sits closest to its
+    # band (era_2025_now cross:60, m*=1.9583 against its own p95=1.9678, a 0.0095 gap) and that
+    # the p05 == 1 floor the near-one seeds create is NOT load-bearing for any of the 4 rows that
+    # end on it (their thresholds are all >= 2.1). Also re-derives that both rows E262 moved by
+    # borrowing sit inside the top-3 closest. Reads the published E259 face only, no draw. <1s.
+    ("near_one_seed_reading",
+     ["python", "scripts/e264_near_one_seeds_reading.py", "verify"]),
+
+    # E266: E265's per-row screen ("any donor p95 above the row's threshold m* flips it") scored
+    # against E262's 48 published ordered pairs. This leg re-derives that the written screen flags
+    # 18 of 36 comparisons while only 2 move (precision 0.111), that guarding on the row's own end
+    # removes the false positives but loses one real move, and that only the BRACKET with the row's
+    # OWN SIDE reproduces the moved set exactly -- 18 of the 36 comparisons carry a side-dependent
+    # threshold, so max(|lo|,|hi|) is not a detail. Reads the published transfer face only. <1s.
+    ("wide_end_screen",
+     ["python", "scripts/e266_wide_end_screen_holdout.py", "verify"]),
+
+    # E267: E266's bracket screen is exact but is a knife edge -- a donor 0.0001 above the row's
+    # own-side threshold counts the same as one 0.3 above. This leg re-derives the clearance curve
+    # "donor_p95 > t*(1+b)" over 4 rules: the unbuffered single rule flags 14 of 36 comparisons
+    # with 2 moves (precision 0.143); a buffer alone peaks at 0.154 in a 0.0012-wide b window and
+    # never reaches 1, because a non-move clearing by 246% of its threshold answers to no margin;
+    # the own-side guard alone is 2/2 exact and tolerates a buffer up to the closest move's 0.0455.
+    # Re-reads the published faces only, no draw, no panel, no re-pricing. <1s.
+    ("screen_buffer_margin",
+     ["python", "scripts/e267_screen_buffer_margin.py", "verify"]),
+
+    # E268: E267's operative half is the own-side guard, which needs the row's own p95 -- the one
+    # number a reader of the table does not have. This leg re-derives the two substitutes that do
+    # live in the published face: the (leg, base) pooled TIGHT end answers the guard identically on
+    # all 36 comparisons (24 below t, 12 above) and reproduces both published moves, while the
+    # pooled WIDE end flips 6 comparisons (misses both moves) and the per-row published BOOLEAN
+    # flips 3 (it inherits E259's self-arm judgement on row 13, which E262 disclosed as
+    # interval-dependent). It also re-derives that the equivalence is carried by distance -- the
+    # nearest comparison sits 0.0835 off its threshold -- so it holds only outside that band.
+    # Reads the published transfer face only, no draw, no panel. <1s.
+    ("screen_on_pooled_end",
+     ["python", "scripts/e268_screen_on_pooled_end.py", "verify"]),
+
+    # E269: every arm in E259 also publishes a p05 and every row a verdict_tight, so the tight half
+    # of the same transfer question had never been scored. This leg re-derives that the tight end
+    # moves no verdict on any of the 48 ordered pairs while the wide end moves 2 -- and, so that
+    # "zero moves" is not a tautology, that no measured row could flip at ANY p05 its group
+    # actually published (each row publishes its flip multiplier; the nearest one sits 13.5%
+    # outside the widest observed p05 swing). The reading is inertness on this population, not a
+    # clean transfer, which is why the verdict is named that way. Published faces only. <1s.
+    ("tight_end_transfer",
+     ["python", "scripts/e269_tight_end_transfer.py", "verify"]),
+
+    # E274: E271's mechanism was a case report on one axis. This leg turns it into a family census:
+    # for every measured BAND* row it re-derives the flip multiplier, the multiplier range that axis
+    # actually offers and a four-way straddle reading, then scores the flag against the moved sets
+    # the faces themselves published -- wide_donor (E271's set), tight_p05 and top_ladder. All three
+    # reproduce exactly (4 moved observations, 4 hits, 0 missed, 0 flagged-but-inert). It also pins
+    # the "same name, different quantity" trap that broke the first cut: BANDTOPFLIP publishes
+    # flipped_ids (flips at EVERY measurement, empty) and depends_ids (flips at SOME, 2 rows); the
+    # flag answers "can move", so the SOME set is the one to score and both are carried. <1s.
+    ("spread_straddle_sweep",
+     ["python", "scripts/e274_spread_straddle_sweep.py", "verify"]),
+
+    # E275: E274's screen is binary -- a cleared row is 'safe' and nothing is said about how
+    # much room is left. This leg puts a budget on the cleared set from the same two published
+    # numbers: the share of the flip threshold the group's widest offered multiplier already
+    # eats, plus a five-way zone. On 12 measured rows the cleared set splits 4 open / 2 spent /
+    # 4 spent-by-build while the 2 straddlers are exactly the guard screen's moved rows, and
+    # none of the near-spent rows is a row the near-one or guard screen already names -- so
+    # "outside the range" is one reading with room and another with almost none. Faces only.
+    ("screen_margin_budget",
+     ["python", "scripts/e275_screen_margin_budget.py", "verify"]),
+
+    # E272: E269 measured the tight half's draw budget and left the wide half's unmeasured on the
+    # same ruler. One flip multiplier per row, then each tail's own published multiplier range in
+    # the row's (leg, base) group placed on it: the wide tail reaches 2 rows (exactly E262's two
+    # moved rows, re-derived from that face), the tight tail reaches none because every published
+    # p05 sits at >= 1.0 while 10 of 12 flips need a LARGER multiplier -- and on the normalised
+    # ruler (gap / that tail's own spread) the wide tail is closer on 10 of 12. The leg re-derives
+    # the face and crosses it against E269's published gaps plus E262's moved set. <1s.
+    ("flip_budget_two_tails",
+     ["python", "scripts/e272_flip_budget_two_tails.py", "verify"]),
+
+    # E277: why the tight tail is inert -- it is a property of the BAND BUILD, not of the windows.
+    # lo is the MINIMUM of a nested draw prefix (BAND_PCT 0..100), so |lo| can only widen and
+    # m = |lo|(top)/|lo|(base) cannot fall below 1 while the published draw exponent is positive
+    # (0.348 head / 0.647 tail, endpoint never narrowed on 6 of 7 rungs). All 140 published
+    # multiplier lower ends on disk sit >= 1.0, 39 of them exactly 1.0 (the degenerate branch: one
+    # seed away they lift to 1.11..1.20). A 5% band on the same stream yields m = 0.92, so the
+    # floor comes from the build. The leg re-derives the census and the counterfactual. <1s.
+    ("tight_multiplier_floor",
+     ["python", "scripts/e277_tight_multiplier_floor.py", "verify"]),
+
+    # E278: the normalised ruler divides a gap by the spread a tail offers, so a spread of exactly
+    # 0 leaves it undefined. Census every published arm-table group at both tails: 4 groups, 3
+    # measurable on both; the ONE zero spread is cross:200's tight tail where all four cells sit on
+    # the 1.0 floor (E277). 8 of 16 published tight values are exactly 1.0 and 7 of those 8 are at
+    # base 200, so the hole is the floor landing where the percentile has least support -- not one
+    # bad group. Wide tail: no zero anywhere, min spread 9.1%. The 2 published E272 rows that sit
+    # in it stay unmeasured. Verify re-derives and crosses the spreads against E272. <1s.
+    ("spread_floor",
+     ["python", "scripts/e278_spread_floor.py", "verify"]),
+
+    # E279: E278 left a policy nobody had tested -- when a tail's spread is 0, "read the other
+    # tail". Both substitution events agree, and both agree vacuously: a stranded tail publishes a
+    # degenerate multiplier range (min == max), so its "unreachable" is mechanical and the
+    # substitute had nothing to contradict. Where the two tails genuinely differ (2 rows) the tail
+    # you read decides the answer, and the swap view names the same rows in both directions --
+    # substitution is monotone (it can only add a "can move"), never a proof a row cannot. Verify
+    # re-derives reachability from the published ranges and crosses the stranded set against E278. <1s.
+    ("substitution_soundness",
+     ["python", "scripts/e279_substitution_soundness.py", "verify"]),
+
+    # E281: the dependency question E279's scoping left open -- does any published conclusion rest
+    # on a stranded tail to say "cannot"? Structural scan of all 27 dated BAND* faces: only 1 face
+    # carries reachability booleans for BOTH tails (24 claims, 22 of them "cannot"), and exactly 2
+    # of those rest on a stranded tail -- both in a face that already labels the tail inert/dead by
+    # construction, with a substitute that agrees vacuously. Zero load-bearing claims. It also
+    # re-derives E279's census row by row (24/24) and finds E279's summary field is keyed on the
+    # GROUP label, so a group with 1 disagreeing cell of 4 is published whole. Published faces
+    # only, no draw. <1s.
+    ("substitution_dependency_audit",
+     ["python", "scripts/e281_substitution_dependency_audit.py", "verify"]),
+
+    # E282: the seed read the two disagreement cells' gap of 0.0 as "the substitute lands on the
+    # flip" and hypothesised a rounding boundary artefact. The gap reads 0.0 for EVERY interior
+    # reading because it is clamped inside the range, so the census re-measures the flip's position
+    # instead: both cells sit at 0.52/0.70 of the way into the reaching range while the other tail
+    # is 48-50 pct away. Range difference, not a tie. Published faces only, no draw. <1s.
+    ("substitution_disagreement_census",
+     ["python", "scripts/e282_substitution_disagreement_census.py", "verify"]),
+
+    # E283: E279's contradiction branch (the substitute DEFLATES the conclusion) reported 0 events
+    # on 2 substitution events. A degenerate tail can only reach a row when the flip equals its
+    # single multiplier, so this leg measures the shape that event would need: both candidates sit
+    # 2.70x / 3.25x from their degenerate value, the tolerance band that would fire the branch is
+    # [63.03 pct, +inf), and at that tolerance 21 of 24 published readings read reachable against 2
+    # published -- the test that fires the branch is not the test that published the family. It
+    # also re-derives 24/24 published booleans and E279's stranded set. Published faces only. <1s.
+    ("degenerate_range_reachable",
+     ["python", "scripts/e283_degenerate_range_reachable.py", "verify"]),
+
+    # E284: E281 found one summary field whose NAME says rows while its VALUE is a list of group
+    # labels (cross and star_lag1_residual each hold 4 cells, one of which disagrees). This leg
+    # re-derives the disagreeing CELLS out of E279's own per-tail booleans (landing exactly on the
+    # face's published swap rows, identity True) and sweeps the whole family for the same shape:
+    # 30 dated faces, 1 flagged field -- the slip is unique -- while 1338 integer count fields are
+    # reported as NOT assessed rather than guessed at. Published faces only. <1s.
+    ("disagreement_field_scope",
+     ["python", "scripts/e284_disagreement_field_scope.py", "verify"]),
+
+    # E285: the two tails' ranges leave a gap between them, and a flip landing in that gap is
+    # reachable by NEITHER. This leg measures that gap per (leg, base) arm and, more importantly,
+    # separates it from the rows that sit above the family's published ceiling entirely: of 12
+    # rows, 2 fall in a positive gap (20 pct of the 10 unresolvable) while 6 sit above the ceiling
+    # of 2.2963 (up to 1.417x it) -- any widening that stays inside the published evidence can add
+    # at most those 2 rows, so the substitution's headroom is spent on the gap, not on the
+    # extrapolation zone. Published faces only, no draw. <1s.
+    ("interrange_gap_ceiling",
+     ["python", "scripts/e285_interrange_gap_ceiling.py", "verify"]),
+
+    # E286 (r1311 bm-b): E284 had to leave 1338 integer fields unjudged because an integer count's
+    # scope depends on that face's own census semantics. This leg judges the half that can be judged
+    # without guessing: of 894 unit-named counts across 32 dated faces, only 27 (3.0 pct) publish the
+    # records they name in the SAME scope -- and all 27 count the unit they claim, so the name is a
+    # checkable claim for a minority. The other 867 split into 301 where the face publishes that unit
+    # elsewhere (the name lacks a scope) and 566 where it publishes no records of that unit at all
+    # (the name is a design parameter) -- two different fixes that must never be reported as one
+    # number. 557 subset-named counts are disclosed as not judged (E208: a naive unit-word match
+    # rejects real quotes). Published faces only, no draw. <1s.
+    ("count_field_scope",
+     ["python", "scripts/e286_count_field_scope.py", "verify"]),
+
+    # E290 (r1312 bm-b): E286 could say which counts are checkable but not whether copying the
+    # checkable faces would help. This leg profiles the shape: all 27 sit beside a same-parent list of
+    # exactly the unit their name claims, and every one equals that list -- but 12 of the 27 carry an
+    # equal-length same-unit list elsewhere in the same face, so those agreements cannot be told from
+    # coincidence, and the exemplar faces are only 17.9 pct self-auditable (27 of 151 of their own
+    # counts) against 3.0 pct family-wide. The 867 un-derivable counts split into 301 rows over 299
+    # scopes (move the count into the scope that already publishes the unit) and 566 rows over just 8
+    # keys (no record face exists, so no naming convention can rescue them). Published faces only,
+    # no draw. <1s.
+    ("self_auditable_face_profile",
+     ["python", "scripts/e290_selfauditable_face_profile.py", "verify"]),
+
+    # E291 (r1313 bm-b): E290 flagged 12 of 27 counts as ambiguous because another same-unit list in
+    # the same face has the same length -- which only informs if equal lengths can be accidents. They
+    # cannot, or not mostly: 104 of 125 eligible lists (83.2 pct) have an equal-length sibling against
+    # 67.4 pct expected from the pooled length distribution (tail p<0.001), and of the 746 equal-length
+    # pairs 605 share a record schema and 135 are the very same content -- only 6 differ in content.
+    # At the flag's own level 12 of 27 is exactly the null (39.9 pct expected) and all 12 come from
+    # just 2 scopes, so "ambiguous" marks a shared shape (and 135 duplicated lists) rather than two
+    # lists competing for one meaning. Published faces only, no draw. <1s.
+    ("ambiguity_by_length_chance",
+     ["python", "scripts/e291_ambiguity_chance.py", "verify"]),
+
+    # E287 (r1314 bm-b): E285 called 6 rows above the family ceiling 2.2963 "extrapolation", which
+    # only holds if nothing wider is already published. Six dated band faces publish a number called
+    # a multiplier; signed by axis, only two are band-edge supplies and both tops sit BELOW the
+    # ceiling (1.8383 median per window / 2.2457 at a single best seed), so no above-ceiling row is
+    # reachable (nearest self|200|0 needs 3.8 pct more). Both gap rows ARE reachable by that same
+    # supply (cross|60|11 at the median, star_lag1_residual|60|15 only at the single seed), and the
+    # published narrowing instrument (0.9220) misses the nearest below-floor row by 3.7 pct. The
+    # 63.0 pct tolerance and the 2.0327 spread threshold that look wider are published as off-axis.
+    # Published faces only, no draw. <1s.
+    ("supply_ceiling_axes",
+     ["python", "scripts/e287_supply_ceiling_axes.py", "verify"]),
+
+    # E288 (r1317 bm-b): the mirror of the ceiling question -- a flip BELOW the published floor of
+    # 1.0 needs the band NARROWED. Two rows sit 11.06 and 36.96 pct under the floor; the family
+    # publishes exactly one sub-1.0 band-edge multiplier (0.9220216) and it misses the nearest row
+    # by 3.67 pct and the farthest by 46.26 pct, so the verdict is "reaches none". Scored against
+    # all 12 rows on each row's own polarity the same instrument reaches 0, so tightening is not a
+    # free fix for the widening side either. E285's per-row "distance below tight lo" column is
+    # published with its implied reference (1.0283 / 1.5815, both ABOVE the floor) because it
+    # gauges a narrowing demand with a widening instrument. Published faces only, no draw. <1s.
+    ("below_floor_narrowing",
+     ["python", "scripts/e288_below_floor_narrowing.py", "verify"]),
+
+    # E293 (r1314 published, wired r1318 bm-b): E291 showed equal-length lists are the family's
+    # SHAPE; the open question was whether a copy makes a number count one thing twice. Six alias
+    # groups over 32 censused faces (38 members, 26.6 pct of all lists): 2 are schema-driven (the
+    # same slot across arms) and 4 accidental, and no scope anywhere publishes a total that sums an
+    # alias group -- so the duplicate lists cost nothing in double counting, they just are one list
+    # printed more than once. Wiring leg: the published face had no chain leg and no smoke leg, and
+    # its derivation had in fact stopped running (E291's frozen census_names returns a tuple).
+    # Published faces only, no draw. <1s.
+    ("duplicate_list_census",
+     ["python", "scripts/e293_duplicate_list_census.py", "verify"]),
+
+    # E295 (r1319 bm-b): E287's two margins asked for "one more rung" of the published draw ladder.
+    # Priced: the ladder spans 1.000..1.925 central (2.427 at a single seed) over 70 rung-readings,
+    # its median adjacent step buys 6.99 pct, and 37 of 70 steps are finer than the widening margin
+    # -- so the margin was never a resolution problem. Both gradable demands live in the ladder's
+    # OWN window (star_lag1_residual|60|14 widen 5.98 pct short of the nearest rung, self|60|8
+    # narrow with no sub-1.0 rung at all), and neither the rung nor a narrowing rung exists, so the
+    # face declares the interpolation aborted instead of fitting one. Also witnesses E258's
+    # era_2025_now|60 multiplier reproduce off the ladder to 0.0. Published faces only. <1s.
+    ("supply_gap_closure",
+     ["python", "scripts/e295_supply_gap_closure.py", "verify"]),
+
+    # E300 (r1320 bm-b): E295 had to call 9 of 12 demand rows not_graded because only era_2025_now
+    # owns a draw ladder, and the widening margin it read (5.98 pct) differed from E287's headline
+    # (3.80 pct) purely by which window's cap was the denominator. Re-priced every published demand
+    # row against the multiplier its own window published at its own base draws (E258 measured all
+    # four cells): 10 of 12 are graded on their own window, 3 reach verdicts flip (rows that looked
+    # reachable only under a borrowed cap), and the borrowed-cap denominator understates the margin
+    # by up to 147 pct. The 2 narrowing rows stay ungraded with a named face because the family
+    # publishes no window-local narrowing instrument (BANDFLOOR is one synthetic seed). Witnesses
+    # that E295's own margins reproduce on the cross-window column. Published faces only. <1s.
+    ("window_local_margin_census",
+     ["python", "scripts/e300_window_local_margin_census.py", "verify"]),
+
+    # E292 (r1321 bm-b): E290 handed the 301 'the face already publishes this unit elsewhere' rows on
+    # as "move the count, no new data needed". Priced: 24 of them name the unit AS the key (so no
+    # sibling list of that name can exist), 76 have the unit published in more than one scope (a
+    # choice, not a move), and of the 201 single-target rows 126 agree with the candidate list while 75
+    # do not -- but ZERO of the 201 land beside a list in their own scope or a scope that contains /
+    # sits under it, and every one of the 126 agreements is against a list holding at most one item in
+    # an unrelated subtree. So the premise fails: those counts measure a collection the face never
+    # enumerates. Published faces only, no draw, no engine. <1s.
+    ("scope_fix_plan",
+     ["python", "scripts/e292_scope_fix_plan.py", "verify"]),
+
+    # E294 (r1322 bm-b): r1314 froze the family census to stop the drift, which answered "how do we
+    # stop it" but not "did it matter". This leg asks the question under the freeze: for every study
+    # that censuses the BAND directory, re-derive it twice -- once against the vintage it published
+    # (faces stamped no later than its own) and once against the live directory -- and classify the
+    # verdict as stable / flips / does-not-reproduce / not-measurable. 12 of the family's 54 study
+    # scripts census the directory at all (the other 42 read named sibling faces and cannot move);
+    # 9 of the 12 can be varied, and every one prints the same verdict with up to 34 more faces in
+    # view, so the drift r1314 fixed was a reproducibility problem, not a conclusion problem. Each
+    # study runs in its own process under a wall-clock cap, self-inclusion is refused, and nothing in
+    # results/state_tilt is written by the measurement. ~70s (13 child processes).
+    ("live_universe_drift",
+     ["python", "scripts/e294_live_universe_drift.py", "verify"]),
+
+    # E302 (r1325 bm-b): E294's own finding was that three directory-censusing studies publish
+    # build() with no universe argument, so for them the universe question was UNASKED. This leg
+    # prices the switch instead of assuming it: the universe reaches each study through a
+    # module-level directory global, so redirecting every module binding of that global re-derives
+    # the study against a staged vintage without editing a line -- the price is 31 bindings, and a
+    # real `outdir=` parameter would instead thread 6 functions and 10 module-default load() calls.
+    # All three reproduce their published verdict and none flips (staged 118/120/132 faces against
+    # the live 170). Each row publishes both file counts so a staging that is not narrower cannot be
+    # read as "stable", and the real directory's mtimes are asserted unchanged. ~5s.
+    ("universe_switch_backfill",
+     ["python", "scripts/e302_universe_switch_backfill.py", "verify"]),
+
+    # E298 (r1323 bm-b): r1316 taught ONE replay control (E243's) to say which panel it re-derived
+    # on, which fixed a face and not the class. This leg censuses every control block published in
+    # results/state_tilt (90 dated faces; 67 mirrors and its own two faces excluded): 26 containers,
+    # 12 identity checks (re-derived from the face's own records, so a vintage cannot move them) and
+    # 14 replays. Of the 14 replays only 7 declare a basis -- 6 carry their own window/pin, 1 names
+    # the live panel and its overshoot (ADDOS 2026-10-30) -- so 7 replays are published reacting to
+    # an unknown panel. They are published as UNMEASURABLE, never as safe or broken. The ADDOS pair
+    # also shows the repair landing: the same block went undeclared (10-29) -> live_declared (10-30).
+    # Published faces only; no panel re-read, no draw, no engine. <3s.
+    ("replay_control_census",
+     ["python", "scripts/e298_replay_control_census.py", "verify"]),
+
+    # E303: E298 published seven replay controls as unmeasurable because their face names no panel.
+    # This leg asks the writer instead: of the seven, 1 is computed by its writer and dropped from a
+    # stale face (the same block in a newer vintage carries window_used/window_source and the
+    # sessions past the pin), 4 have the basis declared beside the block (basis_note, source_faces,
+    # windows_measured, bar_*_basis, panels), and 2 derive on the live panel with nothing said --
+    # and those two are the ones whose own numbers move between vintages (BANDPATH 285.88 ->
+    # 289.83 bp/yr; REPRO rows 13,911 -> 13,916). 5 of 7 are recoverable without re-running a
+    # study. Source + published JSON only; no panel re-read, no draw, no engine. <1s.
+    ("basis_recovery",
+     ["python", "scripts/e303_recover_unmeasurable_basis.py", "verify"]),
+
+    # E299: r1316 repaired one leg that compared a 6-dp point set against a full-precision
+    # interval at 1e-9. This leg prices the class: 42 of smoke_test.py's 320 legs carry a numeric
+    # comparison against a published face, 29 of their 62 sites compare at a tolerance finer than
+    # the quantum the field they read is printed with (21 on the field's own decimals, 8 on the
+    # face-level bound only), and 37 of the 42 faces read publish no precision declaration. Zero
+    # measured rounded/full sibling pairs survive -- the one the family had is the one r1316 fixed.
+    # Source + published JSON only; no study re-run, no draw, no engine. ~55s (the face reads and
+    # the per-key leaf walks dominate; measured in round 1324, not estimated).
+    ("precision_census",
+     ["python", "scripts/e299_rounded_vs_tolerance_census.py", "verify"]),
+
+    # E305: E299 could only bound 8 of its 29 at-risk rows at face level, because the key the leg
+    # reads was not found as a leaf. This leg prices those 8: 3 read a key that lives in a sibling
+    # face the same leg names (15 dp at the producer, so neither is at risk), 3 read a container or
+    # a label rather than a printed number, 1 reads a key the producer writes inside per-record
+    # lists that are empty on this vintage, and 1 reads a boolean flag. All 8 are withdrawn.
+    # Published faces + producer text only; no study re-run. <0.2s.
+    ("face_level_row_pricing",
+     ["python", "scripts/e305_face_level_row_pricing.py", "verify"]),
+
+    # E308: pricing the last of E305's rows surfaced the guess this leg tests -- the open-fill leg
+    # compares two session_open values at 1e-9 while the face publishes rel_tol=0.002 as its gate.
+    # Of 55 face files named by the 93 comparison sites, 11 publish a real tolerance gate; 30
+    # (leg, gate) pairs, 18 arithmetically tighter. A scope reading of the scripts that name each
+    # face (is the gate USED in a comparison?) leaves 1 standing, and that one's gate holds the same
+    # number as an excluded key on the same face (verdict_inputs.tol 0.1 == frozen_spec.gamma_tol
+    # 0.1) -- so it is name-fragile too. Source + published JSON only; no study re-run, no engine.
+    ("gate_tolerance_census",
+     ["python", "scripts/e308_leg_vs_producer_tolerance.py", "verify"]),
+
+    # E312: those pairings were keyed on the DECLARED key, but a writer publishes a constant
+    # ("tolerance": TOL) and compares with the constant or with a parameter defaulted from it, so
+    # 29 of the 30 pairs E308 called "declared but never compared" do have a producer comparison.
+    # Being compared is still not being compared to the leg's quantity: the one band E308 let stand
+    # compares the window edges lo/hi against FROZEN_GAMMA +- tol (a feasibility test of the
+    # ladder), while the open-fill band it rejected compares abs(cost - session_open)/session_open,
+    # the very price the leg reads (relative vs absolute: disclosed). Verify rebuilds from source
+    # and the published face; seconds.
+    ("gate_operand_identity",
+     ["python", "scripts/e312_gate_operand_identity.py", "verify"]),
+
+    # E313: a shared NAME is not a shared UNIT. E312's single surviving pair (t35 open-fill) matches
+    # rel = abs(cost - session_open)/session_open against rel_tol 0.002 while the leg compares an
+    # absolute 1e-09, so the gate can only reach the leg through the scale -- and reads them at the
+    # producer's own comparison lines: 3 of 30 rows multiply the gate by a clamped scale
+    # (tol * max(1.0, x) is relative above 1.0 and absolute below it), one normalises by a fixed 100.0
+    # (percent->fraction, so the gate is absolute in the fraction unit), and a count leg cannot be
+    # joined to any tolerance by a multiplicative scale. Verify rebuilds from source + both faces.
+    ("gate_form_and_scale",
+     ["python", "scripts/e313_gate_form_and_scale.py", "verify"]),
+
+    # E314: E313's clamp is a promise about the zero end of a domain and nothing more. This leg
+    # publishes, per clamped gate, the switch point in the scale's own units and the tolerance in
+    # BOTH regimes in BOTH units (tol*floor flat below the switch, tol*x above it, meeting exactly
+    # there), plus the quantity at which a tol*x gate reaches half a unit (0.5/tol). On the three
+    # clamped rows that is 5e11 against a face whose largest number is 1,920, so the clamp never
+    # engages and the gate is exact equality in disguise; the same pass measures that no face
+    # publishes the scale (0 of 30 rows reproducible) and that one row names a face path with an
+    # unformatted %s in it. Verify rebuilds from the E313 face and the producers' own faces.
+    ("clamped_gate_census",
+     ["python", "scripts/e314_clamped_gate_census.py", "verify"]),
+
+    # E315: a two-regime gate only governs a comparison, and the comparison belongs to a leg that
+    # carries its OWN epsilon. Joining the five quantity-dependent gates to their legs: four legs
+    # publish 0.0, which is exact equality, so no gate tolerance can ever be as tight and the
+    # gate's flat regime is merely where it is loosest; the fifth leg (1e-09) crosses a 0.002
+    # gate at 5e-07 units of session_open -- below any share price -- so the leg binds across the
+    # live range. The leaf measurement is published as NOT-ASSESSED (0 attributable magnitudes)
+    # because neither face carries the quantity its gate is rated in: `prev` and `session_open`
+    # are not keys there. Verify rebuilds from the E314 face and re-counts. <1s.
+    ("leg_epsilon_vs_flat_regime",
+     ["python", "scripts/e315_leg_epsilon_vs_flat_regime.py", "verify"]),
+
+    # E316: the constructive half of E315. Per row it derives the smallest reader set from the
+    # regime model -- identifier, unit, one magnitude, the scale expression, plus the floor where
+    # the gate is piecewise -- and asks which of those the face already prints under another name.
+    # The answer splits the two faces by failure mode: three rows sit on a face that publishes 57
+    # numbers in the gated quantity's unit and none of them is that quantity (the tolerance a
+    # reader would substitute spans 1.5 orders of magnitude), while two rows sit on a face that
+    # covers a day with no comparisons at all, where the identifier exists only as a payload key
+    # in the producer. 0 of 5 rows lets a reader compute its own gate. Verify rebuilds from the
+    # E315 face and re-derives the elements, the decoys and the producer citation. <2s.
+    ("gate_print_requirements",
+     ["python", "scripts/e316_gate_print_requirements.py", "verify"]),
+
+    # E317: E316 priced the reader set on five rows chosen by E315. This leg carries the same test
+    # to every face in results/ that publishes a tolerance leaf: 289 faces, 1108 gates, and the
+    # element almost nobody prints turns out to be the unit (1047 of 1108). Only 33 gates are
+    # readable from their own face (2.98%) and they sit on two faces, both of them gate tables --
+    # while 225 gates publish a same-unit decoy, whose substitution span reaches 19.6 orders of
+    # magnitude. Verify re-derives the counts from the published rows and re-checks that the study
+    # excluded its own face and script. ~20s (it re-reads all 289 faces to recount).
+    ("print_coverage_census",
+     ["python", "scripts/e317_print_coverage_census.py", "verify"]),
+
+    # E318: E317's zero-tolerance headline read every tolerance-named leaf as a gate, including
+    # leaves that COUNT gates (`n_tolerance_named_not_gate`). This leg re-counts the census under
+    # a count-word guard frozen before any number was read: 62 of the 1108 leaves are counts and
+    # 53 of the 122 "exactly zero" gates are those counts, so the zero band halves to 69 -- and 68
+    # of the survivors sit on this programme's own study faces (E299/E305/E308/E312), leaving a
+    # single gate on a real data face (t18 known-answer, whose published observed max is 0.0).
+    # The unpruned control must still reproduce E317's five published numbers exactly. ~2s.
+    ("zero_tolerance_prune",
+     ["python", "scripts/e318_count_named_gate_leaves.py", "verify"]),
+
+    # E319: E318 found 68 of the 69 surviving zero-tolerance gates sitting on four earlier study
+    # faces because the exclusion list predated them. That is the shape of the mechanism, not one
+    # bad constant: 31 of 45 study faces are censuses, they make 120 census->census row edges, and
+    # NO declared exclusion list reaches any of them (19 censuses declare nothing; 8 guard only
+    # their own two filenames; the single family-prefix list still counts 7 censuses outside it).
+    # This leg rebuilds the graph from the published faces under the frozen pointer rule and
+    # re-checks the exclusion audit and the granularity-aware vintage audit. ~3s (reads all faces).
+    ("census_self_inclusion",
+     ["python", "scripts/e319_census_self_inclusion_sweep.py", "verify"]),
+
+    # E320: of the 219 substitution-span gates E318 left standing, is the gated quantity itself
+    # published in the block? 23 are (16 by the gate key's own stem, 7 by the magnitude printed
+    # twice), 62 are ambiguous and 134 are not -- so E317's span is a careless-reader bound on a
+    # tenth of them and the reading on the rest. Verify re-reads every face from the PRINTCOV
+    # commit and re-derives all 219 spans. ~12s (57 faces read through git, not the worktree).
+    ("decoy_resolution",
+     ["python", "scripts/e320_decoy_resolution.py", "verify"]),
+
+    # E322: E321's verdict sentence says 25 gates "have no producer that publishes the key at
+    # all". They do not: the 25 rows are 4 faces and every one of them has a writer on disk. One
+    # face is written by the census machinery's own module and was lost to E312's source
+    # self-exclusion, one carries a compact date (CASHLeg-20261027) the ISO-only substitution
+    # never touches, and two are composed from a format string so the published filename appears
+    # nowhere in the writer. Verify re-derives every cause from the sources and re-checks that a
+    # caused face carries a writer and an uncaused face does not. <1s.
+    ("refusal_cause",
+     ["python", "scripts/e322_residual_refusal_causes.py", "verify"]),
+
+    # E323: E322 showed the needle refuses four faces, so E321's 21-of-196 named share was an
+    # untested lower bound. Re-priced over the whole population under the wider needle: the 25
+    # unowned rows all move to "a producer is found but its constant names nothing" and the named
+    # count does not move (21 -> 21), so the share is a repository fact, not a needle artefact.
+    # A naively accumulated producer set would report 28 named rows -- the 7 extra names all come
+    # from family needles (`etf_book` composes out of `etf_book_bakeoff.json` and matches 106
+    # scripts), which is why the study publishes class_naive beside class_after. Verify re-derives
+    # every class from the sources under both rules. ~1min (2279 corpus files, 51 faces; the
+    # tokenisation is memoised per source, which took the leg from 198s to 58s).
+    ("reach_under_wider_needle",
+     ["python", "scripts/e323_reach_under_wider_needle.py", "verify"]),
+
+    # E324: E323 left six gates classed "a producer is found but it publishes no key of that
+    # name". This leg re-locates all six: four keys are copied wholesale into the card from a
+    # sub-face writer (the card embeds `"control": doc.get("control")` and the key is published
+    # against the sub-face), one is an accumulation whose key is a data value
+    # (`by_kind[r["kind"]]`), and one exists only inside the published face -- no source in the
+    # tree mentions the string at all, so that face is not reproducible from the tree it is
+    # committed in. Verify re-derives every cause, reason and value identity. ~5s.
+    ("unpublished_key_causes",
+     ["python", "scripts/e324_unpublished_key_causes.py", "verify"]),
+
+    # E325: the layer under E321..E324 -- every one of those studies took the FACE for granted.
+    # 25 of 196 gate rows (12.76 pct) read a face with no writer under the published lookup; a
+    # writer-evidence rule reports 164, format templates 11, composed paths 0. Verify re-derives
+    # every rung's counts from the tree so the ladder cannot drift from its published face. ~22s.
+    ("orphan_gate_faces",
+     ["python", "scripts/e325_orphan_gate_faces.py", "verify"]),
+
+    # E326: the layer under E325 -- a template face has a FREE PARAMETER, so a consumer that
+    # never carries it quotes a number whose question it cannot state. Of 30 faces, 20 are
+    # parameterised, 18 republish the parameter beside their numbers, and all 14 consumers
+    # outside the writers pin it or supply it from their own constant (0 unpinned); 11 faces
+    # stay reachable through 143 *_latest pointers, which is the next study's population.
+    # Verify re-derives every consumer class from the tree so the census cannot drift. ~2s.
+    ("template_parameter_consumers",
+     ["python", "scripts/e326_template_parameter_consumers.py", "verify"]),
+
+    # E327: the 143-pointer layer E326 measured and did not traverse. Traversing it shows most
+    # of it is not a pointer layer: of 143 (pointer, face) pairs only 3 are pointers (the sibling
+    # is a content-identical copy of the dated face); 3 cite it through source_faces and 137 are
+    # other faces that merely CENSUSED it (faces_censused / rows[].face). The helper's substring
+    # test counted "a face that measures it" as "a pointer to it". The 3 real pointers all carry
+    # evidence_cutoff, so the parameter survives one indirection. Verify re-derives every pair
+    # class from parsed content, so the count cannot drift. ~2s.
+    ("who_reads_a_face_through_a_pointer",
+     ["python", "scripts/e327_who_reads_a_face_through_a_pointer.py", "verify"]),
+
+    # E328: a stated cutoff is not a fresh one. 550 dated faces group into 416 (directory, stem)
+    # families; 68 hold more than one cut, so 133 faces sit on a cutoff their own family has
+    # outgrown. Only 4 of those are actually quoted by code (a non-writer source names the literal
+    # basename and subscripts a key); those 4 carry 1,430 numbers of which 536 disagree with the
+    # newest cut and 0 have no fresh counterpart. Verify re-derives the verdict, the summary and
+    # every row's cutoff and change count. ~3s.
+    ("quoted_number_staleness",
+     ["python", "scripts/e328_quoted_number_staleness.py", "verify"]),
+
+    # E329: E328 measured numbers on a stale cut and assumed one file per source. A source can name
+    # two: 9 of 597 (source, family) pairs name two vintages of one stem (8 with two dated cuts,
+    # 1 pointer pair), only 2 have both cuts on disk, and 2 more bind them to separately named roles
+    # (ASOF/FRESH) so nothing races. One pair is order-decided: e242's _face_file tries the
+    # *_latest pointer first and falls back to a pinned 2026-10-29 cut -- and that order has no leg
+    # covering it. On today's disk all 4 of its call-site stems are served from the pointer, but 2
+    # of them (owncross, sharediff) hold a newer 2026-10-30 cut that the pinned fallback would
+    # silently miss if the pointer ever disappeared. Verify re-derives the pair classes, the call
+    # sites and every on-disk exposure from the tree. ~7s.
+    ("two_vintage_binding",
+     ["python", "scripts/e329_two_vintage_binding.py", "verify"]),
+
+    # E330: E329 named one order-decided resolver; this asks the wider mechanical question -- across
+    # the tree, which constructs pick between two references to one family, and which of those
+    # decisions no assertion names? Four classes (existence chain, `or` fallback, argparse default,
+    # mutable default arg). Of 1 decision the tree actually makes (e242's _face_file), 0 are pinned,
+    # and 2 of its 4 call-site stems hold a pointer one cut ahead of the pinned fallback, so a
+    # two-line swap would return 2026-10-29 instead of 2026-10-30 today. 34 `or` lines carried a face
+    # on one side only and are published as rejected rather than silently dropped; 0 mutable
+    # defaults exist in 646k code lines. Verify re-derives every row, both pin indexes and the
+    # per-stem evidence. ~40s (corpus scan).
+    ("unpinned_choice",
+     ["python", "scripts/e330_unpinned_choice.py", "verify"]),
+
+    # E331: E330's sibling question for the pointer layer -- who resolves a family through a
+    # *_latest pointer and nothing else, and what a missing pointer does to them? 44 (source,
+    # family) pairs reach a family only through a pointer: 3 only write it, 6 are chains whose
+    # first candidate is a variable, 11 publish the name without loading it, and 24 are real
+    # pointer-only readers over 19 families. None is silent: 9 raise at the file and 15 branch
+    # first (existence 6 / try 4 / `or {}` 2 / None branch 2 / callee absorbs 1). The disk half
+    # finds no absent pointer and no pointer whose stated cut lacks a dated sibling; 3 families
+    # cannot be judged because the pointer is their only published form. It also measures a bound
+    # that touches every corpus study: 22 sources lose their tail to the scanner's docstring rule
+    # (up to 531 lines), so a load site written there is invisible. Verify re-derives every row,
+    # the handling classes, the disk half and the tail list. ~45s (corpus scan).
+    ("pointer_only_readers",
+     ["python", "scripts/e331_pointer_only_readers.py", "verify"]),
+
+    # E332: E331's tail count (22 sources) is only the part of the helper's blind spot that reaches
+    # the end of a file. The tokenizer finds 30 sources carrying 4,284 real code lines the helper
+    # never shows (157 defs, 103 load lines, 18 face handles, 187 selftest mentions), 22 of them in
+    # several disjoint spans. Re-pricing E331 against the recovered corpus moves the pointer-only
+    # reader count 24 -> 25 (e312's gatetol pointer is a reader once its load site is visible) and
+    # flips that pair out of reference_without_a_reader; the verdict itself does not move.
+    # Verify re-derives every source row and the whole re-pricing block. ~2 min (corpus scan x2).
+    ("invisible_tail_recovery",
+     ["python", "scripts/e332_invisible_tail_recovery.py", "verify"]),
+
+    # E333: four other consumers read the same helper (E326 template parameters, E328 quoted-number
+    # staleness, E329 two-vintage binding, E330 unpinned choice), so their counts are floors of the
+    # same shape. All four are rebuilt twice over ONE file list (shipped helper vs tokenizer) and
+    # every numeric leaf is diffed: 17 of 69 published numbers move, NO verdict flips, and every
+    # moved number is reproduced by recovering a single source (11 of them exactly by that source).
+    # The face also carries the other axis as a control: the shipped half does not reproduce the
+    # published faces because the corpus has grown since they were written. Verify re-runs all four
+    # consumers twice plus the ablation. ~6 min (12 builds + 17 single-source builds).
+    ("surviving_e3xx_conclusions",
+     ["python", "scripts/e333_surviving_e3xx_conclusions.py", "verify"]),
+
+    # E334: E333 answers "do the conclusions survive" for four consumers; it does not answer
+    # "should the helper be fixed today". That is a blast-radius question, so six consumers
+    # (E326/E327/E328/E329/E330/E331) are rebuilt twice over ONE corpus and the radius is measured
+    # on three axes: the delta (numbers the repair moves), the published faces (what a reader of
+    # today's face would have to re-read), and the evidence (what the repair erases). The last axis
+    # is the decisive one: E332 exists to state the defect's size and collapses to zero under the
+    # repair, and E333 compares two functions that become one. The decision rule is code
+    # (decide()), so the recommendation cannot drift from the numbers. Verify re-runs six consumers
+    # twice plus the shared ablation. ~5 min.
+    ("helper_repair_blast_radius",
+     ["python", "scripts/e334_helper_repair_blast_radius.py", "verify"]),
+
+    # E335: the landing E334's rule asked for. e326 exports code_lines_tokenized beside the shipped
+    # code_lines (pinned as code_lines_legacy), no consumer is switched, and the face proves it:
+    # both readings differ on 1369 of 2294 sources, E334's 30 published deltas re-derive through the
+    # new name at 1e-9, and an AST scan finds zero permanent rebinds and zero readers of the new
+    # name. Verify re-derives the face over the corpus (~10 s, no builds).
+    ("sibling_entry_point",
+     ["python", "scripts/e335_sibling_entry_point.py", "verify"]),
+
+    # E336: E335 landed the reading and E334 priced the repository; this prices ONE consumer at a
+    # time, twice. Reading A (delta) rebuids each of the six consumers against the landed name and
+    # counts how much of its own answer is the helper's defect; reading B (publish) compares the
+    # consumer's published face with that tokenized build and counts what a reader must re-read.
+    # The two orders agree on the head (E330, 0 delta / 1 published number) and swap E328/E329 in
+    # the middle, so the verdict refuses to name a candidate and publishes the disagreement.
+    # Verify re-prices all six consumers twice (12 builds, ~2-3 min).
+    ("consumer_optin_ranking",
+     ["python", "scripts/e336_consumer_optin_ranking.py", "verify"]),
+
+    # E337: E336 refused to rank but published a floor -- E330 is cheapest on both readings -- and a
+    # recommendation that names a floor is not a measurement of the opt-in.  This leg executes that
+    # opt-in: E330 reads the tokenized name through one local accessor, its face is republished, and
+    # the diff is published in three arms so corpus drift cannot be billed to the reading (drift =
+    # before -> shipped control, total = before -> republished, switch = control -> republished).
+    # On today's tree the opt-in moves 0 of 21 numbers and no decision row; the one number a bare
+    # diff shows (sources_scanned 2292 -> 2297) is the corpus.  A moved verdict or a failed
+    # re-derivation reverts the source and the face, so verify also asserts that the consumer file
+    # is in the state the published verdict claims.  Verify rebuilds all three arms (~75s).
+    ("optin_executed",
+     ["python", "scripts/e337_optin_executed.py", "verify"]),
+
+    # E338: E337 showed the opt-in itself was free and the only cost the diff carried was the
+    # corpus -- a population-definition claim.  Every census face counts its population off the
+    # disk, so it re-derives only while no .py moves.  This measures that on the repo's own
+    # history: landing commit -> the next commit touching any .py, two readings (all touches /
+    # touches outside the census family), and pinning priced on size + a measured read + the
+    # object dependency it creates.  On today's history 15/15 windows close on the next census
+    # sibling and both readings pick the same commit, so the split is published as vacuous:
+    # research ships its own S6 wiring in the same commit as the face.  Verify re-derives the
+    # face over git history (~5s, no builds).
+    ("census_green_window",
+     ["python", "scripts/e338_census_green_window.py", "verify"]),
+
+    # E339: E337 repaired one hard-coded inertness guard and its digest named the silent branch --
+    # a guard that hard-codes a count gets quietly loosened rather than repaired.  This counts the
+    # literal-count guards in smoke_test.py and the S6 leg table (86 at head) and reads git history
+    # for every commit that *deletes* a line in those files (41 commits, the only place a relaxation
+    # can happen): 2 relaxations, both predicate replacements of the T+1 invariant, 0 literal raises,
+    # and none of the 7 exact-count guards counts a corpus.  The "was it paid for by a republished
+    # face" reading is priced against a base rate -- 39 of 41 such commits move a results/ number
+    # anyway -- so it is published as uninformative rather than as evidence.  Verify re-derives the
+    # whole face (~7s).
+    ("literal_count_guards",
+     ["python", "scripts/e339_literal_count_guards.py", "verify"]),
+
+    # E340: E337's repair read a study's own published allowlist back out of its face, one hop from
+    # self-authorization.  This walks every published face (12,519 parsed) and keeps the 409 entries
+    # whose key carries a permission word over 98 keys, classifying each by access shape: does the
+    # script that publishes the face read the key back, and is the value compared against a fresh
+    # one, asserted, gated, or merely bound (use invisible downstream)?  22 entries over 22 faces
+    # are read back by their own producer, and 17 of the 18 gated/bound grants have no selftest leg
+    # quoting the key -- customary, not pinned.  Verify re-derives the face off disk (~90s).
+    ("permission_allowances",
+     ["python", "scripts/e340_who_authorizes_whose_allowance.py", "verify"]),
+
+    # E341: E338 measured 15/15 census windows closing on the next sibling and could not split
+    # research from production because one commit lands a study and its wiring. This takes that
+    # closer apart: every one of the 16 closers adds a census study AND edits Tools/s6_chain; the
+    # added member always introduces a name nothing named before (its own face, 16/16) and names
+    # an already-published stem in 8/16; the wiring half moves 0 names while editing 360 lines in
+    # place, so it is visible to every counting face and invisible to the name census. At the
+    # pinned tree, dropping the 16 family files costs 0.7% of sources / 1.3% of lines and leaves
+    # 15 of 22 measured names with no writer at all. Verify re-derives the whole face (~55s).
+    ("sibling_closer", ["python", "scripts/e341_sibling_closer_what_changed.py", "verify"]),
+
+    # E342: E339 priced the loosening of literal-count guards and its pay-for reading was almost
+    # vacuous (39/41 commits touch a face and move a number anyway).  This asks the general
+    # question over every *named* assertion: smoke_test.py's check(label, condition, detail) calls
+    # and the S6 LEGS table.  41 commits scanned -> 8 events (5 rewrites under the same name, 3
+    # checks that vanished and came back).  0 of 5 rewrites left the new acceptance set in a
+    # published face, 1 left a commit message, 1 left nothing at all -- c169c702, the shape the
+    # card named, reproduced independently.  2 rewrites are renames and 1 moved its reach behind a
+    # helper name, so the check's text no longer says what it accepts.  Verify re-derives the face
+    # off git history (~40s).
+    ("guard_rewrite_records",
+     ["python", "scripts/e342_guard_rewrite_records.py", "verify"]),
+
+    # E342's part (c), shipped as the mechanism itself: a staged-tree claw that refuses a commit
+    # changing a gate's reach with no results/ change staged and no GUARD-REACH: line naming the
+    # new reach.  Selftest only (it judges the index, and the chain runs while the tree is dirty).
+    ("guard_reach_claw", ["python", os.path.join("Tools", "guard_reach_claw.py"), "selftest"]),
+
+    # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
+    # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
+    # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
+    # triple on 4 collections / 72 record-readings while 26 verdict-bearing collections (536
+    # records) state a judgement without any of the four -- and cross-checks the shared values
+    # instead of assuming presence: 420 of 420 joined cells agree with the canonical row
+    # (max |diff| 0.0), so the gap is coverage, not disagreement. Published faces only. <1s.
+    ("guard_field_audit",
+     ["python", "scripts/e270_guard_field_audit.py", "verify"]),
+
+    # E273: the guard's missing triple is not a barrier -- outside(m) <=> m < t_max_end is exact,
+    # so a face publishing the threshold plus own_p95 (and donor_p95 for pair screens) is fully
+    # re-runnable (36/36 on all three published rules, residual 0.0/0.0, zero band columns
+    # consulted). What it cannot survive is dropping the RULE: 18 of 36 rows carry two different
+    # published thresholds and 6 read a different verdict on them. Verify mode re-derives from the
+    # sources, never from its own summary. <1s.
+    ("guard_from_threshold",
+     ["python", "scripts/e273_guard_from_threshold.py", "verify"]),
+
+    # E271: the 48 published (donor, recipient) pairs were always read ONE donor at a time, so a
+    # reader of a single recipient could not tell whether "do not borrow" or "do not borrow from
+    # THIS cell" was the finding. This leg sweeps every donor end each (leg, base) group offers
+    # for every measured row (own cell as the control) and asks whether the moved ROW SET is the
+    # same across donors: 3 of 4 groups are invariant, cross:60 is not -- only all_five (the
+    # widest end 2.2963, and E262's published dominator there) moves anything, the 2 rows it
+    # moves are exactly the 2 whose flip multiplier (2.1965 / 2.1384) falls inside the group's
+    # p95 spread [1.9678, 2.2963], so the published choice is the LEAST conservative in that
+    # group. Verify mode re-derives from the source face, never from its own summary. <1s.
+    ("donor_choice_sensitivity",
+     ["python", "scripts/e271_donor_choice_sensitivity.py", "verify"]),
+
+    # E343: E340 published 18 "bound" self-reads whose use is invisible on the access line. This
+    # leg follows each bound name to its first downstream use. Two corrections fall out of it: 10 of
+    # those 18 are stores into the loaded dict (``st["expected_cutoff"] = expected``), not reads, and
+    # of the 14 real reads only 1 has no comparison and no test anywhere downstream. Verify re-derives
+    # the face from E340's source face (~1s, no builds).
+    ("bound_grant_decisions",
+     ["python", "scripts/e343_bound_grant_decisions.py", "verify"]),
+
+    # E344: E341 measured that fifteen names lose every *writer* outside the census family, which
+    # is a statement about producers. The consumer question is a different one and it is answered
+    # here: no source outside the family loads one of these faces by name, five directory censuses
+    # read every published face without naming it, and exactly one carries a published `verdict`
+    # forward. The leg re-checks each cited reader's evidence at the pin, so a rewritten reader
+    # turns this red instead of leaving a stale claim behind (~4s, no builds).
+    ("face_consumer_census",
+     ["python", "scripts/e344_face_consumer_census.py", "verify"]),
+
+    # E345: E342 measured that three deleted smoke checks came back. This leg measures the window
+    # they were gone: the 29-mainline-commit / 67-commit, 9.26-hour gap between r1227's removal and
+    # r1243's union-merge restore spans 10 rounds in which the suite ran 37 times and in which NO
+    # other check on the futures-TSMOM face asserted the property. Verify re-derives the windows
+    # from git and logs/ (never from the face it is checking) -- a rewritten restore or a gate that
+    # reappears earlier turns it red (~3s, no builds).
+    ("gate_absence_windows",
+     ["python", "scripts/e345_gate_absence_windows.py", "verify"]),
+
+    # E346: E343 excluded ten `st['key'] = value` stores from its bound-read count because they
+    # write into the dict that was just loaded. Those stores are still statements a reader may
+    # trust, so this leg asks the other half: of everything the status writers file, which keys
+    # does NO consumer read, which are fed only by the writer's own next run, and which of those
+    # a branch actually tests (a latch: a hand-edited status file changes the next decision).
+    # Verify re-derives the census from the producers' ASTs and the reader corpus (~5s, no builds).
+    ("status_writer_unread",
+     ["python", "scripts/e346_status_writer_unread.py", "verify"]),
+
+    # E347: E344 measured who reads a face; this asks whether the number decides anything. Every
+    # dated face under results/ is followed from its load site (named literal or directory sweep)
+    # to the comparison that consumes it, with the decision class and where the bound is pinned.
+    # Verify re-derives the census from the pinned corpus and face listing (~40s, no builds).
+    ("published_number_gates",
+     ["python", "scripts/e347_published_number_gate_census.py", "verify"]),
+
+    # E348: E345 measured that the futures-TSMOM check was gone for 9.26h and asked whether
+    # anything else covered it. This leg asks whether there was anything to be wrong about: it
+    # replays every commit of the window from its own tree and evaluates the five clauses the
+    # restored check literally compares. Reading: the face is absent for all 28 window commits,
+    # and it first appears in the SAME merge that restores the check -- so the window was empty,
+    # not clean. After the restore the gate is green in all 279 commits for a reason worth
+    # keeping: one distinct face blob and one panel tail (2026-10-28, unchanged since), i.e. 279
+    # green runs are one observation repeated. Verify re-derives from git through the face's own
+    # replay_head (~2s, no builds).
+    ("restored_gate_retrospect",
+     ["python", "scripts/e348_restored_gate_retrospect.py", "verify"]),
+
+    # E349: E347 found no dated face gates an operational decision and published the bound -- the
+    # live readers sit on the *_latest mirrors and the live state files a round rewrites in place.
+    # This leg measures that channel: 87.8% of its 139 files are opened by an in-repo source and
+    # 45.3% reach a comparison, but the one comparison only a mirror can carry -- "is this pointer
+    # current?" -- appears in 14 of 840 non-fixture comparisons and in 2 of 235 operational ones.
+    # Of the 119 sources the chain itself names, 2 read the channel and neither asks freshness.
+    # Verify re-derives the whole census from the face's pin (~2 min, AST over 1109 sources).
+    ("latest_mirror_channel",
+     ["python", "scripts/e349_latest_mirror_census.py", "verify"]),
+
+    # E350: the FIELD, not the file, is what a hand edit touches. 2289 (face, field) pairs are
+    # read across 2341 sources; 230 are read by a guard and 131 of those have no writer anywhere
+    # in the corpus, so the guard can only fire on a missing value. Verify re-derives the census
+    # from the face's pin (~3 min, AST over the corpus).
+    ("field_level_branch_census",
+     ["python", "scripts/e350_field_branch_census.py", "verify"]),
+
+    # E351: of the 92 `product:` smoke gates, 37 read a literal subject face and 6 of those have
+    # never seen their subject change -- but all 6 subjects are younger than 50 commits, so no
+    # gate here has been green against a subject that stopped moving long ago. Verify replays the
+    # blob history at the face's own pin (~10 s of git object reads, no evaluation).
+    ("gate_state_census",
+     ["python", "scripts/e351_gate_state_census.py", "verify"]),
+
+    # E358: E351 left 55 gates unresolved because a subject written as ``os.path.join(...)`` is
+    # three literals, none of which looks like a path. Folding one step resolves 40 of them (31 of
+    # those subjects never moved in 300 commits), 8 read whatever a directory holds and 7 name no
+    # file at all. Verify re-derives the folding and the state classes at the face's own pin
+    # (~5 s, one git replay + AST).
+    ("subject_resolution",
+     ["python", "scripts/e358_subject_resolution.py", "verify"]),
+
+    # E359: E353 recorded that part of E350's unwritten-guard population names files only a
+    # selftest writes.  Measured: scaffolding is 3.7 pct of 5,444 read sites and 10 of 139
+    # unwritten guards, so E350's headline survives at 129 -- but 24 faces are read ONLY by
+    # scaffolding (fixture dirs, .tmp trees, short-name copies of real status faces), and
+    # 23.5 pct of reads report a face their own function never names. Verify re-derives both
+    # populations, both deltas and the leak axis off the current corpus (~50 s of AST).
+    ("census_scaffolding_split",
+     ["python", "scripts/e359_census_scaffolding_split.py", "verify"]),
+
+    # E364: E363 stamped two faces and found replay needs a files= seam. This leg holds the whole
+    # published census family to that question every round: of the studies that enumerate a
+    # directory, which quote a population, which name the corpus they counted, and which have no
+    # seam so their number can never be rechecked. ~4 s (121 faces, no builds). A study that loses
+    # its address is a regression (rc 1); a study new to the queue is reported, not failed, because
+    # the queue is allowed to grow with the repository.
+    ("unstamped_census",
+     ["python", "scripts/e364_unstamped_census.py", "check"]),
+
+    # E365: E364 named this queue head and left it open -- can a *published-face* population be
+    # pinned and replayed like a source population?  It can, and the first draft proved why the
+    # address must be byte level: one of 591 faces is UTF-16, so a text digest gave it two
+    # identities depending on which decoder read it.  Every round this leg rebuilds the population
+    # from git blobs + the inline store only (no work-tree read, ~8 s) and asserts the pin
+    # reproduces, the store covers exactly the un-suppliable members, and the study's own faces
+    # stay out of its own population (E319 applied at the pinning layer).
+    ("face_population_pin",
+     ["python", "scripts/e365_face_population_pin.py", "check"]),
+
+    # E366: E365 proved the pin works but priced it per study, and E364's queue read as thirteen
+    # rounds.  This leg re-derives the bill every round: the thirteen queued studies walk TWO
+    # populations (2,387 in-repo sources, 593 published faces), so the pin work is two pins and the
+    # rest is seam repair -- and it separates a real build(files=) parameter from a local named
+    # files and from prose that says the word (a text grep calls six of eleven seams; none of them
+    # is one).  Decision keys must be bit-stable; the bill is published as drift because other
+    # lanes write this working tree all day (~2.5 s: six cached imports, two git passes).
+    ("pinable_queue_size",
+     ["python", "scripts/e366_pinable_queue_size.py", "check"]),
+
+    # E370: E368 compared four keys and found one stable, one moving 20% -- a result about four
+    # keys, not a rule.  This leg re-derives the whole per-key table from the published arms
+    # (no scan: verify re-classifies the stored summaries and re-counts the classes, ~1 s) so an
+    # edited summary, rule or class cannot leave the face claiming a shape the numbers lost.
+    ("key_sensitivity",
+     ["python", "scripts/e370_key_sensitivity.py", "verify"]),
+
+    # E371: E370 priced keys, E372 paid the bulk store, and the single store_needed member was
+    # still unpriced.  This leg re-derives the footprint counts, the moved sets and the verdict
+    # from the published face (~1 s), so a hand-edited delta or a verdict that no longer follows
+    # from its own rows cannot ship.
+    ("store_member",
+     ["python", "scripts/e371_one_store_member.py", "verify"]),
+
+    # E352: E349 priced the channel as a population and found 14 of 840 comparisons ask whether
+    # what they read is current; this prices the window instead, in the repository's own clock.
+    # 60 deciding channel files, 59 measurable: median file lag 80 commits / p90 111, worst
+    # state-bm-c.json at 216 commits (59.3 h), 54 with a decide-time stale instance, 7 gated.
+    # Verify re-derives the summary at the face's own pin (~40 s of first-parent git walks).
+    ("staleness_window",
+     ["python", "scripts/e352_staleness_window.py", "verify"]),
+
+    # E353: E350 published 131 guard fields no source writes and could only say "the guard can
+    # fire on a missing value". Against the tree today: 23 raise before the guard runs (16 name a
+    # file that is nowhere, 7 a basename several files share, each refused rather than
+    # first-matched), 5 read a field that is absent or null, 103 read a value of which 34 read
+    # falsy -- so 4 faces of one writer each close the whole alert class, and a fifth of the
+    # population cannot be fixed by any writer because its face name is not one file. Verify
+    # re-reads the disk for the published pairs (~4 s, no AST).
+    ("unwritten_guard_presence",
+     ["python", "scripts/e353_unwritten_guard_presence.py", "verify"]),
 
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
@@ -229,22 +1192,1513 @@ LEGS = [
     ("pagegate", ["python", "scripts/e97_routing.py", "pagegate", "--publish"]),
     # fleet / bookkeeping guards
     ("machine_health", ["python", "Tools/machine_health_face.py", "check"]),
-    ("gpu_face", ["python", "Tools/gpu_face.py", "audit"]),
+    # r1336: this leg used to be `audit` -- it reported a drifted GPU face and did nothing, so
+    # the face stayed half-owned (33 aliases written at four different samples; smoke read
+    # free=3789 beside free=3025 MiB, spread 764 MiB) until a human ran repair by hand. A verdict
+    # that no next step consumes is not a gate (r1288). `apply` re-probes once and rewrites every
+    # alias from that one sample; on probe failure the GPU keys are dropped with a warning rather
+    # than invented, so the leg is fail-safe on a parked machine.
+    ("gpu_face", ["python", "Tools/gpu_face.py", "apply"]),
     ("attrition_guard", ["python", "scripts/attrition_ledger_guard.py", "scan"]),
     ("pool_audit", ["python", os.path.join("scripts", "pool_audit.py")]),
     ("token_meter", ["python", "scripts/token_meter.py"]),
+
+    # E352: E349 counted the channel and left the window unsized -- 14 of 840 comparisons ask
+    # whether what was read is current. Verify re-walks the first-parent history over 240 commits
+    # and re-derives, per deciding file, the blob a reader would take at each boundary plus the
+    # boundaries where gate code ran newer than the artifact it read. Contents come from the
+    # working tree only (this clone is blob:none; `git show` / `git grep` start a lazy fetch and
+    # hang the round) and only `git log` / `ls-tree` metadata is asked of git. ~4-6 min.
+    ("staleness_window", ["python", "scripts/e352_staleness_window.py", "verify"]),
+
+    # E357: E352 measured how far behind the copy a reader takes is, but not why. Against the same
+    # 240-commit first-parent window and the same 59 files: 46 are written exactly ONCE in the
+    # window (a face published and never refreshed -- an age, not a cadence), so only 8 files have
+    # a rewrite interval to compare a lag against, and those split 4 inside / 4 beyond. 1237 of
+    # 1291 declared writer pairs never co-changed with the file they are said to write, and 54 of
+    # them are the suite itself. Verify re-derives classes and the partition (~2 s, one git log).
+    ("channel_writer_cadence", ["python", "scripts/e357_channel_writer_cadence.py", "verify"]),
+
+    # E371: E366 billed the store as the expensive half of a pin and left the store_needed members
+    # as a footnote. The footprint is measured twice (the pin's bytes carry a BOM, so "unparseable"
+    # and "contributes nothing" are two different zeros), the missing-writer question is asked by
+    # name against the E350 guard table, and the bill is a replay with the store excluded. Verify
+    # re-derives both footprints and the source-count arithmetic (~2 s, no corpus scan).
+    ("store_member_cost", ["python", "scripts/e371_store_member_cost.py", "verify"]),
+    # E377: the tree-wide version of the same question -- 542 of 2,121 json.dump destinations in
+    # the corpus cannot be named, and 36 published faces are reached only by those writers. Verify
+    # re-adds every writer row and re-derives the verdict from the published summary (~0.3 s).
+    ("unresolved_destination", ["python", "scripts/e377_unresolved_destination.py", "verify"]),
+    # E381: E377's blind-spot list ships one face a resolved load already reads -- the census keys a
+    # join by its operands, so a three-component path lands under a bare basename. Verify re-adds the
+    # rows and the three named causes, and re-derives the verdict (~2 s, no corpus scan).
+    ("component_key_blind_spot", ["python", "scripts/e381_component_key_blind_spot.py", "verify"]),
+    # E382: prices the repair of that keying before anyone patches it -- two arms over the
+    # same corpus; 10 of 11 published headlines move and E350's verdict string changes
+    # 131 -> 148, so the fix is a republish decision. Verify re-derives every delta from the
+    # stored rows (~1 s, no corpus scan).
+    ("key_projection_delta", ["python", "scripts/e382_key_projection_delta.py", "verify"]),
+    # E383: the same key set asked the collision question -- how many distinct files on disk one key
+    # names. Three keys merge 40 identified files (the trial-labor family alone puts 20
+    # prep_state.json under one key), five keys are coarser than any one file, and seven merged keys
+    # are quoted from a published face's key list. Verify re-adds the four states and the table
+    # (~0 s, no corpus scan, no disk walk).
+    ("shared_key_collision", ["python", "scripts/e383_shared_key_collision.py", "verify"]),
+    # E387: a red that compares a published face with a fresh build has two causes -- the corpus
+    # moved (republish) or the face never reproduced (seam). Verify re-derives the frozen verdict
+    # set and the tally from the published face (~0 s, no corpus scan, no disk walk).
+    ("republish_audit", ["python", "scripts/e387_republish_audit.py", "verify"]),
+    # E388: E386 published that the two merged trial-labor basenames hold 31 key sets but not
+    # which failure that is. Measured per consecutive wave: 26 walls only add fields and 3 remove
+    # them (16 and 18 at w16->w17, one at w19->w21), 0 fields are ever re-added, and 2 of the 4
+    # dropped numerics are gone (n_survivors 40, n_distinct 173) while 2 survive under another
+    # name. Verify re-reads the family and re-derives every published count (~0.3 s).
+    ("schema_accretion", ["python", "scripts/e388_schema_accretion.py", "verify"]),
+    # E390: E388 priced which fields each wall drops but not who reads them. Measured statically
+    # over every .py in the repo: 0 readers ask a dropped field of a wave past its last sighting;
+    # the 148 live reads are historical runners on waves 10-16, 45 rows open another face, 33 read
+    # a local dict and 80 cannot be resolved. Verify re-derives every row and count (~1 s).
+    ("wrong_side_reader", ["python", "scripts/e390_wrong_side_reader.py", "verify"]),
+    # E391: E390 showed that a matching key name is not a face read; this asks the other question
+    # about the same names -- which published key name is a number in one face and a container in
+    # another. 12,313 faces / 80,411 key names -> 7,797 structural conflicts, split into 3,877
+    # field-shaped names and 3,920 row-map index keys (an index is not a name: measured, not assumed
+    # away); 2,216 field-shaped conflicts are named by >=1 in-repo literal (132,588 sites, a
+    # name-matched upper bound and not a face resolution) and 1,661 are latent. Verify re-derives
+    # every published count from the listed conflict rows (~1 s, no corpus walk).
+    ("key_name_two_meanings", ["python", "scripts/e391_key_name_two_meanings.py", "verify"]),
+    # E392: E391 published a name-matched bound and said so in the field name; this prices it.
+    # 112,910 reads name one of the 3,877 conflicted keys, but only 25,461 of those reads are on a
+    # container the resolver can call a face at all (22,714 read a local dict, 64,735 cannot be
+    # typed), 9,243 reach a face path, and 5,763 open a face that stores the key -- 5.1% of the
+    # name-matched bound, or 22.6% of the reads that are demonstrably on a face. 188 open a face
+    # that does not carry it; 3,292 land on a face above the 1 MB read cap, so the largest faces are
+    # exactly the ones the check cannot see (3,271 too_large / 21 unparseable). 711 keys have <=3
+    # reads and only 29 of them are confirmed sightings. Verify re-adds every published count from
+    # the per-key rows (~0 s, no corpus walk).
+    ("read_resolve", ["python", "scripts/e392_read_resolve.py", "verify"]),
+    # E393: prices the 1 MB read cap E392 named as the reason 3,292 of its resolved reads were
+    # unreadable. 3,271 of those were size refusals; a byte-level presence scan over the 195 faces
+    # they open finds 3,241 store the key and 30 do not, on a byte-identical name-matched total, so
+    # the 0.051 share is a lower bound and becomes 0.0797. Verify re-adds the cap arithmetic and
+    # both shares from the per-key rows (~0 s, no corpus walk, no byte scan).
+    ("read_cap_price", ["python", "scripts/e393_read_cap_price.py", "verify"]),
+    # E394: the other direction -- 218 reads resolve to a face that does not store their key (188
+    # under the cap, 30 the cap had been hiding). Each is classified as depth / producer-writes /
+    # a face another read witnesses / counted-but-unwitnessed / unparsed / dead, and only the last
+    # is a broken reader. The producer test is structural (dict literal, subscript store,
+    # setdefault), never co-occurrence of the face name and the literal. No published ratio moves.
+    # Verify re-adds the per-key rows and the class counts (~0 s, no corpus walk).
+    ("phantom_why", ["python", "scripts/e394_phantom_why.py", "verify"]),
+    # E395: E394's producer-named class, asked the honest follow-up -- does the producer write the
+    # key on every path? Measured as an AST path position (if/try/loop/with -> a branch, function
+    # body -> inside_a_callable, module body -> unconditional) AND as a dump target: a dict literal
+    # carrying the key is only evidence about this face if it reaches a dump of this face's file
+    # (direct argument or one name hop). 131 reads / 39 (key,face) pairs: 19 pairs are attribution
+    # failures -- the unconditional writer writes ANOTHER document -- 6 are on a branch, 5 only
+    # inside a callable, 8 mixed, and 1 writes this very face unconditionally. Verify re-derives
+    # every pair verdict from the published producer rows (~0 s, no corpus walk).
+    ("conditional_write", ["python", "scripts/e395_conditional_write.py", "verify"]),
+
+    # E396 prices the single same-document pair E395 published instead of believing it: the dump
+    # target is published as a literal string (results/autofill_state.json), the face's own history
+    # is read over exactly that path, and the read site is quoted.  The claim existed because the
+    # dump test was `face_basename in value` -- a substring test -- and `state.json` is a proper
+    # suffix of `autofill_state.json`, so E395's one "writes this very face" pair re-derives to
+    # zero under an exact-basename test.  Verify re-derives each dump-target class and each moved
+    # pair from the published rows (a few s, one history walk).
+    ("last_tick", ["python", "scripts/e396_last_tick.py", "verify"]),
+
+    # E396's sibling re-resolves the same pair with a path-segment matcher and A/Bs E395's own walk
+    # (identical population, 39 pairs both arms, exactly 1 pair moves and loses its same-document
+    # claim), then publishes the tree-wide basename exposure as a census instead of one anecdote:
+    # 18,342 faces, 2,253 basename-suffix pairs, 133 distinct short basenames.  Verify re-derives
+    # the witness' dump classes and the A/B arithmetic from the published rows.
+    ("face_basename_suffix", ["python", "scripts/e396_face_basename_suffix.py", "verify"]),
+
+    # E617 takes the one live sweeper E615 found in the name_only class and asks whether the census
+    # it publishes is ever consumed.  The two name lists json_faces returns are reduced by len()/set()
+    # before a single name could be stored, and of the ten counts the module publishes 3 have a
+    # reader (1 asserted in verify, 2 printed by `run`) and 7 are written into the face and read by
+    # nothing -- no module outside the producer indexes any of them.  Verify re-derives every class
+    # from the use sites it publishes, refuses a read flag that disagrees with its class, and
+    # re-derives the verdict from the rows (0.2s, no corpus walk).
+    ("sweep_consumer", ["python", "scripts/e617_sweep_consumer.py", "verify"]),
+
+    # E619 asks whether the one dead reader line E617 found generalises.  Of 1,091 modules
+    # under scripts/ that publish a JSON face, 27 carry at least one local assigned from a
+    # face key and never read again (36 lines), 54 dead reader lines whatever the key, and 18
+    # whose dict the function was handed; the E617 anchor (e396 derive_verdict's census) is
+    # one of them.  Verify re-derives every count from the module rows and re-asks the verdict.
+    ("dead_reader_locals", ["python", "scripts/e619_dead_reader_locals.py", "verify"]),
+
+    # E622 asks the question E619 left open: a dead local only costs something if the function
+    # holding it runs.  Of the 31 functions holding one of E619's 36 dead face-key lines, 29 are
+    # reachable from module level (28 through a chain of calls, 1 only through an argparse
+    # set_defaults(func=...) hand-off) and 2 are not, so 34 dead face-key lines sit in a live
+    # holder and 2 in an inert one; the base rate is 16,596 of 19,146 functions reachable
+    # (86.7%).  Verify re-derives every count from the holder rows and re-asks the verdict from
+    # the live/inert split (no corpus walk, ~1s).
+    ("dead_local_reach", ["python", "scripts/e622_deadlocal_reach.py", "verify"]),
+
+    # E623 asks the local question E619's rule cannot see: a dead line assigns a face key to a local
+    # that is never read again, but is that same KEY read anywhere else in the SAME function?  13 of
+    # the 34 live dead face-key lines do carry another read of their key in their own function, but
+    # only 6 read it after the dead line (a superseded duplicate) while 7 read it only before it --
+    # the loop-carried shape "no load after the assignment" marks dead -- 0 read it more than once
+    # with every read itself dead, and 21 are the only read of that key in the function.  Verify
+    # re-derives every class count from the line rows and re-asks the verdict (no corpus walk).
+    ("deadline_key_use", ["python", "scripts/e623_deadline_key_use.py", "verify"]),
+
+    # E624 prices the hole E623 wrote into its own limits: "a read counts when it indexes the same
+    # literal key, whatever the object".  Each of E623's sibling reads gets its RECEIVER recovered
+    # (m["k"] -> m, x.get("k") -> x) and is asked whether that receiver is the same object as the
+    # dead line's -- same text with no binding of that name or assignment of that attribute path
+    # between the two lines.  Every row is then re-published under a corrected class, so E623's
+    # superseded-duplicate count is re-asked under object identity.  Verify re-derives every
+    # relation tally, every corrected class count and the verdict from the line rows (no corpus
+    # walk, ~1s).
+    ("sibling_read_object", ["python", "scripts/e624_sibling_read_object.py", "verify"]),
+
+    # E625 prices the last of the three tests: object identity is not value identity.  For every
+    # same-object sibling read E624 accepted, the interval between the two lines is scanned for a
+    # write to that key on that object -- store/del/update/setdefault/pop that names the key means
+    # the read sees a different value, an unnameable write or the object handed to a call leaves it
+    # undecided, and only an untouched key means both reads saw the same value.  Verify re-derives
+    # every value class count, the surviving/stored/undecided split and the verdict from the line
+    # rows (no corpus walk, ~1s).
+    ("sibling_read_value", ["python", "scripts/e625_sibling_read_value.py", "verify"]),
+
+    # E626 follows the handover E625 stopped at one hop into the callee: for every handover mark the
+    # call on that line is resolved to a module-level def, and its body is asked whether it stores or
+    # deletes the dead line's key on the parameter the object arrived in -- a naming write settles
+    # the read the other way, an untouched parameter settles it as the same value, and an import, an
+    # attribute call, a parameter handed on again or an unnamed write leaves it open.  Verify
+    # re-derives every handover/read class count, both splits and the verdict from the line rows (no
+    # corpus walk, ~1s).
+    ("handover_write", ["python", "scripts/e626_handover_write.py", "verify"]),
+
+    # E627 closes the hole E625 and E626 both published -- neither looks at a second local name
+    # bound to the same object, so a write at the key through that alias would be invisible to
+    # both.  For each same-object sibling read the interval is scanned for alias bindings, each
+    # classified (same object / a value of the receiver / its items / a copy / something else), and
+    # the E625-E626 write marks are re-run with the alias as the receiver.  Verify re-derives the
+    # alias and scan class tables plus the corrected split from the line rows (no corpus walk, ~1s).
+    ("alias_binding", ["python", "scripts/e627_alias_binding.py", "verify"]),
+
+    # E628 prices the last bound E627 published -- every earlier card works inside the body of the
+    # function that holds the dead line, so an object arriving from a parameter, a module-level name
+    # or a container bound elsewhere is not where the scan starts.  Each receiver's leftmost name is
+    # classified by where it is bound and the rows whose origin precedes the interval are priced
+    # against the sites elsewhere in the module that write that key on that name.  ``verify`` only
+    # re-reads the face; the 4-minute rebuild is the build, not the chain leg.
+    ("receiver_origin", ["python", "scripts/e628_receiver_origin.py", "verify"]),
+
+    # E629 follows the one hop E628 published as its own bound: the writer arm stays inside the
+    # module and only sees sites where the receiver name is spelled, so for the two duplicate rows
+    # whose receiver is a parameter the only remaining place a write can live is the caller.  The
+    # leg re-reads the face, re-derives every row class from its call sites and pins the reading the
+    # card was built to publish -- a caller write precedes BOTH reads, so the caller arm closes none
+    # of them even where a write exists.
+    ("caller_write", ["python", "scripts/e629_caller_write.py", "verify"]),
+
+    # E630 answers the residue E629 published: 6 of its 9 call sites hand the receiver object to
+    # another call inside the caller, where a write can live unseen.  The leg resolves that hop one
+    # level deep and pins the reading the card was built to publish -- the handoff call sits before
+    # the holder call, so even a callee write reaches both reads and closes none of them.
+    ("callee_write", ["python", "scripts/e630_callee_write.py", "verify"]),
+
+    # E631 answers the read-side residue E630 left: the duplicate test E625 published rests on a
+    # same-object read of the key after the dead line, and this card asks whether that read is the
+    # only one.  Three of the 34 lines carry two or three reads after the dead line (13 reads over 6
+    # lines) and 3 of the 4 duplicate rows sit in a function that holds more than two reads, but
+    # E625's sibling_reads list covers every read in its function on all 34 lines, so the duplicate
+    # denominator stands -- the hole is empty by measurement.  Verify re-derives every row's class
+    # from its own read lines and refuses a list that does not cover the function it describes.
+    ("read_multiplicity", ["python", "scripts/e631_read_multiplicity.py", "verify"]),
+
+    # E385 answers the question E383 left open for a republish decision: would splitting the keys
+    # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
+    # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names
+    # merge >=2, largest 28), E353 pairs (131 key-level pairs -> 210 document-level, by_class
+    # 5/103/23 -> 80/108/22), and the two face lists (E377/E381), whose unit is a path and so cannot
+    # move.  Of the 7 pairs on an ambiguous key, 2 are settled by naming the single in-census member
+    # (the other member sits outside the census walk) and 5 stay undecidable inside it -- so the
+    # split both prices a republish and says which part of the ambiguity is the index's.  Verify
+    # re-derives every arm's delta, the class sums and the decision gate without the corpus walk.
+    ("merged_key_split", ["python", "scripts/e385_merged_key_split.py", "verify"]),
+
+    # E397 takes E385's untested sentence ("merged names whose ambiguity is only outside the census
+    # walk = 0") and measures it per NAME over all 884 published keys (862 read half + 22
+    # write-only), resolving each key to files and testing that set against BOTH walk rules the
+    # tree contains: E350's whole-tree drops (Money02/legacy/media/Money0923) and E391's path-part
+    # drops (.git/__pycache__/_quarantine/node_modules/.codely-cli/_smoke).  20 keys are ambiguous:
+    # 19 keep two or more files inside every walk (the ambiguity is the DATA -- naming a member is
+    # a decision, not a cleanup), 1 (`p1d_gates.json`) flips class depending on the rule because one
+    # of its two files is a quarantine snapshot, and 0 collapse under a rule, so the repair list is
+    # empty and the bill is a rule (pick one skip set = the union) rather than a split.  Verify
+    # re-resolves every published row from the tree and re-derives the classes and the gate.
+    ("walk_ambiguity", ["python", "scripts/e397_walk_ambiguity.py", "verify"]),
+
+    # E399 prices the residual E397 left as a bare count: 98 published keys resolve to no file, and
+    # "no file" is not one bill.  Each one is tested against a wider index (only .git/__pycache__
+    # skipped), a form test (repo-relative path vs bare basename vs bare token vs template vs
+    # absolute), and -- for the repo-relative ones -- a neighbourhood test (does the directory
+    # exist, is the "directory" in fact a FILE, is there a same-stem sibling under another date).
+    # 66 of the 98 were never path claims (52 basename fragments whose directory is a runtime
+    # variable, 13 templates, 1 bare token), 1 is a Money02 file the census index skips, and 31 are
+    # real repo-relative absences (16 in an existing directory, 14 with no such directory, 1 whose
+    # "directory" is a file).  0 dated siblings, so the date-shift hypothesis is ruled out rather
+    # than assumed.  The git-history arm is published unavailable, not as zero deletions: this clone
+    # is a promisor/partial clone and any history walk starts a lazy fetch (r1224 family).  Verify
+    # re-derives every published row's class from the tree.
+    ("unresolved_names", ["python", "scripts/e399_unresolved_names.py", "verify"]),
+
+    # E402 tests the inference E399 left standing: 52 published keys are bare basenames "whose
+    # directory is supplied by a runtime variable at the one site that writes it".  The producer side
+    # says otherwise for most of them -- 27 are fixture names inside a temporary directory deleted by
+    # design, 3 are not whole filenames at all (a piece of a concatenated name), 6 are cwd-relative
+    # reads, 2 are joined onto a constant base that does not hold the file, 6 could not be traced,
+    # and none composes to a path that exists.  Verify re-derives every site count, every class and
+    # the landing test from the tree.
+    ("fragment_producers", ["python", "scripts/e402_fragment_producers.py", "verify"]),
+
+    # E404 prices the constant side of E402's untraceable fragments: for each one the directory
+    # expression is followed to the binding that supplies it (function scope, then module
+    # assignment, then one import hop) and the joined file tested against the tree.  Verify
+    # re-derives every class, every count and the landing test from the tree.
+    ("constant_directory_resolution",
+     ["python", "scripts/e404_constant_directory_resolution.py", "verify"]),
+
+    # E405 asks the follow-up E404 left open: an absent read target is only a defect if a reader
+    # would fail.  For each of the three published joins it re-derives what the line is doing (write
+    # / module constant / read), walks every later use of that constant in the same file (writer,
+    # existence gate, gated read, bare read, status table, landing helper) and reads the failure mode
+    # from the AST plus an existence test on the target.  Verify re-derives every class and the
+    # verdict against the live tree.
+    ("dead_read_failure_mode",
+     ["python", "scripts/e405_dead_read_failure_mode.py", "verify"]),
+
+    # E401 re-runs E384's own key-site classifier with every project-local callable that opens a
+    # file added to the call table (patched for one run, restored in a finally).  It publishes the
+    # keys that change class, the site lines the stdlib table could not see, and the other arm:
+    # every site the stdlib table calls "other" is a git-object read.  Verify re-derives every
+    # count, the from->to tally and the verdict, and refuses a classifier left patched.
+    ("local_reader_table",
+     ["python", "scripts/e401_local_reader.py", "verify"]),
+
+    # E398 asks who reads a latest.json pointer and whether the reader knows which family wrote
+    # last.  E385 found 28 files under the name latest.json; a reader that resolves the pointer
+    # against a free runtime base opens whichever family published last and looks healthy doing it
+    # (the file exists, it parses).  The leg classifies every in-repo read site by where its family
+    # comes from -- literal/constant at the site, a function parameter, a value the same function
+    # just wrote, or nothing at all -- and publishes the fan-out each unsupplied reader can reach
+    # plus the schema cost of a wrong landing.  Verify re-derives every published row and its class
+    # from the tree.
+    ("latest_family", ["python", "scripts/e398_latest_family.py", "verify"]),
+
+    # E384 asks the reverse question of E381: a published key is only "read" if some site actually
+    # opens or dumps a file.  A string in a source is not a decision to open one -- the same literal
+    # can feed a caption, a comparison or a Path that is never read.  The leg classifies each key's
+    # sites by the call around the SITE line (a key is usually a module constant opened elsewhere,
+    # so reading the literal's own line called 90% of a healthy population "never opened" on the
+    # first burn), then prints how many published census faces carry each never-opened key.  Verify
+    # re-classifies every published row and re-derives the gate without the corpus walk.
+    ("never_opened_key", ["python", "scripts/e384_never_opened_key.py", "verify"]),
+
+    # E407 answers the pool card seeded after E305 re-red twice in one window.  The hypothesis was
+    # that the E305 leg reads a face an earlier leg of the same suite republishes.  Measured: the
+    # build opens exactly the 13 faces its census names, all 13 have a writer in the tree, and no
+    # attributable leg of the suite executes one of those writers -- the input is stable inside a
+    # run, and what is pinned is the audit column (E387), which is why re-running the audit clears
+    # the leg and re-committing the face without it does not.  Verify re-derives the leg census,
+    # the movers and the order pairs from source.
+    ("leg_input_stability", ["python", "scripts/e407_leg_input_stability.py", "verify"]),
+    # E408: E407 proved the writer exists in the tree; this asks on WHICH signal it runs.  The
+    # seed's writer list is name-based (its own docstring says a face is "written by the module
+    # that names its basename"), so 7 of the 26 named modules only read the face.  Of the 14 that
+    # really write, 12 run on this chain and 2 only run from a session script -- and 0 run on the
+    # signal that reads them (the suite).  Verify re-derives every role and count from source.
+    ("writer_refresh_signal", ["python", "scripts/e408_writer_refresh_signal.py", "verify"]),
+    # E409: E408 named the two writers that only run from a session script.  This prices what
+    # a reader sees when nobody ran them: 5 reader sites open the two faces and 0 ask how old
+    # they are, while the suite prices the age of 6 of 192 faces it opens.  Verify re-derives
+    # the ledger and refuses a reader site it can no longer find.
+    ("unfloored_faces", ["python", "scripts/e409_unfloored_faces.py", "verify"]),
+    # E410: E409 found nobody prices those two faces' age; this is the implementation, not
+    # another census.  Two different forms because the faces answer different questions: the
+    # open-fill face gets one bar of allowance (the shape the suite already uses for the ETF
+    # book page -- a hard day gate is excluded by E185 at :593-597), the source census gets a
+    # week.  Both bounds come off the exchange calendar, so a weekend cannot red the suite.
+    # The leg runs the prover, which requires each bound red on a doctored copy and green on
+    # the live tree -- a gate only ever seen green is not yet a gate.
+    ("freshness_bound", ["python", "scripts/run_e410_freshness_legs.py"]),
+    # E406: the blob-vs-file census behind E401's residue. `verify` re-derives every headline from
+    # the published rows and refuses a face that was published at a midpoint; it is read-only and
+    # one `git show` per measured face, so it stays cheap enough for the chain.
+    ("blob_readers", ["python", "scripts/e406_blob_vs_tree_readers.py", "verify"]),
+    # E412: the guard decision over E406's measured faces. `verify` re-derives every choice from
+    # the row it was made from and refuses a face called guard-free while a consumer reads it at
+    # HEAD; it re-measures blob-vs-file per face, so it belongs after `blob_readers`.
+    ("blob_guard_decision", ["python", "scripts/e412_blob_guard_decision.py", "verify"]),
+    # E403: E398 stopped at "somebody must pass the directory" for the 17 read sites whose family
+    # is a function parameter. This walks the callers: 38 call sites, 11 land on a published
+    # family, 13 on a scratch directory the caller just wrote, 14 forward their own caller's
+    # parameter (8 readers), 0 pass a foreign family. Verify re-derives every call row from source.
+    ("family_arg", ["python", "scripts/e403_family_arg.py", "verify"]),
+    # E414 (r1433): E398 published exactly one read of a `*latest.json` pointer whose family is
+    # supplied nowhere -- a bare basename at smoke_test.py:7971. E403's rule (read the landing off
+    # `param or DEFAULT` in the callee body) answers it: the callee pins its OUTDIR to its own
+    # module directory, so four process cwds resolve to one path that exists, and the leg that
+    # reads it fails red rather than skipping. Verify re-runs the callee at each surface instead
+    # of re-deriving the join here.
+    ("unsupplied_read", ["python", "scripts/e414_unsupplied_read.py", "verify"]),
+    # E411: E409 priced five reader sites over two faces; this prices every face the suite opens
+    # (199 faces / 231 sites, 4 of which can go red on age). It legs `run` rather than `verify`
+    # on purpose: the population *is* smoke_test.py, so every leg added or moved changes the
+    # summary, and a verify-only leg would go red on any suite edit and stay red until someone
+    # republished by hand. It republishes from the live tree in ~46 s (2.5k modules priced).
+    ("reader_tiers", ["python", "scripts/e411_reader_tiers.py", "run"]),
+    # E415 (r1434): E414 named the accident shape and left it unpriced. This censuses every read
+    # in the durable corpus whose path argument is a bare basename (2 sites): 1 is directed by its
+    # callee (E414's), 1 is directed by the launch directory and would read a DIFFERENT document of
+    # the same basename from another surface -- CODELY.md, which exists with different content in
+    # the CLI home. Verify re-scans the corpus (cheap: one AST pass over ~900 files) and re-checks
+    # every published class against its resolver.
+    ("cwd_accident", ["python", "scripts/e415_cwd_accident.py", "verify"]),
+    # E428 (r1448): the 35 parameter-directory sites E429 billed as "no caller found" are re-billed
+    # with a call index built for every helper that takes its directory as a parameter (75 -> 97
+    # names). Verify re-derives the verdict from the rows and re-runs the wide index.
+    ("no_caller", ["python", "scripts/e428_no_caller.py", "verify"]),
+    # E416 (r1435): E411's four red-capable sites are re-read from their own source blocks and none
+    # of them prices the AGE of the face it reads -- two pin a frozen date literal (so an honest
+    # refresh is what reds the suite), one prices a copy lag against an upstream mtime, one carries
+    # no date comparison at all. A verify leg costs one suite pass plus a bounded writer scan over
+    # scripts/, and refuses a summary that no longer re-derives.
+    ("fresh_aim", ["python", "scripts/e416_fresh_aim.py", "verify"]),
+    # E418 (r1436): the 45 faces E416 left blind (no reader that can go red, no chain writer) are
+    # priced by stamp age in bars against the exchange calendar, and each leg's green sentence is
+    # classified as a frozen literal number / a value recomputed at read / no number. Verify
+    # re-reads the 45 faces, the calendar and the suite lines and refuses a summary or verdict that
+    # no longer re-derives. Read-only: no face is refreshed and no reader is edited.
+    ("face_age", ["python", "scripts/e418_face_age.py", "verify"]),
+    # E419 (r1437): the 9 faces E418 could not age are attributed to a writer, and each row says
+    # whether that writer holds a date it never writes (strong basis only: a write target must
+    # spell the basename, in the face's own directory, and must not be a fixture). Verify
+    # re-derives every class from the AST of the census corpus (~30 s over 2.4k modules).
+    ("unstampable", ["python", "scripts/e419_unstampable.py", "verify"]),
+    # E420 (r1438): the E387 leg used to pin a corpus fingerprint as if it were a decision number.
+    # Verify re-derives the audited faces' accretion / down / verdict-move split from the live tree.
+    ("corpus_pin", ["python", "scripts/e420_corpus_pin_instability.py", "verify"]),
+    # E421 (r1439): the 33 names E406 could not resolve are resolved by the directory their literal
+    # is joined against. Verify re-scans the module corpus (~900 files, one AST pass each) and
+    # refuses a summary, a control arm or a verdict that no longer re-derives.
+    ("name_resolve", ["python", "scripts/e421_strong_basis_resolution.py", "verify"]),
+    # E422 (r1440): the same bare-basename question asked of the other three basename-keyed
+    # censuses. Verify re-reads all four faces and one-pass-parses the python corpus, so a row
+    # whose reading would change, a tally that stopped adding up or a verdict that no longer
+    # derives from the summary all refuse the chain.
+    ("basename_census", ["python", "scripts/e422_basename_census_audit.py", "verify"]),
+    # E417 (r1443): the shadow question of E415 asked of every face E411 priced -- which faces
+    # have a same-named copy with different bytes in a directory a reader could be launched from,
+    # and which of those names is actually read as a bare literal. Verify re-derives the
+    # population, the class table, the generic/specific split and the verdict from the live tree.
+    ("shadow_face", ["python", "scripts/e417_shadow_face.py", "verify"]),
+    # E426 (r1444): E417 wrote the method limit "a reader that builds the name from a variable is
+    # invisible to it".  This leg prices it -- every template that produces a *.json name from a
+    # non-constant part, made specific enough to name a face, matched against the published tree
+    # and against the faces E411 priced.  Verify re-parses the whole python corpus, so a corpus
+    # that grew (a new literal legitimately reclassifies a face) refuses the chain instead of
+    # leaving a stale reading in place.
+    ("dynamic_face_names", ["python", "scripts/e426_dynamic_face_names.py", "verify"]),
+    # E420 (r1445): E419's own method limit -- "a face composed from a variable and written by a
+    # shared helper is out of reach" -- was exactly the shape of all three of its no-writer rows.
+    # Verify re-derives every class from the live tree: the constant hop (module/function bindings,
+    # three substitutions) and the caller hop (every call site of the helper, resolved with the
+    # caller's own constants), plus the corpus split and the two reach tables (~4 min over 3.4k
+    # modules).
+    ("two_hop_writer", ["python", "scripts/e429_two_hop_writer.py", "verify"]),
+    # E423 (r1446): E422 priced 11 rows that publish a FILE path in a field named
+    # resolved_directory. Verify re-derives the read-site classes over the live corpus (one AST
+    # pass) and re-checks the doubling intersection against the published rows, so a new consumer
+    # that joins such a field with a row name refuses the chain instead of leaving a stale "no
+    # consumer joins it" reading in place.
+    ("dirfield_join", ["python", "scripts/e423_dirfield_join.py", "verify"]),
+    # E432 (r1450): E428 counted 21 fixture-shaped parameter-directory write sites and never asked
+    # where their callers point them. Verify re-derives the class table over the live corpus (one
+    # AST pass for the sites, one prefiltered pass for readers) and re-checks that live rows plus
+    # rows no longer a live site still equal the population E428 published, so a fixture helper
+    # that moves or disappears refuses the chain instead of leaving a stale tally.
+    ("fixture_write", ["python", "scripts/e432_fixture_write.py", "verify"]),
+    # E434 (r1455): E428 counted "fixture-shaped" over the 35 rows its narrow index could not
+    # place, not over the 310 parameter-directory write sites it scanned. Verify re-counts the
+    # whole population with the same heuristic, re-prices the sites outside the already-published
+    # rows (the priced set is the union of E428's and E432's faces, read not guessed), and
+    # re-checks that inside + outside still equals the total, so a total that drifts back to a
+    # statement about 35 rows refuses the chain.
+    ("fixture_beyond", ["python", "scripts/e434_fixture_beyond.py", "verify"]),
+    # E437 (r1456): E428's fixture word list is a name test on the callee, and E434 published its
+    # count without asking how much of the temp-directory population a name test can even see.
+    # Verify re-derives the call-row cross-cut over the live corpus and re-checks that the four
+    # cells still add up to the call rows and that every published row still supplies a temp
+    # directory, so a row that drops back to a site-level aggregate refuses the chain.
+    ("name_recall", ["python", "scripts/e437_name_recall.py", "verify"]),
+    # E438 (r1457, wired at r1458): the grading of temp-supplying rows against what the callee
+    # writes had no chain leg when it shipped.  Verify re-derives the live class table and refuses
+    # a face whose inside count, share or file-path block no longer re-adds from the rows.
+    ("temp_write_base", ["python", "scripts/e438_temp_write_base.py", "verify"]),
+    # E439 (r1458): E438's 56 rows were counted by callee name, and a name-keyed index counts
+    # every `lst.append(x)` as a call to a wrapper named `append`.  Verify re-derives the call-slot
+    # shapes over the live corpus, re-runs the wrapper recheck, and re-closes the attribution
+    # (kept + dropped == name-index total) and the E438 re-pricing, so a face that keeps the old
+    # denominator refuses the chain instead of publishing a share of same-name calls.
+    ("file_slot_callers", ["python", "scripts/e439_file_slot_callers.py", "verify"]),
+    # E440 (r1460): E439 called the rows it dropped "overstated" without reading them.  A dropped
+    # row is either an attribute call (the receiver is an object, not a module wrapper) or a bare
+    # call to a name several modules define -- and the difference decides whether the reachability
+    # rule was right.  Verify re-derives both axes over the live corpus and refuses a published
+    # class that no longer follows from its own axes, so a face carrying a carried verdict or a
+    # name block that does not close refuses the chain instead of republishing the old label.
+    ("shared_wrapper_names", ["python", "scripts/e440_shared_wrapper_names.py", "verify"]),
+    # E443 (r1461): E440's shared-name class is a name fact; a bare call resolves through the
+    # caller's own imports.  `check` re-derives every published tally from the published cells
+    # (fast); `verify` re-runs E440's scan over ~3.4k sources (~20 min) and is published on demand,
+    # because a guard whose only cost is 20 minutes per tick gets switched off.
+    ("bare_call_resolve", ["python", "scripts/e443_bare_call_resolve.py", "check"]),
+    # E442 (r1462): E436 named 18 path-only sites and never asked whether the composed value is
+    # consumed.  `check` re-derives every published tally from the published rows (fast); the scan
+    # itself walks the whole corpus (~90 s) and is published on demand, because a guard whose only
+    # cost is a full corpus parse per tick gets switched off.
+    ("dead_path_composition", ["python", "scripts/e442_deadpath.py", "check"]),
+    # E448 (r1466): E442 left its 85 dropped compositions ungraded -- superseded by another open in
+    # the same file, or opened nowhere.  `check` re-derives every published class and every basis
+    # from the published rows (fast, no file walk), so a face whose class was edited without its
+    # evidence refuses the chain; `verify` is the ~4 s rebuild against the live tree.
+    ("dropped_path_open", ["python", "scripts/e448_dropped_path.py", "check"]),
+    # E444 (r1467): E440 dropped 24,618 attribute call rows as "a method on some object, not
+    # evidence about the wrapper", which reads the spelling and never the receiver.  This leg
+    # re-derives every published tally from the published rows (fast, no corpus walk) and refuses a
+    # face whose receiver split, hit count, class census or verdict no longer follows from its own
+    # cells -- in particular a row that claims a method of the attributed module while the census
+    # finds no class in that module at all.  `verify` is the ~6 min live rebuild, on demand.
+    ("attr_call_module_method", ["python", "scripts/e444_attr_method.py", "check"]),
+    # E449 (r1468): E448 left 30 dropped compositions that are opened nowhere in their file; the
+    # largest family is a research-note pointer.  `check` re-derives every published class, tally
+    # and verdict from the published rows (fast, no walk); `verify` is the ~8 s corpus walk and
+    # refuses a face whose note is no longer named or opened the way it published.
+    ("dead_prereg_pointer", ["python", "scripts/e449_dead_document_pointer.py", "check"]),
+    # E441 (r1461): E435 published 626 directory values that are a published face's home and 0 of
+    # 489 composable joins that lands -- a zero that reads two opposite ways.  This leg grades every
+    # base live (a member was written after the carrier) or frozen, and cross-tabs the composable
+    # subset against that grading.  Verify re-derives the member families over the live tree and
+    # refuses a published base class its own carriers no longer support, so a face holding a stale
+    # population refuses the chain instead of republishing the old split.  Read-only: it writes
+    # nothing under results/, cost is one directory walk plus E435's face scan (~35s).
+    ("face_home_family", ["python", "scripts/e441_facehome_family.py", "verify"]),
+    # E445 (r1462): E441 called the live-base rows "one round away" from a landing target and never
+    # composed the row's own name field.  Verify re-derives the three target classes and every
+    # candidate from the live tree, so a face whose target has since appeared (or vanished)
+    # refuses the chain instead of republishing the old class.  Read-only.
+    ("face_home_target", ["python", "scripts/e445_facehome_target.py", "verify"]),
+    # E446 (r1463): E441 called 51 bases "frozen" and stopped at the mtime of the directory, which
+    # says nothing about whether any code would ever write there again.  Verify re-derives the
+    # dormant/abandoned class of every frozen base from its own writer sites and the live corpus,
+    # so a base that gained a writer (or lost its last one) refuses the chain instead of
+    # republishing the old class.  Read-only; cost is one AST walk of the corpus (~25s).
+    ("frozen_writer", ["python", "scripts/e446_frozen_writer.py", "verify"]),
+    # E447 (r1469): E446 called a base with no writer "abandoned" and stopped at the write side, so
+    # an abandoned base a harness-launched reader still opens was published as harmless.  Verify
+    # re-derives every read site under each of the 23 bases over the live tree and refuses a base
+    # whose class, site count or live-reader count has moved, so a base that lost its last reader
+    # (or gained one) refuses the chain instead of republishing the old class.  Read-only; cost is
+    # one AST walk of the corpus plus E446's writer pass (~60s).
+    ("abandoned_read", ["python", "scripts/e447_abandoned_read.py", "verify"]),
+    # E452 (r1470): E447 published 7 abandoned bases still read by harness-launched code and left
+    # the safety question open -- an open on a file nobody writes is only safe if it is guarded or
+    # the artifact is still on disk.  Verify re-derives every guard shape from the reader's own AST
+    # and every artifact's presence from the disk, so a guard added, removed or moved refuses the
+    # chain instead of republishing the old class.  Read-only; cost is one corpus walk plus E447's
+    # face scan (~60s).
+    ("abandoned_guard", ["python", "scripts/e452_abandoned_guard.py", "verify"]),
+    # E451 (r1477): E449 published seven research notes named by a PREREG constant nobody loads,
+    # leaving "does the study publish any digest of the note it claims to follow" unanswered.
+    # Verify re-derives the naming set, the producers' faces and the sha256 of every note over the
+    # live tree, so a note edited after publication (or a face that gained a digest) refuses the
+    # chain instead of republishing the old split.  Read-only; one corpus walk plus 84 face loads.
+    ("prereg_digest", ["python", "scripts/e451_prereg_digest.py", "verify"]),
+    # E435 (r1458): E423 priced where a directory-named field points but never asked whether the
+    # value is itself the name of a published face.  Verify re-derives the three value classes over
+    # the live tree and refuses a published join whose target no longer resolves, so a face holding
+    # a stale population (or a landing row whose file has since disappeared) refuses the chain
+    # instead of republishing the old zero.
+    ("dir_is_a_face", ["python", "scripts/e435_dir_is_a_face.py", "verify"]),
+    # E427 (r1451): E426 published 2,818 templates as "inside a function that opens a file" and
+    # stopped at location. Verify re-derives the state table over the live corpus (the scanner's own
+    # AST walk plus E426's collector for the unfiltered base) and re-checks that the state table,
+    # the bound/read totals and the direct-argument count all re-add from the published rows, so a
+    # template whose binding moves refuses the chain instead of leaving a stale read count.
+    ("opener_flow", ["python", "scripts/e427_opener_flow.py", "verify"]),
+    # E433 (r1453): E423 named the republish sites and stopped before the chain. Verify re-derives
+    # the code side (the republish sites' own dict literals) AND re-reads only the writer faces the
+    # same modules open for writing, re-checking the headline counts and the verdict, so a site
+    # that starts (or stops) carrying a name beside a file-capable directory field refuses the
+    # chain instead of leaving a stale "the name rides along" claim in place.
+    ("republication_chain", ["python", "scripts/e433_republication_chain.py", "verify"]),
+    # E450 (r1475): E444 answered the wrapper side; this one re-derives the caller side of the same
+    # attribute population and pins itself to E444's published receiver distribution under the
+    # E455 growth rule (a superset may grow, a lost kind is a refusal). `check` rather than
+    # `verify` for the same reason E444's leg uses it: the chain leg must not re-walk the corpus
+    # (that rebuild is ~9 min); the full `verify` is the manual/closeout gate.
+    ("caller_class", ["python", "scripts/e450_caller_class.py", "check"]),
+    # E456 (r1478): E450 left the cross-module half of its own population unread -- 6,875 receivers
+    # bound to a call to something outside the caller's classes.  This leg checks the published
+    # resolution face: every count re-derives from the rows, an import form is present exactly when
+    # an import was involved, the name hits sit inside the resolved population, and the population
+    # pins to E450's published arm under the growth rule.  `check` rather than `verify` for the same
+    # reason caller_class uses it: the chain leg must not re-walk the corpus (~7 min rebuild); the
+    # full `verify` is the closeout gate.
+    ("import_class", ["python", "scripts/e456_import_class.py", "check"]),
+    # E459 (r1480): import_class left 928 rows whose callee module is not in the tree, and the module
+    # name is the only handle on their class.  This leg re-derives the tallies from the published
+    # rows, then puts the *live* module table back under the published examples: every published hit
+    # must resolve as a hit and every published residue must still fail to import.  No corpus walk
+    # (the population is inherited), so the chain can afford the live re-resolution that keeps the
+    # "importable" column from being a constant nobody checks.
+    ("stdlib_class", ["python", "scripts/e459_stdlib_class.py", "verify"]),
+    # E458 (r1482): E451 showed no study publishes a digest of its prereg note, which presupposes a
+    # consumer can already tell which study a face belongs to.  This leg re-derives the identity
+    # tallies from the published rows, holds the three classes apart (machine / prose-only / none),
+    # and re-resolves every published declaration against the live tree so the "resolves" column is
+    # not a constant.  `check` rather than `verify` for the same reason caller_class uses it: the
+    # full rebuild loads 538 faces and walks their producers.
+    ("face_identity", ["python", "scripts/e458_face_identity.py", "check"]),
+    # E461: the link side of the same question -- `check` because a full rebuild parses the whole
+    # .py corpus, while the published tallies must still re-derive from the published rows.
+    ("identity_consumers", ["python", "scripts/e461_identity_consumers.py", "check"]),
+    # E462: the dialect side of the same question -- `check` for the same reason; the tallies must
+    # re-derive from the published rows without re-walking the corpus.
+    ("identity_dialect", ["python", "scripts/e462_identity_dialect.py", "check"]),
+    # E463: which study a face joins when two read names disagree -- `check` for the same reason.
+    ("identity_split", ["python", "scripts/e463_identity_split.py", "check"]),
+    # E464: which identity a producer intends when it writes two names -- `check` re-derives every
+    # tally from the published rows (writer/non-writer split, intent classes, pointer-key counts).
+    ("producer_intent", ["python", "scripts/e464_producer_intent.py", "check"]),
+    # E465: does a face pointer resolve, and is it the join anyone uses.  `check` re-derives every
+    # tally, the residue split, the reader layers and the verdict from the published rows; the live
+    # rebuild walks 13k faces plus the whole .py corpus, so `verify` is the manual/closeout gate.
+    ("pointer_join", ["python", "scripts/e466_pointer_join.py", "check"]),
+    # E457 (r1488): a name test's optimism is the part of its vocabulary that is a method name in a
+    # module that never imports the function. `check` re-derives every tally from the published rows
+    # because the full rebuild parses ~3.5k sources (~60s) and would make this leg the chain's
+    # most expensive; `verify` is the manual/closeout gate for the live corpus walk.
+    ("name_collide", ["python", "scripts/e457_namecollide.py", "check"]),
+    # E460 (r1489): E458's residue -- 12 faces with no machine-readable identity -- priced against
+    # what their own producers know.  `check` re-derives every tally and every row's class and
+    # reading from the published rows; the population is inherited from E458's face, so the live
+    # rebuild is cheap (12 payloads + 21 sources) and `verify` re-reads it byte-for-byte.
+    ("face_gap", ["python", "scripts/e460_facegap.py", "check"]),
+    # E467 (r1491): the card a producer restates in its docstring is one of three identity
+    # channels, and the card asks whether any program recovers it.  `check` re-derives every tally,
+    # class and tier from the published rows; the live corpus walk (3.5k sources) is `verify`.
+    ("docstring_card", ["python", "scripts/e467_docstringcard.py", "check"]),
+    # E468 closes the loop E466 opened: a pointer the repo root cannot follow is named by its own
+    # producer, by a smoke/round script, or by nobody.  `check` re-derives every row's residue from
+    # its own naming sites and every tally from the rows.
+    ("pointer_reach", ["python", "scripts/e468_pointer_reach.py", "check"]),
+    # E470 asks the reading question E468 left open: of the pointer targets that need another base,
+    # which are ever opened by a site at all.  `check` re-derives every residue from its own
+    # opener/glob sites and every tally from the rows.
+    ("target_read", ["python", "scripts/e470_target_read.py", "check"]),
+    # E471 asks what a never-opened target costs: is it a second copy of a face that IS read, or the
+    # only carrier of its content.  `check` re-derives every residue and tally from the peer evidence.
+    ("dead_copy", ["python", "scripts/e471_dead_copy.py", "check"]),
+    # E472 prices the E471 residue: which dated families under results/ are re-emitted on many days
+    # and never opened by a study that does not write them.  `check` re-derives every residue from
+    # its own naming/opening sites and every tally (including the emission table) from the rows.
+    ("vintage_read", ["python", "scripts/e472_vintage_read.py", "check"]),
+    # E474 widens the identity-dialect question to the whole tree: how many faces spell their study
+    # as a stem, whether that stem is the producer's filename or only a literal it declares, and
+    # what share of identity readers carry a normaliser.  `check` re-derives every tally.
+    ("identity_dialect_census", ["python", "scripts/e474_identity_dialect_census.py", "check"]),
+    # E469 (arm-1) asks the reverse edge: given a published face on disk, which channels tie it to
+    # the script that wrote it.  `check` re-derives every channel tally and owner class from the
+    # published rows and never rebuilds (a rebuild walks the whole tree, ~70 s).
+    ("face_producer_edge", ["python", "scripts/e469_face_producer_edge.py", "check"]),
+    # E473 asks who writes the families E472 found unread, and whether that writer's other faces are
+    # read: a writer whose studied output and unread output come from one script is spillover that
+    # can be pruned at source.  `check` re-derives every writer class and tally from the rows.
+    ("producer_spill", ["python", "scripts/e473_producer_spill.py", "check"]),
+    # E476 asks the face side of E473's 47 unattributable families: does the published payload itself
+    # name a writer (a script, a card the asset file resolves, or only a clock)?  `check` re-derives
+    # every channel tally from the rows and refuses a "nothing" row that parsed no payload at all.
+    ("payload_writer", ["python", "scripts/e476_payload_writer.py", "check"]),
+    # E478 refines E477's byte-identity floor: a vintage that equals its own `*_latest` twin once the
+    # frozen top-level clock names are removed occupies bytes but not a measurement.  `check`
+    # rebuilds nothing -- it re-derives every class tally, the robustness block and the verdict from
+    # the published rows.
+    ("vintage_clock_diff", ["python", "scripts/e478_vintage_clock_diff.py", "check"]),
+    # E479 asks whether the twin a vintage retirement would leave behind is opened by anyone:
+    # opener calls over the corpus, three evidence tiers, and a residue that separates a real
+    # study from the smoke suite and from the script that writes the face.  `check` re-derives
+    # every tally from the published rows and refuses a class with no opener behind it.
+    ("twin_read", ["python", "scripts/e479_twin_read.py", "check"]),
+    # E480 tests the assumption the three vintage studies above all leaned on: that the date in a
+    # vintage's file name is the date its payload states.  `check` re-derives every class count,
+    # the dated-name tally and the verdict from the published rows.
+    ("vintage_date_agree", ["python", "scripts/e480_vintage_date_agree.py", "check"]),
+    # E484 asks the question E480 dropped: 201 of its members carry no ISO date in their
+    # name at all, so nothing could place them in time.  `check` re-derives every payload
+    # class, the span class against the published family table, the compact-name census and
+    # both verdicts.
+    ("undated_vintage", ["python", "scripts/e484_undated_vintage.py", "check"]),
+    # E485 takes the two one-day name/payload disagreements E484 read by hand: each dated
+    # member is compared with the closest date its payload states, the witness field and its
+    # tier (frozen / structured / prose) are published per row, and every non-same row carries
+    # the sources that name it.  `check` re-derives every class, the tier and span histograms,
+    # the one-day case list and both verdicts from the published rows.
+    ("vintage_date_lag", ["python", "scripts/e485_vintage_date_lag.py", "check"]),
+    # E502 takes the nine sources E495 disclosed as UTF-8-with-BOM and prices what the rest of
+    # the census body did with them: every E-series study that defines build() is graded by its
+    # reader (strips the BOM / parses it raw / never parses), by whether its published payload
+    # names a source it could not parse, and -- for the studies whose own corpus holds a BOM
+    # source -- by a two-arm replay of build() with the BOM kept and stripped, every write
+    # backed up and restored.  `check` re-derives the reader/exposure/replay censuses, the
+    # at-risk module list and both verdicts from the published rows.
+    ("bom_census", ["python", "scripts/e502_bom_census.py", "check"]),
+    # E481 takes up E478's residue: a vintage that differs from its twin beyond the frozen clock
+    # names is only expensive to keep if it also reaches a different conclusion.  `check` re-derives
+    # every class, byte tally, scalar-arm count, arm cross-tab and the vocabulary histogram from the
+    # published rows, plus the numeric-shape split that separates "different number" from
+    # "different finding".
+    ("vintage_conclusion", ["python", "scripts/e481_vintage_conclusion.py", "check"]),
+    # E482 prices the witness E479 dropped: 147 sources open a *_latest.json that belongs to none
+    # of the 36 twin families, and every one of those literals is resolved against the tree here
+    # and joined to the sources that write it.  `check` re-derives each row's site count, tier
+    # census, class, and the verdict, and re-tests the parent's source tally.
+    ("latest_spelling_exists", ["python", "scripts/e482_latest_outside.py", "check"]),
+    # E487 takes E482's 84 unwritten spellings and asks who writes them if not a literal: the
+    # module constants of every source are scanned for the stem and the write path is followed
+    # (direct name / one helper hop / a loop over name constants).  `check` re-derives every class
+    # tally, the directory split and the verdict from the published rows.
+    ("composed_writer", ["python", "scripts/e487_composed_writer.py", "check"]),
+    # E488 finishes the trace E487 left open: for the 51 basename-only writers it folds each
+    # module's own directory constants (literal / name / os.path.join / __file__ chain / one
+    # repository-module alias hop, up to 12 hops) and asks whether any folded path names the
+    # directory its reader resolves to.  `check` re-derives every row's class from the published
+    # expressions, so the face cannot claim a placement its own evidence does not carry.
+    ("writer_directory", ["python", "scripts/e488_writer_directory.py", "check"]),
+    # E489 closes what E488 left asserted: E488 placed the writer's *module* in the reader's
+    # directory, but E487 had traced the write path only to a bare basename.  This face folds the
+    # write call's own path argument (following the for-loop variable it is passed through, one
+    # repository-module alias hop, and static %-formatting) and asks whether it composes exactly
+    # the path the reader opens.  `check` re-derives every row's class from the published sites.
+    ("write_wire", ["python", "scripts/e489_write_wire.py", "check"]),
+    # E490 answers E489's residual: the nine write calls whose path argument never folds.  For
+    # each, it follows the delegated parameter one hop to the call site that supplies it (through
+    # loop variables, call-site defaults and the caller's own parameter chain) and separates "one
+    # more hop reaches the reader's directory" from "argv / environment / tempfile -- no hop helps".
+    ("write_helper", ["python", "scripts/e490_write_helper.py", "check"]),
+    # E491 answers the row E489 could not close.  E489's tracer reads first arguments only, and
+    # a copy call (`shutil.copyfile(src, dst)`) carries its destination SECOND, so E489 published
+    # its one dir_only row as "composed elsewhere".  This face folds both arguments of every
+    # copier under scripts/Tools/firm, groups the destinations by latest basename, and holds the
+    # card's own name (bandthreshguard_latest.json) to the call that actually makes it.
+    ("latest_copier", ["python", "scripts/e491_latest_copier.py", "check"]),
+    # E492 asks what the "several composers" of a latest name actually are.  E491 published 51
+    # names with two or more static composers; a sample of the extras are doctor harnesses that
+    # mutate a published face and put it back.  This face labels every composer (producer /
+    # doctor harness / one-off _rNNN repair), counts the write sites and the read-before-write in
+    # each source, and holds a live arm: does each published latest copy still parse as JSON?
+    # `check` re-derives every tally, the extra roles and the verdict from the published rows.
+    ("multi_composer_doctor", ["python", "scripts/e492_multi_composer_doctor.py", "check"]),
+    # E493 answers the question E492 left open: E492 published two names whose only visible
+    # harness "writes once with no restore", and a label is not an owner.  This face runs each
+    # harness in its doctor mode with the original bytes held here, re-derives each producer's
+    # payload and compares it with the disk copy after clock fields are removed, and publishes
+    # freshness (fresh match / stale vintage) separately from authorship (does a harness ever
+    # author a payload).  `check` re-derives every count and the verdict from the rows.
+    ("latest_copy_owner", ["python", "scripts/e493_latest_copy_owner.py", "check"]),
+    # E494 walks the rest of E492's population: for every doctor harness and one-off repair
+    # among the extra composers of the other 49 multi-composed names, fold its own write sites
+    # to the published basename and classify what each write puts there (the face's saved
+    # bytes / a payload the source builds / a copy from elsewhere), then ask whether the same
+    # source ever puts the original back.  A composer that builds a payload and never restores
+    # it is named, and its disk copy is priced: does it mirror a file that composer reads, or
+    # does its producer re-derive it -- otherwise it is published as unexplained.
+    # `check` re-derives every tally, every per-composer class and the verdict from the rows.
+    ("latest_authors", ["python", "scripts/e494_latest_authors.py", "check"]),
+    # E483 answers what the legs of E479's leg-only twins actually assert.  Before
+    # classifying a site it decides whether the site is a reader at all: E479 counted every
+    # open call carrying the twin's name, so the publishing script's own write and a doctor
+    # harness's deliberate write were both counted as openers.  Each read site is then
+    # priced by the asserting block that owns it -- re-derives a number from the payload /
+    # pins a field to a constant / only requires the file -- and the parent's literal is
+    # checked against the binding the line actually opens.  `check` re-derives every tally,
+    # every per-twin class and the verdict from the rows.
+    ("leg_debt", ["python", "scripts/e483_leg_debt.py", "check"]),
+
+    # E497 measures the whole CALL family instead of the twin alone: a literal at an opener, a
+    # path handed to a helper that opens its parameter, and the lane face key that composes a
+    # per-machine path at run time.  The arm that matters is B -- three S6 chain producers read
+    # the twin through ``_read_json(<path constant>)``, which no literal census can see, so the
+    # parent's never-opened class is a reader-instrument limit rather than a dead face.  `check`
+    # re-derives every tally, every member reading and the family verdict from the rows.
+    ("twin_dead", ["python", "scripts/e497_twindead.py", "check"]),
+
+    # E498 runs the same helper arm over the whole 36-twin population E479 froze rather than the
+    # one twin: the arm is discriminating (1 of 2 unread twins becomes read, the other stays
+    # unread) and it adds read sites to eleven twins that already had a literal reader, so a
+    # class delta of 1 hides 24 invisible sites.  `check` re-derives the gained-reader count, the
+    # invisible-site count and the verdict from the rows.
+    ("helper_read", ["python", "scripts/e498_helperread.py", "check"]),
+
+    # E499 prices the read sites E498 counted but did not price: a block that re-derives a number
+    # or pins a field is a reader a producer must keep alive, and a block that only opens the file
+    # is not.  Under that strict rule one twin moves to retirable and its last reader is a smoke
+    # assertion of field presence -- the retirement answer depends on which of the two rules the
+    # reader applies.  `check` re-derives every price tally, the moved list and all four ladder
+    # arms from the rows.
+    ("helper_price", ["python", "scripts/e499_helperprice.py", "check"]),
+
+    # E500 asks the next question about the same twins: 35 of them did not move under the strict
+    # rule, and "did not move" is not evidence by itself.  It re-scans those twins and prices every
+    # site outside E499's priced set -- 0 residual reads, 25 residual writers on 15 twins -- and
+    # separates agreement from a twin whose non-movement is emptiness.  `check` re-derives the
+    # population split, the vacuity class, both residual tallies and the verdict from the rows.
+    ("strict_gap", ["python", "scripts/e500_strictgap.py", "check"]),
+
+    # E495 prices the 13 faces E492 published as having no producer among their visible
+    # composers.  Every one of the 27 harness composer sites restores the original (25 inside a
+    # finally), 12 of the 13 are written by a source other than the harness (5 by a module
+    # constant, 4 by local-name carriers, 2 through a helper parameter, 1 directly), and 8 are
+    # read by no consumer at all.  A leading-BOM source is disclosed rather than silently counted
+    # as naming nothing.  `check` re-derives every tally and the verdict from the rows.
+    ("doctor_pub", ["python", "scripts/e495_doctorpub.py", "check"]),
+
+    # E503 prices the chain's own certifiers: every read-only step in this table is matched to the
+    # faces its script names, each face's published date is read from the payload (never st_mtime),
+    # and the face is called writer-free only when no writing-mode leg in this same table names it.
+    # A read-only step whose face nothing here writes widens one day per round by construction.
+    # `check` re-derives the class table, the widening byte tally and the verdict from the rows.
+    # This leg is excluded from its own population (the scanner must not measure itself).
+    ("chain_stale", ["python", "scripts/e503_chain_stale.py", "check"]),
+
+    # E504 reads the composing expression behind every dated face name in E485's population: the
+    # family prefix may be a literal, a variable resolved in the same module, or a date slot fed
+    # by a run clock rather than a payload cutoff.  `check` re-derives the naming-site table, the
+    # per-spelling clock/payload split and the verdict from the published rows.
+    ("name_compose", ["python", "scripts/e504_name_compose.py", "check"]),
+
+    # E505 decomposes E502's 183-study unmeasured bucket: a zero-argument callable under another
+    # name, a module constant holding the names, a corpus that arrives through an import, a surface
+    # that needs caller arguments, or nothing at all -- crossed with the reader class E502 already
+    # published.  `check` re-derives the class table, the cross table and the verdict from rows.
+    ("unmeasured_reach", ["python", "scripts/e505_unmeasured_reach.py", "check"]),
+
+    # E506 reads the faces E503 priced as carrying no parseable date: a top-level field name
+    # outside the witness list, the same name one level down, a date inside a log or a source-text
+    # cache, or nothing anywhere.  `check` re-derives the class table, the byte tallies, the
+    # writer-free split and the verdict from the published rows.  This leg is excluded from its
+    # own population (E180/E207: the scanner must not measure itself).
+    ("nodate_witness", ["python", "scripts/e506_nodate_witness.py", "check"]),
+
+    # E507 reads the residual date symbols E504 could not resolve inside one module: a local helper
+    # returning the clock, a right-hand side in the same module, an imported attribute, an element
+    # of loaded data, a selftest fixture writing a temp path, or a script only history holds.
+    # `check` re-derives the class/track tallies, the attributable/ambiguous split, the no-site
+    # table and the verdict from the published rows -- the history arm is a labelled snapshot.
+    ("unresolved_origin", ["python", "scripts/e507_unresolved_origin.py", "check"]),
+
+    # E510 re-reads E507's 42 ambiguous pairs with a scoped binding table (nearest enclosing
+    # function first, then the module, comprehension targets shadowed) and publishes, per pair
+    # site, the reading under each table plus what the scope did to the ambiguity.  `check`
+    # re-derives the collapse class from the pair's own two arms, so a hand-written label fails.
+    ("binding_scope", ["python", "scripts/e510_binding_scope.py", "check"]),
+
+    # E511 anatomises the four pair sites E510 could not collapse: it enumerates every write the
+    # site's own scope makes of that symbol, classifies each by the shape of its right-hand side
+    # (seed literal / a step that extends the symbol itself / a replacement that never mentions
+    # it / a call result), and publishes per site whether a rename separates the residual
+    # ambiguity or only a dataflow read could.  `check` re-derives the anatomy and the resolution
+    # from the published bindings, so a hand-written class fails.
+    ("collision_anatomy", ["python", "scripts/e511_collision_anatomy.py", "check"]),
+
+    # E508 reads the call sites of E505's 35 argument-only population surfaces and
+    # publishes, per site, the value supplied to each parameter plus a resolution (literal
+    # / constant / walk / file / derived / call / caller parameter) and a reach axis.
+    # `check` re-derives both arms from the sites, so a hand-written reading fails.
+    ("caller_supplied", ["python", "scripts/e508_caller_supplied_population.py", "check"]),
+
+    # E509 asks the counterfactual question about the 20 (face, field) pairs E506 classed as a
+    # structured date under a name outside the witness list: does the value move when the face is
+    # rebuilt?  It reads other vintages of the same face (dated siblings, archival copies, git
+    # versions of the same path) and compares the field against the newest date elsewhere in its
+    # own payload.  `check` re-derives every class, every count and the verdict from the published
+    # readings and deltas, so a hand-written reading fails.
+    ("unlisted_date_origin", ["python", "scripts/e509_unlisted_date_origin.py", "check"]),
+
+    # E512 follows the hop E511 stopped at: for every published site whose value enters through a
+    # call, resolve the callee, enumerate its return statements, publish the kind of value each
+    # path names, whether a terminating guard filters the empty arm before the site, and where the
+    # field the site reads ultimately comes from.  `check` re-derives the verdict, the kind table
+    # and every count from the published paths, so a hand-written reading fails.
+    ("callee_return", ["python", "scripts/e512_callee_return.py", "check"]),
+
+    # E514 opens the hop E512 and E513 both stopped at: "a value built by another module".  For
+    # every such row it resolves the builder, publishes each of its return paths with the kind of
+    # value it hands over (a file, the git store at a commit, a scan of the tree, a day carried by
+    # a loaded panel, the clock, a parameter, a literal, or still nothing), and -- when the
+    # builder hands back a parameter -- where that parameter is fed from at the call site.  `check`
+    # re-derives every answer from the row's own kinds and the verdict from the summary, so a
+    # hand-written reading fails.
+    ("built_elsewhere", ["python", "scripts/e514_built_elsewhere.py", "check"]),
+
+    # E515 takes the callee as the population instead of a published row list: every module-level
+    # function that names nothing on some path and a value on another, and every call site of it.
+    # Per site it publishes whether a terminating guard filters the empty arm, whether the result
+    # reaches a subscript unguarded, and whether the site is reachable from production code at all
+    # -- which is what stops a guarded sibling being evidence for an unguarded one.  `check`
+    # re-derives every verdict from the site's own guard row / read kind / reach class, every tally,
+    # and the per-callee table.
+    ("empty_arm_cover", ["python", "scripts/e515_empty_arm_cover.py", "check"]),
+
+    # E518 asks the arm-level question of the same builder census: a literal return is not one
+    # thing.  Per literal arm it publishes the guard on its own path (and whether that guard names
+    # the value the arm returns), whether the arm is a container initialised empty and filled in
+    # the body, and whether a caller can tell it apart from the builder's read arm -- by `is None`,
+    # by unpacking, by a truthiness test, by type, or not at all.  `check` re-derives every risk
+    # from the arm's own guard rows and shapes, the entry-point split and the verdict.
+    ("literal_guard", ["python", "scripts/e518_literal_guard.py", "check"]),
+    ("handed_onward_reader",
+     ["python", "scripts/e523_handed_onward_reader.py", "check"]),
+    # E524 asks the question E523's one-hop limit left open: a reader that checks a guard and then
+    # forwards the value has not guarded it, only passed it on.  `check` re-derives every chain
+    # class from the row counts and refuses a face whose depth-2 unguarded rows count no reader.
+    ("reader_onward", ["python", "scripts/e524_reader_onward.py", "check"]),
+    # E525 opens the two classes E524 named but did not answer: a value E524 said "left the corpus
+    # at the second hop" is re-read on its own line (all 23 are a `sys.exit(main())` / `raise
+    # SystemExit(main())` entry point, i.e. the process exit status -- not a library boundary), and
+    # a value "still handed on" is published as the container or hand-on form that stopped the scan.
+    # `check` re-reads every cited line and refuses a face whose boundary drifts from its source.
+    ("onward_residue", ["python", "scripts/e525_onward_residue.py", "check"]),
+    # E528 opens E525's last unmeasured residue: the parcels handed back into the function they are
+    # already inside.  A recursive call is never counted as a read -- the arm is measured on the
+    # parameter's uses outside every recursive call, and the guard on the call's own ancestors (a
+    # depth counter tested against a constant, a type/None test on the name or the container a
+    # comprehension iterates).  `check` re-derives every verdict, arm and guard from the rows and
+    # refuses a face that calls an unguarded recursion readable.
+    ("recursive_read", ["python", "scripts/e528_recursive_read.py", "check"]),
+    # E526 takes the 12 values E520 said are forwarded again one hop further: a forwarded parameter
+    # through the call sites of the function that owns it, a forwarded local to the statement that
+    # binds it, and each parcel gets an arrival class that keeps `resolved here` apart from `still
+    # forwarded`.  `check` re-derives every arrival from its own sites, refuses a row that hides a
+    # forwarding site, and asserts the parcel count against E520's own summary.
+    ("second_hop", ["python", "scripts/e526_second_hop.py", "check"]),
+    # E530 takes the five second-hop hand-overs E526 still calls forwards and follows each one
+    # until it stops: every further hop is recorded, `hops_to_origin` counts the hops past the
+    # second, and a chain is published as ending at a value, ending at a signature default,
+    # dead-ending on a parameter nobody supplies, or looping back into a function it already
+    # visited.  `check` re-derives every shape and hop count from the chains and asserts the chain
+    # count against E526's own forwarded-again total.
+    ("third_hop", ["python", "scripts/e530_third_hop.py", "check"]),
+    # E531 reads the signature default E530/E526 landed on: every omission site is resolved through
+    # E520's ownership classifier, a name no import binds is published as a collision instead of
+    # resolved, and each default is asked both what it names (a sentinel, a literal, a module
+    # constant with its chain, a call, a read of the tree) and what the defining body does with it
+    # (rebind, guard every use, pass it on unchanged, or never read it).  `check` re-derives every
+    # class and refuses an unresolved site that still carries a default class.
+    ("default_param", ["python", "scripts/e531_default_param.py", "check"]),
+    # E527 takes E521's 52 arms whose reachability is undecidable from the call site and follows the
+    # guard's argument one hop into the caller: a literal the caller binds (or a module constant that
+    # folds to one) settles the arm, while a call result, a caller parameter, a loop target, a
+    # branch-only binding, a rebound name or a non-name argument leaves it open -- and an arm behind a
+    # test that names no parameter of the callee is published as structural, because no argument can
+    # ever settle an arm that does not read the call.  `check` re-derives every class, every outcome
+    # and the verdict, and refuses a settled arm that carries no literal.
+    ("undecidable_arm", ["python", "scripts/e527_undecidable_arm.py", "check"]),
+    # E533 takes E527's four still-open arms and asks whether the argument is a call that folds to a
+    # literal at its own site: a direct call or a name bound from one is folded through a strict
+    # whitelist (literals, containers of literals, arithmetic over those, builtin calls with folding
+    # arguments), while a call that reads a name, a repo callee this fold does not inline, or an
+    # argument that is not a call at all stays open and is published with its kind.  `check`
+    # re-derives every class, every count and the verdict, and refuses a closed arm with no folded
+    # value.
+    ("call_pure_arm", ["python", "scripts/e533_call_pure_arm.py", "check"]),
+    # E520 takes E519's own two non-answers one hop further: a local that is a *parameter of the
+    # caller* is supplied by that function's call sites, and a name bound nowhere in the caller is
+    # bound by another scope.  `check` re-derives the argument histogram from the rows, the
+    # never-supplied count from the arrivals, and refuses a face whose unbound rows contradict
+    # their own binding.
+    ("forwarded_argument", ["python", "scripts/e520_forwarded_argument.py", "check"]),
+    # E522 takes that same arm population to the call sites: an arm nobody calls is dormant, an arm
+    # whose callers all test the result is not a hazard, and only an arm read with no guard whose
+    # shape equals the read arm's is a silent default that is live in production.  `check`
+    # re-derives every site verdict and every arm verdict and refuses a stale upstream pin.
+    ("silent_arm_read", ["python", "scripts/e522_silent_arm_caller.py", "check"]),
+    # E529 answers the hole E528 found in `_resolve`: a recursion that ends by returning None makes
+    # "the path is not there" and "the recursion ran out of depth" the same value.  Every function
+    # whose body tests a counter against a constant and returns a null sentinel from that branch is
+    # published with the sentinel, the cap and a justification for calling the name a counter (a
+    # depth word, or a +1 into a call of the same function) -- the 118 index guards tested against
+    # constants are counted as rejections rather than dropped.  Each call site is attributed to the
+    # defining module (same module, or a module that imports its stem) and classified by what it does
+    # with the return value.  `check` re-derives every counts, attribution and verdict.
+    ("depth_cap_null", ["python", "scripts/e529_depth_cap_null.py", "check"]),
+    # E534 follows every arm E529 published in its two reader classes out of the reader:
+    # discarded, bound and never read, tested narrowly, carried into a named field, turned
+    # into a count, folded into a sentence, handed on, or returned. A field only counts as a
+    # publication when the same reader writes a payload, and the exact key is named -- so
+    # "silently read" never stands in for "published as a fact". 0.1s, check only.
+    ("cap_to_payload", ["python", "scripts/e534_cap_to_payload.py", "check"]),
+    # E535 follows the six sites E534 published as handed onward or as a field no reader
+    # writes: the hop kind (return / argument / unwritten field) is read off the tree, a
+    # read that sits behind a non-null guard is its own class, a builtin test and a library
+    # call are named as such, and a publication needs a consumer that writes a payload.
+    # 0.1s, check only.
+    ("next_consumer", ["python", "scripts/e535_next_consumer.py", "check"]),
+    # E538 takes the one parcel E535 still saw moving three hops out and reads each consumer's own
+    # body: two of the three return the value into the resolver family they came from (a call-graph
+    # knot, not a hand-off) and exactly one names a field (family_dir) that the module writes into
+    # its census face -- priced at 4 of 237 published read sites. 0.1s, check only.
+    ("parcel_landing", ["python", "scripts/e538_third_hop.py", "check"]),
+    # E532 follows E531's one passed-on-unchanged arm (plus E530's signature-default chains) one
+    # hop out: for every call inside the owning body that hands the sentinel onward, map the
+    # argument onto the callee's own parameter and publish what THAT body does with it. A callee
+    # that forwards again is still_forwarded, not replaced, so "nothing replaces it" never survives
+    # as a sentence about a value. `check` re-derives every class, every count and the verdict.
+    ("one_hop_out", ["python", "scripts/e532_one_hop_out.py", "check"]),
+    # E540 asks what the "line" a census face publishes actually is. The expression a row names is
+    # located as an AST node of the file (node shape, not text), the innermost statement and
+    # function that hold it are found, and the published line is classed against those spans: the
+    # expression itself, the statement's opening line, a continuation, a loop header, another
+    # statement in the same function, or another statement in the file. `check` re-classifies every
+    # row from its own published spans and re-derives the distance buckets and the verdict.
+    ("line_pointer", ["python", "scripts/e540_line_pointer_distance.py", "check"]),
+    # E541 prices the ambiguity E540 left open. For the 48 rows whose published expression's shape
+    # occurs more than once in the file, four constraints the census row already carries are applied
+    # conjunctively (strict source text, that text with whitespace and quote style dropped, the
+    # census function, the census constant), and an arm that would reject every candidate is refused
+    # for that row rather than applied. 16 rows decide -- all of them by the function -- 32 stay
+    # ambiguous, and the nearest-to-anchor rule E540 used lands on the decided node on 16 of 16 and
+    # inside the surviving set on all 32 ambiguous rows. `check` re-derives every arm trace, both
+    # counts and the verdict from the published rows.
+    ("branch_ambiguity", ["python", "scripts/e541_branch_ambiguity.py", "check"]),
+    # E542 prices the ambiguity E541 left open. For the 32 rows that keep 2-3 survivors, every
+    # survivor is resolved to what a consumer of the published row can observe (function,
+    # innermost statement and its kind, enclosing loop, signed distance, tier) and the survivors
+    # are compared field by field: 32 rows differ in the statement (24 there, 8 on more than one
+    # substantive field), 0 differ on nothing and 0 differ only in distance, so the ambiguity is
+    # a defect surface rather than an over-counted multiplicity. `check` re-derives every class,
+    # every field count and the verdict from the published rows.
+    ("survivor_spans", ["python", "scripts/e542_survivor_spans.py", "check"]),
+    # Data-lane freshness board (OB-20261108-120628-589 leg 1 / D-20261108-02): the observed set is
+    # the union of config/lane_hosts.json's lanes and the collector faces this repo declares, and the
+    # two alarms are published apart -- lane_starved is about a data face, owner_silent is about a
+    # machine, and a third bucket names the faces only a checkout mtime could date. `check`
+    # re-derives every lane's reading, both alarm lists and the verdict from the published rows.
+    ("lane_freshness", ["python", "scripts/data_lane_freshness.py", "check"]),
+    # E536 asks whether the one repo-source callee E533's fold refused to inline is actually pure
+    # once its parameters are bound to the site's own arguments. The body of `interval`
+    # (e285_interrange_gap_ceiling.py:108) only moves its parameters around, so the refusal was
+    # about the site's argument `off['rows']`, not about the callee; following that one binding
+    # (`off = _fixture_arm()`) makes the argument literal and the inlined body runs to the hull the
+    # assertion consumes. `check` re-derives every body class, every site-argument class, every
+    # attribution and the verdict from the published rows.
+    ("inlined_fold", ["python", "scripts/e536_inlined_fold.py", "check"]),
+    # E537 resolves the constant chain behind every arm E532 published as replaced by a module
+    # constant, evaluates the terminal expression with __file__ bound to the owning module, and
+    # publishes the directory it names -- plus, for the whole scripts/ corpus, which directory each
+    # __file__-derived name reaches. The same two-line idiom (`ROOT = dirname(__file__)` then
+    # `ROOT = dirname(ROOT)`) is read as one population here, with the binding a first-reader would
+    # have stopped at published beside it. `check` re-derives every directory, every name count and
+    # the verdict from the published rows and refuses a directory that is not on disk.
+    ("constant_terminal", ["python", "scripts/e537_constant_terminal.py", "check"]),
+    # E545 re-reads the three arms E533 left open with E536's interpreter: the e285 arm E536 named
+    # as its own limit folds once `off` is bound to `_fixture_arm()` and `interval` is the caller's
+    # own module function (the store at :504 sits between and is published beside the value), the
+    # caller's-parameter arm publishes its four call sites (three self-test sites fold to
+    # list(range(59)), the production site reads the anchor face), and the third stays open on the
+    # same face read. `check` re-derives every pass class, every call site and the verdict, and
+    # refuses a face whose witness arm is not in the population.
+    ("resolver_retry", ["python", "scripts/e545_resolver_retry.py", "check"]),
+    # E549 reads the four rows E546 left as 'consumed but no site says what it is' out of their
+    # own enclosing functions: three are identity tokens (the constant is normalised with abspath
+    # and compared, so the module's own file is excluded from its corpus) and one is a default
+    # argument whose callee probes then opens the path. `check` re-derives every row class from
+    # the sources and refuses a row whose class is not what its own loads say.
+    ("unclassified_site", ["python", "scripts/e549_unclassified_site.py", "check"]),
+    # E550 follows the seventeen sites E546 classed as handed to a callee one hop into that callee:
+    # the callee is looked up in the same module (then as `def <name>(` in scripts/*.py), its
+    # parameter is classed by what the body does with it, and rows sharing one source line are
+    # folded into one location. `check` re-derives every site class and the verdict from the
+    # sources, and the container arm outranks the benign arms so the failure mode cannot hide.
+    ("called_consumer", ["python", "scripts/e550_called_consumer.py", "check"]),
+    # E547 takes E544's eight 'the store creates an item the fold never publishes' rows and asks
+    # what a consumer that took the fold's container would meet: an unguarded subscript read of
+    # the created key (KeyError), a guard or a default, or no read at all.  The face also prices
+    # the name-collision trap -- the key literal `verdict` alone is named on 3,257 other
+    # containers, so a name census would invent consumers. `check` re-derives every outcome from
+    # the row's own read list and refuses a producer-only verdict beside a proved face reader.
+    ("created_item_read", ["python", "scripts/e547_created_item_read.py", "check"]),
+    # E553 asks whether the six `print("wrote", OUT_PATH, ...)` messages E550 found are read back by
+    # machine code.  Three routes are measured per row: an importer (the render sits inside main(), so
+    # an import never executes it), a spawner (nobody spawns these six, so no stdout can be captured),
+    # and a parser of the message word (one exists repo-wide, in a one-off ring script that parses a
+    # different command's output).  The face also prices the *announcement* question: with no canonical
+    # pointer and no source literal, all six faces are announced only by the message nobody reads.
+    # `check` re-derives every reader and announcement class from the row's own facts.
+    ("render_reader", ["python", "scripts/e553_render_reader.py", "check"]),
+    # E554 widens E553's six rows to the repository's whole `print("wrote", <path>)` population
+    # (121 rows / 97 writers).  Two facts decide whether a rendered path is a machine-visible
+    # announcement: can any source spawn the writer at all (0 of 121 can, so stdout is never
+    # captured), and does the named face have another announcement (8 have neither a source
+    # literal nor a `_latest` pointer).  90 rows name no foldable face and are published as
+    # unassessable rather than folded into the at-risk class.  `check` re-derives every class.
+    ("wrote_population", ["python", "scripts/e554_wrote_population.py", "check"]),
+    # E555 prices E554's 67-row residue ("a name this scan cannot fold").  It re-reads the rows and asks
+    # what binds each free name: 6 fold once `Path(__file__).resolve().parents[k]` is evaluated against
+    # the writer's own path (all six faces exist on disk), and the other 61 are run-time by
+    # construction -- 38 locals, 10 module constants holding a clock or an argv value, 6 caller
+    # parameters, 4 tuple targets of a helper call, 3 loop targets.  The control arm runs the published
+    # resolver over the same rows and must fold none of them, or the population is not a residue.
+    ("unfolded_second_arg", ["python", "scripts/e555_unfolded_second_arg.py", "check"]),
+    # E556 prices the six faces E555 folded: all six are announced only by the message (0 pointer
+    # faces, 0 loads, controlled against a face the tree does load), so the loss of the message
+    # loses the only announcement anyone gets.
+    ("rescued_face", ["python", "scripts/e556_rescued_face.py", "check"]),
+    # E557 asks the question that decides whether that loss is recoverable: can anything RUN the
+    # writer again?  A chain leg's argv is data inside LEGS, so the earlier spawn arm (which looks
+    # for a call site) is blind to it -- and indeed all six rows carry "no source spawns this
+    # writer" while a live chain names all four writers.  Read as legs: 1 of 4 has a build verb
+    # (capital_placement, on bm-c's/bm-a's list, not this host's 306-leg table) and 3 are only
+    # ever gated with --check, which proves a face is still right but cannot restore it.  `check`
+    # re-derives every class from the leg table itself.
+    ("face_entry_reach", ["python", "scripts/e557_face_entry_reach.py", "check"]),
+    # E558 prices E557's closing sentence: a gate leg "proves the face is still right but can
+    # never rebuild it" -- but does it even NOTICE the face going missing?  For each of the five
+    # gate legs E557 published, the gate verb's own entry path is followed statically (main() ->
+    # the branch on --check -> every local function it calls) and asked whether it opens the face
+    # it gates and refuses a missing one.  Reading: the 2 machine-readable faces are refused 2/2,
+    # while the 3 rendered faces a human reads (research/ETF_BOOK_*.md) are opened by no gate at
+    # all -- their absence is invisible by construction.  A third arm measures the runners: all
+    # three collect the non-zero legs into a receipt and then exit 0, so a refusal is a line in a
+    # log, not a failure any process carries.  `check` re-derives every class from the sources.
+    ("gate_reach", ["python", "scripts/e558_gate_reach.py", "check"]),
+    # E559 asks the other half of E558's sentence: the runners record rc and then exit 0,
+    # so is anything on the other end?  Two channels are measured apart -- the process exit
+    # code of a runner (every live spawn site: 2, both detached, 0 can fail) and the receipt
+    # the runner writes (3 writers, 0 readers outside the writer).  Repo sources that could
+    # schedule a chain action: 0 (the live census on bm-b is 296 actions, 0 of them a chain
+    # runner -- disclosed in the digest, not gated because a live census does not reproduce
+    # at build time).  `check` re-derives every class from the sources.
+    ("chain_rc_consumer", ["python", "scripts/e559_chain_rc_consumer.py", "check"]),
+    # E560 prices the receipt E559 found unread: if a consumer existed, could it triage from the
+    # file alone?  All three runners continue past a failing leg and none keeps stderr, none
+    # states the table size it was built from, two die with no receipt at all on a non-timeout
+    # exception, and only bm-a has a placeholder row for a leg that never ran -- so 5 of 9 triage
+    # fields (3 runners x 3 fields) survive into the file.  `check` re-derives every class from
+    # the three sources plus the receipts already on disk.
+    ("chain_receipt_shape", ["python", "scripts/e560_chain_receipt_shape.py", "check"]),
+    # E561 asks whether the table a historical receipt was built from is still recoverable.  The
+    # receipt's own total is `len(rows)` in the one runner that publishes it, so a receipt that
+    # agrees with itself certifies nothing; the witness is git -- the receipt name carries a
+    # round, and the runner blob at that round's commit carries the LEGS table.  190 of 320
+    # receipts join, and 159 of those are shorter than their own round's table, where a stopped
+    # run and an --only run look identical.  `check` re-derives each file's class; the live
+    # directory is drift, never a gate.
+    ("receipt_table_join", ["python", "scripts/e561_receipt_table_join.py", "check"]),
+    # E562 answers the sentence E561 had to leave open: is a short receipt a deliberate one-leg
+    # run or a chain killed mid-run?  No field inside the receipt says (0 of 159 echo a
+    # selection); the answer is in the RUNNER at the receipt's own join commit -- all three
+    # runners close the receipt only AFTER the leg loop, no loop can drop a leg by a continue,
+    # and a raising leg still gets its own row, so a kill leaves no receipt at all.  `check`
+    # re-derives every short receipt's class from that blob.
+    ("single_leg_provenance", ["python", "scripts/e562_single_leg_provenance.py", "check"]),
+    # E548 prices E545's two additions over the whole of E527's published population instead of
+    # three rows: 53 arms, 10 of which name a parameter (43 can never be moved by any argument
+    # resolver).  Published per arm are four passes (verbatim / +caller functions / +free-name
+    # binding / both), so each addition's own contribution is readable.  `check` re-derives every
+    # arm's outcome and the parent-reconciliation counters.
+    ("extended_resolver", ["python", "scripts/e548_extended_resolver.py", "check"]),
+    # E563 closes E561's "a stopped run and an --only run look identical" by comparing the leg
+    # NAMES of each short receipt against the order of its own round's table: 4 are an exact
+    # prefix of the head (2-4 legs), 10 skip a leg after the head, 138 start after the first leg
+    # (only a filter explains that), 0 run out of order, 6 name a leg the table at that commit
+    # does not contain.  Each row carries the table index of every name, so `check` re-derives
+    # the class without any blob.
+    ("receipt_prefix", ["python", "scripts/e563_receipt_prefix.py", "check"]),
+    # E566 prices the blindness E563 published: 158 sources carry a receipt path but only 77 write
+    # one and 7 open one (74 only name it in prose or a git payload).  Of the 7 readers 3 are the
+    # studies that re-derive coverage themselves and 2 print "N/<literal> rc0" -- and one of those
+    # printed a 39-row receipt as "39/39 rc0" while its round's table held 61 legs.  `check`
+    # re-derives every source class from AST ancestry and every priced pair from E561's join.
+    ("receipt_coverage_consumer",
+     ["python", "scripts/e566_receipt_coverage_consumer.py", "check"]),
+    # E567 turns E566's single finding into the whole corpus: every adjacent chain-count
+    # sentence in the three round reports, joined to the receipt of its own round and to that
+    # round's legs table.  Of 877 claims only 28 are judgeable (the receipt corpus starts at
+    # r1204); 22 name the whole table, 2 say they are a subset, 4 read as the whole chain --
+    # and 2 of those 6 understate even their own receipt (r1246 printed 25/25 over a 28-row
+    # all-green receipt).  `check` re-derives the claim multiset and every counter.
+    ("chain_claim",
+     ["python", "scripts/e567_chain_claim.py", "check"]),
+    # E570 answers the source-level question E561 (receipt field) and E567 (prose) both stepped
+    # past: the printed denominator is read from the very object the runner writes -- 2 from the
+    # bm-b envelope's own fields, 2 from len(out), 2 from len(out)-len(bad) where bad is a
+    # comprehension over that same out; 0 literals and 0 outside the written object.  So a
+    # sentence cannot drift from its receipt by arithmetic; the census turns on population only.
+    # `check` re-derives each origin class from the stored expression plus its name bindings.
+    ("chain_print_source",
+     ["python", "scripts/e570_chain_print_source.py", "check"]),
+    # E569 counts the field *inside* the receipt against the receipt's own rows: 225 of 326
+    # receipts state an rc0 count and all 225 agree with a recount, so the arithmetic in the
+    # files is clean; of the 38 that E567 joins to a printed sentence 35 print exactly their own
+    # rc0 and 3 do not (a 28-row all-green file printed as 25/25, a one-row file printed as a
+    # 7/7 family, a complete 36-row file printed as the 6/36 at its death).  `check` re-derives
+    # every agree/disagree flag and both counters from the receipts on disk.
+    ("chain_numerator",
+     ["python", "scripts/e569_chain_numerator.py", "check"]),
+    # E552 takes E547's eight created items and asks what E547 did not: is the item in the
+    # container the fold actually publishes?  6 travel by identity into the file write (three of
+    # them only through a module-level `_flush(art)` helper -- the first draft missed that hop and
+    # credited the `print` beside it), 1 travels as a hand-written copy into a second container
+    # (`gates["_GB_nan_skipped"] = rows["_GB_nan_skipped"]`), 1 never leaves its own function.
+    # `check` re-derives every row's class and its evidence line from the sources.
+    ("created_item_presence", ["python", "scripts/e552_created_item_presence.py", "check"]),
+    # E571 asks the question every receipt join skips: does the round *inside* the receipt say
+    # the same round as its own file name?  327 receipts, 242 state a round, and 0 disagree on
+    # value -- the defect is a dialect, not a lie: 12 spell it as an int, 209 as a decimal
+    # string, 16 as an `rNNNN` label, 5 as free text (three of those are ad-hoc test runs such
+    # as `_rverifybmb`), so an int-keyed consumer misses 230 of the 242.  `check` re-derives the
+    # dialect split, every identity class and every delta from the receipts on disk.
+    ("receipt_round_identity",
+     ["python", "scripts/e571_receipt_round_identity.py", "check"]),
+    # E568 asks whether the table of a round that predates the receipt corpus is still in git.
+    # It is: 192 of the 727 rounds behind E567's 809 unjudged sentences yield a legs table, which
+    # makes 206 of those sentences judgeable -- but 173 of the 192 are found only by scanning the
+    # commit's tree, because the runner was a per-round script (`results/_r098bmc_s6_chain.ps1`),
+    # and guessing `Tools/s6_chain_bm<X>.py` finds 19.  `check-fast` re-reads every published
+    # witness (206/206 in <1s); the full rediscovery costs ~165s and stays out of the chain.
+    ("old_chain_table",
+     ["python", "scripts/e568_old_chain_table.py", "check-fast"]),
+    # E572 asks which of E569's three receipt-vs-sentence disagreements is a different run rather
+    # than a wrong count, and answers from bytes plus git only: 1 is a wrong count in the prose
+    # (the sentence cites the receipt's own log and prints 25/25 where the file says 28/28),
+    # 1 is an honest family label against a one-row receipt (`--only ... 7/7`), and 1 is a later
+    # run (`... had DIED at leg 6/36 (JSON absent)` while the committed file is the 36/36 rerun).
+    # `check` re-derives every class, every witness and the three-way split from the rows.
+    ("receipt_run_identity",
+     ["python", "scripts/e572_receipt_run_identity.py", "check"]),
+    # E573 asks whether the 22 sentences E568 reads as the whole chain are actually declared
+    # subsets somewhere in their own round's report: no row of any of those rounds declares one
+    # (0/22 own rows, 0 sibling rows across the rounds that have them), the bare words a reader
+    # might take for a declaration appear in 10 and every one is about a research family or a leg
+    # seed, and 13 of the 22 rounds' own scripts carry a scope switch (`--only`) -- so narrowing
+    # is a mechanism those scripts have, not something the report says was used.
+    # `check` re-derives every class from the rows and every table from the witness blob in git.
+    ("silent_chain",
+     ["python", "scripts/e573_silent_chain.py", "check"]),
+    # E575 asks the question E573 could not: for the 11 rounds whose chain script carries a
+    # `--only` switch, did the run pass it?  No row is evidence (0 printed flag lines), no chain
+    # log or receipt for any of the 11 survives on disk, so the arm that can speak is this
+    # host's own session transcripts -- and only an *executed* line counts, never a mention
+    # (`git add -- Tools/s6_chain_bmb.py` names the script and executes nothing).  Answer:
+    # 1 round leaves a recorded execution and it carries the switch; 4 of this machine's rounds
+    # leave no execution at all; 6 belong to another machine and are published as off-host
+    # rather than silent.  `check` re-derives every class from the rows.
+    ("only_flag",
+     ["python", "scripts/e575_only_flag.py", "check"]),
+    # E576 (r1604 bm-b): E575's 39 unattributable executions are priced where they sit -- 0 are
+    # duplicates of an attributed run, 7 fall inside another machine's window, 31 sit after a gap
+    # beyond the 6h tolerance, and 1 has no row of any machine after it.  `check` re-derives the
+    # partition, the hour histogram and the duplicate arm from the published rows.
+    ("gap_calls",
+     ["python", "scripts/e576_gap_calls.py", "check"]),
+    ("round_index_consumers",
+     ["python", "scripts/e578_round_index_consumers.py", "check"]),
+    # E579 (r1607 bm-b): E578 stopped at the row count and a row count is not a verdict.  This
+    # leg re-runs the shipped ALIVE/NO-EVIDENCE/DEAD line for all three machines with the only
+    # change being the leading pipe: no machine flips, but bm-b's published 7 day gap falls from
+    # 978 to 356 minutes once the unread rows count -- the disclosure is what the dialect costs.
+    ("liveness_dialect",
+     ["python", "scripts/e579_liveness_dialect.py", "check"]),
+    # E580 (r1608 bm-b): every judged verdict face under results/ is asked one question -- can
+    # your own bytes say what data you are about?  A cutoff ages the verdict, a build time ages
+    # only the file, and this tree's mtimes are one bulk checkout with a 24 day ceiling.  `check`
+    # re-derives the six classes, refuses a freshness word on a face no cutoff can age, and
+    # refuses mtime published as usable evidence.
+    ("face_age",
+     ["python", "scripts/e580_face_age.py", "check"]),
+    # E583 (r1612 bm-b): r1611 fixed the producer so a ticket dated B can be priced at B, and said
+    # nothing about the sheets already on disk.  Every published TICKET-*.json is asked whether the
+    # money on it was priced on the bar its file name carries: 4 of 5 order sheets are not, and the
+    # two money arms separate the damage -- keeping the sheet's share counts on its own bar moves
+    # the notional by up to 2.82% of NAV, while re-issuing the same weights into whole lots moves
+    # it by at most 0.04%.  `check` re-derives every class, every delta from its own totals, and
+    # refuses money on a ticket that carries no order sheet.
+    ("ticket_repricing",
+     ["python", "scripts/e583_ticket_repricing.py", "check"]),
+    # E585 (r1613 bm-b): E583 priced the share legs; every ticket also carries a cash_leg block
+    # that reads like a rate.  It is not: etf_book_order feeds the whole 2020-01-01..cutoff window
+    # to BW.repo_daily_cash and publishes its mean, so five tickets named on five different bars
+    # all print 2.079%..2.090%/yr while the GC001 quote on those bars runs 1.015%..1.090%.  The
+    # newest ticket also accrues nothing over 7 steps because the repo panel (a bm-a lane) stops
+    # a week behind the ETF panel.  `check` re-derives the window mean, the bar quote, both
+    # one-bar accruals and the unaccrued count, and refuses a ticket called "the bar's own rate"
+    # whose numbers disagree.
+    ("cash_leg_pricing",
+     ["python", "scripts/e585_cash_leg_pricing.py", "check"]),
+    # E584 (r1614 bm-b): the forward ledger is the artefact that accrues money in public, and one
+    # run both rebased (rebuilding the whole series) and appended the six bars it had already
+    # rebuilt -- the record published 17 rows over 11 bars, and the significance block was fed all
+    # 17, so its bar count read +54.55% of what exists.  The writer now keeps one row per bar at
+    # load and after append; `check` re-derives every row's class, the duplicate's carry in CNY,
+    # and the bar-count inflation, and refuses a duplicate relabelled as an accruing row.
+    ("ledger_bar_accrual",
+     ["python", "scripts/e584_ledger_bar_accrual.py", "check"]),
+    # E587 (r1615 bm-b): the book publishes two annualised cash numbers that never sit on the same
+    # page -- the ticket prints the mean of GC001 over 2020-01-01..cutoff at 252, while the forward
+    # ledger accrues the three-rung ladder bar by bar at 244.  Side by side the accrued leg is
+    # 0.85%/yr, GC001 over those same 11 bars is 1.04%, and the ticket prints 2.08%: the 1.24pp gap
+    # is 0.94pp window + 0.19pp instrument + 0.11pp unexplained, and none of the seven faces names
+    # the window it used.  `check` re-derives every row's class (ladder / within 1% / neighbour's
+    # ladder / gross-only / no rule) and the window-instrument split, and refuses a carry called
+    # the ladder whose own numbers disagree.
+    ("cash_window",
+     ["python", "scripts/e587_cash_window.py", "check"]),
+    # E589 (r1616 bm-b): E587 showed the two cash faces keep different windows and that neither
+    # of them named one.  The producer's fix is that the ticket's cash_leg block now carries its
+    # own parameters -- window_start/end/bars, bars_per_year, the method sentence, the repo
+    # panel's last bar and the quote (or its absence) on the ticket bar -- and the ledger block
+    # publishes the bars it accrued over instead of a bare row count.  `--verify-cash-window`
+    # reads the published ticket back and refuses a block that names a mean without its window.
+    ("cash_leg_window",
+     ["python", "scripts/etf_book_order.py", "--verify-cash-window"]),
+    # E590 (r1617 bm-b): E589 disclosed the silence (7 unquoted steps, 8 bars of quote age) and
+    # priced nothing.  This leg reads the priced face: every step's forfeit must re-derive from
+    # the cash it sits on and the calendar gap it closes, the ticket totals must add up from
+    # their own rows, the age table must grow one bar per bar, and the summary's flat-age claim
+    # must agree with that table.
+    ("cash_silence",
+     ["python", "scripts/e590_cash_silence.py", "check"]),
+    # E591 (r1618 bm-b): E590 priced the ticket's silence; reading the forward ledger for the same
+    # stretch shows the opposite treatment of the same stale panel -- the ledger forward-fills and
+    # books carry on all eight bars past the panel (161.13 CNY on the publishing ticket's cash),
+    # the ticket zeroes all but the one step whose prior bar was still quoted (15.80).  This leg
+    # reads the bar-by-bar face: every ladder rate must un-weight from the published carry/cash
+    # pair, every CNY must price on the ticket's own cash, the gap must be the ledger total minus
+    # what the ticket actually booked, "the ticket books here" must agree with the prior-bar quote,
+    # and a replay's verdict must follow its own relative gap.
+    ("cash_diverge",
+     ["python", "scripts/e591_cash_diverge.py", "check"]),
+    # E592 (r1619 bm-b): E591 left the ledger's carry unreproduced by a fresh-phase replay.  The
+    # writer answers it -- carry is the ladder replayed over the ledger's whole date grid from
+    # 2020-01-02, not over the eleven published bars -- so from that origin every published bar
+    # reproduces at the printed precision of the carry field, while a fresh phase at the first
+    # published bar reproduces none of them, and 75.6% of the sampled three-rung phases reproduce
+    # every bar because only the GC028 rung's offset is constrained.  This leg requires the
+    # reconstructed origin to be the seed position minus its grid_index, the origin arm to beat
+    # the fresh-phase arm, the residual's unexplained list to match the rows, and pass/fail offset
+    # ranges to add back up to the searched window.
+    ("carry_phase",
+     ["python", "scripts/e592_carry_phase.py", "check"]),
+    # E593 (r1620 bm-b): the ticket prints 2.079%/yr with bars_per_year=252 on a window whose own
+    # calendar frequency is 242.07 bar steps per year.  This leg re-derives the printed figure from
+    # its own mean accrual, the calendar figure from the window's own day count, and the gap from
+    # the two -- a conversion that does not re-derive is a convention artefact, not a rate.
+    ("cash_convention",
+     ["python", "scripts/e593_cash_convention.py", "check"]),
+    # E594 (r1622 bm-b): the bar is spelled pricing/decision/evidence_cutoff/as_of across the
+    # published faces, and a reader asking for a spelling the face it reads does not carry gets
+    # None.  This leg re-derives the (reader, spelling, face) join census from its own pairs and
+    # refuses a count, verdict or carrier list that does not follow them -- and refuses a reader
+    # graded silent while its own pairs carry the bar.
+    ("bar_dialect_join",
+     ["python", "scripts/e594_bar_dialect_join.py", "check"]),
+    # E586 (r1621 bm-b): the writer now stamps the bar it priced on, but the consumer side was
+    # never enumerated.  This leg re-derives the reader and surface counts from the published rows
+    # and refuses a verdict that contradicts them -- a page that prints a ticket's money without
+    # saying which bar priced it is the defect this census exists to find.
+    ("ticket_reader_bar",
+     ["python", "scripts/e586_ticket_reader_bar.py", "check"]),
+    # E588 (r1623 bm-b): E584 found a run that published six bars twice (17 rows over 11 bars) and
+    # the record was repaired, but the consumers of that file were never enumerated.  This leg
+    # re-derives the consumer census from its own evidence lines and refuses a count, verdict or
+    # role that no longer follows the source -- and refuses a module graded blind while its own
+    # usage carries a dedupe guard or while its empirical arm changed nothing.
+    ("ledger_row_count",
+     ["python", "scripts/e588_ledger_rowcount.py", "check"]),
+    # E595 (r1624 bm-b): E594 named three readers as joining the pointer face on a spelling it does
+    # not carry, and the repair is a one-line alias in the writer.  This leg re-derives the blast
+    # radius from its own pairs -- which reader names this face (27 faces share the basename), which
+    # one opens it, and which one actually asks it for the key the alias would add -- and refuses a
+    # read flip credited to a reader whose published key set never asks for that key.
+    ("pointer_alias_blast",
+     ["python", "scripts/e595_pointer_alias_blast.py", "check"]),
+    # E598 (r1625 bm-b): E595 priced an alias on ONE pointer face and found no reader that asks it
+    # for a bar.  This leg asks the repo-wide question -- for every latest.json face, which keys do
+    # its readers actually ask it for, attributed BY DIRECTORY (E594 resolved by basename and so
+    # attributed readers of other faces to the pointer) -- and refuses a "silent join" claimed from
+    # a basename-only literal, a payload name shared by two faces, a dict that merely NAMES the
+    # face, or a key read off the face's redirect target one hop away.
+    ("pointer_bar_demand",
+     ["python", "scripts/e598_pointer_bar_demand.py", "check"]),
+    # E599 (r1627 bm-b): E598 found exactly one reader that follows a redirect, which raised the
+    # question it could not answer -- does the bar at the FAR end of a redirect match the bar the
+    # pointer declares?  Every redirect edge of every latest.json face is graded: does each end
+    # state a bar, do the two match, and are they even the same quantity.  The leg refuses two
+    # ends stated in different fields traded as one measurement, a dangling redirect whose own
+    # payload sits next to the pointer called a missing payload, and counts that do not re-derive.
+    ("pointer_redirect_bar",
+     ["python", "scripts/e599_pointer_redirect_bar.py", "check"]),
+    # E602 (r1631 bm-b): E599 priced the two ends of every redirect and found nobody compares
+    # them; it never asked what a reader DOES when the target is absent.  Every module that
+    # spells an edge's target is graded on five published flags (opens / existence guard / try
+    # around the load / or-fallback / raise-or-exit) into one class, so "silently reads nothing"
+    # is a named class and not an inference.  The leg refuses a class whose own flags contradict
+    # it and any count that does not re-derive from the published rows.
+    ("redirect_missing_at_read",
+     ["python", "scripts/e602_redirect_missing_at_read.py", "check"]),
+    # E600 (r1629 bm-b): E596 showed the name join is load-bearing where a face states both bars on
+    # different dates -- but that argument only bites if a consumer could join on the date at all.
+    # Every date stated next to a bar name is counted across faces and roles: does the date pick out
+    # one face, several faces under one role, or several faces under several roles?  The leg refuses
+    # a class count that does not re-derive from the published index plus the rows, a row whose own
+    # face_count disagrees with the index, and a verdict the counts do not force.
+    ("date_face_unique",
+     ["python", "scripts/e600_date_face_unique.py", "check"]),
+    # E601 (r1630 bm-b): E597 found the annualisation quadruple carries a bar count and nothing
+    # else, so a duplicated row silently moves a published CAGR -- but nobody asked whether a
+    # witness exists elsewhere, or whether it agrees with the count the face prints.  Every face
+    # that states a bar count is graded by the rows it publishes beside it: are they published at
+    # all, do they already carry a duplicate, and does the count equal the rows or the distinct
+    # rows?  The leg refuses a class/count-match table that does not re-derive from the rows, a
+    # face whose class the rule does not give it, and a verdict the counts do not force.
+    ("dup_witness",
+     ["python", "scripts/e601_dup_witness.py", "check"]),
+    # E604 (r1632 bm-b): E600 showed a bar date is a panel vintage rather than a row, but that only
+    # costs something if a reader addresses a face by date at all.  Every string in the code roots
+    # that carries a file extension AND a real date placeholder (a year directive, a date-word field,
+    # or a strftime/isoformat splice -- a bare %d is a shard index, not a date: E206 family) is
+    # priced against the basenames on disk, and a site whose enclosing function also writes is
+    # published apart from a read site.  The leg refuses a class that does not re-derive from the
+    # published rows, a class whose own flags contradict it, and a verdict the counts do not force.
+    ("date_joined_reader",
+     ["python", "scripts/e604_date_joined_reader.py", "check"]),
+    # E606 (r1633 bm-b): E601 priced a count that disagrees with its own rows, but a disagreement
+    # only costs something if a program ever puts the two numbers together.  Every disagreeing
+    # series is joined to the modules that open its face (E470's opener census, reused), split
+    # producer from consumer, and each (face, reader) pair is graded against the count field and
+    # any row-count predicate.  The leg refuses a series published as disagreeing that agrees, a
+    # class that does not re-derive from its own flags, and any count or verdict that does not
+    # follow the rows.
+    ("count_row_compare",
+     ["python", "scripts/e606_count_row_compare.py", "check"]),
+    # E609 (r1634 bm-b): E606 published faces no literal opens, but said in its own limits that a
+    # glob sweep could still reach them.  Every glob-family call in the corpus is turned into the
+    # pattern(s) it can really use and matched per segment, so a face named only by an ancestor
+    # sweep ('results/**/*.json') is published apart from one whose own directory is named.  The
+    # leg refuses a published naming-segment list the naming rule does not give the pattern, a
+    # depth deeper than the face's own directory list, and any count or verdict the rows do not
+    # force.
+    ("glob_reach",
+     ["python", "scripts/e609_glob_reach.py", "check"]),
+    # E611 (r1635 bm-b): E609 priced how a glob reaches the faces no literal opens, and said
+    # in its own lane note that a landing which never runs again costs nothing.  Every sweeper
+    # module on those faces is joined to the entry files that name it (scheduled task, per-round
+    # chain, smoke leg) -- 0 of 7 are named by any of them, so all 6 faces are swept only by
+    # one-off round scripts.  `check` re-derives every class, count and verdict from the rows.
+    ("sweep_reruns",
+     ["python", "scripts/e611_sweep_reruns.py", "check"]),
+    # E613 (r1636 bm-b): E611 priced the runner for the six own-directory faces and left the other
+    # 76 -- reached only by a pattern naming an ancestor -- unpriced.  Here the same entry-point
+    # question is asked of those faces, with the collapse published beside it: 76 faces rest on 5
+    # landing modules and 2 distinct patterns, all 5 are round scripts nothing names, while one
+    # live-chained study (e396) reaches 54 of the 76 only through a pattern naming nothing.
+    # `check` re-derives every class, count, pattern tally and verdict from the rows.
+    ("ancestor_reruns",
+     ["python", "scripts/e613_ancestor_reruns.py", "check"]),
+    # E615 (r1637 bm-b): E613 priced whether a live sweep reaches the ancestor-only faces but not
+    # what it does with a hit.  Each glob call on the landing modules is resolved to the loop that
+    # consumes it and classified one hop into the body: 9 of 13 calls open what they yield, 3 hand
+    # the path to git plumbing, 3 only read the name -- and the one live sweeper (e396) is in that
+    # last group, so all 76 faces are opened only by sweeps nothing names.  `check` re-derives
+    # every treatment tally, opened flag and verdict from the rows.
+    ("glob_sweep_use",
+     ["python", "scripts/e615_glob_sweep_use.py", "check"]),
 ]
 
 
+def ghost_legs(legs=None):
+    """Legs whose script does not exist on disk.
+
+    D-20261101-13: ``Tools/s6_chain_bmc.py`` registered three commands pointing at
+    ``scripts/etf_book_width_cross.py``, which no commit ever contained, so three machines stayed
+    red in the "chain runner is the shared leg list" smoke leg.  A leg table without an existence
+    assertion is a wish list.  Check at registration time (this module's own table, before any leg
+    runs) so a ghost is a refusal here rather than a red smoke everywhere.
+
+    ``python -m pkg.module`` legs are skipped: their target is a module, not a path.
+    """
+    missing = []
+    for name, cmd in (legs if legs is not None else LEGS):
+        if len(cmd) < 2 or cmd[0] != "python" or cmd[1].startswith("-"):
+            continue
+        if cmd[1] == "-m":
+            continue
+        if not os.path.exists(cmd[1]):
+            missing.append((name, cmd[1]))
+    return missing
+
+
 def main(argv):
-    if not argv:
-        print("usage: s6_chain_bmb.py <round_no>")
+    # --only <name>[,<name>...] runs a subset of legs. r1281 recorded that the absence of this
+    # selector meant the whole chain could not be spot-run inside a round, so a single leg could
+    # only be verified by hand-copying its argv. Filtering here keeps the leg table the single
+    # source of truth: the subset runs exactly the commands the full chain would run.
+    only = None
+    rest = []
+    i = 0
+    while i < len(argv):
+        a = argv[i]
+        if a == "--only":
+            i += 1
+            only = set(x.strip() for x in (argv[i] if i < len(argv) else "").split(",") if x.strip())
+        elif a.startswith("--only="):
+            only = set(x.strip() for x in a.split("=", 1)[1].split(",") if x.strip())
+        else:
+            rest.append(a)
+        i += 1
+    if not rest:
+        print("usage: s6_chain_bmb.py <round_no> [--only leg1,leg2]")
         return 2
-    rnd = str(argv[0])
+    unknown_opts = [a for a in rest if str(a).startswith("-")]
+    if unknown_opts:
+        # r1508 + r1509 both ran the FULL chain because "--leg <name>" fell into `rest` and became
+        # the round number while `only` stayed None.  A typo must not select "everything".
+        print("unknown option(s): %s" % ", ".join(unknown_opts))
+        print("usage: s6_chain_bmb.py <round_no> [--only leg1,leg2]")
+        return 2
+    rnd = str(rest[0])
+    ghosts = ghost_legs()
+    if ghosts:
+        for name, target in ghosts:
+            print("ghost leg registered: %s -> %s (the script does not exist)" % (name, target))
+        print("refusing to run a leg table that names a script no commit contains "
+              "(D-20261101-13: register only what is on disk)")
+        return 2
+    legs = LEGS
+    if only is not None:
+        unknown = sorted(only - {name for name, _cmd in LEGS})
+        if unknown:
+            print("unknown leg(s): %s" % ", ".join(unknown))
+            print("available: %s" % ", ".join(name for name, _cmd in LEGS))
+            return 2
+        legs = [(name, cmd) for name, cmd in LEGS if name in only]
     out = os.path.join("results", "_r%sbmb_s6_chain.json" % rnd)
     rows = []
     t0 = time.time()
-    for leg, cmd in LEGS:
+    for leg, cmd in legs:
         s = time.time()
         try:
             p = subprocess.run(cmd, capture_output=True, text=True,
