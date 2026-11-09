@@ -315,9 +315,9 @@
  "decisions_sha": "451b86003bc7afac",
  "decisions_watermark": "abd700a9e1ec0ce2",
  "decisions_watermark_note": "fetch rc!=0 (cannot lock refs/remotes/origin/main); read origin/main:docs/decisions.md from the existing ref, 239 lines, newest D-20261104-01/02, bigmoney rows = no-op",
- "delivery": "752e958a687928626fd6c889b458f7068869b623",
- "delivery_branch": "machine/bm-b-r1623",
- "delivery_note": "git ls-remote origin refs/heads/machine/bm-b-r1514 == HEAD",
+ "delivery": "3b37711ed02de1e3cc11657c0453eb1142ce409f",
+ "delivery_branch": "machine/bm-b-r1641",
+ "delivery_note": "git ls-remote origin refs/heads/machine/bm-b-r1641 equals local HEAD",
  "delivery_r1472": {
   "behind_origin_main": 295,
   "branch": "machine/bm-b-r1472",
@@ -331,9 +331,9 @@
   "ts": "2026-11-06T10:21:48+08:00",
   "verified": true
  },
- "delivery_sha": "0c0c62dc9591878592eae30de0ed99dd6dc9204c",
+ "delivery_sha": "3b37711ed02de1e3cc11657c0453eb1142ce409f",
  "delivery_sha_local": "b58b5a1c0d818a102af0958dc99d6160a44da7a8",
- "delivery_ts": "2026-11-09T07:15:00+08:00",
+ "delivery_ts": "2026-11-09T20:06:00+08:00",
  "delivery_verified": true,
  "dept": "research+engineering",
  "did": "E623 burned (34 live dead face-key lines in 29 holders across 26 modules: 6 superseded duplicate / 7 read-only-before / 0 all-dead / 21 only-read); runner selftest 22/22; smoke leg green + red under --doctor; S6 leg deadline_key_use rc0; pool E623 done + E624 seeded; dualrun ZERO-DRIFT streak 32; attrition CLEAN; orphans 0",
@@ -457,9 +457,9 @@
  "last_orders_sha_recipe": "sha256 of git cat-file blob origin/main:docs/orders.md",
  "last_orders_watermark": "4348aa21bc8f",
  "last_product": "results/state_tilt/ONEHOPOUT-2026-11-08.json",
- "last_push": "machine/bm-b-r1564",
- "last_push_at": "2026-11-09T07:09:00+08:00",
- "last_push_sha": "bd9248a669bb3ad9f25f6edf00b5919622c98310",
+ "last_push": "machine/bm-b-r1641",
+ "last_push_at": "2026-11-09T20:06:00+08:00",
+ "last_push_sha": "3b37711ed02de1e3cc11657c0453eb1142ce409f",
  "last_push_ts": "2026-11-09T07:09:00+08:00",
  "last_round": "r1641",
  "last_round_at": "2026-11-09T19:58:00+08:00",
@@ -6336,10 +6336,11 @@
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": "r1641",
  "round_delivery": {
-  "branch": "machine/bm-b-r1634",
-  "main_push_blocker": "local main runs 470 behind / 781 ahead of origin/main across two blood lines on a promisor clone (r1243) -- the machine branch is the delivery channel",
-  "sha": "ec8de5188ec41ed07e4e031be055a6c27208e1f7",
-  "verified": true
+  "branch": "machine/bm-b-r1641",
+  "sha": "3b37711ed02de1e3cc11657c0453eb1142ce409f",
+  "ts": "2026-11-09T20:06:00+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1641 equals local HEAD",
+  "main_push_blocker": "local main runs many commits ahead/behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel"
  },
  "round_entries_tail": "r1619 E592 the ledger's carry reproduces at the printed precision from an origin the face names only as a count",
  "round_entry": {
