@@ -2270,3 +2270,34 @@ CEO 一页纸与执行单（同一个读者件） | 最近实物: `results/etf_b
 **计分：2**（一件能跑实物：`etf_book_vol_target_gate.py` 填补了 canonical 链上从未执行过的一条腿，selftest 9/9 + 实跑可复现判决；一处能跑改正：lane 所有权判定把「有副本」与「旧封套」从「双写者」里分出来，附带 5 条自检腿）
 
 | [via bm-a r1274] |
+
+## r1275 — smoke 465/469（4 FAIL，其中 2 条属他机车道/落后 origin），CEO 一页纸风险带重新对上四条前向池面板
+
+- **当前活**：S1 修红 —— 本轮把「CEO 页风险带停在旧数」与「面板块与所有权声明不一致」两条红腿治绿
+- **最近实物**：`docs/live_usage/LIVE-2026-11-09.md`（+ .json 孪生 + LIVE-latest 指针）、`results/dashboard_status.json/.js` 重建 @ 2026-11-09T20:5x
+- **下个里程碑**：面板 holder count 人读行补齐（本机可动）；k 写入时序归 bm-c 车道；窗 ≤24h
+
+### 做了什么
+
+1. **`product: the CEO page carries today's market risk tape` → 治绿（重算，不改判据）**。一页纸风险带四数落后前向池面板（旧 32/15）。跑 `scripts/ceo_live_usage.py` 全量重算：cutoff 2026-10-29，涨停 39 / 跌停 41 / 炸板 25 / 强势 119，封板率 60.9%，连板梯队 1板29 / 2板6 / 3板2 / 4板2。`selftest` ALL PASS（含「与每日战报§九同实现」交叉面腿与「md 渲染存在」腿）。
+2. **`product: the row the 11-08 enable decision reads agrees with the declaration` → 治绿（重建面，不改断言）**。该腿对读 `lane_ownership_declaration.build()` 实时 summary 与 `results/dashboard_status.json` 的面板块；面板块停在上一版（verdict=OWNERSHIP_CONFLICT / unobserved 7 / by_host 缺 minute_feed）。`python -m monitor.build_status` 重建后：verdict=OWNERSHIP_UNIQUE、15 lanes / 15 owned、declared_but_unobserved 8（含已退役的 options）、live 7、by_host={bm-c: ths_panel/ah_panel/sina_mf/zt_pool/minute_feed/lhb_inst, bm-b: marks}，与独立复算逐项相等（BH_OK=True）。
+3. **S6 实况腿**：`orphan_face_probe` 孤儿面=0；`py_watermark probe` verdict=insufficient_history（local_batch_running=true＝smoke 在跑，非违令）；orders 差集扫描 114 件全已回执（unacked=[]）。
+
+### 没做完（如实）
+
+- **`product: etf_book_cut_order_gap`**：本机落后 origin 9 个 commit（bm-c 已 r1478），该腿脚本与发布面在远端，本地缺件 → FAIL 属「面在旧世界」，非本机可修。
+- **`product: the executable sheet is sized from the account it will trade`**：票面 k=0.390822 vs 账户 k=0.390144（bar 2026-11-06），写者时序缺口；正主是 `scripts/etf_book_order.py`（bm-c 车道，r1471/E477 已记录），本机不越界改。
+- **`fleet: the board page carries the full scan's holder count`**：moneyflow / astock_daily 的人读行未引用 holder count、薄尾未点名。面属本机可动，留作下轮首务。
+- **全量 smoke 未二次复跑**：本轮改动只有两个面重算（一页纸 + 面板），已按各自 selftest 与逐项复算复验；不宣称 469/469。
+
+### 验证
+
+- `python scripts/ceo_live_usage.py selftest` → ALL PASS
+- 一页纸 vs 面板逐池对比：zt 39 / dtgc 41 / zbgc 25 / strong 119，cutoff 2026-10-29 一致
+- `python scripts/lane_ownership_declaration.py run` → OWNERSHIP_UNIQUE 15 lanes / conflicts none
+- `python -m monitor.build_status` → 面板块与 build() 复算逐项相等（verdict / n_owned / retired / by_host 全等）
+- `python -m smoke_test` → **465/469 PASS, 4 FAIL**（上列四条）
+
+**计分：2 分**（一件能看实物：CEO 一页纸风险带重新对上四条前向池面板；一处能跑改正：总控面板面板块由陈旧态重建为与车道所有权声明逐项一致）
+
+| [via bm-a r1275] |
