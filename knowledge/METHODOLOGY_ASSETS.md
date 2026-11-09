@@ -14521,3 +14521,23 @@ esults/state_tilt/DUPWITNESS.json、S6 leg dup_witness、smoke leg E601。坑：
 **How**：问「某个坏形状有没有代价」时，先问它的宿主**会不会被执行**；把可达性写成「根 + 边 + 闭包」，按路径形状分档并逐档给证据；每档都要有一条能返红的夹具腿；「没跟的结构」（dict 表 / getattr / 跨模块导入）一律带计数发布，把结论写成上界而不是判决。
 
 **证据** = `scripts/e622_deadlocal_reach.py`（selftest **34/34**，run/check/verify problems=[]）、`results/state_tilt/DEADLOCALREACH-2026-11-09.json`（+`deadlocalreach_latest.json`）、`scripts/run_e622_smoke_leg.py`（PASS，`--doctor` 1/1 红且面字节还原）、smoke_test.py leg E622、S6 leg `dead_local_reach`、POOL E621 done → E623 seeded。
+
+## E623 · 一条“死行”不等于一个“没人读的键”：34 条活死行里只有 6 条是重复读、21 条才是真正被丢下的值（r1641 bm-b·2026-11-09）
+> 卡号=E623（POOL 卡号同为 E623，研究号=E623）。
+
+**问题**：E619 量的是“从面的键赋值给局部量、之后再没读过”，E622 又证明这些行里 34 条坐在会跑的函数里。但 E619 的判据是“赋值后无 load”——它看不见**同一个键在同一个函数里别处还被读过**。所以本张不问“有多少条”，问：**这条死行的键，在它自己的函数里还被读吗？在读的话是在它之前还是之后？**
+
+**读数**（`results/state_tilt/DEADLINEKEYUSE-2026-11-09.json`，cutoff 2026-11-09；母体=E622 的活持有者，import 进来不重实现；1,095 个模块，自排除 14）：
+- **34 条活死 facekey 行，分四档**：**6 条 superseded_duplicate_read**（键在死行**之后**还有一次活读——重构留下的重复读）、**7 条 key_read_only_before_the_dead_line**（键只在**更早**的行被读过——循环携带形状，E619 的“赋值后无 load”会把这种行误判成死）、**0 条 only_other_reads_are_dead_too**、**21 条 only_read_of_that_key_in_the_function**（这个键在整个函数里就这一次读——**真正被取走又丢掉的值**）。
+- 另有 2 条死行在惰性持有者里，不在本问射程。
+- 34 条行分布在 **29 个活函数 / 26 个模块**；其中 **23 条的键在同一模块的别的函数里也被读**——所以“函数内没人读”不等于“模块内没人读”。
+- 交查 E622：重新解析出的活持有者 29 / 活死行 34，与 E622 出版面**逐持有者行数相等**（差异 0）。
+- 标尺要紧：**“有重复读的行”13 条 > “superseded”6 条**——两者不是同一个量；13 里 7 条是把“之前读过”算进来了。
+
+**研究**：判据必须问**位置**，不能只问“存在与否”。同一函数里“键被读过”有三种命运：之后还读（重复读，删掉死行不影响行为）、之前读过（循环携带，删除会改变第一次迭代）、只有这一次（删掉就是丢值）。首版只做“有没有别的读”，会把三者揉成一档。
+
+**教训**：①“无人读”是一个位置性判断，不是一个布尔存在性判断——必须报读发生在死行之前还是之后；②被继承的未完成电（上一轮 19:34 出的面、19:35 才改完脚本）**面比脚本旧**：重建后判决从 `13_of_34` 变 `6_of_34`，旧面作废——继承遗产一律重跑道闸，不信字节时间戳；③E619/E622 的判据是“赋值后无 load”，实现上就等于把 loop-carried 读算成死——凡沿用它算“死行数”的产品，都要在面上注明这一档的占比。
+
+**How**：问“这个量是不是没人用”时，把“用”拆成**同一作用域内的位置序列**（之前/之后/唯一），并逐档给计数；被继承的产物先重跑再引用；每个档位配一条能返红的夹具腿。
+
+**证据** = `scripts/e623_deadline_key_use.py`（selftest **22/22**，run/check/verify problems=[]）、`results/state_tilt/DEADLINEKEYUSE-2026-11-09.json`（+ `deadlinekeyuse_latest.json`）、`scripts/run_e623_smoke_leg.py`（1/1 PASS，`--doctor` 1/1 红且面字节还原）、smoke_test.py leg E623、S6 leg `deadline_key_use`、POOL E623 done → E624 seeded。

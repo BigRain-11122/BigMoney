@@ -26463,5 +26463,82 @@ except Exception as _e622x:
     _d622 = "study could not be read"
 check(_name622, not _bad622, "; ".join(_bad622)[:240] or _d622)
 
+# E623: E622 left 34 dead face-key lines in live holders.  E623 asks the local question E619's rule
+# cannot see: is the same key read anywhere else in the SAME function?  13 of the 34 lines do carry
+# another read of their key in their own function, but only 6 read it after the dead line (a
+# superseded duplicate) while 7 read it only before it -- the loop-carried shape "no load after the
+# assignment" marks dead -- so a dead line is not the same thing as an unread key.  0 lines read the
+# key more than once with every read itself dead, and 21 are the only read of that key in the
+# function.  The leg re-reads the published face, re-derives every class count from the line rows,
+# re-asks the verdict, requires the classes to add up to the published line total, requires the E622
+# cross-check to still agree, excludes this study from its own population, and pins the E617 anchor
+# holder.
+_name623 = "E623 whether a live dead line's key is read anywhere else in its own function (r1641 bm-b)"
+_bad623 = []
+_d623 = "no reading"
+try:
+    _f623 = json.load(open(os.path.join("results", "state_tilt", "deadlinekeyuse_latest.json"),
+                           encoding="utf-8"))
+    _m623 = importlib.import_module("e623_deadline_key_use")
+    _bad623.extend(_m623.face_problems(_f623))
+    _c623 = _f623.get("counts") or {}
+    _rows623 = _f623.get("lines") or []
+    _again623 = _m623.derive_verdict({
+        "population_modules": _c623.get("population_modules"),
+        "lines": _rows623,
+        "inert_dead_facekey_lines": _c623.get("inert_dead_facekey_lines"),
+        "skipped": [None] * (_c623.get("skipped_modules") or 0)})
+    if _again623 != _f623.get("verdict"):
+        _bad623.append("the published verdict is not what the line rows force (%r)" % _again623)
+    _sum623 = sum(_c623.get("class_" + _cl, 0) for _cl in _m623.CLASSES)
+    if _sum623 != _c623.get("live_dead_facekey_lines", -1):
+        _bad623.append("the class counts (%r) do not add up to the published live line count (%r)"
+                       % (_sum623, _c623.get("live_dead_facekey_lines")))
+    if _c623.get("class_superseded_duplicate_read", 0) > \
+            _c623.get("lines_with_a_duplicate_read_in_the_same_function", -1):
+        _bad623.append("more superseded duplicates than lines that carry a duplicate read at all")
+    if not _rows623:
+        _bad623.append("the face publishes no line at all, yet the study exists")
+    for _r623 in _rows623:
+        if not (isinstance(_r623.get("key"), str) and _r623.get("key")):
+            _bad623.append("line %r in %r publishes no literal key"
+                           % (_r623.get("line"), _r623.get("function")))
+            break
+        if _r623.get("reads_of_the_key_in_the_function") != \
+                len(_r623.get("other_read_lines") or []) + 1:
+            _bad623.append("line %r in %r publishes %r reads but %d other read lines"
+                           % (_r623.get("line"), _r623.get("function"),
+                              _r623.get("reads_of_the_key_in_the_function"),
+                              len(_r623.get("other_read_lines") or [])))
+            break
+    _self623 = [r.get("module") for r in _rows623
+                if r.get("module") and r["module"].split("/")[-1] in _m623.SELF_PARTS]
+    if _self623:
+        _bad623.append("this study lists itself as a holder module: %s" % ", ".join(_self623))
+    _cc623 = _f623.get("e622_cross_check") or {}
+    if _cc623.get("published") is False:
+        _bad623.append("the E622 cross-check did not read a published face")
+    elif _cc623.get("agrees") is False:
+        _bad623.append("the imported E622 population no longer reproduces its published face")
+    _anchor623 = [r for r in _rows623
+                  if (r.get("module") or "").endswith("e396_face_basename_suffix.py")
+                  and r.get("function") == "derive_verdict"]
+    if not _anchor623:
+        _bad623.append("the E617 anchor holder is missing from the population")
+    _d623 = ("lines=%s holders=%s modules=%s superseded=%s before_only=%s all_dead=%s "
+             "only_read=%s in_module=%s verdict=%s"
+             % (_c623.get("live_dead_facekey_lines"), _c623.get("live_holder_functions"),
+                _c623.get("modules_with_a_live_dead_facekey_line"),
+                _c623.get("class_superseded_duplicate_read"),
+                _c623.get("class_key_read_only_before_the_dead_line"),
+                _c623.get("class_only_other_reads_are_dead_too"),
+                _c623.get("class_only_read_of_that_key_in_the_function"),
+                _c623.get("lines_whose_key_is_read_elsewhere_in_the_module"),
+                _f623.get("verdict")))
+except Exception as _e623x:
+    _bad623.append(repr(_e623x)[:160])
+    _d623 = "study could not be read"
+check(_name623, not _bad623, "; ".join(_bad623)[:240] or _d623)
+
 if __name__ == "__main__":
     sys.exit(main())

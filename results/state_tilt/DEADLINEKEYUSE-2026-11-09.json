@@ -1,0 +1,618 @@
+{
+ "study": "E623_live_dead_line_key_use",
+ "script": "scripts/e623_deadline_key_use.py",
+ "evidence_cutoff": "2026-11-09",
+ "dept": "research+engineering",
+ "method": "take E622's live holders (imported: call graph, reach class and the E619 dead-line classifier are not re-implemented), resolve each dead face-key line to its innermost enclosing definition, and ask whether any other expression in that same function body reads the same string key as a subscript or a .get() call; reads inside a nested definition are a different scope and are not counted",
+ "population_source": "scripts/*.py (AST) via e619.population, face publishers only, less E622's and this study's self-exclusion sets",
+ "counts": {
+  "population_modules": 1095,
+  "skipped_modules": 14,
+  "live_holder_functions": 29,
+  "modules_with_a_live_dead_facekey_line": 26,
+  "live_dead_facekey_lines": 34,
+  "inert_dead_facekey_lines": 2,
+  "lines_whose_key_is_read_elsewhere_in_the_module": 23,
+  "lines_with_a_duplicate_read_in_the_same_function": 13,
+  "class_superseded_duplicate_read": 6,
+  "class_key_read_only_before_the_dead_line": 7,
+  "class_only_other_reads_are_dead_too": 0,
+  "class_only_read_of_that_key_in_the_function": 21
+ },
+ "e622_cross_check": {
+  "published": true,
+  "agrees": true,
+  "published_live_holders": 29,
+  "published_live_dead_facekey_lines": 34,
+  "rederived_live_holders": 29,
+  "rederived_live_dead_facekey_lines": 34,
+  "holders_with_differing_line_counts": [],
+  "holders_with_differing_line_counts_n": 0,
+  "holders_only_here": [],
+  "holders_only_in_the_published_face": []
+ },
+ "lines": [
+  {
+   "module": "scripts/backfill_heat_history.py",
+   "function": "validate_rows",
+   "def_line": 136,
+   "line": 144,
+   "local": "prev",
+   "key": "date",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    142,
+    143
+   ],
+   "key_read_elsewhere_in_the_module": 6
+  },
+  {
+   "module": "scripts/cn_core_ddctl_p1.py",
+   "function": "run",
+   "def_line": 341,
+   "line": 367,
+   "local": "P_DAYS",
+   "key": "days",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 2,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    395
+   ],
+   "key_read_elsewhere_in_the_module": 4
+  },
+  {
+   "module": "scripts/cn_core_ddctl_p1.py",
+   "function": "selftest",
+   "def_line": 822,
+   "line": 954,
+   "local": "P_DAYS",
+   "key": "days",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 5
+  },
+  {
+   "module": "scripts/cn_core_sat_p1.py",
+   "function": "_bind_panel",
+   "def_line": 333,
+   "line": 335,
+   "local": "SIG",
+   "key": "sig",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0
+  },
+  {
+   "module": "scripts/cn_core_sat_p1.py",
+   "function": "_bind_panel",
+   "def_line": 333,
+   "line": 336,
+   "local": "MA",
+   "key": "ma",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0
+  },
+  {
+   "module": "scripts/cn_core_sat_p1.py",
+   "function": "_bind_panel",
+   "def_line": 333,
+   "line": 337,
+   "local": "CL",
+   "key": "cl_sat",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0
+  },
+  {
+   "module": "scripts/cn_kline_pattern_p1.py",
+   "function": "cmd_selftest",
+   "def_line": 1114,
+   "line": 1187,
+   "local": "ms_cal",
+   "key": "cal",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 3
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "simulate",
+   "def_line": 493,
+   "line": 507,
+   "local": "slip_exec",
+   "key": "slip_exec",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    589,
+    593
+   ],
+   "key_read_elsewhere_in_the_module": 2
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "cmd_selftest",
+   "def_line": 1303,
+   "line": 1315,
+   "local": "BARS",
+   "key": "bars",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0
+  },
+  {
+   "module": "scripts/cn_sector_leader_p1.py",
+   "function": "cmd_selftest",
+   "def_line": 1399,
+   "line": 1411,
+   "local": "BARS",
+   "key": "bars",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0
+  },
+  {
+   "module": "scripts/cn_trend_etf_p1.py",
+   "function": "virtual_starts",
+   "def_line": 745,
+   "line": 749,
+   "local": "days",
+   "key": "idx",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 5
+  },
+  {
+   "module": "scripts/decision_chain_e2e.py",
+   "function": "_agg_arm",
+   "def_line": 310,
+   "line": 332,
+   "local": "last",
+   "key": "regime",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    323,
+    330
+   ],
+   "key_read_elsewhere_in_the_module": 1
+  },
+  {
+   "module": "scripts/decision_chain_v2.py",
+   "function": "_agg",
+   "def_line": 498,
+   "line": 520,
+   "local": "last",
+   "key": "regime",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    511,
+    518
+   ],
+   "key_read_elsewhere_in_the_module": 1
+  },
+  {
+   "module": "scripts/decision_chain_v2.py",
+   "function": "backfill_prereg",
+   "def_line": 811,
+   "line": 823,
+   "local": "jt",
+   "key": "j_target",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 2
+  },
+  {
+   "module": "scripts/divlowvol_nulls_face.py",
+   "function": "verdict_of",
+   "def_line": 78,
+   "line": 83,
+   "local": "z",
+   "key": "z",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 4
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "def_line": 266,
+   "line": 332,
+   "local": "e377_pub_verdict",
+   "key": "verdict",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    284,
+    350
+   ],
+   "key_read_elsewhere_in_the_module": 2
+  },
+  {
+   "module": "scripts/e396_face_basename_suffix.py",
+   "function": "derive_verdict",
+   "def_line": 431,
+   "line": 437,
+   "local": "census",
+   "key": "basename_census",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 4
+  },
+  {
+   "module": "scripts/e502_bom_census.py",
+   "function": "population",
+   "def_line": 585,
+   "line": 588,
+   "local": "boms",
+   "key": "canonical_bom",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 3
+  },
+  {
+   "module": "scripts/e504_name_compose.py",
+   "function": "selftest",
+   "def_line": 853,
+   "line": 879,
+   "local": "rows",
+   "key": "rows",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 2,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    919
+   ],
+   "key_read_elsewhere_in_the_module": 3
+  },
+  {
+   "module": "scripts/e505_unmeasured_reach.py",
+   "function": "_answers",
+   "def_line": 421,
+   "line": 422,
+   "local": "by_class",
+   "key": "by_class",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0
+  },
+  {
+   "module": "scripts/e507_unresolved_origin.py",
+   "function": "build",
+   "def_line": 733,
+   "line": 736,
+   "local": "up",
+   "key": "upstream",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0
+  },
+  {
+   "module": "scripts/e584_ledger_bar_accrual.py",
+   "function": "ladder_check",
+   "def_line": 169,
+   "line": 184,
+   "local": "prev_cash",
+   "key": "cash",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 2,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    183
+   ],
+   "key_read_elsewhere_in_the_module": 4
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "function": "face_problems",
+   "def_line": 344,
+   "line": 364,
+   "local": "prev_key",
+   "key": "bar",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 5,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    362,
+    367,
+    372,
+    377
+   ],
+   "key_read_elsewhere_in_the_module": 3
+  },
+  {
+   "module": "scripts/e97_routing.py",
+   "function": "count_witness_sweep",
+   "def_line": 4244,
+   "line": 4296,
+   "local": "missed",
+   "key": "witnessed_measurement_named_word_missed",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 2
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "def_line": 358,
+   "line": 393,
+   "local": "src",
+   "key": "x1",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 6,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    414,
+    424,
+    437,
+    438,
+    444
+   ],
+   "key_read_elsewhere_in_the_module": 5
+  },
+  {
+   "module": "scripts/innovation_quota_w8.py",
+   "function": "arm_series",
+   "def_line": 351,
+   "line": 382,
+   "local": "prev",
+   "key": "wA",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 2,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    381
+   ],
+   "key_read_elsewhere_in_the_module": 0
+  },
+  {
+   "module": "scripts/mass_trial_w1.py",
+   "function": "draw_valid",
+   "def_line": 369,
+   "line": 371,
+   "local": "r",
+   "key": "ranges",
+   "reach": "reachable_through_a_registry_handoff",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 3
+  },
+  {
+   "module": "scripts/perpetual_faces_n1.py",
+   "function": "_set_wave",
+   "def_line": 14167,
+   "line": 14175,
+   "local": "BATCH",
+   "key": "batch",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 2
+  },
+  {
+   "module": "scripts/perpetual_faces_n1.py",
+   "function": "_set_wave",
+   "def_line": 14167,
+   "line": 14176,
+   "local": "PREREG",
+   "key": "prereg",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0
+  },
+  {
+   "module": "scripts/perpetual_faces_n1.py",
+   "function": "_set_wave",
+   "def_line": 14167,
+   "line": 14177,
+   "local": "A_SEED_BASE",
+   "key": "a_seed_base",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 948
+  },
+  {
+   "module": "scripts/perpetual_faces_n1.py",
+   "function": "_set_wave",
+   "def_line": 14167,
+   "line": 14178,
+   "local": "B_EXIT_SEED_BASE",
+   "key": "b_exit_seed_base",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 952
+  },
+  {
+   "module": "scripts/regime5_validation.py",
+   "function": "perm_nulls",
+   "def_line": 158,
+   "line": 175,
+   "local": "mu",
+   "key": "unconditional_mean",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0
+  },
+  {
+   "module": "scripts/regime_gate_dualarm.py",
+   "function": "validate_contract",
+   "def_line": 112,
+   "line": 138,
+   "local": "prev",
+   "key": "date",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    128,
+    135
+   ],
+   "key_read_elsewhere_in_the_module": 5
+  },
+  {
+   "module": "scripts/t28_stable_profit.py",
+   "function": "_grid_unit",
+   "def_line": 188,
+   "line": 216,
+   "local": "last",
+   "key": "segment",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 2,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    214
+   ],
+   "key_read_elsewhere_in_the_module": 0
+  }
+ ],
+ "skipped": [
+  {
+   "module": "scripts/e231_band_path_test.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e243_additivity_out_of_sample.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e280_e251_rng_drift_repin.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e308_leg_vs_producer_tolerance.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e371_one_store_member.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e387_republish_audit.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e394_phantom_why.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e429_two_hop_writer.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e335_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e349_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e353_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e463_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/t11_negday_ic.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/update_etf_universe.py",
+   "why": "SyntaxError"
+  }
+ ],
+ "limits": [
+  "the key has to be a literal string; a key held in a variable is the same blind spot E619 has, so a line whose key is computed is published as its literal only",
+  "a read counts when it indexes the same literal key, whatever the object: m[\"k\"] on a different dict in the same function would satisfy the duplicate test -- the population is small enough (34 lines) that each row carries the key and its other read lines for a reader to check",
+  "reads inside a nested function definition are not counted for the outer function, while E619's dead-local test does count a load in a nested scope; the two rules differ on purpose and the conflict is one-directional (E619's is more permissive about what makes a local live)",
+  "reachability is E622's measurement inside one module; a holder called only by an importer is outside both studies",
+  "this script excludes itself and its smoke leg, and keeps E622's self-exclusion set, so the population is the one E622 published"
+ ],
+ "verdict": "6_of_34_live_dead_facekey_lines_have_a_live_sibling_read_of_their_key_in_the_same_function",
+ "answer": "of E622's 34 dead face-key lines in live holders, 6 are read again on a later line of the same function (a superseded duplicate read), 7 are read again but only on earlier lines (the loop-carried shape E619's 'no load after the assignment' rule cannot see), 0 read the key more than once with every read itself dead, and 21 are the only read of that key in the function; the 34 lines sit in 29 live holder functions across 26 modules, 23 of their keys are also read in another function of the same module, and 2 dead face-key lines sit in an inert holder and are outside this question"
+}

@@ -1341,6 +1341,15 @@ LEGS = [
     # the live/inert split (no corpus walk, ~1s).
     ("dead_local_reach", ["python", "scripts/e622_deadlocal_reach.py", "verify"]),
 
+    # E623 asks the local question E619's rule cannot see: a dead line assigns a face key to a local
+    # that is never read again, but is that same KEY read anywhere else in the SAME function?  13 of
+    # the 34 live dead face-key lines do carry another read of their key in their own function, but
+    # only 6 read it after the dead line (a superseded duplicate) while 7 read it only before it --
+    # the loop-carried shape "no load after the assignment" marks dead -- 0 read it more than once
+    # with every read itself dead, and 21 are the only read of that key in the function.  Verify
+    # re-derives every class count from the line rows and re-asks the verdict (no corpus walk).
+    ("deadline_key_use", ["python", "scripts/e623_deadline_key_use.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names
