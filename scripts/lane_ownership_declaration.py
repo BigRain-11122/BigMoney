@@ -116,6 +116,18 @@ def declare(rows, cfg, defaults, hosts=None, lane_to_writer=None):
                           and takeover_by == observed
                           and r.get("authority") == "declared_takeover")
         host_face = hosts.get(declared) or {}
+
+        # r1274: "the data sits on my disk" is not "I am writing this lane" (E256 family,
+        # second face). data_lane_freshness publishes `non_host_copy` for a lane whose
+        # panel this machine merely holds a local copy of -- its own `why` sentence says
+        # exactly that -- and reading that as an observed writer turned a machine that
+        # HOLDS a copy into an ownership conflict. Only an ENVELOPE testifies about a
+        # writer; a copy testifies about a disk. The copy is still published (copy_face),
+        # it just stops counting as somebody else writing the lane.
+        evidence = r.get("authority")
+        copy_face = observed if evidence in COPY_EVIDENCE else None
+        if evidence in COPY_EVIDENCE:
+            observed = None
         if retired:
             verdict = "RETIRED"
         elif not declared:
@@ -123,7 +135,11 @@ def declare(rows, cfg, defaults, hosts=None, lane_to_writer=None):
         elif taken_over:
             verdict = "DECLARED_TAKEOVER"
         elif observed and declared and observed != declared:
-            verdict = "TWO_WRITERS"
+            # An envelope written by a non-host is a STALE ENVELOPE (a former owner's
+            # leftover) until something proves the declared host is writing too. Calling
+            # it TWO_WRITERS states that two machines are active, which no row here shows.
+            verdict = ("STALE_ENVELOPE" if evidence == "non_host_envelope"
+                       else "TWO_WRITERS")
         elif observed and observed == declared:
             verdict = "DECLARED_AND_OBSERVED"
         else:
@@ -137,6 +153,7 @@ def declare(rows, cfg, defaults, hosts=None, lane_to_writer=None):
             "source_divergence": bool(cfg_host and writer and cfg_host != writer),
             "observed_writer": observed,
             "observed_how": r.get("authority"),
+            "copy_face": copy_face,
             "observation": r.get("verdict"),
             "host_alive": host_face.get("alive"),
             "host_age_h": host_face.get("age_h"),
@@ -148,6 +165,11 @@ def declare(rows, cfg, defaults, hosts=None, lane_to_writer=None):
 
 OWNERSHIP_KEYS = ("lane", "declared_host", "authority", "code_default", "config_value",
                   "source_divergence")
+
+# Evidence kinds that testify about a WRITER (an envelope someone signed) versus about a
+# DISK (a copy this machine happens to hold). r1274: only the first can contradict a
+# declared host; the second is a data-location fact and belongs to the freshness board.
+COPY_EVIDENCE = ("host_copy", "non_host_copy")
 
 
 def _ownership(rows):
@@ -198,6 +220,11 @@ def summarize(rows):
     unobserved = [r["lane"] for r in live if r["verdict"] == "DECLARED_ONLY"]
     taken = {r["lane"]: r.get("declared_takeover_by") for r in live
              if r["verdict"] == "DECLARED_TAKEOVER"}
+    # A leftover envelope from a former owner is not an ownership conflict (nobody claims
+    # that lane twice) but it IS a named debt: the sheet a reader would audit prefers the
+    # declared host's copy, and until the host rewrites it the two can disagree silently.
+    stale = {r["lane"]: r.get("observed_writer") for r in live
+             if r["verdict"] == "STALE_ENVELOPE"}
     return {
         "n_lanes": len(rows),
         "n_owned": len([r for r in live if r["declared_host"]]),
@@ -205,6 +232,7 @@ def summarize(rows):
         "config_overrides_code": diverged,
         "declared_but_unobserved": unobserved,
         "declared_takeover_lanes": taken,
+        "stale_envelopes": stale,
         "verdict": ("OWNERSHIP_CONFLICT" if conflicts else "OWNERSHIP_UNIQUE"),
     }
 
@@ -389,6 +417,32 @@ def selftest():
     dropped = json.loads(json.dumps(d))[1:]
     chk(check_payload(pub, {"lanes": dropped})[0] == 1,
         "a missing lane still fails the gate")
+
+    # r1274, live-fire 2026-11-09: two lanes read TWO_WRITERS purely because this machine
+    # held a local COPY (minute_feed, authority=non_host_copy) or a former owner's
+    # ENVELOPE (etf_panel, authority=non_host_envelope). Neither is two machines writing.
+    rows3 = [
+        {"lane": "minute_feed", "writer": "update_minute_feed", "reported_by": "bm-a",
+         "verdict": "unverifiable", "authority": "non_host_copy"},
+        {"lane": "etf_panel", "writer": "update_etf_daily", "reported_by": "bm-a",
+         "verdict": "unverifiable", "authority": "non_host_envelope"},
+        {"lane": "etf_panel2", "writer": "update_etf_daily", "reported_by": "bm-a",
+         "verdict": "ok", "authority": "host_envelope"},
+    ]
+    cfg3 = {"update_minute_feed": "bm-c", "update_etf_daily": "bm-c", "etf_panel2": "bm-c"}
+    d3 = dict((x["lane"], x) for x in declare(rows3, cfg3, {}, hosts))
+    chk(d3["minute_feed"]["verdict"] == "DECLARED_ONLY",
+        "a machine holding a COPY is not a second writer (r1274)")
+    chk(d3["minute_feed"]["copy_face"] == "bm-a" and d3["minute_feed"]["observed_writer"] is None,
+        "the copy is still published, it just stops counting as a writer (r1274)")
+    chk(d3["etf_panel"]["verdict"] == "STALE_ENVELOPE",
+        "a former owner's leftover envelope is STALE_ENVELOPE, not TWO_WRITERS (r1274)")
+    chk(d3["etf_panel2"]["verdict"] == "TWO_WRITERS",
+        "an ENVELOPE from a non-host is still an ownership conflict (r1274 kept the narrow case)")
+    s3 = summarize(list(d3.values()))
+    chk(s3["conflict_lanes"] == ["etf_panel2"] and s3["stale_envelopes"] == {"etf_panel": "bm-a"},
+        "stale envelopes are named on their own line, not counted as conflicts (r1274)")
+
     print("SELFTEST " + ("OK" if ok else "FAILED"))
     return 0 if ok else 1
 
