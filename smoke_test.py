@@ -6005,6 +6005,72 @@ def main() -> int:
     except Exception as e:
         check("product: the dashboard says which bar the three papers were priced on",
               False, repr(e)[:160])
+    # ---- r1478: the band is on the sheet, and its zone is re-derivable -----------------
+    # A verdict printed next to a number is only worth what lets a reader re-derive it.
+    # This leg recomputes the zone from the ticket's own three k values against the band
+    # the prereg publishes, so a hand-edited word cannot survive, and it demands the two
+    # numbers that make the band non-arbitrary (warn = 2 x the noise-derived inside line).
+    try:
+        _bad50 = []
+        _tp50 = os.path.join(PATHS.results_dir, "etf_book_order",
+                             "TICKET-2026-11-06.json")
+        _pp50 = os.path.join(PATHS.results_dir, "etf_book_sizing_prereg.json")
+        _op50 = os.path.join(PATHS.results_dir, "etf_book_order", "ORDER-2026-11-06.md")
+        if not os.path.exists(_tp50):
+            _bad50.append("ticket json missing")
+        else:
+            _t50 = json.load(open(_tp50, encoding="utf-8"))
+            _b50 = _t50.get("size_band") or {}
+            _pre50 = json.load(open(_pp50, encoding="utf-8")) if os.path.exists(_pp50) else {}
+            _band50 = (_pre50 or {}).get("band") or {}
+            if not _b50:
+                _bad50.append("the ticket carries no size_band block")
+            elif _b50.get("status") != "ok":
+                _bad50.append("size_band unreadable: %s" % _b50.get("sentence"))
+            else:
+                for _k50 in ("issued_k", "fresh_k", "ticket_k"):
+                    if _b50.get(_k50) is None:
+                        _bad50.append("%s missing -- a band decided on a number the sheet "
+                                      "does not print" % _k50)
+                if not _bad50:
+                    _d50 = abs(float(_b50["fresh_k"]) - float(_b50["issued_k"])) * 100.0
+                    _g50 = abs(float(_b50["ticket_k"]) - float(_b50["issued_k"])) * 100.0
+                    _w50 = max(_d50, _g50)
+                    _in50 = float(_b50["band"]["inside_pp"])
+                    _wn50 = float(_b50["band"]["warn_pp"])
+                    _z50 = ("inside" if _w50 <= _in50
+                            else "warn" if _w50 <= _wn50 else "outside")
+                    if _z50 != _b50.get("zone"):
+                        _bad50.append("the printed zone %r is not what its own distances "
+                                      "give (%r at %.3fpp)"
+                                      % (_b50.get("zone"), _z50, _w50))
+                    if abs(_in50 - (float(_band50.get("inside_pp") or -1))) > 1e-9:
+                        _bad50.append("inside_pp %.2f is not the prereg's own value" % _in50)
+                    if abs(_wn50 - 2.0 * _in50) > 1e-9:
+                        _bad50.append("the warn line is not 2 x the noise-derived inside line")
+                    if _b50.get("receipt") and _b50.get("zone") != "outside":
+                        _bad50.append("a re-issue list printed for a zone that is not outside")
+            if not os.path.exists(_op50):
+                _bad50.append("ORDER md missing")
+            else:
+                with open(_op50, encoding="utf-8") as _fh50:
+                    _md50 = _fh50.read()
+                if "离签发的尺子有多远" not in _md50:
+                    _bad50.append("the sheet does not carry the band section")
+                if "只读" not in _md50:
+                    _bad50.append("the sheet does not say the band does not change k")
+        check("product: the sheet says how far its k sits from the ruler that signed it, and "
+              "the zone is re-derived from the numbers it prints", not _bad50,
+              "; ".join(_bad50)[:220]
+              or "band %s at %.2fpp inside a %.2f/%.2fpp band"
+              % ((_t50.get("size_band") or {}).get("zone"),
+                 float((_t50.get("size_band") or {}).get("worst_pp") or 0),
+                 float(((_t50.get("size_band") or {}).get("band") or {}).get("inside_pp") or 0),
+                 float(((_t50.get("size_band") or {}).get("band") or {}).get("warn_pp") or 0)))
+    except Exception as e:
+        check("product: the sheet says how far its k sits from the ruler that signed it, and "
+              "the zone is re-derived from the numbers it prints", False, repr(e)[:180])
+
     # ---- r1188: the book's CAGR is split by leg, and the split has to close ------------
     # Every published number for this book is one CAGR. The new face says where the day's
     # money is earned (overnight while the order is pending / intraday after the fill /
@@ -8991,6 +9057,7 @@ def _legs_supply_and_book():
                 _bad47.append("the account face carries no halves to recompute k from")
             else:
                 _k47 = float(_risk47) / (float(_risk47) + float(_cash47))
+                _t47 = {}
                 if not os.path.exists(_tk47):
                     _bad47.append("results/etf_book_order/latest.json missing")
                 else:
@@ -9026,10 +9093,27 @@ def _legs_supply_and_book():
                                       "a divergence")
                 if os.path.exists(_gp47):
                     _g47 = json.load(open(_gp47, encoding="utf-8"))
-                    if _g47.get("k_now") is not None \
-                            and abs(float(_g47["k_now"]) - _k47) > 1e-6:
-                        _bad47.append("the cut face still sizes off k=%.6f"
-                                      % float(_g47["k_now"]))
+                    # r1478: the gap face sizes off the TICKET, so it inherits the ticket's
+                    # book. On a same-bar ticket that book is the rule (r1476), which is why
+                    # it can never equal the executed account's k -- the old unconditional
+                    # compare read that legitimate 0.0007 as a defect. Branch on the face's
+                    # own disclosed provenance and hold each branch to its own contract.
+                    _same47 = bool(_t47) and _t47.get("base_bar") == _t47.get("as_of") \
+                        and _t47.get("sizing_source") == "rule_same_bar_outcome"
+                    _expect47 = (_t47.get("k_rule_capped_by_floor")
+                                 if _same47 else _k47)
+                    if _g47.get("sizing_source") != _t47.get("sizing_source"):
+                        _bad47.append("the cut face does not name the book it sized off "
+                                      "(face=%r ticket=%r)"
+                                      % (_g47.get("sizing_source"),
+                                         _t47.get("sizing_source")))
+                    if _g47.get("k_now") is not None and _expect47 is not None \
+                            and abs(float(_g47["k_now"]) - float(_expect47)) > 1e-6:
+                        _bad47.append("the cut face sizes off k=%.6f while the %s book is "
+                                      "k=%.6f"
+                                      % (float(_g47["k_now"]),
+                                         "rule-capped" if _same47 else "executed account",
+                                         float(_expect47)))
         check("product: the executable sheet is sized from the account it will trade, and "
               "every published face carries that same k", not _bad47,
               "; ".join(_bad47)[:220]

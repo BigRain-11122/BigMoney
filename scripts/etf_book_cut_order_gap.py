@@ -291,6 +291,15 @@ def plan_cut(perm, ticket, repo_rate, repo_date, readers, cost_bp=COST_BP_PER_SI
         # r1471: the ordered size now comes from the executed account; the rule's own size
         # travels beside it so "did the rule exceed permission" stays answerable.
         "k_rule": None if ticket.get("k_rule") is None else round(float(ticket["k_rule"]), 6),
+        # r1478: which book k_now came from. A ticket written for the bar it is trading
+        # sizes off the RULE (its own execution is that bar's outcome, r1476), so its k
+        # can never equal the executed account's k -- 0.393073 vs 0.392401 on 2026-11-06.
+        # Without this row a reader comparing the two faces reads a phantom drift.
+        "sizing_source": ticket.get("sizing_source"),
+        "base_bar": ticket.get("base_bar"),
+        "as_of": ticket.get("as_of"),
+        "k_rule_capped_by_floor": (None if ticket.get("k_rule_capped_by_floor") is None
+                                   else round(float(ticket["k_rule_capped_by_floor"]), 6)),
         "permitted_k": round(permitted, 6),
         "gap_k": round(k_now - permitted, 6),
         "gap_pp": round(100.0 * (k_now - permitted), 2),
@@ -433,9 +442,18 @@ def check():
     leg(fresh.get("ticket_file") == d.get("ticket_file"),
         "a newer ticket landed since this receipt was written (disk=%r fresh=%r): re-run"
         % (d.get("ticket_file"), fresh.get("ticket_file")))
+    # r1478: the face must name which book its k came from, and it must be the ticket's own
+    # answer -- a gap face that silently re-derives provenance is how the same k gets read
+    # against two different accounts.
+    leg(fresh.get("sizing_source") == d.get("sizing_source")
+        and fresh.get("base_bar") == d.get("base_bar")
+        and fresh.get("as_of") == d.get("as_of"),
+        "sizing provenance drifted: disk=(%r,%r,%r) fresh=(%r,%r,%r)"
+        % (d.get("sizing_source"), d.get("base_bar"), d.get("as_of"),
+           fresh.get("sizing_source"), fresh.get("base_bar"), fresh.get("as_of")))
     for f in fails:
         print("  FAIL " + f)
-    print("[check] %d/%d OK" % (7 - len(fails), 7))
+    print("[check] %d/%d OK" % (8 - len(fails), 8))
     return 0 if not fails else 1
 
 

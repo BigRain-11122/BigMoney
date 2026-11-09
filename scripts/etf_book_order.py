@@ -818,6 +818,180 @@ def sizing_level(base, asof, k_engine, floor=None):
             "reason": "sized from the executed account for %s, a book that exists" % bar}
 
 
+SIZING_PREREG_FACE = "results/etf_book_sizing_prereg.json"
+
+
+def floor_quoting_faces(results_dir=None, floor=None, tol=1e-6):
+    """r1478: which published faces carry this floor, derived by reading them.
+
+    A re-issue is not one number moving: every receipt that quotes the floor is written
+    against the old one, and the list of those receipts is exactly what has to be rebuilt.
+    Writing that list by hand is the r1108 mistake one level up (a list nobody maintains
+    reads as "nothing depends on this"), so the list is produced by scanning the published
+    results tree for the floor's own value under a key that names it (k / floor / permitted).
+    Faces that ISSUE the floor are tagged `source`, everything else `consumer`.
+    """
+    root = results_dir or PATHS.results_dir
+    if floor is None:
+        return {"status": "unreadable", "faces": [],
+                "sentence": "没有可比的 floor 值，引用面无从清点（缺数不等于没有下游）"}
+    want = float(floor)
+    faces = {}
+
+    def walk(obj, path, rel):
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                if isinstance(v, (dict, list)):
+                    walk(v, path + "/" + k, rel)
+                elif isinstance(v, (int, float)) and not isinstance(v, bool):
+                    name = str(k).lower()
+                    if ("k" in name or "floor" in name or "permitted" in name) \
+                            and abs(float(v) - want) <= tol:
+                        entry = faces.setdefault(rel, [])
+                        if len(entry) < 6:
+                            entry.append(path + "/" + k)
+        elif isinstance(obj, list):
+            for i, v in enumerate(obj[:200]):
+                if isinstance(v, (dict, list)):
+                    walk(v, path + "[%d]" % i, rel)
+
+    for dirpath, _dirs, files in os.walk(root):
+        for fn in files:
+            if not fn.lower().endswith(".json"):
+                continue
+            p = os.path.join(dirpath, fn)
+            rel = os.path.relpath(p, root).replace(os.sep, "/")
+            try:
+                with open(p, encoding="utf-8") as f:
+                    walk(json.load(f), "", rel)
+            except (OSError, ValueError):
+                continue
+    src = {os.path.basename(PERMISSION_FACE), os.path.basename(RULERS_FACE)}
+    out = [{"face": "results/" + rel, "role": "source" if rel.split("/")[-1] in src
+            else "consumer", "keys": keys}
+           for rel, keys in sorted(faces.items())]
+    return {"status": "ok", "faces": out, "n": len(out),
+            "n_consumers": sum(1 for f in out if f["role"] == "consumer"),
+            "floor": round(want, 6),
+            "sentence": "%d published faces carry k=%.6f (%d of them consume it)"
+                        % (len(out), want, sum(1 for f in out if f["role"] == "consumer"))}
+
+
+def band_block(ticket_k, asof=None, prereg=None, permission=None, rulers=None,
+               results_dir=None):
+    """r1478: the sheet says how far its k sits from the ruler that signed it.
+
+    r1477 pinned the band to the ruler's own noise (10.43pp of k, warn at 2 sd) and left
+    the wiring for this round: an operator opening ORDER-*.md could not tell whether the
+    number on it was inside the resolution of the ruler that authorised it. Two distances
+    are printed, because they answer different questions: the FRESH reading re-derived on
+    today's panel against the SIGNED floor (does the ruler still say the same thing), and
+    the ticket's own k against that same signed floor (does the sheet obey it). The zone is
+    the worse of the two -- reporting the flattering one is how a drift hides (E206).
+    v1 is advisory: the band never changes k, it only refuses to stay quiet about it.
+    """
+    pre = prereg if prereg is not None else _json_face(SIZING_PREREG_FACE)
+    band = (pre or {}).get("band") or {}
+    inside = band.get("inside_pp")
+    warn = band.get("warn_pp")
+    if pre is None or inside is None or warn is None:
+        return {"status": "unreadable", "zone": None,
+                "sentence": ("没有可用的带子（%s 缺失或缺 inside_pp/warn_pp）："
+                             "本单离签发的尺子有多远，这一问答不了" % SIZING_PREREG_FACE)}
+    issued = None if permission is None else permission.get("permitted_k")
+    fresh = None if rulers is None else rulers.get("k_now")
+    if fresh is None and rulers is not None:
+        fresh = ((rulers.get("rulers") or {}).get("window_x_universe") or {}).get("k")
+    drift_pp = (None if issued is None or fresh is None
+                else (float(fresh) - float(issued)) * 100.0)
+    ticket_pp = (None if issued is None or ticket_k is None
+                 else (float(ticket_k) - float(issued)) * 100.0)
+    known = [abs(x) for x in (drift_pp, ticket_pp) if x is not None]
+    if not known:
+        return {"status": "unreadable", "zone": None, "band": band,
+                "sentence": "签发的 floor 或票面 k 读不出来，距离无从计算（缺件不是合规）"}
+    worst = max(known)
+    zone = "inside" if worst <= float(inside) else ("warn" if worst <= float(warn)
+                                                    else "outside")
+    out = {"status": "ok", "zone": zone, "band": {"inside_pp": float(inside),
+                                                  "warn_pp": float(warn),
+                                                 "noise_pp": band.get("noise_pp")},
+           "issued_k": None if issued is None else round(float(issued), 6),
+           "fresh_k": None if fresh is None else round(float(fresh), 6),
+           "ticket_k": None if ticket_k is None else round(float(ticket_k), 6),
+           "drift_pp": None if drift_pp is None else round(drift_pp, 3),
+           "ticket_gap_pp": None if ticket_pp is None else round(ticket_pp, 3),
+           "worst_pp": round(worst, 3),
+           # r1478: a distance of 0.000 on the first live reading is NOT "measured and
+           # perfectly aligned" -- when the sheet's k IS the signed floor, both distances
+           # are zero because of how the sheet was built, not because the ruler was
+           # re-read and agreed. Printing 0.000 with no qualifier is the E206 shape (an
+           # empty measurement that reads as a good one), so the zero says which zero it is.
+           "zero_is_structural": bool(
+               issued is not None and ticket_k is not None
+               and abs(float(ticket_k) - float(issued)) <= 1e-9
+               and (fresh is None or abs(float(fresh) - float(issued)) <= 1e-9)),
+           "production_effect": band.get("production_effect"),
+           "receipt": None}
+    if zone == "outside":
+        out["receipt"] = floor_quoting_faces(results_dir, issued)
+        out["verdict"] = "BAND_EXCEEDED"
+        out["sentence"] = ("本轮 k 离签发的 floor %.3fpp，超出 %.2fpp 的带子：票面 k 不变（v1 只读），"
+                           "但要让换发回执重跑引用这个数的面（%s）。"
+                           % (worst, float(warn),
+                              out["receipt"].get("sentence") or "清单读不出来"))
+    else:
+        out["verdict"] = "WITHIN_BAND" if zone == "inside" else "BAND_WARN"
+        out["sentence"] = ("距签发的 floor %.3fpp，落在尺子自己 %.2fpp 的分辨率%s。"
+                           % (worst, float(inside),
+                              "之内" if zone == "inside" else "之外（warn 档，仍不改 k）"))
+    return out
+
+
+def band_md(bb):
+    """Print the band next to the size. Silence would read as "measured and fine"."""
+    if not bb:
+        return []
+    L = ["", "## 这张单的 k 离签发的尺子有多远（r1478）"]
+    if bb.get("status") != "ok":
+        L += ["- **无法核验**：%s" % bb.get("sentence"), ""]
+        return L
+    if bb["zone"] == "inside":
+        L += ["- 判定 **%s**：%s" % (bb["verdict"], bb["sentence"])]
+    else:
+        L += ["- %s 判定 **%s**：%s" % ("⚠" if bb["zone"] == "warn" else "⛔",
+                                        bb["verdict"], bb["sentence"])]
+    L += ["- 带子：±%.2fpp 内为「在尺子分辨率之内」，±%.2fpp 之外要换发回执"
+          "（带子=尺子自己的 k 噪声%s，来自 `%s`，不许给默认值）。"
+          % (bb["band"]["inside_pp"], bb["band"]["warn_pp"],
+             " %.2fpp" % bb["band"]["noise_pp"] if bb["band"].get("noise_pp") else "",
+             SIZING_PREREG_FACE)]
+    L += ["- 三个数分开印：签发 k=%s｜本轮重读 k=%s（差 %s pp）｜本单 k=%s（差 %s pp）"
+          % ("-" if bb["issued_k"] is None else "%.6f" % bb["issued_k"],
+             "-" if bb["fresh_k"] is None else "%.6f" % bb["fresh_k"],
+             "-" if bb["drift_pp"] is None else "%+.3f" % bb["drift_pp"],
+             "-" if bb["ticket_k"] is None else "%.6f" % bb["ticket_k"],
+             "-" if bb["ticket_gap_pp"] is None else "%+.3f" % bb["ticket_gap_pp"])]
+    if bb.get("zero_is_structural"):
+        L += ["- **这个 0.000pp 是构造出来的，不是量出来的**：本单的 k 就是签发的 floor 本身"
+              "（`min(规则 k, 额度)`），所以两个距离必然为零——它说的是「票面照抄了额度」，"
+              "不是「尺子重读后与签发值一致」。带子要真开火，需要额度重算出低于本单 k 的读数。"]
+    if bb.get("production_effect"):
+        L += ["- 这一节**只读**：%s" % bb["production_effect"]]
+    rc = bb.get("receipt")
+    if rc:
+        if rc.get("status") == "ok":
+            L += ["- **换发回执要重跑的面（%d 个，%d 个消费者）**——清单由扫描 `results/` 里"
+                  "引用 k=%.6f 的已发布面派生，不是手写：" % (rc["n"], rc["n_consumers"],
+                                                              rc["floor"])]
+            for f in rc["faces"]:
+                L.append("  - `%s`（%s）" % (f["face"], f["role"]))
+        else:
+            L += ["- **要重跑哪些面：这一问答不了** —— %s" % rc.get("sentence")]
+    L.append("")
+    return L
+
+
 def floor_ledger_md(fl):
     """r1457: a trim printed on one sheet is not obedience on the next decision bar.
 
@@ -1037,6 +1211,7 @@ def card(ticket, mk, sched, asof, beta, extra):
                         format(int(r["amount"]), ",") if r["amount"] else "-"))
         L += ["", "整手取整后欠投 %.2f%% NAV（留在现金腿，不重分配）。" % ticket["underspend_pct"]]
         L += permission_md(extra.get("permission"))
+        L += band_md(extra.get("size_band"))
         L += swap_trigger_md(extra.get("swap_trigger"))
         L += swap_stack_md(extra.get("swap_stack"))
         L += executed_base_md(extra.get("base"))
@@ -1586,15 +1761,28 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     else:
         conc_line = ("where this book's return actually comes from is unpublished (%s); "
                      "run scripts/etf_book_concentration.py run" % (conc.get("status") or "absent"))
+    _perm = permission_block(ticket, _permission_receipt(), _json_face(RULERS_FACE))
+    # r1478: the band r1477 pinned is now on the sheet an operator opens -- advisory only.
+    _band = band_block(k_now, asof, _json_face(SIZING_PREREG_FACE), _perm,
+                       _json_face(RULERS_FACE))
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
-               "permission": permission_block(ticket, _permission_receipt(),
-                                              _json_face(RULERS_FACE)),
+               "permission": _perm,
+               "size_band": _band,
                "inception": str(slip.index[0].date()) if len(slip) else inception,
                "rebal": REBAL, "n_hold": N_HOLD, "cost_bp_per_side": COST_BP,
                "fresh_gate": bool(fresh_gate), "staleness": stale,
                "feed_status": feed,
                "k_now": round(float(k_now), 6),
                "k_rule": round(float(k_engine), 6),
+               # r1478: the receipt a reader actually opens (this file) must name the book
+               # its k came from, same as latest.json. Two faces, one writer: a downstream
+               # face reading the ticket may not have to guess, and it may not re-derive.
+               "k_rule_capped_by_floor": round(float(_sz["k"]), 6),
+               "sizing_source": _sz.get("source"),
+               "sizing_reason": _sz.get("reason"),
+               "base_bar": _sz.get("account_bar"),
+               "as_of": asof,
+               "base_k_executed": _sz.get("k_executed"),
                "base": base,
                "book_decided_at": str(dec_bar.date()),
                "card_agreement": agreement,
@@ -1675,6 +1863,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "positions": payload["positions"],
                       "base": payload["base"],
                       "permission": payload["permission"],
+                      "size_band": payload["size_band"],
                       "bets_line": bets_line,
                       "conc_line": conc_line,
                       "family_coherence": fam,
@@ -1717,6 +1906,18 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                  _cm["verdict"]))
     else:
         print("cash money: %s" % (_cm.get("sentence") or "unreadable"))
+    if _band.get("status") == "ok":
+        print("size band: %s | drift %s pp | ticket gap %s pp (inside %.2f, warn %.2f)%s"
+              % (_band["verdict"],
+                 "-" if _band["drift_pp"] is None else "%+.3f" % _band["drift_pp"],
+                 "-" if _band["ticket_gap_pp"] is None else "%+.3f" % _band["ticket_gap_pp"],
+                 _band["band"]["inside_pp"], _band["band"]["warn_pp"],
+                 "" if not _band.get("receipt")
+                 else " | re-issue touches %s faces" % (_band["receipt"].get("n")
+                                                        if _band["receipt"].get("status") == "ok"
+                                                        else "?")))
+    else:
+        print("size band: %s" % _band.get("sentence"))
     print("wrote", os.path.join(OUT_DIR, "TICKET-%s.json" % asof))
     return 0
 
@@ -3814,6 +4015,69 @@ def selftest():
         abs(_cap["k"] - 0.393073) < 1e-9 and _cap.get("capped_by_floor") is True
         and abs(sizing_level({"status": "ok", "bar": "2026-10-14", "k_executed": 0.30},
                              "2026-11-06", 0.460253, floor=0.393073)["k"] - 0.30) < 1e-9, "")
+
+    # r1478: the band on the sheet. A pinned band that nothing prints is a config file.
+    _pre = {"band": {"inside_pp": 10.43, "warn_pp": 20.86, "noise_pp": 10.43,
+                     "production_effect": "advisory in v1"}
+            if True else {}}
+    _bb_ok = band_block(0.393073, "2026-11-06", _pre,
+                        {"permitted_k": 0.393073}, {"k_now": 0.393073})
+    chk("leg51n band: a k that sits on the signed floor reads inside, and the sheet prints "
+        "the three numbers it was decided from",
+        _bb_ok["zone"] == "inside" and _bb_ok["verdict"] == "WITHIN_BAND"
+        and abs(_bb_ok["drift_pp"]) < 1e-9, str(_bb_ok.get("zone")))
+    _pre2 = dict(_pre)
+    _bb_miss = band_block(0.393073, "2026-11-06", {"band": {}}, {"permitted_k": 0.393073},
+                          {"k_now": 0.393073})
+    chk("leg51o band: a prereg without a published noise value reads as 'cannot answer', "
+        "never as a pass -- the band has no default",
+        _bb_miss["status"] == "unreadable"
+        and "这一问答不了" in _bb_miss["sentence"], str(_bb_miss.get("sentence")))
+    _bb_warn = band_block(0.393073, "2026-11-06", _pre2, {"permitted_k": 0.393073},
+                          {"k_now": 0.513073})          # +12.00pp
+    _bb_out = band_block(0.393073, "2026-11-06", _pre2, {"permitted_k": 0.393073},
+                         {"k_now": 0.623073})            # +23.00pp
+    chk("leg51p band: warn and outside are separated by the ruler's own 2 sd, and only "
+        "outside asks for a receipt",
+        _bb_warn["zone"] == "warn" and _bb_warn["verdict"] == "BAND_WARN"
+        and _bb_warn.get("receipt") is None
+        and _bb_out["zone"] == "outside" and _bb_out["verdict"] == "BAND_EXCEEDED"
+        and (_bb_out.get("receipt") or {}).get("status") in ("ok", "unreadable"), "")
+    # the flattering number is not the one that decides: ticket k can be on the floor while
+    # the ruler itself has moved away from it.
+    _bb_two = band_block(0.393073, "2026-11-06", _pre2, {"permitted_k": 0.393073},
+                         {"k_now": 0.619073})            # fresh +22.6pp, ticket 0.0pp
+    chk("leg51q band: the zone comes from the WORSE of the two distances -- a ticket that "
+        "obeys the old floor while the ruler has moved is not reported as inside",
+        _bb_two["zone"] == "outside" and abs(_bb_two["ticket_gap_pp"]) < 1e-9
+        and abs(_bb_two["drift_pp"] - 22.6) < 1e-6, str(_bb_two.get("worst_pp")))
+    # the re-issue list is scanned off the published tree, so a face that carries the floor
+    # appears and a face that does not stays out.
+    import tempfile
+    _tmp = tempfile.mkdtemp()
+    os.makedirs(os.path.join(_tmp, "sub"))
+    with open(os.path.join(_tmp, "carries.json"), "w", encoding="utf-8") as f:
+        json.dump({"permitted_k": 0.393073, "note": "x"}, f)
+    with open(os.path.join(_tmp, "sub", "does_not.json"), "w", encoding="utf-8") as f:
+        json.dump({"cagr": 0.393073, "k_label": "not a k value here"},
+                  f)
+    _qf = floor_quoting_faces(_tmp, 0.393073)
+    chk("leg51r band: the re-issue list is derived by reading the published faces -- a face "
+        "carrying the floor is named, a face holding the same digits under a non-k key is "
+        "not",
+        _qf["n"] == 1 and _qf["faces"][0]["face"].endswith("carries.json")
+        and all("does_not" not in f["face"] for f in _qf["faces"]), str(_qf.get("faces")))
+    chk("leg51s band: the printed section carries the band, the distances and the read-only "
+        "promise, so the sheet cannot look silent about a drift",
+        "这张单的 k 离签发的尺子有多远" in "\n".join(band_md(_bb_out))
+        and "只读" in "\n".join(band_md(_bb_out))
+        and "无法核验" in "\n".join(band_md(_bb_miss)), "")
+    chk("leg51t band: a 0.000pp distance is labelled as constructed (the sheet's k IS the "
+        "signed floor) instead of being read as a ruler that was re-read and agreed",
+        _bb_ok.get("zero_is_structural") is True
+        and "构造出来的，不是量出来的" in "\n".join(band_md(_bb_ok))
+        and _bb_two.get("zero_is_structural") is False
+        and "构造出来的，不是量出来的" not in "\n".join(band_md(_bb_two)), "")
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

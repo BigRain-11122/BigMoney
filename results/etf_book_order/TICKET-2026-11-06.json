@@ -43,6 +43,25 @@
   "artifact": "results/etf_book_rebalance_permission.json",
   "verdict": "WITHIN_PERMISSION"
  },
+ "size_band": {
+  "status": "ok",
+  "zone": "inside",
+  "band": {
+   "inside_pp": 10.43,
+   "warn_pp": 20.86,
+   "noise_pp": 10.43
+  },
+  "issued_k": 0.393073,
+  "fresh_k": 0.393073,
+  "ticket_k": 0.393073,
+  "drift_pp": 0.0,
+  "ticket_gap_pp": 0.0,
+  "worst_pp": 0.0,
+  "production_effect": "advisory in v1 -- the ticket's k is unchanged until the band reproduces twice",
+  "receipt": null,
+  "verdict": "WITHIN_BAND",
+  "sentence": "距签发的 floor 0.000pp，落在尺子自己 10.43pp 的分辨率之内。"
+ },
  "inception": "2024-01-02",
  "rebal": 20,
  "n_hold": 5,
@@ -60,13 +79,19 @@
  },
  "feed_status": {
   "ticket_bar": "2026-11-06",
-  "expected_bar": "2026-11-06",
-  "lag_days": 0,
-  "status": "current",
-  "detail": "the ticket is priced on the newest official bar that must exist"
+  "expected_bar": "2026-11-09",
+  "lag_days": 1,
+  "status": "stale_feed",
+  "detail": "the bar this ticket is priced on is 1 official day(s) behind the market; the signal is that old"
  },
  "k_now": 0.393073,
  "k_rule": 0.460253,
+ "k_rule_capped_by_floor": 0.393073,
+ "sizing_source": "rule_same_bar_outcome",
+ "sizing_reason": "the executed account for 2026-11-06 was written by this bar's own sheet, so it is this ticket's outcome and cannot size it",
+ "base_bar": "2026-11-06",
+ "as_of": "2026-11-06",
+ "base_k_executed": 0.392401,
  "base": {
   "status": "ok",
   "face": "results/etf_book_positions.json",
@@ -974,15 +999,15 @@
    "vol": 0.0884
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1089,
-    "card_width_cagr": 0.0942,
-    "pp": -1.47
-   },
    "vol": {
     "ticket_width_cagr": 0.1149,
     "card_width_cagr": 0.1173,
     "pp": 0.24
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1089,
+    "card_width_cagr": 0.0942,
+    "pp": -1.47
    }
   },
   "rules_differ": true,

@@ -11675,9 +11675,9 @@ r1474 那句「票面 k = 账本 k」不是机制，是两数恰好在一点相�
 
 三律：
 1. **先问这个馈人的数是「输入」还是「本轮结果」**。同一个 
-ext_order_base，跨 bar 时是
+next_order_base，跨 bar 时是
    一本真实存在的书（可起算），同 bar 时是这张票自己执行后的产物（起算=自噬）。判据是
-   ar == asof，不是「面新不新」。
+   bar == asof，不是「面新不新」。
 2. **带地板/取整的算子迭代必有不动点下移**。凡「算出→向下取整→写回→再算」的链，第二圈
    一定比第一圈小；把这条写进自检（连跑三次 k 必须逐字相等），比在报告里写「看起来稳定」
    有用。
@@ -11738,3 +11738,32 @@ k = min(1.0, 0.20/beta) 定规模。两条读数各说一半，合起来才成�
 
 正身 = scripts/etf_book_sizing_prereg.py（selftest 24/24 · check PREREG_PINNED）+ results/etf_book_sizing_prereg.json
 + research/ETF_BOOK_SIZING_PREREG.md + S6 腿 sizing_prereg + smoke 两腿。
+
+### E486 一条预注册的带子，只有在它印到人手上的那张纸上才算生效——而且要印两个距离
+
+r1478 实锚（scripts/etf_book_order.py::band_block / band_md / floor_quoting_faces）：
+
+r1477 把带子钉死在尺子自己的噪声上（±10.43pp，warn=2sd=±20.86pp），但读单的人打开的是
+`ORDER-*.md`，那张纸上只有 k 和权重——他无从知道这个 k 离「签发它的那把尺子的当前读数」
+有多远。两个距离必须分开印，因为它们回答两个问题：
+
+- **签发 k 与本轮重读 k 的距离** = 尺子自己还说不说同一句话（面板每天在推进，重读会动）。
+- **本单 k 与签发 k 的距离** = 这张单守不守签发的那把尺子。
+- **区域取两者中更差的那个**：只印好看的那一个，就是让漂移藏在平均值里（E206 名即语义）。
+
+v1 是只读的：带子从不改 k，它只是拒绝保持沉默。outside 档才要求换发回执，回执要重跑的面
+**不能手写**——那是 r1108 的上一层（没人维护的清单读起来等于「没有下游」）。正法=扫
+`results/` 找「键名里带 k/floor/permitted 且数值等于该 floor」的已发布面，签发者标 source、
+其余标 consumer，清单自带计数。实测 13 个面引用 k=0.393073（11 个消费者），这就是换发时要
+重建的全部东西。
+
+三律：
+1. **带子必须有来源**：inside 值只能来自已发布的噪声读数，缺 prereg = 「这一问答不了」，
+   禁给默认值（默认值让「没有人测过」读成「测过了，正常」）。
+2. **判决必须能重算**：smoke 腿从票面自己印的三个 k 重算 zone，并与 prereg 的 inside/warn
+   逐位比对、钉死 warn = 2 × inside；手写判决词必红。
+3. **只读承诺要印出来**：v1 不改 k，这句话必须出现在纸上，否则读者会以为票面已经按带子
+   裁过仓。
+
+正身 = scripts/etf_book_order.py（selftest 120/120·leg51n/s）+ results/etf_book_order/TICKET-2026-11-06.json::size_band
++ results/etf_book_order/ORDER-2026-11-06.md + smoke 腿 + 卡 E486。
