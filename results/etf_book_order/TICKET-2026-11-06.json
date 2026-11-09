@@ -311,10 +311,12 @@
   }
  },
  "ledger": {
-  "bars": 689,
-  "nav": 1.45787328,
+  "bars": 688,
+  "nav": 1.45936114,
   "rows_added": 0,
-  "engine_naive_vs_ledger": null
+  "engine_naive_vs_ledger": null,
+  "withdrawn_now": [],
+  "withdrawal_note": "ledger withdrew 1 bar(s) the price panel no longer carries (2026-11-09; panel ends 2026-11-06); state rewound to 2026-11-06 and this sheet is priced on the panel's own last bar"
  },
  "entry_gate": {
   "status": "ok",
@@ -764,10 +766,10 @@
   "engine_book": {
    "tail": {
     "source": "results/etf_book_order/ledger.jsonl",
-    "bar": "2026-11-09",
-    "nav_units": 1.45787328,
+    "bar": "2026-11-06",
+    "nav_units": 1.45936114,
     "k": 0.460253,
-    "rf": 9.74e-05
+    "rf": 0.0
    },
    "divergence": {
     "book_k": 0.392401,
@@ -1000,15 +1002,15 @@
    "vol": 0.0884
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1089,
-    "card_width_cagr": 0.0942,
-    "pp": -1.47
-   },
    "vol": {
     "ticket_width_cagr": 0.1149,
     "card_width_cagr": 0.1173,
     "pp": 0.24
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1089,
+    "card_width_cagr": 0.0942,
+    "pp": -1.47
    }
   },
   "rules_differ": true,
@@ -1193,7 +1195,7 @@
   "identity_matched": true
  },
  "restatements": {
-  "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
+  "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
   "readable": true,
   "source": "restatements",
   "notices": [

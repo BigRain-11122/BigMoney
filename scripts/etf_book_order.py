@@ -403,6 +403,179 @@ def withdrawals_line(out_dir=None):
                last.get("state_rewound_to")))
 
 
+def _read_jsonl(path):
+    out = []
+    if not os.path.exists(path):
+        return out
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                try:
+                    out.append(json.loads(line))
+                except Exception:
+                    continue
+    return out
+
+
+def reinstatement_check(rp, cash_rf, k_ser, out_dir=None, tol=1e-9, now=None, cost_bp=None):
+    """A withdrawn bar that comes back is RE-DERIVED, never carried over.
+
+    r1489: on 2026-11-09 a bar was cut at 23:54 off a panel that ended 11-06; the panel then
+    carried 11-09 again and the ledger row reappeared. The row that reappears is only honest
+    if it is the panel's own arithmetic: a withdrawn row was priced off a panel that has since
+    changed, so re-using its stored nav/ret would publish a number nobody can re-derive.
+
+    For every withdrawn date the ledger now carries, this recomputes that bar from the panel
+    (same return rule as the accrual: r = rp*k + (1-k)*rf - |dk|*cost) off the ledgers own
+    preceding row, and:
+      * equal within tol -> RECOMPUTED_IDENTICAL (the panel reprinted the same closes),
+      * different        -> REWRITTEN_FROM_PANEL: the row is replaced with the recomputed
+                            values, marked `restated_at` so the restatement trail sees it,
+                            and every later nav is scaled so the chain stays self-consistent
+                            (the factor and the row count are published, never silent),
+      * an input missing -> UNVERIFIABLE, naming what is missing; no rewrite.
+    Also quotes what the withdrawal record stored, so "the row came back" and "the row came
+    back with different closes" cannot read the same.
+    """
+    out_dir = out_dir or OUT_DIR
+    cost_bp = COST_BP if cost_bp is None else float(cost_bp)
+    wpath = os.path.join(out_dir, "withdrawals.json")
+    lpath = os.path.join(out_dir, "ledger.jsonl")
+    if not os.path.exists(wpath):
+        return None
+    try:
+        with open(wpath, encoding="utf-8") as f:
+            hist = json.load(f)
+        if isinstance(hist, dict):
+            hist = [hist]
+    except Exception:
+        return None
+    if not hist:
+        return None
+    cut = {}
+    for rec in hist:
+        for w in (rec.get("withdrawn") or []):
+            d = str(w.get("date"))
+            cut.setdefault(d, w)          # first record wins: what was actually cut
+    rows = _read_jsonl(lpath)
+    if not cut or not rows:
+        return None
+    live = {str(r.get("date")): i for i, r in enumerate(rows)}
+    back = sorted(d for d in cut if d in live)
+    if not back:
+        return None
+    out = []
+    rewritten = []
+    for d in back:
+        i = live[d]
+        row = rows[i]
+        prev = rows[i - 1] if i > 0 else None
+        k = float(row.get("k")) if row.get("k") is not None else None
+        rec = {"date": d, "withdrawn_nav": (cut[d] or {}).get("nav"),
+               "withdrawn_ret": (cut[d] or {}).get("ret"),
+               "withdrawn_k": (cut[d] or {}).get("k")}
+        missing = []
+        try:
+            pd_ = pd.Timestamp(d)
+            rp_d = float(rp.loc[pd_]) if pd_ in rp.index else None
+            rf_d = float(cash_rf.loc[pd_]) if pd_ in cash_rf.index else None
+            if k is None and pd_ in k_ser.index:
+                k = float(k_ser.loc[pd_])
+        except Exception:
+            rp_d = rf_d = None
+        if rp_d is None or not np.isfinite(rp_d):
+            missing.append("book return on %s" % d)
+        if rf_d is None or not np.isfinite(rf_d):
+            missing.append("repo rate on %s" % d)
+        if k is None or not np.isfinite(k):
+            missing.append("overlay weight k on %s" % d)
+        if prev is None:
+            missing.append("a preceding ledger row to carry the nav from")
+        if missing:
+            rec.update({"status": "UNVERIFIABLE", "missing": missing})
+            out.append(rec)
+            continue
+        prev_k = prev.get("k")
+        cost = 0.0 if prev_k is None else abs(k - float(prev_k)) * cost_bp / 10000.0
+        r_new = rp_d * k + (1.0 - k) * rf_d - cost
+        nav_new = float(prev.get("nav")) * (1.0 + r_new)
+        nav_new8, r_new8 = round(nav_new, 8), round(r_new, 8)
+        nav_old = row.get("nav")
+        ret_old = row.get("ret")
+        dnav = None if nav_old is None else nav_new8 - float(nav_old)
+        dret = None if ret_old is None else r_new8 - float(ret_old)
+        rec.update({"recomputed_nav": nav_new8, "recomputed_ret": r_new8,
+                    "ledger_nav": nav_old, "ledger_ret": ret_old, "k": round(k, 6),
+                    "rf": round(rf_d, 8), "nav_delta": None if dnav is None else round(dnav, 10)})
+        same = (dnav is not None and abs(dnav) <= tol
+                and (dret is None or abs(dret) <= tol))
+        if same:
+            rec["status"] = "RECOMPUTED_IDENTICAL"
+            wd_nav = (cut[d] or {}).get("nav")
+            rec["same_as_withdrawn"] = (wd_nav is not None
+                                        and abs(float(wd_nav) - nav_new8) <= tol)
+        else:
+            factor = 1.0 if not nav_old else nav_new8 / float(nav_old)
+            ts = str(now or pd.Timestamp.now().floor("s"))
+            row.update({"nav": nav_new8, "ret": r_new8, "k": round(k, 6),
+                        "k_cost": round(cost, 8), "rf": round(rf_d, 8),
+                        "restated_at": ts,
+                        "restate_reason": "reinstated bar re-derived from the panel (r1489)"})
+            n_shift = 0
+            for j in range(i + 1, len(rows)):
+                if rows[j].get("nav") is not None:
+                    rows[j]["nav"] = round(float(rows[j]["nav"]) * factor, 8)
+                    n_shift += 1
+            rec.update({"status": "REWRITTEN_FROM_PANEL", "restated_at": ts,
+                        "nav_factor": round(factor, 12), "later_rows_rescaled": n_shift})
+            rewritten.append(d)
+        out.append(rec)
+    if rewritten:
+        with open(lpath, "w", encoding="utf-8") as f:
+            for r in rows:
+                f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    payload = {"at": str(now or pd.Timestamp.now().floor("s")), "n_reinstated": len(out),
+               "rewritten": rewritten,
+               "verbatim_identical": [r["date"] for r in out
+                                      if r.get("status") == "RECOMPUTED_IDENTICAL"
+                                      and r.get("same_as_withdrawn")],
+               "records": out}
+    os.makedirs(out_dir, exist_ok=True)
+    with open(os.path.join(out_dir, "reinstatements.json"), "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=1)
+    return payload
+
+
+def reinstatement_md(ri):
+    """One paragraph for the sheet: what came back, and whether it is the panel's number."""
+    if not ri or not ri.get("n_reinstated"):
+        return []
+    L = ["", "**账本 reinstatement（撤回过的 bar 又回来了）** 共 %d 根：" % ri["n_reinstated"]]
+    for r in ri["records"]:
+        if r.get("status") == "RECOMPUTED_IDENTICAL":
+            L.append("- %s：按当日面板重算 nav=%.8f ret=%+.8f，与账本行差 %.0e（k=%.6f rf=%.8f）；"
+                     "撤回记录当时存的是 nav=%s —— %s"
+                     % (r["date"], r["recomputed_nav"], r["recomputed_ret"],
+                        abs(r.get("nav_delta") or 0.0), r["k"], r["rf"],
+                        r.get("withdrawn_nav"),
+                        "面板重印的是同一批收盘价，回来的是重算值不是旧副本"
+                        if r.get("same_as_withdrawn")
+                        else "面板重印后收盘价变了：旧副本会差 %.2e" % abs(
+                            float(r["recomputed_nav"]) - float(r["withdrawn_nav"]))))
+        elif r.get("status") == "REWRITTEN_FROM_PANEL":
+            L.append("- %s：账本行与面板重算不一致（nav %s → %.8f，差 %+.2e，ret %s → %+.8f）"
+                     "——已按面板改写并标 restated_at=%s，之后 %d 根 nav 同乘 %.12f 保持链条一致"
+                     % (r["date"], r.get("ledger_nav"), r["recomputed_nav"],
+                        r.get("nav_delta") or 0.0, r.get("ledger_ret"), r["recomputed_ret"],
+                        r.get("restated_at"), r.get("later_rows_rescaled") or 0,
+                        r.get("nav_factor") or 1.0))
+        else:
+            L.append("- %s：**无法核验**（缺 %s）——这一行没有被证明是面板算出来的"
+                     % (r["date"], "、".join(r.get("missing") or [])))
+    return L
+
+
 def metrics(nav_ser, bench_ser, lb=252):
     def block(s):
         if s is None or len(s.dropna()) < 30:
@@ -1320,6 +1493,7 @@ def card(ticket, mk, sched, asof, beta, extra):
     L += restatement_md(extra.get("restatements"))
     if extra.get("withdrawals"):
         L += ["", "> 账本撤回：%s" % extra["withdrawals"]]
+    L += reinstatement_md(extra.get("reinstatements"))
     if ticket:
         L += ["## 今日目标（NAV ¥%s）" % format(int(ticket["nav"]), ","),
               "k=%.2f（书内 %.0f%%、现金 %.0f%%）｜ 现金腿=%s ｜ 现金 ¥%s"
@@ -1771,6 +1945,22 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
             for r in merged:
                 f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
+    # r1489: a bar that came back after being withdrawn must be the panel's arithmetic, not
+    # the copy that was cut. Recomputed here, after the accrual, so the check sees the very
+    # rows this run wrote (and catches a row restored by anything else, too).
+    _ri = reinstatement_check(rp, cash_rf, k_ser)
+    if _ri:
+        print("reinstatement: %d withdrawn bar(s) back in the ledger | rewritten=%s | "
+              "identical to a fresh re-derivation=%s"
+              % (_ri["n_reinstated"], _ri["rewritten"] or "none",
+                 _ri["verbatim_identical"] or "none"), flush=True)
+        if _ri["rewritten"]:
+            tail = _read_jsonl(os.path.join(OUT_DIR, "ledger.jsonl"))
+            if tail:
+                state.update({"nav": float(tail[-1]["nav"]),
+                              "last_k": float(tail[-1]["k"]),
+                              "last_bar": str(tail[-1]["date"]), "rows": len(tail)})
+
     # cross-check: the incremental ledger must reproduce the engine NAV at the same date.
     # The ledger's base 1.0 sits the bar *before* the first accrued bar, while the engine
     # slice's first point already carries that bar's return -- strip it before comparing.
@@ -1932,7 +2122,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "ledger": {"bars": int(state.get("rows", 0)), "nav": round(float(state["nav"]), 8),
                           "rows_added": len(merged), "engine_naive_vs_ledger": drift,
                           "withdrawn_now": [r["date"] for r in _withdrawn],
-                          "withdrawal_note": withdrawals_line()},
+                          "withdrawal_note": withdrawals_line(),
+                          "reinstatements": _ri},
                "entry_gate": entry_gate_support(),
                "swap_trigger": _json_face(SWAP_FACE),
                "swap_stack": _json_face(SWAP_STACK_FACE),
@@ -1991,6 +2182,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "feed": feed, "agreement": agreement, "ruler": ruler,
                       "carry": carry, "restatements": payload["restatements"],
                       "withdrawals": payload["ledger"]["withdrawal_note"],
+                      "reinstatements": payload["ledger"]["reinstatements"],
                       "cash_money": payload["cash_leg"]["money"],
                       "entry_gate": payload["entry_gate"],
                       "swap_trigger": payload["swap_trigger"],
@@ -4272,6 +4464,64 @@ def selftest():
         "cases cannot read the same",
         "priced on the panel's own last bar" in _line_gone and "is live" not in _line_gone,
         _line_gone)
+
+    # ---- r1489: a bar that came back must be RE-DERIVED from the panel, not carried ----
+    _nav_ok = round(1.12 * (1.0 + 0.46 * 0.001 + 0.54 * 0.0001), 8)
+
+    def _ri_fixture(row_nav, row_ret, drop_rp=False):
+        d = _tf.mkdtemp()
+        with open(os.path.join(d, "withdrawals.json"), "w", encoding="utf-8") as f:
+            json.dump([{"withdrawn": [{"date": "2026-11-09", "nav": _nav_ok,
+                                       "ret": 0.000514, "k": 0.46}],
+                        "reason": "panel ended", "panel_last": "2026-11-06",
+                        "state_rewound_to": "2026-11-06", "at": "2026-11-09 23:54:02"}], f)
+        with open(os.path.join(d, "ledger.jsonl"), "w", encoding="utf-8") as f:
+            f.write(json.dumps({"date": "2026-11-06", "nav": 1.12, "ret": 0.0, "k": 0.46}) + "\n")
+            f.write(json.dumps({"date": "2026-11-09", "nav": row_nav, "ret": row_ret,
+                                "k": 0.46}) + "\n")
+            f.write(json.dumps({"date": "2026-11-10", "nav": 1.13, "ret": 0.0, "k": 0.46}) + "\n")
+        ix = pd.DatetimeIndex(["2026-11-06", "2026-11-09", "2026-11-10"])
+        _rp = pd.Series([0.0, 0.001, 0.0], index=ix)
+        if drop_rp:
+            _rp = _rp.drop(pd.Timestamp("2026-11-09"))
+        return d, _rp, pd.Series([0.0, 0.0001, 0.0], index=ix), \
+            pd.Series([0.46, 0.46, 0.46], index=ix)
+
+    _dA, _rpA, _rfA, _kA = _ri_fixture(_nav_ok, 0.000514)
+    _riA = reinstatement_check(_rpA, _rfA, _kA, out_dir=_dA, now="2026-11-10T03:30:00")
+    _rowsA = _read_jsonl(os.path.join(_dA, "ledger.jsonl"))
+    chk("leg52f reinstated: a bar that came back re-derives to the same number and is "
+        "recorded as identical to both the ledger row and the row that was cut",
+        _riA and _riA["records"][0]["status"] == "RECOMPUTED_IDENTICAL"
+        and abs(_riA["records"][0]["nav_delta"]) <= 1e-9
+        and _riA["records"][0]["same_as_withdrawn"] is True
+        and not _riA["rewritten"]
+        and len(_rowsA) == 3 and abs(_rowsA[1]["nav"] - _nav_ok) < 1e-12
+        and "重算值不是旧副本" in "\n".join(reinstatement_md(_riA)), str(_riA))
+
+    _dB, _rpB, _rfB, _kB = _ri_fixture(1.13, 0.0)
+    _riB = reinstatement_check(_rpB, _rfB, _kB, out_dir=_dB, now="2026-11-10T03:30:00")
+    _rowsB = _read_jsonl(os.path.join(_dB, "ledger.jsonl"))
+    _fac = _nav_ok / 1.13
+    chk("leg52g reinstated: a carried row that disagrees with the panel is rewritten, "
+        "marked restated_at, and the later nav is rescaled so the chain stays consistent",
+        _riB and _riB["records"][0]["status"] == "REWRITTEN_FROM_PANEL"
+        and _riB["rewritten"] == ["2026-11-09"]
+        and abs(_rowsB[1]["nav"] - _nav_ok) < 1e-8
+        and _rowsB[1].get("restate_reason", "").startswith("reinstated bar")
+        and abs(_rowsB[2]["nav"] - round(1.13 * _fac, 8)) < 1e-8
+        and _rowsB[2].get("restated_at") is None
+        and "账本行与面板重算不一致" in "\n".join(reinstatement_md(_riB)), str(_rowsB))
+
+    _dC, _rpC, _rfC, _kC = _ri_fixture(_nav_ok, 0.000514, drop_rp=True)
+    _riC = reinstatement_check(_rpC, _rfC, _kC, out_dir=_dC, now="2026-11-10T03:30:00")
+    chk("leg52h reinstated: a bar whose panel inputs are missing is named UNVERIFIABLE and "
+        "left untouched (an unproven row is never silently blessed)",
+        _riC and _riC["records"][0]["status"] == "UNVERIFIABLE"
+        and _riC["records"][0]["missing"]
+        and not _riC["rewritten"]
+        and abs(_read_jsonl(os.path.join(_dC, "ledger.jsonl"))[1]["nav"] - _nav_ok) < 1e-12
+        and "无法核验" in "\n".join(reinstatement_md(_riC)), str(_riC))
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1
