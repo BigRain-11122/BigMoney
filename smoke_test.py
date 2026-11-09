@@ -704,6 +704,15 @@ def main() -> int:
              "scripts/etf_book_cash_vehicle.py", ["selftest"]),
             ("product: etf_book_cash_vehicle (the gap and its per-year range re-derive)",
              "scripts/etf_book_cash_vehicle.py", ["check"]),
+            # r1486: the empty pool is a science debt, and the suspect was the size of one
+            # knob (the 8% vol target sits between the ADMITing bond-free book and the
+            # refused one). The legs pin that the gates are imported not copied, that an
+            # empty ladder is UNKNOWN rather than "nothing passes", and that every rung's
+            # verdict re-derives from its own year rows.
+            ("product: etf_book_vt_ladder (the rung is judged by the imported gate)",
+             "scripts/etf_book_vt_ladder.py", ["selftest"]),
+            ("product: etf_book_vt_ladder (every rung verdict re-derives from its rows)",
+             "scripts/etf_book_vt_ladder.py", ["check"]),
             # r1481 also gave the decision line a third price (what it costs if this sheet
             # is filled tomorrow); the existing decision-line legs at the bottom of this
             # file already run that selftest, and it now carries the UNKNOWN-not-zero leg.

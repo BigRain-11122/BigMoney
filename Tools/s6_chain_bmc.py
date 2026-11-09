@@ -1040,6 +1040,13 @@ LEGS = [
     # refusal to price a face-value ticker, and the repo arm's reproduction of the
     # published GC001 net. Read-only JSON (~0.2s); the panel run is a round's own `run`.
     ("cash_vehicle", ["python", "scripts/etf_book_cash_vehicle.py", "check"]),
+    # r1486: the supply line is empty because every judged book fails its own calendar,
+    # and the 8% vol target was suspected of being the one knob between the ADMITing
+    # bond-free book and the refused one. This leg re-derives the published ladder receipt
+    # (7 rungs, one engine, one panel, the gates imported not copied) and refuses a receipt
+    # whose rung verdicts or answer word no longer follow from its own rows. Read-only JSON
+    # (~0.2s); the 2-minute repricing runs with `run` in its own round.
+    ("vt_ladder", ["python", "scripts/etf_book_vt_ladder.py", "check"]),
     # r1447: the horizontal question above ("is the running weight the graded rule's
     # weight") has a vertical twin -- DEFAULT_BETA is a literal, so the weight is
     # k = target/beta and the target could have been any point on a ladder. This leg
