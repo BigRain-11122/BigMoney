@@ -515,20 +515,62 @@ def reinstatement_check(rp, cash_rf, k_ser, out_dir=None, tol=1e-9, now=None, co
             wd_nav = (cut[d] or {}).get("nav")
             rec["same_as_withdrawn"] = (wd_nav is not None
                                         and abs(float(wd_nav) - nav_new8) <= tol)
+            # r1490: a bar PUBLISHED at one number and restated to another is "identical"
+            # only against today's panel -- the row itself still carries the history.
+            # Plain RECOMPUTED_IDENTICAL on the second run would tell the operator "nothing
+            # ever moved here" about a bar whose own later navs were rescaled. Quote the
+            # row's own record back instead of trusting it to be absent.
+            if row.get("nav_published") is not None or row.get("restated_at"):
+                rec["settled_restated"] = {
+                    "published_nav": row.get("nav_published"),
+                    "published_ret": row.get("ret_published"),
+                    "settled_nav": nav_new8,
+                    "settled_ret": r_new8,
+                    "restated_at": row.get("restated_at"),
+                    "nav_factor_applied": row.get("nav_factor_applied"),
+                    "later_rows_rescaled": row.get("later_rows_rescaled")}
         else:
             factor = 1.0 if not nav_old else nav_new8 / float(nav_old)
             ts = str(now or pd.Timestamp.now().floor("s"))
-            row.update({"nav": nav_new8, "ret": r_new8, "k": round(k, 6),
-                        "k_cost": round(cost, 8), "rf": round(rf_d, 8),
-                        "restated_at": ts,
-                        "restate_reason": "reinstated bar re-derived from the panel (r1489)"})
             n_shift = 0
             for j in range(i + 1, len(rows)):
                 if rows[j].get("nav") is not None:
                     rows[j]["nav"] = round(float(rows[j]["nav"]) * factor, 8)
                     n_shift += 1
+            # r1490: keep BOTH numbers on the row. reinstatements.json is rewritten on every
+            # run, so a published value living only there is a record the producer reads and
+            # the operator never can (E281). The rescale that moved later navs is stamped the
+            # same way, so a reader can see how far the chain moved and by what factor.
+            row.update({"nav": nav_new8, "ret": r_new8, "k": round(k, 6),
+                        "k_cost": round(cost, 8), "rf": round(rf_d, 8),
+                        "nav_published": nav_old, "ret_published": ret_old,
+                        "restated_at": ts, "nav_factor_applied": round(factor, 12),
+                        "later_rows_rescaled": n_shift,
+                        "restate_reason": "reinstated bar re-derived from the panel (r1489)"})
+            # r1490: the rescale is only honest if the chain still compounds. Measure it on
+            # the rows this write produced instead of asserting it.
+            # r1490: nav is stored at 8 decimals, so every rescale carries up to 1e-8 of
+            # rounding per bar; a fixed 1e-9 gate would print a false red on a chain that is
+            # arithmetically perfect (measured on the real 2026-11-06 row: expected
+            # 1.46125781 vs ledger 1.46125782). The gate scales with the distance from the
+            # rewritten bar, and the gate it used is published, not implied.
+            chain_breaks = []
+            for j in range(i + 1, len(rows)):
+                a_nav, b_nav, b_ret = (rows[j - 1].get("nav"), rows[j].get("nav"),
+                                       rows[j].get("ret"))
+                if a_nav is None or b_nav is None or b_ret is None:
+                    continue
+                exp = round(float(a_nav) * (1.0 + float(b_ret)), 8)
+                gate = tol + 1e-8 * (j - i) + 1e-12
+                if abs(exp - float(b_nav)) > gate:
+                    chain_breaks.append({"date": str(rows[j].get("date")),
+                                         "expected": exp, "ledger": float(b_nav),
+                                         "gate": gate})
             rec.update({"status": "REWRITTEN_FROM_PANEL", "restated_at": ts,
-                        "nav_factor": round(factor, 12), "later_rows_rescaled": n_shift})
+                        "nav_factor": round(factor, 12), "later_rows_rescaled": n_shift,
+                        "nav_published": nav_old, "ret_published": ret_old,
+                        "chain_intact": not chain_breaks,
+                        "chain_breaks": chain_breaks})
             rewritten.append(d)
         out.append(rec)
     if rewritten:
@@ -540,11 +582,101 @@ def reinstatement_check(rp, cash_rf, k_ser, out_dir=None, tol=1e-9, now=None, co
                "verbatim_identical": [r["date"] for r in out
                                       if r.get("status") == "RECOMPUTED_IDENTICAL"
                                       and r.get("same_as_withdrawn")],
+               # r1490: bars whose own history is on the row (published != settled). These
+               # stay in the ledger, so they are listed every run -- not only the run that
+               # rewrote them.
+               "settled_restated": [r["date"] for r in out if r.get("settled_restated")],
+               "chain_broken": [r["date"] for r in out
+                                if r.get("chain_intact") is False],
                "records": out}
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, "reinstatements.json"), "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=1)
     return payload
+
+
+def _chain_break_line(breaks):
+    """Name the rows where nav != previous nav x (1+ret) -- a broken chain is never a dash."""
+    if not breaks:
+        return "-"
+    return "；".join("%s 应为 %.8f 实为 %.8f" % (b.get("date"), b.get("expected"),
+                                                b.get("ledger")) for b in breaks[:5])
+
+
+def reinstated_history(ledger_path=None):
+    """Bars in the ORDER ledger whose own history moved, read from the ledger itself.
+
+    r1490: reinstatement_check writes reinstatements.json fresh on every run, so a bar
+    restated three runs ago is only visible to whoever re-reads the ledger rows. The
+    operator holds the sheet, so the sheet carries this block -- three states kept apart
+    (unreadable / none / N bars), the same way _ledger_restatements does it.
+    """
+    p = ledger_path or os.path.join(OUT_DIR, "ledger.jsonl")
+    out = {"path": p, "readable": False, "bars": [], "records": [],
+           "bars_total": None, "chain_broken": []}
+    try:
+        rows = _read_jsonl(p)
+    except Exception:
+        return out
+    out["readable"] = True
+    out["bars_total"] = len(rows)
+    for i, r in enumerate(rows):
+        if r.get("restated_at") is None and r.get("nav_published") is None:
+            continue
+        rec = {"date": str(r.get("date")), "restated_at": r.get("restated_at"),
+               "nav_published": r.get("nav_published"),
+               "ret_published": r.get("ret_published"),
+               "nav": r.get("nav"), "ret": r.get("ret"),
+               "nav_factor_applied": r.get("nav_factor_applied"),
+               "later_rows_rescaled": r.get("later_rows_rescaled"),
+               "reason": r.get("restate_reason")}
+        nxt = rows[i + 1] if i + 1 < len(rows) else None
+        if nxt is not None and nxt.get("nav") is not None and r.get("nav") is not None \
+                and nxt.get("ret") is not None:
+            exp = round(float(r["nav"]) * (1.0 + float(nxt["ret"])), 8)
+            if abs(exp - float(nxt["nav"])) > 1e-8:
+                out["chain_broken"].append({"date": str(nxt.get("date")),
+                                            "expected": exp, "ledger": float(nxt["nav"])})
+        out["records"].append(rec)
+    out["bars"] = [x["date"] for x in out["records"]]
+    return out
+
+
+def reinstated_history_md(h):
+    """The block an operator reads: did the ledger this sheet quotes ever move, and where."""
+    if not h or not h.get("readable"):
+        return ["", "## 账本历史变更：本单引用的账本有没有被改过", "",
+                "- **无法核验**：读不到订单账本（%s），所以本单不能回答这个问题 —— "
+                "这不是「没有被改述」。"
+                % _relpath_safe((h or {}).get("path") or "-", BASE)]
+    recs = h.get("records") or []
+    if not recs:
+        return ["", "## 账本历史变更：本单引用的账本有没有被改过", "",
+                "- 已核验：订单账本共 %s 根 bar，其中**没有一根在发布后被改述**。"
+                % (h.get("bars_total") if h.get("bars_total") is not None else "?")]
+    L = ["", "## 账本历史变更：本单引用的账本有没有被改过", "",
+         "**有 %d 根 bar 在发布后被改述**（两个值都留在账本行上）：" % len(recs), "",
+         "| bar | 发布时 NAV | 定格后 NAV | 改述时刻 | 之后同乘 | 被缩放的后续行 |",
+         "|---|---|---|---|---|---|"]
+    for r in recs:
+        L.append("| %s | %s | %s | %s | %s | %s |"
+                 % (r.get("date") or "-",
+                    "-" if r.get("nav_published") is None
+                    else "%.8f" % float(r["nav_published"]),
+                    "-" if r.get("nav") is None else "%.8f" % float(r["nav"]),
+                    r.get("restated_at") or "-",
+                    r.get("nav_factor_applied") if r.get("nav_factor_applied") is not None else "-",
+                    r.get("later_rows_rescaled")
+                    if r.get("later_rows_rescaled") is not None else "-"))
+    if h.get("chain_broken"):
+        L += ["", "- **改述之后链条没接上**（逐根 nav=前根×(1+ret) 校验失败，%d 处）：%s"
+              % (len(h["chain_broken"]), _chain_break_line(h["chain_broken"]))]
+    else:
+        L += ["", "- 链条校验：改述行与其后一根 bar 的 nav=前根×(1+ret) 关系成立"
+              "（容差按 8 位存储的舍入计，不是拿 1e-9 去判 8 位小数的乘积）。"]
+    L += ["", "- 读法：本单引用的行以「定格后」那一列为准；发布值保留在同一行的 "
+          "nav_published 上，不是只留在生成器的临时文件里。"]
+    return L
 
 
 def reinstatement_md(ri):
@@ -565,14 +697,36 @@ def reinstatement_md(ri):
                             float(r["recomputed_nav"]) - float(r["withdrawn_nav"]))))
         elif r.get("status") == "REWRITTEN_FROM_PANEL":
             L.append("- %s：账本行与面板重算不一致（nav %s → %.8f，差 %+.2e，ret %s → %+.8f）"
-                     "——已按面板改写并标 restated_at=%s，之后 %d 根 nav 同乘 %.12f 保持链条一致"
+                     "——已按面板改写并标 restated_at=%s，之后 %d 根 nav 同乘 %.12f %s"
                      % (r["date"], r.get("ledger_nav"), r["recomputed_nav"],
                         r.get("nav_delta") or 0.0, r.get("ledger_ret"), r["recomputed_ret"],
                         r.get("restated_at"), r.get("later_rows_rescaled") or 0,
-                        r.get("nav_factor") or 1.0))
+                        r.get("nav_factor") or 1.0,
+                        "链条复利校验通过（逐根 nav=前根×(1+ret)，容差随 8 位存储舍入放大）"
+                        if r.get("chain_intact") is not False else
+                        "**改后链条断了**：%s" % _chain_break_line(r.get("chain_breaks"))))
         else:
             L.append("- %s：**无法核验**（缺 %s）——这一行没有被证明是面板算出来的"
                      % (r["date"], "、".join(r.get("missing") or [])))
+        # r1490: on a later run the row agrees with the panel and would read plain
+        # RECOMPUTED_IDENTICAL. Its own record says it was published at a different number,
+        # so both values are printed -- history that moved must not read as history that
+        # never moved.
+        _sr = r.get("settled_restated") or {}
+        if _sr:
+            L.append("  - 这根 bar **定格后被改述过**（%s）：当时发布 nav=%s ret=%s → 定格后 "
+                     "nav=%s ret=%s；之后 %s 根 nav 同乘 %s。"
+                     % (_sr.get("restated_at") or "-",
+                        "-" if _sr.get("published_nav") is None
+                        else "%.8f" % float(_sr["published_nav"]),
+                        "-" if _sr.get("published_ret") is None
+                        else "%+.8f" % float(_sr["published_ret"]),
+                        "%.8f" % float(_sr["settled_nav"]),
+                        "%+.8f" % float(_sr["settled_ret"]),
+                        _sr.get("later_rows_rescaled")
+                        if _sr.get("later_rows_rescaled") is not None else "-",
+                        _sr.get("nav_factor_applied")
+                        if _sr.get("nav_factor_applied") is not None else "-"))
     return L
 
 
@@ -1494,6 +1648,7 @@ def card(ticket, mk, sched, asof, beta, extra):
     if extra.get("withdrawals"):
         L += ["", "> 账本撤回：%s" % extra["withdrawals"]]
     L += reinstatement_md(extra.get("reinstatements"))
+    L += reinstated_history_md(extra.get("reinstated_history"))
     if ticket:
         L += ["## 今日目标（NAV ¥%s）" % format(int(ticket["nav"]), ","),
               "k=%.2f（书内 %.0f%%、现金 %.0f%%）｜ 现金腿=%s ｜ 现金 ¥%s"
@@ -2123,7 +2278,11 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                           "rows_added": len(merged), "engine_naive_vs_ledger": drift,
                           "withdrawn_now": [r["date"] for r in _withdrawn],
                           "withdrawal_note": withdrawals_line(),
-                          "reinstatements": _ri},
+                          "reinstatements": _ri,
+                          # r1490: read from the ledger rows, not from this run's
+                          # reinstatements.json -- a restatement three runs old must still
+                          # be on the sheet an operator opens today.
+                          "reinstated_history": reinstated_history()},
                "entry_gate": entry_gate_support(),
                "swap_trigger": _json_face(SWAP_FACE),
                "swap_stack": _json_face(SWAP_STACK_FACE),
@@ -2183,6 +2342,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "carry": carry, "restatements": payload["restatements"],
                       "withdrawals": payload["ledger"]["withdrawal_note"],
                       "reinstatements": payload["ledger"]["reinstatements"],
+                      "reinstated_history": payload["ledger"]["reinstated_history"],
                       "cash_money": payload["cash_leg"]["money"],
                       "entry_gate": payload["entry_gate"],
                       "swap_trigger": payload["swap_trigger"],
@@ -4522,6 +4682,87 @@ def selftest():
         and not _riC["rewritten"]
         and abs(_read_jsonl(os.path.join(_dC, "ledger.jsonl"))[1]["nav"] - _nav_ok) < 1e-12
         and "无法核验" in "\n".join(reinstatement_md(_riC)), str(_riC))
+
+    # ---- r1490: the rewrite must keep BOTH numbers on the row, and a later run must say so ----
+    _dD, _rpD, _rfD, _kD = _ri_fixture(1.13, 0.0)
+    _riD = reinstatement_check(_rpD, _rfD, _kD, out_dir=_dD, now="2026-11-10T03:30:00")
+    _rowsD = _read_jsonl(os.path.join(_dD, "ledger.jsonl"))
+    chk("leg52i reinstated: a rewritten row keeps what was published (nav_published/"
+        "ret_published) on the row itself, so the old number survives the next run",
+        _riD and _riD["records"][0]["status"] == "REWRITTEN_FROM_PANEL"
+        and abs(float(_rowsD[1]["nav_published"]) - 1.13) < 1e-12
+        and _rowsD[1]["ret_published"] == 0.0
+        and abs(float(_rowsD[1]["nav"]) - _nav_ok) < 1e-8
+        and _rowsD[1].get("restated_at") == "2026-11-10T03:30:00"
+        and _rowsD[1].get("later_rows_rescaled") == 1
+        and _riD["records"][0].get("chain_intact") is True, str(_rowsD))
+
+    # second run: the row now agrees with the panel, and the sheet must still print its history
+    _riD2 = reinstatement_check(_rpD, _rfD, _kD, out_dir=_dD, now="2026-11-11T03:30:00")
+    _mdD2 = "\n".join(reinstatement_md(_riD2))
+    chk("leg52j reinstated: on a later run an already-restated bar reports its published and "
+        "settled values instead of reading as 'never moved'",
+        _riD2 and _riD2["records"][0]["status"] == "RECOMPUTED_IDENTICAL"
+        and _riD2["settled_restated"] == ["2026-11-09"]
+        and (_riD2["records"][0].get("settled_restated") or {}).get("published_nav") == 1.13
+        and "定格后被改述过" in _mdD2 and "1.13000000" in _mdD2, str(_riD2))
+
+    _hist = reinstated_history(os.path.join(_dD, "ledger.jsonl"))
+    _mdH = "\n".join(reinstated_history_md(_hist))
+    chk("leg52k reinstated: the sheet's ledger-history block reads the LEDGER ROWS (not the "
+        "per-run reinstatements.json) and prints published vs settled plus the chain verdict",
+        _hist.get("readable") is True and _hist["bars"] == ["2026-11-09"]
+        and _hist["records"][0]["nav_published"] == 1.13
+        and not _hist["chain_broken"]
+        and "发布时 NAV" in _mdH and "1.13000000" in _mdH
+        and "链条校验" in _mdH, str(_hist))
+
+    # a chain that no longer compounds must be named, never printed as a dash
+    _dE, _rpE, _rfE, _kE = _ri_fixture(1.13, 0.0)
+    reinstatement_check(_rpE, _rfE, _kE, out_dir=_dE, now="2026-11-10T03:30:00")
+    _rowsE = _read_jsonl(os.path.join(_dE, "ledger.jsonl"))
+    _rowsE[2]["nav"] = round(float(_rowsE[2]["nav"]) * 1.01, 8)      # break the chain on purpose
+    with open(os.path.join(_dE, "ledger.jsonl"), "w", encoding="utf-8") as f:
+        for _r in _rowsE:
+            f.write(json.dumps(_r, ensure_ascii=False) + "\n")
+    _histE = reinstated_history(os.path.join(_dE, "ledger.jsonl"))
+    _mdE = "\n".join(reinstated_history_md(_histE))
+    chk("leg52l reinstated: a ledger whose restated bar no longer compounds says so "
+        "(expected vs ledger printed), it does not print a clean chain",
+        _histE and len(_histE["chain_broken"]) == 1
+        and "链条没接上" in _mdE, (_mdE[-300:] if _mdE else str(_histE)))
+
+    # the gate must not read 8-decimal rounding as a broken chain (measured on the real
+    # 2026-11-06 row: expected 1.46125781 vs rescaled ledger 1.46125782 = 1e-8, after a
+    # genuinely correct rescale)
+    _dF = _tf.mkdtemp()
+    with open(os.path.join(_dF, "withdrawals.json"), "w", encoding="utf-8") as f:
+        json.dump([{"withdrawn": [{"date": "2026-11-06", "nav": 1.45936114, "ret": -0.00874174,
+                                   "k": 0.460253}],
+                    "reason": "panel ended", "panel_last": "2026-11-05",
+                    "state_rewound_to": "2026-11-05", "at": "2026-11-06T23:54:02"}], f)
+    with open(os.path.join(_dF, "ledger.jsonl"), "w", encoding="utf-8") as f:
+        for _d, _n, _r, _k in (("2026-11-03", 1.472231, 0.0, 0.460253),
+                               ("2026-11-04", 1.472231, 0.0, 0.460253),
+                               ("2026-11-05", 1.472231, 0.0, 0.460253),
+                               ("2026-11-06", 1.45936114, -0.00874174, 0.460253),
+                               ("2026-11-09", 1.45787328, -0.00101953, 0.460253)):
+            f.write(json.dumps({"date": _d, "nav": _n, "ret": _r, "k": _k}) + "\n")
+    _rpF = pd.Series([0.0, 0.0, 0.0, (-0.00874174 / 0.460253) + 0.005, 0.0],
+                     index=pd.DatetimeIndex(["2026-11-03", "2026-11-04", "2026-11-05",
+                                             "2026-11-06", "2026-11-09"]))
+    _rfF = pd.Series([0.0] * 5, index=_rpF.index)
+    _kF = pd.Series([0.460253] * 5, index=_rpF.index)
+    _riF = reinstatement_check(_rpF, _rfF, _kF, out_dir=_dF, now="2026-11-10T04:10:00")
+    _rowsF = _read_jsonl(os.path.join(_dF, "ledger.jsonl"))
+    _gapF = abs(round(float(_rowsF[3]["nav"]) * (1.0 + float(_rowsF[4]["ret"])), 8)
+                - float(_rowsF[4]["nav"]))
+    chk("leg52m reinstated: a correct rescale whose 8-decimal rounding leaves a 1e-8 gap is "
+        "read as an intact chain (the gate scales with rounding, it does not print a false red)",
+        _riF and _riF["records"][0]["status"] == "REWRITTEN_FROM_PANEL"
+        and _riF["records"][0].get("chain_intact") is True
+        and _gapF > 1e-9 and _gapF < 1e-7
+        and not _riF["chain_broken"], "gap=%.3e rec=%s" % (_gapF, _riF["records"][0]))
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

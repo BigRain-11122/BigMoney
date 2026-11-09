@@ -12161,3 +12161,36 @@ trail 看见它 + 之后所有 nav 同乘公布出来的 factor 保持链条自�
 **正身**：scripts/etf_book_order.py（selftest 126 → **129/129**：leg52f 重算恒等 / leg52g 旧副本被
 改写并缩放下游 / leg52h 输入缺失判 UNVERIFIABLE）+ results/etf_book_order/reinstatements.json +
 ORDER-2026-11-09.md 的「账本 reinstatement」段 + 卡本行。
+
+
+### E501 · 改述之后的链条要「量」出来，舍入不是断链（r1490 bm-c）
+
+E500 让改述行按面板重算、下游 nav 同乘一个 factor「保持链条一致」——但那句话当时只是一个
+断言：没人验过改完的账本还复不复利，而且被改写掉的发布值只留在 `reinstatements.json`（每次运行
+覆写）里，等于「生产者读得到、操盘手永远读不到」（E281 同族）。
+
+本轮三件事：
+
+① **发布值留在行上**：改写时同时写 `nav_published` / `ret_published` / `nav_factor_applied` /
+`later_rows_rescaled`。历史动了，账本行自己就得说出动之前是多少。② **第二遍不能读成「没动过」**：
+下一轮该行与面板一致会走 `RECOMPUTED_IDENTICAL`，此前面板只印「重算值不是旧副本」；现在行上带
+`restated_at`/`nav_published` 就升级成 `settled_restated`，票面同时印发布值与定格值。③ **链条校验
+的容差要随存储精度放大**：nav 存 8 位小数，每次改写缩放的舍入误差最大 1e-8，用固定的 1e-9 去比会
+把一条算术完美的链判红——实测（真实账本 2026-11-06）：期望 1.46125781、账本 1.46125782，差正好
+1e-8。正法 = `gate = tol + 1e-8*(离改写行的距离)`，并把 gate 印进 `chain_breaks` 记录，不许静静
+放宽。
+
+实测面（`scripts/etf_book_restatement_shadow.py`，真实账本 + 只挪一个输入）：控制臂（同一面板）
+必须复现发布行（status=IDENTICAL、nav_delta=0.0），否则本面拒绝下结论；影子臂把该 bar 的书收益
++0.5%（=面板重印了一个不同的收盘价）：2026-11-06 发布 nav 1.45936114/ret -0.00874174 → 定格后
+1.46274913/-0.00644048，factor 1.002321556952，下游 2026-11-09 nav 1.45787328 → 1.46125782，
+ret 逐字不动，链条校验通过。真实账本本身：689 根 bar 无一根被改述（票面印「没有一根」而不是空白）。
+
+可复用判据：**任何「改写后保持一致」的宣称，都必须在改写后的产物上重新量一遍，且量的门要按存储
+精度取，不能拿数据库级容差去判 8 位小数的乘积**；改述行必须自带发布值，否则「历史变了」这个事实
+只活在生成器的临时文件里。
+
+**正身**：scripts/etf_book_order.py（selftest 129 → **134/134**：leg52i 行保留发布值 + leg52j 第二遍印
+发布/定格双值 + leg52k 票面读账本行而非 per-run 文件 + leg52l 断链点名 + leg52m 舍入不误判）、
+scripts/etf_book_restatement_shadow.py、results/etf_book_order/restatement_shadow.json、
+results/etf_book_order/ORDER-2026-11-09.md「账本历史变更」段、S6 腿 etf_book_restatement_shadow。

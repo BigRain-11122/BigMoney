@@ -276,6 +276,14 @@ LEGS = [
     # card, nothing re-ranked), so the operator's sheet cannot drift into the other book.
     # ~1s, offline, idempotent.
     ("etf_book_order_card", ["python", "scripts/etf_book_order.py", "card"]),
+    # r1490: the sheet now says whether the ledger it quotes ever moved, and the rewrite
+    # path ("a published bar whose own panel input changed") had only ever run on a fixture.
+    # This leg re-runs it on the REAL ledger -- control first (must reproduce the published
+    # row exactly, else it refuses), then the moved-input case: published nav kept on the
+    # row, the one later row rescaled, chain re-checked with the rounding-aware gate.
+    # Offline, ~0.4s, writes only results/etf_book_order/restatement_shadow.json.
+    ("etf_book_restatement_shadow",
+     ["python", "scripts/etf_book_restatement_shadow.py", "run"]),
     # r1398: the entry-friction face reads today's ticket and the session's spot board,
     # so it needs the ticket legs above it -- and it needs the DAILY gate rather than a
     # hand-run, because #97 (etf_premium_sentiment) will be built on this forward series.
