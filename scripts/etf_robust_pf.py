@@ -27,7 +27,7 @@ TARGET_VOL = 0.08
 def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
                         vol_target=None, start=START, vol_window=60,
                         vol_cap=1.0, vol_floor=0.0, diag=None, ratio_hook=None,
-                        select_hook=None, weight_hook=None):
+                        select_hook=None, weight_hook=None, scale_hook=None):
     """vol_cap caps the sizing scale (1.0 = de-lever only, the published behaviour).
     vol_floor (default 0.0 = bit-identical to every published run) is a lower bound on the
     scale: the sizing rule may never take the book below this fraction. Without a floor a
@@ -52,6 +52,16 @@ def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
     decision, so it may only use data up to that bar. The returned weights must cover
     exactly `picks` and sum to 1.0 (the sizing overlay reads the book's own vol, so a
     book that is not fully invested would be silently re-levered). `None` (default) is
+    bit-identical to the published behaviour.
+
+    scale_hook(book, date, path, est_vol) -> float optionally replaces the vol-target
+    sizing rule with an arbitrary de-risking RULE (drawdown brake, trend brake, a vol
+    target that only applies in a loss regime). `path` is the book's own equity curve up
+    to and including this bar (the caller must not look ahead; the hook is called at the
+    decision), `est_vol` is the same 60-bar book vol the vol target would use (None when
+    it cannot be estimated). The returned scale must be in [0, 1] -- a rule may de-lever
+    and never lever up -- and anything else raises instead of being silently clamped.
+    scale_hook and vol_target are alternatives: passing both raises. `None` (default) is
     bit-identical to the published behaviour."""
     hist = close.notna().cumsum()
     elig = (amt >= E.MIN_AMT) & (hist >= E.MIN_HIST)
@@ -100,7 +110,17 @@ def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
                 scale = 1.0
                 est = None
                 ratio = 1.0
-                if vol_target:
+                if scale_hook is not None:
+                    if vol_target:
+                        raise ValueError("scale_hook and vol_target are alternatives; pass one")
+                    v = book_vol(w, d)
+                    est = float(v) if np.isfinite(v) else None
+                    sc = float(scale_hook(w, d, pd.Series(dict(daily)), est))
+                    if (not np.isfinite(sc)) or sc < 0.0 or sc > 1.0:
+                        raise ValueError("scale_hook returned %r at %s, expected a scale in "
+                                         "[0, 1]" % (sc, d.date()))
+                    scale = sc
+                elif vol_target:
                     v = book_vol(w, d)
                     if np.isfinite(v) and v > 0:
                         est = float(v)
@@ -116,7 +136,9 @@ def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
                 held = w
                 if diag is not None:
                     diag.append({"date": str(d.date()), "est_vol": est, "scale": scale,
-                                 "ratio": ratio, "book": list(picks)})
+                                 "ratio": ratio, "book": list(picks),
+                                 "rule": "hook" if scale_hook is not None
+                                 else ("vol_target" if vol_target else "none")})
         nxt = dates[i + 1]
         r = 0.0
         for p, wt in held.items():

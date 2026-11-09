@@ -1019,6 +1019,14 @@ LEGS = [
     # the phase cells, the headline quotes the phase cell). `check` reads the published
     # JSON only (~0.1s); the 14-minute repricing runs with `run` in its own round.
     ("punctuality", ["python", "scripts/etf_book_punctuality.py", "check"]),
+    # r1488: r1486 showed the vol-target rung cannot both clear Y4 and buy drawdown, and
+    # left "is the RULE wrong, not the rung?" open. This leg re-derives the published
+    # de-risking-rule receipt from its own rows: every verdict from the row's years, every
+    # phase claim from the phase cells, the mechanism deltas against the control, and the
+    # resolvability block from the same cells (a spread that crosses the 70% line is
+    # unresolvable, never a quiet pass). `check` reads the published JSON only (~0.1s);
+    # the ~100s repricing runs with `run` in its own round.
+    ("derisk_rule", ["python", "scripts/etf_book_derisk_rule.py", "check"]),
     # r1481: the punctuality arm prices the *policy* ("every sheet one open late"). The
     # desk holds one sheet and needs its own price, so this face prices each decision bar
     # separately and then proves the locals add up to that policy arm (residual on the log

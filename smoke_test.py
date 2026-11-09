@@ -673,6 +673,17 @@ def main() -> int:
              "scripts/etf_book_punctuality.py", ["selftest"]),
             ("product: etf_book_punctuality (money, verdict and sentence re-derived)",
              "scripts/etf_book_punctuality.py", ["check"]),
+            # r1488: r1486 left "is the RULE wrong, not the rung?" open. The legs pin that
+            # each de-risking rule de-levers only in its stated bad state, never on a
+            # censored window, that the engine refuses an out-of-range scale instead of
+            # clamping it, that a hook which does nothing reproduces the plain engine bit
+            # for bit, that the published receipt re-derives its verdicts/phases/mechanism
+            # from its own rows, and that a phase spread crossing the gate line is reported
+            # as unresolvable rather than as a pass by luck.
+            ("product: etf_book_derisk_rule (change the rule, not the rung)",
+             "scripts/etf_book_derisk_rule.py", ["selftest"]),
+            ("product: etf_book_derisk_rule (verdicts, phases, mechanism and ruler re-derived)",
+             "scripts/etf_book_derisk_rule.py", ["check"]),
             # r1481: the punctuality arm answers the policy question ("every sheet one open
             # late"); the desk asks about the sheet in its hand. The legs pin that the tape
             # reproduces the engine, that a book which does not change has no price for
