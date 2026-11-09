@@ -26620,5 +26620,86 @@ except Exception as _e624x:
     _d624 = "study could not be read"
 check(_name624, not _bad624, "; ".join(_bad624)[:240] or _d624)
 
+# E625 prices the third and last test E624 left open -- object identity is not value identity.  For
+# every sibling read E624 accepted as the same object, the interval between the two lines is scanned
+# for a write to that key on that object: a store/del/update/setdefault/pop that NAMES the key means
+# the read sees a different value, an unnameable write (update(payload), m[k2] = ...) or the object
+# handed to a call leaves it undecided, and only an untouched key means the two reads saw the same
+# value.  19 same-object reads over 11 of the 34 lines: 18 untouched, 0 stored, 0 unnamed, 1 handed
+# to a call -- so 3 of E624's 4 same-object duplicate rows survive the value test and 1 stays
+# undecided.  The leg re-reads the published face, re-derives every value class count and the
+# surviving/stored/undecided split from the rows, re-asks the verdict, requires the row-local
+# counters to mirror the reads, requires the E624 cross-check to still agree on both the line rows
+# and the superseded same-object count, and excludes this study from its own population.
+_name625 = ("E625 whether the sibling read sees the value the dead line saw (r1643 bm-b)")
+_bad625 = []
+_d625 = "no reading"
+try:
+    _f625 = json.load(open(os.path.join("results", "state_tilt", "siblingreadvalue_latest.json"),
+                           encoding="utf-8"))
+    _m625 = importlib.import_module("e625_sibling_read_value")
+    _bad625.extend(_m625.face_problems(_f625))
+    _c625 = _f625.get("counts") or {}
+    _rows625 = _f625.get("lines") or []
+    _again625 = _m625.derive_verdict({
+        "population_modules": _c625.get("population_modules"),
+        "lines": _rows625,
+        "inert_dead_facekey_lines": _c625.get("inert_dead_facekey_lines"),
+        "skipped": [None] * (_c625.get("skipped_modules") or 0)})
+    if _again625 != _f625.get("verdict"):
+        _bad625.append("the published verdict is not what the line rows force (%r)" % _again625)
+    if sum(_c625.get("value_" + _k, 0) for _k in _m625.VALUE_CLASSES) != \
+            _c625.get("same_object_sibling_read_instances", -1):
+        _bad625.append("the value classes do not add up to the same-object read count")
+    if (_c625.get("same_object_duplicates_that_survive_the_value_test", 0)
+            + _c625.get("same_object_duplicates_the_key_is_stored_for", 0)
+            + _c625.get("same_object_duplicates_left_undecided", 0)) != \
+            _c625.get("same_object_duplicate_rows", -1):
+        _bad625.append("the surviving/stored/undecided split does not add up to the duplicate count")
+    if not _rows625:
+        _bad625.append("the face publishes no line at all, yet the study exists")
+    for _r625 in _rows625:
+        for _s625 in (_r625.get("sibling_reads") or []):
+            if not _s625.get("same_object"):
+                continue
+            if _s625.get("value_class") not in _m625.VALUE_CLASSES:
+                _bad625.append("line %r in %r carries value_class=%r"
+                               % (_r625.get("line"), _r625.get("function"),
+                                  _s625.get("value_class")))
+                break
+            if _s625.get("sees_the_value_the_dead_line_saw") is not \
+                    (_s625.get("value_class") == _m625.UNCHANGED):
+                _bad625.append("line %r in %r marks sees_the_value against its value class"
+                               % (_r625.get("line"), _r625.get("function")))
+                break
+    _self625 = [r.get("module") for r in _rows625
+                if r.get("module") and r["module"].split("/")[-1] in _m625.SELF_PARTS]
+    if _self625:
+        _bad625.append("this study lists itself as a holder module: %s" % ", ".join(_self625))
+    _cc625 = _f625.get("e624_cross_check") or {}
+    if _cc625.get("published") is False:
+        _bad625.append("the E624 cross-check did not read a published face")
+    elif _cc625.get("agrees") is False:
+        _bad625.append("the re-derived rows no longer match the published E624 face")
+    elif _cc625.get("published_superseded_same_object") != \
+            _cc625.get("rederived_superseded_same_object"):
+        _bad625.append("the E624 superseded same-object count moved between the faces")
+    _d625 = ("lines=%s rows_with_same_object=%s same_object_reads=%s untouched=%s stored=%s "
+             "unnamed=%s handed=%s duplicates=%s survive=%s undecided=%s verdict=%s"
+             % (_c625.get("live_dead_facekey_lines"),
+                _c625.get("rows_with_a_same_object_sibling_read"),
+                _c625.get("same_object_sibling_read_instances"),
+                _c625.get("value_" + _m625.UNCHANGED),
+                _c625.get("value_" + _m625.VALUE_CLASSES[0]),
+                _c625.get("value_" + _m625.VALUE_CLASSES[1]),
+                _c625.get("value_" + _m625.VALUE_CLASSES[2]),
+                _c625.get("same_object_duplicate_rows"),
+                _c625.get("same_object_duplicates_that_survive_the_value_test"),
+                _c625.get("same_object_duplicates_left_undecided"), _f625.get("verdict")))
+except Exception as _e625x:
+    _bad625.append(repr(_e625x)[:160])
+    _d625 = "study could not be read"
+check(_name625, not _bad625, "; ".join(_bad625)[:240] or _d625)
+
 if __name__ == "__main__":
     sys.exit(main())

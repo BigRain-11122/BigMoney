@@ -1360,6 +1360,15 @@ LEGS = [
     # walk, ~1s).
     ("sibling_read_object", ["python", "scripts/e624_sibling_read_object.py", "verify"]),
 
+    # E625 prices the last of the three tests: object identity is not value identity.  For every
+    # same-object sibling read E624 accepted, the interval between the two lines is scanned for a
+    # write to that key on that object -- store/del/update/setdefault/pop that names the key means
+    # the read sees a different value, an unnameable write or the object handed to a call leaves it
+    # undecided, and only an untouched key means both reads saw the same value.  Verify re-derives
+    # every value class count, the surviving/stored/undecided split and the verdict from the line
+    # rows (no corpus walk, ~1s).
+    ("sibling_read_value", ["python", "scripts/e625_sibling_read_value.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

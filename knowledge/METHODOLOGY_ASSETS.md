@@ -14563,3 +14563,24 @@ esults/state_tilt/DUPWITNESS.json、S6 leg dup_witness、smoke leg E601。坑：
 **How**：判“重复/冗余”类结论时，先问“被比较的两端是不是同一个东西”，并把对象身份的实现口径（同表达式文本 + 区间内无绑定 + 属性路径无赋值）写进 limits；每行同时给出两端接收者原文，让 34 行可以用肉眼复核；一条死的分母比一条死结论更贵。
 
 **证据** = `scripts/e624_sibling_read_object.py`（selftest 27/27，run/check/verify `problems=[]`）、`results/state_tilt/SIBLINGREADOBJECT-2026-11-09.json`（+ `siblingreadobject_latest.json`）、`scripts/run_e624_smoke_leg.py`（1/1 PASS，`--doctor` 1/1 红且面字节还原）、smoke_test.py leg E624、S6 leg `sibling_read_object`、POOL E624 done → E625 seeded。
+
+---
+
+## E625 — 同一把键、同一个字典，值却可能已被改写：E624 的 4 条同对象重复读里只有 3 条真看见同一个值（r1643 bm-b·2026-11-09）
+
+> 溯源=E625（POOL 卡片同为 E625，研究号=E625）。
+
+**问题**：E624 自己把漏洞写进了 limits——"对对象的改写不是对名字的重新绑定"，所以两次读同一个键、中间有 `m["k"] = ...`，按对象同一性仍算同一个字典。键（E623）→ 对象（E624）→ **值**（本条）是三级检验，本条给第三级定价：**E624 认下的同对象兄弟读，中间到底有没有人改过那把键？**
+
+**读数**：`results/state_tilt/SIBLINGREADVALUE-2026-11-09.json`（cutoff 2026-11-09；母体=E624 的 34 行，`object_facts` 直接 import 零重实现；1,099 个模块，自排 14 个）：
+- E624 认下 **19 条同对象兄弟读**，落在 34 行中的 **11 行**上：**18 条区间内没有任何写入**（两次读看见同一个值）、**0 条有具名写入**（`m["k"] = ...` / `del` / `m.update({"k":...})` / `setdefault` / `pop` 命中该键）、**0 条未具名写入**、**1 条对象被交给了调用**（`cn_core_ddctl_p1.py:367` 的 `P["days"]`，P 在 367→395 之间被交给调用两次）。
+- 于是 E624 的 **4 条同对象重复读**：**3 条过值检验**（`cn_mkneutral_p1.py:507` `P["slip_exec"]`、`e590_cash_silence.py:364` `r["bar"]`、`ew6_portfolio.py:393` `ports["x1"]`），**0 条被改写覆盖**，**1 条留 undecided**（就是那条交出去的对象）。判决= `3_of_4_same_object_duplicate_reads_sees_the_value_the_dead_line_saw`。
+- E624 交叉核验：34 行逐行、逐 corrected_class 全同（0 差异），superseded 同对象 4 = 4。
+
+**研究**：**键同 + 对象同 ≠ 值同**，而"重读"这个词只有在值也没动时才有意义。更值得记的是那个 0：**这一批 19 条同对象读里没有一条被具名写入改写**——也就是说 E623/E624 那 3 条生存者不是"侥幸没被改"，而是这些字典在两次读之间**确实没被写**。真正的残余不确定性只有一类：对象被交出去，谁能写它看不出来。
+
+**教训**：①**"重复读"要按 key → object → value 三级定价**，只做前两级会把"同一个字典但值已换"读成重复；②**未具名写入与交出手的调用一律记 undecided 不猜**——`m.update(payload)`、`m[k2] = ...`、`f(m)` 三类都不许说"没改"；③**undecided 也是产物**：它把下一步问题精确到一条（那两次交出去到底写了没），所以种子卡才有意义；④交出去的调用要在行上带次数与形式，否则读者无法区分"交出去一次"和"交出去两次"。
+
+**How**：写任何"重读/重复/冗余"判据时，先问值在两次观察之间是否可能被改写；静态不可判定就发布 undecided 并把它降成下一张卡，禁把它算成"没有改写"（那是把不可知伪装成结论）。区间扫描必须落每一条写入/交出证据（行号 + 形式），让分母的每一行都能被眼睛复核。
+
+**证据** = `scripts/e625_sibling_read_value.py`（selftest 23/23；run/check/verify `problems=[]`）；`results/state_tilt/SIBLINGREADVALUE-2026-11-09.json`（+ `siblingreadvalue_latest.json`）；`scripts/run_e625_smoke_leg.py`（1/1 PASS；`--doctor` 1/1 红，面字节还原）；smoke_test.py leg E625；S6 leg `sibling_read_value`；POOL E625 done → E626 seeded。
