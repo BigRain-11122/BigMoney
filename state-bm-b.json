@@ -6448,15 +6448,15 @@
  "three_line_artifact": "results/state_tilt/ALIASBINDING.json",
  "three_line_artifact_ts": "2026-11-09T23:05:00+08:00",
  "three_line_current": "r1645: E627 closed -- over 4 same-object duplicate rows and 125 second-name bindings, 0 bind to the receiver itself, so no alias hides a write (4 survive / 0 stored / 0 undecided)",
- "three_line_delivery": "machine/bm-b-r1644 @ 69c2b4c8ec73",
+ "three_line_delivery": "machine/bm-b-r1645 @ fef6d5b4f29c",
  "three_line_next": "E628 (ready, cpu-only): whether the receiver of a dead face-key line arrives from outside the function (a container element or a module-level name), where E627's interval start is not the object's origin -- 48h",
  "three_line_recent": "results/state_tilt/ALIASBINDING.json (2026-11-09T23:05)",
- "timestamp": "2026-11-09T23:15:00+08:00",
- "ts": "2026-11-09T23:15:00+08:00",
+ "timestamp": "2026-11-09T23:22:00+08:00",
+ "ts": "2026-11-09T23:22:00+08:00",
  "ts_utc_ms": 1794234696000,
  "ts_utc_offset": "+08:00",
- "updated": "2026-11-09T23:15:00+08:00",
- "updated_at": "2026-11-09T23:15:00+08:00",
+ "updated": "2026-11-09T23:22:00+08:00",
+ "updated_at": "2026-11-09T23:22:00+08:00",
  "verdict": "watermark=low-activity at open (pool 1 ready: E627) -> burned E627 in-round -> 1 ready at close (E628)",
  "verdict_line": "125 second-name bindings over 4 duplicate rows: 0 bind to the receiver itself -> 4 survive / 0 stored / 0 undecided",
  "verdict_note": "product round; the full smoke suite was not launched (r1499), so no suite total is claimed -- the new leg and its standalone mirror are green and red-doctored",
@@ -6557,5 +6557,12 @@
    "results/runnable_pool.json E627 done + E628 seeded (25/3 numstat)"
   ],
   "ts": "2026-11-09T23:15:00+08:00"
+ },
+ "r1645_delivery": {
+  "branch": "machine/bm-b-r1645",
+  "sha": "fef6d5b4f29c093fb2230d7c4a1cd9e4373533f1",
+  "ts": "2026-11-09T23:22:00+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1645 == fef6d5b4f29c093fb2230d7c4a1cd9e4373533f1",
+  "main_push_blocker": "local is ~802 ahead / 486 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel"
  }
 }
