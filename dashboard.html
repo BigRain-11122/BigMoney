@@ -423,6 +423,15 @@ function renderCompany() {
       down ? "warn" : "dim",
       `${n2(lfd.n_offhost)}/${n2(lfd.n_lanes)} 在外机`));
   }
+  // r1273: the row above says whose disk the numbers are on. This one says
+  // whether the copy ON THIS DISK is the one the lane certifies -- because a
+  // research run started here reads these bytes, not the company's envelope.
+  const lr = (lf && lf.local_replicas) || {};
+  if (lr.sentence) {
+    rows.push(chainRow("本机副本", lr.sentence,
+      (lr.n_lagging ? "warn" : "ok"),
+      lr.n_lagging ? `落后 ${n2(lr.n_lagging)}/${n2(lr.n_readable)} 条` : "已追平"));
+  }
   // r1387: the group's 2026-11-08 re-enable decision reads this row. Two facts travel
   // together and are never merged here: OWNERSHIP (is there one owner per lane) and
   // OBSERVATION (an owned lane nobody has been seen producing is a warning, not ok).

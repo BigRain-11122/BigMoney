@@ -11767,3 +11767,31 @@ v1 是只读的：带子从不改 k，它只是拒绝保持沉默。outside 档�
 
 正身 = scripts/etf_book_order.py（selftest 120/120·leg51n/s）+ results/etf_book_order/TICKET-2026-11-06.json::size_band
 + results/etf_book_order/ORDER-2026-11-06.md + smoke 腿 + 卡 E486。
+
+### E487 · 「在同步」是公司数据的陈述，不是本检出字节的陈述（r1273 bm-a）
+
+**坑**：车道新鲜度板用**车道自己的封套**判 in_sync，于是「这条道是活的」与
+「本机读得到的是这一天的数」被印成同一句话。2026-11-09 实测：moneyflow 读 in_sync
+（车道尾 2026-11-06），而本机 data/moneyflow/per/ 止于 **2026-10-13（差 18 个
+官方交易日）**，ah_panel 差 6 天——本机发起的任何研究都在读旧盘，而每一张人类面
+（终端行/看板/战报）都写着「与官方日历同步」。
+
+**判据（两问不合并）**
+1. 这条道在**公司层面**是否活着 → 封套 + 官方日历（既有规则）。
+2. 本检出里的**字节**是否就是它认证的那一天 → 本机副本尾 vs 封套尾，差几天。
+两者可以同时为真（道活着 + 本机副本旧），所以是**并列的第二行**，不是改判。
+
+**三条可复用**
+1. **一个 in_sync 同时回答两个问题时，两个问题都必须印**。把「本机副本落后」
+   折叠进 verdict 会让活车道看起来死了；只报 verdict 会让死副本看起来是活的。
+2. **分母要说清**：「5 条可读面板里有 2 条落后」——不可读/退役的面板不能进分母当
+   成「已追平」（r1261「空测量不许算好读数」同族）。
+3. **汇总句只能由生产者算一次**，看板/战报/终端三面逐字打印（r1162 disk_face 范式），
+   否则第一个换宿主的车道就会让三面各说各话（r1290/r1375）。
+
+**正身**：scripts/data_lane_freshness.py::replica_face（local_replicas 字段 +
+render_md 段导读 + LOCAL-COPY stdout 行 + selftest L32 内含 md 打印断言）
++ monitor/build_status.py local_replicas 透传 + dashboard.html「本机副本」行
++ scripts/daily_report.py 第十节副本行（selftest 新断言）+ smoke 腿
+「a copy that lags its own lane reaches the page, the board line and the printed run」。
+

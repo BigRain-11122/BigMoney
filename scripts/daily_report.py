@@ -776,6 +776,9 @@ def _lane_authority_face(root=None):
                         "last_seen": g.get("last_seen")}
                        for g in (disk.get("groups") or [])],
             "offhost_lanes": disk.get("offhost_lanes") or [],
+            # r1273: in_sync certifies the company's data; this is about the
+            # bytes HERE. Printed verbatim from the board's own derivation.
+            "local_replicas": doc.get("local_replicas") or {},
             "labels": disk.get("labels") or {}}
 
 
@@ -1217,6 +1220,13 @@ def render_md(rep):
         L.append(f"- 判据=板面逐车道 authority（宿主封套/宿主本机副本/他机封套/"
                  f"他机副本/申报接管/无主）· 板面 {la.get('as_of')} · "
                  f"verdict `{la.get('verdict')}` · 本行零重判")
+        # r1273: the line above is about the COMPANY's numbers; this one is
+        # about the bytes in this checkout. A research run started here reads
+        # these bytes, so a copy that lags its own lane is a fact the reader
+        # needs -- sentence derived once by data_lane_freshness.replica_face.
+        lr = la.get("local_replicas") or {}
+        if lr.get("sentence"):
+            L.append(f"- **{lr.get('sentence')}**")
     L.append("")
     L.append("## 十一、车道的静默史（线停了多久、什么时候停的）")
     ls = rep.get("lane_silence") or {}
@@ -1528,7 +1538,13 @@ def selftest():
         "groups": [{"machine": "bm-b", "lanes": ["heat", "repo"], "n": 2,
                     "alive": False, "age_h": 12.3,
                     "last_seen": "2026-09-25T22:00:00+08:00"}],
-        "offhost_lanes": ["heat", "repo"], "labels": {"heat": "他机本地副本"}}
+        "offhost_lanes": ["heat", "repo"], "labels": {"heat": "他机本地副本"},
+        # r1273 fixture: a copy on this disk that lags the lane's own tail
+        "local_replicas": {
+            "n_lagging": 1, "n_readable": 2,
+            "lanes": [{"lane": "moneyflow", "local_tail": "2026-10-13",
+                       "certified_tail": "2026-11-06", "behind_days": 18}],
+            "sentence": "本机副本落后：5 条可读面板里有 1 条读到的不是车道认证的那一天的数"}}
     rep = build_report(datetime(2026, 9, 26, 10, 0, 0))
     md = render_md(rep)
     for marker in ("一、实战面", "二、CEO 实盘使用面（T-105 直达）", "三、研发面",
@@ -1567,6 +1583,11 @@ def selftest():
     # r1162: the authorship section must print the board's OWN sentence, and an
     # absent/garbled board must read absent -- never an empty attribution table
     assert rep["lane_authority"]["sentence"] in md
+    # r1273: the copy on THIS disk is a second question from whose disk the
+    # numbers are on, and the report must print the board's own sentence for it.
+    assert (rep["lane_authority"].get("local_replicas") or {}).get("sentence") in md, \
+        "local-copy lag sentence not printed"
+    assert "本机副本落后" in md, "local-copy section missing"
     _saved_la = _lane_authority_face
     _lane_authority_face = lambda root=None: {
         "present": False, "note": "车道归属面未产出（fixture）——如实标注"}
