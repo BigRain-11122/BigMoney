@@ -6190,11 +6190,11 @@
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": "r1626",
  "round_delivery": {
-  "branch": "machine/bm-b-r1622",
-  "sha": "0c0c62dc9591878592eae30de0ed99dd6dc9204c",
-  "ts": "2026-11-09T08:14:00+08:00",
-  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1622 == local HEAD (0c0c62dc95)",
-  "main_push_blocker": "local main runs many commits ahead/behind origin/main across two blood lines on a promisor clone (r1224/r1225 family); no unattended rebase per r1243, so the machine branch is the delivery channel"
+  "branch": "machine/bm-b-r1626",
+  "sha": "ba5b81be0aaaf9826e87bf54972e0f7f86ea32ba",
+  "ts": "2026-11-09T09:08:00+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1626 == local HEAD (ba5b81be0a)",
+  "main_push_blocker": "local main runs many commits ahead/behind origin/main on a promisor clone (r1243: no unattended rebase); machine branch is the channel"
  },
  "round_entries_tail": "r1619 E592 the ledger's carry reproduces at the printed precision from an origin the face names only as a count",
  "round_entry": {
@@ -6224,10 +6224,10 @@
  "s0_5": "104 orders scanned vs 115 acks -> 0 unacked; corp ledger unchanged (this司 does not write it)",
  "s0_sync": {
   "peer": "origin",
-  "ahead_of_origin_main": null,
-  "behind_origin_main": null,
-  "note": "not re-measured this window (local main runs many commits ahead/behind origin/main on a promisor clone); the machine branch is the channel",
-  "ts": "2026-11-09T05:58:00+08:00"
+  "ahead_of_origin_main": 764,
+  "behind_origin_main": 459,
+  "note": "measured at open (rev-list --left-right --count HEAD...origin/main = 763/459 before this commit); not a defect reading per D-20261106-03 -- delivery is origin-reachable, machine branch pushed",
+  "ts": "2026-11-09T08:47:00+08:00"
  },
  "s1": "full smoke suite not launched this window (no leg filter, r1499); the new E598 block and its standalone mirror are green and 1/1 red under --doctor",
  "s1_note": "smoke_test.py has no leg filter, so a flag would launch the whole suite",
@@ -6313,7 +6313,7 @@
  "three_line_artifact": "docs/live_book/LIVE-BOOK-20261109.json",
  "three_line_artifact_ts": "2026-11-09T08:56:00+08:00",
  "three_line_current": "r1625: E598 -- 28 latest.json faces, 1058 attributed pairs, 0 bars asked and missing; the one 'silent join' is a redirect hop",
- "three_line_delivery": "machine/bm-b-r1623 @ 752e958a687928626fd6c889b458f7068869b623 (ls-remote verified)",
+ "three_line_delivery": "machine/bm-b-r1626 @ ba5b81be0aaaf9826e87bf54972e0f7f86ea32ba (ls-remote verified)",
  "three_line_next": "E599 (ready, cpu-only): is the bar at the far end of a pointer redirect checked against the bar the pointer declares -- within 48h",
  "timestamp": "2026-11-09T09:05:00+08:00",
  "ts": "2026-11-09T09:05:00+08:00",
