@@ -1,0 +1,442 @@
+{
+ "study": "E635_read_key_resolve",
+ "script": "scripts/e635_read_key_resolve.py",
+ "card": "E635",
+ "evidence_cutoff": "2026-11-10",
+ "dept": "研究",
+ "method": "each computed-key read E634 could not name is resolved inside its own function by constant propagation over the bindings that reach it: literal at the read, module-level string constant (chains followed to depth 6), assignment and for/comprehension targets over literal collections; parameters and non-literal expressions are published as unresolved rather than guessed",
+ "population_source": "the computed_key_reads rows of results/state_tilt/READFUNCGAP.json (E634), one entry per read at the receiver's own level; the receiver roots are rebuilt from the counted read line itself",
+ "source_face": "results/state_tilt/READFUNCGAP.json",
+ "source_verdict": "no_counted_read_line_names_this_key_in_an_unrecognised_form_anywhere_in_the_function_that_holds_it_so_E633_line_scoped_census_and_E632_node_count_both_stand",
+ "counts": {
+  "computed_key_reads": 12,
+  "by_class": {
+   "proven_to_be_the_counted_key": 0,
+   "could_be_the_counted_key": 1,
+   "proven_to_be_another_key": 5,
+   "unresolved": 6
+  },
+  "by_side": {
+   "before": {
+    "proven_to_be_the_counted_key": 0,
+    "could_be_the_counted_key": 1,
+    "proven_to_be_another_key": 3,
+    "unresolved": 1
+   },
+   "at_the_dead_line": {
+    "proven_to_be_the_counted_key": 0,
+    "could_be_the_counted_key": 0,
+    "proven_to_be_another_key": 1,
+    "unresolved": 0
+   },
+   "after": {
+    "proven_to_be_the_counted_key": 0,
+    "could_be_the_counted_key": 0,
+    "proven_to_be_another_key": 1,
+    "unresolved": 5
+   }
+  },
+  "by_binding_kind": {
+   "literal_at_the_read": 0,
+   "module_level_string_constant": 5,
+   "assignment_in_the_scope": 0,
+   "for_target": 7,
+   "comprehension_target": 0,
+   "parameter_of_the_scope": 0,
+   "assignment_only_after_the_read": 0,
+   "no_binding_in_the_scope": 0
+  },
+  "after_the_dead_line": 6,
+  "after_the_dead_line_proven_to_be_the_key": 0,
+  "after_the_dead_line_that_could_be_the_key": 0,
+  "before_the_dead_line_proven_to_be_the_key": 0,
+  "at_the_dead_line_proven_to_be_the_key": 0,
+  "rows_whose_binding_sits_only_after_the_read": 0,
+  "rows_with_no_binding_in_the_scope": 0,
+  "rows_bound_to_a_parameter": 0,
+  "read_occurrences_across_counted_lines": 30,
+  "read_occurrences_after_the_dead_line": 21,
+  "distinct_read_sites": 12
+ },
+ "rows": [
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "key": "verdict",
+   "dead_line": 332,
+   "read_line": 350,
+   "line": 291,
+   "column": 37,
+   "side": "before",
+   "form": "subscript",
+   "class": "proven_to_be_another_key",
+   "binding_kind": "module_level_string_constant",
+   "binding_sites": [
+    {
+     "kind": "module_level_string_constant",
+     "line": 291,
+     "side": "before",
+     "values": [
+      "fieldbranch_latest.json"
+     ]
+    }
+   ],
+   "resolved_values": [
+    "fieldbranch_latest.json"
+   ]
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "key": "verdict",
+   "dead_line": 332,
+   "read_line": 350,
+   "line": 293,
+   "column": 14,
+   "side": "before",
+   "form": "subscript",
+   "class": "proven_to_be_another_key",
+   "binding_kind": "module_level_string_constant",
+   "binding_sites": [
+    {
+     "kind": "module_level_string_constant",
+     "line": 293,
+     "side": "before",
+     "values": [
+      "unresolveddest_latest.json"
+     ]
+    }
+   ],
+   "resolved_values": [
+    "unresolveddest_latest.json"
+   ]
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "key": "verdict",
+   "dead_line": 332,
+   "read_line": 350,
+   "line": 295,
+   "column": 19,
+   "side": "before",
+   "form": "subscript",
+   "class": "proven_to_be_another_key",
+   "binding_kind": "module_level_string_constant",
+   "binding_sites": [
+    {
+     "kind": "module_level_string_constant",
+     "line": 295,
+     "side": "before",
+     "values": [
+      "unresolveddest_latest.json"
+     ]
+    }
+   ],
+   "resolved_values": [
+    "unresolveddest_latest.json"
+   ]
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "key": "verdict",
+   "dead_line": 332,
+   "read_line": 350,
+   "line": 332,
+   "column": 23,
+   "side": "at_the_dead_line",
+   "form": "subscript",
+   "class": "proven_to_be_another_key",
+   "binding_kind": "module_level_string_constant",
+   "binding_sites": [
+    {
+     "kind": "module_level_string_constant",
+     "line": 332,
+     "side": "before",
+     "values": [
+      "unresolveddest_latest.json"
+     ]
+    }
+   ],
+   "resolved_values": [
+    "unresolveddest_latest.json"
+   ]
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "key": "verdict",
+   "dead_line": 332,
+   "read_line": 350,
+   "line": 350,
+   "column": 34,
+   "side": "after",
+   "form": "subscript",
+   "class": "proven_to_be_another_key",
+   "binding_kind": "module_level_string_constant",
+   "binding_sites": [
+    {
+     "kind": "module_level_string_constant",
+     "line": 350,
+     "side": "at_the_dead_line",
+     "values": [
+      "fieldbranch_latest.json"
+     ]
+    }
+   ],
+   "resolved_values": [
+    "fieldbranch_latest.json"
+   ]
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "key": "x1",
+   "dead_line": 393,
+   "read_line": 414,
+   "line": 392,
+   "column": 16,
+   "side": "before",
+   "form": "subscript",
+   "class": "could_be_the_counted_key",
+   "binding_kind": "for_target",
+   "binding_sites": [
+    {
+     "kind": "for_target",
+     "line": 377,
+     "side": "before",
+     "values": [
+      "x1",
+      "x2"
+     ]
+    },
+    {
+     "kind": "for_target",
+     "line": 391,
+     "side": "before",
+     "values": [
+      "x1",
+      "x2"
+     ]
+    }
+   ],
+   "resolved_values": [
+    "x1",
+    "x2"
+   ]
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "key": "x1",
+   "dead_line": 393,
+   "read_line": 424,
+   "line": 378,
+   "column": 17,
+   "side": "before",
+   "form": "subscript",
+   "class": "unresolved",
+   "binding_kind": "for_target",
+   "binding_sites": [
+    {
+     "kind": "for_target",
+     "line": 376,
+     "side": "before",
+     "values": []
+    },
+    {
+     "kind": "comprehension_target",
+     "line": null,
+     "side": null,
+     "values": []
+    },
+    {
+     "kind": "comprehension_target",
+     "line": null,
+     "side": null,
+     "values": []
+    }
+   ],
+   "resolved_values": []
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "key": "x1",
+   "dead_line": 393,
+   "read_line": 424,
+   "line": 424,
+   "column": 45,
+   "side": "after",
+   "form": "subscript",
+   "class": "unresolved",
+   "binding_kind": "for_target",
+   "binding_sites": [
+    {
+     "kind": "for_target",
+     "line": 376,
+     "side": "before",
+     "values": []
+    },
+    {
+     "kind": "comprehension_target",
+     "line": null,
+     "side": null,
+     "values": []
+    },
+    {
+     "kind": "comprehension_target",
+     "line": null,
+     "side": null,
+     "values": []
+    }
+   ],
+   "resolved_values": []
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "key": "x1",
+   "dead_line": 393,
+   "read_line": 424,
+   "line": 437,
+   "column": 36,
+   "side": "after",
+   "form": "subscript",
+   "class": "unresolved",
+   "binding_kind": "for_target",
+   "binding_sites": [
+    {
+     "kind": "for_target",
+     "line": 376,
+     "side": "before",
+     "values": []
+    },
+    {
+     "kind": "comprehension_target",
+     "line": null,
+     "side": null,
+     "values": []
+    },
+    {
+     "kind": "comprehension_target",
+     "line": null,
+     "side": null,
+     "values": []
+    }
+   ],
+   "resolved_values": []
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "key": "x1",
+   "dead_line": 393,
+   "read_line": 424,
+   "line": 438,
+   "column": 36,
+   "side": "after",
+   "form": "subscript",
+   "class": "unresolved",
+   "binding_kind": "for_target",
+   "binding_sites": [
+    {
+     "kind": "for_target",
+     "line": 376,
+     "side": "before",
+     "values": []
+    },
+    {
+     "kind": "comprehension_target",
+     "line": null,
+     "side": null,
+     "values": []
+    },
+    {
+     "kind": "comprehension_target",
+     "line": null,
+     "side": null,
+     "values": []
+    }
+   ],
+   "resolved_values": []
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "key": "x1",
+   "dead_line": 393,
+   "read_line": 424,
+   "line": 441,
+   "column": 36,
+   "side": "after",
+   "form": "subscript",
+   "class": "unresolved",
+   "binding_kind": "for_target",
+   "binding_sites": [
+    {
+     "kind": "for_target",
+     "line": 376,
+     "side": "before",
+     "values": []
+    },
+    {
+     "kind": "comprehension_target",
+     "line": null,
+     "side": null,
+     "values": []
+    },
+    {
+     "kind": "comprehension_target",
+     "line": null,
+     "side": null,
+     "values": []
+    }
+   ],
+   "resolved_values": []
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "key": "x1",
+   "dead_line": 393,
+   "read_line": 424,
+   "line": 444,
+   "column": 45,
+   "side": "after",
+   "form": "subscript",
+   "class": "unresolved",
+   "binding_kind": "for_target",
+   "binding_sites": [
+    {
+     "kind": "for_target",
+     "line": 376,
+     "side": "before",
+     "values": []
+    },
+    {
+     "kind": "comprehension_target",
+     "line": null,
+     "side": null,
+     "values": []
+    },
+    {
+     "kind": "comprehension_target",
+     "line": null,
+     "side": null,
+     "values": []
+    }
+   ],
+   "resolved_values": []
+  }
+ ],
+ "limits": [
+  "constant propagation is intra-procedural: a key handed in by a caller or read out of another module is unresolved, and unresolved is never counted as the key",
+  "a name bound more than once is unioned, so a scope that rebinds the loop variable is published as 'could be' rather than proven",
+  "chains of module-level constants stop at depth 6; a longer chain is unresolved",
+  "no runner and no fixture write: this study reads source and E634's published rows"
+ ],
+ "verdict": "no_after_side_computed_read_resolves_to_the_counted_key",
+ "answer": "Of the 12 distinct computed-key read site(s) (E634's 30 occurrence(s) over its counted lines, 21 of them after the dead line), 0 are proven to be the counted key (0 before / 0 at / 0 after the dead line), 1 could be, 5 are proven to be another key and 6 stay unresolved.  0 binding(s) sit only after the read they would explain and 0 read(s) name a parameter or nothing at all."
+}

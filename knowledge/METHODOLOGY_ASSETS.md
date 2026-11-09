@@ -14867,3 +14867,36 @@ read_func_gap` 后 rc=0 0.06s。另一个实物缺口是上一轮的：r1652 的
 `results/state_tilt/READFUNCGAP.json` + `readfuncgap_latest.json` + `scripts/run_e634_smoke_leg.py`
 （1/1 PASS，`--doctor` 1/1 红，面字节还原）+ smoke_test.py leg E634 + S6 leg `read_func_gap`（rc0）+
 POOL E634 done / E635 seeded + `research/digests/DIGEST-20261110-r1653-e634-read-func-gap.md`。
+
+## E635 — 「算出来的键」读到的不是这个键，这个说法要函数内解一遍才成立（r1654 bm-b·2026-11-10）
+
+> 源自=POOL 卡 E635（E634 的续问）。E634 逐函数核完 230 次访问，判决是「没有未命名的同键读」；
+> 但同一份面自己写着：30 次 computed-key 读（8 前 / 1 在 / **21 后**），它们读的是**某个**键。
+> 「我认不出是哪个键」不等于「不是这个键」——E634 的结论只覆盖前者，这条把后者补上。
+
+**本批读数**（证据=`results/state_tilt/READKEYRESOLVE.json`）：12 个去重读点（E634 的 30 次是
+同一读点被多条计数行重复记到的出现数，其中 21 次落在死线之后）。在各自函数内做常量传播后：
+**0 个可证明为该键**、**1 个可能**（`for mult, key in ((1, "x1"), (2, "x2"))` → key∈{x1,x2}）、
+**5 个可证明是别的键**（模块常量 UP_E350/UP_E377 解成 `fieldbranch_latest.json` /
+`unresolveddest_latest.json`）、**6 个仍未定**（`for tid in tids` 这类非字面集合）。死线之后的
+6 个读点里 0 个证明为该键 → E634 的「死线之后没读到该键」在这一读法下**成立**，但成立的理由是
+「读的是别的键、或读不出来」，不是「没有读」。
+
+**三条可复用**
+1. **「读不出来」必须是一个类，不能是一个 0**：computed/unresolved 与 proven-other 要分开计数，
+   否则结论会被合出来的零支撑（本案 21 次后侧读若被记成「不属于本键」，就成了假 0 —— E444/E207 同族）。
+2. **站点数与出现数分开发布**：同一次读可以被多条计数行各记一次（30 vs 12）。只报一个数，读者
+   无法分辨「读点变多」与「计数口径变宽」（E366 路线）。
+3. **绑定要看顺序与字面性**：只在读点之后出现的赋值解释不了它（这类行单独记
+   `assignment_only_after_the_read`）；`for k in names` 不是字面集合，解不出值就记 unresolved；
+   而 tuple 解包 `(1, "x1")` 只需**该位置**是字面串，不必整行都是字符串——首版要求整行字面，
+   把 5 个可证明读误判成 unresolved。
+
+**How**：凡「这条读的是不是这个键」的判断，先问绑定能不能解、解出的取值集合与键有没有交集；把
+outcome 冻成四类（proven / could-be / proven-other / unresolved）并按死线前后切开；**证明类要求
+取值集合恰等于 {key}**，否则只能是 could-be（重绑定、循环集合含多值一律降级）。验证腿 = smoke
+leg E635 + `verify()`（按现行源码重解每一行：源码改了而面没重出即报 stale，不许静默读旧面）。
+
+**证据** = `scripts/e635_read_key_resolve.py`（selftest 18/18·run/verify `problems=[]`）+
+`results/state_tilt/READKEYRESOLVE.json` + `readkeyresolve_latest.json` + smoke_test.py leg E635 +
+POOL E635 done / E636 seeded。

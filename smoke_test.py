@@ -14521,6 +14521,75 @@ except Exception as _e397:
 check(_name397, not _bad397, "; ".join(_bad397)[:220]
       or "verdict %s" % str((_f397 or {}).get("verdict"))[:80])
 
+# E635: E634 counted 30 computed-key reads at the receiver's own level and could not say which key
+# they read.  This leg asks the next question: resolve each one inside its own function by constant
+# propagation over the bindings that reach it, and publish a partition (proven to be the counted
+# key / could be / proven to be another key / unresolved) split by side of the dead line.  It
+# refuses the ways that resolution could be asserted instead of measured: classes that do not sum to
+# the population, a side table that does not re-add, a binding kind outside the vocabulary, a row
+# proven to be the key whose values are not exactly that key, a gate that does not re-derive from
+# the summary, and a study whose own verify is anything but clean.
+_name635 = ("product: the computed-key reads E634 could not name, resolved inside their own function "
+            "-- proven / could-be / other key / unresolved, split by side of the dead line")
+_bad635 = []
+_f635 = None
+try:
+    _p635 = os.path.join("results", "state_tilt", "readkeyresolve_latest.json")
+    _f635 = json.load(open(_p635, encoding="utf-8")) if os.path.exists(_p635) else None
+    if _f635 is None:
+        _bad635.append("no published computed-key resolution face")
+    else:
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m635 = __import__("importlib").import_module("e635_read_key_resolve")
+        _c635 = _f635.get("counts") or {}
+        _rows635 = _f635.get("rows") or []
+        if _f635.get("verdict") not in (_m635.V_READ_AFTER, _m635.V_COULD_AFTER,
+                                        _m635.V_ELSEWHERE):
+            _bad635.append("verdict %r is outside the frozen set" % str(_f635.get("verdict"))[:60])
+        _by_class635 = _c635.get("by_class") or {}
+        if set(_by_class635) != set(_m635.CLASSES):
+            _bad635.append("the class table is not the frozen vocabulary")
+        if sum(_by_class635.values()) != len(_rows635):
+            _bad635.append("the classes do not sum to the published rows")
+        _side635 = _c635.get("by_side") or {}
+        for _s635, _t635 in _side635.items():
+            if sum(_t635.values()) != sum(1 for r in _rows635 if r.get("side") == _s635):
+                _bad635.append("%s: the side table does not re-add to the rows" % _s635)
+        for _r635 in _rows635:
+            if _r635.get("class") not in _m635.CLASSES:
+                _bad635.append("a row class is outside the vocabulary")
+                break
+            if _r635.get("binding_kind") not in _m635.BINDINGS:
+                _bad635.append("a row binding kind is outside the vocabulary")
+                break
+            if _r635.get("class") == _m635.P_KEY and _r635.get("resolved_values") != [
+                    _r635.get("key")]:
+                _bad635.append("a row is proven to be the key but its values say otherwise")
+                break
+        if _m635.decide(_c635) != _f635.get("verdict"):
+            _bad635.append("the decision gate does not re-derive the published verdict")
+        if _c635.get("computed_key_reads") != len(_rows635):
+            _bad635.append("the published read count is not the row count")
+        if _bad635:
+            pass
+        elif _m635.verify() != []:
+            _bad635.append("the study's own verify does not come back clean")
+        _name635 = ("product: %d distinct computed-key read site(s) (%d occurrence(s) over the "
+                    "counted lines, %d after the dead line) resolve to %d proven / %d could-be / "
+                    "%d other key / %d unresolved; %d after-side read(s) are proven to be the key"
+                    % (_c635.get("computed_key_reads") or 0,
+                       _c635.get("read_occurrences_across_counted_lines") or 0,
+                       _c635.get("read_occurrences_after_the_dead_line") or 0,
+                       _by_class635.get(_m635.P_KEY) or 0,
+                       _by_class635.get(_m635.P_COULD) or 0,
+                       _by_class635.get(_m635.P_OTHER) or 0,
+                       _by_class635.get(_m635.P_UNRESOLVED) or 0,
+                       _c635.get("after_the_dead_line_proven_to_be_the_key") or 0))
+except Exception as _e635:
+    _bad635.append(repr(_e635)[:160])
+check(_name635, not _bad635, "; ".join(_bad635)[:220]
+      or "verdict %s" % str((_f635 or {}).get("verdict"))[:80])
+
 # E384: the keying helpers take face-shaped strings out of a source, and a string in a source is not
 # a decision to open a file.  This leg asks each published key whether ANY site that named it sits
 # inside a call that actually loads or dumps, classifies the site by the call around the SITE line
