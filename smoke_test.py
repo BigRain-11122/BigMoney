@@ -26921,5 +26921,102 @@ except Exception as _e627x:
     _d627 = "study could not be read"
 check(_name627, not _bad627, "; ".join(_bad627)[:240] or _d627)
 
+# E628 prices the bound E627 published: E625-E627 all work inside the body of the function that
+# holds the dead line, so an object that arrives from a parameter, a module-level name or a
+# container written elsewhere is not where the scan starts.  Each line's receiver is classified by
+# where its leftmost name is bound (parameter 10 / local 21 / container off something outside 1 /
+# container bound inside 2 / module level 0 / import 0 / unresolvable 0 over 34 lines), the classes
+# whose origin precedes the interval are marked, and every such row names the sites elsewhere in the
+# module that write that key on that name (name level, not object level).  2 of the 4 duplicate rows
+# read an object whose origin lies before the interval and 0 of those names is written elsewhere, so
+# the survive split stands.  The leg re-reads the published face, re-derives the origin table and
+# every origin flag from the rows, re-asks the verdict, requires the open-duplicate count and the
+# writer flag to follow from their own sites, keeps the E627 cross-check honest and excludes this
+# study from its own population.
+_name628 = ("E628 whether the object a dead face-key line reads arrives from outside its function "
+            "(r1646 bm-b)")
+_bad628 = []
+_d628 = "no reading"
+try:
+    _f628 = json.load(open(os.path.join("results", "state_tilt", "receiverorigin_latest.json"),
+                           encoding="utf-8"))
+    _m628 = importlib.import_module("e628_receiver_origin")
+    _bad628.extend(_m628.face_problems(_f628))
+    _c628 = _f628.get("counts") or {}
+    _rows628 = _f628.get("lines") or []
+    _again628 = _m628.derive_verdict({
+        "population_modules": _c628.get("population_modules"),
+        "lines": _rows628,
+        "skipped": [None] * (_c628.get("skipped_modules") or 0),
+        "inert_dead_facekey_lines": _c628.get("inert_dead_facekey_lines")})
+    if _again628 != _f628.get("verdict"):
+        _bad628.append("the published verdict is not what the line rows force (%r)" % _again628)
+    _seen628 = {_k: 0 for _k in _m628.ORIGIN_CLASSES}
+    _open628 = 0
+    _written628 = 0
+    for _r628 in _rows628:
+        _o628 = _r628.get("receiver_origin")
+        if _o628 not in _m628.ORIGIN_CLASSES:
+            _bad628.append("line %r in %r carries receiver_origin=%r"
+                           % (_r628.get("line"), _r628.get("function"), _o628))
+            continue
+        _seen628[_o628] += 1
+        _want628 = None if _o628 == _m628.UNRESOLVED else _o628 in _m628.OUTSIDE_ORIGINS
+        if _r628.get("origin_before_the_e627_interval_start") is not _want628:
+            _bad628.append("line %r in %r claims origin_before=%r under origin=%r"
+                           % (_r628.get("line"), _r628.get("function"),
+                              _r628.get("origin_before_the_e627_interval_start"), _o628))
+        _sites628 = _r628.get("base_name_written_at_the_key_outside_the_interval") or []
+        if bool(_sites628) != bool(_r628.get("base_name_is_written_elsewhere")):
+            _bad628.append("line %r in %r publishes %d writer site(s) against the flag %r"
+                           % (_r628.get("line"), _r628.get("function"), len(_sites628),
+                              _r628.get("base_name_is_written_elsewhere")))
+        if _r628.get("corrected_class") == "superseded_duplicate_read_on_the_same_object" and \
+                _r628.get("sibling_read_reads_the_same_object_after_the_dead_line"):
+            if _want628 is True:
+                _open628 += 1
+                if _sites628:
+                    _written628 += 1
+    if _seen628 != {_k: _c628.get("origin_" + _k, 0) for _k in _m628.ORIGIN_CLASSES}:
+        _bad628.append("the published origin classes do not re-derive from the rows (%r vs %r)"
+                       % (_seen628, {_k: _c628.get("origin_" + _k, 0)
+                                     for _k in _m628.ORIGIN_CLASSES}))
+    if sum(_seen628.values()) != len(_rows628):
+        _bad628.append("the origin classes cover %d of %d lines"
+                       % (sum(_seen628.values()), len(_rows628)))
+    if _c628.get("duplicates_whose_origin_lies_before_the_interval") != _open628:
+        _bad628.append("the published open-duplicate count (%r) is not the %d the rows force"
+                       % (_c628.get("duplicates_whose_origin_lies_before_the_interval"), _open628))
+    if _c628.get("duplicates_whose_receiver_name_is_written_elsewhere") != _written628:
+        _bad628.append("the published elsewhere-written count (%r) is not the %d the rows force"
+                       % (_c628.get("duplicates_whose_receiver_name_is_written_elsewhere"),
+                          _written628))
+    if not _rows628:
+        _bad628.append("the face publishes no line at all, yet the study exists")
+    _self628 = [r.get("module") for r in _rows628
+                if r.get("module") and r["module"].split("/")[-1] in _m628.SELF_PARTS]
+    if _self628:
+        _bad628.append("this study lists itself as a holder module: %s" % ", ".join(_self628))
+    _cc628 = _f628.get("e627_cross_check") or {}
+    if _cc628.get("published") is False:
+        _bad628.append("the E627 cross-check did not read a published face")
+    elif _cc628.get("agrees") is False:
+        _bad628.append("the re-derived rows no longer match the published E627 face")
+    elif _cc628.get("rederived_lines") != _c628.get("live_dead_facekey_lines"):
+        _bad628.append("the E627 cross-check re-derived %r of %r line(s)"
+                       % (_cc628.get("rederived_lines"), _c628.get("live_dead_facekey_lines")))
+    _d628 = ("lines=%s duplicates=%s open_origin=%s written_elsewhere=%s unresolved=%s "
+             "param=%s local=%s container_out=%s container_in=%s verdict=%s"
+             % (_c628.get("live_dead_facekey_lines"), _c628.get("same_object_duplicate_rows"),
+                _c628.get("duplicates_whose_origin_lies_before_the_interval"), _written628,
+                _c628.get("duplicates_whose_origin_cannot_be_resolved"),
+                _c628.get("origin_" + _m628.PARAM), _c628.get("origin_" + _m628.LOCAL),
+                _c628.get("origin_" + _m628.CONTAINER_OUT),
+                _c628.get("origin_" + _m628.CONTAINER_IN), _f628.get("verdict")))
+except Exception as _e628x:
+    _bad628.append(repr(_e628x)[:160])
+    _d628 = "study could not be read"
+check(_name628, not _bad628, "; ".join(_bad628)[:240] or _d628)
+
 if __name__ == "__main__":
     sys.exit(main())

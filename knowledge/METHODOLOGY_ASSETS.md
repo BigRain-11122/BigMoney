@@ -14654,3 +14654,51 @@ E627 seeded + `research/digests/DIGEST-20261109-r1644-e626-handover-write.md`。
 `results/state_tilt/ALIASBINDING.json` + `aliasbinding_latest.json` + `scripts/run_e627_smoke_leg.py`
 （1/1 PASS，`--doctor` 1/1 红，面字节还原）+ smoke_test.py leg E627 + S6 leg `alias_binding` +
 POOL E627 done / E628 seeded + `research/digests/DIGEST-20261109-r1645-e627-alias-binding.md`。
+
+---
+
+## E628 · 接收者从函数外面来：4 条重复读里 2 条的"对象出生点"早于区间（r1646 bm-b·2026-11-09）
+> 溯源=POOL 卡片 E628（E627 在 limits 里写下的两条边界：①函数体之前的模块级别名 ②经容器/推导式的重绑）
+
+**问题**：E625 判值、E626 一跳读穿交出去的调用、E627 扫区间内的别名——三张都只在**持死行那个函数的体内**
+工作。如果接收者本身是参数、模块级名字或某个容器里的元素，那么"这个对象在哪出生"就不在区间里，
+区间里没有写不等于两次读看到同一个值。本张给这条边界定价：接收者的最左名字**在哪里被绑**，以及
+那些"出生点早于区间"的行，模块里有没有别的站点在同一名字上写同一把键。
+
+**读数**（`results/state_tilt/RECEIVERORIGIN.json`，cutoff 2026-11-09；母体=E627 的 34 条活死行 / 4 条同对象
+重复行，1,099 个模块可解析、14 个 py2 残留 SyntaxError 如实跳过；`origin_facts` 直接 import E627 链零重实现）：
+- 34 条活死行的接收者来源：**参数 10**、**函数体内绑定 21**、**从外面来的容器 1**、**体内绑定的容器 2**、
+  模块级名字 0、import 别名 0、模块内解析不到 0（形式：纯名字 31 / 下标 3 / 属性链 0 —— 属性链在本母体里
+  没有单独出现，从外面来的容器那 1 例即 `decision_chain_v2.py:823 payload['verdict']`）。
+- **4 条同对象重复行里 2 条的接收者出生点早于区间**（`cn_mkneutral_p1.py:507` 参数 `P`、`ew6_portfolio.py:393`
+  参数 `ports`），另 2 条是体内绑定（`cn_core_ddctl_p1.py:367` 的 `P` 由 `build_dd_axis` 在本地造、`e590_cash_silence.py:364`
+  的 `r` 来自循环），0 条解析不到。
+- 那 2 条的外部源名字**在本模块内没有任何别的站点在同一把键上写它**
+  （`duplicates_whose_receiver_name_is_written_elsewhere=0`，全 34 行层面同样 0）→ 判决 =
+  `2_of_the_4_duplicate_receivers_arrive_from_outside_the_interval_but_no_other_site_in_the_module_writes_that_name_at_that_key`，
+  survive 分裂维持 4/0/0。
+- E627 交叉核验：重解析 34 行、重复类**逐行相同**（差 0），已出版 split 4/0/0 如实随件。
+
+**研究**：这条边界**是真的存在**（2/4 条重复读的对象不在区间里出生），但**在这个母体里是空跑的**——同名的
+写站点一处也没有。要注意的是这个"0"只到**名字级**：同名不同对象（E206/E207 族）随时可能让名字级计数骗人，
+所以本张把写入臂发布成 `base_name_written_at_the_key_outside_the_interval` 的站点清单而不只是一个数，
+并在 limits 里写死"名字不是对象"。另一条结构读数：34 行里 21 行的接收者在函数体内绑定，说明这套"死面键"
+母体绝大多数是**本地构造再读两遍**的形态，真正跨函数边界进来的只有 10 参数 + 1 容器。
+
+**教训**：①"区间覆盖了对象的出生"必须作为一个**单独的布尔字段**发布（`origin_before_the_e627_interval_start`），
+不能靠读者从来源类目自己推——三值（true/false/null）才装得下"参数/外面容器/模块级/import=true、体内=false、
+解析不到=null"；②模块级与 import 必须**分成两类**：前者是本模块能改名的地方，后者是别人的对象，写站点扫描
+对它们的意义不同（本母体两者皆 0，但类目不能合并）；③容器形式要**按最左名字**判来源，`rows[0]` 的来源是
+`rows` 而不是下标——这一点让"体内建的列表"和"传进来的列表"分得开（2 vs 1）；④写入臂**只在出生点早于区间的行上跑**，
+否则等于把"区间内已扫过的写"再数一遍（本张把这条写进代码：来源早于区间才建索引，缓存按
+`(名, 键, 函数)`）。⑤性能：14k 行的 `perpetual_faces_n1.py` 让"每行重扫每函数"变成分钟级——按模块缓存
+函数 scope 与模块绑定表后，构建从 >7 分钟降到约 4 分钟（E442 族：别按节点重切大源码）。
+
+**How**：任何"区间内没写"的结论，发布前先问一句**这个对象在哪里出生**——参数/外面容器/模块级名字一律把
+出生点放在区间之外，必须单列标记并配一个"别处有没有同键写"的站点清单；只到名字级的臂要写明"名字不是对象"。
+三值布尔 + 站点清单 + 按模块缓存 scope，是本张可复用的三件。
+
+**证据** = `scripts/e628_receiver_origin.py`（selftest 27/27，run/check/verify `problems=[]`）+
+`results/state_tilt/RECEIVERORIGIN.json` + `receiverorigin_latest.json` + `scripts/run_e628_smoke_leg.py`
+（1/1 PASS，`--doctor` 1/1 红，面字节还原）+ smoke_test.py leg E628 + S6 leg `receiver_origin` +
+POOL E628 done / E629 seeded + `research/digests/DIGEST-20261109-r1646-e628-receiver-origin.md`。

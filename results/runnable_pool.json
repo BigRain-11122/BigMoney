@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1644 bm-b: E626 burned -- both handover callees only read the key, so the one duplicate E625 left undecided settles to the same value (4 survive / 0 stored / 0 undecided). E627 seeded: the alias binding both studies declared out of scope.",
+ "_stamp_note": "r1646 bm-b: E628 burned -- 2 of the 4 duplicate receivers arrive from before the interval and no other site in the module writes that name at that key, so the split stands (4/0/0). E629 seeded: the caller of the holding function, the one place E628's module-local arm cannot see.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -30896,9 +30896,31 @@
    "source": "E627 (r1645 bm-b) publishes the bound: no alias bound before the function body (a module-level name) and no rebinding through a container or comprehension. If the receiver itself arrives from a container element or a module-level dict, the interval E625-E627 scan is not where the object began",
    "target": "results/state_tilt/RECEIVERORIGIN.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-09T23:15:00+08:00",
-   "seeded_by": "r1645 bm-b"
+   "seeded_by": "r1645 bm-b",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-09T23:30:00+08:00",
+   "closed_by": "bm-b",
+   "closed_at": "2026-11-10T00:05:00+08:00",
+   "completed_by": "bm-b r1646",
+   "completed_at": "2026-11-10T00:05:00+08:00",
+   "result_ref": "results/state_tilt/RECEIVERORIGIN.json + results/_r1646bmb_s6_chain.json",
+   "outcome": "34 live dead face-key lines: the receiver is a parameter in 10, bound in the function body in 21, read out of a container that arrives from outside in 1 and out of a container bound inside in 2; 2 of the 4 same-object duplicate rows read an object whose origin lies before the E625-E627 interval, but neither name is written at that key by any other site in its module, so the 4 survive / 0 stored / 0 undecided split stands"
+  },
+  {
+   "card": "E629",
+   "id": "E629-WHETHER-THE-NAMED-WRITER-THAT-E628-LOOKED-FOR-EXISTS-ANYWHERE-IN-THE-REPO-FOR-THE-TWO-OUTSIDE-ORIGIN-ROW",
+   "title": "whether the writer E628 looked for exists anywhere in the repo for the two rows whose receiver arrives from outside",
+   "lane": "cpu-only",
+   "lane_note": "static: for the two duplicate rows whose receiver is a parameter, follow the call sites of the holding function one hop and ask whether any caller writes the key on the object it passes; module-local writer search is E628's arm and returned nothing, so the only remaining place a write can live is the caller; no runner, no fixture write",
+   "deliverable": "results/state_tilt/CALLERWRITE.json: per outside-origin duplicate row, the call sites of its function, whether the argument reaching the parameter is a name the caller writes at the key, and the count of duplicate rows the caller arm can close or leave open",
+   "source": "E628 (r1646 bm-b) publishes its own bound: the writer arm is module-local and name-level, so a write in the caller of the holding function is invisible.  Two of its four duplicate rows read a parameter, which is exactly the origin a caller write would reach",
+   "target": "results/state_tilt/CALLERWRITE.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T00:05:00+08:00",
+   "seeded_by": "r1646 bm-b"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30913,6 +30935,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T23:15:00+08:00",
+ "updated_at": "2026-11-10T00:05:00+08:00",
  "version": 1
 }

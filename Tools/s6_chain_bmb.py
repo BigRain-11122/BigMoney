@@ -1386,6 +1386,14 @@ LEGS = [
     # alias and scan class tables plus the corrected split from the line rows (no corpus walk, ~1s).
     ("alias_binding", ["python", "scripts/e627_alias_binding.py", "verify"]),
 
+    # E628 prices the last bound E627 published -- every earlier card works inside the body of the
+    # function that holds the dead line, so an object arriving from a parameter, a module-level name
+    # or a container bound elsewhere is not where the scan starts.  Each receiver's leftmost name is
+    # classified by where it is bound and the rows whose origin precedes the interval are priced
+    # against the sites elsewhere in the module that write that key on that name.  ``verify`` only
+    # re-reads the face; the 4-minute rebuild is the build, not the chain leg.
+    ("receiver_origin", ["python", "scripts/e628_receiver_origin.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names
