@@ -11917,3 +11917,30 @@ E490 把「每张票都晚一格」定价了（1.87pp/年），但桌面手上�
 严格可加、常量样本没有 t、空样本不是 0）+ results/etf_book_late_sheet_price.json
 （evidence_cutoff 2026-11-06，两臂各 83×5 事件，控制臂差 0.0）+ S6 腿 late_sheet_price
 （check 10/10）+ research/ETF_BOOK_LATE_SHEET_PRICE.md + 卡片本行。
+
+### E492 · 用自己产出的面板当窗口的门，会把自己关死（r1279 bm-a）
+
+`update_zt_pool` 的场景：它的交易日窗口取自本机 `data/daily` 的核心 bar（510300.csv），
+而这条车道本身又要保证「只采集 bar 已落的交易日」。于是本机 bar 一陈旧，窗口就停在面板
+最后一天，`missing_days` 返回空，每一轮都打印一句诚实的
+`no-op: panel covers all bar-landed trading days`——面板一天天烂掉，账面天天说没事。
+
+实锚：面板停在 2026-10-29，应有最新 bar 日 2026-11-09，缺 7 个交易日（28 条待采），
+而状态件停在 11-07 14:34 的 `no-op: <30min since last attempt`，节流之后车道改派，此后再无
+一轮真正开火。两条停摆互相印证：本机 bar 停 → 窗停 → 门闭嘴 → 面板停。
+
+**判据**：任何「该不该有今天这一格」的判断，窗口必须来自**独立于被维护面的外部日历**
+（exchange_calendar_audit：官方交易日 + 15:30 收盘接受时刻，update_daily 自己用的那条），
+禁用被维护面板的尾巴，也不要用本机那份随时会落伍的 bar 副本。旧副本只能当「日历文件缺席」
+时的退路，且退路要打印一行说明。
+
+**同族第二枚（同日 smoke）**：四条现金腿断言「repo 利率面板的最后一根 bar」就是「页面
+定价的那根 bar」——两个车道各自推进，今天 bar 落地后立刻分叉，四条腿齐红。正法同样是
+按**页面自己声称的那根 bar** 去比对（并断言该格存在），这比原来更严：它能抓到「页面用
+最新收盘却声称旧 bar」，而旧写法只能抓到「两边同步时对不上」。
+
+**落地**：scripts/update_zt_pool.py `trading_dates_from()/ _load_trading_dates()`
+（selftest 加两条腿：陈旧 bar 副本不能把门关死、官方 expected day 界定窗口、官方日历缺席
+才回退）+ smoke_test.py 四条现金腿改按页面自身 bar 比对（最终树 479/479 PASS）+ 报告侧
+`daily_report._zt_tape_freshness()`（陈旧度披露走同一日历，stale/current/unknown 三态，
+空日历=不可判而非「最新」）。
