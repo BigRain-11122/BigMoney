@@ -37,6 +37,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 import etf_book_swap_stack as stack_face  # noqa: E402  (one reader of the sheet's order block)
+import etf_book_sibling_gap as gap_face  # noqa: E402  (one reader of the daily panels)
 
 STACK_FACE = os.path.join(ROOT, "results", "etf_book_swap_stack.json")
 LEDGER_DIR = os.path.join(ROOT, "results", "etf_book_positions")
@@ -216,6 +217,14 @@ def upsert_row(ledger, row, stamp):
     return "updated"
 
 
+def latest_execution_row(ledger):
+    """The most recent row that records an actual book; valuations are marks of that book."""
+    rows = [r for r in ledger["rows"] if str(r.get("kind") or "execution") == "execution"]
+    if not rows:
+        return None
+    return sorted(rows, key=lambda r: str(r.get("bar") or ""))[-1]
+
+
 def start_inventory(ledger, bar):
     """The book a decision on `bar` must start from: the latest written row at or before it.
 
@@ -226,6 +235,255 @@ def start_inventory(ledger, bar):
     if not eligible:
         return None
     return sorted(eligible, key=lambda r: str(r.get("bar")))[-1]
+
+
+# --------------------------------------------------------------------------- accrual
+#
+# r1469: a ledger row is written only when a swap executes. Between two decision bars the
+# book earns and loses money nobody records -- so the next order starts from the last
+# execution, not from the account as it stands. Two things move between bars and only two:
+# the marks of the holdings, and the cash leg (the sheet says cash sits in 1-day repo, so a
+# Friday-to-Monday step earns three calendar days). Both are accrued here, one row per bar.
+
+
+def rf_step(rate_pct, gap_days):
+    """One bar's cash return as a fraction, from the rate quoted on the PRIOR bar.
+
+    Same arithmetic as `etf_phase_beta_window.repo_daily_cash` (1-day repo pays calendar
+    days). An absent or non-finite quote returns None and accrues nothing -- it is counted by
+    the caller, never charged as a guessed rate.
+    """
+    try:
+        r = float(rate_pct)
+    except (TypeError, ValueError):
+        return None
+    if r != r or not (r > 0):
+        return None
+    return r / 100.0 * max(int(gap_days), 1) / 365.0
+
+
+def price_steps(holdings, closes_by_symbol, start_bar, end_bar=None, calendar_gap=None):
+    """Bar-by-bar marks for a fixed lot book, from the first panel day after `start_bar`.
+
+    A symbol with no print on a given day carries its last known close and is named in
+    `stale` -- a suspension is not a zero, and a missing panel is not a flat price.
+    """
+    syms = [str(h["symbol"]) for h in holdings or []]
+    series = {s: (closes_by_symbol or {}).get(s) or {} for s in syms}
+    all_days = sorted({d for s in syms for d in series[s]})
+    days = [d for d in all_days if str(d) > str(start_bar)
+            and (end_bar is None or str(d) <= str(end_bar))]
+    last = {}
+    for h in holdings or []:
+        sym = str(h["symbol"])
+        px = float(h.get("price") or 0.0)
+        before = [d for d in series[sym] if str(d) <= str(start_bar)]
+        if before:
+            px = float(series[sym][max(before)])
+        if px > 0:
+            last[sym] = px
+
+    out, prev_day = [], str(start_bar)
+    for d in days:
+        marks, stale = {}, []
+        for sym in syms:
+            px = series[sym].get(d)
+            if px is None:
+                stale.append(sym)
+            else:
+                last[sym] = float(px)
+                px = float(px)
+            marks[sym] = float(last.get(sym) or 0.0)
+        gap = None
+        if calendar_gap is not None:
+            gap = calendar_gap(prev_day, d)
+        out.append({"bar": d, "marks": marks, "stale": stale, "gap_days": gap})
+        prev_day = d
+    return out
+
+
+def accrue_rows(row, steps, rates=None):
+    """Valuation rows from an execution (or prior valuation) row and a list of bar steps.
+
+    `rates` maps a bar to the annualised cash yield quoted on the PREVIOUS bar; a bar with no
+    quote accrues nothing and is counted in `rf_missing`.
+    """
+    holdings = [{"symbol": str(h["symbol"]), "lots": int(h.get("lots") or 0)}
+                for h in (row.get("holdings") or [])]
+    cash = float(row.get("cash_cny") or 0.0)
+    opening = row.get("nav_cny")
+    if opening is None and row.get("risk_book_cny") is not None:
+        opening = float(row.get("risk_book_cny") or 0.0) + cash
+    prev_nav = float(opening) if opening else None
+    first_nav = prev_nav
+    out, rf_missing = [], 0
+    for st in steps or []:
+        risk = sum(int(h["lots"]) * LOT_SHARES * float((st["marks"] or {}).get(h["symbol"]) or 0.0)
+                   for h in holdings)
+        step = rf_step((rates or {}).get(st["bar"]), st.get("gap_days") or 1)
+        if step is None:
+            rf_missing += 1
+            step = 0.0
+        cash = cash * (1.0 + step)
+        nav = risk + cash
+        ret = (nav / prev_nav - 1.0) if prev_nav else None
+        out.append({
+            "bar": st["bar"],
+            "kind": "valuation",
+            "from_bar": str(row.get("bar")),
+            "holdings": [{"symbol": h["symbol"], "lots": h["lots"],
+                          "price": float((st["marks"] or {}).get(h["symbol"]) or 0.0),
+                          "amount_cny": round(h["lots"] * LOT_SHARES
+                                              * float((st["marks"] or {}).get(h["symbol"]) or 0.0), 2)}
+                         for h in holdings],
+            "risk_book_cny": round(risk, 2),
+            "cash_cny": round(cash, 2),
+            "nav_cny": round(nav, 2),
+            "ret": None if ret is None else round(ret, 8),
+            "cum_ret": None if not first_nav else round(nav / first_nav - 1.0, 8),
+            "rf_step": round(step, 10),
+            "stale_price_symbols": list(st.get("stale") or []),
+            "source_face": row.get("source_face"),
+        })
+        prev_nav = nav
+    return out, rf_missing
+
+
+def _calendar_gap(a, b):
+    import datetime
+    try:
+        da = datetime.date.fromisoformat(str(a)[:10])
+        db = datetime.date.fromisoformat(str(b)[:10])
+    except ValueError:
+        return 1
+    return max((db - da).days, 1)
+
+
+def accrue(ledger, stamp=None, upto=None, closes_by_symbol=None, rates=None):
+    """Advance the written book to the newest panel bar; idempotent per bar."""
+    base = latest_execution_row(ledger)
+    if not base:
+        return {"status": "NO_BOOK", "rows": 0, "written": 0}
+    if closes_by_symbol is None or rates is None:
+        return {"status": "NO_INPUTS", "rows": 0, "written": 0}
+    steps = price_steps(base.get("holdings") or [], closes_by_symbol, base.get("bar"),
+                        upto, _calendar_gap)
+    rows, rf_missing = accrue_rows(base, steps, rates)
+    counts = {"added": 0, "kept": 0, "updated": 0}
+    if stamp:
+        for r in rows:
+            counts[upsert_row(ledger, r, stamp)] += 1
+    return {
+        "status": "NO_NEW_BAR" if not rows else "ACCRUED",
+        "from_bar": base.get("bar"),
+        "rows": len(rows),
+        "written": counts["added"] + counts["updated"],
+        "kept": counts["kept"],
+        "rf_missing_bars": rf_missing,
+        "last": rows[-1] if rows else None,
+        "rows_detail": [{k: r[k] for k in ("bar", "risk_book_cny", "cash_cny", "nav_cny",
+                                           "ret", "cum_ret", "rf_step")} for r in rows],
+    }
+
+
+def load_panel_and_rates(holdings, panel_finder=None, panel_loader=None,
+                         rate_loader=None):
+    """Closes per symbol from the board's own daily files, plus the repo quotes."""
+    closes, missing = {}, []
+    for h in holdings or []:
+        sym = str(h["symbol"])
+        try:
+            path = (panel_finder or gap_face.find_daily)(sym)
+            closes[sym] = (panel_loader or gap_face.load_close)(path) if path else {}
+        except (OSError, ValueError):
+            closes[sym] = {}
+        if not closes[sym]:
+            missing.append(sym)
+    try:
+        rs = (rate_loader or _default_rate_loader)()
+        rates = {str(i)[:10]: float(v) for i, v in rs.items()} if rs is not None else {}
+    except (OSError, ValueError, KeyError):
+        rates = {}
+    return closes, rates, missing
+
+
+def _default_rate_loader():
+    import etf_phase_beta_window as bw
+    return bw.load_repo_rates()
+
+
+def _execution_order_book_tail(path=None):
+    """The ticket generator's own normalised book (nav ~1.0, k as a fraction of NAV).
+
+    It is a strategy account, not the executed account: it carries the un-trimmed exposure.
+    Printed side by side, the two say how far the sheet's base is from the book's.
+    """
+    p = path or os.path.join(ROOT, "results", "etf_book_order", "ledger.jsonl")
+    if not os.path.exists(p):
+        return None
+    last = None
+    try:
+        with open(p, encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if line:
+                    last = line
+    except OSError:
+        return None
+    if not last:
+        return None
+    try:
+        row = json.loads(last)
+    except ValueError:
+        return None
+    return {"source": rel(p), "bar": row.get("date"),
+            "nav_units": row.get("nav"), "k": row.get("k"), "rf": row.get("rf")}
+
+
+REPLAY_DAYS = 20
+
+
+def replay(base_row, closes_by_symbol, rates, window=REPLAY_DAYS):
+    """Run the same accrual engine BACKWARDS over the ledger row's own lots.
+
+    It is a check of the machinery, not a book's P&L: the account only started on the
+    execution bar, so what this answers is "if these lots had been held for the last N bars,
+    this engine would have marked them like this". The identity it must satisfy is the useful
+    part -- the final mark-to-market legs must equal the amount the ledger row already carries,
+    because it is the same lots at the same closes.
+    """
+    holdings = [{"symbol": str(h["symbol"]), "lots": int(h.get("lots") or 0)}
+                for h in (base_row.get("holdings") or [])]
+    if not holdings or not base_row.get("bar"):
+        return None
+    days = sorted({d for s in (closes_by_symbol or {}).values() if isinstance(s, dict)
+                   for d in s})
+    days = [d for d in days if str(d) <= str(base_row.get("bar"))]
+    if len(days) < 2:
+        return None
+    start = days[-min(window + 1, len(days))]
+    steps = price_steps(holdings, closes_by_symbol, start, base_row.get("bar"), _calendar_gap)
+    if not steps:
+        return None
+    rows, rf_missing = accrue_rows(
+        {"bar": start, "holdings": holdings, "cash_cny": float(base_row.get("cash_cny") or 0.0),
+         "risk_book_cny": None, "source_face": base_row.get("source_face")}, steps, rates)
+    last = rows[-1]
+    identity_delta = round(last["risk_book_cny"] - float(base_row.get("risk_book_cny") or 0.0), 2)
+    return {
+        "start_bar": start,
+        "bars": len(rows),
+        # no cum_ret here on purpose: the opening nav of this replay is unknown (the cash leg
+        # is the execution-day cash), so a cumulative return would be a fabricated number
+        "legs_first_bar": rows[0]["risk_book_cny"],
+        "legs_last_bar": last["risk_book_cny"],
+        "legs_ret": round(last["risk_book_cny"] / rows[0]["risk_book_cny"] - 1.0, 8),
+        "cash_interest_cny": round(last["cash_cny"] - float(base_row.get("cash_cny") or 0.0), 2),
+        "identity_delta_cny": identity_delta,
+        "identity_holds": abs(identity_delta) <= 0.01,
+        "rf_missing_bars": rf_missing,
+        "stale_bars": sum(1 for s in steps if s.get("stale")),
+    }
 
 
 # --------------------------------------------------------------------------- face
@@ -279,6 +537,32 @@ def assess(ticket, stack, ledger, stamp=None):
     berr, berr_total = (base_error(order, ticket_lots, ledger_lots, nav, extra_prices)
                         if base else ([], 0.0))
 
+    # r1469: between execution bars the book earns and loses money nobody records. Advance the
+    # written book one row per bar (marks + 1-day repo on the cash leg), so the next order can
+    # start from the account as it stands rather than from the last execution.
+    accrual = {"status": "NO_BOOK"}
+    replay_row = None
+    if base:
+        closes, rates, panel_missing = load_panel_and_rates(base.get("holdings") or [])
+        accrual = accrue(ledger, stamp=stamp, closes_by_symbol=closes, rates=rates)
+        accrual["panel_missing_symbols"] = panel_missing
+        accrual["repo_quotes"] = len(rates)
+        accrual["rate_latest_bar"] = max(rates) if rates else None
+        accrual["rate_latest"] = rates[max(rates)] if rates else None
+        replay_row = replay(base, closes, rates) if base and closes else None
+
+    # the ticket side keeps its own normalised engine book; the two must not be conflated
+    eng = _execution_order_book_tail()
+    eng_gap = None
+    if eng and (stack or {}).get("k_after") is not None and eng.get("k") is not None:
+        total_nav = (float((stack or {}).get("risk_book_after_cny") or 0.0)
+                     + float((stack or {}).get("cash_cny") or 0.0))
+        gap_k = float(eng["k"]) - float((stack or {}).get("k_after"))
+        eng_gap = {"book_k": (stack or {}).get("k_after"), "engine_k": eng.get("k"),
+                   "book_nav_cny": round(total_nav, 2),
+                   "k_gap": round(gap_k, 6),
+                   "notional_gap_cny": round(gap_k * total_nav, 2) if total_nav else None}
+
     return {
         "artifact": "etf_book_positions",
         "asof": asof,
@@ -300,6 +584,10 @@ def assess(ticket, stack, ledger, stamp=None):
         },
         "base_divergence": berr,
         "base_divergence_total_cny": berr_total,
+        "accrual": accrual,
+        "accrual_rows": accrual.get("rows_detail") or [],
+        "replay": replay_row,
+        "engine_book": {"tail": eng, "divergence": eng_gap},
         "caveats": [
             "the reconciliation compares two documents, not two accounts: it says what the "
             "printed rows leave behind relative to the book the same face declares, and it "
@@ -394,6 +682,73 @@ def render_md(face):
               "- 「从票面起算」一列全是「不动」不是巧合：目标权重取自这张票自己，票面当然与自己一致。"
               "这一节量的是底座差，不是选股，也不是下一轮的预测。", ""]
 
+    acc = face.get("accrual") or {}
+    if acc.get("status") in ("ACCRUED", "NO_NEW_BAR"):
+        L += ["## 这本书每天的账", ""]
+        cash0 = float((face.get("ledger_row") or {}).get("cash_cny") or 0.0)
+        rate = acc.get("rate_latest")
+        if acc.get("status") == "NO_NEW_BAR":
+            L += ["- **没有一天的账可记**：执行 bar `%s` 与面板最新 bar 是同一天（%s）——不是算不出来，"
+                  "是那天之后还没有收盘价。" % (acc.get("from_bar"), acc.get("from_bar"))]
+        else:
+            L += ["- 从 bar `%s` 起已写下 **%d 行**（新写 %d、重跑保持 %d），面板最新 bar `%s`。"
+                  % (acc.get("from_bar"), acc.get("rows"), acc.get("written"),
+                     acc.get("kept"), (acc.get("last") or {}).get("bar")),
+                  "", "| bar | 风险腿 | 现金 | 账 | 当日 | 累计 |", "|---|---|---|---|---|---|"]
+            for r in (face.get("accrual_rows") or []):
+                L.append("| %s | ¥%s | ¥%s | ¥%s | %s | %s |"
+                         % (r["bar"], format(r["risk_book_cny"], ",.0f"),
+                            format(r["cash_cny"], ",.0f"), format(r["nav_cny"], ",.0f"),
+                            "%+.3f%%" % (r["ret"] * 100.0) if r.get("ret") is not None else "?",
+                            "%+.3f%%" % (r["cum_ret"] * 100.0)
+                            if r.get("cum_ret") is not None else "?"))
+        if rate is not None and cash0:
+            L += ["",
+                  "- 现金腿按 1 日回购计息（周五→周一算三天）：最近报价 **%.3f%%**（%s），cash ¥%s "
+                  "每个交易日挣 **¥%.2f**，跨周末一格 **¥%.2f**——不记这一行，现金就只是躺在账上的数字。"
+                  % (float(rate), acc.get("rate_latest_bar") or "?", format(cash0, ",.0f"),
+                     cash0 * float(rate) / 100.0 / 365.0,
+                     cash0 * float(rate) / 100.0 * 3.0 / 365.0)]
+        if acc.get("rf_missing_bars"):
+            L += ["- 有 **%d** 个 bar 没有前一日回购报价：按零计息并如实计数，不用猜的利率填。"
+                  % acc["rf_missing_bars"]]
+        if acc.get("panel_missing_symbols"):
+            L += ["- 没有日线面板的腿：%s（不推价、不编价）。"
+                  % "、".join(acc["panel_missing_symbols"])]
+        L.append("")
+
+    rp = face.get("replay")
+    if rp:
+        L += ["## 引擎体检：同一批票往前 %d 个 bar" % rp.get("bars"), "",
+              "- 从 bar `%s` 到执行 bar：持仓按面板收盘逐日重估、现金按 1 日回购计息"
+              "（缺回购报价 %d 个 bar，有票停牌/缺价 %d 个 bar）。"
+              % (rp.get("start_bar"), rp.get("rf_missing_bars") or 0, rp.get("stale_bars") or 0),
+              "- 腿市值 ￥%s → ￥%s（**%+.2f%%**），现金利息 **￥%s**。"
+              % (format(rp.get("legs_first_bar") or 0.0, ",.0f"),
+                 format(rp.get("legs_last_bar") or 0.0, ",.0f"),
+                 (rp.get("legs_ret") or 0.0) * 100.0,
+                 format(rp.get("cash_interest_cny") or 0.0, ",.2f")),
+              "- 恒等腿：最后一行算出的腿市值与账本行自己记的腿金额差 **￥%.2f**（%s）——"
+              "同一批手数、同一批收盘价，引擎必须把账本写下的钱算回来。"
+              % (rp.get("identity_delta_cny") or 0.0,
+                 "通过" if rp.get("identity_holds") else "**不通过**"),
+              "- **这不是这本书的盈亏**：账本从执行 bar 才开始，这一段是同一批持仓的历史回放，"
+              "只证明引擎在真面板上走得通，不给这本书记任何收益。", ""]
+
+    eb = face.get("engine_book") or {}
+    if eb.get("divergence"):
+        d = eb["divergence"]
+        L += ["## 票面背后还有一本账（引擎账 vs 执行账）", "",
+              "- 造这张单的脚本自己维护一本归一化账（`%s`，最新 bar `%s`）：k=%.4f。"
+              % ((eb.get("tail") or {}).get("source"), (eb.get("tail") or {}).get("bar"),
+                 float(d["engine_k"])),
+              "- 执行账（这张面写下的那本）：k=%.4f，NAV ¥%s。"
+              % (float(d["book_k"]), format(d["book_nav_cny"], ",.0f")),
+              "- 差 **%.2fpp = ¥%s 名义暴露**。两本账各自都没错：引擎账是**裁剪前**的策略暴露，"
+              "执行账是额度允许的暴露。但这意味着**下一张单从哪本账起算，会差这么多钱**——"
+              "所以「从账本起算」必须是执行账，不是引擎账。"
+              % (float(d["k_gap"]) * 100.0, format(d["notional_gap_cny"], ",.0f")), ""]
+
     if face.get("notes"):
         L += ["## 读这张面时要知道的", ""]
         for n in face["notes"]:
@@ -463,6 +818,36 @@ def check():
         led_hold = {str(h["symbol"]): int(h["lots"]) for h in row.get("holdings") or []}
         if pub_hold != led_hold:
             bad.append("ledger_row_drift")
+    # r1469: the accrual must reproduce exactly, and every mark must carry its own identity
+    pub_acc = published.get("accrual") or {}
+    fr_acc = fresh.get("accrual") or {}
+    if (pub_acc.get("status") or None) != (fr_acc.get("status") or None):
+        bad.append("accrual_status")
+    pr, fr = (pub_acc.get("rows_detail") or []), (fr_acc.get("rows_detail") or [])
+    if len(pr) != len(fr):
+        bad.append("accrual_rows")
+    else:
+        for a, b in zip(pr, fr):
+            if a.get("bar") != b.get("bar") or abs((a.get("nav_cny") or 0.0)
+                                                   - (b.get("nav_cny") or 0.0)) > 0.01:
+                bad.append("accrual_nav")
+                break
+    for r in ledger.get("rows") or []:
+        if str(r.get("kind") or "") == "valuation":
+            if abs((r.get("nav_cny") or 0.0)
+                   - ((r.get("risk_book_cny") or 0.0) + (r.get("cash_cny") or 0.0))) > 0.01:
+                bad.append("valuation_nav_identity")
+                break
+
+    # r1469: the replay must still reproduce the ledger's own legs, and must reproduce exactly
+    pub_rp = published.get("replay") or {}
+    fr_rp = fresh.get("replay") or {}
+    if pub_rp and not pub_rp.get("identity_holds"):
+        bad.append("replay_identity")
+    if ((pub_rp.get("bars"), pub_rp.get("legs_last_bar"))
+            != (fr_rp.get("bars"), fr_rp.get("legs_last_bar"))):
+        bad.append("replay_drift")
+
     if bad:
         print("CHECK_FAIL: %s disagree with a fresh derivation" % ", ".join(bad))
         return 1
@@ -573,6 +958,52 @@ def selftest():
     # 9. an unknown side is never guessed into a buy or a sell
     chk("an unknown side is skipped, not invented",
         apply_actions({"A": 10}, [{"side": "TRIM", "symbol": "A", "lots": 5}]) == {"A": 10})
+
+    # 10. r1469 accrual: cash earns calendar days, a missing quote accrues nothing
+    chk("a three-day repurchase step is three days of the quote",
+        abs(rf_step(1.185, 3) - 1.185 / 100.0 * 3 / 365.0) < 1e-12)
+    chk("a missing quote is None, not a zero rate wearing a number", rf_step(None, 1) is None)
+
+    # 11. marks: a day with no print carries the last close and is named
+    holds = [{"symbol": "A", "lots": 10, "price": 2.0}]
+    steps = price_steps(holds, {"A": {"2026-11-06": 2.0, "2026-11-09": 2.2}}, "2026-11-06")
+    chk("only days after the start bar are stepped", [s["bar"] for s in steps] == ["2026-11-09"])
+    closes2 = {"A": {"2026-11-06": 2.0, "2026-11-09": 2.2, "2026-11-10": 2.3},
+               "B": {"2026-11-06": 1.0, "2026-11-10": 1.1}}
+    holds2 = [{"symbol": "A", "lots": 10, "price": 2.0}, {"symbol": "B", "lots": 5, "price": 1.0}]
+    steps2 = price_steps(holds2, closes2, "2026-11-06")
+    chk("a suspended leg carries its last close", steps2[0]["marks"]["B"] == 1.0)
+    chk("and is named as stale", steps2[0]["stale"] == ["B"])
+
+    # 12. accrual writes one row per bar, with nav = legs + cash
+    row = {"bar": "2026-11-06", "holdings": [{"symbol": "A", "lots": 10, "price": 2.0}],
+           "cash_cny": 1000.0, "risk_book_cny": 2000.0, "source_face": "x"}
+    rows, _miss = accrue_rows(row, [{"bar": "2026-11-09", "marks": {"A": 2.2}, "stale": [],
+                                     "gap_days": 3}], {"2026-11-09": 1.185})
+    chk("one bar gives one row", len(rows) == 1)
+    chk("nav is legs plus cash",
+        abs(rows[0]["nav_cny"] - (2200.0 + 1000.0 * (1 + rf_step(1.185, 3)))) < 0.01)
+    chk("the cash leg visibly earned", rows[0]["cash_cny"] > 1000.0)
+    chk("a missing quote is counted",
+        accrue_rows(row, [{"bar": "2026-11-09", "marks": {"A": 2.2}, "stale": [],
+                           "gap_days": 1}], {})[1] == 1)
+
+    # 13. re-running the same bar keeps the row; a valuation is not an execution
+    led2 = {"schema": "x", "rows": [dict(row)]}
+    a1 = accrue(led2, stamp="t1", closes_by_symbol=closes2, rates={"2026-11-09": 1.185})
+    a2 = accrue(led2, stamp="t2", closes_by_symbol=closes2, rates={"2026-11-09": 1.185})
+    chk("accrual writes on the first run", a1["written"] == a1["rows"] and a1["status"] == "ACCRUED")
+    chk("the same bars are kept on a re-run", a2["kept"] == a2["rows"] and a2["written"] == 0)
+    chk("valuations are not mistaken for executions",
+        latest_execution_row(led2)["bar"] == "2026-11-06")
+
+    # 14. the replay engine must reproduce the amount the ledger row already carries
+    rp = replay({"bar": "2026-11-10", "holdings": [{"symbol": "A", "lots": 10, "price": 2.0}],
+                 "cash_cny": 1000.0, "risk_book_cny": 2000.0},
+                {"A": {"2026-11-06": 1.9, "2026-11-09": 2.0, "2026-11-10": 2.0}},
+                {"2026-11-09": 1.185}, window=4)
+    chk("the replay reconstructs the row's own legs", rp and rp["identity_holds"])
+    chk("and moves cash by interest only", rp and rp["cash_interest_cny"] >= 0.0)
 
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1

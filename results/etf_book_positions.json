@@ -178,6 +178,49 @@
   }
  ],
  "base_divergence_total_cny": 381115.4,
+ "accrual": {
+  "status": "NO_NEW_BAR",
+  "from_bar": "2026-11-06",
+  "rows": 0,
+  "written": 0,
+  "kept": 0,
+  "rf_missing_bars": 0,
+  "last": null,
+  "rows_detail": [],
+  "panel_missing_symbols": [],
+  "repo_quotes": 3762,
+  "rate_latest_bar": "2026-11-06",
+  "rate_latest": 1.185
+ },
+ "accrual_rows": [],
+ "replay": {
+  "start_bar": "2026-10-09",
+  "bars": 20,
+  "legs_first_bar": 417444.9,
+  "legs_last_bar": 392400.9,
+  "legs_ret": -0.05999355,
+  "cash_interest_cny": 563.81,
+  "identity_delta_cny": 0.0,
+  "identity_holds": true,
+  "rf_missing_bars": 0,
+  "stale_bars": 0
+ },
+ "engine_book": {
+  "tail": {
+   "source": "results/etf_book_order/ledger.jsonl",
+   "bar": "2026-11-06",
+   "nav_units": 1.45936114,
+   "k": 0.460253,
+   "rf": 0.0
+  },
+  "divergence": {
+   "book_k": 0.392401,
+   "engine_k": 0.460253,
+   "book_nav_cny": 1000000.0,
+   "k_gap": 0.067852,
+   "notional_gap_cny": 67852.0
+  }
+ },
  "caveats": [
   "the reconciliation compares two documents, not two accounts: it says what the printed rows leave behind relative to the book the same face declares, and it cannot see whether the broker actually filled those lots",
   "the base divergence holds the target weights of THIS ticket fixed on purpose -- it isolates the starting-book effect. What the next decision bar selects is a different question and is not answered here",
