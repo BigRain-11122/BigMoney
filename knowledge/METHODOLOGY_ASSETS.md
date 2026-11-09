@@ -12222,3 +12222,30 @@ cutoff、去债宇宙数、翻转修复笔数，三样都要等于门自报的�
 正身：`scripts/etf_book_scale_floor.py`（新增 `check`，fixtures rc3/rc3/rc2）+ `Tools/s6_chain_bmc.py`
 腿 `scale_floor` + `smoke_test.py::_ceo_page_view/_page_elsewhere_note`（八条页面腿）+
 `research/digests/DIGEST-20261110-r1493-stale-face-and-page-ownership.md`。
+
+
+### E503 · 一条让读者「去跑某个命令」的提示，先问那个命令认不认得这行（r1494 bm-c）
+
+数据车道看板的采样段对 `ah_panel` 印着「holder share unknown -- run `certify`」。而
+`certify` 读的是手写的 `LANES` 表，`ah_panel` 是 `lane_hosts.json` 映射出来的车道，
+**根本不在那张表里** —— 读者照着提示跑一遍，187 个文件一个都不会被读，提示永远不兑现。
+同一条面还有第二个洞：`certify` 上一份记录是 11-09 21:38 手跑的，面板每天推进，于是
+每日第一件事是页面写「certification is older than this scan」，两条 smoke 腿随之常红。
+
+四律：
+① **面与它的生产者用同一个注册表**。`certify_rows` 改用 `board_lanes()`（看板自己那份
+合并注册表），`ah_panel` 立刻可认证（187/187 持有最新 bar）；提示因此从"空头支票"变成真话。
+② **核对闸必须能被喂饱**（承 E477）。一个只有人手动跑的面，在任何面板推进后必然陈旧 ——
+所以全扫描进链接（`data_lane_tail_certification` 腿），并配 no-op 门：面板字节未动则沿用上一行
+（`reused`+`scanned_at`，`as_of` 仍表示"文件被读的时刻"），5 个车道实测 0.83s/轮；全沿用时
+**一字不写**（零 diff 零提交），面板一动只重读那一条。
+③ **页面与闸门必须共用一个判据**。「这份认证对这行还能不能用」此前在 `_holder_sentence` 里是
+三态（current/stale/missing），在 smoke 腿里退化成"字符串相等" —— 面板一动腿就永红，而永红的闸
+最后一定会被人放松（r1135）。现在 `cert_row_state()` 单一实现，页面、腿、自检三处同源；陈旧时
+腿不判"页面撒谎"，而判"认证过期，去重跑"，对抗夹具证明陈旧仍被抓。
+④ **链序按「谁引用谁」排**：认证必须先于看板渲染，否则页面印的是上一份认证的持有数，而认证
+在几秒后才写 —— 这正是 r1262 腿要抓的那种错配（首版接在后面，实测两步后腿立刻红）。
+
+正身：`scripts/data_lane_freshness.py`（`panel_fingerprint`/`certify` 复用门/`cert_row_state`，
+selftest 32/32，L33/L34 新增）+ `Tools/s6_chain_bmc.py` 腿 `data_lane_tail_certification` +
+`smoke_test.py` 两条认证腿 + `research/digests/DIGEST-20261110-r1494-certify-needs-a-producer.md`。

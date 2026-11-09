@@ -2503,7 +2503,8 @@ def main() -> int:
         _crow = {r["lane"]: r for r in (_cert.get("lanes") or [])}
         _board3 = {r["lane"]: r for r in (json.load(open(
             "results/data_lane_freshness.json", encoding="utf-8")).get("lanes") or [])}
-        _want_lanes = sorted(s["lane"] for s in _dlf3.LANES if s.get("panel_csv"))
+        _want_lanes = sorted(s["lane"] for s in _dlf3.board_lanes()
+                             if s.get("panel_csv"))
         _why = []
         if sorted(_crow) != _want_lanes:
             _why.append(f"certification covers {sorted(_crow)} but declared "
@@ -2513,9 +2514,19 @@ def main() -> int:
                 _why.append(f"{lane}: the sample claims a newer tail than the "
                             f"full read ({r.get('sample_tail')} > {r.get('full_tail')})")
             _pt = (_board3.get(lane) or {}).get("panel_tail")
-            if _pt and r.get("sample_tail") and str(_pt) != str(r["sample_tail"]):
+            # r1494: one predicate decides "is this certification usable for this
+            # row", shared with the page. A certification that predates one panel
+            # advance is stale, not a lie -- demanding equality here kept both legs
+            # permanently red, and a permanently red gate gets loosened (r1135).
+            _state = _dlf3.cert_row_state(r, _board3.get(lane))[0]
+            if _state == "current" and _pt and r.get("sample_tail") \
+                    and str(_pt) != str(r["sample_tail"]):
                 _why.append(f"{lane}: board prints panel tail {_pt}, the "
                             f"certification re-read {r['sample_tail']}")
+            if _state == "stale" and _pt:
+                _why.append(f"{lane}: certification is stale (read "
+                            f"{r.get('full_tail')}, board prints {_pt}) and "
+                            f"nothing re-read the panel -- run `certify`")
             if r.get("tail_holder_share") is not None:
                 if bool(r.get("thin_tail")) != (r["tail_holder_share"]
                                                 < _dlf3.THIN_TAIL_SHARE):
@@ -2532,17 +2543,29 @@ def main() -> int:
         # certification file -- a reader who opens FRESHNESS.md must not read
         # "tail 2026-10-13 held by the panel" when two symbols hold it. Recomputed
         # from the published page and the certification: every sampled row quotes
-        # the full scan's count, and a thin tail is named as one.
+        # the full scan's count, and a thin tail is named as one. r1494: the quote
+        # is demanded only when the certification describes the row's own tail --
+        # a stale one must be disclosed instead, which is the page's own rule.
         _md4 = open("docs/data_lanes/FRESHNESS.md", encoding="utf-8").read()
         _s4 = _md4.split("Tails read from a sample")[1].split("\n## ")[0]
         _cert4 = json.load(open("results/data_lane_tail_certification.json",
                                 encoding="utf-8"))
         _cr4 = {r["lane"]: r for r in (_cert4.get("lanes") or [])}
+        _board4 = {r["lane"]: r for r in (json.load(open(
+            "results/data_lane_freshness.json", encoding="utf-8")).get("lanes") or [])}
         _why4 = []
         for _lane, _cr in _cr4.items():
             _line = [ln for ln in _s4.splitlines()
                      if ln.startswith(f"- `{_lane}`:")]
             if not _line:
+                continue
+            _state = _dlf3.cert_row_state(_cr, _board4.get(_lane))[0]
+            if _state == "stale":
+                if "certification is older than this scan" not in _line[0]:
+                    _why4.append(f"{_lane}: a stale certification is printed "
+                                 f"without being named")
+                if "full scan holds it in" in _line[0]:
+                    _why4.append(f"{_lane}: a stale holder count is quoted")
                 continue
             _quote = (f"full scan holds it in {_cr['tail_holders']:,} of "
                       f"{_cr['files']:,}")

@@ -47,6 +47,19 @@ LEGS = [
     # calendar (~0.2s, no network, no engine) and refuses to certify a tail whose
     # envelope does not name the machine that wrote it. It must run BEFORE
     # build_status (the dashboard renders it) -- r1290 class otherwise.
+    # r1494: the sample below makes a claim about a 5,226-file panel, and the only
+    # thing that can check it is the full scan -- which nothing in this table ever
+    # ran. The result was a face read by two smoke legs and written by hand: on
+    # any round after a panel advanced the page said "certification is older than
+    # this scan" and both legs went red, which is how a gate turns into noise. The
+    # scan now rides here behind a no-op gate (a panel whose bytes did not move is
+    # carried forward with its own scan time), so an unchanged board costs <1s and
+    # a bar landing costs one re-read. It runs BEFORE the board that quotes it:
+    # the other order leaves the page printing yesterday's holder count against a
+    # certification written seconds later, which is the mismatch the r1262 leg
+    # exists to catch.
+    ("data_lane_tail_certification",
+     ["python", "scripts/data_lane_freshness.py", "certify"]),
     ("data_lane_freshness", ["python", "scripts/data_lane_freshness.py", "run"]),
     # r1249 (bm-a): D-20261104-05 asks @BigMoney, by 2026-11-06 12:00, to name ONE host per lane
     # with evidence, or the 2026-11-08 task re-enable stays refused (a double-run on the money

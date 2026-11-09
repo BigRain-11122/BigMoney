@@ -996,21 +996,42 @@ def read_certification(path=None):
     return {"as_of": d.get("as_of"), "rows": rows, "verdict": d.get("verdict")}
 
 
+def cert_row_state(cert_row, board_row):
+    """(state, full_tail, board_tail) -- is this certification usable for THIS row?
+
+    r1494: the page and the smoke gates each had their own answer to this
+    question, and the gate's was stricter than the page's: it demanded exact
+    equality with the board tail, so a certification that predated one panel
+    advance turned the gate red forever -- and the cheapest way out of a
+    permanently red gate is to loosen it (r1135). One predicate, three states:
+    * "current"  -- the scan read the same tail this row prints; quote the counts.
+    * "stale"    -- the scan read an older tail; its counts describe another
+                    panel state and must not be quoted, but it must be named.
+    * "missing"  -- no scan covers this lane.
+    """
+    if not cert_row:
+        return "missing", None, (board_row or {}).get("panel_tail") or (board_row or {}).get("tail")
+    full_tail = cert_row.get("full_tail")
+    board_tail = (board_row or {}).get("panel_tail") or (board_row or {}).get("tail")
+    if full_tail and board_tail and str(full_tail) < str(board_tail):
+        return "stale", full_tail, board_tail
+    return "current", full_tail, board_tail
+
+
 def _holder_sentence(row, cert_row, cert_as_of):
     """One row's holder facts, or the honest reason they are not printed."""
-    if not cert_row:
+    state, full_tail, board_tail = cert_row_state(cert_row, row)
+    if state == "missing":
         return " (holder share unknown -- run `certify`)"
-    share = cert_row.get("tail_holder_share")
-    holders = cert_row.get("tail_holders")
-    files = cert_row.get("files")
-    full_tail = cert_row.get("full_tail")
-    board_tail = row.get("panel_tail") or row.get("tail")
-    if full_tail and board_tail and str(full_tail) < str(board_tail):
+    if state == "stale":
         # The scan that counted holders read an older tail than this board row:
         # its counts describe a different panel state and must not be quoted.
         return (f" (certification is older than this scan: full scan read "
                 f"{full_tail}, this row reads {board_tail})")
     txt = ""
+    share = cert_row.get("tail_holder_share")
+    holders = cert_row.get("tail_holders")
+    files = cert_row.get("files")
     if holders is not None and files:
         pct = f"{share * 100:.2f}%" if share is not None else "?"
         txt += f"; the full scan holds it in {holders:,} of {files:,} symbols ({pct})"
@@ -2162,7 +2183,56 @@ def selftest():
     print("[PASS] L32 a copy that lags the tail its own lane certifies is named "
           "with the gap, instead of hiding under in_sync", flush=True)
 
-    print("selftest: 30/30 PASS", flush=True)
+    # L33 (r1494) the certification now has a producer, so it is run every round;
+    # that is only affordable if an unchanged panel is not re-read. A carried row
+    # must keep its own scan time (as_of keeps meaning "when files were read"),
+    # and a panel that gained a bar must be re-read, not carried.
+    with tempfile.TemporaryDirectory() as td:
+        pdir = os.path.join(td, "per")
+        os.makedirs(pdir)
+        for i in range(60):
+            with open(os.path.join(pdir, "%06d.csv" % i), "w") as fh:
+                fh.write("date,close\n2026-11-06,1.0\n")
+        spec33 = [{"lane": "cert_lane", "panel_csv": {"dir": "per",
+                                                      "pattern": "*.csv"}}]
+        r33, _v33 = certify_rows(spec33, root=td)
+        assert r33[0]["reused"] is False and r33[0]["panel_fingerprint"], r33
+        fp33 = r33[0]["panel_fingerprint"]
+        prev33 = {"cert_lane": r33[0]}
+        r33b, _v = certify_rows(spec33, root=td, reuse=prev33)
+        assert r33b[0]["reused"] is True, r33b
+        assert r33b[0]["scanned_at"] == r33[0]["scanned_at"], r33b
+        assert r33b[0]["full_tail"] == "2026-11-06", r33b
+        # a bar lands on one symbol -> the fingerprint moves and the row is re-read
+        with open(os.path.join(pdir, "000007.csv"), "w") as fh:
+            fh.write("date,close\n2026-11-06,1.0\n2026-11-09,1.0\n")
+        prev33 = {"cert_lane": r33b[0]}
+        r33c, _v = certify_rows(spec33, root=td, reuse=prev33)
+        assert r33c[0]["reused"] is False, r33c
+        assert r33c[0]["full_tail"] == "2026-11-09", r33c
+        assert panel_fingerprint(pdir) != fp33
+    print("[PASS] L33 an unchanged panel is carried forward with its own scan "
+          "time, and a panel that gained a bar is re-read", flush=True)
+
+    # L34 (r1494) one predicate answers "is this certification usable for this
+    # row" for both the page and the gates. The two used to disagree: the page
+    # disclosed a stale certification while the smoke leg demanded equality and
+    # stayed red forever -- and a permanently red gate gets loosened (r1135).
+    _cur = cert_row_state({"full_tail": "2026-11-09"}, {"panel_tail": "2026-11-09"})
+    _old = cert_row_state({"full_tail": "2026-11-06"}, {"panel_tail": "2026-11-09"})
+    _none = cert_row_state(None, {"panel_tail": "2026-11-09"})
+    assert _cur[0] == "current", _cur
+    assert _old[0] == "stale", _old
+    assert _none[0] == "missing", _none
+    assert _holder_sentence({"panel_tail": "2026-11-09"},
+                            {"full_tail": "2026-11-09", "tail_holders": 3,
+                             "files": 10, "tail_holder_share": 0.3,
+                             "thin_tail": False}, None).startswith(
+        "; the full scan holds it in 3 of 10"), "_holder_sentence"
+    print("[PASS] L34 the page and the gates share one certification predicate "
+          "(current / stale / missing)", flush=True)
+
+    print("selftest: 32/32 PASS", flush=True)
     return 0
 
 
@@ -2173,7 +2243,29 @@ CERT_MD_PATH = os.path.join(ROOT, "docs", "data_lanes", "TAIL_CERTIFICATION.md")
 THIN_TAIL_SHARE = 0.10
 
 
-def certify_rows(lanes=None, root=ROOT, laggard_cap=25):
+def panel_fingerprint(dirpath, pattern="*.csv"):
+    """Cheap stand-in for "have these bytes moved" -- (files, max mtime, bytes).
+
+    Not a digest: it is a reason to rescan, so it may be over-eager (a touched
+    file costs one full read) but must never say "unchanged" after the panel
+    advanced. Every collector appends by rewriting files, so both mtime and size
+    move whenever a bar lands.
+    """
+    names = _panel_names(dirpath, pattern)
+    if names is None:
+        return {"files": 0, "max_mtime": 0.0, "bytes": 0}
+    mx, total = 0.0, 0
+    for name in names:
+        try:
+            st = os.stat(os.path.join(dirpath, name))
+        except OSError:
+            continue
+        mx = max(mx, st.st_mtime)
+        total += st.st_size
+    return {"files": len(names), "max_mtime": round(mx, 3), "bytes": total}
+
+
+def certify_rows(lanes=None, root=ROOT, laggard_cap=25, reuse=None):
     """(rows, verdict) -- read every declared panel in full, then ask the sample.
 
     Two questions per lane, and they are not the same question:
@@ -2183,20 +2275,39 @@ def certify_rows(lanes=None, root=ROOT, laggard_cap=25):
     handful of symbols is a separate, human-actionable fact that no 40-of-5222
     read would ever surface -- and the board's tail number is exactly what the
     frozen-lineage docs quote, so it has to be checkable.
+
+    r1494: two fixes, both about this face having a producer.
+      * the lane set is `board_lanes()` -- the same registry the board reads --
+        not the hand-written LANES table. ah_panel is a map-declared lane, so the
+        page told the reader "run `certify`" for a lane this command skipped.
+      * `reuse` carries a row forward when the panel's bytes are unchanged since
+        it was scanned (r1381 no-op gate): a 5,226-file full read is paid only
+        when a bar lands, so the leg can ride every round and the certification
+        is never older than the board it certifies.
     """
     rows = []
-    for spec in (lanes if lanes is not None else LANES):
+    for spec in (lanes if lanes is not None else board_lanes(root=root)):
         pc = spec.get("panel_csv")
         if not pc:
             continue
         d = os.path.join(root, pc["dir"])
         pattern = pc.get("pattern", "*.csv")
+        fp = panel_fingerprint(d, pattern)
+        prev = (reuse or {}).get(spec["lane"])
+        if (prev and prev.get("panel_fingerprint") == fp
+                and prev.get("sample_tail")):
+            row = dict(prev)
+            row["reused"] = True
+            rows.append(row)
+            continue
         t0 = dt.datetime.now()
         full, finfo = panel_tail_csv_full(d, pattern, laggard_cap=laggard_cap)
         sample, sinfo = panel_tail_csv(d, pattern)
         rows.append({
             "lane": spec["lane"],
             "dir": pc["dir"],
+            "scanned_at": t0.isoformat(timespec="seconds"),
+            "panel_fingerprint": fp,
             "full_tail": str(full) if full else None,
             "sample_tail": str(sample) if sample else None,
             "agree": bool(full == sample),
@@ -2223,6 +2334,7 @@ def certify_rows(lanes=None, root=ROOT, laggard_cap=25):
                                   if finfo.get("per_file") else None),
             "laggards": finfo.get("laggards", []),
             "laggards_truncated": finfo.get("laggards_truncated", False),
+            "reused": False,
             "elapsed_sec": round((dt.datetime.now() - t0).total_seconds(), 2),
         })
         # A tail held by under a tenth of the panel is quoted in the docs as
@@ -2263,6 +2375,18 @@ def render_cert_md(report):
                    else "%.2f%%" % (100.0 * r["tail_holder_share"]))))
     thin = [r for r in report["lanes"] if r.get("thin_tail")]
     out.append("")
+    carried = [r for r in report["lanes"] if r.get("reused")]
+    if carried:
+        out.append(f"## {len(carried)} row(s) carried forward")
+        out.append("")
+        out.append("A lane whose panel bytes are unchanged since it was last "
+                   "scanned is not re-read; its numbers stand as of that scan "
+                   "(the `as_of` above is the newest full read, not this run).")
+        out.append("")
+        for r in carried:
+            out.append(f"- **{r['lane']}**: carried from `{r.get('scanned_at')}` "
+                       f"({r['files_read']}/{r['files']} files unchanged)")
+        out.append("")
     if thin:
         out.append("## The newest bar is held by a handful of symbols")
         out.append("")
@@ -2289,15 +2413,30 @@ def render_cert_md(report):
     return "\n".join(out)
 
 
-def certify(now=None, lanes=None, root=ROOT, write=True):
+def certify(now=None, lanes=None, root=ROOT, write=True, reuse=True):
+    """Full-scan certification, with a no-op gate.
+
+    r1494: this face had no producer in the chain, so it went stale the moment a
+    panel advanced and the smoke reds about it came back every round -- the same
+    r1471 "read but never written" shape. It now runs with the S6 chain, and pays
+    the 10,470-file read only when a panel's bytes actually moved: a run where
+    every lane is carried forward writes NOTHING (so `as_of` keeps meaning "when
+    the files were read", not "when the tool was last invoked") and exits 0.
+    """
     now = now or dt.datetime.now()
-    rows, verdict = certify_rows(lanes, root)
+    prev = read_json(CERT_PATH) if os.path.exists(CERT_PATH) else None
+    prev_rows = {r.get("lane"): r for r in ((prev or {}).get("lanes") or [])
+                 if r.get("lane")}
+    rows, verdict = certify_rows(lanes, root,
+                                 reuse=prev_rows if reuse else None)
+    fresh = [r for r in rows if not r.get("reused")]
     report = {
         "as_of": now.isoformat(timespec="seconds"),
         "verdict": verdict,
         "thin_tail_share": THIN_TAIL_SHARE,
         "counts": {
             "lanes": len(rows),
+            "lanes_reused": len(rows) - len(fresh),
             "files_scanned": sum(r["files"] for r in rows),
             "sample_disagreed": len([r for r in rows if not r["agree"]]),
             "lanes_with_laggards": len([r for r in rows if r["n_laggards"]]),
@@ -2306,13 +2445,24 @@ def certify(now=None, lanes=None, root=ROOT, write=True):
         "lanes": rows,
     }
     for r in rows:
-        print(f"{'certified' if r['agree'] else 'UNDERSTATED':>10}  {r['lane']:<14} "
-              f"full={r['full_tail'] or '--':<11} sample={r['sample_tail'] or '--':<11} "
+        print(f"{'certified' if r['agree'] else 'UNDERSTATED':>10}  "
+              f"{r['lane']:<14} "
+              f"full={r['full_tail'] or '--':<11} "
+              f"sample={r['sample_tail'] or '--':<11} "
               f"files={r['files_read']}/{r['files']} "
               f"holders={r['tail_holders']} laggards={r['n_laggards']}"
-              f"{' THIN' if r['thin_tail'] else ''}",
+              f"{' THIN' if r['thin_tail'] else ''}"
+              f"{' (carried, scanned ' + str(r.get('scanned_at')) + ')' if r.get('reused') else ''}",
               flush=True)
     print(f"verdict={verdict} counts={report['counts']}", flush=True)
+    if write and not fresh and prev:
+        # Nothing to say that is not already said: the previous report described
+        # exactly these bytes, and re-stamping `as_of` would publish a scan that
+        # never happened.
+        print(f"no-op: every panel's bytes are unchanged since {prev.get('as_of')} "
+              f"-- {len(rows)} certification row(s) carried, nothing rewritten",
+              flush=True)
+        return 0 if verdict in ("certified", "no_panels_declared") else 3
     if write:
         os.makedirs(os.path.dirname(CERT_PATH), exist_ok=True)
         tmp = CERT_PATH + ".tmp"
