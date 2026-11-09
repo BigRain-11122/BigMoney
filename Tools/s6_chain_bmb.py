@@ -2484,6 +2484,15 @@ LEGS = [
     # published rows, a class whose own flags contradict it, and a verdict the counts do not force.
     ("date_joined_reader",
      ["python", "scripts/e604_date_joined_reader.py", "check"]),
+    # E606 (r1633 bm-b): E601 priced a count that disagrees with its own rows, but a disagreement
+    # only costs something if a program ever puts the two numbers together.  Every disagreeing
+    # series is joined to the modules that open its face (E470's opener census, reused), split
+    # producer from consumer, and each (face, reader) pair is graded against the count field and
+    # any row-count predicate.  The leg refuses a series published as disagreeing that agrees, a
+    # class that does not re-derive from its own flags, and any count or verdict that does not
+    # follow the rows.
+    ("count_row_compare",
+     ["python", "scripts/e606_count_row_compare.py", "check"]),
 ]
 
 

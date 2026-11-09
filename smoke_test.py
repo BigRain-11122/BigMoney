@@ -26050,6 +26050,46 @@ except Exception as _e601x:
 check(_name601, not _bad601, "; ".join(_bad601)[:240] or _d601)
 
 
+# E606: where a published count disagrees with the rows printed beside it, does any reader put the
+# two numbers together?  The leg re-derives every (face, reader) class from the pair's own evidence
+# flags, refuses a series published as disagreeing whose count equals its rows, refuses a class
+# count that does not re-derive, and refuses a verdict the counts do not force.
+_name606 = ("E606 whether a count that disagrees with its own rows is ever compared (r1633 bm-b)")
+_bad606 = []
+_d606 = "no reading"
+try:
+    _p606 = os.path.join("results", "state_tilt", "COUNTRYCOMPARE.json")
+    _f606 = json.load(open(_p606, encoding="utf-8"))
+    _m606 = importlib.import_module("e606_count_row_compare")
+    _bad606.extend(_m606.face_problems(_f606))
+    _c606 = _f606.get("counts") or {}
+    _cons606 = [p for p in (_f606.get("reader_pairs") or [])
+                if not p.get("is_a_producer_of_the_face")]
+    _cmp606 = 0
+    for _pr606 in _cons606:
+        _want606 = _m606.reader_class(_pr606.get("named_count_fields"),
+                                      _pr606.get("rowcount_predicate"))
+        if _pr606.get("class") != _want606:
+            _bad606.append("pair %s/%s grades itself %r, rule says %r"
+                           % (_pr606.get("face"), _pr606.get("reader"),
+                              _pr606.get("class"), _want606))
+        elif _pr606.get("class") == _m606.C_COMPARES and not _pr606.get("unreadable"):
+            _cmp606 += 1
+    if _cmp606 != _c606.get("reader_pairs_that_compare"):
+        _bad606.append("counts.reader_pairs_that_compare says %r but %d consumer pairs compare"
+                       % (_c606.get("reader_pairs_that_compare"), _cmp606))
+    if _f606.get("verdict") != _m606.verdict_from(_c606):
+        _bad606.append("verdict %r does not re-derive from the counts (rule says %r)"
+                       % (_f606.get("verdict"), _m606.verdict_from(_c606)))
+    _d606 = ("disagreeing series=%s across %s faces, consumer pairs=%s, compare=%s, verdict=%s"
+             % (_c606.get("disagreeing_series"), _c606.get("faces_carrying_a_disagreeing_series"),
+                len(_cons606), _cmp606, _f606.get("verdict")))
+except Exception as _e606x:
+    _bad606.append(repr(_e606x)[:160])
+    _d606 = "study could not be read"
+check(_name606, not _bad606, "; ".join(_bad606)[:240] or _d606)
+
+
 # E597: every published block that carries a bar count, whether that count is already an
 # annualisation denominator at the writer, and whether any downstream module divides by it.
 # The leg refuses counts that do not re-derive from the published blocks, an implied cagr that

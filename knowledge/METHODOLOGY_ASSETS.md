@@ -14355,3 +14355,24 @@ esults/state_tilt/DUPWITNESS.json、S6 leg dup_witness、smoke leg E601。坑：
 **三枚自踩（本卡要留的）**：①**裸 %d 不是日期**——首版把 `shard_%dof%d.json`（分片序号）按 `%d` 判成日期模板，读数从 407 掉到 175，正是 E206/E208 家族「名字不是语义」的第三次复发，故日期判据收紧为「必须有 %Y / 日期词字段 / strftime/isoformat 拼接」；②**join 在写函数里不是读**——44 个 join 站点里有 31 个所在函数同时写文件，不分开就会把「写自己的输出」算成「按日期取面」，本轮用 `function_also_writes` 标志把它们单列；③**strftime 模板被排除=把风险记成零**——首版把 `{time.strftime('%Y%m%d')}` 判成 wildcard（因为置位标志只写在花括号分支），等于对最典型的日期拼接闭眼；正法是在 strftime/isoformat 替换处同时置 constrained，改动后再无 wildcard。
 **How**：①任何「按 as-of 取面」的想法先量命中集大小，命中 >1 就是集合不是行；②任何「有多少读者」的统计先把写文件与读文件分开，否则数字是两者的和；③扫描器把「无法定价」的模板单列成类而不是并进零风险，否则边界会读成清白。
 **证据** = `scripts/e604_date_joined_reader.py`（selftest **35/35**，run/check problems=[]）＋ `results/state_tilt/DATEJOINREADERS.json` (+-latest) ＋ S6 leg `date_joined_reader` rc=0 25.8s ＋ POOL E604 done。
+## E608 计数对不上行的地方，没有一个算得上是被人比对过的（r1633 bm-b·2026-11-09）
+> 卡号=E608：E606 是池面卡号，方法卡顺延到 E608。
+
+**观察**：E601 给出「501 张面印着 bar 计数，其中 198 个序列的计数既不等于行数也不等于去重行数」，但那是**面**的结论；一个没人比的错数等于一个不可能被反驳的数。本轮把 198 个不一致序列逐条接到「谁打开了这张面」（E470 的开面普查原样复用，不重写），再把打开者按**是不是这张面的写者**分开，最后每个 (面, 读者) 对判三档：既点了计数字段又算了行数（len/set/.nunique/.size），只点计数不算行，打开但从不提计数。
+
+**读数**（results/state_tilt/COUNTRYCOMPARE.json·cutoff 2026-11-06）：
+- 13,660 个已发布 JSON 面里 501 张带计数块；其中 **86 张面的 198 个序列**印着与自己的行不一致的计数。
+- 这 86 张面里**只有 5 张被任何源码打开过**（81 张一个开面者都没有）；把写者自身剔除后，**真正的消费侧只有 4 个 (面, 读者) 对**。
+- 这 4 对里 **1 对既点计数又算行**（scripts/trial_labor_w20.py 对 results/_r1027bmc_w20_kin_orthogonality.json 点 n_bars 且算 len），0 对只点不算，2 对打开却从不提计数，1 对源码超读帽无法判定。
+- 写者自身另有 3 对，其中 3 对都「点计数且算行」——写者当然算得出来，所以写者不计入读者口径，单列发布。
+
+**判据**：结论不是「有读者比过」，而是**「不一致本身几乎无人可达」**——86 张里 81 张没有一个开面者，唯一能看的那个消费者是 trial_labor_w20 这一条，且它是为了别的目的在算行。换句话说 E601 的 198 个错数在当前代码面上是**发布面给人类看的数**，不是被程序消费的数；要让它能被反驳，得先有消费者。
+
+**三枚自踩（本卡要留的句）**：
+- ① **写者不是读者**：首版把开面者全算成读者，于是 7 对里 4 对「在比对」，看起来像有救；把写者（E468 的 write-site 映射，按面 stem）分出来之后只剩 1 对。写者当然既点计数又算行——它就是算完写下的那个。
+- ② **一个类必须由它自己的证据推出来**：selftest 首版手写 pair(class=C_NAMES_ONLY) 却把 named_count_fields 留空，闸当场判「自己说的类不对，规则说的是 opens...never_names」——手设类就是给夹具作弊，改成由 reader_class() 从字段算出。
+- ③ **「没有读者」只等于「没有字面开面者」**：E470 还发布 glob 落点，本卡**没有**把它算进来。所以 results/**/*.json 这种扫掠能到而字面到不了的面，在这一格里可能被误读成「无人消费」——已写进 limits，不许把 81 读成「谁都读不到」。
+
+**How**：①任何「这个数能不能被发现是错的」先问它有没有消费者，没有消费者就是发布面，别把它算成已验证；②统计读者时先剔写者，否则写者自己那份算术会把「有人比对」抬成主要形态；③分类器的类必须由字段推导并在 selftest 里正反两向钉住，手设类的夹具一律不算。
+
+**证据** = `scripts/e606_count_row_compare.py`（selftest **18/18**，run/check problems=[]·verify problems=[]）＋ `results/state_tilt/COUNTRYCOMPARE.json` (+`COUNTRYCOMPARE-latest.json`) ＋ `scripts/run_e606_smoke_leg.py`（PASS·`--doctor` 1/1 红且面字节还原）＋ smoke_test.py leg E606 ＋ S6 leg `count_row_compare` rc=0 93.7s ＋ POOL E604 done/E606 done＋E606 后继卡 E609 seeded。
