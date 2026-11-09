@@ -173,7 +173,7 @@
  "book_at_close_note": "carried from r1617 -- this window priced the cash faces and did not re-run the book",
  "card": "E634",
  "check": "e625 check problems=[] / verify problems=[] (rebuild identical)",
- "clock_read": "2026-11-10T05:29:11+08:00",
+ "clock_read": "2026-11-10T05:30:18+08:00",
  "concurrency_note": "Tools/iteration_loop.ps1 was live in this repo for the whole window (files touched 12s before the first read); no queue head, task card or shared lane face was claimed",
  "cores": 8,
  "cpu": 0.6,
@@ -383,7 +383,7 @@
  "gpu_vram_free_mib": 851.0,
  "gpu_vram_used_mb": 7341.0,
  "gpu_vram_used_mib": 7341.0,
- "heartbeat_epoch_utc": 1794259751,
+ "heartbeat_epoch_utc": 1794259818,
  "heartbeat_epoch_utc_face": "int",
  "heartbeat_note": "cpu_pct from two GetSystemTimes samples, not the memory-load field (E235 pit)",
  "history": [
@@ -6444,12 +6444,12 @@
  "three_line_delivery": "machine/bm-b-r1645 @ fef6d5b4f29c",
  "three_line_next": "E635 whether the 21 computed-key reads after the dead line resolve to the counted key -- 48h",
  "three_line_recent": "results/state_tilt/READFUNCGAP.json @ 2026-11-10T05:29:11+08:00",
- "timestamp": "2026-11-10T05:29:11+08:00",
- "ts": "2026-11-10T05:29:11+08:00",
+ "timestamp": "2026-11-10T05:30:18+08:00",
+ "ts": "2026-11-10T05:30:18+08:00",
  "ts_utc_ms": 1794234696000,
  "ts_utc_offset": "+08:00",
- "updated": "2026-11-10T05:29:11+08:00",
- "updated_at": "2026-11-10T05:29:11+08:00",
+ "updated": "2026-11-10T05:30:18+08:00",
+ "updated_at": "2026-11-10T05:30:18+08:00",
  "verdict": "product round: E634 face + smoke leg + S6 leg green; full suite not launched (r1499)",
  "verdict_line": "0 unnamed entry reads over 230 body accesses -> the line-scoped census stands",
  "verdict_note": "product round; the full suite was not launched, so no suite total is claimed",
@@ -6685,5 +6685,15 @@
    "the S6 leg was first invoked as `s6_chain_bmb.py read_func_gap`, which takes 'read_func_gap' as the round number and runs the FULL chain -- cancelled after 5 minutes; the selector is --only read_func_gap"
   ],
   "debt_fixed": "r1652's commit 5841033ac2 carried neither knowledge/METHODOLOGY_ASSETS.md nor knowledge/TREASURE_REGISTRY.md while its round report listed both cards as product; the E633 card and the E632/E633 registry rows are backfilled in this commit"
- }
+ },
+ "r1653_delivery": {
+  "branch": "machine/bm-b-r1653",
+  "sha": "eb0a1933bfa2b941424e34dc74fea996dbd5108e",
+  "ts": "2026-11-10T05:30:18+08:00",
+  "verified": "git ls-remote equality checked (match)",
+  "ahead_of_origin_main": 7,
+  "behind_origin_main": 6,
+  "main_push_note": "no unattended rebase on a promisor clone (r1243); machine branch is the channel"
+ },
+ "local_behind_origin_main": 6
 }
