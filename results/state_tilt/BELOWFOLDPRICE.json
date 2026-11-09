@@ -1,0 +1,309 @@
+{
+ "study": "E637_below_fold_price",
+ "script": "scripts/e637_below_fold_price.py",
+ "card": "E637",
+ "evidence_cutoff": "2026-11-10",
+ "dept": "研究",
+ "method": "both upstream populations are re-derived from the tree (e633.measure and e636.measure, neither face written): every 'read below the receiver' access of E633's counted read lines is listed with its depth and inner key and compared with the counted key of its own row, and E636's per-location below-the-receiver key lists are joined to E633's rows on (module, read line)",
+ "population_source": "13 counted read line(s) of results/state_tilt/READFORMGAP.json joined to 12 computed-key read site(s) of results/state_tilt/READBINDINGREACH.json",
+ "source_faces": [
+  "results/state_tilt/READFORMGAP.json",
+  "results/state_tilt/READBINDINGREACH.json"
+ ],
+ "source_verdicts": {
+  "E633": "no_counted_read_line_names_this_key_outside_the_classifier_so_the_node_count_E632_published_stands",
+  "E636": "the_after_side_stays_unresolved_and_at_least_one_of_those_locations_carries_no_read_of_the_counted_key_below_the_receiver"
+ },
+ "counts": {
+  "rows": 13,
+  "rows_also_in_the_e636_population": 5,
+  "below_accesses": 9,
+  "below_with_a_literal_inner_key": 3,
+  "below_with_no_inner_key": 6,
+  "below_naming_the_counted_key": 0,
+  "lines_carrying_a_below_access": 7,
+  "lines_whose_below_access_names_the_counted_key": 0,
+  "below_depth_histogram": {
+   "2": 3,
+   "3": 6
+  },
+  "rows_where_e636_lists_the_counted_key_below": 4,
+  "rows_where_e636_lists_the_key_below_and_e633_counts_a_recognised_read": 4,
+  "rows_where_e636_lists_the_key_below_and_e633_counts_nothing": 0,
+  "e636_below_expressions_named": [
+   "cutoff",
+   "eq_s",
+   "k",
+   "x1"
+  ],
+  "inner_keys_removed": [
+   "cutoff",
+   "eq_s"
+  ]
+ },
+ "rows": [
+  {
+   "module": "scripts/cn_core_ddctl_p1.py",
+   "function": "run",
+   "read_line": 395,
+   "key": "days",
+   "receiver": "P",
+   "recognised_reads_on_the_line": 1,
+   "below_accesses": [],
+   "below_count": 0,
+   "below_naming_the_counted_key": 0,
+   "e636_rows_at_this_line": 0,
+   "e636_below_the_receiver_expressions": [],
+   "e636_lists_the_counted_key_below": false
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "simulate",
+   "read_line": 589,
+   "key": "slip_exec",
+   "receiver": "P",
+   "recognised_reads_on_the_line": 1,
+   "below_accesses": [
+    {
+     "depth": 3,
+     "inner_key": null,
+     "column": 39,
+     "names_the_counted_key": false
+    },
+    {
+     "depth": 2,
+     "inner_key": null,
+     "column": 39,
+     "names_the_counted_key": false
+    }
+   ],
+   "below_count": 2,
+   "below_naming_the_counted_key": 0,
+   "e636_rows_at_this_line": 0,
+   "e636_below_the_receiver_expressions": [],
+   "e636_lists_the_counted_key_below": false
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "simulate",
+   "read_line": 593,
+   "key": "slip_exec",
+   "receiver": "P",
+   "recognised_reads_on_the_line": 1,
+   "below_accesses": [
+    {
+     "depth": 3,
+     "inner_key": null,
+     "column": 38,
+     "names_the_counted_key": false
+    },
+    {
+     "depth": 2,
+     "inner_key": null,
+     "column": 38,
+     "names_the_counted_key": false
+    }
+   ],
+   "below_count": 2,
+   "below_naming_the_counted_key": 0,
+   "e636_rows_at_this_line": 0,
+   "e636_below_the_receiver_expressions": [],
+   "e636_lists_the_counted_key_below": false
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "read_line": 350,
+   "key": "verdict",
+   "receiver": "faces",
+   "recognised_reads_on_the_line": 1,
+   "below_accesses": [],
+   "below_count": 0,
+   "below_naming_the_counted_key": 0,
+   "e636_rows_at_this_line": 1,
+   "e636_below_the_receiver_expressions": [],
+   "e636_lists_the_counted_key_below": false
+  },
+  {
+   "module": "scripts/e504_name_compose.py",
+   "function": "selftest",
+   "read_line": 919,
+   "key": "rows",
+   "receiver": "doctored4",
+   "recognised_reads_on_the_line": 1,
+   "below_accesses": [
+    {
+     "depth": 2,
+     "inner_key": null,
+     "column": 8,
+     "names_the_counted_key": false
+    }
+   ],
+   "below_count": 1,
+   "below_naming_the_counted_key": 0,
+   "e636_rows_at_this_line": 0,
+   "e636_below_the_receiver_expressions": [],
+   "e636_lists_the_counted_key_below": false
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "function": "face_problems",
+   "read_line": 367,
+   "key": "bar",
+   "receiver": "r",
+   "recognised_reads_on_the_line": 1,
+   "below_accesses": [],
+   "below_count": 0,
+   "below_naming_the_counted_key": 0,
+   "e636_rows_at_this_line": 0,
+   "e636_below_the_receiver_expressions": [],
+   "e636_lists_the_counted_key_below": false
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "function": "face_problems",
+   "read_line": 372,
+   "key": "bar",
+   "receiver": "r",
+   "recognised_reads_on_the_line": 1,
+   "below_accesses": [],
+   "below_count": 0,
+   "below_naming_the_counted_key": 0,
+   "e636_rows_at_this_line": 0,
+   "e636_below_the_receiver_expressions": [],
+   "e636_lists_the_counted_key_below": false
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "function": "face_problems",
+   "read_line": 377,
+   "key": "bar",
+   "receiver": "r",
+   "recognised_reads_on_the_line": 1,
+   "below_accesses": [],
+   "below_count": 0,
+   "below_naming_the_counted_key": 0,
+   "e636_rows_at_this_line": 0,
+   "e636_below_the_receiver_expressions": [],
+   "e636_lists_the_counted_key_below": false
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "read_line": 414,
+   "key": "x1",
+   "receiver": "ports",
+   "recognised_reads_on_the_line": 1,
+   "below_accesses": [],
+   "below_count": 0,
+   "below_naming_the_counted_key": 0,
+   "e636_rows_at_this_line": 0,
+   "e636_below_the_receiver_expressions": [],
+   "e636_lists_the_counted_key_below": false
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "read_line": 424,
+   "key": "x1",
+   "receiver": "sleeves",
+   "recognised_reads_on_the_line": 1,
+   "below_accesses": [
+    {
+     "depth": 3,
+     "inner_key": "cutoff",
+     "column": 45,
+     "names_the_counted_key": false
+    }
+   ],
+   "below_count": 1,
+   "below_naming_the_counted_key": 0,
+   "e636_rows_at_this_line": 1,
+   "e636_below_the_receiver_expressions": [
+    "cutoff",
+    "x1"
+   ],
+   "e636_lists_the_counted_key_below": true
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "read_line": 437,
+   "key": "x1",
+   "receiver": "sleeves",
+   "recognised_reads_on_the_line": 1,
+   "below_accesses": [
+    {
+     "depth": 3,
+     "inner_key": "cutoff",
+     "column": 36,
+     "names_the_counted_key": false
+    }
+   ],
+   "below_count": 1,
+   "below_naming_the_counted_key": 0,
+   "e636_rows_at_this_line": 1,
+   "e636_below_the_receiver_expressions": [
+    "cutoff",
+    "x1"
+   ],
+   "e636_lists_the_counted_key_below": true
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "read_line": 438,
+   "key": "x1",
+   "receiver": "sleeves",
+   "recognised_reads_on_the_line": 1,
+   "below_accesses": [
+    {
+     "depth": 3,
+     "inner_key": null,
+     "column": 36,
+     "names_the_counted_key": false
+    }
+   ],
+   "below_count": 1,
+   "below_naming_the_counted_key": 0,
+   "e636_rows_at_this_line": 1,
+   "e636_below_the_receiver_expressions": [
+    "k",
+    "x1"
+   ],
+   "e636_lists_the_counted_key_below": true
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "read_line": 444,
+   "key": "x1",
+   "receiver": "sleeves",
+   "recognised_reads_on_the_line": 1,
+   "below_accesses": [
+    {
+     "depth": 3,
+     "inner_key": "eq_s",
+     "column": 45,
+     "names_the_counted_key": false
+    }
+   ],
+   "below_count": 1,
+   "below_naming_the_counted_key": 0,
+   "e636_rows_at_this_line": 1,
+   "e636_below_the_receiver_expressions": [
+    "eq_s",
+    "x1"
+   ],
+   "e636_lists_the_counted_key_below": true
+  }
+ ],
+ "limits": [
+  "the fold is priced only where a counted line resolves to a receiver; E633's own census already refuses to price a line that does not, and those lines are absent here",
+  "an inner key is compared as a literal string only: a computed key below the receiver is published as naming nothing, never as naming a different key",
+  "the join key is (module, read line), so two counted rows on one line share a row's E636 context; the population carries no such pair today and the count of joined rows is published so a future pair would show up",
+  "this study rewrites neither upstream face and runs no runner"
+ ],
+ "verdict": "the_fold_removes_N_accesses_and_none_of_them_names_the_counted_key_of_its_own_row_so_it_hides_no_read;_but_K_of_the_locations_E636_reports_as_reading_the_counted_key_below_the_receiver_are_the_same_locations_where_E633_counts_a_recognised_read,_so_the_two_instruments_draw_the_boundary_at_different_depths_and_neither_lost_a_read",
+ "answer": "E633 folds 9 access(es) out of the same-key census across 7 of its 13 counted read line(s) (depths 2 x3, 3 x6).  3 of them name a literal key (cutoff, eq_s) and 6 name none; 0 name the counted key of their own row.  5 of those line(s) also sit in E636's population, and on 4 of them E636 reports the counted key itself as read below the receiver -- 4 of which E633 simultaneously counts as a recognised read of that key on the same line, 0 of which E633 counts nothing at all."
+}

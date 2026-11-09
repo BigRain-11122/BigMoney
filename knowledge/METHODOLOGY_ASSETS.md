@@ -14937,3 +14937,33 @@ _counted_key_below_the_receiver`：E634/E635 的「死线之后 0 次读到该�
 `results/state_tilt/READBINDINGREACH.json` + `readbindingreach_latest.json` +
 `scripts/run_e636_smoke_leg.py`（1/1 PASS，`--doctor` 1/1 红且面字节复原）+ smoke_test.py leg E636 +
 `Tools/s6_chain_bmb.py` leg `read_binding_reach`（rc=0 0.37s）+ POOL E636 done / E637 seeded。
+
+## E637 · 「折出接收者下层」到底折掉了什么——两个总体一起定价（r1657 bm-b·2026-11-10）
+
+E636 发布过一句关于 E633 的话：**5 个死线后未决位置里有 4 个确实读了计数键，只是在接收者下一层，
+而 E633 把这档读「折出普查之外」**。这句话读起来是 E633 的总体缺口。本轮把「折出」这件事在
+**两个总体上一次定价**（都从树重导，两份上游面零写入）：E633 自己 13 条计数行里共有 **9 个
+`read_below_the_receiver` 访问**，分布在 7 条行上（深度 2×3 / 3×6），其中 3 个带字面内键
+（`cutoff`、`eq_s`）、6 个不带内键，**没有一个内键等于该行自己的计数键**；而 E636 点名的那 4 个
+位置，恰恰就是 E633 在同一条行上**记下 `recognised_read_of_the_key`（深度 2）**的那 4 条——
+两边都没有丢读。
+
+裁决 = `the_fold_removes_N_accesses_and_none_of_them_names_the_counted_key_of_its_own_row_so_it_hides_no_read;_but_K_of_the_locations_E636_reports_as_reading_the_counted_key_below_the_receiver_are_the_same_locations_where_E633_counts_a_recognised_read,_so_the_two_instruments_draw_the_boundary_at_different_depths_and_neither_lost_a_read`。
+
+**教训（3 条）**
+1. **同一个词，两把尺子**：E633 的「below the receiver」= 相对接收者根 `depth > 1`（所以
+   `sleeves[tid]["x1"]` 里 `x1` 那档在 depth 2，被记成 recognised）；E636 的「below」= 同
+   (行, 列) 上除本读之外的其余 Subscript（所以同一个 `x1` 又出现在 below 名单里）。**名字相同的
+   边界不等于同一条线**——引用上游一句「它折出去了」之前，必须回到上游自己的总体里看它记成了什么。
+2. **「折出去的读」与「没读该键」是两句不同的话**，判据必须是「该行自己的计数键」：本轮的比较键
+   是 `row.key`，逐行发布 `names_the_counted_key`，禁按内键存在与否推断。
+3. **两个总体 join 必须按 (module, read line)** 且把 join 到的行数发布出来（`e636_rows_at_this_line`）：同一行挂两行计数行时 join 会串味，计数相等不是同一总体的证据（E366/E637 同族）。
+
+**How**：遇到「A 面说 B 面把某档折出去了」，先把两面的总体各自重导、按共同签名 join、再问三件事——
+①A 面折出的条目里有没有命中它自己的判据词；②B 面在同位置是否已经计过同一读；③join 覆盖多少行。
+三件都答完才准写「缺口」或「零」。
+
+**证据** = `scripts/e637_below_fold_price.py`（selftest 10/10，run/verify `problems=[]`）+
+`results/state_tilt/BELOWFOLDPRICE.json` + `belowfoldprice_latest.json` +
+`scripts/run_e637_smoke_leg.py`（1/1 PASS，`--doctor` 1/1 红且面字节复原）+ smoke_test.py leg E637 +
+`Tools/s6_chain_bmb.py` leg `below_fold_price`

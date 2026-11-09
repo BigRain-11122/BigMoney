@@ -27649,5 +27649,44 @@ except Exception as _e636x:
     _d636 = "study could not be read"
 check(_name636, not _bad636, "; ".join(_bad636)[:240] or _d636)
 
+# E637 prices E633's "read below the receiver" fold, the one E636 read as a population limit: the
+# folded-out accesses are re-listed with their depth and inner key on BOTH populations at once, so
+# "the fold hid a read of the counted key" and "the fold hid no read but the two instruments draw
+# the boundary at different depths" cannot be mistaken for one another.  This leg refuses a face
+# whose per-row below list does not re-add, a row claiming an E636 below-list with no E636 row
+# joined to it, a verdict that says the fold is free while some folded access names the counted key,
+# and any problem the study's own gate returns (E444 family: a zero that cannot say what it listed
+# is a claim, not a measurement).
+_name637 = ("E637 what E633's below-the-receiver fold actually removes, priced on both populations "
+            "(r1657 bm-b)")
+_bad637 = []
+_d637 = "no reading"
+try:
+    _f637 = json.load(open(os.path.join("results", "state_tilt", "belowfoldprice_latest.json"),
+                           encoding="utf-8"))
+    _m637 = importlib.import_module("e637_below_fold_price")
+    _bad637.extend(_m637.face_problems(_f637))
+    _c637 = _f637.get("counts") or {}
+    _v637 = _f637.get("verdict") or ""
+    if ("names_the_counted_key" in _v637 and "none_of_them" not in _v637
+            and (_c637.get("below_naming_the_counted_key") or 0) == 0):
+        _bad637.append("the verdict reports a hidden read the rows do not carry")
+    if (_v637 == _m637.V_FOLD_FREE
+            and (_c637.get("below_naming_the_counted_key") or 0) > 0):
+        _bad637.append("the verdict calls the fold free while it names the counted key")
+    if (_c637.get("below_accesses") or 0) < sum(
+            int(r.get("below_count") or 0) for r in (_f637.get("rows") or [])):
+        _bad637.append("the published below total is smaller than its own rows")
+    _d637 = ("rows=%s below=%s named_key=%s e636_locations=%s both_counted=%s verdict=%s"
+             % (_c637.get("rows"), _c637.get("below_accesses"),
+                _c637.get("below_naming_the_counted_key"),
+                _c637.get("rows_where_e636_lists_the_counted_key_below"),
+                _c637.get("rows_where_e636_lists_the_key_below_and_e633_counts_a_recognised_read"),
+                _v637[:70]))
+except Exception as _e637x:
+    _bad637.append(repr(_e637x)[:160])
+    _d637 = "study could not be read"
+check(_name637, not _bad637, "; ".join(_bad637)[:240] or _d637)
+
 if __name__ == "__main__":
     sys.exit(main())

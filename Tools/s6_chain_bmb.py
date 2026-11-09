@@ -1455,6 +1455,17 @@ LEGS = [
     # side to "another key".
     ("read_binding_reach", ["python", "scripts/e636_read_binding_reach.py", "verify"]),
 
+    # E637 prices the sentence E636 published about E633: that 4 of its 5 after-side locations read
+    # the counted key one level below the receiver where E633 "folds the read out of the census".
+    # Both populations are re-derived from the tree and joined on (module, read line): E633 folds 9
+    # accesses out across 7 of its 13 lines, 0 of which names the counted key of its own row, and
+    # the 4 locations E636 names are exactly the 4 where E633 counts a recognised read of that key
+    # at depth 2 -- so neither instrument lost a read; they draw "below the receiver" at different
+    # depths.  The leg refuses a verdict that reports a hidden read the rows do not carry, a "free
+    # fold" verdict beside a folded access that names the key, and a below total smaller than its
+    # own rows.
+    ("below_fold_price", ["python", "scripts/e637_below_fold_price.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names
