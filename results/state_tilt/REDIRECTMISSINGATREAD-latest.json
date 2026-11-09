@@ -1,0 +1,489 @@
+{
+ "answer": "12 redirect edges carry 22 reader sites across 13 modules: 0 would read nothing without complaint and 22 would raise; no redirect target is missing on this checkout so the answer is a latent handling class not a live defect",
+ "card": "E602",
+ "counts": {
+  "dangling_edges_today": 0,
+  "distinct_reader_modules": 13,
+  "edges": 12,
+  "edges_with_a_reader": 8,
+  "edges_with_no_reader": 4,
+  "reader_sites": 22,
+  "readers_bare_load": 7,
+  "readers_guard_silent": 0,
+  "readers_guarded_loud": 15,
+  "readers_invisible": 0,
+  "readers_loud_if_absent": 22,
+  "readers_silent_if_absent": 0,
+  "readers_unreadable": 0
+ },
+ "edges": [
+  {
+   "class_counts": {
+    "bare_load": 0,
+    "guard_silent": 0,
+    "guarded_loud": 0,
+    "invisible": 0,
+    "unreadable": 0
+   },
+   "exists_today": true,
+   "key": "json",
+   "pointer_face": "docs/live_book/latest.json",
+   "raw_value": "docs/live_book/LIVE-BOOK-20261109.json",
+   "readers": [],
+   "relation": "payload",
+   "repair_path": null,
+   "target_basename": "LIVE-BOOK-20261109.json",
+   "target_kind": "json",
+   "target_path": "docs/live_book/LIVE-BOOK-20261109.json"
+  },
+  {
+   "class_counts": {
+    "bare_load": 0,
+    "guard_silent": 0,
+    "guarded_loud": 0,
+    "invisible": 0,
+    "unreadable": 0
+   },
+   "exists_today": true,
+   "key": "page",
+   "pointer_face": "docs/live_book/latest.json",
+   "raw_value": "docs/live_book/LIVE-BOOK-20261109.md",
+   "readers": [],
+   "relation": "payload",
+   "repair_path": null,
+   "target_basename": "LIVE-BOOK-20261109.md",
+   "target_kind": "text",
+   "target_path": "docs/live_book/LIVE-BOOK-20261109.md"
+  },
+  {
+   "class_counts": {
+    "bare_load": 2,
+    "guard_silent": 0,
+    "guarded_loud": 4,
+    "invisible": 0,
+    "unreadable": 0
+   },
+   "exists_today": true,
+   "key": "dividend_face",
+   "pointer_face": "results/div_event_census/latest.json",
+   "raw_value": "data/fund_history_export/div_events_faces.parquet",
+   "readers": [
+    {
+     "class": "bare_load",
+     "existence_guard": false,
+     "module": "scripts/div_event_census.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": false
+    },
+    {
+     "class": "bare_load",
+     "existence_guard": false,
+     "module": "scripts/divex_harvest_probe.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": false
+    },
+    {
+     "class": "guarded_loud",
+     "existence_guard": true,
+     "module": "scripts/fund_divlowvol_p1.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": true
+    },
+    {
+     "class": "guarded_loud",
+     "existence_guard": true,
+     "module": "scripts/fund_divlowvol_p1_probe.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": true
+    },
+    {
+     "class": "guarded_loud",
+     "existence_guard": true,
+     "module": "scripts/fund_divlowvol_p2_probe.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": true
+    },
+    {
+     "class": "guarded_loud",
+     "existence_guard": true,
+     "module": "scripts/sscombo_sidecar_local.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": false
+    }
+   ],
+   "relation": "reference",
+   "repair_path": null,
+   "target_basename": "div_events_faces.parquet",
+   "target_kind": "other",
+   "target_path": "data/fund_history_export/div_events_faces.parquet"
+  },
+  {
+   "class_counts": {
+    "bare_load": 2,
+    "guard_silent": 0,
+    "guarded_loud": 4,
+    "invisible": 0,
+    "unreadable": 0
+   },
+   "exists_today": true,
+   "key": "dividend_face",
+   "pointer_face": "results/divex_harvest/latest.json",
+   "raw_value": "data/fund_history_export/div_events_faces.parquet",
+   "readers": [
+    {
+     "class": "bare_load",
+     "existence_guard": false,
+     "module": "scripts/div_event_census.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": false
+    },
+    {
+     "class": "bare_load",
+     "existence_guard": false,
+     "module": "scripts/divex_harvest_probe.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": false
+    },
+    {
+     "class": "guarded_loud",
+     "existence_guard": true,
+     "module": "scripts/fund_divlowvol_p1.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": true
+    },
+    {
+     "class": "guarded_loud",
+     "existence_guard": true,
+     "module": "scripts/fund_divlowvol_p1_probe.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": true
+    },
+    {
+     "class": "guarded_loud",
+     "existence_guard": true,
+     "module": "scripts/fund_divlowvol_p2_probe.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": true
+    },
+    {
+     "class": "guarded_loud",
+     "existence_guard": true,
+     "module": "scripts/sscombo_sidecar_local.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": false
+    }
+   ],
+   "relation": "reference",
+   "repair_path": null,
+   "target_basename": "div_events_faces.parquet",
+   "target_kind": "other",
+   "target_path": "data/fund_history_export/div_events_faces.parquet"
+  },
+  {
+   "class_counts": {
+    "bare_load": 0,
+    "guard_silent": 0,
+    "guarded_loud": 2,
+    "invisible": 0,
+    "unreadable": 0
+   },
+   "exists_today": true,
+   "key": "nulls_evidence",
+   "pointer_face": "results/divlowvol_live/latest.json",
+   "raw_value": "results\\divlowvol_nulls\\NULLS-CONSUME-2026-09-22.json",
+   "readers": [
+    {
+     "class": "guarded_loud",
+     "existence_guard": true,
+     "module": "scripts/divlowvol_live_picks.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": true
+    },
+    {
+     "class": "guarded_loud",
+     "existence_guard": true,
+     "module": "scripts/portfolio_recommend.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": false
+    }
+   ],
+   "relation": "reference",
+   "repair_path": null,
+   "target_basename": "NULLS-CONSUME-2026-09-22.json",
+   "target_kind": "json",
+   "target_path": "results/divlowvol_nulls/NULLS-CONSUME-2026-09-22.json"
+  },
+  {
+   "class_counts": {
+    "bare_load": 0,
+    "guard_silent": 0,
+    "guarded_loud": 2,
+    "invisible": 0,
+    "unreadable": 0
+   },
+   "exists_today": true,
+   "key": "prereg",
+   "pointer_face": "results/divlowvol_live/latest.json",
+   "raw_value": "research\\FUND-DIVLOWVOL-P1.md",
+   "readers": [
+    {
+     "class": "guarded_loud",
+     "existence_guard": true,
+     "module": "scripts/divlowvol_live_picks.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": true
+    },
+    {
+     "class": "guarded_loud",
+     "existence_guard": true,
+     "module": "scripts/fund_divlowvol_p1.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": true
+    }
+   ],
+   "relation": "reference",
+   "repair_path": null,
+   "target_basename": "FUND-DIVLOWVOL-P1.md",
+   "target_kind": "text",
+   "target_path": "research/FUND-DIVLOWVOL-P1.md"
+  },
+  {
+   "class_counts": {
+    "bare_load": 1,
+    "guard_silent": 0,
+    "guarded_loud": 1,
+    "invisible": 0,
+    "unreadable": 0
+   },
+   "exists_today": true,
+   "key": "file",
+   "pointer_face": "results/etf_book_order/latest.json",
+   "raw_value": "TICKET-2026-11-06.json",
+   "readers": [
+    {
+     "class": "bare_load",
+     "existence_guard": false,
+     "module": "scripts/e583_ticket_repricing.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": false
+    },
+    {
+     "class": "guarded_loud",
+     "existence_guard": true,
+     "module": "scripts/e594_bar_dialect_join.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": true
+    }
+   ],
+   "relation": "payload",
+   "repair_path": null,
+   "target_basename": "TICKET-2026-11-06.json",
+   "target_kind": "json",
+   "target_path": "results/etf_book_order/TICKET-2026-11-06.json"
+  },
+  {
+   "class_counts": {
+    "bare_load": 1,
+    "guard_silent": 0,
+    "guarded_loud": 0,
+    "invisible": 0,
+    "unreadable": 0
+   },
+   "exists_today": true,
+   "key": "file",
+   "pointer_face": "results/etf_book_order_fresh/latest.json",
+   "raw_value": "TICKET-2026-10-23.json",
+   "readers": [
+    {
+     "class": "bare_load",
+     "existence_guard": false,
+     "module": "scripts/e583_ticket_repricing.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": false
+    }
+   ],
+   "relation": "payload",
+   "repair_path": null,
+   "target_basename": "TICKET-2026-10-23.json",
+   "target_kind": "json",
+   "target_path": "results/etf_book_order_fresh/TICKET-2026-10-23.json"
+  },
+  {
+   "class_counts": {
+    "bare_load": 0,
+    "guard_silent": 0,
+    "guarded_loud": 0,
+    "invisible": 0,
+    "unreadable": 0
+   },
+   "exists_today": true,
+   "key": "matrix",
+   "pointer_face": "results/regime_matrix_p0/latest.json",
+   "raw_value": "results/regime_matrix_p0/P0-MATRIX-v1-2026-09-30.json",
+   "readers": [],
+   "relation": "payload",
+   "repair_path": null,
+   "target_basename": "P0-MATRIX-v1-2026-09-30.json",
+   "target_kind": "json",
+   "target_path": "results/regime_matrix_p0/P0-MATRIX-v1-2026-09-30.json"
+  },
+  {
+   "class_counts": {
+    "bare_load": 0,
+    "guard_silent": 0,
+    "guarded_loud": 0,
+    "invisible": 0,
+    "unreadable": 0
+   },
+   "exists_today": true,
+   "key": "md",
+   "pointer_face": "results/regime_matrix_p0/latest.json",
+   "raw_value": "results/regime_matrix_p0/P0-MATRIX-v1-2026-09-30.md",
+   "readers": [],
+   "relation": "reference",
+   "repair_path": null,
+   "target_basename": "P0-MATRIX-v1-2026-09-30.md",
+   "target_kind": "text",
+   "target_path": "results/regime_matrix_p0/P0-MATRIX-v1-2026-09-30.md"
+  },
+  {
+   "class_counts": {
+    "bare_load": 0,
+    "guard_silent": 0,
+    "guarded_loud": 2,
+    "invisible": 0,
+    "unreadable": 0
+   },
+   "exists_today": true,
+   "key": "prereg",
+   "pointer_face": "results/stagestyle_combo_p1/latest.json",
+   "raw_value": "research/FUND-STAGESTYLE-COMBO-P1.md",
+   "readers": [
+    {
+     "class": "guarded_loud",
+     "existence_guard": true,
+     "module": "scripts/sscombo_freeze_probe.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": false
+    },
+    {
+     "class": "guarded_loud",
+     "existence_guard": true,
+     "module": "scripts/stagestyle_combo_p1_backtest.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": false
+    }
+   ],
+   "relation": "reference",
+   "repair_path": null,
+   "target_basename": "FUND-STAGESTYLE-COMBO-P1.md",
+   "target_kind": "text",
+   "target_path": "research/FUND-STAGESTYLE-COMBO-P1.md"
+  },
+  {
+   "class_counts": {
+    "bare_load": 1,
+    "guard_silent": 0,
+    "guarded_loud": 0,
+    "invisible": 0,
+    "unreadable": 0
+   },
+   "exists_today": true,
+   "key": "slice1_ref",
+   "pointer_face": "results/t23_census/latest.json",
+   "raw_value": "results/_r840bmb_t23_alphagen_census.json",
+   "readers": [
+    {
+     "class": "bare_load",
+     "existence_guard": false,
+     "module": "scripts/t23_random_grammar_census.py",
+     "opens": true,
+     "or_default": false,
+     "raise_or_exit": true,
+     "silent_if_absent": false,
+     "try_around_load": false
+    }
+   ],
+   "relation": "reference",
+   "repair_path": null,
+   "target_basename": "_r840bmb_t23_alphagen_census.json",
+   "target_kind": "json",
+   "target_path": "results/_r840bmb_t23_alphagen_census.json"
+  }
+ ],
+ "evidence_cutoff": "2026-11-06",
+ "limits": [
+  "flags are module-level, not site-level: a module that guards one load and bare-loads another is graded by the union of its guards",
+  "naming is not opening (E470): a module that spells the target and never calls a loader is published as invisible rather than as a reader",
+  "a guard inside a helper function in another module is invisible to this census",
+  "targets are resolved by e599.scan, so this face inherits its resolution bases"
+ ],
+ "n_modules_graded": 4028,
+ "silent_class_present": false,
+ "silent_modules": [],
+ "study": "E602_redirect_missing_at_read",
+ "verdict": "every_module_that_names_a_redirect_target_fails_loudly_when_it_is_absent"
+}

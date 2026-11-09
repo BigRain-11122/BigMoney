@@ -163,7 +163,7 @@
  "book_at_close_note": "carried from r1617 -- this window priced the cash faces and did not re-run the book",
  "card": "E603",
  "check": "e456 check problems=0",
- "clock_read": "2026-11-09T09:33:35+08:00",
+ "clock_read": "2026-11-09T11:24:41+08:00",
  "concurrency_note": "Tools/iteration_loop.ps1 was live in this repo for the whole window (files touched 12s before the first read); no queue head, task card or shared lane face was claimed",
  "cores": 8,
  "cpu": 0.6,
@@ -172,8 +172,8 @@
  "cpu_logical": 16,
  "cpu_note": "psutil probe (GetSystemTimes via ctypes read 0 deltas on this box)",
  "cpu_pct": 15.4,
- "current": "r1620: E593 closed -- the ticket's 2.079%/yr cash yield reproduces exactly as mean accrual x 252, but on calendar days /365 the same stream is 1.998%/yr",
- "current_task": "r1628 E597 bar-count-arithmetic burned: the count is a live annualisation denominator and 542/542 faces carry no duplicate witness",
+ "current": "r1631: E602 burned -- 12 redirect edges carry 22 reader sites across 13 modules; 0 would read nothing silently, 22 would raise; 0 edges dangle today",
+ "current_task": "r1631: E602 burned -- 12 redirect edges carry 22 reader sites across 13 modules; 0 would read nothing silently, 22 would raise; 0 edges dangle today",
  "current_work": "E593 cash convention",
  "cyc_round": 1578,
  "cycl_round": 1578,
@@ -326,8 +326,8 @@
  "delivery_ts": "2026-11-09T07:15:00+08:00",
  "delivery_verified": true,
  "dept": "research+engineering",
- "did": "r1620: recomputed the newest ticket's GC001 cash window (2020-01-02..2026-11-06, 1,658 bars, 2,500 calendar days, 7 missing quotes) under its printed method and under the ladder module's calendar-day/365 convention -- the printed 2.079%/yr reproduces to 0.0005pp, the calendar rate is 1.998%, the gap is 0.082pp / CNY 433.6 per year on the ticket's own cash, and the ratio is exactly 252/242.07",
- "did_round": 1620,
+ "did": "r1631: E602 redirect-missing-at-read census published; the first build's 4,284 sites were a bare '.json' suffix matching every module -> narrowed to path/basename spellings, 22 sites remain; five published flags per reader module, one derived class",
+ "did_round": 1631,
  "do_not": "no full suite run, no chain beyond two legs, no unattended rebase, GPU parked",
  "dualrun_streak": 1,
  "face": "results/state_tilt/CREATEDITEMREAD-2026-11-08.json",
@@ -420,10 +420,10 @@
  "incident_r1566": "own face-name collision: E538's first run overwrote E530's thirdhop_latest.json (restored via git checkout; write_face now refuses a foreign study). Duplicate S6 leg name third_hop made --only run both legs and report one empty rc=1; renamed parcel_landing",
  "inherit_note": "window inherited the E554 face built 17:50-18:00 by the killed round (pid 37472); all gates were re-run rather than trusted (check/verify/selftest/smoke/S6)",
  "instrument_defect": "py_watermark published work_cand_buckets.pool_batch=3 while its frozen verdict read py_low_board_clear, and NOTHING consumed that difference: the O-1136 sec.4 legal-idle whitelist also requires 'no runnable batch', and pool-ready cards are runnable. A reader (me, at open) can take board_clear as a legal-idle proof while three cards sit unclaimed. The verdict face is design-frozen (T7/T14, 'verdict faces unchanged') so it was NOT touched; the record now publishes legal_idle_whitelist {board_closed, no_runnable_batch, pool_ready_cards, satisfied, why_not} and four selftest legs pin all four combinations. r1266 law: a judgement no next step consumes is not landed.",
- "last_action": "r1622: E594 closed (bar dialect join census)",
+ "last_action": "r1631: E602 redirect-missing-at-read published",
  "last_action_at": "2026-11-09T08:10:00+08:00",
- "last_artifact": "results/state_tilt/BARDIALECTJOIN.json",
- "last_artifact_ts": "2026-11-09T08:10:00+08:00",
+ "last_artifact": "results/state_tilt/REDIRECTMISSINGATREAD.json",
+ "last_artifact_ts": "2026-11-09T11:24:41+08:00",
  "last_decisions_at": "2026-11-08T16:18:00+08:00",
  "last_decisions_note": "r1588 resolution of the r1587 divergence flag: the stored digest is over the RAW bytes of origin/main:docs/decisions.md (451b8600), while the LF-joined variant hashes to 0844428c; both are stable and the two are different METHODS over the same file, not two vintages. Raw bytes is the pinned method. 0 new decisions to consume this round.",
  "last_decisions_probe_at": "2026-11-01T00:28:21+08:00",
@@ -451,8 +451,8 @@
  "last_push_at": "2026-11-09T07:09:00+08:00",
  "last_push_sha": "bd9248a669bb3ad9f25f6edf00b5919622c98310",
  "last_push_ts": "2026-11-09T07:09:00+08:00",
- "last_round": "r1622",
- "last_round_at": "2026-11-09T08:10:00+08:00",
+ "last_round": "r1631",
+ "last_round_at": "2026-11-09T11:24:41+08:00",
  "last_round_label": "r1621",
  "last_round_report": "logs/iteration-loop/round_reports.md",
  "last_round_summary": "r1619: E592 asked whether the ledger's carry survives its own bars. It does -- 11 of 11 published bars reproduce at the carry field's printed precision (max gap 0.000755% against 0.001302%) once the replay starts at 2020-01-02, the origin the face names only as seed.grid_index 1647; a fresh phase at the ledger's first published bar reproduces 0/11 there and exactly the 4/8 past the panel that E591 measured. But 52,111 of 68,921 sampled three-rung phases (75.6%) reproduce every bar too, because GC007/GC014 are offset-invariant on this panel and all the discrimination sits on GC028 (168 of 251 offsets pass), so the bars pin a class of phases rather than a point and no bar is left unexplained.",
@@ -461,7 +461,7 @@
  "last_run": "2026-10-31T10:52:20+08:00",
  "last_seen": "2026-11-08T19:03:06+08:00",
  "last_updated": "2026-11-04T05:42:18+08:00",
- "latest_artifact": "results/state_tilt/BARDIALECTJOIN.json",
+ "latest_artifact": "results/state_tilt/REDIRECTMISSINGATREAD.json",
  "local_commits_not_on_origin": 554,
  "local_commits_not_on_origin_main_note": "measured this round with git rev-list against the freshly fetched origin/main; delivery rides machine/bm-b-r1608 (r1243: no unattended rebase on this promisor clone)",
  "local_not_on_origin": "see report",
@@ -479,7 +479,7 @@
  "next_pointer": "results/runnable_pool.json (E514/E515/E516 ready)",
  "next_task": "E586 ticket reader bar",
  "next_window_p0": "the 10 pre-existing FAIL lines in results/__smoke_r1465.out; cheapest is e435 (published face no longer re-derives, 588 directory-valued fields) -- republish from its producer, do not loosen the leg",
- "not_run": "full smoke suite, the rest of the S6 chain, the update_* collectors, monitor.build_status, daily_scorecard, the market/paper chain",
+ "not_run": "full smoke suite (no leg filter, r1499 -> a full pass is ~8 min and was not started); rest of the S6 chain; update_* collectors; paper/scorecard chain; GPU untouched (parked C-20261014-01)",
  "not_run_note": "full smoke suite / S6 chain / update_* collectors / paper+scorecard not run this window; GPU parked; cloud untouched",
  "not_run_this_window": [
   "full smoke suite (launched, still running at close)",
@@ -682,7 +682,7 @@
  "orphan": "py_faces=6 orphans=0 residents=0",
  "orphan_face": 0,
  "orphan_face_note": "Tools/orphan_face_probe.py: 8 py faces, 0 orphans, 0 resident servers",
- "orphan_faces": "py_faces=8 orphans=0 resident_servers=0",
+ "orphan_faces": "py_faces=11 orphans=0 resident_servers=0",
  "orphan_probe": {
   "orphans": 0,
   "py_faces": 14,
@@ -703,12 +703,11 @@
  "pit_in_window": "`Set-Content -Encoding UTF8` on smoke_test.py mojibake'd two Chinese lines and added a BOM; reverted with git checkout and the leg re-applied through the UTF-8-safe editor (numstat 72/0 after)",
  "pool": {
   "closed_this_round": [
-   "E594"
+   "E602"
   ],
   "ready": [
-   "E588",
-   "E595",
-   "E596"
+   "E604",
+   "E606"
   ],
   "wip": []
  },
@@ -728,12 +727,10 @@
   "results/runnable_pool.json E561 done + E562 seeded (ready 3)"
  ],
  "product_this_round": [
-  "results/state_tilt/BARDIALECTJOIN.json (+ BARDIALECTJOIN-latest.json)",
-  "scripts/e594_bar_dialect_join.py (selftest 27/27)",
-  "scripts/run_e594_smoke_leg.py + smoke_test.py leg E594 (PASS, 1/1 red under --doctor)",
-  "Tools/s6_chain_bmb.py leg bar_dialect_join (rc0 2.00s)",
-  "research/digests/DIGEST-20261109-r1622-e594-bar-dialect-join.md",
-  "knowledge/METHODOLOGY_ASSETS.md card E594"
+  "results/state_tilt/REDIRECTMISSINGATREAD.json (+ -latest.json)",
+  "scripts/e602_redirect_missing_at_read.py (selftest 37/37, run/check problems=[])",
+  "Tools/s6_chain_bmb.py leg redirect_missing_at_read (rc0 24s after the one-parse fix)",
+  "results/runnable_pool.json E602 done + result_ref"
  ],
  "push": "machine/bm-b-r1620",
  "push_note": "ls-remote origin refs/heads/machine/bm-b-r1620 equals HEAD; main push not attempted: 751 ahead and 455 behind, promisor clone, r1243",
@@ -6288,7 +6285,7 @@
  "reds_open": "supply floor 2/3 (E568/E572 ready); state face was 3 rounds stale at open and healed here",
  "reds_open_note": "all open reds predate this window; none is caused by this round's files",
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": "r1630",
+ "round": "r1631",
  "round_delivery": {
   "branch": "machine/bm-b-r1630",
   "main_push_blocker": "local main runs many commits ahead/behind origin/main across two blood lines on a promisor clone (r1224/r1225 family); no unattended rebase per r1243, so the machine branch is the delivery channel",
@@ -6308,7 +6305,7 @@
   "verify": "problems=[] verify=identical"
  },
  "round_label": "r1630",
- "round_no": 1630,
+ "round_no": 1631,
  "round_no_label": "r1630",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
  "round_no_ts": "2026-11-09T11:00:00+08:00",
@@ -6418,7 +6415,7 @@
  "verdict": "a_published_count_cannot_fail_because_it_is_computed_from_the_very_rows_a_duplicate_would_enter",
  "verdict_line": "r1630: of 501 faces stating a bar count, 295 publish the rows that count is about and 206 publish a number nothing can contradict; 0 counted faces publish a duplicate row today and only 3 print a dedupe or distinct count.",
  "verdict_note": "product round; the full smoke suite was not launched (r1499) -- the E599 leg is verified green standalone",
- "verdict_watermark": "py_low_with_work_cands lineage: board opened with 3 ready cards, burned E571, 2 ready at close (E568/E572)",
+ "verdict_watermark": "red at open (pool ready 3, py idle) -> burned the ready head E602 in-round",
  "verify": "e601: problems=[] verify=identical; smoke-leg replay: class redrive True count_match redrive True verdict ok True",
  "vram_free_gb": 3.57,
  "vram_probe": "nvidia-smi",

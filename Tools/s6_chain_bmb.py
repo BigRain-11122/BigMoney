@@ -2450,6 +2450,14 @@ LEGS = [
     # payload sits next to the pointer called a missing payload, and counts that do not re-derive.
     ("pointer_redirect_bar",
      ["python", "scripts/e599_pointer_redirect_bar.py", "check"]),
+    # E602 (r1631 bm-b): E599 priced the two ends of every redirect and found nobody compares
+    # them; it never asked what a reader DOES when the target is absent.  Every module that
+    # spells an edge's target is graded on five published flags (opens / existence guard / try
+    # around the load / or-fallback / raise-or-exit) into one class, so "silently reads nothing"
+    # is a named class and not an inference.  The leg refuses a class whose own flags contradict
+    # it and any count that does not re-derive from the published rows.
+    ("redirect_missing_at_read",
+     ["python", "scripts/e602_redirect_missing_at_read.py", "check"]),
     # E600 (r1629 bm-b): E596 showed the name join is load-bearing where a face states both bars on
     # different dates -- but that argument only bites if a consumer could join on the date at all.
     # Every date stated next to a bar name is counted across faces and roles: does the date pick out
