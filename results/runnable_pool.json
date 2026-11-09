@@ -30728,9 +30728,27 @@
      "seeded_at": "2026-11-09T14:05:00+08:00",
      "seeded_by": "r1637 bm-b",
      "source": "E615 (r1637 bm-b): the only sweeper an entry point runs reads only the name, so all 76 ancestor-only faces are opened only by sweeps nothing names. That costs nothing if the names it collects are themselves read by nobody -- so the next question is whether the census it returns has a consumer, one hop out.",
-     "status": "ready",
+     "claimed_at": "2026-11-09T14:52:00+08:00",
+     "claimed_by": "bm-b",
+     "closed_at": "2026-11-09T15:12:00+08:00",
+     "closed_by": "bm-b",
+     "status": "done",
      "target": "results/state_tilt/SWEEPCONSUMER.json",
      "title": "whether the live sweep's name-only output is ever consumed"
+    },
+    {
+     "card": "E620",
+     "deliverable": "results/state_tilt/DEADREADERLOCALS.json: per module under scripts/ that publishes a face, each local assigned from a key of that face and never read again, plus the count of modules where such a line exists",
+     "id": "E619-WHETHER-A-DEAD-READER-LOCAL-GENERALISES-BEYOND-THE-ONE-E617-FOUND",
+     "lane": "cpu-only",
+     "lane_note": "static: parse each producer's AST, take the locals assigned from a subscript of a dict whose key is a published face field, and ask whether the name is ever loaded afterwards in the same function; no runner, no fixture write",
+     "priority": "normal",
+     "seeded_at": "2026-11-09T15:12:00+08:00",
+     "seeded_by": "r1638 bm-b",
+     "source": "E617 (r1638 bm-b): derive_verdict assigns `census = m[\"basename_census\"]` and never reads it again -- a reader line that reads nothing. One dead line is an anecdote; the question is whether the producers that publish the state_tilt faces carry this class at all, or only this module does.",
+     "status": "ready",
+     "target": "results/state_tilt/DEADREADERLOCALS.json",
+     "title": "whether a reader local that is assigned and never read generalises"
     }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30745,6 +30763,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T14:05:00+08:00",
+ "updated_at": "2026-11-09T15:12:00+08:00",
  "version": 1
 }

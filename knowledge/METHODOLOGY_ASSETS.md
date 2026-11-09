@@ -14460,3 +14460,20 @@ esults/state_tilt/DUPWITNESS.json、S6 leg dup_witness、smoke leg E601。坑：
 **How**：任何「这张面有人读吗」的结论都要拆成四段并各自出证据（面在盘 / 模式能落到哪层 / 落点还会不会跑 / 跑的时候读不读）；「计算出来的模式」必须单列，不许与「点名某层」并类；分类器的每个分支都要有能返红的夹具腿，否则它会安静地把一整类压成 0。
 
 **证据** = `scripts/e615_glob_sweep_use.py`（selftest **26/26**，run/check/verify problems=[]）、`results/state_tilt/GLOBSWEEPUSE.json` (+`GLOBSWEEPUSE-latest.json`)、`scripts/run_e615_smoke_leg.py`（PASS，`--doctor` 1/1 红且面字节还原）、smoke_test.py leg E615、S6 leg `glob_sweep_use`、POOL E615 done → E617 seeded。
+
+## E618 那条每轮都跑的扫描器根本不打开面——它吐出的普查有人读吗（r1638 bm-b·2026-11-09）
+> 链式=E618；E615 的下一站，卡片顺延到 E618。
+
+**观察**：E615 已经证明，全仓唯一每轮都跑的落点扫描器（`scripts/e396_face_basename_suffix.py`）在「只问名字」类里——它把 54/76 张祖先面 glob 出来，一张都不开。这不亏，**前提是它收起来的那些名字压根没人读**。所以本批把这一问外推一跳：它发布的普查，到底有没有消费者。
+
+**读数**：`results/state_tilt/SWEEPCONSUMER.json`（cutoff 2026-11-09）
+- 2 个名字列表（`json_faces()` 返回的 in_results/outside）在 `len()`/`set()` 里被压成计数就没了——**一个面名都没活过这一次调用**；
+- 模块发布的 **10 个计数**里：1 个被 `verify` 断言（`basename_suffix_pairs >= 1`）、2 个只在 `run` 里被 print（`faces`、`distinct_short_basenames_involved`）、**7 个写进面之后没有任何读者**（`faces_in_results`、`faces_outside_results`、`distinct_basenames`、`same_basename_different_directory_groups`、`witness`、`sample`、`same_basename_sample`）；
+- **生产者之外 0 个模块**索引这些键（要求：文件里既有面名 stem、又真的 `["key"]`/`.get("key")`）；只提到「FACENAMESUFFIX」三个字的收轮脚本不算读者；
+- 另抓到一条死读者行：`derive_verdict` 里 `census = m["basename_census"]` 赋值后**再没读过**。
+
+**教训**：①「没人读」要用开点量，不能用字符串量——先按面 stem 圈出候选，再要求真的取键，否则 `witness`/`sample` 这种普通词会把 1,169 个文件算成读者；②自己的测试不是消费者：`smoke_test.py` 在面里取键只为再推导一次，那条要单列 `read_only_by_its_own_test`，否则「被读」的读数全被自己的腿垫出来；③`if` 的**体**不是比较——把 `if len(group) > 1:` 里的键判成 `asserted` 会把两个只被 print 的计数抬成判据（首版就是这个假阳性，靠「`run` 里的 print 应落 printed_only」这条腿当场抓出）；④模块自己的 `selftest` 里的断言也不能算产品读者，否则同类假阳性再从后门进来。
+
+**How**：凡「X 有没有人读」的问题，先定**读的形态**（索引/`.get`）而不是名字出现，再定**读者的资格**（生产者自身测试不算），最后要求每个被移动的键在产物里带自己的判定格与行号——判决由闸从格行重算，禁手写。
+
+**证据** = `scripts/e617_sweep_consumer.py`（selftest **23/23**，run/verify problems=[]）、`results/state_tilt/SWEEPCONSUMER.json`（+`sweepconsumer_latest.json`）、`scripts/run_e617_smoke_leg.py`（PASS，`--doctor` 1/1 红且面字节还原）、smoke_test.py leg E617、S6 leg `sweep_consumer`、POOL E617 done → E619 seeded。

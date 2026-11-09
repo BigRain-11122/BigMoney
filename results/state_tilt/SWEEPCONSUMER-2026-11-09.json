@@ -1,0 +1,276 @@
+{
+ "study": "E617_sweep_consumer",
+ "script": "scripts/e617_sweep_consumer.py",
+ "evidence_cutoff": "2026-11-09",
+ "dept": "research+engineering",
+ "method": "read the producer's own AST: the census values are the keys of the dict literal basename_census() returns, the callers are the module functions that call either producer, and each value is classified by the treatment every one of its occurrences receives",
+ "population_source": "scripts/e396_face_basename_suffix.py (AST) + any module outside it that names a key or opens the published face",
+ "counts": {
+  "asserted": 1,
+  "printed_only": 2,
+  "stored_and_read": 0,
+  "stored_and_unread": 7,
+  "discarded": 0,
+  "values": 10,
+  "names_produced": 2,
+  "values_read_by_nothing": 7,
+  "values_read_only_by_their_own_test": 4,
+  "callers": 3,
+  "dead_reader_lines": 1
+ },
+ "values": [
+  {
+   "key": "faces",
+   "class": "printed_only",
+   "read_by_nothing": false,
+   "read_only_by_its_own_test": false,
+   "use_sites": [
+    {
+     "line": 653,
+     "context": "printed"
+    }
+   ],
+   "self_test_sites": [
+    {
+     "line": 614,
+     "context": "comparison"
+    }
+   ],
+   "stored_sites": [
+    {
+     "line": 403,
+     "context": "stored_in_dict"
+    },
+    {
+     "line": 401,
+     "context": "stored_in_dict"
+    }
+   ],
+   "external_readers": [],
+   "test_readers": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "key": "faces_in_results",
+   "class": "stored_and_unread",
+   "read_by_nothing": true,
+   "read_only_by_its_own_test": true,
+   "use_sites": [],
+   "self_test_sites": [],
+   "stored_sites": [
+    {
+     "line": 403,
+     "context": "stored_in_dict"
+    }
+   ],
+   "external_readers": [],
+   "test_readers": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "key": "faces_outside_results",
+   "class": "stored_and_unread",
+   "read_by_nothing": true,
+   "read_only_by_its_own_test": true,
+   "use_sites": [],
+   "self_test_sites": [],
+   "stored_sites": [
+    {
+     "line": 404,
+     "context": "stored_in_dict"
+    }
+   ],
+   "external_readers": [],
+   "test_readers": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "key": "distinct_basenames",
+   "class": "stored_and_unread",
+   "read_by_nothing": true,
+   "read_only_by_its_own_test": false,
+   "use_sites": [],
+   "self_test_sites": [],
+   "stored_sites": [
+    {
+     "line": 404,
+     "context": "stored_in_dict"
+    }
+   ],
+   "external_readers": [],
+   "test_readers": []
+  },
+  {
+   "key": "basename_suffix_pairs",
+   "class": "asserted",
+   "read_by_nothing": false,
+   "read_only_by_its_own_test": false,
+   "use_sites": [
+    {
+     "line": 529,
+     "context": "comparison"
+    },
+    {
+     "line": 653,
+     "context": "printed"
+    }
+   ],
+   "self_test_sites": [
+    {
+     "line": 616,
+     "context": "comparison"
+    }
+   ],
+   "stored_sites": [
+    {
+     "line": 405,
+     "context": "stored_in_dict"
+    }
+   ],
+   "external_readers": [],
+   "test_readers": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "key": "distinct_short_basenames_involved",
+   "class": "printed_only",
+   "read_by_nothing": false,
+   "read_only_by_its_own_test": false,
+   "use_sites": [
+    {
+     "line": 654,
+     "context": "printed"
+    }
+   ],
+   "self_test_sites": [],
+   "stored_sites": [
+    {
+     "line": 406,
+     "context": "stored_in_dict"
+    }
+   ],
+   "external_readers": [],
+   "test_readers": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "key": "same_basename_different_directory_groups",
+   "class": "stored_and_unread",
+   "read_by_nothing": true,
+   "read_only_by_its_own_test": false,
+   "use_sites": [],
+   "self_test_sites": [],
+   "stored_sites": [
+    {
+     "line": 407,
+     "context": "stored_in_dict"
+    }
+   ],
+   "external_readers": [],
+   "test_readers": []
+  },
+  {
+   "key": "witness",
+   "class": "stored_and_unread",
+   "read_by_nothing": true,
+   "read_only_by_its_own_test": true,
+   "use_sites": [],
+   "self_test_sites": [],
+   "stored_sites": [
+    {
+     "line": 408,
+     "context": "stored_in_dict"
+    }
+   ],
+   "external_readers": [],
+   "test_readers": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "key": "sample",
+   "class": "stored_and_unread",
+   "read_by_nothing": true,
+   "read_only_by_its_own_test": true,
+   "use_sites": [],
+   "self_test_sites": [],
+   "stored_sites": [
+    {
+     "line": 410,
+     "context": "stored_in_dict"
+    }
+   ],
+   "external_readers": [],
+   "test_readers": [
+    "smoke_test.py"
+   ]
+  },
+  {
+   "key": "same_basename_sample",
+   "class": "stored_and_unread",
+   "read_by_nothing": true,
+   "read_only_by_its_own_test": false,
+   "use_sites": [],
+   "self_test_sites": [],
+   "stored_sites": [
+    {
+     "line": 410,
+     "context": "stored_in_dict"
+    }
+   ],
+   "external_readers": [],
+   "test_readers": []
+  }
+ ],
+ "names": {
+  "function": "json_faces",
+  "names": [
+   "in_results",
+   "outside"
+  ],
+  "class": "discarded",
+  "read_by_nothing": true,
+  "note": "the lists are aggregated by len()/set() before anything could store one name: no individual face name survives the call",
+  "consumed_at": [
+   385
+  ]
+ },
+ "callers": [
+  {
+   "caller": "measure",
+   "callee": "basename_census",
+   "class": "passes_it_on_without_reading_a_value"
+  },
+  {
+   "caller": "selftest",
+   "callee": "basename_census",
+   "class": "reads_basename_suffix_pairs_and_faces"
+  },
+  {
+   "caller": "basename_census",
+   "callee": "json_faces",
+   "class": "reads_basename_suffix_pairs_and_distinct_basenames_and_distinct_short_basenames_involved_and_faces_and_faces_in_results_and_faces_outside_results_and_same_basename_different_directory_groups_and_same_basename_sample_and_sample_and_witness"
+  }
+ ],
+ "dead_reader_lines": [
+  {
+   "function": "derive_verdict",
+   "local": "census",
+   "census_key": "basename_census",
+   "line": 437
+  }
+ ],
+ "limits": [
+  "one hop only: a caller is classified by the census keys its body names, not by following the census further into its own callers",
+  "an external reader has to index the key or call .get() on it while naming the published face; a module that only mentions the face or the word is not a reader (three closeout scripts from the publishing round would otherwise be credited)",
+  "the suite that re-derives these values is not counted as a reader: a value reached only by its own test is published as read by nothing, with the test named",
+  "the census is the module's own published dict; values computed and thrown away before it are priced only as the discarded name lists"
+ ],
+ "verdict": "7_of_10_census_values_are_written_into_the_face_and_read_by_nothing",
+ "answer": "the live sweep opens nothing: the two name lists json_faces returns are aggregated by len()/set() before anything could store one name, so no individual face name survives the call; of the 10 counts it does publish, 3 have a reader (faces, basename_suffix_pairs, distinct_short_basenames_involved) and 7 are written into the face and read by nothing (faces_in_results, faces_outside_results, distinct_basenames, same_basename_different_directory_groups, witness, sample, same_basename_sample)"
+}

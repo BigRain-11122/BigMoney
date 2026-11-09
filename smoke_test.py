@@ -26308,6 +26308,45 @@ except Exception as _e597x:
     _d597 = "study could not be read"
 check(_name597, not _bad597, "; ".join(_bad597)[:240] or _d597)
 
+# E617: E615 asked what a live sweep does with a glob hit and found the one the chain runs every
+# round only enumerates the names.  The leg re-reads the published face, refuses a class its use
+# sites do not force, refuses a value whose read flag disagrees with its class, and refuses a
+# verdict the rows do not force.
+_name617 = "E617 whether the live sweep's name-only census is consumed (r1638 bm-b)"
+_bad617 = []
+_d617 = "no reading"
+try:
+    _p617 = os.path.join("results", "state_tilt", "sweepconsumer_latest.json")
+    _f617 = json.load(open(_p617, encoding="utf-8"))
+    _m617 = importlib.import_module("e617_sweep_consumer")
+    _bad617.extend(_m617.face_problems(_f617))
+    _c617 = _f617.get("counts") or {}
+    _t617 = {}
+    _rows617 = _f617.get("values") or []
+    for _r617 in _rows617:
+        _t617[_r617.get("class")] = _t617.get(_r617.get("class"), 0) + 1
+    for _cls617 in _m617.CLASSES:
+        if int(_c617.get(_cls617) or 0) != _t617.get(_cls617, 0):
+            _bad617.append("counts.%s does not re-derive from the value rows" % _cls617)
+            break
+    _unread617 = sorted(r.get("key") for r in _rows617 if r.get("read_by_nothing"))
+    _again617 = _m617.derive_verdict({"values": _rows617,
+                                      "discarded": {"names": [None] * int(
+                                          _c617.get("names_produced") or 0)},
+                                      "callers": _f617.get("callers") or [],
+                                      "unused_locals": _f617.get("dead_reader_lines") or []})
+    if _again617 != _f617.get("verdict"):
+        _bad617.append("the published verdict is not what the value rows force (%r)" % _again617)
+    if not _unread617:
+        _bad617.append("no census value is reported unread, yet the study exists to count them")
+    _d617 = ("values=%s read_by_nothing=%d dead_reader_lines=%s names=%s verdict=%s"
+             % (_c617.get("values"), len(_unread617), _c617.get("dead_reader_lines"),
+                _c617.get("names_produced"), _f617.get("verdict")))
+except Exception as _e617x:
+    _bad617.append(repr(_e617x)[:160])
+    _d617 = "study could not be read"
+check(_name617, not _bad617, "; ".join(_bad617)[:240] or _d617)
+
 
 if __name__ == "__main__":
     sys.exit(main())

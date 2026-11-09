@@ -1316,6 +1316,15 @@ LEGS = [
     # the witness' dump classes and the A/B arithmetic from the published rows.
     ("face_basename_suffix", ["python", "scripts/e396_face_basename_suffix.py", "verify"]),
 
+    # E617 takes the one live sweeper E615 found in the name_only class and asks whether the census
+    # it publishes is ever consumed.  The two name lists json_faces returns are reduced by len()/set()
+    # before a single name could be stored, and of the ten counts the module publishes 3 have a
+    # reader (1 asserted in verify, 2 printed by `run`) and 7 are written into the face and read by
+    # nothing -- no module outside the producer indexes any of them.  Verify re-derives every class
+    # from the use sites it publishes, refuses a read flag that disagrees with its class, and
+    # re-derives the verdict from the rows (0.2s, no corpus walk).
+    ("sweep_consumer", ["python", "scripts/e617_sweep_consumer.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names
