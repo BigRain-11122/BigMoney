@@ -2431,6 +2431,47 @@ def main() -> int:
         check("fleet: a lane that names its collector is not told nothing can be done",
               False, str(e))
     try:
+        # r1272 (D-20261108-14 follow-up): the board measures TWO clocks -- the
+        # trading calendar and the statutory report period -- and only the first
+        # one reached a human face. Measured 2026-11-09: fund_statements carried
+        # `period_missing` for 20260930 (deadline 2026-10-31, ten days earlier)
+        # and the dashboard said nothing, so a missed 三季报 looked like a
+        # healthy board. This leg recomputes the block from the published face
+        # and demands the page name the missing period rather than only a lane.
+        _pl7 = json.load(open("results/data_lane_freshness.json",
+                              encoding="utf-8")).get("period_lanes") or []
+        _db7 = (json.load(open("results/dashboard_status.json",
+                               encoding="utf-8")).get("data") or {}).get(
+            "lane_freshness") or {}
+        _pdb7 = {p.get("lane"): p for p in (_db7.get("period_lanes") or [])}
+        _why7 = []
+        for _p7 in _pl7:
+            _mine = _pdb7.get(_p7.get("lane"))
+            if _mine is None:
+                _why7.append(f"{_p7.get('lane')}: statutory-clock lane never "
+                             "reached the dashboard block")
+                continue
+            if (_mine.get("missing_periods") or []) != (_p7.get("missing_periods") or []):
+                _why7.append(f"{_p7.get('lane')}: page missing-periods disagree "
+                             "with the board")
+            if _mine.get("expected_deadline") != _p7.get("expected_deadline"):
+                _why7.append(f"{_p7.get('lane')}: deadline not carried")
+        _missing7 = [p.get("lane") for p in _pl7
+                     if (p.get("missing_periods") or [])]
+        if set(_missing7) != set(_db7.get("period_missing_lanes") or []):
+            _why7.append("period_missing_lanes is not the set of lanes the "
+                         "board reads as missing a statutory period")
+        _html7 = open("dashboard.html", encoding="utf-8").read()
+        if "lf.period_lanes" not in _html7 or "法定时钟道" not in _html7:
+            _why7.append("the page renders no statutory-clock row")
+        check("fleet: a lane whose clock is the statute reaches the page",
+              not _why7, "; ".join(_why7) or
+              f"{len(_pl7)} statutory lane(s) printed, "
+              f"{len(_missing7)} with a missing period named")
+    except Exception as e:
+        check("fleet: a lane whose clock is the statute reaches the page",
+              False, str(e))
+    try:
         # r1162: "cannot certify here" is about our copy; whose disk the rows are
         # on is the actionable half. The board derives that sentence ONCE, and the
         # two faces a human opens must carry it verbatim -- so this leg recomputes
@@ -8924,7 +8965,7 @@ def _leg_size_age_control():
               "side of the floor it is on", False, repr(e)[:180])
 
 
-try:
+    try:
         # r1472: r1456/r1471 leave "the sheet obeys the floor but the RULE sizes above it" as a
         # standing sentence. That is an EVENT and nobody had counted how often it fires. The
         # legs pin (a) the phase x cost machinery that prices the alternative, and (b) that the

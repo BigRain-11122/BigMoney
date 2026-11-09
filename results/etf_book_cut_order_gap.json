@@ -1,54 +1,8 @@
 {
- "face": "etf_book_cut_order_gap",
- "decision_date": "2026-11-11",
- "ticket_file": "TICKET-2026-11-06.json",
- "evidence_cutoff": "2026-11-06",
- "k_now": 0.390822,
- "k_rule": 0.460253,
- "permitted_k": 0.393073,
- "gap_k": -0.002251,
- "gap_pp": -0.23,
- "nav_cny": 1000000.0,
- "ordered_book_cny": 390258.0,
- "permitted_book_cny": 392509.0,
- "cut_cny": -2251.0,
- "order_exceeds_permission": false,
- "permission_readers": [
-  "scripts/etf_book_ceo_page.py",
-  "scripts/etf_book_cut_gate_pass.py",
-  "scripts/etf_book_decision_line.py",
-  "scripts/etf_book_floor_ledger.py",
-  "scripts/etf_book_floor_toll.py",
-  "scripts/etf_book_order.py",
-  "scripts/etf_book_permission_persistence.py",
-  "scripts/etf_book_swap_stack.py"
- ],
- "permission_enforcers": [
-  "scripts/etf_book_ceo_page.py",
-  "scripts/etf_book_order.py"
- ],
- "permission_is_binding": true,
- "verdict": "ORDER_WITHIN_PERMISSION",
- "sentence": "the ticket orders k=0.390822 (CNY 390,258) and the permission allows 0.393073 (CNY 392,509): no cut is owed on 2026-11-11",
- "trim": null,
- "cost": {
-  "cost_bp_per_side": 8.0,
-  "tx_cny_one_side": 0.0,
-  "repo_rate_pct": 1.185,
-  "repo_rate_date": "2026-11-06",
-  "carry_cny_per_year": -26.67,
-  "giveup_cny_per_year_ex_post": {
-   "book_realized": -253.8,
-   "same_beta_benchmark": -37.93
-  },
-  "note": "give-up is the sleeve's own realized CAGR minus the observed repo rate on the trimmed amount: an ex-post reading, not a forecast, and it is the price of obeying a gate that failed on concentration, not a return estimate"
- },
- "not_measured": [
-  "the year gate on the trimmed book: a smaller k is not automatically a passing book (r1438/r1450: the wrapper's yearly shape has never been through it)",
-  "whether the 11-11 pick set changes names: the trim ratio holds at the sleeve level, the per-leg rows do not survive a re-pick",
-  "the carry accrual path: one observed GC001 close is used for the annualised figure; a holiday gap accrues more days than the rate implies"
- ],
+ "verdict": "UNREADABLE",
+ "reason": "incomplete_receipts",
+ "sentence": "the ticket or the permission is missing k_now/permitted_k/nav",
  "repo_source": "data/repo_daily/GC001.csv (observed close)",
- "elapsed_sec": 1.97,
- "generated": "2026-11-09T09:22:34+0800"
+ "elapsed_sec": 1.65,
+ "generated": "2026-11-09T10:33:48+0800"
 }

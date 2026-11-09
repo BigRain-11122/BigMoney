@@ -398,6 +398,21 @@ function renderCompany() {
       lf.verdict === "all_fresh" ? "全绿"
         : (lf.verdict === "uncertified" ? `可核实 ${lf.n_auditable}/${lf.n_lanes}` : `落后 ${nb.length} 条`)));
   }
+  // r1272: a lane's unit is not always a trading day. The statutory-clock lanes
+  // (quarter-end + legal deadline) were measured since r1265 and printed nowhere,
+  // so a missed 三季报 deadline looked exactly like a healthy board.
+  const pl = (lf && lf.period_lanes) || [];
+  pl.forEach(p => {
+    const missing = p.missing_periods || [];
+    const txt = missing.length
+      ? `${p.lane} 缺 ${missing.join("/")} 期（法定截止 ${p.expected_deadline || "—"}，`
+        + `本盘止于 ${p.cutoff || "无"}）`
+      : `${p.lane} 法定期齐（最新 ${p.expected_latest || "—"}）`;
+    const bad = missing.length > 0;
+    rows.push(chainRow("法定时钟道", txt,
+      bad ? (p.host_alive === false ? "bad" : "warn") : "ok",
+      bad ? (p.takeover_capable ? "可接管" : "无接管口") : "齐"));
+  });
   // r1162: which machine's disk these numbers are on -- the board derives the
   // sentence (data_lane_freshness.disk_face) and this row prints it verbatim,
   // so the page cannot drift from the board that judged it.

@@ -171,7 +171,23 @@ def _lane_freshness_state() -> dict:
             # the rows are on is the actionable half. The board derives that
             # sentence once (data_lane_freshness.disk_face) and every human face
             # prints it verbatim -- no second implementation to drift.
-            "disk": doc.get("disk") or {}}
+            "disk": doc.get("disk") or {},
+            # r1272 (D-20261108-14 follow-up): the board has been measuring a
+            # SECOND clock since r1265 -- a lane whose unit is a statutory
+            # REPORT PERIOD, not a trading day -- and nothing consumed it.
+            # Measured 2026-11-09: fund_statements read period_missing for
+            # 20260930 (the 10-31 deadline had passed ten days earlier) and
+            # every human face was silent about it. A measured red with no
+            # reader is the same defect as no measurement at all (r1290).
+            "period_lanes": [
+                {k: p.get(k) for k in
+                 ("lane", "verdict", "expected_latest", "expected_deadline",
+                  "cutoff", "missing_periods", "n_expected", "n_present",
+                  "lane_host", "host_alive", "takeover_capable", "why")}
+                for p in (doc.get("period_lanes") or [])],
+            "period_missing_lanes": [
+                p.get("lane") for p in (doc.get("period_lanes") or [])
+                if p.get("verdict") not in (None, "period_ok", "retired")]}
 
 
 def _lane_ownership_state() -> dict:
