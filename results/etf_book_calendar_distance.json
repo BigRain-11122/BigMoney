@@ -1,6 +1,6 @@
 {
  "face": "etf_book_calendar_distance",
- "asof": "2026-11-09T04:27:03+08:00",
+ "asof": "2026-11-10T01:02:28+08:00",
  "evidence_cutoff": "2026",
  "question": "how far is each refused supply candidate from passing its own calendar?",
  "rule": {
@@ -21,11 +21,11 @@
  "sources": {
   "supply": {
    "path": "results/supply_calendar.json",
-   "sha16": "84fa232ffad3448c"
+   "sha16": "60d0c8cb44afa6e3"
   },
   "year_gate": {
    "path": "results/etf_book_year_gate/YEAR-GATE.json",
-   "sha16": "e2ca77132edd58ce"
+   "sha16": "34fe06dc11b7dfc8"
   },
   "candidates": {
    "path": "results/admission/CANDIDATES.json",
@@ -47,21 +47,21 @@
     "years": 7,
     "positive_years": 7,
     "median": 5.6072,
-    "worst": 1.898,
+    "worst": 2.3688,
     "best": 43.0627,
-    "annual_sum": 81.0578,
-    "top2_share": 0.7108,
+    "annual_sum": 81.5286,
+    "top2_share": 0.7067,
     "worst_full_only": 2.8393,
     "top2_share_full_only": 0.7278
    },
    "partial_year": "2026",
-   "partial_now_pct": 1.898,
+   "partial_now_pct": 2.3688,
    "cohorts": 3,
    "cohorts_booked": 3,
    "cohorts_left": 1,
    "flip_min_pct": 3.14,
-   "distance_pp": 1.242,
-   "hurdle_pct": 1.2189,
+   "distance_pp": 0.7712,
+   "hurdle_pct": 0.7534,
    "note": "the remaining cohorts of this year must return hurdle_pct to end it at flip_min_pct and pass every calendar check",
    "candidate": "nobond_vt08_adopted",
    "supply_state": "CONDITIONAL",
@@ -70,7 +70,7 @@
    "supply_phases": 5,
    "supply_receipt": "results/etf_book_phase_gate.json",
    "yearly_receipt": "results/etf_book_year_gate/YEAR-GATE.json",
-   "capacity_cny": 48664681.0,
+   "capacity_cny": 25910932.0,
    "years": [
     {
      "year": "2020",
@@ -104,7 +104,7 @@
     },
     {
      "year": "2026",
-     "net_pct": 1.898,
+     "net_pct": 2.3688,
      "cohorts": 3
     }
    ],
@@ -126,13 +126,13 @@
     "median": 9.3091,
     "worst": 2.3313,
     "best": 53.7327,
-    "annual_sum": 110.0665,
-    "top2_share": 0.6898,
+    "annual_sum": 110.7584,
+    "top2_share": 0.6855,
     "worst_full_only": 2.3313,
     "top2_share_full_only": 0.7176
    },
    "partial_year": "2026",
-   "partial_now_pct": 4.2625,
+   "partial_now_pct": 4.9543,
    "cohorts": 3,
    "flip_min_pct": null,
    "distance_pp": null,
@@ -179,7 +179,7 @@
     },
     {
      "year": "2026",
-     "net_pct": 4.2625,
+     "net_pct": 4.9543,
      "cohorts": 3
     }
    ],
@@ -272,14 +272,14 @@
  ],
  "summary": {
   "verdict": "WAIT_ON_A_WATCHABLE_NUMBER",
-  "sentence": "nobond_vt08_adopted is 1.24pp of 2026 return away from ADMIT; the remaining 1 cohort(s) must return 1.22%",
+  "sentence": "nobond_vt08_adopted is 0.77pp of 2026 return away from ADMIT; the remaining 1 cohort(s) must return 0.75%",
   "n_candidates": 4,
   "n_finite": 2,
   "n_unreachable": 0,
   "n_admit_now": 0,
   "n_readings_disagree": 1,
   "nearest": "nobond_vt08_adopted",
-  "nearest_distance_pp": 1.242
+  "nearest_distance_pp": 0.7712
  },
  "honest": [
   "no book is re-priced here: every yearly row is copied from a published receipt",

@@ -1,13 +1,13 @@
 # Calendar distance: how far each refusal is from flipping
 
-asof 2026-11-09T04:27:03+08:00 | evidence_cutoff 2026
+asof 2026-11-10T01:02:28+08:00 | evidence_cutoff 2026
 
-**WAIT_ON_A_WATCHABLE_NUMBER** — nobond_vt08_adopted is 1.24pp of 2026 return away from ADMIT; the remaining 1 cohort(s) must return 1.22%
+**WAIT_ON_A_WATCHABLE_NUMBER** — nobond_vt08_adopted is 0.77pp of 2026 return away from ADMIT; the remaining 1 cohort(s) must return 0.75%
 
 | candidate | verdict now | failing | partial year now | flip at | distance | hurdle left |
 |---|---|---|---|---|---|---|
-| nobond_vt08_adopted | CONDITIONAL | Y4_top2_share | 1.90% | 3.14% | 1.24pp | 1.22% |
-| nobond_base | ADMIT | none | 4.26% | READINGS_DISAGREE | — | — |
+| nobond_vt08_adopted | CONDITIONAL | Y4_top2_share | 2.37% | 3.14% | 0.77pp | 0.75% |
+| nobond_base | ADMIT | none | 4.95% | READINGS_DISAGREE | — | — |
 | nobond_vt08_floor_050 | NO_YEARLY_BLOCK | — | — | — | — | — |
 | all_classes_published | CONDITIONAL | Y4_top2_share | 1.10% | 7.90% | 6.80pp | 6.73% |
 
