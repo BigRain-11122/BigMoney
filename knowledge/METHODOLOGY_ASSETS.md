@@ -11560,3 +11560,56 @@ r1470 把执行后的账接进了 CEO 页，r1471 的票面因此改成「按执
 + Tools/s6_chain_bmc.py 新腿 floor_memory（0.8s，排在 positions_ledger 之后）
 + smoke 两腿（相位 x 成本机制 / 三面同读一个额度）
 + research/digests/DIGEST-20261109-r1472-floor-memory.md。
+
+## E479 — 一份打不开的文件，等于它的每一个消费者都已经死了——而它自己说不出这句话（r1473 bm-c）
+
+`smoke_test.py` 被连着两轮提交（r1471、r1472）成一个 **import 即 IndentationError** 的样子
+（第 8967 行一个 0 缩进的 `try:`，而它所有兄弟腿都在 4）。全树唯一的闸，就这样**死了两轮**，
+而且**两头都不出声**：它死在自己的 import 上，所以打印不出半行 `[FAIL]`；而两轮的轮报告都
+老老实实写着「full smoke not verified」——这句话是真的，也正因为它太真，没人去问「为什么验不了」。
+
+**没有任何既有腿看得见它**：pre-commit 爪只找冲突标记与打不开的 JSON；S6 链跑的是腿不是套件；
+读 diff 也看不出来——4 空格 vs 0 空格的 `try:` 在 diff 里长得像风格。
+
+**最便宜的判据 = 对这次提交将要发布的那份字节跑一次 `compile()`**，而这也就是全部判据：
+一个解析不了的 `.py`，它的每一个消费者都是死的。落点 = `Tools/py_face_guard.py`
+（判 **index blob**，不是工作树——判工作树会给一个交出去就坏的提交放行；与 `json_face_guard`
+共用同一条「提交面必须能被读者打开」的原则），接进 pre-commit（r1473 段），
+并在同一个套件里给它一条腿——**守闸的人自己也要站在闸下**，否则闸烂掉的时候仍然是沉默。
+
+**实弹三证**：①`git show HEAD:smoke_test.py` → `PyCompileError … line 8967`（HEAD 确实是坏的）；
+②守卫自检 7/7；③staged 一个解析不了的夹具 → 守卫 rc=1 且 `git commit` 被
+`PRE-COMMIT CLAW … (r1473)` 拒收，`git log` 头仍是原提交（闸真的挡住了，不是打印了事）。
+
+**同窗检出第二枚**：`scripts/update_repo.py` 的工作树字节**等于 11-05 那次提交的 blob**，
+比 HEAD 少了 r1271 落的 r1270 修复（就实现了 r1253 判例的第二面：owner 跑的时候要撤回
+遗留的 `takeover{}` 块，否则新鲜度板读成「声明了一个没人看得见的替班」）。**陈旧副本 = 静默
+revert**，而 mtime 只会告诉你文件被动过。判据只能看内容：工作树 blob 是否等于某个**祖先提交**
+发布过的 blob。已 `checkout --` 复原（同名删面 `scripts/etf_book_tearsheet.py` 也已复原——
+删除一个没人 import 的已发布件仍然是一次没有理由的变更）。
+
+**How to apply**：①任何「提交面必须能被读者打开」的闸，先问它读的是哪份字节（index 还是
+worktree）；②轮首接手的脏树，先扫一遍「工作树 blob == 祖先提交 blob」，那是唯一能看见
+陈旧快照 revert 的判据；③一份全树闸连续两轮「未验证」，这本身就是一条红腿。
+
++ 正身 = `Tools/py_face_guard.py`（self 7/7）+ `Tools/git-hooks/pre-commit` r1473 段
++ `smoke_test.py` 腿「product: py_face_guard」+ `Tools/register_precommit_claw.ps1` 已重装。
+
+
+### E480 一个额度若不是某条规则的版本，而是某次测量的倒数，那么「问它是哪版规则签发的」永远答不出来
+
+r1472 收尾问「额度是拿哪个版本的规则签发的」。正法不是找版本，而是先测恒等式：
+若每一格都满足 k×beta == beta_target，额度 = 目标 / 实测最大的那个 beta —— 它是一条
+**倒过来的尺子**，签发它的是「哪一格测到的 beta 最大」，不是任何版本。实弹：5 格全等
+0.2000，签发格 = 短窗+分级池（306 bar，beta 0.5088）。
+
+第二律：**凡把两个旋钮的差拆开，主效应与交互必须重构头条差**（>0.02pp 即红），
+否则「哪把尺最宽」只是三个互相不认的数字。实弹：6.72pp 里窗口 3.91pp（58%）、
+池 1.96pp、交互 0.85pp；按钱是 ￥39,122 / ￥19,596 / ￥8,461。
+
+姊妹面：**问「调哪个档能过门」时不要把判词自造**——把每一档交给既有的年度门与既有的
+两把尺子去判，判决由各臂重算（smoke 腿钉：没有过门臂就不得出现「供给」类判词）。
+实弹：6 档波动目标全 REFUSED，years_for_half 六档中位 2.0（线 3）→ 等待不是缩放假象。
+
++ 正身 = scripts/etf_book_floor_provenance.py(17/17) + scripts/etf_book_vol_target_gate.py +
+  CEO 页节「为什么这张单只能下这么大」（自检 165/165）

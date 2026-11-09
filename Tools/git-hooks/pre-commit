@@ -50,4 +50,43 @@ if command -v python >/dev/null 2>&1; then
         fi
     fi
 fi
+# r1413: a staged heartbeat can carry a self-inconsistent GPU face and still parse.
+# r1412 shipped gpu_free_vram_gb 13.9 beside gpu_free_gb 14.2, and the only detector
+# was a full smoke run in the next round. The writer (heartbeat_write.gpu_chokepoint)
+# owns every GPU number, but it only owns callers that route through it -- a closeout
+# that dumps the JSON directly bypasses it. A commit is the one gate every writer must
+# pass, so the judgement is made on the STAGED blob (r1406: the worktree copy is a
+# different file from the one readers open). Silent when clean.
+if command -v python >/dev/null 2>&1; then
+    root=$(git rev-parse --show-toplevel 2>/dev/null)
+    if [ -n "$root" ] && [ -f "$root/Tools/gpu_face.py" ]; then
+        if ! out=$(python "$root/Tools/gpu_face.py" staged 2>&1); then
+            echo "PRE-COMMIT CLAW: a staged heartbeat carries a self-inconsistent GPU face (r1413)."
+            echo "Re-write it through Tools/gpu_face.py apply (or heartbeat_write.write), re-stage, then commit."
+            echo "$out" | head -5
+            echo "Escape hatch (state the reason in the round report): git commit --no-verify"
+            exit 1
+        fi
+    fi
+fi
+# r1473: smoke_test.py was committed twice (r1471/r1472) in a state that raises
+# IndentationError at import -- a 0-space `try:` where every sibling leg sits at 4.
+# The suite is the company's only whole-tree gate, so for two rounds there was no
+# gate at all: the file died before printing a single [FAIL], and both rounds
+# honestly reported "full smoke not verified". No existing leg can see it (it is
+# not a conflict marker, it is not JSON), and in a diff it reads as style. The one
+# cheap judgement is compile() on the blob this commit will publish -- which is also
+# the whole judgement: a .py that does not parse has no working consumer.
+if command -v python >/dev/null 2>&1; then
+    root=$(git rev-parse --show-toplevel 2>/dev/null)
+    if [ -n "$root" ] && [ -f "$root/Tools/py_face_guard.py" ]; then
+        if ! out=$(python "$root/Tools/py_face_guard.py" --staged 2>&1); then
+            echo "PRE-COMMIT CLAW: a staged Python file does not compile (r1473)."
+            echo "Fix the indentation/syntax, re-stage, then commit."
+            echo "$out" | head -5
+            echo "Escape hatch (state the reason in the round report): git commit --no-verify"
+            exit 1
+        fi
+    fi
+fi
 exit 0

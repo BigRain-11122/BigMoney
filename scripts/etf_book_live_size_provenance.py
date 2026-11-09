@@ -288,8 +288,14 @@ def run():
     # identity legs -- if these fail this face is measuring some other book
     tk = _read_json(face["ticket_rel"])
     legs = {
-        "L_beta": {"published": tk.get("k_now"), "derived": round(float(k_beta), 6),
-                   "ok": abs(float(tk.get("k_now") or -1) - float(k_beta)) <= 1e-3},
+        # r1471: the published ticket now sizes from the executed account, so `k_now` is
+        # the size ORDERED, not the size the beta rule alone would pick. This face asks
+        # what the rule says, so it must read the ticket's `k_rule` (falling back to the
+        # old single field for tickets written before the split).
+        "L_beta": {"published": tk.get("k_rule", tk.get("k_now")),
+                   "derived": round(float(k_beta), 6),
+                   "ok": abs(float(tk.get("k_rule", tk.get("k_now")) or -1)
+                             - float(k_beta)) <= 1e-3},
         "L_names": {"published": face["ticket"]["names"], "derived": names_a,
                     "ok": list(face["ticket"]["names"]) == names_a},
         "L_constant": {"cited": CITED["beta_target"]["value"],

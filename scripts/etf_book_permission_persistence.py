@@ -210,7 +210,9 @@ def run():
     # control arm (r1317): the schedule must be the one the ticket prices.  If the last
     # decision bar does not reproduce the published k, this face is measuring a book the
     # trim never lands on, and publishing it would be worse than publishing nothing.
-    k_ticket = float(gap["k_now"])
+    # r1471: the sheet sizes from the executed account, so the number this control arm must
+    # reproduce is the one the SIZING RULE charged (`k_rule`), not the account's size.
+    k_ticket = float(gap.get("k_rule") if gap.get("k_rule") is not None else gap["k_now"])
     ident = {"k_schedule_last": round(k_last, 6) if k_last is not None else None,
              "k_ticket": round(k_ticket, 6),
              "delta": round(abs(k_last - k_ticket), 6) if k_last is not None else None}

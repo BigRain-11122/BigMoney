@@ -7,15 +7,15 @@
   "order_ticket": "results/etf_book_order/TICKET-2026-11-06.json"
  },
  "verdict": "NETTED_WITH_RESIDUE",
- "k_ordered": 0.390822,
- "k_after": 0.390144,
+ "k_ordered": 0.390144,
+ "k_after": 0.389744,
  "floor_k": 0.393073,
  "ceiling_k": 0.544424,
  "within_permission": true,
- "risk_book_before_cny": 390257.8,
- "risk_book_after_cny": 390144.4,
- "cash_cny": 609855.6,
- "lot_residue_cny": 113.4,
+ "risk_book_before_cny": 389811.9,
+ "risk_book_after_cny": 389743.8,
+ "cash_cny": 610256.2,
+ "lot_residue_cny": 68.1,
  "actions": [
   {
    "side": "SELL",
@@ -28,32 +28,32 @@
   {
    "side": "SELL",
    "symbol": "513100",
-   "lots": 362,
+   "lots": 361,
    "price": 2.158,
-   "amount_cny": 78119.6,
-   "why": "swap 513100 → 159513 (r1466 verdict WINDOW_ALWAYS_OPEN), sized on the trimmed 362 lots"
+   "amount_cny": 77903.8,
+   "why": "swap 513100 → 159513 (r1466 verdict WINDOW_ALWAYS_OPEN), sized on the trimmed 361 lots"
   },
   {
    "side": "BUY",
    "symbol": "159513",
-   "lots": 915,
+   "lots": 914,
    "price": 1.705,
-   "amount_cny": 156007.5,
+   "amount_cny": 155837.0,
    "why": "merged buy for 159501 + 513100"
   }
  ],
  "holdings_after": [
   {
    "symbol": "159263",
-   "lots": 683,
+   "lots": 682,
    "price": 1.143,
-   "amount_cny": 78066.9
+   "amount_cny": 77952.6
   },
   {
    "symbol": "159513",
-   "lots": 915,
+   "lots": 914,
    "price": 1.705,
-   "amount_cny": 156007.5
+   "amount_cny": 155837.0
   },
   {
    "symbol": "159577",
@@ -63,14 +63,14 @@
   },
   {
    "symbol": "513690",
-   "lots": 674,
+   "lots": 673,
    "price": 1.158,
-   "amount_cny": 78049.2
+   "amount_cny": 77933.4
   }
  ],
  "widest_name": {
   "symbol": "159513",
-  "share_of_risk_book": 0.3999
+  "share_of_risk_book": 0.3998
  },
  "baskets": {
   "before": [
@@ -103,8 +103,8 @@
   {
    "leg": "513100",
    "sibling": "159513",
-   "ordered_lots": 362,
-   "trimmed_lots": 362,
+   "ordered_lots": 361,
+   "trimmed_lots": 361,
    "share": 1.0,
    "gain_published_cny": 4149.3,
    "gain_on_trimmed_book_cny": 4149.3,

@@ -120,6 +120,11 @@ def decide(rulers, ticket, year_gate=None):
                 "sentence": "the ticket carries no k_now/nav: nothing to permission",
                 "reason": "incomplete_ticket"}
     k_now = float(k_now)
+    # r1471: the sheet now sizes from the executed account, so `k_now` is the size ORDERED.
+    # The readings below are alternative SIZING-RULE readings; their circular identity is
+    # "reproduces what the rule charged", which the ticket records separately as `k_rule`.
+    k_rule = ticket.get("k_rule")
+    k_rule = k_now if k_rule is None else float(k_rule)
     nav = float(nav)
     und = float((ticket.get("ticket") or {}).get("underspend_pct") or 0.0)
 
@@ -127,7 +132,7 @@ def decide(rulers, ticket, year_gate=None):
     readings = {}
     unreadable = {}
     for name, cell in cells.items():
-        kind, why = classify(name, cell, k_now)
+        kind, why = classify(name, cell, k_rule)
         k = cell.get("k")
         readings[name] = {
             "k": None if k is None else round(float(k), 6),
@@ -151,6 +156,7 @@ def decide(rulers, ticket, year_gate=None):
         "beta_target": ticket.get("beta_target"),
         "size_tol": SIZE_TOL,
         "k_now": round(k_now, 6),
+        "k_rule": round(k_rule, 6),
         "nav_cny": nav,
         "book_amount_cny": (ticket.get("ticket") or {}).get("book_amount"),
         "cash_amount_cny": (ticket.get("ticket") or {}).get("cash_amount"),

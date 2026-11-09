@@ -960,6 +960,13 @@ LEGS = [
     # frozen criteria were edited after the run (0.1s, JSON reads, no repricing).
     ("floor_memory",
      ["python", "scripts/etf_book_floor_memory.py", "check"]),
+    # r1473: r1472 ended on "which version of the rule was the floor issued against". The
+    # rulers receipt answers it from its own cells -- k*beta == beta_target on every one, so
+    # the floor is beta_TARGET / max(beta): a measuring tape, not a rule version. This leg
+    # re-derives the 2x2 (window x universe) and refuses a receipt whose split does not add
+    # up to its own headline gap (0.1s, JSON reads, no repricing).
+    ("floor_provenance",
+     ["python", "scripts/etf_book_floor_provenance.py", "check"]),
     # r1440: forty rounds read the calendar and the order page as two separate
     # subjects. This leg puts them in one sentence from receipts only (no
     # repricing): today the ticket executes nobond_vt08_adopted at book_weight

@@ -33,11 +33,43 @@ def capture_pinned(argv, timeout):
     the first non-GBK byte and the suite hung instead of failing: 5 minutes of no
     output, no Summary line, and a smoke run that looks like a slow suite rather
     than a broken one. Pinning both sides is the fix; the meta leg below keeps it.
+
+    r1473: `subprocess.run(..., timeout=)` cannot recover from a leg that leaves a
+    GRANDCHILD holding the inherited pipe. run() kills only the direct child, then
+    blocks in communicate() waiting for EOF that never comes -- the timeout fires and
+    the suite still hangs forever. That is what r1471/r1472 both reported as "full
+    smoke still running at close" (three separate runs sat at zero CPU with the last
+    line printed half a suite ago). Pumps now run on daemon threads and every join is
+    bounded: a stuck pipe can cost this leg its text, never the whole suite. A timeout
+    still raises, so the leg goes red by name instead of taking the run down with it.
     """
+    import threading
     _env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
-    return subprocess.run(argv, capture_output=True, text=True,
-                          encoding="utf-8", errors="replace", env=_env,
-                          timeout=timeout, creationflags=0x08000000)
+    _p = subprocess.Popen(argv, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                          text=True, encoding="utf-8", errors="replace", env=_env,
+                          creationflags=0x08000000)
+    _buf = {"out": [], "err": []}
+    def _pump(stream, key):
+        try:
+            for _line in stream:
+                _buf[key].append(_line)
+        except Exception:
+            pass
+    _ts = [threading.Thread(target=_pump, args=(_p.stdout, "out"), daemon=True),
+           threading.Thread(target=_pump, args=(_p.stderr, "err"), daemon=True)]
+    for _t in _ts:
+        _t.start()
+    try:
+        _p.wait(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        _p.kill()
+        raise subprocess.TimeoutExpired(argv, timeout,
+                                        output="".join(_buf["out"]),
+                                        stderr="".join(_buf["err"]))
+    for _t in _ts:
+        _t.join(5.0)
+    return subprocess.CompletedProcess(argv, _p.returncode,
+                                       "".join(_buf["out"]), "".join(_buf["err"]))
 def main() -> int:
     print(f"== Bigmoney smoke test {dt.datetime.now():%Y-%m-%d %H:%M:%S} ==")
     try:
@@ -838,6 +870,14 @@ def main() -> int:
             # fixture.
             ("product: json_face_guard (a committed face must parse and must not repeat a key)",
              "Tools/json_face_guard.py", ["--selftest"]),
+            # r1473: smoke_test.py itself was committed twice (r1471/r1472) in a state
+            # that raises IndentationError at import, so the company's only whole-tree
+            # gate was dead for two rounds and said so in neither direction -- nothing
+            # in the repo could see it. Tools/py_face_guard.py is the claw that compiles
+            # the blobs a commit will publish; this leg keeps the claw itself under the
+            # gate it protects, so a guard that rots is a suite failure, not a silence.
+            ("product: py_face_guard (a staged Python file that does not parse is a finding)",
+             "Tools/py_face_guard.py", ["--selftest"]),
             # r1346: the chain runner pays a leg's declared refresh when its probe
             # says the face is stale, and must NOT pay it when the probe says
             # inconsistent. That branch is what stops a check-only gate from being
@@ -1413,7 +1453,8 @@ def main() -> int:
         _want = {"etf_book_forward", "etf_book_production", "etf_book_order",
                  "etf_book_width_audit", "etf_book_registry", "etf_book_ceo_page",
                  "etf_book_card_track", "etf_paper_signal", "cal_audit",
-                 "etf_book_return_regime", "etf_book_settle_audit"}
+                 "etf_book_return_regime", "etf_book_settle_audit",
+                 "floor_provenance", "vol_target_gate"}
         _miss = sorted(_want - _names)
         check("product: ETF book legs wired into the S6 chain",
               not _miss, f"legs={len(_names)} missing={_miss or 'none'}")
@@ -4473,7 +4514,7 @@ def main() -> int:
         _bma = importlib.import_module("Tools.s6_chain_bma")
         _canon = importlib.import_module("Tools.s6_chain_bmc")
         # r1346: LEGS entries may carry a third element (the refresh command paid on a
-        # stale face), so unpack by position -- or n, c in LEGS fails on the first
+        # stale face), so unpack by position -- for n, c in LEGS fails on the first
         # such leg and this check then reads as a fleet red instead of a tuple bug.
         _a = [t[0] for t in _bma.LEGS]
         _c = [t[0] for t in _canon.LEGS]
@@ -8301,6 +8342,7 @@ def main() -> int:
     _leg_smallcap_book()
     _leg_candidate_year_gate()
     _leg_scale_floor()
+    _legs_supply_and_book()
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
 _SMOKE_GC = None
@@ -8767,6 +8809,15 @@ def _leg_size_age_control():
               False, repr(e)[:180])
 
 
+def _legs_supply_and_book():
+    """r1414/r1471/r1472 legs, given a scope of their own (r1473).
+
+    They were spliced into `_leg_size_age_control`, a helper that has no PATHS in its
+    namespace -- so the three book legs raised NameError on every run and reported it as
+    a leg failure with no face behind it. A leg must live where its inputs live.
+    """
+    from config import PATHS
+
 # ---------------------------------------------------------------- r1414 product legs
     try:
         import update_lhb_inst as _LI
@@ -9012,6 +9063,103 @@ def _leg_size_age_control():
               or "floor_memory / size_rulers / floor_ledger agree on the permitted k")
     except Exception as e:
         check("product: etf_book_floor_memory (the cap is priced on phases and costs, not one sequence)",
+              False, repr(e)[:180])
+
+    try:
+        # r1473: r1472 closed on "which version of the rule was the floor issued against".
+        # The rulers receipt answers it from its own cells rather than from a story: if
+        # k*beta == beta_target on every cell then the floor is beta_TARGET / max(beta), a
+        # measuring tape. Two legs: the receipt re-derives, and the 2x2 split is not a
+        # free-floating percentage -- the two main effects plus their interaction must
+        # reconstruct the headline gap the same receipt prints.
+        _r50 = capture_pinned([sys.executable,
+                               os.path.join("scripts", "etf_book_floor_provenance.py"),
+                               "selftest"], 120)
+        check("product: etf_book_floor_provenance (the floor is a beta reciprocal, not a rule version)",
+              _r50.returncode == 0 and "17/17" in _r50.stdout,
+              (_r50.stdout.strip().splitlines() or [""])[-1][:200] if _r50.returncode == 0
+              else (_r50.stderr or _r50.stdout)[:200])
+        _bad50 = []
+        _fp50 = os.path.join(PATHS.results_dir, "etf_book_floor_provenance.json")
+        _sr50 = os.path.join(PATHS.results_dir, "etf_book_size_rulers_decision.json")
+        if not os.path.exists(_fp50):
+            _bad50.append("results/etf_book_floor_provenance.json missing")
+        else:
+            _f50 = json.load(open(_fp50, encoding="utf-8"))
+            if _f50.get("verdict") != "FLOOR_IS_A_BETA_RECIPROCAL":
+                _bad50.append("verdict=%r: a broken identity must not read as a reciprocal"
+                              % _f50.get("verdict"))
+            _eff50 = _f50.get("effects") or {}
+            if _eff50.get("universe_effect_full_window_pp") is None \
+                    or _eff50.get("window_effect_pp") is None \
+                    or _eff50.get("total_gap_pp") is None:
+                _bad50.append("the effect split is incomplete")
+            elif abs((_eff50["universe_effect_full_window_pp"] + _eff50["window_effect_pp"])
+                     - _eff50["total_gap_pp"]) > 0.02:
+                _bad50.append("the split does not reconstruct the headline gap: %r + %r vs %r"
+                              % (_eff50["universe_effect_full_window_pp"],
+                                 _eff50["window_effect_pp"], _eff50["total_gap_pp"]))
+            if os.path.exists(_sr50):
+                _s50 = json.load(open(_sr50, encoding="utf-8"))
+                _cells50 = _s50.get("cells") or {}
+                _maxb = max((v.get("beta") for v in _cells50.values()
+                             if v.get("beta") and v.get("k")
+                             and (v.get("bars") or 0) >= 60), default=None)
+                if _maxb is not None:
+                    _k_issued = float(_s50.get("beta_target") or 0.0) / float(_maxb) \
+                        if _s50.get("beta_target") else None
+                    _iss50 = (_f50.get("issuing_cell") or {}).get("k")
+                    if _k_issued is not None and _iss50 is not None \
+                            and abs(_k_issued - float(_iss50)) > 1e-9:
+                        _bad50.append("the issuing cell does not equal target/max(beta): %r vs %r"
+                                      % (_iss50, _k_issued))
+        check("product: the floor's 2x2 split reconstructs its own headline gap",
+              not _bad50, "; ".join(_bad50)[:220]
+              or "window + universe-at-full-window + interaction == the printed gap")
+    except Exception as e:
+        check("product: etf_book_floor_provenance (the floor is a beta reciprocal, not a rule version)",
+              False, repr(e)[:180])
+
+    try:
+        # r1473: the natural follow-up to "the floor is target/max(beta)" is "then dial the
+        # book until it clears the calendar". etf_book_vol_target_gate prices six settings
+        # through the two already-trusted rulers and answers STILL_REFUSED. Two legs: the
+        # tool re-derives, and the published verdict is the one its own arms imply -- a sweep
+        # whose every arm is refused must never be filed under a word that reads like supply.
+        _r51 = capture_pinned([sys.executable,
+                               os.path.join("scripts", "etf_book_vol_target_gate.py"),
+                               "selftest"], 180)
+        check("product: etf_book_vol_target_gate (a scaling sweep is judged by the calendar, not by Sharpe)",
+              _r51.returncode == 0 and "selftest PASS" in _r51.stdout,
+              (_r51.stdout.strip().splitlines() or [""])[-1][:200] if _r51.returncode == 0
+              else (_r51.stderr or _r51.stdout)[:200])
+        _bad51 = []
+        _vt51 = os.path.join(PATHS.results_dir, "etf_book_vol_target_gate.json")
+        if not os.path.exists(_vt51):
+            _bad51.append("results/etf_book_vol_target_gate.json missing")
+        else:
+            _v51 = json.load(open(_vt51, encoding="utf-8"))
+            _arms51 = _v51.get("arms") or []
+            if not _arms51:
+                _bad51.append("the sweep published no arm")
+            _rec51 = [a.get("arm") for a in _arms51 if a.get("word") == "ADMIT_AT_EVERY_PHASE"]
+            _ind51 = [a for a in _arms51 if a.get("word") == "INDETERMINATE"]
+            _want51 = ("LAWFUL_SUPPLY_FOUND" if _rec51 else
+                       ("INDETERMINATE" if len(_ind51) == len(_arms51) else "STILL_REFUSED"))
+            if _v51.get("verdict") != _want51:
+                _bad51.append("verdict=%r but the arms imply %r"
+                              % (_v51.get("verdict"), _want51))
+            _blank51 = [a.get("arm") for a in _arms51
+                        if (a.get("money") or {}).get("cagr_pct") is None]
+            if _blank51:
+                _bad51.append("arms with no money face: %s" % ", ".join(map(str, _blank51)))
+            if not _v51.get("verdict_reading"):
+                _bad51.append("the face prints a word with no sentence beside it")
+        check("product: the vol-target verdict is the one its own arms imply",
+              not _bad51, "; ".join(_bad51)[:220]
+              or "no admitting arm -> the face says so, and every arm carries money")
+    except Exception as e:
+        check("product: etf_book_vol_target_gate (a scaling sweep is judged by the calendar, not by Sharpe)",
               False, repr(e)[:180])
 
 

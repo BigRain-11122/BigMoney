@@ -297,8 +297,11 @@ def run():
             abs(k_from_beta(arms["published"]["beta"], target) - arms["published"]["k"]) <= 1e-9),
         "expanding_beta_at_decision_bar_reproduced": _b(
             None if beta_at_bar is None else abs(beta_at_bar - arms["published"]["beta"]) <= 1e-9),
+        # r1471: the published ticket sizes from the executed account, so the number the
+        # sizing rule must reproduce is its `k_rule`, not the account's size.
         "ticket_k_reproduced": _b(None if k_now is None
-                                   else abs(arms["published"]["k"] - float(k_now)) <= 1e-6),
+                                   else abs(arms["published"]["k"]
+                                            - float(tk.get("k_rule") or k_now)) <= 1e-6),
         "ticket_book_amount_is_k_times_nav_minus_lots": _b(
             None if tk["ticket"].get("underspend_pct") is None
             else abs(float(tk["ticket"]["book_amount"])

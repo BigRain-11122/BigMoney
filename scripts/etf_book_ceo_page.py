@@ -85,6 +85,12 @@ SIBLING_GAP_JSON = os.path.join(ROOT, "results", "etf_book_sibling_gap.json")
 # but that account lived only in results/etf_book_positions.json -- the page kept telling the
 # reader to buy the full sheet as if no lots were already held.
 POSITIONS_JSON = os.path.join(ROOT, "results", "etf_book_positions.json")
+# r1473: the page tells the reader how big the order may be but never WHY that number is
+# that number. results/etf_book_floor_provenance.json answers it (the floor is beta_target
+# divided by the largest measured beta) and results/etf_book_vol_target_gate.json kills the
+# obvious follow-up ("then dial the book until it clears the calendar").
+FLOOR_PROVENANCE_JSON = os.path.join(ROOT, "results", "etf_book_floor_provenance.json")
+VOL_TARGET_GATE_JSON = os.path.join(ROOT, "results", "etf_book_vol_target_gate.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -995,6 +1001,202 @@ def sibling_gap_block(sg, page_bar=None):
                        if x.get("label") else "%s（无同类标签）" % x.get("leg_symbol")
                        for x in sg["skipped_legs"]))
     add("")
+    return L
+
+
+def floor_provenance_face(path=FLOOR_PROVENANCE_JSON):
+    """What ISSUED the size limit this page prints (r1473).
+
+    Read-only over the published face. An absent face is "cannot say why", never "the
+    limit is a rule" -- and a face anchored on another session is a mismatch, not
+    freshness."""
+    if not os.path.exists(path):
+        return {"status": "unreadable", "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+                "detail": "floor-provenance face absent"}
+    f = _load(path) or {}
+    if not f.get("verdict"):
+        return {"status": "unreadable", "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+                "detail": "face carries no verdict"}
+    return {
+        "status": "ok",
+        "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+        "verdict": f.get("verdict"),
+        "beta_target": f.get("beta_target"),
+        "published_floor": f.get("published_floor"),
+        "identity": f.get("identity") or [],
+        "grid": f.get("grid") or {},
+        "effects": f.get("effects") or {},
+        "issuing_cell": f.get("issuing_cell") or {},
+        "issuing_cell_is_the_floor": f.get("issuing_cell_is_the_floor"),
+        "sentence": f.get("sentence"),
+        "not_measured": f.get("not_measured") or [],
+        "evidence_cutoff": f.get("evidence_cutoff"),
+    }
+
+
+def vol_target_face(path=VOL_TARGET_GATE_JSON):
+    """Whether dialling the book clears its calendar (r1473).
+
+    Same two rules: absent is "cannot verify", and only the arms the face actually
+    priced are printed -- a sweep with no rows is not a refusal."""
+    if not os.path.exists(path):
+        return {"status": "unreadable", "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+                "detail": "vol-target-gate face absent"}
+    f = _load(path) or {}
+    if not f.get("arms"):
+        return {"status": "unreadable", "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+                "detail": "face carries no priced arm"}
+    arms = []
+    for a in f.get("arms") or []:
+        money = a.get("money") or {}
+        yh = ((a.get("rulers") or {}).get("years_for_half") or {})
+        arms.append({
+            "arm": a.get("arm"),
+            "vol_target": a.get("vol_target"),
+            "word": a.get("word") or a.get("verdict"),
+            "reason": a.get("reason"),
+            "cagr_pct": money.get("cagr_pct"),
+            "sharpe": money.get("sharpe"),
+            "maxdd_pct": money.get("maxdd_pct"),
+            "years_for_half_state": yh.get("state"),
+            "years_for_half_median": yh.get("median"),
+            "years_for_half_line": yh.get("line"),
+            "phases": a.get("phases"),
+        })
+    return {
+        "status": "ok",
+        "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+        "verdict": f.get("verdict"),
+        "reading": f.get("verdict_reading"),
+        "asof": f.get("asof"),
+        "capacity_cny": f.get("capacity_cny_1day_5pct"),
+        "arms": arms,
+        "shape": f.get("shape_invariance") or {},
+    }
+
+
+FLOOR_PROVENANCE_WORDS = {
+    "FLOOR_IS_A_BETA_RECIPROCAL":
+        "**额度不是一个版本的规则，是一把倒过来的尺子**：每一格都满足 k×β=目标波动，"
+        "所以额度=目标波动÷实测最大的那个 β",
+    "IDENTITY_BROKEN": "**面自己不自洽**：k×β 不等于目标波动，读到的额度不能当尺子用",
+}
+
+VOL_TARGET_VERDICT_WORDS = {
+    "LAWFUL_SUPPLY_FOUND": "**至少有一档能过门**",
+    "STILL_REFUSED": "**没有一档能过门**",
+    "INDETERMINATE": "**测不出**（有档位在若干相位上读不到判据）",
+    "NO_ARMS": "**没有可测的档**",
+}
+
+
+def floor_provenance_block(fp, vt=None, page_bar=None):
+    """The lines this page prints about WHERE its own size limit comes from."""
+    L = []
+    add = L.append
+    add("## 为什么这张单只能下这么大")
+    add("")
+    fp = fp or {}
+    if fp.get("status") != "ok":
+        add("这一节读不到额度来源面（`%s`）：%s。**所以本页只能给出额度是多少，说不出它是怎么定的**——"
+            "读者若要问「能不能多买一点」，本页此刻没有能回答的东西。"
+            % (fp.get("artifact") or "results/etf_book_floor_provenance.json",
+               fp.get("detail") or "无读数"))
+        add("")
+    else:
+        if page_bar and fp.get("evidence_cutoff") and \
+                str(page_bar)[:10] != str(fp["evidence_cutoff"])[:10]:
+            add("额度来源面锚在 **%s**，本页的价是 **%s**——两个日子对不上，下面的拆分不能直接当作今天的。"
+                % (fp["evidence_cutoff"], page_bar))
+            add("")
+        add("- 判词：%s。" % FLOOR_PROVENANCE_WORDS.get(
+            fp.get("verdict"), "**%s**" % fp.get("verdict")))
+        ic = fp.get("issuing_cell") or {}
+        if ic:
+            add("- 签发它的那一格：**%s**（%s；%s 根 bar），β=%.4f、k=%.6f。"
+                % (ic.get("cell"), ic.get("window") or "窗口未标注",
+                   ic.get("bars") or "—", ic.get("beta") or 0.0, ic.get("k") or 0.0))
+        grid = fp.get("grid") or {}
+        if grid:
+            add("")
+            add("| 这一格 | 窗口 | 币种池 | bar 数 | 实测 β | 会给出的额度 k |")
+            add("|---|---|---|---|---|---|")
+            name_map = {"baseline_published": "全窗·全池（已发布基线）",
+                        "window": "短窗·全池",
+                        "universe": "全窗·分级池",
+                        "window_x_universe": "短窗·分级池（签发了今天的额度）"}
+            for key in ("full|all", "common|all", "full|graded", "common|graded"):
+                cell = grid.get(key) or {}
+                if not cell:
+                    continue
+                add("| %s | %s | %s | %s | %.4f | %.6f |" % (
+                    name_map.get(cell.get("cell"), cell.get("cell")),
+                    "全窗" if key.startswith("full") else "短窗",
+                    "全" if key.endswith("all") else "分级",
+                    cell.get("bars") or "—", cell.get("beta") or 0.0, cell.get("k") or 0.0))
+            add("")
+        eff = fp.get("effects") or {}
+        if eff.get("total_gap_pp") is not None:
+            add("**最宽的额度（k=%.6f）与今天的额度（k=%.6f）差 %.2fpp，按 ￥1,000,000 本钱折 ￥%s——"
+                "其中 %.2fpp（%.0f%%，￥%s）只是把窗口从全史缩到 %s 根 bar 造成的，"
+                "%.2fpp（%.0f%%，￥%s）是改币种池造成的，两者交互 %.2fpp。**"
+                % (eff.get("floor_full_all") or 0.0, eff.get("floor_common_graded") or 0.0,
+                   eff.get("total_gap_pp") or 0.0, format(eff.get("total_gap_cny") or 0, ",.0f"),
+                   eff.get("window_effect_pp") or 0.0,
+                   100 * (eff.get("window_share_of_gap") or 0.0),
+                   format(eff.get("window_effect_cny") or 0, ",.0f"),
+                   (grid.get("common|all") or {}).get("bars") or "—",
+                   eff.get("universe_effect_pp") or 0.0,
+                   100 * (eff.get("universe_share_of_gap") or 0.0),
+                   format(eff.get("universe_effect_cny") or 0, ",.0f"),
+                   eff.get("interaction_pp") or 0.0))
+            add("")
+        for nm in fp.get("not_measured") or []:
+            add("- 这一面没有量的：%s" % nm)
+        if fp.get("not_measured"):
+            add("")
+    vt = vt or {}
+    add("### 那么把波动档调一调，能不能让这本账今天就能按年度门供上货")
+    add("")
+    if vt.get("status") != "ok":
+        add("这一节读不到波动档扫描面（`%s`）：%s。**所以本页说不出「调档能不能过门」**——"
+            "读不到不等于不能。"
+            % (vt.get("artifact") or "results/etf_book_vol_target_gate.json",
+               vt.get("detail") or "无读数"))
+        add("")
+        return L
+    arms = vt.get("arms") or []
+    add("- 判词：%s——%s。" % (
+        VOL_TARGET_VERDICT_WORDS.get(vt.get("verdict"), "**%s**" % vt.get("verdict")),
+        vt.get("reading") or "无读数"))
+    add("")
+    add("| 波动档 | 年化 | 夏普 | 最大回撤 | 判词 | 理由 |")
+    add("|---|---|---|---|---|---|")
+    for a in arms:
+        vtw = {"ADMIT_AT_EVERY_PHASE": "过门", "REFUSED": "仍被拒",
+               "INDETERMINATE": "测不出", "NO_ARMS": "没有臂"}.get(
+                   a.get("word"), a.get("word") or "—")
+        add("| %s | %s | %s | %s | %s | %s |" % (
+            ("不调档（原书）" if a.get("vol_target") in (None, 0) else "%.0f%% 波动目标" % (100 * (a.get("vol_target") or 0))),
+            ("%.2f%%" % a["cagr_pct"]) if a.get("cagr_pct") is not None else "—",
+            ("%.2f" % a["sharpe"]) if a.get("sharpe") is not None else "—",
+            ("%.2f%%" % a["maxdd_pct"]) if a.get("maxdd_pct") is not None else "—",
+            vtw, (a.get("reason") or "—")))
+    add("")
+    yh = [(a.get("years_for_half_median"), a.get("years_for_half_state"), a.get("years_for_half_line"))
+          for a in arms if a.get("years_for_half_median") is not None]
+    if yh:
+        meds = [x[0] for x in yh]
+        line = yh[0][2]
+        add("**调档能改年化，改不了那把尺子**：%d 档里「几年才凑够一半收益」的中位数是 %s（线是 %s 年），"
+            "最好的一档也只到 %s——所以「再等几年」不是缩放没调对的假象，是这本账自身的形状。"
+            % (len(yh), ("%.2f" % (sum(meds) / len(meds))), line if line is not None else "—",
+               "%.0f" % max(meds)))
+        add("")
+    shp = vt.get("shape") or {}
+    if shp.get("reason"):
+        add("- 同一面还量了「换档会不会让尺子自己动」：%s" % shp["reason"])
+        add("")
     return L
 
 
@@ -3889,6 +4091,8 @@ def build(with_stress=False, window_label=None):
     page["permission"] = permission_face()
     page["premium_leak"] = premium_face()
     page["sibling_gap"] = sibling_gap_face()
+    page["floor_provenance"] = floor_provenance_face()
+    page["vol_target_gate"] = vol_target_face()
     page["positions"] = positions_face()
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
@@ -3958,6 +4162,10 @@ def render_md(p):
         add(_pl_line)
     for _sg_line in sibling_gap_block(p.get("sibling_gap") or {}, page_bar=p.get("priced_bar")):
         add(_sg_line)
+    for _fp_line in floor_provenance_block(p.get("floor_provenance") or {},
+                                           vt=p.get("vol_target_gate") or {},
+                                           page_bar=p.get("priced_bar")):
+        add(_fp_line)
     bf = p.get("bets") or {}
     if bf.get("status") == "ok" and bf.get("sentence"):
         add("## 这几只票到底有几个赌注")
@@ -4940,7 +5148,8 @@ def selftest():
 
     # 8. the page must actually say the things a human needs
     md = render_md(page)
-    need = ["下单清单", "下次换仓", "该期待什么", "必须记住的四条", "这张单买的东西本身值多少"]
+    need = ["下单清单", "下次换仓", "该期待什么", "必须记住的四条", "这张单买的东西本身值多少",
+            "为什么这张单只能下这么大"]
     missing = [k for k in need if k not in md]
     chk("L8 render: all required sections present", not missing, "missing=%s" % missing)
     chk("L9 render: no unformatted template leftovers", "{:" not in md and "%s" not in md and "%%" not in md)
@@ -6574,6 +6783,66 @@ def selftest():
     _ps_nobar = "\n".join(positions_block(_ps_fix, page_bar="2026-11-06"))
     chk("L161 positions block: a bar with no accrual is 'nothing booked yet', not a zero-interest day",
         "今天没有新 bar" in _ps_nobar and "入账 0 行" not in _ps_nobar)
+    # r1473: the size-limit section. Its ways to lie: an absent face would read as "the limit
+    # is a rule", a face anchored on another session cannot lend its split to today, and the
+    # three money pieces must be the face's own numbers rather than a re-derivation here.
+    _fp_fix = {"status": "ok", "artifact": "results/etf_book_floor_provenance.json",
+               "verdict": "FLOOR_IS_A_BETA_RECIPROCAL", "beta_target": 0.2,
+               "published_floor": 0.393073, "evidence_cutoff": "2026-11-06",
+               "issuing_cell": {"cell": "window_x_universe", "beta": 0.50881115,
+                                "k": 0.39307315, "bars": 306,
+                                "window": "common (2025-07-09..2026-10-14)",
+                                "universe": "graded (equity,commodity,convertible)"},
+               "grid": {"full|all": {"cell": "baseline_published", "k": 0.46025345,
+                                     "beta": 0.43454318, "bars": 1658},
+                        "common|all": {"cell": "window", "k": 0.41266852,
+                                       "beta": 0.48465048, "bars": 306},
+                        "full|graded": {"cell": "universe", "k": 0.43219501,
+                                        "beta": 0.46275407, "bars": 1658},
+                        "common|graded": {"cell": "window_x_universe", "k": 0.39307315,
+                                          "beta": 0.50881115, "bars": 306}},
+               "effects": {"floor_full_all": 0.46025345, "floor_common_graded": 0.39307315,
+                           "window_effect_pp": 3.91, "window_effect_cny": 39121.86,
+                           "universe_effect_pp": 1.96, "universe_effect_cny": 19595.37,
+                           "interaction_pp": 0.85, "total_gap_pp": 6.72,
+                           "total_gap_cny": 67180.3, "window_share_of_gap": 0.582,
+                           "universe_share_of_gap": 0.292},
+               "not_measured": ["a rolling 306-bar beta path is not computed here"]}
+    _vt_fix = {"status": "ok", "artifact": "results/etf_book_vol_target_gate.json",
+               "verdict": "STILL_REFUSED",
+               "reading": "no arm clears it; the wait in r1428 is not a scaling artifact",
+               "arms": [{"arm": "unscaled", "vol_target": None, "word": "REFUSED",
+                         "reason": "gate CONDITIONAL,REFUSE; ruler FAIL years_for_half",
+                         "cagr_pct": 14.2, "sharpe": 0.945, "maxdd_pct": -18.07,
+                         "years_for_half_state": "FAIL", "years_for_half_median": 2.0,
+                         "years_for_half_line": 3},
+                        {"arm": "vt04", "vol_target": 0.04, "word": "REFUSED",
+                         "reason": "gate REFUSE; ruler FAIL years_for_half",
+                         "cagr_pct": 9.1, "sharpe": 1.1, "maxdd_pct": -8.2,
+                         "years_for_half_state": "FAIL", "years_for_half_median": 1.0,
+                         "years_for_half_line": 3}],
+               "shape": {"reason": "scaling does move this ruler"}}
+    _fp_txt = "\n".join(floor_provenance_block(_fp_fix, vt=_vt_fix, page_bar="2026-11-06"))
+    chk("L162 floor section: the size limit is printed as a beta reciprocal with the knob that issued it",
+        "倒过来的尺子" in _fp_txt and "window_x_universe" in _fp_txt and "306" in _fp_txt
+        and "39,122" in _fp_txt and "58%" in _fp_txt and "度" in _fp_txt,
+        _fp_txt[:80])
+    chk("L163 floor section: the vol-target sweep is printed arm by arm and never as a pass",
+        "仍被拒" in _fp_txt and "不调档（原书）" in _fp_txt and "4% 波动目标" in _fp_txt
+        and "STILL_REFUSED" not in _fp_txt and "| 过门 |" not in _fp_txt
+        and "没有一档能过门" in _fp_txt)
+    _fp_missing = "\n".join(floor_provenance_block(
+        {"status": "unreadable", "artifact": "results/etf_book_floor_provenance.json",
+         "detail": "face absent"},
+        vt={"status": "unreadable", "artifact": "results/etf_book_vol_target_gate.json",
+            "detail": "face absent"}))
+    chk("L164 floor section: both absent faces read 'cannot say', never 'the limit is a rule'",
+        "说不出它是怎么定的" in _fp_missing and "读不到不等于不能" in _fp_missing
+        and "| 这一格 |" not in _fp_missing and "| 波动档 |" not in _fp_missing)
+    _fp_shift = "\n".join(floor_provenance_block(
+        dict(_fp_fix, evidence_cutoff="2026-11-05"), vt=_vt_fix, page_bar="2026-11-06"))
+    chk("L165 floor section: a face anchored on another session refuses to lend its split to today",
+        "两个日子对不上" in _fp_shift)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

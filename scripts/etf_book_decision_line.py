@@ -141,6 +141,17 @@ def derive(gap, cut, year):
     if conflicts:
         row["verdict"] = "CONFLICT_BETWEEN_RECEIPTS"
         row["sentence"] = "the receipts do not agree with each other; no size is quoted until they do"
+    elif not trim:
+        # r1471: the sheet now sizes from the executed account, so a within-permission
+        # ticket is a real state -- and it owes no cut at all, not a zero-lot cut.
+        row["verdict"] = "NO_CUT_OWED"
+        row["sentence"] = (
+            "on %s the ticket orders k=%s under a permission of %s: no cut is owed, so the "
+            "only question left is whether the next decision bar re-sizes over the floor "
+            "(it does unless the same trim is applied there)"
+            % (row["decision_date"],
+               "%.6f" % (k_after if k_after is not None else k_now),
+               None if perm is None else "%.6f" % perm))
     else:
         row["verdict"] = "SIZE_AT_THE_PERMISSION_THE_GATE_DOES_NOT_MOVE"
         row["sentence"] = (

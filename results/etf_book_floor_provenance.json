@@ -1,0 +1,120 @@
+{
+ "face": "etf_book_floor_provenance",
+ "question": "which cell ISSUED the floor -- a rule version, or the measuring tape?",
+ "beta_target": 0.2,
+ "identity": [
+  {
+   "cell": "baseline_published",
+   "k": 0.46025345210279767,
+   "beta": 0.4345431828620592,
+   "k_x_beta": 0.2,
+   "err_vs_target": 0.0
+  },
+  {
+   "cell": "window",
+   "k": 0.4126685242901111,
+   "beta": 0.48465048393028765,
+   "k_x_beta": 0.2,
+   "err_vs_target": 0.0
+  },
+  {
+   "cell": "universe",
+   "k": 0.43219500565693414,
+   "beta": 0.4627540748556339,
+   "k_x_beta": 0.2,
+   "err_vs_target": 0.0
+  },
+  {
+   "cell": "window_x_universe",
+   "k": 0.39307314951247446,
+   "beta": 0.508811146851568,
+   "k_x_beta": 0.2,
+   "err_vs_target": 0.0
+  },
+  {
+   "cell": "denominator",
+   "k": 0.5444236051186708,
+   "beta": 0.367361,
+   "k_x_beta": 0.20000000000000004,
+   "err_vs_target": 2.7755575615628914e-17
+  }
+ ],
+ "identity_broken": [],
+ "identity_unreadable": [],
+ "grid": {
+  "common|all": {
+   "cell": "window",
+   "k": 0.4126685242901111,
+   "beta": 0.48465048393028765,
+   "bars": 306,
+   "note": ""
+  },
+  "common|graded": {
+   "cell": "window_x_universe",
+   "k": 0.39307314951247446,
+   "beta": 0.508811146851568,
+   "bars": 306,
+   "note": ""
+  },
+  "full|all": {
+   "cell": "baseline_published",
+   "k": 0.46025345210279767,
+   "beta": 0.4345431828620592,
+   "bars": 1658,
+   "note": ""
+  },
+  "full|graded": {
+   "cell": "universe",
+   "k": 0.43219500565693414,
+   "beta": 0.4627540748556339,
+   "bars": 1658,
+   "note": ""
+  }
+ },
+ "grid_missing": [],
+ "effects": {
+  "floor_full_window": 0.43219500565693414,
+  "floor_common_window": 0.39307314951247446,
+  "floor_all_universe": 0.4126685242901111,
+  "floor_graded_universe": 0.39307314951247446,
+  "floor_full_all": 0.46025345210279767,
+  "floor_full_graded": 0.43219500565693414,
+  "floor_common_all": 0.4126685242901111,
+  "floor_common_graded": 0.39307314951247446,
+  "window_effect_k": 0.039122,
+  "window_effect_pp": 3.91,
+  "window_effect_cny": 39121.86,
+  "universe_effect_k": 0.019595,
+  "universe_effect_pp": 1.96,
+  "universe_effect_cny": 19595.37,
+  "universe_effect_full_window_pp": 2.81,
+  "universe_effect_common_window_pp": 1.96,
+  "interaction_pp": 0.85,
+  "total_gap_k": 0.06718,
+  "total_gap_pp": 6.72,
+  "total_gap_cny": 67180.3,
+  "window_share_of_gap": 0.582,
+  "universe_share_of_gap": 0.292
+ },
+ "issuing_cell": {
+  "cell": "window_x_universe",
+  "beta": 0.508811146851568,
+  "k": 0.39307314951247446,
+  "bars": 306,
+  "window": "common (2025-07-09..2026-10-14)",
+  "universe": "graded (equity,commodity,convertible)"
+ },
+ "published_floor": 0.393073,
+ "evidence_cutoff": "2026-11-06",
+ "generated": "2026-11-09T12:05:56+0800",
+ "verdict": "FLOOR_IS_A_BETA_RECIPROCAL",
+ "issuing_cell_is_the_floor": true,
+ "issuing_cell_delta_pp": 0.0,
+ "sentence": "the floor is not a version of the rule: k*beta == 0.2000 on all 5 cells, so the floor is the target divided by the largest beta measured -- issued by `window_x_universe` (306 bars). Of the 6.72pp between the widest floor (k=0.460253) and the narrowest (k=0.393073), 3.91pp (58%) comes from shrinking the window from the full panel to 306 bars and only 1.96pp from grading the universe on that same short stretch (2.81pp if the universe is graded on the full panel); the two knobs interact by 0.85pp. Read as money on CNY 1,000,000 NAV: the window alone accounts for CNY 39,122 of the gap.",
+ "not_measured": [
+  "the short window is one calendar stretch (2025-07..2026-10), not a sample of stretches: a rolling 306-bar beta path would say whether the window knob is a level shift or a phase effect, and this face does not compute it",
+  "whether a longer window is the RIGHT window: this face only prices the knob, it does not elect one (r1446's caliber prereg)",
+  "the floor's own drift as the window slides: today's 306 bars end 2026-10-14, so the floor will be re-issued on a different stretch next month"
+ ],
+ "elapsed_sec": 0.0
+}
