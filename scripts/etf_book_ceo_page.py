@@ -46,8 +46,91 @@ def machine_id():
         return None
 
 
-def writer_allowed(mid):
-    return mid == HOST
+MACHINES_DIR = os.path.join(ROOT, "fleet", "machines")
+# Takeover door (r1626 bm-b). "The writer is a name" is not the same claim as "the writer is a
+# machine that is running": HOST last wrote a heartbeat on 2026-10-29 and from that moment this
+# page -- the only plain-language face of the one money-making structure the company has -- froze
+# for eleven days while every artefact underneath it kept moving. A dead gate is not a policy, so
+# the door opens on evidence and every page says who took it and how dead the host was. Both
+# thresholds are frozen here; the verdict is recomputed from heartbeats, never typed in.
+TAKEOVER_HOST_SILENT_HOURS = 24.0
+TAKEOVER_SELF_ALIVE_HOURS = 2.0
+
+
+def heartbeat_age_hours(mid, machines_dir=None, now=None):
+    """Hours since a machine's own heartbeat, or (None, note) when it cannot be read.
+
+    None means "not measured", never "alive": a door that opens on an unread heartbeat opens
+    on nothing.
+    """
+    now = now or dt.datetime.now().astimezone()
+    if not mid:
+        return None, "no machine id"
+    path = os.path.join(machines_dir or MACHINES_DIR, "%s.json" % mid)
+    try:
+        with open(path, encoding="utf-8-sig") as fh:
+            payload = json.load(fh)
+    except (OSError, ValueError):
+        return None, "no readable heartbeat at fleet/machines/%s.json" % mid
+    stamp = payload.get("last_seen") or payload.get("ts")
+    if not stamp:
+        return None, "the heartbeat carries no last_seen/ts field"
+    try:
+        seen = dt.datetime.fromisoformat(str(stamp))
+    except ValueError:
+        return None, "the heartbeat stamp does not parse (%r)" % (stamp,)
+    if seen.tzinfo is None:
+        seen = seen.replace(tzinfo=now.tzinfo)
+    return round((now - seen).total_seconds() / 3600.0, 2), None
+
+
+def writer_decision(mid, machines_dir=None, now=None):
+    """Who may write today's page, why, and on what evidence."""
+    now = now or dt.datetime.now().astimezone()
+    out = {"allowed": False, "role": "no_writer", "machine": mid, "host": HOST,
+           "host_silent_hours": None, "host_note": None,
+           "own_silent_hours": None, "own_note": None,
+           "host_silent_hours_max": TAKEOVER_HOST_SILENT_HOURS,
+           "own_alive_hours_max": TAKEOVER_SELF_ALIVE_HOURS, "reason": None}
+    if not mid:
+        out["reason"] = "this host carries no fleet/machine.json id, so it cannot claim a write"
+        return out
+    if mid == HOST:
+        out.update(allowed=True, role="host",
+                   reason="the assigned writer (%s) is running this process" % HOST)
+        return out
+    host_hours, host_note = heartbeat_age_hours(HOST, machines_dir, now)
+    own_hours, own_note = heartbeat_age_hours(mid, machines_dir, now)
+    out["host_silent_hours"], out["host_note"] = host_hours, host_note
+    out["own_silent_hours"], out["own_note"] = own_hours, own_note
+    if own_hours is None:
+        out["reason"] = ("this machine's own heartbeat is unmeasurable (%s), so its liveness is "
+                         "not evidenced" % own_note)
+        return out
+    if own_hours > TAKEOVER_SELF_ALIVE_HOURS:
+        out["reason"] = ("this machine is itself silent %.2fh (> %.2fh), so it cannot take over "
+                         "an absent writer" % (own_hours, TAKEOVER_SELF_ALIVE_HOURS))
+        return out
+    if host_hours is None:
+        out.update(allowed=True, role="takeover",
+                   reason=("the assigned writer's heartbeat is unreadable (%s) while this machine "
+                           "is alive at %.2fh; an unread heartbeat is not evidence of a live "
+                           "writer" % (host_note, own_hours)))
+        return out
+    if host_hours <= TAKEOVER_HOST_SILENT_HOURS:
+        out["reason"] = ("the assigned writer %s is alive (heartbeat %.2fh old, door is %.0fh), so "
+                         "this machine writes nothing" % (HOST, host_hours,
+                                                          TAKEOVER_HOST_SILENT_HOURS))
+        return out
+    out.update(allowed=True, role="takeover",
+               reason=("the assigned writer %s has been silent %.2fh (> %.0fh) while this machine "
+                       "is alive at %.2fh" % (HOST, host_hours, TAKEOVER_HOST_SILENT_HOURS,
+                                              own_hours)))
+    return out
+
+
+def writer_allowed(mid, machines_dir=None, now=None):
+    return writer_decision(mid, machines_dir, now)["allowed"]
 
 CLASS_ZH = {
     "equity": "A股",
@@ -906,16 +989,28 @@ def render_md(p):
     add("---")
     add("*生成脚本 scripts/etf_book_ceo_page.py｜证据截止 %s｜卡片与单子同一决策日=%s，同一定价日=%s*"
         % (p["evidence_cutoff"], p["agreement"]["same_decision_bar"], p["agreement"]["same_priced_bar"]))
+    _w = p.get("writer") or {}
+    if _w:
+        if _w.get("role") == "takeover":
+            add("*代写说明：本页由 %s 代替指定写法机 %s 生成——%s。原写法机静默期间这一页曾停更，"
+                "接管判据恒定在脚本 TAKEOVER_HOST_SILENT_HOURS，不是临时特许。*"
+                % (_w.get("machine"), _w.get("host"), _w.get("reason")))
+        else:
+            add("*写法机 %s（%s）*" % (_w.get("machine"), _w.get("reason")))
     return "\n".join(L) + "\n"
 
 
 def run():
     mid = machine_id()
-    if not writer_allowed(mid):
-        print("etf_book_ceo_page: host=%s is not the writer (host=%s) -- honest no-op, nothing written"
-              % (mid, HOST))
+    decision = writer_decision(mid)
+    if not decision["allowed"]:
+        print("etf_book_ceo_page: %s writes nothing -- %s" % (mid, decision["reason"]))
         return 0
+    if decision["role"] == "takeover":
+        print("etf_book_ceo_page: TAKEOVER -- %s" % decision["reason"])
     page, today = build(with_stress=True)
+    page["writer"] = {k: decision[k] for k in ("machine", "role", "host", "host_silent_hours",
+                                               "host_note", "own_silent_hours", "reason")}
     os.makedirs(OUT_DIR, exist_ok=True)
     md_path = os.path.join(OUT_DIR, "LIVE-BOOK-%s.md" % today.replace("-", ""))
     js_path = os.path.join(OUT_DIR, "LIVE-BOOK-%s.json" % today.replace("-", ""))
@@ -1032,10 +1127,55 @@ def selftest():
     chk("L21 live page: action mode agrees with its own decision/priced bars and ledger",
         _la_ok, "%s decided=%s priced=%s bars=%s"
         % (_la["mode"], page["book_decided_at"], page["priced_bar"], page["forward"]["bars"]))
-    # 22. single writer: only the host may write, and an unknown host must not write either
-    chk("L22 guard: writer_allowed('bm-a') only",
-        writer_allowed("bm-a") and not writer_allowed("bm-c") and not writer_allowed("bm-b")
-        and not writer_allowed(None), "host=%s" % HOST)
+    # 22. the writer gate: the host by name, the host's death by evidence, never by guesswork
+    import datetime as _dtm
+    import tempfile as _tf
+    _now = _dtm.datetime.fromisoformat("2026-11-09T09:00:00+08:00")
+    _mach = _tf.mkdtemp()
+
+    def _hb(mid, stamp):
+        path = os.path.join(_mach, "%s.json" % mid)
+        if stamp is None:
+            if os.path.exists(path):
+                os.remove(path)
+            return
+        with open(path, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump({"last_seen": stamp}, fh)
+
+    _hb(HOST, "2026-11-09T08:30:00+08:00")
+    _hb("bm-b", "2026-11-09T08:55:00+08:00")
+    _host_alive = writer_decision(HOST, _mach, _now)
+    _other = writer_decision("bm-b", _mach, _now)
+    chk("L40 gate: the assigned writer writes by name",
+        _host_alive["allowed"] and _host_alive["role"] == "host", _host_alive["role"])
+    chk("L41 gate: a live host keeps every other machine out",
+        not _other["allowed"] and "alive" in (_other["reason"] or ""), _other["reason"])
+    _hb(HOST, "2026-11-05T00:00:00+08:00")     # 105h of silence
+    _dead = writer_decision("bm-b", _mach, _now)
+    chk("L42 gate: a host silent past the door opens a takeover that names both machines",
+        _dead["allowed"] and _dead["role"] == "takeover"
+        and _dead["host"] == HOST and _dead["machine"] == "bm-b"
+        and _dead["host_silent_hours"] > TAKEOVER_HOST_SILENT_HOURS,
+        "role=%s host_age=%s" % (_dead["role"], _dead["host_silent_hours"]))
+    _hb("bm-b", "2026-11-09T06:30:00+08:00")   # 2.5h: itself past its own liveness door
+    _both = writer_decision("bm-b", _mach, _now)
+    chk("L43 gate: a silent machine cannot inherit a silent host",
+        not _both["allowed"] and "silent" in (_both["reason"] or ""), _both["reason"])
+    _hb("bm-b", "2026-11-09T08:55:00+08:00")
+    _hb(HOST, None)
+    _no_hb = writer_decision("bm-b", _mach, _now)
+    _no_id = writer_decision(None, _mach, _now)
+    chk("L44 gate: an unreadable host heartbeat is not evidence of a live writer; no id never writes",
+        _no_hb["role"] == "takeover" and "unreadable" in (_no_hb["reason"] or "")
+        and not _no_id["allowed"], "%s / %s" % (_no_hb["role"], _no_id["reason"]))
+    _md_t = render_md(dict(page, writer={"machine": "bm-b", "role": "takeover", "host": HOST,
+                                         "host_silent_hours": 105.0,
+                                         "reason": "the assigned writer has been silent 105.00h"}))
+    _md_h = render_md(dict(page, writer={"machine": HOST, "role": "host",
+                                         "reason": "the assigned writer is running this process"}))
+    chk("L45 render: a takeover page says who wrote it for whom, a host page names itself",
+        "代写说明" in _md_t and "bm-b" in _md_t and HOST in _md_t
+        and "代写说明" not in _md_h and "写法机" in _md_h)
 
     # 23-26. the stress block: hand fixture first, then the "absent panel is never zero" face
     import pandas as _pd

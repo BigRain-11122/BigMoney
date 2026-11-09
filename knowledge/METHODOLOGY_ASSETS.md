@@ -14286,3 +14286,16 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 
 **边界**：addressing 只看读者自己的字面量（运行时拼的路径只能看它拼出的段）；只拼 basename 的 1,008 对按不可归属发布，不摊派给任何面；一个载荷名在同一模块绑了多个面时单独标 inding_is_shared（15 对）并披露；静态取键不等于运行时取值。
 **证据** = scripts/e598_pointer_bar_demand.py（selftest 36/36·check/verify problems=[]）+ scripts/run_e598_smoke_leg.py（PASS·-doctor 1/1 红）+ results/state_tilt/POINTERBARDEMAND.json（+-latest）+ S6 leg pointer_bar_demand（rc0 36.32s）+ smoke_test.py leg E598。
+
+### E600 写者门绑在机器名上不是活性检查；死门会把最重要的那一面冻住而无人报警（r1626 bm-b·2026-11-09）
+
+- **现象**：`docs/live_book` 是这家公司**唯一能给 CEO 用白话读完**的实盘面（今天买什么/买多少/赚多少/什么时候换）。它上一次更新是 **2026-10-29**，之后 11 天不动；而支撑它的每一件——票、生产卡、前向账本、面板——都在照常推进。**没有人报错**，因为门没开不算故障。
+- **根因**：门的判据是 `mid == HOST`（HOST="bm-a"），这是**关于一个名字**的陈述，不是**关于一台机器还活着**的陈述。bm-a 的心跳停在 2026-10-29 08:51，于是「谁可以写」这件事从那天起没有任何人满足，而所有读者看到的只是一份旧文件。
+- **正法**（`scripts/etf_book_ceo_page.py::writer_decision`）：门改成按证据开，三件同时成立才接管——
+  ① 指定写者心跳静默 > `TAKEOVER_HOST_SILENT_HOURS`（24h，冻常量）；
+  ② 本机自己心跳 < `TAKEOVER_SELF_ALIVE_HOURS`（2h）——**自己没心跳的机器不能继承一个没心跳的写者**；
+  ③ 身份可读（无 `fleet/machine.json` id = 永不写）。
+  心跳读不出来（文件缺/时间戳不解析）判 **unreadable ≠ alive**：按静默处理但把理由打在页面上，不当作「可能还活着」放过。
+- **可复核面**：接管页自己带一行「代写说明：本页由 <机> 代替指定写法机 <host> 生成——<理由>」；`writer` 块（machine/role/host/host_silent_hours/reason）落在 `LIVE-BOOK-YYYYMMDD.json`，`role` 与 `host_silent_hours` 可对着 `fleet/machines/<host>.json` 重算。
+- **别只修一次**：只把门打开、手工出一页＝下一轮又冻住。同轮把 `etf_book_ceo_page` 挂进 `Tools/s6_chain_bmb.py` LEGS，接管才变成**每日刷新**而不是一次性修补。
+- **证据** = scripts/etf_book_ceo_page.py（selftest **43/43**，新增 6 条门臂 L40-L45：host 按名写 / live host 挡住他机 / host 静默过门开接管并点名两台机 / silent 本机不能继承 / 心跳不可读≠活着 / 页面渲染带代写说明）+ docs/live_book/LIVE-BOOK-20261109.md|.json（role=takeover, host_silent_hours=264.08）+ S6 leg etf_book_ceo_page rc=0（results/_r1626bmb_s6_chain.json）。

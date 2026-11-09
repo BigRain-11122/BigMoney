@@ -48,6 +48,14 @@ LEGS = [
     ("rev_osc_export", ["python", "scripts/rev_osc_signal_export.py", "run"]),
     ("update_minute_feed", ["python", "scripts/update_minute_feed.py"]),
     ("etf_book_forward", ["python", "scripts/etf_book_forward.py"]),
+    # r1626 bm-b: the CEO one-page was gated on a NAME (bm-a) rather than on a live machine.
+    # bm-a's heartbeat stopped 2026-10-29 and that page -- the only plain-language face of the
+    # money book -- froze for eleven days while every artefact under it kept moving. The gate
+    # now opens on evidence (assigned writer silent > TAKEOVER_HOST_SILENT_HOURS and this
+    # machine alive < TAKEOVER_SELF_ALIVE_HOURS) and prints which role it took; this leg is
+    # what turns that door into a daily refresh instead of a one-off repair. On a machine that
+    # is not the writer and not eligible it is an honest no-op rc 0.
+    ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # E214: the E60 off-book liquidity split carried across every era the panel
     # covers, so a two-era sign disagreement is not read as a flip on a sample of 2
     ("offbookera", ["python", "scripts/e39_panel_census.py", "offbookera"]),
