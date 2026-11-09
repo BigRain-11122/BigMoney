@@ -1,0 +1,145 @@
+{
+ "band": {
+  "actions": [
+   {
+    "ticket": "size from the rule k, print 'within the ruler's own resolution'",
+    "zone": "inside"
+   },
+   {
+    "ticket": "size from the rule k, print both numbers and the distance",
+    "zone": "warn"
+   },
+   {
+    "ticket": "size from the rule k, print BAND_EXCEEDED and require a re-issue receipt",
+    "zone": "outside"
+   }
+  ],
+  "inside_pp": 10.43,
+  "noise_pp": 10.43,
+  "production_effect": "advisory in v1 -- the ticket's k is unchanged until the band reproduces twice",
+  "unit": "pp of k",
+  "warn_pp": 20.86
+ },
+ "bars_paired": 1657,
+ "beta_target": 0.2,
+ "cap": {
+  "binding": {
+   "bars_capped": 0,
+   "beta_at_max": null,
+   "binds": false,
+   "decision_bars": 1531,
+   "first_capped": null,
+   "k_raw_max": null,
+   "last_capped": null,
+   "risk_withheld_pp_max": null,
+   "share_capped": 0.0
+  },
+  "capped_arm": {
+   "bars": 1529,
+   "cagr": 0.07948004924972119,
+   "mdd": -0.058020973426437195,
+   "sharpe": 1.3267005615927288,
+   "vol": 0.058965112440442495
+  },
+  "delta_cagr_pp": 0.0,
+  "delta_mdd_pp": 0.0,
+  "delta_sharpe": 0.0,
+  "estimator_in_production": "expanding beta (etf_phase_beta_target.k_schedule)",
+  "expanding_beta_min": 0.42,
+  "rule": "k = min(1.0, beta_target / beta) -- de-risking only, never leverage",
+  "sentence": "under the estimator production actually uses (expanding beta, its minimum over the whole path is 0.42) the clip never meets its edge in 1531 decision bars -- there is no leverage to withhold; under the fixed-window estimator the clip fires on 17 of 68 readings (2024-08-22..2025-12-18, k_raw up to 2.9509, withholding up to 93.222pp of risk) and removing it would have bought 9.693pp of CAGR with -0.0099 of Sharpe over MDD -11.015pp -> CAP_COSTS_NOTHING_RISK_ADJUSTED.",
+  "uncapped_arm": {
+   "bars": 1529,
+   "cagr": 0.07948004924972119,
+   "mdd": -0.058020973426437195,
+   "sharpe": 1.3267005615927288,
+   "vol": 0.058965112440442495
+  },
+  "verdict": "CAP_NEVER_BINDS",
+  "window_estimator_arm": {
+   "binding": {
+    "bars_capped": 17,
+    "beta_at_max": 0.0678,
+    "binds": true,
+    "decision_bars": 68,
+    "first_capped": "2024-08-22",
+    "k_raw_max": 2.9509,
+    "last_capped": "2025-12-18",
+    "risk_withheld_pp_max": 93.222,
+    "share_capped": 0.25
+   },
+   "capped_arm": {
+    "bars": 1351,
+    "cagr": 0.1433446486573582,
+    "mdd": -0.13946795837963633,
+    "sharpe": 1.2350094916095378,
+    "vol": 0.11373019782415011
+   },
+   "delta_cagr_pp": 9.693,
+   "delta_mdd_pp": -11.015,
+   "delta_sharpe": -0.0099,
+   "estimator": "trailing 306-bar beta (the floor's own reading)",
+   "note": "this estimator does not size the book; it is reported because the desk has been arguing about the window, not about the engine rule",
+   "uncapped_arm": {
+    "bars": 1351,
+    "cagr": 0.24027642458578113,
+    "mdd": -0.2496166306098686,
+    "sharpe": 1.225078887007931,
+    "vol": 0.19101976721584685
+   },
+   "verdict": "CAP_COSTS_NOTHING_RISK_ADJUSTED"
+  }
+ },
+ "eras": {
+  "2020_2022": {
+   "beta_max": 0.8668,
+   "beta_min": 0.2556,
+   "cap_share": 0.0,
+   "capped": 0,
+   "k_raw_max": 0.7824,
+   "k_raw_min": 0.2307,
+   "windows": 22
+  },
+  "2023": {
+   "beta_max": 0.3569,
+   "beta_min": 0.2405,
+   "cap_share": 0.0,
+   "capped": 0,
+   "k_raw_max": 0.8315,
+   "k_raw_min": 0.5605,
+   "windows": 12
+  },
+  "2024_2025": {
+   "beta_max": 0.3088,
+   "beta_min": 0.1317,
+   "cap_share": 0.5,
+   "capped": 12,
+   "k_raw_max": 1.519,
+   "k_raw_min": 0.6476,
+   "windows": 24
+  },
+  "2026": {
+   "beta_max": 0.622,
+   "beta_min": 0.4602,
+   "cap_share": 0.0,
+   "capped": 0,
+   "k_raw_max": 0.4345,
+   "k_raw_min": 0.3215,
+   "windows": 10
+  }
+ },
+ "evidence_cutoff": "2026-11-06",
+ "face": "etf_book_sizing_prereg",
+ "noise_source": "results/etf_book_beta_paths.json (block bootstrap, r1475)",
+ "sentence": "the floor is signed by a 306-bar window and the reading carries 10.43pp of its own k-noise, so the band is fixed at +/-10.43pp (warn at 20.86pp, refuse beyond) and the window may change only by amendment; under the production estimator the de-lever-only clip binds on 0.0% of decision bars (None..None) and never in 2020_2022, 2023, 2026, while under the floor's own window estimator it binds 17 times -- its removal is CAP_NEVER_BINDS on the estimator that actually sizes the book",
+ "symbols_graded": 1514,
+ "verdict": "PREREG_PINNED",
+ "window_pin": {
+  "anchor": "trailing window ending on the last graded decision bar",
+  "issuing_cell": null,
+  "length": 306,
+  "may_change_only_by": "pre-registered amendment (new receipt), never per round",
+  "ruler_face": "results/etf_book_size_rulers_decision.json",
+  "why": "the reading carries 10.43pp of its own k-noise; re-choosing the window inside that noise is arithmetic below the ruler's resolution"
+ }
+}

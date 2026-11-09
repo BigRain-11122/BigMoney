@@ -1048,6 +1048,14 @@ LEGS = [
     # whose two reciprocal k gaps disagree (0.1s, JSON reads, no repricing).
     ("beta_paths",
      ["python", "scripts/etf_book_beta_paths.py", "check"]),
+    # r1477: beta_paths measured that the ruler carries 10.4pp of its own k-noise, so the
+    # window that signs the floor is now pinned and the band is a fixed multiple of that
+    # measured noise. This leg refuses a receipt whose band has no measured noise behind
+    # it, whose zones are unordered, or whose lens was not the window the noise was
+    # measured on; it also refuses a cap verdict that contradicts its own two arms (0.1s,
+    # JSON reads, no repricing).
+    ("sizing_prereg",
+     ["python", "scripts/etf_book_sizing_prereg.py", "check"]),
     # r1331: E196 answers the question E190 left open -- whether the month the
     # ladder-drop verdict rests on is knowable in advance. It is a ~1s JSON read of
     # the E186 month table (no panel, no network, no engine), and it belongs on the

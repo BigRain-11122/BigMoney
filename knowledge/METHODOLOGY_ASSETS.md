@@ -11690,3 +11690,51 @@ How to apply：任何「执行结果 → 下一轮参数」的回灌，先分类
 
 + 正身 = scripts/etf_book_order.py（selftest 114/114，新增 leg51j/k/l/m）+ smoke 腿
   「the executable sheet is sized from the account it will trade」（r1476 改为区分跨期/同期）
+### E484 量尺子的那份噪声，同时也是这条尺子的容差——band 不能凭空设一个数
+
+r1475 量到签发额度的 306 根 bar 读数自带 10.43pp 的 k 噪声。一件事两用：它既是「别在窗口上做
+算术」的判决依据，也直接是「k 抖动多大才算真的动了」的带子。r1477 把这条焊成代码：
+`band_rule(noise_pp)` 只接受一个已发布的噪声值，inside=1 sd、warn=2 sd、outside=要求换发回执，
+三档动作写死在名下，production_effect 明确「v1 只读、不改票面 k，等带子自己复现两次再谈」。
+签发窗口同步钉死（306 根递减窗、锚在最后一个分级决策 bar、换窗只能走预注册修正案）。
+
+三律：
+1. **容差必须由测量导出，不能写死一个好看的数字**。band 若手写成「±15pp」，它就和噪声脱钩了；
+   噪声变了带子不动，等于带子是自己发的通行证。自检腿钉住 inside == noise × 常数，
+   以及「没有噪声 = 没有带子」（返回 None，不许给默认值）。
+2. **窗口一旦被噪声淹过，就不能每轮重选**。r1475 已证同一条规则滑窗走历史 k 跨 71.2pp，
+   而窗口对之间的差只有 4.9pp——在这种分辨率下挑窗口，挑的是打印机最后一位。
+   正法 = 把窗口写进预注册（长度/锚点/换窗流程三件），每轮只读不选。
+3. **别把「触发」当「生效」**。带子分三档的意义是动作不同，不是判决不同：
+   inside 与 warn 都照样按规则 k 下单，只有 outside 才要求换发回执。混淆这两层，
+   读者会以为「出了带子就该改仓」。
+
+正身 = scripts/etf_book_sizing_prereg.py（`band_rule` / `window_pin`）+ results/etf_book_sizing_prereg.json
++ research/ETF_BOOK_SIZING_PREREG.md + smoke 腿 + S6 腿 `sizing_prereg`。
+
+### E485 「只降不升」的封顶是不是有效约束，要看去掉封顶后 Sharpe 有没有变高——不看它触发了几次
+
+r1477 实锚（scripts/etf_book_sizing_prereg.py::k_schedules / window_schedules）：书按
+k = min(1.0, 0.20/beta) 定规模。两条读数各说一半，合起来才成立：
+
+- **production 的估计器（expanding beta）在 1531 个决策 bar 上从不触发封顶**（β 最小 0.42，
+  目标是 0.20），所以「去杠杆只降不升」在生产上是个**永远空着的笼头**——问它有没有代价，
+  答案是「它连碰都没碰到」。
+- **额度的估计器（306 根窗口 β）会触发**：68 次读数里 17 次（2024-08-22..2025-12-18），
+  k_raw 最高 2.95，最多压掉 93.2pp 的风险。去掉封顶：CAGR +9.69pp，但 Sharpe **-0.0099**、
+  最大回撤恶化 11.0pp —— 更多收益是用比例更高的风险买来的。判决 CAP_COSTS_NOTHING_RISK_ADJUSTED。
+- 顺带纠正一个前提错误：这一轮原本问的是「2020-2022 段 β 0.17~0.29、k 打到 1.0」。
+  按窗口路径分年读数，2020_2022 段 β 0.256..0.867、k_raw 最高 0.78，**一次都没封顶**；
+  封顶全部落在 2024_2025（12/24 窗口）。
+
+三律：
+1. **两把尺子要分开印**：「封顶触发频率」量的是尺子有没有碰到边，「封顶有没有代价」量的是
+   去掉它之后的夏普。前者不蕴含后者。只报其中一个都会误导（「从不触发」让人以为无害，
+   「触发 25%」让人以为有害）。
+2. **判据必须机械**：verdict = NEVER（不触发）/ REAL（去掉后 Sharpe 上升）/ WASH（收益率上升
+   但 Sharpe 不升）。check 门按 cap 自己的两条臂重算，禁手写判决词。
+3. **同一句话里必须说清它用的是哪个估计器**。生产用 expanding、额度用窗口，两者对同一个封顶
+   给出完全相反的裁决——不写估计器的「封顶有效吗」是一句没有主语的话。
+
+正身 = scripts/etf_book_sizing_prereg.py（selftest 24/24 · check PREREG_PINNED）+ results/etf_book_sizing_prereg.json
++ research/ETF_BOOK_SIZING_PREREG.md + S6 腿 sizing_prereg + smoke 两腿。

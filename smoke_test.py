@@ -564,6 +564,14 @@ def main() -> int:
              "scripts/etf_book_beta_paths.py", ["selftest"]),
             ("product: etf_book_beta_paths (ruling re-derived from its own path)",
              "scripts/etf_book_beta_paths.py", ["check"]),
+            # r1477: the ruler that signs the floor now carries a pinned issuing window and
+            # a band tied to the noise measured on that same window (an unordered band, or
+            # one with no measured noise behind it, must not pass), and the de-lever-only
+            # cap is judged by its own two arms rather than by a hedge word.
+            ("product: etf_book_sizing_prereg (ruler pinned, band derived from the noise)",
+             "scripts/etf_book_sizing_prereg.py", ["selftest"]),
+            ("product: etf_book_sizing_prereg (cap verdict follows its own arms)",
+             "scripts/etf_book_sizing_prereg.py", ["check"]),
 
             ("product: etf_book_exit_tax (ruler, exposure hurdle on the book in force)",
              "scripts/etf_book_exit_tax.py", ["--selftest"]),
