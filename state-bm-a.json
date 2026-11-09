@@ -578,9 +578,9 @@
  },
  "task": "guard the freshness reader against an envelope older than its own panel",
  "total_ram_gb": 93.6,
- "ts": "2026-11-09T10:32:56+08:00",
+ "ts": "2026-11-09T11:28:00+08:00",
  "updated": "2026-11-03T03:43:28+08:00",
- "updated_at": "2026-11-09T10:32:56+08:00",
+ "updated_at": "2026-11-09T11:28:00+08:00",
  "verdict": "A_MEASURED_RED_WITH_NO_READER_IS_THE_SAME_DEFECT_AS_NO_MEASUREMENT",
  "verdict_r1238": "CENSORED_TAIL_IS_IMMATERIAL / FLOOR_BINDS_BELOW_67737_AND_MODEL_GENEROUS_ABOVE_216760",
  "verdict_r1240": "BREAKEVEN_WIDTH_MOVES_499PCT",
@@ -678,6 +678,16 @@
  "maintenance_r1272": "pull 100 commits to fb0bf5e59b | smoke_test.py IndentationError (r1472) FIXED -> suite compiles | statutory-clock face wired to dashboard + smoke leg | 3 stale product faces regenerated (6/6, 9/9, 4 fields) | dualrun ZERO-DRIFT 744/51 | compute_audit FLAG pool_starvation,supply_floor (0/3) | py_watermark insufficient_history | attrition CLEAN 4 ledgers | data_lane_freshness selftest 29/29, lanes=15 (11+4, declared 12) | orders_ack CLEAN 114/123/0/0 | orphan 0/13 | loop pin=8 no-op | watchdog re-registered, S4U denied (carried) | claws reinstalled",
  "orders_scan_r1272": "CLEAN 114 orders / 123 acks / 0 unacked / 0 face divergence; D-20261108-14 (OB-20261108-120628-589, due 11-08 18:00) verified executed by bm-c r1425/r1437 (F-20261108-01/02) against live faces: data_lane_freshness lanes=15 union printed + silent owners reproduced, backlog.md card hits B-CITY3D-01=2 / -02=1 / B-XIDUDU-01=1 / -02=1 -> both acceptance legs hold, zero new obligation",
  "s6_face_r1272": "dualrun ZERO-DRIFT 744 entries streak 51 | compute_audit rc0 FLAG:pool_starvation,supply_floor (supply_candidates AGENDA_DEBT shortfall 3 / startable 0) | py_watermark insufficient_history n=1 | attrition CLEAN 4 ledgers (1 historical shrink healed) | data_lane_freshness selftest 29/29 + run verdict=attention (retired 1 / unverifiable 7 / in_sync 6 / absent 1, worst=ths_panel)",
- "smoke_r1272": "restarted on the final tree after the red cure (old run was on the pre-cure tree, not evidence); result recorded at closeout",
- "cart_note_r1272": "the board measured a second clock since r1265 and nobody read it; a statutory period can be missed for nine days while every human face renders clean"
+ "smoke_r1272": "FINAL TREE 460/468 PASS, 8 FAIL (.codely-cli/tmp/smoke-r1272-f2.out); before the cure on the same tree 455/468 with 13 FAIL -> 5 legs healed (3x NameError PATHS + declaration-vs-decision row + disk face / CPU work-hours / risk tape via regenerated faces). Remaining 8 root-caused, none introduced this round: 3 = book identity break (baseline_published k=0.460253 vs ticket k_now=0.390822; r1449 identity demands equality, so a re-derive publishes IDENTITY_BROKEN and downstream cannot compute -> faces restored to the published state, decision left to the owner), moneyflow board reads bm-c's envelope (11-06) while this disk holds 10-13 (verified sampling 400 of 5,222 csv), 2 lane TWO_WRITERS (etf_panel / minute_feed), canonical chain leg vol_target_gate has no script, CEO risk tape stale",
+ "cart_note_r1272": "the board measured a second clock since r1265 and nobody read it; a statutory period can be missed for nine days while every human face renders clean",
+ "open_red_r1272": [
+  "etf_book_supply_gate_decision",
+  "etf_book_rebalance_permission",
+  "etf_book_decision_line",
+  "lane_freshness.moneyflow_envelope_vs_local_copy",
+  "lane_ownership.etf_panel_TWO_WRITERS",
+  "lane_ownership.minute_feed_TWO_WRITERS",
+  "chain.vol_target_gate_missing_script",
+  "ceo_page.risk_tape_stale"
+ ]
 }
