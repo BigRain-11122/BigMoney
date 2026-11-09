@@ -7,9 +7,9 @@ Verdict: **attention** -- 3/15 lanes in sync, 6/15 auditable from this machine, 
 
 ## Whose disk these numbers are on
 
-以本机 bm-a 的盘为基准：14 条在役车道里有 8 条的数字不在本机盘上：7 条在 bm-c 的盘上（2.12h 未报到）、1 条在 bm-b 的盘上（248.67h 未报到）；留在本机盘上的 6 条里 6 条可核实。
+以本机 bm-a 的盘为基准：14 条在役车道里有 8 条的数字不在本机盘上：7 条在 bm-c 的盘上（心跳 0.56h 前）、1 条在 bm-b 的盘上（249.74h 未报到）；留在本机盘上的 6 条里 6 条可核实。
 
-- `bm-c`: ah_panel, etf_panel, lhb_inst, minute_feed, sina_mf, ths_panel, zt_pool (host down)
+- `bm-c`: ah_panel, etf_panel, lhb_inst, minute_feed, sina_mf, ths_panel, zt_pool
 - `bm-b`: marks (host down)
 | lane | host | tail | missing (official days) | verdict | authority |
 |---|---|---|---|---|---|
@@ -45,25 +45,15 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 These lanes cannot be certified here and the machine that is supposed to collect them has not written a heartbeat for more than 2.0h. Until it comes back the numbers below are this machine's stale copies, not the company's data.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (248.67h ago) -- holding back marks
-- `bm-c`: last seen 2026-11-09T19:16:37+08:00 (2.12h ago) -- holding back ths_panel, ah_panel, sina_mf, zt_pool, etf_panel, minute_feed
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (249.74h ago) -- holding back marks
 
 ## Owners that stopped reporting
 
 A different question from the section above: these machines have written no heartbeat for more than 24.0h, so the lanes they own are being judged from whatever was last committed. A lane here can still read `in_sync` -- the number is old, the owner is gone, and nobody would notice the day the file stops being written.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (248.67h ago) -- owns astock_daily, marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (249.74h ago) -- owns astock_daily, marks
   - already covered by a declared stand-in: astock_daily <- bm-a (nothing to wait for)
   - nobody is covering these: marks
-
-## Lanes nobody can pick up while the host is away
-
-These are not waiting on patience. The host is silent and the collector has no declared-takeover path, so **no machine is allowed to move them** -- the last written envelope stays the newest number the company has, and each day that passes is gone for good where the face is forward-accumulation only. Unblocking one is a decision (reassign the lane, or give its collector the same stale-takeover rule the other eight lanes already have), not a retry.
-
-- `ah_panel`: writer `ah_panel_puller` has no `TAKEOVER: declared stale takeover of` path
-- `minute_feed`: writer `update_minute_feed` has no `TAKEOVER: declared stale takeover of` path
-- `sina_mf`: writer `update_sina_mf` has no `TAKEOVER: declared stale takeover of` path
-- `ths_panel`: writer `update_ths_panel` has no `TAKEOVER: declared stale takeover of` path
 
 ## Why some lanes cannot be certified here
 
@@ -97,8 +87,8 @@ The envelope is what some machine says it collected; the panel is what is on thi
 The per-symbol panels hold thousands of files, so their tail is read through an evenly spaced sample rather than a full sweep. A sample can miss a single laggard symbol; it cannot miss a panel that stopped weeks ago. Each row below says how many symbols were read out of how many.
 
 - `ah_panel`: 40 of 186 symbols read, tail 2026-10-16 (holder share unknown -- run `certify`)
-- `astock_daily`: 40 of 5222 symbols read, tail 2026-11-06; the full scan holds it in 5,216 of 5,222 symbols (99.89%) (certified 2026-11-09T19:51:09)
-- `moneyflow`: 40 of 5222 symbols read, tail 2026-10-13; the full scan holds it in 2 of 5,222 symbols (0.04%) -- **thin tail**: that is a handful of symbols' bar, not the panel's state (certified 2026-11-09T19:51:09)
+- `astock_daily`: 40 of 5222 symbols read, tail 2026-11-06; the full scan holds it in 5,216 of 5,222 symbols (99.89%) (certified 2026-11-09T21:26:09)
+- `moneyflow`: 40 of 5222 symbols read, tail 2026-10-13; the full scan holds it in 2 of 5,222 symbols (0.04%) -- **thin tail**: that is a handful of symbols' bar, not the panel's state (certified 2026-11-09T21:26:09)
 
 Full-scan certification of exactly these rows: `scripts/data_lane_freshness.py certify` -> `docs/data_lanes/TAIL_CERTIFICATION.md` (it re-reads every file and names the symbols that sit behind the newest bar).
 
@@ -110,5 +100,5 @@ A quarterly report period cannot be judged by an official trading day: the unit 
 |---|---|---|---|---|---|---|
 | `fund_statements` | bm-c | 20260630 | 20260930 (due 2026-10-31) | 1 | period_missing | yes |
 
-- `fund_statements`: the statute demanded 20260930 from 2026-10-31; the panel on this disk stops at 20260630 (1 period(s) missing) -- host `bm-c` silent 2.12h
+- `fund_statements`: the statute demanded 20260930 from 2026-10-31; the panel on this disk stops at 20260630 (1 period(s) missing) -- host `bm-c` silent 0.56h
 

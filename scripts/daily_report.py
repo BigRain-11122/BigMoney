@@ -693,6 +693,54 @@ def _zt_panel_day(key, root=None):
     return out
 
 
+ZT_FRESH_OK = "current"
+ZT_FRESH_STALE = "stale"
+ZT_FRESH_UNKNOWN = "unknown"
+
+
+def _zt_tape_freshness(cutoff, days=None, now=None):
+    """How old the copy of the tape is, judged from the official calendar (r1279).
+
+    The four panels are a forward lane owned by one machine, so every other
+    machine reads a replica -- and a replica that stopped advancing used to
+    print exactly like a fresh one ("status": "ok" plus last month's counts),
+    which is the one thing a risk tape must never do (E256: whose disk, and how
+    stale).  The expected day comes from exchange_calendar_audit, the same
+    independent source update_daily uses -- never from this panel's own tail
+    (E136: a panel cannot judge whether today should have a bar).  `days`/`now`
+    are injectable so the selftest leg is hermetic."""
+    if not cutoff:
+        return {"status": ZT_FRESH_UNKNOWN, "note": "无截止日——新旧无法判断"}
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    for p in (scripts_dir, os.path.dirname(scripts_dir)):
+        if p not in sys.path:
+            sys.path.insert(0, p)
+    try:
+        from exchange_calendar_audit import load_calendar, expected_last_day
+        if days is None:
+            days = load_calendar()
+        exp, _past = expected_last_day(days, now or datetime.now())
+    except Exception as exc:                                   # noqa: BLE001
+        return {"status": ZT_FRESH_UNKNOWN,
+                "note": "日历不可用，新旧无法判断：%s" % str(exc)[:120]}
+    if not exp:
+        return {"status": ZT_FRESH_UNKNOWN, "note": "日历为空——新旧无法判断"}
+    try:
+        from config.lane_io import lane_host, machine_id
+        owner, here = lane_host("update_zt_pool", "bm-a"), machine_id()
+    except Exception:                                          # noqa: BLE001
+        owner, here = None, None
+    behind = [d for d in days if cutoff < d <= exp]
+    out = {"status": ZT_FRESH_OK if not behind else ZT_FRESH_STALE,
+           "expected_last_bar_day": exp, "behind_days": len(behind),
+           "behind": behind[-5:], "lane_owner": owner, "read_on": here}
+    if behind:
+        out["note"] = ("读到的是 %s 的副本：最后采集日 %s，比应有最新 bar 日 %s "
+                       "落后 %d 个交易日（车道宿主 %s）"
+                       % (cutoff, cutoff, exp, len(behind), owner or "未知"))
+    return out
+
+
 def _zt_risk_face(day=None, root=None):
     """Market risk tape from the four forward zt-pool panels.
 
@@ -709,7 +757,10 @@ def _zt_risk_face(day=None, root=None):
     cutoffs = sorted({v["cutoff"] for v in ok.values()})
     face = {"present": True, "panels": panels, "cutoff": cutoffs[-1],
             "cutoffs": cutoffs,
-            "aligned": len(cutoffs) == 1 and len(ok) == len(panels)}
+            "aligned": len(cutoffs) == 1 and len(ok) == len(panels),
+            # r1279: the age of the copy, so a replica that stopped advancing
+            # cannot print as today's tape.
+            "freshness": _zt_tape_freshness(cutoffs[-1])}
     up = ok.get("zt", {}).get("count")
     dn = ok.get("dtgc", {}).get("count")
     broke = ok.get("zbgc", {}).get("count")
@@ -1157,6 +1208,11 @@ def render_md(rep):
             "各面板不一致（" + "、".join(f"{k}={v.get('cutoff')}"
                                        for k, v in pn.items() if v.get("status") == "ok")
             + "）——如实标注"))
+        fr = mr.get("freshness") or {}
+        if fr.get("status") == ZT_FRESH_STALE:
+            L.append(f"- **⚠ 读数陈旧**：{fr.get('note')}——下面的数不是今天的盘面")
+        elif fr.get("status") == ZT_FRESH_UNKNOWN:
+            L.append(f"- 新旧未验：{fr.get('note') or '日历不可用'}")
         L.append("- " + " · ".join(_cnt(k) for k in ("zt", "dtgc", "zbgc", "strong")))
         if mr.get("seal_rate") is not None:
             L.append(f"- **封板率 {mr.get('seal_rate'):.1%}**（涨停/(涨停+炸板)，机械口径）")
@@ -1373,6 +1429,20 @@ def selftest():
     assert abs(f["seal_rate"] - 3 / 5.0) < 1e-9, f      # 涨停/(涨停+炸板)
     assert f["kill_day"] is False, f                   # 1 跌停 vs 3 涨停
     assert abs(f["down_over_up"] - 1 / 3.0) < 1e-3, f
+    # ---- r1279 freshness leg: a replica that stopped advancing must read stale,
+    # not "ok".  Hermetic calendar injected (days/now), so the leg pins the rule
+    # rather than today's date; emptiness/doubt reads unknown, never "current".
+    _cal = ["2026-10-28", "2026-10-29", "2026-10-30", "2026-11-02", "2026-11-03"]
+    _now = datetime(2026, 11, 3, 16, 0)
+    _fr_stale = _zt_tape_freshness("2026-10-29", days=_cal, now=_now)
+    assert _fr_stale["status"] == ZT_FRESH_STALE, _fr_stale
+    assert _fr_stale["behind_days"] == 3, _fr_stale
+    assert _fr_stale["expected_last_bar_day"] == "2026-11-03", _fr_stale
+    _fr_ok = _zt_tape_freshness("2026-11-03", days=_cal, now=_now)
+    assert _fr_ok["status"] == ZT_FRESH_OK and _fr_ok["behind_days"] == 0, _fr_ok
+    assert _zt_tape_freshness(None)["status"] == ZT_FRESH_UNKNOWN
+    assert _zt_tape_freshness("2026-11-03", days=[], now=_now)["status"] \
+        == ZT_FRESH_UNKNOWN, "an empty calendar is doubt, not 'up to date'"
     # ---- r1154 trajectory legs: one bar is a level, two bars are not a trend; the
     # series is the union of captured dates with per-day seal rates re-derived, and a
     # day one panel never captured stays None instead of becoming a 0

@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_8",
  "ticket": "T-202609-28-105",
  "day": "2026-11-09",
- "generated": "2026-11-09T21:02:13",
+ "generated": "2026-11-09T22:23:13",
  "market": {
   "state": "RED",
   "asof": "2026-11-06",
@@ -105,7 +105,22 @@
    ]
   },
   "down_over_up": 1.051,
-  "kill_day": true
+  "kill_day": true,
+  "freshness": {
+   "status": "stale",
+   "expected_last_bar_day": "2026-11-09",
+   "behind_days": 7,
+   "behind": [
+    "2026-11-03",
+    "2026-11-04",
+    "2026-11-05",
+    "2026-11-06",
+    "2026-11-09"
+   ],
+   "lane_owner": "bm-c",
+   "read_on": "bm-a",
+   "note": "读到的是 2026-10-29 的副本：最后采集日 2026-10-29，比应有最新 bar 日 2026-11-09 落后 7 个交易日（车道宿主 bm-c）"
+  }
  },
  "ladder": {
   "rungs": [
@@ -492,7 +507,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 48213.2
+    "last_append_age_min": 48294.1
    },
    {
     "family": "FUND-VALUE-P1",
@@ -500,7 +515,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 49063.5
+    "last_append_age_min": 49144.5
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -508,7 +523,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 45860.6
+    "last_append_age_min": 45941.6
    }
   ]
  },

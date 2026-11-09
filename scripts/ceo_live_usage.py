@@ -686,7 +686,11 @@ def _risk_tape_face(root=None):
                 "ladder": raw.get("ladder") or {},
                 "top_streak": raw.get("top_streak"),
                 "down_over_up": raw.get("down_over_up"),
-                "kill_day": raw.get("kill_day")})
+                "kill_day": raw.get("kill_day"),
+                # r1279: the age of the copy travels with the numbers -- a
+                # reader on another machine must be able to see that this is a
+                # replica (E256), not this morning's tape.
+                "freshness": raw.get("freshness") or {}})
     return out
 
 
@@ -738,6 +742,13 @@ def render_md(p: dict) -> str:
             line += (" · 读法（机械口径）：跌停≥涨停 → 杀跌日，今日 "
                      + ("是" if rt["kill_day"] else "否"))
         L.append(line)
+        fr = rt.get("freshness") or {}
+        if fr.get("status") == "stale":
+            L.append("  - **⚠ 读数陈旧**：{}——上面的数不是今天的盘面".format(
+                fr.get("note") or "副本落后于应有 bar 日"))
+        elif fr.get("status") == "unknown":
+            L.append("  - 新旧未验：{}".format(
+                fr.get("note") or "日历不可用"))
         if rt.get("aligned") is False:
             mism = "、".join(
                 "{}={}".format(k, (v or {}).get("cutoff"))

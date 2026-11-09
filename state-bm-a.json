@@ -141,7 +141,7 @@
  "last_artifact": "results/data_lane_freshness.json",
  "last_artifact_at": "2026-11-07T16:41:00+08:00",
  "last_commit": "03fd741172",
- "last_decisions_at": "2026-11-07T09:22:52+08:00",
+ "last_decisions_at": "2026-11-09T22:59:21+08:00",
  "last_decisions_consumed": [
   {
    "action": "no new quant obligation; watermark advanced",
@@ -179,7 +179,7 @@
  "last_decisions_watermark_v2": "v2:BigRain-11122/FluxGroup@bcf936b9fd348b08a850ed7182b8c6678cba0bfa/227217#b8609238434052e27cd718c81f18432321b1b0c0d18000eeb0cb1c79682ac67f",
  "last_delivery_verified_at": "2026-11-02T06:52:55+08:00",
  "last_heartbeat_epoch_utc": 1792420245,
- "last_orders_at": "2026-11-02T07:25:23+08:00",
+ "last_orders_at": "2026-11-09T22:59:21+08:00",
  "last_orders_read_at": "2026-11-08T04:45:00+08:00",
  "last_orders_seen": "r1271: group tree absent (K: missing, C: not a git repo) -> sparse clone read origin main ea729be; decisions tail = 第48批 2026-11-06 (no 11-07/11-08 batch); orders tail carries 2026-11-07/11-08 fleet rows (OB-20261107-180106-609 lane split = MV production carrier, bm-b SVC_DOWN + bm-c probe-face notes) -- none scopes to this repo's mechanism; watermark advanced, zero action",
  "last_orders_sha": "c2935f5406c0f75f9bbaee272cccc310ac1bbbab4fc465a15e392c8bdeb92c53",
@@ -190,12 +190,12 @@
  "last_product": "scripts/etf_book_vol_target_gate.py + lane_ownership 的证据分型（副本 vs 封套 vs 写者）+ 3 个证据面重生",
  "last_push_at": "2026-11-07T16:40+08:00",
  "last_push_note": "git push origin main f30795d371..d2498fd361 then d2498fd361..03fd741172; fetch-verified behind 0 / ahead 0",
- "last_round": 1277,
- "last_round_at": "2026-11-09T22:00:41+08:00",
+ "last_round": 1278,
+ "last_round_at": "2026-11-09T22:59:21+08:00",
  "last_round_at_": "2026-11-01T15:35:39+08:00",
  "last_round_closed": "2026-11-09T20:10:04+08:00",
- "last_round_label": "r1277 capacity restore + engine revive-list fix",
- "last_round_ts": "2026-11-09T22:00:41+08:00",
+ "last_round_label": "r1279 stale tape disclosure + zt gate stops measuring itself",
+ "last_round_ts": "2026-11-09T22:59:21+08:00",
  "last_run": "2026-11-07T13:52:00+08:00",
  "last_seen": "2026-11-02T02:17:05+08:00",
  "last_seen_at": "2026-11-02T02:17:05+08:00",
@@ -210,8 +210,8 @@
  "maintenance_r1246": "orphan 0/21 | orders_ack CLEAN 114/123/0 | card_ledger_guard CLEAN max 364->366 | chain leg entry_gate rc0 41.3s | smoke 345/345 | tree dirty at round head (439 files, foreign chain faces + data) -> targeted add only, no add -A",
  "maintenance_r1248": "orphan 0/26 | orders_ack CLEAN 114/123/0/0 | card_ledger_guard CLEAN max 367->370 | chain 127/129 rc0, nonzero: etf_book_live_widths=1 (fixed), fundamental=2 (source) | smoke 348/348 | IterationLoop pin=8 no-op | LoopWatchdog re-registered, S4U flip still denied (CEO physical item) | pre-commit/pre-push byte-identical | tree dirty at round head (1,900+ entries) -> targeted add only",
  "memory_face_r1125": "CODELY.md rebuilt from da99a6e9ce + 3 recovered rows; guard Tools/memory_face_guard.py check PASS",
- "next": "①CEO 风险带：先确认 zt 面板口径再生 zt/dtgc/zbgc 三面（不放松断言）；②票面 k：把 etf_book_positions 的写腿排到 etf_book_order 之前，让两侧同源（r1471 的正法，禁用手工补跑抹平差额）；③全量 smoke 在最终树上复跑并如实记录。",
- "next_milestone": "剩余 2 条红清零 + 最终树全量 smoke 记录（窗 ≤48h）",
+ "next": "(a) verify bm-c's next window moved the zt tail and the tape warning clears by itself; (b) rule on the lot-level base divergence; (c) decide whether the cash half should share the book's bar.",
+ "next_milestone": "zt panel caught up to 2026-11-09 on bm-c's next window and the risk-tape warning clearing by itself (window <=48h)",
  "next_r1238": "1) supply floor is AGENDA_DEBT (startable 0 / shortfall 3) - only new topic freezes can feed it; 2) both new faces are single-window single-universe readings - the honest next step is to print their window/scale dependence beside them rather than adding a fourth same-class section; 3) factor_ic twin-column audit result needs reading before the six SIGNS are quoted again.",
  "next_r1240": "1) The ladder itself is still priced on the 5-name path: re-pricing every rung to the delivered width (12) is a separate decision and moves every number on the page; 2) card/ticket faces still print the 2020+ window only; 3) the execution ticket's held-name count is dynamic (5 today) and the page only aligns to the card config, not to today's ticket; 4) supply floor remains AGENDA_DEBT (startable 0 / shortfall 3).",
  "next_r1243": "1) the wide ETF panel is bm-c's lane and its heartbeat is silent ~57h -- the book cannot price 2026-11-02 until that lane advances (takeover is an explicit decision, not a reflex); 2) ladder is priced at the card's width (12) but the executable ticket holds 5 today -- aligning those two faces is the open r1240 pointer; 3) supply floor is still AGENDA_DEBT (startable 0 / shortfall 3).",
@@ -485,9 +485,9 @@
  "ram_load_pct": 51.1,
  "recent_artifact": "results/etf_book_bootstrap/BLOCKS-2026-10-30.json",
  "round": 1274,
- "round_no": 1278,
- "round_no_label": "r1272",
- "round_no_ts": "2026-11-09T20:10:04+08:00",
+ "round_no": 1279,
+ "round_no_label": "r1279",
+ "round_no_ts": "2026-11-09T22:59:21+08:00",
  "round_note_r1239": "the fee break-even is a closed form in the sample's median traded leg: 67737 (2020-2026) / 55929 (2015-2019) / 49849 (2015-2026) = 26.41% spread, now printed on the operator page with the window table (card E356)",
  "round_note_r1243": "r1243 (inherited estate, machine-checked): the coverage gate already refused 2026-11-02 (12 of 1,613 closes) but said nothing, so three faces stayed wrong. (1) etf_composite_pf.drop_hollow_tail now records the refusal in PANEL_TAIL (rows refused / refused date / reference coverage / floor) and every face that reports which panel it priced republishes it -- the ledger's panel block prints refused_trailing_rows=1, refused_last_bar=2026-11-02, reference_coverage=1611. (2) series_lag_bars is signed three-state (+1 behind / -1 AHEAD / 0 same / None unknown); the old `>= 0` read 'the series is one bar longer than the book' as 'no lag', so the envelope bootstrapped the phantom bar and published 9.59% beside the book's 9.60% while judging same_object. run() now heals both directions and prints direction=behind|ahead. (3) new withdraw_provisional() + published_bars(): restate_provisional only covered 'the bar settles to a different number'; the other ending is 'that date was never a priceable session', whose face is missing forever, so it stays the newest published bar forever and every later real bar is called provisional too -- the ledger could never close a bar again. The mark keeps its published nav/dd/cash, gains withdrawn=true + reason + panel last date, and leaves the settled/provisional partition (single reader published_bars(), imported by the settle audit). PRE-EXISTING r1241/r1242 ESTATE (dead windows, uncommitted, machine-checked not trusted): min_capital ladder_width/wind",
  "round_note_r1244": "inherited estate landed first (r1241-r1243 had finished work and zero commits: 237 files, final-tree smoke 23:41:24 + three engine selftests re-run by this window). Product: the fee floor's THIRD width -- the executable ticket holds 5 names (52.85% cash) while the card configures 12 and the ladder is priced on 12, so the page printed 203,007 CNY at a reader holding a 67,737 CNY book; _ticket_width() now reads the ticket, finds that width in the published sweep and prints its own break-even (three states: differ / same / unreadable, never falls back to the card). Second: the card's drawdown band stands on 2026-11-02 while its table stands on 2026-10-30, and the old disclosure printed both dates in a caveat while the old leg demanded 'stale' for ANY mismatch (so it could only be right when the band was not behind). Disclosure is now direction-aware and lives where the drawdown is quoted; three fixtures pin the three sentences. Cards E361/E362.",
@@ -668,7 +668,7 @@
  "verify_r1263": "heat lane: --takeover declared a stale stand-in (bm-b silent 193.8h >= 120min), snapshot landed as_of=2026-11-06 fetched_at=2026-11-07 14:32 n_rows=100, total snapshots=21, envelope results/heat_update_status.bm-a.json names bm-a as the data face (14:32:19). zt_pool: --takeover accepted (same stale-owner rule) but the run returned 3 on OVERLAP MISMATCH zt 2026-10-29, and a direct re-fetch of that day now compares equal (day_rows_match True on 39 rows), so the mismatch was transient rather than a source restatement; the retry is held by the 30min throttle (last attempt 14:31:58, 24 days pending). fund_statements status.json still reads cutoff 20260630 / complete=true as of 2026-10-20, i.e. the panel never noticed the 2026-10-31 Q3 deadline; gate refuses on the bm-b lane and the script exposes no takeover argument. moneyflow: --takeover is not a recognized argument and the gate only refreshes past 20 trading days (panel is 14 days behind), so the lane is frozen by design while its host is down. Orphan probe 0/23. Saturation engine alive (idle, queue_depth 0). Watermark red=false lane=healthy. orders_ack CLEAN 114 orders / 123 acks / 0 unacked / 0 face divergence. D-19 MATCH (decisions b8609238 / orders ead5e458 both unchanged vs watermark). Rebase onto origin/main aborted per conflict law: 21 local commits conflict with 3 origin commits in knowledge/METHODOLOGY_ASSETS.md and results/etf_book_spanning.json, tree restored, nothing force-pushed.",
  "verify_r1264": "update_moneyflow --selftest 21/21 PASS (new legs: no-flag non-owner no-op with the shared mirror byte-identical / flagged non-owner takeover stamps authority{took_over_by,took_over_at,lane_owner} / a detached refresh inherits the stamp instead of re-declaring none / the plain path declares no stand-in) | live gate on this machine rc0 but honest no-op: 'moneyflow lane host bm-b authority, this machine (bm-a) stdout-only (R31 lane-guard); takeover refused: no --takeover flag' -- the mechanism is in place, the redline still holds | takeover_capable('update_moneyflow') False -> True, so the freshness board now prints moneyflow as a lane a stand-in may move | board recomputed: retired 1 / unverifiable 4 / in_sync 5, worst=moneyflow (tail 2026-10-19, 14 official trading days behind); in_sync 5 = etf_panel, futures, heat, lhb, repo (all tail 2026-11-06) | still uncapable and owned by the silent host: options (retired, no action), marks, update_sina_mf, update_ths_panel, ah_panel_puller, update_fund_statements (2026Q3 statutory period missing since the 10-31 deadline) | orphan 0/18 | saturation engine alive, queue_depth 0 | watermark red=false lane=healthy | orders_ack CLEAN 114 orders / 123 acks / 0 unacked | D-19 MATCH (decisions b8609238 / orders ead5e458 both equal to the stored watermark, zero new rows, zero action) | smoke started detached on the final tree at 14:44 (pid 82208, .codely-cli/tmp/smoke-r1264-final.out) and was still running when this window closed -- its result is NOT claimed here",
  "verify_r1266": "selftest 25/25 PASS; run -> frozen_without_takeover=[]; marks takeover_capable=true, holes_by_cause equal to marks_coverage; smoke leg added; downstream faces (declaration/dashboard/daily_report) re-derived",
- "what_is_live": "moneyflow now advertises a takeover switch; the freshness board shows which lanes a stand-in may move",
+ "what_is_live": "the CEO risk tape publishes the age of the copy it reads (official calendar), and the zt-pool gate can no longer be closed by a stale local bar copy",
  "work": "r1264: moneyflow was the one bm-b lane with no takeover switch at all, so when its declared host died the panel froze and nobody could legally pick it up (options is retired, marks/zt_pool/astock_daily already declare stand-ins). The switch now exists and defaults CLOSED: an explicit --takeover plus a host heartbeat silent >= 120min is the only path, the policy is imported from update_etf_daily (single source), and the declaration is published in authority{} -- the key the two authority readers actually read. Without the flag this machine still prints the same R31 no-op, so the 2026-10-21 redline that bars bm-a from the akshare pull lane is untouched.",
  "work_r1248": "r1248 (inherited estate, machine-checked): the gate that freezes the executable ticket's own 2x2 inside the live-width face had the wrong identity for the thing it froze, and it went red for the third time in two days on a legitimate re-issue. Fixed by keying identity on CONTENT (the ticket square's fingerprint) instead of the date, and by admitting the one structural diff the echo rule could not see (a verdict-reason sentence vanishing with the collision that produced it). Product: the operator's live-width page is green again on the 2026-11-03 bar, and the book itself was re-priced end to end on that bar (order 5 names, book 458,971 / cash 541,029 CNY, next rebalance 2026-11).",
  "work_r1249": "r1249: a --check that re-derives from its own published rows is green on ANY panel, so exposure_timing/exposure_ladder/sleeve_paths sat on the 2026-10-30 panel while the book priced 2026-11-03. The stamp gate asks the one question the rows cannot answer (is this still the panel I measured), answers 'stale' in rc 2 so the chain's refresh arm fires, and deliberately keeps verdict/identity disagreements in rc 1 where a rebuild would launder them. Then D-20261104-05: the group asked which machine owns each lane before the 2026-11-08 task re-enable, and the answer exists in two places that disagree -- the declaration writes the winner down per lane with its authority, and the gate that guards it compares OWNERSHIP only, because host liveness belongs to the freshness face.",
@@ -706,5 +706,21 @@
  "open_red_r1277": [
   "ceo_page.risk_tape_stale",
   "etf_book_order.lot_level_base_divergence (ticket vs ledger 313,826 CNY on 2026-11-06; the k identity is clean)"
- ]
+ ],
+ "work_r1279": "two faces (daily report sec.9 and the CEO one-pager) print 'stale: as of 2026-10-29, 7 trading days behind 2026-11-09 (lane host bm-c)' for the zt risk tape instead of an 'ok' face built from a week-old copy; update_zt_pool's trading window now comes from exchange_calendar_audit instead of the local data/daily copy (the gate had been measuring its own input, which is how a panel rots while every round prints an honest no-op); 28 pulls are now visibly owed on bm-c's lane and an inbox note names them; four smoke legs that assumed the repo panel and the ETF book share a last bar now compare on the page's own bar.",
+ "verify_r1279": "freshness face on real data: status=stale behind_days=7 expected=2026-11-09 owner=bm-c read_on=bm-a | daily_report selftest PASS (5 faces + freshness leg: stale/current/unknown and an empty calendar is doubt, not 'up to date') | ceo_live_usage selftest ALL PASS (risk tape parity with sec.9) | update_zt_pool selftest all guard cases PASS (+2 new legs: a stale bar copy cannot close the gate; the official expected day bounds it) | gate recompute on this tree: window ends 2026-11-09, zt/zbgc/dtgc/strong each owe 7 days = 28 | lane guard: bm-c heartbeat 25min -> --takeover refused (120min rule), nothing written | data_lane_freshness regenerated verdict=attention with LOCAL-COPY disclosure | attrition CLEAN 4 ledgers | saturation engine alive | loop pin=8 no-op | final-tree smoke: Summary: 479/479 PASS, 0 FAIL",
+ "open_red_r1279": [
+  "zt_pool panel 7 sessions behind (10-29 vs 11-09) -- bm-c's lane, gate now opens, collection expected in bm-c's next S6 window",
+  "etf_book_positions.lot_level_base_divergence (313,826 CNY, 2026-11-06) -- the sheet's `lots` is a TARGET hold, so the face discloses a document mismatch (target sheet vs account) rather than an arithmetic error; rule keep-as-disclosure vs fix",
+  "ceo_page cash priced at the repo panel's last close (11-09) while the book bar is 11-06"
+ ],
+ "decisions_scan_r1279": "sha256 e2891af5 identical to the stored watermark -> zero rows owed",
+ "orders_scan_r1279": "newest order 2026-10-26 09:30; 114 orders / 123 acks / 0 unacked",
+ "orphan_face_r1279": 0,
+ "smoke_r1279": {
+  "fails": 0,
+  "lines": 517,
+  "summary": "Summary: 479/479 PASS, 0 FAIL",
+  "fail_detail": []
+ }
 }

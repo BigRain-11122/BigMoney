@@ -4420,6 +4420,13 @@ def main() -> int:
         if _cy and _cy.get("annual_cny") is not None:
             _rp = "data/repo_daily/%s.csv" % (_cy.get("leg") or "GC001")
             _last = None
+            _own = None
+            # r1279: the page prices ITS OWN bar.  Requiring the panel's LAST close made
+            # this leg assert that the repo panel and the ETF book advance in lockstep --
+            # a layout assumption, not a pricing rule (r1135 class).  What must hold is
+            # that the rate equals the panel's close ON THE BAR THE PAGE CLAIMS, that bar
+            # must exist in the panel, and the money must follow from the page's own cash.
+            _want_d = _cy.get("rate_date")
             try:
                 with open(_rp, encoding="utf-8") as _fh:
                     next(_fh, None)
@@ -4432,18 +4439,20 @@ def main() -> int:
                                 continue
                             if 0.0 < _v < 200.0:
                                 _last = (_p[0], _v)
+                                if _want_d and _p[0] == _want_d:
+                                    _own = (_p[0], _v)
             except Exception as _e:
                 _last = None
-            _ok_cy = (bool(_last)
-                      and _cy.get("rate_date") == _last[0]
-                      and abs(float(_cy.get("rate_pct") or 0) - _last[1]) < 1e-9
+            _ok_cy = (bool(_own)
+                      and _cy.get("rate_date") == _own[0]
+                      and abs(float(_cy.get("rate_pct") or 0) - _own[1]) < 1e-9
                       and abs(float(_cy.get("annual_cny") or 0)
-                              - float(_page.get("cash_amount_cny") or 0) * _last[1] / 100.0) < 1.0
+                              - float(_page.get("cash_amount_cny") or 0) * _own[1] / 100.0) < 1.0
                       and abs(float(_cy.get("daily_cny") or 0)
                               - float(_cy["annual_cny"]) / 250.0) < 1.0)
             _cy_detail = (f"rate={_cy.get('rate_pct')}@{_cy.get('rate_date')} "
-                          f"panel={_last} annual={_cy.get('annual_cny')} "
-                          f"daily={_cy.get('daily_cny')}")
+                          f"panel_on_that_bar={_own} panel_last={_last} "
+                          f"annual={_cy.get('annual_cny')} daily={_cy.get('daily_cny')}")
         check("product: ETF live-book cash leg is priced off the repo panel's own close", _ok_cy,
               _cy_detail)
         # The cash block now also answers "should the idle half be laddered out to a
@@ -4495,18 +4504,28 @@ def main() -> int:
                     return None
                 return _tot / (_days / 365.0) * 100.0
 
+            _arms = {r.get("symbol"): r for r in (_cl.get("tenors") or [])}
             _base_rows = _repo("GC001")
+            # r1279: roll from the bar the PAGE prices (its own spot_date), not from the
+            # panel's last row -- otherwise this leg only passes when the repo panel and
+            # the ETF book advance in lockstep, which is a layout assumption (r1135).
+            _own_d = (_arms.get("GC001") or {}).get("spot_date")
             _end = _base_rows[-1][0]
+            if _own_d:
+                try:
+                    _end = _dtc.date.fromisoformat(str(_own_d))
+                except ValueError:
+                    pass
+            _base_rows = [r for r in _base_rows if r[0] <= _end]
             _start = _end - _dtc.timedelta(days=365)
             _b1 = _roll(_base_rows, 1, _start)
-            _arms = {r.get("symbol"): r for r in (_cl.get("tenors") or [])}
             _mismatch = []
             _passing = []
             for _sym, _r in _arms.items():
                 if _sym == "GC001" or not _r.get("edge_bp"):
                     continue
                 _tenor = int(_r.get("tenor_days") or 1)
-                _mine = _roll(_repo(_sym), _tenor, _start)
+                _mine = _roll([r for r in _repo(_sym) if r[0] <= _end], _tenor, _start)
                 if _mine is None:
                     continue
                 _edge = (_mine - _b1) * 100.0
@@ -4542,7 +4561,12 @@ def main() -> int:
                 with open(_pf, encoding="utf-8-sig") as _fh:
                     _rec = json.load(_fh)
             _cash_y = float(_page.get("cash_amount_cny") or 0.0)
+            # r1279: read the close ON THE BAR THE PAGE CLAIMS (its own repo_rate_date),
+            # so the leg tests the page's arithmetic rather than assuming the repo panel
+            # and the ETF book share a last bar (r1135 layout-assumption class).
+            _hs_d = _hs.get("repo_rate_date")
             _last_rate = None
+            _hs_rate_on_bar = None
             with open("data/repo_daily/GC001.csv", encoding="utf-8") as _fh:
                 next(_fh, None)
                 for _ln in _fh:
@@ -4554,6 +4578,14 @@ def main() -> int:
                             continue
                         if 0.0 < _v < 200.0:
                             _last_rate = _v
+                            if _hs_d and _p[0] == _hs_d:
+                                _hs_rate_on_bar = _v
+            if _hs_rate_on_bar is not None:
+                _last_rate = _hs_rate_on_bar
+                # the page must publish the rate it used, matching the panel on its bar
+                assert abs(float(_hs.get("repo_rate_pct") or 0.0) - _hs_rate_on_bar) < 1e-9, \
+                    "page rate %r != GC001 close on its own bar %s (%r)" \
+                    % (_hs.get("repo_rate_pct"), _hs_d, _hs_rate_on_bar)
             _dem = 0.05
             if _rec and _rec.get("demand_rate_pct") is not None:
                 _dem = float(_rec["demand_rate_pct"])

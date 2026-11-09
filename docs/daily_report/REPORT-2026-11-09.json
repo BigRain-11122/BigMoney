@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-09",
- "generated_at": "2026-11-09 20:52:57",
+ "generated_at": "2026-11-09 22:23:12",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,13 +294,13 @@
   "md_link": "../live_usage/LIVE-2026-11-09.md"
  },
  "rd": {
-  "commits_24h": 60,
-  "result_jsons_landed_24h": 80,
-  "digests_landed_24h": 58,
+  "commits_24h": 72,
+  "result_jsons_landed_24h": 81,
+  "digests_landed_24h": 59,
   "prereg_md_touched_24h": 29,
   "compute_audit_latest": {
-   "ts": "2026-11-09 19:23:37",
-   "py_cpu_pct": 7.0,
+   "ts": "2026-11-09 21:50:17",
+   "py_cpu_pct": 1.2,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -789,63 +789,63 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-11-08 19:03:59",
-    "py_pct": 11.5,
-    "cpu_pct": 39.0,
+    "latest_ts": "2026-11-09 21:50:17",
+    "py_pct": 1.2,
+    "cpu_pct": 48.0,
     "ready": 0,
-    "streak_min": 12278.7,
+    "streak_min": 13885.0,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
      [
-      "14:58",
-      4.9
+      "08:40",
+      14.0
      ],
      [
-      "15:21",
-      5.0
+      "09:12",
+      9.0
      ],
      [
-      "15:54",
-      7.0
+      "09:26",
+      0.4
      ],
      [
-      "16:37",
-      0.0
+      "10:01",
+      3.8
      ],
      [
-      "16:42",
-      0.3
+      "10:32",
+      13.3
      ],
      [
-      "17:08",
-      5.1
+      "10:34",
+      12.1
      ],
      [
-      "17:23",
-      5.2
-     ],
-     [
-      "17:48",
-      5.0
-     ],
-     [
-      "18:12",
-      7.9
-     ],
-     [
-      "18:29",
+      "11:40",
       5.7
      ],
      [
-      "18:50",
-      5.3
+      "12:00",
+      7.7
      ],
      [
-      "19:03",
-      11.5
+      "12:28",
+      9.1
+     ],
+     [
+      "10:25",
+      0.3
+     ],
+     [
+      "19:23",
+      7.0
+     ],
+     [
+      "21:50",
+      1.2
      ]
     ],
-    "today_samples": 0,
+    "today_samples": 3,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -908,7 +908,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-08 19:03:59"
+     "audit_ts": "2026-11-09 21:50:17"
     }
    }
   },
@@ -1621,6 +1621,21 @@
    "2026-10-29"
   ],
   "aligned": true,
+  "freshness": {
+   "status": "stale",
+   "expected_last_bar_day": "2026-11-09",
+   "behind_days": 7,
+   "behind": [
+    "2026-11-03",
+    "2026-11-04",
+    "2026-11-05",
+    "2026-11-06",
+    "2026-11-09"
+   ],
+   "lane_owner": "bm-c",
+   "read_on": "bm-a",
+   "note": "读到的是 2026-10-29 的副本：最后采集日 2026-10-29，比应有最新 bar 日 2026-11-09 落后 7 个交易日（车道宿主 bm-c）"
+  },
   "seal_rate": 0.6094,
   "down_over_up": 1.051,
   "kill_day": true,
@@ -1713,10 +1728,10 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-09T19:35:21",
+  "as_of": "2026-11-09T21:23:31",
   "verdict": "attention",
   "observer": "bm-a",
-  "sentence": "以本机 bm-a 的盘为基准：14 条在役车道里有 8 条的数字不在本机盘上：7 条在 bm-c 的盘上（9.62h 未报到）、1 条在 bm-b 的盘上（246.87h 未报到）；留在本机盘上的 6 条里 6 条可核实。",
+  "sentence": "以本机 bm-a 的盘为基准：14 条在役车道里有 8 条的数字不在本机盘上：7 条在 bm-c 的盘上（2.12h 未报到）、1 条在 bm-b 的盘上（248.67h 未报到）；留在本机盘上的 6 条里 6 条可核实。",
   "n_lanes": 14,
   "n_offhost": 8,
   "n_here": 6,
@@ -1736,8 +1751,8 @@
     ],
     "n": 7,
     "alive": false,
-    "age_h": 9.62,
-    "last_seen": "2026-11-09T09:58:00+08:00"
+    "age_h": 2.12,
+    "last_seen": "2026-11-09T19:16:37+08:00"
    },
    {
     "machine": "bm-b",
@@ -1746,7 +1761,7 @@
     ],
     "n": 1,
     "alive": false,
-    "age_h": 246.87,
+    "age_h": 248.67,
     "last_seen": "2026-10-30T12:43:06+08:00"
    }
   ],
@@ -1794,10 +1809,10 @@
    "lhb": "宿主自己写的封套",
    "minute_feed": "他机本地副本",
    "moneyflow": "宿主自己写的封套",
-   "repo": "宿主自己写的封套",
    "futures": "宿主自己写的封套",
    "heat": "宿主自己写的封套",
-   "lhb_inst": "无主封套"
+   "lhb_inst": "无主封套",
+   "repo": "宿主自己写的封套"
   }
  },
  "lane_silence": {
@@ -1905,19 +1920,19 @@
  },
  "etf_book": {
   "status": "ok",
-  "priced_bar": "2026-11-09",
+  "priced_bar": "2026-11-06",
   "book_decided_at": "2026-10-14",
   "next_rebalance_date": "2026-11-11",
   "capital_cny": 1000000.0,
-  "book_amount_cny": 392727.2,
-  "cash_amount_cny": 607272.8,
+  "book_amount_cny": 392507.2,
+  "cash_amount_cny": 607492.8,
   "n_hold": 5,
   "k_now": 0.393073,
   "today_action": {
    "mode": "hold",
    "holding": true,
    "book_decided_at": "2026-10-14",
-   "priced_bar": "2026-11-09",
+   "priced_bar": "2026-11-06",
    "next_trade_date": "2026-11-11",
    "cost_if_retraded_pct_per_year": 15.72,
    "cost_basis": "2 sides x 8.0 bp x 250 sessions x book share 0.3931, on capital"
@@ -2015,8 +2030,8 @@
     "criteria": "ROWS_NOT_COMPARABLE iff at least one dial moves the held config by >= tol_pp_per_year on at least one window; SAME_RULER if none does. The published gap between row 1 and row 3 is decomposed into these dials, and no dial's price is inferred from another."
    }
   },
-  "feed_status": "current",
-  "feed_lag_days": 0
+  "feed_status": "stale_feed",
+  "feed_lag_days": 1
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",

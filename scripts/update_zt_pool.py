@@ -130,14 +130,23 @@ def _lane_owner_id():
 _DATES_CACHE = "unset"
 
 
-def _load_trading_dates():
-    """SSE trading-day history from local data/daily core bars (510300 =
-    most liquid core ETF, every market day; update_daily maintains it on
-    each node). Sorted list of 'YYYY-MM-DD' strings, or None when no
-    local daily data exists (fresh node -> weekday approximation)."""
-    global _DATES_CACHE
-    if _DATES_CACHE != "unset":
-        return _DATES_CACHE
+def trading_dates_from(official_days, expected, fallback_days):
+    """The collectable day list, decided by the OFFICIAL calendar (r1279).
+
+    Pure function so the rule can be pinned offline. `fallback_days` (the local
+    bar copy) is only used when the official calendar is unavailable. Until
+    r1279 the local bar copy WAS the window, so a machine whose own bars were
+    stale computed "panel covers all bar-landed trading days" forever and the
+    panel rotted one session at a time while every round printed an honest
+    no-op -- the gate was measuring its own input (E136/E138 class)."""
+    if official_days and expected:
+        return [d for d in official_days if d <= expected]
+    return list(fallback_days or [])
+
+
+def _fallback_dates():
+    """Local-bar calendar: the old rule, used only when the official calendar
+    file is missing (a fresh node with no calendar yet)."""
     path = CORE_CALENDAR_FILE
     if not os.path.exists(path):
         import glob as _glob
@@ -160,6 +169,35 @@ def _load_trading_dates():
         dates = [d.strftime("%Y-%m-%d") for d in
                 pd.date_range(d0, pd.Timestamp.now().normalize())
                 if d.weekday() < 5]
+    return dates
+
+
+def _load_trading_dates():
+    """SSE sessions up to the last day whose bar must exist by now (r1279).
+
+    The boundary comes from exchange_calendar_audit -- the independent official
+    calendar update_daily itself trusts -- never from this machine's own bar
+    copy (see trading_dates_from)."""
+    global _DATES_CACHE
+    if _DATES_CACHE != "unset":
+        return _DATES_CACHE
+    official, expected = [], None
+    try:
+        import sys as _sys
+        _here = os.path.dirname(os.path.abspath(__file__))
+        if _here not in _sys.path:
+            _sys.path.insert(0, _here)
+        from exchange_calendar_audit import load_calendar, expected_last_day
+        official = load_calendar()
+        expected, _past = expected_last_day(
+            official, pd.Timestamp.now().to_pydatetime())
+    except Exception as ex:                                    # noqa: BLE001
+        print("WARN: official calendar unavailable (%s: %s) -- falling back "
+              "to the local bar copy" % (type(ex).__name__, str(ex)[:60]),
+              file=sys.stderr, flush=True)
+    dates = trading_dates_from(official, expected, _fallback_dates())
+    if not dates:
+        dates = _fallback_dates()
     _DATES_CACHE = dates
     return dates
 
@@ -482,6 +520,23 @@ def selftest():
     assert got == ["2026-10-08"], got
     print("[PASS] missing_days holiday gap -> skips non-calendar days",
           flush=True)
+
+    # ---- r1279: the window is the official calendar, not this machine's bar
+    # copy.  A stale local copy used to close the gate forever ("panel covers
+    # all bar-landed days") while the panel rotted -- pin both directions.
+    _off = ["2026-10-28", "2026-10-29", "2026-10-30", "2026-11-02"]
+    _stale_bars = ["2026-10-28", "2026-10-29"]
+    _w = trading_dates_from(_off, "2026-11-02", _stale_bars)
+    assert _w == _off, _w
+    assert missing_days(["2026-10-29"], _w) == ["2026-10-30", "2026-11-02"], _w
+    print("[PASS] trading_dates_from: a stale bar copy cannot close the gate",
+          flush=True)
+    assert trading_dates_from(_off, "2026-10-30", _stale_bars) == _off[:3], \
+        "the official expected day still bounds the window"
+    assert trading_dates_from([], None, _stale_bars) == _stale_bars, \
+        "a missing official calendar falls back to the bar copy"
+    print("[PASS] trading_dates_from: expected day bounds it; empty official "
+          "calendar falls back", flush=True)
 
     # ---- day_rows_match (overlap comparator)
     def _mk(rows):
