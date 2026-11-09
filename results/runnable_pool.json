@@ -30580,7 +30580,7 @@
    "id": "E601-WHETHER-A-DUPLICATED-ROW-IS-DETECTABLE-FROM-WHAT-A-FACE-PUBLISHES",
    "lane": "cpu-only",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "lane_note": "static: for every published face that carries a series, publish the fields it carries that would let a duplicated row be detected -- a first/last bar identity, a distinct-bar count beside the row count, a dedupe flag, a monotonic bar index -- and which of those are actually consistent with the row count it publishes; no runner, no rebuild",
    "source": "E597 (r1626 bm-b): all 542 published annualisation blocks carry a bar count and nothing else, so a duplicated row silently changes a published CAGR; but 33 blocks elsewhere in the repo do publish last_bar and the repo has 1723 daily panel files with an index. Nobody has measured whether a duplicate is detectable from what a face already publishes.",
    "target": "results/state_tilt/DUPWITNESS.json",
@@ -30588,7 +30588,10 @@
    "title": "E601 whether a duplicated row is detectable from what a face already publishes",
    "entered_at": "2026-11-09T09:5x+0800",
    "entered_by": "bm-b",
-   "evidence_cutoff": "2026-11-06"
+   "evidence_cutoff": "2026-11-06",
+   "done_at": "2026-11-09T10:52:00+08:00",
+   "result_ref": "results/state_tilt/DUPWITNESS.json",
+   "result_note": "scripts/e601_dup_witness.py; S6 leg dup_witness; smoke leg E601; 501 counted faces, 206 publish a count no data can contradict, 0 duplicates today"
   },
   {
    "id": "E602-WHAT-A-READER-DOES-WHEN-A-REDIRECT-TARGET-HAS-DANGLED",
@@ -30619,6 +30622,20 @@
    "target": "results/state_tilt/DATEJOINREADERS.json",
    "deliverable": "results/state_tilt/DATEJOINREADERS.json: per reader site, whether the key it resolves a face by is a name, a date, or a value computed from a date, and the count of sites that would land on a vintage set",
    "title": "E604 whether any reader joins on a bar date instead of a face name"
+  },
+  {
+   "id": "E606-WHETHER-A-COUNT-THAT-DISAGREES-WITH-ITS-OWN-ROWS-IS-EVER-COMPARED",
+   "lane": "cpu-only",
+   "priority": "normal",
+   "status": "ready",
+   "card": "E606",
+   "title": "whether a count that disagrees with its own rows is ever compared",
+   "lane_note": "static: take every series E601 measured beside a count that equals neither the rows nor the distinct rows, parse the modules that read that face, and classify whether any of them compares the two numbers at all; no runner, no rebuild",
+   "source": "E601 (r1630 bm-b): 198 of the 894 series measured sit under a block whose count equals neither the row count nor the distinct-row count, so the two numbers in the same block already disagree -- nobody has measured whether any reader ever puts them next to each other.",
+   "target": "results/state_tilt/COUNTROWSCOMPARED.json",
+   "deliverable": "results/state_tilt/COUNTROWSCOMPARED.json: per disagreeing block, the modules that read its face and, per module, whether it compares the count with the rows (guarded / asserted / printed-only / never read), with the silent class named",
+   "seeded_by": "r1630 bm-b",
+   "seeded_at": "2026-11-09T10:55:00+08:00"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

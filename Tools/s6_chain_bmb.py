@@ -2458,6 +2458,15 @@ LEGS = [
     # face_count disagrees with the index, and a verdict the counts do not force.
     ("date_face_unique",
      ["python", "scripts/e600_date_face_unique.py", "check"]),
+    # E601 (r1630 bm-b): E597 found the annualisation quadruple carries a bar count and nothing
+    # else, so a duplicated row silently moves a published CAGR -- but nobody asked whether a
+    # witness exists elsewhere, or whether it agrees with the count the face prints.  Every face
+    # that states a bar count is graded by the rows it publishes beside it: are they published at
+    # all, do they already carry a duplicate, and does the count equal the rows or the distinct
+    # rows?  The leg refuses a class/count-match table that does not re-derive from the rows, a
+    # face whose class the rule does not give it, and a verdict the counts do not force.
+    ("dup_witness",
+     ["python", "scripts/e601_dup_witness.py", "check"]),
 ]
 
 

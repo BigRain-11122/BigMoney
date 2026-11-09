@@ -25996,6 +25996,60 @@ except Exception as _e600x:
 check(_name600, not _bad600, "; ".join(_bad600)[:240] or _d600)
 
 
+# E601: is a duplicated row detectable from what a face already publishes?  The leg recomputes
+# every class and every count match from the published rows, refuses a face whose class the rule
+# does not give it, refuses a table that does not re-derive, and refuses a verdict the counts do
+# not force.
+_name601 = ("E601 whether a duplicated row is detectable from what a face publishes (r1630 bm-b)")
+_bad601 = []
+_d601 = "no reading"
+try:
+    _p601 = os.path.join("results", "state_tilt", "DUPWITNESS.json")
+    _f601 = json.load(open(_p601, encoding="utf-8"))
+    _m601 = importlib.import_module("e601_dup_witness")
+    _bad601.extend(_m601.face_problems(_f601))
+    _c601 = _f601.get("counts") or {}
+    _byc = {c: 0 for c in _m601.CLASSES}
+    _bym = {m: 0 for m in _m601.MATCHES}
+    for _fc in _f601.get("faces") or []:
+        _want = _m601.face_class(_fc.get("witness"), bool(_fc.get("series")),
+                                 _fc.get("duplicate_rows_published") or 0)
+        if _want != _fc.get("class"):
+            _bad601.append("face %s grades %r, the rule says %r"
+                           % (_fc.get("face"), _fc.get("class"), _want))
+            break
+        _byc[_want] += 1
+        for _s in _fc.get("series") or []:
+            _cm = _m601.count_match(_s["rows"], _s["rows_distinct"], _s["count_value"])
+            if _cm != _s["count_match"]:
+                _bad601.append("series %s%s says %r, rows say %r"
+                               % (_fc.get("face"), _s.get("at"), _s["count_match"], _cm))
+                break
+            _bym[_cm] += 1
+    for _c, _n in _byc.items():
+        if (_c601.get("by_class") or {}).get(_c) != _n:
+            _bad601.append("class %s re-derives to %d, the face says %r"
+                           % (_c, _n, (_c601.get("by_class") or {}).get(_c)))
+            break
+    for _m, _n in _bym.items():
+        if (_c601.get("by_count_match") or {}).get(_m) != _n:
+            _bad601.append("count match %s re-derives to %d, the face says %r"
+                           % (_m, _n, (_c601.get("by_count_match") or {}).get(_m)))
+            break
+    if _m601.verdict_from(_c601) != _f601.get("verdict"):
+        _bad601.append("the verdict is not the one the counts force")
+    _d601 = ("count_faces=%d with_rows=%d no_rows=%d duplicates_now=%d share_invisible=%s"
+             % (_c601.get("faces_with_a_count", 0),
+                _c601.get("faces_with_a_count_beside_the_rows_it_counts", 0),
+                _byc[_m601.D_NO_ROWS],
+                _c601.get("faces_publishing_a_duplicate_row_right_now", 0),
+                _c601.get("share_of_count_faces_where_a_duplicate_is_invisible")))
+except Exception as _e601x:
+    _bad601.append(repr(_e601x)[:160])
+    _d601 = "study could not be read"
+check(_name601, not _bad601, "; ".join(_bad601)[:240] or _d601)
+
+
 # E597: every published block that carries a bar count, whether that count is already an
 # annualisation denominator at the writer, and whether any downstream module divides by it.
 # The leg refuses counts that do not re-derive from the published blocks, an implied cagr that
