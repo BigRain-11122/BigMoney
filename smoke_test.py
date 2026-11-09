@@ -25955,6 +25955,47 @@ except Exception as _e596x:
 check(_name596, not _bad596, "; ".join(_bad596)[:240] or _d596)
 
 
+# E600: does a bar date pick out one face, or does it return a set?  The leg recomputes every date's
+# landing class straight from the published index (a one-face date) or from the published row (the
+# roles it states), refuses a class count that does not re-derive that way, refuses a row whose own
+# face_count disagrees with the index, and refuses a verdict the counts do not force.
+_name600 = ("E600 whether a date-keyed lookup resolves to one face or returns a set (r1629 bm-b)")
+_bad600 = []
+_d600 = "no reading"
+try:
+    _p600 = os.path.join("results", "state_tilt", "DATEFACEUNIQUE.json")
+    _f600 = json.load(open(_p600, encoding="utf-8"))
+    _m600 = importlib.import_module("e600_date_face_unique")
+    _bad600.extend(_m600.face_problems(_f600))
+    _c600 = _f600.get("counts") or {}
+    _idx600 = _f600.get("date_index") or {}
+    _rows600 = {r["date"]: r for r in (_f600.get("date_rows") or [])}
+    _recount = {_m600.C_ONE_FACE: 0, _m600.C_MANY_ONE_ROLE: 0, _m600.C_MANY_MANY_ROLES: 0}
+    for _dte, _n in _idx600.items():
+        _row = _rows600.get(_dte)
+        if _n > 1 and _row is None:
+            _bad600.append("date %s carries %d faces but is not published as a row" % (_dte, _n))
+            break
+        _recount[_m600.classify_date(_n, len(_row["roles"]) if _row else 0)] += 1
+    for _cls, _n in _recount.items():
+        if (_c600.get("by_class") or {}).get(_cls) != _n:
+            _bad600.append("class %s re-derives to %d, the face says %r"
+                           % (_cls, _n, (_c600.get("by_class") or {}).get(_cls)))
+            break
+    if _m600.verdict_from(_c600) != _f600.get("verdict"):
+        _bad600.append("the verdict is not the one the counts force")
+    _d600 = ("dates=%d one_face=%d one_role=%d several_roles=%d max=%d@%s no_date_faces=%d"
+             % (_c600.get("dates_total", 0), _recount[_m600.C_ONE_FACE],
+                _recount[_m600.C_MANY_ONE_ROLE], _recount[_m600.C_MANY_MANY_ROLES],
+                _c600.get("max_faces_on_one_date", 0),
+                _c600.get("max_faces_on_one_date_at", "-"),
+                _c600.get("faces_with_a_bar_and_no_date", 0)))
+except Exception as _e600x:
+    _bad600.append(repr(_e600x)[:160])
+    _d600 = "study could not be read"
+check(_name600, not _bad600, "; ".join(_bad600)[:240] or _d600)
+
+
 # E597: every published block that carries a bar count, whether that count is already an
 # annualisation denominator at the writer, and whether any downstream module divides by it.
 # The leg refuses counts that do not re-derive from the published blocks, an implied cagr that

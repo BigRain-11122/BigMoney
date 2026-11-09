@@ -14327,3 +14327,11 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 - **第二教训**：一条悬空重定向不等于载荷丢失——regime_matrix_p0 用绝对 K:\\... 路径写指针，本检出树在 C:，而**同一个 basename 就躺在指针旁边**。判据=repair_path 实存；正名「钉在另一个根上」；修复=指针写仓相对路径（writer 已改 scripts/regime_matrix_p0.py，活指针已签修，重建后悬空 2→0）。
 - **用途**：接任何 *_latest 指针先问三件——远端在不在（可解/悬空/旁有副本）、两端各报的 bar 是不是同一个字段、有没有模块真去比。三样都不成立时，「指针里有 bar」只是近端自述。
 - **证据** = scripts/e599_pointer_redirect_bar.py（selftest **59/59**）+ results/state_tilt/POINTERREDIRECTBAR.json (+-latest) + smoke_test.py leg E599 + scripts/run_e599_smoke_leg.py（PASS·--doctor 1/1 红）+ S6 leg pointer_redirect_bar rc=0 + writer 修（相对路径）+ 活指针已签修。
+
+## E603 bar 的日期是面板 vintage，不是身份（r1629 bm-b·2026-11-09）
+
+**观察**：E596 证明在同时写 pricing 与 decision 两条 bar 的面（18/18 两个角色写不同日期）上 name join 是承重的——可那论证只在「消费者本来就能按日期 join」时才咬人。把每个面写在 bar 名旁边的日期全部收起来按面计数：13,648 个 JSON 面里 13,187 个写着 bar 名，它们只落在 **113 个不同日期**上，其中 **82 个日期被一个以上的面写着**（独占面 31 / 多面同角色 47 / 多面多角色 35）。**最挤的是 2026-09-22，被 6,148 个面写着**（6,147 个当 `evidence_cutoff`，1 个当 `as_of`）。
+
+**判据**：日期键 lookup 不是「有点歧义」，而是**在 vintage 上查**——六千个面共享 2026-09-22 是因为它们切自同一块面板，不是因为它们是同一个面；所以 name join 仍是唯一能说清「哪个面、哪条 bar」的东西。31 个独占日期的面几乎全是 `fund_pit_factor_panel.json` 的月末（2011-12-31…），它们「唯一」只因为仓里只有那一块大面板写这些日期。另有 6 个面写着 bar 名却写不出 ISO 日期（散文日期 / epoch 整数），日期键彻底够不着。
+
+**How**：任何「按 as-of 取面」的想法先查日期命中集大小——同一日期被多面共享时，先按角色再按名字收敛；新写面若把面板 cutoff 写进多个面，那日期就不可能是键。正身 = `scripts/e600_date_face_unique.py`（selftest 26/26）＋ `results/state_tilt/DATEFACEUNIQUE.json` ＋ S6 leg `date_face_unique` ＋ smoke leg E600（`--doctor` 拔掉一行的一个面即红）。姊妹：E594/E596/E598/E599。

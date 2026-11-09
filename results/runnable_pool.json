@@ -30566,11 +30566,15 @@
    "lane": "cpu-only",
    "lane_note": "static: for each reader that currently resolves a bar by key name, publish whether the date it joins on identifies the face it read, or several faces at once; no runner, no fixture write, no panel refresh",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E596 (r1623 bm-b): where a face states both a pricing and a decision bar the two dates always differ (18/18), so the name join is load-bearing there. The open question is the other half: a consumer cannot even reach that choice unless its date picks out one face -- if the same date is stated by many faces, a date-keyed lookup returns a set and needs the name anyway.",
    "target": "results/state_tilt/DATEFACEUNIQUE.json",
    "deliverable": "results/state_tilt/DATEFACEUNIQUE.json: per stated date, how many distinct faces state it and which roles they state it under; the count of dates that identify a face, a role, or nothing",
-   "title": "E600 whether a date-keyed lookup resolves to at most one face or returns a set"
+   "title": "E600 whether a date-keyed lookup resolves to at most one face or returns a set",
+   "done_at": "2026-11-09T10:20:00+08:00",
+   "result_ref": "results/state_tilt/DATEFACEUNIQUE.json",
+   "result_note": "82 of 113 stated dates are stated by more than one face; busiest 2026-09-22 by 6148 faces (6147 as evidence_cutoff)",
+   "card": "E603"
   },
   {
    "id": "E601-WHETHER-A-DUPLICATED-ROW-IS-DETECTABLE-FROM-WHAT-A-FACE-PUBLISHES",
@@ -30603,6 +30607,18 @@
     "workers": 1,
     "priority": "BelowNormal"
    }
+  },
+  {
+   "id": "E604-WHETHER-ANY-READER-JOINS-ON-A-BAR-DATE-AT-ALL",
+   "lane": "cpu-only",
+   "lane_note": "static: read the readers that resolve a face and ask whether the lookup key is a date at all; no runner, no fixture write",
+   "priority": "normal",
+   "status": "ready",
+   "card": "E604",
+   "source": "E600 (r1629 bm-b): a bar date is a panel vintage (6148 faces share 2026-09-22), so a date-keyed lookup cannot identify a face. That only costs something if a reader somewhere joins on a date; if every reader already names the face, the vintage collision is a latent trap rather than a live defect.",
+   "target": "results/state_tilt/DATEJOINREADERS.json",
+   "deliverable": "results/state_tilt/DATEJOINREADERS.json: per reader site, whether the key it resolves a face by is a name, a date, or a value computed from a date, and the count of sites that would land on a vintage set",
+   "title": "E604 whether any reader joins on a bar date instead of a face name"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30617,6 +30633,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T09:55:00+0800",
+ "updated_at": "2026-11-09T10:20:00+0800",
  "version": 1
 }

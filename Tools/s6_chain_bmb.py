@@ -2450,6 +2450,14 @@ LEGS = [
     # payload sits next to the pointer called a missing payload, and counts that do not re-derive.
     ("pointer_redirect_bar",
      ["python", "scripts/e599_pointer_redirect_bar.py", "check"]),
+    # E600 (r1629 bm-b): E596 showed the name join is load-bearing where a face states both bars on
+    # different dates -- but that argument only bites if a consumer could join on the date at all.
+    # Every date stated next to a bar name is counted across faces and roles: does the date pick out
+    # one face, several faces under one role, or several faces under several roles?  The leg refuses
+    # a class count that does not re-derive from the published index plus the rows, a row whose own
+    # face_count disagrees with the index, and a verdict the counts do not force.
+    ("date_face_unique",
+     ["python", "scripts/e600_date_face_unique.py", "check"]),
 ]
 
 
