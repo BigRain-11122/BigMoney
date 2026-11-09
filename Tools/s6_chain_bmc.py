@@ -1020,6 +1020,13 @@ LEGS = [
     # distribution, the aggregate is recomputable from its finals. Read-only JSON, ~0.1s;
     # the 90-second re-derivation runs with `run` in its own round.
     ("late_sheet_price", ["python", "scripts/etf_book_late_sheet_price.py", "--check"]),
+    # r1482: the desk's own question is not "what does lateness cost" but "today or
+    # tomorrow". That answer is the trim's price added to a wait that can be several bars,
+    # so this leg re-derives the k-bar ladder receipt: every rung's additivity flag follows
+    # its own residual, the decision re-derives from the table it published, and the k=1
+    # rung must still equal the published one-sheet face (two faces, one number). Read-only
+    # JSON (~0.1s); the few-minute ladder runs with `run` in its own round.
+    ("do_or_wait", ["python", "scripts/etf_book_do_or_wait.py", "--check"]),
     # r1447: the horizontal question above ("is the running weight the graded rule's
     # weight") has a vertical twin -- DEFAULT_BETA is a literal, so the weight is
     # k = target/beta and the target could have been any point on a ladder. This leg

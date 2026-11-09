@@ -35,6 +35,7 @@ GAP = os.path.join(ROOT, "results", "etf_book_cut_order_gap.json")
 CUT = os.path.join(ROOT, "results", "etf_book_cut_gate_pass", "CUT-GATE-PASS.json")
 YEAR = os.path.join(ROOT, "results", "etf_book_year_gate", "YEAR-GATE.json")
 LATE = os.path.join(ROOT, "results", "etf_book_late_sheet_price.json")
+DOW = os.path.join(ROOT, "results", "etf_book_do_or_wait.json")
 OUT = os.path.join(ROOT, "results", "etf_book_decision_line.json")
 
 HELD_ARM = "nobond_vt08"  # the arm the year gate holds; the late-sheet price is quoted for it
@@ -80,7 +81,26 @@ def late_block(late):
     }
 
 
-def derive(gap, cut, year, late=None):
+def wait_block(dow):
+    """The today-or-wait table, read from its own face (r1482).  It is not a second
+    opinion: it is the trim's price plus the wait's price, both already published."""
+    if not dow:
+        return {"status": "UNKNOWN_MISSING_FACE"}
+    dec = dow.get("decision") or {}
+    if dec.get("verdict") in (None, "UNKNOWN_MISSING_LADDER", "UNKNOWN_MISSING_RECEIPT"):
+        return {"status": "UNKNOWN", "verdict": dec.get("verdict")}
+    return {
+        "status": "OK",
+        "face": "results/etf_book_do_or_wait.json",
+        "verdict": dec.get("verdict"),
+        "best_k": dec.get("best_k"),
+        "today_cost_cny": dec.get("today_cost_cny"),
+        "trim_owed": dec.get("trim_owed"),
+        "table": dec.get("table"),
+    }
+
+
+def derive(gap, cut, year, late=None, dow=None):
     """Fold three receipts into one decision row.  Pure function of its inputs."""
     missing = [n for n, v in (("cut_order_gap", gap), ("cut_gate_pass", cut), ("year_gate", year)) if v is None]
     if missing:
@@ -171,6 +191,7 @@ def derive(gap, cut, year, late=None):
         "sentence": None,
     }
     row["late_sheet"] = late_block(late)
+    row["do_or_wait"] = wait_block(dow)
 
     if conflicts:
         row["verdict"] = "CONFLICT_BETWEEN_RECEIPTS"
@@ -230,6 +251,22 @@ def derive(gap, cut, year, late=None):
                against))
     else:
         row["sentence"] += "; the price of filling this sheet one open late is UNKNOWN (no late-sheet face)"
+    # the one question a desk asks: today or tomorrow.  Read from the ladder face; a
+    # missing face is UNKNOWN and says so instead of defaulting to "do it today".
+    wb = row["do_or_wait"]
+    if wb.get("status") == "OK":
+        best = None
+        for x in (wb.get("table") or []):
+            if x.get("k") == wb.get("best_k"):
+                best = x
+                break
+        row["sentence"] += (
+            "; today-or-wait: %s%s"
+            % (wb.get("verdict"),
+               (" (cheapest at k=%s, %+.0f CNY vs today)" % (wb.get("best_k"), best["cost_cny_vs_today"])
+                if best and best.get("cost_cny_vs_today") is not None else "")))
+    else:
+        row["sentence"] += "; today-or-wait: UNKNOWN (no ladder face)"
     return {"verdict": row["verdict"], "missing": [], "conflicts": conflicts, "row": row}
 
 
@@ -240,7 +277,7 @@ def _published_body(obj):
 
 def cmd_run():
     t0 = datetime.now(timezone.utc)
-    res = derive(_load(GAP), _load(CUT), _load(YEAR), _load(LATE))
+    res = derive(_load(GAP), _load(CUT), _load(YEAR), _load(LATE), _load(DOW))
     res["face"] = "etf_book_decision_line"
     res["asof"] = datetime.now(CST).strftime("%Y-%m-%dT%H:%M:%S+0800")
     res["elapsed_sec"] = round((datetime.now(timezone.utc) - t0).total_seconds(), 2)
@@ -261,7 +298,7 @@ def cmd_check():
     if old is None:
         print("NO_PUBLISHED_FACE: run first")
         return 1
-    fresh = derive(_load(GAP), _load(CUT), _load(YEAR), _load(LATE))
+    fresh = derive(_load(GAP), _load(CUT), _load(YEAR), _load(LATE), _load(DOW))
     a, b = _published_body(old), dict(fresh)
     diffs = []
     for k in sorted(set(a) | set(b)):
@@ -397,6 +434,21 @@ def cmd_selftest():
     leg("missing late face is UNKNOWN, never a zero",
         r10["row"]["late_sheet"]["status"] == "UNKNOWN_MISSING_FACE"
         and "UNKNOWN" in r10["row"]["sentence"] and "0 CNY" not in r10["row"]["sentence"])
+
+    # the today-or-wait table: quoted from its own face, UNKNOWN (never "do it today")
+    # when that face is absent
+    dow_face = {"decision": {"verdict": "DO_TODAY", "best_k": 1, "today_cost_cny": 53.28,
+                             "trim_owed": True,
+                             "table": [{"k": 1, "cost_cny_vs_today": 932.0}]}}
+    r11 = derive(g9, c9, y9, late_face, dow_face)
+    leg("today-or-wait is quoted from the ladder face",
+        r11["row"]["do_or_wait"]["status"] == "OK"
+        and r11["row"]["do_or_wait"]["verdict"] == "DO_TODAY"
+        and "DO_TODAY" in r11["row"]["sentence"] and "k=1" in r11["row"]["sentence"])
+    r12 = derive(g9, c9, y9, late_face, None)
+    leg("missing ladder face is UNKNOWN, not 'do it today'",
+        r12["row"]["do_or_wait"]["status"] == "UNKNOWN_MISSING_FACE"
+        and "today-or-wait: UNKNOWN" in r12["row"]["sentence"])
 
     ok = all(x[1] for x in legs)
     for name, passed, note in legs:

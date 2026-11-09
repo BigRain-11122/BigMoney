@@ -132,6 +132,93 @@ def tape(close, openp, amt, score, rebal=REBAL, n_hold=N_HOLD, cost=COST,
     return pd.Series(dict(daily)).sort_index(), events
 
 
+def tape_windows(close, openp, amt, score, max_k=10, rebal=REBAL, n_hold=N_HOLD,
+                 cost=COST, vol_target=None, vol_window=60, phase=0):
+    """`tape`, plus the next `max_k` bars priced for both books at every decision.
+
+    A sheet filled k opens late keeps the *old* book for k bars and then joins the new
+    one; the price of that one sheet is the sum of the k bar-differences, not a number
+    anybody gets to assume.  The equity walk is unchanged (it is the punctual path), so
+    the control leg in the caller still compares against the engine.
+
+    Returns (equity_curve, events) where each event carries
+    `windows[i] = {"r_old": .., "r_new": ..}` for i in 0..k-1 (short at the tail).
+    """
+    hist = close.notna().cumsum()
+    elig = (amt >= E.MIN_AMT) & (hist >= E.MIN_HIST)
+    score = score.where(elig)
+    op = openp.reindex(columns=close.columns)
+    dates = [d for d in op.index if d >= pd.Timestamp(R.START)]
+    rets = op.pct_change()
+    equity, held, daily, events = 1.0, {}, [], []
+
+    def book_vol(book, upto):
+        if not book:
+            return np.nan
+        window = rets.loc[:upto].tail(vol_window)[list(book)]
+        if window.shape[0] < 20:
+            return np.nan
+        w = np.array([book[k] for k in window.columns])
+        cov = window.cov().to_numpy()
+        return float(np.sqrt(w @ cov @ w) * np.sqrt(252))
+
+    def bar_pick(book, i):
+        """Open-to-open return of `book` over bars (dates[i], dates[i+1])."""
+        if i + 1 >= len(dates) or not book:
+            return 0.0
+        a_date, b_date = dates[i], dates[i + 1]
+        r = 0.0
+        for p, wt in book.items():
+            a, b = op.at[a_date, p], op.at[b_date, p]
+            if np.isfinite(a) and np.isfinite(b) and a > 0:
+                r += wt * (b / a - 1.0)
+        return r
+
+    for i in range(len(dates) - 1):
+        d = dates[i]
+        if (i - phase) % rebal == 0 and i >= phase:
+            s = score.loc[d].dropna()
+            if len(s) >= n_hold:
+                picks = list(s.nlargest(n_hold).index)
+                w = {p: 1.0 / n_hold for p in picks}
+                scale = 1.0
+                if vol_target:
+                    v = book_vol(w, d)
+                    if np.isfinite(v) and v > 0:
+                        scale = float(max(0.0, min(1.0, vol_target / v)))
+                w = {k: v * scale for k, v in w.items()}
+                old = dict(held)
+                turn = sum(abs(w.get(k, 0.0) - old.get(k, 0.0)) for k in set(w) | set(old))
+                equity *= (1.0 - cost * turn)
+                held = w
+                windows = []
+                for j in range(i, min(i + max_k, len(dates) - 1)):
+                    windows.append({"r_old": bar_pick(old, j), "r_new": bar_pick(w, j)})
+                r_old, r_new = bar_pick(old, i), bar_pick(w, i)
+                events.append({
+                    "date": str(pd.Timestamp(d).date()),
+                    "nav_cny": round(equity, 2),
+                    "nav_exact": equity,
+                    "k_scale": round(scale, 6),
+                    "legs_changed": len([k for k in w if w.get(k) != old.get(k)]),
+                    "r_old": r_old,
+                    "r_new": r_new,
+                    "delta_log": math.log1p(r_old) - math.log1p(r_new),
+                    "delta_bps": (r_old - r_new) * 1e4,
+                    "delta_cny": equity * (r_old - r_new) * CAPITAL_CNY,
+                    "windows": windows,
+                })
+        nxt = dates[i + 1]
+        r = 0.0
+        for p, wt in held.items():
+            a, b = op.at[d, p], op.at[nxt, p]
+            if np.isfinite(a) and np.isfinite(b) and a > 0:
+                r += wt * (b / a - 1.0)
+        equity *= (1.0 + r)
+        daily.append((nxt, equity))
+    return pd.Series(dict(daily)).sort_index(), events
+
+
 def _dist(values):
     v = np.asarray(values, dtype=float)
     n = int(v.size)

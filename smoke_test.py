@@ -683,6 +683,16 @@ def main() -> int:
              "scripts/etf_book_late_sheet_price.py", ["selftest"]),
             ("product: etf_book_late_sheet_price (locals add up, verdict re-derived)",
              "scripts/etf_book_late_sheet_price.py", ["--check"]),
+            # r1482: the desk needs one answer, not three prices -- today or tomorrow. The
+            # legs pin that the k-bar window walk reproduces the one-bar tape and the
+            # engine, that a two-bar wait is priced as two bars instead of copying the first
+            # rung, that a flat continuation adds nothing, that the decision follows from its
+            # own cost table (and says "nothing owed today" when that is the truth), and that
+            # the published receipt re-derives with its k=1 rung equal to the one-sheet face.
+            ("product: etf_book_do_or_wait (the wait is priced rung by rung)",
+             "scripts/etf_book_do_or_wait.py", ["selftest"]),
+            ("product: etf_book_do_or_wait (decision and ladder re-derived)",
+             "scripts/etf_book_do_or_wait.py", ["--check"]),
             # r1481 also gave the decision line a third price (what it costs if this sheet
             # is filled tomorrow); the existing decision-line legs at the bottom of this
             # file already run that selftest, and it now carries the UNKNOWN-not-zero leg.
