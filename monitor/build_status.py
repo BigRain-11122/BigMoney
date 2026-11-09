@@ -189,9 +189,15 @@ def _lane_freshness_state() -> dict:
                   "cutoff", "missing_periods", "n_expected", "n_present",
                   "lane_host", "host_alive", "takeover_capable", "why")}
                 for p in (doc.get("period_lanes") or [])],
-            "period_missing_lanes": [
+            # r1492: this list used to be "verdict not in (None,'period_ok','retired')", a SECOND
+# spelling of "missing a statutory period". The board's in-sync verdict for a statutory
+# lane is `in_sync`, so a lane whose period WAS present still appeared on the page as
+# missing (measured: fund_statements, cutoff 20260930 = expected_latest, missing_periods
+# empty). The list is now the same quantity a reader and the smoke leg check: the periods
+# the board itself reports as absent.
+                "period_missing_lanes": [
                 p.get("lane") for p in (doc.get("period_lanes") or [])
-                if p.get("verdict") not in (None, "period_ok", "retired")]}
+                if (p.get("missing_periods") or [])]}
 
 
 def _lane_ownership_state() -> dict:

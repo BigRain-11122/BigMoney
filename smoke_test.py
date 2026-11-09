@@ -2578,7 +2578,7 @@ def main() -> int:
                                encoding="utf-8")).get("data") or {}).get(
             "lane_freshness") or {}
         _pdb7 = {p.get("lane"): p for p in (_db7.get("period_lanes") or [])}
-        _why7 = []
+        _why7, _note7 = [], ""
         for _p7 in _pl7:
             _mine = _pdb7.get(_p7.get("lane"))
             if _mine is None:
@@ -2592,16 +2592,41 @@ def main() -> int:
                 _why7.append(f"{_p7.get('lane')}: deadline not carried")
         _missing7 = [p.get("lane") for p in _pl7
                      if (p.get("missing_periods") or [])]
-        if set(_missing7) != set(_db7.get("period_missing_lanes") or []):
-            _why7.append("period_missing_lanes is not the set of lanes the "
-                         "board reads as missing a statutory period")
+        # r1492: the dashboard is a single-writer face (D-20260928-03 batch-3). On a
+        # machine that is not its host the page is a stale copy by construction, so
+        # "page set != board set" is not drift here -- it is this machine reading
+        # somebody else's last build. The equality is still enforced on the host; a
+        # non-host asserts only that the block exists and NAMES the disagreement.
+        _may7, _owner7 = True, None
+        try:
+            from config.lane_io import (C_SINGLE_WRITER_HOSTS as _SW7,
+                                        machine_id as _mid7,
+                                        shared_derive_write_allowed as _ok7)
+            _owner7 = _SW7.get("results/dashboard_status.json")
+            _may7 = bool(_ok7("results/dashboard_status.json", verbose=False))
+            if not _may7 and not _db7:
+                _why7.append("the page carries no statutory-clock block at all "
+                             "(its writer is %s)" % _owner7)
+        except Exception:
+            _may7 = True
+        _pm7 = set(_db7.get("period_missing_lanes") or [])
+        if set(_missing7) != _pm7:
+            _line7 = ("period_missing_lanes is not the set of lanes the board reads "
+                      "as missing a statutory period (board=%s page=%s)"
+                      % (sorted(_missing7), sorted(_pm7)))
+            if _may7:
+                _why7.append(_line7)
+            else:
+                _note7 = ("page built by %s; this machine cannot certify it (%s)"
+                          % (_owner7, _line7))
         _html7 = open("dashboard.html", encoding="utf-8").read()
         if "lf.period_lanes" not in _html7 or "法定时钟道" not in _html7:
             _why7.append("the page renders no statutory-clock row")
         check("fleet: a lane whose clock is the statute reaches the page",
-              not _why7, "; ".join(_why7) or
-              f"{len(_pl7)} statutory lane(s) printed, "
-              f"{len(_missing7)} with a missing period named")
+              not _why7, "; ".join(_why7) or (
+                  f"{len(_pl7)} statutory lane(s) printed, "
+                  f"{len(_missing7)} with a missing period named"
+                  + (" | " + _note7 if _note7 else "")))
     except Exception as e:
         check("fleet: a lane whose clock is the statute reaches the page",
               False, str(e))
