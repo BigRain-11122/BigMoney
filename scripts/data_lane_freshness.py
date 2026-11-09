@@ -823,6 +823,7 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
         "worst": (worst_row["lane"] if (stale or uncertified) and worst_row
                   and worst_row.get("n_missing") else None),
         "disk": disk_face(rows, hosts),
+        "local_replicas": replica_face(rows),
         "note": ("Descriptive face, one rule per lane: the official calendar is "
                  "the reference, the lane's own tail is the measurement. A lane "
                  "with no artifact reads absent, never 0. A lane whose only "
@@ -930,6 +931,52 @@ def disk_face(rows, hosts=None, here=None):
             "labels": {r["lane"]: AUTHORITY_LABEL.get(r.get("authority"),
                                                     r.get("authority"))
                        for r in live}}
+
+
+def replica_face(rows):
+    """Lanes whose copy ON THIS DISK is behind the tail the lane certifies (r1273).
+
+    The board certifies a lane from its envelope, and the envelope comes from
+    whichever machine owns the lane. That makes `in_sync` a statement about the
+    company's data, not about the bytes in this checkout -- and a research run
+    started here reads the bytes. Measured 2026-11-09: moneyflow read `in_sync`
+    at 2026-11-06 while `data/moneyflow/per/` on this box ended 2026-10-13
+    (18 official days), and no human face said so; the page claimed every lane
+    was in step with the calendar.
+
+    Kept as its own face rather than folded into the verdict, because the two
+    readings are both true: the lane is alive elsewhere and this copy is old.
+    """
+    live = [r for r in (rows or ()) if r.get("verdict") != "retired"]
+    lagging = []
+    for r in live:
+        n = r.get("panel_behind_days")
+        if not n or not r.get("panel_behind_envelope"):
+            continue
+        lagging.append({"lane": r.get("lane"),
+                        "local_tail": r.get("panel_tail"),
+                        "certified_tail": r.get("panel_behind_envelope"),
+                        "behind_days": n,
+                        "host": _data_face(r),
+                        "authority": r.get("authority")})
+    lagging.sort(key=lambda d: (-d["behind_days"], d["lane"]))
+    addressed = [r for r in live if (r.get("panel_read") or {}).get("files")]
+    if not addressed:
+        sentence = "本机没有可读的数据面板副本，谈不上落后。"
+    elif not lagging:
+        sentence = (f"本机可读的 {len(addressed)} 条面板副本都追上了各自车道认证的尾日"
+                    + "（研究可以直接读本机盘）。")
+    else:
+        parts = [f"{d['lane']} 差 {d['behind_days']} 个交易日"
+                 f"（本盘 {d['local_tail'] or '无'} / 车道 {d['certified_tail']}"
+                 + (f"，数据在 {d['host']} 盘上" if d["host"] else "") + "）"
+                 for d in lagging]
+        sentence = (f"本机副本落后：{len(addressed)} 条可读面板里有 {len(lagging)} 条"
+                    "读到的不是车道认证的那一天的数："
+                    + "；".join(parts)
+                    + "。本机发起的研究要用这些车道的数据，读的是旧盘。")
+    return {"n_lagging": len(lagging), "n_readable": len(addressed),
+            "lanes": lagging, "sentence": sentence}
 
 
 def read_certification(path=None):
@@ -1238,9 +1285,17 @@ def render_md(report, cert="auto"):
     sampled = [r for r in report["lanes"]
                if (r.get("panel_read") or {}).get("sampled")]
     behind = [r for r in report["lanes"] if r.get("panel_behind_envelope")]
+    repl = report.get("local_replicas") or {}
     if behind:
+        # r1273: the per-lane list below answers "which lane, how far". It never
+        # answered "so what" -- whether the bytes a research run HERE would read
+        # are the certified ones. The summary sentence is derived once and rides
+        # above its own detail rather than as a second section (one rule, one
+        # implementation: replica_face).
         tailnote += ("\n## Copies that hold less than their envelope claims\n\n"
-                     "The envelope is what some machine says it collected; the "
+                     + ((repl.get("sentence") + "\n\n")
+                        if repl.get("sentence") else "")
+                     + "The envelope is what some machine says it collected; the "
                      "panel is what is on this disk. Where the copy is behind "
                      "its own envelope the row cannot be read as current here, "
                      "even though the lane itself may be alive elsewhere.\n\n")
@@ -2067,7 +2122,47 @@ def selftest():
     print("[PASS] L31 a lane a stand-in already runs is not printed as waiting "
           "for its silent owner", flush=True)
 
-    print("selftest: 29/29 PASS", flush=True)
+    # L32 (r1273) `in_sync` is a statement about the company's data, not about
+    # the bytes in this checkout. A lane certified at 2026-11-06 whose copy here
+    # ends 2026-10-13 must be NAMED, with the gap, or a research run started on
+    # this machine reads an eighteen-day-old panel under a green board.
+    _lag = [{"lane": "moneyflow", "verdict": "in_sync",
+             "authority": "host_envelope", "data_face_machine": "bm-c",
+             "panel_read": {"files": 5222, "per_file": 40, "sampled": True},
+             "panel_tail": "2026-10-13",
+             "panel_behind_envelope": "2026-11-06", "panel_behind_days": 18}]
+    _ok = [{"lane": "repo", "verdict": "in_sync", "authority": "host_envelope",
+            "panel_read": {"files": 11, "per_file": 11, "sampled": False},
+            "panel_tail": "2026-11-06",
+            "panel_behind_envelope": None, "panel_behind_days": None}]
+    _rep = replica_face(_lag + _ok)
+    assert _rep["n_lagging"] == 1 and _rep["n_readable"] == 2, _rep
+    _row = _rep["lanes"][0]
+    assert _row["lane"] == "moneyflow" and _row["behind_days"] == 18, _row
+    assert _row["host"] == "bm-c", _row
+    assert "moneyflow" in _rep["sentence"] and "18" in _rep["sentence"], _rep
+    assert "repo" not in _rep["sentence"], _rep["sentence"]
+    # a lane with no readable panel is not "in step" -- it is unmeasured, and
+    # the denominator must not swallow it (r1261: an empty measurement is not a
+    # good reading)
+    _none = replica_face([{"lane": "options", "verdict": "retired"}])
+    assert _none["n_lagging"] == 0 and _none["n_readable"] == 0, _none
+    assert "谈不上落后" in _none["sentence"], _none
+    # r1273: the summary has to reach the page that people actually open. A
+    # sentence nobody prints is the r1290 defect (a measured red with no reader),
+    # so the leg renders the md and demands the exact string inside it.
+    _md = render_md({"as_of": "2026-11-09T10:00:00",
+                     "close_accept_time": "15:30",
+                     "expected_last_official_day": "2026-11-06",
+                     "calendar_days": 3, "verdict": "attention",
+                     "counts": {"in_sync": 1}, "n_lanes": 2, "n_auditable": 2,
+                     "worst": None, "lanes": _lag + _ok,
+                     "local_replicas": _rep})
+    assert _rep["sentence"] in _md, _md[:400]
+    print("[PASS] L32 a copy that lags the tail its own lane certifies is named "
+          "with the gap, instead of hiding under in_sync", flush=True)
+
+    print("selftest: 30/30 PASS", flush=True)
     return 0
 
 
@@ -2278,6 +2373,11 @@ def run(now=None, allow_network=False):
               f"taken_over="
               f"{','.join(f'{l}<-{b}' for l, b in over.items()) or '-'}",
               flush=True)
+    # r1273: `in_sync` is a statement about the company's data, not about the
+    # bytes in this checkout -- a research run started here reads the bytes.
+    repl = report.get("local_replicas") or {}
+    if repl.get("sentence"):
+        print(f"LOCAL-COPY {repl['sentence']}", flush=True)
     print(f"verdict={report['verdict']} counts={report['counts']} "
           f"worst={report['worst']}", flush=True)
     return 0

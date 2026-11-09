@@ -2528,6 +2528,41 @@ def main() -> int:
     except Exception as e:
         check("product: whose disk the lane numbers are on reaches both human faces",
               False, str(e))
+    # r1273: `in_sync` is about the company's data; this leg is about the bytes
+    # in THIS checkout. A research run started here reads those bytes, and on
+    # 2026-11-09 moneyflow read `in_sync` at 2026-11-06 while data/moneyflow/per/
+    # on this box ended 2026-10-13 (18 official days) with no face saying so.
+    # Same rule as the disk leg: recompute from the published lanes (a typed-in
+    # sentence reads red) and require both human faces to carry it verbatim.
+    try:
+        import data_lane_freshness as _dlf2
+        _lfdoc2 = json.load(open("results/data_lane_freshness.json",
+                                 encoding="utf-8"))
+        _lr = _lfdoc2.get("local_replicas") or {}
+        _lr_re = _dlf2.replica_face(_lfdoc2.get("lanes") or [])
+        _lr_same = (_lr_re["sentence"] == _lr.get("sentence")
+                    and _lr_re["n_lagging"] == _lr.get("n_lagging")
+                    and _lr_re["n_readable"] == _lr.get("n_readable")
+                    and _lr_re["lanes"] == (_lr.get("lanes") or []))
+        _html2 = open("dashboard.html", encoding="utf-8").read()
+        _lr_dash = ("lf.local_replicas" in _html2
+                    and "lr.sentence" in _html2)
+        _bs = open(os.path.join("monitor", "build_status.py"),
+                   encoding="utf-8").read()
+        _lr_wired = '"local_replicas": doc.get("local_replicas")' in _bs
+        _lr_stdout = 'LOCAL-COPY {repl' in open(
+            os.path.join("scripts", "data_lane_freshness.py"),
+            encoding="utf-8").read()
+        check("product: a copy that lags its own lane reaches the page, the "
+              "board line and the printed run",
+              _lr_same and _lr_dash and _lr_wired and _lr_stdout,
+              f"recomputed={_lr_same} dashboard-wired={_lr_dash} "
+              f"build_status={_lr_wired} stdout={_lr_stdout} "
+              f"lagging={_lr.get('n_lagging')}/{_lr.get('n_readable')} "
+              f"sentence={(_lr.get('sentence') or '')[:50]}")
+    except Exception as e:
+        check("product: a copy that lags its own lane reaches the page, the "
+              "board line and the printed run", False, str(e))
     # r1251: the group decides on 2026-11-08 whether to re-enable the lane tasks
     # from this row, so the row's numbers must BE the declaration's numbers. Two
     # facts travel together and must not be merged: OWNERSHIP (unique/conflicting)

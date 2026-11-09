@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-09",
- "generated_at": "2026-11-09 11:02:34",
+ "generated_at": "2026-11-09 19:36:21",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,13 +294,13 @@
   "md_link": "../live_usage/LIVE-2026-11-09.md"
  },
  "rd": {
-  "commits_24h": 87,
-  "result_jsons_landed_24h": 61,
+  "commits_24h": 58,
+  "result_jsons_landed_24h": 76,
   "digests_landed_24h": 52,
   "prereg_md_touched_24h": 25,
   "compute_audit_latest": {
-   "ts": "2026-11-09 10:25:03",
-   "py_cpu_pct": 0.3,
+   "ts": "2026-11-09 19:23:37",
+   "py_cpu_pct": 7.0,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -309,7 +309,7 @@
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -650,11 +650,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 15889,
-  "total_report_tokens_est": 2371507,
+  "total_report_tokens_est": 2371266,
   "delta_vs_prev": {
-   "prev_generated": "2026-11-07 13:26:09",
+   "prev_generated": "2026-11-07 22:46:07",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 241,
+   "report_tokens_growth": -241,
    "mandate_growth": 0
   },
   "method": {
@@ -665,17 +665,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-11-09 10:25:03",
-    "py_pct": 0.3,
-    "cpu_pct": 71.0,
+    "latest_ts": "2026-11-09 19:23:37",
+    "py_pct": 7.0,
+    "cpu_pct": 59.0,
     "ready": 0,
-    "streak_min": 13199.8,
+    "streak_min": 13738.3,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "06:54",
-      6.4
-     ],
      [
       "07:07",
       6.9
@@ -719,9 +715,13 @@
      [
       "10:25",
       0.3
+     ],
+     [
+      "19:23",
+      7.0
      ]
     ],
-    "today_samples": 1,
+    "today_samples": 2,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -872,7 +872,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-09 10:25:03"
+     "audit_ts": "2026-11-09 19:23:37"
     }
    },
    "bm-b": {
@@ -1713,10 +1713,10 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-09T10:15:19",
+  "as_of": "2026-11-09T19:35:21",
   "verdict": "attention",
   "observer": "bm-a",
-  "sentence": "以本机 bm-a 的盘为基准：14 条在役车道里有 8 条的数字不在本机盘上：7 条在 bm-c 的盘上（心跳 0.29h 前）、1 条在 bm-b 的盘上（237.54h 未报到）；留在本机盘上的 6 条里 6 条可核实。",
+  "sentence": "以本机 bm-a 的盘为基准：14 条在役车道里有 8 条的数字不在本机盘上：7 条在 bm-c 的盘上（9.62h 未报到）、1 条在 bm-b 的盘上（246.87h 未报到）；留在本机盘上的 6 条里 6 条可核实。",
   "n_lanes": 14,
   "n_offhost": 8,
   "n_here": 6,
@@ -1735,8 +1735,8 @@
      "zt_pool"
     ],
     "n": 7,
-    "alive": true,
-    "age_h": 0.29,
+    "alive": false,
+    "age_h": 9.62,
     "last_seen": "2026-11-09T09:58:00+08:00"
    },
    {
@@ -1746,7 +1746,7 @@
     ],
     "n": 1,
     "alive": false,
-    "age_h": 237.54,
+    "age_h": 246.87,
     "last_seen": "2026-10-30T12:43:06+08:00"
    }
   ],
@@ -1760,6 +1760,29 @@
    "ths_panel",
    "zt_pool"
   ],
+  "local_replicas": {
+   "n_lagging": 2,
+   "n_readable": 5,
+   "lanes": [
+    {
+     "lane": "moneyflow",
+     "local_tail": "2026-10-13",
+     "certified_tail": "2026-11-06",
+     "behind_days": 18,
+     "host": "bm-c",
+     "authority": "host_envelope"
+    },
+    {
+     "lane": "ah_panel",
+     "local_tail": "2026-10-16",
+     "certified_tail": "2026-10-26",
+     "behind_days": 6,
+     "host": "bm-c",
+     "authority": "non_host_copy"
+    }
+   ],
+   "sentence": "本机副本落后：5 条可读面板里有 2 条读到的不是车道认证的那一天的数：moneyflow 差 18 个交易日（本盘 2026-10-13 / 车道 2026-11-06，数据在 bm-c 盘上）；ah_panel 差 6 个交易日（本盘 2026-10-16 / 车道 2026-10-26，数据在 bm-c 盘上）。本机发起的研究要用这些车道的数据，读的是旧盘。"
+  },
   "labels": {
    "ths_panel": "无主封套",
    "ah_panel": "他机本地副本",
@@ -1768,13 +1791,13 @@
    "zt_pool": "他机本地副本",
    "astock_daily": "申报接管",
    "etf_panel": "他机写的封套",
-   "futures": "宿主自己写的封套",
-   "heat": "宿主自己写的封套",
    "lhb": "宿主自己写的封套",
-   "lhb_inst": "无主封套",
    "minute_feed": "他机本地副本",
    "moneyflow": "宿主自己写的封套",
-   "repo": "宿主自己写的封套"
+   "repo": "宿主自己写的封套",
+   "futures": "宿主自己写的封套",
+   "heat": "宿主自己写的封套",
+   "lhb_inst": "无主封套"
   }
  },
  "lane_silence": {

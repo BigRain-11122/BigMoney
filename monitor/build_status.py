@@ -172,6 +172,10 @@ def _lane_freshness_state() -> dict:
             # sentence once (data_lane_freshness.disk_face) and every human face
             # prints it verbatim -- no second implementation to drift.
             "disk": doc.get("disk") or {},
+            # r1273: `in_sync` certifies the COMPANY's data; a research run on
+            # this box reads these bytes. Two true readings, printed side by
+            # side -- the summary sentence is derived once by replica_face.
+            "local_replicas": doc.get("local_replicas") or {},
             # r1272 (D-20261108-14 follow-up): the board has been measuring a
             # SECOND clock since r1265 -- a lane whose unit is a statutory
             # REPORT PERIOD, not a trading day -- and nothing consumed it.
