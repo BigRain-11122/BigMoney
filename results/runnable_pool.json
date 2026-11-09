@@ -30354,14 +30354,20 @@
    "lane": "cpu-only",
    "lane_note": "static: name-match every opener of results/etf_book_forward/LEDGER.json and ask whether it reads len(bars)/the last bar as a count or a denominator; no runner, no rebuild",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E584 (r1614 bm-b): a run that rebased and appended published 6 bars twice, so the ledger's bar list was 17 rows over 11 bars and the significance block was fed all 17 (+54.55%). The record is repaired, but the class of consumer that could not tell has not been enumerated: any reader that uses the row count as a denominator (per-bar averages, power tables, 'bars since seed') inherits whatever the file holds.",
    "target": "results/state_tilt/LEDGERROWCOUNT.json",
    "deliverable": "results/state_tilt/LEDGERROWCOUNT.json",
    "title": "For every in-repo consumer of the forward ledger (the writer's own len(led['bars']) legs, the monthly exam, ceo_live_usage, dashboard/status faces, any monitor script), publish whether it uses the row count as a denominator or a bar lookup as a key, and whether it would have noticed the duplicated record",
    "entered_at": "2026-11-09T05:25:11+0800",
    "entered_by": "bm-b",
-   "evidence_cutoff": "2026-11-06"
+   "evidence_cutoff": "2026-11-06",
+   "claimed_by": "bm-b",
+   "done_at": "2026-11-09T08:03:00+08:00",
+   "done_by": "bm-b r1623",
+   "done_round": "r1623",
+   "result_ref": "results/state_tilt/LEDGERROWCOUNT.json (per-module role evidence with line numbers + three live duplication arms) + scripts/e588_ledger_rowcount.py (selftest 29/29, check/verify problems=[], standalone smoke leg PASS + 1/1 red under --doctor) + S6 leg ledger_row_count (rc0 1.50s)",
+   "done_note": "r1623 bm-b: of 11 modules that name the forward ledger, 2 publish its row count and would have reported 17 bars for 11 (scripts/e592_carry_phase.py's per-row rate mean and scripts/etf_book_ceo_page.py's forward block, the CEO-facing one), 5 guard it (writer _dedupe_bars, e584, etf_book_order rows_equal_bars, exchange_calendar_audit, smoke_test) and 3 are immune by keying. Live arms: the CEO page's forward.bars moves 11->17 while as_of/nav/since_inception_pct do not; etf_book_order._ledger_book changes 0 fields; the e592 per-row mean moves 0.004445%->0.004332%. An emptiness test (len(bars) < 1) is graded presence-only, not blind -- 11 and 17 rows pass it alike."
   },
   {
    "id": "E589-WHETHER-THE-CASH-LEG-BLOCK-NAMES-THE-WINDOW-IT-FEEDS",
@@ -30487,6 +30493,20 @@
    "entered_at": "2026-11-09T07:50:00+08:00",
    "entered_by": "bm-b r1622",
    "evidence_cutoff": "2026-11-06"
+  },
+  {
+   "id": "E597-WHETHER-A-PUBLISHED-BAR-COUNT-IS-EVER-USED-IN-ARITHMETIC-ONE-HOP-DOWNSTREAM",
+   "lane": "cpu-only",
+   "lane_note": "static: name every reader of the faces that publish a bar count (Live-usage forward.bars, dashboard_status, the order ticket's ledger block) and ask whether the number is divided, multiplied or annualised there; no runner, no rebuild",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E588 (r1623 bm-b): no consumer of the forward ledger puts len(bars) into arithmetic on its own line (0 of 11), yet two of them publish it -- so the exposure, if any, lives one hop away, in the readers of those published counts. A count that is only carried is cosmetic; a count that becomes a per-bar rate is a wrong rate.",
+   "target": "results/state_tilt/BARCOUNTARITH.json",
+   "deliverable": "results/state_tilt/BARCOUNTARITH.json",
+   "title": "For every published face that carries a bar count, enumerate its in-repo readers and publish whether the count is used as a divisor, a multiplier or an annualisation input there -- and whether the face itself could have noticed a duplicated row.",
+   "entered_at": "2026-11-09T08:03:00+0800",
+   "entered_by": "bm-b",
+   "evidence_cutoff": "2026-11-06"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30501,6 +30521,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T07:50:00+0800",
+ "updated_at": "2026-11-09T08:03:00+0800",
  "version": 1
 }

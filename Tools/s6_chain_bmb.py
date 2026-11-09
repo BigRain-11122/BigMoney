@@ -2412,6 +2412,13 @@ LEGS = [
     # saying which bar priced it is the defect this census exists to find.
     ("ticket_reader_bar",
      ["python", "scripts/e586_ticket_reader_bar.py", "check"]),
+    # E588 (r1623 bm-b): E584 found a run that published six bars twice (17 rows over 11 bars) and
+    # the record was repaired, but the consumers of that file were never enumerated.  This leg
+    # re-derives the consumer census from its own evidence lines and refuses a count, verdict or
+    # role that no longer follows the source -- and refuses a module graded blind while its own
+    # usage carries a dedupe guard or while its empirical arm changed nothing.
+    ("ledger_row_count",
+     ["python", "scripts/e588_ledger_rowcount.py", "check"]),
 ]
 
 

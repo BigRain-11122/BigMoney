@@ -1,0 +1,733 @@
+{
+ "schema": "e588.ledger_rowcount.v1",
+ "study": "E588",
+ "evidence_cutoff": "2026-11-06",
+ "generated": "2026-11-09T08:00:56+0800",
+ "question": "For every in-repo consumer of results/etf_book_forward/LEDGER.json, does it use the row count as a count (a denominator) or key by bar, and would it have noticed E584's six duplicated rows?",
+ "ledger_today": {
+  "path": "results/etf_book_forward/LEDGER.json",
+  "rows": 11,
+  "bars": 11,
+  "rows_equal_bars": true,
+  "first": "2026-10-23",
+  "last": "2026-11-06"
+ },
+ "population": {
+  "definition": "every .py under scripts/, Tools/, firm/, live/, monitor/ and repo root whose own text names both 'etf_book_forward' and 'LEDGER'; one-shot round helpers and smoke mirrors are published as excluded",
+  "candidates_addressing_the_ledger": 22,
+  "consumers_graded": 11,
+  "excluded": [
+   {
+    "module": "_r1592_closeout.py",
+    "class": "one_shot_round_helper",
+    "reason": "round-local closeout/pool/report helper, not a standing consumer"
+   },
+   {
+    "module": "scripts/_r1614_append_card.py",
+    "class": "one_shot_round_helper",
+    "reason": "round-local closeout/pool/report helper, not a standing consumer"
+   },
+   {
+    "module": "scripts/_r1614_closeout.py",
+    "class": "one_shot_round_helper",
+    "reason": "round-local closeout/pool/report helper, not a standing consumer"
+   },
+   {
+    "module": "scripts/_r1614_pool.py",
+    "class": "one_shot_round_helper",
+    "reason": "round-local closeout/pool/report helper, not a standing consumer"
+   },
+   {
+    "module": "scripts/_r1617bmb_pool.py",
+    "class": "one_shot_round_helper",
+    "reason": "round-local closeout/pool/report helper, not a standing consumer"
+   },
+   {
+    "module": "scripts/_r1618bmb_pool.py",
+    "class": "one_shot_round_helper",
+    "reason": "round-local closeout/pool/report helper, not a standing consumer"
+   },
+   {
+    "module": "scripts/_r1618bmb_smoke_block.py",
+    "class": "one_shot_round_helper",
+    "reason": "round-local closeout/pool/report helper, not a standing consumer"
+   },
+   {
+    "module": "scripts/e588_ledger_rowcount.py",
+    "class": "self",
+    "reason": "this study"
+   },
+   {
+    "module": "scripts/run_e584_smoke_leg.py",
+    "class": "smoke_mirror",
+    "reason": "standalone mirror of a study's smoke block; it reads the study, not the catalogue"
+   },
+   {
+    "module": "scripts/run_e591_smoke_leg.py",
+    "class": "smoke_mirror",
+    "reason": "standalone mirror of a study's smoke block; it reads the study, not the catalogue"
+   },
+   {
+    "module": "scripts/run_e592_smoke_leg.py",
+    "class": "smoke_mirror",
+    "reason": "standalone mirror of a study's smoke block; it reads the study, not the catalogue"
+   }
+  ]
+ },
+ "role_definitions": {
+  "row_count": "a len() over the bars list used as a value (published, stored, fed on)",
+  "row_count_in_arithmetic": "that len() sits on a line that also divides/multiplies",
+  "row_count_presence_only": "a len() over bars compared only to 0/1/2 -- an emptiness test that reads the same on 11 and 17 rows",
+  "endpoint_key": "bars[0] / bars[-1]",
+  "bar_key": "a dict keyed by 'bar' or a 'bar' field read",
+  "dedupe_guard": "a unique/rows_equal_bars/accrued_bars_on_disk style guard"
+ },
+ "modules": [
+  {
+   "module": "scripts/e584_ledger_bar_accrual.py",
+   "kind": "reader",
+   "usage": {
+    "row_count": [
+     {
+      "line": 190,
+      "code": "\"ladder_rows_compared\": len(bars)}"
+     }
+    ],
+    "row_count_in_arithmetic": [],
+    "row_count_presence_only": [],
+    "endpoint_key": [
+     {
+      "line": 306,
+      "code": "cutoff = (bars[-1].get(\"bar\") if bars else None) or \"unknown\""
+     },
+     {
+      "line": 337,
+      "code": "return bars[-1].get(\"bar\") or \"unknown\""
+     },
+     {
+      "line": 404,
+      "code": "rows2 = analyse([bars[0], dict(bars[1], carry=one_day)], rates)"
+     },
+     {
+      "line": 410,
+      "code": "bars3 = [bars[0], bars[1], dict(bars[1])]"
+     },
+     {
+      "line": 417,
+      "code": "analyse([bars[0], dict(bars[1], carry=-1e-9)], rates)[1][\"class\"], C_NEG)"
+     },
+     {
+      "line": 421,
+      "code": "two_day = [bars[0], dict(bars[1], bar=\"2020-01-06\","
+     }
+    ],
+    "bar_key": [
+     {
+      "line": 174,
+      "code": "dates = [pd.Timestamp(b[\"bar\"]) for b in bars]"
+     },
+     {
+      "line": 306,
+      "code": "cutoff = (bars[-1].get(\"bar\") if bars else None) or \"unknown\""
+     },
+     {
+      "line": 337,
+      "code": "return bars[-1].get(\"bar\") or \"unknown\""
+     },
+     {
+      "line": 392,
+      "code": "bars = [{\"bar\": fri, \"nav\": 1.0, \"cash\": cash, \"carry\": 0.0},"
+     }
+    ],
+    "dedupe_guard": [
+     {
+      "line": 41,
+      "code": "dedupe is a guarded fix in ``etf_book_forward.py`` and a repair of the published file is done by"
+     }
+    ]
+   },
+   "duplicate_effect": "guarded",
+   "roles_present": [
+    "row_count",
+    "endpoint_key",
+    "bar_key",
+    "dedupe_guard"
+   ]
+  },
+  {
+   "module": "scripts/e587_cash_window.py",
+   "kind": "reader",
+   "usage": {
+    "row_count": [],
+    "row_count_in_arithmetic": [],
+    "row_count_presence_only": [],
+    "endpoint_key": [
+     {
+      "line": 358,
+      "code": "first_bar = bars[0][\"bar\"] if bars else None"
+     }
+    ],
+    "bar_key": [
+     {
+      "line": 149,
+      "code": "return sorted(bars, key=lambda b: b.get(\"bar\") or \"\")"
+     },
+     {
+      "line": 154,
+      "code": "return [pd.Timestamp(b[\"bar\"]) for b in bars]"
+     },
+     {
+      "line": 221,
+      "code": "dates = [pd.Timestamp(b[\"bar\"]) for b in bars]"
+     },
+     {
+      "line": 325,
+      "code": "cutoff = max([b.get(\"bar\") for b in bars]) if bars else None"
+     },
+     {
+      "line": 358,
+      "code": "first_bar = bars[0][\"bar\"] if bars else None"
+     }
+    ],
+    "dedupe_guard": []
+   },
+   "duplicate_effect": "immune_keyed_or_endpoint",
+   "roles_present": [
+    "endpoint_key",
+    "bar_key"
+   ]
+  },
+  {
+   "module": "scripts/e591_cash_diverge.py",
+   "kind": "reader",
+   "usage": {
+    "row_count": [],
+    "row_count_in_arithmetic": [],
+    "row_count_presence_only": [],
+    "endpoint_key": [],
+    "bar_key": [],
+    "dedupe_guard": []
+   },
+   "duplicate_effect": "names_the_path_but_reads_no_bars",
+   "roles_present": []
+  },
+  {
+   "module": "scripts/e592_carry_phase.py",
+   "kind": "reader",
+   "usage": {
+    "row_count": [
+     {
+      "line": 246,
+      "code": "\"bars_judged\": len(bars),"
+     },
+     {
+      "line": 288,
+      "code": "per_bar = [int(per_bar_ok[:, :, :, i].sum()) for i in range(len(bars))]"
+     }
+    ],
+    "row_count_in_arithmetic": [],
+    "row_count_presence_only": [],
+    "endpoint_key": [
+     {
+      "line": 369,
+      "code": "\"evidence_cutoff\": bars[-1],"
+     }
+    ],
+    "bar_key": [
+     {
+      "line": 228,
+      "code": "bars = [r[\"bar\"] for r in pub_rows]"
+     }
+    ],
+    "dedupe_guard": []
+   },
+   "duplicate_effect": "blind_row_count",
+   "roles_present": [
+    "row_count",
+    "endpoint_key",
+    "bar_key"
+   ]
+  },
+  {
+   "module": "scripts/etf_book_card_track.py",
+   "kind": "reader",
+   "usage": {
+    "row_count": [],
+    "row_count_in_arithmetic": [],
+    "row_count_presence_only": [
+     {
+      "line": 119,
+      "code": "if not names or scale is None or len(bars) < 1:"
+     }
+    ],
+    "endpoint_key": [
+     {
+      "line": 133,
+      "code": "last_bar = bars[-1].get(\"bar\")"
+     },
+     {
+      "line": 199,
+      "code": "if bars and bars[-1].get(\"nav\") is not None and nav_bh.get(bars[-1].get(\"bar\")) is not None:"
+     },
+     {
+      "line": 200,
+      "code": "bh_dev = abs(nav_bh[bars[-1][\"bar\"]] - float(bars[-1][\"nav\"]))"
+     }
+    ],
+    "bar_key": [
+     {
+      "line": 133,
+      "code": "last_bar = bars[-1].get(\"bar\")"
+     },
+     {
+      "line": 199,
+      "code": "if bars and bars[-1].get(\"nav\") is not None and nav_bh.get(bars[-1].get(\"bar\")) is not None:"
+     },
+     {
+      "line": 200,
+      "code": "bh_dev = abs(nav_bh[bars[-1][\"bar\"]] - float(bars[-1][\"nav\"]))"
+     },
+     {
+      "line": 315,
+      "code": "\"bars\": [], \"seed\": {\"bar\": bar}}"
+     },
+     {
+      "line": 352,
+      "code": "\"bars\": [{\"bar\": str(dates[i].date()), \"nav\": navs[i - 1], \"cash\": 0.2, \"carry\": 0.0}"
+     },
+     {
+      "line": 379,
+      "code": "\"seed\": {\"bar\": \"2026-01-02\"}, \"bars\": [{\"bar\": \"2026-01-05\", \"nav\": 1.0}]}"
+     }
+    ],
+    "dedupe_guard": []
+   },
+   "duplicate_effect": "immune_keyed_or_endpoint",
+   "roles_present": [
+    "row_count_presence_only",
+    "endpoint_key",
+    "bar_key"
+   ]
+  },
+  {
+   "module": "scripts/etf_book_ceo_page.py",
+   "kind": "reader",
+   "usage": {
+    "row_count": [
+     {
+      "line": 547,
+      "code": "fwd = {\"bars\": len(bars), \"inception\": None, \"nav\": None, \"since_inception_pct\": None,"
+     }
+    ],
+    "row_count_in_arithmetic": [],
+    "row_count_presence_only": [],
+    "endpoint_key": [
+     {
+      "line": 550,
+      "code": "fwd[\"inception\"] = bars[0].get(\"bar\")"
+     },
+     {
+      "line": 551,
+      "code": "fwd[\"as_of\"] = bars[-1].get(\"bar\")"
+     },
+     {
+      "line": 552,
+      "code": "fwd[\"nav\"] = bars[-1].get(\"nav\")"
+     },
+     {
+      "line": 553,
+      "code": "fwd[\"since_inception_pct\"] = round((float(bars[-1][\"nav\"]) - 1.0) * 100.0, 4)"
+     }
+    ],
+    "bar_key": [
+     {
+      "line": 550,
+      "code": "fwd[\"inception\"] = bars[0].get(\"bar\")"
+     },
+     {
+      "line": 551,
+      "code": "fwd[\"as_of\"] = bars[-1].get(\"bar\")"
+     }
+    ],
+    "dedupe_guard": []
+   },
+   "duplicate_effect": "blind_row_count",
+   "roles_present": [
+    "row_count",
+    "endpoint_key",
+    "bar_key"
+   ]
+  },
+  {
+   "module": "scripts/etf_book_forward.py",
+   "kind": "writer",
+   "usage": {
+    "row_count": [
+     {
+      "line": 780,
+      "code": "(last_bar, len(led[\"bars\"]), CONFIG[\"n_hold\"], bl), flush=True)"
+     },
+     {
+      "line": 857,
+      "code": "led[\"drift\"] = {\"faces\": faces[:20], \"max_abs\": worst, \"checked_bars\": len(led[\"bars\"])}"
+     },
+     {
+      "line": 898,
+      "code": "len(led[\"bars\"])))"
+     },
+     {
+      "line": 925,
+      "code": "len(led[\"bars\"])))"
+     },
+     {
+      "line": 1336,
+      "code": "\"bars=%d\" % len(wired[\"bars\"]))"
+     }
+    ],
+    "row_count_in_arithmetic": [],
+    "row_count_presence_only": [],
+    "endpoint_key": [
+     {
+      "line": 933,
+      "code": "\"last_bar\": new_bars[-1][\"bar\"]}])[-MAX_RUNS:]"
+     }
+    ],
+    "bar_key": [
+     {
+      "line": 374,
+      "code": "bars.append({\"bar\": bar, \"nav\": round(m[\"nav\"] / base, 10),"
+     },
+     {
+      "line": 414,
+      "code": "bench = {b[\"bar\"]: b[\"nav\"] for b in bench_block(dates, rebal_days, first)[\"bars\"]}"
+     },
+     {
+      "line": 597,
+      "code": "old = {b.get(\"bar\"): b for b in (published.get(\"bars\") or [])}"
+     },
+     {
+      "line": 863,
+      "code": "new_bars = [f for f in _indexed(marks, seed_bar) if f[\"bar\"] > led[\"bars\"][-1][\"bar\"]]"
+     },
+     {
+      "line": 1191,
+      "code": "fresh = {x[\"bar\"]: x for x in bars}"
+     },
+     {
+      "line": 1280,
+      "code": "led_f = {\"runs\": [], \"bars\": [{\"bar\": \"2026-10-23\", \"nav\": 1.0}]}"
+     },
+     {
+      "line": 1302,
+      "code": "bench[\"bars\"][0][\"bar\"] == mid_bar and abs(navs[0] - 1.0) < 1e-12,"
+     },
+     {
+      "line": 1303,
+      "code": "\"first=%s nav=%.10f\" % (bench[\"bars\"][0][\"bar\"], navs[0]))"
+     },
+     {
+      "line": 1335,
+      "code": "[b[\"bar\"] for b in wired[\"bars\"]] == [b[\"bar\"] for b in led_b[\"bars\"]],"
+     }
+    ],
+    "dedupe_guard": [
+     {
+      "line": 414,
+      "code": "bench = {b[\"bar\"]: b[\"nav\"] for b in bench_block(dates, rebal_days, first)[\"bars\"]}"
+     },
+     {
+      "line": 597,
+      "code": "old = {b.get(\"bar\"): b for b in (published.get(\"bars\") or [])}"
+     },
+     {
+      "line": 647,
+      "code": "def _dedupe_bars(bars):"
+     },
+     {
+      "line": 822,
+      "code": "led[\"bars\"], dup = _dedupe_bars(led[\"bars\"])"
+     },
+     {
+      "line": 824,
+      "code": "print(\"DEDUPED %d duplicated bar rows already on disk: %s\" %"
+     },
+     {
+      "line": 914,
+      "code": "led[\"bars\"], dup2 = _dedupe_bars(led[\"bars\"])"
+     },
+     {
+      "line": 916,
+      "code": "print(\"DEDUPED %d bar rows the rebase had already published: %s\" %"
+     },
+     {
+      "line": 1191,
+      "code": "fresh = {x[\"bar\"]: x for x in bars}"
+     }
+    ]
+   },
+   "duplicate_effect": "guarded",
+   "roles_present": [
+    "row_count",
+    "endpoint_key",
+    "bar_key",
+    "dedupe_guard"
+   ]
+  },
+  {
+   "module": "scripts/etf_book_order.py",
+   "kind": "reader",
+   "usage": {
+    "row_count": [],
+    "row_count_in_arithmetic": [],
+    "row_count_presence_only": [],
+    "endpoint_key": [
+     {
+      "line": 1029,
+      "code": "last = bars[-1] if bars else {}"
+     }
+    ],
+    "bar_key": [
+     {
+      "line": 1782,
+      "code": "\"bars\": [{\"bar\": \"2026-10-28\", \"nav\": 1.00053}], \"status\": \"live\"}"
+     }
+    ],
+    "dedupe_guard": [
+     {
+      "line": 587,
+      "code": "uniq = sorted(set(dates))"
+     },
+     {
+      "line": 590,
+      "code": "\"accrued_rows_on_disk\": len(dates), \"accrued_bars_on_disk\": len(uniq),"
+     },
+     {
+      "line": 591,
+      "code": "\"bar_from\": uniq[0] if uniq else None, \"bar_to\": uniq[-1] if uniq else None,"
+     },
+     {
+      "line": 592,
+      "code": "\"rows_equal_bars\": len(dates) == len(uniq)}"
+     },
+     {
+      "line": 629,
+      "code": "for key in (\"bar_from\", \"bar_to\", \"accrued_bars_on_disk\", \"rows_equal_bars\"):"
+     },
+     {
+      "line": 1982,
+      "code": "lb[\"accrued_bars_on_disk\"] == 2 and lb[\"bar_from\"] == \"2021-01-04\""
+     },
+     {
+      "line": 1983,
+      "code": "and lb[\"bar_to\"] == \"2021-01-05\" and lb[\"rows_equal_bars\"] is True,"
+     },
+     {
+      "line": 1984,
+      "code": "\"bars=%d from=%s\" % (lb[\"accrued_bars_on_disk\"], lb[\"bar_from\"]))"
+     }
+    ]
+   },
+   "duplicate_effect": "guarded",
+   "roles_present": [
+    "endpoint_key",
+    "bar_key",
+    "dedupe_guard"
+   ]
+  },
+  {
+   "module": "scripts/etf_book_registry.py",
+   "kind": "reader",
+   "usage": {
+    "row_count": [],
+    "row_count_in_arithmetic": [],
+    "row_count_presence_only": [],
+    "endpoint_key": [
+     {
+      "line": 158,
+      "code": "last = bars[-1] if bars else {}"
+     }
+    ],
+    "bar_key": [],
+    "dedupe_guard": []
+   },
+   "duplicate_effect": "immune_keyed_or_endpoint",
+   "roles_present": [
+    "endpoint_key"
+   ]
+  },
+  {
+   "module": "scripts/exchange_calendar_audit.py",
+   "kind": "reader",
+   "usage": {
+    "row_count": [],
+    "row_count_in_arithmetic": [],
+    "row_count_presence_only": [],
+    "endpoint_key": [],
+    "bar_key": [
+     {
+      "line": 437,
+      "code": "last = (led.get(\"bars\") or [{}])[-1].get(\"bar\")"
+     }
+    ],
+    "dedupe_guard": [
+     {
+      "line": 83,
+      "code": "\"\"\"Rows -> sorted unique date strings. Raises ValueError on any bad row."
+     }
+    ]
+   },
+   "duplicate_effect": "guarded",
+   "roles_present": [
+    "bar_key",
+    "dedupe_guard"
+   ]
+  },
+  {
+   "module": "smoke_test.py",
+   "kind": "reader",
+   "usage": {
+    "row_count": [
+     {
+      "line": 25371,
+      "code": "if len(_r584) != len(_led584.get(\"bars\") or []):"
+     },
+     {
+      "line": 25438,
+      "code": "if len(_r587) != len(_led587.get(\"bars\") or []):"
+     }
+    ],
+    "row_count_in_arithmetic": [],
+    "row_count_presence_only": [],
+    "endpoint_key": [],
+    "bar_key": [
+     {
+      "line": 25373,
+      "code": "if [r.get(\"bar\") for r in _r584] != [b.get(\"bar\") for b in _led584.get(\"bars\") or []]:"
+     },
+     {
+      "line": 25440,
+      "code": "if [r.get(\"bar\") for r in _r587] != [b.get(\"bar\") for b in _led587.get(\"bars\") or []]:"
+     },
+     {
+      "line": 25541,
+      "code": "_lbars591 = [b.get(\"bar\") for b in _led591.get(\"bars\") or []]"
+     },
+     {
+      "line": 25593,
+      "code": "_lbars592 = [b.get(\"bar\") for b in _led592.get(\"bars\") or []]"
+     }
+    ],
+    "dedupe_guard": [
+     {
+      "line": 6955,
+      "code": "\"the_slip_is_unique_to_one_field\","
+     },
+     {
+      "line": 14473,
+      "code": "if sum(v for k, v in _cls397.items() if k != _m397.CLASS_UNIQUE) != _parts397:"
+     },
+     {
+      "line": 16132,
+      "code": "# the vocabulary or a unique row that carries shadows, (c) a different-document copy with no"
+     },
+     {
+      "line": 16155,
+      "code": "if _r425.get(\"class\") == _m425.C_UNIQUE and _r425.get(\"shadow_count\"):"
+     },
+     {
+      "line": 16156,
+      "code": "_bad425.append(\"%s: a unique row carries shadows\" % _r425.get(\"face\"))"
+     },
+     {
+      "line": 25273,
+      "code": "_s583.get(\"legs_whose_price_is_not_a_unique_witness\", 0),"
+     },
+     {
+      "line": 25543,
+      "code": "if _r591 and not set(r.get(\"bar\") for r in _r591) <= set(_lbars591):"
+     }
+    ]
+   },
+   "duplicate_effect": "guarded",
+   "roles_present": [
+    "row_count",
+    "bar_key",
+    "dedupe_guard"
+   ]
+  }
+ ],
+ "counts": {
+  "modules_addressing_the_ledger": 11,
+  "modules_blind_to_a_duplicated_row": 2,
+  "modules_guarded": 5,
+  "modules_immune_by_keying": 3,
+  "modules_reading_no_bars": 1,
+  "modules_where_the_row_count_feeds_arithmetic": 0,
+  "modules_with_a_presence_only_count": 1,
+  "blind_modules": [
+   "scripts/e592_carry_phase.py",
+   "scripts/etf_book_ceo_page.py"
+  ],
+  "guarded_modules": [
+   "scripts/e584_ledger_bar_accrual.py",
+   "scripts/etf_book_forward.py",
+   "scripts/etf_book_order.py",
+   "scripts/exchange_calendar_audit.py",
+   "smoke_test.py"
+  ],
+  "numeric_blind_modules": [],
+  "presence_only_modules": [
+   "scripts/etf_book_card_track.py"
+  ]
+ },
+ "verdict": "some_consumer_publishes_the_row_count_and_would_have_reported_17_bars_for_11",
+ "answer": "2 of 11 consumers of results/etf_book_forward/LEDGER.json publish its row count and would have reported 17 bars for 11 (scripts/e592_carry_phase.py, scripts/etf_book_ceo_page.py); 5 guard it and 3 key by bar and are immune; on a six-row duplication the per-row rate mean moves from 0.004445% to 0.004332% because six bars are weighted twice",
+ "empirical_arms": {
+  "per_row_mean": {
+   "available": true,
+   "module": "scripts/e592_carry_phase.py",
+   "function": "published_rate_series",
+   "rows_clean": 11,
+   "rows_dup": 17,
+   "mean_pct_clean": 0.004445,
+   "mean_pct_dup": 0.004332,
+   "effect": "blind: the six repeated bars are weighted twice in a per-row mean"
+  },
+  "endpoint_reader": {
+   "available": true,
+   "module": "scripts/etf_book_order.py",
+   "function": "_ledger_book",
+   "fields_changed": [],
+   "effect": "immune: it reads bars[-1] and the book_in_force block, so appended dupes change no field"
+  },
+  "ceo_page_forward": {
+   "available": true,
+   "module": "scripts/etf_book_ceo_page.py",
+   "function": "build",
+   "forward_clean": {
+    "bars": 11,
+    "inception": "2026-10-23",
+    "nav": 1.0005200112,
+    "since_inception_pct": 0.052,
+    "as_of": "2026-11-06"
+   },
+   "forward_dup": {
+    "bars": 17,
+    "inception": "2026-10-23",
+    "nav": 1.0005200112,
+    "since_inception_pct": 0.052,
+    "as_of": "2026-11-06"
+   },
+   "fields_changed": [
+    "bars"
+   ],
+   "effect": "blind: it publishes len(bars) as the forward bar count"
+  }
+ },
+ "limits": [
+  "role detection is line-level on each module's own literals; a count relayed through helper frames is invisible, so the blind count is a lower bound",
+  "a relay module that only passes the path to another module is graded names_the_path_but_reads_no_bars, which is not evidence of a reader defect",
+  "the six-row duplication reproduces E584's shape (17 rows over 11 bars), not its exact row objects",
+  "arm 3 patches the module-level LEDGER constant of etf_book_ceo_page and calls its pure build(); run() (the writer) is never touched"
+ ]
+}

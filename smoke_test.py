@@ -25713,5 +25713,57 @@ except Exception as _e594x:
 check(_name594, not _bad594, "; ".join(_bad594)[:240] or _d594)
 
 
+# E588: E584 found a run that published six bars twice, so the forward ledger held 17 rows over
+# 11 bars and its significance block was fed all 17.  The record was repaired; the consumers were
+# never enumerated.  This leg reads the consumer census and refuses the ways that reading could be
+# a wish: counts that do not re-derive, a verdict that contradicts them, evidence lines that no
+# longer play the role they are cited for, a module graded blind while it carries a dedupe guard
+# or while an empirical arm says a duplication changed nothing, and a ledger face whose own two
+# counts disagree with its own equality flag.
+_name588 = ("E588 whether any ledger consumer takes the row count as a denominator (r1623 bm-b)")
+_bad588 = []
+_d588 = "no reading"
+try:
+    _p588 = os.path.join("results", "state_tilt", "LEDGERROWCOUNT.json")
+    _f588 = json.load(open(_p588, encoding="utf-8"))
+    _m588 = importlib.import_module("e588_ledger_rowcount")
+    _bad588.extend(_m588.face_problems(_f588))
+    _c588 = _f588.get("counts") or {}
+    _mod588 = _f588.get("modules") or []
+    _guard588 = [m["module"] for m in _mod588 if m.get("usage", {}).get("dedupe_guard")]
+    _clash588 = sorted(set(_c588.get("blind_modules") or []) & set(_guard588))
+    if _clash588:
+        _bad588.append("a module is graded blind while its own usage carries a guard: %s"
+                       % ", ".join(_clash588[:3]))
+    _arms588 = _f588.get("empirical_arms") or {}
+    for _k588, _a588 in _arms588.items():
+        if not _a588.get("available"):
+            continue
+        _chg588 = _a588.get("fields_changed")
+        if _chg588 is None:
+            continue
+        _who588 = _a588.get("module")
+        _row588 = next((m for m in _mod588 if m.get("module") == _who588), None)
+        if _row588 is None:
+            continue
+        if _row588.get("duplicate_effect") == "blind_row_count" and not _chg588:
+            _bad588.append("%s is graded blind but its arm changed no field" % _who588)
+        if _row588.get("duplicate_effect") == "immune_keyed_or_endpoint" and _chg588:
+            _bad588.append("%s is graded immune but its arm changed %s"
+                           % (_who588, ", ".join(_chg588)))
+    _lt588 = _f588.get("ledger_today") or {}
+    if _lt588.get("rows") != _lt588.get("bars") and _lt588.get("rows_equal_bars"):
+        _bad588.append("ledger_today claims rows equal bars while its own counts differ")
+    _d588 = ("consumers=%d blind=%d guarded=%d immune=%d arms=%d"
+             % (_c588.get("modules_addressing_the_ledger", 0),
+                _c588.get("modules_blind_to_a_duplicated_row", 0),
+                _c588.get("modules_guarded", 0), _c588.get("modules_immune_by_keying", 0),
+                sum(1 for a in _arms588.values() if a.get("available"))))
+except Exception as _e588x:
+    _bad588.append(repr(_e588x)[:160])
+    _d588 = "study could not be read"
+check(_name588, not _bad588, "; ".join(_bad588)[:240] or _d588)
+
+
 if __name__ == "__main__":
     sys.exit(main())

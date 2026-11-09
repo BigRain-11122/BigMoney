@@ -14221,3 +14221,25 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 **边界**：静态匹配不能证明 join 真的执行（字面量可能只是拼路径或打日志），每个三元组都带产生它的字面量族；`unresolved` 不等于坏 join；文本面按名字出现判定，纯散文不提字段名的面会被读成"不承载"。
 
 **证据** = scripts/e594_bar_dialect_join.py（selftest 27/27·check/verify problems=[]）+ scripts/run_e594_smoke_leg.py（PASS，--doctor 1/1 红）+ results/state_tilt/BARDIALECTJOIN.json + S6 leg `bar_dialect_join`（rc0 2.00s）+ smoke_test.py leg `E594`。
+
+## E588 账本行数当分母：同一份 11 根 bar 的文件，有读者会读成 17（r1623 bm-b·2026-11-09）
+
+**问题**：E584（r1614）已把「一次既 rebase 又 append 的运行把六根 bar 发了两次」这个**故障**修好（17 行 / 11 根），但**消费者从未清点**——拿 `len(bars)` 当计数/分母的读者，会把文件里当时有几行就报几根；按 `bar` 取值或只读 `bars[-1]` 的读者，重复行在字典里塌缩，永远看不见这个故障。所以要问的是「谁会读错」，不是「文件对不对」。
+
+**读数**（results/state_tilt/LEDGERROWCOUNT.json）：
+
+- 11 个模块在自己的文本里同时点名 `etf_book_forward` 与 `LEDGER`（一次性轮脚本/冒烟镜像按类排除并披露）；按角色分级：**2 个盲**（`scripts/e592_carry_phase.py`、`scripts/etf_book_ceo_page.py`）、**5 个有守卫**（写手自己 `_dedupe_bars`、e584、etf_book_order 的 `rows_equal_bars`、exchange_calendar_audit、smoke_test）、**3 个按键取值免疫**、1 个只转手路径不读 bar。
+- 三条**实弹臂**（临时目录、真实账本 vs 后六行再追加一次的同一份）：`e592.published_rate_series` 行数 11→17，逐行均值 0.004445%→0.004332%（六根被加权两次）；`etf_book_order._ledger_book` **0 字段变化**（读 `bars[-1]` 与 `book_in_force`）；`etf_book_ceo_page.build` 的 `forward` 块 `bars` **11→17**，而 `as_of`/`nav`/`since_inception_pct` 一个都没动——CEO 页上那句「第 N 个交易日」就是那个会错得最响的数字。
+
+**判决**：`some_consumer_publishes_the_row_count_and_would_have_reported_17_bars_for_11`。
+
+**教训**：
+
+- **修好记录 ≠ 修好读数**：E584 修的是文件，本轮量的是读者。一个被修好的故障仍有「当时谁会读错」的存量问题，且**只有跑一遍才知道谁会错**——静态分级给出名单，实弹臂给出金额/行数。
+- **`len(bars) < 1` 不是计数**：首版把 `if ... len(bars) < 1:` 判成盲读者（etf_book_card_track），11 与 17 行都通过同一个空判；改成「只与 0/1/2 比较=存在性测试」后该模块退场。**判据要被自身的量纲检验**：一个只在 0 附近读的数不是可被加倍影响的数。
+- **守卫要能被看见才叫守卫**：写手靠 `_dedupe_bars`、订单侧靠 `rows_equal_bars` 与 `accrued_bars_on_disk` 两个字段——把「行数」和「根数」**同时发布**才是守卫；只发布行数的面没有第二次机会自证。
+- **键取值免疫也是要披露的结论**：3 个模块读不错并非因为它们对，而是因为它们只问最后一根 bar。免疫不等于有校验，这两件事不能合并成一句「9/11 没问题」。
+
+**边界**：角色检测是**行级、字面量级**——经 helper 转手的计数看不见，故盲读者数是**下界**；只转手不读的模块按 `names_the_path_but_reads_no_bars` 如实记，不是读者缺陷；重复臂复现的是 E584 的形状（17/11），不是它的具体行对象；第三臂 patch 模块级 `LEDGER` 常量并调用纯 `build()`，从不碰写手 `run()`。
+
+**证据** = scripts/e588_ledger_rowcount.py（selftest 29/29、check/verify problems=[]）+ scripts/run_e588_smoke_leg.py（PASS，--doctor 1/1 红）+ results/state_tilt/LEDGERROWCOUNT.json（+-latest）+ S6 leg `ledger_row_count`（rc0 1.50s）+ smoke_test.py leg `E588`（52 增 0 删）
