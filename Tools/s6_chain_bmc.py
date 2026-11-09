@@ -261,6 +261,14 @@ LEGS = [
     # build (~30s) plus five book runs (~1s each), no network. Runs before the ticket so the
     # executable sheet can quote a same-bar concentration reading instead of a stale one.
     ("etf_book_concentration", ["python", "scripts/etf_book_concentration.py", "run"]),
+    # r1471: the ticket below now sizes itself off the EXECUTED account (the positions face)
+    # instead of the engine's own never-trimmed book -- but nothing in this chain ever WROTE
+    # that face, only checked it ~600 legs later. So the sheet priced off whatever the last
+    # hand run left behind: live on 2026-11-09 the ticket read k 0.391439 against an account
+    # of k 0.390822 on the SAME bar (CNY 617 apart), which is exactly the "a stale account
+    # became the base" failure r1471's guard refuses to print. Write it first, check it below.
+    ("positions_ledger_write",
+     ["python", "scripts/etf_book_positions.py", "run"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
     # r1333: the ticket above is a 5-name beta-overlay book while the card and the ledger
     # run 12 names at an 8% vol target -- two published books with one operator. This leg

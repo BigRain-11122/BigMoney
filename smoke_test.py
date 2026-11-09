@@ -8845,6 +8845,84 @@ def _leg_size_age_control():
         check("product: the freshness board covers the lane map, and a silent "
               "owner is its own alarm", False, repr(e)[:180])
 
+    try:
+        # r1471: the executable sheet sizes itself off the EXECUTED account. That promise is
+        # only worth anything if the three published faces agree on the same bar -- a sheet
+        # priced off an account face one run old reads as a 617 CNY phantom position and no
+        # reader can see it. Recompute k from the account's own halves (never copy a literal)
+        # and demand the ticket, the gap face and the printed page carry that same number.
+        _pf47 = os.path.join(PATHS.results_dir, "etf_book_positions.json")
+        _tk47 = os.path.join(PATHS.results_dir, "etf_book_order", "latest.json")
+        _gp47 = os.path.join(PATHS.results_dir, "etf_book_cut_order_gap.json")
+        _bad47 = []
+        if not os.path.exists(_pf47):
+            _bad47.append("results/etf_book_positions.json missing")
+        else:
+            _p47 = json.load(open(_pf47, encoding="utf-8"))
+            _b47 = _p47.get("next_order_base") or {}
+            _risk47, _cash47 = _b47.get("risk_book_cny"), _b47.get("cash_cny")
+            if _risk47 is None or _cash47 is None or (_risk47 + _cash47) <= 0:
+                _bad47.append("the account face carries no halves to recompute k from")
+            else:
+                _k47 = float(_risk47) / (float(_risk47) + float(_cash47))
+                if not os.path.exists(_tk47):
+                    _bad47.append("results/etf_book_order/latest.json missing")
+                else:
+                    _t47 = json.load(open(_tk47, encoding="utf-8"))
+                    if _t47.get("base_status") == "ok":
+                        if abs(float(_t47.get("k_now") or 0) - _k47) > 1e-6:
+                            _bad47.append("the sheet orders k=%.6f while the account holds "
+                                          "k=%.6f on bar %s"
+                                          % (float(_t47["k_now"]), _k47, _t47.get("as_of")))
+                    if _t47.get("k_rule") is not None and _t47.get("k_now") is not None \
+                            and abs(float(_t47["k_rule"]) - float(_t47["k_now"])) > 1e-9 \
+                            and _t47.get("k_rule") == _t47.get("k_now"):
+                        _bad47.append("a rule size equal to the ordered size was printed as "
+                                      "a divergence")
+                if os.path.exists(_gp47):
+                    _g47 = json.load(open(_gp47, encoding="utf-8"))
+                    if _g47.get("k_now") is not None \
+                            and abs(float(_g47["k_now"]) - _k47) > 1e-6:
+                        _bad47.append("the cut face still sizes off k=%.6f"
+                                      % float(_g47["k_now"]))
+        check("product: the executable sheet is sized from the account it will trade, and "
+              "every published face carries that same k", not _bad47,
+              "; ".join(_bad47)[:220]
+              or "ticket, cut face and account agree on the same bar's k")
+    except Exception as e:
+        check("product: the executable sheet is sized from the account it will trade, and "
+              "every published face carries that same k", False, repr(e)[:180])
+
+    try:
+        # r1471 (downstream half): a trim table with every row at zero is a cut the desk must
+        # not apply, so "inside the floor" now publishes NO table. The leg derives both sides
+        # from the face itself -- a page that prints a five-row cut with nothing to sell reads
+        # as an order to sell.
+        _gp48 = os.path.join(PATHS.results_dir, "etf_book_cut_order_gap.json")
+        _bad48 = []
+        if not os.path.exists(_gp48):
+            _bad48.append("results/etf_book_cut_order_gap.json missing")
+        else:
+            _g48 = json.load(open(_gp48, encoding="utf-8"))
+            _ov48 = bool(_g48.get("order_exceeds_permission"))
+            if (_g48.get("trim") is None) == _ov48:
+                _bad48.append("an order %s the floor published trim=%r"
+                              % ("over" if _ov48 else "inside",
+                                 "a table" if _g48.get("trim") is not None else "nothing"))
+            if _ov48 and _g48.get("trim") is not None:
+                _legs48 = _g48["trim"].get("legs") or []
+                if _legs48 and not any(r.get("lots_sell") for r in _legs48):
+                    _bad48.append("a trim table owed under an over-but-table read carries no "
+                                  "sell row")
+            if not _ov48 and float(_g48.get("gap_k") or 0) > 1e-9:
+                _bad48.append("an inside-floor order still printed a positive gap")
+        check("product: an order inside the floor owes no trim table, and the face says which "
+              "side of the floor it is on", not _bad48, "; ".join(_bad48)[:220]
+              or "trim is published only when the order is over the floor")
+    except Exception as e:
+        check("product: an order inside the floor owes no trim table, and the face says which "
+              "side of the floor it is on", False, repr(e)[:180])
+
 
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)

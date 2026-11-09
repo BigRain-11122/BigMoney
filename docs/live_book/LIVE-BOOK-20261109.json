@@ -6,9 +6,9 @@
  "feed_status": "current",
  "feed_lag_days": 0,
  "capital_cny": 1000000.0,
- "book_amount_cny": 459796.3,
- "cash_amount_cny": 540203.7,
- "cash_weight": 0.5397,
+ "book_amount_cny": 390257.8,
+ "cash_amount_cny": 609742.2,
+ "cash_weight": 0.6092,
  "cash_leg": "GC001 (1-day repo, observed close)",
  "cash_yield": {
   "leg": "GC001",
@@ -16,8 +16,8 @@
   "rate_date": "2026-11-06",
   "rate_pct": 1.185,
   "rate_20d_pct": 1.2338,
-  "annual_cny": 6401.0,
-  "daily_cny": 26.0,
+  "annual_cny": 7225.0,
+  "daily_cny": 29.0,
   "window": 20,
   "basis": "cash x panel close rate / 100; per session = annual / 250 sessions",
   "panel": "data/repo_daily/GC001.csv"
@@ -27,27 +27,27 @@
   "source": "票据 cash_leg.money（逐字消费）",
   "tail": 250,
   "block": {
-   "cash_amount_cny": 540203.7,
+   "cash_amount_cny": 609742.2,
    "spot": {
     "pct": 1.185,
     "date": "2026-11-06",
-    "annual_cny": 6401.0,
+    "annual_cny": 7225.0,
     "quotes": 250
    },
    "mean_tail": {
     "pct": 1.3547,
-    "annual_cny": 7318.0
+    "annual_cny": 8260.0
    },
    "window": {
     "pct": 2.0842,
-    "annual_cny": 11259.0
+    "annual_cny": 12708.0
    },
    "tail": 250,
    "fall_bp": 25.0,
    "verdict": "RATES_STEADY",
-   "sentence": "现金 ¥540,203 按 2026-11-06 报价 1.19% 一年赚 ¥6,401；按自己近 250 个报价的均值 1.35% 是 ¥7,318；按账本自己走过的全窗均值 2.08% 是 ¥11,259。今天的报价就在它自己的均值上，这一半该怎么算就怎么算。",
-   "spread_vs_tail_cny": -917.0,
-   "spread_vs_window_cny": -4858.0
+   "sentence": "现金 ¥609,742 按 2026-11-06 报价 1.19% 一年赚 ¥7,225；按自己近 250 个报价的均值 1.35% 是 ¥8,260；按账本自己走过的全窗均值 2.08% 是 ¥12,708。今天的报价就在它自己的均值上，这一半该怎么算就怎么算。",
+   "spread_vs_tail_cny": -1035.0,
+   "spread_vs_window_cny": -5483.0
   },
   "note": null
  },
@@ -87,8 +87,8 @@
     "rolls_1y": 242,
     "idle_days_1y": 0,
     "idle_share_1y": 0.0,
-    "annual_cny_spot": 6401.0,
-    "annual_cny_realized_1y": 7066.0,
+    "annual_cny_spot": 7225.0,
+    "annual_cny_realized_1y": 7975.0,
     "positive_years": null,
     "years_checked": null,
     "verdict": "BASELINE",
@@ -131,8 +131,8 @@
     "rolls_1y": 98,
     "idle_days_1y": 70,
     "idle_share_1y": 0.1923,
-    "annual_cny_spot": 6185.0,
-    "annual_cny_realized_1y": 6076.0,
+    "annual_cny_spot": 6982.0,
+    "annual_cny_realized_1y": 6858.0,
     "positive_years": 0,
     "years_checked": 5,
     "verdict": "REJECT",
@@ -175,8 +175,8 @@
     "rolls_1y": 50,
     "idle_days_1y": 14,
     "idle_share_1y": 0.0385,
-    "annual_cny_spot": 7293.0,
-    "annual_cny_realized_1y": 7624.0,
+    "annual_cny_spot": 8232.0,
+    "annual_cny_realized_1y": 8605.0,
     "positive_years": 3,
     "years_checked": 5,
     "verdict": "REJECT",
@@ -219,8 +219,8 @@
     "rolls_1y": 25,
     "idle_days_1y": 14,
     "idle_share_1y": 0.0385,
-    "annual_cny_spot": 7347.0,
-    "annual_cny_realized_1y": 7656.0,
+    "annual_cny_spot": 8292.0,
+    "annual_cny_realized_1y": 8642.0,
     "positive_years": 4,
     "years_checked": 5,
     "verdict": "REJECT",
@@ -263,8 +263,8 @@
     "rolls_1y": 12,
     "idle_days_1y": 4,
     "idle_share_1y": 0.0118,
-    "annual_cny_spot": 7266.0,
-    "annual_cny_realized_1y": 7915.0,
+    "annual_cny_spot": 8201.0,
+    "annual_cny_realized_1y": 8933.0,
     "positive_years": 4,
     "years_checked": 5,
     "verdict": "REJECT",
@@ -307,8 +307,8 @@
     "rolls_1y": 4,
     "idle_days_1y": 0,
     "idle_share_1y": 0.0,
-    "annual_cny_spot": 7239.0,
-    "annual_cny_realized_1y": 7792.0,
+    "annual_cny_spot": 8171.0,
+    "annual_cny_realized_1y": 8796.0,
     "positive_years": 4,
     "years_checked": 5,
     "verdict": "REJECT",
@@ -318,8 +318,8 @@
   "pick": "GC001",
   "verdict": "KEEP-1D",
   "reason": "GC003 少 18.3 bp（1年）/ 少 30.8 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 70 天（19.2% > 1%）；5 个完整年只赢了 0 年；GC007 多 10.3 bp（1年）/ 多 4.8 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 14 天（3.9% > 1%）；GC014 多 10.9 bp（1年）/ 多 4.5 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 14 天（3.9% > 1%）；GC028 多 15.7 bp（1年）/ 多 10.9 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 4 天（1.2% > 1%）；GC091 多 13.4 bp（1年）/ 多 9.3 bp（3年），门槛 20 bp",
-  "cash_amount_cny": 540203.7,
-  "forgotten_day_cny": 18.0,
+  "cash_amount_cny": 609742.2,
+  "forgotten_day_cny": 20.0,
   "rolls": {
    "GC001": 242,
    "GC003": 98,
@@ -341,7 +341,7 @@
    "basis": "edge must clear min_edge_bp in the 1y AND 3y windows, idle <= max_idle_share, positive in min_positive_year_share of complete years"
   }
  },
- "k_now": 0.460253,
+ "k_now": 0.390822,
  "n_hold": 5,
  "cost_bp_per_side": 8.0,
  "book_decided_at": "2026-10-14",
@@ -352,51 +352,51 @@
    "symbol": "159501",
    "class": "crossborder",
    "class_zh": "跨境",
-   "weight": 0.092051,
+   "weight": 0.078164,
    "price": 2.069,
-   "lots": 444,
-   "shares": 44400,
-   "amount_cny": 91863.6
+   "lots": 377,
+   "shares": 37700,
+   "amount_cny": 78001.3
   },
   {
    "symbol": "513100",
    "class": "crossborder",
    "class_zh": "跨境",
-   "weight": 0.092051,
+   "weight": 0.078164,
    "price": 2.158,
-   "lots": 426,
-   "shares": 42600,
-   "amount_cny": 91930.8
+   "lots": 362,
+   "shares": 36200,
+   "amount_cny": 78119.6
   },
   {
    "symbol": "513690",
    "class": "crossborder",
    "class_zh": "跨境",
-   "weight": 0.092051,
+   "weight": 0.078164,
    "price": 1.158,
-   "lots": 794,
-   "shares": 79400,
-   "amount_cny": 91945.2
+   "lots": 674,
+   "shares": 67400,
+   "amount_cny": 78049.2
   },
   {
    "symbol": "159577",
    "class": "crossborder",
    "class_zh": "跨境",
-   "weight": 0.092051,
+   "weight": 0.078164,
    "price": 1.612,
-   "lots": 571,
-   "shares": 57100,
-   "amount_cny": 92045.2
+   "lots": 484,
+   "shares": 48400,
+   "amount_cny": 78020.8
   },
   {
    "symbol": "159263",
    "class": "equity",
    "class_zh": "A股",
-   "weight": 0.092051,
+   "weight": 0.078164,
    "price": 1.143,
-   "lots": 805,
-   "shares": 80500,
-   "amount_cny": 92011.5
+   "lots": 683,
+   "shares": 68300,
+   "amount_cny": 78066.9
   }
  ],
  "forward": {
@@ -542,8 +542,8 @@
   "book_decided_at": "2026-10-14",
   "priced_bar": "2026-11-06",
   "next_trade_date": "2026-11-11",
-  "cost_if_retraded_pct_per_year": 18.41,
-  "cost_basis": "2 sides x 8.0 bp x 250 sessions x book share 0.4603, on capital"
+  "cost_if_retraded_pct_per_year": 15.63,
+  "cost_basis": "2 sides x 8.0 bp x 250 sessions x book share 0.3908, on capital"
  },
  "bets": {
   "status": "ok",
@@ -606,12 +606,12 @@
   "demand_rate_pct": 0.05,
   "gap_annual_cny": null,
   "gap_daily_cny": null,
-  "worst_case_annual_cny": 6131.0,
+  "worst_case_annual_cny": 6921.0,
   "stale": null,
   "reason": "账户实况未登记（登记件在位但没人填）",
   "placement_file": "state/account/cash_placement.json",
   "basis": "idle = book cash - recorded repo placements; gap = idle x (repo panel close - declared demand rate) / 100",
-  "cash_amount_cny": 540203.7
+  "cash_amount_cny": 609742.2
  },
  "carry_regime": {
   "available": true,
@@ -4822,99 +4822,43 @@
   "artifact": "results/etf_book_rebalance_permission.json",
   "decision_date": "2026-11-11",
   "ticket_file": "TICKET-2026-11-06.json",
-  "k_order": 0.460253,
+  "k_order": 0.391439,
   "k_allowed": 0.393073,
-  "ordered_cny": 459796.3,
-  "allowed_cny": 392616.0,
-  "over_cny": 67180.0,
-  "over_pp": 6.72,
-  "keep_allowed": false,
+  "ordered_cny": 390971.8,
+  "allowed_cny": 392606.0,
+  "over_cny": -1634.0,
+  "over_pp": -0.16,
+  "keep_allowed": true,
   "readings": {
    "baseline_published": {
     "k": 0.460253,
-    "delta_pp": 0.0,
+    "delta_pp": 6.88,
     "kind": "circular"
    },
    "window": {
     "k": 0.412669,
-    "delta_pp": -4.76,
+    "delta_pp": 2.12,
     "kind": "path"
    },
    "universe": {
     "k": 0.432195,
-    "delta_pp": -2.81,
+    "delta_pp": 4.08,
     "kind": "path"
    },
    "window_x_universe": {
     "k": 0.393073,
-    "delta_pp": -6.72,
+    "delta_pp": 0.16,
     "kind": "path"
    },
    "denominator": {
     "k": 0.544424,
-    "delta_pp": 8.42,
+    "delta_pp": 15.3,
     "kind": "static"
    }
   },
   "naive_permits_keep": true,
-  "trim": {
-   "legs": [
-    {
-     "symbol": "159501",
-     "price": 2.069,
-     "lots_now": 444,
-     "lots_target": 379,
-     "lots_sell": 65,
-     "sell_cny": 13448.5
-    },
-    {
-     "symbol": "513100",
-     "price": 2.158,
-     "lots_now": 426,
-     "lots_target": 364,
-     "lots_sell": 62,
-     "sell_cny": 13379.6
-    },
-    {
-     "symbol": "513690",
-     "price": 1.158,
-     "lots_now": 794,
-     "lots_target": 678,
-     "lots_sell": 116,
-     "sell_cny": 13432.8
-    },
-    {
-     "symbol": "159577",
-     "price": 1.612,
-     "lots_now": 571,
-     "lots_target": 487,
-     "lots_sell": 84,
-     "sell_cny": 13540.8
-    },
-    {
-     "symbol": "159263",
-     "price": 1.143,
-     "lots_now": 805,
-     "lots_target": 687,
-     "lots_sell": 118,
-     "sell_cny": 13487.4
-    }
-   ],
-   "lots_total": 445,
-   "sold_cny": 67289.1,
-   "k_after": 0.392964,
-   "within": true,
-   "basis": "the 11-06 pick set; the 11-11 decision bar re-derives the names, so these rows are illustrative while the sleeve total is exact"
-  },
-  "cost": {
-   "cost_bp_per_side": 8.0,
-   "tx_cny_one_side": 53.83,
-   "carry_cny_per_year": 796.08,
-   "repo_rate_pct": 1.185,
-   "repo_rate_date": "2026-11-06",
-   "give_up_book_realized": 7574.55,
-   "give_up_at_benchmark": 1131.98
-  },
+  "trim": null,
+  "cost": null,
   "floor_verdict": "REAPPLY_REQUIRED",
   "floor_sentence": "Floor 0.393073 holds on the sheet but not on the path: the schedule's last decision bar is 0.460253, so the next sheet sizes over it unless the trim is applied again on that bar.",
   "floor_k": 0.393073,
@@ -5393,178 +5337,100 @@
   "status": "ok",
   "artifact": "results/etf_book_positions.json",
   "asof": "2026-11-06",
-  "verdict": "PRINTED_ROWS_UNDERSELL_THE_BOOK",
+  "verdict": "PRINTED_ROWS_REBUILD_THE_BOOK",
   "printed_rows": 3,
   "book_rows": 4,
-  "unexplained": [
-   {
-    "symbol": "159263",
-    "sheet_lots": 805,
-    "printed_lots": 805,
-    "book_lots": 687,
-    "delta_lots": 118,
-    "price": 1.143,
-    "delta_cny": 13487.4,
-    "reading": "printed rows leave lots the declared book does not hold (a sell the sheet never prints)"
-   },
-   {
-    "symbol": "159501",
-    "sheet_lots": 444,
-    "printed_lots": 65,
-    "book_lots": 0,
-    "delta_lots": 65,
-    "price": 2.069,
-    "delta_cny": 13448.5,
-    "reading": "printed rows leave lots the declared book does not hold (a sell the sheet never prints)"
-   },
-   {
-    "symbol": "159577",
-    "sheet_lots": 571,
-    "printed_lots": 571,
-    "book_lots": 487,
-    "delta_lots": 84,
-    "price": 1.612,
-    "delta_cny": 13540.8,
-    "reading": "printed rows leave lots the declared book does not hold (a sell the sheet never prints)"
-   },
-   {
-    "symbol": "513100",
-    "sheet_lots": 426,
-    "printed_lots": 62,
-    "book_lots": 0,
-    "delta_lots": 62,
-    "price": 2.158,
-    "delta_cny": 13379.6,
-    "reading": "printed rows leave lots the declared book does not hold (a sell the sheet never prints)"
-   },
-   {
-    "symbol": "513690",
-    "sheet_lots": 794,
-    "printed_lots": 794,
-    "book_lots": 678,
-    "delta_lots": 116,
-    "price": 1.158,
-    "delta_cny": 13432.8,
-    "reading": "printed rows leave lots the declared book does not hold (a sell the sheet never prints)"
-   }
-  ],
-  "unexplained_total_cny": 67289.1,
+  "unexplained": [],
+  "unexplained_total_cny": 0,
   "unexplained_unpriced_rows": 0,
   "ledger_action": "kept",
   "ledger_row": {
    "bar": "2026-11-06",
    "ticket": "TICKET-2026-11-06.json",
-   "k": 0.392401,
-   "risk_book_cny": 392400.9,
-   "cash_cny": 607599.1,
+   "k": 0.390822,
+   "risk_book_cny": 390822.0,
+   "cash_cny": 609178.0,
    "holdings": [
     {
      "symbol": "159263",
-     "lots": 687,
+     "lots": 684,
      "price": 1.143,
-     "amount_cny": 78524.1
+     "amount_cny": 78181.2
     },
     {
      "symbol": "159513",
-     "lots": 920,
+     "lots": 916,
      "price": 1.705,
-     "amount_cny": 156860.0
+     "amount_cny": 156178.0
     },
     {
      "symbol": "159577",
-     "lots": 487,
+     "lots": 485,
      "price": 1.612,
-     "amount_cny": 78504.4
+     "amount_cny": 78182.0
     },
     {
      "symbol": "513690",
-     "lots": 678,
+     "lots": 676,
      "price": 1.158,
-     "amount_cny": 78512.4
+     "amount_cny": 78280.8
     }
    ],
    "actions": [
     {
      "side": "SELL",
      "symbol": "159501",
-     "lots": 379
+     "lots": 378
     },
     {
      "side": "SELL",
      "symbol": "513100",
-     "lots": 364
+     "lots": 362
     },
     {
      "side": "BUY",
      "symbol": "159513",
-     "lots": 920
+     "lots": 916
     }
    ],
    "source_face": "results/etf_book_swap_stack.json"
   },
   "next_order_base": {
    "bar": "2026-11-06",
-   "risk_book_cny": 392400.9,
-   "cash_cny": 607599.1,
+   "risk_book_cny": 390822.0,
+   "cash_cny": 609178.0,
    "holdings": 4
   },
   "base_divergence": [
    {
-    "symbol": "159263",
-    "target_lots": 805,
-    "from_ticket_lots": 0,
-    "from_ledger_lots": 118,
-    "price": 1.143,
-    "gap_lots": 118,
-    "gap_cny": 13487.4
-   },
-   {
     "symbol": "159501",
-    "target_lots": 444,
+    "target_lots": 378,
     "from_ticket_lots": 0,
-    "from_ledger_lots": 444,
+    "from_ledger_lots": 378,
     "price": 2.069,
-    "gap_lots": 444,
-    "gap_cny": 91863.6
+    "gap_lots": 378,
+    "gap_cny": 78208.2
    },
    {
     "symbol": "159513",
     "target_lots": 0,
     "from_ticket_lots": 0,
-    "from_ledger_lots": -920,
+    "from_ledger_lots": -916,
     "price": 1.705,
-    "gap_lots": 920,
-    "gap_cny": 156860.0
-   },
-   {
-    "symbol": "159577",
-    "target_lots": 571,
-    "from_ticket_lots": 0,
-    "from_ledger_lots": 84,
-    "price": 1.612,
-    "gap_lots": 84,
-    "gap_cny": 13540.8
+    "gap_lots": 916,
+    "gap_cny": 156178.0
    },
    {
     "symbol": "513100",
-    "target_lots": 426,
+    "target_lots": 362,
     "from_ticket_lots": 0,
-    "from_ledger_lots": 426,
+    "from_ledger_lots": 362,
     "price": 2.158,
-    "gap_lots": 426,
-    "gap_cny": 91930.8
-   },
-   {
-    "symbol": "513690",
-    "target_lots": 794,
-    "from_ticket_lots": 0,
-    "from_ledger_lots": 116,
-    "price": 1.158,
-    "gap_lots": 116,
-    "gap_cny": 13432.8
+    "gap_lots": 362,
+    "gap_cny": 78119.6
    }
   ],
-  "base_divergence_total_cny": 381115.4,
+  "base_divergence_total_cny": 312505.8,
   "accrual": {
    "status": "NO_NEW_BAR",
    "from_bar": "2026-11-06",
@@ -5582,10 +5448,10 @@
   "replay": {
    "start_bar": "2026-10-09",
    "bars": 20,
-   "legs_first_bar": 417444.9,
-   "legs_last_bar": 392400.9,
-   "legs_ret": -0.05999355,
-   "cash_interest_cny": 563.81,
+   "legs_first_bar": 415756.0,
+   "legs_last_bar": 390822.0,
+   "legs_ret": -0.05997268,
+   "cash_interest_cny": 565.28,
    "identity_delta_cny": 0.0,
    "identity_holds": true,
    "rf_missing_bars": 0,
@@ -5600,11 +5466,11 @@
     "rf": 0.0
    },
    "divergence": {
-    "book_k": 0.392401,
+    "book_k": 0.390822,
     "engine_k": 0.460253,
     "book_nav_cny": 1000000.0,
-    "k_gap": 0.067852,
-    "notional_gap_cny": 67852.0
+    "k_gap": 0.069431,
+    "notional_gap_cny": 69431.0
    }
   },
   "caveats": [
@@ -6164,19 +6030,19 @@
   "last": "2026-11-06",
   "worst": {
    "1d": {
-    "pct": -3.51,
+    "pct": -2.98,
     "end_date": "2025-04-07",
-    "cny": -35134.0
+    "cny": -29834.0
    },
    "5d": {
-    "pct": -4.47,
+    "pct": -3.8,
     "end_date": "2025-04-07",
-    "cny": -44683.0
+    "cny": -37980.0
    },
    "20d": {
-    "pct": -5.16,
+    "pct": -4.39,
     "end_date": "2024-08-05",
-    "cny": -51581.0
+    "cny": -43903.0
    }
   },
   "capital_cny": 1000000.0,
@@ -6185,50 +6051,50 @@
    "flip_prints_flattened": 0,
    "raw_worst": {
     "1d": {
-     "pct": -3.51,
+     "pct": -2.98,
      "end_date": "2025-04-07",
-     "cny": -35134.0
+     "cny": -29834.0
     },
     "5d": {
-     "pct": -4.47,
+     "pct": -3.8,
      "end_date": "2025-04-07",
-     "cny": -44683.0
+     "cny": -37980.0
     },
     "20d": {
-     "pct": -5.16,
+     "pct": -4.39,
      "end_date": "2024-08-05",
-     "cny": -51581.0
+     "cny": -43903.0
     }
    },
    "clean_worst": {
     "1d": {
-     "pct": -3.51,
+     "pct": -2.98,
      "end_date": "2025-04-07",
-     "cny": -35134.0
+     "cny": -29834.0
     },
     "5d": {
-     "pct": -4.47,
+     "pct": -3.8,
      "end_date": "2025-04-07",
-     "cny": -44683.0
+     "cny": -37980.0
     },
     "20d": {
-     "pct": -5.16,
+     "pct": -4.39,
      "end_date": "2024-08-05",
-     "cny": -51581.0
+     "cny": -43903.0
     }
    },
    "differs": false,
-   "sentence": "按同一条修复规则把面板里的单日翻转压平（共 0 处，阈值 35%）之后，这张表最差的一天没有变化（-3.51%），也就是说它是行情，不是报价。"
+   "sentence": "按同一条修复规则把面板里的单日翻转压平（共 0 处，阈值 35%）之后，这张表最差的一天没有变化（-2.98%），也就是说它是行情，不是报价。"
   },
   "basis": "今天的权重原封不动摆回整段面板（现金 0 息），取最坏的连续 N 个交易日；不是策略实际路径，是同一批票的最坏窗口",
   "priced_bar": "2026-11-06",
-  "inputs_sha256": "bb379dbae642706016c51bbfdf3f11acf13124af228911a5b978d0ff8ef44b9f"
+  "inputs_sha256": "d52a5b0f9f07e2d2bbcbf2be8962404901d5119dfdeab9e1dd9d24f70e14a644"
  },
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 40.1,
+  "owner_silent_h": 40.9,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 40.1 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 40.9 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

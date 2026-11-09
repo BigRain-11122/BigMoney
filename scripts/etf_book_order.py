@@ -110,12 +110,18 @@ def in_force(sched, dates):
 
 
 # ---------------------------------------------------------------------------- ticket
-def build_ticket(score_last, close_last, k, nav, n_hold=N_HOLD, lot=LOT, classes=None):
+def build_ticket(score_last, close_last, k, nav, n_hold=N_HOLD, lot=LOT, classes=None,
+                 k_rule=None):
     """Whole-lot order sheet: k of NAV spread equally over the picks, rest to GC001.
 
     Weights always sum to 1 (book + cash). Amounts are floor'ed to whole lots, so the
     ticket can only ever spend less than NAV -- the unspent remainder stays in cash and
     is reported, never silently redistributed.
+
+    r1471: `k` is the size this sheet ORDERS (read off the executed account when one is
+    published); `k_rule` is what the sizing rule alone would say. Both travel on the
+    ticket, because "which book did you size from" is the question that costs 67,852 CNY
+    when it goes unasked.
     """
     s = score_last.dropna()
     if len(s) < n_hold:
@@ -140,7 +146,9 @@ def build_ticket(score_last, close_last, k, nav, n_hold=N_HOLD, lot=LOT, classes
                      "class": (classes or {}).get(p),
                      "note": "" if lots else "budget below one lot"})
     cash_amt = float(nav) - spent
-    return {"beta_k": round(float(k), 6), "book_weight": round(float(k), 6),
+    return {"beta_k": round(float(k), 6),
+            "beta_k_rule": None if k_rule is None else round(float(k_rule), 6),
+            "book_weight": round(float(k), 6),
             "cash_weight": round(1.0 - float(k), 6),
             "nav": float(nav), "order": rows,
             "book_amount": round(spent, 2), "cash_amount": round(cash_amt, 2),
@@ -692,6 +700,70 @@ def positions_md(pos):
     return L
 
 
+def executed_base(asof=None):
+    """r1471: size the sheet from the account that exists, not from the engine's book.
+
+    r1468 wrote the post-execution book down and r1469 accrued it bar by bar, but nothing
+    that CUTS an order read it: the ticket still sized k off the engine's own ledger
+    (k=0.460253) while the desk actually holds k=0.392401. That gap is not bookkeeping --
+    it is the exact 6.79pp the permission table was already trimming away, i.e. CNY 67,852
+    of notional exposure the account does not carry. Printing the fork (r1470) is not the
+    same as closing it here.
+    """
+    pos = _json_face(POSITIONS_FACE)
+    if pos is None:
+        return {"status": "absent", "face": POSITIONS_FACE,
+                "sentence": "没有执行后的账（%s 缺失）：本单只能退回引擎账起算" % POSITIONS_FACE}
+    b = pos.get("next_order_base") or {}
+    bar, risk, cash = b.get("bar"), b.get("risk_book_cny"), b.get("cash_cny")
+    if risk is None or cash is None or (float(risk) + float(cash)) <= 0:
+        return {"status": "unreadable", "face": POSITIONS_FACE,
+                "sentence": "执行后的账读不出风险腿/现金（%s）：缺数不等于空仓" % POSITIONS_FACE}
+    total = float(risk) + float(cash)
+    k_exec = float(risk) / total
+    div = ((pos.get("engine_book") or {}).get("divergence") or {})
+    k_engine = div.get("engine_k")
+    out = {"status": "ok", "face": POSITIONS_FACE, "bar": bar,
+           "risk_book_cny": round(float(risk), 2), "cash_cny": round(float(cash), 2),
+           "nav_cny": round(total, 2), "k_executed": round(k_exec, 6),
+           "k_engine": None if k_engine is None else round(float(k_engine), 6),
+           "holdings": b.get("holdings")}
+    if k_engine is not None:
+        out["k_gap"] = round(float(k_engine) - k_exec, 6)
+        out["notional_gap_cny"] = round((float(k_engine) - k_exec) * total, 2)
+    if asof is not None and bar != asof:
+        out["status"] = "stale"
+        out["sentence"] = ("执行后的账停在 %s，本单定价 bar 是 %s：两天的账不能拿来起算"
+                           % (bar, asof))
+    return out
+
+
+def executed_base_md(base):
+    """Print which book this sheet sized from. An unreadable base prints one line."""
+    if base is None:
+        return []
+    st = base.get("status")
+    L = ["", "## 这张单从哪一本账起算（r1471）"]
+    if st == "ok":
+        L += ["- **从执行账起算**：bar `%s` 风险腿 ¥%s / 现金 ¥%s → k=**%.6f**（账上 %d 只）。"
+              % (base["bar"], format(base["risk_book_cny"], ",.0f"),
+                 format(base["cash_cny"], ",.0f"), base["k_executed"],
+                 base.get("holdings") or 0)]
+        if base.get("k_engine") is not None and abs(base.get("k_gap") or 0.0) > 1e-9:
+            L += ["- 引擎账 k=%.6f 与账本差 **%+.6f**（¥%s 名义额）：引擎账是规则算出来的、"
+                  "从没被额度裁过，照它下单等于把账上没有的仓位再买一遍。本单的手数按执行账裁。"
+                  % (base["k_engine"], base["k_gap"],
+                     format(base.get("notional_gap_cny") or 0.0, ",.0f"))]
+    elif st == "stale":
+        L += ["- **不能用这本账起算**：%s" % base.get("sentence"),
+              "- 本单一律退回引擎账，并在票面注明——把旧账当今天的账，正是两本账分叉的入口。"]
+    else:
+        L += ["- **这一问答不了**：%s" % base.get("sentence"),
+              "- 缺面读成「没有持仓」会把整本书从现金重建，所以只印这一行。"]
+    L += ["- 出处：%s。" % (base.get("face") or POSITIONS_FACE), ""]
+    return L
+
+
 def floor_ledger_md(fl):
     """r1457: a trim printed on one sheet is not obedience on the next decision bar.
 
@@ -913,6 +985,7 @@ def card(ticket, mk, sched, asof, beta, extra):
         L += permission_md(extra.get("permission"))
         L += swap_trigger_md(extra.get("swap_trigger"))
         L += swap_stack_md(extra.get("swap_stack"))
+        L += executed_base_md(extra.get("base"))
         L += positions_md(extra.get("positions"))
         cm = extra.get("cash_money")
         if cm:
@@ -1358,17 +1431,28 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     # ticket would have traded five names the book never owned.
     grid_dates = [d for d in close.index if d >= pd.Timestamp("2020-01-01")]
     dec_bar = grid_dates[(len(grid_dates) - 1) // REBAL * REBAL] if grid_dates else None
-    k_now = state.get("last_k")
-    if k_now is None:
-        k_now = 1.0
+    k_engine = state.get("last_k")
+    if k_engine is None:
+        k_engine = 1.0
+    # r1471: the size this sheet orders comes from the executed account, not from the
+    # engine's own ledger. Falls back to the rule's k only when the account is absent,
+    # unreadable or from another bar -- and says so on the page (never a silent fallback).
+    base = executed_base(asof)
+    k_now = float(base["k_executed"]) if base.get("status") == "ok" else float(k_engine)
+    print("base: %s | account k=%s vs rule k=%.6f -> ordering k=%.6f"
+          % (base.get("status"),
+             "n/a" if base.get("k_executed") is None else "%.6f" % base["k_executed"],
+             float(k_engine), float(k_now)), flush=True)
     cls_map = dict(zip(close.columns, classes))
     # r1229: the weights come from the decision bar (above), the PRICES come from the bar
     # this sheet says it is priced on. Both arms are kept so the difference is measured
     # instead of asserted -- `legacy` is what this sheet printed before the fix.
     ticket = build_ticket(score.loc[dec_bar], close.loc[asof],
-                          k_now, nav, classes=cls_map) if dec_bar is not None else None
+                          k_now, nav, classes=cls_map,
+                          k_rule=k_engine) if dec_bar is not None else None
     legacy = build_ticket(score.loc[dec_bar], close.loc[dec_bar],
-                          k_now, nav, classes=cls_map) if dec_bar is not None else None
+                          k_now, nav, classes=cls_map,
+                          k_rule=k_engine) if dec_bar is not None else None
     if ticket is None:
         print("FATAL: no decision bar on the grid -- panel too short")
         return 2
@@ -1452,6 +1536,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "fresh_gate": bool(fresh_gate), "staleness": stale,
                "feed_status": feed,
                "k_now": round(float(k_now), 6),
+               "k_rule": round(float(k_engine), 6),
+               "base": base,
                "book_decided_at": str(dec_bar.date()),
                "card_agreement": agreement,
                "next_decision_bars": _next_decision(close.index, slip.index[-1]),
@@ -1486,7 +1572,13 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                            "k revised every %d bars so delivered beta still wanders" % REBAL,
                            bets_line,
                            conc_line,
-                           "exploratory: no preregistration, no verdict, no ledger booking"]
+                           "exploratory: no preregistration, no verdict, no ledger booking",
+                           ("sizing base: executed account %s (k=%.6f) -- the rule alone "
+                            "would order k=%.6f" % (base.get("bar"), k_now, float(k_engine)))
+                           if base.get("status") == "ok" else
+                           ("sizing base: the executed account is %s, so this sheet sizes "
+                            "off the rule's k=%.6f -- the account it describes is not the "
+                            "account the desk holds" % (base.get("status"), float(k_engine)))]
                           + (["this ticket is the %d-name aggressive end of the book; the "
                               "production card runs %d names -- see width_disclosure"
                               % (N_HOLD, wd["card_names"])] if wd else
@@ -1499,7 +1591,9 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     _write("state.json", state)
     _write("TICKET-%s.json" % asof, payload)
     _write("latest.json", {"as_of": asof, "file": "TICKET-%s.json" % asof,
-                           "beta_target": float(beta), "k_now": round(float(k_now), 6)})
+                           "beta_target": float(beta), "k_now": round(float(k_now), 6),
+                           "k_rule": round(float(k_engine), 6),
+                           "base_status": base.get("status")})
     with open(os.path.join(OUT_DIR, "ORDER-%s.md" % asof), "w", encoding="utf-8") as f:
         f.write(card(ticket, mk, sched, asof, beta,
                      {"inception": payload["inception"], "stale": stale, "width": wd,
@@ -1510,6 +1604,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "swap_trigger": payload["swap_trigger"],
                       "swap_stack": payload["swap_stack"],
                       "positions": payload["positions"],
+                      "base": payload["base"],
                       "permission": payload["permission"],
                       "bets_line": bets_line,
                       "conc_line": conc_line,
@@ -1518,8 +1613,9 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "price_basis": payload["price_basis"],
                       "reprice": rp_block}))
 
-    print("as_of=%s beta=%.2f k=%.2f nav=%.4f rows+=%d drift=%s"
-          % (asof, beta, k_now, state["nav"], len(merged), drift))
+    print("as_of=%s beta=%.2f k=%.6f (rule k=%.6f, base %s) nav=%.4f rows+=%d drift=%s"
+          % (asof, beta, k_now, float(k_engine), base.get("status"), state["nav"],
+             len(merged), drift))
     if ticket:
         print("ticket: book %.0f%% cash %.0f%% | %s"
               % (ticket["book_weight"] * 100, ticket["cash_weight"] * 100,
@@ -3591,6 +3687,26 @@ def selftest():
         and "**+65 手**" in _pos_md and "下一张单从这本账起算" in _pos_md, "")
     chk("leg51f positions: an absent face prints one line, never a silent pass",
         "这一问答不了" in "\n".join(positions_md(None)), "")
+
+    _base = {"status": "ok", "face": POSITIONS_FACE, "bar": "2026-11-06",
+             "risk_book_cny": 392400.9, "cash_cny": 607599.1, "nav_cny": 1000000.0,
+             "k_executed": 0.392401, "k_engine": 0.460253, "holdings": 4,
+             "k_gap": 0.067852, "notional_gap_cny": 67852.0}
+    _base_md = "\n".join(executed_base_md(_base))
+    chk("leg51g base: the sheet says which book it sized from and prices the rule-vs-account "
+        "gap in CNY instead of leaving it one document away",
+        "这张单从哪一本账起算" in _base_md and "0.392401" in _base_md
+        and "¥67,852" in _base_md and "本单的手数按执行账裁" in _base_md, "")
+    chk("leg51h base: a stale or missing account never silently becomes the base",
+        "这一问答不了" in "\n".join(executed_base_md(
+            {"status": "absent", "sentence": "x", "face": POSITIONS_FACE}))
+        and "不能用这本账起算" in "\n".join(executed_base_md(
+            {"status": "stale", "sentence": "x", "face": POSITIONS_FACE})), "")
+    _bt = build_ticket(pd.Series({"A": 2.0, "B": 1.0}), pd.Series({"A": 10.0, "B": 20.0}),
+                       0.5, 100000.0, n_hold=2, k_rule=0.6)
+    chk("leg51i base: the ticket carries both the size it orders and the size the rule alone "
+        "would pick, so a reader can tell them apart",
+        _bt and abs(_bt["beta_k"] - 0.5) < 1e-9 and abs(_bt["beta_k_rule"] - 0.6) < 1e-9, "")
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

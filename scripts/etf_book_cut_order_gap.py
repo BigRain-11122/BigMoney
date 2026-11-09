@@ -288,6 +288,9 @@ def plan_cut(perm, ticket, repo_rate, repo_date, readers, cost_bp=COST_BP_PER_SI
         "ticket_file": ticket.get("_file"),
         "evidence_cutoff": ticket.get("evidence_cutoff") or ticket.get("ticket", {}).get("evidence_cutoff"),
         "k_now": round(k_now, 6),
+        # r1471: the ordered size now comes from the executed account; the rule's own size
+        # travels beside it so "did the rule exceed permission" stays answerable.
+        "k_rule": None if ticket.get("k_rule") is None else round(float(ticket["k_rule"]), 6),
         "permitted_k": round(permitted, 6),
         "gap_k": round(k_now - permitted, 6),
         "gap_pp": round(100.0 * (k_now - permitted), 2),
@@ -301,7 +304,10 @@ def plan_cut(perm, ticket, repo_rate, repo_date, readers, cost_bp=COST_BP_PER_SI
         "permission_is_binding": bool(enforcers or []) or not exceeds,
         "verdict": verdict,
         "sentence": sentence,
-        "trim": {
+        # r1471: a trim table with every row at zero is a cut the desk must not apply. When the
+        # order lands under the floor, publish no table at all -- "no cut owed" is a
+        # different statement from "here is the cut, and it happens to sell nothing".
+        "trim": None if not exceeds else {
             "basis": "the 11-06 pick set; the 11-11 decision bar re-derives the names, so "
                      "these rows are illustrative while the sleeve total is exact",
             "n_legs": n_hold,
@@ -481,7 +487,8 @@ def selftest():
     # L3 a ticket already inside the permission owes no trim
     d = plan_cut(_perm(), _tk(0.393000), rate, rdate, readers=[])
     leg(d["verdict"] == VERDICT_WITHIN, "L3 verdict=%r" % d["verdict"])
-    leg(all(not r.get("lots_sell") for r in d["trim"]["legs"]), "L3 sold=%r" % d["trim"]["legs"])
+    leg(d["trim"] is None, "L3 a within-permission ticket must owe no trim table, got %r"
+        % (d["trim"],))
 
     # L4 missing receipts never become a default trim
     leg(plan_cut(None, _tk(0.46), rate, rdate, [])["verdict"] == VERDICT_UNREADABLE, "L4 no perm")

@@ -6429,19 +6429,26 @@ def selftest():
     # face a human reads, so "how big am I allowed to be" has to be on it -- and it has to
     # stay honest when a receipt is missing or two receipts disagree.
     _pf = page.get("permission") or {}
-    chk("L144 permission: the live page carries a floor, and the trim it prints lands under it",
+    # r1471: the live sheet now sizes from the executed account, so "over the floor" is no
+    # longer the expected state -- the invariant is "a trim exists iff the order is over,
+    # and it lands under the floor", not "the page always prints lots to sell".
+    _pf_over = (_pf.get("over_cny") or 0) > 0
+    chk("L144 permission: the live page carries a floor, and any trim it prints lands under it",
         _pf.get("status") == "ok" and _pf.get("consistency", {}).get("agree") is True
         and _pf.get("k_allowed") is not None and _pf.get("k_order") is not None
-        and (_pf.get("trim") or {}).get("k_after") is not None
-        and (_pf["trim"]["k_after"] <= _pf["k_allowed"] + 1e-9)
-        == (_pf["k_order"] > _pf["k_allowed"]),
-        "allowed=%s order=%s after=%s" % (_pf.get("k_allowed"), _pf.get("k_order"),
-                                          ((_pf.get("trim") or {}).get("k_after"))))
+        and (_pf.get("trim") is not None) == _pf_over
+        and (_pf_over is False or
+             ((_pf.get("trim") or {}).get("k_after") is not None
+              and _pf["trim"]["k_after"] <= _pf["k_allowed"] + 1e-9)),
+        "allowed=%s order=%s after=%s over=%s" % (_pf.get("k_allowed"), _pf.get("k_order"),
+                                                  ((_pf.get("trim") or {}).get("k_after")),
+                                                  _pf_over))
     _pf_txt = "\n".join(permission_block(_pf))
-    chk("L145 permission block: the live face says you are over, names the lots to sell, and "
-        "warns that the next decision bar re-sizes over the floor",
-        ("超出额度" in _pf_txt if (_pf.get("over_cny") or 0) > 0 else "没有超过额度" in _pf_txt)
-        and "卖出手数" in _pf_txt and "排程没有" in _pf_txt,
+    chk("L145 permission block: the live face states its position against the floor and warns "
+        "that the next decision bar re-sizes over it, printing lots only when it is over",
+        ("超出额度" in _pf_txt and "卖出手数" in _pf_txt if _pf_over
+         else "超出额度" not in _pf_txt and "卖出手数" not in _pf_txt)
+        and "排程没有" in _pf_txt,
         "over=%s txt_has_trim=%s" % (_pf.get("over_cny"), "卖出手数" in _pf_txt))
     _pf_missing = permission_face(perm_path=os.path.join(tempfile.mkdtemp(), "absent.json"))
     _pf_missing_txt = "\n".join(permission_block(_pf_missing))
