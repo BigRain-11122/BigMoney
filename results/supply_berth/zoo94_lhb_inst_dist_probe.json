@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-07T19:58:21+0800",
+ "generated": "2026-11-10T06:07:25+0800",
  "script": "scripts/zoo94_lhb_inst_dist_probe.py",
  "berth": "zoo #94 lhb_inst_dist_timing (frozen bm-b r218)",
- "evidence_cutoff": "2026-11-06",
+ "evidence_cutoff": "2026-11-09",
  "criteria": {
   "call": "does the LHB net-buy dual-HMA state time 510300 after cost?",
   "passes": {
@@ -51,80 +51,80 @@
   "lhb_first": "2007-01-04",
   "lhb_last": "2026-11-06",
   "lhb_days": 4821,
-  "bars": 3510,
+  "bars": 3511,
   "first_bar": "2012-05-28",
-  "last_bar": "2026-11-06",
+  "last_bar": "2026-11-09",
   "index": "sh510300",
   "event_bars": 3510,
-  "event_bar_share": 1.0
+  "event_bar_share": 0.9997
  },
  "arms": {
   "normalised": {
-   "years": 14.44,
-   "cagr": 0.03534,
+   "years": 14.45,
+   "cagr": 0.03532,
    "vol": 0.1254,
    "sharpe": 0.349,
    "maxdd": -0.30509,
-   "bars": 3402,
-   "long_share": 0.4512,
-   "mean_weight": 0.4061,
+   "bars": 3403,
+   "long_share": 0.4511,
+   "mean_weight": 0.406,
    "switches": 260,
-   "switches_per_year": 18.01,
+   "switches_per_year": 17.99,
    "first_bar": "2012-11-02"
   },
   "raw": {
-   "years": 14.44,
-   "cagr": 0.03507,
+   "years": 14.45,
+   "cagr": 0.03505,
    "vol": 0.1345,
    "sharpe": 0.333,
    "maxdd": -0.3728,
-   "bars": 3402,
-   "long_share": 0.4594,
-   "mean_weight": 0.4135,
+   "bars": 3403,
+   "long_share": 0.4593,
+   "mean_weight": 0.4134,
    "switches": 278,
-   "switches_per_year": 19.25,
+   "switches_per_year": 19.24,
    "first_bar": "2012-11-02"
   },
   "normalised_cost_x3": {
-   "years": 14.44,
+   "years": 14.45,
    "cagr": -0.0076,
    "vol": 0.1259,
    "sharpe": -0.0,
    "maxdd": -0.40547
   },
   "raw_cost_x3": {
-   "years": 14.44,
-   "cagr": -0.01076,
+   "years": 14.45,
+   "cagr": -0.01075,
    "vol": 0.1352,
    "sharpe": -0.016,
    "maxdd": -0.45023
   }
  },
  "benchmark": {
-  "years": 14.44,
-  "cagr": 0.03126,
+  "years": 14.45,
+  "cagr": 0.03134,
   "vol": 0.2214,
-  "sharpe": 0.255,
+  "sharpe": 0.256,
   "maxdd": -0.46306
  },
- "excess_pp": 0.408,
- "excess_pp_raw": 0.381,
+ "excess_pp": 0.398,
+ "excess_pp_raw": 0.371,
  "null": {
   "draws": 200,
-  "mean": -0.03632,
-  "p95": 0.00276,
-  "p_value": 0.045
+  "mean": -0.0363,
+  "p95": 0.0049,
+  "p_value": 0.055
  },
  "null_raw": {
   "draws": 200,
-  "mean": -0.03393,
-  "p95": 0.00517,
-  "p_value": 0.06
+  "mean": -0.03413,
+  "p95": 0.00652,
+  "p_value": 0.065
  },
  "normaliser_disagrees": false,
  "verdict": "REFUSE_AS_CANDIDATE",
  "verdict_reasons": [
-  "the x3-cost leg already gives back the whole excess"
+  "phase null p=0.055 does not beat 5%"
  ],
- "elapsed_sec": 12.6
+ "elapsed_sec": 12.5
 }

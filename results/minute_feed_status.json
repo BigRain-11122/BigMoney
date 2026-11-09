@@ -2,51 +2,66 @@
  "face": "minute_feed_status",
  "lane_machine": "bm-c",
  "kind": "forced",
- "ts": "2026-11-08T07:52:24",
- "last_success_ts": "2026-11-08T07:52:24",
+ "ts": "2026-11-10T05:39:31",
+ "last_success_ts": "2026-11-10T05:39:31",
  "archive_dir": "data/minute_feed",
  "symbols": {
   "510300": {
    "category": "broad-base",
    "t_settlement": "T+1",
-   "rows_total": 7682,
-   "rows_new": 1428,
-   "oldest_fetched": "2026-10-27 13:53:00",
+   "rows_total": 7920,
+   "rows_new": 0,
+   "oldest_fetched": "2026-10-28 13:53:00",
    "gap_vs_local": false
   },
   "510050": {
    "category": "broad-base",
    "t_settlement": "T+1",
-   "rows_total": 7682,
-   "rows_new": 1428,
-   "oldest_fetched": "2026-10-27 13:53:00",
+   "rows_total": 7920,
+   "rows_new": 0,
+   "oldest_fetched": "2026-10-28 13:53:00",
    "gap_vs_local": false
   },
   "510500": {
    "category": "broad-base",
    "t_settlement": "T+1",
-   "rows_total": 7682,
-   "rows_new": 1428,
-   "oldest_fetched": "2026-10-27 13:53:00",
+   "rows_total": 7920,
+   "rows_new": 0,
+   "oldest_fetched": "2026-10-28 13:53:00",
    "gap_vs_local": false
   },
   "512100": {
    "category": "broad-base",
    "t_settlement": "T+1",
-   "rows_total": 7682,
-   "rows_new": 1428,
-   "oldest_fetched": "2026-10-27 13:53:00",
+   "rows_total": 7920,
+   "rows_new": 0,
+   "oldest_fetched": "2026-10-28 13:53:00",
    "gap_vs_local": false
   },
   "588000": {
    "category": "broad-base",
    "t_settlement": "T+1",
-   "rows_total": 7682,
-   "rows_new": 1428,
-   "oldest_fetched": "2026-10-27 13:53:00",
+   "rows_total": 7920,
+   "rows_new": 0,
+   "oldest_fetched": "2026-10-28 13:53:00",
    "gap_vs_local": false
   }
  },
- "rows_new_total": 7140,
+ "rows_new_total": 0,
+ "coverage": {
+  "last_completed_session": "2026-11-09",
+  "settle_time": "15:30",
+  "tail_day_by_symbol": {
+   "510300": "2026-11-09",
+   "510050": "2026-11-09",
+   "510500": "2026-11-09",
+   "512100": "2026-11-09",
+   "588000": "2026-11-09"
+  },
+  "missing_sessions": {},
+  "symbols_covering": 5,
+  "symbols_total": 5,
+  "law": "a completed session behind an archive's tail is a hole, not a no-op -- the sina 1m window is the only backfill channel and it slides away; named here rather than left to the freshness board"
+ },
  "spec": "research/etf_ops/MINUTE_FEED.md v1.4"
 }

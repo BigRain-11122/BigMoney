@@ -12249,3 +12249,28 @@ cutoff、去债宇宙数、翻转修复笔数，三样都要等于门自报的�
 正身：`scripts/data_lane_freshness.py`（`panel_fingerprint`/`certify` 复用门/`cert_row_state`，
 selftest 32/32，L33/L34 新增）+ `Tools/s6_chain_bmc.py` 腿 `data_lane_tail_certification` +
 `smoke_test.py` 两条认证腿 + `research/digests/DIGEST-20261110-r1494-certify-needs-a-producer.md`。
+
+### E504 · 「+0 行」既是健康也是漏跑时，这一面就没有说任何事（r1495 bm-c）
+
+**事实**：2026-11-09 是交易日，`data/minute_feed` 五个符号一条 bar 都没有。写入器最后一次
+成功是 11-08 07:52；此后没有任何一次写入落地，而"追加 0 行"的成功路径打印的和正常日完全一样
+——`done, +0 rows across 5 symbols`。发现这一日缺口的不是写入器自己，是次日的车队数据面看板
+（`behind_1d`）。滚动窗只有约 8 个交易日，每一天漏掉就是 5×238 条永久消失的分钟线。
+
+**三律**：
+
+① **追加型车道的成功要写成「覆盖到哪个会话」，不是行数**。行数是增量，覆盖率是现状；零增量
+   的健康运行与零增量的漏跑在行数上不可分辨，所以行数永远不能单独充当成功判据。
+② **缺口按"已收盘会话"数，不按墙钟**（承 E136）。15:30 之前不得要求当日会话，否则每天上午
+   都是假红；这里用本地 ETF 日历 + `settle_t=15:30` 同一把尺子。
+③ **写入器自述与看板推导是两个面**，一个绿不代表另一个有活（E477 的反向面）：漏跑的那一日
+   看板是红的、写入器是"绿"的。正法=写入器在成功路径上自己点名（`COVERAGE HOLE -- last
+   completed session ...`）并把它写进 status 的 `coverage` 块；smoke 腿拿盘上档案**重新推导**
+   缺口，禁照抄 status（否则那个字段只是装饰）。
+
+**实锚**：11-09 补齐 5×238 = 1,190 条 bar（尾部 2026-11-09 15:00）；随后一次零增量的 `--force`
+运行打印 `coverage ok -- all 5 archives reach 2026-11-09` —— 同一句话在修好前后终于能区分
+"今天没有新 bar" 和 "昨天整天都没人跑"。
+
+正身：`scripts/update_minute_feed.py`（`_session_coverage` + 4 条 selftest 腿，ALL PASS）+
+`smoke_test.py` 新腿 + `research/digests/DIGEST-20261110-r1495-zero-append-not-success.md`。

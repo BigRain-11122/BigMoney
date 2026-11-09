@@ -197,7 +197,31 @@ def _iso(yyyymmdd: str) -> str:
 
 # --------------------------------------------------------------------------- fetch
 
+FETCH_TIMEOUT_S = 45
+_JACKET = {"installed": False}
+
+
+def bounded_requests(timeout=FETCH_TIMEOUT_S):
+    """r806 bounded-fetch jacket, ported (r1495): requests has no default
+    timeout, and a hung eastmoney page held this lane's first invocation for
+    five minutes with no line printed (the run had to be cancelled). Applied
+    once per process; an explicit caller timeout still wins."""
+    if _JACKET["installed"]:
+        return
+    import requests as _rq
+    _orig = _rq.Session.request
+
+    def _jacket(self, *args, **kwargs):
+        kwargs.setdefault("timeout", timeout)
+        return _orig(self, *args, **kwargs)
+
+    _rq.Session.request = _jacket
+    _JACKET["installed"] = True
+
+
 def fetch_page(start: str, end: str):
+    bounded_requests()
+    print("lhb_inst: fetching %s..%s" % (start, end), flush=True)
     import akshare as ak
     df = ak.stock_lhb_jgmmtj_em(start_date=start, end_date=end)
     if df is None or len(df) == 0:
@@ -318,6 +342,33 @@ def selftest() -> int:
         print(("  ok   " if cond else "  FAIL ") + name)
         if not cond:
             fails.append(name)
+
+    # r1495: the fetch jacket -- a page that hangs is a failure, not a wait.
+    import requests as _rq
+    _seen = {}
+    _orig = _rq.Session.request
+
+    def _spy(self, *a, **kw):
+        _seen.update(kw)
+        return _orig(self, *a, **kw)
+
+    _rq.Session.request = _spy
+    _JACKET["installed"] = False
+    bounded_requests()
+    try:
+        _rq.Session().request("GET", "http://127.0.0.1:9/never")
+    except Exception:
+        pass
+    chk("fetch jacket gives an un-timeouted request a bound",
+        _seen.get("timeout") == FETCH_TIMEOUT_S)
+    _seen.clear()
+    try:
+        _rq.Session().request("GET", "http://127.0.0.1:9/never", timeout=7)
+    except Exception:
+        pass
+    chk("fetch jacket leaves an explicit caller timeout alone",
+        _seen.get("timeout") == 7)
+    _rq.Session.request = _orig
 
     w = month_windows("2020-01-15", "2020-03-02")
     chk("month windows cover a partial first and last month",

@@ -361,6 +361,7 @@ def run(force: bool = False) -> int:
 
     symbols = {}
     repairs = {}
+    tails = {}
     total_new = 0
     for code, cat, tsettle, path, local, new_rows, gap, repaired_ts in plan:
         if repaired_ts is not None:
@@ -373,6 +374,7 @@ def run(force: bool = False) -> int:
                   "-- mid-formation artifact replaced by source final "
                   "bar (v1.4 repair face, disclosed)")
         _write_local(path, local + new_rows)
+        tails[code] = local + new_rows
         total_new += len(new_rows)
         symbols[code] = {
             "category": cat, "t_settlement": tsettle,
@@ -385,6 +387,20 @@ def run(force: bool = False) -> int:
               f" (total {len(local) + len(new_rows)})"
               + (" [GAP: bars before window lost]" if gap else ""))
 
+    coverage = _session_coverage(tails, _calendar_days(), now)
+    if coverage["missing_sessions"]:
+        named = "; ".join(f"{c}: {', '.join(d)}"
+                          for c, d in sorted(coverage["missing_sessions"]
+                                             .items()))
+        print(f"update_minute_feed: COVERAGE HOLE -- last completed session "
+              f"{coverage['last_completed_session']}, "
+              f"{coverage['symbols_covering']}/{coverage['symbols_total']} "
+              f"archives reach it (missing: {named})")
+    elif coverage["last_completed_session"]:
+        print(f"update_minute_feed: coverage ok -- all "
+              f"{coverage['symbols_total']} archives reach "
+              f"{coverage['last_completed_session']}")
+
     payload = {
         "face": "minute_feed_status",
         "lane_machine": mid,
@@ -394,6 +410,7 @@ def run(force: bool = False) -> int:
         "archive_dir": "data/minute_feed",
         "symbols": symbols,
         "rows_new_total": total_new,
+        "coverage": coverage,
         "spec": "research/etf_ops/MINUTE_FEED.md v1.4",
     }
     if repairs:
@@ -470,6 +487,42 @@ def _recoverability_face(last_bar_day, calendar_days):
                "sec.2); recovery happens on the next gated run while "
                "the window still covers the day; days outside the "
                "window are permanently lost, disclosed never fabricated",
+    }
+
+
+def _session_coverage(tails, calendar_days, now, settle_t=dt.time(15, 30)):
+    """Which completed session each archive's last bar actually reaches.
+
+    r1495: the 2026-11-09 session sat missing behind nothing -- no run had
+    fired since 11-08, and the fleet board was the only face that noticed,
+    a day later. A run that appends zero rows on a trading day must not
+    read exactly like a healthy one, so the writer names this itself:
+    the last completed session on the local calendar, and per symbol the
+    sessions its tail does not reach.
+    """
+    today = now.date().isoformat()
+    days = [d for d in calendar_days if d <= today]
+    if days and days[-1] == today and now.time() < settle_t:
+        days = days[:-1]        # today's session has not settled yet
+    last = days[-1] if days else None
+    tail_by = {}
+    missing = {}
+    for code, rows in tails.items():
+        tail_day = rows[-1][0][:10] if rows else None
+        tail_by[code] = tail_day
+        missing[code] = [d for d in (days if last else []) if d > tail_day]
+    holed = {c: m for c, m in missing.items() if m}
+    return {
+        "last_completed_session": last,
+        "settle_time": settle_t.strftime("%H:%M"),
+        "tail_day_by_symbol": tail_by,
+        "missing_sessions": holed,
+        "symbols_covering": len(missing) - len(holed),
+        "symbols_total": len(missing),
+        "law": "a completed session behind an archive's tail is a hole, not "
+               "a no-op -- the sina 1m window is the only backfill channel "
+               "and it slides away; named here rather than left to the "
+               "freshness board",
     }
 
 
@@ -880,6 +933,35 @@ def selftest() -> int:
           v3["missing_days"] == []
           and v3["recoverability"]["trading_days_behind"] == 0
           and v3["recoverability"]["all_missing_recoverable_est"] is True)
+    # r1495 coverage face: a completed session behind an archive tail is a
+    # hole even when the run itself "succeeded" with zero new rows.
+    tails = {"a": [mkrow("2026-10-08", "15:00")],
+             "b": [mkrow("2026-10-09", "15:00")]}
+    cov = _session_coverage(tails, ["2026-10-08", "2026-10-09"],
+                            dt.datetime(2026, 10, 9, 21, 0))
+    check("coverage holes name the session each archive misses",
+          cov["last_completed_session"] == "2026-10-09"
+          and cov["missing_sessions"] == {"a": ["2026-10-09"]}
+          and cov["symbols_covering"] == 1 and cov["symbols_total"] == 2)
+    cov_ok = _session_coverage(
+        {"a": [mkrow("2026-10-09", "15:00")]},
+        ["2026-10-08", "2026-10-09"], dt.datetime(2026, 10, 9, 21, 0))
+    check("coverage clean when every archive reaches the last session",
+          cov_ok["missing_sessions"] == {}
+          and cov_ok["symbols_covering"] == cov_ok["symbols_total"] == 1)
+    cov_pre = _session_coverage(
+        {"a": [mkrow("2026-10-08", "15:00")]},
+        ["2026-10-08", "2026-10-09"], dt.datetime(2026, 10, 9, 10, 0))
+    check("coverage does not demand today's session before it settles",
+          cov_pre["last_completed_session"] == "2026-10-08"
+          and cov_pre["missing_sessions"] == {})
+    cov_none = _session_coverage({"a": []}, [],
+                                 dt.datetime(2026, 10, 9, 21, 0))
+    check("coverage without a calendar is unknown, not a hole",
+          cov_none["last_completed_session"] is None
+          and cov_none["missing_sessions"] == {}
+          and cov_none["tail_day_by_symbol"] == {"a": None})
+
     # calendar reader: header + date column
     cal_p = os.path.join(tmp, "cal.csv")
     with open(cal_p, "w", encoding="utf-8", newline="\n") as fh:

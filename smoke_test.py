@@ -2623,6 +2623,54 @@ def main() -> int:
         check("fleet: a lane whose clock is the statute is judged on the statute",
               False, str(e))
     try:
+        # r1495: the 2026-11-09 session sat missing from the minute archive while
+        # the last run before it printed a plain "done" -- no face said the
+        # archive had stopped one session short. The writer now names the last
+        # completed session and, per symbol, the sessions its tail misses; this
+        # leg re-reads the archives and re-derives the holes with the writer's
+        # own predicate, so the published block cannot be decorative.
+        import update_minute_feed as _umf
+        _mf = json.load(open("results/minute_feed_status.json", encoding="utf-8"))
+        _cov = _mf.get("coverage") or {}
+        _why6 = []
+        if not _cov:
+            _why6.append("the published status names no session coverage")
+        else:
+            _disk = {}
+            for _code in (_mf.get("symbols") or {}):
+                _lastday = ""
+                with open(f"data/minute_feed/{_code}.csv", encoding="utf-8") as _fh:
+                    for _ln in _fh:
+                        if _ln[:1].isdigit():
+                            _lastday = _ln[:10]
+                _disk[_code] = _lastday or None
+            _stated = _cov.get("tail_day_by_symbol") or {}
+            if _stated != _disk:
+                _why6.append(f"status claims tails {_stated} but the archives "
+                             f"end {_disk}")
+            else:
+                _re = _umf._session_coverage(
+                    {c: [(f"{d} 15:00",)] for c, d in _disk.items() if d},
+                    _umf._calendar_days(), dt.datetime.now())
+                if _re["missing_sessions"] != (_cov.get("missing_sessions") or {}):
+                    _why6.append("the named holes differ from the holes the "
+                                 "archives actually have")
+                if _cov.get("last_completed_session") != _re["last_completed_session"]:
+                    _why6.append("the last completed session is not the one the "
+                                 "calendar allows")
+                if _cov.get("symbols_covering") != (len(_disk)
+                                                    - len(_re["missing_sessions"])):
+                    _why6.append("covering count does not follow the named holes")
+        check("fleet: a lane that appended nothing still says whether it reaches "
+              "the last session",
+              not _why6, "; ".join(_why6) or
+              f"{_cov.get('symbols_covering')}/{_cov.get('symbols_total')} "
+              f"archive(s) reach {_cov.get('last_completed_session')}, "
+              f"{len(_cov.get('missing_sessions') or {})} hole(s) named")
+    except Exception as e:
+        check("fleet: a lane that appended nothing still says whether it reaches "
+              "the last session", False, str(e))
+    try:
         # r1266: a lane whose row named no collector printed "nothing to
         # reassign" -- a give-up sentence about a lane whose collector had
         # shipped a takeover path eight rounds earlier (marks / r1101). This leg
