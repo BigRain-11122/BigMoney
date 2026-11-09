@@ -743,25 +743,79 @@ def executed_base_md(base):
     if base is None:
         return []
     st = base.get("status")
+    sz = base.get("sizing") or {}
     L = ["", "## 这张单从哪一本账起算（r1471）"]
+    _same_bar = sz.get("source") == "rule_same_bar_outcome"
     if st == "ok":
-        L += ["- **从执行账起算**：bar `%s` 风险腿 ¥%s / 现金 ¥%s → k=**%.6f**（账上 %d 只）。"
-              % (base["bar"], format(base["risk_book_cny"], ",.0f"),
+        L += ["- %sbar `%s` 风险腿 ¥%s / 现金 ¥%s → k=**%.6f**（账上 %d 只）。"
+              % ("**这本账是本单自己的结果，不作起算**：" if _same_bar
+                 else "**从执行账起算**：",
+                 base["bar"], format(base["risk_book_cny"], ",.0f"),
                  format(base["cash_cny"], ",.0f"), base["k_executed"],
                  base.get("holdings") or 0)]
         if base.get("k_engine") is not None and abs(base.get("k_gap") or 0.0) > 1e-9:
             L += ["- 引擎账 k=%.6f 与账本差 **%+.6f**（¥%s 名义额）：引擎账是规则算出来的、"
-                  "从没被额度裁过，照它下单等于把账上没有的仓位再买一遍。本单的手数按执行账裁。"
+                  "从没被额度裁过，照它下单等于把账上没有的仓位再买一遍。%s"
                   % (base["k_engine"], base["k_gap"],
-                     format(base.get("notional_gap_cny") or 0.0, ",.0f"))]
+                     format(base.get("notional_gap_cny") or 0.0, ",.0f"),
+                     "" if _same_bar else "本单的手数按执行账裁。")]
     elif st == "stale":
         L += ["- **不能用这本账起算**：%s" % base.get("sentence"),
               "- 本单一律退回引擎账，并在票面注明——把旧账当今天的账，正是两本账分叉的入口。"]
     else:
         L += ["- **这一问答不了**：%s" % base.get("sentence"),
               "- 缺面读成「没有持仓」会把整本书从现金重建，所以只印这一行。"]
+    if sz.get("source") == "rule_same_bar_outcome":
+        L += ["- **本单的 k 不取这本账**：账本 `%s` 那一行是**本张单自己执行后的结果**——"
+              "票面按 k 下单、整手只花得比 k 少、账本记下更小的 k，再拿它回来定 k 就是"
+              "一条只降不升的循环（r1476 实测 0.389744→0.389298→0.388680）。所以这一轮"
+              "沿用规则 k，执行后的 k=%.6f 只作披露、不作输入。"
+              % (sz.get("account_bar"), float(sz.get("k_executed") or 0.0))]
+    elif sz.get("source") == "executed":
+        L += ["- 本单按执行账 `%s` 的 k 定规模（那是**已经存在的一本书**，不是本轮结果）。"
+              % sz.get("account_bar")]
     L += ["- 出处：%s。" % (base.get("face") or POSITIONS_FACE), ""]
     return L
+
+
+def sizing_level(base, asof, k_engine, floor=None):
+    """r1476: which k this sheet ORDERS, and why -- and the one case that must not feed back.
+
+    r1471 sized the sheet from the executed account so the ticket stops ordering a book the
+    desk does not hold. That is right when the account row comes from an EARLIER bar. It is
+    wrong when the row was written by this same bar's own sheet: the sheet asks for k, whole
+    lots spend less than k, the ledger writes the smaller executed k, and the next run of the
+    same bar orders from that smaller number -- a monotone fixed-point iteration with a floor
+    in it. Measured on 2026-11-06 by re-walking the chain three times: 0.389744 -> 0.389298
+    -> 0.388680, ~0.0006 per run and never converging. r1474's "ticket k = ledger k" was two
+    numbers that happened to meet at one point, not a mechanism.
+
+    So: a ledger row for the bar being priced is the OUTCOME of this ticket and may not be
+    its input; the level then comes from the sizing rule alone (the permission face still
+    trims it). A row from an earlier bar is still an input, because that book really exists.
+    """
+    k_rule = float(k_engine)
+    fl = None if floor is None else float(floor)
+    # The permission is a hard cap, so the authorized level is min(rule, floor): asking for
+    # the rule's k and then printing a trim table would tell the desk to sell names it does
+    # not hold (the account already sits below the floor).
+    cap = (lambda k: k if fl is None else min(float(k), fl))
+    st = (base or {}).get("status")
+    if st != "ok":
+        return {"k": cap(k_rule), "source": "rule", "account_bar": None,
+                "k_executed": None, "capped_by_floor": fl is not None and k_rule > fl,
+                "reason": "no executed account to size from (base %s)" % st}
+    bar = (base or {}).get("bar")
+    if asof is not None and bar == asof:
+        return {"k": cap(k_rule), "source": "rule_same_bar_outcome",
+                "account_bar": bar, "k_executed": base.get("k_executed"),
+                "capped_by_floor": fl is not None and k_rule > fl,
+                "reason": ("the executed account for %s was written by this bar's own sheet, "
+                           "so it is this ticket's outcome and cannot size it" % bar)}
+    return {"k": cap(base["k_executed"]), "source": "executed",
+            "account_bar": bar, "k_executed": base.get("k_executed"),
+            "capped_by_floor": fl is not None and float(base["k_executed"]) > fl,
+            "reason": "sized from the executed account for %s, a book that exists" % bar}
 
 
 def floor_ledger_md(fl):
@@ -1437,12 +1491,16 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     # r1471: the size this sheet orders comes from the executed account, not from the
     # engine's own ledger. Falls back to the rule's k only when the account is absent,
     # unreadable or from another bar -- and says so on the page (never a silent fallback).
+    # r1476: an account row written BY THIS BAR's own sheet is an outcome, not an input.
     base = executed_base(asof)
-    k_now = float(base["k_executed"]) if base.get("status") == "ok" else float(k_engine)
-    print("base: %s | account k=%s vs rule k=%.6f -> ordering k=%.6f"
+    _fl = _json_face(PERMISSION_FACE) or {}
+    _sz = sizing_level(base, asof, k_engine, floor=_fl.get("permitted_k"))
+    base["sizing"] = _sz
+    k_now = float(_sz["k"])
+    print("base: %s | account k=%s vs rule k=%.6f -> ordering k=%.6f (%s)"
           % (base.get("status"),
              "n/a" if base.get("k_executed") is None else "%.6f" % base["k_executed"],
-             float(k_engine), float(k_now)), flush=True)
+             float(k_engine), float(k_now), _sz["source"]), flush=True)
     cls_map = dict(zip(close.columns, classes))
     # r1229: the weights come from the decision bar (above), the PRICES come from the bar
     # this sheet says it is priced on. Both arms are kept so the difference is measured
@@ -1575,7 +1633,13 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                            "exploratory: no preregistration, no verdict, no ledger booking",
                            ("sizing base: executed account %s (k=%.6f) -- the rule alone "
                             "would order k=%.6f" % (base.get("bar"), k_now, float(k_engine)))
-                           if base.get("status") == "ok" else
+                           if _sz.get("source") == "executed" else
+                           ("sizing base: the rule's k=%.6f -- the executed account for %s "
+                            "is this sheet's own outcome (k=%.6f), so it cannot size it"
+                            % (float(k_engine),
+                               _sz.get("account_bar"),
+                               float(_sz.get("k_executed") or 0.0)))
+                           if _sz.get("source") == "rule_same_bar_outcome" else
                            ("sizing base: the executed account is %s, so this sheet sizes "
                             "off the rule's k=%.6f -- the account it describes is not the "
                             "account the desk holds" % (base.get("status"), float(k_engine)))]
@@ -1593,7 +1657,12 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     _write("latest.json", {"as_of": asof, "file": "TICKET-%s.json" % asof,
                            "beta_target": float(beta), "k_now": round(float(k_now), 6),
                            "k_rule": round(float(k_engine), 6),
-                           "base_status": base.get("status")})
+                           "k_rule_capped_by_floor": round(float(_sz["k"]), 6),
+                           "sizing_source": _sz.get("source"),
+                           "sizing_reason": _sz.get("reason"),
+                           "base_status": base.get("status"),
+                           "base_bar": _sz.get("account_bar"),
+                           "base_k_executed": _sz.get("k_executed")})
     with open(os.path.join(OUT_DIR, "ORDER-%s.md" % asof), "w", encoding="utf-8") as f:
         f.write(card(ticket, mk, sched, asof, beta,
                      {"inception": payload["inception"], "stale": stale, "width": wd,
@@ -3707,6 +3776,44 @@ def selftest():
     chk("leg51i base: the ticket carries both the size it orders and the size the rule alone "
         "would pick, so a reader can tell them apart",
         _bt and abs(_bt["beta_k"] - 0.5) < 1e-9 and abs(_bt["beta_k_rule"] - 0.6) < 1e-9, "")
+
+    # r1476: the fixed point. A ledger row written by the bar being priced is this ticket's
+    # own outcome; feeding it back is a monotone descent (0.389744 -> 0.389298 -> 0.388680).
+    _same = sizing_level({"status": "ok", "bar": "2026-11-06", "k_executed": 0.388680},
+                         "2026-11-06", 0.393073)
+    _prev = sizing_level({"status": "ok", "bar": "2026-10-14", "k_executed": 0.388680},
+                         "2026-11-06", 0.393073)
+    chk("leg51j sizing: a ledger row for the bar being priced cannot size that bar (it is "
+        "the ticket's own outcome), while a row from an earlier bar still can",
+        abs(_same["k"] - 0.393073) < 1e-9 and _same["source"] == "rule_same_bar_outcome"
+        and abs(_prev["k"] - 0.388680) < 1e-9 and _prev["source"] == "executed", "")
+    # two reruns of one bar must land on the SAME k -- the descent r1475 measured, pinned.
+    _k = 0.393073
+    _drift = []
+    for _ in range(3):
+        _sz = sizing_level({"status": "ok", "bar": "2026-11-06", "k_executed": _k},
+                           "2026-11-06", 0.393073)
+        _drift.append(round(_sz["k"], 6))
+        _k = round(_sz["k"] - 0.0006, 6)      # what the floor does to the executed k
+    chk("leg51k sizing: three reruns of one bar cannot ratchet the ordered size downwards",
+        len(set(_drift)) == 1, str(_drift))
+    chk("leg51l sizing: the sheet PRINTS which of the two rules it used, so an operator can "
+        "see a same-bar refusal instead of a silently smaller order",
+        "本单的 k 不取这本账" in "\n".join(executed_base_md(
+            dict(_base, sizing=_same)))
+        and "本单按执行账" in "\n".join(executed_base_md(
+            dict(_base, sizing=sizing_level({"status": "ok", "bar": "2026-10-14",
+                                             "k_executed": 0.392401},
+                                            "2026-11-06", 0.460253)))), "")
+
+    _cap = sizing_level({"status": "ok", "bar": "2026-11-06", "k_executed": 0.388680},
+                        "2026-11-06", 0.460253, floor=0.393073)
+    chk("leg51m sizing: the ordered level is the authorized one -- the rule's k capped by "
+        "the permission floor, so the sheet does not print a sell table for names the "
+        "account never held",
+        abs(_cap["k"] - 0.393073) < 1e-9 and _cap.get("capped_by_floor") is True
+        and abs(sizing_level({"status": "ok", "bar": "2026-10-14", "k_executed": 0.30},
+                             "2026-11-06", 0.460253, floor=0.393073)["k"] - 0.30) < 1e-9, "")
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

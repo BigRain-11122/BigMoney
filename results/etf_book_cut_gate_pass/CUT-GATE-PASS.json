@@ -1,14 +1,14 @@
 {
  "face": "etf_book_cut_gate_pass",
- "asof": "2026-11-09T14:10:27+0800",
+ "asof": "2026-11-09T14:50:30+0800",
  "evidence_cutoff": "2026-11-06",
- "question": "the permission says 11-11 must size at k=0.393073 instead of 0.389298 -- does that cut change what the calendar gate says about the book?",
+ "question": "the permission says 11-11 must size at k=0.393073 instead of 0.393073 -- does that cut change what the calendar gate says about the book?",
  "permission": {
   "permitted_k": 0.393073,
-  "k_now": 0.389298,
-  "cut_k": -0.003775,
+  "k_now": 0.393073,
+  "cut_k": 0.0,
   "decision_date": "2026-11-11",
-  "generated": "2026-11-09T14:09:43+0800",
+  "generated": "2026-11-09T14:49:45+0800",
   "verdict": "KEEP_SUPPORTED_BY_INDEPENDENT_PATH"
  },
  "window": {
@@ -101,7 +101,7 @@
    ],
    "gate_conflict": null,
    "book": "ticket_k_no_cut",
-   "note": "the size the ticket would order today (k=0.389298), dynamic beta rule",
+   "note": "the size the ticket would order today (k=0.393073), dynamic beta rule",
    "yearly_returns_pct": {
     "2020": 2.1025,
     "2021": 3.4877,
@@ -412,5 +412,5 @@
   "no ticket, ledger or order file is read or written; the ticket's k_now is taken from the permission receipt, which took it from the ticket",
   "capacity is not re-derived here -- the wrapper gate already carries C1 for the same construction on the same window"
  ],
- "elapsed_sec": 40.5
+ "elapsed_sec": 41.4
 }

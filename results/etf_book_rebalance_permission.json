@@ -5,43 +5,43 @@
  "evidence_cutoff": "2026-11-06",
  "beta_target": 0.2,
  "size_tol": 0.005,
- "k_now": 0.389298,
+ "k_now": 0.393073,
  "k_rule": 0.460253,
  "nav_cny": 1000000.0,
- "book_amount_cny": 388836.7,
- "cash_amount_cny": 611163.3,
+ "book_amount_cny": 392507.2,
+ "cash_amount_cny": 607492.8,
  "readings": {
   "baseline_published": {
    "k": 0.460253,
-   "delta_vs_now_pp": 7.1,
+   "delta_vs_now_pp": 6.72,
    "kind": "circular",
    "why": "the construction the ticket was priced from (k == k_now by identity)",
    "bars": 1658
   },
   "window": {
    "k": 0.412669,
-   "delta_vs_now_pp": 2.34,
+   "delta_vs_now_pp": 1.96,
    "kind": "path",
    "why": "measured on 306 bars",
    "bars": 306
   },
   "universe": {
    "k": 0.432195,
-   "delta_vs_now_pp": 4.29,
+   "delta_vs_now_pp": 3.91,
    "kind": "path",
    "why": "measured on 1658 bars",
    "bars": 1658
   },
   "window_x_universe": {
    "k": 0.393073,
-   "delta_vs_now_pp": 0.38,
+   "delta_vs_now_pp": 0.0,
    "kind": "path",
    "why": "measured on 306 bars",
    "bars": 306
   },
   "denominator": {
    "k": 0.544424,
-   "delta_vs_now_pp": 15.51,
+   "delta_vs_now_pp": 15.14,
    "kind": "static",
    "why": "static composition, not a path: only comparable with the path rows because it is divided by covered weight",
    "bars": 306
@@ -60,10 +60,10 @@
   "denominator"
  ],
  "permitted_k": 0.393073,
- "permitted_book_cny": 392612.0,
- "cut_k": -0.003775,
- "cut_pp": -0.38,
- "cut_cny": -3775.0,
+ "permitted_book_cny": 392507.0,
+ "cut_k": 0.0,
+ "cut_pp": 0.0,
+ "cut_cny": 0.0,
  "supporters": [
   "denominator",
   "universe",
@@ -85,7 +85,7 @@
   "why": "a ruler that permits a LARGER size is read as permission for this one; the permitting reading need not be a decision path (E456: the rulers are not additive and not interchangeable)"
  },
  "verdict": "KEEP_SUPPORTED_BY_INDEPENDENT_PATH",
- "sentence": "keeping k=0.389298 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.393073",
+ "sentence": "keeping k=0.393073 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.393073",
  "supply_side": {
   "book": "nobond_vt08_adopted",
   "verdict": "CONDITIONAL",
@@ -101,6 +101,6 @@
   "which reading is the RIGHT measurement: the four-cell spread is a ruler choice and no caliber prereg has landed (r1446 four requirements)",
   "the cost of the cut: the ticket's own reprice delta (CNY 91.7 at the 11-06 bar) is not carried into the gate, and a 6.72pp cut pays one more round of 8bp"
  ],
- "elapsed_sec": 0.01,
- "generated": "2026-11-09T14:09:43+0800"
+ "elapsed_sec": 0.0,
+ "generated": "2026-11-09T14:49:45+0800"
 }

@@ -3,15 +3,15 @@
  "decision_date": "2026-11-11",
  "ticket_file": "TICKET-2026-11-06.json",
  "evidence_cutoff": "2026-11-06",
- "k_now": 0.389298,
+ "k_now": 0.393073,
  "k_rule": 0.460253,
  "permitted_k": 0.393073,
- "gap_k": -0.003775,
- "gap_pp": -0.38,
+ "gap_k": 0.0,
+ "gap_pp": 0.0,
  "nav_cny": 1000000.0,
- "ordered_book_cny": 388837.0,
- "permitted_book_cny": 392612.0,
- "cut_cny": -3775.0,
+ "ordered_book_cny": 392507.0,
+ "permitted_book_cny": 392507.0,
+ "cut_cny": 0.0,
  "order_exceeds_permission": false,
  "permission_readers": [
   "scripts/etf_book_ceo_page.py",
@@ -30,17 +30,17 @@
  ],
  "permission_is_binding": true,
  "verdict": "ORDER_WITHIN_PERMISSION",
- "sentence": "the ticket orders k=0.389298 (CNY 388,837) and the permission allows 0.393073 (CNY 392,612): no cut is owed on 2026-11-11",
+ "sentence": "the ticket orders k=0.393073 (CNY 392,507) and the permission allows 0.393073 (CNY 392,507): no cut is owed on 2026-11-11",
  "trim": null,
  "cost": {
   "cost_bp_per_side": 8.0,
   "tx_cny_one_side": 0.0,
   "repo_rate_pct": 1.185,
   "repo_rate_date": "2026-11-06",
-  "carry_cny_per_year": -44.73,
+  "carry_cny_per_year": 0.0,
   "giveup_cny_per_year_ex_post": {
-   "book_realized": -425.63,
-   "same_beta_benchmark": -63.61
+   "book_realized": 0.0,
+   "same_beta_benchmark": 0.0
   },
   "note": "give-up is the sleeve's own realized CAGR minus the observed repo rate on the trimmed amount: an ex-post reading, not a forecast, and it is the price of obeying a gate that failed on concentration, not a return estimate"
  },
@@ -50,6 +50,6 @@
   "the carry accrual path: one observed GC001 close is used for the annualised figure; a holiday gap accrues more days than the rate implies"
  ],
  "repo_source": "data/repo_daily/GC001.csv (observed close)",
- "elapsed_sec": 2.25,
- "generated": "2026-11-09T14:09:45+0800"
+ "elapsed_sec": 2.32,
+ "generated": "2026-11-09T14:49:48+0800"
 }

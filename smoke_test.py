@@ -8988,7 +8988,26 @@ def _legs_supply_and_book():
                 else:
                     _t47 = json.load(open(_tk47, encoding="utf-8"))
                     if _t47.get("base_status") == "ok":
-                        if abs(float(_t47.get("k_now") or 0) - _k47) > 1e-6:
+                        # r1476: an account row written by the bar being priced is this
+                        # sheet's OWN outcome (whole lots spend less than k), so feeding it
+                        # back ratchets the size down forever -- 0.389744 / 0.389298 /
+                        # 0.388680 over three reruns of 2026-11-06. Those bars must size off
+                        # the rule (capped by the floor) and SAY so; a row from an earlier
+                        # bar is a real book and must still be the base.
+                        _src47 = _t47.get("sizing_source")
+                        if _t47.get("base_bar") == _t47.get("as_of"):
+                            if _src47 != "rule_same_bar_outcome":
+                                _bad47.append("bar %s sizes off an account row it wrote "
+                                              "itself (source=%r)"
+                                              % (_t47.get("as_of"), _src47))
+                            if _t47.get("k_rule_capped_by_floor") is None or \
+                                    abs(float(_t47["k_now"])
+                                        - float(_t47["k_rule_capped_by_floor"])) > 1e-9:
+                                _bad47.append("a same-bar base did not fall back to the "
+                                              "authorized rule k (%.6f vs %r)"
+                                              % (float(_t47.get("k_now") or 0),
+                                                 _t47.get("k_rule_capped_by_floor")))
+                        elif abs(float(_t47.get("k_now") or 0) - _k47) > 1e-6:
                             _bad47.append("the sheet orders k=%.6f while the account holds "
                                           "k=%.6f on bar %s"
                                           % (float(_t47["k_now"]), _k47, _t47.get("as_of")))

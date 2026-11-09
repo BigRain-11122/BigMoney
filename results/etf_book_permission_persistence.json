@@ -2,10 +2,10 @@
  "face": "etf_book_permission_persistence",
  "evidence_cutoff": "2026-11-06",
  "question": "how many decision bars does the 11-11 trim (gap_k) survive before the schedule climbs back over the level it cut from?",
- "slack_k": -0.003775,
+ "slack_k": 0.0,
  "slack_source": "results/etf_book_cut_order_gap.json",
  "decision_bar": "2026-11-11",
- "k_order": 0.389298,
+ "k_order": 0.393073,
  "k_permitted": 0.393073,
  "permission_enforcers": [
   "scripts/etf_book_ceo_page.py",
@@ -40,57 +40,30 @@
  },
  "derived_erasure": {
   "expected_bars_mean_up": 0,
-  "expected_bars_median_step": -1,
+  "expected_bars_median_step": 0,
   "mean_up_step": 0.006851,
   "median_step": 0.003071,
   "basis": "slack / observed step; an expectation on the step law, not a simulation"
  },
  "lifetime": {
-  "events": 24,
+  "events": 14,
   "steps": 33,
-  "event_share": 0.7273,
-  "returned": 15,
-  "never_returned": 9,
-  "median_bars": 1,
-  "mean_bars": 2.87,
+  "event_share": 0.4242,
+  "returned": 8,
+  "never_returned": 6,
+  "median_bars": 3.0,
+  "mean_bars": 4.25,
   "max_bars": 10,
   "never_dates": [
-   "2025-03-28",
    "2025-04-28",
    "2025-06-27",
    "2025-07-25",
    "2025-08-22",
    "2025-09-19",
-   "2025-10-27",
-   "2025-11-24",
-   "2026-10-23"
+   "2025-11-24"
   ]
  },
  "events": [
-  {
-   "drop_date": "2024-03-29",
-   "from_k": 0.368598,
-   "to_k": 0.370649,
-   "drop": -0.00205,
-   "bars_to_return": 1,
-   "returned": true
-  },
-  {
-   "drop_date": "2024-05-31",
-   "from_k": 0.375346,
-   "to_k": 0.375384,
-   "drop": -3.8e-05,
-   "bars_to_return": 1,
-   "returned": true
-  },
-  {
-   "drop_date": "2024-07-01",
-   "from_k": 0.375384,
-   "to_k": 0.376072,
-   "drop": -0.000688,
-   "bars_to_return": 1,
-   "returned": true
-  },
   {
    "drop_date": "2024-08-26",
    "from_k": 0.380003,
@@ -100,36 +73,12 @@
    "returned": true
   },
   {
-   "drop_date": "2024-12-25",
-   "from_k": 0.4612,
-   "to_k": 0.464539,
-   "drop": -0.003339,
-   "bars_to_return": 1,
-   "returned": true
-  },
-  {
-   "drop_date": "2025-03-28",
-   "from_k": 0.474484,
-   "to_k": 0.475525,
-   "drop": -0.001041,
-   "bars_to_return": null,
-   "returned": false
-  },
-  {
    "drop_date": "2025-04-28",
    "from_k": 0.475525,
    "to_k": 0.469398,
    "drop": 0.006127,
    "bars_to_return": null,
    "returned": false
-  },
-  {
-   "drop_date": "2025-05-29",
-   "from_k": 0.469398,
-   "to_k": 0.470749,
-   "drop": -0.001351,
-   "bars_to_return": 1,
-   "returned": true
   },
   {
    "drop_date": "2025-06-27",
@@ -160,14 +109,6 @@
    "from_k": 0.464822,
    "to_k": 0.460894,
    "drop": 0.003929,
-   "bars_to_return": null,
-   "returned": false
-  },
-  {
-   "drop_date": "2025-10-27",
-   "from_k": 0.460894,
-   "to_k": 0.462163,
-   "drop": -0.001269,
    "bars_to_return": null,
    "returned": false
   },
@@ -212,14 +153,6 @@
    "returned": true
   },
   {
-   "drop_date": "2026-04-24",
-   "from_k": 0.449301,
-   "to_k": 0.451495,
-   "drop": -0.002194,
-   "bars_to_return": 3,
-   "returned": true
-  },
-  {
    "drop_date": "2026-05-27",
    "from_k": 0.451495,
    "to_k": 0.448424,
@@ -236,32 +169,16 @@
    "returned": true
   },
   {
-   "drop_date": "2026-08-20",
-   "from_k": 0.455404,
-   "to_k": 0.459174,
-   "drop": -0.00377,
-   "bars_to_return": 1,
-   "returned": true
-  },
-  {
    "drop_date": "2026-09-17",
    "from_k": 0.459174,
    "to_k": 0.458808,
    "drop": 0.000365,
    "bars_to_return": 1,
    "returned": true
-  },
-  {
-   "drop_date": "2026-10-23",
-   "from_k": 0.458808,
-   "to_k": 0.460253,
-   "drop": -0.001445,
-   "bars_to_return": null,
-   "returned": false
   }
  ],
- "verdict": "TRIM_ERASED_IN_ONE_CYCLE",
- "sentence": "A drop the size of the 11-11 trim (-0.38pp) is undone at the very next decision bar in half of the 24 historical events (median 1 bars); k moves 0.00pp in a typical step. The 445-lot trim is a per-bar constraint: unless the solver re-applies the floor every decision bar, the book is back over it twenty bars later.",
- "elapsed_sec": 38.68,
- "generated": "2026-11-09T14:11:07+0800"
+ "verdict": "TRIM_LASTS_A_FEW_CYCLES",
+ "sentence": "Drops of the trim's size needed a median of 3.0 decision bars to be undone (14 events, 6 never returned inside the sample), against a typical step of 0.00pp.",
+ "elapsed_sec": 39.35,
+ "generated": "2026-11-09T14:51:11+0800"
 }
