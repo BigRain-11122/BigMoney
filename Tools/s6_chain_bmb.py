@@ -2502,6 +2502,13 @@ LEGS = [
     # force.
     ("glob_reach",
      ["python", "scripts/e609_glob_reach.py", "check"]),
+    # E611 (r1635 bm-b): E609 priced how a glob reaches the faces no literal opens, and said
+    # in its own lane note that a landing which never runs again costs nothing.  Every sweeper
+    # module on those faces is joined to the entry files that name it (scheduled task, per-round
+    # chain, smoke leg) -- 0 of 7 are named by any of them, so all 6 faces are swept only by
+    # one-off round scripts.  `check` re-derives every class, count and verdict from the rows.
+    ("sweep_reruns",
+     ["python", "scripts/e611_sweep_reruns.py", "check"]),
 ]
 
 

@@ -26090,6 +26090,42 @@ except Exception as _e606x:
 check(_name606, not _bad606, "; ".join(_bad606)[:240] or _d606)
 
 
+# E611: E609 priced how a glob reaches a face no literal opens but left the runner out of the
+# price -- a landing that never runs again costs nothing.  The leg takes E609's own-directory
+# faces, joins each sweeper module to the entry files that name it, and refuses a class its entry
+# hits do not support, a face's only_a_one_off that does not re-derive, and any count or verdict
+# the rows do not force.
+_name611 = ("E611 whether a glob that names a face ever runs again (r1635 bm-b)")
+_bad611 = []
+_d611 = "no reading"
+try:
+    _p611 = os.path.join("results", "state_tilt", "SWEEPRERUNS.json")
+    _f611 = json.load(open(_p611, encoding="utf-8"))
+    _m611 = importlib.import_module("e611_sweep_reruns")
+    _bad611.extend(_m611.face_problems(_f611))
+    _c611 = _f611.get("counts") or {}
+    _mods611 = {_r611.get("module"): _r611 for _r611 in (_f611.get("modules") or [])}
+    for _f611r in (_f611.get("faces") or []):
+        _rows611 = [_mods611[_x] for _x in (_f611r.get("sweepers") or []) if _x in _mods611]
+        _rerun611 = [_x["module"] for _x in _rows611 if _x.get("class") != _m611.C_NONE]
+        if _f611r.get("sweepers_an_entry_point_runs_again") != _rerun611:
+            _bad611.append("face %s publishes re-running sweepers the modules do not give"
+                           % _f611r.get("face"))
+            break
+        if bool(_f611r.get("only_a_one_off")) != (bool(_rows611) and not _rerun611):
+            _bad611.append("face %s publishes only_a_one_off that does not re-derive"
+                           % _f611r.get("face"))
+            break
+    _d611 = ("faces=%s modules=%s nothing_named=%s only_one_off=%s verdict=%s"
+             % (_c611.get("faces"), _c611.get("modules"),
+                _c611.get(_m611.C_NONE),
+                _c611.get("faces_with_only_a_one_off_sweeper"), _f611.get("verdict")))
+except Exception as _e611x:
+    _bad611.append(repr(_e611x)[:160])
+    _d611 = "study could not be read"
+check(_name611, not _bad611, "; ".join(_bad611)[:240] or _d611)
+
+
 # E609: E606 published faces with no literal opener and said in its own limits that a glob sweep
 # could still reach them.  The leg re-derives every class from the published sites, refuses a
 # bounded site whose pattern names nothing, refuses a directory claim deeper than the face's own

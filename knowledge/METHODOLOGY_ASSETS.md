@@ -14397,3 +14397,22 @@ esults/state_tilt/DUPWITNESS.json、S6 leg dup_witness、smoke leg E601。坑：
 **How**：任何"X 能不能被程序读到"的病，先把 X 的位置问清——**落到 ≠ 点名**。一个 `**` 扫掠落在面上说明的是磁盘上有什么，不是代码想知道什么；统计"有人读"时，把"只有祖先级通配可达"单列一类，别并进"可达"。
 
 **证据** = `scripts/e609_glob_reach.py`（selftest **28/28**，run/check/verify problems=[]）→ `results/state_tilt/GLOBSWEEPREACH.json` (+`GLOBSWEEPREACH-latest.json`) → `scripts/run_e609_smoke_leg.py`（PASS·`--doctor` 1/1 红·面字节还原 b6765253）→ smoke_test.py leg E609 → S6 leg `glob_reach` rc=0 108.0s → POOL E609 done、E611 seeded。
+
+## E612 一个点名了面自己目录的 glob 还会再跑吗：6 张面的 7 个扫描模块全是一次性轮脚本（r1635 bm-b·2026-11-09）
+> 卡号=E612（E611 是研究号，片序顺延到 E612）。
+
+**观察**：E609 把「没字面开面者的 82 张面里只有 6 张被点名自己目录的 glob 扫到」算了出来，并在自己的 lane note 里把下一半问题写清了：**落地从不再跑就不值钱**。本张把运行者算进去：6 张面的“点名自己目录”落点读出 7 个模块，逐个问它的路径被谁点名（计划任务定义 / 每轮链 Tools/s6_chain_bmb.py / 烟腿 smoke_test.py 与 run_e*_smoke_leg.py），优先级=任务>链>烟腿>无。
+
+**读数**：results/state_tilt/SWEEPRERUNS.json（面 6 张 / 模块 7 个）
+- **7/7 模块全是 `named_by_nothing`**，且 7/7 名字都是 `_r<NNN>` 一次性轮脚本（最老 r239、最新 r904）；
+- 任务命名 0 / 链命名 0 / 烟腿命名 0；
+- **6/6 面的唯一扫描者都是一次性**（faces_with_only_a_one_off_sweeper=6），所以 E609 那 6 个“名字真正说出位置”的落地一次也不会再发生；
+- 入口语料=214 个文件（任务定义 21 / 链 3 / 烟腿 190）。
+
+**研究**：E609 已经说清“被扫到 ≠ 被消耗”；本张把第三层补齐：**被扫到 ≠ 会再扫**。一张面的可达性是三段式——面在盘、有模式能落到它、**且那个落点模块还会跑**；缺第三段时“有读者/有扫描”都是形式上成立、事实上不存在。
+
+**自己踩的坑**：① 自排除不只是防自燃：本研究自己的烟腿文件 run_e611_smoke_leg.py 也在入口语料里，若不排除就会把自己计成“被烟腿命名”的入口；② 一跳只能说一跳：链上的模块算“还会跑”是因为链本身每轮跑，若去跟指针文件的指针就会把“一个从不跑的脚本里的引用”算成可达；③ “有烟腿”不等于“本轮跑过”（全套件不每轮跑，r1499），类别只说腿存在。
+
+**How**：任何“这张面有人读吗”的结论都要拆成三段并各自出证据——开面者存在（E470）、扫描能落到（E609）、**落点还会跑**（本张）。一个模块名字里带 `_r<NNN>` 就是强提示：一次性轮脚本写下的面，下一轮就没人再回来看。
+
+**证据** = `scripts/e611_sweep_reruns.py`（selftest **26/26**，run/check/verify problems=[]）、`results/state_tilt/SWEEPRERUNS.json` (+`SWEEPRERUNS-latest.json`)、`scripts/run_e611_smoke_leg.py`（PASS，`--doctor` 1/1 红且面字节还原 6d96e830）、smoke_test.py leg E611、S6 leg `sweep_reruns`、POOL E611 done → E613 seeded。

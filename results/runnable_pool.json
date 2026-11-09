@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1623 bm-b: E596 burned -- a date-keyed join lands on the same bar as the name join only where the face states one date (8017 of 8196 bar-naming faces); on all 18 faces that state both a pricing and a decision bar the two dates differ, so the name join is load-bearing. E600 seeded: does a date pick out one face at all?",
+ "_stamp_note": "r1635 bm-b: E611 burned -- the 6 own-directory faces are swept only by 7 one-off round scripts, none named by a task, chain or smoke leg, so no landing happens again. E613 seeded: the same pricing over the 76 ancestor-only faces.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -30665,7 +30665,7 @@
    "id": "E611-WHETHER-A-GLOB-THAT-NAMES-A-FACE-EVER-RUNS-AGAIN",
    "lane": "cpu-only",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "card": "E611",
    "title": "whether a glob that names a face ever runs again",
    "lane_note": "static: take the modules E609 published as landing on a face by naming its own directory, and decide per module whether it is a one-off round script, a smoke leg, or reachable from a scheduled/live entry point -- no runner, no rebuild",
@@ -30673,7 +30673,24 @@
    "target": "results/state_tilt/SWEEPRERUNS.json",
    "deliverable": "results/state_tilt/SWEEPRERUNS.json: per landing module, whether its entry point is named by a scheduled task, a live chain, a smoke leg, or nothing -- and the count of faces whose only own-directory sweeper is a one-off",
    "seeded_by": "r1634 bm-b",
-   "seeded_at": "2026-11-09T13:05:00+08:00"
+   "seeded_at": "2026-11-09T13:05:00+08:00",
+   "completed_at": "2026-11-09T13:20:00+08:00",
+   "completed_by": "bm-b r1635",
+   "result_ref": "results/state_tilt/SWEEPRERUNS.json"
+  },
+  {
+     "card": "E613",
+     "deliverable": "results/state_tilt/ANCESTORRERUNS.json: per ancestor-only face, its sweeper modules and whether any entry point names them, plus the count of faces whose only sweeper never runs again",
+     "id": "E613-WHETHER-THE-ANCESTOR-ONLY-SWEPT-FACES-HAVE-A-SWEEPER-THAT-RUNS-AGAIN",
+     "lane": "cpu-only",
+     "lane_note": "static: the same entry-point pricing E611 applied to the six own-directory faces, now over E609's 76 ancestor-only faces -- which modules carry the landing and does any entry point name them",
+     "priority": "normal",
+     "seeded_at": "2026-11-09T13:20:00+08:00",
+     "seeded_by": "r1635 bm-b",
+     "source": "E611 (r1635 bm-b): all 6 own-directory faces are swept only by one-off round scripts (7 of 7 landing modules named by nothing), but that population is the small class. The 76 faces reached only by 'results/**/*.json'-style sweeps are the bulk, and the same question prices them at once.",
+     "status": "ready",
+     "target": "results/state_tilt/ANCESTORRERUNS.json",
+     "title": "whether the faces swept only by an ancestor pattern have a sweeper that runs again"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30688,6 +30705,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T13:05:00+0800",
+ "updated_at": "2026-11-09T13:20:00+08:00",
  "version": 1
 }

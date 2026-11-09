@@ -140,7 +140,7 @@
  "last_push_ts": "2026-10-31T15:00:00+08:00",
  "last_receipt": "results/_r1447bmb_closeout.json",
  "last_round": 1627,
- "last_round_at": "2026-11-09T09:10:46+08:00",
+ "last_round_at": "2026-11-09T13:25:00+08:00",
  "last_round_report": "logs/iteration-loop/round_reports.md",
  "last_round_ts": "2026-11-07T09:24:15+08:00",
  "last_round_utc": "2026-10-30T11:55:35+00:00",
@@ -1505,7 +1505,7 @@
  "recent_artifact": "results/state_tilt/LEDGERROWCOUNT.json",
  "recent_artifact_ts": "2026-11-09T08:07:00+08:00",
  "round": 1627,
- "round_no": 1634,
+ "round_no": 1635,
  "round_no_drift_healed": "state.json stood at 1259 while the report series and commits were at r1262 (r1020 double-drift class); healed to 1263 from the report series",
  "round_no_label": "r1627",
  "round_no_note": "r1409 kept this mirror's label in step with state-bm-b.json (the authoritative face); it had stood at 1396 while the report series was at 1408",
@@ -1591,5 +1591,15 @@
  "watermark_note_2": "no cloud, no GPU, nothing deleted",
  "watermark_red": true,
  "watermark_verdict": "RED at open (py 0.0%, 3 ready) -> burned E588 -> 3 ready at close",
- "work": "bm-a 114 and bm-c 399 print len(out) twice (numerator len(out)-len(bad), bad a comprehension over the same out); bm-b 2337 prints payload[\"legs_rc0\"]/payload[\"legs_total\"] of the envelope it just dumped. The two list-shaped runners publish no count field, so a reader must recount to know M"
+ "work": "bm-a 114 and bm-c 399 print len(out) twice (numerator len(out)-len(bad), bad a comprehension over the same out); bm-b 2337 prints payload[\"legs_rc0\"]/payload[\"legs_total\"] of the envelope it just dumped. The two list-shaped runners publish no count field, so a reader must recount to know M",
+ "E611": {
+  "card": "E611",
+  "face": "results/state_tilt/SWEEPRERUNS.json (+ -latest.json)",
+  "next": "E613 (ready, cpu-only): the same pricing over E609's 76 ancestor-only faces",
+  "round": 1635,
+  "s6": "python scripts/e611_sweep_reruns.py check -> rc0 problems=[]",
+  "script": "scripts/e611_sweep_reruns.py (selftest 26/26)",
+  "finding": "7 of 7 landing modules on the 6 own-directory faces are one-off round scripts and none is named by a task, chain or smoke leg, so 6/6 faces are swept only by a module that never runs again",
+  "smoke_leg": "scripts/run_e611_smoke_leg.py PASS + --doctor 1/1 red (face byte-restored)"
+ }
 }

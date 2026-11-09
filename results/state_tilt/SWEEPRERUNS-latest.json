@@ -1,0 +1,196 @@
+{
+ "answer": "of 6 faces whose own directory a glob names, 0 carry at least one sweeper an entry point runs again and 6 are swept only by modules nothing names (7 of 7 landing modules are round scripts and 7 of those are named by nothing at all).",
+ "card": "E611-WHETHER-A-GLOB-THAT-NAMES-A-FACE-EVER-RUNS-AGAIN",
+ "class_vocabulary": [
+  "named_by_a_scheduled_task",
+  "named_by_a_live_chain",
+  "named_by_a_smoke_leg",
+  "named_by_nothing"
+ ],
+ "counts": {
+  "entry_files": 214,
+  "entry_files_live_chain": 3,
+  "entry_files_scheduled_task": 21,
+  "entry_files_smoke_leg": 190,
+  "faces": 6,
+  "faces_with_a_sweeper_an_entry_point_runs_again": 0,
+  "faces_with_only_a_one_off_sweeper": 6,
+  "modules": 7,
+  "modules_named_by_more_than_one_kind": 0,
+  "modules_on_checkout": 7,
+  "named_by_a_live_chain": 0,
+  "named_by_a_scheduled_task": 0,
+  "named_by_a_smoke_leg": 0,
+  "named_by_nothing": 7,
+  "round_scripts": 7,
+  "round_scripts_nothing_names": 7
+ },
+ "entry_kind_vocabulary": [
+  "scheduled_task",
+  "live_chain",
+  "smoke_leg"
+ ],
+ "evidence_cutoff": "no-date-in-population",
+ "faces": [
+  {
+   "classes": [
+    "named_by_nothing"
+   ],
+   "disagreeing_series": 1,
+   "face": "results/_r1049bmb_sscombo_stage_priors.json",
+   "only_a_one_off": true,
+   "present": true,
+   "sweepers": [
+    "results/_r239_find_listjson.py",
+    "results/_r383bmc_ledger_scan.py",
+    "results/_r473bmb_w14park_probe.py",
+    "results/_r695bma_contest_diag.py",
+    "results/_r843bmc_inputs.py",
+    "results/_r904bmc_chain_enum.py"
+   ],
+   "sweepers_an_entry_point_runs_again": []
+  },
+  {
+   "classes": [
+    "named_by_nothing"
+   ],
+   "disagreeing_series": 2,
+   "face": "results/paper/COMPOSITE-CE-01_paper.json",
+   "only_a_one_off": true,
+   "present": true,
+   "sweepers": [
+    "results/_r877bmc_badjson_scan.py"
+   ],
+   "sweepers_an_entry_point_runs_again": []
+  },
+  {
+   "classes": [
+    "named_by_nothing"
+   ],
+   "disagreeing_series": 2,
+   "face": "results/paper/COMPOSITE-CE-02_paper.json",
+   "only_a_one_off": true,
+   "present": true,
+   "sweepers": [
+    "results/_r877bmc_badjson_scan.py"
+   ],
+   "sweepers_an_entry_point_runs_again": []
+  },
+  {
+   "classes": [
+    "named_by_nothing"
+   ],
+   "disagreeing_series": 2,
+   "face": "results/paper/ENGULF-CE-01_paper.json",
+   "only_a_one_off": true,
+   "present": true,
+   "sweepers": [
+    "results/_r877bmc_badjson_scan.py"
+   ],
+   "sweepers_an_entry_point_runs_again": []
+  },
+  {
+   "classes": [
+    "named_by_nothing"
+   ],
+   "disagreeing_series": 1,
+   "face": "results/paper/NEEDLE-DE-01_paper.json",
+   "only_a_one_off": true,
+   "present": true,
+   "sweepers": [
+    "results/_r877bmc_badjson_scan.py"
+   ],
+   "sweepers_an_entry_point_runs_again": []
+  },
+  {
+   "classes": [
+    "named_by_nothing"
+   ],
+   "disagreeing_series": 2,
+   "face": "results/paper/VOLATILITY-CE-01_paper.json",
+   "only_a_one_off": true,
+   "present": true,
+   "sweepers": [
+    "results/_r877bmc_badjson_scan.py"
+   ],
+   "sweepers_an_entry_point_runs_again": []
+  }
+ ],
+ "limits": [
+  "one hop only: a module named by Tools/s6_chain_*.py is reachable because that chain runs every round, but nothing here follows a pointer from one script into another, so a module named only by a script that itself never runs is graded NAMED_BY_NOTHING",
+  "reach is decided by the module's bare basename appearing in an entry file's text. A reference built from a composed string this scan does not resolve is published as a miss, not as a run",
+  "an entry file is a scheduled-task definition only when it carries one of ('schtasks', 'Register-ScheduledTask', 'New-ScheduledTaskAction'); a task registered from outside the repo cannot be seen here",
+  "a smoke leg counts as an entry point because it is executed whenever the suite runs, and the full suite is not run every round (r1499) -- the class says the leg exists, not that it ran this window",
+  "the population is E609's published six faces. It is machine-read, so a stale E609 face would be graded as published; population_note says where it came from",
+  "at most 6 naming entry files per module are published; the count is complete even when the list is truncated"
+ ],
+ "modules": [
+  {
+   "class": "named_by_nothing",
+   "is_a_round_script": true,
+   "module": "results/_r239_find_listjson.py",
+   "named_by": [],
+   "named_by_count": 0,
+   "on_checkout": true,
+   "round_no": 239
+  },
+  {
+   "class": "named_by_nothing",
+   "is_a_round_script": true,
+   "module": "results/_r383bmc_ledger_scan.py",
+   "named_by": [],
+   "named_by_count": 0,
+   "on_checkout": true,
+   "round_no": 383
+  },
+  {
+   "class": "named_by_nothing",
+   "is_a_round_script": true,
+   "module": "results/_r473bmb_w14park_probe.py",
+   "named_by": [],
+   "named_by_count": 0,
+   "on_checkout": true,
+   "round_no": 473
+  },
+  {
+   "class": "named_by_nothing",
+   "is_a_round_script": true,
+   "module": "results/_r695bma_contest_diag.py",
+   "named_by": [],
+   "named_by_count": 0,
+   "on_checkout": true,
+   "round_no": 695
+  },
+  {
+   "class": "named_by_nothing",
+   "is_a_round_script": true,
+   "module": "results/_r843bmc_inputs.py",
+   "named_by": [],
+   "named_by_count": 0,
+   "on_checkout": true,
+   "round_no": 843
+  },
+  {
+   "class": "named_by_nothing",
+   "is_a_round_script": true,
+   "module": "results/_r877bmc_badjson_scan.py",
+   "named_by": [],
+   "named_by_count": 0,
+   "on_checkout": true,
+   "round_no": 877
+  },
+  {
+   "class": "named_by_nothing",
+   "is_a_round_script": true,
+   "module": "results/_r904bmc_chain_enum.py",
+   "named_by": [],
+   "named_by_count": 0,
+   "on_checkout": true,
+   "round_no": 904
+  }
+ ],
+ "population_note": "read from the published E609 face",
+ "population_source": "results/state_tilt/GLOBSWEEPREACH.json (E609 faces graded names_the_directory, own-directory sites only)",
+ "study": "E611_sweep_reruns",
+ "verdict": "at_least_one_face_is_swept_only_by_modules_no_entry_point_names"
+}

@@ -452,7 +452,7 @@
  "last_push_sha": "bd9248a669bb3ad9f25f6edf00b5919622c98310",
  "last_push_ts": "2026-11-09T07:09:00+08:00",
  "last_round": "r1631",
- "last_round_at": "2026-11-09T11:24:41+08:00",
+ "last_round_at": "2026-11-09T13:25:00+08:00",
  "last_round_label": "r1621",
  "last_round_report": "logs/iteration-loop/round_reports.md",
  "last_round_summary": "r1619: E592 asked whether the ledger's carry survives its own bars. It does -- 11 of 11 published bars reproduce at the carry field's printed precision (max gap 0.000755% against 0.001302%) once the replay starts at 2020-01-02, the origin the face names only as seed.grid_index 1647; a fresh phase at the ledger's first published bar reproduces 0/11 there and exactly the 4/8 past the panel that E591 measured. But 52,111 of 68,921 sampled three-rung phases (75.6%) reproduce every bar too, because GC007/GC014 are offset-invariant on this panel and all the discrimination sits on GC028 (168 of 251 offsets pass), so the bars pin a class of phases rather than a point and no bar is left unexplained.",
@@ -6304,7 +6304,7 @@
   "verify": "problems=[] verify=identical"
  },
  "round_label": "r1632",
- "round_no": 1634,
+ "round_no": 1635,
  "round_no_label": "r1630",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
  "round_no_ts": "2026-11-09T11:00:00+08:00",
@@ -6437,5 +6437,15 @@
   "sha": "1cbc1f10af8ce86afd9d66f0b9cd17ec3c14d680",
   "verified": true,
   "main_push_blocker": "local main runs far ahead/behind origin/main on a promisor clone (r1243) -- the machine branch is the delivery channel"
+ },
+ "E611": {
+  "card": "E611",
+  "face": "results/state_tilt/SWEEPRERUNS.json (+ -latest.json)",
+  "next": "E613 (ready, cpu-only): the same pricing over E609's 76 ancestor-only faces",
+  "round": 1635,
+  "s6": "python scripts/e611_sweep_reruns.py check -> rc0 problems=[]",
+  "script": "scripts/e611_sweep_reruns.py (selftest 26/26)",
+  "finding": "7 of 7 landing modules on the 6 own-directory faces are one-off round scripts and none is named by a task, chain or smoke leg, so 6/6 faces are swept only by a module that never runs again",
+  "smoke_leg": "scripts/run_e611_smoke_leg.py PASS + --doctor 1/1 red (face byte-restored)"
  }
 }
