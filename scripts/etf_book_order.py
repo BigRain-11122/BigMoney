@@ -516,6 +516,7 @@ RULERS_FACE = "results/etf_book_size_rulers_decision.json"
 FLOOR_FACE = "results/etf_book_floor_ledger.json"
 SWAP_FACE = "results/etf_book_swap_trigger.json"
 SWAP_STACK_FACE = "results/etf_book_swap_stack.json"
+POSITIONS_FACE = "results/etf_book_positions.json"
 
 
 def _json_face(rel):
@@ -632,6 +633,62 @@ def swap_stack_md(ss):
                     b.get("n_before"), b.get("n_after"),
                     "未变" if b.get("n_before") == b.get("n_after") else "变了"))
     L += ["- 出处：%s。" % SWAP_STACK_FACE, ""]
+    return L
+
+
+def positions_md(pos):
+    """r1468: the netted rows are not the whole order, and the executed book is not the sheet.
+
+    Two things only become visible once the post-execution book is written down: the printed
+    rows leave lots the same face declares it sold (the trim table's own five sells never
+    became rows), and after the swap executes the account holds a different set of tickers than
+    the sheet names. This block puts both on the page the desk types from. An absent face
+    prints one line, never a silent pass (r1108).
+    """
+    if pos is None:
+        return ["", "## 打印的动作能不能凑成账上的书（r1468）",
+                "- **这一问答不了**：没有已发布的持仓对账面（跑 "
+                "scripts/etf_book_positions.py run）。缺面不等于动作齐全。", ""]
+    v = pos.get("verdict")
+    head = {
+        "PRINTED_ROWS_UNDERSELL_THE_BOOK":
+            "**照上面这几行打字，账上还剩 ¥%s 的票没卖**——不是估值差，是打印出来的动作行"
+            "没覆盖这张单自己声明的账。"
+            % format(pos.get("unexplained_total_cny") or 0.0, ",.0f"),
+        "PRINTED_ROWS_OVERSELL_THE_BOOK":
+            "**打印的动作比声明的账买得更多**（¥%s）：纸面与账面在买入方向分叉。"
+            % format(abs(pos.get("unexplained_total_cny") or 0.0), ",.0f"),
+        "PRINTED_ROWS_REBUILD_THE_BOOK":
+            "**打印的动作能一笔一笔复原声明的账**：没有漏印的腿，也没有多印的手数。",
+        "GAPS_NOT_PRICED": "**手数对不上，但没有一条腿有当日价**：只印手数，不编金额。",
+        "CANNOT_VERIFY": "**这一问答不了**：票面、净额单面或声明账缺一件，不拿缺口当零。",
+    }.get(v, v or "?")
+    L = ["", "## 打印的动作能不能凑成账上的书（r1468）", "- %s" % head]
+    if pos.get("unexplained"):
+        L += ["", "| 代码 | 票面起点 | 打印后 | 声明的账 | 差 | 差多少钱 |",
+              "|---|---|---|---|---|---|"]
+        for r in pos["unexplained"]:
+            L.append("| %s | %d | %d | %d | **%+d 手** | %s |"
+                     % (r["symbol"], r.get("sheet_lots") or 0, r["printed_lots"],
+                        r["book_lots"], r["delta_lots"],
+                        ("**¥%s**" % format(r["delta_cny"], ",.0f"))
+                        if r.get("delta_cny") is not None else "无价，不编"))
+        L += ["", "- 少的那几笔是额度裁剪表自己五腿的卖出；净额单只把换票的两笔卖和一笔合并买"
+              "变成了动作行。**先按顺序做没错，但打字要补上这 %d 笔**。"
+              % len(pos["unexplained"])]
+    base = pos.get("next_order_base") or {}
+    if base:
+        L.append("- 执行后的账已写下（bar `%s`：风险腿 ¥%s / 现金 ¥%s / %d 只）："
+                 "**下一张单从这本账起算**，不从上一条票面起算。"
+                 % (base.get("bar"), format(base.get("risk_book_cny") or 0.0, ",.0f"),
+                    format(base.get("cash_cny") or 0.0, ",.0f"), base.get("holdings") or 0))
+        if pos.get("base_divergence_total_cny"):
+            L.append("- 按票面修回来要再打 ¥%s：换票执行后票面与账本已不是同一批票"
+                     "（票面还写着换出的两只），这个数就是错误底座的名义代价。"
+                     % format(pos["base_divergence_total_cny"], ",.0f"))
+    elif v != "CANNOT_VERIFY":
+        L.append("- **没有写下的执行后账**：下一张单只能退回上一张票面起算，那正是两本账分叉的入口。")
+    L += ["- 出处：%s。" % POSITIONS_FACE, ""]
     return L
 
 
@@ -856,6 +913,7 @@ def card(ticket, mk, sched, asof, beta, extra):
         L += permission_md(extra.get("permission"))
         L += swap_trigger_md(extra.get("swap_trigger"))
         L += swap_stack_md(extra.get("swap_stack"))
+        L += positions_md(extra.get("positions"))
         cm = extra.get("cash_money")
         if cm:
             L += ["", "## 现金那一半今天赚多少钱（r1245）"]
@@ -1412,6 +1470,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "entry_gate": entry_gate_support(),
                "swap_trigger": _json_face(SWAP_FACE),
                "swap_stack": _json_face(SWAP_STACK_FACE),
+               "positions": _json_face(POSITIONS_FACE),
                "width_disclosure": wd,
                "live_width_ruler": ruler,
                "price_basis": basis,
@@ -1450,6 +1509,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "entry_gate": payload["entry_gate"],
                       "swap_trigger": payload["swap_trigger"],
                       "swap_stack": payload["swap_stack"],
+                      "positions": payload["positions"],
                       "permission": payload["permission"],
                       "bets_line": bets_line,
                       "conc_line": conc_line,
@@ -3517,6 +3577,20 @@ def selftest():
         and "多卖 **65 手**" in _st_md and "高估" in _st_md, "")
     chk("leg51d swap stack: an absent face prints one line, never a silent pass",
         "这一问答不了" in "\n".join(swap_stack_md(None)), "")
+
+    _pos = {"verdict": "PRINTED_ROWS_UNDERSELL_THE_BOOK", "unexplained_total_cny": 67289.1,
+            "unexplained": [{"symbol": "159501", "sheet_lots": 444, "printed_lots": 65,
+                             "book_lots": 0, "delta_lots": 65, "delta_cny": 13448.5}],
+            "next_order_base": {"bar": "2026-11-06", "risk_book_cny": 392400.9,
+                                "cash_cny": 607599.1, "holdings": 4},
+            "base_divergence_total_cny": 381115.4}
+    _pos_md = "\n".join(positions_md(_pos))
+    chk("leg51e positions: the sheet says how many printed lots are missing and in what money, "
+        "and that the next order starts from the written book",
+        "打印的动作能不能凑成账上的书" in _pos_md and "¥67,289" in _pos_md
+        and "**+65 手**" in _pos_md and "下一张单从这本账起算" in _pos_md, "")
+    chk("leg51f positions: an absent face prints one line, never a silent pass",
+        "这一问答不了" in "\n".join(positions_md(None)), "")
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

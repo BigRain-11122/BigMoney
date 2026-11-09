@@ -790,6 +790,18 @@ def main() -> int:
              "scripts/etf_book_swap_stack.py", ["selftest"]),
             ("product: etf_book_swap_stack (netted order re-derived from the sheet it patches)",
              "scripts/etf_book_swap_stack.py", ["check"]),
+            # r1468: the netted order printed three rows and declared a book that had moved in
+            # six places -- the trim table's own five sells never became rows (CNY 67,289 of
+            # names the permission refused are left unsold), and after the swap executes the
+            # account no longer matches the sheet. The legs pin the reconciliation both ways
+            # (an unprinted sell is positive, an unprinted buy is negative, an unpriced gap
+            # stays a row and is not counted as money), that the position ledger keeps one row
+            # per decision bar with an identical re-run as a no-op, and that an empty ledger
+            # refuses the base instead of reading as an empty book.
+            ("product: etf_book_positions (printed rows vs the book they declare)",
+             "scripts/etf_book_positions.py", ["selftest"]),
+            ("product: etf_book_positions (position ledger and base divergence re-derived)",
+             "scripts/etf_book_positions.py", ["check"]),
             # r1420: the yearly gate could only answer ADMIT/CONDITIONAL/REFUSE, so a book
             # whose phase spread is wider than its distance to the 70% line still got a
             # word. The legs pin the third word in both directions (a split verdict and a

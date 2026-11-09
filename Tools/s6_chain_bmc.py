@@ -935,6 +935,13 @@ LEGS = [
     # one order and re-derives it (trim-sized sells, merged sibling buy, lot residue, baskets).
     ("swap_stack",
      ["python", "scripts/etf_book_swap_stack.py", "check"]),
+    # r1468: the netted order prints three rows but declares a book that moved in six places --
+    # the trim table's own five sells never became rows, so typing the sheet leaves CNY 67,289
+    # of refused names unsold; and once the swap executes, the account no longer matches the
+    # sheet at all. This leg writes the post-execution book down (one ledger row per decision
+    # bar) and re-derives both the reconciliation and the base divergence (0.1s, JSON reads).
+    ("positions_ledger",
+     ["python", "scripts/etf_book_positions.py", "check"]),
     # r1440: forty rounds read the calendar and the order page as two separate
     # subjects. This leg puts them in one sentence from receipts only (no
     # repricing): today the ticket executes nobond_vt08_adopted at book_weight
