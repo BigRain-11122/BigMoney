@@ -1369,6 +1369,15 @@ LEGS = [
     # rows (no corpus walk, ~1s).
     ("sibling_read_value", ["python", "scripts/e625_sibling_read_value.py", "verify"]),
 
+    # E626 follows the handover E625 stopped at one hop into the callee: for every handover mark the
+    # call on that line is resolved to a module-level def, and its body is asked whether it stores or
+    # deletes the dead line's key on the parameter the object arrived in -- a naming write settles
+    # the read the other way, an untouched parameter settles it as the same value, and an import, an
+    # attribute call, a parameter handed on again or an unnamed write leaves it open.  Verify
+    # re-derives every handover/read class count, both splits and the verdict from the line rows (no
+    # corpus walk, ~1s).
+    ("handover_write", ["python", "scripts/e626_handover_write.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

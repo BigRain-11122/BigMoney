@@ -26701,5 +26701,114 @@ except Exception as _e625x:
     _d625 = "study could not be read"
 check(_name625, not _bad625, "; ".join(_bad625)[:240] or _d625)
 
+# E626 follows E625's handover one hop into the callee -- a handover is where E625 stopped, so the
+# value question stays open unless the callee is read.  For each handover mark the call on that line
+# is resolved: a module-level callee that stores/dels/updates the key on the parameter the object
+# arrived in settles the read the other way, one that never touches it settles it as the same value,
+# and an import, an attribute call, a parameter handed on again or an unnamed write keeps it open.
+# This study's single handover duplicate (cn_core_ddctl_p1.py:367 key days, P handed to build_dd_axis
+# and active_rebals) settles to the same value, so all 4 same-object duplicates survive.  The leg
+# re-reads the published face, re-derives every handover/read class count and both splits from the
+# rows, re-asks the verdict, requires each resolution to publish its own write marks, requires the
+# E625 cross-check to still agree row for row, and excludes this study from its own population.
+_name626 = ("E626 whether the callee handed the object writes the key the dead line read (r1644 bm-b)")
+_bad626 = []
+_d626 = "no reading"
+try:
+    _f626 = json.load(open(os.path.join("results", "state_tilt", "handoverwrite_latest.json"),
+                           encoding="utf-8"))
+    _m626 = importlib.import_module("e626_handover_write")
+    _bad626.extend(_m626.face_problems(_f626))
+    _c626 = _f626.get("counts") or {}
+    _rows626 = _f626.get("lines") or []
+    _again626 = _m626.derive_verdict({
+        "population_modules": _c626.get("population_modules"),
+        "lines": _rows626,
+        "inert_dead_facekey_lines": _c626.get("inert_dead_facekey_lines"),
+        "skipped": [None] * (_c626.get("skipped_modules") or 0)})
+    if _again626 != _f626.get("verdict"):
+        _bad626.append("the published verdict is not what the line rows force (%r)" % _again626)
+    if sum(_c626.get("handover_" + _k, 0) for _k in _m626.HANDOVER_CLASSES) != \
+            _c626.get("handover_instances", -1):
+        _bad626.append("the handover classes do not add up to the handover instance count")
+    if sum(_c626.get("read_" + _k, 0) for _k in _m626.READ_CLASSES) != \
+            _c626.get("same_object_reads_left_on_a_handover", -1):
+        _bad626.append("the post-hop read classes do not add up to the reads on a handover")
+    if (_c626.get("duplicates_leaving_a_handover_that_settle_to_survive", 0)
+            + _c626.get("duplicates_leaving_a_handover_that_settle_to_stored", 0)
+            + _c626.get("duplicates_leaving_a_handover_that_stay_undecided", 0)) != \
+            _c626.get("duplicate_rows_leaving_a_handover", -1):
+        _bad626.append("the handover-leaving split does not add up to the handover duplicate count")
+    if (_c626.get("duplicates_that_survive_the_one_hop_test", 0)
+            + _c626.get("duplicates_stored_over_after_one_hop", 0)
+            + _c626.get("duplicates_still_undecided_after_one_hop", 0)) != \
+            _c626.get("same_object_duplicate_rows", -1):
+        _bad626.append("the survive/stored/undecided split does not add up to the duplicate count")
+    if not _rows626:
+        _bad626.append("the face publishes no line at all, yet the study exists")
+    for _r626 in _rows626:
+        for _s626 in (_r626.get("sibling_reads") or []):
+            if not _s626.get("same_object"):
+                continue
+            _res626 = _s626.get("handover_resolution") or []
+            _on_handover626 = (_s626.get("value_class") == _m626.e625.VALUE_CLASSES[2]
+                               and _s626.get("handovers_to_a_call"))
+            if _on_handover626 and len(_res626) != len(_s626.get("handovers_to_a_call") or []):
+                _bad626.append("line %r in %r resolves %d of %d handover mark(s)"
+                               % (_r626.get("line"), _r626.get("function"), len(_res626),
+                                  len(_s626.get("handovers_to_a_call") or [])))
+            if _res626 and not _on_handover626:
+                _bad626.append("line %r in %r publishes a resolution on a read that has no "
+                               "handover" % (_r626.get("line"), _r626.get("function")))
+            for _h626 in _res626:
+                _cls626 = _h626.get("handover_class")
+                if _cls626 not in _m626.HANDOVER_CLASSES:
+                    _bad626.append("line %r in %r carries handover_class=%r"
+                                   % (_r626.get("line"), _r626.get("function"), _cls626))
+                    break
+                if _cls626 == _m626.NO_WRITE and (
+                        _h626.get("writes_naming_the_key")
+                        or _h626.get("writes_without_naming_the_key")
+                        or _h626.get("hands_the_parameter_on")):
+                    _bad626.append("line %r in %r says the callee does not write the key yet "
+                                   "publishes write marks"
+                                   % (_r626.get("line"), _r626.get("function")))
+                    break
+                if _cls626 in (_m626.NAMED, _m626.UNNAMED_WRITE, _m626.HANDS_ON) and not (
+                        _h626.get("writes_naming_the_key")
+                        or _h626.get("writes_without_naming_the_key")
+                        or _h626.get("hands_the_parameter_on")):
+                    _bad626.append("line %r in %r says the callee acts on the key with no mark "
+                                   "published" % (_r626.get("line"), _r626.get("function")))
+                    break
+    _self626 = [r.get("module") for r in _rows626
+                if r.get("module") and r["module"].split("/")[-1] in _m626.SELF_PARTS]
+    if _self626:
+        _bad626.append("this study lists itself as a holder module: %s" % ", ".join(_self626))
+    _cc626 = _f626.get("e625_cross_check") or {}
+    if _cc626.get("published") is False:
+        _bad626.append("the E625 cross-check did not read a published face")
+    elif _cc626.get("agrees") is False:
+        _bad626.append("the re-derived rows no longer match the published E625 face")
+    elif _c626.get("duplicate_rows_leaving_a_handover", 0) > \
+            (_cc626.get("published_undecided_duplicates") or 0):
+        _bad626.append("more duplicates leave a handover than E625 published as undecided")
+    _d626 = ("lines=%s duplicates=%s handovers=%s not_written=%s named=%s unnamed=%s hands_on=%s "
+             "leaving=%s survive=%s stored=%s undecided=%s verdict=%s"
+             % (_c626.get("live_dead_facekey_lines"), _c626.get("same_object_duplicate_rows"),
+                _c626.get("handover_instances"), _c626.get("handover_" + _m626.NO_WRITE),
+                _c626.get("handover_" + _m626.NAMED),
+                _c626.get("handover_" + _m626.UNNAMED_WRITE),
+                _c626.get("handover_" + _m626.HANDS_ON),
+                _c626.get("duplicate_rows_leaving_a_handover"),
+                _c626.get("duplicates_leaving_a_handover_that_settle_to_survive"),
+                _c626.get("duplicates_leaving_a_handover_that_settle_to_stored"),
+                _c626.get("duplicates_leaving_a_handover_that_stay_undecided"),
+                _f626.get("verdict")))
+except Exception as _e626x:
+    _bad626.append(repr(_e626x)[:160])
+    _d626 = "study could not be read"
+check(_name626, not _bad626, "; ".join(_bad626)[:240] or _d626)
+
 if __name__ == "__main__":
     sys.exit(main())

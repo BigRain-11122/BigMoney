@@ -14584,3 +14584,30 @@ esults/state_tilt/DUPWITNESS.json、S6 leg dup_witness、smoke leg E601。坑：
 **How**：写任何"重读/重复/冗余"判据时，先问值在两次观察之间是否可能被改写；静态不可判定就发布 undecided 并把它降成下一张卡，禁把它算成"没有改写"（那是把不可知伪装成结论）。区间扫描必须落每一条写入/交出证据（行号 + 形式），让分母的每一行都能被眼睛复核。
 
 **证据** = `scripts/e625_sibling_read_value.py`（selftest 23/23；run/check/verify `problems=[]`）；`results/state_tilt/SIBLINGREADVALUE-2026-11-09.json`（+ `siblingreadvalue_latest.json`）；`scripts/run_e625_smoke_leg.py`（1/1 PASS；`--doctor` 1/1 红，面字节还原）；smoke_test.py leg E625；S6 leg `sibling_read_value`；POOL E625 done → E626 seeded。
+
+## E626 · 交接不是"无法判定"的同义词（r1644 bm-b）
+
+**问题**：E625 把 4 个同一对象重复读里的 1 个判成 undecided，理由是"对象被交给了调用"（`P` 在
+`cn_core_ddctl_p1.py:367` 之后被 `build_dd_axis(P)`(372) 与 `active_rebals(P)`(373) 拿走）。但"交给调用"
+本身不是终态——**callee 就在本模块里，一跳就能读**。
+
+**读数**：34 行 live dead face-key lines（种群与 E625 一致，1,099 模块）；2 处交接；两处 callee
+（`build_dd_axis` L148 / `active_rebals` L164）对参数 `P` 只读 `P["days"]`、`P["rebals_days"]`，**0 处写入**；
+于是那 1 行 settled 为"看到同一个值"：**4 行 survive / 0 stored / 0 undecided**（E625 的 3/0/1 修正为 4/0/0）。
+判决 = `all_1_duplicate_reads_left_undecided_by_a_handover_settle_to_the_value_the_dead_line_saw`。
+
+**教训**：**"交给了调用"要先分三态再谈放弃**——①callee 在本次种群内（模块级 def）= 一跳可判，读它的函数体；
+②attribute 调用 / 跨模块 import / 参数再转手 = 真边界，如实公布"未解析"而不是猜；③无名写入（`update(payload)`）
+= 保留 undecided。把 ① 也塞进 ③ 等于把"没查"写成"查不了"：本次一跳就把唯一一个 undecided 清零，
+而口径没松一句（仍然 0 命名写入、0 无名写入）。
+
+**How**：任何"因为是 X 所以 undecided"的批次，先问 X 是否只是**测量镜头没对准**——一跳到 callee、读它的参数、
+按命名/无名/再转手三形态逐条登记写入证据；未解析必须带原因字段（`the_callee_is_not_defined_in_this_module` /
+`..._is_an_attribute_call` / `..._hands_the_parameter_on_again`），且每个未解析原因都要能在一次复核里被推翻。
+另一条：**分母要跟着问题换**——"4 个 survivor" 和 "1 个交接重复行" 不是同一个分母，判决句必须用后者
+（首版写成 `4_of_the_1_...`，被自己的腿当场抓出）。
+
+**证据** = `scripts/e626_handover_write.py`（selftest 32/32，run/check/verify `problems=[]`）
++ `results/state_tilt/HANDOVERWRITE.json` + `handoverwrite_latest.json` + `scripts/run_e626_smoke_leg.py`
+（1/1 PASS，`--doctor` 1/1 红，面字节还原）+ smoke_test.py leg E626 + S6 leg `handover_write` + POOL E626 done /
+E627 seeded + `research/digests/DIGEST-20261109-r1644-e626-handover-write.md`。

@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1642 bm-b: E624 burned -- of E623's 6 superseded duplicate reads only 4 re-read the SAME dict (P['days'], P['slip_exec'], r['bar'], ports['x1']); 2 read another object (a different arm's face, and a json round-trip copy), so the corrected tally is 4 / 7 / 2 / 21 over the 34 lines. E625 seeded: whether the value a sibling read returns is the one the dead line saw.",
+ "_stamp_note": "r1644 bm-b: E626 burned -- both handover callees only read the key, so the one duplicate E625 left undecided settles to the same value (4 survive / 0 stored / 0 undecided). E627 seeded: the alias binding both studies declared out of scope.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -30852,9 +30852,31 @@
    "source": "E625 (r1643 bm-b) publishes 1 of its 4 same-object duplicate rows as undecided because the object is handed to a call twice (cn_core_ddctl_p1.py:367 key days, read again at 395). One hop into the callee decides it if the callee is repo source.",
    "target": "results/state_tilt/HANDOVERWRITE.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-09T21:30:00+08:00",
-   "seeded_by": "r1643 bm-b"
+   "seeded_by": "r1643 bm-b",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-09T22:30:00+08:00",
+   "closed_by": "bm-b",
+   "closed_at": "2026-11-09T22:30:00+08:00",
+   "completed_by": "bm-b r1644",
+   "completed_at": "2026-11-09T22:30:00+08:00",
+   "result_ref": "results/state_tilt/HANDOVERWRITE.json + results/_r1644bmb_s6_chain.json",
+   "outcome": "E625 published 1 of its 4 same-object duplicate rows undecided and 2 handover instances.  Both callees (build_dd_axis, active_rebals) read P['days'] and never write it, so the duplicate settles to the value the dead line saw: 4 survive / 0 stored / 0 undecided, and 0 handovers reach a callee that writes the key"
+  },
+  {
+   "card": "E627",
+   "id": "E627-WHETHER-THE-OBJECT-A-DEAD-FACE-KEY-LINE-READS-IS-ALSO-BOUND-TO-ANOTHER-NAME",
+   "title": "whether the object a dead face-key line reads is also bound to another local name",
+   "lane": "cpu-only",
+   "lane_note": "static: for each live dead face-key line, scan the interval to the sibling read for an assignment that binds the receiver to a second local name (alias = recv, alias = recv.get(...), for alias in recv.items()); a write through the alias is the one form E625/E626 cannot see; no runner, no fixture write",
+   "deliverable": "results/state_tilt/ALIASBINDING.json: per dead face-key line, the alias bindings in the interval, whether any alias name is written at the key, and the corrected count of rows whose value test that alias scan can actually close",
+   "source": "E625 (r1643 bm-b) and E626 (r1644 bm-b) both publish the same limit: no alias analysis, so a write through another name bound to the same dict is invisible.  That is the last stated hole in the key/object/value stack.",
+   "target": "results/state_tilt/ALIASBINDING.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-09T22:30:00+08:00",
+   "seeded_by": "r1644 bm-b"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30869,6 +30891,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T21:30:00+08:00",
+ "updated_at": "2026-11-09T22:30:00+08:00",
  "version": 1
 }
