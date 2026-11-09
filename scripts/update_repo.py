@@ -120,30 +120,30 @@ COMPLETE_HOUR = dt.time(15, 30)
 
 
 def _load_trading_dates():
-    """Local ETF trading-day calendar as sorted ISO strings (update_futures
-    pattern: data/daily 510300.csv primary, glob fallback, None -> weekday
-    approximation). Repo trades on the same exchange-day fabric."""
+    """Exchange-day calendar as sorted ISO strings.
+
+    r1276: this function was a hand copy of the loader as it stood BEFORE
+    r1366 -- 510300.csv primary, the official calendar never consulted. The
+    r1366 fix landed only in update_futures, and the copy left behind here
+    is not cosmetic: on 2026-11-09 21:20 the ETF panels still ended
+    2026-11-06 while the exchange had already traded, so this lane answered
+    "latest complete bar = 2026-11-06", no-op'd with rc=0 ("cutoff covered"),
+    and the cash-leg rates the ETF book prices with quietly stopped one
+    session behind. A panel is not a calendar (E136).
+
+    The rule now lives in one place -- update_futures._load_trading_dates
+    (official calendar primary, panels a supplement, union of two witnesses)
+    -- and is imported, not copied, so the two lanes cannot drift again.
+    """
     global _DATES_CACHE
     if _DATES_CACHE is not None:
         return _DATES_CACHE
-    import csv as _csv
-    import glob as _glob
-    cands = [os.path.join(ROOT, "data", "daily", "510300.csv")]
-    cands += [p for p in sorted(_glob.glob(os.path.join(ROOT, "data", "daily", "*.csv")))
-              if p != cands[0]]
-    dates = None
-    for p in dict.fromkeys(cands):
-        try:
-            with io.open(p, "r", encoding="utf-8") as f:
-                ds = {str(r.get("date") or "") for r in _csv.DictReader(f)}
-            ds = sorted(d for d in ds if re.match(r"^\d{4}-\d{2}-\d{2}$", d))
-            if len(ds) >= 100:
-                dates = ds
-                break
-        except Exception:
-            continue
-    _DATES_CACHE = dates
-    return dates
+    try:
+        from scripts import update_futures as _uf
+        _DATES_CACHE = _uf._load_trading_dates()
+    except Exception:                       # noqa: BLE001 - fail-open, disclosed
+        _DATES_CACHE = None
+    return _DATES_CACHE
 
 
 def expected_latest_bar_date(now, dates=None):
@@ -463,7 +463,14 @@ def run():
     local_cut = local_data_cutoff()
     needs_fetch, expected, gate_reason = cutoff_gate(local_cut, now)
     if not needs_fetch:
-        st["last_attempt"] = st["ts"] = now.isoformat(timespec="seconds")
+        # r1276: a run that fetched nothing must not spend the retry budget.
+        # This branch used to stamp `last_attempt`, so the first genuine
+        # catch-up after the gate flipped (calendar repaired 21:2x on 11-09)
+        # was throttled for 30 minutes by a "no-op" that never opened a socket.
+        # r18 still holds where it applies -- the mirror is written before a
+        # real fetch -- but "the gate said don't" and "we tried and failed" are
+        # two different events and no longer share one field.
+        st["last_noop_ts"] = st["ts"] = now.isoformat(timespec="seconds")
         st["mode"] = "no-op: cutoff covered"
         st["no_op_reason"] = gate_reason
         st["expected_cutoff"] = expected
@@ -722,7 +729,25 @@ def _selftest():
         _st12.pop("takeover", None)
     assert "takeover" not in _st12
     assert _authority_block(None)["declared_takeover"] is False
-    print("selftest: 12/12 PASS")
+    # S13 (r1276): a panel is not a calendar -- the r1366 rule must reach THIS
+    # lane too, not just update_futures. Assertions are on the union contract,
+    # not on today's file contents: every official calendar date must survive
+    # into the loader, and a calendar that already knows 2026-11-09 must still
+    # answer 2026-11-09 when the panels stop at 2026-11-06.
+    cal_file = os.path.join(ROOT, "data", "exchange_calendar.csv")
+    if os.path.exists(cal_file):
+        with io.open(cal_file, "r", encoding="utf-8") as f:
+            official = {ln.strip().split(",")[0] for ln in f if ln.strip()}
+        official = {d for d in official if re.match(r"^\d{4}-\d{2}-\d{2}$", d)}
+        loaded = set(_load_trading_dates() or [])
+        assert not (official - loaded), "official calendar dates dropped by loader"
+        stale_panel = sorted(d for d in official if d <= "2026-11-06")
+        merged = sorted(set(stale_panel) | set(official))
+        assert expected_latest_bar_date(dt.datetime(2026, 11, 9, 21, 0),
+                                        dates=merged) == "2026-11-09"
+        assert expected_latest_bar_date(dt.datetime(2026, 11, 9, 21, 0),
+                                        dates=stale_panel) == "2026-11-06"
+    print("selftest: 13/13 PASS")
     return 0
 
 

@@ -1,13 +1,13 @@
 # Panel tail certification
 
-As of 2026-11-09T19:51:09. The board reads the big per-symbol panels through a 40-file sample; this reads every file and says whether the sample got the same answer — and how many symbols actually hold the newest bar.
+As of 2026-11-09T21:26:09. The board reads the big per-symbol panels through a 40-file sample; this reads every file and says whether the sample got the same answer — and how many symbols actually hold the newest bar.
 
 Verdict: **sample_understated** — 4 panel(s), 10465 file(s) scanned.
 
 | lane | full tail | sample tail | agree | files read | symbols holding the newest bar |
 |---|---|---|---|---|---|
 | futures | 2026-11-09 | 2026-11-09 | yes | 10/10 | 9 (90.00%) |
-| repo | 2026-11-06 | 2026-11-06 | yes | 11/11 | 11 (100.00%) |
+| repo | 2026-11-09 | 2026-11-09 | yes | 11/11 | 11 (100.00%) |
 | moneyflow | 2026-10-19 | 2026-10-13 | **no** (sample_understated) | 5222/5222 | 2 (0.04%) |
 | astock_daily | 2026-11-06 | 2026-11-06 | yes | 5222/5222 | 5216 (99.89%) |
 

@@ -7,7 +7,7 @@
   "cart_note_r1187": "E303 (bm-a's priced-day card, moved off the duplicated E301) + E304 (new ids are checked against origin's id SET, not the max you remember)",
   "cart_note_r1202": "E320: an arm calibrated from the answer it tests (mean exposure) is not a control; and a face's own pre-stated test may reverse its frozen verdict -- publish both, do not retune the frozen one",
   "cart_note_r1268": "E403: a commit that only exists on this machine is not a delivery -- git cherry separates twins from unique work, merge-tree computes the collision set, and 'verdict=STRANDED_CONFLICTS' is the machine saying its work is invisible",
-  "clock_read": "2026-11-09T21:05:16+08:00",
+  "clock_read": "2026-11-09T21:30:34+08:00",
   "codelY_note_r1150": "round 1150 product = risk priced in money for every tier, not just for the chosen one; menu wired into the chain so it refreshes without a session remembering",
   "codely_live_count": 3,
   "codely_live_count_note": "r1026 2026-10-17T05:24:24+08:00 census: headless-only -p count=3 (gate-fixed probe face)",
@@ -18,8 +18,8 @@
   "cpu_total_pct": 9.8,
   "cpu_util_pct": 10.1,
   "current": "A_COPY_ON_A_DISK_IS_NOT_A_WRITER",
-  "current_task": "r1274 closeout",
-  "current_task_short": "r1260 red cure",
+  "current_task": "r1276 closeout",
+  "current_task_short": "repo lane calendar fix",
   "d19_note_r1249": "decisions 2ebb457c -> 0bdbf0d3 (D-20261104-10/11/12 + D-05), orders eb446f1b -> 98ce3594. Consumed: D-20261104-05 (BigMoney 8-task ownership declaration, due 2026-11-06 12:00) = this round's product + HQ-FEEDBACK F-20261104-01. No BigMoney action: D-20261104-07 (task-health whitelist, @HQ mechanism seat), D-10/11/12 (group governance). Watermark advanced.",
   "d19_watermark_guard": {
     "advance": true,
@@ -36,25 +36,28 @@
   "d19_watermark_v2": {
     "compare_order": "repo+commit_sha+blob_bytes first, then sha256; source mismatch = stale",
     "decisions": {
-      "blob_bytes": 87748,
-      "commit_sha": "309b1a19694dd7b292a9f940f73614e9ae05cabb",
+      "blob_bytes": 258560,
+      "commit_sha": "origin/main",
       "fetch_command": "git -C <group-tree> show origin/main:docs/decisions.md",
       "path": "docs/decisions.md",
       "repo": "git@github.com:BigRain-11122/FluxGroup.git",
-      "sha256": "fdd605dff522da0aa9798a0ffbca763b77daadea986640b0c77b946d4f3c06b1"
+      "sha256": "e2891af5b296314c12cdde5c0373cdbbe05fe6fceb2bdddffe6218a65b531d6f",
+      "read_at": "2026-11-09T21:31:19+08:00"
     },
     "decisions_verdict": "stale",
     "law": "D-20261025-08 watermark v2 quartet {repo, commit_sha, blob_bytes, sha256}",
     "orders": {
-      "blob_bytes": 194215,
-      "commit_sha": "309b1a19694dd7b292a9f940f73614e9ae05cabb",
+      "blob_bytes": 243181,
+      "commit_sha": "origin/main",
       "fetch_command": "git -C <group-tree> show origin/main:docs/orders.md",
       "path": "docs/orders.md",
       "repo": "git@github.com:BigRain-11122/FluxGroup.git",
-      "sha256": "8e76c85ef68ba6bc8539333efd051a7fa67373838e8ec67495495843f1184b8a"
+      "sha256": "c2935f5406c0f75f9bbaee272cccc310ac1bbbab4fc465a15e392c8bdeb92c53",
+      "read_at": "2026-11-09T21:31:19+08:00"
     },
     "orders_verdict": "stale",
-    "updated_at": "2026-11-01T13:06:37+08:00"
+    "updated_at": "2026-11-09T21:31:19+08:00",
+    "round_ref": 1276
   },
   "decisions_scan_r1105": "origin decisions.md hash advanced cf3cdeec->17c29359; decoded scan = 69 BigMoney rows, all 集团 dispatch echoes/尾行无新增 (latest rows 10-20 D-20261020-xx 派工通告板), zero rows requiring this repo to act -> watermark advanced, zero action",
   "decisions_scan_r1108": "origin decisions.md hash unchanged 17c2935984bd.. (== stored watermark); group orders.md hash unchanged 00caa345..; zero action",
@@ -169,7 +172,7 @@
   ],
   "last_decisions_read_at": "2026-11-08T04:45:00+08:00",
   "last_decisions_seen": "2026-11-08T04:4x",
-  "last_decisions_sha": "a64ee2d7e6a3bd5a8578bee58d74f1ae21f4bce6d55dfed6aff962307da042f1",
+  "last_decisions_sha": "e2891af5b296314c12cdde5c0373cdbbe05fe6fceb2bdddffe6218a65b531d6f",
   "last_decisions_src": "group origin/main via C: real-path (C:/Users/sjs20/Desktop/FluxGroup) fetch + git show (python subprocess raw-bytes canonical)",
   "last_decisions_ts": "2026-10-29T23:24:57+08:00",
   "last_decisions_watermark": "ee11217a5af8a7c4@ea729be/d-2026-11-06-batch48",
@@ -179,7 +182,7 @@
   "last_orders_at": "2026-11-02T07:25:23+08:00",
   "last_orders_read_at": "2026-11-08T04:45:00+08:00",
   "last_orders_seen": "r1271: group tree absent (K: missing, C: not a git repo) -> sparse clone read origin main ea729be; decisions tail = 第48批 2026-11-06 (no 11-07/11-08 batch); orders tail carries 2026-11-07/11-08 fleet rows (OB-20261107-180106-609 lane split = MV production carrier, bm-b SVC_DOWN + bm-c probe-face notes) -- none scopes to this repo's mechanism; watermark advanced, zero action",
-  "last_orders_sha": "de3561b158dedaa59af7b96790a64ff3f69967552891fb73c2d1c6bb43af615a",
+  "last_orders_sha": "c2935f5406c0f75f9bbaee272cccc310ac1bbbab4fc465a15e392c8bdeb92c53",
   "last_orders_ts": "2026-10-31T09:06:11+08:00",
   "last_orders_watermark": "ab7f70ce5b350e3c@ea729be/2026-11-08",
   "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@bcf936b9fd348b08a850ed7182b8c6678cba0bfa/230463#ead5e458898cbfbb688800af6a9876c3385cb6db7e6a9cea38652915ebb68c1a",
@@ -482,7 +485,7 @@
   "ram_load_pct": 51.1,
   "recent_artifact": "results/etf_book_bootstrap/BLOCKS-2026-10-30.json",
   "round": 1274,
-  "round_no": 1276,
+  "round_no": 1277,
   "round_no_label": "r1272",
   "round_no_ts": "2026-11-09T20:10:04+08:00",
   "round_note_r1239": "the fee break-even is a closed form in the sample's median traded leg: 67737 (2020-2026) / 55929 (2015-2019) / 49849 (2015-2026) = 26.41% spread, now printed on the operator page with the window table (card E356)",
@@ -694,5 +697,8 @@
   "open_red_r1274": [
     "ceo_page.risk_tape_stale (zt/dtgc/zbgc bar+members behind panel)",
     "etf_book_order.k_vs_account_write_order (ticket k=0.390822 vs account 0.390144; positions writer runs AFTER the ticket)"
-  ]
+  ],
+  "d19_note_r1276": "decisions a64ee2d7 -> e2891af5 (batches 052/053 incl. D-20261108-14 dispatch to @BigMoney, OB-20261108-120628-589, due 11-08 18:00). Consumed: D-20261108-02 (freshness board coverage = lane_hosts union + silent-owner alarm) = ALREADY DELIVERED by r1424/r1437/r1439 (live run: lanes=15 registry 11 + union 4, SILENT-OWNER/ waiting vs taken_over); D-20261108-03 second leg (backlog four card ids) = ALREADY present (B-CITY3D-01/02, B-XIDUDU-01/02 each >=1 hit, annotated r1440). No re-execution (dedupe law). No BigMoney action: D-20261109-05/06/07/08 are group-side (escaped-table dispatch to HQ tool seat @bm-a is a GROUP ledger edit, barred to this repo per charter).",
+  "cart_note_r1276": "E488 (E487 was the previous round; ids checked against origin blob)",
+  "smoke_r1276": "273 PASS / 6 FAIL at the pre-fix tree; 5 repaired in-round by republishing (size_rulers 0 mismatch, floor CHECK_OK, swap_stack CHECK_OK, live_size rc=0, panel-tail leg: certification re-read 2026-11-09 == board); 1 left red and named: etf_book_positions replay identity"
 }

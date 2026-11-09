@@ -10,13 +10,23 @@
    "evidence_cutoff": "2026-11-06",
    "issued_at": "2026-11-09T02:53:27+0800",
    "source": "results/etf_book_rebalance_permission.json"
+  },
+  {
+   "decision_date": "2026-11-11",
+   "ticket_file": "TICKET-2026-11-09.json",
+   "permitted_k": 0.393073,
+   "cut_k": 0.0,
+   "verdict_at_issue": "KEEP_SUPPORTED_BY_INDEPENDENT_PATH",
+   "evidence_cutoff": "2026-11-09",
+   "issued_at": "2026-11-09T21:27:27+0800",
+   "source": "results/etf_book_rebalance_permission.json"
   }
  ],
- "floor_rows": 1,
+ "floor_rows": 2,
  "assessed": {
   "floor": 0.393073,
   "floor_issued": "2026-11-11",
-  "floor_rows": 1,
+  "floor_rows": 2,
   "k_schedule_last": 0.460253,
   "schedule_last_date": "2026-10-23",
   "k_order": 0.393073,
@@ -25,7 +35,7 @@
   "schedule_over_floor": true,
   "floor_kind": "CURRENT_TICKET",
   "ticket_superseded": false,
-  "ticket_now": "TICKET-2026-11-06.json",
+  "ticket_now": "TICKET-2026-11-09.json",
   "missing": [
    "trim: the gap receipt carries no post-cut k, the sheet is judged on its ordered size"
   ],
@@ -33,8 +43,8 @@
   "action": "the sheet obeys the floor but the schedule's last decision bar is at k=0.460253, above 0.393073 -- the next sheet will size over the floor unless the same trim is applied on that bar (r1456: one up-step has erased a whole cut)"
  },
  "sentence": "Floor 0.393073 holds on the sheet but not on the path: the schedule's last decision bar is 0.460253, so the next sheet sizes over it unless the trim is applied again on that bar.",
- "evidence_cutoff": "2026-11-06",
- "elapsed_sec": 0.09,
- "generated": "2026-11-09T14:50:31+0800",
- "appended_this_run": false
+ "evidence_cutoff": "2026-11-09",
+ "elapsed_sec": 0.11,
+ "generated": "2026-11-09T21:27:27+0800",
+ "appended_this_run": true
 }

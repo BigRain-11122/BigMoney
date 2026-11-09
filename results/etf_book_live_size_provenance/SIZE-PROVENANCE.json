@@ -1,14 +1,14 @@
 {
   "face": "live_size_provenance",
-  "evidence_cutoff": "2026-11-06",
-  "ticket_file": "TICKET-2026-11-06.json",
-  "ticket_rel": "results\\etf_book_order\\TICKET-2026-11-06.json",
+  "evidence_cutoff": "2026-11-09",
+  "ticket_file": "TICKET-2026-11-09.json",
+  "ticket_rel": "results\\etf_book_order\\TICKET-2026-11-09.json",
   "ticket": {
     "beta_target": 0.2,
     "k_now": 0.393073,
     "book_weight": 0.393073,
     "cash_weight": 0.606927,
-    "book_amount_cny": 392507.2,
+    "book_amount_cny": 392727.2,
     "names": [
       "159501",
       "513100",
@@ -39,7 +39,7 @@
     }
   },
   "desk_reads_the_ticket_weight": false,
-  "verdict": "DIFFERENT_BOOK_AND_SIZE",
+  "verdict": "IDENTITY_FAIL",
   "comparison": {
     "verdict": "DIFFERENT_BOOK_AND_SIZE",
     "sentence": null,
@@ -95,10 +95,10 @@
   ],
   "vol_rule_estimated_vol": 0.12342,
   "money": {
-    "nav_cny": 998560.5727180447,
-    "book_cny_beta_rule": 459590.95,
-    "book_cny_vol_rule": 647261.85,
-    "delta_cny": -187670.9
+    "nav_cny": 999120.2651924706,
+    "book_cny_beta_rule": 459848.55,
+    "book_cny_vol_rule": 647624.64,
+    "delta_cny": -187776.09
   },
   "identity_legs": {
     "L_beta": {
@@ -129,9 +129,9 @@
       "ok": true
     },
     "L_bar": {
-      "published": "2026-11-06",
+      "published": "2026-11-09",
       "derived": "2026-11-06",
-      "ok": true
+      "ok": false
     },
     "L_decision": {
       "published": "2026-10-14",
@@ -139,5 +139,6 @@
       "ok": true
     }
   },
-  "identity_ok": true
+  "identity_ok": false,
+  "sentence": "this face did not reproduce the published ticket; its reading is about another book and must not be used"
 }

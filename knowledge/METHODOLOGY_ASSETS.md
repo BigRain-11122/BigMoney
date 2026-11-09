@@ -11795,3 +11795,38 @@ render_md 段导读 + LOCAL-COPY stdout 行 + selftest L32 内含 md 打印断�
 + scripts/daily_report.py 第十节副本行（selftest 新断言）+ smoke 腿
 「a copy that lags its own lane reaches the page, the board line and the printed run」。
 
+
+### E488 · 「今天不用拉」和「我试过了」不是同一个事件；闸的参照物不能是它自己要延伸的那张面板（r1276 bm-a）
+
+**坑一（节流预算被 no-op 花掉）**：update_repo 的 cutoff_gate no-op 分支把
+last_attempt 一并写了，而 last_attempt 是 30 分钟重试节流钟（r18 镜像先行律：
+真拉之前先落镜像，防崩溃后连打）。于是「闸说没有要拉的数据」被记成「刚刚试过一次」。
+2026-11-09 21:2x 实测：闸修好后第一次真拉被 21:17 的 no-op 挡了 30 分钟，rc=0，
+看上去一切正常。
+
+**坑二（参照物是被测量物本身）**：同一条道的「最新可完成 bar」取自它自己要延伸的
+面板（data/daily/510300.csv 的日期轴）。面板停在 2026-11-06，交易所 2026-11-09 早已
+开盘，闸就回答「最新可完成 bar = 2026-11-06」→ rc=0、
+o_op_reason=cutoff covered、
+现金腿利率（ETF 复合书给现金腿定价的那条序列）停在 11-06。**没有任何错误**，只少了
+一天的数。r1366 已经把这条律修在 update_futures 上（官方日历主、面板为辅、两见证取
+并集，E136 家族），但 update_repo 里至今留着一份修之前的拷贝。
+
+**三律**
+1. **参照物必须独立于被测量物**。用面板的日期轴判断「面板该拉到哪一天」，等于自己
+   给自己发免观测许可；独立参照=官方交易日历（data/exchange_calendar.csv）。
+2. **同一族规则有两份拷贝时，修一份等于没修**。r1366 修 futures、漏 repo，21:20 的
+   实测读数就是这条漏网的代价（E289/E379 同族）。正法=单一实现被 import，不是复制。
+3. **「没必要做」与「试过但失败」各用各的字段**（last_noop_ts vs last_attempt）。
+   前者的语义是「闸关着」，后者的语义是「门开过」。共用字段会让下一次真拉替上一次
+   no-op 还债。
+
+**判据**：任何「最新应到位」日期，必须能回答「我这个参照物是谁、它自己会不会停」；
+任何失败/重试/节流计数器，落盘时必须能指名它数的是哪一类事件。
+
+**正身**：scripts/update_repo.py::_load_trading_dates（import scripts.update_futures
+单一实现）+ no-op 分支 last_noop_ts + selftest S13（13/13 PASS：官方日历日期必须
+全部并进 loader；面板停在 11-06 而日历已知 11-09 时，闸必须答 11-09）
++ results/repo_update_status.json（data_cutoff 2026-11-09，last_attempt_cleared 记
+清空的一枚假戳）+ 11 个 data/repo/*.csv 尾 2026-11-09（GC001..R-007 各 +1 行）
++ 新鲜度板 repo 行 in_sync 2026-11-09。
