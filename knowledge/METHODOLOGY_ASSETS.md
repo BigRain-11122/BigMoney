@@ -14347,3 +14347,11 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 
 **How**：任何「计数是否可信」的判断，先问它计的对象在不在这张面上；不在=这一格永远绿，禁把它算作已验证。量重复一律用整对象 json 往返相等（同一 bar 两行不同值不是重复行，是本轮 selftest 第 8 条钉住的边界）。正身=scripts/e601_dup_witness.py（selftest 30/30）、
 esults/state_tilt/DUPWITNESS.json、S6 leg dup_witness、smoke leg E601。坑：walk_blocks 返回的是 (at, node) 元组，直接把整个列表交给 witness_class 会把 dict 当键喂给正则（本窗首跑即踩，30 秒定位）；面文件一开始 11MB 就是因为把 22,460 个序列全发了——按「只计不发」收窄到每面 6 个序列后 545KB。
+
+## E607 日期 join 的需求侧：13 个真读者里 6 个的日期名命中一整个文件集（r1632 bm-b·2026-11-09）
+> 卡号取 E607：E604 已被池面卡（「有没有读者按 bar 日期 join」研究本身）占用，E605=E601 方法卡，E606 是下一张 ready 池卡。
+**观察**：E600 证明 bar 日期是面板 vintage 不是身份（13,187 张面只落在 113 个日期上，6,148 张共用 2026-09-22）。那条结论只有在「有人真的按日期取面」时才咬人，而全仓此前没人量过需求侧。本轮把 scripts/Tools/live/firm/monitor/engine 下 2,926 个模块全部解析：**175 个「名字里带日期」的站点**（带文件扩展名 + 真日期占位），其中 **44 个坐在 join/glob 里**（7 个直接喂给 loader），而这 44 里 **13 个所在函数从不写文件**（= 读）；这 13 个真读者对盘上 35,959 个 basename 定价：**5 个只命中一个文件、6 个命中一整个集合、2 个一个也不命中**。命中集合的头几名是一句话能看懂的：`daily_report.py:178` 的 `LIVE-{day}.json` 命中 39 个文件、`t35_open_fill_verify.py:108` 的 `marks-{day}.jsonl` 命中 30 个、`rev_osc_signal_export.py:291` 的 `SIG-{cutoff}.json` 命中 20 个。
+**判据**：日期名命中的不是「一张面」，而是「所有同日切出来的面」——所以 6/13 的真读者实际是在一个集合上取值，能不能取对全靠调用处传进来的那个 `day`；另有 2 个读者的模板在盘上一个文件都不对应（`update_heat.py:176` 的 `{now:%Y%m%d}.json`、`update_ths_panel.py:284` 的 `{stamp}.csv`），它们不是缺陷而是「名字由运行时变量决定、静态看不见」的诚实边界。
+**三枚自踩（本卡要留的）**：①**裸 %d 不是日期**——首版把 `shard_%dof%d.json`（分片序号）按 `%d` 判成日期模板，读数从 407 掉到 175，正是 E206/E208 家族「名字不是语义」的第三次复发，故日期判据收紧为「必须有 %Y / 日期词字段 / strftime/isoformat 拼接」；②**join 在写函数里不是读**——44 个 join 站点里有 31 个所在函数同时写文件，不分开就会把「写自己的输出」算成「按日期取面」，本轮用 `function_also_writes` 标志把它们单列；③**strftime 模板被排除=把风险记成零**——首版把 `{time.strftime('%Y%m%d')}` 判成 wildcard（因为置位标志只写在花括号分支），等于对最典型的日期拼接闭眼；正法是在 strftime/isoformat 替换处同时置 constrained，改动后再无 wildcard。
+**How**：①任何「按 as-of 取面」的想法先量命中集大小，命中 >1 就是集合不是行；②任何「有多少读者」的统计先把写文件与读文件分开，否则数字是两者的和；③扫描器把「无法定价」的模板单列成类而不是并进零风险，否则边界会读成清白。
+**证据** = `scripts/e604_date_joined_reader.py`（selftest **35/35**，run/check problems=[]）＋ `results/state_tilt/DATEJOINREADERS.json` (+-latest) ＋ S6 leg `date_joined_reader` rc=0 25.8s ＋ POOL E604 done。

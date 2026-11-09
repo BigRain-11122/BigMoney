@@ -2475,6 +2475,15 @@ LEGS = [
     # face whose class the rule does not give it, and a verdict the counts do not force.
     ("dup_witness",
      ["python", "scripts/e601_dup_witness.py", "check"]),
+    # E604 (r1632 bm-b): E600 showed a bar date is a panel vintage rather than a row, but that only
+    # costs something if a reader addresses a face by date at all.  Every string in the code roots
+    # that carries a file extension AND a real date placeholder (a year directive, a date-word field,
+    # or a strftime/isoformat splice -- a bare %d is a shard index, not a date: E206 family) is
+    # priced against the basenames on disk, and a site whose enclosing function also writes is
+    # published apart from a read site.  The leg refuses a class that does not re-derive from the
+    # published rows, a class whose own flags contradict it, and a verdict the counts do not force.
+    ("date_joined_reader",
+     ["python", "scripts/e604_date_joined_reader.py", "check"]),
 ]
 
 
