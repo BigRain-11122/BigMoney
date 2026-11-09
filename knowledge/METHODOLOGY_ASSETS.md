@@ -14493,3 +14493,31 @@ esults/state_tilt/DUPWITNESS.json、S6 leg dup_witness、smoke leg E601。坑：
 **How**：问「某个坏形状普遍吗」时，先写死母体判据，再把判定面拆成宽/中/窄三档并列发布，判决落中间并断言包含关系；扫描器排除自身并进 selftest；近似面（这里是「同函数内后续有 load」）要写明它算不算闭包、跨函数、tuple 解包——这些**不算读者**的边界全进 `limits`。
 
 **证据** = `scripts/e619_dead_reader_locals.py`（selftest **23/23**，run/check/verify problems=[]）、`results/state_tilt/DEADREADERLOCALS-2026-11-09.json`（+`deadreaderlocals_latest.json`）、`scripts/run_e619_smoke_leg.py`（PASS，`--doctor` 1/1 红且面字节还原）、smoke_test.py leg E619、S6 leg `dead_reader_locals`、POOL E619 done → E621 seeded。
+
+## E622 · 死读者局部量所在的函数到底跑不跑：31 个持有者里 29 个从模块级可达（r1640 bm-b·2026-11-09）
+
+> 卡号=E622（E621 是 POOL 卡号，研究号顺延到 E622）。
+
+**问题**：E619 已经把「从面的键赋值、之后再没读过」这个类量到了 27 个模块 / 36 行（facekey 档）。但**一条死行只有在持有它的函数会跑的时候才是缺陷**——死函数里的死局部量成本为零。所以本张不问「有多少条」，问「持有者跑不跑」。
+
+**读数**（`results/state_tilt/DEADLOCALREACH.json`，cutoff 2026-11-09；母体=E619 自己那份解析器 import 进来的 1,093 个「会出版 JSON 面」的 scripts 模块，自排除本研究的两个文件）：
+
+- **31 个持有 E619 那 36 条死 facekey 行的函数里，29 个从模块级可达**：28 个经调用链、1 个只经 argparse `set_defaults(func=...)` 交接、0 个直接在模块顶层被调用；**2 个不可达**（都属「只有从不运行的函数调用它」这一档）。
+- 换成行数：**34 条死 facekey 行坐在活函数里=真缺陷，2 条坐在死函数里=零成本**。宽档（不管键）49 个持有者：45 活 / 4 惰，54 条死行里 48 条在活函数。
+- **基数必须同报**：同一份解析器看到的 19,146 个函数里 16,596 个可达（86.7%）。在「大多数函数都会被调用」的模块里，惰性持有者是例外而不是常态——没有这个基数，「29/31」和「2/31」都无法解读。
+- E619 的锚点逐字复现：`e396_face_basename_suffix.py` 的 `derive_verdict`（键 `basename_census`）在活列（经调用链）。跨研究对账：1,091 个共有模块的 (函数, 局部量, 键, 行) 四元组**逐模块相等，0 处不同**；多出的 2 个模块是上一轮（r1639）的一次性脚本，单列不并账。
+
+**研究**：可达性不是「一跳分类」，是**图 + 闭包**。首版把「嵌套函数被父函数调用」判成「别处调用」（父子方向反了），也把「自己调自己」和「有调用者但调用者也不跑」混成一档。正解只有一个：把每条调用站点的**最内层包围函数**当图的出边、把模块层（含 `__main__` 块）当根，从根做一次传递闭包；档位只描述**根到它的路径长什么样**。这样七档天然互斥且可重算。
+
+**自己踩的四条（每条都改了读数）**：
+
+1. **模块级函数收到属性调用不能一律算不可达**——家规的 re-import 入口是 `if __name__ == '__main__': import <本模块> as _canonical; sys.exit(_canonical.main())`，首版只让「类内定义」接受属性调用，于是 `regime_gate_dualarm.validate_contract` 连同整条 main 链被判死。正法=接收者若不是 `self`/`cls`，则要看它是否本文件 `import` 进来的模块别名（或本模块 stem）——是则放行。**这条把 1 个持有者从惰翻活**。
+2. **同一条规则反向也要收紧**：首版对任何属性调用都放行（只要被调用者是类内定义），把 `d.get()` 这类字典方法名当成本模块函数的调用——收紧后**基数从 16,646 掉到 16,596，84 个函数的「可达」被撤回**。宁可少算可达（惰性是上界），不可多算（会把缺陷说成不存在）。
+3. **argparse 的 `set_defaults(func=F)` 是真实交接，但不是调用边**，必须单独成档：`mass_trial_w1.draw_valid` 只经此可达（parser 由 `main` 建，argparse 事后才调 `args.func`）。把它并进「链式调用」会让「链」这个词失去意义，把它算死则直接错。
+4. **dict 调度表不跟，所以惰性是上界不是死刑**：`decision_chain_v3_tournament` 的 `_agg_v3` / `prediction_reconciliation_v3` 的唯一调用者在 `{"run": cmd_run, ...}` 这张表里，本扫描不跟表 → 2 个惰性持有者里有 2 个是「表里的活」。产物里单独发布「惰性持有者落在有 dict 调度表的模块里」的个数（宽档 3 个），读者据此判断该不该当缺陷处理。
+
+**教训**：①「跑不跑」是可达性问题，先建图再做闭包，一跳分类一定会把方向/距离搞错；②每条放宽或收紧都要能说出它动了几个读数——本例两条互相反向（+1 / −84），合并后净变化会掩盖住任何一条的错；③「不跟的结构」必须在产物里带计数（这里是 dict 表 3 个），否则「惰性」会被读成「死」；④判据必须能从产物自身重算：`face_problems` 从持有者行重算全部计数与判决，smoke 腿再从面重算一次，`--doctor` 证明腿会红且面字节还原。
+
+**How**：问「某个坏形状有没有代价」时，先问它的宿主**会不会被执行**；把可达性写成「根 + 边 + 闭包」，按路径形状分档并逐档给证据；每档都要有一条能返红的夹具腿；「没跟的结构」（dict 表 / getattr / 跨模块导入）一律带计数发布，把结论写成上界而不是判决。
+
+**证据** = `scripts/e622_deadlocal_reach.py`（selftest **34/34**，run/check/verify problems=[]）、`results/state_tilt/DEADLOCALREACH-2026-11-09.json`（+`deadlocalreach_latest.json`）、`scripts/run_e622_smoke_leg.py`（PASS，`--doctor` 1/1 红且面字节还原）、smoke_test.py leg E622、S6 leg `dead_local_reach`、POOL E621 done → E623 seeded。

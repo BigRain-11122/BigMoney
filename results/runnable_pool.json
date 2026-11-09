@@ -30766,10 +30766,17 @@
    "seeded_at": "2026-11-09T14:58:00+08:00",
    "seeded_by": "r1639 bm-b",
    "source": "E619 (r1639 bm-b): 27 of 1,091 face publishers carry a local assigned from a face key and never read again. A dead local inside a function nothing calls costs nothing, so the next question is whether the holders of those 36 lines are reachable from the module's own entry points.",
-   "status": "ready",
+   "status": "done",
    "target": "results/state_tilt/DEADLOCALREACH.json",
-   "title": "whether the functions holding a dead reader local are themselves ever called"
-  }
+   "title": "whether the functions holding a dead reader local are themselves ever called",
+ " claimed_at": "2026-11-09T17:10:00+08:00",
+ " claimed_by": "bm-b",
+ " closed_at": "2026-11-09T19:20:00+08:00",
+ " closed_by": "bm-b",
+ " result_ref": "results/state_tilt/DEADLOCALREACH-2026-11-09.json + scripts/e622_deadlocal_reach.py + scripts/run_e622_smoke_leg.py",
+ " reading": "31 functions hold one of E619's 36 dead face-key lines; 29 are reachable from module level (28 through a call chain, 1 only through an argparse set_defaults(func=...) hand-off) and 2 are not, so 34 dead face-key lines sit in a live holder and 2 in an inert one; base rate 16,596 of 19,146 functions reachable (86.7%)"
+},
+ {"card": "E623", "deliverable": "results/state_tilt/DEADLINEKEYUSE.json: for each of E622's live dead reader lines, whether the same key is read again somewhere else in the same function (a superseded duplicate read) or nowhere else at all (the only read of that key in the function), plus the split of the 34 lines by those two classes", "id": "E623-WHETHER-A-LIVE-DEAD-LINE-S-KEY-IS-READ-ANYWHERE-ELSE-IN-ITS-FUNCTION", "lane": "cpu-only", "lane_note": "static: take E622's live holders, re-read each dead line's key, and ask whether any other expression in the same function indexes the same key (live sibling) or not; no runner, no fixture write", "priority": "normal", "seeded_at": "2026-11-09T19:20:00+08:00", "seeded_by": "r1640 bm-b", "source": "E622 (r1640 bm-b): 34 of E619's dead face-key lines sit in a function that is reachable from module level, so they are real defects rather than inert residue. The next question is which kind: a superseded duplicate read left behind by a refactor (the key is still read by a live sibling in the same function) or the only read of that key in the function, where the value was taken and dropped.", "status": "ready", "target": "results/state_tilt/DEADLINEKEYUSE.json", "title": "whether a live dead line's key is read anywhere else in its own function"}
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
  "schema": {

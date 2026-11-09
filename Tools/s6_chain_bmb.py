@@ -1332,6 +1332,15 @@ LEGS = [
     # one of them.  Verify re-derives every count from the module rows and re-asks the verdict.
     ("dead_reader_locals", ["python", "scripts/e619_dead_reader_locals.py", "verify"]),
 
+    # E622 asks the question E619 left open: a dead local only costs something if the function
+    # holding it runs.  Of the 31 functions holding one of E619's 36 dead face-key lines, 29 are
+    # reachable from module level (28 through a chain of calls, 1 only through an argparse
+    # set_defaults(func=...) hand-off) and 2 are not, so 34 dead face-key lines sit in a live
+    # holder and 2 in an inert one; the base rate is 16,596 of 19,146 functions reachable
+    # (86.7%).  Verify re-derives every count from the holder rows and re-asks the verdict from
+    # the live/inert split (no corpus walk, ~1s).
+    ("dead_local_reach", ["python", "scripts/e622_deadlocal_reach.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

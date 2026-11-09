@@ -26401,5 +26401,67 @@ except Exception as _e619x:
     _d619 = "study could not be read"
 check(_name619, not _bad619, "; ".join(_bad619)[:240] or _d619)
 
+# E622: E619 closed over the dead reader lines themselves.  A dead local only costs something if
+# the function holding it runs, so E622 asks reachability: of the 31 functions holding one of
+# E619's 36 dead face-key lines, 29 are reachable from module level (28 through a chain of calls,
+# 1 only through an argparse set_defaults(func=...) hand-off) and 2 are not -- so the 34 dead
+# face-key lines in a live holder are defects while the 2 in an inert holder cost nothing.  The
+# leg re-reads the published face, re-derives every count from the holder rows, re-asks the
+# verdict, requires the live/inert split to add up, requires the E619 cross-check to still hold,
+# and pins the E617 anchor holder.
+_name622 = "E622 whether the functions holding a dead reader local are ever called (r1640 bm-b)"
+_bad622 = []
+_d622 = "no reading"
+try:
+    _p622 = os.path.join("results", "state_tilt", "deadlocalreach_latest.json")
+    _f622 = json.load(open(_p622, encoding="utf-8"))
+    _m622 = importlib.import_module("e622_deadlocal_reach")
+    _bad622.extend(_m622.face_problems(_f622))
+    _c622 = _f622.get("counts") or {}
+    _mods622 = _f622.get("modules") or []
+    _holders622 = [h for _mod in _mods622 for h in (_mod.get("holders") or [])]
+    _again622 = _m622.derive_verdict({"modules": _mods622,
+                                      "skipped": _f622.get("skipped") or [],
+                                      "base": _f622.get("base_rates") or {}})
+    if _again622 != _f622.get("verdict"):
+        _bad622.append("the published verdict is not what the holder rows force (%r)"
+                       % _again622)
+    if _c622.get("scope_facekey_dead_lines_in_a_live_holder", 0) + \
+            _c622.get("scope_facekey_dead_lines_in_an_inert_holder", 0) != \
+            _c622.get("scope_facekey_dead_lines"):
+        _bad622.append("the live and inert dead-line counts do not add up to the face-key total")
+    if not _holders622:
+        _bad622.append("the face publishes no holder at all, yet the study exists")
+    _self622 = [_mod.get("module") for _mod in _mods622
+                if any((_mod.get("module") or "").endswith(_x) for _x in _m622.SELF_PARTS)]
+    if _self622:
+        _bad622.append("this study lists itself as a holder module: %s" % ", ".join(_self622))
+    _cc622 = _f622.get("e619_cross_check") or {}
+    if _cc622.get("published") is False:
+        _bad622.append("the E619 cross-check did not read a published face")
+    elif _cc622.get("modules_with_differing_dead_rows_n"):
+        _bad622.append("the imported E619 classifier no longer reproduces %r module rows"
+                       % _cc622.get("modules_with_differing_dead_rows_n"))
+    _anchor622 = [h for _mod in _mods622
+                  if (_mod.get("module") or "").endswith("e396_face_basename_suffix.py")
+                  for h in (_mod.get("holders") or [])]
+    if not _anchor622:
+        _bad622.append("the E617 anchor holder is missing from the population")
+    elif not any(h.get("function") == "derive_verdict" for h in _anchor622):
+        _bad622.append("the E617 anchor holder is not the function E619 published")
+    _d622 = ("modules=%s holders=%s facekey_holders=%s live=%s live_lines=%s inert_lines=%s "
+             "base_reachable=%s/%s verdict=%s"
+             % (_c622.get("modules_holding_a_dead_line"), _c622.get("holder_functions_total"),
+                _c622.get("scope_facekey_holder_functions"),
+                _c622.get("scope_facekey_holders_live"),
+                _c622.get("scope_facekey_dead_lines_in_a_live_holder"),
+                _c622.get("scope_facekey_dead_lines_in_an_inert_holder"),
+                _c622.get("functions_reachable_in_the_population"),
+                _c622.get("functions_in_the_population"), _f622.get("verdict")))
+except Exception as _e622x:
+    _bad622.append(repr(_e622x)[:160])
+    _d622 = "study could not be read"
+check(_name622, not _bad622, "; ".join(_bad622)[:240] or _d622)
+
 if __name__ == "__main__":
     sys.exit(main())

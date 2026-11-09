@@ -1,0 +1,1293 @@
+{
+ "study": "E622_dead_local_reach",
+ "script": "scripts/e622_deadlocal_reach.py",
+ "evidence_cutoff": "2026-11-09",
+ "dept": "research+engineering",
+ "method": "take E619's own face-publisher population and dead-reader-line classifier (imported, not re-implemented), resolve each dead line to its enclosing function definition, build the module's intra-file call graph (explicit calls plus one-hop local aliases, attribute calls only onto class-scoped definitions) and class the holder by whether it is reachable from module level",
+ "population_source": "scripts/*.py (AST) via e619.population, face publishers only, less this script and its smoke leg",
+ "base_rates": {
+  "population_modules": 1093,
+  "functions_in_the_population": 19146,
+  "functions_reachable_in_the_population": 16596,
+  "share_of_functions_reachable": 86.68,
+  "functions_in_modules_holding_a_dead_line": 1132,
+  "note": "the base rate is the control for 'never called': in a module where most functions are reachable, an inert holder is the exception and a live holder is the rule"
+ },
+ "counts": {
+  "population_modules": 1093,
+  "skipped_modules": 14,
+  "modules_holding_a_dead_line": 39,
+  "holder_functions_total": 49,
+  "functions_in_the_population": 19146,
+  "functions_reachable_in_the_population": 16596,
+  "functions_in_modules_holding_a_dead_line": 1132,
+  "attribute_hits_not_counted_as_reach": 0,
+  "holders_called_through_a_local_alias": 0,
+  "inert_holders_in_a_module_with_a_dict_dispatch_table": 3,
+  "scope_all_holder_functions": 49,
+  "scope_all_dead_lines": 54,
+  "scope_facekey_holder_functions": 31,
+  "scope_facekey_dead_lines": 36,
+  "scope_incoming_holder_functions": 16,
+  "scope_incoming_dead_lines": 18,
+  "scope_facekey_holders_called_from_module_level": 0,
+  "scope_all_holders_called_from_module_level": 0,
+  "scope_facekey_holders_reachable_through_a_chain_of_calls": 28,
+  "scope_all_holders_reachable_through_a_chain_of_calls": 44,
+  "scope_facekey_holders_reachable_through_a_registry_handoff": 1,
+  "scope_all_holders_reachable_through_a_registry_handoff": 1,
+  "scope_facekey_holders_called_only_by_itself": 0,
+  "scope_all_holders_called_only_by_itself": 0,
+  "scope_facekey_holders_called_from_an_unreachable_function": 2,
+  "scope_all_holders_called_from_an_unreachable_function": 2,
+  "scope_facekey_holders_referenced_never_called": 0,
+  "scope_all_holders_referenced_never_called": 2,
+  "scope_facekey_holders_named_in_a_string_only": 0,
+  "scope_all_holders_named_in_a_string_only": 0,
+  "scope_facekey_holders_unreferenced": 0,
+  "scope_all_holders_unreferenced": 0,
+  "scope_facekey_holders_live": 29,
+  "scope_facekey_dead_lines_in_a_live_holder": 34,
+  "scope_facekey_dead_lines_in_an_inert_holder": 2,
+  "scope_all_holders_live": 45,
+  "scope_all_dead_lines_in_a_live_holder": 50,
+  "scope_all_dead_lines_in_an_inert_holder": 4
+ },
+ "e619_cross_check": {
+  "published": true,
+  "agrees": true,
+  "published_population": 1091,
+  "rederived_population": 1093,
+  "modules_compared": 1091,
+  "modules_with_differing_dead_rows": [],
+  "modules_with_differing_dead_rows_n": 0,
+  "modules_only_in_this_rederivation": [
+   "scripts/_r1639_closeout.py",
+   "scripts/_r1639_pool.py"
+  ],
+  "modules_only_in_the_published_face": [],
+  "note": "rows are compared per module as (function, local, key, line); a module present in only one side is listed rather than counted as agreement"
+ },
+ "modules": [
+  {
+   "module": "scripts/_r1527_closeout.py",
+   "functions_in_module": 13,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "step_state",
+     "scope": "module",
+     "def_line": 207,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "summary"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/backfill_heat_history.py",
+   "functions_in_module": 15,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "validate_rows",
+     "scope": "module",
+     "def_line": 136,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 3,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "date"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/cn_core_ddctl_p1.py",
+   "functions_in_module": 22,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "run",
+     "scope": "module",
+     "def_line": 341,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 1,
+     "dead_keys": [
+      "days"
+     ]
+    },
+    {
+     "function": "selftest",
+     "scope": "module",
+     "def_line": 822,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 1,
+     "dead_keys": [
+      "days"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/cn_core_sat_p1.py",
+   "functions_in_module": 26,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "_bind_panel",
+     "scope": "module",
+     "def_line": 333,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 2,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 3,
+     "dead_lines_facekey": 3,
+     "dead_lines_incoming": 3,
+     "dead_keys": [
+      "cl_sat",
+      "ma",
+      "sig"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/cn_kline_pattern_p1.py",
+   "functions_in_module": 27,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "cmd_run",
+     "scope": "module",
+     "def_line": 942,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "cn_kline_pattern_p1"
+     ]
+    },
+    {
+     "function": "cmd_selftest",
+     "scope": "module",
+     "def_line": 1114,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "cal"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "functions_in_module": 28,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "simulate",
+     "scope": "module",
+     "def_line": 493,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 4,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 1,
+     "dead_keys": [
+      "slip_exec"
+     ]
+    },
+    {
+     "function": "cmd_run",
+     "scope": "module",
+     "def_line": 1089,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "cn_mkneutral_p1"
+     ]
+    },
+    {
+     "function": "cmd_selftest",
+     "scope": "module",
+     "def_line": 1303,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 1,
+     "dead_keys": [
+      "bars"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/cn_sector_leader_p1.py",
+   "functions_in_module": 30,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "cmd_run",
+     "scope": "module",
+     "def_line": 1182,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "cn_sector_leader_p1"
+     ]
+    },
+    {
+     "function": "cmd_selftest",
+     "scope": "module",
+     "def_line": 1399,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 1,
+     "dead_keys": [
+      "bars"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/cn_soe_etf_p1.py",
+   "functions_in_module": 33,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "cmd_run",
+     "scope": "module",
+     "def_line": 1274,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "cn_soe_etf_p1"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/cn_trend_etf_p1.py",
+   "functions_in_module": 29,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "virtual_starts",
+     "scope": "module",
+     "def_line": 745,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 2,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 1,
+     "dead_keys": [
+      "idx"
+     ]
+    },
+    {
+     "function": "cmd_run",
+     "scope": "module",
+     "def_line": 1076,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "cn_trend_etf_p1"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/decision_chain_e2e.py",
+   "functions_in_module": 32,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "_agg_arm",
+     "scope": "module",
+     "def_line": 310,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 3,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "regime"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/decision_chain_v2.py",
+   "functions_in_module": 43,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "_agg",
+     "scope": "module",
+     "def_line": 498,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 3,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "regime"
+     ]
+    },
+    {
+     "function": "backfill_prereg",
+     "scope": "module",
+     "def_line": 811,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "j_target"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/decision_chain_v3_tournament.py",
+   "functions_in_module": 38,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 1,
+   "holders": [
+    {
+     "function": "_agg_v3",
+     "scope": "module",
+     "def_line": 146,
+     "reach": "called_from_an_unreachable_function",
+     "callers": 2,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "regime"
+     ]
+    },
+    {
+     "function": "prediction_reconciliation_v3",
+     "scope": "module",
+     "def_line": 1420,
+     "reach": "called_from_an_unreachable_function",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "j_target"
+     ]
+    },
+    {
+     "function": "cmd_selftest",
+     "scope": "module",
+     "def_line": 1606,
+     "reach": "referenced_never_called",
+     "callers": 0,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "LS"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/divlowvol_nulls_face.py",
+   "functions_in_module": 12,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "verdict_of",
+     "scope": "module",
+     "def_line": 78,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 2,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 1,
+     "dead_keys": [
+      "z"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/e233_empirical_gamma.py",
+   "functions_in_module": 31,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "_answer",
+     "scope": "module",
+     "def_line": 566,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "C_reverse"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "functions_in_module": 16,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "build",
+     "scope": "module",
+     "def_line": 266,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "verdict"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/e396_face_basename_suffix.py",
+   "functions_in_module": 29,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "derive_verdict",
+     "scope": "module",
+     "def_line": 431,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 1,
+     "dead_keys": [
+      "basename_census"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/e502_bom_census.py",
+   "functions_in_module": 62,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "population",
+     "scope": "module",
+     "def_line": 585,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 1,
+     "dead_keys": [
+      "canonical_bom"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/e504_name_compose.py",
+   "functions_in_module": 31,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "selftest",
+     "scope": "module",
+     "def_line": 853,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 1,
+     "dead_keys": [
+      "rows"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/e505_unmeasured_reach.py",
+   "functions_in_module": 28,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "_answers",
+     "scope": "module",
+     "def_line": 421,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 1,
+     "dead_keys": [
+      "by_class"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/e507_unresolved_origin.py",
+   "functions_in_module": 32,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "build",
+     "scope": "module",
+     "def_line": 733,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 3,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 1,
+     "dead_keys": [
+      "upstream"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/e584_ledger_bar_accrual.py",
+   "functions_in_module": 18,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "ladder_check",
+     "scope": "module",
+     "def_line": 169,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "cash"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "functions_in_module": 19,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "face_problems",
+     "scope": "module",
+     "def_line": 344,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 3,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "bar"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/e97_routing.py",
+   "functions_in_module": 143,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "count_witness_sweep",
+     "scope": "module",
+     "def_line": 4244,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 2,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "witnessed_measurement_named_word_missed"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "functions_in_module": 12,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "write_outputs",
+     "scope": "module",
+     "def_line": 358,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 1,
+     "dead_keys": [
+      "x1"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/fund_divlowvol_p2_route_b_fidelity.py",
+   "functions_in_module": 12,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "cmd_run",
+     "scope": "module",
+     "def_line": 157,
+     "reach": "referenced_never_called",
+     "callers": 0,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "codes_arr"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/fund_trio_p1_diagnostics.py",
+   "functions_in_module": 15,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "cmd_divlowvol_exdate",
+     "scope": "module",
+     "def_line": 275,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "cand_sigma"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/innovation_quota_w1.py",
+   "functions_in_module": 28,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "cmd_run",
+     "scope": "module",
+     "def_line": 625,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "innovation_quota_w1_repo"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/innovation_quota_w2.py",
+   "functions_in_module": 30,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "cmd_run",
+     "scope": "module",
+     "def_line": 807,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "innovation_quota_w2_repo"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/innovation_quota_w3.py",
+   "functions_in_module": 24,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "cmd_run",
+     "scope": "module",
+     "def_line": 659,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "innovation_quota_w3_mom"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/innovation_quota_w8.py",
+   "functions_in_module": 28,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "arm_series",
+     "scope": "module",
+     "def_line": 351,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "wA"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/mass_trial_w1.py",
+   "functions_in_module": 44,
+   "set_defaults_handoffs": 7,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "draw_valid",
+     "scope": "module",
+     "def_line": 369,
+     "reach": "reachable_through_a_registry_handoff",
+     "callers": 3,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 1,
+     "dead_keys": [
+      "ranges"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/perpetual_faces_n1.py",
+   "functions_in_module": 24,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "_set_wave",
+     "scope": "module",
+     "def_line": 14167,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 3,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 4,
+     "dead_lines_facekey": 4,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "a_seed_base",
+      "b_exit_seed_base",
+      "batch",
+      "prereg"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/regime5_validation.py",
+   "functions_in_module": 17,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "perm_nulls",
+     "scope": "module",
+     "def_line": 158,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 2,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 1,
+     "dead_keys": [
+      "unconditional_mean"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/regime_gate_dualarm.py",
+   "functions_in_module": 11,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "validate_contract",
+     "scope": "module",
+     "def_line": 112,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 2,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "date"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/rev_osc_stock_p1.py",
+   "functions_in_module": 25,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "cmd_run",
+     "scope": "module",
+     "def_line": 763,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "rev_osc_stock_p1"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/seasonal_horizon_stability.py",
+   "functions_in_module": 16,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "daily_face",
+     "scope": "module",
+     "def_line": 108,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 2,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "open"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/t28_stable_profit.py",
+   "functions_in_module": 11,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "_grid_unit",
+     "scope": "module",
+     "def_line": 188,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 2,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 1,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "segment"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/trial_labor_w1.py",
+   "functions_in_module": 46,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "cmd_screen_finalize",
+     "scope": "module",
+     "def_line": 1148,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "total"
+     ]
+    }
+   ]
+  },
+  {
+   "module": "scripts/wild_route_lab.py",
+   "functions_in_module": 32,
+   "set_defaults_handoffs": 0,
+   "dict_dispatch_tables_of_function_names": 0,
+   "holders": [
+    {
+     "function": "dyn_universe_cols",
+     "scope": "module",
+     "def_line": 260,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "P"
+     ]
+    },
+    {
+     "function": "run_nulls",
+     "scope": "module",
+     "def_line": 927,
+     "reach": "reachable_through_a_chain_of_calls",
+     "callers": 1,
+     "handed_to_a_set_defaults_registry": 0,
+     "self_recursive_calls": 0,
+     "calls_through_a_local_alias": 0,
+     "attribute_hits_not_counted_as_reach": 0,
+     "dead_lines": 1,
+     "dead_lines_facekey": 0,
+     "dead_lines_incoming": 0,
+     "dead_keys": [
+      "u_full_cols"
+     ]
+    }
+   ]
+  }
+ ],
+ "skipped": [
+  {
+   "module": "scripts/e231_band_path_test.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e243_additivity_out_of_sample.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e280_e251_rng_drift_repin.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e308_leg_vs_producer_tolerance.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e371_one_store_member.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e387_republish_audit.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e394_phantom_why.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e429_two_hop_writer.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e335_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e349_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e353_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e463_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/t11_negday_ic.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/update_etf_universe.py",
+   "why": "SyntaxError"
+  }
+ ],
+ "limits": [
+  "reach is measured inside one module: a holder exported and called by an importer is outside this study, so 'unreferenced' means unreferenced here, not dead everywhere",
+  "an attribute call (obj.name()) becomes an edge only when the receiver is self/cls (class-scoped callee) or a module object imported in the file -- the house's re-import entry point sys.exit(_canonical.main()) is reachable that way; every other receiver is ignored and counted per holder in attribute_hits_not_counted_as_reach, because a module-level function named get or write would otherwise be 'called' by every d.get / fh.write in the file",
+  "string mentions are a class of their own and never count as reach: a constant equal to a function name also matches labels, keys and prose",
+  "a local alias is followed exactly one hop (A = f then A()), never through a container, a getattr or a registry dict keyed by name",
+  "the only registry hand-off followed is argparse's set_defaults(func=F): a function reached that way is a class of its own, because the call happens inside the parser the module itself built, while a name stored in a plain dict or resolved through getattr is not followed at all",
+  "a decorated definition is not counted as reach: the decorator expression is a mention, so a function only registered by a framework decorator lands in referenced_never_called",
+  "E619 skips modules that do not parse; the 14 it skips are absent here too",
+  "this script excludes itself and its smoke leg from the population it measures"
+ ],
+ "verdict": "29_of_31_functions_holding_a_dead_facekey_line_are_reachable_from_module_level",
+ "answer": "of 31 functions holding one of E619's 36 dead face-key lines, 29 are reachable from module level (0 called at top level, 28 through a chain of calls, 1 only through an argparse set_defaults(func=...) handoff) and 2 are not (0 only by their own recursion, 2 only from a function that never runs, 0 loaded but never called, 0 named only in a string, 0 entirely unreferenced); the same split on E619's wider population is 45 live of 49 holders carrying 54 dead lines; for scale 16596 of 19146 functions in 1093 face publishers are reachable (86.7%), so the 34 dead face-key lines in a live holder are defects and the 2 in an inert holder cost nothing; 3 of the inert holders on that wider population sit in a module that builds a dict dispatch table of function names, which this scan does not follow, so inertness is an upper bound rather than a death sentence"
+}
