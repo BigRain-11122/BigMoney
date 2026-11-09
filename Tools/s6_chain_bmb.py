@@ -2426,6 +2426,14 @@ LEGS = [
     # read flip credited to a reader whose published key set never asks for that key.
     ("pointer_alias_blast",
      ["python", "scripts/e595_pointer_alias_blast.py", "check"]),
+    # E598 (r1625 bm-b): E595 priced an alias on ONE pointer face and found no reader that asks it
+    # for a bar.  This leg asks the repo-wide question -- for every latest.json face, which keys do
+    # its readers actually ask it for, attributed BY DIRECTORY (E594 resolved by basename and so
+    # attributed readers of other faces to the pointer) -- and refuses a "silent join" claimed from
+    # a basename-only literal, a payload name shared by two faces, a dict that merely NAMES the
+    # face, or a key read off the face's redirect target one hop away.
+    ("pointer_bar_demand",
+     ["python", "scripts/e598_pointer_bar_demand.py", "check"]),
 ]
 
 

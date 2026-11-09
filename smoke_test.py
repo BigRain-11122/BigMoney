@@ -25809,6 +25809,48 @@ except Exception as _e595x:
     _d595 = "study could not be read"
 check(_name595, not _bad595, "; ".join(_bad595)[:240] or _d595)
 
+# E598: every face in the repo named latest.json, who names/opens it and which keys they ask of it.
+# The leg refuses the four ways this census can be a wish: counts that do not re-derive from the
+# published rows, a verdict that contradicts them, a "silent join" credited to a basename-only
+# literal, and a bar asked of a pointer's redirect target counted as a bar asked of the pointer.
+_name598 = ("E598 whether any pointer face is asked for a bar it does not carry (r1625 bm-b)")
+_bad598 = []
+_d598 = "no reading"
+try:
+    _p598 = os.path.join("results", "state_tilt", "POINTERBARDEMAND.json")
+    _f598 = json.load(open(_p598, encoding="utf-8"))
+    _m598 = importlib.import_module("e598_pointer_bar_demand")
+    _bad598.extend(_m598.face_problems(_f598))
+    _c598 = _f598.get("counts") or {}
+    _rows598 = _f598.get("pairs") or []
+    _clean598 = sorted(set(
+        r.get("reader") for r in _rows598
+        if r.get("bar_keys_missing")
+        and r.get("addressing") == "names_this_face"
+        and not r.get("binding_is_shared")))
+    if _clean598 != list(_c598.get("readers_asking_a_bar_missing_clean") or []):
+        _bad598.append("clean missing readers %s do not re-derive from the rows %s"
+                       % (list(_c598.get("readers_asking_a_bar_missing_clean") or []),
+                          _clean598))
+    _ambig598 = [r.get("reader") for r in _rows598
+                 if r.get("bar_keys_missing")
+                 and r.get("addressing") != "names_this_face"
+                 and r.get("reader") in (_c598.get("readers_asking_a_bar_missing_clean") or [])]
+    if _ambig598:
+        _bad598.append("a reader is called a silent join without a literal naming the face: %s"
+                       % ", ".join(sorted(set(_ambig598))[:3]))
+    _d598 = ("faces=%d pairs=%d attributed=%d bar_asked=%d carried=%d missing=%d clean=%d hops=%d"
+             % (_c598.get("faces_total", 0), _c598.get("pairs", 0),
+                _c598.get("pairs_names_this_face", 0), _c598.get("pairs_asking_a_bar", 0),
+                _c598.get("pairs_asking_a_bar_carried", 0),
+                _c598.get("pairs_asking_a_bar_missing", 0),
+                _c598.get("pairs_asking_a_bar_missing_clean", 0),
+                _c598.get("readers_following_a_pointer_redirect", 0)))
+except Exception as _e598x:
+    _bad598.append(repr(_e598x)[:160])
+    _d598 = "study could not be read"
+check(_name598, not _bad598, "; ".join(_bad598)[:240] or _d598)
+
 
 if __name__ == "__main__":
     sys.exit(main())

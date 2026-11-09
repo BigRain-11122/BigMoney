@@ -2,26 +2,6 @@
  "_stamp_note": "r1624 bm-b: E595 burned in-round -- the alias that was going to give three readers the bar buys nothing: 27 faces share the basename latest.json, three of the eight 'silent readers' read a different one, and of the three that name this face none asks it for the key an alias would add. E598 seeded: is any latest.json face in the repo asked for a bar it does not carry?",
  "entries": [
   {
-   "id": "E590-WHETHER-THE-REPO-PANEL-LEAVING-THE-CASH-LEG-UNQUOTED-IS-PRICED-ANYWHERE",
-   "lane": "cpu-only",
-   "lane_note": "static: read data/repo_daily/GC001.csv + every published ticket's cash_leg block and count the bars each ticket's window has no quote for; no runner, no fetch, no panel write",
-   "priority": "normal",
-   "status": "done",
-   "source": "E589 (r1616 bm-b): the ticket names 2026-11-06 and the repo panel it prices from ends 2026-10-27, so the quote printed beside the window is 8 bars old and the window itself carries 7 steps with no quote at all (accrued as 0). The face now discloses both; nobody has priced what the silence is worth.",
-   "target": "results/etf_book_order/CASHSILENCE.json",
-   "deliverable": "results/etf_book_order/CASHSILENCE.json: per ticket, the unquoted bar steps in its window, the CNY left accruing nothing at the quoted rate, and the age of the nearest prior quote",
-   "title": "Every published ticket prices its cash leg off a repo panel that ends earlier than the book's own bar. Publish, per ticket, how many steps of its window carry no quote at all, what those steps would have earned at the nearest prior quote, and whether the panel's staleness is the same 8 bars for every bar the book has processed since 2026-10-27.",
-   "entered_at": "2026-11-09T05:58:00+08:00",
-   "entered_by": "bm-b r1616",
-   "evidence_cutoff": "2026-11-06",
-   "claimed_by": "bm-b",
-   "done_at": "2026-11-09T06:35:00+08:00",
-   "done_by": "bm-b r1617",
-   "done_round": "r1617",
-   "result_ref": "results/etf_book_order/CASHSILENCE.json (per-ticket unquoted steps with their fallback quote and CNY; the bars-past-the-panel age table) + scripts/e590_cash_silence.py (selftest 17/17, check/verify problems=[], standalone smoke leg PASS + 1/1 red under --doctor) + S6 leg cash_silence",
-   "done_note": "r1617 bm-b: 1 of 5 published tickets prices a cash leg over unquoted steps -- the 2026-11-06 ticket leaves 7 bar-steps worth 142.20 CNY at the nearest prior quote (271.25 CNY at the window mean, 2.69 bp of the 529,072 CNY cash they idle). The '8 bars stale' disclosure is not one fact: the quote age runs 1..8 bars across the eight book bars since the panel ends, and 7 of the 8 steps accrue nothing."
-  },
-  {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
    "entered_at": "2026-10-21T05:40:00+08:00",
    "entered_by": "bm-b r1118",
@@ -24272,6 +24252,26 @@
    "closed_by": "bm-c r1448"
   },
   {
+   "id": "E590-WHETHER-THE-REPO-PANEL-LEAVING-THE-CASH-LEG-UNQUOTED-IS-PRICED-ANYWHERE",
+   "lane": "cpu-only",
+   "lane_note": "static: read data/repo_daily/GC001.csv + every published ticket's cash_leg block and count the bars each ticket's window has no quote for; no runner, no fetch, no panel write",
+   "priority": "normal",
+   "status": "done",
+   "source": "E589 (r1616 bm-b): the ticket names 2026-11-06 and the repo panel it prices from ends 2026-10-27, so the quote printed beside the window is 8 bars old and the window itself carries 7 steps with no quote at all (accrued as 0). The face now discloses both; nobody has priced what the silence is worth.",
+   "target": "results/etf_book_order/CASHSILENCE.json",
+   "deliverable": "results/etf_book_order/CASHSILENCE.json: per ticket, the unquoted bar steps in its window, the CNY left accruing nothing at the quoted rate, and the age of the nearest prior quote",
+   "title": "Every published ticket prices its cash leg off a repo panel that ends earlier than the book's own bar. Publish, per ticket, how many steps of its window carry no quote at all, what those steps would have earned at the nearest prior quote, and whether the panel's staleness is the same 8 bars for every bar the book has processed since 2026-10-27.",
+   "entered_at": "2026-11-09T05:58:00+08:00",
+   "entered_by": "bm-b r1616",
+   "evidence_cutoff": "2026-11-06",
+   "claimed_by": "bm-b",
+   "done_at": "2026-11-09T06:35:00+08:00",
+   "done_by": "bm-b r1617",
+   "done_round": "r1617",
+   "result_ref": "results/etf_book_order/CASHSILENCE.json (per-ticket unquoted steps with their fallback quote and CNY; the bars-past-the-panel age table) + scripts/e590_cash_silence.py (selftest 17/17, check/verify problems=[], standalone smoke leg PASS + 1/1 red under --doctor) + S6 leg cash_silence",
+   "done_note": "r1617 bm-b: 1 of 5 published tickets prices a cash leg over unquoted steps -- the 2026-11-06 ticket leaves 7 bar-steps worth 142.20 CNY at the nearest prior quote (271.25 CNY at the window mean, 2.69 bp of the 529,072 CNY cash they idle). The '8 bars stale' disclosure is not one fact: the quote age runs 1..8 bars across the eight book bars since the panel ends, and 7 of the 8 steps accrue nothing."
+  },
+  {
    "claimed_at": "2026-11-04T21:22+08:00",
    "deliverable": "results/state_tilt/BASENAMECENSUS-<cutoff>.json",
    "done_at": "2026-11-04T21:52+08:00",
@@ -30517,11 +30517,36 @@
    "lane": "cpu-only",
    "lane_note": "static: for each of the 27 faces named latest.json, resolve its readers the way E595 does (the directory in the reader's own literal), and publish, per face, who opens it and which keys they ask of it; no runner, no fixture write, no panel refresh",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E595 (r1624 bm-b): the pointer face carries a bar as as_of, no reader asks it for any other spelling, and the alias that was going to fix three readers fixes none because the demand for that key is zero. That is one face. If the same is true of all 27 latest.json faces, the missing bar is a repo-wide convention rather than this face's omission; if some face IS asked for a bar it does not carry, that face is a real silent join and E594's repair has a target after all.",
    "target": "results/state_tilt/POINTERBARDEMAND.json",
    "deliverable": "results/state_tilt/POINTERBARDEMAND.json: per latest.json face, its own bar spellings, the readers that name/open it, the keys they ask of it, and the (face, reader) pairs where a bar is asked for and not carried",
-   "title": "For every face named latest.json in the repo, publish which keys its readers actually ask it for and whether any of them asks for a bar the face does not carry"
+   "title": "For every face named latest.json in the repo, publish which keys its readers actually ask it for and whether any of them asks for a bar the face does not carry",
+   "entered_at": "2026-11-09T08:32:00+08:00",
+   "entered_by": "bm-b r1624",
+   "evidence_cutoff": "2026-11-06",
+   "result_ref": [
+    "results/state_tilt/POINTERBARDEMAND.json"
+   ],
+   "done_note": "no pointer face in the repo is asked for a bar it does not carry: 28 faces named latest.json, 1058 (face, reader) pairs attributed BY DIRECTORY, 4 pairs ask a bar, 4 carried, 0 missing. The one apparent silent join (smoke_test vs docs/live_book/latest.json) asks the pointer only for its redirect key json; the bar is read one hop later from the target page. The attribution fixes that make this number trustworthy: a dict that merely NAMES a face is not a payload binding, a derived object's keys are not the face's keys, and a loader fed by the payload is the redirect target. Script scripts/e598_pointer_bar_demand.py, selftest 36/36"
+  },
+  {
+   "id": "E599-WHETHER-THE-BAR-A-POINTER-REDIRECTS-TO-IS-ITSELF-CHECKED",
+   "lane": "cpu-only",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E598 (r1625 bm-b): every pointer face a reader wants a bar from either carries it or redirects to a page that does (exactly one reader follows a redirect, smoke_test on docs/live_book/latest.json). Nothing measures whether the bar at the end of that hop is checked against the bar the pointer claims -- a pointer whose target moves to a newer bar while its own as_of stays put would make every redirect-follower read a bar the pointer never declared.",
+   "target": "results/state_tilt/REDIRECTBARMATCH.json",
+   "deliverable": "results/state_tilt/REDIRECTBARMATCH.json: for each pointer face that carries a redirect key, resolve the target on disk and publish whether the target carries a bar, whether it equals the pointer's own bar, and who would notice a mismatch",
+   "title": "For every pointer face that redirects, is the bar at the far end of the redirect checked against the bar the pointer declares?",
+   "lane_note": "static: read the pointer payload, resolve its redirect key to a file on disk, compare bar fields; no runner, no rebuild, no panel refresh",
+   "entered_at": "2026-11-09T08:33:00+08:00",
+   "entered_by": "bm-b r1625",
+   "evidence_cutoff": "2026-11-06",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

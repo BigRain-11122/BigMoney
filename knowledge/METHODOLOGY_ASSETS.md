@@ -14267,3 +14267,22 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 **边界**：addressing 由读者自己的字符串字面量判定，运行时拼的路径只能看它拼出了哪些段；open_witness 是**行局部**弱证据（字面量 ±6 行内出现 open/json.load/read_text），没有见证的模块发布为"未见证"而非"不读"；取键集是 AST 上 4 跳内的载荷绑定（`x = json.load(open(...))` / `x = _load(POINTER)` / 模块常量），绑定解析不到的模块发布为 `payload_binding_resolved=false` 而不计成"什么都没要"；别名只在内存里造，磁盘上的指针面**一个字节没写**。
 
 **证据** = scripts/e595_pointer_alias_blast.py（selftest 36/36，check/verify problems=[]）+ scripts/run_e595_smoke_leg.py（PASS，--doctor 1/1 红）+ results/state_tilt/BARALIAS.json（+-latest）+ S6 leg `pointer_alias_blast`（rc0 5.12s）+ smoke_test.py leg `E595` + research/digests/DIGEST-20261109-r1624-e595-pointer-alias-blast.md。
+
+### E598 全仓 28 个 latest.json 指针面：没有一个是「被要了 bar 却没有」的（r1625 bm-b·2026-11-09）
+**问题**：E595 只给 **一个** 指针面（results/etf_book_order/latest.json）标了价，结论是「要这个 bar 的读者为 0」。若全仓同类面都如此，缺 bar 就是**全仓约定**而不是这个面的遗漏；若某个面真被要了它没有的 bar，E594 的修复才终于有了真实靶子。
+
+**读数**（results/state_tilt/POINTERBARDEMAND.json·cutoff 2026-11-06）：
+- **28 个** latest.json 面，全部至少被一个仓内模块点名；按**目录**解析（不是 basename）存活 **1,058 个 (面, 读者)** 对，其中 **50** 对拼了完整路径、**1,008** 对只拼了 basename（发布为不可归属）。
+- 只有 **4 对**向指针面要 E594 词汇表里的 bar 名，**4 对全被该面承载**，**0 对是要了没有的**。三个面（docs/live_book、results/e33_ladder_baseline、results/regime_matrix_p0）本来就不带任何 bar 名——指针载荷才是这类面的常态形状。
+- 唯一看起来像静默 join 的 docs/live_book/latest.json（smoke_test 要 book_decided_at/priced_bar）在修正归属后不成立：smoke_test 向**指针本身**只要 json 这个转址键，bar 是**一跳之后**从它指向的页里取的——本轮把它单独发布为 hop 臂（1 个读者跟转址）。
+
+**判决**：every_bar_asked_of_a_pointer_face_is_carried_by_that_face —— E594 那三个「静默读者」在指针面这一族里**没有修复靶子**；缺的那个字段是没人下单的空键位，不是写者漏印。
+
+**教训**：
+- **按 basename 解析目标 = 把 28 个面混成一个**（E366/E595 同族第三现）：本轮因此差点发布「3 对静默 join」，全靠逐条回到源码才推翻。
+- **「赋了值」不等于「绑了载荷」**：page = {..."card": "results/etf_book_production/latest.json"...} 只是**写了**这个路径，不是读了那个面；首版走遍赋值右侧的所有常量，于是造出个假读者（page.get("priced_bar")）。正法=只有**路径表达式**（字面量/折叠 join/f-string）或**读文件调用**（json.load/loads/read_text/_read_json/_load/open）才建立载荷绑定，**派生对象一律不追**（info = _series_tail_delta(series) 的 .get("asof") 也不是向该面取键）。
+- **喂给 loader 的是载荷 = 那是转址目标，不是同一个面**：page = json.load(open(ptr.get("json"))) 是从指针面的一跳之后取到的对象，把它的 bar 记成「指针面缺 bar」正是本轮最贵的假阳性。两臂分开发布（asking the pointer / following the redirect）。
+- **同名键不能当载荷名**：首版把 x = d.get("k") 的 k 也加进「载荷名」，于是 info.get("asof") 被算成向 paper_export 面取 asof。名字集只收**绑到载荷的对象名**。
+
+**边界**：addressing 只看读者自己的字面量（运行时拼的路径只能看它拼出的段）；只拼 basename 的 1,008 对按不可归属发布，不摊派给任何面；一个载荷名在同一模块绑了多个面时单独标 inding_is_shared（15 对）并披露；静态取键不等于运行时取值。
+**证据** = scripts/e598_pointer_bar_demand.py（selftest 36/36·check/verify problems=[]）+ scripts/run_e598_smoke_leg.py（PASS·-doctor 1/1 红）+ results/state_tilt/POINTERBARDEMAND.json（+-latest）+ S6 leg pointer_bar_demand（rc0 36.32s）+ smoke_test.py leg E598。
