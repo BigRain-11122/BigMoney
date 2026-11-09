@@ -6431,10 +6431,12 @@
  "supply_floor_ready": 1,
  "survey_note": "E548 and E562 were already implemented in earlier windows; their pool rows stayed 'ready' -- closed E552's row this round",
  "sync": {
-  "ahead_origin_main": 781,
-  "behind_origin_main": 470
+  "ahead_origin_main": 801,
+  "behind_origin_main": 486,
+  "peer": "origin",
+  "ts": "2026-11-09T22:32:48+08:00"
  },
- "sync_note": "local main runs many commits ahead/behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel",
+ "sync_note": "local main runs far ahead/behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel",
  "task": "r1644 E626: the callee handed the object only reads the key, so E625's one undecided duplicate settles to the value the dead line saw",
  "task_short": "a handover one hop is enough",
  "task_short_note": "scripts/e599_pointer_redirect_bar.py; card E602; digest DIGEST-20261109-r1629-e599-pointer-redirect-bar.md",
@@ -6447,11 +6449,11 @@
  "three_line_artifact": "results/state_tilt/HANDOVERWRITE.json",
  "three_line_artifact_ts": "2026-11-09T22:26:00+08:00",
  "three_line_current": "r1644: E626 closed -- the callee handed the object only reads the key, so E625's one undecided duplicate settles to the value the dead line saw (4 survive / 0 stored / 0 undecided)",
- "three_line_delivery": "machine/bm-b-r1643 @ ae3e720b2780",
+ "three_line_delivery": "machine/bm-b-r1644 @ 69c2b4c8ec73",
  "three_line_next": "E627 (ready, cpu-only): the alias binding E625/E626 both declared out of scope -- 48h",
  "three_line_recent": "results/state_tilt/HANDOVERWRITE.json (2026-11-09T22:26)",
- "timestamp": "2026-11-09T22:31:36+08:00",
- "ts": "2026-11-09T22:31:36+08:00",
+ "timestamp": "2026-11-09T22:32:48+08:00",
+ "ts": "2026-11-09T22:32:48+08:00",
  "ts_utc_ms": 1794234696000,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-09T22:31:36+08:00",
@@ -6525,5 +6527,12 @@
    "results/runnable_pool.json E626 done + E627 seeded (26/4 numstat)"
   ],
   "ts": "2026-11-09T22:31:36+08:00"
+ },
+ "r1644_delivery": {
+  "branch": "machine/bm-b-r1644",
+  "sha": "69c2b4c8ec7356e6269bb9b94bf5444808cbd764",
+  "ts": "2026-11-09T22:32:48+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1644 == 69c2b4c8ec7356e6269bb9b94bf5444808cbd764",
+  "main_push_blocker": "local is 801 ahead / 486 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel"
  }
 }
