@@ -8887,6 +8887,11 @@ def _leg_size_age_control():
               "owner is its own alarm", False, repr(e)[:180])
 
     try:
+        # r1272: these three legs live in this helper, not in main(), so `PATHS`
+        # (imported inside main) was a NameError here and none of them could ever
+        # pass -- the suite read "3 product legs FAIL" and every reader assumed a
+        # product defect. A leg that cannot resolve its own paths is not evidence.
+        from config import PATHS
         # r1471: the executable sheet sizes itself off the EXECUTED account. That promise is
         # only worth anything if the three published faces agree on the same bar -- a sheet
         # priced off an account face one run old reads as a 617 CNY phantom position and no
