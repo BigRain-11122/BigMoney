@@ -2517,6 +2517,14 @@ LEGS = [
     # `check` re-derives every class, count, pattern tally and verdict from the rows.
     ("ancestor_reruns",
      ["python", "scripts/e613_ancestor_reruns.py", "check"]),
+    # E615 (r1637 bm-b): E613 priced whether a live sweep reaches the ancestor-only faces but not
+    # what it does with a hit.  Each glob call on the landing modules is resolved to the loop that
+    # consumes it and classified one hop into the body: 9 of 13 calls open what they yield, 3 hand
+    # the path to git plumbing, 3 only read the name -- and the one live sweeper (e396) is in that
+    # last group, so all 76 faces are opened only by sweeps nothing names.  `check` re-derives
+    # every treatment tally, opened flag and verdict from the rows.
+    ("glob_sweep_use",
+     ["python", "scripts/e615_glob_sweep_use.py", "check"]),
 ]
 
 

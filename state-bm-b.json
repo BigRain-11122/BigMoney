@@ -138,6 +138,16 @@
   "ts": "2026-11-09T09:44:00+08:00",
   "verdict": "a_pointer_redirect_can_pin_a_root_that_does_not_exist_and_nobody_checks_the_far_end"
  },
+ "E611": {
+  "card": "E611",
+  "face": "results/state_tilt/SWEEPRERUNS.json (+ -latest.json)",
+  "finding": "7 of 7 landing modules on the 6 own-directory faces are one-off round scripts and none is named by a task, chain or smoke leg, so 6/6 faces are swept only by a module that never runs again",
+  "next": "E613 (ready, cpu-only): the same pricing over E609's 76 ancestor-only faces",
+  "round": 1635,
+  "s6": "python scripts/e611_sweep_reruns.py check -> rc0 problems=[]",
+  "script": "scripts/e611_sweep_reruns.py (selftest 26/26)",
+  "smoke_leg": "scripts/run_e611_smoke_leg.py PASS + --doctor 1/1 red (face byte-restored)"
+ },
  "absorb": "r1476: five of the ten suite reds were the E421-family class -- a census that grows. Two of them already had the declaration machinery (population_keys) but had not declared the population itself, so an upstream face appearing re-red the leg for growth alone. E417 now declares faces/faces_literal/faces_templated and E422 declares rows_in_population / rows_recording_a_bare_name / rows_spelling_a_directory / control_path_rows / control_path_rows_whose_file_exists; both faces were republished and both gates now compare every reading exactly (bare-literal exposure 0; rows_whose_reading_changes_if_rejoined 0).",
  "agenda_starved": false,
  "aggregate": "engineering",
@@ -6267,6 +6277,37 @@
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1588 == HEAD"
  },
  "r1618_delivery": "c5d9dd19432d70baf611e5289ecdec50d33dec48",
+ "r1632_delivery": {
+  "branch": "machine/bm-b-r1632",
+  "main_push_blocker": "local main runs far ahead/behind origin/main on a promisor clone (r1243) -- the machine branch is the delivery channel",
+  "sha": "1cbc1f10af8ce86afd9d66f0b9cd17ec3c14d680",
+  "verified": true
+ },
+ "r1637": {
+  "card": "E616",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/GLOBSWEEPUSE.json",
+  "finding": "9 landing modules / 13 glob calls: 9 open what they yield (5 direct, 1 through a helper, 3 handed to git hash-object), 3 only read the name, 1 has no loop; all 76 ancestor-only faces are opened only by sweeps no entry point runs again, and the single live sweeper (e396) is in the name-only group",
+  "pit": [
+   "a composed pattern is not a missing pattern: accepting only ast.Constant graded os.path.join('results','**','*.json') as computed -- E470's one-hop lesson, second occurrence; patterns are now statically evaluated and absolute paths reduced to repo relative",
+   "the loop's own iter mentions the binding: 'targets = glob(...); for t in targets' made that mention a use of the yield and graded 7 calls unclassifiable; the body is now the loop's statements under the loop's own target name",
+   "method-style name calls hide behind an Attribute: p.endswith(...) is Call(Attribute(Name p)), so climbing from the Name hit the Attribute branch and dropped the name-only class to 0 until method names were accepted there",
+   "literalness and treatment are two facts: folding 'the pattern is computed' into the class hid that a computed sweep does open; the class now answers only what the body does"
+  ],
+  "product": [
+   "scripts/e615_glob_sweep_use.py (selftest 26/26, run/check/verify problems=[])",
+   "results/state_tilt/GLOBSWEEPUSE.json + globsweepuse_latest.json",
+   "scripts/run_e615_smoke_leg.py (PASS, --doctor 1/1 red, face byte-restored)",
+   "smoke_test.py leg E615",
+   "Tools/s6_chain_bmb.py leg glob_sweep_use",
+   "knowledge/METHODOLOGY_ASSETS.md card E616 (22/0 numstat)",
+   "research/digests/DIGEST-20260909-r1637-e615-glob-sweep-use.md",
+   "results/runnable_pool.json E615 done + E617 seeded (numstat 24/4)"
+  ],
+  "study": "E615_glob_sweep_use",
+  "ts": "2026-11-09T14:20:00+08:00",
+  "verdict": "every_face_that_rests_on_a_live_sweep_rests_on_one_that_never_opens_it"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -6277,20 +6318,20 @@
  "ram_note": "psutil probe at close",
  "ram_total_gb": 23.92,
  "reading": "17 parent sites / 15 distinct locations / 2 opened / 0 container / 6 builtin renders / 7 identity tokens / 0 unsettled",
- "recent_artifact": "results/state_tilt/DATEFACEUNIQUE.json",
+ "recent_artifact": "results/state_tilt/GLOBSWEEPUSE.json",
  "recent_artifact_note": "re-issued; ORDER-2026-11-06.md carries the pricing-bar and correction sections",
- "recent_artifact_ts": "2026-11-09T10:15:00+08:00",
+ "recent_artifact_ts": "2026-11-09T14:02:00+08:00",
  "red_fix": "no red was produced this window because the full suite did not run",
  "reds_fixed": "the E569 chain_numerator leg was red every round since r1596: its `check` compared the whole receipt directory (which the chain appends to on every run) against a face pinned at 326 files. Repaired by pinning the population by file name; rebirths are now a note and only a disappearance is a failure. red -> green measured this window.",
  "reds_open": "supply floor 2/3 (E568/E572 ready); state face was 3 rounds stale at open and healed here",
  "reds_open_note": "all open reds predate this window; none is caused by this round's files",
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": "r1632",
+ "round": "r1637",
  "round_delivery": {
   "branch": "machine/bm-b-r1634",
+  "main_push_blocker": "local main runs 470 behind / 781 ahead of origin/main across two blood lines on a promisor clone (r1243) -- the machine branch is the delivery channel",
   "sha": "ec8de5188ec41ed07e4e031be055a6c27208e1f7",
-  "verified": true,
-  "main_push_blocker": "local main runs 470 behind / 781 ahead of origin/main across two blood lines on a promisor clone (r1243) -- the machine branch is the delivery channel"
+  "verified": true
  },
  "round_entries_tail": "r1619 E592 the ledger's carry reproduces at the printed precision from an origin the face names only as a count",
  "round_entry": {
@@ -6303,8 +6344,8 @@
   "ts": "2026-11-09T11:00:00+08:00",
   "verify": "problems=[] verify=identical"
  },
- "round_label": "r1632",
- "round_no": 1636,
+ "round_label": "r1637",
+ "round_no": 1637,
  "round_no_label": "r1630",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
  "round_no_ts": "2026-11-09T11:00:00+08:00",
@@ -6327,7 +6368,7 @@
   "peer": "origin",
   "ts": "2026-11-09T11:00:00+08:00"
  },
- "s1": "full smoke suite not launched this window (no leg filter, r1499); E604 selftest 35/35 replayed standalone",
+ "s1": "full smoke suite not launched (no leg filter, r1499); the E615 block was added to smoke_test.py and its standalone mirror is PASS with 1/1 red under --doctor",
  "s1_note": "smoke_test.py has no leg filter, so a flag would launch the whole suite",
  "s2": "no new board job; burned ready pool head E604; E606 remains ready",
  "s4": "card E607 appended to knowledge/METHODOLOGY_ASSETS.md (8 added, 0 deleted)",
@@ -6354,8 +6395,8 @@
  "s7_r1439": "loop pin=2 no-op | LoopWatchdog RE-REGISTERED (absent on this box; S4U, SWA=false) | pre-commit + pre-push claws reinstalled | attrition CLEAN 4 ledgers (3 healed) | sat engine status rc=0 idle",
  "s8": "green_idle=false (RAM free 35.6% < 40% gate), no local-registry work ignited",
  "sat_engine": "not re-queried this window (scripts/saturation_engine.py status was rc0 alive last round); not claimed",
- "selftest": "e609 selftest 28/28",
- "seq": 1632,
+ "selftest": "e615 selftest 26/26",
+ "seq": 1637,
  "side_effect_on_neighbour": "publishing fragmentproducers_latest.json added one family-named pointer, so E398's named_pointers moved 175 -> 176 and the E398 smoke leg failed; the face was re-derived from the live build (e398 run + verify problems=[]) rather than the leg loosened -- read sites 187 and bare pointers 28 unchanged",
  "side_finding": "E571 dialect_only_disagreements_here is not a subset of E561 17: it counts every stated receipt whose round is written as a non-int dialect (210+16=226). The new smoke leg re-derives it from the dialect table and publishes it as what it is; renaming the field belongs to the next window because other consumers already read the face.",
  "side_finding_2": "The E571 smoke block appended this round proved the r1598 claim false: the suite ended at the E569 block, so the card was published unguarded for a round. Fixed in-window; the block refuses a hand-written verdict, a count that does not re-derive, and a row flagged disagree with equal numbers.",
@@ -6381,7 +6422,7 @@
  "state": "ok",
  "state_face_note": "authoritative face for bm-b",
  "status": "ok",
- "study": "E609_glob_reach",
+ "study": "E615_glob_sweep_use",
  "supply_floor": "ready 1 (E611 + none outstanding); E609 burned and closed",
  "supply_floor_note": "E599 burned and closed; E602 seeded in its place (what a redirect does at READ time when its target has dangled)",
  "supply_floor_ready": 1,
@@ -6391,31 +6432,32 @@
   "behind_origin_main": 470
  },
  "sync_note": "local main runs many commits ahead/behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel",
- "task": "r1634: E609 whether a glob sweep reaches the faces no literal names -- 6 of 82 name their own directory",
- "task_short": "E609 glob reach: landings are not names (6 of 82)",
+ "task": "r1637 E615: the live sweeper that reaches 54 of the 76 ancestor-only faces reads only their names",
+ "task_short": "the sweep that reaches a face never opens it",
  "task_short_note": "scripts/e599_pointer_redirect_bar.py; card E602; digest DIGEST-20261109-r1629-e599-pointer-redirect-bar.md",
- "this_round": "r1634",
+ "this_round": "r1637",
  "three_line": {
-  "current": "r1634: E609 closed -- 82 unopened faces are all landed on by some glob, but only 6 by one that names their own directory",
-  "recent": "results/state_tilt/GLOBSWEEPREACH.json @ 2026-11-09T13:02:00+08:00",
-  "next": "E611 (ready, cpu-only): whether a landing sweep ever runs again -- 48h"
+  "current": "r1637: E615 closed -- the only sweep an entry point runs reads only the name, so all 76 ancestor-only faces are opened only by sweeps nothing names",
+  "next": "E617 (ready, cpu-only): whether that name-only census is consumed at all -- 48h",
+  "recent": "results/state_tilt/GLOBSWEEPUSE.json @ 2026-11-09T14:02:00+08:00"
  },
- "three_line_artifact": "results/state_tilt/GLOBSWEEPREACH.json",
- "three_line_artifact_ts": "2026-11-09T13:02:00+08:00",
- "three_line_current": "r1632: E604 closed -- 13 real date-joined readers, 6 of them name a date that matches a whole set of files",
+ "three_line_artifact": "results/state_tilt/GLOBSWEEPUSE.json",
+ "three_line_artifact_ts": "2026-11-09T14:02:00+08:00",
+ "three_line_current": "r1637: E615 closed -- the only sweep an entry point runs reads only the name, so all 76 ancestor-only faces are opened only by sweeps nothing names",
  "three_line_delivery": "machine/bm-b-r1634 @ ec8de5188 (ls-remote verified)",
- "three_line_next": "E606 (ready, cpu-only): is a count that disagrees with its own rows ever compared by a reader -- 48h",
- "timestamp": "2026-11-09T13:05:00+08:00",
- "ts": "2026-11-09T13:05:00+08:00",
+ "three_line_next": "E617 (ready, cpu-only): whether that name-only census is consumed at all -- 48h",
+ "three_line_recent": "results/state_tilt/GLOBSWEEPUSE.json @ 2026-11-09T14:02:00+08:00",
+ "timestamp": "2026-11-09T14:20:00+08:00",
+ "ts": "2026-11-09T14:20:00+08:00",
  "ts_utc_ms": 1794164280000,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-09T13:05:00",
  "updated_at": "2026-11-09T13:05:00+08:00",
- "verdict": "some_unopened_faces_are_reached_by_a_glob_that_names_their_own_directory_and_most_only_by_an_ancestor_sweep",
- "verdict_line": "r1634: 1,060 glob calls in 1,202 modules; 330 carry a naming segment, 18 carry none; 82/82 faces are landed on, 6 by a pattern naming their own directory, 76 only by 'results/**/*.json'-class ancestor sweeps",
- "verdict_note": "product round; the full smoke suite was not launched (r1499) -- the E599 leg is verified green standalone",
+ "verdict": "watermark=RED at open (pool-batch-runnable-idle-low-cpu) -> burned the ready head E615",
+ "verdict_line": "9 landing modules / 13 glob calls: 9 open what they yield (5 direct, 1 through a helper, 3 handed to git hash-object), 3 only read the name, 1 has no loop; all 76 ancestor-only faces are opened only by sweeps no entry point runs again, and the single live sweeper (e396) is in the name-only group",
+ "verdict_note": "product round; the full suite was not launched, so no suite total is claimed",
  "verdict_watermark": "red at open (pool ready 3, py idle) -> burned the ready head E602 in-round",
- "verify": "e601: problems=[] verify=identical; smoke-leg replay: class redrive True count_match redrive True verdict ok True",
+ "verify": "e615 check problems=[] / verify rebuild identical / smoke leg standalone PASS",
  "vram_free_gb": 3.57,
  "vram_probe": "nvidia-smi",
  "vram_total_gb": 8.0,
@@ -6430,22 +6472,5 @@
  "within_24h": "E599/E600/E601/E602/E604 all product rounds",
  "work": "every glob-family call in the corpus recovered as a pattern and matched per segment against the 82 faces E606 published as unopened: 6 named by their own directory, 76 only by an ancestor sweep",
  "worked_on": "E572 + the missing E571 smoke block",
- "worker": "r1611",
- "three_line_recent": "results/state_tilt/DATEJOINREADERS.json @ 2026-11-09T11:44:00+08:00",
- "r1632_delivery": {
-  "branch": "machine/bm-b-r1632",
-  "sha": "1cbc1f10af8ce86afd9d66f0b9cd17ec3c14d680",
-  "verified": true,
-  "main_push_blocker": "local main runs far ahead/behind origin/main on a promisor clone (r1243) -- the machine branch is the delivery channel"
- },
- "E611": {
-  "card": "E611",
-  "face": "results/state_tilt/SWEEPRERUNS.json (+ -latest.json)",
-  "next": "E613 (ready, cpu-only): the same pricing over E609's 76 ancestor-only faces",
-  "round": 1635,
-  "s6": "python scripts/e611_sweep_reruns.py check -> rc0 problems=[]",
-  "script": "scripts/e611_sweep_reruns.py (selftest 26/26)",
-  "finding": "7 of 7 landing modules on the 6 own-directory faces are one-off round scripts and none is named by a task, chain or smoke leg, so 6/6 faces are swept only by a module that never runs again",
-  "smoke_leg": "scripts/run_e611_smoke_leg.py PASS + --doctor 1/1 red (face byte-restored)"
- }
+ "worker": "r1611"
 }

@@ -26131,6 +26131,51 @@ except Exception as _e613x:
 check(_name613, not _bad613, "; ".join(_bad613)[:240] or _d613)
 
 
+# E615: E613 priced whether a live sweep *reaches* the ancestor-only faces.  Whether it does
+# anything with a hit was not asked.  The leg re-reads the published face, refuses a face whose
+# opened flag disagrees with its own treatment rows, a treatment the module rows do not carry, and
+# any verdict the counts do not force.
+_name615 = "E615 whether a live sweep opens what it globs (r1637 bm-b)"
+_bad615 = []
+_d615 = "no reading"
+try:
+    _p615 = os.path.join("results", "state_tilt", "GLOBSWEEPUSE.json")
+    _f615 = json.load(open(_p615, encoding="utf-8"))
+    _m615 = importlib.import_module("e615_glob_sweep_use")
+    _bad615.extend(_m615.face_problems(_f615))
+    _c615 = _f615.get("counts") or {}
+    _tallies615 = {}
+    for _r615 in (_f615.get("modules") or []):
+        for _g615 in (_r615.get("glob_calls") or []):
+            _tallies615[_g615.get("treatment")] = _tallies615.get(_g615.get("treatment"), 0) + 1
+    for _cls615 in _m615.CLASSES:
+        if int(_c615.get(_cls615) or 0) != _tallies615.get(_cls615, 0):
+            _bad615.append("counts.%s does not re-derive from the glob calls" % _cls615)
+            break
+    for _f615r in (_f615.get("faces") or []):
+        _opens615 = sorted({_t for _row615 in (_f615r.get("sweeper_rows") or [])
+                            for _t in (_row615.get("treatments") or [])
+                            if _t in _m615.OPENS})
+        if (_f615r.get("treatments") or []) != _opens615:
+            _bad615.append("face %s publishes treatments its sweeper rows do not give"
+                           % _f615r.get("face"))
+            break
+        if bool(_f615r.get("opened_by_a_landing_sweep")) != bool(_opens615):
+            _bad615.append("face %s publishes an opened flag its treatments do not give"
+                           % _f615r.get("face"))
+            break
+    _d615 = ("faces=%s opened=%s only_a_one_off=%s never_opened=%s glob_calls=%s opens=%s "
+             "name_only=%s verdict=%s"
+             % (_c615.get("faces"), _c615.get("faces_opened_by_a_landing_sweep"),
+                _c615.get("faces_opened_only_by_a_one_off"),
+                _c615.get("faces_never_opened_by_a_landing_sweep"), _c615.get("glob_calls"),
+                _c615.get(_m615.C_OPENS), _c615.get(_m615.C_NAME), _f615.get("verdict")))
+except Exception as _e615x:
+    _bad615.append(repr(_e615x)[:160])
+    _d615 = "study could not be read"
+check(_name615, not _bad615, "; ".join(_bad615)[:240] or _d615)
+
+
 # E611: E609 priced how a glob reaches a face no literal opens but left the runner out of the
 # price -- a landing that never runs again costs nothing.  The leg takes E609's own-directory
 # faces, joins each sweeper module to the entry files that name it, and refuses a class its entry

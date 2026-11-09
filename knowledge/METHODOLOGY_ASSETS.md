@@ -14438,3 +14438,25 @@ esults/state_tilt/DUPWITNESS.json、S6 leg dup_witness、smoke leg E601。坑：
 **How**：①可达性分三级并各自出证据——开面者存在（E470）/ 模式能落到且落在哪一层（E609）/ 落点还会不会再跑（E611、本张）；②三级里每一级遇到「纯通配」都必须单列，不能与「点名某层」并类；③任何被过滤掉的站点都要连同它们的类别一起发（drop ≠ absent）；④分母永远同时报「面数」和「生产者数」。
 
 **证据** = `scripts/e613_ancestor_reruns.py`（selftest **37/37**，run/check/verify problems=[]）、`results/state_tilt/ANCESTORRERUNS.json` (+`ANCESTORRERUNS-latest.json`)、`scripts/run_e613_smoke_leg.py`（PASS，`--doctor` 1/1 红且面字节还原 87ec57fc）、smoke_test.py leg E613、S6 leg `ancestor_reruns`、POOL E613 done。
+## E616 每轮都会跑的那个扫掠把命中的面当名字问，不当文件读：76/76 张面只被没人点名的扫描开过（r1637 bm-b·2026-11-09）
+> 卡号=E616（E615 是研究号，卡片顺延到 E616）。
+
+**观察**：E613 把「76 张只被祖先模式扫到的面压在 5 个一次性脚本上」算清了，也顺手指出唯一被链点名的落点模块 `scripts/e396_face_basename_suffix.py` 只覆盖 54/76——但**它把命中的面拿去干什么**没问。本张把每个落点模块的每个 glob 调用解到消费它的循环（含「先赋值、后循环」的两跳），再向循环体走一跳，分成六类：直接开/经模块内 helper 开/交给子进程读/只问名字/从不引用/没有可跟的循环。
+
+**读数**（results/state_tilt/GLOBSWEEPUSE.json，cutoff 2026-11-06）：
+- 9 个落点模块、**13 个 glob 调用**：直接开 5、经 helper 开 1、交给子进程（`git hash-object`）3、**只问名字 3**、从不引用 0、无可跟循环 1；
+- **6 个调用的模式是算出来的**（`f + '/**/*'`、`os.path.join(root,'**','*.json')`），它们照常定价循环体，但不与任何面配对；
+- 76 张面：**76 张被某个扫描开过，76 张只被一次性脚本开过，0 张有任何「还会再跑」的扫描开过，0 张无人开**；
+- **唯一每轮都会跑的扫掠（e396）落在「只问名字」类**：`os.path.relpath(p, root)` / `p.endswith(...)` 之后再没有一次 `open`——它数完面名就把面丢掉了。
+
+**研究**：可达性是四段式，本张补最后一段：面在盘（E606）→ 有模式能落到且落在哪一层（E609）→ 落点还会不会再跑（E611/E613）→ **跑的时候到底读不读**。前三段全绿、第四段为假，形式上「有扫描」，事实上没有一次吞吐。把「计算出来的模式」单列也关键：`*/**/*` 什么位置都没说，它与 `results/**/*.json` 放在一类，会让定价从「谁读了面」滑成「谁路过目录」。
+
+**自己踩的坑（四条）**：
+- **组合出来的模式不是「没有模式」**：首版只认 `ast.Constant`，于是最常见写法 `os.path.join("results","**","*.json")` 全被判成算不出来的模式（E470 的一跳教训第二现）。改为按字面量求值（Constant / 字符串拼接 / 全静态 join / 一跳名字绑定）并归一绝对路径；
+- **循环自己的 iter 里就有那个绑定名**：把「先赋值、后循环」里的 For 当消费体时，`for t in targets` 的 iter 里 `targets` 被算成一次「使用产出」，于是每个扫掠都判成不可分类（7 个 no_loop）。正法=只走循环的语句体、并把变量换成循环自己的目标名；
+- **方法式名字调用被 Attribute 挡了一道**：`p.endswith(...)` 的 AST 是 Call(func=Attribute(Name p))，从 Name 往上先撞到 Attribute 分支，名字判定失效，「只问名字」读数被压成 0。Attribute 分支要同时认方法名；
+- **字面量与「读了没有」是两个事实**：把「模式算不出来」当成分类，会遮蔽「算出来的模式其实在开文件」。现在字面量是独立字段，分类只答循环体做了什么。
+
+**How**：任何「这张面有人读吗」的结论都要拆成四段并各自出证据（面在盘 / 模式能落到哪层 / 落点还会不会跑 / 跑的时候读不读）；「计算出来的模式」必须单列，不许与「点名某层」并类；分类器的每个分支都要有能返红的夹具腿，否则它会安静地把一整类压成 0。
+
+**证据** = `scripts/e615_glob_sweep_use.py`（selftest **26/26**，run/check/verify problems=[]）、`results/state_tilt/GLOBSWEEPUSE.json` (+`GLOBSWEEPUSE-latest.json`)、`scripts/run_e615_smoke_leg.py`（PASS，`--doctor` 1/1 红且面字节还原）、smoke_test.py leg E615、S6 leg `glob_sweep_use`、POOL E615 done → E617 seeded。
