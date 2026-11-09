@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-09",
- "generated_at": "2026-11-09 11:02:34",
+ "generated_at": "2026-11-09 13:34:58",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,13 +294,13 @@
   "md_link": "../live_usage/LIVE-2026-11-09.md"
  },
  "rd": {
-  "commits_24h": 87,
-  "result_jsons_landed_24h": 61,
-  "digests_landed_24h": 52,
-  "prereg_md_touched_24h": 25,
+  "commits_24h": 86,
+  "result_jsons_landed_24h": 178,
+  "digests_landed_24h": 45,
+  "prereg_md_touched_24h": 37,
   "compute_audit_latest": {
-   "ts": "2026-11-09 10:25:03",
-   "py_cpu_pct": 0.3,
+   "ts": "2026-11-09 13:15:00",
+   "py_cpu_pct": 1.2,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -652,9 +652,9 @@
   "total_state_tokens_est": 15889,
   "total_report_tokens_est": 2371507,
   "delta_vs_prev": {
-   "prev_generated": "2026-11-07 13:26:09",
+   "prev_generated": "2026-11-09 07:33:08",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 241,
+   "report_tokens_growth": 0,
    "mandate_growth": 0
   },
   "method": {
@@ -789,63 +789,63 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-11-08 19:03:59",
-    "py_pct": 11.5,
-    "cpu_pct": 39.0,
+    "latest_ts": "2026-11-09 13:15:00",
+    "py_pct": 1.2,
+    "cpu_pct": 41.0,
     "ready": 0,
-    "streak_min": 12278.7,
+    "streak_min": 13369.7,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
      [
-      "14:58",
-      4.9
+      "07:07",
+      6.9
      ],
      [
-      "15:21",
-      5.0
+      "08:40",
+      14.0
      ],
      [
-      "15:54",
-      7.0
+      "09:12",
+      9.0
      ],
      [
-      "16:37",
-      0.0
+      "09:26",
+      0.4
      ],
      [
-      "16:42",
-      0.3
+      "10:01",
+      3.8
      ],
      [
-      "17:08",
-      5.1
+      "10:32",
+      13.3
      ],
      [
-      "17:23",
-      5.2
+      "10:34",
+      12.1
      ],
      [
-      "17:48",
-      5.0
-     ],
-     [
-      "18:12",
-      7.9
-     ],
-     [
-      "18:29",
+      "11:40",
       5.7
      ],
      [
-      "18:50",
-      5.3
+      "12:00",
+      7.7
      ],
      [
-      "19:03",
-      11.5
+      "12:28",
+      9.1
+     ],
+     [
+      "10:25",
+      0.3
+     ],
+     [
+      "13:15",
+      1.2
      ]
     ],
-    "today_samples": 0,
+    "today_samples": 2,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -908,7 +908,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-08 19:03:59"
+     "audit_ts": "2026-11-09 13:15:00"
     }
    }
   },
@@ -1517,35 +1517,36 @@
     "key": "zt",
     "label": "涨停池",
     "status": "ok",
-    "cutoff": "2026-10-29",
-    "count": 39,
-    "prev_cutoff": "2026-10-28",
-    "prev_count": 72,
-    "days_tracked": 16,
+    "cutoff": "2026-11-06",
+    "count": 32,
+    "prev_cutoff": "2026-11-05",
+    "prev_count": 84,
+    "days_tracked": 22,
     "series": {
-     "2026-10-16": 61,
-     "2026-10-19": 46,
-     "2026-10-20": 54,
-     "2026-10-21": 50,
-     "2026-10-22": 33,
-     "2026-10-23": 82,
      "2026-10-26": 55,
      "2026-10-27": 41,
      "2026-10-28": 72,
-     "2026-10-29": 39
+     "2026-10-29": 39,
+     "2026-10-30": 47,
+     "2026-11-02": 125,
+     "2026-11-03": 48,
+     "2026-11-04": 118,
+     "2026-11-05": 84,
+     "2026-11-06": 32
     },
     "ladder": {
-     "1": 29,
-     "2": 6,
-     "3": 2,
-     "4": 2
+     "1": 21,
+     "2": 4,
+     "3": 3,
+     "4": 2,
+     "5": 2
     },
     "top_streak": {
-     "streak": 4,
+     "streak": 5,
      "n": 2,
      "names": [
-      "青岛食品",
-      "光洋股份"
+      "闽发铝业",
+      "浙文影业"
      ]
     }
    },
@@ -1553,134 +1554,93 @@
     "key": "zbgc",
     "label": "炸板池",
     "status": "ok",
-    "cutoff": "2026-10-29",
-    "count": 25,
-    "prev_cutoff": "2026-10-28",
-    "prev_count": 69,
-    "days_tracked": 16,
+    "cutoff": "2026-11-06",
+    "count": 14,
+    "prev_cutoff": "2026-11-05",
+    "prev_count": 48,
+    "days_tracked": 22,
     "series": {
-     "2026-10-16": 49,
-     "2026-10-19": 21,
-     "2026-10-20": 29,
-     "2026-10-21": 19,
-     "2026-10-22": 23,
-     "2026-10-23": 12,
      "2026-10-26": 23,
      "2026-10-27": 28,
      "2026-10-28": 69,
-     "2026-10-29": 25
+     "2026-10-29": 25,
+     "2026-10-30": 31,
+     "2026-11-02": 28,
+     "2026-11-03": 34,
+     "2026-11-04": 33,
+     "2026-11-05": 48,
+     "2026-11-06": 14
     }
    },
    "dtgc": {
     "key": "dtgc",
     "label": "跌停池",
     "status": "ok",
-    "cutoff": "2026-10-29",
-    "count": 41,
-    "prev_cutoff": "2026-10-28",
-    "prev_count": 5,
-    "days_tracked": 16,
+    "cutoff": "2026-11-06",
+    "count": 15,
+    "prev_cutoff": "2026-11-04",
+    "prev_count": 10,
+    "days_tracked": 21,
     "series": {
-     "2026-10-16": 10,
-     "2026-10-19": 22,
-     "2026-10-20": 6,
-     "2026-10-21": 5,
-     "2026-10-22": 49,
      "2026-10-23": 6,
      "2026-10-26": 26,
      "2026-10-27": 22,
      "2026-10-28": 5,
-     "2026-10-29": 41
+     "2026-10-29": 41,
+     "2026-10-30": 82,
+     "2026-11-02": 8,
+     "2026-11-03": 17,
+     "2026-11-04": 10,
+     "2026-11-06": 15
     }
    },
    "strong": {
     "key": "strong",
     "label": "强势池",
     "status": "ok",
-    "cutoff": "2026-10-29",
-    "count": 119,
-    "prev_cutoff": "2026-10-28",
-    "prev_count": 133,
-    "days_tracked": 16,
+    "cutoff": "2026-11-06",
+    "count": 151,
+    "prev_cutoff": "2026-11-05",
+    "prev_count": 169,
+    "days_tracked": 22,
     "series": {
-     "2026-10-16": 100,
-     "2026-10-19": 111,
-     "2026-10-20": 102,
-     "2026-10-21": 110,
-     "2026-10-22": 117,
-     "2026-10-23": 131,
      "2026-10-26": 165,
      "2026-10-27": 126,
      "2026-10-28": 133,
-     "2026-10-29": 119
+     "2026-10-29": 119,
+     "2026-10-30": 109,
+     "2026-11-02": 143,
+     "2026-11-03": 144,
+     "2026-11-04": 163,
+     "2026-11-05": 169,
+     "2026-11-06": 151
     }
    }
   },
-  "cutoff": "2026-10-29",
+  "cutoff": "2026-11-06",
   "cutoffs": [
-   "2026-10-29"
+   "2026-11-06"
   ],
   "aligned": true,
-  "seal_rate": 0.6094,
-  "down_over_up": 1.051,
-  "kill_day": true,
+  "seal_rate": 0.6957,
+  "down_over_up": 0.469,
+  "kill_day": false,
   "ladder": {
-   "1": 29,
-   "2": 6,
-   "3": 2,
-   "4": 2
+   "1": 21,
+   "2": 4,
+   "3": 3,
+   "4": 2,
+   "5": 2
   },
   "top_streak": {
-   "streak": 4,
+   "streak": 5,
    "n": 2,
    "names": [
-    "青岛食品",
-    "光洋股份"
+    "闽发铝业",
+    "浙文影业"
    ]
   },
   "series": [
-   {
-    "date": "2026-10-16",
-    "zt": 61,
-    "zbgc": 49,
-    "dtgc": 10,
-    "seal_rate": 0.5545
-   },
-   {
-    "date": "2026-10-19",
-    "zt": 46,
-    "zbgc": 21,
-    "dtgc": 22,
-    "seal_rate": 0.6866
-   },
-   {
-    "date": "2026-10-20",
-    "zt": 54,
-    "zbgc": 29,
-    "dtgc": 6,
-    "seal_rate": 0.6506
-   },
-   {
-    "date": "2026-10-21",
-    "zt": 50,
-    "zbgc": 19,
-    "dtgc": 5,
-    "seal_rate": 0.7246
-   },
-   {
-    "date": "2026-10-22",
-    "zt": 33,
-    "zbgc": 23,
-    "dtgc": 49,
-    "seal_rate": 0.5893
-   },
-   {
-    "date": "2026-10-23",
-    "zt": 82,
-    "zbgc": 12,
-    "dtgc": 6,
-    "seal_rate": 0.8723
-   },
    {
     "date": "2026-10-26",
     "zt": 55,
@@ -1708,6 +1668,48 @@
     "zbgc": 25,
     "dtgc": 41,
     "seal_rate": 0.6094
+   },
+   {
+    "date": "2026-10-30",
+    "zt": 47,
+    "zbgc": 31,
+    "dtgc": 82,
+    "seal_rate": 0.6026
+   },
+   {
+    "date": "2026-11-02",
+    "zt": 125,
+    "zbgc": 28,
+    "dtgc": 8,
+    "seal_rate": 0.817
+   },
+   {
+    "date": "2026-11-03",
+    "zt": 48,
+    "zbgc": 34,
+    "dtgc": 17,
+    "seal_rate": 0.5854
+   },
+   {
+    "date": "2026-11-04",
+    "zt": 118,
+    "zbgc": 33,
+    "dtgc": 10,
+    "seal_rate": 0.7815
+   },
+   {
+    "date": "2026-11-05",
+    "zt": 84,
+    "zbgc": 48,
+    "dtgc": null,
+    "seal_rate": 0.6364
+   },
+   {
+    "date": "2026-11-06",
+    "zt": 32,
+    "zbgc": 14,
+    "dtgc": 15,
+    "seal_rate": 0.6957
    }
   ]
  },
@@ -1779,88 +1781,110 @@
  },
  "lane_silence": {
   "present": true,
-  "machine": "bm-a",
-  "verdict": "OPEN_SILENCE",
+  "machine": "bm-c",
+  "verdict": "SILENT_GAP",
   "threshold_min": 90,
   "window_days": 3,
-  "median_gap_min": 18.0,
-  "rounds_in_window": 19,
-  "rounds_in_ledger": 760,
-  "gaps_over_threshold_count": 1,
+  "median_gap_min": 21.1,
+  "rounds_in_window": 77,
+  "rounds_in_ledger": 864,
+  "gaps_over_threshold_count": 6,
   "longest_silence": {
-   "from": "2026-11-05T21:00",
-   "gap_high_min": 2243.9,
-   "gap_low_min": 2234.9,
-   "quiet_window_min": 659.0,
-   "to": "2026-11-07T10:23",
-   "unexplained_high_min": 1584.9,
-   "unexplained_low_min": 1575.9
+   "from": "2026-11-08T01:51",
+   "gap_high_min": 257.2,
+   "gap_low_min": 248.2,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-08T06:00",
+   "unexplained_high_min": 257.2,
+   "unexplained_low_min": 248.2
   },
   "open_gap": {
-   "gap_high_min": 641.8,
-   "gap_low_min": 641.8,
+   "gap_high_min": 14.6,
+   "gap_low_min": 14.6,
    "quiet_window_min": 0.0,
-   "since": "2026-11-07T16:41",
-   "unexplained_high_min": 641.8,
-   "unexplained_low_min": 641.8
+   "since": "2026-11-08T23:59",
+   "unexplained_high_min": 14.6,
+   "unexplained_low_min": 14.6
   },
   "gaps_over_threshold": [
    {
-    "from": "2026-11-05T21:00",
-    "gap_high_min": 2243.9,
-    "gap_low_min": 2234.9,
-    "quiet_window_min": 659.0,
-    "to": "2026-11-07T10:23",
-    "unexplained_high_min": 1584.9,
-    "unexplained_low_min": 1575.9
+    "from": "2026-11-07T10:56",
+    "gap_high_min": 99.6,
+    "gap_low_min": 99.6,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-07T12:35",
+    "unexplained_high_min": 99.6,
+    "unexplained_low_min": 99.6
+   },
+   {
+    "from": "2026-11-07T14:30",
+    "gap_high_min": 145.0,
+    "gap_low_min": 145.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-07T16:55",
+    "unexplained_high_min": 145.0,
+    "unexplained_low_min": 145.0
+   },
+   {
+    "from": "2026-11-07T16:55",
+    "gap_high_min": 170.0,
+    "gap_low_min": 170.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-07T19:45",
+    "unexplained_high_min": 170.0,
+    "unexplained_low_min": 170.0
+   },
+   {
+    "from": "2026-11-07T21:00",
+    "gap_high_min": 115.0,
+    "gap_low_min": 106.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-07T22:55",
+    "unexplained_high_min": 115.0,
+    "unexplained_low_min": 106.0
+   },
+   {
+    "from": "2026-11-08T01:51",
+    "gap_high_min": 257.2,
+    "gap_low_min": 248.2,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-08T06:00",
+    "unexplained_high_min": 257.2,
+    "unexplained_low_min": 248.2
+   },
+   {
+    "from": "2026-11-08T21:00",
+    "gap_high_min": 102.0,
+    "gap_low_min": 93.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-08T22:42",
+    "unexplained_high_min": 102.0,
+    "unexplained_low_min": 93.0
    }
   ],
-  "evidence_cutoff": "2026-11-07",
-  "generated": "2026-11-08T03:22:46",
-  "silence_verdict": "OPEN_SILENCE",
+  "evidence_cutoff": "2026-11-08",
+  "generated": "2026-11-09T00:13:37",
+  "silence_verdict": "SILENT_GAP",
   "lane_tasks": {
    "absent": [],
    "disabled": [],
-   "disabled_before_heal": [
-    "Bigmoney-LoopWatchdog",
-    "HQ-Patrol-BigMoney"
-   ],
+   "disabled_before_heal": [],
    "heal": {
-    "acts": [
-     {
-      "action": "enabled",
-      "detail": "",
-      "task": "Bigmoney-LoopWatchdog",
-      "verified": true
-     },
-     {
-      "action": "enabled",
-      "detail": "",
-      "task": "HQ-Patrol-BigMoney",
-      "verified": true
-     }
-    ],
-    "healed": [
-     "Bigmoney-LoopWatchdog",
-     "HQ-Patrol-BigMoney"
-    ],
-    "readback": {
-     "Bigmoney-LoopWatchdog": "Ready",
-     "HQ-Patrol-BigMoney": "Ready"
-    }
+    "acts": [],
+    "healed": [],
+    "readback": {}
    },
-   "probeable": 4,
+   "probeable": 3,
    "states": {
     "Bigmoney-IterationLoop": "Running",
     "Bigmoney-LoopWatchdog": "Ready",
-    "Bigmoney-SatEngine-bm-b": "Ready",
-    "HQ-Patrol-BigMoney": "Ready"
+    "Bigmoney-SatEngine-bm-b": "Ready"
    },
    "threshold_min": 90,
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-a: 19 rounds in 3d, median gap 18.0 min, 1 unexplained gap(s) over 90 min; longest silence 2026-11-05T21:00 -> 2026-11-07T10:23 (2234.9-2243.9 min, 659.0 explained by its quiet window); still open since 2026-11-07T16:41 (641.8-641.8 min unexplained)."
+  "sentence": "bm-c: 77 rounds in 3d, median gap 21.1 min, 6 unexplained gap(s) over 90 min; longest silence 2026-11-08T01:51 -> 2026-11-08T06:00 (248.2-257.2 min, 0.0 explained by its quiet window); still open since 2026-11-08T23:59 (14.6-14.6 min unexplained)."
  },
  "cap_vs_book": {
   "status": "ok",
@@ -1886,18 +1910,18 @@
   "book_decided_at": "2026-10-14",
   "next_rebalance_date": "2026-11-11",
   "capital_cny": 1000000.0,
-  "book_amount_cny": 390257.8,
-  "cash_amount_cny": 609742.2,
+  "book_amount_cny": 388836.7,
+  "cash_amount_cny": 611163.3,
   "n_hold": 5,
-  "k_now": 0.390822,
+  "k_now": 0.389298,
   "today_action": {
    "mode": "hold",
    "holding": true,
    "book_decided_at": "2026-10-14",
    "priced_bar": "2026-11-06",
    "next_trade_date": "2026-11-11",
-   "cost_if_retraded_pct_per_year": 15.63,
-   "cost_basis": "2 sides x 8.0 bp x 250 sessions x book share 0.3908, on capital"
+   "cost_if_retraded_pct_per_year": 15.57,
+   "cost_basis": "2 sides x 8.0 bp x 250 sessions x book share 0.3893, on capital"
   },
   "forward": {
    "bars": 11,

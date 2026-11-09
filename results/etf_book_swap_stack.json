@@ -7,15 +7,15 @@
   "order_ticket": "results/etf_book_order/TICKET-2026-11-06.json"
  },
  "verdict": "NETTED_WITH_RESIDUE",
- "k_ordered": 0.389744,
- "k_after": 0.389298,
+ "k_ordered": 0.389298,
+ "k_after": 0.38868,
  "floor_k": 0.393073,
  "ceiling_k": 0.544424,
  "within_permission": true,
- "risk_book_before_cny": 389329.5,
- "risk_book_after_cny": 389297.8,
- "cash_cny": 610702.2,
- "lot_residue_cny": 31.7,
+ "risk_book_before_cny": 388836.7,
+ "risk_book_after_cny": 388679.8,
+ "cash_cny": 611320.2,
+ "lot_residue_cny": 156.9,
  "actions": [
   {
    "side": "SELL",
@@ -28,17 +28,17 @@
   {
    "side": "SELL",
    "symbol": "513100",
-   "lots": 361,
+   "lots": 360,
    "price": 2.158,
-   "amount_cny": 77903.8,
-   "why": "swap 513100 → 159513 (r1466 verdict WINDOW_ALWAYS_OPEN), sized on the trimmed 361 lots"
+   "amount_cny": 77688.0,
+   "why": "swap 513100 → 159513 (r1466 verdict WINDOW_ALWAYS_OPEN), sized on the trimmed 360 lots"
   },
   {
    "side": "BUY",
    "symbol": "159513",
-   "lots": 913,
+   "lots": 911,
    "price": 1.705,
-   "amount_cny": 155666.5,
+   "amount_cny": 155325.5,
    "why": "merged buy for 159501 + 513100"
   }
  ],
@@ -51,26 +51,26 @@
   },
   {
    "symbol": "159513",
-   "lots": 913,
+   "lots": 911,
    "price": 1.705,
-   "amount_cny": 155666.5
+   "amount_cny": 155325.5
   },
   {
    "symbol": "159577",
-   "lots": 483,
+   "lots": 482,
    "price": 1.612,
-   "amount_cny": 77859.6
+   "amount_cny": 77698.4
   },
   {
    "symbol": "513690",
-   "lots": 673,
+   "lots": 672,
    "price": 1.158,
-   "amount_cny": 77933.4
+   "amount_cny": 77817.6
   }
  ],
  "widest_name": {
   "symbol": "159513",
-  "share_of_risk_book": 0.3999
+  "share_of_risk_book": 0.3996
  },
  "baskets": {
   "before": [
@@ -103,8 +103,8 @@
   {
    "leg": "513100",
    "sibling": "159513",
-   "ordered_lots": 361,
-   "trimmed_lots": 361,
+   "ordered_lots": 360,
+   "trimmed_lots": 360,
    "share": 1.0,
    "gain_published_cny": 4149.3,
    "gain_on_trimmed_book_cny": 4149.3,

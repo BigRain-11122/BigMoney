@@ -555,6 +555,16 @@ def main() -> int:
             # The legs pin the constant-drift analytic case, that a mask is never measured on
             # a LEVEL series (the walk returns levels; masking one compounds to inf), and that
             # the published hurdle re-derives from its own rows with a control arm.
+            # r1475: r1473 priced the window/universe split of the floor and left the
+            # question open -- phase of this calendar, or a moved level. The legs pin that
+            # a difference below the bootstrap spread reads UNDECIDABLE rather than LEVEL,
+            # and that the ruling is re-derived from the published path (flags and verdict
+            # may never contradict each other).
+            ("product: etf_book_beta_paths (phase or level, decided by noise)",
+             "scripts/etf_book_beta_paths.py", ["selftest"]),
+            ("product: etf_book_beta_paths (ruling re-derived from its own path)",
+             "scripts/etf_book_beta_paths.py", ["check"]),
+
             ("product: etf_book_exit_tax (ruler, exposure hurdle on the book in force)",
              "scripts/etf_book_exit_tax.py", ["--selftest"]),
             ("product: etf_book_exit_tax (published hurdle recomputed, control reproduced)",
@@ -1465,7 +1475,7 @@ def main() -> int:
                  "etf_book_width_audit", "etf_book_registry", "etf_book_ceo_page",
                  "etf_book_card_track", "etf_paper_signal", "cal_audit",
                  "etf_book_return_regime", "etf_book_settle_audit",
-                 "floor_provenance", "vol_target_gate"}
+                 "floor_provenance", "vol_target_gate", "beta_paths"}
         _miss = sorted(_want - _names)
         check("product: ETF book legs wired into the S6 chain",
               not _miss, f"legs={len(_names)} missing={_miss or 'none'}")

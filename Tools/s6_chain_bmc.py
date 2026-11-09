@@ -1039,6 +1039,15 @@ LEGS = [
     # CELLS (JSON read, no repricing), so a stale sweep cannot keep claiming it was run and a
     # hand-typed verdict cannot pass.
     ("vol_target_gate", ["python", "scripts/etf_book_vol_target_gate.py", "check"]),
+# r1475: r1473 priced the window/universe split of the floor (6.72pp) and left the
+    # question open -- is the 306-bar beta a phase of this calendar or a moved level. This
+    # leg re-derives that ruling from the published path: the bootstrap spread, the tail
+    # percentile, the drift t, and the band k travels when the SAME rule's window is slid
+    # through the history. It refuses a receipt whose verdict contradicts its own flags
+    # (a PHASE word on a tail reading, an UNDECIDABLE on a resolvable difference) and one
+    # whose two reciprocal k gaps disagree (0.1s, JSON reads, no repricing).
+    ("beta_paths",
+     ["python", "scripts/etf_book_beta_paths.py", "check"]),
     # r1331: E196 answers the question E190 left open -- whether the month the
     # ladder-drop verdict rests on is knowable in advance. It is a ~1s JSON read of
     # the E186 month table (no panel, no network, no engine), and it belongs on the

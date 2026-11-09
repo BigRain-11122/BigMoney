@@ -1,7 +1,7 @@
 {
- "k_now": 0.389744,
+ "k_now": 0.389298,
  "nav_cny": 1000000.0,
- "deployed_now_cny": 389744.0,
+ "deployed_now_cny": 389298.0,
  "cells_readable": [
   "baseline_published",
   "denominator",
@@ -13,23 +13,23 @@
  "rulers": {
   "baseline_published": {
    "k": 0.460253,
-   "delta_vs_now_pp": 7.05
+   "delta_vs_now_pp": 7.1
   },
   "window": {
    "k": 0.412669,
-   "delta_vs_now_pp": 2.29
+   "delta_vs_now_pp": 2.34
   },
   "universe": {
    "k": 0.432195,
-   "delta_vs_now_pp": 4.25
+   "delta_vs_now_pp": 4.29
   },
   "window_x_universe": {
    "k": 0.393073,
-   "delta_vs_now_pp": 0.33
+   "delta_vs_now_pp": 0.38
   },
   "denominator": {
    "k": 0.544424,
-   "delta_vs_now_pp": 15.47
+   "delta_vs_now_pp": 15.51
   }
  },
  "k_floor": 0.393073,
@@ -38,13 +38,13 @@
  "deployed_ceiling_cny": 544423.61,
  "range_pp": 15.14,
  "widest_mover": "denominator",
- "widest_mover_pp": 15.47,
+ "widest_mover_pp": 15.51,
  "n_below_money": 0,
  "n_above_money": 4,
  "the_size_in_force_is_the_floor": false,
  "the_size_in_force_is_the_ceiling": false,
  "verdict": "SIZE_IS_A_RULER_CHOICE",
- "sentence": "the same rule priced on the same panel lands between k=0.393073 and k=0.544424 (15.14pp of range, widest mover=denominator +15.47pp); the money sits inside that range at k=0.389744 -- 0 readings below it, 4 above it, floor CNY 393,073 against CNY 389,744 deployed",
+ "sentence": "the same rule priced on the same panel lands between k=0.393073 and k=0.544424 (15.14pp of range, widest mover=denominator +15.51pp); the money sits inside that range at k=0.389298 -- 0 readings below it, 4 above it, floor CNY 393,073 against CNY 389,298 deployed",
  "face": "etf_book_size_rulers_decision",
  "evidence_cutoff": "2026-11-06",
  "ticket_file": "TICKET-2026-11-06.json",
@@ -96,7 +96,7 @@
   }
  },
  "cell_notes": {
-  "denominator": "the sized mix is 39.0% invested; dividing by covered weight puts it on the path's denominator (r1448 unit note)"
+  "denominator": "the sized mix is 38.9% invested; dividing by covered weight puts it on the path's denominator (r1448 unit note)"
  },
  "arms": {
   "published": {
@@ -127,6 +127,6 @@
   "3. if the declared size is the floor rather than the ceiling, sign the risk budget it implies (target 0.20 is a budget, not an optimum -- r1447)",
   "4. carry the chosen size into the 2026-11-11 ticket and print the three unused readings next to it so the choice stays visible"
  ],
- "elapsed_sec": 48.7,
- "generated": "2026-11-09T12:56:36+0800"
+ "elapsed_sec": 58.8,
+ "generated": "2026-11-09T13:31:27+0800"
 }

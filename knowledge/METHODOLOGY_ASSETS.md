@@ -11640,3 +11640,29 @@ CHECK_OK / floor_ledger CHECK_OK / swap_stack CHECK_OK）。
 
 + 正身 = scripts/etf_book_positions.py（selftest 53/53）+ smoke 腿「the account the sheet never
   sells reaches the CEO page」（改为要求两面对同一 bar 要么一致、要么本面已披露）
+
+### E482 一把用 306 根 bar 量出来的尺子，跨历史摆 71pp；被争论了三个轮次的 6.7pp 只是它的零头
+
+r1475 实锚（`results/etf_book_beta_paths.json`）：额度 k = target / beta，而 beta 是
+306 根 bar 的 OLS 斜率。把**同一条规则**的窗口沿历史平移（68 个窗口），k 从 **0.287** 走到
+**1.000**（p10..p90 跨 **71.2pp**，中位 0.686）。而 desk 前三个轮次争论的「用短窗还是全窗」
+只值 **4.9pp（￥48,553 / 百万）**——`window_choice_is_the_small_term = true`。
+
+三律：
+1. **点估计不够，先量尺子自己的分辨率**。块自助（500 次、块长=一个调仓周期、成对重抽）给
+   306-bar beta 的 sd = **0.1394**，而两个窗口的差只有 **0.0577（0.41 sd）**→ 判
+   `UNDECIDABLE`。结论不是「短窗对」也不是「长窗对」，是**这张面板判不了**；把不可分辨的差
+   说成发现，就是 E162「读者等得起的视界」的兄弟病。
+2. **误差传播到被印刷的那个量**。delta 法 sd(k) ≈ target·sd(b)/b² = **10.4pp**：额度这张
+   纸自己就有 10pp 的读数噪声，比它被要求分辨的 4.9pp 大两倍。凡「A 窗口 vs B 窗口」的争论，
+   先算这两个数谁大——顺序反了，讨论的就是打印机的最后一位。
+3. **可分辨 ≠ 可动**：路径斜率 t=**-3.53**（显著向下漂）却没有改变判决。漂移说的是「读数
+   在移动」，不是「这一对窗口能分开」。两个问题用两个尺子，别用一个词的结论盖住另一个。
+
+How to apply：任何「该用哪个窗口/哪段样本签发参数」的问题，先做三件——(a) 自助量噪声、
+(b) delta 法把噪声搬到最终印出来的那个数、(c) 把同一规则滑窗扫一遍看参数带多宽。带的宽度
+远大于两窗口之差时，真正的议题是「签发窗口必须固定并预注册」而不是「选哪个窗口」。
+
++ 正身 = `scripts/etf_book_beta_paths.py`（selftest 22/22 · check 由自身路径重算）+
+  `results/etf_book_beta_paths.json` + `research/ETF_BOOK_BETA_PATHS.md` +
+  S6 腿 `beta_paths` + smoke 两腿

@@ -2,10 +2,10 @@
  "face": "etf_book_permission_persistence",
  "evidence_cutoff": "2026-11-06",
  "question": "how many decision bars does the 11-11 trim (gap_k) survive before the schedule climbs back over the level it cut from?",
- "slack_k": -0.003329,
+ "slack_k": -0.003775,
  "slack_source": "results/etf_book_cut_order_gap.json",
  "decision_bar": "2026-11-11",
- "k_order": 0.389744,
+ "k_order": 0.389298,
  "k_permitted": 0.393073,
  "permission_enforcers": [
   "scripts/etf_book_ceo_page.py",
@@ -46,13 +46,13 @@
   "basis": "slack / observed step; an expectation on the step law, not a simulation"
  },
  "lifetime": {
-  "events": 22,
+  "events": 24,
   "steps": 33,
-  "event_share": 0.6667,
-  "returned": 13,
+  "event_share": 0.7273,
+  "returned": 15,
   "never_returned": 9,
   "median_bars": 1,
-  "mean_bars": 3.15,
+  "mean_bars": 2.87,
   "max_bars": 10,
   "never_dates": [
    "2025-03-28",
@@ -96,6 +96,14 @@
    "from_k": 0.380003,
    "to_k": 0.3792,
    "drop": 0.000803,
+   "bars_to_return": 1,
+   "returned": true
+  },
+  {
+   "drop_date": "2024-12-25",
+   "from_k": 0.4612,
+   "to_k": 0.464539,
+   "drop": -0.003339,
    "bars_to_return": 1,
    "returned": true
   },
@@ -228,6 +236,14 @@
    "returned": true
   },
   {
+   "drop_date": "2026-08-20",
+   "from_k": 0.455404,
+   "to_k": 0.459174,
+   "drop": -0.00377,
+   "bars_to_return": 1,
+   "returned": true
+  },
+  {
    "drop_date": "2026-09-17",
    "from_k": 0.459174,
    "to_k": 0.458808,
@@ -245,7 +261,7 @@
   }
  ],
  "verdict": "TRIM_ERASED_IN_ONE_CYCLE",
- "sentence": "A drop the size of the 11-11 trim (-0.33pp) is undone at the very next decision bar in half of the 22 historical events (median 1 bars); k moves 0.00pp in a typical step. The 445-lot trim is a per-bar constraint: unless the solver re-applies the floor every decision bar, the book is back over it twenty bars later.",
- "elapsed_sec": 43.42,
- "generated": "2026-11-09T12:57:20+0800"
+ "sentence": "A drop the size of the 11-11 trim (-0.38pp) is undone at the very next decision bar in half of the 24 historical events (median 1 bars); k moves 0.00pp in a typical step. The 445-lot trim is a per-bar constraint: unless the solver re-applies the floor every decision bar, the book is back over it twenty bars later.",
+ "elapsed_sec": 49.5,
+ "generated": "2026-11-09T13:24:31+0800"
 }
