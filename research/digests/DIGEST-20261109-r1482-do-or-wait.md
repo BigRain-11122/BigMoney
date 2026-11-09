@@ -48,7 +48,7 @@ r1481 结尾留了两个未答：
 
 - `scripts/etf_book_do_or_wait.py`（selftest 15/15 · --check 13/13）
 - `results/etf_book_do_or_wait.json`
-- `research/ETF_BOOK_DO_OR_WAIT.md` · 卡 E492
+- `research/ETF_BOOK_DO_OR_WAIT.md` · 卡 E493
 - 决策行 `results/etf_book_decision_line.json` 新增 `do_or_wait` 块，句子末尾印
   「today-or-wait: <判决> (cheapest at k=?, ? CNY vs today)」；缺面一律 UNKNOWN
   （绝不默认「今天就做」）。

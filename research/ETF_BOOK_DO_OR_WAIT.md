@@ -1,7 +1,7 @@
 # 今天做还是等？（r1482 bm-c）
 
 正身：`scripts/etf_book_do_or_wait.py` · 产物 `results/etf_book_do_or_wait.json`
-判据卡：`knowledge/METHODOLOGY_ASSETS.md` E492
+判据卡：`knowledge/METHODOLOGY_ASSETS.md` E493
 上游：`etf_book_late_sheet_price`（k=1 单张价） · `etf_book_cut_order_gap`（裁剪的价）
 
 ## 问题
