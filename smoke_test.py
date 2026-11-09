@@ -1208,6 +1208,39 @@ def main() -> int:
     except Exception as _e2:
         check("product: the book envelope says whose book it describes", False, str(_e2))
 
+    # r1470: r1468/r1469 wrote the executed book down and began accruing repo on its cash
+    # leg, but the account lived only in results/etf_book_positions.json -- the page kept
+    # telling the reader to buy the full sheet as if nothing were held. This leg re-derives
+    # from the published face (never from a literal) that the account block is on today's
+    # page and that the CNY it prints is the face's own number.
+    try:
+        from scripts import etf_book_ceo_page as _PGA
+        _ps = _PGA.positions_face()
+        _mdp = open(os.path.join("docs", "live_book", "LIVE-BOOK-%s.md"
+                                 % __import__("time").strftime("%Y%m%d")),
+                    encoding="utf-8").read()
+        _badp = []
+        if _ps.get("status") != "ok":
+            _badp.append("positions face %s (%s)" % (_ps.get("status"), _ps.get("detail")))
+        else:
+            if "账上现在拿的是什么" not in _mdp:
+                _badp.append("the account section is gone from the page")
+            _base = _ps.get("next_order_base") or {}
+            if _base.get("cash_cny") is not None:
+                if format(_base["cash_cny"], ",.0f") not in _mdp:
+                    _badp.append("cash CNY %s is not on the page"
+                                 % format(_base["cash_cny"], ",.0f"))
+            else:
+                _badp.append("face carries no cash figure to check")
+            _blk = "\n".join(_PGA.positions_block(_ps, page_bar=_ps.get("asof")))
+            for _h in (_ps.get("ledger_row") or {}).get("holdings") or []:
+                if _h.get("symbol") not in _blk:
+                    _badp.append("held name %s is not in the block" % _h.get("symbol"))
+        check("product: the account the sheet never sells reaches the CEO page",
+              not _badp, "; ".join(_badp))
+    except Exception as _e3:
+        check("product: the account the sheet never sells reaches the CEO page", False, str(_e3))
+
     # r1211: the distribution reached the CEO page. Two ways to break this and only one of
     # them is visible by eye: (a) the section disappears, (b) the page prints a percentile
     # that its own resample rows do not produce. The leg re-derives from the rows.

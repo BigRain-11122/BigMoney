@@ -11480,3 +11480,25 @@ r1468 把执行后的账写成按决策 bar 的一行，但那一行**只在换�
 
 **正身**：scripts/etf_book_positions.py（selftest 39/39 · --check CHECK_OK）+ results/etf_book_positions.json
 + research/digests/DIGEST-20261109-r1469-accrual.md；S6 腿 positions_ledger + smoke 两腿。
+
+## E476 账本算好了，却没上人读的那张纸（r1470）
+
+r1468 把执行后的账写下来、r1469 让现金腿逐 bar 计息——两轮都在补同一本账，而
+那本账只存在 `results/etf_book_positions.json`。CEO 页仍在按「如果你今天才建仓」列整张单，
+等于对读者说**账上一股没有**，而账上实际有 4 只票 + ￥607,599 现金。
+
+三条可复用：
+
+1. **面存在 ≠ 面被读**。产出一张面之后第一问是「谁读它」；没人读=活没干完（E240 族同病）。
+2. **读者面要能被一句话证伪**。本窗 smoke 腿从面自己重 derive（现金数、持仓名、小节标题），
+   不对字面量断言——拼音/换行/重排都改不动它；对字面量断言的腿只会保护那一次排版。
+3. **缺面读成「无法核验」，不是「没有」**。账本面缺=「说不出已经持有多少」，不能印成空账；
+   `NO_NEW_BAR`=「还没有一天的账可记」，不是「利息为零」。
+
+**读数**（2026-11-06 收盘）：风险腿 ￥392,401 / 现金 ￥607,599 / 持 4 名；
+票面换仓行只印 3 行、账本 4 行 → **￥67,289** 该卖没印；从账本起算 vs 从纸起算差 **￥381,115**；
+20 bar 回放腿 -6.00% + 现金息 ￥563.81，恒等成立；与引擎账差 0.067852k = **￥67,852** 名义额。
+
+**正身**：scripts/etf_book_ceo_page.py（selftest 157→161，新增 positions_face/positions_block 四腿）
++ docs/live_book/LIVE-BOOK-20261109.md 新节「账上现在拿的是什么」+ smoke 腿
+「the account the sheet never sells reaches the CEO page」。

@@ -81,6 +81,10 @@ CUT_GAP_JSON = os.path.join(ROOT, "results", "etf_book_cut_order_gap.json")
 PERMISSION_LEDGER_JSON = os.path.join(ROOT, "results", "etf_book_floor_ledger.json")
 PREMIUM_LEAK_JSON = os.path.join(ROOT, "results", "etf_book_premium_leak.json")
 SIBLING_GAP_JSON = os.path.join(ROOT, "results", "etf_book_sibling_gap.json")
+# r1470: r1468 wrote the executed book down and r1469 started accruing repo on its cash leg,
+# but that account lived only in results/etf_book_positions.json -- the page kept telling the
+# reader to buy the full sheet as if no lots were already held.
+POSITIONS_JSON = os.path.join(ROOT, "results", "etf_book_positions.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -990,6 +994,121 @@ def sibling_gap_block(sg, page_bar=None):
             % "；".join("%s（%s）" % (x.get("leg_symbol"), x.get("label") or "无同类标签")
                        if x.get("label") else "%s（无同类标签）" % x.get("leg_symbol")
                        for x in sg["skipped_legs"]))
+    add("")
+    return L
+
+
+def positions_face(path=POSITIONS_JSON):
+    """What the account itself holds, from the book's own sheet (r1470).
+
+    Read-only over the published face. An absent face is "cannot verify" -- never "the
+    printed rows are the whole order" -- and a face anchored on another session is a
+    mismatch, not freshness."""
+    if not os.path.exists(path):
+        return {"status": "unreadable", "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+                "detail": "positions face absent"}
+    f = _load(path) or {}
+    if not f.get("next_order_base"):
+        return {"status": "unreadable", "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+                "detail": "face carries no account base"}
+    return {
+        "status": "ok",
+        "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+        "asof": f.get("asof"),
+        "verdict": f.get("verdict"),
+        "printed_rows": f.get("printed_rows"),
+        "book_rows": f.get("book_rows"),
+        "unexplained": f.get("unexplained") or [],
+        "unexplained_total_cny": f.get("unexplained_total_cny"),
+        "unexplained_unpriced_rows": f.get("unexplained_unpriced_rows"),
+        "ledger_action": f.get("ledger_action"),
+        "ledger_row": f.get("ledger_row") or {},
+        "next_order_base": f.get("next_order_base") or {},
+        "base_divergence": f.get("base_divergence") or [],
+        "base_divergence_total_cny": f.get("base_divergence_total_cny"),
+        "accrual": f.get("accrual") or {},
+        "replay": f.get("replay") or {},
+        "engine_book": f.get("engine_book") or {},
+        "caveats": f.get("caveats") or [],
+    }
+
+
+def positions_block(ps, page_bar=None):
+    """The lines this page prints about what the account actually holds."""
+    L = []
+    add = L.append
+    add("## 账上现在拿的是什么（本仓库自己算的账）")
+    add("")
+    ps = ps or {}
+    if ps.get("status") != "ok":
+        add("这一节读不到账本面（`%s`）：%s。**因此本页只能给「如果你今天才建仓」的清单，"
+            "说不出已经持有多少、现金还剩多少**——把这张清单当成账上现状是错的。"
+            % (ps.get("artifact") or "results/etf_book_positions.json",
+               ps.get("detail") or "无读数"))
+        add("")
+        return L
+    if page_bar and ps.get("asof") and str(page_bar)[:10] != str(ps["asof"])[:10]:
+        add("账本面锚在 **%s**，本页的价是 **%s**——两个日子对不上，下面的持仓与现金不能当成今天的账。"
+            % (ps["asof"], page_bar))
+        add("")
+    row = ps.get("ledger_row") or {}
+    base = ps.get("next_order_base") or {}
+    if base.get("risk_book_cny") is not None:
+        add("**账上自己的账（%s 收盘）：风险腿 ￥%s、现金 ￥%s、持有 %s 只。**"
+            % (base.get("bar") or ps.get("asof") or "—",
+               format(base.get("risk_book_cny") or 0.0, ",.0f"),
+               format(base.get("cash_cny") or 0.0, ",.0f"),
+               base.get("holdings") if base.get("holdings") is not None else "—"))
+        add("")
+    holds = row.get("holdings") or []
+    if holds:
+        add("| 代码 | 手数 | 参考价 | 金额 |")
+        add("|---|---|---|---|")
+        for h in holds:
+            add("| %s | %s | %s | ￥%s |" % (
+                h.get("symbol"), format(h.get("lots") or 0, ","), h.get("price"),
+                format(h.get("amount_cny") or 0.0, ",.0f")))
+        add("")
+    unexp = ps.get("unexplained_total_cny") or 0.0
+    unpriced = ps.get("unexplained_unpriced_rows") or 0
+    if unexp or unpriced:
+        add("- **这张票的换仓行只印 %s 行、账本有 %s 行**（不是上面那张 5 行建仓表）："
+            "差出来的 **￥%s** 是「该卖却没印出来」的份额，照票上的卖出行动作会把这些仓留在账上。"
+            % (ps.get("printed_rows"), ps.get("book_rows"), format(unexp, ",.0f")))
+        if unpriced:
+            add("- 其中 %d 行没有价格，算不进上面这个数——**未定价不是零**。" % unpriced)
+    div = ps.get("base_divergence_total_cny") or 0.0
+    if div:
+        add("- 下一张单从这里起算和从清单起算差 **￥%s**：`%s` 那一步是从账本读的，不是从上一张纸读的。"
+            % (format(div, ",.0f"), ps.get("ledger_action") or "kept"))
+    rp = ps.get("replay") or {}
+    if rp.get("bars"):
+        add("- 从 %s 起 %d 根 bar 自己走了一遍：持仓端 %+.2f%%、现金腿利息 ￥%s，"
+            "两段加起来与净值恒等（%s）。"
+            % (rp.get("start_bar"), rp.get("bars"), 100.0 * (rp.get("legs_ret") or 0.0),
+               format(rp.get("cash_interest_cny") or 0.0, ",.2f"),
+               "成立" if rp.get("identity_holds") else "**不成立**"))
+        if not rp.get("identity_holds"):
+            add("- **恒等不成立**：这张账本自己的两半加不回净值，下面的读数不能当账。")
+    ac = ps.get("accrual") or {}
+    if ac:
+        if ac.get("status") == "NO_NEW_BAR":
+            add("- 现金腿利息：**今天没有新 bar，还没有新的利息入账**——这不是「利息为零」，"
+                "是账只记到 %s。" % (ac.get("from_bar") or "—"))
+        elif ac.get("rows"):
+            last = ac.get("last") or {}
+            add("- 现金腿利息：本 bar 入账 %s 行，最新 ￥%s（利率面板停在 %s，最新 %s%%）。"
+                % (ac.get("rows"), format((last or {}).get("interest_cny") or 0.0, ",.2f"),
+                   ac.get("rate_latest_bar") or "—", ac.get("rate_latest")))
+        if ac.get("rf_missing_bars"):
+            add("- 有 %d 根 bar 的利率缺失，那几段现金腿按 0 记——**不是真的没利息**。"
+                % ac["rf_missing_bars"])
+    eb = ps.get("engine_book") or {}
+    dv = eb.get("divergence") or {}
+    if dv.get("notional_gap_cny"):
+        add("- 与引擎账（`%s`）差 %s 个 k 点 = ￥%s 名义额：这本账按额度裁过，引擎账没裁。"
+            % ((eb.get("tail") or {}).get("source") or "engine",
+               "%.6f" % (dv.get("k_gap") or 0.0), format(dv["notional_gap_cny"], ",.0f")))
     add("")
     return L
 
@@ -3770,6 +3889,7 @@ def build(with_stress=False, window_label=None):
     page["permission"] = permission_face()
     page["premium_leak"] = premium_face()
     page["sibling_gap"] = sibling_gap_face()
+    page["positions"] = positions_face()
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
     page["envelope"] = envelope_face()
@@ -3948,6 +4068,8 @@ def render_md(p):
         add("")
         add("- 这些都是「现金不缩水」的量级，不是收益来源；季末/节前的飙高是常态，别把它当稳定收益。")
         add("")
+    for _ps_line in positions_block(p.get("positions") or {}, page_bar=p.get("priced_bar")):
+        add(_ps_line)
     hs = p.get("cash_handshake") or {}
     if hs:
         add("## 现金现在到底在哪（账实对账）")
@@ -6413,6 +6535,38 @@ def selftest():
     _sg_shift = "\n".join(sibling_gap_block(dict(_sg_fix, session="2026-11-05"), page_bar="2026-11-06"))
     chk("L154 sibling gap block: a face anchored on another session refuses to lend its percentiles",
         "两个日子对不上" in _sg_shift)
+    _ps_fix = {"status": "ok", "artifact": "results/etf_book_positions.json", "asof": "2026-11-06",
+               "verdict": "PRINTED_ROWS_UNDERSELL_THE_BOOK", "printed_rows": 3, "book_rows": 4,
+               "unexplained_total_cny": 67289.1, "unexplained_unpriced_rows": 0,
+               "ledger_action": "kept",
+               "ledger_row": {"bar": "2026-11-06", "risk_book_cny": 392400.9, "cash_cny": 607599.1,
+                              "holdings": [{"symbol": "159263", "lots": 687, "price": 1.143,
+                                            "amount_cny": 78524.1}]},
+               "next_order_base": {"bar": "2026-11-06", "risk_book_cny": 392400.9,
+                                   "cash_cny": 607599.1, "holdings": 4},
+               "base_divergence_total_cny": 381115.4,
+               "replay": {"start_bar": "2026-10-09", "bars": 20, "legs_ret": -0.05999355,
+                          "cash_interest_cny": 563.81, "identity_holds": True},
+               "accrual": {"status": "NO_NEW_BAR", "from_bar": "2026-11-06", "rows": 0},
+               "engine_book": {"tail": {"source": "x"},
+                               "divergence": {"k_gap": 0.067852, "notional_gap_cny": 67852.0}}}
+    _ps_txt = "\n".join(positions_block(_ps_fix, page_bar="2026-11-06"))
+    chk("L158 positions block: the account itself (lots, cash) and the lots the sheet never sells reach the page",
+        "392,401" in _ps_txt and "607,599" in _ps_txt and "687" in _ps_txt
+        and "67,289" in _ps_txt and "381,115" in _ps_txt and "563.81" in _ps_txt,
+        _ps_txt[:80])
+    _ps_missing = "\n".join(positions_block({"status": "unreadable",
+                                             "artifact": "results/etf_book_positions.json",
+                                             "detail": "face absent"}))
+    chk("L159 positions block: an absent account face is 'cannot say what is held', never an empty account",
+        "说不出已经持有多少" in _ps_missing and "| 代码 |" not in _ps_missing)
+    _ps_broken = "\n".join(positions_block(
+        dict(_ps_fix, replay=dict(_ps_fix["replay"], identity_holds=False)), page_bar="2026-11-06"))
+    chk("L160 positions block: an account whose halves do not add back to NAV is printed as a conflict",
+        "恒等不成立" in _ps_broken)
+    _ps_nobar = "\n".join(positions_block(_ps_fix, page_bar="2026-11-06"))
+    chk("L161 positions block: a bar with no accrual is 'nothing booked yet', not a zero-interest day",
+        "今天没有新 bar" in _ps_nobar and "入账 0 行" not in _ps_nobar)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 
