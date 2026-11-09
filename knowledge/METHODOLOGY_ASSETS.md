@@ -12018,3 +12018,28 @@ identity_holds=null，并点名缺哪几腿、最后能标到哪天；③ 收盘
 钱数与自身利率恒等、差的百分比与 CNY 双面重算、逐年差覆盖两臂全部年份、头条落在自身逐年区间内、
 折算逐条深于阈值、闸两侧与容差都印出）+ research/ETF_BOOK_CASH_VEHICLE.md + S6 腿 cash_vehicle
 + smoke 两腿 + 卡本行。
+
+### E496 · 新增一个读者，会让别人的「消费者清单」变成过期面（r1484 bm-c）
+
+本轮新建 `scripts/etf_book_cash_vehicle.py`，它按纪律从票面读现金额（`TICKET-*.json`，
+不手抄）。第一次全量 smoke 立刻红两条：`etf_book_cut_order_gap` 的消费者清单
+`disk=[9 个脚本]` vs `fresh=[10 个脚本]`（多出来的正是新脚本），`etf_book_swap_trigger`
+连带 `CHECK_FAIL: recheck_rule`。两条都不是新脚本算错——**是另一张面记录的「谁在读这张票」
+停在了昨天**。
+
+三条：
+
+① **消费者清单本身是一张面，也要有人生产**。任何「谁消费我」的派生清单（这里是
+`cut_order_gap` 扫 ticket 读者），在**新增读者**的那一轮就必须重派生；否则下一次全量
+smoke 会把一个完全正确的新脚本判成漂移——读者要花时间证明「我是对的」，而真相是
+清单旧了。正法是**重派生，不改数、不改清单来源**（本轮 `cut_order_gap run` → 8/8 OK，
+`swap_trigger run` → CHECK_OK，两个下游同时转绿）。
+② **同一轮里「新增消费者」与「重派生消费面」是同一步**，不是两步。把它们拆开就会留下
+一个红窗口，而 red 窗口在多窗共享树里正是别的窗口最容易被误导的东西。
+③ **判据要能分清「新读者」与「漂移」**：清单差分印两侧（disk 与 fresh 各列全名），
+读者一眼能看出多出来的那个文件是自己刚建的——本轮的失败信息就是因为两侧都印了全名，
+才在 30 秒内定位，而不是去怀疑指数/面板。
+
+**正身**：scripts/etf_book_cut_order_gap.py（consumer list 差分印双侧全名单，`check` 8/8）
++ scripts/etf_book_swap_trigger.py（`recheck_rule` 依赖同一份清单，`run` 后 CHECK_OK 3 pair）
++ 本轮 smoke 实录（141 腿时 3 红 → 重派生后逐条复跑全绿）+ 卡本行。
