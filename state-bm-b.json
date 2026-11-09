@@ -315,8 +315,8 @@
  "decisions_sha": "451b86003bc7afac",
  "decisions_watermark": "abd700a9e1ec0ce2",
  "decisions_watermark_note": "fetch rc!=0 (cannot lock refs/remotes/origin/main); read origin/main:docs/decisions.md from the existing ref, 239 lines, newest D-20261104-01/02, bigmoney rows = no-op",
- "delivery": "machine/bm-b-r1652 @ 5841033ac2cd5710e7f1f8763241d08d7753f45d",
- "delivery_branch": "machine/bm-b-r1652",
+ "delivery": "machine/bm-b-r1656 @ 21449142a3e9b58f31b7460434998fe1cbf933ac",
+ "delivery_branch": "machine/bm-b-r1656",
  "delivery_note": "git ls-remote origin refs/heads/machine/bm-b-r1641 equals local HEAD",
  "delivery_r1472": {
   "behind_origin_main": 295,
@@ -331,10 +331,10 @@
   "ts": "2026-11-06T10:21:48+08:00",
   "verified": true
  },
- "delivery_sha": "5841033ac2cd5710e7f1f8763241d08d7753f45d",
+ "delivery_sha": "21449142a3e9b58f31b7460434998fe1cbf933ac",
  "delivery_sha_local": "5841033ac2cd5710e7f1f8763241d08d7753f45d",
- "delivery_ts": "2026-11-10T05:40:00+08:00",
- "delivery_verified": "git ls-remote origin refs/heads/machine/bm-b-r1652 == 5841033ac2cd5710e7f1f8763241d08d7753f45d",
+ "delivery_ts": "2026-11-10T07:41:00+08:00",
+ "delivery_verified": "git ls-remote origin refs/heads/machine/bm-b-r1656 == 21449142a3e9b58f31b7460434998fe1cbf933ac",
  "dept": "research+engineering",
  "did": "E636 burned: scripts/e636_read_binding_reach.py (selftest 20/20) + READBINDINGREACH face + smoke leg 1/1 (doctor 1/1 red) + S6 leg read_binding_reach rc=0; E637 seeded",
  "did_round": 1656,
@@ -457,9 +457,9 @@
  "last_orders_sha_recipe": "sha256 of git cat-file blob origin/main:docs/orders.md",
  "last_orders_watermark": "4348aa21bc8f",
  "last_product": "results/state_tilt/ONEHOPOUT-2026-11-08.json",
- "last_push": "machine/bm-b-r1652",
- "last_push_at": "2026-11-10T05:40:00+08:00",
- "last_push_sha": "5841033ac2cd5710e7f1f8763241d08d7753f45d",
+ "last_push": "machine/bm-b-r1656",
+ "last_push_at": "2026-11-10T07:41:00+08:00",
+ "last_push_sha": "21449142a3e9b58f31b7460434998fe1cbf933ac",
  "last_push_ts": "2026-11-09T07:09:00+08:00",
  "last_round": "r1656",
  "last_round_at": "2026-11-10T07:34:00+08:00",
@@ -489,7 +489,7 @@
  "next_pointer": "results/runnable_pool.json (E514/E515/E516 ready)",
  "next_task": "E637 below-the-receiver read census",
  "next_window_p0": "the 10 pre-existing FAIL lines in results/__smoke_r1465.out; cheapest is e435 (published face no longer re-derives, 588 directory-valued fields) -- republish from its producer, do not loosen the leg",
- "not_run": "full smoke suite (r1499: no leg filter); the rest of the S6 chain; pool_dualrun; GPU parked per C-20261014-01; zero cloud calls; nothing deleted",
+ "not_run": "full smoke suite (r1499: no leg filter, ~30 min); the rest of the S6 chain (one leg run); pool_dualrun; GPU parked per C-20261014-01; zero cloud calls; nothing deleted",
  "not_run_note": "full suite / rest of S6 / dualrun not run; GPU parked; cloud untouched",
  "not_run_this_window": "full smoke suite, rest of the S6 chain, pool_dualrun, GPU (parked)",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
@@ -6722,5 +6722,13 @@
    "results/runnable_pool.json E636 done + E637 seeded"
   ]
  },
- "last_push_round": 1656
+ "last_push_round": 1656,
+ "r1656_delivery": {
+  "branch": "machine/bm-b-r1656",
+  "sha": "21449142a3e9b58f31b7460434998fe1cbf933ac",
+  "ts": "2026-11-10T07:41:00+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1656 == 21449142a3e9b58f31b7460434998fe1cbf933ac",
+  "main_push_note": "local main 13 ahead / 8 behind origin/main after the r1243 CEO-PROXY closeout; no unattended rebase on a promisor clone, so the machine branch is the channel",
+  "targeted_add": "15 faces staged by pathspec out of a tree dirty with 3423 entries (other windows' faces + untracked working set); results/_r1656bmb_s6_chain.json is gitignored and was not forced"
+ }
 }
