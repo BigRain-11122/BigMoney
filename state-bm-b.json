@@ -315,8 +315,8 @@
  "decisions_sha": "451b86003bc7afac",
  "decisions_watermark": "abd700a9e1ec0ce2",
  "decisions_watermark_note": "fetch rc!=0 (cannot lock refs/remotes/origin/main); read origin/main:docs/decisions.md from the existing ref, 239 lines, newest D-20261104-01/02, bigmoney rows = no-op",
- "delivery": "3b37711ed02de1e3cc11657c0453eb1142ce409f",
- "delivery_branch": "machine/bm-b-r1641",
+ "delivery": "machine/bm-b-r1643 @ ae3e720b278094bebc7811745703726cf69a7f9f",
+ "delivery_branch": "machine/bm-b-r1643",
  "delivery_note": "git ls-remote origin refs/heads/machine/bm-b-r1641 equals local HEAD",
  "delivery_r1472": {
   "behind_origin_main": 295,
@@ -331,10 +331,10 @@
   "ts": "2026-11-06T10:21:48+08:00",
   "verified": true
  },
- "delivery_sha": "3b37711ed02de1e3cc11657c0453eb1142ce409f",
- "delivery_sha_local": "b58b5a1c0d818a102af0958dc99d6160a44da7a8",
- "delivery_ts": "2026-11-09T20:06:00+08:00",
- "delivery_verified": true,
+ "delivery_sha": "ae3e720b278094bebc7811745703726cf69a7f9f",
+ "delivery_sha_local": "ae3e720b278094bebc7811745703726cf69a7f9f",
+ "delivery_ts": "2026-11-09T21:45:00+08:00",
+ "delivery_verified": "git ls-remote origin refs/heads/machine/bm-b-r1643 == ae3e720b278094bebc7811745703726cf69a7f9f",
  "dept": "research+engineering",
  "did": "E623 burned (34 live dead face-key lines in 29 holders across 26 modules: 6 superseded duplicate / 7 read-only-before / 0 all-dead / 21 only-read); runner selftest 22/22; smoke leg green + red under --doctor; S6 leg deadline_key_use rc0; pool E623 done + E624 seeded; dualrun ZERO-DRIFT streak 32; attrition CLEAN; orphans 0",
  "did_round": 1641,
@@ -6448,7 +6448,7 @@
  "three_line_artifact": "results/state_tilt/SIBLINGREADVALUE-2026-11-09.json",
  "three_line_artifact_ts": "2026-11-09T21:30:00+08:00",
  "three_line_current": "r1643: E625 closed -- 19 same-object sibling reads, 18 untouched at that key, 1 handed to a call, so 3 of E624 4 duplicate rows see the value the dead line saw",
- "three_line_delivery": "machine/bm-b-r1637 @ 38c45751244a (ls-remote verified)",
+ "three_line_delivery": "machine/bm-b-r1643 @ ae3e720b2780",
  "three_line_next": "E626 (ready, cpu-only): whether the callee handed the object writes the key -- 48h",
  "three_line_recent": "results/state_tilt/SIBLINGREADVALUE-2026-11-09.json (2026-11-09T21:30)",
  "timestamp": "2026-11-09T21:36:13+08:00",
@@ -6494,5 +6494,12 @@
  "cpu_util_pct": 3.0,
  "cpu_probe": "psutil.cpu_percent(0.6s) -- not the memory load (r1315)",
  "d19_note_stale_key": "state.last_decisions_sha (451b8600) is a legacy duplicate of the canonical d19 watermark (e2891af5, read-back equal in scripts/d19_watermark.py); left untouched because hand-writing a watermark breaks the tool's read-back equality",
- "r1643": "E625 closed: 19 same-object sibling reads over 11 of 34 lines -> 18 untouched, 0 stored-naming-the-key, 0 unnamed, 1 handed to a call; 3 of 4 same-object duplicates survive the value test, 0 stored over, 1 undecided (cn_core_ddctl_p1:367 P[days] handed on twice before 395)"
+ "r1643": "E625 closed: 19 same-object sibling reads over 11 of 34 lines -> 18 untouched, 0 stored-naming-the-key, 0 unnamed, 1 handed to a call; 3 of 4 same-object duplicates survive the value test, 0 stored over, 1 undecided (cn_core_ddctl_p1:367 P[days] handed on twice before 395)",
+ "r1643_delivery": {
+  "branch": "machine/bm-b-r1643",
+  "sha": "ae3e720b278094bebc7811745703726cf69a7f9f",
+  "ts": "2026-11-09T21:45:00+08:00",
+  "verified": "git ls-remote equality checked",
+  "main_push_blocker": "local is 798 ahead / 486 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel"
+ }
 }
