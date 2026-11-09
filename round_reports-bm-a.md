@@ -2301,3 +2301,13 @@ CEO 一页纸与执行单（同一个读者件） | 最近实物: `results/etf_b
 **计分：2 分**（一件能看实物：CEO 一页纸风险带重新对上四条前向池面板；一处能跑改正：总控面板面板块由陈旧态重建为与车道所有权声明逐项一致）
 
 | [via bm-a r1275] |
+
+### 附：S0 集成环（本轮实况，如实记录）
+
+- 轮首本机落后 origin **9 个 commit / 领先 4 个**（bm-c 已到 r1478）。`pull --rebase` 撞 3 处冲突，全部按正典配方处理而非手改判据：
+  - `knowledge/METHODOLOGY_ASSETS.md`：**逐行 union**（上游 E486 收尾 + 本机 E487 全文并集，去重 1 行，markers=0）。
+  - `docs/daily_report/REPORT-2026-11-09.md/.json`、`results/_attrition_guard_scan.json`、`results/etf_book_decision_line.json`、`results/etf_book_rebalance_permission.json`、`research/ETF_BOOK_REBALANCE_PERMISSION.md`：**取上游面 + 重生成**（derived 面禁手合）。重生成后逐面自检：decision_line `CHECK_OK 4 fields`、rebalance `[check] 6/6 OK`、attrition `CLEAN (no active loss)`。
+  - `scripts/etf_book_vol_target_gate.py`（AA 双新增）：上游已有 **395 行版**（本机 r1274 版 310 行）→ **取上游**，复跑 `selftest PASS` + `check OK`，且 smoke 腿按位置参数 `selftest` 调用与上游签名一致。
+- 变基后遇 r1314 家族的「索引干净仍拒 continue」→ 按正典 `rebase --quit` + cherry-pick 剩余两提交收口，`branch -f main` 回主分支。
+- **autostash 未回放、直接丢弃**（如实披露）：其内容是跨多轮累积的陈旧世界快照（含 `LIVE-2026-11-07`、`ORDER-2026-10-30` 等前朝面），回放等于把已发布面 revert 回旧值（E188/r1193 家族）。替代做法=在合并树上把每个读面板的面**重 derive**（build_status / lane_ownership / ceo_live_usage / attrition），逐个提交。
+- 送达核验：`origin/main = 481d468559 = HEAD`，落后 0 / 领先 0，工作树 0 脏件。
