@@ -1,0 +1,569 @@
+{
+ "study": "E636_read_binding_reach",
+ "script": "scripts/e636_read_binding_reach.py",
+ "card": "E636",
+ "evidence_cutoff": "2026-11-10",
+ "dept": "研究",
+ "method": "each computed-key read of results/state_tilt/READKEYRESOLVE.json is re-decided under two readings: the UNION class over every binding that reaches the read (a for/comprehension binding reaches only if its own line span contains the read line; an assignment reaches only if it sits before it), and the ITERATION class, which enumerates the enclosing loop when its iterable is a fully literal sequence and answers what the key is on the iteration that binds it",
+ "population_source": "the 12 published row(s) of results/state_tilt/READKEYRESOLVE.json (E635), one per distinct computed-key read site",
+ "source_face": "results/state_tilt/READKEYRESOLVE.json",
+ "source_verdict": "no_after_side_computed_read_resolves_to_the_counted_key",
+ "counts": {
+  "rows": 12,
+  "by_union_class": {
+   "proven_to_be_the_counted_key": 0,
+   "could_be_the_counted_key": 1,
+   "proven_to_be_another_key": 5,
+   "unresolved": 6
+  },
+  "by_iteration_class": {
+   "proven_to_be_the_counted_key": 1,
+   "could_be_the_counted_key": 0,
+   "proven_to_be_another_key": 5,
+   "unresolved": 6
+  },
+  "by_why": {
+   "the_reaching_loop_binds_a_literal": 6,
+   "the_reaching_loop_binds_a_non_literal": 1,
+   "more_than_one_binding_reaches_the_read": 0,
+   "the_key_arrives_as_a_parameter": 0,
+   "no_binding_reaches_the_read": 5,
+   "the_key_expression_is_not_a_bare_name": 0
+  },
+  "by_side_iteration": {
+   "before": {
+    "proven_to_be_the_counted_key": 1,
+    "could_be_the_counted_key": 0,
+    "proven_to_be_another_key": 3,
+    "unresolved": 1
+   },
+   "at_the_dead_line": {
+    "proven_to_be_the_counted_key": 0,
+    "could_be_the_counted_key": 0,
+    "proven_to_be_another_key": 1,
+    "unresolved": 0
+   },
+   "after": {
+    "proven_to_be_the_counted_key": 0,
+    "could_be_the_counted_key": 0,
+    "proven_to_be_another_key": 1,
+    "unresolved": 5
+   }
+  },
+  "after_the_dead_line": 6,
+  "after_the_dead_line_proven_along_a_path": 0,
+  "after_the_dead_line_could_be_along_a_path": 0,
+  "after_the_dead_line_other_along_every_path": 1,
+  "after_the_dead_line_still_unresolved": 5,
+  "after_the_dead_line_unresolved_whose_location_reads_the_key_below_the_receiver": 4,
+  "rows_whose_location_reads_the_counted_key_below_the_receiver": 4,
+  "below_the_receiver_key_expressions": [
+   "cutoff",
+   "eq_s",
+   "k",
+   "key",
+   "x1",
+   "x2"
+  ],
+  "rows_moved_against_e635": 1,
+  "moved": [
+   {
+    "module": "scripts/ew6_portfolio.py",
+    "line": 392,
+    "key": "x1",
+    "side": "before",
+    "from": "could_be_the_counted_key",
+    "to": "proven_to_be_the_counted_key",
+    "union": "could_be_the_counted_key",
+    "why": "the_reaching_loop_binds_a_literal"
+   }
+  ],
+  "iterations_binding_the_key": 1,
+  "iterations_enumerated": 7
+ },
+ "rows": [
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "key": "verdict",
+   "dead_line": 332,
+   "read_line": 291,
+   "line": 291,
+   "column": 37,
+   "side": "before",
+   "form": "subscript",
+   "e635_class": "proven_to_be_another_key",
+   "e635_binding_kind": "module_level_string_constant",
+   "union_class": "proven_to_be_another_key",
+   "iteration_class": "proven_to_be_another_key",
+   "why": "the_reaching_loop_binds_a_literal",
+   "bindings": [],
+   "union_values": [
+    "fieldbranch_latest.json"
+   ],
+   "iterations_binding_the_key": 0,
+   "iterations_enumerated": 1,
+   "key_expression": "UP_E350",
+   "sites_at_this_location": 1,
+   "key_expressions_at_this_location": [
+    "UP_E350"
+   ],
+   "below_the_receiver_at_this_location": []
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "key": "verdict",
+   "dead_line": 332,
+   "read_line": 293,
+   "line": 293,
+   "column": 14,
+   "side": "before",
+   "form": "subscript",
+   "e635_class": "proven_to_be_another_key",
+   "e635_binding_kind": "module_level_string_constant",
+   "union_class": "proven_to_be_another_key",
+   "iteration_class": "proven_to_be_another_key",
+   "why": "the_reaching_loop_binds_a_literal",
+   "bindings": [],
+   "union_values": [
+    "unresolveddest_latest.json"
+   ],
+   "iterations_binding_the_key": 0,
+   "iterations_enumerated": 1,
+   "key_expression": "UP_E377",
+   "sites_at_this_location": 1,
+   "key_expressions_at_this_location": [
+    "UP_E377"
+   ],
+   "below_the_receiver_at_this_location": []
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "key": "verdict",
+   "dead_line": 332,
+   "read_line": 295,
+   "line": 295,
+   "column": 19,
+   "side": "before",
+   "form": "subscript",
+   "e635_class": "proven_to_be_another_key",
+   "e635_binding_kind": "module_level_string_constant",
+   "union_class": "proven_to_be_another_key",
+   "iteration_class": "proven_to_be_another_key",
+   "why": "the_reaching_loop_binds_a_literal",
+   "bindings": [],
+   "union_values": [
+    "unresolveddest_latest.json"
+   ],
+   "iterations_binding_the_key": 0,
+   "iterations_enumerated": 1,
+   "key_expression": "UP_E377",
+   "sites_at_this_location": 1,
+   "key_expressions_at_this_location": [
+    "UP_E377"
+   ],
+   "below_the_receiver_at_this_location": []
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "key": "verdict",
+   "dead_line": 332,
+   "read_line": 332,
+   "line": 332,
+   "column": 23,
+   "side": "at_the_dead_line",
+   "form": "subscript",
+   "e635_class": "proven_to_be_another_key",
+   "e635_binding_kind": "module_level_string_constant",
+   "union_class": "proven_to_be_another_key",
+   "iteration_class": "proven_to_be_another_key",
+   "why": "the_reaching_loop_binds_a_literal",
+   "bindings": [],
+   "union_values": [
+    "unresolveddest_latest.json"
+   ],
+   "iterations_binding_the_key": 0,
+   "iterations_enumerated": 1,
+   "key_expression": "UP_E377",
+   "sites_at_this_location": 1,
+   "key_expressions_at_this_location": [
+    "UP_E377"
+   ],
+   "below_the_receiver_at_this_location": []
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "key": "verdict",
+   "dead_line": 332,
+   "read_line": 350,
+   "line": 350,
+   "column": 34,
+   "side": "after",
+   "form": "subscript",
+   "e635_class": "proven_to_be_another_key",
+   "e635_binding_kind": "module_level_string_constant",
+   "union_class": "proven_to_be_another_key",
+   "iteration_class": "proven_to_be_another_key",
+   "why": "the_reaching_loop_binds_a_literal",
+   "bindings": [],
+   "union_values": [
+    "fieldbranch_latest.json"
+   ],
+   "iterations_binding_the_key": 0,
+   "iterations_enumerated": 1,
+   "key_expression": "UP_E350",
+   "sites_at_this_location": 1,
+   "key_expressions_at_this_location": [
+    "UP_E350"
+   ],
+   "below_the_receiver_at_this_location": []
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "key": "x1",
+   "dead_line": 393,
+   "read_line": 392,
+   "line": 392,
+   "column": 16,
+   "side": "before",
+   "form": "subscript",
+   "e635_class": "could_be_the_counted_key",
+   "e635_binding_kind": "for_target",
+   "union_class": "could_be_the_counted_key",
+   "iteration_class": "proven_to_be_the_counted_key",
+   "why": "the_reaching_loop_binds_a_literal",
+   "bindings": [
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": 377,
+     "values": [
+      "x1",
+      "x2"
+     ]
+    },
+    {
+     "kind": "for_target",
+     "reach": "loop_span_contains_the_read",
+     "line": 391,
+     "values": [
+      "x1",
+      "x2"
+     ]
+    }
+   ],
+   "union_values": [
+    "x1",
+    "x2"
+   ],
+   "iterations_binding_the_key": 1,
+   "iterations_enumerated": 2,
+   "key_expression": "key",
+   "sites_at_this_location": 1,
+   "key_expressions_at_this_location": [
+    "key"
+   ],
+   "below_the_receiver_at_this_location": []
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "key": "x1",
+   "dead_line": 393,
+   "read_line": 378,
+   "line": 378,
+   "column": 17,
+   "side": "before",
+   "form": "subscript",
+   "e635_class": "unresolved",
+   "e635_binding_kind": "for_target",
+   "union_class": "unresolved",
+   "iteration_class": "unresolved",
+   "why": "the_reaching_loop_binds_a_non_literal",
+   "bindings": [
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": null,
+     "values": []
+    },
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": null,
+     "values": []
+    },
+    {
+     "kind": "for_target",
+     "reach": "loop_span_contains_the_read",
+     "line": 376,
+     "values": []
+    }
+   ],
+   "union_values": [],
+   "iterations_binding_the_key": 0,
+   "iterations_enumerated": 0,
+   "key_expression": "tid",
+   "sites_at_this_location": 1,
+   "key_expressions_at_this_location": [
+    "tid"
+   ],
+   "below_the_receiver_at_this_location": [
+    "key"
+   ]
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "key": "x1",
+   "dead_line": 393,
+   "read_line": 424,
+   "line": 424,
+   "column": 45,
+   "side": "after",
+   "form": "subscript",
+   "e635_class": "unresolved",
+   "e635_binding_kind": "for_target",
+   "union_class": "unresolved",
+   "iteration_class": "unresolved",
+   "why": "no_binding_reaches_the_read",
+   "bindings": [
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": null,
+     "values": []
+    },
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": null,
+     "values": []
+    },
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": 376,
+     "values": []
+    }
+   ],
+   "union_values": [],
+   "iterations_binding_the_key": 0,
+   "iterations_enumerated": 0,
+   "key_expression": "tid",
+   "sites_at_this_location": 1,
+   "key_expressions_at_this_location": [
+    "tid"
+   ],
+   "below_the_receiver_at_this_location": [
+    "cutoff",
+    "x1"
+   ]
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "key": "x1",
+   "dead_line": 393,
+   "read_line": 437,
+   "line": 437,
+   "column": 36,
+   "side": "after",
+   "form": "subscript",
+   "e635_class": "unresolved",
+   "e635_binding_kind": "for_target",
+   "union_class": "unresolved",
+   "iteration_class": "unresolved",
+   "why": "no_binding_reaches_the_read",
+   "bindings": [
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": null,
+     "values": []
+    },
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": null,
+     "values": []
+    },
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": 376,
+     "values": []
+    }
+   ],
+   "union_values": [],
+   "iterations_binding_the_key": 0,
+   "iterations_enumerated": 0,
+   "key_expression": "tid",
+   "sites_at_this_location": 1,
+   "key_expressions_at_this_location": [
+    "tid"
+   ],
+   "below_the_receiver_at_this_location": [
+    "cutoff",
+    "x1"
+   ]
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "key": "x1",
+   "dead_line": 393,
+   "read_line": 438,
+   "line": 438,
+   "column": 36,
+   "side": "after",
+   "form": "subscript",
+   "e635_class": "unresolved",
+   "e635_binding_kind": "for_target",
+   "union_class": "unresolved",
+   "iteration_class": "unresolved",
+   "why": "no_binding_reaches_the_read",
+   "bindings": [
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": null,
+     "values": []
+    },
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": null,
+     "values": []
+    },
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": 376,
+     "values": []
+    }
+   ],
+   "union_values": [],
+   "iterations_binding_the_key": 0,
+   "iterations_enumerated": 0,
+   "key_expression": "tid",
+   "sites_at_this_location": 1,
+   "key_expressions_at_this_location": [
+    "tid"
+   ],
+   "below_the_receiver_at_this_location": [
+    "k",
+    "x1"
+   ]
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "key": "x1",
+   "dead_line": 393,
+   "read_line": 441,
+   "line": 441,
+   "column": 36,
+   "side": "after",
+   "form": "subscript",
+   "e635_class": "unresolved",
+   "e635_binding_kind": "for_target",
+   "union_class": "unresolved",
+   "iteration_class": "unresolved",
+   "why": "no_binding_reaches_the_read",
+   "bindings": [
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": null,
+     "values": []
+    },
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": null,
+     "values": []
+    },
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": 376,
+     "values": []
+    }
+   ],
+   "union_values": [],
+   "iterations_binding_the_key": 0,
+   "iterations_enumerated": 0,
+   "key_expression": "tid",
+   "sites_at_this_location": 1,
+   "key_expressions_at_this_location": [
+    "tid"
+   ],
+   "below_the_receiver_at_this_location": [
+    "k",
+    "x2"
+   ]
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "key": "x1",
+   "dead_line": 393,
+   "read_line": 444,
+   "line": 444,
+   "column": 45,
+   "side": "after",
+   "form": "subscript",
+   "e635_class": "unresolved",
+   "e635_binding_kind": "for_target",
+   "union_class": "unresolved",
+   "iteration_class": "unresolved",
+   "why": "no_binding_reaches_the_read",
+   "bindings": [
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": null,
+     "values": []
+    },
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": null,
+     "values": []
+    },
+    {
+     "kind": "for_target",
+     "reach": "the_binding_does_not_reach_the_read",
+     "line": 376,
+     "values": []
+    }
+   ],
+   "union_values": [],
+   "iterations_binding_the_key": 0,
+   "iterations_enumerated": 0,
+   "key_expression": "tid",
+   "sites_at_this_location": 1,
+   "key_expressions_at_this_location": [
+    "tid"
+   ],
+   "below_the_receiver_at_this_location": [
+    "eq_s",
+    "x1"
+   ]
+  }
+ ],
+ "limits": [
+  "reachability is intra-procedural and syntactic: a loop that reassigns the name inside its body, or a binding reached through a helper, is not modelled",
+  "the iteration class enumerates only a fully literal iterable; anything else answers unresolved, and unresolved is published as an instrument limit, never as a zero",
+  "the iteration class is a per-path statement: a row proven there is NOT proven unconditionally, and the two counts are published separately for that reason",
+  "no runner and no fixture write: this study reads source and E635's published rows"
+ ],
+ "verdict": "the_after_side_stays_unresolved_and_at_least_one_of_those_locations_carries_no_read_of_the_counted_key_below_the_receiver",
+ "answer": "Of E635's 12 row(s), 1 change class once binding reachability replaces the union of every same-named binding in the scope.  Along the iteration of the enclosing literal loop that binds the counted key: 1 are proven to be that key, 0 could be, 5 are another key and 6 stay unresolved.  On the after side of the dead line that is 0 proven / 0 could-be / 1 other / 5 unresolved, over 7 enumerated iteration(s) of which 1 carry the key.  4 of the 5 after-side unresolved location(s) do read the counted key -- one level below the receiver (cutoff, eq_s, k, key, x1, x2), where E633's classifier folds the read out of the census instead of counting it."
+}

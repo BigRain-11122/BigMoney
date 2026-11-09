@@ -27607,5 +27607,47 @@ except Exception as _e634x:
     _d634 = "study could not be read"
 check(_name634, not _bad634, "; ".join(_bad634)[:240] or _d634)
 
+# E636 asks whether a computed-key read resolves once binding reachability replaces E635's union of
+# every same-named binding in the scope.  E635 unioned, so a second non-literal loop over the same
+# name left a literal one unresolved for the whole function.  This leg re-derives the classes from
+# the published rows, refuses a row that claims a path proof without naming the iteration that
+# carries the key, refuses a row that publishes "no binding reaches" beside a binding that does, and
+# refuses an after-side total that does not re-add from its own side table -- a zero that cannot say
+# what it looked at is a claim, not a measurement (E444 family).
+_name636 = ("E636 whether a computed-key read resolves once binding reachability decides which "
+            "binding reaches it (r1656 bm-b)")
+_bad636 = []
+_d636 = "no reading"
+try:
+    _f636 = json.load(open(os.path.join("results", "state_tilt", "readbindingreach_latest.json"),
+                           encoding="utf-8"))
+    _m636 = importlib.import_module("e636_read_binding_reach")
+    _bad636.extend(_m636.face_problems(_f636))
+    _c636 = _f636.get("counts") or {}
+    for _r636 in _f636.get("rows") or []:
+        _reach636 = [b.get("reach") for b in (_r636.get("bindings") or [])]
+        if _r636.get("iteration_class") == "proven_to_be_the_counted_key" \
+                and not (_r636.get("iterations_binding_the_key") or 0):
+            _bad636.append("row %r is proven along a path but names no such iteration"
+                           % _r636.get("line"))
+        if _r636.get("why") == "no_binding_reaches_the_read" \
+                and "loop_span_contains_the_read" in _reach636:
+            _bad636.append("row %r says no binding reaches it beside one that does"
+                           % _r636.get("line"))
+    _after636 = sum((_c636.get("by_side_iteration") or {}).get("after", {}).values())
+    if (_c636.get("after_the_dead_line") or 0) != _after636:
+        _bad636.append("the after-side total does not re-add from its own side table")
+    _d636 = ("rows=%s moved=%s proven=%s could=%s other=%s unresolved=%s after=%s verdict=%s"
+             % (_c636.get("rows"), _c636.get("rows_moved_against_e635"),
+                (_c636.get("by_iteration_class") or {}).get("proven_to_be_the_counted_key"),
+                (_c636.get("by_iteration_class") or {}).get("could_be_the_counted_key"),
+                (_c636.get("by_iteration_class") or {}).get("proven_to_be_another_key"),
+                (_c636.get("by_iteration_class") or {}).get("unresolved"),
+                _c636.get("after_the_dead_line"), _f636.get("verdict")))
+except Exception as _e636x:
+    _bad636.append(repr(_e636x)[:160])
+    _d636 = "study could not be read"
+check(_name636, not _bad636, "; ".join(_bad636)[:240] or _d636)
+
 if __name__ == "__main__":
     sys.exit(main())

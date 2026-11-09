@@ -1444,6 +1444,17 @@ LEGS = [
     # refuses a zero unnamed count published on an empty census (E444 family).
     ("read_func_gap", ["python", "scripts/e634_read_func_gap.py", "verify"]),
 
+    # E636 prices E635's own union: E635 decided a computed-key read by unioning every binding of that
+    # name in the scope, so a second, non-literal loop poisoned a literal one.  Reachability replaces
+    # the union (a for binding reaches only when its own line span contains the read) and the
+    # enclosing literal loop is enumerated per iteration.  One of E635's 12 rows moves: the read
+    # inside the ((1, "x1"), (2, "x2")) loop IS the counted key on the iteration that binds it.  The
+    # six unresolved rows are reads of tid, a member id, and 4 of the 5 after-side ones sit on
+    # locations that DO read the key one level below the receiver, where E633 folds the read out of
+    # the census instead of counting it.  The leg refuses a verdict that promotes an unresolved after
+    # side to "another key".
+    ("read_binding_reach", ["python", "scripts/e636_read_binding_reach.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

@@ -14900,3 +14900,40 @@ leg E635 + `verify()`（按现行源码重解每一行：源码改了而面没�
 **证据** = `scripts/e635_read_key_resolve.py`（selftest 18/18·run/verify `problems=[]`）+
 `results/state_tilt/READKEYRESOLVE.json` + `readkeyresolve_latest.json` + smoke_test.py leg E635 +
 POOL E635 done / E636 seeded。
+
+## E636 · 可达性替代并集后，计算键读取能不能落成一个类（r1656 bm-b｜2026-11-10）
+
+E635 把 12 个计算键读取分成 0 证明为该键 / 1 可读 / 5 证明为别的键 / **6 未决**。6 个未决全在
+`scripts/ew6_portfolio.py::write_outputs`，全部由 `for` 目标绑定。本轮把 E635 的**并集**换成
+**可达性**：`for` 绑定只有自己的行跨度包含读取行才算到达；赋值只有坐落在读取之前才算到达；参数
+到达但不证明任何事；再补 E635 没有的第二臂——**逐迭代枚举**（可迭代集合是完全字面量序列时，按
+承载该键的那一次迭代判定）。读数：**12 行里 1 行换类**（第 392 行落在
+`for mult, key in ((1, "x1"), (2, "x2"))` 循环体里，沿 key="x1" 那次迭代**是**该键，1/2 迭代）；
+**6 个未决全部是 `tid` 的读取**（成员 id，`for tid in tids` 绑定非字面集合），并集读数不变但理由
+换了；而**死线之后 5 个未决位置里有 4 个**在同一 (行, 列) 上**确实读了 x1**——一档读在接收者**下层**
+（`sleeves[tid]["x1"]`），被 E633 分类为 `read_below_the_receiver` **折出普查之外**；剩下 1 个位置
+（441 行）下层读的是 `x2`/计算键，不是 x1。
+
+裁决 = `the_after_side_stays_unresolved_and_at_least_one_of_those_locations_carries_no_read_of_the
+_counted_key_below_the_receiver`：E634/E635 的「死线之后 0 次读到该键」**作为总体陈述成立**，但它
+成立的一部分原因是**读该键的那些位置根本没进总体**。
+
+**教训（3 条）**
+1. **并集不是可达性，也不是「只有一个」**：同名的两个绑定里只要有一个非字面，整条读取就被判未决，
+   而真正的答案往往只由**包含该行的那一个**绑定决定；「未决」一旦可以靠换口径变少，它就是仪器的
+   属性而不是代码的属性（E444/E207 同族）。
+2. **同一 (行, 列) 可以挂两个读点**：链式下标 `d[k1][k2]` 的里外两个 Subscript 都是 col 17，E633/
+   E634/E635 的签名分不开它们；本轮把两个都解、取最强类，并把 `sites_at_this_location` 与
+   `key_expressions_at_this_location` 一起发布，让取舍可见（E366 路线：不可区分要公开，不要静默挑一个）。
+3. **「未决」与「读了别的键」不是一类**：把 5 个未决并成「都是别的键」会让 0 显得比它实际更强；
+   本轮把 `after_the_dead_line_other_along_every_path` 与 `..._still_unresolved` 分开计数，并在
+   selftest 里钉住三条闸（proven>0 / could>0 / 全折出 / 至少一个不折出）。
+
+**How**：遇「某读法下 N 条未决」，先问未决是不是**口径造成的**——把并集换成可达性、把不可枚举的
+集合逐迭代展开；再把「未决」按原因分桶（无绑定到达 / 到达但非字面 / 参数 / 非裸名），并把同一位置
+被分类器折出去的兄弟读单独发布。**折出去的读不是不存在的读。**
+
+**证据** = `scripts/e636_read_binding_reach.py`（selftest 20/20，run/verify `problems=[]`）+
+`results/state_tilt/READBINDINGREACH.json` + `readbindingreach_latest.json` +
+`scripts/run_e636_smoke_leg.py`（1/1 PASS，`--doctor` 1/1 红且面字节复原）+ smoke_test.py leg E636 +
+`Tools/s6_chain_bmb.py` leg `read_binding_reach`（rc=0 0.37s）+ POOL E636 done / E637 seeded。

@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1651 bm-b: E632 burned -- re-parsed the modules behind E631's 13 counted read lines and found 13 read nodes, none on a line that carries two, so the line-level count is a node-level count here; E633 seeded on the classifier's own blind spot",
+ "_stamp_note": "r1656 bm-b: E636 replaced E635's union with binding reachability -- 1 of 12 rows moves, the 6 unresolved rows all read tid (a member id), and 4 of the 5 after-side locations do read x1 one level BELOW the receiver where E633 folds the read out of the census; E637 seeded on that folded-out set. (was) r1651 bm-b: E632 burned -- re-parsed the modules behind E631's 13 counted read lines and found 13 read nodes, none on a line that carries two, so the line-level count is a node-level count here; E633 seeded on the classifier's own blind spot",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -31064,6 +31064,47 @@
    "done_at": "2026-11-10T07:20:00+08:00",
    "result_ref": "results/state_tilt/READKEYRESOLVE.json",
    "note": "12 distinct computed-key read sites (30 occurrences; 21 after the dead line): 0 proven to be the counted key (0 before / 0 at / 0 after), 1 could be, 5 proven to be another key, 6 unresolved -- E634's \"no unnamed entry read after the dead line\" stands and E633's line-scoped census plus E632's node count both hold"
+  },
+  {
+   "card": "E636",
+   "id": "E636-WHETHER-A-COMPUTED-KEY-READ-RESOLVES-ONCE-BINDING-REACHABILITY-DECIDES-WHICH-BINDING-REACHES-IT",
+   "title": "whether a computed-key read resolves once binding reachability decides which binding reaches it",
+   "lane": "cpu-only",
+   "lane_note": "E635 left 6 of 12 computed-key reads unresolved because its resolver unioned every binding of the name in the scope, so a second non-literal loop poisoned a literal one. Replace the union with reachability (a for binding reaches only when its own line span contains the read) and add the arm E635 did not have: enumerate the enclosing literal loop per iteration. No runner, no fixture write.",
+   "deliverable": "results/state_tilt/READBINDINGREACH.json: per row, every binding with its reach, the union class, the per-iteration class, the number of iterations that bind the key, and the below-the-receiver read at the same location when the classifier folds one out",
+   "source": "E635 (r1655 bm-b) publishes 6 unresolved computed-key reads, all bound by a for target in one function",
+   "target": "results/state_tilt/READBINDINGREACH.json",
+   "priority": "normal",
+   "status": "done",
+   "seeded_at": "2026-11-10T07:20:00+08:00",
+   "seeded_by": "r1655 bm-b",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "done_by": "bm-b r1656",
+   "done_at": "2026-11-10T07:34:00+08:00",
+   "result_ref": "results/state_tilt/READBINDINGREACH.json + scripts/e636_read_binding_reach.py + results/_r1656bmb_s6_chain.json",
+   "note": "12 rows re-decided: 1 moves (line 392 proven along the iteration that binds x1, 1 of 2). The 6 rows E635 left unresolved are all reads of tid, a member id bound by a non-literal loop. After the dead line: 0 proven / 0 could / 1 other / 5 unresolved, and 4 of those 5 locations DO read x1 one level below the receiver, where E633 classifies it read_below_the_receiver and folds it out of the census. One location (441) reads x2/a computed key below instead."
+  },
+  {
+   "card": "E637",
+   "id": "E637-WHETHER-THE-BELOW-THE-RECEIVER-READS-AT-THE-SAME-LOCATIONS-NAME-THE-COUNTED-KEY",
+   "title": "whether the below-the-receiver reads at the same locations name the counted key, i.e. how much of the after-side read set E633's classifier folds out",
+   "lane": "cpu-only",
+   "lane_note": "E636 found 4 of the 5 after-side unresolved locations carry a read of the counted key one level below the receiver (sleeves[tid][\"x1\"]), which E633 classifies read_below_the_receiver and drops from the census. Census those folded-out reads tree-wide: how many exist, how many name a counted key, and what the after-side count becomes when they are added rather than dropped.",
+   "deliverable": "results/state_tilt/READBELOWRECEIVER.json: per dead face-key line, the folded-out reads at its own (line, column), their key expressions and whether the counted key is among them",
+   "source": "E636 (r1656 bm-b) -- below_the_receiver_at_this_location on 4 of its 12 rows",
+   "target": "results/state_tilt/READBELOWRECEIVER.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T07:34:00+08:00",
+   "seeded_by": "r1656 bm-b",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "note": "E637"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31078,6 +31119,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T07:20:00+08:00",
+ "updated_at": "2026-11-10T07:34:00+08:00",
  "version": 1
 }
