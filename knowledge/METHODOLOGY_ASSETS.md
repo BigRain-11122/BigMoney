@@ -11613,3 +11613,30 @@ r1472 收尾问「额度是拿哪个版本的规则签发的」。正法不是�
 
 + 正身 = scripts/etf_book_floor_provenance.py(17/17) + scripts/etf_book_vol_target_gate.py +
   CEO 页节「为什么这张单只能下这么大」（自检 165/165）
+
+
+### E481 一根已经写下的 bar 被换成另一组数，若账面不留旧值，读者手上那张纸就是唯一证人
+
+r1474 实锚：同一根 bar 2026-11-06，CEO 页印 683/915/674 手、现金 ￥609,856，执行账印
+682/914/673 手、现金 ￥610,256。两处都是公开发布读数，差 ￥400 与各一手，而账本的
+upsert_row 只 old.update(row)——旧值当场蒸发，事后谁也无法说清「刚才那张纸上的数是对的，
+还是现在这张是对的」。
+
+三律：
+1. **替换已写下的 bar = 一次改述，必须落进账本**（旧值/新值/两个时间戳/逐项 delta/手数变动）；
+   数值相同的重跑不记——每条重跑都记一条，会把唯一重要的那条埋掉。
+2. **空记录不许读成「没改过」**：记录从本版才开始，之前写过什么这里看不到，必须印
+   「没有记录不等于没被改过」（r1371「缺输入禁读成没发生」同族）。
+3. **别的面印的数必须拿来比，不许当不存在**：页面（另一台机的写者）与自己同一根 bar 的
+   手数与现金逐项并排印出，不替任何一边改数；页面停在前一天=拒绝互校；页面没有该块=
+   「无法比对」而不是「一致」。改断言时同样要守：不许假设另一台机一定在跑（r1135），
+   只许要求「两个公开发布的数不许悄悄不一致」。
+
+附带：本窗差异的根因不是数据，而是上一窗手工重推导按旧顺序跑了 order 先于 positions，
+票面 k 停在 0.390144 而账本已 0.389744；按链序（positions→order→下游）重推后票面 k 与
+账本逐位相等，受影响的下游腿全部复检回绿（size_rulers 0 mismatch / rebalance_permission 6/6 /
+cut_order_gap 7/7 / cut_gate_pass 15/15 / decision_line CHECK_OK / permission_persistence
+CHECK_OK / floor_ledger CHECK_OK / swap_stack CHECK_OK）。
+
++ 正身 = scripts/etf_book_positions.py（selftest 53/53）+ smoke 腿「the account the sheet never
+  sells reaches the CEO page」（改为要求两面对同一 bar 要么一致、要么本面已披露）

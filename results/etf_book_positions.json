@@ -12,7 +12,7 @@
  "unexplained": [],
  "unexplained_total_cny": 0,
  "unexplained_unpriced_rows": 0,
- "ledger_action": "updated",
+ "ledger_action": "kept",
  "ledger_row": {
   "bar": "2026-11-06",
   "ticket": "TICKET-2026-11-06.json",
@@ -142,6 +142,47 @@
    "k_gap": 0.070509,
    "notional_gap_cny": 70509.0
   }
+ },
+ "restatements": {
+  "bar": "2026-11-06",
+  "count": 0,
+  "records": [],
+  "trail_starts_with_this_version": true,
+  "trail_covers_bar": null,
+  "page_block": {
+   "bar": "2026-11-06",
+   "same_bar": true,
+   "lots": {
+    "159263": 683,
+    "159513": 915,
+    "159577": 484,
+    "513690": 674
+   },
+   "cash_cny": 609856.0
+  },
+  "page_vs_ledger_lots": [
+   {
+    "symbol": "159263",
+    "page_lots": 683,
+    "ledger_lots": 682
+   },
+   {
+    "symbol": "159513",
+    "page_lots": 915,
+    "ledger_lots": 914
+   },
+   {
+    "symbol": "513690",
+    "page_lots": 674,
+    "ledger_lots": 673
+   }
+  ],
+  "page_vs_ledger_cash": {
+   "page": 609856.0,
+   "ledger": 610256.2,
+   "page_minus_ledger": -400.2
+  },
+  "page_vs_ledger_agree": false
  },
  "caveats": [
   "the reconciliation compares two documents, not two accounts: it says what the printed rows leave behind relative to the book the same face declares, and it cannot see whether the broker actually filled those lots",

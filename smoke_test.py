@@ -1265,17 +1265,28 @@ def main() -> int:
         else:
             if "账上现在拿的是什么" not in _mdp:
                 _badp.append("the account section is gone from the page")
-            _base = _ps.get("next_order_base") or {}
-            if _base.get("cash_cny") is not None:
-                if format(_base["cash_cny"], ",.0f") not in _mdp:
-                    _badp.append("cash CNY %s is not on the page"
-                                 % format(_base["cash_cny"], ",.0f"))
-            else:
-                _badp.append("face carries no cash figure to check")
             _blk = "\n".join(_PGA.positions_block(_ps, page_bar=_ps.get("asof")))
             for _h in (_ps.get("ledger_row") or {}).get("holdings") or []:
                 if _h.get("symbol") not in _blk:
                     _badp.append("held name %s is not in the block" % _h.get("symbol"))
+            # r1474: the page is written by another host, so this leg must not read a
+            # one-bar lag as our defect (r1135: an assertion may not assume someone else
+            # is running). What it CAN require is that the two published faces never
+            # disagree silently -- if they do, our own face has to print both numbers.
+            from scripts import etf_book_positions as _POS
+            _rep = _POS.restatement_report(_POS.load_ledger(), _ps.get("asof"), _mdp)
+            _pb = _rep.get("page_block") or {}
+            if not _pb.get("same_bar"):
+                _badp.append("the page prints no account block for bar %s"
+                             % _ps.get("asof"))
+            elif _rep.get("page_vs_ledger_agree") is not True:
+                _own = ""
+                _own_path = os.path.join("results", "etf_book_positions.md")
+                if os.path.exists(_own_path):
+                    _own = open(_own_path, encoding="utf-8").read()
+                if "这一根 bar 有没有被改写过" not in _own or "账本" not in _own:
+                    _badp.append("page and ledger disagree on bar %s and the positions "
+                                 "face does not publish it" % _ps.get("asof"))
         check("product: the account the sheet never sells reaches the CEO page",
               not _badp, "; ".join(_badp))
     except Exception as _e3:

@@ -7,23 +7,23 @@
   "order_ticket": "results/etf_book_order/TICKET-2026-11-06.json"
  },
  "verdict": "NETTED_WITH_RESIDUE",
- "k_ordered": 0.390144,
- "k_after": 0.389744,
+ "k_ordered": 0.389744,
+ "k_after": 0.389298,
  "floor_k": 0.393073,
  "ceiling_k": 0.544424,
  "within_permission": true,
- "risk_book_before_cny": 389811.9,
- "risk_book_after_cny": 389743.8,
- "cash_cny": 610256.2,
- "lot_residue_cny": 68.1,
+ "risk_book_before_cny": 389329.5,
+ "risk_book_after_cny": 389297.8,
+ "cash_cny": 610702.2,
+ "lot_residue_cny": 31.7,
  "actions": [
   {
    "side": "SELL",
    "symbol": "159501",
-   "lots": 377,
+   "lots": 376,
    "price": 2.069,
-   "amount_cny": 78001.3,
-   "why": "swap 159501 → 159513 (r1466 verdict ACT_ON_THIS_BAR), sized on the trimmed 377 lots"
+   "amount_cny": 77794.4,
+   "why": "swap 159501 → 159513 (r1466 verdict ACT_ON_THIS_BAR), sized on the trimmed 376 lots"
   },
   {
    "side": "SELL",
@@ -36,30 +36,30 @@
   {
    "side": "BUY",
    "symbol": "159513",
-   "lots": 914,
+   "lots": 913,
    "price": 1.705,
-   "amount_cny": 155837.0,
+   "amount_cny": 155666.5,
    "why": "merged buy for 159501 + 513100"
   }
  ],
  "holdings_after": [
   {
    "symbol": "159263",
-   "lots": 682,
+   "lots": 681,
    "price": 1.143,
-   "amount_cny": 77952.6
+   "amount_cny": 77838.3
   },
   {
    "symbol": "159513",
-   "lots": 914,
+   "lots": 913,
    "price": 1.705,
-   "amount_cny": 155837.0
+   "amount_cny": 155666.5
   },
   {
    "symbol": "159577",
-   "lots": 484,
+   "lots": 483,
    "price": 1.612,
-   "amount_cny": 78020.8
+   "amount_cny": 77859.6
   },
   {
    "symbol": "513690",
@@ -70,7 +70,7 @@
  ],
  "widest_name": {
   "symbol": "159513",
-  "share_of_risk_book": 0.3998
+  "share_of_risk_book": 0.3999
  },
  "baskets": {
   "before": [
@@ -93,8 +93,8 @@
   {
    "leg": "159501",
    "sibling": "159513",
-   "ordered_lots": 377,
-   "trimmed_lots": 377,
+   "ordered_lots": 376,
+   "trimmed_lots": 376,
    "share": 1.0,
    "gain_published_cny": 5612.5,
    "gain_on_trimmed_book_cny": 5612.5,

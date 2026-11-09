@@ -190,6 +190,9 @@ def load_ledger():
     d.setdefault("rows", [])
     if not isinstance(d["rows"], list):
         d["rows"] = []
+    d.setdefault("restatements", [])
+    if not isinstance(d["restatements"], list):
+        d["restatements"] = []
     return d
 
 
@@ -199,8 +202,53 @@ def _content(row):
                       sort_keys=True, ensure_ascii=False)
 
 
+def _book_snapshot(row):
+    """The numbers a reader would quote for this bar, in the order they would quote them."""
+    lots = {}
+    for h in (row.get("holdings") or []):
+        try:
+            lots[str(h.get("symbol"))] = int(h.get("lots") or 0)
+        except (TypeError, ValueError):
+            continue
+    return {"k": row.get("k"),
+            "risk_book_cny": row.get("risk_book_cny"),
+            "cash_cny": row.get("cash_cny"),
+            "lots": dict(sorted(lots.items()))}
+
+
+def _restatement(old, row, stamp):
+    """r1474: replacing a bar's row is a restatement, and a restatement nobody prints is
+    not a disclosure (E281/r1371 lineage: the reader only holds the printed sheet)."""
+    before, after = _book_snapshot(old), _book_snapshot(row)
+    delta, lots_changed = {}, []
+    for key in ("k", "risk_book_cny", "cash_cny"):
+        b, a = before.get(key), after.get(key)
+        if b is None or a is None:
+            delta[key] = None
+        else:
+            delta[key] = round(float(a) - float(b), 6)
+    for sym in sorted(set(before["lots"]) | set(after["lots"])):
+        b, a = before["lots"].get(sym), after["lots"].get(sym)
+        if b != a:
+            lots_changed.append({"symbol": sym, "before": b, "after": a})
+    return {"bar": old.get("bar"),
+            "previous_written_ts": old.get("written_ts"),
+            "written_ts": stamp,
+            "before": before,
+            "after": after,
+            "delta": delta,
+            "lots_changed": lots_changed}
+
+
 def upsert_row(ledger, row, stamp):
-    """Append-or-replace by bar: one row per decision bar, append-only across bars."""
+    """Append-or-replace by bar: one row per decision bar, append-only across bars.
+
+    A bar that is already written is a settled bar. Replacing it with the same numbers is a
+    no-op; replacing it with different numbers is a restatement and is recorded, because the
+    alternative is that the printed sheet quietly changes under a reader who already acted
+    on it. A restatement is only recorded for a real change -- logging every re-run would
+    bury the one that matters.
+    """
     rows = ledger["rows"]
     hits = [r for r in rows if r.get("bar") == row.get("bar")]
     if not hits:
@@ -212,9 +260,95 @@ def upsert_row(ledger, row, stamp):
     old = hits[0]
     if _content(old) == _content(row):
         return "kept"
+    ledger.setdefault("restatements", []).append(_restatement(old, row, stamp))
     old.update(row)
     old["written_ts"] = stamp
     return "updated"
+
+
+def restatement_report(ledger, bar=None, page_md=None):
+    """What a reader of this bar must be told: recorded restatements, and what the trail
+    cannot see.
+
+    Three separate facts, never merged:
+      a. restatements this ledger recorded (each with both numbers);
+      b. whether the trail reaches back far enough to cover this bar at all -- it starts
+         with this version, so an earlier rewrite is *not* evidence of no rewrite;
+      c. the CEO page's own account block for the same bar, if it says anything, because a
+         number printed elsewhere and left to disagree is the reader's problem, not ours.
+    """
+    recs = [r for r in (ledger or {}).get("restatements") or []
+            if bar is None or r.get("bar") == bar]
+    out = {"bar": bar, "count": len(recs), "records": recs,
+           "trail_starts_with_this_version": True,
+           "trail_covers_bar": True if recs else None}
+    page = None
+    if page_md:
+        page = _page_account_block(page_md, bar)
+    out["page_block"] = page
+    if page and page.get("lots"):
+        ledger_lots = {}
+        latest = None
+        for r in (ledger or {}).get("rows") or []:
+            if r.get("bar") == bar:
+                latest = r
+        if latest is not None:
+            ledger_lots = _book_snapshot(latest)["lots"]
+        diff = []
+        for sym in sorted(set(page["lots"]) | set(ledger_lots)):
+            a, b = page["lots"].get(sym), ledger_lots.get(sym)
+            if a != b:
+                diff.append({"symbol": sym, "page_lots": a, "ledger_lots": b})
+        out["page_vs_ledger_lots"] = diff
+        ledger_cash = _book_snapshot(latest)["cash_cny"] if latest is not None else None
+        page_cash = page.get("cash_cny")
+        cash_gap = None
+        if page_cash is not None and ledger_cash is not None:
+            cash_gap = round(float(page_cash) - float(ledger_cash), 2)
+        out["page_vs_ledger_cash"] = {"page": page_cash, "ledger": ledger_cash,
+                                      "page_minus_ledger": cash_gap}
+        out["page_vs_ledger_agree"] = ((not diff) and cash_gap == 0.0
+                                      if cash_gap is not None else None)
+    return out
+
+
+def _read_json_page():
+    """Today's CEO page text, or nothing. Read-only: bm-a is the page's single writer."""
+    import glob
+    hits = sorted(glob.glob(os.path.join(ROOT, "docs", "live_book", "LIVE-BOOK-*.md")))
+    if not hits:
+        return None
+    try:
+        with open(hits[-1], encoding="utf-8") as fh:
+            return fh.read()
+    except OSError:
+        return None
+
+
+def _page_account_block(md_text, bar):
+    """Read the CEO page's own 'what the account holds' block for `bar`, or nothing.
+
+    Read-only and deliberately narrow: this never edits the page (bm-a is its single
+    writer), it only lets this face say whether the two published numbers agree.
+    """
+    import re
+    if not md_text:
+        return None
+    idx = md_text.find("账上现在拿的是什么")
+    if idx < 0:
+        return None
+    head = md_text[idx:idx + 400]
+    m = re.search(r"（(\d{4}-\d{2}-\d{2})\s*收盘）", head)
+    if not m or (bar and m.group(1) != bar):
+        return {"bar": m.group(1) if m else None, "same_bar": False}
+    lots, cash = {}, None
+    mc = re.search(r"现金\s*￥([\d,]+)", head)
+    if mc:
+        cash = float(mc.group(1).replace(",", ""))
+    seg = md_text[idx:idx + 2000]
+    for mm in re.finditer(r"^\|\s*(\d{6})\s*\|\s*(\d+)\s*\|", seg, re.M):
+        lots[mm.group(1)] = int(mm.group(2))
+    return {"bar": m.group(1), "same_bar": True, "lots": lots, "cash_cny": cash}
 
 
 def latest_execution_row(ledger):
@@ -588,6 +722,7 @@ def assess(ticket, stack, ledger, stamp=None):
         "accrual_rows": accrual.get("rows_detail") or [],
         "replay": replay_row,
         "engine_book": {"tail": eng, "divergence": eng_gap},
+        "restatements": restatement_report(ledger, asof, _read_json_page()),
         "caveats": [
             "the reconciliation compares two documents, not two accounts: it says what the "
             "printed rows leave behind relative to the book the same face declares, and it "
@@ -755,11 +890,61 @@ def render_md(face):
             L.append("- %s" % n)
         L.append("")
 
+    rst = face.get("restatements") or {}
+    if rst:
+        L += ["## 这一根 bar 有没有被改写过", ""]
+        if rst.get("count"):
+            L += ["- **已记下 %d 次改述**：同一根 bar `%s` 上一次写的数被换成了另一组，下面是两组数。"
+                  % (rst["count"], rst.get("bar"))]
+            for r in rst["records"]:
+                b, a = r.get("before") or {}, r.get("after") or {}
+                dl = r.get("delta") or {}
+                L += ["- `%s` → `%s`：k %s → %s（%+.6f）、风险腿 ¥%s → ¥%s（%s）、现金 ¥%s → ¥%s（%s）。"
+                      % (r.get("previous_written_ts") or "?", r.get("written_ts") or "?",
+                         b.get("k"), a.get("k"), float(dl.get("k") or 0.0),
+                         format(float(b.get("risk_book_cny") or 0.0), ",.0f"),
+                         format(float(a.get("risk_book_cny") or 0.0), ",.0f"),
+                         ("%+.0f" % float(dl.get("risk_book_cny") or 0.0)),
+                         format(float(b.get("cash_cny") or 0.0), ",.0f"),
+                         format(float(a.get("cash_cny") or 0.0), ",.0f"),
+                         ("%+.0f" % float(dl.get("cash_cny") or 0.0)))]
+                if r.get("lots_changed"):
+                    L += ["- 手数变了：%s。" % "、".join(
+                        "%s %s→%s" % (c["symbol"], c.get("before"), c.get("after"))
+                        for c in r["lots_changed"])]
+        else:
+            L += ["- **这本账没有记到这根 bar 的改述**——但记录是从本轮才开始写的，"
+                  "**之前改写过的 bar 这里看不到**：没有记录不等于没被改过。"]
+        pg = rst.get("page_block")
+        if pg and pg.get("same_bar") and pg.get("lots"):
+            if rst.get("page_vs_ledger_agree") is False:
+                _dlots = rst.get("page_vs_ledger_lots") or []
+                if _dlots:
+                    L += ["- **页面上同一根 bar 印的是另一组手数**：%s。两处都是公开发布的读数，"
+                          "这里只并排印出来，不替任何一边改数（页面写者是另一台机）。"
+                          % "、".join("%s 页面 %s / 账本 %s" % (d["symbol"], d.get("page_lots"),
+                                                            d.get("ledger_lots"))
+                                     for d in _dlots)]
+                _pvc = rst.get("page_vs_ledger_cash") or {}
+                if _pvc.get("page_minus_ledger"):
+                    L += ["- 现金腿也对不上：页面 ¥%s / 账本 ¥%s（差 **%+.0f**）。"
+                          % (format(float(_pvc.get("page") or 0.0), ",.0f"),
+                             format(float(_pvc.get("ledger") or 0.0), ",.0f"),
+                             float(_pvc["page_minus_ledger"]))]
+            elif rst.get("page_vs_ledger_agree") is True:
+                L += ["- 页面同一根 bar 的手数与账本一致。"]
+        elif pg and pg.get("same_bar") is False:
+            L += ["- 页面停在 bar `%s`，与这根 bar 不同天：不拿两天的账互相校验。" % pg.get("bar")]
+        else:
+            L += ["- 页面上没有这根 bar 的持仓区块：无法比对，这不是「一致」。"]
+        L.append("")
+
     L += ["## 不能从这张面读出来的", ""]
     for c in face.get("caveats") or []:
         L.append("- %s" % c)
-    L += ["", "- 出处：`scripts/etf_book_positions.py`；执行后账在 `%s`（按决策 bar 一行，"
-          "同一 bar 重跑只更新不重复）。" % (face.get("sources") or {}).get("ledger"), ""]
+    L += ["", "- 出处：`scripts/etf_book_positions.py`；执行后账在 `%s`（按决策 bar 一行）。"
+          "同一 bar 重跑若数值不变=保持；真的变了会记一条改述并在上面印出两组数。"
+          % (face.get("sources") or {}).get("ledger"), ""]
     return "\n".join(L)
 
 
@@ -934,6 +1119,60 @@ def selftest():
     f = assess(t2, st2, led, stamp="t3")
     chk("a changed book updates in place", f["ledger_action"] == "updated"
         and len(led["rows"]) == 1 and f["ledger_action"] == "updated")
+
+    # 6b. r1474: replacing a settled bar is a restatement, and it is recorded once
+    chk("the change was recorded as a restatement", len(led.get("restatements") or []) == 1)
+    rec = (led["restatements"] or [{}])[0]
+    chk("the record carries both sets of numbers",
+        (rec.get("before") or {}).get("lots", {}).get("A") == 50
+        and (rec.get("after") or {}).get("lots", {}).get("A") == 40)
+    chk("it names what moved in lots",
+        [c["symbol"] for c in rec.get("lots_changed") or []] == ["A"])
+    f = assess(t2, st2, led, stamp="t4")
+    chk("re-running the change does not file a second one",
+        len(led.get("restatements") or []) == 1 and f["ledger_action"] == "kept")
+    f = assess(t2, st, led, stamp="t5")
+    chk("changing it back is its own restatement", len(led.get("restatements") or []) == 2)
+    chk("the face carries the restatement block", "restatements" in f
+        and f["restatements"].get("count") == 2)
+
+    # 6c. r1474: an empty trail is not evidence that nothing was rewritten
+    rep = restatement_report({"rows": [], "restatements": []}, "2026-11-06", None)
+    chk("no record is reported as no record", rep["count"] == 0 and rep["records"] == [])
+    chk("it refuses to read the empty trail as 'never restated'",
+        rep["trail_covers_bar"] is None)
+    md = render_md({"asof": "2026-11-06", "verdict": "CANNOT_VERIFY",
+                    "restatements": rep, "caveats": []})
+    chk("the printed sheet says the trail does not reach back",
+        "没有记录不等于没被改过" in md)
+
+    # 6d. r1474: a number printed on another face must be compared, not ignored
+    page = ("## 账上现在拿的是什么（本仓库自己算的账）\n\n"
+            "**账上自己的账（2026-11-06 收盘）：风险腿 ￥390,144、现金 ￥609,856、持有 4 只。**\n\n"
+            "| 代码 | 手数 | 参考价 | 金额 |\n|---|---|---|---|\n"
+            "| 159263 | 683 | 1.143 | ￥78,067 |\n"
+            "| 159513 | 915 | 1.705 | ￥156,008 |\n")
+    ledp = {"rows": [{"bar": "2026-11-06", "k": 0.389744, "risk_book_cny": 389743.8,
+                      "cash_cny": 610256.2,
+                      "holdings": [{"symbol": "159263", "lots": 682},
+                                   {"symbol": "159513", "lots": 914}]}],
+            "restatements": []}
+    rep2 = restatement_report(ledp, "2026-11-06", page)
+    chk("the same bar on the page is read", (rep2.get("page_block") or {}).get("same_bar") is True)
+    chk("the two faces disagreeing is reported as disagreement",
+        rep2.get("page_vs_ledger_agree") is False
+        and len(rep2.get("page_vs_ledger_lots") or []) == 2)
+    md2 = render_md({"asof": "2026-11-06", "verdict": "CANNOT_VERIFY",
+                     "restatements": rep2, "caveats": []})
+    chk("both numbers reach the printed sheet",
+        "683" in md2 and "682" in md2 and "另一组手数" in md2)
+    rep3 = restatement_report(ledp, "2026-11-06", page.replace("2026-11-06", "2026-11-05"))
+    chk("two different days are not compared to each other",
+        (rep3.get("page_block") or {}).get("same_bar") is False
+        and rep3.get("page_vs_ledger_agree") is None)
+    rep4 = restatement_report(ledp, "2026-11-06", "no account section here")
+    chk("a page with no block is 'cannot compare', not 'agrees'",
+        rep4.get("page_block") is None and rep4.get("page_vs_ledger_agree") is None)
 
     # 7. the next order's base is the written row, and a missing row is a refusal
     base = start_inventory(led, "2026-11-06")
