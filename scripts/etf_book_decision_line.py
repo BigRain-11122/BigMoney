@@ -34,7 +34,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GAP = os.path.join(ROOT, "results", "etf_book_cut_order_gap.json")
 CUT = os.path.join(ROOT, "results", "etf_book_cut_gate_pass", "CUT-GATE-PASS.json")
 YEAR = os.path.join(ROOT, "results", "etf_book_year_gate", "YEAR-GATE.json")
+LATE = os.path.join(ROOT, "results", "etf_book_late_sheet_price.json")
 OUT = os.path.join(ROOT, "results", "etf_book_decision_line.json")
+
+HELD_ARM = "nobond_vt08"  # the arm the year gate holds; the late-sheet price is quoted for it
 
 TRIM_TOL = 2e-3  # per-leg prices and a sleeve-level target weight cannot agree to the bp
 
@@ -47,7 +50,37 @@ def _load(path):
         return None
 
 
-def derive(gap, cut, year):
+def late_block(late):
+    """The third price this line never carried: what it costs if today's sheet is filled
+    tomorrow.  Read from the published face, never typed in (r1480 priced the policy,
+    r1481 priced one sheet; this line only quotes it)."""
+    if not late:
+        return {"status": "UNKNOWN_MISSING_FACE"}
+    arms = late.get("arms") or []
+    a0 = next((a for a in arms if a.get("arm") == HELD_ARM), None) or (arms[0] if arms else None)
+    if not a0:
+        return {"status": "UNKNOWN_MISSING_FACE"}
+    cny = a0.get("dist_cny") or {}
+    bps = a0.get("dist_bps") or {}
+    dcagr = [p.get("dcagr_pp") for p in (a0.get("phases") or []) if p.get("dcagr_pp") is not None]
+    return {
+        "status": "OK",
+        "face": "results/etf_book_late_sheet_price.json",
+        "arm": a0.get("arm"),
+        "verdict": a0.get("verdict"),
+        "capital_cny": late.get("capital_cny"),
+        "events": bps.get("n"),
+        "median_cny_one_sheet": cny.get("median"),
+        "mean_bps_one_sheet": bps.get("mean"),
+        "t": bps.get("t"),
+        "share_late_helps": bps.get("share_late_helps"),
+        "aggregate_pp_per_year": (sorted(dcagr)[len(dcagr) // 2] if dcagr else None),
+        "note": "this is one sheet's price on the face's stated capital, not the "
+                "aggregate arm; on this book the per-sheet prices add up to that arm exactly",
+    }
+
+
+def derive(gap, cut, year, late=None):
     """Fold three receipts into one decision row.  Pure function of its inputs."""
     missing = [n for n, v in (("cut_order_gap", gap), ("cut_gate_pass", cut), ("year_gate", year)) if v is None]
     if missing:
@@ -137,6 +170,7 @@ def derive(gap, cut, year):
         "verdict": None,
         "sentence": None,
     }
+    row["late_sheet"] = late_block(late)
 
     if conflicts:
         row["verdict"] = "CONFLICT_BETWEEN_RECEIPTS"
@@ -174,6 +208,28 @@ def derive(gap, cut, year):
                 else "?",
             )
         )
+    # the third price: a sheet filled one open late. Read from the published face; a
+    # missing face is UNKNOWN and the sentence says so instead of quoting a zero.
+    lb = row["late_sheet"]
+    if lb.get("status") == "OK":
+        toll = cost.get("tx_cny_one_side")
+        ratio = (lb["median_cny_one_sheet"] / toll) if (toll and lb.get("median_cny_one_sheet") is not None) else None
+        if ratio is not None:
+            against = "%sx the trim's own %s CNY one-side toll" % ("%.0f" % ratio, "%.2f" % toll)
+        else:
+            against = ("and this sheet owes no trim at all, so being a day late is the only "
+                       "price on it")
+        row["sentence"] += (
+            "; filling this sheet one open late costs about %s CNY of NAV on %s "
+            "(median over %s sheets; waiting helped on %.0f%% of them, t=%s), %s"
+            % ("{:,.0f}".format(abs(lb["median_cny_one_sheet"] or 0.0)),
+               "{:,.0f}".format(lb["capital_cny"] or 0),
+               lb.get("events"),
+               100.0 * (lb.get("share_late_helps") or 0.0),
+               ("%.2f" % lb["t"]) if lb.get("t") is not None else "n/a",
+               against))
+    else:
+        row["sentence"] += "; the price of filling this sheet one open late is UNKNOWN (no late-sheet face)"
     return {"verdict": row["verdict"], "missing": [], "conflicts": conflicts, "row": row}
 
 
@@ -184,7 +240,7 @@ def _published_body(obj):
 
 def cmd_run():
     t0 = datetime.now(timezone.utc)
-    res = derive(_load(GAP), _load(CUT), _load(YEAR))
+    res = derive(_load(GAP), _load(CUT), _load(YEAR), _load(LATE))
     res["face"] = "etf_book_decision_line"
     res["asof"] = datetime.now(CST).strftime("%Y-%m-%dT%H:%M:%S+0800")
     res["elapsed_sec"] = round((datetime.now(timezone.utc) - t0).total_seconds(), 2)
@@ -205,7 +261,7 @@ def cmd_check():
     if old is None:
         print("NO_PUBLISHED_FACE: run first")
         return 1
-    fresh = derive(_load(GAP), _load(CUT), _load(YEAR))
+    fresh = derive(_load(GAP), _load(CUT), _load(YEAR), _load(LATE))
     a, b = _published_body(old), dict(fresh)
     diffs = []
     for k in sorted(set(a) | set(b)):
@@ -314,6 +370,33 @@ def cmd_selftest():
     r8 = derive(g8, c8, y8)
     leg("held book absent from the year gate is visible",
         r8["row"]["gate"]["held_verdict"] is None and r8["verdict"] == "SIZE_AT_THE_PERMISSION_THE_GATE_DOES_NOT_MOVE")
+
+    # the late-sheet price: quoted when the face exists, UNKNOWN (never zero) when it does not
+    g9, c9, y9 = _fixture()
+    late_face = {
+        "capital_cny": 1000000.0,
+        "arms": [{"arm": "nobond_vt08", "verdict": "MEAN_IS_PRICED_EACH_SHEET_IS_NOT",
+                  "dist_cny": {"n": 415, "median": -932.0},
+                  "dist_bps": {"n": 415, "mean": -12.2, "t": -4.61, "share_late_helps": 0.41},
+                  "phases": [{"dcagr_pp": -1.87}, {"dcagr_pp": -2.30}, {"dcagr_pp": -0.68}]}],
+    }
+    r9 = derive(g9, c9, y9, late_face)
+    lb = r9["row"]["late_sheet"]
+    leg("late price is read off the face, not typed",
+        lb["status"] == "OK" and lb["median_cny_one_sheet"] == -932.0 and lb["events"] == 415)
+    leg("late price shows up in the sentence with its own noise",
+        "932" in r9["row"]["sentence"] and "41%" in r9["row"]["sentence"] and "t=-4.61" in r9["row"]["sentence"])
+    leg("late price is stated against what it is not",
+        "17x the trim's own 53.83" in r9["row"]["sentence"])
+    g9b, c9b, y9b = _fixture()
+    g9b["cost"]["tx_cny_one_side"] = 0.0
+    r9b = derive(g9b, c9b, y9b, late_face)
+    leg("a sheet that owes no trim says so instead of a 0.00x ratio",
+        "owes no trim at all" in r9b["row"]["sentence"] and "x the trim" not in r9b["row"]["sentence"])
+    r10 = derive(g9, c9, y9, None)
+    leg("missing late face is UNKNOWN, never a zero",
+        r10["row"]["late_sheet"]["status"] == "UNKNOWN_MISSING_FACE"
+        and "UNKNOWN" in r10["row"]["sentence"] and "0 CNY" not in r10["row"]["sentence"])
 
     ok = all(x[1] for x in legs)
     for name, passed, note in legs:

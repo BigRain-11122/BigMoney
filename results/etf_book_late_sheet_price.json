@@ -1,0 +1,273 @@
+{
+ "face": "etf_book_late_sheet_price",
+ "question": "What does one sheet cost when it is filled one open late -- and is that price the same for every sheet?",
+ "evidence_cutoff": "2026-11-06",
+ "capital_cny": 1000000.0,
+ "config": {
+  "rebal": 20,
+  "n_hold": 5,
+  "cost_per_edge": 0.001,
+  "vol_window": 60,
+  "universe": "bond-free",
+  "phases": 5,
+  "additivity_tol": 0.15
+ },
+ "panel": {
+  "symbols": 1515,
+  "first_bar": "2005-02-23",
+  "last_bar": "2026-11-06",
+  "flips_repaired": 169
+ },
+ "model": {
+  "local_price": "delta = NAV * (r_old - r_new) over the one bar the fill moves",
+  "aggregate": "etf_book_punctuality.replay(lag=1) on the same phase grid",
+  "not_assumed": "that the locals add up -- the residual is measured and printed",
+  "cost_timing": "the 0.10%/edge toll is also paid one bar later; that is second order and lives inside the residual, it is not dropped silently"
+ },
+ "arms": [
+  {
+   "arm": "nobond_vt08",
+   "vol_target": 0.08,
+   "control": {
+    "arm": "nobond_vt08",
+    "bars": 1657,
+    "max_abs_level_gap": 0.0,
+    "reproduces_engine": true
+   },
+   "phases": [
+    {
+     "phase": 0,
+     "events": 83,
+     "years": 6.84,
+     "predicted_log_delta": -0.0780522414380115,
+     "actual_log_delta": -0.0780522414380118,
+     "residual": -3.0531133177191805e-16,
+     "residual_share": -3.911627983347446e-15,
+     "predicted_cny_on_capital": -78052.2414380115,
+     "actual_cny_on_capital": -159004.25524647388,
+     "dcagr_pp": -1.1399999999999992,
+     "control_final": 2.117687928568136,
+     "late_final": 1.958683673321662
+    },
+    {
+     "phase": 1,
+     "events": 83,
+     "years": 6.84,
+     "predicted_log_delta": -0.11561521632338877,
+     "actual_log_delta": -0.1156152163233879,
+     "residual": 8.604228440844963e-16,
+     "residual_share": 7.442124587457443e-15,
+     "predicted_cny_on_capital": -115615.21632338877,
+     "actual_cny_on_capital": -234383.04303683565,
+     "dcagr_pp": -1.8699999999999994,
+     "control_final": 2.1467173326799793,
+     "late_final": 1.9123342896431437
+    },
+    {
+     "phase": 2,
+     "events": 83,
+     "years": 6.84,
+     "predicted_log_delta": -0.040929119023619336,
+     "actual_log_delta": -0.04092911902362355,
+     "residual": -4.211908599671688e-15,
+     "residual_share": -1.0290738477025734e-13,
+     "predicted_cny_on_capital": -40929.119023619336,
+     "actual_cny_on_capital": -92757.88562556996,
+     "dcagr_pp": -0.6799999999999986,
+     "control_final": 2.3130007617569235,
+     "late_final": 2.2202428761313535
+    },
+    {
+     "phase": 3,
+     "events": 83,
+     "years": 6.84,
+     "predicted_log_delta": -0.1422395963149208,
+     "actual_log_delta": -0.14223959631491787,
+     "residual": 2.942091015256665e-15,
+     "residual_share": 2.0684050654523005e-14,
+     "predicted_cny_on_capital": -142239.5963149208,
+     "actual_cny_on_capital": -282304.9783452718,
+     "dcagr_pp": -2.3000000000000007,
+     "control_final": 2.1292120299913444,
+     "late_final": 1.8469070516460726
+    },
+    {
+     "phase": 4,
+     "events": 83,
+     "years": 6.84,
+     "predicted_log_delta": -0.13479607098813653,
+     "actual_log_delta": -0.13479607098813182,
+     "residual": 4.718447854656915e-15,
+     "residual_share": 3.500434263452941e-14,
+     "predicted_cny_on_capital": -134796.07098813655,
+     "actual_cny_on_capital": -256938.9253651453,
+     "dcagr_pp": -2.160000000000001,
+     "control_final": 2.03748545741623,
+     "late_final": 1.7805465320510847
+    }
+   ],
+   "events_per_phase": [
+    83,
+    83,
+    83,
+    83,
+    83
+   ],
+   "event_dates_first_last": [
+    "2020-01-02",
+    "2026-10-20"
+   ],
+   "dist_bps": {
+    "n": 415,
+    "mean": -12.214421066632962,
+    "sd": 54.007174294416856,
+    "sem": 2.651107918100603,
+    "t": -4.60728927073781,
+    "median": -7.6578565700292085,
+    "p10": -72.05263163423953,
+    "p90": 41.976037344864935,
+    "worst": -244.09250207996578,
+    "best": 369.6742209620006,
+    "share_late_helps": 0.41204819277108434
+   },
+   "dist_cny": {
+    "n": 415,
+    "mean": -1823.0329356631994,
+    "sd": 8334.212264245303,
+    "sem": 409.11038974975594,
+    "t": -4.456090535315687,
+    "median": -932.30316833088,
+    "p10": -10347.243513577438,
+    "p90": 5906.530300026623,
+    "worst": -55846.021354064476,
+    "best": 46122.18930921799,
+    "share_late_helps": 0.41204819277108434
+   },
+   "verdict": "MEAN_IS_PRICED_EACH_SHEET_IS_NOT"
+  },
+  {
+   "arm": "nobond_base",
+   "vol_target": null,
+   "control": {
+    "arm": "nobond_base",
+    "bars": 1657,
+    "max_abs_level_gap": 0.0,
+    "reproduces_engine": true
+   },
+   "phases": [
+    {
+     "phase": 0,
+     "events": 83,
+     "years": 6.84,
+     "predicted_log_delta": -0.038000603436425535,
+     "actual_log_delta": -0.038000603436422926,
+     "residual": 2.609024107869118e-15,
+     "residual_share": 6.865743888078402e-14,
+     "predicted_cny_on_capital": -38000.60343642553,
+     "actual_cny_on_capital": -101073.66409573836,
+     "dcagr_pp": -0.4599999999999993,
+     "control_final": 2.710647924476597,
+     "late_final": 2.6095742603808585
+    },
+    {
+     "phase": 1,
+     "events": 83,
+     "years": 6.84,
+     "predicted_log_delta": -0.23471437497699194,
+     "actual_log_delta": -0.23471437497699238,
+     "residual": -4.440892098500626e-16,
+     "residual_share": -1.8920409535785524e-15,
+     "predicted_cny_on_capital": -234714.37497699194,
+     "actual_cny_on_capital": -646657.2713737321,
+     "dcagr_pp": -3.9699999999999984,
+     "control_final": 3.0910470171144593,
+     "late_final": 2.444389745740727
+    },
+    {
+     "phase": 2,
+     "events": 83,
+     "years": 6.84,
+     "predicted_log_delta": -0.09592696954396433,
+     "actual_log_delta": -0.09592696954396125,
+     "residual": 3.0808688933348094e-15,
+     "residual_share": 3.211681665731048e-14,
+     "predicted_cny_on_capital": -95926.96954396433,
+     "actual_cny_on_capital": -305450.8766658284,
+     "dcagr_pp": -1.6600000000000004,
+     "control_final": 3.3393691079658354,
+     "late_final": 3.033918231300007
+    },
+    {
+     "phase": 3,
+     "events": 83,
+     "years": 6.84,
+     "predicted_log_delta": -0.21830320844274007,
+     "actual_log_delta": -0.2183032084427406,
+     "residual": -5.273559366969494e-16,
+     "residual_share": -2.4157040130505968e-15,
+     "predicted_cny_on_capital": -218303.20844274006,
+     "actual_cny_on_capital": -587458.5731178863,
+     "dcagr_pp": -3.6799999999999997,
+     "control_final": 2.9954290665743244,
+     "late_final": 2.407970493456438
+    },
+    {
+     "phase": 4,
+     "events": 83,
+     "years": 6.84,
+     "predicted_log_delta": -0.21721326501893679,
+     "actual_log_delta": -0.21721326501893698,
+     "residual": -1.942890293094024e-16,
+     "residual_share": -8.944620821958732e-16,
+     "predicted_cny_on_capital": -217213.2650189368,
+     "actual_cny_on_capital": -682194.0250807907,
+     "dcagr_pp": -3.7500000000000004,
+     "control_final": 3.4941004388411248,
+     "late_final": 2.811906413760334
+    }
+   ],
+   "events_per_phase": [
+    83,
+    83,
+    83,
+    83,
+    83
+   ],
+   "event_dates_first_last": [
+    "2020-01-02",
+    "2026-10-20"
+   ],
+   "dist_bps": {
+    "n": 415,
+    "mean": -19.11608645337124,
+    "sd": 90.23543573592326,
+    "sem": 4.429483328800906,
+    "t": -4.3156470031339085,
+    "median": -9.889625519853077,
+    "p10": -119.20049661708863,
+    "p90": 61.74375340811877,
+    "worst": -396.13195392790936,
+    "best": 727.212552880086,
+    "share_late_helps": 0.40963855421686746
+   },
+   "dist_cny": {
+    "n": 415,
+    "mean": -3917.173751559234,
+    "sd": 18835.802131322627,
+    "sem": 924.6131616126394,
+    "t": -4.23655417658905,
+    "median": -1450.2819357285348,
+    "p10": -20639.04082504197,
+    "p90": 11299.648887460668,
+    "worst": -121260.4265316423,
+    "best": 107628.25056936193,
+    "share_late_helps": 0.40963855421686746
+   },
+   "verdict": "MEAN_IS_PRICED_EACH_SHEET_IS_NOT"
+  }
+ ],
+ "headline": [
+  "On nobond_vt08, one sheet filled one open late is worth -932 CNY of NAV at the decision (median over 415 sheets, p10..p90 -10,347..5,907); waiting helped on 41% of them, the mean is -12.2 bps with t=-4.61. The 415 locals add up to the whole-book delay arm to 5e-15 log (residual, not assumed): that arm costs 1.87pp a year -- so the price is real in aggregate but a single late sheet is a coin flip -- budget it, do not argue with it.",
+  "On nobond_base, one sheet filled one open late is worth -1,450 CNY of NAV at the decision (median over 415 sheets, p10..p90 -20,639..11,300); waiting helped on 41% of them, the mean is -19.1 bps with t=-4.32. The 415 locals add up to the whole-book delay arm to 3e-15 log (residual, not assumed): that arm costs 3.68pp a year -- so the price is real in aggregate but a single late sheet is a coin flip -- budget it, do not argue with it."
+ ]
+}

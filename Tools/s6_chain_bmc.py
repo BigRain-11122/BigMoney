@@ -1012,6 +1012,14 @@ LEGS = [
     # the phase cells, the headline quotes the phase cell). `check` reads the published
     # JSON only (~0.1s); the 14-minute repricing runs with `run` in its own round.
     ("punctuality", ["python", "scripts/etf_book_punctuality.py", "check"]),
+    # r1481: the punctuality arm prices the *policy* ("every sheet one open late"). The
+    # desk holds one sheet and needs its own price, so this face prices each decision bar
+    # separately and then proves the locals add up to that policy arm (residual on the log
+    # level -- measured, not assumed). This leg re-derives the published receipt from its
+    # own cells: control reproduces the engine, the verdict is recomputed from the
+    # distribution, the aggregate is recomputable from its finals. Read-only JSON, ~0.1s;
+    # the 90-second re-derivation runs with `run` in its own round.
+    ("late_sheet_price", ["python", "scripts/etf_book_late_sheet_price.py", "--check"]),
     # r1447: the horizontal question above ("is the running weight the graded rule's
     # weight") has a vertical twin -- DEFAULT_BETA is a literal, so the weight is
     # k = target/beta and the target could have been any point on a ladder. This leg

@@ -44,9 +44,23 @@
    "cagr_delta_pp": -0.68
   },
   "verdict": "NO_CUT_OWED",
-  "sentence": "on 2026-11-11 the ticket orders k=0.393073 under a permission of 0.393073: no cut is owed, so the only question left is whether the next decision bar re-sizes over the floor (it does unless the same trim is applied there)"
+  "sentence": "on 2026-11-11 the ticket orders k=0.393073 under a permission of 0.393073: no cut is owed, so the only question left is whether the next decision bar re-sizes over the floor (it does unless the same trim is applied there); filling this sheet one open late costs about 932 CNY of NAV on 1,000,000 (median over 415 sheets; waiting helped on 41% of them, t=-4.61), and this sheet owes no trim at all, so being a day late is the only price on it",
+  "late_sheet": {
+   "status": "OK",
+   "face": "results/etf_book_late_sheet_price.json",
+   "arm": "nobond_vt08",
+   "verdict": "MEAN_IS_PRICED_EACH_SHEET_IS_NOT",
+   "capital_cny": 1000000.0,
+   "events": 415,
+   "median_cny_one_sheet": -932.30316833088,
+   "mean_bps_one_sheet": -12.214421066632962,
+   "t": -4.60728927073781,
+   "share_late_helps": 0.41204819277108434,
+   "aggregate_pp_per_year": -1.8699999999999994,
+   "note": "this is one sheet's price on the face's stated capital, not the aggregate arm; on this book the per-sheet prices add up to that arm exactly"
+  }
  },
  "face": "etf_book_decision_line",
- "asof": "2026-11-09T20:56:47+0800",
+ "asof": "2026-11-09T22:41:34+0800",
  "elapsed_sec": 0.0
 }

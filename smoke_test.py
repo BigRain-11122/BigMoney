@@ -673,6 +673,19 @@ def main() -> int:
              "scripts/etf_book_punctuality.py", ["selftest"]),
             ("product: etf_book_punctuality (money, verdict and sentence re-derived)",
              "scripts/etf_book_punctuality.py", ["check"]),
+            # r1481: the punctuality arm answers the policy question ("every sheet one open
+            # late"); the desk asks about the sheet in its hand. The legs pin that the tape
+            # reproduces the engine, that a book which does not change has no price for
+            # being late, that a flat panel prices lateness at zero, that the per-sheet
+            # prices add up to the whole-book arm on a one-bar switch, and that the
+            # published verdict is recomputed from its own distribution instead of typed.
+            ("product: etf_book_late_sheet_price (one sheet late, priced on its own)",
+             "scripts/etf_book_late_sheet_price.py", ["selftest"]),
+            ("product: etf_book_late_sheet_price (locals add up, verdict re-derived)",
+             "scripts/etf_book_late_sheet_price.py", ["--check"]),
+            # r1481 also gave the decision line a third price (what it costs if this sheet
+            # is filled tomorrow); the existing decision-line legs at the bottom of this
+            # file already run that selftest, and it now carries the UNKNOWN-not-zero leg.
             # r1423: r1421 showed the concentration lives in the MAGNITUDES (2025 is a big
             # share of everything that moved) but no face said WHICH names produced them --
             # "the book had a big year" and "one bet had a big year" printed the same number
