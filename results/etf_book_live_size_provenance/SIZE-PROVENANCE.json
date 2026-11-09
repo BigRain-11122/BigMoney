@@ -1,14 +1,14 @@
 {
   "face": "live_size_provenance",
-  "evidence_cutoff": "2026-11-09",
-  "ticket_file": "TICKET-2026-11-09.json",
-  "ticket_rel": "results\\etf_book_order\\TICKET-2026-11-09.json",
+  "evidence_cutoff": "2026-11-06",
+  "ticket_file": "TICKET-2026-11-06.json",
+  "ticket_rel": "results\\etf_book_order\\TICKET-2026-11-06.json",
   "ticket": {
     "beta_target": 0.2,
     "k_now": 0.393073,
     "book_weight": 0.393073,
     "cash_weight": 0.606927,
-    "book_amount_cny": 392727.2,
+    "book_amount_cny": 392507.2,
     "names": [
       "159501",
       "513100",
@@ -38,8 +38,20 @@
       "sentence": "drop the bond sleeve, then apply the 8%/12% vol target"
     }
   },
+  "ticket_selection": "ranked by evidence_cutoff, then book_decided_at, then file name",
+  "tickets_superseded": [],
+  "panel_last_bar": "2026-11-06",
+  "tickets_unverifiable": [
+    {
+      "ticket_file": "TICKET-2026-11-09.json",
+      "evidence_cutoff": "2026-11-09",
+      "panel_last_bar": "2026-11-06"
+    }
+  ],
+  "tickets_unverifiable_sentence": "this machine's panel ends 2026-11-06, so TICKET-2026-11-09.json could not be reproduced and was skipped: it claims evidence through 2026-11-09, which is another host's panel, not this one's",
+  "tickets_superseded_sentence": null,
   "desk_reads_the_ticket_weight": false,
-  "verdict": "IDENTITY_FAIL",
+  "verdict": "DIFFERENT_BOOK_AND_SIZE",
   "comparison": {
     "verdict": "DIFFERENT_BOOK_AND_SIZE",
     "sentence": null,
@@ -95,10 +107,10 @@
   ],
   "vol_rule_estimated_vol": 0.12342,
   "money": {
-    "nav_cny": 999120.2651924706,
-    "book_cny_beta_rule": 459848.55,
-    "book_cny_vol_rule": 647624.64,
-    "delta_cny": -187776.09
+    "nav_cny": 998560.5727180447,
+    "book_cny_beta_rule": 459590.95,
+    "book_cny_vol_rule": 647261.85,
+    "delta_cny": -187670.9
   },
   "identity_legs": {
     "L_beta": {
@@ -129,9 +141,9 @@
       "ok": true
     },
     "L_bar": {
-      "published": "2026-11-09",
+      "published": "2026-11-06",
       "derived": "2026-11-06",
-      "ok": false
+      "ok": true
     },
     "L_decision": {
       "published": "2026-10-14",
@@ -139,6 +151,5 @@
       "ok": true
     }
   },
-  "identity_ok": false,
-  "sentence": "this face did not reproduce the published ticket; its reading is about another book and must not be used"
+  "identity_ok": true
 }

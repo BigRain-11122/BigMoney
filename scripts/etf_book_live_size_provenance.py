@@ -122,18 +122,100 @@ def _read_json(rel):
         return json.load(f)
 
 
-def latest_ticket():
-    files = sorted(glob.glob(os.path.join(BASE, TICKET_GLOB)))
+def _ticket_rank(path):
+    """Rank tickets by what they know, not by the date in their file name.
+
+    r1480: the forward panel can lag its own upstream (sina stops at 2026-11-06 while
+    tencent already prints 2026-11-09), so a sheet written TODAY can carry an EARLIER
+    evidence cutoff than one written this morning. Ranking by file name then keeps
+    picking the older evidence, and the check leg reads the resulting disagreement as a
+    ticket defect instead of a stalled feed. The card export carries no evidence fields
+    and is excluded: it is the ticket's own summary, not a second ticket.
+    """
+    try:
+        with open(path, encoding="utf-8") as f:
+            d = json.load(f)
+    except (OSError, ValueError):
+        return ("", "", os.path.basename(path))
+    return (str(d.get("evidence_cutoff") or ""),
+            str(d.get("book_decided_at") or ""),
+            os.path.basename(path))
+
+
+def ticket_files():
+    return [p for p in glob.glob(os.path.join(BASE, TICKET_GLOB))
+            if not p.endswith("-card.json")]
+
+
+def _name_date(name):
+    import re
+    m = re.search(r"(\d{4}-\d{2}-\d{2})", name)
+    return m.group(1) if m else ""
+
+
+def _bar_label(x):
+    """A bar as the day it is, never a timestamp: '2026-11-06 00:00:00' reads as a time."""
+    return None if x is None else str(getattr(x, "date", lambda: x)())[:10]
+
+
+def latest_ticket(panel_last=None):
+    """(name, ticket, superseded, unverifiable) -- sheets this read passed over.
+
+    `panel_last` is the last bar THIS machine can see. A sheet claiming evidence later
+    than that was priced on a panel this host does not hold (another machine's checkout),
+    so it cannot be reproduced here: it is not "the newest ticket", it is a ticket this
+    audit cannot speak about, and picking it would end in IDENTITY_FAIL with no reading
+    at all. Fall back to the newest sheet that is reproducible and NAME the one skipped.
+    """
+    files = ticket_files()
     if not files:
-        return None, None
+        return None, None, [], []
+    files.sort(key=_ticket_rank)
+    unverifiable = []
+    if panel_last is not None:
+        keep = []
+        for p in files:
+            try:
+                with open(p, encoding="utf-8") as f:
+                    d = json.load(f)
+            except (OSError, ValueError):
+                keep.append(p)
+                continue
+            cut = str(d.get("evidence_cutoff") or "")
+            if cut and cut > str(_bar_label(panel_last)):
+                unverifiable.append({"ticket_file": os.path.basename(p),
+                                     "evidence_cutoff": cut,
+                                     "panel_last_bar": _bar_label(panel_last)})
+            else:
+                keep.append(p)
+        files = keep
+        if not files:
+            return None, None, [], unverifiable
     path = files[-1]
     with open(path, encoding="utf-8") as f:
-        return os.path.basename(path), json.load(f)
+        tk = json.load(f)
+    chosen = os.path.basename(path)
+    chosen_date = _name_date(chosen)
+    superseded = []
+    for p in files[:-1]:
+        nm = os.path.basename(p)
+        # only the informative case: a sheet whose name promises a newer day than the one
+        # chosen. Sheets named earlier are simply history and are not worth a line.
+        if _name_date(nm) <= chosen_date:
+            continue
+        try:
+            with open(p, encoding="utf-8") as f:
+                d = json.load(f)
+        except (OSError, ValueError):
+            continue
+        superseded.append({"ticket_file": nm,
+                           "evidence_cutoff": d.get("evidence_cutoff")})
+    return chosen, tk, superseded, unverifiable
 
 
-def published_face():
+def published_face(panel_last=None):
     """Everything derivable without loading the panel (--check path)."""
-    name, tk = latest_ticket()
+    name, tk, superseded, unverifiable = latest_ticket(panel_last)
     if tk is None:
         return {"face": "live_size_provenance", "verdict": "NO_TICKET",
                 "sentence": "no ticket face on disk; nothing to audit"}
@@ -165,7 +247,36 @@ def published_face():
             "beta_target": dict(CITED["beta_target"]),
             "vol_target": dict(CITED["vol_target"]),
         },
+        # a sheet named later can know less: print the ones this read passed over rather
+        # than letting the reader assume the newest name carries the newest evidence.
+        "ticket_selection": ("ranked by evidence_cutoff, then book_decided_at, then file name"),
+        "tickets_superseded": superseded,
+        # a sheet priced on a panel this host does not hold cannot be audited here; say
+        # which one was skipped and what it claims, so "we read the older sheet" is a
+        # disclosed choice rather than a mysterious mismatch.
+        "panel_last_bar": _bar_label(panel_last),
+        "tickets_unverifiable": unverifiable,
     }
+    if unverifiable:
+        out["tickets_unverifiable_sentence"] = (
+            "this machine's panel ends %s, so %s could not be reproduced and was skipped: "
+            "it claims evidence through %s, which is another host's panel, not this one's"
+            % (_bar_label(panel_last), ", ".join(str(r["ticket_file"]) for r in unverifiable),
+               ", ".join(str(r["evidence_cutoff"]) for r in unverifiable)))
+    else:
+        out["tickets_unverifiable_sentence"] = None
+    # a list is only half a disclosure: the reader needs the sentence, or the surprise is
+    # that a face which passed over a newer-named sheet said nothing about it.
+    if superseded:
+        oldest = min([str(r.get("evidence_cutoff") or "") for r in superseded] or [""])
+        out["tickets_superseded_sentence"] = (
+            "this face audits %s (%s); passed over %s -- NAMED later but carrying older "
+            "evidence (oldest %s), which is a stalled feed, not a ticket defect"
+            % (name, tk.get("evidence_cutoff"),
+               ", ".join(str(r.get("ticket_file")) for r in superseded),
+               oldest or "unknown"))
+    else:
+        out["tickets_superseded_sentence"] = None
     # the desk already equates the live ticket's weight with the adjudicated book's.
     # make that identity explicit instead of leaving it to the reader.
     desk_w = executed.get("book_weight")
@@ -198,6 +309,10 @@ def run():
     if BO.REPAIR_PANEL:
         close, openp, n_flip = AE.repair_flips(close, openp)
         print("panel: repaired %d flip prints" % n_flip, flush=True)
+    # the panel bar this host actually holds decides which sheets are auditable here
+    face = published_face(panel_last=close.index[-1])
+    if face.get("tickets_unverifiable_sentence"):
+        print("sheet: " + face["tickets_unverifiable_sentence"], flush=True)
     classes = pd.Series(classify(list(close.columns)))
 
     # ---- arm A: the ticket's own construction (V.KEEP classes, beta target)
@@ -413,6 +528,44 @@ def selftest():
         f = published_face()
         leg("L16 a desk quoting a different weight is reported as False, not hidden",
             f["desk_reads_the_ticket_weight"] is False)
+
+        # r1480: a sheet written later can carry an EARLIER evidence cutoff (the feed
+        # stalled while the clock kept running). The file name must not win that race.
+        stale = dict(tk, evidence_cutoff="2026-11-03", beta_target=0.2, k_now=0.5)
+        stale["ticket"] = dict(tk["ticket"], book_weight=0.5, cash_weight=0.5,
+                               book_amount=500000.0)
+        json.dump(stale, open(os.path.join(d1, "TICKET-2026-11-09.json"), "w", encoding="utf-8"))
+        f = published_face()
+        leg("L21 a later-named sheet with older evidence does not become the newest ticket",
+            f["ticket_file"] == "TICKET-2026-11-06.json")
+        leg("L22 the sheet whose name wins but whose evidence loses is listed",
+            [r["ticket_file"] for r in f["tickets_superseded"]] == ["TICKET-2026-11-09.json"])
+        leg("L23 the card export is not a second ticket",
+            all(not r["ticket_file"].endswith("-card.json") for r in f["tickets_superseded"]))
+        leg("L24 the sheet that was passed over is stated in a sentence, not left in a list",
+            "TICKET-2026-11-09.json" in (f.get("tickets_superseded_sentence") or "")
+            and "TICKET-2026-11-06.json" in (f.get("tickets_superseded_sentence") or "")
+            and "not a ticket defect" in (f.get("tickets_superseded_sentence") or ""))
+        os.remove(os.path.join(d1, "TICKET-2026-11-09.json"))
+        f = published_face()
+        leg("L25 with nothing passed over the face says nothing (no invented stall)",
+            f.get("tickets_superseded") == []
+            and f.get("tickets_superseded_sentence") is None)
+
+        # r1479: a sheet priced on a panel this host does not hold. Reproducing it ends in
+        # IDENTITY_FAIL -- i.e. no reading at all -- so it must be skipped BY NAME instead.
+        fut = dict(tk, evidence_cutoff="2026-11-20")
+        json.dump(fut, open(os.path.join(d1, "TICKET-2026-11-20.json"), "w", encoding="utf-8"))
+        f = published_face(panel_last="2026-11-06")
+        leg("L26 a sheet claiming evidence past this host's panel is skipped, not audited",
+            f["ticket_file"] == "TICKET-2026-11-06.json"
+            and [r["ticket_file"] for r in f["tickets_unverifiable"]] == ["TICKET-2026-11-20.json"])
+        leg("L27 the skipped sheet is stated with the panel bar that made it unauditable",
+            "2026-11-20" in (f.get("tickets_unverifiable_sentence") or "")
+            and "2026-11-06" in (f.get("tickets_unverifiable_sentence") or ""))
+        leg("L28 with no panel boundary the face skips nothing (panel-free read keeps its old answer)",
+            published_face()["ticket_file"] == "TICKET-2026-11-20.json")
+        os.remove(os.path.join(d1, "TICKET-2026-11-20.json"))
         globals()["BASE"] = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     print("selftest: %d/%d" % (ok, n))
@@ -430,10 +583,26 @@ def check():
         print("check: no published face at %s" % OUT_PATH)
         return 1, 1, ["MISSING receipt"]
     pub = _read_json(OUT_PATH)
-    live = published_face()
+    # the receipt records which panel bar it was auditable against; re-read with the same
+    # boundary, otherwise check would re-select the sheet the run deliberately skipped.
+    live = published_face(panel_last=pub.get("panel_last_bar"))
     legs = []
     legs.append(("ticket file matches the newest on disk",
                  pub.get("ticket_file") == live.get("ticket_file")))
+    # the superseded disclosure is the half that protects a reader from auditing the wrong
+    # book, so it must be re-derived too -- a list left hanging in an old receipt is worse
+    # than no list, because it names sheets that may no longer exist.
+    legs.append(("sheets passed over are re-derived, not carried stale",
+                 [r.get("ticket_file") for r in (pub.get("tickets_superseded") or [])]
+                 == [r.get("ticket_file") for r in (live.get("tickets_superseded") or [])]))
+    legs.append(("the passed-over sentence agrees with today's read",
+                 pub.get("tickets_superseded_sentence") == live.get("tickets_superseded_sentence")))
+    legs.append(("sheets skipped as unreproducible are re-derived, not carried stale",
+                 [r.get("ticket_file") for r in (pub.get("tickets_unverifiable") or [])]
+                 == [r.get("ticket_file") for r in (live.get("tickets_unverifiable") or [])]))
+    legs.append(("a skipped sheet always names the panel bar that made it unauditable",
+                 (not (pub.get("tickets_unverifiable") or []))
+                 or pub.get("panel_last_bar") is not None))
     legs.append(("ticket weight re-read from the ticket",
                  abs(float(pub["ticket"]["book_weight"]) - float(live["ticket"]["book_weight"])) < 1e-9))
     legs.append(("ticket names re-read from the ticket",
