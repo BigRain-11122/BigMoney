@@ -25765,5 +25765,50 @@ except Exception as _e588x:
 check(_name588, not _bad588, "; ".join(_bad588)[:240] or _d588)
 
 
+# E595: E594 named three readers as asking the pointer face for a spelling it does not carry, and
+# the one-line repair is to alias the bar under every name.  This leg reads the blast-radius face
+# and refuses the ways that reading could be a wish: counts that do not re-derive from their own
+# pairs, a verdict that contradicts the read-flip list, an addressing class outside the published
+# vocabulary, two alias arms sharing a name, a basename collision that was never measured, and the
+# one that matters most -- a reader credited with a read flip while its own published key set shows
+# it never asks this face for that key.
+_name595 = ("E595 whether aliasing the pointer face changes any reader's answer (r1624 bm-b)")
+_bad595 = []
+_d595 = "no reading"
+try:
+    _p595 = os.path.join("results", "state_tilt", "BARALIAS.json")
+    _f595 = json.load(open(_p595, encoding="utf-8"))
+    _m595 = importlib.import_module("e595_pointer_alias_blast")
+    _bad595.extend(_m595.face_problems(_f595))
+    _c595 = _f595.get("counts") or {}
+    _rows595 = _f595.get("pairs") or []
+    _claimed595 = list(_c595.get("read_flipping_readers") or [])
+    _derived595 = sorted(set(
+        r.get("reader") for r in _rows595
+        if r.get("flip_is_a_read_flip")
+        and r.get("bar_arm_outcome") == "carried"
+        and r.get("shipped_outcome") != "carried"))
+    if _claimed595 != _derived595:
+        _bad595.append("read-flipping readers %s do not re-derive from the pairs %s"
+                       % (_claimed595, _derived595))
+    _noask595 = [r.get("reader") for r in _rows595
+                 if r.get("flip_is_a_read_flip")
+                 and not (set(r.get("bar_arm_added") or [])
+                          & set(r.get("keys_the_reader_asks_of_this_face") or []))]
+    if _noask595:
+        _bad595.append("a reader is credited with a read flip without asking for that key: %s"
+                       % ", ".join(sorted(set(_noask595))[:3]))
+    _d595 = ("graded=%d silent=%d addressing=%d reading=%d bar_flips=%d read_flips=%d"
+             % (_c595.get("graded_pairs", 0),
+                len(_c595.get("readers_graded_silent_against_this_face") or []),
+                len(_c595.get("readers_addressing_this_face") or []),
+                len(_c595.get("readers_that_address_and_open_this_face") or []),
+                _c595.get("bar_arm_moved_pairs", 0), len(_claimed595)))
+except Exception as _e595x:
+    _bad595.append(repr(_e595x)[:160])
+    _d595 = "study could not be read"
+check(_name595, not _bad595, "; ".join(_bad595)[:240] or _d595)
+
+
 if __name__ == "__main__":
     sys.exit(main())

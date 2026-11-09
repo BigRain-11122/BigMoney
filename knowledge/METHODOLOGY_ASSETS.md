@@ -14243,3 +14243,27 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 **边界**：角色检测是**行级、字面量级**——经 helper 转手的计数看不见，故盲读者数是**下界**；只转手不读的模块按 `names_the_path_but_reads_no_bars` 如实记，不是读者缺陷；重复臂复现的是 E584 的形状（17/11），不是它的具体行对象；第三臂 patch 模块级 `LEDGER` 常量并调用纯 `build()`，从不碰写手 `run()`。
 
 **证据** = scripts/e588_ledger_rowcount.py（selftest 29/29、check/verify problems=[]）+ scripts/run_e588_smoke_leg.py（PASS，--doctor 1/1 红）+ results/state_tilt/LEDGERROWCOUNT.json（+-latest）+ S6 leg `ledger_row_count`（rc0 1.50s）+ smoke_test.py leg `E588`（52 增 0 删）
+
+### E595 给指针面加别名是个空修——因为「要这个键的读者」数量是 0（r1624 bm-b，2026-11-09）
+
+**问题**：E594 说 bar 有四种拼法、没有通用拼法，并点名三个读者在向 `results/etf_book_order/latest.json` 要 `evidence_cutoff`（该面只印 `as_of`）。自然的修法是写者加一行别名。E594 自己也写了这条修法的**爆炸半径没量**：别名可能让一个原本走默认值的读者突然读到真值。这一轮就量这个半径。
+
+**读数**（results/state_tilt/BARALIAS.json）：
+
+- **同名面 27 个**：磁盘上叫 `latest.json` 的面有 **27** 个，而 E594 的目标解析按 basename 建索引——所以"向指针面要 `evidence_cutoff`"的三个读者（`e403_family_arg.py`、`e446_frozen_writer.py`、`etf_book_bridge.py`）**读的是另一个面**（bridge 明写 `etf_book_production/latest.json`，另两个的 `latest.json` 只出现在自建面名、夹具和散文里）。20 个受评对里只有 **11 个**真的指这个面；8 个"静默读者"里 **3 个是 basename 撞名**。
+- **三层漏斗，只有最后一层能动人**：①指名这个面 → 3 个模块（`etf_book_ceo_page.py` / `etf_book_registry.py` / `smoke_test.py`）；②指名且**真打开**它 → 同样 3 个；③打开且**真的向它要别名要加的那个键** → **0 个**。`etf_book_ceo_page` 只问 `ticket_file`/`file`/`path`/`ticket`，registry 一个键都不取（只登记路径），`smoke_test` 只取 `as_of`（本来就印着）。
+- **别名的翻转数**：按 payload 键位评分，bar 臂（6 个名字）翻转 **12** 对；其中 3 对属于打开这个面的读者，**0 对**属于"真要那个键"的读者。判决 = `aliasing_this_face_moves_no_reader_that_addresses_it`。
+- **危险臂另印**：把 `book_decided_at`/`decision_bar` 这类**决策时刻**名字也别名成定价 bar，会再翻转 3 对（ceo_page / etf_book_order / smoke_test）——决策 bar 与定价 bar 是两个时刻（E586 量过票面同时印两个），这一臂是**伪造答案**不是补齐答案，故与 bar 臂分开发布、不进修复计数。
+- **默认值覆盖面为空**：三个真的打开该面的模块里，对这 12 个别名名字的 `.get(name, default)` 取键点 **0 个**——所以"别名会顶掉默认值"这个风险在这条链上是 **0 个可被顶掉的点**，不是"我没看见"。
+
+**教训**：
+
+- **同名文件就是两个总体**（E366 的下一层）：按 basename 解析目标会把 27 个面混成一个，于是"某读者要了某面没有的键"可能是**另一个面**的读者。判据不是计数相等，是**读者自己字面量里的目录**——`os.path.join(ROOT, "results", "etf_book_order", "latest.json")` 的第一段是常量名，join 折叠必须允许它（否则目录又被丢掉，重新造出撞名）。
+- **命名 ≠ 打开 ≠ 取键**（E470 的两级延长）：一条 `latest.json` 字面量不是一次读，一次 `open` 也不是一次取键。三层要分开发布（addressing / open_witness / keys_the_reader_asks_of），因为"该修的读者"只住在第三层。`etf_book_ceo_page` 三个条件全过前两个、第三个为空，正是"打开了但从没问过这个字段"。
+- **修法的价格要按「有心要这个键的人」算**：12 对翻转／0 个真读者，说明缺的那个字段在整条链上**没有需求**——不是"补一行就好了"，而是**这个键位是空的，没人向它下单**。这类结论只能由"取键集"给出，payload 键位评分给不出（它给 12）。
+- **危险臂必须和修复臂并列发布**：两个臂都"补上了名字"，只差在名字的语义（定价时刻 vs 决策时刻）。合并成一个臂，或者只报"翻了多少对"，会把伪造答案算成修好。
+- **默认值可被顶掉的点数要单独字段**：`default_fallbacks` 为空才是零风险，若随修复臂一起含糊掉，"没人动"与"没人有默认值可动"就分不开——前者是结论，后者是边界。
+
+**边界**：addressing 由读者自己的字符串字面量判定，运行时拼的路径只能看它拼出了哪些段；open_witness 是**行局部**弱证据（字面量 ±6 行内出现 open/json.load/read_text），没有见证的模块发布为"未见证"而非"不读"；取键集是 AST 上 4 跳内的载荷绑定（`x = json.load(open(...))` / `x = _load(POINTER)` / 模块常量），绑定解析不到的模块发布为 `payload_binding_resolved=false` 而不计成"什么都没要"；别名只在内存里造，磁盘上的指针面**一个字节没写**。
+
+**证据** = scripts/e595_pointer_alias_blast.py（selftest 36/36，check/verify problems=[]）+ scripts/run_e595_smoke_leg.py（PASS，--doctor 1/1 红）+ results/state_tilt/BARALIAS.json（+-latest）+ S6 leg `pointer_alias_blast`（rc0 5.12s）+ smoke_test.py leg `E595` + research/digests/DIGEST-20261109-r1624-e595-pointer-alias-blast.md。

@@ -1,0 +1,861 @@
+{
+ "addressing_vocab": [
+  "names_this_face",
+  "names_another_face_of_the_same_basename",
+  "no_literal_naming_the_basename"
+ ],
+ "alias_arms": {
+  "bar": [
+   "evidence_cutoff",
+   "pricing_bar",
+   "priced_bar",
+   "ticket_bar",
+   "expected_bar",
+   "price_bar"
+  ],
+  "decision": [
+   "book_decided_at",
+   "decision_bar",
+   "card_decided_at",
+   "card_priced_bar",
+   "priced_on_decision_bar",
+   "ticket_priced_bar"
+  ]
+ },
+ "answer": "The pointer face carries as_of, beta_target, file, k_now. E594 graded 20 (reader, spelling) pairs against it and 8 reader(s) as silent (scripts/e403_family_arg.py, scripts/e446_frozen_writer.py, scripts/etf_book_bridge.py, scripts/etf_book_ceo_page.py, scripts/etf_book_order.py, scripts/etf_book_publish_decision.py, scripts/etf_book_registry.py, smoke_test.py). Its basename ``latest.json`` is shared by 27 faces on disk, and reading each reader's own literals, only 11 of the graded pairs name this face (scripts/etf_book_ceo_page.py, scripts/etf_book_registry.py, smoke_test.py); the rest name a different face or spell the basename only in prose, and 3 reader(s) both name it and show an open witness on it (scripts/etf_book_ceo_page.py, scripts/etf_book_registry.py, smoke_test.py). Aliasing the bar under 6 spelling(s) flips 12 pair(s) -- 3 of those flips belong to a reader that opens this face (scripts/etf_book_ceo_page.py, scripts/etf_book_registry.py, smoke_test.py), and only 0 belong to a reader that actually ASKS this face for the key the alias would add (none (every flip is a payload-key grade on a reader that never asks for that key)). Aliasing decision-bar names would additionally flip 3 pair(s): scripts/etf_book_ceo_page.py, scripts/etf_book_order.py, smoke_test.py -- a decision bar is a different instant from the pricing bar, so that arm fabricates an answer and is published as a hazard, not as a repair.",
+ "basename_collision": {
+  "basename": "latest.json",
+  "faces_on_disk": 27,
+  "resolver": "E594 resolves targets by basename, so a face sharing the basename is indistinguishable from the pointer"
+ },
+ "counts": {
+  "bar_arm_moved_pairs": 12,
+  "bar_arm_moved_readers": [
+   "scripts/e403_family_arg.py",
+   "scripts/e446_frozen_writer.py",
+   "scripts/etf_book_bridge.py",
+   "scripts/etf_book_ceo_page.py",
+   "scripts/etf_book_order.py",
+   "scripts/etf_book_publish_decision.py",
+   "scripts/etf_book_registry.py",
+   "smoke_test.py"
+  ],
+  "bar_arm_moved_readers_that_address_this_face": [
+   "scripts/etf_book_ceo_page.py",
+   "scripts/etf_book_registry.py",
+   "smoke_test.py"
+  ],
+  "bar_arm_moved_readers_that_open_this_face": [
+   "scripts/etf_book_ceo_page.py",
+   "scripts/etf_book_registry.py",
+   "smoke_test.py"
+  ],
+  "by_addressing": {
+   "names_another_face_of_the_same_basename": {
+    "bar_arm_moves": 6,
+    "decision_arm_moves": 1,
+    "pairs": 9,
+    "shipped_carried": 2
+   },
+   "names_this_face": {
+    "bar_arm_moves": 6,
+    "decision_arm_moves": 2,
+    "pairs": 11,
+    "shipped_carried": 3
+   }
+  },
+  "decision_arm_moved_pairs": 3,
+  "decision_arm_moved_readers": [
+   "scripts/etf_book_ceo_page.py",
+   "scripts/etf_book_order.py",
+   "smoke_test.py"
+  ],
+  "graded_pairs": 20,
+  "pairs_whose_mover_opens_this_face": 6,
+  "read_flipping_pairs": 0,
+  "read_flipping_readers": [],
+  "readers": 8,
+  "readers_addressing_this_face": [
+   "scripts/etf_book_ceo_page.py",
+   "scripts/etf_book_registry.py",
+   "smoke_test.py"
+  ],
+  "readers_graded_silent_against_this_face": [
+   "scripts/e403_family_arg.py",
+   "scripts/e446_frozen_writer.py",
+   "scripts/etf_book_bridge.py",
+   "scripts/etf_book_ceo_page.py",
+   "scripts/etf_book_order.py",
+   "scripts/etf_book_publish_decision.py",
+   "scripts/etf_book_registry.py",
+   "smoke_test.py"
+  ],
+  "readers_that_address_and_open_this_face": [
+   "scripts/etf_book_ceo_page.py",
+   "scripts/etf_book_registry.py",
+   "smoke_test.py"
+  ],
+  "readers_that_ask_for_at_least_one_key_of_this_face": [
+   "scripts/etf_book_ceo_page.py",
+   "smoke_test.py"
+  ]
+ },
+ "default_fallbacks": {
+  "scripts/etf_book_ceo_page.py": [],
+  "scripts/etf_book_registry.py": [],
+  "smoke_test.py": []
+ },
+ "evidence_cutoff": "2026-11-06",
+ "limits": [
+  "addressing is decided from the reader's own string literals; a path composed at runtime from parts is visible only through the parts it spells",
+  "a 'flip' is a payload-key grade, not a proven runtime read: a module that opens this face and never asks for the name is not moved by aliasing it",
+  "the alias arms are published side by side on purpose -- the decision arm is a hazard, and calling its flips a repair would fabricate a decision bar"
+ ],
+ "pairs": [
+  {
+   "addressing": "names_another_face_of_the_same_basename",
+   "bar_arm_added": [
+    "evidence_cutoff"
+   ],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "not_carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 840,
+     "open_line": 841,
+     "snippet": "with open(p, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:"
+    },
+    {
+     "literal_line": 851,
+     "open_line": 854,
+     "snippet": "old = json.load(open(published, encoding=\"utf-8\"))"
+    }
+   ],
+   "payload_binding_resolved": false,
+   "reader": "scripts/e403_family_arg.py",
+   "reader_latest_literals": [
+    "familyarg_latest.json",
+    "homie_latest.json",
+    "latest.json",
+    "latestfamily_latest.json"
+   ],
+   "reader_opens_this_face": false,
+   "shipped_carried_names": [],
+   "shipped_outcome": "not_carried",
+   "spelling": "evidence_cutoff"
+  },
+  {
+   "addressing": "names_another_face_of_the_same_basename",
+   "bar_arm_added": [
+    "evidence_cutoff"
+   ],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "not_carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 687,
+     "open_line": 687,
+     "snippet": "sites, _ = _sites_of('open(\"results/fx/latest.json\", \"w\")\\n')"
+    },
+    {
+     "literal_line": 689,
+     "open_line": 687,
+     "snippet": "sites, _ = _sites_of('open(\"results/fx/latest.json\", \"w\")\\n')"
+    }
+   ],
+   "payload_binding_resolved": false,
+   "reader": "scripts/e446_frozen_writer.py",
+   "reader_latest_literals": [
+    "frozenwriter_latest.json",
+    "latest.json",
+    "results/etf_book_production/latest.json",
+    "results/fx/latest.json"
+   ],
+   "reader_opens_this_face": false,
+   "shipped_carried_names": [],
+   "shipped_outcome": "not_carried",
+   "spelling": "evidence_cutoff"
+  },
+  {
+   "addressing": "names_another_face_of_the_same_basename",
+   "bar_arm_added": [
+    "evidence_cutoff"
+   ],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "not_carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 369,
+     "open_line": 369,
+     "snippet": "card = json.load(open(os.path.join(OUT_DIR, \"etf_book_production\", \"latest.json\"),"
+    }
+   ],
+   "payload_binding_resolved": false,
+   "reader": "scripts/etf_book_bridge.py",
+   "reader_latest_literals": [
+    "etf_book_production/latest.json",
+    "latest.json"
+   ],
+   "reader_opens_this_face": false,
+   "shipped_carried_names": [],
+   "shipped_outcome": "not_carried",
+   "spelling": "evidence_cutoff"
+  },
+  {
+   "addressing": "names_this_face",
+   "bar_arm_added": [
+    "ticket_bar"
+   ],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [
+    "file",
+    "path",
+    "ticket",
+    "ticket_file"
+   ],
+   "names": [
+    "as_of",
+    "ticket_bar"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 928,
+     "open_line": 922,
+     "snippet": "with open(md_path, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:"
+    }
+   ],
+   "payload_binding_resolved": true,
+   "reader": "scripts/etf_book_ceo_page.py",
+   "reader_latest_literals": [
+    "latest.json",
+    "results/etf_book_order/latest.json",
+    "results/etf_book_production/latest.json"
+   ],
+   "reader_opens_this_face": true,
+   "shipped_carried_names": [
+    "as_of"
+   ],
+   "shipped_outcome": "carried",
+   "spelling": "as_of"
+  },
+  {
+   "addressing": "names_this_face",
+   "bar_arm_added": [],
+   "bar_arm_outcome": "not_carried",
+   "decision_arm_added": [
+    "book_decided_at"
+   ],
+   "decision_arm_outcome": "carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [
+    "file",
+    "path",
+    "ticket",
+    "ticket_file"
+   ],
+   "names": [
+    "book_decided_at"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 928,
+     "open_line": 922,
+     "snippet": "with open(md_path, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:"
+    }
+   ],
+   "payload_binding_resolved": true,
+   "reader": "scripts/etf_book_ceo_page.py",
+   "reader_latest_literals": [
+    "latest.json",
+    "results/etf_book_order/latest.json",
+    "results/etf_book_production/latest.json"
+   ],
+   "reader_opens_this_face": true,
+   "shipped_carried_names": [],
+   "shipped_outcome": "not_carried",
+   "spelling": "decision"
+  },
+  {
+   "addressing": "names_this_face",
+   "bar_arm_added": [
+    "evidence_cutoff"
+   ],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "not_carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [
+    "file",
+    "path",
+    "ticket",
+    "ticket_file"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 928,
+     "open_line": 922,
+     "snippet": "with open(md_path, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:"
+    }
+   ],
+   "payload_binding_resolved": true,
+   "reader": "scripts/etf_book_ceo_page.py",
+   "reader_latest_literals": [
+    "latest.json",
+    "results/etf_book_order/latest.json",
+    "results/etf_book_production/latest.json"
+   ],
+   "reader_opens_this_face": true,
+   "shipped_carried_names": [],
+   "shipped_outcome": "not_carried",
+   "spelling": "evidence_cutoff"
+  },
+  {
+   "addressing": "names_this_face",
+   "bar_arm_added": [
+    "priced_bar",
+    "ticket_bar"
+   ],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "not_carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [
+    "file",
+    "path",
+    "ticket",
+    "ticket_file"
+   ],
+   "names": [
+    "priced_bar",
+    "ticket_bar"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 928,
+     "open_line": 922,
+     "snippet": "with open(md_path, \"w\", encoding=\"utf-8\", newline=\"\\n\") as fh:"
+    }
+   ],
+   "payload_binding_resolved": true,
+   "reader": "scripts/etf_book_ceo_page.py",
+   "reader_latest_literals": [
+    "latest.json",
+    "results/etf_book_order/latest.json",
+    "results/etf_book_production/latest.json"
+   ],
+   "reader_opens_this_face": true,
+   "shipped_carried_names": [],
+   "shipped_outcome": "not_carried",
+   "spelling": "pricing"
+  },
+  {
+   "addressing": "names_another_face_of_the_same_basename",
+   "bar_arm_added": [
+    "ticket_bar"
+   ],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [],
+   "names": [
+    "as_of",
+    "ticket_bar"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 602,
+     "open_line": 605,
+     "snippet": "with open(latest, encoding=\"utf-8\") as f:"
+    },
+    {
+     "literal_line": 603,
+     "open_line": 605,
+     "snippet": "with open(latest, encoding=\"utf-8\") as f:"
+    }
+   ],
+   "payload_binding_resolved": false,
+   "reader": "scripts/etf_book_order.py",
+   "reader_latest_literals": [
+    "TICKET-latest.json",
+    "latest.json"
+   ],
+   "reader_opens_this_face": false,
+   "shipped_carried_names": [
+    "as_of"
+   ],
+   "shipped_outcome": "carried",
+   "spelling": "as_of"
+  },
+  {
+   "addressing": "names_another_face_of_the_same_basename",
+   "bar_arm_added": [],
+   "bar_arm_outcome": "not_carried",
+   "decision_arm_added": [
+    "book_decided_at",
+    "card_decided_at",
+    "card_priced_bar",
+    "decision_bar",
+    "priced_on_decision_bar",
+    "ticket_priced_bar"
+   ],
+   "decision_arm_outcome": "carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [],
+   "names": [
+    "book_decided_at",
+    "card_decided_at",
+    "card_priced_bar",
+    "decision_bar",
+    "priced_on_decision_bar",
+    "ticket_priced_bar"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 602,
+     "open_line": 605,
+     "snippet": "with open(latest, encoding=\"utf-8\") as f:"
+    },
+    {
+     "literal_line": 603,
+     "open_line": 605,
+     "snippet": "with open(latest, encoding=\"utf-8\") as f:"
+    }
+   ],
+   "payload_binding_resolved": false,
+   "reader": "scripts/etf_book_order.py",
+   "reader_latest_literals": [
+    "TICKET-latest.json",
+    "latest.json"
+   ],
+   "reader_opens_this_face": false,
+   "shipped_carried_names": [],
+   "shipped_outcome": "not_carried",
+   "spelling": "decision"
+  },
+  {
+   "addressing": "names_another_face_of_the_same_basename",
+   "bar_arm_added": [
+    "evidence_cutoff"
+   ],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "not_carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 602,
+     "open_line": 605,
+     "snippet": "with open(latest, encoding=\"utf-8\") as f:"
+    },
+    {
+     "literal_line": 603,
+     "open_line": 605,
+     "snippet": "with open(latest, encoding=\"utf-8\") as f:"
+    }
+   ],
+   "payload_binding_resolved": false,
+   "reader": "scripts/etf_book_order.py",
+   "reader_latest_literals": [
+    "TICKET-latest.json",
+    "latest.json"
+   ],
+   "reader_opens_this_face": false,
+   "shipped_carried_names": [],
+   "shipped_outcome": "not_carried",
+   "spelling": "evidence_cutoff"
+  },
+  {
+   "addressing": "names_another_face_of_the_same_basename",
+   "bar_arm_added": [
+    "expected_bar",
+    "price_bar",
+    "priced_bar",
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "not_carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [],
+   "names": [
+    "expected_bar",
+    "price_bar",
+    "priced_bar",
+    "pricing_bar",
+    "ticket_bar"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 602,
+     "open_line": 605,
+     "snippet": "with open(latest, encoding=\"utf-8\") as f:"
+    },
+    {
+     "literal_line": 603,
+     "open_line": 605,
+     "snippet": "with open(latest, encoding=\"utf-8\") as f:"
+    }
+   ],
+   "payload_binding_resolved": false,
+   "reader": "scripts/etf_book_order.py",
+   "reader_latest_literals": [
+    "TICKET-latest.json",
+    "latest.json"
+   ],
+   "reader_opens_this_face": false,
+   "shipped_carried_names": [],
+   "shipped_outcome": "not_carried",
+   "spelling": "pricing"
+  },
+  {
+   "addressing": "names_another_face_of_the_same_basename",
+   "bar_arm_added": [],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [],
+   "names": [
+    "as_of"
+   ],
+   "open_witnesses": [],
+   "payload_binding_resolved": false,
+   "reader": "scripts/etf_book_publish_decision.py",
+   "reader_latest_literals": [
+    "etf_book_production/latest.json"
+   ],
+   "reader_opens_this_face": false,
+   "shipped_carried_names": [
+    "as_of"
+   ],
+   "shipped_outcome": "carried",
+   "spelling": "as_of"
+  },
+  {
+   "addressing": "names_another_face_of_the_same_basename",
+   "bar_arm_added": [
+    "evidence_cutoff"
+   ],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "not_carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "open_witnesses": [],
+   "payload_binding_resolved": false,
+   "reader": "scripts/etf_book_publish_decision.py",
+   "reader_latest_literals": [
+    "etf_book_production/latest.json"
+   ],
+   "reader_opens_this_face": false,
+   "shipped_carried_names": [],
+   "shipped_outcome": "not_carried",
+   "spelling": "evidence_cutoff"
+  },
+  {
+   "addressing": "names_this_face",
+   "bar_arm_added": [],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [],
+   "names": [
+    "as_of"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 576,
+     "open_line": 570,
+     "snippet": "with open(page, \"w\", encoding=\"utf-8\") as f:"
+    }
+   ],
+   "payload_binding_resolved": true,
+   "reader": "scripts/etf_book_registry.py",
+   "reader_latest_literals": [
+    "docs/live_book/latest.json",
+    "latest.json",
+    "results/etf_book_order/latest.json",
+    "results/etf_book_production/latest.json"
+   ],
+   "reader_opens_this_face": true,
+   "shipped_carried_names": [
+    "as_of"
+   ],
+   "shipped_outcome": "carried",
+   "spelling": "as_of"
+  },
+  {
+   "addressing": "names_this_face",
+   "bar_arm_added": [
+    "evidence_cutoff"
+   ],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "not_carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 576,
+     "open_line": 570,
+     "snippet": "with open(page, \"w\", encoding=\"utf-8\") as f:"
+    }
+   ],
+   "payload_binding_resolved": true,
+   "reader": "scripts/etf_book_registry.py",
+   "reader_latest_literals": [
+    "docs/live_book/latest.json",
+    "latest.json",
+    "results/etf_book_order/latest.json",
+    "results/etf_book_production/latest.json"
+   ],
+   "reader_opens_this_face": true,
+   "shipped_carried_names": [],
+   "shipped_outcome": "not_carried",
+   "spelling": "evidence_cutoff"
+  },
+  {
+   "addressing": "names_this_face",
+   "bar_arm_added": [
+    "priced_bar"
+   ],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "not_carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [],
+   "names": [
+    "priced_bar"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 576,
+     "open_line": 570,
+     "snippet": "with open(page, \"w\", encoding=\"utf-8\") as f:"
+    }
+   ],
+   "payload_binding_resolved": true,
+   "reader": "scripts/etf_book_registry.py",
+   "reader_latest_literals": [
+    "docs/live_book/latest.json",
+    "latest.json",
+    "results/etf_book_order/latest.json",
+    "results/etf_book_production/latest.json"
+   ],
+   "reader_opens_this_face": true,
+   "shipped_carried_names": [],
+   "shipped_outcome": "not_carried",
+   "spelling": "pricing"
+  },
+  {
+   "addressing": "names_this_face",
+   "bar_arm_added": [],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [
+    "as_of"
+   ],
+   "names": [
+    "as_of"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 711,
+     "open_line": 711,
+     "snippet": "_lb = json.load(open(\"results/etf_book_order/latest.json\", encoding=\"utf-8\"))"
+    },
+    {
+     "literal_line": 712,
+     "open_line": 711,
+     "snippet": "_lb = json.load(open(\"results/etf_book_order/latest.json\", encoding=\"utf-8\"))"
+    }
+   ],
+   "payload_binding_resolved": true,
+   "reader": "smoke_test.py",
+   "reader_latest_literals": [
+    "%s_latest.json",
+    "CASHWINDOW-latest.json",
+    "_latest.json",
+    "abandonedguard_latest.json"
+   ],
+   "reader_opens_this_face": true,
+   "shipped_carried_names": [
+    "as_of"
+   ],
+   "shipped_outcome": "carried",
+   "spelling": "as_of"
+  },
+  {
+   "addressing": "names_this_face",
+   "bar_arm_added": [],
+   "bar_arm_outcome": "not_carried",
+   "decision_arm_added": [
+    "book_decided_at"
+   ],
+   "decision_arm_outcome": "carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [
+    "as_of"
+   ],
+   "names": [
+    "book_decided_at"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 711,
+     "open_line": 711,
+     "snippet": "_lb = json.load(open(\"results/etf_book_order/latest.json\", encoding=\"utf-8\"))"
+    },
+    {
+     "literal_line": 712,
+     "open_line": 711,
+     "snippet": "_lb = json.load(open(\"results/etf_book_order/latest.json\", encoding=\"utf-8\"))"
+    }
+   ],
+   "payload_binding_resolved": true,
+   "reader": "smoke_test.py",
+   "reader_latest_literals": [
+    "%s_latest.json",
+    "CASHWINDOW-latest.json",
+    "_latest.json",
+    "abandonedguard_latest.json"
+   ],
+   "reader_opens_this_face": true,
+   "shipped_carried_names": [],
+   "shipped_outcome": "not_carried",
+   "spelling": "decision"
+  },
+  {
+   "addressing": "names_this_face",
+   "bar_arm_added": [
+    "evidence_cutoff"
+   ],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "not_carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [
+    "as_of"
+   ],
+   "names": [
+    "evidence_cutoff"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 711,
+     "open_line": 711,
+     "snippet": "_lb = json.load(open(\"results/etf_book_order/latest.json\", encoding=\"utf-8\"))"
+    },
+    {
+     "literal_line": 712,
+     "open_line": 711,
+     "snippet": "_lb = json.load(open(\"results/etf_book_order/latest.json\", encoding=\"utf-8\"))"
+    }
+   ],
+   "payload_binding_resolved": true,
+   "reader": "smoke_test.py",
+   "reader_latest_literals": [
+    "%s_latest.json",
+    "CASHWINDOW-latest.json",
+    "_latest.json",
+    "abandonedguard_latest.json"
+   ],
+   "reader_opens_this_face": true,
+   "shipped_carried_names": [],
+   "shipped_outcome": "not_carried",
+   "spelling": "evidence_cutoff"
+  },
+  {
+   "addressing": "names_this_face",
+   "bar_arm_added": [
+    "priced_bar"
+   ],
+   "bar_arm_outcome": "carried",
+   "decision_arm_added": [],
+   "decision_arm_outcome": "not_carried",
+   "flip_is_a_read_flip": false,
+   "keys_the_reader_asks_of_this_face": [
+    "as_of"
+   ],
+   "names": [
+    "priced_bar"
+   ],
+   "open_witnesses": [
+    {
+     "literal_line": 711,
+     "open_line": 711,
+     "snippet": "_lb = json.load(open(\"results/etf_book_order/latest.json\", encoding=\"utf-8\"))"
+    },
+    {
+     "literal_line": 712,
+     "open_line": 711,
+     "snippet": "_lb = json.load(open(\"results/etf_book_order/latest.json\", encoding=\"utf-8\"))"
+    }
+   ],
+   "payload_binding_resolved": true,
+   "reader": "smoke_test.py",
+   "reader_latest_literals": [
+    "%s_latest.json",
+    "CASHWINDOW-latest.json",
+    "_latest.json",
+    "abandonedguard_latest.json"
+   ],
+   "reader_opens_this_face": true,
+   "shipped_carried_names": [],
+   "shipped_outcome": "not_carried",
+   "spelling": "pricing"
+  }
+ ],
+ "pointer_face": {
+  "as_of": "2026-11-06",
+  "file": "TICKET-2026-11-06.json",
+  "keys": [
+   "as_of",
+   "beta_target",
+   "file",
+   "k_now"
+  ],
+  "path": "results/etf_book_order/latest.json"
+ },
+ "study": "E595_pointer_alias_blast",
+ "verdict": "aliasing_this_face_moves_no_reader_that_addresses_it_because_the_silent_ones_name_a_different_face"
+}

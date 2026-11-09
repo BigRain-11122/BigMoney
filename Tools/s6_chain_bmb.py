@@ -2419,6 +2419,13 @@ LEGS = [
     # usage carries a dedupe guard or while its empirical arm changed nothing.
     ("ledger_row_count",
      ["python", "scripts/e588_ledger_rowcount.py", "check"]),
+    # E595 (r1624 bm-b): E594 named three readers as joining the pointer face on a spelling it does
+    # not carry, and the repair is a one-line alias in the writer.  This leg re-derives the blast
+    # radius from its own pairs -- which reader names this face (27 faces share the basename), which
+    # one opens it, and which one actually asks it for the key the alias would add -- and refuses a
+    # read flip credited to a reader whose published key set never asks for that key.
+    ("pointer_alias_blast",
+     ["python", "scripts/e595_pointer_alias_blast.py", "check"]),
 ]
 
 
