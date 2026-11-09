@@ -977,8 +977,8 @@ SWAP_STACK_FACE = "results/etf_book_swap_stack.json"
 POSITIONS_FACE = "results/etf_book_positions.json"
 
 
-def _json_face(rel):
-    p = os.path.join(PATHS.results_dir, os.path.basename(rel))
+def _json_face(rel, results_dir=None):
+    p = os.path.join(results_dir or PATHS.results_dir, os.path.basename(rel))
     if not os.path.exists(p):
         return None
     try:
@@ -988,12 +988,69 @@ def _json_face(rel):
         return None
 
 
-def _permission_receipt():
-    return _json_face(PERMISSION_FACE)
+def _permission_receipt(results_dir=None):
+    return _json_face(PERMISSION_FACE, results_dir)
 
 
-def _floor_face():
-    return _json_face(FLOOR_FACE)
+def _floor_face(results_dir=None):
+    return _json_face(FLOOR_FACE, results_dir)
+
+
+def sheet_floor(decision_date=None, results_dir=None):
+    """r1497: which floor caps this sheet, and where its memory lives.
+
+    r1456 measured the schedule that erases a permission: `k_schedule()` re-derives k from
+    an expanding beta and a single up-step exceeds a whole cut. The sheet answers that by
+    capping at the floor it reads from PERMISSION_FACE. But that receipt is a
+    CURRENT-MOMENT object, regenerated every run: if it is absent, unreadable, or a round
+    skips its producer, `_json_face` answers None and the trim disappears without a word.
+    The append-only ledger that DOES remember every issued floor
+    (results/etf_book_floor_ledger.json, rows of permitted_k with their decision_date) was
+    never read by the thing that obeys it -- a memory no reader consults (r1108).
+
+    So the chain is explicit, ordered, and published on the sheet:
+
+        1. permission receipt      -- the live authorisation
+        2. floor ledger last row   -- the memory, when the receipt is gone
+        3. none                    -- UNKNOWN; never a silent pass
+
+    `note` is None only in case 1, so a fallback can never print as if it were business
+    as usual.
+    """
+    perm = _permission_receipt(results_dir) or {}
+    pk = perm.get("permitted_k")
+    if pk is not None:
+        return {"floor": float(pk), "source": "permission_receipt",
+                "source_path": PERMISSION_FACE,
+                "decision_date": perm.get("decision_date"),
+                "note": None}
+    led = _floor_face(results_dir) or {}
+    rows = [r for r in (led.get("rows") or []) if r.get("permitted_k") is not None]
+    if rows:
+        last = rows[-1]
+        return {"floor": float(last["permitted_k"]), "source": "floor_ledger",
+                "source_path": FLOOR_FACE,
+                "decision_date": last.get("decision_date"),
+                "note": ("%s 缺失或不可读：floor 取自台账最后一条签发行（决策日 %s，签发于 %s）"
+                         % (PERMISSION_FACE, last.get("decision_date") or "?",
+                            last.get("issued_at") or "?"))}
+    return {"floor": None, "source": "none", "source_path": None,
+            "decision_date": decision_date, "note":
+            ("没有可用的 floor：%s 与 %s 都读不到，本单**未受额度约束**"
+             % (PERMISSION_FACE, FLOOR_FACE))}
+
+
+def floor_source_md(sf):
+    """One line on the sheet an operator executes: which file capped this k."""
+    if not sf:
+        return []
+    src = sf.get("source")
+    if src == "permission_receipt":
+        return ["- 本单的 floor 来自：权限面 `%s`（决策日 %s）"
+                % (sf.get("source_path"), sf.get("decision_date") or "?")]
+    if src == "floor_ledger":
+        return ["- ⚠ **本单的 floor 来自额度台账，不是权限面**：%s" % sf.get("note")]
+    return ["- ⚠ **本单没有 floor**：%s —— 缺件不等于可以放开仓位" % (sf.get("note") or "?")]
 
 
 def swap_trigger_md(sw):
@@ -1463,8 +1520,16 @@ def floor_ledger_md(fl):
          % (FLOOR_FACE, v, floor_s, a.get("floor_issued") or "?",
             "无法核验" if a.get("k_schedule_last") is None else "%.6f" % a["k_schedule_last"])]
     if v == "REAPPLY_REQUIRED":
-        L += ["- ⚠ **下一决策 bar 要重新裁剪**：这一张单守住了额度，但排程在那一个 bar 上 still "
-              "sizes at the ordered size —— 不重新施加，下一张单就会重新超额度。"]
+        # r1497: "the next sheet will size over the floor" stopped being true once the sheet
+        # learned to cap from a floor source it remembers. Say which world this sheet is in.
+        _sfr = a.get("sheet_reads_floor") or {}
+        if _sfr.get("read"):
+            L += ["- 下一决策 bar：票面自己会读 floor（来源 %s，决策日 %s），**裁剪随之继承**，"
+                  "不需要有人再手工施加一次；只有当权限面与台账同时缺失时才会失去约束。"
+                  % (_sfr.get("source"), _sfr.get("decision_date") or "?")]
+        else:
+            L += ["- ⚠ **下一决策 bar 要重新裁剪**：这一张单守住了额度，但排程在那一个 bar 上 still "
+                  "sizes at the ordered size —— 不重新施加，下一张单就会重新超额度。"]
     elif v == "NOT_ENFORCED":
         L += ["- ⚠ **无人执行这条额度**：排程与票面都在 floor 之上。"]
     elif v == "REISSUE_REQUIRED":
@@ -1476,7 +1541,7 @@ def floor_ledger_md(fl):
     return L
 
 
-def permission_block(ticket, perm, rulers=None):
+def permission_block(ticket, perm, rulers=None, floor_src=None):
     """r1455: does this sheet size to what the desk's own permission allows?
 
     r1450 turned five readings of one sizing rule into a permission (floor k=0.393073,
@@ -1508,11 +1573,13 @@ def permission_block(ticket, perm, rulers=None):
     k_now = float(k_now)
     if not perm:
         return {"status": "unreadable", "reason": "missing_permission_receipt", "k_now": k_now,
+                "floor_source": floor_src,
                 "sentence": ("缺 %s：本单是否超出批准额度**未知**（缺件不等于合规）"
                              % PERMISSION_FACE)}
     floor = perm.get("permitted_k")
     if floor is None:
         return {"status": "unreadable", "reason": "permission_missing_floor", "k_now": k_now,
+                "floor_source": floor_src,
                 "sentence": "%s 里没有 permitted_k，额度无从对照" % PERMISSION_FACE}
     floor = float(floor)
     ceiling = ((perm.get("naive_max_over_all_readings") or {}).get("k"))
@@ -1565,6 +1632,7 @@ def permission_block(ticket, perm, rulers=None):
             "unused_readings": unused,
             "conflicts": conflicts,
             "artifact": PERMISSION_FACE,
+            "floor_source": floor_src,
             "verdict": ("PERMISSION_FACES_CONFLICT" if conflicts else
                         "TRIM_REQUIRED" if over else "WITHIN_PERMISSION")}
 
@@ -1621,6 +1689,7 @@ def permission_md(pb):
     L += ["- 出处：%s（决策日 %s）；裁剪算术与 scripts/etf_book_cut_order_gap.py 共用一处实现。"
           % (pb.get("artifact"), pb.get("decision_date") or "?"), ""]
     L += floor_ledger_md(_floor_face())
+    L += floor_source_md((pb or {}).get("floor_source"))
     L.append("")
     return L
 
@@ -2145,14 +2214,22 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     # unreadable or from another bar -- and says so on the page (never a silent fallback).
     # r1476: an account row written BY THIS BAR's own sheet is an outcome, not an input.
     base = executed_base(asof)
-    _fl = _json_face(PERMISSION_FACE) or {}
-    _sz = sizing_level(base, asof, k_engine, floor=_fl.get("permitted_k"))
+    # r1497: the floor is a memory, not a single regenerated file -- permission receipt
+    # first, then the append-only ledger, and never a silent uncapped sheet.
+    _sf = sheet_floor(decision_date=asof)
+    _sz = sizing_level(base, asof, k_engine, floor=_sf.get("floor"))
     base["sizing"] = _sz
     k_now = float(_sz["k"])
     print("base: %s | account k=%s vs rule k=%.6f -> ordering k=%.6f (%s)"
           % (base.get("status"),
              "n/a" if base.get("k_executed") is None else "%.6f" % base["k_executed"],
              float(k_engine), float(k_now), _sz["source"]), flush=True)
+    if _sf.get("floor") is None:
+        print("WARNING: 盘上没有可用的 floor -- 本单未受额度约束（%s）"
+              % (_sf.get("note") or "?"), flush=True)
+    elif _sf.get("source") != "permission_receipt":
+        print("floor: %s -> %.6f（%s）"
+              % (_sf.get("source"), float(_sf["floor"]), _sf.get("note")), flush=True)
     cls_map = dict(zip(close.columns, classes))
     # r1229: the weights come from the decision bar (above), the PRICES come from the bar
     # this sheet says it is priced on. Both arms are kept so the difference is measured
@@ -2238,12 +2315,14 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     else:
         conc_line = ("where this book's return actually comes from is unpublished (%s); "
                      "run scripts/etf_book_concentration.py run" % (conc.get("status") or "absent"))
-    _perm = permission_block(ticket, _permission_receipt(), _json_face(RULERS_FACE))
+    _perm = permission_block(ticket, _permission_receipt(), _json_face(RULERS_FACE), _sf)
+    _perm["floor_source"] = _sf
     # r1478: the band r1477 pinned is now on the sheet an operator opens -- advisory only.
     _band = band_block(k_now, asof, _json_face(SIZING_PREREG_FACE), _perm,
                        _json_face(RULERS_FACE))
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
                "permission": _perm,
+               "sizing_floor": _sf,
                "size_band": _band,
                "inception": str(slip.index[0].date()) if len(slip) else inception,
                "rebal": REBAL, "n_hold": N_HOLD, "cost_bp_per_side": COST_BP,
@@ -4763,6 +4842,47 @@ def selftest():
         and _riF["records"][0].get("chain_intact") is True
         and _gapF > 1e-9 and _gapF < 1e-7
         and not _riF["chain_broken"], "gap=%.3e rec=%s" % (_gapF, _riF["records"][0]))
+
+    # leg53: the floor is a MEMORY, not a single regenerated file (r1497). The sheet capped k
+    # from PERMISSION_FACE, a current-moment object rewritten every run; if it is missing the
+    # trim disappears silently while the append-only ledger still remembers every issued floor.
+    import shutil
+    import tempfile
+    _dS = tempfile.mkdtemp(prefix="etf_floor_src_")
+    try:
+        def _w(name, obj):
+            with open(os.path.join(_dS, name), "w", encoding="utf-8") as f:
+                json.dump(obj, f)
+
+        _w("etf_book_rebalance_permission.json",
+           {"permitted_k": 0.393073, "decision_date": "2026-11-11"})
+        _a = sheet_floor(results_dir=_dS)
+        os.remove(os.path.join(_dS, "etf_book_rebalance_permission.json"))
+        _w("etf_book_floor_ledger.json",
+           {"rows": [{"decision_date": "2026-11-11", "permitted_k": 0.393073,
+                      "issued_at": "2026-11-09T21:27:27+0800"},
+                     {"decision_date": "2026-12-09", "permitted_k": 0.350000,
+                      "issued_at": "2026-12-09T02:00:00+0800"}]})
+        _b = sheet_floor(results_dir=_dS)
+        os.remove(os.path.join(_dS, "etf_book_floor_ledger.json"))
+        _c = sheet_floor(results_dir=_dS)
+    finally:
+        shutil.rmtree(_dS, ignore_errors=True)
+    chk("leg53 a missing permission receipt does not uncap the sheet: receipt -> ledger last "
+        "issued row -> UNKNOWN (never a pass)",
+        abs(_a["floor"] - 0.393073) < 1e-9 and _a["source"] == "permission_receipt"
+        and _a.get("note") is None
+        and abs(_b["floor"] - 0.350000) < 1e-9 and _b["source"] == "floor_ledger"
+        and _b.get("note") and "2026-12-09" in _b["note"]
+        and _c["floor"] is None and _c["source"] == "none",
+        "a=%s/%.6f b=%s/%.6f c=%s" % (_a["source"], _a["floor"], _b["source"],
+                                      _b["floor"], _c["source"]))
+    chk("leg53b the sheet names where its floor came from -- a fallback never prints as "
+        "business as usual",
+        "权限面" in " ".join(floor_source_md(_a))
+        and "额度台账" in " ".join(floor_source_md(_b))
+        and "没有 floor" in " ".join(floor_source_md(_c)),
+        "")
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

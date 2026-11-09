@@ -115,6 +115,35 @@ def latest_ticket():
     return best
 
 
+def sheet_floor_face(ticket_now):
+    """r1497: does the sheet on disk say where its floor came from, and is that source live?
+
+    REAPPLY_REQUIRED used to read only the schedule -- "the next sheet will size over the
+    floor". That stopped being the whole story once the sheet began capping k at a floor it
+    reads from disk (permission receipt, then the append-only ledger): a ticket that names a
+    live source inherits the cap for free, so the standing risk is narrower -- BOTH faces
+    missing -- and that is a different thing to watch than "nobody re-applies the trim".
+    A sheet that predates the disclosure reads as unread, never as a pass.
+    """
+    if not ticket_now:
+        return {"read": False, "source": None, "decision_date": None}
+    d = os.path.join(BASE, TICKETS_DIR)
+    for root, dirs, files in os.walk(d):
+        dirs[:] = [x for x in dirs if x not in ("_quarantine", ".git")]
+        if ticket_now in files:
+            try:
+                with open(os.path.join(root, ticket_now), encoding="utf-8") as f:
+                    tk = json.load(f)
+            except (OSError, ValueError):
+                return {"read": False, "source": None, "decision_date": None}
+            sf = tk.get("sizing_floor") or {}
+            src = sf.get("source")
+            return {"read": src in ("permission_receipt", "floor_ledger"),
+                    "source": src, "decision_date": sf.get("decision_date"),
+                    "floor": sf.get("floor")}
+    return {"read": False, "source": None, "decision_date": None}
+
+
 def live_tickets():
     """Every sheet the tree still carries -- the set a floor ledger may price against."""
     d = os.path.join(BASE, TICKETS_DIR)
@@ -280,10 +309,20 @@ def assess(face, perm, pers, ticket_now, cut=None, tickets=None):
                          % (out["k_schedule_last"], out["floor"]))
     elif out["schedule_over_floor"] and out["obeyed_now"] is True:
         out["verdict"] = "REAPPLY_REQUIRED"
-        out["action"] = ("the sheet obeys the floor but the schedule's last decision bar is at "
-                         "k=%.6f, above %.6f -- the next sheet will size over the floor unless "
-                         "the same trim is applied on that bar (r1456: one up-step has erased "
-                         "a whole cut)" % (out["k_schedule_last"], out["floor"]))
+        sf = sheet_floor_face(ticket_now)
+        out["sheet_reads_floor"] = sf
+        if sf.get("read"):
+            out["action"] = ("the sheet obeys the floor and names a live floor source (%s, "
+                             "decision %s), so the next sheet inherits the cap instead of "
+                             "re-applying it by hand; the standing risk is narrower -- the trim "
+                             "gone only if BOTH the permission receipt and the floor ledger are "
+                             "missing on that bar (r1497)"
+                             % (sf.get("source"), sf.get("decision_date") or "?"))
+        else:
+            out["action"] = ("the sheet obeys the floor but the schedule's last decision bar is at "
+                             "k=%.6f, above %.6f -- the next sheet will size over the floor unless "
+                             "the same trim is applied on that bar (r1456: one up-step has erased "
+                             "a whole cut)" % (out["k_schedule_last"], out["floor"]))
     elif out["schedule_over_floor"] is False:
         out["verdict"] = "HOLDING"
         out["action"] = ("the schedule's last decision bar k=%.6f is at or under the floor "
@@ -307,6 +346,13 @@ def sentence(a):
                 "the sheet on disk is over the floor as well: nobody is obeying it."
                 % (a["floor"], a["k_schedule_last"] or float("nan")))
     if a["verdict"] == "REAPPLY_REQUIRED":
+        _sf = a.get("sheet_reads_floor") or {}
+        if _sf.get("read"):
+            return ("Floor %.6f holds on the sheet, and the sheet names a live floor source (%s), "
+                    "so the next sheet inherits the cap: the schedule's last decision bar is %.6f "
+                    "above the floor, but the trim disappears only if both floor faces go missing "
+                    "on that bar."
+                    % (a["floor"], _sf.get("source"), a["k_schedule_last"] or float("nan")))
         return ("Floor %.6f holds on the sheet but not on the path: the schedule's last decision "
                 "bar is %.6f, so the next sheet sizes over it unless the trim is applied again "
                 "on that bar." % (a["floor"], a["k_schedule_last"]))

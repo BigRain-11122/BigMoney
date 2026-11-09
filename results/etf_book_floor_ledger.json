@@ -27,6 +27,7 @@
   "floor": 0.393073,
   "floor_issued": "2026-11-11",
   "floor_rows": 2,
+  "rows_skipped_sheets": [],
   "k_schedule_last": 0.460253,
   "schedule_last_date": "2026-10-23",
   "k_order": 0.393073,
@@ -40,11 +41,17 @@
    "trim: the gap receipt carries no post-cut k, the sheet is judged on its ordered size"
   ],
   "verdict": "REAPPLY_REQUIRED",
-  "action": "the sheet obeys the floor but the schedule's last decision bar is at k=0.460253, above 0.393073 -- the next sheet will size over the floor unless the same trim is applied on that bar (r1456: one up-step has erased a whole cut)"
+  "action": "the sheet obeys the floor and names a live floor source (permission_receipt, decision 2026-11-11), so the next sheet inherits the cap instead of re-applying it by hand; the standing risk is narrower -- the trim gone only if BOTH the permission receipt and the floor ledger are missing on that bar (r1497)",
+  "sheet_reads_floor": {
+   "read": true,
+   "source": "permission_receipt",
+   "decision_date": "2026-11-11",
+   "floor": 0.393073
+  }
  },
- "sentence": "Floor 0.393073 holds on the sheet but not on the path: the schedule's last decision bar is 0.460253, so the next sheet sizes over it unless the trim is applied again on that bar.",
+ "sentence": "Floor 0.393073 holds on the sheet, and the sheet names a live floor source (permission_receipt), so the next sheet inherits the cap: the schedule's last decision bar is 0.460253 above the floor, but the trim disappears only if both floor faces go missing on that bar.",
  "evidence_cutoff": "2026-11-09",
- "elapsed_sec": 0.11,
- "generated": "2026-11-09T21:27:27+0800",
- "appended_this_run": true
+ "elapsed_sec": 0.18,
+ "generated": "2026-11-10T07:36:12+0800",
+ "appended_this_run": false
 }
