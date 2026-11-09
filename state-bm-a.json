@@ -195,7 +195,7 @@
  "last_round_at_": "2026-11-01T15:35:39+08:00",
  "last_round_closed": "2026-11-09T20:10:04+08:00",
  "last_round_label": "r1279 stale tape disclosure + zt gate stops measuring itself",
- "last_round_ts": "2026-11-09T22:59:21+08:00",
+ "last_round_ts": "2026-11-09T23:40:00+08:00",
  "last_run": "2026-11-07T13:52:00+08:00",
  "last_seen": "2026-11-02T02:17:05+08:00",
  "last_seen_at": "2026-11-02T02:17:05+08:00",
@@ -485,7 +485,7 @@
  "ram_load_pct": 51.1,
  "recent_artifact": "results/etf_book_bootstrap/BLOCKS-2026-10-30.json",
  "round": 1274,
- "round_no": 1279,
+ "round_no": 1280,
  "round_no_label": "r1279",
  "round_no_ts": "2026-11-09T22:59:21+08:00",
  "round_note_r1239": "the fee break-even is a closed form in the sample's median traded leg: 67737 (2020-2026) / 55929 (2015-2019) / 49849 (2015-2026) = 26.41% spread, now printed on the operator page with the window table (card E356)",
@@ -722,5 +722,13 @@
   "lines": 517,
   "summary": "Summary: 479/479 PASS, 0 FAIL",
   "fail_detail": []
- }
+ },
+ "work_r1280": "the production candidate had no line on the CEO one-pager: sections 1-5 covered the six legacy paper traders and the market tape, while the ETF composite book -- the only book with a live forward record -- was readable only as a research JSON. Section 6 now prints it: 11 bars since the 2026-10-23 seed, NAV 1.000521 vs the four-ETF equal-weight benchmark 0.989724 (+108.0bp), drawdowns -1.467% vs -2.343%, 0 refills on the 20-bar grid, plus the provisional bar and the noise band that says this is a readout and not a verdict. Everything is read out of results/etf_book_forward/LEDGER.json; four selftest legs pin the arithmetic (excess = its own two curves, bar count = the file it read, and the benchmark drawdown is MEASURED -- the first draft printed +0.000% because those rows carry no dd field, which is the r1261 fabricated-zero family).",
+ "verify_r1280": "ceo_live_usage selftest ALL PASS (4 new legs); rendered page section 6 + JSON twin etf_book block; supply_gate_decision was red on sources-only drift (wrapper receipt re-derived upstream) -> republished, CHECK OK 9/9, verdict unchanged CALIBER_IRRELEVANT_TO_MONEY",
+ "open_red_r1280": [
+  "zt_pool panel 16 days behind (2026-10-29 vs expected 2026-11-09): bm-c's lane, host alive (heartbeat 22:45) so the 120min takeover gate refuses; 4 panels x 7 sessions owed on bm-c",
+  "etf_book ticket + forward ledger are priced on 2026-11-06 while the official calendar says 2026-11-09: the wide ETF panel is bm-c's lane (update_etf_daily in config/lane_hosts.json) and the 2026-10-21 CEO redline bars bm-a from the akshare pull family, so this cannot be closed from here",
+  "Bigmoney-IterationLoop + both claws re-registered, but the S4U flip on the watchdog still returns access-denied -> LogonType stays InteractiveToken (carried, needs an admin pass)"
+ ],
+ "decisions_scan_r1280": "sha256 d2e0f2e2 (was e2891af5): delta = batch 53's own SELF-CHECK tail lines only, no new decision row and nothing addressed to BigMoney -> zero obligation"
 }

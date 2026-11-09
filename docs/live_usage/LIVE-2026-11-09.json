@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_8",
  "ticket": "T-202609-28-105",
  "day": "2026-11-09",
- "generated": "2026-11-09T22:23:13",
+ "generated": "2026-11-09T23:32:09",
  "market": {
   "state": "RED",
   "asof": "2026-11-06",
@@ -507,7 +507,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 48294.1
+    "last_append_age_min": 48363.1
    },
    {
     "family": "FUND-VALUE-P1",
@@ -515,7 +515,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 49144.5
+    "last_append_age_min": 49213.5
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -523,9 +523,49 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 45941.6
+    "last_append_age_min": 46010.5
    }
   ]
+ },
+ "etf_book": {
+  "present": true,
+  "path": "results/etf_book_forward/LEDGER.json",
+  "status": "live",
+  "first_bar": "2026-10-23",
+  "last_bar": "2026-11-06",
+  "n_bars": 11,
+  "book_nav": 1.000521,
+  "book_ret_pct": 0.052,
+  "bench_nav": 0.989724,
+  "bench_ret_pct": -1.028,
+  "excess_bp": 108.0,
+  "book_max_dd_pct": -1.467,
+  "bench_max_dd_pct": -2.343,
+  "n_refills": 0,
+  "rebal": 20,
+  "n_hold": 12,
+  "vol_target_pct": 8.0,
+  "cost_bp_per_side": 10.0,
+  "published_bars": 11,
+  "noise_band_pp": {
+   "1m": 4.746,
+   "3m": 8.22,
+   "1y": 16.576,
+   "3y": 28.71
+  },
+  "min_detectable_edge_pp": {
+   "6m": 33.512,
+   "1y": 23.696,
+   "2y": 16.756,
+   "3y": 13.681
+  },
+  "years_for_80pct_power": 17.2,
+  "provisional_bars": [
+   "2026-11-06"
+  ],
+  "drift_gate": "settled_bars_only",
+  "panel_last_bar": "2026-11-06",
+  "cash_leg_note": "cash leg earns 0 in the ledger (disclosed, not modelled away)"
  },
  "chain_versions": [
   {

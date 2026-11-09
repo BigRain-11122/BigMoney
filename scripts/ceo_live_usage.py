@@ -147,6 +147,12 @@ REC_REL = "docs/portfolio_recommendation/REC-latest.json"
 # into two different sentences (r1290 law).
 CAP_VS_BOOK_JSON = os.path.join(ROOT, "results", "regime_cap_vs_book.json")
 
+# v2.0: the six members above are the legacy paper traders; the production
+# candidate is a different book (the ETF composite, vol-targeted).  Until now
+# its live record had no line on this page at all -- the only place the CEO
+# could read "how is the money candidate doing" was a research file.
+ETF_BOOK_FWD = os.path.join(ROOT, "results", "etf_book_forward", "LEDGER.json")
+
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
 # bm-c 2026-09-28; owner-canon rows in market_clock POSITION_LADDER):
 LADDER = [
@@ -529,6 +535,82 @@ def _cap_vs_book_face(regime_asof=None):
     return face
 
 
+def _etf_book_face():
+    """v2.0: what the production candidate has actually done since it went live.
+
+    Pure readout of results/etf_book_forward/LEDGER.json -- the book's own bars
+    and the four-ETF benchmark written by the same run, so no number here is
+    re-derived and no second engine is implied.  Two rules that make it honest:
+
+    * the track record travels WITH its noise band.  `published_bars` is 11,
+      and the same file says a 1-year window can only separate a 16.9pp/yr
+      edge, so a +100bp excess must never be printed as if it were a verdict
+      (E162: a forward ledger cannot adjudicate its own alpha).
+    * a bar that is still provisional is named, not averaged in silently --
+      `drift.gate == settled_bars_only` is why the last bar can still move.
+
+    Zero new judgment: no win/loss claim, no threshold, no recommendation."""
+    d = _read_json(ETF_BOOK_FWD)
+    rel = "results/etf_book_forward/LEDGER.json"
+    if not d:
+        return {"present": False, "path": rel,
+                "note": "前向账本未产出（缺面不读 0）"}
+    bars = d.get("bars") or []
+    bmk = (d.get("benchmark") or {}).get("bars") or []
+    if not bars:
+        return {"present": False, "path": rel,
+                "note": "账本在册但零 bar（播种未完成）"}
+    last = bars[-1]
+    nav = float(last.get("nav") or 0.0)
+    bench_nav = float((bmk[-1] or {}).get("nav") or 0.0) if bmk else None
+    dd = [float(b.get("dd") or 0.0) for b in bars]
+    # the benchmark rows carry no dd of their own -- derive it from the same
+    # nav series rather than printing a 0.000% that was never measured
+    bpeak, bdd = None, []
+    for b in bmk:
+        v = float(b.get("nav") or 0.0)
+        bpeak = v if bpeak is None else max(bpeak, v)
+        bdd.append(v / bpeak - 1.0 if bpeak else 0.0)
+    cfg = d.get("config") or {}
+    sig = (d.get("benchmark") or {}).get("significance") or {}
+    pwr = sig.get("power") or {}
+    drift = d.get("drift") or {}
+    ret = nav - 1.0
+    bret = (bench_nav - 1.0) if bench_nav is not None else None
+    return {
+        "present": True,
+        "path": rel,
+        "status": d.get("status"),
+        "first_bar": (bars[0] or {}).get("bar"),
+        "last_bar": last.get("bar"),
+        "n_bars": len(bars),
+        "book_nav": round(nav, 6),
+        "book_ret_pct": round(ret * 100.0, 3),
+        "bench_nav": None if bench_nav is None else round(bench_nav, 6),
+        "bench_ret_pct": None if bret is None else round(bret * 100.0, 3),
+        "excess_bp": None if bret is None else round((ret - bret) * 1e4, 1),
+        "book_max_dd_pct": round(min(dd) * 100.0, 3) if dd else None,
+        "bench_max_dd_pct": round(min(bdd) * 100.0, 3) if bdd else None,
+        "n_refills": sum(1 for b in bars if b.get("filled")),
+        "rebal": cfg.get("rebal"),
+        "n_hold": cfg.get("n_hold"),
+        "vol_target_pct": (round(float(cfg["vol_target"]) * 100.0, 1)
+                           if cfg.get("vol_target") is not None else None),
+        "cost_bp_per_side": (round(float(cfg["cost_per_side"]) * 1e4, 1)
+                             if cfg.get("cost_per_side") is not None else None),
+        "published_bars": sig.get("published_bars"),
+        "noise_band_pp": sig.get("noise_band_pp") or {},
+        "min_detectable_edge_pp": pwr.get("min_detectable_edge_pp") or {},
+        "years_for_80pct_power": (pwr.get("years_for_80pct_power") or {}).get(
+            "in-window measured alpha (single arm)"),
+        "provisional_bars": drift.get("provisional_bars") or [],
+        "drift_gate": drift.get("gate"),
+        "panel_last_bar": (d.get("panel") or {}).get("last_bar"),
+        "cash_leg_note": (cfg.get("cash")
+                          if isinstance(cfg.get("cash"), str) else None),
+    }
+
+
 def build_payload(day: str) -> dict:
     regime = _read_json(REGIME_JSON)
     clock = _read_json(CLOCK_JSON)
@@ -619,6 +701,7 @@ def build_payload(day: str) -> dict:
         "intraday": _intraday_face(held, day),
         "recommendation": _recommendation_face(),
         "judgment_burns": _judgment_burn_face(),
+        "etf_book": _etf_book_face(),
         "chain_versions": [
             {"version": v, "status": s} for v, s in _version_banner()],
         "disclaimers": [
@@ -903,7 +986,46 @@ def render_md(p: dict) -> str:
                  f"（dup_k={r['dup_k']}）"
                  + ("" if r["present"] else "（nulls 面未落=0 诚实）"))
     L.append("")
-    L.append("## ⑥ 诚实免责")
+    L.append("## ⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）")
+    L.append("")
+    eb = p.get("etf_book") or {}
+    if not eb.get("present"):
+        L.append(f"- {eb.get('note') or '前向账本未产出'}（指针 `{eb.get('path')}`）")
+    else:
+        L.append(f"- **账本**：{eb['first_bar']} 播种 → {eb['last_bar']}，"
+                 f"{eb['n_bars']} 个 bar，净值 **{eb['book_nav']:.6f}**"
+                 f"（{eb['book_ret_pct']:+.3f}%）；同窗四 ETF 等权基准 "
+                 f"{eb['bench_nav']:.6f}（{eb['bench_ret_pct']:+.3f}%）→ "
+                 f"**超额 {eb['excess_bp']:+.1f}bp**")
+        L.append(f"  - 回撤：书 {eb['book_max_dd_pct']:+.3f}%｜基准 "
+                 f"{eb['bench_max_dd_pct']:+.3f}%｜本段换仓 "
+                 f"{eb['n_refills']} 次（网格 {eb['rebal']} bar·持仓 "
+                 f"{eb['n_hold']} 员·波动目标 {eb['vol_target_pct']}%·成本 "
+                 f"{eb['cost_bp_per_side']}bp/边）")
+        if eb.get("cash_leg_note"):
+            L.append(f"  - 口径：{eb['cash_leg_note']}")
+        if eb.get("provisional_bars"):
+            L.append(f"  - 未定稿 bar：{' '.join(eb['provisional_bars'])}"
+                     f"（闸 `{eb.get('drift_gate')}`：定稿盘面重生成后会改述，"
+                     "按改述披露读）")
+        mde = eb.get("min_detectable_edge_pp") or {}
+        nb = eb.get("noise_band_pp") or {}
+        if mde or nb:
+            bits = []
+            if nb.get("1y"):
+                bits.append(f"超额 1 年噪声带 ±{nb['1y']}pp/年")
+            if mde.get("1y"):
+                bits.append(f"80% 功效下 1 年窗只能分辨 "
+                            f"{mde['1y']}pp/年")
+            L.append("  - **还不能下结论**：账本只发了 "
+                     f"{eb.get('published_bars')} 个 bar，"
+                     + ("；".join(bits) if bits else "功效表在册")
+                     + f"；要分辨它自己的在窗 alpha 需约 "
+                     f"{eb.get('years_for_80pct_power')} 年。"
+                     "这一行是实绩读数，不是判决。")
+        L.append(f"  - 全页指针：`{eb['path']}`")
+    L.append("")
+    L.append("## ⑦ 诚实免责")
     L.append("")
     for d in p["disclaimers"]:
         L.append(f"- {d}")
@@ -1085,13 +1207,35 @@ def selftest() -> int:
     static2 = md2.split("自动生成")[0] + md2[md2.index("## ①"):]
     check("render deterministic (wall-clock stripped)",
           static1 == static2)
-    check("all six blocks in md",
+    check("all blocks in md",
           all(k in md1 for k in ("① 市场判定", "② 仓位指令",
                                  "③ 六员分配", "④ 决策链版本横幅",
-                                 "⑤ 在飞判决批", "⑥ 诚实免责")))
+                                 "⑤ 在飞判决批", "⑥ ETF 复合书",
+                                 "⑦ 诚实免责")))
     check("judgment-burn block rendered in md (v1.5)",
           "在飞判决批（NULLS 烧录进度·纯计数）" in md1
           and "FUND-QUALITY-P1" in md1 and "dup_k=0" in md1)
+    eb = p1.get("etf_book") or {}
+    check("etf-book forward record rendered in md (v2.0)",
+          "ETF 复合书 · 前向实绩" in md1
+          and (not eb.get("present")
+               or (f"{eb['book_nav']:.6f}" in md1
+                   and "还不能下结论" in md1)))
+    if eb.get("present"):
+        check("etf-book excess is the excess of its own two curves",
+              abs(eb["excess_bp"]
+                  - (eb["book_ret_pct"] - eb["bench_ret_pct"]) * 100.0)
+              <= 0.3)
+        check("etf-book bar count equals the ledger it read",
+              eb["n_bars"]
+              == len((_read_json(ETF_BOOK_FWD) or {}).get("bars") or []))
+        # the benchmark rows carry no dd field; a drawdown of 0.000% printed
+        # for a series that actually fell is a fabricated measurement, not a
+        # missing one (r1261 family)
+        check("etf-book benchmark drawdown is measured, not printed as zero",
+              eb["bench_ret_pct"] is None or eb["bench_ret_pct"] >= 0
+              or (eb["bench_max_dd_pct"] is not None
+                  and eb["bench_max_dd_pct"] < 0))
     check("national-team row rendered in md",
           "国家队状态" in md1 and "T-106" in md1
           and "宇宙面注记" in md1 and "跟队信号面" in md1)
