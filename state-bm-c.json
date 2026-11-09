@@ -1,5 +1,5 @@
 {
- "activity_now": "r1491 closed: the forward ledger states its own restatement history",
+ "activity_now": "r1493 closed: a published face nobody re-derived is caught by the chain, and a page leg stops measuring another host absence",
  "agenda_starved": false,
  "ahead_origin": 0,
  "behind_origin": 0,
@@ -13,9 +13,9 @@
  "cpu_idle_pct": 92.7,
  "cpu_pct": 11.1,
  "cpu_util_pct": 30.0,
- "current": "r1481: one sheet's late price (median -932 CNY, mean -12.2bps t=-4.61, 41% of sheets better late) and the locals add up to the policy arm to 5e-15",
- "current_task": "r1486 vt ladder (is any rung of the 8% target calendar-legal)",
- "current_task_at": "2026-11-10T02:22:24+0800",
+ "current": "r1493: the scale-floor face answers to the year gate that judges it; eight page legs separate owned-elsewhere from wrong",
+ "current_task": "r1493 closeout",
+ "current_task_at": "2026-11-10T04:54:00+0800",
  "current_task_short": "cash vehicle",
  "current_task_ts": "2026-11-10T01:22:09+08:00",
  "d19_watermark_guard": {
@@ -789,9 +789,9 @@
  "ram_load_pct": 95,
  "ram_total_gb": 23.9,
  "recent_artifact": "results/etf_book_vt_ladder/VT-LADDER.json",
- "round": 1490,
- "round_no": 1492,
- "round_no_label": "r1477",
+ "round": 1493,
+ "round_no": 1493,
+ "round_no_label": "r1493",
  "round_no_landed": 1492,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
  "round_r1390_closeout_note": "r1390: PRODUCT window (state round_no=1389 at open, HEAD round 1389 pushed clean -> zero absorb owed). PRODUCT = the first supply berth whose exposure is structurally 1.0 (both earlier berths were timing families and lost to the exit tax by construction): scripts/zoo_supply_xs_reversal_probe.py (selftest 9/9) buys the 10 worst trailing-20-bar ETFs from the published book eligibility, holds 20 bars, next-open fill, 8bp/side, and rides run_next_open instead of re-implementing the fill. Rule -8.15%/yr maxdd -59.4% vs SAME-POOL equal-weight +1.86%/-39.9% -> -10.01pp excess, 113.7 slot swaps/yr, all four admit conditions false -> REFUSE_AS_CANDIDATE. The reading that outlives the verdict: 200 same-exposure random-rank nulls average -3.38pp/yr (sd 3.44), so 10-name concentration plus its monthly swap is itself negative alpha on this panel (card E387). Two pits: np.nanmean(P).prod() is not compounding (needs np.prod(1+mean); the basis leg caught the equal-weight control reading -100% before publication), and run_next_open returns a 3-tuple. S6: dualrun streak 14, compute_audit FLAG pool_starvation+supply_floor (ready 0 floor 3, breach 10122 min), update_daily rc0 0 new rows cutoff 2026-11-06, regime RED raw ORANGE shadow, attrition CLEAN. S0.5 orders 0 unacked. orphan 0. SMOKE HONESTY: suite launched 06:57 stalled at 07:05 on an unprinted external-source leg (191 PASS/0 FAIL), killed 07:15, relaunched pid 67412 -- no suite total claimed. next=r1391: an EVENT family (forced trading), because breadth is now measured as a tax and holdings count is no longer a free axis.",
@@ -946,5 +946,6 @@
  "verify": "settle-audit selftest 21/21 (7 new legs); run rc0 3.06s; check rc0 both verdicts MATCH; restatement block on the face: 2 restated, 2 settled, 1 resolved by commit e8547531da83, 1 unknown (published value never committed), 0 fail gate now; dashboard period_missing_lanes now derived from missing_periods and the smoke leg re-run PASS via single-leg exec; dualrun ZERO-DRIFT streak 51; compute_audit FLAG pool_starvation+supply_floor; watermark py_low_with_work_cands; update_daily rc0 0 new rows.",
  "verify_smoke_closed": "full smoke 04:04 run finished AFTER the r1492 row was written: 492 legs, 12 FAIL. Nine = the CEO/operator page is stale by design on this machine (live_book/latest.json names LIVE-BOOK-20261109.md which is absent here; etf_book_ceo_page refuses on bm-c, host=bm-a, takeover needs a declared silence and bm-a's heartbeat was 285min stale); two = bm-b's moneyflow certification; one = the lane-clock leg repaired this round (green on re-execution). Not claimed green.",
  "vram_free_gb": 13.8,
- "watermark_verdict": "py_low_with_work_cands"
+ "watermark_verdict": "py_low_with_work_cands",
+ "next_task": "r1494: verify the full smoke on the edited tree; then the two remaining bm-b lanes (moneyflow certification legs)"
 }

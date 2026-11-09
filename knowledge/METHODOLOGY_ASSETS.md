@@ -12194,3 +12194,31 @@ ret 逐字不动，链条校验通过。真实账本本身：689 根 bar 无一�
 发布/定格双值 + leg52k 票面读账本行而非 per-run 文件 + leg52l 断链点名 + leg52m 舍入不误判）、
 scripts/etf_book_restatement_shadow.py、results/etf_book_order/restatement_shadow.json、
 results/etf_book_order/ORDER-2026-11-09.md「账本历史变更」段、S6 腿 etf_book_restatement_shadow。
+
+### E502 · 一个面被读、消费者自检全绿，仍可能没有任何人在算它（r1493 bm-c）
+
+`results/etf_book_scale_floor.json` 与 `results/etf_book_year_gate/YEAR-GATE.json` 写着同一本书的
+最大两年占比：**71.08% vs 70.67%**。两个数都不错，错的是前一张面写于 11-08、判它的门 11-10 用
+多两根 bar 的面板重建过，**没有任何链腿在门变动时叫它重算**。重跑即 70.67%，与门逐位一致——
+数的值没错，数的时机错了。
+
+三律：
+① **「与判它的门一致」要做成链腿**，不是一句约定。判据 import（`admission_block`）已有，缺的是
+有人每轮去问；腿要廉价（这里是 0.8s，只读两张发布面），把「跑一次面板」的贵动作留在链外，rc3
+点名去重跑。
+② **只比数字会漏掉「一根 bar 前、四舍五入后仍相等」的陈旧件**。同一张 check 必须比**面板事实**：
+cutoff、去债宇宙数、翻转修复笔数，三样都要等于门自报的那三样；所以面自己必须带
+`evidence_cutoff`（此前只能靠文件 mtime 猜新旧，而 mtime 正是 E188 族坑里骗过闸的东西）。
+**同意（agree）与同日（same bar）是两件事。**
+③ **"别人的纸比我的面旧"不是缺陷，是别人的缺席**——但只在**本机不能写那张纸**时成立。腿先问
+写者自己的守卫（`writer_allowed(machine_id())`，禁另写第二份规则）：可写→照旧判红；不可写→
+红项收进一行注记并**印出属主与主心跳时长**。反证：把 `may_write` 强制为真，八条腿立刻恢复判红，
+放宽的只是归属不是断言。禁把"我核实不了"写成"它是好的"（r98 族）。
+
+姊妹面：腿要求"今天的文件"时先问它是**按谁的时间**命名的——CEO 一页纸按写者那次运行的墙钟
+命名，写者当天没跑之前 `LIVE-BOOK-<今天>.md` 不存在，那不是缺节；读盘上最新的一页、由该页自己
+的 JSON 说定价在哪根 bar。
+
+正身：`scripts/etf_book_scale_floor.py`（新增 `check`，fixtures rc3/rc3/rc2）+ `Tools/s6_chain_bmc.py`
+腿 `scale_floor` + `smoke_test.py::_ceo_page_view/_page_elsewhere_note`（八条页面腿）+
+`research/digests/DIGEST-20261110-r1493-stale-face-and-page-ownership.md`。

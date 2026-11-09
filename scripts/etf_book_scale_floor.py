@@ -175,6 +175,10 @@ def run():
         "data": {"flips_repaired": n_flip, "universe": int(len(close.columns)),
                  "bars": int(len(close.index)),
                  "capacity_from": "results/etf_book_year_gate/YEAR-GATE.json"},
+        # r1493: the face carried no cutoff, so "this reading is from 11-08" was only
+        # knowable from the file's mtime -- and the drift that put 0.7108 next to 0.7067
+        # was exactly a face nobody could date. The panel's last bar is the cutoff.
+        "evidence_cutoff": str(close.index[-1])[:10],
         "capacity_cny_1day_5pct": cap,
         "arms": arms,
         "admitted": [{"book": a["book"], "sharpe": a["stats"].get("sharpe"),
@@ -246,10 +250,90 @@ def selftest() -> int:
     return 0 if not errs else 1
 
 
+def check():
+    """r1493: this face is a one-shot -- nothing re-derived it when the panel moved.
+
+    On 2026-11-10 the smoke leg that compares floor=0 with the adopted book in
+    results/etf_book_year_gate/YEAR-GATE.json read top-2 0.7108 here against 0.7067 there.
+    Neither number was wrong; this file had simply been written on 2026-11-08 and never
+    re-derived, while the year gate had been rebuilt on a panel that had gained bars. Two
+    published faces quoting the same book at two concentrations is a reader problem, and
+    the fix cannot be a note -- something has to notice. `run` costs a panel build, so the
+    chain leg is this cheap re-check of the identity the smoke leg pins: the zero-floor arm
+    must reproduce the adopted book's verdict and top-2 share, and the face's own
+    `baseline_floor0` block must be the same reading as arms[0] (a face that disagrees with
+    itself is broken even when it agrees with its neighbours).
+
+    rc 0 = every pinned field reproduces; rc 3 = the published face has drifted and must be
+    re-run (the gate moved, this face did not); rc 2 = a published input is unreadable.
+    """
+    if not os.path.exists(OUT):
+        print("CHECK_FAIL missing face %s" % OUT)
+        return 2
+    yg_path = os.path.join(ROOT, "results", "etf_book_year_gate", "YEAR-GATE.json")
+    if not os.path.exists(yg_path):
+        print("CHECK_FAIL missing gate face %s" % yg_path)
+        return 2
+    with open(OUT, encoding="utf-8") as f:
+        rec = json.load(f)
+    with open(yg_path, encoding="utf-8") as f:
+        yg = json.load(f)
+    arms = rec.get("arms") or []
+    base = [a for a in arms if a.get("vol_floor") == 0.0]
+    adopted = [b for b in (yg.get("books") or [])
+               if b.get("book") == "nobond_vt08_adopted"]
+    if not base or not adopted:
+        print("CHECK_FAIL floor=0 arm=%d adopted book=%d -- the identity cannot be posed"
+              % (len(base), len(adopted)))
+        return 2
+    drift = []
+    a0, ad = base[0], adopted[0]
+    for field, mine, theirs in (
+            ("verdict", a0.get("verdict"), ad.get("verdict")),
+            ("top2_share", (a0.get("year_metrics") or {}).get("top2_share"),
+             (ad.get("year_metrics") or {}).get("top2_share"))):
+        if mine is None or theirs is None or (
+                abs(float(mine) - float(theirs)) > 1e-9 if isinstance(mine, float)
+                else mine != theirs):
+            drift.append("%s: face=%r gate=%r" % (field, mine, theirs))
+    pub0 = rec.get("baseline_floor0") or {}
+    if pub0.get("verdict") != a0.get("verdict") or (
+            pub0.get("top2_share") is not None
+            and abs(float(pub0["top2_share"])
+                    - float((a0.get("year_metrics") or {}).get("top2_share") or 0)) > 1e-9):
+        drift.append("baseline_floor0 block disagrees with arms[0] (%r vs %r)"
+                     % (pub0, a0.get("year_metrics")))
+    # r1493: agreeing numbers on two different panels is not the same world. The gate
+    # publishes the panel facts it read (data.last / bond_free_universe / flips_repaired),
+    # so the staleness test does not have to wait for a number to move -- a face one bar
+    # behind can still round to the same top-2 share and be unquotable.
+    gd = yg.get("data") or {}
+    fd = rec.get("data") or {}
+    for name, mine, theirs in (
+            ("evidence_cutoff", rec.get("evidence_cutoff"), gd.get("last")),
+            ("universe", fd.get("universe"), gd.get("bond_free_universe")),
+            ("flips_repaired", fd.get("flips_repaired"), gd.get("flips_repaired"))):
+        if theirs is not None and mine != theirs:
+            drift.append("%s: face=%r gate=%r" % (name, mine, theirs))
+    if drift:
+        for d in drift:
+            print("DRIFT " + d)
+        print("CHECK_FAIL %d field(s) drifted -- rerun "
+              "`python scripts/etf_book_scale_floor.py` (panel build, off-chain by design)"
+              % len(drift))
+        return 3
+    print("CHECK_OK floor=0 verdict=%s top2=%.4f (year gate %.4f) arms=%d"
+          % (a0.get("verdict"), (a0.get("year_metrics") or {}).get("top2_share") or 0.0,
+             (ad.get("year_metrics") or {}).get("top2_share") or 0.0, len(arms)))
+    return 0
+
+
 def main(argv):
     mode = argv[1] if len(argv) > 1 else "run"
     if mode == "selftest":
         return selftest()
+    if mode == "check":
+        return check()
     run()
     return 0
 

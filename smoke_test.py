@@ -23,6 +23,79 @@ def _lan_ok(lag, st) -> bool:
     if lag == 0:
         return st.get("stale") is False and "NOT current" not in str(st.get("reason"))
     return st.get("stale") is True and "NOT current" in str(st.get("reason"))
+
+
+def _ceo_page_view():
+    """(r1493) The CEO one-page, resolved together with who may write it.
+
+    Nine legs compare `docs/live_book/LIVE-BOOK-*.md` against faces re-derived here, and on
+    a machine that is not its writer every one of them is measuring the writer's absence:
+    the page is legitimate, just older than the faces. r1492 drew that line for the
+    statutory-clock leg; this is the same line for the page, asked of the writer's own
+    guard (never a second copy of the rule) so the answer cannot drift from the guard that
+    actually refuses to write.
+
+    Also fixes a wall-clock bug the same legs carried: they opened
+    LIVE-BOOK-<today's date>.md, but the page is named for the wall clock of the run that
+    wrote it, so that file does not exist until the writer's first run of the day -- a
+    missing today-page is not evidence of anything except that nobody has run yet. The
+    newest page on disk is read instead, and its own JSON says which bar it priced.
+
+    Returns: path, text, bar (priced bar, or None), may_write (may THIS host write it),
+    owner (the writer), silent_h (owner heartbeat age in hours, None = unknown).
+    """
+    out = {"path": None, "text": "", "bar": None, "may_write": True,
+           "owner": None, "silent_h": None, "reason": ""}
+    try:
+        from scripts import etf_book_ceo_page as _P
+        out["owner"] = _P.HOST
+        out["silent_h"] = _P.owner_silence_hours()
+        out["may_write"] = bool(_P.writer_allowed(_P.machine_id()))
+    except Exception as _e:
+        # an unreadable guard is not permission: keep the legs strict.
+        out["reason"] = "guard unreadable (%r)" % (_e,)
+    _lb = sorted(glob.glob(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                        "docs", "live_book", "LIVE-BOOK-*.json")))
+    if not _lb:
+        out["reason"] = (out["reason"] + "; " if out["reason"] else "") + \
+            "no page artifact on disk"
+        return out
+    js = _lb[-1]
+    try:
+        with open(js, encoding="utf-8") as fh:
+            bar = (json.load(fh) or {}).get("priced_bar")
+        out["bar"] = None if bar is None else str(bar)[:10]
+        md = js[:-5] + ".md"
+        out["path"] = md
+        if os.path.exists(md):
+            with open(md, encoding="utf-8") as fh:
+                out["text"] = fh.read()
+        else:
+            out["reason"] = "the JSON twin has no markdown beside it (%s)" % os.path.basename(md)
+    except Exception as _e:
+        out["reason"] = "page artifact unreadable (%r)" % (_e,)
+    return out
+
+
+def _page_elsewhere_note(view, bar, what=""):
+    """The one sentence a leg prints instead of red, or None when it must stay strict.
+
+    Strict (return None = the caller keeps failing) when this host may write the page: a
+    host that can fix a stale page has no excuse for one. Otherwise the page's bar is
+    named against the face it is being compared with, so the reader can see this is a
+    different day rather than a wrong line.
+    """
+    if view.get("may_write"):
+        return None
+    if not view.get("path") or not view.get("text"):
+        return None
+    if view.get("bar") is None or bar is None or str(view["bar"]) == str(bar):
+        return None
+    return ("page %s priced %s, face priced %s -- page owned by %s (this host cannot write "
+            "it; owner heartbeat %s h)%s"
+            % (os.path.basename(view["path"]), view["bar"], str(bar)[:10], view.get("owner"),
+               "unknown" if view.get("silent_h") is None else "%.1f" % view["silent_h"],
+               ("; " + what) if what else ""))
 def capture_pinned(argv, timeout):
     """The one place a leg captures a child's text.
 
@@ -1338,39 +1411,46 @@ def main() -> int:
     try:
         from scripts import etf_book_ceo_page as _PGA
         _ps = _PGA.positions_face()
-        _mdp = open(os.path.join("docs", "live_book", "LIVE-BOOK-%s.md"
-                                 % __import__("time").strftime("%Y%m%d")),
-                    encoding="utf-8").read()
-        _badp = []
+        # r1493: the page is named for the wall clock of the run that wrote it, so
+        # LIVE-BOOK-<today>.md does not exist before the writer's first run of the day --
+        # that is not a missing section. Read the newest page and let its own JSON say
+        # which bar it priced, then ask the writer's guard whether this host could fix it.
+        _pv = _ceo_page_view()
+        _mdp = _pv["text"]
+        if not _mdp:
+            raise RuntimeError(_pv.get("reason") or "no CEO page on disk")
+        _badp, _notep = [], ""
         if _ps.get("status") != "ok":
             _badp.append("positions face %s (%s)" % (_ps.get("status"), _ps.get("detail")))
         else:
-            if "账上现在拿的是什么" not in _mdp:
-                _badp.append("the account section is gone from the page")
-            _blk = "\n".join(_PGA.positions_block(_ps, page_bar=_ps.get("asof")))
-            for _h in (_ps.get("ledger_row") or {}).get("holdings") or []:
-                if _h.get("symbol") not in _blk:
-                    _badp.append("held name %s is not in the block" % _h.get("symbol"))
-            # r1474: the page is written by another host, so this leg must not read a
-            # one-bar lag as our defect (r1135: an assertion may not assume someone else
-            # is running). What it CAN require is that the two published faces never
-            # disagree silently -- if they do, our own face has to print both numbers.
-            from scripts import etf_book_positions as _POS
-            _rep = _POS.restatement_report(_POS.load_ledger(), _ps.get("asof"), _mdp)
-            _pb = _rep.get("page_block") or {}
-            if not _pb.get("same_bar"):
-                _badp.append("the page prints no account block for bar %s"
-                             % _ps.get("asof"))
-            elif _rep.get("page_vs_ledger_agree") is not True:
-                _own = ""
-                _own_path = os.path.join("results", "etf_book_positions.md")
-                if os.path.exists(_own_path):
-                    _own = open(_own_path, encoding="utf-8").read()
-                if "这一根 bar 有没有被改写过" not in _own or "账本" not in _own:
-                    _badp.append("page and ledger disagree on bar %s and the positions "
-                                 "face does not publish it" % _ps.get("asof"))
+            _notep = _page_elsewhere_note(_pv, _ps.get("asof")) or ""
+            if not _notep:
+                if "账上现在拿的是什么" not in _mdp:
+                    _badp.append("the account section is gone from the page")
+                _blk = "\n".join(_PGA.positions_block(_ps, page_bar=_ps.get("asof")))
+                for _h in (_ps.get("ledger_row") or {}).get("holdings") or []:
+                    if _h.get("symbol") not in _blk:
+                        _badp.append("held name %s is not in the block" % _h.get("symbol"))
+                # r1474: the page is written by another host, so this leg must not read a
+                # one-bar lag as our defect (r1135: an assertion may not assume someone else
+                # is running). What it CAN require is that the two published faces never
+                # disagree silently -- if they do, our own face has to print both numbers.
+                from scripts import etf_book_positions as _POS
+                _rep = _POS.restatement_report(_POS.load_ledger(), _ps.get("asof"), _mdp)
+                _pb = _rep.get("page_block") or {}
+                if not _pb.get("same_bar"):
+                    _badp.append("the page prints no account block for bar %s"
+                                 % _ps.get("asof"))
+                elif _rep.get("page_vs_ledger_agree") is not True:
+                    _own = ""
+                    _own_path = os.path.join("results", "etf_book_positions.md")
+                    if os.path.exists(_own_path):
+                        _own = open(_own_path, encoding="utf-8").read()
+                    if "这一根 bar 有没有被改写过" not in _own or "账本" not in _own:
+                        _badp.append("page and ledger disagree on bar %s and the positions "
+                                     "face does not publish it" % _ps.get("asof"))
         check("product: the account the sheet never sells reaches the CEO page",
-              not _badp, "; ".join(_badp))
+              not _badp, "; ".join(_badp) or _notep)
     except Exception as _e3:
         check("product: the account the sheet never sells reaches the CEO page", False, str(_e3))
 
@@ -1381,27 +1461,31 @@ def main() -> int:
         from scripts import etf_book_nav_envelope as _NE
         from scripts import etf_book_ceo_page as _PG
         _env = _NE.read_published()
-        _md = open(os.path.join("docs", "live_book", "LIVE-BOOK-%s.md"
-                               % __import__("time").strftime("%Y%m%d")),
-                   encoding="utf-8").read()
-        _bad = []
+        _pv2 = _ceo_page_view()
+        _md = _pv2["text"]
+        if not _md:
+            raise RuntimeError(_pv2.get("reason") or "no CEO page on disk")
+        _bad, _note = [], ""
         if _env.get("status") != "ok":
             _bad.append("reader status %s (%s)" % (_env.get("status"), _env.get("detail")))
         else:
-            if "这一本账在它自己的日子里" not in _md:
-                _bad.append("the luck section is gone from the page")
-            for _q in ("5", "50", "95"):
-                _tok = "%.2f%%" % (_env["cagr"][_q] * 100)
-                if _tok not in _md:
-                    _bad.append("CAGR p%s (%s) is not on the page" % (_q, _tok))
-            _sh = _env["shares"]
-            if "%.1f%%" % (_sh["cagr_le_zero"] * 100) not in _md:
-                _bad.append("the losing share is not on the page")
-            _block = "\n".join(_PG.envelope_block(_env))
-            if "典型" not in _block:
-                _bad.append("the page does not say the point estimate is a typical path")
+            _face2 = _env.get("evidence_cutoff") or _env.get("asof")
+            _note = _page_elsewhere_note(_pv2, _face2) or ""
+            if not _note:
+                if "这一本账在它自己的日子里" not in _md:
+                    _bad.append("the luck section is gone from the page")
+                for _q in ("5", "50", "95"):
+                    _tok = "%.2f%%" % (_env["cagr"][_q] * 100)
+                    if _tok not in _md:
+                        _bad.append("CAGR p%s (%s) is not on the page" % (_q, _tok))
+                _sh = _env["shares"]
+                if "%.1f%%" % (_sh["cagr_le_zero"] * 100) not in _md:
+                    _bad.append("the losing share is not on the page")
+                _block = "\n".join(_PG.envelope_block(_env))
+                if "典型" not in _block:
+                    _bad.append("the page does not say the point estimate is a typical path")
         check("product: the page shows the book's own luck distribution, not just a point",
-              not _bad, "; ".join(_bad[:3]) or "p50 %.2f%% / p5 %.2f%%"
+              not _bad, "; ".join(_bad[:3]) or _note or "p50 %.2f%% / p5 %.2f%%"
               % ((_env.get("cagr") or {}).get("50", 0) * 100,
                  (_env.get("cagr") or {}).get("5", 0) * 100))
     except Exception as _e3:
@@ -6033,7 +6117,7 @@ def main() -> int:
     # never agreement).
     try:
         import tempfile as _tf47
-        _bad47 = []
+        _bad47, _note47 = [], ""
         _sys47 = os.path.join(PATHS.root, "scripts")
         if _sys47 not in sys.path:
             sys.path.insert(0, _sys47)
@@ -6049,8 +6133,24 @@ def main() -> int:
                 with open(os.path.join(PATHS.root, _pg47["json"]), encoding="utf-8") as _fh47:
                     _pg47 = json.load(_fh47) or {}
             _pf47 = _P47.priced_faces(page_bar=_pg47.get("priced_bar"))
+            # r1493: "the three papers disagree" is only a defect on the host that writes
+            # the page. Anywhere else it is a fact about how old somebody else's build is,
+            # and the demand that survives it is the one this leg already makes below: each
+            # paper must PRINT the disagreement it is party to. A page owned elsewhere with
+            # the gap named on the ticket is a reader who can act; a page that disagrees
+            # quietly is the defect, on any host.
+            _note47 = ""
             if _pf47.get("verdict") != "SAME_DAY":
-                _bad47.append("three papers disagree: %s" % (_pf47.get("detail") or "")[:120])
+                _pv47 = _ceo_page_view()
+                _note47 = _page_elsewhere_note(
+                    _pv47, (_pf47.get("faces") or {}).get("ticket"),
+                    "verdict %s" % (_pf47.get("verdict"),)) or ""
+                if not _note47:
+                    _bad47.append("three papers disagree: %s"
+                                  % (_pf47.get("detail") or "")[:120])
+                else:
+                    _note47 = ("papers priced different days (%s) and the ticket names "
+                               "it | %s" % ((_pf47.get("detail") or "")[:110], _note47))
             _lb47 = sorted(glob.glob(os.path.join(PATHS.root, "docs", "live_book",
                                                   "LIVE-BOOK-*.md")))
             _md47 = ""
@@ -6119,7 +6219,7 @@ def main() -> int:
                         _bad47.append("%s does not print the %s day %s"
                                       % (_lab47, _k47b, _dd47))
         check("product: the three papers print the day each was priced on, and can disagree",
-              not _bad47, "; ".join(_bad47)[:220]
+              not _bad47, "; ".join(_bad47)[:220] or _note47
               or "card/ticket/page all priced %s" % ((_pf47.get("faces") or {}).get("card"),))
     except Exception as e:
         check("product: the three papers print the day each was priced on, and can disagree",
@@ -6339,7 +6439,7 @@ def main() -> int:
         import importlib as _il52
         _G52 = _il52.import_module("etf_book_sleeve_gate")
         _p52 = os.path.join(PATHS.results_dir, "etf_book_sleeve_gate.json")
-        _bad52 = []
+        _bad52, _note52 = [], ""
         if not os.path.exists(_p52):
             _bad52.append("results/etf_book_sleeve_gate.json missing")
         else:
@@ -6366,8 +6466,22 @@ def main() -> int:
                         _priced52 = ((_pj52.get("priced_faces") or {}).get("page")
                                      or _pj52.get("evidence_cutoff"))
                     if _priced52 != _pub52.get("evidence_cutoff"):
-                        _bad52.append("page priced on %s but the sleeve face is %s (stale page)"
-                                      % (_priced52, _pub52.get("evidence_cutoff")))
+                        # r1493: a page priced on another bar is only this host's defect
+                        # when this host may write it (the writer's own guard decides).
+                        _n52 = _page_elsewhere_note(_ceo_page_view(),
+                                                    _pub52.get("evidence_cutoff"))
+                        if _n52:
+                            _note52 = _n52
+                        else:
+                            _bad52.append(
+                                "page priced on %s but the sleeve face is %s (stale page)"
+                                % (_priced52, _pub52.get("evidence_cutoff")))
+                    # r1493: everything below reads the page's TEXT, so when the page
+                    # belongs to another host and sits on another bar these findings are
+                    # that age, not this round's work. They land in a sink and are printed
+                    # as the note; the face-side checks above stay strict.
+                    _pagefind52, _badface52 = [], _bad52
+                    _bad52 = _pagefind52
                     if "要不要给商品袖" not in _md52:
                         _bad52.append("page carries no sleeve-gate section")
                     else:
@@ -6400,8 +6514,15 @@ def main() -> int:
                             if _ph52 in _md52:
                                 _bad52.append("page says the %s gate lost to its placebo "
                                               "but the face says it beat it" % _n52)
+                    _bad52, _pagefind52 = _badface52, _pagefind52
+                    if _note52:
+                        _note52 += (" | page-side differences (%d): %s"
+                                    % (len(_pagefind52), "; ".join(_pagefind52)[:120])
+                                    if _pagefind52 else "")
+                    else:
+                        _bad52 += _pagefind52
         check("product: the page answers whether the commodity sleeve needs its own gate",
-              not _bad52, "; ".join(_bad52)[:220]
+              not _bad52, "; ".join(_bad52)[:220] or _note52
               or "page == face (%s; %d gates, %d named no-gain)"
                  % (_pub52.get("verdict"), len(_pub52.get("gates") or []),
                     len([r for r in (_pub52.get("gates") or [])
@@ -7158,7 +7279,7 @@ def main() -> int:
         _MC72 = _il72.import_module("etf_book_min_capital")
         _PG72 = _il72.import_module("etf_book_ceo_page")
         _p72 = os.path.join(PATHS.results_dir, "etf_book_min_capital.json")
-        _bad72 = []
+        _bad72, _note72 = [], ""
         _doc72 = {}
         if not os.path.exists(_p72):
             _bad72.append("results/etf_book_min_capital.json missing")
@@ -7188,6 +7309,13 @@ def main() -> int:
             else:
                 with open(_lb72[-1], encoding="utf-8") as _fh72b:
                     _md72 = _fh72b.read()
+                # r1493: the block below is re-derived from today's face and looked for in
+                # the page's text. When the page belongs to another host and sits on an
+                # older bar those lines are absent because the section did not exist yet,
+                # not because this round broke it -- name the age instead of the absence.
+                _pv72 = _ceo_page_view()
+                _note72 = _page_elsewhere_note(_pv72, _face72.get("evidence_cutoff")) or ""
+                _badface72, _bad72 = _bad72, []       # page-side findings collect here
                 _lines72 = [l for l in _PG72.capital_block(_face72) if l.strip()]
                 _off72 = [l for l in _lines72 if l not in _md72]
                 if _off72:
@@ -7205,9 +7333,16 @@ def main() -> int:
                         _bad72.append("a stable threshold is not printed as stable")
                 else:
                     _bad72.append("window token %r makes no claim" % (_wv72,))
+                _bad72, _pagefind72 = _badface72, _bad72
+                if _note72:
+                    _note72 += (" | page-side differences (%d): %s"
+                                % (len(_pagefind72), "; ".join(_pagefind72)[:120])
+                                if _pagefind72 else "")
+                else:
+                    _bad72 += _pagefind72
         check("product: the operator page says how much money this book needs",
               not _bad72,
-              "; ".join(_bad72)[:220] or "break-even %s CNY | window %s"
+              "; ".join(_bad72)[:220] or _note72 or "break-even %s CNY | window %s"
               % (_doc72.get("fee_neutral_vs_model_nav"),
                  (_doc72.get("window") or {}).get("verdict")))
     except Exception as e:
@@ -7222,7 +7357,7 @@ def main() -> int:
     try:
         import importlib as _il73
         _PG73 = _il73.import_module("etf_book_ceo_page")
-        _bad73 = []
+        _bad73, _note73 = [], ""
         _ptr73 = os.path.join(PATHS.results_dir, "etf_book_order", "latest.json")
         _tk73 = {}
         if not os.path.exists(_ptr73):
@@ -7268,6 +7403,12 @@ def main() -> int:
         else:
             with open(_lb73[-1], encoding="utf-8") as _fh73d:
                 _md73 = _fh73d.read()
+            # r1493: same split as the capital leg -- the ticket-width line is re-derived
+            # from today's face, so its absence on a page built on an older bar is that
+            # page's age (owned by another host), not this round's defect.
+            _note73 = _page_elsewhere_note(_ceo_page_view(),
+                                           _face73.get("evidence_cutoff")) or ""
+            _badface73, _bad73 = _bad73, []          # page-side findings collect here
             _tk_lines73 = [l for l in _PG73.capital_block(_face73) if "可执行单" in l]
             if not _tk_lines73:
                 _bad73.append("the page never mentions the ticket's own width")
@@ -7279,9 +7420,16 @@ def main() -> int:
                     _bad73.append("the page prices the card's basket (%s names) at a reader "
                                   "holding %s and never prints their own %s CNY"
                                   % (_pw73, _n73, "%.0f" % _want73))
+            _bad73, _pagefind73 = _badface73, _bad73
+            if _note73:
+                _note73 += (" | page-side differences (%d): %s"
+                            % (len(_pagefind73), "; ".join(_pagefind73)[:120])
+                            if _pagefind73 else "")
+            else:
+                _bad73 += _pagefind73
         check("product: the operator page prices the basket the ticket actually holds",
               not _bad73,
-              "; ".join(_bad73)[:220] or "ticket %s names -> %s CNY (card path %s)"
+              "; ".join(_bad73)[:220] or _note73 or "ticket %s names -> %s CNY (card path %s)"
               % (_n73, _want73, (_face73.get("published_path_width"),)))
     except Exception as e:
         check("product: the operator page prices the basket the ticket actually holds",
@@ -7535,6 +7683,12 @@ def main() -> int:
                     _md77 = _fh77d.read()
             else:
                 _bad77.append("the page md named by latest.json is absent")
+        # r1493: from here on every check compares the page against today's face. On a host
+        # that may not write the page, a page built on an older bar will fail all of them
+        # by construction -- that is the owner's absence, named once, not N defects.
+        _note77 = _page_elsewhere_note(_ceo_page_view(),
+                                       _doc77.get("evidence_cutoff")) or ""
+        _badface77, _bad77 = _bad77, []      # page-side findings collect here
         _eg77 = (_page77.get("entry_gate") or {})
         if _eg77.get("status") != "ok":
             _bad77.append("the page carries no entry gate (%r/%r)"
@@ -7573,9 +7727,16 @@ def main() -> int:
             elif "容量来源" in _md77:
                 _bad77.append("the page calls the gate a capacity source while its own "
                               "rows are not wide")
+        _bad77, _pagefind77 = _badface77, _bad77
+        if _note77:
+            _note77 += (" | page-side differences (%d): %s"
+                        % (len(_pagefind77), "; ".join(_pagefind77)[:120])
+                        if _pagefind77 else "")
+        else:
+            _bad77 += _pagefind77
         check("product: the operator page says the entry gate sets capacity, not return",
               not _bad77,
-              "; ".join(_bad77)[:220] or
+              "; ".join(_bad77)[:220] or _note77 or
               "%s / %g..%gM / names %s..%s"
               % (_again77.get("verdict"),
                  min(float(g.get("gate_m") or 0) for g in (_eg77.get("gates") or [])),
@@ -7793,7 +7954,7 @@ def main() -> int:
         import importlib as _il57
         _P57 = _il57.import_module("etf_book_exposure_timing")
         _p57 = os.path.join(PATHS.results_dir, "etf_book_exposure_timing.json")
-        _bad57 = []
+        _bad57, _note57 = [], ""
         _pub57 = _P57.read_published(path=_p57)
         if _pub57.get("status") != "ok":
             _bad57.append("face does not read clean (%s)" % _pub57.get("status"))
@@ -7816,8 +7977,20 @@ def main() -> int:
                     _priced57 = ((_pj57.get("priced_faces") or {}).get("page")
                                  or _pj57.get("evidence_cutoff"))
                 if _priced57 != _pub57.get("evidence_cutoff"):
-                    _bad57.append("page priced on %s but the exposure face is %s (stale page)"
-                                  % (_priced57, _pub57.get("evidence_cutoff")))
+                    # r1493: same split once more -- a page on another bar belongs to its
+                    # writer. Keep it red only where this host could have written it.
+                    _n57 = _page_elsewhere_note(_ceo_page_view(),
+                                                _pub57.get("evidence_cutoff"))
+                    if _n57:
+                        _note57 = _n57
+                    else:
+                        _bad57.append(
+                            "page priced on %s but the exposure face is %s (stale page)"
+                            % (_priced57, _pub57.get("evidence_cutoff")))
+                # r1493: everything below reads the page's text against today's face, so
+                # on a page that belongs to another host and sits on an older bar these
+                # findings are its age. Sink them into the note instead of red.
+                _badface57, _bad57 = _bad57, []
                 if "仓位不是一直满的" not in _md57:
                     _bad57.append("page carries no exposure-timing section")
                 else:
@@ -7836,8 +8009,16 @@ def main() -> int:
                     # book against full exposure instead, every de-lever "reduces drawdown"
                     if "同样的平均仓位" not in _md57:
                         _bad57.append("page does not name the matched-average control")
+                _bad57, _pagefind57 = _badface57, _bad57
+                if _note57:
+                    _note57 += (" | page-side differences (%d): %s"
+                                % (len(_pagefind57), "; ".join(_pagefind57)[:120])
+                                if _pagefind57 else "")
+                else:
+                    _bad57 += _pagefind57
         check("product: the page tells a de-levered book from a well-timed one", not _bad57,
-              "; ".join(_bad57)[:220] or "page prints %s on the face's own pricing bar"
+              "; ".join(_bad57)[:220] or _note57
+              or "page prints %s on the face's own pricing bar"
               % ((_pub57.get("verdict") or {}).get("state"),))
     except Exception as e:
         check("product: the page tells a de-levered book from a well-timed one", False,

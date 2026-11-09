@@ -686,6 +686,16 @@ LEGS = [
     # compression_note instead of a clean bill of health. `--check` re-derives published
     # JSON only (1.7s warm, no panel).
     ("wrapper_year_gate", ["python", "scripts/etf_book_wrapper_year_gate.py", "--check"]),
+    # r1493: the scale-floor face is judged BY that gate (it imports admission_block), so it
+    # has to answer to it whenever the gate is rebuilt -- and nothing made it. On 2026-11-10
+    # the smoke leg that compares the two read top-2 0.7108 here against 0.7067 there: this
+    # file was written 11-08, the gate rebuilt 11-10, and both numbers were correct for their
+    # own panel. Two published faces quoting one book at two concentrations is a reader
+    # problem, and a note cannot fix it. `run` is a panel build (~1 min), so the leg is the
+    # cheap identity re-check: the zero-floor arm must reproduce the adopted book's verdict
+    # and top-2 share, and the face must not disagree with itself. rc3 = drifted, re-run the
+    # face (which is the adoption-path measurement and stays off-chain by design).
+    ("scale_floor", ["python", "scripts/etf_book_scale_floor.py", "check"]),
     # r1456: every 11-11 face treats the trim as the end of the story, but k_schedule
     # re-derives k every 20 bars and carries no memory of it. This leg re-derives the
     # published lifetime face from the same panel (control arm first: the schedule's last
