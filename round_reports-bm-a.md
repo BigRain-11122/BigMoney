@@ -2230,3 +2230,43 @@ CEO 一页纸与执行单（同一个读者件） | 最近实物: `results/etf_b
 **三行实况面**｜当前活：车道新鲜度板的「本机副本落后」从 JSON 走进三张人眼面（终端/看板/战报）＋方法论卡 E487｜最近实物：`docs/daily_report/REPORT-2026-11-09.md`、`results/dashboard_status.json`、`docs/data_lanes/FRESHNESS.md`（2026-11-09T19:51:24+08:00）｜下个里程碑：把书尺子面的身份断腿（baseline k=0.4603 vs 票面 k=0.3908）交业务口径定夺后转绿，或改判为显式双口径（窗 ≤48h）。
 
 **计分：2**（一件能看实物：三张人眼面新增「本机副本」真话 + 一处能跑脚本新增断言；一条改变判断的约束：`in_sync` 是公司数据的陈述、不是本检出字节的陈述——两者可同时为真，必须并排印）。 | [via bm-a r1273] |
+
+
+## r1274 — 8 条继承红修掉 6 条（两条是「面在旧世界」，四条是「词表读错事」）
+
+**当前活**：S1 修红闭环——smoke 8 条继承 FAIL 逐条复验，6 条已绿、2 条留指针
+**最近实物**：`scripts/etf_book_vol_target_gate.py`（新）+ `docs/lane_ownership/DECLARATION-2026-11-09.md`（重生成）+ 三个证据面重 derive（2026-11-09T20:08）
+**下个里程碑**：清掉剩余 2 条红（CEO 风险带过期 / 票面 k 与账户 k 时序），窗 ≤48h
+
+### 做了什么（6 条，每条都有复跑证据）
+
+1. **`chain.vol_target_gate_missing_script` → 治愈（新脚本）**。canonical 链列表里有这条腿、注释写明了语义（"从已发布的 cells 重算每个 arm 的判决词与 scale-invariance delta"），但 `scripts/etf_book_vol_target_gate.py` 从来不存在（git log 空、origin 无）。落脚本：15 格/本的每个轴聚合、判决串（复用 `etf_vol_target_sweep.verdict`，单一实现）、以及**从未发布过的 scale-invariance delta**（同一 (window,target) 在 5 名书与 12 名书上）全部从 cells 重算并与发布值比对。`--selftest` 9/9；`check` rc0 VOL_TARGET_VERDICT_REPRODUCED；实读：两本书的 arm word 一致（target=RISK DIAL / window=LOAD-BEARING），15 格里 n12 的 Sharpe 全部低于 n5（-0.183..-0.049）。
+2. **`lane_ownership.etf_panel/minute_feed_TWO_WRITERS` → 治愈（词表读错了两件事）**。
+   - `minute_feed`：authority=`non_host_copy`，本机只是**持有一份数据副本**（该行自己的 why 就写着「read from this machine's local copy」）。副本是关于磁盘的证词，不是关于写者的证词 —— 把它读成 observed writer，等于把「有副本」判成「两个人在写」。
+   - `etf_panel`：authority=`non_host_envelope`，本机留着一枚**前属主写的旧封套**。它是遗留债，不是「两台机同时在写」（没有任何一行示明属主也在写）。
+   - 修法两半：`COPY_EVIDENCE` 类证据不再计入 observed writer（副本仍以 `copy_face` 字段发布，只是不再算写者）；非属主封套给独立判决 `STALE_ENVELOPE`，在 `summary.stale_envelopes` 单独点名，**不进 conflict_lanes、也不静默降绿**。selftest 加 5 条腿（含「非属主 ENVELOPE 仍是 TWO_WRITERS」的窄口径保留腿）；`run` → OWNERSHIP_UNIQUE 15 lanes / 0 conflicts / stale_envelopes {etf_panel: bm-a}。
+3. **`etf_book_supply_gate_decision` / `rebalance_permission` / `decision_line` 三面 → 重 derive 后治愈**。三条都是「check 只从自己已发布的行重算，面板推进后它们坐在旧世界」（r1193/r1290 家族）。`run` 一次：9/9 OK / 6/6 OK / 4 fields OK，全部 rc0。
+4. **`panel tail by sample` → 自愈（不是代码缺陷）**。smoke 跑在 19:33-19:48，彼时 `results/data_lane_tail_certification.json` 还是更早的一份（futures 11-06 / moneyflow 11-06），而板面已推进。19:51 认证面重新全扫后：futures 2026-11-09 == 板，moneyflow 2026-10-13 == 板（`sample_understated` 如实披露 full=10-19），零不一致。
+
+### 没做完（如实）
+
+- **`product: the CEO page carries today's market risk tape`**：zt/dtgc/zbgc 页面的 bar(10-29) 与成员数(32/15) 落后面板(39/41)。这是数据面推进后面未重生，需要先确认 zt 面板的口径再重 derive —— 未动，留作下轮首务。**没有为了让腿变绿去改断言。**
+- **`product: the executable sheet is sized from the account it will trade`**：票面 k=0.390822 vs 账户重算 k=0.390144（bar 2026-11-06，差 6.8e-4 ≈ 677 CNY）。两文件同秒写（10:12:40.954 / .958），票面早 4ms —— 正是 r1471 记录的「positions 写腿排在票面之后」的时序缺口。修法是把写腿排到票面之前（放对写者位置），不是抹平差额。
+
+### 验证
+
+- `python scripts/etf_book_vol_target_gate.py --selftest` → 9/9 PASS；`check` → rc0
+- `python scripts/lane_ownership_declaration.py selftest` → SELFTEST OK（20 腿）；`run` → OWNERSHIP_UNIQUE
+- 三面 `check` → 9/9、6/6、`CHECK_OK 4 fields re-derived from the same receipts`
+- 板面/认证面逐 lane 比对 → MISMATCH []
+- **全量 smoke 本轮未复跑**（15+ 分钟，且本轮改动集中在两条腿的脚本上）：已修的两条腿按腿内 selftest + check 复验，其余 6 条按各自 check 复验。**不宣称 461/469 已变绿。**
+
+### 三行实况
+
+- **当前活**：S1 修红 —— 8 条继承红 6 条已复验转绿，2 条留指针
+- **最近实物**：`scripts/etf_book_vol_target_gate.py`（13.4KB，新）+ `docs/lane_ownership/DECLARATION-2026-11-09.md` + 三证据面重生 @ 2026-11-09T20:08:04+08:00
+- **下个里程碑**：清掉剩余 2 条红（risk tape 重 derive / 票面 k 写者时序），窗 ≤48h
+
+**计分：2**（一件能跑实物：`etf_book_vol_target_gate.py` 填补了 canonical 链上从未执行过的一条腿，selftest 9/9 + 实跑可复现判决；一处能跑改正：lane 所有权判定把「有副本」与「旧封套」从「双写者」里分出来，附带 5 条自检腿）
+
+| [via bm-a r1274] |

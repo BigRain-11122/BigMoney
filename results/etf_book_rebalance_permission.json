@@ -6,7 +6,6 @@
  "beta_target": 0.2,
  "size_tol": 0.005,
  "k_now": 0.390822,
- "k_rule": 0.460253,
  "nav_cny": 1000000.0,
  "book_amount_cny": 390257.8,
  "cash_amount_cny": 609742.2,
@@ -14,8 +13,8 @@
   "baseline_published": {
    "k": 0.460253,
    "delta_vs_now_pp": 6.94,
-   "kind": "circular",
-   "why": "the construction the ticket was priced from (k == k_now by identity)",
+   "kind": "unreadable",
+   "why": "baseline k=0.460253452 does not equal the ticket's k=0.390822000: the circularity identity is broken, so no reading can be called independent",
    "bars": 1658
   },
   "window": {
@@ -47,10 +46,10 @@
    "bars": 306
   }
  },
- "readings_unreadable": {},
- "circular_readings": [
-  "baseline_published"
- ],
+ "readings_unreadable": {
+  "baseline_published": "baseline k=0.460253452 does not equal the ticket's k=0.390822000: the circularity identity is broken, so no reading can be called independent"
+ },
+ "circular_readings": [],
  "path_readings": [
   "universe",
   "window",
@@ -59,48 +58,10 @@
  "static_readings": [
   "denominator"
  ],
- "permitted_k": 0.393073,
- "permitted_book_cny": 392509.0,
- "cut_k": -0.002251,
- "cut_pp": -0.23,
- "cut_cny": -2251.0,
- "supporters": [
-  "denominator",
-  "universe",
-  "window",
-  "window_x_universe"
- ],
- "supporters_path": [
-  "universe",
-  "window",
-  "window_x_universe"
- ],
- "supporters_static": [
-  "denominator"
- ],
- "keep_allowed": true,
- "naive_max_over_all_readings": {
-  "k": 0.544424,
-  "keep_allowed": true,
-  "why": "a ruler that permits a LARGER size is read as permission for this one; the permitting reading need not be a decision path (E456: the rulers are not additive and not interchangeable)"
- },
- "verdict": "KEEP_SUPPORTED_BY_INDEPENDENT_PATH",
- "sentence": "keeping k=0.390822 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.393073",
- "supply_side": {
-  "book": "nobond_vt08_adopted",
-  "verdict": "CONDITIONAL",
-  "failed_check": [
-   "Y4_top2_share"
-  ],
-  "top2_share": 0.7108,
-  "top2_line": 0.7,
-  "asof": "2026-11-08T08:38:12+0800"
- },
- "not_measured": [
-  "the wrapper's yearly shape: beta overlay + GC001 cash leg have never been through the year gate (r1438), so a smaller k is not automatically a passing book",
-  "which reading is the RIGHT measurement: the four-cell spread is a ruler choice and no caliber prereg has landed (r1446 four requirements)",
-  "the cost of the cut: the ticket's own reprice delta (CNY 91.7 at the 11-06 bar) is not carried into the gate, and a 6.72pp cut pays one more round of 8bp"
- ],
- "elapsed_sec": 0.01,
- "generated": "2026-11-09T09:34:12+0800"
+ "verdict": "UNREADABLE",
+ "sentence": "a reading could not be classified (baseline_published); an unclassified reading is not a vote for the size in force",
+ "permitted_k": null,
+ "keep_allowed": null,
+ "elapsed_sec": 0.0,
+ "generated": "2026-11-09T20:08:04+0800"
 }
