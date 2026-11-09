@@ -131,6 +131,16 @@
    "n_held": 12,
    "filled": false,
    "turn": 0.0
+  },
+  {
+   "bar": "2026-11-09",
+   "nav": 1.0005534352,
+   "dd": -0.014638,
+   "cash": 0.299225,
+   "carry": 3.34066e-05,
+   "n_held": 12,
+   "filled": false,
+   "turn": 0.0
   }
  ],
  "books": {},
@@ -156,15 +166,9 @@
  },
  "status": "live",
  "drift": {
-  "faces": [
-   "2026-11-02:1.324e-03",
-   "2026-11-03:4.889e-03",
-   "2026-11-04:3.416e-03",
-   "2026-11-05:4.203e-03",
-   "2026-11-06:8.143e-03"
-  ],
-  "max_abs": 0.008142742199999997,
-  "checked_bars": 11
+  "faces": [],
+  "max_abs": 0.0,
+  "checked_bars": 12
  },
  "rebases": [
   {
@@ -352,6 +356,16 @@
    "ts": "2026-11-09T05:22:42+0800",
    "new_bars": 0,
    "last_bar": "2026-11-06"
+  },
+  {
+   "ts": "2026-11-10T00:36:20+0800",
+   "new_bars": 1,
+   "last_bar": "2026-11-09"
+  },
+  {
+   "ts": "2026-11-10T03:00:40+0800",
+   "new_bars": 0,
+   "last_bar": "2026-11-09"
   }
  ],
  "panel": {
@@ -463,6 +477,13 @@
     "filled": false,
     "book_nav": 1.0005200112,
     "excess": 0.0109076552
+   },
+   {
+    "bar": "2026-11-09",
+    "nav": 0.9900844254,
+    "filled": false,
+    "book_nav": 1.0005534352,
+    "excess": 0.0105738557
    }
   ],
   "rebalance_friction": {
@@ -472,34 +493,34 @@
   },
   "decisions": 83,
   "latest": {
-   "bar": "2026-11-06",
-   "book_nav": 1.0005200112,
-   "basket_nav": 0.9897244383,
-   "excess_pp": 1.0908
+   "bar": "2026-11-09",
+   "book_nav": 1.0005534352,
+   "basket_nav": 0.9900844254,
+   "excess_pp": 1.0574
   },
   "significance": {
    "available": true,
-   "bars_used": 1657,
-   "windows": "2020-01-02..2026-11-06",
-   "daily_vol_pct": 0.5414,
-   "annual_vol_pct": 8.457,
+   "bars_used": 1658,
+   "windows": "2020-01-02..2026-11-09",
+   "daily_vol_pct": 0.54124,
+   "annual_vol_pct": 8.454,
    "noise_band_pp": {
-    "1m": 4.746,
-    "3m": 8.22,
-    "1y": 16.576,
-    "3y": 28.71
+    "1m": 4.744,
+    "3m": 8.217,
+    "1y": 16.571,
+    "3y": 28.701
    },
-   "noise_band_pp_at_published": 3.519,
-   "published_bars": 11,
+   "noise_band_pp_at_published": 3.675,
+   "published_bars": 12,
    "bars_needed_for_edge": {
-    "3pp/yr": 7756,
-    "5pp/yr": 2793,
-    "10pp/yr": 699
+    "3pp/yr": 7752,
+    "5pp/yr": 2791,
+    "10pp/yr": 698
    },
    "min_detectable_edge_pp": {
-    "1y": 16.914,
-    "3y": 9.765,
-    "5y": 7.564
+    "1y": 16.909,
+    "3y": 9.762,
+    "5y": 7.562
    },
    "power": {
     "units": {
@@ -510,15 +531,15 @@
     "power": 0.8,
     "alpha_two_sided": 0.05,
     "z": 2.802,
-    "annual_vol_pct": 8.457,
+    "annual_vol_pct": 8.454,
     "min_detectable_edge_pp": {
-     "6m": 33.512,
-     "1y": 23.696,
-     "2y": 16.756,
-     "3y": 13.681
+     "6m": 33.502,
+     "1y": 23.689,
+     "2y": 16.751,
+     "3y": 13.677
     },
     "years_for_80pct_power": {
-     "pre-2020 measured alpha (single arm)": 136.3,
+     "pre-2020 measured alpha (single arm)": 136.2,
      "in-window measured alpha (single arm)": 16.1
     },
     "candidate_sources": {
@@ -536,7 +557,7 @@
     "available": true,
     "read": "a spread inside these bands is not evidence either way: at 12 months this ledger can only resolve edges above its 1y band, and the two edges this book actually published need years, not months"
    },
-   "book_cagr_pct_on_same_window": 8.997,
+   "book_cagr_pct_on_same_window": 8.992,
    "read": "a spread smaller than the band at the bar count it was measured over is indistinguishable from noise; the band shrinks as sqrt(bars), not faster"
   }
  },
