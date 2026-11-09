@@ -436,6 +436,32 @@ def price_steps(holdings, closes_by_symbol, start_bar, end_bar=None, calendar_ga
     return out
 
 
+def priced_boundary(closes_by_symbol, holdings):
+    """The last bar this book can be VALUED on, plus what stops it after that.
+
+    A bar counts only when every held leg printed a close on it. A suspension is not a zero and
+    a missing panel is not a flat price: the accrual walks the union of *any* leg printing, so
+    one leg still trading would otherwise carry a stale mark for the halted one and the row
+    would read as a valuation. The book therefore stops at the last fully priced bar and the
+    legs missing past it are named.
+    """
+    syms = sorted({str(h["symbol"]) for h in holdings or []})
+    if not syms:
+        return None, {}
+    series = {s: (closes_by_symbol or {}).get(s) or {} for s in syms}
+    days = sorted({d for s in syms for d in series[s]})
+    last_full, blockers = None, {}
+    for d in days:
+        miss = [s for s in syms if d not in series[s]]
+        if miss:
+            if last_full is not None and str(d) > str(last_full):
+                blockers[str(d)] = miss
+            continue
+        if last_full is None or str(d) > str(last_full):
+            last_full = d
+    return last_full, blockers
+
+
 def accrue_rows(row, steps, rates=None):
     """Valuation rows from an execution (or prior valuation) row and a list of bar steps.
 
@@ -604,6 +630,16 @@ def replay(base_row, closes_by_symbol, rates, window=REPLAY_DAYS):
          "risk_book_cny": None, "source_face": base_row.get("source_face")}, steps, rates)
     last = rows[-1]
     identity_delta = round(last["risk_book_cny"] - float(base_row.get("risk_book_cny") or 0.0), 2)
+    # r1483 (T29): the identity only means something when the execution bar itself is priced.
+    # With a leg unprinted on that bar the replay can only mark to an older day, and the gap it
+    # prints is the distance between the fill price and that older close -- not an engine error.
+    bar = str(base_row.get("bar"))
+    missing_on_bar = [h["symbol"] for h in holdings
+                      if not ((closes_by_symbol or {}).get(h["symbol"]) or {}).get(bar)]
+    priced = not missing_on_bar
+    priced_days = [d for d in days
+                   if all(d in ((closes_by_symbol or {}).get(h["symbol"]) or {})
+                          for h in holdings)]
     return {
         "start_bar": start,
         "bars": len(rows),
@@ -614,7 +650,10 @@ def replay(base_row, closes_by_symbol, rates, window=REPLAY_DAYS):
         "legs_ret": round(last["risk_book_cny"] / rows[0]["risk_book_cny"] - 1.0, 8),
         "cash_interest_cny": round(last["cash_cny"] - float(base_row.get("cash_cny") or 0.0), 2),
         "identity_delta_cny": identity_delta,
-        "identity_holds": abs(identity_delta) <= 0.01,
+        "identity_status": "PRICED_BAR" if priced else "UNPRICED_BAR",
+        "identity_holds": (abs(identity_delta) <= 0.01) if priced else None,
+        "base_bar_missing_closes": missing_on_bar,
+        "base_bar_last_priced_day": priced_days[-1] if priced_days else None,
         "rf_missing_bars": rf_missing,
         "stale_bars": sum(1 for s in steps if s.get("stale")),
     }
@@ -676,14 +715,46 @@ def assess(ticket, stack, ledger, stamp=None):
     # start from the account as it stands rather than from the last execution.
     accrual = {"status": "NO_BOOK"}
     replay_row = None
+    settlement = None
     if base:
-        closes, rates, panel_missing = load_panel_and_rates(base.get("holdings") or [])
-        accrual = accrue(ledger, stamp=stamp, closes_by_symbol=closes, rates=rates)
+        syms = sorted({str(h["symbol"]) for h in (base.get("holdings") or [])}
+                      | {str(h["symbol"]) for h in (row or {}).get("holdings") or []})
+        closes, rates, panel_missing = load_panel_and_rates([{"symbol": s} for s in syms])
+        held = (row or {}).get("holdings") or base.get("holdings") or []
+        boundary, blockers = priced_boundary(closes, held)
+        bar = str((row or {}).get("bar") or base.get("bar"))
+        missing_on_bar = [h["symbol"] for h in held
+                          if not ((closes.get(str(h["symbol"])) or {}).get(bar))]
+        priced = not missing_on_bar
+        settlement = {
+            "bar": bar,
+            "priced": priced,
+            "last_fully_priced_bar": boundary,
+            "missing_closes_on_bar": missing_on_bar,
+            "blocked_bars_after_boundary": blockers,
+            "ledger_bars_past_boundary": [
+                {"bar": str(r.get("bar")), "kind": r.get("kind") or "execution"}
+                for r in (ledger or {}).get("rows") or []
+                if str(r.get("bar")) > str(boundary or bar)],
+            "reading": ("every held leg printed a close on this bar"
+                        if priced else
+                        "this bar has no close for some held leg; the book records the "
+                        "execution here but records no valuation past the last priced bar"),
+        }
+        if not priced or boundary is None:
+            # the book has no valued starting point on this bar: a later fully priced day
+            # would make the first row's return a fill-to-close gap wearing a daily number
+            accrual = {"status": "NO_PRICED_BAR", "rows": 0, "written": 0,
+                       "from_bar": base.get("bar")}
+        else:
+            accrual = accrue(ledger, stamp=stamp, upto=boundary,
+                             closes_by_symbol=closes, rates=rates)
         accrual["panel_missing_symbols"] = panel_missing
         accrual["repo_quotes"] = len(rates)
         accrual["rate_latest_bar"] = max(rates) if rates else None
         accrual["rate_latest"] = rates[max(rates)] if rates else None
-        replay_row = replay(base, closes, rates) if base and closes else None
+        accrual["valued_upto_bar"] = boundary
+        replay_row = replay(base, closes, rates) if closes else None
 
     # the ticket side keeps its own normalised engine book; the two must not be conflated
     eng = _execution_order_book_tail()
@@ -720,6 +791,7 @@ def assess(ticket, stack, ledger, stamp=None):
         "base_divergence_total_cny": berr_total,
         "accrual": accrual,
         "accrual_rows": accrual.get("rows_detail") or [],
+        "settlement": settlement,
         "replay": replay_row,
         "engine_book": {"tail": eng, "divergence": eng_gap},
         "restatements": restatement_report(ledger, asof, _read_json_page()),
@@ -852,6 +924,25 @@ def render_md(face):
                   % "、".join(acc["panel_missing_symbols"])]
         L.append("")
 
+    st = face.get("settlement") or {}
+    if st:
+        L += ["## 这一根 bar 能不能记估值（价格面板）", ""]
+        if st.get("priced"):
+            L += ["- bar `%s` 全腿都有收盘价：执行与估值都记在这一根上。" % st.get("bar")]
+        else:
+            L += ["- **bar `%s` 在价格面板里还没有全腿收盘价**——面板最后一根「全腿都有收盘」的 bar 是 `%s`，"
+                  "这一根缺 %s。账上这一根只记**执行**（手数与成交价），不记**估值**；"
+                  "等收盘价到齐再补记。"
+                  % (st.get("bar"), st.get("last_fully_priced_bar") or "（没有）",
+                     "、".join(st.get("missing_closes_on_bar") or []) or "（未知）"),
+                  "- 补记时若数变了，会作为**改述**印在下面那一节，不会把读者手里的旧数悄悄换掉。"]
+        past = st.get("ledger_bars_past_boundary") or []
+        if past:
+            L += ["- 账本里还有 **%d** 根 bar 写在「全腿收盘」那天之后（%s）：这些 bar 的估值在收盘价到齐前"
+                  "**不作数**，也不会被当成当日的账。"
+                  % (len(past), "、".join("%s(%s)" % (p.get("bar"), p.get("kind")) for p in past[:6]))]
+        L.append("")
+
     rp = face.get("replay")
     if rp:
         L += ["## 引擎体检：同一批票往前 %d 个 bar" % rp.get("bars"), "",
@@ -863,10 +954,17 @@ def render_md(face):
                  format(rp.get("legs_last_bar") or 0.0, ",.0f"),
                  (rp.get("legs_ret") or 0.0) * 100.0,
                  format(rp.get("cash_interest_cny") or 0.0, ",.2f")),
-              "- 恒等腿：最后一行算出的腿市值与账本行自己记的腿金额差 **￥%.2f**（%s）——"
-              "同一批手数、同一批收盘价，引擎必须把账本写下的钱算回来。"
-              % (rp.get("identity_delta_cny") or 0.0,
-                 "通过" if rp.get("identity_holds") else "**不通过**"),
+              ("- 恒等腿：最后一行算出的腿市值与账本行自己记的腿金额差 **￥%.2f**（%s）——"
+               "同一批手数、同一批收盘价，引擎必须把账本写下的钱算回来。"
+               % (rp.get("identity_delta_cny") or 0.0,
+                  "通过" if rp.get("identity_holds") else "**不通过**"))
+              if rp.get("identity_status") != "UNPRICED_BAR" else
+              ("- **这一段不是恒等体检**：执行 bar `%s` 自己缺 %s 的收盘价，回放只能标到 `%s`，"
+               "那 ￥%.2f 的差是成交价与那一根旧收盘价之间的距离，**不是引擎算错**。等这一根的全腿"
+               "收盘价到齐再验。"
+               % (base.get("bar") if base else "?", "、".join(rp.get("base_bar_missing_closes") or []),
+                  rp.get("base_bar_last_priced_day") or "（更早）",
+                  rp.get("identity_delta_cny") or 0.0)),
               "- **这不是这本书的盈亏**：账本从执行 bar 才开始，这一段是同一批持仓的历史回放，"
               "只证明引擎在真面板上走得通，不给这本书记任何收益。", ""]
 
@@ -1025,13 +1123,23 @@ def check():
                 break
 
     # r1469: the replay must still reproduce the ledger's own legs, and must reproduce exactly
+    # r1483: an identity that was never measured is not a failed identity -- the failure is
+    # publishing a verdict for a bar the panel cannot price at all.
     pub_rp = published.get("replay") or {}
     fr_rp = fresh.get("replay") or {}
-    if pub_rp and not pub_rp.get("identity_holds"):
+    if pub_rp.get("identity_holds") is False:
         bad.append("replay_identity")
+    if (pub_rp.get("identity_status") or None) != (fr_rp.get("identity_status") or None):
+        bad.append("replay_identity_status")
     if ((pub_rp.get("bars"), pub_rp.get("legs_last_bar"))
             != (fr_rp.get("bars"), fr_rp.get("legs_last_bar"))):
         bad.append("replay_drift")
+    # r1483: the settlement boundary is re-derived from the products, not taken from the face
+    pub_st, fr_st = published.get("settlement") or {}, fresh.get("settlement") or {}
+    for key in ("bar", "priced", "last_fully_priced_bar", "missing_closes_on_bar",
+                "ledger_bars_past_boundary"):
+        if (pub_st.get(key) or None) != (fr_st.get(key) or None):
+            bad.append("settlement_" + key)
 
     if bad:
         print("CHECK_FAIL: %s disagree with a fresh derivation" % ", ".join(bad))
@@ -1243,6 +1351,41 @@ def selftest():
                 {"2026-11-09": 1.185}, window=4)
     chk("the replay reconstructs the row's own legs", rp and rp["identity_holds"])
     chk("and moves cash by interest only", rp and rp["cash_interest_cny"] >= 0.0)
+
+    # 15. r1483 (T29): a bar the panel cannot price is not a valuation bar
+    pb, blockers = priced_boundary(closes2, holds2)
+    chk("the boundary is the last day every held leg printed", pb == "2026-11-10")
+    chk("the legs missing past it are named, not zeroed", blockers == {"2026-11-09": ["B"]})
+    chk("a one-leg panel has no boundary to claim",
+        priced_boundary({"A": {"2026-11-09": 2.0}}, holds2)[0] is None)
+    rp2 = replay({"bar": "2026-11-09",
+                  "holdings": [{"symbol": "A", "lots": 10, "price": 2.0},
+                               {"symbol": "B", "lots": 5, "price": 1.0}],
+                  "cash_cny": 1000.0, "risk_book_cny": 25000.0}, closes2,
+                 {"2026-11-09": 1.185}, window=4)
+    chk("an unprinted execution bar yields no identity verdict",
+        rp2 and rp2["identity_holds"] is None and rp2["identity_status"] == "UNPRICED_BAR")
+    chk("it names the leg without a close on that bar", rp2["base_bar_missing_closes"] == ["B"])
+    chk("and names the last day it could mark", rp2["base_bar_last_priced_day"] == "2026-11-06")
+    rp3 = replay({"bar": "2026-11-10",
+                  "holdings": [{"symbol": "A", "lots": 10, "price": 2.0},
+                               {"symbol": "B", "lots": 5, "price": 1.0}],
+                  "cash_cny": 1000.0, "risk_book_cny": 23000.0}, closes2,
+                 {"2026-11-09": 1.185}, window=4)
+    chk("a fully priced bar does carry a verdict",
+        rp3 and rp3["identity_status"] == "PRICED_BAR" and rp3["identity_holds"] is False)
+    ledu = {"schema": "x", "rows": [{"bar": "2026-11-06", "holdings": [
+        {"symbol": "A", "lots": 50, "price": 2.0}, {"symbol": "B", "lots": 200, "price": 1.0}],
+        "cash_cny": 900000.0, "risk_book_cny": 300000.0}]}
+    stu = dict(st, asof="2026-11-09")
+    fu = assess(t2, stu, ledu)
+    chk("a book with no panel closes says its bar is unpriceable",
+        (fu.get("settlement") or {}).get("priced") is False
+        and fu["settlement"]["last_fully_priced_bar"] is None)
+    chk("and writes no valuation row for it", fu["accrual"]["status"] == "NO_PRICED_BAR")
+    mdu = render_md(fu)
+    chk("the printed sheet names the bar it could not mark",
+        "价格面板里还没有全腿收盘价" in mdu)
 
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1

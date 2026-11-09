@@ -950,6 +950,13 @@ LEGS = [
     # bar) and re-derives both the reconciliation and the base divergence (0.1s, JSON reads).
     ("positions_ledger",
      ["python", "scripts/etf_book_positions.py", "check"]),
+    # r1483 (T29): the ledger used to record an execution bar the price panel had no closes for,
+    # and the replay then marked the lots on an older close -- printing the fill-to-close
+    # distance as an "engine identity gap" that turned a smoke leg red. Each bar is now either
+    # priced by every held leg or named UNPRICED (no valuation, no identity verdict). This leg
+    # reproduces that condition on the real products with the panel truncated (2s, JSON reads).
+    ("positions_unpriced_bar",
+     ["python", "scripts/etf_book_positions_unpriced_repro.py"]),
     # r1472: r1456/r1471 leave one sentence standing -- the sheet obeys the floor but the
     # RULE's own decision bar sizes above it, so the trim must be re-applied every bar. That
     # is an event, and nobody had ever counted how often it fires: on the control arm 90.4%

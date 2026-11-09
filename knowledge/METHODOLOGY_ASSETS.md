@@ -11975,3 +11975,21 @@ S6 腿 `do_or_wait`。
 空样本不是 0、常量样本无 t、四态判决各自可从 table 重算、缺面 UNKNOWN）+ results/
 etf_book_do_or_wait.json（evidence_cutoff 2026-11-06，两臂 × 415 事件 × 5 格，控制臂差
 0.0）+ S6 腿 do_or_wait（check 13/13）+ research/ETF_BOOK_DO_OR_WAIT.md + 卡片本行。
+
+### E494 · 一根给不出收盘价的 bar，没有「恒等」可以验（r1483 bm-c）
+
+执行账在 2026-11-09 写下执行行时，价格面板只到 11-06。回放只能用旧收盘价标记同一批手数，
+于是「引擎恒等腿」印出 -194.20 CNY 的差，读起来像引擎算错——而它其实是成交价与旧收盘价
+之间的距离。**一根没有全腿收盘价的 bar，本来就不存在可验的恒等关系**；把它印成判词，
+等于用一把量不到的尺子判对错。
+
+三条落地：① 记账边界＝「全腿都有收盘价的最后一根 bar」，执行行可以单独写，
+估值行不许越过这条线；② 执行 bar 自己没价时 identity_status=UNPRICED_BAR、
+identity_holds=null，并点名缺哪几腿、最后能标到哪天；③ 收盘价到齐后补记走既有改述通道，
+人面必须印出被截的 bar 与原因，判据由 check() 从产物重算（settlement_* 一族）。
+
+**正身**：scripts/etf_book_positions.py（selftest 63/63：边界取全腿交集、单腿面板不出边界、
+缺价 bar 不出判词、priced bar 才给判词、缺面板的书写 NO_PRICED_BAR、人面印出不能记的 bar）
++ scripts/etf_book_positions_unpriced_repro.py + results/_r1483bmc_t29_unpriced_bar.json
+（面板截到 11-06 → UNPRICED_BAR、差 ¥545.80 明确标注；今天面板到 11-09 → 恒等差 0.00 通过）
++ research/ETF_BOOK_POSITIONS_SETTLEMENT.md + S6 腿 positions_unpriced_bar + 卡本行。
