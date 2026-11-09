@@ -30874,9 +30874,31 @@
    "source": "E625 (r1643 bm-b) and E626 (r1644 bm-b) both publish the same limit: no alias analysis, so a write through another name bound to the same dict is invisible.  That is the last stated hole in the key/object/value stack.",
    "target": "results/state_tilt/ALIASBINDING.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-09T22:30:00+08:00",
-   "seeded_by": "r1644 bm-b"
+   "seeded_by": "r1644 bm-b",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-09T22:55:00+08:00",
+   "closed_by": "bm-b",
+   "closed_at": "2026-11-09T23:15:00+08:00",
+   "completed_by": "bm-b r1645",
+   "completed_at": "2026-11-09T23:15:00+08:00",
+   "result_ref": "results/state_tilt/ALIASBINDING.json + results/_r1645bmb_s6_chain.json",
+   "outcome": "34 live dead face-key lines / 4 same-object duplicate rows bind 125 second names in the interval: 0 to the same object, 3 to a value of the receiver, 0 to its items, 0 to a copy, 122 to something else. No alias is ever written at the key, so the one-hop split stands (4 survive / 0 stored / 0 undecided) and the hole E625/E626 published is empty in this population"
+  },
+  {
+   "card": "E628",
+   "id": "E628-WHETHER-THE-OBJECT-A-DEAD-FACE-KEY-LINE-READS-ARRIVES-FROM-OUTSIDE-THE-FUNCTION",
+   "title": "whether the object a dead face-key line reads arrives from outside the function that holds the line",
+   "lane": "cpu-only",
+   "lane_note": "static: for each live dead face-key line, classify the receiver's origin -- a parameter, a name bound in the function body, an element of a container (m['k']/rows[i]/self.attr), or a module-level name -- and count which of them put the object's true origin before E627's interval start; no runner, no fixture write",
+   "deliverable": "results/state_tilt/RECEIVERORIGIN.json: per dead face-key line, where the receiver comes from, whether E627's interval covers the object's origin, and the count of duplicate rows whose value test a container or module-level origin leaves open",
+   "source": "E627 (r1645 bm-b) publishes the bound: no alias bound before the function body (a module-level name) and no rebinding through a container or comprehension. If the receiver itself arrives from a container element or a module-level dict, the interval E625-E627 scan is not where the object began",
+   "target": "results/state_tilt/RECEIVERORIGIN.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-09T23:15:00+08:00",
+   "seeded_by": "r1645 bm-b"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30891,6 +30913,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T22:30:00+08:00",
+ "updated_at": "2026-11-09T23:15:00+08:00",
  "version": 1
 }

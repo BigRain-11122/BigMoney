@@ -26810,5 +26810,116 @@ except Exception as _e626x:
     _d626 = "study could not be read"
 check(_name626, not _bad626, "; ".join(_bad626)[:240] or _d626)
 
+# E627 closes the hole E625 and E626 both published: neither looks at a second local name bound to
+# the same object, so a write through that alias at the key would be invisible to both.  For each
+# same-object sibling read the interval is scanned for alias bindings, each classified (same object,
+# a value of the receiver, its items/keys, a copy -- a different dict, or something else), and the
+# E625/E626 write marks are re-run with the alias as the receiver.  Over 34 live dead face-key lines
+# and 4 same-object duplicate rows the population binds 125 second names: 0 to the same object, 3 to
+# a value, 0 to the items, 122 to something else -- no alias is ever written at the key, so the one
+# hop split stands at 4 survive / 0 stored / 0 undecided.  The leg re-reads the published face,
+# re-derives the alias and scan class tables from the rows, re-asks the verdict, requires every scan
+# class to follow from its own write/handover marks, requires the split to equal the one-hop split
+# while no alias closes a row, keeps the E626 cross-check honest and excludes this study from its
+# own population.
+_name627 = ("E627 whether a second name bound to the same object is written at the key (r1645 bm-b)")
+_bad627 = []
+_d627 = "no reading"
+try:
+    _f627 = json.load(open(os.path.join("results", "state_tilt", "aliasbinding_latest.json"),
+                           encoding="utf-8"))
+    _m627 = importlib.import_module("e627_alias_binding")
+    _bad627.extend(_m627.face_problems(_f627))
+    _c627 = _f627.get("counts") or {}
+    _rows627 = _f627.get("lines") or []
+    _again627 = _m627.derive_verdict({
+        "population_modules": _c627.get("population_modules"),
+        "lines": _rows627,
+        "skipped": [None] * (_c627.get("skipped_modules") or 0),
+        "inert_dead_facekey_lines": _c627.get("inert_dead_facekey_lines")})
+    if _again627 != _f627.get("verdict"):
+        _bad627.append("the published verdict is not what the line rows force (%r)" % _again627)
+    if sum(_c627.get("alias_" + _k, 0) for _k in _m627.ALIAS_CLASSES) != \
+            _c627.get("alias_binding_instances", -1):
+        _bad627.append("the alias classes do not add up to the in-interval binding count")
+    _seen627 = {_k: 0 for _k in _m627.SCAN_CLASSES}
+    _reads627 = 0
+    for _r627 in _rows627:
+        for _s627 in (_r627.get("sibling_reads") or []):
+            if not _s627.get("same_object"):
+                continue
+            _reads627 += 1
+            _cls627 = _s627.get("alias_scan_class")
+            if _cls627 not in _m627.SCAN_CLASSES:
+                _bad627.append("line %r in %r carries alias_scan_class=%r"
+                               % (_r627.get("line"), _r627.get("function"), _cls627))
+                continue
+            _seen627[_cls627] += 1
+            for _b627 in (_s627.get("alias_bindings") or []):
+                if not _b627.get("in_the_interval"):
+                    continue
+                if _b627.get("alias_class") not in _m627.ALIAS_CLASSES:
+                    _bad627.append("line %r in %r binds a name with alias_class=%r"
+                                   % (_r627.get("line"), _r627.get("function"),
+                                      _b627.get("alias_class")))
+            if _s627.get("alias_writes_naming_the_key") and \
+                    _cls627 != _m627.SCAN_STORES_OVER:
+                _bad627.append("line %r in %r writes the key through an alias yet the scan says %r"
+                               % (_r627.get("line"), _r627.get("function"), _cls627))
+            if (_s627.get("alias_handovers_to_a_call")
+                    or _s627.get("alias_writes_without_naming_the_key")) and \
+                    _cls627 == _m627.SCAN_STORES_OVER:
+                _bad627.append("line %r in %r hands an alias on or writes an unnamed key yet claims "
+                               "the write is decided" % (_r627.get("line"), _r627.get("function")))
+    if _seen627 != {_k: _c627.get("scan_" + _k, 0) for _k in _m627.SCAN_CLASSES}:
+        _bad627.append("the published scan classes do not re-derive from the rows (%r vs %r)"
+                       % (_seen627, {_k: _c627.get("scan_" + _k, 0)
+                                     for _k in _m627.SCAN_CLASSES}))
+    if sum(_seen627.values()) != _reads627 or not _reads627:
+        _bad627.append("the scan classes cover %d of %d same-object reads"
+                       % (sum(_seen627.values()), _reads627))
+    if (_c627.get("duplicates_surviving_after_the_alias_scan", 0)
+            + _c627.get("duplicates_stored_over_after_the_alias_scan", 0)
+            + _c627.get("duplicates_still_undecided_after_the_alias_scan", 0)) != \
+            _c627.get("same_object_duplicate_rows", -1):
+        _bad627.append("the corrected split does not add up to the duplicate count")
+    if _c627.get("same_object_alias_bindings", 0) == 0 and (
+            _c627.get("duplicates_surviving_after_the_alias_scan"),
+            _c627.get("duplicates_stored_over_after_the_alias_scan"),
+            _c627.get("duplicates_still_undecided_after_the_alias_scan")) != (
+            _c627.get("duplicates_surviving_the_one_hop_test"),
+            _c627.get("duplicates_stored_over_after_one_hop"),
+            _c627.get("duplicates_still_undecided_after_one_hop")):
+        _bad627.append("no alias is bound to the receiver yet the corrected split moves")
+    if not _rows627:
+        _bad627.append("the face publishes no line at all, yet the study exists")
+    _self627 = [r.get("module") for r in _rows627
+                if r.get("module") and r["module"].split("/")[-1] in _m627.SELF_PARTS]
+    if _self627:
+        _bad627.append("this study lists itself as a holder module: %s" % ", ".join(_self627))
+    _cc627 = _f627.get("e626_cross_check") or {}
+    if _cc627.get("published") is False:
+        _bad627.append("the E626 cross-check did not read a published face")
+    elif _cc627.get("agrees") is False:
+        _bad627.append("the re-derived rows no longer match the published E626 face")
+    elif _cc627.get("rederived_lines") != _c627.get("live_dead_facekey_lines"):
+        _bad627.append("the E626 cross-check re-derived %r of %r line(s)"
+                       % (_cc627.get("rederived_lines"), _c627.get("live_dead_facekey_lines")))
+    _d627 = ("lines=%s duplicates=%s aliases=%s same_object=%s rows_with_alias=%s closed=%s "
+             "survive=%s stored=%s undecided=%s scan_nothing=%s verdict=%s"
+             % (_c627.get("live_dead_facekey_lines"), _c627.get("same_object_duplicate_rows"),
+                _c627.get("alias_binding_instances"),
+                _c627.get("same_object_alias_bindings"),
+                _c627.get("duplicate_rows_with_a_same_object_alias"),
+                _c627.get("duplicate_rows_the_alias_scan_can_close"),
+                _c627.get("duplicates_surviving_after_the_alias_scan"),
+                _c627.get("duplicates_stored_over_after_the_alias_scan"),
+                _c627.get("duplicates_still_undecided_after_the_alias_scan"),
+                _c627.get("scan_" + _m627.SCAN_NOTHING), _f627.get("verdict")))
+except Exception as _e627x:
+    _bad627.append(repr(_e627x)[:160])
+    _d627 = "study could not be read"
+check(_name627, not _bad627, "; ".join(_bad627)[:240] or _d627)
+
 if __name__ == "__main__":
     sys.exit(main())

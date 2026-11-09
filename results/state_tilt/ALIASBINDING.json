@@ -1,0 +1,4259 @@
+{
+ "study": "E627_alias_binding",
+ "script": "scripts/e627_alias_binding.py",
+ "evidence_cutoff": "2026-11-09",
+ "dept": "research+engineering",
+ "method": "over every same-object sibling read E626 published, classify each second local name bound in the interval and re-run E625's write marks with that name as the receiver: a write through an alias bound to the same dict is the one form the key/object/value stack could not see",
+ "population_source": "scripts/*.py (AST) via e619.population, E626's one-hop rows over E625's value facts over E624's same-object reads, less the E619/E622/E623/E624/E625/E626/this study self-exclusion sets",
+ "counts": {
+  "population_modules": 1099,
+  "skipped_modules": 14,
+  "live_dead_facekey_lines": 34,
+  "inert_dead_facekey_lines": 2,
+  "same_object_duplicate_rows": 4,
+  "alias_binding_instances": 125,
+  "alias_bindings_outside_the_interval": 166,
+  "same_object_alias_bindings": 0,
+  "duplicate_rows_with_a_same_object_alias": 0,
+  "duplicate_rows_the_alias_scan_can_close": 0,
+  "duplicates_surviving_after_the_alias_scan": 4,
+  "duplicates_stored_over_after_the_alias_scan": 0,
+  "duplicates_still_undecided_after_the_alias_scan": 0,
+  "duplicates_surviving_the_one_hop_test": 4,
+  "duplicates_stored_over_after_one_hop": 0,
+  "duplicates_still_undecided_after_one_hop": 0,
+  "alias_a_second_name_is_bound_to_the_same_object": 0,
+  "alias_a_second_name_is_bound_to_a_value_of_the_receiver": 3,
+  "alias_a_second_name_is_bound_to_the_receivers_items": 0,
+  "alias_a_second_name_is_bound_to_a_copy_of_the_receiver": 0,
+  "alias_a_second_name_is_bound_to_something_else": 122,
+  "scan_the_alias_scan_stores_the_duplicate_over": 0,
+  "scan_the_alias_scan_leaves_the_duplicate_undecided": 0,
+  "scan_the_alias_scan_has_nothing_to_say": 19
+ },
+ "e626_cross_check": {
+  "published": true,
+  "agrees": true,
+  "published_lines": 34,
+  "rederived_lines": 34,
+  "lines_whose_class_differs_n": 0,
+  "lines_whose_class_differs": [],
+  "lines_only_here": [],
+  "lines_only_in_the_published_face": [],
+  "published_split": {
+   "duplicates_that_survive_the_one_hop_test": 4,
+   "duplicates_stored_over_after_one_hop": 0,
+   "duplicates_still_undecided_after_one_hop": 0
+  }
+ },
+ "lines": [
+  {
+   "module": "scripts/backfill_heat_history.py",
+   "function": "validate_rows",
+   "def_line": 136,
+   "line": 144,
+   "local": "prev",
+   "key": "date",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    142,
+    143
+   ],
+   "key_read_elsewhere_in_the_module": 6,
+   "sibling_reads": [
+    {
+     "line": 142,
+     "relation": "same_receiver_bound_once",
+     "receiver": "row",
+     "sibling_receiver": "row",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 140,
+       "alias": "prev",
+       "form": "assignment",
+       "binds": "''",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 141,
+       "alias": [
+        "row"
+       ],
+       "form": "for_target",
+       "binds": "rows",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    },
+    {
+     "line": 143,
+     "relation": "same_receiver_bound_once",
+     "receiver": "row",
+     "sibling_receiver": "row",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 140,
+       "alias": "prev",
+       "form": "assignment",
+       "binds": "''",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 141,
+       "alias": [
+        "row"
+       ],
+       "form": "for_target",
+       "binds": "rows",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    }
+   ],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "row",
+   "corrected_class": "same_object_read_only_before_the_dead_line",
+   "same_object_sibling_reads": 2,
+   "same_object_sibling_reads_that_see_the_value": 2,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [
+    "the_read_settles_on_the_value_the_dead_line_saw",
+    "the_read_settles_on_the_value_the_dead_line_saw"
+   ],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/cn_core_ddctl_p1.py",
+   "function": "run",
+   "def_line": 341,
+   "line": 367,
+   "local": "P_DAYS",
+   "key": "days",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 2,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    395
+   ],
+   "key_read_elsewhere_in_the_module": 4,
+   "sibling_reads": [
+    {
+     "line": 395,
+     "relation": "same_receiver_bound_once",
+     "receiver": "P",
+     "sibling_receiver": "P",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_object_is_handed_to_a_call_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": false,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [
+      {
+       "line": 372,
+       "form": "receiver_handed_to_a_call"
+      },
+      {
+       "line": 373,
+       "form": "receiver_handed_to_a_call"
+      }
+     ],
+     "nested_definitions_in_the_interval": [],
+     "handover_resolution": [
+      {
+       "call_line": 372,
+       "callee": "build_dd_axis",
+       "callee_def_line": 148,
+       "parameter": "P",
+       "handover_class": "the_callee_does_not_write_the_key_on_its_parameter",
+       "writes_naming_the_key": [],
+       "writes_without_naming_the_key": [],
+       "hands_the_parameter_on": [],
+       "nested_definitions_in_the_callee": []
+      },
+      {
+       "call_line": 373,
+       "callee": "active_rebals",
+       "callee_def_line": 164,
+       "parameter": "P",
+       "handover_class": "the_callee_does_not_write_the_key_on_its_parameter",
+       "writes_naming_the_key": [],
+       "writes_without_naming_the_key": [],
+       "hands_the_parameter_on": [],
+       "nested_definitions_in_the_callee": []
+      }
+     ],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "alias_bindings": [
+      {
+       "line": 343,
+       "alias": "t0",
+       "form": "assignment",
+       "binds": "time.time()",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 347,
+       "alias": "j",
+       "form": "assignment",
+       "binds": "json.load(open(OUT_JSON, encoding='utf-8'))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 362,
+       "alias": "P",
+       "form": "assignment",
+       "binds": "CS.load_panel()",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 367,
+       "alias": "P_DAYS",
+       "form": "assignment",
+       "binds": "P['days']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 372,
+       "alias": "dd_tl",
+       "form": "assignment",
+       "binds": "build_dd_axis(P)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 373,
+       "alias": "rebals",
+       "form": "assignment",
+       "binds": "active_rebals(P)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 375,
+       "alias": [
+        "arm"
+       ],
+       "form": "for_target",
+       "binds": "THRESHOLDS",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 376,
+       "alias": "frozen",
+       "form": "assignment",
+       "binds": "probe['arms'][arm]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 377,
+       "alias": "got",
+       "form": "assignment",
+       "binds": "gate_faces[arm]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 378,
+       "alias": "drift",
+       "form": "assignment",
+       "binds": "[k for k in ('on_transitions', 'off_transitions', 'gated_rebal_count', 'active_rebal_count') if got[k] != frozen[k]]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 386,
+       "alias": "GATES",
+       "form": "assignment",
+       "binds": "{arm: gate_states(dd_tl, rebals, x) for arm, x in THRESHOLDS.items()}",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 394,
+       "alias": "SIG",
+       "form": "assignment",
+       "binds": "P['sig']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": true
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    }
+   ],
+   "nearest_later_sibling_relation": "same_receiver_bound_once",
+   "sibling_read_reads_the_same_object_after_the_dead_line": true,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P",
+   "corrected_class": "superseded_duplicate_read_on_the_same_object",
+   "same_object_sibling_reads": 1,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [
+    "the_object_is_handed_to_a_call_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [
+    "the_read_settles_on_the_value_the_dead_line_saw"
+   ],
+   "duplicate_class_after_one_hop": "duplicate_survives_the_one_hop_test",
+   "same_object_alias_bindings": 8,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": "duplicate_survives_the_one_hop_test"
+  },
+  {
+   "module": "scripts/cn_core_ddctl_p1.py",
+   "function": "selftest",
+   "def_line": 822,
+   "line": 954,
+   "local": "P_DAYS",
+   "key": "days",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 5,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/cn_core_sat_p1.py",
+   "function": "_bind_panel",
+   "def_line": 333,
+   "line": 335,
+   "local": "SIG",
+   "key": "sig",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/cn_core_sat_p1.py",
+   "function": "_bind_panel",
+   "def_line": 333,
+   "line": 336,
+   "local": "MA",
+   "key": "ma",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/cn_core_sat_p1.py",
+   "function": "_bind_panel",
+   "def_line": 333,
+   "line": 337,
+   "local": "CL",
+   "key": "cl_sat",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/cn_kline_pattern_p1.py",
+   "function": "cmd_selftest",
+   "def_line": 1114,
+   "line": 1187,
+   "local": "ms_cal",
+   "key": "cal",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 3,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P['tabs']['MS']",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "simulate",
+   "def_line": 493,
+   "line": 507,
+   "local": "slip_exec",
+   "key": "slip_exec",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    589,
+    593
+   ],
+   "key_read_elsewhere_in_the_module": 2,
+   "sibling_reads": [
+    {
+     "line": 589,
+     "relation": "same_receiver_bound_once",
+     "receiver": "P",
+     "sibling_receiver": "P",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 499,
+       "alias": "T_j",
+       "form": "assignment",
+       "binds": "P['T_j']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 500,
+       "alias": "K",
+       "form": "assignment",
+       "binds": "P['K']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 501,
+       "alias": "r_ic",
+       "form": "assignment",
+       "binds": "P['r_ic']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 502,
+       "alias": "ic_o",
+       "form": "assignment",
+       "binds": "P['ic_o']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 503,
+       "alias": "ic_c",
+       "form": "assignment",
+       "binds": "P['ic_c']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 504,
+       "alias": "ic_bar",
+       "form": "assignment",
+       "binds": "P['ic_bar'].to_numpy()",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 505,
+       "alias": "cl",
+       "form": "assignment",
+       "binds": "P['close_u']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 506,
+       "alias": "lead",
+       "form": "assignment",
+       "binds": "P['lead']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 507,
+       "alias": "slip_exec",
+       "form": "assignment",
+       "binds": "P['slip_exec']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 508,
+       "alias": "mult",
+       "form": "assignment",
+       "binds": "IC['mult']",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 509,
+       "alias": "margin_rate",
+       "form": "assignment",
+       "binds": "IC['margin']",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 510,
+       "alias": "per_lot",
+       "form": "assignment",
+       "binds": "(IC['fee_lot'] + IC['tick'] * IC['mult']) * float(cost_mult)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 512,
+       "alias": "ser",
+       "form": "assignment",
+       "binds": "np.zeros(T_j)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 513,
+       "alias": "rb",
+       "form": "assignment",
+       "binds": "np.zeros(T_j)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 514,
+       "alias": "h_day",
+       "form": "assignment",
+       "binds": "np.zeros(T_j)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 515,
+       "alias": "cost_day",
+       "form": "assignment",
+       "binds": "np.zeros(T_j)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 517,
+       "alias": "lots_prev",
+       "form": "assignment",
+       "binds": "0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 518,
+       "alias": "h_prev",
+       "form": "assignment",
+       "binds": "0.0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 519,
+       "alias": "nav",
+       "form": "assignment",
+       "binds": "float(NAV0)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 520,
+       "alias": "n_entries",
+       "form": "assignment",
+       "binds": "0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 521,
+       "alias": "n_rebalances",
+       "form": "assignment",
+       "binds": "0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 525,
+       "alias": "margin_peak",
+       "form": "assignment",
+       "binds": "0.0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 526,
+       "alias": "prev_mask",
+       "form": "assignment",
+       "binds": "np.zeros(P['n_u'], dtype=bool)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 529,
+       "alias": [
+        "k"
+       ],
+       "form": "for_target",
+       "binds": "range(K)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 530,
+       "alias": "t",
+       "form": "assignment",
+       "binds": "P['sig_days'][k]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 531,
+       "alias": "e",
+       "form": "assignment",
+       "binds": "P['exec_days'][k]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 532,
+       "alias": "d1",
+       "form": "assignment",
+       "binds": "P['sig_days'][k + 1] if k + 1 < K else T_j - 1",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 535,
+       "alias": "beta",
+       "form": "assignment",
+       "binds": "1.0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 537,
+       "alias": "n_pairs",
+       "form": "assignment",
+       "binds": "min(beta_w, t)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 539,
+       "alias": "beta",
+       "form": "assignment",
+       "binds": "1.0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 542,
+       "alias": "lo",
+       "form": "assignment",
+       "binds": "t - n_pairs + 1",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 543,
+       "alias": "sb",
+       "form": "assignment",
+       "binds": "rb[lo:t + 1].sum()",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 544,
+       "alias": "sy",
+       "form": "assignment",
+       "binds": "r_ic[lo:t + 1].sum()",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 545,
+       "alias": "sxy",
+       "form": "assignment",
+       "binds": "(rb[lo:t + 1] * r_ic[lo:t + 1]).sum()",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 546,
+       "alias": "sxx",
+       "form": "assignment",
+       "binds": "(r_ic[lo:t + 1] * r_ic[lo:t + 1]).sum()",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 547,
+       "alias": "den",
+       "form": "assignment",
+       "binds": "sxx - sy * sy / n_pairs",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 549,
+       "alias": "beta",
+       "form": "assignment",
+       "binds": "1.0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 552,
+       "alias": "beta",
+       "form": "assignment",
+       "binds": "(sxy - sb * sy / n_pairs) / den",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 553,
+       "alias": "beta",
+       "form": "assignment",
+       "binds": "float(min(max(beta, BETA_FLOOR), beta_cap))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 556,
+       "alias": "px_open",
+       "form": "assignment",
+       "binds": "float(ic_o[e])",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 557,
+       "alias": "prev_c",
+       "form": "assignment",
+       "binds": "float(ic_c[e - 1])",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 560,
+       "alias": "lots",
+       "form": "assignment",
+       "binds": "lots_prev",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 561,
+       "alias": "h",
+       "form": "assignment",
+       "binds": "h_prev",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 563,
+       "alias": "target",
+       "form": "assignment",
+       "binds": "beta * STOCK_LEG * nav",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 564,
+       "alias": "lots",
+       "form": "assignment",
+       "binds": "int(-round(target / (px_open * mult)))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 565,
+       "alias": "lots",
+       "form": "assignment",
+       "binds": "apply_margin_gate(lots, px_open, nav, mult, margin_rate)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 567,
+       "alias": "h",
+       "form": "assignment",
+       "binds": "abs(lots) * mult * px_open / nav",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 568,
+       "alias": "usage",
+       "form": "assignment",
+       "binds": "abs(lots) * mult * px_open * margin_rate / nav",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 569,
+       "alias": "margin_peak",
+       "form": "assignment",
+       "binds": "max(margin_peak, usage)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 572,
+       "alias": "lots",
+       "form": "assignment",
+       "binds": "lots_prev",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 573,
+       "alias": "h",
+       "form": "assignment",
+       "binds": "h_prev",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 574,
+       "alias": "d_lots",
+       "form": "assignment",
+       "binds": "abs(lots - lots_prev)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 575,
+       "alias": "fut_cost",
+       "form": "assignment",
+       "binds": "d_lots * per_lot",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 577,
+       "alias": "mask_k",
+       "form": "assignment",
+       "binds": "np.zeros(P['n_u'], dtype=bool)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 579,
+       "alias": "enter",
+       "form": "assignment",
+       "binds": "mask_k & ~prev_mask",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 580,
+       "alias": "exit_",
+       "form": "assignment",
+       "binds": "~mask_k & prev_mask",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 581,
+       "alias": "n_enter",
+       "form": "assignment",
+       "binds": "int(enter.sum())",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 582,
+       "alias": "n_exit",
+       "form": "assignment",
+       "binds": "int(exit_.sum())",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 584,
+       "alias": "g_e",
+       "form": "assignment",
+       "binds": "STOCK_LEG * nav / max(n_ks[k], 1)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 585,
+       "alias": "g_x",
+       "form": "assignment",
+       "binds": "STOCK_LEG * nav / max(n_ks[k - 1] if k else n_ks[0], 1)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 586,
+       "alias": "stock_cost",
+       "form": "assignment",
+       "binds": "0.0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    },
+    {
+     "line": 593,
+     "relation": "same_receiver_bound_once",
+     "receiver": "P",
+     "sibling_receiver": "P",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 499,
+       "alias": "T_j",
+       "form": "assignment",
+       "binds": "P['T_j']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 500,
+       "alias": "K",
+       "form": "assignment",
+       "binds": "P['K']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 501,
+       "alias": "r_ic",
+       "form": "assignment",
+       "binds": "P['r_ic']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 502,
+       "alias": "ic_o",
+       "form": "assignment",
+       "binds": "P['ic_o']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 503,
+       "alias": "ic_c",
+       "form": "assignment",
+       "binds": "P['ic_c']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 504,
+       "alias": "ic_bar",
+       "form": "assignment",
+       "binds": "P['ic_bar'].to_numpy()",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 505,
+       "alias": "cl",
+       "form": "assignment",
+       "binds": "P['close_u']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 506,
+       "alias": "lead",
+       "form": "assignment",
+       "binds": "P['lead']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 507,
+       "alias": "slip_exec",
+       "form": "assignment",
+       "binds": "P['slip_exec']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 508,
+       "alias": "mult",
+       "form": "assignment",
+       "binds": "IC['mult']",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 509,
+       "alias": "margin_rate",
+       "form": "assignment",
+       "binds": "IC['margin']",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 510,
+       "alias": "per_lot",
+       "form": "assignment",
+       "binds": "(IC['fee_lot'] + IC['tick'] * IC['mult']) * float(cost_mult)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 512,
+       "alias": "ser",
+       "form": "assignment",
+       "binds": "np.zeros(T_j)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 513,
+       "alias": "rb",
+       "form": "assignment",
+       "binds": "np.zeros(T_j)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 514,
+       "alias": "h_day",
+       "form": "assignment",
+       "binds": "np.zeros(T_j)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 515,
+       "alias": "cost_day",
+       "form": "assignment",
+       "binds": "np.zeros(T_j)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 517,
+       "alias": "lots_prev",
+       "form": "assignment",
+       "binds": "0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 518,
+       "alias": "h_prev",
+       "form": "assignment",
+       "binds": "0.0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 519,
+       "alias": "nav",
+       "form": "assignment",
+       "binds": "float(NAV0)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 520,
+       "alias": "n_entries",
+       "form": "assignment",
+       "binds": "0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 521,
+       "alias": "n_rebalances",
+       "form": "assignment",
+       "binds": "0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 525,
+       "alias": "margin_peak",
+       "form": "assignment",
+       "binds": "0.0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 526,
+       "alias": "prev_mask",
+       "form": "assignment",
+       "binds": "np.zeros(P['n_u'], dtype=bool)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 529,
+       "alias": [
+        "k"
+       ],
+       "form": "for_target",
+       "binds": "range(K)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 530,
+       "alias": "t",
+       "form": "assignment",
+       "binds": "P['sig_days'][k]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 531,
+       "alias": "e",
+       "form": "assignment",
+       "binds": "P['exec_days'][k]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 532,
+       "alias": "d1",
+       "form": "assignment",
+       "binds": "P['sig_days'][k + 1] if k + 1 < K else T_j - 1",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 535,
+       "alias": "beta",
+       "form": "assignment",
+       "binds": "1.0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 537,
+       "alias": "n_pairs",
+       "form": "assignment",
+       "binds": "min(beta_w, t)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 539,
+       "alias": "beta",
+       "form": "assignment",
+       "binds": "1.0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 542,
+       "alias": "lo",
+       "form": "assignment",
+       "binds": "t - n_pairs + 1",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 543,
+       "alias": "sb",
+       "form": "assignment",
+       "binds": "rb[lo:t + 1].sum()",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 544,
+       "alias": "sy",
+       "form": "assignment",
+       "binds": "r_ic[lo:t + 1].sum()",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 545,
+       "alias": "sxy",
+       "form": "assignment",
+       "binds": "(rb[lo:t + 1] * r_ic[lo:t + 1]).sum()",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 546,
+       "alias": "sxx",
+       "form": "assignment",
+       "binds": "(r_ic[lo:t + 1] * r_ic[lo:t + 1]).sum()",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 547,
+       "alias": "den",
+       "form": "assignment",
+       "binds": "sxx - sy * sy / n_pairs",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 549,
+       "alias": "beta",
+       "form": "assignment",
+       "binds": "1.0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 552,
+       "alias": "beta",
+       "form": "assignment",
+       "binds": "(sxy - sb * sy / n_pairs) / den",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 553,
+       "alias": "beta",
+       "form": "assignment",
+       "binds": "float(min(max(beta, BETA_FLOOR), beta_cap))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 556,
+       "alias": "px_open",
+       "form": "assignment",
+       "binds": "float(ic_o[e])",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 557,
+       "alias": "prev_c",
+       "form": "assignment",
+       "binds": "float(ic_c[e - 1])",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 560,
+       "alias": "lots",
+       "form": "assignment",
+       "binds": "lots_prev",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 561,
+       "alias": "h",
+       "form": "assignment",
+       "binds": "h_prev",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 563,
+       "alias": "target",
+       "form": "assignment",
+       "binds": "beta * STOCK_LEG * nav",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 564,
+       "alias": "lots",
+       "form": "assignment",
+       "binds": "int(-round(target / (px_open * mult)))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 565,
+       "alias": "lots",
+       "form": "assignment",
+       "binds": "apply_margin_gate(lots, px_open, nav, mult, margin_rate)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 567,
+       "alias": "h",
+       "form": "assignment",
+       "binds": "abs(lots) * mult * px_open / nav",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 568,
+       "alias": "usage",
+       "form": "assignment",
+       "binds": "abs(lots) * mult * px_open * margin_rate / nav",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 569,
+       "alias": "margin_peak",
+       "form": "assignment",
+       "binds": "max(margin_peak, usage)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 572,
+       "alias": "lots",
+       "form": "assignment",
+       "binds": "lots_prev",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 573,
+       "alias": "h",
+       "form": "assignment",
+       "binds": "h_prev",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 574,
+       "alias": "d_lots",
+       "form": "assignment",
+       "binds": "abs(lots - lots_prev)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 575,
+       "alias": "fut_cost",
+       "form": "assignment",
+       "binds": "d_lots * per_lot",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 577,
+       "alias": "mask_k",
+       "form": "assignment",
+       "binds": "np.zeros(P['n_u'], dtype=bool)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 579,
+       "alias": "enter",
+       "form": "assignment",
+       "binds": "mask_k & ~prev_mask",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 580,
+       "alias": "exit_",
+       "form": "assignment",
+       "binds": "~mask_k & prev_mask",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 581,
+       "alias": "n_enter",
+       "form": "assignment",
+       "binds": "int(enter.sum())",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 582,
+       "alias": "n_exit",
+       "form": "assignment",
+       "binds": "int(exit_.sum())",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 584,
+       "alias": "g_e",
+       "form": "assignment",
+       "binds": "STOCK_LEG * nav / max(n_ks[k], 1)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 585,
+       "alias": "g_x",
+       "form": "assignment",
+       "binds": "STOCK_LEG * nav / max(n_ks[k - 1] if k else n_ks[0], 1)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 586,
+       "alias": "stock_cost",
+       "form": "assignment",
+       "binds": "0.0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    }
+   ],
+   "nearest_later_sibling_relation": "same_receiver_bound_once",
+   "sibling_read_reads_the_same_object_after_the_dead_line": true,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P",
+   "corrected_class": "superseded_duplicate_read_on_the_same_object",
+   "same_object_sibling_reads": 2,
+   "same_object_sibling_reads_that_see_the_value": 2,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": true,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [
+    "the_read_settles_on_the_value_the_dead_line_saw",
+    "the_read_settles_on_the_value_the_dead_line_saw"
+   ],
+   "duplicate_class_after_one_hop": "duplicate_survives_the_one_hop_test",
+   "same_object_alias_bindings": 104,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": "duplicate_survives_the_one_hop_test"
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "cmd_selftest",
+   "def_line": 1303,
+   "line": 1315,
+   "local": "BARS",
+   "key": "bars",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "fx",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/cn_sector_leader_p1.py",
+   "function": "cmd_selftest",
+   "def_line": 1399,
+   "line": 1411,
+   "local": "BARS",
+   "key": "bars",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "fx",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/cn_trend_etf_p1.py",
+   "function": "virtual_starts",
+   "def_line": 745,
+   "line": 749,
+   "local": "days",
+   "key": "idx",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 5,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "P",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/decision_chain_e2e.py",
+   "function": "_agg_arm",
+   "def_line": 310,
+   "line": 332,
+   "local": "last",
+   "key": "regime",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    323,
+    330
+   ],
+   "key_read_elsewhere_in_the_module": 1,
+   "sibling_reads": [
+    {
+     "line": 323,
+     "relation": "same_receiver_bound_once",
+     "receiver": "c",
+     "sibling_receiver": "c",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [
+      329
+     ],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 313,
+       "alias": "pflag",
+       "form": "assignment",
+       "binds": "{'6m': None, '12m': 'partial_12m', '24m': 'partial_24m'}[wname]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 314,
+       "alias": "full",
+       "form": "assignment",
+       "binds": "[c for c in cells.values() if pflag is None or not c[pflag]]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 315,
+       "alias": "n",
+       "form": "assignment",
+       "binds": "len(full)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 316,
+       "alias": "k",
+       "form": "assignment",
+       "binds": "sum((1 for c in full if c[f'beat_{wname}']))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 317,
+       "alias": "dds",
+       "form": "assignment",
+       "binds": "[c[f'dd_{wname}'] for c in full]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 318,
+       "alias": "sws",
+       "form": "assignment",
+       "binds": "[c['switches'] for c in full]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 319,
+       "alias": "rate",
+       "form": "assignment",
+       "binds": "k / n if n else None",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 321,
+       "alias": "seg",
+       "form": "assignment",
+       "binds": "{}",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 322,
+       "alias": [
+        "c"
+       ],
+       "form": "for_target",
+       "binds": "full",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 323,
+       "alias": "b",
+       "form": "assignment",
+       "binds": "seg.setdefault(c['regime'], {'n': 0, 'k': 0, 'dds': []})",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    },
+    {
+     "line": 330,
+     "relation": "same_receiver_bound_once",
+     "receiver": "c",
+     "sibling_receiver": "c",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 313,
+       "alias": "pflag",
+       "form": "assignment",
+       "binds": "{'6m': None, '12m': 'partial_12m', '24m': 'partial_24m'}[wname]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 314,
+       "alias": "full",
+       "form": "assignment",
+       "binds": "[c for c in cells.values() if pflag is None or not c[pflag]]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 315,
+       "alias": "n",
+       "form": "assignment",
+       "binds": "len(full)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 316,
+       "alias": "k",
+       "form": "assignment",
+       "binds": "sum((1 for c in full if c[f'beat_{wname}']))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 317,
+       "alias": "dds",
+       "form": "assignment",
+       "binds": "[c[f'dd_{wname}'] for c in full]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 318,
+       "alias": "sws",
+       "form": "assignment",
+       "binds": "[c['switches'] for c in full]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 319,
+       "alias": "rate",
+       "form": "assignment",
+       "binds": "k / n if n else None",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 321,
+       "alias": "seg",
+       "form": "assignment",
+       "binds": "{}",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 322,
+       "alias": [
+        "c"
+       ],
+       "form": "for_target",
+       "binds": "full",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 323,
+       "alias": "b",
+       "form": "assignment",
+       "binds": "seg.setdefault(c['regime'], {'n': 0, 'k': 0, 'dds': []})",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 327,
+       "alias": "starts",
+       "form": "assignment",
+       "binds": "sorted((c['start'] for c in full))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 329,
+       "alias": [
+        "c"
+       ],
+       "form": "for_target",
+       "binds": "sorted(full, key=lambda c: c['pos'])",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    }
+   ],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "c",
+   "corrected_class": "same_object_read_only_before_the_dead_line",
+   "same_object_sibling_reads": 2,
+   "same_object_sibling_reads_that_see_the_value": 2,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": true,
+   "read_classes_after_one_hop": [
+    "the_read_settles_on_the_value_the_dead_line_saw",
+    "the_read_settles_on_the_value_the_dead_line_saw"
+   ],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/decision_chain_v2.py",
+   "function": "_agg",
+   "def_line": 498,
+   "line": 520,
+   "local": "last",
+   "key": "regime",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    511,
+    518
+   ],
+   "key_read_elsewhere_in_the_module": 1,
+   "sibling_reads": [
+    {
+     "line": 511,
+     "relation": "same_receiver_bound_once",
+     "receiver": "c",
+     "sibling_receiver": "c",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [
+      517
+     ],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 501,
+       "alias": "pflag",
+       "form": "assignment",
+       "binds": "{'6m': None, '12m': 'partial_12m', '24m': 'partial_24m'}[wname]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 502,
+       "alias": "full",
+       "form": "assignment",
+       "binds": "[c for c in cells.values() if pflag is None or not c[pflag]]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 503,
+       "alias": "n",
+       "form": "assignment",
+       "binds": "len(full)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 504,
+       "alias": "k",
+       "form": "assignment",
+       "binds": "sum((1 for c in full if c[f'beat_{wname}']))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 505,
+       "alias": "dds",
+       "form": "assignment",
+       "binds": "[c[f'dd_{wname}'] for c in full]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 506,
+       "alias": "sws",
+       "form": "assignment",
+       "binds": "[c['switches'] for c in full]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 507,
+       "alias": "rate",
+       "form": "assignment",
+       "binds": "k / n if n else None",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 509,
+       "alias": "seg",
+       "form": "assignment",
+       "binds": "{}",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 510,
+       "alias": [
+        "c"
+       ],
+       "form": "for_target",
+       "binds": "full",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 511,
+       "alias": "b",
+       "form": "assignment",
+       "binds": "seg.setdefault(c['regime'], {'n': 0, 'k': 0, 'dds': []})",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    },
+    {
+     "line": 518,
+     "relation": "same_receiver_bound_once",
+     "receiver": "c",
+     "sibling_receiver": "c",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 501,
+       "alias": "pflag",
+       "form": "assignment",
+       "binds": "{'6m': None, '12m': 'partial_12m', '24m': 'partial_24m'}[wname]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 502,
+       "alias": "full",
+       "form": "assignment",
+       "binds": "[c for c in cells.values() if pflag is None or not c[pflag]]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 503,
+       "alias": "n",
+       "form": "assignment",
+       "binds": "len(full)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 504,
+       "alias": "k",
+       "form": "assignment",
+       "binds": "sum((1 for c in full if c[f'beat_{wname}']))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 505,
+       "alias": "dds",
+       "form": "assignment",
+       "binds": "[c[f'dd_{wname}'] for c in full]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 506,
+       "alias": "sws",
+       "form": "assignment",
+       "binds": "[c['switches'] for c in full]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 507,
+       "alias": "rate",
+       "form": "assignment",
+       "binds": "k / n if n else None",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 509,
+       "alias": "seg",
+       "form": "assignment",
+       "binds": "{}",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 510,
+       "alias": [
+        "c"
+       ],
+       "form": "for_target",
+       "binds": "full",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 511,
+       "alias": "b",
+       "form": "assignment",
+       "binds": "seg.setdefault(c['regime'], {'n': 0, 'k': 0, 'dds': []})",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 515,
+       "alias": "starts",
+       "form": "assignment",
+       "binds": "sorted((c['start'] for c in full))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 517,
+       "alias": [
+        "c"
+       ],
+       "form": "for_target",
+       "binds": "sorted(full, key=lambda c: c['pos'])",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    }
+   ],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "c",
+   "corrected_class": "same_object_read_only_before_the_dead_line",
+   "same_object_sibling_reads": 2,
+   "same_object_sibling_reads_that_see_the_value": 2,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": true,
+   "read_classes_after_one_hop": [
+    "the_read_settles_on_the_value_the_dead_line_saw",
+    "the_read_settles_on_the_value_the_dead_line_saw"
+   ],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/decision_chain_v2.py",
+   "function": "backfill_prereg",
+   "def_line": 811,
+   "line": 823,
+   "local": "jt",
+   "key": "j_target",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 2,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "payload['verdict']",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/divlowvol_nulls_face.py",
+   "function": "verdict_of",
+   "def_line": 78,
+   "line": 83,
+   "local": "z",
+   "key": "z",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 4,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "stats",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "def_line": 266,
+   "line": 332,
+   "local": "e377_pub_verdict",
+   "key": "verdict",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    284,
+    350
+   ],
+   "key_read_elsewhere_in_the_module": 2,
+   "sibling_reads": [
+    {
+     "line": 284,
+     "relation": "different_receiver_expression",
+     "receiver": "faces[UP_E377]",
+     "sibling_receiver": "got",
+     "same_object": false,
+     "relations_on_that_line": [
+      "different_receiver_expression"
+     ]
+    },
+    {
+     "line": 350,
+     "relation": "different_receiver_expression",
+     "receiver": "faces[UP_E377]",
+     "sibling_receiver": "faces[UP_E350]",
+     "same_object": false,
+     "relations_on_that_line": [
+      "different_receiver_expression"
+     ]
+    }
+   ],
+   "nearest_later_sibling_relation": "different_receiver_expression",
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "faces[UP_E377]",
+   "corrected_class": "another_object_is_read_instead",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/e396_face_basename_suffix.py",
+   "function": "derive_verdict",
+   "def_line": 431,
+   "line": 437,
+   "local": "census",
+   "key": "basename_census",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 4,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "m",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/e502_bom_census.py",
+   "function": "population",
+   "def_line": 585,
+   "line": 588,
+   "local": "boms",
+   "key": "canonical_bom",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 3,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "census",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/e504_name_compose.py",
+   "function": "selftest",
+   "def_line": 853,
+   "line": 879,
+   "local": "rows",
+   "key": "rows",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 2,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    919
+   ],
+   "key_read_elsewhere_in_the_module": 3,
+   "sibling_reads": [
+    {
+     "line": 919,
+     "relation": "different_receiver_expression",
+     "receiver": "face",
+     "sibling_receiver": "doctored4",
+     "same_object": false,
+     "relations_on_that_line": [
+      "different_receiver_expression"
+     ]
+    }
+   ],
+   "nearest_later_sibling_relation": "different_receiver_expression",
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "face",
+   "corrected_class": "another_object_is_read_instead",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/e505_unmeasured_reach.py",
+   "function": "_answers",
+   "def_line": 421,
+   "line": 422,
+   "local": "by_class",
+   "key": "by_class",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "summary",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/e507_unresolved_origin.py",
+   "function": "build",
+   "def_line": 733,
+   "line": 736,
+   "local": "up",
+   "key": "upstream",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "got",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/e584_ledger_bar_accrual.py",
+   "function": "ladder_check",
+   "def_line": 169,
+   "line": 184,
+   "local": "prev_cash",
+   "key": "cash",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 2,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    183
+   ],
+   "key_read_elsewhere_in_the_module": 4,
+   "sibling_reads": [
+    {
+     "line": 183,
+     "relation": "same_receiver_bound_once",
+     "receiver": "b",
+     "sibling_receiver": "b",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 174,
+       "alias": "dates",
+       "form": "assignment",
+       "binds": "[pd.Timestamp(b['bar']) for b in bars]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 181,
+       "alias": [
+        "b",
+        "ts"
+       ],
+       "form": "for_target",
+       "binds": "zip(bars, dates)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 182,
+       "alias": "frac",
+       "form": "assignment",
+       "binds": "ret.get(ts)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 183,
+       "alias": "cash",
+       "form": "assignment",
+       "binds": "prev_cash if prev_cash is not None else b.get('cash')",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    }
+   ],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "b",
+   "corrected_class": "same_object_read_only_before_the_dead_line",
+   "same_object_sibling_reads": 1,
+   "same_object_sibling_reads_that_see_the_value": 1,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [
+    "the_read_settles_on_the_value_the_dead_line_saw"
+   ],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "function": "face_problems",
+   "def_line": 344,
+   "line": 364,
+   "local": "prev_key",
+   "key": "bar",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 5,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    362,
+    367,
+    372,
+    377
+   ],
+   "key_read_elsewhere_in_the_module": 3,
+   "sibling_reads": [
+    {
+     "line": 362,
+     "relation": "same_receiver_bound_once",
+     "receiver": "r",
+     "sibling_receiver": "r",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 345,
+       "alias": "p",
+       "form": "assignment",
+       "binds": "[]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 346,
+       "alias": "blocks",
+       "form": "assignment",
+       "binds": "face.get('tickets')",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 347,
+       "alias": "s",
+       "form": "assignment",
+       "binds": "face.get('summary') or {}",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 348,
+       "alias": "past",
+       "form": "assignment",
+       "binds": "face.get('bars_past_the_panel') or {}",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 353,
+       "alias": [
+        "b"
+       ],
+       "form": "for_target",
+       "binds": "blocks",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 354,
+       "alias": "name",
+       "form": "assignment",
+       "binds": "b.get('ticket')",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 355,
+       "alias": "rows",
+       "form": "assignment",
+       "binds": "b.get('step_rows') or []",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 358,
+       "alias": "cash",
+       "form": "assignment",
+       "binds": "float(b.get('cash_amount_cny') or 0.0)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 359,
+       "alias": "mean_pct",
+       "form": "assignment",
+       "binds": "b.get('mean_accrual_ann_pct')",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 360,
+       "alias": "prev_key",
+       "form": "assignment",
+       "binds": "None",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 361,
+       "alias": [
+        "r"
+       ],
+       "form": "for_target",
+       "binds": "rows",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    },
+    {
+     "line": 367,
+     "relation": "same_receiver_bound_once",
+     "receiver": "r",
+     "sibling_receiver": "r",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 345,
+       "alias": "p",
+       "form": "assignment",
+       "binds": "[]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 346,
+       "alias": "blocks",
+       "form": "assignment",
+       "binds": "face.get('tickets')",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 347,
+       "alias": "s",
+       "form": "assignment",
+       "binds": "face.get('summary') or {}",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 348,
+       "alias": "past",
+       "form": "assignment",
+       "binds": "face.get('bars_past_the_panel') or {}",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 353,
+       "alias": [
+        "b"
+       ],
+       "form": "for_target",
+       "binds": "blocks",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 354,
+       "alias": "name",
+       "form": "assignment",
+       "binds": "b.get('ticket')",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 355,
+       "alias": "rows",
+       "form": "assignment",
+       "binds": "b.get('step_rows') or []",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 358,
+       "alias": "cash",
+       "form": "assignment",
+       "binds": "float(b.get('cash_amount_cny') or 0.0)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 359,
+       "alias": "mean_pct",
+       "form": "assignment",
+       "binds": "b.get('mean_accrual_ann_pct')",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 360,
+       "alias": "prev_key",
+       "form": "assignment",
+       "binds": "None",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 361,
+       "alias": [
+        "r"
+       ],
+       "form": "for_target",
+       "binds": "rows",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 364,
+       "alias": "prev_key",
+       "form": "assignment",
+       "binds": "r['bar']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 365,
+       "alias": "days",
+       "form": "assignment",
+       "binds": "float(r['gap_days'])",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    },
+    {
+     "line": 372,
+     "relation": "same_receiver_bound_once",
+     "receiver": "r",
+     "sibling_receiver": "r",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 345,
+       "alias": "p",
+       "form": "assignment",
+       "binds": "[]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 346,
+       "alias": "blocks",
+       "form": "assignment",
+       "binds": "face.get('tickets')",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 347,
+       "alias": "s",
+       "form": "assignment",
+       "binds": "face.get('summary') or {}",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 348,
+       "alias": "past",
+       "form": "assignment",
+       "binds": "face.get('bars_past_the_panel') or {}",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 353,
+       "alias": [
+        "b"
+       ],
+       "form": "for_target",
+       "binds": "blocks",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 354,
+       "alias": "name",
+       "form": "assignment",
+       "binds": "b.get('ticket')",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 355,
+       "alias": "rows",
+       "form": "assignment",
+       "binds": "b.get('step_rows') or []",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 358,
+       "alias": "cash",
+       "form": "assignment",
+       "binds": "float(b.get('cash_amount_cny') or 0.0)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 359,
+       "alias": "mean_pct",
+       "form": "assignment",
+       "binds": "b.get('mean_accrual_ann_pct')",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 360,
+       "alias": "prev_key",
+       "form": "assignment",
+       "binds": "None",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 361,
+       "alias": [
+        "r"
+       ],
+       "form": "for_target",
+       "binds": "rows",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 364,
+       "alias": "prev_key",
+       "form": "assignment",
+       "binds": "r['bar']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 365,
+       "alias": "days",
+       "form": "assignment",
+       "binds": "float(r['gap_days'])",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 368,
+       "alias": "q",
+       "form": "assignment",
+       "binds": "r.get('nearest_prior_quote_pct')",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": true
+      },
+      {
+       "line": 369,
+       "alias": "want_q",
+       "form": "assignment",
+       "binds": "round(cash * float(q) / 100.0 * days / 365.0, 2) if q is not None else 0.0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    },
+    {
+     "line": 377,
+     "relation": "same_receiver_bound_once",
+     "receiver": "r",
+     "sibling_receiver": "r",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 345,
+       "alias": "p",
+       "form": "assignment",
+       "binds": "[]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 346,
+       "alias": "blocks",
+       "form": "assignment",
+       "binds": "face.get('tickets')",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 347,
+       "alias": "s",
+       "form": "assignment",
+       "binds": "face.get('summary') or {}",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 348,
+       "alias": "past",
+       "form": "assignment",
+       "binds": "face.get('bars_past_the_panel') or {}",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 353,
+       "alias": [
+        "b"
+       ],
+       "form": "for_target",
+       "binds": "blocks",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 354,
+       "alias": "name",
+       "form": "assignment",
+       "binds": "b.get('ticket')",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 355,
+       "alias": "rows",
+       "form": "assignment",
+       "binds": "b.get('step_rows') or []",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 358,
+       "alias": "cash",
+       "form": "assignment",
+       "binds": "float(b.get('cash_amount_cny') or 0.0)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 359,
+       "alias": "mean_pct",
+       "form": "assignment",
+       "binds": "b.get('mean_accrual_ann_pct')",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 360,
+       "alias": "prev_key",
+       "form": "assignment",
+       "binds": "None",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 361,
+       "alias": [
+        "r"
+       ],
+       "form": "for_target",
+       "binds": "rows",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 364,
+       "alias": "prev_key",
+       "form": "assignment",
+       "binds": "r['bar']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 365,
+       "alias": "days",
+       "form": "assignment",
+       "binds": "float(r['gap_days'])",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 368,
+       "alias": "q",
+       "form": "assignment",
+       "binds": "r.get('nearest_prior_quote_pct')",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": true
+      },
+      {
+       "line": 369,
+       "alias": "want_q",
+       "form": "assignment",
+       "binds": "round(cash * float(q) / 100.0 * days / 365.0, 2) if q is not None else 0.0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 373,
+       "alias": "want_m",
+       "form": "assignment",
+       "binds": "round(cash * float(mean_pct) / 100.0 * days / 365.0, 2) if mean_pct is not None else 0.0",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    }
+   ],
+   "nearest_later_sibling_relation": "same_receiver_bound_once",
+   "sibling_read_reads_the_same_object_after_the_dead_line": true,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "r",
+   "corrected_class": "superseded_duplicate_read_on_the_same_object",
+   "same_object_sibling_reads": 4,
+   "same_object_sibling_reads_that_see_the_value": 4,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": true,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [
+    "the_read_settles_on_the_value_the_dead_line_saw",
+    "the_read_settles_on_the_value_the_dead_line_saw",
+    "the_read_settles_on_the_value_the_dead_line_saw",
+    "the_read_settles_on_the_value_the_dead_line_saw"
+   ],
+   "duplicate_class_after_one_hop": "duplicate_survives_the_one_hop_test",
+   "same_object_alias_bindings": 8,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": "duplicate_survives_the_one_hop_test"
+  },
+  {
+   "module": "scripts/e97_routing.py",
+   "function": "count_witness_sweep",
+   "def_line": 4244,
+   "line": 4296,
+   "local": "missed",
+   "key": "witnessed_measurement_named_word_missed",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 2,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "totals",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "def_line": 358,
+   "line": 393,
+   "local": "src",
+   "key": "x1",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "superseded_duplicate_read",
+   "reads_of_the_key_in_the_function": 6,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    414,
+    424,
+    437,
+    438,
+    444
+   ],
+   "key_read_elsewhere_in_the_module": 5,
+   "sibling_reads": [
+    {
+     "line": 414,
+     "relation": "same_receiver_bound_once",
+     "receiver": "ports",
+     "sibling_receiver": "ports",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 360,
+       "alias": "n_runs",
+       "form": "assignment",
+       "binds": "0 if sleeves is None else 2 * len(tids)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 361,
+       "alias": "n_evals",
+       "form": "assignment",
+       "binds": "0 if ports is None else 2 * len(SCHEMES)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 362,
+       "alias": "ledger",
+       "form": "assignment",
+       "binds": "append_ledger('EW6-portfolio-validation', n_runs + n_evals + extra_runs, file_name='results/portfolio_ew6.json', note=f'{n_runs} engine member runs (anchor-cum-sleeve, x1+x2) + {n_evals} portfolio evaluations (derived, non-engine) + {extra_runs} voided runs from first attempt (crashed on folk-registration cost_x2 schema KeyError AFTER sleeves completed, zero partial output; deterministic rerun, G2_FOLK double-count precedent); report-only pass 1, zero search => zero nulls (composition disclosed per prereg s2.3; n deviates from frozen budget 14 by the voided attempt)')",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 373,
+       "alias": "prereg_sha",
+       "form": "assignment",
+       "binds": "hashlib.sha256(open(PREREG, 'rb').read()).hexdigest()",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 375,
+       "alias": "rows",
+       "form": "assignment",
+       "binds": "[]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 376,
+       "alias": [
+        "tid"
+       ],
+       "form": "for_target",
+       "binds": "tids",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 377,
+       "alias": [
+        "mult",
+        "key"
+       ],
+       "form": "for_target",
+       "binds": "((1, 'x1'), (2, 'x2'))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 378,
+       "alias": "rr",
+       "form": "assignment",
+       "binds": "sleeves[tid][key]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 379,
+       "alias": "yr",
+       "form": "assignment",
+       "binds": "yearly_returns(rr['eq_s'])",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 391,
+       "alias": [
+        "mult",
+        "key"
+       ],
+       "form": "for_target",
+       "binds": "((1, 'x1'), (2, 'x2'))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 392,
+       "alias": "q",
+       "form": "assignment",
+       "binds": "ports[key]",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 393,
+       "alias": "src",
+       "form": "assignment",
+       "binds": "ports['x1']",
+       "alias_class": "a_second_name_is_bound_to_a_value_of_the_receiver",
+       "in_the_interval": false
+      },
+      {
+       "line": 403,
+       "alias": "csv_path",
+       "form": "assignment",
+       "binds": "os.path.join(PATHS.root, 'research', 'shortline', 'ew6_results.csv')",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 405,
+       "alias": "cols",
+       "form": "assignment",
+       "binds": "['kind', 'id', 'cost_mult', 'full_sharpe', 'full_ann', 'full_dd', 'n_trades', 'is2_sharpe', 'is2_ann', 'worst_year', 'anchor_ok']",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 408,
+       "alias": "w",
+       "form": "assignment",
+       "binds": "csv.writer(fh)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 410,
+       "alias": [
+        "r"
+       ],
+       "form": "for_target",
+       "binds": "rows",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      },
+      {
+       "line": 414,
+       "alias": "p",
+       "form": "assignment",
+       "binds": "ports['x1'] if ports else None",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": true
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    },
+    {
+     "line": 424,
+     "relation": "different_receiver_expression",
+     "receiver": "ports",
+     "sibling_receiver": "sleeves[tid]",
+     "same_object": false,
+     "relations_on_that_line": [
+      "different_receiver_expression"
+     ]
+    },
+    {
+     "line": 437,
+     "relation": "different_receiver_expression",
+     "receiver": "ports",
+     "sibling_receiver": "sleeves[tid]",
+     "same_object": false,
+     "relations_on_that_line": [
+      "different_receiver_expression"
+     ]
+    },
+    {
+     "line": 438,
+     "relation": "different_receiver_expression",
+     "receiver": "ports",
+     "sibling_receiver": "sleeves[tid]",
+     "same_object": false,
+     "relations_on_that_line": [
+      "different_receiver_expression"
+     ]
+    },
+    {
+     "line": 444,
+     "relation": "different_receiver_expression",
+     "receiver": "ports",
+     "sibling_receiver": "sleeves[tid]",
+     "same_object": false,
+     "relations_on_that_line": [
+      "different_receiver_expression"
+     ]
+    }
+   ],
+   "nearest_later_sibling_relation": "same_receiver_bound_once",
+   "sibling_read_reads_the_same_object_after_the_dead_line": true,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "ports",
+   "corrected_class": "superseded_duplicate_read_on_the_same_object",
+   "same_object_sibling_reads": 1,
+   "same_object_sibling_reads_that_see_the_value": 1,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": true,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [
+    "the_read_settles_on_the_value_the_dead_line_saw"
+   ],
+   "duplicate_class_after_one_hop": "duplicate_survives_the_one_hop_test",
+   "same_object_alias_bindings": 5,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": "duplicate_survives_the_one_hop_test"
+  },
+  {
+   "module": "scripts/innovation_quota_w8.py",
+   "function": "arm_series",
+   "def_line": 351,
+   "line": 382,
+   "local": "prev",
+   "key": "wA",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 2,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    381
+   ],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [
+    {
+     "line": 381,
+     "relation": "same_receiver_bound_once",
+     "receiver": "r",
+     "sibling_receiver": "r",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 368,
+       "alias": "blocks",
+       "form": "assignment",
+       "binds": "[]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 369,
+       "alias": "prev",
+       "form": "assignment",
+       "binds": "None",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 370,
+       "alias": "lo_pos",
+       "form": "assignment",
+       "binds": "None",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 372,
+       "alias": "lo_pos",
+       "form": "assignment",
+       "binds": "int(R.index.get_loc(pd.Timestamp(lo_ts)))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 373,
+       "alias": [
+        "r"
+       ],
+       "form": "for_target",
+       "binds": "rows",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 374,
+       "alias": "eff_pos",
+       "form": "assignment",
+       "binds": "int(R.index.get_loc(pd.Timestamp(r['eff_date'])))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    }
+   ],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "r",
+   "corrected_class": "same_object_read_only_before_the_dead_line",
+   "same_object_sibling_reads": 1,
+   "same_object_sibling_reads_that_see_the_value": 1,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [
+    "the_read_settles_on_the_value_the_dead_line_saw"
+   ],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/mass_trial_w1.py",
+   "function": "draw_valid",
+   "def_line": 369,
+   "line": 371,
+   "local": "r",
+   "key": "ranges",
+   "reach": "reachable_through_a_registry_handoff",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 3,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "fam",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/perpetual_faces_n1.py",
+   "function": "_set_wave",
+   "def_line": 14167,
+   "line": 14175,
+   "local": "BATCH",
+   "key": "batch",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 2,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "cfg",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/perpetual_faces_n1.py",
+   "function": "_set_wave",
+   "def_line": 14167,
+   "line": 14176,
+   "local": "PREREG",
+   "key": "prereg",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "cfg",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/perpetual_faces_n1.py",
+   "function": "_set_wave",
+   "def_line": 14167,
+   "line": 14177,
+   "local": "A_SEED_BASE",
+   "key": "a_seed_base",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 948,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "cfg",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/perpetual_faces_n1.py",
+   "function": "_set_wave",
+   "def_line": 14167,
+   "line": 14178,
+   "local": "B_EXIT_SEED_BASE",
+   "key": "b_exit_seed_base",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 952,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "cfg",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/regime5_validation.py",
+   "function": "perm_nulls",
+   "def_line": 158,
+   "line": 175,
+   "local": "mu",
+   "key": "unconditional_mean",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "only_read_of_that_key_in_the_function",
+   "reads_of_the_key_in_the_function": 1,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": false,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "tab",
+   "corrected_class": "only_read_of_that_key_on_that_object_in_the_function",
+   "same_object_sibling_reads": 0,
+   "same_object_sibling_reads_that_see_the_value": 0,
+   "value_classes_of_the_same_object_reads": [],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/regime_gate_dualarm.py",
+   "function": "validate_contract",
+   "def_line": 112,
+   "line": 138,
+   "local": "prev",
+   "key": "date",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 3,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    128,
+    135
+   ],
+   "key_read_elsewhere_in_the_module": 5,
+   "sibling_reads": [
+    {
+     "line": 128,
+     "relation": "same_receiver_bound_once",
+     "receiver": "ent",
+     "sibling_receiver": "ent",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 114,
+       "alias": "checks",
+       "form": "assignment",
+       "binds": "{}",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 120,
+       "alias": "labels",
+       "form": "assignment",
+       "binds": "doc.get('labels') if isinstance(doc, dict) else None",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 122,
+       "alias": "shape_ok",
+       "form": "assignment",
+       "binds": "True",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 123,
+       "alias": "enum_ok",
+       "form": "assignment",
+       "binds": "True",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 124,
+       "alias": "sorted_ok",
+       "form": "assignment",
+       "binds": "True",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 125,
+       "alias": "prev",
+       "form": "assignment",
+       "binds": "''",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 127,
+       "alias": [
+        "ent"
+       ],
+       "form": "for_target",
+       "binds": "labels",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    },
+    {
+     "line": 135,
+     "relation": "same_receiver_bound_once",
+     "receiver": "ent",
+     "sibling_receiver": "ent",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 114,
+       "alias": "checks",
+       "form": "assignment",
+       "binds": "{}",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 120,
+       "alias": "labels",
+       "form": "assignment",
+       "binds": "doc.get('labels') if isinstance(doc, dict) else None",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 122,
+       "alias": "shape_ok",
+       "form": "assignment",
+       "binds": "True",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 123,
+       "alias": "enum_ok",
+       "form": "assignment",
+       "binds": "True",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 124,
+       "alias": "sorted_ok",
+       "form": "assignment",
+       "binds": "True",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 125,
+       "alias": "prev",
+       "form": "assignment",
+       "binds": "''",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 127,
+       "alias": [
+        "ent"
+       ],
+       "form": "for_target",
+       "binds": "labels",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 130,
+       "alias": "shape_ok",
+       "form": "assignment",
+       "binds": "False",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 133,
+       "alias": "enum_ok",
+       "form": "assignment",
+       "binds": "False",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    }
+   ],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "ent",
+   "corrected_class": "same_object_read_only_before_the_dead_line",
+   "same_object_sibling_reads": 2,
+   "same_object_sibling_reads_that_see_the_value": 2,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines",
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [
+    "the_read_settles_on_the_value_the_dead_line_saw",
+    "the_read_settles_on_the_value_the_dead_line_saw"
+   ],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  },
+  {
+   "module": "scripts/t28_stable_profit.py",
+   "function": "_grid_unit",
+   "def_line": 188,
+   "line": 216,
+   "local": "last",
+   "key": "segment",
+   "reach": "reachable_through_a_chain_of_calls",
+   "class": "key_read_only_before_the_dead_line",
+   "reads_of_the_key_in_the_function": 2,
+   "dead_reads_of_the_key_in_the_function": 1,
+   "other_read_lines": [
+    214
+   ],
+   "key_read_elsewhere_in_the_module": 0,
+   "sibling_reads": [
+    {
+     "line": 214,
+     "relation": "same_receiver_bound_once",
+     "receiver": "c",
+     "sibling_receiver": "c",
+     "same_object": true,
+     "relations_on_that_line": [
+      "same_receiver_bound_once"
+     ],
+     "value_class": "the_key_is_not_stored_between_the_two_lines",
+     "sees_the_value_the_dead_line_saw": true,
+     "writes_naming_the_key": [],
+     "writes_without_naming_the_key": [],
+     "handovers_to_a_call": [],
+     "nested_definitions_in_the_interval": [],
+     "read_class_after_one_hop": "the_read_settles_on_the_value_the_dead_line_saw",
+     "handover_resolution": [],
+     "alias_bindings": [
+      {
+       "line": 190,
+       "alias": "cells",
+       "form": "assignment",
+       "binds": "[]",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 191,
+       "alias": [
+        "sdate",
+        "pw"
+       ],
+       "form": "for_target",
+       "binds": "passive.items()",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 195,
+       "alias": [
+        "t"
+       ],
+       "form": "for_target",
+       "binds": "traders",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 196,
+       "alias": "e",
+       "form": "assignment",
+       "binds": "tret.get((t, face, sdate), {}).get(window)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 198,
+       "alias": "ok",
+       "form": "assignment",
+       "binds": "False",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 203,
+       "alias": "blend",
+       "form": "assignment",
+       "binds": "sum((w_ce[t] * rets[t][0] for t in traders))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 207,
+       "alias": "n",
+       "form": "assignment",
+       "binds": "len(cells)",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 208,
+       "alias": "k",
+       "form": "assignment",
+       "binds": "sum((1 for c in cells if c['blend_ret'] > c['passive']))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 209,
+       "alias": "rate",
+       "form": "assignment",
+       "binds": "k / n if n else None",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 211,
+       "alias": "starts",
+       "form": "assignment",
+       "binds": "sorted((pd.Timestamp(c['start']) for c in cells))",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      },
+      {
+       "line": 213,
+       "alias": [
+        "c"
+       ],
+       "form": "for_target",
+       "binds": "sorted(cells, key=lambda c: c['start'])",
+       "alias_class": "a_second_name_is_bound_to_something_else",
+       "in_the_interval": false
+      }
+     ],
+     "same_object_alias_names": [],
+     "alias_writes_naming_the_key": [],
+     "alias_writes_without_naming_the_key": [],
+     "alias_handovers_to_a_call": [],
+     "alias_scan_class": "the_alias_scan_has_nothing_to_say"
+    }
+   ],
+   "nearest_later_sibling_relation": null,
+   "sibling_read_reads_the_same_object_after_the_dead_line": false,
+   "sibling_read_reads_the_same_object_before_the_dead_line": true,
+   "dead_reads_on_that_line": 1,
+   "dead_receiver": "c",
+   "corrected_class": "same_object_read_only_before_the_dead_line",
+   "same_object_sibling_reads": 1,
+   "same_object_sibling_reads_that_see_the_value": 1,
+   "value_classes_of_the_same_object_reads": [
+    "the_key_is_not_stored_between_the_two_lines"
+   ],
+   "duplicate_survives_the_value_test": false,
+   "a_nested_definition_sits_in_the_interval": false,
+   "read_classes_after_one_hop": [
+    "the_read_settles_on_the_value_the_dead_line_saw"
+   ],
+   "duplicate_class_after_one_hop": null,
+   "same_object_alias_bindings": 0,
+   "same_object_alias_names": [],
+   "duplicate_class_after_the_alias_scan": null
+  }
+ ],
+ "skipped": [
+  {
+   "module": "scripts/e231_band_path_test.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e243_additivity_out_of_sample.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e280_e251_rng_drift_repin.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e308_leg_vs_producer_tolerance.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e371_one_store_member.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e387_republish_audit.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e394_phantom_why.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/e429_two_hop_writer.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e335_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e349_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e353_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/run_e463_smoke_leg.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/t11_negday_ic.py",
+   "why": "SyntaxError"
+  },
+  {
+   "module": "scripts/update_etf_universe.py",
+   "why": "SyntaxError"
+  }
+ ],
+ "limits": [
+  "only names bound inside the function that holds the dead line: a module-level or package-level alias of the receiver is out of scope",
+  "no rebinding through a container, a comprehension, an attribute or a return value: only a plain `alias = recv` (and chains of those) shares the dict",
+  "a value obtained from the dict (get/pop/setdefault/subscript) is published as a value binding, and mutating that value is not a write at a key",
+  "an alias handed to a call is published as undecided, not followed further",
+  "a copy of the dict is another object; writes through it are not writes to the receiver",
+  "no interprocedural descent and no class/attribute resolution",
+  "the population is the one E626 published; this study excludes itself, its smoke leg and its probe, and keeps every earlier study's self-exclusion set"
+ ],
+ "verdict": "no_second_name_is_bound_to_the_receiver_in_any_of_the_4_duplicate_intervals",
+ "answer": "Over 34 live dead face-key line(s) and 4 same-object duplicate row(s) this study finds 125 second-name binding(s): 0 to the same object, 3 to a value of the receiver, 0 to its items or keys and 122 to something else.  0 duplicate row(s) carry a same-object alias; 0 of them are written at the key through that alias.  The corrected split is 4 survive / 0 stored / 0 undecided (E626 published 4 / 0 / 0)"
+}

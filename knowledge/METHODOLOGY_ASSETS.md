@@ -14611,3 +14611,46 @@ esults/state_tilt/DUPWITNESS.json、S6 leg dup_witness、smoke leg E601。坑：
 + `results/state_tilt/HANDOVERWRITE.json` + `handoverwrite_latest.json` + `scripts/run_e626_smoke_leg.py`
 （1/1 PASS，`--doctor` 1/1 红，面字节还原）+ smoke_test.py leg E626 + S6 leg `handover_write` + POOL E626 done /
 E627 seeded + `research/digests/DIGEST-20261109-r1644-e626-handover-write.md`。
+
+---
+
+## E627 · 绑到同一个对象的第二个名字：4 条同对象重复读的区间里一个都没有（r1645 bm-b·2026-11-09）
+> 溯源=POOL 卡片 E627（E625 r1643 / E626 r1644 都在 limits 里写下的同一个洞）。
+
+**问题**：E625 收口了"值有没有被改写"，E626 把唯一一个"交出去的调用"一跳读穿，两张面都在 limits
+里留下同一句话——**没有别名分析**，所以"另一个名字绑到同一个 dict、再从那个名字写这把键"这条
+路径两张面都看不见。这是 key→object→value→handover 这条栈上**最后一个被自己声明的洞**，本张给它定价。
+
+**读数**（`results/state_tilt/ALIASBINDING.json`，cutoff 2026-11-09；母体=E625/E626 的 34 条活死行、
+4 条同对象重复行，1,099 个模块，自排 14；`alias_facts`/`object_facts` 直接 import 零重实现）：
+- 34 条活死行、4 条同对象重复行；区间内共 **125 次第二名字绑定**：**0 次绑到同一个对象**（`alias = recv`、
+  `alias = 前一个别名`）、**3 次绑到接收者的一个值**（`v = recv.get(k)` / `recv[k]`）、**0 次绑到 items/keys**、
+  **0 次绑到拷贝**（`recv.copy()`——那是另一个 dict）、**122 次绑到别的东西**。
+- 于是：**0 条重复行带同对象别名**，**0 条被别名写在键上**（具名/未具名/交出去三类写标记全空），
+  修正后的分裂 **4 survive / 0 stored / 0 undecided**，与 E626 的 4/0/0 逐项相同。
+  判决 = `no_second_name_is_bound_to_the_receiver_in_any_of_the_4_duplicate_intervals`。
+- 按扫描类：19 条同对象兄弟读全部 `the_alias_scan_has_nothing_to_say`（0 条 stores-over / 0 条 undecided）。
+- E626 交叉核验：重解析 34 行与已出版面**逐行、逐类相同**（差 0）。
+
+**研究**：**"别名"真正危险的形式只有一种——绑到同一个对象**。125 次绑定里 122 次只是绑了一个值或别的
+表达式（`v = m["k"]` 是值不是容器、`for k, v in m.items()` 绑的是条目、`m.copy()` 是另一个 dict），
+把这 122 次都算进"可能藏写入"会让分母虚胖 40 倍而结论不变。反过来说：**这个洞是空的，但空得有价值**——
+它把 E625 那 3 条"真的没被改"升级成"连间接路径也没被改"，4/0/0 不再依赖"恰好没人用别名"的运气。
+另一条读数上的小结构：3 次绑到"接收者的一个值"是唯一与接收者同源的类，它们的读写都不可能是对这把键的
+写——所以把 A_VALUE 与 THE_ITEMS/A_COPY 分开命名不是啰嗦，是把"同源但不是同一容器"这件事说出来。
+
+**教训**：①"同一个对象"必须在**赋值右端的表达式形状**上判定，不能看名字像不像；②危险类只有 SAME_OBJECT
+一类，其余四类必须**各有自己的类目**并全部发布——否则"0 次"到底是"没有"还是"被合并掉了"读者分不出；
+③别名窗口有**下界**：别名被重绑（`alias = other`）之后写这个别名与接收者无关，本张把它判成 nothing-to-say，
+并把"重绑关闭窗口"单列一条腿；④别名扫描**不能自己声称能关掉什么**——`duplicate_rows_the_alias_scan_can_close`
+必须等于"scan 判为 stores-over 的重复行数"，两条计数各自从行重算并在 selftest 里互为断言。
+
+**How**：任何"两条读是不是同一个对象"的结论，在发布前把三种同源关系分开：**同一容器**（能藏写）、
+**容器的一个值**（不能藏写）、**容器的拷贝**（是另一个容器，改了也不算）——三者给三个类目、三个计数，
+再问"从同容器的第二个名字写过没有"。别名只扫区间（死行→兄弟读）并只认区间内绑定；区间外的绑定单列
+`alias_bindings_outside_the_interval`，别让它悄悄进分母。
+
+**证据** = `scripts/e627_alias_binding.py`（selftest 26/26，run/check/verify `problems=[]`）+
+`results/state_tilt/ALIASBINDING.json` + `aliasbinding_latest.json` + `scripts/run_e627_smoke_leg.py`
+（1/1 PASS，`--doctor` 1/1 红，面字节还原）+ smoke_test.py leg E627 + S6 leg `alias_binding` +
+POOL E627 done / E628 seeded + `research/digests/DIGEST-20261109-r1645-e627-alias-binding.md`。

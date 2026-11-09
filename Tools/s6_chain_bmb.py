@@ -1378,6 +1378,14 @@ LEGS = [
     # corpus walk, ~1s).
     ("handover_write", ["python", "scripts/e626_handover_write.py", "verify"]),
 
+    # E627 closes the hole E625 and E626 both published -- neither looks at a second local name
+    # bound to the same object, so a write at the key through that alias would be invisible to
+    # both.  For each same-object sibling read the interval is scanned for alias bindings, each
+    # classified (same object / a value of the receiver / its items / a copy / something else), and
+    # the E625-E626 write marks are re-run with the alias as the receiver.  Verify re-derives the
+    # alias and scan class tables plus the corrected split from the line rows (no corpus walk, ~1s).
+    ("alias_binding", ["python", "scripts/e627_alias_binding.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names
