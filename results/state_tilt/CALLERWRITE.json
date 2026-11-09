@@ -1,0 +1,275 @@
+{
+ "study": "E629_caller_write",
+ "script": "scripts/e629_caller_write.py",
+ "evidence_cutoff": "2026-11-10",
+ "dept": "research+engineering",
+ "method": "for every outside-origin duplicate row E628 published, resolve the holding definition and the receiver's parameter position, find all call sites of that name in the same module, map the argument that reaches the parameter, and ask whether the caller's scope writes the key on that argument's leftmost name before or after the call",
+ "population_source": "the duplicate rows of results/state_tilt/receiverorigin_latest.json whose origin_before_the_e627_interval_start is true, re-read from their modules in scripts/ with ast.parse",
+ "counts": {
+  "population_duplicate_rows": 2,
+  "e628_published_duplicate_rows": 2,
+  "modules_that_will_not_parse": 0,
+  "rows_with_a_verified_parameter": 2,
+  "rows_with_at_least_one_call_site": 2,
+  "rows_with_no_call_site": 0,
+  "rows_a_caller_writes_the_key": 0,
+  "rows_a_caller_writes_the_key_before_the_call": 0,
+  "rows_closed_by_the_caller_arm": 0,
+  "rows_left_open": 1,
+  "rows_untraced": 1,
+  "call_sites_total": 9,
+  "call_sites_whose_argument_is_a_name": 7,
+  "call_sites_that_write_the_key_before_the_call": 0,
+  "call_sites_that_write_the_key_only_after_the_call": 0,
+  "call_sites_that_hand_the_argument_upward": 6,
+  "call_sites_that_cannot_be_traced": 2,
+  "call_sites_whose_default_stands": 0,
+  "row_no_call_site_in_the_module": 0,
+  "row_every_call_site_leaves_the_argument_unwritten": 1,
+  "row_a_caller_writes_the_key_but_the_write_precedes_both_reads_so_the_duplicate_stands": 0,
+  "row_a_caller_writes_the_key_only_after_the_call_so_it_cannot_reach_this_read": 0,
+  "row_the_call_sites_cannot_be_traced": 1,
+  "site_the_call_site_is_inside_the_holding_function_itself": 0,
+  "site_no_argument_reaches_the_parameter_so_the_default_stands": 0,
+  "site_the_argument_is_not_a_name_so_no_key_can_be_located": 2,
+  "site_the_argument_is_a_name_the_caller_does_not_write_at_the_key": 1,
+  "site_the_caller_writes_the_key_on_the_argument_before_the_call": 0,
+  "site_the_caller_writes_the_key_on_the_argument_after_the_call": 0,
+  "site_the_argument_is_handed_to_another_call_in_the_caller": 6,
+  "site_the_caller_scope_cannot_be_resolved": 0,
+  "form_a_plain_name": 7,
+  "form_an_attribute_chain": 0,
+  "form_a_subscript": 0,
+  "form_another_expression": 2,
+  "form_no_argument_for_that_parameter": 0
+ },
+ "e628_cross_check": {
+  "published": true,
+  "rows_read": 2,
+  "e628_verdict": "2_of_the_4_duplicate_receivers_arrive_from_outside_the_interval_but_no_other_site_in_the_module_writes_that_name_at_that_key",
+  "unparsed": []
+ },
+ "rows": [
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "simulate",
+   "def_line": 493,
+   "line": 507,
+   "key": "slip_exec",
+   "receiver_base_name": "P",
+   "parameter_position": [
+    "positional",
+    0
+   ],
+   "parameter_verified": true,
+   "call_sites": [
+    {
+     "line": 685,
+     "caller": "null_draw",
+     "caller_is_the_holding_function": false,
+     "passed_as": "positional",
+     "argument": "P",
+     "argument_form": "a_plain_name",
+     "argument_base_name": "P",
+     "writes_before_the_call": [],
+     "writes_after_the_call": [],
+     "handed_to_another_call": [
+      {
+       "line": 684,
+       "form": "receiver_handed_to_a_call"
+      }
+     ],
+     "site_class": "the_argument_is_handed_to_another_call_in_the_caller"
+    },
+    {
+     "line": 887,
+     "caller": "run_sobol",
+     "caller_is_the_holding_function": false,
+     "passed_as": "positional",
+     "argument": "P",
+     "argument_form": "a_plain_name",
+     "argument_base_name": "P",
+     "writes_before_the_call": [],
+     "writes_after_the_call": [],
+     "handed_to_another_call": [
+      {
+       "line": 885,
+       "form": "receiver_handed_to_a_call"
+      }
+     ],
+     "site_class": "the_argument_is_handed_to_another_call_in_the_caller"
+    },
+    {
+     "line": 1122,
+     "caller": "cmd_run",
+     "caller_is_the_holding_function": false,
+     "passed_as": "positional",
+     "argument": "P",
+     "argument_form": "a_plain_name",
+     "argument_base_name": "P",
+     "writes_before_the_call": [],
+     "writes_after_the_call": [],
+     "handed_to_another_call": [
+      {
+       "line": 1112,
+       "form": "receiver_handed_to_a_call"
+      }
+     ],
+     "site_class": "the_argument_is_handed_to_another_call_in_the_caller"
+    },
+    {
+     "line": 1402,
+     "caller": "cmd_selftest",
+     "caller_is_the_holding_function": false,
+     "passed_as": "positional",
+     "argument": "P",
+     "argument_form": "a_plain_name",
+     "argument_base_name": "P",
+     "writes_before_the_call": [],
+     "writes_after_the_call": [],
+     "handed_to_another_call": [
+      {
+       "line": 1392,
+       "form": "receiver_handed_to_a_call"
+      },
+      {
+       "line": 1391,
+       "form": "receiver_handed_to_a_call"
+      }
+     ],
+     "site_class": "the_argument_is_handed_to_another_call_in_the_caller"
+    },
+    {
+     "line": 1468,
+     "caller": "cmd_selftest",
+     "caller_is_the_holding_function": false,
+     "passed_as": "positional",
+     "argument": "P",
+     "argument_form": "a_plain_name",
+     "argument_base_name": "P",
+     "writes_before_the_call": [],
+     "writes_after_the_call": [],
+     "handed_to_another_call": [
+      {
+       "line": 1417,
+       "form": "receiver_handed_to_a_call"
+      },
+      {
+       "line": 1402,
+       "form": "receiver_handed_to_a_call"
+      },
+      {
+       "line": 1392,
+       "form": "receiver_handed_to_a_call"
+      },
+      {
+       "line": 1391,
+       "form": "receiver_handed_to_a_call"
+      }
+     ],
+     "site_class": "the_argument_is_handed_to_another_call_in_the_caller"
+    },
+    {
+     "line": 1535,
+     "caller": "cmd_selftest",
+     "caller_is_the_holding_function": false,
+     "passed_as": "positional",
+     "argument": "P",
+     "argument_form": "a_plain_name",
+     "argument_base_name": "P",
+     "writes_before_the_call": [],
+     "writes_after_the_call": [],
+     "handed_to_another_call": [
+      {
+       "line": 1468,
+       "form": "receiver_handed_to_a_call"
+      },
+      {
+       "line": 1417,
+       "form": "receiver_handed_to_a_call"
+      },
+      {
+       "line": 1402,
+       "form": "receiver_handed_to_a_call"
+      },
+      {
+       "line": 1392,
+       "form": "receiver_handed_to_a_call"
+      },
+      {
+       "line": 1391,
+       "form": "receiver_handed_to_a_call"
+      }
+     ],
+     "site_class": "the_argument_is_handed_to_another_call_in_the_caller"
+    }
+   ],
+   "duplicate_class_after_the_caller_arm": "the_call_sites_cannot_be_traced"
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "def_line": 358,
+   "line": 393,
+   "key": "x1",
+   "receiver_base_name": "ports",
+   "parameter_position": [
+    "positional",
+    5
+   ],
+   "parameter_verified": true,
+   "call_sites": [
+    {
+     "line": 243,
+     "caller": "main",
+     "caller_is_the_holding_function": false,
+     "passed_as": "positional",
+     "argument": "None",
+     "argument_form": "another_expression",
+     "argument_base_name": null,
+     "site_class": "the_argument_is_not_a_name_so_no_key_can_be_located",
+     "writes_before_the_call": [],
+     "writes_after_the_call": [],
+     "handed_to_another_call": []
+    },
+    {
+     "line": 301,
+     "caller": "main",
+     "caller_is_the_holding_function": false,
+     "passed_as": "positional",
+     "argument": "None",
+     "argument_form": "another_expression",
+     "argument_base_name": null,
+     "site_class": "the_argument_is_not_a_name_so_no_key_can_be_located",
+     "writes_before_the_call": [],
+     "writes_after_the_call": [],
+     "handed_to_another_call": []
+    },
+    {
+     "line": 350,
+     "caller": "main",
+     "caller_is_the_holding_function": false,
+     "passed_as": "positional",
+     "argument": "ports",
+     "argument_form": "a_plain_name",
+     "argument_base_name": "ports",
+     "writes_before_the_call": [],
+     "writes_after_the_call": [],
+     "handed_to_another_call": [],
+     "site_class": "the_argument_is_a_name_the_caller_does_not_write_at_the_key"
+    }
+   ],
+   "duplicate_class_after_the_caller_arm": "every_call_site_leaves_the_argument_unwritten"
+  }
+ ],
+ "limits": [
+  "one hop only: a caller whose own argument comes from its caller (or another module) is not followed, so 'no caller writes it' is a bound on this hop, not on the program",
+  "a write is read at name level through E625's marks on the spelled argument text; an alias of the caller's argument is not tracked",
+  "call sites are matched by spelled callee name (bare or attribute), so a call through an imported alias of a different name is invisible",
+  "no class/attribute resolution: an argument spelled self.x is traced by its base name only, and no attribute write on it is looked for beyond E625's marks",
+  "a caller write cannot separate the two reads because both sit inside the callee -- the study publishes that consequence explicitly rather than counting a found writer as a closed duplicate",
+  "the population is E628's published rows; this study offers no re-derivation of which rows are duplicates"
+ ],
+ "verdict": "none_of_the_2_outside_origin_rows_has_a_caller_that_writes_the_key_and_1_of_them_cannot_be_traced_at_this_hop_so_the_caller_arm_closes_none_of_them",
+ "answer": "E628 published 2 duplicate row(s) whose receiver arrives from before the interval.  2 of them has a verified parameter and 2 has at least one call site in its own module.  Across 9 call site(s), 7 pass the receiver as a name, 0 write the key on that name before the call and 0 write it only after; 6 hand the argument to another call in the caller and 2 carry no traceable argument.  Because every caller write happens before the callee is entered, it reaches both the dead line and its sibling read, so the caller arm closes 0 of the 2 row(s) and leaves 1 open"
+}

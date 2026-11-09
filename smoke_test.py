@@ -27018,5 +27018,103 @@ except Exception as _e628x:
     _d628 = "study could not be read"
 check(_name628, not _bad628, "; ".join(_bad628)[:240] or _d628)
 
+# E629 follows the one hop E628 published as its bound: E628's writer arm stays inside the module
+# and only sees places where the receiver name is spelled, so for the two rows whose receiver is a
+# parameter the only remaining place a write can live is the caller.  The leg re-reads the published
+# face, re-derives every row class from its own call sites, re-adds the site and argument-form
+# tables, requires that no row is claimed closed (a caller write precedes both reads and cannot
+# separate them), re-asks the verdict, keeps the E628 cross-check honest and excludes this study
+# from the population it prices.
+_name629 = ("E629 whether the caller of the holding function writes the key E628 could not find a "
+            "writer for (r1647 bm-b)")
+_bad629 = []
+_d629 = "no reading"
+try:
+    _f629 = json.load(open(os.path.join("results", "state_tilt", "callerwrite_latest.json"),
+                           encoding="utf-8"))
+    _m629 = importlib.import_module("e629_caller_write")
+    _bad629.extend(_m629.face_problems(_f629))
+    _c629 = _f629.get("counts") or {}
+    _rows629 = _f629.get("rows") or []
+    _again629 = _m629.derive_verdict({
+        "e628": {"published": True,
+                 "rows": [None] * (_c629.get("e628_published_duplicate_rows") or 0)},
+        "rows": _rows629,
+        "unparsed": [None] * (_c629.get("modules_that_will_not_parse") or 0)})
+    if _again629 != _f629.get("verdict"):
+        _bad629.append("the published verdict is not what the row table forces (%r)" % _again629)
+    _rowcls629 = {_k: 0 for _k in _m629.ROW_CLASSES}
+    _sitecls629 = {_k: 0 for _k in _m629.SITE_CLASSES}
+    _form629 = {_k: 0 for _k in _m629.ARG_FORMS}
+    _sites629 = 0
+    for _r629 in _rows629:
+        _cls629 = _r629.get("duplicate_class_after_the_caller_arm")
+        if _cls629 not in _m629.ROW_CLASSES:
+            _bad629.append("row %r in %r carries row class %r"
+                           % (_r629.get("line"), _r629.get("function"), _cls629))
+            continue
+        _rowcls629[_cls629] += 1
+        _live629 = []
+        for _s629 in _r629.get("call_sites") or []:
+            _sites629 += 1
+            _live629.append(_s629)
+            _sitecls629[_s629.get("site_class")] = \
+                _sitecls629.get(_s629.get("site_class"), 0) + 1
+            if _s629.get("argument_form") in _form629:
+                _form629[_s629.get("argument_form")] += 1
+            if bool(_s629.get("writes_before_the_call")) != (
+                    _s629.get("site_class") == _m629.SITE_BEFORE):
+                _bad629.append("call site %r of %r publishes %d pre-call write(s) under class %r"
+                               % (_s629.get("line"), _r629.get("function"),
+                                  len(_s629.get("writes_before_the_call") or []),
+                                  _s629.get("site_class")))
+        if _r629.get("parameter_verified") is True:
+            _want629 = _m629.row_class(_live629, True)
+            if _want629 != _cls629:
+                _bad629.append("row %r in %r says %r but its call sites force %r"
+                               % (_r629.get("line"), _r629.get("function"), _cls629, _want629))
+    if _rowcls629 != {_k: _c629.get("row_" + _k, 0) for _k in _m629.ROW_CLASSES}:
+        _bad629.append("the row classes do not re-derive from the rows")
+    if sum(_rowcls629.values()) != len(_rows629):
+        _bad629.append("the row classes cover %d of %d rows"
+                       % (sum(_rowcls629.values()), len(_rows629)))
+    for _k in _m629.SITE_CLASSES:
+        if _c629.get("site_" + _k, 0) != _sitecls629.get(_k, 0):
+            _bad629.append("counts.site_%s does not re-derive (published %r vs %r)"
+                           % (_k, _c629.get("site_" + _k), _sitecls629.get(_k, 0)))
+    if _sites629 != _c629.get("call_sites_total"):
+        _bad629.append("counts.call_sites_total says %r but the rows publish %d"
+                       % (_c629.get("call_sites_total"), _sites629))
+    if sum(_form629.values()) != _sites629:
+        _bad629.append("the argument forms cover %d of %d call sites"
+                       % (sum(_form629.values()), _sites629))
+    if _c629.get("rows_closed_by_the_caller_arm") != 0:
+        _bad629.append("the face claims %r row(s) closed by the caller arm; a caller write "
+                       "precedes both reads" % _c629.get("rows_closed_by_the_caller_arm"))
+    if _c629.get("e628_published_duplicate_rows") != len(_rows629):
+        _bad629.append("the face prices %d row(s) against the %r E628 published"
+                       % (len(_rows629), _c629.get("e628_published_duplicate_rows")))
+    if not _rows629:
+        _bad629.append("the face publishes no row at all, yet the study exists")
+    _self629 = [r.get("module") for r in _rows629
+                if r.get("module") and r["module"].split("/")[-1] in _m629.SELF_PARTS]
+    if _self629:
+        _bad629.append("this study lists itself as a holder module: %s" % ", ".join(_self629))
+    _cc629 = _f629.get("e628_cross_check") or {}
+    if _cc629.get("published") is False:
+        _bad629.append("the E628 cross-check did not read a published face")
+    elif _cc629.get("rows_read") != _c629.get("e628_published_duplicate_rows"):
+        _bad629.append("the E628 cross-check read %r rows against the published %r"
+                       % (_cc629.get("rows_read"), _c629.get("e628_published_duplicate_rows")))
+    _d629 = ("rows=%s call_sites=%s written_before=%s closed=%s open=%s untraced=%s verdict=%s"
+             % (_c629.get("population_duplicate_rows"), _sites629,
+                _c629.get("call_sites_that_write_the_key_before_the_call"),
+                _c629.get("rows_closed_by_the_caller_arm"), _c629.get("rows_left_open"),
+                _c629.get("rows_untraced"), _f629.get("verdict")))
+except Exception as _e629x:
+    _bad629.append(repr(_e629x)[:160])
+    _d629 = "study could not be read"
+check(_name629, not _bad629, "; ".join(_bad629)[:240] or _d629)
+
 if __name__ == "__main__":
     sys.exit(main())

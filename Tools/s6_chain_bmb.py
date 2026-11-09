@@ -1394,6 +1394,14 @@ LEGS = [
     # re-reads the face; the 4-minute rebuild is the build, not the chain leg.
     ("receiver_origin", ["python", "scripts/e628_receiver_origin.py", "verify"]),
 
+    # E629 follows the one hop E628 published as its own bound: the writer arm stays inside the
+    # module and only sees sites where the receiver name is spelled, so for the two duplicate rows
+    # whose receiver is a parameter the only remaining place a write can live is the caller.  The
+    # leg re-reads the face, re-derives every row class from its call sites and pins the reading the
+    # card was built to publish -- a caller write precedes BOTH reads, so the caller arm closes none
+    # of them even where a write exists.
+    ("caller_write", ["python", "scripts/e629_caller_write.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

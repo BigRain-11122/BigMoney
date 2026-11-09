@@ -1772,14 +1772,14 @@
   },
   {
    "classes_at_this_fragment": {
-    "cwd_relative_no_directory_supplied": 1,
+    "cwd_relative_no_directory_supplied": 2,
     "temporary_directory_deleted_by_design": 2
    },
    "classified_from": "untagged_site",
    "fragment": "other.json",
    "n_read_sites": 0,
-   "n_sites": 3,
-   "n_untagged_sites": 3,
+   "n_sites": 4,
+   "n_untagged_sites": 4,
    "n_write_sites": 0,
    "producer_class": "cwd_relative_no_directory_supplied",
    "producer_composed_path": null,
@@ -1793,6 +1793,15 @@
      "directory_expression": "",
      "exists": false,
      "site": "scripts/e426_dynamic_face_names.py:675",
+     "why": "the fragment is used without a directory",
+     "write_kind": "unknown"
+    },
+    {
+     "class": "cwd_relative_no_directory_supplied",
+     "composed_path": null,
+     "directory_expression": "",
+     "exists": false,
+     "site": "scripts/e602_redirect_missing_at_read.py:422",
      "why": "the fragment is used without a directory",
      "write_kind": "unknown"
     },
@@ -2200,7 +2209,7 @@
  "summary": {
   "by_class": {
    "constant_directory_that_does_not_hold_the_file": 7,
-   "cwd_relative_no_directory_supplied": 8,
+   "cwd_relative_no_directory_supplied": 9,
    "directory_expression_not_traceable_statically": 16,
    "fragment_is_a_suffix_or_prefix_of_a_computed_name_so_the_key_was_never_a_whole_filename": 5,
    "temporary_directory_deleted_by_design": 68
@@ -2220,7 +2229,7 @@
    "temporary_directory_deleted_by_design": 26
   },
   "classes_sum_to_sites": true,
-  "corpus_sources": 2877,
+  "corpus_sources": 2999,
   "fragments": 52,
   "fragments_no_site_named": [
    "REGIME5-DIAG-.json",
@@ -2256,15 +2265,15 @@
    }
   ],
   "keys_total_checked": 884,
-  "producer_sites_total": 104,
+  "producer_sites_total": 105,
   "published_keys": 884,
   "published_keys_note": "taken from the E399 face's own summary: that face carries only the 98 unresolved rows, so the total cannot be counted from rows",
   "read_sites_total": 14,
   "share_of_published_keys_that_are_fragments": 0.0588,
-  "sites_total": 160,
+  "sites_total": 161,
   "verdict": "the_fragments_split_between_design_names_and_joins_that_cannot_land_so_the_residual_is_partly_a_real_gap",
   "write_sites_total": 20
  },
- "ts": "2026-11-09T03:29:02+08:00",
+ "ts": "2026-11-10T00:31:40+08:00",
  "verdict": "the_fragments_split_between_design_names_and_joins_that_cannot_land_so_the_residual_is_partly_a_real_gap"
 }

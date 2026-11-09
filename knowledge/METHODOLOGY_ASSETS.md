@@ -14702,3 +14702,28 @@ POOL E627 done / E628 seeded + `research/digests/DIGEST-20261109-r1645-e627-alia
 `results/state_tilt/RECEIVERORIGIN.json` + `receiverorigin_latest.json` + `scripts/run_e628_smoke_leg.py`
 （1/1 PASS，`--doctor` 1/1 红，面字节还原）+ smoke_test.py leg E628 + S6 leg `receiver_origin` +
 POOL E628 done / E629 seeded + `research/digests/DIGEST-20261109-r1646-e628-receiver-origin.md`。
+
+## E629 — 调用方臂：E628 找不到的那个写者在哪里（r1647 bm-b·2026-11-10）
+
+> 来源=POOL 卡片 E629。E628 的 limits 写死了自己的边界：写入臂只在**模块内、函数外、按名字拼写**
+> 的地方找，于是两条"接收者是参数"的重复行一处写都没找到。本张把那一跳往上游走一层——被调函数的
+> 全部调用点、参数位置映射、调用方 scope 里同一把键的写标记。
+
+**研究**：2 条行、9 个调用点。7 个以名字传参，**0 个在调用前写该键**、0 个只在调用后写，6 个把对象
+再交给调用方自己的另一个函数（写可能在那里，本跳看不到），2 个传的是非名字表达式（`None` 字面量）。
+行级=1 条"全调用点都不写"、1 条"本跳不可追踪"、**0 条被调用方臂关闭**。
+
+**教训**：①**"找到了写者"不等于"关闭了重复读"**——调用方的写发生在进入被调函数之前，死行与兄弟读
+看到的是同一个（写后的）值；所以 `rows_closed_by_the_caller_arm` 冻结成 0 并由闸重算，防止下一轮把
+"找到一个写站点"读成"这条重复读解决了"。②**一跳就是一跳**：参数被再交出去（6 处）时只能报不可
+判定，必须与"确认没有写"分成两个类目——这是下一张卡的母体。③**字面量 `None` 与"没有传参"是两件
+事**：前者把参数绑到 `None`，后者走默认值；合成一个 missing 会抹掉一个真实的调用点。④**母体从上游
+发布面机读**（E628 的 `origin_before_the_e627_interval_start`），本张不重判"哪些是重复"，只加一跳。
+
+**How**：任何"上游找不到写者"的结论，先问被调函数的实参从哪里来；调用方臂的读数必须按"写发生在
+两次读之前/之后"分开，并把"再交出去"单列——只有当写能落在两次读之间，它才可能关闭重复读。
+
+**证据** = `scripts/e629_caller_write.py`（selftest 28/28，verify `problems=[]`）
+`results/state_tilt/CALLERWRITE.json` + `callerwrite_latest.json` + `scripts/run_e629_smoke_leg.py`
+（1/1 PASS，`--doctor` 1/1 红，面字节还原）+ smoke_test.py leg E629 + S6 leg `caller_write` +
+POOL E629 done / E630 seeded + `research/digests/DIGEST-20261110-r1647-e629-caller-write.md`。

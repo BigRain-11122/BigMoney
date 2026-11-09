@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1646 bm-b: E628 burned -- 2 of the 4 duplicate receivers arrive from before the interval and no other site in the module writes that name at that key, so the split stands (4/0/0). E629 seeded: the caller of the holding function, the one place E628's module-local arm cannot see.",
+ "_stamp_note": "r1647 bm-b: E629 burned -- the caller arm finds no write at the key on any of the 2 outside-origin rows and closes none of them (1 left open, 1 untraceable because the object is handed to another call). E630 seeded: follow that handover one hop into the callee.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -30918,9 +30918,31 @@
    "source": "E628 (r1646 bm-b) publishes its own bound: the writer arm is module-local and name-level, so a write in the caller of the holding function is invisible.  Two of its four duplicate rows read a parameter, which is exactly the origin a caller write would reach",
    "target": "results/state_tilt/CALLERWRITE.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T00:05:00+08:00",
-   "seeded_by": "r1646 bm-b"
+   "seeded_by": "r1646 bm-b",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-10T00:10:00+08:00",
+   "closed_by": "bm-b",
+   "closed_at": "2026-11-10T00:23:00+08:00",
+   "completed_by": "bm-b r1647",
+   "completed_at": "2026-11-10T00:23:00+08:00",
+   "result_ref": "results/state_tilt/CALLERWRITE.json + scripts/e629_caller_write.py + results/_r1647bmb_s6_chain.json",
+   "outcome": "2 outside-origin duplicate rows, 9 call sites: 7 pass the receiver as a name, 0 write the key before the call, 0 after, 6 hand the object to another call in the caller, 2 pass a non-name expression; the caller arm closes 0 of 2 (1 left open, 1 untraceable at this hop)"
+  },
+  {
+   "card": "E630",
+   "id": "E630-WHETHER-THE-CALLEE-A-CALLER-HANDS-THE-OBJECT-TO-WRITES-THE-KEY-THE-CALLER-ARM-COULD-NOT-DECIDE",
+   "title": "whether the callee a caller hands the object to writes the key E629 could not decide",
+   "lane": "cpu-only",
+   "lane_note": "static: for each call site E629 classed as 'the argument is handed to another call in the caller', resolve the callee one hop (module-level def, bare or attribute spelling), map the parameter the object lands in, and ask whether that callee writes the key on the parameter -- and whether the write can fall between the two reads (it cannot: both sit inside the holding function, so the honest question is whether the value handed in was already different); no runner, no fixture write",
+   "deliverable": "results/state_tilt/HANDEDWRITE.json: per handed call site, the callee, the parameter it lands in, whether that callee writes the key on the parameter, and the count of rows E629's untraced class can now settle",
+   "source": "E629 (r1647 bm-b) publishes its own residue: 6 of its 9 call sites hand the receiver object to another call in the caller, so the caller-side write could live inside that callee and this hop cannot see it",
+   "target": "results/state_tilt/HANDEDWRITE.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T00:23:00+08:00",
+   "seeded_by": "r1647 bm-b"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30935,6 +30957,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T00:05:00+08:00",
+ "updated_at": "2026-11-10T00:23:00+08:00",
  "version": 1
 }
