@@ -693,6 +693,17 @@ def main() -> int:
              "scripts/etf_book_do_or_wait.py", ["selftest"]),
             ("product: etf_book_do_or_wait (decision and ladder re-derived)",
              "scripts/etf_book_do_or_wait.py", ["--check"]),
+            # r1484: 60.7% of this book sits in a cash leg that matures every single day --
+            # to keep it alive a person places ~242 orders a year. The alternative (one
+            # money ETF, left alone) had never been priced on the same window and principal.
+            # The legs pin that a yearly share consolidation is not read as a loss, that a
+            # ticker whose close is pinned at face value is UNPRICED rather than "0%", that
+            # the commission floor applies, and that the repo arm reproduces the published
+            # GC001 net before anything is written.
+            ("product: etf_book_cash_vehicle (resets are not losses, face value is not return)",
+             "scripts/etf_book_cash_vehicle.py", ["selftest"]),
+            ("product: etf_book_cash_vehicle (the gap and its per-year range re-derive)",
+             "scripts/etf_book_cash_vehicle.py", ["check"]),
             # r1481 also gave the decision line a third price (what it costs if this sheet
             # is filled tomorrow); the existing decision-line legs at the bottom of this
             # file already run that selftest, and it now carries the UNKNOWN-not-zero leg.

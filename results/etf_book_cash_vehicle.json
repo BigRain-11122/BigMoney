@@ -1,0 +1,156 @@
+{
+ "face": "etf_book_cash_vehicle",
+ "asof": "2026-11-10T01:15:16+0800",
+ "evidence_cutoff": "2026-11-09",
+ "window": {
+  "start": "2020-07-16",
+  "end": "2026-11-09",
+  "bars": 1531
+ },
+ "cash_on_ticket_cny": 607272.8,
+ "ticket_file": "TICKET-2026-11-09.json",
+ "gate": {
+  "repo_reproduces_published": true,
+  "published_gc001_net_pct": 1.7733,
+  "re_derived_on_published_window_pct": 1.7733,
+  "gap_bp": 0.0,
+  "tolerance_bp": 0.5,
+  "published_window": [
+   "2020-07-16",
+   "2026-10-27"
+  ]
+ },
+ "vehicles": [
+  {
+   "name": "gc001_daily_roll",
+   "kind": "repo",
+   "status": "PRICED",
+   "net_ann_pct": 1.7689,
+   "orders_per_year": 242.23,
+   "cny_per_year_on_cash": 10742.0,
+   "per_year_net_pct": {
+    "2020": 2.335,
+    "2021": 2.143,
+    "2022": 1.825,
+    "2023": 2.182,
+    "2024": 1.733,
+    "2025": 1.42,
+    "2026": 1.065
+   },
+   "missing_quotes": 0,
+   "note": "one contract per bar; engine imported from etf_book_cash_ladder"
+  },
+  {
+   "name": "money_etf_511880",
+   "kind": "money_etf",
+   "status": "PRICED",
+   "net_ann_pct": 1.5242,
+   "gross_ann_pct": 1.5306,
+   "commission_drag_pp": 0.0064,
+   "round_trip_commission_cny": 242.91,
+   "orders_per_year": 0.32,
+   "cny_per_year_on_cash": 9256.0,
+   "per_year_net_pct": {
+    "2020": 1.809,
+    "2021": 2.101,
+    "2022": 1.626,
+    "2023": 1.678,
+    "2024": 1.533,
+    "2025": 1.104,
+    "2026": 1.045
+   },
+   "consolidations": [
+    {
+     "date": "2020-12-31",
+     "price_before": 102.098,
+     "price_after": 100.135,
+     "apparent_pct": -1.923
+    },
+    {
+     "date": "2021-12-31",
+     "price_before": 102.216,
+     "price_after": 100.123,
+     "apparent_pct": -2.048
+    },
+    {
+     "date": "2022-12-30",
+     "price_before": 101.729,
+     "price_after": 100.152,
+     "apparent_pct": -1.55
+    },
+    {
+     "date": "2023-12-29",
+     "price_before": 101.809,
+     "price_after": 100.083,
+     "apparent_pct": -1.695
+    },
+    {
+     "date": "2024-12-31",
+     "price_before": 101.613,
+     "price_after": 100.093,
+     "apparent_pct": -1.496
+    },
+    {
+     "date": "2025-12-31",
+     "price_before": 101.192,
+     "price_after": 100.075,
+     "apparent_pct": -1.104
+    }
+   ],
+   "note": "buy and hold; share consolidations booked as zero-return days and listed"
+  },
+  {
+   "name": "money_etf_511990",
+   "kind": "money_etf",
+   "status": "UNPRICED",
+   "why": "the close is pinned near face value and the return is paid in shares, so a close-based return would report ~0% -- this repo collects no NAV-per-share face for money ETFs",
+   "net_ann_pct": null,
+   "orders_per_year": null,
+   "cny_per_year_on_cash": null,
+   "price_span_pct": 0.1861,
+   "window_bars": 1531
+  },
+  {
+   "name": "money_etf_159001",
+   "kind": "money_etf",
+   "status": "UNPRICED",
+   "why": "the close is pinned near face value and the return is paid in shares, so a close-based return would report ~0% -- this repo collects no NAV-per-share face for money ETFs",
+   "net_ann_pct": null,
+   "orders_per_year": null,
+   "cny_per_year_on_cash": null,
+   "price_span_pct": 0.014,
+   "window_bars": 1531
+  }
+ ],
+ "gaps": [
+  {
+   "repo_minus_money_pp": 0.2447,
+   "money": "money_etf_511880",
+   "cny_per_year": 1486.0,
+   "extra_orders_per_year": 241.9,
+   "cny_per_extra_order": 6.14,
+   "per_year_pp": {
+    "2020": 0.526,
+    "2021": 0.042,
+    "2022": 0.199,
+    "2023": 0.504,
+    "2024": 0.2,
+    "2025": 0.316,
+    "2026": 0.02
+   },
+   "years_within_10bp": [
+    "2021",
+    "2026"
+   ]
+  }
+ ],
+ "honest": [
+  "the cash leg stays GC001 in production -- this face prices a venue, it does not change the ticket",
+  "511990 / 159001 cannot be priced from a close panel: their return is paid in shares and this repo collects no NAV face for money ETFs",
+  "the two vehicles differ in availability, and that is not in the return: repo cash is only free on a maturity bar and must be re-placed before the close; a money ETF sells intraday",
+  "the repo arm charges the fee schedule imported from etf_book_cash_ladder; the ETF arm charges 0.02%/side with a CNY 5 floor, which is a retail rate, not a negotiated one",
+  "a consolidation bar is booked at exactly zero return; the true same-day yield (~0.005%) is therefore missing from that day, six times in this window",
+  "both vehicles are quoted gross of income tax; exchange repo and ETF capital gains are both untaxed for an individual account, so the comparison is fair, but a taxable holder would need to re-price it"
+ ],
+ "elapsed_sec": 0.6
+}

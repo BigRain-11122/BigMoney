@@ -1034,6 +1034,12 @@ LEGS = [
     # rung must still equal the published one-sheet face (two faces, one number). Read-only
     # JSON (~0.1s); the few-minute ladder runs with `run` in its own round.
     ("do_or_wait", ["python", "scripts/etf_book_do_or_wait.py", "--check"]),
+    # r1484: 60.7% of this book is a cash leg that matures every bar -- keeping it alive
+    # is ~242 orders a year. The one-ETF alternative had never been priced on the same
+    # window and principal; this leg re-derives the published gap, its per-year range, the
+    # refusal to price a face-value ticker, and the repo arm's reproduction of the
+    # published GC001 net. Read-only JSON (~0.2s); the panel run is a round's own `run`.
+    ("cash_vehicle", ["python", "scripts/etf_book_cash_vehicle.py", "check"]),
     # r1447: the horizontal question above ("is the running weight the graded rule's
     # weight") has a vertical twin -- DEFAULT_BETA is a literal, so the weight is
     # k = target/beta and the target could have been any point on a ladder. This leg
