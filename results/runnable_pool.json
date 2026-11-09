@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1624 bm-b: E595 burned in-round -- the alias that was going to give three readers the bar buys nothing: 27 faces share the basename latest.json, three of the eight 'silent readers' read a different one, and of the three that name this face none asks it for the key an alias would add. E598 seeded: is any latest.json face in the repo asked for a bar it does not carry?",
+ "_stamp_note": "r1623 bm-b: E596 burned -- a date-keyed join lands on the same bar as the name join only where the face states one date (8017 of 8196 bar-naming faces); on all 18 faces that state both a pricing and a decision bar the two dates differ, so the name join is load-bearing. E600 seeded: does a date pick out one face at all?",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -30489,14 +30489,17 @@
    "lane": "cpu-only",
    "lane_note": "static: for every resolving reader, take the bar it actually receives (its own spelling resolved against the face it names) and ask whether joining on the VALUE (the bar date) instead of the NAME would have reached the same bar on every candidate face; no runner, no rebuild",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E594 (r1622 bm-b) found the bar is spelled four ways with no universal spelling, and repairing that by aliasing names is per-face work. The value is the same object in all four dialects, so the cheaper repair is to stop joining on the name -- but nobody has measured whether the values actually coincide across the faces a reader reads, or whether a value join would silently match the decision bar instead of the pricing bar (E586: the ticket prints both).",
    "target": "results/state_tilt/VALUEJOIN.json",
    "deliverable": "results/state_tilt/VALUEJOIN.json",
    "title": "Publish, per candidate face and per bar role (pricing vs decision), the date each face states, then count the faces where a value join lands on the pricing bar, on the decision bar, on several dates at once (ambiguous) or on nothing -- the ambiguity count is what decides whether the name join can be replaced at all",
    "entered_at": "2026-11-09T07:50:00+08:00",
    "entered_by": "bm-b r1622",
-   "evidence_cutoff": "2026-11-06"
+   "evidence_cutoff": "2026-11-06",
+   "result_ref": "results/state_tilt/VALUEJOINNAME.json",
+   "done_at": "2026-11-09T09:4x+0800",
+   "done_note": "18 of 18 faces that state both a pricing and a decision bar state them on different dates; 173 faces state several dates; 6 name a bar but state no date. A date-keyed join cannot replace the name join where the choice is visible."
   },
   {
    "id": "E597-WHETHER-A-PUBLISHED-BAR-COUNT-IS-EVER-USED-IN-ARITHMETIC-ONE-HOP-DOWNSTREAM",
@@ -30547,6 +30550,17 @@
     "workers": 1,
     "priority": "BelowNormal"
    }
+  },
+  {
+   "id": "E600-WHETHER-A-DATE-KEYED-JOIN-EVER-NAMES-THE-SAME-FACE-A-NAME-JOIN-WOULD",
+   "lane": "cpu-only",
+   "lane_note": "static: for each reader that currently resolves a bar by key name, publish whether the date it joins on identifies the face it read, or several faces at once; no runner, no fixture write, no panel refresh",
+   "priority": "normal",
+   "status": "ready",
+   "source": "E596 (r1623 bm-b): where a face states both a pricing and a decision bar the two dates always differ (18/18), so the name join is load-bearing there. The open question is the other half: a consumer cannot even reach that choice unless its date picks out one face -- if the same date is stated by many faces, a date-keyed lookup returns a set and needs the name anyway.",
+   "target": "results/state_tilt/DATEFACEUNIQUE.json",
+   "deliverable": "results/state_tilt/DATEFACEUNIQUE.json: per stated date, how many distinct faces state it and which roles they state it under; the count of dates that identify a face, a role, or nothing",
+   "title": "E600 whether a date-keyed lookup resolves to at most one face or returns a set"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30561,6 +30575,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T08:26:00+0800",
+ "updated_at": "2026-11-09T09:08:08+0800",
  "version": 1
 }

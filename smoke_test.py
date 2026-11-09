@@ -25852,5 +25852,49 @@ except Exception as _e598x:
 check(_name598, not _bad598, "; ".join(_bad598)[:240] or _d598)
 
 
+# E596: can a value join (the DATE) replace the name join (the KEY)?  The leg refuses a face whose
+# class counts do not re-derive from the details it publishes plus the rows it admits it sampled
+# out, a both-role answer that disagrees with the two dates that face actually states, and a
+# verdict the counts do not force.
+_name596 = ("E596 whether a date-keyed join lands on the same bar a name-keyed join would (r1623 bm-b)")
+_bad596 = []
+_d596 = "no reading"
+try:
+    _p596 = os.path.join("results", "state_tilt", "VALUEJOINNAME.json")
+    _f596 = json.load(open(_p596, encoding="utf-8"))
+    _m596 = importlib.import_module("e596_value_join_vs_name_join")
+    _bad596.extend(_m596.face_problems(_f596))
+    _c596 = _f596.get("counts") or {}
+    _d596s = _f596.get("details") or []
+    _both596 = sorted(d["path"] for d in _d596s if d.get("carries_pricing") and d.get("carries_decision"))
+    if _both596 != sorted(list(_c596.get("both_roles_same_date") or [])
+                          + list(_c596.get("both_roles_different_dates") or [])):
+        _bad596.append("the both-role lists do not name exactly the published both-role details")
+    for _d in _d596s:
+        if not (_d.get("carries_pricing") and _d.get("carries_decision")):
+            continue
+        # re-ask the two dates straight off the fields that face publishes
+        _rbd = _m596.roles_by_date(_d.get("bar_fields") or [])
+        _want = _m596.both_roles_same_date(_rbd)
+        if _want != _d.get("both_roles_same_date"):
+            _bad596.append("both-role answer on %s re-derives to %r, published %r"
+                           % (_d.get("path"), _want, _d.get("both_roles_same_date")))
+            break
+    if _m596.verdict_from(_c596) != _f596.get("verdict"):
+        _bad596.append("the verdict is not the one the counts force")
+    _d596 = ("read=%d unreadable=%d bar_named=%d one_date=%d several_dates=%d both_roles=%d "
+             "different_dates=%d"
+             % (_c596.get("faces_read", 0), _c596.get("faces_unreadable", 0),
+                _c596.get("faces_carrying_a_bar_name", 0),
+                (_c596.get("by_class") or {}).get("states_one_date", 0),
+                (_c596.get("by_class") or {}).get("states_several_dates", 0),
+                _c596.get("faces_carrying_both_roles", 0),
+                len(_c596.get("both_roles_different_dates") or [])))
+except Exception as _e596x:
+    _bad596.append(repr(_e596x)[:160])
+    _d596 = "study could not be read"
+check(_name596, not _bad596, "; ".join(_bad596)[:240] or _d596)
+
+
 if __name__ == "__main__":
     sys.exit(main())

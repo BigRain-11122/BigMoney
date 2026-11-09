@@ -14299,3 +14299,13 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 - **可复核面**：接管页自己带一行「代写说明：本页由 <机> 代替指定写法机 <host> 生成——<理由>」；`writer` 块（machine/role/host/host_silent_hours/reason）落在 `LIVE-BOOK-YYYYMMDD.json`，`role` 与 `host_silent_hours` 可对着 `fleet/machines/<host>.json` 重算。
 - **别只修一次**：只把门打开、手工出一页＝下一轮又冻住。同轮把 `etf_book_ceo_page` 挂进 `Tools/s6_chain_bmb.py` LEGS，接管才变成**每日刷新**而不是一次性修补。
 - **证据** = scripts/etf_book_ceo_page.py（selftest **43/43**，新增 6 条门臂 L40-L45：host 按名写 / live host 挡住他机 / host 静默过门开接管并点名两台机 / silent 本机不能继承 / 心跳不可读≠活着 / 页面渲染带代写说明）+ docs/live_book/LIVE-BOOK-20261109.md|.json（role=takeover, host_silent_hours=264.08）+ S6 leg etf_book_ceo_page rc=0（results/_r1626bmb_s6_chain.json）。
+
+### E596 值 join（按日期）替不掉名 join（按键名）——只要那张面同时写着定价 bar 和决策 bar（r1623 bm-b·2026-11-09）
+
+- **问题**：E594/E595/E598 量的一直是**名 join**（读者说出面、再要一个拼写名）。若消费者改按**面自己写的日期**做值 join，会落在定价 bar、决策 bar、多个日期（歧义）还是什么都没有？
+- **判据只有一个**：同一张面同时带 pricing 族与 decision 族键时才看得见分歧。全仓 13,641 张 JSON 面里 8,196 张写着 bar 名，其中**18 张同时带两族键，18/18 两族日期不同**（例：`docs/live_book/LIVE-BOOK-20261109.json` 的 `pricing_bar` 与 `book_decided_at`；`results/etf_book_order/TICKET-2026-10-2x.json`）——一个日期不可能同时代表两个 bar，**名 join 在这些面上是承重的**，不该被日期键替换。
+- **普查读数**（同一次 build 出，判决由闸从 by_class 重算）：单日期 8,017 张（值 join 与名 join 落同一处）、多日期 173 张（值 join 歧义）、写了 bar 名却无日期 6 张（落空）、无 bar 名 4,984 张（不入总体）、不可读 461 张（>1MB 401 + 解析失败 60，如实计入分母）。
+- **两枚自踩坑**：
+  ①**一个键名可以属于两个族**（`ticket_bar` 同时是 pricing 与 as_of 拼写）——用 `{k: fam}` 字典倒排会静默把角色压成最后写入的那个族，等于替方言面断言一个它没断言的归属。正法=名字按**全部所属族**发布（`as_of+pricing`），并单列 `names_in_more_than_one_family`。
+  ②**抽样必须自带未印行数**：8,017 张单日期面全印会把面撑到三倍，抽样 200 行是合理的，但闸必须用 `published + sampled_out == by_class` 对账；隐藏抽样时那两行「class 是 X 但重导出是 Y」正好抓不到（r1261 族）。
+- **落地**：`scripts/e596_value_join_vs_name_join.py`（selftest **28/28**，check/verify problems=[]）+ `results/state_tilt/VALUEJOINNAME.json`（+-latest）+ `scripts/run_e596_smoke_leg.py`（PASS，--doctor 1/1 红）+ smoke_test.py leg E596 + 池卡 E596 done / E600 seeded。
