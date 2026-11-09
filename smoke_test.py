@@ -8924,6 +8924,51 @@ def _leg_size_age_control():
               "side of the floor it is on", False, repr(e)[:180])
 
 
+try:
+        # r1472: r1456/r1471 leave "the sheet obeys the floor but the RULE sizes above it" as a
+        # standing sentence. That is an EVENT and nobody had counted how often it fires. The
+        # legs pin (a) the phase x cost machinery that prices the alternative, and (b) that the
+        # floor read by this new face is the SAME number the size-ruler face and the floor
+        # ledger publish -- a "cap at the floor" priced against a different floor is a
+        # different book (r1291 class: same width, two rules).
+        _r49 = capture_pinned([sys.executable, os.path.join("scripts", "etf_book_floor_memory.py"),
+                               "selftest"], 180)
+        check("product: etf_book_floor_memory (the cap is priced on phases and costs, not one sequence)",
+              _r49.returncode == 0 and "9/9 legs" in _r49.stdout,
+              (_r49.stdout.strip().splitlines() or [""])[-1][:200] if _r49.returncode == 0
+              else (_r49.stderr or _r49.stdout)[:200])
+        _bad49 = []
+        _fp49 = os.path.join(PATHS.results_dir, "etf_book_floor_memory.json")
+        _sp49 = os.path.join(PATHS.results_dir, "etf_book_size_rulers_decision.json")
+        _lp49 = os.path.join(PATHS.results_dir, "etf_book_floor_ledger.json")
+        if not os.path.exists(_fp49):
+            _bad49.append("results/etf_book_floor_memory.json missing")
+        else:
+            _f49 = json.load(open(_fp49, encoding="utf-8"))
+            _fk49 = float(_f49.get("floor_k") or -1)
+            for _p49, _k49 in ((_sp49, "k_floor"), (_lp49, "assessed.floor")):
+                if not os.path.exists(_p49):
+                    _bad49.append("%s missing" % os.path.basename(_p49))
+                    continue
+                _v49 = json.load(open(_p49, encoding="utf-8"))
+                for _part in _k49.split("."):
+                    _v49 = (_v49 or {}).get(_part) if isinstance(_v49, dict) else None
+                if _v49 is None or abs(float(_v49) - _fk49) > 1e-9:
+                    _bad49.append("%s says floor %r, floor_memory priced %r"
+                                  % (os.path.basename(_p49), _v49, _fk49))
+            for _c49 in _f49.get("cells") or []:
+                if _c49.get("arm") == "candidate" and abs(float(_c49.get("vol_cap") or -1) - _fk49) > 1e-9:
+                    _bad49.append("candidate cell %s capped at %r, not the floor"
+                                  % (_c49.get("phase"), _c49.get("vol_cap")))
+                    break
+        check("product: the floor this cap is priced against is the one the ruler face and the "
+              "ledger publish", not _bad49, "; ".join(_bad49)[:220]
+              or "floor_memory / size_rulers / floor_ledger agree on the permitted k")
+    except Exception as e:
+        check("product: etf_book_floor_memory (the cap is priced on phases and costs, not one sequence)",
+              False, repr(e)[:180])
+
+
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
     n_fail = len(RESULTS) - n_pass

@@ -950,6 +950,16 @@ LEGS = [
     # bar) and re-derives both the reconciliation and the base divergence (0.1s, JSON reads).
     ("positions_ledger",
      ["python", "scripts/etf_book_positions.py", "check"]),
+    # r1472: r1456/r1471 leave one sentence standing -- the sheet obeys the floor but the
+    # RULE's own decision bar sizes above it, so the trim must be re-applied every bar. That
+    # is an event, and nobody had ever counted how often it fires: on the control arm 90.4%
+    # of decision bars stand above the floor (11.1/year), so "the sheet obeys the floor" is a
+    # claim about a person. This leg re-derives the phase x cost grid that prices the
+    # alternative (vol_cap=floor) and refuses a receipt whose verdict does not follow from its
+    # own summary, whose candidate cells carry anything but the published floor, or whose
+    # frozen criteria were edited after the run (0.1s, JSON reads, no repricing).
+    ("floor_memory",
+     ["python", "scripts/etf_book_floor_memory.py", "check"]),
     # r1440: forty rounds read the calendar and the order page as two separate
     # subjects. This leg puts them in one sentence from receipts only (no
     # repricing): today the ticket executes nobond_vt08_adopted at book_weight
