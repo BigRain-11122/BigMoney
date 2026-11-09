@@ -280,6 +280,129 @@ def _write(name, obj):
         json.dump(obj, f, ensure_ascii=False, indent=1)
 
 
+def withdraw_unsupported_bars(state, idx, out_dir=None, now=None):
+    """A ledger bar the price panel no longer carries is withdrawn, never carried.
+
+    r1483 live defect: the 2026-11-09 row entered this ledger while a handful of symbols
+    had printed that session and the wide panel had not; the panel then settled back on
+    2026-11-06, so the state file stayed stuck on a bar no face could price. The ticket
+    bar and the account bar diverged (11-06 vs 11-09) and every reconciliation downstream
+    (cash leg, ladder, placement, operator page) read two different worlds.
+
+    The repair may not rewrite history quietly: the withdrawn rows are recorded with the
+    panel that refused them, and nav/last_k are rebuilt from the last surviving row.
+    """
+    out_dir = out_dir or OUT_DIR
+    ledger_p = os.path.join(out_dir, "ledger.jsonl")
+    last_bar = state.get("last_bar")
+    if not last_bar or not len(idx):
+        return state, [], {"bar": last_bar, "supported": True}
+    supported = set(pd.Timestamp(d) for d in idx)
+    rows = []
+    if os.path.exists(ledger_p):
+        with open(ledger_p, encoding="utf-8") as f:
+            rows = [json.loads(l) for l in f if l.strip()]
+    bad = [r for r in rows
+           if pd.Timestamp(r["date"]) not in supported
+           or pd.Timestamp(r["date"]) > pd.Timestamp(idx[-1])]
+    if not bad:
+        return state, [], {"bar": last_bar, "supported": True}
+    bad_dates = {r["date"] for r in bad}
+    keep = [r for r in rows if r["date"] not in bad_dates]
+    with open(ledger_p, "w", encoding="utf-8") as f:
+        for r in keep:
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    if keep:
+        tail = keep[-1]
+        state.update({"nav": float(tail["nav"]), "last_k": float(tail["k"]),
+                      "last_bar": str(tail["date"]), "rows": len(keep)})
+    else:
+        state.update({"nav": 1.0, "last_k": None, "last_bar": None, "rows": 0})
+    record = {"withdrawn": [{"date": r.get("date"), "nav": r.get("nav"), "ret": r.get("ret"),
+                             "k": r.get("k"), "rf": r.get("rf")} for r in bad],
+              "reason": "the price panel no longer carries this bar (or carries later ones)",
+              "panel_last": str(pd.Timestamp(idx[-1]).date()),
+              "state_rewound_to": state.get("last_bar"),
+              "at": now or str(pd.Timestamp.now().floor("s"))}
+    wpath = os.path.join(out_dir, "withdrawals.json")
+    hist = []
+    if os.path.exists(wpath):
+        try:
+            with open(wpath, encoding="utf-8") as f:
+                hist = json.load(f)
+            if not isinstance(hist, list):
+                hist = [hist]
+        except Exception:
+            hist = []
+    hist.append(record)
+    os.makedirs(out_dir, exist_ok=True)
+    with open(wpath, "w", encoding="utf-8") as f:
+        json.dump(hist, f, ensure_ascii=False, indent=1)
+    return state, bad, {"bar": last_bar, "supported": False,
+                        "panel_last": record["panel_last"],
+                        "rewound_to": state.get("last_bar")}
+
+
+def ledger_dates(out_dir=None):
+    """Every bar the ledger carries now -- the only evidence that a withdrawal still stands."""
+    out_dir = out_dir or OUT_DIR
+    p = os.path.join(out_dir, "ledger.jsonl")
+    out = set()
+    if not os.path.exists(p):
+        return out
+    try:
+        with open(p, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    out.add(str(json.loads(line).get("date")))
+                except Exception:
+                    continue
+    except Exception:
+        return set()
+    return out
+
+
+def withdrawals_line(out_dir=None):
+    """One sentence for the reader, or None when this ledger never had to withdraw.
+
+    r1489: a withdrawal record is history, not a standing state. On 2026-11-09 a bar was
+    cut at 23:54 off a panel that ended 11-06; the panel then carried that bar again and
+    the ledger row came back, yet the sheet kept printing "state rewound to 2026-11-06 and
+    this sheet is priced on the panel's own last bar" while being priced on 2026-11-09.
+    The record may not describe the present: read the ledger and say which one it is.
+    """
+    out_dir = out_dir or OUT_DIR
+    p = os.path.join(out_dir, "withdrawals.json")
+    if not os.path.exists(p):
+        return None
+    try:
+        with open(p, encoding="utf-8") as f:
+            hist = json.load(f)
+        if isinstance(hist, dict):
+            hist = [hist]
+    except Exception:
+        return None
+    if not hist:
+        return None
+    last = hist[-1]
+    withdrawn = last.get("withdrawn") or []
+    dates = ", ".join(str(w.get("date")) for w in withdrawn)
+    back = set(str(w.get("date")) for w in withdrawn) & ledger_dates(out_dir)
+    if withdrawn and len(back) == len(set(str(w.get("date")) for w in withdrawn)):
+        return ("ledger withdrew %d bar(s) at %s because the price panel then ended %s (%s); "
+                "the panel has since carried %s again and that ledger row is live -- the "
+                "withdrawal stays on record but it is not this sheet's pricing bar"
+                % (len(withdrawn), last.get("at"), last.get("panel_last"), dates,
+                   ", ".join(sorted(back))))
+    return ("ledger withdrew %d bar(s) the price panel no longer carries (%s; panel ends %s); "
+            "state rewound to %s and this sheet is priced on the panel's own last bar"
+            % (len(withdrawn), dates, last.get("panel_last"),
+               last.get("state_rewound_to")))
+
+
 def metrics(nav_ser, bench_ser, lb=252):
     def block(s):
         if s is None or len(s.dropna()) < 30:
@@ -1195,6 +1318,8 @@ def card(ticket, mk, sched, asof, beta, extra):
             L += ["> ⚠ 提醒：本单的定价 bar 落后市场 %s 个交易日 —— 这是数据面的滞后，"
                   "不是书换了判断。照此单下手前必须知道这一点。" % ("?" if lag is None else lag), ""]
     L += restatement_md(extra.get("restatements"))
+    if extra.get("withdrawals"):
+        L += ["", "> 账本撤回：%s" % extra["withdrawals"]]
     if ticket:
         L += ["## 今日目标（NAV ¥%s）" % format(int(ticket["nav"]), ","),
               "k=%.2f（书内 %.0f%%、现金 %.0f%%）｜ 现金腿=%s ｜ 现金 ¥%s"
@@ -1615,6 +1740,13 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
 
     state = _load_state(inception, beta)
     state["beta_target"] = float(beta)
+    # r1483: the account may not stand on a bar the panel stopped carrying (see
+    # withdraw_unsupported_bars) -- a stale state bar silently parks the whole chain.
+    state, _withdrawn, _wd_info = withdraw_unsupported_bars(state, idx)
+    if _withdrawn:
+        print("ledger withdrew %d bar(s) the panel no longer carries (%s); rewound to %s"
+              % (len(_withdrawn), ", ".join(r["date"] for r in _withdrawn),
+                 _wd_info.get("rewound_to")), flush=True)
     dec_dates = {d for d, _, _ in sched}
     rows_in = [d for d in slip.index if state.get("last_bar") is None or
                d > pd.Timestamp(state["last_bar"])]
@@ -1798,7 +1930,9 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                                 (ticket or {}).get("cash_amount"), rates, asof,
                                 accrual_pct=float(cash_rf.mean() * 252.0) * 100.0)},
                "ledger": {"bars": int(state.get("rows", 0)), "nav": round(float(state["nav"]), 8),
-                          "rows_added": len(merged), "engine_naive_vs_ledger": drift},
+                          "rows_added": len(merged), "engine_naive_vs_ledger": drift,
+                          "withdrawn_now": [r["date"] for r in _withdrawn],
+                          "withdrawal_note": withdrawals_line()},
                "entry_gate": entry_gate_support(),
                "swap_trigger": _json_face(SWAP_FACE),
                "swap_stack": _json_face(SWAP_STACK_FACE),
@@ -1856,6 +1990,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                      {"inception": payload["inception"], "stale": stale, "width": wd,
                       "feed": feed, "agreement": agreement, "ruler": ruler,
                       "carry": carry, "restatements": payload["restatements"],
+                      "withdrawals": payload["ledger"]["withdrawal_note"],
                       "cash_money": payload["cash_leg"]["money"],
                       "entry_gate": payload["entry_gate"],
                       "swap_trigger": payload["swap_trigger"],
@@ -4078,6 +4213,65 @@ def selftest():
         and "构造出来的，不是量出来的" in "\n".join(band_md(_bb_ok))
         and _bb_two.get("zero_is_structural") is False
         and "构造出来的，不是量出来的" not in "\n".join(band_md(_bb_two)), "")
+
+    # ---- r1483: a ledger bar the price panel no longer carries must be withdrawn ----
+    import tempfile as _tf
+    _wd_dir = _tf.mkdtemp()
+    _wd_idx = pd.DatetimeIndex(["2026-11-03", "2026-11-04", "2026-11-05", "2026-11-06"])
+    with open(os.path.join(_wd_dir, "ledger.jsonl"), "w", encoding="utf-8") as f:
+        for _d, _nav, _k in (("2026-11-04", 1.10, 0.5), ("2026-11-05", 1.11, 0.46),
+                             ("2026-11-06", 1.12, 0.46), ("2026-11-09", 1.13, 0.46)):
+            f.write(json.dumps({"date": _d, "nav": _nav, "ret": 0.001, "k": _k,
+                                "k_cost": 0.0, "rf": 0.0, "decision": ""}) + "\n")
+    _wd_state = {"inception": "2024-01-01", "beta_target": 0.2, "last_bar": "2026-11-09",
+                 "last_k": 0.46, "nav": 1.13, "rows": 4}
+    _st2, _bad2, _info2 = withdraw_unsupported_bars(_wd_state, _wd_idx, out_dir=_wd_dir,
+                                                    now="2026-11-09T23:00:00")
+    _rows2 = [json.loads(l) for l in open(os.path.join(_wd_dir, "ledger.jsonl"),
+                                          encoding="utf-8") if l.strip()]
+    _wrec = json.load(open(os.path.join(_wd_dir, "withdrawals.json"), encoding="utf-8"))
+    chk("leg52a withdraw: a bar the panel stopped carrying is cut, not carried",
+        [r["date"] for r in _bad2] == ["2026-11-09"]
+        and [r["date"] for r in _rows2] == ["2026-11-04", "2026-11-05", "2026-11-06"]
+        and _st2["last_bar"] == "2026-11-06" and abs(_st2["nav"] - 1.12) < 1e-12
+        and _st2["rows"] == 3 and _info2["supported"] is False,
+        "bars=%s state=%s nav=%.4f" % ([r["date"] for r in _rows2], _st2["last_bar"], _st2["nav"]))
+    chk("leg52b withdraw: the cut is recorded with the values it removed, and a sentence "
+        "carries it to the sheet",
+        len(_wrec) == 1 and _wrec[0]["withdrawn"][0]["date"] == "2026-11-09"
+        and _wrec[0]["panel_last"] == "2026-11-06"
+        and "2026-11-09" in (withdrawals_line(out_dir=_wd_dir) or ""),
+        str((_wrec[0].get("withdrawn") or [{}])[0].get("date")))
+    _st3, _bad3, _info3 = withdraw_unsupported_bars(
+        {"last_bar": "2026-11-06", "nav": 1.12, "last_k": 0.46, "rows": 3}, _wd_idx,
+        out_dir=_wd_dir)
+    chk("leg52c withdraw: a supported state is untouched (no rows cut, no second record)",
+        not _bad3 and _info3["supported"] is True and len(_rows2) == 3
+        and _st3["last_bar"] == "2026-11-06"
+        and len(json.load(open(os.path.join(_wd_dir, "withdrawals.json"),
+                               encoding="utf-8"))) == 1, str(_bad3))
+
+    # 52d/52e: the record may not describe the present -- read the ledger, not the log
+    _rec2 = _tf.mkdtemp()
+    with open(os.path.join(_rec2, "withdrawals.json"), "w", encoding="utf-8") as f:
+        json.dump([{"withdrawn": [{"date": "2026-11-09", "nav": 1.13}],
+                    "reason": "panel ended", "panel_last": "2026-11-06",
+                    "state_rewound_to": "2026-11-06", "at": "2026-11-09 23:54:02"}], f)
+    with open(os.path.join(_rec2, "ledger.jsonl"), "w", encoding="utf-8") as f:
+        for _d in ("2026-11-06", "2026-11-09"):
+            f.write(json.dumps({"date": _d, "nav": 1.12, "ret": 0.0, "k": 0.46}) + "\n")
+    _line_back = withdrawals_line(out_dir=_rec2) or ""
+    with open(os.path.join(_rec2, "ledger.jsonl"), "w", encoding="utf-8") as f:
+        f.write(json.dumps({"date": "2026-11-06", "nav": 1.12, "ret": 0.0, "k": 0.46}) + "\n")
+    _line_gone = withdrawals_line(out_dir=_rec2) or ""
+    chk("leg52d withdraw: a bar that came back is reported as live, not as a state that is "
+        "still rewound (the 11-09 sheet printed the rewind while priced on 11-09)",
+        "is live" in _line_back and "priced on the panel's own last bar" not in _line_back
+        and "2026-11-09" in _line_back, _line_back)
+    chk("leg52e withdraw: a bar that is still gone keeps the rewind sentence, so the two "
+        "cases cannot read the same",
+        "priced on the panel's own last bar" in _line_gone and "is live" not in _line_gone,
+        _line_gone)
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

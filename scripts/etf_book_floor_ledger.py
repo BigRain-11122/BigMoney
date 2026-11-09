@@ -115,6 +115,20 @@ def latest_ticket():
     return best
 
 
+def live_tickets():
+    """Every sheet the tree still carries -- the set a floor ledger may price against."""
+    d = os.path.join(BASE, TICKETS_DIR)
+    out = set()
+    if not os.path.isdir(d):
+        return out
+    for root, dirs, files in os.walk(d):
+        dirs[:] = [x for x in dirs if x not in ("_quarantine", ".git")]
+        for n in files:
+            if n.startswith("TICKET-") and n.endswith(".json") and "-card" not in n:
+                out.add(n)
+    return out
+
+
 def issue_row(perm, ticket_now, now):
     """Turn a permission receipt into a ledger row. None when it cannot be read."""
     if not perm:
@@ -138,17 +152,31 @@ def issue_row(perm, ticket_now, now):
     }
 
 
-def floor_in_force(face):
-    """The newest issued row is the floor in force. Returns (row, n_rows)."""
+def floor_in_force(face, tickets=None):
+    """The newest issued row is the floor in force. Returns (row, n_rows, skipped).
+
+    r1483: a row priced from a sheet the tree no longer carries is not a floor in force.
+    On 2026-11-09 a permit was issued off TICKET-2026-11-09.json, a sheet priced on a bar
+    the wide panel never covered (48/1,724 symbols printed it); the ticket was withdrawn,
+    the ledger rewound to 2026-11-06, yet this ledger kept resolving the floor off the
+    withdrawn sheet and told the operator to re-issue a permit that was already current.
+    Rows are never deleted (append-only); they are skipped by name and counted.
+    """
     rows = [r for r in (face.get("rows") or []) if r.get("permitted_k") is not None]
+    skipped = []
+    if tickets is not None:
+        live = [r for r in rows if str(r.get("ticket_file") or "") in tickets]
+        skipped = [r for r in rows if str(r.get("ticket_file") or "") not in tickets]
+        if live:
+            rows = live
     if not rows:
-        return None, 0
+        return None, 0, []
     rows.sort(key=lambda r: (str(r.get("decision_date")), str(r.get("issued_at"))))
-    return rows[-1], len(rows)
+    return rows[-1], len(rows), skipped
 
 
 # ---------------------------------------------------------------------- verdict
-def assess(face, perm, pers, ticket_now, cut=None):
+def assess(face, perm, pers, ticket_now, cut=None, tickets=None):
     """One deterministic reading. No future data, no simulation.
 
     Every field is either measured from a published receipt or UNKNOWN; nothing is
@@ -159,11 +187,12 @@ def assess(face, perm, pers, ticket_now, cut=None):
     post-cut k when the published gap receipt carries one, otherwise the same as ordered.
     Obedience is judged on what is executed, not on what was requested.
     """
-    floor, n_rows = floor_in_force(face)
+    floor, n_rows, skipped = floor_in_force(face, tickets)
     out = {
         "floor": None,
         "floor_issued": None,
         "floor_rows": n_rows,
+        "rows_skipped_sheets": [str(r.get("ticket_file")) for r in skipped],
         "k_schedule_last": None,
         "schedule_last_date": None,
         "k_order": None,
@@ -303,7 +332,7 @@ def run(write=True):
     if row:
         face, appended = append_row(face, row)
 
-    a = assess(face, perm, pers, ticket_now, cut)
+    a = assess(face, perm, pers, ticket_now, cut, tickets=live_tickets())
     face["floor_rows"] = len(face.get("rows") or [])
     face["assessed"] = a
     face["sentence"] = sentence(a)
@@ -354,7 +383,7 @@ def check():
     pers = _read_json(PERSISTENCE)
     cut = _read_json(CUT_RECEIPT)
     ticket_now = latest_ticket()
-    a = assess(face, perm, pers, ticket_now, cut)
+    a = assess(face, perm, pers, ticket_now, cut, tickets=live_tickets())
     pub = face.get("assessed") or {}
     drift = []
     for k in ("floor", "k_schedule_last", "k_order", "k_sheet", "obeyed_now",
@@ -407,9 +436,18 @@ def selftest():
         added and len(face["rows"]) == 2, "")
 
     # 5. the newest row is the floor in force
-    fl, n = floor_in_force(face)
+    fl, n, _sk = floor_in_force(face)
     leg("leg05 floor in force is the newest issued row", fl["permitted_k"] == 0.412669 and n == 2,
         repr(fl))
+    _face_w = {"face": "x", "rows": [dict(row, ticket_file="TICKET-2026-11-06.json"),
+                                     dict(row, ticket_file="TICKET-2026-11-09.json",
+                                          permitted_k=0.393073,
+                                          issued_at="2026-11-09T21:27:27+0800")]}
+    fl_w, n_w, sk_w = floor_in_force(_face_w, tickets={"TICKET-2026-11-06.json"})
+    leg("leg05b a row priced off a withdrawn sheet is skipped, not deleted, and the next live "
+        "row is the floor in force",
+        fl_w["ticket_file"] == "TICKET-2026-11-06.json" and n_w == 1
+        and [r["ticket_file"] for r in sk_w] == ["TICKET-2026-11-09.json"], repr(sk_w))
 
     # 6-9. the four verdicts, each on its own fixture
     one = {"face": "x", "rows": [row]}
