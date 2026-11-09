@@ -31097,14 +31097,58 @@
    "source": "E636 (r1656 bm-b) -- below_the_receiver_at_this_location on 4 of its 12 rows",
    "target": "results/state_tilt/READBELOWRECEIVER.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T07:34:00+08:00",
    "seeded_by": "r1656 bm-b",
    "workers_plan": {
     "workers": 4,
     "priority": "BelowNormal"
    },
-   "note": "E637"
+   "note": "delivered as BELOWFOLDPRICE.json rather than the seeded READBELOWRECEIVER.json: the join is priced on both populations (E633 rows x E636 locations), 0 folded access names its own row's counted key, 4 E636 locations are already counted by E633",
+   "done_by": "bm-b r1657",
+   "done_at": "2026-11-10T07:33:00+08:00",
+   "result_ref": "results/state_tilt/BELOWFOLDPRICE.json + scripts/e637_below_fold_price.py + results/_r1657bmb_s6_chain.json"
+  },
+  {
+   "card": "E638",
+   "id": "E638-WHETHER-THE-BELOW-THE-RECEIVER-READS-AT-THE-SAME-LOCATIONS-NAME-THE-COUNTED-KEY-COUNTED-TREE-WIDE",
+   "title": "how many (line, column) sites carry two Subscripts at different depths, and on E633's counted read lines which member each ruler counts",
+   "lane": "cpu-only",
+   "lane_note": "E637 named the definition gap in one line: a chained expression is two AST nodes in one place. Census the form tree-wide and join it to E633's counted lines to turn an example into a definition difference.",
+   "deliverable": "results/state_tilt/TWODEPTHSUBS.json: per file the two-depth site count and depth-pair histogram, plus per counted read line the sites on that line with every member, which member E633 folds, and which it counts",
+   "source": "E637 (r1657 bm-b) -- its verdict names the two-rulers boundary as a single example",
+   "target": "results/state_tilt/TWODEPTHSUBS.json",
+   "priority": "normal",
+   "status": "done",
+   "seeded_at": "2026-11-10T07:33:00+08:00",
+   "seeded_by": "r1657 bm-b (milestone) + r1658 bm-b (execution)",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "done_by": "bm-b r1658",
+   "done_at": "2026-11-10T08:05:00+08:00",
+   "result_ref": "results/state_tilt/TWODEPTHSUBS.json + scripts/e638_two_depth_subscripts.py + results/_r1658bmb_s6_chain.json",
+   "note": "45,391 sites in 4,365 of 13,076 files; 6 of E633's 13 counted lines carry one, all pairs are 1->3, E633 folds the deepest member in 6/6 and none of them names the row's counted key"
+  },
+  {
+   "card": "E639",
+   "id": "E639-WHETHER-A-TWO-DEPTH-SITE-ON-A-COUNTED-LINE-STORES-OR-DELETES-THE-COUNTED-KEY-AT-EITHER-DEPTH",
+   "title": "whether any two-depth site on a counted read line carries a store or delete of the counted key at either depth, i.e. whether the depth fold can hide a write rather than a read",
+   "lane": "cpu-only",
+   "lane_note": "E638 publishes the ctx of every member of the 6 sites on the counted lines and all are load. The same site figure is the cheapest place to ask the opposite question: a store or delete below the receiver is hidden by the same fold and would matter for the duplicate-read test in the other direction. Publish the ctx split per site and per depth on both populations.",
+   "deliverable": "results/state_tilt/WRITEBELOW.json: per two-depth site on a counted line, the ctx of every member, and the count of sites whose deepest member stores or deletes the counted key",
+   "source": "E638 (r1658 bm-b) -- 6 two-depth sites on the counted lines, all members load",
+   "target": "results/state_tilt/WRITEBELOW.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T08:05:00+08:00",
+   "seeded_by": "r1658 bm-b",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "note": "E639"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31119,6 +31163,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T07:34:00+08:00",
+ "updated_at": "2026-11-10T08:05:00+08:00",
  "version": 1
 }

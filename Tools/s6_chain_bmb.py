@@ -1466,6 +1466,16 @@ LEGS = [
     # own rows.
     ("below_fold_price", ["python", "scripts/e637_below_fold_price.py", "verify"]),
 
+    # E638 turns E636's chained-subscript example into a census: one (line, column) can carry two
+    # Subscript AST nodes at different depths, which is exactly why E633's depth fold and E636's
+    # "one level below" can describe the same text.  45,391 such sites sit in 4,365 of 13,076
+    # parsed files (depth pairs 1->2 = 34,113), so the form is ordinary; on E633's 13 counted read
+    # lines 6 carry one and in all 6 E633 folds the deepest member while none of those members names
+    # the row's counted key -- so the fold removes no same-key read and E637's line-level
+    # coincidence is not a column-level double count.  Verify re-derives every total from the face's
+    # own rows (file histogram, join rows, verdict) without the corpus walk.
+    ("two_depth_subscripts", ["python", "scripts/e638_two_depth_subscripts.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

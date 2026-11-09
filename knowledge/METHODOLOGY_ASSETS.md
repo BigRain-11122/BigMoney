@@ -14967,3 +14967,40 @@ E636 发布过一句关于 E633 的话：**5 个死线后未决位置里有 4 �
 `results/state_tilt/BELOWFOLDPRICE.json` + `belowfoldprice_latest.json` +
 `scripts/run_e637_smoke_leg.py`（1/1 PASS，`--doctor` 1/1 红且面字节复原）+ smoke_test.py leg E637 +
 `Tools/s6_chain_bmb.py` leg `below_fold_price`
+
+## E638 · 「同一 (行, 列) 两个不同深度下标」是全树常态，不是一句例子（r1658 bm-b·2026-11-10）
+
+E636 说过链式下标 `d[k1][k2]` 的里外两个 Subscript 共享同一 (行, 列)，所以 E633 的 depth 折叠
+与 E636 的「向下读一层」可以是同一段文字。本轮把这句例子做成**全树普查**：13,076 个可解析 .py
+（4 个超 1MB 跳过 / 0 个不可读 / 304 个解析失败——三类缺口分开计数），415,722 个 Subscript 节点里
+**45,391 个 (行, 列) 站点挂着两个及以上不同深度的 Subscript**，分布在 **4,365** 个文件（深度对
+1→2 = 34,113、1→3 = 8,584、2→3 = 714、2→4 = 1,050，最深到 5→7）。E633 的 13 条计数读行里 6 条带
+这样的站点，**6/6 都由 E633 把最深成员折成 `read_below_the_receiver`**，0 个把它计成识别读，
+**0 个最深成员的名字等于该行自己的计数键**（6 个站点全部是 1→3 深度对，最深成员名字是
+`cutoff`/`eq_s`/空）。
+
+裁决 = `the_two_depth_form_is_ordinary_in_the_corpus_and_on_the_counted_lines_E633_folds_the_deepest_member_every_time_while_none_of_those_members_names_the_row's_counted_key,_so_the_fold_removes_no_same_key_read_and_the_line_level_coincidence_E637_reported_is_not_a_column_level_double_count`
+
+即：折出没删掉任何同键读；E637 的「4 处两边都算」是**行级共存**（同一行另一列有识别读），
+不是列级重复计数。
+
+**教训（3 条）**
+
+1. **先量普适性，再谈个案是不是缺陷**：同一句「两个下标共列」在树上出现 45,391 次、占 1/3 文件
+   （4,365/13,076），它是链式下标的常规形态而不是怪例——把一句话变成计数，才知道该写「缺口」
+   还是该写「两把尺子」。
+2. **一个数不能挂两个名字**：首版把「超 1MB 跳过」与「解析失败/读不了」合成一个 `unreadable=308`
+   发布，分开后是 4 / 0 / 304（见 E207 名即语义族）——合并计数会把**机制性跳过**读成**数据损坏**。
+3. **普查器必须按前缀排除自己与临时件**：首版只排除固定文件名，两个 scratch 文件写进树就把站点
+   数从 45,391 推到 45,393（E180/E207 同族）；正法=按 basename 前缀（`e638_`/`run_e638_`/
+   `_probe_e638`/`_r1658`）排除，排除规则本身写进 docstring。
+
+**How**：遇「A 面说 B 面折掉了某档读」，先按 (文件, 行, 列) 建站点普查拿普适性读数，再把每个站点
+的**每个成员**分别对照 B 面自己的分类（不要只对照最深的那一个），最后才写「缺口」或「零」；
+站点字段一律叫 `deepest_member` 而不是 `depth_2_member`——本轮首版两个名字混用，直到实际读数出现
+1→3 深度对才暴露（名即语义，E207 同族）。
+
+**证据** = `scripts/e638_two_depth_subscripts.py`（selftest 12/12，check/verify `problems=[]`）+
+`results/state_tilt/TWODEPTHSUBS.json` + `twodepthsubs_latest.json` + `scripts/run_e638_smoke_leg.py`
+（1/1 PASS，`--doctor` 1/1 红且面字节复原）+ smoke_test.py leg E638 +
+`Tools/s6_chain_bmb.py` leg `two_depth_subscripts`（rc=0 0.06s）+ POOL E638 done / E639 seeded

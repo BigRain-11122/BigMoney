@@ -27688,5 +27688,43 @@ except Exception as _e637x:
     _d637 = "study could not be read"
 check(_name637, not _bad637, "; ".join(_bad637)[:240] or _d637)
 
+# E638 counts the two rulers on one expression tree-wide instead of as E636's chained-subscript
+# example: a chained expression is two Subscript nodes at one (line, column), so E633's depth fold
+# and E636's "read one level below" can both be about the same text.  This leg refuses a face whose
+# per-file site totals do not re-add, a verdict that says the fold removes no same-key read while a
+# count says it does, a census that claims more files with sites than it scanned, and any problem
+# the study's own gate returns (E444 family: a zero that cannot say what it listed is a claim).
+_name638 = ("E638 how many (line, column) sites carry two Subscripts at different depths, and which "
+            "member each ruler counts (r1658 bm-b)")
+_bad638 = []
+_d638 = "no reading"
+try:
+    _f638 = json.load(open(os.path.join("results", "state_tilt", "twodepthsubs_latest.json"),
+                           encoding="utf-8"))
+    _m638 = importlib.import_module("e638_two_depth_subscripts")
+    _bad638.extend(_m638.face_problems(_f638))
+    _c638 = _f638.get("counts") or {}
+    _v638 = _f638.get("verdict") or ""
+    if (_c638.get("files_carrying_a_two_depth_site") or 0) > (
+            _c638.get("python_files_scanned") or 0):
+        _bad638.append("more files carry a site than the census scanned")
+    if len(_f638.get("rows") or []) != (_c638.get("counted_read_lines") or 0):
+        _bad638.append("the counted read lines do not match the published rows")
+    if (_v638 == _m638.V_FOLDED_OTHER_KEY
+            and (_c638.get("counted_sites_e633_counts_the_deepest_member") or 0) > 0):
+        _bad638.append("the verdict says nothing is double counted while a site is counted")
+    _d638 = ("files=%s sites=%s files_with_sites=%s counted_lines=%s with_site=%s "
+             "depth2_names_key=%s counted=%s folded=%s verdict=%s"
+             % (_c638.get("python_files_scanned"), _c638.get("two_depth_sites"),
+                _c638.get("files_carrying_a_two_depth_site"), _c638.get("counted_read_lines"),
+                _c638.get("counted_lines_carrying_a_two_depth_site"),
+                _c638.get("counted_lines_where_the_deepest_member_names_the_row_key"),
+                _c638.get("counted_sites_e633_counts_the_deepest_member"),
+                _c638.get("counted_sites_e633_folds_the_deepest_member"), _v638[:70]))
+except Exception as _e638x:
+    _bad638.append(repr(_e638x)[:160])
+    _d638 = "study could not be read"
+check(_name638, not _bad638, "; ".join(_bad638)[:240] or _d638)
+
 if __name__ == "__main__":
     sys.exit(main())

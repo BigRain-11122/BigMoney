@@ -461,12 +461,12 @@
  "last_push_at": "2026-11-10T07:41:00+08:00",
  "last_push_sha": "21449142a3e9b58f31b7460434998fe1cbf933ac",
  "last_push_ts": "2026-11-09T07:09:00+08:00",
- "last_round": "r1656",
- "last_round_at": "2026-11-10T07:34:00+08:00",
+ "last_round": 1658,
+ "last_round_at": "2026-11-10T08:05:00+08:00",
  "last_round_label": "r1641",
  "last_round_report": "logs/iteration-loop/round_reports.md",
  "last_round_summary": "r1619: E592 asked whether the ledger's carry survives its own bars. It does -- 11 of 11 published bars reproduce at the carry field's printed precision (max gap 0.000755% against 0.001302%) once the replay starts at 2020-01-02, the origin the face names only as seed.grid_index 1647; a fresh phase at the ledger's first published bar reproduces 0/11 there and exactly the 4/8 past the panel that E591 measured. But 52,111 of 68,921 sampled three-rung phases (75.6%) reproduce every bar too, because GC007/GC014 are offset-invariant on this panel and all the discrimination sits on GC028 (168 of 251 offsets pass), so the bars pin a class of phases rather than a point and no bar is left unexplained.",
- "last_round_ts": "2026-11-10T04:50:51+08:00",
+ "last_round_ts": "2026-11-10T08:05:00+08:00",
  "last_round_utc": "2026-11-07T03:23:33.277481+08:00",
  "last_run": "2026-10-31T10:52:20+08:00",
  "last_seen": "2026-11-10T05:10:15+08:00",
@@ -6314,7 +6314,7 @@
  "reds_open": "supply floor 2/3 (E568/E572 ready); state face was 3 rounds stale at open and healed here",
  "reds_open_note": "all open reds predate this window; none is caused by this round's files",
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1651,
+ "round": 1658,
  "round_delivery": {
   "branch": "machine/bm-b-r1641",
   "sha": "3b37711ed02de1e3cc11657c0453eb1142ce409f",
@@ -6334,7 +6334,7 @@
   "verify": "problems=[] verify=identical"
  },
  "round_label": "r1646",
- "round_no": 1657,
+ "round_no": 1658,
  "round_no_label": "r1644",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
  "round_no_ts": "2026-11-09T21:36:13+08:00",
@@ -6696,7 +6696,7 @@
   "main_push_note": "no unattended rebase on a promisor clone (r1243); machine branch is the channel"
  },
  "local_behind_origin_main": 6,
- "last_decisions_checked_at": "2026-11-10T06:17:02+08:00",
+ "last_decisions_checked_at": "2026-11-10T08:05:00+08:00",
  "r1656": {
   "card": "E636",
   "dept": "research+engineering",
@@ -6738,5 +6738,31 @@
   "selftest": "10/10",
   "verify": "problems=[]",
   "verdict": "fold_is_free_at_its_own_population_and_the_four_locations_E636_names_are_the_four_where_E633_counts_a_recognised_read"
+ },
+ "r1658": {
+  "round": 1658,
+  "card": "E638",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/TWODEPTHSUBS.json",
+  "study": "E638_two_depth_subscripts",
+  "verdict": "the_two_depth_form_is_ordinary_in_the_corpus_and_on_the_counted_lines_E633_folds_the_deepest_member_every_time_while_none_of_those_members_names_the_row's_counted_key,_so_the_fold_removes_no_same_key_read_and_the_line_level_coincidence_E637_reported_is_not_a_column_level_double_count",
+  "finding": "45,391 (line, column) sites carry two Subscripts at different depths in 4,365 of 13,076 parsed files (depth pairs 1->2 = 34,113, 1->3 = 8,584, 2->3 = 714); E633's 13 counted read lines: 6 carry one, all 1->3, E633 folds the deepest member in 6/6, 0 of those members names the row's counted key, 2 lines have the depth-1 member naming it",
+  "product": [
+   "scripts/e638_two_depth_subscripts.py (selftest 12/12, check/verify problems=[])",
+   "results/state_tilt/TWODEPTHSUBS.json + twodepthsubs_latest.json",
+   "scripts/run_e638_smoke_leg.py (1/1 PASS, --doctor 1/1 red, face byte-restored)",
+   "smoke_test.py leg E638",
+   "Tools/s6_chain_bmb.py leg two_depth_subscripts (rc0 0.06s)",
+   "knowledge/METHODOLOGY_ASSETS.md card E638",
+   "knowledge/TREASURE_REGISTRY.md row",
+   "research/digests/DIGEST-20261110-r1658-e638-two-depth-subscripts.md",
+   "results/runnable_pool.json E637 done + E638 done + E639 seeded"
+  ],
+  "pit": [
+   "one number under two names: the first build published 308 unreadable AND 308 over the size cap from one counter; split, the holes are 4 / 0 / 304",
+   "excluding own scratch files by a fixed filename list left two probes inside the walk and moved the site count 45,391 -> 45,393 between runs (E180/E207); exclusion is now by prefix",
+   "fields were called depth_2_member while the join matched max_depth; the counted-line sites are 1->3 pairs, so the name described nothing until it was renamed deepest_member"
+  ],
+  "ts": "2026-11-10T08:05:00+08:00"
  }
 }
