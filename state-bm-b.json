@@ -173,7 +173,7 @@
  "book_at_close_note": "carried from r1617 -- this window priced the cash faces and did not re-run the book",
  "card": "E627",
  "check": "e625 check problems=[] / verify problems=[] (rebuild identical)",
- "clock_read": "2026-11-10T00:01:04+08:00",
+ "clock_read": "2026-11-10T00:03:57+08:00",
  "concurrency_note": "Tools/iteration_loop.ps1 was live in this repo for the whole window (files touched 12s before the first read); no queue head, task card or shared lane face was claimed",
  "cores": 8,
  "cpu": 0.6,
@@ -6444,8 +6444,8 @@
  "three_line_delivery": "machine/bm-b-r1645 @ fef6d5b4f29c",
  "three_line_next": "E629 (ready, cpu-only): whether the caller of the holding function writes the key on the object it passes -- 48h",
  "three_line_recent": "results/state_tilt/RECEIVERORIGIN.json (2026-11-09T23:52)",
- "timestamp": "2026-11-10T00:01:04+08:00",
- "ts": "2026-11-10T00:01:04+08:00",
+ "timestamp": "2026-11-10T00:03:57+08:00",
+ "ts": "2026-11-10T00:03:57+08:00",
  "ts_utc_ms": 1794234696000,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-09T23:22:00+08:00",
@@ -6582,5 +6582,12 @@
    "results/runnable_pool.json E628 done + E629 seeded (26/4 numstat)"
   ],
   "ts": "2026-11-10T00:01:04+08:00"
+ },
+ "r1646_delivery": {
+  "branch": "machine/bm-b-r1646",
+  "sha": "f2872a928df0100da285505334470b0e0ee2d958",
+  "ts": "2026-11-10T00:03:57+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1646 == f2872a928df0100da285505334470b0e0ee2d958",
+  "main_push_blocker": "local is ~804 ahead / 486 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel"
  }
 }
