@@ -1325,6 +1325,13 @@ LEGS = [
     # re-derives the verdict from the rows (0.2s, no corpus walk).
     ("sweep_consumer", ["python", "scripts/e617_sweep_consumer.py", "verify"]),
 
+    # E619 asks whether the one dead reader line E617 found generalises.  Of 1,091 modules
+    # under scripts/ that publish a JSON face, 27 carry at least one local assigned from a
+    # face key and never read again (36 lines), 54 dead reader lines whatever the key, and 18
+    # whose dict the function was handed; the E617 anchor (e396 derive_verdict's census) is
+    # one of them.  Verify re-derives every count from the module rows and re-asks the verdict.
+    ("dead_reader_locals", ["python", "scripts/e619_dead_reader_locals.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

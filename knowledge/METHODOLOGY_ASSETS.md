@@ -14477,3 +14477,19 @@ esults/state_tilt/DUPWITNESS.json、S6 leg dup_witness、smoke leg E601。坑：
 **How**：凡「X 有没有人读」的问题，先定**读的形态**（索引/`.get`）而不是名字出现，再定**读者的资格**（生产者自身测试不算），最后要求每个被移动的键在产物里带自己的判定格与行号——判决由闸从格行重算，禁手写。
 
 **证据** = `scripts/e617_sweep_consumer.py`（selftest **23/23**，run/verify problems=[]）、`results/state_tilt/SWEEPCONSUMER.json`（+`sweepconsumer_latest.json`）、`scripts/run_e617_smoke_leg.py`（PASS，`--doctor` 1/1 红且面字节还原）、smoke_test.py leg E617、S6 leg `sweep_consumer`、POOL E617 done → E619 seeded。
+
+## E620 · 「赋值后不再读」的局部变量要按三档发布，不能只报一档
+
+**问题**：E617 抓到一条死读者行（`census = m["basename_census"]` 赋值后再没读过）。一行是轶事——这个类到底是普遍形状还是某个模块的孤例？
+
+**读数**（母体 1,091 个「会发 JSON 面」的 `scripts/` 模块，14 个 SyntaxError 单列）：
+- **27 个模块**带有「从面的键赋值、之后再没读过」的局部（36 行）；
+- 不看键时 **54 行**、字典是函数收到的 **18 行**；
+- 现役大户：`perpetual_faces_n1.py`(4)、`cn_core_sat_p1.py`(3)、`cn_core_ddctl_p1.py`(2)；
+- E617 的锚点逐字复现：`e396_face_basename_suffix.py` 的 `derive_verdict`，第 437 行 `census`/`basename_census`。
+
+**教训**：①**一个判定面要给三档而不是一档**——`scope_all`（任何键）/`scope_facekey`（键是该模块自己会写进面的字面量键）/`scope_incoming`（字典是函数收到的）。只报最宽那档会把「读了自己刚拼出来的字典」算成死读者，只报最窄那档会把类读小；判决必须落在中间那档，另两档并列发布并断言子集关系（`incoming ⊆ facekey ⊆ all`，selftest 钉死）。②**自己的扫描器要排除自己**，且排除集合要写进模块常量（`SELF_PARTS`）让腿能查——首版没有它，本研究会把自己列成面发布者。③**母体先定、再由母体算读数**：population（`json.dump` + `"w"` 打开，或调 `write_face`）在扫描前写死，不许事后按读数收窄；14 个 SyntaxError 模块要单列 `skipped`，否则「1091 里有 27」的分母说不清。④**面里的行要比面外的计数更权威**：`face_problems` 从模块行重算每个计数，腿再从计数重算判决——三处任一不同即红。
+
+**How**：问「某个坏形状普遍吗」时，先写死母体判据，再把判定面拆成宽/中/窄三档并列发布，判决落中间并断言包含关系；扫描器排除自身并进 selftest；近似面（这里是「同函数内后续有 load」）要写明它算不算闭包、跨函数、tuple 解包——这些**不算读者**的边界全进 `limits`。
+
+**证据** = `scripts/e619_dead_reader_locals.py`（selftest **23/23**，run/check/verify problems=[]）、`results/state_tilt/DEADREADERLOCALS-2026-11-09.json`（+`deadreaderlocals_latest.json`）、`scripts/run_e619_smoke_leg.py`（PASS，`--doctor` 1/1 红且面字节还原）、smoke_test.py leg E619、S6 leg `dead_reader_locals`、POOL E619 done → E621 seeded。

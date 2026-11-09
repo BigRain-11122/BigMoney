@@ -26347,6 +26347,59 @@ except Exception as _e617x:
     _d617 = "study could not be read"
 check(_name617, not _bad617, "; ".join(_bad617)[:240] or _d617)
 
+# E619: E617 found one reader line that reads nothing (e396's derive_verdict assigns
+# ``census = m["basename_census"]`` and never loads it again).  One dead line is an anecdote, so
+# E619 asks the class of every module under scripts/ that publishes a JSON face: of 1,091 face
+# publishers 27 carry at least one local assigned from a face key and never read again (36 lines),
+# 54 dead reader lines whatever the key, and 18 whose dict the function was handed.  The leg
+# re-reads the published face, re-derives every count from the module rows, re-asks the verdict
+# from those rows, refuses a self-listing, and pins the E617 anchor row -- a face that ever stops
+# reproducing the line it generalises would go red here rather than quietly widening the class.
+_name619 = "E619 whether a dead reader local generalises beyond the one E617 found (r1639 bm-b)"
+_bad619 = []
+_d619 = "no reading"
+try:
+    _p619 = os.path.join("results", "state_tilt", "deadreaderlocals_latest.json")
+    _f619 = json.load(open(_p619, encoding="utf-8"))
+    _m619 = importlib.import_module("e619_dead_reader_locals")
+    _bad619.extend(_m619.face_problems(_f619))
+    _c619 = _f619.get("counts") or {}
+    _mods619 = _f619.get("modules") or []
+    _again619 = _m619.derive_verdict({"population": _c619.get("population_modules"),
+                                      "skipped": _f619.get("skipped") or [],
+                                      "modules": _mods619})
+    if _again619 != _f619.get("verdict"):
+        _bad619.append("the published verdict is not what the module rows force (%r)" % _again619)
+    _self619 = [r.get("module") for r in _mods619
+                if any((r.get("module") or "").endswith(part) for part in _m619.SELF_PARTS)]
+    if _self619:
+        _bad619.append("this study lists itself as a publisher: %s" % ", ".join(_self619))
+    _anchor619 = [r for r in _mods619
+                  if (r.get("module") or "").endswith("e396_face_basename_suffix.py")]
+    if not _anchor619:
+        _bad619.append("the E617 anchor module is missing from the population")
+    else:
+        _rows619 = _anchor619[0].get("dead_reader_locals") or []
+        _hit619 = [x for x in _rows619
+                   if x.get("local") == "census" and x.get("key") == "basename_census"]
+        if not _hit619:
+            _bad619.append("the E617 anchor line does not reproduce in the anchor module row")
+        elif _anchor619[0].get("scope_facekey") != len(
+                [x for x in _rows619 if x.get("key_is_a_dict_literal_key")]):
+            _bad619.append("the anchor row's scope_facekey does not re-derive from its rows")
+    if int(_c619.get("modules_with_a_dead_local_scope_facekey") or 0) == 0:
+        _bad619.append("no publisher carries a dead face-key local, yet the study exists")
+    _d619 = ("population=%s dead_facekey_modules=%s dead_facekey_lines=%s dead_all=%s "
+             "dead_incoming=%s skipped=%s verdict=%s"
+             % (_c619.get("population_modules"),
+                _c619.get("modules_with_a_dead_local_scope_facekey"),
+                _c619.get("scope_facekey_lines"), _c619.get("scope_all_lines"),
+                _c619.get("scope_incoming_lines"), _c619.get("skipped_modules"),
+                _f619.get("verdict")))
+except Exception as _e619x:
+    _bad619.append(repr(_e619x)[:160])
+    _d619 = "study could not be read"
+check(_name619, not _bad619, "; ".join(_bad619)[:240] or _d619)
 
 if __name__ == "__main__":
     sys.exit(main())
