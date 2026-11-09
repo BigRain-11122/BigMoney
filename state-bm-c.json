@@ -920,16 +920,16 @@
   "status": "product",
   "sync": {
     "delivered": true,
-    "origin_tip": "7cbdab7158",
-    "ts": "2026-11-10T01:00:02+08:00"
+    "origin_tip": "e0a9a9ef81",
+    "ts": "2026-11-10T01:03:29+08:00"
   },
   "task": "r1484: next queue face (execution realism continues)",
   "total_ram_gb": 23.9,
   "ts": "2026-11-10T00:53:42+08:00",
-  "updated": "2026-11-10T01:00:02+08:00",
-  "updated_at": "2026-11-10T01:00:02+08:00",
+  "updated": "2026-11-10T01:03:29+08:00",
+  "updated_at": "2026-11-10T01:03:29+08:00",
   "verdict": "PRODUCT: a bar without closes is no longer a valuation bar -- the executed book stops at the last bar every held leg printed, an unprinted execution bar is named (no identity verdict, the CNY gap is labelled as fill-to-old-close), and the sheet prints which bar it could not mark; book advanced 11-06->11-09 with identity 0.00",
-  "verify": "selftest 63/63; check CHECK_OK (settlement+accrual+replay); S6 leg positions_unpriced_bar rc0; year-gate reference re-derived -> candidate_year_gate_phases 21/21; swap_trigger CHECK_OK; dualrun streak 51",
+  "verify": "selftest 63/63; check CHECK_OK (settlement+accrual+replay); S6 leg positions_unpriced_bar rc0; year-gate reference re-derived -> candidate_year_gate_phases 21/21; swap_trigger CHECK_OK; dualrun streak 51; downstream four (sibling_gap/calendar_distance/supply_gate_decision/decision_line) re-derived on the 11-09 panel, all CHECK_OK",
   "verify_smoke_closed": "full smoke launched 23:41 (results/_smoke_r1448.out -- filename reused by mistake, r1448 closeout evidence overwritten); 273 PASS / 0 real FAIL at close, still running",
   "vram_free_gb": 13.0,
   "round_t1479_note": "r1479 PRODUCT round (round_no 1479 at open; tree carried a dead window uncommitted work plus other windows regenerated data faces; only own files staged; backups in %TEMP%/bmc-r1479-dirty). PRODUCT = the size-provenance face died on a sheet it could not reproduce. TICKET-2026-11-09.json was written on a host whose panel reached 11-09; this machine panel ends 11-06, so the face read L_bar False and published IDENTITY_FAIL with no reading at all. Root cause is the r1480 ordering fix working as designed: a sheet claiming the newest evidence wins the selection, and a claim is not a measurement. scripts/etf_book_live_size_provenance.py now takes a panel boundary (latest_ticket(panel_last)): sheets claiming evidence later than the bar this host holds go to tickets_unverifiable, are skipped BY NAME in a sentence, and the face falls back to the newest reproducible sheet. run() prints the sentence; --check re-derives both the skip list and the sentence (4 new legs, 8/8 -> 12/12) so the disclosure cannot rot; selftest 20 -> 28 (L24 sentence names the passed-over sheet, L25 nothing passed over says nothing, L26/L27 the out-of-panel sheet is skipped and named with the boundary, L28 panel-free read unchanged). VERIFIED: selftest 28/28; --check 12/12; real run verdict DIFFERENT_BOOK_AND_SIZE k_beta 0.460253 / k_vol 0.648195, skipped TICKET-2026-11-09.json, panel_last 2026-11-06; the whole ETF book chain re-derived IN ORDER (positions_ledger_write -> order -> rebalance_permission -> cut_order_gap -> size_rulers -> swap_stack -> cut_gate_pass -> floor_ledger -> permission_persistence -> decision_line) all rc0, swap_stack had to be RE-RUN not just checked because the order regeneration moved k (k_after 0.392401, floor 0.393073, residue 106.3, 3 actions, CHECK_OK); S6 leg live_size_provenance rc0. NOT VERIFIED: the full smoke -- started pid 56596 -> results/_smoke_r1479.out after the commit, not claimed green. Computed audit flags pool_starvation+supply_floor (structural, AGENDA_DEBT shortfall 3, no candidate clears the calendar); watermark insufficient_history (local batch running). S0-1 anchored bm-c; pulled bm-a r1276 (cash-leg lane calendar fix) after restoring 12 regenerated faces and stashing the dead window script change, pop clean; S0.5 orders 114 files vs 241 acks = 0 unacked; decisions sha e2891af5 identical = zero action; orphan probe py_faces 5 orphans 0.",
