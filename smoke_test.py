@@ -26540,5 +26540,85 @@ except Exception as _e623x:
     _d623 = "study could not be read"
 check(_name623, not _bad623, "; ".join(_bad623)[:240] or _d623)
 
+# E624 prices the hole E623 wrote into its own limits -- "a read counts when it indexes the same
+# literal key, WHATEVER THE OBJECT".  Each sibling read's receiver is recovered (m["k"] -> m,
+# x.get("k") -> x) and compared with the dead line's receiver; a binding of that name, or an
+# assignment of that attribute path, between the two lines means the value is not the one the dead
+# line saw.  26 sibling reads over the 34 lines: 19 are the same receiver bound once, 0 the same
+# receiver rebound in between, 7 a different receiver expression, 0 a computed receiver.  Under
+# object identity 4 of E623's 6 superseded duplicates survive and 2 read another object (a
+# different face, and a json round-trip copy), so the corrected tally is 4 same-object superseded /
+# 7 same-object only before the dead line / 2 another object instead / 21 the only read of that key
+# on that object.  The leg re-reads the published face, re-derives every relation tally and every
+# corrected class count from the line rows, re-asks the verdict, requires the two superseded halves
+# to add up to the superseded total, requires the E623 cross-check to still agree, refuses a row
+# whose same_object flag contradicts its relation, and excludes this study from its own population.
+_name624 = ("E624 whether the sibling read counted for a dead face-key line reads the same object "
+            "(r1642 bm-b)")
+_bad624 = []
+_d624 = "no reading"
+try:
+    _f624 = json.load(open(os.path.join("results", "state_tilt", "siblingreadobject_latest.json"),
+                           encoding="utf-8"))
+    _m624 = importlib.import_module("e624_sibling_read_object")
+    _bad624.extend(_m624.face_problems(_f624))
+    _c624 = _f624.get("counts") or {}
+    _rows624 = _f624.get("lines") or []
+    _again624 = _m624.derive_verdict({
+        "population_modules": _c624.get("population_modules"),
+        "lines": _rows624,
+        "inert_dead_facekey_lines": _c624.get("inert_dead_facekey_lines"),
+        "skipped": [None] * (_c624.get("skipped_modules") or 0)})
+    if _again624 != _f624.get("verdict"):
+        _bad624.append("the published verdict is not what the line rows force (%r)" % _again624)
+    _same624 = _c624.get("superseded_rows_on_the_same_object", 0)
+    _other624 = _c624.get("superseded_rows_on_another_object", 0)
+    if _same624 + _other624 != _c624.get("superseded_rows", -1):
+        _bad624.append("the same-object (%r) and another-object (%r) halves do not add up to the "
+                       "superseded total (%r)"
+                       % (_same624, _other624, _c624.get("superseded_rows")))
+    if sum(_c624.get("corrected_" + _k, 0) for _k in _m624.CORRECTED) != \
+            _c624.get("live_dead_facekey_lines", -1):
+        _bad624.append("the corrected classes do not add up to the published line count")
+    if _c624.get("corrected_" + _m624.CORRECTED[0], 0) != _same624:
+        _bad624.append("the same-object superseded class (%r) is not the same-object half (%r)"
+                       % (_c624.get("corrected_" + _m624.CORRECTED[0]), _same624))
+    if not _rows624:
+        _bad624.append("the face publishes no line at all, yet the study exists")
+    for _r624 in _rows624:
+        if not isinstance(_r624.get("local"), str) or not _r624.get("local"):
+            _bad624.append("line %r in %r publishes no local name"
+                           % (_r624.get("line"), _r624.get("function")))
+            break
+        if _r624.get("dead_reads_on_that_line", 0) < 1:
+            _bad624.append("line %r in %r resolves no read node for its own dead line"
+                           % (_r624.get("line"), _r624.get("function")))
+            break
+        for _s624 in (_r624.get("sibling_reads") or []):
+            if _s624.get("same_object") is not (_s624.get("relation") == _m624.SAME):
+                _bad624.append("line %r in %r marks same_object=%r against relation=%r"
+                               % (_r624.get("line"), _r624.get("function"),
+                                  _s624.get("same_object"), _s624.get("relation")))
+                break
+    _self624 = [r.get("module") for r in _rows624
+                if r.get("module") and r["module"].split("/")[-1] in _m624.SELF_PARTS]
+    if _self624:
+        _bad624.append("this study lists itself as a holder module: %s" % ", ".join(_self624))
+    _cc624 = _f624.get("e623_cross_check") or {}
+    if _cc624.get("published") is False:
+        _bad624.append("the E623 cross-check did not read a published face")
+    elif _cc624.get("agrees") is False:
+        _bad624.append("the re-derived rows no longer match the published E623 face")
+    _d624 = ("lines=%s rows_with_sibling=%s sibling_reads=%s superseded=%s same_object=%s "
+             "another_object=%s downgraded=%s in_module_diff=%s verdict=%s"
+             % (_c624.get("live_dead_facekey_lines"), _c624.get("rows_with_a_sibling_read"),
+                _c624.get("sibling_read_instances"), _c624.get("superseded_rows"), _same624,
+                _other624, _c624.get("rows_downgraded_from_e623_class"),
+                _c624.get("relation_different_receiver_expression"), _f624.get("verdict")))
+except Exception as _e624x:
+    _bad624.append(repr(_e624x)[:160])
+    _d624 = "study could not be read"
+check(_name624, not _bad624, "; ".join(_bad624)[:240] or _d624)
+
 if __name__ == "__main__":
     sys.exit(main())

@@ -14541,3 +14541,25 @@ esults/state_tilt/DUPWITNESS.json、S6 leg dup_witness、smoke leg E601。坑：
 **How**：问“这个量是不是没人用”时，把“用”拆成**同一作用域内的位置序列**（之前/之后/唯一），并逐档给计数；被继承的产物先重跑再引用；每个档位配一条能返红的夹具腿。
 
 **证据** = `scripts/e623_deadline_key_use.py`（selftest **22/22**，run/check/verify problems=[]）、`results/state_tilt/DEADLINEKEYUSE-2026-11-09.json`（+ `deadlinekeyuse_latest.json`）、`scripts/run_e623_smoke_leg.py`（1/1 PASS，`--doctor` 1/1 红且面字节还原）、smoke_test.py leg E623、S6 leg `deadline_key_use`、POOL E623 done → E624 seeded。
+
+---
+
+## E624 · 同一把键不等于同一个字典：E623 的 6 条“重复读”里只有 4 条真的重读了同一个对象（r1642 bm-b·2026-11-09）
+
+> 卡号=E624（POOL 卡号同为 E624，研究号=E624）。
+
+**问题**：E623 自己把漏洞写进了 limits——“只要索引的是同一个字面键就算读，**不管对象是谁**”。于是 `got["verdict"]` 和 `faces[UP_E350].get("verdict")` 都算“同一把键的读”，可它们不是同一个字典，后一次并不重读前一次丢掉的值。本张不问“键读没读过”，问：**E623 数出来的那些兄弟读，读的是同一个对象吗？**
+
+**读数**（`results/state_tilt/SIBLINGREADOBJECT-2026-11-09.json`，cutoff 2026-11-09；母体=E623 的 34 条活死行，classify_tree 直接 import 不重实现，1,099 个模块，自排 14）：
+- 34 条活死行里 **13 条**有兄弟读，共 **26 次**兄弟读：**19 次同一接收者且中间无重绑**、**0 次同一接收者但中间被重绑**、**7 次接收者根本是另一个表达式**、**0 次落在算出来的接收者上**。
+- E623 的 6 条 superseded **只有 4 条成立**（`P["days"]` / `P["slip_exec"]` / `r["bar"]` / `ports["x1"]`——同一个名字、中间没有重绑）；**2 条不成立**：`e382_key_projection_delta.py:332` 的 `faces[UP_E377].get("verdict")` 被兄弟读成了 `got["verdict"]`（另一路臂）和 `faces[UP_E350].get("verdict")`（另一张面）；`e504_name_compose.py:879` 的 `face["rows"]` 被兄弟读成了 `doctored4["rows"]`，而 `doctored4 = json.loads(json.dumps(face))` 是**深拷贝**。
+- 按对象身份重排 34 条：**4 条真·同对象重复读 / 7 条只在死行之前读过同一个对象（循环携带）/ 2 条读的是另一个对象 / 21 条是这个对象上对这个键的唯一读**——四条相加=34，判决 `4_of_6_superseded_duplicate_reads_read_the_same_object_as_the_dead_line`。
+- 交查 E623：重新解析出的 34 条与已出版面**逐行、逐类相同**（差 0）。
+
+**研究**：**“键相同”是语法相似，不是数据同一。** 一个键名在同一个函数里可以指向三个不同的字典（本臂 / 另一个臂 / 一张拷贝），所以“别处也读了这个键”这句话在数据结构层面什么也没说。同族的正面样本是 `ew6_portfolio`：`ports["x1"]` 在 L414 被同一个 `ports` 重读（成立），同时 `sleeves[tid]["x1"]` 被读了四次（不成立）——**一行里可以同时有成立和不成立的兄弟读，`any()` 与 `all()` 给出的两种判决都必须打印出来才能判读**。
+
+**教训**：①“别人也用过这个 X”必须精确到**哪一个对象**，否则就是把一次相似当了一次重复；②类目名要能被反证——`superseded_duplicate_read` 听起来像“同对象重读”，实现却只测了字面键，名与测量不一致时**面上要写实现测的是什么**（E623 的 limits 做到了，所以本张才有入口）；③拷贝（`json.loads(json.dumps(x))`、`dict(x)`）与调用的返回值都是新对象，不能算同一个；④重绑（`m = {...}`、`for r in ...`）的判定只看区间**内**的绑定，循环体内的同一迭代仍是同一对象——这把循环携带与真重复区分开。
+
+**How**：判“重复/冗余”类结论时，先问“被比较的两端是不是同一个东西”，并把对象身份的实现口径（同表达式文本 + 区间内无绑定 + 属性路径无赋值）写进 limits；每行同时给出两端接收者原文，让 34 行可以用肉眼复核；一条死的分母比一条死结论更贵。
+
+**证据** = `scripts/e624_sibling_read_object.py`（selftest 27/27，run/check/verify `problems=[]`）、`results/state_tilt/SIBLINGREADOBJECT-2026-11-09.json`（+ `siblingreadobject_latest.json`）、`scripts/run_e624_smoke_leg.py`（1/1 PASS，`--doctor` 1/1 红且面字节还原）、smoke_test.py leg E624、S6 leg `sibling_read_object`、POOL E624 done → E625 seeded。

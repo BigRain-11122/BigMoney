@@ -1350,6 +1350,16 @@ LEGS = [
     # re-derives every class count from the line rows and re-asks the verdict (no corpus walk).
     ("deadline_key_use", ["python", "scripts/e623_deadline_key_use.py", "verify"]),
 
+    # E624 prices the hole E623 wrote into its own limits: "a read counts when it indexes the same
+    # literal key, whatever the object".  Each of E623's sibling reads gets its RECEIVER recovered
+    # (m["k"] -> m, x.get("k") -> x) and is asked whether that receiver is the same object as the
+    # dead line's -- same text with no binding of that name or assignment of that attribute path
+    # between the two lines.  Every row is then re-published under a corrected class, so E623's
+    # superseded-duplicate count is re-asked under object identity.  Verify re-derives every
+    # relation tally, every corrected class count and the verdict from the line rows (no corpus
+    # walk, ~1s).
+    ("sibling_read_object", ["python", "scripts/e624_sibling_read_object.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names
