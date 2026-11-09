@@ -709,8 +709,13 @@ def run():
     with open(mpath, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(render_md(out))
     latest = os.path.join(OUT_DIR, "latest.json")
+    # the pointer is read on other machines: a path baked from this checkout's ROOT only resolves
+    # on the box that wrote it (E599 found both edges of this face dangling on a tree whose base
+    # was not the writer's).  Publish repo-relative posix paths, which resolve from the repo root
+    # and from the pointer's own directory.
+    rel = lambda p: os.path.relpath(p, ROOT).replace("\\", "/")     # noqa: E731
     with open(latest, "w", encoding="utf-8", newline="\n") as fh:
-        json.dump({"matrix": jpath, "md": mpath, "cutoff": cutoff,
+        json.dump({"matrix": rel(jpath), "md": rel(mpath), "cutoff": cutoff,
                    "generated": out["generated"]}, fh, indent=1)
     print(json.dumps({"matrix": jpath, "md": mpath, "rows": len(rows),
                       "wired": sum(1 for r in rows if r.get("verdicts"))},

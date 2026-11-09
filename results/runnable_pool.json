@@ -30540,7 +30540,7 @@
    "id": "E599-WHETHER-THE-BAR-A-POINTER-REDIRECTS-TO-IS-ITSELF-CHECKED",
    "lane": "cpu-only",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E598 (r1625 bm-b): every pointer face a reader wants a bar from either carries it or redirects to a page that does (exactly one reader follows a redirect, smoke_test on docs/live_book/latest.json). Nothing measures whether the bar at the end of that hop is checked against the bar the pointer claims -- a pointer whose target moves to a newer bar while its own as_of stays put would make every redirect-follower read a bar the pointer never declared.",
    "target": "results/state_tilt/REDIRECTBARMATCH.json",
    "deliverable": "results/state_tilt/REDIRECTBARMATCH.json: for each pointer face that carries a redirect key, resolve the target on disk and publish whether the target carries a bar, whether it equals the pointer's own bar, and who would notice a mismatch",
@@ -30552,7 +30552,14 @@
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal"
-   }
+   },
+   "result_ref": [
+    "results/state_tilt/POINTERREDIRECTBAR.json",
+    "research/digests/DIGEST-20261109-r1627-e599-pointer-redirect-bar.md"
+   ],
+   "done_note": "9 of 28 latest.json faces redirect: 12 edges, all resolving. Only 4 edges state a bar at both ends and 0 of those state it under the SAME field name -- cutoff vs evidence_cutoff are different quantities (E206 family), so the 2 differing pairs (divlowvol_live 27 days, regime_matrix_p0 8 days) are published as across-fields, not as disagreements. 0 modules open both ends of any edge and 0 compare the two bars: nobody checks. In-round defect: both regime_matrix_p0 redirects were absolute K:\\ paths that dangle on a tree not at K: while their own payload sits next to the pointer -> writer fixed to repo-relative (dangling 2->0), live pointer repaired. Script scripts/e599_pointer_redirect_bar.py, selftest 59/59.",
+   "done_at": "2026-11-09",
+   "done_by": "bm-b r1627"
   },
   {
    "id": "E600-WHETHER-A-DATE-KEYED-JOIN-EVER-NAMES-THE-SAME-FACE-A-NAME-JOIN-WOULD",

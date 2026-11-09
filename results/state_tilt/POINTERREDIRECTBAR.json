@@ -1,0 +1,1048 @@
+{
+ "answer": "9 of the 28 pointer face(s) named latest.json redirect somewhere: 12 edge(s) in total, 12 resolve and 0 dangle (0 of the dangling ones have their own payload sitting next to the pointer, so they are pinned to a root rather than missing). 6 edge(s) point at a JSON payload and 6 at a non-JSON artifact; 0 edge(s) are written as absolute paths. Splitting by what the key names (payload 5 / reference 7), 4 edge(s) state a bar at both ends: 0 agree on the same field, 0 disagree on the same field, and 4 state the bar in two different fields (2 of those dates match, 2 do not). Of the payload edges 3 state a bar at both ends (0 disagree on one field, 3 are across fields). 1 edge(s) come from a pointer that states no bar and 1 point at a target that states none. Disagreeing pairs: results/divlowvol_live/latest.json[nulls_evidence] as_of=2026-10-19 vs evidence_cutoff=2026-09-22 (27 day(s)), results/regime_matrix_p0/latest.json[matrix] cutoff=2026-09-30 vs evidence_cutoff=2026-09-22 (8 day(s)). 0 module(s) open both ends of an edge and 0 compare the two bars.",
+ "bar_fields_graded": [
+  "as_of",
+  "evidence_cutoff",
+  "pricing_bar",
+  "ticket_bar",
+  "cutoff",
+  "data_cutoff",
+  "panel_bar",
+  "last_bar",
+  "bars_as_of",
+  "tick_bar"
+ ],
+ "basename": "latest.json",
+ "counts": {
+  "disagreeing_edges": [
+   {
+    "delta_days": 27,
+    "key": "nulls_evidence",
+    "pointer_bar": "2026-10-19",
+    "pointer_bar_field": "as_of",
+    "pointer_face": "results/divlowvol_live/latest.json",
+    "relation": "reference",
+    "target_bar": "2026-09-22",
+    "target_bar_field": "evidence_cutoff"
+   },
+   {
+    "delta_days": 8,
+    "key": "matrix",
+    "pointer_bar": "2026-09-30",
+    "pointer_bar_field": "cutoff",
+    "pointer_face": "results/regime_matrix_p0/latest.json",
+    "relation": "payload",
+    "target_bar": "2026-09-22",
+    "target_bar_field": "evidence_cutoff"
+   }
+  ],
+  "edge_classes": {
+   "both_state_a_different_bar": 0,
+   "both_state_the_same_bar": 0,
+   "pointer_states_no_bar": 1,
+   "target_is_not_a_json_payload": 6,
+   "target_path_does_not_resolve": 0,
+   "target_states_no_bar": 1,
+   "the_two_ends_state_their_bar_in_different_fields": 4
+  },
+  "edges_across_fields_with_equal_bars": 2,
+  "edges_across_fields_with_unequal_bars": 2,
+  "edges_agreeing": 0,
+  "edges_disagreeing": 0,
+  "edges_payload_relation": 5,
+  "edges_pointer_states_no_bar": 1,
+  "edges_reference_relation": 7,
+  "edges_state_a_bar_at_both_ends": 4,
+  "edges_stating_the_bar_in_different_fields": 4,
+  "edges_target_is_json": 6,
+  "edges_target_is_not_json": 6,
+  "edges_target_states_no_bar": 1,
+  "edges_with_a_reader_comparing_both_bars": 0,
+  "edges_with_a_reader_opening_both_ends": 0,
+  "modules_comparing_both_bars": 0,
+  "modules_opening_both_ends": 0,
+  "payload_edges_across_fields": 3,
+  "payload_edges_agreeing": 0,
+  "payload_edges_disagreeing": 0,
+  "payload_edges_state_a_bar_at_both_ends": 3,
+  "pointer_faces_total": 28,
+  "pointer_faces_with_a_redirect": 9,
+  "redirect_edges": 12,
+  "redirect_edges_absolute_path": 0,
+  "redirect_edges_dangling": 0,
+  "redirect_edges_dangling_with_an_adjacent_copy": 0,
+  "redirect_edges_resolving": 12,
+  "reference_edges_disagreeing": 0
+ },
+ "edge_classes": [
+  "target_path_does_not_resolve",
+  "target_is_not_a_json_payload",
+  "pointer_states_no_bar",
+  "target_states_no_bar",
+  "both_state_the_same_bar",
+  "both_state_a_different_bar",
+  "the_two_ends_state_their_bar_in_different_fields"
+ ],
+ "evidence_cutoff": "2026-11-06",
+ "faces": {
+  "docs/live_book/latest.json": {
+   "bar_fields_stated": [],
+   "keys": [
+    "generated_for_date",
+    "json",
+    "page"
+   ],
+   "kind": "json",
+   "path": "docs/live_book/latest.json",
+   "pointer_bar": null,
+   "pointer_bar_field": null,
+   "redirect_keys": [
+    "json",
+    "page"
+   ]
+  },
+  "results/alphagen_rg/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "audit",
+    "batch",
+    "census",
+    "descriptive",
+    "evidence_cutoff",
+    "grammar",
+    "prereg_ref",
+    "probe",
+    "queue_row",
+    "riders",
+    "roster_ref",
+    "seeds",
+    "shard_files",
+    "trials_ledger",
+    "verdict"
+   ],
+   "kind": "json",
+   "path": "results/alphagen_rg/latest.json",
+   "pointer_bar": "2026-10-09",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  },
+  "results/div_event_census/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "disclosures",
+    "dividend_face",
+    "elapsed_sec",
+    "evidence_cutoff",
+    "face",
+    "generated_at",
+    "method",
+    "panel",
+    "results",
+    "status",
+    "windows"
+   ],
+   "kind": "json",
+   "path": "results/div_event_census/latest.json",
+   "pointer_bar": "2026-10-19",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": [
+    "dividend_face"
+   ]
+  },
+  "results/divex_harvest/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "cost",
+    "disclosures",
+    "dividend_face",
+    "elapsed_sec",
+    "events",
+    "evidence_cutoff",
+    "face",
+    "generated_at",
+    "method",
+    "panel",
+    "readout",
+    "status",
+    "windows"
+   ],
+   "kind": "json",
+   "path": "results/divex_harvest/latest.json",
+   "pointer_bar": "2026-10-19",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": [
+    "dividend_face"
+   ]
+  },
+  "results/divlowvol_live/latest.json": {
+   "bar_fields_stated": [
+    "as_of"
+   ],
+   "keys": [
+    "as_of",
+    "census_window_frozen",
+    "disclosures",
+    "entry_date",
+    "face",
+    "holdings",
+    "n_firing_months",
+    "n_holdings",
+    "next_entry_date",
+    "nulls_evidence",
+    "panel",
+    "prereg",
+    "rule",
+    "sha16",
+    "signal_window",
+    "status",
+    "t0_date",
+    "turnover",
+    "universe",
+    "weight"
+   ],
+   "kind": "json",
+   "path": "results/divlowvol_live/latest.json",
+   "pointer_bar": "2026-10-19",
+   "pointer_bar_field": "as_of",
+   "redirect_keys": [
+    "nulls_evidence",
+    "prereg"
+   ]
+  },
+  "results/divlowvol_nulls/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "batch",
+    "cell",
+    "cutoff_meta",
+    "evidence_cutoff",
+    "face",
+    "judged_note",
+    "kind",
+    "machine",
+    "nulls",
+    "realized",
+    "single_source",
+    "stats",
+    "status",
+    "verdict",
+    "window"
+   ],
+   "kind": "json",
+   "path": "results/divlowvol_nulls/latest.json",
+   "pointer_bar": "2026-10-19",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  },
+  "results/e24_breadth_h20_entry/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "decision",
+    "decision_rule",
+    "evidence_cutoff",
+    "face",
+    "generated_at",
+    "horizon_bars",
+    "labels",
+    "primary",
+    "sensitivity",
+    "window_start"
+   ],
+   "kind": "json",
+   "path": "results/e24_breadth_h20_entry/latest.json",
+   "pointer_bar": "2026-10-20",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  },
+  "results/e24_dispersion_h60_entry/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "decision",
+    "decision_rule",
+    "diagnostics",
+    "evidence_cutoff",
+    "face",
+    "generated_at",
+    "horizon_bars",
+    "labels",
+    "primary",
+    "sensitivity",
+    "window_start"
+   ],
+   "kind": "json",
+   "path": "results/e24_dispersion_h60_entry/latest.json",
+   "pointer_bar": "2026-10-20",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  },
+  "results/e24_overlay_breath/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "always_on_ladder",
+    "cost_bp_per_side",
+    "edge_vs_always_on_bp_per_year",
+    "evidence_cutoff",
+    "exposure_share",
+    "face",
+    "generated_at",
+    "labels",
+    "n_days",
+    "overlay",
+    "tail_q",
+    "window_start"
+   ],
+   "kind": "json",
+   "path": "results/e24_overlay_breath/latest.json",
+   "pointer_bar": "2026-10-20",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  },
+  "results/e25_whipsaw/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "evidence_cutoff",
+    "face",
+    "forward_bars",
+    "generated_at",
+    "labels",
+    "members",
+    "per_member",
+    "per_window",
+    "start",
+    "years"
+   ],
+   "kind": "json",
+   "path": "results/e25_whipsaw/latest.json",
+   "pointer_bar": "2026-10-20",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  },
+  "results/e33_ladder_baseline/latest.json": {
+   "bar_fields_stated": [],
+   "keys": [
+    "faces",
+    "generated",
+    "tag"
+   ],
+   "kind": "json",
+   "path": "results/e33_ladder_baseline/latest.json",
+   "pointer_bar": null,
+   "pointer_bar_field": null,
+   "redirect_keys": []
+  },
+  "results/etf_book_order/latest.json": {
+   "bar_fields_stated": [
+    "as_of"
+   ],
+   "keys": [
+    "as_of",
+    "beta_target",
+    "file",
+    "k_now"
+   ],
+   "kind": "json",
+   "path": "results/etf_book_order/latest.json",
+   "pointer_bar": "2026-11-06",
+   "pointer_bar_field": "as_of",
+   "redirect_keys": [
+    "file"
+   ]
+  },
+  "results/etf_book_order_fresh/latest.json": {
+   "bar_fields_stated": [
+    "as_of"
+   ],
+   "keys": [
+    "as_of",
+    "beta_target",
+    "file",
+    "k_now"
+   ],
+   "kind": "json",
+   "path": "results/etf_book_order_fresh/latest.json",
+   "pointer_bar": "2026-10-23",
+   "pointer_bar_field": "as_of",
+   "redirect_keys": [
+    "file"
+   ]
+  },
+  "results/etf_book_production/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "backtest",
+    "caveats",
+    "commodity",
+    "config",
+    "evidence_cutoff",
+    "feed_status",
+    "hysteresis",
+    "passive_mix",
+    "premium_phases",
+    "preperiod",
+    "script",
+    "sheet",
+    "spanning",
+    "spanning_pre2020",
+    "ts",
+    "vol_delivery",
+    "window_decomp"
+   ],
+   "kind": "json",
+   "path": "results/etf_book_production/latest.json",
+   "pointer_bar": "2026-10-28",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  },
+  "results/etf_book_split_audit/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "arms",
+    "card_agreement",
+    "config",
+    "curves_identical",
+    "delta_repaired_minus_raw",
+    "event_count",
+    "events_held_by_book",
+    "evidence_cutoff",
+    "flip_attribution",
+    "repair_completeness",
+    "script",
+    "verdict"
+   ],
+   "kind": "json",
+   "path": "results/etf_book_split_audit/latest.json",
+   "pointer_bar": "2026-10-23",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  },
+  "results/m6_regime5/latest.json": {
+   "bar_fields_stated": [],
+   "keys": [
+    "asof",
+    "disclosures",
+    "distribution",
+    "features",
+    "mode",
+    "n_days_scored",
+    "state",
+    "state_cn",
+    "thresholds_fp",
+    "transitions_last_30",
+    "verdicts_last_10"
+   ],
+   "kind": "json",
+   "path": "results/m6_regime5/latest.json",
+   "pointer_bar": null,
+   "pointer_bar_field": null,
+   "redirect_keys": []
+  },
+  "results/obs_rate/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "arms",
+    "evidence_cutoff",
+    "honest",
+    "ladder",
+    "spec",
+    "study",
+    "ts"
+   ],
+   "kind": "json",
+   "path": "results/obs_rate/latest.json",
+   "pointer_bar": "2026-11-06",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  },
+  "results/overnight_gap_census/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "by_board",
+    "by_era_board",
+    "by_year",
+    "coverage",
+    "definition",
+    "disclosures",
+    "evidence_cutoff",
+    "law_ref",
+    "overall",
+    "probe",
+    "stock_year_face",
+    "ts",
+    "universe"
+   ],
+   "kind": "json",
+   "path": "results/overnight_gap_census/latest.json",
+   "pointer_bar": "2026-10-19",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  },
+  "results/paper_export/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "audit",
+    "deliverable",
+    "display_law",
+    "evidence_cutoff",
+    "export_date",
+    "generated_from_state_updated",
+    "law_ref",
+    "marks_face",
+    "missing_faces",
+    "no_future_data",
+    "prior_diff_source",
+    "prospect_note",
+    "schema",
+    "summary",
+    "ticket",
+    "traders"
+   ],
+   "kind": "json",
+   "path": "results/paper_export/latest.json",
+   "pointer_bar": "2026-11-03",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  },
+  "results/regime_gate_dualarm/latest.json": {
+   "bar_fields_stated": [],
+   "keys": [
+    "asof",
+    "asof_mismatch",
+    "contract_receipt",
+    "emotion_arm",
+    "face",
+    "honesty",
+    "index_arm",
+    "provenance",
+    "ticket"
+   ],
+   "kind": "json",
+   "path": "results/regime_gate_dualarm/latest.json",
+   "pointer_bar": null,
+   "pointer_bar_field": null,
+   "redirect_keys": []
+  },
+  "results/regime_matrix_p0/latest.json": {
+   "bar_fields_stated": [
+    "cutoff"
+   ],
+   "keys": [
+    "cutoff",
+    "generated",
+    "matrix",
+    "md"
+   ],
+   "kind": "json",
+   "path": "results/regime_matrix_p0/latest.json",
+   "pointer_bar": "2026-09-30",
+   "pointer_bar_field": "cutoff",
+   "redirect_keys": [
+    "matrix",
+    "md"
+   ]
+  },
+  "results/seasonal_calendar_census/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "baseline",
+    "by_board",
+    "by_year",
+    "coverage",
+    "definition",
+    "disclosures",
+    "evidence_cutoff",
+    "holiday_breaks",
+    "law_ref",
+    "probe",
+    "ts",
+    "universe",
+    "variants"
+   ],
+   "kind": "json",
+   "path": "results/seasonal_calendar_census/latest.json",
+   "pointer_bar": "2026-10-19",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  },
+  "results/seasonal_horizon_stability/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "baseline_h1",
+    "batch",
+    "cells",
+    "evidence_cutoff",
+    "face",
+    "generated",
+    "horizon_table",
+    "horizons",
+    "per_variant",
+    "scope",
+    "series",
+    "variants",
+    "years_span"
+   ],
+   "kind": "json",
+   "path": "results/seasonal_horizon_stability/latest.json",
+   "pointer_bar": "2026-10-19",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  },
+  "results/stagestyle_combo_p1/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "batch",
+    "blocked_candidates",
+    "cutoff_meta",
+    "d6_disclosure",
+    "data_gaps",
+    "evidence_cutoff",
+    "gates",
+    "machine",
+    "mapping_v1",
+    "nulls",
+    "p4_predictive_check",
+    "panel",
+    "prereg",
+    "prereg_state",
+    "results",
+    "single_source",
+    "sleeve_notes",
+    "stage_labels",
+    "status",
+    "window"
+   ],
+   "kind": "json",
+   "path": "results/stagestyle_combo_p1/latest.json",
+   "pointer_bar": "2026-10-19",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": [
+    "prereg"
+   ]
+  },
+  "results/state_tilt/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "accounting_comparison",
+    "answer",
+    "drift_split",
+    "episode_lock_reference",
+    "evidence_cutoff",
+    "frozen_spec",
+    "generated",
+    "panels",
+    "resolution_comparison",
+    "study",
+    "title"
+   ],
+   "kind": "json",
+   "path": "results/state_tilt/latest.json",
+   "pointer_bar": "2026-11-06",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  },
+  "results/t23_census/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "audit",
+    "census",
+    "evidence_cutoff",
+    "frozen_readout",
+    "grammar",
+    "machine",
+    "panel_face",
+    "probe",
+    "queue_row",
+    "riders",
+    "seeds",
+    "slice1_ref",
+    "trials_ledger"
+   ],
+   "kind": "json",
+   "path": "results/t23_census/latest.json",
+   "pointer_bar": "2026-10-09",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": [
+    "slice1_ref"
+   ]
+  },
+  "results/tom_overlay/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "arms",
+    "evidence_cutoff",
+    "honest",
+    "primary_arm",
+    "primary_power",
+    "primary_x2",
+    "spec",
+    "study",
+    "ts",
+    "verdict",
+    "verdict_reason"
+   ],
+   "kind": "json",
+   "path": "results/tom_overlay/latest.json",
+   "pointer_bar": "2026-11-06",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  },
+  "results/vol_gate/latest.json": {
+   "bar_fields_stated": [
+    "evidence_cutoff"
+   ],
+   "keys": [
+    "answer",
+    "calendar_reference",
+    "evidence_cutoff",
+    "frozen_spec",
+    "generated",
+    "observation_ceiling",
+    "panels",
+    "resolution_comparison",
+    "study",
+    "title"
+   ],
+   "kind": "json",
+   "path": "results/vol_gate/latest.json",
+   "pointer_bar": "2026-11-06",
+   "pointer_bar_field": "evidence_cutoff",
+   "redirect_keys": []
+  }
+ },
+ "limits": [
+  "a redirect is decided from a string value whose basename ends in an artifact suffix; a path composed at runtime is invisible",
+  "whether a key names the pointer's content or supporting material is decided by the key name and that basis is published per row -- a payload key carrying evidence would be mis-split",
+  "two ends stating different bars is not by itself a defect: a reference edge names a different object by design, which is why payload and reference are counted apart",
+  "the reader arm needs the module to name the target basename in its own source; a target path built at runtime is not counted"
+ ],
+ "pairs": [
+  {
+   "bars_equal": false,
+   "class": "pointer_states_no_bar",
+   "delta_days": null,
+   "exists": true,
+   "is_absolute": false,
+   "key": "json",
+   "pointer_bar": null,
+   "pointer_bar_field": null,
+   "pointer_face": "docs/live_book/latest.json",
+   "raw_value": "docs/live_book/LIVE-BOOK-20261109.json",
+   "readers_comparing_both_bars": [],
+   "readers_opening_both_ends": [],
+   "relation": "payload",
+   "relation_basis": "key_name",
+   "repair_path": null,
+   "resolution": "face_dir_basename",
+   "resolved_path": "docs/live_book/LIVE-BOOK-20261109.json",
+   "same_field": false,
+   "target_bar": "2026-11-06",
+   "target_bar_field": "evidence_cutoff",
+   "target_kind": "json"
+  },
+  {
+   "bars_equal": false,
+   "class": "target_is_not_a_json_payload",
+   "delta_days": null,
+   "exists": true,
+   "is_absolute": false,
+   "key": "page",
+   "pointer_bar": null,
+   "pointer_bar_field": null,
+   "pointer_face": "docs/live_book/latest.json",
+   "raw_value": "docs/live_book/LIVE-BOOK-20261109.md",
+   "readers_comparing_both_bars": [],
+   "readers_opening_both_ends": [],
+   "relation": "payload",
+   "relation_basis": "key_name",
+   "repair_path": null,
+   "resolution": "face_dir_basename",
+   "resolved_path": "docs/live_book/LIVE-BOOK-20261109.md",
+   "same_field": false,
+   "target_bar": null,
+   "target_bar_field": null,
+   "target_kind": "text"
+  },
+  {
+   "bars_equal": false,
+   "class": "target_is_not_a_json_payload",
+   "delta_days": null,
+   "exists": true,
+   "is_absolute": false,
+   "key": "dividend_face",
+   "pointer_bar": "2026-10-19",
+   "pointer_bar_field": "evidence_cutoff",
+   "pointer_face": "results/div_event_census/latest.json",
+   "raw_value": "data/fund_history_export/div_events_faces.parquet",
+   "readers_comparing_both_bars": [],
+   "readers_opening_both_ends": [],
+   "relation": "reference",
+   "relation_basis": "key_name",
+   "repair_path": null,
+   "resolution": "repo_root",
+   "resolved_path": "data/fund_history_export/div_events_faces.parquet",
+   "same_field": false,
+   "target_bar": null,
+   "target_bar_field": null,
+   "target_kind": "other"
+  },
+  {
+   "bars_equal": false,
+   "class": "target_is_not_a_json_payload",
+   "delta_days": null,
+   "exists": true,
+   "is_absolute": false,
+   "key": "dividend_face",
+   "pointer_bar": "2026-10-19",
+   "pointer_bar_field": "evidence_cutoff",
+   "pointer_face": "results/divex_harvest/latest.json",
+   "raw_value": "data/fund_history_export/div_events_faces.parquet",
+   "readers_comparing_both_bars": [],
+   "readers_opening_both_ends": [],
+   "relation": "reference",
+   "relation_basis": "key_name",
+   "repair_path": null,
+   "resolution": "repo_root",
+   "resolved_path": "data/fund_history_export/div_events_faces.parquet",
+   "same_field": false,
+   "target_bar": null,
+   "target_bar_field": null,
+   "target_kind": "other"
+  },
+  {
+   "bars_equal": false,
+   "class": "the_two_ends_state_their_bar_in_different_fields",
+   "delta_days": 27,
+   "exists": true,
+   "is_absolute": false,
+   "key": "nulls_evidence",
+   "pointer_bar": "2026-10-19",
+   "pointer_bar_field": "as_of",
+   "pointer_face": "results/divlowvol_live/latest.json",
+   "raw_value": "results\\divlowvol_nulls\\NULLS-CONSUME-2026-09-22.json",
+   "readers_comparing_both_bars": [],
+   "readers_opening_both_ends": [],
+   "relation": "reference",
+   "relation_basis": "key_name",
+   "repair_path": null,
+   "resolution": "repo_root",
+   "resolved_path": "results/divlowvol_nulls/NULLS-CONSUME-2026-09-22.json",
+   "same_field": false,
+   "target_bar": "2026-09-22",
+   "target_bar_field": "evidence_cutoff",
+   "target_kind": "json"
+  },
+  {
+   "bars_equal": false,
+   "class": "target_is_not_a_json_payload",
+   "delta_days": null,
+   "exists": true,
+   "is_absolute": false,
+   "key": "prereg",
+   "pointer_bar": "2026-10-19",
+   "pointer_bar_field": "as_of",
+   "pointer_face": "results/divlowvol_live/latest.json",
+   "raw_value": "research\\FUND-DIVLOWVOL-P1.md",
+   "readers_comparing_both_bars": [],
+   "readers_opening_both_ends": [],
+   "relation": "reference",
+   "relation_basis": "key_name",
+   "repair_path": null,
+   "resolution": "repo_root",
+   "resolved_path": "research/FUND-DIVLOWVOL-P1.md",
+   "same_field": false,
+   "target_bar": null,
+   "target_bar_field": null,
+   "target_kind": "text"
+  },
+  {
+   "bars_equal": true,
+   "class": "the_two_ends_state_their_bar_in_different_fields",
+   "delta_days": 0,
+   "exists": true,
+   "is_absolute": false,
+   "key": "file",
+   "pointer_bar": "2026-11-06",
+   "pointer_bar_field": "as_of",
+   "pointer_face": "results/etf_book_order/latest.json",
+   "raw_value": "TICKET-2026-11-06.json",
+   "readers_comparing_both_bars": [],
+   "readers_opening_both_ends": [],
+   "relation": "payload",
+   "relation_basis": "key_name",
+   "repair_path": null,
+   "resolution": "face_dir",
+   "resolved_path": "results/etf_book_order/TICKET-2026-11-06.json",
+   "same_field": false,
+   "target_bar": "2026-11-06",
+   "target_bar_field": "pricing_bar",
+   "target_kind": "json"
+  },
+  {
+   "bars_equal": true,
+   "class": "the_two_ends_state_their_bar_in_different_fields",
+   "delta_days": 0,
+   "exists": true,
+   "is_absolute": false,
+   "key": "file",
+   "pointer_bar": "2026-10-23",
+   "pointer_bar_field": "as_of",
+   "pointer_face": "results/etf_book_order_fresh/latest.json",
+   "raw_value": "TICKET-2026-10-23.json",
+   "readers_comparing_both_bars": [],
+   "readers_opening_both_ends": [],
+   "relation": "payload",
+   "relation_basis": "key_name",
+   "repair_path": null,
+   "resolution": "face_dir",
+   "resolved_path": "results/etf_book_order_fresh/TICKET-2026-10-23.json",
+   "same_field": false,
+   "target_bar": "2026-10-23",
+   "target_bar_field": "evidence_cutoff",
+   "target_kind": "json"
+  },
+  {
+   "bars_equal": false,
+   "class": "the_two_ends_state_their_bar_in_different_fields",
+   "delta_days": 8,
+   "exists": true,
+   "is_absolute": false,
+   "key": "matrix",
+   "pointer_bar": "2026-09-30",
+   "pointer_bar_field": "cutoff",
+   "pointer_face": "results/regime_matrix_p0/latest.json",
+   "raw_value": "results/regime_matrix_p0/P0-MATRIX-v1-2026-09-30.json",
+   "readers_comparing_both_bars": [],
+   "readers_opening_both_ends": [],
+   "relation": "payload",
+   "relation_basis": "key_name",
+   "repair_path": null,
+   "resolution": "face_dir_basename",
+   "resolved_path": "results/regime_matrix_p0/P0-MATRIX-v1-2026-09-30.json",
+   "same_field": false,
+   "target_bar": "2026-09-22",
+   "target_bar_field": "evidence_cutoff",
+   "target_kind": "json"
+  },
+  {
+   "bars_equal": false,
+   "class": "target_is_not_a_json_payload",
+   "delta_days": null,
+   "exists": true,
+   "is_absolute": false,
+   "key": "md",
+   "pointer_bar": "2026-09-30",
+   "pointer_bar_field": "cutoff",
+   "pointer_face": "results/regime_matrix_p0/latest.json",
+   "raw_value": "results/regime_matrix_p0/P0-MATRIX-v1-2026-09-30.md",
+   "readers_comparing_both_bars": [],
+   "readers_opening_both_ends": [],
+   "relation": "reference",
+   "relation_basis": "key_name",
+   "repair_path": null,
+   "resolution": "face_dir_basename",
+   "resolved_path": "results/regime_matrix_p0/P0-MATRIX-v1-2026-09-30.md",
+   "same_field": false,
+   "target_bar": null,
+   "target_bar_field": null,
+   "target_kind": "text"
+  },
+  {
+   "bars_equal": false,
+   "class": "target_is_not_a_json_payload",
+   "delta_days": null,
+   "exists": true,
+   "is_absolute": false,
+   "key": "prereg",
+   "pointer_bar": "2026-10-19",
+   "pointer_bar_field": "evidence_cutoff",
+   "pointer_face": "results/stagestyle_combo_p1/latest.json",
+   "raw_value": "research/FUND-STAGESTYLE-COMBO-P1.md",
+   "readers_comparing_both_bars": [],
+   "readers_opening_both_ends": [],
+   "relation": "reference",
+   "relation_basis": "key_name",
+   "repair_path": null,
+   "resolution": "repo_root",
+   "resolved_path": "research/FUND-STAGESTYLE-COMBO-P1.md",
+   "same_field": false,
+   "target_bar": null,
+   "target_bar_field": null,
+   "target_kind": "text"
+  },
+  {
+   "bars_equal": false,
+   "class": "target_states_no_bar",
+   "delta_days": null,
+   "exists": true,
+   "is_absolute": false,
+   "key": "slice1_ref",
+   "pointer_bar": "2026-10-09",
+   "pointer_bar_field": "evidence_cutoff",
+   "pointer_face": "results/t23_census/latest.json",
+   "raw_value": "results/_r840bmb_t23_alphagen_census.json",
+   "readers_comparing_both_bars": [],
+   "readers_opening_both_ends": [],
+   "relation": "reference",
+   "relation_basis": "key_name",
+   "repair_path": null,
+   "resolution": "repo_root",
+   "resolved_path": "results/_r840bmb_t23_alphagen_census.json",
+   "same_field": false,
+   "target_bar": null,
+   "target_bar_field": null,
+   "target_kind": "json"
+  }
+ ],
+ "payload_key_vocabulary": [
+  "artifact",
+  "content",
+  "data",
+  "file",
+  "json",
+  "latest",
+  "matrix",
+  "page",
+  "payload",
+  "target"
+ ],
+ "relation_basis": "key_name",
+ "study": "E599_pointer_redirect_bar",
+ "verdict": "every_checkable_redirect_states_its_bar_in_a_different_field_and_at_least_one_of_those_bars_differs"
+}

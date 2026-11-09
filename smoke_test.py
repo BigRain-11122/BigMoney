@@ -25852,6 +25852,65 @@ except Exception as _e598x:
 check(_name598, not _bad598, "; ".join(_bad598)[:240] or _d598)
 
 
+# E599: when a pointer face redirects, does the bar at the far end match the bar the pointer
+# declares?  The leg refuses a count that does not re-derive from the rows, a verdict the counts
+# do not force, two ends stated in DIFFERENT fields traded as one measurement (a name is a
+# measurement claim, E206 family), and a dangling redirect whose own payload sits next to the
+# pointer passed off as a missing payload.
+_name599 = ("E599 whether a redirect target carries the bar the pointer declares (r1627 bm-b)")
+_bad599 = []
+_d599 = "no reading"
+try:
+    _p599 = os.path.join("results", "state_tilt", "POINTERREDIRECTBAR.json")
+    _f599 = json.load(open(_p599, encoding="utf-8"))
+    _m599 = importlib.import_module("e599_pointer_redirect_bar")
+    _bad599.extend(_m599.face_problems(_f599))
+    _c599 = _f599.get("counts") or {}
+    _rows599 = _f599.get("pairs") or []
+    _dang599 = sorted(str(r.get("pointer_face")) + "[" + str(r.get("key")) + "]"
+                      for r in _rows599
+                      if not r.get("exists") and r.get("repair_path"))
+    if _dang599 and _f599.get("verdict") != _m599.V_DANGLING_WITH_ADJACENT:
+        _bad599.append("a dangling redirect with an adjacent copy is not the headline verdict: %s"
+                       % ", ".join(_dang599[:3]))
+    _samq599 = [r.get("pointer_face") for r in _rows599
+                if r.get("class") == _m599.E_ACROSS_FIELDS
+                and r.get("pointer_bar_field") == r.get("target_bar_field")]
+    if _samq599:
+        _bad599.append("two ends stated in one field are graded across fields: %s"
+                       % ", ".join(sorted(set(_samq599))[:3]))
+    _claimed599 = _c599.get("disagreeing_edges") or []
+    _derived599 = sorted(
+        [{"pointer_face": r["pointer_face"], "key": r["key"], "relation": r["relation"],
+          "pointer_bar_field": r["pointer_bar_field"], "pointer_bar": r["pointer_bar"],
+          "target_bar_field": r["target_bar_field"], "target_bar": r["target_bar"],
+          "delta_days": r["delta_days"]}
+         for r in _rows599
+         if r.get("class") in (_m599.E_DISAGREE, _m599.E_ACROSS_FIELDS)
+         and not r.get("bars_equal")],
+        key=lambda d: (d["pointer_face"], d["key"]))
+    if _claimed599 != _derived599:
+        _bad599.append("the named differing pairs (%d) do not re-derive from the rows (%d)"
+                       % (len(_claimed599), len(_derived599)))
+    _d599 = ("faces=%d redirecting=%d edges=%d resolving=%d dangling=%d dangling_w_adjacent=%d "
+             "json=%d both_ends=%d same_field_agree=%d same_field_differ=%d across=%d "
+             "differing_pairs=%d"
+             % (_c599.get("pointer_faces_total", 0),
+                _c599.get("pointer_faces_with_a_redirect", 0),
+                _c599.get("redirect_edges", 0), _c599.get("redirect_edges_resolving", 0),
+                _c599.get("redirect_edges_dangling", 0),
+                _c599.get("redirect_edges_dangling_with_an_adjacent_copy", 0),
+                _c599.get("edges_target_is_json", 0),
+                _c599.get("edges_state_a_bar_at_both_ends", 0),
+                _c599.get("edges_agreeing", 0), _c599.get("edges_disagreeing", 0),
+                _c599.get("edges_stating_the_bar_in_different_fields", 0),
+                len(_claimed599)))
+except Exception as _e599x:
+    _bad599.append(repr(_e599x)[:160])
+    _d599 = "study could not be read"
+check(_name599, not _bad599, "; ".join(_bad599)[:240] or _d599)
+
+
 # E596: can a value join (the DATE) replace the name join (the KEY)?  The leg refuses a face whose
 # class counts do not re-derive from the details it publishes plus the rows it admits it sampled
 # out, a both-role answer that disagrees with the two dates that face actually states, and a

@@ -2442,6 +2442,14 @@ LEGS = [
     # face, or a key read off the face's redirect target one hop away.
     ("pointer_bar_demand",
      ["python", "scripts/e598_pointer_bar_demand.py", "check"]),
+    # E599 (r1627 bm-b): E598 found exactly one reader that follows a redirect, which raised the
+    # question it could not answer -- does the bar at the FAR end of a redirect match the bar the
+    # pointer declares?  Every redirect edge of every latest.json face is graded: does each end
+    # state a bar, do the two match, and are they even the same quantity.  The leg refuses two
+    # ends stated in different fields traded as one measurement, a dangling redirect whose own
+    # payload sits next to the pointer called a missing payload, and counts that do not re-derive.
+    ("pointer_redirect_bar",
+     ["python", "scripts/e599_pointer_redirect_bar.py", "check"]),
 ]
 
 

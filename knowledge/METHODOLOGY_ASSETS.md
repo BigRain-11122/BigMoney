@@ -14318,3 +14318,12 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
 - **下游**：24 个按路径命名这些面的读者模块中 6 个把计数放进算术（BARS_PER_YEAR / n_bars、252.0 / n_bars：etf_book_forward.py + trial_labor_w17..w21），0 个只做乘法。E588 的「0 of 11」只在他那一个面成立，不能外推成「全仓没人算」。
 - **自踩**：首版把本脚本自己的 selftest 字面量当成读者证据（E180/E207 家族——扫描器要排除自身，且排除要落 excluded 带理由而不是静默丢弃）。修法=按 SELF_NAME 排除 + selftest 腿 34b/34c 钉死。
 - **证据** = scripts/e597_bar_count_arith.py（selftest **38/38**，check/verify problems=[] / counts_identical=True）+ results/state_tilt/BARCOUNTARITH.json (+-latest) + smoke_test.py leg E597（公面 499/4623/542/542/24/6 内置重算法）+ POOL E597 done。
+
+### E602 两端写在不同字段里的日期不是一个量（r1627 bm-b·2026-11-09）
+
+- **因果**：E598 找到全仓唯一一条「读者沿指针跳一跳」的证据，却回答不了跳过去之后那个 bar 对不对——指针把真身写在别处，近端与远端各自报的日期可能连量都不是同一个。E599 把 28 张 latest.json 面的 12 条重定向边逐条定价。
+- **读数**：9/28 张指针面重定向；12 条边（修复后 12 条全可解）；只有 4 条两端都报 bar，**0 条同字段**、4 条跨字段（其中 2 条日期相同、2 条不同）；6 条指向 JSON、6 条指向非 JSON 制品；0 个模块同时打开两端、0 个模块比较两个 bar。
+- **教训（要命处）**：cutoff 与 evidence_cutoff 不是一个量——regime_matrix_p0 指针的 09-30 是 label_cutoff，载荷的 09-22 是 bars 截止；两个日期直接相减会把「不同量」读成「回退 8 天」（E206/E207 家族）。故跨字段差必须发布为 across_fields 类，禁并入 disagreement；只有当两端字段名相同才是同一个量、才允许判一致/不一致。
+- **第二教训**：一条悬空重定向不等于载荷丢失——regime_matrix_p0 用绝对 K:\\... 路径写指针，本检出树在 C:，而**同一个 basename 就躺在指针旁边**。判据=repair_path 实存；正名「钉在另一个根上」；修复=指针写仓相对路径（writer 已改 scripts/regime_matrix_p0.py，活指针已签修，重建后悬空 2→0）。
+- **用途**：接任何 *_latest 指针先问三件——远端在不在（可解/悬空/旁有副本）、两端各报的 bar 是不是同一个字段、有没有模块真去比。三样都不成立时，「指针里有 bar」只是近端自述。
+- **证据** = scripts/e599_pointer_redirect_bar.py（selftest **59/59**）+ results/state_tilt/POINTERREDIRECTBAR.json (+-latest) + smoke_test.py leg E599 + scripts/run_e599_smoke_leg.py（PASS·--doctor 1/1 红）+ S6 leg pointer_redirect_bar rc=0 + writer 修（相对路径）+ 活指针已签修。
