@@ -663,6 +663,16 @@ def main() -> int:
              "scripts/etf_book_live_size_provenance.py", ["selftest"]),
             ("product: etf_book_live_size_provenance (figures re-derived)",
              "scripts/etf_book_live_size_provenance.py", ["--check"]),
+            # r1480: every sheet of this book is written assuming it is filled at the open of
+            # the bar it was decided on; nothing had priced being late or skipping a sheet.
+            # The legs pin that lag=0 / phase=0 reproduces the engine bit for bit, that a
+            # delayed fill really lands later (and a flat panel stays flat at any lag), and
+            # that the published money, verdict and sentence all re-derive from the phase
+            # cells rather than being written by hand.
+            ("product: etf_book_punctuality (what a late fill costs)",
+             "scripts/etf_book_punctuality.py", ["selftest"]),
+            ("product: etf_book_punctuality (money, verdict and sentence re-derived)",
+             "scripts/etf_book_punctuality.py", ["check"]),
             # r1423: r1421 showed the concentration lives in the MAGNITUDES (2025 is a big
             # share of everything that moved) but no face said WHICH names produced them --
             # "the book had a big year" and "one bet had a big year" printed the same number

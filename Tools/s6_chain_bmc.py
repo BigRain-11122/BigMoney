@@ -1005,6 +1005,13 @@ LEGS = [
     # turns this leg red instead of leaving a stale gap on disk (r1290 class).
     ("live_size_provenance",
      ["python", "scripts/etf_book_live_size_provenance.py", "--check"]),
+    # r1480: every sheet this book publishes assumes it is filled at the open of the very
+    # bar it was decided on, and nothing had ever priced being late. This leg re-derives
+    # the published delay/punctuality receipt from its own cells (control reproduces the
+    # engine to 1e-12, money is each row minus its own control, the verdict follows from
+    # the phase cells, the headline quotes the phase cell). `check` reads the published
+    # JSON only (~0.1s); the 14-minute repricing runs with `run` in its own round.
+    ("punctuality", ["python", "scripts/etf_book_punctuality.py", "check"]),
     # r1447: the horizontal question above ("is the running weight the graded rule's
     # weight") has a vertical twin -- DEFAULT_BETA is a literal, so the weight is
     # k = target/beta and the target could have been any point on a ladder. This leg
