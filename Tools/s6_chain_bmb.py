@@ -1425,6 +1425,17 @@ LEGS = [
     # classed multi must publish two distinct columns for two nodes, and a line with no node is a red.
     ("read_same_line", ["python", "scripts/e632_read_same_line.py", "verify"]),
 
+    # E633 prices E632's own published limit: E632 counts read *nodes* with E623's classifier (a
+    # string subscript or a .get("key") call), so a same-key read in a form that classifier does not
+    # name -- `"k" in d`, `del d["k"]`, `d.setdefault("k", ...)`, `d.pop("k")` -- would be invisible at
+    # node level.  The leg re-parses the same 13 counted read lines, resolves each receiver, follows
+    # one hop of local aliasing, and re-derives the form census from the published rows: 29 accesses
+    # over 13 lines, 0 unnamed entry reads of the counted key, 5 computed-key reads at the receiver's
+    # own level, 9 below the receiver, 1 different named key, 1 container-level -- so E632's node
+    # count stands.  The leg also refuses a census whose recognised reads do not re-derive E632's node
+    # total: a form census on a different population cannot answer E632's question.
+    ("read_forms", ["python", "scripts/e633_read_forms.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

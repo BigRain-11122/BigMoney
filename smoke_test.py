@@ -27380,5 +27380,88 @@ except Exception as _e632x:
     _d632 = "study could not be read"
 check(_name632, not _bad632, "; ".join(_bad632)[:240] or _d632)
 
+# E633 asks whether a read form the classifier does not name sits on a counted read line.
+# E632 counts read *nodes* with E623's classifier, so `"k" in d`, `del d["k"]` or `d.setdefault("k")`
+# would read the key with no node to count.  This leg re-derives the form census from the published
+# rows, refuses a face whose form counts do not re-add, refuses one whose verdict the rows do not
+# force, and refuses one whose recognised reads do not re-derive E632's node total -- a census on a
+# different population cannot answer E632's question.
+_name633 = ("E633 whether a read form the classifier does not name sits on a counted read line "
+            "(r1652 bm-b)")
+_bad633 = []
+_d633 = "no reading"
+try:
+    _f633 = json.load(open(os.path.join("results", "state_tilt", "readformgap_latest.json"),
+                           encoding="utf-8"))
+    _m633 = importlib.import_module("e633_read_forms")
+    _bad633.extend(_m633.face_problems(_f633))
+    _c633 = _f633.get("counts") or {}
+    _rows633 = _f633.get("rows") or []
+    _forms633 = {_f: 0 for _f in _m633.FORMS}
+    for _r633 in _rows633:
+        if not _r633.get("receiver"):
+            _bad633.append("row %r resolves to no receiver yet is published"
+                           % (_r633.get("read_line"),))
+        for _a633 in (_r633.get("accesses") or []):
+            _frm633 = _a633.get("form")
+            if _frm633 not in _m633.FORMS:
+                _bad633.append("row %r carries an unknown form %r"
+                               % (_r633.get("read_line"), _frm633))
+                continue
+            _forms633[_frm633] += 1
+            if _a633.get("could_force_a_second_read") is not _m633.COULD_FORCE[_frm633]:
+                _bad633.append("row %r form %s publishes could_force=%r"
+                               % (_r633.get("read_line"), _frm633,
+                                  _a633.get("could_force_a_second_read")))
+        _named633 = [a for a in (_r633.get("accesses") or [])
+                     if a.get("form") == _m633.R_UNNAMED]
+        for _a633b in _named633:
+            if _a633b.get("depth") != 1:
+                _bad633.append("row %r counts a depth-%r access as an entry read"
+                               % (_r633.get("read_line"), _a633b.get("depth")))
+    for _f633b in _m633.FORMS:
+        if _c633.get("form_" + _f633b) != _forms633[_f633b]:
+            _bad633.append("counts.form_%s does not re-derive (published %r vs %d)"
+                           % (_f633b, _c633.get("form_" + _f633b), _forms633[_f633b]))
+    if sum(_forms633.values()) != _c633.get("accesses_to_a_counted_line_receiver"):
+        _bad633.append("the form table covers %d of %r published access(es)"
+                       % (sum(_forms633.values()),
+                          _c633.get("accesses_to_a_counted_line_receiver")))
+    _unn633 = sum(1 for _r in _rows633 for _a in (_r.get("accesses") or [])
+                  if _a.get("form") == _m633.R_UNNAMED)
+    if _unn633 != _c633.get("unrecognised_entry_reads_of_the_key"):
+        _bad633.append("counts.unrecognised_entry_reads_of_the_key says %r but the rows publish %d"
+                       % (_c633.get("unrecognised_entry_reads_of_the_key"), _unn633))
+    if _c633.get("recognised_reads_re_derived") != _c633.get("e632_published_read_nodes"):
+        _bad633.append("this census re-derives %r recognised read(s) against E632's %r node(s) -- it "
+                       "prices a different population"
+                       % (_c633.get("recognised_reads_re_derived"),
+                          _c633.get("e632_published_read_nodes")))
+    if _m633.derive_verdict({"counts": _c633}) != _f633.get("verdict"):
+        _bad633.append("the published verdict is not what the row table forces (%r)"
+                       % (_m633.derive_verdict({"counts": _c633}),))
+    if _f633.get("forms") != {_f: _m633.COULD_FORCE[_f] for _f in _m633.FORMS}:
+        _bad633.append("the face's form table is not the module's")
+    _self633 = [r.get("module") for r in _rows633
+                if r.get("module") and r["module"].split("/")[-1] in _m633.SELF_PARTS]
+    if _self633:
+        _bad633.append("this study lists itself as a population row: %s" % ", ".join(_self633))
+    if not _rows633:
+        _bad633.append("the face publishes no row at all, yet the study exists")
+    _d633 = ("lines=%s receivers=%s accesses=%s unnamed=%s computed=%s other_key=%s below=%s "
+             "container=%s recognised=%s/%s verdict=%s"
+             % (_c633.get("counted_read_lines"), _c633.get("lines_with_a_resolved_receiver"),
+                _c633.get("accesses_to_a_counted_line_receiver"),
+                _c633.get("unrecognised_entry_reads_of_the_key"),
+                _c633.get("computed_key_reads_at_the_receivers_own_level"),
+                _c633.get("different_key_reads"), _c633.get("reads_below_the_receiver"),
+                _c633.get("container_level_accesses"),
+                _c633.get("recognised_reads_re_derived"),
+                _c633.get("e632_published_read_nodes"), _f633.get("verdict")))
+except Exception as _e633x:
+    _bad633.append(repr(_e633x)[:160])
+    _d633 = "study could not be read"
+check(_name633, not _bad633, "; ".join(_bad633)[:240] or _d633)
+
 if __name__ == "__main__":
     sys.exit(main())

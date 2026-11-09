@@ -31010,9 +31010,31 @@
    "source": "E632 (r1651 bm-b) publishes its own limit: the read-node class comes from the same classifier E623 used, so a read form that classifier does not recognise is invisible here as well",
    "target": "results/state_tilt/READFORMGAP.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T04:52:00+08:00",
    "seeded_by": "r1651 bm-b",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "done_at": "2026-11-10T05:20:00+08:00",
+   "done_by": "r1652 bm-b",
+   "result_ref": "results/state_tilt/READFORMGAP.json",
+   "done_note": "0 of 13 counted read lines carry an unnamed entry read of their own key: 29 accesses of the counted receivers sit on those lines (13 recognised reads, 9 below the receiver, 5 computed-key reads at the receiver's own level, 1 different named key, 1 container-level), so E632's node count stands. The 5 computed-key reads are member lookups (sleeves[tid] x4, faces[UP_E350]), published as their own class rather than counted as same-key reads. 0 local aliases were found, so the variable-subscript form the card names is not exercised on this population. Deliverable published under the card's own path."
+  },
+  {
+   "card": "E634",
+   "id": "E634-WHETHER-THE-RECEIVERS-OTHER-ACCESSES-BEYOND-THE-COUNTED-LINE-READ-THE-KEY-WITHOUT-A-NODE",
+   "title": "whether the receiver's other accesses in the same function, beyond the counted line, read the key without producing a read node",
+   "lane": "cpu-only",
+   "lane_note": "E633 is line-scoped by construction -- it prices only nodes that start on the counted read line -- and publishes that as its second limit. Same 13 receivers, but walk the whole body of the function that holds the dead line, in document order, and split every unnamed same-key read by whether it comes before or after the dead line: a read BEFORE it cannot explain the dead line, and a read AFTER it competes with the counted read for the same duplicate denominator. No runner, no fixture write.",
+   "deliverable": "results/state_tilt/READFUNCGAP.json: per counted read line, every unnamed same-key read of that receiver in the function body with its side of the dead line, and whether the duplicate test could move",
+   "source": "E633 (r1652 bm-b) publishes its own limit: an access that starts on a neighbouring line belongs to that line's count, not the counted line's",
+   "target": "results/state_tilt/READFUNCGAP.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T05:20:00+08:00",
+   "seeded_by": "r1652 bm-b",
    "workers_plan": {
     "workers": 4,
     "priority": "BelowNormal"
@@ -31031,6 +31053,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T04:52:00+08:00",
+ "updated_at": "2026-11-10T05:20:00+08:00",
  "version": 1
 }
