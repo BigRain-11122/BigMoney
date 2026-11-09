@@ -27305,5 +27305,80 @@ except Exception as _e631x:
     _d631 = "study could not be read"
 check(_name631, not _bad631, "; ".join(_bad631)[:240] or _d631)
 
+# E632 asks whether one physical line carries two reads of the key E631 counted once.
+# E631 publishes its own limit -- a line-level count cannot rule out `d[k] = d[k] + 1` -- so this leg
+# re-reads the published re-parse: every counted read line must carry at least one read node, a row
+# classed multi must publish two distinct columns for two nodes, the class table must re-add, and the
+# verdict must be what the rows force.  A face whose own population is one row short of E631's read
+# lines is a face that priced a different population.
+_name632 = ("E632 whether one physical line carries two reads of the key E631 counted once "
+            "(r1651 bm-b)")
+_bad632 = []
+_d632 = "no reading"
+try:
+    _f632 = json.load(open(os.path.join("results", "state_tilt", "readsameline_latest.json"),
+                           encoding="utf-8"))
+    _m632 = importlib.import_module("e632_read_same_line")
+    _bad632.extend(_m632.face_problems(_f632))
+    _c632 = _f632.get("counts") or {}
+    _rows632 = _f632.get("rows") or []
+    _cls632 = {_k: 0 for _k in _m632.LINE_CLASSES}
+    _nodes632 = 0
+    for _r632 in _rows632:
+        _k632 = _r632.get("class")
+        if _k632 not in _m632.LINE_CLASSES:
+            _bad632.append("row %r in %r carries class %r"
+                           % (_r632.get("read_line"), _r632.get("function"), _k632))
+            continue
+        _cls632[_k632] += 1
+        _n632 = _r632.get("read_nodes_on_the_line")
+        _nodes632 += _n632 if isinstance(_n632, int) else 0
+        if _k632 == _m632.L_MULTI:
+            _cols632 = _r632.get("columns") or []
+            if not isinstance(_n632, int) or _n632 < 2:
+                _bad632.append("row %r is classed multi with %r node(s)"
+                               % (_r632.get("read_line"), _n632))
+            elif len(_cols632) != _n632 or len(set(_cols632)) != _n632:
+                _bad632.append("row %r publishes %d distinct column(s) for %d node(s)"
+                               % (_r632.get("read_line"), len(set(_cols632)), _n632))
+        elif isinstance(_n632, int) and _n632 < 1:
+            _bad632.append("row %r carries no read node yet E631 counted the line"
+                           % (_r632.get("read_line"),))
+        if _r632.get("read_line") is not None and _r632.get("dead_line") is not None \
+                and _r632["read_line"] <= _r632["dead_line"]:
+            _bad632.append("row %r is not after its dead line %r"
+                           % (_r632.get("read_line"), _r632.get("dead_line")))
+    if _nodes632 != _c632.get("read_nodes_on_the_counted_lines_total"):
+        _bad632.append("counts.read_nodes_on_the_counted_lines_total says %r but the rows publish %d"
+                       % (_c632.get("read_nodes_on_the_counted_lines_total"), _nodes632))
+    for _k632b in _m632.LINE_CLASSES:
+        if _c632.get("class_" + _k632b) != _cls632[_k632b]:
+            _bad632.append("counts.class_%s does not re-derive (published %r vs %r)"
+                           % (_k632b, _c632.get("class_" + _k632b), _cls632[_k632b]))
+    if sum(_cls632.values()) != len(_rows632):
+        _bad632.append("the row classes cover %d of %d rows"
+                       % (sum(_cls632.values()), len(_rows632)))
+    if _m632.derive_verdict({"counts": _c632}) != _f632.get("verdict"):
+        _bad632.append("the published verdict is not what the row table forces (%r)"
+                       % (_m632.derive_verdict({"counts": _c632}),))
+    _self632 = [r.get("module") for r in _rows632
+                if r.get("module") and r["module"].split("/")[-1] in _m632.SELF_PARTS]
+    if _self632:
+        _bad632.append("this study lists itself as a population row: %s" % ", ".join(_self632))
+    if not _rows632:
+        _bad632.append("the face publishes no row at all, yet the study exists")
+    _d632 = ("counted_read_lines=%s nodes=%s single=%s multi=%s none=%s dup_that_move=%s verdict=%s"
+             % (_c632.get("counted_read_lines"),
+                _c632.get("read_nodes_on_the_counted_lines_total"),
+                _c632.get("lines_carrying_exactly_one_read_node"),
+                _c632.get("lines_carrying_more_than_one_read_node"),
+                _c632.get("lines_that_do_not_resolve_to_a_read_node"),
+                _c632.get("duplicate_rows_whose_denominator_would_move"),
+                _f632.get("verdict")))
+except Exception as _e632x:
+    _bad632.append(repr(_e632x)[:160])
+    _d632 = "study could not be read"
+check(_name632, not _bad632, "; ".join(_bad632)[:240] or _d632)
+
 if __name__ == "__main__":
     sys.exit(main())

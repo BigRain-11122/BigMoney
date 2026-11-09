@@ -14779,3 +14779,27 @@ POOL E630 done / E631 seeded + `research/digests/DIGEST-20261110-r1649-e630-call
 `scripts/run_e631_smoke_leg.py`（1/1 PASS，`--doctor` 1/1 红，面字节还原）+ smoke_test.py leg E631 +
 S6 leg `read_multiplicity`（rc0）+ POOL E631 done / E632 seeded +
 `research/digests/DIGEST-20261110-r1650-e631-read-multiplicity.md`。
+
+## E632 — 行级读数是不是节点级读数：一行会不会装下两次读（r1651 bm-b·2026-11-10）
+
+> 源起=POOL 卡 E632。E631 自己在面里写了这条局限：读点按**行号**计，同一物理行上的两次读
+> （`d[k] = d[k] + 1`）会读作一次。于是它留下的分母虽然站得住，却没法排除「某一行其实装了两次读」。
+
+**研究**：把 E631 计的 **13 条读行**逐条回到源模块，按 AST 的 `col_offset` 数该键在该行上的读**节点**——
+13 条行、13 个节点、**0 行**装两次；4 个重复行里 **0 个**坐在会动的行上。结论=在这个总体上行级计数
+即节点级计数，重复分母不动。发布面逐行给出 `columns`，所以「一行两个节点」是可复核的判断而不是断言。
+
+**教训**：**对自己发布的读数做单位审计，比再做一次同样的统计更值钱**——「按行计」与「按节点计」
+在绝大多数代码上数值相同，正因为相同才会被当成同一件事，于是一条自陈局限可以一直活着而不被检验；
+把它变成一次可证伪的测量（列级计数 + 每行 `columns` 发布）只需一条腿，代价远低于它日后误导别人的代价。
+配套律：**分类器共享即盲区共享**——E632 用的是 E623 的读点分类器，所以分类器认不出的读法（`key in d`、
+`d.keys()`、变量下标）在节点级同样不可见，这条必须写进面的 limits，而不是当成已经解决（→ E633）。
+
+**How**：凡「X 是按 Y 计的」这类自陈局限，一次测量就能定生死，别留给读者推理：①把 Y 的粒度做成可比
+的两种读数（行/节点、文件/成员、次/元），②对同总体重算两遍并把差值单列，③行级类别里给「该行装了
+几个节点」的十进位字段与列号，让读者能手工复算，④把分类器/清单的共用盲区写进 limits 并指向下一张卡。
+
+**证据** = `scripts/e632_read_same_line.py`（selftest 23/23，build/check/verify `problems=[]`）+
+`results/state_tilt/READSAMELINE.json` + `readsameline_latest.json` + `scripts/run_e632_smoke_leg.py`
+（1/1 PASS，`--doctor` 1/1 红，面字节还原）+ smoke_test.py leg E632 + S6 leg `read_same_line`（rc0）+
+POOL E632 done / E633 seeded + `research/digests/DIGEST-20261110-r1651-e632-read-same-line.md`。

@@ -1,0 +1,203 @@
+{
+ "study": "E632_read_same_line",
+ "script": "scripts/e632_read_same_line.py",
+ "card": "E632",
+ "evidence_cutoff": "2026-11-10",
+ "dept": "research+engineering",
+ "method": "re-parse each module that holds a counted read line, resolve the function that spans the dead line, count read nodes of the key on the counted line and publish each node's column offset",
+ "population_source": "the read lines E631 published in results/state_tilt/READMULTIPLICITY.json (one row per counted read line, not per dead line)",
+ "source_face": "results/state_tilt/READMULTIPLICITY.json",
+ "counts": {
+  "counted_read_lines": 13,
+  "read_nodes_on_the_counted_lines_total": 13,
+  "lines_carrying_more_than_one_read_node": 0,
+  "lines_carrying_exactly_one_read_node": 13,
+  "lines_that_do_not_resolve_to_a_read_node": 0,
+  "modules_that_could_not_be_re_parsed": 0,
+  "duplicate_rows_whose_denominator_would_move": 0,
+  "class_exactly_one_read_node_on_the_line": 13,
+  "class_more_than_one_read_node_on_the_line": 0,
+  "class_no_read_node_resolves_at_the_line": 0,
+  "e631_published_rows": 34,
+  "e631_published_duplicate_rows": 4
+ },
+ "rows": [
+  {
+   "module": "scripts/cn_core_ddctl_p1.py",
+   "function": "run",
+   "dead_line": 367,
+   "key": "days",
+   "read_line": 395,
+   "is_a_duplicate_row": true,
+   "read_nodes_on_the_line": 1,
+   "columns": [
+    14
+   ],
+   "class": "exactly_one_read_node_on_the_line"
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "simulate",
+   "dead_line": 507,
+   "key": "slip_exec",
+   "read_line": 589,
+   "is_a_duplicate_row": true,
+   "read_nodes_on_the_line": 1,
+   "columns": [
+    39
+   ],
+   "class": "exactly_one_read_node_on_the_line"
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "simulate",
+   "dead_line": 507,
+   "key": "slip_exec",
+   "read_line": 593,
+   "is_a_duplicate_row": true,
+   "read_nodes_on_the_line": 1,
+   "columns": [
+    38
+   ],
+   "class": "exactly_one_read_node_on_the_line"
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "dead_line": 332,
+   "key": "verdict",
+   "read_line": 350,
+   "is_a_duplicate_row": false,
+   "read_nodes_on_the_line": 1,
+   "columns": [
+    34
+   ],
+   "class": "exactly_one_read_node_on_the_line"
+  },
+  {
+   "module": "scripts/e504_name_compose.py",
+   "function": "selftest",
+   "dead_line": 879,
+   "key": "rows",
+   "read_line": 919,
+   "is_a_duplicate_row": false,
+   "read_nodes_on_the_line": 1,
+   "columns": [
+    8
+   ],
+   "class": "exactly_one_read_node_on_the_line"
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "function": "face_problems",
+   "dead_line": 364,
+   "key": "bar",
+   "read_line": 367,
+   "is_a_duplicate_row": true,
+   "read_nodes_on_the_line": 1,
+   "columns": [
+    74
+   ],
+   "class": "exactly_one_read_node_on_the_line"
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "function": "face_problems",
+   "dead_line": 364,
+   "key": "bar",
+   "read_line": 372,
+   "is_a_duplicate_row": true,
+   "read_nodes_on_the_line": 1,
+   "columns": [
+    34
+   ],
+   "class": "exactly_one_read_node_on_the_line"
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "function": "face_problems",
+   "dead_line": 364,
+   "key": "bar",
+   "read_line": 377,
+   "is_a_duplicate_row": true,
+   "read_nodes_on_the_line": 1,
+   "columns": [
+    34
+   ],
+   "class": "exactly_one_read_node_on_the_line"
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "dead_line": 393,
+   "key": "x1",
+   "read_line": 414,
+   "is_a_duplicate_row": true,
+   "read_nodes_on_the_line": 1,
+   "columns": [
+    8
+   ],
+   "class": "exactly_one_read_node_on_the_line"
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "dead_line": 393,
+   "key": "x1",
+   "read_line": 424,
+   "is_a_duplicate_row": true,
+   "read_nodes_on_the_line": 1,
+   "columns": [
+    45
+   ],
+   "class": "exactly_one_read_node_on_the_line"
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "dead_line": 393,
+   "key": "x1",
+   "read_line": 437,
+   "is_a_duplicate_row": true,
+   "read_nodes_on_the_line": 1,
+   "columns": [
+    36
+   ],
+   "class": "exactly_one_read_node_on_the_line"
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "dead_line": 393,
+   "key": "x1",
+   "read_line": 438,
+   "is_a_duplicate_row": true,
+   "read_nodes_on_the_line": 1,
+   "columns": [
+    36
+   ],
+   "class": "exactly_one_read_node_on_the_line"
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "dead_line": 393,
+   "key": "x1",
+   "read_line": 444,
+   "is_a_duplicate_row": true,
+   "read_nodes_on_the_line": 1,
+   "columns": [
+    45
+   ],
+   "class": "exactly_one_read_node_on_the_line"
+  }
+ ],
+ "limits": [
+  "the read-node class comes from the same classifier E623 used to build E625's list, so a read form that classifier does not recognise is invisible here as well",
+  "only the lines E631 counted are re-read; a line E631 never listed cannot appear, so this study prices the denominator it was handed and not the population behind it",
+  "a read inside a lambda or comprehension on the same physical line is counted as a node of that line, which is the strict reading of 'one physical line'",
+  "column offsets are published so the count can be re-derived by hand; indentation-shifted files would keep node counts equal but move the columns"
+ ],
+ "verdict": "no_counted_read_line_carries_two_read_nodes_so_on_this_population_the_line_level_count_equals_the_node_level_count",
+ "answer": "E631 counted 13 read line(s) across 34 dead-line row(s); re-parsing those modules at node level finds 13 read node(s) on those lines, 13 line(s) carry exactly one node and 0 carry more than one. 0 of the 4 duplicate row(s) sit on a line that would move the denominator if it carried two."
+}

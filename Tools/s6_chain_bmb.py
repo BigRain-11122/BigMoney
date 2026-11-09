@@ -1417,6 +1417,14 @@ LEGS = [
     # from its own read lines and refuses a list that does not cover the function it describes.
     ("read_multiplicity", ["python", "scripts/e631_read_multiplicity.py", "verify"]),
 
+    # E632 prices the limit E631 published about itself: a count of read SITES by line number reads
+    # two reads on one physical line (`d[k] = d[k] + 1`) as one site.  The leg re-parses the modules
+    # that hold E631's 13 counted read lines and re-derives the node count per line from the columns
+    # the face publishes -- 13 nodes on 13 lines, none carrying two, so on this population the
+    # line-level count equals the node-level count and the duplicate denominator does not move.  A row
+    # classed multi must publish two distinct columns for two nodes, and a line with no node is a red.
+    ("read_same_line", ["python", "scripts/e632_read_same_line.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

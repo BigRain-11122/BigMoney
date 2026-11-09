@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1650 bm-b: E631 burned -- the read side is the last place the duplicate denominator could move, and E625's read list covers every read in every function, so it does not move; E632 seeded on the line-level residue",
+ "_stamp_note": "r1651 bm-b: E632 burned -- re-parsed the modules behind E631's 13 counted read lines and found 13 read nodes, none on a line that carries two, so the line-level count is a node-level count here; E633 seeded on the classifier's own blind spot",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -30984,9 +30984,35 @@
    "source": "E631 (r1650 bm-b) publishes its own limit: two reads on one physical line read as one site, so a line-level count cannot rule out a denominator that is one short",
    "target": "results/state_tilt/READSAMELINE.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T04:24:20+08:00",
    "seeded_by": "r1650 bm-b",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-10T04:38:00+08:00",
+   "closed_by": "bm-b",
+   "closed_at": "2026-11-10T04:47:00+08:00",
+   "completed_by": "bm-b r1651",
+   "completed_at": "2026-11-10T04:47:00+08:00",
+   "result_ref": "results/state_tilt/READSAMELINE.json + scripts/e632_read_same_line.py + results/_r1651bmb_s6_chain.json",
+   "outcome": "13 counted read lines hold 13 read nodes and none holds two, so on this population the line-level count equals the node-level count and the duplicate denominator does not move"
+  },
+  {
+   "card": "E633",
+   "id": "E633-WHETHER-A-READ-FORM-THE-CLASSIFIER-DOES-NOT-RECOGNISE-SITS-ON-A-COUNTED-READ-LINE",
+   "title": "whether a read form the classifier does not recognise sits on a counted read line",
+   "lane": "cpu-only",
+   "lane_note": "static: E632 counts read nodes with the same classifier E623/E625 used (a string subscript or a .get(\"key\") call), so a read of the same receiver that the classifier does not name -- `key in d`, `d.keys()`, `for k in d`, a variable subscript, `d.setdefault` -- is invisible at node level exactly as it was at line level; walk the same 13 counted lines and list every other access form of that receiver and whether it could force a second read; no runner, no fixture write",
+   "deliverable": "results/state_tilt/READFORMGAP.json: per counted read line, the access forms of the same receiver the classifier does not count, and the count of lines where such a form could carry a read of the key",
+   "source": "E632 (r1651 bm-b) publishes its own limit: the read-node class comes from the same classifier E623 used, so a read form that classifier does not recognise is invisible here as well",
+   "target": "results/state_tilt/READFORMGAP.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T04:52:00+08:00",
+   "seeded_by": "r1651 bm-b",
    "workers_plan": {
     "workers": 4,
     "priority": "BelowNormal"
@@ -31005,6 +31031,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T04:24:20+08:00",
+ "updated_at": "2026-11-10T04:52:00+08:00",
  "version": 1
 }
