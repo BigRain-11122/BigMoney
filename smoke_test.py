@@ -8406,10 +8406,24 @@ def main() -> int:
         # O-20261102-2015 sec.2: the CPU-hours line must be recomputable from the
         # sampler rows AND each batch must name a file that is actually on disk.
         _day = dt.date.today().isoformat()
-        _stem = _day.replace("-", "")
         _root66 = os.path.dirname(os.path.abspath(__file__))
-        _rep = os.path.join(_root66, "docs", "daily_report", "REPORT-%s.json" % _day)
-        _md = os.path.join(_root66, "docs", "daily_report", "REPORT-%s.md" % _day)
+        _rpt_dir = os.path.join(_root66, "docs", "daily_report")
+        _rep = os.path.join(_rpt_dir, "REPORT-%s.json" % _day)
+        _report_note = ""
+        if not os.path.exists(_rep):
+            # Every window that runs before today's report is written (all pre-dawn rounds)
+            # met a FileNotFoundError here and this leg went red for the clock, not for the
+            # work. Fall back to the newest report on disk and SAY which day was read; the
+            # sampler rows below must then be filtered on that same day, or the core-hours
+            # recomputation compares two different days and fails for a second false reason.
+            _cand = sorted(_n for _n in os.listdir(_rpt_dir)
+                           if _n.startswith("REPORT-") and _n.endswith(".json"))
+            if not _cand:
+                raise FileNotFoundError("no REPORT-*.json on disk")
+            _day = _cand[-1][len("REPORT-"):-len(".json")]
+            _rep = os.path.join(_rpt_dir, _cand[-1])
+            _report_note = "report of %s (today's not written yet)" % _day
+        _md = os.path.join(_rpt_dir, "REPORT-%s.md" % _day)
         _cs = (json.load(open(_rep, encoding="utf-8")).get("core_spread") or {})
         _rows, _secs = 0, 0.0
         try:
@@ -8450,7 +8464,9 @@ def main() -> int:
             _bad66.append("report does not print the CPU work-hours line")
         check("product: CPU work-hours are recomputable and every batch names a file",
               not _bad66, "; ".join(_bad66)[:200]
-              or "%d batch(es), %s core-hours on %s" % (_rows, _fleet.get("core_hours"), _day))
+              or "%d batch(es), %s core-hours on %s%s"
+              % (_rows, _fleet.get("core_hours"), _day,
+                 (" -- " + _report_note) if _report_note else ""))
     except Exception as e:
         check("product: CPU work-hours are recomputable and every batch names a file",
               False, repr(e)[:160])
