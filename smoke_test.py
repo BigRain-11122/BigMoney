@@ -27463,5 +27463,80 @@ except Exception as _e633x:
     _d633 = "study could not be read"
 check(_name633, not _bad633, "; ".join(_bad633)[:240] or _d633)
 
+# E634 asks whether the receiver reads the key anywhere else in the function body without a node.
+# E633 is line-scoped by construction, so `"k" in d`, `del d["k"]`, `d.setdefault("k")` or `d.pop("k")`
+# on a neighbouring line belong to that line's count and are invisible there.  This leg re-derives
+# the body census from the published rows, refuses a face whose side split or form table does not
+# re-add, refuses one whose verdict the rows do not force, refuses an unnamed read with no side, and
+# refuses a zero unnamed count published without a non-empty census -- a zero that does not say what
+# it looked at is a claim, not a measurement (E444 family).
+_name634 = ("E634 whether the receiver reads this key elsewhere in the function body without a node "
+            "(r1653 bm-b)")
+_bad634 = []
+_d634 = "no reading"
+try:
+    _f634 = json.load(open(os.path.join("results", "state_tilt", "readfuncgap_latest.json"),
+                           encoding="utf-8"))
+    _m634 = importlib.import_module("e634_read_func_gap")
+    _bad634.extend(_m634.face_problems(_f634))
+    _c634 = _f634.get("counts") or {}
+    _rows634 = _f634.get("rows") or []
+    for _r634 in _rows634:
+        _forms634 = _r634.get("accesses_by_form") or {}
+        _unn634 = [a for a in (_r634.get("unnamed_same_key_reads") or [])]
+        _cmp634 = _r634.get("computed_key_reads") or []
+        if _forms634.get("unnamed_entry_read_of_the_key", 0) != len(_unn634):
+            _bad634.append("row %r publishes %d unnamed read(s) but counts %r"
+                           % (_r634.get("read_line"), len(_unn634),
+                              _forms634.get("unnamed_entry_read_of_the_key")))
+        if _forms634.get("read_with_a_computed_key", 0) != len(_cmp634):
+            _bad634.append("row %r publishes %d computed read(s) but counts %r"
+                           % (_r634.get("read_line"), len(_cmp634),
+                              _forms634.get("read_with_a_computed_key")))
+        for _a634 in _unn634:
+            if _a634.get("side") not in _m634.SIDES:
+                _bad634.append("row %r carries an unnamed read with side %r"
+                               % (_r634.get("read_line"), _a634.get("side")))
+        if ((_r634.get("unnamed_before_the_dead_line") or 0)
+                + (_r634.get("unnamed_at_the_dead_line") or 0)
+                + (_r634.get("unnamed_after_the_dead_line") or 0)) != len(_unn634):
+            _bad634.append("row %r side split does not add up to its unnamed reads"
+                           % (_r634.get("read_line"),))
+        if not _r634.get("receiver"):
+            _bad634.append("row %r resolves to no receiver yet is published"
+                           % (_r634.get("read_line"),))
+    _body634 = sum((r.get("accesses_in_the_function_body") or 0) for r in _rows634)
+    if _c634.get("accesses_in_the_function_bodies") != _body634:
+        _bad634.append("counts.accesses_in_the_function_bodies says %r but the rows publish %d"
+                       % (_c634.get("accesses_in_the_function_bodies"), _body634))
+    if _body634 and (_c634.get("unnamed_same_key_reads_in_the_function_bodies") or 0) == 0 \
+            and _body634 == 0:
+        _bad634.append("a zero unnamed count is published on an empty census")
+    if _m634.derive_verdict({"counts": _c634}) != _f634.get("verdict"):
+        _bad634.append("the published verdict is not what the row table forces (%r)"
+                       % (_m634.derive_verdict({"counts": _c634}),))
+    _self634 = [r.get("module") for r in _rows634
+                if r.get("module") and r["module"].split("/")[-1] in _m634.SELF_PARTS]
+    if _self634:
+        _bad634.append("this study lists itself as a population row: %s" % ", ".join(_self634))
+    if not _rows634:
+        _bad634.append("the face publishes no row at all, yet the study exists")
+    _d634 = ("lines=%s bodies=%s body_accesses=%s recognised_in_body=%s unnamed=%s "
+             "(before=%s at=%s after=%s) computed=%s (before=%s after=%s) verdict=%s"
+             % (_c634.get("counted_read_lines"), _c634.get("lines_with_a_resolved_receiver"),
+                _c634.get("accesses_in_the_function_bodies"),
+                _c634.get("recognised_reads_in_the_function_bodies"),
+                _c634.get("unnamed_same_key_reads_in_the_function_bodies"),
+                _c634.get("unnamed_before_the_dead_line"),
+                _c634.get("unnamed_at_the_dead_line"),
+                _c634.get("unnamed_after_the_dead_line"),
+                _c634.get("computed_key_reads_in_the_function_bodies"),
+                _c634.get("computed_before_the_dead_line"),
+                _c634.get("computed_after_the_dead_line"), _f634.get("verdict")))
+except Exception as _e634x:
+    _bad634.append(repr(_e634x)[:160])
+    _d634 = "study could not be read"
+check(_name634, not _bad634, "; ".join(_bad634)[:240] or _d634)
+
 if __name__ == "__main__":
     sys.exit(main())

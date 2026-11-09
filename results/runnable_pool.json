@@ -31032,9 +31032,30 @@
    "source": "E633 (r1652 bm-b) publishes its own limit: an access that starts on a neighbouring line belongs to that line's count, not the counted line's",
    "target": "results/state_tilt/READFUNCGAP.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T05:20:00+08:00",
    "seeded_by": "r1652 bm-b",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "done_at": "2026-11-10T05:24:00+08:00",
+   "done_by": "r1653 bm-b",
+   "result_ref": "results/state_tilt/READFUNCGAP.json"
+  },
+  {
+   "card": "E635",
+   "id": "E635-WHETHER-THE-COMPUTED-KEY-READS-AFTER-THE-DEAD-LINE-RESOLVE-TO-THE-COUNTED-KEY",
+   "title": "whether the computed-key reads after the dead line resolve to the counted key by constant propagation inside the function",
+   "lane": "cpu-only",
+   "lane_note": "E634 walked the whole function body and found 0 unnamed entry reads of the key, but 30 computed-key reads at the receiver's own level (8 before / 1 at / 21 after the dead line). Those read *some* key. Resolve each one inside the function: a loop variable whose iteration set is a literal list of the counted key, a local bound to the key's name, a dict-comprehension target -- and publish how many of the 21 after-side ones can be shown to be that key without running anything. No runner, no fixture write.",
+   "deliverable": "results/state_tilt/READKEYRESOLVE.json: per computed-key read, its side of the dead line, every binding site that could give it the counted key inside the function, and whether it is resolvable / another key / undecidable",
+   "source": "E634 (r1653 bm-b) publishes its own residual: 30 computed-key reads at the receiver's own level, 21 of them after the dead line",
+   "target": "results/state_tilt/READKEYRESOLVE.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T05:24:00+08:00",
+   "seeded_by": "r1653 bm-b",
    "workers_plan": {
     "workers": 4,
     "priority": "BelowNormal"
@@ -31053,6 +31074,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T05:20:00+08:00",
+ "updated_at": "2026-11-10T05:24:00+08:00",
  "version": 1
 }

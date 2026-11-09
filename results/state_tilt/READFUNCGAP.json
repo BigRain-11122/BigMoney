@@ -1,0 +1,627 @@
+{
+ "study": "E634_read_func_gap",
+ "script": "scripts/e634_read_func_gap.py",
+ "card": "E634",
+ "evidence_cutoff": "2026-11-10",
+ "dept": "research+engineering",
+ "method": "re-parse each module holding a counted read line, resolve the function that spans the dead line, resolve the receiver of the counted read, follow one hop of local aliasing, then walk every access of that receiver in the whole function body in document order and split it by side of the dead line",
+ "population_source": "the counted read lines E632 published in results/state_tilt/READSAMELINE.json (one row per counted read line)",
+ "source_face": "results/state_tilt/READSAMELINE.json",
+ "counts": {
+  "counted_read_lines": 13,
+  "lines_with_a_resolved_receiver": 13,
+  "lines_that_do_not_resolve": 0,
+  "modules_that_could_not_be_re_parsed": 0,
+  "receiver_with_a_local_alias": 0,
+  "accesses_in_the_function_bodies": 230,
+  "recognised_reads_in_the_function_bodies": 44,
+  "lines_carrying_a_recognised_read_in_the_body": 13,
+  "unnamed_same_key_reads_in_the_function_bodies": 0,
+  "unnamed_before_the_dead_line": 0,
+  "unnamed_at_the_dead_line": 0,
+  "unnamed_after_the_dead_line": 0,
+  "lines_carrying_an_unnamed_read_after_the_dead_line": 0,
+  "computed_key_reads_in_the_function_bodies": 30,
+  "computed_before_the_dead_line": 8,
+  "computed_at_the_dead_line": 1,
+  "computed_after_the_dead_line": 21,
+  "lines_carrying_a_computed_read_after_the_dead_line": 5,
+  "form_recognised_read_of_the_key": 44,
+  "form_unnamed_entry_read_of_the_key": 0,
+  "form_read_of_a_different_key": 62,
+  "form_read_with_a_computed_key": 30,
+  "form_read_below_the_receiver": 52,
+  "form_container_enumeration": 42,
+  "form_write_of_the_key": 0,
+  "e632_published_rows": 13,
+  "e632_published_read_nodes": 13
+ },
+ "rows": [
+  {
+   "module": "scripts/cn_core_ddctl_p1.py",
+   "function": "run",
+   "dead_line": 367,
+   "key": "days",
+   "read_line": 395,
+   "read_nodes_on_the_line": 1,
+   "is_a_duplicate_row": true,
+   "receiver": "P",
+   "aliases": [],
+   "recognised_reads_in_the_function_body": 2,
+   "recognised_reads_on_the_counted_line": 1,
+   "accesses_in_the_function_body": 23,
+   "accesses_by_form": {
+    "recognised_read_of_the_key": 2,
+    "unnamed_entry_read_of_the_key": 0,
+    "read_of_a_different_key": 11,
+    "read_with_a_computed_key": 0,
+    "read_below_the_receiver": 5,
+    "container_enumeration": 5,
+    "write_of_the_key": 0
+   },
+   "unnamed_same_key_reads": [],
+   "unnamed_before_the_dead_line": 0,
+   "unnamed_at_the_dead_line": 0,
+   "unnamed_after_the_dead_line": 0,
+   "computed_key_reads": [],
+   "computed_before_the_dead_line": 0,
+   "computed_after_the_dead_line": 0
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "simulate",
+   "dead_line": 507,
+   "key": "slip_exec",
+   "read_line": 589,
+   "read_nodes_on_the_line": 1,
+   "is_a_duplicate_row": true,
+   "receiver": "P",
+   "aliases": [],
+   "recognised_reads_in_the_function_body": 3,
+   "recognised_reads_on_the_counted_line": 1,
+   "accesses_in_the_function_body": 24,
+   "accesses_by_form": {
+    "recognised_read_of_the_key": 3,
+    "unnamed_entry_read_of_the_key": 0,
+    "read_of_a_different_key": 13,
+    "read_with_a_computed_key": 0,
+    "read_below_the_receiver": 8,
+    "container_enumeration": 0,
+    "write_of_the_key": 0
+   },
+   "unnamed_same_key_reads": [],
+   "unnamed_before_the_dead_line": 0,
+   "unnamed_at_the_dead_line": 0,
+   "unnamed_after_the_dead_line": 0,
+   "computed_key_reads": [],
+   "computed_before_the_dead_line": 0,
+   "computed_after_the_dead_line": 0
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "simulate",
+   "dead_line": 507,
+   "key": "slip_exec",
+   "read_line": 593,
+   "read_nodes_on_the_line": 1,
+   "is_a_duplicate_row": true,
+   "receiver": "P",
+   "aliases": [],
+   "recognised_reads_in_the_function_body": 3,
+   "recognised_reads_on_the_counted_line": 1,
+   "accesses_in_the_function_body": 24,
+   "accesses_by_form": {
+    "recognised_read_of_the_key": 3,
+    "unnamed_entry_read_of_the_key": 0,
+    "read_of_a_different_key": 13,
+    "read_with_a_computed_key": 0,
+    "read_below_the_receiver": 8,
+    "container_enumeration": 0,
+    "write_of_the_key": 0
+   },
+   "unnamed_same_key_reads": [],
+   "unnamed_before_the_dead_line": 0,
+   "unnamed_at_the_dead_line": 0,
+   "unnamed_after_the_dead_line": 0,
+   "computed_key_reads": [],
+   "computed_before_the_dead_line": 0,
+   "computed_after_the_dead_line": 0
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "dead_line": 332,
+   "key": "verdict",
+   "read_line": 350,
+   "read_nodes_on_the_line": 1,
+   "is_a_duplicate_row": false,
+   "receiver": "faces",
+   "aliases": [],
+   "recognised_reads_in_the_function_body": 2,
+   "recognised_reads_on_the_counted_line": 1,
+   "accesses_in_the_function_body": 11,
+   "accesses_by_form": {
+    "recognised_read_of_the_key": 2,
+    "unnamed_entry_read_of_the_key": 0,
+    "read_of_a_different_key": 0,
+    "read_with_a_computed_key": 5,
+    "read_below_the_receiver": 2,
+    "container_enumeration": 2,
+    "write_of_the_key": 0
+   },
+   "unnamed_same_key_reads": [],
+   "unnamed_before_the_dead_line": 0,
+   "unnamed_at_the_dead_line": 0,
+   "unnamed_after_the_dead_line": 0,
+   "computed_key_reads": [
+    {
+     "kind": "subscript",
+     "line": 291,
+     "column": 37,
+     "side": "before"
+    },
+    {
+     "kind": "subscript",
+     "line": 293,
+     "column": 14,
+     "side": "before"
+    },
+    {
+     "kind": "subscript",
+     "line": 295,
+     "column": 19,
+     "side": "before"
+    },
+    {
+     "kind": "subscript",
+     "line": 332,
+     "column": 23,
+     "side": "at_the_dead_line"
+    },
+    {
+     "kind": "subscript",
+     "line": 350,
+     "column": 34,
+     "side": "after"
+    }
+   ],
+   "computed_before_the_dead_line": 3,
+   "computed_after_the_dead_line": 1
+  },
+  {
+   "module": "scripts/e504_name_compose.py",
+   "function": "selftest",
+   "dead_line": 879,
+   "key": "rows",
+   "read_line": 919,
+   "read_nodes_on_the_line": 1,
+   "is_a_duplicate_row": false,
+   "receiver": "doctored4",
+   "aliases": [],
+   "recognised_reads_in_the_function_body": 1,
+   "recognised_reads_on_the_counted_line": 1,
+   "accesses_in_the_function_body": 4,
+   "accesses_by_form": {
+    "recognised_read_of_the_key": 1,
+    "unnamed_entry_read_of_the_key": 0,
+    "read_of_a_different_key": 0,
+    "read_with_a_computed_key": 0,
+    "read_below_the_receiver": 1,
+    "container_enumeration": 2,
+    "write_of_the_key": 0
+   },
+   "unnamed_same_key_reads": [],
+   "unnamed_before_the_dead_line": 0,
+   "unnamed_at_the_dead_line": 0,
+   "unnamed_after_the_dead_line": 0,
+   "computed_key_reads": [],
+   "computed_before_the_dead_line": 0,
+   "computed_after_the_dead_line": 0
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "function": "face_problems",
+   "dead_line": 364,
+   "key": "bar",
+   "read_line": 367,
+   "read_nodes_on_the_line": 1,
+   "is_a_duplicate_row": true,
+   "receiver": "r",
+   "aliases": [],
+   "recognised_reads_in_the_function_body": 5,
+   "recognised_reads_on_the_counted_line": 1,
+   "accesses_in_the_function_body": 18,
+   "accesses_by_form": {
+    "recognised_read_of_the_key": 5,
+    "unnamed_entry_read_of_the_key": 0,
+    "read_of_a_different_key": 8,
+    "read_with_a_computed_key": 0,
+    "read_below_the_receiver": 0,
+    "container_enumeration": 5,
+    "write_of_the_key": 0
+   },
+   "unnamed_same_key_reads": [],
+   "unnamed_before_the_dead_line": 0,
+   "unnamed_at_the_dead_line": 0,
+   "unnamed_after_the_dead_line": 0,
+   "computed_key_reads": [],
+   "computed_before_the_dead_line": 0,
+   "computed_after_the_dead_line": 0
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "function": "face_problems",
+   "dead_line": 364,
+   "key": "bar",
+   "read_line": 372,
+   "read_nodes_on_the_line": 1,
+   "is_a_duplicate_row": true,
+   "receiver": "r",
+   "aliases": [],
+   "recognised_reads_in_the_function_body": 5,
+   "recognised_reads_on_the_counted_line": 1,
+   "accesses_in_the_function_body": 18,
+   "accesses_by_form": {
+    "recognised_read_of_the_key": 5,
+    "unnamed_entry_read_of_the_key": 0,
+    "read_of_a_different_key": 8,
+    "read_with_a_computed_key": 0,
+    "read_below_the_receiver": 0,
+    "container_enumeration": 5,
+    "write_of_the_key": 0
+   },
+   "unnamed_same_key_reads": [],
+   "unnamed_before_the_dead_line": 0,
+   "unnamed_at_the_dead_line": 0,
+   "unnamed_after_the_dead_line": 0,
+   "computed_key_reads": [],
+   "computed_before_the_dead_line": 0,
+   "computed_after_the_dead_line": 0
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "function": "face_problems",
+   "dead_line": 364,
+   "key": "bar",
+   "read_line": 377,
+   "read_nodes_on_the_line": 1,
+   "is_a_duplicate_row": true,
+   "receiver": "r",
+   "aliases": [],
+   "recognised_reads_in_the_function_body": 5,
+   "recognised_reads_on_the_counted_line": 1,
+   "accesses_in_the_function_body": 18,
+   "accesses_by_form": {
+    "recognised_read_of_the_key": 5,
+    "unnamed_entry_read_of_the_key": 0,
+    "read_of_a_different_key": 8,
+    "read_with_a_computed_key": 0,
+    "read_below_the_receiver": 0,
+    "container_enumeration": 5,
+    "write_of_the_key": 0
+   },
+   "unnamed_same_key_reads": [],
+   "unnamed_before_the_dead_line": 0,
+   "unnamed_at_the_dead_line": 0,
+   "unnamed_after_the_dead_line": 0,
+   "computed_key_reads": [],
+   "computed_before_the_dead_line": 0,
+   "computed_after_the_dead_line": 0
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "dead_line": 393,
+   "key": "x1",
+   "read_line": 414,
+   "read_nodes_on_the_line": 1,
+   "is_a_duplicate_row": true,
+   "receiver": "ports",
+   "aliases": [],
+   "recognised_reads_in_the_function_body": 2,
+   "recognised_reads_on_the_counted_line": 1,
+   "accesses_in_the_function_body": 10,
+   "accesses_by_form": {
+    "recognised_read_of_the_key": 2,
+    "unnamed_entry_read_of_the_key": 0,
+    "read_of_a_different_key": 1,
+    "read_with_a_computed_key": 1,
+    "read_below_the_receiver": 0,
+    "container_enumeration": 6,
+    "write_of_the_key": 0
+   },
+   "unnamed_same_key_reads": [],
+   "unnamed_before_the_dead_line": 0,
+   "unnamed_at_the_dead_line": 0,
+   "unnamed_after_the_dead_line": 0,
+   "computed_key_reads": [
+    {
+     "kind": "subscript",
+     "line": 392,
+     "column": 16,
+     "side": "before"
+    }
+   ],
+   "computed_before_the_dead_line": 1,
+   "computed_after_the_dead_line": 0
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "dead_line": 393,
+   "key": "x1",
+   "read_line": 424,
+   "read_nodes_on_the_line": 1,
+   "is_a_duplicate_row": true,
+   "receiver": "sleeves",
+   "aliases": [],
+   "recognised_reads_in_the_function_body": 4,
+   "recognised_reads_on_the_counted_line": 1,
+   "accesses_in_the_function_body": 20,
+   "accesses_by_form": {
+    "recognised_read_of_the_key": 4,
+    "unnamed_entry_read_of_the_key": 0,
+    "read_of_a_different_key": 0,
+    "read_with_a_computed_key": 6,
+    "read_below_the_receiver": 7,
+    "container_enumeration": 3,
+    "write_of_the_key": 0
+   },
+   "unnamed_same_key_reads": [],
+   "unnamed_before_the_dead_line": 0,
+   "unnamed_at_the_dead_line": 0,
+   "unnamed_after_the_dead_line": 0,
+   "computed_key_reads": [
+    {
+     "kind": "subscript",
+     "line": 378,
+     "column": 17,
+     "side": "before"
+    },
+    {
+     "kind": "subscript",
+     "line": 424,
+     "column": 45,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 437,
+     "column": 36,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 438,
+     "column": 36,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 441,
+     "column": 36,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 444,
+     "column": 45,
+     "side": "after"
+    }
+   ],
+   "computed_before_the_dead_line": 1,
+   "computed_after_the_dead_line": 5
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "dead_line": 393,
+   "key": "x1",
+   "read_line": 437,
+   "read_nodes_on_the_line": 1,
+   "is_a_duplicate_row": true,
+   "receiver": "sleeves",
+   "aliases": [],
+   "recognised_reads_in_the_function_body": 4,
+   "recognised_reads_on_the_counted_line": 1,
+   "accesses_in_the_function_body": 20,
+   "accesses_by_form": {
+    "recognised_read_of_the_key": 4,
+    "unnamed_entry_read_of_the_key": 0,
+    "read_of_a_different_key": 0,
+    "read_with_a_computed_key": 6,
+    "read_below_the_receiver": 7,
+    "container_enumeration": 3,
+    "write_of_the_key": 0
+   },
+   "unnamed_same_key_reads": [],
+   "unnamed_before_the_dead_line": 0,
+   "unnamed_at_the_dead_line": 0,
+   "unnamed_after_the_dead_line": 0,
+   "computed_key_reads": [
+    {
+     "kind": "subscript",
+     "line": 378,
+     "column": 17,
+     "side": "before"
+    },
+    {
+     "kind": "subscript",
+     "line": 424,
+     "column": 45,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 437,
+     "column": 36,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 438,
+     "column": 36,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 441,
+     "column": 36,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 444,
+     "column": 45,
+     "side": "after"
+    }
+   ],
+   "computed_before_the_dead_line": 1,
+   "computed_after_the_dead_line": 5
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "dead_line": 393,
+   "key": "x1",
+   "read_line": 438,
+   "read_nodes_on_the_line": 1,
+   "is_a_duplicate_row": true,
+   "receiver": "sleeves",
+   "aliases": [],
+   "recognised_reads_in_the_function_body": 4,
+   "recognised_reads_on_the_counted_line": 1,
+   "accesses_in_the_function_body": 20,
+   "accesses_by_form": {
+    "recognised_read_of_the_key": 4,
+    "unnamed_entry_read_of_the_key": 0,
+    "read_of_a_different_key": 0,
+    "read_with_a_computed_key": 6,
+    "read_below_the_receiver": 7,
+    "container_enumeration": 3,
+    "write_of_the_key": 0
+   },
+   "unnamed_same_key_reads": [],
+   "unnamed_before_the_dead_line": 0,
+   "unnamed_at_the_dead_line": 0,
+   "unnamed_after_the_dead_line": 0,
+   "computed_key_reads": [
+    {
+     "kind": "subscript",
+     "line": 378,
+     "column": 17,
+     "side": "before"
+    },
+    {
+     "kind": "subscript",
+     "line": 424,
+     "column": 45,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 437,
+     "column": 36,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 438,
+     "column": 36,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 441,
+     "column": 36,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 444,
+     "column": 45,
+     "side": "after"
+    }
+   ],
+   "computed_before_the_dead_line": 1,
+   "computed_after_the_dead_line": 5
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "dead_line": 393,
+   "key": "x1",
+   "read_line": 444,
+   "read_nodes_on_the_line": 1,
+   "is_a_duplicate_row": true,
+   "receiver": "sleeves",
+   "aliases": [],
+   "recognised_reads_in_the_function_body": 4,
+   "recognised_reads_on_the_counted_line": 1,
+   "accesses_in_the_function_body": 20,
+   "accesses_by_form": {
+    "recognised_read_of_the_key": 4,
+    "unnamed_entry_read_of_the_key": 0,
+    "read_of_a_different_key": 0,
+    "read_with_a_computed_key": 6,
+    "read_below_the_receiver": 7,
+    "container_enumeration": 3,
+    "write_of_the_key": 0
+   },
+   "unnamed_same_key_reads": [],
+   "unnamed_before_the_dead_line": 0,
+   "unnamed_at_the_dead_line": 0,
+   "unnamed_after_the_dead_line": 0,
+   "computed_key_reads": [
+    {
+     "kind": "subscript",
+     "line": 378,
+     "column": 17,
+     "side": "before"
+    },
+    {
+     "kind": "subscript",
+     "line": 424,
+     "column": 45,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 437,
+     "column": 36,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 438,
+     "column": 36,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 441,
+     "column": 36,
+     "side": "after"
+    },
+    {
+     "kind": "subscript",
+     "line": 444,
+     "column": 45,
+     "side": "after"
+    }
+   ],
+   "computed_before_the_dead_line": 1,
+   "computed_after_the_dead_line": 5
+  }
+ ],
+ "limits": [
+  "the walk is scope-local: a read of the same object in a callee is E630's arm, not this one, and a global read outside the function is out of scope by construction",
+  "the receiver is identified by its leftmost name, so `a[b]['k']` and `a['k']` share a receiver -- depth is on every access so the reader can separate them",
+  "an access whose node starts on the counted line is the same access E633 priced; it is published here with side `at_the_dead_line` and never counted as a neighbour",
+  "aliasing is followed one hop inside the function body only",
+  "a computed key reads some key and cannot be decided as this one, so it is published as a residual with its side instead of being folded into the same-key count",
+  "a zero unnamed count is only a measurement because every row publishes how many accesses of that receiver the walker saw in the function body"
+ ],
+ "verdict": "no_counted_read_line_names_this_key_in_an_unrecognised_form_anywhere_in_the_function_that_holds_it_so_E633_line_scoped_census_and_E632_node_count_both_stand",
+ "answer": "Across the 13 counted read line(s), the walker saw 230 access(es) of the same receiver(s) in the function bodies (44 of them recognised reads of the key). Not one is an unnamed entry read of the key on either side of the dead line (0 before / 0 after); the residual is 30 computed-key read(s) at the receiver's own level (8 before / 21 after), which read some key and cannot be decided as this one."
+}

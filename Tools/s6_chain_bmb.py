@@ -1436,6 +1436,14 @@ LEGS = [
     # total: a form census on a different population cannot answer E632's question.
     ("read_forms", ["python", "scripts/e633_read_forms.py", "verify"]),
 
+    # E634 prices E633's second limit: the receiver's other reads of the same key anywhere in the
+    # function that holds the dead line, split by side.  230 accesses of the same receivers over the
+    # 13 counted bodies (44 recognised reads of the key), 0 of them an unnamed entry read before or
+    # after the dead line; the residual is 30 computed-key reads at the receiver's own level (8
+    # before / 1 at / 21 after), so the line-scoped census and the node count both stand.  The leg
+    # refuses a zero unnamed count published on an empty census (E444 family).
+    ("read_func_gap", ["python", "scripts/e634_read_func_gap.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names
