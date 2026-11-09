@@ -11502,3 +11502,28 @@ r1468 把执行后的账写下来、r1469 让现金腿逐 bar 计息——两轮
 **正身**：scripts/etf_book_ceo_page.py（selftest 157→161，新增 positions_face/positions_block 四腿）
 + docs/live_book/LIVE-BOOK-20261109.md 新节「账上现在拿的是什么」+ smoke 腿
 「the account the sheet never sells reaches the CEO page」。
+
+## E477 让消费者读新面，不比让生产者写新面便宜（r1471）
+
+r1470 把执行后的账接进了 CEO 页，r1471 的票面因此改成「按执行账定大小」——读得到、跑得通、
+自检全绿。可链里这本账**从来没有人写过**：只有一个 `check` 腿排在票面之后约 600 步。
+于是票面读的是上一次手工跑留下的旧账，同一 bar、同一轮里两本账相差 ￥617
+（latest.json 09:10:27 k=0.391439 vs positions.json 09:10:28 k=0.390822）。
+
+三条可复用：
+
+1. **接一个新的输入面时，同一轮问「谁写它、多久写一次」**。消费者就位的自检是绿的，
+   生产者缺席也一样绿——E240「有产无读」的镜像面：「有读无产」。
+2. **同轮里的先后不能看时间戳**。两个面都在 09:10 生成、相隔 1 秒，却属两个世界；
+   判谁旧要看腿在链里的位置，不是 mtime（E188 族的下层）。
+3. **差 617 块不许用手工重跑抹平**。修法是把写者放进正确位置，让两侧同源；
+   手动补跑只是把同一个洞盖住一次。
+
+**读数**（2026-11-09 实弹）：先 positions 后 order → ticket k 0.390822 == account k 0.390822（delta 0.0）；
+割单面 k_now 0.390822 / k_rule 0.460253 / gap_k -0.002251（额度内）/ trim None；规则与账本差
++0.069431 = ￥69,431 名义额（引擎账从没被额度裁过）。
+
+**正身**：scripts/etf_book_order.py（executed_base/executed_base_md · selftest 110/110）
++ Tools/s6_chain_bmc.py 新腿 positions_ledger_write（排在 etf_book_order 之前）
++ scripts/etf_book_cut_order_gap.py（额度内不发 trim 表）+ research/digests/DIGEST-20261109-r1471-sheet-sizes-from-the-account.md
++ smoke 两腿（三面同 bar k 一致 / 额度内不欠 trim 表）。
