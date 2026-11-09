@@ -25896,5 +25896,51 @@ except Exception as _e596x:
 check(_name596, not _bad596, "; ".join(_bad596)[:240] or _d596)
 
 
+# E597: every published block that carries a bar count, whether that count is already an
+# annualisation denominator at the writer, and whether any downstream module divides by it.
+# The leg refuses counts that do not re-derive from the published blocks, an implied cagr that
+# disagrees with its own (total_ret, years), a divisor graded with no line evidence, a
+# not-published block that does not account for every count-only block, and a verdict the counts
+# do not force.
+_name597 = ("E597 whether a published bar count is ever turned into a rate (r1626 bm-b)")
+_bad597 = []
+_d597 = "no reading"
+try:
+    _p597 = os.path.join("results", "state_tilt", "BARCOUNTARITH.json")
+    _f597 = json.load(open(_p597, encoding="utf-8"))
+    _m597 = importlib.import_module("e597_bar_count_arith")
+    _bad597.extend(_m597.face_problems(_f597))
+    _c597 = _f597.get("counts") or {}
+    _rows597 = _f597.get("blocks") or []
+    _rd597 = [r for r in _rows597 if r.get("kind") == _m597.C_ANNUALISED]
+    _again597 = sum(1 for r in _rd597
+                    if (_m597.rederive_cagr({"years": r.get("years"),
+                                             "total_ret": r.get("total_ret"),
+                                             "cagr": r.get("cagr")}) or {}).get(
+                                                    "is_annualised"))
+    if _again597 != _c597.get("blocks_where_cagr_re_derives"):
+        _bad597.append("the re-derive count is %r, re-asking the published fields gives %d"
+                       % (_c597.get("blocks_where_cagr_re_derives"), _again597))
+    _self597 = [r.get("module") for r in (_f597.get("readers") or [])
+                if (r.get("module") or "").endswith("e597_bar_count_arith.py")]
+    if _self597:
+        _bad597.append("this study lists itself as a reader: %s" % ", ".join(_self597))
+    _d597 = ("faces=%d blocks=%d annualised=%d rederive=%d witness_count_only=%d readers=%d "
+             "dividing=%d annualising=%d"
+             % (_c597.get("faces_publishing_a_bar_count", 0),
+                _c597.get("blocks_publishing_a_bar_count", 0),
+                _c597.get("blocks_annualised", 0),
+                _c597.get("blocks_where_cagr_re_derives", 0),
+                (_c597.get("annualisation_witness") or {}).get(
+                    _m597.W_COUNT_ONLY, 0),
+                _c597.get("reader_modules_naming_a_face", 0),
+                _c597.get("reader_modules_dividing_by_a_count", 0),
+                _c597.get("reader_modules_annualising_a_count", 0)))
+except Exception as _e597x:
+    _bad597.append(repr(_e597x)[:160])
+    _d597 = "study could not be read"
+check(_name597, not _bad597, "; ".join(_bad597)[:240] or _d597)
+
+
 if __name__ == "__main__":
     sys.exit(main())

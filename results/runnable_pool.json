@@ -30506,14 +30506,17 @@
    "lane": "cpu-only",
    "lane_note": "static: name every reader of the faces that publish a bar count (Live-usage forward.bars, dashboard_status, the order ticket's ledger block) and ask whether the number is divided, multiplied or annualised there; no runner, no rebuild",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "source": "E588 (r1623 bm-b): no consumer of the forward ledger puts len(bars) into arithmetic on its own line (0 of 11), yet two of them publish it -- so the exposure, if any, lives one hop away, in the readers of those published counts. A count that is only carried is cosmetic; a count that becomes a per-bar rate is a wrong rate.",
    "target": "results/state_tilt/BARCOUNTARITH.json",
    "deliverable": "results/state_tilt/BARCOUNTARITH.json",
    "title": "For every published face that carries a bar count, enumerate its in-repo readers and publish whether the count is used as a divisor, a multiplier or an annualisation input there -- and whether the face itself could have noticed a duplicated row.",
    "entered_at": "2026-11-09T08:03:00+0800",
    "entered_by": "bm-b",
-   "evidence_cutoff": "2026-11-06"
+   "evidence_cutoff": "2026-11-06",
+   "result_ref": "results/state_tilt/BARCOUNTARITH.json",
+   "done_at": "2026-11-09T09:5x+0800",
+   "done_note": "542 of 4623 bar-count blocks also publish an annualised figure and all 542 re-derive from (total_ret, years) at an implied 241.20..243.11 bars/year, so the count is a live annualisation denominator at the writer; 542/542 publish a count and NOTHING that could reveal a duplicated row; downstream 6 of 24 reader modules divide by a published count (BARS_PER_YEAR/n_bars, 252.0/n_bars), contradicting E588 0-of-11 once the population is wider. Script scripts/e597_bar_count_arith.py, selftest 38/38, smoke leg E597."
   },
   {
    "id": "E598-WHETHER-A-POINTER-FACE-ANYWHERE-IN-THE-REPO-IS-ASKED-FOR-A-BAR-AT-ALL",
@@ -30561,6 +30564,20 @@
    "target": "results/state_tilt/DATEFACEUNIQUE.json",
    "deliverable": "results/state_tilt/DATEFACEUNIQUE.json: per stated date, how many distinct faces state it and which roles they state it under; the count of dates that identify a face, a role, or nothing",
    "title": "E600 whether a date-keyed lookup resolves to at most one face or returns a set"
+  },
+  {
+   "id": "E601-WHETHER-A-DUPLICATED-ROW-IS-DETECTABLE-FROM-WHAT-A-FACE-PUBLISHES",
+   "lane": "cpu-only",
+   "priority": "normal",
+   "status": "ready",
+   "lane_note": "static: for every published face that carries a series, publish the fields it carries that would let a duplicated row be detected -- a first/last bar identity, a distinct-bar count beside the row count, a dedupe flag, a monotonic bar index -- and which of those are actually consistent with the row count it publishes; no runner, no rebuild",
+   "source": "E597 (r1626 bm-b): all 542 published annualisation blocks carry a bar count and nothing else, so a duplicated row silently changes a published CAGR; but 33 blocks elsewhere in the repo do publish last_bar and the repo has 1723 daily panel files with an index. Nobody has measured whether a duplicate is detectable from what a face already publishes.",
+   "target": "results/state_tilt/DUPWITNESS.json",
+   "deliverable": "results/state_tilt/DUPWITNESS.json: per face, the witness fields it carries, whether they cover the rows it publishes, and the count of faces where a duplicated row would be invisible",
+   "title": "E601 whether a duplicated row is detectable from what a face already publishes",
+   "entered_at": "2026-11-09T09:5x+0800",
+   "entered_by": "bm-b",
+   "evidence_cutoff": "2026-11-06"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30575,6 +30592,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T09:08:08+0800",
+ "updated_at": "2026-11-09T09:55:00+0800",
  "version": 1
 }

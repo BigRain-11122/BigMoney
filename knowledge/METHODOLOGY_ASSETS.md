@@ -14309,3 +14309,12 @@ ound 1246 最早一条距回执 3.9 天），**commit 时间只能是文字见�
   ①**一个键名可以属于两个族**（`ticket_bar` 同时是 pricing 与 as_of 拼写）——用 `{k: fam}` 字典倒排会静默把角色压成最后写入的那个族，等于替方言面断言一个它没断言的归属。正法=名字按**全部所属族**发布（`as_of+pricing`），并单列 `names_in_more_than_one_family`。
   ②**抽样必须自带未印行数**：8,017 张单日期面全印会把面撑到三倍，抽样 200 行是合理的，但闸必须用 `published + sampled_out == by_class` 对账；隐藏抽样时那两行「class 是 X 但重导出是 Y」正好抓不到（r1261 族）。
 - **落地**：`scripts/e596_value_join_vs_name_join.py`（selftest **28/28**，check/verify problems=[]）+ `results/state_tilt/VALUEJOINNAME.json`（+-latest）+ `scripts/run_e596_smoke_leg.py`（PASS，--doctor 1/1 红）+ smoke_test.py leg E596 + 池卡 E596 done / E600 seeded。
+
+### E601 只有计数的面发现不了重复行（r1626 bm-b·2026-11-09）
+
+- **问题**：E588 只审了一个账本（11 个模块，0 个把 len(bars) 放进算术）。全仓口径下 bar 计数进入年化的位置有两处——写入端与下游读者——只有分开量才知道钱是错在哪一层。
+- **读数**：499 面 / 4,623 块发布 bar 计数，其中 542 块同时发布 ars+years+total_ret+cagr。**542/542 的年化值都能由 (total_ret, years) 逐位复算**（容差 5e-4），隐含 ars/year = 241.20..243.11（中位 241.9971）——计数是活的年化分母，不是装饰：一次重复行就静默改动已发布 CAGR，而算术本身没有一处不一致可查。
+- **真空白（本卡要留的那句）**：542/542 年化块**只发布计数**，没有任何能暴露重复行的字段——无 dedupe 标记、无首末 bar 身份、无 distinct 计数。判据=「只发布计数」不是「计数正确」；一个只有计数的面永远无法发现自己被 append 过。
+- **下游**：24 个按路径命名这些面的读者模块中 6 个把计数放进算术（BARS_PER_YEAR / n_bars、252.0 / n_bars：etf_book_forward.py + trial_labor_w17..w21），0 个只做乘法。E588 的「0 of 11」只在他那一个面成立，不能外推成「全仓没人算」。
+- **自踩**：首版把本脚本自己的 selftest 字面量当成读者证据（E180/E207 家族——扫描器要排除自身，且排除要落 excluded 带理由而不是静默丢弃）。修法=按 SELF_NAME 排除 + selftest 腿 34b/34c 钉死。
+- **证据** = scripts/e597_bar_count_arith.py（selftest **38/38**，check/verify problems=[] / counts_identical=True）+ results/state_tilt/BARCOUNTARITH.json (+-latest) + smoke_test.py leg E597（公面 499/4623/542/542/24/6 内置重算法）+ POOL E597 done。
