@@ -14727,3 +14727,30 @@ POOL E628 done / E629 seeded + `research/digests/DIGEST-20261109-r1646-e628-rece
 `results/state_tilt/CALLERWRITE.json` + `callerwrite_latest.json` + `scripts/run_e629_smoke_leg.py`
 （1/1 PASS，`--doctor` 1/1 红，面字节还原）+ smoke_test.py leg E629 + S6 leg `caller_write` +
 POOL E629 done / E630 seeded + `research/digests/DIGEST-20261110-r1647-e629-caller-write.md`。
+
+## E630 — 调用方交出去的那个被调函数，写不写这把键（r1649 bm-b·2026-11-10）
+
+> 来源=POOL 卡片 E630。E629 把自己剩下的洞写进了 limits：9 个调用点里 6 个把接收者对象**再交给调用方
+> 自己的另一个函数**（`random_masks(P, ...)`、`rev_masks(P, W_)` 在 `simulate(P, ...)` 之前），写可能在那里。
+> 本张把那一跳往下走一层：在那行找到携带同一实参文本的调用，按拼写名解析到同模块的定义，把实参映射到参数，
+> 再用 E625 的写标记问这个被调函数写不写这把键。
+
+**研究**：2 行 / 9 个调用点，扣除持有函数自身的递归调用（3 次）后得 **11 次真实交接**；11 次全部解析到同模块定义，
+**0 次落到一个写该键的被调函数**、0 次落在无法命名的触碰、0 次再往下交、11 次完全不碰该键；11 次全部发生在
+持有函数调用之前，所以即便有写也会同时到达死行与兄弟读 → **被调方臂关闭 0 条**。
+
+**教训**：①**交接清单里不能有持有函数自己**——E625 的标记对任何携带接收者文本的调用都会命中，`simulate(P, ...)`
+自己也算，14 条里有 3 条是自调用；若把它们写成"被调者就是持有函数"，面里就多出一个并不存在的不可解析残量，
+必须单列一个字段发布。②**"本行没有交接"不是"交接解析不了"**——`ew6_portfolio.py` 那行根本没有交接
+（调用方传 `None` 或一个从不写该键的名字），首版把它和"追踪失败"印成同一类，行级类目现在把两者分开。
+③**这一跳的结论与上一跳同形**：调用方侧的写、以及调用方把对象交给的被调函数侧的写，都发生在进入持有函数之前，
+所以都同时到达两次读；`rows_closed_by_the_callee_arm` 冻结为 0 并由闸重算。
+
+**How**：任何"上游找不到写者"的结论，追到交接后必须回答三件事——被调函数能不能解析（同模块/拼写名）、
+实参落在哪个参数、那个参数上有没有按名字触碰这把键；解析不到的与确认没有的分成两类，交接调用本身要按
+"是否早于持有函数调用"发布一个布尔，否则读者会以为写可能落在两次读之间。
+
+**证据** = `scripts/e630_callee_write.py`（selftest 25/25，build/check/verify `problems=[]`）+
+`results/state_tilt/HANDEDWRITE.json` + `handedwrite_latest.json` + `scripts/run_e630_smoke_leg.py`
+（1/1 PASS，`--doctor` 1/1 红，面字节还原）+ smoke_test.py leg E630 + S6 leg `callee_write` +
+POOL E630 done / E631 seeded + `research/digests/DIGEST-20261110-r1649-e630-callee-write.md`。

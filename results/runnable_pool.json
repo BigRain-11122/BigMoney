@@ -30940,9 +30940,31 @@
    "source": "E629 (r1647 bm-b) publishes its own residue: 6 of its 9 call sites hand the receiver object to another call in the caller, so the caller-side write could live inside that callee and this hop cannot see it",
    "target": "results/state_tilt/HANDEDWRITE.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T00:23:00+08:00",
-   "seeded_by": "r1647 bm-b"
+   "seeded_by": "r1647 bm-b",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-10T03:15:00+08:00",
+   "closed_by": "bm-b",
+   "closed_at": "2026-11-10T03:30:00+08:00",
+   "completed_by": "bm-b r1649",
+   "completed_at": "2026-11-10T03:30:00+08:00",
+   "result_ref": "results/state_tilt/HANDEDWRITE.json + scripts/e630_callee_write.py + results/_r1649bmb_s6_chain.json",
+   "outcome": "2 rows / 9 call sites: after the holder's own 3 self-calls are separated, 11 handoffs resolve to a same-module definition; 0 write the key on the parameter they receive, 0 touch it unnamed, 0 hand it further on, 11 never touch it; all 11 precede the holder call, so the callee arm closes 0 of 2"
+  },
+  {
+   "card": "E631",
+   "id": "E631-WHETHER-THE-SIBLING-READ-E625-COUNTED-IS-THE-ONLY-READ-OF-THAT-KEY-AFTER-THE-DEAD-LINE",
+   "title": "whether the sibling read E625 counted is the only read of that key after the dead line",
+   "lane": "cpu-only",
+   "lane_note": "static: for every dead face-key line E625 published, re-read its function and count every read of the same object at the same key after that line, not just the first one; if a function carries three or more reads, 'one duplicate' understates the population and every downstream face (E626-E630) inherits the same denominator; no runner, no fixture write",
+   "deliverable": "results/state_tilt/READMULTIPLICITY.json: per dead line, the ordered read sites of the same object at that key after it, the count above one, and which of E625's duplicate rows rest on a function with more than two reads",
+   "source": "E630 (r1649 bm-b) closes the caller and callee arms with 0 writes anywhere, so the only remaining way the published duplicate count could be wrong is on the read side: E625 counts a single sibling read per dead line",
+   "target": "results/state_tilt/READMULTIPLICITY.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T03:30:00+08:00",
+   "seeded_by": "r1649 bm-b"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30957,6 +30979,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T00:23:00+08:00",
+ "updated_at": "2026-11-10T03:30:00+08:00",
  "version": 1
 }

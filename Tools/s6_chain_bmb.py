@@ -1402,6 +1402,12 @@ LEGS = [
     # of them even where a write exists.
     ("caller_write", ["python", "scripts/e629_caller_write.py", "verify"]),
 
+    # E630 answers the residue E629 published: 6 of its 9 call sites hand the receiver object to
+    # another call inside the caller, where a write can live unseen.  The leg resolves that hop one
+    # level deep and pins the reading the card was built to publish -- the handoff call sits before
+    # the holder call, so even a callee write reaches both reads and closes none of them.
+    ("callee_write", ["python", "scripts/e630_callee_write.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

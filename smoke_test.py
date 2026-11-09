@@ -27116,5 +27116,115 @@ except Exception as _e629x:
     _d629 = "study could not be read"
 check(_name629, not _bad629, "; ".join(_bad629)[:240] or _d629)
 
+# E630 follows the handoff E629 published as its residue: 6 of its 9 call sites hand the receiver
+# object to another call inside the caller, where a write can live unseen.  The leg re-reads the
+# published face, re-derives every row class from its own handoffs and every handoff class from its
+# own marks, re-adds the tables, requires that no row is claimed closed (the handoff precedes the
+# holder call, so a callee write reaches both reads), re-asks the verdict and excludes this study
+# from the population it prices.  Rows whose only handoff is the holder call itself are published
+# separately, so 'no handoff in this row' is not read as 'a handoff that cannot be resolved'.
+_name630 = ("E630 whether the callee a caller hands the object to writes the key the caller arm "
+            "could not decide (r1649 bm-b)")
+_bad630 = []
+_d630 = "no reading"
+try:
+    _f630 = json.load(open(os.path.join("results", "state_tilt", "handedwrite_latest.json"),
+                           encoding="utf-8"))
+    _m630 = importlib.import_module("e630_callee_write")
+    _bad630.extend(_m630.face_problems(_f630))
+    _c630 = _f630.get("counts") or {}
+    _rows630 = _f630.get("rows") or []
+    _again630 = _m630.derive_verdict({
+        "e629": {"published": True,
+                 "rows": [None] * (_c630.get("e629_published_rows") or 0),
+                 "face_counts": {}},
+        "rows": _rows630,
+        "unparsed": [None] * (_c630.get("modules_that_will_not_parse") or 0)})
+    if _again630 != _f630.get("verdict"):
+        _bad630.append("the published verdict is not what the row table forces (%r)" % _again630)
+    _rowcls630 = {_k: 0 for _k in _m630.ROW_CLASSES}
+    _hcls630 = {_k: 0 for _k in _m630.HANDOFF_CLASSES}
+    _ho630 = 0
+    _self630 = 0
+    for _r630 in _rows630:
+        _cls630 = _r630.get("row_class_after_the_callee_arm")
+        if _cls630 not in _m630.ROW_CLASSES:
+            _bad630.append("row %r in %r carries row class %r"
+                           % (_r630.get("line"), _r630.get("function"), _cls630))
+            continue
+        _rowcls630[_cls630] += 1
+        _self630 += len(_r630.get("the_holder_call_itself") or [])
+        for _h630 in _r630.get("handoffs") or []:
+            _ho630 += 1
+            _hc630 = _h630.get("handoff_class")
+            if _hc630 not in _m630.HANDOFF_CLASSES:
+                _bad630.append("handoff on line %r of %r carries class %r"
+                               % (_h630.get("handoff_line"), _r630.get("function"), _hc630))
+                continue
+            if _hc630 == _m630.H_RECURSIVE:
+                _bad630.append("a handoff list still holds a holder self-call on line %r"
+                               % _h630.get("handoff_line"))
+            _hcls630[_hc630] += 1
+            if bool(_h630.get("writes_at_the_key")) != (_hc630 == _m630.H_WRITES):
+                _bad630.append("handoff on line %r of %r publishes %d named write(s) under class %r"
+                               % (_h630.get("handoff_line"), _r630.get("function"),
+                                  len(_h630.get("writes_at_the_key") or []), _hc630))
+        _want630 = _m630.row_class([_h for _h in (_r630.get("handoffs") or [])
+                                    if _h.get("handoff_class") in _m630.HANDOFF_CLASSES])
+        if _want630 != _cls630:
+            _bad630.append("row %r in %r says %r but its handoffs force %r"
+                           % (_r630.get("line"), _r630.get("function"), _cls630, _want630))
+    if _rowcls630 != {_k: _c630.get("row_" + _k, 0) for _k in _m630.ROW_CLASSES}:
+        _bad630.append("the row classes do not re-derive from the rows")
+    if sum(_rowcls630.values()) != len(_rows630):
+        _bad630.append("the row classes cover %d of %d rows"
+                       % (sum(_rowcls630.values()), len(_rows630)))
+    for _k in _m630.HANDOFF_CLASSES:
+        if _c630.get("handoff_" + _k, 0) != _hcls630.get(_k, 0):
+            _bad630.append("counts.handoff_%s does not re-derive (published %r vs %r)"
+                           % (_k, _c630.get("handoff_" + _k), _hcls630.get(_k, 0)))
+    if _ho630 != _c630.get("handoffs_total"):
+        _bad630.append("counts.handoffs_total says %r but the rows publish %d"
+                       % (_c630.get("handoffs_total"), _ho630))
+    if _self630 != _c630.get("handoffs_that_are_the_holder_call_itself"):
+        _bad630.append("counts.handoffs_that_are_the_holder_call_itself says %r but the rows "
+                       "publish %d" % (_c630.get("handoffs_that_are_the_holder_call_itself"),
+                                       _self630))
+    if _c630.get("rows_closed_by_the_callee_arm") != 0:
+        _bad630.append("the face claims %r row(s) closed by the callee arm; a callee write "
+                       "precedes both reads" % _c630.get("rows_closed_by_the_callee_arm"))
+    if _c630.get("rows_with_a_handoff") != sum(1 for _r630 in _rows630 if _r630.get("handoffs")):
+        _bad630.append("counts.rows_with_a_handoff does not re-derive from the rows")
+    if _c630.get("handoffs_that_precede_the_holder_call") != \
+            sum(1 for _r630 in _rows630 for _h630 in (_r630.get("handoffs") or [])
+                if _h630.get("precedes_the_holder_call")):
+        _bad630.append("counts.handoffs_that_precede_the_holder_call does not re-derive")
+    if _c630.get("e629_published_rows") != len(_rows630):
+        _bad630.append("the face prices %d row(s) against the %r E629 published"
+                       % (len(_rows630), _c630.get("e629_published_rows")))
+    if not _rows630:
+        _bad630.append("the face publishes no row at all, yet the study exists")
+    _own630 = [_r630.get("module") for _r630 in _rows630
+               if _r630.get("module") and _r630["module"].split("/")[-1] in _m630.SELF_PARTS]
+    if _own630:
+        _bad630.append("this study lists itself as a holder module: %s" % ", ".join(_own630))
+    _cc630 = _f630.get("e629_cross_check") or {}
+    if _cc630.get("published") is False:
+        _bad630.append("the E629 cross-check did not read a published face")
+    elif _cc630.get("rows_read") != _c630.get("e629_published_rows"):
+        _bad630.append("the E629 cross-check read %r rows against the published %r"
+                       % (_cc630.get("rows_read"), _c630.get("e629_published_rows")))
+    _d630 = ("rows=%s handoffs=%s self_calls=%s writes=%s silent=%s no_handoff=%s untraced=%s "
+             "verdict=%s"
+             % (_c630.get("population_rows"), _ho630, _self630,
+                _c630.get("handoffs_the_callee_writes_the_key"),
+                _c630.get("handoffs_the_callee_never_touches_the_key"),
+                _c630.get("rows_with_no_handoff"), _c630.get("rows_untraced"),
+                _f630.get("verdict")))
+except Exception as _e630x:
+    _bad630.append(repr(_e630x)[:160])
+    _d630 = "study could not be read"
+check(_name630, not _bad630, "; ".join(_bad630)[:240] or _d630)
+
 if __name__ == "__main__":
     sys.exit(main())
