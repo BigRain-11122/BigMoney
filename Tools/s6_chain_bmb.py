@@ -2509,6 +2509,14 @@ LEGS = [
     # one-off round scripts.  `check` re-derives every class, count and verdict from the rows.
     ("sweep_reruns",
      ["python", "scripts/e611_sweep_reruns.py", "check"]),
+    # E613 (r1636 bm-b): E611 priced the runner for the six own-directory faces and left the other
+    # 76 -- reached only by a pattern naming an ancestor -- unpriced.  Here the same entry-point
+    # question is asked of those faces, with the collapse published beside it: 76 faces rest on 5
+    # landing modules and 2 distinct patterns, all 5 are round scripts nothing names, while one
+    # live-chained study (e396) reaches 54 of the 76 only through a pattern naming nothing.
+    # `check` re-derives every class, count, pattern tally and verdict from the rows.
+    ("ancestor_reruns",
+     ["python", "scripts/e613_ancestor_reruns.py", "check"]),
 ]
 
 

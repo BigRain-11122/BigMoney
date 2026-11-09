@@ -26090,6 +26090,47 @@ except Exception as _e606x:
 check(_name606, not _bad606, "; ".join(_bad606)[:240] or _d606)
 
 
+# E613: E611 priced the runner for the six faces a glob reaches by naming their own directory.
+# The other 76 faces E609 published are reached only by a pattern naming an ancestor, where many
+# faces collapse onto a few generic sweeps.  The leg re-reads the published face, refuses a module
+# class its entry hits do not support, a face/pattern tally that does not re-derive, and any
+# verdict the counts do not force.
+_name613 = ("E613 whether the ancestor-only swept faces have a sweeper that runs again (r1636 bm-b)")
+_bad613 = []
+_d613 = "no reading"
+try:
+    _p613 = os.path.join("results", "state_tilt", "ANCESTORRERUNS.json")
+    _f613 = json.load(open(_p613, encoding="utf-8"))
+    _m613 = importlib.import_module("e613_ancestor_reruns")
+    _bad613.extend(_m613.face_problems(_f613))
+    _c613 = _f613.get("counts") or {}
+    _mods613 = {_r613.get("module"): _r613 for _r613 in (_f613.get("modules") or [])}
+    for _f613r in (_f613.get("faces") or []):
+        _rows613 = [_mods613[_x] for _x in (_f613r.get("sweepers") or []) if _x in _mods613]
+        _rerun613 = [_x["module"] for _x in _rows613 if _x.get("class") != _m613.C_NONE]
+        if _f613r.get("sweepers_an_entry_point_runs_again") != _rerun613:
+            _bad613.append("face %s publishes re-running sweepers the modules do not give"
+                           % _f613r.get("face"))
+            break
+        if bool(_f613r.get("only_a_one_off")) != (bool(_rows613) and not _rerun613):
+            _bad613.append("face %s publishes only_a_one_off that does not re-derive"
+                           % _f613r.get("face"))
+            break
+    for _p613r in (_f613.get("patterns") or []):
+        if int(_p613r.get("faces_count") or 0) != len(_p613r.get("faces") or []):
+            _bad613.append("pattern %s publishes a count beside more or fewer faces"
+                           % _p613r.get("pattern"))
+            break
+    _d613 = ("faces=%s modules=%s patterns=%s nothing_named=%s only_one_off=%s verdict=%s"
+             % (_c613.get("faces"), _c613.get("modules"), _c613.get("distinct_patterns"),
+                _c613.get(_m613.C_NONE), _c613.get("faces_with_only_a_one_off_sweeper"),
+                _f613.get("verdict")))
+except Exception as _e613x:
+    _bad613.append(repr(_e613x)[:160])
+    _d613 = "study could not be read"
+check(_name613, not _bad613, "; ".join(_bad613)[:240] or _d613)
+
+
 # E611: E609 priced how a glob reaches a face no literal opens but left the runner out of the
 # price -- a landing that never runs again costs nothing.  The leg takes E609's own-directory
 # faces, joins each sweeper module to the entry files that name it, and refuses a class its entry

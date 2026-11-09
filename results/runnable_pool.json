@@ -30680,18 +30680,38 @@
   },
   {
      "card": "E613",
+     "claimed_at": "2026-11-09T13:20:00+08:00",
+     "claimed_by": "bm-b",
+     "closed_at": "2026-11-09T13:40:00+08:00",
+     "closed_by": "bm-b",
      "deliverable": "results/state_tilt/ANCESTORRERUNS.json: per ancestor-only face, its sweeper modules and whether any entry point names them, plus the count of faces whose only sweeper never runs again",
      "id": "E613-WHETHER-THE-ANCESTOR-ONLY-SWEPT-FACES-HAVE-A-SWEEPER-THAT-RUNS-AGAIN",
      "lane": "cpu-only",
      "lane_note": "static: the same entry-point pricing E611 applied to the six own-directory faces, now over E609's 76 ancestor-only faces -- which modules carry the landing and does any entry point name them",
+     "outcome": "76/76 ancestor-only faces are swept only by modules nothing names, and they collapse onto 5 round scripts and 2 patterns; the only landing module a live chain runs (e396) reaches 54 of them only through a pattern naming nothing",
      "priority": "normal",
+     "result_ref": "results/state_tilt/ANCESTORRERUNS.json + results/_r1636bmb_s6_chain.json (r1636 bm-b)",
      "seeded_at": "2026-11-09T13:20:00+08:00",
      "seeded_by": "r1635 bm-b",
      "source": "E611 (r1635 bm-b): all 6 own-directory faces are swept only by one-off round scripts (7 of 7 landing modules named by nothing), but that population is the small class. The 76 faces reached only by 'results/**/*.json'-style sweeps are the bulk, and the same question prices them at once.",
-     "status": "ready",
+     "status": "done",
      "target": "results/state_tilt/ANCESTORRERUNS.json",
      "title": "whether the faces swept only by an ancestor pattern have a sweeper that runs again"
-  }
+    },
+    {
+     "card": "E615",
+     "deliverable": "results/state_tilt/GLOBSWEEPUSE.json: per module that lands on the ancestor faces through a pattern naming nothing, and per glob call in it, what the loop body does with each yielded path (opens it, reads one named key, only enumerates the name, or discards it), plus the count of faces no landing module ever opens",
+     "id": "E615-WHETHER-A-LIVE-SWEPT-MODULE-EVER-OPENS-WHAT-IT-GLOBS",
+     "lane": "cpu-only",
+     "lane_note": "static: take the sweeper modules E613 published (both the ancestor population and the no-name set) and classify, per glob/rglob/iglob call, the treatment of each yielded path by following the loop variable one step into the body -- open/read, name-only, or unused; no runner, no fixture write, no panel refresh",
+     "priority": "normal",
+     "seeded_at": "2026-11-09T13:20:00+08:00",
+     "seeded_by": "r1636 bm-b",
+     "source": "E613 (r1636 bm-b): 76 ancestor-only faces rest on 5 round scripts nothing names, and scripts/e396_face_basename_suffix.py -- the one landing module a live chain does run -- reaches 54 of them only through '*/**/*.json'. Reachability was the question there; whether that sweep does anything with a hit was not asked. Distinct from E470, which asked whether anyone opens a named set of target paths; this asks about the treatment of every path a live sweep yields.",
+     "status": "ready",
+     "target": "results/state_tilt/GLOBSWEEPUSE.json",
+     "title": "whether a live sweep opens what it globs or only enumerates the name"
+    }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
  "schema": {

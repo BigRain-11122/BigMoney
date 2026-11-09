@@ -14416,3 +14416,25 @@ esults/state_tilt/DUPWITNESS.json、S6 leg dup_witness、smoke leg E601。坑：
 **How**：任何“这张面有人读吗”的结论都要拆成三段并各自出证据——开面者存在（E470）、扫描能落到（E609）、**落点还会跑**（本张）。一个模块名字里带 `_r<NNN>` 就是强提示：一次性轮脚本写下的面，下一轮就没人再回来看。
 
 **证据** = `scripts/e611_sweep_reruns.py`（selftest **26/26**，run/check/verify problems=[]）、`results/state_tilt/SWEEPRERUNS.json` (+`SWEEPRERUNS-latest.json`)、`scripts/run_e611_smoke_leg.py`（PASS，`--doctor` 1/1 红且面字节还原 6d96e830）、smoke_test.py leg E611、S6 leg `sweep_reruns`、POOL E611 done → E613 seeded。
+
+## E614 只被祖先模式扫到的 76 张面：5 个扫描模块、2 个模式，5/5 都是一次性轮脚本（r1636 bm-b·2026-11-09）
+> 卡号=E614（E613 是研究号，卡片顺延到 E614）。
+
+**观察**：E611 把「点名了面自己目录的 6 张面」的运行者算清了，剩下 76 张只被「点名祖先目录」的模式扫到，那一半没定价。本张把同一套入口定价（计划任务 / 每轮链 Tools/s6_chain_bmb.py / 烟腿）套到这批面上，并补上祖先侧独有的现象：这些模式是通用的，所以许多面塌缩到少数几个模块上——按面报价格会夸大成本，按模块报才是真价。
+
+**读数**（results/state_tilt/ANCESTORRERUNS.json，cutoff 2026-11-06）：
+- **76 张面塌缩到 5 个落点模块和 2 个模式**：`results/**/*.json` 一张就覆盖 76/76，`results/*_paper/*.json` 覆盖 22；
+- 这 5 个模块（_r239 / _r383bmc / _r843bmc / _r904bmc / _r877bmc）**全部 `named_by_nothing`**，且全是 `_r<NNN>` 一次性轮脚本 → 76/76 面 only_a_one_off；
+- 另有 **4 个模块只通过「什么都不点名的模式」触碰同一批面**（`*/**/*`、`*/**/*.json`，共 282 个站点被这一层排除），其中 **scripts/e396_face_basename_suffix.py 是被链点名的（live_chain）**，它覆盖 54/76 张面——但它靠的是深度 0 的通配，不是祖先扫掠；
+- 入口语料=本次 corpus（任务定义 / 链 / 烟腿），自排除本研究的两个文件。
+
+**研究**：E609 说过「被扫到 ≠ 被消耗」，E611 补了「被扫到 ≠ 会再跑」。本张把可达性再切一层：**「点名祖先」和「纯通配」之间还隔着一层**。`results/**/*.json` 至少说了「在 results 下」；`*/**/*.json` 什么位置都没说。把两者并成一类，会让唯一那个每轮都会跑的读者（e396）看起来像不存在。
+
+**自己踩的三条**：
+- **深度 0 不是祖先**：若只判「有 naming_segments」，`*/**/*` 与 `results/**/*.json` 平票，读数是 5 个模块会再跑（其实 e396 一个都不是祖先扫掠）；加 `named_dir_depth >= 1` 后才分出 5 vs 4。同族在 E609 已踩过一次（E206 族），本张是第二次——同一个病在每一层都要重判一次。
+- **排除量必须发布**：282 个深度 0 站点被排除，里面藏着唯一一个被链点名的模块。若只报「0 个会再跑」，就把「其实有人每轮路过这些面」整个藏掉了。被排除 ≠ 不存在，所以单列 `no_name_sweeps` 并把它们的类别一起发。
+- **分母是模块不是面**：按面计数会把 5 个一次性脚本说成「76 张各自没人读的面」；真实成本是 2 个模式 + 5 个模块。任何「多少张面受影响」都必须同时给「压在几个生产者上」，否则读者会把共享成本当独立成本加总。
+
+**How**：①可达性分三级并各自出证据——开面者存在（E470）/ 模式能落到且落在哪一层（E609）/ 落点还会不会再跑（E611、本张）；②三级里每一级遇到「纯通配」都必须单列，不能与「点名某层」并类；③任何被过滤掉的站点都要连同它们的类别一起发（drop ≠ absent）；④分母永远同时报「面数」和「生产者数」。
+
+**证据** = `scripts/e613_ancestor_reruns.py`（selftest **37/37**，run/check/verify problems=[]）、`results/state_tilt/ANCESTORRERUNS.json` (+`ANCESTORRERUNS-latest.json`)、`scripts/run_e613_smoke_leg.py`（PASS，`--doctor` 1/1 红且面字节还原 87ec57fc）、smoke_test.py leg E613、S6 leg `ancestor_reruns`、POOL E613 done。
