@@ -865,8 +865,14 @@ def rebase_audit(led):
         "unrecoverable_bars": lost,
         "restatements": [{"bar": r["bar"], "nav_published": r.get("nav_published"),
                           "nav_settled": r.get("nav_settled"), "delta": r.get("delta"),
+                          "nav_factor_applied": r.get("nav_factor_applied"),
+                          "later_rows_rescaled": r.get("later_rows_rescaled"),
+                          "chain_intact": r.get("chain_intact"),
                           "ts": r.get("ts")} for r in restatements],
         "withdrawn": [{"bar": r["bar"], "ts": r.get("ts")} for r in withdrawn],
+        # r1491: the same disclosure every reader of the ledger sees, kept beside the
+        # rewrite count so "history moved and we said so" is one artifact, not two.
+        "ledger_history": ledger_history(led),
         "verdict": ("every rewrite carries both values" if not lost else
                     "%d rewritten bar(s) have no recorded before-value" % len(lost)),
     }
@@ -882,7 +888,7 @@ def split_faces(faces, settled):
     return blocking, provisional
 
 
-def restate_provisional(led, rec, fresh, delta, panel_last_date):
+def restate_provisional(led, rec, fresh, delta, panel_last_date, fresh_map=None):
     """Accept a settled re-derivation for a bar that was PUBLISHED while still filling.
 
     Recorded, never silent: the published value, the settled value, the delta and the
@@ -890,23 +896,173 @@ def restate_provisional(led, rec, fresh, delta, panel_last_date):
     published mark may move, and it is announced as a restatement rather than sold as a
     rebase -- `--rebase` rewrites history on purpose and stays reserved for a real
     settled-bar drift an operator has inspected.
+
+    r1491: a bar in the MIDDLE of the series is not a single number -- every later nav is
+    a compounded product that rides the restated one, so moving bar i without moving the
+    rest of the chain leaves a published series whose later entries no longer re-derive
+    (the panel re-prices them all, and the gate would read a legitimate restatement as a
+    settled-bar drift and freeze the ledger). The later rows are therefore scaled by the
+    factor the restatement implies, the factor and the row count are published on the row
+    and in the record, and the moved chain is then MEASURED against the engine's own
+    re-derivation when the caller passes `fresh_map` (bar -> fresh record): a rescale that
+    is only asserted is the next defect. `later_rows_rescaled` of an entry written before
+    this existed stays absent -- unknown is not zero.
     """
+    nav_pub = rec.get("nav")
+    bars = led.get("bars") or []
+    i = None
+    for k, b in enumerate(bars):
+        if b is rec or (b.get("bar") == rec.get("bar") and b.get("nav") == nav_pub):
+            i = k
+            break
+    factor, n_shift = 1.0, 0
+    if i is not None and nav_pub not in (None, 0):
+        factor = float(fresh["nav"]) / float(nav_pub)
+        # a withdrawn row is inert and its published value is what the record keeps, so it
+        # is never scaled; only the live chain behind the restated bar moves.
+        for b in bars[i + 1:]:
+            if b.get("withdrawn") or b.get("nav") is None:
+                continue
+            b["nav"] = round(float(b["nav"]) * factor, 10)
+            n_shift += 1
     ent = {
         "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
         "bar": rec["bar"],
         "reason": "published while the panel for that date was still gaining symbols",
         "panel_last_date": panel_last_date,
-        "nav_published": rec["nav"],
+        "nav_published": nav_pub,
         "nav_settled": fresh["nav"],
+        "dd_published": rec.get("dd"),
+        "cash_published": rec.get("cash"),
         "delta": round(float(delta), 12),
+        "nav_factor_applied": round(factor, 12),
+        "later_rows_rescaled": n_shift,
     }
     for k in ("nav", "cash", "carry", "n_held", "filled", "turn"):
         if k in fresh:
             rec[k] = fresh[k]
+    # keep BOTH numbers on the row: the restatement list is what the producer audits, the
+    # row is what every reader of the published series actually walks past.
+    rec["nav_published"] = nav_pub
+    rec["dd_published"] = ent["dd_published"]
+    rec["cash_published"] = ent["cash_published"]
+    rec["nav_factor_applied"] = ent["nav_factor_applied"]
+    rec["later_rows_rescaled"] = n_shift
     rec["provisional"] = False
     rec["restated_at"] = ent["ts"]
+    if fresh_map is not None and i is not None:
+        breaks, checked = [], 0
+        for j in range(i + 1, len(bars)):
+            fr = fresh_map.get(bars[j].get("bar"))
+            if fr is None or bars[j].get("withdrawn") or bars[j].get("nav") is None:
+                continue
+            checked += 1
+            # nav is stored at 10 decimals, so the product of a rounded factor carries a
+            # rounding error that grows with distance from the restated bar -- the gate is
+            # published instead of implied, and it is not a licence to accept a real gap.
+            gate = DRIFT_TOL + 1e-10 * (j - i) + 1e-12
+            if abs(float(fr["nav"]) - float(bars[j]["nav"])) > gate:
+                breaks.append({"bar": bars[j]["bar"],
+                               "expected_from_panel": fr["nav"],
+                               "ledger_after_rescale": bars[j]["nav"], "gate": gate})
+        ent["chain_checked_bars"] = checked
+        ent["chain_intact"] = not breaks
+        ent["chain_breaks"] = breaks
     led.setdefault("restatements", []).append(ent)
     return ent
+
+
+def ledger_history(led):
+    """What this ledger used to say about its own published bars -- rows first, record behind.
+
+    r1491: the restatement record kept both values, but only in the producer's own list;
+    a reader walking `bars` saw a single number either way, and a chain that had been
+    scaled behind a restated bar looked exactly like one that had not. Rows are what a
+    consumer walks, so they lead -- but an entry whose row predates row-level stamping is
+    still a restatement and must not read as "none"; it is listed with `on_row: false`.
+    """
+    rows = [b for b in (led.get("bars") or [])]
+    by_bar = {b.get("bar"): b for b in rows}
+    entries = [r for r in (led.get("restatements") or []) if r.get("type") != "withdrawn"]
+    withdrawn = [r for r in (led.get("restatements") or []) if r.get("type") == "withdrawn"]
+    restated, seen = [], set()
+    for ent in entries:
+        bar = ent.get("bar")
+        row = by_bar.get(bar) or {}
+        on_row = row.get("nav_published") is not None or bool(row.get("restated_at"))
+        pub = row.get("nav_published") if row.get("nav_published") is not None else ent.get("nav_published")
+        stl = row.get("nav") if on_row else ent.get("nav_settled")
+        fac = row.get("nav_factor_applied") if on_row else ent.get("nav_factor_applied")
+        if fac is None and pub not in (None, 0) and stl is not None:
+            fac = round(float(stl) / float(pub), 12)
+        n_resc = (row.get("later_rows_rescaled") if on_row
+                  else ent.get("later_rows_rescaled"))
+        seen.add(bar)
+        restated.append({
+            "bar": bar, "on_row": bool(on_row),
+            "nav_published": pub, "nav_settled": stl,
+            "delta": ent.get("delta") if ent.get("delta") is not None else
+            (None if pub is None or stl is None else round(abs(float(stl) - float(pub)), 12)),
+            "nav_factor_applied": fac,
+            "later_rows_rescaled": n_resc,
+            "rescaled_known": n_resc is not None,
+            "restated_at": row.get("restated_at") if on_row else ent.get("ts"),
+            "chain_intact": ent.get("chain_intact"),
+        })
+    for b in rows:
+        if b.get("bar") in seen:
+            continue
+        if b.get("nav_published") is None and not b.get("restated_at"):
+            continue
+        pub, stl = b.get("nav_published"), b.get("nav")
+        fac = b.get("nav_factor_applied")
+        if fac is None and pub not in (None, 0) and stl is not None:
+            fac = round(float(stl) / float(pub), 12)
+        restated.append({
+            "bar": b.get("bar"), "on_row": True, "nav_published": pub, "nav_settled": stl,
+            "delta": None if pub is None or stl is None
+            else round(abs(float(stl) - float(pub)), 12),
+            "nav_factor_applied": fac,
+            "later_rows_rescaled": b.get("later_rows_rescaled"),
+            "rescaled_known": b.get("later_rows_rescaled") is not None,
+            "restated_at": b.get("restated_at"), "chain_intact": None,
+        })
+    restated.sort(key=lambda r: str(r.get("bar")))
+    n_off_row = sum(1 for r in restated if not r["on_row"])
+    return {
+        "bars": len(rows),
+        "restated_bars": restated,
+        "n_restated": len(restated),
+        "n_restated_on_row": len(restated) - n_off_row,
+        "withdrawn": [{"bar": r.get("bar"), "ts": r.get("ts")} for r in withdrawn],
+        "n_withdrawn": len(withdrawn),
+        "verdict": ("no published bar has been restated" if not restated else
+                    "%d published bar(s) were restated after publication%s" % (
+                        len(restated),
+                        "" if not n_off_row else
+                        " (%d recorded before rows carried the published value)" % n_off_row)),
+    }
+
+
+def history_md(h):
+    """One paragraph, the same words for stdout and for the audit face."""
+    if not h["n_restated"]:
+        return ("ledger history: %d published bar(s), none restated "
+                "(rows walked, not assumed)" % h["bars"])
+    parts = []
+    for r in h["restated_bars"]:
+        if r["nav_published"] is None or r["nav_settled"] is None:
+            parts.append("%s: restated, one side of the pair not recorded" % r["bar"])
+            continue
+        parts.append("%s %.10f -> %.10f (factor %s, later rows rescaled: %s%s%s)" % (
+            r["bar"], float(r["nav_published"]), float(r["nav_settled"]),
+            "-" if r["nav_factor_applied"] is None else "%.10f" % r["nav_factor_applied"],
+            r["later_rows_rescaled"] if r["rescaled_known"] else "not recorded",
+            "" if r["on_row"] else ", row predates this record",
+            "" if r.get("chain_intact") is None else
+            (", chain intact" if r["chain_intact"] else ", CHAIN BROKEN")))
+    return ("ledger history: %d of %d published bar(s) restated after publication | %s"
+            % (h["n_restated"], h["bars"], " | ".join(parts)))
 
 
 def withdraw_provisional(led, rec, panel_last_date):
@@ -1200,7 +1356,7 @@ def run(rebase=False):
             # recorded as a restatement (both values kept); no difference just closes the
             # flag, so the bar is policed like every other settled bar from now on.
             if d > DRIFT_TOL:
-                restated.append(restate_provisional(led, b, f, d, panel_last))
+                restated.append(restate_provisional(led, b, f, d, panel_last, fresh))
             else:
                 b["provisional"] = False
                 b["settled_at"] = time.strftime("%Y-%m-%dT%H:%M:%S%z")
@@ -1244,6 +1400,17 @@ def run(rebase=False):
         print("WITHDRAWN %s: published on a bar the coverage gate has since refused "
               "(panel ends %s) -> kept in the record, no longer re-derived"
               % (",".join(r["bar"] for r in withdrawn), panel_last), flush=True)
+    if restated:
+        print("RESTATED " + "; ".join(
+            "%s nav %.10f -> %.10f (factor %.10f, %d later row(s) rescaled%s)"
+            % (r["bar"], r["nav_published"], r["nav_settled"], r["nav_factor_applied"],
+               r["later_rows_rescaled"],
+               "" if r.get("chain_intact") is None else
+               (" chain intact over %d bar(s)" % r["chain_checked_bars"]
+                if r["chain_intact"] else " CHAIN BROKEN on %d bar(s)" % len(r["chain_breaks"])))
+            for r in restated), flush=True)
+    led["ledger_history"] = ledger_history(led)
+    print(history_md(led["ledger_history"]), flush=True)
 
     new_bars = [f for f in _indexed(marks, seed_bar) if f["bar"] > led["bars"][-1]["bar"]]
     born = born_provisional([b["bar"] for b in published_bars(led)],
@@ -1546,6 +1713,9 @@ def rebase_audit_face(write=True):
                  ",".join(rb["bars_with_both_values"]) or "none",
                  rb["values_unrecorded"]), flush=True)
     print(out["verdict"], flush=True)
+    # r1491: the audit is where an operator asks "did this ledger's history move?" -- so the
+    # answer has to be on the same page as the rewrite count, not in a run log.
+    print(history_md(out["ledger_history"]), flush=True)
     return 0
 
 
@@ -1682,6 +1852,74 @@ def selftest():
         _rec["nav"] == 1.100001 and _rec["provisional"] is False
         and _led["restatements"][0]["nav_published"] == 1.1
         and abs(ent["delta"] - 1e-6) < 1e-15, str(ent))
+
+    # 7d. r1491: a restatement in the MIDDLE of the chain is a move of the whole chain.
+    #     Every later nav is a compounded product riding the restated bar, and the panel
+    #     re-prices them all -- so lifting only bar i publishes a tail that no longer
+    #     re-derives, and the drift gate then freezes on a restatement it had just accepted.
+    #     Both halves are asserted: the tail moves by the published factor, and the moved
+    #     chain is MEASURED against the engine's own re-derivation instead of trusted.
+    _c0, _cnew = 1.010, 1.015
+    _tail = [1.020, 1.030]
+    _chled = {"restatements": [], "bars": [
+        {"bar": "2026-11-03", "nav": 1.0, "dd": 0.0, "cash": 0.5},
+        {"bar": "2026-11-04", "nav": _c0, "dd": -0.005, "cash": 0.4},
+        {"bar": "2026-11-05", "nav": _tail[0], "dd": -0.002, "cash": 0.3},
+        {"bar": "2026-11-06", "nav": _tail[1], "dd": 0.0, "cash": 0.3},
+    ]}
+    _fac = _cnew / _c0
+    _fmap = {"2026-11-04": {"nav": _cnew},
+             "2026-11-05": {"nav": round(_tail[0] * _fac, 10)},
+             "2026-11-06": {"nav": round(_tail[1] * _fac, 10)}}
+    _cent = restate_provisional(_chled, _chled["bars"][1], _fmap["2026-11-04"],
+                                abs(_cnew - _c0), "2026-11-06", _fmap)
+    chk("a mid-chain restatement moves every later nav by the published factor",
+        _chled["bars"][2]["nav"] == round(_tail[0] * _fac, 10)
+        and _chled["bars"][3]["nav"] == round(_tail[1] * _fac, 10)
+        and _cent["later_rows_rescaled"] == 2
+        and abs(_cent["nav_factor_applied"] - _fac) < 1e-12,
+        "tail=%s factor=%.10f" % ([b["nav"] for b in _chled["bars"][2:]],
+                                  _cent["nav_factor_applied"]))
+    chk("the rescaled chain is checked against the panel, not trusted",
+        _cent.get("chain_intact") is True and _cent.get("chain_checked_bars") == 2,
+        str(_cent.get("chain_breaks")))
+    _bled = {"restatements": [], "bars": [
+        {"bar": "2026-11-03", "nav": 1.0},
+        {"bar": "2026-11-04", "nav": _c0},
+        {"bar": "2026-11-05", "nav": _tail[0]}]}
+    _bmap = {"2026-11-04": {"nav": _cnew}, "2026-11-05": {"nav": 1.0400}}
+    _bent = restate_provisional(_bled, _bled["bars"][1], _bmap["2026-11-04"],
+                                abs(_cnew - _c0), "2026-11-06", _bmap)
+    chk("a chain that does not match the panel is reported broken, with the bar named",
+        _bent.get("chain_intact") is False
+        and [r["bar"] for r in _bent["chain_breaks"]] == ["2026-11-05"],
+        str(_bent.get("chain_breaks")))
+    _wnled = {"restatements": [], "bars": [
+        {"bar": "2026-11-03", "nav": 1.0},
+        {"bar": "2026-11-04", "nav": _c0},
+        {"bar": "2026-11-05", "nav": 1.02, "withdrawn": True}]}
+    _wn = restate_provisional(_wnled, _wnled["bars"][1], {"nav": _cnew},
+                              abs(_cnew - _c0), "2026-11-06")
+    chk("a withdrawn row keeps its published value (inert, never scaled)",
+        _wnled["bars"][2]["nav"] == 1.02 and _wn["later_rows_rescaled"] == 0, str(_wn))
+    _hist = ledger_history(_chled)
+    chk("the history face lists a restated bar with its factor and rescale count",
+        _hist["n_restated"] == 1 and _hist["restated_bars"][0]["on_row"] is True
+        and _hist["restated_bars"][0]["later_rows_rescaled"] == 2
+        and "restated after publication" in history_md(_hist),
+        history_md(_hist))
+    chk("a ledger with nothing restated says zero (verified, not blank)",
+        ledger_history({"bars": [{"bar": "2026-11-04", "nav": 1.0}],
+                        "restatements": []})["n_restated"] == 0
+        and "none restated" in history_md(ledger_history(
+            {"bars": [{"bar": "2026-11-04", "nav": 1.0}], "restatements": []})))
+    _ored = {"bars": [{"bar": "2026-11-04", "nav": 1.01}],
+             "restatements": [{"bar": "2026-11-04", "nav_published": 1.005,
+                               "nav_settled": 1.01}]}
+    _olh = ledger_history(_ored)
+    chk("an entry whose row predates row-level stamping still reads as a restatement",
+        _olh["n_restated"] == 1 and _olh["restated_bars"][0]["on_row"] is False
+        and "predates" in history_md(_olh), history_md(_olh))
 
     # 7c. the other ending (r1243): a provisional mark whose date the panel has since STOPPED
     #     short of was never a session -- it is retired in the record, not deleted and not

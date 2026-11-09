@@ -1,6 +1,6 @@
 {
- "ts": "2026-11-07T19:38:55+0800",
- "published_bars": 11,
+ "ts": "2026-11-10T04:03:44+0800",
+ "published_bars": 12,
  "ledger_status": "live",
  "rebases": [
   {
@@ -47,6 +47,9 @@
    "nav_published": 1.014536476,
    "nav_settled": 1.0145314121,
    "delta": 5.0639e-06,
+   "nav_factor_applied": null,
+   "later_rows_rescaled": null,
+   "chain_intact": null,
    "ts": "2026-10-30T19:18:29+0800"
   },
   {
@@ -54,6 +57,9 @@
    "nav_published": 1.0037553579,
    "nav_settled": 1.0037561821,
    "delta": 8.242e-07,
+   "nav_factor_applied": null,
+   "later_rows_rescaled": null,
+   "chain_intact": null,
    "ts": "2026-11-05T20:29:33+0800"
   }
  ],
@@ -63,6 +69,45 @@
    "ts": "2026-11-02T23:11:55+0800"
   }
  ],
+ "ledger_history": {
+  "bars": 12,
+  "restated_bars": [
+   {
+    "bar": "2026-10-29",
+    "on_row": false,
+    "nav_published": 1.014536476,
+    "nav_settled": 1.0145314121,
+    "delta": 5.0639e-06,
+    "nav_factor_applied": 0.999995008657,
+    "later_rows_rescaled": null,
+    "rescaled_known": false,
+    "restated_at": "2026-10-30T19:18:29+0800",
+    "chain_intact": null
+   },
+   {
+    "bar": "2026-11-03",
+    "on_row": false,
+    "nav_published": 1.0037553579,
+    "nav_settled": 1.0037561821,
+    "delta": 8.242e-07,
+    "nav_factor_applied": 1.000000821116,
+    "later_rows_rescaled": null,
+    "rescaled_known": false,
+    "restated_at": "2026-11-05T20:29:33+0800",
+    "chain_intact": null
+   }
+  ],
+  "n_restated": 2,
+  "n_restated_on_row": 0,
+  "withdrawn": [
+   {
+    "bar": "2026-11-02",
+    "ts": "2026-11-02T23:11:55+0800"
+   }
+  ],
+  "n_withdrawn": 1,
+  "verdict": "2 published bar(s) were restated after publication (2 recorded before rows carried the published value)"
+ },
  "verdict": "2 rewritten bar(s) have no recorded before-value",
- "evidence_cutoff": "2026-11-06"
+ "evidence_cutoff": "2026-11-09"
 }

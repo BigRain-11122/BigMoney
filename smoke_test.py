@@ -8578,6 +8578,63 @@ def main() -> int:
               or "before/after recorded per rewrite; unrecorded bars named, never invented")
     except Exception as e:
         check("product: a rewritten mark keeps the value it replaced", False, repr(e)[:180])
+    # (r1491) a restated bar in the middle of a forward chain drags the tail with it, by a
+    # published factor, and the drag is measured against the panel rather than asserted
+    try:
+        import importlib as _il77
+        if "scripts" not in sys.path:
+            sys.path.insert(0, "scripts")
+        _F77 = _il77.import_module("etf_book_forward")
+        _bad77 = []
+        _c0, _cnew, _t1, _t2 = 1.010, 1.015, 1.020, 1.030
+        _fac = _cnew / _c0
+        _led77 = {"restatements": [], "bars": [
+            {"bar": "2026-11-03", "nav": 1.0},
+            {"bar": "2026-11-04", "nav": _c0},
+            {"bar": "2026-11-05", "nav": _t1},
+            {"bar": "2026-11-06", "nav": _t2}]}
+        _fmap77 = {"2026-11-04": {"nav": _cnew},
+                   "2026-11-05": {"nav": round(_t1 * _fac, 10)},
+                   "2026-11-06": {"nav": round(_t2 * _fac, 10)}}
+        _ent77 = _F77.restate_provisional(_led77, _led77["bars"][1], _fmap77["2026-11-04"],
+                                          abs(_cnew - _c0), "2026-11-06", _fmap77)
+        if _led77["bars"][2]["nav"] != round(_t1 * _fac, 10):
+            _bad77.append("the bar behind the restatement was not rescaled")
+        if _ent77.get("later_rows_rescaled") != 2:
+            _bad77.append("the record does not say how many later rows moved")
+        if _ent77.get("chain_intact") is not True:
+            _bad77.append("the rescaled chain was not checked against the panel")
+        if _led77["bars"][1].get("nav_published") != _c0:
+            _bad77.append("the published value is not kept on the row")
+        _bad77led = {"restatements": [], "bars": [
+            {"bar": "2026-11-03", "nav": 1.0},
+            {"bar": "2026-11-04", "nav": _c0},
+            {"bar": "2026-11-05", "nav": _t1}]}
+        _bmap77 = {"2026-11-04": {"nav": _cnew}, "2026-11-05": {"nav": 1.04}}
+        _bent77 = _F77.restate_provisional(_bad77led, _bad77led["bars"][1],
+                                           _bmap77["2026-11-04"], abs(_cnew - _c0),
+                                           "2026-11-06", _bmap77)
+        if _bent77.get("chain_intact") is not False:
+            _bad77.append("a chain that disagrees with the panel is reported intact")
+        _live77 = _F77.load_ledger()
+        if _live77 is not None:
+            _h77 = _F77.ledger_history(_live77)
+            _n_ent = len([r for r in (_live77.get("restatements") or [])
+                          if r.get("type") != "withdrawn"])
+            if _h77["n_restated"] < _n_ent:
+                _bad77.append("a recorded restatement reads as 'never happened' on the face")
+            if _h77["n_restated"] != len(_h77["restated_bars"]):
+                _bad77.append("the history count and its rows disagree")
+            if (_h77["n_restated"] == 0) != ("none restated"
+                                            in _F77.history_md(_h77)):
+                _bad77.append("the sentence and the count disagree about whether anything moved")
+        check("product: a restated forward bar says how far the chain moved", not _bad77,
+              "; ".join(_bad77)[:200]
+              or "tail rescaled by the published factor, checked against the panel, "
+                 "and the ledger states its own restatement history every run")
+    except Exception as e:
+        check("product: a restated forward bar says how far the chain moved", False,
+              repr(e)[:180])
     _leg_width_growth()
     _leg_size_decomp()
     _leg_size_age_control()
