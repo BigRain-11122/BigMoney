@@ -14376,3 +14376,24 @@ esults/state_tilt/DUPWITNESS.json、S6 leg dup_witness、smoke leg E601。坑：
 **How**：①任何「这个数能不能被发现是错的」先问它有没有消费者，没有消费者就是发布面，别把它算成已验证；②统计读者时先剔写者，否则写者自己那份算术会把「有人比对」抬成主要形态；③分类器的类必须由字段推导并在 selftest 里正反两向钉住，手设类的夹具一律不算。
 
 **证据** = `scripts/e606_count_row_compare.py`（selftest **18/18**，run/check problems=[]·verify problems=[]）＋ `results/state_tilt/COUNTRYCOMPARE.json` (+`COUNTRYCOMPARE-latest.json`) ＋ `scripts/run_e606_smoke_leg.py`（PASS·`--doctor` 1/1 红且面字节还原）＋ smoke_test.py leg E606 ＋ S6 leg `count_row_compare` rc=0 93.7s ＋ POOL E604 done/E606 done＋E606 后继卡 E609 seeded。
+## E610 一次 glob 扫掠落在面上≠它说出了位置（r1634 bm-b，2026-11-09）
+> 序号=E610（E609 是研究号，卡片顺延到 E610）。
+
+**观察**：E606 交出 82 张"没有字面开面者"的面时自己写了限制：`results/**/*.json` 这种扫掠一样能读到它。本轮把这层补上——语料里每个 glob/iglob/rglob/Path.glob 调用的模式（字面量 + os.path.join/Path 组合 + f-string + 一跳变量赋值，绝对路径先归一成仓相对）逐段与面路径比较；匹配规则按 Python 的分段语义（`*` 不出段、`**` 跨段），不用 fnmatch（它的 `*` 会吞分隔符，E273/E470 族）。
+
+**读数**（results/state_tilt/GLOBSWEEPREACH.json，cutoff 2026-11-06）：
+- 1,202 个含 glob 的模块 → 1,060 个 glob 调用，330 个带命名段、18 个纯通配；
+- 82 张面**全部**被某个 glob 落到，0 张无人可达——但"落到"不是"有人读"；
+- 只有 **6 张**被点名自己目录的模式落到（全在 results/paper，来自 _r877bmc_badjson_scan.py 与一个 W14 探针），
+- **76 张**只被点名祖先目录的模式落到：`results/**/*.json`（304 处）与 `*/**/*`（228 处）能碰到它们，但对 state_tilt 与 paper 的区别一无所知。
+
+**研究**：把"重生≠可达≠被读"的第三层补全——E606 的"没有读者"= 没有字面开面者；本轮证明再上一层，**多数面只是被祖先级扫掠覆盖，没有任何模式区分它所在的子目录**，所以"能读到"与"会被读来比对"仍是两件事。真正被点名到目录的只有 6 张。
+
+**自我纠错（三条）**：
+- **扩展名不是名字**（E206 族第四现）：`*.json` 去通配后剩 `.json`，首版把它当命名段 → 82/82 全判"点名了文件"，全场假绿。规则改为"去通配、再去末尾扩展名，仍要有字母数字"。
+- **祖先级命名不算点名**：只分"命名/没命名"会让 `results/**/*.json` 与 `results/paper/**/*.json` 平票，而前者对子目录一无所知。增设 names_an_ancestor_directory_only 一类后读数从 82/82 变成 6/76，这才是可读的答案。
+- **绝对路径必须先归一**：绝对模式不转成仓相对就一个都匹配不上，会把"没有"伪装成"没搜到"。
+
+**How**：任何"X 能不能被程序读到"的病，先把 X 的位置问清——**落到 ≠ 点名**。一个 `**` 扫掠落在面上说明的是磁盘上有什么，不是代码想知道什么；统计"有人读"时，把"只有祖先级通配可达"单列一类，别并进"可达"。
+
+**证据** = `scripts/e609_glob_reach.py`（selftest **28/28**，run/check/verify problems=[]）→ `results/state_tilt/GLOBSWEEPREACH.json` (+`GLOBSWEEPREACH-latest.json`) → `scripts/run_e609_smoke_leg.py`（PASS·`--doctor` 1/1 红·面字节还原 b6765253）→ smoke_test.py leg E609 → S6 leg `glob_reach` rc=0 108.0s → POOL E609 done、E611 seeded。

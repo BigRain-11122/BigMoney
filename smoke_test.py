@@ -26090,6 +26090,57 @@ except Exception as _e606x:
 check(_name606, not _bad606, "; ".join(_bad606)[:240] or _d606)
 
 
+# E609: E606 published faces with no literal opener and said in its own limits that a glob sweep
+# could still reach them.  The leg re-derives every class from the published sites, refuses a
+# bounded site whose pattern names nothing, refuses a directory claim deeper than the face's own
+# directory list, and refuses any count or verdict that does not follow the rows.
+_name609 = ("E609 whether a glob sweep reaches the faces no literal names (r1634 bm-b)")
+_bad609 = []
+_d609 = "no reading"
+try:
+    _p609 = os.path.join("results", "state_tilt", "GLOBSWEEPREACH.json")
+    _f609 = json.load(open(_p609, encoding="utf-8"))
+    _m609 = importlib.import_module("e609_glob_reach")
+    _bad609.extend(_m609.face_problems(_f609))
+    _c609 = _f609.get("counts") or {}
+    _tally609 = {}
+    for _r609 in (_f609.get("faces") or []):
+        _tally609[_r609.get("class")] = _tally609.get(_r609.get("class"), 0) + 1
+        for _s609 in (_r609.get("sites") or []):
+            _named609 = _m609.naming_segments(_s609.get("pattern"))
+            if _s609.get("naming_segments") != _named609:
+                _bad609.append("site %s:%s publishes %r naming segments, rule says %r"
+                               % (_s609.get("source"), _s609.get("line"),
+                                  _s609.get("naming_segments"), _named609))
+                break
+            if _named609 and not all(_m609.names_something(_x) for _x in _named609):
+                _bad609.append("site %s:%s names a segment that carries no literal text"
+                               % (_s609.get("source"), _s609.get("line")))
+                break
+        _dirs609 = len(_m609.segments(_r609.get("face") or "")) - 1
+        for _s609 in (_r609.get("sites") or []):
+            if int(_s609.get("named_dir_depth") or 0) > _dirs609:
+                _bad609.append("site %s:%s claims depth %s on a face with %d directory segments"
+                               % (_s609.get("source"), _s609.get("line"),
+                                  _s609.get("named_dir_depth"), _dirs609))
+                break
+    for _cl609 in _m609.CLASSES:
+        if _c609.get(_cl609, 0) != _tally609.get(_cl609, 0):
+            _bad609.append("counts.%s says %r but the rows say %d"
+                           % (_cl609, _c609.get(_cl609), _tally609.get(_cl609, 0)))
+    if _f609.get("verdict") != _m609.verdict_from(_c609):
+        _bad609.append("verdict %r does not re-derive from the counts (rule says %r)"
+                       % (_f609.get("verdict"), _m609.verdict_from(_c609)))
+    _d609 = ("faces=%s full=%s ancestor_only=%s file_only=%s unbounded=%s none=%s verdict=%s"
+             % (_c609.get("faces"), _c609.get(_m609.C_FULL), _c609.get(_m609.C_PART),
+                _c609.get(_m609.C_FILE), _c609.get(_m609.C_UNB), _c609.get(_m609.C_NONE),
+                _f609.get("verdict")))
+except Exception as _e609x:
+    _bad609.append(repr(_e609x)[:160])
+    _d609 = "study could not be read"
+check(_name609, not _bad609, "; ".join(_bad609)[:240] or _d609)
+
+
 # E597: every published block that carries a bar count, whether that count is already an
 # annualisation denominator at the writer, and whether any downstream module divides by it.
 # The leg refuses counts that do not re-derive from the published blocks, an implied cagr that

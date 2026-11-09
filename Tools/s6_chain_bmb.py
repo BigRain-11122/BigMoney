@@ -2493,6 +2493,15 @@ LEGS = [
     # follow the rows.
     ("count_row_compare",
      ["python", "scripts/e606_count_row_compare.py", "check"]),
+    # E609 (r1634 bm-b): E606 published faces no literal opens, but said in its own limits that a
+    # glob sweep could still reach them.  Every glob-family call in the corpus is turned into the
+    # pattern(s) it can really use and matched per segment, so a face named only by an ancestor
+    # sweep ('results/**/*.json') is published apart from one whose own directory is named.  The
+    # leg refuses a published naming-segment list the naming rule does not give the pattern, a
+    # depth deeper than the face's own directory list, and any count or verdict the rows do not
+    # force.
+    ("glob_reach",
+     ["python", "scripts/e609_glob_reach.py", "check"]),
 ]
 
 

@@ -1,0 +1,6900 @@
+{
+ "answer": "of 82 disagreeing faces that no literal opens, 6 are reached by a glob that names their own directory, 76 only by a glob that names an ancestor (so the sweep says nothing about which subdirectory), 0 only by a glob that names the file while '**' spans the directories, 0 only by sweeps with no naming segment at all, and 0 by no glob in the corpus (0 of the 82 absent from this checkout).",
+ "card": "E609-WHETHER-A-GLOB-SWEEP-REACHES-THE-FACES-NO-LITERAL-OPENS",
+ "class_vocabulary": [
+  "names_the_directory",
+  "names_an_ancestor_directory_only",
+  "names_the_file_only",
+  "unbounded_only",
+  "not_reached",
+  "face_absent"
+ ],
+ "counts": {
+  "bounded_patterns_in_corpus": 330,
+  "face_absent": 0,
+  "faces": 82,
+  "faces_absent_from_checkout": 0,
+  "faces_naming_own_directory": 6,
+  "faces_present": 82,
+  "faces_with_a_bounded_site": 82,
+  "faces_with_only_unbounded_sites": 0,
+  "glob_calls": 1060,
+  "names_an_ancestor_directory_only": 76,
+  "names_the_directory": 6,
+  "names_the_file_only": 0,
+  "not_reached": 0,
+  "sources_scanned": 1202,
+  "unbounded_only": 0,
+  "unbounded_patterns_in_corpus": 18
+ },
+ "evidence_cutoff": "no-date-in-population",
+ "faces": [
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 2,
+   "face": "results/_r1024bma_rollback_side/results__paper__COMPOSITE-CE-01_paper.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 2,
+   "face": "results/_r1024bma_rollback_side/results__paper__COMPOSITE-CE-02_paper.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/_r1024bma_rollback_side/results__paper__DROUGHT-CE-01_paper.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/_r1024bma_rollback_side/results__paper__ENGULF-CE-01_paper.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/_r1024bma_rollback_side/results__paper__NEEDLE-DE-01_paper.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 2,
+   "face": "results/_r1024bma_rollback_side/results__paper__VOLATILITY-CE-01_paper.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 7,
+   "class": "names_the_directory",
+   "disagreeing_series": 1,
+   "face": "results/_r1049bmb_sscombo_stage_priors.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 51,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/*",
+     "score": 1,
+     "source": "results/_r473bmb_w14park_probe.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/*.json",
+     "score": 1,
+     "source": "results/_r695bma_contest_diag.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 29
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 2,
+   "face": "results/e34_cadence_rolling/CADENCE-ROLLING-3Y-20261020.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 2,
+   "face": "results/e34_cadence_rolling/CADENCE-ROLLING-3Y-X3.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e44_burnin/BURNIN-20261020.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e44_burnin/BURNSCREEN-arm-neutralise_int-20261026.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e44_burnin/BURNSCREEN-arm-raw-20261026.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e44_burnin/LIVESPAN-arm-neutralise_int-20261026.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e44_burnin/LIVESPAN-arm-raw-20261026.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e45_burnin_knife/KNIFE-20261020-mb120.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e45_burnin_knife/KNIFE-20261020-mb250.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e45_burnin_knife/KNIFE-20261020-mb60.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x0-p10.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x0-p11.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x0-p2.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x0-p3.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x0-p4.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x0-p5.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x0-p6.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x0-p7.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x0-p8.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x1-p3.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x3-p10.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x3-p11.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x3-p2.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x3-p3.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x3-p4.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x3-p5.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x3-p6.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x3-p7.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x3-p8.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020-x3-p9.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 4,
+   "face": "results/e46_live_span/LIVESPAN-20261020.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 8,
+   "class": "names_the_directory",
+   "disagreeing_series": 2,
+   "face": "results/paper/COMPOSITE-CE-01_paper.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 2,
+     "naming_segments": [
+      "results",
+      "paper"
+     ],
+     "pattern": "results/paper/**/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 10,
+     "named_dir_depth": 2,
+     "naming_segments": [
+      "results",
+      "paper"
+     ],
+     "pattern": "results/paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 16,
+     "named_dir_depth": 2,
+     "naming_segments": [
+      "results",
+      "paper"
+     ],
+     "pattern": "results/paper/**/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 420,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "paper",
+      "*_paper.json"
+     ],
+     "pattern": "*/paper/*_paper.json",
+     "score": 2,
+     "source": "scripts/science_audit.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 8,
+   "class": "names_the_directory",
+   "disagreeing_series": 2,
+   "face": "results/paper/COMPOSITE-CE-02_paper.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 2,
+     "naming_segments": [
+      "results",
+      "paper"
+     ],
+     "pattern": "results/paper/**/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 10,
+     "named_dir_depth": 2,
+     "naming_segments": [
+      "results",
+      "paper"
+     ],
+     "pattern": "results/paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 16,
+     "named_dir_depth": 2,
+     "naming_segments": [
+      "results",
+      "paper"
+     ],
+     "pattern": "results/paper/**/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 420,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "paper",
+      "*_paper.json"
+     ],
+     "pattern": "*/paper/*_paper.json",
+     "score": 2,
+     "source": "scripts/science_audit.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 8,
+   "class": "names_the_directory",
+   "disagreeing_series": 2,
+   "face": "results/paper/ENGULF-CE-01_paper.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 2,
+     "naming_segments": [
+      "results",
+      "paper"
+     ],
+     "pattern": "results/paper/**/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 10,
+     "named_dir_depth": 2,
+     "naming_segments": [
+      "results",
+      "paper"
+     ],
+     "pattern": "results/paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 16,
+     "named_dir_depth": 2,
+     "naming_segments": [
+      "results",
+      "paper"
+     ],
+     "pattern": "results/paper/**/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 420,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "paper",
+      "*_paper.json"
+     ],
+     "pattern": "*/paper/*_paper.json",
+     "score": 2,
+     "source": "scripts/science_audit.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 8,
+   "class": "names_the_directory",
+   "disagreeing_series": 1,
+   "face": "results/paper/NEEDLE-DE-01_paper.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 2,
+     "naming_segments": [
+      "results",
+      "paper"
+     ],
+     "pattern": "results/paper/**/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 10,
+     "named_dir_depth": 2,
+     "naming_segments": [
+      "results",
+      "paper"
+     ],
+     "pattern": "results/paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 16,
+     "named_dir_depth": 2,
+     "naming_segments": [
+      "results",
+      "paper"
+     ],
+     "pattern": "results/paper/**/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 420,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "paper",
+      "*_paper.json"
+     ],
+     "pattern": "*/paper/*_paper.json",
+     "score": 2,
+     "source": "scripts/science_audit.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 8,
+   "class": "names_the_directory",
+   "disagreeing_series": 2,
+   "face": "results/paper/VOLATILITY-CE-01_paper.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 2,
+     "naming_segments": [
+      "results",
+      "paper"
+     ],
+     "pattern": "results/paper/**/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 10,
+     "named_dir_depth": 2,
+     "naming_segments": [
+      "results",
+      "paper"
+     ],
+     "pattern": "results/paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 16,
+     "named_dir_depth": 2,
+     "naming_segments": [
+      "results",
+      "paper"
+     ],
+     "pattern": "results/paper/**/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 420,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "paper",
+      "*_paper.json"
+     ],
+     "pattern": "*/paper/*_paper.json",
+     "score": 2,
+     "source": "scripts/science_audit.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-ANTS-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-ANTS-CE-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-BBS-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-BBS-CE-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-DOJI-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-DOJI-CE-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-DUCK-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-DUCK-CE-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-HAM-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-HAM-CE-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-IBB-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-IBB-CE-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-IMM-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-IMM-CE-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-MCB-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-MCB-CE-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-OVB-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-OVB-CE-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-RSRS-CE-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-TMU-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-TMU-CE-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 5,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/prospect_paper/PROS-VOB-CE-01.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 9,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results",
+      "*_paper"
+     ],
+     "pattern": "results/*_paper/*.json",
+     "score": 2,
+     "source": "results/_r877bmc_badjson_scan.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 2,
+   "face": "results/retro_paper_2026/AGGR-CONC-TOP2_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 2,
+   "face": "results/retro_paper_2026/AGGR-OFFENSE_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 2,
+   "face": "results/retro_paper_2026/AGGR-REGIME_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/retro_paper_2026/ALLOC-P1_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/retro_paper_2026/ALLOC-P2_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/retro_paper_2026/ALLOC-P3B_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/retro_paper_2026/ALLOC-P3_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/retro_paper_2026/ALLOC-P4_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/retro_paper_2026/ALLOC-P5_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 1,
+   "face": "results/retro_paper_2026/ALLOC-P6_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 2,
+   "face": "results/retro_paper_2026/B_MAXDIV_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 2,
+   "face": "results/retro_paper_2026/COMPOSITE-CE-01_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 2,
+   "face": "results/retro_paper_2026/COMPOSITE-CE-02_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 2,
+   "face": "results/retro_paper_2026/DROUGHT-CE-01_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 2,
+   "face": "results/retro_paper_2026/ENGULF-CE-01_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 2,
+   "face": "results/retro_paper_2026/NEEDLE-DE-01_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  },
+  {
+   "bounded_sites": 4,
+   "class": "names_an_ancestor_directory_only",
+   "disagreeing_series": 2,
+   "face": "results/retro_paper_2026/VOLATILITY-CE-01_ledger.json",
+   "present": true,
+   "sites": [
+    {
+     "line": 8,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r239_find_listjson.py"
+    },
+    {
+     "line": 18,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r383bmc_ledger_scan.py"
+    },
+    {
+     "line": 21,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r843bmc_inputs.py"
+    },
+    {
+     "line": 13,
+     "named_dir_depth": 1,
+     "naming_segments": [
+      "results"
+     ],
+     "pattern": "results/**/*.json",
+     "score": 1,
+     "source": "results/_r904bmc_chain_enum.py"
+    },
+    {
+     "line": 70,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r579bmb_s0_surgery3b.py"
+    },
+    {
+     "line": 85,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r580bmb_s0_surgery.py"
+    },
+    {
+     "line": 134,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*",
+     "score": 0,
+     "source": "Tools/_r581bmb_s0_surgery.py"
+    },
+    {
+     "line": 372,
+     "named_dir_depth": 0,
+     "naming_segments": [],
+     "pattern": "*/**/*.json",
+     "score": 0,
+     "source": "scripts/e396_face_basename_suffix.py"
+    }
+   ],
+   "unbounded_sites": 6
+  }
+ ],
+ "limits": [
+  "the population is E606's publish: faces whose printed count disagrees with their own rows AND whose literal-reader count is zero. A face a literal opens but never reads a count from is E606's other class and is not here",
+  "a glob pattern is recovered from literals plus one-hop name assignments, os.path.join / Path composition and f-strings; a pattern built from a value this tracer cannot follow is published as a miss, not as a match",
+  "an argument this tracer cannot follow inside a composed pattern is filled with '*' -- that can only widen a pattern, never narrow it, so it can create an UNBOUNDED_ONLY reading but never a false NAMES_DIRECTORY one",
+  "matching is per segment (``*`` inside a segment, ``**`` across segments). fnmatch semantics would let '*' swallow separators and 'match' every face (E273/E470 family)",
+  "a glob that lands on a directory and is filtered by the caller afterwards counts as a landing: this measures reach, not consumption",
+  "faces missing from this checkout are published as face_absent rather than graded",
+  "E606 printed 81 faces with no reader at all; its own reader_pairs table holds 6 pairs across 5 faces, only 4 of which appear among the 86 face rows, so the row-level population here is 82. The one-face difference is E606's tally, disclosed rather than silently repaired",
+  "at most 8 sites per face are published; the counts are complete even when the site list is truncated"
+ ],
+ "naming_rule": "a path segment names something when literal text survives after its wildcards are stripped: '**' and '*' name nothing, 'FILEHIT*.json' names the file, 'results' names a directory",
+ "study": "E609_glob_reach",
+ "verdict": "at_least_one_face_no_literal_names_is_reached_by_a_glob_that_names_its_own_directory"
+}

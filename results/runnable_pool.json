@@ -30649,13 +30649,31 @@
    "id": "E609-WHETHER-A-GLOB-SWEEP-REACHES-THE-FACES-NO-LITERAL-OPENS",
    "lane": "cpu-only",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "card": "E609",
    "title": "whether a glob sweep reaches the faces no literal names",
    "lane_note": "static: take the disagreeing faces E606 published as having no literal opener, enumerate every glob/rglob/iglob pattern in the corpus, and decide per face whether a bounded pattern in a real module lands on its directory -- no runner, no fixture write",
    "source": "E606 (r1633 bm-b): 81 of the 86 faces whose printed count disagrees with their own rows are opened by no literal in the corpus, but E606 deliberately did NOT count glob landings, so 'no reader' there means 'no literal opener' and cannot yet be read as 'nothing on this disk could load it'.",
    "target": "results/state_tilt/GLOBSWEEPREACH.json",
-   "deliverable": "results/state_tilt/GLOBSWEEPREACH.json: per face, whether any glob pattern in a non-self module resolves to its directory, split into an unbounded sweep (no literal segment, carries no information) and a bounded pattern that names the directory"
+   "deliverable": "results/state_tilt/GLOBSWEEPREACH.json: per face, whether any glob pattern in a non-self module resolves to its directory, split into an unbounded sweep (no literal segment, carries no information) and a bounded pattern that names the directory",
+   "closed_by": "bm-b",
+   "closed_at": "2026-11-09T13:05:00+08:00",
+   "result_ref": "results/state_tilt/GLOBSWEEPREACH.json + results/_r1634bmb_s6_chain.json (r1634 bm-b)",
+   "result_note": "82 faces landed on by some glob, 0 unreachable; only 6 reached by a pattern naming their own directory, 76 only by an ancestor-naming sweep"
+  },
+  {
+   "id": "E611-WHETHER-A-GLOB-THAT-NAMES-A-FACE-EVER-RUNS-AGAIN",
+   "lane": "cpu-only",
+   "priority": "normal",
+   "status": "ready",
+   "card": "E611",
+   "title": "whether a glob that names a face ever runs again",
+   "lane_note": "static: take the modules E609 published as landing on a face by naming its own directory, and decide per module whether it is a one-off round script, a smoke leg, or reachable from a scheduled/live entry point -- no runner, no rebuild",
+   "source": "E609 (r1634 bm-b): only 6 of 82 unopened faces are reached by a glob that names their own directory, and all 6 land through round scripts (results/_r877bmc_badjson_scan.py, a W14 probe, a ledger scan). A landing that never runs again costs nothing, so reach has to be priced by whether the sweeper executes at all.",
+   "target": "results/state_tilt/SWEEPRERUNS.json",
+   "deliverable": "results/state_tilt/SWEEPRERUNS.json: per landing module, whether its entry point is named by a scheduled task, a live chain, a smoke leg, or nothing -- and the count of faces whose only own-directory sweeper is a one-off",
+   "seeded_by": "r1634 bm-b",
+   "seeded_at": "2026-11-09T13:05:00+08:00"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -30670,6 +30688,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-09T10:20:00+0800",
+ "updated_at": "2026-11-09T13:05:00+0800",
  "version": 1
 }
