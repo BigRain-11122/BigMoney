@@ -12,44 +12,44 @@
  "unexplained": [],
  "unexplained_total_cny": 0,
  "unexplained_unpriced_rows": 0,
- "ledger_action": "kept",
+ "ledger_action": "updated",
  "ledger_row": {
   "bar": "2026-11-06",
   "ticket": "TICKET-2026-11-06.json",
-  "k": 0.390822,
-  "risk_book_cny": 390822.0,
-  "cash_cny": 609178.0,
+  "k": 0.390144,
+  "risk_book_cny": 390144.4,
+  "cash_cny": 609855.6,
   "holdings": [
    {
     "symbol": "159263",
-    "lots": 684,
+    "lots": 683,
     "price": 1.143,
-    "amount_cny": 78181.2
+    "amount_cny": 78066.9
    },
    {
     "symbol": "159513",
-    "lots": 916,
+    "lots": 915,
     "price": 1.705,
-    "amount_cny": 156178.0
+    "amount_cny": 156007.5
    },
    {
     "symbol": "159577",
-    "lots": 485,
+    "lots": 484,
     "price": 1.612,
-    "amount_cny": 78182.0
+    "amount_cny": 78020.8
    },
    {
     "symbol": "513690",
-    "lots": 676,
+    "lots": 674,
     "price": 1.158,
-    "amount_cny": 78280.8
+    "amount_cny": 78049.2
    }
   ],
   "actions": [
    {
     "side": "SELL",
     "symbol": "159501",
-    "lots": 378
+    "lots": 377
    },
    {
     "side": "SELL",
@@ -59,35 +59,35 @@
    {
     "side": "BUY",
     "symbol": "159513",
-    "lots": 916
+    "lots": 915
    }
   ],
   "source_face": "results/etf_book_swap_stack.json"
  },
  "next_order_base": {
   "bar": "2026-11-06",
-  "risk_book_cny": 390822.0,
-  "cash_cny": 609178.0,
+  "risk_book_cny": 390144.4,
+  "cash_cny": 609855.6,
   "holdings": 4
  },
  "base_divergence": [
   {
    "symbol": "159501",
-   "target_lots": 378,
+   "target_lots": 377,
    "from_ticket_lots": 0,
-   "from_ledger_lots": 378,
+   "from_ledger_lots": 377,
    "price": 2.069,
-   "gap_lots": 378,
-   "gap_cny": 78208.2
+   "gap_lots": 377,
+   "gap_cny": 78001.3
   },
   {
    "symbol": "159513",
    "target_lots": 0,
    "from_ticket_lots": 0,
-   "from_ledger_lots": -916,
+   "from_ledger_lots": -915,
    "price": 1.705,
-   "gap_lots": 916,
-   "gap_cny": 156178.0
+   "gap_lots": 915,
+   "gap_cny": 156007.5
   },
   {
    "symbol": "513100",
@@ -99,7 +99,7 @@
    "gap_cny": 78119.6
   }
  ],
- "base_divergence_total_cny": 312505.8,
+ "base_divergence_total_cny": 312128.4,
  "accrual": {
   "status": "NO_NEW_BAR",
   "from_bar": "2026-11-06",
@@ -118,10 +118,10 @@
  "replay": {
   "start_bar": "2026-10-09",
   "bars": 20,
-  "legs_first_bar": 415756.0,
-  "legs_last_bar": 390822.0,
-  "legs_ret": -0.05997268,
-  "cash_interest_cny": 565.28,
+  "legs_first_bar": 415048.1,
+  "legs_last_bar": 390144.4,
+  "legs_ret": -0.06000196,
+  "cash_interest_cny": 565.91,
   "identity_delta_cny": 0.0,
   "identity_holds": true,
   "rf_missing_bars": 0,
@@ -136,11 +136,11 @@
    "rf": 0.0
   },
   "divergence": {
-   "book_k": 0.390822,
+   "book_k": 0.390144,
    "engine_k": 0.460253,
    "book_nav_cny": 1000000.0,
-   "k_gap": 0.069431,
-   "notional_gap_cny": 69431.0
+   "k_gap": 0.070109,
+   "notional_gap_cny": 70109.0
   }
  },
  "caveats": [

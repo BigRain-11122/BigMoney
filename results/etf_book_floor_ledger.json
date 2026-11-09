@@ -19,20 +19,22 @@
   "floor_rows": 1,
   "k_schedule_last": 0.460253,
   "schedule_last_date": "2026-10-23",
-  "k_order": 0.460253,
-  "k_sheet": 0.392964,
+  "k_order": 0.390822,
+  "k_sheet": 0.390822,
   "obeyed_now": true,
   "schedule_over_floor": true,
   "floor_kind": "CURRENT_TICKET",
   "ticket_superseded": false,
   "ticket_now": "TICKET-2026-11-06.json",
-  "missing": [],
+  "missing": [
+   "trim: the gap receipt carries no post-cut k, the sheet is judged on its ordered size"
+  ],
   "verdict": "REAPPLY_REQUIRED",
   "action": "the sheet obeys the floor but the schedule's last decision bar is at k=0.460253, above 0.393073 -- the next sheet will size over the floor unless the same trim is applied on that bar (r1456: one up-step has erased a whole cut)"
  },
  "sentence": "Floor 0.393073 holds on the sheet but not on the path: the schedule's last decision bar is 0.460253, so the next sheet sizes over it unless the trim is applied again on that bar.",
  "evidence_cutoff": "2026-11-06",
- "elapsed_sec": 0.13,
- "generated": "2026-11-09T02:53:56+0800",
+ "elapsed_sec": 0.08,
+ "generated": "2026-11-09T09:37:26+0800",
  "appended_this_run": false
 }

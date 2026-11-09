@@ -486,23 +486,23 @@
    "order_ticket": "results/etf_book_order/TICKET-2026-11-06.json"
   },
   "verdict": "NETTED_WITH_RESIDUE",
-  "k_ordered": 0.391439,
-  "k_after": 0.390822,
+  "k_ordered": 0.390822,
+  "k_after": 0.390144,
   "floor_k": 0.393073,
   "ceiling_k": 0.544424,
   "within_permission": true,
-  "risk_book_before_cny": 390971.8,
-  "risk_book_after_cny": 390822.0,
-  "cash_cny": 609178.0,
-  "lot_residue_cny": 149.8,
+  "risk_book_before_cny": 390257.8,
+  "risk_book_after_cny": 390144.4,
+  "cash_cny": 609855.6,
+  "lot_residue_cny": 113.4,
   "actions": [
    {
     "side": "SELL",
     "symbol": "159501",
-    "lots": 378,
+    "lots": 377,
     "price": 2.069,
-    "amount_cny": 78208.2,
-    "why": "swap 159501 → 159513 (r1466 verdict ACT_ON_THIS_BAR), sized on the trimmed 378 lots"
+    "amount_cny": 78001.3,
+    "why": "swap 159501 → 159513 (r1466 verdict ACT_ON_THIS_BAR), sized on the trimmed 377 lots"
    },
    {
     "side": "SELL",
@@ -515,41 +515,41 @@
    {
     "side": "BUY",
     "symbol": "159513",
-    "lots": 916,
+    "lots": 915,
     "price": 1.705,
-    "amount_cny": 156178.0,
+    "amount_cny": 156007.5,
     "why": "merged buy for 159501 + 513100"
    }
   ],
   "holdings_after": [
    {
     "symbol": "159263",
-    "lots": 684,
+    "lots": 683,
     "price": 1.143,
-    "amount_cny": 78181.2
+    "amount_cny": 78066.9
    },
    {
     "symbol": "159513",
-    "lots": 916,
+    "lots": 915,
     "price": 1.705,
-    "amount_cny": 156178.0
+    "amount_cny": 156007.5
    },
    {
     "symbol": "159577",
-    "lots": 485,
+    "lots": 484,
     "price": 1.612,
-    "amount_cny": 78182.0
+    "amount_cny": 78020.8
    },
    {
     "symbol": "513690",
-    "lots": 676,
+    "lots": 674,
     "price": 1.158,
-    "amount_cny": 78280.8
+    "amount_cny": 78049.2
    }
   ],
   "widest_name": {
    "symbol": "159513",
-   "share_of_risk_book": 0.3996
+   "share_of_risk_book": 0.3999
   },
   "baskets": {
    "before": [
@@ -572,8 +572,8 @@
    {
     "leg": "159501",
     "sibling": "159513",
-    "ordered_lots": 378,
-    "trimmed_lots": 378,
+    "ordered_lots": 377,
+    "trimmed_lots": 377,
     "share": 1.0,
     "gain_published_cny": 5612.5,
     "gain_on_trimmed_book_cny": 5612.5,
@@ -606,11 +606,52 @@
    "swap_stack": "results/etf_book_swap_stack.json",
    "ledger": "results/etf_book_positions/LEDGER.json"
   },
-  "verdict": "PRINTED_ROWS_REBUILD_THE_BOOK",
+  "verdict": "PRINTED_ROWS_OVERSELL_THE_BOOK",
   "printed_rows": 3,
   "book_rows": 4,
-  "unexplained": [],
-  "unexplained_total_cny": 0,
+  "unexplained": [
+   {
+    "symbol": "159263",
+    "sheet_lots": 683,
+    "printed_lots": 683,
+    "book_lots": 684,
+    "delta_lots": -1,
+    "price": 1.143,
+    "delta_cny": -114.3,
+    "reading": "printed rows hold fewer lots than the declared book (a buy the sheet never prints)"
+   },
+   {
+    "symbol": "159501",
+    "sheet_lots": 377,
+    "printed_lots": -1,
+    "book_lots": 0,
+    "delta_lots": -1,
+    "price": 2.069,
+    "delta_cny": -206.9,
+    "reading": "printed rows hold fewer lots than the declared book (a buy the sheet never prints)"
+   },
+   {
+    "symbol": "159577",
+    "sheet_lots": 484,
+    "printed_lots": 484,
+    "book_lots": 485,
+    "delta_lots": -1,
+    "price": 1.612,
+    "delta_cny": -161.2,
+    "reading": "printed rows hold fewer lots than the declared book (a buy the sheet never prints)"
+   },
+   {
+    "symbol": "513690",
+    "sheet_lots": 674,
+    "printed_lots": 674,
+    "book_lots": 676,
+    "delta_lots": -2,
+    "price": 1.158,
+    "delta_cny": -231.6,
+    "reading": "printed rows hold fewer lots than the declared book (a buy the sheet never prints)"
+   }
+  ],
+  "unexplained_total_cny": -714.0,
   "unexplained_unpriced_rows": 0,
   "ledger_action": "kept",
   "ledger_row": {
@@ -672,13 +713,22 @@
   },
   "base_divergence": [
    {
-    "symbol": "159501",
-    "target_lots": 378,
+    "symbol": "159263",
+    "target_lots": 683,
     "from_ticket_lots": 0,
-    "from_ledger_lots": 378,
+    "from_ledger_lots": -1,
+    "price": 1.143,
+    "gap_lots": 1,
+    "gap_cny": 114.3
+   },
+   {
+    "symbol": "159501",
+    "target_lots": 377,
+    "from_ticket_lots": 0,
+    "from_ledger_lots": 377,
     "price": 2.069,
-    "gap_lots": 378,
-    "gap_cny": 78208.2
+    "gap_lots": 377,
+    "gap_cny": 78001.3
    },
    {
     "symbol": "159513",
@@ -690,6 +740,15 @@
     "gap_cny": 156178.0
    },
    {
+    "symbol": "159577",
+    "target_lots": 484,
+    "from_ticket_lots": 0,
+    "from_ledger_lots": -1,
+    "price": 1.612,
+    "gap_lots": 1,
+    "gap_cny": 161.2
+   },
+   {
     "symbol": "513100",
     "target_lots": 362,
     "from_ticket_lots": 0,
@@ -697,9 +756,18 @@
     "price": 2.158,
     "gap_lots": 362,
     "gap_cny": 78119.6
+   },
+   {
+    "symbol": "513690",
+    "target_lots": 674,
+    "from_ticket_lots": 0,
+    "from_ledger_lots": -2,
+    "price": 1.158,
+    "gap_lots": 2,
+    "gap_cny": 231.6
    }
   ],
-  "base_divergence_total_cny": 312505.8,
+  "base_divergence_total_cny": 312806.0,
   "accrual": {
    "status": "NO_NEW_BAR",
    "from_bar": "2026-11-06",
@@ -767,15 +835,15 @@
    "vol": 0.0884
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1089,
-    "card_width_cagr": 0.0942,
-    "pp": -1.47
-   },
    "vol": {
     "ticket_width_cagr": 0.1149,
     "card_width_cagr": 0.1173,
     "pp": 0.24
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1089,
+    "card_width_cagr": 0.0942,
+    "pp": -1.47
    }
   },
   "rules_differ": true,

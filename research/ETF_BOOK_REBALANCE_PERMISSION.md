@@ -2,20 +2,20 @@
 
 ticket `TICKET-2026-11-06.json` | evidence cutoff 2026-11-06 | decision date 2026-11-11 | beta target 0.2
 
-**KEEP_STANDS_ON_NON_PATH_ARGUMENT** — keeping k=0.460253 stands only on denominator, which is a static mix and not a decision path; all 3 path reading(s) sit below the money (highest k=0.432195), so the 2026-11-11 rebalance must size at k=0.393073 (CNY 392,616, a cut of CNY 67,180 = 6.72pp) unless a caliber prereg lands first
+**KEEP_SUPPORTED_BY_INDEPENDENT_PATH** — keeping k=0.390822 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.393073
 
 | reading | k | vs money (pp) | kind | why |
 |---|---|---|---|---|
-| baseline_published | 0.460253 | +0.00 | circular | the construction the ticket was priced from (k == k_now by identity) |
-| window | 0.412669 | -4.76 | path | measured on 306 bars |
-| universe | 0.432195 | -2.81 | path | measured on 1658 bars |
-| window_x_universe | 0.393073 | -6.72 | path | measured on 306 bars |
-| denominator | 0.544424 | +8.42 | static | static composition, not a path: only comparable with the path rows because it is divided by covered weight |
+| baseline_published | 0.460253 | +6.94 | circular | the construction the ticket was priced from (k == k_now by identity) |
+| window | 0.412669 | +2.18 | path | measured on 306 bars |
+| universe | 0.432195 | +4.14 | path | measured on 1658 bars |
+| window_x_universe | 0.393073 | +0.23 | path | measured on 306 bars |
+| denominator | 0.544424 | +15.36 | static | static composition, not a path: only comparable with the path rows because it is divided by covered weight |
 
-- money in force: k=0.460253 = CNY 459,796 of a CNY 1,000,000 NAV
-- permitted floor over 3 path reading(s): k=0.393073 = CNY 392,616
-- cut if reprice is required: k -0.067180 (6.72pp) = CNY 67,180
-- supporters at the money: denominator (path: none / non-path: denominator)
+- money in force: k=0.390822 = CNY 390,258 of a CNY 1,000,000 NAV
+- permitted floor over 3 path reading(s): k=0.393073 = CNY 392,509
+- cut if reprice is required: k --0.002251 (-0.23pp) = CNY -2,251
+- supporters at the money: denominator, universe, window, window_x_universe (path: universe, window, window_x_universe / non-path: denominator)
 - the trap: reading 'some ruler permits a larger size' as permission reads k=0.544424 -> keep=True
 
 ## supply side (carried, not re-judged)
