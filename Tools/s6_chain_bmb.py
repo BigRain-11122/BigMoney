@@ -1644,6 +1644,17 @@ LEGS = [
     # the counted-key list field by field against the published face.
     ("loop_write_key", ["python", "scripts/e653_loop_write_key.py", "verify"]),
 
+    # E659 prices how many times each of E653's 149 fixed-address writes actually writes.  E653's
+    # split says what the body writes (one address vs the loop target) but not how often: a
+    # `for x in range(3): P['k'] = x` performs three writes of one key, two of them dead stores,
+    # while a `for x in rows: P['k'] = x` is equally a repeated write whose count the source never
+    # states.  Every fixed-address site gets its innermost loop bound published as exact (literal
+    # container/string length, range/enumerate/zip over resolvable integers, or a module-level
+    # binding chain that bottoms out in one of those), unknown or while, plus the dead stores the
+    # exact bounds remove.  Verify re-parses each row's own module and re-derives its bound, and
+    # reconciles the population against E653's face row by row.
+    ("fixed_address_bound", ["python", "scripts/e659_fixed_addr_bound.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

@@ -6336,7 +6336,7 @@
   "verify": "problems=[] verify=identical"
  },
  "round_label": "r1673",
- "round_no": 1676,
+ "round_no": 1677,
  "round_no_label": "r1673",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
  "round_no_ts": "2026-11-10T20:20:00+08:00",
@@ -7085,5 +7085,32 @@
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1675 == HEAD",
   "main_push_note": "git push origin main produced no output for 5 minutes and was killed; no index.lock, no lingering push process; local main is far ahead and behind origin/main on a promisor clone, so delivery went to the machine branch instead of an unattended rebase (r1243)",
   "ts": "2026-11-10T23:05:00+08:00"
+ },
+ "last_update": "2026-11-10T23:49:37+08:00",
+ "r1677": {
+  "card": "E659",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/FIXEDADDRBOUND.json",
+  "study": "E659_fixed_address_loop_write_bound",
+  "ts": "2026-11-10T23:49:37+08:00",
+  "verdict": "fixed_address_loop_writes_split_by_whether_the_bound_is_readable,_and_the_split_is_published_rather_than_assuming_a_loop_around_a_write_means_many_writes",
+  "finding": "149 fixed-address loop writes: 63 (42.3%) have a bound the source states (median 3, max 13), 84 unknown, 2 inside a while; 163 dead stores removed by collapsing the exact ones; module_constant 46 splits 39 exact / 7 unknown once the binding chain is followed",
+  "selftest": "22/22",
+  "product": [
+   "scripts/e659_fixed_addr_bound.py (selftest 22/22; build rc=0 188s; check/verify problems=[])",
+   "results/state_tilt/FIXEDADDRBOUND.json + fixedaddrbound_latest.json (149 rows)",
+   "scripts/run_e659_smoke_leg.py (1/1 PASS, --doctor 1 leg red, face restored sha 351323f93562)",
+   "smoke_test.py leg E659 (75/0 numstat)",
+   "Tools/s6_chain_bmb.py leg fixed_address_bound (11/0 numstat, wired not run)",
+   "knowledge/METHODOLOGY_ASSETS.md card E659 (32/0 numstat)",
+   "research/digests/DIGEST-20261110-r1677-e659-fixed-addr-bound.md"
+  ],
+  "pit": [
+   "a bound is a syntactic promise not a loop count: break/return/a raising guard shorten the run and this ruler does not look for them, so the face says so instead of calling the number a runtime measurement",
+   "resolve a label before reporting it: module_constant reads as 'the bound is in the source' but 7 of 46 bottom out in a call or a comprehension; same family as E653's own loop bucket",
+   "reconcile against the predecessor row by row, not by count: only_in_source_face is a hard red, only_in_this_build is disclosed growth, and both directions are published",
+   "cheap verify beats expensive re-measure when every row names its own evidence: 149 files re-parsed instead of the 13k-file corpus"
+  ],
+  "next": "E654 (ready, cpu-only): whether the 16 scoped counted-key sites read the object a counted read line reads"
  }
 }

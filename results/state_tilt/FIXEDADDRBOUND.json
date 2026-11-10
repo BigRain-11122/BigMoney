@@ -1,0 +1,3313 @@
+{
+ "study": "E659_fixed_address_loop_write_bound",
+ "date": "2026-11-10",
+ "evidence_cutoff": "2026-11-10",
+ "source_face": "results/state_tilt/LOOPWRITEKEY.json",
+ "deliverable": "results/state_tilt/FIXEDADDRBOUND.json",
+ "method": "take E653's population (loop-guarded residual module-level write sites whose address does not mention the loop target), then publish for each the innermost loop's iteration bound as exact/unknown/while with the resolved integer where the source states it; literal containers, strings, range over resolvable integers, enumerate and zip of resolvable sequences, and module-level binding chains that bottom out in those are exact; bare names, other calls, comprehensions, member reads and operators are unknown",
+ "population_source": "13122 Python files of the E391 corpus minus this study's own prefixes; the population is every E653 fixed-address site, which is every two-depth module-level write site behind a loop guard whose row key and container key both ignore the loop target",
+ "counts": {
+  "python_files_scanned": 13122,
+  "fixed_address_sites": 149,
+  "dead_stores_collapsed": 163,
+  "sites_with_exact_bound": 63,
+  "sites_with_unknown_bound": 84,
+  "sites_inside_a_while": 2,
+  "sites_whose_bound_came_through_a_module_constant": 46,
+  "holes": {
+   "over_the_size_cap": 4,
+   "unreadable": 0,
+   "does_not_parse": 304
+  },
+  "by_bound_class": {
+   "unknown": 84,
+   "exact": 63,
+   "while": 2
+  },
+  "by_iterable_form": {
+   "bare_name": 58,
+   "module_constant": 46,
+   "literal_container": 24,
+   "attribute_or_subscript": 2,
+   "call": 14,
+   "other": 1,
+   "enumerate_call": 2,
+   "condition_compare": 2
+  },
+  "by_bound_source_root": {
+   "bare_name": 58,
+   "module_constant": 46,
+   "literal_container": 24,
+   "attribute_or_subscript": 2,
+   "call": 14,
+   "other": 1,
+   "enumerate_of": 2,
+   "while": 2
+  },
+  "by_unknown_reason": {
+   "bare_name_bound_not_statically_known": 60,
+   "member_read_bound_not_statically_known": 4,
+   "call_bound_not_statically_known": 15,
+   "form_not_recognised_as_a_static_bound": 1,
+   "comprehension_bound_depends_on_its_generator": 4,
+   "a_while_loop_has_no_static_iteration_bound": 2
+  },
+  "exact_bound_histogram": {
+   "2": 24,
+   "3": 30,
+   "4": 1,
+   "6": 1,
+   "9": 1,
+   "10": 3,
+   "13": 3
+  },
+  "exact_bound_median": 3,
+  "exact_bound_max": 13,
+  "cross_bound_class_by_iterable_form": {
+   "attribute_or_subscript": {
+    "unknown": 2
+   },
+   "bare_name": {
+    "unknown": 58
+   },
+   "call": {
+    "unknown": 14
+   },
+   "condition_compare": {
+    "while": 2
+   },
+   "enumerate_call": {
+    "unknown": 2
+   },
+   "literal_container": {
+    "exact": 24
+   },
+   "module_constant": {
+    "exact": 39,
+    "unknown": 7
+   },
+   "other": {
+    "unknown": 1
+   }
+  },
+  "reconciliation": {
+   "source_face_present": true,
+   "source_face_count": 149,
+   "source_face_counts_key": 149,
+   "this_build_count": 149,
+   "only_in_this_build": [],
+   "only_in_source_face": [],
+   "population_grew_since_source_face": false,
+   "population_shrank_since_source_face": false
+  }
+ },
+ "rows": [
+  {
+   "module": "Tools/_r556bmc_merge_resolve.py",
+   "line": 183,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "Tools/_r629bma_divlowvol_release.py",
+   "line": 69,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "FUSES",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "module_constant:FUSES",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'note'",
+   "container_key_form": "computed_name",
+   "source": "sigs[NULLS_SIG]['note'] = NULLS_NOTE"
+  },
+  {
+   "module": "Tools/_r741bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r742bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r743bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r743bmc_merge_clone.py",
+   "line": 31,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "PAIR",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "module_constant:PAIR",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r744bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r745bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r746bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r747bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r748bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r749bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r750bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r751bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r752bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r753bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r754bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r755bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r756bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r757bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r758bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r759bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r760bmc_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r761bmc_boot.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r762bmc_boot.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r762bmc_merge_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "PAIR",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "module_constant:PAIR",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r763bmc_boot.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r763bmc_merge_clone.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "PAIR",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "module_constant:PAIR",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r764bmc_boot.py",
+   "line": 30,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TRIO",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:TRIO",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'compile'",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+  },
+  {
+   "module": "Tools/_r769bmc_clone_gate.py",
+   "line": 73,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "JOBS",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:JOBS",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "computed_name",
+   "key_text": "name",
+   "container_key_form": "literal",
+   "source": "receipt[\"files\"][name] = entry"
+  },
+  {
+   "module": "_r1100bmb_closeout.py",
+   "line": 113,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('state-bm-b.json', 'state.json')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'behind_origin_main'",
+   "container_key_form": "literal",
+   "source": "st[\"sync\"][\"behind_origin_main\"] = 0"
+  },
+  {
+   "module": "_r1103bmb_postscript.py",
+   "line": 28,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('state-bm-b.json', 'fleet/machines/bm-b.json')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'behind_origin_main'",
+   "container_key_form": "literal",
+   "source": "d[\"sync\"][\"behind_origin_main\"] = 0"
+  },
+  {
+   "module": "_r1103bmb_postscript.py",
+   "line": 29,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('state-bm-b.json', 'fleet/machines/bm-b.json')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'local_not_on_origin_main'",
+   "container_key_form": "literal",
+   "source": "d[\"sync\"][\"local_not_on_origin_main\"] = 0"
+  },
+  {
+   "module": "_r1103bmb_postscript.py",
+   "line": 30,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('state-bm-b.json', 'fleet/machines/bm-b.json')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'last_push_ts'",
+   "container_key_form": "literal",
+   "source": "d[\"sync\"][\"last_push_ts\"] = TS"
+  },
+  {
+   "module": "_r1112bmb_postscript.py",
+   "line": 12,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "(os.path.join(ROOT, 'state.json'), os.path.join(ROOT, 'state-bm-b.json'))",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'r1112_main_push'",
+   "container_key_form": "literal",
+   "source": "d[\"sync\"][\"r1112_main_push\"] = {"
+  },
+  {
+   "module": "_r1131bmb_closeout.py",
+   "line": 102,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('state-bm-b.json', 'state.json')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'behind_origin_main'",
+   "container_key_form": "literal",
+   "source": "s[\"sync\"][\"behind_origin_main\"] = 0"
+  },
+  {
+   "module": "_r1131bmb_closeout.py",
+   "line": 103,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('state-bm-b.json', 'state.json')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'local_not_on_origin_main'",
+   "container_key_form": "literal",
+   "source": "s[\"sync\"][\"local_not_on_origin_main\"] = 0"
+  },
+  {
+   "module": "_r1132bmb_closeout.py",
+   "line": 163,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('state-bm-b.json', 'state.json')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'behind_origin_main'",
+   "container_key_form": "literal",
+   "source": "s[\"sync\"][\"behind_origin_main\"] = 0"
+  },
+  {
+   "module": "_r1132bmb_closeout.py",
+   "line": 164,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('state-bm-b.json', 'state.json')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'local_not_on_origin_main'",
+   "container_key_form": "literal",
+   "source": "s[\"sync\"][\"local_not_on_origin_main\"] = 0"
+  },
+  {
+   "module": "_r1135bmb_pushreceipt.py",
+   "line": 9,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('state-bm-b.json', 'state.json')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'last_push'",
+   "container_key_form": "literal",
+   "source": "s[\"sync\"][\"last_push\"] = \"%s -> origin/main (behind=0 ahead=0)\" % SHA"
+  },
+  {
+   "module": "_r1135bmb_pushreceipt.py",
+   "line": 10,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('state-bm-b.json', 'state.json')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'last_push_ts'",
+   "container_key_form": "literal",
+   "source": "s[\"sync\"][\"last_push_ts\"] = NOW"
+  },
+  {
+   "module": "_r1135bmb_pushreceipt.py",
+   "line": 11,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('state-bm-b.json', 'state.json')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'behind_origin_main'",
+   "container_key_form": "literal",
+   "source": "s[\"sync\"][\"behind_origin_main\"] = 0"
+  },
+  {
+   "module": "_r1135bmb_pushreceipt.py",
+   "line": 12,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('state-bm-b.json', 'state.json')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'local_not_on_origin_main'",
+   "container_key_form": "literal",
+   "source": "s[\"sync\"][\"local_not_on_origin_main\"] = 0"
+  },
+  {
+   "module": "_tmp_r1255_final.py",
+   "line": 14,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('state-bm-b.json', 'fleet/machines/bm-b.json')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'pushed_sha'",
+   "container_key_form": "literal",
+   "source": "d['r1255_push']['pushed_sha'] = SHA"
+  },
+  {
+   "module": "_tmp_r1255_final.py",
+   "line": 15,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('state-bm-b.json', 'fleet/machines/bm-b.json')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'remote_ref_sha'",
+   "container_key_form": "literal",
+   "source": "d['r1255_push']['remote_ref_sha'] = SHA"
+  },
+  {
+   "module": "_tmp_r1255_final.py",
+   "line": 16,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('state-bm-b.json', 'fleet/machines/bm-b.json')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'local_not_on_origin_main'",
+   "container_key_form": "literal",
+   "source": "d['r1255_push']['local_not_on_origin_main'] = 4"
+  },
+  {
+   "module": "results/_r1013bmb_canon_pull.py",
+   "line": 42,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "attribute_or_subscript",
+   "iterable_binding": "bank_files[:1]",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "attribute_or_subscript",
+   "bound_reason": "member_read_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "literal",
+   "key_text": "'bank_schema_pulled'",
+   "container_key_form": "literal",
+   "source": "receipt[\"steps\"][\"bank_schema_pulled\"] = {name: len(r.stdout)}"
+  },
+  {
+   "module": "results/_r1027bmb_postscript.py",
+   "line": 16,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "(('state.json', 'r1027: mirror-written per r1020 dual-face law. authoritative face.'), ('logs/iteration-loop/state.json'",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'r1027_main_push'",
+   "container_key_form": "literal",
+   "source": "st[\"sync\"][\"r1027_main_push\"] = {"
+  },
+  {
+   "module": "results/_r1027bmb_postscript.py",
+   "line": 20,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "(('state.json', 'r1027: mirror-written per r1020 dual-face law. authoritative face.'), ('logs/iteration-loop/state.json'",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'last_push_ts'",
+   "container_key_form": "literal",
+   "source": "st[\"sync\"][\"last_push_ts\"] = ts"
+  },
+  {
+   "module": "results/_r1027bmb_postscript.py",
+   "line": 21,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "(('state.json', 'r1027: mirror-written per r1020 dual-face law. authoritative face.'), ('logs/iteration-loop/state.json'",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal",
+   "key_text": "'behind_origin_main'",
+   "container_key_form": "literal",
+   "source": "st[\"sync\"][\"behind_origin_main\"] = 0"
+  },
+  {
+   "module": "results/_r1035bmc_jayredo_harvest_repair.py",
+   "line": 82,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "plan",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "module_constant:plan",
+   "bound_reason": "member_read_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "name",
+   "container_key_form": "literal",
+   "source": "PROG[\"i2v\"][name] = {\"ok\": True, \"file\": name, \"seed\": seed,"
+  },
+  {
+   "module": "results/_r1035bmc_jayredo_harvest_repair.py",
+   "line": 94,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "plan",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "module_constant:plan",
+   "bound_reason": "member_read_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "name",
+   "container_key_form": "literal",
+   "source": "PROG[\"i2v\"][name] = {\"ok\": True, \"file\": name, \"seed\": seed,"
+  },
+  {
+   "module": "results/_r137bmc_w2_crashfix_probe.py",
+   "line": 35,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "('p8', 'a20')",
+   "bound_class": "exact",
+   "bound_value": 2,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 1,
+   "key_form": "literal_nonstring",
+   "key_text": "4",
+   "container_key_form": "literal",
+   "source": "cand[\"axis\"][4] = stop"
+  },
+  {
+   "module": "results/_r180bmc_supply_prereg_probe.py",
+   "line": 38,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "call",
+   "iterable_binding": "sorted(glob.glob('data/repo_daily/*.csv'))",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "call:sorted",
+   "bound_reason": "call_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "term",
+   "container_key_form": "literal",
+   "source": "terms[\"_meta\"][term] = {\"rows\": int(len(df)), \"first\": str(df[\"date\"].iloc[0].date()),"
+  },
+  {
+   "module": "results/_r264bmb_postreview_reanchor.py",
+   "line": 30,
+   "column": 12,
+   "chain": [
+    "loop",
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "call",
+   "iterable_binding": "it.get('checks', [])",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "call:get",
+   "bound_reason": "call_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "literal_nonstring",
+   "key_text": "0",
+   "container_key_form": "literal",
+   "source": "c[\"args\"][0] = REANCHOR[tid][1]"
+  },
+  {
+   "module": "results/_r293bmc_probe_delist_st.py",
+   "line": 43,
+   "column": 17,
+   "chain": [
+    "conditional",
+    "loop",
+    "conditional",
+    "try"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "attribute_or_subscript",
+   "iterable_binding": "df.columns",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "attribute_or_subscript",
+   "bound_reason": "member_read_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "literal",
+   "key_text": "'delist_date_range'",
+   "container_key_form": "literal",
+   "source": "try: R[\"faces\"][\"sh_delist_list\"][\"delist_date_range\"] = f\"{str(df[c].min())[:10]} -> {str(df[c].max())[:10]}\""
+  },
+  {
+   "module": "results/_r293bmc_probe_delist_st.py",
+   "line": 68,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "[('tx_hist', lambda s=txs: ak.stock_zh_a_hist_tx(symbol=s, adjust='')), ('sina_daily', lambda s=txs: ak.stock_zh_a_daily",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "computed_name",
+   "key_text": "k",
+   "container_key_form": "literal",
+   "source": "R[\"faces\"][k] = rec"
+  },
+  {
+   "module": "results/_r293bmc_probe_delist_st.py",
+   "line": 79,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "[('600696', '600696 ST岩石 multi-rename'), ('002450', '002450 康得新 *ST->delisted'), ('000503', '000503 default sample')]",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "computed_name",
+   "key_text": "k",
+   "container_key_form": "literal",
+   "source": "R[\"faces\"][k] = rec"
+  },
+  {
+   "module": "results/_r479bmc_boards_probe.py",
+   "line": 29,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "call",
+   "iterable_binding": "pool.get('entries', [])",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "call:get",
+   "bound_reason": "call_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "k",
+   "container_key_form": "literal",
+   "source": "OUT[\"pool_all_status_counts\"][k] = OUT[\"pool_all_status_counts\"].get(k, 0) + 1"
+  },
+  {
+   "module": "results/_r490bmc_merge_resolve.py",
+   "line": 89,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TS_FACES",
+   "bound_class": "exact",
+   "bound_value": 10,
+   "bound_source": "module_constant:TS_FACES",
+   "bound_reason": "",
+   "redundant_writes": 9,
+   "key_form": "computed_name",
+   "key_text": "twin",
+   "container_key_form": "literal",
+   "source": "receipt[\"faces\"][twin] = {\"side\": side, \"aligned_to\": path}"
+  },
+  {
+   "module": "results/_r491bmc_merge_resolve.py",
+   "line": 90,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TS_FACES",
+   "bound_class": "exact",
+   "bound_value": 9,
+   "bound_source": "module_constant:TS_FACES",
+   "bound_reason": "",
+   "redundant_writes": 8,
+   "key_form": "computed_name",
+   "key_text": "twin",
+   "container_key_form": "literal",
+   "source": "receipt[\"faces\"][twin] = {\"side\": side, \"aligned_to\": path}"
+  },
+  {
+   "module": "results/_r513bmc_merge_resolve.py",
+   "line": 159,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt[\"faces\"][p] = {\"action\": \"union+\" + k, \"ours_len\": len(a),"
+  },
+  {
+   "module": "results/_r537bmc_merge_resolve.py",
+   "line": 173,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r538bmc_merge_resolve.py",
+   "line": 173,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r573bmc_merge_resolve.py",
+   "line": 197,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r574bmc_merge_resolve.py",
+   "line": 197,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r622bma_surgery.py",
+   "line": 141,
+   "column": 12,
+   "chain": [
+    "loop",
+    "conditional",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "FUSE_FACES",
+   "bound_class": "exact",
+   "bound_value": 4,
+   "bound_source": "module_constant:FUSE_FACES",
+   "bound_reason": "",
+   "redundant_writes": 3,
+   "key_form": "literal",
+   "key_text": "'note'",
+   "container_key_form": "computed_name",
+   "source": "sigs[vk]['note'] = VAL_NOTE; n += 1"
+  },
+  {
+   "module": "results/_r634bma_resolve_ring3.py",
+   "line": 60,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "all_faces",
+   "bound_class": "exact",
+   "bound_value": 6,
+   "bound_source": "module_constant:all_faces",
+   "bound_reason": "",
+   "redundant_writes": 5,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['ring3']['files'][p] = {'recipe': 'merge_lane_views union/take-new (swapped stages r627)'}"
+  },
+  {
+   "module": "results/_r650bmc_trio_watch.py",
+   "line": 12,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "call",
+   "iterable_binding": "sorted(glob.glob(os.path.join(ROOT, 'results', 'fund_%s_p1' % fam, 'nulls.jsonl')))",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "call:sorted",
+   "bound_reason": "call_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "fam",
+   "container_key_form": "literal",
+   "source": "out[\"trio\"][fam] = {\"nulls_lines\": n, \"target\": 2000, \"complete\": n >= 2000}"
+  },
+  {
+   "module": "results/_r651bmc_trio_watch.py",
+   "line": 12,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "call",
+   "iterable_binding": "sorted(glob.glob(os.path.join(ROOT, 'results', 'fund_%s_p1' % fam, 'nulls.jsonl')))",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "call:sorted",
+   "bound_reason": "call_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "fam",
+   "container_key_form": "literal",
+   "source": "out[\"trio\"][fam] = {\"nulls_lines\": n, \"target\": 2000, \"complete\": n >= 2000}"
+  },
+  {
+   "module": "results/_r652bmc_trio_watch.py",
+   "line": 12,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "call",
+   "iterable_binding": "sorted(glob.glob(os.path.join(ROOT, 'results', 'fund_%s_p1' % fam, 'nulls.jsonl')))",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "call:sorted",
+   "bound_reason": "call_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "fam",
+   "container_key_form": "literal",
+   "source": "out[\"trio\"][fam] = {\"nulls_lines\": n, \"target\": 2000, \"complete\": n >= 2000}"
+  },
+  {
+   "module": "results/_r653bmc_trio_watch.py",
+   "line": 12,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "call",
+   "iterable_binding": "sorted(glob.glob(os.path.join(ROOT, 'results', 'fund_%s_p1' % fam, 'nulls.jsonl')))",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "call:sorted",
+   "bound_reason": "call_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "fam",
+   "container_key_form": "literal",
+   "source": "out[\"trio\"][fam] = {\"nulls_lines\": n, \"target\": 2000, \"complete\": n >= 2000}"
+  },
+  {
+   "module": "results/_r655bmc_trio_watch.py",
+   "line": 12,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "call",
+   "iterable_binding": "sorted(glob.glob(os.path.join(ROOT, 'results', 'fund_%s_p1' % fam, 'nulls.jsonl')))",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "call:sorted",
+   "bound_reason": "call_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "fam",
+   "container_key_form": "literal",
+   "source": "out[\"trio\"][fam] = {\"nulls_lines\": n, \"target\": 2000, \"complete\": n >= 2000}"
+  },
+  {
+   "module": "results/_r657bmc_trio_watch.py",
+   "line": 12,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "call",
+   "iterable_binding": "sorted(glob.glob(os.path.join(ROOT, 'results', 'fund_%s_p1' % fam, 'nulls.jsonl')))",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "call:sorted",
+   "bound_reason": "call_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "fam",
+   "container_key_form": "literal",
+   "source": "out[\"trio\"][fam] = {\"nulls_lines\": n, \"target\": 2000, \"complete\": n >= 2000}"
+  },
+  {
+   "module": "results/_r660bmc_trio_watch.py",
+   "line": 12,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "call",
+   "iterable_binding": "sorted(glob.glob(os.path.join(ROOT, 'results', 'fund_%s_p1' % fam, 'nulls.jsonl')))",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "call:sorted",
+   "bound_reason": "call_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "fam",
+   "container_key_form": "literal",
+   "source": "out[\"trio\"][fam] = {\"nulls_lines\": n, \"target\": 2000, \"complete\": n >= 2000}"
+  },
+  {
+   "module": "results/_r661bmc_trio_watch.py",
+   "line": 12,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "call",
+   "iterable_binding": "sorted(glob.glob(os.path.join(ROOT, 'results', 'fund_%s_p1' % fam, 'nulls.jsonl')))",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "call:sorted",
+   "bound_reason": "call_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "fam",
+   "container_key_form": "literal",
+   "source": "out[\"trio\"][fam] = {\"nulls_lines\": n, \"target\": 2000, \"complete\": n >= 2000}"
+  },
+  {
+   "module": "results/_r662bmc_trio_watch.py",
+   "line": 12,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "call",
+   "iterable_binding": "sorted(glob.glob(os.path.join(ROOT, 'results', 'fund_%s_p1' % fam, 'nulls.jsonl')))",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "call:sorted",
+   "bound_reason": "call_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "fam",
+   "container_key_form": "literal",
+   "source": "out[\"trio\"][fam] = {\"nulls_lines\": n, \"target\": 2000, \"complete\": n >= 2000}"
+  },
+  {
+   "module": "results/_r670bmb_merge_resolve.py",
+   "line": 47,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "FILES",
+   "bound_class": "exact",
+   "bound_value": 13,
+   "bound_source": "module_constant:FILES",
+   "bound_reason": "",
+   "redundant_writes": 12,
+   "key_form": "literal",
+   "key_text": "'pick'",
+   "container_key_form": "literal",
+   "source": "evidence[\"ts_take\"][path][\"pick\"] = pick + \" \" + why"
+  },
+  {
+   "module": "results/_r670bmb_merge_resolve.py",
+   "line": 53,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "FILES",
+   "bound_class": "exact",
+   "bound_value": 13,
+   "bound_source": "module_constant:FILES",
+   "bound_reason": "",
+   "redundant_writes": 12,
+   "key_form": "literal",
+   "key_text": "'pick'",
+   "container_key_form": "literal",
+   "source": "evidence[\"ts_take\"][path][\"pick\"] = pick"
+  },
+  {
+   "module": "results/_r674bmb_trio_watch.py",
+   "line": 91,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "(('fund_value_p1', 'fund_value_p1'), ('fund_quality_p1', 'fund_quality_p1'), ('fund_divlowvol_p1', 'fund_divlowvol_p1'))",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'rate_per_h'",
+   "container_key_form": "literal",
+   "source": "OUT[\"burn_progress\"][fam][\"rate_per_h\"] = round(rate, 1) if rate else None"
+  },
+  {
+   "module": "results/_r674bmb_trio_watch.py",
+   "line": 92,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "literal_container",
+   "iterable_binding": "(('fund_value_p1', 'fund_value_p1'), ('fund_quality_p1', 'fund_quality_p1'), ('fund_divlowvol_p1', 'fund_divlowvol_p1'))",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "literal_container",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "literal",
+   "key_text": "'eta'",
+   "container_key_form": "literal",
+   "source": "OUT[\"burn_progress\"][fam][\"eta\"] = eta_str"
+  },
+  {
+   "module": "results/_r675bmb_trio_watch.py",
+   "line": 119,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "other",
+   "iterable_binding": "e.get('shards', []) if isinstance(e, dict) else []",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "other",
+   "bound_reason": "form_not_recognised_as_a_static_bound",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "fam",
+   "container_key_form": "literal",
+   "source": "OUT[\"keepalive_freshness\"][fam] = {\"owner\": s.get(\"owner\"),"
+  },
+  {
+   "module": "results/_r686bmb_merge_resolve.py",
+   "line": 88,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TS_FACES",
+   "bound_class": "exact",
+   "bound_value": 10,
+   "bound_source": "module_constant:TS_FACES",
+   "bound_reason": "",
+   "redundant_writes": 9,
+   "key_form": "computed_name",
+   "key_text": "twin",
+   "container_key_form": "literal",
+   "source": "receipt[\"faces\"][twin] = {\"side\": side, \"aligned_to\": path}"
+  },
+  {
+   "module": "results/_r688bmb_merge_resolve.py",
+   "line": 88,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TS_FACES",
+   "bound_class": "exact",
+   "bound_value": 10,
+   "bound_source": "module_constant:TS_FACES",
+   "bound_reason": "",
+   "redundant_writes": 9,
+   "key_form": "computed_name",
+   "key_text": "twin",
+   "container_key_form": "literal",
+   "source": "receipt[\"faces\"][twin] = {\"side\": side, \"aligned_to\": path}"
+  },
+  {
+   "module": "results/_r689bmb_merge_resolve.py",
+   "line": 106,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "TS_FACES",
+   "bound_class": "exact",
+   "bound_value": 13,
+   "bound_source": "module_constant:TS_FACES",
+   "bound_reason": "",
+   "redundant_writes": 12,
+   "key_form": "computed_name",
+   "key_text": "twin",
+   "container_key_form": "literal",
+   "source": "receipt[\"faces\"][twin] = {\"side\": side, \"aligned_to\": path}"
+  },
+  {
+   "module": "results/_r694bma_merge_resolve.py",
+   "line": 116,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "ours_lines",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "module_constant:ours_lines",
+   "bound_reason": "call_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "literal",
+   "key_text": "'codely_containment_drop'",
+   "container_key_form": "literal",
+   "source": "res[\"decisions\"][\"codely_containment_drop\"] = ln[:80]"
+  },
+  {
+   "module": "results/_r695bma_block_intersect.py",
+   "line": 37,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "enumerate_call",
+   "iterable_binding": "enumerate(picks)",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "enumerate_of:arg",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "slice",
+   "key_text": "t + 1:t + 1 + span",
+   "container_key_form": "computed_name",
+   "source": "b[bucket][t + 1:t + 1 + span] += float(w[i]) * float(net) / span"
+  },
+  {
+   "module": "results/_r695bma_series_diff.py",
+   "line": 43,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "enumerate_call",
+   "iterable_binding": "enumerate(picks)",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "enumerate_of:arg",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "slice",
+   "key_text": "t + 1:t + 1 + span",
+   "container_key_form": "computed_name",
+   "source": "b[bucket][t + 1:t + 1 + span] += float(w[i]) * float(net) / span"
+  },
+  {
+   "module": "results/_r707bma_merge_resolve.py",
+   "line": 140,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "call",
+   "iterable_binding": "te.items()",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "call:items",
+   "bound_reason": "call_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "idx",
+   "container_key_form": "literal",
+   "source": "o[\"entries\"][idx] = ti  # in-place list mutation (r704 aliasing-fix law)"
+  },
+  {
+   "module": "results/_r709bmb_merge_resolve.py",
+   "line": 71,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b),"
+  },
+  {
+   "module": "results/_r710bmb_merge_resolve.py",
+   "line": 150,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged)}"
+  },
+  {
+   "module": "results/_r711bmb_merge_resolve.py",
+   "line": 156,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r712bmb_merge_resolve.py",
+   "line": 162,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r714bmb_merge_resolve.py",
+   "line": 204,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r714bmb_merge_resolve_r2.py",
+   "line": 157,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r718bmb_merge_resolve.py",
+   "line": 210,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b),"
+  },
+  {
+   "module": "results/_r722bmb_merge_resolve.py",
+   "line": 183,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r724bma_merge_resolve.py",
+   "line": 173,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r724bmb_merge_resolve.py",
+   "line": 171,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r725bma_merge_resolve.py",
+   "line": 175,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r729bmb_merge_resolve.py",
+   "line": 178,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r733bma_merge_resolve.py",
+   "line": 186,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r733bmb_merge_resolve.py",
+   "line": 191,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r733bmb_merge_resolve_w2.py",
+   "line": 181,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r734bma_merge_resolve.py",
+   "line": 186,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r734bmb_merge_resolve_w2.py",
+   "line": 175,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r735bmb_merge_resolve.py",
+   "line": 185,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r736bma_merge_resolve.py",
+   "line": 178,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r736bmb_merge_resolve.py",
+   "line": 183,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r737bma_merge_resolve.py",
+   "line": 185,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r738bma_merge_resolve.py",
+   "line": 185,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r738bmb_merge_resolve.py",
+   "line": 198,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r739bmb_merge_resolve.py",
+   "line": 198,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r740bma_merge_resolve.py",
+   "line": 198,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r740bmb_merge_resolve.py",
+   "line": 198,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r741bmb_merge_resolve.py",
+   "line": 198,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r741bmb_merge_resolve_w2.py",
+   "line": 198,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r742bmb_merge_resolve.py",
+   "line": 198,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r743bmb_merge_resolve.py",
+   "line": 198,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r745bmb_merge_resolve.py",
+   "line": 197,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r746bmb_merge_resolve.py",
+   "line": 197,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r748bma_merge_resolve.py",
+   "line": 197,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r748bmb_merge_resolve.py",
+   "line": 197,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r749bma_merge_resolve.py",
+   "line": 202,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r749bmb_merge_resolve.py",
+   "line": 197,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r751bma_merge_resolve.py",
+   "line": 202,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r751bmb_merge_resolve.py",
+   "line": 197,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r752bmb_merge_resolve.py",
+   "line": 197,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r752bmb_merge_resolve_w2.py",
+   "line": 198,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r752bmb_merge_resolve_w3.py",
+   "line": 204,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r753bmb_merge_resolve_w5.py",
+   "line": 202,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r754bmb_merge_resolve_w6.py",
+   "line": 201,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r755bma_merge_resolve.py",
+   "line": 202,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r755bmb_merge_resolve.py",
+   "line": 201,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r756bmb_merge_resolve.py",
+   "line": 201,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r756bmb_merge_resolve_w2.py",
+   "line": 201,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r757bmb_merge_resolve_w3.py",
+   "line": 204,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r758bmb_merge_resolve.py",
+   "line": 204,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r759bmb_merge_resolve.py",
+   "line": 204,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r759bmb_merge_resolve_w2.py",
+   "line": 204,
+   "column": 8,
+   "chain": [
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:keys",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'theirs_len': len(b), 'union_len': len(merged_rows)}"
+  },
+  {
+   "module": "results/_r765bmb_merge_finish.py",
+   "line": 55,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "FAM",
+   "bound_class": "exact",
+   "bound_value": 3,
+   "bound_source": "module_constant:FAM",
+   "bound_reason": "",
+   "redundant_writes": 2,
+   "key_form": "computed_name",
+   "key_text": "md",
+   "container_key_form": "literal",
+   "source": "receipt[\"faces\"][md] = {\"recipe\": \"md twin same-side bound (r708)\", \"side\": side,"
+  },
+  {
+   "module": "results/_r783bmb_codely_increment.py",
+   "line": 90,
+   "column": 4,
+   "chain": [
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "call",
+   "iterable_binding": "blocks.items()",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "call:items",
+   "bound_reason": "call_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "literal",
+   "key_text": "'target_bytes_after'",
+   "container_key_form": "literal",
+   "source": "receipt['entries'][key]['target_bytes_after'] = len(check)"
+  },
+  {
+   "module": "results/_r783bmb_merge_absorb.py",
+   "line": 73,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "uu",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "module_constant:uu",
+   "bound_reason": "comprehension_bound_depends_on_its_generator",
+   "redundant_writes": null,
+   "key_form": "literal",
+   "key_text": "'CODELY.md'",
+   "container_key_form": "literal",
+   "source": "receipt['overlays']['CODELY.md'] = 'theirs-wins + bm-b ptr row appended (bm-c batch-4 subsumes bm-b migration; bm-b receipt kept as session evidence)'"
+  },
+  {
+   "module": "results/_r783bmb_merge_absorb.py",
+   "line": 81,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "uu",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "module_constant:uu",
+   "bound_reason": "comprehension_bound_depends_on_its_generator",
+   "redundant_writes": null,
+   "key_form": "literal",
+   "key_text": "'research/pit-git-resolver.md'",
+   "container_key_form": "literal",
+   "source": "receipt['overlays']['research/pit-git-resolver.md'] = 'theirs-wins (bm-c batch-4 already hosts worksnap entry x1; bm-b duplicate append dropped)'"
+  },
+  {
+   "module": "results/_r783bmb_merge_absorb.py",
+   "line": 98,
+   "column": 8,
+   "chain": [
+    "loop",
+    "conditional",
+    "conditional",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "uu",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "module_constant:uu",
+   "bound_reason": "comprehension_bound_depends_on_its_generator",
+   "redundant_writes": null,
+   "key_form": "literal",
+   "key_text": "'knowledge/TREASURE_REGISTRY.md'",
+   "container_key_form": "literal",
+   "source": "receipt['overlays']['knowledge/TREASURE_REGISTRY.md'] = 'line-union: theirs + %d ours-new ritual lines' % len(ours_new)"
+  },
+  {
+   "module": "results/_r784bmb_merge_resolve.py",
+   "line": 88,
+   "column": 12,
+   "chain": [
+    "loop",
+    "conditional",
+    "conditional"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "module_constant",
+   "iterable_binding": "hist_keys",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "module_constant:hist_keys",
+   "bound_reason": "comprehension_bound_depends_on_its_generator",
+   "redundant_writes": null,
+   "key_form": "literal",
+   "key_text": "'results/regime_state.json'",
+   "container_key_form": "literal",
+   "source": "receipt[\"faces\"][\"results/regime_state.json\"] = {"
+  },
+  {
+   "module": "results/_r790bmb_rebase2_resolve.py",
+   "line": 46,
+   "column": 37,
+   "chain": [
+    "conditional",
+    "loop",
+    "conditional",
+    "conditional"
+   ],
+   "loop_kind": "while",
+   "iterable_form": "condition_compare",
+   "iterable_binding": "i < len(lines)",
+   "bound_class": "while",
+   "bound_value": null,
+   "bound_source": "while:i < len(lines)",
+   "bound_reason": "a_while_loop_has_no_static_iteration_bound",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "p",
+   "container_key_form": "literal",
+   "source": "out.extend(block_o); receipt[\"faces\"][p] = {\"hunk1\": \"take-origin-block(r644-QA kept, ours-empty=r640-deletion honored)\"}"
+  },
+  {
+   "module": "results/_r790bmb_rebase2_resolve.py",
+   "line": 51,
+   "column": 16,
+   "chain": [
+    "conditional",
+    "loop",
+    "conditional",
+    "conditional"
+   ],
+   "loop_kind": "while",
+   "iterable_form": "condition_compare",
+   "iterable_binding": "i < len(lines)",
+   "bound_class": "while",
+   "bound_value": null,
+   "bound_source": "while:i < len(lines)",
+   "bound_reason": "a_while_loop_has_no_static_iteration_bound",
+   "redundant_writes": null,
+   "key_form": "literal",
+   "key_text": "'hunk2'",
+   "container_key_form": "literal",
+   "source": "receipt[\"faces\"][p][\"hunk2\"] = \"union ours(r789)+origin(r644) chronological\""
+  },
+  {
+   "module": "results/cn_kline_probe_run.py",
+   "line": 150,
+   "column": 12,
+   "chain": [
+    "loop",
+    "loop",
+    "loop"
+   ],
+   "loop_kind": "for",
+   "iterable_form": "bare_name",
+   "iterable_binding": "idx",
+   "bound_class": "unknown",
+   "bound_value": null,
+   "bound_source": "bare_name:idx",
+   "bound_reason": "bare_name_bound_not_statically_known",
+   "redundant_writes": null,
+   "key_form": "computed_name",
+   "key_text": "dkey",
+   "container_key_form": "computed_name",
+   "source": "day_cross[k][dkey] = day_cross[k].get(dkey, 0) + 1"
+  }
+ ],
+ "examples": {
+  "exact": [
+   {
+    "module": "Tools/_r629bma_divlowvol_release.py",
+    "line": 69,
+    "iterable": "FUSES",
+    "bound_value": 2,
+    "bound_source": "module_constant:FUSES",
+    "bound_reason": "",
+    "redundant_writes": 1,
+    "source": "sigs[NULLS_SIG]['note'] = NULLS_NOTE"
+   },
+   {
+    "module": "Tools/_r741bmc_clone.py",
+    "line": 30,
+    "iterable": "TRIO",
+    "bound_value": 3,
+    "bound_source": "module_constant:TRIO",
+    "bound_reason": "",
+    "redundant_writes": 2,
+    "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+   },
+   {
+    "module": "Tools/_r742bmc_clone.py",
+    "line": 30,
+    "iterable": "TRIO",
+    "bound_value": 3,
+    "bound_source": "module_constant:TRIO",
+    "bound_reason": "",
+    "redundant_writes": 2,
+    "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+   },
+   {
+    "module": "Tools/_r743bmc_clone.py",
+    "line": 30,
+    "iterable": "TRIO",
+    "bound_value": 3,
+    "bound_source": "module_constant:TRIO",
+    "bound_reason": "",
+    "redundant_writes": 2,
+    "source": "receipt[\"files\"][name][\"compile\"] = \"OK\""
+   }
+  ],
+  "unknown": [
+   {
+    "module": "Tools/_r556bmc_merge_resolve.py",
+    "line": 183,
+    "iterable": "keys",
+    "bound_value": null,
+    "bound_source": "bare_name:keys",
+    "bound_reason": "bare_name_bound_not_statically_known",
+    "redundant_writes": null,
+    "source": "receipt['faces'][p] = {'action': 'union+' + k, 'base': base_side, 'ours_len': len(a), 'the"
+   },
+   {
+    "module": "results/_r1013bmb_canon_pull.py",
+    "line": 42,
+    "iterable": "bank_files[:1]",
+    "bound_value": null,
+    "bound_source": "attribute_or_subscript",
+    "bound_reason": "member_read_bound_not_statically_known",
+    "redundant_writes": null,
+    "source": "receipt[\"steps\"][\"bank_schema_pulled\"] = {name: len(r.stdout)}"
+   },
+   {
+    "module": "results/_r1035bmc_jayredo_harvest_repair.py",
+    "line": 82,
+    "iterable": "plan",
+    "bound_value": null,
+    "bound_source": "module_constant:plan",
+    "bound_reason": "member_read_bound_not_statically_known",
+    "redundant_writes": null,
+    "source": "PROG[\"i2v\"][name] = {\"ok\": True, \"file\": name, \"seed\": seed,"
+   },
+   {
+    "module": "results/_r1035bmc_jayredo_harvest_repair.py",
+    "line": 94,
+    "iterable": "plan",
+    "bound_value": null,
+    "bound_source": "module_constant:plan",
+    "bound_reason": "member_read_bound_not_statically_known",
+    "redundant_writes": null,
+    "source": "PROG[\"i2v\"][name] = {\"ok\": True, \"file\": name, \"seed\": seed,"
+   }
+  ],
+  "while": [
+   {
+    "module": "results/_r790bmb_rebase2_resolve.py",
+    "line": 46,
+    "iterable": "i < len(lines)",
+    "bound_value": null,
+    "bound_source": "while:i < len(lines)",
+    "bound_reason": "a_while_loop_has_no_static_iteration_bound",
+    "redundant_writes": null,
+    "source": "out.extend(block_o); receipt[\"faces\"][p] = {\"hunk1\": \"take-origin-block(r644-QA kept, ours"
+   },
+   {
+    "module": "results/_r790bmb_rebase2_resolve.py",
+    "line": 51,
+    "iterable": "i < len(lines)",
+    "bound_value": null,
+    "bound_source": "while:i < len(lines)",
+    "bound_reason": "a_while_loop_has_no_static_iteration_bound",
+    "redundant_writes": null,
+    "source": "receipt[\"faces\"][p][\"hunk2\"] = \"union ours(r789)+origin(r644) chronological\""
+   }
+  ]
+ },
+ "limits": [
+  "an exact bound is a syntactic promise about the iterable expression, not a proof that the loop runs that many times: a ``break``, a ``return`` or a raising guard inside the body shortens the run and this ruler does not look for them",
+  "``zip`` is published as the minimum of its resolvable arms; a zip with one unresolvable arm is unknown rather than the minimum of the rest",
+  "``range`` step must be a resolvable integer; a negative step is published as zero because the ruler does not model decreasing ranges",
+  "module-level binding chains are followed to ``MAX_DEPTH`` (6) and a cycle is cut as unknown with reason ``binding_cycle``; the first assignment wins, as in E653",
+  "``enumerate`` and ``zip`` bounds are read from their arguments, so a generator argument inherits ``comprehension_bound_depends_on_its_generator``",
+  "``redundant_writes`` counts dead stores in a last-write-wins loop, not savings in runtime: the loop still iterates, only the address is written repeatedly",
+  "a site E653 published but this build cannot find is a hard red (the population shrank); a site the tree grew since E653's face is disclosed and not counted against the face",
+  "files over 1MB are skipped rather than parsed (E391's cap) and counted apart"
+ ],
+ "verdict": "fixed_address_loop_writes_split_by_whether_the_bound_is_readable,_and_the_split_is_published_rather_than_assuming_a_loop_around_a_write_means_many_writes",
+ "answer": "149 fixed-address loop writes; 63 (42.3%) have a bound the source states (median 3 iterations, max 13), 84 do not, 2 sit inside a while; collapsing the exact ones removes 163 dead stores"
+}

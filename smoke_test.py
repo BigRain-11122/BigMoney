@@ -28691,6 +28691,81 @@ except Exception as _e653x:
     _bad653.append(repr(_e653x)[:160])
     _d653 = "study could not be read"
 check(_name653, not _bad653, "; ".join(_bad653)[:240] or _d653)
+# E659 prices how many times each fixed-address loop write actually writes.  E653 published 149
+# last-write-wins sites; that split says *what* the body writes, not *how often*.  For each of the
+# 149 this study publishes the innermost loop's iteration bound as exact (a literal container or
+# string length, `range`/`enumerate`/`zip` over resolvable integers, or a module-level binding
+# chain that bottoms out in one of those), unknown (bare name, other call, comprehension, member
+# read, operator) or while (no static bound), plus the dead stores each exact bound removes.  This
+# leg re-derives the three-class partition, the dead-store total, the median and the reconciliation
+# against E653's own face from the published rows, and refuses an exact row that carries no value
+# or a non-exact row that carries a count.
+_name659 = ("E659 how many times a fixed-address loop write repeats and whether its bound is "
+            "countable (r1677 bm-b)")
+_bad659 = []
+_d659 = "no reading"
+try:
+    _f659 = json.load(open(os.path.join("results", "state_tilt", "fixedaddrbound_latest.json"),
+                           encoding="utf-8"))
+    _m659 = importlib.import_module("e659_fixed_addr_bound")
+    _bad659.extend(_m659.face_problems(_f659))
+    _c659 = _f659.get("counts") or {}
+    _rows659 = _f659.get("rows") or []
+    _live659 = {"exact": 0, "unknown": 0, "while": 0}
+    _dead659 = 0
+    _vals659 = []
+    for _r659 in _rows659:
+        _cls659 = _r659.get("bound_class")
+        if _cls659 in _live659:
+            _live659[_cls659] += 1
+        else:
+            _bad659.append("row %s:%s has no bound class %r"
+                           % (_r659.get("module"), _r659.get("line"), _cls659))
+            break
+        if _cls659 == "exact":
+            if _r659.get("bound_value") is None:
+                _bad659.append("exact row %s:%s carries no bound value"
+                               % (_r659.get("module"), _r659.get("line")))
+                break
+            _vals659.append(_r659["bound_value"])
+            _dead659 += _r659.get("redundant_writes") or 0
+        elif _r659.get("redundant_writes") is not None:
+            _bad659.append("non-exact row %s:%s carries a dead-store count"
+                           % (_r659.get("module"), _r659.get("line")))
+            break
+    for _k659 in ("exact", "unknown", "while"):
+        if (_c659.get("by_bound_class") or {}).get(_k659, 0) != _live659[_k659]:
+            _bad659.append("by_bound_class[%s] does not re-derive (%s vs %s)"
+                           % (_k659, (_c659.get("by_bound_class") or {}).get(_k659),
+                              _live659[_k659]))
+    if (_c659.get("sites_with_exact_bound") or 0) != _live659["exact"]:
+        _bad659.append("sites_with_exact_bound does not re-derive from the rows")
+    if (_c659.get("sites_with_unknown_bound") or 0) != _live659["unknown"]:
+        _bad659.append("sites_with_unknown_bound does not re-derive from the rows")
+    if (_c659.get("sites_inside_a_while") or 0) != _live659["while"]:
+        _bad659.append("sites_inside_a_while does not re-derive from the rows")
+    if (_c659.get("dead_stores_collapsed") or 0) != _dead659:
+        _bad659.append("dead_stores_collapsed does not re-derive (%s vs %s)"
+                       % (_c659.get("dead_stores_collapsed"), _dead659))
+    if _m659.median(sorted(_vals659)) != _c659.get("exact_bound_median"):
+        _bad659.append("exact_bound_median does not re-derive from the exact rows")
+    if (_c659.get("fixed_address_sites") or 0) != len(_rows659):
+        _bad659.append("fixed_address_sites is not the published row count")
+    _rec659 = _c659.get("reconciliation") or {}
+    if _rec659.get("source_face_present"):
+        if _rec659.get("source_face_count") != _rec659.get("this_build_count"):
+            _bad659.append("this build and E653's face disagree on the population (%s vs %s)"
+                           % (_rec659.get("source_face_count"),
+                              _rec659.get("this_build_count")))
+        if _rec659.get("only_in_source_face"):
+            _bad659.append("E653 published %d fixed-address sites this build cannot find"
+                           % len(_rec659["only_in_source_face"]))
+    if _m659.decide(_c659) != _f659.get("verdict"):
+        _bad659.append("the published verdict is not the one its own counts force")
+except Exception as _e659x:
+    _bad659.append(repr(_e659x)[:160])
+    _d659 = "study could not be read"
+check(_name659, not _bad659, "; ".join(_bad659)[:240] or _d659)
 
 if __name__ == "__main__":
     sys.exit(main())

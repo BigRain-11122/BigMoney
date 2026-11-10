@@ -31595,14 +31595,37 @@
    "source": "E653 (r1676 bm-b) -- 149 fixed-address loop-guarded residual write sites",
    "target": "results/state_tilt/LOOPBOUNDVOLUME.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T23:20:00+08:00",
    "seeded_by": "r1676 bm-b",
    "workers_plan": {
     "workers": 2,
     "priority": "BelowNormal"
    },
-   "note": "E659"
+   "note": "E659",
+   "done_at": "2026-11-10T23:52:00+08:00",
+   "done_by": "r1677 bm-b",
+   "done_note": "149 fixed-address loop writes priced by their innermost loop bound: 63 (42.3%) exact (median 3, max 13), 84 unknown, 2 while; 163 dead stores removed; module_constant 46 splits 39 exact / 7 unknown once the binding chain is followed; population reconciles against E653's face row by row (only_in_source_face 0)",
+   "result_ref": "results/state_tilt/FIXEDADDRBOUND.json"
+  },
+  {
+   "card": "E660",
+   "id": "E660-HOW-MANY-OF-E659S-58-BARE-NAME-LOOP-BOUNDS-ARE-BUILT-ABOVE-THE-LOOP-AND-HOW-MANY-ARE-TRUE-RUNTIME-INPUTS",
+   "title": "whether the 58 bare-name loop bounds E659 could not read are assembled in the module body above the loop (a set/dict/list built in code, so the count becomes readable once that construction is followed) or are true runtime inputs (function parameters, externally loaded rows), i.e. how much of 'unknown' is a dataflow gap rather than a genuine silence",
+   "lane": "cpu-only",
+   "lane_note": "E659 priced 149 fixed-address loop writes and left 84 bounds unreadable, of which 58 are bare names. A bare name is not one thing: 'SEEN = set()' built above the loop is a container whose size the source states (usually zero at that point, which makes the repeated write dead), while a name bound to a function parameter or a loaded panel is genuinely open. The cheap next question walks each bare-name bound back to its nearest assignment in the enclosing scope and publishes whether that assignment is a container construction, a call, a parameter or nothing at all.",
+   "deliverable": "results/state_tilt/BARENAMEBOUND.json: for each of the 58 bare-name bound sites, the nearest enclosing assignment (form, line, whether it is a container construction / call / parameter / unresolved) and the derived reading of how much of the 84 'unknown' is a dataflow gap",
+   "source": "E659 (r1677 bm-b) -- 84 unknown bounds, 58 bare names",
+   "target": "results/state_tilt/BARENAMEBOUND.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T23:52:00+08:00",
+   "seeded_by": "r1677 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E660"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

@@ -15481,3 +15481,35 @@ E655 留了个脚注：E647 的 `collect_strings` 把 `"..." % x` 这类表达�
 **判据（要命处）**：①桶标签按最内层区域命名，会把「每轮执行」的站点归到 conditional，于是「loop 有多少个」取决于问的是哪一层——两个数必须并列发布（chain 并集 845 / 最内层 548），差 297 就是标签藏起来的量；②`accumulation` 只声明地址不同，不声明值累加；③「地址」取最深处 slice 为行键、最浅处 slice 为容器键（E638 深度尺），单层下标无容器键并如实标注，切片（slice）单独成一类而不是塞进 other；④while 不绑定目标，其内地址一律 last-write-wins，把 test 形态印出来——ruler 的边不许藏。
 
 **How**：接任何「某组写是累加还是覆盖」的判断，先问地址的两个分量各自从哪来；只用一层下标的名字判会把容器键读成行键。姊妹：一个量若既会随树增长、又会被当判据比对，就必须把 vintage 字段（python_files_scanned / holes）单独披露、只比对行派生读数——否则树每长一个文件本腿就假红（E420/E421 家族）。正身 = `scripts/e653_loop_write_key.py`（selftest **22/22**，build/check/verify problems=[]）+ `results/state_tilt/LOOPWRITEKEY.json`(+latest) + `scripts/run_e653_smoke_leg.py`（PASS·--doctor 1/1 红且面字节还回）+ smoke_test.py leg E653 + S6 leg `loop_write_key` rc=0（140.5s）。
+
+## E659 固定地址循环写：每个站点到底写了几次，上界可不可数（承 E653·r1677 bm-b·2026-11-10）
+
+**观察**：E653 把 845 个循环守卫下的残差写站点按地址形态劈成两半——696 个地址随循环目标变（累加器），
+149 个每轮写同一个地址（last-write-wins）。那句分裂只回答「写的是什么」，不回答「写了多少次」：
+`for x in range(3): P['k'] = x` 对同一个键写三次，前两次是死写；`for x in rows: P['k'] = x` 同样是重复写，
+但源码从不说多少。本轮把 149 个站点的**最内层循环迭代上界**逐个定价。
+
+**读数**（149 行面）：**63 个（42.3%）上界是源码写明的**（中位 3 次、最大 13 次），84 个读不出，
+2 个在 while 里（构造上无界）；把可数的那些塌缩掉**163 次死写**。精确上界直方图 2→24 / 3→30 / 4→1 /
+6→1 / 9→1 / 10→3 / 13→3。按迭代形态交叉：literal_container 24 全 exact；**module_constant 46 个里
+39 exact、7 unknown**；bare_name 58 全 unknown；call 14、enumerate_call 2、attribute_or_subscript 2、
+other 1 全 unknown；condition_compare 2 全 while。unknown 原因榜：bare_name 60 / call 15 / member_read 4 /
+comprehension 4 / 未识别 1 / while 2。
+
+**判据（要命处）**：
+1. **上界是语法承诺，不是循环次数**——`break`/`return`/抛错守卫都会缩短实际跑的次数，这条 ruler 不找它们，
+   面里 `limits` 明写；把 63 个「exact」读成「运行时跑了 N 次」就是越权。
+2. **报标签前先解标签**——`module_constant` 一追绑定链立刻裂成 39/7。把「循环迭代一个模块级名字」印成
+   「上界在源码里」，对 7/46 是假的。这与 E653 自己的 `loop` 桶同族：桶名说的是**表达式写在哪**，
+   不是**它求值成什么**。
+3. **对账按行不按数**——与 E653 面逐条 (module,line,column) 三元组比对：`only_in_source_face` 非空=硬红
+   （人口缩了），`only_in_this_build`=披露树增长。两个方向都发布，后来的读者才分得清「树长了」和「尺子变了」。
+4. **面自带证据时，便宜 verify 胜过昂贵重测**——每行都写了模块与位置，`verify` 只重解析这 149 行所在的文件
+   重出上界（problems=[]），不必重走 13k 文件去证同一读数。
+
+**How**：接任何「这组重复写值不值得压」的判断，先把上界分成「源码写明 / 读不出 / 无界」三档再谈塌缩量；
+`zip` 取可解分支最小、`range` 步长必须可解析整数、模块绑定链追 6 层且环切 unknown。
+正身=`scripts/e659_fixed_addr_bound.py`（selftest **22/22**，build rc=0 188s，check/verify problems=[]）·
+`results/state_tilt/FIXEDADDRBOUND.json`(+latest·149 行) + `scripts/run_e659_smoke_leg.py`（1/1 PASS·
+`--doctor` red_legs=1 且面字节还回 sha `351323f93562`）·smoke_test.py leg E659 · S6 leg `fixed_address_bound`
+（已接线未跑）·`research/digests/DIGEST-20261110-r1677-e659-fixed-addr-bound.md`
