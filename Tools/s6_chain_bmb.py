@@ -1575,6 +1575,17 @@ LEGS = [
     # the face's own rows and reconciles 7 hits / 14 sites with E647.
     ("template_fold", ["python", "scripts/e651_template_fold.py", "verify"]),
 
+    # E649 prices the joint distribution of two columns E643 published independently: the 2,641
+    # two-depth write sites with no enclosing function, and the 3,237 module-body sites inside a
+    # module-level compound statement.  A module-level write can sit bare in the module body (runs at
+    # import), inside `if __name__ == '__main__':` (never at import), inside a try/except import
+    # fallback, inside a loop (zero or more times) or inside another conditional.  Reading: 2,641
+    # residual writes = 1,629 bare / 1,012 behind a guard / 0 behind a main guard, chain depth up to
+    # 8, and exactly 1 site names a counted row key (a one-off round script writing its own
+    # "verdict" row). Verify re-derives every count, both histograms and the key hits from the
+    # face's own rows and reconciles the residual with E643 (delta 0).
+    ("guarded_write", ["python", "scripts/e649_guarded_write.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

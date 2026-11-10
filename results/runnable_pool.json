@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1669 bm-b: E651 burned -- the 14 expression-built strings E647 published as unresolved are measured on two arms (template first, then operands folded from the site's own scope chain): 0 template fragment and 0 folded value names a counted read module, 1 site folds and 13 stay residual with their binding classes published, and all 14 sites are consumed by formatting or by nothing (0 by import or file machinery). Ready stays at floor 3 (E649/E650/E652).",
+ "_stamp_note": "r1670 bm-b: E649 prices the joint distribution E643 published as two independent columns -- of the 2,641 two-depth write sites with no enclosing function, 1,629 sit bare in the module body (run at import) and 1,012 sit behind a guard (548 loop / 380 other conditional / 67 except handler / 17 try body), with 0 behind an `if __name__ == '__main__'` guard and one site naming a counted row key (`verdict`, a one-off round script). E653 seeded: what the loop-guarded sites iterate over and whether each iteration writes the same key.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -31376,14 +31376,18 @@
    "source": "E643 (r1667 bm-b) -- 2,641 module-body write sites, 3,237 blocked module-body sites",
    "target": "results/state_tilt/GUARDEDWRITE.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T14:58:00+08:00",
    "seeded_by": "r1667 bm-b",
    "workers_plan": {
     "workers": 2,
     "priority": "BelowNormal"
    },
-   "note": "E649"
+   "note": "E649",
+   "result_ref": "results/state_tilt/GUARDEDWRITE.json",
+   "done_at": "2026-11-10T17:40:00+08:00",
+   "done_by": "r1670 bm-b",
+   "done_note": "every residual write site is published with its guard region and full nesting chain: 1,629 bare / 1,012 guarded (548 loop, 380 conditional, 67 except handler, 17 try), 0 with a main guard on the chain, chain depth up to 8, 1 site naming a counted key"
   },
   {
    "card": "E650",
@@ -31445,6 +31449,25 @@
     "priority": "BelowNormal"
    },
    "note": "E652"
+  },
+  {
+   "card": "E653",
+   "id": "E653-WHAT-THE-548-LOOP-GUARDED-MODULE-WRITE-SITES-ITERATE-OVER-AND-WHETHER-EVERY-ITERATION-WRITES-THE-SAME-KEY",
+   "title": "what the 548 loop-guarded residual module-level write sites iterate over (a literal range/list, a module-level constant, a call result, a comprehension, a generator), and whether the loop body writes one key repeatedly (last-write-wins) or a distinct key per iteration (accumulation)",
+   "lane": "cpu-only",
+   "lane_note": "E649 split the 2,641 residual module-level writes into 1,629 bare (run once at import) and 1,012 behind a guard, and a loop body is the largest guarded group (548). 'Runs at import' is not the same as 'runs once': a loop body may write the same key N times or N distinct keys, which decides whether the populating statement is one write or an accumulator. Publishing the iterable's form and the per-iteration key structure prices that difference instead of labelling the group 'loop'.",
+   "deliverable": "results/state_tilt/LOOPWRITEKEY.json: per loop-guarded residual write site, the loop kind, what it iterates over (literal / module constant / call / comprehension / generator / other, with the binding), the write key form (literal / computed / loop target / zip/enumerate unpack), and whether the key can vary across iterations",
+   "source": "E649 (r1670 bm-b) -- 548 loop-guarded residual module-level write sites",
+   "target": "results/state_tilt/LOOPWRITEKEY.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T17:40:00+08:00",
+   "seeded_by": "r1670 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E653"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31459,6 +31482,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T16:56:40+08:00",
+ "updated_at": "2026-11-10T17:40:00+08:00",
  "version": 1
 }

@@ -28342,5 +28342,57 @@ except Exception as _e651x:
     _d651 = "study could not be read"
 check(_name651, not _bad651, "; ".join(_bad651)[:240] or _d651)
 
+# E649 prices the population E643 published as two independent columns: the 2,641 two-depth write
+# sites with no enclosing function ("module level").  A module-level write can sit bare in the module
+# body (runs at import), inside `if __name__ == '__main__':` (never at import), inside a try/except
+# import fallback, inside a loop (zero or more times) or inside another conditional -- so "module
+# level write" can be an import-time write face or a face that may never run.  Every residual write
+# site is published with its guard region, the full nesting chain, its guard depth, the bucket E643
+# assigned, and whether any write member's literal key names one of the counted row keys.
+# This leg re-derives every headline from the face's own rows, refuses a guard that is not the
+# innermost chain entry, refuses a row whose key-match flag disagrees with its keys, refuses a bare
+# row that carries a chain (and a guarded row that does not), refuses a key hit that is not a row
+# naming a counted key, refuses a source-face reconciliation that is not the difference, and reports
+# any problem the study's own gate returns.
+_name649 = ("E649 which residual module-level write sites run behind a module guard, and whether "
+            "any of them names a counted row key (r1670 bm-b)")
+_bad649 = []
+_d649 = "no reading"
+try:
+    _f649 = json.load(open(os.path.join("results", "state_tilt", "guardedwrite_latest.json"),
+                           encoding="utf-8"))
+    _m649 = importlib.import_module("e649_guarded_write")
+    _bad649.extend(_m649.face_problems(_f649))
+    _c649 = _f649.get("counts") or {}
+    _rows649 = _f649.get("rows") or []
+    _live649 = _m649.live_counts(_rows649)
+    for _k649 in ("residual_write_sites", "writes_in_bare_module_body",
+                  "writes_behind_a_guard", "writes_with_a_main_guard_on_the_chain",
+                  "write_sites_outside_the_module_body", "write_sites_naming_a_counted_key",
+                  "write_sites_naming_a_counted_key_by_key", "guard_histogram",
+                  "guard_chain_histogram", "guard_depth_histogram"):
+        if _c649.get(_k649) != _live649.get(_k649):
+            _bad649.append("counts.%s is not the row-derived value" % _k649)
+    if (_c649.get("writes_in_bare_module_body") or 0) + (
+            _c649.get("writes_behind_a_guard") or 0) != (_c649.get("residual_write_sites") or 0):
+        _bad649.append("the bare and guarded buckets do not add up to the residual")
+    if sum((_c649.get("guard_histogram") or {}).values()) != (
+            _c649.get("residual_write_sites") or 0):
+        _bad649.append("the guard histogram does not add up to the residual")
+    if [r for r in _rows649 if "main_guard" in (r.get("chain") or [])] and not (
+            _c649.get("writes_with_a_main_guard_on_the_chain") or 0):
+        _bad649.append("rows carry a main guard while the count says none does")
+    for _r649 in _rows649:
+        if _r649.get("guard") == "main_guard" and str(_r649.get("import_time", "")).startswith(
+                "runs_at_import"):
+            _bad649.append("a main-guard site is published as running at import")
+            break
+    if len(_f649.get("key_hits") or []) != (_c649.get("write_sites_naming_a_counted_key") or 0):
+        _bad649.append("the published key hits are not the rows that name a counted key")
+except Exception as _e649x:
+    _bad649.append(repr(_e649x)[:160])
+    _d649 = "study could not be read"
+check(_name649, not _bad649, "; ".join(_bad649)[:240] or _d649)
+
 if __name__ == "__main__":
     sys.exit(main())

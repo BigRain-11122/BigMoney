@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1665 bm-b: E648 burned -- the six counted row keys are priced as words: 12,778 of 13,086 Python files parse (304 do not, 4 over the 1MB cap); 3,854 files spell at least one counted key; 5,802 read / 2,587 write / 0 delete sites over 5,802 literal keys, 2,734 dict-literal keys, 149,479 computed subscripts; 5 of 6 keys are generic words ('verdict' 3,473 files), 'slip_exec' is private (0 files outside the counted faces)",
+ "_stamp_note": "r1670 bm-b: E649 prices the joint distribution E643 published as two independent columns -- of the 2,641 two-depth write sites with no enclosing function, 1,629 sit bare in the module body (run at import) and 1,012 sit behind a guard (548 loop / 380 other conditional / 67 except handler / 17 try body), with 0 behind an `if __name__ == '__main__'` guard and one site naming a counted row key (`verdict`, a one-off round script). E653 seeded: what the loop-guarded sites iterate over and whether each iteration writes the same key.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -31248,14 +31248,18 @@
    "source": "E640 (r1660 bm-b) -- 17,720 of 45,395 sites have no enclosing function",
    "target": "results/state_tilt/NONFUNCSITE.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T08:25:00+08:00",
    "seeded_by": "r1660 bm-b",
    "workers_plan": {
     "workers": 2,
     "priority": "BelowNormal"
    },
-   "note": "E643"
+   "note": "E643",
+   "done_at": "2026-11-10T14:58:00+08:00",
+   "done_by": "r1667 bm-b",
+   "result_ref": "results/state_tilt/NONFUNCSITE.json",
+   "summary": "residual reproduces E640's 17,720 to the site (delta 0) and splits into module_body 17,337 / comprehension 342 / lambda 41, with class body, class header, decorator and function body measured at 0 (independent probe agrees); all 2,641 residual write sites are in module body, exactly E642's module-level write count"
   },
   {
    "card": "E644",
@@ -31287,11 +31291,15 @@
    "source": "E644 (r1662 bm-b) -- 22 of 32 depth-1 sites carry a computed subscript",
    "target": "counted_function_scope",
    "priority": "P3",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T08:46:00+08:00",
    "seeded_by": "r1662 bm-b",
    "workers_plan": "single cpu pass over the 6 counted modules",
-   "note": "E645"
+   "note": "E645",
+   "closed_at": "2026-11-10T14:2x:00+08:00",
+   "closed_by": "r1666 bm-b",
+   "result_ref": "results/state_tilt/COMPUTEDREACH.json",
+   "done_note": "22 computed-subscript depth-1 stores in 3 of 6 counted functions; domains 9 resolved / 3 not_a_string_key / 10 unresolved; 0 domains hit a counted read key (the 9 resolved sets are the CORE_DD10..SAT40_DD20 cell names), 0 stores write into the object a counted read line reads (0 via alias), 0 reach a counted row key -- the residual E644 published is closed by container identity alone, and 10 unresolved domains are excluded structurally rather than by value (E645 card, digest DIGEST-20261110-r1666-e645-computed-reach)"
   },
   {
    "card": "E646",
@@ -31324,14 +31332,18 @@
    "source": "E646 (r1664 bm-b) limits",
    "target": "results/state_tilt/STRINGREACH.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T09:55:00+08:00",
    "seeded_by": "r1664 bm-b",
    "workers_plan": {
     "workers": 2,
     "priority": "BelowNormal"
    },
-   "note": "E647"
+   "note": "E647",
+   "result_ref": "results/state_tilt/STRINGREACH.json",
+   "done_at": "2026-11-10T15:45:00+08:00",
+   "done_by": "r1668 bm-b",
+   "done_note": "the string arm E646 published as a limit is measured and empty: 480 measurable strings in the 6 hit modules, 0 naming either counted read module or its face; 28 dynamic loader calls with 27 carrying a measured literal, none naming a counted module; 6 of 6 pairs no_literal_names_the_target"
   },
   {
    "card": "E648",
@@ -31353,6 +31365,109 @@
    "note": "E648",
    "closed_at": "2026-11-10T13:35:00+08:00",
    "result_ref": "results/state_tilt/KEYGENERICITY.json + results/state_tilt/keygenericity_latest.json + scripts/e648_keygenericity.py + scripts/run_e648_smoke_leg.py + research/digests/DIGEST-20261110-r1665-e648-key-genericity.md"
+  },
+  {
+   "card": "E649",
+   "id": "E649-WHICH-OF-THE-2641-RESIDUAL-MODULE-LEVEL-WRITE-SITES-RUN-BEHIND-A-MODULE-LEVEL-GUARD",
+   "title": "which of the 2,641 residual module-level write sites execute behind a module-level guard (an if __name__ block, a try/except import fallback, a for/while body) rather than straight in the module body, and whether any of them writes a counted row key",
+   "lane": "cpu-only",
+   "lane_note": "E643 published 2,641 write sites in module body and 3,237 module-body sites inside a module-level compound statement, but published them as two independent columns: a write can sit inside `if __name__ == '__main__':` and then never run at import, or inside a for-loop body and run many times. Pricing the joint distribution (write face x block depth x guard kind) says whether E642's 'module-level write' is an import-time write at all.",
+   "deliverable": "results/state_tilt/GUARDEDWRITE.json: for each residual write site, its module-level guard kind (main guard / try-except / loop / conditional / with / bare module body), its block depth, and whether its key names a counted key",
+   "source": "E643 (r1667 bm-b) -- 2,641 module-body write sites, 3,237 blocked module-body sites",
+   "target": "results/state_tilt/GUARDEDWRITE.json",
+   "priority": "normal",
+   "status": "done",
+   "seeded_at": "2026-11-10T14:58:00+08:00",
+   "seeded_by": "r1667 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E649",
+   "result_ref": "results/state_tilt/GUARDEDWRITE.json",
+   "done_at": "2026-11-10T17:40:00+08:00",
+   "done_by": "r1670 bm-b",
+   "done_note": "every residual write site is published with its guard region and full nesting chain: 1,629 bare / 1,012 guarded (548 loop, 380 conditional, 67 except handler, 17 try), 0 with a main guard on the chain, chain depth up to 8, 1 site naming a counted key"
+  },
+  {
+   "card": "E650",
+   "id": "E650-WHETHER-THE-383-RESIDUAL-COMPREHENSION-AND-LAMBDA-SITES-READ-A-COUNTED-ROW-KEY-IN-A-SCOPE-OF-THEIR-OWN",
+   "title": "whether any of the 383 residual sites inside comprehensions and lambdas reads a counted row key, and whether that scope (comprehension's implicit function, lambda's closure) makes the read a different object than the module-scope one",
+   "lane": "cpu-only",
+   "lane_note": "E643's residual is 97.8% module body, and the other 2.2% is 342 comprehension sites plus 41 lambda sites. Those two contexts carry their own scope at runtime (a comprehension is a function, a lambda closes over the enclosing frame), so a read of a counted key there may bind a different object than the module-level container E642 counts writes into. Publishing the key match and the bound-name chain for those 383 sites prices whether the tail matters.",
+   "deliverable": "results/state_tilt/SCOPETAILKEY.json: per residual comprehension/lambda site, the key it reads, whether it names a counted row key, and how its leftmost name binds in that scope",
+   "source": "E643 (r1667 bm-b) -- 342 comprehension + 41 lambda residual sites",
+   "target": "results/state_tilt/SCOPETAILKEY.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T14:58:00+08:00",
+   "seeded_by": "r1667 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E650"
+  },
+  {
+   "card": "E651",
+   "id": "E651-WHETHER-THE-14-EXPRESSION-BUILT-STRINGS-IN-THE-HIT-MODULES-RESOLVE-TO-A-COUNTED-MODULE-NAME",
+   "title": "whether the 14 strings E647 could not resolve (f-string values, percent formatting, str.format) can be folded by evaluating their module-level operands, i.e. whether the unresolved bucket of the string arm is empty once its inputs are traced",
+   "lane": "cpu-only",
+   "lane_note": "E647 matched 480 measurable strings and published 14 as unresolved because their value depends on an expression. Those expressions usually read a module-level constant or a parameter default, so a bounded constant trace (module-level assignments plus literal parameters, no calls) can decide most of them without running anything. Whatever survives is then a measured hole instead of a category.",
+   "deliverable": "results/state_tilt/UNRESOLVESTR.json: per unresolved string, the expression tree of the non-constant parts, the module-level names it reads, their traced values, and whether the folded value names a counted module or its face",
+   "source": "E647 (r1668 bm-b) -- 14 unresolved strings in 6 hit modules",
+   "target": "results/state_tilt/UNRESOLVESTR.json",
+   "priority": "normal",
+   "status": "done",
+   "seeded_at": "2026-11-10T15:45:00+08:00",
+   "seeded_by": "r1668 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E651",
+   "result_ref": "results/state_tilt/UNRESOLVESTR.json",
+   "done_at": "2026-11-10T16:56:40+08:00",
+   "done_by": "r1669 bm-b",
+   "done_note": "the 14 expression-built strings are split into two measured arms -- the template (left operand of %, receiver of .format, constant fragments of an f-string) matched before any resolution, and the operands resolved against the scope chain (literal / the module's own string constant / an alias / a string constant assigned in the enclosing function), with unresolvable operands published by binding class; 0 template fragment and 0 folded string names a counted read module, 1 site of 14 folds (29 operands, 1 value), all 14 sites are consumed by formatting or by nothing (0 by import or file machinery), so the residual cannot be a route to a module"
+  },
+  {
+   "card": "E652",
+   "id": "E652-WHICH-MODULES-IN-THE-WHOLE-CORPUS-NAME-A-COUNTED-READ-MODULE-BY-STRING-WITHOUT-IMPORTING-IT",
+   "title": "the corpus-wide size of the arm E647 only measured at its 7 hits: which of the 13,099 files spell either counted read module (or its own face) in a string, split by what consumes that string, and how many of them carry a counted row key at all",
+   "lane": "cpu-only",
+   "lane_note": "E647 answered the question for the six modules that already had a collision. The same instrument runs over the whole corpus unchanged, so the census costs one walk and prices whether the invisible arm is a property of these hits or of the tree.",
+   "deliverable": "results/state_tilt/STRINGARMCENSUS.json: per spelling class, every module naming a counted read module or its face in a measurable string, the consumer class of that string, and whether the module also carries a counted row key",
+   "source": "E647 (r1668 bm-b) -- the same instrument, corpus-wide instead of hits-only",
+   "target": "results/state_tilt/STRINGARMCENSUS.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T15:45:00+08:00",
+   "seeded_by": "r1668 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E652"
+  },
+  {
+   "card": "E653",
+   "id": "E653-WHAT-THE-548-LOOP-GUARDED-MODULE-WRITE-SITES-ITERATE-OVER-AND-WHETHER-EVERY-ITERATION-WRITES-THE-SAME-KEY",
+   "title": "what the 548 loop-guarded residual module-level write sites iterate over (a literal range/list, a module-level constant, a call result, a comprehension, a generator), and whether the loop body writes one key repeatedly (last-write-wins) or a distinct key per iteration (accumulation)",
+   "lane": "cpu-only",
+   "lane_note": "E649 split the 2,641 residual module-level writes into 1,629 bare (run once at import) and 1,012 behind a guard, and a loop body is the largest guarded group (548). 'Runs at import' is not the same as 'runs once': a loop body may write the same key N times or N distinct keys, which decides whether the populating statement is one write or an accumulator. Publishing the iterable's form and the per-iteration key structure prices that difference instead of labelling the group 'loop'.",
+   "deliverable": "results/state_tilt/LOOPWRITEKEY.json: per loop-guarded residual write site, the loop kind, what it iterates over (literal / module constant / call / comprehension / generator / other, with the binding), the write key form (literal / computed / loop target / zip/enumerate unpack), and whether the key can vary across iterations",
+   "source": "E649 (r1670 bm-b) -- 548 loop-guarded residual module-level write sites",
+   "target": "results/state_tilt/LOOPWRITEKEY.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T17:40:00+08:00",
+   "seeded_by": "r1670 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E653"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31367,7 +31482,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T13:35:00+08:00",
+ "updated_at": "2026-11-10T17:40:00+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }
