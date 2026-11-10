@@ -85,6 +85,7 @@ QUOTE_LEDGER = os.path.join(ROOT, "results", "quote_topup_ledger.jsonl")
 # buy CNY 459,796 while the executable sheet said only 392,616 is allowed.
 PERMISSION_JSON = os.path.join(ROOT, "results", "etf_book_rebalance_permission.json")
 CUT_GAP_JSON = os.path.join(ROOT, "results", "etf_book_cut_order_gap.json")
+K_GAP_JSON = os.path.join(ROOT, "results", "etf_book_k_gap.json")
 PERMISSION_LEDGER_JSON = os.path.join(ROOT, "results", "etf_book_floor_ledger.json")
 PREMIUM_LEAK_JSON = os.path.join(ROOT, "results", "etf_book_premium_leak.json")
 SIBLING_GAP_JSON = os.path.join(ROOT, "results", "etf_book_sibling_gap.json")
@@ -778,6 +779,124 @@ def permission_block(pf):
                         for k, v in path_rows))
         if pf.get("naive_permits_keep"):
             add("- 如果拿「所有读数里最宽的那个」当许可，就会得出「可以不动」——这正是这一节要拦的那一步。")
+    add("")
+    return L
+
+
+def k_gap_face(path=K_GAP_JSON, page_bar=None, ticket_file=None):
+    """Which names lost how many lots to the floor, and what buys one back (r1514).
+
+    The producer (scripts/etf_book_k_gap.py) turns the sheet's single over-the-floor total
+    into per-name short lots and the k increment that buys one more lot. This reader only
+    checks and prints it: the rows must still add up to the face's own total (a table that
+    does not add up is worse than no table), and another bar's -- or another ticket's --
+    sheet must not be pasted onto this page. The sentence is the producer's own, imported
+    rather than re-written (E289 one number, one implementation)."""
+    if not os.path.exists(path):
+        return {"status": "unreadable",
+                "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+                "detail": "k-gap face absent"}
+    g = _load(path) or {}
+    rows = g.get("rows") or []
+    if not rows or g.get("short_total_cny") is None \
+            or g.get("k_rule") is None or g.get("k_now") is None:
+        return {"status": "unreadable",
+                "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+                "detail": "face carries no rows or no rule/floor pair"}
+    bad, tot = [], 0.0
+    for r in rows:
+        px, lots, cny = r.get("price"), r.get("short_lots"), r.get("short_cny")
+        if px is None or lots is None or cny is None or float(px) <= 0:
+            bad.append("%s 缺价或缺手" % r.get("symbol"))
+            continue
+        if abs(float(cny) - int(lots) * 100 * float(px)) > 1.0:
+            bad.append("%s 手数×价 ≠ 金额" % r.get("symbol"))
+        tot += float(cny)
+    if abs(tot - float(g["short_total_cny"])) > 1.0:
+        bad.append("逐名合计 %.2f ≠ 面自己 %.2f" % (tot, float(g["short_total_cny"])))
+    if bad:
+        return {"status": "inconsistent",
+                "artifact": _rel(path, ROOT).replace(os.sep, "/"),
+                "detail": "；".join(bad), "rows": rows}
+    out = {k: g.get(k) for k in
+           ("bar", "decision_bar", "k_now", "k_rule", "dk_pp", "nav_sizing_cny",
+            "nav_account_cny", "permission_floor", "short_total_cny",
+            "short_share_of_book_pct", "account_base_gap_cny", "verdict",
+            "cheapest_next_lot", "unpriced_rows", "ticket_file")}
+    out["rows"] = rows
+    out["artifact"] = _rel(path, ROOT).replace(os.sep, "/")
+    out["status"] = "ok"
+    mism = []
+    if page_bar and g.get("bar") and str(g["bar"]) != str(page_bar):
+        mism.append("面是 %s 的、这一页的价是 %s 的" % (g["bar"], page_bar))
+    if ticket_file and g.get("ticket_file") and g["ticket_file"] != ticket_file:
+        mism.append("面来自 %s、这一页的票是 %s" % (g["ticket_file"], ticket_file))
+    if mism:
+        out["status"] = "mismatch"
+        out["mismatch_reason"] = "；".join(mism)
+    return out
+
+
+def k_gap_sentence(kg):
+    """The producer's own sentence, so the page never states this number a second way."""
+    scripts_dir = os.path.join(ROOT, "scripts")
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    import etf_book_k_gap as _KG
+    return _KG.sentence(kg)
+
+
+def k_gap_block(kg, page_bar=None):
+    """The per-name table, printed right after the trim inside the size section."""
+    L = []
+    add = L.append
+    kg = kg or {}
+    add("### 额度在这张单上具体砍掉了哪几手")
+    add("")
+    st = kg.get("status")
+    if st == "unreadable":
+        add("这一节读不到逐名分解（`%s`）：%s。**知道总额被裁，但不知道裁在哪几名身上。**"
+            % (kg.get("artifact") or "results/etf_book_k_gap.json", kg.get("detail") or "无读数"))
+        add("")
+        return L
+    if st == "inconsistent":
+        add("这张逐名表的数字自己对不上（%s）——**本页不印一张加不起来的表**。"
+            % (kg.get("detail") or "未知"))
+        add("")
+        return L
+    if st == "mismatch":
+        add("这张逐名表不是这一页这张单的（%s）——**不把另一张单的手数贴到这页上**。"
+            % (kg.get("mismatch_reason") or "日期或票面不同"))
+        add("")
+        return L
+    # no outer bold: the producer's sentence already bolds its own numbers, and wrapping it
+    # would break the first marker (the r1504 rendering defect, again)
+    add(k_gap_sentence(kg))
+    add("")
+    add("| 代码 | 价 | 本单手数 | 规则手数 | 少买手数 | 少买金额 | 再买一手要上调 k |")
+    add("|---|---|---|---|---|---|---|")
+    for r in kg["rows"]:
+        add("| %s | %.3f | %s | %s | %s | ¥%s | %.4fpp |"
+            % (r.get("symbol"), float(r.get("price") or 0.0),
+               format(int(r.get("lots_ordered") or 0), ","),
+               format(int(r.get("lots_at_rule") or 0), ","),
+               format(int(r.get("short_lots") or 0), ","),
+               format(float(r.get("short_cny") or 0.0), ",.2f"),
+               float(r.get("next_lot_dk_pp") or 0.0)))
+    add("| — | | | | **%s 手** | **¥%s** | |"
+        % (format(sum(int(r.get("short_lots") or 0) for r in kg["rows"]), ","),
+           format(float(kg.get("short_total_cny") or 0.0), ",.2f")))
+    add("")
+    add("- 口径：逐名差额按**票面自己的 sizing NAV（¥%s）**与票面自己的价算，取整规则与票面一致"
+        "（floor(目标金额 / (价×100))）。"
+        % format(float(kg.get("nav_sizing_cny") or 0.0), ",.0f"))
+    if kg.get("account_base_gap_cny") is not None:
+        add("- 账本那一侧的差是 **¥%s**（accrued NAV ¥%s 的基）——**两个基不同，不许相加**。"
+            % (format(float(kg["account_base_gap_cny"]), ",.2f"),
+               format(float(kg.get("nav_account_cny") or 0.0), ",.0f")))
+    if kg.get("unpriced_rows"):
+        add("- 没价的行没有计入合计（查不到的价格不写成 0）：%s。"
+            % "、".join(str(s) for s in kg["unpriced_rows"]))
     add("")
     return L
 
@@ -1622,6 +1741,11 @@ def positions_face(path=POSITIONS_JSON):
         "status": "ok",
         "artifact": _rel(path, ROOT).replace(os.sep, "/"),
         "asof": f.get("asof"),
+        # r1514: the account statement's own date is the newest valued row, not the episode
+        # ticket's bar -- the block below prints on the former, so the page must compare
+        # against it instead of printing a date mismatch it has already answered.
+        "ledger_bar": f.get("ledger_bar") or f.get("asof"),
+        "ticket_bar": f.get("ticket_bar") or f.get("asof"),
         "verdict": f.get("verdict"),
         "printed_rows": f.get("printed_rows"),
         "book_rows": f.get("book_rows"),
@@ -1654,9 +1778,14 @@ def positions_block(ps, page_bar=None):
                ps.get("detail") or "无读数"))
         add("")
         return L
-    if page_bar and ps.get("asof") and str(page_bar)[:10] != str(ps["asof"])[:10]:
-        add("账本面锚在 **%s**，本页的价是 **%s**——两个日子对不上，下面的持仓与现金不能当成今天的账。"
-            % (ps["asof"], page_bar))
+    _acct_bar = ps.get("ledger_bar") or ps.get("asof")
+    if page_bar and _acct_bar and str(page_bar)[:10] != str(_acct_bar)[:10]:
+        add("账本最新估值在 **%s**，本页的价是 **%s**——两个日子对不上，下面的持仓与现金不能当成今天的账。"
+            % (_acct_bar, page_bar))
+        add("")
+    elif ps.get("ticket_bar") and _acct_bar and str(ps["ticket_bar"])[:10] != str(_acct_bar)[:10]:
+        add("（这一节按 **%s** 的收盘估值；票是 **%s** 那一张——换仓日之间账本按收盘价重估。）"
+            % (_acct_bar, ps["ticket_bar"]))
         add("")
     row = ps.get("ledger_row") or {}
     base = ps.get("next_order_base") or {}
@@ -4823,6 +4952,8 @@ def build(with_stress=False, window_label=None):
     page["capital"] = capital_face()
     page["gap"] = gap_face()
     page["permission"] = permission_face()
+    page["k_gap"] = k_gap_face(page_bar=page["priced_bar"],
+                               ticket_file=os.path.basename(tk_path or ""))
     page["premium_leak"] = premium_face()
     page["premium_forward"] = premium_forward_face(tk.get("ticket") or {})
     page["sibling_gap"] = sibling_gap_face()
@@ -4897,6 +5028,8 @@ def render_md(p):
         add(_ex_line)
     for _pf_line in permission_block(p.get("permission") or {}):
         add(_pf_line)
+    for _kg_line in k_gap_block(p.get("k_gap") or {}, page_bar=p.get("priced_bar")):
+        add(_kg_line)
     for _pl_line in premium_block(p.get("premium_leak") or {}, page_bar=p.get("priced_bar"),
                                   page_sheet={"amount_cny": p.get("book_amount_cny"),
                                               "legs": [{"symbol": o.get("symbol"),
@@ -7957,6 +8090,63 @@ def selftest():
         "没有留下成交行" in _ex_none_txt and "| 方向 |" not in _ex_none_txt
         and "没有成交" not in _ex_none_txt.replace("「没有成交」", ""),
         "len=%d" % len(_ex_none_txt))
+    # r1514: the per-name decomposition of what the floor cut. Three ways to lie: absent
+    # reads as "nothing was cut", rows that do not add up to their own total, and another
+    # sheet's table pasted onto this page.
+    _kg_dir = tempfile.mkdtemp()
+    _kg_rows = [{"symbol": "159501", "price": 2.11, "lots_ordered": 372, "lots_at_rule": 436,
+                 "short_lots": 64, "short_shares": 6400, "short_cny": 13504.0,
+                 "next_lot_dk_pp": 0.0442},
+                {"symbol": "159577", "price": 1.659, "lots_ordered": 473, "lots_at_rule": 554,
+                 "short_lots": 81, "short_shares": 8100, "short_cny": 13437.9,
+                 "next_lot_dk_pp": 0.011}]
+    _kg_fix = {"face": "etf_book_k_gap", "bar": "2026-11-10", "decision_bar": "2026-11-10",
+               "k_now": 0.393073, "k_rule": 0.460253, "dk_pp": 6.718,
+               "nav_sizing_cny": 1000000.0, "nav_account_cny": 1007436.0,
+               "permission_floor": 0.393073, "rows": _kg_rows,
+               "short_total_cny": 26941.9, "short_share_of_book_pct": 5.85,
+               "account_base_gap_cny": 63652.14,
+               "cheapest_next_lot": _kg_rows[1], "unpriced_rows": [],
+               "ticket_file": "TICKET-2026-11-10.json", "verdict": "FLOOR_CUT_THIS_SHEET"}
+    _kg_path = os.path.join(_kg_dir, "k_gap.json")
+    with open(_kg_path, "w", encoding="utf-8") as _fh:
+        json.dump(_kg_fix, _fh, ensure_ascii=False)
+    _kg = k_gap_face(_kg_path, page_bar="2026-11-10", ticket_file="TICKET-2026-11-10.json")
+    _kg_txt = "\n".join(k_gap_block(_kg, page_bar="2026-11-10"))
+    chk("L177 k-gap face: the live-shaped face passes its own arithmetic check and prints one row per name",
+        _kg.get("status") == "ok" and len(_kg.get("rows") or []) == 2
+        and "| 159501 |" in _kg_txt and "| 159577 |" in _kg_txt
+        and "13,437.90" in _kg_txt
+        and _kg_txt.count("**") % 2 == 0 and "****" not in _kg_txt,
+        "status=%s bold=%d" % (_kg.get("status"), _kg_txt.count("**")))
+    _kg_absent = k_gap_face(os.path.join(_kg_dir, "absent.json"), page_bar="2026-11-10")
+    _kg_absent_txt = "\n".join(k_gap_block(_kg_absent))
+    chk("L178 k-gap block: a missing decomposition reads 'cut somewhere, we cannot say where', "
+        "never a zero table",
+        _kg_absent.get("status") == "unreadable" and "不知道裁在哪几名身上" in _kg_absent_txt
+        and "再买一手要上调 k" not in _kg_absent_txt,
+        "status=%s" % _kg_absent.get("status"))
+    _kg_bad = dict(_kg_fix, short_total_cny=30000.0)
+    _kg_bad_path = os.path.join(_kg_dir, "bad.json")
+    with open(_kg_bad_path, "w", encoding="utf-8") as _fh:
+        json.dump(_kg_bad, _fh, ensure_ascii=False)
+    _kg_inc = k_gap_face(_kg_bad_path, page_bar="2026-11-10")
+    _kg_inc_txt = "\n".join(k_gap_block(_kg_inc))
+    chk("L179 k-gap block: rows that do not add up to the face's own total are refused, not printed",
+        _kg_inc.get("status") == "inconsistent" and "加不起来的表" in _kg_inc_txt
+        and "| 159501 |" not in _kg_inc_txt, "status=%s" % _kg_inc.get("status"))
+    _kg_stale = k_gap_face(_kg_path, page_bar="2026-11-11",
+                           ticket_file="TICKET-2026-11-10.json")
+    _kg_stale_txt = "\n".join(k_gap_block(_kg_stale, page_bar="2026-11-11"))
+    chk("L180 k-gap block: another bar's sheet is refused rather than pasted onto today's prices",
+        _kg_stale.get("status") == "mismatch" and "不把另一张单的手数贴到这页上" in _kg_stale_txt
+        and "| 159577 |" not in _kg_stale_txt, "reason=%s" % _kg_stale.get("mismatch_reason"))
+    _kg_other_ticket = k_gap_face(_kg_path, page_bar="2026-11-10",
+                                  ticket_file="TICKET-2026-11-11.json")
+    chk("L181 k-gap face: a face built from another ticket is caught even when the bar matches",
+        _kg_other_ticket.get("status") == "mismatch"
+        and "TICKET-2026-11-11" in (_kg_other_ticket.get("mismatch_reason") or ""),
+        "reason=%s" % _kg_other_ticket.get("mismatch_reason"))
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

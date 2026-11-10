@@ -1463,11 +1463,12 @@ def main() -> int:
         if _ps.get("status") != "ok":
             _badp.append("positions face %s (%s)" % (_ps.get("status"), _ps.get("detail")))
         else:
-            _notep = _page_elsewhere_note(_pv, _ps.get("asof")) or ""
+            _notep = _page_elsewhere_note(_pv, _ps.get("ledger_bar") or _ps.get("asof")) or ""
             if not _notep:
                 if "账上现在拿的是什么" not in _mdp:
                     _badp.append("the account section is gone from the page")
-                _blk = "\n".join(_PGA.positions_block(_ps, page_bar=_ps.get("asof")))
+                _blk = "\n".join(_PGA.positions_block(
+                    _ps, page_bar=_ps.get("ledger_bar") or _ps.get("asof")))
                 for _h in (_ps.get("ledger_row") or {}).get("holdings") or []:
                     if _h.get("symbol") not in _blk:
                         _badp.append("held name %s is not in the block" % _h.get("symbol"))
@@ -1476,11 +1477,13 @@ def main() -> int:
                 # is running). What it CAN require is that the two published faces never
                 # disagree silently -- if they do, our own face has to print both numbers.
                 from scripts import etf_book_positions as _POS
-                _rep = _POS.restatement_report(_POS.load_ledger(), _ps.get("asof"), _mdp)
+                _rep = _POS.restatement_report(_POS.load_ledger(),
+                                               _ps.get("ledger_bar") or _ps.get("asof"),
+                                               _mdp)
                 _pb = _rep.get("page_block") or {}
                 if not _pb.get("same_bar"):
                     _badp.append("the page prints no account block for bar %s"
-                                 % _ps.get("asof"))
+                                 % (_ps.get("ledger_bar") or _ps.get("asof")))
                 elif _rep.get("page_vs_ledger_agree") is not True:
                     _own = ""
                     _own_path = os.path.join("results", "etf_book_positions.md")
@@ -10387,7 +10390,11 @@ def _legs_supply_and_book():
                     _bad54.append("board gap unreadable (%r) -- the page cannot be checked "
                                   "against it" % (_gap54.get("status"),))
                 elif _miss54:
-                    if "这块板缺了 %d 个交易日" % len(_miss54) not in _md54:
+                    # r1514: the page learned to tell a hole BEHIND the table ("曾经漏过")
+                    # from a hole that blocks it ("缺了"), because once the board runs past
+                    # the hole the table is reading a newer session and nothing is staled.
+                    if ("这块板缺了 %d 个交易日" % len(_miss54) not in _md54
+                            and "这块板曾经漏过 %d 个交易日" % len(_miss54) not in _md54):
                         _bad54.append("page does not print the board hole")
                     for _d54 in _miss54:
                         if _d54 not in _md54:
@@ -10419,6 +10426,62 @@ def _legs_supply_and_book():
               or "page == board_gap (missing=%d)" % len(_epf54.board_gap().get("missing") or []))
     except Exception as e:
         check("product: the page names the board session the premium section never captured",
+              False, repr(e)[:180])
+
+    # r1514: the per-name decomposition of what the floor cut has to reach the page as the
+    # producer's own numbers -- each name's short lots and money, and the face's total. The
+    # leg derives both sides (face + page) instead of trusting either sentence.
+    try:
+        _bad55 = []
+        _kg55p = os.path.join(PATHS.results_dir, "etf_book_k_gap.json")
+        _ptr55p = os.path.join(PATHS.root, "docs", "live_book", "latest.json")
+        _kg55, _md55, _pb55 = None, "", None
+        if not os.path.exists(_kg55p):
+            _bad55.append("results/etf_book_k_gap.json missing")
+        elif not os.path.exists(_ptr55p):
+            _bad55.append("docs/live_book/latest.json missing")
+        else:
+            with open(_kg55p, encoding="utf-8") as _fh55:
+                _kg55 = json.load(_fh55)
+            with open(_ptr55p, encoding="utf-8") as _fh55:
+                _ptr55 = json.load(_fh55)
+            _page55 = os.path.join(PATHS.root, _ptr55.get("page") or "")
+            _json55 = os.path.join(PATHS.root, _ptr55.get("json") or "")
+            if os.path.exists(_page55):
+                with open(_page55, encoding="utf-8") as _fh55:
+                    _md55 = _fh55.read()
+            else:
+                _bad55.append("page %r named by latest.json is not on this disk"
+                              % (_ptr55.get("page"),))
+            if os.path.exists(_json55):
+                with open(_json55, encoding="utf-8") as _fh55:
+                    _pb55 = (json.load(_fh55) or {}).get("priced_bar")
+        _rows55 = (_kg55 or {}).get("rows") or []
+        if _md55 and _kg55:
+            if _pb55 and _kg55.get("bar") and str(_kg55["bar"]) != str(_pb55):
+                # a face from another bar must be refused on the page, not printed
+                if "不是这一页这张单的" not in _md55:
+                    _bad55.append("face bar %s vs page %s: page still prints a table"
+                                  % (_kg55.get("bar"), _pb55))
+            elif _kg55.get("verdict") == "FLOOR_CUT_THIS_SHEET" and _rows55:
+                if "额度在这张单上具体砍掉了哪几手" not in _md55:
+                    _bad55.append("page has no per-name floor-cut section")
+                for _r55 in _rows55:
+                    _cell55 = ("| %s | %.3f | %s | %s | %s | ¥%s |" % (
+                        _r55.get("symbol"), float(_r55.get("price") or 0.0),
+                        format(int(_r55.get("lots_ordered") or 0), ","),
+                        format(int(_r55.get("lots_at_rule") or 0), ","),
+                        format(int(_r55.get("short_lots") or 0), ","),
+                        format(float(_r55.get("short_cny") or 0.0), ",.2f")))
+                    if _cell55 not in _md55:
+                        _bad55.append("page row differs from face: %s" % _r55.get("symbol"))
+                if format(float(_kg55.get("short_total_cny") or 0), ",.2f") not in _md55:
+                    _bad55.append("page does not print the face's own total")
+        check("product: the page's per-name floor cut reproduces the k_gap face row by row",
+              not _bad55, "; ".join(_bad55)[:220]
+              or "page == k_gap (%d names)" % len(_rows55))
+    except Exception as e:
+        check("product: the page's per-name floor cut reproduces the k_gap face row by row",
               False, repr(e)[:180])
 
 

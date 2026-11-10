@@ -156,11 +156,14 @@ def sentence(face):
                 % (face["k_rule"], face["k_now"]))
     tail = ""
     if cheap and face["verdict"] == "FLOOR_CUT_THIS_SHEET":
-        tail = (" 想先补回**一手**，最便宜的是 **%s**：%s 的额度上调 **%.4fpp** 就够买它那一手，"
-                "其余每名各要 %.4f~%.4fpp。"
-                % (cheap["symbol"], cheap["symbol"], cheap["next_lot_dk_pp"],
-                   min(r["next_lot_dk_pp"] for r in face["rows"]),
-                   max(r["next_lot_dk_pp"] for r in face["rows"])))
+        others = [r for r in face["rows"] if r.get("symbol") != cheap["symbol"]]
+        # "其余" must mean the rest: including the cheapest name in the range prints
+        # "others need 0.0110~..." which is the cheapest one's own number.
+        rest = ("，其余每名各要 %.4f~%.4fpp"
+                % (min(r["next_lot_dk_pp"] for r in others),
+                   max(r["next_lot_dk_pp"] for r in others))) if others else ""
+        tail = (" 想先补回**一手**，最便宜的是 **%s**：%s 的额度上调 **%.4fpp** 就够买它那一手%s。"
+                % (cheap["symbol"], cheap["symbol"], cheap["next_lot_dk_pp"], rest))
     return head + tail
 
 
@@ -287,6 +290,14 @@ def selftest():
         "少买" in sentence(f) and f["cheapest_next_lot"]["symbol"] in sentence(f))
     leg("L13 zero-gap sentence does not claim a cut",
         "没有被额度裁掉" in sentence(compute(_fixture_consistent(k_now=0.4, k_rule=0.4))))
+    # r1514: "其余" has to mean the rest -- the first live sentence said "其余每名各要
+    # 0.0110~0.0442pp", where 0.0110 was the cheapest name's own number.
+    _s_txt = sentence(f)
+    _cheap = f["cheapest_next_lot"]
+    _rest = [r["next_lot_dk_pp"] for r in f["rows"] if r["symbol"] != _cheap["symbol"]]
+    leg("L14 the 'rest of the names' range excludes the cheapest top-up itself",
+        ("其余每名各要 %.4f" % min(_rest)) in _s_txt
+        and ("其余每名各要 %.4f" % _cheap["next_lot_dk_pp"]) not in _s_txt)
     bad = [n for n, v in ok if not v]
     for n, v in ok:
         print("%s %s" % ("[ok]" if v else "[FAIL]", n))

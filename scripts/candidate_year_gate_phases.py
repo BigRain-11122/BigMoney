@@ -354,12 +354,18 @@ def selftest() -> int:
         yrs = Y.yearly_returns(ser)
         pubs = ref.get("yearly_returns_pct") or {}
         mine = {y: v["net_pct"] for y, v in yrs.items()}
-        worst = max((abs(mine[y] - pubs[y]) for y in pubs if y in mine), default=None)
+        # r1514: the newest year on the panel is still IN PROGRESS, so its net return moves
+        # with every new bar and cannot be reproduced against a reference published on an
+        # older bar (2026-11-10: max|d| 0.69 driven entirely by that one row). The live leg
+        # compares the completed years; the partial one is named, not silently dropped.
+        _partial = str(max(mine)) if mine else ""
+        _full = [y for y in pubs if y in mine and str(y) != _partial]
+        worst = max((abs(mine[y] - pubs[y]) for y in _full), default=None)
         blk = G.admission_block(yrs, S.published_capacity(), None,
                                 A.stats2(ser, "p").get("cagr"))
         chk(worst is not None and worst < 1e-9,
-            "L8 phase start 2020-01-01 reproduces every published yearly row (max|d| %r)"
-            % worst)
+            "L8 phase start 2020-01-01 reproduces every completed published yearly row "
+            "(partial %s excluded, max|d| %r)" % (_partial, worst))
         chk(blk["verdict"] == ref.get("verdict"),
             "L8b phase start 2020-01-01 reproduces r1418's verdict (%s vs %s)"
             % (blk["verdict"], ref.get("verdict")))

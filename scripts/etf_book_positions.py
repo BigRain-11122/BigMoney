@@ -811,6 +811,13 @@ def assess(ticket, stack, ledger, stamp=None):
     return {
         "artifact": "etf_book_positions",
         "asof": asof,
+        # r1514: `asof` is the episode/ticket bar, but the ledger is re-valued every session
+        # between execution bars (r1469), so the account statement's own date is the newest
+        # written row. Two dates, two facts: the page compared its price day against `asof`
+        # and printed "两个日子对不上" while the block right below it was valued on the page's
+        # own day -- a warning the face itself had already answered.
+        "ledger_bar": (account_base or {}).get("bar"),
+        "ticket_bar": asof,
         "ticket": (stack or {}).get("ticket"),
         "sources": {"swap_stack": rel(STACK_FACE), "ledger": rel(LEDGER)},
         "verdict": verdict,
@@ -837,7 +844,9 @@ def assess(ticket, stack, ledger, stamp=None):
         "settlement": settlement,
         "replay": replay_row,
         "engine_book": {"tail": eng, "divergence": eng_gap},
-        "restatements": restatement_report(ledger, asof, _read_json_page()),
+        "restatements": restatement_report(ledger,
+                                           (account_base or {}).get("bar") or asof,
+                                           _read_json_page()),
         "caveats": [
             "the reconciliation compares two documents, not two accounts: it says what the "
             "printed rows leave behind relative to the book the same face declares, and it "
