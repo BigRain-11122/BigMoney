@@ -60,6 +60,7 @@ from scripts import etf_book_swap_toll as SWT                 # noqa: E402  (r15
 from scripts import etf_book_swap_convergence as SWC          # noqa: E402  (r1523: whether the way out pays)
 from scripts import etf_book_swap_effect as SWE               # noqa: E402  (r1524: the gain and the path, refused to be added)
 from scripts import etf_book_swap_units as SWU                # noqa: E402  (r1525: the discount is a share count, not money)
+from scripts import etf_book_swap_track as SWK                # noqa: E402  (r1526: what CARRYING the sibling costs per year)
 from config import PATHS                           # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -2094,6 +2095,12 @@ def card(ticket, mk, sched, asof, beta, extra):
         # ledger's own caliber (lots of 100 shares + the residue a lot cannot hold), with the
         # re-mark deferred to the next bar and the realised booking refused.
         L += SWU.md_lines(extra.get("swap_units"))
+        # r1526: every section above prices ONE exchange. None of them prices the holding that
+        # follows it, and three faces say so in the same sentence ("tracking difference is not
+        # priced here"). This one prices the carry: drift per year with an honest error band,
+        # the power floor that says the question is unanswerable at fee scale, and the fund
+        # concentration the merge created while the basket count stayed the same.
+        L += SWK.md_lines(extra.get("swap_track"))
         L += executed_base_md(extra.get("base"))
         L += premium_read_md(extra.get("premium"))
         L += positions_md(extra.get("positions"))
@@ -2691,11 +2698,15 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     # page end up describing different books.
     _ss = _json_face(SWAP_STACK_FACE)
     _pos = _json_face(POSITIONS_FACE)
+    # r1526: one read of the gap face, shared by the convergence face and the carry face --
+    # and the carry face is told which session that anchor belongs to, so it can disclose an
+    # anchor that is older than this sheet instead of silently inheriting it.
+    _gap = _json_face(SIBLING_GAP_FACE)
     # r1524: the measured way out is computed once here and handed to both the payload and the
     # pairing face below -- the pair must read the same number the sheet prints, not a second
     # derivation of the same gap.
     _swc = SWC.compute({"as_of": asof,
-                        "sibling_gap": _json_face(SIBLING_GAP_FACE),
+                        "sibling_gap": _gap,
                         "swap_stack": _ss,
                         "swap_trigger": _json_face(SWAP_FACE)})
     # r1525: the pairing face is read once too, so the discount the sheet converts into shares
@@ -2776,6 +2787,10 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "swap_units": SWU.compute({"as_of": asof, "swap_stack": _ss,
                                           "swap_effect": _swe, "positions": _pos,
                                           "calendar": _cal}),
+               # r1526: the carry. Everything above prices one exchange; this prices HOLDING the
+               # sibling, and says out loud when the anchor it inherits is older than this sheet.
+               "swap_track": SWK.compute({"as_of": asof, "sibling_gap": _gap,
+                                          "swap_stack": _ss}),
                "width_disclosure": wd,
                "live_width_ruler": ruler,
                "price_basis": basis,
@@ -2851,6 +2866,9 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "swap_effect": payload["swap_effect"],
                       # r1525: and the same discount in shares, in the ledger's own caliber.
                       "swap_units": payload["swap_units"],
+                      # r1526: the carry of holding the sibling -- drift, its error band, and
+                      # the fund concentration the merge created.
+                      "swap_track": payload["swap_track"],
                       "premium": _prem,
                       "base": payload["base"],
                       "permission": payload["permission"],

@@ -1048,6 +1048,14 @@ def main() -> int:
              "scripts/etf_book_swap_units.py", ["selftest"]),
             ("product: etf_book_swap_units (published face re-derives from level/price)",
              "scripts/etf_book_swap_units.py", ["check"]),
+            # r1526: every swap face prices ONE exchange and three of them write the same
+            # sentence about what is not priced -- the tracking difference of the sibling being
+            # held. This pins the carry face: drift with its error band, the variance-ratio
+            # scaling (iid would overstate the year), and the concentration the merge created.
+            ("product: etf_book_swap_track (what holding the sibling costs per year)",
+             "scripts/etf_book_swap_track.py", ["selftest"]),
+            ("product: etf_book_swap_track (published face re-derives from the panels)",
+             "scripts/etf_book_swap_track.py", ["check"]),
             # r1468: the netted order printed three rows and declared a book that had moved in
             # six places -- the trim table's own five sells never became rows (CNY 67,289 of
             # names the permission refused are left unsold), and after the swap executes the
@@ -10940,6 +10948,65 @@ def _legs_supply_and_book():
                  ((_tk63.get("swap_units") or {}).get("remark") or {}).get("status")))
     except Exception as e:
         check("product: the entry discount is a share count in the ledger's caliber",
+              False, repr(e)[:180])
+
+    # r1526: three faces say "tracking difference is not priced here" and none of them ever
+    # priced it. This leg pins the carry face on the ticket and on the page, and refuses a
+    # sheet that prints a drift without its error band -- the one number a reader would
+    # otherwise take as a fee.
+    try:
+        _bad64 = []
+        from scripts import etf_book_swap_track as _SWK64
+        _hits64 = sorted(glob.glob(os.path.join(PATHS.results_dir, "etf_book_order",
+                                                "TICKET-*.json")))
+        _tk64 = {}
+        if not _hits64:
+            _bad64.append("no TICKET-*.json under results/etf_book_order")
+        else:
+            with open(_hits64[-1], encoding="utf-8") as _fh64:
+                _tk64 = json.load(_fh64)
+            _pub64 = _tk64.get("swap_track")
+            if not _pub64:
+                _bad64.append("the ticket carries no swap_track (a face only results/ knows "
+                              "is r1108)")
+            else:
+                _b64 = _SWK64.check(_pub64)
+                if _b64:
+                    _bad64.append("published swap_track does not reconcile: %s" % "; ".join(_b64))
+                _rows64 = [x for x in _pub64.get("rows") or [] if x.get("t_stat") is not None]
+                if not _rows64:
+                    _bad64.append("the carry face priced no leg on a bar that swapped two")
+                for _x64 in _rows64:
+                    if _x64.get("se_pp_per_year") is None:
+                        _bad64.append("%s prints a drift with no error band"
+                                      % (_x64.get("leg_symbol"),))
+                if int(_pub64.get("vr_reference") or 0) != 120:
+                    _bad64.append("the noise is not scaled on the published VR horizon")
+                _md64p = os.path.join(PATHS.results_dir, "etf_book_order",
+                                      "ORDER-%s.md" % (_tk64.get("as_of") or ""))
+                if not os.path.exists(_md64p):
+                    _bad64.append("ORDER-%s.md missing" % (_tk64.get("as_of"),))
+                else:
+                    with open(_md64p, encoding="utf-8") as _fh64:
+                        _md64 = _fh64.read()
+                    if "每年贵多少" not in _md64:
+                        _bad64.append("sheet has no carry section")
+                    if "不能相加" not in _md64:
+                        _bad64.append("sheet never says the three units cannot be added")
+                    if (_pub64.get("anchor_behind_bar")
+                            and "上游锚比这张单旧" not in _md64):
+                        _bad64.append("the anchor is older than the sheet and it is not said")
+        check("product: what carrying the sibling costs per year is on the sheet",
+              not _bad64, "; ".join(_bad64)[:220]
+              or "swap_track %s drift=%s/yr se=%s merge=%spp"
+              % (((_tk64.get("swap_track") or {}).get("verdict")),
+                 format(float((((_tk64.get("swap_track") or {}).get("totals") or {})
+                               .get("drift_cny_per_year") or 0.0)), ",.0f"),
+                 format(float((((_tk64.get("swap_track") or {}).get("totals") or {})
+                               .get("se_cny_per_year") or 0.0)), ",.0f"),
+                 ((_tk64.get("swap_track") or {}).get("merge") or {}).get("sigma_diff_pp_per_year")))
+    except Exception as e:
+        check("product: what carrying the sibling costs per year is on the sheet",
               False, repr(e)[:180])
 
     # r1521: two sections of one sheet answer the same question -- "how much would it cost to

@@ -1025,6 +1025,13 @@ LEGS = [
     # a face whose realised guard says the number landed in the ledger (0.1s, JSON reads).
     ("swap_units",
      ["python", "scripts/etf_book_swap_units.py", "check"]),
+    # r1526: every face above prices ONE exchange, and three of them say in the same breath
+    # that the tracking difference of the sibling is "not priced here". This leg re-derives the
+    # carry of HOLDING it -- drift per year with a Newey-West band, the power floor that says a
+    # fee-scale question is unanswerable on this sample, and the fund concentration the merge
+    # created while the basket count stayed the same (0.2s, panel reads).
+    ("swap_track",
+     ["python", "scripts/etf_book_swap_track.py", "check"]),
     # r1468: the netted order prints three rows but declares a book that moved in six places --
     # the trim table's own five sells never became rows, so typing the sheet leaves CNY 67,289
     # of refused names unsold; and once the swap executes, the account no longer matches the

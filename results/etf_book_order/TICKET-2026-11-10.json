@@ -495,7 +495,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-11 00:25:18",
+   "at": "2026-11-11 01:03:16",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -2181,6 +2181,133 @@
    "level_total_cny": 9761.8
   }
  },
+ "swap_track": {
+  "artifact": "etf_book_swap_track",
+  "bar": "2026-11-10",
+  "evidence_cutoff": "2026-11-10",
+  "verdict": "DRIFT_NOT_DISTINGUISHABLE_FROM_ZERO",
+  "rows": [
+   {
+    "leg_symbol": "159501",
+    "sibling_symbol": "159513",
+    "gap_today_pp": 8.6708,
+    "sessions": 794,
+    "notional_cny": 78492.0,
+    "mean_daily_pp": 0.012469,
+    "drift_pp_per_year": 3.0424,
+    "se_pp_per_year": 2.3706,
+    "t_stat": 1.283,
+    "drift_cny_per_year": 2388.04,
+    "se_cny_per_year": 1860.73,
+    "noise_iid_pp_per_year": 5.384,
+    "noise_scaled_pp_per_year": 2.187,
+    "vr": {
+     "k5": 0.671,
+     "k20": 0.359,
+     "k60": 0.28,
+     "k120": 0.165
+    },
+    "verdict": "NOT_DISTINGUISHABLE_FROM_ZERO",
+    "why": "点估计 +3.04 pp/年，但一年标准误 2.37 pp 把它盖过去了（t=+1.28）：这个样本分不开「兄弟票每年贵几个 pp」与「没差别」"
+   },
+   {
+    "leg_symbol": "513100",
+    "sibling_symbol": "159513",
+    "gap_today_pp": 6.2867,
+    "sessions": 794,
+    "notional_cny": 78455.0,
+    "mean_daily_pp": 0.011571,
+    "drift_pp_per_year": 2.8234,
+    "se_pp_per_year": 2.4806,
+    "t_stat": 1.138,
+    "drift_cny_per_year": 2215.1,
+    "se_cny_per_year": 1946.15,
+    "noise_iid_pp_per_year": 5.406,
+    "noise_scaled_pp_per_year": 2.248,
+    "vr": {
+     "k5": 0.745,
+     "k20": 0.43,
+     "k60": 0.234,
+     "k120": 0.173
+    },
+    "verdict": "NOT_DISTINGUISHABLE_FROM_ZERO",
+    "why": "点估计 +2.82 pp/年，但一年标准误 2.48 pp 把它盖过去了（t=+1.14）：这个样本分不开「兄弟票每年贵几个 pp」与「没差别」"
+   }
+  ],
+  "skipped": [
+   {
+    "leg_symbol": "159577",
+    "sibling_symbol": "513850",
+    "why": "这张单没有换出这只票：它的漂移不是这笔交易的成本"
+   }
+  ],
+  "merge": {
+   "sibling_symbol": "159513",
+   "legs": {
+    "159501": {
+     "weight": 0.199961,
+     "sigma_pp": 2.187
+    },
+    "513100": {
+     "weight": 0.199867,
+     "sigma_pp": 2.248
+    }
+   },
+   "correlation": 0.4568,
+   "weight_before": {
+    "159501": 0.199961,
+    "513100": 0.199867
+   },
+   "weight_after": 0.3996,
+   "weight_sum_before": 0.399828,
+   "invested_cny": 156947.0,
+   "sigma_diff_pp_per_year": 0.7567,
+   "sigma_diff_cny_per_year": 1187.62,
+   "iid_upper_bound_pp": 1.841,
+   "sentence": "把 159501 与 513100 并成一只 159513 之后，风险腿里这一块从两只各 20.0% 变成一只 40.0%；两种拿法的**特有**波动差 0.76 pp/年（占风险腿），在 ¥156,947.00 上是 ¥1,188/年",
+   "verdict": "MERGED_INTO_ONE_FUND",
+   "why": ""
+  },
+  "sentence": "三张面都写着「跟踪差没有定价」。这一面把它定成了两个数：159501→159513 漂移 +3.04 pp（t=+1.28，一年标准误 +2.37 pp，方向是拿着兄弟票让出）；513100→159513 漂移 +2.82 pp（t=+1.14，一年标准误 +2.48 pp，方向是拿着兄弟票让出）；合计 ¥4,603/年，两条腿合起来的一年标准误 ¥3,807——点估计是站在「继续变贵」这一边，但标准误把它盖过去了，判**量不出来**（不是「没有成本」）。并成一只之后，单一基金特有波动多担 0.76 pp/年（占风险腿；¥1,188/年），而这张单省下的是入场折扣 ¥9,761.8——一个是一次性的价，一个是每年都在的波动。要分辨一条 0.5 pp/年的费率差，这个样本需要 159 年：这正是它答不了的题。",
+  "refused": null,
+  "bars_per_year": 244.0,
+  "power_z": 2.802,
+  "vr_horizons": [
+   5,
+   20,
+   60,
+   120
+  ],
+  "vr_reference": 120,
+  "nw_lag": 5,
+  "t_reject": 2.0,
+  "min_sessions": 120,
+  "fee_scale_pp": 0.5,
+  "big_scale_pp": 3.0,
+  "sources": {
+   "sibling_gap": "results/etf_book_sibling_gap.json",
+   "swap_stack": "results/etf_book_swap_stack.json"
+  },
+  "caveats": [
+   "the drift is a PRICE drift: it contains the two funds' premium changes as well as their fees and tracking, and this book has no NAV panel to split the two -- it is what a holder of the sibling actually experiences, not a fee estimate",
+   "the reconstruction inherits the sibling-gap face's single IOPV anchor; changes cancel that offset, so the drift and the noise are identified even though the level is not",
+   "the noise is scaled on the 120-session variance ratio because the relative price mean reverts; the iid figure beside it is an upper bound, and neither is a forecast -- beyond 120 sessions this sample cannot estimate the ratio at all",
+   "an unmeasurable leg is refused with a reason, never scored as zero drift and never scored as zero noise (r1230 family)",
+   "the concentration block prices the DIFFERENCE between one fund and two; it says nothing about either fund's tracking against its index, which needs NAV"
+  ],
+  "anchor_session": "2026-11-06",
+  "anchor_behind_bar": true,
+  "totals": {
+   "measured_legs": 2,
+   "sessions_min": 794,
+   "notional_cny": 156947.0,
+   "drift_cny_per_year": 4603.14,
+   "se_cny_per_year": 3806.88,
+   "losing_legs": 0,
+   "gaining_legs": 0,
+   "undistinguishable_legs": 2
+  }
+ },
  "width_disclosure": {
   "ticket_names": 5,
   "card_names": 12,
@@ -2199,15 +2326,15 @@
    "vol": 0.0888
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1109,
-    "card_width_cagr": 0.0963,
-    "pp": -1.46
-   },
    "vol": {
     "ticket_width_cagr": 0.1186,
     "card_width_cagr": 0.1223,
     "pp": 0.37
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1109,
+    "card_width_cagr": 0.0963,
+    "pp": -1.46
    }
   },
   "rules_differ": true,
