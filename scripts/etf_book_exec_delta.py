@@ -372,7 +372,11 @@ def md_lines(face, heading="## 这张单实际要下的动作（r1516）"):
     if face.get("in_target_not_held"):
         L.append("- 票面有、账上没有 **%s**：这些是整只新建，手数从 0 起算。"
                  % "、".join(face["in_target_not_held"]))
-    if face["verdict"] in ("ALREADY_ON_TARGET", "UNPRICED"):
+    # r1521b: a zero-action sheet still prints the rows. "Nothing to do" is a claim about
+    # four specific names x lots, and the reader can only check it if the lots are on the
+    # page -- skipping the table made the strongest statement on the sheet the only one
+    # nothing beside it could verify (the smoke leg re-derives each row and refused).
+    if face["verdict"] == "UNPRICED":
         L.append("")
         return L
     L += ["", "| 代码 | 价 | 账上 | 票面 | 差额 | 动作 | 金额 |", "|---|---|---|---|---|---|---|"]
@@ -604,6 +608,12 @@ def selftest():
         and _fb["turnover_cny"] > 0.0)
     leg("L29 the zero-trade sentence says which book the account is already on",
         "换票之后的账" in sentence(_sf))
+    # r1521b: "nothing to trade" is a claim about specific names x lots; the rows must be
+    # printed or the reader has no way to check the strongest sentence on the sheet.
+    _md30 = "\n".join(md_lines(_sf))
+    leg("L30 a zero-action sheet still prints a row per name (the claim is checkable)",
+        "| 159263 |" not in _md30 and all(
+            "| %s |" % r["symbol"] in _md30 for r in _sf["rows"]) and len(_sf["rows"]) > 0)
 
     bad = [n for n, v in ok if not v]
     for n, v in ok:
