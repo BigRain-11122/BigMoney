@@ -63,6 +63,7 @@ from scripts import etf_book_swap_effect as SWE               # noqa: E402  (r15
 from scripts import etf_book_swap_units as SWU                # noqa: E402  (r1525: the discount is a share count, not money)
 from scripts import etf_book_swap_track as SWK                # noqa: E402  (r1526: what CARRYING the sibling costs per year)
 from scripts import etf_book_swap_freshness as SFI            # noqa: E402  (r1532: which bar each of the ten faces is on)
+from scripts import etf_book_next_decision as NDC             # noqa: E402  (r1536: the single decision clock)
 from config import PATHS                           # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -2148,6 +2149,10 @@ def card(ticket, mk, sched, asof, beta, extra):
         # ledger's own caliber (lots of 100 shares + the residue a lot cannot hold), with the
         # re-mark deferred to the next bar and the realised booking refused.
         L += SWU.md_lines(extra.get("swap_units"))
+        # r1536: the swap section above printed its own answer to "when is the next decision
+        # bar", counted from whatever bar the sheet sat on. This is the clock -- and it reads
+        # every other answer on the sheet, so a disagreement is printed, not averaged.
+        L += NDC.md_lines(extra.get("next_decision"))
         # r1526: every section above prices ONE exchange. None of them prices the holding that
         # follows it, and three faces say so in the same sentence ("tracking difference is not
         # priced here"). This one prices the carry: drift per year with an honest error band,
@@ -2766,6 +2771,12 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     # is the same figure the sheet printed one section above.
     _swe = SWE.compute({"as_of": asof, "swap_stack": _ss, "swap_convergence": _swc})
     _cal = CA.load_calendar()
+    # r1536: computed once here so the clock compares the very face the sheet prints, not a
+    # second derivation of it (and not last chain run's copy of it either).
+    _swu = SWU.compute({"as_of": asof, "swap_stack": _ss,
+                        "swap_effect": _swe, "positions": _pos,
+                        "calendar": _cal,
+                        "anchor_bar": ((_read_card() or {}).get("decided_at"))})
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
                "permission": _perm,
                # r1515: the ticket an operator's tools read carries the per-name cut too,
@@ -2847,9 +2858,12 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                                            "swap_convergence": _swc}),
                # r1525: the same discount in the ledger's own caliber. It reads the r1524 face
                # rather than the gap, so the size cannot drift away from the money it came from.
-               "swap_units": SWU.compute({"as_of": asof, "swap_stack": _ss,
-                                          "swap_effect": _swe, "positions": _pos,
-                                          "calendar": _cal}),
+               "swap_units": _swu,
+               # r1536: one question the sheet answered three ways -- when is the next decision
+               # bar (2026-11-11 twice, 2026-12-08 once, 19 trading days apart and the last one
+               # not on the grid at all). The clock reads the anchor the sheet publishes.
+               "next_decision": NDC.assess(days=_cal,
+                                           faces=dict(NDC.load_faces(), swap_units=_swu)),
                # r1526: the carry. Everything above prices one exchange; this prices HOLDING the
                # sibling, and says out loud when the anchor it inherits is older than this sheet.
                "swap_track": SWK.compute({"as_of": asof, "sibling_gap": _gap,
@@ -2937,6 +2951,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "swap_effect": payload["swap_effect"],
                       # r1525: and the same discount in shares, in the ledger's own caliber.
                       "swap_units": payload["swap_units"],
+                      # r1536: and the one clock, next to the section that used to keep its own.
+                      "next_decision": payload["next_decision"],
                       # r1526: the carry of holding the sibling -- drift, its error band, and
                       # the fund concentration the merge created.
                       "swap_track": payload["swap_track"],
@@ -5073,6 +5089,37 @@ def selftest():
     chk("leg51v swap freshness: a face on an older bar is named, never printed as same-day",
         "sibling_entry" in _sfi_bad and "2026-11-06" in _sfi_bad
         and "落后 2 个交易日" in _sfi_bad and "都停在" not in _sfi_bad, _sfi_bad[-200:])
+
+    # 51w-x. r1536: the sheet answered "when is the next decision bar" twice, 19 trading days
+    # apart, and the swap section's answer was not on the grid at all. The clock is now one
+    # face and the sheet prints where the others disagree with it.
+    _nd_agree = {"verdict": "AGREE",
+                 "grid": {"rebal": 20, "as_of": "2026-11-10", "anchor_bar": "2026-10-14",
+                          "phase": 0, "next_bar": "2026-11-11", "bars_away": 1,
+                          "crosscheck": {"rule": "official calendar origin mod rebal == 0",
+                                         "next_bar": "2026-11-11", "agrees": True}},
+                 "claims": [{"name": "production_sheet", "printed": "2026-11-11",
+                             "bars_from_sheet": 1, "on_grid": True, "agrees": True},
+                            {"name": "swap_section", "printed": "2026-11-11",
+                             "bars_from_sheet": 1, "on_grid": True, "agrees": True}],
+                 "wrong_claims": [], "off_grid_claims": [], "worst_gap_bars": None,
+                 "ledger_trace": {"bars": ["2026-10-26"], "n_moves": 35, "off_grid": []},
+                 "sentence": "下一根决策 bar = 2026-11-11。"}
+    _nd_md = "\n".join(NDC.md_lines(_nd_agree))
+    chk("leg66 decision clock: the sheet prints one bar and the faces it checked",
+        "**2026-11-11**" in _nd_md and "| production_sheet |" in _nd_md
+        and "| swap_section |" in _nd_md and "AGREE" in _nd_md, _nd_md[-200:])
+    _nd_bad = dict(_nd_agree, verdict="DISAGREE", wrong_claims=["swap_section"],
+                   off_grid_claims=["swap_section"], worst_gap_bars=20)
+    _nd_bad["claims"] = [_nd_agree["claims"][0],
+                         {"name": "swap_section", "printed": "2026-12-08",
+                          "bars_from_sheet": 20, "on_grid": False, "agrees": False}]
+    _nd_bad_md = "\n".join(NDC.md_lines(_nd_bad))
+    chk("leg67 decision clock: a face printing an off-grid date is named, not averaged away",
+        "2026-12-08" in _nd_bad_md and "DISAGREE" in _nd_bad_md
+        and "最大差 20 根" in _nd_bad_md, _nd_bad_md[-200:])
+    chk("leg68 decision clock: an absent face says it cannot answer, never 'agrees'",
+        "这一问答不了" in "\n".join(NDC.md_lines(None)), "")
 
     _st = {"verdict": "TWO_SECTIONS_OVERSELL_THE_LEG", "lot_residue_cny": 106.3,
            "actions": [{"side": "SELL", "symbol": "159501", "price": 2.069, "lots": 379,

@@ -45,6 +45,7 @@ import etf_book_swap_convergence as conv_face  # noqa: E402  (which SELL was a s
 import etf_book_sibling_gap as gap_face        # noqa: E402  (the panel locator)
 import etf_book_sibling_entry as sib_face      # noqa: E402  (the premium materiality line)
 import exchange_calendar_audit as cal_face     # noqa: E402  (one owner of the official calendar)
+import etf_book_next_decision as nd_clock      # noqa: E402  (r1536: the single decision clock)
 
 STACK_FACE = os.path.join(ROOT, "results", "etf_book_swap_stack.json")
 EFFECT_FACE = os.path.join(ROOT, "results", "etf_book_swap_effect.json")
@@ -480,11 +481,13 @@ def compute(ctx):
                                   ctx.get("calendar") or [])
     rebal, how = grid_constant()
     cal = ctx.get("calendar") or []
-    after = [d for d in cal if as_of and d > str(as_of)]
-    face["next_decision_bar"] = {
-        "bar": after[rebal - 1] if len(after) >= rebal else None,
-        "grid": rebal, "grid_source": how,
-        "why": "" if len(after) >= rebal else "日历剩余交易日不足 %d，下一决策 bar 读不出来" % rebal}
+    # r1536: `after[rebal - 1]` counted 20 sessions from whatever bar the sheet was printed on,
+    # so its date moved forward every day and -- whenever the sheet is not itself on a grid bar
+    # -- named a day that is not a decision bar at all (2026-12-08 was calendar index 8779;
+    # 8779 % 20 == 19). One clock now, anchored on the published last_decision_bar.
+    face["next_decision_bar"] = nd_clock.next_decision(
+        as_of, cal, rebal=rebal, anchor=ctx.get("anchor_bar"))
+    face["next_decision_bar"]["grid_constant_source"] = how
     face["realised_guard"] = realised_guard(positions, level_total)
     face["verdict"] = ("SIZE_RECORDED" if face["realised_guard"].get("found") is not True
                        else "DISCOUNT_REACHED_THE_LEDGER")
@@ -704,7 +707,10 @@ def _fixture(bar="2026-11-10", with_later=False):
     cal += ["2026-11-%02d" % d for d in range(11, 31)]
     cal += ["2026-12-%02d" % d for d in range(1, 32)]
     return {"as_of": bar, "swap_stack": stack, "swap_effect": effect,
-            "positions": positions, "calendar": cal, "with_later": with_later}
+            "positions": positions, "calendar": cal, "with_later": with_later,
+            # r1536: the grid anchor is a fixture here -- a self-contained suite must not
+            # depend on whichever last_decision_bar the live production face happens to hold.
+            "anchor_bar": "2026-11-09"}
 
 
 def selftest():
@@ -746,8 +752,14 @@ def selftest():
     leg("L14 the refusal names the identity it refuses to print",
         "恒等式" in (rm.get("why") or ""), rm.get("why"))
     nd = f["next_decision_bar"]
-    leg("L15 the next decision bar is read off the official calendar",
-        nd["bar"] is not None and nd["bar"] > "2026-11-10", nd)
+    # r1536: this leg used to accept any later date. In this fixture the grid bar is 2026-11-29
+    # (index 20 of the fixture calendar, phase 0) while the old rolling count named 2026-11-30 --
+    # so the leg now pins the grid answer AND the fact that the rolling one is not it.
+    leg("L15 the next decision bar is the grid bar, not as_of + rebal",
+        nd["bar"] == "2026-11-29" and nd.get("phase") == 0
+        and nd.get("anchor_bar") == "2026-11-09", nd)
+    leg("L15b the rolling answer the sheet used to print is one bar later and off-grid",
+        "2026-11-30" != nd["bar"], nd["bar"])
     leg("L16 check is clean on the clean face", check(f) == [], check(f))
     leg("L17 the sentence carries shares, lots and the residue",
         "份" in f["sentence"] and "手" in f["sentence"], f["sentence"][:90])

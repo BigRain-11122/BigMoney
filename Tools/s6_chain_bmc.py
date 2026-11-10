@@ -986,6 +986,23 @@ LEGS = [
     ("swap_freshness",
      ["python", "scripts/etf_book_swap_freshness.py", "check"],
      ["python", "scripts/etf_book_swap_freshness.py", "run"]),
+    # r1536: the sheet answered "when is the next decision bar" three ways -- 2026-11-11 twice
+    # and 2026-12-08 once, 19 trading days apart, and the odd one out was not on the grid at
+    # all (calendar index 8779, 8779 % 20 == 19). This leg re-derives every printed answer
+    # against the anchor the sheet itself publishes and the OFFICIAL calendar (0.2s) and
+    # declares a refresh, which re-derives the clock after the faces it reads have moved.
+    ("next_decision",
+     ["python", "scripts/etf_book_next_decision.py", "check"],
+     ["python", "scripts/etf_book_next_decision.py", "run"]),
+    # r1533: the CEO page declares ONE bar at the top and every section below it carries its
+    # own (2026-11-11: headline 2026-11-10, capital 11-09, entry gate 11-06, cost tape 10-30,
+    # 19 sections with no date at all). A reader takes the headline for the whole page, and
+    # the legs that compare a section against a re-derived face then fail on a difference that
+    # is a different day. This leg keeps the per-section answer current so those legs can name
+    # the bar instead of guessing (0.2s, reads the page JSON only).
+    ("live_book_section_bars",
+     ["python", "scripts/live_book_section_bars.py", "check"],
+     ["python", "scripts/live_book_section_bars.py", "run"]),
     # r1464: premium_leak priced WHAT the ticket pays above the basket but could not answer
     # "is 23% high?" (one observation of history). The answerable question is relative: the
     # same basket is sold under several tickers on the same board. `check` re-reads the board

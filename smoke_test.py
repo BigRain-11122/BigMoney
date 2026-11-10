@@ -1122,6 +1122,15 @@ def main() -> int:
              "scripts/etf_book_swap_freshness.py", ["selftest"]),
             ("product: swap section freshness (every face on the calendar's close)",
              "scripts/etf_book_swap_freshness.py", ["check"]),
+            # r1536: "when is the next decision bar" was answered three ways on one sheet --
+            # 2026-11-11 twice and 2026-12-08 once, 19 trading days apart, and the odd one out
+            # was not a grid bar at all. This pins the clock: the phase comes from the anchor
+            # the sheet publishes, a rolling as_of + rebal answer is flagged off-grid, a
+            # missing face reads UNKNOWN (never "agrees") and an off-calendar date is refused.
+            ("product: one decision clock (anchor + official calendar, disagreement named)",
+             "scripts/etf_book_next_decision.py", ["selftest"]),
+            ("product: one decision clock (every printed answer still re-derives)",
+             "scripts/etf_book_next_decision.py", ["check"]),
             # r1528: the share count lives INSIDE one line of the ledger (1,591,513 x 891 lots),
             # and nothing said so. This leg pins the subset block: two legs on one line add up
             # inside it without counting the line twice, the lot is taken on the combined count
