@@ -81,7 +81,7 @@
    "oos_delta_pp_10bp": 4.68
   },
   "same_day": false,
-  "source": "results/futures_overlay_fliprate_paths.json (evidence_cutoff 2026-11-06)",
+  "source": "results/futures_overlay_fliprate_paths.json (evidence_cutoff 2026-11-09)",
   "spec": {
    "k": null,
    "lookback": 60,
@@ -192,12 +192,28 @@
   "source": "data/futures_daily main-continuous (sina); roll gaps live in the series",
   "varieties": 10
  },
- "run_at": "2026-11-09T19:35:23",
+ "run_at": "2026-11-11T01:29:00",
  "shadow": true,
  "staleness": {
-  "calendar_last": "2026-11-09",
-  "lag_trading_days": 0,
+  "calendar_last": "2026-11-10",
+  "lag_trading_days": 1,
+  "members": {
+   "lagging": [
+    {
+     "lag_trading_days": 26,
+     "last_bar": "2026-09-24",
+     "variety": "TS"
+    }
+   ],
+   "n_lagging": 1,
+   "n_varieties": 10,
+   "worst": {
+    "lag_trading_days": 26,
+    "last_bar": "2026-09-24",
+    "variety": "TS"
+   }
+  },
   "panel_bar": "2026-11-09",
-  "stale": false
+  "stale": true
  }
 }

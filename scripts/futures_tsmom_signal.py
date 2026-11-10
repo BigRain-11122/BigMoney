@@ -196,6 +196,7 @@ def build(close, probe_face=None, calendar=None, asof=None, horizon=None, adopte
     stale = None
     calendar_last = None
     lag_days = None
+    usable = None
     if calendar is not None and len(calendar):
         # the calendar file carries the whole year, so "last trading day" means the last one
         # that could already have a bar, not the last line in the file
@@ -205,6 +206,27 @@ def build(close, probe_face=None, calendar=None, asof=None, horizon=None, adopte
             calendar_last = pd.Timestamp(max(usable))
             lag_days = int(len(usable[(usable > asof)]))
             stale = bool(lag_days > 0)
+
+    # A fine tail must not hide a dead member. Panel freshness was read off the newest
+    # column only, and a variety that stopped printing weeks ago still lands here as a
+    # missing price (read as "flat") while `staleness.stale` stays False. Name the lagging
+    # varieties so the operator can act on the member rather than the aggregate.
+    members = []
+    for v in names:
+        lv = close[v].last_valid_index()
+        mem_lag = None
+        if lv is not None and usable is not None and len(usable):
+            mem_lag = int(len(usable[(usable > lv) & (usable <= asof)]))
+        members.append({
+            "variety": v,
+            "last_bar": None if lv is None else lv.strftime("%Y-%m-%d"),
+            "lag_trading_days": mem_lag,
+        })
+    asof_str = asof.strftime("%Y-%m-%d")
+    lagging = [m for m in members
+               if m["last_bar"] is not None and m["last_bar"] < asof_str]
+    worst_member = (max(lagging, key=lambda m: (m["lag_trading_days"] or 0))
+                    if lagging else None)
 
     ev = {}
     if probe_face:
@@ -242,6 +264,12 @@ def build(close, probe_face=None, calendar=None, asof=None, horizon=None, adopte
                              else calendar_last.strftime("%Y-%m-%d"),
             "lag_trading_days": lag_days,
             "stale": stale,
+            "members": {
+                "n_varieties": len(members),
+                "n_lagging": len(lagging),
+                "lagging": lagging,
+                "worst": worst_member,
+            },
         },
         "book": {
             "gross": round(g, 4),
@@ -303,6 +331,13 @@ def render(face):
     lines.append("面板最新 bar：%s；日历最新交易日：%s；落后 %s 个交易日 → %s。"
                  % (st["panel_bar"], st["calendar_last"], st["lag_trading_days"],
                     "**陈旧**" if st["stale"] else "同步"))
+    mem = st.get("members") or {}
+    if mem.get("n_lagging"):
+        w = mem.get("worst") or {}
+        lines.append("面板成员：%d 个品种里有 %d 个已落后（最差 %s 停在 %s，落后 %s 个交易日）"
+                     "——它们的空仓是缺数据，不是看空。"
+                     % (mem.get("n_varieties"), mem.get("n_lagging"), w.get("variety"),
+                        w.get("last_bar"), w.get("lag_trading_days")))
     ev = face.get("diversification_evidence") or {}
     if ev and not ev.get("unreadable"):
         s, e, bl = ev["standalone"], ev["etf_alone"], ev["blend_50_50"]
@@ -483,6 +518,25 @@ def selftest():
         ok += 1
     else:
         print("L9 FAIL: lag not 0 on same-day calendar")
+
+    # a fine tail must not hide a dead member: one variety stops printing two bars early,
+    # the panel still looks current, and only the member block names it
+    gap = close.copy()
+    gap.iloc[-2:, gap.columns.get_loc("NZ")] = np.nan
+    f4b = build(gap, calendar=pd.Series(idx.tolist()))
+    _mem = f4b["staleness"]["members"]
+    total += 1
+    if (_mem["n_lagging"] == 1 and (_mem["worst"] or {}).get("variety") == "NZ"
+            and _mem["worst"]["lag_trading_days"] == 2):
+        ok += 1
+    else:
+        print("L9b FAIL: lagging member hidden by a fine tail -> %s" % (_mem,))
+
+    total += 1
+    if f4b["staleness"]["stale"] is False:
+        ok += 1
+    else:
+        print("L9c FAIL: a dead member is not a stale panel (aggregate stays current)")
 
     # the diversification block is quoted, never invented: absent probe -> empty evidence
     total += 1
