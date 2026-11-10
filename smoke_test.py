@@ -28213,5 +28213,66 @@ except Exception as _e643x:
     _d643 = "study could not be read"
 check(_name643, not _bad643, "; ".join(_bad643)[:240] or _d643)
 
+# E647 prices the string arm E646 published as a limit.  E646 decided its 7 cross-module key-name
+# hits are word collisions from import statements alone and said a module reaching the read module
+# through importlib.import_module or a path string would be invisible to it.  This study collects
+# every string the 6 hit modules can be asked to spell (480 literals, all-constant f-strings and
+# `"a" + "b"` folds, with 14 strings built from an expression published as unresolved), builds each
+# counted read module's spellings from measurement (path, basename, stem, dotted name, and the face
+# constants it assigns itself) and matches in exact classes before whole-token containment: 0
+# literal names a target, so all 6 hit x read pairs are no_literal_names_the_target and the arm
+# E646 could not see is empty at literal level.  The 28 dynamic loader calls in those modules are
+# counted too, 27 of them carrying a measured literal -- none naming the counted modules.  This leg
+# refuses a face whose counters do not re-add from its rows, whose histograms are not the aggregate,
+# whose pair reach is not the one its own literals force, whose reconciliation with E646 moved, and
+# any problem the study's own gate returns.
+_name647 = ("E647 whether a cross-module key-name hit reaches the counted module through a string "
+            "(r1668 bm-b)")
+_bad647 = []
+_d647 = "no reading"
+try:
+    _f647 = json.load(open(os.path.join("results", "state_tilt", "stringreach_latest.json"),
+                           encoding="utf-8"))
+    _m647 = importlib.import_module("e647_string_reach")
+    _bad647.extend(_m647.face_problems(_f647))
+    _c647 = _f647.get("counts") or {}
+    _rows647 = _f647.get("rows") or []
+    _pairs647 = _f647.get("pairs") or []
+    _live647 = _m647.live_counts(_rows647, _pairs647)
+    for _k647 in ("hits_re_derived", "distinct_hit_modules", "read_modules_involved",
+                  "string_literals_examined", "literals_naming_a_target",
+                  "dynamic_loader_calls", "pairs"):
+        if _c647.get(_k647) != _live647.get(_k647):
+            _bad647.append("counts.%s is not the row-derived value" % _k647)
+    if sum((_c647.get("pairs_by_reach") or {}).values()) != len(_pairs647):
+        _bad647.append("the reach buckets do not add up to the pairs")
+    for _p647 in _pairs647:
+        _row647 = next((r for r in _rows647 if r.get("module") == _p647.get("hit_module")), None)
+        _t647 = None if _row647 is None else next(
+            (t for t in _row647.get("targets") or []
+             if t.get("read_module") == _p647.get("read_module")), None)
+        if _t647 is None:
+            _bad647.append("a pair names a target its module row does not carry")
+            break
+        if _p647.get("reach") != _m647.reach_class_of(_t647.get("literals_naming") or []):
+            _bad647.append("a pair reach is not the one its own literals force")
+            break
+    if _c647.get("dynamic_loader_calls_with_a_measured_literal", 0) > (
+            _c647.get("dynamic_loader_calls") or 0):
+        _bad647.append("more loader calls carry a literal than exist")
+    if _c647.get("hits_published_by_e646") is not None and (
+            _c647.get("hits_published_by_e646") != _c647.get("hits_re_derived")):
+        _bad647.append("the re-derived hit count is not E646's")
+    if _f647.get("verdict") == _m647.V_NO_LITERAL and (
+            _c647.get("literals_naming_a_target") or 0):
+        _bad647.append("the no-literal verdict is published with naming literals")
+    if _f647.get("verdict") == _m647.V_IMPORT_REACH and not any(
+            p.get("reach") == "import_string_reach" for p in _pairs647):
+        _bad647.append("the import-reach verdict is published with no import-reaching pair")
+except Exception as _e647x:
+    _bad647.append(repr(_e647x)[:160])
+    _d647 = "study could not be read"
+check(_name647, not _bad647, "; ".join(_bad647)[:240] or _d647)
+
 if __name__ == "__main__":
     sys.exit(main())

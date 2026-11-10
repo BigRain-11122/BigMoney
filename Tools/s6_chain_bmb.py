@@ -1551,6 +1551,17 @@ LEGS = [
     # write sites in module body. Verify re-derives every count from the face's own file rows.
     ("non_function_site", ["python", "scripts/e643_nonfunc_site.py", "verify"]),
 
+    # E647 prices the string arm E646 published as a limit: a hit that reaches a counted read module
+    # through importlib.import_module or a path string is invisible to an import-statement leg. Every
+    # string the 6 hit modules can be asked to spell is collected (480 literals plus all-constant
+    # f-strings and "a"+"b" folds; 14 expression-built strings published as unresolved), each read
+    # module's spellings are measured (path, basename, stem, dotted name, its own FACE/LATEST
+    # assignments), and matching is exact-class first with whole-token containment apart: 0 literal
+    # names a target, so all 6 pairs are no_literal_names_the_target. The 28 dynamic loader calls in
+    # those modules are counted with 27 carrying a measured literal, none naming a counted module.
+    # Verify re-derives every count, both histograms and each pair's reach from the face's own rows.
+    ("string_reach", ["python", "scripts/e647_string_reach.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

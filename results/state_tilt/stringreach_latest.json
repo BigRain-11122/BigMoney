@@ -1,0 +1,3674 @@
+{
+ "study": "E647_string_reach",
+ "date": "2026-11-10",
+ "evidence_cutoff": "2026-11-10",
+ "source_face": "results/state_tilt/CROSSMODULEKEY.json",
+ "method": "re-derive E646's cross-module hits from the tree, then for every hit module collect every string it can be asked to spell (literals, all-constant f-strings, constant concatenations) and count the ones built from an expression; build each counted read module's spellings from measurement (path, basename, stem, dotted name, its own FACE/LATEST literals); match in exact classes first and whole-token containment apart; publish the call that consumes each naming string and one reach class per hit module x read module pair",
+ "population_source": "13099 Python files of E642's corpus, 13 counted read line(s) over 6 key(s), 7 cross-module hit(s) in 6 module(s)",
+ "counts": {
+  "python_files_scanned": 13099,
+  "counted_read_lines": 13,
+  "counted_row_keys": 6,
+  "hits_re_derived": 7,
+  "hits_published_by_e646": 7,
+  "distinct_hit_modules": 6,
+  "read_modules_involved": 2,
+  "hit_modules_with_a_naming_literal": 0,
+  "string_literals_examined": 480,
+  "string_literals_published": 480,
+  "string_literals_elided": 0,
+  "unresolved_strings": 14,
+  "literals_naming_a_target": 0,
+  "literals_by_match_class": {
+   "exact_path": 0,
+   "exact_basename": 0,
+   "exact_stem": 0,
+   "exact_dotted": 0,
+   "exact_face": 0,
+   "token_contains_stem": 0
+  },
+  "literals_by_consumer_class": {
+   "module_import": 0,
+   "file_open": 0,
+   "exec_or_eval": 0,
+   "sys_path": 0,
+   "path_join": 0,
+   "other_call": 0,
+   "no_call": 0
+  },
+  "dynamic_loader_calls": 28,
+  "dynamic_loader_calls_by_class": {
+   "file_open": 25,
+   "exec_or_eval": 1,
+   "sys_path": 1,
+   "module_import": 1
+  },
+  "dynamic_loader_calls_with_a_measured_literal": 27,
+  "face_constants_measured": 6,
+  "face_constants_unmeasured": 6,
+  "face_constants_absent": 4,
+  "pairs": 6,
+  "pairs_by_reach": {
+   "no_literal_names_the_target": 6
+  },
+  "hit_module_class_histogram": {
+   "round_scratch_script": 5,
+   "smoke_or_probe_harness": 1
+  }
+ },
+ "rows": [
+  {
+   "module": "results/_r478bmc_trio_watch.py",
+   "module_class": "round_scratch_script",
+   "hit_lines": [
+    {
+     "line": 139,
+     "column": 4,
+     "keys": [
+      "verdict"
+     ],
+     "row_keys_named": [
+      "verdict"
+     ]
+    }
+   ],
+   "literals_examined": 105,
+   "literals": [
+    {
+     "line": 20,
+     "column": 8,
+     "value": "fund_value_p1",
+     "built": "constant"
+    },
+    {
+     "line": 20,
+     "column": 25,
+     "value": "fund_quality_p1",
+     "built": "constant"
+    },
+    {
+     "line": 20,
+     "column": 44,
+     "value": "fund_divlowvol_p1",
+     "built": "constant"
+    },
+    {
+     "line": 21,
+     "column": 12,
+     "value": "fund_value_p1",
+     "built": "constant"
+    },
+    {
+     "line": 21,
+     "column": 29,
+     "value": "FUND-VALUE-P1-NULLS",
+     "built": "constant"
+    },
+    {
+     "line": 22,
+     "column": 12,
+     "value": "fund_quality_p1",
+     "built": "constant"
+    },
+    {
+     "line": 22,
+     "column": 31,
+     "value": "FUND-QUALITY-P1-NULLS",
+     "built": "constant"
+    },
+    {
+     "line": 23,
+     "column": 12,
+     "value": "fund_divlowvol_p1",
+     "built": "constant"
+    },
+    {
+     "line": 23,
+     "column": 33,
+     "value": "FUND-DIVLOWVOL-P1-NULLS",
+     "built": "constant"
+    },
+    {
+     "line": 26,
+     "column": 7,
+     "value": "generated",
+     "built": "constant"
+    },
+    {
+     "line": 26,
+     "column": 46,
+     "value": "seconds",
+     "built": "constant"
+    },
+    {
+     "line": 26,
+     "column": 58,
+     "value": "machine",
+     "built": "constant"
+    },
+    {
+     "line": 26,
+     "column": 69,
+     "value": "bm-c",
+     "built": "constant"
+    },
+    {
+     "line": 26,
+     "column": 77,
+     "value": "probe",
+     "built": "constant"
+    },
+    {
+     "line": 26,
+     "column": 86,
+     "value": "r478",
+     "built": "constant"
+    },
+    {
+     "line": 29,
+     "column": 10,
+     "value": "results\\runnable_pool.json",
+     "built": "constant"
+    },
+    {
+     "line": 29,
+     "column": 50,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 32,
+     "column": 18,
+     "value": "entries",
+     "built": "constant"
+    },
+    {
+     "line": 34,
+     "column": 17,
+     "value": "id",
+     "built": "constant"
+    },
+    {
+     "line": 36,
+     "column": 4,
+     "value": "pool_trio",
+     "built": "constant"
+    },
+    {
+     "line": 39,
+     "column": 8,
+     "value": "pool_trio",
+     "built": "constant"
+    },
+    {
+     "line": 40,
+     "column": 8,
+     "value": "entry_status",
+     "built": "constant"
+    },
+    {
+     "line": 40,
+     "column": 30,
+     "value": "status",
+     "built": "constant"
+    },
+    {
+     "line": 41,
+     "column": 8,
+     "value": "shards",
+     "built": "constant"
+    },
+    {
+     "line": 41,
+     "column": 20,
+     "value": "key",
+     "built": "constant"
+    },
+    {
+     "line": 41,
+     "column": 33,
+     "value": "key",
+     "built": "constant"
+    },
+    {
+     "line": 41,
+     "column": 41,
+     "value": "status",
+     "built": "constant"
+    },
+    {
+     "line": 41,
+     "column": 57,
+     "value": "status",
+     "built": "constant"
+    },
+    {
+     "line": 42,
+     "column": 20,
+     "value": "owner",
+     "built": "constant"
+    },
+    {
+     "line": 42,
+     "column": 35,
+     "value": "owner",
+     "built": "constant"
+    },
+    {
+     "line": 42,
+     "column": 45,
+     "value": "owner_since",
+     "built": "constant"
+    },
+    {
+     "line": 42,
+     "column": 66,
+     "value": "owner_since",
+     "built": "constant"
+    },
+    {
+     "line": 43,
+     "column": 34,
+     "value": "shards",
+     "built": "constant"
+    },
+    {
+     "line": 48,
+     "column": 24,
+     "value": "git",
+     "built": "constant"
+    },
+    {
+     "line": 48,
+     "column": 31,
+     "value": "log",
+     "built": "constant"
+    },
+    {
+     "line": 48,
+     "column": 38,
+     "value": "-1",
+     "built": "constant"
+    },
+    {
+     "line": 48,
+     "column": 44,
+     "value": "--format=%ct",
+     "built": "constant"
+    },
+    {
+     "line": 48,
+     "column": 60,
+     "value": "--",
+     "built": "constant"
+    },
+    {
+     "line": 55,
+     "column": 24,
+     "value": "git",
+     "built": "constant"
+    },
+    {
+     "line": 55,
+     "column": 31,
+     "value": "show",
+     "built": "constant"
+    },
+    {
+     "line": 55,
+     "column": 45,
+     "value": ":results/",
+     "built": "constant"
+    },
+    {
+     "line": 55,
+     "column": 65,
+     "value": "/nulls.jsonl",
+     "built": "constant"
+    },
+    {
+     "line": 63,
+     "column": 24,
+     "value": "results",
+     "built": "constant"
+    },
+    {
+     "line": 63,
+     "column": 40,
+     "value": "nulls.jsonl",
+     "built": "constant"
+    },
+    {
+     "line": 66,
+     "column": 24,
+     "value": "rb",
+     "built": "constant"
+    },
+    {
+     "line": 69,
+     "column": 17,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 69,
+     "column": 25,
+     "value": "total",
+     "built": "constant"
+    },
+    {
+     "line": 69,
+     "column": 41,
+     "value": "pct",
+     "built": "constant"
+    },
+    {
+     "line": 70,
+     "column": 17,
+     "value": "last_commit_age_sec",
+     "built": "constant"
+    },
+    {
+     "line": 70,
+     "column": 56,
+     "value": "results/",
+     "built": "constant"
+    },
+    {
+     "line": 70,
+     "column": 75,
+     "value": "/nulls.jsonl",
+     "built": "constant"
+    },
+    {
+     "line": 74,
+     "column": 25,
+     "value": "git",
+     "built": "constant"
+    },
+    {
+     "line": 74,
+     "column": 32,
+     "value": "log",
+     "built": "constant"
+    },
+    {
+     "line": 74,
+     "column": 39,
+     "value": "-12",
+     "built": "constant"
+    },
+    {
+     "line": 74,
+     "column": 46,
+     "value": "--format=%H %ct",
+     "built": "constant"
+    },
+    {
+     "line": 74,
+     "column": 65,
+     "value": "--",
+     "built": "constant"
+    },
+    {
+     "line": 75,
+     "column": 25,
+     "value": "results/",
+     "built": "constant"
+    },
+    {
+     "line": 75,
+     "column": 44,
+     "value": "/nulls.jsonl",
+     "built": "constant"
+    },
+    {
+     "line": 89,
+     "column": 47,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 91,
+     "column": 34,
+     "value": "COMPLETE",
+     "built": "constant"
+    },
+    {
+     "line": 94,
+     "column": 50,
+     "value": "%Y-%m-%dT%H",
+     "built": "constant"
+    },
+    {
+     "line": 96,
+     "column": 22,
+     "value": "rate_err",
+     "built": "constant"
+    },
+    {
+     "line": 97,
+     "column": 14,
+     "value": "rate_per_h",
+     "built": "constant"
+    },
+    {
+     "line": 98,
+     "column": 14,
+     "value": "eta_wide",
+     "built": "constant"
+    },
+    {
+     "line": 99,
+     "column": 4,
+     "value": "burn_progress",
+     "built": "constant"
+    },
+    {
+     "line": 102,
+     "column": 4,
+     "value": "baseline_face",
+     "built": "constant"
+    },
+    {
+     "line": 102,
+     "column": 23,
+     "value": "results/_r675bmb_trio_watch.json",
+     "built": "constant"
+    },
+    {
+     "line": 103,
+     "column": 4,
+     "value": "delta_vs_r675",
+     "built": "constant"
+    },
+    {
+     "line": 106,
+     "column": 14,
+     "value": "results\\_r675bmb_trio_watch.json",
+     "built": "constant"
+    },
+    {
+     "line": 106,
+     "column": 60,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 109,
+     "column": 8,
+     "value": "delta_vs_r675",
+     "built": "constant"
+    },
+    {
+     "line": 109,
+     "column": 28,
+     "value": "err",
+     "built": "constant"
+    },
+    {
+     "line": 112,
+     "column": 22,
+     "value": "burn_progress",
+     "built": "constant"
+    },
+    {
+     "line": 112,
+     "column": 60,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 113,
+     "column": 12,
+     "value": "delta_vs_r675",
+     "built": "constant"
+    },
+    {
+     "line": 113,
+     "column": 47,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 116,
+     "column": 4,
+     "value": "keepalive_freshness",
+     "built": "constant"
+    },
+    {
+     "line": 117,
+     "column": 4,
+     "value": "verdict",
+     "built": "constant"
+    },
+    {
+     "line": 120,
+     "column": 40,
+     "value": "shards",
+     "built": "constant"
+    },
+    {
+     "line": 121,
+     "column": 25,
+     "value": "owner_since",
+     "built": "constant"
+    },
+    {
+     "line": 121,
+     "column": 40,
+     "value": "",
+     "built": "constant"
+    },
+    {
+     "line": 125,
+     "column": 57,
+     "value": "%Y-%m-%d %H:%M:%S",
+     "built": "constant"
+    },
+    {
+     "line": 129,
+     "column": 25,
+     "value": "owner",
+     "built": "constant"
+    },
+    {
+     "line": 129,
+     "column": 40,
+     "value": "owner",
+     "built": "constant"
+    },
+    {
+     "line": 129,
+     "column": 50,
+     "value": "owner_since",
+     "built": "constant"
+    },
+    {
+     "line": 130,
+     "column": 26,
+     "value": "age_min",
+     "built": "constant"
+    },
+    {
+     "line": 131,
+     "column": 26,
+     "value": "healthy",
+     "built": "constant"
+    },
+    {
+     "line": 132,
+     "column": 8,
+     "value": "keepalive_freshness",
+     "built": "constant"
+    },
+    {
+     "line": 133,
+     "column": 17,
+     "value": "delta_vs_r675",
+     "built": "constant"
+    },
+    {
+     "line": 134,
+     "column": 39,
+     "value": "healthy",
+     "built": "constant"
+    },
+    {
+     "line": 135,
+     "column": 25,
+     "value": "last_commit_age_sec",
+     "built": "constant"
+    },
+    {
+     "line": 136,
+     "column": 29,
+     "value": "last_commit_age_sec",
+     "built": "constant"
+    },
+    {
+     "line": 138,
+     "column": 25,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 139,
+     "column": 8,
+     "value": "verdict",
+     "built": "constant"
+    },
+    {
+     "line": 140,
+     "column": 8,
+     "value": "growth_delta_vs_r675",
+     "built": "constant"
+    },
+    {
+     "line": 140,
+     "column": 40,
+     "value": "keepalive_fresh",
+     "built": "constant"
+    },
+    {
+     "line": 141,
+     "column": 8,
+     "value": "git_sync_fresh_1h",
+     "built": "constant"
+    },
+    {
+     "line": 141,
+     "column": 38,
+     "value": "growth_nonneg",
+     "built": "constant"
+    },
+    {
+     "line": 141,
+     "column": 61,
+     "value": "complete",
+     "built": "constant"
+    },
+    {
+     "line": 142,
+     "column": 8,
+     "value": "healthy_watch",
+     "built": "constant"
+    },
+    {
+     "line": 145,
+     "column": 10,
+     "value": "results\\_r478bmc_trio_watch.json",
+     "built": "constant"
+    },
+    {
+     "line": 145,
+     "column": 47,
+     "value": "w",
+     "built": "constant"
+    },
+    {
+     "line": 145,
+     "column": 61,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 147,
+     "column": 6,
+     "value": "OK ",
+     "built": "constant"
+    },
+    {
+     "line": 147,
+     "column": 14,
+     "value": " ",
+     "built": "constant"
+    }
+   ],
+   "literals_elided": 0,
+   "unresolved_strings": [
+    {
+     "line": 147,
+     "column": 23,
+     "why": "percent_formatting"
+    }
+   ],
+   "dynamic_loader_calls": [
+    {
+     "line": 29,
+     "column": 5,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "results\\runnable_pool.json"
+    },
+    {
+     "line": 66,
+     "column": 13,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "rb"
+    },
+    {
+     "line": 106,
+     "column": 9,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "results\\_r675bmb_trio_watch.json"
+    },
+    {
+     "line": 145,
+     "column": 5,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "results\\_r478bmc_trio_watch.json"
+    }
+   ],
+   "targets": [
+    {
+     "read_module": "scripts/e382_key_projection_delta.py",
+     "spellings": {
+      "path": "scripts/e382_key_projection_delta.py",
+      "basename": "e382_key_projection_delta.py",
+      "stem": "e382_key_projection_delta",
+      "dotted": "scripts.e382_key_projection_delta",
+      "faces": [
+       "keydelta_latest.json"
+      ],
+      "face_constants": [
+       {
+        "constant": "LATEST",
+        "value": "keydelta_latest.json"
+       }
+      ],
+      "face_constants_unmeasured": [
+       {
+        "constant": "FACE",
+        "kind": "assigned_but_not_a_literal"
+       }
+      ],
+      "face_constants_absent": []
+     },
+     "literals_naming": [],
+     "literals_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    }
+   ],
+   "reach_classes": [
+    "no_literal_names_the_target"
+   ]
+  },
+  {
+   "module": "results/_r479bmc_trio_watch.py",
+   "module_class": "round_scratch_script",
+   "hit_lines": [
+    {
+     "line": 139,
+     "column": 4,
+     "keys": [
+      "verdict"
+     ],
+     "row_keys_named": [
+      "verdict"
+     ]
+    }
+   ],
+   "literals_examined": 105,
+   "literals": [
+    {
+     "line": 20,
+     "column": 8,
+     "value": "fund_value_p1",
+     "built": "constant"
+    },
+    {
+     "line": 20,
+     "column": 25,
+     "value": "fund_quality_p1",
+     "built": "constant"
+    },
+    {
+     "line": 20,
+     "column": 44,
+     "value": "fund_divlowvol_p1",
+     "built": "constant"
+    },
+    {
+     "line": 21,
+     "column": 12,
+     "value": "fund_value_p1",
+     "built": "constant"
+    },
+    {
+     "line": 21,
+     "column": 29,
+     "value": "FUND-VALUE-P1-NULLS",
+     "built": "constant"
+    },
+    {
+     "line": 22,
+     "column": 12,
+     "value": "fund_quality_p1",
+     "built": "constant"
+    },
+    {
+     "line": 22,
+     "column": 31,
+     "value": "FUND-QUALITY-P1-NULLS",
+     "built": "constant"
+    },
+    {
+     "line": 23,
+     "column": 12,
+     "value": "fund_divlowvol_p1",
+     "built": "constant"
+    },
+    {
+     "line": 23,
+     "column": 33,
+     "value": "FUND-DIVLOWVOL-P1-NULLS",
+     "built": "constant"
+    },
+    {
+     "line": 26,
+     "column": 7,
+     "value": "generated",
+     "built": "constant"
+    },
+    {
+     "line": 26,
+     "column": 46,
+     "value": "seconds",
+     "built": "constant"
+    },
+    {
+     "line": 26,
+     "column": 58,
+     "value": "machine",
+     "built": "constant"
+    },
+    {
+     "line": 26,
+     "column": 69,
+     "value": "bm-c",
+     "built": "constant"
+    },
+    {
+     "line": 26,
+     "column": 77,
+     "value": "probe",
+     "built": "constant"
+    },
+    {
+     "line": 26,
+     "column": 86,
+     "value": "r479",
+     "built": "constant"
+    },
+    {
+     "line": 29,
+     "column": 10,
+     "value": "results\\runnable_pool.json",
+     "built": "constant"
+    },
+    {
+     "line": 29,
+     "column": 50,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 32,
+     "column": 18,
+     "value": "entries",
+     "built": "constant"
+    },
+    {
+     "line": 34,
+     "column": 17,
+     "value": "id",
+     "built": "constant"
+    },
+    {
+     "line": 36,
+     "column": 4,
+     "value": "pool_trio",
+     "built": "constant"
+    },
+    {
+     "line": 39,
+     "column": 8,
+     "value": "pool_trio",
+     "built": "constant"
+    },
+    {
+     "line": 40,
+     "column": 8,
+     "value": "entry_status",
+     "built": "constant"
+    },
+    {
+     "line": 40,
+     "column": 30,
+     "value": "status",
+     "built": "constant"
+    },
+    {
+     "line": 41,
+     "column": 8,
+     "value": "shards",
+     "built": "constant"
+    },
+    {
+     "line": 41,
+     "column": 20,
+     "value": "key",
+     "built": "constant"
+    },
+    {
+     "line": 41,
+     "column": 33,
+     "value": "key",
+     "built": "constant"
+    },
+    {
+     "line": 41,
+     "column": 41,
+     "value": "status",
+     "built": "constant"
+    },
+    {
+     "line": 41,
+     "column": 57,
+     "value": "status",
+     "built": "constant"
+    },
+    {
+     "line": 42,
+     "column": 20,
+     "value": "owner",
+     "built": "constant"
+    },
+    {
+     "line": 42,
+     "column": 35,
+     "value": "owner",
+     "built": "constant"
+    },
+    {
+     "line": 42,
+     "column": 45,
+     "value": "owner_since",
+     "built": "constant"
+    },
+    {
+     "line": 42,
+     "column": 66,
+     "value": "owner_since",
+     "built": "constant"
+    },
+    {
+     "line": 43,
+     "column": 34,
+     "value": "shards",
+     "built": "constant"
+    },
+    {
+     "line": 48,
+     "column": 24,
+     "value": "git",
+     "built": "constant"
+    },
+    {
+     "line": 48,
+     "column": 31,
+     "value": "log",
+     "built": "constant"
+    },
+    {
+     "line": 48,
+     "column": 38,
+     "value": "-1",
+     "built": "constant"
+    },
+    {
+     "line": 48,
+     "column": 44,
+     "value": "--format=%ct",
+     "built": "constant"
+    },
+    {
+     "line": 48,
+     "column": 60,
+     "value": "--",
+     "built": "constant"
+    },
+    {
+     "line": 55,
+     "column": 24,
+     "value": "git",
+     "built": "constant"
+    },
+    {
+     "line": 55,
+     "column": 31,
+     "value": "show",
+     "built": "constant"
+    },
+    {
+     "line": 55,
+     "column": 45,
+     "value": ":results/",
+     "built": "constant"
+    },
+    {
+     "line": 55,
+     "column": 65,
+     "value": "/nulls.jsonl",
+     "built": "constant"
+    },
+    {
+     "line": 63,
+     "column": 24,
+     "value": "results",
+     "built": "constant"
+    },
+    {
+     "line": 63,
+     "column": 40,
+     "value": "nulls.jsonl",
+     "built": "constant"
+    },
+    {
+     "line": 66,
+     "column": 24,
+     "value": "rb",
+     "built": "constant"
+    },
+    {
+     "line": 69,
+     "column": 17,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 69,
+     "column": 25,
+     "value": "total",
+     "built": "constant"
+    },
+    {
+     "line": 69,
+     "column": 41,
+     "value": "pct",
+     "built": "constant"
+    },
+    {
+     "line": 70,
+     "column": 17,
+     "value": "last_commit_age_sec",
+     "built": "constant"
+    },
+    {
+     "line": 70,
+     "column": 56,
+     "value": "results/",
+     "built": "constant"
+    },
+    {
+     "line": 70,
+     "column": 75,
+     "value": "/nulls.jsonl",
+     "built": "constant"
+    },
+    {
+     "line": 74,
+     "column": 25,
+     "value": "git",
+     "built": "constant"
+    },
+    {
+     "line": 74,
+     "column": 32,
+     "value": "log",
+     "built": "constant"
+    },
+    {
+     "line": 74,
+     "column": 39,
+     "value": "-12",
+     "built": "constant"
+    },
+    {
+     "line": 74,
+     "column": 46,
+     "value": "--format=%H %ct",
+     "built": "constant"
+    },
+    {
+     "line": 74,
+     "column": 65,
+     "value": "--",
+     "built": "constant"
+    },
+    {
+     "line": 75,
+     "column": 25,
+     "value": "results/",
+     "built": "constant"
+    },
+    {
+     "line": 75,
+     "column": 44,
+     "value": "/nulls.jsonl",
+     "built": "constant"
+    },
+    {
+     "line": 89,
+     "column": 47,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 91,
+     "column": 34,
+     "value": "COMPLETE",
+     "built": "constant"
+    },
+    {
+     "line": 94,
+     "column": 50,
+     "value": "%Y-%m-%dT%H",
+     "built": "constant"
+    },
+    {
+     "line": 96,
+     "column": 22,
+     "value": "rate_err",
+     "built": "constant"
+    },
+    {
+     "line": 97,
+     "column": 14,
+     "value": "rate_per_h",
+     "built": "constant"
+    },
+    {
+     "line": 98,
+     "column": 14,
+     "value": "eta_wide",
+     "built": "constant"
+    },
+    {
+     "line": 99,
+     "column": 4,
+     "value": "burn_progress",
+     "built": "constant"
+    },
+    {
+     "line": 102,
+     "column": 4,
+     "value": "baseline_face",
+     "built": "constant"
+    },
+    {
+     "line": 102,
+     "column": 23,
+     "value": "results/_r478bmc_trio_watch.json",
+     "built": "constant"
+    },
+    {
+     "line": 103,
+     "column": 4,
+     "value": "delta_vs_r478",
+     "built": "constant"
+    },
+    {
+     "line": 106,
+     "column": 14,
+     "value": "results\\_r478bmc_trio_watch.json",
+     "built": "constant"
+    },
+    {
+     "line": 106,
+     "column": 60,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 109,
+     "column": 8,
+     "value": "delta_vs_r478",
+     "built": "constant"
+    },
+    {
+     "line": 109,
+     "column": 28,
+     "value": "err",
+     "built": "constant"
+    },
+    {
+     "line": 112,
+     "column": 22,
+     "value": "burn_progress",
+     "built": "constant"
+    },
+    {
+     "line": 112,
+     "column": 60,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 113,
+     "column": 12,
+     "value": "delta_vs_r478",
+     "built": "constant"
+    },
+    {
+     "line": 113,
+     "column": 47,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 116,
+     "column": 4,
+     "value": "keepalive_freshness",
+     "built": "constant"
+    },
+    {
+     "line": 117,
+     "column": 4,
+     "value": "verdict",
+     "built": "constant"
+    },
+    {
+     "line": 120,
+     "column": 40,
+     "value": "shards",
+     "built": "constant"
+    },
+    {
+     "line": 121,
+     "column": 25,
+     "value": "owner_since",
+     "built": "constant"
+    },
+    {
+     "line": 121,
+     "column": 40,
+     "value": "",
+     "built": "constant"
+    },
+    {
+     "line": 125,
+     "column": 57,
+     "value": "%Y-%m-%d %H:%M:%S",
+     "built": "constant"
+    },
+    {
+     "line": 129,
+     "column": 25,
+     "value": "owner",
+     "built": "constant"
+    },
+    {
+     "line": 129,
+     "column": 40,
+     "value": "owner",
+     "built": "constant"
+    },
+    {
+     "line": 129,
+     "column": 50,
+     "value": "owner_since",
+     "built": "constant"
+    },
+    {
+     "line": 130,
+     "column": 25,
+     "value": "age_min",
+     "built": "constant"
+    },
+    {
+     "line": 131,
+     "column": 25,
+     "value": "healthy",
+     "built": "constant"
+    },
+    {
+     "line": 132,
+     "column": 8,
+     "value": "keepalive_freshness",
+     "built": "constant"
+    },
+    {
+     "line": 133,
+     "column": 17,
+     "value": "delta_vs_r478",
+     "built": "constant"
+    },
+    {
+     "line": 134,
+     "column": 39,
+     "value": "healthy",
+     "built": "constant"
+    },
+    {
+     "line": 135,
+     "column": 25,
+     "value": "last_commit_age_sec",
+     "built": "constant"
+    },
+    {
+     "line": 136,
+     "column": 29,
+     "value": "last_commit_age_sec",
+     "built": "constant"
+    },
+    {
+     "line": 138,
+     "column": 25,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 139,
+     "column": 8,
+     "value": "verdict",
+     "built": "constant"
+    },
+    {
+     "line": 140,
+     "column": 8,
+     "value": "growth_delta_vs_r478",
+     "built": "constant"
+    },
+    {
+     "line": 140,
+     "column": 40,
+     "value": "keepalive_fresh",
+     "built": "constant"
+    },
+    {
+     "line": 141,
+     "column": 8,
+     "value": "git_sync_fresh_1h",
+     "built": "constant"
+    },
+    {
+     "line": 141,
+     "column": 38,
+     "value": "growth_nonneg",
+     "built": "constant"
+    },
+    {
+     "line": 141,
+     "column": 61,
+     "value": "complete",
+     "built": "constant"
+    },
+    {
+     "line": 142,
+     "column": 8,
+     "value": "healthy_watch",
+     "built": "constant"
+    },
+    {
+     "line": 145,
+     "column": 10,
+     "value": "results\\_r479bmc_trio_watch.json",
+     "built": "constant"
+    },
+    {
+     "line": 145,
+     "column": 47,
+     "value": "w",
+     "built": "constant"
+    },
+    {
+     "line": 145,
+     "column": 61,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 147,
+     "column": 6,
+     "value": "OK ",
+     "built": "constant"
+    },
+    {
+     "line": 147,
+     "column": 14,
+     "value": " ",
+     "built": "constant"
+    }
+   ],
+   "literals_elided": 0,
+   "unresolved_strings": [
+    {
+     "line": 147,
+     "column": 23,
+     "why": "percent_formatting"
+    }
+   ],
+   "dynamic_loader_calls": [
+    {
+     "line": 29,
+     "column": 5,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "results\\runnable_pool.json"
+    },
+    {
+     "line": 66,
+     "column": 13,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "rb"
+    },
+    {
+     "line": 106,
+     "column": 9,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "results\\_r478bmc_trio_watch.json"
+    },
+    {
+     "line": 145,
+     "column": 5,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "results\\_r479bmc_trio_watch.json"
+    }
+   ],
+   "targets": [
+    {
+     "read_module": "scripts/e382_key_projection_delta.py",
+     "spellings": {
+      "path": "scripts/e382_key_projection_delta.py",
+      "basename": "e382_key_projection_delta.py",
+      "stem": "e382_key_projection_delta",
+      "dotted": "scripts.e382_key_projection_delta",
+      "faces": [
+       "keydelta_latest.json"
+      ],
+      "face_constants": [
+       {
+        "constant": "LATEST",
+        "value": "keydelta_latest.json"
+       }
+      ],
+      "face_constants_unmeasured": [
+       {
+        "constant": "FACE",
+        "kind": "assigned_but_not_a_literal"
+       }
+      ],
+      "face_constants_absent": []
+     },
+     "literals_naming": [],
+     "literals_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    }
+   ],
+   "reach_classes": [
+    "no_literal_names_the_target"
+   ]
+  },
+  {
+   "module": "results/_r675bmb_trio_watch.py",
+   "module_class": "round_scratch_script",
+   "hit_lines": [
+    {
+     "line": 133,
+     "column": 4,
+     "keys": [
+      "verdict"
+     ],
+     "row_keys_named": [
+      "verdict"
+     ]
+    }
+   ],
+   "literals_examined": 110,
+   "literals": [
+    {
+     "line": 13,
+     "column": 8,
+     "value": "fund_value_p1",
+     "built": "constant"
+    },
+    {
+     "line": 13,
+     "column": 25,
+     "value": "fund_quality_p1",
+     "built": "constant"
+    },
+    {
+     "line": 13,
+     "column": 44,
+     "value": "fund_divlowvol_p1",
+     "built": "constant"
+    },
+    {
+     "line": 14,
+     "column": 12,
+     "value": "fund_value_p1",
+     "built": "constant"
+    },
+    {
+     "line": 14,
+     "column": 29,
+     "value": "FUND-VALUE-P1-NULLS",
+     "built": "constant"
+    },
+    {
+     "line": 15,
+     "column": 12,
+     "value": "fund_quality_p1",
+     "built": "constant"
+    },
+    {
+     "line": 15,
+     "column": 31,
+     "value": "FUND-QUALITY-P1-NULLS",
+     "built": "constant"
+    },
+    {
+     "line": 16,
+     "column": 12,
+     "value": "fund_divlowvol_p1",
+     "built": "constant"
+    },
+    {
+     "line": 16,
+     "column": 33,
+     "value": "FUND-DIVLOWVOL-P1-NULLS",
+     "built": "constant"
+    },
+    {
+     "line": 19,
+     "column": 22,
+     "value": "results\\runnable_pool.json",
+     "built": "constant"
+    },
+    {
+     "line": 19,
+     "column": 62,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 20,
+     "column": 19,
+     "value": "entries",
+     "built": "constant"
+    },
+    {
+     "line": 21,
+     "column": 4,
+     "value": "pool_trio",
+     "built": "constant"
+    },
+    {
+     "line": 24,
+     "column": 16,
+     "value": "id",
+     "built": "constant"
+    },
+    {
+     "line": 24,
+     "column": 22,
+     "value": "",
+     "built": "constant"
+    },
+    {
+     "line": 28,
+     "column": 16,
+     "value": "pool_trio",
+     "built": "constant"
+    },
+    {
+     "line": 29,
+     "column": 16,
+     "value": "entry_status",
+     "built": "constant"
+    },
+    {
+     "line": 29,
+     "column": 38,
+     "value": "status",
+     "built": "constant"
+    },
+    {
+     "line": 30,
+     "column": 16,
+     "value": "shards",
+     "built": "constant"
+    },
+    {
+     "line": 30,
+     "column": 28,
+     "value": "key",
+     "built": "constant"
+    },
+    {
+     "line": 30,
+     "column": 41,
+     "value": "key",
+     "built": "constant"
+    },
+    {
+     "line": 30,
+     "column": 49,
+     "value": "status",
+     "built": "constant"
+    },
+    {
+     "line": 30,
+     "column": 65,
+     "value": "status",
+     "built": "constant"
+    },
+    {
+     "line": 31,
+     "column": 28,
+     "value": "owner",
+     "built": "constant"
+    },
+    {
+     "line": 31,
+     "column": 43,
+     "value": "owner",
+     "built": "constant"
+    },
+    {
+     "line": 31,
+     "column": 53,
+     "value": "owner_since",
+     "built": "constant"
+    },
+    {
+     "line": 31,
+     "column": 74,
+     "value": "owner_since",
+     "built": "constant"
+    },
+    {
+     "line": 32,
+     "column": 42,
+     "value": "shards",
+     "built": "constant"
+    },
+    {
+     "line": 40,
+     "column": 24,
+     "value": "results",
+     "built": "constant"
+    },
+    {
+     "line": 40,
+     "column": 40,
+     "value": "nulls.jsonl",
+     "built": "constant"
+    },
+    {
+     "line": 43,
+     "column": 24,
+     "value": "rb",
+     "built": "constant"
+    },
+    {
+     "line": 47,
+     "column": 24,
+     "value": "results",
+     "built": "constant"
+    },
+    {
+     "line": 49,
+     "column": 69,
+     "value": ".json",
+     "built": "constant"
+    },
+    {
+     "line": 49,
+     "column": 82,
+     "value": ".bm-",
+     "built": "constant"
+    },
+    {
+     "line": 50,
+     "column": 17,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 50,
+     "column": 25,
+     "value": "total",
+     "built": "constant"
+    },
+    {
+     "line": 50,
+     "column": 40,
+     "value": "pct",
+     "built": "constant"
+    },
+    {
+     "line": 51,
+     "column": 17,
+     "value": "mtime_age_sec",
+     "built": "constant"
+    },
+    {
+     "line": 52,
+     "column": 17,
+     "value": "mtime",
+     "built": "constant"
+    },
+    {
+     "line": 52,
+     "column": 84,
+     "value": "seconds",
+     "built": "constant"
+    },
+    {
+     "line": 53,
+     "column": 17,
+     "value": "claim_files",
+     "built": "constant"
+    },
+    {
+     "line": 57,
+     "column": 24,
+     "value": "git",
+     "built": "constant"
+    },
+    {
+     "line": 57,
+     "column": 31,
+     "value": "show",
+     "built": "constant"
+    },
+    {
+     "line": 57,
+     "column": 45,
+     "value": ":results/",
+     "built": "constant"
+    },
+    {
+     "line": 57,
+     "column": 67,
+     "value": "/nulls.jsonl",
+     "built": "constant"
+    },
+    {
+     "line": 67,
+     "column": 25,
+     "value": "git",
+     "built": "constant"
+    },
+    {
+     "line": 67,
+     "column": 32,
+     "value": "log",
+     "built": "constant"
+    },
+    {
+     "line": 67,
+     "column": 39,
+     "value": "-12",
+     "built": "constant"
+    },
+    {
+     "line": 67,
+     "column": 46,
+     "value": "--format=%H %ct",
+     "built": "constant"
+    },
+    {
+     "line": 67,
+     "column": 65,
+     "value": "--",
+     "built": "constant"
+    },
+    {
+     "line": 68,
+     "column": 25,
+     "value": "results/",
+     "built": "constant"
+    },
+    {
+     "line": 68,
+     "column": 44,
+     "value": "/nulls.jsonl",
+     "built": "constant"
+    },
+    {
+     "line": 81,
+     "column": 46,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 84,
+     "column": 50,
+     "value": "%Y-%m-%dT%H",
+     "built": "constant"
+    },
+    {
+     "line": 86,
+     "column": 34,
+     "value": "COMPLETE",
+     "built": "constant"
+    },
+    {
+     "line": 88,
+     "column": 22,
+     "value": "rate_err",
+     "built": "constant"
+    },
+    {
+     "line": 89,
+     "column": 14,
+     "value": "rate_per_h",
+     "built": "constant"
+    },
+    {
+     "line": 90,
+     "column": 14,
+     "value": "eta",
+     "built": "constant"
+    },
+    {
+     "line": 92,
+     "column": 4,
+     "value": "burn_progress",
+     "built": "constant"
+    },
+    {
+     "line": 95,
+     "column": 12,
+     "value": "results\\_r674bmb_trio_watch.json",
+     "built": "constant"
+    },
+    {
+     "line": 96,
+     "column": 4,
+     "value": "delta_vs_r674",
+     "built": "constant"
+    },
+    {
+     "line": 99,
+     "column": 50,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 101,
+     "column": 26,
+     "value": "burn_progress",
+     "built": "constant"
+    },
+    {
+     "line": 101,
+     "column": 64,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 102,
+     "column": 16,
+     "value": "delta_vs_r674",
+     "built": "constant"
+    },
+    {
+     "line": 102,
+     "column": 51,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 104,
+     "column": 12,
+     "value": "delta_vs_r674",
+     "built": "constant"
+    },
+    {
+     "line": 104,
+     "column": 32,
+     "value": "err",
+     "built": "constant"
+    },
+    {
+     "line": 107,
+     "column": 4,
+     "value": "keepalive_freshness",
+     "built": "constant"
+    },
+    {
+     "line": 110,
+     "column": 19,
+     "value": "shards",
+     "built": "constant"
+    },
+    {
+     "line": 111,
+     "column": 25,
+     "value": "owner_since",
+     "built": "constant"
+    },
+    {
+     "line": 111,
+     "column": 40,
+     "value": "",
+     "built": "constant"
+    },
+    {
+     "line": 115,
+     "column": 57,
+     "value": "%Y-%m-%d %H:%M:%S",
+     "built": "constant"
+    },
+    {
+     "line": 119,
+     "column": 12,
+     "value": "keepalive_freshness",
+     "built": "constant"
+    },
+    {
+     "line": 119,
+     "column": 43,
+     "value": "owner",
+     "built": "constant"
+    },
+    {
+     "line": 119,
+     "column": 58,
+     "value": "owner",
+     "built": "constant"
+    },
+    {
+     "line": 120,
+     "column": 43,
+     "value": "owner_since",
+     "built": "constant"
+    },
+    {
+     "line": 121,
+     "column": 43,
+     "value": "age_min",
+     "built": "constant"
+    },
+    {
+     "line": 122,
+     "column": 43,
+     "value": "healthy",
+     "built": "constant"
+    },
+    {
+     "line": 125,
+     "column": 4,
+     "value": "verdict",
+     "built": "constant"
+    },
+    {
+     "line": 128,
+     "column": 13,
+     "value": "keepalive_freshness",
+     "built": "constant"
+    },
+    {
+     "line": 129,
+     "column": 17,
+     "value": "delta_vs_r674",
+     "built": "constant"
+    },
+    {
+     "line": 130,
+     "column": 14,
+     "value": "mtime_age_sec",
+     "built": "constant"
+    },
+    {
+     "line": 130,
+     "column": 49,
+     "value": "mtime_age_sec",
+     "built": "constant"
+    },
+    {
+     "line": 131,
+     "column": 18,
+     "value": "healthy",
+     "built": "constant"
+    },
+    {
+     "line": 133,
+     "column": 8,
+     "value": "verdict",
+     "built": "constant"
+    },
+    {
+     "line": 133,
+     "column": 27,
+     "value": "mtime_fresh",
+     "built": "constant"
+    },
+    {
+     "line": 133,
+     "column": 48,
+     "value": "keepalive_fresh",
+     "built": "constant"
+    },
+    {
+     "line": 133,
+     "column": 73,
+     "value": "growth_nonneg",
+     "built": "constant"
+    },
+    {
+     "line": 134,
+     "column": 27,
+     "value": "burning",
+     "built": "constant"
+    },
+    {
+     "line": 136,
+     "column": 10,
+     "value": "results\\_r675bmb_trio_watch.json",
+     "built": "constant"
+    },
+    {
+     "line": 136,
+     "column": 47,
+     "value": "w",
+     "built": "constant"
+    },
+    {
+     "line": 136,
+     "column": 61,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 139,
+     "column": 7,
+     "value": "generated",
+     "built": "constant"
+    },
+    {
+     "line": 139,
+     "column": 46,
+     "value": "seconds",
+     "built": "constant"
+    },
+    {
+     "line": 139,
+     "column": 58,
+     "value": "machine",
+     "built": "constant"
+    },
+    {
+     "line": 139,
+     "column": 69,
+     "value": "bm-b",
+     "built": "constant"
+    },
+    {
+     "line": 139,
+     "column": 77,
+     "value": "trio",
+     "built": "constant"
+    },
+    {
+     "line": 140,
+     "column": 10,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 140,
+     "column": 25,
+     "value": "k",
+     "built": "constant"
+    },
+    {
+     "line": 140,
+     "column": 31,
+     "value": "pct",
+     "built": "constant"
+    },
+    {
+     "line": 140,
+     "column": 48,
+     "value": "pct",
+     "built": "constant"
+    },
+    {
+     "line": 141,
+     "column": 10,
+     "value": "rate_per_h",
+     "built": "constant"
+    },
+    {
+     "line": 141,
+     "column": 34,
+     "value": "rate_per_h",
+     "built": "constant"
+    },
+    {
+     "line": 141,
+     "column": 49,
+     "value": "eta",
+     "built": "constant"
+    },
+    {
+     "line": 141,
+     "column": 66,
+     "value": "eta",
+     "built": "constant"
+    },
+    {
+     "line": 142,
+     "column": 10,
+     "value": "results\\trio_burn_eta.json",
+     "built": "constant"
+    },
+    {
+     "line": 142,
+     "column": 41,
+     "value": "w",
+     "built": "constant"
+    },
+    {
+     "line": 142,
+     "column": 55,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 144,
+     "column": 6,
+     "value": "OK",
+     "built": "constant"
+    }
+   ],
+   "literals_elided": 0,
+   "unresolved_strings": [],
+   "dynamic_loader_calls": [
+    {
+     "line": 19,
+     "column": 17,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "results\\runnable_pool.json"
+    },
+    {
+     "line": 43,
+     "column": 13,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "rb"
+    },
+    {
+     "line": 99,
+     "column": 25,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "utf-8"
+    },
+    {
+     "line": 136,
+     "column": 5,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "results\\_r675bmb_trio_watch.json"
+    },
+    {
+     "line": 142,
+     "column": 5,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "results\\trio_burn_eta.json"
+    }
+   ],
+   "targets": [
+    {
+     "read_module": "scripts/e382_key_projection_delta.py",
+     "spellings": {
+      "path": "scripts/e382_key_projection_delta.py",
+      "basename": "e382_key_projection_delta.py",
+      "stem": "e382_key_projection_delta",
+      "dotted": "scripts.e382_key_projection_delta",
+      "faces": [
+       "keydelta_latest.json"
+      ],
+      "face_constants": [
+       {
+        "constant": "LATEST",
+        "value": "keydelta_latest.json"
+       }
+      ],
+      "face_constants_unmeasured": [
+       {
+        "constant": "FACE",
+        "kind": "assigned_but_not_a_literal"
+       }
+      ],
+      "face_constants_absent": []
+     },
+     "literals_naming": [],
+     "literals_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    }
+   ],
+   "reach_classes": [
+    "no_literal_names_the_target"
+   ]
+  },
+  {
+   "module": "results/_r872bma_ledger_heal.py",
+   "module_class": "round_scratch_script",
+   "hit_lines": [
+    {
+     "line": 45,
+     "column": 4,
+     "keys": [
+      "rows"
+     ],
+     "row_keys_named": [
+      "rows"
+     ]
+    }
+   ],
+   "literals_examined": 18,
+   "literals": [
+    {
+     "line": 3,
+     "column": 9,
+     "value": "logs/iteration-loop/round_reports-bm-a.md",
+     "built": "constant"
+    },
+    {
+     "line": 4,
+     "column": 7,
+     "value": "round_reports-bm-a.md",
+     "built": "constant"
+    },
+    {
+     "line": 16,
+     "column": 19,
+     "value": "rb",
+     "built": "constant"
+    },
+    {
+     "line": 17,
+     "column": 18,
+     "value": "rb",
+     "built": "constant"
+    },
+    {
+     "line": 37,
+     "column": 20,
+     "value": "ab",
+     "built": "constant"
+    },
+    {
+     "line": 41,
+     "column": 19,
+     "value": "rb",
+     "built": "constant"
+    },
+    {
+     "line": 42,
+     "column": 11,
+     "value": "appended",
+     "built": "constant"
+    },
+    {
+     "line": 42,
+     "column": 33,
+     "value": "rows",
+     "built": "constant"
+    },
+    {
+     "line": 45,
+     "column": 12,
+     "value": "rows",
+     "built": "constant"
+    },
+    {
+     "line": 46,
+     "column": 8,
+     "value": "len",
+     "built": "constant"
+    },
+    {
+     "line": 47,
+     "column": 8,
+     "value": "sha16",
+     "built": "constant"
+    },
+    {
+     "line": 48,
+     "column": 8,
+     "value": "in_root",
+     "built": "constant"
+    },
+    {
+     "line": 49,
+     "column": 8,
+     "value": "in_legacy",
+     "built": "constant"
+    },
+    {
+     "line": 52,
+     "column": 13,
+     "value": "in_root",
+     "built": "constant"
+    },
+    {
+     "line": 52,
+     "column": 30,
+     "value": "in_legacy",
+     "built": "constant"
+    },
+    {
+     "line": 52,
+     "column": 60,
+     "value": "rows",
+     "built": "constant"
+    },
+    {
+     "line": 53,
+     "column": 6,
+     "value": "HEAL OK; ROOT size",
+     "built": "constant"
+    },
+    {
+     "line": 53,
+     "column": 39,
+     "value": "->",
+     "built": "constant"
+    }
+   ],
+   "literals_elided": 0,
+   "unresolved_strings": [
+    {
+     "line": 20,
+     "column": 43,
+     "why": "fstring_has_a_formatted_value"
+    },
+    {
+     "line": 28,
+     "column": 14,
+     "why": "fstring_has_a_formatted_value"
+    }
+   ],
+   "dynamic_loader_calls": [
+    {
+     "line": 16,
+     "column": 6,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "rb"
+    },
+    {
+     "line": 17,
+     "column": 7,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "rb"
+    },
+    {
+     "line": 37,
+     "column": 9,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "ab"
+    },
+    {
+     "line": 41,
+     "column": 8,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "rb"
+    }
+   ],
+   "targets": [
+    {
+     "read_module": "scripts/e504_name_compose.py",
+     "spellings": {
+      "path": "scripts/e504_name_compose.py",
+      "basename": "e504_name_compose.py",
+      "stem": "e504_name_compose",
+      "dotted": "scripts.e504_name_compose",
+      "faces": [
+       "namecompose_latest.json"
+      ],
+      "face_constants": [
+       {
+        "constant": "FACE_NAME",
+        "value": "namecompose_latest.json"
+       }
+      ],
+      "face_constants_unmeasured": [
+       {
+        "constant": "UPSTREAM_FACE",
+        "kind": "assigned_but_not_a_literal"
+       }
+      ],
+      "face_constants_absent": [
+       "FACE",
+       "LATEST"
+      ]
+     },
+     "literals_naming": [],
+     "literals_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    }
+   ],
+   "reach_classes": [
+    "no_literal_names_the_target"
+   ]
+  },
+  {
+   "module": "results/_r920bmb_n2u3_flip.py",
+   "module_class": "round_scratch_script",
+   "hit_lines": [
+    {
+     "line": 71,
+     "column": 4,
+     "keys": [
+      "preflight",
+      "verdict"
+     ],
+     "row_keys_named": [
+      "verdict"
+     ]
+    }
+   ],
+   "literals_examined": 96,
+   "literals": [
+    {
+     "line": 1,
+     "column": 0,
+     "value": "r920 bm-b: N2U3-ALPHAGEN-RL-P1-LEG3-TRAIN waiting->ready supply flip.\n\nGate adjudication (r909 flip pin \"free RAM >=4GB ",
+     "built": "constant"
+    },
+    {
+     "line": 24,
+     "column": 26,
+     "value": "results",
+     "built": "constant"
+    },
+    {
+     "line": 24,
+     "column": 37,
+     "value": "runnable_pool.bm-b.json",
+     "built": "constant"
+    },
+    {
+     "line": 25,
+     "column": 11,
+     "value": "N2U3-ALPHAGEN-RL-P1-LEG3-TRAIN",
+     "built": "constant"
+    },
+    {
+     "line": 27,
+     "column": 11,
+     "value": "entry",
+     "built": "constant"
+    },
+    {
+     "line": 27,
+     "column": 30,
+     "value": "ts_local",
+     "built": "constant"
+    },
+    {
+     "line": 27,
+     "column": 48,
+     "value": "preflight",
+     "built": "constant"
+    },
+    {
+     "line": 27,
+     "column": 65,
+     "value": "surgery",
+     "built": "constant"
+    },
+    {
+     "line": 34,
+     "column": 4,
+     "value": "results/alphagen_rg nonempty",
+     "built": "constant"
+    },
+    {
+     "line": 34,
+     "column": 69,
+     "value": "results",
+     "built": "constant"
+    },
+    {
+     "line": 34,
+     "column": 80,
+     "value": "alphagen_rg",
+     "built": "constant"
+    },
+    {
+     "line": 35,
+     "column": 4,
+     "value": "results/alphagen_rl_p1/ckpt nonempty",
+     "built": "constant"
+    },
+    {
+     "line": 35,
+     "column": 77,
+     "value": "results",
+     "built": "constant"
+    },
+    {
+     "line": 35,
+     "column": 88,
+     "value": "alphagen_rl_p1",
+     "built": "constant"
+    },
+    {
+     "line": 35,
+     "column": 106,
+     "value": "ckpt",
+     "built": "constant"
+    },
+    {
+     "line": 36,
+     "column": 4,
+     "value": "panel_cache_2026-10-09.npz",
+     "built": "constant"
+    },
+    {
+     "line": 36,
+     "column": 68,
+     "value": "results",
+     "built": "constant"
+    },
+    {
+     "line": 36,
+     "column": 79,
+     "value": "alphagen_rg",
+     "built": "constant"
+    },
+    {
+     "line": 36,
+     "column": 94,
+     "value": "panel_cache_2026-10-09.npz",
+     "built": "constant"
+    },
+    {
+     "line": 37,
+     "column": 4,
+     "value": "runner scripts/alphagen_rl_p1.py",
+     "built": "constant"
+    },
+    {
+     "line": 37,
+     "column": 74,
+     "value": "scripts",
+     "built": "constant"
+    },
+    {
+     "line": 37,
+     "column": 85,
+     "value": "alphagen_rl_p1.py",
+     "built": "constant"
+    },
+    {
+     "line": 45,
+     "column": 10,
+     "value": "free_ram_gb>=4 (live)",
+     "built": "constant"
+    },
+    {
+     "line": 47,
+     "column": 10,
+     "value": "free_ram_gb>=4 (live)",
+     "built": "constant"
+    },
+    {
+     "line": 48,
+     "column": 8,
+     "value": "preflight",
+     "built": "constant"
+    },
+    {
+     "line": 48,
+     "column": 21,
+     "value": "host_gates",
+     "built": "constant"
+    },
+    {
+     "line": 50,
+     "column": 12,
+     "value": "no ACTIVE train sig in fuse",
+     "built": "constant"
+    },
+    {
+     "line": 52,
+     "column": 33,
+     "value": "results",
+     "built": "constant"
+    },
+    {
+     "line": 52,
+     "column": 44,
+     "value": "crash_fuse.json",
+     "built": "constant"
+    },
+    {
+     "line": 52,
+     "column": 73,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 57,
+     "column": 16,
+     "value": "scripts/alphagen_rl_p1.py|train,--episodes,4096",
+     "built": "constant"
+    },
+    {
+     "line": 59,
+     "column": 27,
+     "value": "cleared_ts",
+     "built": "constant"
+    },
+    {
+     "line": 60,
+     "column": 20,
+     "value": "ACTIVE FUSE on train sig -- ABORT (manual adjudication)",
+     "built": "constant"
+    },
+    {
+     "line": 65,
+     "column": 8,
+     "value": "preflight",
+     "built": "constant"
+    },
+    {
+     "line": 65,
+     "column": 21,
+     "value": "crash_fuse",
+     "built": "constant"
+    },
+    {
+     "line": 68,
+     "column": 3,
+     "value": "ABORT",
+     "built": "constant"
+    },
+    {
+     "line": 71,
+     "column": 12,
+     "value": "preflight",
+     "built": "constant"
+    },
+    {
+     "line": 71,
+     "column": 25,
+     "value": "verdict",
+     "built": "constant"
+    },
+    {
+     "line": 71,
+     "column": 38,
+     "value": "ABORT preflight",
+     "built": "constant"
+    },
+    {
+     "line": 72,
+     "column": 47,
+     "value": "results",
+     "built": "constant"
+    },
+    {
+     "line": 72,
+     "column": 58,
+     "value": "_r920bmb_n2u3_flip.json",
+     "built": "constant"
+    },
+    {
+     "line": 72,
+     "column": 86,
+     "value": "w",
+     "built": "constant"
+    },
+    {
+     "line": 78,
+     "column": 17,
+     "value": "rb",
+     "built": "constant"
+    },
+    {
+     "line": 81,
+     "column": 8,
+     "value": "surgery",
+     "built": "constant"
+    },
+    {
+     "line": 81,
+     "column": 19,
+     "value": "eol_probe",
+     "built": "constant"
+    },
+    {
+     "line": 81,
+     "column": 35,
+     "value": "crlf_pairs",
+     "built": "constant"
+    },
+    {
+     "line": 81,
+     "column": 55,
+     "value": "bare_lf",
+     "built": "constant"
+    },
+    {
+     "line": 84,
+     "column": 29,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 85,
+     "column": 59,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 87,
+     "column": 8,
+     "value": "surgery",
+     "built": "constant"
+    },
+    {
+     "line": 87,
+     "column": 19,
+     "value": "roundtrip_identical",
+     "built": "constant"
+    },
+    {
+     "line": 91,
+     "column": 18,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 93,
+     "column": 19,
+     "value": "entry id not found",
+     "built": "constant"
+    },
+    {
+     "line": 94,
+     "column": 23,
+     "value": "\n  {",
+     "built": "constant"
+    },
+    {
+     "line": 99,
+     "column": 17,
+     "value": "^(?P<indent>\\s*)\"status\": \"waiting\"(?P<comma>,?)\\r?$",
+     "built": "constant"
+    },
+    {
+     "line": 101,
+     "column": 8,
+     "value": "surgery",
+     "built": "constant"
+    },
+    {
+     "line": 101,
+     "column": 19,
+     "value": "waiting_status_hits",
+     "built": "constant"
+    },
+    {
+     "line": 109,
+     "column": 24,
+     "value": "\"status\": \"ready\"",
+     "built": "constant"
+    },
+    {
+     "line": 109,
+     "column": 60,
+     "value": "\"status\": \"ready\"",
+     "built": "constant"
+    },
+    {
+     "line": 112,
+     "column": 11,
+     "value": "\"note\": \"\"",
+     "built": "constant"
+    },
+    {
+     "line": 114,
+     "column": 23,
+     "value": "shard note field not found in entry region",
+     "built": "constant"
+    },
+    {
+     "line": 117,
+     "column": 4,
+     "value": "\"note\": \"flipped ready bm-b r920: RAM gate passed (ComfyUI stopped, PSU-deferred; r909 pin purpose=OOM protection moot);",
+     "built": "constant"
+    },
+    {
+     "line": 122,
+     "column": 26,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 125,
+     "column": 34,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 126,
+     "column": 24,
+     "value": "entries",
+     "built": "constant"
+    },
+    {
+     "line": 126,
+     "column": 44,
+     "value": "id",
+     "built": "constant"
+    },
+    {
+     "line": 128,
+     "column": 14,
+     "value": "status",
+     "built": "constant"
+    },
+    {
+     "line": 128,
+     "column": 27,
+     "value": "ready",
+     "built": "constant"
+    },
+    {
+     "line": 128,
+     "column": 36,
+     "value": "entry status not ready after surgery",
+     "built": "constant"
+    },
+    {
+     "line": 129,
+     "column": 14,
+     "value": "shards",
+     "built": "constant"
+    },
+    {
+     "line": 129,
+     "column": 27,
+     "value": "status",
+     "built": "constant"
+    },
+    {
+     "line": 129,
+     "column": 40,
+     "value": "ready",
+     "built": "constant"
+    },
+    {
+     "line": 129,
+     "column": 49,
+     "value": "shard status not ready after surgery",
+     "built": "constant"
+    },
+    {
+     "line": 130,
+     "column": 14,
+     "value": "shards",
+     "built": "constant"
+    },
+    {
+     "line": 130,
+     "column": 31,
+     "value": "owner",
+     "built": "constant"
+    },
+    {
+     "line": 130,
+     "column": 50,
+     "value": "",
+     "built": "constant"
+    },
+    {
+     "line": 130,
+     "column": 55,
+     "value": "shard unexpectedly owned",
+     "built": "constant"
+    },
+    {
+     "line": 131,
+     "column": 8,
+     "value": "surgery",
+     "built": "constant"
+    },
+    {
+     "line": 131,
+     "column": 19,
+     "value": "verified",
+     "built": "constant"
+    },
+    {
+     "line": 131,
+     "column": 34,
+     "value": "entry_status",
+     "built": "constant"
+    },
+    {
+     "line": 131,
+     "column": 50,
+     "value": "ready",
+     "built": "constant"
+    },
+    {
+     "line": 131,
+     "column": 59,
+     "value": "shard_status",
+     "built": "constant"
+    },
+    {
+     "line": 131,
+     "column": 75,
+     "value": "ready",
+     "built": "constant"
+    },
+    {
+     "line": 132,
+     "column": 33,
+     "value": "lane_owner",
+     "built": "constant"
+    },
+    {
+     "line": 132,
+     "column": 54,
+     "value": "lane_owner",
+     "built": "constant"
+    },
+    {
+     "line": 134,
+     "column": 11,
+     "value": "wb",
+     "built": "constant"
+    },
+    {
+     "line": 137,
+     "column": 18,
+     "value": "rb",
+     "built": "constant"
+    },
+    {
+     "line": 138,
+     "column": 24,
+     "value": "readback mismatch",
+     "built": "constant"
+    },
+    {
+     "line": 139,
+     "column": 8,
+     "value": "surgery",
+     "built": "constant"
+    },
+    {
+     "line": 139,
+     "column": 19,
+     "value": "readback_identical",
+     "built": "constant"
+    },
+    {
+     "line": 140,
+     "column": 8,
+     "value": "surgery",
+     "built": "constant"
+    },
+    {
+     "line": 140,
+     "column": 19,
+     "value": "changed_lines_expected",
+     "built": "constant"
+    },
+    {
+     "line": 140,
+     "column": 47,
+     "value": "3 (2 status flips + 1 shard note)",
+     "built": "constant"
+    },
+    {
+     "line": 141,
+     "column": 43,
+     "value": "results",
+     "built": "constant"
+    },
+    {
+     "line": 141,
+     "column": 54,
+     "value": "_r920bmb_n2u3_flip.json",
+     "built": "constant"
+    },
+    {
+     "line": 141,
+     "column": 82,
+     "value": "w",
+     "built": "constant"
+    }
+   ],
+   "literals_elided": 0,
+   "unresolved_strings": [
+    {
+     "line": 45,
+     "column": 37,
+     "why": "percent_formatting"
+    },
+    {
+     "line": 47,
+     "column": 37,
+     "why": "percent_formatting"
+    },
+    {
+     "line": 62,
+     "column": 20,
+     "why": "percent_formatting"
+    },
+    {
+     "line": 74,
+     "column": 10,
+     "why": "percent_formatting"
+    },
+    {
+     "line": 92,
+     "column": 19,
+     "why": "percent_formatting"
+    },
+    {
+     "line": 102,
+     "column": 23,
+     "why": "percent_formatting"
+    },
+    {
+     "line": 106,
+     "column": 11,
+     "why": "percent_formatting"
+    },
+    {
+     "line": 143,
+     "column": 6,
+     "why": "percent_formatting"
+    }
+   ],
+   "dynamic_loader_calls": [
+    {
+     "line": 52,
+     "column": 9,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "utf-8"
+    },
+    {
+     "line": 72,
+     "column": 23,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "w"
+    },
+    {
+     "line": 78,
+     "column": 6,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "rb"
+    },
+    {
+     "line": 99,
+     "column": 6,
+     "call": "re.compile",
+     "consumer_class": "exec_or_eval",
+     "argument_is_a_measured_literal": true,
+     "argument": "^(?P<indent>\\s*)\"status\": \"waiting\"(?P<comma>,?)\\r?$"
+    },
+    {
+     "line": 134,
+     "column": 0,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "wb"
+    },
+    {
+     "line": 137,
+     "column": 7,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "rb"
+    },
+    {
+     "line": 141,
+     "column": 19,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "w"
+    }
+   ],
+   "targets": [
+    {
+     "read_module": "scripts/e382_key_projection_delta.py",
+     "spellings": {
+      "path": "scripts/e382_key_projection_delta.py",
+      "basename": "e382_key_projection_delta.py",
+      "stem": "e382_key_projection_delta",
+      "dotted": "scripts.e382_key_projection_delta",
+      "faces": [
+       "keydelta_latest.json"
+      ],
+      "face_constants": [
+       {
+        "constant": "LATEST",
+        "value": "keydelta_latest.json"
+       }
+      ],
+      "face_constants_unmeasured": [
+       {
+        "constant": "FACE",
+        "kind": "assigned_but_not_a_literal"
+       }
+      ],
+      "face_constants_absent": []
+     },
+     "literals_naming": [],
+     "literals_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    }
+   ],
+   "reach_classes": [
+    "no_literal_names_the_target"
+   ]
+  },
+  {
+   "module": "scripts/run_e563_smoke_leg.py",
+   "module_class": "smoke_or_probe_harness",
+   "hit_lines": [
+    {
+     "line": 38,
+     "column": 8,
+     "keys": [
+      "leg_indices",
+      "rows"
+     ],
+     "row_keys_named": [
+      "rows"
+     ]
+    },
+    {
+     "line": 39,
+     "column": 8,
+     "keys": [
+      "class",
+      "rows"
+     ],
+     "row_keys_named": [
+      "rows"
+     ]
+    }
+   ],
+   "literals_examined": 46,
+   "literals": [
+    {
+     "line": 1,
+     "column": 0,
+     "value": "Run just the E563 leg of smoke_test.py without launching the other 400+ legs.\n\nsmoke_test.py has no leg filter (r1499: a",
+     "built": "constant"
+    },
+    {
+     "line": 22,
+     "column": 26,
+     "value": "results",
+     "built": "constant"
+    },
+    {
+     "line": 22,
+     "column": 37,
+     "value": "state_tilt",
+     "built": "constant"
+    },
+    {
+     "line": 22,
+     "column": 51,
+     "value": "receiptprefix_latest.json",
+     "built": "constant"
+    },
+    {
+     "line": 32,
+     "column": 28,
+     "value": "e563_receipt_prefix",
+     "built": "constant"
+    },
+    {
+     "line": 34,
+     "column": 9,
+     "value": "--doctor",
+     "built": "constant"
+    },
+    {
+     "line": 36,
+     "column": 41,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 37,
+     "column": 12,
+     "value": "rows",
+     "built": "constant"
+    },
+    {
+     "line": 38,
+     "column": 13,
+     "value": "rows",
+     "built": "constant"
+    },
+    {
+     "line": 38,
+     "column": 24,
+     "value": "leg_indices",
+     "built": "constant"
+    },
+    {
+     "line": 39,
+     "column": 13,
+     "value": "rows",
+     "built": "constant"
+    },
+    {
+     "line": 39,
+     "column": 24,
+     "value": "class",
+     "built": "constant"
+    },
+    {
+     "line": 42,
+     "column": 14,
+     "value": "DOCTOR FAIL: a class that does not re-derive from its indices was accepted",
+     "built": "constant"
+    },
+    {
+     "line": 47,
+     "column": 37,
+     "value": "utf-8",
+     "built": "constant"
+    },
+    {
+     "line": 48,
+     "column": 13,
+     "value": "summary",
+     "built": "constant"
+    },
+    {
+     "line": 49,
+     "column": 16,
+     "value": "rows",
+     "built": "constant"
+    },
+    {
+     "line": 52,
+     "column": 18,
+     "value": "the short-receipt population is empty",
+     "built": "constant"
+    },
+    {
+     "line": 53,
+     "column": 12,
+     "value": "short_receipts",
+     "built": "constant"
+    },
+    {
+     "line": 53,
+     "column": 44,
+     "value": "the short count is not the row count",
+     "built": "constant"
+    },
+    {
+     "line": 54,
+     "column": 12,
+     "value": "names_in_table_order",
+     "built": "constant"
+    },
+    {
+     "line": 54,
+     "column": 44,
+     "value": "no receipt is in table order",
+     "built": "constant"
+    },
+    {
+     "line": 55,
+     "column": 21,
+     "value": "population_source",
+     "built": "constant"
+    },
+    {
+     "line": 55,
+     "column": 53,
+     "value": "sha16",
+     "built": "constant"
+    },
+    {
+     "line": 56,
+     "column": 6,
+     "value": "the population is not pinned to a vintage",
+     "built": "constant"
+    },
+    {
+     "line": 57,
+     "column": 18,
+     "value": "dualrun",
+     "built": "constant"
+    },
+    {
+     "line": 57,
+     "column": 29,
+     "value": "compute_audit",
+     "built": "constant"
+    },
+    {
+     "line": 58,
+     "column": 6,
+     "value": "an exact prefix is no longer recognised",
+     "built": "constant"
+    },
+    {
+     "line": 59,
+     "column": 18,
+     "value": "dualrun",
+     "built": "constant"
+    },
+    {
+     "line": 59,
+     "column": 29,
+     "value": "update_daily",
+     "built": "constant"
+    },
+    {
+     "line": 60,
+     "column": 6,
+     "value": "a gap after the head is no longer its own class",
+     "built": "constant"
+    },
+    {
+     "line": 61,
+     "column": 18,
+     "value": "update_daily",
+     "built": "constant"
+    },
+    {
+     "line": 62,
+     "column": 6,
+     "value": "a filtered head is no longer its own class",
+     "built": "constant"
+    },
+    {
+     "line": 63,
+     "column": 18,
+     "value": "dualrun",
+     "built": "constant"
+    },
+    {
+     "line": 63,
+     "column": 29,
+     "value": "ghost_leg",
+     "built": "constant"
+    },
+    {
+     "line": 64,
+     "column": 6,
+     "value": "a name absent from the table is no longer foreign",
+     "built": "constant"
+    },
+    {
+     "line": 67,
+     "column": 4,
+     "value": "verdict",
+     "built": "constant"
+    },
+    {
+     "line": 67,
+     "column": 17,
+     "value": "a_verdict_this_study_never_publishes",
+     "built": "constant"
+    },
+    {
+     "line": 68,
+     "column": 34,
+     "value": "a hand-written verdict was accepted",
+     "built": "constant"
+    },
+    {
+     "line": 71,
+     "column": 4,
+     "value": "summary",
+     "built": "constant"
+    },
+    {
+     "line": 71,
+     "column": 15,
+     "value": "names_in_table_order",
+     "built": "constant"
+    },
+    {
+     "line": 71,
+     "column": 45,
+     "value": "summary",
+     "built": "constant"
+    },
+    {
+     "line": 71,
+     "column": 60,
+     "value": "names_in_table_order",
+     "built": "constant"
+    },
+    {
+     "line": 72,
+     "column": 34,
+     "value": "an inflated in-order count was accepted",
+     "built": "constant"
+    },
+    {
+     "line": 83,
+     "column": 10,
+     "value": "LEG E563 FAIL: ",
+     "built": "constant"
+    },
+    {
+     "line": 83,
+     "column": 30,
+     "value": "; ",
+     "built": "constant"
+    },
+    {
+     "line": 85,
+     "column": 6,
+     "value": "LEG E563 PASS: ",
+     "built": "constant"
+    }
+   ],
+   "literals_elided": 0,
+   "unresolved_strings": [
+    {
+     "line": 44,
+     "column": 10,
+     "why": "percent_formatting"
+    },
+    {
+     "line": 74,
+     "column": 10,
+     "why": "percent_formatting"
+    }
+   ],
+   "dynamic_loader_calls": [
+    {
+     "line": 20,
+     "column": 0,
+     "call": "sys.path.insert",
+     "consumer_class": "sys_path",
+     "argument_is_a_measured_literal": false,
+     "argument": null
+    },
+    {
+     "line": 32,
+     "column": 4,
+     "call": "importlib.import_module",
+     "consumer_class": "module_import",
+     "argument_is_a_measured_literal": true,
+     "argument": "e563_receipt_prefix"
+    },
+    {
+     "line": 36,
+     "column": 21,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "utf-8"
+    },
+    {
+     "line": 47,
+     "column": 17,
+     "call": "open",
+     "consumer_class": "file_open",
+     "argument_is_a_measured_literal": true,
+     "argument": "utf-8"
+    }
+   ],
+   "targets": [
+    {
+     "read_module": "scripts/e504_name_compose.py",
+     "spellings": {
+      "path": "scripts/e504_name_compose.py",
+      "basename": "e504_name_compose.py",
+      "stem": "e504_name_compose",
+      "dotted": "scripts.e504_name_compose",
+      "faces": [
+       "namecompose_latest.json"
+      ],
+      "face_constants": [
+       {
+        "constant": "FACE_NAME",
+        "value": "namecompose_latest.json"
+       }
+      ],
+      "face_constants_unmeasured": [
+       {
+        "constant": "UPSTREAM_FACE",
+        "kind": "assigned_but_not_a_literal"
+       }
+      ],
+      "face_constants_absent": [
+       "FACE",
+       "LATEST"
+      ]
+     },
+     "literals_naming": [],
+     "literals_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    }
+   ],
+   "reach_classes": [
+    "no_literal_names_the_target"
+   ]
+  }
+ ],
+ "pairs": [
+  {
+   "hit_module": "results/_r478bmc_trio_watch.py",
+   "read_module": "scripts/e382_key_projection_delta.py",
+   "keys": [
+    "verdict"
+   ],
+   "naming_literals": 0,
+   "reach": "no_literal_names_the_target",
+   "match_classes": [],
+   "consumer_classes": []
+  },
+  {
+   "hit_module": "results/_r479bmc_trio_watch.py",
+   "read_module": "scripts/e382_key_projection_delta.py",
+   "keys": [
+    "verdict"
+   ],
+   "naming_literals": 0,
+   "reach": "no_literal_names_the_target",
+   "match_classes": [],
+   "consumer_classes": []
+  },
+  {
+   "hit_module": "results/_r675bmb_trio_watch.py",
+   "read_module": "scripts/e382_key_projection_delta.py",
+   "keys": [
+    "verdict"
+   ],
+   "naming_literals": 0,
+   "reach": "no_literal_names_the_target",
+   "match_classes": [],
+   "consumer_classes": []
+  },
+  {
+   "hit_module": "results/_r872bma_ledger_heal.py",
+   "read_module": "scripts/e504_name_compose.py",
+   "keys": [
+    "rows"
+   ],
+   "naming_literals": 0,
+   "reach": "no_literal_names_the_target",
+   "match_classes": [],
+   "consumer_classes": []
+  },
+  {
+   "hit_module": "results/_r920bmb_n2u3_flip.py",
+   "read_module": "scripts/e382_key_projection_delta.py",
+   "keys": [
+    "verdict"
+   ],
+   "naming_literals": 0,
+   "reach": "no_literal_names_the_target",
+   "match_classes": [],
+   "consumer_classes": []
+  },
+  {
+   "hit_module": "scripts/run_e563_smoke_leg.py",
+   "read_module": "scripts/e504_name_compose.py",
+   "keys": [
+    "rows"
+   ],
+   "naming_literals": 0,
+   "reach": "no_literal_names_the_target",
+   "match_classes": [],
+   "consumer_classes": []
+  }
+ ],
+ "limits": [
+  "reach is static and one-directional: a string names a module, never proves the module object it resolves to is the container the counted read line reads, so an import-string route is a route and not a demonstration",
+  "strings built from an expression (f-string with a value, str.format, percent formatting) are counted and published as unresolved rather than matched, so a computed route is outside this arm by construction",
+  "a string can reach a call through more assignments than the walk follows (8 hops); beyond that the consumer is published as no_call, which is a limit not a zero",
+  "face names are read from module-level assignments whose name is upper case and contains FACE or LATEST (FACE_NAME and UPSTREAM_FACE included, each published with its own constant name so an upstream face is never silently read as the module's own); a face assigned through a non-literal is published as face_constants_unmeasured, and a module that assigns none of the frozen names at all is published as face_constants_absent rather than as a zero spelling set",
+  "spellings are whole tokens of the measured name, so a literal that names only a family prefix ('e382' for 'e382_key_projection_delta') is not a match and is not counted",
+  "the read population is E638's join (one definition); a change to that join moves this study's pairs without touching its hits",
+  "files over 1MB are skipped rather than parsed (E391's cap) and are counted separately by the population this study re-derives"
+ ],
+ "verdict": "no hit module spells any counted read module, its stem, or its face in any string it can be asked to spell, so the importlib/path arm E646 could not see carries no hit either",
+ "answer": "13099 file(s), 13 counted read line(s) over 6 key(s); 7 cross-module hit(s) re-derived (E646 published 7) in 6 module(s) against 2 read module(s); 480 string(s) examined of which 480 are published and 0 elided, 14 built from an expression; 0 literal(s) name a target, by class {\"exact_basename\": 0, \"exact_dotted\": 0, \"exact_face\": 0, \"exact_path\": 0, \"exact_stem\": 0, \"token_contains_stem\": 0}, consumed by {\"exec_or_eval\": 0, \"file_open\": 0, \"module_import\": 0, \"no_call\": 0, \"other_call\": 0, \"path_join\": 0, \"sys_path\": 0}; 28 dynamic loader call(s) in the hit modules of which 27 carry a measured literal; the 6 hit x read pair(s) split {\"no_literal_names_the_target\": 6}"
+}

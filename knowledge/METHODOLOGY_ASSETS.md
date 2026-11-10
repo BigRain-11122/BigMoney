@@ -15267,3 +15267,23 @@ E640 同屏发了两个数：45,395 个双深站点里 27,675 有所属函数、
 
 **证据** = `scripts/e643_nonfunc_site.py`（selftest 20/20·`run`/`check`/`verify` 均 rc0·`problems=[]`）+ `results/state_tilt/NONFUNCSITE.json` + `nonfuncsite_latest.json` + `scripts/run_e643_smoke_leg.py`（1/1 PASS·`--doctor` 1/1 翻红·字节还原 sha `a7ecf39cf92f` 同进同出）+ smoke_test.py leg E643 + `Tools/s6_chain_bmb.py` leg `non_function_site`（rc=0）+ `research/digests/DIGEST-20261110-r1667-e643-non-function-site.md` + POOL E643 done + E649/E650 seeded。
 
+
+## E647 — 名字碰撞的第二条路：字符串能不能把命中接到计数模块上（r1668 bm-b·2026-11-10）
+
+E646 只用 import 语句判定它的 7 个跨模块键名命中是词碰撞，并把这个盲区写进 limits：「经 importlib.import_module 字符串或路径字符串到达读模块的命中也看不见」。本轮把这条臂真正测了，而不是假设它为空。
+
+**读数**（语料 13,099 文件）：命中逐站复现 **7**（E646 发布 7），分布在 **6 个模块**（5 个 `results/_r*.py` 轮脚本 + 1 个 smoke 夹具），对数 **6**（5 对 `scripts/e382_key_projection_delta.py`、2 对 `scripts/e504_name_compose.py`）。
+- **480 条可测字符串**（字面量 + 全常量 f-string 与 `"a"+"b"` 折叠），**0 条命名目标**：exact_path / exact_basename / exact_stem / exact_dotted / exact_face 与整词包含六档全 0；
+- **14 条由表达式生成的字符串**（含 FormattedValue 的 f-string、`%` 格式化、`str.format`）单列 unresolved——静态读器无法解析，不进匹配；
+- 6 个命中模块里共 **28 个动态加载调用**（importlib.import_module / `__import__` / open / exec / `sys.path`），其中 **27 个的实参本身是可测字面量**——没有一个是计数模块或其面。
+
+**判词**：E646 看不见的那条臂在字面量层面为空——不是「没查」而是「查了没有」；6 对全部 `no_literal_names_the_target`。
+
+**教训（三条）**：
+1. **盲区要按盲区自己的形式去测，不能继承**。E646 的 limits 写的是「字符串路径看不见」，那是一个可测的总体（这些模块里所有字符串 + 所有加载调用）；把 limits 当免责声明留着，等于把一个可测的洞变成永久的免责。
+2. **面的名字要从赋值实测，不要用手写名单**。首版只认 `FACE`/`LATEST`，而 e504 用的是 `FACE_NAME` → 它的面拼写集为空，看起来「测过、没有」，实际是「没测到」。正法＝名规则（大写且含 FACE|LATEST）+ 三类单列：字面量面 / 非字面量赋值 / 冻结名缺席（face_constants_absent）。
+3. **子串不是名字**。整词包含单列一档（`token_contains_stem`），且族前缀（`e382` 之于 `e382_key_projection_delta`）不算命中——「含这个名字的字符串」和「是这个名字」是两次测量。
+
+**How**：任何「A 到不了 B」的判词，只要 B 有第二种地址形式（模块名/路径/面文件/环境变量），就必须把第二种形式的总体枚举一遍再签字。
+
+**证据** = `scripts/e647_string_reach.py`（selftest 25/25·`run`/`check`/`verify` rc0·`problems=[]`）+ `results/state_tilt/STRINGREACH.json` + `stringreach_latest.json` + `scripts/run_e647_smoke_leg.py`（1/1 PASS·`--doctor` 1/1 翻红·字节还原 sha `137c076797e0` 同进同出）+ smoke_test.py leg E647 + `Tools/s6_chain_bmb.py` leg `string_reach`（rc=0）+ `research/digests/DIGEST-20261110-r1668-e647-string-reach.md` + POOL E647 done。
