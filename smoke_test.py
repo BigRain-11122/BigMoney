@@ -3091,24 +3091,22 @@ def main() -> int:
                 # r1380: the count is a statistic OF ONE OBSERVER. Two boards taken
                 # an hour apart on two machines can say 6 and 9 off-disk and both be
                 # right; demanding equality read a host difference as a contradiction.
-                # Same observer -> the counters must agree. Different observers -> the
-                # difference is only readable if BOTH sides say whose disk they mean.
-                _obs_r, _obs_b = _la.get("observer"), _dk.get("observer")
-                _same_obs = bool(_obs_r) and _obs_r == _obs_b
-                _counts_agree = _la.get("n_offhost") == _dk.get("n_offhost")
-                if _same_obs:
-                    _rep_ok = bool(_la.get("sentence") in _rmd and _counts_agree)
-                    _obs_why = f"same-observer({_obs_r}) counts={_counts_agree}"
-                elif _obs_r:
-                    _rep_ok = bool(_la.get("sentence") in _rmd)
-                    _obs_why = (f"observers differ (report={_obs_r} "
-                                f"board={_obs_b}) -- attributable")
+                # r1537: it is also a statistic OF ONE MOMENT -- the report embeds
+                # the board block it was written with, so a host that went quiet
+                # after the report was printed moves the live count and the two
+                # numbers stop describing the same thing. Both rules are the
+                # producer's (data_lane_freshness.disk_counts_verdict); a gate
+                # that re-derives them here would be the second copy.
+                _judged, _counts_agree, _count_why = _dlf.disk_counts_verdict(
+                    _la, _dk, board_as_of=_lfdoc.get("as_of"))
+                if _judged is None:
+                    _rep_ok = False        # undated/unspecified is a finding
                 else:
-                    _rep_ok = bool(_la.get("sentence") in _rmd)
-                    _obs_why = "report-predates-observer-tag (counts not judged)"
+                    _rep_ok = bool(_la.get("sentence") in _rmd
+                                   and (_counts_agree or _judged is False))
                 _rep_why = (f"{os.path.basename(_rmd_p)} "
                             f"offhost={_la.get('n_offhost')} vs {_dk.get('n_offhost')} "
-                            f"{_obs_why} "
+                            f"[{_count_why}] "
                             f"sentence-in-page={_la.get('sentence') in _rmd}")
         check("product: whose disk the lane numbers are on reaches both human faces",
               _same and _dash and _rep_ok,

@@ -1,14 +1,15 @@
-# Data lane freshness -- 2026-11-10
+# Data lane freshness -- 2026-11-11
 
 Official reference: last day that must exist by 15:30 = **2026-11-10** (8797 calendar days loaded).
 
-Verdict: **attention** -- 9/15 lanes in sync, 13/15 auditable from this machine, worst = `marks`.
+Verdict: **attention** -- 10/15 lanes in sync, 12/15 auditable from this machine, worst = `marks`.
 
 
 ## Whose disk these numbers are on
 
-以本机 bm-c 的盘为基准：14 条在役车道里有 1 条的数字不在本机盘上：1 条在 bm-b 的盘上（272.74h 未报到）；留在本机盘上的 13 条里 13 条可核实。
+以本机 bm-c 的盘为基准：14 条在役车道里有 2 条的数字不在本机盘上：1 条在 bm-a 的盘上（4.64h 未报到）、1 条在 bm-b 的盘上（281.17h 未报到）；留在本机盘上的 12 条里 12 条可核实。
 
+- `bm-a`: futures (host down)
 - `bm-b`: marks (host down)
 | lane | host | tail | missing (official days) | verdict | authority |
 |---|---|---|---|---|---|
@@ -16,21 +17,22 @@ Verdict: **attention** -- 9/15 lanes in sync, 13/15 auditable from this machine,
 | `sina_mf` | bm-c | 2026-10-26 | 11: 2026-10-27, 2026-10-28, 2026-10-29, 2026-10-30, 2026-11-02, 2026-11-03 … | in_sync (own window 11/20) | host_envelope |
 | `marks` | bm-b | 2026-10-29 | 8: 2026-10-30, 2026-11-02, 2026-11-03, 2026-11-04, 2026-11-05, 2026-11-06 … | unverifiable (copy said `stalled`) | unattributed |
 | `lhb` | bm-a | 2026-11-06 | 2: 2026-11-09, 2026-11-10 | stalled | host_envelope |
-| `futures` | bm-a | 2026-11-09 | 1: 2026-11-10 | today_pending | host_envelope |
-| `lhb_inst` | bm-c | 2026-11-09 | 1: 2026-11-10 | today_pending | host_envelope |
-| `zt_pool` | bm-c | 2026-11-09 | 1: 2026-11-10 | today_pending | host_copy |
+| `lhb_inst` | bm-c | 2026-11-09 | 1: 2026-11-10 | behind_1d | host_envelope |
 | `ah_panel` | bm-c | 2026-11-10 | 0 | in_sync | host_copy |
 | `astock_daily` | bm-b | 2026-11-10 | 0 | in_sync | declared_takeover |
 | `etf_panel` | bm-c | 2026-11-10 | 0 | in_sync | host_envelope |
+| `futures` | bm-a | 2026-11-10 | 0 | unverifiable (copy said `in_sync`) | non_host_envelope |
 | `heat` | bm-a | 2026-11-10 | 0 | in_sync | host_envelope |
 | `minute_feed` | bm-c | 2026-11-10 | 0 | in_sync | host_copy |
 | `moneyflow` | bm-c | 2026-11-10 | 0 | in_sync | host_envelope |
 | `repo` | bm-a | 2026-11-10 | 0 | in_sync | host_envelope |
 | `ths_panel` | bm-c | 2026-11-10 | 0 | in_sync | host_envelope |
+| `zt_pool` | bm-c | 2026-11-10 | 0 | in_sync | host_copy |
 
 ## Lanes where a missed day cannot be recovered
 
 - `marks`: an intraday tick capture: a day with no marks file cannot be rebuilt by any machine -- the file is append-only and the ticks it would have held are gone
+- `lhb_inst`: vendor re-serves the range on later pulls, so a missed month is recoverable by moving FIRST_DATE; the panel is append-only by key
 
 ## Lanes judged against their own window
 
@@ -48,13 +50,14 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 These lanes cannot be certified here and the machine that is supposed to collect them has not written a heartbeat for more than 2.0h. Until it comes back the numbers below are this machine's stale copies, not the company's data.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (272.74h ago) -- holding back marks
+- `bm-a`: last seen 2026-11-11T01:14:51+08:00 (4.64h ago) -- holding back futures
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (281.17h ago) -- holding back marks
 
 ## Owners that stopped reporting
 
 A different question from the section above: these machines have written no heartbeat for more than 24.0h, so the lanes they own are being judged from whatever was last committed. A lane here can still read `in_sync` -- the number is old, the owner is gone, and nobody would notice the day the file stops being written.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (272.74h ago) -- owns astock_daily, marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (281.17h ago) -- owns astock_daily, marks
   - already covered by a declared stand-in: astock_daily <- bm-c (nothing to wait for)
   - nobody is covering these: marks
 
@@ -63,13 +66,13 @@ A different question from the section above: these machines have written no hear
 A status envelope is committed by whichever machine ran the leg, and every machine also keeps its own gitignored copy of the data. Neither names its writer, so a tail that reads late can be a dead lane or a stale copy of a live one.
 
 - `marks`: the envelope does not name the machine whose data it describes
+- `futures`: the envelope was written by bm-c, not by the lane host bm-a
 
 ## Envelopes older than the panel they describe
 
 A status envelope is a committed file, so a branch switch or a rebase can restore an older copy of it. Where this host can read the panel itself the panel is the measurement: the staleness is printed here instead of being read as a stall.
 
-- `futures`: envelope says 2026-11-06, panel holds 2026-11-09 (1 official days behind)
-- `astock_daily`: envelope says 2026-11-09, panel holds 2026-11-10 (1 official days behind)
+- `futures`: envelope says 2026-11-06, panel holds 2026-11-10 (2 official days behind)
 
 ## Tails read from a sample
 

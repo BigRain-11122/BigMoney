@@ -933,6 +933,46 @@ def disk_face(rows, hosts=None, here=None):
                        for r in live}}
 
 
+def disk_counts_verdict(report_block, board_disk, board_as_of=None):
+    """Can a dated report's off-host count be compared with the live board's?
+
+    r1537: the gate answered "yes" unconditionally and so read a snapshot as a
+    contradiction.  REPORT-2026-11-10 was written at 21:27 with one lane off
+    this disk (bm-b silent, 272.7h); by 05:53 next morning bm-a had gone quiet
+    too and the board said two.  Both sentences are true about their own minute,
+    and the gate turned red on the pair -- the r1380 mistake one level down
+    (there two observers, here two moments behind one observer). A count is a
+    statistic OF A MOMENT; comparing across moments measures the clock.
+
+    Returns (judged, agree, why):
+      judged=True  -- same moment; `agree` is the answer the gate should use.
+      judged=False -- different moments (or observers); `why` says which, and a
+                      gate must disclose instead of judging.
+      judged=None  -- a side cannot be dated; `why` names the missing field.
+                      Callers treat this as a finding, never as a pass.
+    """
+    rb, bd = report_block or {}, board_disk or {}
+    if rb.get("n_offhost") is None or bd.get("n_offhost") is None:
+        return None, None, "one side carries no off-host count"
+    r_obs, b_obs = rb.get("observer"), bd.get("observer")
+    if not r_obs:
+        return None, None, "report block carries no observer tag"
+    if b_obs and r_obs != b_obs:
+        return False, None, (f"observers differ (report={r_obs} board={b_obs}) "
+                             f"-- attributable, not a contradiction")
+    r_as = rb.get("as_of")
+    if not r_as:
+        return None, None, "report block carries no as_of -- it cannot be dated"
+    b_as = board_as_of or bd.get("as_of")
+    if b_as and str(r_as) != str(b_as):
+        return False, None, (f"report as_of={r_as}, board as_of={b_as} -- two "
+                             f"moments, counts not comparable "
+                             f"(report {rb.get('n_offhost')} vs board "
+                             f"{bd.get('n_offhost')})")
+    agree = rb.get("n_offhost") == bd.get("n_offhost")
+    return True, agree, f"same moment ({r_as})"
+
+
 def replica_face(rows):
     """Lanes whose copy ON THIS DISK is behind the tail the lane certifies (r1273).
 
@@ -2376,7 +2416,32 @@ def selftest():
           "the page prints it verbatim; lanes outside a window never enter it",
           flush=True)
 
-    print("selftest: 33/33 PASS", flush=True)
+    # L36 (r1537) two faces' off-host counts answer a gate only when they
+    # describe the same moment. The fixture is the live case: a report written
+    # at 21:27 said one, the board at 05:53 said two, both true about their own
+    # minute. Same moment + different count must still be red (a real
+    # disagreement has to stay visible); no as_of must be a finding, not a pass.
+    _rb36 = {"observer": "bm-c", "n_offhost": 1, "as_of": "2026-11-10T21:27:21"}
+    _bd36 = {"observer": "bm-c", "n_offhost": 2}
+    _v36 = disk_counts_verdict(_rb36, _bd36, board_as_of="2026-11-11T05:53:12")
+    assert _v36[0] is False and _v36[1] is None, _v36
+    assert "two moments" in _v36[2], _v36
+    _v36b = disk_counts_verdict(_rb36, _bd36, board_as_of="2026-11-10T21:27:21")
+    assert _v36b[0] is True and _v36b[1] is False, _v36b
+    _v36c = disk_counts_verdict({k: v for k, v in _rb36.items() if k != "as_of"},
+                                _bd36, board_as_of="2026-11-11T05:53:12")
+    assert _v36c[0] is None and "as_of" in _v36c[2], _v36c
+    _v36d = disk_counts_verdict(dict(_rb36, n_offhost=2), _bd36,
+                                board_as_of="2026-11-10T21:27:21")
+    assert _v36d[0] is True and _v36d[1] is True, _v36d
+    _v36e = disk_counts_verdict(dict(_rb36, observer="bm-a"), _bd36,
+                                board_as_of="2026-11-10T21:27:21")
+    assert _v36e[0] is False and "observers differ" in _v36e[2], _v36e
+    print("[PASS] L36 two faces' off-host counts are judged only when they "
+          "describe the same moment (an undated block is a finding, not a "
+          "pass, and same-moment disagreement is still red)", flush=True)
+
+    print("selftest: 36/36 PASS", flush=True)
     return 0
 
 

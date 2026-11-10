@@ -12841,3 +12841,23 @@ S6 腿 `live_book_section_bars`（check+run，0.3s）· smoke 两条新腿（逐
 
 **证据**：`scripts/etf_book_swap_freshness.py` selftest 26/26（+L24 注入运行不动上产面 / L25 显式目标写入 / L26 夹具拒绝上产）· `etf_book_order --selftest` 155/155 · `live_book_section_bars` 15/15 · 修复后面 `results/etf_book_swap_freshness.json` verdict=FRESH 10/10 · S6 腿 2/2 rc0。
 
+
+## E532 · 一个计数是「某一刻」的统计量：同一位观测者、相隔 8 小时的两张脸，不构成矛盾（r1537 bm-c）
+
+**现象**：`smoke_test.py` 那条守 CEO 页的腿（"whose disk the lane numbers are on reaches both human faces"）连红，理由是 `offhost=1 vs 2 same-observer(bm-c) counts=False`。两边都是对的：
+`REPORT-2026-11-10` 在当天 21:27 写，那时只有 bm-b 静默（272.74h）→ 1 条车道不在本机盘上；到次日 05:53，bm-a 也静默了（4.64h）→ 板面说 2 条。战报是**带日期的快照**，板面是**活的**，腿把快照当成了对当下的否认。
+
+**这是 r1380 的下一层**：r1380 已经教会这条腿「计数是某一个观测者的统计量」（两台机相隔一小时各说 6 和 9 都对）。同一个洞再往下一层：**计数还是某一个时刻的统计量**。观测者相同、时刻不同，一样不可比。
+
+**正法**：判据下沉成生产者里的单一实现 `data_lane_freshness.disk_counts_verdict(report_block, board_disk, board_as_of)`，返回三态而不是布尔：
+- `judged=True` → 同刻，用 `agree`；
+- `judged=False` → 不同刻（或不同观测者），**披露**而判：「report as_of=…, board as_of=… — two moments, counts not comparable」；
+- `judged=None` → 有一侧无法定日期（缺 `as_of` / 缺计数），**这是 findings，不是通过**。
+
+三条判据细节都写进了自检（L36）：同刻不同数仍必须红（真分歧不许被时间豁免抵消）、缺 `as_of` 不许静默放行（否则删字段就是逃生口）、不同观测者仍走 r1380 的 attributable 分支。
+
+**另一枚（同轮 S1）**：`futures: certification is stale` 不是缺陷而是漏跑——面板推进后没人重读尾样本，正法是跑 `data_lane_freshness.py certify`（链里已有该腿，`Tools/s6_chain_bmc.py` 第 62 行）。重跑后 5 条面板 state 全 `current`。
+
+**证据**：`scripts/data_lane_freshness.py` selftest **36/36**（+L36，五条断言覆盖同刻一致/同刻不一致/跨刻/缺 as_of/跨观测者）· 单点复跑该腿 → `judged=False … two moments`、`sentence-in-page=True` → PASS · `certify` 5 条 lane 全 current · 全量套件 05:59 起跑（pid 27444）在最终树上，收轮时在飞。
+
+**How to apply**：任何「两面对印同一个计数」的腿，先问三个维度——**谁的观测**（r1380）、**哪一刻**（本卡）、**分母是谁**（E293）。缺一个维度，腿迟早会把正常变化读成矛盾，然后被放松（r1135）。
