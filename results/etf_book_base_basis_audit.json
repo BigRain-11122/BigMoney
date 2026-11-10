@@ -1,0 +1,87 @@
+{
+ "artifact": "etf_book_base_basis_audit",
+ "bar": "2026-11-10",
+ "evidence_cutoff": "2026-11-10",
+ "sides": {
+  "accrued_pre_trade": {
+   "bar": "2026-11-10",
+   "from_bar": "2026-11-09",
+   "risk_book_cny": 400023.3,
+   "cash_cny": 607432.09,
+   "nav_cny": 1007455.39,
+   "k": 0.397063,
+   "derived_risk_cny": 400023.3,
+   "declared_matches_derived": true,
+   "unpriced_symbols": [],
+   "holdings_n": 4
+  },
+  "ledger_post_trade": {
+   "bar": "2026-11-10",
+   "from_bar": null,
+   "risk_book_cny": 392404.9,
+   "cash_cny": 607595.1,
+   "nav_cny": 1000000.0,
+   "k": 0.392405,
+   "derived_risk_cny": 392404.9,
+   "declared_matches_derived": true,
+   "unpriced_symbols": [],
+   "holdings_n": 4
+  }
+ },
+ "prices_same": true,
+ "risk_gap_cny": -7618.4,
+ "cash_gap_cny": 163.01,
+ "nav_gap_cny": -7455.39,
+ "k_gap_pre_minus_post": 0.004658,
+ "notional_gap_cny": 4692.73,
+ "lot_moves": [
+  {
+   "symbol": "159263",
+   "pre_lots": 690,
+   "post_lots": 693,
+   "lot_delta": 3,
+   "price": 1.134,
+   "delta_cny": 340.2
+  },
+  {
+   "symbol": "159513",
+   "pre_lots": 925,
+   "post_lots": 891,
+   "lot_delta": -34,
+   "price": 1.76,
+   "delta_cny": -5984.0
+  },
+  {
+   "symbol": "159577",
+   "pre_lots": 487,
+   "post_lots": 473,
+   "lot_delta": -14,
+   "price": 1.659,
+   "delta_cny": -2322.6
+  },
+  {
+   "symbol": "513690",
+   "pre_lots": 674,
+   "post_lots": 677,
+   "lot_delta": 3,
+   "price": 1.16,
+   "delta_cny": 348.0
+  }
+ ],
+ "lot_moves_total_cny": -7618.4,
+ "decomposition_closes": true,
+ "ticket_base_k_executed": 0.397063,
+ "ticket_k_matches": {
+  "accrued_pre_trade": true,
+  "ledger_post_trade": false
+ },
+ "ticket_sized_from": "accrued_pre_trade",
+ "verdict": "SAME_CLOSES_TWO_LOTS",
+ "sentence": "同一组收盘价下两本账只差手数（换手前 4 只 ¥400,023 / 换手后 4 只 ¥392,405，差 ¥7,618）；但两边的 NAV 不是同一个量：前账 NAV ¥1,007,455.39 含当日收益，后账 NAV ¥1,000,000.00 被钉在政策本金上，所以票面引用的 k=0.397063 与账户实际持有比例的 k=0.392405 差 +0.004658。",
+ "reading": [
+  "两本账都是同一个账户的同一根 bar，只是处在换手的两侧：前账=上一根 bar 的持仓按本 bar 收盘价估值（NAV 随当日收益滚动），后账=本 bar 换手后的持仓按同一收盘价估值（NAV 钉在政策本金 1,000,000，现金是残差）。",
+  "净值差 ¥-7,455 = 风险腿差 ¥-7,618 + 现金腿差 ¥163：其中手数解释风险腿、现金腿补上剩余，两本账合起来才说得清这一天。",
+  "所以「k 差」不是仓位不同，是分母不同：同一个风险腿，除滚动的 NAV 得 0.397063，除钉住的本金得 0.392405。",
+  "任何只印其中一个 k 的句子都要说清除的是什么——CEO 手动跟单时按哪个数下单，差的就是这一格。"
+ ]
+}

@@ -458,7 +458,7 @@
  "ram_load_pct": 52,
  "recent_artifact": "results/etf_book_bootstrap/BLOCKS-2026-10-30.json",
  "round": 1282,
- "round_no": 1282,
+ "round_no": 1283,
  "round_no_label": "r1279",
  "round_no_ts": "2026-11-09T22:59:21+08:00",
  "round_note_r1239": "the fee break-even is a closed form in the sample's median traded leg: 67737 (2020-2026) / 55929 (2015-2019) / 49849 (2015-2026) = 26.41% spread, now printed on the operator page with the window table (card E356)",
@@ -555,7 +555,7 @@
  "task": "S1 修红：继承 8 红中 6 条复验治愈",
  "total_ram_gb": 93.6,
  "ts": "2026-11-10T19:51:35+08:00",
- "updated": "2026-11-03T03:43:28+08:00",
+ "updated": "2026-11-10T21:19:52+08:00",
  "updated_at": "2026-11-10T19:51:35+08:00",
  "verdict": "green",
  "verdict_r1238": "CENSORED_TAIL_IS_IMMATERIAL / FLOOR_BINDS_BELOW_67737_AND_MODEL_GENEROUS_ABOVE_216760",
@@ -717,5 +717,7 @@
  "verification_r1282": "etf_book_decision_line run -> NO_CUT_OWED then check CHECK_OK 4 fields; chain --only=decision_line_write,decision_line 2/2 rc0 (results/_r1282bma_s6_chain.only-decision_line-decision_line_write.json); producer four legs 4/4 rc0 57s; receipts 19 legs 16 rc0; orphan 0/9; orders_ack CLEAN 114/123/0; d19 probe decisions unchanged / orders delta consumed",
  "orphan_face_r1282": 0,
  "orders_scan_r1282": "orders_ack_scan CLEAN 114 orders / 123 acks / 0 unacked / 0 face divergence",
- "decisions_scan_r1282": "D-19: decisions 2ffcc70c == watermark (batch 55 already consumed); orders c2935f54 -> de6b82e4 (249,991 B @7c940d1) delta read: INC-20261110-0021 stall-criteria fix + POOL-0026 TTS QC pinned to bm-b, both group-side -> zero action, watermark advanced"
+ "decisions_scan_r1282": "D-19: decisions 2ffcc70c == watermark (batch 55 already consumed); orders c2935f54 -> de6b82e4 (249,991 B @7c940d1) delta read: INC-20261110-0021 stall-criteria fix + POOL-0026 TTS QC pinned to bm-b, both group-side -> zero action, watermark advanced",
+ "work_r1283": "two books on one bar: accrual.last (pre-trade holdings at this bar's closes, NAV rolls with the day's +0.7455%) vs ledger_row (post-trade holdings, same closes, NAV pinned to the policy capital 1,000,000 with cash as the residual) -> same risk leg, two denominators, k 0.397063 vs 0.392405. The audit face decomposes the lot gap per symbol and names which book the ticket's base_k_executed read. Inherited orphan chain died at leg 70/191; not raced, reported.",
+ "verify_r1283": "etf_book_base_basis_audit selftest 14/14 + check CHECK_OK (recomputed from published rows) + run rc0 (SAME_CLOSES_TWO_LOTS risk_gap -7,618.40 k_gap +0.004658 ticket_sized_from accrued_pre_trade) | S6 leg wired and visible in --list after etf_book_order (verified by running the same command directly; in-chain first run belongs to the next round) | CEO faces re-derived on the final tree 5/5 rc0: LIVE-BOOK-20261110 / REPORT-2026-11-10 / LIVE-2026-11-10 / scorecard_daily / build_status | inherited chain 70/191 legs, process gone, 121 legs not run (reported, not claimed) | orphan 2 (both D:\\FluxGroup gimme python, outside this repo's lanes -> reported, not killed) | orders 114/123/0 | D-19 decisions 2ffcc70c unchanged -> zero action | saturation engine alive queue_depth 0 | watermark red=false"
 }
