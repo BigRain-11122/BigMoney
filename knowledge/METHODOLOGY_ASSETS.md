@@ -12422,3 +12422,33 @@ premium_forward + smoke_test.py 两条腿 + research/digests/DIGEST-20261110-r15
 正身：scripts/etf_book_order.py（selftest 148/148，leg62-65 新）+ smoke_test.py 腿
 「the sheet prints what the price did after a reading like today's」+ results/etf_book_order/
 {TICKET,ORDER}-2026-11-09.* + research/digests/DIGEST-20261110-r1501-forward-on-the-sheet.md。
+
+
+### E510 · 同一页上并排两个数时，先问它们量的是不是同一个问题；第二个面不许自己解析第一个面的文件（r1502 bm-c）
+
+**现象**：CEO 页（docs/live_book/）在 r1463 起就有一节「这张单买的东西本身值多少（溢价）」——读的是
+`results/etf_book_premium_leak.json`（今天多付了多少 IOPV）。r1500/r1501 又造了一个**不同的问题**：
+付了这档溢价之后，这只基金自己的价格在历史里怎么走（`results/etf_premium/PREMIUM-FORWARD.json`）。
+两个数字都是「溢价」二字开头，但一个是**成本**、一个是**前向漂移**，放在同一页不加区分，读者会把
+它们当成一个量的两面。
+
+**两条可复用律**：
+
+1. **并排即须声明关系**——凡是同一页出现两个都带「溢价/风险/收益」字样的数，页面必须用一句人话
+   说清它们**能不能相加**。本卡落地的句子：「上一节说的是今天多付了多少，这一节说的是付过之后
+   价格怎么走——两个问题、两个数，不许相加」。
+2. **第二个面禁自己解析第一个面的产物**——ORDER 票面在 r1501 已经用 `etf_book_order.premium_read`
+   把前向面裁成了本票的腿；CEO 页要做同一件事时，**import 那个函数**，不要在页面里再写一遍
+   JSON 解析。理由不是省代码，而是：两份解析会在下一次字段改名时分叉，而两个人类面互相矛盾时
+   没人知道该信哪个（r1375 第二份拷贝缓存 / E289 同族）。
+
+**落地**：`scripts/etf_book_ceo_page.py` 的 `premium_forward_face()` 直接调用
+`etf_book_order.premium_read(ticket)`，只搬运 `fwd_*` 块；selftest 169/169（+4 腿：行与钱上页 /
+缺面=没量过 / 异日面不外借 / 缺腿点名）；smoke 新腿从**生产者面**重建每一行并与页面逐字比对。
+
+**顺带一条写者律**：`docs/live_book` 属主=bm-a（单写者），异地写页必须先看到**属主自己心跳的
+声明式沉默**（本窗实测 10.8h > 6h），写出来的页面要带 writer/owner/why 三件——「接管了」和
+「属主写的」在视觉上分不出来的接管，比页面陈旧更糟（r1387 原律，本窗首次在 r1502 实际触发）。
+
+正身：scripts/etf_book_ceo_page.py + docs/live_book/LIVE-BOOK-20261110.{md,json}（authority.took_over=true）
++ smoke_test.py 新腿 + research/digests/DIGEST-20261110-r1502-two-numbers-one-page.md。

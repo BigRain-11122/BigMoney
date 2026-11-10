@@ -10006,6 +10006,59 @@ def _legs_supply_and_book():
     except Exception as e:
         check("product: etf_book_vol_target_gate (a scaling sweep is judged by the calendar, not by Sharpe)",
               False, repr(e)[:180])
+    # ---- r1502: the page the CEO opens must print what the price did after such a premium --
+    # reading. Producer face -> etf_book_order.premium_read (the single cutter the ORDER
+    # sheet also uses) -> the rendered row. This leg rebuilds each row out of the face and
+    # demands the page the latest.json pointer names carry it verbatim; a missing section is
+    # red, and a pointer naming a page that is not on this disk is named rather than skipped.
+    try:
+        _fw53 = os.path.join(PATHS.results_dir, "etf_premium", "PREMIUM-FORWARD.json")
+        _bad53, _legs53 = [], []
+        if not os.path.exists(_fw53):
+            _bad53.append("results/etf_premium/PREMIUM-FORWARD.json missing")
+        else:
+            with open(_fw53, encoding="utf-8") as _fh53:
+                _face53 = json.load(_fh53)
+            _hz53 = (_face53.get("horizons") or {}).get(
+                str(_face53.get("verdict_horizon"))) or {}
+            _legs53 = [l for l in (_hz53.get("legs") or []) if isinstance(l, dict)]
+            _ptr53p = os.path.join(PATHS.root, "docs", "live_book", "latest.json")
+            _md53 = ""
+            if os.path.exists(_ptr53p):
+                with open(_ptr53p, encoding="utf-8") as _fh53p:
+                    _ptr53 = json.load(_fh53p)
+                _md53p = os.path.join(PATHS.root, _ptr53.get("page") or "")
+                if os.path.exists(_md53p):
+                    with open(_md53p, encoding="utf-8") as _fh53m:
+                        _md53 = _fh53m.read()
+                else:
+                    _bad53.append("page %r named by latest.json is not on this disk"
+                                  % (_ptr53.get("page"),))
+            else:
+                _bad53.append("docs/live_book/latest.json missing")
+            if _md53:
+                if "付了溢价之后" not in _md53:
+                    _bad53.append("page carries no premium-forward section")
+                for _l53 in _legs53:
+                    _b53 = ((_l53.get("buckets") or {}).get(_l53.get("latest_bucket")) or {})
+                    if _b53.get("mean_pct") is None:
+                        continue
+                    _cny53 = _l53.get("same_bucket_past_move_cny")
+                    _row53 = "| %s | %s | %+.2f%% | %s | %+.1f | %s | %s |" % (
+                        _l53.get("symbol"), _l53.get("latest_bucket") or "?",
+                        float(_b53["mean_pct"]), _b53.get("n") or 0,
+                        float(_b53.get("t") or 0.0),
+                        format(_l53.get("amount_cny") or 0, ",.0f"),
+                        ("%+.0f" % float(_cny53)) if _cny53 is not None else "—")
+                    if _row53 not in _md53:
+                        _bad53.append("page does not print %s's row"
+                                      % (_l53.get("symbol"),))
+        check("product: the page prints what the price did after a premium reading like today's (same rows as the ticket)",
+              not _bad53, "; ".join(_bad53)[:220]
+              or "page == face (%d legs)" % len(_legs53))
+    except Exception as e:
+        check("product: the page prints what the price did after a premium reading like today's (same rows as the ticket)",
+              False, repr(e)[:180])
 
 
 def _finish() -> int:

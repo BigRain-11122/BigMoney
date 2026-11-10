@@ -897,6 +897,90 @@ def premium_block(pb, page_bar=None):
     return L
 
 
+# r1502: the section above says what the order PAYS above IOPV. The operator's next question
+# is what the price did after paying it, and that answer already exists in
+# results/etf_premium/PREMIUM-FORWARD.json -- cut to this sheet's own legs by
+# etf_book_order.premium_read (r1501). Importing that function instead of parsing the face
+# here is the point: two human faces may not disagree about a number neither of them
+# computes (E509 family; the ORDER sheet and this page must print the same rows).
+PREMIUM_FORWARD_JSON = os.path.join(ROOT, "results", "etf_premium", "PREMIUM-FORWARD.json")
+
+
+def premium_forward_face(ticket=None, results_dir=None):
+    """What these funds' own records did after a premium reading like today's.
+
+    Single implementation: the rows, the verdict word and the money column come out of
+    `etf_book_order.premium_read`, the same call the ORDER sheet renders from. This face
+    only carries that block up to the page; it re-derives nothing and types no word.
+    """
+    art = _rel(PREMIUM_FORWARD_JSON, ROOT).replace(os.sep, "/")
+    try:
+        _sd = os.path.dirname(os.path.abspath(__file__))
+        if _sd not in sys.path:
+            sys.path.insert(0, _sd)
+        import etf_book_order as _obo
+        pr = _obo.premium_read(ticket or {}, None, results_dir=results_dir)
+    except Exception as exc:  # an unreadable producer is a status, never a crashed page
+        return {"status": "unreadable", "artifact": art,
+                "detail": "premium_read failed: %s" % exc}
+    if pr.get("fwd_status") != "produced":
+        return {"status": "unreadable", "artifact": art,
+                "detail": "forward face %s" % (pr.get("fwd_status") or "missing")}
+    return {"status": "ok", "artifact": art,
+            "face_asof": pr.get("fwd_face_asof"), "stale": pr.get("fwd_stale"),
+            "verdict": pr.get("fwd_verdict"), "horizon": pr.get("fwd_horizon"),
+            "sentence": pr.get("fwd_sentence"), "caveat": pr.get("fwd_caveat"),
+            "rows": list(pr.get("fwd_rows") or []),
+            "missing_legs": list(pr.get("fwd_missing_legs") or []),
+            "cny_total": pr.get("fwd_cny_total")}
+
+
+def premium_forward_block(pf, page_bar=None):
+    """The lines this page prints about what the price did after such a reading."""
+    L = []
+    add = L.append
+    add("## 付了溢价之后，这些基金自己的价格怎么走")
+    add("")
+    add("（上一节说的是**今天多付了多少**，这一节说的是**付过之后，这只基金自己在同样处境下的历史里怎么走**"
+        "——两个问题、两个数，不许相加。）")
+    add("")
+    pf = pf or {}
+    if pf.get("status") != "ok":
+        add("这一条**还没被量过**（`%s` 读不到：%s）。没测不等于没问题——它只是说这条路还没有人量过。"
+            % (pf.get("artifact") or "results/etf_premium/PREMIUM-FORWARD.json",
+               pf.get("detail") or "无读数"))
+        add("")
+        return L
+    if page_bar and pf.get("face_asof") and str(page_bar)[:10] != str(pf["face_asof"])[:10]:
+        add("这张读数按 **%s** 的票面算，本页价的日期是 **%s**——两个日子对不上，下面这些数不能直接搬到今天的单上。"
+            % (pf["face_asof"], page_bar))
+        add("")
+    h = pf.get("horizon") or "?"
+    add("| 代码 | 今日档位 | 同档此后 %s 个交易日均涨 | 观测 | t | 本单金额 | 同档折成钱 |" % h)
+    add("|---|---|---|---|---|---|---|")
+    for r in pf.get("rows") or []:
+        add("| %s | %s | %+.2f%% | %s | %+.1f | %s | %s |"
+            % (r.get("symbol"), r.get("bucket") or "?",
+               float(r.get("mean_pct") or 0.0), r.get("n") or 0, float(r.get("t") or 0.0),
+               format(r.get("amount_cny") or 0, ",.0f"),
+               ("%+.0f" % float(r["same_bucket_move_cny"]))
+               if r.get("same_bucket_move_cny") is not None else "—"))
+    tot = pf.get("cny_total")
+    add("| — | | | | | **合计** | **%s** |"
+        % (format(float(tot), "+,.0f") if tot is not None else "—"))
+    add("")
+    if pf.get("missing_legs"):
+        add("- %s 在这张面上没有读数——是「没量过」，不是「没有漂移」。"
+            % "、".join(pf["missing_legs"]))
+    add("- 判词 **%s**：%s" % (pf.get("verdict") or "?", pf.get("sentence") or ""))
+    if pf.get("caveat"):
+        add("- %s" % pf["caveat"])
+    add("- 出处：`%s`（scripts/etf_book_premium_forward.py 单一生产者；按本票的腿裁剪由 "
+        "scripts/etf_book_order.py 的 premium_read 完成，票面与本页同源）。" % pf.get("artifact"))
+    add("")
+    return L
+
+
 SIBLING_GAP_WORDS = {
     "PERSISTENT_GAP": "长期收的",
     "EPISODIC_GAP": "今天才有",
@@ -4090,6 +4174,7 @@ def build(with_stress=False, window_label=None):
     page["gap"] = gap_face()
     page["permission"] = permission_face()
     page["premium_leak"] = premium_face()
+    page["premium_forward"] = premium_forward_face(tk.get("ticket") or {})
     page["sibling_gap"] = sibling_gap_face()
     page["floor_provenance"] = floor_provenance_face()
     page["vol_target_gate"] = vol_target_face()
@@ -4160,6 +4245,9 @@ def render_md(p):
         add(_pf_line)
     for _pl_line in premium_block(p.get("premium_leak") or {}, page_bar=p.get("priced_bar")):
         add(_pl_line)
+    for _pfw_line in premium_forward_block(p.get("premium_forward") or {},
+                                           page_bar=p.get("priced_bar")):
+        add(_pfw_line)
     for _sg_line in sibling_gap_block(p.get("sibling_gap") or {}, page_bar=p.get("priced_bar")):
         add(_sg_line)
     for _fp_line in floor_provenance_block(p.get("floor_provenance") or {},
@@ -6843,6 +6931,38 @@ def selftest():
         dict(_fp_fix, evidence_cutoff="2026-11-05"), vt=_vt_fix, page_bar="2026-11-06"))
     chk("L165 floor section: a face anchored on another session refuses to lend its split to today",
         "两个日子对不上" in _fp_shift)
+    # r1502: the premium-forward section. Same family of lies as the premium section above:
+    # an absent face would read as "no drift", and the rows / verdict / money must come off
+    # the producer (etf_book_order.premium_read), never be typed here.
+    _pfw_fix = {"status": "ok", "artifact": "results/etf_premium/PREMIUM-FORWARD.json",
+                "face_asof": "2026-11-09", "stale": False, "verdict": "MIXED",
+                "horizon": 20, "sentence": "sign is not the same across the book",
+                "caveat": "this is not a forecast and not a sell order",
+                "rows": [{"symbol": "159501", "bucket": "TOP", "mean_pct": 0.4868, "n": 282,
+                          "t": 1.6468, "amount_cny": 78501.0, "same_bucket_move_cny": 382.18},
+                         {"symbol": "159577", "bucket": "TOP", "mean_pct": -0.954, "n": 124,
+                          "t": -2.6, "amount_cny": 78504.0, "same_bucket_move_cny": -749.0}],
+                "missing_legs": [], "cny_total": -366.82}
+    _pfw_txt = "\n".join(premium_forward_block(_pfw_fix, page_bar="2026-11-09"))
+    chk("L166 premium forward block: what the price did after such a reading reaches the page, priced on the ticket's own amounts",
+        "159501" in _pfw_txt and "+0.49%" in _pfw_txt and "159577" in _pfw_txt
+        and "-0.95%" in _pfw_txt and "+382" in _pfw_txt and "-749" in _pfw_txt
+        and "-367" in _pfw_txt and "MIXED" in _pfw_txt and "not a forecast" in _pfw_txt,
+        _pfw_txt[:80])
+    _pfw_missing = "\n".join(premium_forward_block(
+        {"status": "unreadable", "artifact": "results/etf_premium/PREMIUM-FORWARD.json",
+         "detail": "face absent"}))
+    chk("L167 premium forward block: an absent face is 'not measured yet', never 'no drift'",
+        "还没被量过" in _pfw_missing and "| 代码 |" not in _pfw_missing
+        and "没有漂移" not in _pfw_missing.replace("不是「没有漂移」", ""),
+        _pfw_missing[:80])
+    _pfw_shift = "\n".join(premium_forward_block(
+        dict(_pfw_fix, face_asof="2026-11-06"), page_bar="2026-11-09"))
+    chk("L168 premium forward block: a face anchored on another session refuses to lend its rows to today",
+        "两个日子对不上" in _pfw_shift)
+    _pfw_cut = "\n".join(premium_forward_block(dict(_pfw_fix, missing_legs=["513100"])))
+    chk("L169 premium forward block: a leg with no reading is named as unmeasured, not as zero drift",
+        "513100" in _pfw_cut and "没量过" in _pfw_cut)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 
