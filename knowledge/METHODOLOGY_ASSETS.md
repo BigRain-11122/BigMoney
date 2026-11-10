@@ -12581,3 +12581,24 @@ actually holds」。证据=`results/etf_book_min_capital.json` 的 `rounding` �
 表自己报它用的是哪天）+ selftest **191/191**（+3 L173/L174 及既有 L170-L172 保持）；
 smoke 腿「the page names the board session the premium section never captured」增两条反向断言；
 正身=docs/live_book/LIVE-BOOK-20261110.md 缺口行，快照=data/etf_premium/snap/2026-11-10.csv（1,666 行）。
+
+### E516 · 两块板面之间的差额，不能拿两张单的金额相减（r1510 bm-c）
+
+**事实**：`etf_premium_face` 每次只价一块板（一个快照日），盘上已有 2026-11-06 与 2026-11-10
+两块，没有任何面貌把它们连起来，所以「这张单的入场摩擦在往哪走」没有机器面。首次去连时踩到的
+第一件事：**两张面价的单不一样大**（459,487 → 392,727，额度在地板之间裁过），若直接拿两面的
+合计相减，答的是「我的单变了多少」，不是「市场要的价变了多少」。
+
+**三律**：
+1. **费率是按份额的，所以两种费率套到同一张单上重算**（取较新那张=读者手上这张），
+   两个合计并列印出、明说不相减；
+2. **方向词由带符号的合计派生**（平坦带用面自己的 par 带 ±0.30pp），且必须允许单腿反向——
+   本批 159263/513690 各 +0.04pp，整单仍判 EASED，禁按多数腿投票；
+3. **可复现面自己的合计才准发布**：新面 `over_hurdle.total_over_nav_cny` 与本面重算差必须
+   ≤1 元，否则拒绝出件（读错了列会得到一个「看起来很合理」的数）。
+
+**读数**（同一张 392,727 的单）：42,774.37 → 37,739.15，**-5,035.22 元（-1.28pp）**，
+10.89% → 9.61%；两块板不是一条序列，所以只印挪动、不印分位。
+
+**证据**：`scripts/etf_premium_session_delta.py` selftest **13/13** · `check` CHECK_OK（5 legs）
+· S6 腿 `premium_session_delta` · smoke 两腿 · 产物 `results/etf_premium/PREMIUM-SESSION-DELTA.{json,md}`。

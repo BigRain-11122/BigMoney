@@ -815,6 +815,17 @@ def main() -> int:
              "scripts/etf_book_premium_persistence.py", ["selftest"]),
             ("product: etf_book_premium_persistence (every verdict re-derives)",
              "scripts/etf_book_premium_persistence.py", ["check"]),
+            # r1510: every premium face so far prices ONE board, so "is the entry toll getting
+            # cheaper" had no artifact. The legs pin that the word follows the signed total
+            # (both directions), that a move inside the flat band prints no direction, that a
+            # leg only one board priced is named rather than counted as zero, that two boards
+            # pricing different order sizes join on ONE sheet instead of subtracting two
+            # orders, and that a face which cannot reproduce the newer board's own total
+            # refuses to publish.
+            ("product: etf_premium_session_delta (the move between two boards, never a trend)",
+             "scripts/etf_premium_session_delta.py", ["selftest"]),
+            ("product: etf_premium_session_delta (every rate and total re-derives)",
+             "scripts/etf_premium_session_delta.py", ["check"]),
             # r1500: "how high" and "is it real" still left the operator's own question open --
             # what happened to the PRICE after a fund sat in that bucket of its own record.
             # The legs pin that the percentile is causal (a falling premium never ranks above

@@ -948,6 +948,11 @@ LEGS = [
     # from the ticket's own bar and that session's IOPV (0.3s, no repricing).
     ("premium_leak",
      ["python", "scripts/etf_book_premium_leak.py", "check"]),
+    # r1510: premium_leak prices ONE board. Two boards are on disk now and nothing joined
+    # them, so "is the toll on this sheet getting cheaper or dearer" had no artifact. `check`
+    # re-derives every published rate/Cny/total from the two faces and refuses drift (0.1s).
+    ("premium_session_delta",
+     ["python", "scripts/etf_premium_session_delta.py", "check"]),
     # r1464: premium_leak priced WHAT the ticket pays above the basket but could not answer
     # "is 23% high?" (one observation of history). The answerable question is relative: the
     # same basket is sold under several tickers on the same board. `check` re-reads the board
