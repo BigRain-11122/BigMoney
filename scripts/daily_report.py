@@ -833,9 +833,46 @@ def _lane_authority_face(root=None):
             "labels": disk.get("labels") or {}}
 
 
+def _lane_window_face(root=None):
+    """Which lanes are green because a rolling window still covers them (r1519).
+
+    r1517 rendered this contract on the board's own markdown; the CEO report
+    reads that board's JSON and printed nothing, so an `in_sync` lane showing 11
+    official days missing read as a board that cannot count -- two true numbers
+    with no line explaining which one is the promise. The row and its sentence
+    belong to the producer (data_lane_freshness.window_rows/window_sentence);
+    this face never re-derives `window - behind + 1` (E289), and an absent board
+    reads absent rather than 'no lane has a window'.
+    """
+    root = root or ROOT
+    doc = _read_json(os.path.join(root, "results",
+                                  "data_lane_freshness.json")) or {}
+    if not doc:
+        return {"present": False,
+                "note": "车道新鲜度板未产出（results/data_lane_freshness.json 缺件）——如实标注"}
+    if not doc.get("lanes"):
+        return {"present": False, "as_of": doc.get("as_of"),
+                "note": "板面存在但没有车道行——如实标注"}
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import data_lane_freshness as _dlf
+    except Exception as exc:                                       # noqa: BLE001
+        return {"present": False, "as_of": doc.get("as_of"),
+                "note": "滚动窗合同不可用：%s" % str(exc)[:120]}
+    try:
+        rows = _dlf.window_rows(doc)
+        windows = [dict(r, sentence=_dlf.window_sentence(r)) for r in rows]
+    except Exception as exc:                                       # noqa: BLE001
+        return {"present": False, "as_of": doc.get("as_of"),
+                "note": "滚动窗行不可读：%s" % str(exc)[:120]}
+    return {"present": True, "as_of": doc.get("as_of"),
+            "n": len(windows), "windows": windows}
+
+
 def _lane_silence_face():
     """How long was this machine's round line silent, and when (r1205/r1206).
-
     Every other freshness face here reads the INSTANT, so a stall followed by
     one heartbeat reads green and the stall leaves no trace.  Single reader
     (`lane_silence_audit.read_published`): the sentence is generated once by
@@ -947,6 +984,7 @@ def build_report(now):
         "stage_style": _stage_style_face(),
         "market_risk": _zt_risk_face(now.strftime("%Y-%m-%d")),
         "lane_authority": _lane_authority_face(),
+        "lane_window": _lane_window_face(),
         "lane_silence": _lane_silence_face(),
         "cap_vs_book": _cap_vs_book_face(),
         "etf_book": _etf_book_face(),
@@ -1283,6 +1321,19 @@ def render_md(rep):
         lr = la.get("local_replicas") or {}
         if lr.get("sentence"):
             L.append(f"- **{lr.get('sentence')}**")
+    # r1519: an `in_sync` lane with 11 official days missing is not a counting
+    # error -- its collector promises a rolling window. The board derives the
+    # contract (window_rows/window_sentence); this page prints it, and keeps
+    # "no lane uses a window" distinct from "the board is missing".
+    lw = rep.get("lane_window") or {}
+    if lw.get("present") and lw.get("windows"):
+        L.append("- **这些车道的 `in_sync` 是滚动窗合同给的，不是「官方日一条不缺」**：")
+        for w in lw["windows"]:
+            L.append(f"  - {w.get('sentence')}")
+    elif lw.get("present"):
+        L.append("- 本板上没有以滚动窗判绿的车道（每条 `in_sync` 都意味着官方日一条不缺）")
+    else:
+        L.append(f"- {lw.get('note') or '滚动窗面未产出——如实标注'}")
     L.append("")
     L.append("## 十一、车道的静默史（线停了多久、什么时候停的）")
     ls = rep.get("lane_silence") or {}
@@ -1383,6 +1434,7 @@ def selftest():
     global _utilization_face, _live_face, _core_spread_face, _engine_wave_face
     global _attribution_face, _stage_style_face, _zt_risk_face
     global _lane_authority_face, _lane_silence_face, _etf_book_face
+    global _lane_window_face
     # ---- A2/G4 helper legs (series tail delta, honest degrade paths)
     d = _series_tail_delta([{"date": "2026-09-01", "equity_cny": 100.0},
                             {"date": "2026-09-02", "equity_cny": 101.0}])
@@ -1615,6 +1667,16 @@ def selftest():
             "lanes": [{"lane": "moneyflow", "local_tail": "2026-10-13",
                        "certified_tail": "2026-11-06", "behind_days": 18}],
             "sentence": "本机副本落后：5 条可读面板里有 1 条读到的不是车道认证的那一天的数"}}
+    # r1519: the window row's sentence must come from the producer -- a fixture
+    # that spells its own wording would keep passing after the two drifted.
+    import data_lane_freshness as _dlf_self
+    _win_row = {"lane": "sina_mf", "tail": "2026-10-26", "days_behind": 11,
+                "window_trading_days": 20, "sessions_left": 10,
+                "verdict": "in_sync"}
+    _lane_window_face = lambda root=None: {
+        "present": True, "as_of": "2026-09-26T10:00:00", "n": 1,
+        "windows": [dict(_win_row,
+                         sentence=_dlf_self.window_sentence(_win_row))]}
     rep = build_report(datetime(2026, 9, 26, 10, 0, 0))
     md = render_md(rep)
     for marker in ("一、实战面", "二、CEO 实盘使用面（T-105 直达）", "三、研发面",
@@ -1658,6 +1720,26 @@ def selftest():
     assert (rep["lane_authority"].get("local_replicas") or {}).get("sentence") in md, \
         "local-copy lag sentence not printed"
     assert "本机副本落后" in md, "local-copy section missing"
+    # r1519: the contract that makes an `in_sync` lane green while 11 official
+    # days are missing must reach this page, printed from the producer.
+    assert _dlf_self.window_sentence(_win_row) in md, \
+        "window contract sentence not printed"
+    assert "滚动窗合同" in md, "window section header missing"
+    _saved_lw = _lane_window_face
+    _lane_window_face = lambda root=None: {"present": True, "windows": [], "n": 0}
+    _md_nw = render_md(build_report(datetime(2026, 9, 26, 10, 0, 0)))
+    _lane_window_face = lambda root=None: {
+        "present": False, "note": "车道新鲜度板未产出（fixture）——如实标注"}
+    _md_lw_absent = render_md(build_report(datetime(2026, 9, 26, 10, 0, 0)))
+    _lane_window_face = _saved_lw
+    assert "没有以滚动窗判绿的车道" in _md_nw, \
+        "an empty window set must be stated, not left blank"
+    assert "滚动窗合同" not in _md_nw, \
+        "empty window set still printed the window section"
+    assert "车道新鲜度板未产出（fixture）" in _md_lw_absent, \
+        "absent board was not printed"
+    assert "滚动窗合同" not in _md_lw_absent, \
+        "absent board leaked a window section"
     _saved_la = _lane_authority_face
     _lane_authority_face = lambda root=None: {
         "present": False, "note": "车道归属面未产出（fixture）——如实标注"}

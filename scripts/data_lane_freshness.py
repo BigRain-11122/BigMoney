@@ -1144,6 +1144,48 @@ def render_period_md(rows):
     return out + "\n"
 
 
+def window_rows(report):
+    """r1519: the rolling-window contract behind an `in_sync` verdict, as data.
+
+    r1517 rendered this contract inside the board's own markdown only. Every
+    other reader (the CEO report, the dashboard) loads
+    results/data_lane_freshness.json, so the same row has to travel there as
+    fields -- a sentence spelled in one renderer and re-derived in another is a
+    second implementation of `window - behind + 1`, and the two drift the first
+    time a lane changes its window (E289).
+
+    Only lanes whose green verdict actually came from a window are returned: a
+    lane with no window, or one already past it, must never be printed in
+    window language (L29b -- the same rule the board's own markdown leg pins).
+    """
+    out = []
+    for r in (report or {}).get("lanes") or []:
+        if not r.get("within_window"):
+            continue
+        win = int(r["window_trading_days"])
+        behind = int(r.get("days_behind") or 0)
+        out.append({"lane": r.get("lane"),
+                    "host": r.get("lane_host"),
+                    "tail": r.get("tail"),
+                    "days_behind": behind,
+                    "window_trading_days": win,
+                    "sessions_left": win - behind + 1,
+                    "verdict": r.get("verdict"),
+                    "basis": r.get("window_basis")})
+    return out
+
+
+def window_sentence(row):
+    """One human line for a windowed lane; every number is derived, never typed."""
+    return ("`%s`: tail %s, **%d** official day(s) behind, window **%d** trading days "
+            "-> **%d more** session(s) may pass before this lane owes a refresh "
+            "(it reads `stalled` once the gap passes %d)"
+            % (row["lane"], row.get("tail") or "--", row["days_behind"],
+               row["window_trading_days"], row["sessions_left"],
+               row["window_trading_days"])
+            + (". Basis: %s" % row["basis"] if row.get("basis") else ""))
+
+
 def render_md(report, cert="auto"):
     head = (f"# Data lane freshness -- {report['as_of'][:10]}\n\n"
             f"Official reference: last day that must exist by "
@@ -1186,7 +1228,7 @@ def render_md(report, cert="auto"):
     # section prints the contract that produced the green verdict and the
     # number of sessions left before the collector has to fire, so the reader
     # knows whether to act today (0 left) or not at all.
-    windowed = [r for r in report["lanes"] if r.get("within_window")]
+    windowed = window_rows(report)
     if windowed:
         tailnote += ("\n## Lanes judged against their own window\n\n"
                      "These lanes do not owe every official day: their collector "
@@ -1197,16 +1239,7 @@ def render_md(report, cert="auto"):
                      "and the sessions-left number says when that promise runs "
                      "out.\n\n")
         for r in windowed:
-            win = int(r["window_trading_days"])
-            behind = int(r.get("days_behind") or 0)
-            left = win - behind + 1
-            tailnote += (f"- `{r['lane']}`: tail {r.get('tail') or '--'}, "
-                         f"**{behind}** official day(s) behind, window "
-                         f"**{win}** trading days -> **{left} more** session(s) "
-                         f"may pass before this lane owes a refresh (it reads "
-                         f"`stalled` once the gap passes {win})"
-                         + (f". Basis: {r['window_basis']}"
-                            if r.get("window_basis") else "") + "\n")
+            tailnote += "- " + window_sentence(r) + "\n"
     # r1266: a hole count hides which holes were somebody's decision. The
     # auditing face already sorts every past hole by cause; print the split so a
     # reader stops waiting for a stand-in to fill days that are simply gone.
@@ -2310,7 +2343,40 @@ def selftest():
     print("[PASS] L34 the page and the gates share one certification predicate "
           "(current / stale / missing)", flush=True)
 
-    print("selftest: 32/32 PASS", flush=True)
+    # L35 (r1519) the window contract travels as DATA now (CEO report / dashboard
+    # read it), so the row and the board's markdown must come from one
+    # derivation: the sentence rendered in the page has to be window_sentence()
+    # of the row the ledger publishes, and "sessions left" is derived, not typed.
+    _w_in = {"lane": "lane_in", "lane_host": "bm-c", "tail": "2026-10-26",
+             "verdict": "in_sync", "within_window": True,
+             "window_trading_days": 20, "days_behind": 7,
+             "window_basis": "collector no-op rule"}
+    _w_broken = {"lane": "lane_broken", "lane_host": "bm-c", "tail": "2026-09-01",
+                 "verdict": "stalled", "within_window": False,
+                 "window_trading_days": 20, "days_behind": 40}
+    _w_none = {"lane": "lane_none", "lane_host": "bm-c", "tail": "2026-11-09",
+               "verdict": "in_sync"}
+    _rep35 = {"as_of": "2026-11-10T00:00:00", "close_accept_time": "15:30",
+              "expected_last_official_day": "2026-11-10", "calendar_days": 1,
+              "verdict": "attention", "n_lanes": 3, "n_auditable": 3,
+              "worst": "lane_broken", "counts": {"in_sync": 2, "stalled": 1},
+              "lanes": [_w_in, _w_broken, _w_none], "cert": None}
+    _rows35 = window_rows(_rep35)
+    assert [r["lane"] for r in _rows35] == ["lane_in"], _rows35
+    assert _rows35[0]["sessions_left"] == 20 - 7 + 1, _rows35
+    _sent35 = window_sentence(_rows35[0])
+    assert "**14 more**" in _sent35 and "**7** official day(s) behind" in _sent35, \
+        _sent35
+    _md35 = render_md(_rep35, cert=False)
+    assert _sent35 in _md35, "the board's markdown does not print the producer's row"
+    for _gone in ("lane_broken", "lane_none"):
+        assert _gone not in "".join(
+            window_sentence(r) for r in window_rows(_rep35)), _gone
+    print("[PASS] L35 the window contract is one row (sessions left derived) and "
+          "the page prints it verbatim; lanes outside a window never enter it",
+          flush=True)
+
+    print("selftest: 33/33 PASS", flush=True)
     return 0
 
 

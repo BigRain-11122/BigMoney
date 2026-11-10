@@ -12636,3 +12636,17 @@ smoke 腿「the page names the board session the premium section never captured�
 **证据**：`scripts/etf_book_positions.py` selftest 71→**78/78**（+7 腿：同 bar 整行替换、旧事实键不残留、改述留痕、accrual 从执行行之后起算、两 kind 同 bar 起算取执行行）· `check CHECK_OK`（此前 `CHECK_FAIL: base_divergence_total_cny, ledger_row_drift`）· 账本 11-10 恢复为执行行 693/891/473/677，改述记录留痕并在 `results/etf_book_positions.md` 印出两组数。
 
 **未修的邻居（如实）**：执行行直接继承 swap stack 的归一化簿（risk+cash 恒 = 1,000,000），而 accrual 行带真实净值（1,007,455.39）——每根执行 bar 都把账户净值重置回名义值。这是另一个缺陷，本窗不动钱账。
+
+
+### E520 · 同一句合同不许有三个措辞：把「窗口还剩几场」做成行，再让每个面 import（r1519 bm-c）
+
+**病灶**：r1517 把滚动窗合同印在车道板自己的 markdown 上（E518 三律②），但只印给了打开那张板的人。CEO 战报与总控面板读的是 `results/data_lane_freshness.json`，只拿到 verdict —— 同一块业务两处读成两种事实：板上写「还差 10 场才必须动」，战报上仍是一个不带合同的 `in_sync`。更危险的是接法本身：若战报自己写 `window - behind + 1`，一处改窗另一处不改，两个数会各自为真（E289 第二份拷贝族）。
+
+**三律**：
+1. **合同先成为行，再成为句子**：生产者出 `window_rows(report)`（lane/tail/behind/window/sessions_left/basis）与 `window_sentence(row)`，板自己的 markdown 也改成调用这两个函数（本批 render_md 的内联 f-string 全部撤掉）——渲染不再是第二处定义。
+2. **消费面只准 import**：日报用 `window_rows/window_sentence`，看板用 importlib 加载同一个 scripts 模块；看板读不出时印 `unreadable` 而不是空数组。
+3. **三态必须分清**：`present+rows` 印合同；`present+empty` 明说「本板上没有以滚动窗判绿的车道」；`absent` 明说板缺件。空表不许冒充「没有窗口车道」（r98 未知 != 空）。
+
+**证据**：`scripts/data_lane_freshness.py` selftest 32→**33/33**（L35：sessions_left 派生 + 板面逐字印生产者句子 + 越窗/无窗车道不得进入）· `scripts/daily_report.py` selftest PASS（新增三向腿：印句子 / 空集明说 / 缺件明说）· 实跑 `docs/daily_report/REPORT-2026-11-10.md` 印 `sina_mf: tail 2026-10-26, 11 behind, window 20 -> 10 more sessions` · `results/dashboard_status.json` 的 `data.lane_freshness.windows.status=ok` 同值（sina_mf/11/20/10）· smoke 新腿「a lane green inside its own window says so on every face」。
+
+**未做（如实）**：`dashboard.html` 尚未渲染该块（本轮只把行送到 JSON 面），渲染接线留作下轮指针。

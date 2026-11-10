@@ -120,6 +120,32 @@ def _data_freshness() -> dict:
             "fresh": stale <= 15}
 
 
+def _lane_window_rows(doc) -> dict:
+    """r1519: rolling-window rows behind an `in_sync` verdict (single implementation).
+
+    r1517 taught the board's own markdown to print the contract that makes a
+    lane green while `missing` counts 11 official days. The dashboard reads that
+    board's JSON, so it has to carry the same rows -- and it must not re-derive
+    `window - behind + 1` (E289): the numbers come from
+    scripts/data_lane_freshness.window_rows. An unreadable producer reads
+    `unreadable`, never "no lane uses a window" (r98 未知 != 空).
+    """
+    if not doc.get("lanes"):
+        return {"status": "absent", "rows": []}
+    import importlib.util as _ilu
+    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "scripts", "data_lane_freshness.py")
+    try:
+        spec = _ilu.spec_from_file_location("_lane_freshness_board", path)
+        mod = _ilu.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        rows = [dict(r, sentence=mod.window_sentence(r))
+                for r in mod.window_rows(doc)]
+        return {"status": "ok", "rows": rows}
+    except Exception as exc:                                       # noqa: BLE001
+        return {"status": "unreadable", "detail": str(exc)[:160], "rows": []}
+
+
 def _lane_freshness_state() -> dict:
     """Which forward data lanes are behind the official calendar (r1156).
 
@@ -152,6 +178,9 @@ def _lane_freshness_state() -> dict:
             "counts": doc.get("counts") or {},
             "expected": doc.get("expected_last_official_day"),
             "worst": doc.get("worst"), "behind": behind,
+            # r1519: which greens came from a rolling window, and how many
+            # sessions are left before that promise runs out.
+            "windows": _lane_window_rows(doc),
             # r1159: "seven lanes unverifiable" is not actionable; naming the
             # machine that stopped reporting is (page shows who owes the data)
             "hosts_down": doc.get("hosts_down") or [],

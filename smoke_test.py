@@ -2865,6 +2865,65 @@ def main() -> int:
         check("fleet: a lane whose clock is the statute reaches the page",
               False, str(e))
     try:
+        # r1519: a lane can read `in_sync` while N official days are missing --
+        # its collector promises a rolling window. That row (window / behind /
+        # sessions left) is derived once by the board; the board's own markdown
+        # and the CEO report must print the same row, and "sessions left" is
+        # arithmetic from the published fields, never a typed number.
+        import data_lane_freshness as _dlf9
+        _lf9 = json.load(open("results/data_lane_freshness.json",
+                              encoding="utf-8"))
+        _rows9 = _dlf9.window_rows(_lf9)
+        _asof9 = (_lf9.get("as_of") or "")[:10]
+        _why9, _note9 = [], ""
+        _md9 = open("docs/data_lanes/FRESHNESS.md", encoding="utf-8").read()
+        for _r9 in _rows9:
+            if _dlf9.window_sentence(_r9) not in _md9:
+                _why9.append("%s: the board's markdown does not print its own "
+                             "window row" % _r9["lane"])
+            if _r9["sessions_left"] != (_r9["window_trading_days"]
+                                        - _r9["days_behind"] + 1):
+                _why9.append("%s: sessions-left is not derived from the fields"
+                             % _r9["lane"])
+        import glob as _g9
+        _rj9 = sorted(_g9.glob(os.path.join("docs", "daily_report",
+                                            "REPORT-*.json")))
+        if _rj9:
+            _rep9 = json.load(open(_rj9[-1], encoding="utf-8"))
+            if (_rep9.get("report_date") or "") == _asof9:
+                _lw9 = _rep9.get("lane_window") or {}
+                _got9 = [w.get("lane") for w in (_lw9.get("windows") or [])]
+                if _got9 != [r["lane"] for r in _rows9]:
+                    _why9.append("report window lanes %s != board %s"
+                                 % (_got9, [r["lane"] for r in _rows9]))
+                for _w9 in (_lw9.get("windows") or []):
+                    if _w9.get("sentence") != _dlf9.window_sentence(
+                            {k: _w9.get(k) for k in ("lane", "tail", "days_behind",
+                                                     "window_trading_days",
+                                                     "sessions_left", "basis")}):
+                        _why9.append("%s: the report re-worded the producer's "
+                                     "sentence" % _w9.get("lane"))
+            else:
+                _note9 = ("newest report is %s, board is %s -- not compared"
+                          % (_rep9.get("report_date"), _asof9))
+        _db9 = ((json.load(open("results/dashboard_status.json",
+                                encoding="utf-8")).get("data") or {})
+                .get("lane_freshness") or {}).get("windows") or {}
+        if _db9.get("status") == "ok":
+            _drows9 = [(_r.get("lane"), _r.get("sessions_left"))
+                       for _r in (_db9.get("rows") or [])]
+            if _drows9 != [(r["lane"], r["sessions_left"]) for r in _rows9]:
+                _why9.append("dashboard windows %s != board %s"
+                             % (_drows9, [(r["lane"], r["sessions_left"])
+                                          for r in _rows9]))
+        check("fleet: a lane green inside its own window says so on every face",
+              not _why9, "; ".join(_why9) or (
+                  f"{len(_rows9)} windowed lane(s) printed with sessions left"
+                  + (" | " + _note9 if _note9 else "")))
+    except Exception as e:
+        check("fleet: a lane green inside its own window says so on every face",
+              False, str(e))
+    try:
         # r1162: "cannot certify here" is about our copy; whose disk the rows are
         # on is the actionable half. The board derives that sentence ONCE, and the
         # two faces a human opens must carry it verbatim -- so this leg recomputes
