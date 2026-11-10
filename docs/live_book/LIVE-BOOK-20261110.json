@@ -5815,10 +5815,13 @@
    "source_face": "results/etf_book_swap_stack.json"
   },
   "next_order_base": {
-   "bar": "2026-11-09",
-   "risk_book_cny": 392587.3,
+   "bar": "2026-11-10",
+   "kind": "valuation",
+   "source": "accrued_valuation",
+   "risk_book_cny": 400023.3,
    "cash_cny": 607412.7,
-   "holdings": 4
+   "holdings": 4,
+   "superseded_execution_bar": "2026-11-09"
   },
   "base_divergence": [
    {
@@ -5851,19 +5854,67 @@
   ],
   "base_divergence_total_cny": 314084.9,
   "accrual": {
-   "status": "NO_NEW_BAR",
+   "status": "ACCRUED",
    "from_bar": "2026-11-09",
-   "rows": 0,
+   "rows": 1,
    "written": 0,
-   "kept": 0,
-   "rf_missing_bars": 0,
-   "last": null,
-   "rows_detail": [],
+   "kept": 1,
+   "rf_missing_bars": 1,
+   "last": {
+    "bar": "2026-11-10",
+    "kind": "valuation",
+    "from_bar": "2026-11-09",
+    "holdings": [
+     {
+      "symbol": "159263",
+      "lots": 690,
+      "price": 1.134,
+      "amount_cny": 78246.0
+     },
+     {
+      "symbol": "159513",
+      "lots": 925,
+      "price": 1.76,
+      "amount_cny": 162800.0
+     },
+     {
+      "symbol": "159577",
+      "lots": 487,
+      "price": 1.659,
+      "amount_cny": 80793.3
+     },
+     {
+      "symbol": "513690",
+      "lots": 674,
+      "price": 1.16,
+      "amount_cny": 78184.0
+     }
+    ],
+    "risk_book_cny": 400023.3,
+    "cash_cny": 607412.7,
+    "nav_cny": 1007436.0,
+    "ret": 0.007436,
+    "cum_ret": 0.007436,
+    "rf_step": 0.0,
+    "stale_price_symbols": [],
+    "source_face": "results/etf_book_swap_stack.json"
+   },
+   "rows_detail": [
+    {
+     "bar": "2026-11-10",
+     "risk_book_cny": 400023.3,
+     "cash_cny": 607412.7,
+     "nav_cny": 1007436.0,
+     "ret": 0.007436,
+     "cum_ret": 0.007436,
+     "rf_step": 0.0
+    }
+   ],
    "panel_missing_symbols": [],
    "repo_quotes": 3763,
    "rate_latest_bar": "2026-11-09",
    "rate_latest": 1.17,
-   "valued_upto_bar": "2026-11-09"
+   "valued_upto_bar": "2026-11-10"
   },
   "replay": {
    "start_bar": "2026-10-12",
@@ -5883,10 +5934,10 @@
   "engine_book": {
    "tail": {
     "source": "results/etf_book_order/ledger.jsonl",
-    "bar": "2026-11-09",
-    "nav_units": 1.45787328,
+    "bar": "2026-11-10",
+    "nav_units": 1.46850092,
     "k": 0.460253,
-    "rf": 9.74e-05
+    "rf": 3.205e-05
    },
    "divergence": {
     "book_k": 0.392587,
@@ -6583,8 +6634,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 18.2,
+  "owner_silent_h": 18.5,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 18.2 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 18.5 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

@@ -12602,3 +12602,13 @@ smoke 腿「the page names the board session the premium section never captured�
 
 **证据**：`scripts/etf_premium_session_delta.py` selftest **13/13** · `check` CHECK_OK（5 legs）
 · S6 腿 `premium_session_delta` · smoke 两腿 · 产物 `results/etf_premium/PREMIUM-SESSION-DELTA.{json,md}`。
+
+### E517 · 自己刚写下的那一行，自己的读数面没读（r1512 bm-c）
+
+**两个缺陷同一个根：一张面里「写」和「读」之间夹了一步。** ①`next_order_base` 在 accrual **之前**解析，accrual 随后写下 2026-11-10 的估值行（风险腿 400,023），而面仍把 11-09 的执行行（392,587）告诉下一张单——写下去的行自己的生产者没读回来，「这一本账现在什么样」停在上一笔成交；②`latest.json` 每定一张票就动一次，但净额单面只在**有换票**时刷新，于是安静的一天里最新票面（11-10 的五名目标书）和净额单面（11-09 的三笔打印动作）属于两个决策，把两者对账印出 **-6,396「打印行买得更多」**——那条红完全由日历造出来，账上什么都没发生。
+
+**正法**：①`account_base_after_accrual(ledger, base, accrual)` 把 accrual 写下的最后一根 bar 重新解析成起算行，并标 `kind/source`（`accrued_valuation` vs `execution_row`）+`superseded_execution_bar`，页面印「上一笔执行停在 X，本面按 accrual 后的 Y 起算」；②`pin_episode_ticket(stack, latest)` 把票钉在净额单面自己声明的那一张，钉不住就**说出来**（`ticket_alignment.same_ticket=false` + 一句人话），禁跨决策对账；③两条都落自检腿（71/71）与一条消费者 smoke 腿（从已发布面+账本重算 base bar 必须等于账本最新行；episode 票必须是被声明的那张）。
+
+**读数（2026-11-10）**：修后判词从假的 OVERSELL(-6,396) 回到 REBUILD(0)，票面基座从「stale 11-09」变成 `ok 11-10`——账上风险腿 **400,023 / 现金 607,413 / k=0.397071**（引擎 k 0.460253 的差距 ¥63,652 首次印在执行者眼前），且这张单的 k 仍是规则 k（本 bar 的账是本单自己的结果，r1476 循环律照旧不为输入）。
+
+**How**：任何「写一行 → 下一步用它」的面，先问读的是不是刚写的那一版；任何跨两张面/两份文件的比对，先问两边是不是同一次决策（票面指针会动、净额面只在有活时才动）。

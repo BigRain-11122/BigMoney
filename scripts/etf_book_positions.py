@@ -371,6 +371,44 @@ def start_inventory(ledger, bar):
     return sorted(eligible, key=lambda r: str(r.get("bar")))[-1]
 
 
+def account_base_after_accrual(ledger, base, accrual):
+    """r1512: the account as it stands once the accrual has written its rows.
+
+    `assess` used to resolve `next_order_base` BEFORE the accrual ran, so the very face that
+    wrote the 11-10 valuation row still told the next sheet to start from the 11-09 execution
+    row (risk leg 392,587 while 400,023 sat on disk). A write its own producer never reads is
+    not a write. Returns (row, source); `source` says which kind of row the base is.
+    """
+    if not base:
+        return None, None
+    last = (accrual or {}).get("last") or {}
+    bar = last.get("bar") if isinstance(last, dict) else None
+    if ledger is None or not bar:
+        return base, "execution_row"
+    nb = start_inventory(ledger, bar)
+    if not nb or str(nb.get("bar") or "") < str(base.get("bar") or ""):
+        return base, "execution_row"
+    return nb, ("accrued_valuation"
+                if str(nb.get("kind") or "execution") == "valuation" else "execution_row")
+
+
+def pin_episode_ticket(stack, latest_path):
+    """r1512: the sheet that belongs to the swap episode, and whether it is the newest one.
+
+    `latest.json` moves every time a new sheet is priced; the swap face only refreshes when a
+    swap exists. On a quiet bar the two point at different decisions, and reconciling them
+    printed a −6,396 "oversell" that never happened. Returns (path, pinned, same).
+    """
+    pinned = None
+    if stack and stack.get("ticket") and latest_path:
+        cand = os.path.join(os.path.dirname(latest_path), os.path.basename(str(stack["ticket"])))
+        if os.path.exists(cand):
+            pinned = cand
+    path = pinned or latest_path
+    same = bool(pinned and latest_path and os.path.abspath(pinned) == os.path.abspath(latest_path))
+    return path, pinned is not None, same
+
+
 # --------------------------------------------------------------------------- accrual
 #
 # r1469: a ledger row is written only when a swap executes. Between two decision bars the
@@ -756,6 +794,8 @@ def assess(ticket, stack, ledger, stamp=None):
         accrual["valued_upto_bar"] = boundary
         replay_row = replay(base, closes, rates) if closes else None
 
+    account_base, account_base_source = account_base_after_accrual(ledger, base, accrual)
+
     # the ticket side keeps its own normalised engine book; the two must not be conflated
     eng = _execution_order_book_tail()
     eng_gap = None
@@ -781,11 +821,14 @@ def assess(ticket, stack, ledger, stamp=None):
         "unexplained_unpriced_rows": unpriced,
         "ledger_action": ledger_action,
         "ledger_row": row,
-        "next_order_base": None if not base else {
-            "bar": base.get("bar"),
-            "risk_book_cny": base.get("risk_book_cny"),
-            "cash_cny": base.get("cash_cny"),
-            "holdings": len(base.get("holdings") or []),
+        "next_order_base": None if not account_base else {
+            "bar": account_base.get("bar"),
+            "kind": str(account_base.get("kind") or "execution"),
+            "source": account_base_source,
+            "risk_book_cny": account_base.get("risk_book_cny"),
+            "cash_cny": account_base.get("cash_cny"),
+            "holdings": len(account_base.get("holdings") or []),
+            "superseded_execution_bar": (base or {}).get("bar"),
         },
         "base_divergence": berr,
         "base_divergence_total_cny": berr_total,
@@ -809,11 +852,31 @@ def assess(ticket, stack, ledger, stamp=None):
 
 
 def load_inputs(stamp=None):
-    tpath = stack_face.latest_ticket_path()
-    ticket = _read_json(tpath)
     stack = _read_json(STACK_FACE)
+    latest = stack_face.latest_ticket_path()
+    # r1512: pin the sheet to the one this episode declares. `latest.json` moves every time a
+    # new sheet is priced, but the swap face only refreshes when a swap exists -- so on a quiet
+    # bar the newest sheet and the episode belong to two decisions, and pairing them printed
+    # "printed rows oversell the book -6,396" out of nothing but the calendar (2026-11-10: the
+    # 11-10 target book read against 11-09's three printed actions). One episode, one sheet;
+    # what the pinning cannot align is said out loud instead of reconciled silently.
+    tpath, pinned, same = pin_episode_ticket(stack, latest)
+    ticket = _read_json(tpath)
     ledger = load_ledger()
     face = assess(ticket, stack, ledger, stamp)
+    face["ticket_alignment"] = {
+        "episode_ticket": os.path.basename(tpath) if tpath else None,
+        "episode_bar": (stack or {}).get("asof"),
+        "latest_ticket": os.path.basename(latest) if latest else None,
+        "pinned_to_episode": pinned,
+        "same_ticket": same,
+        "reading": ("本面按净额单面自己声明的那张票对账——两件事同一格，红绿才说得上"
+                    if same else
+                    "净额单面讲的是 %s 那次换票，盘上最新票面是 %s：两件事，本面只对"
+                    "自己的那一件，不把另一张票的账借来判红" % (
+                        os.path.basename(tpath) if tpath else "（无）",
+                        os.path.basename(latest) if latest else "（无）")),
+    }
     if stack is None:
         face["notes"] = ["没有已发布的净额单面（%s）：打印动作与声明账都对不出来" % rel(STACK_FACE)]
     elif ticket is None:
@@ -825,6 +888,9 @@ def render_md(face):
     L = ["# ETF 复合书 · 打印的单，和账上的书", "",
          "会话 `%s`｜票 `%s`｜上游 `%s`" % (face.get("asof"), face.get("ticket"),
                                           (face.get("sources") or {}).get("swap_stack")), ""]
+    _al = face.get("ticket_alignment") or {}
+    if _al and not _al.get("same_ticket"):
+        L += ["- 对的是哪张票：%s" % (_al.get("reading") or "?"), ""]
     v = face.get("verdict")
     head = {
         "PRINTED_ROWS_UNDERSELL_THE_BOOK":
@@ -862,10 +928,17 @@ def render_md(face):
 
     base = face.get("next_order_base")
     if base:
+        _kind = base.get("kind") or "execution"
         L += ["## 下一张单从哪本账起算", "",
-              "- 已写下的执行后账：bar `%s`｜风险腿 ¥%s｜现金 ¥%s｜持仓 %d 只"
+              "- 已写下的执行后账：bar `%s`｜风险腿 ¥%s｜现金 ¥%s｜持仓 %d 只｜这一行是**%s**"
               % (base.get("bar"), format(base.get("risk_book_cny") or 0.0, ",.0f"),
-                 format(base.get("cash_cny") or 0.0, ",.0f"), base.get("holdings") or 0), ""]
+                 format(base.get("cash_cny") or 0.0, ",.0f"), base.get("holdings") or 0,
+                 "执行行" if _kind == "execution" else "执行后按每日市值/回购利 accrual 出来的估值行")]
+        _sup = base.get("superseded_execution_bar")
+        if _kind != "execution" and _sup and _sup != base.get("bar"):
+            L += ["- 上一笔执行停在 `%s`：那一行已经不是账户现在的样子，本面按 accrual 后的 `%s` 起算"
+                  "（只把持仓和现金往前推，换手仍是 `%s` 那次）" % (_sup, base.get("bar"), _sup)]
+        L.append("")
     elif face.get("verdict") != "CANNOT_VERIFY":
         L += ["## 下一张单从哪本账起算", "",
               "- **没有写下的执行后账**：下一张单只能退回上一张票面起算——那正是两本账分叉的入口。", ""]
@@ -1305,6 +1378,43 @@ def selftest():
     # 9. an unknown side is never guessed into a buy or a sell
     chk("an unknown side is skipped, not invented",
         apply_actions({"A": 10}, [{"side": "TRIM", "symbol": "A", "lots": 5}]) == {"A": 10})
+
+    # 9b. r1512: the row the accrual just wrote is the account the next sheet starts from
+    _led = {"rows": [
+        {"bar": "2026-11-09", "kind": "execution", "risk_book_cny": 392587.3,
+         "cash_cny": 607412.7, "holdings": [{"symbol": "A", "lots": 10}]},
+        {"bar": "2026-11-10", "kind": "valuation", "risk_book_cny": 400023.3,
+         "cash_cny": 607412.7, "holdings": [{"symbol": "A", "lots": 10}]}],
+        "restatements": []}
+    _exec = _led["rows"][0]
+    _acc = {"status": "ACCRUED", "last": _led["rows"][1]}
+    _b, _src = account_base_after_accrual(_led, _exec, _acc)
+    chk("the accrued row is the base, not the execution row it supersedes",
+        _b["bar"] == "2026-11-10" and _b["risk_book_cny"] == 400023.3)
+    chk("and the base says which kind of row it is", _src == "accrued_valuation")
+    _b2, _src2 = account_base_after_accrual(_led, _exec, {"status": "NO_NEW_BAR", "last": None})
+    chk("no accrual leaves the execution row as the base",
+        _b2["bar"] == "2026-11-09" and _src2 == "execution_row")
+    chk("an empty base stays empty rather than reading as an empty book",
+        account_base_after_accrual(_led, None, _acc) == (None, None))
+
+    # 9c. r1512: one episode, one sheet -- a newer sheet on disk is another decision
+    import tempfile as _tf
+    _d = _tf.mkdtemp()
+    _old = os.path.join(_d, "TICKET-2026-11-09.json")
+    _new = os.path.join(_d, "TICKET-2026-11-10.json")
+    for _p in (_old, _new):
+        open(_p, "w", encoding="utf-8").write("{}")
+    _p, _pin, _same = pin_episode_ticket({"ticket": "TICKET-2026-11-09.json", "asof": "2026-11-09"},
+                                         _new)
+    chk("the episode's own sheet wins over the newest one", _p == _old and _pin is True)
+    chk("and the two are not called the same ticket", _same is False)
+    _p2, _pin2, _same2 = pin_episode_ticket({"ticket": "TICKET-2026-11-10.json",
+                                             "asof": "2026-11-10"}, _new)
+    chk("a same-episode sheet is reported as the same", _p2 == _new and _same2 is True)
+    _p3, _pin3, _ = pin_episode_ticket({"ticket": "TICKET-2099-01-01.json"}, _new)
+    chk("a declared sheet that is not on disk falls back to the newest, unpinned",
+        _p3 == _new and _pin3 is False)
 
     # 10. r1469 accrual: cash earns calendar days, a missing quote accrues nothing
     chk("a three-day repurchase step is three days of the quote",

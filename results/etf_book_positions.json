@@ -65,10 +65,13 @@
   "source_face": "results/etf_book_swap_stack.json"
  },
  "next_order_base": {
-  "bar": "2026-11-09",
-  "risk_book_cny": 392587.3,
+  "bar": "2026-11-10",
+  "kind": "valuation",
+  "source": "accrued_valuation",
+  "risk_book_cny": 400023.3,
   "cash_cny": 607412.7,
-  "holdings": 4
+  "holdings": 4,
+  "superseded_execution_bar": "2026-11-09"
  },
  "base_divergence": [
   {
@@ -101,25 +104,83 @@
  ],
  "base_divergence_total_cny": 314084.9,
  "accrual": {
-  "status": "NO_NEW_BAR",
+  "status": "ACCRUED",
   "from_bar": "2026-11-09",
-  "rows": 0,
+  "rows": 1,
   "written": 0,
-  "kept": 0,
-  "rf_missing_bars": 0,
-  "last": null,
-  "rows_detail": [],
+  "kept": 1,
+  "rf_missing_bars": 1,
+  "last": {
+   "bar": "2026-11-10",
+   "kind": "valuation",
+   "from_bar": "2026-11-09",
+   "holdings": [
+    {
+     "symbol": "159263",
+     "lots": 690,
+     "price": 1.134,
+     "amount_cny": 78246.0
+    },
+    {
+     "symbol": "159513",
+     "lots": 925,
+     "price": 1.76,
+     "amount_cny": 162800.0
+    },
+    {
+     "symbol": "159577",
+     "lots": 487,
+     "price": 1.659,
+     "amount_cny": 80793.3
+    },
+    {
+     "symbol": "513690",
+     "lots": 674,
+     "price": 1.16,
+     "amount_cny": 78184.0
+    }
+   ],
+   "risk_book_cny": 400023.3,
+   "cash_cny": 607412.7,
+   "nav_cny": 1007436.0,
+   "ret": 0.007436,
+   "cum_ret": 0.007436,
+   "rf_step": 0.0,
+   "stale_price_symbols": [],
+   "source_face": "results/etf_book_swap_stack.json"
+  },
+  "rows_detail": [
+   {
+    "bar": "2026-11-10",
+    "risk_book_cny": 400023.3,
+    "cash_cny": 607412.7,
+    "nav_cny": 1007436.0,
+    "ret": 0.007436,
+    "cum_ret": 0.007436,
+    "rf_step": 0.0
+   }
+  ],
   "panel_missing_symbols": [],
   "repo_quotes": 3763,
   "rate_latest_bar": "2026-11-09",
   "rate_latest": 1.17,
-  "valued_upto_bar": "2026-11-09"
+  "valued_upto_bar": "2026-11-10"
  },
- "accrual_rows": [],
+ "accrual_rows": [
+  {
+   "bar": "2026-11-10",
+   "risk_book_cny": 400023.3,
+   "cash_cny": 607412.7,
+   "nav_cny": 1007436.0,
+   "ret": 0.007436,
+   "cum_ret": 0.007436,
+   "rf_step": 0.0
+  }
+ ],
  "settlement": {
   "bar": "2026-11-09",
   "priced": true,
-  "last_fully_priced_bar": "2026-11-09",
+  "last_fully_priced_bar": "2026-11-10",
   "missing_closes_on_bar": [],
   "blocked_bars_after_boundary": {},
   "ledger_bars_past_boundary": [],
@@ -143,10 +204,10 @@
  "engine_book": {
   "tail": {
    "source": "results/etf_book_order/ledger.jsonl",
-   "bar": "2026-11-09",
-   "nav_units": 1.45787328,
+   "bar": "2026-11-10",
+   "nav_units": 1.46850092,
    "k": 0.460253,
-   "rf": 9.74e-05
+   "rf": 3.205e-05
   },
   "divergence": {
    "book_k": 0.392587,
@@ -202,13 +263,35 @@
   "trail_starts_with_this_version": true,
   "trail_covers_bar": true,
   "page_block": {
-   "bar": "2026-11-06",
-   "same_bar": false
-  }
+   "bar": "2026-11-09",
+   "same_bar": true,
+   "lots": {
+    "159263": 690,
+    "159513": 925,
+    "159577": 487,
+    "513690": 674
+   },
+   "cash_cny": 607413.0
+  },
+  "page_vs_ledger_lots": [],
+  "page_vs_ledger_cash": {
+   "page": 607413.0,
+   "ledger": 607412.7,
+   "page_minus_ledger": 0.3
+  },
+  "page_vs_ledger_agree": false
  },
  "caveats": [
   "the reconciliation compares two documents, not two accounts: it says what the printed rows leave behind relative to the book the same face declares, and it cannot see whether the broker actually filled those lots",
   "the base divergence holds the target weights of THIS ticket fixed on purpose -- it isolates the starting-book effect. What the next decision bar selects is a different question and is not answered here",
   "prices are the sheet's own bar closes; a real execution will move both the share counts and the cash leg"
- ]
+ ],
+ "ticket_alignment": {
+  "episode_ticket": "TICKET-2026-11-09.json",
+  "episode_bar": "2026-11-09",
+  "latest_ticket": "TICKET-2026-11-10.json",
+  "pinned_to_episode": true,
+  "same_ticket": false,
+  "reading": "净额单面讲的是 TICKET-2026-11-09.json 那次换票，盘上最新票面是 TICKET-2026-11-10.json：两件事，本面只对自己的那一件，不把另一张票的账借来判红"
+ }
 }

@@ -1494,6 +1494,42 @@ def main() -> int:
     except Exception as _e3:
         check("product: the account the sheet never sells reaches the CEO page", False, str(_e3))
 
+    # r1512: the accrual wrote a row and nothing read it back -- the face kept naming the
+    # execution bar as the base for the next sheet while a fresher valuation row (marks + repo
+    # on the cash leg) sat in the same ledger. And on a quiet bar the newest sheet and the swap
+    # episode belong to two different decisions, so reconciling them printed a -6,396 "oversell"
+    # out of the calendar. This leg re-derives both from the published faces and the ledger.
+    try:
+        from scripts import etf_book_positions as _PO
+        from scripts import etf_book_swap_stack as _SS
+        _f = _PO._read_json(_PO.OUT_JSON) or {}
+        _L = _PO.load_ledger()
+        _b = _f.get("next_order_base") or {}
+        _rows = [r for r in (_L or {}).get("rows") or [] if str(r.get("bar") or "")]
+        _newest = max(_rows, key=lambda r: str(r.get("bar"))) if _rows else None
+        _badb = []
+        if not _b:
+            _badb.append("no base published at all")
+        elif _newest is not None and str(_b.get("bar")) != str(_newest.get("bar")):
+            _badb.append("the base is bar %s while the ledger already holds %s"
+                         % (_b.get("bar"), _newest.get("bar")))
+        elif _newest is not None and str(_newest.get("kind") or "execution") == "valuation":
+            if _b.get("kind") != "valuation" or _b.get("risk_book_cny") != _newest.get("risk_book_cny"):
+                _badb.append("the base does not carry the accrued valuation row's own risk leg")
+        # the episode's sheet, not merely the newest one on disk
+        _al = _f.get("ticket_alignment") or {}
+        _stk = _PO._read_json(_PO.STACK_FACE) or {}
+        _latest = _SS.latest_ticket_path()
+        if _stk.get("ticket") and _latest and _al.get("same_ticket") is False:
+            if _al.get("episode_ticket") != os.path.basename(str(_stk["ticket"])):
+                _badb.append("the face reconciled a sheet the episode never declared")
+        check("product: the next sheet starts from the account as it stands, not its last trade",
+              not _badb, "; ".join(_badb) or "base %s (%s) == newest ledger row"
+              % (_b.get("bar"), _b.get("kind")))
+    except Exception as _e4:
+        check("product: the next sheet starts from the account as it stands, not its last trade",
+              False, str(_e4))
+
     # r1211: the distribution reached the CEO page. Two ways to break this and only one of
     # them is visible by eye: (a) the section disappears, (b) the page prints a percentile
     # that its own resample rows do not produce. The leg re-derives from the rows.
