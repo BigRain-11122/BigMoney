@@ -1,8 +1,8 @@
 {
- "ts": "2026-11-10T20:31:23",
+ "ts": "2026-11-11T02:19:03",
  "mode": "probe",
  "py_faces_seen": 8,
- "orphans": 0,
+ "orphans": 1,
  "killed": [],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 1,
@@ -11,8 +11,8 @@
    "pid": 3288,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 3033.1,
-   "cpu_delta_20s": 3.094,
+   "age_min": 3380.7,
+   "cpu_delta_20s": 2.734,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
@@ -24,8 +24,8 @@
    "pid": 19864,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 3032.8,
-   "cpu_delta_20s": 3.203,
+   "age_min": 3380.5,
+   "cpu_delta_20s": 2.688,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -34,23 +34,9 @@
    ]
   },
   {
-   "pid": 27928,
+   "pid": 25596,
    "name": "python.exe",
-   "cmd": "python Tools\\fleet\\agent.py --node bm-c --loop 60",
-   "age_min": 3033.1,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "cmd.exe",
-    "wscript.exe"
-   ]
-  },
-  {
-   "pid": 34876,
-   "name": "python.exe",
-   "cmd": "python Tools\\fleet\\comfy_guard.py",
+   "cmd": "python Tools\\fleet\\fleet_hb.py --node bm-c --root K:\\Fluxgroup\\FluxGroup",
    "age_min": 0.1,
    "cpu_delta_20s": 999.0,
    "face1_parent_dead": false,
@@ -62,38 +48,54 @@
    ]
   },
   {
-   "pid": 60536,
+   "pid": 27928,
    "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
-   "age_min": 98.9,
-   "cpu_delta_20s": 2.562,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 62596,
-   "name": "python.exe",
-   "cmd": "python Tools\\fleet\\planner.py --node bm-c --root K:\\Fluxgroup\\FluxGroup",
-   "age_min": 0.0,
-   "cpu_delta_20s": 999.0,
+   "cmd": "python Tools\\fleet\\agent.py --node bm-c --loop 60",
+   "age_min": 3380.8,
+   "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
+   "face3_cpu_stalled": true,
    "ancestor_chain": [
     "cmd.exe",
     "wscript.exe"
    ]
   },
   {
-   "pid": 67116,
+   "pid": 46804,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
+   "age_min": 335.7,
+   "cpu_delta_20s": 0.016,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "listen_ports": [
+    8188
+   ]
+  },
+  {
+   "pid": 60536,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
+   "age_min": 446.5,
+   "cpu_delta_20s": 0.062,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 75896,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.5,
-   "cpu_delta_20s": 0.781,
+   "cpu_delta_20s": 0.547,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -105,31 +107,42 @@
    ]
   },
   {
-   "pid": 69108,
+   "pid": 77532,
    "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 39.0,
-   "cpu_delta_20s": 0.0,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m smoke_test",
+   "age_min": 0.5,
+   "cpu_delta_20s": 2.531,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  }
+ ],
+ "orphan_details": [
+  {
+   "pid": 60536,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
+   "age_min": 446.5,
+   "cpu_delta_20s": 0.062,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,
    "ancestor_chain": [
     "DEAD"
-   ],
-   "listen_ports": [
-    8188
    ]
   }
  ],
- "orphan_details": [],
  "idle_server_details": [],
  "resident_server_details": [
   {
-   "pid": 69108,
+   "pid": 46804,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 39.0,
-   "cpu_delta_20s": 0.0,
+   "age_min": 335.7,
+   "cpu_delta_20s": 0.016,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,

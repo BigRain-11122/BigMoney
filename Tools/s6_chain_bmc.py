@@ -1007,6 +1007,12 @@ LEGS = [
     # This leg re-derives the way-out price on the notional that actually traded (JSON reads).
     ("swap_toll",
      ["python", "scripts/etf_book_swap_toll.py", "check"]),
+    # r1529: the sheet prints two tolls half a page apart -- 0.16 in the trigger, 0.32 in the
+    # way-out face -- and calls both of them a round trip. This leg re-derives the three scopes
+    # from the side counts and the ticket's cost, and refuses a face whose decision threshold is
+    # not the exit scope or whose totals grew a combined figure (0.3s, two JSON reads).
+    ("toll_scope",
+     ["python", "scripts/etf_book_toll_scope.py", "check"]),
     # r1523: r1522 priced the way out on the same close as the way in -- "prices unchanged" was
     # a caveat, not a measurement. This leg re-derives the forward price path of the same pair
     # (does the gap ever hand the travelled pp back inside one grid) off the sibling-gap series,

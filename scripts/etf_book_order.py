@@ -57,6 +57,7 @@ from scripts.etf_book_cut_order_gap import trim_legs        # noqa: E402  (r1455
 from scripts import etf_book_k_gap as KG                     # noqa: E402  (r1515: per-name floor cut)
 from scripts import etf_book_exec_delta as EXD                # noqa: E402  (r1516: target minus the book)
 from scripts import etf_book_swap_toll as SWT                 # noqa: E402  (r1522: what the way out costs)
+from scripts import etf_book_toll_scope as TLS               # noqa: E402  (r1529: which scope a toll is)
 from scripts import etf_book_swap_convergence as SWC          # noqa: E402  (r1523: whether the way out pays)
 from scripts import etf_book_swap_effect as SWE               # noqa: E402  (r1524: the gain and the path, refused to be added)
 from scripts import etf_book_swap_units as SWU                # noqa: E402  (r1525: the discount is a share count, not money)
@@ -2083,6 +2084,10 @@ def card(ticket, mk, sched, asof, beta, extra):
         # r1522: every face above prices the swap on the way IN. This one prices the way out,
         # on the notional that actually traded -- four sides of cost, not two.
         L += SWT.md_lines(extra.get("swap_toll"))
+        # r1529: the two tolls above and below are not the same quantity. This section names
+        # the scope of each one, so 0.16 is not read as what the swap cost and 0.32 is not
+        # read as the threshold for acting again.
+        L += TLS.md_lines(extra.get("toll_scope"))
         # r1523: r1522 priced the way out on the same close as the way in. This one replaces
         # that assumption with the pair's own forward price path -- does the gap ever hand the
         # travelled pp back inside one grid, after four sides are paid.
@@ -2776,6 +2781,16 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "swap_toll": SWT.compute({"as_of": asof, "ticket_bar": asof,
                                          "swap_stack": _ss,
                                          "swap_trigger": _json_face(SWAP_FACE)}),
+               # r1529: two sections now print a toll half a page apart (0.16 in r1466, 0.32
+               # in r1522) and both call it a round trip. Same inputs as the faces above, so
+               # the scope cannot be read off a different price than the toll it scopes.
+               "toll_scope": TLS.compute({"as_of": asof,
+                                          "swap_toll": SWT.compute(
+                                              {"as_of": asof, "ticket_bar": asof,
+                                               "swap_stack": _ss,
+                                               "swap_trigger": _json_face(SWAP_FACE)}),
+                                          "swap_convergence": _swc,
+                                          "swap_trigger": _json_face(SWAP_FACE)}),
                # r1523: the toll above assumes prices do not move. This measures the pair's own
                # forward path, so "换回来值不值" is a reading rather than a premise.
                "swap_convergence": _swc,
@@ -2861,6 +2876,9 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "exec_delta": payload["exec_delta"],
                       # r1522: the way out travels with the ticket, not only in results/.
                       "swap_toll": payload["swap_toll"],
+                      # r1529: and the scope of each toll, so two halves of one question are
+                      # not read as two answers to it.
+                      "toll_scope": payload["toll_scope"],
                       # r1523: and so does the measured answer to whether it pays.
                       "swap_convergence": payload["swap_convergence"],
                       # r1524: the gain and the path on one line, with no combined number.

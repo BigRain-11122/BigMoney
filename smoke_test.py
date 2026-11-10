@@ -1025,6 +1025,13 @@ def main() -> int:
              "scripts/etf_book_swap_toll.py", ["selftest"]),
             ("product: etf_book_swap_toll (published face re-derives from the swapped book)",
              "scripts/etf_book_swap_toll.py", ["check"]),
+            # r1529: the ticket carried two tolls (0.16 in r1466, 0.32 in r1522) under one word.
+            # These legs pin that the scopes re-derive from the side counts, that only the exit
+            # scope may be a threshold, and that the published face still reconciles.
+            ("product: etf_book_toll_scope (entry / exit / trip are three scopes, not one)",
+             "scripts/etf_book_toll_scope.py", ["selftest"]),
+            ("product: etf_book_toll_scope (published face re-derives and adds no combined total)",
+             "scripts/etf_book_toll_scope.py", ["check"]),
             # r1523: the toll above is priced on "prices unchanged" -- that answers what another
             # exchange costs, not whether the gap ever hands the travelled pp back. This leg pins
             # the measured forward path (cohorts, censoring, median narrowing minus four sides)
@@ -10761,6 +10768,74 @@ def _legs_supply_and_book():
     except Exception as e:
         check("product: the sheet prices what the second exchange would cost",
               False, repr(e)[:180])
+
+    # r1529: by now the sheet carried two tolls -- 0.16 in the trigger (r1466) and 0.32 in the
+    # way-out face (r1522) -- under one word. This leg pins that the ticket carries the scope
+    # face, that it equals what this bar's own faces produce, that its trip agrees with the
+    # ticket's own round trip (a scope read off a different price is a second measurement), that
+    # its decision threshold is the EXIT scope, and that the sheet prints the table.
+    try:
+        _bad58 = []
+        from scripts import etf_book_toll_scope as _TLS58
+        _hits58 = sorted(glob.glob(os.path.join(PATHS.results_dir, "etf_book_order",
+                                                "TICKET-*.json")))
+        _tk58 = {}
+        if not _hits58:
+            _bad58.append("no TICKET-*.json under results/etf_book_order")
+        else:
+            with open(_hits58[-1], encoding="utf-8") as _fh58:
+                _tk58 = json.load(_fh58)
+            _pub58 = _tk58.get("toll_scope")
+            if not _pub58:
+                _bad58.append("the ticket carries no toll_scope (a face only results/ knows)")
+            else:
+                _fresh58 = _TLS58.compute({"as_of": _tk58.get("as_of"),
+                                           "swap_toll": _tk58.get("swap_toll"),
+                                           "swap_convergence": _tk58.get("swap_convergence"),
+                                           "swap_trigger": _tk58.get("swap_trigger")})
+                if _fresh58 != _pub58:
+                    _bad58.append("published toll_scope is not what this bar's own faces produce")
+                _b58 = _TLS58.check(_pub58)
+                if _b58:
+                    _bad58.append("published toll_scope does not reconcile: %s" % "; ".join(_b58))
+                _sc58 = {s["name"]: s for s in _pub58.get("scopes") or []}
+                _tt58 = (_tk58.get("swap_toll") or {}).get("totals") or {}
+                if _tt58.get("round_trip_cny") is not None:
+                    if abs(float((_pub58.get("totals") or {}).get("trip_cny") or 0.0)
+                           - float(_tt58["round_trip_cny"])) > 0.02:
+                        _bad58.append("the trip scope does not equal the ticket's own round trip")
+                if (_pub58.get("decision") or {}).get("threshold_pp") != \
+                        (_sc58.get("exit") or {}).get("pp"):
+                    _bad58.append("the decision threshold is not the exit scope")
+                if _pub58.get("verdict") == "SCOPES_SEPARATED":
+                    _md58p = os.path.join(PATHS.results_dir, "etf_book_order",
+                                          "ORDER-%s.md" % (_tk58.get("as_of") or ""))
+                    if not os.path.exists(_md58p):
+                        _bad58.append("ORDER-%s.md missing" % (_tk58.get("as_of"),))
+                    else:
+                        with open(_md58p, encoding="utf-8") as _fh58:
+                            _md58 = _fh58.read()
+                        if "这条过路费是几个钱" not in _md58:
+                            _bad58.append("sheet has no toll-scope section")
+                        if "一来一回" not in _md58:
+                            _bad58.append("sheet does not name the cumulative scope")
+                        _la58 = _pub58.get("label_audit") or {}
+                        if _la58.get("disclosure_status") == \
+                                "VALUE_IS_ONE_EXCHANGE_LABEL_SAYS_ROUND_TRIP" \
+                                and "命名纠错" not in _md58:
+                            _bad58.append("the sheet prints a single exchange as the round trip "
+                                          "without saying so")
+        check("product: a toll carries the scope it was measured on",
+              not _bad58, "; ".join(_bad58)[:220]
+              or "toll_scope %s entry=%s exit=%s trip=%s"
+              % (((_tk58.get("toll_scope") or {}).get("verdict")),
+                 ((_tk58.get("toll_scope") or {}).get("decision") or {}).get("threshold_pp"),
+                 format(float((((_tk58.get("toll_scope") or {}).get("totals") or {})
+                               .get("exit_cny") or 0.0)), ",.0f"),
+                 format(float((((_tk58.get("toll_scope") or {}).get("totals") or {})
+                               .get("trip_cny") or 0.0)), ",.0f")))
+    except Exception as e:
+        check("product: a toll carries the scope it was measured on", False, repr(e)[:180])
 
     # r1523: the way-out price above says "prices unchanged", which answers what a second
     # exchange COSTS. Nothing answered whether the travelled pp ever comes back. This leg

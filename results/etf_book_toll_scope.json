@@ -1,0 +1,137 @@
+{
+ "artifact": "etf_book_toll_scope",
+ "bar": "2026-11-10",
+ "verdict": "SCOPES_SEPARATED",
+ "scopes": [
+  {
+   "name": "entry",
+   "sides": 2,
+   "pp": 0.16,
+   "question": "换进去那一笔付了多少",
+   "decision_use": "SUNK: paid on the execution bar, unchanged by anything decided today",
+   "cny_per_100k": 160.0
+  },
+  {
+   "name": "exit",
+   "sides": 2,
+   "pp": 0.16,
+   "question": "今天换回来还要付多少",
+   "decision_use": "INCREMENTAL: this is the threshold a 'act again?' decision may use",
+   "cny_per_100k": 160.0
+  },
+  {
+   "name": "trip",
+   "sides": 4,
+   "pp": 0.32,
+   "question": "一来一回总共多少",
+   "decision_use": "CUMULATIVE: answers 'did the discount pay for the whole manoeuvre'",
+   "cny_per_100k": 320.0
+  }
+ ],
+ "rows": [
+  {
+   "symbol": "159501",
+   "sibling": "159513",
+   "notional_cny": 78492.0,
+   "entry_pp": 0.16,
+   "exit_pp": 0.16,
+   "trip_pp": 0.32,
+   "entry_cny": 125.59,
+   "exit_cny": 125.59,
+   "trip_cny": 251.17,
+   "why": "",
+   "share_at_entry_pp": 0.9208,
+   "share_at_trip_pp": 0.9044,
+   "published_share_at_0_16": 0.9208,
+   "published_share_matches": true,
+   "structural_share": 0.8,
+   "standing_at_entry_scope": true,
+   "standing_at_trip_scope": true,
+   "verdict_flips_with_scope": false,
+   "path_gain_pp": -0.1505,
+   "net_round_trip_pp": -0.4705,
+   "net_exit_only_pp": -0.3105,
+   "net_round_trip_cny": -369.3,
+   "net_exit_only_cny": -243.72,
+   "caliber_gap_pp": 0.16
+  },
+  {
+   "symbol": "513100",
+   "sibling": "159513",
+   "notional_cny": 78455.0,
+   "entry_pp": 0.16,
+   "exit_pp": 0.16,
+   "trip_pp": 0.32,
+   "entry_cny": 125.53,
+   "exit_cny": 125.53,
+   "trip_cny": 251.06,
+   "why": "",
+   "share_at_entry_pp": 0.9208,
+   "share_at_trip_pp": 0.9006,
+   "published_share_at_0_16": 0.9208,
+   "published_share_matches": true,
+   "structural_share": 0.8,
+   "standing_at_entry_scope": true,
+   "standing_at_trip_scope": true,
+   "verdict_flips_with_scope": false,
+   "path_gain_pp": 0.0935,
+   "net_round_trip_pp": -0.2265,
+   "net_exit_only_pp": -0.0665,
+   "net_round_trip_cny": -177.7,
+   "net_exit_only_cny": -52.17,
+   "caliber_gap_pp": 0.16
+  }
+ ],
+ "totals": {
+  "notional_cny": 156947.0,
+  "entry_cny": 251.12,
+  "exit_cny": 251.12,
+  "trip_cny": 502.23,
+  "pairs": 2,
+  "combined_cny": null
+ },
+ "convergence": {
+  "pairs": 2,
+  "net_round_trip_cny": -547.0,
+  "net_exit_only_cny": -295.89,
+  "verdict_round_trip": "DOES_NOT_PAY",
+  "verdict_exit_only": "DOES_NOT_PAY",
+  "do_not_add": true,
+  "why": "the two columns read the same gap change twice: one charges the entry toll a second time (cumulative), the other charges only what acting again costs. Adding or averaging them prices the trade at 1.5 exchanges"
+ },
+ "label_audit": {
+  "trigger_toll_pp": 0.16,
+  "printed_as": "round-trip",
+  "round_trip_pp": 0.32,
+  "single_exchange_pp": 0.16,
+  "equal_to_round_trip": false,
+  "disclosure_status": "VALUE_IS_ONE_EXCHANGE_LABEL_SAYS_ROUND_TRIP",
+  "equal_to_single_exchange": true
+ },
+ "reproduction": {
+  "checked": 2,
+  "mismatched": [],
+  "ok": true
+ },
+ "decision": {
+  "threshold_scope": "exit",
+  "threshold_pp": 0.16,
+  "why": "only the exit toll moves with 'do I unwind today'; the entry toll is already paid whether this desk acts or not"
+ },
+ "refused": [],
+ "caveats": [
+  "the three scopes share one cost figure and one notional; the side counts are imported from r1522 and the cost from the ticket, so a change in either moves all three together",
+  "the trigger's window share is REPRODUCED here at its own threshold before the second share is printed: a share at a moved threshold is a measurement, a share at a moved threshold on a series that no longer matches the published one is a new number wearing an old name",
+  "the path column re-prices an already published net; it does not re-measure the path and it does not re-derive the gain",
+  "a pair the trigger does not publish carries no share and is named, not printed as 0"
+ ],
+ "sources": {
+  "swap_toll": "results/etf_book_swap_toll.json",
+  "swap_convergence": "results/etf_book_swap_convergence.json",
+  "swap_trigger": "results/etf_book_swap_trigger.json",
+  "gap": "results/etf_book_sibling_gap.json (reconstruction imported)"
+ },
+ "evidence_cutoff": "2026-11-10",
+ "sentence": "同一个成本在读三个范围：进 0.16pp（已付、沉没）、出 0.16pp（今天再动才付）、一来一回 0.32pp——这一次进出各 ￥251，合计 ￥502。 判「要不要再动一次」只能用 0.16pp；按它算净额是 ￥-296，按一来一回算是 ￥-547，两个数不能相加也不能平均。",
+ "cost_bp_per_side": 8.0
+}
