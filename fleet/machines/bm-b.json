@@ -1577,10 +1577,11 @@
  "work": "the nine BOM sources cost three published payloads real rows (40 + 15 + 1 positions) and five studies parse raw and never name what they dropped; the 240s replay budget was choosing between '2 changed / 41 rows' and '3 changed / 56 rows'",
  "r1673_delivery": {
   "branch": "machine/bm-b-r1673",
-  "sha": "23ece2b81a26ec31504d7c9d3f52b30b305e0bd3",
+  "sha": "585e08c517c1a836c734f88a43e024318f6f72ce",
   "ts": "2026-11-10T21:35:12+08:00",
-  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1673 == 23ece2b81a26ec31504d7c9d3f52b30b305e0bd3 (tip after the postscript commit)",
+  "verified": "content commit; git ls-remote origin refs/heads/machine/bm-b-r1673 returned this sha immediately after the content push, and the postscript commits that follow advance the branch tip without touching the product set (a record that pointed at the tip would chase itself)",
   "main_push_note": "local main is 47 ahead / 47 behind origin/main on a promisor clone; no unattended rebase (r1243), so the machine branch is the delivery channel",
-  "targeted_add": "13 faces staged by pathspec out of a tree dirty with ~3,400 entries; results/_r1673bmb_s6_chain.json is gitignored and was not forced"
+  "targeted_add": "13 faces staged by pathspec out of a tree dirty with ~3,400 entries; results/_r1673bmb_s6_chain.json is gitignored and was not forced",
+  "product_set": "git show --stat 585e08c517c1a836c734f88a43e024318f6f72ce"
  }
 }
