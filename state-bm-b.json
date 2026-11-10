@@ -6308,9 +6308,9 @@
  "ram_note": "psutil probe at close (ram_load_pct is memory percent, cpu_pct is CPU -- two probes)",
  "ram_total_gb": 23.9,
  "reading": "17 parent sites / 15 distinct locations / 2 opened / 0 container / 6 builtin renders / 7 identity tokens / 0 unsettled",
- "recent_artifact": "results/state_tilt/RECEIVERORIGIN.json",
+ "recent_artifact": "results/state_tilt/MODULEWRITEKEY.json",
  "recent_artifact_note": "re-issued; ORDER-2026-11-06.md carries the pricing-bar and correction sections",
- "recent_artifact_ts": "2026-11-09T23:52:00+08:00",
+ "recent_artifact_ts": "2026-11-10T09:09:47+08:00",
  "red_fix": "no red was produced this window because the full suite did not run",
  "reds_fixed": "the E569 chain_numerator leg was red every round since r1596: its `check` compared the whole receipt directory (which the chain appends to on every run) against a face pinned at 326 files. Repaired by pinning the population by file name; rebirths are now a note and only a disappearance is a failure. red -> green measured this window.",
  "reds_open": "supply floor 2/3 (E568/E572 ready); state face was 3 rounds stale at open and healed here",
@@ -6335,11 +6335,11 @@
   "ts": "2026-11-09T11:00:00+08:00",
   "verify": "problems=[] verify=identical"
  },
- "round_label": "r1646",
- "round_no": 1661,
+ "round_label": "r1663",
+ "round_no": 1663,
  "round_no_label": "r1644",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
- "round_no_ts": "2026-11-09T21:36:13+08:00",
+ "round_no_ts": "2026-11-10T09:09:47+08:00",
  "round_no_ts_note": "r1455 closeout (label r1455: the 11:09 read-only YIELD row had already consumed the label r1454; the state counter moves 1453 -> 1454 once). state.json (legacy face) is 7 rounds behind this file and was NOT rewritten mid-round",
  "round_note_1476": "suite 343/351 PASS, 8 FAIL (r1475: 341/351, 10 FAIL) -- the two flipped legs are the two repaired (E422, E425); evidence results/_smoke_r1476.out",
  "round_number_heal": "state and report both carry 1630 this window",
@@ -6363,7 +6363,7 @@
  "s1_note": "no suite total is claimed this window",
  "s2": "no new board job; burned the ready pool head E627; E628 seeded (1 ready at close)",
  "s4": "card E627 appended to knowledge/METHODOLOGY_ASSETS.md (43/0 numstat) + TREASURE_REGISTRY row (1/0); digest DIGEST-20261109-r1645-e627-alias-binding.md",
- "s6": "python Tools/s6_chain_bmb.py 1652 --only read_forms -> rc=0 0.05s problems=[]",
+ "s6": "module_write_key rc=0 0.05s problems=[] | dualrun ZERO-DRIFT 1,106 entries streak 8 | attrition CLEAN 4 ledgers (2 historic shrinks already healed) | orphan py_faces=6 orphans=0",
  "s6_flag_guard": "python Tools/s6_chain_bmb.py --leg undated_vintage -> rc2 'unknown option(s): --leg'; 1509 --only undated_vintage -> rc0 0.05s",
  "s6_leg": "sibling_read_object",
  "s6_leg_added": "alias_binding (scripts/e627_alias_binding.py verify)",
@@ -6376,8 +6376,8 @@
  "s6_run_in_window": [
   "pointer_bar_demand rc=0 36.32s"
  ],
- "s7": "loop pin=2 current=2 no-op (first fire 00:0x) | watchdog present S4U | claws MATCH",
- "s7_checked_at": "2026-11-09T23:15:00+08:00",
+ "s7": "orphan face 0; smoke full suite not run this round (r1499 no leg filter) -- the E642 leg and its standalone mirror are green and red under --doctor; loop pin / watchdog / claws unchanged; D-19 zero action",
+ "s7_checked_at": "2026-11-10T09:09:47+08:00",
  "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
  "s7_note": "loop + watchdog tasks present; claws unchanged; D-19 zero action",
  "s7_pit": "schtasks output is localised GBK, so a Select-String filter on 'TaskName/Status' matched nothing; existence was proved from /xml rc=0 plus the LogonType field instead (R49 family)",
@@ -6386,13 +6386,13 @@
  "s8": "green_idle=false (RAM free 34.0% at probe, under the 40% gate), claimable_pool_lines=5, no local-registry work ignited",
  "sat_engine": "not re-queried this window -- stated, not claimed",
  "selftest": "e633_read_forms 29/29",
- "seq": 1646,
+ "seq": 1647,
  "side_effect_on_neighbour": "publishing fragmentproducers_latest.json added one family-named pointer, so E398's named_pointers moved 175 -> 176 and the E398 smoke leg failed; the face was re-derived from the live build (e398 run + verify problems=[]) rather than the leg loosened -- read sites 187 and bare pointers 28 unchanged",
  "side_finding": "E571 dialect_only_disagreements_here is not a subset of E561 17: it counts every stated receipt whose round is written as a non-int dialect (210+16=226). The new smoke leg re-derives it from the dialect table and publishes it as what it is; renaming the field belongs to the next window because other consumers already read the face.",
  "side_finding_2": "The E571 smoke block appended this round proved the r1598 claim false: the suite ended at the E569 block, so the card was published unguarded for a round. Fixed in-window; the block refuses a hand-written verdict, a count that does not re-derive, and a row flagged disagree with equal numbers.",
  "smoke": "1/1 standalone (full suite not claimed)",
  "smoke_failures": null,
- "smoke_note": "suite total not claimed; new leg green standalone and red when doctored",
+ "smoke_note": "full suite NOT launched (no leg filter, r1499); the new E642 leg and its standalone mirror are green and red under --doctor",
  "smoke_passes": null,
  "smoke_r1417": {
   "dashboard_leg": "fixed in-window: the marks-gap leg demanded fill_verify_day equality against a face another host writes (bm-a single-writer law); the day may now lag and staleness is printed instead of failed",
@@ -6412,40 +6412,38 @@
  "state": "ok",
  "state_face_note": "authoritative face for bm-b",
  "status": "ok",
- "study": "E630_callee_write",
+ "study": "E642_module_write_key",
  "supply_floor": {
-  "breach": true,
+  "breach": false,
   "floor": 3,
-  "ready": 1,
+  "ready": 3,
   "seeded": [
-   "E631"
+   "E646"
   ]
  },
  "supply_floor_note": "E624 burned and closed; E625 seeded in its place (whether a same-object sibling read sees the same VALUE)",
- "supply_floor_ready": 1,
+ "supply_floor_ready": 3,
  "survey_note": "E548 and E562 were already implemented in earlier windows; their pool rows stayed 'ready' -- closed E552's row this round",
  "sync": {
-  "ahead_origin_main": 802,
-  "behind_origin_main": 486,
-  "peer": "origin",
-  "ts": "2026-11-09T23:15:00+08:00"
+  "ahead_origin_main": 17,
+  "behind_origin_main": 17
  },
- "sync_note": "local main is ~803 ahead / 486 behind origin/main across two blood lines on a promisor clone; no unattended rebase per r1243, so the machine branch is the delivery channel",
- "task": "r1649 E630 done: 11 handoffs after the holder's own 3 self-calls are separated, 0 reach a callee that writes the key -> the callee arm closes none of the 2 rows",
+ "sync_note": "local main is 17 ahead / 17 behind origin/main; no unattended rebase on a promisor clone (r1243), so the machine branch is the delivery channel",
+ "task": "E642: the module-level write residual E640 drops by definition, priced per module",
  "task_short": "the callee the caller hands it to",
  "task_short_note": "scripts/e599_pointer_redirect_bar.py; card E602; digest DIGEST-20261109-r1629-e599-pointer-redirect-bar.md",
- "this_round": "r1653",
+ "this_round": "r1663",
  "three_line": {
-  "current": "r1653: E634 walked the whole function body around the dead line -- 230 accesses of the same receivers, 0 unnamed entry reads of the key, so E633's line-scoped census and E632's node count both stand",
-  "recent": "results/state_tilt/READFUNCGAP.json @ 2026-11-10T05:29:11+08:00",
-  "next": "E635 whether the 21 computed-key reads after the dead line resolve to the counted key -- 48h"
+  "current": "r1663 E642 closed the module-level arm (0 sites in the 6 counted modules)",
+  "next": "E646 whether the 7 cross-module key-name hits share a container or binding -- 48h",
+  "recent": "results/state_tilt/MODULEWRITEKEY.json @ 2026-11-10T09:09:47+08:00"
  },
- "three_line_artifact": "results/state_tilt/READFUNCGAP.json",
- "three_line_artifact_ts": "2026-11-10T05:29:11+08:00",
- "three_line_current": "r1653: E634 walked the whole function body around the dead line -- 230 accesses of the same receivers, 0 unnamed entry reads of the key, so E633's line-scoped census and E632's node count both stand",
+ "three_line_artifact": "results/state_tilt/MODULEWRITEKEY.json",
+ "three_line_artifact_ts": "2026-11-10T09:09:47+08:00",
+ "three_line_current": "r1663 E642 closed the module-level arm (0 sites in the 6 counted modules)",
  "three_line_delivery": "machine/bm-b-r1645 @ fef6d5b4f29c",
- "three_line_next": "E635 whether the 21 computed-key reads after the dead line resolve to the counted key -- 48h",
- "three_line_recent": "results/state_tilt/READFUNCGAP.json @ 2026-11-10T05:29:11+08:00",
+ "three_line_next": "E646 whether the 7 cross-module key-name hits share a container or binding -- 48h",
+ "three_line_recent": "results/state_tilt/MODULEWRITEKEY.json @ 2026-11-10T09:09:47+08:00",
  "timestamp": "2026-11-10T05:30:18+08:00",
  "ts": "2026-11-10T07:20:00+08:00",
  "ts_utc_ms": 1794234696000,
@@ -6821,5 +6819,6 @@
   "verdict": "the_counted_functions_carry_depth-1_store_or_delete_sites_but_none_names_or_indexes_into_the_key_a_counted_read_line_reads,_so_the_blind_spot_of_the_two-depth_census_is_empty_by_measurement",
   "ts": "2026-11-10T08:50:00+08:00",
   "next": "E645 (ready, cpu-only): whether a computed-subscript depth-1 store can reach a counted row key"
- }
+ },
+ "verdict_round": "watermark py_low_board_clear -> burned the ready head E642 in-round"
 }

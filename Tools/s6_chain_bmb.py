@@ -1506,6 +1506,18 @@ LEGS = [
     ("writer_binding", ["python", "scripts/e641_writer_receiver.py", "verify"]),
     ("one_depth_write", ["python", "scripts/e644_onedepth_write.py", "verify"]),
 
+    # E642 asks the question E640 dropped by definition: its 2,641 module-level two-depth write
+    # sites have no enclosing function, so they sit outside "in the same function as the read" --
+    # but a module-level dict literal writes every key the module later reads.  Taking the 6 modules
+    # that hold E633's 13 counted read lines and keeping only the sites whose innermost enclosing
+    # function is None: none of those 6 modules carries a module-level two-depth site at all, against
+    # 17,720 module-level two-depth sites / 2,641 module-level writes corpus wide (which re-derives
+    # E640's published 2,641 exactly), so E640's exclusion is empty by measurement rather than by
+    # assumption.  The corpus-wide key-name arm fires 7 times, all on generic words ('verdict' /
+    # 'rows') in unrelated round scripts.  Verify re-derives every row sum and the verdict from the
+    # face's own rows, and reconciles the corpus total against E640's published residual.
+    ("module_write_key", ["python", "scripts/e642_module_write_key.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

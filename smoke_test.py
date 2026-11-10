@@ -27948,5 +27948,58 @@ except Exception as _e644x:
     _d644 = "study could not be read"
 check(_name644, not _bad644, "; ".join(_bad644)[:240] or _d644)
 
+# E642 asks the question E640 dropped by definition: its 2,641 module-level two-depth write sites
+# have no enclosing function, so "is the write in the same function as the read" cannot be asked of
+# them -- but a module-level dict literal writes every key the module later reads.  Taking the 6
+# modules that hold E633's 13 counted read lines and keeping only the sites whose owner function is
+# None: 0 of those 6 modules carries a module-level two-depth site at all, against 17,720 module-level
+# two-depth sites / 2,641 module-level writes in the corpus (which re-derives E640's published 2,641
+# exactly), so the exclusion is empty by measurement.  The corpus-wide arm (a weaker test: any
+# module's write key equal to any counted row key) fires 7 times, all on generic words
+# ('verdict'/'rows') in unrelated round scripts.  This leg refuses a face whose row sums do not
+# re-add, a row-key claim its own row_keys do not carry, a write flag its member contexts
+# contradict, a corpus total missing, and any problem the study's own gate returns.
+_name642 = ("E642 whether the module-level write sites E640 drops by definition name a key a counted "
+            "read line reads (r1663 bm-b)")
+_bad642 = []
+_d642 = "no reading"
+try:
+    _f642 = json.load(open(os.path.join("results", "state_tilt", "modulewritekey_latest.json"),
+                           encoding="utf-8"))
+    _m642 = importlib.import_module("e642_module_write_key")
+    _bad642.extend(_m642.face_problems(_f642))
+    _c642 = _f642.get("counts") or {}
+    _rows642 = _f642.get("rows") or []
+    _sites642 = [s for _r in _rows642 for s in (_r.get("sites") or [])]
+    _e640face642 = json.load(open(os.path.join("results", "state_tilt",
+                                              "writereadcollide_latest.json"), encoding="utf-8"))
+    _e640c642 = _e640face642.get("counts") or {}
+    if _c642.get("corpus_module_level_two_depth_write_sites") != (
+            _e640c642.get("corpus_write_sites_without_an_owner_function")):
+        _bad642.append("the module-level write total is not E640's published residual")
+    if len(_sites642) != (_c642.get("module_level_two_depth_sites_in_those_modules") or 0):
+        _bad642.append("the site list is not the published module-level total")
+    if len(_rows642) != (_c642.get("modules_holding_a_counted_read_line") or 0):
+        _bad642.append("the row list is not the published module count")
+    if sum(len(_r.get("read_lines") or []) for _r in _rows642) != (
+            _c642.get("counted_read_lines_in_those_modules") or 0):
+        _bad642.append("the read lines across the rows are not the published total")
+    if _c642.get("write_sites_naming_a_row_key") and not (
+            _c642.get("modules_whose_module_level_writes_name_a_row_key")):
+        _bad642.append("a naming write site without a module that carries it")
+    _v642 = _f642.get("verdict") or ""
+    if _v642.startswith("no_module_that_holds_a_counted_read_line"):
+        if (_c642.get("module_level_two_depth_sites_in_those_modules")
+                or not _c642.get("corpus_module_level_two_depth_write_sites")):
+            _bad642.append("the zero verdict is not the one its own totals force")
+    _cm642 = _f642.get("cross_module") or {}
+    if _cm642.get("in_the_modules_that_hold_the_reads") != (
+            _c642.get("write_sites_naming_a_row_key") or 0):
+        _bad642.append("the cross-module arm disagrees with the per-module hit count")
+except Exception as _e642x:
+    _bad642.append(repr(_e642x)[:160])
+    _d642 = "study could not be read"
+check(_name642, not _bad642, "; ".join(_bad642)[:240] or _d642)
+
 if __name__ == "__main__":
     sys.exit(main())
