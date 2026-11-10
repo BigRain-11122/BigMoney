@@ -1048,6 +1048,13 @@ def main() -> int:
              "scripts/etf_book_swap_units.py", ["selftest"]),
             ("product: etf_book_swap_units (published face re-derives from level/price)",
              "scripts/etf_book_swap_units.py", ["check"]),
+            # r1528: the share count lives INSIDE one line of the ledger (1,591,513 x 891 lots),
+            # and nothing said so. This leg pins the subset block: two legs on one line add up
+            # inside it without counting the line twice, the lot is taken on the combined count
+            # (55 lots + 46.48, not 54 + 146.48), and a face from another bar or a line the
+            # ledger does not carry refuses instead of printing a number.
+            ("product: the discount subset sits on the ledger's own line (r1528)",
+             "scripts/etf_book_positions.py", ["--check"]),
             # r1526: every swap face prices ONE exchange and three of them write the same
             # sentence about what is not priced -- the tracking difference of the sibling being
             # held. This pins the carry face: drift with its error band, the variance-ratio

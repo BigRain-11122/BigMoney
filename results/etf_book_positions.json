@@ -768,6 +768,53 @@
   "the base divergence holds the target weights of THIS ticket fixed on purpose -- it isolates the starting-book effect. What the next decision bar selects is a different question and is not answered here",
   "prices are the sheet's own bar closes; a real execution will move both the share counts and the cash leg"
  ],
+ "discount_inside_holdings": {
+  "artifact": "discount_inside_holdings",
+  "source_face": "results/etf_book_swap_units.json",
+  "ledger_face": "results/etf_book_positions.json",
+  "status": "INSIDE_THE_LINE",
+  "rows": [
+   {
+    "symbol": "159513",
+    "line_lots": 891,
+    "line_shares": 89100,
+    "extra_shares": 5546.48,
+    "legs": [
+     {
+      "from_leg": "159501",
+      "extra_shares": 3188.92,
+      "extra_lots": 31,
+      "extra_residue_shares": 88.92
+     },
+     {
+      "from_leg": "513100",
+      "extra_shares": 2357.56,
+      "extra_lots": 23,
+      "extra_residue_shares": 57.56
+     }
+    ],
+    "extra_lots": 55,
+    "extra_residue_shares": 46.48,
+    "share_of_line": 0.06225,
+    "from_leg": "159501/513100",
+    "label": "子集，不是第二笔持仓"
+   }
+  ],
+  "refusals": [],
+  "totals": {
+   "lines": 1,
+   "line_lots": 891,
+   "line_shares": 89100,
+   "extra_shares": 5546.48,
+   "extra_lots": 55,
+   "residue_shares": 46.48,
+   "share_of_lines": 0.06225
+  },
+  "not_a_line": "这几份就在账本那一行里：不增行、不改手数、不进风险腿金额、也不进 NAV——它们是同一笔持仓的一个子集。",
+  "caveats": [
+   "the line is the ledger's own row for the execution bar, not the sheet's entry table: the two are different books once a swap executes (r1521)"
+  ]
+ },
  "ticket_alignment": {
   "episode_ticket": "TICKET-2026-11-10.json",
   "episode_bar": "2026-11-10",

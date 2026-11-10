@@ -1214,6 +1214,7 @@ def positions_md(pos):
                      % format(pos["base_divergence_total_cny"], ",.0f"))
     elif v != "CANNOT_VERIFY":
         L.append("- **没有写下的执行后账**：下一张单只能退回上一张票面起算，那正是两本账分叉的入口。")
+    L += SWU.inside_md_lines(pos.get("discount_inside_holdings"))
     L += ["- 出处：%s。" % POSITIONS_FACE, ""]
     return L
 

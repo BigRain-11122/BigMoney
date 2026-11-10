@@ -136,6 +136,135 @@ def held_position(positions, symbol):
     return None
 
 
+def inside_holdings(face, positions):
+    """r1528: the shares the discount bought already live inside one line of the ledger.
+
+    r1525 counted 5,546.48 shares and said, in prose, that the count is a subset of the
+    159513 line. But the line a desk actually opens is the ledger row, and it carries one
+    number: 891 lots. "A share count nobody can find on the account" is exactly the shape of
+    a number that gets counted twice, so this block names the subset on the row itself and
+    refuses to be a second line -- it never moves lots, amount, the risk book or NAV.
+    """
+    out = {"artifact": "discount_inside_holdings",
+           "source_face": "results/etf_book_swap_units.json",
+           "ledger_face": "results/etf_book_positions.json",
+           "status": "REFUSED",
+           "rows": [],
+           "refusals": [],
+           "totals": {},
+           "not_a_line": ("这几份就在账本那一行里：不增行、不改手数、不进风险腿金额、"
+                          "也不进 NAV——它们是同一笔持仓的一个子集。"),
+           "caveats": [
+               "the line is the ledger's own row for the execution bar, not the sheet's entry "
+               "table: the two are different books once a swap executes (r1521)",
+           ]}
+    if not face:
+        out["refusals"].append({"why": "折扣份数面缺失：不拿空当零"})
+        return out
+    if face.get("verdict") in ("CANNOT_RECORD", "DISCOUNT_REACHED_THE_LEDGER"):
+        out["refusals"].append({"why": "折扣份数面自己记不起来（%s）：先修那一面"
+                                     % face.get("verdict")})
+        return out
+    if not positions or not (positions.get("ledger_row") or {}):
+        out["refusals"].append({"why": "持仓账本面缺失：没有可以指认的那一行"})
+        return out
+    bar = face.get("bar")
+    ledger_bar = (positions.get("ledger_bar")
+                  or (positions.get("ledger_row") or {}).get("bar"))
+    if bar and ledger_bar and str(bar) != str(ledger_bar):
+        out["refusals"].append({"why": "折扣量在 %s，账本那一行站在 %s：两个日子不能拼"
+                                     % (bar, ledger_bar)})
+        return out
+
+    # two swap legs can land on the SAME ledger line (159501 and 513100 both become 159513):
+    # the line is one, so the subsets add up inside it. Keying by leg would count the 891 lots
+    # twice and print a 12.4% share of a book that does not exist.
+    buckets = {}
+    for r in face.get("rows") or []:
+        sibling = str(r.get("sibling_symbol") or "")
+        held = held_position(positions, sibling)
+        if not held:
+            out["refusals"].append({"leg_symbol": r.get("leg_symbol"), "sibling_symbol": sibling,
+                                    "why": "账本上就没有这只票：折扣无处安放"})
+            continue
+        extra = _num(r.get("extra_shares"))
+        if extra is None or extra <= 0:
+            out["refusals"].append({"leg_symbol": r.get("leg_symbol"), "sibling_symbol": sibling,
+                                    "why": "这一腿没有可安放的份数"})
+            continue
+        b = buckets.setdefault(sibling, {"symbol": sibling, "line_lots": held["lots"],
+                                         "line_shares": held["shares"],
+                                         "extra_shares": 0.0, "legs": []})
+        b["legs"].append({"from_leg": str(r.get("leg_symbol") or ""),
+                          "extra_shares": round(extra, 2),
+                          "extra_lots": int(r.get("extra_lots") or 0),
+                          "extra_residue_shares": round(
+                              float(r.get("extra_residue_shares") or 0.0), 2)})
+        b["extra_shares"] = round(b["extra_shares"] + extra, 2)
+
+    for sym in sorted(buckets):
+        b = buckets[sym]
+        if b["extra_shares"] > b["line_shares"]:
+            out["refusals"].append({"sibling_symbol": sym,
+                                    "why": "折扣 %s 份大于账本那一行的 %d 份：子集就不成立"
+                                           % (_shares(b["extra_shares"]), b["line_shares"])})
+            continue
+        # the lot is the smallest thing a ticket trades, so it is taken on the LINE's own
+        # combined count, not per leg: 3,188.92 + 2,357.56 = 5,546.48 shares is 55 lots +
+        # 46.48, while flooring each leg first would lose a lot (31 + 23 = 54, residue 146.48)
+        # and print a residue larger than a lot.
+        b["extra_lots"] = int(b["extra_shares"] // LOT_SHARES)
+        b["extra_residue_shares"] = round(b["extra_shares"] - b["extra_lots"] * LOT_SHARES, 2)
+        b["share_of_line"] = round(b["extra_shares"] / b["line_shares"], 6) if b["line_shares"] else None
+        b["from_leg"] = "/".join(l["from_leg"] for l in b["legs"] if l["from_leg"])
+        b["label"] = "子集，不是第二笔持仓"
+        out["rows"].append(b)
+
+    if out["rows"]:
+        out["status"] = "INSIDE_THE_LINE"
+        extra_total = sum(r["extra_shares"] for r in out["rows"])
+        line_total = sum(r["line_shares"] for r in out["rows"])
+        out["totals"] = {"lines": len(out["rows"]),
+                         "line_lots": sum(r["line_lots"] for r in out["rows"]),
+                         "line_shares": line_total,
+                         "extra_shares": round(extra_total, 2),
+                         "extra_lots": sum(int(r.get("extra_lots") or 0) for r in out["rows"]),
+                         "residue_shares": round(sum(float(r.get("extra_residue_shares") or 0.0)
+                                                     for r in out["rows"]), 2),
+                         "share_of_lines": round(extra_total / line_total, 6) if line_total else None}
+    return out
+
+
+def inside_md_lines(block, heading="## 账本那一行里，有多少份是折扣买来的（r1528）"):
+    """The subset, printed where the desk reads the line -- with its refusals, never a 0."""
+    b = block or {}
+    L = ["", heading]
+    if b.get("status") != "INSIDE_THE_LINE":
+        why = "；".join(str(r.get("why")) for r in (b.get("refusals") or [])[:3]) or "面缺失"
+        L += ["- **这一问答不了**：%s。缺面不印 0，也不拿别处的份数顶替。" % why, ""]
+        return L
+    L += ["| 账本行 | 手数 | 份数 | 其中折扣买来 | 零头 | 占这一行 |",
+          "|---|---|---|---|---|---|"]
+    for r in b.get("rows") or []:
+        L.append("| %s（换自 %s） | %d | %s | **%s = %d 手 + %s** | %s | %.2f%% |"
+                 % (r["symbol"], r.get("from_leg") or "?",
+                    r.get("line_lots") or 0, _shares(r.get("line_shares")),
+                    _shares(r.get("extra_shares")), int(r.get("extra_lots") or 0),
+                    _shares(r.get("extra_residue_shares")),
+                    _shares(r.get("extra_residue_shares")),
+                    100.0 * float(r.get("share_of_line") or 0.0)))
+    t = b.get("totals") or {}
+    L += ["", "- 合计 **%s**（%d 手 + %s零头）是这几行合计 %s 里的一部分，占 **%.2f%%**。"
+          % (_shares(t.get("extra_shares")), int(t.get("extra_lots") or 0),
+             _shares(t.get("residue_shares")), _shares(t.get("line_shares")),
+             100.0 * float(t.get("share_of_lines") or 0.0)),
+          "- %s" % (b.get("not_a_line") or "")]
+    for rf in (b.get("refusals") or []):
+        L.append("- 没印的一腿：%s（%s）。" % (rf.get("leg_symbol") or "?", rf.get("why")))
+    L += ["- 出处：%s 与 %s。" % (b.get("source_face") or "?", b.get("ledger_face") or "?"), ""]
+    return L
+
+
 def trading_days():
     """The official calendar from its single owner. Never a date derived from our own panel."""
     try:
@@ -708,6 +837,46 @@ def selftest():
     ctx10["swap_stack"] = None
     leg("L35 a refused face still renders a line",
         any("记不起来" in x for x in md_lines(compute(ctx10))))
+
+    # r1528: the subset has to sit on the ledger's OWN line
+    _fx = _fixture()
+    _f = compute(_fx)
+    ins = inside_holdings(_f, _fx["positions"])
+    leg("L36 the subset lands on the line the ledger already holds",
+        ins["status"] == "INSIDE_THE_LINE" and len(ins["rows"]) == 1
+        and ins["rows"][0]["symbol"] == "159513"
+        and abs(ins["rows"][0]["extra_shares"] - 5546.48) < 0.02, ins["rows"])
+    leg("L37 two legs on one line do not count the line twice",
+        ins["totals"]["line_lots"] == 891 and ins["totals"]["line_shares"] == 89100
+        and abs(ins["totals"]["share_of_lines"] - 5546.48 / 89100) < 1e-5, ins["totals"])
+    leg("L38 it is labelled a subset, not a second holding",
+        all("子集" in (r.get("label") or "") for r in ins["rows"]) and "不增行" in ins["not_a_line"])
+    leg("L38b the lot is taken on the line's combined count, not per leg",
+        ins["totals"]["extra_lots"] == 55 and abs(ins["totals"]["residue_shares"] - 46.48) < 0.02,
+        ins["totals"])
+    leg("L39 md prints the shares and refuses to be a line",
+        any("其中折扣买来" in x for x in inside_md_lines(ins))
+        and any("不增行" in x for x in inside_md_lines(ins)))
+    _fx2 = _fixture()
+    _fx2["positions"]["ledger_bar"] = "2026-11-09"
+    leg("L40 a ledger standing on another bar refuses",
+        inside_holdings(_f, _fx2["positions"])["status"] == "REFUSED")
+    _fx3 = _fixture()
+    for _h in _fx3["positions"]["ledger_row"]["holdings"]:
+        if _h["symbol"] == "159513":
+            _h["symbol"] = "159999"
+    leg("L41 a line the ledger does not carry is named, not zeroed",
+        inside_holdings(_f, _fx3["positions"])["status"] == "REFUSED"
+        and any("无处安放" in (r.get("why") or "")
+                for r in inside_holdings(_f, _fx3["positions"])["refusals"]))
+    _fx4 = _fixture()
+    for _h in _fx4["positions"]["ledger_row"]["holdings"]:
+        if _h["symbol"] == "159513":
+            _h["lots"] = 10
+    leg("L42 a discount bigger than the line breaks the subset rule",
+        inside_holdings(_f, _fx4["positions"])["status"] == "REFUSED")
+    leg("L43 a refused subset still renders a line",
+        any("这一问答不了" in x for x in inside_md_lines({"status": "REFUSED", "refusals": [{"why": "x"}]})))
 
     ok = sum(1 for _n, v, _d in legs if v)
     for n, v, d in legs:

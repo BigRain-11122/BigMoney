@@ -38,10 +38,12 @@ sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 import etf_book_swap_stack as stack_face  # noqa: E402  (one reader of the sheet's order block)
 import etf_book_sibling_gap as gap_face  # noqa: E402  (one reader of the daily panels)
+import etf_book_swap_units as units_face  # noqa: E402  (r1528: the discount's share count)
 
 STACK_FACE = os.path.join(ROOT, "results", "etf_book_swap_stack.json")
 LEDGER_DIR = os.path.join(ROOT, "results", "etf_book_positions")
 LEDGER = os.path.join(LEDGER_DIR, "LEDGER.json")
+UNITS_FACE = os.path.join(ROOT, "results", "etf_book_swap_units.json")
 OUT_JSON = os.path.join(ROOT, "results", "etf_book_positions.json")
 OUT_MD = os.path.join(ROOT, "results", "etf_book_positions.md")
 
@@ -837,7 +839,7 @@ def assess(ticket, stack, ledger, stamp=None):
                    "k_gap": round(gap_k, 6),
                    "notional_gap_cny": round(gap_k * total_nav, 2) if total_nav else None}
 
-    return {
+    out = {
         "artifact": "etf_book_positions",
         "asof": asof,
         # r1514: `asof` is the episode/ticket bar, but the ledger is re-valued every session
@@ -889,6 +891,12 @@ def assess(ticket, stack, ledger, stamp=None):
             "counts and the cash leg",
         ],
     }
+    # r1528: r1525 measured the entry discount as a share count and left it as prose. A count
+    # with no owner on the statement is the shape a number takes before it is counted twice,
+    # so the subset is attached to the row it lives inside -- and the row's lots, amount and
+    # NAV are untouched (inside_holdings adds nothing; it only says where the shares already are).
+    out["discount_inside_holdings"] = units_face.inside_holdings(_read_json(UNITS_FACE), out)
+    return out
 
 
 def load_inputs(stamp=None):
