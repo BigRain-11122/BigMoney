@@ -912,14 +912,29 @@ def premium_block(pb, page_bar=None, page_sheet=None):
         sentence += ("——占它那张单的 **%.2f%%**" if onpage else "——占这张单的 **%.2f%%**") % share
     if share_nav is not None:
         sentence += "、占总资金的 **%.2f%%**" % share_nav
-    add("**%s。**" % sentence)
+    # r1504: the sentence already bolds its own amounts. Wrapping it in another ** made the
+    # rendered page break the bold at the first inner marker ("那张单 **￥459,796** 里"), so the
+    # one line a reader sees first read as a typo. Bold lives inside the sentence only.
+    add("%s。" % sentence)
     add("")
     if top:
         add("其中 %d 只票站在全市场 **%d** 只 ETF 溢价的最高 5%% 里（%s）。"
             % (len(top), (top[0].get("market_n") or 0),
                "、".join("%s 第 %s" % (r["symbol"], r.get("market_rank")) for r in top)))
         add("")
-    add("| 代码 | 类别 | 参考价 | 同一日的 IOPV | 溢价 | 买溢价 ¥ | 全市场排名 |")
+    # r1504: the dates go INTO the table header. A sentence above the table can be skipped,
+    # and the row a reader copies carries no date of its own -- so "which day is this rate
+    # from" has to travel with each column, not sit in prose. Every column here (price,
+    # IOPV, premium, rank) comes from the face's own session; the page's sheet prices are
+    # a different day, and the header says which one this table is.
+    _face_ds = str(pb.get("session"))[:10] if pb.get("session") else "—"
+    _page_ds = str(page_bar)[:10] if page_bar else "—"
+    if page_bar and pb.get("session") and _page_ds != _face_ds:
+        add("本表每一列——价格、IOPV、溢价率、全市场排名——都是 **%s** 那一天的读数；"
+            "本页这张单的价是 **%s** 的。一张表只装一个日子。" % (_face_ds, _page_ds))
+        add("")
+    add("| 代码 | 类别 | 参考价（%s） | 同一日的 IOPV（%s） | 溢价 | 买溢价 ¥ | 全市场排名 |"
+        % (_face_ds, _face_ds))
     add("|---|---|---|---|---|---|---|")
     for r in pb.get("names") or []:
         if r.get("status") == "OK":
@@ -952,7 +967,7 @@ def premium_block(pb, page_bar=None, page_sheet=None):
             % (format(onpage["face_amount_cny"], ",.0f"),
                format(onpage["page_amount_cny"], ",.0f")))
         add("")
-        add("| 代码 | 本页金额 | 溢价率（%s） | 买溢价 ¥ |" % (onpage.get("face_session") or "溢价面"))
+        add("| 代码 | 本页金额（%s 价） | 溢价率（%s 读数） | 买溢价 ¥ |" % (_page_ds, _face_ds))
         add("|---|---|---|---|")
         for r in onpage["rows"]:
             add("| %s | ¥%s | %+.2f%% | %s |"
@@ -6948,6 +6963,24 @@ def selftest():
                                                "legs": [{"symbol": "159501", "amount_cny": 1.0}]})
     chk("L155 premium on this page: a rounding-sized difference is the same paper, not a second one",
         _pb_near is None, "near=%r" % (_pb_near,))
+    # r1504: the last round printed the date mismatch as a sentence above the table. A reader
+    # who copies a row out of the table still holds an undated number, and the page's sheet
+    # (2026-11-09 prices) and the face's rates (2026-11-06) sit in two different tables.
+    _pb_hdr = "\n".join(premium_block(_pb_fix, page_bar="2026-11-09", page_sheet=_pb_sheet))
+    chk("L156 premium block: each table's header carries its own date, not just a sentence above it",
+        "参考价（2026-11-06）" in _pb_hdr and "同一日的 IOPV（2026-11-06）" in _pb_hdr
+        and "买溢价 ¥" in _pb_hdr
+        and "本页金额（2026-11-09 价）" in _pb_hdr and "溢价率（2026-11-06 读数）" in _pb_hdr
+        and "本表每一列——价格、IOPV、溢价率、全市场排名——都是 **2026-11-06** 那一天的读数；"
+            "本页这张单的价是 **2026-11-09** 的" in _pb_hdr,
+        _pb_hdr[:200])
+    _pb_hdr_same = "\n".join(premium_block(_pb_fix, page_bar="2026-11-06"))
+    chk("L157 premium block: on the same session the header still dates itself and drops the mismatch line",
+        "参考价（2026-11-06）" in _pb_hdr_same and "两个日子对不上" not in _pb_hdr_same
+        and "本页这张单的价是" not in _pb_hdr_same, _pb_hdr_same[:160])
+    _pb_unbal = [ln for ln in _pb_hdr.splitlines() if ln.count("**") % 2]
+    chk("L158 premium block: no line breaks its own bold -- a sentence that bolds its amounts is not bolding twice",
+        not _pb_unbal and "****" not in _pb_hdr, "unbalanced=%r" % (_pb_unbal[:1],))
     # r1465: the gap-history section. The ways it can lie are its own: an absent face would
     # otherwise read as "the gap repeats", a face anchored on another session cannot lend its
     # percentiles to today's sheet, and the repeatable money must come off the face.
