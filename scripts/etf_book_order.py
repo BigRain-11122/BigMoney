@@ -2665,6 +2665,11 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     # r1478: the band r1477 pinned is now on the sheet an operator opens -- advisory only.
     _band = band_block(k_now, asof, _json_face(SIZING_PREREG_FACE), _perm,
                        _json_face(RULERS_FACE))
+    # r1521: read both books once and hand the same objects to the payload and to the
+    # delta -- two reads of a face that moves under the run is how two sections of one
+    # page end up describing different books.
+    _ss = _json_face(SWAP_STACK_FACE)
+    _pos = _json_face(POSITIONS_FACE)
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
                "permission": _perm,
                # r1515: the ticket an operator's tools read carries the per-name cut too,
@@ -2713,12 +2718,15 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                           "reinstated_history": reinstated_history()},
                "entry_gate": entry_gate_support(),
                "swap_trigger": _json_face(SWAP_FACE),
-               "swap_stack": _json_face(SWAP_STACK_FACE),
-               "positions": _json_face(POSITIONS_FACE),
+               "swap_stack": _ss,
+               "positions": _pos,
                # r1516: the executable delta (target minus the executed book) also goes on
                # the machine face, so a downstream tool does not have to re-subtract it.
+               # r1521: the swap face goes in with it -- the entry sheet is not the book the
+               # account can hold (r1467 rewrites it), so subtracting the entry sheet from a
+               # book that already traded the swap ordered the swap to be undone.
                "exec_delta": EXD.compute({"as_of": asof, "ticket": ticket,
-                                          "positions": _json_face(POSITIONS_FACE)}),
+                                          "positions": _pos, "swap_stack": _ss}),
                "width_disclosure": wd,
                "live_width_ruler": ruler,
                "price_basis": basis,

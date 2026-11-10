@@ -762,7 +762,15 @@ def assess(ticket, stack, ledger, stamp=None):
 
     # what the next order must start from (the row above, or a refusal)
     base = start_inventory(ledger, asof) if ledger is not None else None
-    ticket_lots = {str(r["symbol"]): int(r.get("lots") or 0) for r in order}
+    # r1521: the sheet's own instruction is not its entry table -- the swap line rewrites it
+    # before anything is sent (r1467), and `after` is the book that executing the sheet leaves
+    # behind. Comparing the account against the entry table charged the operator 313,763 CNY
+    # to undo the swap the same sheet had just ordered, on a page whose r1516 delta (fixed in
+    # the same round) already read 0. Two sections of one sheet cannot disagree about which
+    # book exists.
+    entry_lots = {str(r["symbol"]): int(r.get("lots") or 0) for r in order}
+    ticket_lots = ({str(h["symbol"]): int(h["lots"]) for h in after} if after else entry_lots)
+    base_source = "swap_stack.holdings_after" if (after and ticket_lots != entry_lots) else "entry_sheet"
     ledger_lots = ({str(h["symbol"]): int(h["lots"]) for h in (base or {}).get("holdings") or []}
                    if base else {})
     extra_prices = {str(h["symbol"]): float(h.get("price") or 0.0) for h in after}
@@ -860,6 +868,8 @@ def assess(ticket, stack, ledger, stamp=None):
         },
         "base_divergence": berr,
         "base_divergence_total_cny": berr_total,
+        "base_source": base_source,
+        "entry_sheet_lots": entry_lots,
         "accrual": accrual,
         "accrual_rows": accrual.get("rows_detail") or [],
         "settlement": settlement,
@@ -972,6 +982,15 @@ def render_md(face):
     elif face.get("verdict") != "CANNOT_VERIFY":
         L += ["## 下一张单从哪本账起算", "",
               "- **没有写下的执行后账**：下一张单只能退回上一张票面起算——那正是两本账分叉的入口。", ""]
+
+    if (face.get("base_source") or "") == "swap_stack.holdings_after":
+        _ent = face.get("entry_sheet_lots") or {}
+        _post = {str(h.get("symbol")): int(h.get("lots") or 0)
+                 for h in (face.get("ledger_row") or {}).get("holdings") or []}
+        _mv = [s for s in sorted(set(_ent) | set(_post)) if _ent.get(s, 0) != _post.get(s, 0)]
+        L += ["- 换票节（r1467）改过入场表：%s —— 所以上面说的「从票面起算」指的是**票面换票之后的账**，"
+              "不是入场表；拿入场表相减会凭空多出一次反向换票（r1521 修的就是这一处）。"
+              % "、".join(_mv), ""]
 
     if face.get("base_divergence"):
         L += ["## 把账本改回票面的样子，要再打多少", "",

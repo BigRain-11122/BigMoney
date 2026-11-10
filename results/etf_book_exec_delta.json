@@ -1,36 +1,36 @@
 {
  "artifact": "etf_book_exec_delta",
  "bar": "2026-11-10",
- "cash_after_cny": 607464.1,
+ "cash_after_cny": 607595.1,
  "cash_before_cny": 607595.1,
  "cash_recon_cny": 0.0,
  "current_rows": 4,
  "current_total_cny": 392404.9,
+ "entry_book_cny": 392535.9,
+ "entry_rows": 5,
+ "entry_sheet_moved": {
+  "159501": {
+   "entry_lots": 372,
+   "executed_lots": 0
+  },
+  "159513": {
+   "entry_lots": 0,
+   "executed_lots": 891
+  },
+  "513100": {
+   "entry_lots": 355,
+   "executed_lots": 0
+  }
+ },
  "evidence_cutoff": "2026-11-10",
- "gross_buy_cny": 156947.0,
- "gross_sell_cny": 156816.0,
- "held_not_in_target": [
-  "159513"
- ],
- "in_target_not_held": [
-  "159501",
-  "513100"
- ],
+ "gross_buy_cny": 0,
+ "gross_sell_cny": 0,
+ "held_not_in_target": [],
+ "in_target_not_held": [],
  "ledger_risk_book_cny": 392404.9,
- "net_cash_cny": 131.0,
+ "net_cash_cny": 0,
  "refused": null,
  "rows": [
-  {
-   "amount_cny": 156816.0,
-   "current_lots": 891,
-   "delta_lots": -891,
-   "held": true,
-   "in_target": false,
-   "price": 1.76,
-   "side": "SELL",
-   "symbol": "159513",
-   "target_lots": 0
-  },
   {
    "amount_cny": 0.0,
    "current_lots": 693,
@@ -41,6 +41,17 @@
    "side": "HOLD",
    "symbol": "159263",
    "target_lots": 693
+  },
+  {
+   "amount_cny": 0.0,
+   "current_lots": 891,
+   "delta_lots": 0,
+   "held": true,
+   "in_target": true,
+   "price": 1.76,
+   "side": "HOLD",
+   "symbol": "159513",
+   "target_lots": 891
   },
   {
    "amount_cny": 0.0,
@@ -63,37 +74,21 @@
    "side": "HOLD",
    "symbol": "513690",
    "target_lots": 677
-  },
-  {
-   "amount_cny": 78492.0,
-   "current_lots": 0,
-   "delta_lots": 372,
-   "held": false,
-   "in_target": true,
-   "price": 2.11,
-   "side": "BUY",
-   "symbol": "159501",
-   "target_lots": 372
-  },
-  {
-   "amount_cny": 78455.0,
-   "current_lots": 0,
-   "delta_lots": 355,
-   "held": false,
-   "in_target": true,
-   "price": 2.21,
-   "side": "BUY",
-   "symbol": "513100",
-   "target_lots": 355
   }
  ],
- "sheet_book_cny": 393073.0,
- "sheet_cash_cny": 607464.1,
+ "sheet_book_cny": 392404.9,
+ "sheet_cash_cny": 607595.1,
+ "swap_book_cny": 392404.9,
+ "swap_bought": [
+  "159513"
+ ],
+ "target_note": null,
  "target_rows": 5,
- "target_total_cny": 392535.9,
+ "target_source": "swap_stack.holdings_after",
+ "target_total_cny": 392404.9,
  "ticket_file": "TICKET-2026-11-10.json",
- "turnover_cny": 313763.0,
- "turnover_share_of_book_pct": 79.96,
+ "turnover_cny": 0,
+ "turnover_share_of_book_pct": 0.0,
  "unpriced_rows": [],
- "verdict": "SHEET_IMPLIES_A_SWAP"
+ "verdict": "ALREADY_ON_TARGET"
 }

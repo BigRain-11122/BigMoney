@@ -18,11 +18,21 @@ r1468 prints "按票面修回来要再打 ￥313,763" without saying 313,763 of 
 that the trim table and the swap line both sell the same leg. So the numbers exist -- they
 are just never turned into a row per name with a side, a lot count and an amount.
 
+r1521 -- WHICH BOOK. Both of the sentences above were quoting a number that was wrong, and
+this face was quoting the same one. The ticket prints an ENTRY table (5 names) and, on the
+same page, a swap line that rewrites two of those legs into one sibling before anything is
+sent. The account had already executed the swap, so subtracting the entry table from it
+ordered the swap to be undone: sell 891 of the share just bought, buy back the two legs just
+sold -- 313,763 CNY of turnover on a book that needed none. The target is now the sheet's own
+POST-SWAP book (`swap_stack.holdings_after`), the entry table is kept and named beside it, and
+an exit of a name the swap just bought is a refusal rather than a trade.
+
 WHAT IT IS NOT
 --------------
-Not a new signal and not a re-decision. The target comes from the ticket; the current book
-comes from the executed positions face; this file only subtracts them, in whole lots, at the
-sheet's own prices, and checks that the result reconciles the sheet's own cash line.
+Not a new signal and not a re-decision. The target comes from the ticket (its own post-swap
+book when the swap ran on this bar); the current book comes from the executed positions face;
+this file only subtracts them, in whole lots, at the sheet's own prices, and checks that the
+result reconciles the sheet's own cash line.
 
 THE GATE (why the numbers are trustworthy)
 ------------------------------------------
@@ -82,7 +92,53 @@ def _refused(bar, why):
             "current_total_cny": 0.0, "cash_before_cny": None, "cash_after_cny": None,
             "sheet_cash_cny": None, "cash_recon_cny": None, "unpriced_rows": [],
             "current_rows": 0, "target_rows": 0, "held_not_in_target": [],
-            "in_target_not_held": []}
+            "in_target_not_held": [], "target_source": None, "target_note": None,
+            "swap_bought": [], "entry_sheet_moved": {}, "entry_rows": 0,
+            "entry_book_cny": 0.0, "swap_book_cny": None}
+
+
+ENTRY = "entry_sheet"
+SWAP = "swap_stack.holdings_after"
+
+
+def _lots_map(rows):
+    return {str(r["symbol"]): int(r.get("lots") or 0) for r in rows if r.get("symbol")}
+
+
+def resolve_target(ticket, bar, order):
+    """WHICH book is the executable one on this bar -- the entry sheet or the swap book?
+
+    The entry sheet is what the account would buy if it opened today; the swap line
+    (r1466/r1467) rewrites some of those legs into one sibling before anything is sent.
+    Subtracting the raw entry sheet from a book that has already executed the swap
+    describes a trade that undoes the sheet's own instruction: on 2026-11-10 this face
+    printed "sell 891 of 159513, buy 372 / 355" while the swap section of the same page
+    said the exact opposite -- a 313,763 CNY round trip, paying the shelf twice for
+    nothing.
+
+    So: when the swap face is on this bar and it actually moved the book, the target is
+    its own post-trade book. Otherwise the entry sheet stands, and a swap face from
+    another bar is named rather than mixed in (two bars cannot be subtracted).
+    """
+    sw = ticket.get("swap_stack") or {}
+    sw_bar = sw.get("asof")
+    post = [h for h in (sw.get("holdings_after") or []) if h.get("symbol")]
+    if not post:
+        return order, ENTRY, None, {}
+    if not (sw_bar and bar and str(sw_bar) == str(bar)):
+        return order, ENTRY, (
+            "换票面是 %s 的、本单是 %s 的——两本不同 bar 不能相减，本节按入场表算"
+            % (sw_bar, bar)), {}
+    entry, postm = _lots_map(order), _lots_map(post)
+    if entry == postm:
+        return order, ENTRY, None, {}
+    moved = {s: {"entry_lots": entry.get(s, 0), "executed_lots": postm.get(s, 0)}
+             for s in sorted(set(entry) | set(postm))
+             if entry.get(s, 0) != postm.get(s, 0)}
+    rows = [{"symbol": str(h["symbol"]), "price": h.get("price"),
+             "lots": int(h.get("lots") or 0), "amount": float(h.get("amount_cny") or 0.0)}
+            for h in post]
+    return rows, SWAP, None, moved
 
 
 def compute(ticket):
@@ -109,8 +165,14 @@ def compute(ticket):
     if tb and bar and str(tb) != str(bar):
         return _refused(bar, "账本上一次对的是 %s 的票面、本单是 %s 的" % (tb, bar))
 
-    target = {r["symbol"]: r for r in order}
+    target_rows, target_source, swap_note, moved = resolve_target(ticket, bar, order)
+    target = {r["symbol"]: r for r in target_rows}
     have = {h["symbol"]: h for h in holdings}
+    sw = ticket.get("swap_stack") or {}
+    swap_used = target_source == SWAP
+    swap_bought = (sorted(str(a.get("symbol")) for a in (sw.get("actions") or [])
+                          if str(a.get("side") or "").upper() == "BUY")
+                   if (sw.get("asof") and bar and str(sw["asof"]) == str(bar)) else [])
 
     rows, unpriced = [], []
     for sym in sorted(set(target) | set(have)):
@@ -143,11 +205,15 @@ def compute(ticket):
     net_cash = round(gross_buy - gross_sell, 2)
     cash_before = led.get("cash_cny")
     cash_after = None if cash_before is None else round(float(cash_before) - net_cash, 2)
-    sheet_cash = tk.get("cash_amount")
+    # The cash/book line this face must land on belongs to the same book it subtracts.
+    sheet_cash = sw.get("cash_cny") if swap_used else tk.get("cash_amount")
     recon = (None if (cash_after is None or sheet_cash is None)
              else round(cash_after - float(sheet_cash), 2))
     current_total = round(sum(float(h.get("amount_cny") or 0.0) for h in holdings), 2)
-    target_total = round(sum(float(t.get("amount") or 0.0) for t in order), 2)
+    target_total = round(sum(float(t.get("amount") or 0.0) for t in target_rows), 2)
+    sheet_book = (sw.get("risk_book_after_cny") if swap_used
+                  else (tk.get("book_weight") and round(
+                      float(tk["book_weight"]) * float(tk.get("nav") or 0.0), 2)))
 
     if unpriced:
         verdict = "UNPRICED"
@@ -169,8 +235,12 @@ def compute(ticket):
         "gross_sell_cny": gross_sell, "gross_buy_cny": gross_buy,
         "turnover_cny": round(gross_buy + gross_sell, 2), "net_cash_cny": net_cash,
         "target_total_cny": target_total, "current_total_cny": current_total,
-        "sheet_book_cny": tk.get("book_weight") and round(
-            float(tk["book_weight"]) * float(tk.get("nav") or 0.0), 2),
+        "target_source": target_source, "target_note": swap_note,
+        "swap_bought": swap_bought, "entry_sheet_moved": moved,
+        "entry_rows": len(order),
+        "entry_book_cny": round(sum(float(r.get("amount") or 0.0) for r in order), 2),
+        "swap_book_cny": None if not swap_used else round(float(sheet_book or 0.0), 2),
+        "sheet_book_cny": sheet_book,
         "cash_before_cny": None if cash_before is None else round(float(cash_before), 2),
         "cash_after_cny": cash_after, "sheet_cash_cny": None if sheet_cash is None else round(float(sheet_cash), 2),
         "cash_recon_cny": recon,
@@ -218,6 +288,18 @@ def verify(face, bar=None, ticket_file=None):
     lrb, cur = face.get("ledger_risk_book_cny"), face.get("current_total_cny")
     if lrb is not None and cur is not None and abs(float(lrb) - float(cur)) > SUM_TOL:
         bad.append("账上逐名合计 %.2f ≠ 账本自己的风险腿 %.2f" % (cur, lrb))
+    # The two sections of one page must not order opposite trades on the same bar.
+    ts = face.get("target_source")
+    if ts is not None and ts not in (ENTRY, SWAP):
+        bad.append("目标来路 %r 不是认得的两种之一（入场表 / 换票后账）" % ts)
+    sb = face.get("swap_book_cny")
+    if ts == SWAP and sb is not None and abs(float(sb) - float(face.get("target_total_cny") or 0.0)) > SUM_TOL:
+        bad.append("相减用的换票后账 %.2f ≠ 换票面自己写的执行后账 %.2f"
+                   % (float(face.get("target_total_cny") or 0.0), float(sb)))
+    exit_swapped = sorted(set(face.get("held_not_in_target") or []) & set(face.get("swap_bought") or []))
+    if exit_swapped:
+        bad.append("票面换票刚买进的 %s 又被整只卖出——两节自相矛盾"
+                   % "、".join(exit_swapped))
     mism = []
     if bar and face.get("bar") and str(face["bar"]) != str(bar):
         mism.append("面是 %s 的、这一张是 %s 的" % (face["bar"], bar))
@@ -237,6 +319,11 @@ def sentence(face):
         return "这张单算不出要下的动作：%s。" % face["refused"]
     v = face["verdict"]
     if v == "ALREADY_ON_TARGET":
+        if face.get("target_source") == SWAP:
+            return ("账上 %d 只已经在票面换票之后的账上——入场表 %d 只里被换掉的那几只"
+                    "（%s）不用再买回来，这张单不需要再动一手。"
+                    % (face["current_rows"], face.get("entry_rows") or 0,
+                       "、".join(sorted((face.get("entry_sheet_moved") or {})))))
         return ("账上 %d 只与票面 %d 只已经逐名对齐，这张单不需要下单。"
                 % (face["current_rows"], face["target_rows"]))
     if v == "UNPRICED":
@@ -268,6 +355,17 @@ def md_lines(face, heading="## 这张单实际要下的动作（r1516）"):
                 "- 读法：本面只做减法，不猜账。「算不出来」与「不用下单」是两件事，"
                 "缺的是账上那一行，不是动作本身。", ""]
     L = ["", heading, "- %s" % sentence(face)]
+    if face.get("target_source") == SWAP:
+        moved = face.get("entry_sheet_moved") or {}
+        if moved:
+            L.append("- 这一节相减用的「票面」是**换票之后的账**（r1467）：%s。"
+                     % "；".join("%s 入场 %d 手 → 换票后 %d 手"
+                                 % (s, v["entry_lots"], v["executed_lots"])
+                                 for s, v in sorted(moved.items())))
+            L.append("- 所以这里的 0 手不是「没算」：按入场表再减一遍会印出与上面换票节"
+                     "方向相反的动作表（卖回换票刚买的那只），那是票面自己跟自己打架。")
+    elif face.get("target_note"):
+        L.append("- %s。" % face["target_note"])
     if face.get("held_not_in_target"):
         L.append("- 账上有、票面没有 **%s**：这些是整只退出（不是减仓），卖出金额算在下面。"
                  % "、".join(face["held_not_in_target"]))
@@ -463,6 +561,49 @@ def selftest():
     leg("L21 a zero-trade sentence does not claim an order",
         "不需要下单" in sentence(compute(_fixture([("A", 10, 2.0)], [("A", 10, 2.0)],
                                                  cash=5000.0))))
+
+    # --- the swap book is the executable target (2026-11-10 live case) -------------
+    def _swap_fixture(swap_bar="2026-01-01"):
+        f = _fixture([("A", 10, 2.0), ("B", 10, 1.0)], [("C", 16, 1.85)],
+                     cash=50000.0, bar="2026-01-01")
+        f["swap_stack"] = {
+            "asof": swap_bar,
+            "holdings_after": [{"symbol": "C", "lots": 16, "price": 1.85,
+                                "amount_cny": round(16 * LOT * 1.85, 2)}],
+            "cash_cny": 50000.0,
+            "risk_book_after_cny": round(16 * LOT * 1.85, 2),
+            "actions": [{"side": "SELL", "symbol": "A", "lots": 10},
+                        {"side": "SELL", "symbol": "B", "lots": 10},
+                        {"side": "BUY", "symbol": "C", "lots": 16}],
+        }
+        return f
+
+    _sf = compute(_swap_fixture())
+    leg("L22 a book already on the swap's post-trade book has nothing to trade",
+        _sf["verdict"] == "ALREADY_ON_TARGET" and _sf["turnover_cny"] == 0.0
+        and _sf["target_source"] == SWAP)
+    leg("L23 without the swap face the same ticket orders the reversal "
+        "(that is the defect this block exists for)",
+        compute({k: v for k, v in _swap_fixture().items() if k != "swap_stack"})
+        ["turnover_cny"] > 0.0)
+    leg("L24 the subtracted book is the swap face's own post-trade book, to the cent",
+        abs(_sf["target_total_cny"] - _sf["swap_book_cny"]) <= SUM_TOL)
+    leg("L25 verify passes the swap book that reconciles",
+        verify(_sf) == ([], []))
+    _bad4 = json.loads(json.dumps(_sf))
+    _bad4["swap_book_cny"] = _bad4["swap_book_cny"] + 10.0
+    leg("L26 verify refuses a swapped target that is not the swap face's own book",
+        any("换票面自己写的执行后账" in b for b in verify(_bad4)[0]))
+    _bad5 = json.loads(json.dumps(_sf))
+    _bad5["held_not_in_target"] = ["C"]
+    leg("L27 an exit of the name the swap just bought is a refusal, not a trade",
+        any("两节自相矛盾" in b for b in verify(_bad5)[0]))
+    _fb = compute(_swap_fixture(swap_bar="2025-12-31"))
+    leg("L28 a swap face from another bar is named, never mixed in",
+        _fb["target_source"] == ENTRY and "不同 bar" in (_fb.get("target_note") or "")
+        and _fb["turnover_cny"] > 0.0)
+    leg("L29 the zero-trade sentence says which book the account is already on",
+        "换票之后的账" in sentence(_sf))
 
     bad = [n for n, v in ok if not v]
     for n, v in ok:

@@ -10606,9 +10606,29 @@ def _legs_supply_and_book():
             with open(_hits56[-1], encoding="utf-8") as _fh56:
                 _tk56 = json.load(_fh56)
             _pub56 = _tk56.get("exec_delta")
+            # r1521: the delta subtracts the sheet's own POST-SWAP book (the entry sheet is
+            # not a book the account can hold), so this re-derivation has to be handed the
+            # swap face too -- without it, "fresh != published" would only prove the leg
+            # forgot an input.
             _fresh56 = _EXD56.compute({"as_of": _tk56.get("as_of"),
                                        "ticket": _tk56.get("ticket"),
-                                       "positions": _tk56.get("positions")})
+                                       "positions": _tk56.get("positions"),
+                                       "swap_stack": _tk56.get("swap_stack")})
+            _ss56 = _tk56.get("swap_stack") or {}
+            _moved56 = _EXD56.resolve_target(
+                {"swap_stack": _ss56}, _tk56.get("as_of"), (_tk56.get("ticket") or {}).get("order") or [])
+            if _moved56[1] == _EXD56.SWAP:
+                if (_pub56 or {}).get("target_source") != _EXD56.SWAP:
+                    _bad56.append("the swap moved the book but the delta subtracted the entry sheet")
+                if float((_pub56 or {}).get("turnover_cny") or 0.0) != 0.0:
+                    _bad56.append("the account already is on the sheet's post-swap book, yet "
+                                  "the sheet orders %.2f of trades"
+                                  % float((_pub56 or {}).get("turnover_cny") or 0.0))
+                _clash56 = sorted(set((_pub56 or {}).get("held_not_in_target") or [])
+                                  & set((_pub56 or {}).get("swap_bought") or []))
+                if _clash56:
+                    _bad56.append("the sheet orders a full exit of what its own swap just "
+                                  "bought: %s" % "、".join(_clash56))
             _b56, _m56 = _EXD56.verify(_pub56)
             if _b56:
                 _bad56.append("published exec_delta does not reconcile: %s" % "; ".join(_b56))
@@ -10640,6 +10660,48 @@ def _legs_supply_and_book():
                  float((_tk56.get("exec_delta") or {}).get("turnover_cny") or 0.0)))
     except Exception as e:
         check("product: the trades between the target and the executed book reconcile to the sheet's cash",
+              False, repr(e)[:180])
+
+    # r1521: two sections of one sheet answer the same question -- "how much would it cost to
+    # make the account match the sheet" -- and on 2026-11-10 they answered 313,763 and (after
+    # the target was corrected) 0. The defect was one root: both subtracted the ENTRY table
+    # when the account had already executed the sheet's own swap line. This leg pins the two
+    # faces to each other, so the next one cannot drift back on its own.
+    try:
+        _bad57 = []
+        _pos57p = os.path.join(PATHS.results_dir, "etf_book_positions.json")
+        _ed57p = os.path.join(PATHS.results_dir, "etf_book_exec_delta.json")
+        if not (os.path.exists(_pos57p) and os.path.exists(_ed57p)):
+            _bad57.append("positions / exec_delta face missing")
+        else:
+            with open(_pos57p, encoding="utf-8") as _fh57:
+                _pos57 = json.load(_fh57)
+            with open(_ed57p, encoding="utf-8") as _fh57:
+                _ed57 = json.load(_fh57)
+            _gap57 = float(_pos57.get("base_divergence_total_cny") or 0.0)
+            _turn57 = float(_ed57.get("turnover_cny") or 0.0)
+            if abs(_gap57) > _EXD56.SUM_TOL and _turn57 == 0.0:
+                _bad57.append("the base face charges %.2f to fix the book while the delta "
+                              "orders nothing" % _gap57)
+            if (_pos57.get("base_source") or "") == _EXD56.SWAP:
+                _sw57 = {str(h.get("symbol")): int(h.get("lots") or 0)
+                         for h in (_pos57.get("ledger_row") or {}).get("holdings") or []}
+                _ent57 = {str(k): int(v) for k, v in (_pos57.get("entry_sheet_lots") or {}).items()}
+                if _sw57 and _ent57 and _sw57 == _ent57:
+                    _bad57.append("base_source says post-swap but the two lot maps are equal")
+            # the sheet may not print a cost that the face behind it no longer carries
+            _md57p = os.path.join(PATHS.results_dir, "etf_book_order",
+                                  "ORDER-%s.md" % (_ed57.get("bar") or ""))
+            if abs(_gap57) <= _EXD56.SUM_TOL and os.path.exists(_md57p):
+                with open(_md57p, encoding="utf-8") as _fh57:
+                    _md57 = _fh57.read()
+                if "按票面修回来要再打" in _md57:
+                    _bad57.append("the sheet still prices a base gap its own face reads as zero")
+        check("product: the base-gap face and the executable delta tell one story",
+              not _bad57, "; ".join(_bad57)[:220]
+              or "base gap %.2f / delta turnover %.2f" % (_gap57, _turn57))
+    except Exception as e:
+        check("product: the base-gap face and the executable delta tell one story",
               False, repr(e)[:180])
 
     # r1514: the per-name decomposition of what the floor cut has to reach the page as the

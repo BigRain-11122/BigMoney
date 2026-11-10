@@ -292,6 +292,12 @@ LEGS = [
     # book, offline, ~0s.
     ("etf_book_base_basis_audit",
      ["python", "scripts/etf_book_base_basis_audit.py", "run"]),
+    # r1521: the executable section is embedded by etf_book_order AND published as its
+    # own face -- same subtraction, two files, and until now only the ticket leg re-ran.
+    # r1521 also changed WHICH book it subtracts (the sheet's own post-swap book, not the
+    # entry sheet), so the stored face from before that change would otherwise sit there
+    # quoting a 313,763 CNY round trip the page no longer orders. ~0.3s, offline.
+    ("etf_book_exec_delta", ["python", "scripts/etf_book_exec_delta.py", "check"]),
     # r1333: the ticket above is a 5-name beta-overlay book while the card and the ledger
     # run 12 names at an 8% vol target -- two published books with one operator. This leg
     # issues the ticket FOR the card's own config (names, weights and scale read off the
