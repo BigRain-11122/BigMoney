@@ -10466,6 +10466,57 @@ def _legs_supply_and_book():
         check("product: the page names the board session the premium section never captured",
               False, repr(e)[:180])
 
+    # r1516: the sheet prints a TARGET and the account face prints a CURRENT book; the trades
+    # between them must exist on the ticket AND reconcile to the sheet's own cash line. Both
+    # sides are re-derived here (the published block vs the bar's own faces), never trusted.
+    try:
+        _bad56 = []
+        from scripts import etf_book_exec_delta as _EXD56
+        _hits56 = sorted(glob.glob(os.path.join(PATHS.results_dir, "etf_book_order",
+                                                "TICKET-*.json")))
+        _tk56 = {}
+        if not _hits56:
+            _bad56.append("no TICKET-*.json under results/etf_book_order")
+        else:
+            with open(_hits56[-1], encoding="utf-8") as _fh56:
+                _tk56 = json.load(_fh56)
+            _pub56 = _tk56.get("exec_delta")
+            _fresh56 = _EXD56.compute({"as_of": _tk56.get("as_of"),
+                                       "ticket": _tk56.get("ticket"),
+                                       "positions": _tk56.get("positions")})
+            _b56, _m56 = _EXD56.verify(_pub56)
+            if _b56:
+                _bad56.append("published exec_delta does not reconcile: %s" % "; ".join(_b56))
+            if _m56:
+                _bad56.append("published exec_delta is another sheet's: %s" % "; ".join(_m56))
+            if _fresh56 != _pub56:
+                _bad56.append("ticket's exec_delta is not what this bar's own faces produce")
+            _md56p = os.path.join(PATHS.results_dir, "etf_book_order",
+                                  "ORDER-%s.md" % (_tk56.get("as_of") or ""))
+            if not os.path.exists(_md56p):
+                _bad56.append("ORDER-%s.md missing" % (_tk56.get("as_of"),))
+            elif (_pub56 or {}).get("verdict") not in (None, "CANNOT_SUBTRACT"):
+                with open(_md56p, encoding="utf-8") as _fh56:
+                    _md56 = _fh56.read()
+                if "这张单实际要下的动作" not in _md56:
+                    _bad56.append("sheet has no executable-delta section")
+                for _r56 in (_pub56 or {}).get("rows") or []:
+                    _cell56 = "| %s | %.3f | %d | %d | %+d |" % (
+                        _r56.get("symbol"), float(_r56.get("price") or 0.0),
+                        int(_r56.get("current_lots") or 0),
+                        int(_r56.get("target_lots") or 0),
+                        int(_r56.get("delta_lots") or 0))
+                    if _cell56 not in _md56:
+                        _bad56.append("sheet row differs from face: %s" % _r56.get("symbol"))
+        check("product: the trades between the target and the executed book reconcile to the sheet's cash",
+              not _bad56, "; ".join(_bad56)[:220]
+              or "exec_delta %s turnover=%.2f"
+              % (((_tk56.get("exec_delta") or {}).get("verdict")),
+                 float((_tk56.get("exec_delta") or {}).get("turnover_cny") or 0.0)))
+    except Exception as e:
+        check("product: the trades between the target and the executed book reconcile to the sheet's cash",
+              False, repr(e)[:180])
+
     # r1514: the per-name decomposition of what the floor cut has to reach the page as the
     # producer's own numbers -- each name's short lots and money, and the face's total. The
     # leg derives both sides (face + page) instead of trusting either sentence.

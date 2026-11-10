@@ -55,6 +55,7 @@ from scripts.etf_book_bets_face import read_published as read_bets_face  # noqa:
 from scripts.etf_book_concentration import read_published as read_concentration  # noqa: E402
 from scripts.etf_book_cut_order_gap import trim_legs        # noqa: E402  (r1455: one trim rule)
 from scripts import etf_book_k_gap as KG                     # noqa: E402  (r1515: per-name floor cut)
+from scripts import etf_book_exec_delta as EXD                # noqa: E402  (r1516: target minus the book)
 from config import PATHS                           # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -2067,6 +2068,9 @@ def card(ticket, mk, sched, asof, beta, extra):
         L += ["", "整手取整后欠投 %.2f%% NAV（留在现金腿，不重分配）。" % ticket["underspend_pct"]]
         L += permission_md(extra.get("permission"))
         L += band_md(extra.get("size_band"))
+        # r1516: the sheet printed a TARGET and, elsewhere, a CURRENT book. The trades
+        # between them were never written down -- this is that subtraction, name by name.
+        L += EXD.md_lines(extra.get("exec_delta"))
         L += swap_trigger_md(extra.get("swap_trigger"))
         L += swap_stack_md(extra.get("swap_stack"))
         L += executed_base_md(extra.get("base"))
@@ -2711,6 +2715,10 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "swap_trigger": _json_face(SWAP_FACE),
                "swap_stack": _json_face(SWAP_STACK_FACE),
                "positions": _json_face(POSITIONS_FACE),
+               # r1516: the executable delta (target minus the executed book) also goes on
+               # the machine face, so a downstream tool does not have to re-subtract it.
+               "exec_delta": EXD.compute({"as_of": asof, "ticket": ticket,
+                                          "positions": _json_face(POSITIONS_FACE)}),
                "width_disclosure": wd,
                "live_width_ruler": ruler,
                "price_basis": basis,
@@ -2777,6 +2785,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "swap_trigger": payload["swap_trigger"],
                       "swap_stack": payload["swap_stack"],
                       "positions": payload["positions"],
+                      "exec_delta": payload["exec_delta"],
                       "premium": _prem,
                       "base": payload["base"],
                       "permission": payload["permission"],

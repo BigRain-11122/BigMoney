@@ -495,7 +495,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-10 19:47:25",
+   "at": "2026-11-10 20:10:53",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1343,6 +1343,104 @@
    "reading": "本面按净额单面自己声明的那张票对账——两件事同一格，红绿才说得上"
   }
  },
+ "exec_delta": {
+  "artifact": "etf_book_exec_delta",
+  "bar": "2026-11-10",
+  "verdict": "SHEET_IMPLIES_A_SWAP",
+  "refused": null,
+  "ticket_file": null,
+  "rows": [
+   {
+    "symbol": "159513",
+    "price": 1.76,
+    "current_lots": 891,
+    "target_lots": 0,
+    "delta_lots": -891,
+    "side": "SELL",
+    "amount_cny": 156816.0,
+    "held": true,
+    "in_target": false
+   },
+   {
+    "symbol": "159263",
+    "price": 1.134,
+    "current_lots": 693,
+    "target_lots": 693,
+    "delta_lots": 0,
+    "side": "HOLD",
+    "amount_cny": 0.0,
+    "held": true,
+    "in_target": true
+   },
+   {
+    "symbol": "159577",
+    "price": 1.659,
+    "current_lots": 473,
+    "target_lots": 473,
+    "delta_lots": 0,
+    "side": "HOLD",
+    "amount_cny": 0.0,
+    "held": true,
+    "in_target": true
+   },
+   {
+    "symbol": "513690",
+    "price": 1.16,
+    "current_lots": 677,
+    "target_lots": 677,
+    "delta_lots": 0,
+    "side": "HOLD",
+    "amount_cny": 0.0,
+    "held": true,
+    "in_target": true
+   },
+   {
+    "symbol": "159501",
+    "price": 2.11,
+    "current_lots": 0,
+    "target_lots": 372,
+    "delta_lots": 372,
+    "side": "BUY",
+    "amount_cny": 78492.0,
+    "held": false,
+    "in_target": true
+   },
+   {
+    "symbol": "513100",
+    "price": 2.21,
+    "current_lots": 0,
+    "target_lots": 355,
+    "delta_lots": 355,
+    "side": "BUY",
+    "amount_cny": 78455.0,
+    "held": false,
+    "in_target": true
+   }
+  ],
+  "gross_sell_cny": 156816.0,
+  "gross_buy_cny": 156947.0,
+  "turnover_cny": 313763.0,
+  "net_cash_cny": 131.0,
+  "target_total_cny": 392535.9,
+  "current_total_cny": 392404.9,
+  "sheet_book_cny": 393073.0,
+  "cash_before_cny": 607595.1,
+  "cash_after_cny": 607464.1,
+  "sheet_cash_cny": 607464.1,
+  "cash_recon_cny": 0.0,
+  "ledger_risk_book_cny": 392404.9,
+  "unpriced_rows": [],
+  "current_rows": 4,
+  "target_rows": 5,
+  "held_not_in_target": [
+   "159513"
+  ],
+  "in_target_not_held": [
+   "159501",
+   "513100"
+  ],
+  "turnover_share_of_book_pct": 79.96
+ },
  "width_disclosure": {
   "ticket_names": 5,
   "card_names": 12,
@@ -1361,15 +1459,15 @@
    "vol": 0.0888
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1109,
-    "card_width_cagr": 0.0963,
-    "pp": -1.46
-   },
    "vol": {
     "ticket_width_cagr": 0.1186,
     "card_width_cagr": 0.1223,
     "pp": 0.37
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1109,
+    "card_width_cagr": 0.0963,
+    "pp": -1.46
    }
   },
   "rules_differ": true,
