@@ -10059,6 +10059,59 @@ def _legs_supply_and_book():
     except Exception as e:
         check("product: the page prints what the price did after a premium reading like today's (same rows as the ticket)",
               False, repr(e)[:180])
+    # ---- r1505: the premium section dates itself, but the reader cannot tell whether the old
+    # rate will catch up. The board behind it is a realtime print (a missed session is gone),
+    # so the page must name the missing day and the next moment a same-day read exists. This
+    # leg derives both sides from the producer instead of trusting the sentence.
+    try:
+        _bad54 = []
+        _fw54 = os.path.join(PATHS.results_dir, "etf_premium", "PREMIUM-FORWARD.json")
+        if not os.path.exists(_fw54):
+            _bad54.append("results/etf_premium/PREMIUM-FORWARD.json missing")
+        else:
+            _ptr54p = os.path.join(PATHS.root, "docs", "live_book", "latest.json")
+            _md54 = ""
+            if os.path.exists(_ptr54p):
+                with open(_ptr54p, encoding="utf-8") as _fh54p:
+                    _ptr54 = json.load(_fh54p)
+                _md54p = os.path.join(PATHS.root, _ptr54.get("page") or "")
+                if os.path.exists(_md54p):
+                    with open(_md54p, encoding="utf-8") as _fh54m:
+                        _md54 = _fh54m.read()
+                else:
+                    _bad54.append("page %r named by latest.json is not on this disk"
+                                  % (_ptr54.get("page"),))
+            else:
+                _bad54.append("docs/live_book/latest.json missing")
+            if _md54:
+                from scripts import etf_premium_face as _epf54
+                _gap54 = _epf54.board_gap()
+                _miss54 = _gap54.get("missing")
+                if _gap54.get("status") != "ok" or _miss54 is None:
+                    _bad54.append("board gap unreadable (%r) -- the page cannot be checked "
+                                  "against it" % (_gap54.get("status"),))
+                elif _miss54:
+                    if "这块板缺了 %d 个交易日" % len(_miss54) not in _md54:
+                        _bad54.append("page does not print the board hole")
+                    for _d54 in _miss54:
+                        if _d54 not in _md54:
+                            _bad54.append("page does not name the missed board session %s" % _d54)
+                    if "重跑也拍不回来" not in _md54:
+                        _bad54.append("page does not say the hole cannot be refetched")
+                    if "没有缺口" in _md54:
+                        _bad54.append("page claims no gap while the producer reports one")
+                else:
+                    if "没有缺口" not in _md54:
+                        _bad54.append("page does not say the board is complete")
+                _nxt54 = _gap54.get("next_capture_session")
+                if _nxt54 and _nxt54 not in _md54:
+                    _bad54.append("page does not date the next capture (%s)" % _nxt54)
+        check("product: the page names the board session the premium section never captured",
+              not _bad54, "; ".join(_bad54)[:220]
+              or "page == board_gap (missing=%d)" % len(_epf54.board_gap().get("missing") or []))
+    except Exception as e:
+        check("product: the page names the board session the premium section never captured",
+              False, repr(e)[:180])
 
 
 def _finish() -> int:

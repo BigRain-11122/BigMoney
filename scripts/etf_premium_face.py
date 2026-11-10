@@ -450,6 +450,86 @@ def gate(now=None, force=False, days=_AUTO, snap_exists=None, gate_state=None):
     return True, today, "armed"
 
 
+def board_gap(now=None, days=_AUTO, snap_dir=None):
+    """Which trading sessions the IOPV board holds, and which are gone for good.
+
+    The board is a REALTIME print: `fetch` reads the session's spot board after the
+    close and files it under that session. A session with no file is therefore not
+    "late" -- re-running the lane tomorrow photographs tomorrow, not yesterday. That
+    makes this the one face in the chain whose holes do not heal, which is why a
+    consumer has to be told the hole instead of assuming a merely old file (contrast
+    the daily bar panels: any later run backfills them).
+
+    Coverage starts at the first board on disk -- sessions before it are NOT counted
+    as holes, because nothing ever claimed to cover them. An unreadable calendar
+    returns `missing=None` (unknown), never an empty list.
+    """
+    import datetime as _dt
+    now = now or _dt.datetime.now()
+    today = now.date().isoformat()
+    if days is _AUTO:
+        days = _trading_days()
+    snap_dir = snap_dir or SNAP_DIR
+    present = []
+    try:
+        names = os.listdir(snap_dir)
+    except OSError:
+        names = []
+    for fn in names:
+        if not fn.endswith(".csv"):
+            continue
+        stem = fn[:-4]
+        try:
+            _dt.date.fromisoformat(stem)
+        except ValueError:
+            continue
+        try:
+            if os.path.getsize(os.path.join(snap_dir, fn)) <= 0:
+                continue
+        except OSError:
+            continue
+        present.append(stem)
+    present = sorted(set(present))
+    before_close = (now.hour, now.minute) < CLOSE_CUTOFF
+    out = {"status": "ok", "boards_present": present, "n_boards": len(present),
+           "first_board": present[0] if present else None,
+           "last_board": present[-1] if present else None,
+           "coverage_starts": present[0] if present else None,
+           "sessions_expected": [], "missing": [], "n_missing": 0,
+           "recoverable": False,
+           "why_unrecoverable": "the board is a realtime print taken after the close, so a "
+                                "rerun photographs the session it runs in, not the one it missed",
+           "next_capture_session": None, "next_capture_after": None,
+           "clock": now.isoformat(timespec="minutes")}
+    if days is None:
+        out["status"] = "unreadable_calendar"
+        out["sessions_expected"] = None
+        out["missing"] = None
+        out["n_missing"] = None
+        out["next_capture_session"] = today
+        out["next_capture_after"] = "15:30" if before_close else None
+        return out
+    days = set(days)
+    closable = [d for d in days if d < today or (d == today and not before_close)]
+    last_closable = max(closable) if closable else None
+    if present and last_closable:
+        expected = sorted(d for d in days if present[0] <= d <= last_closable)
+        have = set(present)
+        out["sessions_expected"] = expected
+        out["missing"] = [d for d in expected if d not in have]
+        out["n_missing"] = len(out["missing"])
+    if today in days and before_close:
+        out["next_capture_session"] = today
+        out["next_capture_after"] = "15:30"
+    elif today in days and today not in set(present):
+        out["next_capture_session"] = today
+    else:
+        later = sorted(d for d in days if d > today)
+        out["next_capture_session"] = later[0] if later else None
+        out["next_capture_after"] = "15:30"
+    return out
+
+
 def do_fetch(force=False) -> int:
     import time as _t
     run, today, why = gate(force=force)
@@ -787,6 +867,52 @@ def selftest() -> int:
     leg("L24 under the hurdle the page prints the figure instead of a warning",
         f_low["over_hurdle"]["breached"] is False and abs(f_low["over_hurdle"]["total_over_nav_cny"] - 12.5) < 1e-6
         and "执行闸" in md and "不提示" in md)
+
+    # ---- board gaps (r1505). This board is the one face in the chain whose holes
+    # cannot be healed by running the lane again, so naming them is load-bearing.
+    import tempfile
+    tmp = tempfile.mkdtemp(prefix="epf_gap_")
+    for d in ("2026-11-05", "2026-11-06"):
+        with open(os.path.join(tmp, "%s.csv" % d), "w", encoding="utf-8") as f:
+            f.write("代码,名称\n")
+    CAL = {"2026-11-03", "2026-11-04", "2026-11-05", "2026-11-06",
+           "2026-11-09", "2026-11-10"}
+
+    # L25 a missing session is named, not smoothed over -- and coverage starts at the
+    # first board, so 11-03/11-04 (before it) are not counted as holes.
+    g = board_gap(now=_dt.datetime(2026, 11, 9, 16, 0), days=CAL, snap_dir=tmp)
+    leg("L25 a session with no board is named as a hole, and the gap says it cannot be healed",
+        g["missing"] == ["2026-11-09"] and g["n_missing"] == 1
+        and g["recoverable"] is False and "realtime print" in g["why_unrecoverable"]
+        and "2026-11-03" not in g["sessions_expected"]
+        and g["next_capture_session"] == "2026-11-09"
+        and g["next_capture_after"] is None)
+
+    # L26 before the close, today is not yet a hole: an intraday board is not the session.
+    g = board_gap(now=_dt.datetime(2026, 11, 9, 11, 0), days=CAL, snap_dir=tmp)
+    leg("L26 before 15:30 today is pending, not missing",
+        g["missing"] == [] and g["n_missing"] == 0
+        and g["next_capture_session"] == "2026-11-09" and g["next_capture_after"] == "15:30")
+
+    # L27 an unreadable calendar is UNKNOWN, never "no gap" -- the r98 unknown!=empty law.
+    g = board_gap(now=_dt.datetime(2026, 11, 9, 16, 0), days=None, snap_dir=tmp)
+    leg("L27 unreadable calendar -> missing=None, not an empty list",
+        g["status"] == "unreadable_calendar" and g["missing"] is None
+        and g["n_missing"] is None)
+
+    # L28 a captured session disappears from the list, and the next capture moves on.
+    with open(os.path.join(tmp, "2026-11-09.csv"), "w", encoding="utf-8") as f:
+        f.write("代码,名称\n")
+    g = board_gap(now=_dt.datetime(2026, 11, 9, 16, 0), days=CAL, snap_dir=tmp)
+    leg("L28 a captured session stops being a hole and the next capture is tomorrow",
+        g["missing"] == [] and g["last_board"] == "2026-11-09"
+        and g["next_capture_session"] == "2026-11-10")
+    # an empty file is not a capture -- a truncated write must not read as "done"
+    with open(os.path.join(tmp, "2026-11-10.csv"), "w", encoding="utf-8") as f:
+        f.write("")
+    g = board_gap(now=_dt.datetime(2026, 11, 10, 16, 0), days=CAL, snap_dir=tmp)
+    leg("L29 a zero-byte board file is not a capture",
+        g["missing"] == ["2026-11-10"] and g["last_board"] == "2026-11-09")
 
     ok = sum(1 for _, p, _ in legs if p)
     for name, p, detail in legs:

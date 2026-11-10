@@ -810,6 +810,54 @@ def premium_face(path=PREMIUM_LEAK_JSON):
     return out
 
 
+def premium_board_gap(now=None):
+    """(r1505) Which trading sessions the IOPV board behind this section never captured.
+
+    Why the page needs it: the section above dates itself ("rate day 11-06, price day
+    11-09") but a reader cannot tell WHY the rate is old, or whether it will catch up.
+    The board is a realtime print taken after the close, so a missed session is not
+    late -- it is gone. Single implementation lives in etf_premium_face.board_gap();
+    this wrapper only carries the reading to the page (E289: no second copy)."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_premium_face as _epf
+        return dict(_epf.board_gap(now=now))
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unavailable", "detail": str(exc)[:160]}
+
+
+def premium_board_gap_lines(gap):
+    """The two-to-three lines this page prints about the board's own holes."""
+    L = []
+    add = L.append
+    gap = gap or {}
+    st = gap.get("status")
+    if st == "unavailable":
+        add("- 这块板缺没缺日子，本页核验不了（%s）——不写成「没有缺口」。" % (gap.get("detail") or "无读数"))
+        return L
+    if st == "unreadable_calendar":
+        add("- 这块板的完整性核验不了：官方交易日历读不出来，所以「缺了几天」是**未知**，"
+            "不是零。下一次能抓：**%s**。" % (gap.get("next_capture_session") or "—"))
+        return L
+    miss = gap.get("missing")
+    if miss is None:
+        return L
+    nxt = gap.get("next_capture_session") or "—"
+    after = gap.get("next_capture_after")
+    when = ("**%s %s 之后**" % (nxt, after)) if after else ("**%s**（现在就能抓）" % nxt)
+    if miss:
+        add("- **这块板缺了 %d 个交易日：%s。** 它是**收盘后抓一次的实时快照**，不是能回头补的"
+            "历史序列——缺掉的那天重跑也拍不回来，所以上面这些数会一直停在 **%s**，"
+            "等到下一次收盘后有人跑一次 `etf_premium_face.py fetch`。下一次能同日报价：%s。"
+            % (len(miss), "、".join(miss), gap.get("last_board") or "—", when))
+    else:
+        add("- 这块板从 **%s** 起每个交易日都有，没有缺口（现在的读数就是最新收盘）；"
+            "下一次抓取：%s。" % (gap.get("coverage_starts") or "—", when))
+    return L
+
+
 def premium_on_page_sheet(pb, page_sheet, tol_cny=100.0, tol_pct=0.5):
     """(r1503) What THIS page's sheet pays above IOPV, at the face's own premium rates.
 
@@ -873,12 +921,13 @@ def premium_on_page_sheet(pb, page_sheet, tol_cny=100.0, tol_pct=0.5):
     return out
 
 
-def premium_block(pb, page_bar=None, page_sheet=None):
+def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None):
     """The lines this page prints about what the order pays above the basket."""
     L = []
     add = L.append
     add("## 这张单买的东西本身值多少（溢价）")
     add("")
+    gap = premium_board_gap() if board_gap is None else board_gap
     pb = pb or {}
     if pb.get("status") != "ok":
         add("这一节读不到溢价面（`%s`）：%s。**上面那张清单因此没有经过溢价检查**——"
@@ -886,10 +935,16 @@ def premium_block(pb, page_bar=None, page_sheet=None):
                 (pb.get("artifact") or "results/etf_book_premium_leak.json"),
                 pb.get("detail") or "无读数"))
         add("")
+        for line in premium_board_gap_lines(gap):
+            add(line)
+        add("")
         return L
     if page_bar and pb.get("session") and str(page_bar)[:10] != str(pb["session"])[:10]:
         add("溢价面是按 **%s** 的 IOPV 算的，本页的价是 **%s**——两个日子对不上，"
             "下面这些数不能直接搬到今天的单上。" % (pb["session"], page_bar))
+        add("")
+    for line in premium_board_gap_lines(gap):
+        add(line)
         add("")
     tot = pb.get("totals") or {}
     paid = tot.get("premium_paid_cny") or 0.0
@@ -7130,6 +7185,39 @@ def selftest():
     _pfw_cut = "\n".join(premium_forward_block(dict(_pfw_fix, missing_legs=["513100"])))
     chk("L169 premium forward block: a leg with no reading is named as unmeasured, not as zero drift",
         "513100" in _pfw_cut and "没量过" in _pfw_cut)
+
+    # r1505: the section dates itself ("rate day 11-06 / price day 11-09") but never said WHY
+    # the rate is old or whether it catches up. The board is a realtime print, so a missed
+    # session is gone -- the page has to name the day and the next moment a same-day read
+    # exists, or the reader waits for a number that will never arrive.
+    _gap_one = {"status": "ok", "boards_present": ["2026-11-06"], "n_boards": 1,
+                "first_board": "2026-11-06", "last_board": "2026-11-06",
+                "coverage_starts": "2026-11-06",
+                "sessions_expected": ["2026-11-06", "2026-11-09"],
+                "missing": ["2026-11-09"], "n_missing": 1, "recoverable": False,
+                "why_unrecoverable": "the board is a realtime print taken after the close, so a "
+                                     "rerun photographs the session it runs in, not the one it missed",
+                "next_capture_session": "2026-11-10", "next_capture_after": "15:30"}
+    _gap_txt = "\n".join(premium_block(_pb_fix, page_bar="2026-11-09", page_sheet=_pb_sheet,
+                                       board_gap=_gap_one))
+    chk("L170 premium block: a missed board session is named as unrecoverable and the next read is dated",
+        "这块板缺了 1 个交易日：2026-11-09" in _gap_txt
+        and "重跑也拍不回来" in _gap_txt and "一直停在 **2026-11-06**" in _gap_txt
+        and "2026-11-10 15:30 之后" in _gap_txt, "len=%d" % len(_gap_txt))
+    _gap_none = dict(_gap_one, sessions_expected=["2026-11-06"], missing=[], n_missing=0,
+                     last_board="2026-11-06")
+    _gap_none_txt = "\n".join(premium_block(_pb_fix, page_bar="2026-11-06",
+                                            board_gap=_gap_none))
+    chk("L171 premium block: a board with no holes says so and does not print a gap",
+        "没有缺口" in _gap_none_txt and "缺了" not in _gap_none_txt
+        and "2026-11-06" in _gap_none_txt, "len=%d" % len(_gap_none_txt))
+    _gap_unk = {"status": "unreadable_calendar", "missing": None, "n_missing": None,
+                "next_capture_session": "2026-11-10", "next_capture_after": None}
+    _gap_unk_txt = "\n".join(premium_block(_pb_fix, page_bar="2026-11-09",
+                                           board_gap=_gap_unk))
+    chk("L172 premium block: an unreadable calendar reads as unknown, never as zero holes",
+        "未知" in _gap_unk_txt and "不是零" in _gap_unk_txt
+        and "没有缺口" not in _gap_unk_txt, "len=%d" % len(_gap_unk_txt))
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 
