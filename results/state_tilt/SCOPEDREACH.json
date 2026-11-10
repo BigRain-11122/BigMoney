@@ -1,0 +1,743 @@
+{
+ "study": "E654_scoped_counted_key_reach",
+ "date": "2026-11-11",
+ "source_face": "results/state_tilt/COMPREHENSIONSCOPE.json",
+ "method": "read E650's 16 scoped counted-key rows from its face, re-parse each row's own module, publish every module-level binding and subscript write of the subscripted base name as a container shape (literal / empty-then-populated / runtime input / call result / alias / unresolved) with the key set when the source states one, and join each site to the 13 counted read lines E633/E638 publish by module and receiver to publish a per-site reach class",
+ "population_source": "E650's 16 scoped sites that name a counted row key, expanded to one row per (site, key, base) pair, against the 13 counted read lines",
+ "counts": {
+  "sites_in_source_face": 16,
+  "rows_measured": 16,
+  "read_lines_measured": 13,
+  "holes": {
+   "module_missing": 0,
+   "does_not_parse": 0
+  },
+  "sites_the_tree_lost": 0,
+  "by_key": {
+   "bar": 1,
+   "rows": 11,
+   "x1": 4
+  },
+  "by_reach_class": {
+   "off_population": 16
+  },
+  "sites_sharing_a_module_with_a_counted_read_line": 0,
+  "sites_sharing_a_receiver_name_with_a_counted_read_line": 0,
+  "sites_whose_container_a_counted_read_line_reads": 0,
+  "container_shape_histogram": {
+   "call_result": 5,
+   "empty_then_populated": 11
+  },
+  "read_line_container_shape_histogram": {
+   "call_result": 2,
+   "empty_then_populated": 8,
+   "literal_mapping": 2,
+   "runtime_input": 1
+  },
+  "key_names_colliding_across_objects": [
+   "bar",
+   "rows",
+   "x1"
+  ],
+  "rows_a_key_name_only_test_would_call_a_collision": 16,
+  "rows_a_container_test_calls_a_collision": 0,
+  "key_name_only_false_positives": 16,
+  "reconciliation": {
+   "source_face_present": true,
+   "source_rows": 16,
+   "source_histogram": {
+    "bar": 1,
+    "rows": 11,
+    "x1": 4
+   },
+   "sites_the_tree_lost": [],
+   "population_shrank_since_source_face": false
+  }
+ },
+ "rows": [
+  {
+   "module": "_r1052bmb_sscombo_report.py",
+   "line": 29,
+   "column": 72,
+   "bucket": "lambda",
+   "key": "x1",
+   "base": "res",
+   "shape": "call_result",
+   "value_set": null,
+   "bind_lines": [
+    16
+   ],
+   "write_lines": [],
+   "why": "Subscript",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  },
+  {
+   "module": "_r1052bmb_sscombo_report.py",
+   "line": 109,
+   "column": 47,
+   "bucket": "lambda",
+   "key": "x1",
+   "base": "res",
+   "shape": "call_result",
+   "value_set": null,
+   "bind_lines": [
+    16
+   ],
+   "write_lines": [],
+   "why": "Subscript",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  },
+  {
+   "module": "_r1592_etfbk_diag.py",
+   "line": 41,
+   "column": 68,
+   "bucket": "comprehension",
+   "key": "bar",
+   "base": "pub",
+   "shape": "call_result",
+   "value_set": null,
+   "bind_lines": [
+    18
+   ],
+   "write_lines": [],
+   "why": "Subscript",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  },
+  {
+   "module": "results/_r453bmc_bookkeep.py",
+   "line": 43,
+   "column": 26,
+   "bucket": "comprehension",
+   "key": "rows",
+   "base": "famdata",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "bind_lines": [
+    19
+   ],
+   "write_lines": [
+    35,
+    35,
+    35,
+    35
+   ],
+   "why": "empty dict display",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  },
+  {
+   "module": "results/_r454bmc_fundnulls_watch.py",
+   "line": 50,
+   "column": 26,
+   "bucket": "comprehension",
+   "key": "rows",
+   "base": "fam_out",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "bind_lines": [
+    21
+   ],
+   "write_lines": [
+    35,
+    35,
+    35,
+    35
+   ],
+   "why": "empty dict display",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  },
+  {
+   "module": "results/_r454bmc_fundnulls_watch.py",
+   "line": 53,
+   "column": 15,
+   "bucket": "comprehension",
+   "key": "rows",
+   "base": "fam_out",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "bind_lines": [
+    21
+   ],
+   "write_lines": [
+    35,
+    35,
+    35,
+    35
+   ],
+   "why": "empty dict display",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  },
+  {
+   "module": "results/_r454bmc_fundnulls_watch.py",
+   "line": 61,
+   "column": 25,
+   "bucket": "comprehension",
+   "key": "rows",
+   "base": "fam_out",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "bind_lines": [
+    21
+   ],
+   "write_lines": [
+    35,
+    35,
+    35,
+    35
+   ],
+   "why": "empty dict display",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  },
+  {
+   "module": "results/_r455bmc_fundnulls_watch.py",
+   "line": 51,
+   "column": 26,
+   "bucket": "comprehension",
+   "key": "rows",
+   "base": "fam_out",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "bind_lines": [
+    22
+   ],
+   "write_lines": [
+    36,
+    36,
+    36,
+    36
+   ],
+   "why": "empty dict display",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  },
+  {
+   "module": "results/_r455bmc_fundnulls_watch.py",
+   "line": 54,
+   "column": 15,
+   "bucket": "comprehension",
+   "key": "rows",
+   "base": "fam_out",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "bind_lines": [
+    22
+   ],
+   "write_lines": [
+    36,
+    36,
+    36,
+    36
+   ],
+   "why": "empty dict display",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  },
+  {
+   "module": "results/_r455bmc_fundnulls_watch.py",
+   "line": 62,
+   "column": 25,
+   "bucket": "comprehension",
+   "key": "rows",
+   "base": "fam_out",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "bind_lines": [
+    22
+   ],
+   "write_lines": [
+    36,
+    36,
+    36,
+    36
+   ],
+   "why": "empty dict display",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  },
+  {
+   "module": "results/_r456bmc_fundnulls_watch.py",
+   "line": 51,
+   "column": 26,
+   "bucket": "comprehension",
+   "key": "rows",
+   "base": "fam_out",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "bind_lines": [
+    22
+   ],
+   "write_lines": [
+    36,
+    36,
+    36,
+    36
+   ],
+   "why": "empty dict display",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  },
+  {
+   "module": "results/_r456bmc_fundnulls_watch.py",
+   "line": 54,
+   "column": 15,
+   "bucket": "comprehension",
+   "key": "rows",
+   "base": "fam_out",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "bind_lines": [
+    22
+   ],
+   "write_lines": [
+    36,
+    36,
+    36,
+    36
+   ],
+   "why": "empty dict display",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  },
+  {
+   "module": "results/_r456bmc_fundnulls_watch.py",
+   "line": 62,
+   "column": 25,
+   "bucket": "comprehension",
+   "key": "rows",
+   "base": "fam_out",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "bind_lines": [
+    22
+   ],
+   "write_lines": [
+    36,
+    36,
+    36,
+    36
+   ],
+   "why": "empty dict display",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  },
+  {
+   "module": "results/_r486bmc_w3_judge_prefinalize.py",
+   "line": 52,
+   "column": 11,
+   "bucket": "comprehension",
+   "key": "rows",
+   "base": "per_file",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "bind_lines": [
+    35
+   ],
+   "write_lines": [
+    40,
+    40,
+    40,
+    40
+   ],
+   "why": "empty dict display",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  },
+  {
+   "module": "scripts/stagestyle_combo_p1_report.py",
+   "line": 29,
+   "column": 72,
+   "bucket": "lambda",
+   "key": "x1",
+   "base": "res",
+   "shape": "call_result",
+   "value_set": null,
+   "bind_lines": [
+    16
+   ],
+   "write_lines": [],
+   "why": "Subscript",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  },
+  {
+   "module": "scripts/stagestyle_combo_p1_report.py",
+   "line": 109,
+   "column": 47,
+   "bucket": "lambda",
+   "key": "x1",
+   "base": "res",
+   "shape": "call_result",
+   "value_set": null,
+   "bind_lines": [
+    16
+   ],
+   "write_lines": [],
+   "why": "Subscript",
+   "reach_class": "off_population",
+   "read_lines_in_module": [],
+   "read_lines_sharing_receiver": []
+  }
+ ],
+ "read_lines": [
+  {
+   "module": "scripts/cn_core_ddctl_p1.py",
+   "line": 395,
+   "function": "run",
+   "receiver": "P",
+   "key": "days",
+   "shape": "call_result",
+   "value_set": null,
+   "why": "load_panel(...)"
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "line": 589,
+   "function": "simulate",
+   "receiver": "P",
+   "key": "slip_exec",
+   "shape": "literal_mapping",
+   "value_set": [
+    "idx",
+    "jcal",
+    "T_j",
+    "n_u",
+    "syms_u",
+    "u_cols",
+    "close_u",
+    "lead",
+    "amt_u",
+    "ic_c",
+    "ic_o",
+    "ic_bar",
+    "r_ic",
+    "carry_days",
+    "roll_days",
+    "sig_days",
+    "exec_days",
+    "K",
+    "adv_exec",
+    "slip_exec",
+    "sse_j",
+    "ma200_j",
+    "ew",
+    "face"
+   ],
+   "why": "dict display"
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "line": 593,
+   "function": "simulate",
+   "receiver": "P",
+   "key": "slip_exec",
+   "shape": "literal_mapping",
+   "value_set": [
+    "idx",
+    "jcal",
+    "T_j",
+    "n_u",
+    "syms_u",
+    "u_cols",
+    "close_u",
+    "lead",
+    "amt_u",
+    "ic_c",
+    "ic_o",
+    "ic_bar",
+    "r_ic",
+    "carry_days",
+    "roll_days",
+    "sig_days",
+    "exec_days",
+    "K",
+    "adv_exec",
+    "slip_exec",
+    "sse_j",
+    "ma200_j",
+    "ew",
+    "face"
+   ],
+   "why": "dict display"
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "line": 350,
+   "function": "build",
+   "receiver": "faces",
+   "key": "verdict",
+   "shape": "call_result",
+   "value_set": null,
+   "why": "BoolOp"
+  },
+  {
+   "module": "scripts/e504_name_compose.py",
+   "line": 919,
+   "function": "selftest",
+   "receiver": "doctored4",
+   "key": "rows",
+   "shape": "runtime_input",
+   "value_set": null,
+   "why": "loads(...)"
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "line": 367,
+   "function": "face_problems",
+   "receiver": "r",
+   "key": "bar",
+   "shape": "empty_then_populated",
+   "value_set": [
+    "nearest_prior_quote_pct"
+   ],
+   "why": "only subscript writes"
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "line": 372,
+   "function": "face_problems",
+   "receiver": "r",
+   "key": "bar",
+   "shape": "empty_then_populated",
+   "value_set": [
+    "nearest_prior_quote_pct"
+   ],
+   "why": "only subscript writes"
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "line": 377,
+   "function": "face_problems",
+   "receiver": "r",
+   "key": "bar",
+   "shape": "empty_then_populated",
+   "value_set": [
+    "nearest_prior_quote_pct"
+   ],
+   "why": "only subscript writes"
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "line": 414,
+   "function": "write_outputs",
+   "receiver": "ports",
+   "key": "x1",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "why": "empty dict display"
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "line": 424,
+   "function": "write_outputs",
+   "receiver": "sleeves",
+   "key": "x1",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "why": "empty dict display"
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "line": 437,
+   "function": "write_outputs",
+   "receiver": "sleeves",
+   "key": "x1",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "why": "empty dict display"
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "line": 438,
+   "function": "write_outputs",
+   "receiver": "sleeves",
+   "key": "x1",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "why": "empty dict display"
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "line": 444,
+   "function": "write_outputs",
+   "receiver": "sleeves",
+   "key": "x1",
+   "shape": "empty_then_populated",
+   "value_set": null,
+   "why": "empty dict display"
+  }
+ ],
+ "limits": [
+  "a shape is read off the module's own statements, not off runtime: an empty dict the module fills inside a loop from a disk face is 'empty_then_populated' with no value set, and calling that 'a runtime input' would be a guess",
+  "module identity is required for reach: a dict in another file cannot be the object a read line reads, so cross-module sites are classified off_population rather than matched by key name (E646's own arm makes the same move at the write side)",
+  "sharing a module and a receiver name is still not proof of identity: the receiver could be rebound between the read line and the site, so the container evidence is published beside the class instead of being folded into it",
+  "the population is E650's published rows, not a re-measure of its 383 sites: a site the tree grew since that face is disclosed in reconciliation, never silently added"
+ ],
+ "reconciliation": {
+  "source_face_present": true,
+  "source_rows": 16,
+  "source_histogram": {
+   "bar": 1,
+   "rows": 11,
+   "x1": 4
+  },
+  "sites_the_tree_lost": [],
+  "population_shrank_since_source_face": false
+ },
+ "examples": {
+  "sites": [
+   {
+    "module": "_r1052bmb_sscombo_report.py",
+    "line": 29,
+    "key": "x1",
+    "base": "res",
+    "shape": "call_result",
+    "value_set": null,
+    "reach_class": "off_population"
+   },
+   {
+    "module": "_r1052bmb_sscombo_report.py",
+    "line": 109,
+    "key": "x1",
+    "base": "res",
+    "shape": "call_result",
+    "value_set": null,
+    "reach_class": "off_population"
+   },
+   {
+    "module": "_r1592_etfbk_diag.py",
+    "line": 41,
+    "key": "bar",
+    "base": "pub",
+    "shape": "call_result",
+    "value_set": null,
+    "reach_class": "off_population"
+   },
+   {
+    "module": "results/_r453bmc_bookkeep.py",
+    "line": 43,
+    "key": "rows",
+    "base": "famdata",
+    "shape": "empty_then_populated",
+    "value_set": null,
+    "reach_class": "off_population"
+   },
+   {
+    "module": "results/_r454bmc_fundnulls_watch.py",
+    "line": 50,
+    "key": "rows",
+    "base": "fam_out",
+    "shape": "empty_then_populated",
+    "value_set": null,
+    "reach_class": "off_population"
+   },
+   {
+    "module": "results/_r454bmc_fundnulls_watch.py",
+    "line": 53,
+    "key": "rows",
+    "base": "fam_out",
+    "shape": "empty_then_populated",
+    "value_set": null,
+    "reach_class": "off_population"
+   },
+   {
+    "module": "results/_r454bmc_fundnulls_watch.py",
+    "line": 61,
+    "key": "rows",
+    "base": "fam_out",
+    "shape": "empty_then_populated",
+    "value_set": null,
+    "reach_class": "off_population"
+   },
+   {
+    "module": "results/_r455bmc_fundnulls_watch.py",
+    "line": 51,
+    "key": "rows",
+    "base": "fam_out",
+    "shape": "empty_then_populated",
+    "value_set": null,
+    "reach_class": "off_population"
+   }
+  ],
+  "read_lines": [
+   {
+    "module": "scripts/cn_core_ddctl_p1.py",
+    "line": 395,
+    "key": "days",
+    "receiver": "P",
+    "shape": "call_result"
+   },
+   {
+    "module": "scripts/cn_mkneutral_p1.py",
+    "line": 589,
+    "key": "slip_exec",
+    "receiver": "P",
+    "shape": "literal_mapping"
+   },
+   {
+    "module": "scripts/cn_mkneutral_p1.py",
+    "line": 593,
+    "key": "slip_exec",
+    "receiver": "P",
+    "shape": "literal_mapping"
+   },
+   {
+    "module": "scripts/e382_key_projection_delta.py",
+    "line": 350,
+    "key": "verdict",
+    "receiver": "faces",
+    "shape": "call_result"
+   },
+   {
+    "module": "scripts/e504_name_compose.py",
+    "line": 919,
+    "key": "rows",
+    "receiver": "doctored4",
+    "shape": "runtime_input"
+   },
+   {
+    "module": "scripts/e590_cash_silence.py",
+    "line": 367,
+    "key": "bar",
+    "receiver": "r",
+    "shape": "empty_then_populated"
+   },
+   {
+    "module": "scripts/e590_cash_silence.py",
+    "line": 372,
+    "key": "bar",
+    "receiver": "r",
+    "shape": "empty_then_populated"
+   },
+   {
+    "module": "scripts/e590_cash_silence.py",
+    "line": 377,
+    "key": "bar",
+    "receiver": "r",
+    "shape": "empty_then_populated"
+   }
+  ]
+ },
+ "verdict": "every_scoped_counted_key_site_subscripts_an_object_no_counted_read_line_reads,_so_no_matching_key_on_those_dicts_can_move_a_counted_value:_the_key_spelling_is_the_only_link_and_the_name_is_not_the_object",
+ "answer": "16 scoped counted-key site row(s) over 16 source site(s) (bar 1, rows 11, x1 4); 0 share a module with a counted read line, 0 subscript the receiver that read line reads, and a key-name-only test would have called 16 a collision -- 16 false positive(s); container shapes {\"call_result\": 5, \"empty_then_populated\": 11}"
+}

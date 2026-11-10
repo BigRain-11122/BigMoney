@@ -6336,7 +6336,7 @@
   "verify": "problems=[] verify=identical"
  },
  "round_label": "r1673",
- "round_no": 1677,
+ "round_no": 1678,
  "round_no_label": "r1673",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
  "round_no_ts": "2026-11-10T20:20:00+08:00",
@@ -6976,10 +6976,10 @@
   "next": "E655 (ready, cpu-only): does the one strict route read or write the counted key it spells"
  },
  "underwatermark_verdict": "insufficient_history",
- "three_line_recent_artifact": "results/state_tilt/LOOPWRITEKEY.json",
- "three_line_recent_artifact_ts": "2026-11-10T23:31:34+08:00",
- "three_line_next_milestone": "E659 by 2026-11-12",
- "three_line_current_task": "E653 loop-guarded write address",
+ "three_line_recent_artifact": "results/state_tilt/SCOPEDREACH.json",
+ "three_line_recent_artifact_ts": "2026-11-11T00:12:39+08:00",
+ "three_line_next_milestone": "E660 by 2026-11-12",
+ "three_line_current_task": "E654 scoped counted-key reach",
  "r1673": {
   "card": "E655",
   "dept": "research+engineering",
@@ -7086,7 +7086,7 @@
   "main_push_note": "git push origin main produced no output for 5 minutes and was killed; no index.lock, no lingering push process; local main is far ahead and behind origin/main on a promisor clone, so delivery went to the machine branch instead of an unattended rebase (r1243)",
   "ts": "2026-11-10T23:05:00+08:00"
  },
- "last_update": "2026-11-10T23:49:37+08:00",
+ "last_update": "2026-11-11T00:12:39+08:00",
  "r1677": {
   "card": "E659",
   "dept": "research+engineering",
@@ -7121,5 +7121,32 @@
   "main_push_note": "local main is 58 ahead / 70 behind origin/main on a promisor clone (r1243); no unattended rebase, so the machine branch is the delivery channel",
   "targeted_add": "14 faces staged by pathspec out of a tree dirty with ~3,200 entries",
   "local_commits_not_on_origin_main": 58
+ },
+ "r1678": {
+  "card": "E654",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/SCOPEDREACH.json",
+  "study": "E654_scoped_counted_key_reach",
+  "ts": "2026-11-11T00:12:39+08:00",
+  "verdict": "every_scoped_counted_key_site_subscripts_an_object_no_counted_read_line_reads,_so_no_matching_key_on_those_dicts_can_move_a_counted_value:_the_key_spelling_is_the_only_link_and_the_name_is_not_the_object",
+  "finding": "16 site rows over E650's 16; by_reach_class = {off_population: 16}; 0 share a module with any of the 13 counted read lines, 0 share a receiver name, 0 subscript the container a read line reads; a key-name-only test would have called 16 a collision (16 false positives = 100%); container shapes call_result 5 / empty_then_populated 11 (read-line side empty_then_populated 8 / call_result 2 / literal_mapping 2 / runtime_input 1); per-key split bar 1 / rows 11 / x1 4 reproduces E650's own histogram",
+  "selftest": "19/19",
+  "product": [
+   "scripts/e654_scoped_reach.py (selftest 19/19; build 1.0s; check/verify problems=[])",
+   "results/state_tilt/SCOPEDREACH.json + scopedreach_latest.json (16 site rows + 13 read-line rows)",
+   "smoke_test.py leg E654 (re-checked offline: problems=[])",
+   "Tools/s6_chain_bmb.py leg scoped_counted_key_reach (rc=0 0.47s)",
+   "knowledge/METHODOLOGY_ASSETS.md card E654 (+13/0 numstat)",
+   "knowledge/TREASURE_REGISTRY.md row (+1/0 numstat)",
+   "research/digests/DIGEST-20261111-r1678-e654-scoped-reach.md",
+   "results/runnable_pool.json E654 done + E661 seeded (24/4 numstat, ready 3)"
+  ],
+  "pit": [
+   "a key spelling is not an object: 'same key' is a string fact, 'same container' needs module + receiver name + key, and publishing the first as the second is the E207/E208 family read",
+   "a negative conclusion has to be priced: '0 of 16 reach the read container' alone reads as a ruler that measured nothing, so the key-name-only counterfactual (16) is published beside it",
+   "module identity is the cheapest necessary condition: two files cannot hold the same dict, so cross-module sites are off_population without evaluating any container (E646's own move)",
+   "a shape must not guess runtime: an empty dict the module fills inside a loop is published as empty_then_populated with no value set, and calling that a runtime input would be a guess"
+  ],
+  "next": "E660 (ready, cpu-only): whether E659's 58 bare-name loop bounds are built above the loop"
  }
 }

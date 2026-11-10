@@ -1655,6 +1655,15 @@ LEGS = [
     # reconciles the population against E653's face row by row.
     ("fixed_address_bound", ["python", "scripts/e659_fixed_addr_bound.py", "verify"]),
 
+    # E654 asks whether the 16 comprehension/lambda sites that address a counted row key (E650's
+    # scoped bucket, rows 11 / x1 4 / bar 1) subscript the object a counted read line actually
+    # reads.  A key spelling is not an object: every site publishes the container evidence behind
+    # its base name (literal mapping / empty-then-populated / runtime input / call result / alias /
+    # unresolved) and the reach class against the 13 counted read lines (module, then receiver),
+    # with the key-name-only counterfactual published beside it so "same key" and "same object" are
+    # two numbers.  Verify re-parses each row's own module and re-derives shape and class.
+    ("scoped_counted_key_reach", ["python", "scripts/e654_scoped_reach.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

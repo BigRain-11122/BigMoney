@@ -15513,3 +15513,16 @@ comprehension 4 / 未识别 1 / while 2。
 `results/state_tilt/FIXEDADDRBOUND.json`(+latest·149 行) + `scripts/run_e659_smoke_leg.py`（1/1 PASS·
 `--doctor` red_legs=1 且面字节还回 sha `351323f93562`）·smoke_test.py leg E659 · S6 leg `fixed_address_bound`
 （已接线未跑）·`research/digests/DIGEST-20261110-r1677-e659-fixed-addr-bound.md`
+
+## E654 键名不是对象：16 个 scoped 计数键站点没有一个读到被读书的容器（承 E650·r1678 bm-b·2026-11-11）
+
+**观察**：E650 把 383 个推导式/lambda 内的模块体站点收成一张面，其中 16 个地址命中计数行键（rows 11 / x1 4 / bar 1），但它只能回答「基名绑在哪一层」（16 个全 outer_scope_only）。键名相同不等于同一个 dict：E633/E638 的 13 条计数读行读的是研究引擎里的 P / faces / ports / sleeves 等容器，而这 16 个站点全在轮次脚本里读自己的诊断 JSON。
+
+**读数（16 行站点面 + 13 行读行面）**：16/16 全部 off_population——没有一个与任一计数读行同模块，因此也不可能下标到它读的那个容器；同模块 0 / 同 receiver 0 / 同容器 0。而只按键名匹配的测试会把这 16 个全判成「撞车」——**16 个假阳性，占 100%**。容器形态：call_result 5 / empty_then_populated 11（读行侧：empty_then_populated 8 / call_result 2 / literal_mapping 2 / runtime_input 1）。
+
+**判据（要命处）**：①**键名不是对象**——「同名键」是一个字符串事实，「同一容器」需要模块、receiver、键三者同时对齐，把前者当后者就是 E207/E208 家族的量级误读；②**假阳性要当数字发布**——只报「0 个同容器」读者会以为尺子没量到东西，把「键名测试会说 16 个」并列出来才知道差多少；③**跨模块先判人口**——不同文件的 dict 不可能是同一对象，所以 E646 的 off_population 分支在 scoped 面同样成立，不需要逐容器求值；④**容器形态不猜运行时**——空 dict 由模块自己循环填充时发布 empty_then_populated 且不给值集（循环键取自磁盘面），把「空 dict」读成「runtime input」是猜。
+
+**How**：接任何「两处同名键是不是同一个东西」的问题，先把必要条件逐条发布（同模块 → 同 receiver 名 → 同容器证据），三个门都过了才谈「可能影响读数」；并且永远同时发布只按名字匹配会得到多少，否则负结论无法定价。
+正身=scripts/e654_scoped_reach.py（selftest **19/19**，build 1.0s，check/verify problems=[]）·
+esults/state_tilt/SCOPEDREACH.json(+latest)·smoke_test.py leg E654·S6 leg scoped_counted_key_reach（rc=0 0.47s）·
+esearch/digests/DIGEST-20261111-r1678-e654-scoped-reach.md

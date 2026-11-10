@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1674 bm-b: E657 resolved each E647 unresolved handle back to the node that produced it and walked its own subtree -- 707 files hold 1,504 counted key sites inside handles, 946 of them subscript slices the second arm already walks and 558 in roles neither arm can see; the 5 files E652 published do not flip, so the blind spot costs the corpus volume outside the published population and leaves the headline intact; E658 seeded to re-run that volume | r1675 bm-b: E658 folded the handle arm into E652's volume -- 3850 literal / 3864 literal+subscript / 3873 all three; 9 of 707 handle files flip (+0.23%), 698 already carried, 558 invisible sites, 2 of the 9 are production modules",
+ "_stamp_note": "r1674 bm-b: E657 resolved each E647 unresolved handle back to the node that produced it and walked its own subtree -- 707 files hold 1,504 counted key sites inside handles, 946 of them subscript slices the second arm already walks and 558 in roles neither arm can see; the 5 files E652 published do not flip, so the blind spot costs the corpus volume outside the published population and leaves the headline intact; E658 seeded to re-run that volume | r1675 bm-b: E658 folded the handle arm into E652's volume -- 3850 literal / 3864 literal+subscript / 3873 all three; 9 of 707 handle files flip (+0.23%), 698 already carried, 558 invisible sites, 2 of the 9 are production modules | r1678 bm-b: E654 scored the 16 scoped counted-key sites E650 published -- all 16 off_population, 0 same module / 0 same receiver / 0 same container, while a key-name-only test would have called 16 a collision; E661 seeded to price how much of E652's volume is round scripts",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -31491,14 +31491,18 @@
    "source": "E650 (r1671 bm-b) -- 16 scoped counted-key sites, all outer-scope; E645 reach arm",
    "target": "results/state_tilt/SCOPEDREACH.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T18:05:00+08:00",
    "seeded_by": "r1671 bm-b",
    "workers_plan": {
     "workers": 2,
     "priority": "BelowNormal"
    },
-   "note": "E654"
+   "note": "E654",
+   "done_at": "2026-11-11T00:20:00+08:00",
+   "done_by": "bm-b",
+   "done_note": "16 site rows over E650's whole 16, all off_population: no site shares a module with any of the 13 counted read lines, so no matching key on those dicts can move a counted value; a key-name-only test would have called all 16 a collision (16 false positives, 100%); containers call_result 5 / empty_then_populated 11; per-key split reproduces E650's own histogram bar 1 / rows 11 / x1 4",
+   "result_ref": "results/state_tilt/SCOPEDREACH.json"
   },
   {
    "card": "E655",
@@ -31626,6 +31630,22 @@
     "priority": "BelowNormal"
    },
    "note": "E660"
+  },
+  {
+   "card": "E661",
+   "id": "E661-HOW-MUCH-OF-THE-FILES-THAT-CARRY-A-COUNTED-ROW-KEY-ARE-ROUND-SCRIPTS-RATHER-THAN-LIVE-MODULES",
+   "title": "E652/E658 publish a corpus-wide volume of files carrying a counted row key (3,873). E654 found that all 16 of E650's scoped counted-key sites live in round scripts reading their own diagnostic JSON. Price the same split across the whole volume: how many of the carrying files are round scripts (a stem carrying _r<digits>), how many sit under results/ as scratch, how many are live modules (scripts/, Tools/, firm/, live/), and how many are tests or smoke legs -- i.e. how much of the published volume is archaeology rather than code that runs",
+   "lane": "cpu-only",
+   "lane_note": "E654's population makes the question concrete rather than rhetorical: 16/16 off_population and every one of them a round script. If the same holds at corpus scale, the volume E652 publishes is dominated by files nobody runs again, and the 'carries a counted key' reading is priced against the wrong population.",
+   "deliverable": "results/state_tilt/VOLUMEVINTAGE.json: the carrying files split by stem class (round script _r<digits> / results scratch / live module / test or smoke leg / other), per class the counted-key histogram and the file list, plus the volume re-derived and reconciled against E658's published arm totals",
+   "source": "O-20260924-2100 s2 (runnable pool)",
+   "target": "results/state_tilt/VOLUMEVINTAGE.json",
+   "priority": "P3",
+   "status": "ready",
+   "seeded_at": "2026-11-11T00:20:00+08:00",
+   "seeded_by": "bm-b",
+   "workers_plan": "single cpu lane, one build (the 13k-file corpus is already walked by E391/E652)",
+   "note": "E661 rounds the E652 volume series from count to composition"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31640,6 +31660,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T23:20:00+08:00",
+ "updated_at": "2026-11-11T00:20:00+08:00",
  "version": 1
 }

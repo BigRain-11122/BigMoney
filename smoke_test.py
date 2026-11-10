@@ -28767,5 +28767,100 @@ except Exception as _e659x:
     _d659 = "study could not be read"
 check(_name659, not _bad659, "; ".join(_bad659)[:240] or _d659)
 
+# E654 asks the reach question E650 could not: E650 published 383 module-body sites inside a
+# comprehension or a lambda and 16 that address a counted row key, but it could only say where the
+# base name is *bound* (all 16 outer_scope_only).  A key spelling is not an object, so for each of
+# the 16 this study publishes the container evidence behind the subscripted name (a literal
+# mapping with its keys, an empty dict the module fills, a json.load-class runtime input, another
+# call's result, an alias, or a name the module never binds) and the reach class against the 13
+# counted read lines -- off_population when no read line shares the module, same_module_other_
+# receiver when one does but reads another dict, same_container only when module and receiver and
+# key all line up.  This leg re-derives the class partition, the per-key split, the key-name-only
+# counterfactual and the container histogram from the published rows, refuses a same_container row
+# that carries no read line or one naming another key, and re-checks the population against E650's
+# own face so a site the tree lost is a red rather than a silent shrink.
+_name654 = ("E654 whether a scoped counted-key site subscripts the object a counted read line "
+            "reads (r1678 bm-b)")
+_bad654 = []
+_d654 = "no reading"
+try:
+    _f654 = json.load(open(os.path.join("results", "state_tilt", "scopedreach_latest.json"),
+                           encoding="utf-8"))
+    _m654 = importlib.import_module("e654_scoped_reach")
+    _bad654.extend(_m654.face_problems(_f654))
+    _c654 = _f654.get("counts") or {}
+    _rows654 = _f654.get("rows") or []
+    _reads654 = _f654.get("read_lines") or []
+    _live654 = {}
+    _shape654 = {}
+    _bykey654 = {}
+    for _r654 in _rows654:
+        _cls654 = _r654.get("reach_class")
+        if _cls654 not in _m654.REACH_CLASSES:
+            _bad654.append("row %s:%s has no reach class %r"
+                           % (_r654.get("module"), _r654.get("line"), _cls654))
+            break
+        _live654[_cls654] = _live654.get(_cls654, 0) + 1
+        _shape654[_r654.get("shape")] = _shape654.get(_r654.get("shape"), 0) + 1
+        _k654 = _r654.get("key") or "none"
+        _bykey654[_k654] = _bykey654.get(_k654, 0) + 1
+        if _cls654 == "same_container":
+            _hits654 = _r654.get("read_lines_sharing_receiver") or []
+            if not _hits654:
+                _bad654.append("same_container row %s:%s carries no read line"
+                               % (_r654.get("module"), _r654.get("line")))
+                break
+            if _hits654[0].get("key") != _r654.get("key"):
+                _bad654.append("same_container row %s:%s read line names another key"
+                               % (_r654.get("module"), _r654.get("line")))
+                break
+        elif _r654.get("read_lines_in_module"):
+            _bad654.append("%s row %s:%s lists a read line in its own module"
+                           % (_cls654, _r654.get("module"), _r654.get("line")))
+            break
+    if (_c654.get("rows_measured") or 0) != len(_rows654):
+        _bad654.append("rows_measured is not the published row count")
+    if (_c654.get("read_lines_measured") or 0) != len(_reads654):
+        _bad654.append("read_lines_measured is not the published read line count")
+    for _k654 in _m654.REACH_CLASSES:
+        if (_c654.get("by_reach_class") or {}).get(_k654, 0) != _live654.get(_k654, 0):
+            _bad654.append("by_reach_class[%s] does not re-derive (%s vs %s)"
+                           % (_k654, (_c654.get("by_reach_class") or {}).get(_k654),
+                              _live654.get(_k654, 0)))
+    if sum((_c654.get("by_reach_class") or {}).values()) != len(_rows654):
+        _bad654.append("the reach classes do not partition the rows")
+    if (_c654.get("by_key") or {}) != dict(sorted(_bykey654.items())):
+        _bad654.append("by_key does not re-derive from the rows")
+    if (_c654.get("container_shape_histogram") or {}) != dict(sorted(_shape654.items())):
+        _bad654.append("container_shape_histogram does not re-derive from the rows")
+    _same654 = _live654.get("same_container", 0)
+    if (_c654.get("sites_whose_container_a_counted_read_line_reads") or 0) != _same654:
+        _bad654.append("the same-container count does not re-derive from the rows")
+    _names654 = {r.get("key") for r in _reads654 if r.get("key")}
+    _keyonly654 = sum(1 for r in _rows654 if r.get("key") in _names654)
+    if (_c654.get("rows_a_key_name_only_test_would_call_a_collision") or 0) != _keyonly654:
+        _bad654.append("the key-name-only counterfactual does not re-derive (%s vs %s)"
+                       % (_c654.get("rows_a_key_name_only_test_would_call_a_collision"),
+                          _keyonly654))
+    if (_c654.get("key_name_only_false_positives") or 0) != _keyonly654 - _same654:
+        _bad654.append("key_name_only_false_positives does not re-derive")
+    _rec654 = _c654.get("reconciliation") or {}
+    if _rec654.get("source_face_present"):
+        if (_rec654.get("source_rows") or 0) != (_c654.get("sites_in_source_face") or 0):
+            _bad654.append("the source face row count does not match the one this build read")
+        _hist654 = _rec654.get("source_histogram") or {}
+        if _hist654 and _hist654 != _bykey654:
+            _bad654.append("the per-key split disagrees with E650's own histogram (%s vs %s)"
+                           % (_hist654, _bykey654))
+        if _rec654.get("sites_the_tree_lost"):
+            _bad654.append("E650 published %d site(s) this build cannot find"
+                           % len(_rec654["sites_the_tree_lost"]))
+    if _m654.decide(_c654) != _f654.get("verdict"):
+        _bad654.append("the published verdict is not the one its own counts force")
+except Exception as _e654x:
+    _bad654.append(repr(_e654x)[:160])
+    _d654 = "study could not be read"
+check(_name654, not _bad654, "; ".join(_bad654)[:240] or _d654)
+
 if __name__ == "__main__":
     sys.exit(main())

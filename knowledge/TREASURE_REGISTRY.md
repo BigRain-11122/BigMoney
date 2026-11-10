@@ -167,3 +167,4 @@
 - 2026-11-10 r1674 bm-b：E657：E647 未解析句柄盲区按体积定价——707 文件 / 1,504 键常量躲在句柄里，946 是下标切片（E652 第二支已逮）、558 两支皆盲（538 为 `.get()` 型读）；E652 已发布的 23 行里 5 个两边都有且全为 carries=true，翻面 0 个＝头条不动，盲区全落在从未被定价的 702 个文件（554 隐形站点）｜results/state_tilt/UNRESOLVEDKEY.json
 - 2026-11-10 r1676 bm-b｜E653｜「循环里执行」不是一个执行面：845 个残差写站点在循环里执行（E649 的最内层桶只认 548，标签藏了 297），其中 696 是累加器（地址取自循环目标）、149 是last-write-wins（同址重复）；0 个循环写站点命中计数行键，E649 那个唯一命中在循环外｜results/state_tilt/LOOPWRITEKEY.json
 | 2026-11-10T23:52:00+08:00 | E659 | **标签不等于读数**：E653 给 46 个站点贴 `module_constant`，E659 把绑定链追到底，39 个落在字面容器/可解 range（上界源码写明）、7 个落在 call/comprehension（上界仍读不出）。桶名说的是表达式写在哪，不是它求值成什么——任何按形态分类的判据在上报前必须把该形态解开一层。证据=results/state_tilt/FIXEDADDRBOUND.json | r1677 bm-b |
+- 2026-11-11 r1678 bm-b｜E654｜「键名不是对象」量化为 16/16 假阳性：E650 的 16 个 scoped 计数键站点没有一个与 13 条计数读行同模块（同 receiver 0、同容器 0），只按键名匹配会把 16 个全判撞车；容器形态 call_result 5 / empty_then_populated 11｜results/state_tilt/SCOPEDREACH.json
