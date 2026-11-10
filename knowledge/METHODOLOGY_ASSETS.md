@@ -12361,3 +12361,33 @@ symbol 都没检查；② 腿找行用的是 `startswith("| %s |")`，而 ORDER 
 selftest 144/144）+ results/etf_book_order/TICKET-2026-11-09.json + ORDER-2026-11-09.md +
 smoke_test.py 腿「the sheet prints what it pays and where that price sits in history」+
 research/digests/DIGEST-20261110-r1499-premium-on-the-sheet.md。
+
+
+### E508 · 「不是卖单」这句话是可以量的：把溢价分位接到价格的前向结果上（r1500 bm-c）
+
+**事实**：r1497/r1498 两个尺子量完「多高」「真不真」，票面给出的结论是「高分位不是卖单」——一句诚实的
+免责，却把下单人真正的问题留空：*我按第 100 百分位付钱，这只基金自己的记录里，之后价格怎么走？*
+这不是新数据问题：`results/etf_premium/premium_history.csv` 已经有 date/symbol/close/nav/premium，
+前向收益在盘上。
+
+**四律**：
+
+① **分位必须因果**——每个交易日只跟它**之前**的交易日比（≥60 个前置样本）。在整段样本里给自己排名，
+   等于让未来给过去贴标签（selftest L8 钉住：高之后来一个低值必须读 0，不是 50+）。
+② **结果必须是价格，不是净值**——溢价「回归」可以是净值追上来，那对持价的人不是亏损。用
+   close[t+h]/close[t]−1，h∈{5,20}。
+③ **t 值必须落在不重叠样本上**（按 h 步进）——h 个重叠窗口把同一段走势数了 h 遍，t 会凭空变大；
+   重叠样本只作覆盖量披露。
+④ **判词由数字派生，且必须落到钱**——`HIGH_PREMIUM_COSTS / HIGH_PREMIUM_PAYS /
+   NO_FORWARD_INFORMATION / MIXED / NO_SCALE / UNPRICED` 六词全部由桶均值与 t 推出；钱列
+   =票面该腿金额 × 同桶历史前向均值。`check` 额外断言「至少一条腿真的算出了 CNY」——
+   一个只有百分比没有金额的面，等于又造了一遍它要超越的两个尺子（r1499 空转腿的姊妹面）。
+
+**读数**（面板/ticket 2026-11-09，5 腿）：20 日前向 rank IC = −0.133；159577 顶部十分位之后
+平均 −0.95%（n=124, t=−2.6），而今天付最大溢价的 159501 同类读数 +0.49%（n=282, t=+1.6）→
+判词 MIXED。三条 TOP 腿按本单金额折算的历史漂移合计约 −￥542 / ￥235,616：符号分散，
+既不该据此砍 159577，也不该据此加 159501。
+
+正身：scripts/etf_book_premium_forward.py（selftest 26/26 · check 5 腿 + 金额断言）+ results/
+etf_premium/PREMIUM-FORWARD.json + research/ETF_BOOK_PREMIUM_FORWARD.md + Tools/s6_chain_bmc.py 腿
+premium_forward + smoke_test.py 两条腿 + research/digests/DIGEST-20261110-r1500-premium-forward.md。

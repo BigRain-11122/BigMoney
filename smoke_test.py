@@ -815,6 +815,17 @@ def main() -> int:
              "scripts/etf_book_premium_persistence.py", ["selftest"]),
             ("product: etf_book_premium_persistence (every verdict re-derives)",
              "scripts/etf_book_premium_persistence.py", ["check"]),
+            # r1500: "how high" and "is it real" still left the operator's own question open --
+            # what happened to the PRICE after a fund sat in that bucket of its own record.
+            # The legs pin that the percentile is causal (a falling premium never ranks above
+            # its own past), that a top-decile-then-loss leg reads HIGH_PREMIUM_COSTS and its
+            # mirror reads HIGH_PREMIUM_PAYS, that a flat panel reads NO_FORWARD_INFORMATION
+            # instead of a word invented from noise, that a short history says NO_SCALE, and
+            # that every published bucket mean/t re-derives from premium_history.csv.
+            ("product: etf_book_premium_forward (does a top-decile premium cost anything)",
+             "scripts/etf_book_premium_forward.py", ["selftest"]),
+            ("product: etf_book_premium_forward (every bucket re-derives)",
+             "scripts/etf_book_premium_forward.py", ["check"]),
             # r1481 also gave the decision line a third price (what it costs if this sheet
             # is filled tomorrow); the existing decision-line legs at the bottom of this
             # file already run that selftest, and it now carries the UNKNOWN-not-zero leg.

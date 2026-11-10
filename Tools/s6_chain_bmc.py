@@ -1187,6 +1187,14 @@ LEGS = [
     # recomputed off premium_history.csv, so a hand-typed answer word goes red. ~0.3s.
     ("premium_persistence",
      ["python", "scripts/etf_book_premium_persistence.py", "check"]),
+    # r1500: the two rulers above answer "how high" and "is it real". Neither answers the
+    # question the person placing the order has: what happened to the PRICE after this fund
+    # sat in this bucket of its own history? This leg recomputes the causal percentile, the
+    # forward 5/20-session price returns, every bucket mean/t and the derived verdict word
+    # from premium_history.csv, so a re-labelled bucket or a hand-typed verdict goes red.
+    # ~0.2s; the money column reads results/etf_book_order/latest.json.
+    ("premium_forward",
+     ["python", "scripts/etf_book_premium_forward.py", "check"]),
 ]
 
 

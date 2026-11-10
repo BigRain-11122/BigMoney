@@ -1,0 +1,533 @@
+{
+  "generated_by": "etf_book_premium_forward v1.0",
+  "generated_utc_note": "wall clock appears nowhere; numbers are deterministic on the panel",
+  "ticket_session": "2026-11-09",
+  "panel_rows": 5034,
+  "evidence_cutoff": "2026-11-09",
+  "definitions": {
+    "percentile": "causal: share of the sessions BEFORE t whose premium_pct <= that session's; needs >= 60 prior sessions",
+    "outcome": "close[t+h]/close[t]-1 in percent -- the price the operator holds, not the NAV",
+    "t_stat": "computed on non-overlapping samples (stride h), so h-fold repetition of the same move cannot inflate it",
+    "thin_n": 60,
+    "ic_line": 0.05,
+    "t_line": 2.0
+  },
+  "horizons": {
+    "5": {
+      "legs": [
+        {
+          "usable_obs": 260,
+          "nonoverlap_obs": 52,
+          "ic": -0.029369077093827366,
+          "buckets": {
+            "BOTTOM": {
+              "n": 36,
+              "mean_pct": -0.1381006569067157,
+              "sd_pct": 2.5512779807348127,
+              "t": -0.32477995251683306
+            },
+            "LOW": {
+              "n": 54,
+              "mean_pct": -0.09872885425177137,
+              "sd_pct": 1.7892760688506588,
+              "t": -0.4054745715597575
+            },
+            "MID": {
+              "n": 89,
+              "mean_pct": 0.4230841622172569,
+              "sd_pct": 1.7666652073475997,
+              "t": 2.259266773936221
+            },
+            "UPPER": {
+              "n": 48,
+              "mean_pct": 0.33756129071268043,
+              "sd_pct": 2.031385406248353,
+              "t": 1.1512799183936042
+            },
+            "TOP": {
+              "n": 33,
+              "mean_pct": 0.5181775935620709,
+              "sd_pct": 2.03517012979034,
+              "t": 1.4626313567978184
+            }
+          },
+          "latest_pctile": 16.666666666666668,
+          "latest_bucket": "LOW",
+          "symbol": "159263",
+          "amount_cny": 78522.0,
+          "rows": 325,
+          "last_date": "2026-11-09",
+          "same_bucket_past_move_cny": -77.52387093557591
+        },
+        {
+          "usable_obs": 759,
+          "nonoverlap_obs": 152,
+          "ic": -0.11419051972165725,
+          "buckets": {
+            "BOTTOM": {
+              "n": 30,
+              "mean_pct": 2.1109826020163163,
+              "sd_pct": 2.6475507329368932,
+              "t": 4.367178975047224
+            },
+            "LOW": {
+              "n": 60,
+              "mean_pct": 0.5447564482342443,
+              "sd_pct": 2.2466151804592007,
+              "t": 1.8782323471339568
+            },
+            "MID": {
+              "n": 179,
+              "mean_pct": 0.6170158772813276,
+              "sd_pct": 2.6674594166081165,
+              "t": 3.0947461719675764
+            },
+            "UPPER": {
+              "n": 193,
+              "mean_pct": 0.5940825309664249,
+              "sd_pct": 3.4210443963371833,
+              "t": 2.41249669118535
+            },
+            "TOP": {
+              "n": 297,
+              "mean_pct": 0.17743771023455587,
+              "sd_pct": 2.903627276433821,
+              "t": 1.0531331454695747
+            }
+          },
+          "latest_pctile": 99.87849331713244,
+          "latest_bucket": "TOP",
+          "symbol": "159501",
+          "amount_cny": 78501.0,
+          "rows": 824,
+          "last_date": "2026-11-09",
+          "same_bucket_past_move_cny": 139.2903769112287
+        },
+        {
+          "usable_obs": 592,
+          "nonoverlap_obs": 119,
+          "ic": -0.31413239710235297,
+          "buckets": {
+            "BOTTOM": {
+              "n": 64,
+              "mean_pct": 1.0303028452505967,
+              "sd_pct": 2.9906561588811864,
+              "t": 2.7560583109922905
+            },
+            "LOW": {
+              "n": 117,
+              "mean_pct": 0.9652530548449534,
+              "sd_pct": 2.740309045620362,
+              "t": 3.8100841822246254
+            },
+            "MID": {
+              "n": 154,
+              "mean_pct": 0.64562899616712,
+              "sd_pct": 2.630686959860216,
+              "t": 3.045609478084146
+            },
+            "UPPER": {
+              "n": 118,
+              "mean_pct": 0.15559833822142385,
+              "sd_pct": 2.8396201872034648,
+              "t": 0.59523122159497
+            },
+            "TOP": {
+              "n": 139,
+              "mean_pct": -0.4740693297322575,
+              "sd_pct": 2.667666583431316,
+              "t": -2.0951624923039414
+            }
+          },
+          "latest_pctile": 98.9329268292683,
+          "latest_bucket": "TOP",
+          "symbol": "159577",
+          "amount_cny": 78504.4,
+          "rows": 657,
+          "last_date": "2026-11-09",
+          "same_bucket_past_move_cny": -372.16528289033033
+        },
+        {
+          "usable_obs": 1836,
+          "nonoverlap_obs": 368,
+          "ic": -0.04945804078882322,
+          "buckets": {
+            "BOTTOM": {
+              "n": 69,
+              "mean_pct": 0.6475812144079011,
+              "sd_pct": 3.8835577957127083,
+              "t": 1.385125148572933
+            },
+            "LOW": {
+              "n": 199,
+              "mean_pct": 0.16161097571827318,
+              "sd_pct": 6.274149827246442,
+              "t": 0.36336450812403037
+            },
+            "MID": {
+              "n": 617,
+              "mean_pct": 0.05932849752236338,
+              "sd_pct": 7.020958540540707,
+              "t": 0.20989859116506468
+            },
+            "UPPER": {
+              "n": 641,
+              "mean_pct": 0.591090691356558,
+              "sd_pct": 3.324302181687784,
+              "t": 4.501763132537998
+            },
+            "TOP": {
+              "n": 310,
+              "mean_pct": -0.2380847060113991,
+              "sd_pct": 4.16496573112124,
+              "t": -1.0064701817309156
+            }
+          },
+          "latest_pctile": 98.89473684210526,
+          "latest_bucket": "TOP",
+          "symbol": "513100",
+          "amount_cny": 78611.4,
+          "rows": 1901,
+          "last_date": "2026-11-09",
+          "same_bucket_past_move_cny": -187.16172058144497
+        },
+        {
+          "usable_obs": 1262,
+          "nonoverlap_obs": 253,
+          "ic": 0.010820528327826182,
+          "buckets": {
+            "BOTTOM": {
+              "n": 130,
+              "mean_pct": -0.03136134062081822,
+              "sd_pct": 3.612809823878637,
+              "t": -0.09897401639489523
+            },
+            "LOW": {
+              "n": 227,
+              "mean_pct": 0.001602560799220737,
+              "sd_pct": 2.6533593345586186,
+              "t": 0.0090997901013229
+            },
+            "MID": {
+              "n": 437,
+              "mean_pct": 0.342336049645757,
+              "sd_pct": 2.8581140891630246,
+              "t": 2.5038816219788482
+            },
+            "UPPER": {
+              "n": 297,
+              "mean_pct": -0.0025554682342425615,
+              "sd_pct": 2.3961861131805144,
+              "t": -0.018379266053786373
+            },
+            "TOP": {
+              "n": 171,
+              "mean_pct": 0.027585414179078574,
+              "sd_pct": 2.821248686945148,
+              "t": 0.12786043989533843
+            }
+          },
+          "latest_pctile": 50.52790346907994,
+          "latest_bucket": "MID",
+          "symbol": "513690",
+          "amount_cny": 78588.4,
+          "rows": 1327,
+          "last_date": "2026-11-09",
+          "same_bucket_past_move_cny": 269.03642403980604
+        }
+      ],
+      "pooled_ic": {
+        "ic": -0.04945804078882322,
+        "legs_with_ic": 5
+      },
+      "pooled_buckets": {
+        "BOTTOM": {
+          "n": 329,
+          "mean_pct": 0.5012260365389809,
+          "legs": 5
+        },
+        "LOW": {
+          "n": 657,
+          "mean_pct": 0.26303348805278237,
+          "legs": 5
+        },
+        "MID": {
+          "n": 1476,
+          "mean_pct": 0.29385754373097833,
+          "legs": 5
+        },
+        "UPPER": {
+          "n": 1297,
+          "mean_pct": 0.4065933950923981,
+          "legs": 5
+        },
+        "TOP": {
+          "n": 950,
+          "mean_pct": -0.06861676773103541,
+          "legs": 5
+        }
+      },
+      "verdict": "MIXED"
+    },
+    "20": {
+      "legs": [
+        {
+          "usable_obs": 245,
+          "nonoverlap_obs": 13,
+          "ic": 0.3956043956043956,
+          "buckets": {
+            "BOTTOM": {
+              "n": 32,
+              "mean_pct": 2.2660644703887947,
+              "sd_pct": 4.766067948870888,
+              "t": 2.689595819123688
+            },
+            "LOW": {
+              "n": 53,
+              "mean_pct": -0.6426786873797345,
+              "sd_pct": 3.442391577252492,
+              "t": -1.359163059351121
+            },
+            "MID": {
+              "n": 83,
+              "mean_pct": 0.20174045620554087,
+              "sd_pct": 3.8128618710285243,
+              "t": 0.48203766321885194
+            },
+            "UPPER": {
+              "n": 45,
+              "mean_pct": 0.5028445601119571,
+              "sd_pct": 4.538990527933767,
+              "t": 0.7431572801969434
+            },
+            "TOP": {
+              "n": 32,
+              "mean_pct": 3.2215795065061648,
+              "sd_pct": 4.352463103749434,
+              "t": 4.18705576292143
+            }
+          },
+          "latest_pctile": 16.666666666666668,
+          "latest_bucket": "LOW",
+          "symbol": "159263",
+          "amount_cny": 78522.0,
+          "rows": 325,
+          "last_date": "2026-11-09",
+          "same_bucket_past_move_cny": -504.6441589043152
+        },
+        {
+          "usable_obs": 744,
+          "nonoverlap_obs": 38,
+          "ic": -0.3151501892335447,
+          "buckets": {
+            "BOTTOM": {
+              "n": 30,
+              "mean_pct": 6.091899706126041,
+              "sd_pct": 3.7077265503841,
+              "t": 8.99923670681341
+            },
+            "LOW": {
+              "n": 60,
+              "mean_pct": 3.701559434792104,
+              "sd_pct": 2.959540474177135,
+              "t": 9.688043242546115
+            },
+            "MID": {
+              "n": 179,
+              "mean_pct": 3.143987097142341,
+              "sd_pct": 4.117523818062179,
+              "t": 10.215771032790903
+            },
+            "UPPER": {
+              "n": 193,
+              "mean_pct": 2.5153802644680274,
+              "sd_pct": 7.90659439123894,
+              "t": 4.419700531876376
+            },
+            "TOP": {
+              "n": 282,
+              "mean_pct": 0.4868417113135826,
+              "sd_pct": 4.964481021280245,
+              "t": 1.6467909807012315
+            }
+          },
+          "latest_pctile": 99.87849331713244,
+          "latest_bucket": "TOP",
+          "symbol": "159501",
+          "amount_cny": 78501.0,
+          "rows": 824,
+          "last_date": "2026-11-09",
+          "same_bucket_past_move_cny": 382.1756117982755
+        },
+        {
+          "usable_obs": 577,
+          "nonoverlap_obs": 29,
+          "ic": -0.3832512315270936,
+          "buckets": {
+            "BOTTOM": {
+              "n": 64,
+              "mean_pct": 3.5634842358562278,
+              "sd_pct": 3.0514286391423395,
+              "t": 9.342467826762775
+            },
+            "LOW": {
+              "n": 117,
+              "mean_pct": 3.3186989547977137,
+              "sd_pct": 3.994130224891212,
+              "t": 8.987493077803553
+            },
+            "MID": {
+              "n": 154,
+              "mean_pct": 2.2520923392197547,
+              "sd_pct": 6.071053567173623,
+              "t": 4.60344001928554
+            },
+            "UPPER": {
+              "n": 118,
+              "mean_pct": 0.5648320969002997,
+              "sd_pct": 5.5074189682574,
+              "t": 1.1140694249658043
+            },
+            "TOP": {
+              "n": 124,
+              "mean_pct": -0.9541826920095694,
+              "sd_pct": 4.037422257737595,
+              "t": -2.631711051782378
+            }
+          },
+          "latest_pctile": 98.9329268292683,
+          "latest_bucket": "TOP",
+          "symbol": "159577",
+          "amount_cny": 78504.4,
+          "rows": 657,
+          "last_date": "2026-11-09",
+          "same_bucket_past_move_cny": -749.0753972659603
+        },
+        {
+          "usable_obs": 1821,
+          "nonoverlap_obs": 92,
+          "ic": -0.13271581153769094,
+          "buckets": {
+            "BOTTOM": {
+              "n": 69,
+              "mean_pct": 0.7814040746247578,
+              "sd_pct": 12.1739760078236,
+              "t": 0.5331725418785203
+            },
+            "LOW": {
+              "n": 199,
+              "mean_pct": 0.18306648138971005,
+              "sd_pct": 15.769896882210643,
+              "t": 0.163759505783721
+            },
+            "MID": {
+              "n": 617,
+              "mean_pct": 0.7438122230262141,
+              "sd_pct": 12.684038012971763,
+              "t": 1.4566270072841994
+            },
+            "UPPER": {
+              "n": 641,
+              "mean_pct": 2.0397316499223503,
+              "sd_pct": 7.060401198709606,
+              "t": 7.314298321306665
+            },
+            "TOP": {
+              "n": 295,
+              "mean_pct": -0.2229919311767792,
+              "sd_pct": 7.345289840668335,
+              "t": -0.5214242428564833
+            }
+          },
+          "latest_pctile": 98.89473684210526,
+          "latest_bucket": "TOP",
+          "symbol": "513100",
+          "amount_cny": 78611.4,
+          "rows": 1901,
+          "last_date": "2026-11-09",
+          "same_bucket_past_move_cny": -175.2970789851026
+        },
+        {
+          "usable_obs": 1247,
+          "nonoverlap_obs": 63,
+          "ic": -0.043922811059907835,
+          "buckets": {
+            "BOTTOM": {
+              "n": 126,
+              "mean_pct": 1.0024463943924238,
+              "sd_pct": 6.65750382584798,
+              "t": 1.6901879688873784
+            },
+            "LOW": {
+              "n": 221,
+              "mean_pct": 0.5239192901254911,
+              "sd_pct": 5.707150104384161,
+              "t": 1.3647126924292283
+            },
+            "MID": {
+              "n": 433,
+              "mean_pct": 0.5017803771597988,
+              "sd_pct": 5.495006365310213,
+              "t": 1.9001567201247584
+            },
+            "UPPER": {
+              "n": 296,
+              "mean_pct": 0.18931456625018075,
+              "sd_pct": 5.3425505869474,
+              "t": 0.6096509336390413
+            },
+            "TOP": {
+              "n": 171,
+              "mean_pct": 0.12474376253359254,
+              "sd_pct": 5.6562810879765015,
+              "t": 0.288393794224689
+            }
+          },
+          "latest_pctile": 50.52790346907994,
+          "latest_bucket": "MID",
+          "symbol": "513690",
+          "amount_cny": 78588.4,
+          "rows": 1327,
+          "last_date": "2026-11-09",
+          "same_bucket_past_move_cny": 394.34116992385134
+        }
+      ],
+      "pooled_ic": {
+        "ic": -0.13271581153769094,
+        "legs_with_ic": 5
+      },
+      "pooled_buckets": {
+        "BOTTOM": {
+          "n": 321,
+          "mean_pct": 2.0671625301357475,
+          "legs": 5
+        },
+        "LOW": {
+          "n": 650,
+          "mean_pct": 1.1208242558184902,
+          "legs": 5
+        },
+        "MID": {
+          "n": 1466,
+          "mean_pct": 1.0931401182883684,
+          "legs": 5
+        },
+        "UPPER": {
+          "n": 1293,
+          "mean_pct": 1.4990345575343254,
+          "legs": 5
+        },
+        "TOP": {
+          "n": 904,
+          "mean_pct": 0.08585156713001707,
+          "legs": 5
+        }
+      },
+      "verdict": "MIXED"
+    }
+  },
+  "verdict": "MIXED",
+  "verdict_horizon": 20,
+  "caveat": "five legs of one ticket: this is a description of these funds' own records, not a cross-sectional study and not a forecast. Overlapping windows are counted once per stride in the t-stat and reported in full only as coverage.",
+  "sentence": "premium percentile rank-IC with the next 20 sessions is -0.133 (5 legs); 159263: after sessions in its top decile the next 20 sessions averaged +3.22% (n=32, t=+4.2); 159501: after sessions in its top decile the next 20 sessions averaged +0.49% (n=282, t=+1.6); 159577: after sessions in its top decile the next 20 sessions averaged -0.95% (n=124, t=-2.6); 513100: after sessions in its top decile the next 20 sessions averaged -0.22% (n=295, t=-0.5); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3)"
+}

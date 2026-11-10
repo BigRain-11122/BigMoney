@@ -750,3 +750,19 @@ ls-remote == HEAD；**origin/main 未推**——领先 31 / 落后 40，promisor
 **下一步（≤48h）**：2026-11-11 转仓日前定夺「日历判被审书还是判在跑的书」——本轮只给证据不给判决。
 **水位订正**：`state.last_decisions_sha` 自 r1437 起漂成 0689d12a（无 origin blob 对应），
 真值 451b8600 = r1426 已消费水位，零行欠；本轮已改正。
+
+## 5x checkpoint -- bm-c r1500 (2026-11-10 09:4x)
+
+**本轮实物**：`scripts/etf_book_premium_forward.py`（selftest 26/26 · check 5 腿 + 金额断言）
++ `results/etf_premium/PREMIUM-FORWARD.json` + 卡 E508 +
+`research/digests/DIGEST-20261110-r1500-premium-forward.md` + S6 腿 `premium_forward` + 两条 smoke 腿。
+
+**一句话读数**：票面连着三轮量的是「多高」（r1497 分位）、「真不真」（r1498 持续性/stamp）、
+「付了多少钱」（r1499），本轮补上第四问「付了会怎样」——按因果分位把每腿自己的历史切成桶，
+量**价格**（不是净值）的 5/20 日前向：20 日 rank IC = −0.133；159577 顶十分位之后平均 −0.95%
+（n=124, t=−2.6），而今天付最大溢价的 159501 同类读数 +0.49%（n=282, t=+1.6）→ 判词 **MIXED**
+（由表派生）。三条 TOP 腿按本单金额折算的历史漂移合计约 −￥542 / ￥235,616，符号分散。
+
+**未接链（如实记）**：前向行还没印到 ORDER 页/票面（只到 results/）；全量 smoke 未跑（492 腿，
+本轮只执行新腿与其目标）。
+**下一步（≤48h）**：把这条前向行切到票面 5 腿（ticket JSON + ORDER 页），下单人不必翻 results/。
