@@ -151,7 +151,7 @@
  "absorb": "r1476: five of the ten suite reds were the E421-family class -- a census that grows. Two of them already had the declaration machinery (population_keys) but had not declared the population itself, so an upstream face appearing re-red the leg for growth alone. E417 now declares faces/faces_literal/faces_templated and E422 declares rows_in_population / rows_recording_a_bare_name / rows_spelling_a_directory / control_path_rows / control_path_rows_whose_file_exists; both faces were republished and both gates now compare every reading exactly (bare-literal exposure 0; rows_whose_reading_changes_if_rejoined 0).",
  "agenda_starved": false,
  "aggregate": "engineering",
- "ahead_of_origin_main": 798,
+ "ahead_of_origin_main": 33,
  "answer": "results/state_tilt/ONEDEPTHWRITE.json @ 2026-11-10T08:50:00+08:00",
  "attrition": "CLEAN 4 ledgers (2 historical shrinks healed, zero ACTIVE LOSS)",
  "audio_bgm_fill": "OB-611107-180106 item 4: rc=3 ready=0 gaps=10 (5 NO-SOURCE / 5 FETCH-FAIL) -- assets absent on this behind-origin clone, not claimed as delivered",
@@ -173,7 +173,7 @@
  "book_at_close_note": "carried from r1617 -- this window priced the cash faces and did not re-run the book",
  "card": "E636",
  "check": "e625 check problems=[] / verify problems=[] (rebuild identical)",
- "clock_read": "2026-11-10T15:52:00+08:00",
+ "clock_read": "2026-11-10T15:58:00+08:00",
  "concurrency_note": "Tools/iteration_loop.ps1 was live in this repo for the whole window (files touched 12s before the first read); no queue head, task card or shared lane face was claimed",
  "cores": 8,
  "cpu": 0.6,
@@ -316,7 +316,7 @@
  "decisions_watermark": "abd700a9e1ec0ce2",
  "decisions_watermark_note": "fetch rc!=0 (cannot lock refs/remotes/origin/main); read origin/main:docs/decisions.md from the existing ref, 239 lines, newest D-20261104-01/02, bigmoney rows = no-op",
  "delivery": "machine/bm-b-r1662 @ dbbf079f818c14e6c83719e0984b99eeb63b01b0",
- "delivery_branch": "machine/bm-b-r1662",
+ "delivery_branch": "machine/bm-b-r1668",
  "delivery_note": "git ls-remote origin refs/heads/machine/bm-b-r1641 equals local HEAD",
  "delivery_r1472": {
   "behind_origin_main": 295,
@@ -331,10 +331,10 @@
   "ts": "2026-11-06T10:21:48+08:00",
   "verified": true
  },
- "delivery_sha": "dbbf079f818c14e6c83719e0984b99eeb63b01b0",
+ "delivery_sha": "c35a9b1a0a729f35c6189c2d9b9f324244d9cc11",
  "delivery_sha_local": "dbbf079f818c14e6c83719e0984b99eeb63b01b0",
- "delivery_ts": "2026-11-10T08:52:00+08:00",
- "delivery_verified": "git ls-remote origin refs/heads/machine/bm-b-r1662 == local HEAD",
+ "delivery_ts": "2026-11-10T15:58:00+08:00",
+ "delivery_verified": "ls-remote equality checked (local rev-parse == remote sha)",
  "dept": "research+engineering",
  "did": "E644 burned: scripts/e644_onedepth_write.py (selftest 16/16) + ONEDEPTHWRITE face + run_e644_smoke_leg.py (1/1 PASS, doctor 1/1 red, byte-restored) + smoke_test.py leg + S6 leg one_depth_write rc=0; E645 seeded",
  "did_round": 1662,
@@ -457,10 +457,10 @@
  "last_orders_sha_recipe": "sha256 of git cat-file blob origin/main:docs/orders.md",
  "last_orders_watermark": "4348aa21bc8f",
  "last_product": "results/state_tilt/ONEHOPOUT-2026-11-08.json",
- "last_push": "machine/bm-b-r1662",
- "last_push_at": "2026-11-10T08:52:00+08:00",
+ "last_push": "c35a9b1a0a729f35c6189c2d9b9f324244d9cc11",
+ "last_push_at": "2026-11-10T15:58:00+08:00",
  "last_push_sha": "dbbf079f818c14e6c83719e0984b99eeb63b01b0",
- "last_push_ts": "2026-11-10T08:52:00+08:00",
+ "last_push_ts": "2026-11-10T15:58:00+08:00",
  "last_round": 1667,
  "last_round_at": "2026-11-10T15:52:00+08:00",
  "last_round_label": "r1641",
@@ -469,7 +469,7 @@
  "last_round_ts": "2026-11-10T10:02:02+08:00",
  "last_round_utc": "2026-11-07T03:23:33.277481+08:00",
  "last_run": "2026-10-31T10:52:20+08:00",
- "last_seen": "2026-11-10T15:52:00+08:00",
+ "last_seen": "2026-11-10T15:58:00+08:00",
  "last_updated": "2026-11-04T05:42:18+08:00",
  "latest_artifact": "results/state_tilt/ONEDEPTHWRITE.json",
  "local_commits_not_on_origin": 554,
@@ -6443,7 +6443,7 @@
  "three_line_next": "E651 fold the 14 unresolved strings by tracing module-level operands (by 2026-11-12)",
  "three_line_recent": "results/state_tilt/STRINGREACH.json @ 2026-11-10T15:52:00+08:00",
  "timestamp": "2026-11-10T05:30:18+08:00",
- "ts": "2026-11-10T15:52:00+08:00",
+ "ts": "2026-11-10T15:58:00+08:00",
  "ts_utc_ms": 1794234696000,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-10T05:30:18+08:00",
@@ -6693,7 +6693,7 @@
   "behind_origin_main": 6,
   "main_push_note": "no unattended rebase on a promisor clone (r1243); machine branch is the channel"
  },
- "local_behind_origin_main": 29,
+ "local_behind_origin_main": 37,
  "last_decisions_checked_at": "2026-11-10T15:52:00+08:00",
  "r1656": {
   "card": "E636",
@@ -6720,7 +6720,7 @@
    "results/runnable_pool.json E636 done + E637 seeded"
   ]
  },
- "last_push_round": 1660,
+ "last_push_round": 1668,
  "r1656_delivery": {
   "branch": "machine/bm-b-r1656",
   "sha": "21449142a3e9b58f31b7460434998fe1cbf933ac",
@@ -6910,5 +6910,13 @@
   ],
   "action": "none owed",
   "ts": "2026-11-10T15:52:00+08:00"
+ },
+ "r1668_delivery": {
+  "branch": "machine/bm-b-r1668",
+  "sha": "c35a9b1a0a729f35c6189c2d9b9f324244d9cc11",
+  "ts": "2026-11-10T15:58:00+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1668 == c35a9b1a0a729f35c6189c2d9b9f324244d9cc11",
+  "main_push_note": "local main is 33 ahead / 37 behind origin/main on a promisor clone; no unattended rebase (r1243), so the machine branch is the delivery channel",
+  "targeted_add": "13 faces staged by pathspec out of a tree dirty with ~3,400 entries (other windows' faces + untracked working set); results/_r1668bmb_s6_chain.json is gitignored and was not forced"
  }
 }
