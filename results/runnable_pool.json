@@ -31163,14 +31163,17 @@
    "source": "E639 (r1659 bm-b) -- 5,513 corpus write sites, 0 on the counted lines",
    "target": "results/state_tilt/WRITEREADCOLLIDE.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T08:03:52+08:00",
    "seeded_by": "r1659 bm-b",
    "workers_plan": {
     "workers": 2,
     "priority": "BelowNormal"
    },
-   "note": "E640"
+   "note": "E640",
+   "result_ref": "results/state_tilt/WRITEREADCOLLIDE.json",
+   "closed_at": "2026-11-10T08:25:00+08:00",
+   "closed_by": "r1660 bm-b"
   },
   {
    "card": "E636",
@@ -31189,6 +31192,63 @@
    "closed_at": "2026-11-10T08:07:23+08:00",
    "closed_by": "r1659 bm-b",
    "note": "tombstone row: this id is the card as seeded, the burned card carries the reworded id. It is published here so the shared face and the bm-b lane view have the same id set (the lane view held it as a second E636 and pool_dualrun counted the id-set difference as drift); status superseded is never claimable."
+  },
+  {
+   "card": "E641",
+   "id": "E641-WHETHER-THE-ROWS-A-COUNTED-FUNCTION-WRITES-ARE-BOUND-BY-A-LOOP-OR-A-PARAMETER-THAT-CANNOT-REACH-THE-READ-LINE'S-KEY",
+   "title": "whether each two-depth write site inside a counted function writes through a container that is bound from outside the read line's reach, i.e. whether the write that sits beside the counted read could be the same object",
+   "lane": "cpu-only",
+   "lane_note": "E640 finds 10 write sites in 3 of the 6 counted functions and none of them names the row's key. Naming is a literal-key test; the write could still address the same container. The cheap next question is the binding of the receiver that holds those 10 writes: parameter, loop target, or local literal.",
+   "deliverable": "results/state_tilt/WRITERECEIVERBIND.json: per write site in the counted functions, the receiver expression and how its name is bound in that function",
+   "source": "E640 (r1660 bm-b) -- 10 write sites in 3 of the 6 counted functions, 0 naming the key",
+   "target": "results/state_tilt/WRITERECEIVERBIND.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T08:25:00+08:00",
+   "seeded_by": "r1660 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E641"
+  },
+  {
+   "card": "E642",
+   "id": "E642-WHETHER-ANY-OF-THE-2641-MODULE-LEVEL-TWO-DEPTH-WRITE-SITES-NAMES-A-KEY-A-COUNTED-READ-LINE-READS",
+   "title": "whether the write sites E640 excludes by definition (module level, no enclosing function) name a key that a counted read line reads",
+   "lane": "cpu-only",
+   "lane_note": "E640 attributes 2,641 write sites to no function and drops them from the in-function question. That population is exactly where the depth fold concentrates its writes (script bodies writing dict literals), so the cheap next question is the key collision at module level: publish the key of every module-level write site inside the modules that hold a counted read line, and whether any equals a row key.",
+   "deliverable": "results/state_tilt/MODULEWRITEKEY.json: per module holding a counted read line, its module-level two-depth write sites, their keys, and the overlap with the row keys",
+   "source": "E640 (r1660 bm-b) -- 5,514 all-owner write sites, 2,641 at module level",
+   "target": "results/state_tilt/MODULEWRITEKEY.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T08:25:00+08:00",
+   "seeded_by": "r1660 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E642"
+  },
+  {
+   "card": "E643",
+   "id": "E643-WHAT-SYNTACTIC-CONTEXT-HOLDS-THE-17720-TWO-DEPTH-SITES-THAT-BELONG-TO-NO-FUNCTION",
+   "title": "what syntactic context holds the 17,720 two-depth sites with no enclosing function, and whether that population is one context or several",
+   "lane": "cpu-only",
+   "lane_note": "E640 publishes 27,675 sites inside a function and 17,720 outside one, and calls the remainder module level. That is a name, not a measurement: the remainder could be class bodies, dict-literal loads at import time, or comprehension code at module scope. Publishing the context histogram (module body / class body / module-level comprehension / lambda default) prices whether module level is one population or four.",
+   "deliverable": "results/state_tilt/NONFUNCSITE.json: context histogram of the sites no function owns, with the write face of each context",
+   "source": "E640 (r1660 bm-b) -- 17,720 of 45,395 sites have no enclosing function",
+   "target": "results/state_tilt/NONFUNCSITE.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T08:25:00+08:00",
+   "seeded_by": "r1660 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E643"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31203,6 +31263,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T08:07:23+08:00",
+ "updated_at": "2026-11-10T08:25:00+08:00",
  "version": 1
 }

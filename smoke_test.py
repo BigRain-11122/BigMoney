@@ -27773,5 +27773,52 @@ except Exception as _e639x:
     _d639 = "study could not be read"
 check(_name639, not _bad639, "; ".join(_bad639)[:240] or _d639)
 
+# E640 asks whether a write can sit *next to* the reads E633 counts: E639 found the sightes on the
+# counted lines are all loads, but that is a fact about those lines.  Resolving each counted read
+# line to its innermost enclosing function and republishing every two-depth site owned by that
+# function: 5,289 functions in the corpus own a two-depth site (27,675 of 45,395 sites sit inside a
+# function; 2,641 write sites do not), 1,196 functions own a write, and E633's 13 counted read lines
+# land in 6 functions of which 3 carry writes -- 10 write sites, 7 before / 0 on / 3 after the read
+# line, and 0 of them names the row's counted key, so writes sit beside these reads only of other
+# keys.  This leg refuses a face whose totals do not re-add, a write flag its members do not carry, a
+# site published outside its own function span, a verdict that reports a write of the row key the
+# rows do not carry, and any problem the study's own gate returns.
+_name640 = ("E640 whether a two-depth write site in a counted read line's own function names the "
+            "key that line reads (r1660 bm-b)")
+_bad640 = []
+_d640 = "no reading"
+try:
+    _f640 = json.load(open(os.path.join("results", "state_tilt", "writereadcollide_latest.json"),
+                           encoding="utf-8"))
+    _m640 = importlib.import_module("e640_writeread_collide")
+    _bad640.extend(_m640.face_problems(_f640))
+    _c640 = _f640.get("counts") or {}
+    _v640 = _f640.get("verdict") or ""
+    _rows640 = _f640.get("rows") or []
+    _sites640 = [s for r in _rows640 for s in (r.get("sites_in_the_function") or [])]
+    _ctx640 = {"load": 0, "store": 0, "del": 0}
+    for _m in [m for s in _sites640 for m in (s.get("members") or [])]:
+        _ctx640[_m.get("ctx")] = _ctx640.get(_m.get("ctx"), 0) + 1
+    if _ctx640 != (_c640.get("site_member_ctx_histogram") or {}):
+        _bad640.append("the site member ctx histogram is not the member count")
+    if sum(1 for s in _sites640 if s.get("any_member_is_write")) != (
+            _c640.get("write_sites_in_the_counted_functions") or 0):
+        _bad640.append("the write-site total is not the count of sites carrying a write")
+    if (sum(1 for s in _sites640
+            if s.get("writes_the_row_key")) != (_c640.get("write_sites_naming_the_row_key") or 0)):
+        _bad640.append("a write of the row key is not carried by a site flag")
+    if (_c640.get("write_sites_before_the_read_line", 0)
+            + _c640.get("write_sites_on_the_read_line", 0)
+            + _c640.get("write_sites_after_the_read_line", 0)) != (
+                _c640.get("write_sites_in_the_counted_functions") or 0):
+        _bad640.append("the write positions do not add up to the write sites")
+    if (_c640.get("corpus_two_depth_write_sites_all_owners") or 0) < (
+            _c640.get("corpus_two_depth_write_sites") or 0):
+        _bad640.append("the all-owner write total is smaller than the in-function one")
+except Exception as _e640x:
+    _bad640.append(repr(_e640x)[:160])
+    _d640 = "study could not be read"
+check(_name640, not _bad640, "; ".join(_bad640)[:240] or _d640)
+
 if __name__ == "__main__":
     sys.exit(main())

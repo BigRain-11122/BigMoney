@@ -6334,7 +6334,7 @@
   "verify": "problems=[] verify=identical"
  },
  "round_label": "r1646",
- "round_no": 1659,
+ "round_no": 1660,
  "round_no_label": "r1644",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
  "round_no_ts": "2026-11-09T21:36:13+08:00",
@@ -6695,8 +6695,8 @@
   "behind_origin_main": 6,
   "main_push_note": "no unattended rebase on a promisor clone (r1243); machine branch is the channel"
  },
- "local_behind_origin_main": 6,
- "last_decisions_checked_at": "2026-11-10T08:05:00+08:00",
+ "local_behind_origin_main": 16,
+ "last_decisions_checked_at": "2026-11-10T08:28:00+08:00",
  "r1656": {
   "card": "E636",
   "dept": "research+engineering",
@@ -6722,7 +6722,7 @@
    "results/runnable_pool.json E636 done + E637 seeded"
   ]
  },
- "last_push_round": 1658,
+ "last_push_round": 1660,
  "r1656_delivery": {
   "branch": "machine/bm-b-r1656",
   "sha": "21449142a3e9b58f31b7460434998fe1cbf933ac",
@@ -6772,5 +6772,31 @@
   "verified": "git ls-remote equality checked",
   "main_push_note": "local main is 15 ahead / 14 behind after the r1243 closeout; no unattended rebase on a promisor clone, so the machine branch is the channel",
   "targeted_add": "13 faces staged by pathspec out of a tree dirty with 3,424 entries (other windows' faces + untracked working set); results/_r1658bmb_s6_chain.json is gitignored and was not forced"
+ },
+ "r1660": {
+  "card": "E640",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/WRITEREADCOLLIDE.json",
+  "study": "E640_write_read_collide",
+  "verdict": "the_counted_read_lines_functions_do_carry_two_depth_write_sites_but_none_of_them_names_the_rows_counted_key_at_either_depth_so_writes_can_sit_next_to_these_reads_only_of_other_keys",
+  "finding": "13,080 files / 45,395 two-depth sites; 27,675 sit inside a function (5,289 functions) and 17,720 at module level; in-function write sites 2,873 across 1,196 functions, 5,514 counting every owner (2,641 module level); the 13 counted read lines land in 6 functions of which 5 carry a site and 3 carry a write: 156 sites / 10 write sites (member ctx load 332 / store 10 / del 0), 24 name the row key and 0 write it, and the writes sit 7 before / 0 on / 3 after the read line",
+  "product": [
+   "scripts/e640_writeread_collide.py (selftest 19/19, check/verify problems=[])",
+   "results/state_tilt/WRITEREADCOLLIDE.json + writereadcollide_latest.json",
+   "scripts/run_e640_smoke_leg.py (1/1 PASS, --doctor 1/1 red, face byte-restored)",
+   "smoke_test.py leg E640 (47/0 numstat)",
+   "Tools/s6_chain_bmb.py leg write_read_collide (rc0 0.07s, 11/0 numstat)",
+   "knowledge/METHODOLOGY_ASSETS.md card E640 (33/0 numstat)",
+   "knowledge/TREASURE_REGISTRY.md row (1/0 numstat)",
+   "research/digests/DIGEST-20261110-r1660-e640-write-read-collide.md",
+   "results/runnable_pool.json E640 done + E641/E642/E643 seeded (63/3 numstat)"
+  ],
+  "pit": [
+   "owner attribution is the whole study: without it 2,641 module-level write sites inflate the in-function write count and the E639 reconciliation (5,513 vs 2,873) becomes an unexplained gap, so both totals are published on one face with the difference named",
+   "a name-only function match binds a read line to the outer of two same-named functions in one module and mis-places every site; the span is published so the gate re-derives 'the site is inside it'",
+   "the selftest leg that flips a lying write flag used a load+del site that already carries a write, so it passed for the wrong reason; it now flips a two-load site"
+  ],
+  "ts": "2026-11-10T08:28:00+08:00",
+  "supply_floor": "the audit flagged ready=1 < floor=3 (supply_floor breach) after E640 closed, so E641/E642/E643 were seeded in the same round"
  }
 }

@@ -1486,6 +1486,17 @@ LEGS = [
     # corpus carries no write at all (the zero must name what it counted, E444 family).
     ("write_below", ["python", "scripts/e639_write_below.py", "verify"]),
 
+    # E640 asks whether a two-depth write can sit *next to* the reads E633 counts: E639 found the
+    # sites on the counted lines are all loads, but that says nothing about the function that holds
+    # the line.  Resolving each counted read line to its innermost enclosing function (name match
+    # first, then innermost containment) and republishing every two-depth site owned by that
+    # function: 5,289 functions own a two-depth site (27,675 of 45,395 sites are inside a function
+    # -- 2,641 write sites are module level), 1,196 own a write, and E633's 13 counted lines land in
+    # 6 functions of which 3 carry writes: 10 write sites (7 before / 0 on / 3 after the read line),
+    # 0 naming the row's counted key.  Verify re-derives every total and every position split from
+    # the face's own rows, without the corpus walk.
+    ("write_read_collide", ["python", "scripts/e640_writeread_collide.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names
