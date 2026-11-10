@@ -2694,6 +2694,26 @@ def capital_face(path=MIN_CAPITAL_JSON):
                         "detail": "the delivered-rate neutral NAV disagrees with its own "
                                   "traded-leg median",
                         "published": dlv_nav, "recomputed": round(want_d, 2)}
+        # (r1507) the lot block is the second smallness threshold, same closed form on the
+        # same published medians. If it no longer recomputes, this page would print a
+        # "you need this much money" belonging to no basket -- refuse, do not print.
+        lot = d.get("lot") or {}
+        if lot.get("lot_nav_median") is not None:
+            want_lot = MC.lot_nav(lot.get("price_median"), lot.get("weight_median"),
+                                  lot.get("lot_units") or MC.LOT_UNITS)
+            if want_lot is None or abs(float(want_lot) - float(lot["lot_nav_median"])) > \
+                    max(0.05, 1e-4 * abs(float(want_lot))):
+                return {"status": "drifted", "artifact": _rel(path, ROOT),
+                        "detail": "the whole-lot threshold disagrees with its own median "
+                                  "price and weight",
+                        "published": lot.get("lot_nav_median"),
+                        "recomputed": (None if want_lot is None else round(want_lot, 2))}
+            want_lv = MC._lot_verdict(want_lot, lot.get("compared_value"))
+            if want_lv != lot.get("verdict"):
+                return {"status": "drifted", "artifact": _rel(path, ROOT),
+                        "detail": "the whole-lot verdict disagrees with its own two "
+                                  "thresholds",
+                        "published": lot.get("verdict"), "recomputed": want_lv}
         primary = [r for r in ladder if r.get("schedule") == sched.get("name")]
         want_v = MC._verdict(primary, model, real,
                              (min(cfg.get("capital_grid") or [0]),
@@ -2758,6 +2778,20 @@ def capital_face(path=MIN_CAPITAL_JSON):
             "delivered_nav_mean_leg": d.get("fee_neutral_vs_delivered_nav_mean_leg"),
             "delivered_verdict": d.get("verdict_delivered"),
             "delivered_rate_note": d.get("delivered_rate_note"),
+            "lot": ({"median": lot.get("lot_nav_median"),
+                     "cellwise_median": lot.get("lot_nav_cellwise_median"),
+                     "p90": lot.get("lot_nav_p90"),
+                     "units": lot.get("lot_units"),
+                     "price_median": lot.get("price_median"),
+                     "weight_median": lot.get("weight_median"),
+                     "verdict": lot.get("verdict"),
+                     "compared_value": lot.get("compared_value"),
+                     "compared_against": lot.get("compared_against"),
+                     "holdable_at": [{"capital": r.get("capital"),
+                                      "share": r.get("holdable_share")}
+                                     for r in lot.get("rows") or []],
+                     "names_short_at_smallest": lot.get("names_short_at_smallest")}
+                    if lot.get("lot_nav_median") is not None else None),
             "prop_bp": sched.get("prop_bp"),
             "min_fee_cny": sched.get("min_fee_cny"),
             "schedule": sched.get("name"),
@@ -3038,6 +3072,44 @@ def capital_block(cf):
         L.append("**今天这张可执行单的持名数读不出来**（票据缺席或没有 `n_hold`）——"
                  "所以上面那个门槛是在量哪一本，本页答不了，别按它下单。")
     L.append("")
+    # (r1507) the second smallness constraint. The section above answers "is the fee model
+    # honest at this size"; this one answers "can the book be held at this size at all".
+    # They are the same order of magnitude and they are not the same question, so both are
+    # printed, each with the number it is actually about.
+    _lot = cf.get("lot") or {}
+    if _lot.get("median"):
+        _lu = _lot.get("units") or 100
+        _lpx = _lot.get("price_median") or 0.0
+        _lw = _lot.get("weight_median") or 0.0
+        _lm = _lot.get("median") or 0.0
+        _lp = _lot.get("p90") or 0.0
+        _cmp = _lot.get("compared_value") or 0.0
+        _lot_bigger = _lot.get("verdict") == "LOT_IS_THE_LARGER_REQUIREMENT"
+        L.append("**还有一条更硬的约束：一手 = %d 份，买不到半手。** 上面那句答的是「贵不贵」，"
+                 "这一条答的是「摆不摆得下」——一个仓位中位占账户 **%.2f%%**、单价中位 "
+                 "**%.2f 元**，一手就是 **%.0f 元**的仓位。按规则里的权重把这本书摆满，"
+                 "至少要有 **%.0f 元**；要让九成名字都各持一手，得 **%.0f 元**"
+                 "（这个上限由最贵的那几个名字决定，不是平均值）。"
+                 % (_lu, 100.0 * _lw, _lpx, _lu * _lpx, _lm, _lp))
+        L.append("")
+        if _lot_bigger:
+            L.append("这个数 **高于** 5 元地板的门槛（%.0f 元）——所以小账户先撞上的不是「贵」，"
+                     "是「摆不下」：钱不够时你不是买贵了这本，你是**买成了另一本**"
+                     "（少买几个名字、或者每个名字多买一手把权重撑歪）。" % _cmp)
+        else:
+            L.append("这个数 **低于** 5 元地板的门槛（%.0f 元）——先撞上的是「贵」。"
+                     "但两者问的不是同一件事：地板说「这笔佣金占得太高」，"
+                     "手数说「这个仓位根本摆不出来」；钱再少一点，买到的就不再是这本书。"
+                     % _cmp)
+        _ha = [h for h in _lot.get("holdable_at") or [] if h.get("share") is not None]
+        if _ha:
+            L.append("")
+            L.append("| 账户 | 能按规则权重摆出的名字占比 |")
+            L.append("|---|---|")
+            for h in _ha:
+                L.append("| %.0f 元 | %.1f%% |"
+                         % (h.get("capital") or 0.0, 100.0 * (h.get("share") or 0.0)))
+        L.append("")
     L.append("> 口径：只算佣金与既有的冲击项。买卖价差已经在上面那把费率里"
              + ("（货架 %g bp / 你手上这本 %g bp）" % (_bp_shelf, _bp_dlv) if _two_rates
                 else "（%g bp）" % _bp_shelf)
@@ -6885,6 +6957,71 @@ def selftest():
         bool(_tk_none_lines) and "读不出来" in _tk_none_lines[0]
         and "203007" not in _tk_none_lines[0],
         "lines=%r" % (_tk_none_lines[:1],))
+    # ---- r1507: the second smallness constraint (whole lots) ------------------------------
+    # The section above prices "is the fee model honest at this size"; one lot = 100 units
+    # means a position below that is not expensive, it is unrepresentable. The page must
+    # print that threshold with the number it is actually about, derive which constraint
+    # bites first, and refuse a lot block that no longer recomputes from its own medians.
+    _lot_cf = dict(_fake_off_cf)
+    _lot_cf.update({"lot": {"median": 141916.0, "cellwise_median": 147168.0,
+                            "p90": 291701.0, "units": 100, "price_median": 102.968,
+                            "weight_median": 0.072556, "verdict": "LOT_IS_THE_LARGER_REQUIREMENT",
+                            "compared_value": 100000.0,
+                            "holdable_at": [{"capital": 1e4, "share": 0.296},
+                                            {"capital": 4e5, "share": 0.992}],
+                            "names_short_at_smallest": 6}})
+    _lot_lines = capital_block(_lot_cf)
+    _lot_txt = "\n".join(_lot_lines)
+    _lot_bigger = "高于" in _lot_txt and "摆不下" in _lot_txt
+    _lot_smaller_cf = dict(_lot_cf)
+    _lot_smaller_cf["lot"] = dict(_lot_cf["lot"],
+                                  verdict="FEE_FLOOR_IS_THE_LARGER_REQUIREMENT",
+                                  median=50000.0, compared_value=100000.0)
+    _lot_smaller_txt = "\n".join(capital_block(_lot_smaller_cf))
+    chk("L133 lot: the page prints the whole-lot threshold, the price it comes from, and "
+        "which constraint bites first -- both ways, from the verdict word",
+        ("141916" in _lot_txt.replace(",", "")) and ("102.97" in _lot_txt)
+        and ("一手 = 100 份" in _lot_txt) and _lot_bigger
+        and ("低于" in _lot_smaller_txt) and ("先撞上的是「贵」" in _lot_smaller_txt),
+        "bigger_printed=%s smaller_printed=%s"
+        % (_lot_bigger, "先撞上的是「贵」" in _lot_smaller_txt))
+    chk("L134 lot: the holdable table is printed row by row from the face, not summarised",
+        ("| 10000 元 | 29.6%" in _lot_txt.replace(",", ""))
+        and ("| 400000 元 | 99.2%" in _lot_txt.replace(",", "")),
+        str([l for l in _lot_lines if l.startswith("| 1") or l.startswith("| 4")][:2]))
+    # the reader must refuse a lot block whose median no longer follows from its own price
+    # and weight -- otherwise the page prints a "you need this much money" nobody can
+    # re-derive (r1507: the closed form is 100*price/weight, both published above it).
+    _lot_bad = tempfile.mkdtemp()
+    _lot_bad_json = os.path.join(_lot_bad, "mincap.json")
+    with open(_lot_bad_json, "w", encoding="utf-8") as _fh:
+        json.dump({"config": {"dw_median_all_legs": 0.0152, "base_bp_published": 8.0,
+                              "base_bp_delivered": 10.0,
+                              "schedules": [{"name": "wan2.5+5", "prop_bp": 2.5,
+                                             "min_fee_cny": 5.0}],
+                              "capital_grid": [1e4, 1e7],
+                              "dw_mean_all_legs": 0.0152,
+                              "delivered_rate_check": {"agree": True, "card_bp": 10.0,
+                                                       "engine_bp": 10.0}},
+                   "fee_neutral_vs_model_nav": 411184.21,
+                   "fee_neutral_vs_real_nav": 1315789.47,
+                   "fee_neutral_vs_delivered_nav": 328947.37,
+                   "ladder": [{"schedule": "wan2.5+5", "capital": 1e4, "cagr": 0.05,
+                               "ref_cagr": 0.06}],
+                   "verdict": "FLOOR_BINDS_BELOW_411184_AND_MODEL_GENEROUS_ABOVE_1315789",
+                   "window": {"verdict": "WINDOW_UNMEASURED", "rows": []},
+                   "width": {"verdict": "WIDTH_UNMEASURED", "rows": []},
+                   "lot": {"lot_nav_median": 999999.0, "price_median": 102.968,
+                           "weight_median": 0.072556, "lot_units": 100,
+                           "verdict": "LOT_IS_THE_LARGER_REQUIREMENT",
+                           "compared_value": 328947.37}}, _fh)
+    _lot_bad_face = capital_face(_lot_bad_json)
+    chk("L135 lot: a lot threshold that disagrees with its own price and weight is refused",
+        _lot_bad_face.get("status") == "drifted"
+        and "whole-lot" in (_lot_bad_face.get("detail") or "")
+        and _lot_bad_face.get("recomputed") is not None,
+        "status=%s recomputed=%s" % (_lot_bad_face.get("status"),
+                                     _lot_bad_face.get("recomputed")))
     # ---- r1246: the page prices the same cash on the ticket's three rates ----------------
     # The ticket learned to print three calibers (today's quote / its own trailing mean /
     # the ledger's window mean) in r1245; the page kept quoting one. These legs drive a

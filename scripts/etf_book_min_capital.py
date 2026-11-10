@@ -75,6 +75,10 @@ EPS = 1e-12
 
 # Retail brokerage assumptions, stated as parameters rather than buried in the cost line.
 MIN_FEE_CNY = 5.0
+# r1507: the cash floor is not the only smallness constraint. Orders trade in whole lots,
+# so a position whose target weight implies fewer than `LOT_UNITS` units cannot be held at
+# that weight at all -- the reader ends up holding a different basket, not a cheaper one.
+LOT_UNITS = 100
 SCHEDULES = (
     {"name": "wan2.5+5", "prop_bp": 2.5, "min_fee_cny": MIN_FEE_CNY},
     {"name": "wan1.5+5", "prop_bp": 1.5, "min_fee_cny": MIN_FEE_CNY},
@@ -184,6 +188,105 @@ def neutral_nav(dw, prop_bp, min_fee_cny):
     if not min_fee_cny or dw <= EPS or prop_bp <= 0:
         return 0.0
     return 1e4 * float(min_fee_cny) / (float(prop_bp) * dw)
+
+
+def lot_nav(price, weight, lot=LOT_UNITS):
+    """Capital at which a position of `weight` is exactly one lot of `lot` units.
+
+    The commission floor asks "is the cost model honest at this size"; this asks "can the
+    book be held at this size". Both are money and they are not the same question: the
+    floor bites on the traded leg (~1.5% of NAV), the lot bites on the POSITION
+    (~1/n_hold of NAV), so the two thresholds differ by roughly the turnover ratio -- and
+    the price matters: a 100-CNY bond ETF makes one lot cost 10,300 CNY, so a reader who
+    needs twelve of them needs six figures before the weights are even representable.
+    """
+    try:
+        price, weight = float(price), float(weight)
+    except (TypeError, ValueError):
+        return None
+    if not np.isfinite(price) or price <= 0 or not np.isfinite(weight) or weight <= EPS:
+        return None
+    return float(lot) * price / weight
+
+
+def lot_dependence(face, path=None, capital_grid=CAPITALS, lot=LOT_UNITS):
+    """How much money before the delivered weights can be held in whole lots?
+
+    Measured on the SAME weight path and the SAME prices the ladder is priced on, so the
+    number can be read beside the fee threshold instead of in another world. Per capital
+    rung: `holdable_share` = fraction of name-days whose target position is at least one
+    lot, and `names_short` = how many of the names the rule wants that account size cannot
+    even buy one lot of (a median over decision bars, not a single lucky day).
+    """
+    if path is None:
+        path = R.weight_path(face)
+    close = face["close"]
+    cols = set(close.columns)
+    req, pxs, wts, per_bar = [], [], [], []
+    for d, w, _cash in path:
+        short = 0
+        for s, v in w.items():
+            if v is None or v <= 0 or s not in cols:
+                continue
+            try:
+                px = float(close.at[d, s])
+            except (KeyError, TypeError):
+                px = np.nan
+            need = lot_nav(px, v, lot)
+            if need is None:
+                continue
+            req.append(need)
+            pxs.append(px)
+            wts.append(float(v))
+            if need > capital_grid[0]:
+                short += 1
+        per_bar.append(short)
+    if not req:
+        return {"lot_units": lot, "cells": 0, "lot_nav_median": None,
+                "lot_nav_p90": None, "price_median": None, "weight_median": None,
+                "rows": [], "verdict": "LOT_UNMEASURED",
+                "note": "no priced name-day on the path -- nothing to measure"}
+    req = np.asarray(req, dtype=float)
+    rows = []
+    for cap in capital_grid:
+        rows.append({
+            "capital": cap,
+            "holdable_share": round(float((req <= float(cap)).mean()), 6),
+            "lot_nav_max_over_grid": round(float(req.max()), 2),
+        })
+    return {
+        "lot_units": lot,
+        "cells": int(len(req)),
+        "price_median": round(float(np.median(pxs)), 4),
+        "price_p90": round(float(np.percentile(pxs, 90)), 4),
+        "weight_median": round(float(np.median(wts)), 8),
+        # the headline is the CLOSED FORM on the published medians, so any reader (and
+        # `--check`) can reproduce it from two published numbers; the cell-wise median is
+        # published beside it because median-of-ratios is not ratio-of-medians and the
+        # difference is the honest width of the reading
+        "lot_nav_median": round(float(lot_nav(np.median(pxs), np.median(wts), lot)), 2),
+        "lot_nav_cellwise_median": round(float(np.median(req)), 2),
+        "lot_nav_p90": round(float(np.percentile(req, 90)), 2),
+        "names_short_at_smallest": int(np.median(per_bar)) if per_bar else None,
+        "rows": rows,
+        "note": ("capital needed to hold `weight` x NAV as one lot of %d units, read off "
+                 "the same weight path and prices as the ladder; holdable_share is the "
+                 "share of name-days that are representable at that account size" % lot),
+    }
+
+
+def _lot_verdict(lot_median, fee_neutral):
+    """Frozen reading rule: which of the two smallness constraints is the larger one.
+
+    Both are "how much money before the model describes what you actually get"; the one
+    with the larger number is the one that bites first. Never written by hand -- the page
+    and the check both call this.
+    """
+    if lot_median is None or fee_neutral is None:
+        return "LOT_UNMEASURED"
+    if float(lot_median) >= float(fee_neutral):
+        return "LOT_IS_THE_LARGER_REQUIREMENT"
+    return "FEE_FLOOR_IS_THE_LARGER_REQUIREMENT"
 
 
 def curve(face, capital, prop_bp, min_fee_cny, k_bp=C.IMPACT_BP_PER_PCT,
@@ -507,6 +610,13 @@ def run(start=R.START, n_hold=None):
     width_rows = width_dependence(start=start, delivered_bp=dlv_bp)
     width_verdict, width_spread_pct = _width_verdict(width_rows, fee_neutral_model)
 
+    # r1507: the second smallness constraint -- whole lots. Read on the SAME path the
+    # ladder is priced on, so the two thresholds sit side by side and neither is a
+    # second re-derivation of the panel.
+    lot = lot_dependence(face, path=path)
+    lot_verdict = _lot_verdict(lot.get("lot_nav_median"),
+                               fee_neutral_dlv if _second else fee_neutral_model)
+
     out = {
         "ts": pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S"),
         "evidence_cutoff": str(pd.Timestamp(face["idx"][-1]).date()),
@@ -587,6 +697,15 @@ def run(start=R.START, n_hold=None):
         "scope_note": ("fees only: spread is inside the 8bp reference and is NOT added "
                        "here; a broker with no 5-yuan floor is the wan2.5+0 row; the "
                        "delivered rule's own turnover is imported from the engine."),
+        "lot": dict(lot, verdict=lot_verdict,
+                    compared_against=(("fee_neutral_vs_delivered_nav" if _second
+                                       else "fee_neutral_vs_model_nav")),
+                    compared_value=(round(fee_neutral_dlv, 2) if (_second and fee_neutral_dlv)
+                                    else (None if fee_neutral_model is None
+                                          else round(fee_neutral_model, 2))),
+                    note_verdict=("both numbers are 'how much money before the answer is "
+                                  "about what you actually hold'; the larger one is the one "
+                                  "that bites first")),
     }
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
@@ -711,6 +830,30 @@ def check():
                 and int(cfg["ladder_n_hold"]) != int(want_pw):
             problems.append("ladder priced at %s names but its rows read %s"
                             % (cfg.get("ladder_n_hold"), want_pw))
+    # r1507: the lot block is a second closed form on the SAME published medians, so it
+    # must recompute here too -- a threshold nobody can re-derive is a number, not a face.
+    lot = d.get("lot") or {}
+    if lot and lot.get("lot_nav_median") is not None:
+        want_lot = lot_nav(lot.get("price_median"), lot.get("weight_median"),
+                           lot.get("lot_units") or LOT_UNITS)
+        if want_lot is None or not _close(want_lot, lot["lot_nav_median"], abs_tol=0.05,
+                                          rel_tol=1e-4):
+            problems.append("lot_nav_median %.2f != %.2f"
+                            % (lot["lot_nav_median"], want_lot or 0.0))
+        want_lv = _lot_verdict(want_lot, lot.get("compared_value"))
+        if want_lv != lot.get("verdict"):
+            problems.append("lot verdict %s != recomputed %s"
+                            % (lot.get("verdict"), want_lv))
+        # more money can never make fewer name-days holdable, and the 90th percentile can
+        # never sit below the median: two arithmetic facts that catch a scrambled row set
+        shares = [r.get("holdable_share") for r in lot.get("rows") or []
+                  if r.get("holdable_share") is not None]
+        if shares != sorted(shares):
+            problems.append("lot rows: holdable_share must not fall as capital rises")
+        if (lot.get("lot_nav_p90") is not None and lot.get("lot_nav_cellwise_median")
+                is not None and lot["lot_nav_p90"] < lot["lot_nav_cellwise_median"]):
+            problems.append("lot rows: p90 %.2f sits below the median %.2f"
+                            % (lot["lot_nav_p90"], lot["lot_nav_cellwise_median"]))
     if problems:
         for p in problems:
             print("DRIFT: " + p)
@@ -869,6 +1012,32 @@ def selftest():
         _bp3 == 3.0 and _src3 == "production_card" and _chk3.get("agree") is False,
         (_bp3, _src3, _chk3))
 
+    # L28-L31: the second smallness constraint (r1507). Whole lots are arithmetic, not a
+    # panel finding, so the fixture pins it: one lot of a 100-CNY ETF is 10,300 CNY, and a
+    # 7% position of it needs six figures -- the same order as the 5-yuan floor, which is
+    # why it is published beside it rather than as a footnote.
+    chk("L28 a 5% position is exactly one lot at 100*price/0.05 capital",
+        abs(lot_nav(100.0, 0.05) - 200000.0) < 1e-6, lot_nav(100.0, 0.05))
+    chk("L29 one lot of a ~103 CNY bond ETF is ~10.3k CNY of notional",
+        abs(lot_nav(103.0, 0.0726) - 100 * 103.0 / 0.0726) < 1e-6,
+        round(lot_nav(103.0, 0.0726), 0))
+    chk("L30 the lot/floor verdict is derived from the two numbers, both ways",
+        _lot_verdict(200000.0, 162405.0) == "LOT_IS_THE_LARGER_REQUIREMENT"
+        and _lot_verdict(50000.0, 162405.0) == "FEE_FLOOR_IS_THE_LARGER_REQUIREMENT"
+        and _lot_verdict(None, 1.0) == "LOT_UNMEASURED"
+        and _lot_verdict(1.0, None) == "LOT_UNMEASURED")
+    _fx_close = pd.DataFrame({"AAA": [100.0, 100.0], "BBB": [1.0, 1.0]},
+                             index=pd.to_datetime(["2026-01-05", "2026-01-06"]))
+    _fx_face = {"close": _fx_close}
+    _fx_path = [(pd.Timestamp("2026-01-05"), {"AAA": 0.05, "BBB": 0.05}, 0.9)]
+    _fx_lot = lot_dependence(_fx_face, path=_fx_path, capital_grid=(1000.0, 1e6))
+    chk("L31 a 1,000 CNY account can hold none of a 5%-of-100-CNY book; a million can hold all",
+        _fx_lot["rows"][0]["holdable_share"] == 0.0
+        and _fx_lot["rows"][1]["holdable_share"] == 1.0
+        and abs(_fx_lot["lot_nav_median"] - 100 * 50.5 / 0.05) < 1e-6,
+        (_fx_lot["rows"][0]["holdable_share"], _fx_lot["rows"][1]["holdable_share"],
+         _fx_lot["lot_nav_median"]))
+
     print("selftest %d/%d" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1
 
@@ -887,6 +1056,10 @@ def main(argv):
           % ((out["config"].get("base_bp_delivered") if out["config"].get("base_bp_delivered")
               else "unknown"),
              out["fee_neutral_vs_delivered_nav"] or 0, out["verdict_delivered"]))
+    _lot = out.get("lot") or {}
+    print("             whole lots: median %.0f CNY | p90 %.0f CNY | %s (vs %.0f CNY)"
+          % (_lot.get("lot_nav_median") or 0, _lot.get("lot_nav_p90") or 0,
+             _lot.get("verdict") or "?", _lot.get("compared_value") or 0))
     print("\n capital      schedule   cagr   vs 8bp    below-floor   fee CNY")
     for r in out["ladder"]:
         print(" %9.0f  %-10s %6.2f%%  %+6.2fpp  %8.2f%%   %9.0f"

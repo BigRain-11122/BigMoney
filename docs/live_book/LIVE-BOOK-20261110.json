@@ -4256,6 +4256,60 @@
   "delivered_nav_mean_leg": 161036.61,
   "delivered_verdict": "FLOOR_BINDS_BELOW_162405_AND_MODEL_GENEROUS_ABOVE_649622",
   "delivered_rate_note": "the shelf reference is 8bp per side; the delivered card configures 10bp and the ticket engine says 10bp (agree). A neutral NAV is 1e4*min_fee/(rate*dw), so price it on the rate the book actually pays: at a higher rate the floor stops binding at a SMALLER account.",
+  "lot": {
+   "median": 188624.09,
+   "cellwise_median": 147167.99,
+   "p90": 291700.67,
+   "units": 100,
+   "price_median": 100.001,
+   "weight_median": 0.05301603,
+   "verdict": "LOT_IS_THE_LARGER_REQUIREMENT",
+   "compared_value": 162405.47,
+   "compared_against": "fee_neutral_vs_delivered_nav",
+   "holdable_at": [
+    {
+     "capital": 10000.0,
+     "share": 0.295928
+    },
+    {
+     "capital": 20000.0,
+     "share": 0.384967
+    },
+    {
+     "capital": 50000.0,
+     "share": 0.422172
+    },
+    {
+     "capital": 100000.0,
+     "share": 0.422172
+    },
+    {
+     "capital": 200000.0,
+     "share": 0.707692
+    },
+    {
+     "capital": 400000.0,
+     "share": 0.992358
+    },
+    {
+     "capital": 1000000.0,
+     "share": 1.0
+    },
+    {
+     "capital": 1500000.0,
+     "share": 1.0
+    },
+    {
+     "capital": 3000000.0,
+     "share": 1.0
+    },
+    {
+     "capital": 10000000.0,
+     "share": 1.0
+    }
+   ],
+   "names_short_at_smallest": 9
+  },
   "prop_bp": 2.5,
   "min_fee_cny": 5.0,
   "schedule": "wan2.5+5",
@@ -6496,8 +6550,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 13.9,
+  "owner_silent_h": 14.5,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 13.9 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 14.5 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

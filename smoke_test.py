@@ -7609,6 +7609,70 @@ def main() -> int:
     except Exception as e:
         check("product: the page prices its break-even at the rate the ticket pays",
               False, repr(e)[:160])
+    # ---- r1507: the same money question has a second floor -- one lot ---------------------
+    # "Is the cost model honest at this size" and "can the book be held at this size" are two
+    # questions with two numbers. A lot is 100 units, so a position whose weight implies
+    # fewer than that cannot be bought at its weight at all -- the reader owns a different
+    # book rather than a cheaper one. This leg re-derives the closed form from the face's own
+    # published medians and demands the page print both the number and the table behind it.
+    try:
+        import importlib as _il75
+        _MC75 = _il75.import_module("etf_book_min_capital")
+        _PG75 = _il75.import_module("etf_book_ceo_page")
+        _bad75 = []
+        _face75 = _PG75.capital_face()
+        _lot75 = (_face75.get("lot") or {}) if _face75.get("status") == "ok" else {}
+        if not _lot75:
+            _bad75.append("the capital face carries no whole-lot block")
+        else:
+            _want75 = _MC75.lot_nav(_lot75.get("price_median"),
+                                    _lot75.get("weight_median"),
+                                    _lot75.get("units") or _MC75.LOT_UNITS)
+            _got75 = _lot75.get("median")
+            if _want75 is None or _got75 is None or \
+                    abs(float(_want75) - float(_got75)) > max(0.05, 1e-4 * abs(float(_want75))):
+                _bad75.append("lot threshold %r != re-derived %r" % (_got75, _want75))
+            _wv75 = _MC75._lot_verdict(_want75, _lot75.get("compared_value"))
+            if _wv75 != _lot75.get("verdict"):
+                _bad75.append("lot verdict %r != re-derived %r"
+                              % (_lot75.get("verdict"), _wv75))
+            _rows75 = _lot75.get("holdable_at") or []
+            _sh75 = [r.get("share") for r in _rows75 if r.get("share") is not None]
+            if len(_sh75) < 3 or _sh75 != sorted(_sh75):
+                _bad75.append("holdable table missing or not monotone (%d rows)" % len(_sh75))
+            _lb75 = sorted(glob.glob(os.path.join(PATHS.root, "docs", "live_book",
+                                                  "LIVE-BOOK-*.md")))
+            _note75 = ""
+            if not _lb75:
+                _bad75.append("no live-book page on disk")
+            else:
+                with open(_lb75[-1], encoding="utf-8") as _fh75:
+                    _md75 = _fh75.read()
+                _money75 = "%.0f" % float(_got75)
+                _hit75 = [l for l in _md75.splitlines()
+                          if "一手 = %d 份" % int(_lot75.get("units") or 100) in l]
+                _note75 = _page_elsewhere_note(_ceo_page_view(),
+                                               _face75.get("evidence_cutoff")) or ""
+                _pagefind75 = []
+                if not _hit75:
+                    _pagefind75.append("the whole-lot paragraph never reaches the page")
+                elif _money75 not in _hit75[0].replace(",", ""):
+                    _pagefind75.append("the page does not print the %s CNY threshold"
+                                       % _money75)
+                if _note75:
+                    _note75 += (" | page-side differences (%d): %s"
+                                % (len(_pagefind75), "; ".join(_pagefind75)[:120])
+                                if _pagefind75 else "")
+                else:
+                    _bad75 += _pagefind75
+        check("product: one lot is priced beside the fee floor, and the page prints it",
+              not _bad75,
+              "; ".join(_bad75)[:220] or _note75 or "%s units -> %s CNY (fee floor %s CNY)"
+              % ((_lot75 or {}).get("units"), (_lot75 or {}).get("median"),
+                 (_lot75 or {}).get("compared_value")))
+    except Exception as e:
+        check("product: one lot is priced beside the fee floor, and the page prints it",
+              False, repr(e)[:160])
     # ---- r1245: the sheet prices the cash half it asks the reader to hold -----------------
     # The ticket printed "cash 53%" and the cash amount and stopped there; the only yield it
     # ever quoted was a multi-year mean, which is a history rather than a forecast. This leg

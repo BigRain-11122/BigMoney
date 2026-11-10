@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10 13:25:30",
+ "ts": "2026-11-10 14:04:11",
  "evidence_cutoff": "2026-11-09",
  "script": "scripts/etf_book_min_capital.py",
  "config": {
@@ -750,5 +750,73 @@
   ],
   "note": "each width re-ranks the same panel with the same rule at its own n_hold; the neutral NAV is a closed form in that path's traded-leg median, so a width row is a reading and not an extrapolation"
  },
- "scope_note": "fees only: spread is inside the 8bp reference and is NOT added here; a broker with no 5-yuan floor is the wan2.5+0 row; the delivered rule's own turnover is imported from the engine."
+ "scope_note": "fees only: spread is inside the 8bp reference and is NOT added here; a broker with no 5-yuan floor is the wan2.5+0 row; the delivered rule's own turnover is imported from the engine.",
+ "lot": {
+  "lot_units": 100,
+  "cells": 19890,
+  "price_median": 100.001,
+  "price_p90": 113.636,
+  "weight_median": 0.05301603,
+  "lot_nav_median": 188624.09,
+  "lot_nav_cellwise_median": 147167.99,
+  "lot_nav_p90": 291700.67,
+  "names_short_at_smallest": 9,
+  "rows": [
+   {
+    "capital": 10000.0,
+    "holdable_share": 0.295928,
+    "lot_nav_max_over_grid": 452782.54
+   },
+   {
+    "capital": 20000.0,
+    "holdable_share": 0.384967,
+    "lot_nav_max_over_grid": 452782.54
+   },
+   {
+    "capital": 50000.0,
+    "holdable_share": 0.422172,
+    "lot_nav_max_over_grid": 452782.54
+   },
+   {
+    "capital": 100000.0,
+    "holdable_share": 0.422172,
+    "lot_nav_max_over_grid": 452782.54
+   },
+   {
+    "capital": 200000.0,
+    "holdable_share": 0.707692,
+    "lot_nav_max_over_grid": 452782.54
+   },
+   {
+    "capital": 400000.0,
+    "holdable_share": 0.992358,
+    "lot_nav_max_over_grid": 452782.54
+   },
+   {
+    "capital": 1000000.0,
+    "holdable_share": 1.0,
+    "lot_nav_max_over_grid": 452782.54
+   },
+   {
+    "capital": 1500000.0,
+    "holdable_share": 1.0,
+    "lot_nav_max_over_grid": 452782.54
+   },
+   {
+    "capital": 3000000.0,
+    "holdable_share": 1.0,
+    "lot_nav_max_over_grid": 452782.54
+   },
+   {
+    "capital": 10000000.0,
+    "holdable_share": 1.0,
+    "lot_nav_max_over_grid": 452782.54
+   }
+  ],
+  "note": "capital needed to hold `weight` x NAV as one lot of 100 units, read off the same weight path and prices as the ladder; holdable_share is the share of name-days that are representable at that account size",
+  "verdict": "LOT_IS_THE_LARGER_REQUIREMENT",
+  "compared_against": "fee_neutral_vs_delivered_nav",
+  "compared_value": 162405.47,
+  "note_verdict": "both numbers are 'how much money before the answer is about what you actually hold'; the larger one is the one that bites first"
+ }
 }
