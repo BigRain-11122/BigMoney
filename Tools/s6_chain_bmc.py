@@ -688,6 +688,12 @@ LEGS = [
     # obeying) and goes RED when the two receipts disagree on a shared number, so a hand-typed
     # figure cannot survive. `check` form re-derives from the same files (0.1s, no panel).
     ("cut_gate_pass", ["python", "scripts/etf_book_cut_gate_pass.py", "--check"]),
+    # r1282: this face had a `check` and no producer. Its own selftest says it re-derives in
+    # 0.1s from files already on disk, so on every new bar the published row was a bar behind
+    # its own inputs and the check could only ever read drift -- a red nobody could clear
+    # except by hand (r1290 class: a face with no scheduled producer is indistinguishable
+    # from one that agrees). Write it immediately before checking it.
+    ("decision_line_write", ["python", "scripts/etf_book_decision_line.py", "run"]),
     ("decision_line", ["python", "scripts/etf_book_decision_line.py", "--check"]),
     # r1454: the decision row sized the order but asked nothing about the object being
     # judged. The year gate has always judged the book BEFORE the execution wrapper; the

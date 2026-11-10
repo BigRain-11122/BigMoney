@@ -71,7 +71,7 @@
   "kind": "valuation",
   "source": "accrued_valuation",
   "risk_book_cny": 400023.3,
-  "cash_cny": 607412.7,
+  "cash_cny": 607432.09,
   "holdings": 4,
   "superseded_execution_bar": "2026-11-10"
  },
@@ -111,7 +111,7 @@
   "rows": 1,
   "written": 1,
   "kept": 0,
-  "rf_missing_bars": 1,
+  "rf_missing_bars": 0,
   "last": {
    "bar": "2026-11-10",
    "kind": "valuation",
@@ -143,11 +143,11 @@
     }
    ],
    "risk_book_cny": 400023.3,
-   "cash_cny": 607412.7,
-   "nav_cny": 1007436.0,
-   "ret": 0.007436,
-   "cum_ret": 0.007436,
-   "rf_step": 0.0,
+   "cash_cny": 607432.09,
+   "nav_cny": 1007455.39,
+   "ret": 0.00745539,
+   "cum_ret": 0.00745539,
+   "rf_step": 3.19178e-05,
    "stale_price_symbols": [],
    "source_face": "results/etf_book_swap_stack.json"
   },
@@ -155,28 +155,28 @@
    {
     "bar": "2026-11-10",
     "risk_book_cny": 400023.3,
-    "cash_cny": 607412.7,
-    "nav_cny": 1007436.0,
-    "ret": 0.007436,
-    "cum_ret": 0.007436,
-    "rf_step": 0.0
+    "cash_cny": 607432.09,
+    "nav_cny": 1007455.39,
+    "ret": 0.00745539,
+    "cum_ret": 0.00745539,
+    "rf_step": 3.19178e-05
    }
   ],
   "panel_missing_symbols": [],
-  "repo_quotes": 3763,
-  "rate_latest_bar": "2026-11-09",
-  "rate_latest": 1.17,
+  "repo_quotes": 3764,
+  "rate_latest_bar": "2026-11-10",
+  "rate_latest": 1.165,
   "valued_upto_bar": "2026-11-10"
  },
  "accrual_rows": [
   {
    "bar": "2026-11-10",
    "risk_book_cny": 400023.3,
-   "cash_cny": 607412.7,
-   "nav_cny": 1007436.0,
-   "ret": 0.007436,
-   "cum_ret": 0.007436,
-   "rf_step": 0.0
+   "cash_cny": 607432.09,
+   "nav_cny": 1007455.39,
+   "ret": 0.00745539,
+   "cum_ret": 0.00745539,
+   "rf_step": 3.19178e-05
   }
  ],
  "settlement": {
@@ -194,13 +194,13 @@
   "legs_first_bar": 417560.8,
   "legs_last_bar": 400023.3,
   "legs_ret": -0.04199987,
-  "cash_interest_cny": 525.58,
+  "cash_interest_cny": 545.0,
   "identity_delta_cny": 0.0,
   "identity_status": "PRICED_BAR",
   "identity_holds": true,
   "base_bar_missing_closes": [],
   "base_bar_last_priced_day": "2026-11-10",
-  "rf_missing_bars": 1,
+  "rf_missing_bars": 0,
   "stale_bars": 0
  },
  "engine_book": {
@@ -221,7 +221,7 @@
  },
  "restatements": {
   "bar": "2026-11-10",
-  "count": 4,
+  "count": 6,
   "records": [
    {
     "bar": "2026-11-10",
@@ -438,6 +438,114 @@
       "after": 674
      }
     ]
+   },
+   {
+    "bar": "2026-11-10",
+    "previous_written_ts": "2026-11-10T19:30:40+08:00",
+    "written_ts": "2026-11-10T19:46:01+08:00",
+    "before": {
+     "k": 0.392405,
+     "risk_book_cny": 400023.3,
+     "cash_cny": 607412.7,
+     "lots": {
+      "159263": 690,
+      "159513": 925,
+      "159577": 487,
+      "513690": 674
+     }
+    },
+    "after": {
+     "k": 0.392405,
+     "risk_book_cny": 392404.9,
+     "cash_cny": 607595.1,
+     "lots": {
+      "159263": 693,
+      "159513": 891,
+      "159577": 473,
+      "513690": 677
+     }
+    },
+    "delta": {
+     "k": 0.0,
+     "risk_book_cny": -7618.4,
+     "cash_cny": 182.4
+    },
+    "lots_changed": [
+     {
+      "symbol": "159263",
+      "before": 690,
+      "after": 693
+     },
+     {
+      "symbol": "159513",
+      "before": 925,
+      "after": 891
+     },
+     {
+      "symbol": "159577",
+      "before": 487,
+      "after": 473
+     },
+     {
+      "symbol": "513690",
+      "before": 674,
+      "after": 677
+     }
+    ]
+   },
+   {
+    "bar": "2026-11-10",
+    "previous_written_ts": "2026-11-10T19:46:01+08:00",
+    "written_ts": "2026-11-10T19:46:01+08:00",
+    "before": {
+     "k": 0.392405,
+     "risk_book_cny": 392404.9,
+     "cash_cny": 607595.1,
+     "lots": {
+      "159263": 693,
+      "159513": 891,
+      "159577": 473,
+      "513690": 677
+     }
+    },
+    "after": {
+     "k": null,
+     "risk_book_cny": 400023.3,
+     "cash_cny": 607432.09,
+     "lots": {
+      "159263": 690,
+      "159513": 925,
+      "159577": 487,
+      "513690": 674
+     }
+    },
+    "delta": {
+     "k": null,
+     "risk_book_cny": 7618.4,
+     "cash_cny": -163.01
+    },
+    "lots_changed": [
+     {
+      "symbol": "159263",
+      "before": 693,
+      "after": 690
+     },
+     {
+      "symbol": "159513",
+      "before": 891,
+      "after": 925
+     },
+     {
+      "symbol": "159577",
+      "before": 473,
+      "after": 487
+     },
+     {
+      "symbol": "513690",
+      "before": 677,
+      "after": 674
+     }
+    ]
    }
   ],
   "trail_starts_with_this_version": true,
@@ -477,8 +585,8 @@
   ],
   "page_vs_ledger_cash": {
    "page": 607413.0,
-   "ledger": 607412.7,
-   "page_minus_ledger": 0.3
+   "ledger": 607432.09,
+   "page_minus_ledger": -19.09
   },
   "page_vs_ledger_agree": false
  },
