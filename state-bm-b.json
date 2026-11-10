@@ -6336,7 +6336,7 @@
   "verify": "problems=[] verify=identical"
  },
  "round_label": "r1673",
- "round_no": 1673,
+ "round_no": 1674,
  "round_no_label": "r1673",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
  "round_no_ts": "2026-11-10T20:20:00+08:00",
@@ -6975,11 +6975,11 @@
   "ts": "2026-11-10T20:20:00+08:00",
   "next": "E655 (ready, cpu-only): does the one strict route read or write the counted key it spells"
  },
- "underwatermark_verdict": "py_low_with_work_cands",
- "three_line_recent_artifact": "results/state_tilt/STRINGROUTEKEY.json",
- "three_line_recent_artifact_ts": "2026-11-10T21:33:46+08:00",
- "three_line_next_milestone": "E657 fire next round (<=24h)",
- "three_line_current_task": "E655 done (STRINGROUTEKEY.json)",
+ "underwatermark_verdict": "insufficient_history",
+ "three_line_recent_artifact": "results/state_tilt/UNRESOLVEDKEY.json",
+ "three_line_recent_artifact_ts": "2026-11-10T22:26:00+08:00",
+ "three_line_next_milestone": "E658 fire next round (<=24h)",
+ "three_line_current_task": "E657 done: unresolved-string handle blind spot sized (707 files / 1,504 key sites)",
  "r1673": {
   "card": "E655",
   "dept": "research+engineering",
@@ -7034,5 +7034,31 @@
   "main_push_note": "local main is 47 ahead / 47 behind origin/main on a promisor clone; no unattended rebase (r1243), so the machine branch is the delivery channel",
   "targeted_add": "13 faces staged by pathspec out of a tree dirty with ~3,400 entries; results/_r1673bmb_s6_chain.json is gitignored and was not forced",
   "product_set": "git show --stat 585e08c517c1a836c734f88a43e024318f6f72ce"
+ },
+ "r1674": {
+  "card": "E657",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/UNRESOLVEDKEY.json",
+  "study": "E657_unresolved_string_handle",
+  "ts": "2026-11-10T22:26:00+08:00",
+  "verdict": "counted_key_sites_inside_an_unresolved_handle_exist_in_a_role_neither_E652_arm_can_see,_but_not_one_of_them_sits_in_a_file_E652_published_a_row_for,_so_no_published_key_count_moves:_the_blind_spot_costs_the_corpus_wide_'carries_a_counted_row_key'_volume_inside_files_that_never_spell_a_read_module,_and_leaves_E652s_headline_intact",
+  "finding": "12,803 files scanned / 89,706 unresolved handles over 9,501 files; 707 files carry 1,504 string constants equal to a counted row key inside a handle -- 946 as a subscript slice (which E652's second arm already walks tree-wide) and 558 in a role neither arm can see (call_argument 538 / other_string 17 / comparison 3), where the 538 call arguments are almost entirely `.get()` reads inside format messages (face.get 168 / published.get 58 / live.get 25 ...); against E652's 23 published rows only 5 modules intersect, all 5 already carry a key, so 0 published rows flip; 702 files (554 invisible sites) were never priced at all because they do not spell a read module; 0 handles failed to resolve back to a node",
+  "product": [
+   "scripts/e657_unresolved_key.py (selftest 18/18; run/check/verify rc0 problems=[])",
+   "results/state_tilt/UNRESOLVEDKEY.json + unresolvedkey_latest.json (rebuild byte-identical sha 10746a60e278, 286KB)",
+   "scripts/run_e657_smoke_leg.py (1/1 PASS, --doctor 1/1 red, face restored sha 10746a60e278)",
+   "smoke_test.py leg E657 (60/0 numstat) + Tools/s6_chain_bmb.py leg unresolved_string_key (rc=0 0.06s, 9/0)",
+   "knowledge/METHODOLOGY_ASSETS.md card E657 (35/0 numstat)",
+   "knowledge/TREASURE_REGISTRY.md row (1/0 numstat)",
+   "research/digests/DIGEST-20261110-r1674-e657-unresolved-key.md",
+   "results/runnable_pool.json E657 done + E658 seeded (22/4 numstat, ready 4)"
+  ],
+  "pit": [
+   "one arm passing is not both arms failing: a subscript slice is missed by the literal arm but caught by E652's tree-wide Subscript walk, so 'invisible' must be bucketed by role before it is counted -- summing 946 and 558 into 1,504 publishes an internal disagreement as a blindness",
+   "size a blind spot against its population: 707 files and 1,504 sites are real, yet 0 of the 5 files E652 priced change class, so the headline does not move; reporting 558 alone reads as 'E652 undercounted by 558'",
+   "a handle published without a span forces its student onto the statement span (E655 did exactly that), and that misprices a key that shares the statement but not the expression -- the span must come from the node, with a selftest leg that refuses the same-statement neighbour",
+   "E647's contract is not 'unresolved means maybe a string': it does not descend at all, so even the format literal on the left of a percent expression never enters `literals` -- inside a handle the answer to 'does this file carry the key' is zero on both arms"
+  ],
+  "next": "E658 (ready, cpu-only): re-derive E652's corpus-wide volume with the handle arm folded in"
  }
 }

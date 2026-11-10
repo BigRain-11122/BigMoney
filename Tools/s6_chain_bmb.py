@@ -1602,6 +1602,15 @@ LEGS = [
     # both written and read inside one chain and the write is diagnostic only.  Verify re-derives
     # every counter, the role histogram, every bridge and both hit counts from the face's own rows.
     ("counted_key_route", ["python", "scripts/e655_counted_key_route.py", "verify"]),
+    # E657 sizes the blind spot E655 named: E647 publishes a percent-formatted expression (or a
+    # value-bearing f-string, or .format) as one unresolved handle and stops at it, so a counted row
+    # key inside that subtree never reaches E652's literal arm.  Every handle is resolved back to the
+    # node kind that produced it and walked for counted key constants, each classed by the role its
+    # parent gives it: a subscript slice is already covered by E652's second arm, while a dict key, a
+    # call argument or a comparison inside the handle is invisible to both.  Verify re-adds the site
+    # and invisibility totals from the rows, refuses a histogram that does not add up, and
+    # re-classifies every matched file against the E652 fields the row itself publishes.
+    ("unresolved_string_key", ["python", "scripts/e657_unresolved_key.py", "verify"]),
 
     # E649 prices the joint distribution of two columns E643 published independently: the 2,641
     # two-depth write sites with no enclosing function, and the 3,237 module-body sites inside a

@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1673 bm-b: E655 walked to the site of the one loader route E652 found -- 1 route, 3 key sites, the single write reaches the container face_problems reads, 0 plain hits and 2 doctor hits, so the write is diagnostic only; E652's key list misses a constant inside a percent-formatted expression, which is now deferred to E657 as a sized blind spot instead of a footnote",
+ "_stamp_note": "r1674 bm-b: E657 resolved each E647 unresolved handle back to the node that produced it and walked its own subtree -- 707 files hold 1,504 counted key sites inside handles, 946 of them subscript slices the second arm already walks and 558 in roles neither arm can see; the 5 files E652 published do not flip, so the blind spot costs the corpus volume outside the published population and leaves the headline intact; E658 seeded to re-run that volume",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -31550,14 +31550,32 @@
    "source": "E655 (r1673 bm-b) -- extra_in_this_walk explained by E647's unresolved handle",
    "target": "results/state_tilt/UNRESOLVEDKEY.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T21:58:00+08:00",
    "seeded_by": "r1673 bm-b",
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal"
    },
-   "note": "E657"
+   "note": "E657",
+   "owner": "bm-b",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-10T22:15:00+08:00",
+   "done_at": "2026-11-10T22:21:00+08:00",
+   "result_ref": "results/state_tilt/UNRESOLVEDKEY.json",
+   "result_note": "89,706 handles over 12,803 files; 707 files carry 1,504 counted key sites inside handles (946 subscript, 558 invisible: call_argument 538 / other_string 17 / comparison 3); 5 of E652's 23 published rows match and all already carry a key, so 0 flip; 702 files (554 invisible sites) were never priced"
+  },
+  {
+   "id": "E658-WHAT-DOES-E652S-CORPUS-WIDE-VOLUME-GAIN-WHEN-THE-UNRESOLVED-HANDLE-ARM-IS-FOLDED-IN",
+   "title": "E652 publishes a corpus-wide volume ('files carrying a counted row key') derived from the literal arm plus a tree-wide subscript scan. E657 measured the keys inside unresolved handles but did not re-run that volume. Fold the handle arm in and publish the delta: how many of the 12,803 files change class, split into files that gain only because a non-subscript site appears and files that were already counted by the subscript arm",
+   "target": "results/state_tilt/HANDLEVOLUMEDELTA.json",
+   "deliverable": "results/state_tilt/HANDLEVOLUMEDELTA.json: the re-derived volume under three arms (literal only / literal + subscript as published / literal + subscript + handle), the per-file class transition counts, and every file whose class flips with the site that flipped it",
+   "lane": "cpu-only",
+   "status": "ready",
+   "entered_by": "bm-b r1674",
+   "entered_at": "2026-11-10T22:20:00+08:00",
+   "source": "E657: 707 files carry 1,504 counted key sites inside handles; 558 invisible to both arms, 0 of the 5 files E652 published flip",
+   "evidence_cutoff": "2026-11-10"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31572,6 +31590,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T21:58:00+08:00",
+ "updated_at": "2026-11-10T22:21:00+08:00",
  "version": 1
 }

@@ -15436,3 +15436,38 @@ E652 说 23 个文件在字符串里拼出读数模块的名字，其中 14 个�
 `scripts/run_e655_smoke_leg.py`（1/1 PASS·`--doctor` 翻红且面字节还回 sha `e65727454626`）·
 smoke_test.py leg E655 · S6 leg `counted_key_route`（rc=0 0.06s）·
 `research/digests/DIGEST-20261110-r1673-e655-counted-key-route.md`
+
+## E657 未解析字符串句柄：键位没漏在已定价人口里，漏在人口外（承 E652/E655·r1674 bm-b）·2026-11-10
+
+E655 留了个脚注：E647 的 `collect_strings` 把 `"..." % x` 这类表达式整体交回成**一个 unresolved
+句柄，然后不再下降**，句柄子树里的键常量（`"%s" % (face.get("verdict"),)` 里那个 `"verdict"`）
+根本没进 E652 的键表。本轮把脚注当体积量。读法：句柄 = (行,列) + why；按 why 映回产生它的节点
+种类（`percent_formatting`→BinOp / `fstring_has_a_formatted_value`→JoinedStr / `str_format`→Call），
+再走**它自己的子树**找等于 6 个计数行键的字符串常量，按父节点给的角色分档；span 取节点自己的
+`lineno..end_lineno`（E647 只给起点，不给 span）。
+
+读数（12,803 文件 / 89,706 句柄 / 6 键）：707 个文件把 1,504 个键常量藏在句柄里 —— 946 是下标切片
+（`d["rows"]` 型），558 是两支都看不见的角色（call_argument 538 / other_string 17 / comparison 3）；
+538 个 call argument 几乎全是 `.get()` 型**读**（face.get 168、published.get 58、live.get 25…），不是写。
+对 E652 已发布的 23 行：**仅 5 个文件两边都有，5 个本来就标 carries=true，因隐形站点翻面的是 0 个
+——E652 的头条一个字不动**；剩下 702 个文件（554 个隐形站点）从来没被 E652 定价，因为它不拼任何
+读模块名。
+
+1. **一支通 ≠ 两支出错**。下标切片被字面量臂漏掉，却被 E652 第二支（全树扫 `Subscript`）抓到，所以
+   「隐形」必须先按角色分档再报数——把 946 与 558 合成 1,504 就是把仪器内部不一致说成一次失明。
+2. **体量按人口定价**（承 E392）。盲区真实存在（707 文件 / 1,504 键位），但在**已被定价的人口里一处
+   也没漏**；只报 558 会被读成「E652 少算了 558 处」。
+3. **句柄不发布 span，子研究就只能拿语句 span 猜**。E655 正是猜的；本轮证明那只在「键与句柄同语句、
+   不同表达式」时误算——span 必须从节点自己取，且这条要写进 selftest（同语句旁挂的键不许计）。
+4. **E647 的隐藏契约**：不解的子树里连左侧那个格式字面量本身也不进 `literals`（它是句柄的一部分），
+   所以「文件有没有键」在句柄里对两支同时为零——隐形不是漏读，是根本没走。
+5. **判据要当体积报**：558 里 538 是 call argument，说明这条盲区几乎全是「在格式化消息里读一下这个键」，
+   与写无关；一个按名分类器若把它算成写面，就会把诊断输出读成生产逻辑。
+
+**边界**：只认等于 key 集（6 个）的字符串常量；4 个文件超 1MB 读帽、304 个不解析如实记 holes；句柄详情按
+隐形站点深度发 60 个文件、其余只留计数并计 `handles_elided`（不静默丢）。
+
+**证据**：`scripts/e657_unresolved_key.py`（selftest 18/18；run/check/verify rc0 problems=[]）·
+`results/state_tilt/UNRESOLVEDKEY.json` + `unresolvedkey_latest.json`（重建字节恒等 sha `10746a60e278`）·
+`scripts/run_e657_smoke_leg.py`（1/1 PASS，`--doctor` 翻转后字节还原）·smoke_test.py leg E657 与 S6 leg
+`unresolved_string_key`（rc=0 0.06s）·`research/digests/DIGEST-20261110-r1674-e657-unresolved-key.md`

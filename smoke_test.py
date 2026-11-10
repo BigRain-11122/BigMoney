@@ -28467,6 +28467,66 @@ except Exception as _e655x:
     _bad655.append(repr(_e655x)[:160])
     _d655 = "study could not be read"
 check(_name655, not _bad655, "; ".join(_bad655)[:240] or _d655)
+# E657 sizes the blind spot E655 named: E647 hands a percent-formatted expression (and a
+# value-bearing f-string, and .format) back as ONE unresolved handle and stops at it, so a counted row
+# key inside that subtree never reaches E652's literal arm.  Every published handle is resolved back
+# to the node kind that produced it, walked for string constants equal to a counted row key, and each
+# site is classed by the role its parent gives it -- because a subscript slice is already covered by
+# E652's second arm while a dict key, a call argument or a comparison inside the handle is invisible
+# to both.  This leg re-adds the site and invisibility totals from the face's own rows, refuses a
+# role histogram that does not add up to its sites, refuses a subscript split that is not the
+# difference between the sites and the invisible ones, re-classifies every matched file against the
+# E652 fields the row itself publishes, and reports any problem the study's own gate returns.
+_name657 = "E657 how many counted key sites sit inside an E647 unresolved handle (r1674 bm-b)"
+_bad657 = []
+_d657 = "no reading"
+try:
+    _f657 = json.load(open(os.path.join("results", "state_tilt", "unresolvedkey_latest.json"),
+                           encoding="utf-8"))
+    _m657 = importlib.import_module("e657_unresolved_key")
+    _bad657.extend(_m657.face_problems(_f657))
+    _c657 = _f657.get("counts") or {}
+    _rows657 = _f657.get("rows") or []
+    _out657 = _f657.get("files_outside_e652s_published_population") or []
+    _sites657 = sum((_r.get("counted_key_sites") or 0) for _r in _rows657 + _out657)
+    _invis657 = sum((_r.get("invisible_sites") or 0) for _r in _rows657 + _out657)
+    if _sites657 != (_c657.get("counted_key_sites_inside_handles") or 0):
+        _bad657.append("the counted key sites do not re-add from the rows (%d vs %s)"
+                       % (_sites657, _c657.get("counted_key_sites_inside_handles")))
+    if _invis657 != (_c657.get("invisible_sites") or 0):
+        _bad657.append("the invisible sites do not re-add from the rows (%d vs %s)"
+                       % (_invis657, _c657.get("invisible_sites")))
+    if sum((_c657.get("counted_key_sites_by_role") or {}).values()) != _sites657:
+        _bad657.append("the role histogram does not add up to the counted key sites")
+    if sum((_c657.get("invisible_by_role") or {}).values()) != _invis657:
+        _bad657.append("the invisible role histogram does not add up to the invisible sites")
+    if _sites657 - _invis657 != ((_c657.get("counted_key_sites_by_role") or {})
+                                 .get("subscript_key") or 0):
+        _bad657.append("the subscript split is not the difference between sites and invisible ones")
+    if sum((_c657.get("counted_key_sites_by_kind") or {}).values()) != _sites657:
+        _bad657.append("the handle-kind histogram does not add up to the counted key sites")
+    if _c657.get("files_matched_to_an_e652_row") != len(_rows657):
+        _bad657.append("the matched-file count is not the number of matched rows")
+    if _c657.get("files_outside_e652s_published_population") != len(_out657):
+        _bad657.append("the outside-population count is not the number of outside rows")
+    for _r657 in _rows657:
+        _e652face = {"carries_a_counted_row_key": _r657.get("e652_carries_a_counted_row_key"),
+                     "subscript_key_sites": _r657.get("e652_subscript_key_sites")}
+        _here = {"counted_key_sites": _r657.get("counted_key_sites"),
+                 "invisible_sites": _r657.get("invisible_sites")}
+        if _r657.get("class") != _m657.classify_against_e652(_e652face, _here):
+            _bad657.append("row %r is classed %r but its own fields classify it %r"
+                           % (_r657.get("module"), _r657.get("class"),
+                              _m657.classify_against_e652(_e652face, _here)))
+            break
+    if _m657.decide(_c657) != _f657.get("verdict"):
+        _bad657.append("the published verdict is not the one its own counts force")
+    if _f657.get("verdict") == _m657.V_NO_KEYS and _sites657:
+        _bad657.append("the empty verdict is published with key sites")
+except Exception as _e657x:
+    _bad657.append(repr(_e657x)[:160])
+    _d657 = "study could not be read"
+check(_name657, not _bad657, "; ".join(_bad657)[:240] or _d657)
 
 # E649 prices the population E643 published as two independent columns: the 2,641 two-depth write
 # sites with no enclosing function ("module level").  A module-level write can sit bare in the module
