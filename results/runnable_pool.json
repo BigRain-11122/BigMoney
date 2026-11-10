@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1674 bm-b: E657 resolved each E647 unresolved handle back to the node that produced it and walked its own subtree -- 707 files hold 1,504 counted key sites inside handles, 946 of them subscript slices the second arm already walks and 558 in roles neither arm can see; the 5 files E652 published do not flip, so the blind spot costs the corpus volume outside the published population and leaves the headline intact; E658 seeded to re-run that volume",
+ "_stamp_note": "r1674 bm-b: E657 resolved each E647 unresolved handle back to the node that produced it and walked its own subtree -- 707 files hold 1,504 counted key sites inside handles, 946 of them subscript slices the second arm already walks and 558 in roles neither arm can see; the 5 files E652 published do not flip, so the blind spot costs the corpus volume outside the published population and leaves the headline intact; E658 seeded to re-run that volume | r1675 bm-b: E658 folded the handle arm into E652's volume -- 3850 literal / 3864 literal+subscript / 3873 all three; 9 of 707 handle files flip (+0.23%), 698 already carried, 558 invisible sites, 2 of the 9 are production modules",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -31571,11 +31571,15 @@
    "target": "results/state_tilt/HANDLEVOLUMEDELTA.json",
    "deliverable": "results/state_tilt/HANDLEVOLUMEDELTA.json: the re-derived volume under three arms (literal only / literal + subscript as published / literal + subscript + handle), the per-file class transition counts, and every file whose class flips with the site that flipped it",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "entered_by": "bm-b r1674",
    "entered_at": "2026-11-10T22:20:00+08:00",
    "source": "E657: 707 files carry 1,504 counted key sites inside handles; 558 invisible to both arms, 0 of the 5 files E652 published flip",
-   "evidence_cutoff": "2026-11-10"
+   "evidence_cutoff": "2026-11-10",
+   "result_ref": "results/state_tilt/VOLUMEFOLD.json",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-10T22:48:58+08:00",
+   "done_at": "2026-11-10T22:48:58+08:00"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31590,6 +31594,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T22:21:00+08:00",
+ "updated_at": "2026-11-10T22:48:58+08:00",
  "version": 1
 }

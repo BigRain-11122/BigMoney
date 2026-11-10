@@ -6336,7 +6336,7 @@
   "verify": "problems=[] verify=identical"
  },
  "round_label": "r1673",
- "round_no": 1674,
+ "round_no": 1675,
  "round_no_label": "r1673",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
  "round_no_ts": "2026-11-10T20:20:00+08:00",
@@ -6422,7 +6422,7 @@
   ]
  },
  "supply_floor_note": "E624 burned and closed; E625 seeded in its place (whether a same-object sibling read sees the same VALUE)",
- "supply_floor_ready": 4,
+ "supply_floor_ready": 3,
  "survey_note": "E548 and E562 were already implemented in earlier windows; their pool rows stayed 'ready' -- closed E552's row this round",
  "sync": {
   "ahead_origin_main": 47,
@@ -6440,9 +6440,9 @@
  },
  "three_line_artifact": "results/state_tilt/STRINGROUTEKEY.json",
  "three_line_artifact_ts": "2026-11-10T21:33:46+08:00",
- "three_line_current": "round 1673: E655 walked to the site -- the one loader route's write reaches the reader's container but only on the --doctor branch",
+ "three_line_current": "round 1675: E658 folded E657's unresolved-handle arm into E652's corpus-wide volume -- 3850 literal / 3864 literal+subscript / 3873 all three, the handle arm adds 9 files (+0.23%), 698 of 707 handle files were already carried",
  "three_line_delivery": "machine/bm-b-r1665 @ a80ff731732d",
- "three_line_next": "E657: size the corpus-wide blind spot E655 found (counted key constants inside E647's unresolved handles)",
+ "three_line_next": "E659: price whether the 2 production modules among the 9 flip because of a real read path or a helper string",
  "three_line_recent": "results/state_tilt/STRINGROUTEKEY.json @ 2026-11-10T21:33:46+08:00",
  "timestamp": "2026-11-10T21:35:12+08:00",
  "ts": "2026-11-10T21:35:12+08:00",
@@ -6459,7 +6459,7 @@
  "vram_probe": "nvidia-smi",
  "vram_total_gb": 8.0,
  "vram_used_gb": 4.38,
- "watermark": "insufficient_history (n=2, py 1.7%) with 1 pool-ready card -> burned E634 -> 1 ready at close (E635)",
+ "watermark": "low-activity at open (pool 1 ready: E628) -> burned E658",
  "watermark_note": "1 sample only in the 15-minute window; pool carried 4 ready cards at open",
  "watermark_note_2": "no cloud, no GPU, nothing deleted, no queue head claimed",
  "watermark_red": true,
@@ -6976,9 +6976,9 @@
   "next": "E655 (ready, cpu-only): does the one strict route read or write the counted key it spells"
  },
  "underwatermark_verdict": "insufficient_history",
- "three_line_recent_artifact": "results/state_tilt/UNRESOLVEDKEY.json",
- "three_line_recent_artifact_ts": "2026-11-10T22:26:00+08:00",
- "three_line_next_milestone": "E658 fire next round (<=24h)",
+ "three_line_recent_artifact": "results/state_tilt/VOLUMEFOLD.json",
+ "three_line_recent_artifact_ts": "2026-11-10T22:48:58+08:00",
+ "three_line_next_milestone": "E659 fire next round (<=24h)",
  "three_line_current_task": "E657 done: unresolved-string handle blind spot sized (707 files / 1,504 key sites)",
  "r1673": {
   "card": "E655",
@@ -7069,5 +7069,14 @@
   "main_push_note": "local main is 51 ahead / 487 behind origin/main on a promisor clone; no unattended rebase (r1243), so the machine branch is the delivery channel",
   "targeted_add": "14 faces staged by pathspec out of a tree dirty with ~3,200 entries; the round's four scratch scripts are untracked and were removed after the close-out, not forced",
   "product_set": "git show --stat cc19f129e"
+ },
+ "r1675": {
+  "dept": "research+engineering",
+  "card": "E658",
+  "face": "results/state_tilt/VOLUMEFOLD.json",
+  "selftest": "17/17",
+  "finding": "folding E657's unresolved-handle arm into E652's corpus-wide volume on one tree: 3850 literal / 3864 literal+subscript / 3873 all three; 707 files hold a counted key inside a handle, 698 are already carried by E652's own arms, so the arm adds 9 files (+0.23%) of which 2 are production modules and 7 are round scripts; 558 counted key sites sit where no subscript arm reaches",
+  "pit": "two arithmetic mistakes the selftest caught before publication: a 'class flip' that listed arm labels made every handle file a flip while the volume gained 9, and a vintage disagreement with the predecessor was first allowed to suppress the gain measured inside this walk -- the gain is a within-walk quantity and does not depend on the predecessor's baseline",
+  "ts": "2026-11-10T22:48:58+08:00"
  }
 }

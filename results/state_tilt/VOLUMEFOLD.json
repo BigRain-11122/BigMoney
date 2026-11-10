@@ -1,0 +1,281 @@
+{
+ "study": "E658_volume_fold",
+ "date": "2026-11-10",
+ "evidence_cutoff": "2026-11-10",
+ "source_face": "results/state_tilt/UNRESOLVEDKEY.json",
+ "source_face_stamp": "2026-11-10",
+ "deliverable": "results/state_tilt/VOLUMEFOLD.json",
+ "method": [
+  "re-derive the counted read population E638 joins and the corpus E652 walks, with the same 1MB read cap, so both arms skip the same files and nothing is priced against a different population",
+  "walk that corpus three ways per file: E652's string arm (a literal equal to a counted key), E652's tree-wide Subscript arm, and E657's unresolved-handle arm priced against the same key set",
+  "publish the volume under all three arm combinations: literal only, literal + subscript (E652's published rule), and all three",
+  "publish the per-file class transition counts and every file whose class flips once the handle arm is added, with the site that flipped it (key, role, line, column)",
+  "compare the literal + subscript volume against E652's published number: an equal count reads as reproduced, anything else is published as a vintage delta and no correction is claimed"
+ ],
+ "population_source": "e652.corpus() with each arm's own self-exclusion",
+ "volume_before": 3864,
+ "volume_after": 3873,
+ "gain": 9,
+ "verdict": "folding_the_unresolved_handle_arm_into_e652_raises_the_published_volume",
+ "answer": "on one tree and one walk the volume runs 3850 (literal arm only) -> 3864 (literal + subscript, E652's published rule) -> 3873 (all three arms); 707 files hold a counted key inside an unresolved string handle and 698 of those are already carried by E652's own arms, so the handle arm adds 9 files (+0.23%) and 558 counted key sites sit where no subscript arm can reach them. E652 published 3860 on its own tree, so this walk's baseline is +4 against it (a vintage delta, not a correction); the gain is measured inside this one walk and does not depend on that delta. Added files by class: production_module=2, round_script=7.",
+ "counts": {
+  "python_files_walked": 13112,
+  "volume_literal_only": 3850,
+  "volume_literal_plus_subscript": 3864,
+  "volume_all_three": 3873,
+  "handle_files_already_carried": 698,
+  "handle_files_not_carried": 9,
+  "files_carrying_a_counted_row_key_e652_arm": 3864,
+  "files_carrying_a_counted_key_inside_a_handle_arm": 707,
+  "files_in_both_arms": 698,
+  "files_the_handle_arm_adds": 9,
+  "files_only_the_handle_arm_sees": 9,
+  "files_only_the_e652_arm_carries": 3166,
+  "volume_before": 3864,
+  "volume_after": 3873,
+  "counted_keys_named_by_the_e652_arm": 4826,
+  "invisible_sites_inside_added_files": 558,
+  "holes": {
+   "over_the_size_cap": 4,
+   "unreadable": 0,
+   "does_not_parse": 304
+  },
+  "counted_row_keys": 6,
+  "volume_class_transitions": {
+   "carried -> carried": 3864,
+   "not_carried -> carried": 9,
+   "not_carried -> not_carried": 8931
+  },
+  "files_whose_class_flips": 9,
+  "e652_published_volume": 3860,
+  "reproduces_e652_published_volume": false,
+  "vintage_delta_vs_e652_published": 4,
+  "added_files_by_class": {
+   "production_module": 2,
+   "round_script": 7
+  }
+ },
+ "files_the_handle_arm_adds": [
+  {
+   "module": "Tools/_r523bmc_probe.py",
+   "class": "round_script",
+   "handle_keys": [
+    "verdict"
+   ]
+  },
+  {
+   "module": "Tools/_r555bmc_probe.py",
+   "class": "round_script",
+   "handle_keys": [
+    "verdict"
+   ]
+  },
+  {
+   "module": "Tools/_r687bmc_s3.py",
+   "class": "round_script",
+   "handle_keys": [
+    "verdict"
+   ]
+  },
+  {
+   "module": "Tools/_r688bmc_s3.py",
+   "class": "round_script",
+   "handle_keys": [
+    "verdict"
+   ]
+  },
+  {
+   "module": "results/_r1002bmb_state_scan.py",
+   "class": "round_script",
+   "handle_keys": [
+    "verdict"
+   ]
+  },
+  {
+   "module": "results/_r285bmb_resolve.py",
+   "class": "round_script",
+   "handle_keys": [
+    "verdict"
+   ]
+  },
+  {
+   "module": "results/_r661bmc_s3probe.py",
+   "class": "round_script",
+   "handle_keys": [
+    "verdict"
+   ]
+  },
+  {
+   "module": "scripts/oss_license_probe.py",
+   "class": "production_module",
+   "handle_keys": [
+    "verdict"
+   ]
+  },
+  {
+   "module": "scripts/run_e586_smoke_leg.py",
+   "class": "production_module",
+   "handle_keys": [
+    "verdict"
+   ]
+  }
+ ],
+ "files_the_handle_arm_adds_elided": 0,
+ "files_whose_class_flips": [
+  {
+   "module": "Tools/_r523bmc_probe.py",
+   "before": "not_carried",
+   "after": "carried",
+   "class": "round_script",
+   "sites": [
+    {
+     "key": "verdict",
+     "role": "call_argument",
+     "line": 63,
+     "column": 46
+    }
+   ],
+   "sites_elided": 0
+  },
+  {
+   "module": "Tools/_r555bmc_probe.py",
+   "before": "not_carried",
+   "after": "carried",
+   "class": "round_script",
+   "sites": [
+    {
+     "key": "verdict",
+     "role": "call_argument",
+     "line": 59,
+     "column": 25
+    }
+   ],
+   "sites_elided": 0
+  },
+  {
+   "module": "Tools/_r687bmc_s3.py",
+   "before": "not_carried",
+   "after": "carried",
+   "class": "round_script",
+   "sites": [
+    {
+     "key": "verdict",
+     "role": "call_argument",
+     "line": 47,
+     "column": 68
+    }
+   ],
+   "sites_elided": 0
+  },
+  {
+   "module": "Tools/_r688bmc_s3.py",
+   "before": "not_carried",
+   "after": "carried",
+   "class": "round_script",
+   "sites": [
+    {
+     "key": "verdict",
+     "role": "call_argument",
+     "line": 47,
+     "column": 68
+    }
+   ],
+   "sites_elided": 0
+  },
+  {
+   "module": "results/_r1002bmb_state_scan.py",
+   "before": "not_carried",
+   "after": "carried",
+   "class": "round_script",
+   "sites": [
+    {
+     "key": "verdict",
+     "role": "other_string",
+     "line": 10,
+     "column": 122
+    },
+    {
+     "key": "verdict",
+     "role": "other_string",
+     "line": 17,
+     "column": 69
+    },
+    {
+     "key": "verdict",
+     "role": "other_string",
+     "line": 28,
+     "column": 99
+    }
+   ],
+   "sites_elided": 0
+  },
+  {
+   "module": "results/_r285bmb_resolve.py",
+   "before": "not_carried",
+   "after": "carried",
+   "class": "round_script",
+   "sites": [
+    {
+     "key": "verdict",
+     "role": "call_argument",
+     "line": 32,
+     "column": 65
+    }
+   ],
+   "sites_elided": 0
+  },
+  {
+   "module": "results/_r661bmc_s3probe.py",
+   "before": "not_carried",
+   "after": "carried",
+   "class": "round_script",
+   "sites": [
+    {
+     "key": "verdict",
+     "role": "call_argument",
+     "line": 30,
+     "column": 61
+    }
+   ],
+   "sites_elided": 0
+  },
+  {
+   "module": "scripts/oss_license_probe.py",
+   "before": "not_carried",
+   "after": "carried",
+   "class": "production_module",
+   "sites": [
+    {
+     "key": "verdict",
+     "role": "call_argument",
+     "line": 113,
+     "column": 18
+    }
+   ],
+   "sites_elided": 0
+  },
+  {
+   "module": "scripts/run_e586_smoke_leg.py",
+   "before": "not_carried",
+   "after": "carried",
+   "class": "production_module",
+   "sites": [
+    {
+     "key": "verdict",
+     "role": "call_argument",
+     "line": 73,
+     "column": 66
+    }
+   ],
+   "sites_elided": 0
+  }
+ ],
+ "files_whose_class_flips_elided": 0,
+ "limits": [
+  "a file is 'carried' by an arm only under that arm's own rule; the fold states membership, not how many keys or sites the file holds",
+  "an unresolved handle E657 cannot resolve (unreadable offset) is invisible to both arms, so the gain is a floor",
+  "the 1MB read cap skips the same files in both arms; the hole counts are published rather than assumed zero",
+  "added_files_by_class splits on the file name only (a _rNNN stamp or an underscore prefix), not on what the file does, so a probe shipped under a plain name reads as a production module",
+  "this face walks one tree at one moment: a till changed tree moves both membership sets together"
+ ]
+}
