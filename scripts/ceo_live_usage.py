@@ -611,6 +611,122 @@ def _etf_book_face():
     }
 
 
+# ---------------------------------------------------------------- v2.1 ----
+# Freshness (r1281).  Every section already prints its own asof, but nothing on
+# the page said HOW OLD those numbers are relative to the market the reader is
+# standing in: a NAV for 11-06 sat on a page rendered after 11-09 had closed,
+# and the reader had to do the date arithmetic himself.  Three rules:
+#
+#   * the yardstick is the OFFICIAL exchange calendar, never a panel's own
+#     dates (E136: a face must not grade itself);
+#   * a face whose cutoff could not be read prints 无法核实, NOT 0 owed
+#     (r98: unknown is not "up to date");
+#   * the calendar's own last session is printed beside the yardstick, so a
+#     calendar that is itself a session behind cannot make the book look
+#     fresher than it is.
+FRESHNESS_FACES = (
+    ("etf_book", "⑥ ETF 复合书"),
+    ("risk_tape", "③ 风险带（zt 四面板）"),
+    ("market", "① 市场政体态"),
+)
+
+
+def _calendar_yardstick(now=None):
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    import exchange_calendar_audit as C
+    days = C.load_calendar()
+    # the shared reader returns (last_day, past_days); the yardstick is the
+    # first element -- unwrap here so callers never juggle the pair locally.
+    last, _past = C.expected_last_day(days, now or dt.datetime.now())
+    return days, last
+
+
+def owed_sessions(cutoff, expected, days):
+    """Official sessions strictly after `cutoff`, up to and including `expected`.
+
+    None when either side is unknown -- a face we could not read must never be
+    printed as "current"."""
+    if not cutoff or not expected:
+        return None
+    if cutoff >= expected:            # on or ahead of the yardstick: no lag
+        return 0
+    return sum(1 for d in days if cutoff < d <= expected)
+
+
+def _freshness_face(book, tape, market_asof, now=None):
+    try:
+        days, expected = _calendar_yardstick(now)
+    except Exception as exc:                                     # noqa: BLE001
+        return {"status": "unavailable", "detail": str(exc)[:160],
+                "rows": [], "expected_bar": None}
+    cutoffs = {"etf_book": (book or {}).get("last_bar"),
+               "risk_tape": (tape or {}).get("cutoff"),
+               "market": market_asof}
+    rows = []
+    for key, label in FRESHNESS_FACES:
+        c = cutoffs.get(key)
+        owed = owed_sessions(c, expected, days)
+        rows.append({"face": key, "label": label, "cutoff": c,
+                     "owed_sessions": owed,
+                     "state": ("unreadable" if owed is None else
+                               "current" if owed == 0 else "behind")})
+    behind = [r for r in rows if r["state"] == "behind"]
+    worst = max(behind, key=lambda r: r["owed_sessions"]) if behind else None
+    return {
+        "status": "ok",
+        "source": "exchange_calendar_audit.load_calendar/expected_last_day",
+        "calendar_last": days[-1] if days else None,
+        "expected_bar": expected,
+        "rows": rows,
+        "worst_face": worst["label"] if worst else None,
+        "worst_owed_sessions": worst["owed_sessions"] if worst else 0,
+        "unreadable": [r["label"] for r in rows if r["state"] == "unreadable"],
+        "book_panel_last_bar": (book or {}).get("panel_last_bar"),
+    }
+
+
+def _freshness_lines(fr):
+    """Rendered banner.  Pure formatting -- every number comes from one place."""
+    L = ["## ⓪ 本页新鲜度（先读这个）", ""]
+    if fr.get("status") != "ok":
+        L.append("- 官方日历读不出（{}）——**本页数字的新旧无法核实**，"
+                 "不要当成今日读数。".format(fr.get("detail") or "原因未载"))
+        L.append("")
+        return L
+    L.append("- 参照尺=**官方交易日历**（不是面板自己的日期）：按本页生成时刻算，"
+             f"最后必须已有 bar 的会话是 **{fr['expected_bar']}**"
+             f"（日历在册最后一日 {fr['calendar_last']}）")
+    for r in fr["rows"]:
+        if r["state"] == "unreadable":
+            tail = "**无法核实**（读不到 cutoff，不按 0 记）"
+        elif r["state"] == "current":
+            tail = "**同步**"
+        else:
+            tail = f"**欠 {r['owed_sessions']} 个会话**"
+        L.append(f"  - {r['label']}：截至 **{r['cutoff']}** · {tail}")
+    if fr.get("book_panel_last_bar"):
+        L.append(f"  - 书的定价面板尾 bar：**{fr['book_panel_last_bar']}**"
+                 "（书的 bar 不可能比它定价的面板新）")
+    if fr.get("worst_face"):
+        L.append(f"- 结论：本页**不是** {fr['expected_bar']} 收盘后的读数——"
+                 f"最旧的一面（{fr['worst_face']}）欠 {fr['worst_owed_sessions']} 个会话。"
+                 "书与基准同 cutoff 故超额仍可横比，但任何一格都不能读成 "
+                 f"{fr['expected_bar']} 的当日实绩。")
+    elif fr.get("unreadable"):
+        L.append("- 结论：有面读不到（" + "、".join(fr["unreadable"])
+                 + f"），所以**不能说本页已追到 {fr['expected_bar']}**——"
+                 "读不到的按「不知道」记，不按「同步」记。")
+    else:
+        L.append(f"- 结论：全部面都追到 {fr['expected_bar']}，"
+                 "本页即该会话收盘后的读数。")
+    if fr.get("unreadable"):
+        L.append("- 读不到的：" + "、".join(fr["unreadable"]) + "（缺面不读 0）。")
+    L.append("")
+    return L
+
+
 def build_payload(day: str) -> dict:
     regime = _read_json(REGIME_JSON)
     clock = _read_json(CLOCK_JSON)
@@ -657,8 +773,10 @@ def build_payload(day: str) -> dict:
 
     held = sorted({pos["symbol"] for m in members
                    for pos in m["positions"]})
+    book = _etf_book_face()
+    tape = _risk_tape_face()
     return {
-        "schema": "ceo_live_usage_v1_8",
+        "schema": "ceo_live_usage_v1_9",
         "ticket": "T-202609-28-105",
         "day": day,
         "generated": dt.datetime.now().isoformat(timespec="seconds"),
@@ -683,7 +801,7 @@ def build_payload(day: str) -> dict:
                 if (hc := clock.get("heat_composite") or {}) else ""),
         },
         "national_team": _national_team_face(),
-        "risk_tape": _risk_tape_face(),
+        "risk_tape": tape,
         "ladder": {
             "rungs": [{"state": n, "cap": c, "note": d}
                       for n, c, d in LADDER],
@@ -701,7 +819,8 @@ def build_payload(day: str) -> dict:
         "intraday": _intraday_face(held, day),
         "recommendation": _recommendation_face(),
         "judgment_burns": _judgment_burn_face(),
-        "etf_book": _etf_book_face(),
+        "etf_book": book,
+        "freshness": _freshness_face(book, tape, regime.get("asof")),
         "chain_versions": [
             {"version": v, "status": s} for v, s in _version_banner()],
         "disclaimers": [
@@ -782,10 +901,11 @@ def render_md(p: dict) -> str:
     L = []
     L.append(f"# CEO 实盘使用一页纸 · {p['day']}")
     L.append("")
-    L.append(f"> 自动生成 {p['generated']} · T-105 v1.2 · "
+    L.append(f"> 自动生成 {p['generated']} · T-105 v2.1 · "
              "纯聚合面（零新判据）· [版本台账]"
              "(../../research/DECISION_CHAIN_LEDGER.md)")
     L.append("")
+    L.extend(_freshness_lines(p.get("freshness") or {}))
     L.append("## ① 市场判定")
     L.append("")
     L.append(f"- **当前政体态：{m['state']}**（shadow 探测·已连续 "
@@ -1104,7 +1224,7 @@ def selftest() -> int:
           and p1["national_team"]["nominal_pct"]["510050"] == 86.05
           and p1["national_team"]["signal_face"]["universe_face_only"]
           is True)
-    check("schema v1.8", p1["schema"] == "ceo_live_usage_v1_8")
+    check("schema v1.9", p1["schema"] == "ceo_live_usage_v1_9")
     rc = p1["recommendation"]
     check("recommendation face wired (v1.6)",
           rc["path"].endswith("REC-latest.json")
@@ -1212,6 +1332,37 @@ def selftest() -> int:
                                  "③ 六员分配", "④ 决策链版本横幅",
                                  "⑤ 在飞判决批", "⑥ ETF 复合书",
                                  "⑦ 诚实免责")))
+    fr = p1.get("freshness") or {}
+    check("freshness banner rendered in md (v2.1)",
+          "本页新鲜度" in md1 and fr.get("status") == "ok"
+          and bool(fr.get("rows")))
+    days_fr, exp_fr = _calendar_yardstick()
+    check("freshness yardstick is the official calendar, not a panel",
+          exp_fr == fr.get("expected_bar")
+          and fr.get("calendar_last") == days_fr[-1])
+    _ok_owed = True
+    for r in fr.get("rows") or []:
+        c, o = r.get("cutoff"), r.get("owed_sessions")
+        if c and fr.get("expected_bar") and o is not None:
+            _ok_owed &= (o == len({d for d in days_fr
+                                   if c < d <= fr["expected_bar"]}))
+        elif not c:
+            _ok_owed &= (o is None)
+    check("owed sessions equals a second count (set arithmetic)", _ok_owed)
+    check("a face sitting on the yardstick owes zero, not one",
+          owed_sessions(exp_fr, exp_fr, days_fr) == 0)
+    _unread_md = "\n".join(_freshness_lines(
+        {"status": "ok", "expected_bar": exp_fr, "calendar_last": days_fr[-1],
+         "rows": [{"face": "x", "label": "X", "cutoff": None,
+                   "owed_sessions": None, "state": "unreadable"}],
+         "worst_face": None, "worst_owed_sessions": 0, "unreadable": ["X"]}))
+    check("a face with no cutoff reads unreadable, never 0",
+          owed_sessions(None, exp_fr, days_fr) is None
+          and "无法核实" in _unread_md and "全部面都追到" not in _unread_md)
+    check("the banner names the oldest face and its debt",
+          ("全部面都追到" in md1) if not fr.get("worst_face")
+          else (fr["worst_face"] in md1
+                and str(fr["worst_owed_sessions"]) in md1))
     check("judgment-burn block rendered in md (v1.5)",
           "在飞判决批（NULLS 烧录进度·纯计数）" in md1
           and "FUND-QUALITY-P1" in md1 and "dup_k=0" in md1)
