@@ -28159,5 +28159,59 @@ except Exception as _e645x:
     _d645 = "study could not be read"
 check(_name645, not _bad645, "; ".join(_bad645)[:240] or _d645)
 
+# E643 asks what E640 only named: it published 17,720 of 45,395 two-depth sites as having no
+# enclosing function and called the remainder "module level".  Giving every such site its innermost
+# syntactic context: the residual reproduces E640's 17,720 exactly (delta 0), and it splits into
+# module body 17,337 (97.8%), comprehension 342 and lambda 41 -- with class bodies, class headers,
+# decorators and function bodies measured at zero (an independent probe over the same corpus, not
+# this study's classifier, agrees).  All 2,641 write sites in the residual sit in module body, which
+# is the population E642 priced.  This leg refuses a face whose counters do not re-add from its
+# file rows, whose bucket rows are not the aggregate of them, whose per-context cells do not split
+# sites between writes and keys, who publishes a zero context as absent instead of measured, whose
+# delta against E640's face is not the difference, and any problem the study's own gate returns.
+_name643 = ("E643 what syntactic context holds the two-depth sites that belong to no function "
+            "(r1667 bm-b)")
+_bad643 = []
+_d643 = "no reading"
+try:
+    _f643 = json.load(open(os.path.join("results", "state_tilt", "nonfuncsite_latest.json"),
+                           encoding="utf-8"))
+    _m643 = importlib.import_module("e643_nonfunc_site")
+    _bad643.extend(_m643.face_problems(_f643))
+    _c643 = _f643.get("counts") or {}
+    _rows643 = _f643.get("file_rows") or []
+    _cells643 = [c for f in _rows643 for c in (f.get("contexts") or {}).values()]
+    if sum(c.get("sites", 0) for c in _cells643) != (
+            _c643.get("sites_without_an_owner_function") or 0):
+        _bad643.append("the per-context sites are not the residual")
+    if sum(c.get("writes", 0) for c in _cells643) != (
+            _c643.get("write_sites_without_an_owner_function") or 0):
+        _bad643.append("the per-context writes are not the write sites")
+    if sum((_c643.get("bucket_histogram") or {}).values()) != (
+            _c643.get("sites_without_an_owner_function") or 0):
+        _bad643.append("the bucket histogram does not add to the residual")
+    if set(_c643.get("bucket_histogram") or {}) & set(
+            _c643.get("contexts_measured_with_no_sites") or []):
+        _bad643.append("a context is published both with sites and as measured-zero")
+    if (_c643.get("sites_with_an_owner_function", 0)
+            + _c643.get("sites_without_an_owner_function", 0)) != (
+                _c643.get("two_depth_sites") or 0):
+        _bad643.append("the owner split does not add to the site total")
+    if _c643.get("source_face_no_owner_sites") is not None and (
+            _c643.get("delta_vs_source_face") != (
+                (_c643.get("sites_without_an_owner_function") or 0)
+                - _c643["source_face_no_owner_sites"])):
+        _bad643.append("the delta is not the difference against E640's residual")
+    if _f643.get("verdict") == _m643.V_SEVERAL_WRITES_IN_ONE and (
+            (_c643.get("contexts_with_writes") or 0) != 1):
+        _bad643.append("the confined-write verdict is published with several writing contexts")
+    if _f643.get("verdict") == _m643.V_SEVERAL_WRITES_SPREAD and (
+            (_c643.get("contexts_with_writes") or 0) < 2):
+        _bad643.append("the spread-write verdict is published with one writing context")
+except Exception as _e643x:
+    _bad643.append(repr(_e643x)[:160])
+    _d643 = "study could not be read"
+check(_name643, not _bad643, "; ".join(_bad643)[:240] or _d643)
+
 if __name__ == "__main__":
     sys.exit(main())

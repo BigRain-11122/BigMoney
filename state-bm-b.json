@@ -6336,7 +6336,7 @@
   "verify": "problems=[] verify=identical"
  },
  "round_label": "r1665",
- "round_no": 1666,
+ "round_no": 1667,
  "round_no_label": "r1644",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
  "round_no_ts": "2026-11-10T09:09:47+08:00",
@@ -6693,7 +6693,7 @@
   "behind_origin_main": 6,
   "main_push_note": "no unattended rebase on a promisor clone (r1243); machine branch is the channel"
  },
- "local_behind_origin_main": 16,
+ "local_behind_origin_main": 29,
  "last_decisions_checked_at": "2026-11-10T08:28:00+08:00",
  "r1656": {
   "card": "E636",
@@ -6841,5 +6841,34 @@
   "sha": "a80ff731732d2605c5b0f6c0e403a183afa86ca5",
   "ts": "2026-11-10T13:43:00+08:00",
   "verified": "git ls-remote equality checked (local rev-parse == remote sha)"
+ },
+ "r1667": {
+  "card": "E643",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/NONFUNCSITE.json",
+  "study": "E643_non_function_site_context",
+  "ts": "2026-11-10T15:29:07+08:00",
+  "verdict": "the_sites_without_an_enclosing_function_split_across_several_syntactic_contexts_while_every_site_that_writes_sits_in_one_of_them,_so_the_read_side_of_the_residual_is_many_contexts_and_its_write_side_is_one",
+  "finding": "13,099 files seen / 304 unparseable / 4 over the 1MB cap; 45,456 two-depth sites of which 27,736 have an owner function and 17,720 do not (E640's residual to the site, delta 0); the residual splits module_body 17,337 / comprehension 342 / lambda 41, with class_body, class_header, decorator and function_body measured at 0 by this classifier and independently by a probe using line-range containment; residual write sites 2,641, all of them module_body, which is exactly E642's published module-level write count; 3,237 module-body sites sit inside a module-level compound statement; 16,455 literal / 1,265 computed keys",
+  "product": [
+   "scripts/e643_nonfunc_site.py (selftest 20/20; run/check/verify rc0 problems=[])",
+   "results/state_tilt/NONFUNCSITE.json + nonfuncsite_latest.json",
+   "scripts/run_e643_smoke_leg.py (1/1 PASS, --doctor 1/1 red, face restored sha a7ecf39cf92f)",
+   "smoke_test.py leg E643",
+   "Tools/s6_chain_bmb.py leg non_function_site (rc0 0.09s)",
+   "knowledge/METHODOLOGY_ASSETS.md card E643 (20/0 numstat)",
+   "knowledge/TREASURE_REGISTRY.md row (1/0 numstat)",
+   "research/digests/DIGEST-20261110-r1667-e643-non-function-site.md",
+   "results/runnable_pool.json E643 done + E649/E650 seeded (46/4 numstat)"
+  ],
+  "pit": [
+   "a decorator sits on the lines before its own def, so an owner split built on FunctionDef spans classifies every decorated module-level site as module body -- the decorator pass has to be separate or that bucket silently folds into the biggest one",
+   "a histogram that lists only the non-empty buckets cannot be read: 'no class-body site' and 'class body not tested' look identical, so the zero buckets are published in contexts_measured_with_no_sites and cross-checked by a probe that does not share the classifier",
+   "the fixture dicts were spelled {\"a\": {\"b\": 1}} which is not a Subscript at all -- three legs failed with an empty site list before the fixture was rewritten as D[\"a\"][\"b\"]"
+  ]
+ },
+ "r1667_delivery": {
+  "ts": "2026-11-10T15:29:07+08:00",
+  "note": "filled by the postscript commit after push"
  }
 }

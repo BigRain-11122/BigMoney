@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1665 bm-b: E648 burned -- the six counted row keys are priced as words: 12,778 of 13,086 Python files parse (304 do not, 4 over the 1MB cap); 3,854 files spell at least one counted key; 5,802 read / 2,587 write / 0 delete sites over 5,802 literal keys, 2,734 dict-literal keys, 149,479 computed subscripts; 5 of 6 keys are generic words ('verdict' 3,473 files), 'slip_exec' is private (0 files outside the counted faces)",
+ "_stamp_note": "r1667 bm-b: E643 burned -- the residual E640 only named is measured: 17,720 sites without an enclosing function reproduce exactly (delta 0) and split into module body 17,337 (2,641 write sites, all of them) / comprehension 342 / lambda 41, with class body, class header, decorator and function body measured at zero. E649/E650 seeded (ready floors back to 3).",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -31248,14 +31248,18 @@
    "source": "E640 (r1660 bm-b) -- 17,720 of 45,395 sites have no enclosing function",
    "target": "results/state_tilt/NONFUNCSITE.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T08:25:00+08:00",
    "seeded_by": "r1660 bm-b",
    "workers_plan": {
     "workers": 2,
     "priority": "BelowNormal"
    },
-   "note": "E643"
+   "note": "E643",
+   "done_at": "2026-11-10T14:58:00+08:00",
+   "done_by": "r1667 bm-b",
+   "result_ref": "results/state_tilt/NONFUNCSITE.json",
+   "summary": "residual reproduces E640's 17,720 to the site (delta 0) and splits into module_body 17,337 / comprehension 342 / lambda 41, with class body, class header, decorator and function body measured at 0 (independent probe agrees); all 2,641 residual write sites are in module body, exactly E642's module-level write count"
   },
   {
    "card": "E644",
@@ -31357,6 +31361,44 @@
    "note": "E648",
    "closed_at": "2026-11-10T13:35:00+08:00",
    "result_ref": "results/state_tilt/KEYGENERICITY.json + results/state_tilt/keygenericity_latest.json + scripts/e648_keygenericity.py + scripts/run_e648_smoke_leg.py + research/digests/DIGEST-20261110-r1665-e648-key-genericity.md"
+  },
+  {
+   "card": "E649",
+   "id": "E649-WHICH-OF-THE-2641-RESIDUAL-MODULE-LEVEL-WRITE-SITES-RUN-BEHIND-A-MODULE-LEVEL-GUARD",
+   "title": "which of the 2,641 residual module-level write sites execute behind a module-level guard (an if __name__ block, a try/except import fallback, a for/while body) rather than straight in the module body, and whether any of them writes a counted row key",
+   "lane": "cpu-only",
+   "lane_note": "E643 published 2,641 write sites in module body and 3,237 module-body sites inside a module-level compound statement, but published them as two independent columns: a write can sit inside `if __name__ == '__main__':` and then never run at import, or inside a for-loop body and run many times. Pricing the joint distribution (write face x block depth x guard kind) says whether E642's 'module-level write' is an import-time write at all.",
+   "deliverable": "results/state_tilt/GUARDEDWRITE.json: for each residual write site, its module-level guard kind (main guard / try-except / loop / conditional / with / bare module body), its block depth, and whether its key names a counted key",
+   "source": "E643 (r1667 bm-b) -- 2,641 module-body write sites, 3,237 blocked module-body sites",
+   "target": "results/state_tilt/GUARDEDWRITE.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T14:58:00+08:00",
+   "seeded_by": "r1667 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E649"
+  },
+  {
+   "card": "E650",
+   "id": "E650-WHETHER-THE-383-RESIDUAL-COMPREHENSION-AND-LAMBDA-SITES-READ-A-COUNTED-ROW-KEY-IN-A-SCOPE-OF-THEIR-OWN",
+   "title": "whether any of the 383 residual sites inside comprehensions and lambdas reads a counted row key, and whether that scope (comprehension's implicit function, lambda's closure) makes the read a different object than the module-scope one",
+   "lane": "cpu-only",
+   "lane_note": "E643's residual is 97.8% module body, and the other 2.2% is 342 comprehension sites plus 41 lambda sites. Those two contexts carry their own scope at runtime (a comprehension is a function, a lambda closes over the enclosing frame), so a read of a counted key there may bind a different object than the module-level container E642 counts writes into. Publishing the key match and the bound-name chain for those 383 sites prices whether the tail matters.",
+   "deliverable": "results/state_tilt/SCOPETAILKEY.json: per residual comprehension/lambda site, the key it reads, whether it names a counted row key, and how its leftmost name binds in that scope",
+   "source": "E643 (r1667 bm-b) -- 342 comprehension + 41 lambda residual sites",
+   "target": "results/state_tilt/SCOPETAILKEY.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T14:58:00+08:00",
+   "seeded_by": "r1667 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E650"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31371,6 +31413,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T13:35:00+08:00",
+ "updated_at": "2026-11-10T14:58:00+08:00",
  "version": 1
 }

@@ -1543,6 +1543,14 @@ LEGS = [
     # Verify re-derives every count, both histograms and the reach flag from the face's own rows.
     ("computed_reach", ["python", "scripts/e645_computed_subscript_reach.py", "verify"]),
 
+    # E643 prices the residual E640 only named: 17,720 of 45,395 two-depth sites have no enclosing
+    # function and were called "module level". Per site the innermost syntactic context and its full
+    # container chain are published with each context's write face; the residual reproduces E640's
+    # 17,720 exactly and splits into module body 17,337 / comprehension 342 / lambda 41, with class
+    # bodies, class headers, decorators and function bodies measured at zero, and all 2,641 residual
+    # write sites in module body. Verify re-derives every count from the face's own file rows.
+    ("non_function_site", ["python", "scripts/e643_nonfunc_site.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

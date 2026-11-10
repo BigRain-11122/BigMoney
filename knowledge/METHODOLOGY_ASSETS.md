@@ -15247,3 +15247,23 @@ E644 的读者不可见。本卡把这条残差定死，答案是**容器身份*
 （1/1 PASS·`--doctor` 1/1 翻红·字节还原 sha `d42b4ce1dec0` 同进同出）+ smoke_test.py leg E645
 + `Tools/s6_chain_bmb.py` leg `computed_reach`（rc=0）+ `research/digests/DIGEST-20261110-r1666-e645-computed-reach.md`
 + POOL E645 done。
+## E643 — 残量的名字不是测量：无所属函数的 17,720 个双深站点在哪几种语法上下文里（r1667 bm-b·2026-11-10）
+
+E640 同屏发了两个数：45,395 个双深站点里 27,675 有所属函数、17,720 没有，并把后者叫作 **模块级**。那是一个名字，不是一次测量——函数外的站点可以落在模块体、类体、类头、lambda、推导式或装饰器表达式里，这些上下文的运行时作用域不同。E642 已经在这个名字上定了「2,641 个模块级写点」，所以这个名字包含一个还是几个总体直接决定那个结论值多少钱。
+
+**读数**（语料 13,099 文件；304 不可解析、4 个超 1MB 单列）：残量复现 E640 发布的 **17,720 逐站一致**（`delta_vs_source_face = 0`；语料自 r1660 长了 61 个站点，全部落在函数内）。拆分：
+- `module_body` **17,337**（97.8%），写点 2,641、字面键 16,151 / 计算键 1,186；
+- `comprehension` **342**（写点 0）、`lambda` **41**（写点 0）；
+- `class_body` / `class_header` / `decorator` / `function_body` **四档均为 0——且是实测的 0**（`contexts_measured_with_no_sites` 单列发布，并用独立探针以行范围含容重算同意）。
+
+因此：**2,641 个残量写点全在 module_body**，恰好等于 E642 发布的「2,641 个模块级写点」——E642 的名字事后被证明是一次测量。另有 3,237 个 module_body 站点落在模块级复合语句（if/for/while/with/try）内，即模块体本身是一棵块树。
+
+**教训（三条）**：
+1. **残量的名字是对它总体的声称**。「模块级」是为 17,720 个从未看进去的站点发明的名字；测完发现它 97.8% 成立，但那是结果而非前提，建在它上的 E642/E646 结论现在才是对着一个测过的总体定价的。
+2. **装饰器不在它自己那个 `def` 的 span 里**。`FunctionDef.lineno` 从 `def` 开始，所以用 span 做属主切分的分类器会把被装饰的模块级站点算成 module_body；装饰器必须单走一轮。本例跑完才知道 decorator 档是 0——不做这一轮就会把风险静默折进 module_body。
+3. **零档要作为「测过的零」发布，不能从直方图里消失**。只列非空档的直方图读者分不清「没有类体站点」与「类体没测」；`contexts_measured_with_no_sites` 加一条独立探针才是区别。
+
+**How**：任何「把不可归因部分打包成一个名字」的残量，下一步都是拿它自己的总体重建一次直方图；第一个要发的不是占比而是「哪几档可能不一样」，零档必须单列并配一条不共用分类器的探针。
+
+**证据** = `scripts/e643_nonfunc_site.py`（selftest 20/20·`run`/`check`/`verify` 均 rc0·`problems=[]`）+ `results/state_tilt/NONFUNCSITE.json` + `nonfuncsite_latest.json` + `scripts/run_e643_smoke_leg.py`（1/1 PASS·`--doctor` 1/1 翻红·字节还原 sha `a7ecf39cf92f` 同进同出）+ smoke_test.py leg E643 + `Tools/s6_chain_bmb.py` leg `non_function_site`（rc=0）+ `research/digests/DIGEST-20261110-r1667-e643-non-function-site.md` + POOL E643 done + E649/E650 seeded。
+
