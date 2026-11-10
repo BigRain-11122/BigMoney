@@ -1,13 +1,13 @@
 # 换票这一节，每个面该停在哪根 bar（r1530）
 
-Every one of the 10 faces in the swap section is on the 2026-11-10 close.
+sibling_entry: its producer returned 7 and the face is still not on the bar.
 
 - 该到位的 bar：**2026-11-10**（官方交易日历，收盘受理时点 15:30）
-- 判词：**FRESH**（陈旧 0 / 不一致 0）
+- 判词：**PRODUCER_FAILED**（陈旧 1 / 不一致 0）
 
 | 面 | bar | 落后（交易日） | 状态 | 原因 | 生产者 |
 |---|---|---|---|---|---|
-| sibling_entry | 2026-11-10 | 0 | FRESH | on the 2026-11-10 close | `scripts/etf_book_sibling_entry.py` |
+| sibling_entry | 2026-11-06 | 2 | STALE | 2 session(s) behind the 2026-11-10 close | `scripts/etf_book_sibling_entry.py` |
 | sibling_gap | 2026-11-10 | 0 | FRESH | on the 2026-11-10 close | `scripts/etf_book_sibling_gap.py` |
 | swap_trigger | 2026-11-10 | 0 | FRESH | on the 2026-11-10 close | `scripts/etf_book_swap_trigger.py` |
 | swap_stack | 2026-11-10 | 0 | FRESH | on the 2026-11-10 close | `scripts/etf_book_swap_stack.py` |

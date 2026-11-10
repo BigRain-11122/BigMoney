@@ -3492,6 +3492,22 @@ def main() -> int:
         # they already own, at 8bp a side. Assert the page names the world the
         # reader is in, and that the mode follows its own two date faces (a page
         # saying "hold" on a rebalance bar, or "trade" with no position, fails).
+        # r1532: the freshness line above the swap block used to speak only about the bar
+        # the TICKET was priced on, so ten faces could each sit on an older day while the
+        # page read `current`. The page now names them, judged live. Assert the page
+        # agrees with a fresh judgement instead of trusting either face -- same取舍 as
+        # r1530s calendar leg: between a close and the next chain pass this is red on
+        # purpose.
+        try:
+            from scripts import etf_book_swap_freshness as _SFI
+            _sfi_live_v = _SFI.assess().get("verdict")
+        except Exception:
+            _sfi_live_v = None
+        _sfi_page = "## 换票那一节的 10 个面各自在哪一天" in _tk_md
+        check("product: the sheet's swap-section freshness is re-derived, not remembered",
+              _sfi_page and _sfi_live_v is not None
+              and ("判定：**%s**" % _sfi_live_v) in _tk_md,
+              "section=%s live=%s" % (_sfi_page, _sfi_live_v))
         _ta = _page.get("today_action") or {}
         _mode = _ta.get("mode")
         _decided_is_priced = str(_page.get("book_decided_at")) == str(_page.get("priced_bar"))

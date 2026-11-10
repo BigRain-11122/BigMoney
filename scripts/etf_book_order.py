@@ -62,6 +62,7 @@ from scripts import etf_book_swap_convergence as SWC          # noqa: E402  (r15
 from scripts import etf_book_swap_effect as SWE               # noqa: E402  (r1524: the gain and the path, refused to be added)
 from scripts import etf_book_swap_units as SWU                # noqa: E402  (r1525: the discount is a share count, not money)
 from scripts import etf_book_swap_track as SWK                # noqa: E402  (r1526: what CARRYING the sibling costs per year)
+from scripts import etf_book_swap_freshness as SFI            # noqa: E402  (r1532: which bar each of the ten faces is on)
 from config import PATHS                           # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -765,6 +766,34 @@ feed_status = CA.ticket_feed_status
 
 def live_feed_status(ticket_bar, now=None):
     return CA.live_ticket_feed_status(ticket_bar, now=now)
+
+
+def swap_freshness_face(heal=True):
+    """Which bar each of the ten swap-section faces sits on (r1532).
+
+    r1530 built this face and nothing read it, so the sheet's freshness section spoke only
+    about the bar the *ticket* was priced on -- on 2026-11-11 the entry face was two
+    sessions behind while that section still printed `current`. The same round's own note
+    had already seen it ("the entry, the gap history and the trigger sat on the 2026-11-06
+    close for four sessions") and prescribed a face that nobody paid: those ten producers
+    carry `check` legs, and a self-consistent face checks GREEN forever, so the chain never
+    had a reason to refresh them.
+
+    So the reader heals its own input: STALE (repairable) pays the producers in dependency
+    order before the sheet renders, and the sheet then prints the bar it actually got.
+    INCONSISTENT is never refreshed -- re-running a producer cannot make a face true that
+    is priced on a bar the calendar does not have yet (r1345). Pure functions, no network,
+    ~0.1s when everything is already on the bar. Soft-fails to None: a missing face must
+    read as "cannot prove", never as "nothing happened".
+    """
+    try:
+        face = SFI.assess()
+        if heal and face.get("verdict") == SFI.STALE:
+            SFI.run()
+            face = SFI.assess()
+        return face
+    except Exception:
+        return None
 
 
 def drawdown_band():
@@ -2069,6 +2098,9 @@ def card(ticket, mk, sched, asof, beta, extra):
         if feed.get("status") in ("stale_feed", "feed_broken"):
             L += ["> ⚠ 提醒：本单的定价 bar 落后市场 %s 个交易日 —— 这是数据面的滞后，"
                   "不是书换了判断。照此单下手前必须知道这一点。" % ("?" if lag is None else lag), ""]
+    # r1532: the card quotes the same ten faces as the ticket, so it carries the same
+    # sentence about which bar each of them is on.
+    L += SFI.ticket_lines(extra.get("swap_freshness"))
     L += restatement_md(extra.get("restatements"))
     if extra.get("withdrawals"):
         L += ["", "> 账本撤回：%s" % extra["withdrawals"]]
@@ -2822,6 +2854,11 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                # sibling, and says out loud when the anchor it inherits is older than this sheet.
                "swap_track": SWK.compute({"as_of": asof, "sibling_gap": _gap,
                                           "swap_stack": _ss}),
+               # r1532: the ten faces above are quoted on one sheet, and until now nothing on
+               # the sheet said which bar each of them sits on -- r1530's face knew and had
+               # no reader (the entry face was two sessions behind while the sheet read
+               # `current`).
+               "swap_freshness": swap_freshness_face(),
                "width_disclosure": wd,
                "live_width_ruler": ruler,
                "price_basis": basis,
@@ -2903,6 +2940,9 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       # r1526: the carry of holding the sibling -- drift, its error band, and
                       # the fund concentration the merge created.
                       "swap_track": payload["swap_track"],
+                      # r1532: and which bar each of the ten faces above sits on -- r1530's
+                      # face knew it and nothing read it.
+                      "swap_freshness": payload["swap_freshness"],
                       "premium": _prem,
                       "base": payload["base"],
                       "permission": payload["permission"],
@@ -5013,6 +5053,26 @@ def selftest():
         "the whole manoeuvre",
         "没带范围标注" in "\n".join(swap_trigger_md(_sw))
         and "来回成本" not in "\n".join(swap_trigger_md(_sw)), "")
+
+    # 51u-v. r1532: the freshness section above the swap block spoke only about the bar the
+    # TICKET was priced on, so ten faces could each sit on an older day while the sheet read
+    # `current`. r1530's face knew it and had no reader; the sheet now prints it.
+    _sfi_rows = [{"leg": "sibling_entry", "bar": "2026-11-10", "lag_sessions": 0,
+                  "status": "FRESH", "reason": "on the 2026-11-10 close"}]
+    _sfi_ok = "\n".join(SFI.ticket_lines(
+        {"verdict": "FRESH", "evidence_cutoff": "2026-11-10", "close_accept_time": "15:30",
+         "n_legs": 10, "legs": _sfi_rows, "stale_legs": [], "inconsistent_legs": []}))
+    chk("leg51u swap freshness: the sheet prints the bar each of the ten faces sits on",
+        "10 个面都停在 2026-11-10" in _sfi_ok and "| 面 |" not in _sfi_ok, _sfi_ok[-200:])
+    _sfi_bad = "\n".join(SFI.ticket_lines(
+        {"verdict": "STALE", "evidence_cutoff": "2026-11-10", "close_accept_time": "15:30",
+         "n_legs": 10,
+         "legs": [{"leg": "sibling_entry", "bar": "2026-11-06", "lag_sessions": 2,
+                   "status": "STALE", "reason": "2 session(s) behind the 2026-11-10 close"}],
+         "stale_legs": ["sibling_entry"], "inconsistent_legs": []}))
+    chk("leg51v swap freshness: a face on an older bar is named, never printed as same-day",
+        "sibling_entry" in _sfi_bad and "2026-11-06" in _sfi_bad
+        and "落后 2 个交易日" in _sfi_bad and "都停在" not in _sfi_bad, _sfi_bad[-200:])
 
     _st = {"verdict": "TWO_SECTIONS_OVERSELL_THE_LEG", "lot_residue_cny": 106.3,
            "actions": [{"side": "SELL", "symbol": "159501", "price": 2.069, "lots": 379,

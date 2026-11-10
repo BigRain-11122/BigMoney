@@ -992,64 +992,74 @@ LEGS = [
     # and refuses a face that quotes a sibling at a premium the board does not carry, whose
     # label phrases resolve nothing, or whose totals do not add up line by line (0.2s).
     ("sibling_entry",
-     ["python", "scripts/etf_book_sibling_entry.py", "check"]),
+     ["python", "scripts/etf_book_sibling_entry.py", "check"],
+     ["python", "scripts/etf_book_sibling_entry.py", "run"]),
     # r1465: sibling_entry prices ONE session, so it cannot tell a permanent toll from an
     # episode -- and those are different trades. `check` re-derives both tickers' gap
     # history from the local panels, re-pins the NAV-base constant on today's IOPV pair,
     # and refuses a face whose reconstruction does not land on the anchor or whose
     # verdict drifted (0.4s).
     ("sibling_gap",
-     ["python", "scripts/etf_book_sibling_gap.py", "check"]),
+     ["python", "scripts/etf_book_sibling_gap.py", "check"],
+     ["python", "scripts/etf_book_sibling_gap.py", "run"]),
     # r1466: sibling_gap answers "does the gap repeat" and leaves the reader holding a sheet
     # with two numbers and no next action. This leg re-derives the trigger from the gap
     # face's own reconstruction: the round-trip toll as the action price, the measured
     # lifetime of a comparable episode, and the word that says act-now / any-bar / nothing.
     ("swap_trigger",
-     ["python", "scripts/etf_book_swap_trigger.py", "check"]),
+     ["python", "scripts/etf_book_swap_trigger.py", "check"],
+     ["python", "scripts/etf_book_swap_trigger.py", "run"]),
     # r1467: the trigger above and the permission trim (r1455) are two sections on one sheet
     # and each ignores the other -- the trim sells 65 lots of a leg the swap line sells whole,
     # and the swap's CNY gain is priced on the size the floor refused. This leg nets them into
     # one order and re-derives it (trim-sized sells, merged sibling buy, lot residue, baskets).
     ("swap_stack",
-     ["python", "scripts/etf_book_swap_stack.py", "check"]),
+     ["python", "scripts/etf_book_swap_stack.py", "check"],
+     ["python", "scripts/etf_book_swap_stack.py", "run"]),
     # r1522: the trigger, the netted order and the action table all price the swap on the way
     # IN (toll_pp = 2 sides). A round trip is four sides -- sell the leg, buy the sibling, then
     # sell the sibling and buy the leg back -- and the second half was never on the sheet, so
     # a reader could not tell whether the gap being harvested is two or four times the toll.
     # This leg re-derives the way-out price on the notional that actually traded (JSON reads).
     ("swap_toll",
-     ["python", "scripts/etf_book_swap_toll.py", "check"]),
+     ["python", "scripts/etf_book_swap_toll.py", "check"],
+     ["python", "scripts/etf_book_swap_toll.py", "run"]),
     # r1529: the sheet prints two tolls half a page apart -- 0.16 in the trigger, 0.32 in the
     # way-out face -- and calls both of them a round trip. This leg re-derives the three scopes
     # from the side counts and the ticket's cost, and refuses a face whose decision threshold is
     # not the exit scope or whose totals grew a combined figure (0.3s, two JSON reads).
     ("toll_scope",
-     ["python", "scripts/etf_book_toll_scope.py", "check"]),
+     ["python", "scripts/etf_book_toll_scope.py", "check"],
+     ["python", "scripts/etf_book_toll_scope.py", "run"]),
     # r1523: r1522 priced the way out on the same close as the way in -- "prices unchanged" was
     # a caveat, not a measurement. This leg re-derives the forward price path of the same pair
     # (does the gap ever hand the travelled pp back inside one grid) off the sibling-gap series,
     # and refuses a payload whose net is not "median narrowing minus four sides" (1s, JSON reads).
     ("swap_convergence",
-     ["python", "scripts/etf_book_swap_convergence.py", "check"]),
+     ["python", "scripts/etf_book_swap_convergence.py", "check"],
+     ["python", "scripts/etf_book_swap_convergence.py", "run"]),
     # r1524: the sheet prints a CNY gain from entering the gap (r1467) and a measured path for
     # the same pair (r1523) half a page apart, and nothing says they are one gap read twice --
     # a reader can add them (and count the discount twice) or subtract them (and compare a size
     # with a frequency). This leg re-derives the pairing and refuses a payload that carries a
     # combined number at all (0.1s, JSON reads).
     ("swap_effect",
-     ["python", "scripts/etf_book_swap_effect.py", "check"]),
+     ["python", "scripts/etf_book_swap_effect.py", "check"],
+     ["python", "scripts/etf_book_swap_effect.py", "run"]),
     # r1525: r1524 left that discount written in money. This leg re-derives the share count
     # (level / the price the book actually paid), the lot caliber and the residue, and refuses
     # a face whose realised guard says the number landed in the ledger (0.1s, JSON reads).
     ("swap_units",
-     ["python", "scripts/etf_book_swap_units.py", "check"]),
+     ["python", "scripts/etf_book_swap_units.py", "check"],
+     ["python", "scripts/etf_book_swap_units.py", "run"]),
     # r1526: every face above prices ONE exchange, and three of them say in the same breath
     # that the tracking difference of the sibling is "not priced here". This leg re-derives the
     # carry of HOLDING it -- drift per year with a Newey-West band, the power floor that says a
     # fee-scale question is unanswerable on this sample, and the fund concentration the merge
     # created while the basket count stayed the same (0.2s, panel reads).
     ("swap_track",
-     ["python", "scripts/etf_book_swap_track.py", "check"]),
+     ["python", "scripts/etf_book_swap_track.py", "check"],
+     ["python", "scripts/etf_book_swap_track.py", "run"]),
     # r1468: the netted order prints three rows but declares a book that moved in six places --
     # the trim table's own five sells never became rows, so typing the sheet leaves CNY 67,289
     # of refused names unsold; and once the swap executes, the account no longer matches the

@@ -37,6 +37,13 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
+# r1532: `run` echoes each producer's last line, and a producer that writes UTF-8 puts a
+# replacement char on a GBK console -- printing it raised UnicodeEncodeError inside the
+# refresh and the caller saw "no face" instead of "healed". The project already reconfigures
+# stdout for exactly this (r1371).
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 import exchange_calendar_audit as CA   # noqa: E402  (the official calendar owner)
 
 OUT_JSON = os.path.join(ROOT, "results", "etf_book_swap_freshness.json")
@@ -176,6 +183,61 @@ def sentence(rows, exp, stale, inconsistent):
                 % (len(stale), len(rows), exp, worst["leg"],
                    worst["bar"] or "no face", worst["reason"]))
     return "Every one of the %d faces in the swap section is on the %s close." % (len(rows), exp)
+
+
+def ticket_lines(face):
+    """The sheet's own view of the ten faces it quotes (r1532).
+
+    r1530 built this face to answer "is the swap section on today's bar?" and then nothing
+    read it: the sheet's freshness section still only named the bar the *ticket* was priced
+    on, so a reader took the section below it as same-day too. On 2026-11-11 the entry face
+    was two sessions behind and the sheet still said `current`. The sheet now prints this,
+    and the ten legs are listed only when they disagree with the calendar -- a block of ten
+    green rows would just bury the one that is not.
+    """
+    head = "## 换票那一节的 10 个面各自在哪一天（r1532）"
+    if not isinstance(face, dict) or not face.get("legs"):
+        return [head, "",
+                "- 新鲜度面不可读（`results/etf_book_swap_freshness.json`）——本单**无法证明**"
+                "换票节的 10 个面与票面同一天，但也不因此判它们陈旧（缺输入禁读成没发生）。",
+                ""]
+    verdict = face.get("verdict")
+    exp = face.get("evidence_cutoff") or "未知"
+    out = [head,
+           "- 该到位的 bar：**%s**（官方交易日历，收盘受理时点 %s）"
+           % (exp, face.get("close_accept_time") or "-"),
+           "- 判定：**%s**" % verdict]
+    if verdict == FRESH:
+        out += ["- %d 个面都停在 %s：这一节的数字与票面同一天。" % (face.get("n_legs") or 0, exp)]
+    else:
+        bad = [r for r in face.get("legs") or [] if r.get("status") != FRESH]
+        worst = max(bad, key=lambda r: (r.get("lag_sessions") or 0))
+        if verdict == STALE:
+            where = "落后 %s 个交易日，刷新能救它" % (
+                "?" if worst.get("lag_sessions") is None else worst.get("lag_sessions"))
+        elif verdict == INCONSISTENT:
+            # "0 sessions behind" would read as fine here: a face ahead of the calendar is
+            # not behind, it is early, and no producer run can make that true (r1345).
+            where = "在日历还没有的那一天，刷新救不了它"
+        else:
+            where = "面自己的判词是 %s" % verdict
+        out += ["- **这 %d 个节印的不是 %s 的数**：最旧的是 %s（bar %s，%s）"
+                % (len(bad), exp, worst.get("leg"), worst.get("bar") or "无面", where),
+                "",
+                "| 面 | bar | 落后（交易日） | 状态 | 原因 |",
+                "|---|---|---|---|---|"]
+        for r in bad:
+            lag_cell = ("—" if r.get("status") == INCONSISTENT
+                        else "—" if r.get("lag_sessions") is None else r.get("lag_sessions"))
+            out.append("| %s | %s | %s | %s | %s |"
+                       % (r.get("leg"), r.get("bar") or "—", lag_cell,
+                          r.get("status"), r.get("reason")))
+        out.append("")
+        out.append("- 修法：`python scripts/etf_book_swap_freshness.py run`（按依赖顺序付"
+                   " 10 个生产者，然后重生成本单）；在这些面回到 %s 之前，上面这些节里的"
+                   "数字不能当今天的读。" % exp)
+    out += ["- 新鲜≠正确：同一个 bar 上的面也可能算错，那是各面自己的 `check` 管的事。", ""]
+    return out
 
 
 def render_md(face):
@@ -377,6 +439,23 @@ def selftest():
     # --- the calendar is the official one, never this chain's own panel
     leg("L19 the expected bar comes from the official exchange calendar",
         os.path.basename(CA.CAL_PATH) == "exchange_calendar.csv")
+
+    # --- the sheet's view (r1532): ten green rows would bury the one that is not green
+    fresh_face = assess(now=after, faces=fresh, days=days)
+    stale_face = assess(now=after, faces=prev, days=days)
+    txt = "\n".join(ticket_lines(fresh_face))
+    leg("L20 a same-bar section prints one line and no leg table",
+        "都停在 2026-11-10" in txt and "| 面 |" not in txt and FRESH in txt)
+    txt = "\n".join(ticket_lines(stale_face))
+    leg("L21 a stale section names the face, its bar and its lag -- and never says same-day",
+        "sibling_entry" in txt and "2026-11-06" in txt and "落后 2 个交易日" in txt
+        and "都停在" not in txt and "同一天" not in txt)
+    txt = "\n".join(ticket_lines(None))
+    leg("L22 an unreadable section says so and claims nothing",
+        "无法证明" in txt and "都停在" not in txt and "| 面 |" not in txt)
+    txt = "\n".join(ticket_lines(assess(now=after, faces=ahead, days=days)))
+    leg("L23 a face ahead of the calendar is never called 'behind 0 sessions'",
+        "落后 0 个交易日" not in txt and "刷新救不了它" in txt and INCONSISTENT in txt)
 
     passed = sum(1 for _, ok in legs)
     for name, ok in legs:

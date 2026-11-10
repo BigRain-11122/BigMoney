@@ -12767,3 +12767,39 @@ S6 腿 `etf_book_base_basis_audit`（排在 `etf_book_order` 之后）+ 产物 `
 **为什么之前的腿没抓到**：r1529 的 `label_audit` 只审计**触发面的字段值**（`toll_pp == 0.16 == single_exchange_pp`），它证明了"这个数是单次交换"，但没人去读这个面自己印给人看的那几行字。量的对象与读的对象不是同一个东西。
 
 **证据**：`scripts/etf_book_swap_trigger.py`（selftest 21→**27/27**：范围块／四边／trip=2×pp／守卫放行真面／三条篡改腿）· `results/etf_book_swap_trigger.json` 新增 `toll_scope`（name/sides/pp/trip_sides/trip_pp/trip_is_not_the_threshold）· `scripts/etf_book_order.py` 换票节读 `toll_scope` 并印「换这一次 0.16 pp（2 边）｜整趟 0.32 pp（4 边）」，旧面无 scope 时点名"没带范围标注"而不是照抄（selftest 151→**153/153**，新增 leg51c/51d）· 页面 `ORDER-2026-11-10.md` 逐字落地 · smoke 新腿「the sheet's trigger section names which scope its threshold has」（读**已发布页**，不是渲染器）· 读数：触发价 0.16 pp = 单次交换，整趟 0.32 pp = 4 边，两数并列且互不顶替。
+
+## E529 · 诊断建了一张面，不等于有人付账：自洽检查永远绿，票面只能印它拿到的 bar（r1532 bm-c）
+
+**事实**：r1530 已经看见换票族十个面停在 2026-11-06、而票面印「今日价差」，并建了
+`results/etf_book_swap_freshness.json` 来记录每根 bar；它甚至写好了「按依赖顺序付 producer」的
+`run`。四个交易日后（2026-11-11），`sibling_entry` 仍停在 11-06，那张判决面在盘上写着
+`verdict=STALE` —— 而票面的「数据新鲜度」节照样印 `current`。
+
+**三个缺口，各自都足以让整套机制空转**：
+1. **零消费者**：票面的新鲜度节只回答「票面自己用哪根 bar」，不回答「下面十节的数字各在哪一天」。
+   面存在、判词正确、没人读。
+2. **自洽检查永远绿**：这十条腿在链里只有 `check`，而 `check` 证明的是「面与它被造出来的那个
+   世界自洽」——不自洽才红。一个四天没动的面在自己的世界里完美自洽，于是永远 rc=0，链没有任何
+   理由去刷新它。「陈旧」只能由**外部日历**判，不能由面自己判。
+3. **生产者排在消费者之后 700 步**：换票族与其快照腿在 L986+，票面在 L285。就算那条 heal 腿被跑
+   到，它也是在票面写完以后才跑。
+
+**正法（本轮落地）**：让**消费者**付账。票面 `run` 时若换票族判 STALE，先按依赖顺序付十个
+producer，再印；判 INCONSISTENT 一律不刷（重跑不能让「在日历还没有的那天」变真）。同时给十条
+check-only 腿各自补上 `refresh` 命令，谁跑到谁自愈。票面新增一节，逐日列出每个面停在哪根 bar。
+
+**四条可复用判词**：
+- 「谁诊断」与「谁付钱」是两个角色。一张只记录陈旧的面，若没有消费者在开盘前负责付账，它只是把
+  静默失败变成「静默失败 + 一条没人读的记录」。
+- 自洽检查恒绿。任何「我的输入新不新」的问题，判据必须在面之外（官方日历/外部序列），否则那条腿
+  在真实陈旧时也过。
+- 判决面自己会陈旧。读已发布的 verdict 等于把同一类缺陷抬高一层；能在 0.1s 内活算的就活算（纯函数
+  读日历 + JSON），把「读面」降级为「对账」。
+- 自愈路径上的编码错误会被读成「没有面」。producer 输出含 U+FFFD 时 GBK 控制台的 print 抛
+  UnicodeEncodeError，于是 `swap_freshness_face()` 捕获异常返回 None，票面印「无法证明」——
+  故障伪装成了诚实（E479 同族）。修法：模块入口 `sys.stdout.reconfigure(encoding="utf-8",
+  errors="replace")`，与 r1371 同配方。
+
+**证据**：`scripts/etf_book_swap_freshness.py`（selftest 23/23，新增 L20-L23 三条票面视图腿）+
+`scripts/etf_book_order.py`（selftest 155/155，leg51u/51v）+ 链路十腿补 refresh + smoke 腿
+「the sheet's swap-section freshness is re-derived, not remembered」。

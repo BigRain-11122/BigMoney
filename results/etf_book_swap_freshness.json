@@ -1,6 +1,6 @@
 {
  "artifact": "etf_book_swap_freshness",
- "generated": "2026-11-11T02:39:12",
+ "generated": "2026-11-10T16:00:00",
  "evidence_cutoff": "2026-11-10",
  "calendar_source": "data/exchange_calendar.csv",
  "close_accept_time": "15:30",
@@ -10,10 +10,10 @@
    "producer": "scripts/etf_book_sibling_entry.py",
    "face": "results/etf_book_sibling_entry.json",
    "field": "session",
-   "bar": "2026-11-10",
-   "lag_sessions": 0,
-   "status": "FRESH",
-   "reason": "on the 2026-11-10 close"
+   "bar": "2026-11-06",
+   "lag_sessions": 2,
+   "status": "STALE",
+   "reason": "2 session(s) behind the 2026-11-10 close"
   },
   {
    "leg": "sibling_gap",
@@ -107,14 +107,26 @@
   }
  ],
  "n_legs": 10,
- "stale_legs": [],
+ "stale_legs": [
+  "sibling_entry"
+ ],
  "inconsistent_legs": [],
- "verdict": "FRESH",
- "sentence": "Every one of the 10 faces in the swap section is on the 2026-11-10 close.",
+ "verdict": "PRODUCER_FAILED",
+ "sentence": "sibling_entry: its producer returned 7 and the face is still not on the bar.",
  "caveats": [
   "The bar-to-be comes from the official exchange calendar, never from this chain's own panels: a panel cannot say which session should already be printed (r1286).",
   "A face AHEAD of the calendar is not stale -- its producer would not make it true, so the chain must keep it red instead of paying a refresh (r1345).",
   "Freshness is not correctness: a face on the right bar can still be wrong, and each producer's own check is what refuses that."
  ],
- "paid": []
+ "paid": [
+  {
+   "leg": "sibling_entry",
+   "cmd": [
+    "-c",
+    "import sys;sys.exit(7)"
+   ],
+   "rc": 7,
+   "tail": ""
+  }
+ ]
 }
