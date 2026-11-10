@@ -1041,6 +1041,13 @@ def main() -> int:
              "scripts/etf_book_swap_effect.py", ["selftest"]),
             ("product: etf_book_swap_effect (published face re-derives from the two faces)",
              "scripts/etf_book_swap_effect.py", ["check"]),
+            # r1525: the same discount in the unit it actually is -- shares, in the ledger's
+            # own lot caliber, with the re-mark deferred to the next bar and the realised
+            # booking refused. Selftest pins the conversion, the residue and the guard.
+            ("product: etf_book_swap_units (the discount is a share count, not money)",
+             "scripts/etf_book_swap_units.py", ["selftest"]),
+            ("product: etf_book_swap_units (published face re-derives from level/price)",
+             "scripts/etf_book_swap_units.py", ["check"]),
             # r1468: the netted order printed three rows and declared a book that had moved in
             # six places -- the trim table's own five sells never became rows (CNY 67,289 of
             # names the permission refused are left unsold), and after the swap executes the
@@ -10870,6 +10877,69 @@ def _legs_supply_and_book():
                                .get("path_cny") or 0.0)), ",.0f")))
     except Exception as e:
         check("product: the gain and the measured path share one line and are never summed",
+              False, repr(e)[:180])
+
+    # r1525: r1524 left that discount written in money. Money is the one thing it is not -- the
+    # same cash bought more units, and a size is not spendable income. This leg pins the unit
+    # conversion on the ticket and the page, and refuses a face whose realised guard says the
+    # number landed in the ledger.
+    try:
+        _bad63 = []
+        from scripts import etf_book_swap_units as _SWU63
+        _hits63 = sorted(glob.glob(os.path.join(PATHS.results_dir, "etf_book_order",
+                                                "TICKET-*.json")))
+        _tk63 = {}
+        if not _hits63:
+            _bad63.append("no TICKET-*.json under results/etf_book_order")
+        else:
+            with open(_hits63[-1], encoding="utf-8") as _fh63:
+                _tk63 = json.load(_fh63)
+            _pub63 = _tk63.get("swap_units")
+            if not _pub63:
+                _bad63.append("the ticket carries no swap_units (a face only results/ knows "
+                              "is r1108)")
+            else:
+                _fresh63 = _SWU63.compute({"as_of": _tk63.get("as_of"),
+                                           "swap_stack": _tk63.get("swap_stack"),
+                                           "swap_effect": _tk63.get("swap_effect"),
+                                           "positions": _tk63.get("positions"),
+                                           "calendar": _SWU63.trading_days()})
+                _b63 = _SWU63.check(_pub63)
+                if _b63:
+                    _bad63.append("published swap_units does not reconcile: %s" % "; ".join(_b63))
+                _t63 = _pub63.get("totals") or {}
+                if _t63.get("combined_cny") is not None:
+                    _bad63.append("the ticket prints a combined size+money number")
+                if _pub63.get("realised_booked_cny") is not None:
+                    _bad63.append("the ticket books the discount as realised")
+                if abs(float(_t63.get("extra_shares") or 0.0)
+                       - float((_fresh63.get("totals") or {}).get("extra_shares") or 0.0)) > 0.011:
+                    _bad63.append("the share count does not re-derive from this bar's faces")
+                if _pub63.get("verdict") != "CANNOT_RECORD":
+                    _md63p = os.path.join(PATHS.results_dir, "etf_book_order",
+                                          "ORDER-%s.md" % (_tk63.get("as_of") or ""))
+                    if not os.path.exists(_md63p):
+                        _bad63.append("ORDER-%s.md missing" % (_tk63.get("as_of"),))
+                    else:
+                        with open(_md63p, encoding="utf-8") as _fh63:
+                            _md63 = _fh63.read()
+                        if "折扣是多少份，不是多少钱" not in _md63:
+                            _bad63.append("sheet has no share-caliber section")
+                        if "不能记成已实现收益" not in _md63:
+                            _bad63.append("sheet never refuses the realised booking")
+                        _m63 = format(float(_t63.get("extra_shares") or 0.0), ",.2f")
+                        if _m63 not in _md63:
+                            _bad63.append("sheet does not print the total share count")
+        check("product: the entry discount is a share count in the ledger's caliber",
+              not _bad63, "; ".join(_bad63)[:220]
+              or "swap_units %s shares=%s lots=%s remark=%s"
+              % (((_tk63.get("swap_units") or {}).get("verdict")),
+                 format(float((((_tk63.get("swap_units") or {}).get("totals") or {})
+                               .get("extra_shares") or 0.0)), ",.2f"),
+                 (((_tk63.get("swap_units") or {}).get("totals") or {}).get("extra_lots")),
+                 ((_tk63.get("swap_units") or {}).get("remark") or {}).get("status")))
+    except Exception as e:
+        check("product: the entry discount is a share count in the ledger's caliber",
               False, repr(e)[:180])
 
     # r1521: two sections of one sheet answer the same question -- "how much would it cost to

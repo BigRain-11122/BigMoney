@@ -1020,6 +1020,11 @@ LEGS = [
     # combined number at all (0.1s, JSON reads).
     ("swap_effect",
      ["python", "scripts/etf_book_swap_effect.py", "check"]),
+    # r1525: r1524 left that discount written in money. This leg re-derives the share count
+    # (level / the price the book actually paid), the lot caliber and the residue, and refuses
+    # a face whose realised guard says the number landed in the ledger (0.1s, JSON reads).
+    ("swap_units",
+     ["python", "scripts/etf_book_swap_units.py", "check"]),
     # r1468: the netted order prints three rows but declares a book that moved in six places --
     # the trim table's own five sells never became rows, so typing the sheet leaves CNY 67,289
     # of refused names unsold; and once the swap executes, the account no longer matches the

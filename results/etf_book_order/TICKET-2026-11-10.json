@@ -495,7 +495,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-10 23:57:35",
+   "at": "2026-11-11 00:25:18",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -2071,6 +2071,116 @@
    "neither column prices tracking difference, fee, size or FX-hedge policy between the two tickers"
   ]
  },
+ "swap_units": {
+  "artifact": "etf_book_swap_units",
+  "bar": "2026-11-10",
+  "evidence_cutoff": "2026-11-10",
+  "verdict": "SIZE_RECORDED",
+  "rows": [
+   {
+    "leg_symbol": "159501",
+    "sibling_symbol": "159513",
+    "cash_cny": 78492.0,
+    "trade_price": 1.76,
+    "shares_bought": 44597.73,
+    "level_cny": 5612.5,
+    "extra_shares": 3188.92,
+    "extra_lots": 31,
+    "extra_residue_shares": 88.92,
+    "residue_value_cny": 156.5,
+    "share_of_bought": 0.071504,
+    "same_trade": true,
+    "why": ""
+   },
+   {
+    "leg_symbol": "513100",
+    "sibling_symbol": "159513",
+    "cash_cny": 78455.0,
+    "trade_price": 1.76,
+    "shares_bought": 44576.7,
+    "level_cny": 4149.3,
+    "extra_shares": 2357.56,
+    "extra_lots": 23,
+    "extra_residue_shares": 57.56,
+    "residue_value_cny": 101.31,
+    "share_of_bought": 0.052888,
+    "same_trade": true,
+    "why": ""
+   }
+  ],
+  "unpaired": [],
+  "totals": {
+   "level_cny": 9761.8,
+   "extra_shares": 5546.48,
+   "extra_lots": 55,
+   "residue_shares": 46.48,
+   "residue_value_cny": 81.8,
+   "cash_cny": 156947.0,
+   "share_error_bound_shares": 27.73,
+   "combined_cny": null,
+   "priced_legs": 2
+  },
+  "ledger": {
+   "bar": "2026-11-10",
+   "lots": 891,
+   "shares": 89100,
+   "price": 1.76,
+   "amount_cny": 156816.0,
+   "sibling": "159513",
+   "bought_shares": 89100,
+   "bought_lots": 891,
+   "extra_inside_holding": true,
+   "share_of_holding": 0.06225
+  },
+  "remark": {
+   "trade_bar": "2026-11-10",
+   "status": "AWAITING_NEXT_BAR",
+   "bar": null,
+   "price": null,
+   "value_cny": null,
+   "drift_cny": null,
+   "sibling": "159513",
+   "label": "同一份数、不同价的重估＝价格漂移，不是兑现，也不是已实现收益",
+   "why": "面板最后一根就是交易日 2026-11-10：下一根 bar 尚未产生，在交易日这根上「份数×当日价」恒等于折扣本身，重估即恒等式，故不印数",
+   "next_bar_expected": "2026-11-11"
+  },
+  "next_decision_bar": {
+   "bar": "2026-12-08",
+   "grid": 20,
+   "grid_source": "import",
+   "why": ""
+  },
+  "sentence": "折扣是份数不是钱：159501 换出的 ¥78,492.00 在 159513 的 ¥1.76 上多买到 3,188.92 份（31 手 + 88.92 份零头）；513100 换出的 ¥78,455.00 在 159513 的 ¥1.76 上多买到 2,357.56 份（23 手 + 57.56 份零头），合计 **5,546.48 份 = 55 手 + 46.48 份**（误差上限 ±27.73 份 = 换入票溢价材料线 0.5 pp）。这 5,546.48 份就在账本那笔 159513 手里（891 手 = 89,100 份，占 6.22%），是它的一个子集、不是第二笔持仓；下一根 bar 还没产生（日历上的下一交易日 2026-11-11），届时用**同一份数**乘当日价重估；在交易日这根上「份数×当日价」恒等于折扣本身，印出来只是恒等式。下一个决策 bar（每 20 根）读作 2026-12-08。",
+  "lot_shares": 100,
+  "realised_booked_cny": null,
+  "not_realised": "折扣是「同一笔钱多买到多少份」，不是卖掉的那部分收入的差——它只有在这些份被卖出、且价差已经收窄时才变成现金；在那之前把它记成已实现收益，等于把份额当成钱。",
+  "not_repriced": "份数在买入那一刻就固定了；下一根 bar 能改的只有它按什么价重估。用新的价差重算折扣＝把 r1523 的路径栏再做一遍，本面不提供这个数。",
+  "premium_bound_pp": 0.5,
+  "sources": {
+   "swap_stack": "results/etf_book_swap_stack.json",
+   "swap_effect": "results/etf_book_swap_effect.json",
+   "positions": "results/etf_book_positions.json",
+   "calendar": "data/exchange_calendar.csv"
+  },
+  "caveats": [
+   "the level column is r1524's own figure (already re-scaled on the trimmed book); it is divided by the price this book actually paid, never re-derived from a gap",
+   "shares carry a bounded error of at most the sibling's premium (the bound is the premium materiality line, printed beside the count): a NAV-caliber CNY divided by a market price is not exactly a share count",
+   "a lot is the smallest thing a ticket can trade, so the discount is only realisable in whole lots; the residue shares are named and priced apart",
+   "the size is a subset of the position the ledger holds; it is not a second holding and it is not added to NAV"
+  ],
+  "realised_guard": {
+   "checked": true,
+   "found": false,
+   "where": null,
+   "fields": [
+    "unexplained_total_cny",
+    "accrual.status",
+    "accrual.rows",
+    "ledger_row.actions"
+   ],
+   "level_total_cny": 9761.8
+  }
+ },
  "width_disclosure": {
   "ticket_names": 5,
   "card_names": 12,
@@ -2089,15 +2199,15 @@
    "vol": 0.0888
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1186,
-    "card_width_cagr": 0.1223,
-    "pp": 0.37
-   },
    "beta": {
     "ticket_width_cagr": 0.1109,
     "card_width_cagr": 0.0963,
     "pp": -1.46
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1186,
+    "card_width_cagr": 0.1223,
+    "pp": 0.37
    }
   },
   "rules_differ": true,

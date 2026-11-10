@@ -59,6 +59,7 @@ from scripts import etf_book_exec_delta as EXD                # noqa: E402  (r15
 from scripts import etf_book_swap_toll as SWT                 # noqa: E402  (r1522: what the way out costs)
 from scripts import etf_book_swap_convergence as SWC          # noqa: E402  (r1523: whether the way out pays)
 from scripts import etf_book_swap_effect as SWE               # noqa: E402  (r1524: the gain and the path, refused to be added)
+from scripts import etf_book_swap_units as SWU                # noqa: E402  (r1525: the discount is a share count, not money)
 from config import PATHS                           # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -2089,6 +2090,10 @@ def card(ticket, mk, sched, asof, beta, extra):
         # discount, and whether that discount is ever collected. This prints them on one line
         # and refuses to add them.
         L += SWE.md_lines(extra.get("swap_effect"))
+        # r1525: r1524 left the discount written in money. It is a size -- so it goes to the
+        # ledger's own caliber (lots of 100 shares + the residue a lot cannot hold), with the
+        # re-mark deferred to the next bar and the realised booking refused.
+        L += SWU.md_lines(extra.get("swap_units"))
         L += executed_base_md(extra.get("base"))
         L += premium_read_md(extra.get("premium"))
         L += positions_md(extra.get("positions"))
@@ -2693,6 +2698,10 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                         "sibling_gap": _json_face(SIBLING_GAP_FACE),
                         "swap_stack": _ss,
                         "swap_trigger": _json_face(SWAP_FACE)})
+    # r1525: the pairing face is read once too, so the discount the sheet converts into shares
+    # is the same figure the sheet printed one section above.
+    _swe = SWE.compute({"as_of": asof, "swap_stack": _ss, "swap_convergence": _swc})
+    _cal = CA.load_calendar()
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
                "permission": _perm,
                # r1515: the ticket an operator's tools read carries the per-name cut too,
@@ -2762,6 +2771,11 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                # with no combined figure on purpose -- see etf_book_swap_effect.WHY_NOT_ADDED.
                "swap_effect": SWE.compute({"as_of": asof, "swap_stack": _ss,
                                            "swap_convergence": _swc}),
+               # r1525: the same discount in the ledger's own caliber. It reads the r1524 face
+               # rather than the gap, so the size cannot drift away from the money it came from.
+               "swap_units": SWU.compute({"as_of": asof, "swap_stack": _ss,
+                                          "swap_effect": _swe, "positions": _pos,
+                                          "calendar": _cal}),
                "width_disclosure": wd,
                "live_width_ruler": ruler,
                "price_basis": basis,
@@ -2835,6 +2849,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "swap_convergence": payload["swap_convergence"],
                       # r1524: the gain and the path on one line, with no combined number.
                       "swap_effect": payload["swap_effect"],
+                      # r1525: and the same discount in shares, in the ledger's own caliber.
+                      "swap_units": payload["swap_units"],
                       "premium": _prem,
                       "base": payload["base"],
                       "permission": payload["permission"],
