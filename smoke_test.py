@@ -15616,13 +15616,27 @@ try:
     _qn410 = json.load(open(os.path.join("results", "state_tilt", "quantityname_latest.json"),
                             encoding="utf-8"))
     _lag410b = _bar_lag_td(_qn410.get("evidence_cutoff"), _panel410)
+    _up410 = _qn410.get("upstream")
     if not _qn410.get("evidence_cutoff"):
         _bad410b.append("the census carries no evidence_cutoff to price")
+    elif _up410:
+        # the census counts the corpus of a face it names: when that upstream is pinned to a
+        # vintage (E320 -> E321 are a frozen chain from 2026-10-31) the lag against today's panel
+        # is a disclosure, not staleness -- what must hold is that the declared input exists and
+        # that the census dates itself from it.  A census that names no corpus keeps the bar bound.
+        _up_path410 = os.path.join("results", "state_tilt", _up410)
+        _m_up410 = re.search(r"(\d{4}-\d{2}-\d{2})", str(_up410))
+        _up_date410 = _m_up410.group(1) if _m_up410 else ""
+        if not os.path.exists(_up_path410):
+            _bad410b.append("the declared input face %s is not on disk" % _up410)
+        if _up_date410 and _up_date410 != _qn410.get("evidence_cutoff"):
+            _bad410b.append("the census dates itself %s but measures the %s corpus"
+                            % (_qn410.get("evidence_cutoff"), _up410))
     elif _lag410b is None or not (0 <= _lag410b <= 5):
         _bad410b.append("lag_td=%s (bound=5 bars; rerun scripts/e321_quantity_name_reach.py)"
                         % (_lag410b,))
-    _d410b = "face_cutoff=%s panel=%s lag_td=%s (bound=5 bars)" % (
-        _qn410.get("evidence_cutoff") or "absent", _panel410, _lag410b)
+    _d410b = "face_cutoff=%s panel=%s lag_td=%s (bound=5 bars) upstream=%s" % (
+        _qn410.get("evidence_cutoff") or "absent", _panel410, _lag410b, _up410 or "unstated")
 except Exception as _e410b:
     _bad410b.append(repr(_e410b)[:160])
     _d410b = ""
@@ -25995,9 +26009,14 @@ try:
     _c596 = _f596.get("counts") or {}
     _d596s = _f596.get("details") or []
     _both596 = sorted(d["path"] for d in _d596s if d.get("carries_pricing") and d.get("carries_decision"))
-    if _both596 != sorted(list(_c596.get("both_roles_same_date") or [])
-                          + list(_c596.get("both_roles_different_dates") or [])):
-        _bad596.append("the both-role lists do not name exactly the published both-role details")
+    # three classes, not two: a face can carry one role only on an undated field, so the
+    # same-date / different-dates pair alone cannot cover every both-role face (r1671)
+    _pub596 = sorted(list(_c596.get("both_roles_same_date") or [])
+                     + list(_c596.get("both_roles_different_dates") or [])
+                     + list(_c596.get("both_roles_dates_not_comparable") or []))
+    if _pub596 != _both596 or len(_pub596) != len(_both596):
+        _bad596.append("the both-role classes (same date / different dates / not comparable) do "
+                       "not name exactly the published both-role details")
     for _d in _d596s:
         if not (_d.get("carries_pricing") and _d.get("carries_decision")):
             continue

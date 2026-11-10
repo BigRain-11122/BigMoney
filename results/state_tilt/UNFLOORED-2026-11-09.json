@@ -1,10 +1,10 @@
 {
  "evidence_cutoff": "2026-11-09",
- "generated": "2026-11-10T18:10:19+08:00",
+ "generated": "2026-11-10T18:45:40+08:00",
  "ledger": [
   {
-   "age_days_since_commit": 3.076,
-   "age_days_since_mtime": 0.002,
+   "age_days_since_commit": 0.013,
+   "age_days_since_mtime": 0.027,
    "carries_its_own_date": true,
    "cheaper_fix": "no reader-side gate is available for this face (smoke_test.py:593-597 -- a hard day gate was already litigated and removed (E185: an assertion that assumes a deployment layout)); the fix is a chain leg or a bounded-lag allowance",
    "claimed_dates": {
@@ -16,9 +16,9 @@
    "gate_blocked_by": "smoke_test.py:593-597 -- a hard day gate was already litigated and removed (E185: an assertion that assumes a deployment layout)",
    "label": "T-35 open-fill verification",
    "last_commit": {
-    "epoch": 1794039657,
-    "sha": "597c0b5a5ab2f10da3c3e379b20c0c8c535b46a7",
-    "ts": "2026-11-07T16:20:57+08:00"
+    "epoch": 1794306448,
+    "sha": "9c7411b3ff02b38980bf14f47fe4b36f5a2e46bf",
+    "ts": "2026-11-10T18:27:28+08:00"
    },
    "on_disk": {
     "bytes": 988,
@@ -96,16 +96,16 @@
     }
    ],
    "readers_that_price_the_age": 0,
-   "round_rows_total": 450,
-   "rounds_since_change": 47,
+   "round_rows_total": 451,
+   "rounds_since_change": 0,
    "stale_detail": null,
    "stale_vs_panel": false,
    "writer": "scripts/t35_open_fill_verify.py",
    "writer_surface": "session"
   },
   {
-   "age_days_since_commit": 0.002,
-   "age_days_since_mtime": 0.002,
+   "age_days_since_commit": 0.013,
+   "age_days_since_mtime": 0.026,
    "carries_its_own_date": true,
    "cheaper_fix": "reader prices the age it already reads (one comparison; the face is self-dated)",
    "claimed_dates": {
@@ -116,10 +116,9 @@
    "gate_blocked_by": null,
    "label": "E321 quantity-name census",
    "last_commit": {
-    "epoch": null,
-    "error": "no output",
-    "sha": null,
-    "ts": null
+    "epoch": 1794306448,
+    "sha": "9c7411b3ff02b38980bf14f47fe4b36f5a2e46bf",
+    "ts": "2026-11-10T18:27:28+08:00"
    },
    "on_disk": {
     "bytes": 118789,
@@ -187,7 +186,7 @@
     }
    ],
    "readers_that_price_the_age": 0,
-   "round_rows_total": 450,
+   "round_rows_total": 451,
    "rounds_since_change": 0,
    "stale_detail": {
     "face": "2026-10-31",
@@ -216,7 +215,7 @@
   "panel_cutoff": "2026-11-09",
   "reader_sites": 5,
   "reader_sites_that_price_the_age": 0,
-  "round_rows_parsed": 450,
+  "round_rows_parsed": 451,
   "stale_and_no_reader_prices_it": 1,
   "stale_vs_panel": 1,
   "suite_practice": {
@@ -229,8 +228,8 @@
    "legs_excluded_as_this_study_reading_itself": 2,
    "legs_opening_a_face_by_the_narrow_rule": 54,
    "legs_opening_a_face_or_page": 397,
-   "legs_pricing_the_age": 10,
-   "share": 0.0252
+   "legs_pricing_the_age": 11,
+   "share": 0.0277
   }
  },
  "title": "two faces read by suite legs have no standing refresh",

@@ -1,0 +1,1669 @@
+{
+ "study": "E416_do_the_four_freshness_tests_sit_where_age_matters",
+ "card": "E416-DO-THE-FOUR-FRESHNESS-TESTS-SIT-ON-THE-FACES-THAT-NEED-THEM-MOST",
+ "generated": "2026-11-05T21:45:33+08:00",
+ "evidence_cutoff": "2026-11-05",
+ "verdict": "none_of_the_four_red_capable_sites_prices_the_age_of_the_face_it_reads",
+ "verdict_reason": "6 of 257 red-capable sites were re-read from their own source: 1 measures a copy lag (an upstream mtime, so an arbitrarily old face stays green while the panel is behind its input), 2 pin a face field to a frozen date literal and therefore red on an honest refresh, 3 carry no date comparison at all and the line E411 called a date comparison compares a column count. After reclassification 0 of 224 faces have a reader that can go red on age (published: 6 protected), 45 blind faces have no writer on the round chain, and 2 of the faces the suite reads declare any freshness expectation at all -- both of the declared ones sit on faces this tier table never priced. The chain does not save them either: of 15 priced faces it RUNS a writer for 3 and only VERIFIES 9, so each frozen gate sits on a face whose refresh the chain deliberately refuses.",
+ "summary": {
+  "red_capable_sites_published": 6,
+  "red_capable_sites_that_price_age": 0,
+  "sites_measuring_a_copy_lag": 1,
+  "sites_pinning_a_frozen_constant": 2,
+  "sites_with_no_date_logic": 3,
+  "frozen_date_gates": 2,
+  "frozen_gates_that_match_today": 2,
+  "frozen_gates_whose_face_has_a_chain_writer": 2,
+  "faces_published_protected_by_a_red_capable_site": 6,
+  "faces_still_protected_after_reclassification": 0,
+  "faces_published_blind": 218,
+  "faces_blind_after_reclassification": 224,
+  "blind_faces_with_no_chain_writer": 45,
+  "blind_faces_with_no_declared_freshness_expectation": 222,
+  "faces_with_a_declared_freshness_expectation": 2,
+  "reader_sites_total_published": 257,
+  "chain_faces_priced": 15,
+  "chain_faces_whose_writer_it_runs": 3,
+  "chain_faces_it_only_verifies": 9,
+  "frozen_gates_whose_chain_only_verifies_the_face": 2
+ },
+ "sites": [
+  {
+   "face": "results/dashboard_status.json",
+   "site": "smoke_test.py:22",
+   "tier_published": "asks_the_clock",
+   "behaviour_published": "fails or warns on age without help from the producer",
+   "gate": {
+    "block": [
+     932,
+     964
+    ],
+    "mtime_lines": [
+     936
+    ],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [],
+    "stale_word_lines": [
+     940,
+     946
+    ],
+    "kind": "copy_lag_mtime",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "fails when a NAMED UPSTREAM face is newer than this one -- a copy lag, not an age; the face may be arbitrarily old and stay green",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "evidence_lines_e411_called_dates": []
+  },
+  {
+   "face": "results/state_tilt/facehome_latest.json",
+   "site": "smoke_test.py:3",
+   "tier_published": "dates_the_face_in_a_gate",
+   "behaviour_published": "fails when the face's own date falls behind",
+   "gate": {
+    "block": [
+     16860,
+     16917
+    ],
+    "mtime_lines": [],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [],
+    "stale_word_lines": [],
+    "kind": "no_date_logic",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "carries no date comparison at all; nothing about age is priced",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "evidence_lines_e411_called_dates": [
+    {
+     "line": 16889,
+     "text": "if _r441[\"carrier_class\"] == _m441.R_LIVE and _r441.get(\"newest_member_ts\") \\"
+    },
+    {
+     "line": 16890,
+     "text": "and _r441.get(\"carrier_ts\") and _r441[\"newest_member_ts\"] <= _r441[\"carrier_ts\"]:"
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/printcov_latest.json",
+   "site": "smoke_test.py:2",
+   "tier_published": "dates_the_face_in_a_gate",
+   "behaviour_published": "fails when the face's own date falls behind",
+   "gate": {
+    "block": [
+     8929,
+     9005
+    ],
+    "mtime_lines": [],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [
+     {
+      "line": 8940,
+      "field": "evidence_cutoff",
+      "op": "!=",
+      "literal": "2026-10-31",
+      "text": "if _f104.get(\"evidence_cutoff\") != \"2026-10-31\":"
+     }
+    ],
+    "stale_word_lines": [],
+    "kind": "frozen_constant_identity",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "fails when the face's pinned field MOVES -- the honest refresh is what reds it",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "evidence_lines_e411_called_dates": [
+    {
+     "line": 8940,
+     "text": "if _f104.get(\"evidence_cutoff\") != \"2026-10-31\":"
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/starlagband_latest.json",
+   "site": "smoke_test.py:3",
+   "tier_published": "dates_the_face_in_a_gate",
+   "behaviour_published": "fails when the face's own date falls behind",
+   "gate": {
+    "block": [
+     3712,
+     3779
+    ],
+    "mtime_lines": [],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [],
+    "stale_word_lines": [],
+    "kind": "no_date_logic",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "carries no date comparison at all; nothing about age is priced",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "evidence_lines_e411_called_dates": [
+    {
+     "line": 3756,
+     "text": "and len(((_ts.get(\"disjoint\") or {}).get(\"lag_column\") or {})) < 6:"
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/twohop_latest.json",
+   "site": "smoke_test.py:3",
+   "tier_published": "dates_the_face_in_a_gate",
+   "behaviour_published": "fails when the face's own date falls behind",
+   "gate": {
+    "block": [
+     16590,
+     16670
+    ],
+    "mtime_lines": [],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [],
+    "stale_word_lines": [],
+    "kind": "no_date_logic",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "carries no date comparison at all; nothing about age is priced",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "evidence_lines_e411_called_dates": [
+    {
+     "line": 16622,
+     "text": "if _s420.get(\"rows_that_became_writers\") != (_s420.get(\"rows_with_a_date\", 0)"
+    },
+    {
+     "line": 16625,
+     "text": "if _s420.get(\"rows_whose_name_encodes_a_date\") != sum("
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/zerotolprune_latest.json",
+   "site": "smoke_test.py:2",
+   "tier_published": "dates_the_face_in_a_gate",
+   "behaviour_published": "fails when the face's own date falls behind",
+   "gate": {
+    "block": [
+     9006,
+     9066
+    ],
+    "mtime_lines": [],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [
+     {
+      "line": 9016,
+      "field": "evidence_cutoff",
+      "op": "!=",
+      "literal": "2026-10-31",
+      "text": "if _f105.get(\"evidence_cutoff\") != \"2026-10-31\":"
+     }
+    ],
+    "stale_word_lines": [],
+    "kind": "frozen_constant_identity",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "fails when the face's pinned field MOVES -- the honest refresh is what reds it",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "evidence_lines_e411_called_dates": [
+    {
+     "line": 9016,
+     "text": "if _f105.get(\"evidence_cutoff\") != \"2026-10-31\":"
+    }
+   ]
+  }
+ ],
+ "frozen_date_gates": [
+  {
+   "face": "results/state_tilt/printcov_latest.json",
+   "site": "smoke_test.py:2",
+   "field": "evidence_cutoff",
+   "operator": "!=",
+   "pinned_literal": "2026-10-31",
+   "value_on_disk": "2026-10-31",
+   "pinned_matches_disk": true,
+   "reds_on_refresh": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "line": 8940,
+   "chain_mode": {
+    "face": "results/state_tilt/printcov_latest.json",
+    "scripts_naming_the_face": 1,
+    "chain_entries": [
+     {
+      "script": "scripts/e317_print_coverage_census.py",
+      "leg": "print_coverage_census",
+      "mode": "verify"
+     }
+    ],
+    "chain_runs_a_writer": false,
+    "chain_only_verifies": true
+   }
+  },
+  {
+   "face": "results/state_tilt/zerotolprune_latest.json",
+   "site": "smoke_test.py:2",
+   "field": "evidence_cutoff",
+   "operator": "!=",
+   "pinned_literal": "2026-10-31",
+   "value_on_disk": "2026-10-31",
+   "pinned_matches_disk": true,
+   "reds_on_refresh": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "line": 9016,
+   "chain_mode": {
+    "face": "results/state_tilt/zerotolprune_latest.json",
+    "scripts_naming_the_face": 1,
+    "chain_entries": [
+     {
+      "script": "scripts/e318_count_named_gate_leaves.py",
+      "leg": "zero_tolerance_prune",
+      "mode": "verify"
+     }
+    ],
+    "chain_runs_a_writer": false,
+    "chain_only_verifies": true
+   }
+  }
+ ],
+ "blind_ranking": [
+  {
+   "face": "results/state_tilt",
+   "on_disk": true,
+   "reader_sites": 7,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 110,
+   "writer_runs_per_round": 111,
+   "session_only_writers": 57,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/e44_midmonth",
+   "on_disk": true,
+   "reader_sites": 5,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 5,
+   "session_only_writers": 11,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/quantityname_latest.json",
+   "on_disk": true,
+   "reader_sites": 4,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 1,
+   "declared_expectation": {
+    "bound_bars": 5,
+    "red_when": "lag > 5 bars, or no evidence_cutoff, or the cutoff is ahead of the panel"
+   },
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/futures_overlay_sweep.json",
+   "on_disk": true,
+   "reader_sites": 3,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/marks_coverage.json",
+   "on_disk": true,
+   "reader_sites": 3,
+   "reader_tiers": [
+    "compares_the_face_to_itself",
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/state_tilt/reachwide_latest.json",
+   "on_disk": true,
+   "reader_sites": 3,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/t35_open_fill_verify.json",
+   "on_disk": true,
+   "reader_sites": 3,
+   "reader_tiers": [
+    "compares_the_face_to_itself",
+    "no_freshness_test",
+    "prints_staleness_without_gating"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 1,
+   "declared_expectation": {
+    "bound_bars": 1,
+    "red_when": "lag > 1 bar, or no day to price, or the face is ahead of the panel"
+   },
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/dashboard_status.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "asks_the_clock",
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 16,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/futures_overlay_fliprate_paths.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/futures_tsmom_signal.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/state_tilt/publishpin_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/state_tilt/bandscreen_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/bookecho_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/hysteresis_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/faceage_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 2,
+   "writer_runs_per_round": 2,
+   "session_only_writers": 4,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/starown_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 2,
+   "writer_runs_per_round": 2,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "docs/live_book/latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 170,
+   "writer_runs_per_round": 171,
+   "session_only_writers": 103,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/etf_book_order/latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 170,
+   "writer_runs_per_round": 171,
+   "session_only_writers": 103,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "docs/futures_lane/TSMOM-%s.md",
+   "on_disk": false,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/astock_daily_update_status.json",
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/data_lag_audit.json",
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/dom_profile/PROFILE-*.json",
+   "on_disk": false,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/etf_book_card_track.json",
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/etf_book_registry.json",
+   "on_disk": true,
+   "reader_sites": 1,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "none"
+  }
+ ],
+ "chain_bounded": [
+  {
+   "face": "results/dashboard_status.json",
+   "scripts_naming_the_face": 5,
+   "chain_entries": [
+    {
+     "script": "scripts/e419_unstampable.py",
+     "leg": "unstampable",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e432_fixture_write.py",
+     "leg": "fixture_write",
+     "mode": "verify"
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  },
+  {
+   "face": "results/e44_midmonth",
+   "scripts_naming_the_face": 11,
+   "chain_entries": [
+    {
+     "script": "scripts/e39_panel_census.py",
+     "leg": "offbookera",
+     "mode": "offbookera"
+    },
+    {
+     "script": "scripts/e39_panel_census.py",
+     "leg": "sharedbook",
+     "mode": "sharedbook"
+    },
+    {
+     "script": "scripts/e39_panel_census.py",
+     "leg": "sharedbookwidth",
+     "mode": "sharedbookwidth"
+    },
+    {
+     "script": "scripts/e39_panel_census.py",
+     "leg": "sharedbookwidthladder",
+     "mode": "sharedbookwidthladder"
+    },
+    {
+     "script": "scripts/e39_panel_census.py",
+     "leg": "sharedbookwidthsplit",
+     "mode": "sharedbookwidthsplit"
+    },
+    {
+     "script": "scripts/e97_routing.py",
+     "leg": "docquotes",
+     "mode": "docquotes"
+    },
+    {
+     "script": "scripts/e97_routing.py",
+     "leg": "pagegate",
+     "mode": "pagegate"
+    }
+   ],
+   "chain_runs_a_writer": true,
+   "chain_only_verifies": false
+  },
+  {
+   "face": "results/futures_overlay_fliprate_paths.json",
+   "scripts_naming_the_face": 2,
+   "chain_entries": [],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": false
+  },
+  {
+   "face": "results/futures_overlay_sweep.json",
+   "scripts_naming_the_face": 3,
+   "chain_entries": [],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": false
+  },
+  {
+   "face": "results/futures_tsmom_signal.json",
+   "scripts_naming_the_face": 6,
+   "chain_entries": [
+    {
+     "script": "scripts/e345_gate_absence_windows.py",
+     "leg": "gate_absence_windows",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e348_restored_gate_retrospect.py",
+     "leg": "restored_gate_retrospect",
+     "mode": "verify"
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  },
+  {
+   "face": "results/marks_coverage.json",
+   "scripts_naming_the_face": 3,
+   "chain_entries": [],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": false
+  },
+  {
+   "face": "results/state_tilt",
+   "scripts_naming_the_face": 224,
+   "chain_entries": [
+    {
+     "script": "scripts/e225_state_tilt.py",
+     "leg": "state_tilt",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e226_tilt_breakeven.py",
+     "leg": "tilt_breakeven",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e228_matched_exposure.py",
+     "leg": "matched_exposure",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e229_timing_selection.py",
+     "leg": "timing_selection",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e230_hysteresis_toll.py",
+     "leg": "hysteresis_toll",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e231_band_path_test.py",
+     "leg": "band_path_test",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e232_cost_curvature.py",
+     "leg": "cost_curvature",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e233_empirical_gamma.py",
+     "leg": "empirical_gamma",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e234_per_member_gamma.py",
+     "leg": "per_member_gamma",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e235_charge_granularity.py",
+     "leg": "charge_granularity",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e236_share_difference.py",
+     "leg": "share_difference",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e237_information_structure.py",
+     "leg": "information_structure",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e238_leave_one_out_book.py",
+     "leg": "leave_one_out_book",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e239_own_vs_cross.py",
+     "leg": "own_vs_cross",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e241_pair_reproduction.py",
+     "leg": "pair_reproduction",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e242_omission_inflation_sweep.py",
+     "leg": "omission_inflation",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e243_additivity_out_of_sample.py",
+     "leg": "additivity_out_of_sample",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e244_pair_heterogeneity.py",
+     "leg": "pair_heterogeneity",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e245_pair_slope_matrix.py",
+     "leg": "pair_slope_matrix",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e246_star_direction.py",
+     "leg": "star_direction",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e247_era_cell_power.py",
+     "leg": "era_power",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e248_star_lag_band.py",
+     "leg": "star_lag_band",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e249_lead_counterfactual.py",
+     "leg": "lead_counterfactual",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e250_book_turnover_echo.py",
+     "leg": "book_echo",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e251_star_own_component.py",
+     "leg": "star_own_component",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e252_star_prices_itself.py",
+     "leg": "star_self_price",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e253_self_row_resolution.py",
+     "leg": "self_row_resolution",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e254_band_exponent_inside_cell.py",
+     "leg": "band_exponent_inside_cell",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e255_band_draw_starvation.py",
+     "leg": "band_draw_starvation",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e256_band_draw_continuation.py",
+     "leg": "band_draw_continuation",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e257_band_at_top_flips.py",
+     "leg": "band_at_top_flips",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e258_band_multiplier_per_window.py",
+     "leg": "band_multiplier_in_each_window",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e259_band_multiplier_distribution.py",
+     "leg": "band_multiplier_distribution",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e260_band_endpoint_arrival.py",
+     "leg": "band_endpoint_arrival",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+     "leg": "degenerate_seeds_leave_one_bucket",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e262_p95_transfer_across_windows.py",
+     "leg": "p95_transfer_across_windows",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e264_near_one_seeds_reading.py",
+     "leg": "near_one_seed_reading",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e266_wide_end_screen_holdout.py",
+     "leg": "wide_end_screen",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e267_screen_buffer_margin.py",
+     "leg": "screen_buffer_margin",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e268_screen_on_pooled_end.py",
+     "leg": "screen_on_pooled_end",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e269_tight_end_transfer.py",
+     "leg": "tight_end_transfer",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e270_guard_field_audit.py",
+     "leg": "guard_field_audit",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e272_flip_budget_two_tails.py",
+     "leg": "flip_budget_two_tails",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e273_guard_from_threshold.py",
+     "leg": "guard_from_threshold",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e277_tight_multiplier_floor.py",
+     "leg": "tight_multiplier_floor",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e278_spread_floor.py",
+     "leg": "spread_floor",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e279_substitution_soundness.py",
+     "leg": "substitution_soundness",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e281_substitution_dependency_audit.py",
+     "leg": "substitution_dependency_audit",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e282_substitution_disagreement_census.py",
+     "leg": "substitution_disagreement_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e283_degenerate_range_reachable.py",
+     "leg": "degenerate_range_reachable",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e294_live_universe_drift.py",
+     "leg": "live_universe_drift",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e298_replay_control_census.py",
+     "leg": "replay_control_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e299_rounded_vs_tolerance_census.py",
+     "leg": "precision_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e302_universe_switch_backfill.py",
+     "leg": "universe_switch_backfill",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e303_recover_unmeasurable_basis.py",
+     "leg": "basis_recovery",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e305_face_level_row_pricing.py",
+     "leg": "face_level_row_pricing",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e308_leg_vs_producer_tolerance.py",
+     "leg": "gate_tolerance_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e312_gate_operand_identity.py",
+     "leg": "gate_operand_identity",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e313_gate_form_and_scale.py",
+     "leg": "gate_form_and_scale",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e314_clamped_gate_census.py",
+     "leg": "clamped_gate_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e315_leg_epsilon_vs_flat_regime.py",
+     "leg": "leg_epsilon_vs_flat_regime",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e316_gate_print_requirements.py",
+     "leg": "gate_print_requirements",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e317_print_coverage_census.py",
+     "leg": "print_coverage_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e318_count_named_gate_leaves.py",
+     "leg": "zero_tolerance_prune",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e319_census_self_inclusion_sweep.py",
+     "leg": "census_self_inclusion",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e320_decoy_resolution.py",
+     "leg": "decoy_resolution",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e322_residual_refusal_causes.py",
+     "leg": "refusal_cause",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e323_reach_under_wider_needle.py",
+     "leg": "reach_under_wider_needle",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e324_unpublished_key_causes.py",
+     "leg": "unpublished_key_causes",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e325_orphan_gate_faces.py",
+     "leg": "orphan_gate_faces",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e326_template_parameter_consumers.py",
+     "leg": "template_parameter_consumers",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+     "leg": "who_reads_a_face_through_a_pointer",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e328_quoted_number_staleness.py",
+     "leg": "quoted_number_staleness",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e329_two_vintage_binding.py",
+     "leg": "two_vintage_binding",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e330_unpinned_choice.py",
+     "leg": "unpinned_choice",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e331_pointer_only_readers.py",
+     "leg": "pointer_only_readers",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e332_invisible_tail_recovery.py",
+     "leg": "invisible_tail_recovery",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e333_surviving_e3xx_conclusions.py",
+     "leg": "surviving_e3xx_conclusions",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e334_helper_repair_blast_radius.py",
+     "leg": "helper_repair_blast_radius",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e335_sibling_entry_point.py",
+     "leg": "sibling_entry_point",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e336_consumer_optin_ranking.py",
+     "leg": "consumer_optin_ranking",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e337_optin_executed.py",
+     "leg": "optin_executed",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e338_census_green_window.py",
+     "leg": "census_green_window",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e339_literal_count_guards.py",
+     "leg": "literal_count_guards",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e340_who_authorizes_whose_allowance.py",
+     "leg": "permission_allowances",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e341_sibling_closer_what_changed.py",
+     "leg": "sibling_closer",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e342_guard_rewrite_records.py",
+     "leg": "guard_rewrite_records",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e343_bound_grant_decisions.py",
+     "leg": "bound_grant_decisions",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e344_face_consumer_census.py",
+     "leg": "face_consumer_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e345_gate_absence_windows.py",
+     "leg": "gate_absence_windows",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e346_status_writer_unread.py",
+     "leg": "status_writer_unread",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e347_published_number_gate_census.py",
+     "leg": "published_number_gates",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e348_restored_gate_retrospect.py",
+     "leg": "restored_gate_retrospect",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e349_latest_mirror_census.py",
+     "leg": "latest_mirror_channel",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e350_field_branch_census.py",
+     "leg": "field_level_branch_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e351_gate_state_census.py",
+     "leg": "gate_state_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e352_staleness_window.py",
+     "leg": "staleness_window",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e352_staleness_window.py",
+     "leg": "staleness_window",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e353_unwritten_guard_presence.py",
+     "leg": "unwritten_guard_presence",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e357_channel_writer_cadence.py",
+     "leg": "channel_writer_cadence",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e358_subject_resolution.py",
+     "leg": "subject_resolution",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e359_census_scaffolding_split.py",
+     "leg": "census_scaffolding_split",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e364_unstamped_census.py",
+     "leg": "unstamped_census",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e366_pinable_queue_size.py",
+     "leg": "pinable_queue_size",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e370_key_sensitivity.py",
+     "leg": "key_sensitivity",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e371_one_store_member.py",
+     "leg": "store_member",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e371_store_member_cost.py",
+     "leg": "store_member_cost",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e377_unresolved_destination.py",
+     "leg": "unresolved_destination",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e381_component_key_blind_spot.py",
+     "leg": "component_key_blind_spot",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e382_key_projection_delta.py",
+     "leg": "key_projection_delta",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e383_shared_key_collision.py",
+     "leg": "shared_key_collision",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e384_never_opened_key.py",
+     "leg": "never_opened_key",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e385_merged_key_split.py",
+     "leg": "merged_key_split",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e387_republish_audit.py",
+     "leg": "republish_audit",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e388_schema_accretion.py",
+     "leg": "schema_accretion",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e390_wrong_side_reader.py",
+     "leg": "wrong_side_reader",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e391_key_name_two_meanings.py",
+     "leg": "key_name_two_meanings",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e392_read_resolve.py",
+     "leg": "read_resolve",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e393_read_cap_price.py",
+     "leg": "read_cap_price",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e394_phantom_why.py",
+     "leg": "phantom_why",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e395_conditional_write.py",
+     "leg": "conditional_write",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e396_face_basename_suffix.py",
+     "leg": "face_basename_suffix",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e396_last_tick.py",
+     "leg": "last_tick",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e397_walk_ambiguity.py",
+     "leg": "walk_ambiguity",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e398_latest_family.py",
+     "leg": "latest_family",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e399_unresolved_names.py",
+     "leg": "unresolved_names",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e401_local_reader.py",
+     "leg": "local_reader_table",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e402_fragment_producers.py",
+     "leg": "fragment_producers",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e403_family_arg.py",
+     "leg": "family_arg",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e404_constant_directory_resolution.py",
+     "leg": "constant_directory_resolution",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e405_dead_read_failure_mode.py",
+     "leg": "dead_read_failure_mode",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e406_blob_vs_tree_readers.py",
+     "leg": "blob_readers",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e407_leg_input_stability.py",
+     "leg": "leg_input_stability",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e408_writer_refresh_signal.py",
+     "leg": "writer_refresh_signal",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e409_unfloored_faces.py",
+     "leg": "unfloored_faces",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e411_reader_tiers.py",
+     "leg": "reader_tiers",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e412_blob_guard_decision.py",
+     "leg": "blob_guard_decision",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e414_unsupplied_read.py",
+     "leg": "unsupplied_read",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e415_cwd_accident.py",
+     "leg": "cwd_accident",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e417_shadow_face.py",
+     "leg": "shadow_face",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e418_face_age.py",
+     "leg": "face_age",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e419_unstampable.py",
+     "leg": "unstampable",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e420_corpus_pin_instability.py",
+     "leg": "corpus_pin",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e421_strong_basis_resolution.py",
+     "leg": "name_resolve",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e422_basename_census_audit.py",
+     "leg": "basename_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e423_dirfield_join.py",
+     "leg": "dirfield_join",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e426_dynamic_face_names.py",
+     "leg": "dynamic_face_names",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e427_opener_flow.py",
+     "leg": "opener_flow",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e428_no_caller.py",
+     "leg": "no_caller",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e429_two_hop_writer.py",
+     "leg": "two_hop_writer",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e433_republication_chain.py",
+     "leg": "republication_chain",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e435_dir_is_a_face.py",
+     "leg": "dir_is_a_face",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e439_file_slot_callers.py",
+     "leg": "file_slot_callers",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e441_facehome_family.py",
+     "leg": "face_home_family",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/run_e410_freshness_legs.py",
+     "leg": "freshness_bound",
+     "mode": ""
+    }
+   ],
+   "chain_runs_a_writer": true,
+   "chain_only_verifies": false
+  },
+  {
+   "face": "results/state_tilt/facehome_latest.json",
+   "scripts_naming_the_face": 2,
+   "chain_entries": [
+    {
+     "script": "scripts/e441_facehome_family.py",
+     "leg": "face_home_family",
+     "mode": "verify"
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  },
+  {
+   "face": "results/state_tilt/printcov_latest.json",
+   "scripts_naming_the_face": 1,
+   "chain_entries": [
+    {
+     "script": "scripts/e317_print_coverage_census.py",
+     "leg": "print_coverage_census",
+     "mode": "verify"
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  },
+  {
+   "face": "results/state_tilt/quantityname_latest.json",
+   "scripts_naming_the_face": 4,
+   "chain_entries": [
+    {
+     "script": "scripts/e409_unfloored_faces.py",
+     "leg": "unfloored_faces",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/run_e410_freshness_legs.py",
+     "leg": "freshness_bound",
+     "mode": ""
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  },
+  {
+   "face": "results/state_tilt/reachwide_latest.json",
+   "scripts_naming_the_face": 3,
+   "chain_entries": [
+    {
+     "script": "scripts/e323_reach_under_wider_needle.py",
+     "leg": "reach_under_wider_needle",
+     "mode": "verify"
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  },
+  {
+   "face": "results/state_tilt/starlagband_latest.json",
+   "scripts_naming_the_face": 2,
+   "chain_entries": [
+    {
+     "script": "scripts/e248_star_lag_band.py",
+     "leg": "star_lag_band",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e249_lead_counterfactual.py",
+     "leg": "lead_counterfactual",
+     "mode": "run"
+    }
+   ],
+   "chain_runs_a_writer": true,
+   "chain_only_verifies": false
+  },
+  {
+   "face": "results/state_tilt/twohop_latest.json",
+   "scripts_naming_the_face": 4,
+   "chain_entries": [
+    {
+     "script": "scripts/e428_no_caller.py",
+     "leg": "no_caller",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e429_two_hop_writer.py",
+     "leg": "two_hop_writer",
+     "mode": "verify"
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  },
+  {
+   "face": "results/state_tilt/zerotolprune_latest.json",
+   "scripts_naming_the_face": 1,
+   "chain_entries": [
+    {
+     "script": "scripts/e318_count_named_gate_leaves.py",
+     "leg": "zero_tolerance_prune",
+     "mode": "verify"
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  },
+  {
+   "face": "results/t35_open_fill_verify.json",
+   "scripts_naming_the_face": 10,
+   "chain_entries": [
+    {
+     "script": "scripts/e308_leg_vs_producer_tolerance.py",
+     "leg": "gate_tolerance_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e313_gate_form_and_scale.py",
+     "leg": "gate_form_and_scale",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e316_gate_print_requirements.py",
+     "leg": "gate_print_requirements",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e407_leg_input_stability.py",
+     "leg": "leg_input_stability",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e409_unfloored_faces.py",
+     "leg": "unfloored_faces",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/run_e410_freshness_legs.py",
+     "leg": "freshness_bound",
+     "mode": ""
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  }
+ ],
+ "method_limits": [
+  "the tier vocabulary, the site list and the per-face writer class are E411's published rows; this study re-reads the four sites' own source blocks and re-prices the faces, it does not re-run E408's 46 s writer census",
+  "a site is called an age test only when a clock/calendar token appears on a line that also carries a comparison; a clock token read for printing is not an age gate",
+  "the frozen-constant arm keys on a literal YYYY-MM-DD compared to a .get() field of the same block, so a gate that pins a date through a module constant is not counted",
+  "writer_runs_per_round is E411's class, which answers 'does a registered task or chain leg run the writer', not 'has it run since this face was written'",
+  "this study reads faces and never writes them: refreshing an input destroys the evidence that the input was stale"
+ ]
+}

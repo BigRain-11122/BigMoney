@@ -1,0 +1,2671 @@
+{
+ "study": "E416_do_the_four_freshness_tests_sit_where_age_matters",
+ "card": "E416-DO-THE-FOUR-FRESHNESS-TESTS-SIT-ON-THE-FACES-THAT-NEED-THEM-MOST",
+ "generated": "2026-11-10T18:47:25+08:00",
+ "evidence_cutoff": "2026-11-10",
+ "verdict": "none_of_the_four_red_capable_sites_prices_the_age_of_the_face_it_reads",
+ "verdict_reason": "9 of 458 red-capable sites were re-read from their own source: 1 measures a copy lag (an upstream mtime, so an arbitrarily old face stays green while the panel is behind its input), 2 pin a face field to a frozen date literal and therefore red on an honest refresh, 6 carry no date comparison at all and the line E411 called a date comparison compares a column count. After reclassification 0 of 408 faces have a reader that can go red on age (published: 9 protected), 116 blind faces have no writer on the round chain, and 2 of the faces the suite reads declare any freshness expectation at all -- both of the declared ones sit on faces this tier table never priced. The chain does not save them either: of 17 priced faces it RUNS a writer for 7 and only VERIFIES 8, so each frozen gate sits on a face whose refresh the chain deliberately refuses.",
+ "summary": {
+  "red_capable_sites_published": 9,
+  "red_capable_sites_that_price_age": 0,
+  "sites_measuring_a_copy_lag": 1,
+  "sites_pinning_a_frozen_constant": 2,
+  "sites_with_no_date_logic": 6,
+  "frozen_date_gates": 2,
+  "frozen_gates_that_match_today": 2,
+  "frozen_gates_whose_face_has_a_chain_writer": 2,
+  "faces_published_protected_by_a_red_capable_site": 9,
+  "faces_still_protected_after_reclassification": 0,
+  "faces_published_blind": 399,
+  "faces_blind_after_reclassification": 408,
+  "blind_faces_with_no_chain_writer": 116,
+  "blind_faces_with_no_declared_freshness_expectation": 406,
+  "faces_with_a_declared_freshness_expectation": 2,
+  "reader_sites_total_published": 458,
+  "chain_faces_priced": 17,
+  "chain_faces_whose_writer_it_runs": 7,
+  "chain_faces_it_only_verifies": 8,
+  "frozen_gates_whose_chain_only_verifies_the_face": 2
+ },
+ "sites": [
+  {
+   "face": "results/dashboard_status.json",
+   "site": "smoke_test.py:22",
+   "tier_published": "asks_the_clock",
+   "behaviour_published": "fails or warns on age without help from the producer",
+   "gate": {
+    "block": [
+     944,
+     976
+    ],
+    "mtime_lines": [
+     948
+    ],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [],
+    "stale_word_lines": [
+     952,
+     958
+    ],
+    "kind": "copy_lag_mtime",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "fails when a NAMED UPSTREAM face is newer than this one -- a copy lag, not an age; the face may be arbitrarily old and stay green",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "evidence_lines_e411_called_dates": []
+  },
+  {
+   "face": "results/state_tilt/VALUEJOINNAME.json",
+   "site": "smoke_test.py:2",
+   "tier_published": "dates_the_face_in_a_gate",
+   "behaviour_published": "fails when the face's own date falls behind",
+   "gate": {
+    "block": [
+     26004,
+     26052
+    ],
+    "mtime_lines": [],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [],
+    "stale_word_lines": [],
+    "kind": "no_date_logic",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "carries no date comparison at all; nothing about age is priced",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "evidence_lines_e411_called_dates": [
+    {
+     "line": 26026,
+     "text": "if _want != _d.get(\"both_roles_same_date\"):"
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/facehome_latest.json",
+   "site": "smoke_test.py:3",
+   "tier_published": "dates_the_face_in_a_gate",
+   "behaviour_published": "fails when the face's own date falls behind",
+   "gate": {
+    "block": [
+     17055,
+     17112
+    ],
+    "mtime_lines": [],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [],
+    "stale_word_lines": [],
+    "kind": "no_date_logic",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "carries no date comparison at all; nothing about age is priced",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "evidence_lines_e411_called_dates": [
+    {
+     "line": 17084,
+     "text": "if _r441[\"carrier_class\"] == _m441.R_LIVE and _r441.get(\"newest_member_ts\") \\"
+    },
+    {
+     "line": 17085,
+     "text": "and _r441.get(\"carrier_ts\") and _r441[\"newest_member_ts\"] <= _r441[\"carrier_ts\"]:"
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/printcov_latest.json",
+   "site": "smoke_test.py:2",
+   "tier_published": "dates_the_face_in_a_gate",
+   "behaviour_published": "fails when the face's own date falls behind",
+   "gate": {
+    "block": [
+     8946,
+     9022
+    ],
+    "mtime_lines": [],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [
+     {
+      "line": 8957,
+      "field": "evidence_cutoff",
+      "op": "!=",
+      "literal": "2026-10-31",
+      "text": "if _f104.get(\"evidence_cutoff\") != \"2026-10-31\":"
+     }
+    ],
+    "stale_word_lines": [],
+    "kind": "frozen_constant_identity",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "fails when the face's pinned field MOVES -- the honest refresh is what reds it",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "evidence_lines_e411_called_dates": [
+    {
+     "line": 8957,
+     "text": "if _f104.get(\"evidence_cutoff\") != \"2026-10-31\":"
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/quantityname_latest.json",
+   "site": "smoke_test.py:2",
+   "tier_published": "dates_the_face_in_a_gate",
+   "behaviour_published": "fails when the face's own date falls behind",
+   "gate": {
+    "block": [
+     15615,
+     15654
+    ],
+    "mtime_lines": [],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [],
+    "stale_word_lines": [
+     15625,
+     15651
+    ],
+    "kind": "no_date_logic",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "carries no date comparison at all; nothing about age is priced",
+   "tier_survives": false,
+   "declared_expectation": {
+    "bound_bars": 5,
+    "red_when": "lag > 5 bars, or no evidence_cutoff, or the cutoff is ahead of the panel"
+   },
+   "on_disk": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "evidence_lines_e411_called_dates": [
+    {
+     "line": 15632,
+     "text": "if _up_date410 and _up_date410 != _qn410.get(\"evidence_cutoff\"):"
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/starlagband_latest.json",
+   "site": "smoke_test.py:3",
+   "tier_published": "dates_the_face_in_a_gate",
+   "behaviour_published": "fails when the face's own date falls behind",
+   "gate": {
+    "block": [
+     3729,
+     3796
+    ],
+    "mtime_lines": [],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [],
+    "stale_word_lines": [],
+    "kind": "no_date_logic",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "carries no date comparison at all; nothing about age is priced",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "evidence_lines_e411_called_dates": [
+    {
+     "line": 3773,
+     "text": "and len(((_ts.get(\"disjoint\") or {}).get(\"lag_column\") or {})) < 6:"
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/twohop_latest.json",
+   "site": "smoke_test.py:3",
+   "tier_published": "dates_the_face_in_a_gate",
+   "behaviour_published": "fails when the face's own date falls behind",
+   "gate": {
+    "block": [
+     16785,
+     16865
+    ],
+    "mtime_lines": [],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [],
+    "stale_word_lines": [],
+    "kind": "no_date_logic",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "carries no date comparison at all; nothing about age is priced",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "evidence_lines_e411_called_dates": [
+    {
+     "line": 16817,
+     "text": "if _s420.get(\"rows_that_became_writers\") != (_s420.get(\"rows_with_a_date\", 0)"
+    },
+    {
+     "line": 16820,
+     "text": "if _s420.get(\"rows_whose_name_encodes_a_date\") != sum("
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/vintagedate_latest.json",
+   "site": "smoke_test.py:3",
+   "tier_published": "dates_the_face_in_a_gate",
+   "behaviour_published": "fails when the face's own date falls behind",
+   "gate": {
+    "block": [
+     19029,
+     19077
+    ],
+    "mtime_lines": [],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [],
+    "stale_word_lines": [],
+    "kind": "no_date_logic",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "carries no date comparison at all; nothing about age is priced",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "evidence_lines_e411_called_dates": [
+    {
+     "line": 19039,
+     "text": "if _s480.get(\"files_whose_name_states_a_date\") != sum("
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/zerotolprune_latest.json",
+   "site": "smoke_test.py:2",
+   "tier_published": "dates_the_face_in_a_gate",
+   "behaviour_published": "fails when the face's own date falls behind",
+   "gate": {
+    "block": [
+     9023,
+     9083
+    ],
+    "mtime_lines": [],
+    "clock_lines": [],
+    "clock_comparison_lines": [],
+    "frozen_constants": [
+     {
+      "line": 9033,
+      "field": "evidence_cutoff",
+      "op": "!=",
+      "literal": "2026-10-31",
+      "text": "if _f105.get(\"evidence_cutoff\") != \"2026-10-31\":"
+     }
+    ],
+    "stale_word_lines": [],
+    "kind": "frozen_constant_identity",
+    "can_go_red_on_age": false
+   },
+   "behaviour_measured": "fails when the face's pinned field MOVES -- the honest refresh is what reds it",
+   "tier_survives": false,
+   "declared_expectation": null,
+   "on_disk": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "evidence_lines_e411_called_dates": [
+    {
+     "line": 9033,
+     "text": "if _f105.get(\"evidence_cutoff\") != \"2026-10-31\":"
+    }
+   ]
+  }
+ ],
+ "frozen_date_gates": [
+  {
+   "face": "results/state_tilt/printcov_latest.json",
+   "site": "smoke_test.py:2",
+   "field": "evidence_cutoff",
+   "operator": "!=",
+   "pinned_literal": "2026-10-31",
+   "value_on_disk": "2026-10-31",
+   "pinned_matches_disk": true,
+   "reds_on_refresh": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "line": 8957,
+   "chain_mode": {
+    "face": "results/state_tilt/printcov_latest.json",
+    "scripts_naming_the_face": 1,
+    "chain_entries": [
+     {
+      "script": "scripts/e317_print_coverage_census.py",
+      "leg": "print_coverage_census",
+      "mode": "verify"
+     }
+    ],
+    "chain_runs_a_writer": false,
+    "chain_only_verifies": true
+   }
+  },
+  {
+   "face": "results/state_tilt/zerotolprune_latest.json",
+   "site": "smoke_test.py:2",
+   "field": "evidence_cutoff",
+   "operator": "!=",
+   "pinned_literal": "2026-10-31",
+   "value_on_disk": "2026-10-31",
+   "pinned_matches_disk": true,
+   "reds_on_refresh": true,
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "line": 9033,
+   "chain_mode": {
+    "face": "results/state_tilt/zerotolprune_latest.json",
+    "scripts_naming_the_face": 1,
+    "chain_entries": [
+     {
+      "script": "scripts/e318_count_named_gate_leaves.py",
+      "leg": "zero_tolerance_prune",
+      "mode": "verify"
+     }
+    ],
+    "chain_runs_a_writer": false,
+    "chain_only_verifies": true
+   }
+  }
+ ],
+ "blind_ranking": [
+  {
+   "face": "results/state_tilt",
+   "on_disk": true,
+   "reader_sites": 8,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 220,
+   "writer_runs_per_round": 221,
+   "session_only_writers": 209,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/e44_midmonth",
+   "on_disk": true,
+   "reader_sites": 5,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 5,
+   "session_only_writers": 11,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/etf_book_forward/LEDGER.json",
+   "on_disk": true,
+   "reader_sites": 5,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 5,
+   "writer_runs_per_round": 5,
+   "session_only_writers": 2,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/writereadcollide_latest.json",
+   "on_disk": true,
+   "reader_sites": 4,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/state_tilt/quantityname_latest.json",
+   "on_disk": true,
+   "reader_sites": 4,
+   "reader_tiers": [
+    "dates_the_face_in_a_gate",
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 1,
+   "declared_expectation": {
+    "bound_bars": 5,
+    "red_when": "lag > 5 bars, or no evidence_cutoff, or the cutoff is ahead of the panel"
+   },
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/futures_overlay_sweep.json",
+   "on_disk": true,
+   "reader_sites": 3,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/marks_coverage.json",
+   "on_disk": true,
+   "reader_sites": 3,
+   "reader_tiers": [
+    "compares_the_face_to_itself",
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/state_tilt/reachwide_latest.json",
+   "on_disk": true,
+   "reader_sites": 3,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/t35_open_fill_verify.json",
+   "on_disk": true,
+   "reader_sites": 3,
+   "reader_tiers": [
+    "compares_the_face_to_itself",
+    "no_freshness_test",
+    "prints_staleness_without_gating"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 1,
+   "declared_expectation": {
+    "bound_bars": 1,
+    "red_when": "lag > 1 bar, or no day to price, or the face is ahead of the panel"
+   },
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/dashboard_status.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "asks_the_clock",
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 16,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/futures_overlay_fliprate_paths.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/futures_tsmom_signal.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/state_tilt/publishpin_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 0,
+   "writer_runs_per_round": 0,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "none"
+  },
+  {
+   "face": "results/state_tilt/bandscreen_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/bookecho_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/helperprice_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/helperread_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/hysteresis_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/latestdoctor_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 1,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/latestfamily_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/oldchaintable_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/scopedbinding_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 0,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/twinmode_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 1,
+   "writer_runs_per_round": 1,
+   "session_only_writers": 4,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  },
+  {
+   "face": "results/state_tilt/faceage_latest.json",
+   "on_disk": true,
+   "reader_sites": 2,
+   "reader_tiers": [
+    "no_freshness_test"
+   ],
+   "writers_on_chain": 2,
+   "writer_runs_per_round": 2,
+   "session_only_writers": 4,
+   "declared_expectation": null,
+   "protection": "chain_rewrites_it"
+  }
+ ],
+ "chain_bounded": [
+  {
+   "face": "results/dashboard_status.json",
+   "scripts_naming_the_face": 9,
+   "chain_entries": [
+    {
+     "script": "scripts/e419_unstampable.py",
+     "leg": "unstampable",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e432_fixture_write.py",
+     "leg": "fixture_write",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e586_ticket_reader_bar.py",
+     "leg": "ticket_reader_bar",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e594_bar_dialect_join.py",
+     "leg": "bar_dialect_join",
+     "mode": "check"
+    }
+   ],
+   "chain_runs_a_writer": true,
+   "chain_only_verifies": false
+  },
+  {
+   "face": "results/e44_midmonth",
+   "scripts_naming_the_face": 11,
+   "chain_entries": [
+    {
+     "script": "scripts/e39_panel_census.py",
+     "leg": "offbookera",
+     "mode": "offbookera"
+    },
+    {
+     "script": "scripts/e39_panel_census.py",
+     "leg": "sharedbook",
+     "mode": "sharedbook"
+    },
+    {
+     "script": "scripts/e39_panel_census.py",
+     "leg": "sharedbookwidth",
+     "mode": "sharedbookwidth"
+    },
+    {
+     "script": "scripts/e39_panel_census.py",
+     "leg": "sharedbookwidthladder",
+     "mode": "sharedbookwidthladder"
+    },
+    {
+     "script": "scripts/e39_panel_census.py",
+     "leg": "sharedbookwidthsplit",
+     "mode": "sharedbookwidthsplit"
+    },
+    {
+     "script": "scripts/e97_routing.py",
+     "leg": "docquotes",
+     "mode": "docquotes"
+    },
+    {
+     "script": "scripts/e97_routing.py",
+     "leg": "pagegate",
+     "mode": "pagegate"
+    }
+   ],
+   "chain_runs_a_writer": true,
+   "chain_only_verifies": false
+  },
+  {
+   "face": "results/etf_book_forward/LEDGER.json",
+   "scripts_naming_the_face": 100,
+   "chain_entries": [
+    {
+     "script": "scripts/ceo_live_usage.py",
+     "leg": "ceo_live_usage",
+     "mode": ""
+    },
+    {
+     "script": "scripts/e584_ledger_bar_accrual.py",
+     "leg": "ledger_bar_accrual",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e587_cash_window.py",
+     "leg": "cash_window",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e588_ledger_rowcount.py",
+     "leg": "ledger_row_count",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e591_cash_diverge.py",
+     "leg": "cash_diverge",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e592_carry_phase.py",
+     "leg": "carry_phase",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e97_routing.py",
+     "leg": "docquotes",
+     "mode": "docquotes"
+    },
+    {
+     "script": "scripts/e97_routing.py",
+     "leg": "pagegate",
+     "mode": "pagegate"
+    },
+    {
+     "script": "scripts/etf_book_ceo_page.py",
+     "leg": "etf_book_ceo_page",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/etf_book_forward.py",
+     "leg": "etf_book_forward",
+     "mode": ""
+    },
+    {
+     "script": "scripts/etf_book_order.py",
+     "leg": "cash_leg_window",
+     "mode": ""
+    },
+    {
+     "script": "scripts/exchange_calendar_audit.py",
+     "leg": "cal_audit",
+     "mode": "run"
+    }
+   ],
+   "chain_runs_a_writer": true,
+   "chain_only_verifies": false
+  },
+  {
+   "face": "results/futures_overlay_sweep.json",
+   "scripts_naming_the_face": 3,
+   "chain_entries": [],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": false
+  },
+  {
+   "face": "results/marks_coverage.json",
+   "scripts_naming_the_face": 10,
+   "chain_entries": [
+    {
+     "script": "scripts/e578_round_index_consumers.py",
+     "leg": "round_index_consumers",
+     "mode": "check"
+    }
+   ],
+   "chain_runs_a_writer": true,
+   "chain_only_verifies": false
+  },
+  {
+   "face": "results/state_tilt",
+   "scripts_naming_the_face": 610,
+   "chain_entries": [
+    {
+     "script": "scripts/e225_state_tilt.py",
+     "leg": "state_tilt",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e226_tilt_breakeven.py",
+     "leg": "tilt_breakeven",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e228_matched_exposure.py",
+     "leg": "matched_exposure",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e229_timing_selection.py",
+     "leg": "timing_selection",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e230_hysteresis_toll.py",
+     "leg": "hysteresis_toll",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e231_band_path_test.py",
+     "leg": "band_path_test",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e232_cost_curvature.py",
+     "leg": "cost_curvature",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e233_empirical_gamma.py",
+     "leg": "empirical_gamma",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e234_per_member_gamma.py",
+     "leg": "per_member_gamma",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e235_charge_granularity.py",
+     "leg": "charge_granularity",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e236_share_difference.py",
+     "leg": "share_difference",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e237_information_structure.py",
+     "leg": "information_structure",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e238_leave_one_out_book.py",
+     "leg": "leave_one_out_book",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e239_own_vs_cross.py",
+     "leg": "own_vs_cross",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e241_pair_reproduction.py",
+     "leg": "pair_reproduction",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e242_omission_inflation_sweep.py",
+     "leg": "omission_inflation",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e243_additivity_out_of_sample.py",
+     "leg": "additivity_out_of_sample",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e244_pair_heterogeneity.py",
+     "leg": "pair_heterogeneity",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e245_pair_slope_matrix.py",
+     "leg": "pair_slope_matrix",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e246_star_direction.py",
+     "leg": "star_direction",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e247_era_cell_power.py",
+     "leg": "era_power",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e248_star_lag_band.py",
+     "leg": "star_lag_band",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e249_lead_counterfactual.py",
+     "leg": "lead_counterfactual",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e250_book_turnover_echo.py",
+     "leg": "book_echo",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e251_star_own_component.py",
+     "leg": "star_own_component",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e252_star_prices_itself.py",
+     "leg": "star_self_price",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e253_self_row_resolution.py",
+     "leg": "self_row_resolution",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e254_band_exponent_inside_cell.py",
+     "leg": "band_exponent_inside_cell",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e255_band_draw_starvation.py",
+     "leg": "band_draw_starvation",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e256_band_draw_continuation.py",
+     "leg": "band_draw_continuation",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e257_band_at_top_flips.py",
+     "leg": "band_at_top_flips",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e258_band_multiplier_per_window.py",
+     "leg": "band_multiplier_in_each_window",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e259_band_multiplier_distribution.py",
+     "leg": "band_multiplier_distribution",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e260_band_endpoint_arrival.py",
+     "leg": "band_endpoint_arrival",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e261_degenerate_seeds_leave_one_bucket.py",
+     "leg": "degenerate_seeds_leave_one_bucket",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e262_p95_transfer_across_windows.py",
+     "leg": "p95_transfer_across_windows",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e264_near_one_seeds_reading.py",
+     "leg": "near_one_seed_reading",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e266_wide_end_screen_holdout.py",
+     "leg": "wide_end_screen",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e267_screen_buffer_margin.py",
+     "leg": "screen_buffer_margin",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e268_screen_on_pooled_end.py",
+     "leg": "screen_on_pooled_end",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e269_tight_end_transfer.py",
+     "leg": "tight_end_transfer",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e270_guard_field_audit.py",
+     "leg": "guard_field_audit",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e272_flip_budget_two_tails.py",
+     "leg": "flip_budget_two_tails",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e273_guard_from_threshold.py",
+     "leg": "guard_from_threshold",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e277_tight_multiplier_floor.py",
+     "leg": "tight_multiplier_floor",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e278_spread_floor.py",
+     "leg": "spread_floor",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e279_substitution_soundness.py",
+     "leg": "substitution_soundness",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e281_substitution_dependency_audit.py",
+     "leg": "substitution_dependency_audit",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e282_substitution_disagreement_census.py",
+     "leg": "substitution_disagreement_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e283_degenerate_range_reachable.py",
+     "leg": "degenerate_range_reachable",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e294_live_universe_drift.py",
+     "leg": "live_universe_drift",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e298_replay_control_census.py",
+     "leg": "replay_control_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e299_rounded_vs_tolerance_census.py",
+     "leg": "precision_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e302_universe_switch_backfill.py",
+     "leg": "universe_switch_backfill",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e303_recover_unmeasurable_basis.py",
+     "leg": "basis_recovery",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e305_face_level_row_pricing.py",
+     "leg": "face_level_row_pricing",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e308_leg_vs_producer_tolerance.py",
+     "leg": "gate_tolerance_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e312_gate_operand_identity.py",
+     "leg": "gate_operand_identity",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e313_gate_form_and_scale.py",
+     "leg": "gate_form_and_scale",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e314_clamped_gate_census.py",
+     "leg": "clamped_gate_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e315_leg_epsilon_vs_flat_regime.py",
+     "leg": "leg_epsilon_vs_flat_regime",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e316_gate_print_requirements.py",
+     "leg": "gate_print_requirements",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e317_print_coverage_census.py",
+     "leg": "print_coverage_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e318_count_named_gate_leaves.py",
+     "leg": "zero_tolerance_prune",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e319_census_self_inclusion_sweep.py",
+     "leg": "census_self_inclusion",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e320_decoy_resolution.py",
+     "leg": "decoy_resolution",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e322_residual_refusal_causes.py",
+     "leg": "refusal_cause",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e323_reach_under_wider_needle.py",
+     "leg": "reach_under_wider_needle",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e324_unpublished_key_causes.py",
+     "leg": "unpublished_key_causes",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e325_orphan_gate_faces.py",
+     "leg": "orphan_gate_faces",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e326_template_parameter_consumers.py",
+     "leg": "template_parameter_consumers",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e327_who_reads_a_face_through_a_pointer.py",
+     "leg": "who_reads_a_face_through_a_pointer",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e328_quoted_number_staleness.py",
+     "leg": "quoted_number_staleness",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e329_two_vintage_binding.py",
+     "leg": "two_vintage_binding",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e330_unpinned_choice.py",
+     "leg": "unpinned_choice",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e331_pointer_only_readers.py",
+     "leg": "pointer_only_readers",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e332_invisible_tail_recovery.py",
+     "leg": "invisible_tail_recovery",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e333_surviving_e3xx_conclusions.py",
+     "leg": "surviving_e3xx_conclusions",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e334_helper_repair_blast_radius.py",
+     "leg": "helper_repair_blast_radius",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e335_sibling_entry_point.py",
+     "leg": "sibling_entry_point",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e336_consumer_optin_ranking.py",
+     "leg": "consumer_optin_ranking",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e337_optin_executed.py",
+     "leg": "optin_executed",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e338_census_green_window.py",
+     "leg": "census_green_window",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e339_literal_count_guards.py",
+     "leg": "literal_count_guards",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e340_who_authorizes_whose_allowance.py",
+     "leg": "permission_allowances",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e341_sibling_closer_what_changed.py",
+     "leg": "sibling_closer",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e342_guard_rewrite_records.py",
+     "leg": "guard_rewrite_records",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e343_bound_grant_decisions.py",
+     "leg": "bound_grant_decisions",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e344_face_consumer_census.py",
+     "leg": "face_consumer_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e345_gate_absence_windows.py",
+     "leg": "gate_absence_windows",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e346_status_writer_unread.py",
+     "leg": "status_writer_unread",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e347_published_number_gate_census.py",
+     "leg": "published_number_gates",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e348_restored_gate_retrospect.py",
+     "leg": "restored_gate_retrospect",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e349_latest_mirror_census.py",
+     "leg": "latest_mirror_channel",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e350_field_branch_census.py",
+     "leg": "field_level_branch_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e351_gate_state_census.py",
+     "leg": "gate_state_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e352_staleness_window.py",
+     "leg": "staleness_window",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e352_staleness_window.py",
+     "leg": "staleness_window",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e353_unwritten_guard_presence.py",
+     "leg": "unwritten_guard_presence",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e357_channel_writer_cadence.py",
+     "leg": "channel_writer_cadence",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e358_subject_resolution.py",
+     "leg": "subject_resolution",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e359_census_scaffolding_split.py",
+     "leg": "census_scaffolding_split",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e364_unstamped_census.py",
+     "leg": "unstamped_census",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e366_pinable_queue_size.py",
+     "leg": "pinable_queue_size",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e370_key_sensitivity.py",
+     "leg": "key_sensitivity",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e371_one_store_member.py",
+     "leg": "store_member",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e371_store_member_cost.py",
+     "leg": "store_member_cost",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e377_unresolved_destination.py",
+     "leg": "unresolved_destination",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e381_component_key_blind_spot.py",
+     "leg": "component_key_blind_spot",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e382_key_projection_delta.py",
+     "leg": "key_projection_delta",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e383_shared_key_collision.py",
+     "leg": "shared_key_collision",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e384_never_opened_key.py",
+     "leg": "never_opened_key",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e385_merged_key_split.py",
+     "leg": "merged_key_split",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e387_republish_audit.py",
+     "leg": "republish_audit",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e388_schema_accretion.py",
+     "leg": "schema_accretion",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e390_wrong_side_reader.py",
+     "leg": "wrong_side_reader",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e391_key_name_two_meanings.py",
+     "leg": "key_name_two_meanings",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e392_read_resolve.py",
+     "leg": "read_resolve",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e393_read_cap_price.py",
+     "leg": "read_cap_price",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e394_phantom_why.py",
+     "leg": "phantom_why",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e395_conditional_write.py",
+     "leg": "conditional_write",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e396_face_basename_suffix.py",
+     "leg": "face_basename_suffix",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e396_last_tick.py",
+     "leg": "last_tick",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e397_walk_ambiguity.py",
+     "leg": "walk_ambiguity",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e398_latest_family.py",
+     "leg": "latest_family",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e399_unresolved_names.py",
+     "leg": "unresolved_names",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e401_local_reader.py",
+     "leg": "local_reader_table",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e402_fragment_producers.py",
+     "leg": "fragment_producers",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e403_family_arg.py",
+     "leg": "family_arg",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e404_constant_directory_resolution.py",
+     "leg": "constant_directory_resolution",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e405_dead_read_failure_mode.py",
+     "leg": "dead_read_failure_mode",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e406_blob_vs_tree_readers.py",
+     "leg": "blob_readers",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e407_leg_input_stability.py",
+     "leg": "leg_input_stability",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e408_writer_refresh_signal.py",
+     "leg": "writer_refresh_signal",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e409_unfloored_faces.py",
+     "leg": "unfloored_faces",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e411_reader_tiers.py",
+     "leg": "reader_tiers",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e412_blob_guard_decision.py",
+     "leg": "blob_guard_decision",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e414_unsupplied_read.py",
+     "leg": "unsupplied_read",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e415_cwd_accident.py",
+     "leg": "cwd_accident",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e417_shadow_face.py",
+     "leg": "shadow_face",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e418_face_age.py",
+     "leg": "face_age",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e419_unstampable.py",
+     "leg": "unstampable",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e420_corpus_pin_instability.py",
+     "leg": "corpus_pin",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e421_strong_basis_resolution.py",
+     "leg": "name_resolve",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e422_basename_census_audit.py",
+     "leg": "basename_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e423_dirfield_join.py",
+     "leg": "dirfield_join",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e426_dynamic_face_names.py",
+     "leg": "dynamic_face_names",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e427_opener_flow.py",
+     "leg": "opener_flow",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e428_no_caller.py",
+     "leg": "no_caller",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e429_two_hop_writer.py",
+     "leg": "two_hop_writer",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e433_republication_chain.py",
+     "leg": "republication_chain",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e435_dir_is_a_face.py",
+     "leg": "dir_is_a_face",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e439_file_slot_callers.py",
+     "leg": "file_slot_callers",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e441_facehome_family.py",
+     "leg": "face_home_family",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e445_facehome_target.py",
+     "leg": "face_home_target",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e446_frozen_writer.py",
+     "leg": "frozen_writer",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e447_abandoned_read.py",
+     "leg": "abandoned_read",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e448_dropped_path.py",
+     "leg": "dropped_path_open",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e449_dead_document_pointer.py",
+     "leg": "dead_prereg_pointer",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e451_prereg_digest.py",
+     "leg": "prereg_digest",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e452_abandoned_guard.py",
+     "leg": "abandoned_guard",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e458_face_identity.py",
+     "leg": "face_identity",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e460_facegap.py",
+     "leg": "face_gap",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e461_identity_consumers.py",
+     "leg": "identity_consumers",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e462_identity_dialect.py",
+     "leg": "identity_dialect",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e463_identity_split.py",
+     "leg": "identity_split",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e464_producer_intent.py",
+     "leg": "producer_intent",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e466_pointer_join.py",
+     "leg": "pointer_join",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e467_docstringcard.py",
+     "leg": "docstring_card",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e468_pointer_reach.py",
+     "leg": "pointer_reach",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e469_face_producer_edge.py",
+     "leg": "face_producer_edge",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e470_target_read.py",
+     "leg": "target_read",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e471_dead_copy.py",
+     "leg": "dead_copy",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e472_vintage_read.py",
+     "leg": "vintage_read",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e473_producer_spill.py",
+     "leg": "producer_spill",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e474_identity_dialect_census.py",
+     "leg": "identity_dialect_census",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e476_payload_writer.py",
+     "leg": "payload_writer",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e478_vintage_clock_diff.py",
+     "leg": "vintage_clock_diff",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e479_twin_read.py",
+     "leg": "twin_read",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e480_vintage_date_agree.py",
+     "leg": "vintage_date_agree",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e481_vintage_conclusion.py",
+     "leg": "vintage_conclusion",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e482_latest_outside.py",
+     "leg": "latest_spelling_exists",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e483_leg_debt.py",
+     "leg": "leg_debt",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e484_undated_vintage.py",
+     "leg": "undated_vintage",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e485_vintage_date_lag.py",
+     "leg": "vintage_date_lag",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e487_composed_writer.py",
+     "leg": "composed_writer",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e488_writer_directory.py",
+     "leg": "writer_directory",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e489_write_wire.py",
+     "leg": "write_wire",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e490_write_helper.py",
+     "leg": "write_helper",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e491_latest_copier.py",
+     "leg": "latest_copier",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e492_multi_composer_doctor.py",
+     "leg": "multi_composer_doctor",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e493_latest_copy_owner.py",
+     "leg": "latest_copy_owner",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e494_latest_authors.py",
+     "leg": "latest_authors",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e495_doctorpub.py",
+     "leg": "doctor_pub",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e497_twindead.py",
+     "leg": "twin_dead",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e498_helperread.py",
+     "leg": "helper_read",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e499_helperprice.py",
+     "leg": "helper_price",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e500_strictgap.py",
+     "leg": "strict_gap",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e502_bom_census.py",
+     "leg": "bom_census",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e503_chain_stale.py",
+     "leg": "chain_stale",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e504_name_compose.py",
+     "leg": "name_compose",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e505_unmeasured_reach.py",
+     "leg": "unmeasured_reach",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e506_nodate_witness.py",
+     "leg": "nodate_witness",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e507_unresolved_origin.py",
+     "leg": "unresolved_origin",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e508_caller_supplied_population.py",
+     "leg": "caller_supplied",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e509_unlisted_date_origin.py",
+     "leg": "unlisted_date_origin",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e510_binding_scope.py",
+     "leg": "binding_scope",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e511_collision_anatomy.py",
+     "leg": "collision_anatomy",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e512_callee_return.py",
+     "leg": "callee_return",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e514_built_elsewhere.py",
+     "leg": "built_elsewhere",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e515_empty_arm_cover.py",
+     "leg": "empty_arm_cover",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e518_literal_guard.py",
+     "leg": "literal_guard",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e520_forwarded_argument.py",
+     "leg": "forwarded_argument",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e522_silent_arm_caller.py",
+     "leg": "silent_arm_read",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e523_handed_onward_reader.py",
+     "leg": "handed_onward_reader",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e524_reader_onward.py",
+     "leg": "reader_onward",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e525_onward_residue.py",
+     "leg": "onward_residue",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e526_second_hop.py",
+     "leg": "second_hop",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e527_undecidable_arm.py",
+     "leg": "undecidable_arm",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e528_recursive_read.py",
+     "leg": "recursive_read",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e529_depth_cap_null.py",
+     "leg": "depth_cap_null",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e530_third_hop.py",
+     "leg": "third_hop",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e531_default_param.py",
+     "leg": "default_param",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e532_one_hop_out.py",
+     "leg": "one_hop_out",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e533_call_pure_arm.py",
+     "leg": "call_pure_arm",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e534_cap_to_payload.py",
+     "leg": "cap_to_payload",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e535_next_consumer.py",
+     "leg": "next_consumer",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e536_inlined_fold.py",
+     "leg": "inlined_fold",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e537_constant_terminal.py",
+     "leg": "constant_terminal",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e538_third_hop.py",
+     "leg": "parcel_landing",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e540_line_pointer_distance.py",
+     "leg": "line_pointer",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e541_branch_ambiguity.py",
+     "leg": "branch_ambiguity",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e542_survivor_spans.py",
+     "leg": "survivor_spans",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e545_resolver_retry.py",
+     "leg": "resolver_retry",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e547_created_item_read.py",
+     "leg": "created_item_read",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e548_extended_resolver.py",
+     "leg": "extended_resolver",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e549_unclassified_site.py",
+     "leg": "unclassified_site",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e550_called_consumer.py",
+     "leg": "called_consumer",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e552_created_item_presence.py",
+     "leg": "created_item_presence",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e553_render_reader.py",
+     "leg": "render_reader",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e554_wrote_population.py",
+     "leg": "wrote_population",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e555_unfolded_second_arg.py",
+     "leg": "unfolded_second_arg",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e556_rescued_face.py",
+     "leg": "rescued_face",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e557_face_entry_reach.py",
+     "leg": "face_entry_reach",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e558_gate_reach.py",
+     "leg": "gate_reach",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e559_chain_rc_consumer.py",
+     "leg": "chain_rc_consumer",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e560_chain_receipt_shape.py",
+     "leg": "chain_receipt_shape",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e561_receipt_table_join.py",
+     "leg": "receipt_table_join",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e562_single_leg_provenance.py",
+     "leg": "single_leg_provenance",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e563_receipt_prefix.py",
+     "leg": "receipt_prefix",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e566_receipt_coverage_consumer.py",
+     "leg": "receipt_coverage_consumer",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e567_chain_claim.py",
+     "leg": "chain_claim",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e568_old_chain_table.py",
+     "leg": "old_chain_table",
+     "mode": "check-fast"
+    },
+    {
+     "script": "scripts/e569_chain_numerator.py",
+     "leg": "chain_numerator",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e570_chain_print_source.py",
+     "leg": "chain_print_source",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e571_receipt_round_identity.py",
+     "leg": "receipt_round_identity",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e572_receipt_run_identity.py",
+     "leg": "receipt_run_identity",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e573_silent_chain.py",
+     "leg": "silent_chain",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e575_only_flag.py",
+     "leg": "only_flag",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e576_gap_calls.py",
+     "leg": "gap_calls",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e578_round_index_consumers.py",
+     "leg": "round_index_consumers",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e579_liveness_dialect.py",
+     "leg": "liveness_dialect",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e580_face_age.py",
+     "leg": "face_age",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e583_ticket_repricing.py",
+     "leg": "ticket_repricing",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e584_ledger_bar_accrual.py",
+     "leg": "ledger_bar_accrual",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e585_cash_leg_pricing.py",
+     "leg": "cash_leg_pricing",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e586_ticket_reader_bar.py",
+     "leg": "ticket_reader_bar",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e588_ledger_rowcount.py",
+     "leg": "ledger_row_count",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e594_bar_dialect_join.py",
+     "leg": "bar_dialect_join",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e595_pointer_alias_blast.py",
+     "leg": "pointer_alias_blast",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e598_pointer_bar_demand.py",
+     "leg": "pointer_bar_demand",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e599_pointer_redirect_bar.py",
+     "leg": "pointer_redirect_bar",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e600_date_face_unique.py",
+     "leg": "date_face_unique",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e601_dup_witness.py",
+     "leg": "dup_witness",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e602_redirect_missing_at_read.py",
+     "leg": "redirect_missing_at_read",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e604_date_joined_reader.py",
+     "leg": "date_joined_reader",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e606_count_row_compare.py",
+     "leg": "count_row_compare",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e609_glob_reach.py",
+     "leg": "glob_reach",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e611_sweep_reruns.py",
+     "leg": "sweep_reruns",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e613_ancestor_reruns.py",
+     "leg": "ancestor_reruns",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e615_glob_sweep_use.py",
+     "leg": "glob_sweep_use",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e617_sweep_consumer.py",
+     "leg": "sweep_consumer",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e619_dead_reader_locals.py",
+     "leg": "dead_reader_locals",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e622_deadlocal_reach.py",
+     "leg": "dead_local_reach",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e623_deadline_key_use.py",
+     "leg": "deadline_key_use",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e624_sibling_read_object.py",
+     "leg": "sibling_read_object",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e625_sibling_read_value.py",
+     "leg": "sibling_read_value",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e626_handover_write.py",
+     "leg": "handover_write",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e627_alias_binding.py",
+     "leg": "alias_binding",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e628_receiver_origin.py",
+     "leg": "receiver_origin",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e629_caller_write.py",
+     "leg": "caller_write",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e630_callee_write.py",
+     "leg": "callee_write",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e631_read_multiplicity.py",
+     "leg": "read_multiplicity",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e632_read_same_line.py",
+     "leg": "read_same_line",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e633_read_forms.py",
+     "leg": "read_forms",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e634_read_func_gap.py",
+     "leg": "read_func_gap",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e636_read_binding_reach.py",
+     "leg": "read_binding_reach",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e637_below_fold_price.py",
+     "leg": "below_fold_price",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e638_two_depth_subscripts.py",
+     "leg": "two_depth_subscripts",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e639_write_below.py",
+     "leg": "write_below",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e640_writeread_collide.py",
+     "leg": "write_read_collide",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e641_writer_receiver.py",
+     "leg": "writer_binding",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e642_module_write_key.py",
+     "leg": "module_write_key",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e643_nonfunc_site.py",
+     "leg": "non_function_site",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e644_onedepth_write.py",
+     "leg": "one_depth_write",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e645_computed_subscript_reach.py",
+     "leg": "computed_reach",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e646_crossmodule_key.py",
+     "leg": "cross_module_key",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e647_string_reach.py",
+     "leg": "string_reach",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e648_keygenericity.py",
+     "leg": "key_genericity",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e649_guarded_write.py",
+     "leg": "guarded_write",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e650_comprehension_scope.py",
+     "leg": "comprehension_scope",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e651_template_fold.py",
+     "leg": "template_fold",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/run_e410_freshness_legs.py",
+     "leg": "freshness_bound",
+     "mode": ""
+    }
+   ],
+   "chain_runs_a_writer": true,
+   "chain_only_verifies": false
+  },
+  {
+   "face": "results/state_tilt/VALUEJOINNAME.json",
+   "scripts_naming_the_face": 2,
+   "chain_entries": [],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": false
+  },
+  {
+   "face": "results/state_tilt/facehome_latest.json",
+   "scripts_naming_the_face": 5,
+   "chain_entries": [
+    {
+     "script": "scripts/e441_facehome_family.py",
+     "leg": "face_home_family",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e445_facehome_target.py",
+     "leg": "face_home_target",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e446_frozen_writer.py",
+     "leg": "frozen_writer",
+     "mode": "verify"
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  },
+  {
+   "face": "results/state_tilt/printcov_latest.json",
+   "scripts_naming_the_face": 1,
+   "chain_entries": [
+    {
+     "script": "scripts/e317_print_coverage_census.py",
+     "leg": "print_coverage_census",
+     "mode": "verify"
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  },
+  {
+   "face": "results/state_tilt/quantityname_latest.json",
+   "scripts_naming_the_face": 4,
+   "chain_entries": [
+    {
+     "script": "scripts/e409_unfloored_faces.py",
+     "leg": "unfloored_faces",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/run_e410_freshness_legs.py",
+     "leg": "freshness_bound",
+     "mode": ""
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  },
+  {
+   "face": "results/state_tilt/reachwide_latest.json",
+   "scripts_naming_the_face": 3,
+   "chain_entries": [
+    {
+     "script": "scripts/e323_reach_under_wider_needle.py",
+     "leg": "reach_under_wider_needle",
+     "mode": "verify"
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  },
+  {
+   "face": "results/state_tilt/starlagband_latest.json",
+   "scripts_naming_the_face": 2,
+   "chain_entries": [
+    {
+     "script": "scripts/e248_star_lag_band.py",
+     "leg": "star_lag_band",
+     "mode": "run"
+    },
+    {
+     "script": "scripts/e249_lead_counterfactual.py",
+     "leg": "lead_counterfactual",
+     "mode": "run"
+    }
+   ],
+   "chain_runs_a_writer": true,
+   "chain_only_verifies": false
+  },
+  {
+   "face": "results/state_tilt/twohop_latest.json",
+   "scripts_naming_the_face": 5,
+   "chain_entries": [
+    {
+     "script": "scripts/e428_no_caller.py",
+     "leg": "no_caller",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e429_two_hop_writer.py",
+     "leg": "two_hop_writer",
+     "mode": "verify"
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  },
+  {
+   "face": "results/state_tilt/vintagedate_latest.json",
+   "scripts_naming_the_face": 4,
+   "chain_entries": [
+    {
+     "script": "scripts/e480_vintage_date_agree.py",
+     "leg": "vintage_date_agree",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e484_undated_vintage.py",
+     "leg": "undated_vintage",
+     "mode": "check"
+    },
+    {
+     "script": "scripts/e485_vintage_date_lag.py",
+     "leg": "vintage_date_lag",
+     "mode": "check"
+    }
+   ],
+   "chain_runs_a_writer": true,
+   "chain_only_verifies": false
+  },
+  {
+   "face": "results/state_tilt/writereadcollide_latest.json",
+   "scripts_naming_the_face": 2,
+   "chain_entries": [
+    {
+     "script": "scripts/e640_writeread_collide.py",
+     "leg": "write_read_collide",
+     "mode": "verify"
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  },
+  {
+   "face": "results/state_tilt/zerotolprune_latest.json",
+   "scripts_naming_the_face": 1,
+   "chain_entries": [
+    {
+     "script": "scripts/e318_count_named_gate_leaves.py",
+     "leg": "zero_tolerance_prune",
+     "mode": "verify"
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  },
+  {
+   "face": "results/t35_open_fill_verify.json",
+   "scripts_naming_the_face": 10,
+   "chain_entries": [
+    {
+     "script": "scripts/e308_leg_vs_producer_tolerance.py",
+     "leg": "gate_tolerance_census",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e313_gate_form_and_scale.py",
+     "leg": "gate_form_and_scale",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e316_gate_print_requirements.py",
+     "leg": "gate_print_requirements",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e407_leg_input_stability.py",
+     "leg": "leg_input_stability",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/e409_unfloored_faces.py",
+     "leg": "unfloored_faces",
+     "mode": "verify"
+    },
+    {
+     "script": "scripts/run_e410_freshness_legs.py",
+     "leg": "freshness_bound",
+     "mode": ""
+    }
+   ],
+   "chain_runs_a_writer": false,
+   "chain_only_verifies": true
+  }
+ ],
+ "method_limits": [
+  "the tier vocabulary, the site list and the per-face writer class are E411's published rows; this study re-reads the four sites' own source blocks and re-prices the faces, it does not re-run E408's 46 s writer census",
+  "a site is called an age test only when a clock/calendar token appears on a line that also carries a comparison; a clock token read for printing is not an age gate",
+  "the frozen-constant arm keys on a literal YYYY-MM-DD compared to a .get() field of the same block, so a gate that pins a date through a module constant is not counted",
+  "writer_runs_per_round is E411's class, which answers 'does a registered task or chain leg run the writer', not 'has it run since this face was written'",
+  "this study reads faces and never writes them: refreshing an input destroys the evidence that the input was stale"
+ ]
+}

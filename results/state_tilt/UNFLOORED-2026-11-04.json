@@ -1,0 +1,238 @@
+{
+ "evidence_cutoff": "2026-11-04",
+ "generated": "2026-11-05T21:45:35+08:00",
+ "ledger": [
+  {
+   "age_days_since_commit": 2.014,
+   "age_days_since_mtime": 2.022,
+   "carries_its_own_date": true,
+   "cheaper_fix": "no reader-side gate is available for this face (smoke_test.py:593-597 -- a hard day gate was already litigated and removed (E185: an assertion that assumes a deployment layout)); the fix is a chain leg or a bounded-lag allowance",
+   "claimed_dates": {
+    "day": "2026-11-03",
+    "ts": "2026-11-03 21:13:23"
+   },
+   "expectation": "every trading day after the open bar is captured",
+   "face": "results/t35_open_fill_verify.json",
+   "gate_blocked_by": "smoke_test.py:593-597 -- a hard day gate was already litigated and removed (E185: an assertion that assumes a deployment layout)",
+   "label": "T-35 open-fill verification",
+   "last_commit": {
+    "epoch": 1793712357,
+    "sha": "5acc6ec4700536d5900ef7bb4f2c707f3ed92fb3",
+    "ts": "2026-11-03T21:25:57+08:00"
+   },
+   "on_disk": {
+    "bytes": 1272,
+    "dated_fields": {
+     "day": "2026-11-03",
+     "ts": "2026-11-03 21:13:23"
+    },
+    "exists": true,
+    "mtime": "2026-11-03T21:13:23+08:00",
+    "mtime_epoch": 1793711603
+   },
+   "readers": [
+    {
+     "behaviour_under_staleness": "prints STALE and passes -- the reader knows and does not act",
+     "evidence": {
+      "block": [
+       603,
+       635
+      ],
+      "date_comparison_lines": [
+       {
+        "line": 617,
+        "text": "_dash_day_ok = bool(_dash_day) and (_dash_day == _fv_day or _dash_day < _fv_day)"
+       },
+       {
+        "line": 632,
+        "text": "f\"{' STALE(another host writes the dashboard)' if _dash_day and _dash_day < _fv_day else ''}\""
+       }
+      ],
+      "fresh_gate_lines": [],
+      "gate_lines": 1,
+      "probe_lines": [],
+      "stale_word_lines": [
+       {
+        "line": 616,
+        "text": "# is required either way, and staleness is printed rather than failed."
+       },
+       {
+        "line": 632,
+        "text": "f\"{' STALE(another host writes the dashboard)' if _dash_day and _dash_day < _fv_day else ''}\""
+       }
+      ]
+     },
+     "resolved_by": "anchor",
+     "site": "smoke_test.py:608",
+     "tier": "prints_staleness_without_gating",
+     "what": "dashboard/verify counter agreement"
+    },
+    {
+     "behaviour_under_staleness": "passes on a stale face as long as it is internally consistent",
+     "evidence": {
+      "block": [
+       637,
+       681
+      ],
+      "date_comparison_lines": [
+       {
+        "line": 664,
+        "text": "if _row.get(\"date\") == _d:"
+       }
+      ],
+      "fresh_gate_lines": [],
+      "gate_lines": 4,
+      "probe_lines": [],
+      "stale_word_lines": []
+     },
+     "resolved_by": "anchor",
+     "site": "smoke_test.py:638",
+     "tier": "compares_the_face_to_itself",
+     "what": "evidence tier and per-trader detail shape"
+    }
+   ],
+   "readers_that_price_the_age": 0,
+   "round_rows_total": 370,
+   "rounds_since_change": 35,
+   "stale_detail": {
+    "face": "2026-11-03",
+    "field": "day",
+    "panel": "2026-11-04"
+   },
+   "stale_vs_panel": true,
+   "writer": "scripts/t35_open_fill_verify.py",
+   "writer_surface": "session"
+  },
+  {
+   "age_days_since_commit": 4.255,
+   "age_days_since_mtime": 4.273,
+   "carries_its_own_date": true,
+   "cheaper_fix": "reader prices the age it already reads (one comparison; the face is self-dated)",
+   "claimed_dates": {
+    "evidence_cutoff": "2026-10-31"
+   },
+   "expectation": "only when the E321 study is re-derived",
+   "face": "results/state_tilt/quantityname_latest.json",
+   "gate_blocked_by": null,
+   "label": "E321 quantity-name census",
+   "last_commit": {
+    "epoch": 1793518727,
+    "sha": "17ea91d1226e55d9e9dfb25fa36615c2fd2ae16c",
+    "ts": "2026-11-01T15:38:47+08:00"
+   },
+   "on_disk": {
+    "bytes": 118717,
+    "dated_fields": {
+     "evidence_cutoff": "2026-10-31"
+    },
+    "exists": true,
+    "mtime": "2026-11-01T15:12:13+08:00",
+    "mtime_epoch": 1793517133
+   },
+   "readers": [
+    {
+     "behaviour_under_staleness": "passes on any age at all",
+     "evidence": {
+      "block": [
+       9182,
+       9224
+      ],
+      "date_comparison_lines": [],
+      "fresh_gate_lines": [],
+      "gate_lines": 8,
+      "probe_lines": [],
+      "stale_word_lines": []
+     },
+     "resolved_by": "anchor",
+     "site": "smoke_test.py:9183",
+     "tier": "no_freshness_test",
+     "what": "E306 producer-name leg"
+    },
+    {
+     "behaviour_under_staleness": "passes on any age at all",
+     "evidence": {
+      "block": [
+       9236,
+       9294
+      ],
+      "date_comparison_lines": [],
+      "fresh_gate_lines": [],
+      "gate_lines": 10,
+      "probe_lines": [],
+      "stale_word_lines": []
+     },
+     "resolved_by": "anchor",
+     "site": "smoke_test.py:9276",
+     "tier": "no_freshness_test",
+     "what": "E307 refused-population leg"
+    },
+    {
+     "behaviour_under_staleness": "passes on any age at all",
+     "evidence": {
+      "block": [
+       9305,
+       9366
+      ],
+      "date_comparison_lines": [],
+      "fresh_gate_lines": [],
+      "gate_lines": 11,
+      "probe_lines": [],
+      "stale_word_lines": []
+     },
+     "resolved_by": "anchor",
+     "site": "smoke_test.py:9348",
+     "tier": "no_freshness_test",
+     "what": "E309 rejected-name leg"
+    }
+   ],
+   "readers_that_price_the_age": 0,
+   "round_rows_total": 370,
+   "rounds_since_change": 61,
+   "stale_detail": {
+    "face": "2026-10-31",
+    "field": "evidence_cutoff",
+    "panel": "2026-11-04"
+   },
+   "stale_vs_panel": true,
+   "writer": "scripts/e321_quantity_named_by_producer.py",
+   "writer_surface": "session"
+  }
+ ],
+ "method_limits": [
+  "rounds_since_change counts round-report rows, not suite executions: the suite is not run every round (r1425/r1426 ran two legs standalone; r1427's detached run did not finish in-window), so 'rounds' is an upper bound on suite runs.",
+  "reader tiers are a lexical classifier over a 40-line window; it names the lines that produced each call so a wrong call is auditable rather than invisible.",
+  "staleness is judged against the local daily panel's last bar day, which is the clock the rest of the chain uses; a face may be legitimately newer than that day when it is written after the close."
+ ],
+ "study": "E409_session_only_writers_leave_their_readers_unfloored",
+ "summary": {
+  "by_reader_tier": {
+   "compares_the_face_to_itself": 1,
+   "no_freshness_test": 3,
+   "prints_staleness_without_gating": 1
+  },
+  "faces": 2,
+  "faces_carrying_their_own_date": 2,
+  "panel_cutoff": "2026-11-04",
+  "reader_sites": 5,
+  "reader_sites_that_price_the_age": 0,
+  "round_rows_parsed": 370,
+  "stale_and_no_reader_prices_it": 2,
+  "stale_vs_panel": 2,
+  "suite_practice": {
+   "examples": [
+    "try:",
+    "check(\"env: core deps\", True,",
+    "check(\"fleet: panel carries the machine-health verdict, not a row coun",
+    "check(\"product: the star lag band is re-derived from its own shuffled "
+   ],
+   "legs_excluded_as_this_study_reading_itself": 2,
+   "legs_opening_a_face_by_the_narrow_rule": 45,
+   "legs_opening_a_face_or_page": 222,
+   "legs_pricing_the_age": 8,
+   "share": 0.036
+  }
+ },
+ "title": "two faces read by suite legs have no standing refresh",
+ "verdict": "every_face_in_this_set_is_behind_the_panel_and_no_reader_asks_how_old_it_is",
+ "verdict_reason": "2 of 2 faces are behind the panel cutoff (2026-11-04) and 2 of those have no reader that asks how old the face is; the suite therefore re-asserts a stale reading as if it were current."
+}
