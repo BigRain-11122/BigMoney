@@ -495,7 +495,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-11 02:17:38",
+   "at": "2026-11-11 02:41:35",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -617,8 +617,8 @@
  },
  "swap_trigger": {
   "artifact": "etf_book_swap_trigger",
-  "session": "2026-11-06",
-  "ticket": "TICKET-2026-11-06.json",
+  "session": "2026-11-10",
+  "ticket": "TICKET-2026-11-10.json",
   "source_face": "results/etf_book_sibling_gap.json",
   "criteria": {
    "episode_share": 0.5,
@@ -635,11 +635,11 @@
     "sibling_name": "纳斯达克100ETF大成",
     "index": "NDX100",
     "source_verdict": "SWAP_SAVES",
-    "today_gap_pp": 8.6708,
-    "mean_gap_pp": 2.0621,
+    "today_gap_pp": 7.0845,
+    "mean_gap_pp": 0.4758,
     "toll_pp": 0.16,
     "today_excess_pp": 6.6087,
-    "window_share": 0.9208,
+    "window_share": 0.4692,
     "percentile": 98.36,
     "expiry": {
      "n_episodes": 1,
@@ -650,10 +650,10 @@
      "p75_sessions": null,
      "max_sessions": null
     },
-    "repeatable_gain_cny": 1407.9,
-    "one_off_gain_cny": 4204.6,
-    "verdict": "WINDOW_ALWAYS_OPEN",
-    "advice": "the pair trades wider than the round-trip toll on almost every session: this is a standing condition, so the swap is a permanent re-tickering and there is nothing to watch between decision bars",
+    "repeatable_gain_cny": 290.2,
+    "one_off_gain_cny": 3798.3,
+    "verdict": "ACT_ON_THIS_BAR",
+    "advice": "this episode is a tail of the pair's own history and either heals inside one rebalancing grid or was never healed inside the panel -- the one-off part does not wait for the next decision bar",
     "why": ""
    },
    {
@@ -662,11 +662,11 @@
     "sibling_name": "纳斯达克100ETF大成",
     "index": "NDX100",
     "source_verdict": "SWAP_SAVES",
-    "today_gap_pp": 6.2867,
-    "mean_gap_pp": 2.211,
+    "today_gap_pp": 5.0906,
+    "mean_gap_pp": 1.0149,
     "toll_pp": 0.16,
     "today_excess_pp": 4.0757,
-    "window_share": 0.9208,
+    "window_share": 0.7572,
     "percentile": 97.99,
     "expiry": {
      "n_episodes": 3,
@@ -677,10 +677,10 @@
      "p75_sessions": 28.0,
      "max_sessions": 28.0
     },
-    "repeatable_gain_cny": 1508.7,
-    "one_off_gain_cny": 2640.6,
-    "verdict": "WINDOW_ALWAYS_OPEN",
-    "advice": "the pair trades wider than the round-trip toll on almost every session: this is a standing condition, so the swap is a permanent re-tickering and there is nothing to watch between decision bars",
+    "repeatable_gain_cny": 615.8,
+    "one_off_gain_cny": 2371.5,
+    "verdict": "ACT_ON_ANY_BAR",
+    "advice": "the gap clears the round-trip toll but is not a perishable tail -- any bar inside the next grid may be used without paying for the delay",
     "why": ""
    },
    {
@@ -688,12 +688,12 @@
     "sibling_symbol": "513850",
     "sibling_name": "美国50ETF易方达",
     "index": "US50",
-    "source_verdict": "GAP_IMMATERIAL",
-    "today_gap_pp": 0.1903,
-    "mean_gap_pp": 0.1787,
+    "source_verdict": "ALREADY_CHEAPEST",
+    "today_gap_pp": -0.1342,
+    "mean_gap_pp": -0.1458,
     "toll_pp": 0.16,
     "today_excess_pp": 0.0116,
-    "window_share": 0.6991,
+    "window_share": 0.3085,
     "percentile": 32.98,
     "expiry": {
      "n_episodes": 49,
@@ -712,12 +712,13 @@
    }
   ],
   "verdict_counts": {
-   "WINDOW_ALWAYS_OPEN": 2,
+   "ACT_ON_THIS_BAR": 1,
+   "ACT_ON_ANY_BAR": 1,
    "NOT_ACTIONABLE": 1
   },
-  "repeatable_gain_cny": 2916.6,
-  "one_off_gain_cny": 6845.2,
-  "recheck_rule": "any bar inside the grid works: the gap is not a perishable tail (one-off part 6,845 CNY). After execution the only number that can bring the decision back is the round-trip toll: re-read this face on the next decision bar, and act again only if a pair's gap exceeds 0.16 pp (2 x 8 bp per side).",
+  "repeatable_gain_cny": 906.0,
+  "one_off_gain_cny": 6169.8,
+  "recheck_rule": "act on this bar: the one-off part of 6,170 CNY is unmeasured -- no comparable episode in the panel ever healed, so nothing here says the window waits. After execution the only number that can bring the decision back is the round-trip toll: re-read this face on the next decision bar, and act again only if a pair's gap exceeds 0.16 pp (2 x 8 bp per side).",
   "caveats": [
    "the trigger is priced in pp of notional and compared against the round-trip cost only; it does not price tracking difference, fee, size or FX-hedge policy between the two tickers",
    "episode lengths are measured on the reconstructed gap, which inherits the single IOPV anchor of the gap face; censored episodes are reported, never scored as zero",
@@ -749,7 +750,7 @@
     "lots": 372,
     "price": 2.11,
     "amount_cny": 78492.0,
-    "why": "swap 159501 → 159513 (r1466 verdict WINDOW_ALWAYS_OPEN), sized on the trimmed 372 lots"
+    "why": "swap 159501 → 159513 (r1466 verdict ACT_ON_THIS_BAR), sized on the trimmed 372 lots"
    },
    {
     "side": "SELL",
@@ -757,7 +758,7 @@
     "lots": 355,
     "price": 2.21,
     "amount_cny": 78455.0,
-    "why": "swap 513100 → 159513 (r1466 verdict WINDOW_ALWAYS_OPEN), sized on the trimmed 355 lots"
+    "why": "swap 513100 → 159513 (r1466 verdict ACT_ON_ANY_BAR), sized on the trimmed 355 lots"
    },
    {
     "side": "BUY",
@@ -822,8 +823,8 @@
     "ordered_lots": 372,
     "trimmed_lots": 372,
     "share": 1.0,
-    "gain_published_cny": 5612.5,
-    "gain_on_trimmed_book_cny": 5612.5,
+    "gain_published_cny": 4088.5,
+    "gain_on_trimmed_book_cny": 4088.5,
     "overstated_cny": 0.0
    },
    {
@@ -832,8 +833,8 @@
     "ordered_lots": 355,
     "trimmed_lots": 355,
     "share": 1.0,
-    "gain_published_cny": 4149.3,
-    "gain_on_trimmed_book_cny": 4149.3,
+    "gain_published_cny": 2987.3,
+    "gain_on_trimmed_book_cny": 2987.3,
     "overstated_cny": 0.0
    }
   ],
@@ -1625,24 +1626,24 @@
      "symbol": "159513",
      "line_lots": 891,
      "line_shares": 89100,
-     "extra_shares": 5546.48,
+     "extra_shares": 4020.34,
      "legs": [
       {
        "from_leg": "159501",
-       "extra_shares": 3188.92,
-       "extra_lots": 31,
-       "extra_residue_shares": 88.92
+       "extra_shares": 2323.01,
+       "extra_lots": 23,
+       "extra_residue_shares": 23.01
       },
       {
        "from_leg": "513100",
-       "extra_shares": 2357.56,
-       "extra_lots": 23,
-       "extra_residue_shares": 57.56
+       "extra_shares": 1697.33,
+       "extra_lots": 16,
+       "extra_residue_shares": 97.33
       }
      ],
-     "extra_lots": 55,
-     "extra_residue_shares": 46.48,
-     "share_of_line": 0.06225,
+     "extra_lots": 40,
+     "extra_residue_shares": 20.34,
+     "share_of_line": 0.045122,
      "from_leg": "159501/513100",
      "label": "子集，不是第二笔持仓"
     }
@@ -1652,10 +1653,10 @@
     "lines": 1,
     "line_lots": 891,
     "line_shares": 89100,
-    "extra_shares": 5546.48,
-    "extra_lots": 55,
-    "residue_shares": 46.48,
-    "share_of_lines": 0.06225
+    "extra_shares": 4020.34,
+    "extra_lots": 40,
+    "residue_shares": 20.34,
+    "share_of_lines": 0.045122
    },
    "not_a_line": "这几份就在账本那一行里：不增行、不改手数、不进风险腿金额、也不进 NAV——它们是同一笔持仓的一个子集。",
    "caveats": [
@@ -1782,13 +1783,13 @@
     "exit_cost_cny": 125.59,
     "round_trip_cny": 251.18,
     "round_trip_pp": 0.32,
-    "today_gap_pp": 8.6708,
-    "share_of_today_gap": 0.0369,
-    "mean_gap_pp": 2.0621,
-    "share_of_mean_gap": 0.1552,
+    "today_gap_pp": 7.0845,
+    "share_of_today_gap": 0.0452,
+    "mean_gap_pp": 0.4758,
+    "share_of_mean_gap": 0.6726,
     "median_sessions": null,
     "toll_pp_per_session": null,
-    "verdict": "WINDOW_ALWAYS_OPEN"
+    "verdict": "ACT_ON_THIS_BAR"
    },
    {
     "symbol": "513100",
@@ -1803,13 +1804,13 @@
     "exit_cost_cny": 125.53,
     "round_trip_cny": 251.06,
     "round_trip_pp": 0.32,
-    "today_gap_pp": 6.2867,
-    "share_of_today_gap": 0.0509,
-    "mean_gap_pp": 2.211,
-    "share_of_mean_gap": 0.1447,
+    "today_gap_pp": 5.0906,
+    "share_of_today_gap": 0.0629,
+    "mean_gap_pp": 1.0149,
+    "share_of_mean_gap": 0.3153,
     "median_sessions": 21.0,
     "toll_pp_per_session": 0.015238,
-    "verdict": "WINDOW_ALWAYS_OPEN"
+    "verdict": "ACT_ON_ANY_BAR"
    }
   ],
   "totals": {
@@ -1818,7 +1819,7 @@
    "exit_cost_cny": 251.12,
    "round_trip_cny": 502.24
   },
-  "sentence": "这次换票已经付了 ¥251 的过路费（每一对卖出+买入各 8bp），如果下一个决策 bar 换回来，同样的钱还要再付一遍 ¥251——往返合计 ¥502 = 0.32pp；占今天价差 3.7%/5.1%、占各自平均价差 15.5%/14.5%。",
+  "sentence": "这次换票已经付了 ¥251 的过路费（每一对卖出+买入各 8bp），如果下一个决策 bar 换回来，同样的钱还要再付一遍 ¥251——往返合计 ¥502 = 0.32pp；占今天价差 4.5%/6.3%、占各自平均价差 67.3%/31.5%。",
   "refused": null,
   "sources": {
    "swap_stack": "results/etf_book_swap_stack.json",
@@ -1874,13 +1875,13 @@
     "exit_cny": 125.59,
     "trip_cny": 251.17,
     "why": "",
-    "share_at_entry_pp": 0.9208,
-    "share_at_trip_pp": 0.9044,
-    "published_share_at_0_16": 0.9208,
+    "share_at_entry_pp": 0.4692,
+    "share_at_trip_pp": 0.4138,
+    "published_share_at_0_16": 0.4692,
     "published_share_matches": true,
     "structural_share": 0.8,
-    "standing_at_entry_scope": true,
-    "standing_at_trip_scope": true,
+    "standing_at_entry_scope": false,
+    "standing_at_trip_scope": false,
     "verdict_flips_with_scope": false,
     "path_gain_pp": -0.1505,
     "net_round_trip_pp": -0.4705,
@@ -1900,13 +1901,13 @@
     "exit_cny": 125.53,
     "trip_cny": 251.06,
     "why": "",
-    "share_at_entry_pp": 0.9208,
-    "share_at_trip_pp": 0.9006,
-    "published_share_at_0_16": 0.9208,
+    "share_at_entry_pp": 0.7572,
+    "share_at_trip_pp": 0.7044,
+    "published_share_at_0_16": 0.7572,
     "published_share_matches": true,
     "structural_share": 0.8,
-    "standing_at_entry_scope": true,
-    "standing_at_trip_scope": true,
+    "standing_at_entry_scope": false,
+    "standing_at_trip_scope": false,
     "verdict_flips_with_scope": false,
     "path_gain_pp": 0.0935,
     "net_round_trip_pp": -0.2265,
@@ -1978,8 +1979,8 @@
    {
     "leg_symbol": "159501",
     "sibling_symbol": "159513",
-    "gap_today_pp": 8.6708,
-    "mean_gap_pp": 2.0621,
+    "gap_today_pp": 7.0845,
+    "mean_gap_pp": 0.4758,
     "notional_cny": 78492.0,
     "cohorts": {
      "tail": {
@@ -2069,8 +2070,8 @@
    {
     "leg_symbol": "513100",
     "sibling_symbol": "159513",
-    "gap_today_pp": 6.2867,
-    "mean_gap_pp": 2.211,
+    "gap_today_pp": 5.0906,
+    "mean_gap_pp": 1.0149,
     "notional_cny": 78455.0,
     "cohorts": {
      "tail": {
@@ -2205,8 +2206,8 @@
     "leg_symbol": "159501",
     "sibling_symbol": "159513",
     "notional_cny": 78492.0,
-    "level_cny": 5612.5,
-    "narrowing_needed_pp": 7.15,
+    "level_cny": 4088.5,
+    "narrowing_needed_pp": 5.21,
     "path_pp": -0.4705,
     "path_cny": -369.3,
     "median_delta_pp": 0.1505,
@@ -2220,8 +2221,8 @@
     "leg_symbol": "513100",
     "sibling_symbol": "159513",
     "notional_cny": 78455.0,
-    "level_cny": 4149.3,
-    "narrowing_needed_pp": 5.29,
+    "level_cny": 2987.3,
+    "narrowing_needed_pp": 3.81,
     "path_pp": -0.2265,
     "path_cny": -177.7,
     "median_delta_pp": -0.0935,
@@ -2234,13 +2235,13 @@
   ],
   "unpaired": [],
   "totals": {
-   "level_cny": 9761.8,
+   "level_cny": 7075.8,
    "path_cny": -547.0,
    "combined_cny": null,
    "priced_legs": 2,
    "why_not_added": "水平效应是「折扣有多宽」，路径效应是「折扣有没有被收回」——同一根价差的两种读法；相加＝把折扣算两遍，相减＝拿大小比频率。本面故意不提供合计值。"
   },
-  "sentence": "这两个数不能相加：进价差赚的 ¥9,762 是「同一笔钱在今天这根 bar 上多买到的份额」，而 20 个交易日后的价差是量出来的——前者量折扣有多宽，后者量折扣有没有被收回，同一根价差的两种读法，加起来就是把折扣算两遍。159501 折扣 ¥5,612（要兑现得收窄 7.15 pp），20 个交易日后价差中位 +0.15pp、扣四边净 -0.47pp（-¥369）；513100 折扣 ¥4,149（要兑现得收窄 5.29 pp），20 个交易日后价差中位 -0.09pp、扣四边净 -0.23pp（-¥178）。可比历史里真正越过四边成本的比例：159501 27%、513100 42%；合计路径 -¥547（不是加在折扣上，是折扣的兑现率）。",
+  "sentence": "这两个数不能相加：进价差赚的 ¥7,076 是「同一笔钱在今天这根 bar 上多买到的份额」，而 20 个交易日后的价差是量出来的——前者量折扣有多宽，后者量折扣有没有被收回，同一根价差的两种读法，加起来就是把折扣算两遍。159501 折扣 ¥4,088（要兑现得收窄 5.21 pp），20 个交易日后价差中位 +0.15pp、扣四边净 -0.47pp（-¥369）；513100 折扣 ¥2,987（要兑现得收窄 3.81 pp），20 个交易日后价差中位 -0.09pp、扣四边净 -0.23pp（-¥178）。可比历史里真正越过四边成本的比例：159501 27%、513100 42%；合计路径 -¥547（不是加在折扣上，是折扣的兑现率）。",
   "sum_refused": "水平效应是「折扣有多宽」，路径效应是「折扣有没有被收回」——同一根价差的两种读法；相加＝把折扣算两遍，相减＝拿大小比频率。本面故意不提供合计值。",
   "refused": null,
   "reference_horizon": 20,
@@ -2267,12 +2268,12 @@
     "cash_cny": 78492.0,
     "trade_price": 1.76,
     "shares_bought": 44597.73,
-    "level_cny": 5612.5,
-    "extra_shares": 3188.92,
-    "extra_lots": 31,
-    "extra_residue_shares": 88.92,
-    "residue_value_cny": 156.5,
-    "share_of_bought": 0.071504,
+    "level_cny": 4088.5,
+    "extra_shares": 2323.01,
+    "extra_lots": 23,
+    "extra_residue_shares": 23.01,
+    "residue_value_cny": 40.5,
+    "share_of_bought": 0.052088,
     "same_trade": true,
     "why": ""
    },
@@ -2282,25 +2283,25 @@
     "cash_cny": 78455.0,
     "trade_price": 1.76,
     "shares_bought": 44576.7,
-    "level_cny": 4149.3,
-    "extra_shares": 2357.56,
-    "extra_lots": 23,
-    "extra_residue_shares": 57.56,
-    "residue_value_cny": 101.31,
-    "share_of_bought": 0.052888,
+    "level_cny": 2987.3,
+    "extra_shares": 1697.33,
+    "extra_lots": 16,
+    "extra_residue_shares": 97.33,
+    "residue_value_cny": 171.3,
+    "share_of_bought": 0.038077,
     "same_trade": true,
     "why": ""
    }
   ],
   "unpaired": [],
   "totals": {
-   "level_cny": 9761.8,
-   "extra_shares": 5546.48,
-   "extra_lots": 55,
-   "residue_shares": 46.48,
-   "residue_value_cny": 81.8,
+   "level_cny": 7075.8,
+   "extra_shares": 4020.34,
+   "extra_lots": 40,
+   "residue_shares": 20.34,
+   "residue_value_cny": 35.8,
    "cash_cny": 156947.0,
-   "share_error_bound_shares": 27.73,
+   "share_error_bound_shares": 20.1,
    "combined_cny": null,
    "priced_legs": 2
   },
@@ -2314,7 +2315,7 @@
    "bought_shares": 89100,
    "bought_lots": 891,
    "extra_inside_holding": true,
-   "share_of_holding": 0.06225
+   "share_of_holding": 0.045122
   },
   "remark": {
    "trade_bar": "2026-11-10",
@@ -2334,7 +2335,7 @@
    "grid_source": "import",
    "why": ""
   },
-  "sentence": "折扣是份数不是钱：159501 换出的 ¥78,492.00 在 159513 的 ¥1.76 上多买到 3,188.92 份（31 手 + 88.92 份零头）；513100 换出的 ¥78,455.00 在 159513 的 ¥1.76 上多买到 2,357.56 份（23 手 + 57.56 份零头），合计 **5,546.48 份 = 55 手 + 46.48 份**（误差上限 ±27.73 份 = 换入票溢价材料线 0.5 pp）。这 5,546.48 份就在账本那笔 159513 手里（891 手 = 89,100 份，占 6.22%），是它的一个子集、不是第二笔持仓；下一根 bar 还没产生（日历上的下一交易日 2026-11-11），届时用**同一份数**乘当日价重估；在交易日这根上「份数×当日价」恒等于折扣本身，印出来只是恒等式。下一个决策 bar（每 20 根）读作 2026-12-08。",
+  "sentence": "折扣是份数不是钱：159501 换出的 ¥78,492.00 在 159513 的 ¥1.76 上多买到 2,323.01 份（23 手 + 23.01 份零头）；513100 换出的 ¥78,455.00 在 159513 的 ¥1.76 上多买到 1,697.33 份（16 手 + 97.33 份零头），合计 **4,020.34 份 = 40 手 + 20.34 份**（误差上限 ±20.10 份 = 换入票溢价材料线 0.5 pp）。这 4,020.34 份就在账本那笔 159513 手里（891 手 = 89,100 份，占 4.51%），是它的一个子集、不是第二笔持仓；下一根 bar 还没产生（日历上的下一交易日 2026-11-11），届时用**同一份数**乘当日价重估；在交易日这根上「份数×当日价」恒等于折扣本身，印出来只是恒等式。下一个决策 bar（每 20 根）读作 2026-12-08。",
   "lot_shares": 100,
   "realised_booked_cny": null,
   "not_realised": "折扣是「同一笔钱多买到多少份」，不是卖掉的那部分收入的差——它只有在这些份被卖出、且价差已经收窄时才变成现金；在那之前把它记成已实现收益，等于把份额当成钱。",
@@ -2362,7 +2363,7 @@
     "accrual.rows",
     "ledger_row.actions"
    ],
-   "level_total_cny": 9761.8
+   "level_total_cny": 7075.8
   }
  },
  "swap_track": {
@@ -2374,7 +2375,7 @@
    {
     "leg_symbol": "159501",
     "sibling_symbol": "159513",
-    "gap_today_pp": 8.6708,
+    "gap_today_pp": 7.0845,
     "sessions": 794,
     "notional_cny": 78492.0,
     "mean_daily_pp": 0.012469,
@@ -2397,7 +2398,7 @@
    {
     "leg_symbol": "513100",
     "sibling_symbol": "159513",
-    "gap_today_pp": 6.2867,
+    "gap_today_pp": 5.0906,
     "sessions": 794,
     "notional_cny": 78455.0,
     "mean_daily_pp": 0.011571,
@@ -2479,8 +2480,8 @@
    "an unmeasurable leg is refused with a reason, never scored as zero drift and never scored as zero noise (r1230 family)",
    "the concentration block prices the DIFFERENCE between one fund and two; it says nothing about either fund's tracking against its index, which needs NAV"
   ],
-  "anchor_session": "2026-11-06",
-  "anchor_behind_bar": true,
+  "anchor_session": "2026-11-10",
+  "anchor_behind_bar": false,
   "totals": {
    "measured_legs": 2,
    "sessions_min": 794,
@@ -2510,15 +2511,15 @@
    "vol": 0.0888
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1186,
-    "card_width_cagr": 0.1223,
-    "pp": 0.37
-   },
    "beta": {
     "ticket_width_cagr": 0.1109,
     "card_width_cagr": 0.0963,
     "pp": -1.46
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1186,
+    "card_width_cagr": 0.1223,
+    "pp": 0.37
    }
   },
   "rules_differ": true,

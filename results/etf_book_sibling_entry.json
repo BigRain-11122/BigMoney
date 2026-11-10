@@ -1,7 +1,7 @@
 {
  "artifact": "etf_book_sibling_entry",
- "session": "2026-11-06",
- "ticket": "TICKET-2026-11-06.json",
+ "session": "2026-11-10",
+ "ticket": "TICKET-2026-11-10.json",
  "criteria": {
   "liq_floor_cny": 20000000.0,
   "material_gap_pp": 0.5,
@@ -11,46 +11,46 @@
   "legs": [
    {
     "symbol": "159501",
-    "amount_cny": 91863.6,
-    "premium_pct": 23.6405,
+    "amount_cny": 78492.0,
+    "premium_pct": 20.2896,
     "label": "纳指ETF",
     "index": "NDX100",
     "sibling_count": 12,
     "cheapest": {
      "code": "159513",
      "name": "纳斯达克100ETF大成",
-     "premium_pct": 14.9697,
-     "amount_cny": 404332609.0
+     "premium_pct": 13.2051,
+     "amount_cny": 299499419.0
     },
-    "gap_pp": 8.6708,
-    "basket_gain_cny": 5612.5,
-    "family_floor_pct": 14.9697,
+    "gap_pp": 7.0845,
+    "basket_gain_cny": 4088.5,
+    "family_floor_pct": 13.2051,
     "verdict": "SWAP_SAVES",
     "why": ""
    },
    {
     "symbol": "513100",
-    "amount_cny": 91930.8,
-    "premium_pct": 21.2564,
+    "amount_cny": 78455.0,
+    "premium_pct": 18.2957,
     "label": "纳指ETF",
     "index": "NDX100",
     "sibling_count": 12,
     "cheapest": {
      "code": "159513",
      "name": "纳斯达克100ETF大成",
-     "premium_pct": 14.9697,
-     "amount_cny": 404332609.0
+     "premium_pct": 13.2051,
+     "amount_cny": 299499419.0
     },
-    "gap_pp": 6.2867,
-    "basket_gain_cny": 4149.3,
-    "family_floor_pct": 14.9697,
+    "gap_pp": 5.0906,
+    "basket_gain_cny": 2987.3,
+    "family_floor_pct": 13.2051,
     "verdict": "SWAP_SAVES",
     "why": ""
    },
    {
     "symbol": "513690",
-    "amount_cny": 91945.2,
-    "premium_pct": 0.0778,
+    "amount_cny": 78532.0,
+    "premium_pct": 0.1208,
     "label": "港股红利ETF",
     "index": null,
     "sibling_count": 0,
@@ -63,27 +63,27 @@
    },
    {
     "symbol": "159577",
-    "amount_cny": 92045.2,
-    "premium_pct": 9.6673,
+    "amount_cny": 78470.7,
+    "premium_pct": 9.4833,
     "label": "美国50ETF",
     "index": "US50",
     "sibling_count": 2,
     "cheapest": {
      "code": "513850",
      "name": "美国50ETF易方达",
-     "premium_pct": 9.477,
-     "amount_cny": 307608856.0
+     "premium_pct": 9.6174,
+     "amount_cny": 119067205.0
     },
-    "gap_pp": 0.1903,
-    "basket_gain_cny": 145.8,
-    "family_floor_pct": 9.477,
-    "verdict": "GAP_IMMATERIAL",
-    "why": "0.19pp below the 0.50pp materiality line"
+    "gap_pp": -0.1342,
+    "basket_gain_cny": 0.0,
+    "family_floor_pct": 9.4833,
+    "verdict": "ALREADY_CHEAPEST",
+    "why": "this leg already is the cheapest live member of its label"
    },
    {
     "symbol": "159263",
-    "amount_cny": 92011.5,
-    "premium_pct": -0.1834,
+    "amount_cny": 78586.2,
+    "premium_pct": -0.1409,
     "label": "价值ETF",
     "index": null,
     "sibling_count": 0,
@@ -95,15 +95,15 @@
     "why": "label 价值ETF names no other live ticker on this board (no sibling group)"
    }
   ],
-  "planned_amount_cny": 459796.3,
+  "planned_amount_cny": 392535.9,
   "swappable_legs": 2,
   "unverifiable_legs": 2,
-  "basket_gain_cny": 9761.9,
-  "immaterial_gain_cny": 145.8,
-  "all_priced_gain_cny": 9907.7,
-  "gain_share_of_order_pct": 2.123
+  "basket_gain_cny": 7075.8,
+  "immaterial_gain_cny": 0,
+  "all_priced_gain_cny": 7075.8,
+  "gain_share_of_order_pct": 1.803
  },
- "sentence": "same cash, same index, other ticker: 9,762 CNY more basket (2.123% of the 459,796 ordered) from 2 of 5 legs",
+ "sentence": "same cash, same index, other ticker: 7,076 CNY more basket (1.803% of the 392,536 ordered) from 2 of 5 legs",
  "families": [
   {
    "index": "NDX100",
@@ -112,48 +112,48 @@
    "cheapest": {
     "code": "159513",
     "name": "纳斯达克100ETF大成",
-    "premium_pct": 14.9697
+    "premium_pct": 13.2051
    },
    "dearest": {
     "code": "159501",
     "name": "纳指ETF嘉实",
-    "premium_pct": 23.6405
+    "premium_pct": 20.2896
    },
-   "min_pct": 14.9697,
+   "min_pct": 13.2051,
    "members_at_a_discount": 0,
-   "spread_pp": 8.6708
+   "spread_pp": 7.0845
   },
   {
    "index": "US50",
    "members": 2,
    "live_members": 2,
    "cheapest": {
-    "code": "513850",
-    "name": "美国50ETF易方达",
-    "premium_pct": 9.477
-   },
-   "dearest": {
     "code": "159577",
     "name": "美国50ETF汇添富",
-    "premium_pct": 9.6673
+    "premium_pct": 9.4833
    },
-   "min_pct": 9.477,
+   "dearest": {
+    "code": "513850",
+    "name": "美国50ETF易方达",
+    "premium_pct": 9.6174
+   },
+   "min_pct": 9.4833,
    "members_at_a_discount": 0,
-   "spread_pp": 0.1903
+   "spread_pp": 0.1342
   }
  ],
  "labels_in_board": 14,
  "unresolved_labels": {
   "A500ETF": 20,
   "沪深300ETF": 18,
-  "证券ETF": 17,
   "机器人ETF": 17,
-  "电力ETF": 16,
+  "证券ETF": 17,
+  "科创综指ETF": 16,
   "中证500ETF": 16,
   "电池ETF": 16,
-  "科创综指ETF": 16,
-  "光伏ETF": 15,
-  "工程机械ETF": 15
+  "电力ETF": 16,
+  "科创50ETF": 15,
+  "光伏ETF": 15
  },
  "unresolved_names": 1652,
  "dead_label_phrases": [],

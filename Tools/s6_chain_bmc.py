@@ -974,6 +974,18 @@ LEGS = [
     # re-derives every published rate/Cny/total from the two faces and refuses drift (0.1s).
     ("premium_session_delta",
      ["python", "scripts/etf_premium_session_delta.py", "check"]),
+    # r1530: the ten faces below carry `check` legs only, and a check can prove a face is
+    # self-consistent with the world it was built in -- never that the world moved on. The
+    # entry, the gap history and the trigger therefore sat on the 2026-11-06 close while the
+    # sheet printed "today the spread is +8.67pp", for four sessions (r1345 wrote the trap
+    # down for three other legs: a gate permanently red on inherited state). This leg names
+    # each face's producer and the bar the OFFICIAL calendar says it must be on, so it says
+    # STALE (a refresh buys it) rather than INCONSISTENT (a refresh would hide a bug), and its
+    # declared refresh pays the producers in dependency order -- one heal point for the section
+    # (~0.1s fresh, and nothing is re-derived when everything is on the bar).
+    ("swap_freshness",
+     ["python", "scripts/etf_book_swap_freshness.py", "check"],
+     ["python", "scripts/etf_book_swap_freshness.py", "run"]),
     # r1464: premium_leak priced WHAT the ticket pays above the basket but could not answer
     # "is 23% high?" (one observation of history). The answerable question is relative: the
     # same basket is sold under several tickers on the same board. `check` re-reads the board

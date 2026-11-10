@@ -1,7 +1,7 @@
 {
  "artifact": "etf_book_swap_trigger",
- "session": "2026-11-06",
- "ticket": "TICKET-2026-11-06.json",
+ "session": "2026-11-10",
+ "ticket": "TICKET-2026-11-10.json",
  "source_face": "results/etf_book_sibling_gap.json",
  "criteria": {
   "episode_share": 0.5,
@@ -18,11 +18,11 @@
    "sibling_name": "纳斯达克100ETF大成",
    "index": "NDX100",
    "source_verdict": "SWAP_SAVES",
-   "today_gap_pp": 8.6708,
-   "mean_gap_pp": 2.0621,
+   "today_gap_pp": 7.0845,
+   "mean_gap_pp": 0.4758,
    "toll_pp": 0.16,
    "today_excess_pp": 6.6087,
-   "window_share": 0.9208,
+   "window_share": 0.4692,
    "percentile": 98.36,
    "expiry": {
     "n_episodes": 1,
@@ -33,10 +33,10 @@
     "p75_sessions": null,
     "max_sessions": null
    },
-   "repeatable_gain_cny": 1407.9,
-   "one_off_gain_cny": 4204.6,
-   "verdict": "WINDOW_ALWAYS_OPEN",
-   "advice": "the pair trades wider than the round-trip toll on almost every session: this is a standing condition, so the swap is a permanent re-tickering and there is nothing to watch between decision bars",
+   "repeatable_gain_cny": 290.2,
+   "one_off_gain_cny": 3798.3,
+   "verdict": "ACT_ON_THIS_BAR",
+   "advice": "this episode is a tail of the pair's own history and either heals inside one rebalancing grid or was never healed inside the panel -- the one-off part does not wait for the next decision bar",
    "why": ""
   },
   {
@@ -45,11 +45,11 @@
    "sibling_name": "纳斯达克100ETF大成",
    "index": "NDX100",
    "source_verdict": "SWAP_SAVES",
-   "today_gap_pp": 6.2867,
-   "mean_gap_pp": 2.211,
+   "today_gap_pp": 5.0906,
+   "mean_gap_pp": 1.0149,
    "toll_pp": 0.16,
    "today_excess_pp": 4.0757,
-   "window_share": 0.9208,
+   "window_share": 0.7572,
    "percentile": 97.99,
    "expiry": {
     "n_episodes": 3,
@@ -60,10 +60,10 @@
     "p75_sessions": 28.0,
     "max_sessions": 28.0
    },
-   "repeatable_gain_cny": 1508.7,
-   "one_off_gain_cny": 2640.6,
-   "verdict": "WINDOW_ALWAYS_OPEN",
-   "advice": "the pair trades wider than the round-trip toll on almost every session: this is a standing condition, so the swap is a permanent re-tickering and there is nothing to watch between decision bars",
+   "repeatable_gain_cny": 615.8,
+   "one_off_gain_cny": 2371.5,
+   "verdict": "ACT_ON_ANY_BAR",
+   "advice": "the gap clears the round-trip toll but is not a perishable tail -- any bar inside the next grid may be used without paying for the delay",
    "why": ""
   },
   {
@@ -71,12 +71,12 @@
    "sibling_symbol": "513850",
    "sibling_name": "美国50ETF易方达",
    "index": "US50",
-   "source_verdict": "GAP_IMMATERIAL",
-   "today_gap_pp": 0.1903,
-   "mean_gap_pp": 0.1787,
+   "source_verdict": "ALREADY_CHEAPEST",
+   "today_gap_pp": -0.1342,
+   "mean_gap_pp": -0.1458,
    "toll_pp": 0.16,
    "today_excess_pp": 0.0116,
-   "window_share": 0.6991,
+   "window_share": 0.3085,
    "percentile": 32.98,
    "expiry": {
     "n_episodes": 49,
@@ -95,12 +95,13 @@
   }
  ],
  "verdict_counts": {
-  "WINDOW_ALWAYS_OPEN": 2,
+  "ACT_ON_THIS_BAR": 1,
+  "ACT_ON_ANY_BAR": 1,
   "NOT_ACTIONABLE": 1
  },
- "repeatable_gain_cny": 2916.6,
- "one_off_gain_cny": 6845.2,
- "recheck_rule": "any bar inside the grid works: the gap is not a perishable tail (one-off part 6,845 CNY). After execution the only number that can bring the decision back is the round-trip toll: re-read this face on the next decision bar, and act again only if a pair's gap exceeds 0.16 pp (2 x 8 bp per side).",
+ "repeatable_gain_cny": 906.0,
+ "one_off_gain_cny": 6169.8,
+ "recheck_rule": "act on this bar: the one-off part of 6,170 CNY is unmeasured -- no comparable episode in the panel ever healed, so nothing here says the window waits. After execution the only number that can bring the decision back is the round-trip toll: re-read this face on the next decision bar, and act again only if a pair's gap exceeds 0.16 pp (2 x 8 bp per side).",
  "caveats": [
   "the trigger is priced in pp of notional and compared against the round-trip cost only; it does not price tracking difference, fee, size or FX-hedge policy between the two tickers",
   "episode lengths are measured on the reconstructed gap, which inherits the single IOPV anchor of the gap face; censored episodes are reported, never scored as zero",

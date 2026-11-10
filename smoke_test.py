@@ -1055,6 +1055,17 @@ def main() -> int:
              "scripts/etf_book_swap_units.py", ["selftest"]),
             ("product: etf_book_swap_units (published face re-derives from level/price)",
              "scripts/etf_book_swap_units.py", ["check"]),
+            # r1530: ten faces feed the sheet's swap section and three of them had no producer
+            # in the chain, so they sat four sessions behind while the page said "today". This
+            # leg prices the mechanism (stale buys a refresh, inconsistent does not) and then
+            # asks the published section the question the page cannot ask itself: is every one
+            # of those faces on the bar the official calendar says it must be on? Between a
+            # close and the next chain pass the second leg is red on purpose -- the chain's
+            # swap_freshness leg heals it in the same pass that advances the panel.
+            ("product: swap section freshness (stale pays a producer, inconsistent never does)",
+             "scripts/etf_book_swap_freshness.py", ["selftest"]),
+            ("product: swap section freshness (every face on the calendar's close)",
+             "scripts/etf_book_swap_freshness.py", ["check"]),
             # r1528: the share count lives INSIDE one line of the ledger (1,591,513 x 891 lots),
             # and nothing said so. This leg pins the subset block: two legs on one line add up
             # inside it without counting the line twice, the lot is taken on the combined count

@@ -16,7 +16,7 @@
     "extra_inside_holding": true,
     "lots": 891,
     "price": 1.76,
-    "share_of_holding": 0.06225,
+    "share_of_holding": 0.045122,
     "shares": 89100,
     "sibling": "159513"
   },
@@ -40,7 +40,7 @@
       "ledger_row.actions"
     ],
     "found": false,
-    "level_total_cny": 9761.8,
+    "level_total_cny": 7075.8,
     "where": null
   },
   "remark": {
@@ -58,14 +58,14 @@
   "rows": [
     {
       "cash_cny": 78492.0,
-      "extra_lots": 31,
-      "extra_residue_shares": 88.92,
-      "extra_shares": 3188.92,
+      "extra_lots": 23,
+      "extra_residue_shares": 23.01,
+      "extra_shares": 2323.01,
       "leg_symbol": "159501",
-      "level_cny": 5612.5,
-      "residue_value_cny": 156.5,
+      "level_cny": 4088.5,
+      "residue_value_cny": 40.5,
       "same_trade": true,
-      "share_of_bought": 0.071504,
+      "share_of_bought": 0.052088,
       "shares_bought": 44597.73,
       "sibling_symbol": "159513",
       "trade_price": 1.76,
@@ -73,21 +73,21 @@
     },
     {
       "cash_cny": 78455.0,
-      "extra_lots": 23,
-      "extra_residue_shares": 57.56,
-      "extra_shares": 2357.56,
+      "extra_lots": 16,
+      "extra_residue_shares": 97.33,
+      "extra_shares": 1697.33,
       "leg_symbol": "513100",
-      "level_cny": 4149.3,
-      "residue_value_cny": 101.31,
+      "level_cny": 2987.3,
+      "residue_value_cny": 171.3,
       "same_trade": true,
-      "share_of_bought": 0.052888,
+      "share_of_bought": 0.038077,
       "shares_bought": 44576.7,
       "sibling_symbol": "159513",
       "trade_price": 1.76,
       "why": ""
     }
   ],
-  "sentence": "折扣是份数不是钱：159501 换出的 ¥78,492.00 在 159513 的 ¥1.76 上多买到 3,188.92 份（31 手 + 88.92 份零头）；513100 换出的 ¥78,455.00 在 159513 的 ¥1.76 上多买到 2,357.56 份（23 手 + 57.56 份零头），合计 **5,546.48 份 = 55 手 + 46.48 份**（误差上限 ±27.73 份 = 换入票溢价材料线 0.5 pp）。这 5,546.48 份就在账本那笔 159513 手里（891 手 = 89,100 份，占 6.22%），是它的一个子集、不是第二笔持仓；下一根 bar 还没产生（日历上的下一交易日 2026-11-11），届时用**同一份数**乘当日价重估；在交易日这根上「份数×当日价」恒等于折扣本身，印出来只是恒等式。下一个决策 bar（每 20 根）读作 2026-12-08。",
+  "sentence": "折扣是份数不是钱：159501 换出的 ¥78,492.00 在 159513 的 ¥1.76 上多买到 2,323.01 份（23 手 + 23.01 份零头）；513100 换出的 ¥78,455.00 在 159513 的 ¥1.76 上多买到 1,697.33 份（16 手 + 97.33 份零头），合计 **4,020.34 份 = 40 手 + 20.34 份**（误差上限 ±20.10 份 = 换入票溢价材料线 0.5 pp）。这 4,020.34 份就在账本那笔 159513 手里（891 手 = 89,100 份，占 4.51%），是它的一个子集、不是第二笔持仓；下一根 bar 还没产生（日历上的下一交易日 2026-11-11），届时用**同一份数**乘当日价重估；在交易日这根上「份数×当日价」恒等于折扣本身，印出来只是恒等式。下一个决策 bar（每 20 根）读作 2026-12-08。",
   "sources": {
     "calendar": "data/exchange_calendar.csv",
     "positions": "results/etf_book_positions.json",
@@ -97,13 +97,13 @@
   "totals": {
     "cash_cny": 156947.0,
     "combined_cny": null,
-    "extra_lots": 55,
-    "extra_shares": 5546.48,
-    "level_cny": 9761.8,
+    "extra_lots": 40,
+    "extra_shares": 4020.34,
+    "level_cny": 7075.8,
     "priced_legs": 2,
-    "residue_shares": 46.48,
-    "residue_value_cny": 81.8,
-    "share_error_bound_shares": 27.73
+    "residue_shares": 20.34,
+    "residue_value_cny": 35.8,
+    "share_error_bound_shares": 20.1
   },
   "unpaired": [],
   "verdict": "SIZE_RECORDED"

@@ -1,7 +1,7 @@
 {
  "artifact": "etf_book_sibling_gap",
- "session": "2026-11-06",
- "ticket": "TICKET-2026-11-06.json",
+ "session": "2026-11-10",
+ "ticket": "TICKET-2026-11-10.json",
  "source_face": "results\\etf_book_sibling_entry.json",
  "criteria": {
   "min_days": 120,
@@ -15,38 +15,38 @@
    "sibling_symbol": "159513",
    "sibling_name": "纳斯达克100ETF大成",
    "index": "NDX100",
-   "amount_cny": 91863.6,
+   "amount_cny": 78492.0,
    "source_verdict": "SWAP_SAVES",
-   "today_gain_cny": 5612.5,
-   "gap_today_pp": 8.6708,
+   "today_gain_cny": 4088.5,
+   "gap_today_pp": 7.0845,
    "daily_files": [
     "data\\daily\\sz159501.csv",
     "data\\daily\\sz159513.csv"
    ],
-   "verdict": "PERSISTENT_GAP",
+   "verdict": "EPISODIC_GAP",
    "why": "",
    "stats": {
     "days": 795,
     "first_date": "2023-07-28",
     "last_date": "2026-11-10",
-    "today_gap_pp": 8.6708,
-    "mean_pp": 2.0621,
-    "median_pp": 1.6826,
+    "today_gap_pp": 7.0845,
+    "mean_pp": 0.4758,
+    "median_pp": 0.0963,
     "sd_pp": 1.9819,
-    "min_pp": -2.4622,
-    "max_pp": 9.8834,
-    "share_days_positive": 0.9308,
+    "min_pp": -4.0485,
+    "max_pp": 8.2971,
+    "share_days_positive": 0.5384,
     "today_percentile": 98.36,
     "today_z": 3.335,
-    "last_year_mean_pp": 4.2201,
+    "last_year_mean_pp": 2.6338,
     "half_split_mean_pp": [
-     0.9208,
-     3.2005
+     -0.6655,
+     1.6142
     ],
-    "nav_base_offset_pp": 9.4666
+    "nav_base_offset_pp": 11.0529
    },
-   "repeatable_gain_cny": 1407.9,
-   "one_off_gain_cny": 4204.6,
+   "repeatable_gain_cny": 290.2,
+   "one_off_gain_cny": 3798.3,
    "steps": [
     {
      "date": "2024-07-09",
@@ -106,20 +106,20 @@
     }
    ],
    "flags": {
-    "mean_clears_materiality": true,
+    "mean_clears_materiality": false,
     "today_is_tail": true
    },
-   "advice": "the dearer ticker has been dearer on 93% of 795 sessions and the average gap is 2.0621 pp: re-tickering the book is a permanent fix, not a daily decision -- but today's 8.6708 pp is the 98.36-th percentile of that history, so only the average repeats and today's excess is an episode"
+   "advice": "today's 7.0845 pp sits at the 98.36 percentile of 795 sessions whose average is 0.4758 pp: swap for today and re-rank the sheet next session -- most of this saving is a one-off, not a rate"
   },
   {
    "leg_symbol": "513100",
    "sibling_symbol": "159513",
    "sibling_name": "纳斯达克100ETF大成",
    "index": "NDX100",
-   "amount_cny": 91930.8,
+   "amount_cny": 78455.0,
    "source_verdict": "SWAP_SAVES",
-   "today_gain_cny": 4149.3,
-   "gap_today_pp": 6.2867,
+   "today_gain_cny": 2987.3,
+   "gap_today_pp": 5.0906,
    "daily_files": [
     "data\\daily\\sh513100.csv",
     "data\\daily\\sz159513.csv"
@@ -130,24 +130,24 @@
     "days": 795,
     "first_date": "2023-07-28",
     "last_date": "2026-11-10",
-    "today_gap_pp": 6.2867,
-    "mean_pp": 2.211,
-    "median_pp": 2.2094,
+    "today_gap_pp": 5.0906,
+    "mean_pp": 1.0149,
+    "median_pp": 1.0133,
     "sd_pp": 1.7344,
-    "min_pp": -2.9237,
-    "max_pp": 8.7789,
-    "share_days_positive": 0.9358,
+    "min_pp": -4.1198,
+    "max_pp": 7.5828,
+    "share_days_positive": 0.8164,
     "today_percentile": 97.99,
     "today_z": 2.35,
-    "last_year_mean_pp": 3.7747,
+    "last_year_mean_pp": 2.5786,
     "half_split_mean_pp": [
-     1.2733,
-     3.1463
+     0.0772,
+     1.9502
     ],
-    "nav_base_offset_pp": 16.4812
+    "nav_base_offset_pp": 17.6773
    },
-   "repeatable_gain_cny": 1508.7,
-   "one_off_gain_cny": 2640.6,
+   "repeatable_gain_cny": 615.8,
+   "one_off_gain_cny": 2371.5,
    "steps": [
     {
      "date": "2024-07-08",
@@ -194,17 +194,17 @@
     "mean_clears_materiality": true,
     "today_is_tail": true
    },
-   "advice": "the dearer ticker has been dearer on 94% of 795 sessions and the average gap is 2.211 pp: re-tickering the book is a permanent fix, not a daily decision -- but today's 6.2867 pp is the 97.99-th percentile of that history, so only the average repeats and today's excess is an episode"
+   "advice": "the dearer ticker has been dearer on 82% of 795 sessions and the average gap is 1.0149 pp: re-tickering the book is a permanent fix, not a daily decision -- but today's 5.0906 pp is the 97.99-th percentile of that history, so only the average repeats and today's excess is an episode"
   },
   {
    "leg_symbol": "159577",
    "sibling_symbol": "513850",
    "sibling_name": "美国50ETF易方达",
    "index": "US50",
-   "amount_cny": 92045.2,
-   "source_verdict": "GAP_IMMATERIAL",
-   "today_gain_cny": 145.8,
-   "gap_today_pp": 0.1903,
+   "amount_cny": 78470.7,
+   "source_verdict": "ALREADY_CHEAPEST",
+   "today_gain_cny": 0.0,
+   "gap_today_pp": -0.1342,
    "daily_files": [
     "data\\daily\\sz159577.csv",
     "data\\daily\\sh513850.csv"
@@ -215,21 +215,21 @@
     "days": 658,
     "first_date": "2024-02-23",
     "last_date": "2026-11-10",
-    "today_gap_pp": 0.1903,
-    "mean_pp": 0.1787,
-    "median_pp": 0.3581,
+    "today_gap_pp": -0.1342,
+    "mean_pp": -0.1458,
+    "median_pp": 0.0336,
     "sd_pp": 0.6465,
-    "min_pp": -3.2729,
-    "max_pp": 1.0924,
-    "share_days_positive": 0.804,
+    "min_pp": -3.5974,
+    "max_pp": 0.7679,
+    "share_days_positive": 0.5502,
     "today_percentile": 32.98,
     "today_z": 0.018,
-    "last_year_mean_pp": 0.3108,
+    "last_year_mean_pp": -0.0137,
     "half_split_mean_pp": [
-     0.0113,
-     0.3461
+     -0.3132,
+     0.0216
     ],
-    "nav_base_offset_pp": -11.1414
+    "nav_base_offset_pp": -10.8169
    },
    "repeatable_gain_cny": null,
    "one_off_gain_cny": null,
@@ -285,15 +285,16 @@
   }
  ],
  "verdict_counts": {
-  "PERSISTENT_GAP": 2,
+  "EPISODIC_GAP": 1,
+  "PERSISTENT_GAP": 1,
   "NO_GAP": 1,
   "CANNOT_VERIFY": 2
  },
- "today_gain_cny": 9761.8,
- "immaterial_gain_cny": 145.8,
- "repeatable_gain_cny": 2916.6,
- "one_off_gain_cny": 6845.2,
- "sentence": "today the swap is worth 9,762 CNY of which 2,917 is repeatable at the historical average gap and 6,845 is a one-off: 2 pair(s) persistent (the toll repeats)",
+ "today_gain_cny": 7075.8,
+ "immaterial_gain_cny": 0,
+ "repeatable_gain_cny": 906.0,
+ "one_off_gain_cny": 6169.8,
+ "sentence": "today the swap is worth 7,076 CNY of which 906 is repeatable at the historical average gap and 6,170 is a one-off: 1 pair(s) episodic (today's gap is a tail of its own history); 1 pair(s) persistent (the toll repeats)",
  "caveats": [
   "the reconstructed gap is anchored on ONE session's IOPV pair; every earlier value inherits the assumption that the two funds' NAV-per-unit ratio has not moved, and steps are published as the evidence against that assumption",
   "closes are as-traded, not total-return: a distribution to one fund only lands as a step and is flagged, not corrected",
