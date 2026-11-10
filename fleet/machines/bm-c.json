@@ -553,5 +553,6 @@
  "verdict": "green",
  "verify": "swap_freshness selftest 26/26 (+L24 injected run leaves the published face byte-identical / L25 explicit destination / L26 fixture refused); mutant of one assertion -> rc1, 25/26 (the counter can say no); etf_book_order --selftest 155/155; live_book_section_bars 15/15; repaired face verdict=FRESH 10/10; S6 2/2 rc0",
  "vram_free_gb": 14.8,
- "watermark_verdict": "insufficient_history"
+ "watermark_verdict": "insufficient_history",
+ "round_t1534_addendum": "| r1534b | ADDENDUM: commits e951dd1ffa + 56f79dfa96 on origin/main, 0 ahead / 0 behind, both new scripts present on origin. S0.5 second scan: orders 114/114 acked; group decisions blob sha256 2ffcc70c unchanged -> zero action. S7: loop pin=5 no-op (first fire 05:00); watchdog re-registered but the S4U flip is still refused (needs admin); both git claws in sync; attrition 4 ledgers CLEAN; orphan py_faces=8 orphans=0. Self-caught: the closeout script wrote vram_free_gb directly and the pre-commit GPU-face claw blocked it (gpu_free_vram_gb vs vram_free_gb differed by 102.4 MiB); the fix is Tools/gpu_face.py apply, one probe rewriting all 34 keys, audit 0. NOT verified: the full suite was still in flight (142 legs / 0 FAIL); S6 ran only the two legs this round touches (2/2 rc0), not the whole chain."
 }
