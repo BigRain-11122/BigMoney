@@ -1,28 +1,5 @@
 # Bigmoney 交接与成果收割指南（HANDOVER）
 
-## 5x 幂等快照 · r1235（2026-11-02 11:2x · bm-a）
-> 授权口径不变：逐轮权威=`round_reports-bm-a.md` 全行在册；本块只做「产物清单与完成状态」核对与指针，不复制轮报告正文。
-> 本块覆盖 r1231→r1235（上次刷新停在 r1230；r1231/1233/1234 三轮的产物在此补登，正文见对应轮行）。
-
-**本线产物（可核）**
-
-| 产物 | 状态 |
-|---|---|
-| `scripts/etf_book_universe_lock.py`（run ~58s / `--selftest` 19/19 / `--check` OK·MIXED_ACROSS_PHASES） | 已发布 + smoke 腿「verdict recomputed, control reproduced」 |
-| `results/etf_book_universe_lock.json`（控制臂复现 as coded 9.60% / declared 8.46% 各 0.00pp） | 已发布 |
-| `research/ETF_BOOK_UNIVERSE_LOCK.md` + `research/digests/DIGEST-20261102-r1235-universe-lock.md` | 已发布 |
-| `scripts/etf_book_ceo_page.py`（universe_lock_face/block，selftest 118→123，L120 钉「块要到达渲染后的页面」） | 已发布，页面节「2020 年能不能真的跑这本书？」 |
-| `knowledge/METHODOLOGY_ASSETS.md` card E350（同批还带入 E348/E349 上下文） | 已 append |
-| settled-tree 全量 smoke | **330/330 PASS 0 FAIL**（`.codely-cli/tmp/smoke-r1235.out`） |
-| r1234 `scripts/etf_book_pre2020_voltarget.py`（selftest 24/24）·`results/etf_book_pre2020_voltarget.json`·卡 E349 | 已发布（前 2020 段 5.12% 拆开＝80% 的时间在降仓，裸跑 0.73%/年） |
-| r1233 `etf_book_ceo_page.sample_window_face`（selftest 114→118）·卡？见 digest r1233 | 已发布（页面自述窗口 2020-01-01..2026-10-26；窗外 5.12%/0.70，alpha t=1.04） |
-| r1231 `etf_book_ceo_page.underwater_face`（selftest 111→114）·卡 E346 | 已发布（最长水下段 350 bar，最坏入场 351 bar） |
-
-**一句话**：这本书的 8.46% 长在今天的 1504 只基金上——12 个在手名字里 11 个是 2020 后才上市，37.5% 的决策位落在窗口内新上市的票上；
-把票池冻结在窗口第一天只让相位均值动 −0.01pp，**命门是票池宽度**（2014 年 61 只 → 5.35%，2019 年 193 只 → 7.96%，2022 年 663 只 → 8.98%）。
-
-**下一口**：锁定臂仍是**上界**（退市基金不在面板里＝幸存者偏差未定价）；规则层八问已问完（七不值一近失），样本层只剩这一个口子。
-
 ## 5x 核对增量 · r1255（2026-10-29 21:1x · bm-b）
 
 > 授权口径不变：逐轮权威=logs/iteration-loop/round_reports.md 全行在册；本块只做「产物清单与完成状态」的核对与指针，不复制轮报告正文。
@@ -730,23 +707,102 @@ Checklist status (r1316-r1320, the five rounds since the last bm-c checkpoint):
 交付状态：本机提交已推到 `machine/bm-b-r1265`（`de23c09eb` 产物 / `6ad6ab442` 收口 / `2a9cb8aa5` 回执 / `d1b061884` 回执校时 / 本轮 HANDOVER 提交），
 ls-remote == HEAD；**origin/main 未推**——领先 31 / 落后 40，promisor 懒取让 main 的 push/merge 连续十一轮挂死，
 且上游重写了同一批自动生成面（runnable_pool / machine-health / 状态孪生），rebase 属已付过两次代价（LEDGER 丢 33 行 / QC 清单丢 90 行）的覆盖风险，留给干净窗口处理。
-> bm-a round 1170 五倍数核对（2026-10-30 20:5x·增量窗=r1166–r1170 五轮·逐轮权威=round_reports-bm-a.md 全行在册）：①r1166=修红轮（tree_shrink 声明通道 12→17 腿·声明路径集必须等于该 commit 的实际 D 集；心跳 GPU 半属主复发→gpu_face 单探针复写 29 键）；②r1167=现金腿窗口（TICKET cash_leg.accrual_window 6.82y/2.087%，并当场删掉自建的重复 repo_ladder_menu.py——etf_book_ceo_page.cash_ladder 早就在发布同一张梯子且更严，E262）；③r1168=池子诚实化（pool_deliverable_audit 24/24：交付物提交早于卡=重复供给，可关且零算力；宽度零费率档并入 arms，删掉与 bm-c toll_ladder 重复的自建面）；④r1169=宽度符号=(面板×杠杆规则)对（面板侧真秩 rho -0.80 vs null +0.40·10.5-13.5pp；beta 规则说更窄 -1.53pp，vol 规则 +0.24pp 落在引擎自身分歧 2.045pp 内→RULES_DISAGREE_ON_THE_WIDTH_SIGN）；⑤r1170=本轮（**市场闸门与实盘部署首次对账**）：市场时钟今天首次翻 RED（days_in_state=1），三源 cap 全为 0.20（引擎 risk_regime / clock position_cap_ladder / ceo_live_usage 冻结阶梯），而六个纸面账户实际部署 4.6%~76.8%——三员超帽，最宽 COMPOSITE-CE-01 76.8%（超 56.8pp·3.84×）；新面 scripts/regime_cap_vs_book.py（selftest 17/17·只读已发布件·阶梯 import 不自抄·分歧源头不平均·ETF 书按自规则标 own_rule 永不计作违规）+链腿+smoke 新腿。同轮 2026-10-30 新 bar 到位（510300 -1.12%→4.065），产品面全链重算到该 bar：TICKET-2026-10-30（5 名/书 471,226/现金 528,775/k=0.4715/决策 bar 2026-10-14）、ORDER 卡、LIVE-BOOK-20261030、TICKET-MENU-2026-10-30、REPORT-2026-10-30、LIVE-2026-10-30、export-2026-10-30。产物清单漂移：scripts/regime_cap_vs_book.py〔新〕· results/regime_cap_vs_book.json〔新〕· results/etf_book_order/TICKET-2026-10-30.json · docs/live_book/LIVE-BOOK-20261030.md · docs/live_book/TICKET-MENU-2026-10-30.md · docs/daily_report/REPORT-2026-10-30.md · docs/live_usage/LIVE-2026-10-30.md。维护面：smoke 255/255 + 1 新腿·chain 13/13 与 12/12 rc0·attrition CLEAN（4 账本·历史收缩 healed）·dualrun ZERO-DRIFT 738 streak 7·orphan 0/13·orders_ack CLEAN 114/123/0·D-19 decisions/orders 双面无变化（97fe122f/1a53dca0 可复现，advance NOOP）·loop pin=8 no-op·watchdog S4U 翻转仍被拒（无提权，如实携带）。指针：**常红面=supply_floor（ready 0 / floor 3）**，池 738/738 done、backlog/P2/P3 无 open 行——下一轮按试用劳动力常设线起草廉价普查批；①把 cap-vs-book 那句话接到 CEO 一页纸/战报可见面（现只在 JSON）；下一 5x=bm-a r1175
 
-> bm-a round 1180 五倍数核对（2026-10-31 04:36·增量窗=r1176–r1180·本轮覆盖 5 轮；r1175 那个 5x 槽位当年漏写，按 OVERDUE-DISCLOSED 直接并进本块·逐轮权威=round_reports-bm-a.md 全行在册）：①r1176=把「书落后一天」写进读者手上的那张纸（ORDER 卡 + 载荷 price_basis；生产卡与执行单两本定价面板的裂缝，先披露后修）；②r1177=同一本书两张纸同一个规则两个总数（票 164 处/1503 列 vs 卡 168 处/1613 列，两数都真但只差在宇宙宽度；共享句子里加面板宽度，smoke 腿只把「同分母不同值」判红）——E293；③r1178=三张纸开始印面板指纹（上一轮只披露修复没修）；④r1179=指纹自报覆盖块并把成交额纳入（E294），同时暴露池子的 runner 协议坑（整条命令塞进 runner=永远点不着）；⑤r1180=本轮（**指纹被消耗**）：图集臂审计在指纹不一致/缺席时**收回全部跨面板判词**（MIXED_WORLDS / UNSTAMPED / ONE_WORLD 三态），实测 11 个臂面全无指纹→十判词全部撤回为「一个世界未证明」，重建单元 ATLAS-ARMS-ONEWORLD-20261031-ALL 一把重建后才恢复；图集引擎改为烧 280 格前断言指纹非空；rule_null 改读 verdict_if_coherent；池面清走三张 superseded 的坏单元（E295 卡）。产物清单漂移：scripts/etf_book_phase_atlas_arms.py〔改〕· scripts/etf_book_rule_null.py〔改〕· scripts/etf_book_phase_atlas.py〔改〕· results/etf_book_phase_atlas_arms.json〔再生·panel_coherence〕· results/etf_book_rule_null.json〔再生〕· research/ETF_BOOK_PHASE_ATLAS_ARMS.md〔再生〕· results/runnable_pool.json〔-3 ready,+0〕· knowledge/METHODOLOGY_ASSETS.md〔+E295〕。维护面：smoke 272/272·arms 117/117·rule_null 14/14·图集 13/13·rebuild 9/9·orphan 0/14·orders_ack CLEAN·D-19 双面 unchanged。指针：**常红面=供给了只有一张 ALL 单元的家族重建（ready 1 / floor 3）**；下一 5x=bm-a r1185
+### bm-b round 1285 五倍数核对（2026-10-30 19:56）
 
-## 5x checkpoint -- bm-c r1440 (2026-11-08 19:4x)
+自上一份 HANDOVER 面（r1265）以来的产品增量以口径链形式落地，全部带 runner + face + S6 腿 + smoke 腿 + 方法论卡：
 
-**本轮实物**：`scripts/etf_book_wrapper_year_gate.py`（selftest 8/8 · --check 15/15 · run 49s）
-+ `results/etf_book_year_gate/WRAPPER-GATE.json` + 卡 E445 +
-`research/digests/DIGEST-20261108-r1440-wrapper-year-gate.md`。
+- 状态倾斜/星面链：E239（own vs cross，`results/state_tilt/OWNCROSS-2026-10-29.json`）→ E240/E241（参数化与复现）→ E252（星自己定价，`STARSELF-2026-10-29.json`，6 cells）→ E253（自身行分辨率，`SELFRES-2026-10-29.json`，needed 515.8 期 / 现有 408）→ E254/E255/E256（带窗指数-抽样饥饿-抽样延续三点链，`BANDDRAW-2026-10-29-d1920.json`）→ E257（顶格抽样重判，`BANDTOPFLIP-2026-10-29.json`，16 行：8 存活 / 1 个系数仅在部分测量下翻转）→ **E258（本轮，`BANDWINMULT-2026-10-29.json`）**。
+- E258 结论：抽样倍率是**窗的属性**，不是族的属性。四个可测窗在各自发布抽样数上的倍率为 all_five 1.317 / early_three 1.838 / era_2023_2024 1.473 / era_2025_now 1.644（八格全谱 1.267..1.838，比值 1.45）；E257 借用区间 1.098..1.664 对 early_three 低估 10.5%，而 early_three 正是 E257 里唯一动过的系数 b=-0.4942 所在窗。按各行自己的窗倍率重判：8 行仍在带外、2 行仅部分种子翻转、4 行不可判（两窗无星）。与 E257 借用区间判定一致 10 行、同形异轴 2 行。
+- 工程面：`Tools/s6_chain_bmb.py` 65 腿（本轮 +`band_multiplier_in_each_window`）；本轮星/带腿族 7/7 rc=0 复跑绿。
+- 任务板 `results/runnable_pool.json`：E257 已 done；**E258 卡当前仍为 ready**——状态迁移归代理席写手制，本机禁写 POOL.json，只在此声明其产物已在盘（runner + face + 验证）。
+- 机队面：`fleet/machines/bm-b.json` round 1285，`state.json` 与 `state-bm-b.json` **双写**同步到 1285（双 state 面并存=既有面，双写腿按 r1020 判例保留）。
+- 交付面：main 仍落后远端一大截且 push 在 promisor 懒取上卡死（既有面），本机持续走 `machine/bm-b-r<N>` 分支交付。
 
-**一句话读数**：把执行壳（beta 0.20 + GC001 现金腿）送进年度尺子后 —— ①在**被审的书**上壳是死的
-（8% 波动目标已把 beta 压到 ≈0.20，k 从 2021 起恒 1.0，top-2 占比 75.74%→75.88%，仍 CONDITIONAL）；
-②**票面在跑的是另一本书**（未加波动目标，beta≈0.43 → k 0.23→0.46，复现票面 k_now 0.460253 误差 0.0038），
-它 ADMIT（Y4=67.52%）；③但该过线只有 2.5pp，剔除部分年 2020 后 77.57%＝不过线，代价是年收益合计
-44.3% vs 被审书 76.1%（年中位 3.49% vs 5.47%）——用敞口换到了浓度线。
+## r1315 5x 核对面（2026-10-31 10:0x · bm-b）
 
-**未接链（如实记）**：49s 运行会压每 10 分钟一轮，`--check`（0.1s）留作后续 S6 腿。
-**下一步（≤48h）**：2026-11-11 转仓日前定夺「日历判被审书还是判在跑的书」——本轮只给证据不给判决。
-**水位订正**：`state.last_decisions_sha` 自 r1437 起漂成 0689d12a（无 origin blob 对应），
-真值 451b8600 = r1426 已消费水位，零行欠；本轮已改正。
+> 权威口径：本轮起 HANDOVER 只做「指针核对」，产物清单正身=logs/iteration-loop/round_reports.md
+> 的 r1255..r1315 各行 + git 史；本节只补 r1255 之后新落盘的家族面，不重复复述轮报道。
+
+- 本轮产品：`scripts/e287_supply_ceiling_axes.py`（run/verify 0 problems/selftest 22/22）→
+  `results/state_tilt/BANDSUPPLY-2026-10-29.json` + `bandsupply_latest.json`；S6 腿
+  `supply_ceiling_axes`（rc=0, 0.30s）；smoke 腿（verbatim 提取执行 PASS）；卡
+  `knowledge/METHODOLOGY_ASSETS.md` E294；digest
+  `research/digests/DIGEST-20261031-r1315-e287-supply-ceiling-axes.md`。
+- 读数：家族已发布的可用于加宽的 band-edge 供给顶 = 1.838251（逐窗中位）/ 2.245734（单种子最优），
+  均低于 E285 已发布天花板 2.296329 → 6 条越界行一条也够不到（最近 self|200|0 flip 2.331055，差 3.8%）；
+  两条区间缝行反而在已发布供给射程内（cross|60|11 1.802978 中位档即达；star_lag1_residual|60|15
+  1.884308 仅种子档达）；缩小方向已发布器械 0.922022 差最近跌破下限行（self|60|8 0.889387）3.7%。
+- 红项处置：270 腿全跑 266/270 → 修 E290/E291 的活目录漂移（冻结到各自已发布名单，复跑腿全绿、
+  数字回到原发布值）→ 268/270；余下 2 条红属已发布面自身的科学缺陷（E243 E240 复算 MISMATCH、
+  empirical gamma 区间端点不在点集），已立卡 E297 未硬修；被前一窗丢下的 E293 接线缺腿立卡 E296。
+- 被抑制面：`results/runnable_pool.json` 的 CRLF 归属（工作树曾被他窗改写成 LF，整档重排 2.5 万行
+  为二条目改动的第三次现）——写池子前先探回写参数与本档行尾。
+
+## r1585 5x 核对面（2026-11-08 20:2x · bm-b）
+
+> 口径不变：本节只做「指针核对」，产物清单正身=logs/iteration-loop/round_reports.md 与 round_reports-bm-b.md 的 r1580..r1585 行；只补新落盘的家族面。
+
+- 本轮产品：`scripts/e559_chain_rc_consumer.py`（build/check/verify + selftest 24/24）→
+  `results/state_tilt/CHAINRCCONSUMER-2026-11-08.json` + `chainrcconsumer_latest.json`；S6 腿
+  `chain_rc_consumer`（rc=0, 4.4s）；smoke 腿 `# E559` + 独立腿 `scripts/run_e559_smoke_leg.py`（PASS）；
+  卡 `knowledge/METHODOLOGY_ASSETS.md` E559；digest `research/digests/DIGEST-20261108-r1585-e559-chain-rc-consumer.md`。
+- 读数：**2 个活 spawn 点、0 个能让调用方失败**（两个都是 `Popen(DETACHED_PROCESS)`，不等子进程）；
+  receipt 3 writer / **writer 之外 0 reader**；仓内声明链动作的源 **0**，活体普查 bm-b **296 个动作 0 个跑链**。
+  判词 `nothing_on_any_machine_reads_the_exit_code_or_the_receipt`。
+- 任务板：`results/runnable_pool.json`：E559 done（带 result_ref），ready = E548 / E552 / **E560**（供给底线 3/3）。
+- 机队面：`fleet/machines/bm-b.json` round 1585；`state-bm-b.json` round 1585。
+- 交付面：`machine/bm-b-r1585`（`f21552215`，ls-remote == HEAD 实核）。**origin/main 仍未推**——本地 main
+  667 ahead / 413 behind，双血线 + promisor 懒取，r1243 禁无人 rebase；集团侧因此长期把本仓读成「未达」，
+  已写 HQ-FEEDBACK `F-20261108-02`。
+- 未跑未宣称：完整 smoke 套件、S6 其余 update_*/market_*/paper 链。
+
+## r1595 5x 对账（2026-11-08 23:5x · bm-b）
+
+> 口径声明：本节只做指针核对，不重写历史。窗口 = r1586..r1595，明细在
+> `logs/iteration-loop/round_reports.md` 的对应行里（含每轮的 delivery sha）。
+
+- **窗口实体产品（6 件，全部有 check/verify/selftest 三腿）**：
+  `e560_chain_receipt_shape`（r1586：3 runner / 473 legs，全部在失败腿之后继续，0 个保留 stderr，
+  0 个写明表长，1 个能表示「没跑」的腿 → 5/9 三分类字段，盘上 320 份回执里 18 份带非零行、1 份带输出字段）、
+  `e552_created_item_presence`（r1591：E547 八件造物中 6 件按身份进入自己 fold 写的文件、1 件只以手抄副本进
+  第二个容器、1 件从未离开自己的函数 ——「没人读」与「不存在」是两种缺陷）、
+  ETF 前向账本解冻 + 池成员指纹（r1592：冻结八天是**上市**事件，1609→1613 只改截面不改 sizing，
+  1/5 marks 动 8.964e-04；`ledger.universe={n,sha16}` 让下一次增长自带名字）、
+  `e562_single_leg_provenance` 面重发布（r1593：卡片/摘要/S6 腿都在树里，**发布面本身缺席**，
+  故 smoke 腿在窗口里没人看见；重建立刻，159 份短回执 0 份可能是被杀链条）、
+  `e566_receipt_coverage_consumer`（r1594：158 源 77 写 / 7 读 / 74 只命名；2 对可定价、1 对是短回执）、
+  **`e567_chain_claim`（r1595：877 句邻接链计数句 join 回自己那一轮的回执与腿表 —— 28 句可判，
+  22 句分母等于表、2 句写明是子集、4 句读起来像全链、0 句高于表；849 句判不了）**。
+- **池面**：窗口内 E548/E552/E562/E560/E566/E567 全部结清（每条带 result_ref）；E567 结清后
+  floor 曾见底，r1595 补货 **E568/E569/E570**（ready 3 = floor 3）：
+  从 git 取回回执语料起点之前的腿表 / 分母是否等于回执自己的 rc0 数 / 三个 runner 印的句子是派生还是计数器。
+- **心跳面**：`fleet/machines/bm-b.json` round_no 1595，`state-bm-b.json` round_no 1595；
+  loop pin=2 current=2 no-op、LoopWatchdog 在位（last result 0）、pre-commit/pre-push 与源内容恒等、
+  attrition CLEAN 4 ledgers、orphan probe py_faces=8 / orphans=0。
+- **交付面**：`machine/bm-b-r1595` @ `f7f72fa8585e4b75675ed0748f528e8561350535`（ls-remote == HEAD 实测）；
+  **origin/main 仍未进**——本地 main 693 ahead / 424 behind（双血线 + promisor 懒取，r1243 禁止无人值守
+  rebase），交付走机器分支。
+- **未跑未宣称**：整套 smoke（无腿过滤，r1499）、S6 其余腿（本轮只跑了新增 `chain_claim` 一条，
+  `--only` 子集，回执 1/1 对表 318 —— 这正是 E567 自己的结论，已在轮报告里自我标注）、
+  `update_*` / `market_*` / `paper` 数据链。
+
+## r1665 5x 对账（2026-11-10 13:4x · bm-b）
+> 口径声明：本节只做指针核对，不重写历史。窗口 = r1656..r1665，明细在
+> `logs/iteration-loop/round_reports.md` 对应行里（含每轮 delivery sha）。
+- **窗口实体产品 9 件，全部过 selftest / check / verify 三腿**：E636、E637、E639（双深站点里的写）、
+  E640（计数读旁的写）、E641（写点接收者绑定）、E642（模块级残差）、E644（一层深写）、E646（7 次跨模块
+  键名命中＝纯碰撞）、E648（六个计数行键按词定价：5 个通用词、`slip_exec` 私有）。每件都带面 + 脚本 +
+  smoke 腿 + S6 腿 + 方法论卡 + digest，池面逐件结清并带 result_ref。
+- **科学线走向**：窗口内十轮全部落在同一族问题上——「名字/键名/站点在什么条件下真的指向同一本账」。
+  连续五次收窄（E639→E640→E641→E642/E644→E646）把「有写」「写贴着读」「写同一个键」「写穿容器」
+  逐层否掉，E648 再把这类读法需要的**逆基率**补上：键名测试的强度等于「多少无关文件拼过这个词」。
+- **池面**：窗口内 E635/E636/E637/E639/E640/E641/E642/E644/E646/E648 全部结清；当前 ready 3 =
+  E643 / E645 / E647 = floor 3（breach=false）。dualrun ZERO-DRIFT 1,108 项 streak 10。
+- **心跳面**：`fleet/machines/bm-b.json` round_no 1665、`state-bm-b.json` round_no 1665、round_label
+  r1665；两面对齐，心跳 orders_ack 115 与 state 115 同数（heartbeat_write 合并式写入，无删键）。
+- **origin/main 仍未达**——本地 main 30 ahead / 28 behind（双血线 + promisor 懒取，r1243 禁止无人值守
+  rebase），交付走机器分支 `machine/bm-b-r1665`。
+- **未跑未宣称**：整轮 smoke（r1499 无腿过滤；最近一次全量读数见 r1664 postscript 2 = 486/508 PASS，
+  22 条全是「已发布面不再能从活树重导出」的 vintage 类，下一轮优先级仍是修红 > 新研究）、S6 其余 update_* /
+  market_* / paper 数据链、GPU（停放 C-20261014-01 §3）、零云端调用、零删除。

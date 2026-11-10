@@ -6316,7 +6316,7 @@
  "reds_open": "supply floor 2/3 (E568/E572 ready); state face was 3 rounds stale at open and healed here",
  "reds_open_note": "all open reds predate this window; none is caused by this round's files",
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1658,
+ "round": 1665,
  "round_delivery": {
   "branch": "machine/bm-b-r1663",
   "sha": "0933f0c7eb3ed5c80ba1654cf57d192765265859",
@@ -6335,8 +6335,8 @@
   "ts": "2026-11-09T11:00:00+08:00",
   "verify": "problems=[] verify=identical"
  },
- "round_label": "r1663",
- "round_no": 1664,
+ "round_label": "r1665",
+ "round_no": 1665,
  "round_no_label": "r1644",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
  "round_no_ts": "2026-11-10T09:09:47+08:00",
@@ -6350,7 +6350,7 @@
  "round_summary": "r1630: E601 asked whether a duplicated row is detectable from what a face already publishes. Of the 501 faces that state a bar count, 295 (58.9%) also publish the rows that count is about -- a duplicate would show in the rows though never in the count -- and 206 publish a number no published data can contradict. No counted face publishes a duplicate row today (0 faces / 0 rows), and 198 of 894 measured series sit under a count that equals neither the row count nor the distinct-row count, so where the two numbers coexist they already disagree. Only 3 counted faces print a dedupe field or a distinct count, and first/last bar identity is not a witness for an interior duplicate because the ends do not move -- which is why the class rule asks only whether the rows are published.",
  "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
  "s0": "no rebase (promisor clone; machine branch is the delivery channel, r1243); ~1,354 dirty paths from other writers at open -> targeted add only",
- "s0_5": "114 orders / 115 acks -> 0 unacked; fleet/inbox empty",
+ "s0_5": "114 orders / 115 acks -> 0 unacked; fleet/inbox empty; D-19 advanced dec=2ffcc70c (orders blob unchanged de6b82e4) -- batch 55 rows D-20261110-07..12 touch no quant/bigmoney row",
  "s0_d19": "group tree C:/Fluxgroup/FluxGroup fetched; origin/main:docs/decisions.md sha256 e2891af5 == the d19 watermark and orders c2935f54 == watermark -> verify structural_ok=true, probe equality true on both keys -> NOOP",
  "s0_sync": {
   "ahead_of_origin_main": 801,
@@ -6359,11 +6359,11 @@
   "peer": "origin",
   "ts": "2026-11-09T23:15:00+08:00"
  },
- "s1": "full suite not launched (r1499); the E633 leg ran standalone 1/1 green and 1/1 red under --doctor with the face restored byte-identically",
+ "s1": "full smoke suite not launched (r1499 has no leg filter, ~30 min); the E648 leg was proven standalone 1/1 PASS and 1/1 red under --doctor with the face restored byte-identically",
  "s1_note": "no suite total is claimed this window",
  "s2": "no new board job; burned the ready pool head E627; E628 seeded (1 ready at close)",
  "s4": "card E627 appended to knowledge/METHODOLOGY_ASSETS.md (43/0 numstat) + TREASURE_REGISTRY row (1/0); digest DIGEST-20261109-r1645-e627-alias-binding.md",
- "s6": "module_write_key rc=0 0.05s problems=[] | dualrun ZERO-DRIFT 1,106 entries streak 8 | attrition CLEAN 4 ledgers (2 historic shrinks already healed) | orphan py_faces=6 orphans=0",
+ "s6": "key_genericity rc=0 problems=[] | dualrun ZERO-DRIFT (1,108 entries, streak 10) | compute_audit FLAG:supply_gap (ready 3 = floor 3, breach=false) | py_watermark insufficient_history (n=1) | attrition CLEAN 4 ledgers (2 historical shrinks healed) | orphan py_faces=7 orphans=0",
  "s6_flag_guard": "python Tools/s6_chain_bmb.py --leg undated_vintage -> rc2 'unknown option(s): --leg'; 1509 --only undated_vintage -> rc0 0.05s",
  "s6_leg": "sibling_read_object",
  "s6_leg_added": "alias_binding (scripts/e627_alias_binding.py verify)",
@@ -6376,8 +6376,8 @@
  "s6_run_in_window": [
   "pointer_bar_demand rc=0 36.32s"
  ],
- "s7": "orphan face 0; smoke full suite not run this round (r1499 no leg filter) -- the E642 leg and its standalone mirror are green and red under --doctor; loop pin / watchdog / claws unchanged; D-19 zero action",
- "s7_checked_at": "2026-11-10T09:09:47+08:00",
+ "s7": "register_loop_task idempotent no-op (pin=2 current=2, next fire 13:42); Bigmoney-LoopWatchdog present; pre-commit and pre-push content-identical to Tools/git-hooks",
+ "s7_checked_at": "2026-11-10T13:43:00+08:00",
  "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
  "s7_note": "loop + watchdog tasks present; claws unchanged; D-19 zero action",
  "s7_pit": "schtasks output is localised GBK, so a Select-String filter on 'TaskName/Status' matched nothing; existence was proved from /xml rc=0 plus the LogonType field instead (R49 family)",
@@ -6412,40 +6412,38 @@
  "state": "ok",
  "state_face_note": "authoritative face for bm-b",
  "status": "ok",
- "study": "E642_module_write_key",
+ "study": "E648_keygenericity",
  "supply_floor": {
-  "breach": false,
-  "floor": 3,
   "ready": 3,
-  "seeded": [
-   "E646"
-  ]
+  "floor": 3,
+  "breach": false,
+  "seeded": []
  },
  "supply_floor_note": "E624 burned and closed; E625 seeded in its place (whether a same-object sibling read sees the same VALUE)",
  "supply_floor_ready": 3,
  "survey_note": "E548 and E562 were already implemented in earlier windows; their pool rows stayed 'ready' -- closed E552's row this round",
  "sync": {
-  "ahead_origin_main": 17,
-  "behind_origin_main": 17
+  "ahead_origin_main": 30,
+  "behind_origin_main": 28
  },
- "sync_note": "local main is 17 ahead / 17 behind origin/main; no unattended rebase on a promisor clone (r1243), so the machine branch is the delivery channel",
- "task": "E642: the module-level write residual E640 drops by definition, priced per module",
- "task_short": "the callee the caller hands it to",
+ "sync_note": "local main is 30 ahead / 28 behind origin/main on this promisor clone (r1243); no unattended rebase, so the machine branch is the delivery channel",
+ "task": "E648 how generic the six counted row keys are corpus-wide",
+ "task_short": "key names priced as words",
  "task_short_note": "scripts/e599_pointer_redirect_bar.py; card E602; digest DIGEST-20261109-r1629-e599-pointer-redirect-bar.md",
  "this_round": "r1663",
  "three_line": {
-  "current": "r1663 E642 closed the module-level arm (0 sites in the 6 counted modules)",
-  "next": "E646 whether the 7 cross-module key-name hits share a container or binding -- 48h",
-  "recent": "results/state_tilt/MODULEWRITEKEY.json @ 2026-11-10T09:09:47+08:00"
+  "current": "E648 priced the six counted row keys as words instead of addresses: per key, the files that spell it outside the counted faces, its read/write/delete sites and each site's leftmost container name, then one class against two floors frozen before the run",
+  "next": "E647 string-reach arm: whether a cross-module key-name hit reaches the counted module through a literal path or importlib string (by 2026-11-12)",
+  "recent": "results/state_tilt/KEYGENERICITY.json @ 2026-11-10T13:35:00+08:00"
  },
- "three_line_artifact": "results/state_tilt/MODULEWRITEKEY.json",
- "three_line_artifact_ts": "2026-11-10T09:09:47+08:00",
- "three_line_current": "r1663 E642 closed the module-level arm (0 sites in the 6 counted modules)",
- "three_line_delivery": "machine/bm-b-r1645 @ fef6d5b4f29c",
- "three_line_next": "E646 whether the 7 cross-module key-name hits share a container or binding -- 48h",
- "three_line_recent": "results/state_tilt/MODULEWRITEKEY.json @ 2026-11-10T09:09:47+08:00",
+ "three_line_artifact": "results/state_tilt/KEYGENERICITY.json",
+ "three_line_artifact_ts": "2026-11-10T13:35:00+08:00",
+ "three_line_current": "E648 priced the six counted row keys as words instead of addresses: per key, the files that spell it outside the counted faces, its read/write/delete sites and each site's leftmost container name, then one class against two floors frozen before the run",
+ "three_line_delivery": "machine/bm-b-r1665 @ a80ff731732d",
+ "three_line_next": "E647 string-reach arm: whether a cross-module key-name hit reaches the counted module through a literal path or importlib string (by 2026-11-12)",
+ "three_line_recent": "results/state_tilt/KEYGENERICITY.json @ 2026-11-10T13:35:00+08:00",
  "timestamp": "2026-11-10T05:30:18+08:00",
- "ts": "2026-11-10T07:20:00+08:00",
+ "ts": "2026-11-10T13:43:00+08:00",
  "ts_utc_ms": 1794234696000,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-10T05:30:18+08:00",
@@ -6462,10 +6460,10 @@
  "watermark": "insufficient_history (n=2, py 1.7%) with 1 pool-ready card -> burned E634 -> 1 ready at close (E635)",
  "watermark_note": "no cloud, no GPU, nothing deleted, no queue head claimed",
  "watermark_note_2": "no cloud, no GPU, nothing deleted, no queue head claimed",
- "watermark_red": true,
+ "watermark_red": false,
  "watermark_red_at_open": "pool-batch-runnable-idle-low-cpu (1 ready card: E624)",
  "watermark_red_note": "board: the 10 starved lanes remain bm-a-owned; bm-b lanes fresh at 2026-11-06; py_watermark rc=0 insufficient_history (n small)",
- "watermark_verdict": "insufficient_history -> burned the one ready pool card E634 in-round",
+ "watermark_verdict": "RED at open (py 0.2-6.9%, 4 ready cards) -> burned E648 in-round -> 3 ready = floor 3",
  "within_24h": "E624/E625/E626/E627/E628/E629/E630/E631/E632/E633/E634 product rounds",
  "work": "the callee hop: the handoff call sits before the holder, so a callee write would reach both reads; none exists in this module",
  "worked_on": "E572 + the missing E571 smoke block",
@@ -6820,5 +6818,28 @@
   "ts": "2026-11-10T08:50:00+08:00",
   "next": "E645 (ready, cpu-only): whether a computed-subscript depth-1 store can reach a counted row key"
  },
- "verdict_round": "watermark py_low_board_clear -> burned the ready head E642 in-round"
+ "verdict_round": "watermark py_low_board_clear -> burned the ready head E642 in-round",
+ "r1665": {
+  "card": "E648",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/KEYGENERICITY.json",
+  "product": [
+   "scripts/e648_keygenericity.py (selftest 14/14; run/check/verify rc0 problems=[])",
+   "results/state_tilt/KEYGENERICITY.json + keygenericity_latest.json (byte-identical rebuild d4678dfc27b9)",
+   "scripts/run_e648_smoke_leg.py (1/1 PASS, --doctor 1/1 red, face restored)",
+   "smoke_test.py leg E648 + Tools/s6_chain_bmb.py leg key_genericity (rc=0)",
+   "knowledge/METHODOLOGY_ASSETS.md card E648 + TREASURE_REGISTRY line",
+   "research/digests/DIGEST-20261110-r1665-e648-key-genericity.md",
+   "results/runnable_pool.json E648 done (ready 3 = floor 3)"
+  ],
+  "reading": "13,086 python files seen / 12,778 parsed (304 unparseable, 4 over the 1MB cap); 3,854 files spell >=1 counted key; 5,802 read / 2,587 write / 0 delete sites; 2,734 dict-literal keys; 149,479 computed subscripts; 49 receiver roots; 5 of 6 keys generic words, 0 narrow, 'slip_exec' private with 0 outside files",
+  "ts": "2026-11-10T13:43:00+08:00",
+  "verdict": "a key-name hit has to be priced per key rather than over the set"
+ },
+ "r1665_delivery": {
+  "branch": "machine/bm-b-r1665",
+  "sha": "a80ff731732d2605c5b0f6c0e403a183afa86ca5",
+  "ts": "2026-11-10T13:43:00+08:00",
+  "verified": "git ls-remote equality checked (local rev-parse == remote sha)"
+ }
 }
