@@ -1162,6 +1162,14 @@ def render_md(report, cert="auto"):
         miss_s = f"{len(miss)}" + (f": {', '.join(miss[:6])}" +
                                    (" …" if len(miss) > 6 else "") if miss else "")
         verdict = r["verdict"]
+        if r.get("within_window"):
+            # r1517: this cell used to print `11 missing` beside `in_sync` with
+            # nothing saying why -- the contract that made the lane green was
+            # stored on the row and never rendered, so the two columns read as a
+            # contradiction the reader cannot act on. The window rides in the
+            # cell it explains.
+            verdict += (f" (own window {r.get('days_behind')}/"
+                        f"{r.get('window_trading_days')})")
         if r.get("copy_verdict"):
             verdict += f" (copy said `{r['copy_verdict']}`)"
         body += (f"| `{r['lane']}` | {r.get('lane_host')} | {r.get('tail') or '--'} | "
@@ -1173,6 +1181,32 @@ def render_md(report, cert="auto"):
         tailnote = "\n## Lanes where a missed day cannot be recovered\n\n"
         for r in fatal:
             tailnote += f"- `{r['lane']}`: {r['loss_mode']}\n"
+    # r1517: a rolling-window lane owes nothing inside its window, so the table
+    # can print "11 missing" next to "in_sync" -- true, and useless. This
+    # section prints the contract that produced the green verdict and the
+    # number of sessions left before the collector has to fire, so the reader
+    # knows whether to act today (0 left) or not at all.
+    windowed = [r for r in report["lanes"] if r.get("within_window")]
+    if windowed:
+        tailnote += ("\n## Lanes judged against their own window\n\n"
+                     "These lanes do not owe every official day: their collector "
+                     "refreshes on a rolling window of trading days, so a gap "
+                     "inside that window is the design and the verdict is "
+                     "`in_sync`. The row's `missing` column counts official days "
+                     "since the tail; the window below is the lane's own promise, "
+                     "and the sessions-left number says when that promise runs "
+                     "out.\n\n")
+        for r in windowed:
+            win = int(r["window_trading_days"])
+            behind = int(r.get("days_behind") or 0)
+            left = win - behind + 1
+            tailnote += (f"- `{r['lane']}`: tail {r.get('tail') or '--'}, "
+                         f"**{behind}** official day(s) behind, window "
+                         f"**{win}** trading days -> **{left} more** session(s) "
+                         f"may pass before this lane owes a refresh (it reads "
+                         f"`stalled` once the gap passes {win})"
+                         + (f". Basis: {r['window_basis']}"
+                            if r.get("window_basis") else "") + "\n")
     # r1266: a hole count hides which holes were somebody's decision. The
     # auditing face already sorts every past hole by cause; print the split so a
     # reader stops waiting for a stand-in to fill days that are simply gone.
@@ -2074,6 +2108,50 @@ def selftest():
         assert rep29["worst"] == "w_plain", rep29["worst"]
     print("[PASS] L29 a rolling-window lane is judged by its window and never "
           "quoted as the worst lane", flush=True)
+
+    # L29b (r1517) the window that produced the green verdict has to reach the
+    # reader. A bare "11 missing / in_sync" is a contradiction, not a reading:
+    # the cell now names the window it sits in, and the section says how many
+    # sessions are left before the collector must fire. The negative half is as
+    # important -- a lane with no window, or one past its window, must not be
+    # dressed up in window language.
+    with tempfile.TemporaryDirectory() as td:
+        json.dump({"machine": "bm-c", "panel": {"cutoff": "2026-10-20"}},
+                  open(os.path.join(td, "p.json"), "w"))
+        json.dump({"machine": "bm-c", "panel": {"cutoff": "2026-09-30"}},
+                  open(os.path.join(td, "q.json"), "w"))
+        _b29 = {"kind": "status", "key": "panel.cutoff",
+                "writer": "update_sina_mf", "owner": "bm-c",
+                "window_trading_days": 20,
+                "window_basis": "the collector's own no-op rule"}
+        spec29b = [dict(_b29, lane="w_in", path="p.json"),
+                   # same 8-day gap, a window it has already blown through
+                   dict(_b29, lane="w_out", path="q.json",
+                        window_trading_days=3),
+                   dict(_b29, lane="w_none", path="p.json",
+                        window_trading_days=None)]
+        rep29b = audit(days, now, root=td, lanes=spec29b)
+        _o29b = {r["lane"]: r for r in rep29b["lanes"]}
+        md = render_md(rep29b)
+        assert _o29b["w_in"]["within_window"] is True, _o29b["w_in"]
+        assert _o29b["w_out"].get("within_window") is None, _o29b["w_out"]
+        assert _o29b["w_out"]["verdict"] == "stalled", _o29b["w_out"]
+        # the cell carries the window it sits in, and only for the inside lane
+        assert "| in_sync (own window 7/20) |" in md, md[:2000]
+        assert "w_none" in md
+        # the section names the days left, derived from the row (not typed)
+        behind = _o29b["w_in"]["days_behind"]
+        assert f"**{20 - behind + 1} more** session(s)" in md, md
+        assert "Lanes judged against their own window" in md
+        # a lane that is inside no window must not appear in that section
+        sect = md.split("Lanes judged against their own window")[1]
+        assert "`w_in`" in sect and "`w_none`" not in sect, sect[:800]
+        # and with no windowed lane at all the section disappears entirely
+        rep29c = audit(days, now, root=td, lanes=[spec29b[1]])
+        assert "Lanes judged against their own window" not in render_md(rep29c)
+    print("[PASS] L29b a window-judged lane prints the window and the sessions "
+          "left, and a lane outside any window is never dressed in window "
+          "language", flush=True)
 
     # L30 (D-20261108-14) "the lane stopped" and "the owner stopped reporting"
     # are two alarms. A lane whose file was written before the host went quiet
