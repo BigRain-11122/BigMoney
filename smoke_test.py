@@ -43,10 +43,11 @@ def _ceo_page_view():
     newest page on disk is read instead, and its own JSON says which bar it priced.
 
     Returns: path, text, bar (priced bar, or None), may_write (may THIS host write it),
-    owner (the writer), silent_h (owner heartbeat age in hours, None = unknown).
+    owner (the writer), silent_h (owner heartbeat age in hours, None = unknown),
+    doc (the page JSON), sections (section key -> the bar that section was priced on).
     """
     out = {"path": None, "text": "", "bar": None, "may_write": True,
-           "owner": None, "silent_h": None, "reason": ""}
+           "owner": None, "silent_h": None, "reason": "", "doc": {}, "sections": {}}
     try:
         from scripts import etf_book_ceo_page as _P
         out["owner"] = _P.HOST
@@ -64,8 +65,22 @@ def _ceo_page_view():
     js = _lb[-1]
     try:
         with open(js, encoding="utf-8") as fh:
-            bar = (json.load(fh) or {}).get("priced_bar")
+            _doc = json.load(fh) or {}
+        bar = _doc.get("priced_bar")
+        out["doc"] = _doc
         out["bar"] = None if bar is None else str(bar)[:10]
+        # r1532: the headline bar is not the page's only bar -- every section carries the
+        # bar its face was last built on (capital sat on 11-09, entry_gate on 11-06 while
+        # the page said 11-10). Ask the one implementation that answers this question.
+        try:
+            try:
+                from scripts import live_book_section_bars as _SB
+            except Exception:
+                import live_book_section_bars as _SB
+            out["sections"] = _SB.section_bars(_doc).get("by_key") or {}
+        except Exception as _e2:
+            out["reason"] = (out["reason"] + "; " if out["reason"] else "") + \
+                "section bars unreadable (%r)" % (_e2,)
         md = js[:-5] + ".md"
         out["path"] = md
         if os.path.exists(md):
@@ -78,25 +93,65 @@ def _ceo_page_view():
     return out
 
 
-def _page_elsewhere_note(view, bar, what=""):
+def _page_elsewhere_note(view, bar, what="", section=None):
     """The one sentence a leg prints instead of red, or None when it must stay strict.
 
     Strict (return None = the caller keeps failing) when this host may write the page: a
-    host that can fix a stale page has no excuse for one. Otherwise the page's bar is
-    named against the face it is being compared with, so the reader can see this is a
-    different day rather than a wrong line.
+    host that can fix a stale page has no excuse for one.
+
+    r1532: the original rule keyed on the page's HEADLINE bar, and that is not the bar a
+    section was priced on. The page on disk said 2026-11-10 while its capital table ended
+    2026-11-09 and its entry gate sat on 2026-11-06, so five legs compared a 11-06 number
+    against a 11-10 one, saw equal headlines, and went red on a difference that is a
+    different day. `section` names the page section being compared and the bar comes from
+    that section's own dated field (results/live_book_section_bars.json is the one
+    implementation). Two things stay strict everywhere: a page with no readable bar, and a
+    page nobody has refreshed for more than MAX_LAG_SESSIONS -- that is not "another day",
+    that is a page the reader is being shown a week late.
     """
     if view.get("may_write"):
         return None
     if not view.get("path") or not view.get("text"):
         return None
-    if view.get("bar") is None or bar is None or str(view["bar"]) == str(bar):
+    if bar is None:
         return None
-    return ("page %s priced %s, face priced %s -- page owned by %s (this host cannot write "
-            "it; owner heartbeat %s h)%s"
-            % (os.path.basename(view["path"]), view["bar"], str(bar)[:10], view.get("owner"),
-               "unknown" if view.get("silent_h") is None else "%.1f" % view["silent_h"],
-               ("; " + what) if what else ""))
+    face_bar = str(bar)[:10]
+    page_bar = view.get("bar")
+    sec_bar = (view.get("sections") or {}).get(section) if section else None
+    sec_bar = None if sec_bar is None else str(sec_bar)[:10]
+    try:
+        try:
+            from scripts import live_book_section_bars as _SB
+        except Exception:
+            import live_book_section_bars as _SB
+        lag = _SB.sessions_between(page_bar, face_bar) if page_bar else None
+        floor = _SB.MAX_LAG_SESSIONS
+    except Exception:
+        lag, floor = None, 5
+    if page_bar is None:
+        return None
+    if lag is not None and lag > floor:
+        return None
+    tail = ("; " + what) if what else ""
+    age = "owner heartbeat %s h" % ("unknown" if view.get("silent_h") is None
+                                    else "%.1f" % view["silent_h"])
+    if sec_bar and sec_bar != face_bar:
+        return ("page %s: its `%s` section priced %s, face priced %s (headline %s) -- the "
+                "section is on an older bar, not a wrong line; page owned by %s (this host "
+                "cannot write it; %s); per-section bars: "
+                "results/live_book_section_bars.json%s"
+                % (os.path.basename(view["path"]), section, sec_bar, face_bar, page_bar,
+                   view.get("owner"), age, tail))
+    if page_bar != face_bar:
+        return ("page %s priced %s, face priced %s -- page owned by %s (this host cannot "
+                "write it; %s)%s"
+                % (os.path.basename(view["path"]), page_bar, face_bar, view.get("owner"),
+                   age, tail))
+    return ("page %s is dated %s like the face, but it is written by %s (%s) from that "
+            "host's own copy of the panels and the code; this host cannot write it, so a "
+            "content difference here is the writer's snapshot, not this host's defect%s"
+            % (os.path.basename(view["path"]), page_bar, view.get("owner"), age, tail))
+
 def capture_pinned(argv, timeout):
     """The one place a leg captures a child's text.
 
@@ -7009,12 +7064,15 @@ def main() -> int:
             if _doc55.get("verdict") == "NO_GATE" and abs(float(_sup55.get("share") or 0)) > 0.5:
                 _bad55.append("face says NO_GATE with %r of paths passing" % (_sup55.get("share"),))
             # the page is the face the CEO opens: it must print THESE numbers, and it must
-            # name the verdict rather than leaving the candidate un-retested on the page
+            # name the verdict rather than leaving the candidate un-retested on the page.
+            # r1532: page-side findings are the writer's, not this host's -- the note names
+            # the section's own bar when this host cannot write the page.
             _ptr55p = os.path.join(PATHS.root, "docs", "live_book", "latest.json")
             _page55 = ""
             if os.path.exists(_ptr55p):
                 with open(_ptr55p, encoding="utf-8") as _fh55:
                     _page55 = os.path.join(PATHS.root, json.load(_fh55).get("page") or "")
+            _badpage55, _note55 = [], ""
             if not _page55 or not os.path.exists(_page55):
                 _bad55.append("no page the latest.json pointer names")
             else:
@@ -7027,15 +7085,93 @@ def main() -> int:
                                 "%d 条" % ((_doc55.get("support") or {}).get("passed") or 0),
                                 str(_doc55.get("verdict"))):
                     if _want55 not in _md55:
-                        _bad55.append("page does not print %r" % (_want55,))
+                        _badpage55.append("page does not print %r" % (_want55,))
+                _note55 = _page_elsewhere_note(_ceo_page_view(),
+                                               _doc55.get("evidence_cutoff"),
+                                               section="sleeve_paths") or ""
+                if _note55:
+                    _note55 += (" | page-side differences (%d): %s"
+                                % (len(_badpage55), "; ".join(_badpage55)[:120])
+                                if _badpage55 else "")
+                else:
+                    _bad55 += _badpage55
         check("product: the sleeve-gate answer survives a moved decision grid", not _bad55,
-              "; ".join(_bad55)[:220] or "face %s on %d grids, %d/%d paths pass"
+              "; ".join(_bad55)[:220] or _note55 or
+              "face %s on %d grids, %d/%d paths pass"
               % (_doc55.get("verdict"), len(_doc55.get("phases") or []),
                  (_doc55.get("support") or {}).get("passed"),
                  (_doc55.get("support") or {}).get("assessed")))
     except Exception as e:
         check("product: the sleeve-gate answer survives a moved decision grid", False,
               repr(e)[:160])
+    # ---- r1532: the page declares one bar; its sections each carry their own -----------
+    # The page on disk said "priced 2026-11-10" while its capital table ended 2026-11-09 and
+    # its entry gate sat on 2026-11-06. Every leg that compared a section against a
+    # re-derived face saw an equal headline and went red on a difference that is a different
+    # day. This leg pins the face that answers "which bar is each section on", and the next
+    # one pins what a leg may do with that answer.
+    try:
+        import importlib as _il78
+        _SB78 = _il78.import_module("live_book_section_bars")
+        _p78 = os.path.join(PATHS.results_dir, "live_book_section_bars.json")
+        _bad78 = []
+        if not os.path.exists(_p78):
+            _bad78.append("results/live_book_section_bars.json missing")
+            _doc78 = {}
+        else:
+            with open(_p78, encoding="utf-8") as _fh78:
+                _doc78 = json.load(_fh78) or {}
+            if _SB78.check() != 0:
+                _bad78.append("the published section bars do not re-derive")
+        if _doc78:
+            if (_doc78.get("n_on_headline") or 0) + (_doc78.get("n_off_headline") or 0) \
+                    != (_doc78.get("n_sections") or 0):
+                _bad78.append("the on/off-headline counts do not add up to the dated sections")
+            for _r78 in _doc78.get("off_headline") or []:
+                if _doc78.get("headline_bar") and _r78.get("bar") >= _doc78["headline_bar"]:
+                    _bad78.append("section %r is called off-headline but is not older"
+                                  % (_r78.get("key"),))
+            if _doc78.get("verdict") == "PAGE_MIXES_BARS" and not (_doc78.get("off_headline") or []):
+                _bad78.append("verdict says mixed with nothing behind the headline")
+            # the face must read the section's OWN dated field, not a guess
+            _pv78 = _ceo_page_view()
+            _cap78 = ((_pv78.get("doc") or {}).get("capital") or {}).get("evidence_cutoff")
+            if _cap78 and (_doc78.get("by_key") or {}).get("capital") != str(_cap78)[:10]:
+                _bad78.append("the capital section's bar is not the one the page records")
+        check("product: the CEO page's sections each name the bar they were priced on",
+              not _bad78, "; ".join(_bad78)[:220] or
+              "%s: %d/%d dated sections on the headline, oldest %s (max lag %s sessions)"
+              % (_doc78.get("verdict"), _doc78.get("n_on_headline"),
+                 _doc78.get("n_sections"), _doc78.get("oldest"),
+                 _doc78.get("max_lag_sessions")))
+    except Exception as e:
+        check("product: the CEO page's sections each name the bar they were priced on",
+              False, repr(e)[:160])
+    # ---- r1532: what a leg may do with a section that is on another bar -----------------
+    try:
+        _v78 = {"path": "LIVE-BOOK-x.md", "text": "page text", "bar": "2026-11-10",
+                "may_write": False, "owner": "bm-a", "silent_h": 3.0,
+                "sections": {"capital": "2026-11-09", "entry_gate": "2026-11-06"}}
+        _n_other = _page_elsewhere_note(_v78, "2026-11-10", section="capital") or ""
+        _n_writer = _page_elsewhere_note(dict(_v78, may_write=True), "2026-11-10",
+                                         section="capital")
+        _n_ancient = _page_elsewhere_note(dict(_v78, bar="2026-06-01"), "2026-11-10",
+                                          section="capital")
+        _n_same = _page_elsewhere_note(dict(_v78, sections={}), "2026-11-10", section="capital") or ""
+        _bad78b = []
+        if "2026-11-09" not in _n_other:
+            _bad78b.append("a section on an older bar is not named with its bar")
+        if _n_writer is not None:
+            _bad78b.append("the host that can write the page is let off")
+        if _n_ancient is not None:
+            _bad78b.append("a page behind by a month is excused as 'another day'")
+        if not _n_same:
+            _bad78b.append("an unverifiable page comparison claims nothing")
+        check("product: a page section on an older bar is a note off the writer, a red on it",
+              not _bad78b, "; ".join(_bad78b)[:220] or _n_other[:160])
+    except Exception as e:
+        check("product: a page section on an older bar is a note off the writer, a red on it",
+              False, repr(e)[:160])
     # ---- r1196: a de-levered book must be told apart from a well-timed one ---------
     # The card has always said the vol target is a drawdown tool rather than an edge, but
     # nothing measured whether the exposure PATH earns anything over holding the same book
@@ -7757,7 +7893,8 @@ def main() -> int:
                 # older bar those lines are absent because the section did not exist yet,
                 # not because this round broke it -- name the age instead of the absence.
                 _pv72 = _ceo_page_view()
-                _note72 = _page_elsewhere_note(_pv72, _face72.get("evidence_cutoff")) or ""
+                _note72 = _page_elsewhere_note(_pv72, _face72.get("evidence_cutoff"),
+                                           section="capital") or ""
                 _badface72, _bad72 = _bad72, []       # page-side findings collect here
                 _lines72 = [l for l in _PG72.capital_block(_face72) if l.strip()]
                 _off72 = [l for l in _lines72 if l not in _md72]
@@ -7850,7 +7987,8 @@ def main() -> int:
             # from today's face, so its absence on a page built on an older bar is that
             # page's age (owned by another host), not this round's defect.
             _note73 = _page_elsewhere_note(_ceo_page_view(),
-                                           _face73.get("evidence_cutoff")) or ""
+                                           _face73.get("evidence_cutoff"),
+                                           section="capital") or ""
             _badface73, _bad73 = _bad73, []          # page-side findings collect here
             _tk_lines73 = [l for l in _PG73.capital_block(_face73) if "可执行单" in l]
             if not _tk_lines73:
@@ -7924,7 +8062,8 @@ def main() -> int:
                 with open(_lb74[-1], encoding="utf-8") as _fh74b:
                     _md74 = _fh74b.read()
                 _note74 = _page_elsewhere_note(_ceo_page_view(),
-                                               _face74.get("evidence_cutoff")) or ""
+                                               _face74.get("evidence_cutoff"),
+                                               section="capital") or ""
                 _lines74 = [l for l in _PG74.capital_block(_face74) if l.strip()]
                 _rate74 = ("%gbp" % float(_dbp74)) if _dbp74 else None
                 _hit74 = [l for l in _lines74 if _rate74 and
@@ -7995,7 +8134,8 @@ def main() -> int:
                 _hit75 = [l for l in _md75.splitlines()
                           if "一手 = %d 份" % int(_lot75.get("units") or 100) in l]
                 _note75 = _page_elsewhere_note(_ceo_page_view(),
-                                               _face75.get("evidence_cutoff")) or ""
+                                               _face75.get("evidence_cutoff"),
+                                               section="capital") or ""
                 _pagefind75 = []
                 if not _hit75:
                     _pagefind75.append("the whole-lot paragraph never reaches the page")
@@ -8069,7 +8209,8 @@ def main() -> int:
                 with open(_lb76[-1], encoding="utf-8") as _fh76:
                     _md76 = _fh76.read()
                 _note76 = _page_elsewhere_note(_ceo_page_view(),
-                                               _face76.get("evidence_cutoff")) or ""
+                                               _face76.get("evidence_cutoff"),
+                                               section="capital") or ""
                 _pf76 = []
                 if "实际持有的是" not in _md76:
                     _pf76.append("the page never says what the account actually holds")
@@ -8548,7 +8689,8 @@ def main() -> int:
         # that may not write the page, a page built on an older bar will fail all of them
         # by construction -- that is the owner's absence, named once, not N defects.
         _note77 = _page_elsewhere_note(_ceo_page_view(),
-                                       _doc77.get("evidence_cutoff")) or ""
+                                       _doc77.get("evidence_cutoff"),
+                                       section="entry_gate") or ""
         _badface77, _bad77 = _bad77, []      # page-side findings collect here
         _eg77 = (_page77.get("entry_gate") or {})
         if _eg77.get("status") != "ok":
@@ -8841,7 +8983,8 @@ def main() -> int:
                     # r1493: same split once more -- a page on another bar belongs to its
                     # writer. Keep it red only where this host could have written it.
                     _n57 = _page_elsewhere_note(_ceo_page_view(),
-                                                _pub57.get("evidence_cutoff"))
+                                                _pub57.get("evidence_cutoff"),
+                                                section="exposure_timing")
                     if _n57:
                         _note57 = _n57
                     else:

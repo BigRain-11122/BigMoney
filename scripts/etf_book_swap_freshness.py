@@ -48,6 +48,7 @@ import exchange_calendar_audit as CA   # noqa: E402  (the official calendar owne
 
 OUT_JSON = os.path.join(ROOT, "results", "etf_book_swap_freshness.json")
 OUT_MD = os.path.join(ROOT, "results", "etf_book_swap_freshness.md")
+PUBLISH = (OUT_JSON, OUT_MD)
 
 # ---- the section, in dependency order (each face reads the ones above it) ----------------
 # The bar field differs by authoring round: session (r1464/r1465/r1466), asof (r1467), bar
@@ -261,12 +262,37 @@ def render_md(face):
     return "\n".join(L) + "\n"
 
 
-def write_out(face):
-    os.makedirs(os.path.dirname(OUT_JSON), exist_ok=True)
-    with open(OUT_JSON, "w", encoding="utf-8") as fh:
+def _shim_in_paid(face):
+    """A producer that is a `python -c ...` shim is a test fixture, never a real run (r1533)."""
+    for row in face.get("paid") or []:
+        cmd = row.get("cmd") or []
+        if "-c" in cmd:
+            return row.get("leg") or "?"
+    return None
+
+
+def write_out(face, out=None):
+    """Publish to `out` = (json, md). `out` None means 'do not publish'.
+
+    r1533: this used to have no path argument, so the selftest's injected producers wrote
+    their fixtures straight over the published face -- the committed payload said
+    'sibling_entry: its producer returned 7' with `-c import sys;sys.exit(7)` in `paid`,
+    and every reader of the ticket's swap section would have believed it.
+    """
+    if out is None:
+        print("[swap_freshness] not published (no destination given)")
+        return False
+    out_json, out_md = out
+    if os.path.abspath(out_json) == os.path.abspath(OUT_JSON):
+        shim = _shim_in_paid(face)
+        if shim:
+            raise RuntimeError("refusing to publish a test shim as the %s producer" % shim)
+    os.makedirs(os.path.dirname(out_json), exist_ok=True)
+    with open(out_json, "w", encoding="utf-8") as fh:
         json.dump(face, fh, ensure_ascii=False, indent=1)
-    with open(OUT_MD, "w", encoding="utf-8") as fh:
+    with open(out_md, "w", encoding="utf-8") as fh:
         fh.write(render_md(face))
+    return True
 
 
 def _print_rows(face):
@@ -297,11 +323,17 @@ def check(now=None, faces=None, days=None):
     return 0
 
 
-def run(now=None, faces=None, days=None, producer_cmd=None):
-    """Pay the producer of every stale leg, in dependency order, then judge again."""
+def run(now=None, faces=None, days=None, producer_cmd=None, out=None):
+    """Pay the producer of every stale leg, in dependency order, then judge again.
+
+    `out` is where the result is published; None means 'publish to the two files under
+    results/'. An injected `producer_cmd` (i.e. a test) publishes nothing unless it also
+    passes `out` explicitly -- a fixture must never be able to land on the reader's face.
+    """
+    publish = PUBLISH if (out is None and producer_cmd is None) else out
     before = assess(now=now, faces=faces, days=days)
     if before["verdict"] == INCONSISTENT:
-        write_out(before)
+        write_out(before, publish)
         print("[swap_freshness] refusing to refresh: %s" % before["sentence"])
         return 1
     paid = []
@@ -325,12 +357,12 @@ def run(now=None, faces=None, days=None, producer_cmd=None):
             face["verdict"] = "PRODUCER_FAILED"
             face["sentence"] = ("%s: its producer returned %s and the face is still not on "
                                 "the bar." % (r["leg"], rc))
-            write_out(face)
+            write_out(face, publish)
             print("[swap_freshness] %s" % face["sentence"])
             return 3
     after = assess(now=now, faces=faces, days=days)
     after["paid"] = paid
-    write_out(after)
+    write_out(after, publish)
     _print_rows(after)
     print("[swap_freshness] %s" % after["sentence"])
     if after["verdict"] == FRESH:
@@ -436,6 +468,52 @@ def selftest():
         rc_bad = run(now=after, faces=dict(prev), days=days, producer_cmd=bad_producer)
     leg("L18 a failing producer is reported, not swallowed", rc_bad == 3)
 
+    # --- r1533: a fixture walked over the published face, so a test run must publish nothing
+    def _published():
+        try:
+            with open(OUT_JSON, "rb") as fh:
+                return fh.read()
+        except OSError:
+            return None
+
+    before_bytes = _published()
+    buf = io.StringIO()
+    with redirect_stdout(buf):
+        run(now=after, faces=dict(prev), days=days, producer_cmd=fake_producer)
+        run(now=after, faces=dict(prev), days=days, producer_cmd=bad_producer)
+    leg("L24 a test-injected run publishes nothing -- the face under results/ is untouched",
+        _published() == before_bytes)
+
+    with tempfile.TemporaryDirectory() as td:
+        tmp = (os.path.join(td, "face.json"), os.path.join(td, "face.md"))
+        live = dict(prev)
+
+        def gen(r):
+            live[r["leg"]] = {r["field"]: "2026-11-10"}
+            return [sys.executable, "-c", "pass"]
+
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc_tmp = run(now=after, faces=live, days=days, producer_cmd=gen, out=tmp)
+        written = os.path.exists(tmp[0]) and os.path.exists(tmp[1])
+        loaded = json.load(open(tmp[0], encoding="utf-8")) if written else {}
+        leg("L25 an explicit destination is written and holds the same judgment",
+            rc_tmp == 0 and written and loaded.get("verdict") == FRESH
+            and _published() == before_bytes)
+
+        shim_face = dict(assess(now=after, faces=fresh, days=days))
+        shim_face["paid"] = [{"leg": "sibling_entry", "cmd": ["-c", "import sys;sys.exit(7)"],
+                              "rc": 7, "tail": ""}]
+        try:
+            buf = io.StringIO()
+            with redirect_stdout(buf):
+                write_out(shim_face, PUBLISH)
+            refused = False
+        except RuntimeError:
+            refused = True
+        leg("L26 a `-c` producer is a fixture and is refused at the published face",
+            refused and _published() == before_bytes)
+
     # --- the calendar is the official one, never this chain's own panel
     leg("L19 the expected bar comes from the official exchange calendar",
         os.path.basename(CA.CAL_PATH) == "exchange_calendar.csv")
@@ -457,7 +535,9 @@ def selftest():
     leg("L23 a face ahead of the calendar is never called 'behind 0 sessions'",
         "落后 0 个交易日" not in txt and "刷新救不了它" in txt and INCONSISTENT in txt)
 
-    passed = sum(1 for _, ok in legs)
+    # r1533: this read `sum(1 for _, ok in legs)`, which counts every leg whatever its
+    # verdict -- the suite printed its own [FAIL] lines and still said "N/N PASS" and rc 0.
+    passed = sum(1 for _, ok in legs if ok)
     for name, ok in legs:
         print(("[PASS] " if ok else "[FAIL] ") + name)
     print("%d/%d PASS" % (passed, len(legs)))

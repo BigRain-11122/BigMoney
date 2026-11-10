@@ -12803,3 +12803,41 @@ check-only 腿各自补上 `refresh` 命令，谁跑到谁自愈。票面新增�
 **证据**：`scripts/etf_book_swap_freshness.py`（selftest 23/23，新增 L20-L23 三条票面视图腿）+
 `scripts/etf_book_order.py`（selftest 155/155，leg51u/51v）+ 链路十腿补 refresh + smoke 腿
 「the sheet's swap-section freshness is re-derived, not remembered」。
+
+## E530 · 一页纸的头部只声明了一根 bar，而它下面每一节都带着自己那根：判「页面与面不一致」之前必须先问那一节停在哪天（r1533 bm-c）
+
+**病灶**：`docs/live_book/LIVE-BOOK-20261110.md` 顶部写「按 2026-11-10 定价」，实际 31 个带日期的节里
+只有 8 节在 11-10（capital 11-09、entry_gate/exposure_timing/sleeve_paths 11-06、cost_tape/vol_window
+10-30、sample_window 10-26），另有 19 节根本没有日期。全量套件里有 5 条页面腿因此长期红：它们把
+「按本机面板重算的 11-10 的块」去比「页面上 11-06 的那一节」，看到头部 bar 相等就判成页面缺陷。
+两个数字都真，判词错在**拿头部的日期替每一节作答**（r1177「同一本书两张纸」的下层：这次是同一页
+两个日期）。
+
+**三律**：
+1. **一节一日期**：页面的 bar 是一个字段集合，不是一个字段。`scripts/live_book_section_bars.py`
+   逐节读它自己的 `evidence_cutoff/panel_last_bar/asof`，输出 by_key 映射 + 直方图 + 落后交易日；
+   没有日期字段的节记为 `unknown`，**绝不假定它跟随头部**（头部正是被审计的那句话）。
+2. **判词归属写者**：非写者机把「与本机重算不同」改判为**点名**（该节停在哪根 + 写者 + 心跳龄），
+   仍严格的三种情形＝写者本机／页面打不开／页面整体落后超过 5 个交易日（那不是「另一天」，是没人刷新）。
+3. **单一实现**：腿里的知识不能有第二份。腿通过 `section_bars()` 取节 bar、通过
+   `sessions_between()` 数交易日，禁自己解析页面 JSON 的另一套。
+
+**证据**：`scripts/live_book_section_bars.py`（selftest 15/15，L1-L14）· `results/live_book_section_bars.json/.md` ·
+S6 腿 `live_book_section_bars`（check+run，0.3s）· smoke 两条新腿（逐节 bar 面可重算 / 节在旧 bar 上
+＝非写者机点名、写者机仍红）· 读数：header 2026-11-10，31 节中 8 节同 bar，23 节在别的 bar，19 节无日期。
+
+## E531 · 自检自己就是那条会写坏东西的通路：一次被提交的「生产者返 7」，和一个只会数腿的计数器（r1534 bm-c）
+
+三个缺口是同一个家族——**验证通路本身就是通道**，所以它的病不会以「红」的形式出现，而是以「绿」和「已发布」的形式出现。
+
+1) `scripts/etf_book_swap_freshness.py::write_out()` 没有目标参数，永远写 `results/etf_book_swap_freshness.json`。而 selftest 的 L15/L18 为了测「付费升级」注入了两个假生产者（`python -c pass` 与 `python -c "import sys;sys.exit(7)"`）。于是 r1532 的提交里躺着 `verdict=PRODUCER_FAILED`、句子「sibling_entry: its producer returned 7」、`paid=[{"cmd": ["-c","import sys;sys.exit(7)"], "rc": 7}]`——而盘上真值是 10 个面全部在 2026-11-10。票面的换票节、S6 的 check 腿、任何读者都会照着这张纸说「生产者坏了」。
+
+2) 同一文件的汇总行是 `passed = sum(1 for _, ok in legs)`——**数的是腿数，不是通过的腿数**：它先打印自己的 `[FAIL]` 行，然后印 `26/26 PASS`，退出码 0。同一行在 `scripts/live_book_section_bars.py` 还有第二个拷贝。
+
+三律：
+1. **写入函数必须收目标**：`write_out(face, out)`，`out=None` 即「不写」；`run()` 的默认发布只在「没有注入生产者」时生效（`publish = PUBLISH if (out is None and producer_cmd is None) else out`）——注入即测试，测试默认不落地。
+2. **发布口要留夹具爪**：`paid` 里出现 `-c` 说明这条生产者是测试垫片，目标指向上产面时直接 raise（自证腿 L26）。
+3. **计数器要能说不**：任何 `sum(1 for _, ok in …)` 必须带 `if ok`，证明方式＝造一个变异体，要求 rc=1 且汇总不再是 N/N（本窗一次性证据：`mutant rc=1 fails=1 summary=25/26`）。
+
+**证据**：`scripts/etf_book_swap_freshness.py` selftest 26/26（+L24 注入运行不动上产面 / L25 显式目标写入 / L26 夹具拒绝上产）· `etf_book_order --selftest` 155/155 · `live_book_section_bars` 15/15 · 修复后面 `results/etf_book_swap_freshness.json` verdict=FRESH 10/10 · S6 腿 2/2 rc0。
+
