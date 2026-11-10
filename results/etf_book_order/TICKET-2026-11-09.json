@@ -332,7 +332,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-10 07:39:42",
+   "at": "2026-11-10 09:26:03",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -915,15 +915,15 @@
    "vol": 0.0884
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1081,
-    "card_width_cagr": 0.0936,
-    "pp": -1.45
-   },
    "vol": {
     "ticket_width_cagr": 0.1139,
     "card_width_cagr": 0.1164,
     "pp": 0.25
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1081,
+    "card_width_cagr": 0.0936,
+    "pp": -1.45
    }
   },
   "rules_differ": true,
@@ -1169,5 +1169,101 @@
   "exploratory: no preregistration, no verdict, no ledger booking",
   "sizing base: the rule's k=0.460253 -- the executed account for 2026-11-09 is this sheet's own outcome (k=0.392587), so it cannot size it",
   "this ticket is the 5-name aggressive end of the book; the production card runs 12 names -- see width_disclosure"
- ]
+ ],
+ "premium": {
+  "status": "produced",
+  "face_asof": "2026-11-09",
+  "stale": false,
+  "rows": [
+   {
+    "symbol": "159501",
+    "class": "crossborder",
+    "latest_pct": 21.160308944048122,
+    "median_pct": 1.2751542199768595,
+    "lag_median_pp": 1.145263085111059,
+    "lag_latest_pp": 7.840651653853502,
+    "nav_lag_days": 3,
+    "nav_source": "cache-stale",
+    "verdict": "MIXED",
+    "rank": 0.9975728155339806,
+    "rank_n": 824,
+    "rank_verdict": "UPPER_TAIL"
+   },
+   {
+    "symbol": "513100",
+    "class": "crossborder",
+    "latest_pct": 18.63092600797518,
+    "median_pct": 1.2574850299401197,
+    "lag_median_pp": 0.9046771322220426,
+    "lag_latest_pp": 7.65972443728684,
+    "nav_lag_days": 3,
+    "nav_source": "cache-stale",
+    "verdict": "MIXED",
+    "rank": 0.988427143608627,
+    "rank_n": 1901,
+    "rank_verdict": "UPPER_TAIL"
+   },
+   {
+    "symbol": "513690",
+    "class": "crossborder",
+    "latest_pct": 0.0,
+    "median_pct": -0.010844810758048329,
+    "lag_median_pp": 0.08134891107464126,
+    "lag_latest_pp": 3.2315183709606066,
+    "nav_lag_days": 3,
+    "nav_source": "cache-stale",
+    "verdict": "MEAN_REVERTING",
+    "rank": 0.5018839487565938,
+    "rank_n": 1327,
+    "rank_verdict": "ORDINARY"
+   },
+   {
+    "symbol": "159577",
+    "class": "crossborder",
+    "latest_pct": 8.896845234074192,
+    "median_pct": 1.7555266579974083,
+    "lag_median_pp": 0.5086796524010784,
+    "lag_latest_pp": 5.461295369632247,
+    "nav_lag_days": 3,
+    "nav_source": "cache-stale",
+    "verdict": "LAG_DOMINATED",
+    "rank": 0.9878234398782344,
+    "rank_n": 657,
+    "rank_verdict": "UPPER_TAIL"
+   },
+   {
+    "symbol": "159263",
+    "class": "equity",
+    "latest_pct": -0.6460625109132256,
+    "median_pct": 0.10611956137247525,
+    "lag_median_pp": 0.331173810938834,
+    "lag_latest_pp": 1.3974354128384436,
+    "nav_lag_days": 3,
+    "nav_source": "cache-stale",
+    "verdict": "LAG_DOMINATED",
+    "rank": 0.16615384615384615,
+    "rank_n": 325,
+    "rank_verdict": "ORDINARY"
+   }
+  ],
+  "lag_dominated": [
+   "159577",
+   "159263"
+  ],
+  "unpriced": [],
+  "missing_legs": [],
+  "nav_lag_days": [
+   3,
+   3,
+   3,
+   3,
+   3
+  ],
+  "pct_status": "produced",
+  "pct_face_asof": "2026-11-09",
+  "pct_stale": false,
+  "pct_missing_legs": [],
+  "pct_sentence": "159501(UPPER_TAIL, 第100%)、513100(UPPER_TAIL, 第99%)、159577(UPPER_TAIL, 第99%)；若这些腿各自回到自己的中位溢价，这张单值 ￥28959",
+  "pct_revert_cny": 28958.66941862554
+ }
 }

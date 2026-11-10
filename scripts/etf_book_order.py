@@ -975,6 +975,8 @@ FLOOR_FACE = "results/etf_book_floor_ledger.json"
 SWAP_FACE = "results/etf_book_swap_trigger.json"
 SWAP_STACK_FACE = "results/etf_book_swap_stack.json"
 POSITIONS_FACE = "results/etf_book_positions.json"
+PREMIUM_FACE = "results/etf_premium/PREMIUM-PERSISTENCE.json"   # r1499: the reading the sheet must print
+PREMIUM_PCT_FACE = "results/etf_premium/PREMIUM-PERCENTILE.json"   # r1499b: where today ranks in its own history
 
 
 def _json_face(rel, results_dir=None):
@@ -1282,6 +1284,193 @@ def executed_base_md(base):
         L += ["- 本单按执行账 `%s` 的 k 定规模（那是**已经存在的一本书**，不是本轮结果）。"
               % sz.get("account_bar")]
     L += ["- 出处：%s。" % (base.get("face") or POSITIONS_FACE), ""]
+    return L
+
+
+def _premium_face(results_dir=None):
+    """Read the premium face, which lives in a sub-directory -- `_json_face` keeps only the
+    basename, so it would answer None for this one and print 'no premium' on every sheet."""
+    return _premium_face_file(PREMIUM_FACE, results_dir)
+
+
+def _premium_face_file(rel, results_dir=None):
+    """One loader for every face under results/etf_premium/ (r1499b: two producers, two files)."""
+    p = (os.path.join(results_dir, os.path.basename(rel))
+         if results_dir is not None else os.path.join(BASE, rel))
+    if not os.path.exists(p):
+        return None
+    try:
+        with open(p, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return None
+
+
+def premium_read(ticket, asof=None, results_dir=None):
+    """r1499: the premium reading r1497/r1498 built, cut to the legs this sheet buys.
+
+    r1498 closed with "2 of 5 legs move more when the NAV stamp shifts than the premium
+    they print" and wrote that sentence into results/etf_premium/ and a research note --
+    the trader holding ORDER-<asof>.md never saw it. A number that lives only in the
+    producer's file is not a disclosure (E281 family), so this cuts the published face to
+    this sheet's own legs and hands the renderer one dict.
+
+    Pure given the face: no data reads, no re-derivation. Verdict words are the producer's;
+    an absent leg is named rather than read as "no premium".
+    """
+    out = {"status": "missing", "face_asof": None, "stale": None, "rows": [],
+           "lag_dominated": [], "unpriced": [], "missing_legs": [], "nav_lag_days": [],
+           "pct_status": "missing", "pct_face_asof": None, "pct_stale": None,
+           "pct_missing_legs": [], "pct_sentence": None, "pct_revert_cny": None}
+    face = _premium_face(results_dir)
+    pct = _premium_pct_face(results_dir)
+    pct_legs = {}
+    if pct is not None:
+        out["pct_status"] = "produced"
+        out["pct_face_asof"] = _pct_session(pct)
+        out["pct_stale"] = bool(asof and out["pct_face_asof"]
+                                and str(asof) != out["pct_face_asof"])
+        pct_legs = {l.get("symbol"): l for l in (pct.get("legs") or []) if isinstance(l, dict)}
+        summ = pct.get("summary") or {}
+        out["pct_sentence"] = summ.get("sentence")
+        out["pct_revert_cny"] = summ.get("revert_to_own_median_cny")
+    if face is None:
+        return out
+    out["status"] = "produced"
+    out["face_asof"] = _premium_session(face.get("ticket_path"))
+    out["stale"] = bool(asof and out["face_asof"] and str(asof) != out["face_asof"])
+    legs = {l.get("symbol"): l for l in (face.get("legs") or []) if isinstance(l, dict)}
+    for r in ((ticket or {}).get("order") or []):
+        sym = r.get("symbol")
+        l = legs.get(sym)
+        p = pct_legs.get(sym)
+        if p is None and pct is not None:
+            out["pct_missing_legs"].append(sym)
+        if l is None:
+            out["missing_legs"].append(sym)
+            continue
+        out["rows"].append({"symbol": sym,
+                            "class": l.get("class") or r.get("class") or "?",
+                            "latest_pct": l.get("latest_pct"),
+                            "median_pct": l.get("median_pct"),
+                            "lag_median_pp": l.get("lag_spread_median_pp"),
+                            "lag_latest_pp": l.get("lag_spread_latest_pp"),
+                            "nav_lag_days": l.get("latest_nav_lag_days"),
+                            "nav_source": l.get("nav_source"),
+                            "verdict": l.get("verdict") or "?",
+                            "rank": (p or {}).get("rank_of_latest"),
+                            "rank_n": (p or {}).get("n"),
+                            "rank_verdict": (p or {}).get("verdict")})
+        if l.get("verdict") == "LAG_DOMINATED":
+            out["lag_dominated"].append(sym)
+        if l.get("verdict") == "UNPRICED":
+            out["unpriced"].append(sym)
+        if l.get("latest_nav_lag_days") is not None:
+            out["nav_lag_days"].append(int(l["latest_nav_lag_days"]))
+    return out
+
+
+def _premium_pct_face(results_dir=None):
+    """r1499b: where today's premium ranks inside that fund's own disclosed-NAV history."""
+    return _premium_face_file(PREMIUM_PCT_FACE, results_dir)
+
+
+def _pct_session(pct):
+    """The session the percentile face was cut for -- it publishes a ticket dict, not a path."""
+    t = (pct or {}).get("ticket")
+    if isinstance(t, dict):
+        return t.get("as_of")
+    return _premium_session(t)
+
+
+def _premium_session(path):
+    """The session the premium face was cut for, from its own ticket path."""
+    if not path:
+        return None
+    name = os.path.basename(str(path).replace("\\", "/"))
+    if name.startswith("TICKET-") and name.endswith(".json"):
+        return name[len("TICKET-"):-len(".json")]
+    return None
+
+
+def _pp(v):
+    return "-" if v is None else "%+.2f%%" % float(v)
+
+
+def _rank(v, n=None):
+    """A percentile is only readable with its denominator: 99.8% of how many sessions."""
+    if v is None:
+        return "-"
+    try:
+        s = "%.1f%%" % (100.0 * float(v))
+    except (TypeError, ValueError):
+        return "-"
+    return s if n is None else "%s (n=%d)" % (s, int(n))
+
+
+def premium_read_md(tk):
+    """Print the premium per leg beside its own standing level and its stamp sensitivity."""
+    if tk is None:
+        return []
+    if tk.get("status") != "produced":
+        return ["", "## 溢价读数（本单每只买的是什么价）",
+                "- **本单没有溢价读数**：`%s` 未产出或读不出。缺读数**不等于**没有溢价——"
+                "它只说明这笔单落在什么价位上是未知的。" % PREMIUM_FACE, ""]
+    L = ["", "## 溢价读数（本单这 %d 只各是多少价）" % len(tk.get("rows") or [])]
+    if tk.get("stale"):
+        L += ["- **这张溢价面切的是 `%s`，不是本单的日子**：读数与今日下单不同源，"
+              "只能作参考，不能拿它说今天的贵贱。" % (tk.get("face_asof") or "?")]
+    if tk.get("rows"):
+        L += ["", "| 代码 | 类别 | 今日溢价 | 自身中位 | 自身分位(n) | 戳敏(中位) | 戳敏(今日) | NAV 戳落后 | 判词 |",
+              "|---|---|---|---|---|---|---|---|---|"]
+        for r in tk["rows"]:
+            L.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s |"
+                     % (r["symbol"], r["class"],
+                        _pp(r.get("latest_pct")), _pp(r.get("median_pct")),
+                        _rank(r.get("rank"), r.get("rank_n")),
+                        _pp(r.get("lag_median_pp")), _pp(r.get("lag_latest_pp")),
+                        ("%d 天" % r["nav_lag_days"]) if r.get("nav_lag_days") is not None else "-",
+                        r.get("verdict") or "?"))
+    if tk.get("pct_status") != "produced":
+        L += ["", "- **本单没有分位读数**：`%s` 未产出或读不出。缺分位**不等于**今天的溢价在常态里——"
+              "它只说明这只基金今天排第几是未知的。" % PREMIUM_PCT_FACE]
+    else:
+        if tk.get("pct_stale"):
+            L += ["", "- **分位面切的是 `%s`，不是本单的日子**：那一列只作参考。"
+                  % (tk.get("pct_face_asof") or "?")]
+        if tk.get("pct_missing_legs"):
+            L += ["- **本单买了 %s，但分位面里没有它** —— 那不是「排在中位」，是没测。"
+                  % "、".join(tk["pct_missing_legs"])]
+        if tk.get("pct_sentence"):
+            L += ["- 分位一句话（生产者的原句）：%s。这句话里的 ￥%s 是**假设读数**（各腿回到自己中位），"
+                  "不是预测，也不构成「该减仓」的判断。"
+                  % (tk["pct_sentence"],
+                     "{:,.0f}".format(float(tk["pct_revert_cny"]))
+                     if tk.get("pct_revert_cny") is not None else "?")]
+        L += ["- 分位与戳敏问的是两件事：一个问「在自己历史里排第几」，一个问「这个读数是不是净值戳造出来的」。"
+              "**高分位不是卖单**：限购的基金可以常年溢价（本面不持有申购状态数据，限购假设未经证明）。",
+              "- 尺子：收盘价 ÷ 最新已披露单位净值 − 1；盘中 IOPV（篮子估值）是另一把尺子，两个数并列不相加、不换算。"]
+    lagged = tk.get("lag_dominated") or []
+    if lagged:
+        L += ["", "- **%d 只（%s）今日的读数随 NAV 戳动多于它自己印出来的溢价** —— "
+              "这几只今天的溢价不能判贵贱，戳换一天，读数就换一个方向。"
+              % (len(lagged), "、".join(lagged))]
+    elif tk.get("rows"):
+        L += ["", "- 本单没有 leg 的读数被 NAV 戳主导。"]
+    if tk.get("unpriced"):
+        L += ["- 读不出价的 leg（没有可用价格/净值配对）：%s。" % "、".join(tk["unpriced"])]
+    if tk.get("missing_legs"):
+        L += ["- **本单买了 %s，但溢价面里没有它** —— 那不是零溢价，是没测。"
+              % "、".join(tk["missing_legs"])]
+    lag_days = sorted(set(tk.get("nav_lag_days") or []))
+    if lag_days:
+        L += ["- 本单各 leg 的 NAV 戳落后 %s 天：溢价的分母本身是一个旧数。"
+              % "/".join(str(d) for d in lag_days)]
+    L += ["- **本单的金额与手数不由溢价决定**：规则只看横截面排序，溢价不参与定仓。"
+          "所以这段读数用来回答「不要因为它看起来便宜/贵就改单」，它不是择时信号。",
+          "- 出处：`%s`（scripts/etf_book_premium_persistence.py 单一生产者）。" % PREMIUM_FACE,
+          "- 出处：`%s`（scripts/etf_book_premium_percentile.py 单一生产者）。" % PREMIUM_PCT_FACE,
+          ""]
     return L
 
 
@@ -1738,6 +1927,7 @@ def card(ticket, mk, sched, asof, beta, extra):
         L += swap_trigger_md(extra.get("swap_trigger"))
         L += swap_stack_md(extra.get("swap_stack"))
         L += executed_base_md(extra.get("base"))
+        L += premium_read_md(extra.get("premium"))
         L += positions_md(extra.get("positions"))
         cm = extra.get("cash_money")
         if cm:
@@ -2404,6 +2594,11 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                              ["live width ruler %s: %s" % (ruler["state"], ruler["detail"])])}
 
     _write("state.json", state)
+    # r1499: the premium reading belongs to the ticket, not only to the rendered page -- a
+    # machine reader that has to scrape a markdown table is reading a rendering, and the leg
+    # that checks the page can then compare it with the ticket instead of trusting either one.
+    _prem = premium_read(ticket, asof)
+    payload["premium"] = _prem
     _write("TICKET-%s.json" % asof, payload)
     _write("latest.json", {"as_of": asof, "file": "TICKET-%s.json" % asof,
                            "beta_target": float(beta), "k_now": round(float(k_now), 6),
@@ -2427,6 +2622,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "swap_trigger": payload["swap_trigger"],
                       "swap_stack": payload["swap_stack"],
                       "positions": payload["positions"],
+                      "premium": _prem,
                       "base": payload["base"],
                       "permission": payload["permission"],
                       "size_band": payload["size_band"],
@@ -4883,6 +5079,85 @@ def selftest():
         and "额度台账" in " ".join(floor_source_md(_b))
         and "没有 floor" in " ".join(floor_source_md(_c)),
         "")
+
+    # leg54-57 (r1499): the premium reading has to reach the sheet, per leg, and an absent
+    # leg must be named rather than read as "no premium". Fixtures only -- no IO on results/.
+    import tempfile
+    _face = {"ticket_path": "results\\etf_book_order\\TICKET-2026-11-09.json",
+             "legs": [{"symbol": "AAA", "class": "crossborder", "latest_pct": 8.9,
+                       "median_pct": 1.76, "lag_spread_median_pp": 0.51,
+                       "lag_spread_latest_pp": 5.46, "latest_nav_lag_days": 3,
+                       "nav_source": "cache-stale", "verdict": "LAG_DOMINATED"},
+                      {"symbol": "BBB", "class": "equity", "latest_pct": -0.65,
+                       "median_pct": 0.11, "lag_spread_median_pp": 0.33,
+                       "lag_spread_latest_pp": 1.40, "latest_nav_lag_days": 3,
+                       "nav_source": "cache-stale", "verdict": "MIXED"}]}
+    with tempfile.TemporaryDirectory() as _td:
+        with open(os.path.join(_td, "PREMIUM-PERSISTENCE.json"), "w",
+                  encoding="utf-8") as _f:
+            json.dump(_face, _f, ensure_ascii=False)
+        # r1499b: the percentile face is a SECOND producer -- its ticket is a dict, so a
+        # loader that parses a path answers None for the whole face and prints "no ranking".
+        _pct_face = {"ticket": {"path": "results\\etf_book_order\\TICKET-2026-11-09.json",
+                                "as_of": "2026-11-09"},
+                     "legs": [{"symbol": "AAA", "n": 657, "rank_of_latest": 0.9976,
+                               "verdict": "UPPER_TAIL"},
+                              {"symbol": "BBB", "n": 325, "rank_of_latest": 0.17,
+                               "verdict": "LOWER"}],
+                     "summary": {"sentence": "AAA 第 100 分位", "revert_to_own_median_cny": 28958.7}}
+        with open(os.path.join(_td, "PREMIUM-PERCENTILE.json"), "w",
+                  encoding="utf-8") as _f:
+            json.dump(_pct_face, _f, ensure_ascii=False)
+        _tk2 = {"order": [{"symbol": "AAA"}, {"symbol": "BBB"}]}
+        _pr2 = premium_read(_tk2, "2026-11-09", results_dir=_td)
+        _md2 = "\n".join(premium_read_md(_pr2))
+        chk("leg54 the sheet prints the premium of the legs it orders",
+            _pr2["status"] == "produced" and len(_pr2["rows"]) == 2
+            and _pr2["lag_dominated"] == ["AAA"] and not _pr2["missing_legs"],
+            "rows=%d lag=%s" % (len(_pr2["rows"]), _pr2["lag_dominated"]))
+        chk("leg55 the leg whose reading is the stamp's is named on the sheet",
+            "AAA" in _md2 and "NAV 戳" in _md2 and "不由溢价决定" in _md2
+            and _pr2.get("stale") is False,
+            "lag=%s" % _pr2["lag_dominated"])
+        chk("leg58 the ranking carries its own denominator and the producer's sentence",
+            _pr2["pct_status"] == "produced"
+            and abs(_pr2["rows"][0]["rank"] - 0.9976) < 1e-9
+            and _pr2["rows"][0]["rank_n"] == 657
+            and "99.8% (n=657)" in _md2 and "第 100 分位" in _md2
+            and "28,959" in _md2 and _pr2["pct_missing_legs"] == []
+            and _pr2["pct_stale"] is False,
+            "rank=%s n=%s" % (_pr2["rows"][0]["rank"], _pr2["rows"][0]["rank_n"]))
+        chk("leg59 a leg with no ranking is named, and a missing ranking face is not 'median'",
+            (premium_read({"order": [{"symbol": "AAA"}, {"symbol": "ZZZ"}]},
+                          "2026-11-09", results_dir=_td)["pct_missing_legs"] == ["ZZZ"]),
+            "pct_missing")
+        _pr3 = premium_read({"order": [{"symbol": "AAA"}, {"symbol": "ZZZ"}]},
+                            "2026-11-10", results_dir=_td)
+        _md3 = "\n".join(premium_read_md(_pr3))
+        chk("leg56 a leg the face never measured is named, not read as zero premium",
+            _pr3["missing_legs"] == ["ZZZ"] and "ZZZ" in _md3 and "没测" in _md3
+            and _pr3.get("stale") is True and "不是本单的日子" in _md3,
+            "missing=%s stale=%s" % (_pr3["missing_legs"], _pr3.get("stale")))
+        chk("leg60 a ranking cut for another session says so on the sheet",
+            _pr3["pct_stale"] is True and "分位面切的是" in _md3,
+            "pct_stale=%s" % _pr3.get("pct_stale"))
+        with tempfile.TemporaryDirectory() as _empty:
+            _pr4 = premium_read(_tk2, "2026-11-09", results_dir=_empty)
+            _md4 = "\n".join(premium_read_md(_pr4))
+        chk("leg57 a missing premium face says so, and says that is not 'no premium'",
+            _pr4["status"] == "missing" and "不等于" in _md4,
+            "status=%s" % _pr4["status"])
+        with tempfile.TemporaryDirectory() as _only:
+            with open(os.path.join(_only, "PREMIUM-PERSISTENCE.json"), "w",
+                      encoding="utf-8") as _f:
+                json.dump(_face, _f, ensure_ascii=False)
+            _pr5 = premium_read(_tk2, "2026-11-09", results_dir=_only)
+            _md5 = "\n".join(premium_read_md(_pr5))
+        chk("leg61 a missing ranking face prints 'unknown', never a default position",
+            _pr5["status"] == "produced" and _pr5["pct_status"] == "missing"
+            and "没有分位读数" in _md5 and "未知" in _md5
+            and _pr5["rows"][0]["rank"] is None,
+            "pct_status=%s" % _pr5["pct_status"])
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

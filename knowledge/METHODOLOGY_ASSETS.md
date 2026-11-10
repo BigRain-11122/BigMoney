@@ -12334,3 +12334,30 @@ share>0 0.801 / 0.795 / 0.494 / 0.903 / 0.538；lag 跨度（今日读数）7.84
 正身：scripts/etf_book_premium_persistence.py（selftest 22/22 · check 5 legs）+ results/etf_premium/
 PREMIUM-PERSISTENCE.json + research/ETF_BOOK_PREMIUM_PERSISTENCE.md + Tools/s6_chain_bmc.py 腿
 premium_persistence + smoke_test.py 两条腿 + research/digests/DIGEST-20261110-r1498-premium-persistence.md。
+
+
+### E507 · 一条「看着对」的验证腿可以在「一行都没有」的面上全绿（r1499 bm-c）
+
+**事实**：r1499 把两个溢价面接进票面之后，本窗写的第一条 smoke 腿在真面上打印 PASS。做反证时才发现
+两处空转：① 票面 JSON 顶层没有 `order` 键（订阅名单位于 `ticket.order`），腿取到的是空列表——一个
+symbol 都没检查；② 腿找行用的是 `startswith("| %s |")`，而 ORDER 页里有三张表都以同一形状开头，
+第一张是权重表——即便取到 symbol，也会拿权重列去比溢价。两条同时存在的腿仍然"绿"，只因为它什么
+都没检查。
+
+**四律**：
+
+① **腿必须先断言「我检查了 N 行，N>0」**——否则"空工作流"与"全对"的输出不可分（r1371 族：
+   只在真面上断言答案的腿，会在分类器坏掉时照样绿）。
+② **匹配行必须先切到那一段**（`split("## 溢价读数")` 再取表），不能在全页做前缀匹配：同形状的
+   表格是常态，第一张匹配上的往往不是你以为的那张。
+③ **读数是机器面的一部分**：只写在 md 里的数字，机器读者要么刮表格、要么拿不到。本轮把 `premium`
+   块写进 TICKET JSON，腿才能比较「页面 vs 票面 vs 生产者」三方，而不是信其中任何一方。
+④ **分位数必须连同分母印**（`99.8% (n=824)`）；生产者原句整句照抄，禁重打——重打就是第二个实现。
+
+**实锚**（本单 2026-11-09，5 腿）：分位 99.8%(n=824) / 98.8%(1901) / 50.2%(1327) / 98.8%(657) /
+16.6%(325)；四条反证（抹分母 / 抹票面 premium 块 / 改一个溢价 / 删分位面）全部转红。
+
+正身：scripts/etf_book_order.py（`premium_read` / `premium_read_md` / `_premium_pct_face`，
+selftest 144/144）+ results/etf_book_order/TICKET-2026-11-09.json + ORDER-2026-11-09.md +
+smoke_test.py 腿「the sheet prints what it pays and where that price sits in history」+
+research/digests/DIGEST-20261110-r1499-premium-on-the-sheet.md。

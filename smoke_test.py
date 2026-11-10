@@ -7725,6 +7725,120 @@ def main() -> int:
     except Exception as e:
         check("product: the operator page prices the cash half on the sheet's own three rates",
               False, repr(e)[:160])
+    # ---- r1499: the sheet prints the price it pays AND where that price sits in history ---
+    # Two producers answer different questions: PREMIUM-PERSISTENCE (level, own median, how far
+    # the NAV stamp can move the reading) and PREMIUM-PERCENTILE (rank inside that fund's own
+    # disclosed-NAV history, with its denominator). Both live in the ticket and on the page now;
+    # this leg re-derives them from the two faces, demands the ticket carry them, and demands
+    # the page print the ticket's own numbers -- a page older than its ticket reads red. A rank
+    # without its n, a missing face read as "normal", a high percentile sold as a sell signal,
+    # and a leg that examined zero symbols (r1371: a leg can be green and empty) all read red.
+    try:
+        _bad99 = []
+        _dir99 = os.path.join(PATHS.results_dir, "etf_book_order")
+        _ptr99 = os.path.join(_dir99, "latest.json")
+        _tk99 = {}
+        if not os.path.exists(_ptr99):
+            _bad99.append("ticket pointer missing")
+        else:
+            with open(_ptr99, encoding="utf-8") as _fh99a:
+                _rel99 = json.load(_fh99a).get("file") or ""
+            _cand99 = [os.path.join(_dir99, os.path.basename(_rel99)),
+                       os.path.join(PATHS.root, _rel99)]
+            _path99 = next((p for p in _cand99 if p and os.path.exists(p)), None)
+            if _path99:
+                with open(_path99, encoding="utf-8") as _fh99b:
+                    _tk99 = json.load(_fh99b)
+            else:
+                _bad99.append("ticket body not resolvable")
+        _asof99 = _tk99.get("evidence_cutoff") or ""
+        _md99 = ""
+        _mdp99 = os.path.join(_dir99, "ORDER-%s.md" % _asof99)
+        if _asof99 and os.path.exists(_mdp99):
+            with open(_mdp99, encoding="utf-8") as _fh99c:
+                _md99 = _fh99c.read()
+        else:
+            _bad99.append("ORDER-%s.md missing" % (_asof99 or "?"))
+        _h99 = _tk99.get("premium") or {}
+        if not _h99:
+            _bad99.append("the ticket carries no premium block (the page cannot be vouched)")
+        _rr99 = os.path.join(PATHS.results_dir, "etf_premium")
+        _faces99 = {}
+        for _n99 in ("PREMIUM-PERSISTENCE.json", "PREMIUM-PERCENTILE.json"):
+            _faces99[_n99] = None
+            _p99 = os.path.join(_rr99, _n99)
+            if os.path.exists(_p99):
+                with open(_p99, encoding="utf-8") as _fh99d:
+                    _faces99[_n99] = json.load(_fh99d)
+        _lv99 = {l.get("symbol"): l for l in
+                 ((_faces99["PREMIUM-PERSISTENCE.json"] or {}).get("legs") or [])
+                 if isinstance(l, dict)}
+        _rk99 = {l.get("symbol"): l for l in
+                 ((_faces99["PREMIUM-PERCENTILE.json"] or {}).get("legs") or [])
+                 if isinstance(l, dict)}
+        _syms99 = [r.get("symbol") for r in
+                   ((_tk99.get("ticket") or {}).get("order") or _tk99.get("order") or [])]
+        _rows99 = {r.get("symbol"): r for r in (_h99.get("rows") or []) if isinstance(r, dict)}
+        # Only the premium table counts: an order-table row starts with the same "| SYM |",
+        # and the first version of this leg compared the weight column with the premium and
+        # stayed green because the ticket had emitted no order rows at all (r1371 family).
+        _sec99 = []
+        if "## 溢价读数" in _md99:
+            _sec99 = _md99.split("## 溢价读数", 1)[1].split("\n## ", 1)[0].splitlines()
+        if not _syms99:
+            _bad99.append("the ticket orders nothing this leg can check")
+        for _s99 in _syms99:
+            _row99 = _rows99.get(_s99)
+            if _row99 is None:
+                _bad99.append("%s is ordered but carries no premium row" % _s99)
+                continue
+            _l99 = _lv99.get(_s99)
+            if _l99 is not None and _l99.get("latest_pct") is not None:
+                if abs(float(_row99.get("latest_pct") or 0) - float(_l99["latest_pct"])) > 1e-9:
+                    _bad99.append("%s premium disagrees with its producer" % _s99)
+            _r99 = _rk99.get(_s99)
+            if _r99 is not None and _r99.get("rank_of_latest") is not None:
+                if (_row99.get("rank") is None
+                        or abs(float(_row99["rank"]) - float(_r99["rank_of_latest"])) > 1e-9):
+                    _bad99.append("%s rank disagrees with its producer" % _s99)
+                if _row99.get("rank_n") != _r99.get("n"):
+                    _bad99.append("%s rank carries a different denominator (%r vs %r)"
+                                  % (_s99, _row99.get("rank_n"), _r99.get("n")))
+            _line99 = next((ln for ln in _sec99 if ln.startswith("| %s |" % _s99)), "")
+            if not _line99:
+                _bad99.append("%s is ordered but has no row in the premium section" % _s99)
+                continue
+            if (_row99.get("latest_pct") is not None
+                    and ("%+.2f%%" % float(_row99["latest_pct"])) not in _line99):
+                _bad99.append("%s premium is not printed" % _s99)
+            if _row99.get("rank") is not None:
+                _need99 = "%.1f%% (n=%d)" % (100.0 * float(_row99["rank"]),
+                                             int(_row99.get("rank_n") or 0))
+                if _need99 not in _line99:
+                    _bad99.append("%s rank %s is not printed with its denominator"
+                                  % (_s99, _need99))
+        if _faces99["PREMIUM-PERCENTILE.json"] is None:
+            if "没有分位读数" not in _md99:
+                _bad99.append("the ranking face is absent but the page does not say so")
+        else:
+            _sum99 = ((_faces99["PREMIUM-PERCENTILE.json"] or {}).get("summary") or {})
+            _rv99 = _sum99.get("revert_to_own_median_cny")
+            if _rv99 is not None and format(int(round(float(_rv99))), ",") not in _md99:
+                _bad99.append("the revert-to-median CNY is not printed")
+            if _sum99.get("sentence") and _sum99["sentence"] not in _md99:
+                _bad99.append("the producer's own sentence is dropped or rewritten")
+        if _md99.strip():
+            for _tok99 in ("高分位不是卖单", "假设读数",
+                           "PREMIUM-PERSISTENCE.json", "PREMIUM-PERCENTILE.json"):
+                if _tok99 not in _md99:
+                    _bad99.append("the page does not print %s" % _tok99)
+        check("product: the sheet prints what it pays and where that price sits in history",
+              not _bad99,
+              "; ".join(_bad99)[:220] or
+              "%d leg(s) checked; ticket and page agree with both producers" % len(_syms99))
+    except Exception as e:
+        check("product: the sheet prints what it pays and where that price sits in history",
+              False, repr(e)[:160])
     # ---- r1247: the operator page says what the entry gate is the source of ---------------
     # The whole universe is picked by one number (a 20M median-turnover cut), and r1246 swept
     # it: return is flat across the sweep, width is not. This leg re-derives the verdict from
