@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1672 bm-b: E652 runs E647's string instrument over the whole corpus and all 6 counted read modules -- 13,108 files, 1,482,453 strings, 23 spellers in 28 literals, 14 of them carrying a counted row key and exactly 1 reaching its module through a loader-consumed string (scripts/run_e590_smoke_leg.py imports e590_cash_silence), and no overlap with E647's 6 hit modules. E652 done; E655 seeded (does that one route read or write the counted key it spells) and E656 seeded (docstring mention or code position), ready floor 3. 2026-11-10T20:15:00+08:00",
+ "_stamp_note": "r1673 bm-b: E655 walked to the site of the one loader route E652 found -- 1 route, 3 key sites, the single write reaches the container face_problems reads, 0 plain hits and 2 doctor hits, so the write is diagnostic only; E652's key list misses a constant inside a percent-formatted expression, which is now deferred to E657 as a sized blind spot instead of a footnote",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -31506,14 +31506,20 @@
    "source": "E652 (r1672 bm-b) -- the one module in the strict cell",
    "target": "results/state_tilt/STRICTROUTE.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T20:15:00+08:00",
    "seeded_by": "r1672 bm-b",
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal"
    },
-   "note": "E655"
+   "note": "E655",
+   "result_ref": "results/state_tilt/STRINGROUTEKEY.json",
+   "done_by": "r1673 bm-b",
+   "done_at": "2026-11-10T21:58:00+08:00",
+   "evidence_cutoff": "2026-11-10",
+   "finding": "1 loader route over 3 key sites (call_argument 2 / dict_literal_key 1); the one write ('bar' into blk['step_rows'] with blk = doc['tickets'][0]) reaches the container face_problems reads; the 3 counted read lines sit in face_problems and trace as 0 hits on the plain arm and 2 on the doctor arm, so the write is on a doctor-gated branch; the other spelled key 'rows' is a .get argument on the disk face, i.e. the same name on another object. E652's per-file key list also misses a constant inside a percent-formatted expression (E647 publishes that subtree as one unresolved handle): this walk finds 'verdict' there, accepts it only because every site sits on that handle's statement span, and counts it",
+   "verdict": "the_route_executes_the_counted_read_line_and_the_dict_key_the_speller_writes_is_the_container_that_line_reads,_but_the_write_sits_behind_a_branch_only_taken_when_the_doctor_flag_is_set,_so_the_invisible_arm_carries_a_key_that_is_both_written_and_read_inside_one_call_chain_and_the_write_is_diagnostic_only"
   },
   {
    "card": "E656",
@@ -31533,6 +31539,25 @@
     "priority": "BelowNormal"
    },
    "note": "E656"
+  },
+  {
+   "card": "E657",
+   "id": "E657-HOW-MANY-COUNTED-KEY-SITES-CORPUS-WIDE-SIT-INSIDE-AN-E647-UNRESOLVED-STRING-HANDLE",
+   "title": "E655 found that E647's collect_strings hands a percent-formatted expression back as one unresolved handle, so a counted key constant inside that subtree never enters E652's per-file key list: measure the size of that blind spot corpus-wide -- how many counted key sites, in how many files, sit inside a reported unresolved handle (percent formatting, value-bearing f-string, concatenation), and how many of those files E652 therefore classified as not carrying a key",
+   "lane": "cpu-only",
+   "lane_note": "This is the one measurable hole E655 named rather than explained away. E647 already publishes the unresolved handles as a volume (89,667 strings) but never prices what is inside them, and E652's per-file key list inherited that limit. The walk is the same instrument E655 used, applied to every file instead of the single loader route, so the cost is one corpus pass and the answer is a count that either retires the blind spot or sizes it.",
+   "deliverable": "results/state_tilt/UNRESOLVEDKEY.json: per unresolved handle, its kind, its line span, the counted key constants inside it with their syntactic role, and the files E652 published without a key that do carry one here",
+   "source": "E655 (r1673 bm-b) -- extra_in_this_walk explained by E647's unresolved handle",
+   "target": "results/state_tilt/UNRESOLVEDKEY.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T21:58:00+08:00",
+   "seeded_by": "r1673 bm-b",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   },
+   "note": "E657"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31547,6 +31572,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T20:15:00+08:00",
+ "updated_at": "2026-11-10T21:58:00+08:00",
  "version": 1
 }

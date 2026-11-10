@@ -1591,6 +1591,18 @@ LEGS = [
     # scanned+holes closure from the face's own rows.
     ("string_arm_census", ["python", "scripts/e652_string_arm_census.py", "verify"]),
 
+    # E655 prices the one loader route E652 found at the site instead of at the file: every string
+    # constant equal to a counted key gets the syntactic role of its parent, a dict-literal write
+    # publishes its assignment root and that root's own definition, the loader's measured string is
+    # bound to the handle it binds and the counted read lines inside the attributes called on that
+    # handle are kept, and the speller is executed twice (plain and --doctor) under a tracer scoped
+    # to the read module with hits priced by statement span.  Reading: 1 route, 3 key sites
+    # (call_argument 2 / dict_literal_key 1), the single write reaches the container face_problems
+    # reads, 0 plain hits and 2 doctor hits -- the write is on a doctor-gated branch, so the key is
+    # both written and read inside one chain and the write is diagnostic only.  Verify re-derives
+    # every counter, the role histogram, every bridge and both hit counts from the face's own rows.
+    ("counted_key_route", ["python", "scripts/e655_counted_key_route.py", "verify"]),
+
     # E649 prices the joint distribution of two columns E643 published independently: the 2,641
     # two-depth write sites with no enclosing function, and the 3,237 module-body sites inside a
     # module-level compound statement.  A module-level write can sit bare in the module body (runs at

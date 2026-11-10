@@ -28412,6 +28412,62 @@ except Exception as _e652x:
     _d652 = "study could not be read"
 check(_name652, not _bad652, "; ".join(_bad652)[:240] or _d652)
 
+# E655 prices the one loader route E652 found at the site rather than at the file.  "Carries a
+# counted row key" is a file-level fact; this study walks to each string constant equal to a counted
+# key, classifies the syntactic role of its parent, publishes the assignment root of a dict-literal
+# write and that root's own definition, binds the loader's measured string to the handle it binds,
+# keeps the counted read lines that live inside the attributes called on that handle, and then runs
+# the speller twice (plain and --doctor) under a tracer scoped to the read module.  Reading: 1 route
+# over 3 key sites ({'call_argument': 2, 'dict_literal_key': 1}), the one write ('bar' into
+# blk['step_rows'] with blk = doc['tickets'][0]) reaches the container face_problems reads, and the
+# read lines are 0 hits on the plain arm and 2 on the doctor arm -- so the invisible arm carries a
+# key that is both written and read inside one chain, and the write is diagnostic only.  This leg
+# refuses a face whose counters do not re-add from its routes, whose role histogram or bridge counts
+# disagree with their own rows, whose runtime hit counts disagree with its own read lines, whose
+# E652 key list does not reproduce, and any problem the study's own gate returns.
+_name655 = "E655 does E652's loader route read or write the counted key it spells (r1673 bm-b)"
+_bad655 = []
+_d655 = "no reading"
+try:
+    _f655 = json.load(open(os.path.join("results", "state_tilt", "stringroutekey_latest.json"),
+                           encoding="utf-8"))
+    _m655 = importlib.import_module("e655_counted_key_route")
+    _bad655.extend(_m655.face_problems(_f655))
+    _c655 = _f655.get("counts") or {}
+    _rows655 = _f655.get("routes") or []
+    _live655 = _m655.live_counts(_rows655)
+    for _k655 in ("routes_measured", "counted_read_lines_in_the_route", "key_sites",
+                  "sites_by_role", "writes_that_reach_the_reader_container",
+                  "writes_on_a_doctor_gated_branch", "read_lines_executed_plain",
+                  "read_lines_executed_doctor", "routes_where_e652s_key_list_reproduces"):
+        if _c655.get(_k655) != _live655.get(_k655):
+            _bad655.append("counts.%s is not the route-derived value" % _k655)
+    if sum((_c655.get("sites_by_role") or {}).values()) != (_c655.get("key_sites") or 0):
+        _bad655.append("the role histogram does not add up to the key sites")
+    for _r655 in _rows655:
+        if sum((_r655.get("sites_by_role") or {}).values()) != (_r655.get("key_site_count") or 0):
+            _bad655.append("route %r publishes a role histogram that does not add up"
+                           % _r655.get("speller"))
+            break
+        if sum(1 for _b in (_r655.get("bridges") or []) if _b.get("reaches_the_reader_container")) \
+                != (_r655.get("writes_that_reach_the_reader_container") or 0):
+            _bad655.append("route %r publishes a reach count its own bridges do not force"
+                           % _r655.get("speller"))
+            break
+        if len([_x for _x in (_r655.get("counted_read_lines") or []) if _x.get("hit_doctor")]) \
+                != (_r655.get("read_lines_executed_doctor") or 0):
+            _bad655.append("route %r publishes a doctor hit count its own lines do not force"
+                           % _r655.get("speller"))
+            break
+    if _m655.decide(_c655) != _f655.get("verdict"):
+        _bad655.append("the published verdict is not the one its own counts force")
+    if _f655.get("verdict") == _m655.V_NO_ROUTE and _rows655:
+        _bad655.append("the no-route verdict is published with route rows")
+except Exception as _e655x:
+    _bad655.append(repr(_e655x)[:160])
+    _d655 = "study could not be read"
+check(_name655, not _bad655, "; ".join(_bad655)[:240] or _d655)
+
 # E649 prices the population E643 published as two independent columns: the 2,641 two-depth write
 # sites with no enclosing function ("module level").  A module-level write can sit bare in the module
 # body (runs at import), inside `if __name__ == '__main__':` (never at import), inside a try/except

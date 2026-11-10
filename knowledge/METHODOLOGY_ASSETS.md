@@ -15402,3 +15402,37 @@ file_text_or_face_read 1 / import_string_reach 1 / path_string_only 1。
 `scripts/run_e652_smoke_leg.py`（1/1 PASS，`--doctor` 翻转后逐字节回原 sha `5ebfc5c10fba`）、
 smoke_test.py leg E652、S6 leg `string_arm_census`（rc=0 0.06s）、
 `research/digests/DIGEST-20261110-r1672-e652-string-arm-census.md`
+
+## E655 —— 唯一 loader 路由：键真被读、也真被写，但写只在 `--doctor` 分支（r1673 bm-b）·2026-11-10
+
+E652 说 23 个文件在字符串里拼出读数模块的名字，其中 14 个还「携带一个计数行键」。那是**文件级**事实：
+它只说键在文件里出现过，不说那个站点对键做了什么，更不说它写进去的对象是不是被调函数读的那个容器。
+本批走到站点：3 个键站点（`call_argument` 2 / `dict_literal_key` 1）；唯一写点是
+`blk["step_rows"] = [{"bar": …}]`，而 `blk = doc["tickets"][0]`，`doc` 正是传给
+`m.face_problems(doc)` 的实参 —— 写进去的容器就是读者读的容器。e590 的 3 条计数读行
+（367/372/377）全在 `face_problems` 内，静态上都在被调属性里。运行追踪给出决定性一面：
+**plain 0 命中、`--doctor` 2 命中**，因为那条写只活在 `if doctor:` 的 else 回退分支里，是诊断件不是生产件。
+另一个键 `rows` 是**同名不同物**：`.get("rows")` 读的是磁盘面上的 `bars_past_the_panel`，不是 e590 读的对象。
+
+1. **文件级键列表 ≠ 站点语义**。必须逐站点分角色（dict 字面键＝写、调用实参＝读、下标＝读、比较＝纯文本）。
+   按「文件里有没有这个字符串」判，会把一个诊断用的构造写当成生产读。
+2. **桥要印出来才算证明**。dict 的赋值根、根自己的定义、被调函数的实参名三件同时发布，同源才算
+   「写到了读者容器里」；只报 `reaches=true` 的布尔值等于让读者相信仪器。本面同时公布 `root`、
+   `dict_root_definition`、`reader_arguments`，闸从桥重算计数。
+3. **运行证据不可省**。静态看这条链完美（写→参数→读行），但 trace 显示生产路径 0 命中：
+   没有运行面就会把「诊断分支的写」发布成「生产路径上的读写闭环」。
+4. **E652 的键列表有一个真实盲点，必须解释而不是抹平**。E647 的 `collect_strings` 把
+   percent-format 表达式整体记成一个 unresolved 句柄，于是 `… % face.get("verdict")` 里的常量
+   进不了 E652 的列表；本面读全部常量因而多出 1 个键。处理律＝**多出的键只有在它的每个站点都落在
+   该句柄所在语句 span 内时才被接受并计数**（`keys_found_outside_e652s_list`=1，`extra_explained_…` 逐键留行号）；
+   E652 有而本面没有＝直接判红。差异被解释不等于差异被消除，两个数都发布。
+
+**边界**：桥是单层下标（键写进两跳以外构造的容器会判不达）；命中按**语句 span** 判（CPython 多行调用只报首行）；
+`--doctor` 是诊断模式，其写不进生产计数；路由集合取自 E652，不在此重新普查；token 包含形态（E652 的
+`token_contains_stem`）不算键站点，因为这里问的是容器访问不是文本。
+
+**证据**：`scripts/e655_counted_key_route.py`（selftest 14/14·run/check/verify rc0·problems=[]）·
+`results/state_tilt/STRINGROUTEKEY.json` + `stringroutekey_latest.json` ·
+`scripts/run_e655_smoke_leg.py`（1/1 PASS·`--doctor` 翻红且面字节还回 sha `e65727454626`）·
+smoke_test.py leg E655 · S6 leg `counted_key_route`（rc=0 0.06s）·
+`research/digests/DIGEST-20261110-r1673-e655-counted-key-route.md`
