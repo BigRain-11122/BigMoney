@@ -1006,16 +1006,16 @@
  "sync": {
   "ahead_origin": 0,
   "behind_origin": 0,
-  "commit": "0fbd8c3982",
+  "commit": "9e51f47828",
   "landed_on": "origin/main",
-  "origin_tip": "0fbd8c3982",
-  "ts": "2026-11-11T03:26:40+08:00"
+  "origin_tip": "9e51f47828",
+  "ts": "2026-11-11T04:08:12+08:00"
  },
  "task": "r1532: the sheet's ten swap faces carry their own dates, and the reader pays the producers",
  "total_ram_gb": 23.9,
- "ts": "2026-11-11T04:06:12+08:00",
- "updated": "2026-11-11 04:06",
- "updated_at": "2026-11-11T04:06:12+08:00",
+ "ts": "2026-11-11T04:08:12+08:00",
+ "updated": "2026-11-11 04:08",
+ "updated_at": "2026-11-11T04:08:12+08:00",
  "verdict": "PRODUCT: the trigger face stopped calling one exchange (0.16 pp, 2 sides) a round trip (0.32 pp, 4 sides); the sentence is generated from the scope and --check/selftest refuse the old word; the ticket section reads the scope and prints both numbers, naming an unscoped face as unscoped",
  "verify": "swap_freshness selftest 23/23 (L20-L23 new); etf_book_order --selftest 155/155 (leg51u/51v); ticket+card rc0 with the new section; three end-to-end fixtures (stale healed, ahead refused, restored); S6 subset 5/5 rc0",
  "verify_smoke_closed": "PARTIAL: full suite started 03:23 on the post-change tree (pid 67696, logs/smoke_r1531.log), in flight at close",
@@ -1025,5 +1025,6 @@
  "round_t1529_next": "next: the three scopes are labelled on the sheet now, but the TRIGGER still prints its own word in its own section (\"the round-trip toll\") -- re-read r1525's open half first if the 2026-11-11 bar has landed; otherwise give the trigger section the pointer line so a reader of that section alone cannot walk away thinking 0.16 is what the swap cost",
  "round_t1529_addendum": "r1529b: delivery and the double scan. a89a509c88 on origin/main (b4b66f27ad..a89a509c88, 17 files), 0 ahead / 0 behind after fetch, git ls-tree origin/main sees scripts/etf_book_toll_scope.py. S0.5 second scan: orders 114/114 acked (241 ack entries, diff 0); group decisions blob sha256 2ffcc70c == self-held watermark -> zero action. NOT VERIFIED (honest): the full suite was started 02:19 in the background (pid 77532, log logs/smoke_r1529.log) on the post-change tree and is still in flight at close -- zero FAIL in what it has flushed so far; the 3 new legs rest on the ticket-embedded-vs-fresh equality check run by hand plus selftest 26/26 and CHECK_OK. S6 subset 5/5 rc0 (dualrun ZERO-DRIFT streak 51 / compute_audit / py_watermark / update_daily / toll_scope 0.2s). S7: loop pin=5 no-op (first fire 02:25), watchdog re-registered (S4U flip still access-denied), both claws reinstalled, attrition 4 ledgers CLEAN. Orphan faces py_faces=8 orphans=1 (pid 60536 scripts\\update*, 7.4h stalled, recorded not killed).",
  "round_t1532_note": "| 2026-11-11 04:06 | 1532 | **PRODUCT（产品优先律）：票面上的十个数，第一次各自带着自己的日期。** r1530 已经看见换票族十个面停在 2026-11-06、而票面印「今日」，它建了 results/etf_book_swap_freshness.json 记录每根 bar，并把「按依赖顺序付 producer」的 run 写好了——四个交易日后实测：sibling_entry 仍停在 11-06，而那张判词面在盘上写着 verdict=STALE，票面照样印 `current`。三个缺口各自都足以让机制空转：①零消费者（票面的新鲜度节只讲票面自己的 bar）②这十条腿在链里只有 check，而 check 只证明「面与它被造出来的世界自洽」，四天没动在自己的世界里完美自洽 → 永远 rc=0 → 链没有理由刷新 ③换票族与其快照腿排在票面之后 700 步。**正法=让消费者付账**：票面 run 时若判 STALE 先按依赖顺序付十个 producer 再印，判 INCONSISTENT 一律不刷（重跑不能让「日历还没有的那天」变真）；十条 check-only 腿各自补 refresh（谁跑到谁自愈）；票面新增一节逐日列出每个面停在哪根 bar。**实证（三次夹具端到端）**：把 sibling_entry 面退回 11-06 → 跑票面 → 面自动回 11-10、票面印 FRESH；把 swap_units bar 推到 2026-11-11（日历还没有）→ 票面印 INCONSISTENT 并写「刷新救不了它」、不触发刷新；恢复后 FRESH。**顺手抓到一个把自愈静默变成「诚实」的坑**：producer 输出含 U+FFFD 时 GBK 控制台 print 抛 UnicodeEncodeError，被 except 吞掉后票面印「无法证明」——修法 sys.stdout.reconfigure(encoding=\"utf-8\", errors=\"replace\")（r1371 同配方）。**验证**：swap_freshness selftest 23/23（新 L20-L23）、etf_book_order --selftest 155/155（leg51u/51v）、票面与卡重生成 rc=0、smoke 新腿一条、S6 子集 5/5 rc0（swap_freshness/sibling_entry/swap_trigger/swap_units/etf_book_order 87.7s）。**S6**：dualrun ZERO-DRIFT streak 51 / compute_audit FLAG pool_starvation(15698min)+supply_floor(ready 0/floor 3·AGENDA_DEBT 4 候选全不过日历) / py_watermark insufficient_history / update_daily rc0 0 新行 cutoff 2026-11-10。**S0.5**：orders 114/114 全回执；集团 decisions blob sha256 2ffcc70c 与自持水位同值 → 零动作。**S7**：attrition 4 账本 CLEAN；孤儿面 py_faces=8 orphans=0 零杀。**未验证（如实）**：全量套件 04:0x 后台新起（logs/smoke_r1532.log），收轮时仍在飞，新腿以单点实跑为准。**当前活**：票面的换票族一节自带日期与自愈。**最近实物**：`results/etf_book_order/ORDER-2026-11-10.md`「换票那一节的 10 个面各自在哪一天（r1532）」。**下个里程碑**：r1525 的第二半仍未做——11-11 收盘（15:00）后才有 bar，届时要接的是「同一份数×新价」的重估（窗 ≤48h）。 |",
- "round_t1532_next": "next: r1525's second half -- feed the same share count the 2026-11-11 close (the bar does not exist before 15:00) so the price-drift label stops being null, and refuse to re-derive the count from a new gap"
+ "round_t1532_next": "next: r1525's second half -- feed the same share count the 2026-11-11 close (the bar does not exist before 15:00) so the price-drift label stops being null, and refuse to re-derive the count from a new gap",
+ "round_t1532_addendum": "| 2026-11-11 04:08 | 1532b | **ADDENDUM（收尾）：送达与两扫。** 轮提交 **9e51f47828** 已落 origin/main，fetch 后 **0 ahead / 0 behind**（本地未达 origin commit 数=0），`git ls-tree origin/main` 见 `scripts/etf_book_swap_freshness.py`。**S0.5 二扫**：orders 114/114 全在心跳 orders_ack，零未处理；集团 decisions blob sha256 2ffcc70c 与自持水位同值 → 零动作。**S7**：loop pin=5 no-op（首跳 04:10）、watchdog 重注册（S4U 翻转仍被拒·需管理员）、两爪重装、attrition 4 账本 CLEAN。**未验证（如实）**：全量套件 04:0x 后台新起（logs/smoke_r1532.log，pid 44984），收轮时 **87 腿 / 0 FAIL** 仍在飞；本轮三条新腿以单点实跑为准（夹具三次端到端 + 两个 selftest + S6 子集 5/5 rc0）。 |"
 }
