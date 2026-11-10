@@ -1562,6 +1562,19 @@ LEGS = [
     # Verify re-derives every count, both histograms and each pair's reach from the face's own rows.
     ("string_reach", ["python", "scripts/e647_string_reach.py", "verify"]),
 
+    # E651 folds the 14 strings E647 published as unresolved.  A template is measured first (the left
+    # operand of %, the receiver of .format, the constant fragments of an f-string) and matched
+    # before anything is resolved; then every substituted operand is resolved against the scope chain
+    # the site sits in (literal / the module's own string constant / an alias of one / a string
+    # constant assigned in the enclosing function) and the ones that cannot be resolved are published
+    # with their binding class. Only fully resolved sites are folded, with the real operator applied,
+    # so a %d fed a string constant is an operator_raised residual rather than a folded value.
+    # Reading: 14 sites in 6 modules, 0 template fragment and 0 folded string names a counted module,
+    # 1 site folds and 13 stay residual, and all 14 are consumed by formatting or by nothing (0 by
+    # import or file machinery). Verify re-derives every count, histogram, fold status and reach from
+    # the face's own rows and reconciles 7 hits / 14 sites with E647.
+    ("template_fold", ["python", "scripts/e651_template_fold.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

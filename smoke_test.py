@@ -28274,5 +28274,73 @@ except Exception as _e647x:
     _d647 = "study could not be read"
 check(_name647, not _bad647, "; ".join(_bad647)[:240] or _d647)
 
+# E651 folds the strings E647 left unresolved.  E647 matched every string its 6 hit modules can be
+# asked to spell (480 literals, all-constant f-strings and `"a" + "b"` folds) and published 14 built
+# from an expression as its own limit.  This study measures the two places such a string can carry a
+# name -- the template (the left operand of %, the receiver of .format, the constant fragments of an
+# f-string) and the operands substituted into it -- resolving each operand against the scope chain
+# the site sits in (a literal, the module's own string constant, an alias of one, a string constant
+# assigned in the enclosing function) and publishing the binding class of the ones it cannot resolve
+# (loop target, comprehension target, except-arm name, module-level non-constant, call result, other
+# expression).  Reading: 14 sites in 6 modules (12 %, 2 f-strings), 0 template fragment and 0 folded
+# string names a counted read module, 1 of the 14 sites folds (29 operands, 1 value resolved) so 13
+# stay residual, and all 14 sites are consumed by formatting or by nothing -- 0 by import or file
+# machinery -- so the residual cannot be a route to a module even if a value named one.  This leg
+# refuses a face whose counters do not re-add from its rows, whose fold status disagrees with its own
+# operands, whose site reach is not the one its own entries force, whose reconciliation with E647
+# moved, and any problem the study's own gate returns.
+_name651 = ("E651 whether the expression-built strings E647 left unresolved can name a counted "
+            "read module once their operands are folded (r1669 bm-b)")
+_bad651 = []
+_d651 = "no reading"
+try:
+    _f651 = json.load(open(os.path.join("results", "state_tilt", "unresolvestr_latest.json"),
+                           encoding="utf-8"))
+    _m651 = importlib.import_module("e651_template_fold")
+    _bad651.extend(_m651.face_problems(_f651))
+    _c651 = _f651.get("counts") or {}
+    _rows651 = _f651.get("rows") or []
+    _pairs651 = _f651.get("pairs") or []
+    _live651 = _m651.live_counts(_rows651, _pairs651)
+    for _k651 in ("hits_re_derived", "distinct_hit_modules", "expression_built_strings",
+                  "sites_folded", "sites_not_foldable", "operands_total", "operands_resolved",
+                  "sites_consumed_by_loader_machinery", "pairs"):
+        if _c651.get(_k651) != _live651.get(_k651):
+            _bad651.append("counts.%s is not the row-derived value" % _k651)
+    if (_c651.get("sites_folded") or 0) + (_c651.get("sites_not_foldable") or 0) != (
+            _c651.get("expression_built_strings") or 0):
+        _bad651.append("the fold buckets do not add up to the sites")
+    if sum((_c651.get("operands_by_binding") or {}).values()) != (
+            _c651.get("operands_total") or 0):
+        _bad651.append("the binding histogram is not the operand count")
+    if (_c651.get("operands_resolved") or 0) > (_c651.get("operands_total") or 0):
+        _bad651.append("more operands are resolved than exist")
+    if _c651.get("expression_built_strings_published_by_e647") is not None and (
+            _c651.get("expression_built_strings_published_by_e647")
+            != _c651.get("expression_built_strings")):
+        _bad651.append("the re-derived site count is not E647's")
+    if _c651.get("hits_published_by_e647") is not None and (
+            _c651.get("hits_published_by_e647") != _c651.get("hits_re_derived")):
+        _bad651.append("the re-derived hit count is not E646's")
+    for _r651 in _rows651:
+        for _s651 in _r651.get("sites") or []:
+            if _s651.get("fold", {}).get("status") == "folded" and not all(
+                    _o651.get("resolved") for _o651 in _s651.get("operands") or []):
+                _bad651.append("a folded site carries an unresolved operand")
+                break
+            if _s651.get("reach") != _m651.site_reach_of(_s651):
+                _bad651.append("a site reach is not the one its own entries force")
+                break
+    if _f651.get("verdict") == _m651.V_TEMPLATE_NAMES and not (
+            _c651.get("template_fragments_naming_a_target") or 0):
+        _bad651.append("the template verdict is published with no naming template fragment")
+    if _f651.get("verdict") == _m651.V_RESIDUAL_NOT_A_ROUTE and (
+            _c651.get("sites_consumed_by_loader_machinery") or 0):
+        _bad651.append("the not-a-route verdict is published with a loader-consumed site")
+except Exception as _e651x:
+    _bad651.append(repr(_e651x)[:160])
+    _d651 = "study could not be read"
+check(_name651, not _bad651, "; ".join(_bad651)[:240] or _d651)
+
 if __name__ == "__main__":
     sys.exit(main())

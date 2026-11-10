@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1668 bm-b: E647 burned -- the string arm E646 published as a limit is measured and empty at literal level (480 strings, 0 naming a counted read module; 28 loader calls, 27 with a measured literal, none naming one; 6/6 pairs no_literal_names_the_target, 14 expression-built strings published unresolved). E651/E652 seeded (ready floor back to 3).",
+ "_stamp_note": "r1669 bm-b: E651 burned -- the 14 expression-built strings E647 published as unresolved are measured on two arms (template first, then operands folded from the site's own scope chain): 0 template fragment and 0 folded value names a counted read module, 1 site folds and 13 stay residual with their binding classes published, and all 14 sites are consumed by formatting or by nothing (0 by import or file machinery). Ready stays at floor 3 (E649/E650/E652).",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -31414,14 +31414,18 @@
    "source": "E647 (r1668 bm-b) -- 14 unresolved strings in 6 hit modules",
    "target": "results/state_tilt/UNRESOLVESTR.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T15:45:00+08:00",
    "seeded_by": "r1668 bm-b",
    "workers_plan": {
     "workers": 2,
     "priority": "BelowNormal"
    },
-   "note": "E651"
+   "note": "E651",
+   "result_ref": "results/state_tilt/UNRESOLVESTR.json",
+   "done_at": "2026-11-10T16:56:40+08:00",
+   "done_by": "r1669 bm-b",
+   "done_note": "the 14 expression-built strings are split into two measured arms -- the template (left operand of %, receiver of .format, constant fragments of an f-string) matched before any resolution, and the operands resolved against the scope chain (literal / the module's own string constant / an alias / a string constant assigned in the enclosing function), with unresolvable operands published by binding class; 0 template fragment and 0 folded string names a counted read module, 1 site of 14 folds (29 operands, 1 value), all 14 sites are consumed by formatting or by nothing (0 by import or file machinery), so the residual cannot be a route to a module"
   },
   {
    "card": "E652",
@@ -31455,6 +31459,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T15:45:00+08:00",
+ "updated_at": "2026-11-10T16:56:40+08:00",
  "version": 1
 }

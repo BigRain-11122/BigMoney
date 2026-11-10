@@ -1,0 +1,804 @@
+{
+ "study": "E651_template_fold",
+ "date": "2026-11-10",
+ "evidence_cutoff": "2026-11-10",
+ "source_face": "results/state_tilt/STRINGREACH.json",
+ "method": "re-derive E646's cross-module hits and E647's unresolved sites from the tree; for every expression-built string publish the measurable template (the left operand of %, the receiver of .format, the constant fragments of an f-string) and match it before resolving anything; then resolve every substituted operand against the scope chain the site sits in (literal / the module's own string constant / an alias of one / a string constant assigned in the enclosing function) and publish the binding class of every operand, including the ones that are not knowable; fold only sites whose operands are all resolved, by applying the real Python operator, and match the folded value as a second arm",
+ "population_source": "13101 Python files of E642's corpus, 13 counted read line(s) over 6 key(s), 7 cross-module hit(s) in 6 module(s)",
+ "counts": {
+  "python_files_scanned": 13101,
+  "counted_read_lines": 13,
+  "counted_row_keys": 6,
+  "hits_re_derived": 7,
+  "hits_published_by_e647": 7,
+  "distinct_hit_modules": 6,
+  "expression_built_strings": 14,
+  "expression_built_strings_published_by_e647": 14,
+  "sites_by_kind": {
+   "percent_formatting": 12,
+   "fstring_has_a_formatted_value": 2
+  },
+  "sites_by_consumer_class": {
+   "other_call": 7,
+   "no_call": 7
+  },
+  "sites_consumed_by_loader_machinery": 0,
+  "sites_folded": 1,
+  "sites_not_foldable": 13,
+  "sites_by_fold_reason": {
+   "all_operands_resolved": 1,
+   "residual_operand_binding": 13,
+   "operand_expression_unsupported": 0,
+   "format_spec_present": 0,
+   "conversion_present": 0,
+   "operator_raised": 0,
+   "no_operand": 0
+  },
+  "operands_total": 29,
+  "operands_resolved": 1,
+  "operands_by_binding": {
+   "literal": 0,
+   "module_level_string_constant": 1,
+   "module_level_name_alias": 0,
+   "assignment_in_scope_string_constant": 0,
+   "function_parameter": 0,
+   "loop_target": 0,
+   "comprehension_target": 0,
+   "exception_target": 1,
+   "module_level_non_constant": 3,
+   "assignment_in_scope_non_constant": 0,
+   "call_result": 0,
+   "attribute_or_subscript": 5,
+   "other_expression": 19,
+   "unbound_name": 0
+  },
+  "template_fragments_naming_a_target": 0,
+  "folded_strings_naming_a_target": 0,
+  "sites_by_reach": {
+   "no_literal_names_the_target": 14
+  },
+  "sites_reaching_a_target": 0,
+  "pairs": 0,
+  "pairs_by_arm": {},
+  "pairs_by_match_class": {},
+  "pairs_by_reach": {},
+  "read_modules_involved": 0,
+  "hit_module_class_histogram": {
+   "round_scratch_script": 5,
+   "smoke_or_probe_harness": 1
+  }
+ },
+ "rows": [
+  {
+   "module": "results/_r478bmc_trio_watch.py",
+   "module_class": "round_scratch_script",
+   "hit_lines": [
+    {
+     "line": 139,
+     "column": 4,
+     "keys": [
+      "verdict"
+     ],
+     "row_keys_named": [
+      "verdict"
+     ]
+    }
+   ],
+   "read_modules_involved": [
+    "scripts/e382_key_projection_delta.py"
+   ],
+   "sites": [
+    {
+     "line": 147,
+     "column": 23,
+     "kind": "percent_formatting",
+     "template": "%s=%d/%d",
+     "template_fragments": [
+      "%s=%d/%d"
+     ],
+     "operands_total": 3,
+     "operands": [
+      {
+       "text": "fam.split('_')[1]",
+       "binding": "attribute_or_subscript",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      },
+      {
+       "text": "prog[fam]['k']",
+       "binding": "attribute_or_subscript",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      },
+      {
+       "text": "TOTAL",
+       "binding": "module_level_non_constant",
+       "value": null,
+       "resolved": false,
+       "resolved_by": "module_assignment"
+      }
+     ],
+     "operands_elided": 0,
+     "fold": {
+      "status": "not_foldable",
+      "reason": "residual_operand_binding",
+      "value": null
+     },
+     "consumer": "join",
+     "consumer_class": "other_call",
+     "bound_name": null,
+     "hops": 6,
+     "naming": [],
+     "naming_count": 0,
+     "folded_naming": [],
+     "folded_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    }
+   ]
+  },
+  {
+   "module": "results/_r479bmc_trio_watch.py",
+   "module_class": "round_scratch_script",
+   "hit_lines": [
+    {
+     "line": 139,
+     "column": 4,
+     "keys": [
+      "verdict"
+     ],
+     "row_keys_named": [
+      "verdict"
+     ]
+    }
+   ],
+   "read_modules_involved": [
+    "scripts/e382_key_projection_delta.py"
+   ],
+   "sites": [
+    {
+     "line": 147,
+     "column": 23,
+     "kind": "percent_formatting",
+     "template": "%s=%d/%d",
+     "template_fragments": [
+      "%s=%d/%d"
+     ],
+     "operands_total": 3,
+     "operands": [
+      {
+       "text": "fam.split('_')[1]",
+       "binding": "attribute_or_subscript",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      },
+      {
+       "text": "prog[fam]['k']",
+       "binding": "attribute_or_subscript",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      },
+      {
+       "text": "TOTAL",
+       "binding": "module_level_non_constant",
+       "value": null,
+       "resolved": false,
+       "resolved_by": "module_assignment"
+      }
+     ],
+     "operands_elided": 0,
+     "fold": {
+      "status": "not_foldable",
+      "reason": "residual_operand_binding",
+      "value": null
+     },
+     "consumer": "join",
+     "consumer_class": "other_call",
+     "bound_name": null,
+     "hops": 6,
+     "naming": [],
+     "naming_count": 0,
+     "folded_naming": [],
+     "folded_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    }
+   ]
+  },
+  {
+   "module": "results/_r675bmb_trio_watch.py",
+   "module_class": "round_scratch_script",
+   "hit_lines": [
+    {
+     "line": 133,
+     "column": 4,
+     "keys": [
+      "verdict"
+     ],
+     "row_keys_named": [
+      "verdict"
+     ]
+    }
+   ],
+   "read_modules_involved": [
+    "scripts/e382_key_projection_delta.py"
+   ],
+   "sites": []
+  },
+  {
+   "module": "results/_r872bma_ledger_heal.py",
+   "module_class": "round_scratch_script",
+   "hit_lines": [
+    {
+     "line": 45,
+     "column": 4,
+     "keys": [
+      "rows"
+     ],
+     "row_keys_named": [
+      "rows"
+     ]
+    }
+   ],
+   "read_modules_involved": [
+    "scripts/e504_name_compose.py"
+   ],
+   "sites": [
+    {
+     "line": 20,
+     "column": 43,
+     "kind": "fstring_has_a_formatted_value",
+     "template": "marker miss: ",
+     "template_fragments": [
+      "marker miss: "
+     ],
+     "operands_total": 1,
+     "operands": [
+      {
+       "text": "list(targets)",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      }
+     ],
+     "operands_elided": 0,
+     "fold": {
+      "status": "not_foldable",
+      "reason": "residual_operand_binding",
+      "value": null
+     },
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": null,
+     "hops": 2,
+     "naming": [],
+     "naming_count": 0,
+     "folded_naming": [],
+     "folded_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    },
+    {
+     "line": 28,
+     "column": 14,
+     "kind": "fstring_has_a_formatted_value",
+     "template": ": ALREADY in ROOT, skip",
+     "template_fragments": [
+      ": ALREADY in ROOT, skip"
+     ],
+     "operands_total": 1,
+     "operands": [
+      {
+       "text": "mk.decode()",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      }
+     ],
+     "operands_elided": 0,
+     "fold": {
+      "status": "not_foldable",
+      "reason": "residual_operand_binding",
+      "value": null
+     },
+     "consumer": "print",
+     "consumer_class": "other_call",
+     "bound_name": null,
+     "hops": 5,
+     "naming": [],
+     "naming_count": 0,
+     "folded_naming": [],
+     "folded_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    }
+   ]
+  },
+  {
+   "module": "results/_r920bmb_n2u3_flip.py",
+   "module_class": "round_scratch_script",
+   "hit_lines": [
+    {
+     "line": 71,
+     "column": 4,
+     "keys": [
+      "preflight",
+      "verdict"
+     ],
+     "row_keys_named": [
+      "verdict"
+     ]
+    }
+   ],
+   "read_modules_involved": [
+    "scripts/e382_key_projection_delta.py"
+   ],
+   "sites": [
+    {
+     "line": 45,
+     "column": 37,
+     "kind": "percent_formatting",
+     "template": "%.2f",
+     "template_fragments": [
+      "%.2f"
+     ],
+     "operands_total": 1,
+     "operands": [
+      {
+       "text": "free_gb",
+       "binding": "module_level_non_constant",
+       "value": null,
+       "resolved": false,
+       "resolved_by": "module_assignment"
+      }
+     ],
+     "operands_elided": 0,
+     "fold": {
+      "status": "not_foldable",
+      "reason": "residual_operand_binding",
+      "value": null
+     },
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": null,
+     "hops": 3,
+     "naming": [],
+     "naming_count": 0,
+     "folded_naming": [],
+     "folded_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    },
+    {
+     "line": 47,
+     "column": 37,
+     "kind": "percent_formatting",
+     "template": "probe fault: %r",
+     "template_fragments": [
+      "probe fault: %r"
+     ],
+     "operands_total": 1,
+     "operands": [
+      {
+       "text": "ex",
+       "binding": "exception_target",
+       "value": null,
+       "resolved": false,
+       "resolved_by": "module_except_arm"
+      }
+     ],
+     "operands_elided": 0,
+     "fold": {
+      "status": "not_foldable",
+      "reason": "residual_operand_binding",
+      "value": null
+     },
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": null,
+     "hops": 4,
+     "naming": [],
+     "naming_count": 0,
+     "folded_naming": [],
+     "folded_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    },
+    {
+     "line": 62,
+     "column": 20,
+     "kind": "percent_formatting",
+     "template": "train sig present but CLEARED (%s)",
+     "template_fragments": [
+      "train sig present but CLEARED (%s)"
+     ],
+     "operands_total": 1,
+     "operands": [
+      {
+       "text": "hit.get('reason')",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      }
+     ],
+     "operands_elided": 0,
+     "fold": {
+      "status": "not_foldable",
+      "reason": "residual_operand_binding",
+      "value": null
+     },
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": "fuse_note",
+     "hops": 5,
+     "naming": [],
+     "naming_count": 0,
+     "folded_naming": [],
+     "folded_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    },
+    {
+     "line": 74,
+     "column": 10,
+     "kind": "percent_formatting",
+     "template": "PREFLIGHT ABORT: %s",
+     "template_fragments": [
+      "PREFLIGHT ABORT: %s"
+     ],
+     "operands_total": 1,
+     "operands": [
+      {
+       "text": "json.dumps(gates)",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      }
+     ],
+     "operands_elided": 0,
+     "fold": {
+      "status": "not_foldable",
+      "reason": "residual_operand_binding",
+      "value": null
+     },
+     "consumer": "print",
+     "consumer_class": "other_call",
+     "bound_name": null,
+     "hops": 4,
+     "naming": [],
+     "naming_count": 0,
+     "folded_naming": [],
+     "folded_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    },
+    {
+     "line": 92,
+     "column": 19,
+     "kind": "percent_formatting",
+     "template": "\"%s\"",
+     "template_fragments": [
+      "\"%s\""
+     ],
+     "operands_total": 1,
+     "operands": [
+      {
+       "text": "ENTRY_ID",
+       "binding": "module_level_string_constant",
+       "value": "N2U3-ALPHAGEN-RL-P1-LEG3-TRAIN",
+       "resolved": true,
+       "resolved_by": "module_assignment"
+      }
+     ],
+     "operands_elided": 0,
+     "fold": {
+      "status": "folded",
+      "reason": "all_operands_resolved",
+      "value": "\"N2U3-ALPHAGEN-RL-P1-LEG3-TRAIN\""
+     },
+     "consumer": "text.find",
+     "consumer_class": "other_call",
+     "bound_name": "anchor",
+     "hops": 2,
+     "naming": [],
+     "naming_count": 0,
+     "folded_naming": [],
+     "folded_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    },
+    {
+     "line": 102,
+     "column": 23,
+     "kind": "percent_formatting",
+     "template": "expected exactly 2 waiting status lines (entry+shard), got %d",
+     "template_fragments": [
+      "expected exactly 2 waiting status lines (entry+shard), got %d"
+     ],
+     "operands_total": 1,
+     "operands": [
+      {
+       "text": "len(hits)",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      }
+     ],
+     "operands_elided": 0,
+     "fold": {
+      "status": "not_foldable",
+      "reason": "residual_operand_binding",
+      "value": null
+     },
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": null,
+     "hops": 2,
+     "naming": [],
+     "naming_count": 0,
+     "folded_naming": [],
+     "folded_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    },
+    {
+     "line": 106,
+     "column": 11,
+     "kind": "percent_formatting",
+     "template": "%s\"status\": \"ready\"%s\r",
+     "template_fragments": [
+      "%s\"status\": \"ready\"%s\r"
+     ],
+     "operands_total": 2,
+     "operands": [
+      {
+       "text": "m.group('indent')",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      },
+      {
+       "text": "m.group('comma')",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      }
+     ],
+     "operands_elided": 0,
+     "fold": {
+      "status": "not_foldable",
+      "reason": "residual_operand_binding",
+      "value": null
+     },
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": null,
+     "hops": 3,
+     "naming": [],
+     "naming_count": 0,
+     "folded_naming": [],
+     "folded_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    },
+    {
+     "line": 143,
+     "column": 6,
+     "kind": "percent_formatting",
+     "template": "FLIP OK: entry+shard waiting->ready; preflight=%s",
+     "template_fragments": [
+      "FLIP OK: entry+shard waiting->ready; preflight=%s"
+     ],
+     "operands_total": 1,
+     "operands": [
+      {
+       "text": "json.dumps(gates)",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      }
+     ],
+     "operands_elided": 0,
+     "fold": {
+      "status": "not_foldable",
+      "reason": "residual_operand_binding",
+      "value": null
+     },
+     "consumer": "print",
+     "consumer_class": "other_call",
+     "bound_name": null,
+     "hops": 3,
+     "naming": [],
+     "naming_count": 0,
+     "folded_naming": [],
+     "folded_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    }
+   ]
+  },
+  {
+   "module": "scripts/run_e563_smoke_leg.py",
+   "module_class": "smoke_or_probe_harness",
+   "hit_lines": [
+    {
+     "line": 38,
+     "column": 8,
+     "keys": [
+      "leg_indices",
+      "rows"
+     ],
+     "row_keys_named": [
+      "rows"
+     ]
+    },
+    {
+     "line": 39,
+     "column": 8,
+     "keys": [
+      "class",
+      "rows"
+     ],
+     "row_keys_named": [
+      "rows"
+     ]
+    }
+   ],
+   "read_modules_involved": [
+    "scripts/e504_name_compose.py"
+   ],
+   "sites": [
+    {
+     "line": 44,
+     "column": 10,
+     "kind": "percent_formatting",
+     "template": "DOCTOR PASS: %d problems, first=%s",
+     "template_fragments": [
+      "DOCTOR PASS: %d problems, first=%s"
+     ],
+     "operands_total": 2,
+     "operands": [
+      {
+       "text": "len(problems)",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      },
+      {
+       "text": "problems[0][:120]",
+       "binding": "attribute_or_subscript",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      }
+     ],
+     "operands_elided": 0,
+     "fold": {
+      "status": "not_foldable",
+      "reason": "residual_operand_binding",
+      "value": null
+     },
+     "consumer": "print",
+     "consumer_class": "other_call",
+     "bound_name": null,
+     "hops": 4,
+     "naming": [],
+     "naming_count": 0,
+     "folded_naming": [],
+     "folded_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    },
+    {
+     "line": 74,
+     "column": 10,
+     "kind": "percent_formatting",
+     "template": "%d short receipts / exact-prefix=%d / prefix-with-gap=%d / subset=%d / out-of-order=%d / foreign=%d (%d exist in today's table, %d in none) / single-leg-at-head",
+     "template_fragments": [
+      "%d short receipts / exact-prefix=%d / prefix-with-gap=%d / subset=%d / out-of-order=%d / foreign=%d (%d exist in today's table, %d in none) / single-leg-at-head"
+     ],
+     "operands_total": 10,
+     "operands": [
+      {
+       "text": "s.get('short_receipts', 0)",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      },
+      {
+       "text": "s.get(m.C_EXACT_PREFIX, 0)",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      },
+      {
+       "text": "s.get(m.C_PREFIX_GAP, 0)",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      },
+      {
+       "text": "s.get(m.C_SUBSET, 0)",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      },
+      {
+       "text": "s.get(m.C_OUT_OF_ORDER, 0)",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      },
+      {
+       "text": "s.get(m.C_FOREIGN, 0)",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      },
+      {
+       "text": "s.get('foreign_names_that_exist_in_today_s_table', 0)",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      },
+      {
+       "text": "s.get('foreign_names_that_exist_in_no_current_table', 0)",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      },
+      {
+       "text": "s.get('single_leg_that_is_the_table_head', 0)",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      },
+      {
+       "text": "face.get('verdict')",
+       "binding": "other_expression",
+       "value": null,
+       "resolved": false,
+       "resolved_by": null
+      }
+     ],
+     "operands_elided": 0,
+     "fold": {
+      "status": "not_foldable",
+      "reason": "residual_operand_binding",
+      "value": null
+     },
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": "detail",
+     "hops": 2,
+     "naming": [],
+     "naming_count": 0,
+     "folded_naming": [],
+     "folded_naming_count": 0,
+     "reach": "no_literal_names_the_target"
+    }
+   ]
+  }
+ ],
+ "pairs": [],
+ "limits": [
+  "a folded value proves the string the source would build at that point; it does not prove the call that consumes it resolves a module object, so a folded import-string route is a route and not a demonstration",
+  "operands are resolved from module-scope assignments and from assignments inside the enclosing function, taking the first assignment in source order; a name reassigned before the site is published with its assignment count but not ordered, which is a limit of the resolver rather than a claim about the value",
+  "a name bound by a loop or comprehension target is not resolved even when the iterable is a literal list of strings, because the value depends on the iteration the string is built in; those sites are published as residual with their binding class",
+  "conversion (!r / !s) and a format spec inside an f-string are not folded; the site is published with that reason so the evasion is visible",
+  "templates are matched as whole tokens with E647's match classes, so a fragment that names only a family prefix is not a hit",
+  "the read population is E638's join (one definition), so a change to that join moves this study's pairs without touching its sites",
+  "files over 1MB are skipped rather than parsed (E391's cap) and are counted by the population this study re-derives"
+ ],
+ "verdict": "no template fragment and no folded string names a counted read module, and every site that cannot be folded is consumed by formatting or by nothing at all rather than by import or file machinery, so the residual cannot be a route to a module even if a value named one",
+ "answer": "13101 file(s), 7 cross-module hit(s) in 6 module(s), 14 expression-built string(s) re-derived (E647 published 14) split {\"fstring_has_a_formatted_value\": 2, \"percent_formatting\": 12}; 1 folded / 13 not foldable, reasons {\"all_operands_resolved\": 1, \"conversion_present\": 0, \"format_spec_present\": 0, \"no_operand\": 0, \"operand_expression_unsupported\": 0, \"operator_raised\": 0, \"residual_operand_binding\": 13}; 29 operand(s) of which 1 resolved, bindings {\"assignment_in_scope_non_constant\": 0, \"assignment_in_scope_string_constant\": 0, \"attribute_or_subscript\": 5, \"call_result\": 0, \"comprehension_target\": 0, \"exception_target\": 1, \"function_parameter\": 0, \"literal\": 0, \"loop_target\": 0, \"module_level_name_alias\": 0, \"module_level_non_constant\": 3, \"module_level_string_constant\": 1, \"other_expression\": 19, \"unbound_name\": 0}; 0 template fragment(s) and 0 folded string(s) name a target, pair matches {}; the 14 site(s) consumed by {\"no_call\": 7, \"other_call\": 7} split by reach {\"no_literal_names_the_target\": 14}"
+}
