@@ -56,13 +56,8 @@
   "updated_at": "2026-11-07T16:37:02+08:00"
  },
  "dec_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show; r818 start sweep via SSH primary leg rc0 (channel healed, r817 A-sync note closed); dec delta FALSE = unchanged, zero action; facts-driven from results/_r818bmc_s05_facts.json, 64hex shape-asserted; close face reads sha PROGRAMMATICALLY from facts json, ZERO literal constants (r583 law)",
- "delivered": {
-  "ahead": 0,
-  "behind": 0,
-  "head": "aa2a9efb3f",
-  "ts": "2026-11-10T11:11:34+08:00"
- },
- "delivered_head": "7b6a5e532d",
+ "delivered": "fae1afa85c + 914cef72a6 -> origin/main (0 ahead / 0 behind)",
+ "delivered_head": "914cef72a6",
  "delivery_behind": 0,
  "delivery_state": "0 ahead / 0 behind after fetch; ls-tree on origin sees the round's scripts",
  "dept": "research/engineering",
@@ -996,11 +991,12 @@
  "task": "r1517: the lane-freshness board prints the window contract that made a lane green -- verdict cell carries the window it sits in (sina_mf in_sync (own window 11/20)) and a section says 10 sessions are left before the collector must fire",
  "total_ram_gb": 23.9,
  "ts": "2026-11-10 20:42:18",
- "updated": "2026-11-10 20:42:18",
- "updated_at": "2026-11-10T20:42:18+08:00",
+ "updated": "2026-11-10 20:48:41",
+ "updated_at": "2026-11-10T20:48:41+08:00",
  "verdict": "PRODUCT: data_lane_freshness now renders the rolling-window contract that produced `in_sync` (window size, days behind, sessions left), on the table cell and in its own section; lanes with no window or a blown window are refused the window language",
  "verify": "data_lane_freshness selftest 32/32 (+L29b three-way assertion); face regenerated rc0 (docs/data_lanes/FRESHNESS.md 20:47); E518 card appended (+11 lines)",
- "verify_smoke_closed": "full smoke started in the background at 20:31 (logs/_smoke_r1517.out) and was still running when the round closed (~190/505 legs). NOT claimed green. Last complete verdict = r1508 505/506, whose only red was a control character in METHODOLOGY_ASSETS.md; a control-byte scan of that file now returns 0, so the red no longer reproduces on this tree.",
+ "verify_smoke_closed": "partial run only: logs/_smoke_r1517.out reached ~200/505 legs with 4 FAIL, all in the etf_book receipt family. supply_gate_decision / live_size_provenance / decision_line were re-derived in dependency order and now return rc0 on check. etf_book_positions stays red for a real defect: one bar written twice (projection row from assess() then accrual valuation row), two same-second restatement records per run, ledger keeps the un-executed book while the face publishes the projection. NOT claimed green. Last complete verdict = r1508 505/506.",
  "vram_free_gb": 14.2,
- "watermark_verdict": "py_low_with_work_cands"
+ "watermark_verdict": "py_low_with_work_cands",
+ "open_defect": "etf_book_positions: projected sheet row and accrual valuation row share one bar key; last write wins; check compares the projection against the valuation and can never go green. Fix needs its own round with selftests (do not rewrite a money ledger at closeout)."
 }
