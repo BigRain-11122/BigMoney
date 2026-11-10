@@ -1361,6 +1361,14 @@ def main() -> int:
              "Tools/surgery_commit.py", ["selftest"]),
             ("product: machine-health face builder (exit-code contract)",
              "Tools/machine_health_face.py", ["selftest"]),
+            # r1535: the sentinel answered "is this machine alive?" by reading ONE
+            # heartbeat -- the loop round ledger -- so on 2026-11-11 05:05 it printed
+            # heartbeat_stale_5910s while the fleet heartbeat was 10 minutes old. The
+            # loader now takes the freshest of the two faces and degrades only when
+            # every READABLE face is stale. This leg keeps that rule callable; its
+            # L2 fixture is the exact shape that produced the false alarm.
+            ("product: sentinel dual-face heartbeat (exit-code contract)",
+             "Tools/sentinel_bm-c.py", ["--selftest"]),
             # D-20261028-04: a resident script must resolve the group root by
             # validated toplevel + newest ledger mtime, never by a `..\..` climb or
             # a hardcoded mirror. The selftest pins the rejection of a masquerading
