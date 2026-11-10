@@ -1,0 +1,719 @@
+{
+ "generated": "2026-11-11 07:01:35",
+ "elapsed_sec": 57.3,
+ "evidence_cutoff": "2026-11-10",
+ "bars": 1659,
+ "config": {
+  "n_hold": 5,
+  "beta_target": 0.2,
+  "rebal": 20,
+  "cost_bp_per_side": 80000.0,
+  "universe": "ticket classes ['equity', 'commodity', 'crossborder']",
+  "ordering": "decide at bar d's close, fill at bar d+1's open",
+  "cash_leg": "repo ladder, same series as the card"
+ },
+ "criteria": {
+  "tol_pp_per_year": 0.25,
+  "identity_tol_pp": 0.125,
+  "identity_anchor": "held/causal/ticket ticket_window cagr (results/etf_book_band_ruler.json)",
+  "held_config": {
+   "n_hold": 5,
+   "beta_target": 0.2,
+   "rebal": 20,
+   "cost_bp_per_side": 80000.0,
+   "universe": "ticket classes ['equity', 'commodity', 'crossborder']",
+   "ordering": "decide at bar d's close, fill at bar d+1's open",
+   "cash_leg": "repo ladder, same series as the card"
+  },
+  "phases_priced": "all 20 phases of the official calendar, 0..19",
+  "verdict_rule": "GRID_COSTS iff the decision-grid arm's cagr is below production by tol; GRID_SAVES iff above it by tol; otherwise GRID_NEUTRAL. PHASE_DOMINATES is reported whenever the spread across the twenty phases is wider than |grid - production| -- then the phase, not the rule, is what a single cell would be quoting.",
+  "frozen": "thresholds, the phase sweep and the rule were written before the first run; --check refuses a face whose published verdict or ledger line does not re-derive"
+ },
+ "grids": {
+  "decision_bar_published": "2026-10-14",
+  "decision_phase": 0,
+  "decision_bars": 82,
+  "overlay_phase": 7,
+  "overlay_sched_bars": 77,
+  "overlay_on_decision_grid": 0,
+  "min_hist": 126,
+  "bar_that_anchors_the_overlay": "2020-07-15",
+  "sentence": "the book re-decides on official phase 0; its k is refreshed on phase 7"
+ },
+ "identity": {
+  "published_pp": 12.56,
+  "measured_pp": 12.66,
+  "gap_pp": 0.1,
+  "tol_pp": 0.125,
+  "passes": true,
+  "anchor": "held/causal/ticket ticket_window cagr (results/etf_book_band_ruler.json)"
+ },
+ "ledger": {
+  "rows": 690,
+  "first": "2024-01-02",
+  "last": "2026-11-10",
+  "n_moves": 35,
+  "n_off_grid": 35,
+  "off_grid_recent": [
+   "2026-06-26",
+   "2026-07-24",
+   "2026-08-21",
+   "2026-09-18",
+   "2026-10-26",
+   "2026-11-02"
+  ],
+  "off_calendar": 0,
+  "move_phases": {
+   "8": 34,
+   "13": 1
+  },
+  "decision_phase": 0,
+  "grid_read_as": "official calendar index mod REBAL == decision phase"
+ },
+ "arms": [
+  {
+   "arm": "production",
+   "full": {
+    "cagr_pp": 7.68,
+    "sharpe": 1.335,
+    "maxdd_pp": -5.78,
+    "vol": 0.059,
+    "bars": 1532
+   },
+   "ticket_window": {
+    "cagr_pp": 12.66,
+    "sharpe": 1.72,
+    "maxdd_pp": -5.78,
+    "vol": 0.074,
+    "bars": 690
+   },
+   "is": {
+    "cagr_pp": 3.71,
+    "sharpe": 0.901,
+    "maxdd_pp": -3.97,
+    "vol": 0.0428,
+    "bars": 842
+   },
+   "oos": {
+    "cagr_pp": 12.66,
+    "sharpe": 1.72,
+    "maxdd_pp": -5.78,
+    "vol": 0.074,
+    "bars": 690
+   },
+   "cagr": 0.0768,
+   "k_moves": 76,
+   "n_sched_bars": 77,
+   "cagr_delta_vs_production_pp": 0.0
+  },
+  {
+   "arm": "grid_only",
+   "full": {
+    "cagr_pp": 7.4,
+    "sharpe": 1.298,
+    "maxdd_pp": -5.79,
+    "vol": 0.0586,
+    "bars": 1519
+   },
+   "ticket_window": {
+    "cagr_pp": 12.64,
+    "sharpe": 1.719,
+    "maxdd_pp": -5.79,
+    "vol": 0.0739,
+    "bars": 690
+   },
+   "is": {
+    "cagr_pp": 3.17,
+    "sharpe": 0.797,
+    "maxdd_pp": -3.91,
+    "vol": 0.0416,
+    "bars": 829
+   },
+   "oos": {
+    "cagr_pp": 12.64,
+    "sharpe": 1.719,
+    "maxdd_pp": -5.79,
+    "vol": 0.0739,
+    "bars": 690
+   },
+   "cagr": 0.074,
+   "k_moves": 75,
+   "n_sched_bars": 76,
+   "cagr_delta_vs_production_pp": -0.28
+  },
+  {
+   "arm": "phase_00",
+   "phase": 0,
+   "cagr": 0.074,
+   "full": {
+    "cagr": 0.074,
+    "sharpe": 1.298,
+    "maxdd": -0.0579,
+    "vol": 0.0586,
+    "years": 6.27,
+    "cagr_pp": 7.4,
+    "maxdd_pp": -5.79,
+    "bars": 1519
+   },
+   "ticket_window": {
+    "cagr": 0.1264,
+    "sharpe": 1.719,
+    "maxdd": -0.0579,
+    "vol": 0.0739,
+    "years": 2.86,
+    "cagr_pp": 12.64,
+    "maxdd_pp": -5.79,
+    "bars": 690
+   },
+   "k_moves": 75,
+   "n_sched_bars": 76,
+   "cagr_delta_vs_production_pp": -0.28
+  },
+  {
+   "arm": "phase_01",
+   "phase": 1,
+   "cagr": 0.0734,
+   "full": {
+    "cagr": 0.0734,
+    "sharpe": 1.287,
+    "maxdd": -0.0579,
+    "vol": 0.0586,
+    "years": 6.26,
+    "cagr_pp": 7.34,
+    "maxdd_pp": -5.79,
+    "bars": 1518
+   },
+   "ticket_window": {
+    "cagr": 0.1264,
+    "sharpe": 1.718,
+    "maxdd": -0.0579,
+    "vol": 0.074,
+    "years": 2.86,
+    "cagr_pp": 12.64,
+    "maxdd_pp": -5.79,
+    "bars": 690
+   },
+   "k_moves": 75,
+   "n_sched_bars": 76,
+   "cagr_delta_vs_production_pp": -0.34
+  },
+  {
+   "arm": "phase_02",
+   "phase": 2,
+   "cagr": 0.0732,
+   "full": {
+    "cagr": 0.0732,
+    "sharpe": 1.283,
+    "maxdd": -0.0579,
+    "vol": 0.0586,
+    "years": 6.26,
+    "cagr_pp": 7.32,
+    "maxdd_pp": -5.79,
+    "bars": 1517
+   },
+   "ticket_window": {
+    "cagr": 0.1263,
+    "sharpe": 1.718,
+    "maxdd": -0.0579,
+    "vol": 0.0739,
+    "years": 2.86,
+    "cagr_pp": 12.63,
+    "maxdd_pp": -5.79,
+    "bars": 690
+   },
+   "k_moves": 75,
+   "n_sched_bars": 76,
+   "cagr_delta_vs_production_pp": -0.36
+  },
+  {
+   "arm": "phase_03",
+   "phase": 3,
+   "cagr": 0.0734,
+   "full": {
+    "cagr": 0.0734,
+    "sharpe": 1.287,
+    "maxdd": -0.0579,
+    "vol": 0.0586,
+    "years": 6.26,
+    "cagr_pp": 7.34,
+    "maxdd_pp": -5.79,
+    "bars": 1516
+   },
+   "ticket_window": {
+    "cagr": 0.1267,
+    "sharpe": 1.723,
+    "maxdd": -0.0579,
+    "vol": 0.0739,
+    "years": 2.86,
+    "cagr_pp": 12.67,
+    "maxdd_pp": -5.79,
+    "bars": 690
+   },
+   "k_moves": 75,
+   "n_sched_bars": 76,
+   "cagr_delta_vs_production_pp": -0.34
+  },
+  {
+   "arm": "phase_04",
+   "phase": 4,
+   "cagr": 0.0737,
+   "full": {
+    "cagr": 0.0737,
+    "sharpe": 1.29,
+    "maxdd": -0.0578,
+    "vol": 0.0587,
+    "years": 6.25,
+    "cagr_pp": 7.37,
+    "maxdd_pp": -5.78,
+    "bars": 1515
+   },
+   "ticket_window": {
+    "cagr": 0.1266,
+    "sharpe": 1.72,
+    "maxdd": -0.0578,
+    "vol": 0.074,
+    "years": 2.86,
+    "cagr_pp": 12.66,
+    "maxdd_pp": -5.78,
+    "bars": 690
+   },
+   "k_moves": 75,
+   "n_sched_bars": 76,
+   "cagr_delta_vs_production_pp": -0.31
+  },
+  {
+   "arm": "phase_05",
+   "phase": 5,
+   "cagr": 0.0742,
+   "full": {
+    "cagr": 0.0742,
+    "sharpe": 1.299,
+    "maxdd": -0.0578,
+    "vol": 0.0587,
+    "years": 6.25,
+    "cagr_pp": 7.42,
+    "maxdd_pp": -5.78,
+    "bars": 1514
+   },
+   "ticket_window": {
+    "cagr": 0.1266,
+    "sharpe": 1.721,
+    "maxdd": -0.0578,
+    "vol": 0.074,
+    "years": 2.86,
+    "cagr_pp": 12.66,
+    "maxdd_pp": -5.78,
+    "bars": 690
+   },
+   "k_moves": 75,
+   "n_sched_bars": 76,
+   "cagr_delta_vs_production_pp": -0.26
+  },
+  {
+   "arm": "phase_06",
+   "phase": 6,
+   "cagr": 0.0759,
+   "full": {
+    "cagr": 0.0759,
+    "sharpe": 1.331,
+    "maxdd": -0.0578,
+    "vol": 0.0585,
+    "years": 6.25,
+    "cagr_pp": 7.59,
+    "maxdd_pp": -5.78,
+    "bars": 1513
+   },
+   "ticket_window": {
+    "cagr": 0.1267,
+    "sharpe": 1.721,
+    "maxdd": -0.0578,
+    "vol": 0.074,
+    "years": 2.86,
+    "cagr_pp": 12.67,
+    "maxdd_pp": -5.78,
+    "bars": 690
+   },
+   "k_moves": 75,
+   "n_sched_bars": 76,
+   "cagr_delta_vs_production_pp": -0.09
+  },
+  {
+   "arm": "phase_07",
+   "phase": 7,
+   "cagr": 0.0768,
+   "full": {
+    "cagr": 0.0768,
+    "sharpe": 1.335,
+    "maxdd": -0.0578,
+    "vol": 0.059,
+    "years": 6.32,
+    "cagr_pp": 7.68,
+    "maxdd_pp": -5.78,
+    "bars": 1532
+   },
+   "ticket_window": {
+    "cagr": 0.1266,
+    "sharpe": 1.72,
+    "maxdd": -0.0578,
+    "vol": 0.074,
+    "years": 2.86,
+    "cagr_pp": 12.66,
+    "maxdd_pp": -5.78,
+    "bars": 690
+   },
+   "k_moves": 76,
+   "n_sched_bars": 77,
+   "cagr_delta_vs_production_pp": 0.0
+  },
+  {
+   "arm": "phase_08",
+   "phase": 8,
+   "cagr": 0.0768,
+   "full": {
+    "cagr": 0.0768,
+    "sharpe": 1.336,
+    "maxdd": -0.0578,
+    "vol": 0.0589,
+    "years": 6.32,
+    "cagr_pp": 7.68,
+    "maxdd_pp": -5.78,
+    "bars": 1531
+   },
+   "ticket_window": {
+    "cagr": 0.1268,
+    "sharpe": 1.722,
+    "maxdd": -0.0578,
+    "vol": 0.074,
+    "years": 2.86,
+    "cagr_pp": 12.68,
+    "maxdd_pp": -5.78,
+    "bars": 690
+   },
+   "k_moves": 76,
+   "n_sched_bars": 77,
+   "cagr_delta_vs_production_pp": 0.0
+  },
+  {
+   "arm": "phase_09",
+   "phase": 9,
+   "cagr": 0.0763,
+   "full": {
+    "cagr": 0.0763,
+    "sharpe": 1.327,
+    "maxdd": -0.0578,
+    "vol": 0.0589,
+    "years": 6.31,
+    "cagr_pp": 7.63,
+    "maxdd_pp": -5.78,
+    "bars": 1530
+   },
+   "ticket_window": {
+    "cagr": 0.127,
+    "sharpe": 1.725,
+    "maxdd": -0.0578,
+    "vol": 0.074,
+    "years": 2.86,
+    "cagr_pp": 12.7,
+    "maxdd_pp": -5.78,
+    "bars": 690
+   },
+   "k_moves": 76,
+   "n_sched_bars": 77,
+   "cagr_delta_vs_production_pp": -0.05
+  },
+  {
+   "arm": "phase_10",
+   "phase": 10,
+   "cagr": 0.0759,
+   "full": {
+    "cagr": 0.0759,
+    "sharpe": 1.32,
+    "maxdd": -0.0579,
+    "vol": 0.059,
+    "years": 6.31,
+    "cagr_pp": 7.59,
+    "maxdd_pp": -5.79,
+    "bars": 1529
+   },
+   "ticket_window": {
+    "cagr": 0.1273,
+    "sharpe": 1.727,
+    "maxdd": -0.0579,
+    "vol": 0.0741,
+    "years": 2.86,
+    "cagr_pp": 12.73,
+    "maxdd_pp": -5.79,
+    "bars": 690
+   },
+   "k_moves": 76,
+   "n_sched_bars": 77,
+   "cagr_delta_vs_production_pp": -0.09
+  },
+  {
+   "arm": "phase_11",
+   "phase": 11,
+   "cagr": 0.0756,
+   "full": {
+    "cagr": 0.0756,
+    "sharpe": 1.314,
+    "maxdd": -0.0579,
+    "vol": 0.059,
+    "years": 6.3,
+    "cagr_pp": 7.56,
+    "maxdd_pp": -5.79,
+    "bars": 1528
+   },
+   "ticket_window": {
+    "cagr": 0.1274,
+    "sharpe": 1.728,
+    "maxdd": -0.0579,
+    "vol": 0.0741,
+    "years": 2.86,
+    "cagr_pp": 12.74,
+    "maxdd_pp": -5.79,
+    "bars": 690
+   },
+   "k_moves": 76,
+   "n_sched_bars": 77,
+   "cagr_delta_vs_production_pp": -0.12
+  },
+  {
+   "arm": "phase_12",
+   "phase": 12,
+   "cagr": 0.0754,
+   "full": {
+    "cagr": 0.0754,
+    "sharpe": 1.311,
+    "maxdd": -0.0579,
+    "vol": 0.059,
+    "years": 6.3,
+    "cagr_pp": 7.54,
+    "maxdd_pp": -5.79,
+    "bars": 1527
+   },
+   "ticket_window": {
+    "cagr": 0.1277,
+    "sharpe": 1.733,
+    "maxdd": -0.0579,
+    "vol": 0.074,
+    "years": 2.86,
+    "cagr_pp": 12.77,
+    "maxdd_pp": -5.79,
+    "bars": 690
+   },
+   "k_moves": 76,
+   "n_sched_bars": 77,
+   "cagr_delta_vs_production_pp": -0.14
+  },
+  {
+   "arm": "phase_13",
+   "phase": 13,
+   "cagr": 0.0777,
+   "full": {
+    "cagr": 0.0777,
+    "sharpe": 1.355,
+    "maxdd": -0.0578,
+    "vol": 0.0587,
+    "years": 6.3,
+    "cagr_pp": 7.77,
+    "maxdd_pp": -5.78,
+    "bars": 1526
+   },
+   "ticket_window": {
+    "cagr": 0.1277,
+    "sharpe": 1.732,
+    "maxdd": -0.0578,
+    "vol": 0.074,
+    "years": 2.86,
+    "cagr_pp": 12.77,
+    "maxdd_pp": -5.78,
+    "bars": 690
+   },
+   "k_moves": 76,
+   "n_sched_bars": 77,
+   "cagr_delta_vs_production_pp": 0.09
+  },
+  {
+   "arm": "phase_14",
+   "phase": 14,
+   "cagr": 0.0777,
+   "full": {
+    "cagr": 0.0777,
+    "sharpe": 1.354,
+    "maxdd": -0.0579,
+    "vol": 0.0587,
+    "years": 6.29,
+    "cagr_pp": 7.77,
+    "maxdd_pp": -5.79,
+    "bars": 1525
+   },
+   "ticket_window": {
+    "cagr": 0.1275,
+    "sharpe": 1.73,
+    "maxdd": -0.0579,
+    "vol": 0.074,
+    "years": 2.86,
+    "cagr_pp": 12.75,
+    "maxdd_pp": -5.79,
+    "bars": 690
+   },
+   "k_moves": 76,
+   "n_sched_bars": 77,
+   "cagr_delta_vs_production_pp": 0.09
+  },
+  {
+   "arm": "phase_15",
+   "phase": 15,
+   "cagr": 0.077,
+   "full": {
+    "cagr": 0.077,
+    "sharpe": 1.345,
+    "maxdd": -0.0578,
+    "vol": 0.0587,
+    "years": 6.29,
+    "cagr_pp": 7.7,
+    "maxdd_pp": -5.78,
+    "bars": 1524
+   },
+   "ticket_window": {
+    "cagr": 0.1273,
+    "sharpe": 1.729,
+    "maxdd": -0.0578,
+    "vol": 0.0739,
+    "years": 2.86,
+    "cagr_pp": 12.73,
+    "maxdd_pp": -5.78,
+    "bars": 690
+   },
+   "k_moves": 76,
+   "n_sched_bars": 77,
+   "cagr_delta_vs_production_pp": 0.02
+  },
+  {
+   "arm": "phase_16",
+   "phase": 16,
+   "cagr": 0.0755,
+   "full": {
+    "cagr": 0.0755,
+    "sharpe": 1.321,
+    "maxdd": -0.0579,
+    "vol": 0.0586,
+    "years": 6.28,
+    "cagr_pp": 7.55,
+    "maxdd_pp": -5.79,
+    "bars": 1523
+   },
+   "ticket_window": {
+    "cagr": 0.1272,
+    "sharpe": 1.728,
+    "maxdd": -0.0579,
+    "vol": 0.0739,
+    "years": 2.86,
+    "cagr_pp": 12.72,
+    "maxdd_pp": -5.79,
+    "bars": 690
+   },
+   "k_moves": 76,
+   "n_sched_bars": 77,
+   "cagr_delta_vs_production_pp": -0.13
+  },
+  {
+   "arm": "phase_17",
+   "phase": 17,
+   "cagr": 0.0758,
+   "full": {
+    "cagr": 0.0758,
+    "sharpe": 1.327,
+    "maxdd": -0.0578,
+    "vol": 0.0586,
+    "years": 6.28,
+    "cagr_pp": 7.58,
+    "maxdd_pp": -5.78,
+    "bars": 1522
+   },
+   "ticket_window": {
+    "cagr": 0.1269,
+    "sharpe": 1.725,
+    "maxdd": -0.0578,
+    "vol": 0.0739,
+    "years": 2.86,
+    "cagr_pp": 12.69,
+    "maxdd_pp": -5.78,
+    "bars": 690
+   },
+   "k_moves": 76,
+   "n_sched_bars": 77,
+   "cagr_delta_vs_production_pp": -0.1
+  },
+  {
+   "arm": "phase_18",
+   "phase": 18,
+   "cagr": 0.0748,
+   "full": {
+    "cagr": 0.0748,
+    "sharpe": 1.312,
+    "maxdd": -0.0578,
+    "vol": 0.0586,
+    "years": 6.28,
+    "cagr_pp": 7.48,
+    "maxdd_pp": -5.78,
+    "bars": 1521
+   },
+   "ticket_window": {
+    "cagr": 0.1268,
+    "sharpe": 1.724,
+    "maxdd": -0.0578,
+    "vol": 0.0739,
+    "years": 2.86,
+    "cagr_pp": 12.68,
+    "maxdd_pp": -5.78,
+    "bars": 690
+   },
+   "k_moves": 76,
+   "n_sched_bars": 77,
+   "cagr_delta_vs_production_pp": -0.2
+  },
+  {
+   "arm": "phase_19",
+   "phase": 19,
+   "cagr": 0.0738,
+   "full": {
+    "cagr": 0.0738,
+    "sharpe": 1.295,
+    "maxdd": -0.0579,
+    "vol": 0.0586,
+    "years": 6.27,
+    "cagr_pp": 7.38,
+    "maxdd_pp": -5.79,
+    "bars": 1520
+   },
+   "ticket_window": {
+    "cagr": 0.1267,
+    "sharpe": 1.723,
+    "maxdd": -0.0579,
+    "vol": 0.0739,
+    "years": 2.86,
+    "cagr_pp": 12.67,
+    "maxdd_pp": -5.79,
+    "bars": 690
+   },
+   "k_moves": 76,
+   "n_sched_bars": 77,
+   "cagr_delta_vs_production_pp": -0.3
+  }
+ ],
+ "verdict": {
+  "state": "GRID_COSTS",
+  "delta_pp": -0.28,
+  "tol_pp": 0.25,
+  "phase_spread_pp": 0.45,
+  "phase_dominates": true,
+  "rule": "GRID_COSTS iff the decision-grid arm's cagr is below production by tol; GRID_SAVES iff above it by tol; otherwise GRID_NEUTRAL. PHASE_DOMINATES is reported whenever the spread across the twenty phases is wider than |grid - production| -- then the phase, not the rule, is what a single cell would be quoting."
+ },
+ "notes": [
+  "every arm shares one book: same names, same fills, same 8 bp, same repo carry; only the set of bars on which k may change differs",
+  "the overlay grid is anchored at panel row MIN_HIST (126), the decision grid at the book's own first bar -- 6 sessions apart",
+  "all twenty phases are priced so that no single cell can be quoted as the rule",
+  "an arm with no schedule bars would be a silent identity arm; the selftest refuses that shape"
+ ]
+}

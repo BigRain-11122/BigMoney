@@ -1131,6 +1131,16 @@ def main() -> int:
              "scripts/etf_book_next_decision.py", ["selftest"]),
             ("product: one decision clock (every printed answer still re-derives)",
              "scripts/etf_book_next_decision.py", ["check"]),
+            # r1538: the clock has one source now, the LEVERAGE does not. k_schedule starts
+            # 126 panel rows in (official phase 7) while the book re-decides on phase 0, so
+            # every one of the ledger's 35 k changes lands on a bar the book does not
+            # re-decide. These legs pin the arithmetic (grid set, hold-between, empty grid
+            # is not the free rule, phase spread wider than the effect is named) and that
+            # the published twenty phases and the ledger line still re-derive.
+            ("product: the book re-levers off its own decision grid (grid arithmetic)",
+             "scripts/etf_book_k_grid.py", ["--selftest"]),
+            ("product: the book re-levers off its own decision grid (every phase re-derives)",
+             "scripts/etf_book_k_grid.py", ["--check"]),
             # r1528: the share count lives INSIDE one line of the ledger (1,591,513 x 891 lots),
             # and nothing said so. This leg pins the subset block: two legs on one line add up
             # inside it without counting the line twice, the lot is taken on the combined count

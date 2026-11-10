@@ -994,6 +994,14 @@ LEGS = [
     ("next_decision",
      ["python", "scripts/etf_book_next_decision.py", "check"],
      ["python", "scripts/etf_book_next_decision.py", "run"]),
+    # r1538: `next_decision` gives the clock one source; the LEVERAGE still keeps a second
+    # one. k_schedule starts counting 126 panel rows into the book (official phase 7) while
+    # the book re-decides on phase 0, so all 35 of the ledger's k changes land on bars the
+    # book does not re-decide. This leg re-reads that claim from the ledger and the twenty
+    # priced phases (0.2s); the run rebuilds the book (~1.5min).
+    ("k_grid",
+     ["python", "scripts/etf_book_k_grid.py", "--check"],
+     ["python", "scripts/etf_book_k_grid.py", "run"]),
     # r1533: the CEO page declares ONE bar at the top and every section below it carries its
     # own (2026-11-11: headline 2026-11-10, capital 11-09, entry gate 11-06, cost tape 10-30,
     # 19 sections with no date at all). A reader takes the headline for the whole page, and
