@@ -495,7 +495,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-10 23:29:53",
+   "at": "2026-11-10 23:57:35",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -2009,6 +2009,66 @@
     "sibling_symbol": "513850",
     "why": "这张单没有换出这只票"
    }
+  ]
+ },
+ "swap_effect": {
+  "artifact": "etf_book_swap_effect",
+  "bar": "2026-11-10",
+  "evidence_cutoff": "2026-11-10",
+  "verdict": "DISCOUNT_UNCOLLECTED",
+  "rows": [
+   {
+    "leg_symbol": "159501",
+    "sibling_symbol": "159513",
+    "notional_cny": 78492.0,
+    "level_cny": 5612.5,
+    "narrowing_needed_pp": 7.15,
+    "path_pp": -0.4705,
+    "path_cny": -369.3,
+    "median_delta_pp": 0.1505,
+    "cohort_used": "broad",
+    "cohort_n": 272,
+    "share_crossing_toll": 0.2684,
+    "same_trade": true,
+    "why": ""
+   },
+   {
+    "leg_symbol": "513100",
+    "sibling_symbol": "159513",
+    "notional_cny": 78455.0,
+    "level_cny": 4149.3,
+    "narrowing_needed_pp": 5.29,
+    "path_pp": -0.2265,
+    "path_cny": -177.7,
+    "median_delta_pp": -0.0935,
+    "cohort_used": "broad",
+    "cohort_n": 377,
+    "share_crossing_toll": 0.4164,
+    "same_trade": true,
+    "why": ""
+   }
+  ],
+  "unpaired": [],
+  "totals": {
+   "level_cny": 9761.8,
+   "path_cny": -547.0,
+   "combined_cny": null,
+   "priced_legs": 2,
+   "why_not_added": "水平效应是「折扣有多宽」，路径效应是「折扣有没有被收回」——同一根价差的两种读法；相加＝把折扣算两遍，相减＝拿大小比频率。本面故意不提供合计值。"
+  },
+  "sentence": "这两个数不能相加：进价差赚的 ¥9,762 是「同一笔钱在今天这根 bar 上多买到的份额」，而 20 个交易日后的价差是量出来的——前者量折扣有多宽，后者量折扣有没有被收回，同一根价差的两种读法，加起来就是把折扣算两遍。159501 折扣 ¥5,612（要兑现得收窄 7.15 pp），20 个交易日后价差中位 +0.15pp、扣四边净 -0.47pp（-¥369）；513100 折扣 ¥4,149（要兑现得收窄 5.29 pp），20 个交易日后价差中位 -0.09pp、扣四边净 -0.23pp（-¥178）。可比历史里真正越过四边成本的比例：159501 27%、513100 42%；合计路径 -¥547（不是加在折扣上，是折扣的兑现率）。",
+  "sum_refused": "水平效应是「折扣有多宽」，路径效应是「折扣有没有被收回」——同一根价差的两种读法；相加＝把折扣算两遍，相减＝拿大小比频率。本面故意不提供合计值。",
+  "refused": null,
+  "reference_horizon": 20,
+  "sources": {
+   "swap_stack": "results/etf_book_swap_stack.json",
+   "swap_convergence": "results/etf_book_swap_convergence.json"
+  },
+  "caveats": [
+   "the level figure is the stack's own number (already re-scaled on the trimmed book); it is not re-derived from the panels here, so a stack that priced the wrong size would carry through",
+   "\"narrowing_needed_pp\" is the discount divided by the traded amount -- a size, not a forecast, and it must not be subtracted from the path column",
+   "the path column is a median over a cohort, not this session's own future: it says what comparable sessions did, and the cohort it was read on is named",
+   "neither column prices tracking difference, fee, size or FX-hedge policy between the two tickers"
   ]
  },
  "width_disclosure": {

@@ -58,6 +58,7 @@ from scripts import etf_book_k_gap as KG                     # noqa: E402  (r151
 from scripts import etf_book_exec_delta as EXD                # noqa: E402  (r1516: target minus the book)
 from scripts import etf_book_swap_toll as SWT                 # noqa: E402  (r1522: what the way out costs)
 from scripts import etf_book_swap_convergence as SWC          # noqa: E402  (r1523: whether the way out pays)
+from scripts import etf_book_swap_effect as SWE               # noqa: E402  (r1524: the gain and the path, refused to be added)
 from config import PATHS                           # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -2083,6 +2084,11 @@ def card(ticket, mk, sched, asof, beta, extra):
         # that assumption with the pair's own forward price path -- does the gap ever hand the
         # travelled pp back inside one grid, after four sides are paid.
         L += SWC.md_lines(extra.get("swap_convergence"))
+        # r1524: every section above prints a CNY gain (r1467) and a measured path (r1523) as if
+        # they were two independent results. They are one gap read twice: the size of the
+        # discount, and whether that discount is ever collected. This prints them on one line
+        # and refuses to add them.
+        L += SWE.md_lines(extra.get("swap_effect"))
         L += executed_base_md(extra.get("base"))
         L += premium_read_md(extra.get("premium"))
         L += positions_md(extra.get("positions"))
@@ -2680,6 +2686,13 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     # page end up describing different books.
     _ss = _json_face(SWAP_STACK_FACE)
     _pos = _json_face(POSITIONS_FACE)
+    # r1524: the measured way out is computed once here and handed to both the payload and the
+    # pairing face below -- the pair must read the same number the sheet prints, not a second
+    # derivation of the same gap.
+    _swc = SWC.compute({"as_of": asof,
+                        "sibling_gap": _json_face(SIBLING_GAP_FACE),
+                        "swap_stack": _ss,
+                        "swap_trigger": _json_face(SWAP_FACE)})
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
                "permission": _perm,
                # r1515: the ticket an operator's tools read carries the per-name cut too,
@@ -2744,10 +2757,11 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                                          "swap_trigger": _json_face(SWAP_FACE)}),
                # r1523: the toll above assumes prices do not move. This measures the pair's own
                # forward path, so "换回来值不值" is a reading rather than a premise.
-               "swap_convergence": SWC.compute({"as_of": asof,
-                                                "sibling_gap": _json_face(SIBLING_GAP_FACE),
-                                                "swap_stack": _ss,
-                                                "swap_trigger": _json_face(SWAP_FACE)}),
+               "swap_convergence": _swc,
+               # r1524: and the gain that path is the condition of. Two numbers on one line,
+               # with no combined figure on purpose -- see etf_book_swap_effect.WHY_NOT_ADDED.
+               "swap_effect": SWE.compute({"as_of": asof, "swap_stack": _ss,
+                                           "swap_convergence": _swc}),
                "width_disclosure": wd,
                "live_width_ruler": ruler,
                "price_basis": basis,
@@ -2819,6 +2833,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "swap_toll": payload["swap_toll"],
                       # r1523: and so does the measured answer to whether it pays.
                       "swap_convergence": payload["swap_convergence"],
+                      # r1524: the gain and the path on one line, with no combined number.
+                      "swap_effect": payload["swap_effect"],
                       "premium": _prem,
                       "base": payload["base"],
                       "permission": payload["permission"],

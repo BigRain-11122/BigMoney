@@ -1013,6 +1013,13 @@ LEGS = [
     # and refuses a payload whose net is not "median narrowing minus four sides" (1s, JSON reads).
     ("swap_convergence",
      ["python", "scripts/etf_book_swap_convergence.py", "check"]),
+    # r1524: the sheet prints a CNY gain from entering the gap (r1467) and a measured path for
+    # the same pair (r1523) half a page apart, and nothing says they are one gap read twice --
+    # a reader can add them (and count the discount twice) or subtract them (and compare a size
+    # with a frequency). This leg re-derives the pairing and refuses a payload that carries a
+    # combined number at all (0.1s, JSON reads).
+    ("swap_effect",
+     ["python", "scripts/etf_book_swap_effect.py", "check"]),
     # r1468: the netted order prints three rows but declares a book that moved in six places --
     # the trim table's own five sells never became rows, so typing the sheet leaves CNY 67,289
     # of refused names unsold; and once the swap executes, the account no longer matches the

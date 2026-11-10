@@ -1033,6 +1033,14 @@ def main() -> int:
              "scripts/etf_book_swap_convergence.py", ["selftest"]),
             ("product: etf_book_swap_convergence (published face re-derives from the panels)",
              "scripts/etf_book_swap_convergence.py", ["check"]),
+            # r1524: the CNY gain from entering the gap (r1467) and the measured path for the same
+            # pair (r1523) sat half a page apart as if they were two results; they are one gap read
+            # twice. This leg pins the pairing, the refusals (other bar / other notional / one-sided
+            # leg) and that no combined number is ever produced.
+            ("product: etf_book_swap_effect (the gain and the path, and no sum)",
+             "scripts/etf_book_swap_effect.py", ["selftest"]),
+            ("product: etf_book_swap_effect (published face re-derives from the two faces)",
+             "scripts/etf_book_swap_effect.py", ["check"]),
             # r1468: the netted order printed three rows and declared a book that had moved in
             # six places -- the trim table's own five sells never became rows (CNY 67,289 of
             # names the permission refused are left unsold), and after the swap executes the
@@ -10797,6 +10805,71 @@ def _legs_supply_and_book():
                                .get("net_after_toll_cny") or 0.0)), ",.0f")))
     except Exception as e:
         check("product: the sheet measures whether the second exchange pays at all",
+              False, repr(e)[:180])
+
+    # r1524: the section above and the CNY gain section (r1467) state two numbers about the same
+    # pair half a page apart, and a reader can only add them (counting the discount twice) or
+    # subtract them (comparing a size with a frequency). This leg pins the pairing on the ticket,
+    # the page, and the refusal itself: no combined number may exist anywhere.
+    try:
+        _bad62 = []
+        from scripts import etf_book_swap_effect as _SWE62
+        _hits62 = sorted(glob.glob(os.path.join(PATHS.results_dir, "etf_book_order",
+                                                "TICKET-*.json")))
+        _tk62 = {}
+        if not _hits62:
+            _bad62.append("no TICKET-*.json under results/etf_book_order")
+        else:
+            with open(_hits62[-1], encoding="utf-8") as _fh62:
+                _tk62 = json.load(_fh62)
+            _pub62 = _tk62.get("swap_effect")
+            if not _pub62:
+                _bad62.append("the ticket carries no swap_effect (a face only results/ knows "
+                              "is r1108)")
+            else:
+                _fresh62 = _SWE62.compute({"as_of": _tk62.get("as_of"),
+                                           "swap_stack": _tk62.get("swap_stack"),
+                                           "swap_convergence": _tk62.get("swap_convergence")})
+                _b62 = _SWE62.check(_pub62)
+                if _b62:
+                    _bad62.append("published swap_effect does not reconcile: %s"
+                                  % "; ".join(_b62))
+                _t62 = _pub62.get("totals") or {}
+                if _t62.get("combined_cny") is not None:
+                    _bad62.append("the ticket prints a combined level+path number")
+                if _fresh62.get("verdict") != _pub62.get("verdict"):
+                    _bad62.append("published verdict %s != this bar's faces %s"
+                                  % (_pub62.get("verdict"), _fresh62.get("verdict")))
+                if abs(float(_t62.get("level_cny") or 0.0)
+                       - float((_fresh62.get("totals") or {}).get("level_cny") or 0.0)) > 0.011:
+                    _bad62.append("level does not re-derive from this bar's stack")
+                if _pub62.get("verdict") != "CANNOT_PAIR":
+                    _md62p = os.path.join(PATHS.results_dir, "etf_book_order",
+                                          "ORDER-%s.md" % (_tk62.get("as_of") or ""))
+                    if not os.path.exists(_md62p):
+                        _bad62.append("ORDER-%s.md missing" % (_tk62.get("as_of"),))
+                    else:
+                        with open(_md62p, encoding="utf-8") as _fh62:
+                            _md62 = _fh62.read()
+                        if "换进去赚的和换回来量的" not in _md62:
+                            _bad62.append("sheet has no level-vs-path section")
+                        if "这两个数不能相加" not in _md62:
+                            _bad62.append("sheet never refuses the sum")
+                        for _r62 in _pub62.get("rows") or []:
+                            _m62 = format(float(_r62.get("level_cny") or 0.0), ",.0f")
+                            if _m62 not in _md62:
+                                _bad62.append("sheet does not print the level for %s"
+                                              % _r62.get("leg_symbol"))
+        check("product: the gain and the measured path share one line and are never summed",
+              not _bad62, "; ".join(_bad62)[:220]
+              or "swap_effect %s level=%s path=%s"
+              % (((_tk62.get("swap_effect") or {}).get("verdict")),
+                 format(float((((_tk62.get("swap_effect") or {}).get("totals") or {})
+                               .get("level_cny") or 0.0)), ",.0f"),
+                 format(float((((_tk62.get("swap_effect") or {}).get("totals") or {})
+                               .get("path_cny") or 0.0)), ",.0f")))
+    except Exception as e:
+        check("product: the gain and the measured path share one line and are never summed",
               False, repr(e)[:180])
 
     # r1521: two sections of one sheet answer the same question -- "how much would it cost to
