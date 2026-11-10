@@ -261,8 +261,14 @@ def upsert_row(ledger, row, stamp):
     if _content(old) == _content(row):
         return "kept"
     ledger.setdefault("restatements", []).append(_restatement(old, row, stamp))
-    old.update(row)
-    old["written_ts"] = stamp
+    # r1518: replace the row whole instead of merging field by field. Merging let a row
+    # keep the other fact's keys after a bar changed kind: a mark-only valuation row
+    # superseded by the executed book still carried `nav_cny`/`from_bar`, and the
+    # reverse kept a `k`/`ticket` pair that no longer described the book on disk.
+    new = dict(row)
+    new["written_ts"] = stamp
+    rows[rows.index(old)] = new
+    rows.sort(key=lambda r: str(r.get("bar") or ""))
     return "updated"
 
 
@@ -368,7 +374,12 @@ def start_inventory(ledger, bar):
     eligible = [r for r in ledger["rows"] if str(r.get("bar") or "") <= str(bar or "")]
     if not eligible:
         return None
-    return sorted(eligible, key=lambda r: str(r.get("bar")))[-1]
+    # r1518: if one bar somehow holds both kinds, the executed book is the account at that
+    # close -- the valuation row there was that same book marked forward before the trade
+    # existed, so it must not win a tie.
+    return sorted(eligible, key=lambda r: (str(r.get("bar") or ""),
+                                           1 if str(r.get("kind") or "execution")
+                                           != "valuation" else 0))[-1]
 
 
 def account_base_after_accrual(ledger, base, accrual):
@@ -566,6 +577,14 @@ def accrue(ledger, stamp=None, upto=None, closes_by_symbol=None, rates=None):
         return {"status": "NO_INPUTS", "rows": 0, "written": 0}
     steps = price_steps(base.get("holdings") or [], closes_by_symbol, base.get("bar"),
                         upto, _calendar_gap)
+    # r1518: a bar that carries an execution is already the account at that close (the sheet
+    # prices the executed book on its own bar). Writing a valuation over it replaced the
+    # trade with a mark of the book that existed before the trade -- two facts, one key, the
+    # last writer won. The execution always wins; the skipped bars are named, not dropped.
+    exec_bars = {str(r.get("bar")) for r in ledger.get("rows") or []
+                 if str(r.get("kind") or "execution") == "execution"}
+    skipped = [st["bar"] for st in steps if str(st["bar"]) in exec_bars]
+    steps = [st for st in steps if str(st["bar"]) not in exec_bars]
     rows, rf_missing = accrue_rows(base, steps, rates)
     counts = {"added": 0, "kept": 0, "updated": 0}
     if stamp:
@@ -577,6 +596,7 @@ def accrue(ledger, stamp=None, upto=None, closes_by_symbol=None, rates=None):
         "rows": len(rows),
         "written": counts["added"] + counts["updated"],
         "kept": counts["kept"],
+        "skipped_execution_bars": skipped,
         "rf_missing_bars": rf_missing,
         "last": rows[-1] if rows else None,
         "rows_detail": [{k: r[k] for k in ("bar", "risk_book_cny", "cash_cny", "nav_cny",
@@ -726,6 +746,7 @@ def assess(ticket, stack, ledger, stamp=None):
     if asof and stack and after and verdict != "CANNOT_VERIFY":
         row = {
             "bar": asof,
+            "kind": "execution",
             "ticket": (stack or {}).get("ticket"),
             "k": (stack or {}).get("k_after"),
             "risk_book_cny": (stack or {}).get("risk_book_after_cny"),
@@ -1203,6 +1224,15 @@ def check():
                    - ((r.get("risk_book_cny") or 0.0) + (r.get("cash_cny") or 0.0))) > 0.01:
                 bad.append("valuation_nav_identity")
                 break
+    # r1518: one bar cannot be both the executed book and a mark of the book before it.
+    # Valuations BETWEEN execution bars are the normal accrual output; a valuation sharing a
+    # bar with an execution is the collision that let the last writer decide what the account
+    # held (r1517 wrote 690/925/487/674 over a trade of 693/891/473/677).
+    _exec_bars = {str(r.get("bar")) for r in ledger.get("rows") or []
+                  if str(r.get("kind") or "execution") == "execution"}
+    if any(str(r.get("bar")) in _exec_bars for r in ledger.get("rows") or []
+           if str(r.get("kind") or "") == "valuation"):
+        bad.append("valuation_row_on_execution_bar")
 
     # r1469: the replay must still reproduce the ledger's own legs, and must reproduce exactly
     # r1483: an identity that was never measured is not a failed identity -- the failure is
@@ -1505,6 +1535,44 @@ def selftest():
     mdu = render_md(fu)
     chk("the printed sheet names the bar it could not mark",
         "价格面板里还没有全腿收盘价" in mdu)
+
+    # 16. r1518: one bar, two facts -- the executed book must be the one that stays
+    _val = {"bar": "2026-11-10", "kind": "valuation", "from_bar": "2026-11-09",
+            "holdings": [{"symbol": "A", "lots": 10, "price": 2.3, "amount_cny": 23000.0}],
+            "risk_book_cny": 23000.0, "cash_cny": 1000.0, "nav_cny": 24000.0,
+            "ret": 0.05, "cum_ret": 0.05, "source_face": "x"}
+    _l16 = {"schema": "x", "rows": [{"bar": "2026-11-09", "kind": "execution",
+                                     "holdings": [{"symbol": "A", "lots": 10, "price": 2.0}],
+                                     "cash_cny": 1000.0, "risk_book_cny": 20000.0},
+                                    dict(_val)]}
+    _exec16 = {"bar": "2026-11-10", "kind": "execution",
+               "holdings": [{"symbol": "A", "lots": 8, "price": 2.3}],
+               "cash_cny": 5600.0, "risk_book_cny": 18400.0, "source_face": "x"}
+    _act16 = upsert_row(_l16, _exec16, "t1")
+    _row16 = [r for r in _l16["rows"] if r["bar"] == "2026-11-10"][0]
+    chk("an executed bar replaces the mark-only row for the same day", _act16 == "updated")
+    chk("no field of the replaced fact survives",
+        _row16.get("kind") == "execution" and "nav_cny" not in _row16
+        and "from_bar" not in _row16 and "ret" not in _row16)
+    chk("the replacement is a recorded restatement, not a silent swap",
+        len(_l16.get("restatements") or []) == 1)
+    _a16 = accrue(_l16, stamp="t2",
+                  closes_by_symbol={"A": {"2026-11-09": 2.0, "2026-11-10": 2.3,
+                                          "2026-11-11": 2.4}},
+                  rates={"2026-11-10": 1.185, "2026-11-11": 1.185}, upto="2026-11-11")
+    _row16 = [r for r in _l16["rows"] if r["bar"] == "2026-11-10"][0]
+    chk("accrual starts after the executed bar instead of overwriting it",
+        _row16.get("kind") == "execution" and _row16["holdings"][0]["lots"] == 8)
+    chk("the bar after it is valued from the executed book",
+        [r["bar"] for r in _l16["rows"]].count("2026-11-11") == 1)
+    chk("no bar is skipped when there is nothing to skip",
+        (_a16.get("skipped_execution_bars") or []) == [])
+    _both = {"rows": [{"bar": "2026-11-10", "kind": "valuation",
+                       "holdings": [{"symbol": "A", "lots": 1}]},
+                      {"bar": "2026-11-10", "kind": "execution",
+                       "holdings": [{"symbol": "A", "lots": 2}]}]}
+    chk("a bar carrying both kinds resolves to the executed book",
+        start_inventory(_both, "2026-11-10")["holdings"][0]["lots"] == 2)
 
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1

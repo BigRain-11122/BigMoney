@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-08 19:04:20",
- "now": "2026-11-08 19:04:19.611327",
+ "updated": "2026-11-10 21:07:53",
+ "now": "2026-11-10 21:07:51.401232",
  "close_accept_time": "15:30:00",
  "symbols": 48,
  "total_new_rows": 0,
  "failures": [],
  "overlap_mismatches": [],
- "data_cutoff": "2026-11-06",
+ "data_cutoff": "2026-11-10",
  "per_symbol": [
   {
    "symbol": "510300",
@@ -351,9 +351,26 @@
   "stale_dead": []
  },
  "catchup_attempts": {},
+ "quote_topup": {
+  "status": "noop_current",
+  "target": "2026-11-10",
+  "lagging": [],
+  "attempted": 0,
+  "appended": 0,
+  "refused": [],
+  "quote_date": null,
+  "detail": "every core file already carries 2026-11-10"
+ },
  "cutoff_error": null,
  "source_used": "sina",
- "fallback_events": [],
+ "fallback_events": [
+  {
+   "symbol": "510300",
+   "diagnosis": "upstream_equal",
+   "tencent_latest": "2026-11-10",
+   "note": "zero-row ambiguity: upstream bar-existence probe"
+  }
+ ],
  "exit_code": 0,
  "hook_ok": null,
  "hook_exit": null,

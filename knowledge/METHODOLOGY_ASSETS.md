@@ -12623,3 +12623,16 @@ smoke 腿「the page names the board session the premium section never captured�
 3. **负向腿同重**：无窗口的车道、窗口已破的车道，都不许被印成窗口语言；一条窗内车道都没有时整节必须消失（L29b 三向断言 + 无窗口腿）。
 
 **证据**：`scripts/data_lane_freshness.py` selftest 31→**32/32**（L29b）· 面 `docs/data_lanes/FRESHNESS.md`（新增节 + 单元格）· 读数 sina_mf tail 2026-10-26 / 落后 11 / 窗 20 / **还剩 10 场**。
+
+### E519 · 一根 bar 只能有一个账户事实：撞键时执行赢，换事实要整行换（r1518 bm-c）
+
+**病灶**：`results/etf_book_positions/LEDGER.json` 每根 bar 一行，但同一根 11-10 上被写了两次不同的事实——先是票面「这一张单执行后账上拿什么」（693/891/473/677），后是 accrual 把**成交之前**那本书（690/925/487/674）往前标了一天价。`upsert_row` 逐字段合并，于是「后写的赢」，账上的手数与它自己印的票面交易相互矛盾；`check` 拿「已发布面的那一行」比「重新推导的同一行」，只要这两个事实同时在就永远对不上（r1514→r1517 连红两天，没人能说清是谁赢了）。
+
+**三律**：
+1. **执行行优先**：一根 bar 上的成交结果就是那天的收盘账；accrual 只许在「没有成交的 bar」上写估值（`price_steps` 从最新执行行之后起算，撞上的 bar 进 `skipped_execution_bars` 披露，不许静默丢）。
+2. **换事实必须整行替换**：逐字段合并会让旧事实的键寄生在新行上（估值行的 `nav_cny`/`from_bar`/`ret` 留在执行行里，读者看不出这行属于哪一类）；替换必须记一条改述并把两组数印出来。
+3. **闸要机械**：`check` 增腿 `valuation_row_on_execution_bar`——估值行与执行行同 bar 即红；「估值行落在两根执行行之间」是正常 accrual 产物，不许误伤。
+
+**证据**：`scripts/etf_book_positions.py` selftest 71→**78/78**（+7 腿：同 bar 整行替换、旧事实键不残留、改述留痕、accrual 从执行行之后起算、两 kind 同 bar 起算取执行行）· `check CHECK_OK`（此前 `CHECK_FAIL: base_divergence_total_cny, ledger_row_drift`）· 账本 11-10 恢复为执行行 693/891/473/677，改述记录留痕并在 `results/etf_book_positions.md` 印出两组数。
+
+**未修的邻居（如实）**：执行行直接继承 swap stack 的归一化簿（risk+cash 恒 = 1,000,000），而 accrual 行带真实净值（1,007,455.39）——每根执行 bar 都把账户净值重置回名义值。这是另一个缺陷，本窗不动钱账。

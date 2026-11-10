@@ -17,6 +17,7 @@
  "ledger_action": "updated",
  "ledger_row": {
   "bar": "2026-11-10",
+  "kind": "execution",
   "ticket": "TICKET-2026-11-10.json",
   "k": 0.392405,
   "risk_book_cny": 392404.9,
@@ -68,10 +69,10 @@
  },
  "next_order_base": {
   "bar": "2026-11-10",
-  "kind": "valuation",
-  "source": "accrued_valuation",
-  "risk_book_cny": 400023.3,
-  "cash_cny": 607432.09,
+  "kind": "execution",
+  "source": "execution_row",
+  "risk_book_cny": 392404.9,
+  "cash_cny": 607595.1,
   "holdings": 4,
   "superseded_execution_bar": "2026-11-10"
  },
@@ -106,79 +107,22 @@
  ],
  "base_divergence_total_cny": 313763.0,
  "accrual": {
-  "status": "ACCRUED",
-  "from_bar": "2026-11-09",
-  "rows": 1,
-  "written": 1,
+  "status": "NO_NEW_BAR",
+  "from_bar": "2026-11-10",
+  "rows": 0,
+  "written": 0,
   "kept": 0,
+  "skipped_execution_bars": [],
   "rf_missing_bars": 0,
-  "last": {
-   "bar": "2026-11-10",
-   "kind": "valuation",
-   "from_bar": "2026-11-09",
-   "holdings": [
-    {
-     "symbol": "159263",
-     "lots": 690,
-     "price": 1.134,
-     "amount_cny": 78246.0
-    },
-    {
-     "symbol": "159513",
-     "lots": 925,
-     "price": 1.76,
-     "amount_cny": 162800.0
-    },
-    {
-     "symbol": "159577",
-     "lots": 487,
-     "price": 1.659,
-     "amount_cny": 80793.3
-    },
-    {
-     "symbol": "513690",
-     "lots": 674,
-     "price": 1.16,
-     "amount_cny": 78184.0
-    }
-   ],
-   "risk_book_cny": 400023.3,
-   "cash_cny": 607432.09,
-   "nav_cny": 1007455.39,
-   "ret": 0.00745539,
-   "cum_ret": 0.00745539,
-   "rf_step": 3.19178e-05,
-   "stale_price_symbols": [],
-   "source_face": "results/etf_book_swap_stack.json"
-  },
-  "rows_detail": [
-   {
-    "bar": "2026-11-10",
-    "risk_book_cny": 400023.3,
-    "cash_cny": 607432.09,
-    "nav_cny": 1007455.39,
-    "ret": 0.00745539,
-    "cum_ret": 0.00745539,
-    "rf_step": 3.19178e-05
-   }
-  ],
+  "last": null,
+  "rows_detail": [],
   "panel_missing_symbols": [],
   "repo_quotes": 3764,
   "rate_latest_bar": "2026-11-10",
   "rate_latest": 1.165,
   "valued_upto_bar": "2026-11-10"
  },
- "accrual_rows": [
-  {
-   "bar": "2026-11-10",
-   "risk_book_cny": 400023.3,
-   "cash_cny": 607432.09,
-   "nav_cny": 1007455.39,
-   "ret": 0.00745539,
-   "cum_ret": 0.00745539,
-   "rf_step": 3.19178e-05
-  }
- ],
+ "accrual_rows": [],
  "settlement": {
   "bar": "2026-11-10",
   "priced": true,
@@ -191,10 +135,10 @@
  "replay": {
   "start_bar": "2026-10-13",
   "bars": 20,
-  "legs_first_bar": 417560.8,
-  "legs_last_bar": 400023.3,
-  "legs_ret": -0.04199987,
-  "cash_interest_cny": 545.0,
+  "legs_first_bar": 409309.1,
+  "legs_last_bar": 392404.9,
+  "legs_ret": -0.04129935,
+  "cash_interest_cny": 545.15,
   "identity_delta_cny": 0.0,
   "identity_status": "PRICED_BAR",
   "identity_holds": true,
@@ -221,7 +165,7 @@
  },
  "restatements": {
   "bar": "2026-11-10",
-  "count": 10,
+  "count": 11,
   "records": [
    {
     "bar": "2026-11-10",
@@ -762,6 +706,60 @@
       "after": 674
      }
     ]
+   },
+   {
+    "bar": "2026-11-10",
+    "previous_written_ts": "2026-11-10T20:46:59+08:00",
+    "written_ts": "2026-11-10T21:00:14+08:00",
+    "before": {
+     "k": 0.392405,
+     "risk_book_cny": 400023.3,
+     "cash_cny": 607432.09,
+     "lots": {
+      "159263": 690,
+      "159513": 925,
+      "159577": 487,
+      "513690": 674
+     }
+    },
+    "after": {
+     "k": 0.392405,
+     "risk_book_cny": 392404.9,
+     "cash_cny": 607595.1,
+     "lots": {
+      "159263": 693,
+      "159513": 891,
+      "159577": 473,
+      "513690": 677
+     }
+    },
+    "delta": {
+     "k": 0.0,
+     "risk_book_cny": -7618.4,
+     "cash_cny": 163.01
+    },
+    "lots_changed": [
+     {
+      "symbol": "159263",
+      "before": 690,
+      "after": 693
+     },
+     {
+      "symbol": "159513",
+      "before": 925,
+      "after": 891
+     },
+     {
+      "symbol": "159577",
+      "before": 487,
+      "after": 473
+     },
+     {
+      "symbol": "513690",
+      "before": 674,
+      "after": 677
+     }
+    ]
    }
   ],
   "trail_starts_with_this_version": true,
@@ -777,32 +775,11 @@
    },
    "cash_cny": 607432.0
   },
-  "page_vs_ledger_lots": [
-   {
-    "symbol": "159263",
-    "page_lots": 693,
-    "ledger_lots": 690
-   },
-   {
-    "symbol": "159513",
-    "page_lots": 891,
-    "ledger_lots": 925
-   },
-   {
-    "symbol": "159577",
-    "page_lots": 473,
-    "ledger_lots": 487
-   },
-   {
-    "symbol": "513690",
-    "page_lots": 677,
-    "ledger_lots": 674
-   }
-  ],
+  "page_vs_ledger_lots": [],
   "page_vs_ledger_cash": {
    "page": 607432.0,
-   "ledger": 607432.09,
-   "page_minus_ledger": -0.09
+   "ledger": 607595.1,
+   "page_minus_ledger": -163.1
   },
   "page_vs_ledger_agree": false
  },
