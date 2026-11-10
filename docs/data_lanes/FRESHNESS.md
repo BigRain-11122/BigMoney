@@ -7,7 +7,7 @@ Verdict: **attention** -- 10/15 lanes in sync, 12/15 auditable from this machine
 
 ## Whose disk these numbers are on
 
-以本机 bm-c 的盘为基准：14 条在役车道里有 2 条的数字不在本机盘上：1 条在 bm-a 的盘上（4.64h 未报到）、1 条在 bm-b 的盘上（281.17h 未报到）；留在本机盘上的 12 条里 12 条可核实。
+以本机 bm-c 的盘为基准：14 条在役车道里有 2 条的数字不在本机盘上：1 条在 bm-a 的盘上（5.12h 未报到）、1 条在 bm-b 的盘上（281.65h 未报到）；留在本机盘上的 12 条里 12 条可核实。
 
 - `bm-a`: futures (host down)
 - `bm-b`: marks (host down)
@@ -50,14 +50,14 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 These lanes cannot be certified here and the machine that is supposed to collect them has not written a heartbeat for more than 2.0h. Until it comes back the numbers below are this machine's stale copies, not the company's data.
 
-- `bm-a`: last seen 2026-11-11T01:14:51+08:00 (4.64h ago) -- holding back futures
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (281.17h ago) -- holding back marks
+- `bm-a`: last seen 2026-11-11T01:14:51+08:00 (5.12h ago) -- holding back futures
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (281.65h ago) -- holding back marks
 
 ## Owners that stopped reporting
 
 A different question from the section above: these machines have written no heartbeat for more than 24.0h, so the lanes they own are being judged from whatever was last committed. A lane here can still read `in_sync` -- the number is old, the owner is gone, and nobody would notice the day the file stops being written.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (281.17h ago) -- owns astock_daily, marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (281.65h ago) -- owns astock_daily, marks
   - already covered by a declared stand-in: astock_daily <- bm-c (nothing to wait for)
   - nobody is covering these: marks
 
@@ -78,9 +78,9 @@ A status envelope is a committed file, so a branch switch or a rebase can restor
 
 The per-symbol panels hold thousands of files, so their tail is read through an evenly spaced sample rather than a full sweep. A sample can miss a single laggard symbol; it cannot miss a panel that stopped weeks ago. Each row below says how many symbols were read out of how many.
 
-- `ah_panel`: 40 of 187 symbols read, tail 2026-11-10; the full scan holds it in 187 of 187 symbols (100.00%) (certified 2026-11-10T20:50:13)
-- `astock_daily`: 40 of 5223 symbols read, tail 2026-11-10; the full scan holds it in 1,213 of 5,223 symbols (23.22%) (certified 2026-11-10T20:50:13)
-- `moneyflow`: 40 of 5226 symbols read, tail 2026-11-10; the full scan holds it in 5,225 of 5,226 symbols (100.00%) (certified 2026-11-10T20:50:13)
+- `ah_panel`: 40 of 187 symbols read, tail 2026-11-10; the full scan holds it in 187 of 187 symbols (100.00%) (certified 2026-11-11T05:56:05)
+- `astock_daily`: 40 of 5223 symbols read, tail 2026-11-10; the full scan holds it in 5,212 of 5,223 symbols (99.79%) (certified 2026-11-11T05:56:05)
+- `moneyflow`: 40 of 5226 symbols read, tail 2026-11-10; the full scan holds it in 5,225 of 5,226 symbols (100.00%) (certified 2026-11-11T05:56:05)
 
 Full-scan certification of exactly these rows: `scripts/data_lane_freshness.py certify` -> `docs/data_lanes/TAIL_CERTIFICATION.md` (it re-reads every file and names the symbols that sit behind the newest bar).
 
