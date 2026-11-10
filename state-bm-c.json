@@ -1018,10 +1018,10 @@
  "sync": {
   "ahead_origin": 0,
   "behind_origin": 0,
-  "commit": null,
-  "landed_on": "pending",
-  "origin_tip": null,
-  "ts": "2026-11-11T07:04:52+08:00"
+  "commit": "0421540455",
+  "landed_on": "origin/main",
+  "origin_tip": "0421540455",
+  "ts": "2026-11-11T07:06:25+08:00"
  },
  "task": "r1538: the book re-decides on official phase 0 while its leverage is refreshed on phase 7 -- all 35 ledger k changes land off the decision grid, and pricing it says the phase is the bigger lever",
  "total_ram_gb": 23.9,
@@ -1034,5 +1034,6 @@
  "vram_free_gb": 14.5,
  "watermark_verdict": "insufficient_history",
  "round_t1538_note": "| 2026-11-11 06:45-07:2x | 1538 | **PRODUCT（产品优先律）：这本书在两个不同的日子换杠杆——不是偶尔漏一格，是从来不重合。** r1536 印出「账本里有一部分 k 变动不落在决策 bar 上」，本轮把它量准：**35/35 全部**不落在决策 bar 上。根因一行：书的决策网格=自己 2020 窗口的 `dates[::20]`，官方相位 **0**（2020-01-02 在官方第 7100 位）；杠杆 `etf_book_order.k_schedule` 从 `rp.index[min_hist=126]` 起走，126 % 20 == **6**，再被 `in_force` 顺延一根 → 账本 k 落在相位 **8**（35 次里 34 次 8、1 次 13）。两个等差网格起点模数不同=**集合永不相交**，所以「在书不重新决策的日子换杠杆」是常态不是缺陷。**定价**：同一个书、同一批成交、同一 8bp、同一条回购现金腿，把 k 限制在决策 bar 上刷新（其余持有）→ 全窗 **7.40% vs 7.68%/yr（-0.28pp，刚好越过 0.25pp 判线）**、夏普 1.298 vs 1.335、回撤 -5.79% vs -5.78%；但**相位本身**是自由选择：二十个相位全价后跨度 **0.45pp**，宽于那 0.28pp → 判决 GRID_COSTS 同时 phase_dominates=true，单印一格等于引用相位而非规则。**身份臂先复现**：band ruler 的 `held/causal/ticket` 2024+ **12.56%**，本面重建 **12.66%**（gap 0.10pp ≤ 0.125）才准往下印——本窗第一次实跑把成本单位写成分数（8bp→80000bp）读出 -34%/yr，正是这条腿当场拦下的事故。**验证**：k_grid selftest **17/17**（网格集合/持有语义/空网格不退回自由规则/相位跨度命名/缺臂=INCOMPLETE）、`--check` OK、S6 新腿 `k_grid` 0.9s rc0、smoke 新增 2 腿。**S6**：dualrun ZERO-DRIFT（744 条 streak 51）／compute_audit FLAG pool_starvation(15877.9min)+supply_floor(ready 0/floor 3·AGENDA_DEBT 4 候选全不过日历)／py_watermark insufficient_history（cpu 74%·py 1.8%）／update_daily rc0 **0 新行** cutoff 2026-11-10。**S0.5**：`fleet/orders/` 114/114 全在心跳 `orders_ack`（241 条），差集 0；集团 `docs/decisions.md` 原始 blob sha256 **2ffcc70c** 与自持水位同值 → 零动作。**S7**：loop pin=5 no-op（首跳 07:05）、watchdog 重注册（S4U 翻转仍被拒·需管理员）、两爪重装、attrition 4 账本 CLEAN（3 处历史缩行 healed）。**未验证（如实）**：全量套件 07:02 后台新起（pid 26952 → logs/smoke_r1538.log）收轮时仍在飞，本轮新件以自检 17/17 + --check + S6 单腿为准。**与 r1536 的一处不符（如实披露）**：r1536 写「35 次里 6 次不在网格上」，按官方决策相位重算读到 35/35；本面在 `--check` 里固定重算这一列，不手抄。 |",
- "round_t1538_next": "next: the decision clock and the leverage clock now each have a name, but nothing on the CEO page says which one prices the exposure a reader is looking at; also 15:00 today re-opens r1525's second half (same 5,546.48 shares x the 2026-11-11 close), and the CEO page leg is still red until bm-a's 6h window opens (07:14)"
+ "round_t1538_next": "next: the decision clock and the leverage clock now each have a name, but nothing on the CEO page says which one prices the exposure a reader is looking at; also 15:00 today re-opens r1525's second half (same 5,546.48 shares x the 2026-11-11 close), and the CEO page leg is still red until bm-a's 6h window opens (07:14)",
+ "round_t1538_addendum": "| 2026-11-11 07:0x | 1538b | **ADDENDUM（收尾）：送达与两扫。** 轮提交 **0421540455** 已落 origin/main，fetch 后 **0 ahead / 0 behind**（本地未达 origin commit 数=0）：`scripts/etf_book_k_grid.py`、`results/etf_book_k_grid.json`、`research/ETF_BOOK_K_GRID.md`、卡 E533、S6 腿 `k_grid`、smoke 两腿。**S0.5 二扫**：`fleet/orders/` 114 件全在心跳 `orders_ack`（241 条），差集 0；集团 `docs/decisions.md` 原始 blob sha256 **2ffcc70c** 与自持水位同值 → 零动作。**S7**：loop pin=5 no-op（首跳 07:05）、watchdog 重注册（S4U 翻转仍被拒·需管理员）、两爪重装（LF 归一）、attrition 4 账本 CLEAN（3 处历史缩行 healed）。孤儿面 py_faces=6 **orphans=0** 零杀。**未验证（如实）**：全量套件 07:02 后台起（pid 26952 → `logs/smoke_r1538.log`），收轮时 **73 腿 / 0 FAIL** 仍在飞；轮内新件以自检 17/17 + `--check` + S6 单腿 rc0 为准。**仍红的一条（设计内）**：`the page tells a de-levered book from a well-timed one` 要等 bm-a 的 6h 接管窗（07:14:51）打开；本轮收轮时 bm-a 心跳 **5.85h**，不绕过闸。 |"
 }
