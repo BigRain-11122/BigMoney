@@ -1,0 +1,428 @@
+{
+ "study": "E646_crossmodule_key",
+ "date": "2026-11-10",
+ "evidence_cutoff": "2026-11-10",
+ "source_face": "results/state_tilt/MODULEWRITEKEY.json",
+ "method": "re-derive E642's cross-module arm from the tree (module-level two-depth writes naming any counted row key), then for each hit publish its container expression and the module-body binding of its root name, join it to the counted read lines of the same key via E638, and classify each pair as same_module / imported / same_name_only / name_collision",
+ "population_source": "13084 Python files of E642's corpus, 13 counted read line(s) over 6 key(s), 7 cross-module hit(s)",
+ "counts": {
+  "python_files_scanned": 13084,
+  "counted_read_lines": 13,
+  "counted_row_keys": 6,
+  "hits_re_derived": 7,
+  "hits_published_by_e642": 7,
+  "distinct_hit_modules": 6,
+  "distinct_hit_keys": 5,
+  "hits_with_a_container_expression": 7,
+  "hits_with_a_root_name": 7,
+  "hits_whose_root_is_bound_in_its_own_module": 7,
+  "hit_module_class_histogram": {
+   "round_scratch_script": 5,
+   "smoke_or_probe_harness": 2
+  },
+  "container_binding_histogram": {
+   "module_assignment": 7
+  },
+  "pairs": 7,
+  "pairs_by_lineage": {
+   "imported": 0,
+   "name_collision": 7,
+   "same_module": 0,
+   "same_name_only": 0
+  },
+  "pairs_sharing_a_module": 0,
+  "pairs_linked_by_an_import_edge": 0,
+  "pairs_matching_on_the_name_alone": 0,
+  "pairs_that_are_name_collisions": 7,
+  "read_modules_involved": 2,
+  "hits_with_no_counted_read_line": 0
+ },
+ "rows": [
+  {
+   "module": "results/_r478bmc_trio_watch.py",
+   "line": 139,
+   "column": 4,
+   "keys": [
+    "verdict"
+   ],
+   "row_keys_named": [
+    "verdict"
+   ],
+   "member_ctx": [
+    "load",
+    "store"
+   ],
+   "module_class": "round_scratch_script",
+   "container_problem": null,
+   "container_expression": "OUT['verdict']",
+   "container_root": "OUT",
+   "container_depth": 2,
+   "container_binding": {
+    "kind": "module_assignment",
+    "line": 26
+   },
+   "matched_read_lines": [
+    {
+     "module": "scripts/e382_key_projection_delta.py",
+     "line": 350,
+     "function": "build",
+     "receiver": "faces",
+     "key": "verdict"
+    }
+   ],
+   "lineage_classes_of_its_pairs": [
+    "name_collision"
+   ]
+  },
+  {
+   "module": "results/_r479bmc_trio_watch.py",
+   "line": 139,
+   "column": 4,
+   "keys": [
+    "verdict"
+   ],
+   "row_keys_named": [
+    "verdict"
+   ],
+   "member_ctx": [
+    "load",
+    "store"
+   ],
+   "module_class": "round_scratch_script",
+   "container_problem": null,
+   "container_expression": "OUT['verdict']",
+   "container_root": "OUT",
+   "container_depth": 2,
+   "container_binding": {
+    "kind": "module_assignment",
+    "line": 26
+   },
+   "matched_read_lines": [
+    {
+     "module": "scripts/e382_key_projection_delta.py",
+     "line": 350,
+     "function": "build",
+     "receiver": "faces",
+     "key": "verdict"
+    }
+   ],
+   "lineage_classes_of_its_pairs": [
+    "name_collision"
+   ]
+  },
+  {
+   "module": "results/_r675bmb_trio_watch.py",
+   "line": 133,
+   "column": 4,
+   "keys": [
+    "verdict"
+   ],
+   "row_keys_named": [
+    "verdict"
+   ],
+   "member_ctx": [
+    "load",
+    "store"
+   ],
+   "module_class": "round_scratch_script",
+   "container_problem": null,
+   "container_expression": "OUT['verdict']",
+   "container_root": "OUT",
+   "container_depth": 2,
+   "container_binding": {
+    "kind": "module_assignment",
+    "line": 12
+   },
+   "matched_read_lines": [
+    {
+     "module": "scripts/e382_key_projection_delta.py",
+     "line": 350,
+     "function": "build",
+     "receiver": "faces",
+     "key": "verdict"
+    }
+   ],
+   "lineage_classes_of_its_pairs": [
+    "name_collision"
+   ]
+  },
+  {
+   "module": "results/_r872bma_ledger_heal.py",
+   "line": 45,
+   "column": 4,
+   "keys": [
+    "rows"
+   ],
+   "row_keys_named": [
+    "rows"
+   ],
+   "member_ctx": [
+    "load",
+    "store"
+   ],
+   "module_class": "round_scratch_script",
+   "container_problem": null,
+   "container_expression": "receipt['rows']",
+   "container_root": "receipt",
+   "container_depth": 2,
+   "container_binding": {
+    "kind": "module_assignment",
+    "line": 42
+   },
+   "matched_read_lines": [
+    {
+     "module": "scripts/e504_name_compose.py",
+     "line": 919,
+     "function": "selftest",
+     "receiver": "doctored4",
+     "key": "rows"
+    }
+   ],
+   "lineage_classes_of_its_pairs": [
+    "name_collision"
+   ]
+  },
+  {
+   "module": "results/_r920bmb_n2u3_flip.py",
+   "line": 71,
+   "column": 4,
+   "keys": [
+    "preflight",
+    "verdict"
+   ],
+   "row_keys_named": [
+    "verdict"
+   ],
+   "member_ctx": [
+    "load",
+    "store"
+   ],
+   "module_class": "round_scratch_script",
+   "container_problem": null,
+   "container_expression": "receipt['preflight']",
+   "container_root": "receipt",
+   "container_depth": 2,
+   "container_binding": {
+    "kind": "module_assignment",
+    "line": 27
+   },
+   "matched_read_lines": [
+    {
+     "module": "scripts/e382_key_projection_delta.py",
+     "line": 350,
+     "function": "build",
+     "receiver": "faces",
+     "key": "verdict"
+    }
+   ],
+   "lineage_classes_of_its_pairs": [
+    "name_collision"
+   ]
+  },
+  {
+   "module": "scripts/run_e563_smoke_leg.py",
+   "line": 38,
+   "column": 8,
+   "keys": [
+    "leg_indices",
+    "rows"
+   ],
+   "row_keys_named": [
+    "rows"
+   ],
+   "member_ctx": [
+    "load",
+    "store"
+   ],
+   "module_class": "smoke_or_probe_harness",
+   "container_problem": null,
+   "container_expression": "face['rows'][0]",
+   "container_root": "face",
+   "container_depth": 3,
+   "container_binding": {
+    "kind": "module_assignment",
+    "line": 47
+   },
+   "matched_read_lines": [
+    {
+     "module": "scripts/e504_name_compose.py",
+     "line": 919,
+     "function": "selftest",
+     "receiver": "doctored4",
+     "key": "rows"
+    }
+   ],
+   "lineage_classes_of_its_pairs": [
+    "name_collision"
+   ]
+  },
+  {
+   "module": "scripts/run_e563_smoke_leg.py",
+   "line": 39,
+   "column": 8,
+   "keys": [
+    "class",
+    "rows"
+   ],
+   "row_keys_named": [
+    "rows"
+   ],
+   "member_ctx": [
+    "load",
+    "store"
+   ],
+   "module_class": "smoke_or_probe_harness",
+   "container_problem": null,
+   "container_expression": "face['rows'][0]",
+   "container_root": "face",
+   "container_depth": 3,
+   "container_binding": {
+    "kind": "module_assignment",
+    "line": 47
+   },
+   "matched_read_lines": [
+    {
+     "module": "scripts/e504_name_compose.py",
+     "line": 919,
+     "function": "selftest",
+     "receiver": "doctored4",
+     "key": "rows"
+    }
+   ],
+   "lineage_classes_of_its_pairs": [
+    "name_collision"
+   ]
+  }
+ ],
+ "pairs": [
+  {
+   "hit_module": "results/_r478bmc_trio_watch.py",
+   "hit_line": 139,
+   "hit_column": 4,
+   "key": "verdict",
+   "read_module": "scripts/e382_key_projection_delta.py",
+   "read_line": 350,
+   "read_function": "build",
+   "read_receiver": "faces",
+   "module_class_of_the_hit": "round_scratch_script",
+   "container_root": "OUT",
+   "lineage": "name_collision",
+   "same_module": false,
+   "hit_imports_the_read_module": false,
+   "read_module_imports_the_hit": false,
+   "container_root_equals_read_receiver": false
+  },
+  {
+   "hit_module": "results/_r479bmc_trio_watch.py",
+   "hit_line": 139,
+   "hit_column": 4,
+   "key": "verdict",
+   "read_module": "scripts/e382_key_projection_delta.py",
+   "read_line": 350,
+   "read_function": "build",
+   "read_receiver": "faces",
+   "module_class_of_the_hit": "round_scratch_script",
+   "container_root": "OUT",
+   "lineage": "name_collision",
+   "same_module": false,
+   "hit_imports_the_read_module": false,
+   "read_module_imports_the_hit": false,
+   "container_root_equals_read_receiver": false
+  },
+  {
+   "hit_module": "results/_r675bmb_trio_watch.py",
+   "hit_line": 133,
+   "hit_column": 4,
+   "key": "verdict",
+   "read_module": "scripts/e382_key_projection_delta.py",
+   "read_line": 350,
+   "read_function": "build",
+   "read_receiver": "faces",
+   "module_class_of_the_hit": "round_scratch_script",
+   "container_root": "OUT",
+   "lineage": "name_collision",
+   "same_module": false,
+   "hit_imports_the_read_module": false,
+   "read_module_imports_the_hit": false,
+   "container_root_equals_read_receiver": false
+  },
+  {
+   "hit_module": "results/_r872bma_ledger_heal.py",
+   "hit_line": 45,
+   "hit_column": 4,
+   "key": "rows",
+   "read_module": "scripts/e504_name_compose.py",
+   "read_line": 919,
+   "read_function": "selftest",
+   "read_receiver": "doctored4",
+   "module_class_of_the_hit": "round_scratch_script",
+   "container_root": "receipt",
+   "lineage": "name_collision",
+   "same_module": false,
+   "hit_imports_the_read_module": false,
+   "read_module_imports_the_hit": false,
+   "container_root_equals_read_receiver": false
+  },
+  {
+   "hit_module": "results/_r920bmb_n2u3_flip.py",
+   "hit_line": 71,
+   "hit_column": 4,
+   "key": "verdict",
+   "read_module": "scripts/e382_key_projection_delta.py",
+   "read_line": 350,
+   "read_function": "build",
+   "read_receiver": "faces",
+   "module_class_of_the_hit": "round_scratch_script",
+   "container_root": "receipt",
+   "lineage": "name_collision",
+   "same_module": false,
+   "hit_imports_the_read_module": false,
+   "read_module_imports_the_hit": false,
+   "container_root_equals_read_receiver": false
+  },
+  {
+   "hit_module": "scripts/run_e563_smoke_leg.py",
+   "hit_line": 38,
+   "hit_column": 8,
+   "key": "rows",
+   "read_module": "scripts/e504_name_compose.py",
+   "read_line": 919,
+   "read_function": "selftest",
+   "read_receiver": "doctored4",
+   "module_class_of_the_hit": "smoke_or_probe_harness",
+   "container_root": "face",
+   "lineage": "name_collision",
+   "same_module": false,
+   "hit_imports_the_read_module": false,
+   "read_module_imports_the_hit": false,
+   "container_root_equals_read_receiver": false
+  },
+  {
+   "hit_module": "scripts/run_e563_smoke_leg.py",
+   "hit_line": 39,
+   "hit_column": 8,
+   "key": "rows",
+   "read_module": "scripts/e504_name_compose.py",
+   "read_line": 919,
+   "read_function": "selftest",
+   "read_receiver": "doctored4",
+   "module_class_of_the_hit": "smoke_or_probe_harness",
+   "container_root": "face",
+   "lineage": "name_collision",
+   "same_module": false,
+   "hit_imports_the_read_module": false,
+   "read_module_imports_the_hit": false,
+   "container_root_equals_read_receiver": false
+  }
+ ],
+ "limits": [
+  "lineage here is static: a module that does not import the read's module cannot reach the read's container object by name, but it can still share a path or key spelling, so the test only ever refutes reachability and never proves it",
+  "import text is matched against every dotted spelling the read module could be imported under, so a hit that reaches the read module through an importlib.import_module string is missed by this leg and is published as a limit of the arm rather than a zero",
+  "the container expression is the outermost Subscript's own `.value` unparsed, so a hit whose container is itself computed (a call result, a comprehension) is published as that expression and its root name is None",
+  "the read population is E638's join (one definition); a change to that join moves this study's pairs without touching its hits",
+  "module class is a filename convention (results/_r* is a throwaway round script, run_e* is a harness), not a measured property of the code",
+  "files over 1MB are skipped rather than parsed (E391's cap) and are counted separately"
+ ],
+ "verdict": "every hit is a word collision: none shares a module, an import edge, or a receiver name with the counted read it appears to collide with, so the key spelling is the only link between them",
+ "answer": "13084 file(s), 13 counted read line(s) over 6 key(s); 7 cross-module hit(s) re-derived (E642 published 7) in 6 module(s) over 5 distinct key(s); 7 hit(s) carry a container expression and 7 a root name of which 7 are bound in their own module body; the 7 hit x read pair(s) split 0 same-module / 0 imported / 0 same-name-only / 7 name collision(s) across 2 read module(s), with 0 hit(s) having no counted read line at all"
+}

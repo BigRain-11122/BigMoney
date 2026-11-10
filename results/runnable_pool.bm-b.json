@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1662 bm-b: E644 burned -- the two-depth census's blind spot priced: 32 depth-1 store sites in the 6 counted functions, 0 naming a counted key, 0 indexing into one, all 32 through fresh locals; 22 of 32 subscripts are computed (E645)",
+ "_stamp_note": "r1663 bm-b: E642 burned -- the module-level residual E640 dropped is priced: 17,720 module-level two-depth sites / 2,641 writes corpus-wide, 0 in the 6 modules holding the counted reads; the 7 cross-module name hits are generic words (E646)",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -31225,14 +31225,18 @@
    "source": "E640 (r1660 bm-b) -- 5,514 all-owner write sites, 2,641 at module level",
    "target": "results/state_tilt/MODULEWRITEKEY.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T08:25:00+08:00",
    "seeded_by": "r1660 bm-b",
    "workers_plan": {
     "workers": 2,
     "priority": "BelowNormal"
    },
-   "note": "E642"
+   "note": "E642",
+   "closed_at": "2026-11-10T09:12:00+08:00",
+   "closed_by": "r1663 bm-b",
+   "result_ref": "results/state_tilt/MODULEWRITEKEY.json",
+   "done_note": "the corpus carries 17,720 module-level two-depth sites of which 2,641 are writes (re-derives E640 2,641 exactly); none of the 6 modules holding the 13 counted read lines carries a module-level two-depth site at all, so the E640 exclusion is empty by measurement; the corpus-wide key-name arm fires 7 times on generic words (verdict/rows) in unrelated round scripts (E646)"
   },
   {
    "card": "E643",
@@ -31288,6 +31292,65 @@
    "seeded_by": "r1662 bm-b",
    "workers_plan": "single cpu pass over the 6 counted modules",
    "note": "E645"
+  },
+  {
+   "card": "E646",
+   "id": "E646-WHETHER-THE-SEVEN-CROSS-MODULE-KEY-NAME-HITS-ARE-THE-SAME-KEY-OR-GENERIC-WORD-COLLISIONS",
+   "title": "whether the seven module-level writes that name a counted row key name the same key semantically (same container or binding lineage) or are generic-word collisions",
+   "lane": "cpu-only",
+   "lane_note": "E642 published the weak arm: 7 module-level write sites outside the counted modules name one of the 6 counted row keys. The E207/E208 family says a name is not a measurement, so the cheap next question is whether any of the 7 shares a container or a binding lineage with the counted read it appears to collide with.",
+   "deliverable": "results/state_tilt/CROSSMODULEKEY.json: the 7 hits with their container expressions, the counted read line each key belongs to, and whether any pair shares a container or a binding",
+   "source": "E642 (r1663 bm-b) cross_module arm",
+   "target": "results/state_tilt/CROSSMODULEKEY.json",
+   "priority": "normal",
+   "status": "done",
+   "seeded_at": "2026-11-10T09:12:00+08:00",
+   "seeded_by": "r1663 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E646",
+   "closed_at": "2026-11-10T09:55:00+08:00",
+   "result_ref": "results/state_tilt/CROSSMODULEKEY.json + results/state_tilt/crossmodulekey_latest.json + scripts/e646_crossmodule_key.py + research/digests/DIGEST-20261110-r1664-e646-crossmodule-key.md"
+  },
+  {
+   "card": "E647",
+   "id": "E647-WHETHER-A-CROSS-MODULE-KEY-NAME-HIT-REACHES-THE-COUNTED-MODULE-THROUGH-A-STRING-RATHER-THAN-AN-IMPORT",
+   "title": "whether any module-level write naming a counted row key reaches the counted module through a literal path or importlib string, i.e. the arm E646's import-edge test cannot see",
+   "lane": "cpu-only",
+   "lane_note": "E646 classifies all 7 hits as name collisions by import edges only, and its limits say a hit that reaches the read module through an importlib.import_module string or a path string is invisible to that leg. The cheap next question enumerates every literal string in the 7 hit modules that spells the counted module's path/stem/face, whether a call consumes it (import_module/exec/open/sys.path), and whether the resolved object could be the counted container.",
+   "deliverable": "results/state_tilt/STRINGREACH.json: per cross-module hit, every literal string naming the counted module or its face, the call that consumes it, and whether any hit therefore has a non-import path to the same container",
+   "source": "E646 (r1664 bm-b) limits",
+   "target": "results/state_tilt/STRINGREACH.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T09:55:00+08:00",
+   "seeded_by": "r1664 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E647"
+  },
+  {
+   "card": "E648",
+   "id": "E648-HOW-GENERIC-ARE-THE-SIX-COUNTED-ROW-KEY-NAMES-CORPUS-WIDE",
+   "title": "how many files and read sites name each of the six counted row keys corpus-wide, so the strength of any key-name test is priced before it is run",
+   "lane": "cpu-only",
+   "lane_note": "E642/E646 both rest on literal key-name equality over 6 keys that are ordinary English words ('verdict', 'rows', 'days', 'bar', 'x1', 'slip_exec'). Every future hit/no-hit reading of the key-name arm needs its base rate: publish, per key, the files and read sites that spell it, split by the receiver's root name, so a hit can be judged against how common the word is.",
+   "deliverable": "results/state_tilt/KEYGENERICITY.json: per counted key, corpus-wide files and read sites naming that literal key, split by receiver root name, with the counted read lines marked inside that population",
+   "source": "E646 (r1664 bm-b) lesson 1",
+   "target": "results/state_tilt/KEYGENERICITY.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T09:55:00+08:00",
+   "seeded_by": "r1664 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E648"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31302,7 +31365,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T08:46:00+08:00",
+ "updated_at": "2026-11-10T09:12:00+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }

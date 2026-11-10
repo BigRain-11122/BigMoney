@@ -28001,5 +28001,76 @@ except Exception as _e642x:
     _d642 = "study could not be read"
 check(_name642, not _bad642, "; ".join(_bad642)[:240] or _d642)
 
+# E646 prices E642's weak arm: the seven module-level writes outside the counted modules that name one
+# of the counted row keys.  A name is not a measurement (E207/E208), so each hit is asked what a static
+# reader can ask about lineage -- its container expression (the outermost Subscript's own `.value`), the
+# module-body binding of that root name, the counted read line each named key belongs to, and whether
+# the pair shares a module, an import edge either way, or only the receiver's name.  All 7 pairs come
+# out as name collisions: every hit is a throwaway round script or a smoke harness writing its own
+# OUT/receipt/face dict, none imports the counted module and none carries the read's receiver name, so
+# the key spelling is the only link.  This leg refuses a face whose totals do not re-add, a pair whose
+# own flags do not force its published class, a hit naming a key its members do not carry, a canonical
+# root name without a container expression, an arm that is not E642's seven, a verdict its counts do
+# not force, and any problem the study's own gate returns.
+_name646 = ("E646 whether E642's seven cross-module key-name hits are the same key or word "
+            "collisions (r1664 bm-b)")
+_bad646 = []
+_d646 = "no reading"
+try:
+    _f646 = json.load(open(os.path.join("results", "state_tilt", "crossmodulekey_latest.json"),
+                           encoding="utf-8"))
+    _m646 = importlib.import_module("e646_crossmodule_key")
+    _bad646.extend(_m646.face_problems(_f646))
+    _c646 = _f646.get("counts") or {}
+    _r646 = _f646.get("rows") or []
+    _p646 = _f646.get("pairs") or []
+    _by646 = {}
+    for _p in _p646:
+        _by646[_p.get("lineage")] = _by646.get(_p.get("lineage"), 0) + 1
+    if {_k: _by646.get(_k, 0) for _k in (_c646.get("pairs_by_lineage") or {})} != (
+            _c646.get("pairs_by_lineage") or {}):
+        _bad646.append("the lineage histogram is not the per-pair class count")
+    for _row646 in _r646:
+        _named646 = set(_row646.get("row_keys_named") or [])
+        if _named646 and not _named646 <= set(_row646.get("keys") or []):
+            _bad646.append("a hit names a key its members do not carry")
+            break
+        if _row646.get("container_root") and not _row646.get("container_expression"):
+            _bad646.append("a hit carries a root name without a container expression")
+            break
+        if (_row646.get("container_binding") or {}).get("kind") not in (
+                "module_assignment", "import", "not_bound_in_module_body", "no_root_name"):
+            _bad646.append("a hit carries a binding outside the vocabulary")
+            break
+    for _p646 in _p646:
+        if _p646.get("hit_module") == _p646.get("read_module") \
+                and _p646.get("lineage") != "same_module":
+            _bad646.append("a same-module pair is not classified as one")
+            break
+        if _p646.get("lineage") == "imported" and not (
+                _p646.get("hit_imports_the_read_module")
+                or _p646.get("read_module_imports_the_hit")):
+            _bad646.append("an imported pair carries no import edge")
+            break
+        if _p646.get("lineage") == "name_collision" \
+                and _p646.get("container_root_equals_read_receiver"):
+            _bad646.append("a collision pair carries the read's receiver name")
+            break
+    if _c646.get("hits_published_by_e642") != (_c646.get("hits_re_derived") or 0):
+        _bad646.append("the arm is not E642's seven")
+    _v646 = (_f646.get("verdict") or "").lower()
+    if (_c646.get("pairs_sharing_a_module") or _c646.get("pairs_linked_by_an_import_edge")):
+        if not _v646.startswith("at least one hit shares"):
+            _bad646.append("a shared-lineage count without the verdict it forces")
+    elif _c646.get("pairs_matching_on_the_name_alone"):
+        if not _v646.startswith("at least one hit's container root"):
+            _bad646.append("a name-only count without the verdict it forces")
+    elif _c646.get("pairs") and not _v646.startswith("every hit is a word"):
+        _bad646.append("an all-collision arm without the verdict it forces")
+except Exception as _e646x:
+    _bad646.append(repr(_e646x)[:160])
+    _d646 = "study could not be read"
+check(_name646, not _bad646, "; ".join(_bad646)[:240] or _d646)
+
 if __name__ == "__main__":
     sys.exit(main())

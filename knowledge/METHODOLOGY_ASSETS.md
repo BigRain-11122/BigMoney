@@ -15152,3 +15152,35 @@ sha）+ `results/state_tilt/MODULEWRITEKEY.json` + `modulewritekey_latest.json` 
 `scripts/run_e642_smoke_leg.py`（1/1 PASS·`--doctor` 1/1 红·字节复原 sha 同）+ smoke_test.py leg E642 +
 `Tools/s6_chain_bmb.py` leg `module_write_key`（rc=0 0.05s）+ POOL E642 done / E646 seeded +
 `research/digests/DIGEST-20261110-r1663-e642-module-write-key.md`
+
+## E646 — 名字级碰撞臂要把「写的容器表达式」发出来，否则 7 次命中会被读成 7 次触碰（r1664 bm-b·2026-11-10）
+
+E642 的主结论是「持有计数读行的 6 个模块里，模块级双深度写 0 个」，紧随其后的一条弱臂说「别的模块里有 7 次
+模块级写，键名等于 6 个计数行键之一」。弱臂单独成块是对的，但一块只报命中数的弱臂，读者最省力的读法就是
+「有 7 次碰到计数键了」。E207/E208 已经定过「名字不是测量」，于是本轮把这 7 次真按谱系测一遍：每个命中发布
+**它写的那个容器表达式**（最外层 Subscript 的 `.value` unparse，例如 `OUT['verdict']`）、该容器根名在自己模块
+体里的绑定方式、它对应的那条计数读行（模块/行/函数/接收者），再按四格分类——同模块 / import 边（两个方向都
+算）/ 仅同名（容器根名 == 读的接收者名）/ 纯碰撞。
+
+**读数**：13,084 文件 / 13 条计数读行 / 6 个键；重导命中 **7** 次（与 E642 发布的 7 逐数重合）= 6 个模块 / 5 个键；
+7/7 都在自己的模块体里绑定（全为模块级赋值）；7 对里 `same_module 0` / `imported 0` / `same_name_only 0` /
+**`name_collision 7`**。逐条：5 次是 `results/_r*.py` 一次性轮脚本写自己的 `OUT` / `receipt`，2 次是 smoke 腿写
+`face`；读侧只涉及两个模块的接收者 `faces` / `doctored4`，与命中的 `OUT`/`receipt`/`face` 全不同名。所以弱臂在
+**实质上是空的**，键的拼写是唯一联系。
+
+**教训（4 枚）**
+1. **弱臂必须自己再过一次谱系门**：名字级测试的命中数不是结论，四格分类相加回命中数才是。
+2. **容器表达式是这类判定的最小可读单位**：只发键名等于让人以为「写的是那本账」，发 `OUT['verdict']` 才能让
+   读者自己判。
+3. **同模块/import 边才是谱系，同名连名字级都不算**：把 `same_name_only` 单列一格，是为了下一次真的同名时不
+   让它冒充 `imported`。
+4. **命中模块的类别要进面**：5 个一次性轮脚本 + 1 个 smoke 腿 + 0 个生产模块——不发布这层，读者无法区分
+   「7 次命中」是语料性质还是产物性质。
+
+**How**：名字级（弱）碰撞测试一律四格发布并附上「本测试只关掉了 import 可达与同模块这两条路」——通过
+`importlib` 字符串、路径字符串到达同一本账的命中它看不见；把这条写进面里的 limits，并据此种下一张卡（E647）。
+
+**证据** = `scripts/e646_crossmodule_key.py`（selftest 22/22、check/verify `problems=[]`）+ 
+`results/state_tilt/CROSSMODULEKEY.json` + `crossmodulekey_latest.json` + `scripts/run_e646_smoke_leg.py`
+（1/1 PASS·`--doctor` 1/1 红·字节复原 sha 同）+ smoke_test.py leg E646 + `Tools/s6_chain_bmb.py` leg
+`cross_module_key`（rc=0 0.05s）+ POOL E646 done / E647+E648 seeded

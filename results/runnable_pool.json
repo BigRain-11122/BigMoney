@@ -31303,14 +31303,54 @@
    "source": "E642 (r1663 bm-b) cross_module arm",
    "target": "results/state_tilt/CROSSMODULEKEY.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T09:12:00+08:00",
    "seeded_by": "r1663 bm-b",
    "workers_plan": {
     "workers": 2,
     "priority": "BelowNormal"
    },
-   "note": "E646"
+   "note": "E646",
+   "closed_at": "2026-11-10T09:55:00+08:00",
+   "result_ref": "results/state_tilt/CROSSMODULEKEY.json + results/state_tilt/crossmodulekey_latest.json + scripts/e646_crossmodule_key.py + research/digests/DIGEST-20261110-r1664-e646-crossmodule-key.md"
+  },
+  {
+   "card": "E647",
+   "id": "E647-WHETHER-A-CROSS-MODULE-KEY-NAME-HIT-REACHES-THE-COUNTED-MODULE-THROUGH-A-STRING-RATHER-THAN-AN-IMPORT",
+   "title": "whether any module-level write naming a counted row key reaches the counted module through a literal path or importlib string, i.e. the arm E646's import-edge test cannot see",
+   "lane": "cpu-only",
+   "lane_note": "E646 classifies all 7 hits as name collisions by import edges only, and its limits say a hit that reaches the read module through an importlib.import_module string or a path string is invisible to that leg. The cheap next question enumerates every literal string in the 7 hit modules that spells the counted module's path/stem/face, whether a call consumes it (import_module/exec/open/sys.path), and whether the resolved object could be the counted container.",
+   "deliverable": "results/state_tilt/STRINGREACH.json: per cross-module hit, every literal string naming the counted module or its face, the call that consumes it, and whether any hit therefore has a non-import path to the same container",
+   "source": "E646 (r1664 bm-b) limits",
+   "target": "results/state_tilt/STRINGREACH.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T09:55:00+08:00",
+   "seeded_by": "r1664 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E647"
+  },
+  {
+   "card": "E648",
+   "id": "E648-HOW-GENERIC-ARE-THE-SIX-COUNTED-ROW-KEY-NAMES-CORPUS-WIDE",
+   "title": "how many files and read sites name each of the six counted row keys corpus-wide, so the strength of any key-name test is priced before it is run",
+   "lane": "cpu-only",
+   "lane_note": "E642/E646 both rest on literal key-name equality over 6 keys that are ordinary English words ('verdict', 'rows', 'days', 'bar', 'x1', 'slip_exec'). Every future hit/no-hit reading of the key-name arm needs its base rate: publish, per key, the files and read sites that spell it, split by the receiver's root name, so a hit can be judged against how common the word is.",
+   "deliverable": "results/state_tilt/KEYGENERICITY.json: per counted key, corpus-wide files and read sites naming that literal key, split by receiver root name, with the counted read lines marked inside that population",
+   "source": "E646 (r1664 bm-b) lesson 1",
+   "target": "results/state_tilt/KEYGENERICITY.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T09:55:00+08:00",
+   "seeded_by": "r1664 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E648"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

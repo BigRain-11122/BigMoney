@@ -1518,6 +1518,16 @@ LEGS = [
     # face's own rows, and reconciles the corpus total against E640's published residual.
     ("module_write_key", ["python", "scripts/e642_module_write_key.py", "verify"]),
 
+    # E646 prices E642's weak arm -- the 7 module-level writes outside the counted modules that name
+    # a counted row key.  A name is not a measurement (E207/E208), so each hit is asked what a static
+    # reader can ask about lineage: its container expression (the outermost Subscript's own `.value`)
+    # and the module-body binding of that root name, joined to the counted read line of the same key
+    # and classified same_module / imported / same_name_only / name_collision.  All 7 pairs are name
+    # collisions: every hit is a throwaway round script or a smoke harness writing its own
+    # OUT/receipt/face dict, none imports the counted module, none carries the read's receiver name.
+    # Verify re-derives every count, histogram and class from the face's own rows and pairs.
+    ("cross_module_key", ["python", "scripts/e646_crossmodule_key.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names
