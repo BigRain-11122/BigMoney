@@ -1634,6 +1634,16 @@ LEGS = [
     # with E643's published bucket rows.
     ("comprehension_scope", ["python", "scripts/e650_comprehension_scope.py", "verify"]),
 
+    # E653 prices the write SHAPE behind E649's loop guard.  `loop` in E649's histogram is the
+    # INNERMOST region, so a site inside `for ...: if ...: P['a']['b'] = v` is published there as
+    # `conditional` while it still runs once per iteration -- the population that executes inside a
+    # loop is the union over every chain mentioning one (845 here against E649's 548).  And
+    # `runs_at_import_zero_or_more_times` is one sentence for two behaviours: a body that repeats one
+    # address (last-write-wins) or whose row key / container key comes from the loop target
+    # (accumulation).  Verify re-walks the corpus and compares counts, rows, examples, verdict and
+    # the counted-key list field by field against the published face.
+    ("loop_write_key", ["python", "scripts/e653_loop_write_key.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

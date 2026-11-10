@@ -28633,5 +28633,64 @@ except Exception as _e650x:
     _d650 = "study could not be read"
 check(_name650, not _bad650, "; ".join(_bad650)[:240] or _d650)
 
+# E653 prices the write SHAPE behind E649's loop guard: `runs_at_import_zero_or_more_times` is one
+# sentence for two behaviours -- a body that writes the same address N times (last-write-wins) and a
+# body whose row key or container key comes from the loop target (accumulation, a distinct address
+# per pass).  It also publishes the population E649's innermost-region bucket hides: a site inside
+# `for ...: if ...: P['a']['b'] = v` is labelled `conditional` there while it still runs once per
+# iteration.  This leg re-derives every published count, every histogram and the verdict from the
+# face's own rows, refuses a published row whose chain carries no loop, refuses a write_mode that
+# contradicts the row's own variance flag, and reports any problem the study's own gate returns.
+_name653 = ("E653 what the loop-guarded module-level writes iterate over and whether the address "
+            "varies (r1676 bm-b)")
+_bad653 = []
+_d653 = "no reading"
+try:
+    _f653 = json.load(open(os.path.join("results", "state_tilt", "loopwritekey_latest.json"),
+                           encoding="utf-8"))
+    _m653 = importlib.import_module("e653_loop_write_key")
+    _bad653.extend(_m653.face_problems(_f653))
+    _c653 = _f653.get("counts") or {}
+    _rows653 = _f653.get("rows") or []
+    _live653 = _m653.live_counts(_rows653)
+    for _k653 in ("write_sites_executing_inside_a_loop",
+                  "write_sites_whose_innermost_region_is_a_loop",
+                  "write_sites_the_guard_label_hid",
+                  "write_sites_that_vary_the_address_across_iterations",
+                  "write_sites_that_repeat_one_address",
+                  "loop_kind_histogram", "iterable_form_histogram",
+                  "key_form_histogram", "container_key_form_histogram",
+                  "write_mode_histogram"):
+        if _c653.get(_k653) != _live653.get(_k653):
+            _bad653.append("%s does not re-derive from the rows (%s vs %s)"
+                           % (_k653, _c653.get(_k653), _live653.get(_k653)))
+    _inner653 = sum(1 for _r in _rows653
+                    if (_r.get("chain") or []) and _r["chain"][-1] == "loop")
+    if _inner653 != (_c653.get("write_sites_whose_innermost_region_is_a_loop") or 0):
+        _bad653.append("the innermost-loop count does not re-add from the chains (%d vs %s)"
+                       % (_inner653, _c653.get("write_sites_whose_innermost_region_is_a_loop")))
+    if _inner653 + (_c653.get("write_sites_the_guard_label_hid") or 0) != len(_rows653):
+        _bad653.append("the hidden sites plus the innermost sites are not the population")
+    if (_c653.get("source_face_loop_bucket") is not None
+            and _inner653 != _c653.get("source_face_loop_bucket")):
+        _bad653.append("this walk's innermost-loop count does not reproduce E649's published "
+                       "bucket (%d vs %s)" % (_inner653, _c653.get("source_face_loop_bucket")))
+    for _r653 in _rows653:
+        if _r653.get("address_can_vary_across_iterations") is None:
+            continue
+        _want653 = ("accumulation" if _r653["address_can_vary_across_iterations"]
+                    else "last_write_wins")
+        if _r653.get("write_mode") != _want653:
+            _bad653.append("row %s:%s is %r but its own variance flag says %r"
+                           % (_r653.get("module"), _r653.get("line"),
+                              _r653.get("write_mode"), _want653))
+            break
+    if _m653.decide(_live653) != _f653.get("verdict"):
+        _bad653.append("the published verdict is not the one its own counts force")
+except Exception as _e653x:
+    _bad653.append(repr(_e653x)[:160])
+    _d653 = "study could not be read"
+check(_name653, not _bad653, "; ".join(_bad653)[:240] or _d653)
+
 if __name__ == "__main__":
     sys.exit(main())

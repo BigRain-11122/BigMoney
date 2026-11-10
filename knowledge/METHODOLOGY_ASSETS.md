@@ -15471,3 +15471,13 @@ E655 留了个脚注：E647 的 `collect_strings` 把 `"..." % x` 这类表达�
 `results/state_tilt/UNRESOLVEDKEY.json` + `unresolvedkey_latest.json`（重建字节恒等 sha `10746a60e278`）·
 `scripts/run_e657_smoke_leg.py`（1/1 PASS，`--doctor` 翻转后字节还原）·smoke_test.py leg E657 与 S6 leg
 `unresolved_string_key`（rc=0 0.06s）·`research/digests/DIGEST-20261110-r1674-e657-unresolved-key.md`
+
+## E653 「循环里执行」不是一个执行面：845 个残差写站点里 82% 是累加器（r1676 bm-b·2026-11-10）
+
+**观察**：E649 把 1,012 个守卫下的残差写站点按「最内层区域」分桶，548 个记作 loop 并给出执行行 `zero or more times`。那句话掩盖两件事：其一，`for …: if …: P['a']['b'] = v` 的站点最内层是 conditional，却仍每轮执行一次——真正「在循环里执行」的站点要沿整条 chain 取并集；其二，「零次或多次」对写行为什么都没说：同址重复 N 次是一句话，键取自循环目标（每轮落不同地址）是累加器。
+
+**读数**：845 个残差写站点在循环里执行，比 E649 的 548 多 297（标签藏起来的那部分）；其中 **696（82.4%）地址随循环目标变化=累加器，149（17.6%）重复同一地址=last-write-wins**。迭代对象形态：module_constant 364 / comprehension 186 / call 107 / literal_container 94 / bare_name 66 / operator 14 / enumerate 7 / attribute 4 / while 条件 2 / other 1。行键形态：loop_target 443 / unpack_member 168 / literal 95 / computed_name 84 / computed_call 32 / computed 11 / computed_member 6 / literal_nonstring 4 / slice 2 / other 2；容器键形态：literal 799 / loop_target 21 / unpack_member 13 / computed_name 9 / computed_call 2 / computed_member 1。**0 个循环写站点命中计数行键**（E649 全仓唯一那个命中不在任何循环里），所以「循环会不会改掉被读书的计数行」在本树上是 0，不是没量。
+
+**判据（要命处）**：①桶标签按最内层区域命名，会把「每轮执行」的站点归到 conditional，于是「loop 有多少个」取决于问的是哪一层——两个数必须并列发布（chain 并集 845 / 最内层 548），差 297 就是标签藏起来的量；②`accumulation` 只声明地址不同，不声明值累加；③「地址」取最深处 slice 为行键、最浅处 slice 为容器键（E638 深度尺），单层下标无容器键并如实标注，切片（slice）单独成一类而不是塞进 other；④while 不绑定目标，其内地址一律 last-write-wins，把 test 形态印出来——ruler 的边不许藏。
+
+**How**：接任何「某组写是累加还是覆盖」的判断，先问地址的两个分量各自从哪来；只用一层下标的名字判会把容器键读成行键。姊妹：一个量若既会随树增长、又会被当判据比对，就必须把 vintage 字段（python_files_scanned / holes）单独披露、只比对行派生读数——否则树每长一个文件本腿就假红（E420/E421 家族）。正身 = `scripts/e653_loop_write_key.py`（selftest **22/22**，build/check/verify problems=[]）+ `results/state_tilt/LOOPWRITEKEY.json`(+latest) + `scripts/run_e653_smoke_leg.py`（PASS·--doctor 1/1 红且面字节还回）+ smoke_test.py leg E653 + S6 leg `loop_write_key` rc=0（140.5s）。

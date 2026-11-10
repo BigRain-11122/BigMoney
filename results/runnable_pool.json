@@ -31468,14 +31468,18 @@
    "source": "E649 (r1670 bm-b) -- 548 loop-guarded residual module-level write sites",
    "target": "results/state_tilt/LOOPWRITEKEY.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T17:40:00+08:00",
    "seeded_by": "r1670 bm-b",
    "workers_plan": {
     "workers": 2,
     "priority": "BelowNormal"
    },
-   "note": "E653"
+   "note": "E653",
+   "done_by": "bm-b r1676",
+   "done_at": "2026-11-10T23:20:00+08:00",
+   "result_ref": "results/state_tilt/LOOPWRITEKEY.json",
+   "done_note": "845 residual write sites execute inside a loop (E649 published 548 under its innermost-region bucket, so the label hides 297); 696 compute the address from the loop target (accumulation) and 149 repeat one address (last-write-wins); 0 loop write site names a counted row key, while E649's single counted-key site sits outside every loop"
   },
   {
    "card": "E654",
@@ -31580,6 +31584,25 @@
    "claimed_by": "bm-b",
    "claimed_at": "2026-11-10T22:48:58+08:00",
    "done_at": "2026-11-10T22:48:58+08:00"
+  },
+  {
+   "card": "E659",
+   "id": "E659-WHAT-THE-149-FIXED-ADDRESS-LOOP-WRITES-COLLAPSE-TO-AND-WHETHER-EACH-LOOP-BOUND-IS-COUNTABLE",
+   "title": "E653 split the 845 loop-guarded residual writes into 696 accumulators and 149 that repeat one address. A repeated write is only 'one write' if the loop bound is knowable: price the 149 fixed-address sites against their own loop bound -- a literal range/list has a published length, a module constant has a length readable at the binding site, while a bare name, a call, a comprehension or a generator has no statically knowable count -- and publish how many repetitions each site collapses into one write, plus the bound-form histogram",
+   "lane": "cpu-only",
+   "lane_note": "E653 answered the shape question (accumulation vs last-write-wins) but not the volume question: 'last-write-wins' is a claim about the ADDRESS, not about how many times that address is written. A site inside `for _ in range(3)` writes one key three times; a site inside `for row in fetch_rows()` writes it an unknown number of times. The difference decides whether the populating statement is one write, three writes, or a write whose multiplicity nothing in the tree can state -- and it is the half of 'runs zero or more times' that E649's label still leaves open.",
+   "deliverable": "results/state_tilt/LOOPBOUNDVOLUME.json: per fixed-address loop-guarded write site, the loop bound form (literal range/list length / module-constant length / bare name / call / comprehension / generator / while test), the known repeat count when the bound is static and null when it is not, and whether the site collapses to exactly one write",
+   "source": "E653 (r1676 bm-b) -- 149 fixed-address loop-guarded residual write sites",
+   "target": "results/state_tilt/LOOPBOUNDVOLUME.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T23:20:00+08:00",
+   "seeded_by": "r1676 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E659"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31594,6 +31617,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T22:48:58+08:00",
+ "updated_at": "2026-11-10T23:20:00+08:00",
  "version": 1
 }
