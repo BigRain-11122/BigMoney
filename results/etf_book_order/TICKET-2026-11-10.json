@@ -495,7 +495,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-11 02:41:35",
+   "at": "2026-11-11 03:18:57",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -628,6 +628,18 @@
    "cost_bp_per_side": 8.0,
    "toll_pp": 0.16
   },
+  "toll_scope": {
+   "name": "one_exchange",
+   "sides": 2,
+   "pp": 0.16,
+   "question": "换这一次要付多少",
+   "decision_use": "INCREMENTAL: the only cost a 'act again?' decision moves",
+   "trip_sides": 4,
+   "trip_pp": 0.32,
+   "trip_question": "一来一回总共多少",
+   "trip_is_not_the_threshold": true,
+   "why": "the exchange this desk already made is paid whether it acts again or not; an unwind pays the same exchange once more, and that total is a different number"
+  },
   "pairs": [
    {
     "leg_symbol": "159501",
@@ -653,6 +665,18 @@
     "repeatable_gain_cny": 290.2,
     "one_off_gain_cny": 3798.3,
     "verdict": "ACT_ON_THIS_BAR",
+    "toll_scope": {
+     "name": "one_exchange",
+     "sides": 2,
+     "pp": 0.16,
+     "question": "换这一次要付多少",
+     "decision_use": "INCREMENTAL: the only cost a 'act again?' decision moves",
+     "trip_sides": 4,
+     "trip_pp": 0.32,
+     "trip_question": "一来一回总共多少",
+     "trip_is_not_the_threshold": true,
+     "why": "the exchange this desk already made is paid whether it acts again or not; an unwind pays the same exchange once more, and that total is a different number"
+    },
     "advice": "this episode is a tail of the pair's own history and either heals inside one rebalancing grid or was never healed inside the panel -- the one-off part does not wait for the next decision bar",
     "why": ""
    },
@@ -680,7 +704,19 @@
     "repeatable_gain_cny": 615.8,
     "one_off_gain_cny": 2371.5,
     "verdict": "ACT_ON_ANY_BAR",
-    "advice": "the gap clears the round-trip toll but is not a perishable tail -- any bar inside the next grid may be used without paying for the delay",
+    "toll_scope": {
+     "name": "one_exchange",
+     "sides": 2,
+     "pp": 0.16,
+     "question": "换这一次要付多少",
+     "decision_use": "INCREMENTAL: the only cost a 'act again?' decision moves",
+     "trip_sides": 4,
+     "trip_pp": 0.32,
+     "trip_question": "一来一回总共多少",
+     "trip_is_not_the_threshold": true,
+     "why": "the exchange this desk already made is paid whether it acts again or not; an unwind pays the same exchange once more, and that total is a different number"
+    },
+    "advice": "the gap clears the toll of making the exchange (0.16 pp, 2 sides) but is not a perishable tail -- any bar inside the next grid may be used without paying for the delay (the whole manoeuvre is 0.32 pp (4 sides -- the unwind pays the exchange again))",
     "why": ""
    },
    {
@@ -707,7 +743,19 @@
     "repeatable_gain_cny": null,
     "one_off_gain_cny": null,
     "verdict": "NOT_ACTIONABLE",
-    "advice": "the gap does not clear the round-trip toll: swapping would pay more to move than it saves, so the trigger is the gap itself (re-read on the next decision bar)",
+    "toll_scope": {
+     "name": "one_exchange",
+     "sides": 2,
+     "pp": 0.16,
+     "question": "换这一次要付多少",
+     "decision_use": "INCREMENTAL: the only cost a 'act again?' decision moves",
+     "trip_sides": 4,
+     "trip_pp": 0.32,
+     "trip_question": "一来一回总共多少",
+     "trip_is_not_the_threshold": true,
+     "why": "the exchange this desk already made is paid whether it acts again or not; an unwind pays the same exchange once more, and that total is a different number"
+    },
+    "advice": "the gap does not clear the toll of making the exchange (0.16 pp, 2 sides): swapping would pay more to move than it saves, so the trigger is the gap itself (re-read on the next decision bar; the whole manoeuvre is 0.32 pp (4 sides -- the unwind pays the exchange again))",
     "why": ""
    }
   ],
@@ -718,9 +766,9 @@
   },
   "repeatable_gain_cny": 906.0,
   "one_off_gain_cny": 6169.8,
-  "recheck_rule": "act on this bar: the one-off part of 6,170 CNY is unmeasured -- no comparable episode in the panel ever healed, so nothing here says the window waits. After execution the only number that can bring the decision back is the round-trip toll: re-read this face on the next decision bar, and act again only if a pair's gap exceeds 0.16 pp (2 x 8 bp per side).",
+  "recheck_rule": "act on this bar: the one-off part of 6,170 CNY is unmeasured -- no comparable episode in the panel ever healed, so nothing here says the window waits. After execution the only number that can bring the decision back is the toll of the exchange it would have to make: re-read this face on the next decision bar, and act again only if a pair's gap exceeds 0.16 pp (2 sides x 8 bp). Getting the book back where it came from pays that same exchange once more, so the whole manoeuvre is 0.32 pp (4 sides) -- that number answers 'did the discount pay for the trip', never 'may I act'.",
   "caveats": [
-   "the trigger is priced in pp of notional and compared against the round-trip cost only; it does not price tracking difference, fee, size or FX-hedge policy between the two tickers",
+   "the trigger is priced in pp of notional and compared against the toll of ONE exchange (0.16 pp, 2 sides) only; the whole manoeuvre (0.32 pp, 4 sides) is published next to it and is never the threshold. It does not price tracking difference, fee, size or FX-hedge policy between the two tickers",
    "episode lengths are measured on the reconstructed gap, which inherits the single IOPV anchor of the gap face; censored episodes are reported, never scored as zero",
    "a 'window always open' reading means the pair is structurally wide, not that the swap has to be repeated: the book only has to hold it once"
   ]
@@ -2511,15 +2559,15 @@
    "vol": 0.0888
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1109,
-    "card_width_cagr": 0.0963,
-    "pp": -1.46
-   },
    "vol": {
     "ticket_width_cagr": 0.1186,
     "card_width_cagr": 0.1223,
     "pp": 0.37
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1109,
+    "card_width_cagr": 0.0963,
+    "pp": -1.46
    }
   },
   "rules_differ": true,

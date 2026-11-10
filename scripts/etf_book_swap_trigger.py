@@ -18,12 +18,18 @@ Two clocks answer that, and they are not the same clock:
   * gap clock -- between two decision bars the only thing that can move is the pair's gap.
     A swap that has already been executed is a permanent fix at the average gap; it has to
     be undone only if the ticker we moved INTO stops being the cheap one, and "stops being
-    cheap" is priceable: acting again costs a round trip, so the gap has to clear the toll
+    cheap" is priceable: acting again costs one exchange, so the gap has to clear that toll
     before another swap is worth doing.
 
-So the trigger is not a percentile and not a mean -- it is the round-trip cost of acting:
+So the trigger is not a percentile and not a mean -- it is the cost of the exchange it would
+have to make, and that cost travels with its scope (r1529/r1531):
 
-    toll_pp = 2 * COST_BP / 100        (8bp per side on this book -> 0.16 pp)
+    one exchange   = 2 sides x COST_BP  (8bp/side -> 0.16 pp)  <- the threshold, incremental
+    the manoeuvre  = 4 sides x COST_BP  (8bp/side -> 0.32 pp)  <- in-and-out, cumulative
+
+The two are published side by side and never used as each other: calling 0.16 "the round trip"
+makes a desk wait for twice the gap it needs, and calling 0.32 "what this swap cost" prices
+the discount at half. `--check` refuses a face that mixes the two words up.
 
 and the perishability of today's episode is measured, not asserted: take every session whose
 gap was at least half as wide as today's excess over its own mean, count the sessions until
@@ -48,6 +54,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 import etf_book_sibling_gap as gap_face  # noqa: E402  (one implementation of the reconstruction)
+import etf_book_swap_toll as swap_toll  # noqa: E402  (r1522's side counts, never retyped)
 
 GAP_JSON = os.path.join(ROOT, "results", "etf_book_sibling_gap.json")
 OUT_JSON = os.path.join(ROOT, "results", "etf_book_swap_trigger.json")
@@ -71,8 +78,39 @@ def cost_bp():
 
 
 def toll_pp(bp=None):
-    """Round-trip cost in pp of notional: what a second swap has to clear to be worth doing."""
-    return round(2.0 * (cost_bp() if bp is None else float(bp)) / 100.0, 4)
+    """Cost of ONE exchange in pp of notional: what a second swap has to clear to be worth
+    doing. The side count is the r1522 constant, not a literal -- a manoeuvre is 4 sides and
+    that number is published next to this one, never in its place (r1531)."""
+    return round(float(swap_toll.ENTRY_SIDES) * (cost_bp() if bp is None else float(bp))
+                 / 100.0, 4)
+
+
+def toll_scope(bp=None):
+    """r1531: the price and its scope on the same object.
+
+    r1529 published three scopes for this one cost figure (entry 2 sides / exit 2 sides /
+    trip 4 sides). The trigger only ever uses the incremental one -- the exchange it would
+    have to make today -- and this face used to print that number as "the round-trip toll",
+    which is the 4-side figure. A reader who takes the threshold from this section alone
+    would wait for a gap twice as wide as the toll it actually pays.
+    """
+    cost = cost_bp() if bp is None else float(bp)
+    sides = int(swap_toll.ENTRY_SIDES)
+    trip_sides = sides + int(swap_toll.EXIT_SIDES)
+    pp = toll_pp(cost)
+    return {
+        "name": "one_exchange",
+        "sides": sides,
+        "pp": pp,
+        "question": "换这一次要付多少",
+        "decision_use": "INCREMENTAL: the only cost a 'act again?' decision moves",
+        "trip_sides": trip_sides,
+        "trip_pp": round(trip_sides * cost / 100.0, 4),
+        "trip_question": "一来一回总共多少",
+        "trip_is_not_the_threshold": True,
+        "why": "the exchange this desk already made is paid whether it acts again or not; an "
+               "unwind pays the same exchange once more, and that total is a different number",
+    }
 
 
 def episodes_until_mean(rec, mean, wide):
@@ -131,25 +169,42 @@ def classify(today_gap, mean, window_share, expiry, percentile, source_verdict=N
     return "ACT_ON_ANY_BAR"
 
 
-ADVICE = {
-    "ACT_ON_THIS_BAR":
-        "this episode is a tail of the pair's own history and either heals inside one "
-        "rebalancing grid or was never healed inside the panel -- the one-off part does not "
-        "wait for the next decision bar",
-    "ACT_ON_ANY_BAR":
-        "the gap clears the round-trip toll but is not a perishable tail -- any bar inside the "
-        "next grid may be used without paying for the delay",
-    "WINDOW_ALWAYS_OPEN":
-        "the pair trades wider than the round-trip toll on almost every session: this is a "
-        "standing condition, so the swap is a permanent re-tickering and there is nothing to "
-        "watch between decision bars",
-    "NOT_ACTIONABLE":
-        "the gap does not clear the round-trip toll: swapping would pay more to move than it "
-        "saves, so the trigger is the gap itself (re-read on the next decision bar)",
-    "CANNOT_VERIFY":
-        "no history was readable for this pair: the trigger cannot be priced, and an absent "
-        "answer is not a small gap",
-}
+VERDICTS = ("ACT_ON_THIS_BAR", "ACT_ON_ANY_BAR", "WINDOW_ALWAYS_OPEN", "NOT_ACTIONABLE",
+            "CANNOT_VERIFY")
+
+
+def advice(word, scope=None):
+    """One sentence per verdict, spelled in the scope the threshold actually has (r1531).
+
+    The toll phrase is built from the published scope instead of being typed into a static
+    string: a literal "round-trip toll" is exactly how 0.16 came to be read as 0.32.
+    """
+    sc = scope or toll_scope()
+    pp = float(sc.get("pp") or 0.0)
+    sides = int(sc.get("sides") or 0)
+    trip = float(sc.get("trip_pp") or 0.0)
+    one = "the toll of making the exchange (%.2f pp, %d sides)" % (pp, sides)
+    whole = ("the whole manoeuvre is %.2f pp (%d sides -- the unwind pays the exchange again)"
+             % (trip, int(sc.get("trip_sides") or 0)))
+    return {
+        "ACT_ON_THIS_BAR":
+            "this episode is a tail of the pair's own history and either heals inside one "
+            "rebalancing grid or was never healed inside the panel -- the one-off part does not "
+            "wait for the next decision bar",
+        "ACT_ON_ANY_BAR":
+            "the gap clears %s but is not a perishable tail -- any bar inside the next grid "
+            "may be used without paying for the delay (%s)" % (one, whole),
+        "WINDOW_ALWAYS_OPEN":
+            "the pair trades wider than %s on almost every session: this is a standing "
+            "condition, so the swap is a permanent re-tickering and there is nothing to watch "
+            "between decision bars (%s)" % (one, whole),
+        "NOT_ACTIONABLE":
+            "the gap does not clear %s: swapping would pay more to move than it saves, so the "
+            "trigger is the gap itself (re-read on the next decision bar; %s)" % (one, whole),
+        "CANNOT_VERIFY":
+            "no history was readable for this pair: the trigger cannot be priced, and an absent "
+            "answer is not a small gap",
+    }[word]
 
 
 def assess(pair):
@@ -169,7 +224,8 @@ def assess(pair):
         "repeatable_gain_cny": pair.get("repeatable_gain_cny"),
         "one_off_gain_cny": pair.get("one_off_gain_cny"),
         "verdict": "CANNOT_VERIFY",
-        "advice": ADVICE["CANNOT_VERIFY"],
+        "toll_scope": toll_scope(),
+        "advice": advice("CANNOT_VERIFY"),
         "why": "",
     }
     stats = pair.get("stats") or {}
@@ -209,7 +265,7 @@ def assess(pair):
     row["verdict"] = classify(today, rec_mean, row["window_share"],
                               (row["expiry"] or {}).get("median_sessions"), row["percentile"],
                               pair.get("source_verdict"))
-    row["advice"] = ADVICE[row["verdict"]]
+    row["advice"] = advice(row["verdict"], row["toll_scope"])
     return row
 
 
@@ -232,15 +288,21 @@ def build():
                      "fast_expiry_sessions": FAST_EXPIRY,
                      "structural_share": STRUCTURAL_SHARE,
                      "cost_bp_per_side": cost_bp(), "toll_pp": toll_pp()},
+        "toll_scope": toll_scope(),
         "pairs": rows,
         "verdict_counts": counts,
         "repeatable_gain_cny": found.get("repeatable_gain_cny"),
         "one_off_gain_cny": found.get("one_off_gain_cny"),
         "recheck_rule": recheck_rule(rows, found),
         "caveats": [
-            "the trigger is priced in pp of notional and compared against the round-trip cost "
-            "only; it does not price tracking difference, fee, size or FX-hedge policy between "
-            "the two tickers",
+            "the trigger is priced in pp of notional and compared against the toll of ONE "
+            "exchange (%.2f pp, %d sides) only; the whole manoeuvre (%.2f pp, %d sides) is "
+            "published next to it and is never the threshold. It does not price tracking "
+            "difference, fee, size or FX-hedge policy between the two tickers"
+            % (toll_pp(), int(swap_toll.ENTRY_SIDES),
+               round((int(swap_toll.ENTRY_SIDES) + int(swap_toll.EXIT_SIDES)) * cost_bp()
+                     / 100.0, 4),
+               int(swap_toll.ENTRY_SIDES) + int(swap_toll.EXIT_SIDES)),
             "episode lengths are measured on the reconstructed gap, which inherits the single "
             "IOPV anchor of the gap face; censored episodes are reported, never scored as zero",
             "a 'window always open' reading means the pair is structurally wide, not that the "
@@ -251,7 +313,6 @@ def build():
 
 
 def recheck_rule(rows, found):
-    toll = toll_pp()
     fast = [r for r in rows if r["verdict"] == "ACT_ON_THIS_BAR"]
     if fast:
         meds = [(r["expiry"] or {}).get("median_sessions") for r in fast]
@@ -268,10 +329,15 @@ def recheck_rule(rows, found):
         head = ("any bar inside the grid works: the gap is not a perishable tail"
                 " (one-off part %s CNY)" % format(found.get("one_off_gain_cny") or 0.0, ",.0f"))
     else:
-        head = "nothing to act on: no pair clears the toll"
+        head = "nothing to act on: no pair clears the toll of the exchange"
+    sc = toll_scope()
     return (head + ". After execution the only number that can bring the decision back is the "
-            "round-trip toll: re-read this face on the next decision bar, and act again only if a "
-            "pair's gap exceeds %.2f pp (2 x %.0f bp per side)." % (toll, cost_bp()))
+            "toll of the exchange it would have to make: re-read this face on the next decision "
+            "bar, and act again only if a pair's gap exceeds %.2f pp (%d sides x %.0f bp). "
+            "Getting the book back where it came from pays that same exchange once more, so the "
+            "whole manoeuvre is %.2f pp (%d sides) -- that number answers 'did the discount pay "
+            "for the trip', never 'may I act'."
+            % (sc["pp"], sc["sides"], cost_bp(), sc["trip_pp"], sc["trip_sides"]))
 
 
 def render_md(face):
@@ -280,8 +346,14 @@ def render_md(face):
     L += ["session `%s` | ticket `%s` | source `%s`" % (face["session"], face["ticket"],
                                                        face["source_face"]), "",
           "**%s**" % face["recheck_rule"], "",
-          "触发价 = 来回成本 %.2f pp（2 × %.0f bp/边）。这不是分位数，是「再动一次要付多少」。"
-          % (c["toll_pp"], c["cost_bp_per_side"]), "",
+          "触发价 = **换这一次**要付的过路费 %.2f pp（%d 边 × %.0f bp/边）。这不是分位数，"
+          "是「今天再动一次要付多少」。整趟一来一回是 %.2f pp（%d 边）——换回来还要再付一次，"
+          "那个数只回答「这趟折扣够不够补回全部成本」，不当门槛（r1529/r1531）。"
+          % (c["toll_pp"], int((face.get("toll_scope") or {}).get("sides")
+                               or swap_toll.ENTRY_SIDES), c["cost_bp_per_side"],
+             float((face.get("toll_scope") or {}).get("trip_pp") or 0.0),
+             int((face.get("toll_scope") or {}).get("trip_sides")
+                 or (swap_toll.ENTRY_SIDES + swap_toll.EXIT_SIDES))), "",
           "| 腿（书里持有） | 换到 | 今日价差 | 历史均值 | 一次性部分 | 可重复部分 | 超过触发价占比 | 这次尾部多久回均值 | 判词 |",
           "|---|---|---|---|---|---|---|---|---|"]
     for r in face["pairs"]:
@@ -318,6 +390,51 @@ def render_md(face):
     return "\n".join(L)
 
 
+CROSS_WORDS = ("round-trip", "round trip", "roundtrip", "来回成本", "往返")
+
+
+def label_violations(face):
+    """r1531: the scope word next to the number has to agree with the number.
+
+    r1529 published the three scopes and named this exact defect in a separate face
+    (`VALUE_IS_ONE_EXCHANGE_LABEL_SAYS_ROUND_TRIP`); the trigger kept printing the old word in
+    its own sentences, so a reader who only opened this section still took 0.16 for 0.32.
+    Measured, not asserted: --check and the selftest both call this, and the selftest feeds it
+    a tampered copy so a guard that stopped firing is caught.
+    """
+    bad = []
+    sc = face.get("toll_scope") or {}
+    if not sc:
+        return ["toll_scope missing: the threshold carries no scope"]
+    try:
+        pp = float(sc.get("pp"))
+        trip = float(sc.get("trip_pp"))
+        sides = int(sc.get("sides"))
+        trip_sides = int(sc.get("trip_sides"))
+    except (TypeError, ValueError):
+        return ["toll_scope is not numeric: %r" % (sc,)]
+    if abs(pp - toll_pp()) > 1e-9:
+        bad.append("scope.pp %.4f != price of one exchange %.4f" % (pp, toll_pp()))
+    if abs(trip - 2.0 * pp) > 1e-9:
+        bad.append("trip_pp %.4f is not twice the exchange %.4f" % (trip, pp))
+    if sides <= 0 or trip_sides != 2 * sides:
+        bad.append("side counts disagree: %d and %d" % (sides, trip_sides))
+    if sc.get("trip_is_not_the_threshold") is not True:
+        bad.append("trip_is_not_the_threshold must be true explicitly")
+    if abs(pp - trip) > 1e-9:
+        strings = [face.get("recheck_rule") or ""] + list(face.get("caveats") or [])
+        for r in face.get("pairs") or []:
+            strings.append(r.get("advice") or "")
+        for s in strings:
+            low = s.lower()
+            hit = [w for w in CROSS_WORDS if w in low]
+            if hit:
+                bad.append("a sentence calls the %.2f pp exchange a %r: %r"
+                           % (pp, hit[0], s[:80]))
+                break
+    return bad
+
+
 def write_out(face):
     with open(OUT_JSON, "w", encoding="utf-8") as fh:
         json.dump(face, fh, ensure_ascii=False, indent=1)
@@ -348,6 +465,9 @@ def check():
         bad.append("criteria")
     if published.get("recheck_rule") != fresh.get("recheck_rule"):
         bad.append("recheck_rule")
+    if published.get("toll_scope") != fresh.get("toll_scope"):
+        bad.append("toll_scope")
+    bad += label_violations(published)
     pr = {p["leg_symbol"]: p for p in published.get("pairs") or []}
     fr = {p["leg_symbol"]: p for p in fresh.get("pairs") or []}
     if set(pr) != set(fr):
@@ -363,7 +483,10 @@ def check():
     if bad:
         print("CHECK_FAIL: %s" % ", ".join(bad))
         return 1
-    print("CHECK_OK: %d pair(s), trigger %.2f pp" % (len(fr), toll_pp()))
+    print("CHECK_OK: %d pair(s), threshold %.2f pp = one exchange (%d sides); manoeuvre "
+          "%.2f pp (%d sides) is published, not the threshold"
+          % (len(fr), toll_pp(), int(swap_toll.ENTRY_SIDES),
+             float(fresh["toll_scope"]["trip_pp"]), int(fresh["toll_scope"]["trip_sides"])))
     return 0
 
 
@@ -411,9 +534,42 @@ def selftest():
        classify(8.67, 0.83, 0.40, None, 100.0) == "ACT_ON_THIS_BAR",
        classify(8.67, 0.83, 0.40, None, 100.0))
 
-    # every verdict carries an advice line (no word without an action)
-    for w, txt in ADVICE.items():
-        ok("advice present for %s" % w, bool(txt))
+    # every verdict carries an advice line (no word without an action), and that line is
+    # spelled in the scope the threshold actually has (r1531)
+    sc = toll_scope()
+    for w in VERDICTS:
+        ok("advice present for %s" % w, bool(advice(w, sc)))
+
+    # the two prices are different quantities, and the side counts come from r1522
+    ok("the threshold is one exchange, not the manoeuvre",
+       abs(sc["pp"] - toll_pp()) < 1e-9 and abs(sc["trip_pp"] - 2 * sc["pp"]) < 1e-9, sc)
+    ok("the manoeuvre is four sides",
+       sc["trip_sides"] == swap_toll.ENTRY_SIDES + swap_toll.EXIT_SIDES, sc)
+    ok("the scope block says the manoeuvre is never the threshold",
+       sc["trip_is_not_the_threshold"] is True, sc)
+
+    # the label guard fires on a face that calls one exchange a round trip, and stays quiet on
+    # the face this script builds -- a guard that never fires is not a guard
+    good = {"toll_scope": dict(sc),
+            "recheck_rule": "act again only if a pair's gap exceeds %.2f pp (%d sides)"
+                            % (sc["pp"], sc["sides"]),
+            "caveats": [], "pairs": [{"advice": advice("ACT_ON_ANY_BAR", sc)}]}
+    ok("the guard passes the face this script builds", label_violations(good) == [],
+       label_violations(good))
+    tampered = {"toll_scope": dict(sc),
+                "recheck_rule": "act again only if the gap clears the round-trip toll",
+                "caveats": [], "pairs": [{"advice": advice("ACT_ON_ANY_BAR", sc)}]}
+    ok("the guard catches 'round-trip' on a %.2f pp threshold" % sc["pp"],
+       bool(label_violations(tampered)), label_violations(tampered))
+    tampered2 = {"toll_scope": dict(sc), "recheck_rule": "ok", "caveats": [],
+                 "pairs": [{"advice": "the gap does not clear the round trip"}]}
+    ok("the guard catches the same words in a pair's advice", bool(label_violations(tampered2)),
+       label_violations(tampered2))
+    tripped = dict(sc)
+    tripped["trip_pp"] = sc["pp"]          # the manoeuvre printed as one exchange
+    tampered3 = {"toll_scope": tripped, "recheck_rule": "ok", "caveats": [], "pairs": []}
+    ok("the guard catches a manoeuvre priced as one exchange", bool(label_violations(tampered3)),
+       label_violations(tampered3))
 
     # the published face, if present, must reproduce
     if os.path.exists(OUT_JSON):

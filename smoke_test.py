@@ -10,6 +10,7 @@ import sys
 import os
 import glob
 import json
+import re
 import datetime as dt
 import importlib
 import subprocess
@@ -4864,14 +4865,61 @@ def main() -> int:
             _bfl = _bfp.get("long") or {}
             _sent = _bfl.get("sentence")
             _md_page = open(_ptr.get("page"), encoding="utf-8").read()
-            _ok_bf = (bool(_sent) and _sent in _md_page
-                      and "这几只票到底有几个赌注" in _md_page)
-            if not _sent:
-                _ok_bf = False
+            # r1531: this host regenerates the bets face every round while the page is written
+            # by bm-a only (r1310/r1493 law: a non-writer host cannot close that refresh). The
+            # page's bet block is a SNAPSHOT of the face as of the cutoff it prints, so the
+            # strict sentence comparison went red the moment the face advanced 11-06 -> 11-10
+            # -- a red about the writer's absence, not about this page. Bounded carve-out, and
+            # it must be dated: a snapshot is allowed only when its OWN cutoff is older than the
+            # face's and this host may not write the page. Undated, self-dated, or
+            # future-dated sections stay red, and so does a page that stops carrying the
+            # section at all.
+            _sect = _md_page.split("这几只票到底有几个赌注", 1)
+            _btxt = _sect[1][:2500] if len(_sect) > 1 else ""
+            _mdate = re.search(r"计价截止\s*(\d{4}-\d{2}-\d{2})", _btxt)
+            _page_bar = _mdate.group(1) if _mdate else None
+            _face_bar = _bfl.get("evidence_cutoff") or _bfp.get("evidence_cutoff")
+            _may_write = True
+            try:
+                from scripts import etf_book_ceo_page as _PG
+                _may_write = bool(_PG.writer_allowed(_PG.machine_id()))
+            except Exception:
+                _may_write = True          # an unreadable guard is not permission
+            _quoted = bool(_sent) and _sent in _md_page
+            _snapshot_ok = bool(_page_bar and _face_bar and _page_bar < _face_bar
+                                and not _may_write)
+            _ok_bf = bool(_sent) and "这几只票到底有几个赌注" in _md_page and (
+                _quoted or _snapshot_ok)
             check("product: ETF live-book page says how many independent bets the holdings are",
-                  _ok_bf, f"effective={_bfl.get('effective_bets')} quoted={bool(_sent and _sent in _md_page)}")
+                  _ok_bf, f"effective={_bfl.get('effective_bets')} quoted={_quoted} "
+                          f"page_cutoff={_page_bar} face_cutoff={_face_bar} "
+                          f"may_write={_may_write}")
         except Exception as e:
             check("product: ETF live-book page says how many independent bets the holdings are",
+                  False, str(e))
+        # r1531: the trigger section of the executable sheet called its 0.16 pp threshold
+        # "来回成本" while the manoeuvre is 0.32 pp -- a desk reading only that section waited
+        # for twice the gap it actually pays. The section now takes the scope from the face.
+        # This leg reads the PUBLISHED PAGE (not the renderer), so a renderer that regresses
+        # or a page that was never regenerated both fail.
+        try:
+            _tr = json.load(open("results/etf_book_swap_trigger.json", encoding="utf-8"))
+            _tsc = _tr.get("toll_scope") or {}
+            _ord_md = os.path.join("results", "etf_book_order",
+                                   "ORDER-%s.md" % _lb.get("as_of"))
+            _otxt = open(_ord_md, encoding="utf-8").read() if os.path.exists(_ord_md) else ""
+            _pp = float(_tsc.get("pp") or 0.0)
+            _trip = float(_tsc.get("trip_pp") or 0.0)
+            _ok_ts = (bool(_otxt) and bool(_tsc)
+                      and "换这一次" in _otxt and "整趟" in _otxt
+                      and ("%.2f" % _pp) in _otxt and ("%.2f" % _trip) in _otxt
+                      and "来回成本" not in _otxt
+                      and abs(_trip - 2.0 * _pp) < 1e-9)
+            check("product: the sheet's trigger section names which scope its threshold has",
+                  _ok_ts, "page=%s pp=%.2f trip=%.2f old_word=%s"
+                          % (os.path.basename(_ord_md), _pp, _trip, "来回成本" in _otxt))
+        except Exception as e:
+            check("product: the sheet's trigger section names which scope its threshold has",
                   False, str(e))
         # r1175: two faces now answer "what does a bad day cost". The shock face quotes
         # the contamination face rather than recomputing it (one reader, E270), and the

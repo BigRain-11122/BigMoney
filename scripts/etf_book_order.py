@@ -1096,9 +1096,24 @@ def swap_trigger_md(sw):
                     split,
                     ("%.0f%%" % (100.0 * r["window_share"]))
                     if r.get("window_share") is not None else "?", exp_s, r["verdict"]))
-    L += ["- 读法：这条不是日历提醒。书每 %d 个交易日重排，那一天换票本来就会被重新决定；"
-          "两次决策之间唯一能改主意的是价差——只有它越过来回成本（%.2f pp），再动一次才不亏。"
-          % (REBAL, float((sw.get("criteria") or {}).get("toll_pp") or 0.0)), ""]
+    _sc = sw.get("toll_scope") or {}
+    if _sc:
+        L += ["- 读法：这条不是日历提醒。书每 %d 个交易日重排，那一天换票本来就会被重新决定；"
+              "两次决策之间唯一能改主意的是价差——只有它越过**换这一次**的过路费 %.2f pp"
+              "（%d 边 × 成本），再动一次才不亏。整趟一来一回 %.2f pp（%d 边）＝换回来还要"
+              "再付一次：那个数只回答「这趟折扣够不够补回全部成本」，不当门槛（r1529/r1531，"
+              "两个数不得互相顶替）。"
+              % (REBAL, float(_sc.get("pp") or 0.0), int(_sc.get("sides") or 0),
+                 float(_sc.get("trip_pp") or 0.0), int(_sc.get("trip_sides") or 0)), ""]
+    else:
+        # an older face carries the number without its scope: print it and say so, because
+        # silently reading 0.16 as the whole manoeuvre is the defect r1529 named (r1531)
+        L += ["- 读法：这条不是日历提醒。书每 %d 个交易日重排，那一天换票本来就会被重新决定；"
+              "两次决策之间唯一能改主意的是价差——只有它越过换一次的过路费（%.2f pp），"
+              "再动一次才不亏。**这一面没带范围标注（旧面）**：%.2f pp 是不是整趟成本没人说过，"
+              "重跑 `scripts/etf_book_swap_trigger.py run` 让面带上 r1531 的 toll_scope。"
+              % (REBAL, float((sw.get("criteria") or {}).get("toll_pp") or 0.0),
+                 float((sw.get("criteria") or {}).get("toll_pp") or 0.0)), ""]
     return L
 
 
@@ -4980,6 +4995,24 @@ def selftest():
     chk("leg51b swap trigger: an absent face prints one line, never a silent pass",
         "这一问答不了" in "\n".join(swap_trigger_md(None))
         and "换票之后什么时候再看一次" in "\n".join(swap_trigger_md(None)), "")
+
+    # r1531: this section used to say "越过来回成本 0.16 pp" -- the manoeuvre is 0.32 pp, so a
+    # reader who opened only this section waited for twice the gap it actually pays. The
+    # section now takes the scope from the face and prints the manoeuvre beside the threshold.
+    _sw_scoped = {"criteria": {"toll_pp": 0.16}, "recheck_rule": "act on this bar: ...",
+                  "toll_scope": {"name": "one_exchange", "sides": 2, "pp": 0.16,
+                                 "trip_sides": 4, "trip_pp": 0.32,
+                                 "trip_is_not_the_threshold": True},
+                  "pairs": []}
+    _sc_md = "\n".join(swap_trigger_md(_sw_scoped))
+    chk("leg51c swap trigger: the section names the scope of its threshold and prints the "
+        "manoeuvre beside it, never in its place",
+        "换这一次" in _sc_md and "整趟" in _sc_md and "0.32" in _sc_md
+        and "来回成本" not in _sc_md, _sc_md[-200:])
+    chk("leg51d swap trigger: a face without the scope is named as unscoped, never read as "
+        "the whole manoeuvre",
+        "没带范围标注" in "\n".join(swap_trigger_md(_sw))
+        and "来回成本" not in "\n".join(swap_trigger_md(_sw)), "")
 
     _st = {"verdict": "TWO_SECTIONS_OVERSELL_THE_LEG", "lot_residue_cny": 106.3,
            "actions": [{"side": "SELL", "symbol": "159501", "price": 2.069, "lots": 379,

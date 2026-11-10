@@ -12754,3 +12754,16 @@ S6 腿 `etf_book_base_basis_audit`（排在 `etf_book_order` 之后）+ 产物 `
 **为什么值得单列一卡**：三面同时落后四个交易日，页面上的数字全对、只有日期错——这种缺陷做不出任何断言红项，只能由「该到 vs 已到」这把尺子量出来。
 
 **证据**：`scripts/etf_book_swap_freshness.py`（selftest 19/19：15:30 边界／交易日计数／三态／刷新只付陈旧腿／依赖序／生产者失败不被吞）· `results/etf_book_swap_freshness.json`（10 面逐条 bar+lag，verdict FRESH）· S6 腿 `swap_freshness`（check+refresh 一体，一次治愈整节，0.1s）· smoke 两条腿（机制自检 + 发布面新鲜度）· 实测读数：入场折扣 ￥9,761.8→**￥7,076**、折扣份数 5,546.48→**4,020.34 份**（同一账户同一仓位，只是换回了 11-10 的盘面）。
+
+### E528 · 把范围分到隔壁那张面上，不等于它自己的句子改对了：守卫必须量**发布出来的字符串**，不是字符串旁边的字段（r1531 bm-c）
+
+**病灶**：r1529 已经把同一个过路费拆成三个范围（进 2 边 / 出 2 边 / 一来一回 4 边）并印了一张 `label_audit`：`VALUE_IS_ONE_EXCHANGE_LABEL_SAYS_ROUND_TRIP`。但**触发面自己**的句子没动——它的 `criteria.toll_pp = 0.16`、recheck_rule 写「round-trip toll」、两个 pair 的 advice 写「clears / does not clear the round-trip toll」、caveat 写「compared against the round-trip cost only」。票面的换票节又把这些句子原样搬上纸。于是：**账上改对了，纸上还是错的**——只读那一节的人仍然把 0.16 当成 0.32，等两倍的价差。
+
+**三律**：
+1. **判词要跟着数字走，不能跟着文件走**：同一个成本的三个范围一旦分开，凡是出现这个数的每一句自然语言都必须带范围；把范围写进"隔壁的审计面"只是记录，不是修复（r1520 同族：字段名骗人）。
+2. **守卫量字符串**：`label_violations()` 直接扫发布面里的 recheck_rule / caveats / 每条 advice，命中 `round-trip|round trip|roundtrip|来回成本|往返` 而阈值 ≠ 整趟价即红；`--check` 与 `selftest` 共用它，selftest 还要喂**篡改副本**证明守卫会响（不响的守卫不是守卫）。
+3. **范围常量从上游 import，句子从范围生成**：sides 取 r1522 的 `ENTRY_SIDES/EXIT_SIDES`，`trip_pp = 2 × pp` 的等式进自检；句子用格式化而不是字面量——上一版的字面量正是缺陷载体。
+
+**为什么之前的腿没抓到**：r1529 的 `label_audit` 只审计**触发面的字段值**（`toll_pp == 0.16 == single_exchange_pp`），它证明了"这个数是单次交换"，但没人去读这个面自己印给人看的那几行字。量的对象与读的对象不是同一个东西。
+
+**证据**：`scripts/etf_book_swap_trigger.py`（selftest 21→**27/27**：范围块／四边／trip=2×pp／守卫放行真面／三条篡改腿）· `results/etf_book_swap_trigger.json` 新增 `toll_scope`（name/sides/pp/trip_sides/trip_pp/trip_is_not_the_threshold）· `scripts/etf_book_order.py` 换票节读 `toll_scope` 并印「换这一次 0.16 pp（2 边）｜整趟 0.32 pp（4 边）」，旧面无 scope 时点名"没带范围标注"而不是照抄（selftest 151→**153/153**，新增 leg51c/51d）· 页面 `ORDER-2026-11-10.md` 逐字落地 · smoke 新腿「the sheet's trigger section names which scope its threshold has」（读**已发布页**，不是渲染器）· 读数：触发价 0.16 pp = 单次交换，整趟 0.32 pp = 4 边，两数并列且互不顶替。
