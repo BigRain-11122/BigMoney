@@ -1017,6 +1017,14 @@ def main() -> int:
              "scripts/etf_book_swap_stack.py", ["selftest"]),
             ("product: etf_book_swap_stack (netted order re-derived from the sheet it patches)",
              "scripts/etf_book_swap_stack.py", ["check"]),
+            # r1522: every swap face prices the trade on the way IN. The way OUT -- sell the
+            # sibling, buy the leg back -- is four sides of cost, not two, and it was never on
+            # the sheet. This leg pins the toll arithmetic and that the published face still
+            # reconciles to the notional that actually traded.
+            ("product: etf_book_swap_toll (the way out priced on the executed notional)",
+             "scripts/etf_book_swap_toll.py", ["selftest"]),
+            ("product: etf_book_swap_toll (published face re-derives from the swapped book)",
+             "scripts/etf_book_swap_toll.py", ["check"]),
             # r1468: the netted order printed three rows and declared a book that had moved in
             # six places -- the trim table's own five sells never became rows (CNY 67,289 of
             # names the permission refused are left unsold), and after the swap executes the
@@ -10660,6 +10668,60 @@ def _legs_supply_and_book():
                  float((_tk56.get("exec_delta") or {}).get("turnover_cny") or 0.0)))
     except Exception as e:
         check("product: the trades between the target and the executed book reconcile to the sheet's cash",
+              False, repr(e)[:180])
+
+    # r1522: the way out. Every other swap face prices the trade on the way IN; this one prices
+    # the round trip -- sell the leg, buy the sibling, then sell the sibling and buy the leg
+    # back -- on the notional that actually traded. Two things are checked and neither is
+    # trusted: the published block must be what the ticket's own faces produce, and the sheet
+    # must actually carry the rows.
+    try:
+        _bad57 = []
+        from scripts import etf_book_swap_toll as _SWT57
+        _hits57 = sorted(glob.glob(os.path.join(PATHS.results_dir, "etf_book_order",
+                                                "TICKET-*.json")))
+        _tk57 = {}
+        if not _hits57:
+            _bad57.append("no TICKET-*.json under results/etf_book_order")
+        else:
+            with open(_hits57[-1], encoding="utf-8") as _fh57:
+                _tk57 = json.load(_fh57)
+            _pub57 = _tk57.get("swap_toll")
+            if not _pub57:
+                _bad57.append("the ticket carries no swap_toll (a face only results/ knows is r1108)")
+            else:
+                _fresh57 = _SWT57.compute({"as_of": _tk57.get("as_of"),
+                                           "ticket_bar": _tk57.get("as_of"),
+                                           "swap_stack": _tk57.get("swap_stack"),
+                                           "swap_trigger": _tk57.get("swap_trigger")})
+                if _fresh57 != _pub57:
+                    _bad57.append("published swap_toll is not what this bar's own faces produce")
+                _b57 = _SWT57.check(_pub57)
+                if _b57:
+                    _bad57.append("published swap_toll does not reconcile: %s" % "; ".join(_b57))
+                if _pub57.get("verdict") == "TOLL_PRICED":
+                    _md57p = os.path.join(PATHS.results_dir, "etf_book_order",
+                                          "ORDER-%s.md" % (_tk57.get("as_of") or ""))
+                    if not os.path.exists(_md57p):
+                        _bad57.append("ORDER-%s.md missing" % (_tk57.get("as_of"),))
+                    else:
+                        with open(_md57p, encoding="utf-8") as _fh57:
+                            _md57 = _fh57.read()
+                        if "换回来要多少钱" not in _md57:
+                            _bad57.append("sheet has no way-out section")
+                        for _r57 in _pub57.get("rows") or []:
+                            _c57 = format(float(_r57.get("round_trip_cny") or 0.0), ",.0f")
+                            if _c57 not in _md57:
+                                _bad57.append("sheet does not print the round trip for %s"
+                                              % _r57.get("symbol"))
+        check("product: the sheet prices what the second exchange would cost",
+              not _bad57, "; ".join(_bad57)[:220]
+              or "swap_toll %s round_trip=%s"
+              % (((_tk57.get("swap_toll") or {}).get("verdict")),
+                 format(float((((_tk57.get("swap_toll") or {}).get("totals") or {})
+                               .get("round_trip_cny") or 0.0)), ",.0f")))
+    except Exception as e:
+        check("product: the sheet prices what the second exchange would cost",
               False, repr(e)[:180])
 
     # r1521: two sections of one sheet answer the same question -- "how much would it cost to

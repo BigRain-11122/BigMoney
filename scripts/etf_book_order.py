@@ -56,6 +56,7 @@ from scripts.etf_book_concentration import read_published as read_concentration 
 from scripts.etf_book_cut_order_gap import trim_legs        # noqa: E402  (r1455: one trim rule)
 from scripts import etf_book_k_gap as KG                     # noqa: E402  (r1515: per-name floor cut)
 from scripts import etf_book_exec_delta as EXD                # noqa: E402  (r1516: target minus the book)
+from scripts import etf_book_swap_toll as SWT                 # noqa: E402  (r1522: what the way out costs)
 from config import PATHS                           # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -2073,6 +2074,9 @@ def card(ticket, mk, sched, asof, beta, extra):
         L += EXD.md_lines(extra.get("exec_delta"))
         L += swap_trigger_md(extra.get("swap_trigger"))
         L += swap_stack_md(extra.get("swap_stack"))
+        # r1522: every face above prices the swap on the way IN. This one prices the way out,
+        # on the notional that actually traded -- four sides of cost, not two.
+        L += SWT.md_lines(extra.get("swap_toll"))
         L += executed_base_md(extra.get("base"))
         L += premium_read_md(extra.get("premium"))
         L += positions_md(extra.get("positions"))
@@ -2727,6 +2731,11 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                # book that already traded the swap ordered the swap to be undone.
                "exec_delta": EXD.compute({"as_of": asof, "ticket": ticket,
                                           "positions": _pos, "swap_stack": _ss}),
+               # r1522: the way out, priced on the executed notional. Same inputs as the two
+               # faces above so the sheet cannot quietly disagree with itself about the size.
+               "swap_toll": SWT.compute({"as_of": asof, "ticket_bar": asof,
+                                         "swap_stack": _ss,
+                                         "swap_trigger": _json_face(SWAP_FACE)}),
                "width_disclosure": wd,
                "live_width_ruler": ruler,
                "price_basis": basis,
@@ -2794,6 +2803,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "swap_stack": payload["swap_stack"],
                       "positions": payload["positions"],
                       "exec_delta": payload["exec_delta"],
+                      # r1522: the way out travels with the ticket, not only in results/.
+                      "swap_toll": payload["swap_toll"],
                       "premium": _prem,
                       "base": payload["base"],
                       "permission": payload["permission"],

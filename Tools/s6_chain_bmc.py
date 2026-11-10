@@ -1000,6 +1000,13 @@ LEGS = [
     # one order and re-derives it (trim-sized sells, merged sibling buy, lot residue, baskets).
     ("swap_stack",
      ["python", "scripts/etf_book_swap_stack.py", "check"]),
+    # r1522: the trigger, the netted order and the action table all price the swap on the way
+    # IN (toll_pp = 2 sides). A round trip is four sides -- sell the leg, buy the sibling, then
+    # sell the sibling and buy the leg back -- and the second half was never on the sheet, so
+    # a reader could not tell whether the gap being harvested is two or four times the toll.
+    # This leg re-derives the way-out price on the notional that actually traded (JSON reads).
+    ("swap_toll",
+     ["python", "scripts/etf_book_swap_toll.py", "check"]),
     # r1468: the netted order prints three rows but declares a book that moved in six places --
     # the trim table's own five sells never became rows, so typing the sheet leaves CNY 67,289
     # of refused names unsold; and once the swap executes, the account no longer matches the

@@ -495,7 +495,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-10 22:48:52",
+   "at": "2026-11-10 23:04:47",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1717,6 +1717,74 @@
   "in_target_not_held": [],
   "turnover_share_of_book_pct": 0.0
  },
+ "swap_toll": {
+  "artifact": "etf_book_swap_toll",
+  "bar": "2026-11-10",
+  "verdict": "TOLL_PRICED",
+  "rows": [
+   {
+    "symbol": "159501",
+    "sibling": "159513",
+    "lots": 372,
+    "price": 2.11,
+    "notional_cny": 78492.0,
+    "sibling_bought_this_bar": true,
+    "entry_sides": 2,
+    "exit_sides": 2,
+    "entry_cost_cny": 125.59,
+    "exit_cost_cny": 125.59,
+    "round_trip_cny": 251.18,
+    "round_trip_pp": 0.32,
+    "today_gap_pp": 8.6708,
+    "share_of_today_gap": 0.0369,
+    "mean_gap_pp": 2.0621,
+    "share_of_mean_gap": 0.1552,
+    "median_sessions": null,
+    "toll_pp_per_session": null,
+    "verdict": "WINDOW_ALWAYS_OPEN"
+   },
+   {
+    "symbol": "513100",
+    "sibling": "159513",
+    "lots": 355,
+    "price": 2.21,
+    "notional_cny": 78455.0,
+    "sibling_bought_this_bar": true,
+    "entry_sides": 2,
+    "exit_sides": 2,
+    "entry_cost_cny": 125.53,
+    "exit_cost_cny": 125.53,
+    "round_trip_cny": 251.06,
+    "round_trip_pp": 0.32,
+    "today_gap_pp": 6.2867,
+    "share_of_today_gap": 0.0509,
+    "mean_gap_pp": 2.211,
+    "share_of_mean_gap": 0.1447,
+    "median_sessions": 21.0,
+    "toll_pp_per_session": 0.015238,
+    "verdict": "WINDOW_ALWAYS_OPEN"
+   }
+  ],
+  "totals": {
+   "notional_cny": 156947.0,
+   "entry_cost_cny": 251.12,
+   "exit_cost_cny": 251.12,
+   "round_trip_cny": 502.24
+  },
+  "sentence": "这次换票已经付了 ¥251 的过路费（每一对卖出+买入各 8bp），如果下一个决策 bar 换回来，同样的钱还要再付一遍 ¥251——往返合计 ¥502 = 0.32pp；占今天价差 3.7%/5.1%、占各自平均价差 15.5%/14.5%。",
+  "refused": null,
+  "sources": {
+   "swap_stack": "results/etf_book_swap_stack.json",
+   "swap_trigger": "results/etf_book_swap_trigger.json"
+  },
+  "caveats": [
+   "the exit toll is contingent: a standing gap (WINDOW_ALWAYS_OPEN) means the desk may never trade back, so the second exchange is a price on a decision, not a charge already incurred",
+   "both halves are priced on the same close and the same notional: intraday execution moves the proceeds and the lots, and a re-widened gap moves the notional, not the bp",
+   "fees and tracking difference between the two tickers are not modelled; cost_bp_per_side is the trigger's own constant, imported here rather than restated"
+  ],
+  "cost_bp_per_side": 8.0,
+  "started_from": "2026-11-10"
+ },
  "width_disclosure": {
   "ticket_names": 5,
   "card_names": 12,
@@ -1735,15 +1803,15 @@
    "vol": 0.0888
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1109,
-    "card_width_cagr": 0.0963,
-    "pp": -1.46
-   },
    "vol": {
     "ticket_width_cagr": 0.1186,
     "card_width_cagr": 0.1223,
     "pp": 0.37
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1109,
+    "card_width_cagr": 0.0963,
+    "pp": -1.46
    }
   },
   "rules_differ": true,
