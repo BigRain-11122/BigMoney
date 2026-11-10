@@ -57,6 +57,7 @@ from scripts.etf_book_cut_order_gap import trim_legs        # noqa: E402  (r1455
 from scripts import etf_book_k_gap as KG                     # noqa: E402  (r1515: per-name floor cut)
 from scripts import etf_book_exec_delta as EXD                # noqa: E402  (r1516: target minus the book)
 from scripts import etf_book_swap_toll as SWT                 # noqa: E402  (r1522: what the way out costs)
+from scripts import etf_book_swap_convergence as SWC          # noqa: E402  (r1523: whether the way out pays)
 from config import PATHS                           # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -977,6 +978,7 @@ RULERS_FACE = "results/etf_book_size_rulers_decision.json"
 FLOOR_FACE = "results/etf_book_floor_ledger.json"
 SWAP_FACE = "results/etf_book_swap_trigger.json"
 SWAP_STACK_FACE = "results/etf_book_swap_stack.json"
+SIBLING_GAP_FACE = "results/etf_book_sibling_gap.json"   # r1523: the gap series the way-out pays against
 POSITIONS_FACE = "results/etf_book_positions.json"
 PREMIUM_FACE = "results/etf_premium/PREMIUM-PERSISTENCE.json"   # r1499: the reading the sheet must print
 PREMIUM_PCT_FACE = "results/etf_premium/PREMIUM-PERCENTILE.json"   # r1499b: where today ranks in its own history
@@ -2077,6 +2079,10 @@ def card(ticket, mk, sched, asof, beta, extra):
         # r1522: every face above prices the swap on the way IN. This one prices the way out,
         # on the notional that actually traded -- four sides of cost, not two.
         L += SWT.md_lines(extra.get("swap_toll"))
+        # r1523: r1522 priced the way out on the same close as the way in. This one replaces
+        # that assumption with the pair's own forward price path -- does the gap ever hand the
+        # travelled pp back inside one grid, after four sides are paid.
+        L += SWC.md_lines(extra.get("swap_convergence"))
         L += executed_base_md(extra.get("base"))
         L += premium_read_md(extra.get("premium"))
         L += positions_md(extra.get("positions"))
@@ -2736,6 +2742,12 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "swap_toll": SWT.compute({"as_of": asof, "ticket_bar": asof,
                                          "swap_stack": _ss,
                                          "swap_trigger": _json_face(SWAP_FACE)}),
+               # r1523: the toll above assumes prices do not move. This measures the pair's own
+               # forward path, so "换回来值不值" is a reading rather than a premise.
+               "swap_convergence": SWC.compute({"as_of": asof,
+                                                "sibling_gap": _json_face(SIBLING_GAP_FACE),
+                                                "swap_stack": _ss,
+                                                "swap_trigger": _json_face(SWAP_FACE)}),
                "width_disclosure": wd,
                "live_width_ruler": ruler,
                "price_basis": basis,
@@ -2805,6 +2817,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "exec_delta": payload["exec_delta"],
                       # r1522: the way out travels with the ticket, not only in results/.
                       "swap_toll": payload["swap_toll"],
+                      # r1523: and so does the measured answer to whether it pays.
+                      "swap_convergence": payload["swap_convergence"],
                       "premium": _prem,
                       "base": payload["base"],
                       "permission": payload["permission"],

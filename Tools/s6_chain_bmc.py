@@ -1007,6 +1007,12 @@ LEGS = [
     # This leg re-derives the way-out price on the notional that actually traded (JSON reads).
     ("swap_toll",
      ["python", "scripts/etf_book_swap_toll.py", "check"]),
+    # r1523: r1522 priced the way out on the same close as the way in -- "prices unchanged" was
+    # a caveat, not a measurement. This leg re-derives the forward price path of the same pair
+    # (does the gap ever hand the travelled pp back inside one grid) off the sibling-gap series,
+    # and refuses a payload whose net is not "median narrowing minus four sides" (1s, JSON reads).
+    ("swap_convergence",
+     ["python", "scripts/etf_book_swap_convergence.py", "check"]),
     # r1468: the netted order prints three rows but declares a book that moved in six places --
     # the trim table's own five sells never became rows, so typing the sheet leaves CNY 67,289
     # of refused names unsold; and once the swap executes, the account no longer matches the

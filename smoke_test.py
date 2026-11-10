@@ -1025,6 +1025,14 @@ def main() -> int:
              "scripts/etf_book_swap_toll.py", ["selftest"]),
             ("product: etf_book_swap_toll (published face re-derives from the swapped book)",
              "scripts/etf_book_swap_toll.py", ["check"]),
+            # r1523: the toll above is priced on "prices unchanged" -- that answers what another
+            # exchange costs, not whether the gap ever hands the travelled pp back. This leg pins
+            # the measured forward path (cohorts, censoring, median narrowing minus four sides)
+            # and that the published face still reconciles.
+            ("product: etf_book_swap_convergence (the way out measured on real prices)",
+             "scripts/etf_book_swap_convergence.py", ["selftest"]),
+            ("product: etf_book_swap_convergence (published face re-derives from the panels)",
+             "scripts/etf_book_swap_convergence.py", ["check"]),
             # r1468: the netted order printed three rows and declared a book that had moved in
             # six places -- the trim table's own five sells never became rows (CNY 67,289 of
             # names the permission refused are left unsold), and after the swap executes the
@@ -10722,6 +10730,73 @@ def _legs_supply_and_book():
                                .get("round_trip_cny") or 0.0)), ",.0f")))
     except Exception as e:
         check("product: the sheet prices what the second exchange would cost",
+              False, repr(e)[:180])
+
+    # r1523: the way-out price above says "prices unchanged", which answers what a second
+    # exchange COSTS. Nothing answered whether the travelled pp ever comes back. This leg
+    # pins the measured face: the ticket must carry it, it must be what this bar's own panels
+    # produce, its net must reconcile against its own medians, and while the bucket is still
+    # at 8 the sheet must print both -- the measured number and the cohort it was read on.
+    try:
+        _bad61 = []
+        from scripts import etf_book_swap_convergence as _SWC61
+        _hits61 = sorted(glob.glob(os.path.join(PATHS.results_dir, "etf_book_order",
+                                                "TICKET-*.json")))
+        _tk61 = {}
+        if not _hits61:
+            _bad61.append("no TICKET-*.json under results/etf_book_order")
+        else:
+            with open(_hits61[-1], encoding="utf-8") as _fh61:
+                _tk61 = json.load(_fh61)
+            _pub61 = _tk61.get("swap_convergence")
+            if not _pub61:
+                _bad61.append("the ticket carries no swap_convergence (a face only results/ "
+                              "knows is r1108)")
+            else:
+                _gap61p = os.path.join(PATHS.results_dir, "etf_book_sibling_gap.json")
+                _gap61 = {}
+                if os.path.exists(_gap61p):
+                    with open(_gap61p, encoding="utf-8") as _fh61:
+                        _gap61 = json.load(_fh61)
+                else:
+                    _bad61.append("no published sibling-gap face to measure the path on")
+                _fresh61 = _SWC61.compute({"as_of": _tk61.get("as_of"),
+                                           "sibling_gap": _gap61,
+                                           "swap_stack": _tk61.get("swap_stack"),
+                                           "swap_trigger": _tk61.get("swap_trigger")})
+                _b61 = _SWC61.check(_pub61)
+                if _b61:
+                    _bad61.append("published swap_convergence does not reconcile: %s"
+                                  % "; ".join(_b61))
+                if _pub61.get("verdict") in ("PAYS_MEASURED", "DOES_NOT_PAY_MEASURED"):
+                    _md61p = os.path.join(PATHS.results_dir, "etf_book_order",
+                                          "ORDER-%s.md" % (_tk61.get("as_of") or ""))
+                    if not os.path.exists(_md61p):
+                        _bad61.append("ORDER-%s.md missing" % (_tk61.get("as_of"),))
+                    else:
+                        with open(_md61p, encoding="utf-8") as _fh61:
+                            _md61 = _fh61.read()
+                        if "换回来的收益量出来是多少" not in _md61:
+                            _bad61.append("sheet has no measured way-out section")
+                        for _r61 in _pub61.get("pairs") or []:
+                            if _r61.get("verdict") not in ("PAYS_MEASURED",
+                                                           "DOES_NOT_PAY_MEASURED"):
+                                continue
+                            _m61 = "%.4f" % float(_r61.get("net_after_toll_pp") or 0.0)
+                            if _m61 not in _md61:
+                                _bad61.append("sheet does not print the measured net for %s"
+                                              % _r61.get("leg_symbol"))
+                        if _fresh61.get("verdict") != _pub61.get("verdict"):
+                            _bad61.append("published verdict %s != this bar's panels %s"
+                                          % (_pub61.get("verdict"), _fresh61.get("verdict")))
+        check("product: the sheet measures whether the second exchange pays at all",
+              not _bad61, "; ".join(_bad61)[:220]
+              or "swap_convergence %s net=%s"
+              % (((_tk61.get("swap_convergence") or {}).get("verdict")),
+                 format(float((((_tk61.get("swap_convergence") or {}).get("totals") or {})
+                               .get("net_after_toll_cny") or 0.0)), ",.0f")))
+    except Exception as e:
+        check("product: the sheet measures whether the second exchange pays at all",
               False, repr(e)[:180])
 
     # r1521: two sections of one sheet answer the same question -- "how much would it cost to

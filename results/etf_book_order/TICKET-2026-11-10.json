@@ -495,7 +495,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-10 23:04:47",
+   "at": "2026-11-10 23:29:53",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1784,6 +1784,232 @@
   ],
   "cost_bp_per_side": 8.0,
   "started_from": "2026-11-10"
+ },
+ "swap_convergence": {
+  "artifact": "etf_book_swap_convergence",
+  "bar": "2026-11-10",
+  "evidence_cutoff": "2026-11-10",
+  "verdict": "DOES_NOT_PAY_MEASURED",
+  "pairs": [
+   {
+    "leg_symbol": "159501",
+    "sibling_symbol": "159513",
+    "gap_today_pp": 8.6708,
+    "mean_gap_pp": 2.0621,
+    "notional_cny": 78492.0,
+    "cohorts": {
+     "tail": {
+      "h1": {
+       "members": 14,
+       "n": 13,
+       "censored": 1,
+       "median_delta_pp": -0.1402,
+       "mean_delta_pp": -0.491,
+       "share_narrowed_net_of_toll": 0.3846,
+       "share_widened": 0.3846
+      },
+      "h5": {
+       "members": 14,
+       "n": 9,
+       "censored": 5,
+       "median_delta_pp": -0.1129,
+       "mean_delta_pp": -0.6828,
+       "share_narrowed_net_of_toll": 0.4444,
+       "share_widened": 0.4444
+      },
+      "h10": {
+       "members": 14,
+       "n": 6,
+       "censored": 8,
+       "median_delta_pp": -0.0455,
+       "mean_delta_pp": -0.0397,
+       "share_narrowed_net_of_toll": 0.3333,
+       "share_widened": 0.5
+      },
+      "h20": {
+       "members": 14,
+       "n": 2,
+       "censored": 12,
+       "median_delta_pp": -0.0531,
+       "mean_delta_pp": -0.0531,
+       "share_narrowed_net_of_toll": 0.0,
+       "share_widened": 0.0
+      }
+     },
+     "broad": {
+      "h1": {
+       "members": 292,
+       "n": 291,
+       "censored": 1,
+       "median_delta_pp": 0.0089,
+       "mean_delta_pp": 0.001,
+       "share_narrowed_net_of_toll": 0.1649,
+       "share_widened": 0.5052
+      },
+      "h5": {
+       "members": 292,
+       "n": 287,
+       "censored": 5,
+       "median_delta_pp": 0.0416,
+       "mean_delta_pp": 0.0673,
+       "share_narrowed_net_of_toll": 0.2857,
+       "share_widened": 0.5261
+      },
+      "h10": {
+       "members": 292,
+       "n": 282,
+       "censored": 10,
+       "median_delta_pp": 0.0298,
+       "mean_delta_pp": 0.154,
+       "share_narrowed_net_of_toll": 0.2872,
+       "share_widened": 0.5248
+      },
+      "h20": {
+       "members": 292,
+       "n": 272,
+       "censored": 20,
+       "median_delta_pp": 0.1505,
+       "mean_delta_pp": 0.3574,
+       "share_narrowed_net_of_toll": 0.2684,
+       "share_widened": 0.5772
+      }
+     }
+    },
+    "verdict": "DOES_NOT_PAY_MEASURED",
+    "cohort_used": "broad",
+    "net_after_toll_pp": -0.4705,
+    "net_after_toll_cny": -369.3,
+    "why": "",
+    "sessions": 795
+   },
+   {
+    "leg_symbol": "513100",
+    "sibling_symbol": "159513",
+    "gap_today_pp": 6.2867,
+    "mean_gap_pp": 2.211,
+    "notional_cny": 78455.0,
+    "cohorts": {
+     "tail": {
+      "h1": {
+       "members": 17,
+       "n": 16,
+       "censored": 1,
+       "median_delta_pp": 0.0196,
+       "mean_delta_pp": -0.0859,
+       "share_narrowed_net_of_toll": 0.25,
+       "share_widened": 0.5
+      },
+      "h5": {
+       "members": 17,
+       "n": 12,
+       "censored": 5,
+       "median_delta_pp": -0.5286,
+       "mean_delta_pp": -0.452,
+       "share_narrowed_net_of_toll": 0.5833,
+       "share_widened": 0.3333
+      },
+      "h10": {
+       "members": 17,
+       "n": 9,
+       "censored": 8,
+       "median_delta_pp": -0.4232,
+       "mean_delta_pp": -0.6851,
+       "share_narrowed_net_of_toll": 0.5556,
+       "share_widened": 0.2222
+      },
+      "h20": {
+       "members": 17,
+       "n": 0,
+       "censored": 17,
+       "median_delta_pp": null,
+       "mean_delta_pp": null,
+       "share_narrowed_net_of_toll": null,
+       "share_widened": null
+      }
+     },
+     "broad": {
+      "h1": {
+       "members": 397,
+       "n": 396,
+       "censored": 1,
+       "median_delta_pp": -0.0243,
+       "mean_delta_pp": -0.0287,
+       "share_narrowed_net_of_toll": 0.1869,
+       "share_widened": 0.4722
+      },
+      "h5": {
+       "members": 397,
+       "n": 392,
+       "censored": 5,
+       "median_delta_pp": -0.0628,
+       "mean_delta_pp": -0.0745,
+       "share_narrowed_net_of_toll": 0.3673,
+       "share_widened": 0.4694
+      },
+      "h10": {
+       "members": 397,
+       "n": 387,
+       "censored": 10,
+       "median_delta_pp": -0.0745,
+       "mean_delta_pp": -0.0826,
+       "share_narrowed_net_of_toll": 0.3721,
+       "share_widened": 0.4444
+      },
+      "h20": {
+       "members": 397,
+       "n": 377,
+       "censored": 20,
+       "median_delta_pp": -0.0935,
+       "mean_delta_pp": -0.0729,
+       "share_narrowed_net_of_toll": 0.4164,
+       "share_widened": 0.4483
+      }
+     }
+    },
+    "verdict": "DOES_NOT_PAY_MEASURED",
+    "cohort_used": "broad",
+    "net_after_toll_pp": -0.2265,
+    "net_after_toll_cny": -177.7,
+    "why": "",
+    "sessions": 795
+   }
+  ],
+  "totals": {
+   "measured_pairs": 2,
+   "pays_pairs": 0,
+   "notional_cny": 156947.0,
+   "net_after_toll_cny": -547.0
+  },
+  "sentence": "换回来的收益是量出来的、不是假设价不变：159501（宽于均值 档 272 例）20 个交易日后价差中位变化 +0.15 pp，扣掉四边 0.32 pp 后净 -0.4705 pp；513100（宽于均值 档 377 例）20 个交易日后价差中位变化 -0.09 pp，扣掉四边 0.32 pp 后净 -0.2265 pp。按实际换出的 ¥156,947 算，合计净 -¥547。",
+  "refused": null,
+  "horizons": [
+   1,
+   5,
+   10,
+   20
+  ],
+  "reference_horizon": 20,
+  "min_cohort": 8,
+  "sources": {
+   "sibling_gap": "results/etf_book_sibling_gap.json",
+   "swap_stack": "results/etf_book_swap_stack.json",
+   "swap_trigger": "results/etf_book_swap_trigger.json"
+  },
+  "caveats": [
+   "this measures the pair's relative price path after a wide session; it is not a book backtest -- nothing else in the book moves, no other name is re-ranked inside the horizon, and the decision to exchange back is assumed to be taken exactly at the horizon",
+   "the cheap ticker is bought with the same money, so the harvest is a better entry into the same basket rather than a realised capital gain; the pp below is what the pair hands back, which is the number that decides whether a second exchange pays for its own four sides",
+   "a cohort member whose forward window runs past the end of the panel is censored, not treated as a zero change (r1230 r0)",
+   "the reconstruction inherits the sibling-gap face's single IOPV anchor; a premium base that shifted between the two tickers would move the level, not the change"
+  ],
+  "cost_bp_per_side": 8.0,
+  "toll_pp": 0.32,
+  "skipped": [
+   {
+    "leg_symbol": "159577",
+    "sibling_symbol": "513850",
+    "why": "这张单没有换出这只票"
+   }
+  ]
  },
  "width_disclosure": {
   "ticket_names": 5,
