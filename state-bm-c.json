@@ -1006,21 +1006,22 @@
  "sync": {
   "ahead_origin": 0,
   "behind_origin": 0,
-  "commit": "474351b350",
+  "commit": "a89a509c88",
   "landed_on": "origin/main",
-  "origin_tip": "474351b350",
-  "ts": "2026-11-11T00:38:00+08:00"
+  "origin_tip": "a89a509c88",
+  "ts": "2026-11-11T02:25:12+08:00"
  },
  "task": "r1529: one toll, three scopes on the sheet (entry 0.16pp sunk / exit 0.16pp incremental / trip 0.32pp cumulative), and the trigger's 0.16 is named for what it is",
  "total_ram_gb": 23.9,
- "ts": "2026-11-11T02:20:38+08:00",
- "updated": "2026-11-11 02:20:38",
- "updated_at": "2026-11-11T02:20:38+08:00",
+ "ts": "2026-11-11T02:25:12+08:00",
+ "updated": "2026-11-11 02:25:12",
+ "updated_at": "2026-11-11T02:25:12+08:00",
  "verdict": "PRODUCT: the toll now carries its scope. entry CNY251.12 / exit CNY251.12 / trip CNY502.23; decision threshold pinned to the exit scope; the trigger's window share reproduced at 0.16 (92.08%) before the 0.32 share was printed (90.44%/90.06%, verdict does not flip); r1523 net repriced as -547.0 round-trip vs -295.89 exit-only and never added",
  "verify": "toll_scope selftest 26/26 + run CHECK_OK pairs=2; ticket-embedded face == fresh recompute; etf_book_order --selftest 151/151; ticket and card regenerated rc0; S6 leg 0.1s rc0; 3 smoke legs added",
  "verify_smoke_closed": "PARTIAL: full suite restarted 23:31 on the post-change tree; 87 legs / 0 FAIL at close, still in flight",
  "vram_free_gb": 14.5,
  "watermark_verdict": "py_low_with_work_cands",
  "round_t1529_note": "| 2026-11-11 02:1x-02:3x | 1529 | **PRODUCT（产品优先律）：同一个过路费在纸上读了三个范围，两处都叫它「往返」。** 触发面（r1466）写「只有价差越过 0.16 pp 才能再动一次」，窗口占比 92% 也是拿 0.16 算的；折返面（r1522）写「往返 0.32pp」，收敛面（r1523）扣的也是 0.32。两个数都真，但它们不是同一个量：进（换进去交出的 2 边，已付、沉没）、出（今天换回来才付的 2 边）、一来一回（4 边）。一个把 0.32 当门槛的交易台会等两倍的价差；一个把 0.16 当「这次换票花了多少」的交易台会把折价算便宜一半——两个都不是算错，是**标签没带范围**。新增 `scripts/etf_book_toll_scope.py`（唯一实现：边数从 r1522 的常量 import、成本从票面 import，不重打 8bp）：①三档范围逐对与合计都落 pp+CNY（进 ￥251.12 / 出 ￥251.12 / 一来一回 ￥502.23）；②窗口占比在同一个重建序列上重算两档，且**先复现**触发面发布的 0.16 档占比（92.08%/92.08% 逐对一致）才允许印 0.32 档（90.44%/90.06%）——在一条对不上发布值的序列上移阈值，量到的是新数不是旧名；③r1523 的净额按两条口径并列重读、不相加不相平均（一来一回 -￥547.0 vs 只付出 -￥295.89），`totals.combined_cny` 故意存在且恒为 None、`--check` 见到任何合计值即红；④`decision.threshold_scope` 钉死 exit，换个值 `--check` 立即红。**读数**：判决不翻转——两档都远在 0.80 的结构线上方（92.1% / 90.4%），r1523 的结论也不翻转（两档都是 DOES_NOT_PAY），但**已发布的 -￥547 把进场那一段成本又收了一次，幅度高估 46%**（按「今天再动才付」是 -￥295.89）。接线：票面 payload + card 两处 + `ORDER-2026-11-10.md` 新节「这条过路费是几个钱（r1529）」（含命名纠错行与复现门行）。**验证**：toll_scope selftest 26/26（含篡改腿：合计值/范围 pp 漂移/门槛换成一来一回/口径差不是进价）·run CHECK_OK pairs=2·票内嵌面与新鲜复算逐字段相等·etf_book_order --selftest 151/151 无回归·票面与卡片重生成 rc0·S6 新腿 0.1s rc0·smoke 新增 3 腿（2 产品 + 1 票内）。**未验证（如实）**：全量套件 02:16 起在改码后的树上（pid 77532），收轮时仍在飞。孤儿面 py_faces=8 orphans=1（pid 60536 `scripts\\update*` · 7.4h 停滞 · 只读记录、未击杀）。**下轮指针**：r1525 的第二半仍未做——11-11 收盘 09:30 后才有 bar，届时要接的是「同一份数×新价」的重估，不是用新价差重算份数。",
- "round_t1529_next": "next: the three scopes are labelled on the sheet now, but the TRIGGER still prints its own word in its own section (\"the round-trip toll\") -- re-read r1525's open half first if the 2026-11-11 bar has landed; otherwise give the trigger section the pointer line so a reader of that section alone cannot walk away thinking 0.16 is what the swap cost"
+ "round_t1529_next": "next: the three scopes are labelled on the sheet now, but the TRIGGER still prints its own word in its own section (\"the round-trip toll\") -- re-read r1525's open half first if the 2026-11-11 bar has landed; otherwise give the trigger section the pointer line so a reader of that section alone cannot walk away thinking 0.16 is what the swap cost",
+ "round_t1529_addendum": "r1529b: delivery and the double scan. a89a509c88 on origin/main (b4b66f27ad..a89a509c88, 17 files), 0 ahead / 0 behind after fetch, git ls-tree origin/main sees scripts/etf_book_toll_scope.py. S0.5 second scan: orders 114/114 acked (241 ack entries, diff 0); group decisions blob sha256 2ffcc70c == self-held watermark -> zero action. NOT VERIFIED (honest): the full suite was started 02:19 in the background (pid 77532, log logs/smoke_r1529.log) on the post-change tree and is still in flight at close -- zero FAIL in what it has flushed so far; the 3 new legs rest on the ticket-embedded-vs-fresh equality check run by hand plus selftest 26/26 and CHECK_OK. S6 subset 5/5 rc0 (dualrun ZERO-DRIFT streak 51 / compute_audit / py_watermark / update_daily / toll_scope 0.2s). S7: loop pin=5 no-op (first fire 02:25), watchdog re-registered (S4U flip still access-denied), both claws reinstalled, attrition 4 ledgers CLEAN. Orphan faces py_faces=8 orphans=1 (pid 60536 scripts\\update*, 7.4h stalled, recorded not killed)."
 }
