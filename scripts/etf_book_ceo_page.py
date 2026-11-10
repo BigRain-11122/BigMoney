@@ -72,6 +72,13 @@ ENTRY_GATE_JSON = os.path.join(ROOT, "results", "etf_book_entry_gate.json")
 # that gap; the page must carry it, and must refuse it the moment its own rows stop
 # reproducing it (a quote the chain gate would reject is not something to print here).
 LIVE_QUOTE_DIR = os.path.join(ROOT, "results", "etf_book_live_quote")
+# r1512: the panel's own lane now writes tonight's completed session from the batch
+# quote face minutes after the close (scripts/update_daily.py quote_topup), which
+# removes the ONLY reason this page carried a separate live-quote snapshot. The lane's
+# status payload is overwritten by its next run, so it keeps an append-only ledger of
+# the sessions it wrote; this page reads that, never a status file that has rolled on.
+LANE_STATUS = os.path.join(ROOT, "results", "update_status.json")
+QUOTE_LEDGER = os.path.join(ROOT, "results", "quote_topup_ledger.jsonl")
 # r1458: r1451-r1457 built a permission (how big this book is allowed to be), proved the
 # order sheet can be trimmed to it, and stored the floor in a ledger. None of it reached
 # THIS page, so the one face a human reads still sizes at the ordered k -- the page said
@@ -856,7 +863,16 @@ def premium_board_gap_lines(gap, rate_session=None):
     when = ("**%s %s 之后**" % (nxt, after)) if after else ("**%s**（现在就能抓）" % nxt)
     last_ds = str(gap.get("last_board"))[:10] if gap.get("last_board") else None
     rate_ds = str(rate_session)[:10] if rate_session else None
-    if miss and rate_ds and last_ds and rate_ds != last_ds:
+    if (miss and rate_ds and last_ds and rate_ds == last_ds
+            and all(str(m)[:10] < last_ds for m in miss)):
+        # r1511: the table IS reading the newest board, so a hole behind it stales
+        # nothing. "These numbers will sit at <newest board> until someone fetches
+        # again" was true while the table could only read an older board.
+        add("- **这块板曾经漏过 %d 个交易日：%s。** 它是**收盘后抓一次的实时快照**，"
+            "漏掉的那天重跑也拍不回来；但这几天都**在这张表用的那一天之前**——表读的是板上最新一版 "
+            "**%s**，和本页的价同一天，缺口不拖累它。下一次抓取：%s。"
+            % (len(miss), "、".join(str(m)[:10] for m in miss), last_ds, when))
+    elif miss and rate_ds and last_ds and rate_ds != last_ds:
         # The board has moved past the session the table could take. Two dates, two facts.
         add("- **这块板缺了 %d 个交易日：%s。** 它是**收盘后抓一次的实时快照**，不是能回头补的"
             "历史序列——缺掉的那天重跑也拍不回来。板上最新一版是 **%s**（已经抓到），"
@@ -2393,7 +2409,52 @@ def entry_gate_block(eg):
     return L
 
 
-def live_quote_face(dir_path=LIVE_QUOTE_DIR):
+def panel_session_truth(now=None, status_path=LANE_STATUS, ledger_path=QUOTE_LEDGER):
+    """What the price panel itself carries, and who wrote that session (r1512).
+
+    The live-quote snapshot exists to cover "the daily panel is a session behind
+    every evening". That was true while the panel's only writer was a history face
+    that prints the next morning; the lane now tops the completed session up from
+    the batch quote face minutes after the close. So the first question any face
+    must ask is what the panel already has -- otherwise this page keeps printing a
+    snapshot that is OLDER than the panel it was written to compensate for.
+
+    `writer` is only ever claimed when the lane's append-only ledger has a row for
+    that session; a session present on the panel with no ledger row reads
+    "unknown", never "history face" (a missing record is not a record of absence).
+    """
+    doc = _load(status_path) if os.path.exists(status_path) else None
+    if not isinstance(doc, dict):
+        return {"ok": False, "detail": "no readable lane status at %s" % _rel(status_path, ROOT)}
+    panel_bar = doc.get("data_cutoff")
+    if not panel_bar:
+        return {"ok": False, "detail": "the lane status names no data cutoff"}
+    panel_bar = str(panel_bar)[:10]
+    expected = None
+    try:
+        import update_etf_wide as _W
+        expected = _W.U.expected_latest_bar_date(now or dt.datetime.now(),
+                                                _W.official_calendar())
+    except Exception:                                              # noqa: BLE001
+        expected = None                       # unknown calendar -> "current" is unknowable
+    writer, symbols = "unknown", None
+    try:
+        import update_daily as _UD2
+        for row in reversed(_UD2.read_quote_ledger(ledger_path)):
+            if str(row.get("session"))[:10] == panel_bar:
+                writer = "quote_face"
+                symbols = len(row.get("symbols") or [])
+                break
+        ledger_read = True
+    except Exception:                                              # noqa: BLE001
+        ledger_read = False
+    return {"ok": True, "panel_bar": panel_bar, "expected": expected,
+            "current": bool(expected) and panel_bar >= expected,
+            "writer": writer, "quote_symbols": symbols, "ledger_read": ledger_read,
+            "upstream": _rel(status_path, ROOT)}
+
+
+def live_quote_face(dir_path=LIVE_QUOTE_DIR, truth=None):
     """What is this book worth today, while the daily panel is still a bar behind? (r1251)
 
     The snapshot face already answers that question (scripts/etf_book_live_quote.py, with its
@@ -2402,11 +2463,27 @@ def live_quote_face(dir_path=LIVE_QUOTE_DIR):
     would disagree with the chain gate the first time either one changed.
 
     Refused rather than softened:
+      * the panel already carries tonight's session -> the question is retired (r1512),
+        answered once, above the snapshot, from the panel's own lane
       * no payload / unreadable          -> the page says it cannot answer
       * rows no longer reproduce         -> same, because a quote the chain gate would
                                             reject is not something to print at a reader
       * a snapshot OLDER than the panel  -> nothing here is new information
     """
+    truth = panel_session_truth() if truth is None else truth
+    snap_as_of = None
+    try:
+        latest_ptr = os.path.join(dir_path, "latest.json")
+        if os.path.exists(latest_ptr):
+            snap_as_of = (_load(latest_ptr) or {}).get("as_of")
+    except Exception:                                              # noqa: BLE001
+        snap_as_of = None
+    if truth.get("ok") and truth.get("current"):
+        return {"status": "panel_current", "panel_bar": truth.get("panel_bar"),
+                "expected": truth.get("expected"), "writer": truth.get("writer"),
+                "quote_symbols": truth.get("quote_symbols"),
+                "snapshot_as_of": snap_as_of, "upstream": truth.get("upstream"),
+                "artifact": _rel(os.path.join(dir_path, "latest.json"), ROOT)}
     latest = os.path.join(dir_path, "latest.json")
     if not os.path.exists(latest):
         return {"status": "absent", "artifact": _rel(latest, ROOT),
@@ -2457,9 +2534,38 @@ def live_quote_face(dir_path=LIVE_QUOTE_DIR):
 
 def live_quote_block(lq):
     L = []
-    L.append("## 面板还停在昨天的时候，这本书今天值多少？")
-    L.append("")
     st = lq.get("status")
+    # the heading is the question; once the panel carries tonight's close the question
+    # is not "what would it be worth", so the heading has to change with the answer.
+    L.append("## 今晚的收盘，面板自己有了" if st == "panel_current"
+             else "## 面板还停在昨天的时候，这本书今天值多少？")
+    L.append("")
+    if st == "panel_current":
+        # r1512: the question this section exists for has been answered upstream. Printing
+        # the snapshot anyway would put an older day next to a newer one with no line saying
+        # which is which -- and the reader would take the snapshot for the fresher number,
+        # because that is what this section used to be.
+        bar = lq.get("panel_bar")
+        who = lq.get("writer")
+        if who == "quote_face":
+            src = ("这一根是收盘后从同一家的**批量报价面**补进来的（台账记了 %s 只核心票），"
+                   "历史面要第二天早上才印" % (lq.get("quote_symbols")
+                                              if lq.get("quote_symbols") is not None else "若干"))
+        else:
+            src = ("台账里查不到这一根是谁写的——补录台账 r1512 才开始记，更早补齐的行"
+                   "没有出处，所以这里不替它认领")
+        L.append("**这一节今天已经没有要回答的问题。** 日线面板自己已经吃到 **%s** 的收盘：%s。"
+                 "上面那张票面就是按这根 bar 算的，本页的价、仓位、溢价都同一天。"
+                 % (bar, src))
+        L.append("")
+        snap = lq.get("snapshot_as_of")
+        L.append("下面那块快照面最新的只到 **%s**，比面板还旧，所以这里不再印它的读数——"
+                 "它只在面板真的落后时才重新有用。" % (snap or "（无）"))
+        L.append("")
+        L.append("> 面板状态：`%s` ｜ 期望最新会话 %s。"
+                 % (lq.get("upstream") or "", lq.get("expected") or "—"))
+        L.append("")
+        return L
     if st != "ok":
         why = {"behind": "快照比数据面还旧，这里没有新信息",
                "drifted": "快照自己的行已经复现不出它发布的数字",
@@ -7355,13 +7461,18 @@ def selftest():
     with open(os.path.join(_ql_dir, "latest.json"), "w", encoding="utf-8") as _fh:
         json.dump({"as_of": "2026-11-04", "file": "QUOTE-fixture.json",
                    "verdict": "QUOTE_AHEAD"}, _fh, ensure_ascii=False)
-    _ql_ok = live_quote_face(_ql_dir)
+    # r1512: the panel's own state is an explicit input here, not a read of this
+    # machine's lane status -- a leg that depends on tonight's panel would pass or
+    # fail by the wall clock rather than by the code.
+    _LAG_TRUTH = {"ok": True, "panel_bar": "2026-11-03", "expected": "2026-11-04",
+                  "current": False, "writer": "unknown", "upstream": "results/update_status.json"}
+    _ql_ok = live_quote_face(_ql_dir, truth=_LAG_TRUTH)
     _ql_lied_dir = tempfile.mkdtemp()
     with open(os.path.join(_ql_lied_dir, "QUOTE-lied.json"), "w", encoding="utf-8") as _fh:
         json.dump(dict(_ql_face, held_leg_return=0.05), _fh, ensure_ascii=False)
     with open(os.path.join(_ql_lied_dir, "latest.json"), "w", encoding="utf-8") as _fh:
         json.dump({"file": "QUOTE-lied.json"}, _fh, ensure_ascii=False)
-    _ql_lied = live_quote_face(_ql_lied_dir)
+    _ql_lied = live_quote_face(_ql_lied_dir, truth=_LAG_TRUTH)
     chk("L141 live quote: today's move is re-derived from the payload's own rows through the "
         "single recheck, and a payload whose rows disagree with it is refused",
         _ql_ok.get("status") == "ok"
@@ -7377,14 +7488,14 @@ def selftest():
                        lag_trading_days=None), _fh, ensure_ascii=False)
     with open(os.path.join(_ql_behind_dir, "latest.json"), "w", encoding="utf-8") as _fh:
         json.dump({"file": "QUOTE-behind.json"}, _fh, ensure_ascii=False)
-    _ql_behind = live_quote_face(_ql_behind_dir)
+    _ql_behind = live_quote_face(_ql_behind_dir, truth=_LAG_TRUTH)
     _no_new_dir = tempfile.mkdtemp()
     with open(os.path.join(_no_new_dir, "QUOTE-same.json"), "w", encoding="utf-8") as _fh:
         json.dump(dict(_ql_face, verdict="NO_NEW_BAR", quote_bar="2026-11-03",
                        held_leg_return=None, book_change=None), _fh, ensure_ascii=False)
     with open(os.path.join(_no_new_dir, "latest.json"), "w", encoding="utf-8") as _fh:
         json.dump({"file": "QUOTE-same.json"}, _fh, ensure_ascii=False)
-    _ql_same = live_quote_face(_no_new_dir)
+    _ql_same = live_quote_face(_no_new_dir, truth=_LAG_TRUTH)
     _behind_txt = "\n".join(live_quote_block(_ql_behind))
     _absent_txt = "\n".join(live_quote_block({"status": "absent"}))
     _same_txt = "\n".join(live_quote_block(_ql_same))
@@ -7403,6 +7514,50 @@ def selftest():
         ("+0.70%" in _ok_txt and "+0.56%" in _ok_txt and "20.00%" in _ok_txt
          and "2/2" in _ok_txt),
         "txt=%s" % " | ".join(x for x in _ok_txt.splitlines() if "持仓腿" in x)[:120])
+    # r1512: once the panel carries tonight's session this section's question is gone, and
+    # printing the snapshot would put an older day beside a newer one with nothing saying so.
+    _CUR_TRUTH = {"ok": True, "panel_bar": "2026-11-04", "expected": "2026-11-04",
+                  "current": True, "writer": "quote_face", "quote_symbols": 48,
+                  "upstream": "results/update_status.json"}
+    _ql_cur = live_quote_face(_ql_dir, truth=_CUR_TRUTH)
+    _cur_txt = "\n".join(live_quote_block(_ql_cur))
+    _CUR_UNK = dict(_CUR_TRUTH, writer="unknown", quote_symbols=None)
+    _cur_unk_txt = "\n".join(live_quote_block(live_quote_face(_ql_dir, truth=_CUR_UNK)))
+    chk("L144a live quote: when the panel already carries tonight's close the snapshot is not "
+        "printed, and the writer is claimed only when the lane's ledger names it",
+        _ql_cur.get("status") == "panel_current"
+        and "没有要回答的问题" in _cur_txt and "48 只核心票" in _cur_txt
+        and "持仓腿今天" not in _cur_txt and "2026-11-04" in _cur_txt
+        and "查不到这一根是谁写的" in _cur_unk_txt and "48 只核心票" not in _cur_unk_txt,
+        "status=%s cur=%s unk=%s" % (_ql_cur.get("status"),
+                                     "48 只核心票" in _cur_txt,
+                                     "查不到这一根是谁写的" in _cur_unk_txt))
+    # a missing record must never read as "current": no status file falls back to the
+    # snapshot branch, and a panel behind the calendar stays behind.
+    with tempfile.TemporaryDirectory() as _td_ps:
+        _tr_nostatus = panel_session_truth(status_path=os.path.join(_td_ps, "nope.json"),
+                                           ledger_path=os.path.join(_td_ps, "nope.jsonl"))
+        _st = os.path.join(_td_ps, "status.json")
+        with open(_st, "w", encoding="utf-8") as _fh:
+            json.dump({"data_cutoff": "2026-11-04"}, _fh)
+        _lg = os.path.join(_td_ps, "ledger.jsonl")
+        with open(_lg, "w", encoding="utf-8") as _fh:
+            _fh.write(json.dumps({"session": "2026-11-04", "appended": 2,
+                                  "symbols": ["510300", "518880"]}) + "\n")
+        _tr_cur = panel_session_truth(now=dt.datetime(2026, 11, 4, 16, 0),
+                                      status_path=_st, ledger_path=_lg)
+        with open(_st, "w", encoding="utf-8") as _fh:
+            json.dump({"data_cutoff": "2026-11-03"}, _fh)
+        _tr_lag = panel_session_truth(now=dt.datetime(2026, 11, 4, 16, 0),
+                                      status_path=_st, ledger_path=_lg)
+    chk("L144b live quote: the panel's own lane decides whether tonight exists, and a "
+        "missing status file can never read as current",
+        _tr_nostatus.get("ok") is False
+        and _tr_cur.get("current") is True and _tr_cur.get("writer") == "quote_face"
+        and _tr_cur.get("quote_symbols") == 2
+        and _tr_lag.get("current") is False and _tr_lag.get("panel_bar") == "2026-11-03",
+        "none=%s cur=%s/%s lag=%s" % (_tr_nostatus.get("ok"), _tr_cur.get("current"),
+                                      _tr_cur.get("writer"), _tr_lag.get("current")))
     # r1458: the permission reached the order sheet but not this page. The page is the only
     # face a human reads, so "how big am I allowed to be" has to be on it -- and it has to
     # stay honest when a receipt is missing or two receipts disagree.
@@ -7744,6 +7899,19 @@ def selftest():
     chk("L174 premium block: while the board has not moved past the rate day, no second date is invented",
         "上面这张表用的是" not in _gap_held and "一直停在 **2026-11-06**" in _gap_held,
         "len=%d" % len(_gap_held))
+    # r1511: once the same-evening top-up lands, the table reads the NEWEST board, so a
+    # hole behind it is history, not a reason for the numbers above to sit still. The old
+    # wording ("these numbers sit at <board> until someone fetches") is then false.
+    _gap_behind = dict(_gap_one, boards_present=["2026-11-06", "2026-11-10"], n_boards=2,
+                       last_board="2026-11-10", next_capture_session="2026-11-11")
+    _pb_fix_10 = dict(_pb_fix, session="2026-11-10", ticket_session="2026-11-10")
+    _gap_behind_txt = "\n".join(premium_block(_pb_fix_10, page_bar="2026-11-10",
+                                              page_sheet=_pb_sheet, board_gap=_gap_behind))
+    chk("L175 premium block: a hole behind the board the table reads is not a freeze",
+        "一直停在" not in _gap_behind_txt
+        and "曾经漏过 1 个交易日：2026-11-09" in _gap_behind_txt
+        and "2026-11-10**，和本页的价同一天" in _gap_behind_txt
+        and "2026-11-11 15:30 之后" in _gap_behind_txt, "len=%d" % len(_gap_behind_txt))
 
     # r1506: the sheet above and the account below disagreed by a leg and the page printed
     # both without saying which came first. The executed face reconciles them from the stack

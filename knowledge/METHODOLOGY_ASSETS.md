@@ -12575,9 +12575,9 @@ actually holds」。证据=`results/etf_book_min_capital.json` 的 `rounding` �
 2. **补抓成功会让旧文案变成假话**：凡「等下一次抓取」类句子，都要在抓取成功后重新成立（本例里
    真正在等的不再是抓取，而是票价日前进），否则页面把「已经做完的事」印成待办。
 3. **smoke 腿要钉「不许自相矛盾」而不钉具体日期**：把「会一直停在 <日期>」这句里的日期与
-   oard_gap.last_board 做恒等断言，任何一侧漂移即红；日期写死进断言等于下一轮又得改文本。
+   board_gap.last_board 做恒等断言，任何一侧漂移即红；日期写死进断言等于下一轮又得改文本。
 
-**证据**：tf_book_ceo_page.premium_board_gap_lines(gap, rate_session=...)（新增第二参，
+**证据**：etf_book_ceo_page.premium_board_gap_lines(gap, rate_session=...)（新增第二参，
 表自己报它用的是哪天）+ selftest **191/191**（+3 L173/L174 及既有 L170-L172 保持）；
 smoke 腿「the page names the board session the premium section never captured」增两条反向断言；
 正身=docs/live_book/LIVE-BOOK-20261110.md 缺口行，快照=data/etf_premium/snap/2026-11-10.csv（1,666 行）。

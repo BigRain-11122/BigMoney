@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-08T03:22:43",
+ "as_of": "2026-11-10T17:39:23",
  "calendar": {
   "path": "data/exchange_calendar.csv",
   "refresh": {
@@ -15,8 +15,6 @@
   "scope_start": "1990-12-19"
  },
  "coverage_by_day": {
-  "2026-10-26": 1.0,
-  "2026-10-27": 1.0,
   "2026-10-28": 1.0,
   "2026-10-29": 1.0,
   "2026-10-30": 1.0,
@@ -24,24 +22,31 @@
   "2026-11-03": 1.0,
   "2026-11-04": 1.0,
   "2026-11-05": 1.0,
-  "2026-11-06": 1.0
+  "2026-11-06": 1.0,
+  "2026-11-09": 1.0,
+  "2026-11-10": 0.9977
  },
  "detail": "the maintained panel covers every official trading day it should by now",
- "expected_last_official_day": "2026-11-06",
+ "expected_last_official_day": "2026-11-10",
  "forward_impact": {
   "blocked": true,
-  "ledger_last_bar": "2026-11-06",
+  "ledger_last_bar": "2026-11-09",
   "note": "one mark per new panel bar; a lagging feed pauses accrual without any error"
  },
- "machine": "bm-a",
+ "machine": "bm-c",
  "missing_official_days": [],
  "note": "Descriptive face. The calendar is the independent reference; the panel is ours. source_lag is a publication delay (self-heals), panel_gap is a stopped feed (needs a human/lane owner).",
  "panel": {
-  "active_floor": "2026-11-02",
-  "cutoff_max": "2026-11-06",
+  "active_floor": "2026-11-04",
+  "cutoff_max": "2026-11-10",
   "cutoff_min": "2026-09-04",
-  "effective_cutoff": "2026-11-06",
-  "lagging_active_sample": [],
+  "effective_cutoff": "2026-11-10",
+  "lagging_active_sample": [
+   "sh515450",
+   "sh515770",
+   "sh530880",
+   "sz159118"
+  ],
   "n_active": 1723,
   "n_stale_cohort": 2,
   "n_symbols": 1725

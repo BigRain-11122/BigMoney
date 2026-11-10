@@ -450,8 +450,25 @@ def coverage_closes_gate(needs, coverage_pct, floor=COVERAGE_FLOOR):
     return bool(needs) and coverage_pct >= floor * 100.0
 
 
+def quote_only_tasks(uni, expected, data_dir=None, tail_date=None):
+    """Names whose OWN tail is behind `expected` -- the --quote-only worklist.
+
+    Pure apart from reading the panels. An unreadable tail is included: the
+    quote verifier will refuse it and the refusal is reported, which is better
+    than a silent omission.
+    """
+    data_dir = data_dir or DATA_DIR
+    tail_date = tail_date or _tail_date
+    out = []
+    for stem, sym in uni:
+        d = tail_date(os.path.join(data_dir, stem + ".csv"))
+        if d is None or d < expected:
+            out.append((stem, sym))
+    return out
+
+
 def _run_impl(limit=None, workers=DEFAULT_WORKERS, takeover=False,
-              force=False):
+              force=False, quote_only=False):
     me = U._lane_owner_id()
     owner_note = None
     if me != LANE_OWNER:
@@ -535,34 +552,48 @@ def _run_impl(limit=None, workers=DEFAULT_WORKERS, takeover=False,
     quote_rows = 0
     quote_refusals = []
     t0 = time.time()
-    ctx = mp.get_context("spawn")
-    with ctx.Pool(processes=max(1, workers), initializer=_worker_init) as pool:
-        for i, res in enumerate(pool.imap_unordered(refresh_one, tasks,
-                                                   chunksize=4), 1):
-            counts[res["status"]] = counts.get(res["status"], 0) + 1
-            if res.get("holes_before_last"):
-                holes_syms += 1
-                holes_bars += int(res["holes_before_last"])
-            if res.get("src_last") and res["src_last"] < expected:
-                # A vendor lag of one session must NOT delist the universe.
-                # "Source ended" is a trading-day distance, not inequality.
-                lag = _td_between(res["src_last"], expected, dates)
-                if lag is not None and lag >= ENDED_GRACE_TD:
-                    ended.add(res["stem"])
-                else:
-                    lagging_syms += 1
-            if res["status"] == "tail_lag":
-                lag_tasks.append((res["stem"], res["sina"]))
-                lag_src_last[res["stem"]] = res.get("sina_src_last")
-            if res["status"] == "mismatch":
-                mismatches.append("%s:%s" % (res["stem"], res.get("detail")))
-            elif res["status"] in ("fetch_fail", "read_fail"):
-                fails.append("%s:%s" % (res["stem"], res.get("detail")))
-            elif res["status"] == "invalid":
-                invalid.append("%s:%s" % (res["stem"], res.get("detail")))
-            if i % 250 == 0:
-                sys.stderr.write("  ... %d/%d\n" % (i, len(tasks)))
-                sys.stderr.flush()
+    if quote_only:
+        # --quote-only: the history face has nothing to add tonight (measured
+        # 2026-11-10 16:3x: it still ends at 11-09 while the same vendor's quote
+        # face already carries the finished 11-10 session), so the 1,7xx-call
+        # sweep would burn six minutes to learn that. Every name whose OWN tail
+        # is behind the expected session goes straight to the quote verifier.
+        tasks = []
+        for stem, sym in quote_only_tasks((uni[:limit] if limit else uni),
+                                         expected):
+            lag_tasks.append((stem, sym))
+            lag_src_last[stem] = None
+            lagging_syms += 1
+        counts["quote_only_tail_lag"] = len(lag_tasks)
+    else:
+        ctx = mp.get_context("spawn")
+        with ctx.Pool(processes=max(1, workers), initializer=_worker_init) as pool:
+            for i, res in enumerate(pool.imap_unordered(refresh_one, tasks,
+                                                       chunksize=4), 1):
+                counts[res["status"]] = counts.get(res["status"], 0) + 1
+                if res.get("holes_before_last"):
+                    holes_syms += 1
+                    holes_bars += int(res["holes_before_last"])
+                if res.get("src_last") and res["src_last"] < expected:
+                    # A vendor lag of one session must NOT delist the universe.
+                    # "Source ended" is a trading-day distance, not inequality.
+                    lag = _td_between(res["src_last"], expected, dates)
+                    if lag is not None and lag >= ENDED_GRACE_TD:
+                        ended.add(res["stem"])
+                    else:
+                        lagging_syms += 1
+                if res["status"] == "tail_lag":
+                    lag_tasks.append((res["stem"], res["sina"]))
+                    lag_src_last[res["stem"]] = res.get("sina_src_last")
+                if res["status"] == "mismatch":
+                    mismatches.append("%s:%s" % (res["stem"], res.get("detail")))
+                elif res["status"] in ("fetch_fail", "read_fail"):
+                    fails.append("%s:%s" % (res["stem"], res.get("detail")))
+                elif res["status"] == "invalid":
+                    invalid.append("%s:%s" % (res["stem"], res.get("detail")))
+                if i % 250 == 0:
+                    sys.stderr.write("  ... %d/%d\n" % (i, len(tasks)))
+                    sys.stderr.flush()
     elapsed = round(time.time() - t0, 1)
 
     # --- phase 2: same-evening tail top-up from the batched quote face ------
@@ -620,6 +651,7 @@ def _run_impl(limit=None, workers=DEFAULT_WORKERS, takeover=False,
         "ts": _now().isoformat(timespec="seconds"),
         "machine": me, "lane_owner": LANE_OWNER,
         "status": "ok", "expected": expected, "panel_cutoff_before": cut,
+        "mode": "quote_only" if quote_only else "full",
         "panel_cutoff_after": panel_cutoff(exclude=set(ended) | set(skipped)
                                             | set(quiet_stems)),
         "source_ended_stems": sorted(ended),
@@ -867,6 +899,22 @@ def _selftest():
     chk("month_silence_above_grace",
         _td_between("2026-09-02", "2026-10-26", off) >= ENDED_GRACE_TD)
 
+    # 8 --quote-only worklist: names behind the expected session go to the quote
+    #   verifier, names already there do not, and an unreadable tail is INCLUDED
+    #   (the verifier then refuses it out loud) rather than silently skipped.
+    _tails = {"a.csv": "2026-10-23", "b.csv": "2026-10-26", "c.csv": None}
+    _work = quote_only_tasks([("a", "sh510300"), ("b", "sh510050"),
+                              ("c", "sz159915")], "2026-10-26",
+                             data_dir="/nonexistent",
+                             tail_date=lambda p: _tails.get(
+                                 os.path.basename(p), None))
+    chk("quote_only_picks_lagging_and_unreadable", _work == [("a", "sh510300"),
+                                                             ("c", "sz159915")])
+    chk("quote_only_empty_when_all_current",
+        quote_only_tasks([("b", "sh510050")], "2026-10-26",
+                         data_dir="/nonexistent",
+                         tail_date=lambda p: "2026-10-26") == [])
+
     if fails:
         print("etf_wide selftest FAIL: " + ", ".join(fails))
         return 1
@@ -884,12 +932,13 @@ def main(argv):
     workers = DEFAULT_WORKERS
     takeover = "--takeover" in argv
     force = "--force" in argv
+    quote_only = "--quote-only" in argv
     for a in argv:
         if a.startswith("--limit="):
             limit = int(a.split("=", 1)[1])
         elif a.startswith("--workers="):
             workers = int(a.split("=", 1)[1])
-    return _run_impl(limit, workers, takeover, force)
+    return _run_impl(limit, workers, takeover, force, quote_only)
 
 
 if __name__ == "__main__":

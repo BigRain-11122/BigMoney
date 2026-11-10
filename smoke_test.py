@@ -5672,6 +5672,40 @@ def main() -> int:
         check("product: the CEO page still prints where in the day the money is earned",
               False, repr(e)[:160])
 
+    # --- r1512: the page's live-quote section and the panel's own lane must agree on
+    # whether tonight's session exists. This is a consumer leg on purpose: it renders the
+    # page and looks for what a reader sees, so deleting either half (the lane's top-up or
+    # the page's retirement branch) turns it red while its own body is untouched.
+    try:
+        import etf_book_ceo_page as _pgq
+        _badq = []
+        _truth = _pgq.panel_session_truth()
+        _pageq = _pgq.build(with_stress=False)[0]
+        _lq = _pageq.get("live_quote") or {}
+        if _truth.get("ok") and _truth.get("current"):
+            if _lq.get("status") != "panel_current":
+                _badq.append("panel carries %s but the section still reads %r"
+                             % (_truth.get("panel_bar"), _lq.get("status")))
+        else:
+            if _lq.get("status") == "panel_current":
+                _badq.append("panel is not current (%r) yet the section retires itself"
+                             % (_truth.get("panel_bar"),))
+        _mdq = _pgq.render_md(_pageq)
+        if _lq.get("status") == "panel_current":
+            if "今晚的收盘" not in _mdq:
+                _badq.append("the retirement heading never reaches the page")
+            if "持仓腿今天" in _mdq:
+                _badq.append("the page prints the snapshot's move anyway")
+        else:
+            if "今晚的收盘" in _mdq:
+                _badq.append("the page claims tonight without the panel carrying it")
+        check("product: the live-quote section and the panel's own lane agree on tonight",
+              not _badq, "; ".join(_badq)[:220]
+              or "panel_bar=%s section=%s" % (_truth.get("panel_bar"), _lq.get("status")))
+    except Exception as e:
+        check("product: the live-quote section and the panel's own lane agree on tonight",
+              False, repr(e)[:160])
+
     # --- E226 the break-even toll: the published root must be the zero of the
     # published line, and surviving the toll must not read as clearing the bar
     try:

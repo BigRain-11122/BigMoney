@@ -71,9 +71,11 @@ Usage:
 import datetime as dt
 import json
 import os
+import re
 import subprocess
 import sys
 import time
+import urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -89,6 +91,11 @@ FETCH_SLEEP = 0.3                        # rate limit, mirrors download_etf.py
 CATCHUP_RETRY_MIN = 60          # laggard retry backoff window (minutes)
 CATCHUP_STALE_DAYS = 15        # lag beyond this -> dead symbol, stop fetching
 STATUS_PATH = os.path.join(PATHS.results_dir, "update_status.json")
+# r1512: the status file is overwritten every run, so the evening after a top-up
+# nothing on disk says WHICH bars came from the quote face. Append-only, one line
+# per session that was topped up; readers (the CEO page) ask this instead of
+# re-reading a status payload that has since rolled forward.
+QUOTE_LEDGER = os.path.join(PATHS.results_dir, "quote_topup_ledger.jsonl")
 LOCK_PATH = os.path.join(PATHS.root, "logs", "update_daily.lock")
 LOCK_STALE_AGE = 30 * 60        # belt-and-braces reclaim behind the PID check
 
@@ -396,6 +403,201 @@ def _laggards_of(files: list, probe_last: str) -> list:
     return out
 
 
+# ---------------------------------- same-evening quote top-up (r1511 bm-c)
+# The history face (klc_kl.js behind ak.fund_etf_hist_sina) publishes a session
+# only the NEXT morning, so between 15:30 and then every face built on this
+# panel -- ticket, book NAV, CEO page -- is priced on yesterday's close. The
+# same vendor's BATCH quote endpoint (hq.sinajs.cn) already carries the finished
+# session minutes after the close, and update_etf_wide has used it since
+# 2026-10-26 for exactly this gap on the wide universe (verified identical to
+# the history face's own later print). This lane therefore IMPORTS that lane's
+# quote_tail() instead of writing a second verifier: one definition of "this
+# quote really is this instrument's next bar", two panels that cannot disagree.
+# Refusals are counted, never guessed: a quote whose session date is not the
+# expected one, or whose 昨收 does not reproduce our own last close, is refused.
+QUOTE_URL = "https://hq.sinajs.cn/list={syms}"
+QUOTE_CHUNK = 60
+QUOTE_HEADERS = {"Referer": "https://finance.sina.com.cn",
+                 "User-Agent": "Mozilla/5.0"}
+QUOTE_LINE = re.compile(r'hq_str_([a-z]{2}\d{6})="([^"]*)"')
+
+
+def _quote_face():
+    """The wide lane's quote verifier -- imported, never re-implemented."""
+    try:
+        import scripts.update_etf_wide as W
+    except ImportError:  # run as `python scripts\update_daily.py`
+        import update_etf_wide as W
+    return W
+
+
+def to_sina_symbol(stem: str) -> str:
+    return ("sh" if stem[0] == "5" else "sz") + stem
+
+
+def _quote_fields(sina_syms: list) -> dict:
+    """One batched quote request -> {sina_sym: [fields...]}. Pure network I/O."""
+    url = QUOTE_URL.format(syms=",".join(sina_syms))
+    req = urllib.request.Request(url, headers=QUOTE_HEADERS)
+    text = urllib.request.urlopen(req, timeout=20).read().decode("gbk", "replace")
+    out = {}
+    for sym, body in QUOTE_LINE.findall(text):
+        if body:
+            out[sym] = body.split(",")
+    return out
+
+
+def _append_bar(path: str, row: dict) -> None:
+    """Byte-level tail append in the panel's own decimal style (atomic)."""
+    dp = _panel_decimals(path)
+    with open(path, "r", encoding="utf-8", newline="") as fh:
+        text = fh.read()
+    if text and not text.endswith("\n"):
+        text += "\n"
+    text += _format_row(row, dp) + "\n"
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8", newline="") as fh:
+        fh.write(text)
+    os.replace(tmp, path)
+
+
+def quote_topup(files, now, quote_fields=None, calendar=None,
+                appender=None) -> dict:
+    """Write tonight's completed session into the panel from the quote face.
+
+    Only the tail session, only after 15:30, only for files behind the official
+    calendar's expected bar, and only when the quote verifier accepts it.
+    Everything else is reported in `refused`. `quote_fields` / `calendar` /
+    `appender` are injection points for the offline selftest.
+    """
+    W = _quote_face()
+    out = {"status": "noop", "target": None, "lagging": [], "attempted": 0,
+           "appended": 0, "refused": [], "quote_date": None, "rows": [],
+           "detail": ""}
+    try:
+        dates = calendar if calendar is not None else W.official_calendar()
+        target = W.U.expected_latest_bar_date(now, dates)
+    except Exception as exc:  # noqa: BLE001 -- calendar is a diagnosis, not data
+        out["status"] = "unknown_calendar"
+        out["detail"] = "%s: %s" % (type(exc).__name__, exc)
+        return out
+    out["target"] = target
+    if target is None:
+        out["status"] = "unknown_calendar"
+        out["detail"] = "no expected session could be derived"
+        return out
+    if now.time() < CLOSE_ACCEPT_TIME:
+        out["status"] = "gated_before_close"
+        out["detail"] = "before %s no completed session can exist" % CLOSE_ACCEPT_TIME
+        return out
+    lag = []
+    for path in files:
+        stem = os.path.basename(path)[:-4]
+        try:
+            last = _last_date(path)
+        except Exception as exc:  # noqa: BLE001 -- reported, not fatal
+            out["refused"].append({"symbol": stem,
+                                   "reason": "unreadable:%s" % type(exc).__name__})
+            continue
+        if last < target:
+            lag.append((path, last))
+    out["lagging"] = [os.path.basename(p)[:-4] for p, _ in lag]
+    if not lag:
+        out["status"] = "noop_current"
+        out["detail"] = "every core file already carries %s" % target
+        return out
+
+    fetch = quote_fields or _quote_fields
+    appender = appender or _append_bar
+    syms = [to_sina_symbol(os.path.basename(p)[:-4]) for p, _ in lag]
+    fields_by_sym = {}
+    try:
+        for i in range(0, len(syms), QUOTE_CHUNK):
+            fields_by_sym.update(fetch(syms[i:i + QUOTE_CHUNK]))
+    except Exception as exc:  # noqa: BLE001 -- network failure is honest output
+        out["status"] = "fetch_failed"
+        out["detail"] = "%s: %s" % (type(exc).__name__, exc)
+        return out
+
+    for path, last in lag:
+        stem = os.path.basename(path)[:-4]
+        f = fields_by_sym.get(to_sina_symbol(stem))
+        out["attempted"] += 1
+        if not f:
+            out["refused"].append({"symbol": stem, "reason": "no_quote"})
+            continue
+        try:
+            local = [{"date": last,
+                      "close": float(load_existing(path)["close"].iloc[-1])}]
+        except Exception as exc:  # noqa: BLE001
+            out["refused"].append({"symbol": stem,
+                                   "reason": "unreadable:%s" % type(exc).__name__})
+            continue
+        verdict = W.quote_tail(local, f, target)
+        if verdict.get("row") is None:
+            out["refused"].append({"symbol": stem,
+                                   "reason": verdict.get("mismatch")
+                                   or "already_current"})
+            continue
+        try:
+            appender(path, verdict["row"])
+        except Exception as exc:  # noqa: BLE001
+            out["refused"].append({"symbol": stem,
+                                   "reason": "write_failed:%s" % type(exc).__name__})
+            continue
+        out["appended"] += 1
+        out["quote_date"] = verdict["row"]["date"]
+        out["rows"].append({"symbol": stem, "appended": 1,
+                            "overlap_mismatch": False, "error": None,
+                            "skipped": "quote_topup"})
+    out["status"] = "appended" if out["appended"] else "refused_all"
+    out["detail"] = ("%d/%d lagging core files topped up from the batch quote "
+                     "face at %s" % (out["appended"], out["attempted"], target))
+    return out
+
+
+def record_quote_topup(topup: dict, path: str = QUOTE_LEDGER,
+                       now: dt.datetime | None = None) -> dict | None:
+    """Append one line for a session the quote face wrote. Nothing -> no line.
+
+    A run that appended nothing is not an event: writing a line for it would
+    turn "the top-up never ran" and "the top-up ran and had nothing to do" into
+    the same row of the ledger, which is the disagreement this file exists to
+    prevent (a session either came from the quote face or it did not).
+    """
+    if not topup or int(topup.get("appended") or 0) <= 0:
+        return None
+    row = {"ts": (now or dt.datetime.now()).isoformat(timespec="seconds"),
+           "session": topup.get("quote_date") or topup.get("target"),
+           "appended": int(topup.get("appended") or 0),
+           "refused": len(topup.get("refused") or []),
+           "symbols": sorted(str(r.get("symbol")) for r in (topup.get("rows") or []))}
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    with open(path, "a", encoding="utf-8", newline="\n") as fh:
+        fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+    return row
+
+
+def read_quote_ledger(path: str = QUOTE_LEDGER) -> list:
+    """Ledger rows, oldest first. Missing/unreadable file -> [] (no invention)."""
+    if not os.path.exists(path):
+        return []
+    out = []
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    out.append(json.loads(line))
+                except ValueError:
+                    continue
+    except OSError:
+        return []
+    return out
+
+
 def _backoff_active(ts, now: dt.datetime) -> bool:
     """True while the laggard's last catch-up attempt is younger than
     CATCHUP_RETRY_MIN minutes. Missing/unparseable -> expired (attempt)."""
@@ -481,6 +683,14 @@ def run_update(now: dt.datetime | None = None, fetcher=None,
     attempts = {s: t for s, t in attempts.items()
                 if s in catchup["laggards"]}
 
+    # same-evening quote top-up: the history face prints tonight's session only
+    # tomorrow morning, the batch quote face has it minutes after the close.
+    # Rows written here are ordinary append-only bars, so they count as new
+    # rows for the status face and for the paper hook below.
+    topup = quote_topup(files, now)
+    record_quote_topup(topup, now=now)
+    results.extend(topup.pop("rows", []))
+
     summary = {
         "updated": time.strftime("%Y-%m-%d %H:%M:%S"),
         "now": str(now), "close_accept_time": str(CLOSE_ACCEPT_TIME),
@@ -492,6 +702,7 @@ def run_update(now: dt.datetime | None = None, fetcher=None,
         "data_cutoff": None, "per_symbol": results,
         "catchup": catchup,
         "catchup_attempts": attempts,
+        "quote_topup": topup,
     }
     # data cutoff = max last date across the pool (post-update read);
     # read failure is recorded in the status, never swallowed (F8)
@@ -870,6 +1081,104 @@ def selftest() -> bool:
     print("  [updater] parity verdict: quote-tail ahead is not a rewrite... "
           + ("PASS" if i else "FAIL"))
     ok &= i
+
+    # E: same-evening quote top-up -- the tail session the history face has not
+    # printed yet is written from the batch quote face, and every way a quote
+    # can be the wrong bar is a refusal rather than a guess
+    def _qfields(qdate, o, prev, c, h, lo, vol, amt):
+        f = [""] * 33
+        f[0], f[1], f[2], f[3], f[4], f[5] = ("name", str(o), str(prev),
+                                              str(c), str(h), str(lo))
+        f[8], f[9], f[30] = str(vol), str(amt), qdate
+        return f
+
+    with tempfile.TemporaryDirectory() as td:
+        cols = ["date", "open", "high", "low", "close", "volume", "amount"]
+        cal = ["2026-10-23", "2026-10-26", "2026-10-27"]
+        lag = os.path.join(td, "510300.csv")
+        cur = os.path.join(td, "510050.csv")
+        pd.DataFrame([["2026-10-23", 4.0, 4.1, 3.9, 4.05, 100, 405],
+                      ["2026-10-26", 4.155, 4.187, 4.13, 4.179, 200, 836]],
+                     columns=cols).to_csv(lag, index=False)
+        pd.DataFrame([["2026-10-26", 3.0, 3.1, 2.9, 3.05, 50, 152],
+                      ["2026-10-27", 3.06, 3.09, 3.04, 3.08, 60, 185]],
+                     columns=cols).to_csv(cur, index=False)
+        q = {"sh510300": _qfields("2026-10-27", 4.18, 4.179, 4.2, 4.22, 4.17,
+                                  300, 1254)}
+        after = dt.datetime(2026, 10, 27, 16, 0)
+        r1 = quote_topup([lag, cur], after, quote_fields=lambda s: q, calendar=cal)
+        got = pd.read_csv(lag)
+        e = (r1["status"] == "appended" and r1["appended"] == 1
+             and r1["lagging"] == ["510300"]
+             and got["date"].iloc[-1] == "2026-10-27"
+             and abs(float(got["close"].iloc[-1]) - 4.2) < 1e-9
+             and abs(float(got["close"].iloc[-2]) - 4.179) < 1e-9)  # history kept
+        # idempotent: the same evening run twice adds nothing
+        r2 = quote_topup([lag, cur], after, quote_fields=lambda s: q, calendar=cal)
+        e &= r2["status"] == "noop_current" and len(pd.read_csv(lag)) == 3
+        # before the close there is no completed session to write
+        pd.DataFrame([["2026-10-26", 4.155, 4.187, 4.13, 4.179, 200, 836]],
+                     columns=cols).to_csv(lag, index=False)
+        r3 = quote_topup([lag], dt.datetime(2026, 10, 27, 10, 0),
+                         quote_fields=lambda s: q, calendar=cal)
+        e &= r3["status"] == "gated_before_close" and len(pd.read_csv(lag)) == 1
+        print("  [updater] quote top-up: tail session written, history kept, "
+              "idempotent, close-gated... " + ("PASS" if e else "FAIL"))
+        ok &= e
+
+        # refusals: wrong session date / prev-close drift / short frame / no quote
+        def run_one(fields, sym="sh510300"):
+            pd.DataFrame([["2026-10-26", 4.155, 4.187, 4.13, 4.179, 200, 836]],
+                         columns=cols).to_csv(lag, index=False)
+            fx = {sym: fields} if fields else {}
+            return quote_topup([lag], after, quote_fields=lambda s: fx,
+                               calendar=cal), len(pd.read_csv(lag))
+        r4, n4 = run_one(_qfields("2026-10-28", 4.18, 4.179, 4.2, 4.22, 4.17,
+                                  300, 1254))
+        r5, n5 = run_one(_qfields("2026-10-27", 4.18, 4.0, 4.2, 4.22, 4.17,
+                                  300, 1254))
+        r6, n6 = run_one(["name", "4.18", "4.179", "4.2"])
+        r7, n7 = run_one(None)
+        why = [x["reason"] for x in r4["refused"] + r5["refused"]
+               + r6["refused"] + r7["refused"]]
+        f = (n4 == 1 and n5 == 1 and n6 == 1 and n7 == 1
+             and any(w.startswith("quote_date") for w in why)
+             and any(w.startswith("prev_close_drift") for w in why)
+             and any(w.startswith("short_quote") for w in why)
+             and "no_quote" in why
+             and all(x["status"] == "refused_all" for x in (r4, r5, r6, r7)))
+        print("  [updater] quote top-up refuses wrong bars (date/drift/short/"
+              "missing)... " + ("PASS" if f else "FAIL"))
+        ok &= f
+
+    # E2: the provenance ledger. The status payload is overwritten by the next
+    # run, so unless the top-up writes a line of its own, "which bars tonight
+    # came from the quote face" is unanswerable twenty minutes later.
+    with tempfile.TemporaryDirectory() as td:
+        lg = os.path.join(td, "ledger.jsonl")
+        nothing = record_quote_topup({"status": "noop_current", "appended": 0,
+                                      "rows": [], "refused": []}, path=lg)
+        # read the file's existence BEFORE the appending call: asking afterwards
+        # answers "did the append create it", not "did the no-op leave it alone".
+        pre_exists = os.path.exists(lg)
+        lag2 = os.path.join(td, "510300.csv")
+        lcols = ["date", "open", "high", "low", "close", "volume", "amount"]
+        pd.DataFrame([["2026-10-26", 4.155, 4.187, 4.13, 4.179, 200, 836]],
+                     columns=lcols).to_csv(lag2, index=False)
+        r1 = quote_topup([lag2], after,
+                         quote_fields=lambda s: {"sh510300": _qfields(
+                             "2026-10-27", 4.18, 4.179, 4.2, 4.22, 4.17, 300, 1254)},
+                         calendar=cal, appender=lambda p, row: None)
+        one = record_quote_topup(r1, path=lg)
+        rows = read_quote_ledger(lg)
+        e2 = (nothing is None and pre_exists is False
+              and one is not None and one["session"] == "2026-10-27"
+              and one["appended"] == 1 and one["symbols"] == ["510300"]
+              and len(rows) == 1 and rows[0]["session"] == "2026-10-27"
+              and read_quote_ledger(os.path.join(td, "nope.jsonl")) == [])
+        print("  [updater] quote top-up leaves a provenance line per session, "
+              "and none for a no-op run... " + ("PASS" if e2 else "FAIL"))
+        ok &= e2
 
     # D: source parity on real data (network; SKIP if unreachable)
     try:
