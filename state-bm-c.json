@@ -992,18 +992,18 @@
  "src": "etf_book_swap_effect.py (level vs path, addition refused) + etf_book_order.py wiring + s6/smoke legs",
  "status": "product",
  "sync": {
-  "commit": "061d29dbc1",
+  "commit": "e751554d61",
   "landed_on": "origin/main",
-  "origin_tip": "061d29dbc1",
+  "origin_tip": "e751554d61",
   "ahead_origin": 0,
   "behind_origin": 0,
-  "ts": "2026-11-10T23:40:56+0800"
+  "ts": "2026-11-11T00:05:30+08:00"
  },
  "task": "r1524: the entry discount and the measured path share one line, and are never summed",
  "total_ram_gb": 23.9,
- "ts": "2026-11-11T00:02:35+08:00",
- "updated": "2026-11-11 00:02:35",
- "updated_at": "2026-11-11T00:02:35+08:00",
+ "ts": "2026-11-11T00:05:30+08:00",
+ "updated": "2026-11-11 00:05:30",
+ "updated_at": "2026-11-11T00:05:30+08:00",
  "verdict": "PRODUCT delivered (level 9,761.8 CNY of entry discount vs measured path -547 CNY on the same two pairs; one line, no combined number; 159501 needs 7.15pp of narrowing, median path +0.15pp, 27% of 272 comparable sessions ever clear the four sides)",
  "verify": "swap_effect selftest 27/27 + run + check CHECK_OK rows=2 level=9761.8 path=-547.0 combined=None; ticket payload == results face (byte-equal); ORDER-2026-11-10.md carries the section and refuses the sum; order selftest 151/151; S6 leg swap_effect 0.1s rc0",
  "verify_smoke_closed": "PARTIAL: full suite restarted 23:31 on the post-change tree; 87 legs / 0 FAIL at close, still in flight",
@@ -1013,5 +1013,6 @@
  "round_t1523_next": "next: the measured answer says the gap does NOT hand the travelled pp back inside one grid (median +0.15pp / -0.09pp against a 0.32pp toll) -- but the trigger still calls the pair WINDOW_ALWAYS_OPEN and the stack still books a 5,612 CNY gain on the same swap. Next round: print the level effect and the measured path effect on one line in the stack, refusing to add them, so a reader cannot read the gain as a harvest",
  "round_t1523_addendum": "| 2026-11-10 23:4x | 1523b | **ADDENDUM（收尾）：送达与两扫。** 轮提交 **061d29dbc1** 已落 origin/main （ce81176a91..061d29dbc1，14 件），fetch 后 **0 ahead / 0 behind**，`git ls-tree origin/main` 见 `scripts/etf_book_swap_convergence.py`。**S0.5 二扫**：orders 114 件全在心跳 orders_ack，零未处理；集团 decisions blob 与自持水位同值 → 零动作。**全量套件**：23:31 起的是**改码后**的树（本轮新码已含），收轮时 156 腿、零真红（唯一含 FAIL 字样的是 year_caliber 的 composite=FAIL 判词，本身 PASS），仍在飞。孤儿面 py_faces=9 orphans=0 零杀。**一条留给下一轮的话**：compute_audit 的 supply_floor 已连红到 15427 分钟（ready 0 / floor 3），池里确实没有可点火件——这不是故障而是议程债，按意义门不造凑数活。",
  "round_t1524_note": "| 2026-11-10 23:5x–11-11 00:2x | 1524 | **PRODUCT（产品优先律）：进价差赚的钱和换回来的路，第一次写在同一行，并拒绝相加。** r1467 把换票收益印成 ¥5,612.5 + ¥4,149.3，r1523 把「换回来值不值」量成 −¥547——两节在同一张纸上、隔半页，谁也没说它们是什么关系。读者只有两种读法，两种都错：加＝这本书赚了 9,762 再亏 547（净 9,215）；减＝两个数互相矛盾、总有一个是错的。真相是同一根价差读了两次：进价差赚的是「同一笔钱今天多买到多少份额」（折扣有多宽），路径量的是「这个折扣有没有被收回」（兑现率）。新增 `scripts/etf_book_swap_effect.py`（唯一实现：不重算价差、不重算收益，只并列两张已发布面）：一行给出「折扣 ¥5,612（要兑现价差得净收窄 7.15pp）｜20 日后价差中位 +0.15pp、扣四边净 −0.47pp = −¥369（可比 272 例，越过四边的只有 27%）」与 513100 的同构一行（¥4,149 / 5.29pp / −0.09pp / −¥178 / 42%）。**判决 DISCOUNT_UNCOLLECTED**：两个折扣合计 ¥9,762、路径合计 −¥547——折扣在账上，兑现前提在可比历史里没有出现。`totals.combined_cny` 故意存在且恒为 None（不是忘了算），旁边一句「相加＝把折扣算两遍、相减＝拿大小比频率」；`check` 一旦看到任何合计值就红。三处拒印：两张面停在不同 bar、同一对的两张面成交额不同（量的是不同的一笔）、只在一面出现的票——都印原因，不印 0。**验证**：swap_effect selftest 27/27（含 4 条篡改腿：合计值/收窄 pp/路径合计/单面票）、run + check CHECK_OK rows=2 level=9761.8 path=-547.0 combined=None；接线票面 payload + card 两处 + 页面新节（ORDER-2026-11-10.md「换进去赚的和换回来量的」），票内嵌面与 results/ 已发布面字节恒等；etf_book_order --selftest 151/151 无回归、票面重生成 rc0；S6 新腿 0.1s rc0。S6：dualrun ZERO-DRIFT（744 条·streak 51）；compute_audit FLAG pool_starvation(15453min)+supply_floor(ready 0/floor 3·AGENDA_DEBT 4 候选无一过线)；watermark py_low_with_work_cands；update_daily rc0 0 新行 cutoff 2026-11-10。S7：loop pin=5 no-op；watchdog 重注册（S4U 翻转仍被拒·需管理员）；两爪重装；attrition 4 账本 CLEAN。S0.5：orders 114/114 全回执；集团 decisions blob sha256 2ffcc70c 与自持水位同值 → 零动作。孤儿面 py_faces=9 orphans=0 零杀。**未验证（如实）**：全量套件本轮 23:5x 新起（pid 32052）跑在改码后的树上，收轮时仍在飞；新腿以单点实跑为准。",
- "round_t1524_next": "next: 折扣 ¥9,762 是「份额」不是现金——下一轮把它落成账面事实：用 positions 账本的份额口径记下这次换票多买到多少份，并在下一个决策 bar 用同一口径重新估值（折扣既不按价差重估，也不被当成已实现收益）"
+ "round_t1524_next": "next: 折扣 ¥9,762 是「份额」不是现金——下一轮把它落成账面事实：用 positions 账本的份额口径记下这次换票多买到多少份，并在下一个决策 bar 用同一口径重新估值（折扣既不按价差重估，也不被当成已实现收益）",
+ "round_t1524_addendum": "| 2026-11-11 00:1x | 1524b | **ADDENDUM（收尾）：送达与两扫。** 轮提交 **e751554d61** 已落 origin/main（cc1ac4192c..e751554d61，11 件），fetch 后 **0 ahead / 0 behind**，`git ls-tree origin/main` 见 `scripts/etf_book_swap_effect.py`。**S0.5 二扫**：orders 114 件全在心跳 orders_ack（241 条），零未处理；集团 decisions blob sha256 **2ffcc70c** 与自持水位同值 → 零动作。**全量套件**：23:59 起跑在**改码后**的树上（pid 32052 存活），收轮时 **156 腿 / 0 FAIL** 仍在飞；本轮 3 条新腿的判据已单点实跑（票内嵌面 == 新鲜复算、页面含新节与「这两个数不能相加」、两行折扣值逐字印出）。**心跳 GPU 面**由单探针产能器重写（`Tools/gpu_face.py apply`，34 键自洽 findings=[]）——本轮没有手写任何 GPU 拼写。孤儿面 py_faces=9 orphans=0 零杀。"
 }
