@@ -7850,6 +7850,95 @@ def main() -> int:
     except Exception as e:
         check("product: the sheet prints what it pays and where that price sits in history",
               False, repr(e)[:160])
+    # ---- r1501: the sheet prints what the price did AFTER a reading like today's ----------
+    # r1500 answered the operator's question ("paying the 100th-percentile premium: then what?")
+    # in results/ only. The page now carries it per leg, priced on the ticket's own amounts.
+    # This leg re-derives every number from the forward face and demands ticket AND page carry
+    # it; a forward face that exists while the page says nothing, a page that prints the
+    # verdict found nowhere in the producer, and a leg present in the face but missing from
+    # the page all read red.
+    try:
+        _badf = []
+        _ffx = os.path.join(PATHS.results_dir, "etf_premium", "PREMIUM-FORWARD.json")
+        _hf = _tk99.get("premium") or {}
+        _mdf = _md99
+        if not os.path.exists(_ffx):
+            if "没有后续读数" not in _mdf:
+                _badf.append("the forward face is absent but the page does not say so")
+        else:
+            with open(_ffx, encoding="utf-8") as _fhf:
+                _ff = json.load(_fhf)
+            _hz = str(_ff.get("verdict_horizon"))
+            _flegs = {l.get("symbol"): l for l in
+                      (((_ff.get("horizons") or {}).get(_hz) or {}).get("legs") or [])
+                      if isinstance(l, dict)}
+            if _hf.get("fwd_status") != "produced":
+                _badf.append("the ticket carries no forward block")
+            if _hf.get("fwd_verdict") != _ff.get("verdict"):
+                _badf.append("the ticket's verdict is not the producer's")
+            if _ff.get("sentence") and _ff["sentence"] not in _mdf:
+                _badf.append("the producer's forward sentence is dropped or rewritten")
+            _secf = []
+            if "## 溢价读数" in _mdf:
+                _secf = _mdf.split("## 溢价读数", 1)[1].split("\n## ", 1)[0].splitlines()
+            # r1501: the premium section holds THREE tables with the same "| SYM |" prefix.
+            # Matching the first line that starts with the symbol compares the forward mean
+            # against the level table -- green for the wrong reason (r1499 family).
+            _fstart = next((i for i, ln in enumerate(_secf)
+                            if ln.startswith("| 代码 | 今日档位 |")), None)
+            if _fstart is None:
+                _secf = []
+                if _flegs:
+                    _badf.append("the forward table header is missing from the page")
+            else:
+                _secf = _secf[_fstart:]
+            _rowf = {r.get("symbol"): r for r in (_hf.get("fwd_rows") or [])
+                     if isinstance(r, dict)}
+            _nchk = 0
+            for _sf in _syms99:
+                _lf = _flegs.get(_sf)
+                if _lf is None:
+                    if _sf not in (_hf.get("fwd_missing_legs") or []):
+                        _badf.append("%s has no forward row and is not named" % _sf)
+                    continue
+                _nchk += 1
+                _bkt = _lf.get("latest_bucket")
+                _b = ((_lf.get("buckets") or {}).get(_bkt) or {})
+                _rf = _rowf.get(_sf)
+                if _rf is None:
+                    _badf.append("%s is in the face but not in the ticket" % _sf)
+                    continue
+                if _rf.get("bucket") != _bkt:
+                    _badf.append("%s bucket disagrees with its producer" % _sf)
+                if _b.get("mean_pct") is not None and (
+                        abs(float(_rf.get("mean_pct") or 0) - float(_b["mean_pct"])) > 1e-9):
+                    _badf.append("%s bucket mean disagrees with its producer" % _sf)
+                _linef = next((ln for ln in _secf if ln.startswith("| %s |" % _sf)), "")
+                if not _linef:
+                    _badf.append("%s is ordered but has no forward row on the page" % _sf)
+                    continue
+                if _b.get("mean_pct") is not None and (
+                        "%+.2f%%" % float(_b["mean_pct"])) not in _linef:
+                    _badf.append("%s forward mean is not printed" % _sf)
+                if _rf.get("amount_cny") is not None and (
+                        "{:,.0f}".format(float(_rf["amount_cny"])) not in _linef):
+                    _badf.append("%s amount is missing from the forward row" % _sf)
+                if _b.get("t") is not None and ("%+.1f" % float(_b["t"])) not in _linef:
+                    _badf.append("%s t is not printed" % _sf)
+            if _nchk == 0:
+                _badf.append("zero legs were checked (a green leg that examined nothing)")
+            if _hf.get("fwd_cny_total") is not None and (
+                    "{:+,.0f}".format(float(_hf["fwd_cny_total"])) not in _mdf):
+                _badf.append("the money total is not printed")
+            for _tokf in ("高溢价不是卖单", "PREMIUM-FORWARD.json"):
+                if _tokf not in _mdf:
+                    _badf.append("the page does not print %s" % _tokf)
+        check("product: the sheet prints what the price did after a reading like today's",
+              not _badf,
+              "; ".join(_badf)[:220] or "forward reading reached ticket and page")
+    except Exception as e:
+        check("product: the sheet prints what the price did after a reading like today's",
+              False, repr(e)[:160])
     # ---- r1247: the operator page says what the entry gate is the source of ---------------
     # The whole universe is picked by one number (a 20M median-turnover cut), and r1246 swept
     # it: return is flat across the sweep, width is not. This leg re-derives the verdict from

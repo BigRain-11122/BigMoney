@@ -58,3 +58,17 @@ r1499's leg examined zero symbols and passed). Falsified four ways: a bucket mea
 the published JSON, the verdict word hand-typed, the ticket absent (no CNY), and the
 percentile made non-causal — the first three turn `check` red, the fourth breaks selftest
 L8.
+
+## r1501 — 这张面现在印在票面上（2026-11-10）
+
+r1500 的收口句是「票面自己该印前向行」。落地：scripts/etf_book_order.py 读
+
+esults/etf_premium/PREMIUM-FORWARD.json（premium_read() 的 wd_* 块），ORDER 页在
+「溢价读数」节里多一张表，TICKET JSON 里同块给机器读者（wd_rows / wd_verdict /
+wd_horizon / wd_sentence / wd_cny_total / wd_missing_legs）。
+
+判据三件：①判词、原句、桶均值一律从生产者面读，禁手抄；②钱列 = 本单金额 × 同档历史前向均值，
+合计只把真取到的腿相加；③面缺/腿缺时页面必须写「还没被量过 / 请按没测读」，缺件禁读成「没什么事」。
+
+2026-11-09 票面读数：TOP 三条合计 −￥542、MID +￥394、LOW −￥505，全单 **−￥652**（判词 MIXED）。
+写在页面上的句子仍然只有一句结论：**这一列量的是价格，不是建议**。

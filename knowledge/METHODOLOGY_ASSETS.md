@@ -12391,3 +12391,34 @@ research/digests/DIGEST-20261110-r1499-premium-on-the-sheet.md。
 正身：scripts/etf_book_premium_forward.py（selftest 26/26 · check 5 腿 + 金额断言）+ results/
 etf_premium/PREMIUM-FORWARD.json + research/ETF_BOOK_PREMIUM_FORWARD.md + Tools/s6_chain_bmc.py 腿
 premium_forward + smoke_test.py 两条腿 + research/digests/DIGEST-20261110-r1500-premium-forward.md。
+
+
+### E509 · 同一页里三张同形表：按「第一个以该代码开头的行」取值，取到的是错的那张（r1501 bm-c）
+
+**事实**：r1500 把「付了高溢价之后价格怎么走」算成了一张面（PREMIUM-FORWARD.json），但只有
+打开 results/ 才看得到。本轮把它接进票面：ticket JSON 增 `premium.fwd_rows`，ORDER 页在溢价读数节
+里多一张表（代码 / 今日档位 / 该档过去 20 日均涨 / n / t / 非重叠观测 / 本单金额 / 同档折成钱）。
+
+写这条腿时立刻踩中 r1499 那颗雷的第三面：**溢价读数节里此时有三张表，每张的行都以「| 000000 |」
+开头**。`next(ln for ln in sec if ln.startswith("| %s |" % sym))` 取到的是**第一张**（电平表），
+于是拿前向均值去比电平表里的溢价 —— 每条腿都报「mean 未打印」，而这不是面错了，是尺子指错了表。
+修法=先定位**表头**（`| 代码 | 今日档位 |`），只在表头之后的行里匹配；表头找不到时（面有、页里
+没这张表）判红而不是静默跳过。
+
+**两律**：
+
+① **同形表必须按表头定位，不能按行首定位**——行首只说明「这是一行」，不说明「这是哪张表」。
+   这条对 md 渲染面普遍成立：票面里权重表/溢价表/前向表都是 `| SYM | ... |`。
+② **「表头找不到」要判红，不能退化成空集合**——空集合会让「面已经有了、页还没印」这种最该抓的
+   状态读成绿（r1371/r1499 的空转腿同族，这是第三现）。
+
+自检里用夹具钉住两向：表头在→逐腿三元对照（均值/金额/t 都在该腿自己的前向行里）；面缺→页面
+必须明说「还没被量过」，不能读成「没什么事」。
+
+**读数**（票面 2026-11-09，5 腿）：TOP 档三条（159501/513100/159577）20 日前向均值合计
+−￥542，MID 的 513690 +￥394，LOW 的 159263 −￥505，全单合计 **−￥652**；判词 MIXED 由生产者
+派生、页面原句照登。
+
+正身：scripts/etf_book_order.py（selftest 148/148，leg62-65 新）+ smoke_test.py 腿
+「the sheet prints what the price did after a reading like today's」+ results/etf_book_order/
+{TICKET,ORDER}-2026-11-09.* + research/digests/DIGEST-20261110-r1501-forward-on-the-sheet.md。

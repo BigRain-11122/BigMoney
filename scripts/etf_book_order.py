@@ -977,6 +977,7 @@ SWAP_STACK_FACE = "results/etf_book_swap_stack.json"
 POSITIONS_FACE = "results/etf_book_positions.json"
 PREMIUM_FACE = "results/etf_premium/PREMIUM-PERSISTENCE.json"   # r1499: the reading the sheet must print
 PREMIUM_PCT_FACE = "results/etf_premium/PREMIUM-PERCENTILE.json"   # r1499b: where today ranks in its own history
+PREMIUM_FORWARD_FACE = "results/etf_premium/PREMIUM-FORWARD.json"   # r1501: what the price did after such a reading
 
 
 def _json_face(rel, results_dir=None):
@@ -1321,9 +1322,48 @@ def premium_read(ticket, asof=None, results_dir=None):
     out = {"status": "missing", "face_asof": None, "stale": None, "rows": [],
            "lag_dominated": [], "unpriced": [], "missing_legs": [], "nav_lag_days": [],
            "pct_status": "missing", "pct_face_asof": None, "pct_stale": None,
-           "pct_missing_legs": [], "pct_sentence": None, "pct_revert_cny": None}
+           "pct_missing_legs": [], "pct_sentence": None, "pct_revert_cny": None,
+           "fwd_status": "missing", "fwd_face_asof": None, "fwd_stale": None,
+           "fwd_verdict": None, "fwd_horizon": None, "fwd_sentence": None,
+           "fwd_caveat": None, "fwd_rows": [], "fwd_missing_legs": [],
+           "fwd_cny_total": None}
     face = _premium_face(results_dir)
     pct = _premium_pct_face(results_dir)
+    fwd = _premium_forward_face(results_dir)
+    fwd_legs = {}
+    if fwd is not None:
+        out["fwd_status"] = "produced"
+        horizon = fwd.get("verdict_horizon")
+        out["fwd_horizon"] = horizon
+        out["fwd_face_asof"] = fwd.get("ticket_session")
+        out["fwd_stale"] = bool(asof and out["fwd_face_asof"]
+                               and str(asof) != str(out["fwd_face_asof"]))
+        out["fwd_verdict"] = fwd.get("verdict")
+        out["fwd_sentence"] = fwd.get("sentence")
+        out["fwd_caveat"] = fwd.get("caveat")
+        hz = (fwd.get("horizons") or {}).get(str(horizon)) or {}
+        fwd_legs = {l.get("symbol"): l for l in (hz.get("legs") or []) if isinstance(l, dict)}
+        _cny = 0.0
+        _cny_seen = False
+        for r in ((ticket or {}).get("order") or []):
+            sym = r.get("symbol")
+            l = fwd_legs.get(sym)
+            if l is None:
+                out["fwd_missing_legs"].append(sym)
+                continue
+            bucket = l.get("latest_bucket")
+            b = ((l.get("buckets") or {}).get(bucket) or {})
+            out["fwd_rows"].append({"symbol": sym, "bucket": bucket,
+                                    "latest_pctile": l.get("latest_pctile"),
+                                    "mean_pct": b.get("mean_pct"), "n": b.get("n"),
+                                    "t": b.get("t"),
+                                    "nonoverlap_obs": l.get("nonoverlap_obs"),
+                                    "amount_cny": l.get("amount_cny"),
+                                    "same_bucket_move_cny": l.get("same_bucket_past_move_cny")})
+            if l.get("same_bucket_past_move_cny") is not None:
+                _cny += float(l["same_bucket_past_move_cny"])
+                _cny_seen = True
+        out["fwd_cny_total"] = round(_cny, 2) if _cny_seen else None
     pct_legs = {}
     if pct is not None:
         out["pct_status"] = "produced"
@@ -1373,6 +1413,11 @@ def premium_read(ticket, asof=None, results_dir=None):
 def _premium_pct_face(results_dir=None):
     """r1499b: where today's premium ranks inside that fund's own disclosed-NAV history."""
     return _premium_face_file(PREMIUM_PCT_FACE, results_dir)
+
+
+def _premium_forward_face(results_dir=None):
+    """r1501: what happened to the price after a reading like today's, per leg."""
+    return _premium_face_file(PREMIUM_FORWARD_FACE, results_dir)
 
 
 def _pct_session(pct):
@@ -1450,6 +1495,40 @@ def premium_read_md(tk):
         L += ["- 分位与戳敏问的是两件事：一个问「在自己历史里排第几」，一个问「这个读数是不是净值戳造出来的」。"
               "**高分位不是卖单**：限购的基金可以常年溢价（本面不持有申购状态数据，限购假设未经证明）。",
               "- 尺子：收盘价 ÷ 最新已披露单位净值 − 1；盘中 IOPV（篮子估值）是另一把尺子，两个数并列不相加、不换算。"]
+    if tk.get("fwd_status") != "produced":
+        L += ["", "- **本单没有后续读数**：`%s` 未产出或读不出。缺这张面**不等于**「付高溢价之后没什么事」——"
+              "它只说明这条路还没被量过。" % PREMIUM_FORWARD_FACE]
+    else:
+        if tk.get("fwd_stale"):
+            L += ["", "- **后续面切的是 `%s`，不是本单的日子**：那一列只作参考。"
+                  % (tk.get("fwd_face_asof") or "?")]
+        if tk.get("fwd_rows"):
+            L += ["", "| 代码 | 今日档位 | 该档过去 %s 日后均涨 | 样本 n | t | 非重叠观测 | 本单金额 | 同档历史均值折成钱 |"
+                  % (tk.get("fwd_horizon") or "?"),
+                  "|---|---|---|---|---|---|---|---|"]
+            for r in tk["fwd_rows"]:
+                L.append("| %s | %s | %s | %s | %s | %s | %s | %s |"
+                         % (r["symbol"], r.get("bucket") or "?",
+                            _pp(r.get("mean_pct")),
+                            "-" if r.get("n") is None else "%d" % int(r["n"]),
+                            "-" if r.get("t") is None else "%+.1f" % float(r["t"]),
+                            "-" if r.get("nonoverlap_obs") is None else "%d" % int(r["nonoverlap_obs"]),
+                            "-" if r.get("amount_cny") is None else "{:,.0f}".format(float(r["amount_cny"])),
+                            "-" if r.get("same_bucket_move_cny") is None
+                            else "{:+,.0f}".format(float(r["same_bucket_move_cny"]))))
+        if tk.get("fwd_cny_total") is not None:
+            L += ["", "- 本单只要能取到的 leg 同档历史均值折成钱合计 **￥%s**——这是这些 leg 在**同样档位**下过去 %s 日的平均表现，"
+                  "乘的是**本单的金额**，不是预测、不是止损线、也不是「该不该买」的答案。"
+                  % ("{:+,.0f}".format(float(tk["fwd_cny_total"])), tk.get("fwd_horizon") or "?")]
+        if tk.get("fwd_missing_legs"):
+            L += ["- **本单买了 %s，但后续面里没有它** —— 那不是「历史无异常」，是没测。"
+                  % "、".join(tk["fwd_missing_legs"])]
+        if tk.get("fwd_sentence"):
+            L += ["- 生产者原句（判词 **%s**，窗口 %s 日）：%s"
+                  % (tk.get("fwd_verdict") or "?", tk.get("fwd_horizon") or "?", tk["fwd_sentence"])]
+        L += ["- **这一列量的是价格，不是建议**：高溢价不是卖单（限购基金可常年溢价），"
+              "低分位也不是买点；本面只回答「上一次有人在这个价位买，之后价格怎么走」。",
+              "- 出处：`%s`（scripts/etf_book_premium_forward.py 单一生产者）。" % PREMIUM_FORWARD_FACE]
     lagged = tk.get("lag_dominated") or []
     if lagged:
         L += ["", "- **%d 只（%s）今日的读数随 NAV 戳动多于它自己印出来的溢价** —— "
@@ -5158,6 +5237,55 @@ def selftest():
             and "没有分位读数" in _md5 and "未知" in _md5
             and _pr5["rows"][0]["rank"] is None,
             "pct_status=%s" % _pr5["pct_status"])
+        # leg62-65 (r1501): the forward reading r1500 built -- what the price did AFTER a
+        # reading like today's -- reached results/ only; the sheet now prints it per leg.
+        _fwd_face = {"ticket_session": "2026-11-09", "verdict": "MIXED", "verdict_horizon": 20,
+                     "sentence": "rank-IC -0.133 (5 legs)",
+                     "caveat": "description, not a forecast",
+                     "horizons": {"20": {"legs": [
+                         {"symbol": "AAA", "latest_bucket": "TOP", "latest_pctile": 99.8,
+                          "nonoverlap_obs": 13, "amount_cny": 235616.0,
+                          "same_bucket_past_move_cny": -542.0,
+                          "buckets": {"TOP": {"n": 124, "mean_pct": -0.95, "t": -2.6}}},
+                         {"symbol": "BBB", "latest_bucket": "LOW", "latest_pctile": 17.0,
+                          "nonoverlap_obs": 30, "amount_cny": 78522.0,
+                          "same_bucket_past_move_cny": 382.2,
+                          "buckets": {"LOW": {"n": 60, "mean_pct": 0.49, "t": 1.6}}}]}}}
+        with open(os.path.join(_td, "PREMIUM-FORWARD.json"), "w",
+                  encoding="utf-8") as _f:
+            json.dump(_fwd_face, _f, ensure_ascii=False)
+        _pr6 = premium_read(_tk2, "2026-11-09", results_dir=_td)
+        _md6 = "\n".join(premium_read_md(_pr6))
+        chk("leg62 the sheet prints what the price did after a reading like today's",
+            _pr6["fwd_status"] == "produced" and len(_pr6["fwd_rows"]) == 2
+            and _pr6["fwd_rows"][0]["bucket"] == "TOP"
+            and abs(_pr6["fwd_rows"][0]["t"] + 2.6) < 1e-9
+            and _pr6["fwd_rows"][0]["n"] == 124 and _pr6["fwd_stale"] is False
+            and "-0.95%" in _md6,
+            "rows=%d" % len(_pr6["fwd_rows"]))
+        chk("leg63 the verdict and the sentence are the producer's, and the money column is CNY",
+            _pr6["fwd_verdict"] == "MIXED" and "rank-IC -0.133" in _md6
+            and _pr6["fwd_cny_total"] is not None
+            and abs(_pr6["fwd_cny_total"] - (-542.0 + 382.2)) < 0.01
+            and "-542" in _md6 and "235,616" in _md6,
+            "cny=%s" % _pr6["fwd_cny_total"])
+        _pr7 = premium_read({"order": [{"symbol": "AAA"}, {"symbol": "ZZZ"}]},
+                            "2026-11-10", results_dir=_td)
+        _md7 = "\n".join(premium_read_md(_pr7))
+        chk("leg64 a leg with no forward row is named, and a stale forward face says so",
+            _pr7["fwd_missing_legs"] == ["ZZZ"] and "没测" in _md7
+            and _pr7["fwd_stale"] is True and "后续面切的是" in _md7,
+            "missing=%s stale=%s" % (_pr7["fwd_missing_legs"], _pr7.get("fwd_stale")))
+        with tempfile.TemporaryDirectory() as _nofwd:
+            with open(os.path.join(_nofwd, "PREMIUM-PERSISTENCE.json"), "w",
+                      encoding="utf-8") as _f:
+                json.dump(_face, _f, ensure_ascii=False)
+            _pr8 = premium_read(_tk2, "2026-11-09", results_dir=_nofwd)
+            _md8 = "\n".join(premium_read_md(_pr8))
+        chk("leg65 a missing forward face says 'not measured yet', never 'nothing happened'",
+            _pr8["fwd_status"] == "missing" and "还没被量过" in _md8
+            and _pr8["fwd_cny_total"] is None,
+            "fwd_status=%s" % _pr8["fwd_status"])
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

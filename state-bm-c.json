@@ -1,11 +1,11 @@
 {
- "activity_now": "r1499: the premium reading reached the sheet -- and the first leg written to check it was empty (no `order` key on the ticket, and every table on the page starts with the same `| SYM |`)",
+ "activity_now": "r1501: the forward reading (what the price did after a reading like today's) reached the sheet -- and the leg written to check it matched the wrong table",
  "agenda_starved": false,
  "ahead_origin": 0,
  "behind_origin": 0,
  "busy": false,
- "chain": "S6 full chain launched 00:43 (pid 71124 -> results/_s6chain_r1483.out): 31 legs all rc0 when this window closed, still running through the heavy 60-90s legs; record written by the runner at the end (results/_r1483bmc_s6_chain.json)",
- "clock_read": "2026-11-10T09:29:03+08:00",
+ "chain": "single legs only this round (etf_book_order run + selftest); full smoke running as pid 67196 -> logs/_smoke_r1501.out",
+ "clock_read": "2026-11-10T10:09:35+08:00",
  "codely_live_count": 2,
  "comfy_free_vram_mb": 14015,
  "cores": 32,
@@ -13,11 +13,11 @@
  "cpu_idle_pct": 92.7,
  "cpu_pct": 11.1,
  "cpu_util_pct": 30.0,
- "current": "r1499: the premium reading reached the sheet -- and the first leg written to check it was empty (no `order` key on the ticket, and every table on the page starts with the same `| SYM |`)",
- "current_task": "r1499 closeout",
- "current_task_at": "2026-11-10T09:29:03+08:00",
- "current_task_short": "premium on the sheet",
- "current_task_ts": "2026-11-10T09:29:03+08:00",
+ "current": "r1501: the forward reading (what the price did after a reading like today's) reached the sheet -- and the leg written to check it matched the wrong table",
+ "current_task": "r1501 closeout",
+ "current_task_at": "2026-11-10T10:09:35+08:00",
+ "current_task_short": "forward reading on the sheet",
+ "current_task_ts": "2026-11-10T10:09:35+08:00",
  "d19_watermark_guard": {
   "advance": true,
   "method_decisions": "sha256",
@@ -803,7 +803,7 @@
  "ram_total_gb": 23.9,
  "recent_artifact": "scripts/update_minute_feed.py (_session_coverage) + research/digests/DIGEST-20261110-r1495-zero-append-not-success.md",
  "round": 1499,
- "round_no": 1499,
+ "round_no": 1501,
  "round_no_label": "1499",
  "round_no_landed": 1492,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -963,5 +963,10 @@
  "r1498_closeout_note": "premium persistence face: standing level vs NAV-stamp artifact on the 5 ticket legs; products verdict TODAYS_PREMIUM_IS_A_CONVENTION; the previous round's next-step named a subscription-status column that does not exist -- verified absent before building",
  "round_t1499_note": "The two premium producers (r1497 percentile, r1498 persistence) answered only inside results/. r1499 cuts both to this sheet's legs and prints them; ticket JSON carries the same block so a machine reader need not scrape markdown. The first smoke leg for it passed while examining zero symbols: the persisted ticket has no top-level `order` (it lives at ticket.order) and every table on the page opens with `| SYM |`, so a global prefix match read the WEIGHT column against the premium. Fixed by asserting n>0 and matching only inside the premium section; card E507.",
  "round_t1499_smoke": "NOT claimed green: two full suites from dead windows were still running on this tree when the round opened (pid 66648 since 08:47 / 72760 since 09:00, parents dead, CPU progressing -> r340 activity law says leave them). Only the new leg was run (slice harness) plus py_compile.",
- "round_t1500_note": "r1500 PRODUCT round. r1497 gave the sheet 'how high', r1498 'is it real', and the page then printed 'high percentile is not a sell order' -- honest, but it left the operator's own question open: if I pay the 100th-percentile premium, what did the PRICE do next in this fund's record? Built from the panel already on disk (premium_history.csv: date/symbol/close/nav/premium): causal percentile (prior sessions only, >=60 priors), outcome = close[t+h]/close[t]-1 for h=5/20, buckets BOTTOM/LOW/MID/UPPER/TOP, t on NON-OVERLAPPING stride-h samples. FINDING: pooled rank IC -0.133 at 20 sessions; one leg prints a real penalty (159577 -0.95%, t=-2.6), the leg paying today's largest premium prints none (159501 +0.49%, t=+1.6) -> verdict MIXED derived from the table, not typed. Money column = ticket amount x same-bucket historical forward mean: three TOP legs sum to about -542 CNY of historical drift on 235,616 CNY. SECOND DEFECT FOUND BY BUILDING IT: the ticket rows live at ticket.order with key 'amount', so the first read produced a percent-only face -- a second copy of the two rulers it was meant to go beyond; check now fails when zero legs carry CNY (r1499's empty-list leg family). THIRD: overlapping windows repeat one move h times, so the t-stat is taken on stride-h samples and the overlapping count is coverage only. NOT VERIFIED: full smoke (492 legs, hours) -- only the new S6 leg and both new smoke legs' targets were executed. S6: dualrun ZERO-DRIFT 744 entries streak 51; compute_audit FLAG pool_starvation+supply_floor (structural AGENDA_DEBT, 4 calendar candidates none passes); watermark py_low_board_clear; update_daily rc0 0 new rows cutoff 2026-11-09; attrition guard CLEAN. S7: loop pin 5 OK; watchdog re-registered, S4U flip refused (needs admin) -> LogonType face still open; both claws reinstalled. S0.5: 114 orders all acked; decisions sha unchanged -> zero action; orphan probe py_faces 7 orphans 0."
+ "round_t1500_note": "r1500 PRODUCT round. r1497 gave the sheet 'how high', r1498 'is it real', and the page then printed 'high percentile is not a sell order' -- honest, but it left the operator's own question open: if I pay the 100th-percentile premium, what did the PRICE do next in this fund's record? Built from the panel already on disk (premium_history.csv: date/symbol/close/nav/premium): causal percentile (prior sessions only, >=60 priors), outcome = close[t+h]/close[t]-1 for h=5/20, buckets BOTTOM/LOW/MID/UPPER/TOP, t on NON-OVERLAPPING stride-h samples. FINDING: pooled rank IC -0.133 at 20 sessions; one leg prints a real penalty (159577 -0.95%, t=-2.6), the leg paying today's largest premium prints none (159501 +0.49%, t=+1.6) -> verdict MIXED derived from the table, not typed. Money column = ticket amount x same-bucket historical forward mean: three TOP legs sum to about -542 CNY of historical drift on 235,616 CNY. SECOND DEFECT FOUND BY BUILDING IT: the ticket rows live at ticket.order with key 'amount', so the first read produced a percent-only face -- a second copy of the two rulers it was meant to go beyond; check now fails when zero legs carry CNY (r1499's empty-list leg family). THIRD: overlapping windows repeat one move h times, so the t-stat is taken on stride-h samples and the overlapping count is coverage only. NOT VERIFIED: full smoke (492 legs, hours) -- only the new S6 leg and both new smoke legs' targets were executed. S6: dualrun ZERO-DRIFT 744 entries streak 51; compute_audit FLAG pool_starvation+supply_floor (structural AGENDA_DEBT, 4 calendar candidates none passes); watermark py_low_board_clear; update_daily rc0 0 new rows cutoff 2026-11-09; attrition guard CLEAN. S7: loop pin 5 OK; watchdog re-registered, S4U flip refused (needs admin) -> LogonType face still open; both claws reinstalled. S0.5: 114 orders all acked; decisions sha unchanged -> zero action; orphan probe py_faces 7 orphans 0.",
+ "orphan_face_probe": {
+  "py_faces": 5,
+  "orphans": 0,
+  "report": "results/_orphan_face_probe.bm-c.json"
+ }
 }
