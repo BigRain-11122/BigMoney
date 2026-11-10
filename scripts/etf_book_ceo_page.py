@@ -1454,6 +1454,124 @@ def floor_provenance_block(fp, vt=None, page_bar=None):
     return L
 
 
+def executed_face(ticket=None):
+    """What today's ticket did to the account, from the stack it was netted through.
+
+    The order sheet is the pre-trade target; the account is what came out the other side.
+    Without this face the two tables contradict each other by a leg and nothing on the page
+    says which one is stale (r1506: five rows on the sheet, four legs in the account)."""
+    ticket = ticket or {}
+    ss = ticket.get("swap_stack") or {}
+    pos = ticket.get("positions") or {}
+    actions = []
+    src = None
+    for a in (ss.get("actions") or []):
+        actions.append({"side": a.get("side"), "symbol": a.get("symbol"),
+                        "lots": a.get("lots"), "price": a.get("price"),
+                        "amount_cny": a.get("amount_cny"), "why": a.get("why"),
+                        "priced": a.get("price") is not None})
+        src = src or "swap_stack"
+    if not actions:
+        # the ledger row carries sides and lot counts only -- no prices, so it can name the
+        # trades but never their money. Carry that honestly instead of dropping the face.
+        for a in ((pos.get("ledger_row") or {}).get("actions") or []):
+            actions.append({"side": a.get("side"), "symbol": a.get("symbol"),
+                            "lots": a.get("lots"), "price": None,
+                            "amount_cny": None, "why": None, "priced": False})
+            src = src or "ledger_row"
+    if not actions:
+        return {"status": "none",
+                "detail": "这张票没有留下成交行（空票或本 bar 未换仓）"}
+    sold = sum(a["amount_cny"] or 0.0 for a in actions
+               if (a["side"] or "").upper() == "SELL")
+    bought = sum(a["amount_cny"] or 0.0 for a in actions
+                 if (a["side"] or "").upper() == "BUY")
+    return {
+        "status": "ok",
+        "source": src,
+        "asof": ss.get("asof") or ticket.get("as_of"),
+        "verdict": ss.get("verdict"),
+        "actions": actions,
+        "priced": all(a["priced"] for a in actions),
+        "sold_cny": sold,
+        "bought_cny": bought,
+        "lot_residue_cny": ss.get("lot_residue_cny"),
+        "risk_book_before_cny": ss.get("risk_book_before_cny"),
+        "risk_book_after_cny": ss.get("risk_book_after_cny"),
+        "holdings_after": ss.get("holdings_after") or [],
+    }
+
+
+def executed_block(ex, sheet_symbols=None):
+    """The lines that reconcile the sheet above with the legs the account actually holds."""
+    L = []
+    add = L.append
+    add("## 这张票在账本里实际成交了什么")
+    add("")
+    ex = ex or {}
+    if ex.get("status") != "ok":
+        add("这张票读不到成交行（%s）——**所以上面那张清单和账上的持仓差在哪，本页说不出**；"
+            "别把「没印出来」读成「没有成交」。" % (ex.get("detail") or "无读数"))
+        add("")
+        return L
+    acts = ex.get("actions") or []
+    sheet = [q for q in (sheet_symbols or []) if q]
+    after = [h.get("symbol") for h in (ex.get("holdings_after") or []) if h.get("symbol")]
+    if sheet and after:
+        gone = [q for q in sheet if q not in after]
+        new = [q for q in after if q not in sheet]
+        if gone or new:
+            add("**上面那张 %d 行清单是换仓前的票面；账本在 %s 这根 bar 上把它换成了 %d 只。**"
+                % (len(sheet), ex.get("asof") or "—", len(after)))
+            add("")
+            add("- 清单里有、账上没有：%s。" % ("、".join(gone) if gone else "无"))
+            add("- 账上有、清单里没有：%s。" % ("、".join(new) if new else "无"))
+        else:
+            add("**上面那张清单和账本的持仓是同一批票（%d 只）**，今天这一根 bar 只改了份数，没换票。"
+                % len(after))
+        add("")
+    if ex.get("priced"):
+        add("| 方向 | 代码 | 份 | 参考价 | 金额 |")
+        add("|---|---|---|---|---|")
+        for a in acts:
+            side = (a.get("side") or "").upper()
+            side_zh = "卖出" if side == "SELL" else ("买入" if side == "BUY" else (a.get("side") or "—"))
+            add("| %s | %s | %s | %s | ￥%s |"
+                % (side_zh, a.get("symbol"), format(a.get("lots") or 0, ","), a.get("price"),
+                   format(a.get("amount_cny") or 0.0, ",.0f")))
+        add("")
+        net = (ex.get("bought_cny") or 0.0) - (ex.get("sold_cny") or 0.0)
+        add("- 买入 ￥%s、卖出 ￥%s，净现金%s ￥%s。"
+            % (format(ex.get("bought_cny") or 0.0, ",.0f"),
+               format(ex.get("sold_cny") or 0.0, ",.0f"),
+               "流出" if net >= 0 else "流入", format(abs(net), ",.0f")))
+        if ex.get("lot_residue_cny"):
+            add("- 手数取整留下 ￥%s 没投出去——不是成本，是没有整份可买。"
+                % format(ex.get("lot_residue_cny") or 0.0, ",.2f"))
+        whys = [a.get("why") for a in acts if a.get("why")]
+        if whys:
+            add("- 换的理由（票内原文）：%s。" % "；".join(whys))
+        b0, b1 = ex.get("risk_book_before_cny"), ex.get("risk_book_after_cny")
+        if b0 is not None and b1 is not None:
+            add("- 风险腿 ￥%s → ￥%s（差 ￥%s 就是上面那笔取整残留）。"
+                % (format(b0, ",.0f"), format(b1, ",.0f"), format(b0 - b1, ",.2f")))
+    else:
+        add("- 只有手数，没有价：这张票的成交行（`%s`）不带价格，**所以这一节说不出花了多少钱**——"
+            "手数不是金额。" % (ex.get("source") or "ledger"))
+        add("")
+        add("| 方向 | 代码 | 份 |")
+        add("|---|---|---|")
+        for a in acts:
+            side = (a.get("side") or "").upper()
+            side_zh = "卖出" if side == "SELL" else ("买入" if side == "BUY" else (a.get("side") or "—"))
+            add("| %s | %s | %s |" % (side_zh, a.get("symbol"), format(a.get("lots") or 0, ",")))
+    add("")
+    add("- 这不是第二条建议：它是同一张单的执行结果，所以「账上持有 %s 只」和上面那张清单不是矛盾，是先后。"
+        % (len(after) if after else "—"))
+    add("")
+    return L
+
+
 def positions_face(path=POSITIONS_JSON):
     """What the account itself holds, from the book's own sheet (r1470).
 
@@ -2564,6 +2682,18 @@ def capital_face(path=MIN_CAPITAL_JSON):
                 return {"status": "drifted", "artifact": _rel(path, ROOT),
                         "detail": "the %s neutral NAV disagrees with its own traded-leg median" % tag,
                         "published": got, "recomputed": round(want, 2)}
+        # (r1506) the delivered-rate column is the SAME closed form read at the rate the
+        # card configures. If it no longer recomputes from its own median leg, this page
+        # would print a threshold belonging to no book -- refuse rather than print.
+        dlv_bp = cfg.get("base_bp_delivered")
+        dlv_nav = d.get("fee_neutral_vs_delivered_nav")
+        if dlv_bp is not None and dlv_nav is not None:
+            want_d = MC.neutral_nav(dw, dlv_bp, sched.get("min_fee_cny"))
+            if abs(dlv_nav - want_d) > 0.02:
+                return {"status": "drifted", "artifact": _rel(path, ROOT),
+                        "detail": "the delivered-rate neutral NAV disagrees with its own "
+                                  "traded-leg median",
+                        "published": dlv_nav, "recomputed": round(want_d, 2)}
         primary = [r for r in ladder if r.get("schedule") == sched.get("name")]
         want_v = MC._verdict(primary, model, real,
                              (min(cfg.get("capital_grid") or [0]),
@@ -2621,6 +2751,13 @@ def capital_face(path=MIN_CAPITAL_JSON):
             "ladder_dw_median": cfg.get("dw_median_all_legs"),
             "ladder_dw_mean": cfg.get("dw_mean_all_legs"),
             "base_bp": cfg.get("base_bp_published"),
+            "delivered_bp": dlv_bp,
+            "delivered_rate_source": cfg.get("delivered_rate_source"),
+            "delivered_rate_check": cfg.get("delivered_rate_check"),
+            "delivered_nav": dlv_nav,
+            "delivered_nav_mean_leg": d.get("fee_neutral_vs_delivered_nav_mean_leg"),
+            "delivered_verdict": d.get("verdict_delivered"),
+            "delivered_rate_note": d.get("delivered_rate_note"),
             "prop_bp": sched.get("prop_bp"),
             "min_fee_cny": sched.get("min_fee_cny"),
             "schedule": sched.get("name"),
@@ -2641,6 +2778,7 @@ def capital_face(path=MIN_CAPITAL_JSON):
                          "dw_mean": r.get("dw_mean"),
                          "model_nav": r.get("fee_neutral_vs_model_nav"),
                          "model_nav_mean_leg": r.get("fee_neutral_vs_model_nav_mean_leg"),
+                         "delivered_nav": r.get("fee_neutral_vs_delivered_nav"),
                          "real_nav": r.get("fee_neutral_vs_real_nav")}
                         for r in wrows],
             "width_verdict": want_xv if xrows else "WIDTH_UNMEASURED",
@@ -2651,6 +2789,7 @@ def capital_face(path=MIN_CAPITAL_JSON):
                         "names_median": r.get("names_median"),
                         "dw_median": r.get("dw_median"),
                         "model_nav": r.get("fee_neutral_vs_model_nav"),
+                        "delivered_nav": r.get("fee_neutral_vs_delivered_nav"),
                         "cagr_8bp": r.get("cagr_8bp")}
                        for r in xrows],
             "delivered_n_hold": _delivered_names(),
@@ -2659,6 +2798,10 @@ def capital_face(path=MIN_CAPITAL_JSON):
             "ticket_model_nav": (next((r.get("fee_neutral_vs_model_nav") for r in xrows
                                        if r.get("n_hold") == _tk_w), None)
                                  if _tk_w is not None else None),
+            # (r1506) the sheet on the table must be priced in the rate the sheet pays
+            "ticket_delivered_nav": (next((r.get("fee_neutral_vs_delivered_nav") for r in xrows
+                                           if r.get("n_hold") == _tk_w), None)
+                                     if _tk_w is not None else None),
             "ticket_narrower_than_path": (None if (_tk_w is None or not wid.get("published_path_width"))
                                           else (_tk_w != wid.get("published_path_width"))),
             "width_mismatch": (None if (_delivered_names() is None
@@ -2712,7 +2855,7 @@ def _ticket_width():
 
 def capital_block(cf):
     L = []
-    L.append("## 要用多少钱，才谈得上「8bp 每边」？")
+    L.append("## 要用多少钱，才谈得上「这本书自己的每边成本」？")
     L.append("")
     if cf.get("status") != "ok":
         L.append("**这一问现在答不了。** 证据件缺席，或者它已经对不上自己的行（%s）。"
@@ -2721,12 +2864,31 @@ def capital_block(cf):
         return L
     model_nav = cf.get("model_nav") or 0.0
     real_nav = cf.get("real_nav") or 0.0
-    L.append("这本书的每一处成本都按 **%g bp 每边**算（外加冲击项）。费率是一个比例，没有地板；"
-             "真实券商的佣金有 **每笔最少 %g 元**。一次换手里每个名字只动账户的 **%.2f%%**，"
-             "所以账户越小，那 5 元越像一张固定门票。"
-             % (cf.get("base_bp") or 0.0, cf.get("min_fee_cny") or 0.0,
-                100.0 * (cf.get("dw_median") or 0.0)))
+    _bp_shelf = cf.get("base_bp") or 0.0
+    _bp_dlv = cf.get("delivered_bp")
+    _two_rates = bool(_bp_dlv) and abs(float(_bp_dlv) - _bp_shelf) > 1e-9
+    L.append("费率是一个比例，没有地板；真实券商的佣金有 **每笔最少 %g 元**。"
+             "一次换手里每个名字只动账户的 **%.2f%%**，所以账户越小，那 5 元越像一张固定门票。"
+             % (cf.get("min_fee_cny") or 0.0, 100.0 * (cf.get("dw_median") or 0.0)))
     L.append("")
+    if _two_rates:
+        _agree = (cf.get("delivered_rate_check") or {}).get("agree")
+        L.append("**这一节有两把尺子，先说清楚哪把是你手上的。** 这张要下的单按 **%g bp 每边**算"
+                 "（读自卡片自己的 `cost_bp_per_side`，与票据引擎%s）；本页别处的历史年化仍按 "
+                 "**%g bp** 算——那是这张货架上已发表数字的口径，不改。下面两个门槛并列印，"
+                 "**不许相加、不许互相替代**：你手上这本要过的是 **%g bp 那一行**。"
+                 % (_bp_dlv, {True: "一致", False: "**不一致**（两处已如实标注，不替它们选边）",
+                              None: "无法交叉核对"}[_agree], _bp_shelf, _bp_dlv))
+        L.append("")
+        if cf.get("delivered_nav"):
+            L.append("> 你手上这本的门槛（**%g bp**）是 **%.0f 元**；货架口径（%g bp）是 %.0f 元。"
+                     "两个数并列，下面是它们各自怎么来的。"
+                     % (_bp_dlv, cf["delivered_nav"], _bp_shelf, model_nav))
+            L.append("")
+    else:
+        L.append("这本书的每一处成本都按 **%g bp 每边**算（外加冲击项），与卡片配置是同一把尺子。"
+                 % _bp_shelf)
+        L.append("")
     _lad_w = cf.get("ladder_n_hold")
     if cf.get("ladder_n_hold_source") == "production_card":
         L.append("**下面的门槛是按 %s 名的篮子算的**（宽度取自卡片本身，"
@@ -2737,16 +2899,27 @@ def capital_block(cf):
                  "退回引擎默认——换言之它未必是你在持的那本，先看宽度表再引用。"
                  % (_lad_w if _lad_w is not None else "？"))
     L.append("")
-    L.append("- **低于约 %.0f 元**：5 元地板压过 %g bp，模型比真实便宜——"
-             "%.0f 元账户的年化只剩 **%.2f%%**（同一路径、同一冲击项，按 8bp 算是 **%.2f%%**），"
+    if _two_rates and cf.get("delivered_nav"):
+        L.append("- **（你手上这本，%g bp）低于约 %.0f 元**：5 元地板就压过 %g bp，模型比真实便宜。"
+                 "费率越高、地板越早松手（闭式解 = 10000 × 5 元 ÷（费率 × 换手）），"
+                 "所以它比货架口径的 %.0f 元低 **%.1f%%**——以前这一行印的是货架的数，"
+                 "会把「要多大的账户」说得偏大。"
+                 % (_bp_dlv, cf["delivered_nav"], _bp_dlv, model_nav,
+                    (100.0 * (model_nav - cf["delivered_nav"]) / model_nav)
+                    if model_nav else 0.0))
+    L.append("- **（货架口径 %g bp）低于约 %.0f 元**：5 元地板压过 %g bp，模型比真实便宜——"
+             "%.0f 元账户的年化只剩 **%.2f%%**（同一路径、同一冲击项，按 %g bp 算是 **%.2f%%**），"
              "全窗佣金 **%.0f 元**，相当于把起始本金吃掉一大块。"
-             % (model_nav, cf.get("base_bp") or 0.0, cf.get("small_capital") or 0.0,
-                100.0 * (cf.get("small_cagr") or 0.0),
+             % (_bp_shelf, model_nav, _bp_shelf, cf.get("small_capital") or 0.0,
+                100.0 * (cf.get("small_cagr") or 0.0), _bp_shelf,
                 100.0 * (cf.get("small_ref_cagr") or 0.0), cf.get("small_fee_cny") or 0.0))
     L.append("- **高于约 %.0f 元**：地板不再咬人，而万 %g 只有 %g bp——"
-             "这时是 **8bp 假设自己在多收钱**，同一个算术反向成立（%.0f 元账户 **%+.2f pp/年** 之差）。"
+             "这时是 **%g bp 假设自己在多收钱**，同一个算术反向成立（%.0f 元账户 **%+.2f pp/年** 之差）。"
+             "这一行与上面的费率无关：两边比的是券商价与 %g bp，地板早就退场了。"
              % (real_nav, cf.get("prop_bp") or 0.0, cf.get("prop_bp") or 0.0,
-                cf.get("big_capital") or 0.0, cf.get("big_delta_pp") or 0.0))
+                _bp_dlv if _two_rates else _bp_shelf,
+                cf.get("big_capital") or 0.0, cf.get("big_delta_pp") or 0.0,
+                _bp_dlv if _two_rates else _bp_shelf))
     L.append("")
     spread = cf.get("window_spread_pct")
     if cf.get("window_verdict") == "BREAKEVEN_WINDOW_STABLE":
@@ -2754,12 +2927,13 @@ def capital_block(cf):
                  % (spread or 0.0, cf.get("window_tol_pct") or 0.0))
     elif spread is not None:
         L.append("**不过它不是一个常数。** 门槛是「平均每个仓位动多少」的闭式解，而那个数由样本决定："
-                 "同一套规则在三个样本上分别是 %s，极差 **%.1f%%**（冻结容差 %g%%）——"
+                 "同一套规则在三个样本上分别是 %s，极差 **%.1f%%**（冻结容差 %g%%，按货架口径算）——"
                  "所以「至少要 %.0f 元」是**这段行情**的说法，不是这条策略的常数。"
                  % ("、".join("%.0f 元（%s）" % (w.get("model_nav") or 0.0,
                                                 str(w.get("window") or "").replace("_", " "))
                               for w in cf.get("windows") or [] if w.get("model_nav") is not None),
-                    spread, cf.get("window_tol_pct") or 0.0, model_nav))
+                    spread, cf.get("window_tol_pct") or 0.0,
+                    (cf.get("delivered_nav") if _two_rates else model_nav) or 0.0))
         # if the median reading is being carried by a degenerate leg, say what the
         # amount-weighted reading says about the SAME samples, through the same rule
         _mv = [{"window": w.get("window"),
@@ -2775,15 +2949,18 @@ def capital_block(cf):
                          % ("、".join("%.0f 元" % r["fee_neutral_vs_model_nav"] for r in _mv),
                             _msp))
     L.append("")
-    L.append("| 样本 | 起 | 止 | 平均每仓位换手 | 8bp 与券商费率的平衡点 | 8bp 与万%g 的平衡点 |"
-             % (cf.get("prop_bp") or 0.0))
-    L.append("|---|---|---|---|---|---|")
+    L.append("| 样本 | 起 | 止 | 平均每仓位换手 | %gbp 与券商费率的平衡点 | %gbp 与万%g 的平衡点 |"
+             % (_bp_shelf, _bp_shelf, cf.get("prop_bp") or 0.0)
+             + (" %gbp 平衡点（你手上这本） |" % _bp_dlv if _two_rates else ""))
+    L.append("|---|---|---|---|---|---|" + ("---|" if _two_rates else ""))
     for w in cf.get("windows") or []:
-        L.append("| %s | %s | %s | %.2f%% | %s | %s |"
+        L.append("| %s | %s | %s | %.2f%% | %s | %s |%s"
                  % (str(w.get("window") or "").replace("_", " "), w.get("first_bar"),
                     w.get("last_bar"), 100.0 * (w.get("dw_median") or 0.0),
                     ("%.0f 元" % w["model_nav"]) if w.get("model_nav") is not None else "-",
-                    ("%.0f 元" % w["real_nav"]) if w.get("real_nav") is not None else "-"))
+                    ("%.0f 元" % w["real_nav"]) if w.get("real_nav") is not None else "-",
+                    (((" %.0f 元 |" % w["delivered_nav"]) if w.get("delivered_nav") is not None
+                      else " - |") if _two_rates else "")))
     # (r1241) the window table has two honest readings: the median leg (what the typical
     # single trade is worth -- where a per-trade floor bites hardest) and the mean leg
     # (amount-weighted -- what the account actually pays). In a thin universe they can be
@@ -2827,15 +3004,19 @@ def capital_block(cf):
                         ("%.0f 元" % _hit["model_nav"]) if _hit.get("model_nav") is not None
                         else "（未扫到该宽度）"))
             L.append("")
-        L.append("| 篮子宽度 | 实际持名（中位） | 平均每仓位换手 | 8bp 平衡点 | 8bp 下年化 |")
-        L.append("|---|---|---|---|---|")
+        L.append("| 篮子宽度 | 实际持名（中位） | 平均每仓位换手 | %gbp 平衡点 | %gbp 下年化 |"
+                 % (_bp_shelf, _bp_shelf)
+                 + (" %gbp 平衡点（你手上这本） |" % _bp_dlv if _two_rates else ""))
+        L.append("|---|---|---|---|---|" + ("---|" if _two_rates else ""))
         for w in wid_rows:
-            L.append("| %s 名 | %s | %.2f%% | %s | %s |"
+            L.append("| %s 名 | %s | %.2f%% | %s | %s |%s"
                      % (w.get("n_hold"),
                         ("%.1f" % w["names_median"]) if w.get("names_median") is not None else "-",
                         100.0 * (w.get("dw_median") or 0.0),
                         ("%.0f 元" % w["model_nav"]) if w.get("model_nav") is not None else "-",
-                        ("%.2f%%" % (100.0 * w["cagr_8bp"])) if w.get("cagr_8bp") is not None else "-"))
+                        ("%.2f%%" % (100.0 * w["cagr_8bp"])) if w.get("cagr_8bp") is not None else "-",
+                        (((" %.0f 元 |" % w["delivered_nav"]) if w.get("delivered_nav") is not None
+                          else " - |") if _two_rates else "")))
         L.append("")
     # (r1244) a third basket: the card configures one, the ladder is priced on it, and the
     # ticket a reader can place this session holds a third width. Saying it in prose was the
@@ -2844,10 +3025,11 @@ def capital_block(cf):
     _tw = cf.get("ticket_n_hold")
     _pw2 = cf.get("published_path_width")
     if _tw is not None and _tw != _pw2:
-        _th = cf.get("ticket_model_nav")
+        _th = cf.get("ticket_delivered_nav") if _two_rates else cf.get("ticket_model_nav")
         L.append("**今天这张可执行单实际持 %d 名**（bar %s），而这一节的门槛是按 **%s 名**算的。"
-                 "同一闭式在 %d 名上重算，平衡点是 **%s**——这才是你手上这张单的那一本。"
+                 "同一闭式在 %d 名上重算%s，平衡点是 **%s**——这才是你手上这张单的那一本。"
                  % (_tw, cf.get("ticket_bar") or "？", _pw2, _tw,
+                    ("（按 %g bp）" % _bp_dlv) if _two_rates else "",
                     ("%.0f 元" % _th) if _th is not None else "（宽度扫描里没有这一档，未量）"))
     elif _tw is not None:
         L.append("**今天这张可执行单持有 %d 名**（bar %s），与这一节定价的篮子宽度一致。"
@@ -2856,7 +3038,10 @@ def capital_block(cf):
         L.append("**今天这张可执行单的持名数读不出来**（票据缺席或没有 `n_hold`）——"
                  "所以上面那个门槛是在量哪一本，本页答不了，别按它下单。")
     L.append("")
-    L.append("> 口径：只算佣金与既有的冲击项。买卖价差已经在那 8bp 里，**没有再叠加一次**。"
+    L.append("> 口径：只算佣金与既有的冲击项。买卖价差已经在上面那把费率里"
+             + ("（货架 %g bp / 你手上这本 %g bp）" % (_bp_shelf, _bp_dlv) if _two_rates
+                else "（%g bp）" % _bp_shelf)
+             + "，**没有再叠加一次**。"
              "资本在每一档内保持恒定，所以「小账户差多少」只归因于费率、不掺第二个变量。"
              "没有 5 元地板的券商（`wan%g+0`）在 1 万元上也不会被咬。"
              "证据件：`%s` ｜ 证据截止 %s。"
@@ -4349,6 +4534,7 @@ def build(with_stress=False, window_label=None):
     page["floor_provenance"] = floor_provenance_face()
     page["vol_target_gate"] = vol_target_face()
     page["positions"] = positions_face()
+    page["executed"] = executed_face(tk)
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
     page["envelope"] = envelope_face()
@@ -4411,6 +4597,9 @@ def render_md(p):
     add("")
     add("剩余现金 ¥%s 买 %s（或等价），不要留活期。" % (format(p["cash_amount_cny"], ",.0f"), p["cash_leg"]))
     add("")
+    for _ex_line in executed_block(p.get("executed") or {},
+                                   sheet_symbols=[o.get("symbol") for o in (p.get("order") or [])]):
+        add(_ex_line)
     for _pf_line in permission_block(p.get("permission") or {}):
         add(_pf_line)
     for _pl_line in premium_block(p.get("premium_leak") or {}, page_bar=p.get("priced_bar"),
@@ -7218,6 +7407,51 @@ def selftest():
     chk("L172 premium block: an unreadable calendar reads as unknown, never as zero holes",
         "未知" in _gap_unk_txt and "不是零" in _gap_unk_txt
         and "没有缺口" not in _gap_unk_txt, "len=%d" % len(_gap_unk_txt))
+
+    # r1506: the sheet above and the account below disagreed by a leg and the page printed
+    # both without saying which came first. The executed face reconciles them from the stack
+    # the ticket was netted through -- and when only lot counts exist it must not invent money.
+    _tk_fix = {"as_of": "2026-11-09", "swap_stack": {
+        "asof": "2026-11-09", "verdict": "NETTED_WITH_RESIDUE",
+        "lot_residue_cny": 139.9, "risk_book_before_cny": 392727.2,
+        "risk_book_after_cny": 392587.3,
+        "actions": [{"side": "SELL", "symbol": "159501", "lots": 382, "price": 2.055,
+                     "amount_cny": 78501.0, "why": "swap 159501 -> 159513"},
+                    {"side": "SELL", "symbol": "513100", "lots": 367, "price": 2.142,
+                     "amount_cny": 78611.4, "why": "swap 513100 -> 159513"},
+                    {"side": "BUY", "symbol": "159513", "lots": 925, "price": 1.697,
+                     "amount_cny": 156972.5, "why": "merged buy"}],
+        "holdings_after": [{"symbol": "159263"}, {"symbol": "159513"},
+                           {"symbol": "159577"}, {"symbol": "513690"}]}}
+    _ex_fix = executed_face(_tk_fix)
+    chk("L173 executed face: sides sum to their own money and the residue is carried",
+        _ex_fix.get("status") == "ok" and _ex_fix.get("priced")
+        and abs(_ex_fix["sold_cny"] - (78501.0 + 78611.4)) < 0.01
+        and abs(_ex_fix["bought_cny"] - 156972.5) < 0.01
+        and abs((_ex_fix.get("lot_residue_cny") or 0) - 139.9) < 0.01,
+        "sold=%.2f bought=%.2f" % (_ex_fix.get("sold_cny") or 0, _ex_fix.get("bought_cny") or 0))
+    _ex_txt = "\n".join(executed_block(
+        _ex_fix, sheet_symbols=["159501", "513100", "513690", "159577", "159263"]))
+    chk("L174 executed block: names the legs the sheet has and the account does not, and the net cash direction",
+        "清单里有、账上没有：159501、513100" in _ex_txt
+        and "账上有、清单里没有：159513" in _ex_txt
+        and "净现金流入" in _ex_txt  # bought 156,972 < sold 157,112
+        and "手数取整留下 ￥139.90" in _ex_txt, "len=%d" % len(_ex_txt))
+    _tk_lots = {"as_of": "2026-11-09",
+                "positions": {"ledger_row": {"actions": [
+                    {"side": "SELL", "symbol": "159501", "lots": 382},
+                    {"side": "BUY", "symbol": "159513", "lots": 925}]}}}
+    _ex_lots = executed_face(_tk_lots)
+    _ex_lots_txt = "\n".join(executed_block(_ex_lots, sheet_symbols=["159501"]))
+    chk("L175 executed face: lots without prices read as lots, and the block refuses to print ￥0",
+        _ex_lots.get("status") == "ok" and not _ex_lots.get("priced")
+        and "手数不是金额" in _ex_lots_txt and "￥0" not in _ex_lots_txt
+        and "| 参考价 |" not in _ex_lots_txt, "len=%d" % len(_ex_lots_txt))
+    _ex_none_txt = "\n".join(executed_block(executed_face({"as_of": "2026-11-09"})))
+    chk("L176 executed block: a ticket with no trade rows says so, never 'nothing was traded'",
+        "没有留下成交行" in _ex_none_txt and "| 方向 |" not in _ex_none_txt
+        and "没有成交" not in _ex_none_txt.replace("「没有成交」", ""),
+        "len=%d" % len(_ex_none_txt))
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

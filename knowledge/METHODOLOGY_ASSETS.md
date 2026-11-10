@@ -12471,3 +12471,30 @@ premium_forward + smoke_test.py 两条腿 + research/digests/DIGEST-20261110-r15
 **落地**：`scripts/etf_book_ceo_page.py` 的 `premium_on_page_sheet()` + `premium_block(page_sheet=...)`；
 selftest 173/173（+4 腿：重算=逐票费率×本页金额且缺读数点名 / 块内两个金额都在且拒绝相加 / 同一张纸时
 保持沉默 / 舍入量级差异不算第二张纸）。正身：docs/live_book/LIVE-BOOK-20261110.md。
+
+### E512 · 「这本书要多大的账户」印的是货架的费率，不是它自己的（r1506 bm-c）
+
+**事实**：CEO 页那一节标题就写着「要用多少钱，才谈得上 **8bp 每边**？」——8bp 是这张**货架**的扁平假设
+（`etf_book_capacity.BASE_BP`，货架上每一条已发表年化都踩在它上面），而这张要下的单**付 10bp**
+（卡片 `config.cost_bp_per_side = 10.0`，票据引擎 `etf_book_bridge.COST_BP = 10.0`，两处实读一致）。
+平衡点闭式是 `1e4 × 5元 /（费率 × 换手）`，费率在分母：10bp 的门槛 = 8bp 门槛 × 0.8。同一张面板、同一台引擎，
+货架口径 **203,007 元** vs 你手上这本 **162,405 元**；今天这张 5 名的单更极端——**67,737 → 54,190 元**。
+也就是说页面一直在告诉读者「至少要 20 万」，而按它自己付的费率是 16 万，偏大 20%（5 名上偏大 25%）。
+
+**这条卡的判别句**：任何以「费率」为参数的阈值，必须按**读者的那张单实际付的费率**定价；这个费率要从
+**交付件本身**读（卡片配置），并用另一处常量（票据引擎）交叉核对；两处不一致时**报告不一致**，不许替它们
+选边，更不许悄悄退回货架默认值、再穿上「这就是你手上这本」的标签。
+
+**副律（三条，全是这一族的老病）**：
+1. **一张页面上两把尺子**：并列印可以，但每个数必须带自己的费率、明说读者要过哪一行，并写死「不许相加、
+   不许互相替代」（E511 同族：并排两个总额不是算错，是两张纸）。
+2. **方向本身要断言**：费率越高、地板越早松手（门槛更小）。只做「重算相等」的腿抓不到「用错费率」——
+   必须加一条「delivered < shelf」的方向腿，否则把 8bp 的数原样拷进 delivered 列也会通过。
+3. **阈值面挂了第二个参数，封闭解表也要跟着挂**：换样本表与换宽度表若不带上新费率那一列，读者就会拿
+   8bp 的「不是常数」去校准 10bp 的那张单。
+
+**落地**：`scripts/etf_book_min_capital.py`（新增 `delivered_rate()` 三级来源 + 双身份臂 + `verdict_delivered`；
+selftest **27/27**、`--check` 复算 OK）；`scripts/etf_book_ceo_page.py` 的 `capital_face()` / `capital_block()`
+（与自身行不符即拒印；两费率并列＋禁止相加句）；smoke 新腿「the page prices its break-even at the rate the
+ticket pays」，含旧口径反证（把 delivered 设回 8bp → 两条断言双红）。证据=`results/etf_book_min_capital.json`；
+正身=`docs/live_book/LIVE-BOOK-20261110.md` 的「这本书自己的每边成本」节。

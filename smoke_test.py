@@ -7534,6 +7534,81 @@ def main() -> int:
     except Exception as e:
         check("product: the operator page prices the basket the ticket actually holds",
               False, repr(e)[:160])
+    # ---- r1506: the break-even question must be priced at the rate the book pays ---------
+    # The shelf's historical CAGR was measured at 8bp per side; the card that ships
+    # configures cost_bp_per_side = 10.0 and the ticket engine agrees. Break-even capital is
+    # 1e4*min_fee/(rate*dw), so the shelf number quoted to a reader holding this book is a
+    # quarter too high. This leg reads the card's own rate, requires the face to publish the
+    # neutral NAV at that rate, re-derives it from the published median leg, and requires the
+    # page to print it -- together with the no-adding rule when two rates are on one page.
+    try:
+        import importlib as _il74b
+        _MC74 = _il74b.import_module("etf_book_min_capital")
+        _PG74 = _il74b.import_module("etf_book_ceo_page")
+        _bad74b, _note74 = [], ""
+        _card74 = os.path.join(PATHS.results_dir, "etf_book_production", "latest.json")
+        _card_bp74 = None
+        if os.path.exists(_card74):
+            with open(_card74, encoding="utf-8") as _fh74:
+                _card_bp74 = (json.load(_fh74).get("config") or {}).get("cost_bp_per_side")
+        _face74 = _PG74.capital_face()
+        if _face74.get("status") != "ok":
+            _bad74b.append("capital face reads %r" % (_face74.get("status"),))
+        else:
+            _dbp74 = _face74.get("delivered_bp")
+            _dnav74 = _face74.get("delivered_nav")
+            if _card_bp74 is None:
+                _bad74b.append("the delivered card carries no cost_bp_per_side")
+            elif _dbp74 is None or abs(float(_dbp74) - float(_card_bp74)) > 1e-9:
+                _bad74b.append("the face prices the break-even at %r bp, the card "
+                               "configures %r" % (_dbp74, _card_bp74))
+            _want74 = (None if (not _dbp74 or not _face74.get("dw_median")) else
+                       _MC74.neutral_nav(_face74.get("dw_median"), _dbp74,
+                                         _face74.get("min_fee_cny")))
+            if _want74 is None or _dnav74 is None or abs(_dnav74 - _want74) > 0.02:
+                _bad74b.append("delivered break-even %r != re-derived %r"
+                               % (_dnav74, _want74))
+            _shelf74 = _face74.get("base_bp")
+            if _dbp74 and _shelf74 and float(_dbp74) > float(_shelf74) + 1e-12 \
+                    and _dnav74 is not None and _face74.get("model_nav") is not None \
+                    and not _dnav74 < _face74["model_nav"]:
+                _bad74b.append("a higher rate must break even at a SMALLER account")
+            _lb74 = sorted(glob.glob(os.path.join(PATHS.root, "docs", "live_book",
+                                                  "LIVE-BOOK-*.md")))
+            if not _lb74:
+                _bad74b.append("no live-book page on disk")
+            else:
+                with open(_lb74[-1], encoding="utf-8") as _fh74b:
+                    _md74 = _fh74b.read()
+                _note74 = _page_elsewhere_note(_ceo_page_view(),
+                                               _face74.get("evidence_cutoff")) or ""
+                _lines74 = [l for l in _PG74.capital_block(_face74) if l.strip()]
+                _rate74 = ("%gbp" % float(_dbp74)) if _dbp74 else None
+                _hit74 = [l for l in _lines74 if _rate74 and
+                          (_rate74 in l or ("%g bp" % float(_dbp74)) in l)]
+                _badface74, _bad74b = _bad74b, []      # page-side findings collect here
+                if not _hit74:
+                    _bad74b.append("the section never prints the book's own %s" % (_rate74,))
+                elif any(l not in _md74 for l in _hit74):
+                    _bad74b.append("the book's own rate never reaches the page")
+                if _dbp74 and _shelf74 and abs(float(_dbp74) - float(_shelf74)) > 1e-12:
+                    if "不许相加" not in _md74:
+                        _bad74b.append("two rates on one page without the no-adding rule")
+                _bad74b, _pagefind74 = _badface74, _bad74b
+                if _note74:
+                    _note74 += (" | page-side differences (%d): %s"
+                                % (len(_pagefind74), "; ".join(_pagefind74)[:120])
+                                if _pagefind74 else "")
+                else:
+                    _bad74b += _pagefind74
+        check("product: the page prices its break-even at the rate the ticket pays",
+              not _bad74b,
+              "; ".join(_bad74b)[:220] or _note74 or "%s bp -> %s CNY (shelf %s bp -> %s)"
+              % (_face74.get("delivered_bp"), _face74.get("delivered_nav"),
+                 _face74.get("base_bp"), _face74.get("model_nav")))
+    except Exception as e:
+        check("product: the page prices its break-even at the rate the ticket pays",
+              False, repr(e)[:160])
     # ---- r1245: the sheet prices the cash half it asks the reader to hold -----------------
     # The ticket printed "cash 53%" and the cash amount and stopped there; the only yield it
     # ever quoted was a multi-year mean, which is a history rather than a forecast. This leg

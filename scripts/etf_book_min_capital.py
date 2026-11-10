@@ -1,7 +1,16 @@
 """How small an account can run the delivered book before the 5-yuan floor eats it?
 
 Every cost number on the shelf is a *rate* per side: 8bp base + square-root impact
-(`etf_book_capacity.py`), applied to traded notional. A rate has no floor, and a real
+(`etf_book_capacity.py`), applied to traded notional.
+
+r1506: that 8bp is the SHELF rate, not the rate the delivered book pays. The card that
+ships configures `cost_bp_per_side = 10.0`, and the ticket engine
+(`etf_book_bridge.COST_BP`) says the same, so the break-even capital a reader holding
+this book cares about is priced at 10bp. The 8bp arm stays because every published CAGR
+on the shelf was measured on it; both are published and neither is called "the" number.
+The closed form is `1e4*min_fee/(rate*dw)`, so at a higher rate the floor stops binding
+at a SMALLER account -- quoting the shelf threshold to a reader holding this book
+overstates how much money is needed before the model is honest. A rate has no floor, and a real
 brokerage charge does: the A-share/ETF commission carries a **minimum of 5 CNY per
 trade** on most retail accounts. For a book that holds `k = min(1, 0.20/beta)` of NAV
 in twelve names, one rebalance buys or sells ~1.5% of NAV per name, so the trade
@@ -116,6 +125,47 @@ def ladder_width(card_json=None):
     return int(F.N_HOLD), "engine_default"
 
 
+def delivered_rate(card_json=None):
+    """The per-side rate the delivered book pays, and where that number came from.
+
+    `BASE_BP` is the shelf's flat assumption (8bp) and every published CAGR on the shelf
+    was measured on it -- but the card that ships configures its own rate, and the ticket
+    engine carries a third copy of the same fact. A face that prices "how much money do I
+    need" on the shelf rate answers that question about a book nobody is holding (r1506:
+    card and engine both say 10bp, the shelf says 8bp, and the closed form scales 1/rate,
+    so the published threshold was 25% too high).
+
+    Returns `(bp, source, check)`. The card is read first because that is the face a
+    reader picks up; the engine constant is a cross-check, and a disagreement is reported
+    in `check["agree"] = False` rather than resolved silently. Both missing reads as
+    `(None, "unknown", ...)` -- the caller must then say it cannot price the question
+    instead of falling back to the shelf number and wearing the delivered label.
+    """
+    card_bp = None
+    path = card_json or CARD_JSON
+    try:
+        with open(path, encoding="utf-8") as fh:
+            raw = (json.load(fh).get("config") or {}).get("cost_bp_per_side")
+        if raw is not None and float(raw) > 0:
+            card_bp = float(raw)
+    except Exception:                                           # noqa: BLE001
+        card_bp = None
+    eng_bp = None
+    try:
+        from scripts import etf_book_bridge as _B
+        eng_bp = float(_B.COST_BP)
+    except Exception:                                           # noqa: BLE001
+        eng_bp = None
+    check = {"card_bp": card_bp, "engine_bp": eng_bp,
+             "agree": (None if (card_bp is None or eng_bp is None)
+                       else bool(abs(card_bp - eng_bp) < 1e-9))}
+    if card_bp is not None:
+        return card_bp, "production_card", check
+    if eng_bp is not None:
+        return eng_bp, "ticket_engine", check
+    return None, "unknown", check
+
+
 def fee_bp(prop_bp, min_fee_cny, notional):
     """Per-side commission in bp: the proportional rate with a cash floor."""
     if notional is None or not np.isfinite(notional) or notional <= EPS:
@@ -216,7 +266,7 @@ def _verdict(rows, fee_neutral_model, fee_neutral_real, ladder_bounds):
     return token
 
 
-def window_dependence(n_hold=None):
+def window_dependence(n_hold=None, delivered_bp=None):
     """Is the fee-neutral NAV a property of the book, or of the years it was priced on?
 
     One arm, one engine, three samples, and -- since r1241 -- the SAME basket width as the
@@ -239,7 +289,8 @@ def window_dependence(n_hold=None):
                          "dw_median": None, "dw_mean": None,
                          "fee_neutral_vs_model_nav": None,
                          "fee_neutral_vs_real_nav": None,
-                         "fee_neutral_vs_model_nav_mean_leg": None, "legs": 0,
+                         "fee_neutral_vs_model_nav_mean_leg": None,
+                         "fee_neutral_vs_delivered_nav": None, "legs": 0,
                          "first_bar": None, "last_bar": None})
             continue
         ser, _r, cnt = curve(face, 1e6, BASE_BP, 0.0, path=path)
@@ -267,6 +318,11 @@ def window_dependence(n_hold=None):
             "fee_neutral_vs_model_nav_mean_leg": (None if not dmean else
                                                   round(neutral_nav(dmean, BASE_BP,
                                                                     MIN_FEE_CNY), 2)),
+            # r1506: the same closed form at the rate the delivered book actually pays,
+            # so a sample table can be read in the world the ticket is priced in
+            "fee_neutral_vs_delivered_nav": (None if (dw is None or not delivered_bp) else
+                                             round(neutral_nav(dw, delivered_bp,
+                                                               MIN_FEE_CNY), 2)),
         })
     return rows
 
@@ -286,7 +342,7 @@ def _window_verdict(rows, reference=None, tol_pct=WINDOW_STABLE_PCT):
     return token, round(spread, 2)
 
 
-def width_dependence(start=R.START):
+def width_dependence(start=R.START, delivered_bp=None):
     """Does the fee-neutral NAV depend on how many names the basket holds?
 
     The neutral point is 1e4*min_fee/(8bp*dw_median), so it moves exactly with the
@@ -301,7 +357,7 @@ def width_dependence(start=R.START):
         if not path:
             rows.append({"n_hold": n, "names_median": None, "dw_median": None,
                          "fee_neutral_vs_model_nav": None, "cagr_8bp": None,
-                         "legs": 0})
+                         "fee_neutral_vs_delivered_nav": None, "legs": 0})
             continue
         ser, _r, cnt = curve(face, 1e6, BASE_BP, 0.0, path=path)
         m = F.metrics(ser, "width %d" % n)
@@ -319,6 +375,9 @@ def width_dependence(start=R.START):
                                          round(neutral_nav(dw, BASE_BP, MIN_FEE_CNY), 2)),
             "cagr_8bp": m.get("cagr"),
             "sharpe_8bp": m.get("sharpe"),
+            "fee_neutral_vs_delivered_nav": (None if (dw is None or not delivered_bp) else
+                                             round(neutral_nav(dw, delivered_bp,
+                                                               MIN_FEE_CNY), 2)),
         })
     return rows
 
@@ -365,13 +424,21 @@ def run(start=R.START, n_hold=None):
     """Price the ladder on the basket the delivered card holds, not on the engine default."""
     n_used, n_source = ((int(n_hold), "explicit") if n_hold is not None
                         else ladder_width())
+    dlv_bp, dlv_src, dlv_chk = delivered_rate()
     face = R.build_face(start=start, n_hold=n_used)
     path = R.weight_path(face)
     # reference: the published flat-8bp assumption, same path, same impact term
     ref_rows = {}
+    ref_dlv = {}
+    _second = dlv_bp is not None and abs(dlv_bp - BASE_BP) > 1e-12
     for capital in CAPITALS:
         ser, _r, _c = curve(face, capital, BASE_BP, 0.0, path=path)
         ref_rows[capital] = F.metrics(ser, "8bp @ %.0e" % capital)
+        if _second:
+            # the arm the reader is actually holding: same path, same impact term, only
+            # the base rate replaced (r1506)
+            ser2, _r2, _c2 = curve(face, capital, dlv_bp, 0.0, path=path)
+            ref_dlv[capital] = F.metrics(ser2, "%gbp @ %.0e" % (dlv_bp, capital))
 
     ladder = []
     dw_median = None
@@ -397,6 +464,14 @@ def run(start=R.START, n_hold=None):
             if m.get("cagr") is not None and ref.get("cagr") is not None:
                 row["delta_vs_8bp_pp"] = round(100.0 * (m["cagr"] - ref["cagr"]), 4)
                 row["annual_delta_cny"] = round(capital * (m["cagr"] - ref["cagr"]), 0)
+            if _second and m.get("cagr") is not None \
+                    and ref_dlv[capital].get("cagr") is not None:
+                # the same rung measured against the rate the delivered book pays: at a
+                # higher rate the identity arm is more expensive, so a rung that looked
+                # expensive at 8bp can be free at 10bp (r1506)
+                row["ref_cagr_delivered"] = ref_dlv[capital].get("cagr")
+                row["delta_vs_delivered_pp"] = round(
+                    100.0 * (m["cagr"] - ref_dlv[capital]["cagr"]), 4)
             if row["dw_median"]:
                 dw_median = row["dw_median"]
             if row.get("dw_mean"):
@@ -410,10 +485,26 @@ def run(start=R.START, n_hold=None):
     verdict = _verdict(primary_rows, fee_neutral_model, fee_neutral_real,
                        (min(CAPITALS), max(CAPITALS)))
 
-    window_rows = window_dependence(n_hold=n_used)
+    # r1506: the same frozen rule, read at the rate the delivered book pays. The token is
+    # derived from the rows (never written), and the small-rung comparison uses the
+    # delivered identity arm so the verdict is about the book a reader holds.
+    fee_neutral_dlv = (None if not dlv_bp else
+                       neutral_nav(dw_median, dlv_bp, primary["min_fee_cny"]))
+    fee_neutral_dlv_mean = (None if (not dlv_bp or not dw_mean) else
+                            neutral_nav(dw_mean, dlv_bp, primary["min_fee_cny"]))
+    if _second:
+        rows_dlv = [{"cagr": r.get("cagr"), "ref_cagr": r.get("ref_cagr_delivered")}
+                    for r in primary_rows]
+        verdict_dlv = _verdict(rows_dlv, fee_neutral_dlv, fee_neutral_real,
+                               (min(CAPITALS), max(CAPITALS)))
+    else:
+        rows_dlv = None
+        verdict_dlv = "SAME_RATE_AS_SHELF" if dlv_bp else "RATE_UNKNOWN"
+
+    window_rows = window_dependence(n_hold=n_used, delivered_bp=dlv_bp)
     window_verdict, window_spread_pct = _window_verdict(window_rows, fee_neutral_model)
 
-    width_rows = width_dependence(start=start)
+    width_rows = width_dependence(start=start, delivered_bp=dlv_bp)
     width_verdict, width_spread_pct = _width_verdict(width_rows, fee_neutral_model)
 
     out = {
@@ -422,6 +513,9 @@ def run(start=R.START, n_hold=None):
         "script": "scripts/etf_book_min_capital.py",
         "config": {"capital_grid": list(CAPITALS), "schedules": list(SCHEDULES),
                    "base_bp_published": BASE_BP,
+                   "base_bp_delivered": dlv_bp,
+                   "delivered_rate_source": dlv_src,
+                   "delivered_rate_check": dlv_chk,
                    "impact_bp_per_pct": C.IMPACT_BP_PER_PCT,
                    "punitive_bp": C.PUNITIVE_BP,
                    "rebal": R.REBAL, "start": start,
@@ -440,6 +534,23 @@ def run(start=R.START, n_hold=None):
         "fee_neutral_vs_model_nav_mean_leg": (None if not dw_mean else
                                               round(neutral_nav(dw_mean, BASE_BP,
                                                                 primary["min_fee_cny"]), 2)),
+        # r1506: the same closed form at the rate the delivered book pays, so a reader
+        # holding this book does not have to convert the shelf number by hand
+        "fee_neutral_vs_delivered_nav": (None if fee_neutral_dlv is None
+                                         else round(fee_neutral_dlv, 2)),
+        "fee_neutral_vs_delivered_nav_mean_leg": (None if fee_neutral_dlv_mean is None
+                                                  else round(fee_neutral_dlv_mean, 2)),
+        "verdict_delivered": verdict_dlv,
+        "delivered_rate_note": (
+            "the shelf reference is %gbp per side; the delivered card configures %s and "
+            "the ticket engine says %s (%s). A neutral NAV is 1e4*min_fee/(rate*dw), so "
+            "price it on the rate the book actually pays: at a higher rate the floor stops "
+            "binding at a SMALLER account."
+            % (BASE_BP,
+               ("%gbp" % dlv_chk["card_bp"]) if dlv_chk.get("card_bp") is not None else "nothing",
+               ("%gbp" % dlv_chk["engine_bp"]) if dlv_chk.get("engine_bp") is not None else "nothing",
+               "agree" if dlv_chk.get("agree") else
+               ("MISMATCH" if dlv_chk.get("agree") is False else "UNVERIFIED"))),
         "verdict": verdict,
         "ladder": ladder,
         "window": {
@@ -455,7 +566,12 @@ def run(start=R.START, n_hold=None):
                         "per-side rate is replaced by max(prop, 5 CNY / notional), "
                         "impact term identical. Capital held constant per rung so each "
                         "delta is attributable to the fee schedule (compare vs the "
-                        "same-NAV @8bp arm, not across rungs)."),
+                        "same-NAV identity arm, not across rungs). Two identity arms are "
+                        "published: the shelf's 8bp (what every earlier CAGR on this shelf "
+                        "was measured on) and the delivered book's own rate from the card "
+                        "config; `delta_vs_8bp_pp` is against the first, "
+                        "`delta_vs_delivered_pp` against the second, and the two are not "
+                        "interchangeable."),
         "width": {
             "verdict": width_verdict,
             "spread_pct_of_published": width_spread_pct,
@@ -511,6 +627,22 @@ def check():
             abs(real - d["fee_neutral_vs_real_nav"]) > 0.02:
         problems.append("fee_neutral_vs_real_nav %.2f != %.2f"
                         % (d["fee_neutral_vs_real_nav"], real))
+    # r1506: the delivered-rate column is a second reading of the SAME closed form, so it
+    # must reproduce from the published median leg and the rate the face says it read --
+    # and it must sit on the correct side of the shelf number (higher rate, smaller NAV).
+    dlv_bp = cfg.get("base_bp_delivered")
+    dlv_nav = d.get("fee_neutral_vs_delivered_nav")
+    if dlv_bp:
+        want_d = neutral_nav(dw, dlv_bp, primary["min_fee_cny"])
+        if dlv_nav is not None and not _close(want_d, dlv_nav):
+            problems.append("fee_neutral_vs_delivered_nav %.2f != %.2f"
+                            % (dlv_nav, want_d))
+        if dlv_nav is not None and d.get("fee_neutral_vs_model_nav") is not None:
+            if dlv_bp > float(cfg["base_bp_published"]) + 1e-12 and \
+                    not dlv_nav < d["fee_neutral_vs_model_nav"]:
+                problems.append("a higher delivered rate must break even at a SMALLER "
+                                "account (%.2f vs %.2f)"
+                                % (dlv_nav, d["fee_neutral_vs_model_nav"]))
     rows = [r for r in d["ladder"] if r["schedule"] == primary["name"]]
     want = _verdict(rows, model, real, (min(cfg["capital_grid"]), max(cfg["capital_grid"])))
     if want != d["verdict"]:
@@ -525,6 +657,12 @@ def check():
         if not _close(want_w, r["fee_neutral_vs_model_nav"]):
             problems.append("window %s: neutral %.2f != %.2f"
                             % (r.get("window"), r["fee_neutral_vs_model_nav"], want_w))
+        if dlv_bp and r.get("fee_neutral_vs_delivered_nav") is not None:
+            want_dw = neutral_nav(dw_w, dlv_bp, primary["min_fee_cny"])
+            if not _close(want_dw, r["fee_neutral_vs_delivered_nav"]):
+                problems.append("window %s: delivered neutral %.2f != %.2f"
+                                % (r.get("window"),
+                                   r["fee_neutral_vs_delivered_nav"], want_dw))
     if w.get("rows"):
         want_wv, want_ws = _window_verdict(w["rows"],
                                            d.get("fee_neutral_vs_model_nav"))
@@ -547,6 +685,12 @@ def check():
         if not _close(want_w, r["fee_neutral_vs_model_nav"]):
             problems.append("width %s: neutral %.2f != %.2f"
                             % (r.get("n_hold"), r["fee_neutral_vs_model_nav"], want_w))
+        if dlv_bp and r.get("fee_neutral_vs_delivered_nav") is not None:
+            want_dw = neutral_nav(dw_w, dlv_bp, primary["min_fee_cny"])
+            if not _close(want_dw, r["fee_neutral_vs_delivered_nav"]):
+                problems.append("width %s: delivered neutral %.2f != %.2f"
+                                % (r.get("n_hold"),
+                                   r["fee_neutral_vs_delivered_nav"], want_dw))
     if wid.get("rows"):
         want_wv, want_ws = _width_verdict(wid["rows"],
                                           d.get("fee_neutral_vs_model_nav"))
@@ -699,6 +843,32 @@ def selftest():
     chk("L23 a missing card falls back to the engine default and names the fallback",
         ladder_width(_none) == (int(F.N_HOLD), "engine_default"), ladder_width(_none))
 
+    # L24-L27: two rates, one closed form (r1506). The break-even capital is inversely
+    # proportional to the rate, so a book paying 10bp breaks even at 0.8x the account a
+    # 8bp shelf reference quotes -- and the page must read the rate from the card, not
+    # assume the shelf's. Fixtures pin the arithmetic without touching a panel.
+    chk("L24 the neutral NAV is exactly inverse in the rate (8bp vs 10bp = 1.25x)",
+        abs(neutral_nav(0.03, BASE_BP, 5.0) / neutral_nav(0.03, 10.0, 5.0) - 1.25) < 1e-12,
+        (neutral_nav(0.03, BASE_BP, 5.0), neutral_nav(0.03, 10.0, 5.0)))
+    _rate_card = os.path.join(_card_dir, "rate.json")
+    with open(_rate_card, "w", encoding="utf-8") as _fh:
+        json.dump({"config": {"cost_bp_per_side": 10.0}}, _fh)
+    _bp, _src, _chk = delivered_rate(_rate_card)
+    chk("L25 the delivered rate comes from the card, and is cross-read against the engine",
+        _bp == 10.0 and _src == "production_card" and _chk.get("agree") is True, (_bp, _src, _chk))
+    _bp2, _src2, _chk2 = delivered_rate(os.path.join(_card_dir, "absent_rate.json"))
+    chk("L26 a missing card falls back to the ticket engine and says so (not to the shelf)",
+        _src2 in ("ticket_engine", "unknown")
+        and (_bp2 is None or abs(_bp2 - BASE_BP) > 1e-12 or _src2 == "ticket_engine"),
+        (_bp2, _src2, _chk2))
+    _off_card = os.path.join(_card_dir, "off.json")
+    with open(_off_card, "w", encoding="utf-8") as _fh:
+        json.dump({"config": {"cost_bp_per_side": 3.0}}, _fh)
+    _bp3, _src3, _chk3 = delivered_rate(_off_card)
+    chk("L27 a card that disagrees with the engine is reported, not silently resolved",
+        _bp3 == 3.0 and _src3 == "production_card" and _chk3.get("agree") is False,
+        (_bp3, _src3, _chk3))
+
     print("selftest %d/%d" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1
 
@@ -713,6 +883,10 @@ def main(argv):
     print("min capital: %s | neutral vs 8bp model %.0f CNY | vs real %.0f CNY"
           % (out["verdict"], out["fee_neutral_vs_model_nav"] or 0,
              out["fee_neutral_vs_real_nav"] or 0))
+    print("             delivered rate: %s | neutral %.0f CNY | %s"
+          % ((out["config"].get("base_bp_delivered") if out["config"].get("base_bp_delivered")
+              else "unknown"),
+             out["fee_neutral_vs_delivered_nav"] or 0, out["verdict_delivered"]))
     print("\n capital      schedule   cagr   vs 8bp    below-floor   fee CNY")
     for r in out["ladder"]:
         print(" %9.0f  %-10s %6.2f%%  %+6.2fpp  %8.2f%%   %9.0f"

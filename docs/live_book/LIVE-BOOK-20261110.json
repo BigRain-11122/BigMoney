@@ -4245,6 +4245,17 @@
   "ladder_dw_median": 0.03078714,
   "ladder_dw_mean": 0.03104884,
   "base_bp": 8.0,
+  "delivered_bp": 10.0,
+  "delivered_rate_source": "production_card",
+  "delivered_rate_check": {
+   "card_bp": 10.0,
+   "engine_bp": 10.0,
+   "agree": true
+  },
+  "delivered_nav": 162405.47,
+  "delivered_nav_mean_leg": 161036.61,
+  "delivered_verdict": "FLOOR_BINDS_BELOW_162405_AND_MODEL_GENEROUS_ABOVE_649622",
+  "delivered_rate_note": "the shelf reference is 8bp per side; the delivered card configures 10bp and the ticket engine says 10bp (agree). A neutral NAV is 1e4*min_fee/(rate*dw), so price it on the rate the book actually pays: at a higher rate the floor stops binding at a SMALLER account.",
   "prop_bp": 2.5,
   "min_fee_cny": 5.0,
   "schedule": "wan2.5+5",
@@ -4268,6 +4279,7 @@
     "dw_mean": 0.03104884,
     "model_nav": 203006.85,
     "model_nav_mean_leg": 201295.76,
+    "delivered_nav": 162405.48,
     "real_nav": 649621.93
    },
    {
@@ -4278,6 +4290,7 @@
     "dw_mean": 0.02028791,
     "model_nav": 252079.05,
     "model_nav_mean_leg": 308065.21,
+    "delivered_nav": 201663.24,
     "real_nav": 806652.97
    },
    {
@@ -4288,6 +4301,7 @@
     "dw_mean": 0.01844018,
     "model_nav": 11486970.12,
     "model_nav_mean_leg": 338933.72,
+    "delivered_nav": 9189576.1,
     "real_nav": 36758304.39
    }
   ],
@@ -4301,6 +4315,7 @@
     "names_median": 5.0,
     "dw_median": 0.09226805,
     "model_nav": 67737.42,
+    "delivered_nav": 54189.94,
     "cagr_8bp": 0.0732
    },
    {
@@ -4308,6 +4323,7 @@
     "names_median": 8.0,
     "dw_median": 0.04784457,
     "model_nav": 130631.34,
+    "delivered_nav": 104505.07,
     "cagr_8bp": 0.0665
    },
    {
@@ -4315,6 +4331,7 @@
     "names_median": 12.0,
     "dw_median": 0.03078714,
     "model_nav": 203006.85,
+    "delivered_nav": 162405.48,
     "cagr_8bp": 0.062
    },
    {
@@ -4322,6 +4339,7 @@
     "names_median": 20.0,
     "dw_median": 0.01539595,
     "model_nav": 405950.98,
+    "delivered_nav": 324760.78,
     "cagr_8bp": 0.0552
    }
   ],
@@ -4329,6 +4347,7 @@
   "ticket_n_hold": 5,
   "ticket_bar": "2026-11-09",
   "ticket_model_nav": 67737.42,
+  "ticket_delivered_nav": 54189.94,
   "ticket_narrower_than_path": true,
   "width_mismatch": false
  },
@@ -5796,6 +5815,73 @@
    "prices are the sheet's own bar closes; a real execution will move both the share counts and the cash leg"
   ]
  },
+ "executed": {
+  "status": "ok",
+  "source": "swap_stack",
+  "asof": "2026-11-09",
+  "verdict": "NETTED_WITH_RESIDUE",
+  "actions": [
+   {
+    "side": "SELL",
+    "symbol": "159501",
+    "lots": 382,
+    "price": 2.055,
+    "amount_cny": 78501.0,
+    "why": "swap 159501 → 159513 (r1466 verdict ACT_ON_THIS_BAR), sized on the trimmed 382 lots",
+    "priced": true
+   },
+   {
+    "side": "SELL",
+    "symbol": "513100",
+    "lots": 367,
+    "price": 2.142,
+    "amount_cny": 78611.4,
+    "why": "swap 513100 → 159513 (r1466 verdict WINDOW_ALWAYS_OPEN), sized on the trimmed 367 lots",
+    "priced": true
+   },
+   {
+    "side": "BUY",
+    "symbol": "159513",
+    "lots": 925,
+    "price": 1.697,
+    "amount_cny": 156972.5,
+    "why": "merged buy for 159501 + 513100",
+    "priced": true
+   }
+  ],
+  "priced": true,
+  "sold_cny": 157112.4,
+  "bought_cny": 156972.5,
+  "lot_residue_cny": 139.9,
+  "risk_book_before_cny": 392727.2,
+  "risk_book_after_cny": 392587.3,
+  "holdings_after": [
+   {
+    "symbol": "159263",
+    "lots": 690,
+    "price": 1.138,
+    "amount_cny": 78522.0
+   },
+   {
+    "symbol": "159513",
+    "lots": 925,
+    "price": 1.697,
+    "amount_cny": 156972.5
+   },
+   {
+    "symbol": "159577",
+    "lots": 487,
+    "price": 1.612,
+    "amount_cny": 78504.4
+   },
+   {
+    "symbol": "513690",
+    "lots": 674,
+    "price": 1.166,
+    "amount_cny": 78588.4
+   }
+  ]
+ },
  "band_ruler": {
   "status": "ok",
   "artifact": "results/etf_book_band_ruler.json",
@@ -6410,8 +6496,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 12.4,
+  "owner_silent_h": 13.9,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 12.4 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 13.9 h (> 6 h): its page faces are stopped, not merely old"
  }
 }
