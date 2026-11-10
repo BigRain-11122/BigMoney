@@ -28125,5 +28125,39 @@ except Exception as _e648x:
     _d648 = "study could not be read"
 check(_name648, not _bad648, "; ".join(_bad648)[:240] or _d648)
 
+# E645 asks what E644's own limits left open: 22 of the 32 depth-1 store sites in the counted
+# functions subscript with an expression, so E644's "no site names a counted row key" speaks only
+# about literal spellings.  This leg refuses a face whose counters do not re-add, whose domain
+# states or container ways leave the vocabulary, whose resolved domain is empty or whose unresolved
+# domain carries values, whose spelled keys are not a subset of that site's own value set and of its
+# own function's counted read keys, whose reach flag is not what its two gates force, and whose
+# verdict is not the one its own counts force -- so a "no site reaches" answer can only be published
+# as the container-gate reading it actually is.
+_name645 = "E645 whether a computed depth-1 subscript can reach a counted row key (r1666 bm-b)"
+_bad645 = []
+_d645 = "no reading"
+try:
+    _f645 = json.load(open(os.path.join("results", "state_tilt", "computedreach_latest.json"),
+                           encoding="utf-8"))
+    _m645 = importlib.import_module("e645_computed_subscript_reach")
+    _bad645.extend(_m645.face_problems(_f645))
+    _c645 = _f645.get("counts") or {}
+    _sites645 = [s for f in (_f645.get("functions") or [])
+                 for s in (f.get("computed_write_sites") or [])]
+    if sum((_c645.get("domain_state_histogram") or {}).values()) != len(_sites645):
+        _bad645.append("the domain histogram is not the computed-site count")
+    if sum((_c645.get("container_way_histogram") or {}).values()) != len(_sites645):
+        _bad645.append("the container histogram is not the computed-site count")
+    if (_c645.get("sites_reaching_a_counted_row_key") or 0) > (
+            _c645.get("sites_writing_into_the_read_container") or 0):
+        _bad645.append("more sites reach than write into the read container at all")
+    if _f645.get("verdict") == _m645.V_REACHES and not _c645.get(
+            "sites_reaching_a_counted_row_key"):
+        _bad645.append("a reaching verdict without a reaching site")
+except Exception as _e645x:
+    _bad645.append(repr(_e645x)[:160])
+    _d645 = "study could not be read"
+check(_name645, not _bad645, "; ".join(_bad645)[:240] or _d645)
+
 if __name__ == "__main__":
     sys.exit(main())

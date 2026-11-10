@@ -1535,6 +1535,14 @@ LEGS = [
     # per key.  Verify re-derives every count and class from the face's own rows.
     ("key_genericity", ["python", "scripts/e648_keygenericity.py", "verify"]),
 
+    # E645 prices the residual E644 published in its own limits: 22 of the 32 depth-1 store sites
+    # subscript with an expression, so "no site names a counted row key" was a literal-only reading.
+    # Two gates are published side by side -- the subscript's resolvable value set (resolved /
+    # not_a_string_key / unresolved) and whether the store writes into the object a counted read
+    # line actually reads -- because a matching key in another dict cannot change the counted value.
+    # Verify re-derives every count, both histograms and the reach flag from the face's own rows.
+    ("computed_reach", ["python", "scripts/e645_computed_subscript_reach.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

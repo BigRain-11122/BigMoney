@@ -15212,3 +15212,38 @@ E642 的主结论后面跟着一条弱臂（「别的模块里那 7 个模块级
 + `scripts/run_e648_smoke_leg.py`（1/1 PASS·`--doctor` 1/1 红·字节复原 sha 同）+ smoke_test.py leg E648
 + `Tools/s6_chain_bmb.py` leg `key_genericity`（rc=0）+ `research/digests/DIGEST-20261110-r1665-e648-key-genericity.md`
 + POOL E648 done（ready 3 = floor 3）
+
+## E645 —— 一门判不了就看第二门（计算下标能否触及计数行键）（r1666 bm-b，2026-11-10）
+E644 在自己的 limits 里留了一个残差：32 个深度-1 写站点里 **22 个下标是表达式**，所以「没有站点拼出计数行键」
+只是一句关于**字面拼写**的话，一个计算下标完全可以在运行时等于 `days` / `slip_exec` / `verdict` 而对
+E644 的读者不可见。本卡把这条残差定死，答案是**容器身份**，不是取值追踪。
+
+**两门并列发布**（任一门不开就不通）：
+- **键门**：下标表达式能否取到计数键？三态而非两态——`resolved`（有限字符串集合）/ `not_a_string_key`
+  （元组键 `cell_recs[(cell, face)]`、非字符串常量、切片——**形状**上就不可能等于字符串行键）/
+  `unresolved`（参数、调用结果、属性、f-string）。
+- **容器门**：这个写入是否落在被计数读行**真正读的那个对象**上？`same_name` / 一次别名 `x = P` / `another_object`。
+
+**读数**：22 个计算下标站点，3/6 计数函数；域态 9 resolved / 3 not_a_string_key / 10 unresolved；
+9 个 resolved 全是 `CORE_DD10 … SAT40_DD20` 这类循环字面量，**没有一个能拼出行键**；**0 个写进被读容器**
+（0 个经别名）；**0 个触及计数行键**；**10 个被容器门单独排除**（未解域+另一对象），即「结构上不通，与取值无关」。
+那 10 个的容器全是本函数内新绑定的 dict（`cell_recs`/`judged_series`/`g1`/`mask_k`/`rb`/`numbers`…），
+被计数行读的是 `P['days']`、`faces['verdict']`。
+
+**教训（三条）**：
+1. **一门判不了就找第二门，让第一门变得无关，然后两门都发，并点名是哪一门承重。** E644 的残差看起来要
+   运行时追踪，其实只要问容器身份：键拼对了也写进另一个 dict，被计数的值不会动。只报键门会说「10 个不可判」，
+   只报容器门会藏住「9 个域其实可解且按值排除」。**单一读数都不是答案**。
+2. **`not_a_string_key` 是第三态，不是漏判。** 把元组键/非字符串常量/切片并进 `unresolved`，会用**已经判定的形状**
+   去抬不可判计数。
+3. **resolved 集合必须是「表达式能取到的集合」，不是「被测过的集合」。** 名字解析至多三跳（循环目标→字面量集合、
+   局部赋值→字面量、模块作用域字面量）；参数/调用结果/属性/f-string 一律 `unresolved`，**不许发成空集**。
+
+**How**：任何「字面匹配读不到，但表达式可能绕过」的残差，先问是否存在一个**独立的结构门**（容器身份、调用链、
+文件归属）把问题关死；有就两门并列发、判词点名承重门；没有才需要运行时证据。第三态（形状上不可能）必须单列。
+
+**证据** = `scripts/e645_computed_subscript_reach.py`（selftest 13/13·`run`/`check`/`verify`/`--help` 全 rc0）
++ `results/state_tilt/COMPUTEDREACH.json` + `computedreach_latest.json` + `scripts/run_e645_smoke_leg.py`
+（1/1 PASS·`--doctor` 1/1 翻红·字节还原 sha `d42b4ce1dec0` 同进同出）+ smoke_test.py leg E645
++ `Tools/s6_chain_bmb.py` leg `computed_reach`（rc=0）+ `research/digests/DIGEST-20261110-r1666-e645-computed-reach.md`
++ POOL E645 done。

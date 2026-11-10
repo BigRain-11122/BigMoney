@@ -1,0 +1,438 @@
+{
+ "study": "E645_computed_subscript_reach",
+ "date": "2026-11-10",
+ "source_face": "results/state_tilt/ONEDEPTHWRITE.json",
+ "method": "for every depth-1 Store/Del site whose subscript is computed (selected from E644's published face), resolve the subscript expression to a finite set of string constants where the source allows it, classify the result as resolved / not_a_string_key / unresolved, and record whether the store writes into the object a counted read line of the same function reads (name equality plus one alias step); a site reaches the counted mapping only when both gates open",
+ "population_source": "6 function(s) machine-read from results/state_tilt/ONEDEPTHWRITE.json; 22 computed-subscript depth-1 store site(s) selected from that face's own rows",
+ "counts": {
+  "counted_functions": 6,
+  "counted_functions_with_a_scope_problem": 0,
+  "computed_subscript_sites": 22,
+  "functions_carrying_a_computed_site": 3,
+  "domain_state_histogram": {
+   "not_a_string_key": 3,
+   "resolved": 9,
+   "unresolved": 10
+  },
+  "sites_with_a_resolved_domain": 9,
+  "sites_whose_domain_hits_a_counted_read_key": 0,
+  "distinct_counted_keys_a_domain_can_spell": 0,
+  "container_way_histogram": {
+   "aliases_the_read_receiver": 0,
+   "another_object": 22,
+   "same_name_as_the_read_receiver": 0
+  },
+  "sites_writing_into_the_read_container": 0,
+  "sites_writing_into_an_alias_of_the_read_container": 0,
+  "sites_reaching_a_counted_row_key": 0,
+  "sites_excluded_by_the_container_gate_alone": 10
+ },
+ "functions": [
+  {
+   "module": "scripts/cn_core_ddctl_p1.py",
+   "function": "run",
+   "start": 341,
+   "end": 790,
+   "read_receivers": [
+    "P"
+   ],
+   "read_keys": [
+    "days"
+   ],
+   "computed_write_sites": [
+    {
+     "line": 407,
+     "column": 16,
+     "container": "cell_recs",
+     "container_way": "another_object",
+     "subscript_kind": "Tuple",
+     "domain_state": "not_a_string_key",
+     "domain_values": null,
+     "domain_hits_a_counted_read_key": null,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 507,
+     "column": 8,
+     "container": "judged_series",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "resolved",
+     "domain_values": [
+      "CORE_DD10",
+      "CORE_DD20",
+      "SAT40_DD10",
+      "SAT40_DD20"
+     ],
+     "domain_hits_a_counted_read_key": false,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 508,
+     "column": 8,
+     "container": "g1",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "resolved",
+     "domain_values": [
+      "CORE_DD10",
+      "CORE_DD20",
+      "SAT40_DD10",
+      "SAT40_DD20"
+     ],
+     "domain_hits_a_counted_read_key": false,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 512,
+     "column": 8,
+     "container": "dsr",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "resolved",
+     "domain_values": [
+      "CORE_DD10",
+      "CORE_DD20",
+      "SAT40_DD10",
+      "SAT40_DD20"
+     ],
+     "domain_hits_a_counted_read_key": false,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 516,
+     "column": 8,
+     "container": "g2",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "resolved",
+     "domain_values": [
+      "CORE_DD10",
+      "CORE_DD20",
+      "SAT40_DD10",
+      "SAT40_DD20"
+     ],
+     "domain_hits_a_counted_read_key": false,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 544,
+     "column": 12,
+     "container": "row",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "resolved",
+     "domain_values": [
+      "CORE_DD10",
+      "CORE_DD20",
+      "SAT40_DD10",
+      "SAT40_DD20"
+     ],
+     "domain_hits_a_counted_read_key": false,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 545,
+     "column": 8,
+     "container": "same_batch",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "resolved",
+     "domain_values": [
+      "CORE_DD10",
+      "CORE_DD20",
+      "SAT40_DD10",
+      "SAT40_DD20"
+     ],
+     "domain_hits_a_counted_read_key": false,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 557,
+     "column": 12,
+     "container": "stable",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "unresolved",
+     "domain_values": null,
+     "domain_hits_a_counted_read_key": null,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 563,
+     "column": 8,
+     "container": "descriptive",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "resolved",
+     "domain_values": [
+      "CORE_DD10",
+      "CORE_DD20",
+      "SAT40_DD10",
+      "SAT40_DD20"
+     ],
+     "domain_hits_a_counted_read_key": false,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 587,
+     "column": 8,
+     "container": "gate_axis",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "unresolved",
+     "domain_values": null,
+     "domain_hits_a_counted_read_key": null,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 602,
+     "column": 20,
+     "container": "leg_counts",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "unresolved",
+     "domain_values": null,
+     "domain_hits_a_counted_read_key": null,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 603,
+     "column": 8,
+     "container": "sat_picks",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "resolved",
+     "domain_values": [
+      "CORE_DD10",
+      "CORE_DD20",
+      "SAT40_DD10",
+      "SAT40_DD20"
+     ],
+     "domain_hits_a_counted_read_key": false,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 616,
+     "column": 12,
+     "container": "per_face",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "unresolved",
+     "domain_values": null,
+     "domain_hits_a_counted_read_key": null,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 617,
+     "column": 8,
+     "container": "cells_out",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "resolved",
+     "domain_values": [
+      "CORE_DD10",
+      "CORE_DD20",
+      "SAT40_DD10",
+      "SAT40_DD20"
+     ],
+     "domain_hits_a_counted_read_key": false,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    }
+   ],
+   "scope_problem": null
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "simulate",
+   "start": 493,
+   "end": 638,
+   "read_receivers": [
+    "P"
+   ],
+   "read_keys": [
+    "slip_exec"
+   ],
+   "computed_write_sites": [
+    {
+     "line": 578,
+     "column": 8,
+     "container": "mask_k",
+     "container_way": "another_object",
+     "subscript_kind": "Subscript",
+     "domain_state": "unresolved",
+     "domain_values": null,
+     "domain_hits_a_counted_read_key": null,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 611,
+     "column": 8,
+     "container": "rb",
+     "container_way": "another_object",
+     "subscript_kind": "Slice",
+     "domain_state": "not_a_string_key",
+     "domain_values": null,
+     "domain_hits_a_counted_read_key": null,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 615,
+     "column": 8,
+     "container": "r_nav",
+     "container_way": "another_object",
+     "subscript_kind": "Constant",
+     "domain_state": "not_a_string_key",
+     "domain_values": null,
+     "domain_hits_a_counted_read_key": null,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 616,
+     "column": 8,
+     "container": "ser",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "unresolved",
+     "domain_values": null,
+     "domain_hits_a_counted_read_key": null,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 617,
+     "column": 8,
+     "container": "h_day",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "unresolved",
+     "domain_values": null,
+     "domain_hits_a_counted_read_key": null,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 618,
+     "column": 8,
+     "container": "cost_day",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "unresolved",
+     "domain_values": null,
+     "domain_hits_a_counted_read_key": null,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    }
+   ],
+   "scope_problem": null
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "start": 266,
+   "end": 394,
+   "read_receivers": [
+    "faces"
+   ],
+   "read_keys": [
+    "verdict"
+   ],
+   "computed_write_sites": [
+    {
+     "line": 273,
+     "column": 8,
+     "container": "numbers",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "unresolved",
+     "domain_values": null,
+     "domain_hits_a_counted_read_key": null,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    },
+    {
+     "line": 284,
+     "column": 8,
+     "container": "verdicts",
+     "container_way": "another_object",
+     "subscript_kind": "Name",
+     "domain_state": "unresolved",
+     "domain_values": null,
+     "domain_hits_a_counted_read_key": null,
+     "keys_it_can_spell": [],
+     "reaches_a_counted_row_key": false
+    }
+   ],
+   "scope_problem": null
+  },
+  {
+   "module": "scripts/e504_name_compose.py",
+   "function": "selftest",
+   "start": 853,
+   "end": 960,
+   "read_receivers": [
+    "doctored4"
+   ],
+   "read_keys": [
+    "rows"
+   ],
+   "computed_write_sites": [],
+   "scope_problem": null
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "function": "face_problems",
+   "start": 344,
+   "end": 443,
+   "read_receivers": [
+    "r"
+   ],
+   "read_keys": [
+    "bar"
+   ],
+   "computed_write_sites": [],
+   "scope_problem": null
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "start": 358,
+   "end": 486,
+   "read_receivers": [
+    "ports",
+    "sleeves"
+   ],
+   "read_keys": [
+    "x1"
+   ],
+   "computed_write_sites": [],
+   "scope_problem": null
+  }
+ ],
+ "limits": [
+  "'computed' is E644's flag: the site's depth-1 subscript was not a string constant.  A site whose subscript is a tuple (cell_recs[(cell, face)]) is computed by that definition and is published here as not_a_string_key, because a tuple key cannot equal a string row key whatever its elements are",
+  "a resolved value set is the set of literal strings the expression can take by following its binding to a loop target over a literal collection, a local assignment over a literal, or a module-scope literal, at most three hops; a parameter, a call result, an attribute or a joined string is published as unresolved, not as empty",
+  "the container gate is name equality plus one alias step (x = P; x[k] = v).  It is not an alias proof: two names can point at one object through a parameter default, a module global, or a call that returns a shared dict, and none of those are followed",
+  "an 'unresolved' domain beside an open container gate is the only state in which this face cannot answer, and the verdict names that limit rather than folding it into either answer",
+  "the counted read lines and their keys are E644's, which are E640's, not re-derived here: a second definition of 'counted read line' would be free to drift"
+ ],
+ "verdict": "none of the computed-subscript depth-1 stores writes into the object a counted read line reads, so a matching key would land in a different dict and cannot change the counted value: the residual E644 published is closed by container identity, whatever the subscripts evaluate to",
+ "answer": "22 computed-subscript depth-1 store(s) in 3 of 6 counted function(s); domains {\"not_a_string_key\": 3, \"resolved\": 9, \"unresolved\": 10}; containers {\"aliases_the_read_receiver\": 0, \"another_object\": 22, \"same_name_as_the_read_receiver\": 0}; 0 write into the read container (0 through an alias); 0 reach a counted row key; 10 are excluded by container identity alone. scripts/cn_core_ddctl_p1.py:run(14 computed site(s), reads days via P) | scripts/cn_mkneutral_p1.py:simulate(6 computed site(s), reads slip_exec via P) | scripts/e382_key_projection_delta.py:build(2 computed site(s), reads verdict via faces)"
+}
