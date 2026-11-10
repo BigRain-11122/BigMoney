@@ -7,7 +7,7 @@
  "busy": false,
  "chain": "S6 subset 10/10 rc0 (dualrun ZERO-DRIFT streak 51, compute_audit, py_watermark, update_daily, update_futures, futures_tsmom, swap_freshness, swap_trigger, positions_ledger, etf_book_order)",
  "clk": "2026-11-10T16:28:24+08:00",
- "clock_read": "2026-11-11T07:25:36+08:00",
+ "clock_read": "2026-11-11T07:55:13+08:00",
  "clock_read_source": "Get-Date",
  "closeout_notes_archived": "round notes older than the last three rounds are collapsed here; full history lives in round_reports-bm-c.md and git",
  "codely_live_count": 1,
@@ -104,7 +104,7 @@
  "last_decisions_read_at": "2026-11-10T07:58:58+08:00",
  "last_decisions_read_note": "diff 83891884..origin/main on docs/decisions.md carries no BigMoney line -> zero action",
  "last_decisions_seen": "97fe122f24826ba5197468df485734d4682839cc666e634d6016db0da28cb38c",
- "last_decisions_sha": "948eeea42e6ed38ddafb77a8ff87695f395ecc7f7848843771e9e8fc8527602a",
+ "last_decisions_sha": "2ffcc70c3dc6d105a6d9535752e59943f75ab90366b5fc6bf387e03857be8337",
  "last_decisions_sha_method": "sha256(git show origin/main:docs/decisions.md raw bytes)",
  "last_decisions_watermark": "8e12e834af75a65f@b082e0d/269059",
  "last_decisions_watermark_v2": "v2:BigRain-11122/FluxGroup@b082e0d73d32cd02ac0796e174791576615bfe5b/269059#8e12e834af75a65fe85d390f83dfa36303bc27d642d39f84cbb4ae65c9c270c2",
@@ -538,7 +538,7 @@
  "round_t1535_next": "next: r1525's second half -- feed the same 5,546.48 shares the 2026-11-11 close (the bar does not exist before 15:00) so the price-drift label stops being null; TODAY is also the 20-bar rebalance bar (last 定稿 2026-10-14), so the post-close ticket is the same window's work, not a separate one",
  "round_t1535_note": "| 2026-11-11 05:05-05:2x | 1535 | **PRODUCT（产品优先律）：机器活着，而这台机器的体检面报了 98 分钟的「心跳停止」——因为它读的是一个没人维护的文件。** 05:05:10 的哨兵 tick 印 `DEGRADED heartbeat_stale_5910s`，而 `fleet/machines/bm-c.json` 的 `heartbeat_epoch_utc` 是 04:55:41（10 分钟前），文件 mtime 05:02:54；同一台机器同时在跑全量套件、两个引擎、autofill。根因一行：`Tools/sentinel_bm-c.py` 第 138 行只读 `state-bm-c.json` 的心跳，而那是**循环轮台账**——r1533/r1534 两个交互窗只推进了 fleet 心跳，台账停在 03:26:40（round_no 还写着 1532），于是「有没有人活着」被一个文件的滞后回答了。**正法=两个面都读、取最新的那个**：新增 `_read_hb()` / `_heartbeat_face()`，①aliveness=两面年龄取最小值；②DEGRADED 需**每一个可读面**都过线（只有一个面可读且过线=照样红）；③读不到=unknown，永不写成 stale（缺文件不是死机器，E240 族）；④`heartbeat_epoch_utc` 是字符串/非数=该面记错由另一面回答并点名；⑤时钟走快时负龄夹到 0。面上升级为 `heartbeat_verdict/heartbeat_trusted/heartbeat_faces/heartbeat_stale_faces`，`heartbeat_age_s` 保留（读者不变）。**实证**：selftest **9/9**（含 L2 回归腿＝正是这次误报的形状：台账 5910s + fleet 569s → fresh 且逐字披露 `stale_faces=['loop_state']`）；变异体（把判词改回「任一面过线即红」=旧行为）**8/9 rc=1**——这套自检能说不；实弹一次：`sentinel tick NORMAL 2026-11-11T05:12:05+08:00 hb=fresh(984s of fleet)`，面里 `degraded=[]`、`heartbeat_stale_faces=['loop_state']`（陈的那面照样披露，不静默丢）。接线：smoke 新增一条腿 `product: sentinel dual-face heartbeat`（跑 `--selftest` 契约）。**S6 子集 rc0 四条**：dualrun ZERO-DRIFT（744 条 streak 51）／compute_audit FLAG pool_starvation(15768.8min)+supply_floor(ready 0/floor 3·AGENDA_DEBT 4 候选全不过日历)／py_watermark insufficient_history（本地批在飞，py 3.5%）／update_daily rc0 **0 新行** cutoff 2026-11-10。**S0.5**：`fleet/orders/` **114/114** 全在 `orders_ack`（241 条），差集 0；集团 `docs/decisions.md` 原始 blob sha256 **2ffcc70c** 与自持水位同值 → 零动作。**孤儿面 py_faces=6 orphans=0 零杀**。**顺手一枚坑**：用 PowerShell `git show ... | Out-String` 算水位得 **98b6c56b**，原始 blob 字节是 **2ffcc70c**——管道字符串会补/归一换行，任何「blob sha256」必须走 `subprocess` 取原始字节。**未验证（如实）**：全量套件 04:52 起的那份跑在**改码前**的树上（pid 27268 存活、到收轮 0 FAIL），本轮两个改件只有自检 + 实弹一次为据。**当前活**：机器体检面改成「两面取最新」。**最近实物**：`Tools/sentinel_bm-c.py`（v1.2·9 腿自检）＋ `results/_sentinel_bm-c.json` 05:12:05 tick。**下个里程碑**：r1525 第二半（同一 5,546.48 份 × 2026-11-11 收盘价重估）——今日收盘 15:00 后 bar 才存在（窗 ≤48h）。 |",
  "rounds": 1535,
- "smoke": "PARTIAL: full suite started 05:38 on the post-change tree (pid 74740, logs/smoke_r1536.log), in flight at close",
+ "smoke": "PARTIAL: full suite 07:52 post-change tree (pid 32000, logs/smoke_r1540.log) in flight",
  "src": "Tools/sentinel_bm-c.py (v1.2 _read_hb/_heartbeat_face/--selftest) + smoke_test.py leg",
  "status": "product",
  "sync": {
@@ -549,13 +549,13 @@
   "origin_tip": "d811c1364c",
   "ts": "2026-11-11T05:18:06+08:00"
  },
- "task": "r1535: the health face stopped reading one unmaintained file -- two heartbeats, freshest wins, stale only when every readable face is stale",
+ "task": "r1540: page pricing-day reader single-sourced (priced_faces.faces.page), page prints both days",
  "total_ram_gb": 23.9,
- "ts": "2026-11-11T07:25:36+08:00",
+ "ts": "2026-11-11T07:55:13+08:00",
  "updated": "2026-11-11 05:18",
  "updated_at": "2026-11-11T05:18:06+08:00",
- "verdict": "ok",
- "verify": "sentinel --selftest 9/9; mutant (single-face rule restored) 8/9 rc=1; live tick NORMAL hb=fresh(984s of fleet) with stale_faces=['loop_state']; S6 subset 4/4 rc0",
+ "verdict": "PRODUCT: stale-page leg was a self-comparison (read a key the page never writes, fallback filled in evidence_cutoff); one reader + source travels with the answer + mechanical second-copy leg; page selftest 202/202, prod 91 legs",
+ "verify": "prod selftest 91 OK, page 202/202, render mutant 201/202 L184 red, scan canary 1->0 over 2308 files, S6 quartet rc0",
  "vram_free_gb": 14.7,
- "watermark_verdict": "py_low_with_work_cands"
+ "watermark_verdict": "insufficient_history"
 }

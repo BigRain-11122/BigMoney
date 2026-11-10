@@ -167,6 +167,35 @@ def _page_priced_bar(results_dir=None):
         return None
 
 
+def page_priced_bar_doc(doc):
+    """Which bar a written CEO page says it was PRICED on -- one reader, named source (r1540).
+
+    The page carries that answer under three keys that are not the same statement:
+    `priced_faces.faces.page` (this paper, standing beside the card and the ticket),
+    `priced_bar` (the page's own bar) and `evidence_cutoff` (the whole page's data cut).
+    Two suite legs used to read `priced_faces.page` -- a key that does not exist -- and
+    fall back to `evidence_cutoff`, so the check "is this page priced on the same bar as
+    the face beside it" silently compared the page with itself and could never fail.
+    Precedence is stated here instead of in the callers, and the key that answered travels
+    with the answer so a leg can print it rather than guess.
+
+    A page that ships the `priced_faces` block and then does not answer inside it returns
+    bar=None: that is a defect, not a legacy page, and no caller may paper over it.
+    """
+    d = doc if isinstance(doc, dict) else {}
+    block = d.get("priced_faces")
+    if isinstance(block, dict):
+        bar = ((block.get("faces") or {}).get("page"))
+        if bar:
+            return {"bar": bar, "source": "priced_faces.faces.page"}
+        return {"bar": None, "source": "priced_faces_without_page_face"}
+    for key in ("priced_bar", "evidence_cutoff"):
+        bar = d.get(key)
+        if bar:
+            return {"bar": bar, "source": key}
+    return {"bar": None, "source": "absent"}
+
+
 def priced_faces(page_bar=None, results_dir=None, card_bar=None, ticket_bar=None):
     """Which closing bar each of the three papers a reader holds was priced on (r1185).
 
@@ -2493,6 +2522,35 @@ def selftest():
             and _pf_ovr["faces"]["ticket"] == "2026-10-30", str(_pf_ovr["faces"]))
         chk("an absent page artifact reads None, never agreement",
             _page_priced_bar(_pf_dir) is None)
+        # 10i-b (r1540): the page's own pricing day has ONE reader, and the key that
+        # answered is part of the answer. Two suite legs used to read the nonexistent
+        # `priced_faces.page` and fall back to the page's evidence_cutoff -- the check then
+        # compared the page with itself. Overriding the legacy keys has to lose on purpose.
+        _ppd_face = page_priced_bar_doc({"evidence_cutoff": "2026-11-10",
+                                         "priced_bar": "2026-11-10",
+                                         "priced_faces": {"faces": {"card": "2026-10-30",
+                                                                    "ticket": "2026-10-30",
+                                                                    "page": "2026-10-30"}}})
+        chk("the page's pricing day comes from its own face, not from evidence_cutoff",
+            _ppd_face["bar"] == "2026-10-30"
+            and _ppd_face["source"] == "priced_faces.faces.page", str(_ppd_face))
+        _ppd_gap = page_priced_bar_doc({"evidence_cutoff": "2026-11-10",
+                                        "priced_faces": {"faces": {"card": "2026-10-30"}}})
+        chk("a page that ships priced_faces but no page face reads None, not the cutoff",
+            _ppd_gap["bar"] is None
+            and _ppd_gap["source"] == "priced_faces_without_page_face", str(_ppd_gap))
+        _ppd_legacy = page_priced_bar_doc({"evidence_cutoff": "2026-11-10",
+                                           "priced_bar": "2026-11-09"})
+        chk("a pre-r1185 page still answers, and says which key answered",
+            _ppd_legacy["bar"] == "2026-11-09" and _ppd_legacy["source"] == "priced_bar",
+            str(_ppd_legacy))
+        _ppd_cut = page_priced_bar_doc({"evidence_cutoff": "2026-11-10"})
+        chk("with no priced bar at all the cutoff is used and named as such",
+            _ppd_cut["bar"] == "2026-11-10" and _ppd_cut["source"] == "evidence_cutoff",
+            str(_ppd_cut))
+        chk("an empty page reads absent rather than a day",
+            page_priced_bar_doc({})["bar"] is None
+            and page_priced_bar_doc(None)["source"] == "absent")
     finally:
         E.PATHS.results_dir = _keep_res3
         shutil.rmtree(_pf_dir, ignore_errors=True)

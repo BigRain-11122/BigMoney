@@ -1,18 +1,18 @@
 {
- "ts": "2026-11-11T04:04:56",
+ "ts": "2026-11-11T07:36:57",
  "mode": "probe",
- "py_faces_seen": 8,
+ "py_faces_seen": 7,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
- "resident_servers_exempt": 1,
+ "resident_servers_exempt": 0,
  "faces": [
   {
    "pid": 3288,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 3486.6,
-   "cpu_delta_20s": 3.062,
+   "age_min": 3698.6,
+   "cpu_delta_20s": 3.234,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
@@ -24,8 +24,8 @@
    "pid": 19864,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 3486.4,
-   "cpu_delta_20s": 4.422,
+   "age_min": 3698.4,
+   "cpu_delta_20s": 3.203,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -37,7 +37,7 @@
    "pid": 27928,
    "name": "python.exe",
    "cmd": "python Tools\\fleet\\agent.py --node bm-c --loop 60",
-   "age_min": 3486.7,
+   "age_min": 3698.7,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -48,11 +48,11 @@
    ]
   },
   {
-   "pid": 44984,
+   "pid": 31176,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m smoke_test",
-   "age_min": 2.2,
-   "cpu_delta_20s": 0.047,
+   "age_min": 15.6,
+   "cpu_delta_20s": 2.703,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
@@ -61,23 +61,7 @@
    ]
   },
   {
-   "pid": 62516,
-   "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 39.5,
-   "cpu_delta_20s": 0.016,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ],
-   "listen_ports": [
-    8188
-   ]
-  },
-  {
-   "pid": 71112,
+   "pid": 65900,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\resident",
    "age_min": 0.4,
@@ -90,56 +74,38 @@
    ]
   },
   {
-   "pid": 71640,
+   "pid": 73408,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.5,
-   "cpu_delta_20s": 0.703,
+   "cpu_delta_20s": 0.578,
    "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
+   "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
     "pwsh.exe",
     "codely.exe",
     "powershell.exe",
-    "DEAD"
+    "wscript.exe"
    ]
   },
   {
-   "pid": 72080,
+   "pid": 77532,
    "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe scripts/etf_book_cut_order_gap.py --check",
-   "age_min": 0.3,
-   "cpu_delta_20s": 999.0,
-   "face1_parent_dead": false,
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
+   "age_min": 23.5,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "python.exe",
     "DEAD"
    ]
   }
  ],
  "orphan_details": [],
  "idle_server_details": [],
- "resident_server_details": [
-  {
-   "pid": 62516,
-   "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 39.5,
-   "cpu_delta_20s": 0.016,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ],
-   "listen_ports": [
-    8188
-   ]
-  }
- ],
+ "resident_server_details": [],
  "sample_sec": 20.0,
  "stall_cpu_sec": 0.1,
  "grace_min": 30.0,

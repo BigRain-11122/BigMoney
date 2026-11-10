@@ -5930,6 +5930,18 @@ def render_md(p):
     else:
         add("**无法判断。** %s —— 有一张纸没写自己的定价日，所以这里既不能说「一致」，"
             "也不能说「不一致」。" % _shown)
+    # r1540: the page's own day and the page's data cut are two different quantities, and
+    # both are on this sheet. Until now only the first was printed, so a reader had no way
+    # to see that the suite's stale-page check was comparing the page with itself.
+    _pp_day = str(p.get("priced_bar") or "")
+    _pp_cut = str(p.get("evidence_cutoff") or "")
+    if _pp_day and _pp_cut:
+        if _pp_day == _pp_cut:
+            add("本页自己那一格写的是「定价 %s」，整页数字的数据截止日也是 %s —— 今天这两个"
+                "碰巧是同一天；它们不是同一个量，读别处的页面时要分开看。" % (_pp_day, _pp_cut))
+        else:
+            add("**本页定价 %s，但整页数字算到 %s** —— 价格按前者、数字按后者，不是同一个量；"
+                "照这张纸下单前先把两个日子对一眼。" % (_pp_day, _pp_cut))
     add("")
     _auth = p.get("authority") or {}
     if _auth.get("took_over"):
@@ -8142,6 +8154,26 @@ def selftest():
         _kg_other_ticket.get("status") == "mismatch"
         and "TICKET-2026-11-11" in (_kg_other_ticket.get("mismatch_reason") or ""),
         "reason=%s" % _kg_other_ticket.get("mismatch_reason"))
+    # L182-L184 (r1540): the page's own pricing day and the page's data cut are two
+    # quantities. Only one of them used to be printed, which is exactly how the suite's
+    # stale-page leg ended up comparing the page with itself.
+    _pp_ok = dict(page)
+    _pp_ok["priced_bar"] = _pp_ok["evidence_cutoff"] = "2026-11-10"
+    _pp_ok_txt = render_md(_pp_ok)
+    chk("L182 page: the pricing day and the data cut are printed side by side",
+        "定价 2026-11-10" in _pp_ok_txt and "数据截止日也是 2026-11-10" in _pp_ok_txt)
+    _pp_off = dict(page)
+    _pp_off["priced_bar"] = "2026-11-05"
+    _pp_off["evidence_cutoff"] = "2026-11-10"
+    _pp_off_txt = render_md(_pp_off)
+    chk("L183 page: a page priced on an older bar than its numbers says so outright",
+        "本页定价 2026-11-05，但整页数字算到 2026-11-10" in _pp_off_txt
+        and "碰巧是同一天" not in _pp_off_txt)
+    _pp_none = dict(page)
+    _pp_none["priced_bar"] = None
+    chk("L184 page: with no pricing day the sentence is not printed at all (no blank claim)",
+        "碰巧是同一天" not in render_md(_pp_none)
+        and "整页数字算到" not in render_md(_pp_none))
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

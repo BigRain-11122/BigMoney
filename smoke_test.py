@@ -6961,6 +6961,7 @@ def main() -> int:
     try:
         import importlib as _il52
         _G52 = _il52.import_module("etf_book_sleeve_gate")
+        _P52b = _il52.import_module("etf_book_production")
         _p52 = os.path.join(PATHS.results_dir, "etf_book_sleeve_gate.json")
         _bad52, _note52 = [], ""
         if not os.path.exists(_p52):
@@ -6986,9 +6987,15 @@ def main() -> int:
                     if os.path.exists(_json52p):
                         with open(_json52p, encoding="utf-8") as _fh52:
                             _pj52 = json.load(_fh52)
-                        _priced52 = ((_pj52.get("priced_faces") or {}).get("page")
-                                     or _pj52.get("evidence_cutoff"))
-                    if _priced52 != _pub52.get("evidence_cutoff"):
+                        # r1540: one reader. `priced_faces.page` never existed (the page
+                        # nests it under `faces`), so this used to fall back to the page's
+                        # own evidence_cutoff -- the page compared with itself.
+                        _pp52 = _P52b.page_priced_bar_doc(_pj52)
+                        _priced52 = _pp52["bar"]
+                        if _priced52 is None:
+                            _bad52.append("page ships priced_faces but does not say its own "
+                                          "pricing day (%s)" % _pp52["source"])
+                    if _priced52 is not None and _priced52 != _pub52.get("evidence_cutoff"):
                         # r1493: a page priced on another bar is only this host's defect
                         # when this host may write it (the writer's own guard decides).
                         _n52 = _page_elsewhere_note(_ceo_page_view(),
@@ -8981,6 +8988,7 @@ def main() -> int:
     try:
         import importlib as _il57
         _P57 = _il57.import_module("etf_book_exposure_timing")
+        _P57b = _il57.import_module("etf_book_production")
         _p57 = os.path.join(PATHS.results_dir, "etf_book_exposure_timing.json")
         _bad57, _note57 = [], ""
         _pub57 = _P57.read_published(path=_p57)
@@ -9002,9 +9010,14 @@ def main() -> int:
                 if os.path.exists(_json57p):
                     with open(_json57p, encoding="utf-8") as _fh57:
                         _pj57 = json.load(_fh57)
-                    _priced57 = ((_pj57.get("priced_faces") or {}).get("page")
-                                 or _pj57.get("evidence_cutoff"))
-                if _priced57 != _pub57.get("evidence_cutoff"):
+                    # r1540: one reader -- the key is priced_faces.faces.page; the old
+                    # top-level read returned None and fell back to the page's own cutoff.
+                    _pp57 = _P57b.page_priced_bar_doc(_pj57)
+                    _priced57 = _pp57["bar"]
+                    if _priced57 is None:
+                        _bad57.append("page ships priced_faces but does not say its own "
+                                      "pricing day (%s)" % _pp57["source"])
+                if _priced57 is not None and _priced57 != _pub57.get("evidence_cutoff"):
                     # r1493: same split once more -- a page on another bar belongs to its
                     # writer. Keep it red only where this host could have written it.
                     _n57 = _page_elsewhere_note(_ceo_page_view(),
@@ -9051,6 +9064,45 @@ def main() -> int:
               % ((_pub57.get("verdict") or {}).get("state"),))
     except Exception as e:
         check("product: the page tells a de-levered book from a well-timed one", False,
+              repr(e)[:160])
+    # ---- r1540: the page's own pricing day has ONE reader ------------------------------
+    # Two legs above used to read `priced_faces.page` -- a key the page never writes -- and
+    # fell back to the page's evidence_cutoff, which compares the page with itself and can
+    # never fail. The reader is etf_book_production.page_priced_bar_doc; this leg fails the
+    # day a second copy of that read appears anywhere else (E289: two copies, two drifts).
+    try:
+        import importlib as _il70
+        _PB70 = _il70.import_module("etf_book_production")
+        # split so this line is not itself a copy of the pattern it looks for
+        _bad70, _pat70 = [], '.get("priced_faces")' + ' or {}).get("page"'
+        _scan70 = ["smoke_test.py"]
+        for _sub70 in ("scripts", "Tools"):
+            _d70 = os.path.join(PATHS.root, _sub70)
+            if os.path.isdir(_d70):
+                _scan70 += [os.path.join(_sub70, f) for f in sorted(os.listdir(_d70))
+                            if f.endswith(".py")]
+        for _rel70 in _scan70:
+            if _rel70.endswith("etf_book_production.py"):
+                continue
+            try:
+                with open(os.path.join(PATHS.root, _rel70), encoding="utf-8",
+                          errors="replace") as _fh70:
+                    if _pat70 in _fh70.read():
+                        _bad70.append(_rel70)
+            except OSError:
+                continue
+        _pr70 = _PB70.page_priced_bar_doc(
+            {"evidence_cutoff": "2026-11-10", "priced_bar": "2026-11-09",
+             "priced_faces": {"faces": {"card": "2026-10-30", "ticket": "2026-10-30",
+                                        "page": "2026-10-30"}}})
+        if _pr70["bar"] != "2026-10-30" or _pr70["source"] != "priced_faces.faces.page":
+            _bad70.append("the reader itself answered %r" % (_pr70,))
+        check("product: the page's own pricing day is read through one reader",
+              not _bad70,
+              "second copies of the top-level read: " + ", ".join(_bad70) if _bad70
+              else "one reader (etf_book_production.page_priced_bar_doc), 3 faces")
+    except Exception as e:
+        check("product: the page's own pricing day is read through one reader", False,
               repr(e)[:160])
     # ---- r1198: the cost assumption under every published number must be priced -----
     # Every CAGR on every face is charged 10 bp a side, and r1195 measured the tape at

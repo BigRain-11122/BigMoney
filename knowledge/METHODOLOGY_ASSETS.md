@@ -12883,3 +12883,23 @@ S6 腿 `live_book_section_bars`（check+run，0.3s）· smoke 两条新腿（逐
 3. 身份臂要钉在**上游已发布的面**上（这里是 band ruler 的同一格），不是钉在自己重算的数上——本窗第一次实跑就把成本单位写成了分数（8bp → 80000bp），年化读到 -34%，是身份臂当场把这次事故拦下的。
 
 **证据**：`scripts/etf_book_k_grid.py` selftest **17/17** · `--check` OK（verdict 由行重算、二十相位齐、账本行重读）· `results/etf_book_k_grid.json`（evidence_cutoff 2026-11-10）· S6 腿 `k_grid` 0.9s rc0 · smoke 两腿。
+
+
+## E534 · 读一个不存在的键，再用兜底填上——那条腿从此只跟自己比（r1540 bm-c）
+
+**现象**：两条 suite 腿要回答「这张 CEO 页是不是跟它旁边那个面在同一天定价的」。写法是 `((doc.get("priced_faces") or {}).get("page") or doc.get("evidence_cutoff"))`。页面从来没写过 `priced_faces.page`（它把三张纸的定价日并排放在 `priced_faces.faces.page`），于是第一个键恒为 None，`or` 把**整页的数据截止日**顶上来——腿从此比的是「页面的数据截止日 vs 旁边面的数据截止日」，也就是页面跟自己对印；只要页面是自己写的，永远绿。
+
+**根因一行**：不是兜底写错，是**兜底让键名错误变成静默**：`or` 一接上，读者与作者之间就不再有任何可以违约的契约。
+
+**正法**：
+1. 读法下沉成单一实现 `etf_book_production.page_priced_bar_doc(doc)`，优先级写在读器里（`priced_faces.faces.page` → `priced_bar` → `evidence_cutoff`），并且**哪个键答的跟着答案一起走**（`{"bar":…, "source":…}`），腿可以把「是谁答的」印进判词而不是猜；
+2. **「有块但没答案」不许兜底**：页面带了 `priced_faces` 却不在里面回答自己 → `bar=None`，那是缺陷不是老页面；
+3. 腿改成 `bar is None` 直接红；
+4. 补一条机械腿：`scripts/`、`Tools/`、`smoke_test.py` 里出现旧写法则红（2308 个文件 0 命中；放一个 canary 立刻 1 命中）——第二份拷贝就是第二处会漂（E289）。
+
+**教训三条**：
+1. 任何 `x.get("k") or fallback` 之后立即比对的腿，先问一句：**k 在生产者里真的存在吗？** 把 fallback 临时换成 `raise` 跑一次，全绿的腿会当场红——这是最便宜的「这条腿还在测东西吗」探针。
+2. 兜底必须**带名字**：`or` 的语义是「没说就当另一个」，正确语义是「没说就说不出来」；返回 source 就是把这条语义落到数据里。
+3. 同一种读法出现两次以上，就把它钉成「不许再出现」的机械腿——人不会再犯，代码会。
+
+**证据**：`scripts/etf_book_production.py` selftest 91 腿全过（新增 10i-b 五腿，含「有块无答案读 None 不回落」）· `scripts/etf_book_ceo_page.py` selftest **202/202**（L182-L184 钉「定价日与数据截止日并排印」；变异体撤掉守卫 → L184 红、201/202）· canary 变异（放入旧写法 → 扫描 1 命中；移除 → 0）· 页面重发布 `docs/live_book/LIVE-BOOK-20261111.md`（bm-c 代笔，新增一行并排披露）。

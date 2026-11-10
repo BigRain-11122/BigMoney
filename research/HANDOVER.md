@@ -1,4 +1,21 @@
 # Bigmoney 交接与成果收割指南（HANDOVER）
+## 5x 幂等快照 · r1540（2026-11-11 07:5x · bm-c）
+> 授权口径不变：逐轮权威=`round_reports-bm-c.md` 全行在册；本块只做「产物清单与完成状态」核对与指针，不复制轮报告正文。
+> 本块覆盖 bm-c 线 r1536→r1540（下文 r1235 等历史块由 bm-a 线维护，未合并）。
+
+**本线产物（可核）**
+
+| 产物 | 状态 |
+|---|---|
+| r1540 `scripts/etf_book_production.page_priced_bar_doc`（页面定价日单一读器·source 随答案走） | 已发布（selftest 91 腿；smoke 腿「读经一个读器」扫 2308 文件 0 命中 / canary 1 命中） |
+| r1540 `scripts/etf_book_ceo_page.py`（页面并排印「定价日 / 数据截止日」，L182-L184） | 已发布（selftest 202/202）· `docs/live_book/LIVE-BOOK-20261111.md` 已重生成（bm-c 代笔） |
+| r1540 卡 E534（读不存在的键再兜底＝跟自己比） | 已 append |
+| r1539 CEO 页接管重发布（bm-a 6.1h 无心跳→bm-c 代笔，页面回到 11-10 定价） | 已发布 |
+| r1538 `scripts/etf_book_k_grid.py`（决策网格 vs 杠杆网格相位定价·selftest 17/17）+ `results/etf_book_k_grid.json` + `research/ETF_BOOK_K_GRID.md` + 卡 E533 + S6 腿 | 已发布 |
+| r1537 页面/数据车道腿的时间快照修复 + 全量套件终判由红转绿 | 已修复入腿 |
+| r1536 `scripts/etf_book_next_decision.py`（决策时钟单源·selftest 20/20）+ `etf_book_swap_units` 改消费该时钟（45/45） | 已发布 |
+| 本轮全量套件 | 见 `logs/smoke_r1540.log`（收轮时在飞；历史终判见各轮行） |
+
 
 ## 5x 幂等快照 · r1235（2026-11-02 11:2x · bm-a）
 > 授权口径不变：逐轮权威=`round_reports-bm-a.md` 全行在册；本块只做「产物清单与完成状态」核对与指针，不复制轮报告正文。
