@@ -142,6 +142,17 @@
    "filled": false,
    "turn": 0.0,
    "provisional": true
+  },
+  {
+   "bar": "2026-11-10",
+   "nav": 1.0119022178,
+   "dd": -0.003461,
+   "cash": 0.299225,
+   "carry": 1.13268e-05,
+   "n_held": 12,
+   "filled": false,
+   "turn": 0.0,
+   "provisional": true
   }
  ],
  "books": {},
@@ -186,7 +197,7 @@
   "provisional_bars": [
    "2026-11-09"
   ],
-  "carry_last_bar": "2026-11-09",
+  "carry_last_bar": "2026-11-10",
   "settled_faces": [],
   "provisional_faces": [],
   "benchmark_settled_faces": [],
@@ -215,11 +226,6 @@
   }
  ],
  "runs": [
-  {
-   "ts": "2026-10-26T02:49:07+0800",
-   "new_bars": 0,
-   "last_bar": "2026-10-23"
-  },
   {
    "ts": "2026-10-26T03:14:01+0800",
    "new_bars": 0,
@@ -414,15 +420,20 @@
    "ts": "2026-11-10T04:02:11+0800",
    "new_bars": 0,
    "last_bar": "2026-11-09"
+  },
+  {
+   "ts": "2026-11-11T00:51:24+0800",
+   "new_bars": 1,
+   "last_bar": "2026-11-10"
   }
  ],
  "panel": {
   "n_instruments": 1625,
   "flips_repaired": 169,
-  "digest": "bda7c45dfd44cac9",
-  "bars_named": 5276,
+  "digest": "c283703b28c892f5",
+  "bars_named": 5277,
   "first_bar": "2005-02-23",
-  "last_bar": "2026-11-09",
+  "last_bar": "2026-11-10",
   "covers": [
    "close",
    "open",
@@ -542,6 +553,13 @@
     "filled": false,
     "book_nav": 0.999324216,
     "excess": 0.0074611794
+   },
+   {
+    "bar": "2026-11-10",
+    "nav": 1.0007208492,
+    "filled": false,
+    "book_nav": 1.0119022178,
+    "excess": 0.0111733143
    }
   ],
   "rebalance_friction": {
@@ -551,34 +569,34 @@
   },
   "decisions": 83,
   "latest": {
-   "bar": "2026-11-09",
-   "book_nav": 0.999324216,
-   "basket_nav": 0.9919232983,
-   "excess_pp": 0.7461
+   "bar": "2026-11-10",
+   "book_nav": 1.0119022178,
+   "basket_nav": 1.0007208492,
+   "excess_pp": 1.1173
   },
   "significance": {
    "available": true,
-   "bars_used": 1658,
-   "windows": "2020-01-02..2026-11-09",
-   "daily_vol_pct": 0.5413,
-   "annual_vol_pct": 8.455,
+   "bars_used": 1659,
+   "windows": "2020-01-02..2026-11-10",
+   "daily_vol_pct": 0.54122,
+   "annual_vol_pct": 8.454,
    "noise_band_pp": {
-    "1m": 4.745,
-    "3m": 8.218,
-    "1y": 16.573,
-    "3y": 28.705
+    "1m": 4.744,
+    "3m": 8.217,
+    "1y": 16.57,
+    "3y": 28.7
    },
-   "noise_band_pp_at_published": 3.675,
-   "published_bars": 12,
+   "noise_band_pp_at_published": 3.825,
+   "published_bars": 13,
    "bars_needed_for_edge": {
-    "3pp/yr": 7754,
-    "5pp/yr": 2792,
+    "3pp/yr": 7751,
+    "5pp/yr": 2791,
     "10pp/yr": 698
    },
    "min_detectable_edge_pp": {
-    "1y": 16.911,
-    "3y": 9.763,
-    "5y": 7.563
+    "1y": 16.908,
+    "3y": 9.762,
+    "5y": 7.562
    },
    "power": {
     "units": {
@@ -589,16 +607,16 @@
     "power": 0.8,
     "alpha_two_sided": 0.05,
     "z": 2.802,
-    "annual_vol_pct": 8.455,
+    "annual_vol_pct": 8.454,
     "min_detectable_edge_pp": {
-     "6m": 33.506,
-     "1y": 23.692,
-     "2y": 16.753,
-     "3y": 13.679
+     "6m": 33.5,
+     "1y": 23.688,
+     "2y": 16.75,
+     "3y": 13.676
     },
     "years_for_80pct_power": {
      "pre-2020 measured alpha (single arm)": 136.2,
-     "in-window measured alpha (single arm)": 16.8
+     "in-window measured alpha (single arm)": 17.2
     },
     "candidate_sources": {
      "pre-2020 measured alpha (single arm)": {
@@ -609,13 +627,13 @@
      "in-window measured alpha (single arm)": {
       "file": "results/etf_book_spanning.json",
       "field": "arms.book.full.alpha_annual",
-      "edge_pp_per_year": 5.78
+      "edge_pp_per_year": 5.71
      }
     },
     "available": true,
     "read": "a spread inside these bands is not evidence either way: at 12 months this ledger can only resolve edges above its 1y band, and the two edges this book actually published need years, not months"
    },
-   "book_cagr_pct_on_same_window": 8.972,
+   "book_cagr_pct_on_same_window": 9.167,
    "read": "a spread smaller than the band at the bar count it was measured over is indistinguishable from noise; the band shrinks as sqrt(bars), not faster"
   }
  },
