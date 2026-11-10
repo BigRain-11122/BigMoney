@@ -783,6 +783,15 @@ def permission_block(pf):
     return L
 
 
+def _k_gap_module():
+    """The producer module, imported once for every reader on this page (r1515)."""
+    scripts_dir = os.path.join(ROOT, "scripts")
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    import etf_book_k_gap as _KG
+    return _KG
+
+
 def k_gap_face(path=K_GAP_JSON, page_bar=None, ticket_file=None):
     """Which names lost how many lots to the floor, and what buys one back (r1514).
 
@@ -803,17 +812,11 @@ def k_gap_face(path=K_GAP_JSON, page_bar=None, ticket_file=None):
         return {"status": "unreadable",
                 "artifact": _rel(path, ROOT).replace(os.sep, "/"),
                 "detail": "face carries no rows or no rule/floor pair"}
-    bad, tot = [], 0.0
-    for r in rows:
-        px, lots, cny = r.get("price"), r.get("short_lots"), r.get("short_cny")
-        if px is None or lots is None or cny is None or float(px) <= 0:
-            bad.append("%s 缺价或缺手" % r.get("symbol"))
-            continue
-        if abs(float(cny) - int(lots) * 100 * float(px)) > 1.0:
-            bad.append("%s 手数×价 ≠ 金额" % r.get("symbol"))
-        tot += float(cny)
-    if abs(tot - float(g["short_total_cny"])) > 1.0:
-        bad.append("逐名合计 %.2f ≠ 面自己 %.2f" % (tot, float(g["short_total_cny"])))
+    # r1515: the arithmetic and the "is this the same sheet" test moved into the producer
+    # (etf_book_k_gap.verify) because the ORDER sheet now asks the same two questions of the
+    # object it computes. One implementation, two readers (E289).
+    _kgm = _k_gap_module()
+    bad, _ = _kgm.verify(g)
     if bad:
         return {"status": "inconsistent",
                 "artifact": _rel(path, ROOT).replace(os.sep, "/"),
@@ -826,11 +829,7 @@ def k_gap_face(path=K_GAP_JSON, page_bar=None, ticket_file=None):
     out["rows"] = rows
     out["artifact"] = _rel(path, ROOT).replace(os.sep, "/")
     out["status"] = "ok"
-    mism = []
-    if page_bar and g.get("bar") and str(g["bar"]) != str(page_bar):
-        mism.append("面是 %s 的、这一页的价是 %s 的" % (g["bar"], page_bar))
-    if ticket_file and g.get("ticket_file") and g["ticket_file"] != ticket_file:
-        mism.append("面来自 %s、这一页的票是 %s" % (g["ticket_file"], ticket_file))
+    _, mism = _kgm.verify(g, bar=page_bar, ticket_file=ticket_file)
     if mism:
         out["status"] = "mismatch"
         out["mismatch_reason"] = "；".join(mism)
@@ -839,11 +838,7 @@ def k_gap_face(path=K_GAP_JSON, page_bar=None, ticket_file=None):
 
 def k_gap_sentence(kg):
     """The producer's own sentence, so the page never states this number a second way."""
-    scripts_dir = os.path.join(ROOT, "scripts")
-    if scripts_dir not in sys.path:
-        sys.path.insert(0, scripts_dir)
-    import etf_book_k_gap as _KG
-    return _KG.sentence(kg)
+    return _k_gap_module().sentence(kg)
 
 
 def k_gap_block(kg, page_bar=None):

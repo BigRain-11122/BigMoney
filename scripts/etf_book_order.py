@@ -54,6 +54,7 @@ from scripts.etf_asset_class import classify       # noqa: E402
 from scripts.etf_book_bets_face import read_published as read_bets_face  # noqa: E402
 from scripts.etf_book_concentration import read_published as read_concentration  # noqa: E402
 from scripts.etf_book_cut_order_gap import trim_legs        # noqa: E402  (r1455: one trim rule)
+from scripts import etf_book_k_gap as KG                     # noqa: E402  (r1515: per-name floor cut)
 from config import PATHS                           # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -1809,7 +1810,41 @@ def floor_ledger_md(fl):
     return L
 
 
-def permission_block(ticket, perm, rulers=None, floor_src=None):
+def k_gap_block(ticket_json, ticket_file=None):
+    """r1515: the floor's cut, name by name, on the sheet an operator executes.
+
+    r1513 answered "which name lost how many lots, and what buys one back" in
+    results/etf_book_k_gap.json; r1514 put that sentence on the CEO page. The ORDER sheet
+    -- the file a desk actually reads -- still printed only the single over-the-floor
+    total, so the operator holding the ticket could not see that 159577 needs 0.0110pp of
+    permission to restore one lot while the others need 0.0167~0.0442pp.
+
+    The arithmetic is NOT re-derived here: the producer (scripts/etf_book_k_gap.py) owns
+    compute()/sentence()/verify(), and this block only feeds it this sheet's own ticket
+    object and refuses to print a table that does not add up or that belongs to another
+    bar (E289/G4 one number, one implementation). Anything unreadable is named, never
+    rendered as "no cut".
+    """
+    face = None
+    try:
+        face = KG.compute(ticket_json or {})
+    except Exception as exc:                      # a producer crash must not eat the sheet
+        return {"status": "unreadable", "detail": "产面时出错：%s" % exc}
+    if face is None:
+        return {"status": "unreadable",
+                "detail": "票面没有可比的规则尺寸（k_rule），逐名差额无从算起"}
+    if ticket_file:
+        face["ticket_file"] = ticket_file
+    bad, mism = KG.verify(face, bar=(ticket_json or {}).get("as_of"),
+                          ticket_file=ticket_file)
+    if bad:
+        return {"status": "inconsistent", "detail": "；".join(bad), "face": face}
+    if mism:
+        return {"status": "mismatch", "detail": "；".join(mism), "face": face}
+    return {"status": "ok", "face": face}
+
+
+def permission_block(ticket, perm, rulers=None, floor_src=None, k_gap=None):
     """r1455: does this sheet size to what the desk's own permission allows?
 
     r1450 turned five readings of one sizing rule into a permission (floor k=0.393073,
@@ -1832,21 +1867,21 @@ def permission_block(ticket, perm, rulers=None, floor_src=None):
     the sheet refuses to call itself executable.
     """
     if not ticket:
-        return {"status": "unreadable", "reason": "no_ticket",
+        return {"status": "unreadable", "reason": "no_ticket", "k_gap": k_gap,
                 "sentence": "本单没有可定价的仓位，额度无从对照"}
     k_now = ticket.get("beta_k")
     if k_now is None:
-        return {"status": "unreadable", "reason": "ticket_missing_k",
+        return {"status": "unreadable", "reason": "ticket_missing_k", "k_gap": k_gap,
                 "sentence": "票据里没有 k，额度无从对照"}
     k_now = float(k_now)
     if not perm:
-        return {"status": "unreadable", "reason": "missing_permission_receipt", "k_now": k_now,
+        return {"status": "unreadable", "reason": "missing_permission_receipt", "k_now": k_now, "k_gap": k_gap,
                 "floor_source": floor_src,
                 "sentence": ("缺 %s：本单是否超出批准额度**未知**（缺件不等于合规）"
                              % PERMISSION_FACE)}
     floor = perm.get("permitted_k")
     if floor is None:
-        return {"status": "unreadable", "reason": "permission_missing_floor", "k_now": k_now,
+        return {"status": "unreadable", "reason": "permission_missing_floor", "k_now": k_now, "k_gap": k_gap,
                 "floor_source": floor_src,
                 "sentence": "%s 里没有 permitted_k，额度无从对照" % PERMISSION_FACE}
     floor = float(floor)
@@ -1899,6 +1934,7 @@ def permission_block(ticket, perm, rulers=None, floor_src=None):
                                   else bool(trim["k_after"] <= floor + 1e-6)),
             "unused_readings": unused,
             "conflicts": conflicts,
+            "k_gap": k_gap,
             "artifact": PERMISSION_FACE,
             "floor_source": floor_src,
             "verdict": ("PERMISSION_FACES_CONFLICT" if conflicts else
@@ -1954,6 +1990,34 @@ def permission_md(pb):
                           % (u["ruler"], u["k"], u.get("delta_vs_now_pp") or 0.0,
                              u.get("kind") or "?")
                           for u in pb["unused_readings"])]
+    kg = pb.get("k_gap")
+    if kg:
+        # r1515: the sentence the CEO page has carried since r1514 now also reaches the file
+        # an operator executes. Same producer, same arithmetic (KG.sentence), so the two
+        # faces cannot drift apart; unreadable is printed, never silently skipped.
+        L += ["", "### 额度裁掉的每一手（逐名，r1515）"]
+        if kg.get("status") != "ok":
+            L += ["- **无法核验**：%s。这一段空白不代表没有被额度裁掉的手。"
+                  % (kg.get("detail") or "k 差面读不出来"), ""]
+        else:
+            f = kg["face"]
+            L += ["- " + KG.sentence(f), "",
+                  "| 代码 | 价 | 本单手数 | 规则手数 | 少买手数 | 少买金额 | 再买一手要上调 k |",
+                  "|---|---|---|---|---|---|---|"]
+            for r in f["rows"]:
+                L += ["| %s | %.3f | %d | %d | %d | %s | %.4fpp |"
+                      % (r.get("symbol"), float(r.get("price") or 0.0),
+                         int(r.get("lots_ordered") or 0), int(r.get("lots_at_rule") or 0),
+                         int(r.get("short_lots") or 0),
+                         format(r.get("short_cny") or 0.0, ",.2f"),
+                         r.get("next_lot_dk_pp") or 0.0)]
+            L += ["",
+                  "- 口径：逐名差额按票面自己的 sizing NAV（%s 元）与票面自己的价算，取整规则与票面一致"
+                  "（floor(目标金额 / (价×100))）。账本那侧的基座差（%s 元，accrued NAV %s 元）是另一个基，"
+                  "两个数不相加；同一份逐名表另发在 results/etf_book_k_gap.json。"
+                  % (format(f.get("nav_sizing_cny") or 0.0, ",.0f"),
+                     format(f.get("account_base_gap_cny") or 0.0, ",.2f"),
+                     format(f.get("nav_account_cny") or 0.0, ",.0f")), ""]
     L += ["- 出处：%s（决策日 %s）；裁剪算术与 scripts/etf_book_cut_order_gap.py 共用一处实现。"
           % (pb.get("artifact"), pb.get("decision_date") or "?"), ""]
     L += floor_ledger_md(_floor_face())
@@ -2584,13 +2648,25 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     else:
         conc_line = ("where this book's return actually comes from is unpublished (%s); "
                      "run scripts/etf_book_concentration.py run" % (conc.get("status") or "absent"))
-    _perm = permission_block(ticket, _permission_receipt(), _json_face(RULERS_FACE), _sf)
+    # r1515: the per-name cut the floor made is computed on THIS sheet's own ticket object
+    # (never re-derived here) and printed in the permission section, so the operator can see
+    # which name lost how many lots and what one lot back costs in k.
+    _kg = k_gap_block({"ticket": ticket, "k_now": ticket.get("beta_k"),
+                       "k_rule": ticket.get("beta_k_rule"), "as_of": asof,
+                       "base": base, "sizing_floor": _sf},
+                      ticket_file="TICKET-%s.json" % asof)
+    _perm = permission_block(ticket, _permission_receipt(), _json_face(RULERS_FACE), _sf,
+                             k_gap=_kg)
     _perm["floor_source"] = _sf
     # r1478: the band r1477 pinned is now on the sheet an operator opens -- advisory only.
     _band = band_block(k_now, asof, _json_face(SIZING_PREREG_FACE), _perm,
                        _json_face(RULERS_FACE))
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
                "permission": _perm,
+               # r1515: the ticket an operator's tools read carries the per-name cut too,
+               # not only the markdown section (a face only the paper copy knows is r1108).
+               "k_gap": (_kg.get("face") if _kg.get("status") == "ok"
+                         else {"status": _kg.get("status"), "detail": _kg.get("detail")}),
                "sizing_floor": _sf,
                "size_band": _band,
                "inception": str(slip.index[0].date()) if len(slip) else inception,
@@ -4716,6 +4792,36 @@ def selftest():
         "CONFLICT, and the sheet stops claiming it obeys the permission",
         _pb_cf["status"] == "conflict" and _pb_cf["verdict"] == "PERMISSION_FACES_CONFLICT"
         and "矛盾" in _pb_cf_md and "PERMISSION_FACES_CONFLICT" in _pb_cf_md, "")
+
+    # 49g-i. r1515: the per-name cut the floor made now reaches the sheet an operator
+    # executes, with the producer's own arithmetic and sentence (the CEO page has read it
+    # since r1514; the ticket printed only the single total). An unusable table is named --
+    # a blank line here would read as "the floor cut nothing".
+    _kg_face = KG.compute(KG._fixture())
+    _pb_kg_md = "\n".join(permission_md(
+        permission_block(_pb_tk, _pb_perm, k_gap={"status": "ok", "face": _kg_face})))
+    chk("leg49g permission: the sheet prints the per-name cut, name by name, in the "
+        "producer's own sentence",
+        KG.sentence(_kg_face) in _pb_kg_md
+        and all(str(r["symbol"]) in _pb_kg_md for r in _kg_face["rows"])
+        and "再买一手要上调 k" in _pb_kg_md,
+        "rows=%d total=%.2f" % (len(_kg_face["rows"]), _kg_face["short_total_cny"]))
+    _pb_kgx_md = "\n".join(permission_md(
+        permission_block(_pb_tk, _pb_perm,
+                         k_gap={"status": "mismatch",
+                                "detail": "面是 2026-01-02 的、这一张是 2026-01-01 的"})))
+    chk("leg49h permission: another bar's table is printed as unusable, never as 'no cut', "
+        "and its per-name rows stay off the sheet",
+        "无法核验" in _pb_kgx_md and "2026-01-02" in _pb_kgx_md
+        and "再买一手要上调 k" not in _pb_kgx_md, "")
+    _kgblk = k_gap_block({"ticket": KG._fixture()["ticket"], "k_now": 0.40, "k_rule": 0.50,
+                          "as_of": "2026-01-01", "base": {}, "sizing_floor": {}})
+    chk("leg49i k-gap block: this sheet's own ticket decomposes, and a ticket with no rule "
+        "size is named unreadable instead of printed as a zero cut",
+        _kgblk["status"] == "ok" and _kgblk["face"]["short_total_cny"] > 0
+        and k_gap_block({"ticket": {"nav": 1.0, "order": [{"symbol": "A", "price": 1.0}]}}
+                        )["status"] == "unreadable",
+        "status=%s total=%.2f" % (_kgblk["status"], _kgblk["face"]["short_total_cny"]))
 
     # 50a-c. r1457: the sheet carries whether the floor is still in force on the PATH,
     # not only whether this one sheet was trimmed. A trim printed here is not obedience
