@@ -40,6 +40,89 @@
    }
   ],
   "conflicts": [],
+  "k_gap": {
+   "status": "ok",
+   "face": {
+    "face": "etf_book_k_gap",
+    "bar": "2026-11-10",
+    "decision_bar": "2026-11-10",
+    "k_now": 0.393073,
+    "k_rule": 0.460253,
+    "dk_pp": 6.718,
+    "nav_sizing_cny": 1000000.0,
+    "nav_account_cny": 1007436.0,
+    "permission_floor": 0.393073,
+    "permission_source": "permission_receipt",
+    "rows": [
+     {
+      "symbol": "159501",
+      "price": 2.11,
+      "lots_ordered": 372,
+      "lots_at_rule": 436,
+      "short_lots": 64,
+      "short_shares": 6400,
+      "short_cny": 13504.0,
+      "next_lot_dk_pp": 0.0442
+     },
+     {
+      "symbol": "513100",
+      "price": 2.21,
+      "lots_ordered": 355,
+      "lots_at_rule": 416,
+      "short_lots": 61,
+      "short_shares": 6100,
+      "short_cny": 13481.0,
+      "next_lot_dk_pp": 0.0307
+     },
+     {
+      "symbol": "513690",
+      "price": 1.16,
+      "lots_ordered": 677,
+      "lots_at_rule": 793,
+      "short_lots": 116,
+      "short_shares": 11600,
+      "short_cny": 13456.0,
+      "next_lot_dk_pp": 0.0167
+     },
+     {
+      "symbol": "159577",
+      "price": 1.659,
+      "lots_ordered": 473,
+      "lots_at_rule": 554,
+      "short_lots": 81,
+      "short_shares": 8100,
+      "short_cny": 13437.9,
+      "next_lot_dk_pp": 0.011
+     },
+     {
+      "symbol": "159263",
+      "price": 1.134,
+      "lots_ordered": 693,
+      "lots_at_rule": 811,
+      "short_lots": 118,
+      "short_shares": 11800,
+      "short_cny": 13381.2,
+      "next_lot_dk_pp": 0.0425
+     }
+    ],
+    "short_total_cny": 67260.1,
+    "short_share_of_book_pct": 14.6137,
+    "account_base_gap_cny": 63652.14,
+    "unpriced_rows": [],
+    "cheapest_next_lot": {
+     "symbol": "159577",
+     "price": 1.659,
+     "lots_ordered": 473,
+     "lots_at_rule": 554,
+     "short_lots": 81,
+     "short_shares": 8100,
+     "short_cny": 13437.9,
+     "next_lot_dk_pp": 0.011
+    },
+    "verdict": "FLOOR_CUT_THIS_SHEET",
+    "ticket_file": "TICKET-2026-11-10.json"
+   }
+  },
   "artifact": "results/etf_book_rebalance_permission.json",
   "floor_source": {
    "floor": 0.393073,
@@ -49,6 +132,86 @@
    "note": null
   },
   "verdict": "WITHIN_PERMISSION"
+ },
+ "k_gap": {
+  "face": "etf_book_k_gap",
+  "bar": "2026-11-10",
+  "decision_bar": "2026-11-10",
+  "k_now": 0.393073,
+  "k_rule": 0.460253,
+  "dk_pp": 6.718,
+  "nav_sizing_cny": 1000000.0,
+  "nav_account_cny": 1007436.0,
+  "permission_floor": 0.393073,
+  "permission_source": "permission_receipt",
+  "rows": [
+   {
+    "symbol": "159501",
+    "price": 2.11,
+    "lots_ordered": 372,
+    "lots_at_rule": 436,
+    "short_lots": 64,
+    "short_shares": 6400,
+    "short_cny": 13504.0,
+    "next_lot_dk_pp": 0.0442
+   },
+   {
+    "symbol": "513100",
+    "price": 2.21,
+    "lots_ordered": 355,
+    "lots_at_rule": 416,
+    "short_lots": 61,
+    "short_shares": 6100,
+    "short_cny": 13481.0,
+    "next_lot_dk_pp": 0.0307
+   },
+   {
+    "symbol": "513690",
+    "price": 1.16,
+    "lots_ordered": 677,
+    "lots_at_rule": 793,
+    "short_lots": 116,
+    "short_shares": 11600,
+    "short_cny": 13456.0,
+    "next_lot_dk_pp": 0.0167
+   },
+   {
+    "symbol": "159577",
+    "price": 1.659,
+    "lots_ordered": 473,
+    "lots_at_rule": 554,
+    "short_lots": 81,
+    "short_shares": 8100,
+    "short_cny": 13437.9,
+    "next_lot_dk_pp": 0.011
+   },
+   {
+    "symbol": "159263",
+    "price": 1.134,
+    "lots_ordered": 693,
+    "lots_at_rule": 811,
+    "short_lots": 118,
+    "short_shares": 11800,
+    "short_cny": 13381.2,
+    "next_lot_dk_pp": 0.0425
+   }
+  ],
+  "short_total_cny": 67260.1,
+  "short_share_of_book_pct": 14.6137,
+  "account_base_gap_cny": 63652.14,
+  "unpriced_rows": [],
+  "cheapest_next_lot": {
+   "symbol": "159577",
+   "price": 1.659,
+   "lots_ordered": 473,
+   "lots_at_rule": 554,
+   "short_lots": 81,
+   "short_shares": 8100,
+   "short_cny": 13437.9,
+   "next_lot_dk_pp": 0.011
+  },
+  "verdict": "FLOOR_CUT_THIS_SHEET",
+  "ticket_file": "TICKET-2026-11-10.json"
  },
  "sizing_floor": {
   "floor": 0.393073,
@@ -106,24 +269,24 @@
  "sizing_reason": "the executed account for 2026-11-10 was written by this bar's own sheet, so it is this ticket's outcome and cannot size it",
  "base_bar": "2026-11-10",
  "as_of": "2026-11-10",
- "base_k_executed": 0.397063,
+ "base_k_executed": 0.397071,
  "base": {
   "status": "ok",
   "face": "results/etf_book_positions.json",
   "bar": "2026-11-10",
   "risk_book_cny": 400023.3,
-  "cash_cny": 607432.09,
-  "nav_cny": 1007455.39,
-  "k_executed": 0.397063,
+  "cash_cny": 607412.7,
+  "nav_cny": 1007436.0,
+  "k_executed": 0.397071,
   "k_engine": 0.460253,
   "holdings": 4,
-  "k_gap": 0.06319,
-  "notional_gap_cny": 63661.07,
+  "k_gap": 0.063182,
+  "notional_gap_cny": 63652.14,
   "sizing": {
    "k": 0.393073,
    "source": "rule_same_bar_outcome",
    "account_bar": "2026-11-10",
-   "k_executed": 0.397063,
+   "k_executed": 0.397071,
    "capped_by_floor": true,
    "reason": "the executed account for 2026-11-10 was written by this bar's own sheet, so it is this ticket's outcome and cannot size it"
   }
@@ -303,14 +466,14 @@
   "money": {
    "cash_amount_cny": 607464.1,
    "spot": {
-    "pct": 1.165,
-    "date": "2026-11-10",
-    "annual_cny": 7077.0,
+    "pct": 1.17,
+    "date": "2026-11-09",
+    "annual_cny": 7107.0,
     "quotes": 250
    },
    "mean_tail": {
-    "pct": 1.3512,
-    "annual_cny": 8208.0
+    "pct": 1.3527,
+    "annual_cny": 8217.0
    },
    "window": {
     "pct": 2.0837,
@@ -319,9 +482,9 @@
    "tail": 250,
    "fall_bp": 25.0,
    "verdict": "RATES_STEADY",
-   "sentence": "现金 ¥607,464 按 2026-11-10 报价 1.17% 一年赚 ¥7,077；按自己近 250 个报价的均值 1.35% 是 ¥8,208；按账本自己走过的全窗均值 2.08% 是 ¥12,658。今天的报价就在它自己的均值上，这一半该怎么算就怎么算。",
-   "spread_vs_tail_cny": -1131.0,
-   "spread_vs_window_cny": -5581.0
+   "sentence": "现金 ¥607,464 按 2026-11-09 报价 1.17% 一年赚 ¥7,107；按自己近 250 个报价的均值 1.35% 是 ¥8,217；按账本自己走过的全窗均值 2.08% 是 ¥12,658。今天的报价就在它自己的均值上，这一半该怎么算就怎么算。",
+   "spread_vs_tail_cny": -1110.0,
+   "spread_vs_window_cny": -5550.0
   }
  },
  "ledger": {
@@ -332,7 +495,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-10 19:46:27",
+   "at": "2026-11-10 19:47:25",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -359,7 +522,7 @@
    ]
   },
   "reinstated_history": {
-   "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_order\\ledger.jsonl",
+   "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_order\\ledger.jsonl",
    "readable": true,
    "bars": [],
    "records": [],
@@ -370,8 +533,8 @@
  "entry_gate": {
   "status": "ok",
   "artifact": "results\\etf_book_entry_gate.json",
-  "evidence_cutoff": "2026-11-06",
-  "panel_last_bar": "2026-11-06",
+  "evidence_cutoff": "2026-11-10",
+  "panel_last_bar": "2026-11-10",
   "verdict": "GATE_SITS_ON_PLATEAU",
   "sentence": "halving or doubling the shipped cut moves the declared arm by at most 0.53pp and no gate beats it by more than 0.21pp, so 20M is a plateau -- the number is not load-bearing and any future line may inherit it safely",
   "shipped_cny": 20000000.0,
@@ -382,8 +545,8 @@
    {
     "gate_m": 5.0,
     "gate_cny": 5000000.0,
-    "cagr": 0.0859,
-    "sharpe": 0.883,
+    "cagr": 0.0878,
+    "sharpe": 0.901,
     "maxdd": -0.1651,
     "median_names": 462,
     "turnover": 0.958,
@@ -392,8 +555,8 @@
    {
     "gate_m": 10.0,
     "gate_cny": 10000000.0,
-    "cagr": 0.0859,
-    "sharpe": 0.883,
+    "cagr": 0.0878,
+    "sharpe": 0.901,
     "maxdd": -0.1651,
     "median_names": 367,
     "turnover": 0.958,
@@ -402,8 +565,8 @@
    {
     "gate_m": 20.0,
     "gate_cny": 20000000.0,
-    "cagr": 0.0838,
-    "sharpe": 0.866,
+    "cagr": 0.0857,
+    "sharpe": 0.884,
     "maxdd": -0.1656,
     "median_names": 262,
     "turnover": 0.953,
@@ -412,8 +575,8 @@
    {
     "gate_m": 50.0,
     "gate_cny": 50000000.0,
-    "cagr": 0.0785,
-    "sharpe": 0.824,
+    "cagr": 0.0804,
+    "sharpe": 0.842,
     "maxdd": -0.202,
     "median_names": 154,
     "turnover": 0.877,
@@ -422,32 +585,32 @@
    {
     "gate_m": 100.0,
     "gate_cny": 100000000.0,
-    "cagr": 0.0845,
-    "sharpe": 0.871,
+    "cagr": 0.0868,
+    "sharpe": 0.893,
     "maxdd": -0.2066,
     "median_names": 94,
     "turnover": 0.779,
-    "delta_pp": 0.07
+    "delta_pp": 0.11
    },
    {
     "gate_m": 200.0,
     "gate_cny": 200000000.0,
-    "cagr": 0.0539,
-    "sharpe": 0.573,
+    "cagr": 0.0552,
+    "sharpe": 0.585,
     "maxdd": -0.2269,
     "median_names": 56,
     "turnover": 0.68,
-    "delta_pp": -2.99
+    "delta_pp": -3.05
    }
   ],
   "widest_names": 462,
   "narrowest_names": 56,
   "width_ratio": 8.25,
-  "universe_measured": 1515,
-  "universe_published": 1515,
+  "universe_measured": 1516,
+  "universe_published": 1516,
   "control": {
-   "published_declared_cagr": 0.0838,
-   "arm_declared_cagr": 0.0838,
+   "published_declared_cagr": 0.0857,
+   "arm_declared_cagr": 0.0857,
    "delta_pp": 0.0,
    "tol_pp": 0.25
   }
@@ -755,7 +918,7 @@
    "kind": "valuation",
    "source": "accrued_valuation",
    "risk_book_cny": 400023.3,
-   "cash_cny": 607432.09,
+   "cash_cny": 607412.7,
    "holdings": 4,
    "superseded_execution_bar": "2026-11-10"
   },
@@ -795,7 +958,7 @@
    "rows": 1,
    "written": 1,
    "kept": 0,
-   "rf_missing_bars": 0,
+   "rf_missing_bars": 1,
    "last": {
     "bar": "2026-11-10",
     "kind": "valuation",
@@ -827,11 +990,11 @@
      }
     ],
     "risk_book_cny": 400023.3,
-    "cash_cny": 607432.09,
-    "nav_cny": 1007455.39,
-    "ret": 0.00745539,
-    "cum_ret": 0.00745539,
-    "rf_step": 3.19178e-05,
+    "cash_cny": 607412.7,
+    "nav_cny": 1007436.0,
+    "ret": 0.007436,
+    "cum_ret": 0.007436,
+    "rf_step": 0.0,
     "stale_price_symbols": [],
     "source_face": "results/etf_book_swap_stack.json"
    },
@@ -839,28 +1002,28 @@
     {
      "bar": "2026-11-10",
      "risk_book_cny": 400023.3,
-     "cash_cny": 607432.09,
-     "nav_cny": 1007455.39,
-     "ret": 0.00745539,
-     "cum_ret": 0.00745539,
-     "rf_step": 3.19178e-05
+     "cash_cny": 607412.7,
+     "nav_cny": 1007436.0,
+     "ret": 0.007436,
+     "cum_ret": 0.007436,
+     "rf_step": 0.0
     }
    ],
    "panel_missing_symbols": [],
-   "repo_quotes": 3764,
-   "rate_latest_bar": "2026-11-10",
-   "rate_latest": 1.165,
+   "repo_quotes": 3763,
+   "rate_latest_bar": "2026-11-09",
+   "rate_latest": 1.17,
    "valued_upto_bar": "2026-11-10"
   },
   "accrual_rows": [
    {
     "bar": "2026-11-10",
     "risk_book_cny": 400023.3,
-    "cash_cny": 607432.09,
-    "nav_cny": 1007455.39,
-    "ret": 0.00745539,
-    "cum_ret": 0.00745539,
-    "rf_step": 3.19178e-05
+    "cash_cny": 607412.7,
+    "nav_cny": 1007436.0,
+    "ret": 0.007436,
+    "cum_ret": 0.007436,
+    "rf_step": 0.0
    }
   ],
   "settlement": {
@@ -878,13 +1041,13 @@
    "legs_first_bar": 417560.8,
    "legs_last_bar": 400023.3,
    "legs_ret": -0.04199987,
-   "cash_interest_cny": 545.0,
+   "cash_interest_cny": 525.58,
    "identity_delta_cny": 0.0,
    "identity_status": "PRICED_BAR",
    "identity_holds": true,
    "base_bar_missing_closes": [],
    "base_bar_last_priced_day": "2026-11-10",
-   "rf_missing_bars": 0,
+   "rf_missing_bars": 1,
    "stale_bars": 0
   },
   "engine_book": {
@@ -905,7 +1068,7 @@
   },
   "restatements": {
    "bar": "2026-11-10",
-   "count": 6,
+   "count": 4,
    "records": [
     {
      "bar": "2026-11-10",
@@ -1122,114 +1285,6 @@
        "after": 674
       }
      ]
-    },
-    {
-     "bar": "2026-11-10",
-     "previous_written_ts": "2026-11-10T19:30:40+08:00",
-     "written_ts": "2026-11-10T19:46:01+08:00",
-     "before": {
-      "k": 0.392405,
-      "risk_book_cny": 400023.3,
-      "cash_cny": 607412.7,
-      "lots": {
-       "159263": 690,
-       "159513": 925,
-       "159577": 487,
-       "513690": 674
-      }
-     },
-     "after": {
-      "k": 0.392405,
-      "risk_book_cny": 392404.9,
-      "cash_cny": 607595.1,
-      "lots": {
-       "159263": 693,
-       "159513": 891,
-       "159577": 473,
-       "513690": 677
-      }
-     },
-     "delta": {
-      "k": 0.0,
-      "risk_book_cny": -7618.4,
-      "cash_cny": 182.4
-     },
-     "lots_changed": [
-      {
-       "symbol": "159263",
-       "before": 690,
-       "after": 693
-      },
-      {
-       "symbol": "159513",
-       "before": 925,
-       "after": 891
-      },
-      {
-       "symbol": "159577",
-       "before": 487,
-       "after": 473
-      },
-      {
-       "symbol": "513690",
-       "before": 674,
-       "after": 677
-      }
-     ]
-    },
-    {
-     "bar": "2026-11-10",
-     "previous_written_ts": "2026-11-10T19:46:01+08:00",
-     "written_ts": "2026-11-10T19:46:01+08:00",
-     "before": {
-      "k": 0.392405,
-      "risk_book_cny": 392404.9,
-      "cash_cny": 607595.1,
-      "lots": {
-       "159263": 693,
-       "159513": 891,
-       "159577": 473,
-       "513690": 677
-      }
-     },
-     "after": {
-      "k": null,
-      "risk_book_cny": 400023.3,
-      "cash_cny": 607432.09,
-      "lots": {
-       "159263": 690,
-       "159513": 925,
-       "159577": 487,
-       "513690": 674
-      }
-     },
-     "delta": {
-      "k": null,
-      "risk_book_cny": 7618.4,
-      "cash_cny": -163.01
-     },
-     "lots_changed": [
-      {
-       "symbol": "159263",
-       "before": 693,
-       "after": 690
-      },
-      {
-       "symbol": "159513",
-       "before": 891,
-       "after": 925
-      },
-      {
-       "symbol": "159577",
-       "before": 473,
-       "after": 487
-      },
-      {
-       "symbol": "513690",
-       "before": 677,
-       "after": 674
-      }
-     ]
     }
    ],
    "trail_starts_with_this_version": true,
@@ -1269,8 +1324,8 @@
    ],
    "page_vs_ledger_cash": {
     "page": 607413.0,
-    "ledger": 607432.09,
-    "page_minus_ledger": -19.09
+    "ledger": 607412.7,
+    "page_minus_ledger": 0.3
    },
    "page_vs_ledger_agree": false
   },
@@ -1294,89 +1349,89 @@
   "ticket_rule": "beta",
   "card_rule": "vol",
   "ticket": {
-   "cagr": 0.1089,
-   "sharpe": 1.334,
+   "cagr": 0.1109,
+   "sharpe": 1.359,
    "maxdd": -0.0601,
    "vol": 0.0816
   },
   "card": {
-   "cagr": 0.1173,
-   "sharpe": 1.327,
+   "cagr": 0.1223,
+   "sharpe": 1.377,
    "maxdd": -0.0795,
-   "vol": 0.0884
+   "vol": 0.0888
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1149,
-    "card_width_cagr": 0.1173,
-    "pp": 0.24
-   },
    "beta": {
-    "ticket_width_cagr": 0.1089,
-    "card_width_cagr": 0.0942,
-    "pp": -1.47
+    "ticket_width_cagr": 0.1109,
+    "card_width_cagr": 0.0963,
+    "pp": -1.46
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1186,
+    "card_width_cagr": 0.1223,
+    "pp": 0.37
    }
   },
   "rules_differ": true,
   "delta_ticket_minus_card": {
-   "cagr_pp": -0.84,
-   "sharpe": 0.007,
+   "cagr_pp": -1.14,
+   "sharpe": -0.018,
    "maxdd_pp": 1.94,
-   "vol_pp": -0.68
+   "vol_pp": -0.72
   },
   "square": {
    "cells": {
     "beta@5": {
-     "cagr": 0.1089,
-     "sharpe": 1.334,
+     "cagr": 0.1109,
+     "sharpe": 1.359,
      "maxdd": -0.0601,
      "turnover": 1.5301,
      "cash_share": 0.5499
     },
     "beta@12": {
-     "cagr": 0.0942,
-     "sharpe": 1.542,
+     "cagr": 0.0963,
+     "sharpe": 1.576,
      "maxdd": -0.0417,
      "turnover": 1.3032,
      "cash_share": 0.6189
     },
     "vol@5": {
-     "cagr": 0.1149,
-     "sharpe": 1.318,
+     "cagr": 0.1186,
+     "sharpe": 1.357,
      "maxdd": -0.0756,
      "turnover": 1.5301,
-     "cash_share": 0.4773
+     "cash_share": 0.4765
     },
     "vol@12": {
-     "cagr": 0.1173,
-     "sharpe": 1.327,
+     "cagr": 0.1223,
+     "sharpe": 1.377,
      "maxdd": -0.0795,
      "turnover": 1.3032,
-     "cash_share": 0.425
+     "cash_share": 0.4241
     }
    },
    "width_effect_pp": {
-    "beta": -1.47,
-    "vol": 0.24
+    "beta": -1.46,
+    "vol": 0.37
    },
    "rule_effect_pp": {
-    "n5": 0.6,
-    "n12": 2.31
+    "n5": 0.77,
+    "n12": 2.6
    },
-   "interaction_pp": 1.71,
-   "published_diagonal_pp": 0.84,
+   "interaction_pp": 1.83,
+   "published_diagonal_pp": 1.14,
    "sharpe_width_effect": {
-    "beta": 0.208,
-    "vol": 0.009
+    "beta": 0.217,
+    "vol": 0.02
    },
    "sharpe_rule_effect": {
-    "n5": -0.016,
-    "n12": -0.215
+    "n5": -0.002,
+    "n12": -0.199
    }
   },
   "same_accounting": "one ledger (GC001 cash leg, next-open fills, 8bp/side); width and leverage rule each varied in turn",
   "source": "results/etf_book_width_audit.json",
-  "evidence_cutoff": "2026-11-06"
+  "evidence_cutoff": "2026-11-10"
  },
  "live_width_ruler": {
   "state": "inside_disagreement",
@@ -1499,7 +1554,7 @@
   "identity_matched": true
  },
  "restatements": {
-  "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
+  "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
   "readable": true,
   "source": "restatements",
   "notices": [
@@ -1533,21 +1588,21 @@
    "2026-11-02",
    "2026-11-03"
   ],
-  "bars_published": 12
+  "bars_published": 13
  },
  "bets": {
   "status": "ok",
   "verdict": "TWOISH_BETS",
-  "sentence": "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.22); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it",
-  "effective_bets": 2.1845241599622387,
-  "risk_split": 4.257478969191999,
+  "sentence": "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.21); the variance is still split fairly evenly across 4.2 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it",
+  "effective_bets": 2.1911140175767043,
+  "risk_split": 4.238858736977842,
   "nominal_bets": 4.999999999999999,
-  "evidence_cutoff": "2026-11-06"
+  "evidence_cutoff": "2026-11-10"
  },
  "concentration": {
   "status": "ok",
-  "sentence": "前三名只占毛收益 22.4%（第一 黄金ETF易方达 7.6%）；删掉这三只年化 -1.98pp；删掉整条 commodity 袖（41 只）年化 -3.70pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
-  "evidence_cutoff": "2026-11-06",
+  "sentence": "前三名只占毛收益 21.9%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.98pp；删掉整条 commodity 袖（41 只）年化 -3.69pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
+  "evidence_cutoff": "2026-11-10",
   "verdict": "BROAD|SURVIVES_WITHOUT_TOP3"
  },
  "caveats": [
@@ -1555,10 +1610,10 @@
   "ticket prices are closes; no impact cost, no limit-move guard",
   "GC001 single tenor, rolling assumed cost-free",
   "k revised every 20 bars so delivered beta still wanders",
-  "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.22); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it (measured on the 2026-11-06 bar)",
-  "前三名只占毛收益 22.4%（第一 黄金ETF易方达 7.6%）；删掉这三只年化 -1.98pp；删掉整条 commodity 袖（41 只）年化 -3.70pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3） (measured on the 2026-11-06 bar)",
+  "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.21); the variance is still split fairly evenly across 4.2 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it",
+  "前三名只占毛收益 21.9%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.98pp；删掉整条 commodity 袖（41 只）年化 -3.69pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
   "exploratory: no preregistration, no verdict, no ledger booking",
-  "sizing base: the rule's k=0.460253 -- the executed account for 2026-11-10 is this sheet's own outcome (k=0.397063), so it cannot size it",
+  "sizing base: the rule's k=0.460253 -- the executed account for 2026-11-10 is this sheet's own outcome (k=0.397071), so it cannot size it",
   "this ticket is the 5-name aggressive end of the book; the production card runs 12 names -- see width_disclosure"
  ],
  "premium": {

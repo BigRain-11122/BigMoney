@@ -3908,6 +3908,44 @@ def main() -> int:
                   "sheet does not print the floor/lots the audit receipt publishes")
     except Exception as e:
         check("product: the order sheet carries the permission it must obey", False, str(e))
+    # r1515: the sheet printed the floor's cut as ONE total, so the operator could not see
+    # which name lost how many lots nor what one lot back costs in k -- that sentence lived
+    # only on the CEO page. Re-derived from the published k-gap face and the published ORDER
+    # page: same bar, same ticket, and every name's shortfall printed on the sheet.
+    try:
+        import json as _j15
+        _kg15 = _md15 = _ptr15 = None
+        _kgp15 = os.path.join("results", "etf_book_k_gap.json")
+        if os.path.exists(_kgp15):
+            _kg15 = _j15.load(open(_kgp15, encoding="utf-8"))
+        _lp15 = os.path.join("results", "etf_book_order", "latest.json")
+        if os.path.exists(_lp15):
+            _ptr15 = _j15.load(open(_lp15, encoding="utf-8"))
+            _mp15 = os.path.join("results", "etf_book_order",
+                                 "ORDER-%s.md" % (_ptr15 or {}).get("as_of"))
+            if os.path.exists(_mp15):
+                _md15 = open(_mp15, encoding="utf-8").read()
+        if not _kg15 or not _md15:
+            check("product: the order sheet prints the floor's per-name cut, not only its total",
+                  False, "no published k-gap face or no published ORDER page")
+        elif str(_kg15.get("bar")) != str((_ptr15 or {}).get("as_of")):
+            check("product: the order sheet prints the floor's per-name cut, not only its total",
+                  False, "k-gap face is %s, the sheet is %s"
+                  % (_kg15.get("bar"), (_ptr15 or {}).get("as_of")))
+        else:
+            _rows15 = all((str(r.get("symbol")) in _md15
+                           and format(float(r.get("short_cny") or 0.0), ",.2f") in _md15
+                           and ("%.4fpp" % float(r.get("next_lot_dk_pp") or 0.0)) in _md15)
+                          for r in _kg15.get("rows") or [])
+            _cheap15 = (_kg15.get("cheapest_next_lot") or {})
+            check("product: the order sheet prints the floor's per-name cut, not only its total",
+                  bool(_kg15.get("rows")) and _rows15
+                  and "再买一手要上调 k" in _md15
+                  and str(_cheap15.get("symbol")) in _md15,
+                  "sheet does not print the per-name rows the k-gap face publishes")
+    except Exception as e:
+        check("product: the order sheet prints the floor's per-name cut, not only its total",
+              False, str(e))
     # r1229: the sheet used to quote the DECISION bar's close as its reference price while
     # its header claimed the priced bar -- so every lot count was a twelve-day-old
     # arithmetic (2026-10-30: 159501 quoted 2.229 against a 2.158 close). Re-derived from

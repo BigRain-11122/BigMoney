@@ -143,6 +143,40 @@ def compute(ticket):
     }
 
 
+def verify(face, bar=None, ticket_file=None):
+    """Is this table usable on the page about to print it? (r1515)
+
+    Two readers now print this face: the CEO page reads the published file, and the ORDER
+    sheet prints the object it just computed from its own ticket. Both have to answer the
+    same two questions -- do the rows add up to the total the face claims, and is this the
+    table for THIS sheet -- so the answer is derived here once instead of twice (E289).
+    Returns (bad, mism); empty bad = the arithmetic holds, empty mism = this is the sheet.
+    """
+    if not face:
+        return ["面不存在"], []
+    rows = face.get("rows") or []
+    if not rows or face.get("short_total_cny") is None \
+            or face.get("k_rule") is None or face.get("k_now") is None:
+        return ["面里没有逐名行，或没有规则/额度这一对 k"], []
+    bad, tot = [], 0.0
+    for r in rows:
+        px, lots, cny = r.get("price"), r.get("short_lots"), r.get("short_cny")
+        if px is None or lots is None or cny is None or float(px) <= 0:
+            bad.append("%s 缺价或缺手" % r.get("symbol"))
+            continue
+        if abs(float(cny) - int(lots) * LOT * float(px)) > 1.0:
+            bad.append("%s 手数×价 ≠ 金额" % r.get("symbol"))
+        tot += float(cny)
+    if abs(tot - float(face["short_total_cny"])) > 1.0:
+        bad.append("逐名合计 %.2f ≠ 面自己 %.2f" % (tot, float(face["short_total_cny"])))
+    mism = []
+    if bar and face.get("bar") and str(face["bar"]) != str(bar):
+        mism.append("面是 %s 的、这一张是 %s 的" % (face["bar"], bar))
+    if ticket_file and face.get("ticket_file") and face["ticket_file"] != ticket_file:
+        mism.append("面来自 %s、这一张是 %s" % (face["ticket_file"], ticket_file))
+    return bad, mism
+
+
 def sentence(face):
     if not face:
         return "这张票面没有可比的规则尺寸，本面不出数。"
@@ -298,6 +332,16 @@ def selftest():
     leg("L14 the 'rest of the names' range excludes the cheapest top-up itself",
         ("其余每名各要 %.4f" % min(_rest)) in _s_txt
         and ("其余每名各要 %.4f" % _cheap["next_lot_dk_pp"]) not in _s_txt)
+    # r1515: one check shared by the CEO page and the ORDER sheet.
+    leg("L15 verify passes a table that adds up on its own sheet",
+        verify(f) == ([], []) and verify(f, bar="2026-01-01")[0] == [])
+    _bad_row = json.loads(json.dumps(f))
+    _bad_row["rows"][0]["short_cny"] = _bad_row["rows"][0]["short_cny"] + 50.0
+    leg("L16 verify refuses a row whose lots x price is not its money",
+        any("手数×价" in b for b in verify(_bad_row)[0]))
+    leg("L17 verify refuses another bar's table, and does not confuse it with a broken one",
+        verify(f, bar="2026-01-02")[0] == []
+        and any("这一张是 2026-01-02 的" in m for m in verify(f, bar="2026-01-02")[1]))
     bad = [n for n, v in ok if not v]
     for n, v in ok:
         print("%s %s" % ("[ok]" if v else "[FAIL]", n))
