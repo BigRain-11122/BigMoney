@@ -6425,10 +6425,10 @@
  "supply_floor_ready": 4,
  "survey_note": "E548 and E562 were already implemented in earlier windows; their pool rows stayed 'ready' -- closed E552's row this round",
  "sync": {
-  "ahead_origin_main": 30,
-  "behind_origin_main": 28
+  "ahead_origin_main": 47,
+  "behind_origin_main": 47
  },
- "sync_note": "local main is 30 ahead / 28 behind origin/main on this promisor clone (r1243); no unattended rebase, so the machine branch is the delivery channel",
+ "sync_note": "local main is 47 ahead / 47 behind origin/main on a promisor clone; no unattended rebase (r1243), so the machine branch is the delivery channel",
  "task": "E655 whether the one loader string route E652 found reads or writes the counted key",
  "task_short": "loader route priced at the site",
  "task_short_note": "scripts/e599_pointer_redirect_bar.py; card E602; digest DIGEST-20261109-r1629-e599-pointer-redirect-bar.md",
@@ -6444,11 +6444,11 @@
  "three_line_delivery": "machine/bm-b-r1665 @ a80ff731732d",
  "three_line_next": "E657: size the corpus-wide blind spot E655 found (counted key constants inside E647's unresolved handles)",
  "three_line_recent": "results/state_tilt/STRINGROUTEKEY.json @ 2026-11-10T21:33:46+08:00",
- "timestamp": "2026-11-10T21:33:46+08:00",
- "ts": "2026-11-10T21:33:46+08:00",
+ "timestamp": "2026-11-10T21:35:12+08:00",
+ "ts": "2026-11-10T21:35:12+08:00",
  "ts_utc_ms": 1794234696000,
  "ts_utc_offset": "+08:00",
- "updated": "2026-11-10T21:33:46+08:00",
+ "updated": "2026-11-10T21:35:12+08:00",
  "updated_at": "2026-11-10T21:33:46+08:00",
  "verdict": "r1673: E655 published (the one loader route writes the key it reads, on the --doctor branch only)",
  "verdict_line": "0 unnamed entry reads over 230 body accesses -> the line-scoped census stands",
@@ -7025,5 +7025,13 @@
    "E652's per-file key list inherits E647's collect_strings: a percent-formatted expression comes back as one unresolved handle and every constant inside it is invisible, so a key found here and not there is accepted only when each of its sites falls on that handle's statement span, and a key E652 published that this walk cannot find gates red"
   ],
   "next": "E657 (ready, cpu-only): size how many counted key sites corpus-wide sit inside an E647 unresolved handle"
+ },
+ "r1673_delivery": {
+  "branch": "machine/bm-b-r1673",
+  "sha": "585e08c517c1a836c734f88a43e024318f6f72ce",
+  "ts": "2026-11-10T21:35:12+08:00",
+  "verified": "git ls-remote origin refs/heads/machine/bm-b-r1673 == 585e08c517c1a836c734f88a43e024318f6f72ce",
+  "main_push_note": "local main is 47 ahead / 47 behind origin/main on a promisor clone; no unattended rebase (r1243), so the machine branch is the delivery channel",
+  "targeted_add": "13 faces staged by pathspec out of a tree dirty with ~3,400 entries; results/_r1673bmb_s6_chain.json is gitignored and was not forced"
  }
 }
