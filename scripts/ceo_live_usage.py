@@ -869,6 +869,11 @@ def _risk_tape_face(root=None):
             "label": v.get("label") or k,
             "status": v.get("status"),
             "count": cnt,
+            # r1520: the panel's OWN bar. The projection kept only `prev_cutoff`, so the
+            # mismatch line below printed `zt=None、zbgc=None…` -- a number the face owns
+            # arriving on the CEO page as "None". Absent stays absent: the renderer says
+            # 未标注 rather than borrowing the block's date.
+            "cutoff": v.get("cutoff"),
             "prev_count": prev,
             "prev_cutoff": v.get("prev_cutoff"),
             "delta": (cnt - prev) if (cnt is not None
@@ -953,8 +958,12 @@ def render_md(p: dict) -> str:
             L.append("  - 新旧未验：{}".format(
                 fr.get("note") or "日历不可用"))
         if rt.get("aligned") is False:
+            # r1520: this line used to print `zt=None` for every panel -- the projection
+            # carried only `prev_cutoff`, so the one place that says WHICH panel is on
+            # another day named nothing. Each panel now carries its own bar; when a panel
+            # truly does not publish one, say 未标注 instead of borrowing the block's date.
             mism = "、".join(
-                "{}={}".format(k, (v or {}).get("cutoff"))
+                "{}={}".format(k, (v or {}).get("cutoff") or "未标注")
                 for k, v in (rt.get("panels") or {}).items()
                 if (v or {}).get("status") == "ok")
             L.append("  - 四面板截止日不一致：{}（如实标注）".format(mism))

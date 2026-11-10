@@ -12650,3 +12650,15 @@ smoke 腿「the page names the board session the premium section never captured�
 **证据**：`scripts/data_lane_freshness.py` selftest 32→**33/33**（L35：sessions_left 派生 + 板面逐字印生产者句子 + 越窗/无窗车道不得进入）· `scripts/daily_report.py` selftest PASS（新增三向腿：印句子 / 空集明说 / 缺件明说）· 实跑 `docs/daily_report/REPORT-2026-11-10.md` 印 `sina_mf: tail 2026-10-26, 11 behind, window 20 -> 10 more sessions` · `results/dashboard_status.json` 的 `data.lane_freshness.windows.status=ok` 同值（sina_mf/11/20/10）· smoke 新腿「a lane green inside its own window says so on every face」。
 
 **未做（如实）**：`dashboard.html` 尚未渲染该块（本轮只把行送到 JSON 面），渲染接线留作下轮指针。
+**r1520 已补**：`dashboard.html` 新增「车道滚动窗」行，`sina_mf 落后 11/20 个交易日 · 还剩 10 场`；三态（有行 / 无窗车道 / 窗口面未产出或读不出）分开印；smoke 新腿钉「页面读 `r.sessions_left`，不许出现 `r.window_trading_days - r.days_behind`」。
+
+### E521 · 投影少带一个字段，面就把自己的数印成 None（r1520 bm-c）
+
+**病灶**：CEO 一页纸的风险带投影只抄了 `prev_cutoff`（上一根 bar），没抄面板自己的 `cutoff`；而下游那行「四面板截止日不一致」读的正是 `panels[k].cutoff` —— 于是页面上出现 `zt=None、zbgc=None、dtgc=None、strong=None`。四个面板个个有数，页面上一句「如实标注」标注的全是 None，读者拿不到唯一想知道的事：**哪一个面板在另一天**（实况 dtgc 停在 2026-11-09，其余三个在 11-10）。
+
+**三律**：
+1. **投影即契约**：面与页之间若有一层字段白名单，读者要用的字段必须在白名单里；加字段的成本是一行，缺字段的成本是「面有数、页无字」。判据写进 smoke：`ok` 面板必须能在页面上印出自己的 bar。
+2. **缺读数用词，不用 None**：真没有 bar 时印「未标注」，不许借块级日期顶替，也不许让 `None` 冒充「没有」。
+3. **两个方向都断言**：不仅要「该行存在」，还要「该行里每一个 ok 面板的 bar 都在」+「不许出现 `=None`」；只断言前半，投影回退时会照样绿。
+
+**证据**：`scripts/ceo_live_usage.py`（投影加 `cutoff`、渲染回退 `未标注`）· `smoke_test.py` 风险带腿（新 `_pc30` 双腿 + 页面行逐面板比对）· 实跑 `docs/live_usage/LIVE-latest.md` 印 `zt=2026-11-10、zbgc=2026-11-10、dtgc=2026-11-09、strong=2026-11-10` · 该腿内联复现 `bad=[]`。

@@ -3015,6 +3015,40 @@ def main() -> int:
     except Exception as e:
         check("product: a copy that lags its own lane reaches the page, the "
               "board line and the printed run", False, str(e))
+    # r1520: the row above can be green (`in_sync`) while its own gap counts 11 official
+    # days, and the three fields that reconcile the two (window / behind / sessions left)
+    # reached the board's markdown and the daily report but never the dashboard. This leg
+    # holds three things: the published rows equal the ones the producer derives; the page
+    # reads `sessions_left` instead of re-deriving `window - behind + 1` (E289); and the
+    # page keeps the empty and unreadable states apart from "there are rows to print".
+    try:
+        import data_lane_freshness as _dlf3
+        _lfdoc3 = json.load(open("results/data_lane_freshness.json",
+                                 encoding="utf-8"))
+        _w_re = _dlf3.window_rows(_lfdoc3)
+        _bsdoc = json.load(open("results/dashboard_status.json", encoding="utf-8"))
+        _w_pub = (((_bsdoc.get("data") or {}).get("lane_freshness") or {})
+                  .get("windows") or {})
+        _w_rows = _w_pub.get("rows") or []
+        _keys = ("lane", "days_behind", "window_trading_days", "sessions_left")
+        _w_same = (_w_pub.get("status") == "ok"
+                   and len(_w_rows) == len(_w_re)
+                   and all({k: a.get(k) for k in _keys} == {k: b.get(k) for k in _keys}
+                           for a, b in zip(_w_rows, _w_re)))
+        _html3 = open("dashboard.html", encoding="utf-8").read()
+        _w_dash = ("lf.windows" in _html3 and "r.sessions_left" in _html3)
+        _w_noderive = ("r.window_trading_days - r.days_behind" not in _html3
+                       and "window_trading_days-r.days_behind" not in _html3)
+        _w_states = ("没有以滚动窗判绿的车道" in _html3 and "窗口面读不出" in _html3)
+        check("product: a lane green inside its own window says how much slack is left "
+              "on the board, not only on the board's markdown",
+              _w_same and _w_dash and _w_noderive and _w_states,
+              f"rows-published={len(_w_rows)} rows-derived={len(_w_re)} "
+              f"same={_w_same} dashboard-wired={_w_dash} no-rederive={_w_noderive} "
+              f"states={_w_states} sessions_left={[_r.get('sessions_left') for _r in _w_rows]}")
+    except Exception as e:
+        check("product: a lane green inside its own window says how much slack is left "
+              "on the board, not only on the board's markdown", False, str(e))
     # r1251: the group decides on 2026-11-08 whether to re-enable the lane tasks
     # from this row, so the row's numbers must BE the declaration's numbers. Two
     # facts travel together and must not be merged: OWNERSHIP (unique/conflicting)
@@ -8897,13 +8931,22 @@ def main() -> int:
                         lambda v: str(v)[:10])
                     _cut30 = str(_d30.max())
                     _n30 = int((_d30 == _cut30).sum())
+                    # r1520: the panel's own bar is published now, so it is an accepted
+                    # answer to "which day is this count from" -- dtgc legitimately ends
+                    # 2026-11-09 (a zero-row day is not written) while the block reads
+                    # 2026-11-10, which used to read as a stale page.
+                    _pc30 = (_row30 or {}).get("cutoff")
+                    _pc30s = str(_pc30)[:10] if _pc30 else ""
                     if _cut30 != str(_row30.get("prev_cutoff") or _cut30) and \
-                            _cut30 != str(_rt30.get("cutoff")):
+                            _cut30 != str(_rt30.get("cutoff")) and _cut30 != _pc30s:
                         _bad30.append("%s recomputed bar %s not the published bar"
                                       % (_k30, _cut30))
                     if _n30 != int(_cnt30):
                         _bad30.append("%s page says %s members, panel holds %d"
                                       % (_k30, _cnt30, _n30))
+                    if _pc30 is not None and _pc30s != _cut30:
+                        _bad30.append("%s publishes its own bar %s but the panel ends %s"
+                                      % (_k30, _pc30s, _cut30))
                     _rec30.append("%s %d" % (_k30, _n30))
                 _info30 = "cutoff %s | %s" % (_rt30.get("cutoff"),
                                               " / ".join(_rec30))
@@ -8918,6 +8961,29 @@ def main() -> int:
                         _bad30.append("the one-pager has no risk-tape line")
                     elif str(_rt30.get("cutoff")) not in _md30:
                         _bad30.append("the risk line omits its cutoff bar")
+                    # r1520: when the panels disagree on the day the page prints one line
+                    # naming WHICH panel is on another day. That line used to read
+                    # `zt=None、zbgc=None…` because the projection carried only
+                    # prev_cutoff -- a number the face owns arriving as "None". Both
+                    # directions are pinned here: the line must exist, and every ok panel's
+                    # own bar must be printed inside it.
+                    if _rt30.get("aligned") is False:
+                        _mis30 = [l for l in _md30.splitlines()
+                                  if "四面板截止日不一致" in l]
+                        if not _mis30:
+                            _bad30.append("panels disagree on the day but the page "
+                                          "never says which one is behind")
+                        else:
+                            if "=None" in _mis30[0]:
+                                _bad30.append("a panel's own bar reaches the page as None")
+                            for _k30c, _v30c in (_rt30.get("panels") or {}).items():
+                                _v30c = _v30c or {}
+                                if _v30c.get("status") != "ok":
+                                    continue
+                                _c30c = _v30c.get("cutoff")
+                                if _c30c and str(_c30c)[:10] not in _mis30[0]:
+                                    _bad30.append("%s bar %s is on the face but not on "
+                                                  "that line" % (_k30c, str(_c30c)[:10]))
         check("product: the CEO page carries today's market risk tape",
               not _bad30, "; ".join(_bad30)[:220] or _info30)
     except Exception as e:

@@ -398,6 +398,35 @@ function renderCompany() {
       lf.verdict === "all_fresh" ? "全绿"
         : (lf.verdict === "uncertified" ? `可核实 ${lf.n_auditable}/${lf.n_lanes}` : `落后 ${nb.length} 条`)));
   }
+  // r1520: the row above can read `in_sync` while its own gap counts 11 official days.
+  // Both numbers are true, and the three fields that explain it (window, behind, sessions
+  // left) were drawn only on the board's own markdown, so the page showed a contradiction
+  // with nothing behind it. This row IS the contract. The slack is read from the producer
+  // (`windows.rows[].sessions_left`), never recomputed here: a second `window - behind + 1`
+  // drifts the first day a lane changes its window (E289). Three states stay apart --
+  // rows to print / no lane green-by-window / the face never produced (or reads unreadable),
+  // because an empty list is not the same fact as nobody using windows.
+  const lw = (lf && lf.windows) || {};
+  if (lw.status === "ok") {
+    const rws = lw.rows || [];
+    if (rws.length) {
+      const txt = rws.map(r => `${r.lane} 落后 ${n2(r.days_behind)}/${n2(r.window_trading_days)}`
+        + ` 个交易日 · 还剩 ${n2(r.sessions_left)} 场`).join(" / ");
+      const soon = rws.filter(r => Number(r.sessions_left) <= 3).length;
+      rows.push(chainRow("车道滚动窗", txt, soon ? "warn" : "ok",
+        soon ? `${n2(rws.length)} 条·${n2(soon)} 条快到期` : `${n2(rws.length)} 条窗内`));
+    } else {
+      rows.push(chainRow("车道滚动窗",
+        "没有以滚动窗判绿的车道（本板上没有一条绿是靠自己的采集窗判的）", "dim", "无窗口"));
+    }
+  } else if (lw.status) {
+    rows.push(chainRow("车道滚动窗",
+      `窗口面读不出（${lw.detail || "生成端未产出 windows 面"}）——这不等于没有车道受窗口管辖`,
+      "warn", lw.status === "absent" ? "未产出" : "读不出"));
+  } else {
+    rows.push(chainRow("车道滚动窗",
+      "窗口面未产出——这不等于没有车道受窗口管辖", "warn", "未产出"));
+  }
   // r1272: a lane's unit is not always a trading day. The statutory-clock lanes
   // (quarter-end + legal deadline) were measured since r1265 and printed nowhere,
   // so a missed 三季报 deadline looked exactly like a healthy board.
