@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1656 bm-b: E636 replaced E635's union with binding reachability -- 1 of 12 rows moves, the 6 unresolved rows all read tid (a member id), and 4 of the 5 after-side locations do read x1 one level BELOW the receiver where E633 folds the read out of the census; E637 seeded on that folded-out set. (was) r1651 bm-b: E632 burned -- re-parsed the modules behind E631's 13 counted read lines and found 13 read nodes, none on a line that carries two, so the line-level count is a node-level count here; E633 seeded on the classifier's own blind spot",
+ "_stamp_note": "r1659 bm-b: E639 burned -- the 45,391 two-depth sites hold 5,513 stores/deletes and all 5,513 sit at the deepest member, while the 6 sites on E633's counted read lines are 18 loads: 0 write the counted key at any depth, so the zero is a property of those lines, not of the form. E640 seeded to join the write population back to the counted reads. (was) r1656 bm-b: E636 replaced E635's union with binding reachability -- 1 of 12 rows moves, the 6 unresolved rows all read tid (a member id), and 4 of the 5 after-side locations do read x1 one level BELOW the receiver where E633 folds the read out of the census; E637 seeded on that folded-out set. (was) r1651 bm-b: E632 burned -- re-parsed the modules behind E631's 13 counted read lines and found 13 read nodes, none on a line that carries two, so the line-level count is a node-level count here; E633 seeded on the classifier's own blind spot",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -31141,14 +31141,54 @@
    "source": "E638 (r1658 bm-b) -- 6 two-depth sites on the counted lines, all members load",
    "target": "results/state_tilt/WRITEBELOW.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T08:05:00+08:00",
    "seeded_by": "r1658 bm-b",
    "workers_plan": {
     "workers": 4,
     "priority": "BelowNormal"
    },
-   "note": "E639"
+   "note": "E639",
+   "result_ref": "results/state_tilt/WRITEBELOW.json",
+   "closed_at": "2026-11-10T08:03:52+08:00",
+   "closed_by": "r1659 bm-b"
+  },
+  {
+   "card": "E640",
+   "id": "E640-WHETHER-A-CORPUS-WRITE-SITE-ADDRESSES-A-KEY-THAT-A-COUNTED-READ-LINE-IN-THE-SAME-FUNCTION-READS",
+   "title": "whether any corpus write site addresses, inside the same function, a key that a counted read line reads -- i.e. whether a write can sit next to the reads E632/E633 count",
+   "lane": "cpu-only",
+   "lane_note": "E639 prices the write population (5,513 sites, all at the deepest member) but joins it to nothing. The cheapest next question is the collision: for each counted read line, look in its own function for a two-depth write site naming the same key.",
+   "deliverable": "results/state_tilt/WRITEREADCOLLIDE.json: per counted read line, the write sites in the same function, and whether any of them names the row key",
+   "source": "E639 (r1659 bm-b) -- 5,513 corpus write sites, 0 on the counted lines",
+   "target": "results/state_tilt/WRITEREADCOLLIDE.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T08:03:52+08:00",
+   "seeded_by": "r1659 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E640"
+  },
+  {
+   "card": "E636",
+   "id": "E636-WHETHER-THE-SIX-UNRESOLVED-COMPUTED-KEY-READS-TAKE-THEIR-VALUE-FROM-A-COLLECTION-BUILT-IN-THE-SAME-FUNCTION",
+   "title": "whether the six unresolved computed-key reads take their value from a collection built in the same function (seeded wording; the card was reworded at claim time)",
+   "lane": "cpu-only",
+   "status": "superseded",
+   "superseded_by": "E636-WHETHER-A-COMPUTED-KEY-READ-RESOLVES-ONCE-BINDING-REACHABILITY-DECIDES-WHICH-BINDING-REACHES-IT",
+   "source": "r1654 bm-b seed (reworded in r1656)",
+   "deliverable": "results/state_tilt/READBINDINGREACH.json",
+   "result_ref": "results/state_tilt/READBINDINGREACH.json",
+   "target": "results/state_tilt/READBINDINGREACH.json",
+   "priority": "normal",
+   "seeded_at": "2026-11-10T06:17:00+08:00",
+   "seeded_by": "r1654 bm-b",
+   "closed_at": "2026-11-10T08:07:23+08:00",
+   "closed_by": "r1659 bm-b",
+   "note": "tombstone row: this id is the card as seeded, the burned card carries the reworded id. It is published here so the shared face and the bm-b lane view have the same id set (the lane view held it as a second E636 and pool_dualrun counted the id-set difference as drift); status superseded is never claimable."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31163,6 +31203,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T08:05:00+08:00",
+ "updated_at": "2026-11-10T08:07:23+08:00",
  "version": 1
 }

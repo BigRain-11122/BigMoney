@@ -1476,6 +1476,16 @@ LEGS = [
     # own rows (file histogram, join rows, verdict) without the corpus walk.
     ("two_depth_subscripts", ["python", "scripts/e638_two_depth_subscripts.py", "verify"]),
 
+    # E639 asks that same site the opposite question: E638 found all six sites on E633's counted
+    # read lines are loads, which would be equally true of a form that could hide a write.  Corpus
+    # wide 5,513 of the 45,391 two-depth sites carry a store or delete, and all 5,513 carry it at the
+    # deepest member (member ctx load 95,229 / store 5,501 / del 12) -- so the fold does hide writes
+    # in general.  On the 13 counted read lines the 6 sites are 18 members, all loads: 0 write the
+    # row's counted key at any depth, 0 at the deepest member.  The leg refuses a face whose totals
+    # do not re-add, a write claimed without a store/delete member, and a read-only verdict whose own
+    # corpus carries no write at all (the zero must name what it counted, E444 family).
+    ("write_below", ["python", "scripts/e639_write_below.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

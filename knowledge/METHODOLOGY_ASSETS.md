@@ -15004,3 +15004,17 @@ E636 说过链式下标 `d[k1][k2]` 的里外两个 Subscript 共享同一 (行,
 `results/state_tilt/TWODEPTHSUBS.json` + `twodepthsubs_latest.json` + `scripts/run_e638_smoke_leg.py`
 （1/1 PASS，`--doctor` 1/1 红且面字节复原）+ smoke_test.py leg E638 +
 `Tools/s6_chain_bmb.py` leg `two_depth_subscripts`（rc=0 0.06s）+ POOL E638 done / E639 seeded
+
+
+## E639 · 同一个双深度站点能不能藏一次写（r1659 bm-b·2026-11-10）
+E638 发布了 6 个计数行站点的 ctx，全部是 load——但那是对 6 个站点的事实，不是对形态的事实。同一个深度折叠若在接收者下层藏一次 store/delete，E632/E633 的「这行读没读该键」旁边就可能坐着一次写。本轮把同一形态反过来问，两个总体都从树重导（站点定义与 E633 join 只读复用 E638，零重实现）：
+- **全树**：45,391 个双深度站点里 5,513 个带 store 或 delete（成员 ctx：load 95,229 / store 5,501 / del 12），且 5,513 个**全部落在最深成员**（0 个写发生在非最深成员）——链式赋值的箭头终点就是最深下标，结构上写只能在那里。
+- **E633 的 13 条计数读行**：6 条带站点、共 6 个站点 18 个成员，全部 load——0 个在任一深度 store/delete 该行自己的计数键，0 个最深成员写该键。
+裁决 = 这个零是「这些行」的性质，不是「这个形态」的性质（corpus 侧有 5,513 个写站点，零有名有姓）。
+**教训（4 条）**
+1. **零必须两总体并列发布**：只说「6 个站点全是读」等于没说——同一个零在「形态永不装写」的世界里也成立。把 corpus 侧写站点计数并排发布，零才可归因（E444 族：零命中必须自带普查列）。
+2. **写总落在最深成员（5,513/5,513）是语法不是巧合**：`a[k1][k2] = v` 的 Store ctx 挂在链的最外层下标，所以「any depth」与「deepest」两个计数恒等。恒等不是重复字段，**要把这条断言做成腿**，否则后人会把两列当冗余删掉。
+3. **总体不是上一轮那个总体**：本轮只排除自己的文件，E638 的两个脚本就在总体里（13,078 文件 vs 13,076、415,831 Subscript 节点 vs 415,722），站点数恰好相同正说明那两个文件不带这种形态。差异发布而不是抹平（E366 族）。
+4. **卡在认领时改名，车道视图就多出一个 id**：E636 以措辞 A 播种（r1654）、改写成语义更窄的措辞 B 后烧掉并关账（r1656），车道镜像里留着措辞 A 的 open 行——本机 pool_dualrun 连绿 44 的 streak 因此清零，报的是 entries 1099 vs 1100。收敛正法不是删行也不是放任：在共享面补一条 status=superseded 的墓碑行（superseded_by 指改写后的 id、result_ref 照写），并让车道行与共享行**逐字相同**（时间戳/字段名/交付物任一不同都会被逐字段比较读成 drift）。改名要留墓碑，且墓碑必须双侧同文：只在一侧补字段会连烧三次 drift（本轮实际踩了三次）。
+**How**：问「这个形态能不能藏反面」时，先给出反面在总体里的普遍性与落点（多少、全落在哪一档），再报目标子集读数；两个数都进面，裁决才不是一句空话。
+**证据** = `scripts/e639_write_below.py`（selftest 17/17，run/verify problems=[]，复建字节同一 sha 415431424e2d）+ `results/state_tilt/WRITEBELOW.json` + `writebelow_latest.json` + `scripts/run_e639_smoke_leg.py`（1/1 PASS，--doctor 1/1 红且面字节复原）+ smoke_test.py leg E639 + `Tools/s6_chain_bmb.py` leg write_below（rc=0 0.07s）· POOL E639 done / E640 seeded

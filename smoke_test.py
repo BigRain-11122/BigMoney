@@ -27726,5 +27726,52 @@ except Exception as _e638x:
     _d638 = "study could not be read"
 check(_name638, not _bad638, "; ".join(_bad638)[:240] or _d638)
 
+# E639 asks the same two-depth site the opposite question: E638 found that all six sites on E633's
+# counted read lines are loads, which would be equally true if the form could hide a write.  This
+# leg refuses a face whose totals do not re-add, a verdict that reports a write of the counted key
+# the rows do not carry, a "read_only" verdict whose own corpus carries no write at all (the zero
+# would then be about the corpus, not the lines -- E444 family: a zero must name what it counted),
+# a site whose write flag disagrees with its members, and any problem the study's own gate returns.
+_name639 = ("E639 whether a two-depth site on a counted read line can hide a store or delete of the "
+            "counted key, and whether the zero is a fact about the lines or the form (r1659 bm-b)")
+_bad639 = []
+_d639 = "no reading"
+try:
+    _f639 = json.load(open(os.path.join("results", "state_tilt", "writebelow_latest.json"),
+                           encoding="utf-8"))
+    _m639 = importlib.import_module("e639_write_below")
+    _bad639.extend(_m639.face_problems(_f639))
+    _c639 = _f639.get("counts") or {}
+    _v639 = _f639.get("verdict") or ""
+    _rows639 = _f639.get("rows") or []
+    _members639 = [m for r in _rows639 for s in (r.get("two_depth_sites") or [])
+                   for m in (s.get("members") or [])]
+    if len(_members639) != sum((_c639.get("counted_site_member_ctx_histogram") or {}).values()):
+        _bad639.append("the counted site member ctx histogram is not the member count")
+    if (sum(1 for m in _members639 if m.get("ctx") in ("store", "del"))
+            != _c639.get("counted_sites_with_a_write_at_any_depth")) and any(
+                s.get("any_member_is_write") for r in _rows639
+                for s in (r.get("two_depth_sites") or [])):
+        _bad639.append("a write at any depth is not carried by a store/delete member")
+    if (_c639.get("counted_sites_with_a_write_at_the_deepest_member") or 0) > (
+            _c639.get("counted_sites_with_a_write_at_any_depth") or 0):
+        _bad639.append("more deepest-member writes than writes at any depth")
+    if (_v639 == _m639.V_COUNTED_SITES_ARE_READ_ONLY
+            and (_c639.get("corpus_sites_with_a_write_at_any_depth") or 0) == 0):
+        _bad639.append("the zero is reported as a property of the lines while the corpus has no write")
+    _d639 = ("files=%s sites=%s corpus_sites_with_write=%s corpus_deepest_write=%s "
+             "counted_lines=%s with_site=%s site_writes=%s row_key_writes=%s verdict=%s"
+             % (_c639.get("python_files_scanned"), _c639.get("two_depth_sites"),
+                _c639.get("corpus_sites_with_a_write_at_any_depth"),
+                _c639.get("corpus_sites_with_a_write_at_the_deepest_member"),
+                _c639.get("counted_read_lines"),
+                _c639.get("counted_lines_carrying_a_two_depth_site"),
+                _c639.get("counted_sites_with_a_write_at_any_depth"),
+                _c639.get("counted_sites_where_a_member_writes_the_row_key"), _v639[:70]))
+except Exception as _e639x:
+    _bad639.append(repr(_e639x)[:160])
+    _d639 = "study could not be read"
+check(_name639, not _bad639, "; ".join(_bad639)[:240] or _d639)
+
 if __name__ == "__main__":
     sys.exit(main())
