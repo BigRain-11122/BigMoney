@@ -283,6 +283,15 @@ LEGS = [
     ("positions_ledger_write",
      ["python", "scripts/etf_book_positions.py", "run"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
+    # r1283: the face above publishes ONE bar twice -- the pre-trade book marked at this
+    # bar's closes (accrual.last) and the post-trade book at the same closes (ledger_row) --
+    # and they disagree on k by 0.004658 (2026-11-10: 0.397063 vs 0.392405, CNY 4,693 of
+    # notional). The ticket reads the first and prints it under the words "executed account".
+    # This leg re-derives both totals from lots x price x 100, names which k the sheet
+    # consumed, and publishes the answer on bm-a's own face. Verification only, writes no
+    # book, offline, ~0s.
+    ("etf_book_base_basis_audit",
+     ["python", "scripts/etf_book_base_basis_audit.py", "run"]),
     # r1333: the ticket above is a 5-name beta-overlay book while the card and the ledger
     # run 12 names at an 8% vol target -- two published books with one operator. This leg
     # issues the ticket FOR the card's own config (names, weights and scale read off the
