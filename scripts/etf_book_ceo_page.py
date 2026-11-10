@@ -810,7 +810,70 @@ def premium_face(path=PREMIUM_LEAK_JSON):
     return out
 
 
-def premium_block(pb, page_bar=None):
+def premium_on_page_sheet(pb, page_sheet, tol_cny=100.0, tol_pct=0.5):
+    """(r1503) What THIS page's sheet pays above IOPV, at the face's own premium rates.
+
+    Why it exists: the published face is priced against the sheet that was executable when
+    it ran. This page's sheet has since been trimmed by the permission floor (k 0.460 ->
+    0.393), so the face's "share of the order" is 9.07% of a DIFFERENT order than the one
+    the reader is looking at -- two yuan totals on one page, neither labelled, which is the
+    defect the card ledger calls "one book, two sheets of paper".
+
+    It is a recomputation, not a rescale: each name's premium rate is the face's, each
+    name's weight is the page's, and both provenances are printed. A name on the page with
+    no rate in the face is counted as unverifiable and stays OUT of the sum (never a zero).
+    Returns None when there is nothing to say -- no page sheet, or the two sheets are the
+    same sheet.
+    """
+    ps = page_sheet or {}
+    legs = [l for l in (ps.get("legs") or []) if l and l.get("symbol")]
+    amt = ps.get("amount_cny")
+    tot = pb.get("totals") or {}
+    face_amt = tot.get("book_amount_cny")
+    if not legs or amt is None or face_amt is None:
+        return None
+    amt = float(amt)
+    face_amt = float(face_amt)
+    if abs(amt - face_amt) <= max(tol_cny, abs(face_amt) * tol_pct / 100.0):
+        return None
+    rate = {}
+    for r in (pb.get("names") or []):
+        if r.get("symbol") and r.get("status") == "OK" and r.get("premium_pct") is not None:
+            rate[r["symbol"]] = float(r["premium_pct"])
+    out = {"page_amount_cny": round(amt, 2), "face_amount_cny": round(face_amt, 2),
+           "face_session": pb.get("session"), "rows": [], "unverifiable": [],
+           "paid_cny": 0.0, "n_rows": 0}
+    for l in legs:
+        a = l.get("amount_cny")
+        sym = l["symbol"]
+        if a is None:
+            out["unverifiable"].append(sym)
+            continue
+        p = rate.get(sym)
+        if p is None:
+            out["unverifiable"].append(sym)
+            continue
+        paid = float(a) * p / 100.0
+        out["rows"].append({"symbol": sym, "amount_cny": round(float(a), 2),
+                            "premium_pct": p, "premium_cny": round(paid, 2)})
+        out["paid_cny"] += paid
+        out["n_rows"] += 1
+    out["paid_cny"] = round(out["paid_cny"], 2)
+    if out["n_rows"] == 0:
+        out["share_of_page_pct"] = None
+    else:
+        out["share_of_page_pct"] = round(100.0 * out["paid_cny"] / amt, 4) if amt else None
+    nav = tot.get("nav_cny")
+    out["share_of_nav_pct"] = (round(100.0 * out["paid_cny"] / float(nav), 4)
+                               if nav else None)
+    cagr = tot.get("book_cagr_pct")
+    if cagr:
+        out["years_of_backtest_return_paid"] = round(
+            out["share_of_page_pct"] / float(cagr), 4) if out.get("share_of_page_pct") else None
+    return out
+
+
+def premium_block(pb, page_bar=None, page_sheet=None):
     """The lines this page prints about what the order pays above the basket."""
     L = []
     add = L.append
@@ -832,13 +895,21 @@ def premium_block(pb, page_bar=None):
     paid = tot.get("premium_paid_cny") or 0.0
     share = tot.get("premium_share_of_order_pct")
     share_nav = tot.get("premium_share_of_nav_pct")
+    # r1503: the face is priced on ITS sheet, this page prints ANOTHER one (the floor
+    # trimmed it since). Say which sheet the sentence is about before a reader subtracts
+    # two yuan totals that were never meant to match.
+    onpage = premium_on_page_sheet(pb, page_sheet)
     top = [r for r in pb.get("names") or [] if r.get("status") == "OK"
            and (r.get("market_pctile") or 0.0) >= ((pb.get("criteria") or {}).get("top_pctile") or 95.0)]
     sentence = ("清单上 **¥%s** 的单里，有 **¥%s** 买的是**溢价**（价格高出这只 ETF 自己一篮子资产的部分），"
                 "不是篮子的价值" % (format(tot.get("book_amount_cny") or 0, ",.0f"),
                                    format(paid, ",.0f")))
+    if onpage:
+        sentence = ("溢价面自己那张单 **¥%s** 里，有 **¥%s** 买的是**溢价**（价格高出这只 ETF "
+                    "自己一篮子资产的部分），不是篮子的价值" %
+                    (format(onpage["face_amount_cny"], ",.0f"), format(paid, ",.0f")))
     if share is not None:
-        sentence += "——占这张单的 **%.2f%%**" % share
+        sentence += ("——占它那张单的 **%.2f%%**" if onpage else "——占这张单的 **%.2f%%**") % share
     if share_nav is not None:
         sentence += "、占总资金的 **%.2f%%**" % share_nav
     add("**%s。**" % sentence)
@@ -865,6 +936,35 @@ def premium_block(pb, page_bar=None):
     if tot.get("n_unverifiable"):
         add("- %d 只票这一天没有 IOPV 读数，上面的合计**不含**它们——是「查不到」，不是「没有溢价」。"
             % tot["n_unverifiable"])
+    if onpage:
+        add("")
+        add("**按本页这张单重算**（份数×价取本页，溢价率取 %s 那次读数）：**¥%s**，"
+            "占本页这张单 **%s%%**、总资金 **%s%%**——这才是你手上这张单要付的溢价。"
+            % (onpage.get("face_session") or "溢价面那一次",
+               format(onpage["paid_cny"], ",.0f"),
+               "—" if onpage.get("share_of_page_pct") is None
+               else "%.2f" % onpage["share_of_page_pct"],
+               "—" if onpage.get("share_of_nav_pct") is None
+               else "%.2f" % onpage["share_of_nav_pct"]))
+        add("")
+        add("- 两张单不是一回事：溢价面那张 **¥%s**、本页这张 **¥%s**。两个金额并列，不许相加，"
+            "也不许拿上面那个百分之几套到本页的 ¥ 上。"
+            % (format(onpage["face_amount_cny"], ",.0f"),
+               format(onpage["page_amount_cny"], ",.0f")))
+        add("")
+        add("| 代码 | 本页金额 | 溢价率（%s） | 买溢价 ¥ |" % (onpage.get("face_session") or "溢价面"))
+        add("|---|---|---|---|")
+        for r in onpage["rows"]:
+            add("| %s | ¥%s | %+.2f%% | %s |"
+                % (r["symbol"], format(r["amount_cny"], ",.0f"), r["premium_pct"],
+                   format(r["premium_cny"], ",.2f")))
+        add("| — | **合计** | | **¥%s** |" % format(onpage["paid_cny"], ",.2f"))
+        add("")
+        if onpage.get("unverifiable"):
+            add("- %s 在本页这张单上没有可配的溢价率（溢价面那天没读到它的 IOPV）——"
+                "上面的合计**不含**它们，是「查不到」，不是「没有溢价」。"
+                % "、".join(onpage["unverifiable"]))
+            add("")
     st = pb.get("stress") or {}
     if st.get("if_premium_reverts_to_zero_cny") is not None:
         add("- 如果溢价回落到 0（限购放开、套利关门被打开），这一笔就是 **¥%s** 的损失，"
@@ -4243,7 +4343,11 @@ def render_md(p):
     add("")
     for _pf_line in permission_block(p.get("permission") or {}):
         add(_pf_line)
-    for _pl_line in premium_block(p.get("premium_leak") or {}, page_bar=p.get("priced_bar")):
+    for _pl_line in premium_block(p.get("premium_leak") or {}, page_bar=p.get("priced_bar"),
+                                  page_sheet={"amount_cny": p.get("book_amount_cny"),
+                                              "legs": [{"symbol": o.get("symbol"),
+                                                        "amount_cny": o.get("amount_cny")}
+                                                       for o in (p.get("order") or [])]}):
         add(_pl_line)
     for _pfw_line in premium_forward_block(p.get("premium_forward") or {},
                                            page_bar=p.get("priced_bar")):
@@ -6814,6 +6918,36 @@ def selftest():
     _pb_shift = premium_block(dict(_pb_fix, session="2026-11-05"), page_bar="2026-11-06")
     chk("L151 premium block: a face priced on another session says so instead of pasting it on today",
         "两个日子对不上" in "\n".join(_pb_shift))
+
+    # r1503: the page prints TWO yuan totals when the floor has trimmed the sheet since the
+    # premium face ran (459,796 published vs 392,727 on the sheet). Unlabelled, a reader
+    # either subtracts them or applies "9.07%" to the wrong base.
+    _pb_sheet = {"amount_cny": 392727.0,
+                 "legs": [{"symbol": "159501", "amount_cny": 78501.0},
+                          {"symbol": "888888", "amount_cny": 1000.0}]}
+    _pb_own = premium_on_page_sheet(_pb_fix, _pb_sheet)
+    chk("L152 premium on this page: recomputed at the face's rates, and both sheets are named",
+        _pb_own and abs(_pb_own["paid_cny"] - round(78501.0 * 23.64 / 100.0, 2)) < 0.01
+        and abs(_pb_own["share_of_page_pct"] - round(100.0 * _pb_own["paid_cny"] / 392727.0, 4)) < 1e-6
+        and _pb_own["unverifiable"] == ["888888"],
+        json.dumps(_pb_own, ensure_ascii=False)[:200])
+    _pb_own_txt = "\n".join(premium_block(_pb_fix, page_bar="2026-11-09", page_sheet=_pb_sheet))
+    chk("L153 premium on this page: the block prints the page's own money and refuses to add the two sheets",
+        "按本页这张单重算" in _pb_own_txt and "459,796" in _pb_own_txt
+        and "392,727" in _pb_own_txt and "不许相加" in _pb_own_txt
+        and "占它那张单" in _pb_own_txt and "888888" in _pb_own_txt,
+        "len=%d" % len(_pb_own_txt))
+    _pb_same = premium_on_page_sheet(_pb_fix, {"amount_cny": 459796.3, "legs": _pb_sheet["legs"]})
+    _pb_same_txt = "\n".join(premium_block(_pb_fix, page_bar="2026-11-06",
+                                           page_sheet={"amount_cny": 459796.3,
+                                                       "legs": _pb_sheet["legs"]}))
+    chk("L154 premium on this page: one sheet, one sentence -- the block stays quiet when both are the same paper",
+        _pb_same is None and "按本页这张单重算" not in _pb_same_txt
+        and "清单上" in _pb_same_txt, "same=%r" % (_pb_same,))
+    _pb_near = premium_on_page_sheet(_pb_fix, {"amount_cny": 459796.3 - 50.0,
+                                               "legs": [{"symbol": "159501", "amount_cny": 1.0}]})
+    chk("L155 premium on this page: a rounding-sized difference is the same paper, not a second one",
+        _pb_near is None, "near=%r" % (_pb_near,))
     # r1465: the gap-history section. The ways it can lie are its own: an absent face would
     # otherwise read as "the gap repeats", a face anchored on another session cannot lend its
     # percentiles to today's sheet, and the repeatable money must come off the face.
