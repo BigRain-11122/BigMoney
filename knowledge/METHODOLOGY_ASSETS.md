@@ -12301,11 +12301,11 @@ selftest 32/32，L33/L34 新增）+ `Tools/s6_chain_bmc.py` 腿 `data_lane_tail_
 
 正身：scripts/etf_book_premium_percentile.py（selftest 18/18 · check 5 legs / 5,034 obs）+
 
-esults/etf_premium/PREMIUM-PERCENTILE.json + 
-esults/etf_premium/premium_history.csv +
+results/etf_premium/PREMIUM-PERCENTILE.json + 
+results/etf_premium/premium_history.csv +
 Tools/s6_chain_bmc.py 腿 premium_percentile + smoke_test.py 两条腿 +
 
-esearch/digests/DIGEST-20261110-r1497-premium-percentile.md。
+research/digests/DIGEST-20261110-r1497-premium-percentile.md。
 
 ### E506 · 交接指针是主张，不是事实 —— 上一轮写下的「下一步」也可能凭空长出一列（r1498 bm-c）
 
