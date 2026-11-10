@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1663 bm-b: E642 burned -- the module-level residual E640 dropped is priced: 17,720 module-level two-depth sites / 2,641 writes corpus-wide, 0 in the 6 modules holding the counted reads; the 7 cross-module name hits are generic words (E646)",
+ "_stamp_note": "r1665 bm-b: E648 burned -- the six counted row keys are priced as words: 12,778 of 13,086 Python files parse (304 do not, 4 over the 1MB cap); 3,854 files spell at least one counted key; 5,802 read / 2,587 write / 0 delete sites over 5,802 literal keys, 2,734 dict-literal keys, 149,479 computed subscripts; 5 of 6 keys are generic words ('verdict' 3,473 files), 'slip_exec' is private (0 files outside the counted faces)",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -31343,14 +31343,16 @@
    "source": "E646 (r1664 bm-b) lesson 1",
    "target": "results/state_tilt/KEYGENERICITY.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T09:55:00+08:00",
    "seeded_by": "r1664 bm-b",
    "workers_plan": {
     "workers": 2,
     "priority": "BelowNormal"
    },
-   "note": "E648"
+   "note": "E648",
+   "closed_at": "2026-11-10T13:35:00+08:00",
+   "result_ref": "results/state_tilt/KEYGENERICITY.json + results/state_tilt/keygenericity_latest.json + scripts/e648_keygenericity.py + scripts/run_e648_smoke_leg.py + research/digests/DIGEST-20261110-r1665-e648-key-genericity.md"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31365,7 +31367,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T09:12:00+08:00",
+ "updated_at": "2026-11-10T13:35:00+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }

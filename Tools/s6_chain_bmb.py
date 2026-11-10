@@ -1528,6 +1528,13 @@ LEGS = [
     # Verify re-derives every count, histogram and class from the face's own rows and pairs.
     ("cross_module_key", ["python", "scripts/e646_crossmodule_key.py", "verify"]),
 
+    # E648 prices the six counted row keys as words instead of addresses: per key it publishes the
+    # files outside the counted faces that spell it as a literal, the read/write/delete sites with
+    # each site's leftmost container name, and one class against two frozen floors -- 5 of 6 keys are
+    # generic words and 'slip_exec' is private (0 outside files), so a key-name hit has to be priced
+    # per key.  Verify re-derives every count and class from the face's own rows.
+    ("key_genericity", ["python", "scripts/e648_keygenericity.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

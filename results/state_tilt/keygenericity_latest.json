@@ -1,0 +1,691 @@
+{
+ "study": "E648_keygenericity",
+ "date": "2026-11-10",
+ "evidence_cutoff": "2026-11-10",
+ "source_face": "results/state_tilt/MODULEWRITEKEY.json",
+ "method": "re-parse every Python file of E642's corpus, and per counted row key publish three literal faces (subscript key / dict-literal key / other strings), the read/write/delete sites keyed by that literal with each site's leftmost container name, and the corpus-wide file count outside the faces holding the counted reads",
+ "population_source": "13086 Python files of the corpus E640/E642 walk, of which 3854 spell at least one counted row key; 13 counted read lines in 6 module(s)",
+ "floors": {
+  "generic_floor_files": 20,
+  "narrow_floor_files": 1
+ },
+ "counts": {
+  "python_files_seen": 13086,
+  "python_files_scanned": 12778,
+  "holes": {
+   "over_the_size_cap": 4,
+   "unreadable": 0,
+   "does_not_parse": 304
+  },
+  "files_naming_any_counted_row_key": 3854,
+  "counted_read_lines": 13,
+  "counted_row_keys": 6,
+  "counted_modules": 6,
+  "literal_string_occurrences": 16956,
+  "subscript_key_sites": 8389,
+  "read_sites": 5802,
+  "write_sites": 2587,
+  "delete_sites": 0,
+  "dict_key_literal_sites": 2734,
+  "computed_subscripts": 149479,
+  "distinct_receiver_roots": 49,
+  "key_class_histogram": {
+   "private_to_the_counted_faces": 1,
+   "narrow_shared": 0,
+   "generic_word": 5
+  },
+  "keys_whose_read_sites_all_sit_in_counted_modules": 1,
+  "floor_generic": 20,
+  "floor_narrow": 1
+ },
+ "rows": [
+  {
+   "key": "bar",
+   "files_naming_it": 42,
+   "files_outside_the_counted_faces": 41,
+   "literal_string_occurrences": 293,
+   "subscript_key_sites": 88,
+   "read_sites": 88,
+   "write_sites": 0,
+   "delete_sites": 0,
+   "dict_key_literal_sites": 36,
+   "prose_or_other_strings": 169,
+   "files_with_a_read_site": 14,
+   "distinct_receiver_roots": 26,
+   "receiver_roots": [
+    {
+     "root": "b",
+     "read_and_write_sites": 29
+    },
+    {
+     "root": "r",
+     "read_and_write_sites": 17
+    },
+    {
+     "root": "led",
+     "read_and_write_sites": 6
+    },
+    {
+     "root": "s",
+     "read_and_write_sites": 4
+    },
+    {
+     "root": "pub",
+     "read_and_write_sites": 3
+    },
+    {
+     "root": "x",
+     "read_and_write_sites": 3
+    },
+    {
+     "root": "bars",
+     "read_and_write_sites": 2
+    },
+    {
+     "root": "bench",
+     "read_and_write_sites": 2
+    },
+    {
+     "root": "book_all",
+     "read_and_write_sites": 2
+    },
+    {
+     "root": "st",
+     "read_and_write_sites": 2
+    },
+    {
+     "root": "t",
+     "read_and_write_sites": 2
+    },
+    {
+     "root": "tail",
+     "read_and_write_sites": 2
+    }
+   ],
+   "receiver_root_tail_sites": 14,
+   "counted_read_lines": [
+    {
+     "module": "scripts/e590_cash_silence.py",
+     "line": 367,
+     "function": "face_problems",
+     "key": "bar",
+     "receiver": "r"
+    },
+    {
+     "module": "scripts/e590_cash_silence.py",
+     "line": 372,
+     "function": "face_problems",
+     "key": "bar",
+     "receiver": "r"
+    },
+    {
+     "module": "scripts/e590_cash_silence.py",
+     "line": 377,
+     "function": "face_problems",
+     "key": "bar",
+     "receiver": "r"
+    }
+   ],
+   "key_class": "generic_word",
+   "base_rate_note": "one key-name hit for 'bar' competes with 41 file(s) that spell it outside the counted faces and 88 read site(s) corpus-wide"
+  },
+  {
+   "key": "days",
+   "files_naming_it": 57,
+   "files_outside_the_counted_faces": 55,
+   "literal_string_occurrences": 186,
+   "subscript_key_sites": 79,
+   "read_sites": 75,
+   "write_sites": 4,
+   "delete_sites": 0,
+   "dict_key_literal_sites": 50,
+   "prose_or_other_strings": 57,
+   "files_with_a_read_site": 26,
+   "distinct_receiver_roots": 28,
+   "receiver_roots": [
+    {
+     "root": "P",
+     "read_and_write_sites": 23
+    },
+    {
+     "root": "cell",
+     "read_and_write_sites": 5
+    },
+    {
+     "root": "faces",
+     "read_and_write_sites": 5
+    },
+    {
+     "root": "d",
+     "read_and_write_sites": 4
+    },
+    {
+     "root": "a",
+     "read_and_write_sites": 3
+    },
+    {
+     "root": "data",
+     "read_and_write_sites": 3
+    },
+    {
+     "root": "rep",
+     "read_and_write_sites": 3
+    },
+    {
+     "root": "t",
+     "read_and_write_sites": 3
+    },
+    {
+     "root": "v",
+     "read_and_write_sites": 3
+    },
+    {
+     "root": "Pp",
+     "read_and_write_sites": 2
+    },
+    {
+     "root": "_lends",
+     "read_and_write_sites": 2
+    },
+    {
+     "root": "base",
+     "read_and_write_sites": 2
+    }
+   ],
+   "receiver_root_tail_sites": 21,
+   "counted_read_lines": [
+    {
+     "module": "scripts/cn_core_ddctl_p1.py",
+     "line": 395,
+     "function": "run",
+     "key": "days",
+     "receiver": "P"
+    }
+   ],
+   "key_class": "generic_word",
+   "base_rate_note": "one key-name hit for 'days' competes with 55 file(s) that spell it outside the counted faces and 75 read site(s) corpus-wide"
+  },
+  {
+   "key": "rows",
+   "files_naming_it": 1132,
+   "files_outside_the_counted_faces": 1128,
+   "literal_string_occurrences": 4202,
+   "subscript_key_sites": 1704,
+   "read_sites": 1639,
+   "write_sites": 65,
+   "delete_sites": 0,
+   "dict_key_literal_sites": 844,
+   "prose_or_other_strings": 1654,
+   "files_with_a_read_site": 564,
+   "distinct_receiver_roots": 253,
+   "receiver_roots": [
+    {
+     "root": "face",
+     "read_and_write_sites": 177
+    },
+    {
+     "root": "leg0",
+     "read_and_write_sites": 107
+    },
+    {
+     "root": "doc",
+     "read_and_write_sites": 93
+    },
+    {
+     "root": "r",
+     "read_and_write_sites": 84
+    },
+    {
+     "root": "m",
+     "read_and_write_sites": 79
+    },
+    {
+     "root": "fresh",
+     "read_and_write_sites": 52
+    },
+    {
+     "root": "p",
+     "read_and_write_sites": 51
+    },
+    {
+     "root": "f",
+     "read_and_write_sites": 44
+    },
+    {
+     "root": "c",
+     "read_and_write_sites": 33
+    },
+    {
+     "root": "bad",
+     "read_and_write_sites": 30
+    },
+    {
+     "root": "doctored",
+     "read_and_write_sites": 28
+    },
+    {
+     "root": "live",
+     "read_and_write_sites": 27
+    }
+   ],
+   "receiver_root_tail_sites": 899,
+   "counted_read_lines": [
+    {
+     "module": "scripts/e504_name_compose.py",
+     "line": 919,
+     "function": "selftest",
+     "key": "rows",
+     "receiver": "doctored4"
+    }
+   ],
+   "key_class": "generic_word",
+   "base_rate_note": "one key-name hit for 'rows' competes with 1128 file(s) that spell it outside the counted faces and 1639 read site(s) corpus-wide"
+  },
+  {
+   "key": "slip_exec",
+   "files_naming_it": 1,
+   "files_outside_the_counted_faces": 0,
+   "literal_string_occurrences": 6,
+   "subscript_key_sites": 5,
+   "read_sites": 5,
+   "write_sites": 0,
+   "delete_sites": 0,
+   "dict_key_literal_sites": 1,
+   "prose_or_other_strings": 0,
+   "files_with_a_read_site": 1,
+   "distinct_receiver_roots": 1,
+   "receiver_roots": [
+    {
+     "root": "P",
+     "read_and_write_sites": 5
+    }
+   ],
+   "receiver_root_tail_sites": 0,
+   "counted_read_lines": [
+    {
+     "module": "scripts/cn_mkneutral_p1.py",
+     "line": 589,
+     "function": "simulate",
+     "key": "slip_exec",
+     "receiver": "P"
+    },
+    {
+     "module": "scripts/cn_mkneutral_p1.py",
+     "line": 593,
+     "function": "simulate",
+     "key": "slip_exec",
+     "receiver": "P"
+    }
+   ],
+   "key_class": "private_to_the_counted_faces",
+   "base_rate_note": "one key-name hit for 'slip_exec' competes with 0 file(s) that spell it outside the counted faces and 5 read site(s) corpus-wide"
+  },
+  {
+   "key": "verdict",
+   "files_naming_it": 3477,
+   "files_outside_the_counted_faces": 3473,
+   "literal_string_occurrences": 11407,
+   "subscript_key_sites": 6174,
+   "read_sites": 3657,
+   "write_sites": 2517,
+   "delete_sites": 0,
+   "dict_key_literal_sites": 1707,
+   "prose_or_other_strings": 3526,
+   "files_with_a_read_site": 1307,
+   "distinct_receiver_roots": 430,
+   "receiver_roots": [
+    {
+     "root": "hb",
+     "read_and_write_sites": 734
+    },
+    {
+     "root": "face",
+     "read_and_write_sites": 630
+    },
+    {
+     "root": "st",
+     "read_and_write_sites": 411
+    },
+    {
+     "root": "r",
+     "read_and_write_sites": 335
+    },
+    {
+     "root": "receipt",
+     "read_and_write_sites": 271
+    },
+    {
+     "root": "out",
+     "read_and_write_sites": 264
+    },
+    {
+     "root": "h",
+     "read_and_write_sites": 261
+    },
+    {
+     "root": "rec",
+     "read_and_write_sites": 228
+    },
+    {
+     "root": "d",
+     "read_and_write_sites": 208
+    },
+    {
+     "root": null,
+     "read_and_write_sites": 174
+    },
+    {
+     "root": "probe",
+     "read_and_write_sites": 155
+    },
+    {
+     "root": "doc",
+     "read_and_write_sites": 144
+    }
+   ],
+   "receiver_root_tail_sites": 2359,
+   "counted_read_lines": [
+    {
+     "module": "scripts/e382_key_projection_delta.py",
+     "line": 350,
+     "function": "build",
+     "key": "verdict",
+     "receiver": "faces"
+    }
+   ],
+   "key_class": "generic_word",
+   "base_rate_note": "one key-name hit for 'verdict' competes with 3473 file(s) that spell it outside the counted faces and 3657 read site(s) corpus-wide"
+  },
+  {
+   "key": "x1",
+   "files_naming_it": 122,
+   "files_outside_the_counted_faces": 119,
+   "literal_string_occurrences": 862,
+   "subscript_key_sites": 339,
+   "read_sites": 338,
+   "write_sites": 1,
+   "delete_sites": 0,
+   "dict_key_literal_sites": 96,
+   "prose_or_other_strings": 427,
+   "files_with_a_read_site": 57,
+   "distinct_receiver_roots": 59,
+   "receiver_roots": [
+    {
+     "root": "sleeves",
+     "read_and_write_sites": 67
+    },
+    {
+     "root": "r",
+     "read_and_write_sites": 34
+    },
+    {
+     "root": "res",
+     "read_and_write_sites": 29
+    },
+    {
+     "root": "wcur",
+     "read_and_write_sites": 18
+    },
+    {
+     "root": "cells",
+     "read_and_write_sites": 16
+    },
+    {
+     "root": "FACES",
+     "read_and_write_sites": 12
+    },
+    {
+     "root": "c",
+     "read_and_write_sites": 10
+    },
+    {
+     "root": "cells_out",
+     "read_and_write_sites": 10
+    },
+    {
+     "root": "m",
+     "read_and_write_sites": 10
+    },
+    {
+     "root": "COST_FACES",
+     "read_and_write_sites": 9
+    },
+    {
+     "root": "L",
+     "read_and_write_sites": 9
+    },
+    {
+     "root": "d",
+     "read_and_write_sites": 7
+    }
+   ],
+   "receiver_root_tail_sites": 108,
+   "counted_read_lines": [
+    {
+     "module": "scripts/ew6_portfolio.py",
+     "line": 414,
+     "function": "write_outputs",
+     "key": "x1",
+     "receiver": "ports"
+    },
+    {
+     "module": "scripts/ew6_portfolio.py",
+     "line": 424,
+     "function": "write_outputs",
+     "key": "x1",
+     "receiver": "sleeves"
+    },
+    {
+     "module": "scripts/ew6_portfolio.py",
+     "line": 437,
+     "function": "write_outputs",
+     "key": "x1",
+     "receiver": "sleeves"
+    },
+    {
+     "module": "scripts/ew6_portfolio.py",
+     "line": 438,
+     "function": "write_outputs",
+     "key": "x1",
+     "receiver": "sleeves"
+    },
+    {
+     "module": "scripts/ew6_portfolio.py",
+     "line": 444,
+     "function": "write_outputs",
+     "key": "x1",
+     "receiver": "sleeves"
+    }
+   ],
+   "key_class": "generic_word",
+   "base_rate_note": "one key-name hit for 'x1' competes with 119 file(s) that spell it outside the counted faces and 338 read site(s) corpus-wide"
+  }
+ ],
+ "examples": [
+  {
+   "module": "Money02/review.py",
+   "line": 272,
+   "key": "verdict",
+   "receiver_root": null,
+   "function": "run_review"
+  },
+  {
+   "module": "Money02/run_tick.py",
+   "line": 132,
+   "key": "verdict",
+   "receiver_root": "rev",
+   "function": "main"
+  },
+  {
+   "module": "Money02/strategies.py",
+   "line": 219,
+   "key": "days",
+   "receiver_root": "p",
+   "function": "family_signals"
+  },
+  {
+   "module": "Money0923/quant/minute_store.py",
+   "line": 139,
+   "key": "days",
+   "receiver_root": "st",
+   "function": "capability_inventory"
+  },
+  {
+   "module": "Money0923/quant/paper.py",
+   "line": 628,
+   "key": "days",
+   "receiver_root": "_lends",
+   "function": "run"
+  },
+  {
+   "module": "Money0923/quant/paper.py",
+   "line": 624,
+   "key": "days",
+   "receiver_root": "_lends",
+   "function": "run"
+  },
+  {
+   "module": "Money0923/quant/stats.py",
+   "line": 134,
+   "key": "days",
+   "receiver_root": "tk",
+   "function": "render_text"
+  },
+  {
+   "module": "Money0923/quant/stats.py",
+   "line": 341,
+   "key": "days",
+   "receiver_root": "tk",
+   "function": "refresh_dashboard"
+  },
+  {
+   "module": "Money0923/run.py",
+   "line": 549,
+   "key": "rows",
+   "receiver_root": "rep",
+   "function": "cmd_arena"
+  },
+  {
+   "module": "Tools/_r1073bmc_closeout.py",
+   "line": 93,
+   "key": "verdict",
+   "receiver_root": "st",
+   "function": null
+  },
+  {
+   "module": "Tools/_r1074bmc_closeout.py",
+   "line": 101,
+   "key": "verdict",
+   "receiver_root": "st",
+   "function": null
+  },
+  {
+   "module": "Tools/_r1164bmb_closeout.py",
+   "line": 87,
+   "key": "verdict",
+   "receiver_root": "st",
+   "function": null
+  },
+  {
+   "module": "Tools/_r1234bmb_dbg.py",
+   "line": 15,
+   "key": "verdict",
+   "receiver_root": "g1",
+   "function": null
+  },
+  {
+   "module": "Tools/_r1234bmb_recall.py",
+   "line": 9,
+   "key": "rows",
+   "receiver_root": "ds",
+   "function": null
+  },
+  {
+   "module": "Tools/_r1234bmb_recall2.py",
+   "line": 10,
+   "key": "rows",
+   "receiver_root": "ds",
+   "function": null
+  },
+  {
+   "module": "Tools/_r1234bmb_recall3.py",
+   "line": 10,
+   "key": "rows",
+   "receiver_root": "ds",
+   "function": null
+  },
+  {
+   "module": "Tools/_r1234bmb_recall4.py",
+   "line": 11,
+   "key": "rows",
+   "receiver_root": "ds",
+   "function": null
+  },
+  {
+   "module": "Tools/_r1334bmb_closeout.py",
+   "line": 53,
+   "key": "verdict",
+   "receiver_root": "face",
+   "function": null
+  },
+  {
+   "module": "Tools/_r1334bmb_closeout.py",
+   "line": 139,
+   "key": "verdict",
+   "receiver_root": "face",
+   "function": null
+  },
+  {
+   "module": "Tools/_r1334bmb_closeout.py",
+   "line": 94,
+   "key": "rows",
+   "receiver_root": "c",
+   "function": null
+  },
+  {
+   "module": "Tools/_r206_cap_view.py",
+   "line": 31,
+   "key": "rows",
+   "receiver_root": "b",
+   "function": null
+  },
+  {
+   "module": "Tools/_r390bmc_addendum.py",
+   "line": 55,
+   "key": "verdict",
+   "receiver_root": "hb",
+   "function": "main"
+  },
+  {
+   "module": "Tools/_r421bmc_mf_assist.py",
+   "line": 276,
+   "key": "verdict",
+   "receiver_root": "ev",
+   "function": "run"
+  },
+  {
+   "module": "Tools/_r515bmc_close2.py",
+   "line": 83,
+   "key": "verdict",
+   "receiver_root": "hb",
+   "function": null
+  },
+  {
+   "module": "Tools/_r766bmc_clone_gate.py",
+   "line": 42,
+   "key": "verdict",
+   "receiver_root": "receipt",
+   "function": null
+  }
+ ],
+ "limits": [
+  "a literal string is not an access: the 'files naming it' column counts spellings, so a docstring line that says 'verdict' raises the base rate without any code reading a key",
+  "the subscript arm matches only a string-literal slice; a computed key (k = 'verdict'; D[k]) is invisible to it by construction and is counted separately as computed_subscripts rather than folded into the zero",
+  "the class is a base rate, not a lineage test: generic_word says a hit needs lineage evidence before it means anything, not that any particular hit is a collision",
+  "files over 1MB are skipped and counted as a hole (E391's cap), so a very large module that spells a key is absent from its denominator while present in any consumer that reads the file directly",
+  "the receiver root is the leftmost Name of the container, so `self.report['rows']` is published under 'self' and two different objects under one name share a row",
+  "the counted read lines are the ones E638's join publishes; a key spelled in a module that holds no counted read is counted in files_naming_it only"
+ ],
+ "verdict": "the six counted row keys price differently: at least one is a generic word and at least one is private or narrow, so a key-name hit has to be priced per key rather than over the set",
+ "answer": "5 of 6 counted row keys are generic words (>=20 files outside the counted faces), 0 are shared but narrow, 1 are private to the counted faces. The widest is 'verdict' (3473 files, 3657 read sites) and the narrowest is 'slip_exec' (0 files, 5 read sites), so a single key-name hit is worth most on 'slip_exec' and least on 'verdict'."
+}

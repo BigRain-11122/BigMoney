@@ -28072,5 +28072,58 @@ except Exception as _e646x:
     _d646 = "study could not be read"
 check(_name646, not _bad646, "; ".join(_bad646)[:240] or _d646)
 
+# E648 prices the six counted row keys as words instead of addresses.  E642 and E646 both read a
+# key-name hit as evidence, and both had to hand-classify their hits (E207/E208: a name is not a
+# measurement), so this leg asks the question that makes those readings priceable -- how many files
+# outside the counted faces spell each key as a literal.  It refuses a face whose counters do not
+# re-add, whose scanned+hole split is not the file count seen, whose per-row class does not follow
+# that row's own outside-file count, whose receiver-root list exceeds the cap it publishes, whose
+# counted read lines belong to another key, whose floors are not the frozen constants, and whose
+# verdict is not the one its own class histogram forces.
+_name648 = ("E648 the six counted row keys priced as literal words (r1665 bm-b)")
+_bad648 = []
+_d648 = "no reading"
+try:
+    _f648 = json.load(open(os.path.join("results", "state_tilt", "keygenericity_latest.json"),
+                           encoding="utf-8"))
+    _m648 = importlib.import_module("e648_keygenericity")
+    _bad648.extend(_m648.face_problems(_f648))
+    _c648 = _f648.get("counts") or {}
+    _r648 = _f648.get("rows") or []
+    _h648 = _c648.get("holes") or {}
+    if (_c648.get("python_files_scanned") or 0) + sum(_h648.values()) != (
+            _c648.get("python_files_seen") or 0):
+        _bad648.append("scanned + holes is not the file count seen")
+    if sum((_c648.get("key_class_histogram") or {}).values()) != len(_r648):
+        _bad648.append("the class histogram is not the per-key count")
+    if (_c648.get("floor_generic"), _c648.get("floor_narrow")) != (
+            _m648.GENERIC_FLOOR_FILES, _m648.NARROW_FLOOR_FILES):
+        _bad648.append("the published floors are not the frozen constants")
+    for _row648 in _r648:
+        if any(_x.get("key") != _row648.get("key")
+               for _x in (_row648.get("counted_read_lines") or [])):
+            _bad648.append("a row carries a counted read line for another key")
+            break
+        if _row648.get("key_class") != _m648.classify_key(_row648):
+            _bad648.append("a row's class does not follow its own outside-file count")
+            break
+        if (_row648.get("prose_or_other_strings") or 0) < 0:
+            _bad648.append("a row publishes a negative prose remainder")
+            break
+        if len(_row648.get("receiver_roots") or []) > _m648.TOP_ROOTS:
+            _bad648.append("a row publishes more receiver roots than its own cap")
+            break
+        if (_row648.get("distinct_receiver_roots") or 0) < len(_row648.get("receiver_roots") or []):
+            _bad648.append("a row publishes fewer distinct roots than it lists")
+            break
+    if _m648.decide(_c648) != _f648.get("verdict"):
+        _bad648.append("the published verdict is not the one its own counts force")
+    if not _r648 and _f648.get("verdict") != _m648.V_NO_COUNTED_KEYS:
+        _bad648.append("an empty population without the verdict it forces")
+except Exception as _e648x:
+    _bad648.append(repr(_e648x)[:160])
+    _d648 = "study could not be read"
+check(_name648, not _bad648, "; ".join(_bad648)[:240] or _d648)
+
 if __name__ == "__main__":
     sys.exit(main())

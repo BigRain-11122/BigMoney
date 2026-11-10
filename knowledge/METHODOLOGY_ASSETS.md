@@ -15184,3 +15184,31 @@ E642 的主结论是「持有计数读行的 6 个模块里，模块级双深度
 `results/state_tilt/CROSSMODULEKEY.json` + `crossmodulekey_latest.json` + `scripts/run_e646_smoke_leg.py`
 （1/1 PASS·`--doctor` 1/1 红·字节复原 sha 同）+ smoke_test.py leg E646 + `Tools/s6_chain_bmb.py` leg
 `cross_module_key`（rc=0 0.05s）+ POOL E646 done / E647+E648 seeded
+
+## E648 — 键名要先定价再命中：5/6 计数行键是全语料通用词，`slip_exec` 才是私有地址（r1665 bm-b·2026-11-10）
+E642 的主结论后面跟着一条弱臂（「别的模块里那 7 个模块级写，键名等于 6 个计数行键之一」），E646
+又用整轮证明这 7 次都是纯名字碰撞。两条读法都压在**字面键名相等**上，而那 6 个键（`verdict`/
+`rows`/`days`/`bar`/`x1`/`slip_exec`）本身就是普通英文词。缺的一直是**逆基率**：如果 `rows` 在
+400 个文件里拼出来，一次碰撞什么都不是；如果 `slip_exec` 在计数面外一次都没拼过，一次碰撞就是
+全部人口。本轮不做任何谱系测试，只把 6 个键逐个定价：计数面外有多少文件拼它、有多少读/写/删除
+站点用它、每个站点最左边的容器根名是什么，再用**跑前冻结的两条地板**分类（≥20 文件=通用词、
+1..19=窄共享、0=私有）。
+**读数**：13,086 个 Python 文件里 12,778 可解析（311 空洞：304 不解析 + 4 超 1MB 读帽）；3,854
+个文件拼过至少一个计数键；13 条计数读行 / 6 个键 / 6 个模块；六个键的字面串出现 16,956 次；
+下标站点 8,389（读 5,802 / 写 2,587 / 删 0）、dict 字面键站点 2,734、**computed 下标 149,479**
+（字面臂按定义看不见）；接收者根名 49 个。**5 个键是通用词、0 个窄共享、1 个私有**——最宽
+`verdict` 3,473 文件 / 3,657 读站点，最窄 `slip_exec` **计数面外 0 文件**、5 个读站点。
+**教训（3 枚）**
+1. **键名测试的强度等于它的逆基率**：只发命中数不发「多少无关文件拼过这个词」，碰撞会被读成证据；
+   分类地板必须在跑之前冻结并原样发布。
+2. **「看到」和「扫到」是两个数**：13,086 里 311 个是空洞，把两者合成一个 `python_files_scanned`
+   会让 `scanned + holes != seen` 根本查不出来。两个都发，并断言恒等式。
+3. **按键普查不可能从按键行重加出文件分母**：文件分母属于扫描不属于任何键，面闸要 (a) 逐键列从
+   行重加、(b) 单独断言 `scanned + holes == seen`；要求分母从行重加是**校验器的病，长得像面的病**。
+**How**：任何「键名/字符串相等」作为证据的阅读，先发布该文字在语料里的逆基率（面外文件数 + 站点数
++ 容器根名），再谈命中；分类地板写成前置命名常量，判决由闸从 histogram 重算，禁手写。
+**证据** = `scripts/e648_keygenericity.py`（selftest 14/14、`--help`/`run`/`check`/`verify` 全 rc0、
+复建字节同一 sha `d4678dfc27b9`）+ `results/state_tilt/KEYGENERICITY.json` + `keygenericity_latest.json`
++ `scripts/run_e648_smoke_leg.py`（1/1 PASS·`--doctor` 1/1 红·字节复原 sha 同）+ smoke_test.py leg E648
++ `Tools/s6_chain_bmb.py` leg `key_genericity`（rc=0）+ `research/digests/DIGEST-20261110-r1665-e648-key-genericity.md`
++ POOL E648 done（ready 3 = floor 3）
