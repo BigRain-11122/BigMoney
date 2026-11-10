@@ -992,23 +992,24 @@
  "src": "etf_book_swap_convergence.py (measured way-out) + etf_book_order.py wiring + s6/smoke legs",
  "status": "product",
  "sync": {
+  "commit": "061d29dbc1",
+  "landed_on": "origin/main",
+  "origin_tip": "061d29dbc1",
   "ahead_origin": 0,
   "behind_origin": 0,
-  "commit": "44cc863042",
-  "landed_on": "origin/main",
-  "origin_tip": "44cc863042",
-  "ts": "2026-11-10T23:13:55+08:00"
+  "ts": "2026-11-10T23:40:56+0800"
  },
  "task": "r1523: the sheet measures whether the way out pays instead of assuming prices unchanged",
  "total_ram_gb": 23.9,
  "ts": "2026-11-10T23:11:33+08:00",
- "updated": "2026-11-10 23:36:14",
- "updated_at": "2026-11-10T23:36:14+0800",
+ "updated": "2026-11-10 23:40:56",
+ "updated_at": "2026-11-10T23:40:56+0800",
  "verdict": "PRODUCT delivered (measured round trip: 159501 net -0.4705pp / -369 CNY, 513100 -0.2265pp / -178 CNY, total -547 CNY on 156,947 swapped; only 27%/42% of comparable sessions clear the four-side toll)",
  "verify": "swap_convergence selftest 26/26 + run + check CHECK_OK measured=2; order selftest 151/151 and ORDER-2026-11-10.md carries the section; ticket payload == fresh compute; S6 chain 9/9 rc0 (new leg)",
  "verify_smoke_closed": "PARTIAL: full suite restarted 23:31 on the post-change tree; 87 legs / 0 FAIL at close, still in flight",
  "vram_free_gb": 14.5,
  "watermark_verdict": "insufficient_history",
  "round_t1523_note": "| 2026-11-10 23:3x | 1523 | **PRODUCT（产品优先律）：换回来的收益第一次是量出来的，不是假设价不变。** r1522 给往返定价时用的是同一个收盘价，把「价位不变」写成 caveat——那回答的是「再换一次要付多少钱」，不是「换回来到底值不值」。新增 scripts/etf_book_swap_convergence.py（唯一实现）：同一个价差重建（import sibling_gap，不重算），按这张单**实际换出的发生额**，量价差在 1/5/10/20 个交易日后的变化——20 日 = 一个调仓网格；两个样本档（今日同宽 / 宽于均值），未愈合样本按 censored 计数不当 0。**读数（2026-11-10 这张单）**：159501 宽于均值档 272 例，20 日后价差中位 **+0.15pp（不是收窄，是更宽）**，扣四边 0.32pp 后净 **-0.4705pp = -369 元**；513100 377 例，中位 **-0.09pp**，净 **-0.2265pp = -178 元**；合计 **-547 元**（按换出的 156,947 元算）。可比历史里真正越过四边成本的只有 **27% / 42%**。**今日同宽档只有 2/0 例**（门槛 8）→ 判决退到宽于均值档并在页面上写明，不拿 2 例冒充分布。**两处披露**：与「换进去赚了多少（水平效应）」不是同一个数且不能相加（页面写死）；这一单没换出的 159577 逐名列出不计入。**验证**：swap_convergence selftest 26/26（含 3 条篡改腿 + censored 不许为 0 腿）、run + check CHECK_OK measured=2；接线票面 payload + card 两处 + 页面新节（ORDER-2026-11-10.md「换回来的收益量出来是多少（r1523）」）；etf_book_order --selftest 151/151 无回归；票面内嵌面 == 新鲜复算（逐值相等）；S6 链 9/9 rc0（新增 swap_convergence 腿）+ 单腿 0.1s。**S6**：dualrun ZERO-DRIFT streak 51 / compute_audit FLAG pool_starvation（15427min）+supply_floor（ready 0 / floor 3）/ py_watermark py_low_with_work_cands（py 单核采样 0.0%、总 CPU 73% = 套件在跑）/ update_daily rc0 0 新行 cutoff 2026-11-10。**S7**：loop pin=5 no-op（首跳 23:35）、watchdog 重注册（S4U 翻转仍被拒·需管理员）、两爪重装、attrition 4 账本 CLEAN。**S0.5**：orders 114/114 全回执；集团 decisions blob sha256 2ffcc70c 与自持水位同值 → 零动作；inbox 两件（MSG-1935 第一节 r1519 已办、第二节已被 MSG-1952 撤单）移入 processed。孤儿面 py_faces=9 orphans=0 零杀。**未验证（如实）**：全量套件 23:31 起的是改码后的树，收轮时 87 腿 / 0 FAIL 仍在飞。",
- "round_t1523_next": "next: the measured answer says the gap does NOT hand the travelled pp back inside one grid (median +0.15pp / -0.09pp against a 0.32pp toll) -- but the trigger still calls the pair WINDOW_ALWAYS_OPEN and the stack still books a 5,612 CNY gain on the same swap. Next round: print the level effect and the measured path effect on one line in the stack, refusing to add them, so a reader cannot read the gain as a harvest"
+ "round_t1523_next": "next: the measured answer says the gap does NOT hand the travelled pp back inside one grid (median +0.15pp / -0.09pp against a 0.32pp toll) -- but the trigger still calls the pair WINDOW_ALWAYS_OPEN and the stack still books a 5,612 CNY gain on the same swap. Next round: print the level effect and the measured path effect on one line in the stack, refusing to add them, so a reader cannot read the gain as a harvest",
+ "round_t1523_addendum": "| 2026-11-10 23:4x | 1523b | **ADDENDUM（收尾）：送达与两扫。** 轮提交 **061d29dbc1** 已落 origin/main （ce81176a91..061d29dbc1，14 件），fetch 后 **0 ahead / 0 behind**，`git ls-tree origin/main` 见 `scripts/etf_book_swap_convergence.py`。**S0.5 二扫**：orders 114 件全在心跳 orders_ack，零未处理；集团 decisions blob 与自持水位同值 → 零动作。**全量套件**：23:31 起的是**改码后**的树（本轮新码已含），收轮时 156 腿、零真红（唯一含 FAIL 字样的是 year_caliber 的 composite=FAIL 判词，本身 PASS），仍在飞。孤儿面 py_faces=9 orphans=0 零杀。**一条留给下一轮的话**：compute_audit 的 supply_floor 已连红到 15427 分钟（ready 0 / floor 3），池里确实没有可点火件——这不是故障而是议程债，按意义门不造凑数活。"
 }
