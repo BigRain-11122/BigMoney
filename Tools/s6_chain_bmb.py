@@ -1497,6 +1497,14 @@ LEGS = [
     # the face's own rows, without the corpus walk.
     ("write_read_collide", ["python", "scripts/e640_writeread_collide.py", "verify"]),
 
+    # E641 asks what binds the container each of those ten write sites writes through: a write of
+    # another key can still land in the mapping the counted read depends on.  Resolving each site's
+    # outermost Subscript down its .value chain to the root Name and classifying that Name inside
+    # the function: 5 distinct containers, all 10 bound *inside* the function (7 dict literal / 3 a
+    # json.loads call), 0 from a parameter or module scope and 0 whose name is a counted read
+    # receiver's.  Verify re-derives every total, histogram and flag from the face's own rows.
+    ("writer_binding", ["python", "scripts/e641_writer_receiver.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

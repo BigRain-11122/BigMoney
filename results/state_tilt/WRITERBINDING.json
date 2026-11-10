@@ -1,0 +1,311 @@
+{
+ "study": "E641_writer_receiver_binding",
+ "date": "2026-11-10",
+ "source_face": "results/state_tilt/WRITEREADCOLLIDE.json",
+ "method": "for every two-depth write site E640 attributes to one of E633's counted functions, resolve the outermost Subscript at the site to the root Name its .value chain walks through, classify that Name's binding inside the function (parameter / loop target / local assignment with its expression kind / module scope / unresolved), and publish whether the container is the same name a counted read line in that same function reads",
+ "population_source": "6 counted function(s) machine-read from results/state_tilt/WRITEREADCOLLIDE.json, 10 two-depth write site(s) among them",
+ "counts": {
+  "counted_functions": 6,
+  "counted_functions_with_a_scope_problem": 0,
+  "functions_carrying_a_write_site": 3,
+  "write_sites": 10,
+  "write_site_container_binding_histogram": {
+   "local_assignment": 10,
+   "loop_target": 0,
+   "module_scope": 0,
+   "parameter": 0,
+   "unresolved": 0
+  },
+  "write_site_rhs_kind_histogram": {
+   "call": 3,
+   "dict_literal": 7
+  },
+  "write_sites_bound_from_outside_the_function": 0,
+  "write_sites_bound_inside_the_function": 10,
+  "write_sites_with_an_unresolved_container": 0,
+  "write_sites_without_a_container_name": 0,
+  "write_sites_sharing_a_counted_read_receiver_name": 0,
+  "distinct_write_containers": 5,
+  "functions_whose_writes_share_a_read_receiver_name": 0,
+  "counted_read_receivers": 6,
+  "counted_lines_carried": 13
+ },
+ "functions": [
+  {
+   "module": "scripts/cn_core_ddctl_p1.py",
+   "function": "run",
+   "start": 341,
+   "end": 790,
+   "read_lines": [
+    395
+   ],
+   "read_receivers": [
+    "P"
+   ],
+   "sites_in_the_function": 20,
+   "write_sites_in_the_function": 2,
+   "write_sites": [
+    {
+     "line": 584,
+     "column": 12,
+     "depth_pair": "1->2",
+     "outer_key": "active",
+     "inner_key": null,
+     "container": "per_year",
+     "container_chain": [
+      "[]"
+     ],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 580,
+     "binding_rhs_kind": "dict_literal",
+     "same_name_as_a_counted_read_receiver": false
+    },
+    {
+     "line": 586,
+     "column": 16,
+     "depth_pair": "1->2",
+     "outer_key": "gated",
+     "inner_key": null,
+     "container": "per_year",
+     "container_chain": [
+      "[]"
+     ],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 580,
+     "binding_rhs_kind": "dict_literal",
+     "same_name_as_a_counted_read_receiver": false
+    }
+   ],
+   "scope_problem": null
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "simulate",
+   "start": 493,
+   "end": 638,
+   "read_lines": [
+    589,
+    593
+   ],
+   "read_receivers": [
+    "P"
+   ],
+   "sites_in_the_function": 6,
+   "write_sites_in_the_function": 0,
+   "write_sites": [],
+   "scope_problem": null
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "start": 266,
+   "end": 394,
+   "read_lines": [
+    350
+   ],
+   "read_receivers": [
+    "faces"
+   ],
+   "sites_in_the_function": 24,
+   "write_sites_in_the_function": 5,
+   "write_sites": [
+    {
+     "line": 299,
+     "column": 4,
+     "depth_pair": "1->2",
+     "outer_key": "e377_targets_keyed",
+     "inner_key": null,
+     "container": "numbers",
+     "container_chain": [
+      "[]"
+     ],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 270,
+     "binding_rhs_kind": "dict_literal",
+     "same_name_as_a_counted_read_receiver": false
+    },
+    {
+     "line": 300,
+     "column": 4,
+     "depth_pair": "1->2",
+     "outer_key": "e377_targets_keyed",
+     "inner_key": null,
+     "container": "numbers",
+     "container_chain": [
+      "[]"
+     ],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 270,
+     "binding_rhs_kind": "dict_literal",
+     "same_name_as_a_counted_read_receiver": false
+    },
+    {
+     "line": 302,
+     "column": 8,
+     "depth_pair": "1->2",
+     "outer_key": "e377_targets",
+     "inner_key": null,
+     "container": "numbers",
+     "container_chain": [
+      "[]"
+     ],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 270,
+     "binding_rhs_kind": "dict_literal",
+     "same_name_as_a_counted_read_receiver": false
+    },
+    {
+     "line": 307,
+     "column": 4,
+     "depth_pair": "1->2",
+     "outer_key": "e381_joined_only_faces",
+     "inner_key": null,
+     "container": "numbers",
+     "container_chain": [
+      "[]"
+     ],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 270,
+     "binding_rhs_kind": "dict_literal",
+     "same_name_as_a_counted_read_receiver": false
+    },
+    {
+     "line": 308,
+     "column": 4,
+     "depth_pair": "1->2",
+     "outer_key": "e381_joined_only_faces",
+     "inner_key": null,
+     "container": "numbers",
+     "container_chain": [
+      "[]"
+     ],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 270,
+     "binding_rhs_kind": "dict_literal",
+     "same_name_as_a_counted_read_receiver": false
+    }
+   ],
+   "scope_problem": null
+  },
+  {
+   "module": "scripts/e504_name_compose.py",
+   "function": "selftest",
+   "start": 853,
+   "end": 960,
+   "read_lines": [
+    919
+   ],
+   "read_receivers": [
+    "doctored4"
+   ],
+   "sites_in_the_function": 5,
+   "write_sites_in_the_function": 3,
+   "write_sites": [
+    {
+     "line": 910,
+     "column": 8,
+     "depth_pair": "1->2",
+     "outer_key": "naming_sites",
+     "inner_key": "summary",
+     "container": "doctored",
+     "container_chain": [
+      "[]"
+     ],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 909,
+     "binding_rhs_kind": "call",
+     "same_name_as_a_counted_read_receiver": false
+    },
+    {
+     "line": 916,
+     "column": 8,
+     "depth_pair": "1->3",
+     "outer_key": "origin",
+     "inner_key": "sites",
+     "container": "doctored3",
+     "container_chain": [
+      "[]",
+      "[]"
+     ],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 915,
+     "binding_rhs_kind": "call",
+     "same_name_as_a_counted_read_receiver": false
+    },
+    {
+     "line": 924,
+     "column": 8,
+     "depth_pair": "1->2",
+     "outer_key": "members_only_clock",
+     "inner_key": "summary",
+     "container": "doctored5",
+     "container_chain": [
+      "[]"
+     ],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 923,
+     "binding_rhs_kind": "call",
+     "same_name_as_a_counted_read_receiver": false
+    }
+   ],
+   "scope_problem": null
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "function": "face_problems",
+   "start": 344,
+   "end": 443,
+   "read_lines": [
+    367,
+    372,
+    377
+   ],
+   "read_receivers": [
+    "r"
+   ],
+   "sites_in_the_function": 0,
+   "write_sites_in_the_function": 0,
+   "write_sites": [],
+   "scope_problem": null
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "start": 358,
+   "end": 486,
+   "read_lines": [
+    414,
+    424,
+    437,
+    438,
+    444
+   ],
+   "read_receivers": [
+    "ports",
+    "sleeves"
+   ],
+   "sites_in_the_function": 19,
+   "write_sites_in_the_function": 0,
+   "write_sites": [],
+   "scope_problem": null
+  }
+ ],
+ "limits": [
+  "the container is the root Name of the site's .value chain; a write whose container is a call result (f()['a']['b'] = v) resolves to f and is published as such, so an expression-shaped container is visible in the chain column and never silently called a name",
+  "binding precedence is parameter > loop target > local assignment > module scope > unresolved; a parameter reassigned inside the function is still published as a parameter, which is the conservative reading for a reachability claim",
+  "'same name as a counted read receiver' is name equality inside one function, not an alias proof: two parameters with different names can hold one object, and the same name can be rebound between the write and the read. The face publishes the evidence for each row rather than a reachability verdict it cannot support",
+  "the population of functions and of write sites is E640's, not re-derived here: a second definition of 'two-depth write site' would be free to drift from the published one"
+ ],
+ "verdict": "the_counted_functions'_two_depth_writes_go_through_containers_bound_inside_the_function,_so_they_are_local_to_that_function_and_cannot_alias_a_caller's_mapping",
+ "answer": "6 counted function(s), 3 carrying a two-depth write site, 10 write site(s) total; containers bind as {\"local_assignment\": 10, \"loop_target\": 0, \"module_scope\": 0, \"parameter\": 0, \"unresolved\": 0}; 0 bound from outside the function, 10 inside, 0 unresolved, 0 whose container name is a counted read receiver's; read receivers in scope: 6. scripts/cn_core_ddctl_p1.py:run(2 sites, receivers P -> per_year:local_assignment, per_year:local_assignment) | scripts/e382_key_projection_delta.py:build(5 sites, receivers faces -> numbers:local_assignment, numbers:local_assignment, numbers:local_assignment, numbers:local_assignment, numbers:local_assignment) | scripts/e504_name_compose.py:selftest(3 sites, receivers doctored4 -> doctored:local_assignment, doctored3:local_assignment, doctored5:local_assignment)"
+}

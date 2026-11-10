@@ -27820,5 +27820,71 @@ except Exception as _e640x:
     _d640 = "study could not be read"
 check(_name640, not _bad640, "; ".join(_bad640)[:240] or _d640)
 
+# E641 asks what binds the container each of those write sites writes through.  E640 counted 10
+# two-depth write sites inside the 6 counted functions and none of them names the row's key; the
+# remaining question is whether a write of *another* key can still land in the mapping the read
+# depends on.  Resolving each site's outermost Subscript down its .value chain to the root Name and
+# classifying that Name inside the function: the 10 sites write through 5 distinct containers, all
+# 10 of them freshly bound *inside* the function (7 dict literal / 3 a json.loads call), 0 from a
+# parameter or module scope, and 0 whose name is a counted read receiver's -- so the write side of
+# these scopes is local and cannot alias a caller's mapping.  This leg refuses a face whose totals
+# do not re-add, a binding outside the vocabulary, an outside flag its binding contradicts, a
+# shared-receiver claim the row does not carry, a write site published outside its own span, and
+# any problem the study's own gate returns.
+_name641 = ("E641 what binds the container a counted function's two-depth write writes through "
+            "(r1661 bm-b)")
+_bad641 = []
+_d641 = "no reading"
+try:
+    _f641 = json.load(open(os.path.join("results", "state_tilt", "writerbinding_latest.json"),
+                           encoding="utf-8"))
+    _m641 = importlib.import_module("e641_writer_receiver")
+    _bad641.extend(_m641.face_problems(_f641))
+    _c641 = _f641.get("counts") or {}
+    _v641 = _f641.get("verdict") or ""
+    _fns641 = _f641.get("functions") or []
+    _sites641 = [s for f in _fns641 for s in (f.get("write_sites") or [])]
+    _bind641 = {}
+    _rhs641 = {}
+    for _s in _sites641:
+        _bind641[_s.get("binding")] = _bind641.get(_s.get("binding"), 0) + 1
+        _rhs641[_s.get("binding_rhs_kind") or "-"] = (
+            _rhs641.get(_s.get("binding_rhs_kind") or "-", 0) + 1)
+    if set(_bind641) - set(_c641.get("write_site_container_binding_histogram") or {}):
+        _bad641.append("a binding appears that the published histogram has no key for")
+    if {_k: _bind641.get(_k, 0)
+            for _k in (_c641.get("write_site_container_binding_histogram") or {})} != (
+                _c641.get("write_site_container_binding_histogram") or {}):
+        _bad641.append("the binding histogram is not the per-site count")
+    if {_k: _rhs641.get(_k, 0)
+            for _k in (_c641.get("write_site_rhs_kind_histogram") or {})} != (
+                _c641.get("write_site_rhs_kind_histogram") or {}):
+        _bad641.append("the rhs-kind histogram is not the per-site count")
+    if (sum(1 for _s in _sites641 if _s.get("bound_from_outside_the_function"))
+            != (_c641.get("write_sites_bound_from_outside_the_function") or 0)):
+        _bad641.append("the outside-bound total is not the per-site flag count")
+    if (sum(1 for _s in _sites641 if _s.get("same_name_as_a_counted_read_receiver"))
+            != (_c641.get("write_sites_sharing_a_counted_read_receiver_name") or 0)):
+        _bad641.append("the shared-receiver total is not the per-site flag count")
+    if (_c641.get("write_sites_bound_from_outside_the_function", 0)
+            + _c641.get("write_sites_bound_inside_the_function", 0)
+            + _c641.get("write_sites_with_an_unresolved_container", 0)) != (
+                _c641.get("write_sites") or 0):
+        _bad641.append("the three binding buckets do not add up to the write sites")
+    if _v641.startswith("the_counted_functions'_two_depth_writes_go_through_containers_bound"):
+        if (_c641.get("write_sites_bound_inside_the_function") != _c641.get("write_sites")
+                or _c641.get("write_sites_sharing_a_counted_read_receiver_name")):
+            _bad641.append("the local-binding verdict is not the one its own totals force")
+    _e640face641 = json.load(open(os.path.join("results", "state_tilt",
+                                              "writereadcollide_latest.json"), encoding="utf-8"))
+    _expected641 = sum((_f.get("write_sites_in_the_function") or 0)
+                       for _f in (_e640face641.get("counted_functions") or []))
+    if len(_sites641) != _expected641:
+        _bad641.append("the write-site total is not E640's %d" % _expected641)
+except Exception as _e641x:
+    _bad641.append(repr(_e641x)[:160])
+    _d641 = "study could not be read"
+check(_name641, not _bad641, "; ".join(_bad641)[:240] or _d641)
+
 if __name__ == "__main__":
     sys.exit(main())

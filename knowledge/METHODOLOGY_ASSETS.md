@@ -15051,3 +15051,38 @@ E639 已经把「读行上的双深站点」问完了：13 行里 6 个站点、
 `results/state_tilt/WRITEREADCOLLIDE.json` + `writereadcollide_latest.json` +
 `scripts/run_e640_smoke_leg.py`（1/1 PASS，`--doctor` 1/1 红·字节复原 sha 同）+ smoke_test.py leg
 E640 + `Tools/s6_chain_bmb.py` leg `write_read_collide`（rc=0 0.07s）+ POOL E640 done / E641 seeded
+
+## E641 — 计数函数里的双深写入，容器是怎么绑定的（r1661 bm-b·2026-11-10）
+
+E640 只回答了「写的是不是同一个**键**」：计数函数里的 10 个写点，0 个命名该行的计数键。但写
+别的键不等于写不到那本账——若写点穿过的是读行用的那个容器，`k` 的只读性就不成立。这一轮把
+10 个写点逐个折回容器：取**(line, column) 处最外层 Subscript**，沿 `.value` 链走到根 Name，
+再在函数内解析这个名字（参数 / 循环目标 / 局部赋值+表达式种类 / 模块作用域 / unresolved），
+最后问它是不是同函数里某条计数读行的接收者名。
+
+**读数：** 6 个计数函数 / 3 个带双深写入 / **10 个写点**，落在 **5 个不同容器**上，
+**10/10 都是函数内新建的局部**（7 × dict 字面量 / 3 × `json.loads(...)` 调用）；**0 个来自参数
+或模块作用域、0 个 unresolved、0 个容器名等于任何计数读接收者**（同函数读接收者 6 个：
+P / faces / doctored4 / r / ports / sleeves）。判定：这些作用域的写侧是局部的，结构上无法别名
+到调用方的映射。
+
+**教训：3 条**
+
+1. **判「写能不能碰到这本账」要看容器不看键名。** 10 个写点全写别的键，但如果它们穿过同一个
+   映射，结论正好反过来；正解是把 `.value` 链折到根名再问根名从哪来。
+2. **名字相等不是别名证明。** 两个不同名参数可以持同一个对象，同名也可以在读写之间被重新绑
+   定；所以本面只发布每行证据（容器名 + 绑定种类 + 绑定行号 + 是否同名于读接收者），不发布
+   可达性判决——能证的是「这 10 个写点绑在函数内新建的容器上」。
+3. **元组赋值会把「值的种类」读成元组的种类**：`numbers, verdicts = {}, {}` 首版把 `numbers`
+   记成 `sequence_literal`（那是元组不是字典），e382 的 5 个写点全被描述成「写穿一个序列」；
+   按位置配对后是 `dict_literal`，直方图 {call:3, sequence_literal:5} → {call:3, dict_literal:7}
+   （名即语义·E207 族：错的名字比没有名字更糟）。
+
+**How**：凡「A 的写会不会污染 B 的读」，先答三问——①A 的容器是哪个名字（折 `.value` 链）；
+②这个名字在本作用域从哪来（参数/循环/局部/模块）；③它是不是 B 的接收者名。第三问答不出
+「是」时只发布证据，不发布别名结论。
+
+**证据** = `scripts/e641_writer_receiver.py`（selftest 18/18、check/verify `problems=[]`、复建
+字节同一 sha `7f2fe87928e1`）+ `results/state_tilt/WRITERBINDING.json` + `writerbinding_latest.json`
++ `scripts/run_e641_smoke_leg.py`（1/1 PASS、`--doctor` 1/1 红·字节复原 sha 同）+ smoke_test.py
+leg E641 + `Tools/s6_chain_bmb.py` leg `writer_binding`（rc=0 0.06s）+ POOL E640 done / E644 seeded
