@@ -12662,3 +12662,22 @@ smoke 腿「the page names the board session the premium section never captured�
 3. **两个方向都断言**：不仅要「该行存在」，还要「该行里每一个 ok 面板的 bar 都在」+「不许出现 `=None`」；只断言前半，投影回退时会照样绿。
 
 **证据**：`scripts/ceo_live_usage.py`（投影加 `cutoff`、渲染回退 `未标注`）· `smoke_test.py` 风险带腿（新 `_pc30` 双腿 + 页面行逐面板比对）· 实跑 `docs/live_usage/LIVE-latest.md` 印 `zt=2026-11-10、zbgc=2026-11-10、dtgc=2026-11-09、strong=2026-11-10` · 该腿内联复现 `bad=[]`。
+
+### E522 · 同一根 bar 两个 k（r1283 bm-a·原号 E518 让位给 r1517 卡）：差的是分母，不是仓位（r1283 bm-a）
+
+**一张面把同一天的账写了两遍，两个 k 都对，但读者只有一个数可用。** `results/etf_book_positions.json` 里
+`accrual.last`（换手前持仓，按本 bar 收盘价估值，NAV ¥1,007,455.39 随当日 +0.7455% 滚动）与
+`ledger_row`（换手后持仓，同一组收盘价，NAV 钉在政策本金 ¥1,000,000，现金 = 本金 − 风险腿）都写着
+bar `2026-11-10`。手数差 690/925/487/674 → 693/891/473/677 共 ¥7,618.40 由换手解释；NAV 差 ¥7,455.39 =
+风险腿差 + 现金腿差。于是同一个风险腿除滚动 NAV 得 k=0.397063、除钉住本金得 k=0.392405，差 0.004658
+（按前账 NAV 折 ¥4,693 名义额）。
+
+**正法**：不是让两本账相减，而是说清每句话除的是什么——「k 相对当日 NAV」与「k 相对政策本金」是两个量，
+任何只印一个 k 的句子都要点名分母；换手前/换手后的账分立披露，且 ROI 只存在于随收益滚动的那一本。
+
+**证据**：`scripts/etf_book_base_basis_audit.py` selftest **14/14** + `check` CHECK_OK（从已发布行重算判词）；
+S6 腿 `etf_book_base_basis_audit`（排在 `etf_book_order` 之后）+ 产物 `results/etf_book_base_basis_audit.json`
++ `docs/live_book/BASE-BASIS.md`（逐只分解手数差、指名票面 `base_k_executed` 读的是换手前那一本）。
+
+**How**：任何「同一账户同一天两个比例」的读数，先问分母是不是同一个（滚动 NAV / 政策本金 / 名义额），
+再问分子是不是换手同一侧的持仓；两问有一个不同，相减出来的数就不是资金差错。
