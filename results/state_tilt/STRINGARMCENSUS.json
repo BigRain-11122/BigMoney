@@ -1,0 +1,1228 @@
+{
+ "study": "E652_string_arm_census",
+ "date": "2026-11-10",
+ "evidence_cutoff": "2026-11-10",
+ "source_face": "results/state_tilt/STRINGREACH.json",
+ "method": "re-derive the counted read population E638 joins, then run E647's string instrument unchanged over the whole Python corpus: every string a file can be asked to spell (literals, all-constant f-strings, constant concatenations) is matched against each counted read module's measured spellings (path, basename, stem, dotted name, and the FACE/LATEST constants that module assigns itself), exact classes first and whole-token containment apart, and every naming string is priced by the call that consumes it; each spelling module is then crossed with whether the same file spells or subscripts a counted row key at all",
+ "population_source": "13108 Python files of E642's corpus over 13 counted read line(s) in 6 module(s) and 6 key(s); 1482453 string(s) examined corpus-wide, 89667 built from an expression",
+ "volume": {
+  "string_literals_examined": 1482453,
+  "unresolved_strings": 89667,
+  "files_carrying_a_counted_row_key": 3860,
+  "self_spellings_excluded": 17,
+  "python_files_seen": 13108,
+  "python_files_scanned": 12800,
+  "holes": {
+   "over_the_size_cap": 4,
+   "unreadable": 0,
+   "does_not_parse": 304
+  },
+  "counted_read_lines": 13,
+  "counted_row_keys": 6,
+  "counted_read_modules": 6,
+  "read_modules": [
+   "scripts/cn_core_ddctl_p1.py",
+   "scripts/cn_mkneutral_p1.py",
+   "scripts/e382_key_projection_delta.py",
+   "scripts/e504_name_compose.py",
+   "scripts/e590_cash_silence.py",
+   "scripts/ew6_portfolio.py"
+  ]
+ },
+ "counts": {
+  "modules_naming_a_read_module": 23,
+  "naming_literals": 28,
+  "literals_by_match_class": {
+   "exact_dotted": 1,
+   "exact_face": 2,
+   "exact_path": 3,
+   "exact_stem": 4,
+   "token_contains_stem": 18
+  },
+  "literals_by_consumer_class": {
+   "file_open": 1,
+   "module_import": 1,
+   "no_call": 22,
+   "other_call": 3,
+   "path_join": 1
+  },
+  "modules_by_spelling_class": {
+   "exact_dotted": 1,
+   "exact_face": 2,
+   "exact_path": 3,
+   "exact_stem": 3,
+   "token_contains_stem": 16
+  },
+  "modules_by_consumer_class": {
+   "file_open": 1,
+   "module_import": 1,
+   "no_call": 18,
+   "other_call": 3,
+   "path_join": 1
+  },
+  "modules_by_reach_class": {
+   "file_text_or_face_read": 1,
+   "import_string_reach": 1,
+   "path_string_only": 1,
+   "string_not_consumed": 20
+  },
+  "modules_naming_by_an_import_or_loader_consumer": 1,
+  "modules_naming_only_in_unconsumed_strings": 20,
+  "modules_naming_and_carrying_a_counted_key": 14,
+  "modules_naming_and_carrying_a_counted_key_and_reached_by_a_loader": 1,
+  "modules_naming_without_a_counted_key": 9,
+  "modules_carrying_a_key_but_naming_only_unconsumed_strings": 13,
+  "speller_read_module_pairs": 24,
+  "speller_read_module_pairs_by_reach": {
+   "file_text_or_face_read": 1,
+   "import_string_reach": 1,
+   "path_string_only": 1,
+   "string_not_consumed": 21
+  },
+  "module_class_histogram": {
+   "production_module": 20,
+   "round_scratch_script": 1,
+   "smoke_or_probe_harness": 2
+  }
+ },
+ "by_spelling_class": {
+  "exact_dotted": [
+   "scripts/e646_crossmodule_key.py"
+  ],
+  "exact_face": [
+   "scripts/e422_basename_census_audit.py",
+   "scripts/run_e504_smoke_leg.py"
+  ],
+  "exact_path": [
+   "results/_r247_probe_gates2.py",
+   "scripts/_r1533bmb_pool.py",
+   "scripts/e646_crossmodule_key.py"
+  ],
+  "exact_stem": [
+   "scripts/e646_crossmodule_key.py",
+   "scripts/run_e590_smoke_leg.py",
+   "scripts/science_gates.py"
+  ],
+  "token_contains_stem": [
+   "_r1656_meta.py",
+   "scripts/_r1533bmb_report.py",
+   "scripts/_r1617bmb_card.py",
+   "scripts/_r1617bmb_pool.py",
+   "scripts/_r1617bmb_registry.py",
+   "scripts/_r1639_card.py",
+   "scripts/_r1639_closeout.py",
+   "scripts/ce_admission_corr_leg.py",
+   "scripts/div_lowvol_backtest.py",
+   "scripts/e507_unresolved_origin.py",
+   "scripts/e508_caller_supplied_population.py",
+   "scripts/e626_handover_write.py",
+   "scripts/e647_string_reach.py",
+   "scripts/im_ic_pair.py",
+   "scripts/p4_ext_tilt.py",
+   "scripts/t33_router_validation.py"
+  ]
+ },
+ "rows": [
+  {
+   "module": "_r1656_meta.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/ew6_portfolio.py"
+   ],
+   "read_module_reach": {
+    "scripts/ew6_portfolio.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 2,
+   "naming_by_match": {
+    "token_contains_stem": 2
+   },
+   "naming_by_consumer": {
+    "no_call": 2
+   },
+   "carries_a_counted_row_key": true,
+   "counted_keys_named": [
+    "verdict"
+   ],
+   "subscript_key_sites": 0,
+   "string_literals": 171,
+   "unresolved_strings": 3,
+   "naming_literals": [
+    {
+     "read_module": "scripts/ew6_portfolio.py",
+     "line": 36,
+     "column": 10,
+     "value": "\n## E636 · 可达性替代并集后，计算键读取能不能落成一个类（r1656 bm-b｜2026-11-10）\n\nE635 把 12 个计算键读取分成 0 证明为该键 / 1 可读 / 5 证明为别的键 / **6 未决**。6 个未决全",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": "CARD_MD"
+    },
+    {
+     "read_module": "scripts/ew6_portfolio.py",
+     "line": 79,
+     "column": 9,
+     "value": "# DIGEST 2026-11-10 r1656 bm-b -- E636: reachability, not union, and the reads the census folds out\n\n**Card** E636 `whet",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": "DIGEST"
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "results/_r247_probe_gates2.py",
+   "module_class": "round_scratch_script",
+   "read_modules": [
+    "scripts/ew6_portfolio.py"
+   ],
+   "read_module_reach": {
+    "scripts/ew6_portfolio.py": "file_text_or_face_read"
+   },
+   "reach": "file_text_or_face_read",
+   "match_classes": [
+    "exact_path"
+   ],
+   "consumer_classes": [
+    "file_open"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "exact_path": 1
+   },
+   "naming_by_consumer": {
+    "file_open": 1
+   },
+   "carries_a_counted_row_key": false,
+   "counted_keys_named": [],
+   "subscript_key_sites": 0,
+   "string_literals": 42,
+   "unresolved_strings": 0,
+   "naming_literals": [
+    {
+     "read_module": "scripts/ew6_portfolio.py",
+     "line": 9,
+     "column": 14,
+     "value": "scripts/ew6_portfolio.py",
+     "built": "constant",
+     "match": "exact_path",
+     "consumer": "io.open",
+     "consumer_class": "file_open",
+     "bound_name": "src"
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/_r1533bmb_pool.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/e504_name_compose.py"
+   ],
+   "read_module_reach": {
+    "scripts/e504_name_compose.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "exact_path"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "exact_path": 1
+   },
+   "naming_by_consumer": {
+    "no_call": 1
+   },
+   "carries_a_counted_row_key": false,
+   "counted_keys_named": [],
+   "subscript_key_sites": 0,
+   "string_literals": 47,
+   "unresolved_strings": 0,
+   "naming_literals": [
+    {
+     "read_module": "scripts/e504_name_compose.py",
+     "line": 42,
+     "column": 14,
+     "value": "scripts/e504_name_compose.py",
+     "built": "constant",
+     "match": "exact_path",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": "NEW"
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/_r1533bmb_report.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/e504_name_compose.py"
+   ],
+   "read_module_reach": {
+    "scripts/e504_name_compose.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "token_contains_stem": 1
+   },
+   "naming_by_consumer": {
+    "no_call": 1
+   },
+   "carries_a_counted_row_key": false,
+   "counted_keys_named": [],
+   "subscript_key_sites": 0,
+   "string_literals": 11,
+   "unresolved_strings": 0,
+   "naming_literals": [
+    {
+     "read_module": "scripts/e504_name_compose.py",
+     "line": 6,
+     "column": 4,
+     "value": "2026-11-07T19:45:00+08:00 | r1533 | PRODUCT | watermark verdict: RED at open (py_watermark insufficient_history, pool re",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": "ROW"
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/_r1617bmb_card.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/e590_cash_silence.py"
+   ],
+   "read_module_reach": {
+    "scripts/e590_cash_silence.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "token_contains_stem": 1
+   },
+   "naming_by_consumer": {
+    "no_call": 1
+   },
+   "carries_a_counted_row_key": false,
+   "counted_keys_named": [],
+   "subscript_key_sites": 0,
+   "string_literals": 7,
+   "unresolved_strings": 1,
+   "naming_literals": [
+    {
+     "read_module": "scripts/e590_cash_silence.py",
+     "line": 13,
+     "column": 7,
+     "value": "\n### E590 无报价的现金步子值多少钱，以及“8 根 bar 旧”是不是同一个事实（r1617 bm-b，2026-11-09）\n\n**问题**：E589 让票面 `cash_leg` 说出自己的窗口，并披露回购面板在 book 自己",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": "CARD"
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/_r1617bmb_pool.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/e590_cash_silence.py"
+   ],
+   "read_module_reach": {
+    "scripts/e590_cash_silence.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "other_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "token_contains_stem": 1
+   },
+   "naming_by_consumer": {
+    "other_call": 1
+   },
+   "carries_a_counted_row_key": false,
+   "counted_keys_named": [],
+   "subscript_key_sites": 0,
+   "string_literals": 58,
+   "unresolved_strings": 2,
+   "naming_literals": [
+    {
+     "read_module": "scripts/e590_cash_silence.py",
+     "line": 65,
+     "column": 23,
+     "value": "results/etf_book_order/CASHSILENCE.json (per-ticket unquoted steps with their fallback quote and CNY; the bars-past-the-",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": "e.update",
+     "consumer_class": "other_call",
+     "bound_name": null
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/_r1617bmb_registry.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/e590_cash_silence.py"
+   ],
+   "read_module_reach": {
+    "scripts/e590_cash_silence.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "token_contains_stem": 1
+   },
+   "naming_by_consumer": {
+    "no_call": 1
+   },
+   "carries_a_counted_row_key": false,
+   "counted_keys_named": [],
+   "subscript_key_sites": 0,
+   "string_literals": 8,
+   "unresolved_strings": 1,
+   "naming_literals": [
+    {
+     "read_module": "scripts/e590_cash_silence.py",
+     "line": 11,
+     "column": 4,
+     "value": "| 2026-11-09 | r1617 bm-b | E590 cash silence | **静默要按步计价，不能只数步数；单调增长的量不能压成一个标量外发布**：E589 披露的「7 个无报价 step / 8 根 bar 旧」里，",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": "LINE"
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/_r1639_card.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/cn_core_ddctl_p1.py"
+   ],
+   "read_module_reach": {
+    "scripts/cn_core_ddctl_p1.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "token_contains_stem": 1
+   },
+   "naming_by_consumer": {
+    "no_call": 1
+   },
+   "carries_a_counted_row_key": false,
+   "counted_keys_named": [],
+   "subscript_key_sites": 0,
+   "string_literals": 7,
+   "unresolved_strings": 1,
+   "naming_literals": [
+    {
+     "read_module": "scripts/cn_core_ddctl_p1.py",
+     "line": 5,
+     "column": 7,
+     "value": "\n## E620 · 「赋值后不再读」的局部变量要按三档发布，不能只报一档\n\n**问题**：E617 抓到一条死读者行（`census = m[\"basename_census\"]` 赋值后再没读过）。一行是轶事——这个类到底是普遍形状还是",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": "CARD"
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/_r1639_closeout.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/cn_core_ddctl_p1.py"
+   ],
+   "read_module_reach": {
+    "scripts/cn_core_ddctl_p1.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "token_contains_stem": 1
+   },
+   "naming_by_consumer": {
+    "no_call": 1
+   },
+   "carries_a_counted_row_key": false,
+   "counted_keys_named": [],
+   "subscript_key_sites": 0,
+   "string_literals": 47,
+   "unresolved_strings": 12,
+   "naming_literals": [
+    {
+     "read_module": "scripts/cn_core_ddctl_p1.py",
+     "line": 77,
+     "column": 4,
+     "value": "%s | r1639 | bm-b | watermark=RED at open (pool-batch-runnable-idle-low-cpu, 1 ready) -> the ready head E619 was already",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": "line"
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/ce_admission_corr_leg.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/ew6_portfolio.py"
+   ],
+   "read_module_reach": {
+    "scripts/ew6_portfolio.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 2,
+   "naming_by_match": {
+    "token_contains_stem": 2
+   },
+   "naming_by_consumer": {
+    "no_call": 2
+   },
+   "carries_a_counted_row_key": true,
+   "counted_keys_named": [
+    "verdict"
+   ],
+   "subscript_key_sites": 1,
+   "string_literals": 266,
+   "unresolved_strings": 6,
+   "naming_literals": [
+    {
+     "read_module": "scripts/ew6_portfolio.py",
+     "line": 1,
+     "column": 0,
+     "value": "T-54 slice-3: CORR-leg judgment machinery + synthetic MW-passer live-fire.\n\nCE_ADMISSION_V1.md sec.3 (frozen) CORR claus",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": null
+    },
+    {
+     "read_module": "scripts/ew6_portfolio.py",
+     "line": 290,
+     "column": 26,
+     "value": "all corr math via ew6_portfolio.corr_block (corr-watch sec.2 verbatim); construction = normalize -> join inner -> pct_ch",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": "out"
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/div_lowvol_backtest.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/ew6_portfolio.py"
+   ],
+   "read_module_reach": {
+    "scripts/ew6_portfolio.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "token_contains_stem": 1
+   },
+   "naming_by_consumer": {
+    "no_call": 1
+   },
+   "carries_a_counted_row_key": true,
+   "counted_keys_named": [
+    "days",
+    "x1"
+   ],
+   "subscript_key_sites": 15,
+   "string_literals": 673,
+   "unresolved_strings": 27,
+   "naming_literals": [
+    {
+     "read_module": "scripts/ew6_portfolio.py",
+     "line": 2,
+     "column": 0,
+     "value": "DIV_LOWVOL_P1 dividend-lowvol carry sleeve batch runner (T-2026-09-25-53\nslice-7, bm-a lane). Prereg research/DIV_LOWVOL",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": null
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/e422_basename_census_audit.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/e382_key_projection_delta.py"
+   ],
+   "read_module_reach": {
+    "scripts/e382_key_projection_delta.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "exact_face"
+   ],
+   "consumer_classes": [
+    "other_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "exact_face": 1
+   },
+   "naming_by_consumer": {
+    "other_call": 1
+   },
+   "carries_a_counted_row_key": true,
+   "counted_keys_named": [
+    "rows",
+    "verdict"
+   ],
+   "subscript_key_sites": 9,
+   "string_literals": 438,
+   "unresolved_strings": 10,
+   "naming_literals": [
+    {
+     "read_module": "scripts/e382_key_projection_delta.py",
+     "line": 612,
+     "column": 16,
+     "value": "keydelta_latest.json",
+     "built": "constant",
+     "match": "exact_face",
+     "consumer": "spells",
+     "consumer_class": "other_call",
+     "bound_name": null
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/e507_unresolved_origin.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/e504_name_compose.py"
+   ],
+   "read_module_reach": {
+    "scripts/e504_name_compose.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "token_contains_stem": 1
+   },
+   "naming_by_consumer": {
+    "no_call": 1
+   },
+   "carries_a_counted_row_key": true,
+   "counted_keys_named": [
+    "bar",
+    "rows",
+    "verdict"
+   ],
+   "subscript_key_sites": 10,
+   "string_literals": 830,
+   "unresolved_strings": 38,
+   "naming_literals": [
+    {
+     "read_module": "scripts/e504_name_compose.py",
+     "line": 1,
+     "column": 0,
+     "value": "E507 -- where the residual date symbols bind.\n\nE504 priced 123 naming sites and left 169 (site, member) pairs unresolved",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": null
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/e508_caller_supplied_population.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/e504_name_compose.py"
+   ],
+   "read_module_reach": {
+    "scripts/e504_name_compose.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "token_contains_stem": 1
+   },
+   "naming_by_consumer": {
+    "no_call": 1
+   },
+   "carries_a_counted_row_key": true,
+   "counted_keys_named": [
+    "rows",
+    "verdict"
+   ],
+   "subscript_key_sites": 8,
+   "string_literals": 573,
+   "unresolved_strings": 37,
+   "naming_literals": [
+    {
+     "read_module": "scripts/e504_name_compose.py",
+     "line": 1,
+     "column": 0,
+     "value": "E508 -- who supplies the population to the 35 argument-only surfaces.\n\nE505 priced the population-naming surface of 180 ",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": null
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/e626_handover_write.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/cn_core_ddctl_p1.py"
+   ],
+   "read_module_reach": {
+    "scripts/cn_core_ddctl_p1.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "token_contains_stem": 1
+   },
+   "naming_by_consumer": {
+    "no_call": 1
+   },
+   "carries_a_counted_row_key": true,
+   "counted_keys_named": [
+    "verdict"
+   ],
+   "subscript_key_sites": 4,
+   "string_literals": 407,
+   "unresolved_strings": 28,
+   "naming_literals": [
+    {
+     "read_module": "scripts/cn_core_ddctl_p1.py",
+     "line": 1,
+     "column": 0,
+     "value": "E626 -- does the callee that is handed the object write the key the dead line read?\n\nE625 (r1643) closed the value test ",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": null
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/e646_crossmodule_key.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/e382_key_projection_delta.py"
+   ],
+   "read_module_reach": {
+    "scripts/e382_key_projection_delta.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "exact_dotted",
+    "exact_path",
+    "exact_stem"
+   ],
+   "consumer_classes": [
+    "no_call",
+    "other_call"
+   ],
+   "naming_literal_count": 3,
+   "naming_by_match": {
+    "exact_dotted": 1,
+    "exact_path": 1,
+    "exact_stem": 1
+   },
+   "naming_by_consumer": {
+    "no_call": 2,
+    "other_call": 1
+   },
+   "carries_a_counted_row_key": true,
+   "counted_keys_named": [
+    "rows",
+    "verdict"
+   ],
+   "subscript_key_sites": 4,
+   "string_literals": 656,
+   "unresolved_strings": 13,
+   "naming_literals": [
+    {
+     "read_module": "scripts/e382_key_projection_delta.py",
+     "line": 651,
+     "column": 28,
+     "value": "scripts/e382_key_projection_delta.py",
+     "built": "constant",
+     "match": "exact_path",
+     "consumer": "module_aliases",
+     "consumer_class": "other_call",
+     "bound_name": "al"
+    },
+    {
+     "read_module": "scripts/e382_key_projection_delta.py",
+     "line": 652,
+     "column": 15,
+     "value": "e382_key_projection_delta",
+     "built": "constant",
+     "match": "exact_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": null
+    },
+    {
+     "read_module": "scripts/e382_key_projection_delta.py",
+     "line": 653,
+     "column": 15,
+     "value": "scripts.e382_key_projection_delta",
+     "built": "constant",
+     "match": "exact_dotted",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": null
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/e647_string_reach.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/e382_key_projection_delta.py"
+   ],
+   "read_module_reach": {
+    "scripts/e382_key_projection_delta.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "token_contains_stem": 1
+   },
+   "naming_by_consumer": {
+    "no_call": 1
+   },
+   "carries_a_counted_row_key": true,
+   "counted_keys_named": [
+    "rows",
+    "verdict"
+   ],
+   "subscript_key_sites": 7,
+   "string_literals": 819,
+   "unresolved_strings": 16,
+   "naming_literals": [
+    {
+     "read_module": "scripts/e382_key_projection_delta.py",
+     "line": 490,
+     "column": 12,
+     "value": "spellings are whole tokens of the measured name, so a literal that names only a family prefix ('e382' for 'e382_key_proj",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": "m"
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/im_ic_pair.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/ew6_portfolio.py"
+   ],
+   "read_module_reach": {
+    "scripts/ew6_portfolio.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "token_contains_stem": 1
+   },
+   "naming_by_consumer": {
+    "no_call": 1
+   },
+   "carries_a_counted_row_key": true,
+   "counted_keys_named": [
+    "rows",
+    "verdict"
+   ],
+   "subscript_key_sites": 2,
+   "string_literals": 537,
+   "unresolved_strings": 60,
+   "naming_literals": [
+    {
+     "read_module": "scripts/ew6_portfolio.py",
+     "line": 1,
+     "column": 0,
+     "value": "IM_IC_PAIR batch runner — 2 pair candidates + 50 pair-direction nulls (52 cells).\n\nPrereg: research/IM_IC_PAIR.md (froze",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": null
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/p4_ext_tilt.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/ew6_portfolio.py"
+   ],
+   "read_module_reach": {
+    "scripts/ew6_portfolio.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "token_contains_stem": 1
+   },
+   "naming_by_consumer": {
+    "no_call": 1
+   },
+   "carries_a_counted_row_key": true,
+   "counted_keys_named": [
+    "verdict"
+   ],
+   "subscript_key_sites": 0,
+   "string_literals": 569,
+   "unresolved_strings": 26,
+   "naming_literals": [
+    {
+     "read_module": "scripts/ew6_portfolio.py",
+     "line": 1,
+     "column": 0,
+     "value": "P4_EXT_TILT — extension-slot survivor -> strategy conversion batch.\n\nB-layer stock pool, low-frequency tilt. Prereg FROZ",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": null
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/run_e504_smoke_leg.py",
+   "module_class": "smoke_or_probe_harness",
+   "read_modules": [
+    "scripts/e504_name_compose.py"
+   ],
+   "read_module_reach": {
+    "scripts/e504_name_compose.py": "path_string_only"
+   },
+   "reach": "path_string_only",
+   "match_classes": [
+    "exact_face"
+   ],
+   "consumer_classes": [
+    "path_join"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "exact_face": 1
+   },
+   "naming_by_consumer": {
+    "path_join": 1
+   },
+   "carries_a_counted_row_key": false,
+   "counted_keys_named": [],
+   "subscript_key_sites": 0,
+   "string_literals": 36,
+   "unresolved_strings": 4,
+   "naming_literals": [
+    {
+     "read_module": "scripts/e504_name_compose.py",
+     "line": 17,
+     "column": 51,
+     "value": "namecompose_latest.json",
+     "built": "constant",
+     "match": "exact_face",
+     "consumer": "os.path.join",
+     "consumer_class": "path_join",
+     "bound_name": "FACE"
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/run_e590_smoke_leg.py",
+   "module_class": "smoke_or_probe_harness",
+   "read_modules": [
+    "scripts/e590_cash_silence.py"
+   ],
+   "read_module_reach": {
+    "scripts/e590_cash_silence.py": "import_string_reach"
+   },
+   "reach": "import_string_reach",
+   "match_classes": [
+    "exact_stem"
+   ],
+   "consumer_classes": [
+    "module_import"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "exact_stem": 1
+   },
+   "naming_by_consumer": {
+    "module_import": 1
+   },
+   "carries_a_counted_row_key": true,
+   "counted_keys_named": [
+    "bar",
+    "rows"
+   ],
+   "subscript_key_sites": 0,
+   "string_literals": 42,
+   "unresolved_strings": 4,
+   "naming_literals": [
+    {
+     "read_module": "scripts/e590_cash_silence.py",
+     "line": 35,
+     "column": 32,
+     "value": "e590_cash_silence",
+     "built": "constant",
+     "match": "exact_stem",
+     "consumer": "importlib.import_module",
+     "consumer_class": "module_import",
+     "bound_name": "m"
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/science_gates.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/cn_core_ddctl_p1.py",
+    "scripts/cn_mkneutral_p1.py"
+   ],
+   "read_module_reach": {
+    "scripts/cn_core_ddctl_p1.py": "string_not_consumed",
+    "scripts/cn_mkneutral_p1.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "exact_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 2,
+   "naming_by_match": {
+    "exact_stem": 2
+   },
+   "naming_by_consumer": {
+    "no_call": 2
+   },
+   "carries_a_counted_row_key": true,
+   "counted_keys_named": [
+    "verdict"
+   ],
+   "subscript_key_sites": 0,
+   "string_literals": 1366,
+   "unresolved_strings": 23,
+   "naming_literals": [
+    {
+     "read_module": "scripts/cn_core_ddctl_p1.py",
+     "line": 996,
+     "column": 4,
+     "value": "cn_core_ddctl_p1",
+     "built": "constant",
+     "match": "exact_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": "SEED_REGISTRY"
+    },
+    {
+     "read_module": "scripts/cn_mkneutral_p1.py",
+     "line": 1077,
+     "column": 4,
+     "value": "cn_mkneutral_p1",
+     "built": "constant",
+     "match": "exact_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": "SEED_REGISTRY"
+    }
+   ],
+   "naming_literals_elided": 0
+  },
+  {
+   "module": "scripts/t33_router_validation.py",
+   "module_class": "production_module",
+   "read_modules": [
+    "scripts/ew6_portfolio.py"
+   ],
+   "read_module_reach": {
+    "scripts/ew6_portfolio.py": "string_not_consumed"
+   },
+   "reach": "string_not_consumed",
+   "match_classes": [
+    "token_contains_stem"
+   ],
+   "consumer_classes": [
+    "no_call"
+   ],
+   "naming_literal_count": 1,
+   "naming_by_match": {
+    "token_contains_stem": 1
+   },
+   "naming_by_consumer": {
+    "no_call": 1
+   },
+   "carries_a_counted_row_key": true,
+   "counted_keys_named": [
+    "verdict",
+    "x1"
+   ],
+   "subscript_key_sites": 3,
+   "string_literals": 335,
+   "unresolved_strings": 4,
+   "naming_literals": [
+    {
+     "read_module": "scripts/ew6_portfolio.py",
+     "line": 2,
+     "column": 0,
+     "value": "T33_ROUTER_VALIDATION (T-2026-09-24-33 deliverable-4) -- corps router d4.\n\nConsumes the FROZEN spec research/T33_ROUTER_",
+     "built": "constant",
+     "match": "token_contains_stem",
+     "consumer": null,
+     "consumer_class": "no_call",
+     "bound_name": null
+    }
+   ],
+   "naming_literals_elided": 0
+  }
+ ],
+ "limits": [
+  "a spelling is a route and not a demonstration: naming a module never proves the object resolved from that string is the container the counted read line reads, so the key-and-loader intersection is the strongest claim this face makes",
+  "strings built from an expression (f-string with a value, str.format, percent formatting) are counted as unresolved rather than matched, so a computed route is outside this arm by construction and is published as a volume, not as a zero",
+  "'carries a counted row key' is a file-level fact (the key appears as a string constant or as a literal subscript key), so it says the key is present in the module and says nothing about whether the spelling reaches the same dict object",
+  "consumer classes are read from the call name that the string is an argument of, up to 8 hops of assignment; a string consumed by a callee that the walk cannot name is published as no_call, which is a limit and not a zero",
+  "face constants are the upper-case module-level names containing FACE or LATEST that are assigned string literals; a face assigned through an expression is not spellable here and is published by E647's face_constants_unmeasured, not by this study",
+  "the read population is E638's join (one definition); a change to that join moves this study's speller set without touching its string census",
+  "files over 1MB are skipped rather than parsed (E391's cap) and are counted separately as a hole"
+ ],
+ "verdict": "at_least_one_module_that_names_a_counted_read_module_reaches_it_through_a_string_the_import_or_loader_machinery_consumes_and_also_carries_a_counted_row_key,_so_the_invisible_arm_is_a_property_of_the_tree_rather_than_of_the_hits",
+ "answer": "13108 file(s), 1482453 string(s) examined (89667 expression-built); 13 counted read line(s) in 6 module(s) over 6 key(s); 23 file(s) spell a counted read module in 28 literal(s), by class {\"exact_dotted\": 1, \"exact_face\": 2, \"exact_path\": 3, \"exact_stem\": 4, \"token_contains_stem\": 18}, consumed by {\"file_open\": 1, \"module_import\": 1, \"no_call\": 22, \"other_call\": 3, \"path_join\": 1}; 14 speller module(s) carry a counted row key of which 1 also reach a read module through a loader-consumed string; the 24 speller x read-module pair(s) split {\"file_text_or_face_read\": 1, \"import_string_reach\": 1, \"path_string_only\": 1, \"string_not_consumed\": 21}"
+}

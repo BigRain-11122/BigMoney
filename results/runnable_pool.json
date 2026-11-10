@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1670 bm-b: E649 prices the joint distribution E643 published as two independent columns -- of the 2,641 two-depth write sites with no enclosing function, 1,629 sit bare in the module body (run at import) and 1,012 sit behind a guard (548 loop / 380 other conditional / 67 except handler / 17 try body), with 0 behind an `if __name__ == '__main__'` guard and one site naming a counted row key (`verdict`, a one-off round script). E653 seeded: what the loop-guarded sites iterate over and whether each iteration writes the same key.",
+ "_stamp_note": "r1672 bm-b: E652 runs E647's string instrument over the whole corpus and all 6 counted read modules -- 13,108 files, 1,482,453 strings, 23 spellers in 28 literals, 14 of them carrying a counted row key and exactly 1 reaching its module through a loader-consumed string (scripts/run_e590_smoke_leg.py imports e590_cash_silence), and no overlap with E647's 6 hit modules. E652 done; E655 seeded (does that one route read or write the counted key it spells) and E656 seeded (docstring mention or code position), ready floor 3. 2026-11-10T20:15:00+08:00",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -31445,14 +31445,18 @@
    "source": "E647 (r1668 bm-b) -- the same instrument, corpus-wide instead of hits-only",
    "target": "results/state_tilt/STRINGARMCENSUS.json",
    "priority": "normal",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T15:45:00+08:00",
    "seeded_by": "r1668 bm-b",
    "workers_plan": {
     "workers": 2,
     "priority": "BelowNormal"
    },
-   "note": "E652"
+   "note": "E652",
+   "result_ref": "results/state_tilt/STRINGARMCENSUS.json",
+   "done_at": "2026-11-10T20:15:00+08:00",
+   "done_by": "r1672 bm-b",
+   "done_note": "13,108 files / 12,800 scanned (304 do not parse, 4 over the 1MB cap), 1,482,453 strings examined (89,667 expression-built, published as a volume); 23 files spell one of the 6 counted read modules in 28 literals (exact_dotted 1 / exact_face 2 / exact_path 3 / exact_stem 4 / token_contains_stem 18), 14 of the 23 carry a counted row key and exactly 1 of those reaches its module through a loader-consumed string (scripts/run_e590_smoke_leg.py imports e590_cash_silence), so the arm is a property of the tree; the 6 E647 hit modules and these 23 spellers do not intersect, and 17 self-spellings were excluded"
   },
   {
    "card": "E653",
@@ -31491,6 +31495,44 @@
     "priority": "BelowNormal"
    },
    "note": "E654"
+  },
+  {
+   "card": "E655",
+   "id": "E655-WHETHER-THE-ONE-STRING-ROUTE-THAT-REACHES-A-COUNTED-READ-MODULE-ACTUALLY-READS-OR-WRITES-THE-COUNTED-KEY-IT-SPELLS",
+   "title": "the single speller E652 found that both carries a counted row key and reaches its read module through a loader-consumed string: what it does with the imported module, and whether the counted key it spells belongs to that module or to another one",
+   "lane": "cpu-only",
+   "lane_note": "E652 published 23 spellers and exactly one strict case, and its own limit says a spelling never proves the container. The strict case is one file, so the question is cheap: resolve the import, then measure every attribute access, subscript and write this file makes through the imported name, and attribute the keys it spells to the module that owns them. If the one route lands nowhere, E652's verdict keeps its wording but its product falls from 'a route exists' to 'the route is inert'.",
+   "deliverable": "results/state_tilt/STRICTROUTE.json: per site in the strict speller, the imported name, what it is used for (attribute / call / subscript / none), the key spelled and which counted module owns that key",
+   "source": "E652 (r1672 bm-b) -- the one module in the strict cell",
+   "target": "results/state_tilt/STRICTROUTE.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T20:15:00+08:00",
+   "seeded_by": "r1672 bm-b",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   },
+   "note": "E655"
+  },
+  {
+   "card": "E656",
+   "id": "E656-HOW-MANY-OF-THE-23-STRING-SPELLERS-NAME-A-READ-MODULE-ONLY-INSIDE-A-DOCSTRING-OR-A-COMMENT-ADJACENT-STRING",
+   "title": "whether the 23 speller files are documentation mentions or code paths: split every naming literal by where it sits (module/function/class docstring, a stand-alone expression statement, a data structure, a call argument)",
+   "lane": "cpu-only",
+   "lane_note": "E652 priced what consumes a naming string and found 22 of 28 consumed by no call, but 'no call' still lumps a docstring with a dict value nobody indexes. The position of the string decides whether the 23 is a documentation number or a code number, and the split costs one walk over the 23 files E652 already names.",
+   "deliverable": "results/state_tilt/SPELLPOSITION.json: per speller module, every naming literal's syntactic position class and the count per class across the 23, with the two totals (documentation-only modules, code-position modules) published apart",
+   "source": "E652 (r1672 bm-b) -- the 23 speller modules and their 28 naming literals",
+   "target": "results/state_tilt/SPELLPOSITION.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-10T20:15:00+08:00",
+   "seeded_by": "r1672 bm-b",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   },
+   "note": "E656"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31505,6 +31547,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T18:05:00+08:00",
+ "updated_at": "2026-11-10T20:15:00+08:00",
  "version": 1
 }

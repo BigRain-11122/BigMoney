@@ -1575,6 +1575,22 @@ LEGS = [
     # the face's own rows and reconciles 7 hits / 14 sites with E647.
     ("template_fold", ["python", "scripts/e651_template_fold.py", "verify"]),
 
+    # E652 runs E647's string instrument over the whole corpus instead of over its hits.  E647 asked
+    # whether a module reaches a counted read module through a string, but only of the two read
+    # modules its 6 hit modules joined and only of those 6 modules, so it could not say whether a
+    # string route is a property of those hits or of the tree.  This study matches every string in
+    # the corpus (1,482,453 literals plus all-constant f-strings and "a"+"b" folds; 89,667
+    # expression-built strings published as a volume) against all 6 counted read modules' measured
+    # spellings, prices each naming string by the call that consumes it, and crosses every speller
+    # with whether the same file spells or subscripts a counted row key.  Reading: 23 files spell a
+    # read module in 28 literals (18 whole-token containment, 22 consumed by no call), 14 of the 23
+    # carry a counted row key, and exactly 1 of those reaches its module through a loader-consumed
+    # string (scripts/run_e590_smoke_leg.py imports e590_cash_silence), so the arm is a property of
+    # the tree and not only of E647's hits; a read module spelling its own name is excluded and
+    # counted (17).  Verify re-derives every counter, histogram, per-class roll-up and the
+    # scanned+holes closure from the face's own rows.
+    ("string_arm_census", ["python", "scripts/e652_string_arm_census.py", "verify"]),
+
     # E649 prices the joint distribution of two columns E643 published independently: the 2,641
     # two-depth write sites with no enclosing function, and the 3,237 module-body sites inside a
     # module-level compound statement.  A module-level write can sit bare in the module body (runs at

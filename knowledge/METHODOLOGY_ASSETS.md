@@ -15367,3 +15367,38 @@ both 0 / unresolved 0；无计数键 367；作用域内写 **0**；成员 base �
 `scripts/run_e650_smoke_leg.py`（1/1 PASS·`--doctor` 翻红且面字节还回 sha `b09b1ef1297d`）·
 smoke_test.py leg E650 · S6 leg `comprehension_scope` ·
 `research/digests/DIGEST-20261110-r1671-e650-comprehension-scope.md`
+
+## E652 —— 字符串臂不是命中的性质：全语料 1,482,453 串里 23 个拼写者、1 条严格通路（r1672 bm-b）·2026-11-10
+
+E647 只问了有碰撞的 6 个模块，用的是它们碰到的两个读数模块。那回答的是「这 6 个模块有没有字符串通路」，
+回答不了「字符串通路是这 6 个模块的性质还是整棵树的性质」。本批把同一件仪器原样铺满全语料、铺满
+6 个读数模块，并且**把两张主张分开**：一个文件在字符串里拼出一个读数模块的名字，与它是否携带一个
+计数的行键是两件事，只有两者都成立的模块才是 E646 说的那条看不见的路。
+
+**读数**：13,108 个 .py（12,800 扫成，304 不解析 / 4 超 1MB）；1,482,453 条可测字符串，其中 89,667 条
+由表达式生成（按体积披露、不匹配）。6 个读数模块 / 13 条读行 / 6 个键。**23 个文件**在 28 条字面量里
+拼出一个读数模块（exact_dotted 1 / exact_face 2 / exact_path 3 / exact_stem 4 / token_contains_stem 18），
+按消费类分 no_call 22 / other_call 3 / file_open 1 / module_import 1 / path_join 1；**23 个里 14 个同时
+携带计数行键**，其中**恰好 1 个**既带键又经 loader 消费的字符串到达模块（`scripts/run_e590_smoke_leg.py`
+用 `importlib.import_module("e590_cash_silence")`）。拼写者 × 读数模块 24 对：string_not_consumed 21 /
+file_text_or_face_read 1 / import_string_reach 1 / path_string_only 1。
+
+1. **读模块会拼自己的名字**——自己的 stem、自己的 FACE/LATEST 常量，那是身份不是通路。首版把 6 个
+   读数模块自己算成拼写者（目标模块行里 exact_face 2 条），selftest 的 digit-suffix 腿因此红。正法=
+   按 rel 路径排除自指并**计数**（本批 17 条排除），否则「谁拼写了谁」这张表会被目标自身灌水。
+2. **拼写 ≠ 拥有**：只报 23 个拼写者会被读成「树上有 23 条隐形通路」。面必须发布交叉表（23 拼写 /
+   14 带键 / 1 严格），判决只能由交叉项逼出——本面 `decide()` 就是这三格的分支。
+3. **交集为 0 不是矛盾而是答案**：E647 的 6 个命中模块与本次 23 个拼写者**交集 0**，说明这两种模块
+   是两个不相交的集合，字符串臂存在于命中之外——而唯一严格例仍然只是一个 smoke leg。
+4. **排除自身是普查的常设面**：本次不只要排自己的脚本（`e652_`/`run_e652_` 前缀），还要排「目标模块
+   拼自己」。凡「谁 X 了 Y」的普查，Y 对自己恒真，必须显式排除并披露数量。
+
+**How**：任何「某类名字在语料里被谁提到」的面，先把「提到」与「触及」拆成两张主张再取交集；被提到的
+对象自身恒真，必须按路径排除并计数；交叉项之外的判决（本批 strict 只有 1）要写进 verdict 机制词，
+不许用「多少文件提到」直接推「多少条路存在」。
+
+**证据**：`scripts/e652_string_arm_census.py`（selftest 17/17，run/check/verify rc0，problems=[]）、
+`results/state_tilt/STRINGARMCENSUS.json` + `stringarmcensus_latest.json`、
+`scripts/run_e652_smoke_leg.py`（1/1 PASS，`--doctor` 翻转后逐字节回原 sha `5ebfc5c10fba`）、
+smoke_test.py leg E652、S6 leg `string_arm_census`（rc=0 0.06s）、
+`research/digests/DIGEST-20261110-r1672-e652-string-arm-census.md`

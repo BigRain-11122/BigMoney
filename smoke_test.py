@@ -28361,6 +28361,57 @@ except Exception as _e651x:
     _d651 = "study could not be read"
 check(_name651, not _bad651, "; ".join(_bad651)[:240] or _d651)
 
+# E652 runs E647's string instrument over the whole corpus instead of over its hits.  E647 asked
+# whether a module reaches a counted read module through a string, but it asked it of the two read
+# modules its 6 hit modules happened to join and of those 6 modules only, which cannot say whether a
+# string route is a property of those hits or of the tree.  This study matches every string in the
+# corpus (1,482,453 literals, all-constant f-strings and "a"+"b" folds; 89,667 expression-built
+# strings published as a volume) against all 6 counted read modules' measured spellings (path,
+# basename, stem, dotted name, the face constants a module assigns itself), prices each naming string
+# by the call that consumes it, and crosses every speller with whether the same file spells or
+# subscripts a counted row key: 23 files spell a read module in 28 literals (18 of them whole-token
+# containment, 22 of them consumed by no call), 14 of the 23 carry a counted row key, and exactly one
+# of those -- scripts/run_e590_smoke_leg.py, which imports e590_cash_silence -- reaches its module
+# through a loader-consumed string, so the arm E646 called invisible is a property of the tree rather
+# than only of E647's hits.  A read module spelling its own stem or its own face constant is excluded
+# and counted (17 spellings), because a module always carries its own name.  This leg refuses a face
+# whose counters do not re-add from its rows, whose per-class roll-up is not the rows' own, whose
+# scanned + holes does not close, and any problem the study's own gate returns.
+_name652 = "E652 the corpus-wide size of the string arm E647 measured at hits (r1672 bm-b)"
+_bad652 = []
+_d652 = "no reading"
+try:
+    _f652 = json.load(open(os.path.join("results", "state_tilt", "stringarmcensus_latest.json"),
+                           encoding="utf-8"))
+    _m652 = importlib.import_module("e652_string_arm_census")
+    _bad652.extend(_m652.face_problems(_f652))
+    _c652 = _f652.get("counts") or {}
+    _rows652 = _f652.get("rows") or []
+    _live652 = _m652.live_counts(_rows652)
+    for _k652 in ("modules_naming_a_read_module", "naming_literals",
+                  "modules_naming_by_an_import_or_loader_consumer",
+                  "modules_naming_and_carrying_a_counted_key",
+                  "modules_naming_and_carrying_a_counted_key_and_reached_by_a_loader",
+                  "modules_naming_without_a_counted_key", "speller_read_module_pairs"):
+        if _c652.get(_k652) != _live652.get(_k652):
+            _bad652.append("counts.%s is not the row-derived value" % _k652)
+    if (_c652.get("modules_naming_without_a_counted_key") or 0) + (
+            _c652.get("modules_naming_and_carrying_a_counted_key") or 0) != (
+            _c652.get("modules_naming_a_read_module") or 0):
+        _bad652.append("the key cross-tab does not add up to the spellers")
+    if sum((_c652.get("speller_read_module_pairs_by_reach") or {}).values()) != (
+            _c652.get("speller_read_module_pairs") or 0):
+        _bad652.append("the pair reach histogram does not add up to the pairs")
+    if _f652.get("verdict") == _m652.V_KEY_AND_A_LOADER and not _c652.get(
+            "modules_naming_and_carrying_a_counted_key_and_reached_by_a_loader"):
+        _bad652.append("the key-and-loader verdict is published with no such module")
+    if _f652.get("verdict") == _m652.V_NO_SPELLER and _rows652:
+        _bad652.append("the no-speller verdict is published with speller rows")
+except Exception as _e652x:
+    _bad652.append(repr(_e652x)[:160])
+    _d652 = "study could not be read"
+check(_name652, not _bad652, "; ".join(_bad652)[:240] or _d652)
+
 # E649 prices the population E643 published as two independent columns: the 2,641 two-depth write
 # sites with no enclosing function ("module level").  A module-level write can sit bare in the module
 # body (runs at import), inside `if __name__ == '__main__':` (never at import), inside a try/except
