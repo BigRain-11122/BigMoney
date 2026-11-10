@@ -1,0 +1,1136 @@
+{
+ "study": "E644_one_depth_write",
+ "date": "2026-11-10",
+ "source_face": "results/state_tilt/WRITEREADCOLLIDE.json",
+ "method": "for every one-depth Subscript site in Store/Del context inside one of E633's counted functions, publish its key (literal or computed), the container it writes through and that container's binding; join each site to every counted read line of the same function to record whether it names that line's key and whether it sits before/on/after it; plus a re-read of E640's two-depth write sites whose depth-1 member names a counted key",
+ "population_source": "6 counted function(s) machine-read from results/state_tilt/WRITEREADCOLLIDE.json, 13 counted read line(s) among them",
+ "counts": {
+  "counted_functions": 6,
+  "counted_functions_with_a_scope_problem": 0,
+  "counted_read_lines": 13,
+  "counted_read_keys": 6,
+  "depth1_write_sites": 32,
+  "depth1_site_ctx_histogram": {
+   "del": 0,
+   "store": 32
+  },
+  "depth1_sites_with_a_computed_key": 22,
+  "depth1_sites_with_no_literal_key": 22,
+  "depth1_container_binding_histogram": {
+   "local_assignment": 32,
+   "loop_target": 0,
+   "module_scope": 0,
+   "parameter": 0,
+   "unresolved": 0
+  },
+  "depth1_sites_bound_from_outside_the_function": 0,
+  "depth1_sites_bound_inside_the_function": 32,
+  "depth1_sites_with_an_unresolved_container": 0,
+  "distinct_depth1_containers": 28,
+  "functions_carrying_a_depth1_write_site": 4,
+  "depth1_sites_naming_a_counted_row_key": 0,
+  "counted_lines_whose_key_a_depth1_site_names": 0,
+  "functions_whose_depth1_site_names_a_counted_key": 0,
+  "depth1_named_sites_before_the_read_line": 0,
+  "depth1_named_sites_on_the_read_line": 0,
+  "depth1_named_sites_after_the_read_line": 0,
+  "depth2_stores_indexing_into_a_counted_key": 0,
+  "counted_functions_with_no_site_at_all": 2
+ },
+ "functions": [
+  {
+   "module": "scripts/cn_core_ddctl_p1.py",
+   "function": "run",
+   "start": 341,
+   "end": 790,
+   "read_lines": [
+    {
+     "line": 395,
+     "key": "days",
+     "receiver": "P",
+     "key_is_computed": false
+    }
+   ],
+   "read_keys": [
+    "days"
+   ],
+   "e640_read_lines": 1,
+   "scope_problem": null,
+   "depth1_sites": [
+    {
+     "line": 407,
+     "column": 16,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "cell_recs",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 401,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 507,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "judged_series",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 503,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 508,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "g1",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 502,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 512,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "dsr",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 502,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 516,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "g2",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 502,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 534,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [
+      "member_cutoffs"
+     ],
+     "has_computed_key": false,
+     "container": "d6",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 536,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 544,
+     "column": 12,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "row",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 539,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 545,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "same_batch",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 537,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 557,
+     "column": 12,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "stable",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 553,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 562,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [
+      "cost_stability"
+     ],
+     "has_computed_key": false,
+     "container": "xm",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 551,
+     "binding_rhs_kind": "call",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 563,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "descriptive",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 549,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 587,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "gate_axis",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 577,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 602,
+     "column": 20,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "leg_counts",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 595,
+     "binding_rhs_kind": "other",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 603,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "sat_picks",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 589,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 612,
+     "column": 16,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [
+      "cost_stability"
+     ],
+     "has_computed_key": false,
+     "container": "mrec",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 610,
+     "binding_rhs_kind": "call",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 614,
+     "column": 16,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [
+      "transitions"
+     ],
+     "has_computed_key": false,
+     "container": "mrec",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 610,
+     "binding_rhs_kind": "call",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 616,
+     "column": 12,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "per_face",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 608,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 617,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "cells_out",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 606,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 395,
+       "key": "days",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    }
+   ],
+   "depth2_stores_indexing_into_a_counted_key": []
+  },
+  {
+   "module": "scripts/cn_mkneutral_p1.py",
+   "function": "simulate",
+   "start": 493,
+   "end": 638,
+   "read_lines": [
+    {
+     "line": 589,
+     "key": "slip_exec",
+     "receiver": "P",
+     "key_is_computed": false
+    },
+    {
+     "line": 593,
+     "key": "slip_exec",
+     "receiver": "P",
+     "key_is_computed": false
+    }
+   ],
+   "read_keys": [
+    "slip_exec"
+   ],
+   "e640_read_lines": 2,
+   "scope_problem": null,
+   "depth1_sites": [
+    {
+     "line": 578,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "mask_k",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 577,
+     "binding_rhs_kind": "call",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 589,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "before"
+      },
+      {
+       "read_line": 593,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "before"
+      }
+     ]
+    },
+    {
+     "line": 611,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "rb",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 513,
+     "binding_rhs_kind": "call",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 589,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      },
+      {
+       "read_line": 593,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 615,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "r_nav",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 614,
+     "binding_rhs_kind": "other",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 589,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      },
+      {
+       "read_line": 593,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 616,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "ser",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 512,
+     "binding_rhs_kind": "call",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 589,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      },
+      {
+       "read_line": 593,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 617,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "h_day",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 514,
+     "binding_rhs_kind": "call",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 589,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      },
+      {
+       "read_line": 593,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 618,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "cost_day",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 515,
+     "binding_rhs_kind": "call",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 589,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      },
+      {
+       "read_line": 593,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 634,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [
+      "lots_list"
+     ],
+     "has_computed_key": false,
+     "container": "out",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 628,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 589,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      },
+      {
+       "read_line": 593,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 635,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [
+      "beta_list"
+     ],
+     "has_computed_key": false,
+     "container": "out",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 628,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 589,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      },
+      {
+       "read_line": 593,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 636,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [
+      "h_list"
+     ],
+     "has_computed_key": false,
+     "container": "out",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 628,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 589,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      },
+      {
+       "read_line": 593,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    },
+    {
+     "line": 637,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [
+      "margin_peak"
+     ],
+     "has_computed_key": false,
+     "container": "out",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 628,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 589,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      },
+      {
+       "read_line": 593,
+       "key": "slip_exec",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    }
+   ],
+   "depth2_stores_indexing_into_a_counted_key": []
+  },
+  {
+   "module": "scripts/e382_key_projection_delta.py",
+   "function": "build",
+   "start": 266,
+   "end": 394,
+   "read_lines": [
+    {
+     "line": 350,
+     "key": "verdict",
+     "receiver": "faces",
+     "key_is_computed": false
+    }
+   ],
+   "read_keys": [
+    "verdict"
+   ],
+   "e640_read_lines": 1,
+   "scope_problem": null,
+   "depth1_sites": [
+    {
+     "line": 273,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "numbers",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 270,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 350,
+       "key": "verdict",
+       "names_this_lines_key": false,
+       "position": "before"
+      }
+     ]
+    },
+    {
+     "line": 284,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [],
+     "has_computed_key": true,
+     "container": "verdicts",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 270,
+     "binding_rhs_kind": "dict_literal",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 350,
+       "key": "verdict",
+       "names_this_lines_key": false,
+       "position": "before"
+      }
+     ]
+    }
+   ],
+   "depth2_stores_indexing_into_a_counted_key": []
+  },
+  {
+   "module": "scripts/e504_name_compose.py",
+   "function": "selftest",
+   "start": 853,
+   "end": 960,
+   "read_lines": [
+    {
+     "line": 919,
+     "key": "rows",
+     "receiver": "doctored4",
+     "key_is_computed": false
+    }
+   ],
+   "read_keys": [
+    "rows"
+   ],
+   "e640_read_lines": 1,
+   "scope_problem": null,
+   "depth1_sites": [
+    {
+     "line": 913,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [
+      "verdict"
+     ],
+     "has_computed_key": false,
+     "container": "doctored2",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 912,
+     "binding_rhs_kind": "call",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 919,
+       "key": "rows",
+       "names_this_lines_key": false,
+       "position": "before"
+      }
+     ]
+    },
+    {
+     "line": 925,
+     "column": 8,
+     "ctxs": [
+      "store"
+     ],
+     "keys": [
+      "verdict"
+     ],
+     "has_computed_key": false,
+     "container": "doctored5",
+     "container_chain": [],
+     "binding": "local_assignment",
+     "bound_from_outside_the_function": false,
+     "binding_line": 923,
+     "binding_rhs_kind": "call",
+     "names_a_counted_row_key": false,
+     "named_read_lines": [],
+     "position_vs_the_named_line": null,
+     "per_read_line": [
+      {
+       "read_line": 919,
+       "key": "rows",
+       "names_this_lines_key": false,
+       "position": "after"
+      }
+     ]
+    }
+   ],
+   "depth2_stores_indexing_into_a_counted_key": []
+  },
+  {
+   "module": "scripts/e590_cash_silence.py",
+   "function": "face_problems",
+   "start": 344,
+   "end": 443,
+   "read_lines": [
+    {
+     "line": 367,
+     "key": "bar",
+     "receiver": "r",
+     "key_is_computed": false
+    },
+    {
+     "line": 372,
+     "key": "bar",
+     "receiver": "r",
+     "key_is_computed": false
+    },
+    {
+     "line": 377,
+     "key": "bar",
+     "receiver": "r",
+     "key_is_computed": false
+    }
+   ],
+   "read_keys": [
+    "bar"
+   ],
+   "e640_read_lines": 3,
+   "scope_problem": null,
+   "depth1_sites": [],
+   "depth2_stores_indexing_into_a_counted_key": []
+  },
+  {
+   "module": "scripts/ew6_portfolio.py",
+   "function": "write_outputs",
+   "start": 358,
+   "end": 486,
+   "read_lines": [
+    {
+     "line": 414,
+     "key": "x1",
+     "receiver": "ports",
+     "key_is_computed": false
+    },
+    {
+     "line": 424,
+     "key": "x1",
+     "receiver": "sleeves",
+     "key_is_computed": false
+    },
+    {
+     "line": 437,
+     "key": "x1",
+     "receiver": "sleeves",
+     "key_is_computed": false
+    },
+    {
+     "line": 438,
+     "key": "x1",
+     "receiver": "sleeves",
+     "key_is_computed": false
+    },
+    {
+     "line": 444,
+     "key": "x1",
+     "receiver": "sleeves",
+     "key_is_computed": false
+    }
+   ],
+   "read_keys": [
+    "x1"
+   ],
+   "e640_read_lines": 5,
+   "scope_problem": null,
+   "depth1_sites": [],
+   "depth2_stores_indexing_into_a_counted_key": []
+  }
+ ],
+ "limits": [
+  "a 'depth-1 site' is a Subscript whose depth from its leftmost name is 1 and whose context is Store or Del; a store through an attribute (d[k].x = v) is not one, because the subscript there is read, not written",
+  "a store at two depths puts the Store context on the OUTER subscript and the inner one reads, so 'ctxs' on a site is the contexts of the depth-1 Subscript(s) at that position and a two-depth store cannot be counted here by construction -- that is the blind spot this study exists to price, not an omission",
+  "'names a counted row key' is key equality against the counted read lines of the SAME function; a site with a computed subscript is published with has_computed_key and can never be counted as a name match",
+  "22 of the 32 sites subscript with an expression rather than a string constant, so this face's 'no site names a counted key' is a statement about literal spellings only: a computed subscript could equal the counted key at run time and no reader of this face can see that (seeded as E645), which is why the count is published beside the verdict",
+  "the container binding reuses E641's resolver (parameter > loop target > local assignment > module scope > unresolved) and is name equality, not an alias proof",
+  "the population of counted functions and of their read lines is E640's, not re-derived here: a second definition of 'counted line' would be free to drift from the published one"
+ ],
+ "verdict": "the_counted_functions_carry_depth-1_store_or_delete_sites_but_none_names_or_indexes_into_the_key_a_counted_read_line_reads,_so_the_blind_spot_of_the_two-depth_census_is_empty_by_measurement",
+ "answer": "6 counted function(s), 4 carrying a depth-1 store/delete site, 32 site(s) total (ctx {\"del\": 0, \"store\": 32}); containers bind as {\"local_assignment\": 32, \"loop_target\": 0, \"module_scope\": 0, \"parameter\": 0, \"unresolved\": 0}; 0 name a counted row key, 0 counted line(s) affected, positions before/on/after 0/0/0; 0 two-depth store(s) index into a counted key. scripts/cn_core_ddctl_p1.py:run(18 depth-1 site(s), reads days -> computed:local_assignment, computed:local_assignment, computed:local_assignment, computed:local_assignment, computed:local_assignment, member_cutoffs:local_assignment, computed:local_assignment, computed:local_assignment, computed:local_assignment, cost_stability:local_assignment, computed:local_assignment, computed:local_assignment, computed:local_assignment, computed:local_assignment, cost_stability:local_assignment, transitions:local_assignment, computed:local_assignment, computed:local_assignment) | scripts/cn_mkneutral_p1.py:simulate(10 depth-1 site(s), reads slip_exec,slip_exec -> computed:local_assignment, computed:local_assignment, computed:local_assignment, computed:local_assignment, computed:local_assignment, computed:local_assignment, lots_list:local_assignment, beta_list:local_assignment, h_list:local_assignment, margin_peak:local_assignment) | scripts/e382_key_projection_delta.py:build(2 depth-1 site(s), reads verdict -> computed:local_assignment, computed:local_assignment) | scripts/e504_name_compose.py:selftest(2 depth-1 site(s), reads rows -> verdict:local_assignment, verdict:local_assignment)"
+}

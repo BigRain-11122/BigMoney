@@ -27886,5 +27886,67 @@ except Exception as _e641x:
     _d641 = "study could not be read"
 check(_name641, not _bad641, "; ".join(_bad641)[:240] or _d641)
 
+# E644 asks the mirror question of E639/E640/E641: those three studies share one population (two-depth
+# Subscript sites), and no member of that population can ever be a store at a single depth -- so a
+# `P['days'] = x` inside a counted function would replace the mapping a counted read line depends on
+# with every one of them silent.  Collecting every depth-1 Store/Del site in the same 6 counted
+# functions: 32 sites in 4 functions, 0 naming a counted row key, 0 two-depth stores indexing into
+# one, and all 32 written through containers bound inside their own function (fresh locals), so the
+# blind spot is empty by measurement rather than by assumption.  This leg refuses a face whose totals
+# do not re-add, a context or binding outside the vocabulary, a row-key claim its keys do not carry, a
+# site outside its own span, and any problem the study's own gate returns.
+_name644 = ("E644 whether a counted function stores or deletes the counted key at depth 1 "
+            "(r1662 bm-b)")
+_bad644 = []
+_d644 = "no reading"
+try:
+    _f644 = json.load(open(os.path.join("results", "state_tilt", "onedepthwrite_latest.json"),
+                           encoding="utf-8"))
+    _m644 = importlib.import_module("e644_onedepth_write")
+    _bad644.extend(_m644.face_problems(_f644))
+    _c644 = _f644.get("counts") or {}
+    _fns644 = _f644.get("functions") or []
+    _s644 = [s for f in _fns644 for s in (f.get("depth1_sites") or [])]
+    _ctx644 = {"del": 0, "store": 0}
+    for _s in _s644:
+        for _x in (_s.get("ctxs") or []):
+            _ctx644[_x] = _ctx644.get(_x, 0) + 1
+    if {_k: _ctx644.get(_k, 0)
+            for _k in (_c644.get("depth1_site_ctx_histogram") or {})} != (
+                _c644.get("depth1_site_ctx_histogram") or {}):
+        _bad644.append("the context histogram is not the per-site count")
+    if _c644.get("depth1_write_sites") != len(_s644):
+        _bad644.append("the depth-1 site total is not the per-function count")
+    if (sum(1 for _s in _s644 if _s.get("names_a_counted_row_key"))
+            != (_c644.get("depth1_sites_naming_a_counted_row_key") or 0)):
+        _bad644.append("the named total is not the per-site flag count")
+    if (sum(len(f.get("read_lines") or []) for f in _fns644)
+            != (_c644.get("counted_read_lines") or 0)):
+        _bad644.append("the read-line total is not the per-function count")
+    if (sum(len(f.get("depth2_stores_indexing_into_a_counted_key") or []) for f in _fns644)
+            != (_c644.get("depth2_stores_indexing_into_a_counted_key") or 0)):
+        _bad644.append("the indexing total is not the per-function count")
+    if (_c644.get("depth1_sites_bound_from_outside_the_function", 0)
+            + _c644.get("depth1_sites_bound_inside_the_function", 0)
+            + _c644.get("depth1_sites_with_an_unresolved_container", 0)) != (
+                _c644.get("depth1_write_sites") or 0):
+        _bad644.append("the three binding buckets do not add up to the depth-1 sites")
+    if (_c644.get("depth1_named_sites_before_the_read_line", 0)
+            + _c644.get("depth1_named_sites_on_the_read_line", 0)
+            + _c644.get("depth1_named_sites_after_the_read_line", 0)) != (
+                _c644.get("depth1_sites_naming_a_counted_row_key") or 0):
+        _bad644.append("the position buckets do not add up to the named sites")
+    if (_c644.get("depth1_sites_naming_a_counted_row_key")
+            and not _c644.get("counted_lines_whose_key_a_depth1_site_names")):
+        _bad644.append("a naming site without a named read line")
+    _e640face644 = json.load(open(os.path.join("results", "state_tilt",
+                                              "writereadcollide_latest.json"), encoding="utf-8"))
+    if len(_fns644) != len(_e640face644.get("counted_functions") or []):
+        _bad644.append("the function population is not E640's")
+except Exception as _e644x:
+    _bad644.append(repr(_e644x)[:160])
+    _d644 = "study could not be read"
+check(_name644, not _bad644, "; ".join(_bad644)[:240] or _d644)
+
 if __name__ == "__main__":
     sys.exit(main())

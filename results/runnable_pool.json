@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1661 bm-b: E641 burned -- all 10 two-depth write sites in the 6 counted functions write through 5 containers bound inside the function (7 dict literal / 3 json.loads call), 0 from a parameter or module scope, 0 sharing a counted read receiver name",
+ "_stamp_note": "r1662 bm-b: E644 burned -- the two-depth census's blind spot priced: 32 depth-1 store sites in the 6 counted functions, 0 naming a counted key, 0 indexing into one, all 32 through fresh locals; 22 of 32 subscripts are computed (E645)",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -31263,11 +31263,31 @@
    "source": "E641 face limits + E638 census definition",
    "target": "counted_function_scope",
    "priority": "P3",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-10T08:41:00+08:00",
    "seeded_by": "r1661 bm-b",
    "workers_plan": "single cpu pass over the 6 counted modules",
-   "note": "E644"
+   "note": "E644",
+   "closed_at": "2026-11-10T08:46:00+08:00",
+   "closed_by": "r1662 bm-b",
+   "result_ref": "results/state_tilt/ONEDEPTHWRITE.json",
+   "done_note": "32 depth-1 Store/Del sites in 4 of the 6 counted functions, 0 naming a counted row key, 0 two-depth stores indexing into one, all 32 through containers bound inside their own function; 22 of the 32 use a computed subscript so the literal reading is disclosed as a limit (E645)"
+  },
+  {
+   "card": "E645",
+   "id": "E645-WHETHER-A-DEPTH-1-STORE-WHOSE-SUBSCRIPT-IS-COMPUTED-CAN-REACH-A-COUNTED-ROW-KEY",
+   "title": "whether a depth-1 store with a computed subscript can reach a counted row key, i.e. whether E644's literal-only 'names no counted key' is safe",
+   "lane": "cpu-only",
+   "lane_note": "E644 publishes 32 depth-1 store/delete sites in the 6 counted functions of which 22 subscript with an expression, not a string constant; a computed key matches no row key by construction, so the zero is a statement about literal spellings. The cheap next question resolves each computed subscript to its shape (local name / loop target / call result / constant-folded expression) and publishes whether any of them is bound to a value that equals a counted key.",
+   "deliverable": "results/state_tilt/COMPUTEDKEYSTORE.json: per computed depth-1 store site, the subscript's expression shape, the names it reads, and whether any of them is bound to a counted row key",
+   "source": "E644 (r1662 bm-b) -- 22 of 32 depth-1 sites carry a computed subscript",
+   "target": "counted_function_scope",
+   "priority": "P3",
+   "status": "ready",
+   "seeded_at": "2026-11-10T08:46:00+08:00",
+   "seeded_by": "r1662 bm-b",
+   "workers_plan": "single cpu pass over the 6 counted modules",
+   "note": "E645"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31282,6 +31302,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-10T08:41:00+08:00",
+ "updated_at": "2026-11-10T08:46:00+08:00",
  "version": 1
 }

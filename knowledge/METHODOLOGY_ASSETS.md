@@ -15086,3 +15086,37 @@ P / faces / doctored4 / r / ports / sleeves）。判定：这些作用域的写�
 字节同一 sha `7f2fe87928e1`）+ `results/state_tilt/WRITERBINDING.json` + `writerbinding_latest.json`
 + `scripts/run_e641_smoke_leg.py`（1/1 PASS、`--doctor` 1/1 红·字节复原 sha 同）+ smoke_test.py
 leg E641 + `Tools/s6_chain_bmb.py` leg `writer_binding`（rc=0 0.06s）+ POOL E640 done / E644 seeded
+
+## E644 — 双层普查看不见的那一类写：计数函数里有没有一层深度的 store/delete 点名了计数键（r1662 bm-b，2026-11-10）
+E639/E640/E641 共享同一个人口：**同一 (行, 列) 挂两个深度的 Subscript 站点**。这条生成规则自带盲区
+——`P['days'] = x` 只有一个深度，永远不产生"双深度"，所以共享人口里不可能有它。而计数读行读的正
+是 `P['days'][...]`：同一个函数里若整块替换 `P['days']`，读行依赖的那本映射就被重写，而三份面全都
+沉默。本面把 6 个计数函数里所有**一层深度且 ctx 为 Store/Del** 的站点取出来，逐站点发布键（字面量
+或 computed）、写入穿过的容器及该容器在函数内的绑定，并逐行 join 每个计数读行（是否点名、位于读行
+之前/同行/之后）；另外把 E640 双层写里"一层成员名就是计数键"的那一族（写进计数值里面）单独再读一遍。
+
+**结论**：**32** 个一层深度写站点，分布 **4 / 6** 个计数函数（cn_core_ddctl_p1.run 18、
+cn_mkneutral_p1.simulate 10、e382_key_projection_delta.build 2、e504_name_compose.selftest 2），ctx 全
+为 store（del 0）；**0 个点名任何计数读行的键**、**0 个双层写索引进计数键**、**32/32 的容器都绑定在
+函数内部**（全为新本地容器，parameter/module_scope/unresolved 各 0）。即 E639-E641 共享人口的盲区
+**按测量是空的**，不是按假设。
+
+**教训：3 枚**
+1. **共享人口的定义里就藏着它的盲区**——三个研究都在问"双层站点里……"，于是一层站点在它们全部射程
+   之外；判"这个人口有没有漏掉一类写"，要先把**人口的生成规则本身**当对象问一次，而不是在同一人口里
+   换问法。
+2. **字面量匹配只能证字面量**——32 个站点里 **22 个下标是表达式**（`P[k]` 而非 `P['days']`），按定义
+   匹配不上任何键；所以"0 个点名计数键"是关于**字面拼写**的结论，这个计数必须与判决同印，否则一个
+   computed 键在运行期正好等于计数键的情况会被读成已排除（种子 E645）。
+3. **键名相等不是"写不写这本账"的答案**（承 E641）——容器绑定一并发布：32 个写点即使写别的键，若穿过
+   参数或模块作用域仍可能落进调用方的映射；实测全为函数内新建，故"写侧是局部的"与"键不同名"在同一批
+   行上互相支持，不是互为替代。
+
+**How**：凡"某个人口里的问法都答完了"，先把人口的生成规则找出来，问"按这条规则永远不会出现的形态是
+什么"——那才是剩下的盲区；再用最便宜的一次全量扫描把它定价，并把"能看见的部分"（literal）与"看不见
+的部分"（computed/别名）分别计数发布。
+
+**证据** = `scripts/e644_onedepth_write.py`（selftest 16/16、check/verify `problems=[]`、复建字节同一
+sha `b6f10659e82ed1c4`）+ `results/state_tilt/ONEDEPTHWRITE.json` + `onedepthwrite_latest.json` +
+`scripts/run_e644_smoke_leg.py`（1/1 PASS·`--doctor` 1/1 红·字节复原 sha 同）+ smoke_test.py leg E644 +
+`Tools/s6_chain_bmb.py` leg `one_depth_write`（rc=0 0.05s）+ POOL E644 done / E645 seeded

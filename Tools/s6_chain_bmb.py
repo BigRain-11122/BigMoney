@@ -1504,6 +1504,7 @@ LEGS = [
     # json.loads call), 0 from a parameter or module scope and 0 whose name is a counted read
     # receiver's.  Verify re-derives every total, histogram and flag from the face's own rows.
     ("writer_binding", ["python", "scripts/e641_writer_receiver.py", "verify"]),
+    ("one_depth_write", ["python", "scripts/e644_onedepth_write.py", "verify"]),
 
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
