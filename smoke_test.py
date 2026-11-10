@@ -10321,6 +10321,18 @@ def _legs_supply_and_book():
                 _nxt54 = _gap54.get("next_capture_session")
                 if _nxt54 and _nxt54 not in _md54:
                     _bad54.append("page does not date the next capture (%s)" % _nxt54)
+                # r1509: two dates, two facts. "these numbers stop at <newest board>" is only
+                # true when the table could take that session; once the board runs ahead of
+                # the page's price day, that sentence contradicts the table header above it.
+                if "上面这些数会一直停在" in _md54:
+                    _cut54 = _md54[_md54.index("上面这些数会一直停在"):][:60]
+                    if _gap54.get("last_board") and _gap54["last_board"] not in _cut54:
+                        _bad54.append("page freezes the numbers at a session that is not the "
+                                      "board's newest")
+                if "上面这张表用的是" in _md54 and _gap54.get("last_board") \
+                        and _gap54["last_board"] not in _md54:
+                    _bad54.append("page names an older rate day without naming the board's "
+                                  "newest session")
         check("product: the page names the board session the premium section never captured",
               not _bad54, "; ".join(_bad54)[:220]
               or "page == board_gap (missing=%d)" % len(_epf54.board_gap().get("missing") or []))

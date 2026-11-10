@@ -828,8 +828,15 @@ def premium_board_gap(now=None):
         return {"status": "unavailable", "detail": str(exc)[:160]}
 
 
-def premium_board_gap_lines(gap):
-    """The two-to-three lines this page prints about the board's own holes."""
+def premium_board_gap_lines(gap, rate_session=None):
+    """The two-to-three lines this page prints about the board's own holes.
+
+    r1509: `rate_session` is the session the TABLE above actually reads. Once the board
+    holds a newer session than the one the table could use, "these numbers stop at
+    <newest board>" is a false sentence printed directly under a header naming an older
+    date -- the reader sees the page contradict itself. The two dates are different
+    facts (what the board holds / what the table could take), so they are named apart.
+    """
     L = []
     add = L.append
     gap = gap or {}
@@ -847,11 +854,21 @@ def premium_board_gap_lines(gap):
     nxt = gap.get("next_capture_session") or "—"
     after = gap.get("next_capture_after")
     when = ("**%s %s 之后**" % (nxt, after)) if after else ("**%s**（现在就能抓）" % nxt)
-    if miss:
+    last_ds = str(gap.get("last_board"))[:10] if gap.get("last_board") else None
+    rate_ds = str(rate_session)[:10] if rate_session else None
+    if miss and rate_ds and last_ds and rate_ds != last_ds:
+        # The board has moved past the session the table could take. Two dates, two facts.
+        add("- **这块板缺了 %d 个交易日：%s。** 它是**收盘后抓一次的实时快照**，不是能回头补的"
+            "历史序列——缺掉的那天重跑也拍不回来。板上最新一版是 **%s**（已经抓到），"
+            "但**上面这张表用的是 %s**：表取的是本页价格那天之前最后一次读数，所以它不跟着"
+            "新板走。等本页的价走到 **%s 或更晚**，这张表会自动换成那天——不用再等抓取。"
+            "下一次抓取：%s。"
+            % (len(miss), "、".join(miss), last_ds, rate_ds, last_ds, when))
+    elif miss:
         add("- **这块板缺了 %d 个交易日：%s。** 它是**收盘后抓一次的实时快照**，不是能回头补的"
             "历史序列——缺掉的那天重跑也拍不回来，所以上面这些数会一直停在 **%s**，"
             "等到下一次收盘后有人跑一次 `etf_premium_face.py fetch`。下一次能同日报价：%s。"
-            % (len(miss), "、".join(miss), gap.get("last_board") or "—", when))
+            % (len(miss), "、".join(miss), last_ds or "—", when))
     else:
         add("- 这块板从 **%s** 起每个交易日都有，没有缺口（现在的读数就是最新收盘）；"
             "下一次抓取：%s。" % (gap.get("coverage_starts") or "—", when))
@@ -943,7 +960,7 @@ def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None):
         add("溢价面是按 **%s** 的 IOPV 算的，本页的价是 **%s**——两个日子对不上，"
             "下面这些数不能直接搬到今天的单上。" % (pb["session"], page_bar))
         add("")
-    for line in premium_board_gap_lines(gap):
+    for line in premium_board_gap_lines(gap, rate_session=pb.get("session")):
         add(line)
         add("")
     tot = pb.get("totals") or {}
@@ -7708,6 +7725,25 @@ def selftest():
     chk("L172 premium block: an unreadable calendar reads as unknown, never as zero holes",
         "未知" in _gap_unk_txt and "不是零" in _gap_unk_txt
         and "没有缺口" not in _gap_unk_txt, "len=%d" % len(_gap_unk_txt))
+    # r1509: on 2026-11-10 the board was captured again, so the newest session (11-10) jumped
+    # past the one the table can use (11-06, the last board at or before the page's price day).
+    # The old wording kept saying "these numbers stop at <newest board>" right under a header
+    # naming 11-06 -- the page contradicting itself. Two dates, two facts.
+    _gap_ahead = dict(_gap_one, boards_present=["2026-11-06", "2026-11-10"], n_boards=2,
+                      last_board="2026-11-10", next_capture_session="2026-11-11")
+    _gap_ahead_txt = "\n".join(premium_block(_pb_fix, page_bar="2026-11-09",
+                                             page_sheet=_pb_sheet, board_gap=_gap_ahead))
+    chk("L173 premium block: a board newer than the rate day is named as a second date, "
+        "not as where the numbers freeze",
+        "一直停在 **2026-11-10**" not in _gap_ahead_txt
+        and "板上最新一版是 **2026-11-10**" in _gap_ahead_txt
+        and "上面这张表用的是 2026-11-06" in _gap_ahead_txt
+        and "2026-11-10 或更晚" in _gap_ahead_txt, "len=%d" % len(_gap_ahead_txt))
+    _gap_held = "\n".join(premium_block(_pb_fix, page_bar="2026-11-09",
+                                        page_sheet=_pb_sheet, board_gap=_gap_one))
+    chk("L174 premium block: while the board has not moved past the rate day, no second date is invented",
+        "上面这张表用的是" not in _gap_held and "一直停在 **2026-11-06**" in _gap_held,
+        "len=%d" % len(_gap_held))
 
     # r1506: the sheet above and the account below disagreed by a leg and the page printed
     # both without saying which came first. The executed face reconciles them from the stack
