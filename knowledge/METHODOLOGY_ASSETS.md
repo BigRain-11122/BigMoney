@@ -12526,3 +12526,31 @@ ticket pays」，含旧口径反证（把 delivered 设回 8bp → 两条断言�
 （手数块重算不符即拒印）/`capital_block()`（一手=100 份段 + 摆得出比例表）；smoke 新腿「one lot is priced
 beside the fee floor, and the page prints it」。证据=`results/etf_book_min_capital.json`；
 正身=`docs/live_book/LIVE-BOOK-20261110.md` 的「这本书自己的每边成本」节末段。
+
+### E514 · 「最少要多少钱」是阈值，不是「那时你手上有什么」——整手取整是第三道读数（r1508 bm-c）
+
+**事实**：E513 的手数门槛（12 名摆满 = **188,624 元**）是连续权重路径上的**阈值**；真实下单只能
+整手（100 份）买，于是「够了 188,624 元」这一刻，账户实际持有的是 **7.73 名 / 目标 12 名**，其中
+**4 个仓位一个整手都买不到**，**42,722 元**按权重该买却买不成整手、根本没投出去。整手门槛只回答
+「什么时候不再等于零」，不回答「那时你手上是什么」。
+
+**这条卡的判别句**：任何「门槛/够不够」的数后面，都要跟一句**同一时点你实际持有什么**——阈值与
+持仓是两个量（阈值挂「存在」，持仓挂「份额」），只印前者，读者必然把前者当后者。
+
+**三条副律**：
+1. **残差不会随钱变多归零**：未投出的钱 ≈ 每名半手（`lot×price/2×n`），10 万的 60.6% 与 1000 万的
+   0.7% 说的是**占比**变小，不是**钱**变小——一千万上仍有约 42,021 元买不成整手。「只咬小账户」是
+   半句真话：变小的是份额，不是那笔钱。
+2. **取整方向必须单向并写明**（本面只做向下取整，不建「向上补一手」的臂）——补一手是规则没要求的
+   权重，把它印出来等于把「交易所的粒度」和「规则改了」混成一件事。
+3. **闭式解挑可复算的那两个量**：`names_effective = names_target×(1-under_pct)`、
+   `residue = capital×weight_sum×under_pct`，都是已发表中位数上的乘积，reader 与 `--check` 无需面板
+   即可重算；cell-wise 中位数并排印不当判据（积的中位 ≠ 中位的积，这正是这条读数的诚实宽度）。
+
+**落地**：`scripts/etf_book_min_capital.py` 的 `lot_rounding()`（同一权重路径同一价格、逐决策 bar
+逐档位）/`_rounding_verdict()`/`rounding` 块入证据件；selftest **35/35**（+4 L32-L35）、`--check`
+复算 OK。`scripts/etf_book_ceo_page.py` 的 `capital_face()`（取整块不自洽即拒印：行序/名额超过目标/
+占比与自己两个计数不符/锚点不在阈值上/判词与锚行不符）与 `capital_block()`（句子 + 八列表 + 判词）；
+page selftest **189/189**（+3 L136-L138）。smoke 新腿「the page says how many names the lot grid
+actually holds」。证据=`results/etf_book_min_capital.json` 的 `rounding` 块；正身=页面
+`docs/live_book/LIVE-BOOK-20261110.md` 成本节的取整段与表。

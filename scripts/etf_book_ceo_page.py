@@ -2714,6 +2714,51 @@ def capital_face(path=MIN_CAPITAL_JSON):
                         "detail": "the whole-lot verdict disagrees with its own two "
                                   "thresholds",
                         "published": lot.get("verdict"), "recomputed": want_lv}
+        # (r1508) the rounding block says what the account HOLDS at that money once every
+        # target is floored to whole lots. It is arithmetic on the published rows, so a
+        # payload that no longer closes is refused rather than printed beside the threshold.
+        rnd = d.get("rounding") or {}
+        _rr = rnd.get("reference") or {}
+        if rnd.get("rows") or _rr:
+            _rrows = rnd.get("rows") or []
+            if rnd.get("reference_capital") is not None and lot.get("lot_nav_median") is not None:
+                if abs(float(rnd["reference_capital"])
+                       - float(lot["lot_nav_median"])) > 0.02:
+                    return {"status": "drifted", "artifact": _rel(path, ROOT),
+                            "detail": "the rounding block is anchored on a different "
+                                      "capital than the whole-lot threshold",
+                            "published": rnd.get("reference_capital"),
+                            "recomputed": lot.get("lot_nav_median")}
+            _caps = [r.get("capital") or 0.0 for r in _rrows]
+            if _caps != sorted(_caps):
+                return {"status": "drifted", "artifact": _rel(path, ROOT),
+                        "detail": "the rounding rows are out of capital order"}
+            for _r in _rrows + ([_rr] if _rr else []):
+                _nt, _ne, _up = (_r.get("names_target"), _r.get("names_effective"),
+                                 _r.get("under_pct"))
+                if _nt is None or _ne is None or _up is None:
+                    continue
+                if _ne > float(_nt) + 1e-6:
+                    return {"status": "drifted", "artifact": _rel(path, ROOT),
+                            "detail": "the rounding block claims more names than targets",
+                            "published": _ne, "recomputed": _nt}
+                if abs((1.0 - float(_ne) / float(_nt)) - float(_up)) > 5e-4:
+                    return {"status": "drifted", "artifact": _rel(path, ROOT),
+                            "detail": "the rounding share disagrees with the name counts "
+                                      "it prints",
+                            "published": _up,
+                            "recomputed": round(1.0 - float(_ne) / float(_nt), 6)}
+            _ne_seq = [r.get("names_effective") for r in _rrows
+                       if r.get("names_effective") is not None]
+            if _ne_seq != sorted(_ne_seq):
+                return {"status": "drifted", "artifact": _rel(path, ROOT),
+                        "detail": "the rounding rows say a bigger account holds fewer names"}
+            _want_rv = MC._rounding_verdict((_rr or {}).get("names_target"),
+                                            (_rr or {}).get("names_effective"))
+            if _rr and rnd.get("verdict") != _want_rv:
+                return {"status": "drifted", "artifact": _rel(path, ROOT),
+                        "detail": "the rounding verdict disagrees with its own anchor row",
+                        "published": rnd.get("verdict"), "recomputed": _want_rv}
         primary = [r for r in ladder if r.get("schedule") == sched.get("name")]
         want_v = MC._verdict(primary, model, real,
                              (min(cfg.get("capital_grid") or [0]),
@@ -2792,6 +2837,18 @@ def capital_face(path=MIN_CAPITAL_JSON):
                                      for r in lot.get("rows") or []],
                      "names_short_at_smallest": lot.get("names_short_at_smallest")}
                     if lot.get("lot_nav_median") is not None else None),
+            "rounding": ({
+                "verdict": rnd.get("verdict"),
+                "reference_capital": rnd.get("reference_capital"),
+                "reference": (_rr or None),
+                "rows": [{"capital": r.get("capital"),
+                          "names_target": r.get("names_target"),
+                          "names_effective": r.get("names_effective"),
+                          "names_short": r.get("names_short"),
+                          "residue_cny": r.get("residue_cny"),
+                          "under_pct": r.get("under_pct")}
+                         for r in rnd.get("rows") or []],
+            } if (rnd.get("rows") or _rr) else None),
             "prop_bp": sched.get("prop_bp"),
             "min_fee_cny": sched.get("min_fee_cny"),
             "schedule": sched.get("name"),
@@ -3109,6 +3166,49 @@ def capital_block(cf):
             for h in _ha:
                 L.append("| %.0f 元 | %.1f%% |"
                          % (h.get("capital") or 0.0, 100.0 * (h.get("share") or 0.0)))
+        L.append("")
+    # (r1508) the threshold above is money; this is what the money actually buys. Buy
+    # orders arrive in whole lots and cannot be part-filled, so every target is floored --
+    # the account ends up holding FEWER names' worth of exposure than the rule asked for,
+    # and the shortfall is a number, not a caveat.
+    _rnd = cf.get("rounding") or {}
+    _rref = _rnd.get("reference") or {}
+    if _rref.get("names_effective") is not None:
+        _rnt = _rref.get("names_target") or 0.0
+        _rne = _rref.get("names_effective") or 0.0
+        _rup = _rref.get("under_pct") or 0.0
+        _rres = _rref.get("residue_cny") or 0.0
+        L.append("**可是下单只能整手买，上面那个数买到手的是另一本。** 每个仓位按规则权重算出来的"
+                 "份数要先向下取整到手，取整掉的部分不会补给你——所以「最少要 %.0f 元」这句话的"
+                 "完整版本是：**在那 %.0f 元上，你实际持有的是 %.2f 名（目标 %.1f 名），"
+                 "有 %.1f%% 的目标仓位一个整手都买不到，约 %.0f 元根本没投出去。**"
+                 % (_rref.get("capital") or 0.0, _rref.get("capital") or 0.0,
+                    _rne, _rnt, 100.0 * _rup, _rres))
+        L.append("")
+        _rrows = [r for r in _rnd.get("rows") or []
+                  if r.get("names_effective") is not None]
+        if _rrows:
+            L.append("| 账户 | 目标名数 | 实际持有（名） | 买不到一手的名字 | 没投出去的钱 | 占目标仓位 |")
+            L.append("|---|---|---|---|---|---|")
+            for r in _rrows:
+                L.append("| %.0f 元 | %.1f | **%.2f** | %.1f | %.0f 元 | %.1f%% |"
+                         % (r.get("capital") or 0.0, r.get("names_target") or 0.0,
+                            r.get("names_effective") or 0.0, r.get("names_short") or 0.0,
+                            r.get("residue_cny") or 0.0,
+                            100.0 * (r.get("under_pct") or 0.0)))
+            L.append("")
+        _rv = _rnd.get("verdict")
+        _rv_zh = {"ROUNDING_EATS_A_NAME_OR_MORE":
+                  "**整手取整在这个规模上吃掉了一整个名字以上**——账户实际持有的是 N-1 本，"
+                  "不是「差一点」",
+                  "ROUNDING_EATS_PART_OF_A_NAME":
+                  "**整手取整只吃掉不到一个名字**——差的是一个仓位的一部分，不是一本书",
+                  "ROUNDING_NEGLIGIBLE":
+                  "**整手取整在这个规模上可以忽略**",
+                  }.get(_rv, "（整手取整的影响没有量出来）")
+        L.append("判词：%s。取整是**向下**的（一手 100 份不能拆着买），所以它只会让账户**少买**，"
+                 "不会多买；表里「没投出去的钱」就是按权重该买、但买不成整手的那部分。"
+                 % _rv_zh)
         L.append("")
     L.append("> 口径：只算佣金与既有的冲击项。买卖价差已经在上面那把费率里"
              + ("（货架 %g bp / 你手上这本 %g bp）" % (_bp_shelf, _bp_dlv) if _two_rates
@@ -7022,6 +7122,70 @@ def selftest():
         and _lot_bad_face.get("recomputed") is not None,
         "status=%s recomputed=%s" % (_lot_bad_face.get("status"),
                                      _lot_bad_face.get("recomputed")))
+    # ---- r1508: the threshold is money; what that money BUYS is a second reading ---------
+    # "You need 188,624 CNY" is a statement about a continuous weight path. Orders arrive
+    # in whole lots, so at that money the account holds fewer names' worth of exposure --
+    # which is a different book, not a cheaper one. The page must print the anchor, the
+    # table behind it, and the verdict; and it must refuse a block whose own rows disagree.
+    _rnd_cf = dict(_lot_cf)
+    _rnd_cf.update({"rounding": {
+        "verdict": "ROUNDING_EATS_A_NAME_OR_MORE", "reference_capital": 141916.0,
+        "reference": {"capital": 141916.0, "names_target": 12.0, "names_effective": 7.73,
+                      "under_pct": 0.355833, "residue_cny": 38197.94, "names_short": 3.0},
+        "rows": [{"capital": 1e4, "names_target": 12.0, "names_effective": 4.104,
+                  "names_short": 7.0, "residue_cny": 4318.78, "under_pct": 0.658},
+                 {"capital": 4e5, "names_target": 12.0, "names_effective": 11.9844,
+                  "names_short": 0.0, "residue_cny": 12.4, "under_pct": 0.0013}]}})
+    _rnd_txt = "\n".join(capital_block(_rnd_cf))
+    chk("L136 rounding: the page says how many names the lot grid actually holds, at the "
+        "money the threshold names, and prints the table row by row",
+        ("实际持有的是 7.73 名" in _rnd_txt) and ("目标 12.0 名" in _rnd_txt)
+        and ("141916" in _rnd_txt.replace(",", ""))
+        and ("| 10000 元 | 12.0 | **4.10** | 7.0 | 4319 元 | 65.8% |" in _rnd_txt)
+        and ("吃掉了一整个名字以上" in _rnd_txt),
+        _rnd_txt[_rnd_txt.find("整手买") if "整手买" in _rnd_txt else 0:][:120])
+    _rnd_small_cf = dict(_rnd_cf)
+    _rnd_small_cf["rounding"] = dict(_rnd_cf["rounding"], verdict="ROUNDING_NEGLIGIBLE")
+    _rnd_small_txt = "\n".join(capital_block(_rnd_small_cf))
+    chk("L137 rounding: the verdict sentence follows the token, not the paragraph",
+        "可以忽略" in _rnd_small_txt and "吃掉了一整个名字以上" not in _rnd_small_txt)
+    # a block that says it holds more names than it targets, or whose share does not follow
+    # from its own two counts, must be refused -- printing it would put a "you hold 7.7 of
+    # 12" on the page that nothing behind it supports.
+    _rnd_bad_json = os.path.join(_lot_bad, "mincap_rnd.json")
+    with open(_lot_bad_json, encoding="utf-8") as _fh:
+        _rnd_base = json.load(_fh)
+    _rnd_base["lot"] = {"lot_nav_median": 141873.0, "price_median": 102.968,
+                        "weight_median": 0.072556, "lot_units": 100,
+                        "verdict": "LOT_IS_THE_LARGER_REQUIREMENT",
+                        "compared_value": 328947.37}
+    _rnd_base["rounding"] = {"reference_capital": 141873.0,
+                             "verdict": "ROUNDING_EATS_A_NAME_OR_MORE",
+                             "reference": {"capital": 141873.0, "names_target": 12.0,
+                                           "names_effective": 7.73, "under_pct": 0.10},
+                             "rows": [{"capital": 1e4, "names_target": 12.0,
+                                       "names_effective": 7.73, "under_pct": 0.10}]}
+    with open(_rnd_bad_json, "w", encoding="utf-8") as _fh:
+        json.dump(_rnd_base, _fh)
+    _rnd_bad_face = capital_face(_rnd_bad_json)
+    _rnd_bad2_json = os.path.join(_lot_bad, "mincap_rnd2.json")
+    _rnd_base2 = json.loads(json.dumps(_rnd_base))
+    _rnd_base2["rounding"] = {"reference_capital": 999.0,
+                              "verdict": "ROUNDING_EATS_A_NAME_OR_MORE",
+                              "reference": {"capital": 999.0, "names_target": 12.0,
+                                            "names_effective": 7.73, "under_pct": 0.3558},
+                              "rows": [{"capital": 1e4, "names_target": 12.0,
+                                        "names_effective": 7.73, "under_pct": 0.3558}]}
+    with open(_rnd_bad2_json, "w", encoding="utf-8") as _fh:
+        json.dump(_rnd_base2, _fh)
+    _rnd_bad2_face = capital_face(_rnd_bad2_json)
+    chk("L138 rounding: a share that contradicts its own counts, and an anchor on a "
+        "different capital than the lot threshold, are both refused",
+        _rnd_bad_face.get("status") == "drifted"
+        and _rnd_bad2_face.get("status") == "drifted",
+        "share=%s/%s anchor=%s/%s"
+        % (_rnd_bad_face.get("status"), (_rnd_bad_face.get("detail") or "")[:40],
+           _rnd_bad2_face.get("status"), (_rnd_bad2_face.get("detail") or "")[:40]))
     # ---- r1246: the page prices the same cash on the ticket's three rates ----------------
     # The ticket learned to print three calibers (today's quote / its own trailing mean /
     # the ledger's window mean) in r1245; the page kept quoting one. These legs drive a

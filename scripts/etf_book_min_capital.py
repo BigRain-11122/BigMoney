@@ -275,6 +275,139 @@ def lot_dependence(face, path=None, capital_grid=CAPITALS, lot=LOT_UNITS):
     }
 
 
+def lot_rounding(face, path=None, capital_grid=CAPITALS, lot=LOT_UNITS,
+                 reference_capital=None):
+    """What the account actually holds once every position is floored to whole lots (r1508).
+
+    `lot_nav` answers "how much money before a target position is even one lot", which is a
+    THRESHOLD. This answers the question that immediately follows: at that money, what does
+    the basket look like? Buy orders arrive in whole lots, so a target of `w*NAV/price`
+    units is delivered as `floor(.../lot)*lot` units and the remainder is simply not bought
+    -- the reader ends up holding FEWER names' worth of exposure than the rule asked for.
+    Measured on the same weight path and the same prices as the ladder, per capital rung:
+
+      * `names_effective` = actual exposure / mean target weight, i.e. "how many of the
+        names you were supposed to hold did you actually end up holding";
+      * `names_short` = how many targets could not buy a single lot at that size;
+      * `residue_cny` = intended notional that no whole lot could absorb (median bar).
+
+    Rounding UP is not modelled: an over-weight lot is a weight the rule never asked for,
+    and publishing it would conflate "the venue's granularity" with "the rule changed".
+    """
+    if path is None:
+        path = R.weight_path(face)
+    close = face["close"]
+    cols = set(close.columns)
+    grid = [float(c) for c in capital_grid]
+    ref = None if reference_capital in (None, 0) else float(reference_capital)
+    caps = grid + ([ref] if ref is not None else [])
+    samples = {c: [] for c in caps}
+    for d, w, _cash in path:
+        held = []
+        for s, v in w.items():
+            if v is None or v <= 0 or s not in cols:
+                continue
+            try:
+                px = float(close.at[d, s])
+            except (KeyError, TypeError):
+                px = np.nan
+            if not np.isfinite(px) or px <= 0:
+                continue
+            held.append((float(v), px))
+        if not held:
+            continue
+        n_target = len(held)
+        want_w = sum(v for v, _px in held)
+        if want_w <= EPS:
+            continue
+        mean_w = want_w / n_target
+        for cap in caps:
+            got_w = residue = 0.0
+            short = 0
+            for v, px in held:
+                want_cny = v * cap
+                units = np.floor(want_cny / px / float(lot) + 1e-9) * float(lot)
+                if units < float(lot):
+                    units = 0.0
+                    short += 1
+                got = units * px
+                got_w += got / cap
+                residue += want_cny - got
+            samples[cap].append({
+                "names_target": n_target,
+                # published so `residue_cny == capital * weight_sum * under_pct` can be
+                # re-derived by any reader (and by `--check`) from two of the printed
+                # numbers instead of being taken on trust
+                "weight_sum": want_w,
+                "names_effective": got_w / mean_w,
+                "names_short": short,
+                "residue_cny": residue,
+                "under_pct": 1.0 - got_w / want_w,
+            })
+
+    def _med(vals):
+        vals = [v for v in vals if v is not None and np.isfinite(v)]
+        return float(np.median(vals)) if vals else None
+
+    def _row(cap, ss):
+        """One capital rung. The headline numbers are CLOSED FORMS on the published
+        medians (name count, weight sum, the share a lot grid cannot absorb), so any
+        reader -- and `--check` -- can re-derive them from two printed numbers; the
+        cell-wise medians are published beside them because median-of-products is not
+        product-of-medians and that difference is the honest width of this reading
+        (r1507's lot block made the same choice for the same reason)."""
+        if not ss:
+            return {"capital": cap, "bars": 0, "names_target": None, "weight_sum": None,
+                    "under_pct": None, "names_effective": None, "residue_cny": None,
+                    "names_short": None, "names_effective_cellwise": None,
+                    "residue_cny_cellwise": None}
+        nt = _med([s["names_target"] for s in ss])
+        ws = _med([s["weight_sum"] for s in ss])
+        up = _med([s["under_pct"] for s in ss])
+        ne = None if (nt is None or up is None) else nt * (1.0 - up)
+        res = None if (ws is None or up is None) else float(cap) * ws * up
+        return {
+            "capital": cap,
+            "bars": len(ss),
+            "names_target": None if nt is None else round(nt, 4),
+            "weight_sum": None if ws is None else round(ws, 8),
+            "under_pct": None if up is None else round(up, 6),
+            "names_effective": None if ne is None else round(ne, 4),
+            "residue_cny": None if res is None else round(res, 2),
+            "names_short": _med([s["names_short"] for s in ss]),
+            "names_effective_cellwise": round(_med([s["names_effective"] for s in ss]), 4),
+            "residue_cny_cellwise": round(_med([s["residue_cny"] for s in ss]), 2),
+        }
+
+    rows = [_row(cap, samples.get(cap) or []) for cap in grid]
+    ref_row = None if ref is None else _row(ref, samples.get(ref) or [])
+    anchor = ref_row or (rows[0] if rows else None)
+    return {
+        "lot_units": lot,
+        "reference_capital": ref,
+        "reference": ref_row,
+        "rows": rows,
+        "verdict": _rounding_verdict((anchor or {}).get("names_target"),
+                                     (anchor or {}).get("names_effective")),
+        "note": ("whole lots only, floored: a target position is delivered as "
+                 "floor(units/lot)*lot, so the account holds fewer names' worth of "
+                 "exposure than the weights ask for; measured on the same path and prices "
+                 "as the ladder, one decision bar at a time"),
+    }
+
+
+def _rounding_verdict(names_target, names_effective):
+    """Frozen reading rule: how many names the lot grid eats at the reference capital."""
+    if names_target is None or names_effective is None:
+        return "ROUNDING_UNMEASURED"
+    gap = float(names_target) - float(names_effective)
+    if gap >= 1.0:
+        return "ROUNDING_EATS_A_NAME_OR_MORE"
+    if gap >= 0.05:
+        return "ROUNDING_EATS_PART_OF_A_NAME"
+    return "ROUNDING_NEGLIGIBLE"
+
+
 def _lot_verdict(lot_median, fee_neutral):
     """Frozen reading rule: which of the two smallness constraints is the larger one.
 
@@ -616,6 +749,11 @@ def run(start=R.START, n_hold=None):
     lot = lot_dependence(face, path=path)
     lot_verdict = _lot_verdict(lot.get("lot_nav_median"),
                                fee_neutral_dlv if _second else fee_neutral_model)
+    # r1507 answered "how much money before a position is one whole lot"; that is a
+    # threshold. r1508 answers what the account holds AT that money once each target is
+    # floored to whole lots -- the reader was told "you need 188,624 CNY", so the honest
+    # follow-up is "and at 188,624 CNY you actually hold N of the M names".
+    rounding = lot_rounding(face, path=path, reference_capital=lot.get("lot_nav_median"))
 
     out = {
         "ts": pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -706,6 +844,7 @@ def run(start=R.START, n_hold=None):
                     note_verdict=("both numbers are 'how much money before the answer is "
                                   "about what you actually hold'; the larger one is the one "
                                   "that bites first")),
+        "rounding": rounding,
     }
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
@@ -854,6 +993,54 @@ def check():
                 is not None and lot["lot_nav_p90"] < lot["lot_nav_cellwise_median"]):
             problems.append("lot rows: p90 %.2f sits below the median %.2f"
                             % (lot["lot_nav_p90"], lot["lot_nav_cellwise_median"]))
+    # r1508: the rounding block is arithmetic on the published rows, so it must close here
+    # without the panel: (a) it is anchored on the lot threshold, (b) `under_pct` is
+    # exactly `1 - names_effective/names_target`, (c) the residue is that share of the
+    # intended notional, (d) more money never buys fewer names, (e) the token comes from
+    # its own anchor row.
+    rnd = d.get("rounding") or {}
+    if rnd.get("rows"):
+        rrows = rnd["rows"]
+        caps = [r.get("capital") or 0.0 for r in rrows]
+        if caps != sorted(caps):
+            problems.append("rounding rows: capital order broken")
+        if rnd.get("reference_capital") is not None and lot.get("lot_nav_median") is not None \
+                and abs(float(rnd["reference_capital"]) - float(lot["lot_nav_median"])) > 0.02:
+            problems.append("rounding: anchored on %.2f but the lot threshold is %.2f"
+                            % (rnd["reference_capital"], lot["lot_nav_median"]))
+        for r in rrows + ([rnd["reference"]] if rnd.get("reference") else []):
+            nt, ne, up = r.get("names_target"), r.get("names_effective"), r.get("under_pct")
+            if nt is None or ne is None or up is None:
+                continue
+            if ne > float(nt) + 1e-6:
+                problems.append("rounding @ %.0f: holds %.4f names of %.1f targets"
+                                % (r.get("capital") or 0.0, ne, nt))
+            if abs((1.0 - float(ne) / float(nt)) - float(up)) > 5e-4:
+                problems.append("rounding @ %.0f: under_pct %.6f != 1 - %.4f/%.1f"
+                                % (r.get("capital") or 0.0, up, ne, nt))
+            ws, res, cap = r.get("weight_sum"), r.get("residue_cny"), r.get("capital")
+            if ws is not None and res is not None and cap:
+                want_res = float(cap) * float(ws) * float(up)
+                # the published residue IS this product (rounded to 0.01), so the tolerance
+                # is publication rounding, not modelling: `under_pct` carries 6dp, and at a
+                # 10-million rung that 5e-7 quantum is worth ~3 CNY of residue. A face
+                # edited by hand cannot pass this; a face published at 6dp always does.
+                if abs(want_res - float(res)) > max(0.5, float(cap) * float(ws) * 1e-6):
+                    problems.append("rounding @ %.0f: residue %.2f != capital*weight_sum"
+                                    "*under_pct %.2f" % (cap, res, want_res))
+            if r.get("names_effective_cellwise") is None:
+                problems.append("rounding @ %.0f: the cell-wise reading is not published"
+                                % (r.get("capital") or 0.0))
+        ne_seq = [r.get("names_effective") for r in rrows
+                  if r.get("names_effective") is not None]
+        if ne_seq != sorted(ne_seq):
+            problems.append("rounding rows: names_effective must not fall as capital rises")
+        anchor = rnd.get("reference") or (rrows[0] if rrows else {})
+        want_tok = _rounding_verdict(anchor.get("names_target"),
+                                     anchor.get("names_effective"))
+        if want_tok != rnd.get("verdict"):
+            problems.append("rounding verdict %s != recomputed %s"
+                            % (rnd.get("verdict"), want_tok))
     if problems:
         for p in problems:
             print("DRIFT: " + p)
@@ -1038,6 +1225,43 @@ def selftest():
         (_fx_lot["rows"][0]["holdable_share"], _fx_lot["rows"][1]["holdable_share"],
          _fx_lot["lot_nav_median"]))
 
+    # L32-L35: what the account HOLDS once orders floor to whole lots (r1508). The
+    # threshold from L28 says "one lot of a 5% position needs 200k"; these legs price the
+    # money left of that: at 100k the same target is half a lot, i.e. not buyable at all,
+    # and the account holds one name's worth of exposure while claiming to hold two.
+    _rnd_low = lot_rounding(_fx_face, path=_fx_path, capital_grid=(100000.0, 200000.0))
+    _rnd_low_ref = lot_rounding(_fx_face, path=_fx_path,
+                                capital_grid=(200000.0,),
+                                reference_capital=100000.0)
+    _lo, _hi = _rnd_low["rows"][0], _rnd_low["rows"][1]
+    chk("L32 half a lot buys nothing: at 100k a 5%%-of-100-CNY target is 0 units, so the "
+        "account holds 1 of 2 names",
+        abs((_lo.get("names_effective") or 0) - 1.0) < 1e-9
+        and _lo.get("names_short") == 1
+        and abs((_lo.get("under_pct") or 0) - 0.5) < 1e-9
+        and abs((_lo.get("residue_cny") or 0) - 5000.0) < 1e-6,
+        (_lo.get("names_effective"), _lo.get("names_short"), _lo.get("under_pct"),
+         _lo.get("residue_cny")))
+    chk("L33 at the lot threshold every target is exactly one lot: 2 of 2 names, nothing left over",
+        abs((_hi.get("names_effective") or 0) - 2.0) < 1e-9
+        and _hi.get("names_short") == 0
+        and abs((_hi.get("under_pct") or 0)) < 1e-12
+        and abs((_hi.get("residue_cny") or 0)) < 1e-6,
+        (_hi.get("names_effective"), _hi.get("names_short"), _hi.get("under_pct")))
+    chk("L34 the residue closes as capital*weight_sum*under_pct, and under_pct is "
+        "1 - names_effective/names_target (both are re-derived by --check)",
+        abs(100000.0 * (_lo.get("weight_sum") or 0.0) * (_lo.get("under_pct") or 0.0)
+            - (_lo.get("residue_cny") or 0.0)) < 1e-6
+        and abs((1.0 - (_lo.get("names_effective") or 0.0)
+                 / (_lo.get("names_target") or 1.0)) - (_lo.get("under_pct") or 0.0)) < 1e-12)
+    chk("L35 the rounding verdict is derived from the anchor row, both ways",
+        _rounding_verdict(2, 1.0) == "ROUNDING_EATS_A_NAME_OR_MORE"
+        and _rounding_verdict(2, 1.5) == "ROUNDING_EATS_PART_OF_A_NAME"
+        and _rounding_verdict(2, 1.98) == "ROUNDING_NEGLIGIBLE"
+        and _rounding_verdict(None, 1.0) == "ROUNDING_UNMEASURED"
+        and _rnd_low["verdict"] == "ROUNDING_EATS_A_NAME_OR_MORE"
+        and _rnd_low_ref["verdict"] == "ROUNDING_EATS_A_NAME_OR_MORE")
+
     print("selftest %d/%d" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1
 
@@ -1060,6 +1284,13 @@ def main(argv):
     print("             whole lots: median %.0f CNY | p90 %.0f CNY | %s (vs %.0f CNY)"
           % (_lot.get("lot_nav_median") or 0, _lot.get("lot_nav_p90") or 0,
              _lot.get("verdict") or "?", _lot.get("compared_value") or 0))
+    _rnd = out.get("rounding") or {}
+    _rr = _rnd.get("reference") or {}
+    print("             at that money you hold %.2f of %.1f names (%.1f%% of the intended "
+          "exposure never buys a lot) | %s"
+          % (_rr.get("names_effective") or 0.0, _rr.get("names_target") or 0.0,
+             100.0 * (_rr.get("under_pct") or 0.0), _rnd.get("verdict") or "?")
+          if _rr else "             rounding: unmeasured")
     print("\n capital      schedule   cagr   vs 8bp    below-floor   fee CNY")
     for r in out["ladder"]:
         print(" %9.0f  %-10s %6.2f%%  %+6.2fpp  %8.2f%%   %9.0f"

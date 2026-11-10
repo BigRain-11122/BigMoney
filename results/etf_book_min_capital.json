@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-10 14:04:11",
+ "ts": "2026-11-10 15:10:46",
  "evidence_cutoff": "2026-11-09",
  "script": "scripts/etf_book_min_capital.py",
  "config": {
@@ -818,5 +818,145 @@
   "compared_against": "fee_neutral_vs_delivered_nav",
   "compared_value": 162405.47,
   "note_verdict": "both numbers are 'how much money before the answer is about what you actually hold'; the larger one is the one that bites first"
+ },
+ "rounding": {
+  "lot_units": 100,
+  "reference_capital": 188624.09,
+  "reference": {
+   "capital": 188624.09,
+   "bars": 1658,
+   "names_target": 12.0,
+   "weight_sum": 0.63619235,
+   "under_pct": 0.356011,
+   "names_effective": 7.7279,
+   "residue_cny": 42721.81,
+   "names_short": 4.0,
+   "names_effective_cellwise": 7.7279,
+   "residue_cny_cellwise": 38197.94
+  },
+  "rows": [
+   {
+    "capital": 10000.0,
+    "bars": 1658,
+    "names_target": 12.0,
+    "weight_sum": 0.63619235,
+    "under_pct": 0.789003,
+    "names_effective": 2.532,
+    "residue_cny": 5019.58,
+    "names_short": 9.0,
+    "names_effective_cellwise": 2.532,
+    "residue_cny_cellwise": 4318.78
+   },
+   {
+    "capital": 20000.0,
+    "bars": 1658,
+    "names_target": 12.0,
+    "weight_sum": 0.63619235,
+    "under_pct": 0.705169,
+    "names_effective": 3.538,
+    "residue_cny": 8972.46,
+    "names_short": 8.0,
+    "names_effective_cellwise": 3.538,
+    "residue_cny_cellwise": 8030.64
+   },
+   {
+    "capital": 50000.0,
+    "bars": 1658,
+    "names_target": 12.0,
+    "weight_sum": 0.63619235,
+    "under_pct": 0.63236,
+    "names_effective": 4.4117,
+    "residue_cny": 20115.13,
+    "names_short": 7.0,
+    "names_effective_cellwise": 4.4117,
+    "residue_cny_cellwise": 17963.89
+   },
+   {
+    "capital": 100000.0,
+    "bars": 1658,
+    "names_target": 12.0,
+    "weight_sum": 0.63619235,
+    "under_pct": 0.605638,
+    "names_effective": 4.7323,
+    "residue_cny": 38530.25,
+    "names_short": 7.0,
+    "names_effective_cellwise": 4.7323,
+    "residue_cny_cellwise": 35538.63
+   },
+   {
+    "capital": 200000.0,
+    "bars": 1658,
+    "names_target": 12.0,
+    "weight_sum": 0.63619235,
+    "under_pct": 0.280724,
+    "names_effective": 8.6313,
+    "residue_cny": 35718.9,
+    "names_short": 3.0,
+    "names_effective_cellwise": 8.6089,
+    "residue_cny_cellwise": 42138.53
+   },
+   {
+    "capital": 400000.0,
+    "bars": 1658,
+    "names_target": 12.0,
+    "weight_sum": 0.63619235,
+    "under_pct": 0.152655,
+    "names_effective": 10.1681,
+    "residue_cny": 38847.3,
+    "names_short": 0.0,
+    "names_effective_cellwise": 10.1676,
+    "residue_cny_cellwise": 33273.48
+   },
+   {
+    "capital": 1000000.0,
+    "bars": 1658,
+    "names_target": 12.0,
+    "weight_sum": 0.63619235,
+    "under_pct": 0.062779,
+    "names_effective": 11.2466,
+    "residue_cny": 39939.81,
+    "names_short": 0.0,
+    "names_effective_cellwise": 11.2448,
+    "residue_cny_cellwise": 35503.46
+   },
+   {
+    "capital": 1500000.0,
+    "bars": 1658,
+    "names_target": 12.0,
+    "weight_sum": 0.63619235,
+    "under_pct": 0.043603,
+    "names_effective": 11.4768,
+    "residue_cny": 41609.41,
+    "names_short": 0.0,
+    "names_effective_cellwise": 11.4762,
+    "residue_cny_cellwise": 35426.92
+   },
+   {
+    "capital": 3000000.0,
+    "bars": 1658,
+    "names_target": 12.0,
+    "weight_sum": 0.63619235,
+    "under_pct": 0.020748,
+    "names_effective": 11.751,
+    "residue_cny": 39598.91,
+    "names_short": 0.0,
+    "names_effective_cellwise": 11.7508,
+    "residue_cny_cellwise": 36925.73
+   },
+   {
+    "capital": 10000000.0,
+    "bars": 1658,
+    "names_target": 12.0,
+    "weight_sum": 0.63619235,
+    "under_pct": 0.006605,
+    "names_effective": 11.9207,
+    "residue_cny": 42021.06,
+    "names_short": 0.0,
+    "names_effective_cellwise": 11.9207,
+    "residue_cny_cellwise": 37094.8
+   }
+  ],
+  "verdict": "ROUNDING_EATS_A_NAME_OR_MORE",
+  "note": "whole lots only, floored: a target position is delivered as floor(units/lot)*lot, so the account holds fewer names' worth of exposure than the weights ask for; measured on the same path and prices as the ladder, one decision bar at a time"
  }
 }

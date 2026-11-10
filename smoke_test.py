@@ -7673,6 +7673,82 @@ def main() -> int:
     except Exception as e:
         check("product: one lot is priced beside the fee floor, and the page prints it",
               False, repr(e)[:160])
+    # ---- r1508: the threshold is money; what that money BUYS is a second face ----------
+    # r1507 printed "you need 188,624 CNY before the weights are representable". That is a
+    # threshold on a continuous weight path; orders arrive in whole lots, so at that money
+    # the account holds FEWER names' worth of exposure than the rule asked for. This leg
+    # re-derives the anchor from the face's own rows (under_pct == 1 - effective/target, and
+    # the verdict from that pair) and demands the page print both the sentence and the table.
+    try:
+        import importlib as _il76
+        _MC76 = _il76.import_module("etf_book_min_capital")
+        _PG76 = _il76.import_module("etf_book_ceo_page")
+        _bad76 = []
+        _face76 = _PG76.capital_face()
+        _rnd76 = (_face76.get("rounding") or {}) if _face76.get("status") == "ok" else {}
+        _ref76 = _rnd76.get("reference") or {}
+        _note76 = ""
+        if not _ref76:
+            _bad76.append("the capital face carries no rounding block")
+        else:
+            _lot76 = _face76.get("lot") or {}
+            if (_lot76.get("median") and _rnd76.get("reference_capital") and
+                    abs(float(_rnd76["reference_capital"])
+                        - float(_lot76["median"])) > 0.02):
+                _bad76.append("rounding anchored at %r but the lot threshold is %r"
+                              % (_rnd76.get("reference_capital"), _lot76.get("median")))
+            _nt76, _ne76, _up76 = (_ref76.get("names_target"),
+                                   _ref76.get("names_effective"),
+                                   _ref76.get("under_pct"))
+            if None in (_nt76, _ne76, _up76):
+                _bad76.append("the anchor row is incomplete (%r/%r/%r)"
+                              % (_nt76, _ne76, _up76))
+            else:
+                if abs((1.0 - float(_ne76) / float(_nt76)) - float(_up76)) > 5e-4:
+                    _bad76.append("under_pct %r != 1 - %r/%r" % (_up76, _ne76, _nt76))
+                if float(_ne76) > float(_nt76) + 1e-6:
+                    _bad76.append("the anchor holds more names than it targets")
+                if _MC76._rounding_verdict(_nt76, _ne76) != _rnd76.get("verdict"):
+                    _bad76.append("rounding verdict %r != re-derived %r"
+                                  % (_rnd76.get("verdict"),
+                                     _MC76._rounding_verdict(_nt76, _ne76)))
+            _rows76 = _rnd76.get("rows") or []
+            _nes76 = [r.get("names_effective") for r in _rows76
+                      if r.get("names_effective") is not None]
+            if len(_nes76) < 3 or _nes76 != sorted(_nes76):
+                _bad76.append("rounding table missing or not monotone (%d rows)"
+                              % len(_nes76))
+            _lb76 = sorted(glob.glob(os.path.join(PATHS.root, "docs", "live_book",
+                                                  "LIVE-BOOK-*.md")))
+            if not _lb76:
+                _bad76.append("no live-book page on disk")
+            else:
+                with open(_lb76[-1], encoding="utf-8") as _fh76:
+                    _md76 = _fh76.read()
+                _note76 = _page_elsewhere_note(_ceo_page_view(),
+                                               _face76.get("evidence_cutoff")) or ""
+                _pf76 = []
+                if "实际持有的是" not in _md76:
+                    _pf76.append("the page never says what the account actually holds")
+                elif _ne76 is not None and ("%.2f 名" % float(_ne76)) not in _md76:
+                    _pf76.append("the page does not print %.2f names" % float(_ne76))
+                if "| 账户 | 目标名数 | 实际持有（名）" not in _md76:
+                    _pf76.append("the rounding table never reaches the page")
+                if _note76:
+                    _note76 += (" | page-side differences (%d): %s"
+                                % (len(_pf76), "; ".join(_pf76)[:120])
+                                if _pf76 else "")
+                else:
+                    _bad76 += _pf76
+        check("product: the page says how many names the lot grid actually holds",
+              not _bad76,
+              "; ".join(_bad76)[:220] or _note76 or "%.2f of %.1f names at %.0f CNY"
+              % ((_ref76 or {}).get("names_effective") or 0.0,
+                 (_ref76 or {}).get("names_target") or 0.0,
+                 (_ref76 or {}).get("capital") or 0.0))
+    except Exception as e:
+        check("product: the page says how many names the lot grid actually holds",
+              False, repr(e)[:160])
     # ---- r1245: the sheet prices the cash half it asks the reader to hold -----------------
     # The ticket printed "cash 53%" and the cash amount and stopped there; the only yield it
     # ever quoted was a multi-year mean, which is a history rather than a forecast. This leg
