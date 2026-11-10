@@ -12274,3 +12274,35 @@ selftest 32/32，L33/L34 新增）+ `Tools/s6_chain_bmc.py` 腿 `data_lane_tail_
 
 正身：`scripts/update_minute_feed.py`（`_session_coverage` + 4 条 selftest 腿，ALL PASS）+
 `smoke_test.py` 新腿 + `research/digests/DIGEST-20261110-r1495-zero-append-not-success.md`。
+
+
+### E505 · 「已经算成了钱，却说自己判不了」——缺的是尺子的历史，不是数据源（r1497 bm-c）
+
+**事实**：11-10 的实盘单页把 ￥41,697、总资金 4.17% 的溢价算了出来，却同时写明 159501/513100/159577
+「在这把尺子上没有够用的历史观测（少于 2 次），所以今天这个溢价算不算高本页答不了」。判不了的
+原因不是数据不可得 —— 单位净值每天披露 —— 而是那把尺子从来没有被接成序列。
+
+**四律**：
+
+① **「判不了」先翻译成「序列没接」**。一个已经折算成钱的读数配上两个观测，第一件事是问这把尺子
+   的历史存在不存在、能不能拉成时间序列；而不是接受「没有判据」并把它印成免责。
+② **判词由分布派生，样本不足自成一档**。AT_RECORD_HIGH / UPPER_TAIL(≥p90) / LOWER_TAIL(≤p10) /
+   ORDINARY / THIN(<60) / UNPRICED 全部从序列算，禁手写「高/低」；THIN 必须独占一档，否则
+   「没有刻度」会被读成「正常」（本轮 159263 只有 325 个观测仍够判，但 <60 的一律拒判）。
+③ **计价时差要单独量出来**（滞后梯子）：同一根收盘用倒数第 1/2/3 期净值各算一次，本轮跨度
+   5.46~7.84pp（159501 21.16 → 22.82 → 14.98）。跨市场资产（QDII）的净值按海外收盘记，所以
+   「溢价」里结构性地含一段海外涨跌；不印滞后天数，读者会把计价时差当成愿意多付的钱。
+④ **两把尺子并列、不相加、不换算**：盘口 IOPV 23.64% 与本面的 21.16% 是两个量，页面并排印，
+   禁求和禁互相换算（承 E293「同一本书两张纸」族）。
+
+**实锚**：三只美元基金中位溢价 1.26%~1.76%（p05 为负），今日 21.16/18.63/8.90 = 第 100/99/99 百分位；
+回到各自中位，这张 ￥392,727 的单值 ￥28,959（7.4%）。发布闸把新面钉在发布面上：价格面板须复现
+盘口价 ≤0.5%、发布溢价须等于 price/iopv ≤0.01pp、发布 CNY 数须满足精确式或线性式并披露两者差额。
+
+正身：scripts/etf_book_premium_percentile.py（selftest 18/18 · check 5 legs / 5,034 obs）+
+
+esults/etf_premium/PREMIUM-PERCENTILE.json + 
+esults/etf_premium/premium_history.csv +
+Tools/s6_chain_bmc.py 腿 premium_percentile + smoke_test.py 两条腿 +
+
+esearch/digests/DIGEST-20261110-r1497-premium-percentile.md。

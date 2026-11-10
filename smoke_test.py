@@ -797,6 +797,15 @@ def main() -> int:
              "scripts/etf_book_vt_ladder.py", ["selftest"]),
             ("product: etf_book_vt_ladder (every rung verdict re-derives from its rows)",
              "scripts/etf_book_vt_ladder.py", ["check"]),
+            # r1497: the page said it could not tell whether today's premium is high. The
+            # legs pin that a NAV stamped on the close is never used (no look-ahead), that
+            # a series with no scale is THIN/UNPRICED rather than ORDINARY, that the answer
+            # word follows the distribution instead of being typed, and that every leg's
+            # percentile and lag ladder re-derive from the published history.
+            ("product: etf_book_premium_percentile (no look-ahead, no scale without history)",
+             "scripts/etf_book_premium_percentile.py", ["selftest"]),
+            ("product: etf_book_premium_percentile (every answer word re-derives)",
+             "scripts/etf_book_premium_percentile.py", ["check"]),
             # r1481 also gave the decision line a third price (what it costs if this sheet
             # is filled tomorrow); the existing decision-line legs at the bottom of this
             # file already run that selftest, and it now carries the UNKNOWN-not-zero leg.

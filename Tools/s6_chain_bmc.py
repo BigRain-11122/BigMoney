@@ -1171,6 +1171,15 @@ LEGS = [
     # CSVs and never loads a panel.
     ("reviewwindowfloor", ["python", "scripts/e39_panel_census.py",
                            "reviewwindowfloor"]),
+    # r1497: the 11-10 live-book page admits in its own words that it cannot say whether
+    # today's premium is high -- 159501/513100/159577 had fewer than 2 usable observations
+    # on the price/NAV ruler. This leg re-derives every leg's percentile verdict, its
+    # distribution and its lag ladder FROM the published history CSV and the face's own
+    # NAV stamps, so a restated NAV or a hand-typed answer word turns the leg red instead
+    # of leaving "第99%" on disk describing an older series. ~0.6s, reads published JSON +
+    # CSV only; the NAV re-pull (22s, 5 funds) runs with `run` in its own round.
+    ("premium_percentile",
+     ["python", "scripts/etf_book_premium_percentile.py", "check"]),
 ]
 
 
