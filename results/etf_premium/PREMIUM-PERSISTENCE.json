@@ -1,0 +1,345 @@
+{
+ "generated_utc_note": "wall clock only in the envelope, numbers are deterministic",
+ "ticket_path": "results\\etf_book_order\\TICKET-2026-11-09.json",
+ "ticket_session": null,
+ "lag_ladder_definition": "NAV stamp strictly earlier than the price bar, k-th earlier for k in [1, 2, 3, 4, 5]",
+ "thresholds": {
+  "thin_n": 60,
+  "patient_share": 0.9,
+  "level_pp": 0.5,
+  "revert_share": 0.6,
+  "dominance_share": 0.5,
+  "dominance_pp": 1.0
+ },
+ "caveat": "the NAV panel carries no subscription-status column, so the 限购 hypothesis is tested through its observable implication (a standing positive level) and against the NAV-stamp alternative; standing level is consistent with, not proof of, a limited fund",
+ "book_verdict": "TODAYS_PREMIUM_IS_A_CONVENTION",
+ "book_sentence": "2 leg(s) (159577,159263) move more when the NAV stamp shifts than the premium they print",
+ "book_amount_cny": 392727.19999999995,
+ "legs": [
+  {
+   "n": 824,
+   "share_positive": 0.8009708737864077,
+   "median_pct": 1.2751542199768595,
+   "p05_pct": -0.5174273158024878,
+   "p95_pct": 12.605290224585012,
+   "latest_pct": 21.160308944048122,
+   "ar1_phi": 0.9758991774513267,
+   "half_life_sessions": 28.412329446506064,
+   "zero_cross_per_100": 18.347509113001216,
+   "symbol": "159501",
+   "class": "crossborder",
+   "amount_cny": 78501.0,
+   "nav_source": "cache-stale",
+   "n_nav_rows": 830,
+   "first_date": "2023-06-14",
+   "last_date": "2026-11-09",
+   "latest_nav_date": "2026-11-06",
+   "latest_nav_lag_days": 3,
+   "lag_spread_median_pp": 1.145263085111059,
+   "lag_spread_latest_pp": 7.840651653853502,
+   "lag_ladder": [
+    {
+     "lag": 1,
+     "n": 824,
+     "nav_date": "2026-11-06",
+     "nav_lag_days": 3,
+     "median_pct": 1.2751542199768595,
+     "latest_pct": 21.160308944048122
+    },
+    {
+     "lag": 2,
+     "n": 824,
+     "nav_date": "2026-11-05",
+     "nav_lag_days": 4,
+     "median_pct": 1.7273343687669085,
+     "latest_pct": 22.818551278986376
+    },
+    {
+     "lag": 3,
+     "n": 824,
+     "nav_date": "2026-11-04",
+     "nav_lag_days": 5,
+     "median_pct": 1.9462226449911912,
+     "latest_pct": 14.977899625132874
+    },
+    {
+     "lag": 4,
+     "n": 824,
+     "nav_date": "2026-11-03",
+     "nav_lag_days": 6,
+     "median_pct": 2.15549898481483,
+     "latest_pct": 16.075463172164483
+    },
+    {
+     "lag": 5,
+     "n": 824,
+     "nav_date": "2026-11-02",
+     "nav_lag_days": 7,
+     "median_pct": 2.4204173050879185,
+     "latest_pct": 16.867606915377632
+    }
+   ],
+   "verdict": "MIXED"
+  },
+  {
+   "n": 1901,
+   "share_positive": 0.7948448185165702,
+   "median_pct": 1.2574850299401197,
+   "p05_pct": -0.64216120460584,
+   "p95_pct": 12.43048248910268,
+   "latest_pct": 18.63092600797518,
+   "ar1_phi": 0.937069817792501,
+   "half_life_sessions": 10.66421499604779,
+   "zero_cross_per_100": 16.63157894736842,
+   "symbol": "513100",
+   "class": "crossborder",
+   "amount_cny": 78611.4,
+   "nav_source": "cache-stale",
+   "n_nav_rows": 1906,
+   "first_date": "2019-01-03",
+   "last_date": "2026-11-09",
+   "latest_nav_date": "2026-11-06",
+   "latest_nav_lag_days": 3,
+   "lag_spread_median_pp": 0.9046771322220426,
+   "lag_spread_latest_pp": 7.65972443728684,
+   "lag_ladder": [
+    {
+     "lag": 1,
+     "n": 1901,
+     "nav_date": "2026-11-06",
+     "nav_lag_days": 3,
+     "median_pct": 1.2574850299401197,
+     "latest_pct": 18.63092600797518
+    },
+    {
+     "lag": 2,
+     "n": 1900,
+     "nav_date": "2026-11-05",
+     "nav_lag_days": 4,
+     "median_pct": 1.53900039194933,
+     "latest_pct": 20.24250589424048
+    },
+    {
+     "lag": 3,
+     "n": 1899,
+     "nav_date": "2026-11-04",
+     "nav_lag_days": 5,
+     "median_pct": 1.7869907076483171,
+     "latest_pct": 12.58278145695364
+    },
+    {
+     "lag": 4,
+     "n": 1898,
+     "nav_date": "2026-11-03",
+     "nav_lag_days": 6,
+     "median_pct": 1.9788964478795856,
+     "latest_pct": 13.65204011248473
+    },
+    {
+     "lag": 5,
+     "n": 1897,
+     "nav_date": "2026-11-02",
+     "nav_lag_days": 7,
+     "median_pct": 2.1621621621621623,
+     "latest_pct": 14.423076923076916
+    }
+   ],
+   "verdict": "MIXED"
+  },
+  {
+   "n": 1327,
+   "share_positive": 0.49434815373021856,
+   "median_pct": -0.010844810758048329,
+   "p05_pct": -2.288297145146906,
+   "p95_pct": 2.4619070005556725,
+   "latest_pct": 0.0,
+   "ar1_phi": 0.5904983895557578,
+   "half_life_sessions": 1.3157981824192027,
+   "zero_cross_per_100": 35.74660633484163,
+   "symbol": "513690",
+   "class": "crossborder",
+   "amount_cny": 78588.4,
+   "nav_source": "cache-stale",
+   "n_nav_rows": 1334,
+   "first_date": "2021-05-20",
+   "last_date": "2026-11-09",
+   "latest_nav_date": "2026-11-06",
+   "latest_nav_lag_days": 3,
+   "lag_spread_median_pp": 0.08134891107464126,
+   "lag_spread_latest_pp": 3.2315183709606066,
+   "lag_ladder": [
+    {
+     "lag": 1,
+     "n": 1327,
+     "nav_date": "2026-11-06",
+     "nav_lag_days": 3,
+     "median_pct": -0.010844810758048329,
+     "latest_pct": 0.0
+    },
+    {
+     "lag": 2,
+     "n": 1327,
+     "nav_date": "2026-11-05",
+     "nav_lag_days": 4,
+     "median_pct": 0.0,
+     "latest_pct": 0.06007036814552613
+    },
+    {
+     "lag": 3,
+     "n": 1327,
+     "nav_date": "2026-11-04",
+     "nav_lag_days": 5,
+     "median_pct": 0.00873438728272724,
+     "latest_pct": 1.2944140387455505
+    },
+    {
+     "lag": 4,
+     "n": 1327,
+     "nav_date": "2026-11-03",
+     "nav_lag_days": 6,
+     "median_pct": -0.008445232666154379,
+     "latest_pct": 2.1910604732690464
+    },
+    {
+     "lag": 5,
+     "n": 1326,
+     "nav_date": "2026-11-02",
+     "nav_lag_days": 7,
+     "median_pct": 0.07050410031659293,
+     "latest_pct": 3.2315183709606066
+    }
+   ],
+   "verdict": "MEAN_REVERTING"
+  },
+  {
+   "n": 657,
+   "share_positive": 0.9025875190258752,
+   "median_pct": 1.7555266579974083,
+   "p05_pct": -0.3481179112504006,
+   "p95_pct": 6.7303993268238465,
+   "latest_pct": 8.896845234074192,
+   "ar1_phi": 0.8638849564811323,
+   "half_life_sessions": 4.737340672871213,
+   "zero_cross_per_100": 11.28048780487805,
+   "symbol": "159577",
+   "class": "crossborder",
+   "amount_cny": 78504.4,
+   "nav_source": "cache-stale",
+   "n_nav_rows": 661,
+   "first_date": "2024-02-23",
+   "last_date": "2026-11-09",
+   "latest_nav_date": "2026-11-06",
+   "latest_nav_lag_days": 3,
+   "lag_spread_median_pp": 0.5086796524010784,
+   "lag_spread_latest_pp": 5.461295369632247,
+   "lag_ladder": [
+    {
+     "lag": 1,
+     "n": 657,
+     "nav_date": "2026-11-06",
+     "nav_lag_days": 3,
+     "median_pct": 1.7555266579974083,
+     "latest_pct": 8.896845234074192
+    },
+    {
+     "lag": 2,
+     "n": 657,
+     "nav_date": "2026-11-05",
+     "nav_lag_days": 4,
+     "median_pct": 1.8362282878411795,
+     "latest_pct": 9.622577354641294
+    },
+    {
+     "lag": 3,
+     "n": 657,
+     "nav_date": "2026-11-04",
+     "nav_lag_days": 5,
+     "median_pct": 2.0072392234287584,
+     "latest_pct": 4.161281985009047
+    },
+    {
+     "lag": 4,
+     "n": 657,
+     "nav_date": "2026-11-03",
+     "nav_lag_days": 6,
+     "median_pct": 2.109335085030284,
+     "latest_pct": 5.955041409228334
+    },
+    {
+     "lag": 5,
+     "n": 656,
+     "nav_date": "2026-11-02",
+     "nav_lag_days": 7,
+     "median_pct": 2.2642063103984866,
+     "latest_pct": 6.592607286913976
+    }
+   ],
+   "verdict": "LAG_DOMINATED"
+  },
+  {
+   "n": 325,
+   "share_positive": 0.5384615384615384,
+   "median_pct": 0.10611956137247525,
+   "p05_pct": -1.4270600509052644,
+   "p95_pct": 1.4432717729401647,
+   "latest_pct": -0.6460625109132256,
+   "ar1_phi": 0.002247709681226333,
+   "half_life_sessions": 0.11367087077353837,
+   "zero_cross_per_100": 48.76543209876543,
+   "symbol": "159263",
+   "class": "equity",
+   "amount_cny": 78522.0,
+   "nav_source": "cache-stale",
+   "n_nav_rows": 329,
+   "first_date": "2025-07-08",
+   "last_date": "2026-11-09",
+   "latest_nav_date": "2026-11-06",
+   "latest_nav_lag_days": 3,
+   "lag_spread_median_pp": 0.331173810938834,
+   "lag_spread_latest_pp": 1.3974354128384436,
+   "lag_ladder": [
+    {
+     "lag": 1,
+     "n": 325,
+     "nav_date": "2026-11-06",
+     "nav_lag_days": 3,
+     "median_pct": 0.10611956137247525,
+     "latest_pct": -0.6460625109132256
+    },
+    {
+     "lag": 2,
+     "n": 325,
+     "nav_date": "2026-11-05",
+     "nav_lag_days": 4,
+     "median_pct": 0.1276136252086113,
+     "latest_pct": -0.3851540616246707
+    },
+    {
+     "lag": 3,
+     "n": 325,
+     "nav_date": "2026-11-04",
+     "nav_lag_days": 5,
+     "median_pct": 0.19607843137254832,
+     "latest_pct": -0.7413868294810388
+    },
+    {
+     "lag": 4,
+     "n": 325,
+     "nav_date": "2026-11-03",
+     "nav_lag_days": 6,
+     "median_pct": 0.3578122337706491,
+     "latest_pct": -1.000434971726849
+    },
+    {
+     "lag": 5,
+     "n": 324,
+     "nav_date": "2026-11-02",
+     "nav_lag_days": 7,
+     "median_pct": 0.43729337231130927,
+     "latest_pct": 0.3970004411115946
+    }
+   ],
+   "verdict": "LAG_DOMINATED"
+  }
+ ]
+}

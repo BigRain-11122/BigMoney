@@ -133,7 +133,7 @@
  "last_round_summary": "premium_percentile: 159501 21.16% @ p99.8 / 513100 18.63% @ p98.8 / 159577 8.90% @ p98.8 of their own histories (medians 1.26-1.76%); reverting to their own medians would reprice this CNY392,727 sheet by CNY28,959; NAV-stamp lag moves the reading 5.46-7.84pp",
  "last_round_summary_at": "2026-11-10T08:00:37+08:00",
  "last_round_tag": "r1484",
- "last_round_ts": "2026-11-09T06:07:30+08:00",
+ "last_round_ts": "2026-11-10T08:12:22+08:00",
  "last_run_at": "2026-10-26T21:20:55+08:00",
  "last_seen": "2026-11-10T08:03:14+08:00",
  "last_seen_at": "2026-11-10T01:35:28+08:00",
@@ -959,5 +959,6 @@
  "verify": "etf_book_order selftest 136/136 (leg53/53b new); real run rc0 k=0.393073 capped; ORDER md prints floor source; floor_ledger selftest 15/15 + action rewritten; real-ledger fallback probe floor=0.393073 source=floor_ledger",
  "verify_smoke_closed": "full smoke 04:04 run finished AFTER the r1492 row was written: 492 legs, 12 FAIL. Nine = the CEO/operator page is stale by design on this machine (live_book/latest.json names LIVE-BOOK-20261109.md which is absent here; etf_book_ceo_page refuses on bm-c, host=bm-a, takeover needs a declared silence and bm-a's heartbeat was 285min stale); two = bm-b's moneyflow certification; one = the lane-clock leg repaired this round (green on re-execution). Not claimed green.",
  "vram_free_gb": 13.8,
- "watermark_verdict": "py_low_with_work_cands"
+ "watermark_verdict": "py_low_with_work_cands",
+ "r1498_closeout_note": "premium persistence face: standing level vs NAV-stamp artifact on the 5 ticket legs; products verdict TODAYS_PREMIUM_IS_A_CONVENTION; the previous round's next-step named a subscription-status column that does not exist -- verified absent before building"
 }

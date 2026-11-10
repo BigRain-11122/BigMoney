@@ -1180,6 +1180,13 @@ LEGS = [
     # CSV only; the NAV re-pull (22s, 5 funds) runs with `run` in its own round.
     ("premium_percentile",
      ["python", "scripts/etf_book_premium_percentile.py", "check"]),
+    # r1498: r1497 asked "why is it high" and proposed the subscription-status column --
+    # there is none (nav_history carries date,nav only). This leg re-derives the substituted
+    # question from the panels: is today's premium a standing level, an oscillation, or a
+    # NAV-stamp convention? Every verdict word, share-positive, median and lag spread is
+    # recomputed off premium_history.csv, so a hand-typed answer word goes red. ~0.3s.
+    ("premium_persistence",
+     ["python", "scripts/etf_book_premium_persistence.py", "check"]),
 ]
 
 

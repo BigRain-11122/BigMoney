@@ -12306,3 +12306,31 @@ esults/etf_premium/premium_history.csv +
 Tools/s6_chain_bmc.py 腿 premium_percentile + smoke_test.py 两条腿 +
 
 esearch/digests/DIGEST-20261110-r1497-premium-percentile.md。
+
+### E506 · 交接指针是主张，不是事实 —— 上一轮写下的「下一步」也可能凭空长出一列（r1498 bm-c）
+
+**事实**：r1497 的收轮指针写「把『为什么高』做成可证伪的切分（净值历史里已带申购状态列）」。盘上
+\data/etf_premium/nav_history/*.csv\ 只有 \date,nav\ 两列，写它的 \load_nav\ 也只读净值日期/单位净值。
+照那个指针建面，会印出一个由名词凭空长出来的数。
+
+**四律**：
+
+① **接手指针先在盘上验存在**（文件在不在、列名对不对、函数读什么），再动手；名词不是数据结构。
+   指针写错方向时，正解不是硬造那一列，而是把问题折成不依赖它的可证伪形式。
+② **「为什么」先折成两个对立解释，各自给判词**：限购的可观测含义＝持续正水位（高 share>0、长半衰期、
+   少过零）；唯一的记账竞争解释＝净值戳时差（把戳往前挪 k 期，读数该塌）。两个都可能输——
+   本轮 159501/513100 读 MIXED（既不是持续水位，也不被戳吃掉），159577/159263 读 LAG_DOMINATED，
+   港股腿读 MEAN_REVERTING。于是「今天的高溢价是记账口径」只对 1 条腿成立，对另 2 条被证伪。
+③ **位移要跟自身量级比，不能一刀切绝对阈值**：lag spread ≥ 半个自身读数且 ≥1pp 才算被时差吃掉。
+   只有绝对阈值会把 159263（今日 -0.65% vs 跨度 1.40pp）判成「时差主导」以外的荒唐档，
+   也只有相对阈值会让 21.16% 的大读数永远免检。
+④ **有限窗口的 AR(1) 估计带边界偏差**：8 点、真实 phi=0.9 的序列读 0.807，30 点、真实半衰期 1 的
+   序列读 0.995。自检断言写成「落在方法可解释的带内」，写「精确等于」会用假失败掩盖方法本身没问题
+   （本窗四连假红全部来自这里）。
+
+**实锚**：半衰期 28.4 / 10.7 / 1.3 / 4.7 / 0.1 会话；过零率 18.3 / 16.6 / 35.7 / 11.3 / 48.8 每百次；
+share>0 0.801 / 0.795 / 0.494 / 0.903 / 0.538；lag 跨度（今日读数）7.84 / 7.66 / 3.23 / 5.46 / 1.40pp。
+
+正身：scripts/etf_book_premium_persistence.py（selftest 22/22 · check 5 legs）+ results/etf_premium/
+PREMIUM-PERSISTENCE.json + research/ETF_BOOK_PREMIUM_PERSISTENCE.md + Tools/s6_chain_bmc.py 腿
+premium_persistence + smoke_test.py 两条腿 + research/digests/DIGEST-20261110-r1498-premium-persistence.md。

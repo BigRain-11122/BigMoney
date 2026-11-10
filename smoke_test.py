@@ -806,6 +806,15 @@ def main() -> int:
              "scripts/etf_book_premium_percentile.py", ["selftest"]),
             ("product: etf_book_premium_percentile (every answer word re-derives)",
              "scripts/etf_book_premium_percentile.py", ["check"]),
+            # r1498: "why is it high" without the subscription column the previous round
+            # assumed exists. The legs pin that the substituted tests are falsifiable (a
+            # standing level, an oscillation and a stamp artifact each get their own word,
+            # both directions), that a reading that moves with the NAV stamp is refused
+            # rather than reported, and that every published number re-derives.
+            ("product: etf_book_premium_persistence (standing level vs stamp artifact)",
+             "scripts/etf_book_premium_persistence.py", ["selftest"]),
+            ("product: etf_book_premium_persistence (every verdict re-derives)",
+             "scripts/etf_book_premium_persistence.py", ["check"]),
             # r1481 also gave the decision line a third price (what it costs if this sheet
             # is filled tomorrow); the existing decision-line legs at the bottom of this
             # file already run that selftest, and it now carries the UNKNOWN-not-zero leg.
