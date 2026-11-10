@@ -28394,5 +28394,58 @@ except Exception as _e649x:
     _d649 = "study could not be read"
 check(_name649, not _bad649, "; ".join(_bad649)[:240] or _d649)
 
+# E650 prices E643's two scoped contexts: of the 17,720 no-function two-depth sites, 342 sit in a
+# comprehension and 41 in a lambda -- the only members of that residual whose evaluation scope is
+# not the module.  For each of them this study publishes the construct chain, the names the
+# construct binds itself, every subscript at the site with its literal key and leftmost base, and
+# one class per site: no_counted_key / own_scope_only / outer_scope_only / both_scopes /
+# unresolved_base.  A name bound by the construct (a generator target, a lambda parameter) is an
+# own-scope read; a name that must come from outside is an outer-row read that merely happens to
+# sit inside a comprehension.  This leg re-derives every headline from the face's own rows, refuses
+# a scope class its members do not force, refuses an own-scope flag its published names refute,
+# refuses a matched key that is not one of the counted keys, refuses a bucket outside the two
+# scoped kinds, refuses scope-class sums that do not add up to the scoped total, and reconciles the
+# per-context residual with E643's published bucket rows.
+_name650 = ("E650 do the comprehension-and-lambda sites of E643's residual read a counted row key, "
+            "and is the object they subscript bound in a scope of their own (r1671 bm-b)")
+_bad650 = []
+_d650 = "no reading"
+try:
+    _f650 = json.load(open(os.path.join("results", "state_tilt", "comprehensionscope_latest.json"),
+                           encoding="utf-8"))
+    _m650 = importlib.import_module("e650_comprehension_scope")
+    _bad650.extend(_m650.face_problems(_f650))
+    _c650 = _f650.get("counts") or {}
+    _rows650 = _f650.get("rows") or []
+    _live650 = _m650.live_counts(_rows650)
+    for _k650 in _m650.COUNT_KEYS:
+        if _c650.get(_k650) != _live650.get(_k650):
+            _bad650.append("counts.%s is not the row-derived value" % _k650)
+    if sum((_c650.get("scoped_sites_by_context") or {}).values()) != (
+            _c650.get("scoped_sites") or 0):
+        _bad650.append("the per-context counts do not add up to the scoped total")
+    if sum((_c650.get("scoped_sites_by_scope_class") or {}).values()) != (
+            _c650.get("scoped_sites") or 0):
+        _bad650.append("the scope-class histogram does not add up to the scoped total")
+    if [r for r in _rows650 if r.get("bucket") not in _m650.SCOPED_BUCKETS]:
+        _bad650.append("a row carries a bucket outside the two scoped kinds")
+    if [r for r in _rows650 if r.get("scope_class") not in _m650.SCOPE_CLASSES]:
+        _bad650.append("a row carries an unknown scope class")
+    _keys650 = set(_c650.get("counted_keys") or [])
+    if [r for r in _rows650 if set(r.get("matched_keys") or []) - _keys650]:
+        _bad650.append("a row matches a key that is not a counted key")
+    if _m650.decide(_live650) != _f650.get("verdict"):
+        _bad650.append("the published verdict is not the one the rows force")
+    if "delta_vs_source_face_by_context" in _c650:
+        _want650 = 0
+        for _b650, _n650 in (_c650.get("source_face_sites_by_context") or {}).items():
+            _want650 += (_live650.get("scoped_sites_by_context") or {}).get(_b650, 0) - _n650
+        if (_c650.get("delta_vs_source_face") or 0) != _want650:
+            _bad650.append("the delta against E643 is not the per-context difference")
+except Exception as _e650x:
+    _bad650.append(repr(_e650x)[:160])
+    _d650 = "study could not be read"
+check(_name650, not _bad650, "; ".join(_bad650)[:240] or _d650)
+
 if __name__ == "__main__":
     sys.exit(main())

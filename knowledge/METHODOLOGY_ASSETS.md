@@ -15336,3 +15336,34 @@ E643 把两个数**并排**发布：2,641 个双深写点没有所属函数，3,
 **How**：任何「X 级写/读」的判决前，先把决定执行时点的维度（守卫种类 × 深度 × 是否 import 时执行）做成交叉表，并与原发布数对账（delta）；零档要单列发布（本面 `writes_with_a_main_guard_on_the_chain = 0` 是一个测过的零）；区域深度与 AST 深度是不同的量，分别命名。
 
 **证据**：`scripts/e649_guarded_write.py`（selftest 24/24·run/check/verify rc0·problems=[]）· `results/state_tilt/GUARDEDWRITE.json` + `guardedwrite_latest.json` · `scripts/run_e649_smoke_leg.py`（1/1 PASS·`--doctor` 翻红且面字节同 sha 还回）· smoke_test.py leg E649 · S6 leg `guarded_write`（rc=0 0.07s）· `research/digests/DIGEST-20261110-r1670-e649-guarded-write.md`
+
+## E650 — 派生式与 lambda 里的 383 个站点：作用域换了，读的对象没换（r1671 bm-b·2026-11-10）
+
+E643 的残量三桶里，comprehension 342 + lambda 41 是唯一「求值作用域不是模块」的部分，于是很容易被
+当成「另一种读」：推导式自己开一个作用域，lambda 也是闭包，读到的会不会是另一个对象？本卡把这层
+猜测定价掉，量的是三件事：这 383 个站点里有没有下标**计数行键**（E633 计数读行用的键，由 E638/E640
+共享的 join 现场派生）、下标的对象名是构造**自己绑**的名字（生成器目标 / lambda 形参）还是外层名字、
+以及作用域内有没有写。
+
+**读数**：13,112 个 .py，383 个作用域内站点（comprehension 342 / lambda 41，与 E643 逐桶 **delta 0**）；
+命中计数键的 **16** 个（`rows` 11 / `x1` 4 / `bar` 1），其中 own-scope **0** / outer-scope **16** /
+both 0 / unresolved 0；无计数键 367；作用域内写 **0**；成员 base 形态 named 818 / no_leftmost_name 15。
+
+1. **作用域不是对象身份**。16 个命中站点读的全是外层绑定的名字——构造的作用域只改变「这次下标在哪
+   求值」，不改变「读的是哪个对象」。把一个语法上下文当成语义差异来定价，是这一步最贵的错觉。
+2. **两个独立的好列仍然不是联合分布**（承 E649，第二次实证）。三桶各自都对，交叉「桶 × 是否计数键 ×
+   base 绑在哪」之后才知道 367/383 根本不碰计数键；只读「383 个在推导式里」会把它当成一块待解释的
+   读取面。
+3. **「自己绑的名字」必须现场量**。own-scope 集合从 AST 生成器目标（tuple/starred 递归）与 lambda
+   形参（含 `*args`/`**kwargs`/kwonly）现算，fixture 用 `for (a, *b) in x` 与 `lambda a, *b, c=1, **d`
+   钉住——按 `for X in` 正则抓会漏掉解包与星号目标。
+
+**边界**：own-scope 是链上所有构造绑定名的并集（嵌套对不区分内外层）；名字绑在自身作用域**不等于**
+运行期装的是内层对象；经典 `for` 读行属 module body + loop 守卫桶（E649），不在这 383 里、不能相加；
+计算键在本面无字面键因而不命中（E645/E651 各自定价）。
+
+**证据**：`scripts/e650_comprehension_scope.py`（selftest 30/30·run/check/verify rc0·problems=[]）·
+`results/state_tilt/COMPREHENSIONSCOPE.json` + `comprehensionscope_latest.json` ·
+`scripts/run_e650_smoke_leg.py`（1/1 PASS·`--doctor` 翻红且面字节还回 sha `b09b1ef1297d`）·
+smoke_test.py leg E650 · S6 leg `comprehension_scope` ·
+`research/digests/DIGEST-20261110-r1671-e650-comprehension-scope.md`

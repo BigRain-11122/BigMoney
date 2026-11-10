@@ -6336,7 +6336,7 @@
   "verify": "problems=[] verify=identical"
  },
  "round_label": "r1665",
- "round_no": 1670,
+ "round_no": 1671,
  "round_no_label": "r1644",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
  "round_no_ts": "2026-11-10T09:09:47+08:00",
@@ -6918,5 +6918,24 @@
   "verified": "git ls-remote origin refs/heads/machine/bm-b-r1668 == c35a9b1a0a729f35c6189c2d9b9f324244d9cc11",
   "main_push_note": "local main is 33 ahead / 37 behind origin/main on a promisor clone; no unattended rebase (r1243), so the machine branch is the delivery channel",
   "targeted_add": "13 faces staged by pathspec out of a tree dirty with ~3,400 entries (other windows' faces + untracked working set); results/_r1668bmb_s6_chain.json is gitignored and was not forced"
+ },
+ "r1671": {
+  "card": "E650",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/COMPREHENSIONSCOPE.json",
+  "study": "E650_comprehension_and_lambda_scope",
+  "ts": "2026-11-10T18:20:00+08:00",
+  "verdict": "every scoped site that addresses a counted row key subscripts a name bound outside the comprehension or lambda, so the construct's own scope changes only where the subscription is evaluated, not which object is read",
+  "finding": "13,112 files; 383 scoped sites reproduce E643 exactly (comprehension 342 + lambda 41, delta 0 per context); 16 name a counted row key (rows 11 / x1 4 / bar 1) and 16/16 are outer-scope with 0 own-scope / 0 both / 0 unresolved; 367 carry no counted key; 0 scoped writes",
+  "selftest": "30/30"
+ },
+ "r1671_extras": {
+  "smoke_reds_fixed": [
+   "e600 evidence_cutoff took max(index) and published a forward-looking decision date (2026-11-11, the session a book decided FOR) as the evidence cutoff; the cutoff now derives from the newest date carrying a non-forward role and the excluded dates are published (evidence_cutoff_basis), with three selftest legs pinning it",
+   "e596's both-role partition compared three independently sorted lists against one sorted list (a concatenation is not sorted) and silently dropped both-role faces whose two roles are not both dated; the partition is now a multiset compare over three published classes (same date / different dates / not comparable) -- 57 both-role faces, 55 different dates, 2 not comparable",
+   "re-derived the faces whose cutoffs had gone stale behind today's bars: t35_open_fill_verify, e321 quantity census, e403 family_arg, e448 dropped_path, e585 cash_leg_price, e596, e600, e409 unfloored, futures_tsmom_signal, futures_overlay_fliprate, e435, e436, e584, e587, e588"
+  ],
+  "data_increments": "zt_pool +40,875 rows (2026-11-09 cutoffs), heat snapshot 100 rows, futures +9 rows, repo +10 rows, paper books marked through 2026-11-09",
+  "pool": "E650 done, E654 seeded (ready = E652 / E653 / E654)"
  }
 }

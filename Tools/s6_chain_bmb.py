@@ -1586,6 +1586,17 @@ LEGS = [
     # face's own rows and reconciles the residual with E643 (delta 0).
     ("guarded_write", ["python", "scripts/e649_guarded_write.py", "verify"]),
 
+    # E650 prices E643's two scoped contexts: the 342 comprehension and 41 lambda sites are the
+    # only members of the 17,720-site residual whose evaluation scope is not the module.  Per site
+    # the construct chain, the names the construct binds itself, every subscript with its literal
+    # key and leftmost base, and one class -- no_counted_key / own_scope_only / outer_scope_only /
+    # both_scopes / unresolved_base -- are published, so a per-item read (the base is a generator
+    # target or a lambda parameter) is not folded together with an outer-row read that merely sits
+    # inside a comprehension.  Verify re-derives every count, both histograms, each row's scope
+    # class and own-scope flags from the face's own rows and reconciles the per-context residual
+    # with E643's published bucket rows.
+    ("comprehension_scope", ["python", "scripts/e650_comprehension_scope.py", "verify"]),
+
     # E385 answers the question E383 left open for a republish decision: would splitting the keys
     # that name two or more files move a published NUMBER?  Four headlines are re-derived under two
     # keyings from the same population -- E350 faces_named (862 names carry 1002 documents, 19 names

@@ -1,18 +1,18 @@
 {
- "schema": "ceo_live_usage_v1_8",
+ "schema": "ceo_live_usage_v1_6",
  "ticket": "T-202609-28-105",
- "day": "2026-11-09",
- "generated": "2026-11-09T23:32:09",
+ "day": "2026-11-10",
+ "generated": "2026-11-10T18:04:12",
  "market": {
   "state": "RED",
-  "asof": "2026-11-06",
+  "asof": "2026-11-09",
   "mode": "shadow",
-  "days_in_state": 3,
+  "days_in_state": 7,
   "triggers": [
    "hs300<MA200 (#10 collected)"
   ],
-  "bench_close": 4.124,
-  "bench_ma200": 4.6766,
+  "bench_close": 4.13,
+  "bench_ma200": 4.6729,
   "clock_cell": "RED_COOL",
   "clock_asof": "2026-11-06",
   "heat": "COOL",
@@ -45,81 +45,6 @@
    "verdict": "not_supported（诚实判负）",
    "basis": "T-106 s3 事件窗复盘=零格（点事件公告面外网不可达→冻结条款转段级；段级 return_cells=0·N_eff=0·账本 +0）——无『跟国家队』可交易边缘证据 → 不开锦标赛 v4+ 臂，一页纸只挂宇宙面标注（s4 spec 证据门控 IF-not 路径）",
    "universe_face_only": true
-  }
- },
- "risk_tape": {
-  "source": "scripts/daily_report._zt_risk_face (same implementation as daily report §九)",
-  "panels": {
-   "zt": {
-    "label": "涨停池",
-    "status": "ok",
-    "count": 39,
-    "prev_count": 72,
-    "prev_cutoff": "2026-10-28",
-    "delta": -33
-   },
-   "zbgc": {
-    "label": "炸板池",
-    "status": "ok",
-    "count": 25,
-    "prev_count": 69,
-    "prev_cutoff": "2026-10-28",
-    "delta": -44
-   },
-   "dtgc": {
-    "label": "跌停池",
-    "status": "ok",
-    "count": 41,
-    "prev_count": 5,
-    "prev_cutoff": "2026-10-28",
-    "delta": 36
-   },
-   "strong": {
-    "label": "强势池",
-    "status": "ok",
-    "count": 119,
-    "prev_count": 133,
-    "prev_cutoff": "2026-10-28",
-    "delta": -14
-   }
-  },
-  "status": "ok",
-  "cutoff": "2026-10-29",
-  "cutoffs": [
-   "2026-10-29"
-  ],
-  "aligned": true,
-  "seal_rate": 0.6094,
-  "ladder": {
-   "1": 29,
-   "2": 6,
-   "3": 2,
-   "4": 2
-  },
-  "top_streak": {
-   "streak": 4,
-   "n": 2,
-   "names": [
-    "青岛食品",
-    "光洋股份"
-   ]
-  },
-  "down_over_up": 1.051,
-  "kill_day": true,
-  "freshness": {
-   "status": "stale",
-   "expected_last_bar_day": "2026-11-09",
-   "behind_days": 7,
-   "behind": [
-    "2026-11-03",
-    "2026-11-04",
-    "2026-11-05",
-    "2026-11-06",
-    "2026-11-09"
-   ],
-   "lane_owner": "bm-c",
-   "read_on": "bm-a",
-   "note": "读到的是 2026-10-29 的副本：最后采集日 2026-10-29，比应有最新 bar 日 2026-11-09 落后 7 个交易日（车道宿主 bm-c）"
   }
  },
  "ladder": {
@@ -159,107 +84,51 @@
   {
    "trader": "COMPOSITE-CE-01",
    "b_maxdiv_weight": 0.036874,
-   "equity_cny": 986067.0,
-   "cash_cny": 229074.0,
+   "equity_cny": 984886.0,
+   "cash_cny": 803793.0,
    "positions": [
-    {
-     "symbol": "511010",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 191034.0,
-     "hold_days": 26,
-     "unrealized_pnl_cny": 1035.0
-    },
-    {
-     "symbol": "511090",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 192947.0,
-     "hold_days": 26,
-     "unrealized_pnl_cny": 2946.0
-    },
-    {
-     "symbol": "511260",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 191824.0,
-     "hold_days": 26,
-     "unrealized_pnl_cny": 1823.0
-    },
     {
      "symbol": "513100",
      "category": "跨境ETF",
-     "market_value_cny": 89485.0,
-     "hold_days": 8,
-     "unrealized_pnl_cny": -5515.0
+     "market_value_cny": 88821.0,
+     "hold_days": 9,
+     "unrealized_pnl_cny": -6179.0
     },
     {
      "symbol": "513500",
      "category": "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）",
-     "market_value_cny": 91705.0,
-     "hold_days": 16,
-     "unrealized_pnl_cny": -3295.0
+     "market_value_cny": 92272.0,
+     "hold_days": 17,
+     "unrealized_pnl_cny": -2728.0
     }
    ]
   },
   {
    "trader": "COMPOSITE-CE-02",
    "b_maxdiv_weight": 0.016659,
-   "equity_cny": 974419.0,
-   "cash_cny": 328791.0,
+   "equity_cny": 974570.0,
+   "cash_cny": 803307.0,
    "positions": [
     {
      "symbol": "159980",
      "category": "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）",
-     "market_value_cny": 56762.0,
-     "hold_days": 8,
-     "unrealized_pnl_cny": -2588.0
-    },
-    {
-     "symbol": "511010",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 119346.0,
-     "hold_days": 26,
-     "unrealized_pnl_cny": 646.0
-    },
-    {
-     "symbol": "511090",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 120541.0,
-     "hold_days": 26,
-     "unrealized_pnl_cny": 1841.0
-    },
-    {
-     "symbol": "511260",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 119839.0,
-     "hold_days": 26,
-     "unrealized_pnl_cny": 1139.0
-    },
-    {
-     "symbol": "512800",
-     "category": "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）",
-     "market_value_cny": 62410.0,
-     "hold_days": 26,
-     "unrealized_pnl_cny": 3060.0
+     "market_value_cny": 57235.0,
+     "hold_days": 9,
+     "unrealized_pnl_cny": -2115.0
     },
     {
      "symbol": "513100",
      "category": "跨境ETF",
-     "market_value_cny": 57126.0,
-     "hold_days": 2,
-     "unrealized_pnl_cny": -2224.0
+     "market_value_cny": 56703.0,
+     "hold_days": 3,
+     "unrealized_pnl_cny": -2647.0
     },
     {
      "symbol": "513500",
      "category": "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）",
-     "market_value_cny": 56972.0,
-     "hold_days": 8,
-     "unrealized_pnl_cny": -2378.0
-    },
-    {
-     "symbol": "513520",
-     "category": "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）",
-     "market_value_cny": 52631.0,
-     "hold_days": 16,
-     "unrealized_pnl_cny": -6719.0
+     "market_value_cny": 57325.0,
+     "hold_days": 9,
+     "unrealized_pnl_cny": -2025.0
     }
    ]
   },
@@ -273,22 +142,22 @@
   {
    "trader": "ENGULF-CE-01",
    "b_maxdiv_weight": 0.064882,
-   "equity_cny": 989279.0,
+   "equity_cny": 989225.0,
    "cash_cny": 926061.0,
    "positions": [
     {
      "symbol": "512480",
      "category": "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）",
      "market_value_cny": 13325.0,
-     "hold_days": 4,
+     "hold_days": 5,
      "unrealized_pnl_cny": 825.0
     },
     {
      "symbol": "515000",
      "category": "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）",
-     "market_value_cny": 49892.0,
-     "hold_days": 5,
-     "unrealized_pnl_cny": -108.0
+     "market_value_cny": 49838.0,
+     "hold_days": 6,
+     "unrealized_pnl_cny": -162.0
     }
    ]
   },
@@ -302,87 +171,31 @@
   {
    "trader": "VOLATILITY-CE-01",
    "b_maxdiv_weight": 0.056253,
-   "equity_cny": 993865.0,
-   "cash_cny": 592886.0,
+   "equity_cny": 993814.0,
+   "cash_cny": 895371.0,
    "positions": [
     {
      "symbol": "159980",
      "category": "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）",
-     "market_value_cny": 47820.0,
-     "hold_days": 8,
-     "unrealized_pnl_cny": -2180.0
+     "market_value_cny": 48218.0,
+     "hold_days": 9,
+     "unrealized_pnl_cny": -1782.0
     },
     {
      "symbol": "510050",
      "category": "宽基·第一层（汇金高度控盘·O-1555）",
-     "market_value_cny": 50104.0,
-     "hold_days": 8,
-     "unrealized_pnl_cny": 104.0
-    },
-    {
-     "symbol": "511010",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 100545.0,
-     "hold_days": 26,
-     "unrealized_pnl_cny": 544.0
-    },
-    {
-     "symbol": "511090",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 101550.0,
-     "hold_days": 26,
-     "unrealized_pnl_cny": 1551.0
-    },
-    {
-     "symbol": "511260",
-     "category": "债券ETF（非宽基研究宇宙）",
-     "market_value_cny": 100960.0,
-     "hold_days": 26,
-     "unrealized_pnl_cny": 960.0
+     "market_value_cny": 50224.0,
+     "hold_days": 9,
+     "unrealized_pnl_cny": 224.0
     }
    ]
   }
  ],
- "cap_vs_book": {
-  "status": "ok",
-  "source": "results/regime_cap_vs_book.json",
-  "sentence": "Market state RED caps new risk at 20% of equity. The cap sources disagree (paper_engine) -- read the gap as unresolved. 3 of 6 ladder-governed accounts sit above it; the widest is COMPOSITE-CE-01 at 76.8% (56.8pp over, 3.84x the cap). Those positions predate the state flip, so the cap gates new entries rather than forcing a sale.",
-  "cap": 0.2,
-  "cap_verdict": "CAP_SOURCES_DISAGREE",
-  "book_verdict": "ABOVE_CAP",
-  "n_compared": 6,
-  "n_above": 3,
-  "widest_above": {
-   "name": "COMPOSITE-CE-01",
-   "deployed_weight": 0.7677,
-   "gap_pp": 56.77,
-   "multiple_of_cap": 3.84
-  },
-  "state": "RED",
-  "priced_on": "2026-11-06",
-  "stale": false
- },
- "rollup": {
-  "n_traders": 6,
-  "initial_cny": 6000000.0,
-  "equity_cny": 5938080.59,
-  "cash_cny": 4071262.29,
-  "positions_cny": 1866818.3,
-  "pnl_cny": -61919.41,
-  "return_pct": -1.032,
-  "day_prior": "2026-11-06",
-  "day_prior_equity_cny": 5938080.59,
-  "day_pnl_cny": 0.0,
-  "day_pct": 0.0,
-  "face_total_equity_cny": 5938080.59,
-  "face_agrees": true,
-  "source": "results/paper_export/latest.json"
- },
  "intraday": {
   "feed": "T-104 minute_feed (rolling 1m archive, bm-b lane)",
-  "today": "2026-11-09",
-  "asof": null,
-  "n_held_with_feed": 3,
+  "today": "2026-11-10",
+  "asof": "2026-11-10 15:00:00",
+  "n_held_with_feed": 2,
   "n_live": 0,
   "rows": [
    {
@@ -392,39 +205,15 @@
    },
    {
     "symbol": "510050",
-    "status": "PREV_SESSION",
-    "latest_bar": null,
-    "latest_close": 2.902,
-    "prev_session_close": 2.902,
-    "day_change_pct": null,
-    "note": "上一场收盘档（今日 09:15 起随源点亮）"
-   },
-   {
-    "symbol": "511010",
-    "status": "PREV_SESSION",
-    "latest_bar": null,
-    "latest_close": 140.684,
-    "prev_session_close": 140.684,
-    "day_change_pct": null,
-    "note": "上一场收盘档（今日 09:15 起随源点亮）"
-   },
-   {
-    "symbol": "511090",
-    "status": "NO_FEED",
-    "note": "T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘"
-   },
-   {
-    "symbol": "511260",
-    "status": "NO_FEED",
-    "note": "T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘"
+    "status": "LAGGED",
+    "latest_bar": "2026-11-10 15:00:00",
+    "latest_close": 2.891,
+    "prev_session_close": 2.909,
+    "day_change_pct": -0.62,
+    "age_min": 184.2
    },
    {
     "symbol": "512480",
-    "status": "NO_FEED",
-    "note": "T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘"
-   },
-   {
-    "symbol": "512800",
     "status": "NO_FEED",
     "note": "T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘"
    },
@@ -439,11 +228,6 @@
    },
    {
     "symbol": "513500",
-    "status": "NO_FEED",
-    "note": "T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘"
-   },
-   {
-    "symbol": "513520",
     "status": "NO_FEED",
     "note": "T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘"
    },
@@ -507,7 +291,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 48363.1
+    "last_append_age_min": 35095.4
    },
    {
     "family": "FUND-VALUE-P1",
@@ -515,7 +299,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 49213.5
+    "last_append_age_min": 35095.4
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -523,49 +307,9 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 46010.5
+    "last_append_age_min": 35095.4
    }
   ]
- },
- "etf_book": {
-  "present": true,
-  "path": "results/etf_book_forward/LEDGER.json",
-  "status": "live",
-  "first_bar": "2026-10-23",
-  "last_bar": "2026-11-06",
-  "n_bars": 11,
-  "book_nav": 1.000521,
-  "book_ret_pct": 0.052,
-  "bench_nav": 0.989724,
-  "bench_ret_pct": -1.028,
-  "excess_bp": 108.0,
-  "book_max_dd_pct": -1.467,
-  "bench_max_dd_pct": -2.343,
-  "n_refills": 0,
-  "rebal": 20,
-  "n_hold": 12,
-  "vol_target_pct": 8.0,
-  "cost_bp_per_side": 10.0,
-  "published_bars": 11,
-  "noise_band_pp": {
-   "1m": 4.746,
-   "3m": 8.22,
-   "1y": 16.576,
-   "3y": 28.71
-  },
-  "min_detectable_edge_pp": {
-   "6m": 33.512,
-   "1y": 23.696,
-   "2y": 16.756,
-   "3y": 13.681
-  },
-  "years_for_80pct_power": 17.2,
-  "provisional_bars": [
-   "2026-11-06"
-  ],
-  "drift_gate": "settled_bars_only",
-  "panel_last_bar": "2026-11-06",
-  "cash_leg_note": "cash leg earns 0 in the ledger (disclosed, not modelled away)"
  },
  "chain_versions": [
   {
