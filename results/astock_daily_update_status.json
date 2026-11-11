@@ -1,21 +1,25 @@
 {
-  "ts": "2026-11-12T00:37:52",
-  "mode": "refresh in progress (todo=5222/5226, quarantined=5, settled=0)",
+  "ts": "2026-11-12T03:54:12",
+  "mode": "refresh in progress (lock alive)",
   "panel": {
     "complete": false,
-    "cutoff": "2026-11-10",
+    "cutoff": "2026-11-11",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 99.8,
+    "coverage_pct": 38.8,
     "coverage_90": "2026-11-10",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
+        "2026-11-11",
+        2028
+      ],
+      [
         "2026-11-10",
-        5212
+        3185
       ],
       [
         "2026-11-09",
-        5
+        4
       ],
       [
         "2026-10-30",
@@ -28,14 +32,12 @@
       [
         "2026-10-26",
         1
-      ],
-      [
-        "2026-10-12",
-        1
       ]
     ],
     "universe_n": 5226,
-    "per_files": 5223
+    "per_files": 5223,
+    "cycle_cutoff": "2026-11-10",
+    "cycle_cutoff_is": "the cutoff the last completed refresh cycle built its todo against -- always <= cutoff (cutoff is the disk max tail)"
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
   "probe_ref": "results/_r280bmb_probe_akshare_daily.json",
@@ -81,10 +83,10 @@
   "takeover": {
     "owner": "bm-b",
     "by": "bm-c",
-    "reason": "owner bm-b silent 299.9h >= 120min",
-    "ts": "2026-11-12T00:36:55"
+    "reason": "owner bm-b silent 303.2h >= 120min",
+    "ts": "2026-11-12T03:54:12"
   },
-  "spawn_reason": "panel incomplete at cutoff 2026-11-10 (coverage 99.8%, expected 2026-11-11) -> continuation refresh, not a first pull",
+  "spawn_reason": "refresh in progress: panel incomplete at cutoff 2026-11-11 (coverage 38.8%, 90% date 2026-11-10)",
   "spawn_mode": "continuation",
   "authority": {
     "lane_owner": "bm-b",
@@ -92,7 +94,7 @@
     "data_face_machine": "bm-c",
     "declared_takeover": true,
     "took_over_by": "bm-c",
-    "took_over_at": "2026-11-12T00:36:55",
-    "reason": "owner bm-b silent 299.9h >= 120min"
+    "took_over_at": "2026-11-12T03:54:12",
+    "reason": "owner bm-b silent 303.2h >= 120min"
   }
 }

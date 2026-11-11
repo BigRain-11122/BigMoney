@@ -9,6 +9,8 @@ Config: 12 names of a 1517-instrument bond-free pool, rebalance every 20 bars, 1
 | 2020-2023 -- as coded | 3.8% | 0.44 | -11.8% | 10.0% | 8% (1.25x) |
 | 2024 onwards -- as coded | 18.4% | 1.74 | -10.7% | 10.5% | 8% (1.31x) |
 
+**This card is the research basket, not today's ticket.** It ranks 12 names under the vol rule; the ticket priced on the 2026-11-11 bar buys **5 of the same names** under the beta rule at k=0.4322 (-1.25pp/yr apart on the same panel). Size from the ticket and read this card as the rule behind it -- results/etf_book_order/latest.json.
+
 Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row 2 is the same rule with the score held one bar back -- the fill this card declares. Size off row 2.
 
 **Execution basis: the as-coded row is the arm this book cannot actually trade.** It ranks on bar d's close and is paid bar d's *open* -- a price set before the information it ranks on. The fill the card itself declares (*decide at close t, fill at open t+1*) earns **8.58%/yr, Sharpe 0.89, max drawdown -16.6%**, i.e. 1.08pp/yr below the printed cell; size positions off the declared arm and read the printed one as an upper bound the desk cannot reach.
@@ -22,32 +24,32 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 
 **Panel digest:** `847538eb2befb766` (5278 bars x 1626 symbols, 2005-02-23->2026-11-11, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-11-11 / ticket 2026-11-11 / page 2026-11-11 (compared at 2026-11-12 02:12:26); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: SAME_DAY** -- card 2026-11-11 / ticket 2026-11-11 / page 2026-11-11 (compared at 2026-11-12 04:05:02); this card, the executable sheet and the CEO page all priced the same closing bar.
 
 **Family coherence: MIXED_WORLDS** -- 11 faces priced 2 different panels (58302d9c, a1a42aee): per-cell deltas across worlds are world differences, not rule effects.
 5 of 10 arms priced the card's own panel and keep their labels (buffer_k02, buffer_k05, buffer_k10, buffer_k20, buffer_k40); the 5 withheld one(s) still price another panel (buffer_k05_cost20, cost0, cost05, cost20, cost40), so their verdicts are not part of this reading.
 
-**Today (2026-11-11 bar): REBALANCE: this bar's close is a decision point -- place at next open** (last grid decision 2026-10-14).
+**Today (2026-11-11 bar): REBALANCE: this bar's close is a decision point -- place at next open** (last grid decision 2026-11-11).
 
-Realised 60d book vol 11.4% -> risk scale 0.70, cash slot 29.9%.
+Realised 60d book vol 8.8% -> risk scale 0.91, cash slot 9.1%.
 
 | code | name | sleeve | weight | target (CNY) | executable (CNY) | 100-share lots |
 |---|---|---|---|---|---|---|
-| 159501 | 纳指ETF嘉实 | equity | 5.8% | 58,398 | 58,383 | 27500 |
-| 513100 | 纳指ETF国泰 | equity | 5.8% | 58,398 | 58,281 | 26100 |
-| 513690 | 港股红利ETF博时 | equity | 5.8% | 58,398 | 58,328 | 50500 |
-| 159577 | 美国50ETF汇添富 | equity | 5.8% | 58,398 | 58,370 | 34600 |
-| 159263 | 价值ETF易方达 | equity | 5.8% | 58,398 | 58,379 | 51800 |
-| 513630 | 港股低波红利ETF摩根 | equity | 5.8% | 58,398 | 58,391 | 36200 |
-| 513300 | 纳斯达克ETF华夏 | equity | 5.8% | 58,398 | 58,222 | 21500 |
-| 513850 | 美国50ETF易方达 | equity | 5.8% | 58,398 | 58,246 | 30900 |
-| 159207 | 高股息ETF广发 | equity | 5.8% | 58,398 | 58,391 | 48700 |
-| 159307 | 红利低波100ETF博时 | equity | 5.8% | 58,398 | 58,324 | 55600 |
-| 513870 | 纳指ETF富国 | equity | 5.8% | 58,398 | 58,240 | 28000 |
-| 159632 | 纳斯达克ETF华安 | equity | 5.8% | 58,398 | 58,302 | 23700 |
-| cash | - | money | 29.9% | 299,225 | 300,143 | - |
+| 510760 | 上证指数ETF国泰 | equity | 7.6% | 75,782 | 75,697 | 59000 |
+| 512040 | 价值ETF富国 | equity | 7.6% | 75,782 | 75,714 | 63200 |
+| 159655 | 标普500ETF华夏 | equity | 7.6% | 75,782 | 75,638 | 37800 |
+| 513690 | 港股红利ETF博时 | equity | 7.6% | 75,782 | 75,768 | 65600 |
+| 159519 | 港股国企ETF国泰 | equity | 7.6% | 75,782 | 75,766 | 43000 |
+| 513650 | 标普500ETF南方 | equity | 7.6% | 75,782 | 75,696 | 38000 |
+| 510210 | 上证指数ETF富国 | equity | 7.6% | 75,782 | 75,732 | 79300 |
+| 562060 | 标普A股红利ETF华宝 | equity | 7.6% | 75,782 | 75,768 | 123000 |
+| 513630 | 港股低波红利ETF摩根 | equity | 7.6% | 75,782 | 75,650 | 46900 |
+| 159207 | 高股息ETF广发 | equity | 7.6% | 75,782 | 75,777 | 63200 |
+| 511180 | 可转债ETF海富通 | convertible | 7.6% | 75,782 | 74,611 | 6300 |
+| 513500 | 标普500ETF博时 | equity | 7.6% | 75,782 | 75,601 | 28400 |
+| cash | - | money | 9.1% | 90,616 | 92,582 | - |
 
-**Which column is money.** A weight times capital is the sizing INTENT; only whole 100-share lots can be placed. So the executable column can only spend 699,857 of the 700,776 target book, and the desk keeps 919 (0.09% NAV) in cash that the risk scale never asked for -- that residue is the price of lot granularity, not a position. Place the executable column. Until r1342 this card printed the target column as if it were the order, which is why the ticket disagreed with it by 0.13% NAV (E201); the two faces now reconcile to the yuan.
+**Which column is money.** A weight times capital is the sizing INTENT; only whole 100-share lots can be placed. So the executable column can only spend 907,418 of the 909,384 target book, and the desk keeps 1,966 (0.20% NAV) in cash that the risk scale never asked for -- that residue is the price of lot granularity, not a position. Place the executable column. Until r1342 this card printed the target column as if it were the order, which is why the ticket disagreed with it by 0.13% NAV (E201); the two faces now reconcile to the yuan.
 
 ## Whose CAGR is this?
 

@@ -2553,16 +2553,34 @@ def main() -> int:
               False, str(e))
         check("product: every candidate edge states the file it was read from", False, str(e))
     try:
+        from scripts import etf_book_card_track as _CT78
         _ct = json.load(open("results/etf_book_card_track.json", encoding="utf-8"))
         _ag = _ct.get("agreement") or {}
+        _dr = _ct.get("drift") or {}
+        # r1567: ask the script's own gate instead of restating it here -- the leg used to
+        # demand `nav_identity_ok is True`, which the drift block cannot carry on a decision
+        # bar (the ledger holds a pending book and no fill bar exists yet), so the suite went
+        # red on every 20th bar with "navdev=None" and no defect behind it.
+        _ct_code, _ct_word = _CT78.gate_exit(_ag, _dr, _ct.get("card_ticket"))
         check("product: the paper book owns the book the card sells",
-              _ct.get("schema") == "etf-book-card-track/v1"
-              and _ag.get("same_decision_bar") is True and _ag.get("agrees") is True
-              and (_ct.get("drift") or {}).get("nav_identity_ok") is True,
-              "agrees=%s decision_bar=%s wt_maxdiff=%s navdev=%s" % (
+              _ct.get("schema") == "etf-book-card-track/v1" and _ct_code == 0,
+              "agrees=%s decision_bar=%s wt_maxdiff=%s navdev=%s gate=%s(rc%d) drift=%s" % (
                   _ag.get("agrees"), _ag.get("ledger_decided_bar"),
                   _ag.get("max_weight_diff"),
-                  (_ct.get("drift") or {}).get("nav_identity_max_dev")))
+                  _dr.get("nav_identity_max_dev"), _ct_word, _ct_code,
+                  _dr.get("reason") or "-"))
+        # r1567: the sheet issued FROM the card is the only document that actually trades, so
+        # two percentages of the same book on the same morning is a money defect, not a
+        # cosmetic one: on 2026-11-12 the card said 0.9094 / 9.1% cash while that sheet still
+        # said 0.7008 / 30.0% (20.9pp of a 1M book idle). The leg asks the producer's own
+        # comparison rather than re-reading the JSON here (E289).
+        _sh = _ct.get("card_ticket") or {}
+        check("product: the sheet issued from the card is that card's own book",
+              _sh.get("present") is not True or _sh.get("agrees") is True,
+              "present=%s bars=%s/%s scale=%s/%s diff=%s names=%s/%s" % (
+                  _sh.get("present"), _sh.get("ticket_priced_bar"),
+                  _sh.get("card_decided_bar"), _sh.get("scale_ticket"), _sh.get("scale_card"),
+                  _sh.get("scale_diff"), _sh.get("ticket_names"), _sh.get("card_names")))
     except Exception as e:
         check("product: the paper book owns the book the card sells", False, str(e))
     try:
@@ -3649,6 +3667,49 @@ def main() -> int:
         # they already own, at 8bp a side. Assert the page names the world the
         # reader is in, and that the mode follows its own two date faces (a page
         # saying "hold" on a rebalance bar, or "trade" with no position, fails).
+        # r1567: the card's first line names the bar the sheet is PRICED on, while the legs
+        # come off their own decision bar -- on every off-grid session those differ, so a
+        # reader sizing from the title would think a two-week-old book was decided today.
+        _prod_sheet = {}
+        try:
+            with open(os.path.join("results", "etf_book_production", "latest.json"),
+                      encoding="utf-8") as _pf:
+                _prod_sheet = (json.load(_pf).get("sheet") or {})
+        except Exception:
+            _prod_sheet = {}
+        _ct_title = (_card_txt.splitlines() or [""])[0]
+        _ct_dec = str(_prod_sheet.get("book_decided_at") or "")
+        check("product: the card's title names the bar its legs come from",
+              bool(_ct_dec) and _ct_dec in _ct_title,
+              "title=%r decided=%s" % (_ct_title[:96], _ct_dec))
+        # r1567: the card is a research basket; the ticket is another book (different width,
+        # different rule, different capital fraction). Both numbers belong on the page a reader
+        # opens -- or the page says it cannot read the ticket. Never silently one of them.
+        _lb_line = [ln for ln in _card_txt.splitlines()
+                    if ln.startswith("**This card is the research basket")
+                    or ln.startswith("**Live ticket: not readable")][:1]
+        # r1567b: the ticket's width is not on the POINTER face -- results/etf_book_order/
+        # latest.json carries only `as_of`/`file`/`k_now`, so a reader that stops there gets
+        # None and prints "the card says nothing about its width" above a card that says it
+        # (first suite run after r1567: ticket_n=None card_n=None). The producer already
+        # resolves the dated ticket; ask it instead of keeping a second reader here (E289).
+        _tk_nh, _ct_nh = None, None
+        try:
+            from scripts import etf_book_production as _EP78
+            _lbface = _EP78.live_book_face(card_bar=_ct_dec or None)
+            if _lbface.get("available"):
+                _tk_nh = _lbface.get("ticket_names")
+                _ct_nh = _lbface.get("card_names")
+        except Exception:
+            _tk_nh = None
+        _lb_text = _lb_line[0] if _lb_line else ""
+        check("product: the card says which book its own width is not",
+              bool(_lb_text) and (
+                  "not readable" in _lb_text
+                  or (_tk_nh is not None and _ct_nh is not None
+                      and ("**%d of the same names**" % int(_tk_nh)) in _lb_text
+                      and ("ranks %d names" % int(_ct_nh)) in _lb_text)),
+              "line=%r ticket_n=%s card_n=%s" % (_lb_text[:110], _tk_nh, _ct_nh))
         # r1532: the freshness line above the swap block used to speak only about the bar
         # the TICKET was priced on, so ten faces could each sit on an older day while the
         # page read `current`. The page now names them, judged live. Assert the page

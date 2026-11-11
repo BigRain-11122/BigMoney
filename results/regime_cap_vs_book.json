@@ -4,8 +4,8 @@
   "cell": "RED_COOL",
   "asof": "2026-11-06",
   "regime_state": "RED",
-  "regime_asof": "2026-11-10",
-  "days_in_state": 5
+  "regime_asof": "2026-11-11",
+  "days_in_state": 6
  },
  "ladder_cap": 0.2,
  "cap_sources": {
@@ -28,59 +28,59 @@
  },
  "accounts": [
   {
-   "name": "COMPOSITE-CE-02",
-   "kind": "ladder",
-   "deployed_weight": 0.7862,
-   "deployed_cny": 768664.3,
-   "equity_cny": 977696.12,
-   "status": "above_cap",
-   "gap_pp": 58.62,
-   "headroom_pp": -58.62,
-   "multiple_of_cap": 3.93
-  },
-  {
    "name": "COMPOSITE-CE-01",
    "kind": "ladder",
-   "deployed_weight": 0.6691,
-   "deployed_cny": 661342.41,
-   "equity_cny": 988347.09,
+   "deployed_weight": 0.8616,
+   "deployed_cny": 851660.64,
+   "equity_cny": 988417.56,
    "status": "above_cap",
-   "gap_pp": 46.91,
-   "headroom_pp": -46.91,
-   "multiple_of_cap": 3.35
+   "gap_pp": 66.16,
+   "headroom_pp": -66.16,
+   "multiple_of_cap": 4.31
   },
   {
-   "name": "VOLATILITY-CE-01",
+   "name": "COMPOSITE-CE-02",
    "kind": "ladder",
-   "deployed_weight": 0.4006,
-   "deployed_cny": 397668.94,
-   "equity_cny": 992649.22,
+   "deployed_weight": 0.7864,
+   "deployed_cny": 769526.06,
+   "equity_cny": 978557.88,
    "status": "above_cap",
-   "gap_pp": 20.06,
-   "headroom_pp": -20.06,
-   "multiple_of_cap": 2.0
+   "gap_pp": 58.64,
+   "headroom_pp": -58.64,
+   "multiple_of_cap": 3.93
   },
   {
    "name": "ETF-BOOK (beta x vol target, own rule)",
    "kind": "own_rule",
-   "deployed_weight": 0.3931,
-   "deployed_cny": 392535.9,
+   "deployed_weight": 0.4322,
+   "deployed_cny": 431696.8,
    "equity_cny": 1000000.0,
    "status": "own_rule",
-   "gap_pp": 19.31,
-   "headroom_pp": -19.31,
-   "multiple_of_cap": 1.97
+   "gap_pp": 23.22,
+   "headroom_pp": -23.22,
+   "multiple_of_cap": 2.16
+  },
+  {
+   "name": "VOLATILITY-CE-01",
+   "kind": "ladder",
+   "deployed_weight": 0.4003,
+   "deployed_cny": 397083.31,
+   "equity_cny": 992063.59,
+   "status": "above_cap",
+   "gap_pp": 20.03,
+   "headroom_pp": -20.03,
+   "multiple_of_cap": 2.0
   },
   {
    "name": "ENGULF-CE-01",
    "kind": "ladder",
-   "deployed_weight": 0.0647,
-   "deployed_cny": 64036.62,
-   "equity_cny": 990097.95,
+   "deployed_weight": 0.0668,
+   "deployed_cny": 66337.09,
+   "equity_cny": 992398.42,
    "status": "inside_cap",
-   "gap_pp": -13.53,
-   "headroom_pp": 13.53,
-   "multiple_of_cap": 0.32
+   "gap_pp": -13.32,
+   "headroom_pp": 13.32,
+   "multiple_of_cap": 0.33
   },
   {
    "name": "DROUGHT-CE-01",
@@ -111,7 +111,7 @@
   "n_compared": 6,
   "n_above": 3
  },
- "sentence": "Market state RED caps new risk at 20% of equity. The cap sources disagree (paper_engine) -- read the gap as unresolved. 3 of 6 ladder-governed accounts sit above it; the widest is COMPOSITE-CE-02 at 78.6% (58.6pp over, 3.93x the cap). Those positions predate the state flip, so the cap gates new entries rather than forcing a sale.",
+ "sentence": "Market state RED caps new risk at 20% of equity. The cap sources disagree (paper_engine) -- read the gap as unresolved. 3 of 6 ladder-governed accounts sit above it; the widest is COMPOSITE-CE-01 at 86.2% (66.2pp over, 4.31x the cap). Those positions predate the state flip, so the cap gates new entries rather than forcing a sale.",
  "engine_caps_seen": {
   "COMPOSITE-CE-01_paper.json": 0.8,
   "COMPOSITE-CE-02_paper.json": 0.8,

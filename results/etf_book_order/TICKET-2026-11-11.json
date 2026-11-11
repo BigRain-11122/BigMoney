@@ -312,10 +312,10 @@
  },
  "book_decided_at": "2026-11-11",
  "card_agreement": {
-  "card_decided_at": "2026-10-14",
+  "card_decided_at": "2026-11-11",
   "ticket_book_decided_at": "2026-11-11",
-  "same_decision_bar": false,
-  "ticket_is_prefix_of_card": false,
+  "same_decision_bar": true,
+  "ticket_is_prefix_of_card": true,
   "card_names": 12,
   "card_priced_bar": "2026-11-11",
   "ticket_priced_bar": "2026-11-11",
@@ -514,7 +514,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-12 01:37:39",
+   "at": "2026-11-12 02:56:20",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1426,7 +1426,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-12T01:37:39",
+  "generated": "2026-11-12T02:56:20",
   "evidence_cutoff": "2026-11-11",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1434,7 +1434,7 @@
    "rebal": 20,
    "grid_source": "import",
    "as_of": "2026-11-11",
-   "anchor_bar": "2026-10-14",
+   "anchor_bar": "2026-11-11",
    "anchor_source": "results/etf_book_production/latest.json#sheet.last_decision_bar",
    "anchor_on_calendar": true,
    "phase": 0,
@@ -1457,7 +1457,7 @@
     "note": "2026-11-11 起第 0 根（面自己写的 bars_until_next_decision）",
     "sheet": {
      "as_of_bar": "2026-11-11",
-     "last_decision_bar": "2026-10-14",
+     "last_decision_bar": "2026-11-11",
      "bars_until_next_decision": 0,
      "is_grid_decision_bar": true
     },
@@ -1516,7 +1516,7 @@
    "last": "2026-11-11"
   },
   "verdict": "DISAGREE",
-  "sentence": "下一根决策 bar = 2026-12-09（锚点 2026-10-14 起每 20 根，距 2026-11-11 20 根）。票面不同意：production_sheet 写的是 2026-11-11（+0 根）；cut_permission 写的是 2026-11-11（+0 根）。",
+  "sentence": "下一根决策 bar = 2026-12-09（锚点 2026-11-11 起每 20 根，距 2026-11-11 20 根）。票面不同意：production_sheet 写的是 2026-11-11（+0 根）；cut_permission 写的是 2026-11-11（+0 根）。",
   "caveats": [
    "网格只回答「下一次重排是哪一天」，它对此外的事（触发面、过路费、折扣兑现）一无所知，也不替它们作证。",
    "相位取自已发布的 last_decision_bar（别人已经落账的事实），不是本面自选；官方日历原点的同相位只是交叉核对，两者不一致时以锚点为准并披露。",
@@ -1571,7 +1571,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-12T01:37:39",
+  "generated": "2026-11-12T02:56:20",
   "evidence_cutoff": "2026-11-11",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -1706,15 +1706,15 @@
    "vol": 0.0887
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1199,
-    "card_width_cagr": 0.1241,
-    "pp": 0.42
-   },
    "beta": {
     "ticket_width_cagr": 0.1116,
     "card_width_cagr": 0.0971,
     "pp": -1.45
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1199,
+    "card_width_cagr": 0.1241,
+    "pp": 0.42
    }
   },
   "rules_differ": true,

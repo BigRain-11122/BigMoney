@@ -6422,6 +6422,16 @@ def run():
     print("LIVE-BOOK written: %s (order %d names, book %.0f, cash %.0f, next rebalance %s)"
           % (_rel(md_path, ROOT), len(page["order"]), page["book_amount_cny"],
              page["cash_amount_cny"], page["next_rebalance_date"]))
+    # r1567: `live_book_section_bars` is a measurement OF this page, so whoever rewrites the
+    # page owns it. The chain checks that face before it refreshes it, so a page published
+    # here after the chain's own pass used to leave one guaranteed false red behind (2026-11-12
+    # 02:57 page vs 22:22 face: the smoke leg read "the published section bars do not
+    # re-derive" with nothing wrong). Refresh it in the same breath; a failure is printed,
+    # never swallowed, and does not take the page down with it.
+    try:
+        _section_bars_module().run()
+    except Exception as e:                          # pragma: no cover - reported, not hidden
+        print("section-bars face NOT refreshed: %r" % (e,))
     return 0
 
 

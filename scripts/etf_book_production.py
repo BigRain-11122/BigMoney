@@ -257,6 +257,49 @@ def priced_faces(page_bar=None, results_dir=None, card_bar=None, ticket_bar=None
             "missing": missing, "same_day": verdict == "SAME_DAY"}
 
 
+def live_book_face(card_bar=None, results_dir=None):
+    """What today's TICKET actually buys, printed beside what this card says to hold (r1567).
+
+    This card is a research basket: `n_hold` names ranked under the vol rule, sized to the vol
+    target (k ~0.91 on 2026-11-11). The executable ticket is a different book on purpose -- it
+    is capped by the permission floor and ranked under the beta rule (5 names, k ~0.43). Both
+    facts are published on the ticket, but a reader who only opens the card would size roughly
+    twice the desk's exposure and buy seven names the ticket never bought. The card cannot know
+    the ticket's numbers without reading them, so it reads them; unreadable is printed as
+    unreadable, never as agreement (r1185 rule, applied to width instead of to the day).
+    """
+    d = E.PATHS.results_dir if results_dir is None else results_dir
+    doc = None
+    try:
+        with open(os.path.join(d, "etf_book_order", "latest.json"), "r", encoding="utf-8") as fh:
+            ptr = json.load(fh) or {}
+        doc = ptr
+        if not ptr.get("width_disclosure") and ptr.get("as_of"):
+            with open(os.path.join(d, "etf_book_order", "TICKET-%s.json" % ptr["as_of"]),
+                      "r", encoding="utf-8") as fh:
+                doc = json.load(fh) or {}
+    except (OSError, ValueError):
+        return {"available": False, "reason": "no readable ticket for this bar"}
+    wd = (doc or {}).get("width_disclosure") or {}
+    ca = (doc or {}).get("card_agreement") or {}
+    if wd.get("ticket_names") is None or wd.get("card_names") is None:
+        return {"available": False, "reason": "ticket carries no width disclosure"}
+    return {
+        "available": True,
+        "ticket_bar": ca.get("ticket_priced_bar") or (doc or {}).get("as_of"),
+        "ticket_names": int(wd["ticket_names"]),
+        "card_names": int(wd["card_names"]),
+        "ticket_rule": wd.get("ticket_rule"),
+        "card_rule": wd.get("card_rule"),
+        "ticket_k": (doc or {}).get("k_now"),
+        "ticket_is_prefix_of_card": ca.get("ticket_is_prefix_of_card"),
+        "same_priced_bar": ca.get("same_priced_bar"),
+        "gap_pp": ((wd.get("delta_ticket_minus_card") or {}).get("cagr_pp")),
+        "source": "results/etf_book_order/latest.json",
+        "card_bar": card_bar,
+    }
+
+
 def ticket_days(ticket):
     """The days one ticket actually carries, each with the key that answered (r1541).
 
@@ -1071,18 +1114,36 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
     elig = (amt >= E.MIN_AMT) & (hist >= E.MIN_HIST)
     masked = score.where(elig)
     last = masked.index[-1]
+    op_dates = [d for d in openp.index if d >= pd.Timestamp(R.START)]
+    grid = grid_position(op_dates, last, rebal)
     diag = []
     R.open_to_open_equity(close, openp, amt, score, rebal, n_hold, COST,
                           vol_target=TARGET_VOL, diag=diag)
     if not diag:
         raise RuntimeError("panel too short for one decision on the grid")
-    drow = diag[-1]
-    dec_bar = pd.Timestamp(drow["date"])
-    picks = list(drow["book"])
-    scale = float(drow["scale"])
-    s = masked.loc[dec_bar].dropna()          # the scores that actually picked
-    book = {p: 1.0 / len(picks) for p in picks}
-    realised_vol = scale_for(book, openp, dec_bar)[1]
+    # r1567: the decision flag and the book must come off the SAME grid. The engine cannot
+    # close a step on the panel's last bar -- open_to_open_equity iterates
+    # `range(len(dates) - 1)` because a book decided at bar d is paid from bar d+1's open --
+    # so `diag` always stops one grid step short. On a panel whose length lands exactly on
+    # the grid (2026-11-11 = 2026-10-14 + 20 bars) the card then printed "this bar's close
+    # is a decision point -- place at next open" above a book decided 20 bars earlier, while
+    # the forward ledger (which does decide on the last grid bar) held the new one: two
+    # faces, two books, 20.9pp of exposure apart (card_track L9c, rounds 1566c/1566d).
+    s_today = masked.loc[last].dropna() if last in masked.index else None
+    if grid["is_decision_bar"] and s_today is not None and len(s_today) >= n_hold:
+        dec_bar = last
+        s = s_today
+        picks = list(s.nlargest(n_hold).index)
+        book = {p: 1.0 / len(picks) for p in picks}
+        scale, realised_vol = scale_for(book, openp, dec_bar)
+    else:
+        drow = diag[-1]
+        dec_bar = pd.Timestamp(drow["date"])
+        picks = list(drow["book"])
+        scale = float(drow["scale"])
+        s = masked.loc[dec_bar].dropna()      # the scores that actually picked
+        book = {p: 1.0 / len(picks) for p in picks}
+        realised_vol = scale_for(book, openp, dec_bar)[1]
     weights = {p: w * scale for p, w in book.items()}
     cash = 1.0 - sum(weights.values())
 
@@ -1116,9 +1177,6 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
     target_book = sum(float(l["amount_cny"]) for l in legs)
     spent = sum(float(l["actual_amount_cny"]) for l in legs
                 if l["actual_amount_cny"] is not None)
-
-    op_dates = [d for d in openp.index if d >= pd.Timestamp(R.START)]
-    grid = grid_position(op_dates, last, rebal)
 
     sheet = {
         "as_of_bar": str(last.date()),
@@ -1172,6 +1230,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         "price_basis": basis,
         "family_coherence": family_coherence(),
         "priced_faces": priced_faces(card_bar=sheet.get("as_of_bar")),
+        "live_book": live_book_face(card_bar=sheet.get("as_of_bar")),
         "script": "scripts/etf_book_production.py",
         "config": {"universe_classes": list(USE_CLASSES), "n_hold": n_hold, "rebal": rebal,
                    "cost_bp_per_side": COST * 1e4, "vol_target": TARGET_VOL,
@@ -1634,11 +1693,29 @@ def research_exhaustion_paragraphs(rx):
     return out
 
 
+def card_title_bar(sheet):
+    """The one phrase saying whose book this page asks a reader to hold.
+
+    r1567: the title printed only `as_of_bar`, the bar the sheet is PRICED on. On any session
+    that is not a grid decision bar the two differ, so the page said "(2026-11-11 bar)" above
+    the book the 10-14 decision picked -- the holdings fix moved the legs onto their own
+    decision bar, but its first line still named a bar those legs did not come from. Where the
+    two coincide there is nothing to disambiguate; where they do not, the title names both and
+    says which is which (`etf_book_card_track` compares the ledger against `book_decided_at`,
+    so that is the one a reader needs).
+    """
+    as_of = str(sheet.get("as_of_bar"))
+    decided = str(sheet.get("book_decided_at") or as_of)
+    if decided == as_of:
+        return "%s bar" % as_of
+    return "holdings decided %s, priced %s" % (decided, as_of)
+
+
 def write_card(out):
     s, cfg, bt = out["sheet"], out["config"], out["backtest"]
     b = bt.get("n%d_vt08" % cfg["n_hold"], {})
     lines = [
-        "# ETF book -- production candidate, order sheet (%s bar)" % s["as_of_bar"],
+        "# ETF book -- production candidate, order sheet (%s)" % card_title_bar(s),
         "",
         "Config: %d names of a %d-instrument bond-free pool, rebalance every %d bars, "
         "%g bp/side, %.0f%% vol target (de-lever only)."
@@ -1648,6 +1725,32 @@ def write_card(out):
         "| window | CAGR | Sharpe | max drawdown | realised vol | target |",
         "|---|---|---|---|---|---|",
     ]
+    lb = out.get("live_book") or {}
+    _lb_lines = []
+    if lb.get("available"):
+        _k = lb.get("ticket_k")
+        _gap = lb.get("gap_pp")
+        _lb_lines = [
+            "",
+            ("**This card is the research basket, not today's ticket.** It ranks %d names "
+             "under the %s rule; the ticket priced on the %s bar buys **%d of the same names** "
+             "under the %s rule at k=%s (%.2fpp/yr apart on the same panel%s). Size from the "
+             "ticket and read this card as the rule behind it -- %s."
+             % (lb["card_names"], lb.get("card_rule") or "vol", lb.get("ticket_bar"),
+                lb["ticket_names"], lb.get("ticket_rule") or "beta",
+                ("%.4f" % float(_k)) if _k is not None else "unreadable",
+                float(_gap) if _gap is not None else float("nan"),
+                "" if lb.get("same_priced_bar") else
+                ", and the two are NOT on the same priced bar",
+                lb.get("source"))),
+        ]
+    else:
+        _lb_lines = [
+            "",
+            ("**Live ticket: not readable for this bar** (%s) -- the width and the capital "
+             "fraction below are the research rule only, not a position size."
+             % (lb.get("reason") or "unknown reason")),
+        ]
     dv = out.get("vol_delivery") or {}
     # r1225: the first row of this table is the number a reader sizes a position from, and it
     # used to be the as-coded arm with nothing saying so (the caveat lived in the paragraph
@@ -1674,6 +1777,7 @@ def write_card(out):
                              _labels[lbl], dm["cagr"] * 100, dm.get("sharpe") or 0.0,
                              (dm.get("maxdd") or 0.0) * 100, (dm.get("vol") or 0.0) * 100,
                              cfg["vol_target"] * 100, ratio))
+    lines += _lb_lines
     lines += [""]
     if _decl.get("full") and (_decl["full"].get("cagr") is not None):
         lines += ["Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); "
@@ -2139,6 +2243,41 @@ def selftest():
         chk("run() produces a placeable sheet",
             len(o["sheet"]["legs"]) == 3 and o["sheet"]["as_of_bar"] == str(idx[-1].date()),
             "legs=%d as_of=%s" % (len(o["sheet"]["legs"]), o["sheet"]["as_of_bar"]))
+        # r1567: the title is the first thing a reader sees, and it used to name the PRICED bar
+        # while the legs came off an older decision bar on every off-grid session.
+        chk("card title names the holdings' own decision bar",
+            card_title_bar({"as_of_bar": "2026-11-11", "book_decided_at": "2026-11-11"})
+            == "2026-11-11 bar"
+            and card_title_bar({"as_of_bar": "2026-11-12", "book_decided_at": "2026-11-11"})
+            == "holdings decided 2026-11-11, priced 2026-11-12"
+            and card_title_bar({"as_of_bar": "2026-11-12"}) == "2026-11-12 bar"
+            and card.splitlines()[0].endswith(
+                "(%s)" % card_title_bar(o["sheet"])),
+            "title=%r" % (card.splitlines()[0] if card else ""))
+        # r1567: the card is a research basket; the ticket is another book. Both numbers must
+        # reach the reader, and an unreadable ticket must say so instead of vanishing.
+        _lbd = tempfile.mkdtemp(prefix="etf_book_live_")
+        os.makedirs(os.path.join(_lbd, "etf_book_order"), exist_ok=True)
+        with open(os.path.join(_lbd, "etf_book_order", "latest.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"as_of": "2026-11-11", "k_now": 0.432195,
+                       "width_disclosure": {"ticket_names": 5, "card_names": 12,
+                                            "ticket_rule": "beta", "card_rule": "vol",
+                                            "delta_ticket_minus_card": {"cagr_pp": -1.25}},
+                       "card_agreement": {"ticket_priced_bar": "2026-11-11",
+                                          "same_priced_bar": True}}, fh)
+        _lb_ok = live_book_face("2026-11-11", results_dir=_lbd)
+        _lb_none = live_book_face("2026-11-11", results_dir=os.path.join(_lbd, "absent"))
+        chk("the card reads the ticket's width instead of assuming it matches",
+            _lb_ok.get("available") is True and _lb_ok["ticket_names"] == 5
+            and _lb_ok["card_names"] == 12 and _lb_ok.get("ticket_k") == 0.432195
+            and _lb_ok.get("gap_pp") == -1.25
+            and _lb_none.get("available") is False and bool(_lb_none.get("reason")),
+            "ok=%r none=%r" % (_lb_ok.get("available"), _lb_none.get("reason")))
+        chk("the card prints the ticket's width, or says it cannot read it",
+            ("under the beta rule at k=0.4322" in card)
+            or ("Live ticket: not readable for this bar" in card),
+            "live_book=%r" % ((o.get("live_book") or {}).get("available"),))
         chk("card states delivered vol against the label",
             "Vol label vs delivered risk" in card and "target 8%" in card)
         # r1225: the first ROW of the table is what a reader sizes from, and it used to print
@@ -2229,6 +2368,35 @@ def selftest():
             set(l["symbol"] for l in o["sheet"]["legs"]) == held
             and o["sheet"]["book_decided_at"] == sdiag[-1]["date"],
             "sheet=%s diag=%s" % (o["sheet"]["book_decided_at"], sdiag[-1]["date"]))
+        # 7b. r1567: when the panel's LAST bar lands on the grid, the card must publish the
+        #     book THAT bar decides. The engine's diag can never hold it -- open_to_open
+        #     iterates range(len-1) because a book decided at d is paid from d+1's open -- so
+        #     before this the sheet said "this bar's close is a decision point -- place at
+        #     next open" above the previous grid's book, while the forward ledger held the
+        #     new one (two faces, 20.9pp of exposure apart; card_track L9c).
+        idx2 = pd.bdate_range("2021-01-04", periods=401)
+        syn2 = pd.DataFrame(
+            100 * np.exp(np.cumsum(np.random.default_rng(7).normal(0, 0.01, (len(idx2), 9)),
+                                   axis=0)),
+            index=idx2, columns=syn.columns)
+        s_open2 = syn2.shift(1).bfill()
+        s_amt2 = pd.DataFrame(1e8, index=idx2, columns=syn2.columns)
+        s_score2 = syn2.pct_change(20).fillna(0.0)
+        d2 = []
+        R.open_to_open_equity(syn2, s_open2, s_amt2, s_score2, 20, 3, COST,
+                              vol_target=TARGET_VOL, diag=d2)
+        globals()["prep_panel"] = lambda: (syn2, s_open2, s_amt2, s_score2, s_cls, 0)
+        o2 = run(capital=1_000_000.0, n_hold=3, rebal=20)
+        _today2 = str(idx2[-1].date())
+        _want2 = set(s_score2.iloc[-1].nlargest(3).index)
+        chk("on a panel that ends on the grid the card publishes TODAY's decision",
+            o2["sheet"]["is_grid_decision_bar"] is True
+            and o2["sheet"]["book_decided_at"] == _today2
+            and set(l["symbol"] for l in o2["sheet"]["legs"]) == _want2
+            and d2[-1]["date"] != _today2,
+            "sheet=%s diag=%s grid=%s"
+            % (o2["sheet"]["book_decided_at"], d2[-1]["date"],
+               o2["sheet"]["is_grid_decision_bar"]))
         # activity: on this fixture the off-grid ranking really does differ, so the leg
         # above cannot pass on the old behaviour (a broken test that never traded).
         today = set(s_score.iloc[-1].nlargest(3).index)

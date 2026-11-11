@@ -1,13 +1,13 @@
 {
  "schema": "etf-book-card-track/v1",
- "ts": "2026-11-12T02:30:56",
+ "ts": "2026-11-12T04:50:43",
  "evidence_cutoff": "2026-11-11",
  "card_path": "etf_book_production\\latest.json",
  "ledger_path": "etf_book_forward\\LEDGER.json",
  "agreement": {
-  "card_decided_bar": "2026-10-14",
+  "card_decided_bar": "2026-11-11",
   "ledger_decided_bar": "2026-11-11",
-  "same_decision_bar": false,
+  "same_decision_bar": true,
   "card_names": 12,
   "ledger_names": {
    "n": 12,
@@ -26,39 +26,36 @@
     "513500"
    ]
   },
-  "same_name_set": false,
-  "same_name_order": false,
-  "missing_on_card": [
-   "159519",
-   "159655",
-   "510210",
-   "510760",
-   "511180",
-   "512040",
-   "513500",
-   "513650",
-   "562060"
-  ],
-  "missing_on_ledger": [
-   "159263",
-   "159307",
-   "159501",
-   "159577",
-   "159632",
-   "513100",
-   "513300",
-   "513850",
-   "513870"
-  ],
-  "max_weight_diff": 0.017382,
-  "weight_agrees": false,
-  "scale_card": 0.7008,
+  "same_name_set": true,
+  "same_name_order": true,
+  "missing_on_card": [],
+  "missing_on_ledger": [],
+  "max_weight_diff": 1.8e-05,
+  "weight_agrees": true,
+  "scale_card": 0.9094,
   "scale_ledger": 0.909384,
-  "scale_diff": 0.208584,
-  "cash_card": 0.2992,
+  "scale_diff": 1.6e-05,
+  "cash_card": 0.0906,
   "cash_ledger": 0.090616,
-  "cash_diff": 0.208584,
-  "agrees": false
+  "cash_diff": 1.6e-05,
+  "agrees": true
+ },
+ "card_ticket": {
+  "present": true,
+  "ticket_path": "etf_book_order\\TICKET-2026-11-11-card.json",
+  "card_decided_bar": "2026-11-11",
+  "ticket_priced_bar": "2026-11-11",
+  "same_decision_bar": true,
+  "card_names": 12,
+  "ticket_names": 12,
+  "same_name_set": true,
+  "same_name_order": true,
+  "missing_on_ticket": [],
+  "missing_on_card": [],
+  "scale_card": 0.9094,
+  "scale_ticket": 0.9094,
+  "scale_diff": 0.0,
+  "agrees": true
  },
  "drift": {
   "available": false,
@@ -66,6 +63,7 @@
  },
  "caveats": [
   "Agreement is a snapshot of two records of one frozen decision; it does not make either record correct, and it will not catch a both-faces-wrong defect.",
+  "The card-config sheet is checked against the card because it is issued FROM it. It agreeing proves the derived face was republished, not that the card is right.",
   "The drift cost is the price of restoring frozen weights today; the engine only pays it on a grid decision bar, so it is an upper bound on what drift costs.",
   "A 3-bar ledger cannot resolve a return edge -- see the significance block in results/etf_book_forward/LEDGER.json. This face measures book-keeping, not skill."
  ]

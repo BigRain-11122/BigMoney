@@ -1,7 +1,7 @@
 {
   "face": "etf_book_execution_admission_gap",
   "question": "is the book being executed today the book the supply calendar refuses, and is the thing actually running the thing that was judged?",
-  "verdict": "EXECUTES_REFUSED_BOOK",
+  "verdict": "UNMATCHED_IDENTITY",
   "missing_receipts": [],
   "identity": [
     {
@@ -24,12 +24,12 @@
     },
     {
       "condition": "I4_ticket_is_card_prefix",
-      "ticket_or_card_side": true,
-      "judged_side": true,
-      "holds": true
+      "ticket_or_card_side": false,
+      "judged_side": false,
+      "holds": false
     }
   ],
-  "identity_proved": true,
+  "identity_proved": false,
   "candidate": "nobond_vt08_adopted",
   "calendar_state": "CONDITIONAL",
   "calendar_sentence": "years_for_half median 2 vs line 3 (FAIL)",
@@ -38,12 +38,12 @@
   ],
   "money": {
     "nav_cny": 1000000.0,
-    "book_weight": 0.393073,
-    "book_amount_cny": 392535.9,
-    "cash_amount_cny": 607464.1,
+    "book_weight": 0.432195,
+    "book_amount_cny": 431696.8,
+    "cash_amount_cny": 568303.2,
     "cash_leg": "GC001 (1-day repo, observed close)",
     "beta_target": 0.2,
-    "k_now": 0.393073,
+    "k_now": 0.432195,
     "names_in_ticket": 5
   },
   "wrapper": {
@@ -52,21 +52,21 @@
     "gated": false,
     "note": "the judged object is the book before the execution wrapper"
   },
-  "next_action": "two legal sentences on one desk: the ticket executes nobond_vt08_adopted at book_weight 0.393 while the supply calendar says CONDITIONAL (years_for_half median 2 vs line 3 (FAIL)). Put the execution wrapper (beta 0.20 + cash leg) through the same year gate before the next rebalance -- today the judged object is the un-overlaid book.",
-  "ticket_file": "results/etf_book_order/TICKET-2026-11-10.json",
-  "evidence_cutoff": "2026-11-10",
+  "next_action": "prove identity or declare the pair explicitly; an unproved match is not a finding",
+  "ticket_file": "results/etf_book_order/TICKET-2026-11-11.json",
+  "evidence_cutoff": "2026-11-11",
   "match_note": "",
   "judged_n_hold": 5,
   "judged_vol_target": 0.08,
   "judged_receipt": "results/etf_book_phase_gate.json",
-  "asof_bar": "2026-11-10",
+  "asof_bar": "2026-11-11",
   "sources": {
     "order_latest": {
       "path": "results/etf_book_order/latest.json",
       "error": ""
     },
     "ticket": {
-      "path": "results/etf_book_order/TICKET-2026-11-10.json",
+      "path": "results/etf_book_order/TICKET-2026-11-11.json",
       "error": ""
     },
     "card": {

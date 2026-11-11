@@ -33,6 +33,7 @@ someone thinks to look.
 import json
 import os
 import sys
+import glob
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"))
@@ -47,6 +48,7 @@ from config import PATHS
 SCHEMA = "etf-book-card-track/v1"
 CARD = os.path.join(PATHS.results_dir, "etf_book_production", "latest.json")
 OUT = os.path.join(PATHS.results_dir, "etf_book_card_track.json")
+TICKET_CARD_GLOB = os.path.join(PATHS.results_dir, "etf_book_order", "TICKET-*-card.json")
 
 W_TOL = 2e-3          # weights are published to 4 decimals on the card
 SCALE_TOL = 2e-3
@@ -108,6 +110,61 @@ def agree(card, led, w_tol=W_TOL, scale_tol=SCALE_TOL):
 
 def y_n(names):
     return {"n": len(names), "symbols": names}
+
+
+def card_ticket(card, ticket):
+    """The card-config sheet is issued FROM the card, so a reader holding both holds one book.
+
+    r1567: that sheet has its own producer on the chain, but nothing else reproduces it -- so
+    whenever the card is repriced by anything other than the chain, the sheet keeps quoting the
+    scale the card used to carry. On 2026-11-12 the card said 0.9094 / 9.1% cash and the sheet
+    an operator would hand to a broker still said 0.7008 / 30.0%: 20.9pp of a 1M book parked in
+    cash for no reason, on the one document that actually trades. Comparing the two is the
+    cheapest way to notice, and the comparison reads the sheet's own numbers -- a timestamp says
+    when a file was written, not which rule it applied.
+    """
+    sheet = (card or {}).get("sheet") or {}
+    legs = sheet.get("legs") or []
+    card_names = [str(l.get("symbol")) for l in legs]
+    tk = ticket or {}
+    t_names = [str(r.get("symbol")) for r in (tk.get("order") or [])]
+    bar_card = sheet.get("book_decided_at")
+    bar_t = tk.get("asof_bar")
+    scale_card = sheet.get("risk_scale")
+    scale_t = tk.get("scale")
+    present = bool(tk)
+    return {
+        "present": present,
+        "ticket_path": None if not present else tk.get("_path"),
+        "card_decided_bar": bar_card,
+        "ticket_priced_bar": bar_t,
+        "same_decision_bar": (bar_card == bar_t) if present else None,
+        "card_names": len(card_names),
+        "ticket_names": len(t_names),
+        "same_name_set": (set(card_names) == set(t_names)) if present else None,
+        "same_name_order": (card_names == t_names) if present else None,
+        "missing_on_ticket": sorted(set(card_names) - set(t_names)) if present else None,
+        "missing_on_card": sorted(set(t_names) - set(card_names)) if present else None,
+        "scale_card": scale_card,
+        "scale_ticket": scale_t,
+        "scale_diff": (None if scale_card is None or scale_t is None
+                       else round(abs(float(scale_card) - float(scale_t)), 8)),
+        "agrees": bool(
+            present
+            and bar_card == bar_t
+            and set(card_names) == set(t_names)
+            and scale_card is not None and scale_t is not None
+            and abs(float(scale_card) - float(scale_t)) <= SCALE_TOL
+        ),
+    }
+
+
+def newest_card_ticket():
+    """The most recently written card-config sheet (path only; the numbers come from its body)."""
+    cands = [p for p in glob.glob(TICKET_CARD_GLOB) if os.path.isfile(p)]
+    if not cands:
+        return None
+    return max(cands, key=os.path.getmtime)
 
 
 def _rec_nav(bar, bars):
@@ -311,12 +368,17 @@ def drift(led, close, openp, cost_per_side=None):
     }
 
 
-def build(card=None, led=None, close=None, openp=None):
+def build(card=None, led=None, close=None, openp=None, ticket=None):
     card = load_json(CARD) if card is None else card
     led = json.load(open(F.LEDGER, encoding="utf-8")) if led is None else led
     if close is None or openp is None:
         close, openp, _amt, _feats, _score, _cls, _flip = F.build_inputs()
         close = close.ffill()
+    if ticket is None:
+        tp = newest_card_ticket()
+        ticket = load_json(tp) if tp else {}
+        if isinstance(ticket, dict) and tp:
+            ticket["_path"] = os.path.relpath(tp, os.path.dirname(os.path.dirname(tp)))
     out = {
         "schema": SCHEMA,
         "ts": pd.Timestamp.now().strftime("%Y-%m-%dT%H:%M:%S%z"),
@@ -324,10 +386,13 @@ def build(card=None, led=None, close=None, openp=None):
         "card_path": os.path.relpath(CARD, os.path.dirname(os.path.dirname(CARD))),
         "ledger_path": os.path.relpath(F.LEDGER, os.path.dirname(os.path.dirname(F.LEDGER))),
         "agreement": agree(card, led),
+        "card_ticket": card_ticket(card, ticket),
         "drift": drift(led, close, openp),
         "caveats": [
             ("Agreement is a snapshot of two records of one frozen decision; it does not "
              "make either record correct, and it will not catch a both-faces-wrong defect."),
+            ("The card-config sheet is checked against the card because it is issued FROM it. "
+             "It agreeing proves the derived face was republished, not that the card is right."),
             ("The drift cost is the price of restoring frozen weights today; the engine only "
              "pays it on a grid decision bar, so it is an upper bound on what drift costs."),
             ("A 3-bar ledger cannot resolve a return edge -- see the significance block in "
@@ -335,6 +400,33 @@ def build(card=None, led=None, close=None, openp=None):
         ],
     }
     return out
+
+
+# r1567: one exit code cannot mean both "the two records disagree" and "there is nothing to
+# measure today". On a grid decision bar the ledger holds a pending book and the panel has no
+# fill bar yet, so the drift half is structurally unavailable -- that used to return 1, the
+# same code a real disagreement returns, and the smoke leg read it as a broken book (red on
+# every 20th bar, decided 2026-11-11). The gate now says which of the three states it is.
+NO_FILL_BAR = "no bar after the decision to fill on"
+
+
+def gate_exit(a, d, t=None):
+    """(code, word) for the card-track gate: 0 = holds, 1 = broken, 3 = nothing measured.
+
+    `a`, `d` and `t` are the published `agreement`, `drift` and `card_ticket` blocks, so the
+    gate and the printed face can never disagree about what was measured.
+    """
+    if a.get("same_decision_bar") is not True or a.get("agrees") is not True:
+        return 1, "DISAGREE"
+    if t is not None and t.get("present") and t.get("agrees") is not True:
+        return 1, "CARD_TICKET_STALE"
+    if d.get("available"):
+        if d.get("nav_identity_ok") is False:
+            return 1, "NAV_IDENTITY_BROKEN"
+        return 0, "AGREE"
+    if d.get("reason") == NO_FILL_BAR:
+        return 0, "AGREE_ON_A_DECISION_BAR"
+    return 3, "NOT_MEASURED"
 
 
 def main():
@@ -348,12 +440,27 @@ def main():
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
     a, d = out["agreement"], out["drift"]
+    t = out["card_ticket"]
     print("CARD-TRACK %s card=%s ledger=%s agreement=%s | weights maxdiff=%s scale=%.4f/%.4f cash=%.4f/%.4f"
           % (out["evidence_cutoff"], a["card_names"], a["ledger_names"]["n"],
              "AGREE" if a["agrees"] else "MISMATCH",
              a["max_weight_diff"], a["scale_card"] or float("nan"),
              a["scale_ledger"] or float("nan"), a["cash_card"] or float("nan"),
              a["cash_ledger"] or float("nan")), flush=True)
+    if not t.get("present"):
+        print("CARD-SHEET: not issued (%s has no TICKET-*-card.json)" % out["card_ticket"]["ticket_path"],
+              flush=True)
+    else:
+        print("CARD-SHEET %s vs card %s: %s | scale %s/%s (diff %s) names %d/%d %s"
+              % (t["ticket_priced_bar"], t["card_decided_bar"],
+                 "AGREE" if t["agrees"] else "STALE",
+                 "n/a" if t["scale_ticket"] is None else "%.4f" % t["scale_ticket"],
+                 "n/a" if t["scale_card"] is None else "%.4f" % t["scale_card"],
+                 "n/a" if t["scale_diff"] is None else "%.4f" % t["scale_diff"],
+                 t["ticket_names"], t["card_names"],
+                 "same names" if t["same_name_set"] else
+                 "missing_on_ticket=%s missing_on_card=%s"
+                 % (t["missing_on_ticket"], t["missing_on_card"])), flush=True)
     if d.get("available"):
         print("DRIFT since %s: max |dw| %.3fpp (%s %+.3fpp) -> re-target costs %.2fbp of nav "
               "(turn %.4f one way); %d bars to the next decision; nav identity maxdev %.2e "
@@ -365,7 +472,9 @@ def main():
     else:
         print("DRIFT unavailable: %s" % d.get("reason"), flush=True)
     print("wrote %s" % os.path.relpath(OUT), flush=True)
-    return 0 if a["agrees"] and d.get("available") and d.get("nav_identity_ok") is not False else 1
+    code, word = gate_exit(a, d, t)
+    print("GATE rc=%d %s" % (code, word), flush=True)
+    return code
 
 
 def selftest():
@@ -482,6 +591,60 @@ def selftest():
             and a_live["card_names"] > 0, str(a_live)[:200])
         chk("L9c live gate: card and ledger describe the same decision",
             a_live["agrees"] is True, json.dumps(a_live, ensure_ascii=False)[:400])
+
+    # L10: the gate's exit code says which of three states it is (r1567).
+    chk("L10 a disagreement is an exit 1",
+        gate_exit({"same_decision_bar": True, "agrees": False},
+                  {"available": True, "nav_identity_ok": True})[0] == 1)
+    chk("L10b a broken nav identity is an exit 1",
+        gate_exit({"same_decision_bar": True, "agrees": True},
+                  {"available": True, "nav_identity_ok": False}) == (1, "NAV_IDENTITY_BROKEN"))
+    chk("L10c a decision bar is not a disagreement",
+        gate_exit({"same_decision_bar": True, "agrees": True},
+                  {"available": False, "reason": NO_FILL_BAR}) == (0, "AGREE_ON_A_DECISION_BAR"))
+    chk("L10d any other unmeasurable drift is an exit 3, not agreement",
+        gate_exit({"same_decision_bar": True, "agrees": True},
+                  {"available": False, "reason": "names missing from panel"})[0] == 3)
+    chk("L10e a different decision bar is an exit 1 even when weights match",
+        gate_exit({"same_decision_bar": False, "agrees": True},
+                  {"available": True, "nav_identity_ok": True})[0] == 1)
+
+    # L11: the card-config sheet is a DERIVED face -- it must be republished when the card
+    # moves, and a stale sheet is the one error an operator would act on with real money.
+    c, l = fixture(names=("A", "B"), scale=0.9, bar="2026-11-11")
+    tk = {"asof_bar": "2026-11-11", "scale": 0.9,
+          "order": [{"symbol": "A"}, {"symbol": "B"}]}
+    t = card_ticket(c, tk)
+    chk("L11 a sheet issued on the card's own bar holds", t["agrees"] is True, str(t))
+    tk_stale = json.loads(json.dumps(tk))
+    tk_stale["scale"] = 0.70
+    t2 = card_ticket(c, tk_stale)
+    chk("L11b a sheet carrying the card's old scale fails", t2["agrees"] is False
+        and abs(t2["scale_diff"] - 0.2) < 1e-9, str(t2)[:300])
+    tk_day = json.loads(json.dumps(tk))
+    tk_day["asof_bar"] = "2026-10-14"
+    chk("L11c a sheet priced on another bar fails", card_ticket(c, tk_day)["agrees"] is False)
+    tk_name = json.loads(json.dumps(tk))
+    tk_name["order"] = [{"symbol": "A"}, {"symbol": "C"}]
+    t4 = card_ticket(c, tk_name)
+    chk("L11d a sheet holding a different book fails", t4["agrees"] is False
+        and t4["missing_on_ticket"] == ["B"] and t4["missing_on_card"] == ["C"], str(t4)[:300])
+    t5 = card_ticket(c, {})
+    chk("L11e no sheet is 'not issued', never agreement", t5["present"] is False
+        and t5["agrees"] is False, str(t5)[:200])
+    healthy_d = {"available": True, "nav_identity_ok": True}
+    healthy_a = {"same_decision_bar": True, "agrees": True}
+    chk("L11f a stale sheet makes the gate red beside a healthy card/ledger",
+        gate_exit(healthy_a, healthy_d, t2) == (1, "CARD_TICKET_STALE"))
+    chk("L11g a matching sheet leaves the gate at agreement",
+        gate_exit(healthy_a, healthy_d, t)[0] == 0)
+    chk("L11h an unissued sheet does not fabricate a red",
+        gate_exit(healthy_a, healthy_d, t5)[0] == 0)
+    if card and led_live:
+        t_live = card_ticket(card, load_json(newest_card_ticket()) if newest_card_ticket() else {})
+        chk("L11i live: the published card sheet, if any, was republished with the card",
+            t_live["present"] is False or t_live["agrees"] is True,
+            json.dumps(t_live, ensure_ascii=False)[:400])
 
     print("SELFTEST %d/%d legs" % (n_ok, total))
     for f in fails:
