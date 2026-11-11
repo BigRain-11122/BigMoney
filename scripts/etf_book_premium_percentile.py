@@ -58,6 +58,13 @@ TAIL = 0.90            # upper tail: at or above the 90th percentile of its own 
 PRICE_TOL = 0.005      # panel close vs published spot board price
 PREM_TOL_PP = 0.01     # published premium vs recomputed price/iopv
 CNY_TOL = 0.02
+# The board publishes premium_pct to 4 decimals of a percent, so a reader who
+# re-derives the CNY figure from that published number can only be accurate to
+# half of the last digit times the amount. Scaling the tolerance by the amount
+# is not a looser judgement -- it is the same 0.02 floor plus the producer's own
+# quantisation, which is ~0.039 CNY on a 78.5k order and was refusing correct
+# boards.
+PREM_HALF_STEP_P = 5e-7
 
 
 def sina_sym(code):
@@ -283,6 +290,7 @@ def gate(ticket, face, prices_by_code):
     fails = []
     notes = []
     cny_forms = {}
+    cny_tols = {}
     if not face:
         return {"ok": False, "fails": ["no premium face"]}
     session = str(face.get("session"))[:10]
@@ -310,17 +318,27 @@ def gate(ticket, face, prices_by_code):
             exact = amt * (1.0 - 1.0 / (1.0 + p))
             linear = amt * p
             pub = float(leg["over_nav_cny"])
-            form = None
-            if abs(exact - pub) <= CNY_TOL:
+            # 0.02 floor + the producer's own rounding of premium_pct to 4
+            # decimals of a percent (a half step of PREM_HALF_STEP_P in p, times
+            # the amount). Without the second term a correct board is refused.
+            tol = CNY_TOL + abs(amt) * PREM_HALF_STEP_P
+            cny_tols[code] = round(tol, 4)
+            gap = abs(exact - linear)
+            e_ok = abs(exact - pub) <= tol
+            l_ok = abs(linear - pub) <= tol
+            if e_ok and l_ok and gap <= tol:
+                form = "either"   # indistinguishable at this amount -- say so
+            elif e_ok:
                 form = "exact"
-            elif abs(linear - pub) <= CNY_TOL:
+            elif l_ok:
                 form = "linear"
+            else:
+                form = None
             if form is None:
-                fails.append("CNY identity %s %.2f vs exact %.2f / linear %.2f"
-                             % (code, pub, exact, linear))
+                fails.append("CNY identity %s %.2f vs exact %.2f / linear %.2f (tol %.2f)"
+                             % (code, pub, exact, linear, tol))
             else:
                 # the two forms differ by amt*p^2/(1+p): disclose it, do not smooth it
-                gap = abs(exact - linear)
                 if form == "linear" and gap > 0.5:
                     notes.append("CNY figure %s is the linear amt*p form; at %.2f%% the "
                                  "exact amt*p/(1+p) differs by CNY %.2f"
@@ -331,11 +349,13 @@ def gate(ticket, face, prices_by_code):
         fails.append("no leg could be compared against the board (session %s)" % session)
     return {"ok": not fails, "fails": fails, "notes": notes,
             "cny_identity_forms": cny_forms,
+            "cny_tolerance_cny": cny_tols,
             "session": session,
             "checked_price": checked_price, "checked_premium": checked_prem,
             "checked_cny_identity": checked_cny,
             "tolerances": {"price_rel": PRICE_TOL, "premium_pp": PREM_TOL_PP,
-                           "cny": CNY_TOL}}
+                           "cny": CNY_TOL,
+                           "prem_half_step_p": PREM_HALF_STEP_P}}
 
 
 def build(ticket, face, fetch=True, today=None):
@@ -648,21 +668,102 @@ def selftest():
     chk(not gate(ticket={}, face=None, prices_by_code={})["ok"],
         "no face at all blocks publication")
 
+    # The board publishes premium_pct to 4 decimals of a percent. A reader that
+    # re-derives the CNY figure from that published number can be off by half of
+    # the last digit times the amount -- 0.039 CNY on a 78.5k order. That used to
+    # be refused as "the panel does not reconcile with the board".
+    def _qbadge(extra=0.0, amt=78540.0):
+        return {"session": "2026-01-05", "legs": [
+            {"symbol": "513690", "price": 1.155, "iopv": 1.153,
+             "premium_pct": 0.1735, "amount_cny": amt,
+             "over_nav_cny": round(amt * 0.0017354, 2) + extra}]}
+    qpx = {"513690": {"2026-01-05": 1.155}}
+    gq = gate(ticket={}, face=_qbadge(), prices_by_code=qpx)
+    chk(gq["ok"], "a CNY figure carrying the producer's 4-decimal rounding passes")
+    chk(gq["cny_identity_forms"].get("513690") in ("exact", "linear", "either"),
+        "the form is still named when it passes")
+    chk(gq["cny_tolerance_cny"].get("513690", 0) > CNY_TOL,
+        "the amount-scaled tolerance is printed on the face, not hidden")
+    chk(not gate(ticket={}, face=_qbadge(extra=0.30), prices_by_code=qpx)["ok"],
+        "a CNY figure off by 0.30 at the same amount is still refused")
+    small = _qbadge(extra=0.04, amt=100.0)
+    small["legs"][0]["over_nav_cny"] = round(100.0 * 0.0017354, 2) + 0.04
+    chk(not gate(ticket={}, face=small, prices_by_code=qpx)["ok"],
+        "the same 0.04 gap on a 100 CNY order is refused -- scaling is not loosening")
+    tiny = {"session": "2026-01-05", "legs": [
+        {"symbol": "512040", "price": 1.198, "iopv": 1.1982,
+         "premium_pct": -0.0167, "amount_cny": 78588.8, "over_nav_cny": -13.12}]}
+    gt = gate(ticket={}, face=tiny, prices_by_code={"512040": {"2026-01-05": 1.198}})
+    chk(gt["ok"] and gt["cny_identity_forms"].get("512040") == "either",
+        "when the two forms sit inside the tolerance of each other the face says 'either'")
+
     print("selftest %d/%d" % (ok, tot))
     for e in errs:
         print("  FAIL:", e)
     return 0 if not errs else 1
 
 
+def ticket_check():
+    """The ticket is the face a reader executes off. Its own percentile block must
+    be the one this face just published -- same session, nothing missing, and the
+    same money re-derived from the face's own legs."""
+    if not os.path.exists(OUT):
+        print("ticket-check: no percentile face to compare")
+        return 2
+    with open(OUT, encoding="utf-8") as f:
+        out = json.load(f)
+    path, tk = latest_ticket()
+    if not tk:
+        print("ticket-check: no ticket to compare")
+        return 2
+    pr = (tk.get("premium") or {})
+    fails = []
+    face_ds = str(out.get("evidence_cutoff") or "")[:10]
+    tk_ds = str(pr.get("pct_face_asof") or "")[:10]
+    if tk_ds != face_ds:
+        fails.append("ticket reads the %s face, this face is %s -- stale ticket"
+                     % (tk_ds or "none", face_ds or "none"))
+    missing = pr.get("pct_missing_legs") or []
+    if missing:
+        fails.append("ticket has no percentile for %s" % ",".join(missing))
+    face_rev = out["summary"]["revert_to_own_median_cny"]
+    tk_rev = pr.get("pct_revert_cny")
+    if face_rev is None and tk_rev not in (None, 0, 0.0):
+        fails.append("ticket prints %.2f where the face has no total" % float(tk_rev or 0))
+    elif face_rev is not None:
+        if tk_rev is None or abs(float(tk_rev) - float(face_rev)) > 1e-6:
+            fails.append("ticket money %r vs face %.6f" % (tk_rev, face_rev))
+    by_code = {l["symbol"]: l for l in out["legs"]}
+    for row in pr.get("rows") or []:
+        leg = by_code.get(str(row.get("symbol")))
+        if not leg:
+            fails.append("%s is on the ticket but not on the face" % row.get("symbol"))
+            continue
+        if row.get("rank_verdict") != leg.get("verdict"):
+            fails.append("%s verdict %r vs face %r"
+                         % (row.get("symbol"), row.get("rank_verdict"), leg.get("verdict")))
+        a, b = row.get("rank"), leg.get("rank_of_latest")
+        if (a is None) != (b is None) or (a is not None and abs(float(a) - float(b)) > 1e-9):
+            fails.append("%s percentile %r vs face %r" % (row.get("symbol"), a, b))
+    print("ticket-check: %s (%s, %d legs, missing=%d)"
+          % ("OK" if not fails else "FAIL", os.path.basename(path),
+             len(pr.get("rows") or []), len(missing)))
+    for e in fails[:10]:
+        print("  ", e)
+    return 0 if not fails else 1
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=["run", "check", "selftest"])
+    ap.add_argument("mode", choices=["run", "check", "selftest", "ticket-check"])
     ap.add_argument("--no-fetch", action="store_true")
     a = ap.parse_args()
     if a.mode == "selftest":
         return selftest()
     if a.mode == "check":
         return check()
+    if a.mode == "ticket-check":
+        return ticket_check()
     return run(fetch=not a.no_fetch)
 
 

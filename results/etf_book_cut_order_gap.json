@@ -1,20 +1,20 @@
 {
  "face": "etf_book_cut_order_gap",
  "decision_date": "2026-11-11",
- "ticket_file": "TICKET-2026-11-10.json",
- "evidence_cutoff": "2026-11-10",
- "k_now": 0.393073,
+ "ticket_file": "TICKET-2026-11-11.json",
+ "evidence_cutoff": "2026-11-11",
+ "k_now": 0.432195,
  "k_rule": 0.460253,
  "sizing_source": "rule_same_bar_outcome",
- "base_bar": "2026-11-10",
- "as_of": "2026-11-10",
- "k_rule_capped_by_floor": 0.393073,
- "permitted_k": 0.393073,
+ "base_bar": "2026-11-11",
+ "as_of": "2026-11-11",
+ "k_rule_capped_by_floor": 0.432195,
+ "permitted_k": 0.432195,
  "gap_k": 0.0,
  "gap_pp": 0.0,
  "nav_cny": 1000000.0,
- "ordered_book_cny": 392536.0,
- "permitted_book_cny": 392536.0,
+ "ordered_book_cny": 431697.0,
+ "permitted_book_cny": 431697.0,
  "cut_cny": 0.0,
  "order_exceeds_permission": false,
  "permission_readers": [
@@ -36,7 +36,7 @@
  ],
  "permission_is_binding": true,
  "verdict": "ORDER_WITHIN_PERMISSION",
- "sentence": "the ticket orders k=0.393073 (CNY 392,536) and the permission allows 0.393073 (CNY 392,536): no cut is owed on 2026-11-11",
+ "sentence": "the ticket orders k=0.432195 (CNY 431,697) and the permission allows 0.432195 (CNY 431,697): no cut is owed on 2026-11-11",
  "trim": null,
  "cost": {
   "cost_bp_per_side": 8.0,
@@ -56,6 +56,13 @@
   "the carry accrual path: one observed GC001 close is used for the annualised figure; a holiday gap accrues more days than the rate implies"
  ],
  "repo_source": "data/repo_daily/GC001.csv (observed close)",
- "elapsed_sec": 2.59,
- "generated": "2026-11-11T05:44:27+0800"
+ "upstream": {
+  "input": "results/etf_book_rebalance_permission.json",
+  "generated": "2026-11-11T18:32:06+0800",
+  "permitted_k": 0.432195,
+  "k_now": 0.432195,
+  "decision_date": "2026-11-11"
+ },
+ "elapsed_sec": 2.38,
+ "generated": "2026-11-11T18:32:09+0800"
 }

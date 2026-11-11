@@ -512,7 +512,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-11 19:24:31",
+   "at": "2026-11-11 20:25:58",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1282,7 +1282,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-11T19:24:31",
+  "generated": "2026-11-11T20:25:58",
   "evidence_cutoff": "2026-11-11",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1420,7 +1420,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-11T19:24:31",
+  "generated": "2026-11-11T20:25:58",
   "evidence_cutoff": "2026-11-11",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -1555,15 +1555,15 @@
    "vol": 0.0888
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1109,
-    "card_width_cagr": 0.0963,
-    "pp": -1.46
-   },
    "vol": {
     "ticket_width_cagr": 0.1186,
     "card_width_cagr": 0.1223,
     "pp": 0.37
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1109,
+    "card_width_cagr": 0.0963,
+    "pp": -1.46
    }
   },
   "rules_differ": true,
@@ -1812,46 +1812,101 @@
  ],
  "premium": {
   "status": "produced",
-  "face_asof": "2026-11-09",
-  "stale": true,
+  "face_asof": "2026-11-11",
+  "stale": false,
   "rows": [
+   {
+    "symbol": "510760",
+    "class": "equity",
+    "latest_pct": 0.30490188413727637,
+    "median_pct": 0.04611844023678646,
+    "lag_median_pp": 0.10811824897485334,
+    "lag_latest_pp": 1.0254624236200605,
+    "nav_lag_days": 1,
+    "nav_source": "cache-stale",
+    "verdict": "LAG_DOMINATED",
+    "rank": 0.6385542168674698,
+    "rank_n": 1494,
+    "rank_verdict": "ORDINARY"
+   },
+   {
+    "symbol": "512040",
+    "class": "equity",
+    "latest_pct": -0.5974112180550994,
+    "median_pct": 0.01682928709370035,
+    "lag_median_pp": 0.28320047460519415,
+    "lag_latest_pp": 0.8423255157992915,
+    "nav_lag_days": 1,
+    "nav_source": "cache-stale",
+    "verdict": "MEAN_REVERTING",
+    "rank": 0.24317226890756302,
+    "rank_n": 1904,
+    "rank_verdict": "ORDINARY"
+   },
+   {
+    "symbol": "159655",
+    "class": "crossborder",
+    "latest_pct": 9.553791404325196,
+    "median_pct": 1.234475811523661,
+    "lag_median_pp": 0.7019731081576053,
+    "lag_latest_pp": 5.0087358161780235,
+    "nav_lag_days": 1,
+    "nav_source": "cache-stale",
+    "verdict": "LAG_DOMINATED",
+    "rank": 0.9867617107942973,
+    "rank_n": 982,
+    "rank_verdict": "UPPER_TAIL"
+   },
    {
     "symbol": "513690",
     "class": "crossborder",
-    "latest_pct": 0.0,
-    "median_pct": -0.010844810758048329,
-    "lag_median_pp": 0.08134891107464126,
-    "lag_latest_pp": 3.2315183709606066,
-    "nav_lag_days": 3,
+    "latest_pct": -1.062189480897724,
+    "median_pct": -0.013367196898805833,
+    "lag_median_pp": 0.09180360835318035,
+    "lag_latest_pp": 1.544862299601768,
+    "nav_lag_days": 1,
     "nav_source": "cache-stale",
-    "verdict": "MEAN_REVERTING",
-    "rank": 0.5018839487565938,
-    "rank_n": 1327,
+    "verdict": "LAG_DOMINATED",
+    "rank": 0.2039127163280662,
+    "rank_n": 1329,
+    "rank_verdict": "ORDINARY"
+   },
+   {
+    "symbol": "159519",
+    "class": "crossborder",
+    "latest_pct": -0.9555930297920123,
+    "median_pct": 0.23555716371979063,
+    "lag_median_pp": 0.3926419986813201,
+    "lag_latest_pp": 1.1607670328592445,
+    "nav_lag_days": 1,
+    "nav_source": "cache-stale",
+    "verdict": "LAG_DOMINATED",
+    "rank": 0.15932642487046633,
+    "rank_n": 772,
     "rank_verdict": "ORDINARY"
    }
   ],
-  "lag_dominated": [],
-  "unpriced": [],
-  "missing_legs": [
+  "lag_dominated": [
    "510760",
-   "512040",
    "159655",
+   "513690",
    "159519"
   ],
+  "unpriced": [],
+  "missing_legs": [],
   "nav_lag_days": [
-   3
+   1,
+   1,
+   1,
+   1,
+   1
   ],
   "pct_status": "produced",
-  "pct_face_asof": "2026-11-09",
-  "pct_stale": true,
-  "pct_missing_legs": [
-   "510760",
-   "512040",
-   "159655",
-   "159519"
-  ],
-  "pct_sentence": "159501(UPPER_TAIL, 第100%)、513100(UPPER_TAIL, 第99%)、159577(UPPER_TAIL, 第99%)；若这些腿各自回到自己的中位溢价，这张单值 ￥28959",
-  "pct_revert_cny": 28958.66941862554,
+  "pct_face_asof": "2026-11-11",
+  "pct_stale": false,
+  "pct_missing_legs": [],
+  "pct_sentence": "159655(UPPER_TAIL, 第99%)；若这些腿各自回到自己的中位溢价，这张单值 ￥4284",
+  "pct_revert_cny": 4283.984873490898,
   "fwd_status": "produced",
   "fwd_face_asof": "2026-11-11",
   "fwd_stale": false,
@@ -1868,8 +1923,8 @@
     "n": 433,
     "t": 1.9001567201247584,
     "nonoverlap_obs": 63,
-    "amount_cny": 78540.0,
-    "same_bucket_move_cny": 394.098308221306
+    "amount_cny": 86394.0,
+    "same_bucket_move_cny": 433.5081390434366
    }
   ],
   "fwd_missing_legs": [
@@ -1878,7 +1933,7 @@
    "159655",
    "159519"
   ],
-  "fwd_cny_total": 394.1,
+  "fwd_cny_total": 433.51,
   "fwd_defer_verdict": "NO_READ",
   "fwd_defer_band": "P98P",
   "fwd_defer_sentence": "after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.00% (mean -0.04%, fell in 49% of 326 cases); today's legs in that band: 159501 99.9, 159577 98.9, 513100 98.9",

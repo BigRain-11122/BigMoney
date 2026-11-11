@@ -1991,11 +1991,40 @@ def permission_block(ticket, perm, rulers=None, floor_src=None, k_gap=None):
     undeployed = float(ticket.get("underspend_pct") or 0.0)
 
     # E289: two copies of one number must agree, or the reader is told they do not.
+    # r1559 (E458 family): the old test compared `rulers.k_floor` with `permitted_k`. Those
+    # are two different quantities -- k_floor is the minimum over EVERY cell on the rulers
+    # face, permitted_k is the minimum over PATH cells only, because a static mix does not
+    # vote on a size. Until r1557c rebuilt the rulers panel the two minima happened to be
+    # the same cell, so the comparison looked like an identity test; on today's numbers they
+    # differ by construction (0.343508 static vs 0.432195 path) and the sheet stamped itself
+    # PERMISSION_FACES_CONFLICT on every run -- an alarm nobody could clear by complying.
+    # Compare like with like: the same cell set, and print the cells the permission excluded.
     conflicts = []
-    if rulers and rulers.get("k_floor") is not None:
-        if abs(float(rulers["k_floor"]) - floor) > 1e-6:
-            conflicts.append("%s 的 k_floor=%r 与权限面 permitted_k=%.6f 不一致"
-                             % (RULERS_FACE, rulers.get("k_floor"), floor))
+    readings = perm.get("readings") or {}
+    path_cells = {n: float((c or {}).get("k")) for n, c in readings.items()
+                  if (c or {}).get("kind") == "path" and (c or {}).get("k") is not None}
+    floor_excludes = sorted(n for n, c in readings.items()
+                            if (c or {}).get("kind") in ("static", "circular"))
+    path_floor = min(path_cells.values()) if path_cells else None
+    if path_floor is not None and abs(path_floor - floor) > 1e-6:
+        conflicts.append("权限面 permitted_k=%.6f 与它自己那批路径读数的最小值 %.6f 不一致"
+                         % (floor, path_floor))
+    # the same NUMBER test: a cell whose k moved between the two faces means one of them is
+    # stale or was written by another recipe -- that IS a conflict, whichever way it moved.
+    cell_divergence = []
+    for name, c in readings.items():
+        k = (c or {}).get("k")
+        rc = ((rulers or {}).get("cells") or {}).get(name) or {}
+        if k is None or rc.get("k") is None:
+            continue
+        if abs(float(k) - float(rc["k"])) > 1e-6:
+            cell_divergence.append("%s: 权限面=%.6f 尺子面=%.6f"
+                                   % (name, float(k), float(rc["k"])))
+    if cell_divergence:
+        conflicts.append("%s 与 %s 对同一批读数报了不同的数（%s）"
+                         % (RULERS_FACE, PERMISSION_FACE, "；".join(cell_divergence)))
+    rulers_floor = None if not rulers or rulers.get("k_floor") is None \
+        else float(rulers["k_floor"])
 
     over = k_now > floor + 1e-6
     trim = None
@@ -2032,6 +2061,12 @@ def permission_block(ticket, perm, rulers=None, floor_src=None, k_gap=None):
                                   else bool(trim["k_after"] <= floor + 1e-6)),
             "unused_readings": unused,
             "conflicts": conflicts,
+            "path_floor": None if path_floor is None else round(path_floor, 6),
+            "path_readings": sorted(path_cells),
+            "path_cells": {n: round(k, 6) for n, k in sorted(path_cells.items())},
+            "floor_excludes": floor_excludes,
+            "rulers_floor": None if rulers_floor is None else round(rulers_floor, 6),
+            "cell_divergence": cell_divergence,
             "k_gap": k_gap,
             "artifact": PERMISSION_FACE,
             "floor_source": floor_src,
@@ -2058,6 +2093,28 @@ def permission_md(pb):
     if pb.get("conflicts"):
         L += ["- ⚠ **两张已发布的额度面互相矛盾**：%s。在它们一致之前，本单不宣称自己按额度执行。"
               % "；".join(pb["conflicts"])]
+    # r1559: the page used to print two k's and leave the reader to work out which one binds.
+    # Say it: the limit is the minimum over PATH readings; a static mix is not a vote; and a
+    # ceiling never tells the desk how much to buy.
+    if pb.get("path_cells"):
+        _pc = pb["path_cells"]
+        _lo = min(_pc, key=lambda n: _pc[n])
+        L += ["- **这个额度由谁给出**：路径读数 %s，其中最低的是 %s k=%.6f。"
+              % ("、".join("%s k=%.6f" % (n, _pc[n]) for n in sorted(_pc)), _lo, _pc[_lo])]
+        _ex = pb.get("floor_excludes") or []
+        if pb.get("rulers_floor") is not None and pb.get("path_floor") is not None \
+                and abs(pb["rulers_floor"] - pb["path_floor"]) > 1e-6:
+            L += ["- 尺子面另印 k_floor=%.6f——那是**全部读数**的最小值，含 %s；它不是额度，"
+                  "两个数不是同一个量，不互相校验。"
+                  % (pb["rulers_floor"], "、".join(_ex) if _ex else "非路径读数")]
+        _head = (float(pb["permitted_k"]) - float(pb["k_now"])) * 100.0 \
+            if pb.get("nav_cny") else None
+        if _head is not None and _head > 0:
+            L += ["- 本单 k=%.6f 比额度低 %.2fpp（¥%s 的空位）；额度是上限不是目标，"
+                  "它不告诉你该买多少，只说买到哪里为止。"
+                  % (pb["k_now"], _head,
+                     format((float(pb["permitted_k"]) - float(pb["k_now"]))
+                            * float(pb["nav_cny"]), ",.0f"))]
     t = pb.get("trim")
     if pb["status"] != "within_permission":
         L += ["", "上面那张表是**未裁剪的下单量（不可执行）**；按额度执行要这样卖：", "",
@@ -5012,12 +5069,32 @@ def selftest():
                                          {"inception": "2024-01-01"})
         and "按谁的额度下单" in card(_pb_tk, None, None, "2026-11-30", 0.2,
                                     {"inception": "2024-01-01", "permission": _pb}), "")
-    _pb_cf = permission_block(_pb_tk, _pb_perm, {"k_floor": 0.45})
+    _pb_cf = permission_block(_pb_tk, _pb_perm,
+                              {"k_floor": 0.40, "cells": {"window": {"k": 0.999}}})
     _pb_cf_md = "\n".join(permission_md(_pb_cf))
-    chk("leg49f permission: two published faces quoting different floors are printed as a "
-        "CONFLICT, and the sheet stops claiming it obeys the permission",
+    chk("leg49f permission: two published faces quoting different k for the SAME reading "
+        "are printed as a CONFLICT, and the sheet stops claiming it obeys the permission",
         _pb_cf["status"] == "conflict" and _pb_cf["verdict"] == "PERMISSION_FACES_CONFLICT"
-        and "矛盾" in _pb_cf_md and "PERMISSION_FACES_CONFLICT" in _pb_cf_md, "")
+        and "矛盾" in _pb_cf_md and "PERMISSION_FACES_CONFLICT" in _pb_cf_md
+        and any("window" in c for c in _pb_cf["conflicts"]), _pb_cf["conflicts"][:1])
+    # r1559: `rulers.k_floor` is the minimum over ALL cells (a static mix can sit there);
+    # `permitted_k` is the minimum over PATH cells. Comparing them was the old conflict test
+    # and it fired forever once the two minima stopped being the same cell (live 11-11:
+    # 0.343508 static vs 0.432195 path) -- the executable sheet called itself CONFLICT on a
+    # book that obeys. A static mix must not vote, and a definition difference is not an alarm.
+    _pb_rows = {n: {"k": c["k"]} for n, c in _pb_perm["readings"].items()}
+    _pb_st = permission_block(_pb_tk, _pb_perm, {"k_floor": 0.30, "cells": _pb_rows})
+    _pb_st_md = "\n".join(permission_md(_pb_st))
+    chk("leg49j permission: a static mix sitting below the path floor is NOT a conflict, and "
+        "the sheet says which reading binds and which one does not vote",
+        _pb_st["status"] != "conflict" and _pb_st["conflicts"] == []
+        and _pb_st["rulers_floor"] == 0.30 and _pb_st["path_floor"] == 0.40
+        and _pb_st["floor_excludes"] == ["baseline_published", "denominator"]
+        and "这个额度由谁给出" in _pb_st_md and "不互相校验" in _pb_st_md, "")
+    _pb_bad = dict(_pb_perm, permitted_k=0.41)
+    chk("leg49k permission: a permitted_k that is not its own path minimum is a real "
+        "conflict (the face contradicts itself, whoever else agrees with it)",
+        permission_block(_pb_tk, _pb_bad, {"cells": _pb_rows})["status"] == "conflict", "")
 
     # 49g-i. r1515: the per-name cut the floor made now reaches the sheet an operator
     # executes, with the producer's own arithmetic and sentence (the CEO page has read it

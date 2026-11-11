@@ -695,6 +695,12 @@ LEGS = [
     # denominator mix -> size at k=0.393073 (CNY 392,616), a cut of CNY 67,180. `check`
     # form (0.1s, published JSON only) so a drifted receipt or a newer ticket turns red
     # instead of leaving a stale permission on disk (r1290 class).
+    # r1559: this leg checked the receipt and nothing rebuilt it, so on a busy bar the
+    # permission on disk was whatever the last human round left behind and the check could
+    # only ever read drift (r1282 class: a check with no producer). `run` is a 0.3s reprice
+    # from published JSON -- write it immediately before checking it.
+    ("rebalance_permission_write",
+     ["python", "scripts/etf_book_rebalance_permission.py", "run"]),
     ("rebalance_permission",
      ["python", "scripts/etf_book_rebalance_permission.py", "check"]),
     # r1451: the permission says what the desk MAY hold; it says nothing about what the desk
@@ -704,6 +710,12 @@ LEGS = [
     # permission 0.393073 (CNY 67,180 over), zero readers -> the cut is refused on paper and
     # nothing trims it; the trim block prints the per-leg lots so obeying it is mechanical.
     # `check` form (0.1s, published JSON + source scan, no panel).
+    # r1559: same defect as the leg above, and it had a cost this afternoon -- the table was
+    # rebuilt at 17:26, the permission it prices against at 17:43, so the page printed "two
+    # receipts disagree" all afternoon and refused to certify a book that was 3.91pp under
+    # its own limit. `run` (2s, published JSON + the ticket's own prices) now sits directly
+    # ahead of the check, in dependency order: permission -> gap.
+    ("cut_order_gap_write", ["python", "scripts/etf_book_cut_order_gap.py", "run"]),
     ("cut_order_gap", ["python", "scripts/etf_book_cut_order_gap.py", "check"]),
     # r1453: cut_order_gap and cut_gate_pass answer two halves of the same 11-11 question --
     # what the desk must SELL, and whether obeying that sale moves the calendar gate. Neither
@@ -1321,6 +1333,12 @@ LEGS = [
     # question from the panels: is today's premium a standing level, an oscillation, or a
     # NAV-stamp convention? Every verdict word, share-positive, median and lag spread is
     # recomputed off premium_history.csv, so a hand-typed answer word goes red. ~0.3s.
+    # r1561: same "check with no producer" defect r1559 fixed twice above -- the face was
+    # rebuilt only when a human ran it, so the first cycle after every update_fund_premium
+    # (15:30) compared a stale face against the grown CSV. `run` = build(fetch=False):
+    # local panels only, no network, so it can sit in the chain.
+    ("premium_persistence_write",
+     ["python", "scripts/etf_book_premium_persistence.py", "run"]),
     ("premium_persistence",
      ["python", "scripts/etf_book_premium_persistence.py", "check"]),
     # r1500: the two rulers above answer "how high" and "is it real". Neither answers the
@@ -1329,6 +1347,13 @@ LEGS = [
     # forward 5/20-session price returns, every bucket mean/t and the derived verdict word
     # from premium_history.csv, so a re-labelled bucket or a hand-typed verdict goes red.
     # ~0.2s; the money column reads results/etf_book_order/latest.json.
+    # r1561: this leg was the day's only real red -- published 20:03, premium_history.csv
+    # grown 20:24, so `check` recomputed 1,268 observations against a 1,266-row face and
+    # reported 28 failures (4 legs "missing", 24 bucket counts off by one or two). Nothing
+    # in the chain wrote the face, so the same red would return after every 15:30 snapshot.
+    # `run` is a ~1s pure-CSV re-derive (no network): writer immediately before checker.
+    ("premium_forward_write",
+     ["python", "scripts/etf_book_premium_forward.py", "run"]),
     ("premium_forward",
      ["python", "scripts/etf_book_premium_forward.py", "check"]),
     # r1546: the r1498 comment above says there is no subscription-status column. That is

@@ -39,6 +39,7 @@ sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 import etf_book_band_ruler as BR
+import etf_book_order as O
 
 OUT_JSON = os.path.join(ROOT, "results", "etf_book_window_label.json")
 OUT_MD = os.path.join(ROOT, "research", "ETF_BOOK_WINDOW_LABEL.md")
@@ -312,6 +313,20 @@ def check():
     doc = read_published()
     if doc.get("status") != "ok":
         print("CHECK FAILED: %s (%s)" % (doc.get("status"), doc.get("detail")))
+        return 1
+    # r1557: read_published only asks whether this face still recomputes from the faces it
+    # copied. It was written 11-03 and stayed "ok" for eight days while the panel moved to
+    # 11-11, so the page kept printing 12.56% and the band ruler's identity arm called a
+    # 0.17pp gap a broken control. A face is also stale when its inputs are behind the
+    # ledger, and that has to fail here or the chain never reruns it.
+    try:
+        _lb = max(O.ledger_dates() or [])
+    except Exception:                                            # noqa: BLE001
+        _lb = None
+    _cut = (doc.get("inputs") or {}).get("evidence_cutoff")
+    if _lb and _cut and str(_cut) < str(_lb):
+        print("CHECK FAILED: evidence_cutoff %s is behind the ledger's last bar %s -- rerun"
+              % (_cut, _lb))
         return 1
     print("check OK: %s | gap %+.2f pp/yr | full %.2f%% / 2020-2023 %s / 2024+ %.2f%%"
           % (doc["verdict"]["state"], doc["verdict"].get("gap_pp") or 0.0,

@@ -514,6 +514,32 @@ def check():
         print("FAIL: %s missing -- run the tool first" % os.path.relpath(OUT, ROOT))
         return 1
     fresh = build()
+    # r1561: this face prices the LEGS OF THE DAY'S TICKET, so on a new ticket it is not
+    # "the numbers drifted" -- the sample was replaced. 2026-11-11 read as 28 failures
+    # (four legs "missing", 24 bucket counts off by one or two) when the truth was one
+    # sentence: the published face priced 159263/159501/159577/513100/513690 (the 11-10
+    # ticket) while today's ticket carries 159519/159655/510760/512040/513690. Say that
+    # instead, and say it with the word STALE so the chain's declared refresh -- not a
+    # loosened assertion -- is what repairs it. A same-ticket face whose numbers no
+    # longer re-derive still falls through to the real red below.
+    _h_last = str(HORIZONS[-1])
+    _pub_legs = sorted({l["symbol"] for l in
+                        (((pub.get("horizons") or {}).get(_h_last) or {}).get("legs") or [])})
+    _new_legs = sorted({l["symbol"] for l in fresh["horizons"][_h_last]["legs"]})
+    if _pub_legs != _new_legs:
+        print("STALE: published face priced legs %s (ticket %s); today's ticket carries %s "
+              "-- re-derive with `run`"
+              % (",".join(_pub_legs) or "none", pub.get("ticket_session") or "none",
+                 ",".join(_new_legs) or "none"))
+        return 1
+    if (str(pub.get("evidence_cutoff") or "")[:10]
+            != str(fresh.get("evidence_cutoff") or "")[:10]
+            or pub.get("panel_rows") != fresh.get("panel_rows")):
+        print("STALE: published face is %s / %s rows; premium_history.csv now ends %s / %s "
+              "rows -- re-derive with `run`"
+              % (pub.get("evidence_cutoff"), pub.get("panel_rows"),
+                 fresh.get("evidence_cutoff"), fresh.get("panel_rows")))
+        return 1
     bad = []
     if pub.get("verdict") not in WORDS:
         bad.append("verdict %r is not one of the derived words" % pub.get("verdict"))

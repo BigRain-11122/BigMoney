@@ -862,6 +862,13 @@ def main() -> int:
              "scripts/etf_book_premium_percentile.py", ["selftest"]),
             ("product: etf_book_premium_percentile (every answer word re-derives)",
              "scripts/etf_book_premium_percentile.py", ["check"]),
+            # r1561: the ticket is what a reader executes off, and its percentile block
+            # went a full day stale with four of the five priced legs blank -- the face
+            # had been refusing to publish for a rounding reason nobody had named. The
+            # leg pins that the ticket reads the session the face just cut, that no
+            # priced leg is missing, and that the money re-derives off the face.
+            ("product: etf_book_premium_percentile (the ticket reads today's face, no blank legs)",
+             "scripts/etf_book_premium_percentile.py", ["ticket-check"]),
             # r1498: "why is it high" without the subscription column the previous round
             # assumed exists. The legs pin that the substituted tests are falsifiable (a
             # standing level, an oscillation and a stamp artifact each get their own word,
@@ -3870,6 +3877,19 @@ def main() -> int:
                                     _lq_order.index("etf_book_ceo_page")))
     except Exception as e:
         check("product: the live quote is priced before the page that prints it", False, str(e))
+    # r1561: two premium faces had no writer in the chain at all, so the first cycle
+    # after every 15:30 premium_history snapshot judged a stale face against the grown
+    # CSV (2026-11-11: published 20:03, history 20:24 -> 28 failures, four legs "missing"
+    # and 24 bucket counts off by one). r1318/r1559 rule, now asserted instead of trusted.
+    try:
+        _pf = [t[0] for t in importlib.import_module("Tools.s6_chain_bmc").LEGS]
+        for _w, _c2 in (("premium_forward_write", "premium_forward"),
+                        ("premium_persistence_write", "premium_persistence")):
+            check("product: the premium face is re-derived before it is judged (%s)" % _c2,
+                  _w in _pf and _pf.index(_w) < _pf.index(_c2),
+                  "write_present=%s check_present=%s" % (_w in _pf, _c2 in _pf))
+    except Exception as e:
+        check("product: the premium face is re-derived before it is judged", False, str(e))
     try:
         _dq_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
         _dq_after = (_dq_order.index("docquotes") > _dq_order.index("daily_report")
