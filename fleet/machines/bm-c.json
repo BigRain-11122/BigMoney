@@ -7,7 +7,7 @@
  "busy": false,
  "chain": "S6 subset 10/10 rc0 (dualrun ZERO-DRIFT streak 51, compute_audit, py_watermark, update_daily, update_futures, futures_tsmom, swap_freshness, swap_trigger, positions_ledger, etf_book_order)",
  "clk": "2026-11-10T16:28:24+08:00",
- "clock_read": "2026-11-11T09:40:13+08:00",
+ "clock_read": "2026-11-11T09:43:39+08:00",
  "clock_read_source": "Get-Date",
  "closeout_notes_archived": "round notes older than the last three rounds are collapsed here; full history lives in round_reports-bm-c.md and git",
  "codely_live_count": 1,
@@ -29,8 +29,8 @@
   "verdict": "zero delta (this repo)"
  },
  "dec_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show; r818 start sweep via SSH primary leg rc0 (channel healed, r817 A-sync note closed); dec delta FALSE = unchanged, zero action; facts-driven from results/_r818bmc_s05_facts.json, 64hex shape-asserted; close face reads sha PROGRAMMATICALLY from facts json, ZERO literal constants (r583 law)",
- "delivered": true,
- "delivered_head": "a186f52966d618b4402067eb200ed938ad108b79",
+ "delivered": "origin/main",
+ "delivered_head": "341a3af3be9ff56c5c69d71714438130334a52d9",
  "delivery_behind": 0,
  "delivery_gate": "round 1542 landed 6518209660 + a186f52966, 0 ahead / 0 behind",
  "delivery_state": "pushed 0fbd8c3982 (0 ahead / 0 behind)",
@@ -554,18 +554,19 @@
  "sync": {
   "ahead_origin": 0,
   "behind_origin": 0,
-  "commit": "76d152332b",
+  "commit": "341a3af3be9ff56c5c69d71714438130334a52d9",
   "landed_on": "origin/main",
-  "origin_tip": "76d152332b",
-  "ts": "2026-11-11T08:31:06+08:00"
+  "origin_tip": "341a3af3be9ff56c5c69d71714438130334a52d9",
+  "ts": "2026-11-11T09:43:39+08:00"
  },
  "task": "r1544: the page named today as the next rebalance day and still said there was nothing to do today",
  "total_ram_gb": 23.9,
- "ts": "2026-11-11T09:40:13+08:00",
- "updated": "2026-11-11T09:40:13+08:00",
- "updated_at": "2026-11-11T09:40:13+08:00",
+ "ts": "2026-11-11T09:43:39+08:00",
+ "updated": "2026-11-11T09:43:39+08:00",
+ "updated_at": "2026-11-11T09:43:39+08:00",
  "verdict": "py_low_with_work_cands",
  "verify": "ceo_page selftest 221/221; mutants 219/221 and 220/221 rc=1; page republished and read back; smoke leg re-derives from the published page json",
  "vram_free_gb": 13.2,
- "watermark_verdict": "py_low_with_work_cands"
+ "watermark_verdict": "py_low_with_work_cands",
+ "round_t1544_addendum": "| 2026-11-11 09:43 | 1544b | **ADDENDUM（收尾）：送达与两扫。** 轮提交 **341a3af3be9ff56c5c69d71714438130334a52d9** 已落 origin/main，fetch 后 **0 ahead / 0 behind**（本地未达 origin commit 数=0），`git ls-tree origin/main` 见 scripts/etf_book_ceo_page.py、smoke_test.py、knowledge/METHODOLOGY_ASSETS.md。**S0.5 二扫**：orders 114/114 全在心跳 orders_ack（241 条），差集 0；集团 decisions 原始 blob sha256 **2ffcc70c** 与自持水位同值 → 零动作。**S7**：loop pin=5 no-op（首跳 09:40）、watchdog 重注册（S4U 翻转仍被拒·需管理员）、两爪重装、attrition 4 账本 CLEAN。孤儿面 py_faces=8 orphans=0。**一条红（已查清）**：套件跑到 cut_order_gap 时该腿 6/8 红，单跑 check 两次均 **8/8 OK**——红发生在页面重发布与心跳写入的并发窗内（该腿正是读页面/票面消费面重算的那一类），判为 moving-face，**未改任何判据**；套件仍在飞，最终读数以跑完为准。**未验证（如实）**：改码后的全量套件 09:4x 起（pid 3668 → results/_smoke_r1544.out），收轮时在飞。 |"
 }
