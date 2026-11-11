@@ -1,4 +1,19 @@
 # Bigmoney 交接与成果收割指南（HANDOVER）
+## 5x 幂等快照 · r1545（2026-11-11 10:0x · bm-c）
+> 授权口径不变：逐轮权威=`round_reports-bm-c.md` 全行在册；本块只做「产物清单与完成状态」核对与指针，不复制轮报告正文。
+> 本块覆盖 bm-c 线 r1541→r1545（上一块停在 r1540）。
+
+**本线产物（可核）**
+
+| 产物 | 状态 |
+|---|---|
+| r1545 `scripts/check_summary.py`（汇总行自带失败项名字·selftest 6/6）＋ `etf_book_cut_order_gap` L14/L15（自检 28/28）＋ `etf_book_rebalance_permission` L10（11/11）＋ smoke 腿 | 已发布（变异体：汇总行退回只印计数 → 27/28 rc=1） |
+| r1544 `etf_book_ceo_page.today_action`：`trade_day_is_today` 显式对齐（L20b/L20c/L20d·221/221）＋ smoke 腿「换仓日不许写今天不用动手」＋ 卡 E538 | 已发布·页面重发布 |
+| r1543 页面自印「哪些节不是今天的数」（`section_bars` 单实现·L196-L200·218/218）＋ 卡 E536/E537 | 已发布 |
+| r1542 `etf_book_production.card_days` + `check-card-days`（卡片两日子·L190-L195·213/213）＋ 卡 E535 | 已发布 |
+| r1541 `etf_book_production.ticket_days`/`compare_days` + `check-ticket-days`（票面两日子·L185-L189·207/207） | 已发布 |
+| 6 事件链腿（`ceo_page_ticket_days`/`ceo_page_card_days`/`live_book_section_bars`/`cut_order_gap`/`rebalance_permission`） | 在 S6 链中 rc0 |
+| 本轮全量套件 | 见 `logs/smoke_r1545.log`（收轮时在飞；历史终判见各轮行） |
 ## 5x 幂等快照 · r1540（2026-11-11 07:5x · bm-c）
 > 授权口径不变：逐轮权威=`round_reports-bm-c.md` 全行在册；本块只做「产物清单与完成状态」核对与指针，不复制轮报告正文。
 > 本块覆盖 bm-c 线 r1536→r1540（下文 r1235 等历史块由 bm-a 线维护，未合并）。

@@ -12983,3 +12983,16 @@ compare_days() 比四字段；三态 SELF_CONSISTENT / DIFFERENT_DAYS / UNREADAB
 3. 变异体要打在被测的**产生链**上：第一版 L20c 手工把 flag 塞成 True，于是把 flag 恒 False 的变异体照样全绿——腿测的是渲染对 flag 的反应，不是 flag 是否被算出来。改成 `today_action(fixture)` 端到端后，同一变异体 2 腿红。
 
 **证据**：`etf_book_ceo_page.py selftest 221/221`（新增 L20b/L20c/L20d）· 变异体 A（flag 恒 False）219/221 rc=1、变异体 B（去掉日期对齐）220/221 rc=1 · 重发布 `docs/live_book/LIVE-BOOK-20261111.md` 第 6 行与第 252 行 · smoke 新腿 `product: the page never says 'nothing to do today' on the day it names as the rebalance`（从已发布 page json + md 双向比对）。
+
+## E539 诊断信息不能写在汇总行上面：harness 只留最后一行 · 2026-11-11 r1545 bm-c
+
+**发现**：r1544c 用一整轮才承认「不知道 `etf_book_cut_order_gap --check` 的 6/8 是哪两格」，而那两个字段名**早就被打印过**——`check()` 先逐条 `FAIL field verdict: disk=... fresh=...`，最后一行才是 `[check] 8/8 OK`。套件（`smoke_test.py`）只保留被测进程输出的**最后一行**并截到 80 字符（`splitlines()[-1][:80]`），于是红的时候保留下来的是那个数字，理由在它上面一行被丢掉。同型第二处 `etf_book_rebalance_permission.check()`。
+
+**正法**：汇总行自己携带名字——`scripts/check_summary.py` 单一实现（`[check] 6/8 OK | FAILED: field verdict; consumer list`，≤3 个名 + `(+N more)`），干净的机器面**逐字节不变**（`[check] 8/8 OK`，读它的 grep/腿不受影响）；两个 check 改为每条腿带短名，细则仍照旧逐行打印（全日志读者不损失）。`cut_order_gap` 自检新增 L14 用**真实票面的副本**改两格调 `check()` 端到端，读最后一行断言名字在里面且 ≤80 字符；L15 钉干净面形状不变；`rebalance_permission` L10 同律。另补一条 smoke 腿跑该模块自检，并把旧写法登记为「第二份拷贝即第二处会漂」。
+
+**教训三条**：
+1. **谁读这行输出，决定它该写在哪**：给终端读者写的诊断，被 harness 用 `[-1]` 读走时等于没写。任何「N/M 通过」的行都要自带失败项的名字。
+2. 变红时人只能看到一句，就该让**那一句**可行动；细则可以留在上面，但不能只有细则在上。
+3. 端到端变异才抓得住：把 `summary_line` 换回只印计数 → L14 立刻红（`27/28 PASS rc=1`，尾行正是 `[check] 6/8 OK`）。只断言「格式函数返回什么」的腿，抓不住「check 有没有用它」。
+
+**证据**：`scripts/check_summary.py`（selftest 6/6）· `etf_book_cut_order_gap selftest 28/28`（L14 三腿 + L15；动态总数——旧硬编码 14 一直在少报真实腿数）· `etf_book_rebalance_permission selftest 11/11`（L10）· 变异体 rc=1 · S6 腿 `cut_order_gap` 8/8 rc0、`rebalance_permission` 6/6 rc0。

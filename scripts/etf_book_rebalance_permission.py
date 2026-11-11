@@ -41,6 +41,9 @@ import sys
 import time
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(BASE, "scripts"))
+import check_summary as CS  # noqa: E402  (r1545: the summary line carries the names)
+
 RULERS_RECEIPT = "results/etf_book_size_rulers_decision.json"
 TICKET_GLOB_DIR = os.path.join(BASE, "results", "etf_book_order")
 YEAR_GATE_RECEIPT = "results/etf_book_year_gate/YEAR-GATE.json"
@@ -332,24 +335,29 @@ def check():
     fresh = run()
     fails = []
 
-    def leg(ok, msg):
+    def leg(ok, short, msg):
+        # r1545: the summary line has to name the failing legs -- the suite keeps only
+        # this process's last line (`smoke_test.py` `[-1]`, clipped to 80 chars), so a
+        # bare `6/6 OK` is a number nobody can act on. See scripts/check_summary.py.
         if not ok:
-            fails.append(msg)
+            fails.append((short, msg))
 
     for k in ("verdict", "k_now", "permitted_k", "keep_allowed"):
-        leg(fresh.get(k) == d.get(k), "field %s: disk=%r fresh=%r"
-            % (k, d.get(k), fresh.get(k)))
+        leg(fresh.get(k) == d.get(k), "field %s" % k,
+            "field %s: disk=%r fresh=%r" % (k, d.get(k), fresh.get(k)))
     leg(abs((fresh.get("cut_cny") or 0) - (d.get("cut_cny") or 0)) <= 1.0,
-        "cut_cny drifted: disk=%r fresh=%r" % (d.get("cut_cny"), fresh.get("cut_cny")))
+        "cut_cny", "cut_cny drifted: disk=%r fresh=%r" % (d.get("cut_cny"), fresh.get("cut_cny")))
     leg(sorted(fresh.get("path_readings") or []) == sorted(d.get("path_readings") or []),
+        "path reading set",
         "path reading set drifted: disk=%r fresh=%r"
         % (d.get("path_readings"), fresh.get("path_readings")))
     leg((fresh.get("ticket_file") == d.get("ticket_file")),
+        "stale receipt",
         "a newer ticket landed since this receipt was written (disk=%r fresh=%r): re-run "
         "the face" % (d.get("ticket_file"), fresh.get("ticket_file")))
-    for f in fails:
+    for _short, f in fails:
         print("  FAIL " + f)
-    print("[check] %d/%d OK" % (6 - len(fails), 6))
+    print(CS.summary_line([s for s, _ in fails], 6))
     return 0 if not fails else 1
 
 
@@ -451,9 +459,15 @@ def selftest():
     # L9 the sentence must carry the number the flags say (r1449 prose-vs-flags)
     leg(("%.6f" % d["k_now"]) in (d.get("sentence") or ""), "L9 sentence=%r" % d.get("sentence"))
 
+    # L10 (r1545): a red has to survive the tail-only harness -- the last line names the
+    # failing legs, and the green line keeps its exact old shape (readers match on it).
+    _one = CS.summary_line(["stale receipt"], 6)
+    leg(_one == "[check] 5/6 OK | FAILED: stale receipt", "L10 red line=%r" % _one)
+    leg(CS.summary_line([], 6) == "[check] 6/6 OK", "L10 green line changed shape")
+
     for f in fails:
         print("  FAIL " + f)
-    print("[selftest] %d/%d PASS" % (9 - len(fails), 9))
+    print(CS.summary_line([f.split(":")[0][:28] for f in fails], 11, "selftest", word="PASS"))
     return 0 if not fails else 1
 
 

@@ -936,6 +936,13 @@ def main() -> int:
              "scripts/etf_book_cut_order_gap.py", ["selftest"]),
             ("product: etf_book_cut_order_gap (gap and consumers re-derived)",
              "scripts/etf_book_cut_order_gap.py", ["--check"]),
+            # r1545: this suite keeps only the LAST line of a leg's output, clipped to 80
+            # chars. r1544c ended a round knowing "6/8 OK" and unable to say which two
+            # fields had drifted -- the reasons had been printed above that line and the
+            # harness dropped them. The shared line now carries the names; the module's
+            # own selftest drives a REAL drifted face through check() and reads that line.
+            ("product: check_summary (a red survives a tail-only harness)",
+             "scripts/check_summary.py", []),
             # r1455: a receipt that audits the permission is not the document a desk
             # executes. The legs pin that the sheet itself reads the permission (trim
             # required / unused readings / unreadable never reads as a pass / two faces

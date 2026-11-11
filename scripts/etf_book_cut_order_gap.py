@@ -38,6 +38,9 @@ import sys
 import time
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(BASE, "scripts"))
+import check_summary as CS  # noqa: E402  (r1545: the summary line carries the names)
+
 PERMISSION_RECEIPT = "results/etf_book_rebalance_permission.json"
 TICKET_DIR = os.path.join(BASE, "results", "etf_book_order")
 OUT = os.path.join(BASE, "results", "etf_book_cut_order_gap.json")
@@ -421,25 +424,34 @@ def check():
     fresh = run()
     fails = []
 
-    def leg(ok, msg):
+    def leg(ok, short, msg):
+        # r1545: every leg carries a SHORT name as well as its message. `smoke_test.py`
+        # keeps only the last line of this output, so a bare `6/8 OK` used to be all
+        # anyone could read -- the reasons were printed and then thrown away by the
+        # harness (r1544c closed unable to say which two fields had drifted).
         if not ok:
-            fails.append(msg)
+            fails.append((short, msg))
 
     for k in ("verdict", "k_now", "permitted_k", "order_exceeds_permission",
               "permission_is_binding", "cut_cny"):
-        leg(fresh.get(k) == d.get(k), "field %s: disk=%r fresh=%r" % (k, d.get(k), fresh.get(k)))
+        leg(fresh.get(k) == d.get(k), "field %s" % k,
+            "field %s: disk=%r fresh=%r" % (k, d.get(k), fresh.get(k)))
     leg(abs((fresh.get("trim") or {}).get("k_after_integer_lots", 0)
             - (d.get("trim") or {}).get("k_after_integer_lots", 0)) <= 1e-6,
+        "trimmed k",
         "trimmed k drifted: disk=%r fresh=%r"
         % ((d.get("trim") or {}).get("k_after_integer_lots"),
            (fresh.get("trim") or {}).get("k_after_integer_lots")))
     leg(fresh.get("permission_readers") == d.get("permission_readers"),
+        "consumer list",
         "consumer list drifted: disk=%r fresh=%r"
         % (d.get("permission_readers"), fresh.get("permission_readers")))
     leg(fresh.get("permission_enforcers") == d.get("permission_enforcers"),
+        "enforcer list",
         "enforcer list drifted: disk=%r fresh=%r"
         % (d.get("permission_enforcers"), fresh.get("permission_enforcers")))
     leg(fresh.get("ticket_file") == d.get("ticket_file"),
+        "stale receipt",
         "a newer ticket landed since this receipt was written (disk=%r fresh=%r): re-run"
         % (d.get("ticket_file"), fresh.get("ticket_file")))
     # r1478: the face must name which book its k came from, and it must be the ticket's own
@@ -448,12 +460,13 @@ def check():
     leg(fresh.get("sizing_source") == d.get("sizing_source")
         and fresh.get("base_bar") == d.get("base_bar")
         and fresh.get("as_of") == d.get("as_of"),
+        "sizing provenance",
         "sizing provenance drifted: disk=(%r,%r,%r) fresh=(%r,%r,%r)"
         % (d.get("sizing_source"), d.get("base_bar"), d.get("as_of"),
            fresh.get("sizing_source"), fresh.get("base_bar"), fresh.get("as_of")))
-    for f in fails:
+    for _short, f in fails:
         print("  FAIL " + f)
-    print("[check] %d/%d OK" % (8 - len(fails), 8))
+    print(CS.summary_line([s for s, _ in fails], 8))
     return 0 if not fails else 1
 
 
@@ -482,8 +495,10 @@ def _perm(k=0.393073, date="2026-11-11"):
 
 def selftest():
     fails = []
+    ran = []
 
     def leg(ok, msg):
+        ran.append(bool(ok))
         if not ok:
             fails.append(msg)
 
@@ -589,9 +604,45 @@ def selftest():
     _en = enforcers_of(_corpus, _rd)
     leg(_en == ["scripts/real.py"], "L13 enforcers=%r" % _en)
 
+    # L14/L15 (r1545): the red has to survive the harness. `smoke_test.py` keeps the LAST
+    # line of this process's output and clips it to 80 chars, so a drifted face must name
+    # its drifted fields on that line -- otherwise a whole round can end knowing "6/8" and
+    # nothing else (r1544c did exactly that). L14 perturbs a REAL copy of the published
+    # face through check() itself; L15 pins the green line byte-identical so readers and
+    # greps that match `[check] 8/8 OK` do not drift.
+    _live = published_face()
+    if _live:
+        import contextlib
+        import io as _io
+        import tempfile
+        _bad = dict(_live)
+        _bad["cut_cny"] = (_bad.get("cut_cny") or 0) + 12345.0
+        _bad["verdict"] = "NOT-THE-VERDICT-THE-SOURCES-GIVE"
+        with tempfile.TemporaryDirectory() as _td:
+            _p = os.path.join(_td, "face.json")
+            with open(_p, "w", encoding="utf-8") as _f:
+                json.dump(_bad, _f, ensure_ascii=False)
+            _old = globals()["OUT"]
+            globals()["OUT"] = _p
+            _buf = _io.StringIO()
+            try:
+                with contextlib.redirect_stdout(_buf):
+                    _rc = check()
+            finally:
+                globals()["OUT"] = _old
+        _tail = (_buf.getvalue().strip().splitlines() or [""])[-1]
+        leg(_rc == 1, "L14 drifted face graded green rc=%r" % _rc)
+        leg(_tail.startswith("[check] 6/8 OK | FAILED:") and "cut_cny" in _tail
+            and "verdict" in _tail, "L14 tail=%r" % _tail)
+        leg(len(_tail) <= 80, "L14 tail is %d chars: the harness clips at 80" % len(_tail))
+    else:
+        leg(False, "L14 no published face to perturb")
+    leg(CS.summary_line([], 8) == "[check] 8/8 OK", "L15 green line changed shape")
+
     for f in fails:
         print("  FAIL " + f)
-    print("[selftest] %d/%d PASS" % (14 - len(fails), 14))
+    print(CS.summary_line([f.split(":")[0][:28] for f in fails], len(ran), "selftest",
+                          word="PASS"))
     return 0 if not fails else 1
 
 
