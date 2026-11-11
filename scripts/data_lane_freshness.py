@@ -95,6 +95,14 @@ LANES = [
     {"lane": "moneyflow", "dept": "data", "owner": "bm-a",
      "writer": "update_moneyflow", "kind": "status",
      "path": "results/moneyflow_update_status.json", "key": "panel.cutoff",
+     # r1566: the same declaration sina_mf carries. update_moneyflow's own gate is "panel
+     # complete AND its cutoff no more than 20 trading days behind" -> no-op, so a panel one
+     # session behind is the lane working as designed. Judged against every official day
+     # since its tail, this row printed `behind_1d` every single day -- a flag nobody can
+     # act on, printed beside flags that do need an action (E318 family).
+     "window_trading_days": 20,
+     "window_basis": "the collector's own no-op rule: it refreshes only when the panel "
+                     "tail is more than 20 trading days stale",
      "panel_csv": {"dir": "data/moneyflow/per", "pattern": "*.csv"}},
     {"lane": "astock_daily", "dept": "data", "owner": "bm-b",
      "writer": "update_astock_daily", "kind": "status",
@@ -2225,6 +2233,19 @@ def selftest():
     print("[PASS] L29b a window-judged lane prints the window and the sessions "
           "left, and a lane outside any window is never dressed in window "
           "language", flush=True)
+
+    # L29c (r1566) the window has to live on the REGISTRY row, not only in a fixture.
+    # Measured 2026-11-12: moneyflow printed `behind_1d` every day for a panel whose own
+    # gate calls it fresh until 20 trading days behind -- a permanent flag beside real
+    # ones, which is how a board stops being read. Asserting it here means a later edit
+    # that drops the declaration fails a leg instead of quietly re-arming the alarm.
+    _reg29c = {s["lane"]: s for s in LANES}
+    assert _reg29c["moneyflow"].get("window_trading_days") == 20, _reg29c["moneyflow"]
+    assert _reg29c["moneyflow"].get("window_basis"), _reg29c["moneyflow"]
+    _win29c = {s["lane"]: s for s in WRITER_FACES}
+    assert _win29c["sina_mf"].get("window_trading_days") == 20, _win29c["sina_mf"]
+    print("[PASS] L29c the rolling-window collectors carry their own window on the "
+          "registry row", flush=True)
 
     # L30 (D-20261108-14) "the lane stopped" and "the owner stopped reporting"
     # are two alarms. A lane whose file was written before the host went quiet

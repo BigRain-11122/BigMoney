@@ -8708,6 +8708,22 @@ def main() -> int:
                 if _need99 not in _line99:
                     _bad99.append("%s rank %s is not printed with its denominator"
                                   % (_s99, _need99))
+            # r1566: the producer publishes a second rank over the sessions that carry a NEW
+            # valuation. A number no reader can see is not a disclosure, so the page must
+            # print it with its own denominator too -- and the ticket must not invent one.
+            if _r99 is not None and _r99.get("rank_of_latest_clean") is not None:
+                _need99b = "%.1f%% (n=%d)" % (100.0 * float(_r99["rank_of_latest_clean"]),
+                                              int(_r99.get("n_clean") or 0))
+                if _need99b not in _line99:
+                    _bad99.append("%s second rank %s is not printed with its denominator"
+                                  % (_s99, _need99b))
+                if (_row99.get("rank_clean") is None
+                        or abs(float(_row99["rank_clean"])
+                               - float(_r99["rank_of_latest_clean"])) > 1e-9):
+                    _bad99.append("%s second rank disagrees with its producer" % _s99)
+                if _r99.get("n_clean") is not None and _r99.get("n") is not None \
+                        and int(_r99["n_clean"]) > int(_r99["n"]):
+                    _bad99.append("%s clean ruler is wider than the full one" % _s99)
         if _faces99["PREMIUM-PERCENTILE.json"] is None:
             if "没有分位读数" not in _md99:
                 _bad99.append("the ranking face is absent but the page does not say so")

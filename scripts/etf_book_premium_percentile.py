@@ -66,6 +66,66 @@ CNY_TOL = 0.02
 # boards.
 PREM_HALF_STEP_P = 5e-7
 
+# r1566: the rank above counts every session a premium can be printed on. Some of those
+# sessions are not the same measurement. When the market that turns the basket into a
+# valuation was shut between the NAV stamp and this close, no new NAV could have been
+# struck -- so the "premium" of that session also carries the price drift of the shut
+# days, and it is not the quantity the operator is deciding on (one session's price above
+# one session's valuation). The calendars are not re-implemented here: `closure_kind`
+# (New York, rule-derived) and `hk_closure_kind` (Hong Kong, measured on the HSI series)
+# are imported from the subscription producer at call time, so one defect keeps one copy.
+# A second rank is then printed beside the first, with the number of sessions dropped, and
+# the verdict word the page shows is the one that survives both rulers when they disagree
+# -- a tail reading that only exists on rows whose denominator could not move is not a
+# tail reading.
+CAL_SOURCE = ("scripts/etf_book_premium_subscription.py (closure_kind / hk_closure_kind; "
+              "single producer for both calendars)")
+_CAL = {"loaded": False, "us": None, "hk": None, "hk_status": None, "error": None}
+
+
+def _calendars():
+    """(us_gap, hk_gap) callables, or (None, None) when the producer is unreadable.
+
+    Imported lazily: the subscription face imports THIS module at its own top, so a
+    module-level import here would close the cycle. Failure to load is not an error the
+    face hides -- `calendars.status` on the published reading says which calendars it had.
+    """
+    if _CAL["loaded"]:
+        return _CAL
+    _CAL["loaded"] = True
+    try:
+        import etf_book_premium_subscription as sub
+        _CAL["us"] = sub.closure_kind
+        try:
+            market, status = sub.load_hk_index(fetch=False)
+            _CAL["hk"] = (lambda a, b: sub.hk_closure_kind(a, b, market))
+            _CAL["hk_status"] = status
+        except Exception as exc:                          # pragma: no cover
+            _CAL["hk_status"] = "hk-unavailable:%s" % type(exc).__name__
+    except Exception as exc:                              # pragma: no cover
+        _CAL["error"] = "%s: %s" % (type(exc).__name__, str(exc)[:80])
+    return _CAL
+
+
+def valuation_gap(nav_date, price_date):
+    """'us' / 'hk' / None: did a valuation gap sit inside (nav_date, price_date]?"""
+    cal = _calendars()
+    us, hk = cal.get("us"), cal.get("hk")
+    hit = None
+    if us is not None:
+        try:
+            if us(nav_date, price_date):
+                hit = "us"
+        except Exception:                                 # pragma: no cover
+            pass
+    if hk is not None:
+        try:
+            if hk(nav_date, price_date):
+                hit = hit or "hk"
+        except Exception:                                 # pragma: no cover
+            pass
+    return hit
+
 
 def sina_sym(code):
     return ("sh" if str(code)[0] in ("5", "6") else "sz") + str(code)
@@ -203,7 +263,13 @@ def q(vals, qq):
 
 
 def stats(series):
-    """Distribution of the leg's own premium readings + where the latest sits."""
+    """Distribution of the leg's own premium readings + where the latest sits.
+
+    Two ranks, one distribution: `rank_of_latest` counts every readable session, and
+    `rank_of_latest_clean` counts only the sessions whose NAV stamp could have been struck
+    (no closure of the basket's market inside the window). The counts are published so a
+    reader can see how much of the scale came from rows the first ruler counts.
+    """
     if not series:
         return {"n": 0, "verdict": "UNPRICED"}
     vals = [r["premium_pct"] for r in series]
@@ -222,6 +288,45 @@ def stats(series):
         verdict = "ORDINARY"
     if len(vals) < THIN_N:
         verdict = "THIN"
+    # r1566: the second ruler. A rank counts sessions, and not every session carries a new
+    # valuation: a fund whose basket market was shut (or that simply did not strike a NAV)
+    # carries the previous number forward, so that row's "premium" is the price moving
+    # against a valuation that could not move. The test is the valuation itself -- a stamp
+    # that repeats its predecessor carries no new number -- and the calendars in hand are
+    # used only to EXPLAIN those rows, never to decide them, so a domestic fund is not
+    # judged by a foreign holiday.
+    stamps = []
+    seen_nav = {}
+    for r in series:
+        nd = r.get("nav_date")
+        if nd is None or r.get("nav") is None:
+            continue
+        if nd not in seen_nav:
+            seen_nav[nd] = r["nav"]
+            stamps.append((nd, r["nav"]))
+    carry = set()
+    for i in range(1, len(stamps)):
+        if stamps[i][1] == stamps[i - 1][1]:
+            carry.add(stamps[i][0])
+    gaps = {}
+    clean = []
+    for r in series:
+        if r.get("nav_date") in carry:
+            g = valuation_gap(r.get("nav_date"), r.get("date")) or "unexplained"
+            gaps[g] = gaps.get(g, 0) + 1
+        else:
+            clean.append(r)
+    rank_clean = pct_rank(clean, last["premium_pct"]) if clean else None
+    verdict_clean = None
+    if len(clean) >= THIN_N:
+        if rank_clean is not None and rank_clean >= TAIL:
+            verdict_clean = "UPPER_TAIL"
+        elif rank_clean is not None and rank_clean <= 1.0 - TAIL:
+            verdict_clean = "LOWER_TAIL"
+        else:
+            verdict_clean = "ORDINARY"
+        if last["premium_pct"] >= max(r["premium_pct"] for r in clean) - 1e-9:
+            verdict_clean = "AT_RECORD_HIGH"
     return {"n": len(vals),
             "first_date": series[0]["date"], "last_date": last["date"],
             "latest_premium_pct": last["premium_pct"],
@@ -233,7 +338,14 @@ def stats(series):
             "min_pct": lo["premium_pct"], "min_date": lo["date"],
             "max_pct": hi["premium_pct"], "max_date": hi["date"],
             "rank_of_latest": rank,
-            "verdict": verdict}
+            "verdict": verdict,
+            "n_clean": len(clean),
+            "rank_of_latest_clean": rank_clean,
+            "verdict_clean": verdict_clean,
+            "n_gap_excluded": len(vals) - len(clean),
+            "gap_excluded_by_calendar": gaps,
+            "latest_nav_is_carry": last.get("nav_date") in carry,
+            "rulers_disagree": bool(verdict_clean and verdict_clean != verdict)}
 
 
 def lag_ladder(prices, navs, lags=(1, 2, 3)):
@@ -389,6 +501,8 @@ def build(ticket, face, fetch=True, today=None):
     total_revert = sum(l["revert_to_median_cny"] for l in priced) if priced else None
     over_median = [l for l in priced if l.get("rank_of_latest") is not None
                    and l["rank_of_latest"] >= TAIL]
+    cal = _calendars()
+    disagree = [l["symbol"] for l in legs if l.get("rulers_disagree")]
     out = {
         "artifact": "etf_book_premium_percentile",
         "machine": "bm-c",
@@ -402,6 +516,19 @@ def build(ticket, face, fetch=True, today=None):
             "not_the_same_as": "IOPV (intraday basket value) -- the board's 23.64% and "
                                "this face's reading are two rulers, printed side by side",
             "no_lookahead": "a NAV stamped on the price bar itself is never used",
+            "rank_of_latest": "share of readable sessions whose premium is below today's",
+            "rank_of_latest_clean": "the same share over the sessions that carry a NEW "
+                                    "valuation -- a NAV stamp that repeats its "
+                                    "predecessor's number is dropped, because that row's "
+                                    "'premium' is the price moving against a valuation that "
+                                    "could not",
+        },
+        "calendars": {
+            "source": CAL_SOURCE,
+            "us": "rule-derived (New York)" if cal.get("us") else "unavailable",
+            "hk": "measured (HSI series)" if cal.get("hk") else "unavailable",
+            "hk_status": cal.get("hk_status"),
+            "error": cal.get("error"),
         },
         "legs": legs,
         "summary": {
@@ -409,6 +536,9 @@ def build(ticket, face, fetch=True, today=None):
             "at_or_above_p90": [l["symbol"] for l in over_median],
             "revert_to_own_median_cny": total_revert,
             "book_amount_cny": book_amount,
+            "n_gap_excluded_total": sum(int(l.get("n_gap_excluded") or 0) for l in legs),
+            "n_sessions_total": sum(int(l.get("n") or 0) for l in legs),
+            "rulers_disagree": disagree,
             "sentence": None,
         },
         "gate": g,
@@ -421,6 +551,14 @@ def build(ticket, face, fetch=True, today=None):
             "much of the reading that offset can shift.",
             "A限购 fund can stay expensive for years: a high percentile is a reading, "
             "not a sell order.",
+            "A rank counts sessions, and a session whose NAV stamp repeats the previous "
+            "valuation carries no new number -- the second rank drops those rows and the "
+            "calendars in hand only explain them.",
+            "The second rank does NOT drop a session whose NAV moved only slightly (a "
+            "distribution or a share conversion moves the number without moving the "
+            "basket). Those rows are measured on their own face "
+            "(results/etf_premium/PREMIUM-SUBSCRIPTION.json), which counts the one-row "
+            "suspension runs; this face does not re-decide them.",
             "The panel close is not the price the sheet pays; the sheet pays the next "
             "open plus slippage (tracked on the punctuality faces).",
         ],
@@ -445,7 +583,17 @@ def summary_sentence(out):
     if s["revert_to_own_median_cny"] is not None:
         tail = ("；若这些腿各自回到自己的中位溢价，这张单值 ￥%s"
                 % _fmt_money(s["revert_to_own_median_cny"]))
-    return "%s%s" % (head, tail)
+    # r1566: the second ruler is only worth printing if it can change the answer, so the
+    # producer's own sentence says whether it did -- and it says it from the counts.
+    gap = ""
+    n_gap = int(s.get("n_gap_excluded_total") or 0)
+    if n_gap:
+        dis = s.get("rulers_disagree") or []
+        gap = ("；把 %d 个「净值戳沿用上一日数字、分母当天不可能动」的会话剔掉后，"
+               % n_gap)
+        gap += ("判词改变的腿：%s" % "、".join(dis) if dis
+                else "没有一只腿的判词改变")
+    return "%s%s%s" % (head, tail, gap)
 
 
 def _fmt(x):
@@ -532,16 +680,30 @@ def check():
         rows = [h for h in hist if h["symbol"] == leg["symbol"]]
         st = stats(rows)
         for k in ("n", "verdict", "median_pct", "latest_premium_pct", "min_pct",
-                  "max_pct"):
-            if k == "median_pct" or k == "latest_premium_pct" or k == "min_pct" \
-                    or k == "max_pct":
+                  "max_pct", "rank_of_latest_clean", "verdict_clean",
+                  "n_clean", "n_gap_excluded"):
+            if k in ("median_pct", "latest_premium_pct", "min_pct",
+                     "max_pct", "rank_of_latest_clean"):
                 a, b = leg.get(k), st.get(k)
-                if a is None or b is None or abs(a - b) > 1e-6:
+                if a is None or b is None:
+                    if a is not b:
+                        fails.append("%s %s: face %r vs recomputed %r"
+                                     % (leg["symbol"], k, a, b))
+                    continue
+                if abs(a - b) > 1e-6:
                     fails.append("%s %s: face %.6f vs recomputed %s"
-                                 % (leg["symbol"], k, a or 0.0, b))
+                                 % (leg["symbol"], k, a, b))
             elif leg.get(k) != st.get(k):
                 fails.append("%s %s: face %r vs recomputed %r"
                              % (leg["symbol"], k, leg.get(k), st.get(k)))
+        # conservation: every readable session is either in the clean ruler or dropped for
+        # a named closure -- a reader must not have to add up two numbers that overlap
+        if (leg.get("n_clean") is not None and leg.get("n_gap_excluded") is not None
+                and leg.get("n") is not None
+                and int(leg["n_clean"]) + int(leg["n_gap_excluded"]) != int(leg["n"])):
+            fails.append("%s clean+excluded %r+%r != n %r"
+                         % (leg["symbol"], leg["n_clean"], leg["n_gap_excluded"],
+                            leg["n"]))
         for r in rows:
             if r["nav_date"] >= r["date"]:
                 fails.append("%s used a NAV stamped on or after the close (%s)"
@@ -696,6 +858,64 @@ def selftest():
     gt = gate(ticket={}, face=tiny, prices_by_code={"512040": {"2026-01-05": 1.198}})
     chk(gt["ok"] and gt["cny_identity_forms"].get("512040") == "either",
         "when the two forms sit inside the tolerance of each other the face says 'either'")
+
+    # ---- r1566: the second ruler -------------------------------------------------------
+    # A rank counts sessions, and not every session carries a new valuation. These legs pin
+    # that a stamp repeating its predecessor's number leaves the clean ruler, that the
+    # calendars only explain those rows (a shut market is named, an unexplained carry is
+    # said to be unexplained), that both words are published when they disagree, and that a
+    # clean ruler without a scale says nothing rather than "unchanged".
+    chk(valuation_gap("2026-07-02", "2026-07-06") == "us",
+        "a New York closure inside the window is named, not silently counted")
+    chk(valuation_gap("2026-06-01", "2026-06-02") is None,
+        "an ordinary overnight gap is clean")
+    base = [{"date": "d%03d" % i, "close": 1.0, "nav_date": "n%03d" % i,
+             "nav": 1.0 + 0.001 * i, "premium_pct": float(i), "nav_lag_days": 1}
+            for i in range(1, 71)]
+    # one stamp that carries the previous number forward, then twenty closes that all read
+    # against it -- the shut-market shape, with no calendar consulted by the filter
+    anchor = {"date": "2026-07-06", "close": 1.0, "nav_date": "2026-07-01",
+              "nav": 1.200, "premium_pct": 0.0, "nav_lag_days": 3}
+    shut = [{"date": "2026-07-07", "close": 1.0, "nav_date": "2026-07-02",
+             "nav": 1.200, "premium_pct": 95.0 + i, "nav_lag_days": 4}
+            for i in range(20)]
+    today = {"date": "2026-07-08", "close": 1.0, "nav_date": "2026-07-08",
+             "nav": 1.210, "premium_pct": 90.0, "nav_lag_days": 1}
+    two = stats(base + [anchor] + shut + [today])
+    chk(two["n_gap_excluded"] == 20 and two["n_clean"] == 72,
+        "the carried-forward sessions leave the clean ruler (%r of %r)"
+        % (two["n_gap_excluded"], two["n"]))
+    chk(two["n_clean"] + two["n_gap_excluded"] == two["n"],
+        "every readable session sits in exactly one of the two rulers")
+    chk(two["gap_excluded_by_calendar"] == {"us": 20},
+        "the calendar explains the dropped rows instead of deciding them (%r)"
+        % (two["gap_excluded_by_calendar"],))
+    chk(two["verdict"] == "ORDINARY" and two["verdict_clean"] == "AT_RECORD_HIGH",
+        "the two rulers can disagree, and the face prints both words")
+    chk(two["rulers_disagree"] is True,
+        "a disagreement is flagged, not averaged into one number")
+    chk(two["latest_nav_is_carry"] is False,
+        "a carried-forward NAV under today's reading is named when it happens")
+    unexp = stats(base + [anchor, {"date": "2026-08-03", "close": 1.0,
+                                   "nav_date": "zzz", "nav": 1.200,
+                                   "premium_pct": 30.0, "nav_lag_days": 1},
+                           {"date": "2026-08-04", "close": 1.0,
+                            "nav_date": "zzz2", "nav": 1.220,
+                            "premium_pct": 12.0, "nav_lag_days": 1}])
+    chk(unexp["gap_excluded_by_calendar"] == {"unexplained": 1},
+        "a carry no calendar explains says so instead of borrowing a cause (%r)"
+        % (unexp["gap_excluded_by_calendar"],))
+    thin_clean = stats(base[:5] + [anchor] + shut + [today])
+    chk(thin_clean["verdict_clean"] is None and thin_clean["rulers_disagree"] is False,
+        "a clean ruler without a scale says nothing rather than 'unchanged'")
+    s_dis = summary_sentence({"summary": {"priced_legs": 1, "legs": 1,
+                                          "revert_to_own_median_cny": None,
+                                          "n_gap_excluded_total": 20,
+                                          "rulers_disagree": ["159655"]},
+                              "legs": [{"symbol": "159655", "verdict": "ORDINARY",
+                                        "rank_of_latest": 0.5}]})
+    chk("159655" in s_dis and "20" in s_dis,
+        "the producer's own sentence names the dropped sessions and the changed leg")
 
     print("selftest %d/%d" % (ok, tot))
     for e in errs:

@@ -10,7 +10,16 @@
  "ruler": {
   "measure": "panel close / the newest unit NAV stamped strictly before that close - 1",
   "not_the_same_as": "IOPV (intraday basket value) -- the board's 23.64% and this face's reading are two rulers, printed side by side",
-  "no_lookahead": "a NAV stamped on the price bar itself is never used"
+  "no_lookahead": "a NAV stamped on the price bar itself is never used",
+  "rank_of_latest": "share of readable sessions whose premium is below today's",
+  "rank_of_latest_clean": "the same share over the sessions that carry a NEW valuation -- a NAV stamp that repeats its predecessor's number is dropped, because that row's 'premium' is the price moving against a valuation that could not"
+ },
+ "calendars": {
+  "source": "scripts/etf_book_premium_subscription.py (closure_kind / hk_closure_kind; single producer for both calendars)",
+  "us": "rule-derived (New York)",
+  "hk": "measured (HSI series)",
+  "hk_status": "cache-stale",
+  "error": null
  },
  "legs": [
   {
@@ -31,6 +40,17 @@
    "max_date": "2024-09-30",
    "rank_of_latest": 0.6385542168674698,
    "verdict": "ORDINARY",
+   "n_clean": 1488,
+   "rank_of_latest_clean": 0.6384408602150538,
+   "verdict_clean": "ORDINARY",
+   "n_gap_excluded": 6,
+   "gap_excluded_by_calendar": {
+    "unexplained": 3,
+    "hk": 2,
+    "us": 1
+   },
+   "latest_nav_is_carry": false,
+   "rulers_disagree": false,
    "symbol": "510760",
    "class": "equity",
    "amount_cny": 86345.9,
@@ -200,6 +220,15 @@
    "max_date": "2024-09-30",
    "rank_of_latest": 0.24317226890756302,
    "verdict": "ORDINARY",
+   "n_clean": 1895,
+   "rank_of_latest_clean": 0.24221635883905013,
+   "verdict_clean": "ORDINARY",
+   "n_gap_excluded": 9,
+   "gap_excluded_by_calendar": {
+    "unexplained": 9
+   },
+   "latest_nav_is_carry": false,
+   "rulers_disagree": false,
    "symbol": "512040",
    "class": "equity",
    "amount_cny": 86375.8,
@@ -369,6 +398,16 @@
    "max_date": "2024-01-24",
    "rank_of_latest": 0.9867617107942973,
    "verdict": "UPPER_TAIL",
+   "n_clean": 977,
+   "rank_of_latest_clean": 0.9866939611054247,
+   "verdict_clean": "UPPER_TAIL",
+   "n_gap_excluded": 5,
+   "gap_excluded_by_calendar": {
+    "us": 2,
+    "unexplained": 3
+   },
+   "latest_nav_is_carry": false,
+   "rulers_disagree": false,
    "symbol": "159655",
    "class": "crossborder",
    "amount_cny": 86243.1,
@@ -538,6 +577,16 @@
    "max_date": "2022-03-17",
    "rank_of_latest": 0.2039127163280662,
    "verdict": "ORDINARY",
+   "n_clean": 1324,
+   "rank_of_latest_clean": 0.20241691842900303,
+   "verdict_clean": "ORDINARY",
+   "n_gap_excluded": 5,
+   "gap_excluded_by_calendar": {
+    "us": 1,
+    "unexplained": 4
+   },
+   "latest_nav_is_carry": false,
+   "rulers_disagree": false,
    "symbol": "513690",
    "class": "crossborder",
    "amount_cny": 86394.0,
@@ -707,6 +756,15 @@
    "max_date": "2024-05-10",
    "rank_of_latest": 0.15932642487046633,
    "verdict": "ORDINARY",
+   "n_clean": 768,
+   "rank_of_latest_clean": 0.16015625,
+   "verdict_clean": "ORDINARY",
+   "n_gap_excluded": 4,
+   "gap_excluded_by_calendar": {
+    "unexplained": 4
+   },
+   "latest_nav_is_carry": false,
+   "rulers_disagree": false,
    "symbol": "159519",
    "class": "crossborder",
    "amount_cny": 86338.0,
@@ -867,7 +925,10 @@
   ],
   "revert_to_own_median_cny": 4283.984873490898,
   "book_amount_cny": 431696.8,
-  "sentence": "159655(UPPER_TAIL, 第99%)；若这些腿各自回到自己的中位溢价，这张单值 ￥4284"
+  "n_gap_excluded_total": 29,
+  "n_sessions_total": 6481,
+  "rulers_disagree": [],
+  "sentence": "159655(UPPER_TAIL, 第99%)；若这些腿各自回到自己的中位溢价，这张单值 ￥4284；把 29 个「净值戳沿用上一日数字、分母当天不可能动」的会话剔掉后，没有一只腿的判词改变"
  },
  "gate": {
   "ok": true,
@@ -904,6 +965,8 @@
   "NAV is as-collected: a later pull may restate it, and a restated NAV moves the whole series by that revision (the raw cache is regenerable, the published history CSV is this session's reading).",
   "A cross-border (QDII) NAV is stamped on the overseas close, so part of every reading is the overseas move since that stamp -- the lag ladder prices how much of the reading that offset can shift.",
   "A限购 fund can stay expensive for years: a high percentile is a reading, not a sell order.",
+  "A rank counts sessions, and a session whose NAV stamp repeats the previous valuation carries no new number -- the second rank drops those rows and the calendars in hand only explain them.",
+  "The second rank does NOT drop a session whose NAV moved only slightly (a distribution or a share conversion moves the number without moving the basket). Those rows are measured on their own face (results/etf_premium/PREMIUM-SUBSCRIPTION.json), which counts the one-row suspension runs; this face does not re-decide them.",
   "The panel close is not the price the sheet pays; the sheet pays the next open plus slippage (tracked on the punctuality faces)."
  ],
  "premium_face": "results\\etf_premium\\PREMIUM-2026-11-11.json"

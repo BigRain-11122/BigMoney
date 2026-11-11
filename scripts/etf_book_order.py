@@ -1388,6 +1388,7 @@ def premium_read(ticket, asof=None, results_dir=None):
            "lag_dominated": [], "unpriced": [], "missing_legs": [], "nav_lag_days": [],
            "pct_status": "missing", "pct_face_asof": None, "pct_stale": None,
            "pct_missing_legs": [], "pct_sentence": None, "pct_revert_cny": None,
+           "pct_dropped_total": None, "pct_disagree_legs": [], "pct_max_shift_pp": None,
            "fwd_status": "missing", "fwd_face_asof": None, "fwd_stale": None,
            "fwd_verdict": None, "fwd_horizon": None, "fwd_sentence": None,
            "fwd_caveat": None, "fwd_rows": [], "fwd_missing_legs": [],
@@ -1471,6 +1472,16 @@ def premium_read(ticket, asof=None, results_dir=None):
         summ = pct.get("summary") or {}
         out["pct_sentence"] = summ.get("sentence")
         out["pct_revert_cny"] = summ.get("revert_to_own_median_cny")
+        out["pct_dropped_total"] = summ.get("n_gap_excluded_total")
+        out["pct_disagree_legs"] = list(summ.get("rulers_disagree") or [])
+        _shift = None
+        for _l in (pct.get("legs") or []):
+            _a, _b = _l.get("rank_of_latest"), _l.get("rank_of_latest_clean")
+            if _a is None or _b is None:
+                continue
+            _d = abs(float(_a) - float(_b)) * 100.0
+            _shift = _d if _shift is None else max(_shift, _d)
+        out["pct_max_shift_pp"] = _shift
     if face is None:
         return out
     out["status"] = "produced"
@@ -1497,7 +1508,16 @@ def premium_read(ticket, asof=None, results_dir=None):
                             "verdict": l.get("verdict") or "?",
                             "rank": (p or {}).get("rank_of_latest"),
                             "rank_n": (p or {}).get("n"),
-                            "rank_verdict": (p or {}).get("verdict")})
+                            "rank_verdict": (p or {}).get("verdict"),
+                            # r1566: the same rank over the sessions that carry a NEW
+                            # valuation. A stamp repeating its predecessor's number is a
+                            # row where the denominator could not move, and a tail that
+                            # only exists on such rows is not a tail.
+                            "rank_clean": (p or {}).get("rank_of_latest_clean"),
+                            "rank_clean_n": (p or {}).get("n_clean"),
+                            "rank_clean_verdict": (p or {}).get("verdict_clean"),
+                            "rank_dropped": (p or {}).get("n_gap_excluded"),
+                            "rank_rulers_disagree": (p or {}).get("rulers_disagree")})
         if l.get("verdict") == "LAG_DOMINATED":
             out["lag_dominated"].append(sym)
         if l.get("verdict") == "UNPRICED":
@@ -1563,13 +1583,14 @@ def premium_read_md(tk):
         L += ["- **这张溢价面切的是 `%s`，不是本单的日子**：读数与今日下单不同源，"
               "只能作参考，不能拿它说今天的贵贱。" % (tk.get("face_asof") or "?")]
     if tk.get("rows"):
-        L += ["", "| 代码 | 类别 | 今日溢价 | 自身中位 | 自身分位(n) | 戳敏(中位) | 戳敏(今日) | NAV 戳落后 | 判词 |",
-              "|---|---|---|---|---|---|---|---|---|"]
+        L += ["", "| 代码 | 类别 | 今日溢价 | 自身中位 | 自身分位(n) | 自身分位·只算新估值(n) | 戳敏(中位) | 戳敏(今日) | NAV 戳落后 | 判词 |",
+              "|---|---|---|---|---|---|---|---|---|---|"]
         for r in tk["rows"]:
-            L.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s |"
+            L.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |"
                      % (r["symbol"], r["class"],
                         _pp(r.get("latest_pct")), _pp(r.get("median_pct")),
                         _rank(r.get("rank"), r.get("rank_n")),
+                        _rank(r.get("rank_clean"), r.get("rank_clean_n")),
                         _pp(r.get("lag_median_pp")), _pp(r.get("lag_latest_pp")),
                         ("%d 天" % r["nav_lag_days"]) if r.get("nav_lag_days") is not None else "-",
                         r.get("verdict") or "?"))
@@ -1592,6 +1613,18 @@ def premium_read_md(tk):
         L += ["- 分位与戳敏问的是两件事：一个问「在自己历史里排第几」，一个问「这个读数是不是净值戳造出来的」。"
               "**高分位不是卖单**：限购的基金可以常年溢价（本面不持有申购状态数据，限购假设未经证明）。",
               "- 尺子：收盘价 ÷ 最新已披露单位净值 − 1；盘中 IOPV（篮子估值）是另一把尺子，两个数并列不相加、不换算。"]
+        # r1566: a rank counts sessions, and not every session carries a new valuation.
+        if tk.get("pct_dropped_total") is not None:
+            _shift = tk.get("pct_max_shift_pp")
+            _dis = tk.get("pct_disagree_legs") or []
+            L += ["- **第二列「只算新估值」**：把每只基金里「净值戳沿用上一日数字、分母当天不可能动」的会话剔掉再排一次"
+                  "（本单共剔 %d 个会话），分位最多移动 %s，%s。"
+                  % (int(tk["pct_dropped_total"]),
+                     "-" if _shift is None else "%.1fpp" % float(_shift),
+                     ("判词改变的腿：%s —— 那说明原来那个尾部读数站不住" % "、".join(_dis))
+                     if _dis else "没有一只腿的判词改变"),
+                  "- 这一列**只**剔完全沿用的净值戳；净值只微动（分红、份额折算）的行不在它的射程内，"
+                  "那些行归 `PREMIUM-SUBSCRIPTION.json` 的单行段面量，本页不替它下判断。"]
     if tk.get("fwd_status") != "produced":
         L += ["", "- **本单没有后续读数**：`%s` 未产出或读不出。缺这张面**不等于**「付高溢价之后没什么事」——"
               "它只说明这条路还没被量过。" % PREMIUM_FORWARD_FACE]
