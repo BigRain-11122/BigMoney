@@ -40,6 +40,32 @@ subscription.**
    them closed-channel. On a leg with zero suspended sessions (159263) that share reads
    100% by construction, so the column is a census, not a contrast — stated on the page.
 
+## Days are not runs (r1547)
+
+Reading 2 counted **days**, and a day count is not a sample size. Once the runs are named
+(`episode_granularity`), the 830 hard-suspended sessions across the five legs turn out to be
+**141 runs, 116 of them a single NAV row** — i.e. one word printed between two exchange-only
+rows, which is a blip rather than a policy. And on 513100, the leg that carried the whole
+headline, the +4.50pp is not spread over its 48 runs:
+
+| leg | blocked runs | one-row blips | longest run | its own gap | the other runs |
+|---|---|---|---|---|---|
+| 159501 | 29 | 29 | 1 session | −1.18pp | +0.49pp |
+| 513100 | 48 | 43 | **435 sessions** (2024-11-26..2026-09-08) | **+4.28pp** | **+0.06pp** |
+| 513690 | 42 | 24 | 3 sessions | −0.68pp | +0.20pp |
+| 159577 | 22 | 20 | 30 sessions | −1.42pp | +0.42pp |
+
+So the honest statement is narrower than r1546's: **on 513100 the block and the premium moved
+together through one long suspension — one decision by one fund, n=1 — and the 43 single-row
+suspensions around it show no elevation at all (+0.06pp).** A day-level median over one long
+run and hundreds of correlated repeats of that same run cannot tell a policy effect from a
+coincidence of timing. This is the same failure the calendar rule has (E222: one observation
+per month, not per day), and it was cheap to catch only because the runs were named.
+
+The face keeps both readings and says which one has a count behind it; `check` now refuses a
+published face that prints a block count without printing whether its gap survives dropping
+the widest run.
+
 ## Why this is falsifiable
 
 The hypothesis "the premium is a 限购 artefact" dies the moment any session shows an open
@@ -58,7 +84,7 @@ session above the line so the red path is exercised, not just described.
 
 ## Where it lives
 
-* script `scripts/etf_book_premium_subscription.py` (`run` / `check` / `selftest` 19/19)
+* script `scripts/etf_book_premium_subscription.py` (`run` / `check` / `selftest` 41/41)
 * face `results/etf_premium/PREMIUM-SUBSCRIPTION.json` + `.md`
 * status cache `data/etf_premium/subscription/<code>.csv` (regenerable, gitignored)
 * chain leg `premium_subscription` (check-only, ~0.2s)

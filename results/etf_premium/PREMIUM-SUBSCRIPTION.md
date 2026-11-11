@@ -1,6 +1,6 @@
 # Premium vs the fund's own purchase channel -- 2026-11-10
 
-**Answer (derived):** 5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 513100; exchange-only on their latest stamp: 159501, 513690, 159577, 159263; closed channel is consistent with a standing premium, not a verdict on it
+**Answer (derived):** 5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 513100; exchange-only on their latest stamp: 159501, 513690, 159577, 159263; the 830 hard-suspended sessions are 141 runs (116 of them a single NAV row); 513100's gap sits in its single 435-session run (own gap +4.28) while its other 47 runs read +0.06; closed channel is consistent with a standing premium, not a verdict on it
 
 Ruler: panel close / the newest unit NAV stamped strictly before that close - 1. Status joined on: 申购状态 printed on the NAV stamp the premium used.
 
@@ -22,6 +22,70 @@ Ruler: panel close / the newest unit NAV stamped strictly before that close - 1.
 | 159577 | BLOCK_DOES_NOT_WIDEN | +1.18% | +1.79% | -0.60 | 58 / 600 |
 | 159263 | NO_CONTRAST | n/a | +0.10% | n/a | 0 / 326 |
 
+## Days vs runs: how much evidence the block count actually is
+
+A suspension lasts as long as the fund keeps it, so the days inside one run are
+the same fact repeated. The table above counts days; this one counts runs.
+
+| leg | runs (all words) | blocked runs | runs of a single NAV row | median rows per block | longest block | run-level gap vs exchange-only | longest run's own gap | gap with the longest run dropped | verdict |
+|---|---|---|---|---|---|---|---|---|---|
+| 159501 | 59 | 29 | 29 | 1 | 1 (2023-06-20..2023-06-20) | +0.22 | -1.18 | +0.49 | EPISODE_GAP_DOES_NOT_WIDEN |
+| 513100 | 96 | 48 | 43 | 1 | 435 (2024-11-26..2026-09-08) | +0.08 | +4.28 | +0.06 | EPISODE_GAP_DOES_NOT_WIDEN |
+| 513690 | 85 | 42 | 24 | 1 | 3 (2021-09-17..2021-09-23) | +0.17 | -0.68 | +0.20 | EPISODE_GAP_DOES_NOT_WIDEN |
+| 159577 | 45 | 22 | 20 | 1 | 30 (2025-04-23..2025-06-09) | +0.40 | -1.42 | +0.42 | EPISODE_GAP_DOES_NOT_WIDEN |
+| 159263 | 1 | 0 | 0 | n/a | 0 (n/a..n/a) | n/a | n/a | n/a | NO_BLOCKED_EPISODES |
+
+Run-level gap = median over blocked runs of (that run's own median premium - the
+leg's exchange-only median), so one long block cannot stand in for hundreds of
+sessions. A verdict needs at least five blocked runs; below that the page says
+TOO_FEW_EPISODES rather than printing a median of one run as a measurement.
+
+The last two columns are the cheapest honest question about any such gap: does it
+survive dropping the single longest block? A gap that lives in one run is one
+decision by one fund, and the page says so instead of quoting it as a population.
+
+### The transition days, named
+
+Up to 8 longest blocked runs per leg, with the first and last priced session that
+carried the word. Every run in coverage is in the JSON twin (`episode_granularity.runs`),
+including the exchange-only ones between them.
+
+| leg | 申购状态 | first priced session carrying it | last | rows | its own median premium |
+|---|---|---|---|---|---|
+| 159501 | 暂停申购 | 2023-06-20 | 2023-06-20 | 1 | +0.10% |
+| 159501 | 暂停申购 | 2023-07-05 | 2023-07-05 | 1 | -0.36% |
+| 159501 | 暂停申购 | 2023-09-05 | 2023-09-05 | 1 | -0.13% |
+| 159501 | 暂停申购 | 2023-11-24 | 2023-11-24 | 1 | -0.27% |
+| 159501 | 暂停申购 | 2023-12-26 | 2023-12-26 | 1 | +0.39% |
+| 159501 | 暂停申购 | 2024-01-16 | 2024-01-16 | 1 | -0.32% |
+| 159501 | 暂停申购 | 2024-02-20 | 2024-02-20 | 1 | +0.03% |
+| 159501 | 暂停申购 | 2024-04-01 | 2024-04-01 | 1 | +0.85% |
+| 513100 | 暂停申购 | 2024-11-26 | 2026-09-08 | 435 | +4.82% |
+| 513100 | 暂停申购 | 2020-03-30 | 2020-10-23 | 138 | +7.18% |
+| 513100 | 暂停申购 | 2020-01-20 | 2020-03-12 | 33 | +9.93% |
+| 513100 | 暂停申购 | 2026-10-09 | 2026-11-10 | 23 | +17.06% |
+| 513100 | 暂停申购 | 2024-09-24 | 2024-10-09 | 7 | -0.28% |
+| 513100 | 暂停申购 | 2019-01-22 | 2019-01-22 | 1 | -0.92% |
+| 513100 | 暂停申购 | 2019-02-19 | 2019-02-19 | 1 | -0.04% |
+| 513100 | 暂停申购 | 2019-05-28 | 2019-05-28 | 1 | +0.11% |
+| 513690 | 暂停申购 | 2021-09-17 | 2021-09-23 | 3 | -0.70% |
+| 513690 | 暂停申购 | 2021-12-30 | 2022-01-04 | 3 | +0.74% |
+| 513690 | 暂停申购 | 2024-12-25 | 2024-12-27 | 3 | +2.35% |
+| 513690 | 暂停申购 | 2025-12-25 | 2025-12-29 | 3 | -1.25% |
+| 513690 | 暂停申购 | 2021-09-30 | 2021-10-08 | 2 | +0.02% |
+| 513690 | 暂停申购 | 2021-10-14 | 2021-10-15 | 2 | -0.12% |
+| 513690 | 暂停申购 | 2022-01-28 | 2022-02-07 | 2 | +1.92% |
+| 513690 | 暂停申购 | 2022-04-01 | 2022-04-06 | 2 | +1.93% |
+| 159577 | 暂停申购 | 2025-04-23 | 2025-06-09 | 30 | +0.37% |
+| 159577 | 暂停申购 | 2025-11-20 | 2025-12-01 | 8 | +7.21% |
+| 159577 | 暂停申购 | 2024-04-01 | 2024-04-01 | 1 | +1.96% |
+| 159577 | 暂停申购 | 2024-05-28 | 2024-05-28 | 1 | +2.45% |
+| 159577 | 暂停申购 | 2024-06-20 | 2024-06-20 | 1 | +2.89% |
+| 159577 | 暂停申购 | 2024-07-05 | 2024-07-05 | 1 | +3.86% |
+| 159577 | 暂停申购 | 2024-09-03 | 2024-09-03 | 1 | -0.03% |
+| 159577 | 暂停申购 | 2024-11-29 | 2024-11-29 | 1 | +1.46% |
+| 159263 | (never suspended in coverage) | | | | |
+
 ## What this face refuses to claim
 
 * A closed channel is **consistent with** a standing premium; it does not make the
@@ -40,3 +104,8 @@ Ruler: panel close / the newest unit NAV stamped strictly before that close - 1.
 * The two premium columns are different quantities and are never added: this face
   divides the panel close by the disclosed unit NAV; the board divides price by
   intraday IOPV. The gap column prices how far apart those rulers sit on one session.
+* The day counts in the first table are **not** independent observations. A single
+  block of 435 sessions is one decision by the fund, and a run of one NAV row is
+  one word printed between two exchange-only rows -- neither is 435 answers or a
+  policy. The second table is the same contrast re-read per run; where the two
+  disagree, the run-level reading is the one with a defensible count behind it.

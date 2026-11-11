@@ -33,6 +33,13 @@ Every reading is joined on the NAV *stamp the premium used* (the strictly-earlie
 from `etf_book_premium_percentile.premium_series`), never on the price bar: a status word
 belongs to the NAV row it is printed on.
 
+r1547 added the level the first version was missing: the *runs*. The day counts above invite
+a reader to treat 679 suspended sessions as 679 observations, and they are not -- the days
+inside one suspension repeat one fact, while on several legs most 暂停申购 runs are a single
+NAV row. `episode_read` names every run with its first and last priced session and re-reads
+the contrast one level up; on 513100 the published +4.50pp turns out to sit in its single
+435-session block (+4.28pp), with the other 47 runs at +0.06pp.
+
 Usage:
     python scripts/etf_book_premium_subscription.py run [--no-fetch]
     python scripts/etf_book_premium_subscription.py check
@@ -133,6 +140,88 @@ def load_status(code, fetch=True, today=None, cache_dir=None):
         return rows, "fetch-error:%s" % type(exc).__name__
 
 
+def episodes(series):
+    """Contiguous runs of one status word, in priced-session order.
+
+    The previous reading counted *days*: 513100 showed 679 hard-suspended sessions and the
+    page invited a reader to take that as 679 observations. They are not -- a suspension runs
+    for as long as the fund keeps it, and every day inside it repeats the same fact. The same
+    count is misleading in the other direction too: on several legs most 暂停申购 runs are a
+    single NAV row, i.e. one word printed between two exchange-only rows, which is a blip and
+    not a policy. Both have to be counted, and separately.
+
+    Each episode records the first and last priced session that carried the word, so the
+    transition days can be named instead of summarised.
+    """
+    out = []
+    for r in series:
+        w = r.get("purchase") or ""
+        k = r.get("purchase_kind") or "unknown"
+        if out and out[-1]["word"] == w and out[-1]["kind"] == k:
+            e = out[-1]
+            e["last_date"] = r["date"]
+            e["last_nav_date"] = r["nav_date"]
+            e["n_rows"] += 1
+            e["_prems"].append(r["premium_pct"])
+        else:
+            out.append({"word": w, "kind": k,
+                        "first_date": r["date"], "last_date": r["date"],
+                        "first_nav_date": r["nav_date"], "last_nav_date": r["nav_date"],
+                        "n_rows": 1, "_prems": [r["premium_pct"]]})
+    for e in out:
+        e["median_pct"] = statistics.median(e["_prems"])
+        e.pop("_prems", None)
+    return out
+
+
+def episode_read(series, is_blocked=lambda word: "暂停" in (word or "")):
+    """Days vs episodes: how many independent runs the block count really rests on.
+
+    The contrast is re-read one level up -- for each 暂停申购 episode, its own median premium
+    against the leg's exchange-only baseline -- so a single 435-session block and an equal
+    number of one-row blips can no longer masquerade as the same amount of evidence.
+    """
+    eps = episodes(series)
+    exh = [r["premium_pct"] for r in series
+           if r["purchase_kind"] == "closed" and not is_blocked(r.get("purchase"))]
+    base = statistics.median(exh) if len(exh) >= 5 else None
+    blocked_eps = [e for e in eps if is_blocked(e["word"])]
+    gaps = [e["median_pct"] - base for e in blocked_eps] if base is not None else []
+    if not blocked_eps:
+        verdict = "NO_BLOCKED_EPISODES"
+    elif base is None:
+        verdict = "NO_EXCHANGE_BASELINE"
+    elif len(blocked_eps) < 5:
+        verdict = "TOO_FEW_EPISODES"
+    else:
+        verdict = ("EPISODE_GAP_WIDENS" if statistics.median(gaps) > 1.0
+                   else "EPISODE_GAP_DOES_NOT_WIDEN")
+    longest = max(blocked_eps, key=lambda e: e["n_rows"]) if blocked_eps else None
+    longest_gap = (longest["median_pct"] - base) if (longest and base is not None) else None
+    rest = [g for g, e in zip(gaps, blocked_eps) if e is not longest] if longest else list(gaps)
+    gap_wo = statistics.median(rest) if rest else None
+    return {
+        "n_episodes": len(eps),
+        "n_blocked_episodes": len(blocked_eps),
+        "blocked_one_row": sum(1 for e in blocked_eps if e["n_rows"] == 1),
+        "median_blocked_rows": (statistics.median([e["n_rows"] for e in blocked_eps])
+                                if blocked_eps else None),
+        "longest_blocked_rows": longest["n_rows"] if longest else 0,
+        "longest_blocked_first": longest["first_date"] if longest else None,
+        "longest_blocked_last": longest["last_date"] if longest else None,
+        "exchange_baseline_pct": base,
+        "episode_gap_pp": (statistics.median(gaps) if gaps else None),
+        "longest_block_gap_pp": longest_gap,
+        "gap_without_longest_pp": gap_wo,
+        "widens_only_in_longest": bool(longest_gap is not None and longest_gap > 1.0
+                                       and gap_wo is not None and gap_wo <= 1.0),
+        "episodes_gap_positive": sum(1 for g in gaps if g > 0),
+        "n_gaps": len(gaps),
+        "verdict": verdict,
+        "runs": eps,
+    }
+
+
 def series_with_status(prices, navs, status_rows, lag=1):
     """pp.premium_series plus the purchase word printed on the NAV stamp it used."""
     prem = pp.premium_series(prices, navs, lag=lag)
@@ -197,6 +286,7 @@ def leg_facts(leg, prices, navs, status_rows, lag=1):
     wv, wv_n = window_verdict(series)
     latest = series[-1] if series else None
     hi = high_premium_face(series)
+    ep = episode_read(series)
     facts = {
         "symbol": str(leg.get("symbol")),
         "class": leg.get("class"),
@@ -213,6 +303,7 @@ def leg_facts(leg, prices, navs, status_rows, lag=1):
         "blocked_sessions": sum(1 for r in series if "暂停" in (r["purchase"] or "")),
         "high_premium": hi,
         "block_contrast": block_contrast(series),
+        "episode_granularity": ep,
     }
     return facts
 
@@ -308,6 +399,24 @@ def summary_sentence(legs, all_closed):
            and "暂停" not in (l["latest_purchase"] or "")]
     if exh:
         parts.append("exchange-only on their latest stamp: %s" % ", ".join(exh))
+    runs = [(l["symbol"], l["episode_granularity"]) for l in legs
+            if l["episode_granularity"]["n_blocked_episodes"]]
+    if runs:
+        day_n = sum(l["blocked_sessions"] for l in legs)
+        run_n = sum(e["n_blocked_episodes"] for _, e in runs)
+        blip_n = sum(e["blocked_one_row"] for _, e in runs)
+        parts.append("the %d hard-suspended sessions are %d runs (%d of them a single NAV row)"
+                     % (day_n, run_n, blip_n))
+    widen = [s for s, e in runs if e["verdict"] == "EPISODE_GAP_WIDENS"]
+    if widen:
+        parts.append("read per run, the block still sits wider on %s" % ", ".join(widen))
+    single = [(s, e) for s, e in runs if e.get("widens_only_in_longest")]
+    if single:
+        parts.append("; ".join(
+            "%s's gap sits in its single %d-session run (own gap %s) while its other %d runs read %s"
+            % (s, e["longest_blocked_rows"], _pp(e["longest_block_gap_pp"]),
+               e["n_blocked_episodes"] - 1, _pp(e["gap_without_longest_pp"]))
+            for s, e in single))
     parts.append("closed channel is consistent with a standing premium, not a verdict on it")
     return "; ".join(parts)
 
@@ -348,6 +457,51 @@ def render_md(doc):
             ("%+.2f" % c["gap_pp"]) if c.get("gap_pp") is not None else "n/a",
             c.get("n_blocked", 0), c.get("n_exchange", 0)))
     L.append("")
+    L.append("## Days vs runs: how much evidence the block count actually is")
+    L.append("")
+    L.append("A suspension lasts as long as the fund keeps it, so the days inside one run are")
+    L.append("the same fact repeated. The table above counts days; this one counts runs.")
+    L.append("")
+    L.append("| leg | runs (all words) | blocked runs | runs of a single NAV row | median rows per block "
+             "| longest block | run-level gap vs exchange-only | longest run's own gap "
+             "| gap with the longest run dropped | verdict |")
+    L.append("|---|---|---|---|---|---|---|---|---|---|")
+    for l in doc["legs"]:
+        e = l["episode_granularity"]
+        L.append("| %s | %d | %d | %d | %s | %d (%s..%s) | %s | %s | %s | %s |" % (
+            l["symbol"], e["n_episodes"], e["n_blocked_episodes"], e["blocked_one_row"],
+            _num(e["median_blocked_rows"]), e["longest_blocked_rows"],
+            e["longest_blocked_first"] or "n/a", e["longest_blocked_last"] or "n/a",
+            _pp(e.get("episode_gap_pp")), _pp(e.get("longest_block_gap_pp")),
+            _pp(e.get("gap_without_longest_pp")), e["verdict"]))
+    L.append("")
+    L.append("Run-level gap = median over blocked runs of (that run's own median premium - the")
+    L.append("leg's exchange-only median), so one long block cannot stand in for hundreds of")
+    L.append("sessions. A verdict needs at least five blocked runs; below that the page says")
+    L.append("TOO_FEW_EPISODES rather than printing a median of one run as a measurement.")
+    L.append("")
+    L.append("The last two columns are the cheapest honest question about any such gap: does it")
+    L.append("survive dropping the single longest block? A gap that lives in one run is one")
+    L.append("decision by one fund, and the page says so instead of quoting it as a population.")
+    L.append("")
+    L.append("### The transition days, named")
+    L.append("")
+    L.append("Up to 8 longest blocked runs per leg, with the first and last priced session that")
+    L.append("carried the word. Every run in coverage is in the JSON twin (`episode_granularity.runs`),")
+    L.append("including the exchange-only ones between them.")
+    L.append("")
+    L.append("| leg | 申购状态 | first priced session carrying it | last | rows | its own median premium |")
+    L.append("|---|---|---|---|---|---|")
+    for l in doc["legs"]:
+        runs = sorted([e for e in l["episode_granularity"]["runs"] if "暂停" in (e["word"] or "")],
+                      key=lambda e: (-e["n_rows"], e["first_date"]))[:8]
+        if not runs:
+            L.append("| %s | (never suspended in coverage) | | | | |" % l["symbol"])
+        for e in runs:
+            L.append("| %s | %s | %s | %s | %d | %s |" % (
+                l["symbol"], e["word"], e["first_date"], e["last_date"], e["n_rows"],
+                _pct(e["median_pct"])))
+    L.append("")
     L.append("## What this face refuses to claim")
     L.append("")
     L.append("* A closed channel is **consistent with** a standing premium; it does not make the")
@@ -366,6 +520,11 @@ def render_md(doc):
     L.append("* The two premium columns are different quantities and are never added: this face")
     L.append("  divides the panel close by the disclosed unit NAV; the board divides price by")
     L.append("  intraday IOPV. The gap column prices how far apart those rulers sit on one session.")
+    L.append("* The day counts in the first table are **not** independent observations. A single")
+    L.append("  block of 435 sessions is one decision by the fund, and a run of one NAV row is")
+    L.append("  one word printed between two exchange-only rows -- neither is 435 answers or a")
+    L.append("  policy. The second table is the same contrast re-read per run; where the two")
+    L.append("  disagree, the run-level reading is the one with a defensible count behind it.")
     if doc["notes"]:
         L.append("")
         L.append("Notes: " + " | ".join(doc["notes"]))
@@ -376,8 +535,68 @@ def _pct(v):
     return "n/a" if v is None else "%+.2f%%" % v
 
 
+def _num(v):
+    return "n/a" if v is None else "%g" % v
+
+
+def _pp(v):
+    return "n/a" if v is None else "%+.2f" % v
+
+
 def _fmt_money(v):
     return "n/a" if v is None else "{:,.0f}".format(v)
+
+
+def _check_episodes(l):
+    """The run table has to describe the same series the day table does. Re-derived here."""
+    e = l.get("episode_granularity") or {}
+    runs = e.get("runs") or []
+    bad = []
+    sym = l["symbol"]
+    if not runs:
+        return ["%s: no run table" % sym]
+    if e.get("n_episodes") != len(runs):
+        bad.append("%s: n_episodes %r != %d runs" % (sym, e.get("n_episodes"), len(runs)))
+    if sum(r["n_rows"] for r in runs) != l["n_sessions"]:
+        bad.append("%s: runs cover %d rows, series has %d" %
+                   (sym, sum(r["n_rows"] for r in runs), l["n_sessions"]))
+    blocked_runs = [r for r in runs if "暂停" in (r["word"] or "")]
+    if sum(r["n_rows"] for r in blocked_runs) != l["blocked_sessions"]:
+        bad.append("%s: blocked runs cover %d rows, blocked_sessions is %d" %
+                   (sym, sum(r["n_rows"] for r in blocked_runs), l["blocked_sessions"]))
+    if e.get("n_blocked_episodes") != len(blocked_runs):
+        bad.append("%s: n_blocked_episodes %r != %d" % (sym, e.get("n_blocked_episodes"),
+                                                       len(blocked_runs)))
+    if (e.get("blocked_one_row") or 0) > len(blocked_runs):
+        bad.append("%s: more single-row runs than runs" % sym)
+    for a, b in zip(runs, runs[1:]):
+        if a["word"] == b["word"] and a["kind"] == b["kind"]:
+            bad.append("%s: two adjacent runs share the word %r -- not grouped" % (sym, a["word"]))
+    v = e.get("verdict")
+    gap = e.get("episode_gap_pp")
+    if v == "NO_BLOCKED_EPISODES" and blocked_runs:
+        bad.append("%s: NO_BLOCKED_EPISODES with %d blocked runs" % (sym, len(blocked_runs)))
+    elif v == "TOO_FEW_EPISODES" and not (0 < len(blocked_runs) < 5):
+        bad.append("%s: TOO_FEW_EPISODES with %d blocked runs" % (sym, len(blocked_runs)))
+    elif v == "EPISODE_GAP_WIDENS" and not (gap or 0) > 1.0:
+        bad.append("%s: EPISODE_GAP_WIDENS with gap %r" % (sym, gap))
+    elif v == "EPISODE_GAP_DOES_NOT_WIDEN" and (gap or 0) > 1.0:
+        bad.append("%s: DOES_NOT_WIDEN with gap %r" % (sym, gap))
+    elif v == "EPISODE_GAP_DOES_NOT_WIDEN" and len(blocked_runs) < 5:
+        bad.append("%s: DOES_NOT_WIDEN decided on %d runs" % (sym, len(blocked_runs)))
+    lg, gw = e.get("longest_block_gap_pp"), e.get("gap_without_longest_pp")
+    if e.get("widens_only_in_longest") and not (lg is not None and lg > 1.0
+                                                and gw is not None and gw <= 1.0):
+        bad.append("%s: widens_only_in_longest without one wide run and a flat rest "
+                   "(longest %r, rest %r)" % (sym, lg, gw))
+    if len(blocked_runs) <= 1 and gw is not None:
+        bad.append("%s: gap without the longest run should be n/a with %d run(s)"
+                   % (sym, len(blocked_runs)))
+    if len(blocked_runs) >= 2 and (lg is None or gw is None):
+        bad.append("%s: %d blocked runs but the longest run is not priced separately -- a face"
+                   " that publishes the block count must publish whether its gap survives"
+                   " dropping the widest run" % (sym, len(blocked_runs)))
+    return bad
 
 
 def check(doc=None):
@@ -403,6 +622,7 @@ def check(doc=None):
             got = l.get("ruler_gap_pp")
             if got is None or abs(got - want) > 1e-6:
                 bad.append("%s: ruler gap %r is not latest - board (%.4f)" % (l["symbol"], got, want))
+        bad.extend(_check_episodes(l))
     ok = not bad
     print("check %s" % ("OK" if ok else "FAIL"))
     for b in bad:
@@ -421,6 +641,10 @@ def selftest():
             ok[0] += 1
         else:
             print("  FAIL:", why)
+
+    def row(word, prem, d):
+        return {"date": d, "nav": 1.0, "nav_date": "2025-12-31", "premium_pct": prem,
+                "purchase": word, "purchase_kind": status_kind(word)}
 
     # L1 word mapping
     chk(status_kind("场内买入") == "closed", "场内买入 is exchange-only, not open")
@@ -502,6 +726,8 @@ def selftest():
                      "blocked_sessions": 0,
                      "high_premium": {"n_high": 0, "share_closed_at_high": None},
                      "window_verdict": "CHANNEL_CLOSED_THROUGHOUT",
+                     "episode_granularity": episode_read(
+                         [row("场内买入", 1.0, "2026-01-%02d" % (i + 1)) for i in range(6)]),
                      "block_contrast": {"verdict": "NO_CONTRAST", "n_blocked": 0,
                                         "n_exchange": 0}}], "notes": []}
     md = render_md(doc)
@@ -523,11 +749,13 @@ def selftest():
 
     # L11 the ruler gap is recomputed, not stored
     gap_doc = json.loads(json.dumps(bad))
-    gap_doc["legs"] = [{"symbol": "1", "n_sessions": 1, "blocked_sessions": 0,
+    gap_doc["legs"] = [{"symbol": "1", "n_sessions": 6, "blocked_sessions": 0,
                         "latest_purchase_kind": "closed",
                         "window_verdict": "CHANNEL_CLOSED_THROUGHOUT",
                         "latest_pct": 24.40, "board_premium_pct": 20.29, "ruler_gap_pp": 4.11,
                         "high_premium": {"n_high": 0, "share_closed_at_high": None},
+                        "episode_granularity": episode_read(
+                            [row("场内买入", 1.0, "2026-01-%02d" % (i + 1)) for i in range(6)]),
                         "block_contrast": {"verdict": "NO_CONTRAST"}}]
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
@@ -535,9 +763,88 @@ def selftest():
         gap_doc["legs"][0]["ruler_gap_pp"] = 0.0
         chk(check(gap_doc) == 1, "a round-number gap that is not the difference goes red")
 
+    # L12 runs: consecutive equal words merge, a word returning later is a new run
+    s3 = [row("场内买入", 1.0, "2026-01-01"), row("暂停申购", 2.0, "2026-01-02"),
+          row("暂停申购", 3.0, "2026-01-03"), row("场内买入", 4.0, "2026-01-04")]
+    eps = episodes(s3)
+    chk(len(eps) == 3 and eps[1]["n_rows"] == 2, "consecutive same words merge into one run")
+    chk(eps[1]["first_date"] == "2026-01-02" and eps[1]["last_date"] == "2026-01-03",
+        "a run names its first and last priced session")
+    chk(abs(eps[1]["median_pct"] - 2.5) < 1e-9, "a run carries its own median, not the pooled one")
+    chk(len(episodes(s3 + [row("暂停申购", 9.0, "2026-01-05")])) == 4,
+        "the same word returning later is a new run, not a merge")
+    chk(all("_prems" not in e for e in eps), "the scratch column does not reach the output")
+
+    # L13 five one-row blips above the baseline -> five runs, all positive
+    blips = []
+    for i in range(5):
+        blips.append(row("场内买入", 5.0, "2026-02-%02d" % (2 * i + 1)))
+        blips.append(row("暂停申购", 20.0, "2026-02-%02d" % (2 * i + 2)))
+    er = episode_read(blips)
+    chk(er["n_blocked_episodes"] == 5 and er["blocked_one_row"] == 5,
+        "five one-row blips are five runs")
+    chk(er["verdict"] == "EPISODE_GAP_WIDENS" and er["n_gaps"] == 5,
+        "every run above the baseline -> widens at run level")
+
+    # L14 the whole point: one long block cannot stand in for many sessions
+    mixed = [row("场内买入", 5.0, "2026-03-01")]
+    mixed += [row("暂停申购", 20.0, "2026-03-%02d" % (2 + i)) for i in range(20)]
+    for i in range(5):
+        mixed.append(row("场内买入", 5.0, "2026-03-%02d" % (22 + 2 * i)))
+        mixed.append(row("暂停申购", 5.0, "2026-03-%02d" % (23 + 2 * i)))
+    er2 = episode_read(mixed)
+    chk(er2["n_blocked_episodes"] == 6 and er2["longest_blocked_rows"] == 20,
+        "one 20-row block plus five blips = six runs")
+    chk(er2["verdict"] == "EPISODE_GAP_DOES_NOT_WIDEN",
+        "one long block and five flat blips is a flat run-level median, not a wide gap")
+    chk(block_contrast(mixed)["verdict"] == "BLOCK_WIDENS_PREMIUM",
+        "...while the day-level contrast reads wide on the same series (that is the trap)")
+    chk(er2["widens_only_in_longest"] and abs(er2["longest_block_gap_pp"] - 15.0) < 1e-9
+        and abs(er2["gap_without_longest_pp"]) < 1e-9,
+        "the widest run is named and the rest of the runs are priced without it")
+    chk(episode_read(blips)["gap_without_longest_pp"] is not None,
+        "with five runs there is still a rest to price")
+
+    # L15 a median of three runs is not a measurement
+    fewer = [row("场内买入", 5.0, "2026-05-%02d" % (1 + i)) for i in range(5)]
+    fewer += [row("暂停申购", 20.0, "2026-05-%02d" % (6 + i)) for i in range(20)]
+    for i in range(2):
+        fewer.append(row("场内买入", 5.0, "2026-05-%02d" % (26 + 2 * i)))
+        fewer.append(row("暂停申购", 5.0, "2026-05-%02d" % (27 + 2 * i)))
+    chk(episode_read(fewer)["n_blocked_episodes"] == 3
+        and episode_read(fewer)["verdict"] == "TOO_FEW_EPISODES",
+        "three blocked runs -> TOO_FEW_EPISODES, not a verdict")
+    chk(episode_read(blips[:6])["verdict"] == "NO_EXCHANGE_BASELINE",
+        "no exchange-only baseline to compare against -> says so instead of guessing")
+    chk(episode_read([row("场内买入", 5.0, "2026-04-%02d" % (i + 1)) for i in range(6)])["verdict"]
+        == "NO_BLOCKED_EPISODES", "never suspended -> NO_BLOCKED_EPISODES")
+
+    # L16 the run table must describe the same series as the day table
+    leg_ok = {"symbol": "1", "n_sessions": len(mixed), "blocked_sessions":
+              sum(1 for r in mixed if "暂停" in r["purchase"]),
+              "episode_granularity": episode_read(mixed)}
+    chk(_check_episodes(leg_ok) == [], "a consistent run table passes the leg")
+    leg_bad = json.loads(json.dumps(leg_ok))
+    leg_bad["episode_granularity"]["runs"][0]["n_rows"] += 1
+    chk(_check_episodes(leg_bad) != [], "a run table whose rows do not cover the series goes red")
+    leg_bad2 = json.loads(json.dumps(leg_ok))
+    leg_bad2["episode_granularity"]["runs"] = leg_bad2["episode_granularity"]["runs"][:2]
+    chk(_check_episodes(leg_bad2) != [], "a truncated run table goes red (it is not a sample)")
+
+    # L17 the page says both counts and names the run boundaries
+    doc2 = json.loads(json.dumps(doc))
+    doc2["legs"][0]["symbol"] = "159501"
+    doc2["legs"][0]["n_sessions"] = len(mixed)
+    doc2["legs"][0]["blocked_sessions"] = leg_ok["blocked_sessions"]
+    doc2["legs"][0]["episode_granularity"] = episode_read(mixed)
+    md2 = render_md(doc2)
+    chk("Days vs runs" in md2 and "EPISODE_GAP_DOES_NOT_WIDEN" in md2,
+        "the page carries the run verdict word")
+    chk("2026-03-02" in md2 and "2026-03-21" in md2,
+        "the page names the first and last session of the longest block")
+
     print("selftest %d/%d" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1
-
 
 def run(fetch=True):
     doc = build(fetch=fetch)
