@@ -1,0 +1,42 @@
+{
+ "decision": "D-20261110-12",
+ "ast_checks": [
+  {
+   "file": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4/decision-round.ps1",
+   "parse_errors": "0",
+   "set_location_line": 14,
+   "set_location_arg": "Set-Location -LiteralPath $Project",
+   "lock_line": 15,
+   "pins_before_lock": true,
+   "arg_is_project": true
+  },
+  {
+   "file": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4/night-round.ps1",
+   "parse_errors": "0",
+   "set_location_line": 16,
+   "set_location_arg": "Set-Location -LiteralPath $Project",
+   "lock_line": 17,
+   "pins_before_lock": true,
+   "arg_is_project": true
+  },
+  {
+   "file": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\cph4/evolution-tick.ps1",
+   "parse_errors": "0",
+   "set_location_line": 9,
+   "set_location_arg": "Set-Location -LiteralPath $Project",
+   "lock_line": 10,
+   "pins_before_lock": true,
+   "arg_is_project": true
+  }
+ ],
+ "live_cwd": {
+  "start_cwd": "C:\\Windows\\system32",
+  "P0": "C:\\Windows\\system32",
+  "P1": "C:\\Users\\sjs20\\Desktop\\FluxGroup",
+  "cwd_pinned": true,
+  "returncode": 0,
+  "stderr": ""
+ },
+ "entry_points_not_run_end_to_end": "inline T0 guard looks for CLOUD-OFF-LOCAL-ONLY-v1.md; marker was renamed *.disabled-20261023-2358 so a live run spawns a cloud round (one was spawned at 2026-11-11 20:21 and terminated). Acceptance uses AST order + live CWD move.",
+ "accepted": true
+}
