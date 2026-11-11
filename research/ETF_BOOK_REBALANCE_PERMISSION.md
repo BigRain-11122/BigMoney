@@ -1,22 +1,22 @@
 # May the 2026-11-11 rebalance keep this size?
 
-ticket `TICKET-2026-11-10.json` | evidence cutoff 2026-11-10 | decision date 2026-11-11 | beta target 0.2
+ticket `TICKET-2026-11-11.json` | evidence cutoff 2026-11-11 | decision date 2026-11-11 | beta target 0.2
 
-**KEEP_SUPPORTED_BY_INDEPENDENT_PATH** — keeping k=0.393073 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.393073
+**KEEP_SUPPORTED_BY_INDEPENDENT_PATH** — keeping k=0.393073 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.432195
 
 | reading | k | vs money (pp) | kind | why |
 |---|---|---|---|---|
 | baseline_published | 0.460253 | +6.72 | circular | the construction the ticket was priced from (k == k_now by identity) |
-| window | 0.412669 | +1.96 | path | measured on 306 bars |
-| universe | 0.432195 | +3.91 | path | measured on 1660 bars |
-| window_x_universe | 0.393073 | +0.00 | path | measured on 306 bars |
-| denominator | 0.544424 | +15.14 | static | static composition, not a path: only comparable with the path rows because it is divided by covered weight |
+| window | 0.747086 | +35.40 | path | measured on 771 bars |
+| universe | 0.432195 | +3.91 | path | measured on 1661 bars |
+| window_x_universe | 0.667665 | +27.46 | path | measured on 771 bars |
+| denominator | 0.343508 | -4.96 | static | static composition, not a path: only comparable with the path rows because it is divided by covered weight |
 
-- money in force: k=0.393073 = CNY 392,536 of a CNY 1,000,000 NAV
-- permitted floor over 3 path reading(s): k=0.393073 = CNY 392,536
-- cut if reprice is required: k -0.000000 (0.00pp) = CNY 0
-- supporters at the money: denominator, universe, window, window_x_universe (path: universe, window, window_x_universe / non-path: denominator)
-- the trap: reading 'some ruler permits a larger size' as permission reads k=0.544424 -> keep=True
+- money in force: k=0.393073 = CNY 392,673 of a CNY 1,000,000 NAV
+- permitted floor over 3 path reading(s): k=0.432195 = CNY 431,795
+- cut if reprice is required: k --0.039122 (-3.91pp) = CNY -39,122
+- supporters at the money: universe, window, window_x_universe (path: universe, window, window_x_universe / non-path: none)
+- the trap: reading 'some ruler permits a larger size' as permission reads k=0.747086 -> keep=True
 
 ## supply side (carried, not re-judged)
 

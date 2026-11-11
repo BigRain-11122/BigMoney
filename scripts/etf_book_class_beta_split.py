@@ -98,6 +98,12 @@ def published_face():
         "ticket_file": name,
         "beta_target": tk.get("beta_target"),
         "k_now": tk.get("k_now"),
+        # The ticket carries TWO sizes: the rule's own k and the one actually issued once
+        # the floor caps it. Comparing a re-derived rule k against the issued k reads
+        # IDENTITY_BROKEN on every bar the floor binds -- that is a caliber gap, not a
+        # broken receipt. Keep both so each leg can name which quantity it measured.
+        "k_rule": tk.get("k_rule"),
+        "sizing_floor": tk.get("sizing_floor"),
         "book_weight": tk["ticket"].get("book_weight"),
         "decision_bar": tk.get("book_decided_at"),
         "published_path_beta": prov.get("beta_hat"),
@@ -354,6 +360,11 @@ def run():
 
     published_beta = face.get("published_path_beta")
     published_k = face.get("k_now")
+    # Three quantities, three legs -- see published_face() for why they are not the same.
+    ticket_k_now = face.get("k_now")
+    ticket_k_rule = face.get("k_rule")
+    ticket_floor = ((face.get("sizing_floor") or {}).get("floor")
+                    if isinstance(face.get("sizing_floor"), dict) else None)
     # numpy bools are not JSON-serialisable; every leg is coerced at the boundary so the
     # face can be written, not just computed (r-type: a result that cannot be saved
     # silently stays unpublished).
@@ -364,8 +375,19 @@ def run():
         "published_beta_matches_face": _b(
             None if published_beta is None
             else abs(float(beta_pub) - float(published_beta)) <= 1e-4),
+        # "published" means what THIS face prints, and it must be the ticket's issued size.
         "published_k_matches_ticket": _b(
-            None if published_k is None else abs(float(k_pub) - float(published_k)) <= 1e-6),
+            None if published_k is None or ticket_k_now is None
+            else abs(float(published_k) - float(ticket_k_now)) <= 1e-6),
+        # ...and the engine's own re-derivation must land on the ticket's RULE k. Naming the
+        # rule leg separately is what makes the floor binding visible instead of fatal.
+        "rule_k_reproduces_ticket_rule": _b(
+            None if ticket_k_rule is None else abs(float(k_pub) - float(ticket_k_rule)) <= 1e-6),
+        # The issued size has to be one of the two the ticket is allowed to carry.
+        "issued_k_is_rule_or_floor": _b(
+            None if ticket_k_now is None or ticket_k_rule is None
+            else any(abs(float(ticket_k_now) - float(x)) <= 1e-6
+                     for x in (ticket_k_rule, ticket_floor) if x is not None)),
         "vol_split_rebuilds_book_sigma": _b(
             None if split["book_sigma_ann"] is None or split["vol_contribution_total"] is None
             else abs(split["vol_contribution_total"] - split["book_sigma_ann"]) <= 1e-5),
@@ -389,6 +411,14 @@ def run():
         "reproduced_path_beta": round(float(beta_pub), 6),
         "k_published": round(float(published_k), 6) if published_k is not None else None,
         "k_reproduced": round(float(k_pub), 6),
+        "k_ticket": round(float(ticket_k_now), 6) if ticket_k_now is not None else None,
+        "k_ticket_rule": round(float(ticket_k_rule), 6) if ticket_k_rule is not None else None,
+        "k_ticket_floor": round(float(ticket_floor), 6) if ticket_floor is not None else None,
+        "issued_k_source": (
+            None if ticket_k_now is None or ticket_k_rule is None
+            else ("floor" if ticket_floor is not None
+                  and abs(float(ticket_k_now) - float(ticket_floor)) <= 1e-6
+                  else "rule")),
         "graded_arm": {
             "classes": sorted(GRADED),
             "universe_symbols": len(cols_b),

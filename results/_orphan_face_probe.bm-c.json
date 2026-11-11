@@ -1,18 +1,45 @@
 {
- "ts": "2026-11-11T16:40:49",
+ "ts": "2026-11-11T17:36:12",
  "mode": "probe",
- "py_faces_seen": 1,
+ "py_faces_seen": 5,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 0,
  "faces": [
   {
-   "pid": 6220,
+   "pid": 20216,
+   "name": "pythonw.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe scripts/etf_book_capacity_rule.py selftest",
+   "age_min": 0.5,
+   "cpu_delta_20s": 20.062,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "pythonw.exe"
+   ]
+  },
+  {
+   "pid": 35944,
+   "name": "python.exe",
+   "cmd": "python Tools\\queue_claim.py --node bm-c",
+   "age_min": 0.1,
+   "cpu_delta_20s": 999.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "cmd.exe",
+    "pythonw.exe"
+   ]
+  },
+  {
+   "pid": 43600,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.4,
-   "cpu_delta_20s": 0.047,
+   "cpu_delta_20s": 0.141,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -21,6 +48,35 @@
     "codely.exe",
     "powershell.exe",
     "wscript.exe"
+   ]
+  },
+  {
+   "pid": 47820,
+   "name": "pythonw.exe",
+   "cmd": "pythonw.exe K:\\Fluxgroup\\FluxGroup\\Tools\\hq_claim_launch.py",
+   "age_min": 0.2,
+   "cpu_delta_20s": 999.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "svchost.exe",
+    "services.exe",
+    "wininit.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 75408,
+   "name": "pythonw.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -m smoke_test",
+   "age_min": 10.3,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
    ]
   }
  ],

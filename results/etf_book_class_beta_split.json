@@ -4,6 +4,14 @@
  "ticket_file": "TICKET-2026-11-11.json",
  "beta_target": 0.2,
  "k_now": 0.393073,
+ "k_rule": 0.460253,
+ "sizing_floor": {
+  "floor": 0.393073,
+  "source": "permission_receipt",
+  "source_path": "results/etf_book_rebalance_permission.json",
+  "decision_date": "2026-11-11",
+  "note": null
+ },
  "book_weight": 0.393073,
  "decision_bar": "2026-11-11",
  "published_path_beta": 0.434543,
@@ -52,6 +60,10 @@
  "reproduced_path_beta": 0.434543,
  "k_published": 0.393073,
  "k_reproduced": 0.460253,
+ "k_ticket": 0.393073,
+ "k_ticket_rule": 0.460253,
+ "k_ticket_floor": 0.393073,
+ "issued_k_source": "floor",
  "graded_arm": {
   "classes": [
    "commodity",
@@ -201,15 +213,15 @@
  },
  "identity_legs": {
   "published_beta_matches_face": true,
-  "published_k_matches_ticket": false,
+  "published_k_matches_ticket": true,
+  "rule_k_reproduces_ticket_rule": true,
+  "issued_k_is_rule_or_floor": true,
   "vol_split_rebuilds_book_sigma": true,
   "class_sums_match_name_sums": true,
   "ticket_names_read_back": true
  },
- "identity_broken": [
-  "published_k_matches_ticket"
- ],
+ "identity_broken": [],
  "sentence": "The book in force carries 0.229 of static beta (0.582 on the same names fully invested), split by class as equity 51.6%, crossborder 48.4%; dropping the 3 name(s) the graded card never prices moves the size from 0.393073 to 0.432195 (+3.91pp). The size does not name a class it bets on, and the class it is betting on is not one the gate graded.",
- "generated": "2026-11-11T16:53:47+0800",
- "elapsed_sec": 51.7
+ "generated": "2026-11-11T17:42:17+0800",
+ "elapsed_sec": 55.4
 }

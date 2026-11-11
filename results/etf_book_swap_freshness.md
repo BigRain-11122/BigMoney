@@ -1,15 +1,15 @@
 # 换票这一节，每个面该停在哪根 bar（r1530）
 
-STALE: 3 of 10 faces are older than the 2026-11-11 close -- worst sibling_entry on 2026-11-10 (1 session(s) behind the 2026-11-11 close).
+Every one of the 10 faces in the swap section is on the 2026-11-11 close.
 
 - 该到位的 bar：**2026-11-11**（官方交易日历，收盘受理时点 15:30）
-- 判词：**STALE**（陈旧 3 / 不一致 0）
+- 判词：**FRESH**（陈旧 0 / 不一致 0）
 
 | 面 | bar | 落后（交易日） | 状态 | 原因 | 生产者 |
 |---|---|---|---|---|---|
-| sibling_entry | 2026-11-10 | 1 | STALE | 1 session(s) behind the 2026-11-11 close | `scripts/etf_book_sibling_entry.py` |
-| sibling_gap | 2026-11-10 | 1 | STALE | 1 session(s) behind the 2026-11-11 close | `scripts/etf_book_sibling_gap.py` |
-| swap_trigger | 2026-11-10 | 1 | STALE | 1 session(s) behind the 2026-11-11 close | `scripts/etf_book_swap_trigger.py` |
+| sibling_entry | 2026-11-11 | 0 | FRESH | on the 2026-11-11 close | `scripts/etf_book_sibling_entry.py` |
+| sibling_gap | 2026-11-11 | 0 | FRESH | on the 2026-11-11 close | `scripts/etf_book_sibling_gap.py` |
+| swap_trigger | 2026-11-11 | 0 | FRESH | on the 2026-11-11 close | `scripts/etf_book_swap_trigger.py` |
 | swap_stack | 2026-11-11 | 0 | FRESH | on the 2026-11-11 close | `scripts/etf_book_swap_stack.py` |
 | swap_toll | 2026-11-11 | 0 | FRESH | on the 2026-11-11 close | `scripts/etf_book_swap_toll.py` |
 | toll_scope | 2026-11-11 | 0 | FRESH | on the 2026-11-11 close | `scripts/etf_book_toll_scope.py` |

@@ -1,50 +1,50 @@
 {
  "face": "etf_book_rebalance_permission",
  "decision_date": "2026-11-11",
- "ticket_file": "TICKET-2026-11-10.json",
- "evidence_cutoff": "2026-11-10",
+ "ticket_file": "TICKET-2026-11-11.json",
+ "evidence_cutoff": "2026-11-11",
  "beta_target": 0.2,
  "size_tol": 0.005,
  "k_now": 0.393073,
  "k_rule": 0.460253,
  "nav_cny": 1000000.0,
- "book_amount_cny": 392535.9,
- "cash_amount_cny": 607464.1,
+ "book_amount_cny": 392672.8,
+ "cash_amount_cny": 607327.2,
  "readings": {
   "baseline_published": {
    "k": 0.460253,
    "delta_vs_now_pp": 6.72,
    "kind": "circular",
    "why": "the construction the ticket was priced from (k == k_now by identity)",
-   "bars": 1660
+   "bars": 1661
   },
   "window": {
-   "k": 0.412669,
-   "delta_vs_now_pp": 1.96,
+   "k": 0.747086,
+   "delta_vs_now_pp": 35.4,
    "kind": "path",
-   "why": "measured on 306 bars",
-   "bars": 306
+   "why": "measured on 771 bars",
+   "bars": 771
   },
   "universe": {
    "k": 0.432195,
    "delta_vs_now_pp": 3.91,
    "kind": "path",
-   "why": "measured on 1660 bars",
-   "bars": 1660
+   "why": "measured on 1661 bars",
+   "bars": 1661
   },
   "window_x_universe": {
-   "k": 0.393073,
-   "delta_vs_now_pp": 0.0,
+   "k": 0.667665,
+   "delta_vs_now_pp": 27.46,
    "kind": "path",
-   "why": "measured on 306 bars",
-   "bars": 306
+   "why": "measured on 771 bars",
+   "bars": 771
   },
   "denominator": {
-   "k": 0.544424,
-   "delta_vs_now_pp": 15.14,
+   "k": 0.343508,
+   "delta_vs_now_pp": -4.96,
    "kind": "static",
    "why": "static composition, not a path: only comparable with the path rows because it is divided by covered weight",
-   "bars": 306
+   "bars": 771
   }
  },
  "readings_unreadable": {},
@@ -59,13 +59,12 @@
  "static_readings": [
   "denominator"
  ],
- "permitted_k": 0.393073,
- "permitted_book_cny": 392536.0,
- "cut_k": 0.0,
- "cut_pp": 0.0,
- "cut_cny": 0.0,
+ "permitted_k": 0.432195,
+ "permitted_book_cny": 431795.0,
+ "cut_k": -0.039122,
+ "cut_pp": -3.91,
+ "cut_cny": -39122.0,
  "supporters": [
-  "denominator",
   "universe",
   "window",
   "window_x_universe"
@@ -75,17 +74,15 @@
   "window",
   "window_x_universe"
  ],
- "supporters_static": [
-  "denominator"
- ],
+ "supporters_static": [],
  "keep_allowed": true,
  "naive_max_over_all_readings": {
-  "k": 0.544424,
+  "k": 0.747086,
   "keep_allowed": true,
   "why": "a ruler that permits a LARGER size is read as permission for this one; the permitting reading need not be a decision path (E456: the rulers are not additive and not interchangeable)"
  },
  "verdict": "KEEP_SUPPORTED_BY_INDEPENDENT_PATH",
- "sentence": "keeping k=0.393073 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.393073",
+ "sentence": "keeping k=0.393073 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.432195",
  "supply_side": {
   "book": "nobond_vt08_adopted",
   "verdict": "CONDITIONAL",
@@ -101,6 +98,6 @@
   "which reading is the RIGHT measurement: the four-cell spread is a ruler choice and no caliber prereg has landed (r1446 four requirements)",
   "the cost of the cut: the ticket's own reprice delta (CNY 91.7 at the 11-06 bar) is not carried into the gate, and a 6.72pp cut pays one more round of 8bp"
  ],
- "elapsed_sec": 0.01,
- "generated": "2026-11-10T19:09:13+0800"
+ "elapsed_sec": 0.0,
+ "generated": "2026-11-11T17:43:07+0800"
 }

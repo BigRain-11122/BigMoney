@@ -1,6 +1,6 @@
 {
  "artifact": "etf_book_swap_freshness",
- "generated": "2026-11-11T16:14:56",
+ "generated": "2026-11-11T17:47:54",
  "evidence_cutoff": "2026-11-11",
  "calendar_source": "data/exchange_calendar.csv",
  "close_accept_time": "15:30",
@@ -10,30 +10,30 @@
    "producer": "scripts/etf_book_sibling_entry.py",
    "face": "results/etf_book_sibling_entry.json",
    "field": "session",
-   "bar": "2026-11-10",
-   "lag_sessions": 1,
-   "status": "STALE",
-   "reason": "1 session(s) behind the 2026-11-11 close"
+   "bar": "2026-11-11",
+   "lag_sessions": 0,
+   "status": "FRESH",
+   "reason": "on the 2026-11-11 close"
   },
   {
    "leg": "sibling_gap",
    "producer": "scripts/etf_book_sibling_gap.py",
    "face": "results/etf_book_sibling_gap.json",
    "field": "session",
-   "bar": "2026-11-10",
-   "lag_sessions": 1,
-   "status": "STALE",
-   "reason": "1 session(s) behind the 2026-11-11 close"
+   "bar": "2026-11-11",
+   "lag_sessions": 0,
+   "status": "FRESH",
+   "reason": "on the 2026-11-11 close"
   },
   {
    "leg": "swap_trigger",
    "producer": "scripts/etf_book_swap_trigger.py",
    "face": "results/etf_book_swap_trigger.json",
    "field": "session",
-   "bar": "2026-11-10",
-   "lag_sessions": 1,
-   "status": "STALE",
-   "reason": "1 session(s) behind the 2026-11-11 close"
+   "bar": "2026-11-11",
+   "lag_sessions": 0,
+   "status": "FRESH",
+   "reason": "on the 2026-11-11 close"
   },
   {
    "leg": "swap_stack",
@@ -107,14 +107,10 @@
   }
  ],
  "n_legs": 10,
- "stale_legs": [
-  "sibling_entry",
-  "sibling_gap",
-  "swap_trigger"
- ],
+ "stale_legs": [],
  "inconsistent_legs": [],
- "verdict": "STALE",
- "sentence": "STALE: 3 of 10 faces are older than the 2026-11-11 close -- worst sibling_entry on 2026-11-10 (1 session(s) behind the 2026-11-11 close).",
+ "verdict": "FRESH",
+ "sentence": "Every one of the 10 faces in the swap section is on the 2026-11-11 close.",
  "caveats": [
   "The bar-to-be comes from the official exchange calendar, never from this chain's own panels: a panel cannot say which session should already be printed (r1286).",
   "A face AHEAD of the calendar is not stale -- its producer would not make it true, so the chain must keep it red instead of paying a refresh (r1345).",
@@ -128,7 +124,7 @@
     "run"
    ],
    "rc": 0,
-   "tail": "[sibling_entry] 2026-11-10 -> the ticket already buys the cheapest live ticker of every index it holds: no swap saves anything on 392,673"
+   "tail": "[sibling_entry] 2026-11-11 -> the ticket already buys the cheapest live ticker of every index it holds: no swap saves anything on 392,673"
   },
   {
    "leg": "sibling_gap",
@@ -147,42 +143,6 @@
    ],
    "rc": 0,
    "tail": "wrote results/etf_book_swap_trigger.json"
-  },
-  {
-   "leg": "swap_convergence",
-   "cmd": [
-    "scripts/etf_book_swap_convergence.py",
-    "run"
-   ],
-   "rc": 0,
-   "tail": "{\"verdict\": \"NOTHING_MEASURED\", \"pairs\": 0, \"net_after_toll_cny\": null, \"sentence\": \"��һ��û�пɲ����Ļ�Ʊ��������Ʊû����ʷ�۲�·�������߿ɱȽϵ�����̫�١����ⲻ�ǡ���׬Ǯ���Ľ��ۡ�\"}"
-  },
-  {
-   "leg": "swap_effect",
-   "cmd": [
-    "scripts/etf_book_swap_effect.py",
-    "run"
-   ],
-   "rc": 0,
-   "tail": "{\"verdict\": \"CANNOT_PAIR\", \"rows\": 0, \"unpaired\": 0, \"level_cny\": null, \"path_cny\": null, \"combined_cny\": null, \"sentence\": \"��һ��û�п��Բ��еĻ�Ʊ��������û�й�ͬ��Ʊ�����ⲻ�ǡ���׬Ǯ���Ľ��ۡ�\"}"
-  },
-  {
-   "leg": "swap_units",
-   "cmd": [
-    "scripts/etf_book_swap_units.py",
-    "run"
-   ],
-   "rc": 0,
-   "tail": "{\"verdict\": \"CANNOT_RECORD\", \"rows\": 0, \"unpaired\": 0, \"extra_shares\": null, \"extra_lots\": null, \"remark\": null, \"next_decision_bar\": null, \"realised_found\": null}"
-  },
-  {
-   "leg": "swap_track",
-   "cmd": [
-    "scripts/etf_book_swap_track.py",
-    "run"
-   ],
-   "rc": 0,
-   "tail": "{\"verdict\": \"NOTHING_MEASURED\", \"rows\": 0, \"skipped\": 0, \"drift_cny_per_year\": null, \"se_cny_per_year\": null, \"merge_sigma_pp\": null, \"merge_cny_per_year\": null}"
   }
  ]
 }

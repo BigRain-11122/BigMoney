@@ -746,7 +746,16 @@ def selftest():
     leg("L11 verdict follows the guard", f["verdict"] == "SIZE_RECORDED", f["verdict"])
     leg("L12 the premium bound is imported, not typed",
         abs(f["premium_bound_pp"] - float(sib_face.MATERIAL_PP)) < 1e-9, f["premium_bound_pp"])
-    rm = f["remark"]
+    # L13/L14 ask what the remark says when the panel has not yet printed the next bar.
+    # The shared fixture keeps a full forward calendar (L15 pins the grid bar off it), so
+    # "no later bar" can only come from the panel itself: pin the trade bar to the panel's
+    # own last print. Written the other way this leg silently flips true/false with the
+    # live data date -- on 2026-11-11 the panel grew a bar and the leg went red for no
+    # defect in the face.
+    _nb_path = gap_face.find_daily("159513")
+    _nb_last = sorted(gap_face.load_close(_nb_path))[-1] if _nb_path else None
+    f_nb = compute(_fixture(bar=_nb_last)) if _nb_last else f
+    rm = f_nb["remark"]
     leg("L13 with no later bar the re-mark is refused, not zeroed",
         rm["status"] == "AWAITING_NEXT_BAR" and rm["value_cny"] is None, rm)
     leg("L14 the refusal names the identity it refuses to print",
