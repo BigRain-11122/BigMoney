@@ -361,6 +361,18 @@ def run():
     d = plan_cut(perm, ticket, rate, rdate, readers,
                  enforcers=enforcers_of(corpus, readers))
     d["repo_source"] = "data/repo_daily/GC001.csv (observed close)"
+    # r1559: record WHICH version of the permission this table was priced against. Without
+    # it a reader can only compare numbers, and two numbers that differ look like a
+    # contradiction even when the only thing that happened is that the input moved on
+    # (11-11: this face was rebuilt 17 minutes before the permission it reads and spent the
+    # afternoon recommending a trim against a limit that no longer existed).
+    d["upstream"] = {
+        "input": PERMISSION_RECEIPT,
+        "generated": (perm or {}).get("generated"),
+        "permitted_k": (perm or {}).get("permitted_k"),
+        "k_now": (perm or {}).get("k_now"),
+        "decision_date": (perm or {}).get("decision_date"),
+    }
     return d
 
 
@@ -454,6 +466,15 @@ def check():
         "stale receipt",
         "a newer ticket landed since this receipt was written (disk=%r fresh=%r): re-run"
         % (d.get("ticket_file"), fresh.get("ticket_file")))
+    # r1559: name the failure instead of letting two drifted numbers imply it. The table is
+    # priced against one version of the permission; when that receipt has been rewritten
+    # since, this face is not wrong about its own inputs -- it is OLD, and the fix is to
+    # rebuild it, not to reconcile the numbers by hand.
+    _fu, _du = fresh.get("upstream") or {}, d.get("upstream") or {}
+    leg(_fu == _du, "upstream receipt",
+        "the permission receipt was rewritten after this face was priced "
+        "(disk=%r fresh=%r): re-run the face, do not reconcile the two numbers"
+        % (_du.get("generated"), _fu.get("generated")))
     # r1478: the face must name which book its k came from, and it must be the ticket's own
     # answer -- a gap face that silently re-derives provenance is how the same k gets read
     # against two different accounts.
@@ -466,7 +487,7 @@ def check():
            fresh.get("sizing_source"), fresh.get("base_bar"), fresh.get("as_of")))
     for _short, f in fails:
         print("  FAIL " + f)
-    print(CS.summary_line([s for s, _ in fails], 8))
+    print(CS.summary_line([s for s, _ in fails], 9))
     return 0 if not fails else 1
 
 
@@ -632,12 +653,12 @@ def selftest():
                 globals()["OUT"] = _old
         _tail = (_buf.getvalue().strip().splitlines() or [""])[-1]
         leg(_rc == 1, "L14 drifted face graded green rc=%r" % _rc)
-        leg(_tail.startswith("[check] 6/8 OK | FAILED:") and "cut_cny" in _tail
-            and "verdict" in _tail, "L14 tail=%r" % _tail)
+        leg(_tail.startswith("[check] ") and "OK | FAILED:" in _tail
+            and "cut_cny" in _tail and "verdict" in _tail, "L14 tail=%r" % _tail)
         leg(len(_tail) <= 80, "L14 tail is %d chars: the harness clips at 80" % len(_tail))
     else:
         leg(False, "L14 no published face to perturb")
-    leg(CS.summary_line([], 8) == "[check] 8/8 OK", "L15 green line changed shape")
+    leg(CS.summary_line([], 9) == "[check] 9/9 OK", "L15 green line changed shape")
 
     for f in fails:
         print("  FAIL " + f)

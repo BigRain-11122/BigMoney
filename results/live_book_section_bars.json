@@ -1,17 +1,17 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-11 09:05:01",
+ "ts": "2026-11-11 22:22:04",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261111.md",
   "json": "docs/live_book/LIVE-BOOK-20261111.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-10 定价，但 33 个带日期的节里只有 21 节真在这一天；其余 12 节最旧停在 2026-10-26（最差 sample_window 落后 11 个交易日），另外 19 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。",
- "evidence_cutoff": "2026-11-10",
- "headline_bar": "2026-11-10",
+ "sentence": "页面头部写着按 2026-11-11 定价，但 32 个带日期的节里只有 15 节真在这一天；其余 17 节最旧停在 2026-10-26（最差 sample_window 落后 12 个交易日），另外 20 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。",
+ "evidence_cutoff": "2026-11-11",
+ "headline_bar": "2026-11-11",
  "headline_field": "priced_bar",
- "n_sections": 33,
- "n_on_headline": 21,
+ "n_sections": 32,
+ "n_on_headline": 15,
  "unknown_sections": [
   "cash_yield",
   "cash_money",
@@ -31,118 +31,154 @@
   "premium_leak",
   "premium_forward",
   "sibling_gap",
+  "executed",
   "authority"
  ],
  "bars": {
-  "2026-11-10": 21,
+  "2026-11-11": 15,
+  "2026-11-10": 8,
   "2026-11-08": 1,
-  "2026-11-06": 2,
-  "2026-11-03": 2,
+  "2026-11-06": 1,
   "2026-10-30": 6,
   "2026-10-26": 1
  },
- "n_off_headline": 12,
+ "n_off_headline": 17,
  "off_headline": [
   {
    "key": "sample_window",
    "bar": "2026-10-26",
    "field": "evidence_cutoff",
-   "lag_sessions": 11,
+   "lag_sessions": 12,
    "ahead_of_headline": false
   },
   {
    "key": "cost_tape",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
-   "lag_sessions": 7,
+   "lag_sessions": 8,
    "ahead_of_headline": false
   },
   {
    "key": "leg_split",
    "bar": "2026-10-30",
    "field": "priced_bar",
-   "lag_sessions": 7,
+   "lag_sessions": 8,
    "ahead_of_headline": false
   },
   {
    "key": "lookahead",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
-   "lag_sessions": 7,
+   "lag_sessions": 8,
    "ahead_of_headline": false
   },
   {
    "key": "universe_lock",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
-   "lag_sessions": 7,
+   "lag_sessions": 8,
    "ahead_of_headline": false
   },
   {
    "key": "vol_window",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
-   "lag_sessions": 7,
+   "lag_sessions": 8,
    "ahead_of_headline": false
   },
   {
    "key": "vol_window_edge",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
-   "lag_sessions": 7,
-   "ahead_of_headline": false
-  },
-  {
-   "key": "band_ruler",
-   "bar": "2026-11-03",
-   "field": "evidence_cutoff",
-   "lag_sessions": 5,
-   "ahead_of_headline": false
-  },
-  {
-   "key": "window_label",
-   "bar": "2026-11-03",
-   "field": "evidence_cutoff",
-   "lag_sessions": 5,
+   "lag_sessions": 8,
    "ahead_of_headline": false
   },
   {
    "key": "family_coherence",
    "bar": "2026-11-06",
    "field": "evidence_cutoff",
-   "lag_sessions": 2,
-   "ahead_of_headline": false
-  },
-  {
-   "key": "floor_provenance",
-   "bar": "2026-11-06",
-   "field": "evidence_cutoff",
-   "lag_sessions": 2,
+   "lag_sessions": 3,
    "ahead_of_headline": false
   },
   {
    "key": "vol_target_gate",
    "bar": "2026-11-08",
    "field": "asof",
-   "lag_sessions": 2,
+   "lag_sessions": 3,
+   "ahead_of_headline": false
+  },
+  {
+   "key": "bets",
+   "bar": "2026-11-10",
+   "field": "evidence_cutoff",
+   "lag_sessions": 1,
+   "ahead_of_headline": false
+  },
+  {
+   "key": "capital",
+   "bar": "2026-11-10",
+   "field": "evidence_cutoff",
+   "lag_sessions": 1,
+   "ahead_of_headline": false
+  },
+  {
+   "key": "causal_rebuild",
+   "bar": "2026-11-10",
+   "field": "evidence_cutoff",
+   "lag_sessions": 1,
+   "ahead_of_headline": false
+  },
+  {
+   "key": "concentration",
+   "bar": "2026-11-10",
+   "field": "evidence_cutoff",
+   "lag_sessions": 1,
+   "ahead_of_headline": false
+  },
+  {
+   "key": "entry_gate",
+   "bar": "2026-11-10",
+   "field": "evidence_cutoff",
+   "lag_sessions": 1,
+   "ahead_of_headline": false
+  },
+  {
+   "key": "gap",
+   "bar": "2026-11-10",
+   "field": "evidence_cutoff",
+   "lag_sessions": 1,
+   "ahead_of_headline": false
+  },
+  {
+   "key": "sellability",
+   "bar": "2026-11-10",
+   "field": "evidence_cutoff",
+   "lag_sessions": 1,
+   "ahead_of_headline": false
+  },
+  {
+   "key": "underwater",
+   "bar": "2026-11-10",
+   "field": "evidence_cutoff",
+   "lag_sessions": 1,
    "ahead_of_headline": false
   }
  ],
  "oldest": "2026-10-26",
- "max_lag_sessions": 11,
+ "max_lag_sessions": 12,
  "by_key": {
-  "vs_basket": "2026-11-10",
-  "ticket_days": "2026-11-10",
-  "card_days": "2026-11-10",
-  "today_action": "2026-11-10",
+  "vs_basket": "2026-11-11",
+  "ticket_days": "2026-11-11",
+  "card_days": "2026-11-11",
+  "today_action": "2026-11-11",
   "bets": "2026-11-10",
   "family_coherence": "2026-11-06",
-  "carry_regime": "2026-11-10",
+  "carry_regime": "2026-11-11",
   "leg_split": "2026-10-30",
   "concentration": "2026-11-10",
-  "sleeve_gate": "2026-11-10",
-  "sleeve_paths": "2026-11-10",
-  "exposure_timing": "2026-11-10",
+  "sleeve_gate": "2026-11-11",
+  "sleeve_paths": "2026-11-11",
+  "exposure_timing": "2026-11-11",
   "cost_tape": "2026-10-30",
   "vol_window": "2026-10-30",
   "vol_window_edge": "2026-10-30",
@@ -155,14 +191,13 @@
   "sellability": "2026-11-10",
   "capital": "2026-11-10",
   "gap": "2026-11-10",
-  "k_gap": "2026-11-10",
-  "floor_provenance": "2026-11-06",
+  "k_gap": "2026-11-11",
+  "floor_provenance": "2026-11-11",
   "vol_target_gate": "2026-11-08",
-  "positions": "2026-11-10",
-  "executed": "2026-11-10",
-  "band_ruler": "2026-11-03",
-  "window_label": "2026-11-03",
-  "envelope": "2026-11-10",
-  "stress": "2026-11-10"
+  "positions": "2026-11-11",
+  "band_ruler": "2026-11-11",
+  "window_label": "2026-11-11",
+  "envelope": "2026-11-11",
+  "stress": "2026-11-11"
  }
 }

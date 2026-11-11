@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-11T17:21:08+0800",
+ "generated": "2026-11-11T21:56:57+0800",
  "script": "scripts/etf_book_band_ruler.py",
  "criteria": {
   "tol_pp_per_year": 0.25,
@@ -492,5 +492,5 @@
   "why": "the table's rows are not one ruler: window +4.99pp、universe +0.43pp、ordering -0.56pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.",
   "criteria": "ROWS_NOT_COMPARABLE iff at least one dial moves the held config by >= tol_pp_per_year on at least one window; SAME_RULER if none does. The published gap between row 1 and row 3 is decomposed into these dials, and no dial's price is inferred from another."
  },
- "elapsed_sec": 91.3
+ "elapsed_sec": 91.5
 }

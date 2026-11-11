@@ -94,7 +94,10 @@ def _refused(bar, why):
             "current_rows": 0, "target_rows": 0, "held_not_in_target": [],
             "in_target_not_held": [], "target_source": None, "target_note": None,
             "swap_bought": [], "entry_sheet_moved": {}, "entry_rows": 0,
-            "entry_book_cny": 0.0, "swap_book_cny": None}
+            "entry_book_cny": 0.0, "swap_book_cny": None,
+            "current_bar": None, "current_book_from": None, "declaration": None,
+            "ledger_row_risk_book_cny": None, "mark": None,
+            "cash_recon_ex_mark_cny": None}
 
 
 ENTRY = "entry_sheet"
@@ -164,6 +167,45 @@ def compute(ticket):
     # (ledger_bar == ticket_bar) and would still subtract a book this sheet never saw.
     if tb and bar and str(tb) != str(bar):
         return _refused(bar, "账本上一次对的是 %s 的票面、本单是 %s 的" % (tb, bar))
+    # r1562: the row this face subtracts must be a book somebody bought. positions writes
+    # it from the sheet's own `holdings_after`, so when the swing replaces the sleeve and
+    # prints no trades the row is the target wearing the account's clothes -- subtracting
+    # it from that same target returns 0 everywhere and the sheet says "already on target"
+    # on a bar that needed nine trades (11-11: 4 out, 5 in, 153% turnover).
+    # r1563: so don't refuse and don't subtract the declaration -- subtract the newest row a
+    # trade list can actually reach (positions.account_row), and name the row it came from.
+    # The operator holding the last bought book is exactly who needs this table.
+    _tr = pos.get("transition") or {}
+    declared = str(_tr.get("status") or "").startswith("UNEXPLAINED")
+    declaration = None
+    if declared:
+        _acct = pos.get("account_row") or {}
+        _holdings = [h for h in (_acct.get("holdings") or []) if h.get("symbol")]
+        if not _holdings:
+            return _refused(
+                bar,
+                "账本 %s 那一行记的是票面的目标、不是买进来的账：票面只印了 %d 条动作，"
+                "却换出 %d 只（%s）、换进 %d 只（%s）、改了 %d 只的手数，约 %s 元没有动作支撑。"
+                "按这一行相减只会得到 0——那是票面跟自己减；而账本里又找不到更早的一本真账，"
+                "本节没有可减的起点"
+                % ((pos.get("ledger_bar") or bar), int(_tr.get("actions") or 0),
+                   len(_tr.get("vanished") or []),
+                   "、".join(_tr.get("vanished") or []) or "无",
+                   len(_tr.get("appeared") or []),
+                   "、".join(_tr.get("appeared") or []) or "无",
+                   len(_tr.get("lots_changed") or []),
+                   "未知" if _tr.get("cny_moved") is None
+                   else "{:,.0f}".format(float(_tr.get("cny_moved")))))
+        led = _acct
+        holdings = _holdings
+        declaration = {"bar": pos.get("ledger_bar") or bar,
+                       "from_bar": _tr.get("from_bar"),
+                       "actions": int(_tr.get("actions") or 0),
+                       "status": _tr.get("status"),
+                       "vanished": list(_tr.get("vanished") or []),
+                       "appeared": list(_tr.get("appeared") or []),
+                       "lots_changed": list(_tr.get("lots_changed") or []),
+                       "cny_moved": _tr.get("cny_moved")}
 
     target_rows, target_source, swap_note, moved = resolve_target(ticket, bar, order)
     target = {r["symbol"]: r for r in target_rows}
@@ -209,6 +251,32 @@ def compute(ticket):
     sheet_cash = sw.get("cash_cny") if swap_used else tk.get("cash_amount")
     recon = (None if (cash_after is None or sheet_cash is None)
              else round(cash_after - float(sheet_cash), 2))
+    # r1563: when the account sits on an older bar its kept legs still carry THAT bar's
+    # price, while the target book is priced on this one. The difference is a mark, not a
+    # cash error: sell the old book at the sheet's own prices and the identity closes to the
+    # cent (11-11: 677 lots of 513690 moved 1.160 -> 1.155 = -338.50, exactly the gap).
+    # Measure the mark and gate on the residual -- never on a relaxed tolerance.
+    mark = None
+    if str(led.get("bar") or "") != str(bar or ""):
+        drift, mrows = 0.0, []
+        for sym in sorted(set(target) & set(have)):
+            tp = target[sym].get("price")
+            cp = have[sym].get("price")
+            keep = min(int(target[sym].get("lots") or 0), int(have[sym].get("lots") or 0))
+            if not tp or not cp or keep <= 0:
+                continue
+            d = keep * LOT * (float(tp) - float(cp))
+            drift += d
+            mrows.append({"symbol": sym, "lots": keep,
+                          "account_price": round(float(cp), 6),
+                          "sheet_price": round(float(tp), 6),
+                          "mark_cny": round(d, 2)})
+        mark = {"account_bar": led.get("bar"), "bar": bar, "rows": mrows,
+                "drift_cny": round(drift, 2),
+                "note": ("账上那本按 %s 的价、票面按 %s 的价：保留腿重估的差额单列，"
+                         "不并进现金对账" % (led.get("bar"), bar))}
+    recon_ex = (None if (recon is None or mark is None)
+                else round(float(recon) - float(mark["drift_cny"]), 2))
     current_total = round(sum(float(h.get("amount_cny") or 0.0) for h in holdings), 2)
     target_total = round(sum(float(t.get("amount") or 0.0) for t in target_rows), 2)
     sheet_book = (sw.get("risk_book_after_cny") if swap_used
@@ -245,6 +313,19 @@ def compute(ticket):
         "cash_after_cny": cash_after, "sheet_cash_cny": None if sheet_cash is None else round(float(sheet_cash), 2),
         "cash_recon_cny": recon,
         "ledger_risk_book_cny": None if led.get("risk_book_cny") is None else round(float(led["risk_book_cny"]), 2),
+        # r1563: WHICH row this table subtracts from, and what it is not.
+        "current_bar": led.get("bar"),
+        "current_book_from": {
+            "bar": led.get("bar"),
+            "kind": str(led.get("kind") or "execution"),
+            "source": "book_before_declaration" if declared else "ledger_row",
+            "declared_bar": pos.get("ledger_bar") or bar,
+        },
+        "declaration": declaration,
+        "mark": mark,
+        "cash_recon_ex_mark_cny": recon_ex,
+        "ledger_row_risk_book_cny": None if (pos.get("ledger_row") or {}).get("risk_book_cny")
+        is None else round(float((pos.get("ledger_row") or {}).get("risk_book_cny")), 2),
         "unpriced_rows": unpriced,
         "current_rows": len(holdings), "target_rows": len(order),
         "held_not_in_target": sorted(s for s in have if s not in target),
@@ -281,13 +362,31 @@ def verify(face, bar=None, ticket_file=None):
     if cb is not None and ca is not None and net is not None:
         if abs((float(cb) - float(net)) - float(ca)) > SUM_TOL:
             bad.append("现金恒等式不成立：%.2f - %.2f ≠ %.2f" % (cb, net, ca))
-    rec = face.get("cash_recon_cny")
+    rec = face.get("cash_recon_ex_mark_cny")
+    if rec is None:
+        rec = face.get("cash_recon_cny")
     if rec is not None and abs(float(rec)) > SUM_TOL:
-        bad.append("动作后的现金 %.2f 与票面自己写的 %.2f 对不上（差 %.2f）"
-                   % (ca, face.get("sheet_cash_cny"), rec))
+        bad.append("动作后的现金 %.2f 与票面自己写的 %.2f 对不上（差 %.2f，已扣保留腿价差 %s）"
+                   % (ca, face.get("sheet_cash_cny"), rec,
+                      "未单列" if face.get("mark") is None
+                      else "%+.2f" % (float(face.get("cash_recon_cny") or 0.0)
+                                      - float(rec))))
     lrb, cur = face.get("ledger_risk_book_cny"), face.get("current_total_cny")
     if lrb is not None and cur is not None and abs(float(lrb) - float(cur)) > SUM_TOL:
         bad.append("账上逐名合计 %.2f ≠ 账本自己的风险腿 %.2f" % (cur, lrb))
+    # r1563: a table that starts from an older bar must SAY it does. A book one bar back
+    # wearing today's label is the same defect as a target wearing the account's clothes.
+    cbf = face.get("current_book_from") or {}
+    cbar = face.get("current_bar")
+    if cbf:
+        if face.get("bar") and cbar and str(cbar) != str(face["bar"]):
+            if cbf.get("source") != "book_before_declaration" or not face.get("declaration"):
+                bad.append("相减的账停在 %s，却没说是声明之前的那一本" % cbar)
+            if not str((face.get("declaration") or {}).get("status") or "").startswith(
+                    "UNEXPLAINED"):
+                bad.append("声明块没有说是哪一种对不上")
+        elif cbf.get("source") != "ledger_row":
+            bad.append("相减的就是本 bar 的账本行，却标成 %r" % (cbf.get("source"),))
     # The two sections of one page must not order opposite trades on the same bar.
     ts = face.get("target_source")
     if ts is not None and ts not in (ENTRY, SWAP):
@@ -355,6 +454,21 @@ def md_lines(face, heading="## 这张单实际要下的动作（r1516）"):
                 "- 读法：本面只做减法，不猜账。「算不出来」与「不用下单」是两件事，"
                 "缺的是账上那一行，不是动作本身。", ""]
     L = ["", heading, "- %s" % sentence(face)]
+    _dec = face.get("declaration") or {}
+    if _dec:
+        L.append("- **账本 %s 那一行不是买进来的账**：票面这一天只印了 %d 条动作，"
+                 "却换出 %d 只（%s）、换进 %d 只（%s）、改了 %d 只的手数（约 %s 元）。"
+                 "本节因此从 **%s 那一本**相减——那是最后一本有人买进来的账。"
+                 % (_dec.get("bar"), int(_dec.get("actions") or 0),
+                    len(_dec.get("vanished") or []), "、".join(_dec.get("vanished") or []) or "无",
+                    len(_dec.get("appeared") or []), "、".join(_dec.get("appeared") or []) or "无",
+                    len(_dec.get("lots_changed") or []),
+                    "未知" if _dec.get("cny_moved") is None
+                    else _money(_dec.get("cny_moved")),
+                    (face.get("current_book_from") or {}).get("bar")))
+        L.append("- 读法：这张表是「拿着 %s 那本真账的人今天该下的单」；"
+                 "票面目标与账本那一行谁写错了不归本节裁定，本节只保证不拿目标减目标。"
+                 % ((face.get("current_book_from") or {}).get("bar")))
     if face.get("target_source") == SWAP:
         moved = face.get("entry_sheet_moved") or {}
         if moved:
@@ -366,6 +480,17 @@ def md_lines(face, heading="## 这张单实际要下的动作（r1516）"):
                      "方向相反的动作表（卖回换票刚买的那只），那是票面自己跟自己打架。")
     elif face.get("target_note"):
         L.append("- %s。" % face["target_note"])
+    if face.get("mark"):
+        _mk = face["mark"]
+        L.append("- 价差单列（不是现金差）：账上那一本按 **%s** 的收盘价、票面按 **%s** 的价。"
+                 "两边都持有的那几只按手数重估，合计 **%s 元**（%s）；"
+                 "扣掉它，动作后的现金与票面自己写的现金差 **%s 元**。"
+                 % (_mk.get("account_bar"), _mk.get("bar"), _money(_mk.get("drift_cny")),
+                    "；".join("%s %d 手 %.3f→%.3f" % (r["symbol"], r["lots"],
+                                                      r["account_price"], r["sheet_price"])
+                             for r in _mk.get("rows") or []) or "无重叠持有腿",
+                    "无" if face.get("cash_recon_ex_mark_cny") is None
+                    else _money(face.get("cash_recon_ex_mark_cny"))))
     if face.get("held_not_in_target"):
         L.append("- 账上有、票面没有 **%s**：这些是整只退出（不是减仓），卖出金额算在下面。"
                  % "、".join(face["held_not_in_target"]))
@@ -614,6 +739,76 @@ def selftest():
     leg("L30 a zero-action sheet still prints a row per name (the claim is checkable)",
         "| 159263 |" not in _md30 and all(
             "| %s |" % r["symbol"] in _md30 for r in _sf["rows"]) and len(_sf["rows"]) > 0)
+    # r1562: the account row is written from the sheet's own target, so a rebalance that
+    # prints no trades makes the subtraction a tautology. The refusal has to name the names.
+    _rep = _fixture([("B", 10, 2.0), ("C", 5, 1.0)], [("A", 10, 2.0)], cash=80000.0)
+    _rep["positions"]["transition"] = {
+        "bar": "2026-01-01", "from_bar": "2025-12-31", "actions": 0,
+        "status": "UNEXPLAINED_TARGET_WITHOUT_TRADES",
+        "vanished": ["A"], "appeared": ["B"], "lots_changed": [], "cny_moved": 2000.0}
+    _fr = compute(_rep)
+    leg("L31 a ledger row the sheet's own trades cannot reach is refused, not subtracted to 0",
+        _fr["verdict"] == "CANNOT_SUBTRACT" and "不是买进来的账" in (_fr.get("refused") or "")
+        and "A" in (_fr.get("refused") or "") and "B" in (_fr.get("refused") or ""))
+    leg("L32 an explained row is still subtracted normally",
+        compute(_fixture([("B", 10, 2.0)], [("A", 10, 2.0)], cash=90000.0))["verdict"]
+        != "CANNOT_SUBTRACT")
+    # r1563: a refusal that names the names is only half a product -- the operator holding the
+    # last bought book needs the table. When positions publishes that book (account_row), the
+    # subtraction starts there and the declaration is printed beside it.
+    _decl = _fixture([("B", 10, 2.0), ("C", 5, 1.0)], [("A", 10, 2.0)], cash=80000.0)
+    _decl["positions"]["transition"] = {
+        "bar": "2026-01-01", "from_bar": "2025-12-31", "actions": 0,
+        "status": "UNEXPLAINED_TARGET_WITHOUT_TRADES",
+        "vanished": ["A"], "appeared": ["B"], "lots_changed": [], "cny_moved": 2000.0}
+    _decl["positions"]["account_row"] = {
+        "bar": "2025-12-31", "kind": "execution", "source": "book_before_declaration",
+        "risk_book_cny": 2000.0, "cash_cny": 80000.0,
+        "holdings": [{"symbol": "A", "lots": 10, "price": 2.0, "amount_cny": 2000.0}],
+        "actions": [{"side": "BUY", "symbol": "A", "lots": 10}]}
+    _fd = compute(_decl)
+    leg("L33 a declaration is subtracted from the last bought book, not from itself",
+        _fd["verdict"] == "SHEET_IMPLIES_A_SWAP"
+        and (_fd.get("current_book_from") or {}).get("source") == "book_before_declaration"
+        and _fd.get("current_bar") == "2025-12-31")
+    _fdr = {r["symbol"]: r for r in _fd["rows"]}
+    leg("L34 and the table sells what that book holds, not what the target holds",
+        _fdr["A"]["side"] == "SELL" and _fdr["A"]["delta_lots"] == -10
+        and _fdr["B"]["side"] == "BUY" and _fdr["B"]["delta_lots"] == 10)
+    leg("L35 the declared-book table passes its own gates and names the declaration",
+        verify(_fd) == ([], []) and (_fd.get("declaration") or {}).get("bar") == "2026-01-01")
+    _fdmd = "\n".join(md_lines(_fd))
+    leg("L36 the sheet says which bar the table starts from",
+        "2025-12-31 那一本" in _fdmd and "不是买进来的账" in _fdmd)
+    _fdbad = json.loads(json.dumps(_fd))
+    _fdbad["current_book_from"]["source"] = "ledger_row"
+    leg("L37 a table from an older bar labelled as today's row is refused",
+        any("没说是声明之前" in b for b in verify(_fdbad)[0]))
+    # r1563: the kept leg carries the OLD bar's price, so the cash line closes only after the
+    # mark is measured. The gate goes on the residual, never on a looser tolerance.
+    _mk = _fixture([("A", 10, 2.5), ("B", 10, 1.0)], [("A", 10, 2.0)], cash=50000.0)
+    _mk["positions"]["transition"] = {
+        "bar": "2026-01-01", "from_bar": "2025-12-31", "actions": 0,
+        "status": "UNEXPLAINED_TARGET_WITHOUT_TRADES", "vanished": [], "appeared": ["B"],
+        "lots_changed": [], "cny_moved": 1000.0}
+    _mk["positions"]["account_row"] = {
+        "bar": "2025-12-31", "kind": "execution", "source": "book_before_declaration",
+        "risk_book_cny": 2000.0, "cash_cny": 50000.0,
+        "holdings": [{"symbol": "A", "lots": 10, "price": 2.0, "amount_cny": 2000.0}],
+        "actions": []}
+    _fm = compute(_mk)
+    _fm_ex = _fm.get("cash_recon_ex_mark_cny")
+    leg("L38 the kept leg's price move is measured, not folded into the cash gap",
+        abs(float((_fm.get("mark") or {}).get("drift_cny") or 0.0) - 500.0) <= SUM_TOL
+        and abs(float(_fm.get("cash_recon_cny") or 0.0) - 500.0) <= SUM_TOL
+        and _fm_ex is not None and abs(float(_fm_ex)) <= SUM_TOL)
+    leg("L39 so the table still passes its gates with the mark disclosed",
+        verify(_fm) == ([], []))
+    _fm_no = json.loads(json.dumps(_fm))
+    _fm_no["mark"] = None
+    _fm_no.pop("cash_recon_ex_mark_cny", None)
+    leg("L40 an unexplained gap of the same size is still refused",
+        any("对不上" in b for b in verify(_fm_no)[0]))
 
     bad = [n for n, v in ok if not v]
     for n, v in ok:

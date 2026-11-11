@@ -1,6 +1,6 @@
 # 那张「该期待什么」的表，三行不是一把尺子
 
-证据面：`results/etf_book_band_ruler.json` ｜ 定价截止 2026-11-11 ｜ 91.3 秒
+证据面：`results/etf_book_band_ruler.json` ｜ 定价截止 2026-11-11 ｜ 91.5 秒
 
 ## 判决
 

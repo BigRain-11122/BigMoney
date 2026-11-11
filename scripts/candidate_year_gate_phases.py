@@ -361,14 +361,24 @@ def selftest() -> int:
         _partial = str(max(mine)) if mine else ""
         _full = [y for y in pubs if y in mine and str(y) != _partial]
         worst = max((abs(mine[y] - pubs[y]) for y in _full), default=None)
+        _done = {k: v for k, v in yrs.items() if str(k) != _partial}
         blk = G.admission_block(yrs, S.published_capacity(), None,
                                 A.stats2(ser, "p").get("cagr"))
+        blk_done = G.admission_block(_done, S.published_capacity(), None,
+                                     A.stats2(ser, "p").get("cagr"))
         chk(worst is not None and worst < 1e-9,
             "L8 phase start 2020-01-01 reproduces every completed published yearly row "
             "(partial %s excluded, max|d| %r)" % (_partial, worst))
-        chk(blk["verdict"] == ref.get("verdict"),
-            "L8b phase start 2020-01-01 reproduces r1418's verdict (%s vs %s)"
-            % (blk["verdict"], ref.get("verdict")))
+        # r1557: r1514 cut the PARTIAL year out of the row-by-row leg but left the verdict
+        # leg reading a block that still contained it, so the day the in-progress year
+        # moved (2026 2.37->3.20) the gate's word changed CONDITIONAL->ADMIT and this leg
+        # called it a regression. A frozen verdict can only be reproduced on the years that
+        # were finished when it was published; the live word is disclosed, not asserted.
+        chk(blk_done["verdict"] == ref.get("verdict"),
+            "L8b phase start 2020-01-01 reproduces r1418's verdict on completed years "
+            "(%s vs %s; with the in-progress %s at %r the live word is %s)"
+            % (blk_done["verdict"], ref.get("verdict"), _partial,
+               round(blk["year_metrics"]["top2_share"], 4), blk["verdict"]))
     else:
         chk(False, "L8 skipped: no published r1418 face")
 

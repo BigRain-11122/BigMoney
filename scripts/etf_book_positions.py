@@ -384,6 +384,105 @@ def start_inventory(ledger, bar):
                                            != "valuation" else 0))[-1]
 
 
+def previous_row(ledger, bar):
+    """The account a trade on `bar` starts from: the newest row strictly BEFORE it."""
+    eligible = [r for r in (ledger or {}).get("rows") or []
+                if str(r.get("bar") or "") < str(bar or "")]
+    if not eligible:
+        return None
+    return sorted(eligible, key=lambda r: (str(r.get("bar") or ""),
+                                           1 if str(r.get("kind") or "execution")
+                                           != "valuation" else 0))[-1]
+
+
+def account_row_for(ledger, bar):
+    """r1563: the newest row up to `bar` whose own actions carry the previous row onto it.
+
+    A decision bar always lands a row, and that row is the sheet's TARGET. When the sheet
+    prints no trades -- because its swap/trim netting had nothing to do on this bar while the
+    sleeve was replaced anyway -- the row is a declaration wearing the account's clothes. The
+    next subtraction then runs target-minus-target and prints "nothing to do" on a bar that
+    needs nine trades (2026-11-11: 4 out, 5 in, one lot change, 667,376 CNY of turnover).
+    Walking back to the newest row a trade list can actually reach is what keeps the next
+    subtraction an account question instead of an identity (r1562 measured the mismatch;
+    this names the row the reader should subtract from).
+    """
+    rows = [r for r in (ledger or {}).get("rows") or []
+            if str(r.get("bar") or "") <= str(bar or "")
+            and str(r.get("kind") or "") != "valuation"]
+    rows.sort(key=lambda r: str(r.get("bar") or ""))
+    for i in range(len(rows) - 1, -1, -1):
+        r = rows[i]
+        if i == 0:
+            return r
+        prev = rows[i - 1]
+        start = {str(h["symbol"]): int(h.get("lots") or 0)
+                 for h in prev.get("holdings") or [] if h.get("symbol")}
+        got = {str(h["symbol"]): int(h.get("lots") or 0)
+               for h in r.get("holdings") or [] if h.get("symbol")}
+        if not (r.get("actions") or []):
+            # printed no trades: it is the account only if the book did not move
+            if start == got:
+                return r
+            continue
+        # printed trades: an account, even when the list does not close to the lot
+        # (that mismatch is what book_transition measures; skipping it would walk back
+        # past a bar somebody did trade on)
+        return r
+    return None
+
+
+def book_transition(ledger, bar, actions, after):
+    """r1562: can the row written for `bar` explain the book it claims?
+
+    ``holdings_after`` is the TARGET this sheet orders. The account that target lands on is
+    the previous row plus the actions the sheet prints. On 2026-11-11 the 20-bar rebalance
+    replaced the whole sleeve (4 names out, 5 in, 153% turnover) and printed no trades, so
+    the ledger row simply declared the new book. The next sheet then subtracted that target
+    from itself and told the operator "already on target, nothing to do" on a bar that
+    needed nine trades -- an identity that is true by construction and says nothing.
+
+    Measuring the difference is the only honest way to say which case it is: EXPLAINED when
+    the actions carry the account onto the target, UNEXPLAINED_* when they do not (and the
+    row must not be read as an execution).
+    """
+    prev = previous_row(ledger, bar)
+    target = {str(h["symbol"]): int(h.get("lots") or 0) for h in after or [] if h.get("symbol")}
+    out = {"bar": bar, "from_bar": (prev or {}).get("bar"), "actions": len(actions or []),
+           "status": None, "vanished": [], "appeared": [], "lots_changed": [],
+           "cny_moved": None}
+    if prev is None:
+        out["status"] = "FIRST_ROW"
+        return out
+    start = {str(h["symbol"]): int(h.get("lots") or 0)
+             for h in prev.get("holdings") or [] if h.get("symbol")}
+    expected = apply_actions(start, actions or [])
+    expected = {k: v for k, v in expected.items() if v}
+    prices = {str(h["symbol"]): float(h.get("price") or 0.0) for h in after or []
+              if h.get("symbol")}
+    for h in prev.get("holdings") or []:
+        prices.setdefault(str(h["symbol"]), float(h.get("price") or 0.0))
+    out["vanished"] = sorted(s for s in expected if s not in target)
+    out["appeared"] = sorted(s for s in target if s not in expected)
+    out["lots_changed"] = [{"symbol": s, "expected_lots": expected[s],
+                            "target_lots": target[s]}
+                           for s in sorted(set(expected) & set(target))
+                           if expected[s] != target[s]]
+    moved = 0.0
+    for s in set(expected) | set(target):
+        d = int(target.get(s, 0)) - int(expected.get(s, 0))
+        if d:
+            moved += abs(d) * LOT_SHARES * float(prices.get(s) or 0.0)
+    out["cny_moved"] = round(moved, 2)
+    if not (out["vanished"] or out["appeared"] or out["lots_changed"]):
+        out["status"] = "EXPLAINED"
+    elif not (actions or []):
+        out["status"] = "UNEXPLAINED_TARGET_WITHOUT_TRADES"
+    else:
+        out["status"] = "UNEXPLAINED_LOTS"
+    return out
+
+
 def account_base_after_accrual(ledger, base, accrual):
     """r1512: the account as it stands once the accrual has written its rows.
 
@@ -745,6 +844,7 @@ def assess(ticket, stack, ledger, stamp=None):
 
     ledger_action = None
     row = None
+    transition = None
     if asof and stack and after and verdict != "CANNOT_VERIFY":
         row = {
             "bar": asof,
@@ -761,6 +861,31 @@ def assess(ticket, stack, ledger, stamp=None):
             "source_face": rel(STACK_FACE),
         }
         ledger_action = upsert_row(ledger, row, stamp) if stamp else "dry"
+        transition = (book_transition(ledger, asof, actions, after)
+                      if ledger is not None else None)
+
+    # r1563: which row may the next face subtract from. `ledger_row` above is the book this
+    # sheet's target lands on; it is only an ACCOUNT when the sheet's own trade list carries
+    # the previous row onto it. Publish the row a reader should start from, and say which one
+    # it is -- a target wearing the account's clothes makes the next subtraction an identity.
+    account_row = None
+    _acct = (account_row_for(ledger, asof) if (ledger is not None and asof) else None)
+    if _acct or row:
+        _src = _acct or row
+        declared = bool(transition) and str(transition.get("status") or "").startswith(
+            "UNEXPLAINED")
+        account_row = {
+            "bar": _src.get("bar"),
+            "kind": str(_src.get("kind") or "execution"),
+            "source": "book_before_declaration" if declared else "ledger_row",
+            "risk_book_cny": _src.get("risk_book_cny"),
+            "cash_cny": _src.get("cash_cny"),
+            "holdings": [{"symbol": str(h["symbol"]), "lots": int(h.get("lots") or 0),
+                          "price": float(h.get("price") or 0.0),
+                          "amount_cny": float(h.get("amount_cny") or 0.0)}
+                         for h in _src.get("holdings") or [] if h.get("symbol")],
+            "actions": _src.get("actions") or [],
+        }
 
     # what the next order must start from (the row above, or a refusal)
     base = start_inventory(ledger, asof) if ledger is not None else None
@@ -859,6 +984,12 @@ def assess(ticket, stack, ledger, stamp=None):
         "unexplained_unpriced_rows": unpriced,
         "ledger_action": ledger_action,
         "ledger_row": row,
+        # r1562: the row above is the book this sheet's target lands on; this block says
+        # whether the sheet's own trade list carries the account there, or whether the row
+        # is a declaration with nothing behind it (see book_transition).
+        "transition": transition,
+        # r1563: the row the next face may subtract from (see account_row_for).
+        "account_row": account_row,
         "next_order_base": None if not account_base else {
             "bar": account_base.get("bar"),
             "kind": str(account_base.get("kind") or "execution"),
@@ -1600,6 +1731,53 @@ def selftest():
                        "holdings": [{"symbol": "A", "lots": 2}]}]}
     chk("a bar carrying both kinds resolves to the executed book",
         start_inventory(_both, "2026-11-10")["holdings"][0]["lots"] == 2)
+
+    # 17. r1563: the row may not be read as an account when its own trades cannot reach it
+    _l17 = {"schema": "x", "rows": [
+        {"bar": "2026-11-06", "kind": "execution",
+         "holdings": [{"symbol": "A", "lots": 10, "price": 2.0}],
+         "cash_cny": 1000.0, "risk_book_cny": 20000.0,
+         "actions": [{"side": "BUY", "symbol": "A", "lots": 10}]},
+        {"bar": "2026-11-09", "kind": "execution",
+         "holdings": [{"symbol": "A", "lots": 12, "price": 2.0}],
+         "cash_cny": 600.0, "risk_book_cny": 24000.0,
+         "actions": [{"side": "BUY", "symbol": "A", "lots": 2}]},
+        {"bar": "2026-11-11", "kind": "execution",
+         "holdings": [{"symbol": "B", "lots": 30, "price": 1.0}],
+         "cash_cny": 27000.0, "risk_book_cny": 30000.0, "actions": []}]}
+    chk("a row no trade list can reach is not the account",
+        account_row_for(_l17, "2026-11-11")["bar"] == "2026-11-09")
+    chk("and a row the trades do reach is the account",
+        account_row_for(_l17, "2026-11-09")["bar"] == "2026-11-09")
+    _l17b = {"schema": "x", "rows": [_l17["rows"][0],
+                                     {"bar": "2026-11-11", "kind": "execution",
+                                      "holdings": [{"symbol": "A", "lots": 15, "price": 2.0}],
+                                      "cash_cny": 900.0, "risk_book_cny": 30000.0,
+                                      "actions": [{"side": "BUY", "symbol": "A", "lots": 5}]}]}
+    chk("a reachable row on this bar is subtracted from itself",
+        account_row_for(_l17b, "2026-11-11")["bar"] == "2026-11-11")
+    _l17c = {"schema": "x", "rows": [_l17["rows"][0],
+                                     {"bar": "2026-11-10", "kind": "execution",
+                                      "holdings": [{"symbol": "A", "lots": 14, "price": 2.0}],
+                                      "cash_cny": 900.0, "risk_book_cny": 28000.0,
+                                      "actions": [{"side": "SELL", "symbol": "Z", "lots": 3}]},
+                                     {"bar": "2026-11-11", "kind": "execution",
+                                      "holdings": [{"symbol": "B", "lots": 30, "price": 1.0}],
+                                      "cash_cny": 27000.0, "risk_book_cny": 30000.0,
+                                      "actions": []}]}
+    chk("a bar that printed trades stays the account even when the list does not close",
+        account_row_for(_l17c, "2026-11-11")["bar"] == "2026-11-10")
+    _s17 = {"asof": "2026-11-11", "ticket": "T", "k_after": 0.4,
+            "risk_book_after_cny": 30000.0, "cash_cny": 27000.0,
+            "holdings_after": [{"symbol": "B", "lots": 30, "price": 1.0}], "actions": []}
+    _f17 = assess({"ticket": {"order": [{"symbol": "B", "price": 1.0, "lots": 30,
+                                         "weight": 0.5}], "nav": 1000000.0}},
+                  _s17, _l17)
+    chk("the face publishes the book before the declaration",
+        (_f17.get("account_row") or {}).get("bar") == "2026-11-09"
+        and (_f17.get("account_row") or {}).get("source") == "book_before_declaration")
+    chk("and the declaration is still named on the same face",
+        str((_f17.get("transition") or {}).get("status") or "").startswith("UNEXPLAINED"))
 
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1

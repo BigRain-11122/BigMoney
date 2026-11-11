@@ -360,12 +360,21 @@ def _alignment_note(panel):
     return out
 
 
+def _rel(path, base=None):
+    """Repo-relative for display. A path on another mount prints as itself (r1375: a bare
+    relpath in a display line took the whole selftest down when a fixture lives on C:)."""
+    try:
+        return os.path.relpath(path, base or ROOT).replace(os.sep, "/")
+    except ValueError:
+        return str(path).replace(os.sep, "/")
+
+
 def _published_band():
     """The three numbers the operator page prints, read from its own artefact.
 
     `docs/live_book/latest.json` is a pointer (`json` = the dated file name), so the band is
     read from the file it names -- never from a copy of the numbers in here."""
-    out = {"source": os.path.relpath(PAGE_JSON, ROOT).replace(os.sep, "/")}
+    out = {"source": _rel(PAGE_JSON)}
     try:
         with open(PAGE_JSON, encoding="utf-8") as fh:
             blk = json.load(fh)
@@ -376,7 +385,7 @@ def _published_band():
             if cand is None:
                 rel = os.path.join(ROOT, page.replace("/", os.sep))
                 cand = rel if os.path.exists(rel) else os.path.join(os.path.dirname(PAGE_JSON), page)
-            out["source"] = os.path.relpath(cand, ROOT).replace(os.sep, "/")
+            out["source"] = _rel(cand)
             with open(cand, encoding="utf-8") as fh:
                 page = json.load(fh)
         if not isinstance(page, dict):
@@ -425,7 +434,7 @@ def render_md(doc):
     add("# 那张「该期待什么」的表，三行不是一把尺子")
     add("")
     add("证据面：`%s` ｜ 定价截止 %s ｜ %s 秒"
-        % (os.path.relpath(OUT_JSON, ROOT).replace(os.sep, "/"),
+        % (_rel(OUT_JSON),
            (doc.get("panels") or {}).get("card", {}).get("last_bar") or "—",
            doc.get("elapsed_sec")))
     add("")
@@ -522,7 +531,7 @@ def render_md(doc):
     add("")
     add("门＝%s pp/年；身份门＝%s pp。" % (TOL_PP, IDENT_TOL_PP))
     add("")
-    add("行数据：`%s::cells`。" % os.path.relpath(OUT_JSON, ROOT).replace(os.sep, "/"))
+    add("行数据：`%s::cells`。" % _rel(OUT_JSON))
     add("")
     return "\n".join(L)
 
@@ -548,18 +557,18 @@ def run():
 def read_published(path=OUT_JSON):
     """Reader for other faces: serve the stored verdict only if it still recomputes."""
     if not os.path.exists(path):
-        return {"status": "missing", "artifact": os.path.relpath(path, ROOT)}
+        return {"status": "missing", "artifact": _rel(path)}
     with open(path, encoding="utf-8") as fh:
         doc = json.load(fh)
     if (doc.get("criteria") or {}).get("tol_pp_per_year") != TOL_PP:
-        return {"status": "drifted", "artifact": os.path.relpath(path, ROOT),
+        return {"status": "drifted", "artifact": _rel(path),
                 "detail": "the stored face was frozen at a different tolerance"}
     redo = decide(dict(doc, dial_prices=dial_prices(doc)))
     stored = (doc.get("verdict") or {}).get("state")
     if redo.get("state") != stored:
-        return {"status": "drifted", "artifact": os.path.relpath(path, ROOT),
+        return {"status": "drifted", "artifact": _rel(path),
                 "detail": "stored verdict %s, recomputed %s" % (stored, redo.get("state"))}
-    return {"status": "ok", "artifact": os.path.relpath(path, ROOT).replace(os.sep, "/"),
+    return {"status": "ok", "artifact": _rel(path),
             "verdict": redo, "dial_prices": doc.get("dial_prices"),
             # r1216b: the operator's own row needs the middle window too. The split is
             # served through this one reader rather than re-read from the artifact by a
@@ -572,10 +581,30 @@ def read_published(path=OUT_JSON):
             "published_faces": doc.get("published_faces")}
 
 
+def _ledger_last_bar():
+    """The ledger's own last date -- the one bar this face must have been priced on."""
+    try:
+        d = O.ledger_dates()
+    except Exception:                                            # noqa: BLE001
+        return None
+    return max(d) if d else None
+
+
 def check():
     doc = read_published()
     if doc.get("status") != "ok":
         print("CHECK FAILED: %s (%s)" % (doc.get("status"), doc.get("detail")))
+        return 1
+    # r1557: this face only ever asserted that it recomputes ITSELF. A face that is
+    # internally consistent and eight days old passes that, so the chain's check->run
+    # fallback never fired and the identity arm kept pointing at a 11-03 panel while every
+    # consumer priced today (window label 12.56 vs 12.73 on 11-11). Freshness is its own
+    # assertion: the priced panel must reach the ledger's last bar.
+    _lb = _ledger_last_bar()
+    _pb = ((doc.get("panels") or {}).get("card") or {}).get("last_bar")
+    if _lb and _pb and str(_pb) < str(_lb):
+        print("CHECK FAILED: priced panel reaches %s, the ledger's last bar is %s -- rerun"
+              % (_pb, _lb))
         return 1
     print("check OK: %s | %s"
           % (doc["verdict"]["state"],

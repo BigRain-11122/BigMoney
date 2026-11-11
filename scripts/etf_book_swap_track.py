@@ -396,9 +396,23 @@ def _measure(ctx):
 
     priced = [r for r in rows if r.get("t_stat") is not None]
     if not priced:
+        # r1562: three different facts used to print one sentence. "Nothing was swapped on
+        # this bar", "the legs were swapped but the panels do not overlap", and "the gap
+        # face lists no pair at all" are all NOTHING_MEASURED, and only the last two are
+        # about history. On 2026-11-11 the sheet blamed "insufficient common history" on a
+        # bar whose swap face recorded no swap (actions=[]): a cause it never measured.
+        n_pairs = len(gap.get("pairs") or [])
+        if not n_pairs:
+            reason = "NO_PAIRS"
+        elif not rows:
+            reason = "NOTHING_SWAPPED"
+        else:
+            reason = "INSUFFICIENT_HISTORY"
+        face["nothing_measured"] = {"reason": reason, "pairs": n_pairs,
+                                    "swapped": len(rows) - len(skipped),
+                                    "skipped": len(skipped), "rows": len(rows)}
         face["verdict"] = "NOTHING_MEASURED"
-        face["sentence"] = ("这一单没有可测量的换票：换出的票没有足够的共同历史——"
-                            "这不是「跟踪差为零」的结论。")
+        face["sentence"] = _nothing_sentence(reason, n_pairs, len(skipped))
         return face
     face["merge"] = merge_block(series, rows, stack)
 
@@ -428,6 +442,18 @@ def _measure(ctx):
 def compute(ctx):
     """Load the two published faces and the panels, then measure. Nothing is re-reconciled."""
     return _measure(ctx)
+
+
+def _nothing_sentence(reason, n_pairs=0, n_skipped=0):
+    """r1562: the sentence is chosen by the measured cause, never by the shape of the table."""
+    if reason == "NO_PAIRS":
+        return ("这一单没有换出任何票：价差面在这根 bar 上没有可配对的腿，所以没有成本可量——"
+                "这不是「跟踪差为零」的结论。")
+    if reason == "NOTHING_SWAPPED":
+        return ("这一单印出的动作没有换出任何一只票（%d 对候选里 %d 只没有换出），"
+                "所以没有成本可量——这不是「跟踪差为零」的结论。" % (n_pairs, n_skipped))
+    return ("这一单没有可测量的换票：换出的票没有足够的共同历史——"
+            "这不是「跟踪差为零」的结论。")
 
 
 def sentence(face):
@@ -539,6 +565,19 @@ def check(face):
         return ["no face"]
     if face.get("refused"):
         return problems
+    # r1562: an empty table is allowed, an unexplained empty table is not. Without this the
+    # chain's check->run fallback never fired (a face that prints nothing passes every
+    # per-row assertion it owns), so a stale NOTHING_MEASURED survived the whole round.
+    if not (face.get("rows") or []) and not face.get("refused"):
+        nm = face.get("nothing_measured") or {}
+        if nm.get("reason") not in ("NO_PAIRS", "NOTHING_SWAPPED", "INSUFFICIENT_HISTORY"):
+            problems.append("nothing was measured and the face does not say why")
+        elif nm.get("reason") == "INSUFFICIENT_HISTORY" and not (
+                int(nm.get("rows") or 0) > 0):
+            problems.append("the face blames history but priced no leg")
+    if (face.get("nothing_measured") or {}).get("reason") == "NO_PAIRS" and \
+            int((face.get("nothing_measured") or {}).get("pairs") or 0) != 0:
+        problems.append("reason says no pairs but the count is not zero")
     bp = float(face.get("bars_per_year") or BARS_PER_YEAR)
     for r in face.get("rows") or []:
         leg = r.get("leg_symbol")
@@ -767,6 +806,31 @@ def selftest():
     bar["as_of"] = "2026-11-09"
     leg("L26 a bar mismatch refuses rather than stitching two bars",
         _measure(bar).get("refused") is not None)
+
+    # --- the cause of an empty table is measured, not assumed ------------------------
+    _nopairs = _fixture()
+    _nopairs["sibling_gap"]["pairs"] = []
+    _f0 = _measure(_nopairs)
+    leg("L36 no pairs names NO_PAIRS and does not blame history",
+        (_f0.get("nothing_measured") or {}).get("reason") == "NO_PAIRS"
+        and "共同历史" not in _f0.get("sentence", "")
+        and _f0.get("verdict") == "NOTHING_MEASURED", _f0.get("sentence"))
+    _noswap = _fixture()
+    _noswap["swap_stack"]["actions"] = []
+    _f1 = _measure(_noswap)
+    leg("L37 a bar where nothing was swapped says so, not 'insufficient history'",
+        (_f1.get("nothing_measured") or {}).get("reason") == "NOTHING_SWAPPED"
+        and "共同历史" not in _f1.get("sentence", ""), _f1.get("sentence"))
+    _hist = _measure(_fixture({"159501": 0.01}, sessions=60))
+    leg("L38 an empty table that really is short history keeps the history sentence",
+        (_hist.get("nothing_measured") or {}).get("reason") == "INSUFFICIENT_HISTORY"
+        and "共同历史" in _hist.get("sentence", ""), _hist.get("sentence"))
+    _mute = json.loads(json.dumps(_f0))
+    _mute.pop("nothing_measured", None)
+    leg("L39 check refuses an empty table that does not say why",
+        any("does not say why" in p for p in check(_mute)), check(_mute))
+    leg("L40 check passes the measured reasons",
+        check(_f0) == [] and check(_f1) == [], (check(_f0), check(_f1)))
 
     # --- the anchor session is disclosed, never a blocker -----------------------------
     oldanchor = _fixture()

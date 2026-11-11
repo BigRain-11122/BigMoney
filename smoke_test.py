@@ -11472,8 +11472,23 @@ def _legs_supply_and_book():
                 if _b64:
                     _bad64.append("published swap_track does not reconcile: %s" % "; ".join(_b64))
                 _rows64 = [x for x in _pub64.get("rows") or [] if x.get("t_stat") is not None]
-                if not _rows64:
-                    _bad64.append("the carry face priced no leg on a bar that swapped two")
+                # r1562: "the carry face priced no leg" was asserted on every bar, including
+                # bars whose own swap face records no trade (11-11: swap_stack actions=[]).
+                # A leg may only demand rows where the ticket says a swap happened; where it
+                # does not, the demand is that the face names a cause it actually measured.
+                _swk64 = _tk64.get("swap_stack") or {}
+                _swapped64 = bool(_swk64.get("actions"))
+                if not _rows64 and _swapped64:
+                    _bad64.append("the carry face priced no leg on a bar that swapped %d"
+                                  % len(_swk64.get("actions") or []))
+                if not _rows64 and not _swapped64:
+                    _nm64 = _pub64.get("nothing_measured") or {}
+                    if not _nm64.get("reason"):
+                        _bad64.append("nothing was swapped and the carry face does not say "
+                                      "why its table is empty")
+                    elif _nm64.get("reason") == "INSUFFICIENT_HISTORY":
+                        _bad64.append("no swap happened on this bar but the face blames "
+                                      "insufficient history")
                 for _x64 in _rows64:
                     if _x64.get("se_pp_per_year") is None:
                         _bad64.append("%s prints a drift with no error band"

@@ -14,7 +14,7 @@
  "unexplained": [],
  "unexplained_total_cny": 0,
  "unexplained_unpriced_rows": 0,
- "ledger_action": "updated",
+ "ledger_action": "kept",
  "ledger_row": {
   "bar": "2026-11-11",
   "kind": "execution",
@@ -56,6 +56,81 @@
   ],
   "actions": [],
   "source_face": "results/etf_book_swap_stack.json"
+ },
+ "transition": {
+  "bar": "2026-11-11",
+  "from_bar": "2026-11-10",
+  "actions": 0,
+  "status": "UNEXPLAINED_TARGET_WITHOUT_TRADES",
+  "vanished": [
+   "159263",
+   "159513",
+   "159577"
+  ],
+  "appeared": [
+   "159519",
+   "159655",
+   "510760",
+   "512040"
+  ],
+  "lots_changed": [
+   {
+    "symbol": "513690",
+    "expected_lots": 677,
+    "target_lots": 748
+   }
+  ],
+  "cny_moved": 667376.2
+ },
+ "account_row": {
+  "bar": "2026-11-10",
+  "kind": "execution",
+  "source": "book_before_declaration",
+  "risk_book_cny": 392404.9,
+  "cash_cny": 607595.1,
+  "holdings": [
+   {
+    "symbol": "159263",
+    "lots": 693,
+    "price": 1.134,
+    "amount_cny": 78586.2
+   },
+   {
+    "symbol": "159513",
+    "lots": 891,
+    "price": 1.76,
+    "amount_cny": 156816.0
+   },
+   {
+    "symbol": "159577",
+    "lots": 473,
+    "price": 1.659,
+    "amount_cny": 78470.7
+   },
+   {
+    "symbol": "513690",
+    "lots": 677,
+    "price": 1.16,
+    "amount_cny": 78532.0
+   }
+  ],
+  "actions": [
+   {
+    "side": "SELL",
+    "symbol": "159501",
+    "lots": 372
+   },
+   {
+    "side": "SELL",
+    "symbol": "513100",
+    "lots": 355
+   },
+   {
+    "side": "BUY",
+    "symbol": "159513",
+    "lots": 891
+   }
+  ]
  },
  "next_order_base": {
   "bar": "2026-11-11",
@@ -205,45 +280,19 @@
    "bar": "2026-11-11",
    "same_bar": true,
    "lots": {
-    "159519": 446,
-    "159655": 392,
-    "510760": 612,
-    "512040": 656,
-    "513690": 680
+    "159519": 490,
+    "159655": 431,
+    "510760": 673,
+    "512040": 721,
+    "513690": 748
    },
-   "cash_cny": 607327.0
+   "cash_cny": 568303.0
   },
-  "page_vs_ledger_lots": [
-   {
-    "symbol": "159519",
-    "page_lots": 446,
-    "ledger_lots": 490
-   },
-   {
-    "symbol": "159655",
-    "page_lots": 392,
-    "ledger_lots": 431
-   },
-   {
-    "symbol": "510760",
-    "page_lots": 612,
-    "ledger_lots": 673
-   },
-   {
-    "symbol": "512040",
-    "page_lots": 656,
-    "ledger_lots": 721
-   },
-   {
-    "symbol": "513690",
-    "page_lots": 680,
-    "ledger_lots": 748
-   }
-  ],
+  "page_vs_ledger_lots": [],
   "page_vs_ledger_cash": {
-   "page": 607327.0,
+   "page": 568303.0,
    "ledger": 568303.2,
-   "page_minus_ledger": 39023.8
+   "page_minus_ledger": -0.2
   },
   "page_vs_ledger_agree": false
  },
