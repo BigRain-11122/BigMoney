@@ -757,6 +757,20 @@ CAUSAL_REBUILD_JSON = os.path.join(ROOT, "results", "etf_book_causal_rebuild.jso
 GAP_JSON = os.path.join(ROOT, "results", "etf_book_overnight_gap.json")
 
 
+def _older_than(stamp, ref):
+    """True when `stamp` is a readable write time and strictly older than `ref`.
+
+    Unknown stamps answer False: an unparsable time is not evidence of freshness, but it is
+    also not evidence of staleness -- the caller keeps its value test in that case."""
+    fmt = "%Y-%m-%dT%H:%M:%S%z"
+    try:
+        a = dt.datetime.strptime(str(stamp), fmt)
+        b = dt.datetime.strptime(str(ref), fmt)
+    except (TypeError, ValueError):
+        return False
+    return a < b
+
+
 def permission_face(perm_path=PERMISSION_JSON, gap_path=CUT_GAP_JSON,
                     ledger_path=PERMISSION_LEDGER_JSON):
     """How big this book is ALLOWED to be, against how big the list above orders (r1458).
@@ -834,10 +848,28 @@ def permission_face(perm_path=PERMISSION_JSON, gap_path=CUT_GAP_JSON,
             out["floor_ledger_issued_at"] = rows[-1].get("issued_at")
     # two receipts quoting the same floor must agree, or the page says so instead of obeying
     cons = out["consistency"]
+    cons["generated"] = {"permission": perm.get("generated"), "gap": (gap or {}).get("generated"),
+                         "ledger": (led or {}).get("generated")}
     if gap and gap.get("permitted_k") is not None:
         cons["permission_vs_gap"] = abs(float(gap["permitted_k"]) - k_allowed) < 1e-6
     if out["floor_k"] is not None:
         cons["permission_vs_ledger"] = abs(float(out["floor_k"]) - k_allowed) < 1e-6
+    # r1559: "two receipts disagree" and "one receipt is older than its input" are two
+    # different facts, and only the first is a contradiction. The cut-gap face runs off the
+    # permission receipt; when it is rebuilt before that receipt the two numbers differ by
+    # construction and the page used to print a contradiction it could not clear (11-11: the
+    # page refused to certify a book that was 3.91pp under its own limit). Compare stamps
+    # first, values second.
+    cons["stale_readers"] = []
+    for name, key in (("gap", "permission_vs_gap"),):
+        if cons.get(key) is False:
+            older = _older_than(cons["generated"].get(name),
+                                cons["generated"].get("permission"))
+            if older:
+                cons["stale_readers"].append(
+                    {"reader": name, "generated": cons["generated"].get(name),
+                     "input_generated": cons["generated"].get("permission"),
+                     "input": "results/etf_book_rebalance_permission.json"})
     cons["agree"] = all(cons.get(k) is not False for k in
                         ("permission_vs_gap", "permission_vs_ledger"))
     return out
@@ -857,11 +889,20 @@ def permission_block(pf):
                pf.get("detail") or "无读数"))
         add("")
         return L
-    if pf.get("consistency", {}).get("agree") is False:
+    stale = ((pf.get("consistency") or {}).get("stale_readers") or [])
+    if pf.get("consistency", {}).get("agree") is False and not stale:
         add("**两张收据对同一个额度报了不同的数**（%s）——本页不宣称这张单守住了额度。"
             % json.dumps(pf.get("consistency"), ensure_ascii=False))
         add("")
         return L
+    if stale:
+        _s = stale[0]
+        add("- **下游收据比额度面旧**：`%s` 写于 %s，而它读的 `%s` 写于 %s——那张表量的是上一版额度，"
+            "不是这一版。本页据额度面本身判定这张单，但**不打印那张旧裁剪表**（按旧上限卖，正是"
+            "「两个数不同源」最贵的用法）。"
+            % (_s.get("reader"), _s.get("generated"), _s.get("input"),
+               _s.get("input_generated")))
+        add("")
     allowed = pf.get("allowed_cny")
     ordered = pf.get("ordered_cny")
     over = pf.get("over_cny")
@@ -872,7 +913,24 @@ def permission_block(pf):
             % (format(over, ",.0f"), pf.get("over_pp") or 0.0))
     else:
         add("- 这张单没有超过额度。")
-    tr = pf.get("trim") or {}
+        # r1559: two k's on one page and no word on which one binds was the open question --
+        # answer it: the limit is the lowest PATH reading, a static mix does not vote, and the
+        # distance to the limit is headroom, not a target.
+        _paths = {n: float((r or {}).get("k")) for n, r in (pf.get("readings") or {}).items()
+                  if (r or {}).get("kind") == "path" and (r or {}).get("k") is not None}
+        if _paths:
+            _lo = min(_paths, key=lambda n: _paths[n])
+            _skip = sorted(n for n, r in (pf.get("readings") or {}).items()
+                           if (r or {}).get("kind") != "path")
+            add("- 这个额度由谁给出：路径读数 %s，最低的是 **%s k=%.6f**；%s 不投票。"
+                % ("、".join("%s k=%.6f" % (n, _paths[n]) for n in sorted(_paths)), _lo,
+                   _paths[_lo], "、".join(_skip) if _skip else "非路径读数"))
+            _head = (pf["k_allowed"] - pf["k_order"]) * 100.0
+            if _head > 0:
+                _cny = (pf.get("allowed_cny") or 0) - (pf.get("ordered_cny") or 0)
+                add("- 所以额度管的是**上限**不是目标：本单比它低 %.2f 个百分点（¥%s 的空位），"
+                    "这个空位不构成加仓理由。" % (_head, format(_cny, ",.0f")))
+    tr = {} if stale else (pf.get("trim") or {})
     if over and over > 0 and tr.get("legs"):
         add("")
         add("按额度执行要这样卖（整数手，卖出后 k=%.6f）：" % (tr.get("k_after") or 0.0))
@@ -911,8 +969,13 @@ def permission_block(pf):
                                format(cost.get("give_up_at_benchmark") or 0, ",.0f")))
             add("- 守额度的代价：%s。" % "；".join(bits))
     elif over and over > 0:
-        add("- 裁剪表读不到（`results/etf_book_cut_order_gap.json` 缺席）：知道超了 ¥%s，但不知道该卖多少手。"
-            % format(over, ",.0f"))
+        if stale:
+            add("- 这张单超出额度 ¥%s，但裁剪表比额度面旧，所以本页**不给出要卖几手**："
+                "按上一版上限算出来的卖出量会少卖，照它下单等于没守这一版额度。"
+                % format(over, ",.0f"))
+        else:
+            add("- 裁剪表读不到（`results/etf_book_cut_order_gap.json` 缺席）：知道超了 ¥%s，但不知道该卖多少手。"
+                % format(over, ",.0f"))
     fv = pf.get("floor_verdict")
     if fv:
         zh = {"REAPPLY_REQUIRED": "**这张单守住了，但排程没有**：下一张单会重新超额度，除非在那根决策 bar 上重新裁一次",
@@ -1472,7 +1535,12 @@ def premium_forward_face(ticket=None, results_dir=None):
             "sentence": pr.get("fwd_sentence"), "caveat": pr.get("fwd_caveat"),
             "rows": list(pr.get("fwd_rows") or []),
             "missing_legs": list(pr.get("fwd_missing_legs") or []),
-            "cny_total": pr.get("fwd_cny_total")}
+            "cny_total": pr.get("fwd_cny_total"),
+            "sample_signature": pr.get("fwd_sample_signature"),
+            "sample_legs": list(pr.get("fwd_sample_legs") or []),
+            "sample_changed": pr.get("fwd_sample_changed"),
+            "sample_previous_legs": list(pr.get("fwd_sample_previous_legs") or []),
+            "sample_previous_session": pr.get("fwd_sample_previous_session")}
 
 
 def premium_forward_block(pf, page_bar=None):
@@ -1513,6 +1581,18 @@ def premium_forward_block(pf, page_bar=None):
         add("- %s 在这张面上没有读数——是「没量过」，不是「没有漂移」。"
             % "、".join(pf["missing_legs"]))
     add("- 判词 **%s**：%s" % (pf.get("verdict") or "?", pf.get("sentence") or ""))
+    # r1562: the verdict has a referent -- the funds it measured. Name it, and say out loud
+    # when it was replaced (11-11: MIXED/-0.133 -> HIGH_PREMIUM_PAYS/+0.023 was a new set of
+    # funds, not new information about the old ones).
+    if pf.get("sample_changed"):
+        add("- **这张表的样本被换过**：上一次量的是 %s（%s 的票面），这一次是 %s —— 两个判词"
+            "**不能跨日比较**，也不是「数据变了」。"
+            % ("、".join(pf.get("sample_previous_legs") or []) or "?",
+               pf.get("sample_previous_session") or "?",
+               "、".join(pf.get("sample_legs") or []) or "?"))
+    elif pf.get("sample_signature"):
+        add("- 样本与上一次发布相同（%s，签名 `%s`）——这一节的判词可以与上一日并读。"
+            % ("、".join(pf.get("sample_legs") or []), pf["sample_signature"]))
     if pf.get("caveat"):
         add("- %s" % pf["caveat"])
     add("- 出处：`%s`（scripts/etf_book_premium_forward.py 单一生产者；按本票的腿裁剪由 "
@@ -8138,6 +8218,30 @@ def selftest():
         and "两张收据对同一个额度报了不同的数" in _pf_conflict_txt
         and "没有超过额度" not in _pf_conflict_txt,
         "consistency=%s" % json.dumps(_pf_conflict.get("consistency"), ensure_ascii=False))
+    # r1559: "the two receipts disagree" and "the reader ran before its input" are different
+    # facts and only the first is a contradiction -- the live page spent 11-11 refusing to
+    # certify a book that was 3.91pp under its own limit because the cut-gap face was 17
+    # minutes older than the permission it reads. Stamps decide which one it is.
+    _p_stale = os.path.join(_pf_dir, "p_stale.json")
+    _g_stale = os.path.join(_pf_dir, "g_stale.json")
+    with open(_p_stale, "w", encoding="utf-8") as _fh:
+        json.dump(dict(_perm_fix, generated="2026-11-11T17:43:07+0800"), _fh, ensure_ascii=False)
+    with open(_g_stale, "w", encoding="utf-8") as _fh:
+        json.dump(dict(_gap_fix, generated="2026-11-11T17:26:41+0800",
+                       trim={"legs": [{"symbol": "A", "price": 1.0, "lots_now": 10,
+                                       "lots_target": 5, "lots_sell": 5, "sell_cny": 500.0}],
+                             "lots_sell_total": 5, "sold_cny": 500.0, "k_after": 0.39,
+                             "within": True}), _fh, ensure_ascii=False)
+    _pf_stale = permission_face(_p_stale, _g_stale, _l_fix)
+    _pf_stale_txt = "\n".join(permission_block(_pf_stale))
+    chk("L149 permission block: a reader older than its input is named as STALE, not as two "
+        "receipts contradicting each other, and its table is withheld (never sold off an old cap)",
+        _pf_stale.get("consistency", {}).get("stale_readers")
+        and "下游收据比额度面旧" in _pf_stale_txt
+        and "两张收据对同一个额度报了不同的数" not in _pf_stale_txt
+        and "卖出手数" not in _pf_stale_txt and "超出额度" in _pf_stale_txt,
+        "stale=%s" % json.dumps(_pf_stale.get("consistency", {}).get("stale_readers"),
+                                ensure_ascii=False))
     _p_under = os.path.join(_pf_dir, "p_under.json")
     with open(_p_under, "w", encoding="utf-8") as _fh:
         json.dump(dict(_perm_fix, k_now=0.35, cut_cny=0.0, keep_allowed=True), _fh, ensure_ascii=False)
@@ -8403,6 +8507,23 @@ def selftest():
     _pfw_cut = "\n".join(premium_forward_block(dict(_pfw_fix, missing_legs=["513100"])))
     chk("L169 premium forward block: a leg with no reading is named as unmeasured, not as zero drift",
         "513100" in _pfw_cut and "没量过" in _pfw_cut)
+    # r1562: the verdict has a referent (the funds it measured). A replaced leg set turns
+    # yesterday's word into a statement about other funds; the page must say that instead of
+    # letting two different samples' verdicts read as one continuous series.
+    _pfw_swap = "\n".join(premium_forward_block(dict(
+        _pfw_fix, sample_changed=True, sample_signature="3600c87ce854",
+        sample_legs=["159519", "159655", "510760", "512040", "513690"],
+        sample_previous_legs=["159263", "159501", "159577", "513100", "513690"],
+        sample_previous_session="2026-11-10")))
+    chk("L169b premium forward block: a replaced sample is said out loud and is not comparable across days",
+        "样本被换过" in _pfw_swap and "159263" in _pfw_swap and "159519" in _pfw_swap
+        and "不能跨日比较" in _pfw_swap, _pfw_swap[-160:])
+    _pfw_same = "\n".join(premium_forward_block(dict(
+        _pfw_fix, sample_changed=False, sample_signature="3600c87ce854",
+        sample_legs=["159519", "159655", "510760", "512040", "513690"])))
+    chk("L169c premium forward block: a same sample says so, and never claims a break it does not have",
+        "样本与上一次发布相同" in _pfw_same and "3600c87ce854" in _pfw_same
+        and "不能跨日比较" not in _pfw_same, _pfw_same[-160:])
 
     # r1505: the section dates itself ("rate day 11-06 / price day 11-09") but never said WHY
     # the rate is old or whether it catches up. The board is a realtime print, so a missed

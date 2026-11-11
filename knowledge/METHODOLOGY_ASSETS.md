@@ -13151,3 +13151,20 @@ r1553 把「这条车道答不了 X」改写成「这件事已由另一把尺子
 **一句话**：断言红的时候先问「这个字段名当初指的是不是同一批成员」——名字不变、所指变了，是最难查的一种口径漂移。
 
 **证据**：`scripts/etf_book_size_rulers_decision.py` `issued_floor()` + `k_issued`/`k_floor_semantics`；`smoke_test.py` r1472 腿改比 `k_issued`（缺则红）、r1473 恒等式改用签发格自己的 beta、r1544 腿按 `mode` 选日期源；`results/etf_book_size_rulers_decision.json`（`k_issued`=0.432195·cell=universe，与 floor_memory 0.432195 / floor_ledger 0.432195 三方一致）。
+
+
+## E551 一个判词有一个被试：样本被换掉时，判词必须自带身份证明 · 2026-11-11 r1562 bm-c
+
+`PREMIUM-FORWARD.json` 在 r1561 那天把判词从 `MIXED`（rank-IC -0.133）改成了 `HIGH_PREMIUM_PAYS`（+0.023），每一个数都对，可读者只会读成「同一批基金从无信息变成了溢价有钱赚」。实情是当日票面把腿换成了四只跨境 ETF —— **被试换了一整批人，问题却还叫同一个名字**（E550 的正向版本：那次是加成员，这次是换成员）。面里没有任何字段能让人看出这一点。
+
+**正法三件**：
+
+1. **样本身份**＝排序去重后的腿码 sha256 前 12 位落在面里（`sample.signature`），并连同 `legs/n_legs/panel_rows/first_date/last_date` 一起发布——身份是集合的属性，与读入顺序无关。
+2. **append-only 发布台账** `PREMIUM-FORWARD-SAMPLES.jsonl`：每次发布写一行，**首次发布即冻结** `changed_from_previous / previous_signature / previous_legs / previous_session`。断裂是历史事实，不是当前状态。
+3. **断裂上头条**：换样本时把 `not comparable across sessions` 写进 `sentence`，并在两个人类面（`ORDER-*.md` 溢价节、CEO 页付溢价节）各印一句「上一次量的是这几只，这一次是这几只，两个判词不能跨日比较」。
+
+**幂等的坑**（本窗实弹）：判「样本是否换过」若用「台账最后一行」现算，`run` 第一次写「换了」并追加台账，第二次就变成「没换」——同一天跑两遍给出两句不同的话。正法是先把首见行冻结、之后一切从冻结行读；实测 `run` 两次发布面字节恒等（sha256 相同）。
+
+**附带发现**：用 git 历史（`HEAD~1:results/etf_premium/PREMIUM-FORWARD.json`）给台账播种时看到，上一版发布面的 `ticket_session` 写的是 `2026-11-11`，而它载的是 11-10 的腿——**票面日期字段不能当身份**，身份只能从腿本身算。
+
+**校验**（`check` 五断言 + 2 条变异腿）：签名能从自己的 legs 重算；签名必须已在台账；旗标、`sample_break` 块与台账冻结行三者一致；换样本时句子必须有该短语、没换时必须没有。`selftest` 51/51，其中 L49 手改 `changed_from_previous`、L50 断裂不进句子、L51 伪造断裂各自被当场抓住。

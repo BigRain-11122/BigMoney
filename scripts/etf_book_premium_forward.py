@@ -41,6 +41,7 @@ Usage:
     python scripts/etf_book_premium_forward.py selftest
 """
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -54,6 +55,13 @@ import etf_book_premium_percentile as pp  # noqa: E402  single premium-history r
 
 OUT_DIR = os.path.join(ROOT, "results", "etf_premium")
 OUT = os.path.join(OUT_DIR, "PREMIUM-FORWARD.json")
+# One frozen row per distinct leg set ever published. The face's verdict has a referent --
+# the funds it measured -- and that referent changes when the ticket changes (E550 family:
+# a name whose member set moves keeps the name). 2026-11-11 is the live case: the face read
+# MIXED with rank-IC -0.133 on the 11-10 legs and HIGH_PREMIUM_PAYS with +0.023 on the
+# 11-11 legs -- nothing drifted, the sample was replaced.
+SAMPLE_LEDGER = os.path.join(OUT_DIR, "PREMIUM-FORWARD-SAMPLES.jsonl")
+BREAK_MARK = "not comparable across sessions"
 DOC = os.path.join(ROOT, "research", "ETF_BOOK_PREMIUM_FORWARD.md")
 
 THIN_N = pp.THIN_N          # 60 usable observations: below this there is no scale
@@ -320,6 +328,120 @@ def ticket_amounts():
     return out, t.get("as_of") or latest.get("as_of")
 
 
+def sample_signature(symbols):
+    """Identity of WHAT this face measured: sha256 of the sorted leg codes, 12 hex.
+
+    Sorted and de-duplicated, so the signature is a property of the set -- two runs that
+    read the same funds in another order print the same identity.
+    """
+    joined = ",".join(sorted({str(x) for x in (symbols or [])}))
+    return hashlib.sha256(joined.encode("utf-8")).hexdigest()[:12]
+
+
+def read_sample_ledger(path=None):
+    """The append-only publication ledger (one row per distinct sample, oldest first)."""
+    path = path or SAMPLE_LEDGER
+    rows = []
+    if not os.path.exists(path):
+        return rows
+    try:
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    row = json.loads(line)
+                except Exception:
+                    continue
+                if isinstance(row, dict) and row.get("signature"):
+                    rows.append(row)
+    except Exception:
+        return rows
+    return rows
+
+
+SAMPLE_LEDGER_FIELDS = ("signature", "legs", "n_legs", "first_published_session",
+                        "first_published_verdict", "first_published_verdict_horizon",
+                        "changed_from_previous", "previous_signature", "previous_legs",
+                        "previous_session")
+
+
+def sample_row(symbols, ledger_rows, session=None, verdict=None, horizon=None):
+    """The frozen identity row for this sample.
+
+    If the sample was published before, its stored row is returned verbatim: the break is
+    a fact fixed at first publication, so `run` twice on the same sample cannot flip
+    "the sample changed" on and off (idempotency, E188 family).
+    """
+    syms = sorted({str(x) for x in (symbols or [])})
+    sig = sample_signature(syms)
+    for row in ledger_rows or []:
+        if row.get("signature") == sig:
+            return dict(row)
+    prev = (ledger_rows or [None])[-1]
+    return {"signature": sig, "legs": syms, "n_legs": len(syms),
+            "first_published_session": session,
+            "first_published_verdict": verdict,
+            "first_published_verdict_horizon": horizon,
+            "changed_from_previous": bool(prev and prev.get("signature") != sig),
+            "previous_signature": (prev or {}).get("signature"),
+            "previous_legs": list((prev or {}).get("legs") or []),
+            "previous_session": (prev or {}).get("first_published_session")}
+
+
+def sample_failures(pub, ledger_rows, fresh):
+    """Every way a published face can lie about its own sample, as red messages."""
+    bad = []
+    have = pub.get("sample") or {}
+    if not have:
+        bad.append("published face carries no sample identity -- a verdict whose member "
+                   "set is unnamed cannot be compared with any earlier day")
+        return bad
+    legs = list(have.get("legs") or [])
+    if have.get("signature") != sample_signature(legs):
+        bad.append("sample signature %r does not re-derive from its own legs (%s)"
+                   % (have.get("signature"), sample_signature(legs)))
+    if have.get("n_legs") != len(legs):
+        bad.append("sample n_legs %r != %d legs listed"
+                   % (have.get("n_legs"), len(legs)))
+    fresh_sample = fresh.get("sample") or {}
+    if sorted(legs) != sorted(fresh_sample.get("legs") or []):
+        bad.append("published sample legs %s != recomputed %s"
+                   % (",".join(sorted(legs)) or "none",
+                      ",".join(sorted(fresh_sample.get("legs") or [])) or "none"))
+    row = next((r for r in (ledger_rows or [])
+                if r.get("signature") == have.get("signature")), None)
+    if row is None:
+        bad.append("the published sample %s never entered the ledger -- `run` publishes and "
+                   "records in one step" % (have.get("signature") or "none"))
+    else:
+        for key in SAMPLE_LEDGER_FIELDS:
+            if row.get(key) != have.get(key):
+                bad.append("published sample %s %r != ledger %r"
+                           % (key, have.get(key), row.get(key)))
+    changed = bool(have.get("changed_from_previous"))
+    brk = pub.get("sample_break")
+    if changed and not brk:
+        bad.append("the ledger records a sample change but the face carries no "
+                   "sample_break block")
+    if not changed and brk:
+        bad.append("sample_break present although the ledger says this sample was not a change")
+    if pub.get("cross_session_comparable") is changed:
+        bad.append("cross_session_comparable=%r contradicts changed_from_previous=%r"
+                   % (pub.get("cross_session_comparable"), changed))
+    sentence = pub.get("sentence") or ""
+    if changed:
+        if not (brk or {}).get("previous_legs"):
+            bad.append("sample changed but the previous legs are not named")
+        if BREAK_MARK not in sentence:
+            bad.append("the headline sentence does not say the sample changed -- readers will "
+                       "read this verdict as continuous with the previous face")
+    elif BREAK_MARK in sentence:
+        bad.append("the sentence claims a sample break the ledger does not record")
+    return bad
+
+
 def verdict_of(legs, pooled):
     """Derived verdict: computed from the published numbers, never typed by hand."""
     usable = [l for l in legs if l["usable_obs"] >= THIN_N]
@@ -341,7 +463,7 @@ def verdict_of(legs, pooled):
 
 
 # ---------------------------------------------------------------- build
-def build(hist=None, horizons=HORIZONS):
+def build(hist=None, horizons=HORIZONS, ledger_rows=None):
     if hist is None:
         hist = pp.read_hist()
     legs_by = load_legs(hist)
@@ -455,6 +577,38 @@ def build(hist=None, horizons=HORIZONS):
                      "windows are counted once per stride in the t-stat and reported in full "
                      "only as coverage.")
     out["sentence"] = sentence_of(out)
+
+    # ---- what this face measured, and whether it is the same thing as last time
+    if ledger_rows is None:
+        ledger_rows = read_sample_ledger()
+    row = sample_row(list(legs_by), ledger_rows, session=session,
+                     verdict=out["verdict"], horizon=out["verdict_horizon"])
+    dates = sorted(r["date"] for r in hist)
+    out["sample"] = dict(row)
+    out["sample"].update({
+        "panel_rows": len(hist), "first_date": dates[0], "last_date": dates[-1],
+        "definition": "sha256 of the sorted leg codes (12 hex): the identity of what this "
+                      "face measured. A new ticket replaces the funds, so a verdict may "
+                      "only be compared across sessions inside one signature.",
+    })
+    if row.get("changed_from_previous"):
+        out["sample_break"] = {
+            "changed": True, "signature": row["signature"], "legs": row["legs"],
+            "previous_signature": row.get("previous_signature"),
+            "previous_legs": list(row.get("previous_legs") or []),
+            "previous_session": row.get("previous_session"),
+            "reason": "the ticket's leg set was replaced, so this face and the previous one "
+                      "describe different funds",
+        }
+        out["cross_session_comparable"] = False
+        out["sentence"] = (out["sentence"] + " || sample: legs %s replaced %s (last published "
+                           "%s) -- %s"
+                           % (",".join(row["legs"]),
+                              ",".join(row.get("previous_legs") or []) or "none",
+                              row.get("previous_session") or "unrecorded", BREAK_MARK))
+    else:
+        out["sample_break"] = None
+        out["cross_session_comparable"] = True
     return out
 
 
@@ -495,10 +649,24 @@ def load_out():
 
 
 def run():
-    out = build()
+    ledger = read_sample_ledger()
+    out = build(ledger_rows=ledger)
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
+    # publish and record in one step: a face whose sample never entered the ledger cannot
+    # be audited later, and the next ticket change would have nothing to compare against
+    sig = (out.get("sample") or {}).get("signature")
+    if sig and not any(r.get("signature") == sig for r in ledger):
+        with open(SAMPLE_LEDGER, "a", encoding="utf-8") as f:
+            f.write(json.dumps({k: out["sample"].get(k) for k in SAMPLE_LEDGER_FIELDS},
+                               ensure_ascii=False) + "\n")
+        print("sample: %s (%d legs) recorded -- changed_from_previous=%s"
+              % (sig, len(out["sample"].get("legs") or []),
+                 out["sample"].get("changed_from_previous")))
+    else:
+        print("sample: %s (%d legs) already on the ledger"
+              % (sig, len((out.get("sample") or {}).get("legs") or [])))
     print("verdict: %s (h=%s)" % (out["verdict"], out["verdict_horizon"]))
     print("defer read: %s (%s)" % (out["one_session"]["verdict"],
                                    out["one_session"]["band"]))
@@ -513,7 +681,7 @@ def check():
     if pub is None:
         print("FAIL: %s missing -- run the tool first" % os.path.relpath(OUT, ROOT))
         return 1
-    fresh = build()
+    fresh = build(ledger_rows=read_sample_ledger())
     # r1561: this face prices the LEGS OF THE DAY'S TICKET, so on a new ticket it is not
     # "the numbers drifted" -- the sample was replaced. 2026-11-11 read as 28 failures
     # (four legs "missing", 24 bucket counts off by one or two) when the truth was one
@@ -636,15 +804,24 @@ def check():
                 not in (pub_one.get("sentence") or ""):
             bad.append("the defer sentence does not print the pooled share it rests on")
 
+    # r1562: the face's verdict has a referent. Assert the published identity re-derives,
+    # that the ledger really recorded it, and that a replaced sample is said out loud in
+    # the headline -- otherwise two different funds' verdicts read as one continuous series.
+    bad.extend(sample_failures(pub, read_sample_ledger(), fresh))
+
     if bad:
         for b in bad[:12]:
             print("FAIL: " + b)
         print("%d failure(s)" % len(bad))
         return 1
+    samp = pub.get("sample") or {}
     print("OK: published face re-derives from premium_history.csv "
           "(%d horizons, %d legs each, verdict %s)"
           % (len(fresh["horizons"]), len(fresh["horizons"][str(HORIZONS[-1])]["legs"]),
              fresh["verdict"]))
+    print("OK: sample %s (%d legs) is on the ledger; changed_from_previous=%s"
+          % (samp.get("signature"), len(samp.get("legs") or []),
+             samp.get("changed_from_previous")))
     return 0
 
 
@@ -756,7 +933,7 @@ def selftest():
                      % (leg4["nonoverlap_obs"], leg4["usable_obs"]))
 
     # 10. the built face carries its own evidence cutoff and a word from the enum
-    face = build(hist=_rows("TEST", prems4, closes4))
+    face = build(hist=_rows("TEST", prems4, closes4), ledger_rows=[])
     if face["verdict"] not in WORDS:
         fails.append("L24 built verdict %r is outside the vocabulary" % face["verdict"])
     if not face.get("evidence_cutoff"):
@@ -765,7 +942,7 @@ def selftest():
     # 11. 'never in the top decile' is described as such, not as a zero return
     # (a strictly falling premium never ranks above its own past, so TOP stays empty)
     face2 = build(hist=_rows("TEST", [10.0 - 0.03 * i for i in range(200)],
-                             [100.0 + i for i in range(200)]))
+                             [100.0 + i for i in range(200)]), ledger_rows=[])
     if "never reached its own top decile" not in face2["sentence"]:
         fails.append("L26 a leg with no top-decile session must say so in the sentence")
 
@@ -804,7 +981,7 @@ def selftest():
        "L35 a sample below the floor says nothing")
 
     # 14. the pooled tail counts must be the sum of the legs' own counts
-    face3 = build(hist=_rows("TEST", prems_long, cl))
+    face3 = build(hist=_rows("TEST", prems_long, cl), ledger_rows=[])
     one = face3["one_session"]
     legs_tot = sum(l["bands"][n]["n"] for l in one["legs"].values()
                    for n, _lo, _hi in TAILS)
@@ -813,7 +990,51 @@ def selftest():
     if one["verdict"] not in DEFER_WORDS:
         fails.append("L37 defer verdict %r is outside the vocabulary" % one["verdict"])
 
-    total = 37
+    # 15. the sample identity: a verdict has a referent, and a replaced referent must be
+    # said out loud (2026-11-11 live case: MIXED/-0.133 -> HIGH_PREMIUM_PAYS/+0.023 was a
+    # new set of funds, not new information about the old ones)
+    eq(sample_signature(["B", "A", "A"]), sample_signature(["A", "B"]),
+       "L38 the signature is a property of the set, not of the read order or repeats")
+    if sample_signature(["A", "B"]) == sample_signature(["A", "C"]):
+        fails.append("L39 two different leg sets share one signature")
+    prev_row = {"signature": sample_signature(["AAA"]), "legs": ["AAA"], "n_legs": 1,
+                "first_published_session": "2026-11-10",
+                "first_published_verdict": "MIXED", "first_published_verdict_horizon": 20,
+                "changed_from_previous": False, "previous_signature": None,
+                "previous_legs": [], "previous_session": None}
+    first_pub = build(hist=_rows("TEST", prems4, closes4), ledger_rows=[])
+    eq((first_pub["sample"] or {}).get("changed_from_previous"), False,
+       "L40 the first publication of any sample is not a break")
+    eq(first_pub["cross_session_comparable"], True, "L41 nothing to compare with yet")
+    face_b = build(hist=_rows("TEST", prems4, closes4), ledger_rows=[prev_row])
+    if not (face_b["sample"] or {}).get("changed_from_previous"):
+        fails.append("L42 a leg set the ledger has never seen is flagged as a change")
+    eq(face_b["cross_session_comparable"], False, "L43 a replaced sample is not comparable")
+    eq((face_b.get("sample_break") or {}).get("previous_legs"), ["AAA"],
+       "L44 the break names the legs it replaced")
+    if BREAK_MARK not in (face_b.get("sentence") or ""):
+        fails.append("L45 the break reaches the headline sentence, not just a side field")
+    own_row = {k: (face_b.get("sample") or {}).get(k) for k in SAMPLE_LEDGER_FIELDS}
+    face_c = build(hist=_rows("TEST", prems4, closes4), ledger_rows=[prev_row, own_row])
+    eq({k: (face_c.get("sample") or {}).get(k) for k in SAMPLE_LEDGER_FIELDS}, own_row,
+       "L46 a sample already on the ledger keeps its frozen row (run stays idempotent)")
+    if face_c.get("sentence") != face_b.get("sentence"):
+        fails.append("L47 republishing the same sample changed the headline sentence")
+    eq(sample_failures(face_c, [prev_row, own_row], face_c), [],
+       "L48 a face that names its sample and its break passes the sample arm")
+    flipped = dict(face_b, sample=dict(face_b["sample"], changed_from_previous=False))
+    if not sample_failures(flipped, [prev_row], face_b):
+        fails.append("L49 a hand-flipped changed_from_previous is caught")
+    quiet = dict(face_b, sentence="nothing changed here")
+    if not any("does not say the sample changed" in m
+               for m in sample_failures(quiet, [prev_row], face_b)):
+        fails.append("L50 a break missing from the headline sentence is caught")
+    claim = dict(first_pub, sentence=first_pub["sentence"] + " " + BREAK_MARK)
+    if not any("claims a sample break" in m
+               for m in sample_failures(claim, [], first_pub)):
+        fails.append("L51 a claimed break the ledger does not record is caught")
+
+    total = 51
     print("%d/%d legs" % (total - len(fails), total))
     for f in fails:
         print("FAIL: " + f)

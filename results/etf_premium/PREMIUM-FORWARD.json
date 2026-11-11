@@ -947,5 +947,55 @@
   "verdict": "HIGH_PREMIUM_PAYS",
   "verdict_horizon": 20,
   "caveat": "five legs of one ticket: this is a description of these funds' own records, not a cross-sectional study and not a forecast. Overlapping windows are counted once per stride in the t-stat and reported in full only as coverage.",
-  "sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=264, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.35% (mean +0.40%, fell in 33% of 135 cases); today's legs in that band: 159655 98.8"
+  "sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=264, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.35% (mean +0.40%, fell in 33% of 135 cases); today's legs in that band: 159655 98.8 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
+  "sample": {
+    "signature": "3600c87ce854",
+    "legs": [
+      "159519",
+      "159655",
+      "510760",
+      "512040",
+      "513690"
+    ],
+    "n_legs": 5,
+    "first_published_session": "2026-11-11",
+    "first_published_verdict": "HIGH_PREMIUM_PAYS",
+    "first_published_verdict_horizon": 20,
+    "changed_from_previous": true,
+    "previous_signature": "cf07355616c2",
+    "previous_legs": [
+      "159263",
+      "159501",
+      "159577",
+      "513100",
+      "513690"
+    ],
+    "previous_session": "2026-11-10",
+    "panel_rows": 6481,
+    "first_date": "2019-01-03",
+    "last_date": "2026-11-11",
+    "definition": "sha256 of the sorted leg codes (12 hex): the identity of what this face measured. A new ticket replaces the funds, so a verdict may only be compared across sessions inside one signature."
+  },
+  "sample_break": {
+    "changed": true,
+    "signature": "3600c87ce854",
+    "legs": [
+      "159519",
+      "159655",
+      "510760",
+      "512040",
+      "513690"
+    ],
+    "previous_signature": "cf07355616c2",
+    "previous_legs": [
+      "159263",
+      "159501",
+      "159577",
+      "513100",
+      "513690"
+    ],
+    "previous_session": "2026-11-10",
+    "reason": "the ticket's leg set was replaced, so this face and the previous one describe different funds"
+  },
+  "cross_session_comparable": false
 }

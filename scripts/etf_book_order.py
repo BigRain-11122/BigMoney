@@ -1382,6 +1382,9 @@ def premium_read(ticket, asof=None, results_dir=None):
            "fwd_verdict": None, "fwd_horizon": None, "fwd_sentence": None,
            "fwd_caveat": None, "fwd_rows": [], "fwd_missing_legs": [],
            "fwd_cny_total": None,
+           "fwd_sample_signature": None, "fwd_sample_legs": [],
+           "fwd_sample_changed": None, "fwd_sample_previous_legs": [],
+           "fwd_sample_previous_session": None,
            "fwd_defer_verdict": None, "fwd_defer_band": None,
            "fwd_defer_sentence": None, "fwd_defer_rows": []}
     face = _premium_face(results_dir)
@@ -1398,6 +1401,15 @@ def premium_read(ticket, asof=None, results_dir=None):
         out["fwd_verdict"] = fwd.get("verdict")
         out["fwd_sentence"] = fwd.get("sentence")
         out["fwd_caveat"] = fwd.get("caveat")
+        # r1562: which funds this column measured. A verdict whose member set was replaced
+        # is a statement about other funds -- r1561 saw MIXED/-0.133 become
+        # HIGH_PREMIUM_PAYS/+0.023 with no new information about the old legs at all.
+        _smp = fwd.get("sample") or {}
+        out["fwd_sample_signature"] = _smp.get("signature")
+        out["fwd_sample_legs"] = list(_smp.get("legs") or [])
+        out["fwd_sample_changed"] = _smp.get("changed_from_previous")
+        out["fwd_sample_previous_legs"] = list(_smp.get("previous_legs") or [])
+        out["fwd_sample_previous_session"] = _smp.get("previous_session")
         hz = (fwd.get("horizons") or {}).get(str(horizon)) or {}
         fwd_legs = {l.get("symbol"): l for l in (hz.get("legs") or []) if isinstance(l, dict)}
         _cny = 0.0
@@ -1625,6 +1637,18 @@ def premium_read_md(tk):
                 L += ["- 本单没有 leg 的历史走到过这一档 —— 那不是「等一天没差别」，是这只基金在这档位上还没被观察到。"]
             if tk.get("fwd_defer_sentence"):
                 L += ["- 生产者原句：%s" % tk["fwd_defer_sentence"]]
+        # r1562: name what the column measured. A replaced leg set makes yesterday's verdict
+        # a statement about other funds, and nothing on this sheet used to say so.
+        if tk.get("fwd_sample_changed"):
+            L += ["- **这张面的样本被换过**：上一次发布量的是 %s（%s 的票面），这一次是 %s。"
+                  "两个判词属于各自的样本 —— **不能跨日比较**，也不是「数据变了」。"
+                  % ("、".join(tk.get("fwd_sample_previous_legs") or []) or "?",
+                     tk.get("fwd_sample_previous_session") or "?",
+                     "、".join(tk.get("fwd_sample_legs") or []) or "?")]
+        elif tk.get("fwd_sample_signature"):
+            L += ["- 样本与上一次发布相同（%s，签名 `%s`）——这一列的判词可以与上一日并读。"
+                  % ("、".join(tk.get("fwd_sample_legs") or []),
+                     tk["fwd_sample_signature"])]
         L += ["- **这一列量的是价格，不是建议**：高溢价不是卖单（限购基金可常年溢价），"
               "低分位也不是买点；本面只回答「上一次有人在这个价位买，之后价格怎么走」。",
               "- 出处：`%s`（scripts/etf_book_premium_forward.py 单一生产者）。" % PREMIUM_FORWARD_FACE]

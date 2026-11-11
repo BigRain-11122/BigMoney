@@ -1049,10 +1049,10 @@
  "round_t1554_next": "next: the one-session read says waiting has no edge, but the 20-session face is MIXED -- name which horizon the order is actually exposed to (it holds 20 bars), and re-print both reads on the 2026-11-11 close bar",
  "round_t1554_note": "| 2026-11-11 14:20-14:35 | 1554 | **PRODUCT（产品优先律）：订单能选的等待只有一个会话，而这个尺度从来没有被量过。** r1553 把「今天买还是等一个会话」留成悬案，前向面只量 5 日/20 日，且 TOP≥90 的十分位桶把今天这三只（98.8–99.9 分位）和 90–95 的样本混在一起。本轮在同一生产者里补两件：①尾部细档 P95_98 [95,98) 与 P98P [98,+inf)（逐腿+池化）；②horizon=1 的价格前向，并给出中位与下跌占比（均值分不开 51% 小跌与 90% 跌+10% 大赚）。**读数**：池化 P98P n=326 中位 +0.00%、均值 -0.04%、下跌 49% → 判词 NO_READ；逐腿 159501@99.9 n=167 中位 +0.00%/49%、513100@98.9 n=68 -0.28%/54%、159577@98.9 n=48 -0.30%/56%；池化 P95_98 n=281 中位 +0.00%/49%。结论一句话：**「等一天让溢价回落」在这些基金自己的记录里没有优势**——本单最大的一只恰好是 0.00%，两只偏负的只有 48/68 个会话、下跌占比 54–56%。**落到订单面**：premium_read 新增 fwd_defer_* 四键（verdict/band/sentence/rows），ORDER 页「溢价读数」节多一段逐腿表（今日分位/该档下一会话涨跌中位/下跌占比/n），缺档写「还没被观察到」而不是「没差别」。**验证**：premium_forward selftest **37/37**（新增 L27–L37：尾档半开边界、「下一会话下跌→WAITING_PAID」与镜像、低于地板→NO_READ、池化计数==各腿之和、判词在词表内）· `check` OK（新臂：逐档 n/mean/share_down 重算 + 池化 n 守恒 + 判词重算 + 页面必须印出池化下跌占比）· etf_book_order selftest **158/158** 无回归 · 真实卡票渲染实测（TICKET-2026-11-10-card.json：159501 99.9 / 513100 98.9 / 159577 98.9 三行齐出、159263 与 513690 不在档内不造假行）。**S0.5**：Tools/s05_probe.py orders_delta=false / decisions_delta=false / unacked=[]。**S7**：loop pin=5 no-op、watchdog 在役（下次 14:34·仅交互登录态）、两爪 LF 归一重装、attrition 4 账本 **CLEAN**（2 处历史缩行 healed）。孤儿面 py_faces=1 **orphans=0** 零杀。**未验证（如实）**：全量套件 14:20 起的这份在收轮时仍在飞（157 行、0 真 FAIL），且它加载的是本轮改动**之前**的模块，本轮改件以 selftest 37/37 + check OK + 158/158 + 真票渲染为准。 |",
  "round_t1560_closeout_note": "r1560 INHERITED + PRODUCT: the prior window (self-labeled 1559, 18:36-18:46) ran the full suite and died with 16 reds uncommitted and no round report. This window re-derived every red leg, found two real defects and fixed both: (1) etf_book_size_rulers_decision.k_floor is the MIN across five rulers, which stopped being the issued floor when the denominator ruler joined in r1449 -- added `k_issued` (read from the provenance face's issuing cell) and pointed the smoke leg at it, so the ruler face, floor_memory and floor_ledger now agree at 0.432195; (2) the r1544 leg compared trade_day_is_today against next_rebalance_date, which on a rebalance bar is already the FOLLOWING one -- it now compares against the date the page says to act on. The remaining 11 reds were stale faces signed on the 11-10 ticket: positions/swap_stack/k_gap/sleeve_gate/sleeve_paths/order/ceo_page/daily_report were re-run onto 2026-11-11.",
- "rounds": 1561,
- "rounds_done": 1551,
- "rounds_note": "r1558",
- "smoke": "full suite started 21:00 in background (python pid 54408 -> results/_smoke_r1561.out); at closeout it was in flight with 0 FAILs and had already turned the inherited red green (premium_forward check -> OK)",
+ "rounds": 1562,
+ "rounds_done": 1562,
+ "rounds_note": "r1562",
+ "smoke": "full suite started 23:03 (pythonw 19052 -> results/_smoke_r1562.out); at closeout still in flight at 461 lines with 2 reds, both the same stale-dashboard window (sina_mf 10 vs board 9) that build_status cleared by re-deriving the face (9 = 9)",
  "src": "K:/Fluxgroup/FluxGroup/Tools/{task-register.ps1,fleet-align.ps1,hq_claim_launch.py} (group repo commit 4546fa97e) + Tools/card_text_hygiene.py + knowledge/METHODOLOGY_ASSETS.md E544",
  "status": "product-closeout",
  "sync": {
@@ -1064,14 +1064,16 @@
   "origin_tip": "78d6f62450",
   "ts": "2026-11-11T20:07:19+08:00"
  },
- "task": "r1561: two premium faces had no writer in the chain -- added premium_forward_write / premium_persistence_write, and check now says STALE by name when the ticket swaps the leg set",
+ "task": "r1562: the premium verdict now carries the identity of the funds it measured -- sha256 of the leg set, an append-only publication ledger, and 'not comparable across sessions' on both human faces",
  "total_ram_gb": 23.9,
- "ts": "2026-11-11T21:04:03+08:00",
+ "ts": "2026-11-11T23:20:55+08:00",
  "updated": "2026-11-11T13:00:19",
- "updated_at": "2026-11-11T21:04:03+08:00",
- "verdict": "PRODUCT: the day's only red was a check with no producer -- and the face it guards is priced on the ticket's legs, so the 11-11 ticket swapping in four cross-border legs read as 28 broken numbers instead of one sentence",
- "verify": "premium_forward selftest 37/37 + check OK + mutation test (HEAD face -> STALE naming both leg sets, restored -> OK); S6 single-leg run 4/4 rc0 (results/_r1561bmc_s6_chain.only-premium_forward-premium_forward_write+4-66e98a92.json); chain selftest 9/9; etf_book_order selftest 160/160 (inherited uncommitted edits verified on the final tree)",
+ "updated_at": "2026-11-11T23:20:55+08:00",
+ "verdict": "PRODUCT: a verdict whose member set was replaced by a new ticket (MIXED/-0.133 -> HIGH_PREMIUM_PAYS/+0.023) now says so in its own headline instead of reading as one continuous series",
+ "verify": "premium_forward selftest 51/51 (L38-L51: signature is a property of the set, first publication is not a break, a replaced leg set names the old legs and reaches the headline, republishing is byte-identical, hand-flipped flag and forged break both caught) + check OK (5 arms) + order selftest 160/160 + ceo_page selftest 227/227 (L169b/L169c) + check-ticket-days AGREE + both rendered faces carry the line",
  "verify_smoke_closed": "previous window's suite closed 546/547 with one red (live_book_section_bars stale face) -- refreshed this round, check now CHECK_OK rc0",
  "vram_free_gb": 14.5,
- "watermark_verdict": "insufficient_history (cpu 6% / py 6.9%, 1 local batch in flight, board clear)"
+ "watermark_verdict": "insufficient_history (cpu 6% / py 6.9%, 1 local batch in flight, board clear)",
+ "round_t1562_note": "r1562: the premium verdict now carries the identity of the funds it measured -- sha256 of the leg set, an append-only publication ledger, and 'not comparable across sessions' on both human faces",
+ "round_t1562_next": "next: after the 2026-11-12 close, confirm the chain wakes this lane on its own and that the ledger row is appended (not rewritten); second in line: re-price the 25 real suspension windows on the 11-11 close"
 }

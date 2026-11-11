@@ -689,79 +689,79 @@
   "rows": [
    {
     "beta": 0.1,
-    "observed_pct": 7.08,
-    "flat_today_pct": 6.69,
-    "zero_pct": 5.72,
-    "carry_pp": 1.36,
-    "cash_share": 0.782,
-    "pp_per_100bp": 0.483,
+    "observed_pct": 7.12,
+    "flat_today_pct": 6.72,
+    "zero_pct": 5.75,
+    "carry_pp": 1.37,
+    "cash_share": 0.7819,
+    "pp_per_100bp": 0.492,
     "maxdd_pct": -2.77,
-    "vol_pct": 3.71
+    "vol_pct": 3.7
    },
    {
     "beta": 0.2,
-    "observed_pct": 12.66,
-    "flat_today_pct": 12.35,
-    "zero_pct": 11.61,
+    "observed_pct": 12.73,
+    "flat_today_pct": 12.42,
+    "zero_pct": 11.68,
     "carry_pp": 1.05,
     "cash_share": 0.5639,
-    "pp_per_100bp": 0.384,
+    "pp_per_100bp": 0.381,
     "maxdd_pct": -5.78,
-    "vol_pct": 7.4
+    "vol_pct": 7.39
    },
    {
     "beta": 0.3,
-    "observed_pct": 18.37,
-    "flat_today_pct": 18.16,
-    "zero_pct": 17.68,
-    "carry_pp": 0.69,
-    "cash_share": 0.3459,
-    "pp_per_100bp": 0.26,
+    "observed_pct": 18.48,
+    "flat_today_pct": 18.27,
+    "zero_pct": 17.8,
+    "carry_pp": 0.68,
+    "cash_share": 0.3458,
+    "pp_per_100bp": 0.258,
     "maxdd_pct": -8.72,
-    "vol_pct": 11.09
+    "vol_pct": 11.08
    },
    {
     "beta": 0.5,
-    "observed_pct": 26.49,
-    "flat_today_pct": 26.47,
-    "zero_pct": 26.45,
-    "carry_pp": 0.04,
+    "observed_pct": 26.67,
+    "flat_today_pct": 26.65,
+    "zero_pct": 26.62,
+    "carry_pp": 0.05,
     "cash_share": 0.0189,
     "pp_per_100bp": 0.025,
     "maxdd_pct": -14.39,
-    "vol_pct": 16.38
+    "vol_pct": 16.36
    }
   ],
   "base": {
    "beta": 0.2,
-   "observed_pct": 12.66,
-   "flat_today_pct": 12.35,
-   "zero_pct": 11.61,
+   "observed_pct": 12.73,
+   "flat_today_pct": 12.42,
+   "zero_pct": 11.68,
    "carry_pp": 1.05,
    "cash_share": 0.5639,
-   "pp_per_100bp": 0.384,
+   "pp_per_100bp": 0.381,
    "maxdd_pct": -5.78,
-   "vol_pct": 7.4
+   "vol_pct": 7.39
   },
   "cash_rates": {
-   "observed_mean_pct": 1.9781,
-   "today_pct": 1.17,
-   "today_date": "2026-11-09",
+   "observed_mean_pct": 1.9776,
+   "today_pct": 1.165,
+   "today_date": "2026-11-10",
    "missing_bar_steps": 0,
    "convention": "rate(prior bar) * calendar_gap / 365, identical in all arms"
   },
   "identity": {
-   "published_file": "results\\etf_book_order\\TICKET-2026-11-10.json",
-   "published_cagr": 0.1266,
-   "published_bars": 690,
-   "rebuilt_cagr": 0.1266,
-   "rebuilt_bars": 690,
+   "published_file": "results\\etf_book_order\\TICKET-2026-11-11.json",
+   "published_cagr": 0.1273,
+   "published_bars": 691,
+   "rebuilt_cagr": 0.1273,
+   "rebuilt_bars": 691,
    "matched": true,
    "basis": "base cell (beta 0.20, observed repo) must equal the ticket's own headline"
   },
   "window": {
    "first": "2024-01-02",
-   "last": "2026-11-10"
+   "last": "2026-11-11"
   },
   "flags": {
    "observed_ge_flat_ge_zero": true,
@@ -769,7 +769,7 @@
    "selection_survives_zero_cash": true
   },
   "source": "results/etf_book_return_regime.json",
-  "evidence_cutoff": "2026-11-10"
+  "evidence_cutoff": "2026-11-11"
  },
  "leg_split": {
   "status": "ok",
@@ -5043,7 +5043,7 @@
   "consistency": {
    "generated": {
     "permission": "2026-11-11T18:32:06+0800",
-    "gap": "2026-11-11T18:32:09+0800",
+    "gap": "2026-11-11T22:40:57+0800",
     "ledger": "2026-11-11T18:49:32+0800"
    },
    "permission_vs_gap": true,
@@ -5427,30 +5427,86 @@
   "artifact": "results/etf_premium/PREMIUM-FORWARD.json",
   "face_asof": "2026-11-11",
   "stale": false,
-  "verdict": "MIXED",
+  "verdict": "HIGH_PREMIUM_PAYS",
   "horizon": 20,
-  "sentence": "premium percentile rank-IC with the next 20 sessions is -0.133 (5 legs); 159263: after sessions in its top decile the next 20 sessions averaged +3.22% (n=32, t=+4.2); 159501: after sessions in its top decile the next 20 sessions averaged +0.49% (n=282, t=+1.6); 159577: after sessions in its top decile the next 20 sessions averaged -0.95% (n=124, t=-2.6); 513100: after sessions in its top decile the next 20 sessions averaged -0.22% (n=295, t=-0.5); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.00% (mean -0.04%, fell in 49% of 326 cases); today's legs in that band: 159501 99.9, 159577 98.9, 513100 98.9",
+  "sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=264, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.35% (mean +0.40%, fell in 33% of 135 cases); today's legs in that band: 159655 98.8 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
   "caveat": "five legs of one ticket: this is a description of these funds' own records, not a cross-sectional study and not a forecast. Overlapping windows are counted once per stride in the t-stat and reported in full only as coverage.",
   "rows": [
    {
-    "symbol": "513690",
+    "symbol": "510760",
     "bucket": "MID",
-    "latest_pctile": 50.52790346907994,
-    "mean_pct": 0.5017803771597988,
-    "n": 433,
-    "t": 1.9001567201247584,
+    "latest_pctile": 63.89819156061621,
+    "mean_pct": 0.18839243500050093,
+    "n": 590,
+    "t": 1.1436214480874844,
+    "nonoverlap_obs": 71,
+    "amount_cny": 86345.9,
+    "same_bucket_move_cny": 162.66914353309753
+   },
+   {
+    "symbol": "512040",
+    "bucket": "LOW",
+    "latest_pctile": 24.330005254860747,
+    "mean_pct": 0.3792060133771917,
+    "n": 353,
+    "t": 1.087252826971886,
+    "nonoverlap_obs": 92,
+    "amount_cny": 86375.8,
+    "same_bucket_move_cny": 327.54222770265636
+   },
+   {
+    "symbol": "159655",
+    "bucket": "TOP",
+    "latest_pctile": 98.77675840978593,
+    "mean_pct": 0.25477037045744005,
+    "n": 264,
+    "t": 0.9304860705054543,
+    "nonoverlap_obs": 46,
+    "amount_cny": 86243.1,
+    "same_bucket_move_cny": 219.7218653639805
+   },
+   {
+    "symbol": "513690",
+    "bucket": "LOW",
+    "latest_pctile": 20.406626506024097,
+    "mean_pct": 0.5286904350189094,
+    "n": 222,
+    "t": 1.3832784155035334,
     "nonoverlap_obs": 63,
     "amount_cny": 86394.0,
-    "same_bucket_move_cny": 433.5081390434366
+    "same_bucket_move_cny": 456.7568144302366
+   },
+   {
+    "symbol": "159519",
+    "bucket": "LOW",
+    "latest_pctile": 15.95330739299611,
+    "mean_pct": 1.3826701483456063,
+    "n": 171,
+    "t": 4.536022614746311,
+    "nonoverlap_obs": 35,
+    "amount_cny": 86338.0,
+    "same_bucket_move_cny": 1193.7697526786296
    }
   ],
-  "missing_legs": [
+  "missing_legs": [],
+  "cny_total": 2360.46,
+  "sample_signature": "3600c87ce854",
+  "sample_legs": [
+   "159519",
+   "159655",
    "510760",
    "512040",
-   "159655",
-   "159519"
+   "513690"
   ],
-  "cny_total": 433.51
+  "sample_changed": true,
+  "sample_previous_legs": [
+   "159263",
+   "159501",
+   "159577",
+   "513100",
+   "513690"
+  ],
+  "sample_previous_session": "2026-11-10"
  },
  "sibling_gap": {
   "status": "unreadable",
@@ -5713,7 +5769,7 @@
   "unexplained": [],
   "unexplained_total_cny": 0,
   "unexplained_unpriced_rows": 0,
-  "ledger_action": "updated",
+  "ledger_action": "kept",
   "ledger_row": {
    "bar": "2026-11-11",
    "kind": "execution",
@@ -6438,8 +6494,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 19.2,
+  "owner_silent_h": 22.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 19.2 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 22.0 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

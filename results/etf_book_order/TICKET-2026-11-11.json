@@ -512,7 +512,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-11 20:25:58",
+   "at": "2026-11-11 23:11:51",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -767,7 +767,7 @@
   "unexplained": [],
   "unexplained_total_cny": 0,
   "unexplained_unpriced_rows": 0,
-  "ledger_action": "updated",
+  "ledger_action": "kept",
   "ledger_row": {
    "bar": "2026-11-11",
    "kind": "execution",
@@ -809,6 +809,81 @@
    ],
    "actions": [],
    "source_face": "results/etf_book_swap_stack.json"
+  },
+  "transition": {
+   "bar": "2026-11-11",
+   "from_bar": "2026-11-10",
+   "actions": 0,
+   "status": "UNEXPLAINED_TARGET_WITHOUT_TRADES",
+   "vanished": [
+    "159263",
+    "159513",
+    "159577"
+   ],
+   "appeared": [
+    "159519",
+    "159655",
+    "510760",
+    "512040"
+   ],
+   "lots_changed": [
+    {
+     "symbol": "513690",
+     "expected_lots": 677,
+     "target_lots": 748
+    }
+   ],
+   "cny_moved": 667376.2
+  },
+  "account_row": {
+   "bar": "2026-11-10",
+   "kind": "execution",
+   "source": "book_before_declaration",
+   "risk_book_cny": 392404.9,
+   "cash_cny": 607595.1,
+   "holdings": [
+    {
+     "symbol": "159263",
+     "lots": 693,
+     "price": 1.134,
+     "amount_cny": 78586.2
+    },
+    {
+     "symbol": "159513",
+     "lots": 891,
+     "price": 1.76,
+     "amount_cny": 156816.0
+    },
+    {
+     "symbol": "159577",
+     "lots": 473,
+     "price": 1.659,
+     "amount_cny": 78470.7
+    },
+    {
+     "symbol": "513690",
+     "lots": 677,
+     "price": 1.16,
+     "amount_cny": 78532.0
+    }
+   ],
+   "actions": [
+    {
+     "side": "SELL",
+     "symbol": "159501",
+     "lots": 372
+    },
+    {
+     "side": "SELL",
+     "symbol": "513100",
+     "lots": 355
+    },
+    {
+     "side": "BUY",
+     "symbol": "159513",
+     "lots": 891
+    }
+   ]
   },
   "next_order_base": {
    "bar": "2026-11-11",
@@ -958,45 +1033,19 @@
     "bar": "2026-11-11",
     "same_bar": true,
     "lots": {
-     "159519": 446,
-     "159655": 392,
-     "510760": 612,
-     "512040": 656,
-     "513690": 680
+     "159519": 490,
+     "159655": 431,
+     "510760": 673,
+     "512040": 721,
+     "513690": 748
     },
-    "cash_cny": 607327.0
+    "cash_cny": 568303.0
    },
-   "page_vs_ledger_lots": [
-    {
-     "symbol": "159519",
-     "page_lots": 446,
-     "ledger_lots": 490
-    },
-    {
-     "symbol": "159655",
-     "page_lots": 392,
-     "ledger_lots": 431
-    },
-    {
-     "symbol": "510760",
-     "page_lots": 612,
-     "ledger_lots": 673
-    },
-    {
-     "symbol": "512040",
-     "page_lots": 656,
-     "ledger_lots": 721
-    },
-    {
-     "symbol": "513690",
-     "page_lots": 680,
-     "ledger_lots": 748
-    }
-   ],
+   "page_vs_ledger_lots": [],
    "page_vs_ledger_cash": {
-    "page": 607327.0,
+    "page": 568303.0,
     "ledger": 568303.2,
-    "page_minus_ledger": 39023.8
+    "page_minus_ledger": -0.2
    },
    "page_vs_ledger_agree": false
   },
@@ -1034,72 +1083,105 @@
  "exec_delta": {
   "artifact": "etf_book_exec_delta",
   "bar": "2026-11-11",
-  "verdict": "ALREADY_ON_TARGET",
+  "verdict": "SHEET_IMPLIES_A_SWAP",
   "refused": null,
   "ticket_file": null,
   "rows": [
    {
-    "symbol": "159519",
-    "price": 1.762,
-    "current_lots": 490,
-    "target_lots": 490,
-    "delta_lots": 0,
-    "side": "HOLD",
-    "amount_cny": 0.0,
+    "symbol": "159513",
+    "price": 1.76,
+    "current_lots": 891,
+    "target_lots": 0,
+    "delta_lots": -891,
+    "side": "SELL",
+    "amount_cny": 156816.0,
     "held": true,
-    "in_target": true
+    "in_target": false
    },
    {
-    "symbol": "159655",
-    "price": 2.001,
-    "current_lots": 431,
-    "target_lots": 431,
-    "delta_lots": 0,
-    "side": "HOLD",
-    "amount_cny": 0.0,
+    "symbol": "159263",
+    "price": 1.134,
+    "current_lots": 693,
+    "target_lots": 0,
+    "delta_lots": -693,
+    "side": "SELL",
+    "amount_cny": 78586.2,
     "held": true,
+    "in_target": false
+   },
+   {
+    "symbol": "159577",
+    "price": 1.659,
+    "current_lots": 473,
+    "target_lots": 0,
+    "delta_lots": -473,
+    "side": "SELL",
+    "amount_cny": 78470.7,
+    "held": true,
+    "in_target": false
+   },
+   {
+    "symbol": "512040",
+    "price": 1.198,
+    "current_lots": 0,
+    "target_lots": 721,
+    "delta_lots": 721,
+    "side": "BUY",
+    "amount_cny": 86375.8,
+    "held": false,
     "in_target": true
    },
    {
     "symbol": "510760",
     "price": 1.283,
-    "current_lots": 673,
+    "current_lots": 0,
     "target_lots": 673,
-    "delta_lots": 0,
-    "side": "HOLD",
-    "amount_cny": 0.0,
-    "held": true,
+    "delta_lots": 673,
+    "side": "BUY",
+    "amount_cny": 86345.9,
+    "held": false,
     "in_target": true
    },
    {
-    "symbol": "512040",
-    "price": 1.198,
-    "current_lots": 721,
-    "target_lots": 721,
-    "delta_lots": 0,
-    "side": "HOLD",
-    "amount_cny": 0.0,
-    "held": true,
+    "symbol": "159519",
+    "price": 1.762,
+    "current_lots": 0,
+    "target_lots": 490,
+    "delta_lots": 490,
+    "side": "BUY",
+    "amount_cny": 86338.0,
+    "held": false,
+    "in_target": true
+   },
+   {
+    "symbol": "159655",
+    "price": 2.001,
+    "current_lots": 0,
+    "target_lots": 431,
+    "delta_lots": 431,
+    "side": "BUY",
+    "amount_cny": 86243.1,
+    "held": false,
     "in_target": true
    },
    {
     "symbol": "513690",
     "price": 1.155,
-    "current_lots": 748,
+    "current_lots": 677,
     "target_lots": 748,
-    "delta_lots": 0,
-    "side": "HOLD",
-    "amount_cny": 0.0,
+    "delta_lots": 71,
+    "side": "BUY",
+    "amount_cny": 8200.5,
     "held": true,
     "in_target": true
    }
   ],
-  "gross_sell_cny": 0,
-  "gross_buy_cny": 0,
-  "turnover_cny": 0,
-  "net_cash_cny": 0,
+  "gross_sell_cny": 313872.9,
+  "gross_buy_cny": 353503.3,
+  "turnover_cny": 667376.2,
+  "net_cash_cny": 39630.4,
   "target_total_cny": 431696.8,
-  "current_total_cny": 431696.8,
+  "current_total_cny": 392404.9,
   "target_source": "entry_sheet",
   "target_note": null,
   "swap_bought": [],
@@ -1108,17 +1190,75 @@
   "entry_book_cny": 431696.8,
   "swap_book_cny": null,
   "sheet_book_cny": 432195.0,
-  "cash_before_cny": 568303.2,
-  "cash_after_cny": 568303.2,
+  "cash_before_cny": 607595.1,
+  "cash_after_cny": 567964.7,
   "sheet_cash_cny": 568303.2,
-  "cash_recon_cny": 0.0,
-  "ledger_risk_book_cny": 431696.8,
+  "cash_recon_cny": -338.5,
+  "ledger_risk_book_cny": 392404.9,
+  "current_bar": "2026-11-10",
+  "current_book_from": {
+   "bar": "2026-11-10",
+   "kind": "execution",
+   "source": "book_before_declaration",
+   "declared_bar": "2026-11-11"
+  },
+  "declaration": {
+   "bar": "2026-11-11",
+   "from_bar": "2026-11-10",
+   "actions": 0,
+   "status": "UNEXPLAINED_TARGET_WITHOUT_TRADES",
+   "vanished": [
+    "159263",
+    "159513",
+    "159577"
+   ],
+   "appeared": [
+    "159519",
+    "159655",
+    "510760",
+    "512040"
+   ],
+   "lots_changed": [
+    {
+     "symbol": "513690",
+     "expected_lots": 677,
+     "target_lots": 748
+    }
+   ],
+   "cny_moved": 667376.2
+  },
+  "mark": {
+   "account_bar": "2026-11-10",
+   "bar": "2026-11-11",
+   "rows": [
+    {
+     "symbol": "513690",
+     "lots": 677,
+     "account_price": 1.16,
+     "sheet_price": 1.155,
+     "mark_cny": -338.5
+    }
+   ],
+   "drift_cny": -338.5,
+   "note": "账上那本按 2026-11-10 的价、票面按 2026-11-11 的价：保留腿重估的差额单列，不并进现金对账"
+  },
+  "cash_recon_ex_mark_cny": 0.0,
+  "ledger_row_risk_book_cny": 431696.8,
   "unpriced_rows": [],
-  "current_rows": 5,
+  "current_rows": 4,
   "target_rows": 5,
-  "held_not_in_target": [],
-  "in_target_not_held": [],
-  "turnover_share_of_book_pct": 0.0
+  "held_not_in_target": [
+   "159263",
+   "159513",
+   "159577"
+  ],
+  "in_target_not_held": [
+   "159519",
+   "159655",
+   "510760",
+   "512040"
+  ],
+  "turnover_share_of_book_pct": 170.07
  },
  "swap_toll": {
   "artifact": "etf_book_swap_toll",
@@ -1282,7 +1422,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-11T20:25:58",
+  "generated": "2026-11-11T23:11:51",
   "evidence_cutoff": "2026-11-11",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1388,7 +1528,7 @@
   "rows": [],
   "skipped": [],
   "merge": null,
-  "sentence": "这一单没有可测量的换票：换出的票没有足够的共同历史——这不是「跟踪差为零」的结论。",
+  "sentence": "这一单没有换出任何票：价差面在这根 bar 上没有可配对的腿，所以没有成本可量——这不是「跟踪差为零」的结论。",
   "refused": null,
   "bars_per_year": 244.0,
   "power_z": 2.802,
@@ -1416,11 +1556,18 @@
    "the concentration block prices the DIFFERENCE between one fund and two; it says nothing about either fund's tracking against its index, which needs NAV"
   ],
   "anchor_session": "2026-11-11",
-  "anchor_behind_bar": false
+  "anchor_behind_bar": false,
+  "nothing_measured": {
+   "reason": "NO_PAIRS",
+   "pairs": 0,
+   "swapped": 0,
+   "skipped": 0,
+   "rows": 0
+  }
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-11T20:25:58",
+  "generated": "2026-11-11T23:11:51",
   "evidence_cutoff": "2026-11-11",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -1555,15 +1702,15 @@
    "vol": 0.0888
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1186,
-    "card_width_cagr": 0.1223,
-    "pp": 0.37
-   },
    "beta": {
     "ticket_width_cagr": 0.1109,
     "card_width_cagr": 0.0963,
     "pp": -1.46
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1186,
+    "card_width_cagr": 0.1223,
+    "pp": 0.37
    }
   },
   "rules_differ": true,
@@ -1731,20 +1878,20 @@
  },
  "carry_split": {
   "artifact": "results/etf_book_return_regime.json",
-  "evidence_cutoff": "2026-11-10",
+  "evidence_cutoff": "2026-11-11",
   "beta": 0.2,
   "beta_requested": 0.2,
-  "observed_pct": 12.66,
-  "flat_today_pct": 12.35,
-  "zero_pct": 11.61,
+  "observed_pct": 12.73,
+  "flat_today_pct": 12.42,
+  "zero_pct": 11.68,
   "carry_pp": 1.05,
   "flat_rate_cost_pp": 0.31,
-  "carry_share_pct": 8.3,
-  "pp_per_100bp": 0.384,
+  "carry_share_pct": 8.2,
+  "pp_per_100bp": 0.381,
   "cash_share": 0.5639,
-  "rate_today_pct": 1.17,
-  "rate_today_date": "2026-11-09",
-  "rate_observed_pct": 1.9781,
+  "rate_today_pct": 1.165,
+  "rate_today_date": "2026-11-10",
+  "rate_observed_pct": 1.9776,
   "identity_matched": true
  },
  "restatements": {
@@ -1910,41 +2057,129 @@
   "fwd_status": "produced",
   "fwd_face_asof": "2026-11-11",
   "fwd_stale": false,
-  "fwd_verdict": "MIXED",
+  "fwd_verdict": "HIGH_PREMIUM_PAYS",
   "fwd_horizon": 20,
-  "fwd_sentence": "premium percentile rank-IC with the next 20 sessions is -0.133 (5 legs); 159263: after sessions in its top decile the next 20 sessions averaged +3.22% (n=32, t=+4.2); 159501: after sessions in its top decile the next 20 sessions averaged +0.49% (n=282, t=+1.6); 159577: after sessions in its top decile the next 20 sessions averaged -0.95% (n=124, t=-2.6); 513100: after sessions in its top decile the next 20 sessions averaged -0.22% (n=295, t=-0.5); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.00% (mean -0.04%, fell in 49% of 326 cases); today's legs in that band: 159501 99.9, 159577 98.9, 513100 98.9",
+  "fwd_sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=264, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.35% (mean +0.40%, fell in 33% of 135 cases); today's legs in that band: 159655 98.8 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
   "fwd_caveat": "five legs of one ticket: this is a description of these funds' own records, not a cross-sectional study and not a forecast. Overlapping windows are counted once per stride in the t-stat and reported in full only as coverage.",
   "fwd_rows": [
    {
-    "symbol": "513690",
+    "symbol": "510760",
     "bucket": "MID",
-    "latest_pctile": 50.52790346907994,
-    "mean_pct": 0.5017803771597988,
-    "n": 433,
-    "t": 1.9001567201247584,
+    "latest_pctile": 63.89819156061621,
+    "mean_pct": 0.18839243500050093,
+    "n": 590,
+    "t": 1.1436214480874844,
+    "nonoverlap_obs": 71,
+    "amount_cny": 86345.9,
+    "same_bucket_move_cny": 162.66914353309753
+   },
+   {
+    "symbol": "512040",
+    "bucket": "LOW",
+    "latest_pctile": 24.330005254860747,
+    "mean_pct": 0.3792060133771917,
+    "n": 353,
+    "t": 1.087252826971886,
+    "nonoverlap_obs": 92,
+    "amount_cny": 86375.8,
+    "same_bucket_move_cny": 327.54222770265636
+   },
+   {
+    "symbol": "159655",
+    "bucket": "TOP",
+    "latest_pctile": 98.77675840978593,
+    "mean_pct": 0.25477037045744005,
+    "n": 264,
+    "t": 0.9304860705054543,
+    "nonoverlap_obs": 46,
+    "amount_cny": 86243.1,
+    "same_bucket_move_cny": 219.7218653639805
+   },
+   {
+    "symbol": "513690",
+    "bucket": "LOW",
+    "latest_pctile": 20.406626506024097,
+    "mean_pct": 0.5286904350189094,
+    "n": 222,
+    "t": 1.3832784155035334,
     "nonoverlap_obs": 63,
     "amount_cny": 86394.0,
-    "same_bucket_move_cny": 433.5081390434366
+    "same_bucket_move_cny": 456.7568144302366
+   },
+   {
+    "symbol": "159519",
+    "bucket": "LOW",
+    "latest_pctile": 15.95330739299611,
+    "mean_pct": 1.3826701483456063,
+    "n": 171,
+    "t": 4.536022614746311,
+    "nonoverlap_obs": 35,
+    "amount_cny": 86338.0,
+    "same_bucket_move_cny": 1193.7697526786296
    }
   ],
-  "fwd_missing_legs": [
+  "fwd_missing_legs": [],
+  "fwd_cny_total": 2360.46,
+  "fwd_sample_signature": "3600c87ce854",
+  "fwd_sample_legs": [
+   "159519",
+   "159655",
    "510760",
    "512040",
-   "159655",
-   "159519"
+   "513690"
   ],
-  "fwd_cny_total": 433.51,
-  "fwd_defer_verdict": "NO_READ",
+  "fwd_sample_changed": true,
+  "fwd_sample_previous_legs": [
+   "159263",
+   "159501",
+   "159577",
+   "513100",
+   "513690"
+  ],
+  "fwd_sample_previous_session": "2026-11-10",
+  "fwd_defer_verdict": "WAITING_COST",
   "fwd_defer_band": "P98P",
-  "fwd_defer_sentence": "after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.00% (mean -0.04%, fell in 49% of 326 cases); today's legs in that band: 159501 99.9, 159577 98.9, 513100 98.9",
+  "fwd_defer_sentence": "after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.35% (mean +0.40%, fell in 33% of 135 cases); today's legs in that band: 159655 98.8",
   "fwd_defer_rows": [
+   {
+    "symbol": "510760",
+    "band": null,
+    "latest_pctile": 63.89819156061621,
+    "n": 28,
+    "median_pct": 0.24254593948100922,
+    "share_down": 0.32142857142857145
+   },
+   {
+    "symbol": "512040",
+    "band": null,
+    "latest_pctile": 24.330005254860747,
+    "n": 18,
+    "median_pct": 0.7928535801374426,
+    "share_down": 0.2777777777777778
+   },
+   {
+    "symbol": "159655",
+    "band": "P98P",
+    "latest_pctile": 98.77675840978593,
+    "n": 43,
+    "median_pct": 0.2453385672227748,
+    "share_down": 0.3953488372093023
+   },
    {
     "symbol": "513690",
     "band": null,
-    "latest_pctile": 50.52790346907994,
+    "latest_pctile": 20.406626506024097,
     "n": 34,
     "median_pct": 0.4556476186771463,
     "share_down": 0.3235294117647059
+   },
+   {
+    "symbol": "159519",
+    "band": null,
+    "latest_pctile": 15.95330739299611,
+    "n": 12,
+    "median_pct": 0.2591991530661586,
+    "share_down": 0.25
    }
   ]
  }
