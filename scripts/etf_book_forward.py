@@ -754,6 +754,89 @@ def published_bars(led):
     return [b for b in (led.get("bars") or []) if not b.get("withdrawn")]
 
 
+def pending_fill(fwd, dates, marks, capital=None, nav=None):
+    """The book decided at a close that has not filled yet -- and what the fill costs.
+
+    r1571: the ledger published `book_in_force` (the book decided at the last grid bar)
+    beside a bar row whose `cash` still belongs to the book held DURING that bar. Measured
+    2026-11-11: book_in_force scale 0.9094 / 12 names, while that bar's own row says cash
+    0.2992 (a 0.7008-scale book) and `filled: false`. Both numbers are true -- the decision
+    fills at the next open -- but nothing on either face said so, so a reader could not
+    tell "the book changed" from "the ledger is stale". The engine has always carried this
+    state (`Forward.pending`); this publishes it.
+
+    `fills_at_bar` is None when the panel ends on the decision bar: the fill has no date
+    yet, and writing the decision bar there would claim a fill that cannot have happened.
+    `capital` turns the cost into money; the ledger's nav is an index, not a currency, so
+    without it only the basis-point figure is honest.
+    """
+    if getattr(fwd, "pending", None) is None:
+        return None
+    new, turn = fwd.pending
+    dec = dict(getattr(fwd, "last_decision", None) or {})
+    decided = dec.get("bar")
+    seq = [str(d.date()) for d in dates]
+    nxt = None
+    if decided:
+        if decided in seq:
+            i = seq.index(decided)
+            nxt = seq[i + 1] if i + 1 < len(seq) else None
+        else:                                   # decision bar not on this panel
+            later = [d for d in seq if d > decided]
+            nxt = later[0] if later else None
+    held = dict(getattr(fwd, "held", None) or {})
+    new = dict(new or {})
+    # `marks` accrue from the panel's first bar; the ledger re-indexes to 1.0 at the
+    # seed bar, so the money has to come from the published bar, not the raw mark.
+    nav = (float(nav) if nav is not None
+           else (float(marks[-1][1]["nav"]) if marks else 1.0))
+    cost = float(turn) * float(CONFIG["cost_per_side"])
+    return {
+        "decided_bar": decided,
+        "fills_at_bar": nxt,
+        "pending_scale": round(float(sum(new.values())), 6),
+        "pending_names": sorted(new),
+        "n_pending": len(new),
+        "held_scale": round(float(sum(held.values())), 6),
+        "held_cash": round(max(0.0, 1.0 - float(sum(held.values()))), 6),
+        "names_added": sorted(set(new) - set(held)),
+        "names_dropped": sorted(set(held) - set(new)),
+        "turnover": round(float(turn), 6),
+        "cost_bp_of_nav": round(cost * 1e4, 2),
+        "cost_cny": (None if not capital
+                     else round(cost * nav * float(capital), 2)),
+        "capital_cny": (None if not capital else float(capital)),
+        "marked_bar": str(marks[-1][0].date()) if marks else None,
+        "marked_bar_holds": "the book held DURING that bar; the pending book fills after it",
+        "cost_basis": "turnover x %g per side x nav at the close of the decision bar"
+                      % float(CONFIG["cost_per_side"]),
+    }
+
+
+def pending_fill_line(pf):
+    """One sentence a human face can print; None-safe so a missing record is not a blank.
+
+    ASCII money (CNY) on purpose: this string is printed to a console as well as written
+    into a utf-8 page, and a '¥' here kills the print on a GBK terminal.
+    """
+    if not pf:
+        return "没有待成交的书：账本当前的 book_in_force 就是它已经持有的那本。"
+    at = pf.get("fills_at_bar")
+    money = ("，¥%s" % format(int(round(float(pf["cost_cny"]))), ",")
+             ) if pf.get("cost_cny") is not None else ""
+    money = money.replace("¥", "CNY ")
+    return ("%s 收盘决策 → %s开盘成交｜k=%.4f（现金 %.1f%%→%.1f%%）｜换手 %.4f＝%.2fbp%s"
+            "｜进 %d 名/出 %d 名"
+            % (pf.get("decided_bar") or "?",
+               (at + " ") if at else "（下一根 bar 还没出现，尚无可成交日期）",
+               float(pf.get("pending_scale") or 0.0),
+               100.0 * float(pf.get("held_cash") or 0.0),
+               100.0 * (1.0 - float(pf.get("pending_scale") or 0.0)),
+               float(pf.get("turnover") or 0.0), float(pf.get("cost_bp_of_nav") or 0.0),
+               money,
+               len(pf.get("names_added") or []), len(pf.get("names_dropped") or [])))
+
+
 def partition_settled(bars, panel_last_date, carry_last=None):
     """(settled, provisional) published bar dates -- the ONE implementation.
 
@@ -1232,6 +1315,7 @@ def _fresh(fwd, dates, cls, n_flip, capital):
         "benchmark": None,
         "books": {},
         "book_in_force": None,
+        "pending_fill": None,
         "status": "live",
         "drift": {"faces": [], "max_abs": 0.0, "checked_bars": 0},
         "rebases": [],
@@ -1275,6 +1359,8 @@ def seed(capital=1_000_000.0):
     led["benchmark"] = _bench_with_book(led["bars"], dates, last_bar)
     led["books"] = _books_after(fwd, led["seed"]["bar"])
     led["book_in_force"] = fwd.last_decision
+    led["pending_fill"] = pending_fill(fwd, dates, marks, capital,
+                                     (led["bars"][-1] or {}).get("nav"))
     led["runs"] = [{"ts": led["seed"]["ts"], "new_bars": 0, "last_bar": last_bar, "first": True}]
     save_ledger(led)
     bl = _bench_line(led)
@@ -1474,6 +1560,9 @@ def run(rebase=False):
         _noop_stub(led, headed)
         led["books"] = _books_after(fwd, led["seed"]["bar"])
         led["book_in_force"] = fwd.last_decision
+        led["pending_fill"] = pending_fill(fwd, dates, marks,
+                                       (led.get("seed") or {}).get("capital_cny"),
+                                       (led["bars"][-1] or {}).get("nav"))
         led["engine"] = _engine_block(fwd)
         led["panel"] = _panel_block(cls, n_flip)
         # r1360: the caveats are DERIVED text (the vol-overlay sentence now quotes the measured
@@ -1496,6 +1585,9 @@ def run(rebase=False):
                                   len(led["bars"])))
     led["books"] = _books_after(fwd, led["seed"]["bar"])
     led["book_in_force"] = fwd.last_decision
+    led["pending_fill"] = pending_fill(fwd, dates, marks,
+                                    (led.get("seed") or {}).get("capital_cny"),
+                                    (led["bars"][-1] or {}).get("nav"))
     led["engine"] = _engine_block(fwd)
     led["panel"] = _panel_block(cls, n_flip)
     led["status"] = "live"
@@ -2217,6 +2309,59 @@ def selftest():
     chk("stamp gate: an absent face asks for its rebuild instead of dying in the runner",
         check_face_inputs(_absent, label="selftest") == (None, 2),
         "the chain reads the leg's words, not its traceback (r1241)")
+
+    # 6. pending fill (r1571): a book decided at a close fills at the NEXT open, and until
+    #    then the bar row it decided on still describes the book held during that bar.
+    #    Measured 2026-11-11: book_in_force k=0.9094 beside a row whose cash is 0.2992.
+    class _F:                                    # the two engine attributes this reads
+        pass
+
+    _days = [pd.Timestamp(x) for x in ("2026-11-09", "2026-11-10", "2026-11-11")]
+    _held = {"A": 0.7008 / 2, "B": 0.7008 / 2}
+    _new = {"C": 0.9094 / 2, "D": 0.9094 / 2}
+    _f = _F()
+    _f.pending = (_new, 1.2598)
+    _f.held = dict(_held)
+    _f.last_decision = {"bar": "2026-11-11", "scale": 0.9094, "names": ["C", "D"],
+                        "turnover": 1.2598}
+    _mk = [(_days[2], {"nav": 1.0160407434})]
+    _pf = pending_fill(_f, _days, _mk)
+    chk("pending fill: the fill lands on the bar AFTER the decision bar",
+        _pf["decided_bar"] == "2026-11-11" and _pf["fills_at_bar"] is None,
+        "panel ends on the decision bar -> no date to claim: %s" % _pf["fills_at_bar"])
+    _pf2 = pending_fill(_f, _days + [pd.Timestamp("2026-11-12")], _mk)
+    chk("pending fill: with the next bar on the panel the fill is dated to it",
+        _pf2["fills_at_bar"] == "2026-11-12", str(_pf2["fills_at_bar"]))
+    chk("pending fill: the row's cash belongs to the held book, and both are printed",
+        abs(_pf2["held_cash"] - 0.2992) < 5e-5 and abs(_pf2["pending_scale"] - 0.9094) < 5e-5,
+        "held_cash=%.6f pending=%.6f" % (_pf2["held_cash"], _pf2["pending_scale"]))
+    chk("pending fill: names in/out is the symmetric difference, not a count",
+        _pf2["names_added"] == ["C", "D"] and _pf2["names_dropped"] == ["A", "B"],
+        "%s / %s" % (_pf2["names_added"], _pf2["names_dropped"]))
+    _pf3 = pending_fill(_f, _days + [pd.Timestamp("2026-11-12")], _mk, capital=1_000_000.0)
+    chk("pending fill: the cost is turnover x per-side x nav x capital (money, not an index)",
+        abs(_pf3["cost_cny"] - round(1.2598 * CONFIG["cost_per_side"] * 1.0160407434
+                                     * 1_000_000.0, 2)) < 20.0
+        and abs(_pf3["cost_bp_of_nav"] - 12.6) < 0.01,
+        "cost=%s bp=%s" % (_pf3["cost_cny"], _pf3["cost_bp_of_nav"]))
+    chk("pending fill: with no capital stated the money figure is absent, not zero",
+        _pf2["cost_cny"] is None and _pf2["cost_bp_of_nav"] > 0)
+    # measured 2026-11-12: costing off the raw mark (cumulative from the panel's first
+    # bar, 1.8233) instead of the published bar (re-indexed to 1.0 at the seed bar,
+    # 1.0160) overstated the fill by 80% -- CNY 2,297 for a CNY 1,280 trade.
+    chk("pending fill: a stated nav beats the raw mark (money is costed on the published bar)",
+        abs(pending_fill(_f, _days, [(_days[2], {"nav": 1.9})], capital=1_000_000.0,
+                         nav=1.0)["cost_cny"] - 1259.772) < 0.5)
+    chk("pending fill: no pending book is published as None, not as a stale record",
+        pending_fill(_F(), _days, _mk) is None)
+    _f2 = _F()
+    _f2.pending = None
+    chk("pending fill: the sentence says there is nothing pending instead of going blank",
+        "没有待成交" in pending_fill_line(None))
+    _sent = pending_fill_line(_pf3)
+    chk("pending fill: the sentence carries the date, both exposures and the money",
+        "2026-11-12" in _sent and "0.9094" in _sent and "29.9%" in _sent and "CNY" in _sent,
+        _sent)
 
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1
