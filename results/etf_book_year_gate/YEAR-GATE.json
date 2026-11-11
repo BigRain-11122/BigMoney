@@ -1,6 +1,6 @@
 {
  "face": "etf_book_year_gate",
- "asof": "2026-11-10T00:50:41+0800",
+ "asof": "2026-11-12T06:28:34+0800",
  "cell": "N5_R20_10bp",
  "gate_rules": {
   "source": "scripts/candidate_year_gate.py (imported, not copied)",
@@ -11,34 +11,34 @@
   "cohorts_analog": "60-bar windows per calendar year"
  },
  "data": {
-  "bars": 1658,
+  "bars": 1660,
   "first": "2005-02-23",
-  "last": "2026-11-09",
+  "last": "2026-11-11",
   "flips_repaired": 169,
-  "bond_free_universe": 1516,
+  "bond_free_universe": 1517,
   "live_picks": [
+   "510760",
    "512040",
-   "159519",
-   "515450",
-   "513140",
-   "159549"
+   "159655",
+   "513690",
+   "159519"
   ],
-  "live_picks_asof": "2026-11-09"
+  "live_picks_asof": "2026-11-11"
  },
  "books": [
   {
-   "verdict": "CONDITIONAL",
+   "verdict": "ADMIT",
    "capacity_checked": true,
-   "cagr_pct": 11.52,
-   "capacity_cny_1day_5pct": 25910932.0,
+   "cagr_pct": 11.64,
+   "capacity_cny_1day_5pct": 49405843.0,
    "year_metrics": {
     "years": 7,
     "positive_years": 7,
     "median": 5.6072,
-    "worst": 2.3688,
+    "worst": 2.8393,
     "best": 43.0627,
-    "annual_sum": 81.5286,
-    "top2_share": 0.7067,
+    "annual_sum": 82.3597,
+    "top2_share": 0.6995,
     "worst_full_only": 2.8393,
     "top2_share_full_only": 0.7278
    },
@@ -46,49 +46,49 @@
     "Y1_positive_years_share": true,
     "Y2_median_positive": true,
     "Y3_worst_year": true,
-    "Y4_top2_share": false,
+    "Y4_top2_share": true,
     "C1_capacity": true
    },
    "years": [
     {
      "year": "2020",
-     "net_pct": 5.607211539627377,
+     "net_pct": 5.607211539627244,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2021",
-     "net_pct": 7.628116174581723,
+     "net_pct": 7.628116174581678,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2022",
-     "net_pct": 2.8392743924003483,
+     "net_pct": 2.8392743924002595,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2023",
-     "net_pct": 5.473011567332842,
+     "net_pct": 5.473011567332664,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2024",
-     "net_pct": 14.549563099483409,
+     "net_pct": 14.549563099483343,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2025",
-     "net_pct": 43.062681571816384,
+     "net_pct": 43.06268157181632,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2026",
-     "net_pct": 2.3687533994787957,
+     "net_pct": 3.1998454663706655,
      "cohorts": 3,
      "partial": true
     }
@@ -96,7 +96,7 @@
    "partial_years": [
     {
      "year": "2026",
-     "net_pct": 2.3687533994787957,
+     "net_pct": 3.1998454663706655,
      "cohorts": 3,
      "approx_months_of_evidence": 8.6
     }
@@ -105,13 +105,13 @@
    "book": "nobond_vt08_adopted",
    "note": "repriced here with the published engine; turnover/side 1.08",
    "yearly_returns_pct": {
-    "2020": 5.607211539627377,
-    "2021": 7.628116174581723,
-    "2022": 2.8392743924003483,
-    "2023": 5.473011567332842,
-    "2024": 14.549563099483409,
-    "2025": 43.062681571816384,
-    "2026": 2.3687533994787957
+    "2020": 5.607211539627244,
+    "2021": 7.628116174581678,
+    "2022": 2.8392743924002595,
+    "2023": 5.473011567332664,
+    "2024": 14.549563099483343,
+    "2025": 43.06268157181632,
+    "2026": 3.1998454663706655
    },
    "yearly_bars": {
     "2020": 242,
@@ -120,7 +120,7 @@
     "2023": 242,
     "2024": 242,
     "2025": 243,
-    "2026": 204
+    "2026": 206
    },
    "sizing_scale_by_year": {
     "2020": 0.455,
@@ -131,12 +131,19 @@
     "2025": 0.665,
     "2026": 0.665
    },
-   "sizing_note": "average position scale the 8% target applied per calendar year (1.0 = fully invested); this is what moves the calendar, not the selection"
+   "sizing_note": "average position scale the 8% target applied per calendar year (1.0 = fully invested); this is what moves the calendar, not the selection",
+   "margin_to_line": 0.0005,
+   "top2_share_full_only_note": "the frozen line reads the net sum (partial years included); reading only complete years gives 0.7278",
+   "prior": {
+    "verdict": "CONDITIONAL",
+    "top2_share": 0.7067
+   },
+   "verdict_changed_from_prior": true
   },
   {
    "verdict": "ADMIT",
    "capacity_checked": false,
-   "cagr_pct": 15.6,
+   "cagr_pct": 15.78,
    "capacity_cny_1day_5pct": null,
    "year_metrics": {
     "years": 7,
@@ -144,8 +151,8 @@
     "median": 9.3091,
     "worst": 2.3313,
     "best": 53.7327,
-    "annual_sum": 110.7584,
-    "top2_share": 0.6855,
+    "annual_sum": 111.9829,
+    "top2_share": 0.678,
     "worst_full_only": 2.3313,
     "top2_share_full_only": 0.7176
    },
@@ -159,43 +166,43 @@
    "years": [
     {
      "year": "2020",
-     "net_pct": 22.194307431386974,
+     "net_pct": 22.194307431386907,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2021",
-     "net_pct": 9.309103492188875,
+     "net_pct": 9.309103492189008,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2022",
-     "net_pct": 2.3313486840226494,
+     "net_pct": 2.3313486840225606,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2023",
-     "net_pct": 5.267631844750653,
+     "net_pct": 5.267631844750609,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2024",
-     "net_pct": 12.968990956914816,
+     "net_pct": 12.968990956914839,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2025",
-     "net_pct": 53.73270259039846,
+     "net_pct": 53.7327025903984,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2026",
-     "net_pct": 4.954343744000411,
+     "net_pct": 6.178820315096889,
      "cohorts": 3,
      "partial": true
     }
@@ -203,7 +210,7 @@
    "partial_years": [
     {
      "year": "2026",
-     "net_pct": 4.954343744000411,
+     "net_pct": 6.178820315096889,
      "cohorts": 3,
      "approx_months_of_evidence": 8.6
     }
@@ -212,13 +219,13 @@
    "book": "nobond_base",
    "note": "repriced here with the published engine; turnover/side 1.53",
    "yearly_returns_pct": {
-    "2020": 22.194307431386974,
-    "2021": 9.309103492188875,
-    "2022": 2.3313486840226494,
-    "2023": 5.267631844750653,
-    "2024": 12.968990956914816,
-    "2025": 53.73270259039846,
-    "2026": 4.954343744000411
+    "2020": 22.194307431386907,
+    "2021": 9.309103492189008,
+    "2022": 2.3313486840225606,
+    "2023": 5.267631844750609,
+    "2024": 12.968990956914839,
+    "2025": 53.7327025903984,
+    "2026": 6.178820315096889
    },
    "yearly_bars": {
     "2020": 242,
@@ -227,8 +234,15 @@
     "2023": 242,
     "2024": 242,
     "2025": 243,
-    "2026": 204
-   }
+    "2026": 206
+   },
+   "margin_to_line": 0.022,
+   "top2_share_full_only_note": "the frozen line reads the net sum (partial years included); reading only complete years gives 0.7176",
+   "prior": {
+    "verdict": "ADMIT",
+    "top2_share": 0.6855
+   },
+   "verdict_changed_from_prior": false
   },
   {
    "verdict": "CONDITIONAL",
@@ -325,13 +339,38 @@
     "2024": null,
     "2025": null,
     "2026": null
-   }
+   },
+   "margin_to_line": -0.0719,
+   "top2_share_full_only_note": "the frozen line reads the net sum (partial years included); reading only complete years gives 0.785",
+   "prior": {
+    "verdict": "CONDITIONAL",
+    "top2_share": 0.7719
+   },
+   "verdict_changed_from_prior": false
   }
  ],
+ "prior": {
+  "asof": "2026-11-10T00:50:41+0800",
+  "data_last": "2026-11-09",
+  "books": {
+   "nobond_vt08_adopted": {
+    "verdict": "CONDITIONAL",
+    "top2_share": 0.7067
+   },
+   "nobond_base": {
+    "verdict": "ADMIT",
+    "top2_share": 0.6855
+   },
+   "all_classes_published": {
+    "verdict": "CONDITIONAL",
+    "top2_share": 0.7719
+   }
+  }
+ },
  "honest": [
   "the adopted book is judged by the same frozen line it never faced",
   "capacity is derived from the current five slots at 5% participation, not from a stated AUM",
   "the published all-classes arm carries no bar counts; its 2026 partial flag is inferred from the calendar and printed as such"
  ],
- "elapsed_sec": 62.5
+ "elapsed_sec": 42.9
 }

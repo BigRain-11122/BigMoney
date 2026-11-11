@@ -3494,6 +3494,7 @@ def card_config_ticket(card_dir=None, nav=None, ledger_path=None):
                     - float(led_cfg.get("vol_target") or 0.0)) < 1e-9)
     except Exception:
         recon["same_config_as_ledger"] = None
+    recon["admission"] = admission_read(led.get("last_bar"))
     return {"kind": "card_config", "nav": stated, "card_capital": cap,
             "scale": float(card_scale or 0.0), "config": cfg, "order": rows,
             "book_amount": round(spent, 2), "cash_amount": round(cash, 2),
@@ -3542,14 +3543,199 @@ def pending_fill_md(pf, last_bar=None, last_cash=None):
     return lines + [""]
 
 
+YEAR_GATE_PATH = os.path.join(PATHS.results_dir, "etf_book_year_gate", "YEAR-GATE.json")
+PHASE_GATE_PATH = os.path.join(PATHS.results_dir, "etf_book_phase_gate.json")
+ADMITTED_BOOK = "nobond_vt08_adopted"
+
+
+def _phase_reading(path=None, book=ADMITTED_BOOK):
+    """The same book judged over five decision phases -- the other half of the admission.
+
+    r1572: the year gate judges ONE start date. Shifted by a week at a time the same book
+    reads 71.08/79.46/79.58/79.82/... (median 78.39%, spread 8.09pp). A single-phase ADMIT
+    whose distance to the line is 0.05pp is therefore not an admission -- it is one draw
+    from a distribution the other face already measured. Both readings are published; the
+    sheet must not print one without the other.
+    """
+    p = path or PHASE_GATE_PATH
+    try:
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception:                                          # noqa: BLE001
+        return None
+    s = (d.get("summary") or {}).get(book)
+    if not s:
+        return None
+    return {"asof": d.get("asof"), "state": s.get("state"),
+            "median_top2_share": s.get("median_top2_share"),
+            "spread_pp": s.get("spread_pp"), "margin_pp": s.get("margin_pp"),
+            "single_phase_verdict": s.get("single_phase_verdict"),
+            # r1570: two adjudications printed side by side are only comparable on the same
+            # panel. The phase face publishes the bar it was computed on; without it this
+            # reader could only compare as-of clock times.
+            "data_last": (d.get("data") or {}).get("last_bar"),
+            "path": "results/etf_book_phase_gate.json"}
+
+
+def admission_read(last_bar=None, path=None, phase=None):
+    """Whether the book on this sheet may take NEW capital, copied off the gate's own face.
+
+    r1572: the sheet says what fills at the next open and says nothing about whether the
+    book is allowed to hold that money. The verdict (ADMIT / CONDITIONAL /
+    CAPACITY_LIMITED / REFUSE) lives in its own JSON with its own as-of date, so a sheet
+    printed today can quote a decision computed on an older panel and no reader can tell.
+    This reader copies the verdict, the failing check and the gate's data date; it never
+    re-adjudicates, and it names the gap when the gate's panel trails the ledger.
+    """
+    p = path or YEAR_GATE_PATH
+    try:
+        rel = os.path.relpath(p, BASE).replace("\\", "/")
+    except ValueError:      # fixture on another drive (E289): never let the face crash here
+        rel = p.replace("\\", "/")
+    if not os.path.exists(p):
+        return {"readable": False, "path": rel, "why": "no gate face on disk"}
+    try:
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception as exc:                                    # noqa: BLE001
+        return {"readable": False, "path": rel, "why": "unreadable: %s" % exc}
+    books = d.get("books") or []
+    b = next((x for x in books if x.get("book") == ADMITTED_BOOK), None)
+    base = {"readable": True, "path": rel, "asof": d.get("asof"),
+            "data_last": (d.get("data") or {}).get("last"),
+            "prior_data_last": (d.get("prior") or {}).get("data_last"),
+            "line": (d.get("gate_rules") or {}).get("top2_share_max"),
+            "book": ADMITTED_BOOK, "found": b is not None,
+            "phase": (phase if phase is not None
+                      else (_phase_reading() if path is None else None)),
+            "last_bar": last_bar}
+    if b is None:
+        return base
+    checks = b.get("checks") or {}
+    m = b.get("year_metrics") or {}
+    base.update({
+        "verdict": b.get("verdict"),
+        "failed": [k for k, v in checks.items() if v is False],
+        "checks": checks,
+        "top2_share": m.get("top2_share"),
+        "top2_share_full_only": m.get("top2_share_full_only"),
+        "margin_to_line": b.get("margin_to_line"),
+        "prior": b.get("prior"),
+        "verdict_changed": b.get("verdict_changed_from_prior"),
+        "positive_years": m.get("positive_years"), "years": m.get("years"),
+        "median": m.get("median"), "worst": m.get("worst"),
+        "capacity_cny": b.get("capacity_cny_1day_5pct"),
+        "trails_ledger": (None if not (base["data_last"] and last_bar)
+                          else str(base["data_last"]) < str(last_bar)),
+    })
+    return base
+
+
+def admission_md(ad, last_bar=None):
+    """Print the gate's decision next to this sheet's fill, and say what it is not."""
+    lines = ["## 准入判决（这本书能不能吃新增资本）"]
+    ad = ad or {}
+    if not ad.get("readable"):
+        lines += ["- **无法核验**：读不到年度闸面（%s：%s）。缺这一行不等于准入通过。"
+                  % (ad.get("path") or "-", ad.get("why") or "-"), ""]
+        return lines
+    if not ad.get("found"):
+        lines += ["- 闸面（%s）里没有本书 `%s` 的判决行：**未评估**，不是通过。"
+                  % (ad.get("path"), ad.get("book")), ""]
+        return lines
+    ph = ad.get("phase")
+    _clash = bool(ph and ph.get("state") and ad.get("verdict")
+                  and ph["state"] != ad["verdict"])
+    lines.append("- 判决：**%s**%s（闸面 asof %s，数据到 %s）"
+                 % (ad.get("verdict") or "未知",
+                    ("（单相位）——与五相位面 **%s** 冲突，读下面的相位行"
+                     % ph["state"]) if _clash else "",
+                    ad.get("asof") or "未知", ad.get("data_last") or "未知"))
+    if ad.get("failed"):
+        bits = []
+        if "Y4_top2_share" in ad["failed"]:
+            bits.append("Y4 最好两年占全年净收益 %.2f%%（只算完整年 %.2f%%），线 %.0f%%"
+                        % (100.0 * float(ad.get("top2_share") or 0.0),
+                           100.0 * float(ad.get("top2_share_full_only") or 0.0),
+                           100.0 * float(ad.get("line") or 0.0)))
+        lines.append("- 未过项：%s" % "；".join(bits + [f for f in ad["failed"]
+                                                    if f != "Y4_top2_share"]))
+    else:
+        lines.append("- 未过项：无（%d 项全过）" % len(ad.get("checks") or {}))
+    if ad.get("margin_to_line") is not None:
+        lines.append("- 距线：%+.4f（%.4f 对线 %.4f，越大越安全）"
+                     % (float(ad["margin_to_line"]), float(ad.get("top2_share") or 0.0),
+                        float(ad.get("line") or 0.0)))
+    if ad.get("verdict_changed") and ad.get("prior"):
+        pv = ad["prior"]
+        moved = (None if pv.get("top2_share") is None or ad.get("top2_share") is None
+                 else 100.0 * (float(ad["top2_share"]) - float(pv["top2_share"])))
+        lines.append("- **本判决翻面**：上一版闸面（数据到 %s）说 %s，top2 %.2f%%%s"
+                     " ——判决不是新证据，是同一把尺子在新的一根 bar 上读出来的数。"
+                     % (ad.get("prior_data_last") or "-", pv.get("verdict"),
+                        100.0 * float(pv.get("top2_share") or 0.0),
+                        ("；本次移动 %+.2fpp" % moved) if moved is not None else ""))
+    if ad.get("top2_share_full_only") is not None:
+        lines.append("- 口径并列：冻结线按净和算（partial 年进分母）= %.2f%%；只算完整年 = %.2f%%"
+                     " —— 两个口径方向相反，本判决只认前者。"
+                     % (100.0 * float(ad.get("top2_share") or 0.0),
+                        100.0 * float(ad["top2_share_full_only"])))
+    if ph and ph.get("median_top2_share") is not None:
+        _ph_last = ph.get("data_last")
+        # r1570: the two adjudications above are only a "clash" if they read the same panel.
+        # A phase face one bar behind is not a difference of opinion about the book -- it is
+        # a comparison of two books, and the operator must not be handed that as a verdict.
+        _ph_behind = bool(_ph_last and ad.get("data_last")
+                          and str(_ph_last) < str(ad.get("data_last")))
+        lines.append("- 相位面（同一本书，五个决策起点）：中位 %.2f%%｜spread %.2fpp｜距线 %.2fpp"
+                     "｜五相判决 **%s**（算到 %s，asof %s）"
+                     % (100.0 * float(ph["median_top2_share"]), float(ph.get("spread_pp") or 0.0),
+                        float(ph.get("margin_pp") or 0.0), ph.get("state") or "未知",
+                        _ph_last or "未注明", ph.get("asof") or "未知"))
+        if _ph_behind:
+            lines.append("- **两行不在一块面板上**：相位面算到 %s，年度闸算到 %s —— 上面那个「冲突」"
+                         "里有一部分只是面板差，不是书差；在相位面重算到 %s 之前，这一节不得用来"
+                         "决定资本。"
+                         % (_ph_last, ad.get("data_last"), ad.get("data_last")))
+        if _clash:
+            lines.append("- **两面对不上**：单相位年度闸说 %s，五相位面说 %s —— 差别不在书，"
+                         "在决策网格从哪天开始。相位 spread %.2fpp 与单相位距线 %.4f 不是同一把尺子；"
+                         "本单**不得**因单相位这一行扩资本。"
+                         % (ad.get("verdict"), ph["state"], float(ph.get("spread_pp") or 0.0),
+                            float(ad.get("margin_to_line") or 0.0)))
+    lines.append("- 其它读数：%s/%s 正年｜中位 %+.2fpp｜最差年 %+.2fpp｜容量 %s"
+                 % (ad.get("positive_years"), ad.get("years"), float(ad.get("median") or 0.0),
+                    float(ad.get("worst") or 0.0),
+                    ("¥%s（一日 5%%）" % format(int(ad["capacity_cny"]), ","))
+                    if ad.get("capacity_cny") else "未评估"))
+    if ad.get("trails_ledger"):
+        lines.append("- **闸面数据停在 %s，账本已到 %s：上面这个判决不是按今天的面板算的。**"
+                     % (ad.get("data_last"), ad.get("last_bar") or last_bar))
+    lines += ["- 本单与准入是两件事：准入裁决这本书能不能吃**新增资本**；本单只描述已经决定的"
+              "这本书在开盘时怎么成交。",
+              "- 出处：%s（生产者 etf_book_year_gate，判据 candidate_year_gate 导入；本页只读不算）"
+              % ad.get("path"), ""]
+    return lines
+
+
 def card_config_card(tk, width=None, ruler=None):
     """Markdown for the card-config order, with the three-face reconciliation on it."""
     rc = tk["recon"]
     cfg = tk["config"]
+    _adm = rc.get("admission") or {}
+    _ph = _adm.get("phase") or {}
+    if _adm.get("verdict") and _ph.get("state") and _ph["state"] != _adm["verdict"]:
+        _admit_line = ("准入：单相位 **%s** ／ 五相位 **%s** —— 两面对不上，本单不得因此扩资本"
+                       "（见 §准入判决）。" % (_adm["verdict"], _ph["state"]))
+    elif _adm.get("verdict"):
+        _admit_line = "准入：**%s**（见 §准入判决）。" % _adm["verdict"]
+    else:
+        _admit_line = "准入：**无法核验**（见 §准入判决）。"
     L = ["# ETF 复合书 · 可执行订单单（%s，卡片配置口径）" % tk["priced_bar"], "",
          "当前活：生产卡片的原样配置——%d 名、每 %d 个交易日网格、%.0f%% 波动目标（只降不升杠杆）、"
          "空仓进 GC001。" % (int(cfg.get("n_hold") or 0), int(cfg.get("rebal") or REBAL),
                            100.0 * float(cfg.get("vol_target") or 0.0)),
+         _admit_line,
          "最近实物：%s（与本文件同刻生成）。"
          % os.path.relpath(os.path.join(OUT_DIR, "TICKET-%s-card.json" % tk["priced_bar"]),
                            BASE).replace("\\", "/"),
@@ -3565,6 +3751,7 @@ def card_config_card(tk, width=None, ruler=None):
              float(rc.get("ledger_last_nav") or 0.0), rc.get("ledger_status") or "未知"), ""]
     L += pending_fill_md(rc.get("ledger_pending"), rc.get("ledger_last_bar"),
                          rc.get("ledger_last_cash"))
+    L += admission_md(rc.get("admission"), rc.get("ledger_last_bar"))
     L += restatement_md({"readable": rc.get("restatements_readable"),
                          "path": rc.get("ledger_source"),
                          "source": rc.get("restatements_source"),
@@ -5898,6 +6085,91 @@ def selftest():
         _md_none = "\n".join(pending_fill_md(None, "2026-11-11", 0.2992))
         chk("leg68 an absent record says nothing is pending instead of printing a blank",
             "没有待成交" in _md_none, _md_none.splitlines()[1] if len(_md_none.splitlines()) > 1 else "")
+
+    # legA-D (r1572): the sheet must state the gate's decision, and must never read
+    # "no gate face" / "book not in the gate" as a pass. Fixtures write their own gate
+    # JSON so the leg measures this reader, not today's disk.
+    import tempfile
+    import shutil
+    _tmp = tempfile.mkdtemp(prefix="adm_")
+
+    def _gate(path, book=None, verdict="CONDITIONAL", last="2026-11-09"):
+        doc = {"face": "etf_book_year_gate", "asof": "2026-11-10T00:50:41+0800",
+               "gate_rules": {"top2_share_max": 0.70},
+               "data": {"last": last},
+               "prior": {"data_last": "2026-11-07"}, "books": []}
+        if book:
+            doc["books"].append({
+                "book": book, "verdict": verdict, "capacity_cny_1day_5pct": 25_910_932.0,
+                "margin_to_line": 0.0033,
+                "prior": {"verdict": "CONDITIONAL", "top2_share": 0.72},
+                "verdict_changed_from_prior": True,
+                "checks": {"Y1_positive_years_share": True, "Y2_median_positive": True,
+                           "Y3_worst_year": True, "Y4_top2_share": False,
+                           "C1_capacity": True},
+                "year_metrics": {"years": 7, "positive_years": 7, "median": 5.6072,
+                                 "worst": 2.3688, "top2_share": 0.7067,
+                                 "top2_share_full_only": 0.7278}})
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump(doc, fh)
+        return path
+
+    try:
+        _p = _gate(os.path.join(_tmp, "g.json"), ADMITTED_BOOK)
+        _a = admission_read("2026-11-11", path=_p)
+        _md = "\n".join(admission_md(_a, "2026-11-11"))
+        chk("legA the gate's verdict and failing check are copied, not re-judged",
+            _a["verdict"] == "CONDITIONAL" and _a["failed"] == ["Y4_top2_share"]
+            and abs(_a["top2_share"] - 0.7067) < 1e-9 and "70.67%" in _md and "72.78%" in _md,
+            "verdict=%s failed=%s" % (_a["verdict"], _a["failed"]))
+        chk("legB a gate panel behind the ledger says so on the sheet",
+            _a["trails_ledger"] is True and "不是按今天的面板算的" in _md,
+            "gate=%s ledger=%s" % (_a["data_last"], _a["last_bar"]))
+        _miss = admission_read("2026-11-11", path=os.path.join(_tmp, "nope.json"))
+        chk("legC a missing gate face reads 无法核验, never as a pass",
+            _miss["readable"] is False
+            and "不等于准入通过" in "\n".join(admission_md(_miss)),
+            str(_miss.get("why")))
+        _other = _gate(os.path.join(_tmp, "other.json"), "some_other_book")
+        _oa = admission_read("2026-11-11", path=_other)
+        chk("legD a gate that never judged this book reads 未评估, never as a pass",
+            _oa["found"] is False and "未评估" in "\n".join(admission_md(_oa)),
+            "found=%s" % _oa["found"])
+        chk("legE a flipped verdict prints the prior reading and how far it moved",
+            "本判决翻面" in _md and "-1.33pp" in _md and "距线" in _md,
+            [l for l in _md.splitlines() if "翻面" in l][:1])
+        _ph = {"state": "CONDITIONAL", "median_top2_share": 0.7839, "spread_pp": 8.09,
+               "margin_pp": 8.39, "asof": "2026-11-10T00:53:08+08:00"}
+        _ap = admission_read("2026-11-11", path=_gate(os.path.join(_tmp, "g2.json"),
+                                                      ADMITTED_BOOK, verdict="ADMIT"),
+                             phase=_ph)
+        _pmd = "\n".join(admission_md(_ap, "2026-11-11"))
+        chk("legF a single-phase ADMIT is printed beside the five-phase noise, not alone",
+            "两面对不上" in _pmd and "8.09pp" in _pmd and "不得" in _pmd,
+            "verdict=%s phase=%s" % (_ap["verdict"], _ph["state"]))
+        # legG/H (r1570): the two adjudications are only comparable on one panel. A phase
+        # face a bar behind must be NAMED as a panel gap -- otherwise the operator reads a
+        # book-difference where there is only a rebuild difference.
+        _ph_old = dict(_ph, data_last="2026-11-09")
+        _ag = admission_read("2026-11-11",
+                             path=_gate(os.path.join(_tmp, "g3.json"), ADMITTED_BOOK,
+                                        verdict="CONDITIONAL", last="2026-11-11"),
+                             phase=_ph_old)
+        _gmd = "\n".join(admission_md(_ag, "2026-11-11"))
+        chk("legG a phase face one bar behind the gate reads as a panel gap, not a clash",
+            "两行不在一块面板上" in _gmd and "2026-11-09" in _gmd and "2026-11-11" in _gmd,
+            "phase=%r gate=%r" % (_ph_old.get("data_last"), _ag.get("data_last")))
+        _ph_same = dict(_ph, data_last="2026-11-11")
+        _asame = admission_read("2026-11-11",
+                                path=_gate(os.path.join(_tmp, "g4.json"), ADMITTED_BOOK,
+                                           verdict="ADMIT", last="2026-11-11"),
+                                phase=_ph_same)
+        _smd = "\n".join(admission_md(_asame, "2026-11-11"))
+        chk("legH the same panel prints each face's own bar and no panel-gap warning",
+            "两行不在一块面板上" not in _smd and "算到 2026-11-11" in _smd,
+            [l for l in _smd.splitlines() if "算到" in l][:1])
+    finally:
+        shutil.rmtree(_tmp, ignore_errors=True)
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

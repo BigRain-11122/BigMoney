@@ -310,7 +310,51 @@
    "cost_per_side": 0.001
   },
   "same_config_as_ledger": true,
-  "scale_precision": "4 dp (the card's published precision)"
+  "scale_precision": "4 dp (the card's published precision)",
+  "admission": {
+   "readable": true,
+   "path": "results/etf_book_year_gate/YEAR-GATE.json",
+   "asof": "2026-11-12T06:28:34+0800",
+   "data_last": "2026-11-11",
+   "prior_data_last": "2026-11-09",
+   "line": 0.7,
+   "book": "nobond_vt08_adopted",
+   "found": true,
+   "phase": {
+    "asof": "2026-11-12T07:03:36+08:00",
+    "state": "UNADJUDICABLE_PHASE",
+    "median_top2_share": 0.7889,
+    "spread_pp": 9.04,
+    "margin_pp": 8.89,
+    "single_phase_verdict": "ADMIT",
+    "data_last": "2026-11-11",
+    "path": "results/etf_book_phase_gate.json"
+   },
+   "last_bar": "2026-11-11",
+   "verdict": "ADMIT",
+   "failed": [],
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true,
+    "C1_capacity": true
+   },
+   "top2_share": 0.6995,
+   "top2_share_full_only": 0.7278,
+   "margin_to_line": 0.0005,
+   "prior": {
+    "verdict": "CONDITIONAL",
+    "top2_share": 0.7067
+   },
+   "verdict_changed": true,
+   "positive_years": 7,
+   "years": 7,
+   "median": 5.6072,
+   "worst": 2.8393,
+   "capacity_cny": 49405843.0,
+   "trails_ledger": false
+  }
  },
  "decision": "REBALANCE: this bar's close is a decision point -- place at next open",
  "bars_until_next_decision": 0,

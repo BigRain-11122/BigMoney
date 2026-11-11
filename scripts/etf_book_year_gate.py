@@ -162,6 +162,32 @@ def run() -> int:
                                " (daily bars not republished; 2026 marked partial by"
                                " calendar, which the published file cannot attest)"))
 
+    prior = None
+    if os.path.exists(OUT):
+        try:
+            with io.open(OUT, encoding="utf-8") as f:
+                prev = json.load(f)
+            prior = {"asof": prev.get("asof"),
+                     "data_last": (prev.get("data") or {}).get("last"),
+                     "books": {b.get("book"): {
+                         "verdict": b.get("verdict"),
+                         "top2_share": (b.get("year_metrics") or {}).get("top2_share")}
+                         for b in (prev.get("books") or [])}}
+        except Exception as exc:                                # noqa: BLE001
+            prior = {"unreadable": str(exc)}
+    for a in arms:
+        m = a.get("year_metrics") or {}
+        t2 = m.get("top2_share")
+        a["margin_to_line"] = (None if t2 is None
+                               else round(G.TOP2_SHARE_MAX - float(t2), 4))
+        a["top2_share_full_only_note"] = (
+            "the frozen line reads the net sum (partial years included); reading only"
+            " complete years gives %s" % m.get("top2_share_full_only"))
+        pb = ((prior or {}).get("books") or {}).get(a["book"]) if prior else None
+        a["prior"] = pb
+        a["verdict_changed_from_prior"] = (None if not pb
+                                           else (pb.get("verdict") != a.get("verdict")))
+
     out = {
         "face": "etf_book_year_gate",
         "asof": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
@@ -182,6 +208,7 @@ def run() -> int:
                  "live_picks": picks,
                  "live_picks_asof": str(last.date())},
         "books": arms,
+        "prior": prior,
         "honest": [
             "the adopted book is judged by the same frozen line it never faced",
             "capacity is derived from the current five slots at 5% participation, "
@@ -208,6 +235,25 @@ def _chk(ok: bool, msg: str, errs: list) -> None:
         errs.append(msg)
 
 
+def freshness(last, expected):
+    """Is a gate panel on the bar the official calendar says must exist? (pure, r1570)
+
+    Two different failures live behind "not today's": a panel that is BEHIND must exist
+    (the chain may buy the rebuild), while a panel that is AHEAD means the calendar the
+    reader used is wrong -- rebuilding would hide that, so it is not this function's word.
+    """
+    if not last:
+        return "unknown", "the receipt publishes no data.last"
+    if not expected:
+        return "unknown", "the official calendar yields no expected bar"
+    if str(last) < str(expected):
+        return "stale", ("gate panel is on %s while the official calendar expects %s"
+                         % (last, expected))
+    if str(last) > str(expected):
+        return "ahead", ("gate panel is on %s, AFTER the expected %s" % (last, expected))
+    return "current", "gate panel is on %s, the expected bar" % last
+
+
 def check() -> int:
     """Re-derive every published verdict from the receipt's own rows (read-only)."""
     if not os.path.exists(OUT):
@@ -215,6 +261,27 @@ def check() -> int:
         return 1
     with io.open(OUT, encoding="utf-8") as f:
         d = json.load(f)
+    # r1570: this face has many readers (the order sheet now prints its verdict beside the
+    # fill) and, until this leg, no scheduled producer -- the r1282 class. A gate frozen on
+    # an older panel would be quoted on the operator's paper as if it were today's decision.
+    # The age is judged against the OFFICIAL calendar, never against this receipt's own data
+    # (E136: a face may not adjudicate its own freshness), and "stale" is spelled out so the
+    # chain pays the rebuild instead of someone loosening the assertion.
+    try:
+        import exchange_calendar_audit as CA
+        _exp, _past = CA.expected_last_day(
+            CA.load_calendar(),
+            pd.Timestamp.now(tz="Asia/Shanghai").to_pydatetime())
+    except Exception as exc:                                     # noqa: BLE001
+        _exp = None
+        print("freshness unknown: %s" % exc)
+    _word, _msg = freshness((d.get("data") or {}).get("last"), _exp)
+    if _word == "stale":
+        print("stale: %s" % _msg)
+        return 2
+    if _word == "ahead":
+        print("FAIL %s" % _msg)
+        return 1
     errs = []
 
     def chk(ok, msg):
@@ -239,7 +306,18 @@ def check() -> int:
         "the adopted arm carries a derived capacity face (not left unchecked)")
     chk(bool(adopted.get("sizing_scale_by_year")),
         "the adopted arm prints the sizing scale that moved its calendar")
-    print("%d/%d PASS" % (6 + 4 * len(books) - len(errs), 6 + 4 * len(books)))
+    for b in books:
+        t2 = (b.get("year_metrics") or {}).get("top2_share")
+        want = None if t2 is None else round(G.TOP2_SHARE_MAX - float(t2), 4)
+        chk(b.get("margin_to_line") == want,
+            "%s publishes its distance to the line (%s)" % (b["book"], want))
+        pb = ((d.get("prior") or {}).get("books") or {}).get(b["book"])
+        moved = None if not pb else (pb.get("verdict") != b.get("verdict"))
+        chk(b.get("verdict_changed_from_prior") == moved
+            and (moved is not True or b.get("margin_to_line") is not None),
+            "%s states whether its verdict moved since the prior panel (%s)"
+            % (b["book"], moved))
+    print("%d/%d PASS" % (6 + 6 * len(books) - len(errs), 6 + 6 * len(books)))
     return 0 if not errs else 1
 
 
@@ -290,7 +368,20 @@ def selftest() -> int:
          "capacity = 5% participation per slot summed", errs)
     _chk(capacity_cny(["A", "MISSING"], amt) is None, "a slot with no panel -> None, not a number", errs)
 
-    print("%d/%d PASS" % (10 - len(errs), 10))
+    # r1570: the freshness word decides whether the chain may buy a rebuild. Behind = stale
+    # (rebuild), ahead = a broken calendar (do not hide it), unreadable = unknown (never a
+    # pass -- "no data" and "up to date" are different sentences).
+    _chk(freshness("2026-11-09", "2026-11-11")[0] == "stale",
+         "a panel behind the calendar is stale, not inconsistent", errs)
+    _chk(freshness("2026-11-11", "2026-11-11")[0] == "current",
+         "a panel on the expected bar is current", errs)
+    _chk(freshness("2026-11-12", "2026-11-11")[0] == "ahead",
+         "a panel ahead of the calendar is not a rebuild", errs)
+    _chk(freshness(None, "2026-11-11")[0] == "unknown"
+         and freshness("2026-11-11", None)[0] == "unknown",
+         "missing dates read unknown, never current", errs)
+
+    print("%d/%d PASS" % (14 - len(errs), 14))
     return 0 if not errs else 1
 
 

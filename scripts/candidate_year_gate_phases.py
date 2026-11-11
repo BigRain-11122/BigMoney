@@ -61,6 +61,8 @@ def _caliber_module():
 
 OUT = os.path.join(ROOT, "results", "etf_book_phase_gate.json")
 CALIBER_RECEIPT = os.path.join(ROOT, "results", "etf_book_year_caliber.json")
+# the face this one must agree with about which panel it is on (r1570)
+GATE = os.path.join(ROOT, "results", "etf_book_year_gate", "YEAR-GATE.json")
 
 # five weekly starts span one 20-bar rebalance block (0, 5, 10, 15, 20 bars)
 PHASE_STARTS = ("2020-01-01", "2020-01-08", "2020-01-15", "2020-01-22", "2020-01-29")
@@ -259,6 +261,7 @@ def run():
         },
         "data": {"flips_repaired": n_flip, "universe": int(len(close.columns)),
                  "bars": int(len(close.index)),
+                 "last_bar": str(pd.Timestamp(close.index[-1]).date()),
                  "capacity_cny_1day_5pct": cap,
                  "capacity_from": "results/etf_book_year_gate/YEAR-GATE.json"},
         "cost_per_side": 0.0010, "rebal_bars": 20, "n_hold": 5,
@@ -374,11 +377,17 @@ def selftest() -> int:
         # moved (2026 2.37->3.20) the gate's word changed CONDITIONAL->ADMIT and this leg
         # called it a regression. A frozen verdict can only be reproduced on the years that
         # were finished when it was published; the live word is disclosed, not asserted.
-        chk(blk_done["verdict"] == ref.get("verdict"),
-            "L8b phase start 2020-01-01 reproduces r1418's verdict on completed years "
-            "(%s vs %s; with the in-progress %s at %r the live word is %s)"
-            % (blk_done["verdict"], ref.get("verdict"), _partial,
-               round(blk["year_metrics"]["top2_share"], 4), blk["verdict"]))
+        # r1570: r1557 then compared the completed-years block against a reference computed
+        # on ALL years -- two books, one verdict. On 2026-11-12 that read CONDITIONAL vs
+        # ADMIT at identical rows, and the only reason the two differed was that the gate's
+        # own face is rebuilt on the live panel (my new check() leg makes that a named
+        # 'stale', not a mystery): same panel => same year set => the verdict must reproduce.
+        _row_partial = (None if not _partial or _partial not in pubs
+                        else round(mine[_partial] - pubs[_partial], 6))
+        chk(blk["verdict"] == ref.get("verdict"),
+            "L8b phase start 2020-01-01 reproduces the gate's verdict on the gate's own "
+            "year set (%s vs %s; completed-years-only word %s, partial row d=%r)"
+            % (blk["verdict"], ref.get("verdict"), blk_done["verdict"], _row_partial))
     else:
         chk(False, "L8 skipped: no published r1418 face")
 
@@ -434,15 +443,111 @@ def selftest() -> int:
     chk(len(PHASE_STARTS) == 5 and PHASE_STARTS[-1] > PHASE_STARTS[0],
         "L9b the phase set is five weekly starts")
 
-    tot = 21 if ref else 20
+    # L14 the phase face and the yearly gate must be on the same panel: the order sheet
+    # prints both adjudications side by side, so "one panel behind" is two books, not a
+    # cosmetic mismatch. Only the behind case is rebuildable; ahead and unreadable are not.
+    _face_old = {"data": {"last_bar": "2026-11-09"},
+                 "summary": {"a": {}, "b": {}}}
+    _gate_now = {"data": {"last": "2026-11-11"},
+                 "books": [{"book": "a"}, {"book": "b"}]}
+    chk(phase_vs_gate(_face_old, _gate_now)[0] == "stale",
+        "L14 a phase face one panel behind is stale (a rebuild buys it)")
+    _face_now = {"data": {"last_bar": "2026-11-11"},
+                 "summary": {"a": {}, "b": {}}}
+    chk(phase_vs_gate(_face_now, _gate_now)[0] == "current",
+        "L14b same panel and same books -> current")
+    chk(phase_vs_gate({"data": {"last_bar": "2026-11-12"},
+                       "summary": {"a": {}, "b": {}}}, _gate_now)[0] == "inconsistent",
+        "L14c a phase face AHEAD of the gate is not a rebuild (it would bury the old gate)")
+    chk(phase_vs_gate({"data": {}, "summary": {}}, _gate_now)[0] == "stale",
+        "L14d a face that publishes no panel bar reads stale, never current")
+    chk(phase_vs_gate(_face_now, {"data": {"last": "2026-11-11"},
+                                  "books": [{"book": "z1"}, {"book": "z2"}]})[0]
+        == "inconsistent",
+        "L14e two faces with NO book in common is inconsistent, not stale")
+    chk(phase_vs_gate(_face_now, {"data": {"last": "2026-11-11"},
+                                  "books": [{"book": "a"}, {"book": "c"}]})[0]
+        == "current",
+        "L14f different arm lists are by design; only the shared books must agree")
+
+    tot = 26 if ref else 25
     print("selftest %d/%d" % (tot - len(errs), tot), flush=True)
     return 0 if not errs else 1
+
+
+def phase_vs_gate(face, gate):
+    """Do the phase face and the yearly gate read the SAME panel? (pure, r1570)
+
+    The order sheet prints both adjudications on one page (single phase beside the phase
+    set), so "the phase face is one panel behind" is not a cosmetic mismatch -- it is two
+    verdicts on two different books presented as one. Behind = stale (a rebuild buys it);
+    ahead = the gate is the one that is old (a rebuild here would bury that); a book set
+    that differs = the two faces are not about the same objects at all.
+    """
+    last = ((face or {}).get("data") or {}).get("last_bar")
+    glast = ((gate or {}).get("data") or {}).get("last")
+    if not last:
+        return "stale", "the published phase face carries no data.last_bar"
+    if not glast:
+        return "inconsistent", "the yearly gate publishes no data.last to compare against"
+    if str(last) < str(glast):
+        return "stale", ("phase face is on %s while the yearly gate is on %s"
+                         % (last, glast))
+    if str(last) > str(glast):
+        return "inconsistent", ("phase face is on %s, AHEAD of the yearly gate's %s"
+                                % (last, glast))
+    mine = set(((face or {}).get("summary") or {}).keys())
+    theirs = {b.get("book") for b in ((gate or {}).get("books") or [])}
+    # The two faces carry different ARM LISTS by design (the gate also judges
+    # all_classes_published, this face also judges the vol-floor arm). What they must agree
+    # on is the books they both adjudicate -- the sheet prints those side by side. Disjoint
+    # sets, though, mean the page has no book it can quote twice.
+    if mine and theirs and not (mine & theirs):
+        return "inconsistent", ("the two faces share no book (%s vs %s)"
+                                % (",".join(sorted(mine)), ",".join(sorted(theirs))))
+    return "current", "phase face and yearly gate are both on %s" % last
+
+
+def check(face_path=None, gate_path=None) -> int:
+    """Chain probe: is the phase face the same panel the yearly gate judged? (r1570)
+
+    Cheap by design (two JSON reads, no panel): the chain pays the ~54s rebuild only when
+    this probe says "stale", never to make a contradiction go away.
+    """
+    face_path = face_path or OUT
+    gate_path = gate_path or GATE
+    if not os.path.exists(face_path):
+        print("stale: no phase face at %s" % face_path)
+        return 2
+    try:
+        with open(face_path, encoding="utf-8") as f:
+            face = json.load(f)
+    except Exception as exc:                                     # noqa: BLE001
+        print("inconsistent: phase face unreadable (%s)" % exc)
+        return 1
+    try:
+        with open(gate_path, encoding="utf-8") as f:
+            gate = json.load(f)
+    except Exception as exc:                                     # noqa: BLE001
+        print("inconsistent: yearly gate unreadable (%s)" % exc)
+        return 1
+    word, msg = phase_vs_gate(face, gate)
+    if word == "stale":
+        print("stale: %s" % msg)
+        return 2
+    if word == "inconsistent":
+        print("FAIL inconsistent: %s" % msg)
+        return 1
+    print("PASS %s" % msg)
+    return 0
 
 
 def main(argv):
     mode = argv[1] if len(argv) > 1 else "run"
     if mode == "selftest":
         return selftest()
+    if mode == "check":
+        return check()
     run()
     return 0
 

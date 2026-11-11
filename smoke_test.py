@@ -4415,6 +4415,44 @@ def main() -> int:
                   "reprice block disagrees with the ticket it describes (%s)" % _rp2.get("verdict"))
     except Exception as e:
         check("product: the order sheet prices the bar it says it is priced on", False, str(e))
+
+    # r1572: the sheet now states whether the book may take NEW capital, copied off the year
+    # gate's own face -- and a verdict that moved between two adjacent panels has to say so
+    # beside the distance to the line. This leg reads the published pair (gate + card), so a
+    # sheet that drops the section, or a gate that flips silently, is red.
+    try:
+        _gg = json.load(open(os.path.join("results", "etf_book_year_gate", "YEAR-GATE.json"),
+                             encoding="utf-8"))
+        _ab = next((b for b in _gg.get("books") or []
+                    if b.get("book") == "nobond_vt08_adopted"), None)
+        _geok = (bool(_ab) and _ab.get("margin_to_line") is not None
+                 and _ab.get("verdict_changed_from_prior") is not None)
+        _cards = sorted(glob.glob(os.path.join("results", "etf_book_order", "ORDER-*-card.md")))
+        _cok = False
+        _txt = ""
+        if _cards:
+            _txt = open(_cards[-1], encoding="utf-8").read()
+            _cok = ("## 准入判决" in _txt and "判决：**" in _txt
+                    and (not (_ab or {}).get("verdict_changed_from_prior")
+                         or "本判决翻面" in _txt))
+        check("product: the order sheet states whether the book may take new capital",
+              _geok and _cok,
+              "gate=%s card=%s (%s)" % (_geok, _cok, os.path.basename(_cards[-1]) if _cards else "-"))
+        # r1570: two adjudications printed side by side are only a comparison if they read
+        # the same panel -- and each of those faces needs a name on the sheet, not just an
+        # as-of clock. A phase face one bar behind the gate is a book difference dressed up
+        # as a disagreement, so this leg reads both faces' own panel bar.
+        _pg = json.load(open(os.path.join("results", "etf_book_phase_gate.json"),
+                             encoding="utf-8"))
+        _pg_last = (_pg.get("data") or {}).get("last_bar")
+        _gg_last = (_gg.get("data") or {}).get("last")
+        _same = bool(_pg_last and _gg_last and str(_pg_last) == str(_gg_last))
+        check("product: the two adjudications on the sheet read the same panel",
+              _same and bool(_txt) and ("算到 %s" % _pg_last) in _txt,
+              "phase=%s gate=%s named_on_sheet=%s"
+              % (_pg_last, _gg_last, bool(_txt) and ("算到 %s" % _pg_last) in _txt))
+    except Exception as e:
+        check("product: the order sheet states whether the book may take new capital", False, str(e))
     for _label, _script, _args in (
             # r1172: the bet count has two readings that must not be collapsed -- five
             # copies of one series share their variance five ways while spanning a single

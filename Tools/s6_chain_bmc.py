@@ -283,6 +283,22 @@ LEGS = [
     # build (~30s) plus five book runs (~1s each), no network. Runs before the ticket so the
     # executable sheet can quote a same-bar concentration reading instead of a stale one.
     ("etf_book_concentration", ["python", "scripts/etf_book_concentration.py", "run"]),
+    # r1570: the sheet below now prints the yearly gate's ADMISSION verdict (may this book
+    # take new capital?) and, beside it, the five-phase adjudication of the same book. Both
+    # faces had many readers and no scheduled producer -- the r1282/r1471 class, caught live
+    # today: YEAR-GATE.json was last written 06:28 by hand while the ledger was on 11-11, and
+    # the phase face had no reader at all until this sheet. Producers go before the consumer.
+    # The yearly gate judges its own age against the OFFICIAL calendar (E136: never its own
+    # data); the phase face judges itself against the gate, because the two are printed as
+    # one comparison and a bar between them turns a book difference into a rebuild artefact.
+    # Each probe is two JSON reads; the rebuild (gate ~1-2 min, phases ~54s) is paid only on
+    # a literal "stale", never to make a contradiction go away.
+    ("year_gate_write",
+     ["python", "scripts/etf_book_year_gate.py", "check"],
+     ["python", "scripts/etf_book_year_gate.py", "run"]),
+    ("phase_gate_write",
+     ["python", "scripts/candidate_year_gate_phases.py", "check"],
+     ["python", "scripts/candidate_year_gate_phases.py", "run"]),
     # r1471: the ticket below now sizes itself off the EXECUTED account (the positions face)
     # instead of the engine's own never-trimmed book -- but nothing in this chain ever WROTE
     # that face, only checked it ~600 legs later. So the sheet priced off whatever the last
