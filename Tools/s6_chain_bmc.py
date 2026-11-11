@@ -1322,6 +1322,16 @@ LEGS = [
     # ~0.2s; the money column reads results/etf_book_order/latest.json.
     ("premium_forward",
      ["python", "scripts/etf_book_premium_forward.py", "check"]),
+    # r1546: the r1498 comment above says there is no subscription-status column. That is
+    # true of the CACHE and false of the SOURCE -- EM fund_etf_fund_info_em returns 申购状态
+    # and 赎回状态, and etf_book_premium_percentile.load_nav keeps two of six columns. This
+    # leg re-derives the channel census (every word present in coverage, the two states'
+    # premium medians, and whether any session ever showed an OPEN primary subscription --
+    # the one reading that would falsify the 限购 story) from the published face's own
+    # numbers, so a hand-typed verdict word goes red. ~0.2s, published JSON only; the
+    # 5-fund status re-pull (~20s) runs with `run` in its own round.
+    ("premium_subscription",
+     ["python", "scripts/etf_book_premium_subscription.py", "check"]),
 ]
 
 

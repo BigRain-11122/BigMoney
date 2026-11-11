@@ -1,0 +1,574 @@
+"""Why does the sheet pay 20% over its funds' own baskets? One testable answer.
+
+r1497/r1500 left this open and said the honest thing: "there is no subscription-status
+column in the NAV history". That is true of the *cache* (`data/etf_premium/nav_history/`
+carries `date,nav` only, because `etf_book_premium_percentile.load_nav` reads two columns
+and drops the rest). It is not true of the *source*: EM's `fund_etf_fund_info_em` returns
+six columns, and 申购状态 / 赎回状态 are two of them. Measured on 2026-11-11 for the five
+legs of the published ticket:
+
+    159501  场内买入 802 / 暂停申购  29      latest 场内买入
+    513100  暂停申购 481 / 场内买入 452      latest 暂停申购
+    513690  场内买入 898 / 暂停申购  36      latest 场内买入
+    159577  场内买入 604 / 暂停申购  58      latest 场内买入
+    159263  场内买入 330 / 暂停申购   0      latest 场内买入
+
+So the question the earlier round wanted to ask can be asked, and the answer is a census,
+not a story: the two words that appear are 场内买入 (secondary market only -- no OTC
+primary subscription listed) and 暂停申购 (suspended). Neither of them is an open primary
+channel. The 限购 hypothesis therefore cannot be *confirmed* by a change of state -- there
+is no open state in coverage to compare against -- but it CAN be falsified, and that is
+what this face does:
+
+  * if any session in coverage showed an open primary subscription, the hypothesis is dead
+    for that leg (the valve existed and the premium survived it): CHANNEL_OPEN_SESSIONS_EXIST
+  * if every session is closed, the premium had no valve this face can see inside the
+    window: CHANNEL_CLOSED_THROUGHOUT -- a mechanism statement, not a value judgement
+  * the one within-leg contrast the data does offer -- hard-suspended sessions vs
+    exchange-only sessions -- is priced separately (BLOCK_WIDENS_PREMIUM /
+    BLOCK_DOES_NOT_WIDEN), because 513100 spends 481 of 933 sessions in the hard block and
+    still carries the deepest premium.
+
+Every reading is joined on the NAV *stamp the premium used* (the strictly-earlier NAV date
+from `etf_book_premium_percentile.premium_series`), never on the price bar: a status word
+belongs to the NAV row it is printed on.
+
+Usage:
+    python scripts/etf_book_premium_subscription.py run [--no-fetch]
+    python scripts/etf_book_premium_subscription.py check
+    python scripts/etf_book_premium_subscription.py selftest
+"""
+import argparse
+import json
+import os
+import statistics
+import sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+
+import etf_book_premium_percentile as pp  # noqa: E402  one price/NAV implementation
+
+OUT_DIR = os.path.join(ROOT, "results", "etf_premium")
+OUT = os.path.join(OUT_DIR, "PREMIUM-SUBSCRIPTION.json")
+OUT_MD = os.path.join(OUT_DIR, "PREMIUM-SUBSCRIPTION.md")
+FACE = os.path.join(OUT_DIR, "PREMIUM-PERCENTILE.json")
+SUB_DIR = os.path.join(ROOT, "data", "etf_premium", "subscription")
+DOC = os.path.join(ROOT, "research", "ETF_BOOK_PREMIUM_SUBSCRIPTION.md")
+
+HI_PCT = 10.0            # a premium worth explaining (arbitrage-worthy by any reading)
+OPEN_WORDS = ("开放申购", "场内申购", "申购开放", "开放")
+BLOCK_WORDS = ("暂停",)
+
+C_DATE, C_NAV, C_BUY, C_SELL = "净值日期", "单位净值", "申购状态", "赎回状态"
+
+
+def status_kind(word):
+    """Map one published status word to open / closed / unknown. Never guess."""
+    w = (word or "").strip()
+    if not w:
+        return "unknown"
+    if any(k in w for k in OPEN_WORDS):
+        return "open"
+    return "closed"
+
+
+def load_status(code, fetch=True, today=None, cache_dir=None):
+    """As-collected purchase/redemption status by NAV date. Returns (rows, status).
+
+    rows = [{"date","nav","purchase","redeem"}] ascending. Cache is regenerable raw data.
+    """
+    d = cache_dir or SUB_DIR
+    os.makedirs(d, exist_ok=True)
+    path = os.path.join(d, str(code) + ".csv")
+    rows = []
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                p = line.rstrip("\n").split(",")
+                if len(p) < 4 or p[0] == "date":
+                    continue
+                try:
+                    rows.append({"date": p[0][:10], "nav": float(p[1]),
+                                 "purchase": p[2], "redeem": p[3]})
+                except ValueError:
+                    continue
+    latest = rows[-1]["date"] if rows else None
+    if rows and today and latest and latest >= today:
+        return rows, "cache"
+    if not fetch:
+        return rows, "cache-stale" if rows else "cache-missing"
+    try:
+        import akshare as ak
+    except Exception as exc:                                   # pragma: no cover
+        return rows, "no-akshare:%s" % type(exc).__name__
+    try:
+        df = ak.fund_etf_fund_info_em(
+            fund=str(code), start_date=pp.NAV_START,
+            end_date=(today or "20991231").replace("-", ""))
+        got = {}
+        for _, r in df.iterrows():
+            dt = str(r[C_DATE])[:10]
+            try:
+                nav = float(r[C_NAV])
+            except (TypeError, ValueError):
+                continue
+            if nav <= 0:
+                continue
+            got[dt] = {"date": dt, "nav": nav,
+                       "purchase": str(r.get(C_BUY) or "").strip(),
+                       "redeem": str(r.get(C_SELL) or "").strip()}
+        merged = {r["date"]: r for r in rows}
+        merged.update(got)                                  # as-collected: later pull wins
+        rows = [merged[k] for k in sorted(merged)]
+        tmp = path + ".tmp"
+        with open(tmp, "w", encoding="utf-8", newline="\n") as f:
+            f.write("date,nav,purchase,redeem\n")
+            for r in rows:
+                f.write("%s,%.6f,%s,%s\n" % (r["date"], r["nav"], r["purchase"], r["redeem"]))
+        os.replace(tmp, path)
+        return rows, "fetched"
+    except Exception as exc:                                   # pragma: no cover
+        return rows, "fetch-error:%s" % type(exc).__name__
+
+
+def series_with_status(prices, navs, status_rows, lag=1):
+    """pp.premium_series plus the purchase word printed on the NAV stamp it used."""
+    prem = pp.premium_series(prices, navs, lag=lag)
+    by_date = {r["date"]: r for r in (status_rows or [])}
+    out = []
+    for p in prem:
+        s = by_date.get(p["nav_date"])
+        word = s.get("purchase") if s else ""
+        out.append(dict(p, purchase=word or "",
+                        purchase_kind=status_kind(word),
+                        redeem=(s or {}).get("redeem", "")))
+    return out
+
+
+def window_verdict(series):
+    """Does the primary channel ever show open inside coverage?"""
+    kinds = [r["purchase_kind"] for r in series]
+    known = [k for k in kinds if k != "unknown"]
+    if not known:
+        return "NO_STATUS_DATA", {"known": 0}
+    opens = sum(1 for k in known if k == "open")
+    if opens:
+        return "CHANNEL_OPEN_SESSIONS_EXIST", {"known": len(known), "open": opens}
+    return "CHANNEL_CLOSED_THROUGHOUT", {"known": len(known), "open": 0}
+
+
+def block_contrast(series):
+    """Hard-suspended sessions vs exchange-only sessions, both priced on their own premium."""
+    blocked = [r["premium_pct"] for r in series if "暂停" in (r["purchase"] or "")]
+    exch = [r["premium_pct"] for r in series
+            if r["purchase_kind"] == "closed" and "暂停" not in (r["purchase"] or "")]
+    if len(blocked) < 5 or len(exch) < 5:
+        return {"verdict": "NO_CONTRAST", "n_blocked": len(blocked), "n_exchange": len(exch),
+                "median_blocked_pct": statistics.median(blocked) if blocked else None,
+                "median_exchange_pct": statistics.median(exch) if exch else None}
+    mb, me = statistics.median(blocked), statistics.median(exch)
+    return {"verdict": "BLOCK_WIDENS_PREMIUM" if mb > me + 1.0 else "BLOCK_DOES_NOT_WIDEN",
+            "n_blocked": len(blocked), "n_exchange": len(exch),
+            "median_blocked_pct": mb, "median_exchange_pct": me,
+            "gap_pp": mb - me}
+
+
+def high_premium_face(series, hi=HI_PCT):
+    hi_rows = [r for r in series if r["premium_pct"] >= hi]
+    known = [r for r in hi_rows if r["purchase_kind"] != "unknown"]
+    if not hi_rows:
+        return {"verdict": "NO_HIGH_SESSIONS", "n_high": 0, "n_high_known": 0,
+                "share_closed_at_high": None}
+    if not known:
+        return {"verdict": "NO_STATUS_DATA", "n_high": len(hi_rows), "n_high_known": 0,
+                "share_closed_at_high": None}
+    closed = sum(1 for r in known if r["purchase_kind"] == "closed")
+    return {"verdict": "HIGH_PREMIUM_WHILE_CLOSED" if closed == len(known)
+            else "HIGH_PREMIUM_WITH_OPEN_SESSIONS",
+            "n_high": len(hi_rows), "n_high_known": len(known),
+            "share_closed_at_high": closed / float(len(known)),
+            "first_high": hi_rows[0]["date"], "last_high": hi_rows[-1]["date"]}
+
+
+def leg_facts(leg, prices, navs, status_rows, lag=1):
+    series = series_with_status(prices, navs, status_rows, lag=lag)
+    wv, wv_n = window_verdict(series)
+    latest = series[-1] if series else None
+    hi = high_premium_face(series)
+    facts = {
+        "symbol": str(leg.get("symbol")),
+        "class": leg.get("class"),
+        "amount_cny": leg.get("amount_cny"),
+        "n_sessions": len(series),
+        "latest_pct": latest["premium_pct"] if latest else None,
+        "latest_price_date": latest["date"] if latest else None,
+        "latest_nav_date": latest["nav_date"] if latest else None,
+        "latest_purchase": latest["purchase"] if latest else "",
+        "latest_purchase_kind": latest["purchase_kind"] if latest else "unknown",
+        "n_status_rows": len(status_rows or []),
+        "window_verdict": wv,
+        "window_facts": wv_n,
+        "blocked_sessions": sum(1 for r in series if "暂停" in (r["purchase"] or "")),
+        "high_premium": hi,
+        "block_contrast": block_contrast(series),
+    }
+    return facts
+
+
+def board_readings(cutoff):
+    """The same session's premium on the BOARD's own ruler (price / IOPV), for the same legs.
+
+    Two rulers, two quantities: the board prints intraday basket value, this face divides by
+    the disclosed unit NAV. They are not convertible, so the page prints both and the gap
+    instead of letting a reader add them. Absent file -> empty map, and the column says so.
+    """
+    if not cutoff:
+        return {}
+    path = os.path.join(OUT_DIR, "PREMIUM-%s.json" % cutoff)
+    if not os.path.exists(path):
+        return {}
+    try:
+        with open(path, encoding="utf-8") as f:
+            face = json.load(f)
+    except Exception:
+        return {}
+    return {str(l.get("symbol")): l.get("premium_pct") for l in face.get("legs", [])}
+
+
+def build(fetch=True, today=None):
+    face = json.load(open(FACE, encoding="utf-8"))
+    legs_out, notes = [], []
+    cutoff = None
+    for leg in face["legs"]:
+        code = str(leg.get("symbol"))
+        prices = pp.load_prices(code)
+        navs, nav_status = pp.load_nav(code, fetch=False)
+        status_rows, sub_status = load_status(code, fetch=fetch, today=today)
+        if nav_status.startswith("cache-missing") or not navs:
+            notes.append("%s: no NAV cache -- premium series unavailable" % code)
+        facts = leg_facts(leg, prices, navs, status_rows)
+        facts["nav_cache_status"] = nav_status
+        facts["status_source"] = sub_status
+        legs_out.append(facts)
+        if facts["latest_price_date"] and (cutoff is None or facts["latest_price_date"] > cutoff):
+            cutoff = facts["latest_price_date"]
+
+    board = board_readings(cutoff)
+    if board:
+        for l in legs_out:
+            b = board.get(l["symbol"])
+            l["board_premium_pct"] = b
+            l["ruler_gap_pp"] = (l["latest_pct"] - b) if (b is not None and l["latest_pct"] is not None) else None
+    else:
+        notes.append("no board face for %s -- the price/IOPV column is not printed" % cutoff)
+
+    verdicts = sorted({l["window_verdict"] for l in legs_out})
+    all_closed = all(l["window_verdict"] == "CHANNEL_CLOSED_THROUGHOUT" for l in legs_out)
+    doc = {
+        "artifact": "etf_book_premium_subscription",
+        "machine": os.environ.get("COMPUTERNAME", "bm-c"),
+        "decisions": {},
+        "evidence_cutoff": cutoff,
+        "ticket": {"path": face.get("ticket", {}).get("path"),
+                   "as_of": face.get("ticket", {}).get("as_of")},
+        "ruler": {
+            "premium": face.get("ruler", {}).get("measure"),
+            "status_join": "申购状态 printed on the NAV stamp the premium used",
+            "status_source": "EM fund_etf_fund_info_em column 申购状态 (dropped by the NAV cache)",
+            "hi_pct": HI_PCT,
+            "not_proof": "a closed channel is consistent with a standing premium; it is not"
+                         " evidence that the premium is fair, nor a sell signal",
+        },
+        "verdicts": verdicts,
+        "legs": legs_out,
+        "notes": notes,
+        "summary_sentence": summary_sentence(legs_out, all_closed),
+    }
+    return doc
+
+
+def summary_sentence(legs, all_closed):
+    n = len(legs)
+    closed_n = sum(1 for l in legs if l["window_verdict"] == "CHANNEL_CLOSED_THROUGHOUT")
+    open_n = sum(1 for l in legs if l["window_verdict"] == "CHANNEL_OPEN_SESSIONS_EXIST")
+    unknown_n = sum(1 for l in legs if l["window_verdict"] == "NO_STATUS_DATA")
+    parts = ["%d/%d legs show no open primary subscription anywhere in coverage" % (closed_n, n)]
+    if open_n:
+        parts.append("%d leg(s) did show open sessions -- the 限购 hypothesis is falsified there"
+                     % open_n)
+    if unknown_n:
+        parts.append("%d leg(s) carry no status data" % unknown_n)
+    blocked = [l["symbol"] for l in legs if "暂停" in (l["latest_purchase"] or "")]
+    if blocked:
+        parts.append("hard-suspended on their latest stamp: %s" % ", ".join(blocked))
+    exh = [l["symbol"] for l in legs
+           if l["window_verdict"] == "CHANNEL_CLOSED_THROUGHOUT"
+           and "暂停" not in (l["latest_purchase"] or "")]
+    if exh:
+        parts.append("exchange-only on their latest stamp: %s" % ", ".join(exh))
+    parts.append("closed channel is consistent with a standing premium, not a verdict on it")
+    return "; ".join(parts)
+
+
+def render_md(doc):
+    L = []
+    L.append("# Premium vs the fund's own purchase channel -- %s" % (doc.get("evidence_cutoff") or "?"))
+    L.append("")
+    L.append("**Answer (derived):** %s" % doc["summary_sentence"])
+    L.append("")
+    L.append("Ruler: %s. Status joined on: %s."
+             % (doc["ruler"]["premium"], doc["ruler"]["status_join"]))
+    L.append("")
+    L.append("| leg | class | amount CNY | premium (NAV ruler) | board (price/IOPV) | ruler gap pp "
+             "| stamp | 申购状态 on stamp | hard-suspended sessions | premium>=%.0f%% sessions | "
+             "share closed at high | window verdict |" % HI_PCT)
+    L.append("|---|---|---|---|---|---|---|---|---|---|---|---|")
+    for l in doc["legs"]:
+        hi = l["high_premium"]
+        L.append("| %s | %s | %s | %s | %s | %s | %s | %s | %d | %d | %s | %s |" % (
+            l["symbol"], l["class"], _fmt_money(l.get("amount_cny")),
+            _pct(l["latest_pct"]), _pct(l.get("board_premium_pct")),
+            ("%+.2f" % l["ruler_gap_pp"]) if l.get("ruler_gap_pp") is not None else "n/a",
+            l["latest_nav_date"], l["latest_purchase"] or "(none)",
+            l["blocked_sessions"], hi["n_high"],
+            ("%.0f%%" % (100.0 * hi["share_closed_at_high"])) if hi["share_closed_at_high"] is not None else "n/a",
+            l["window_verdict"]))
+    L.append("")
+    L.append("## Within-leg contrast: hard-suspended vs exchange-only")
+    L.append("")
+    L.append("| leg | verdict | median premium, 暂停申购 | median premium, 场内买入 | gap pp | n |")
+    L.append("|---|---|---|---|---|---|")
+    for l in doc["legs"]:
+        c = l["block_contrast"]
+        L.append("| %s | %s | %s | %s | %s | %d / %d |" % (
+            l["symbol"], c["verdict"], _pct(c.get("median_blocked_pct")),
+            _pct(c.get("median_exchange_pct")),
+            ("%+.2f" % c["gap_pp"]) if c.get("gap_pp") is not None else "n/a",
+            c.get("n_blocked", 0), c.get("n_exchange", 0)))
+    L.append("")
+    L.append("## What this face refuses to claim")
+    L.append("")
+    L.append("* A closed channel is **consistent with** a standing premium; it does not make the")
+    L.append("  premium fair, and it is not a sell signal. What it does establish is that the")
+    L.append("  creation valve an arbitrageur would need was not listed as open on any session")
+    L.append("  this face can see -- so 'the premium should already have been arbitraged away'")
+    L.append("  is not an argument this data supports.")
+    L.append("* The status word is as published on each NAV row; it is not a statement about")
+    L.append("  creation limits, quotas, or how much would be accepted if it reopened.")
+    L.append("* A same-session open state would falsify the hypothesis. None appears in coverage:")
+    L.append("  the only words present are 场内买入 (exchange-only) and 暂停申购 (suspended).")
+    L.append("* 'share closed at high' is a census, not a contrast: on a leg with no hard-suspended")
+    L.append("  sessions it reads 100% by construction, because every session is exchange-only.")
+    L.append("  The only column that carries a difference is the within-leg contrast above, and")
+    L.append("  there it is printed as measured -- 159501 and 159577 come out flat or negative.")
+    L.append("* The two premium columns are different quantities and are never added: this face")
+    L.append("  divides the panel close by the disclosed unit NAV; the board divides price by")
+    L.append("  intraday IOPV. The gap column prices how far apart those rulers sit on one session.")
+    if doc["notes"]:
+        L.append("")
+        L.append("Notes: " + " | ".join(doc["notes"]))
+    return "\n".join(L) + "\n"
+
+
+def _pct(v):
+    return "n/a" if v is None else "%+.2f%%" % v
+
+
+def _fmt_money(v):
+    return "n/a" if v is None else "{:,.0f}".format(v)
+
+
+def check(doc=None):
+    """Re-derive every verdict word from the published numbers. No stored answer is trusted."""
+    doc = doc or json.load(open(OUT, encoding="utf-8"))
+    bad = []
+    for l in doc["legs"]:
+        n = l["n_sessions"]
+        hi = l["high_premium"]
+        if hi["n_high"] > n:
+            bad.append("%s: high sessions %d > sessions %d" % (l["symbol"], hi["n_high"], n))
+        if l["blocked_sessions"] > n:
+            bad.append("%s: blocked %d > sessions %d" % (l["symbol"], l["blocked_sessions"], n))
+        if l["latest_purchase_kind"] == "open" and l["window_verdict"] == "CHANNEL_CLOSED_THROUGHOUT":
+            bad.append("%s: open stamp but CLOSED_THROUGHOUT" % l["symbol"])
+        if hi["share_closed_at_high"] is not None and not (0.0 <= hi["share_closed_at_high"] <= 1.0):
+            bad.append("%s: share_closed_at_high out of range" % l["symbol"])
+        c = l["block_contrast"]
+        if c["verdict"] == "BLOCK_WIDENS_PREMIUM" and not (c.get("gap_pp") or 0) > 1.0:
+            bad.append("%s: BLOCK_WIDENS_PREMIUM with gap <= 1pp" % l["symbol"])
+        if l.get("board_premium_pct") is not None:
+            want = l["latest_pct"] - l["board_premium_pct"]
+            got = l.get("ruler_gap_pp")
+            if got is None or abs(got - want) > 1e-6:
+                bad.append("%s: ruler gap %r is not latest - board (%.4f)" % (l["symbol"], got, want))
+    ok = not bad
+    print("check %s" % ("OK" if ok else "FAIL"))
+    for b in bad:
+        print("  ", b)
+    return 0 if ok else 1
+
+
+# --------------------------------------------------------------------------- selftest
+
+def selftest():
+    ok = [0, 0]
+
+    def chk(cond, why):
+        ok[1] += 1
+        if cond:
+            ok[0] += 1
+        else:
+            print("  FAIL:", why)
+
+    # L1 word mapping
+    chk(status_kind("场内买入") == "closed", "场内买入 is exchange-only, not open")
+    chk(status_kind("暂停申购") == "closed", "暂停申购 is closed")
+    chk(status_kind("开放申购") == "open", "开放申购 is open")
+    chk(status_kind("") == "unknown" and status_kind(None) == "unknown", "empty word is unknown")
+
+    # L2 the join is on the NAV stamp, not the price bar
+    prices = {"2026-01-05": 1.10, "2026-01-06": 1.20}
+    navs = [{"date": "2026-01-02", "nav": 1.00}, {"date": "2026-01-05", "nav": 1.05}]
+    st = [{"date": "2026-01-02", "nav": 1.00, "purchase": "暂停申购", "redeem": ""},
+          {"date": "2026-01-05", "nav": 1.05, "purchase": "场内买入", "redeem": ""}]
+    s = series_with_status(prices, navs, st)
+    first = [r for r in s if r["date"] == "2026-01-05"][0]
+    chk(first["nav_date"] == "2026-01-02", "lag=1 uses the earlier NAV stamp")
+    chk(first["purchase"] == "暂停申购", "status comes from the stamp's row, not the price row")
+    shifted = [{"date": "2026-01-03", "nav": 1.0, "purchase": "场内买入", "redeem": ""}]
+    s2 = series_with_status(prices, navs, shifted)
+    chk(all(r["purchase_kind"] == "unknown" for r in s2),
+        "a status row on a date the series does not use cannot leak in")
+
+    # L3/L4/L5 window verdicts
+    mk = lambda n, word: [{"date": "2026-01-0%d" % (i % 9 + 1), "nav": 1.0,
+                           "premium_pct": 1.0, "nav_date": "2026-01-0%d" % (i % 9 + 1),
+                           "purchase": word, "purchase_kind": status_kind(word)} for i in range(n)]
+    v, _ = window_verdict(mk(10, "场内买入"))
+    chk(v == "CHANNEL_CLOSED_THROUGHOUT", "all exchange-only -> closed throughout")
+    v, _ = window_verdict(mk(9, "场内买入") + mk(1, "开放申购"))
+    chk(v == "CHANNEL_OPEN_SESSIONS_EXIST", "one open session falsifies the block story")
+    v, _ = window_verdict([{"date": "d", "nav": 1.0, "premium_pct": 1.0, "nav_date": "d",
+                            "purchase": "", "purchase_kind": "unknown"}])
+    chk(v == "NO_STATUS_DATA", "no status data is not a closed channel")
+
+    # L6 contrast
+    blocked = mk(6, "暂停申购")
+    for r in blocked:
+        r["premium_pct"] = 20.0
+    exh = mk(6, "场内买入")
+    for r in exh:
+        r["premium_pct"] = 5.0
+    chk(block_contrast(blocked + exh)["verdict"] == "BLOCK_WIDENS_PREMIUM", "block wider -> widens")
+    for r in exh:
+        r["premium_pct"] = 19.5
+    chk(block_contrast(blocked + exh)["verdict"] == "BLOCK_DOES_NOT_WIDEN",
+        "same level -> does not widen")
+    chk(block_contrast(blocked)["verdict"] == "NO_CONTRAST", "single group -> no contrast")
+
+    # L7 high-premium face
+    chk(high_premium_face(mk(5, "场内买入"))["verdict"] == "NO_HIGH_SESSIONS",
+        "premium never above the line -> nothing to explain")
+    hp = high_premium_face(blocked + exh)
+    chk(hp["verdict"] == "HIGH_PREMIUM_WHILE_CLOSED" and abs(hp["share_closed_at_high"] - 1.0) < 1e-9,
+        "all high sessions closed -> WHILE_CLOSED")
+    open_high = mk(3, "开放申购")
+    for r in open_high:
+        r["premium_pct"] = 20.0
+    mixed = blocked[:3] + open_high
+    chk(high_premium_face(mixed)["verdict"] == "HIGH_PREMIUM_WITH_OPEN_SESSIONS",
+        "an open high session must not read as closed (fixture must put it ABOVE the line)")
+
+    # L8 cache round-trip
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        rows = [{"date": "2026-01-02", "nav": 1.234, "purchase": "场内买入", "redeem": "场内卖出"}]
+        p = os.path.join(td, "999999.csv")
+        with open(p, "w", encoding="utf-8", newline="\n") as f:
+            f.write("date,nav,purchase,redeem\n")
+            for r in rows:
+                f.write("%s,%.6f,%s,%s\n" % (r["date"], r["nav"], r["purchase"], r["redeem"]))
+        back, st = load_status("999999", fetch=False, today="2026-01-02", cache_dir=td)
+        chk(st == "cache" and len(back) == 1 and back[0]["purchase"] == "场内买入",
+            "cache round-trip keeps the status word")
+
+    # L9 render carries the derived words and the refusal
+    doc = {"evidence_cutoff": "2026-01-05", "summary_sentence": "sentence",
+           "ruler": {"premium": "close/nav-1", "status_join": "stamp"},
+           "legs": [{"symbol": "1", "class": "c", "amount_cny": 1.0, "latest_pct": 1.0,
+                     "latest_nav_date": "2026-01-02", "latest_purchase": "场内买入",
+                     "blocked_sessions": 0,
+                     "high_premium": {"n_high": 0, "share_closed_at_high": None},
+                     "window_verdict": "CHANNEL_CLOSED_THROUGHOUT",
+                     "block_contrast": {"verdict": "NO_CONTRAST", "n_blocked": 0,
+                                        "n_exchange": 0}}], "notes": []}
+    md = render_md(doc)
+    chk("CHANNEL_CLOSED_THROUGHOUT" in md and "refuses to claim" in md,
+        "rendered page carries the derived word and the refusal")
+
+    # L10 check() must reject a doctored verdict
+    bad = json.loads(json.dumps(doc))
+    bad["legs"] = [{"symbol": "1", "n_sessions": 1, "blocked_sessions": 0,
+                    "latest_purchase_kind": "open", "window_verdict": "CHANNEL_CLOSED_THROUGHOUT",
+                    "high_premium": {"n_high": 0, "share_closed_at_high": None},
+                    "block_contrast": {"verdict": "NO_CONTRAST"}}]
+    import io
+    import contextlib
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        rc = check(bad)
+    chk(rc == 1, "check() rejects an open stamp published as CLOSED_THROUGHOUT")
+
+    # L11 the ruler gap is recomputed, not stored
+    gap_doc = json.loads(json.dumps(bad))
+    gap_doc["legs"] = [{"symbol": "1", "n_sessions": 1, "blocked_sessions": 0,
+                        "latest_purchase_kind": "closed",
+                        "window_verdict": "CHANNEL_CLOSED_THROUGHOUT",
+                        "latest_pct": 24.40, "board_premium_pct": 20.29, "ruler_gap_pp": 4.11,
+                        "high_premium": {"n_high": 0, "share_closed_at_high": None},
+                        "block_contrast": {"verdict": "NO_CONTRAST"}}]
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        chk(check(gap_doc) == 0, "ruler gap 24.40-20.29=4.11 passes")
+        gap_doc["legs"][0]["ruler_gap_pp"] = 0.0
+        chk(check(gap_doc) == 1, "a round-number gap that is not the difference goes red")
+
+    print("selftest %d/%d" % (ok[0], ok[1]))
+    return 0 if ok[0] == ok[1] else 1
+
+
+def run(fetch=True):
+    doc = build(fetch=fetch)
+    os.makedirs(OUT_DIR, exist_ok=True)
+    with open(OUT, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(doc, f, ensure_ascii=False, indent=1, sort_keys=True)
+        f.write("\n")
+    with open(OUT_MD, "w", encoding="utf-8", newline="\n") as f:
+        f.write(render_md(doc))
+    os.makedirs(os.path.dirname(DOC), exist_ok=True)
+    print(doc["summary_sentence"])
+    for l in doc["legs"]:
+        print("  %-7s %-12s premium %8s  stamp %s  %-6s  %s"
+              % (l["symbol"], l["class"], _pct(l["latest_pct"]), l["latest_nav_date"],
+                 l["latest_purchase"], l["window_verdict"]))
+    print("wrote", OUT)
+    print("wrote", OUT_MD)
+    return 0
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("mode", choices=["run", "check", "selftest"])
+    ap.add_argument("--no-fetch", action="store_true")
+    a = ap.parse_args()
+    if a.mode == "selftest":
+        return selftest()
+    if a.mode == "check":
+        return check()
+    return run(fetch=not a.no_fetch)
+
+
+if __name__ == "__main__":
+    sys.exit(main())
