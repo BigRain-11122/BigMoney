@@ -1318,10 +1318,12 @@ def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None):
         rv = own_s.get("revert_to_own_median_cny")
         if rv:
             st_z = (pb.get("stress") or {}).get("if_premium_reverts_to_zero_cny")
-            add("按「溢价回到各自历史中位」重估这批单：**¥%s**（占资金的 %.2f%%）——"
+            add("按「溢价回到各自历史中位」重估这批单：**¥%s**（占资金的 %.2f%%；只覆盖 %d/%d 只"
+                "有历史的票，其余票不在这个数里）——"
                 "这不是「回到零」的极端情形，是**回到它们平常的样子**；作为对照，回到零是 ¥%s。"
                 % (format(abs(rv), ",.0f"),
                    abs((pb.get("stress") or {}).get("if_premium_reverts_to_own_median_pct_of_nav") or 0.0),
+                   own_s.get("n_readable") or 0, own_s.get("n_names") or 0,
                    format(abs(st_z or 0), ",.0f")))
             add("")
     # r1504: the dates go INTO the table header. A sentence above the table can be skipped,
@@ -1408,11 +1410,26 @@ def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None):
             # sessions deep), but the page now answers it above from each fund's own 800+
             # sessions. Leaving the old wording prints "cannot answer" under an answered
             # question, so it names the lane it is about and points at the answer.
+            # r1556: that pointer was unconditional. On 2026-11-11 all three cross-border
+            # legs of the ticket were also NO_LOCAL_HISTORY up there (no NAV backfill for
+            # them), so the page printed "cannot answer" and "already answered" about the
+            # same symbols one paragraph apart. Split by what the other ruler holds.
+            _own_rec = pb.get("own_ruler") or {}
+            _min_obs = (pb.get("criteria") or {}).get("min_history_obs")
+            _answered = [t.get("symbol") or "?" for t in thin
+                         if (_own_rec.get(t.get("symbol") or "") or {}).get("status") == "OK"]
+            _unanswered = [t.get("symbol") or "?" for t in thin
+                           if (_own_rec.get(t.get("symbol") or "") or {}).get("status") != "OK"]
             add("- 基金溢价快照这条路（T-16 车道）对 %s 观测不足（少于 %s 次）——"
-                "它答不了「今天这个溢价算不算高」；**这件事已由上一段的「基金自己历史」那把尺子回答**，"
-                "两把尺子各管各的日子。"
-                % ("、".join(t.get("symbol") or "?" for t in thin),
-                   (pb.get("criteria") or {}).get("min_history_obs")))
+                "它答不了「今天这个溢价算不算高」。"
+                % ("、".join(t.get("symbol") or "?" for t in thin), _min_obs))
+            if _answered:
+                add("- %s 这件事由上一段的「基金自己历史」那把尺子回答了，两把尺子各管各的日子。"
+                    % "、".join(_answered))
+            if _unanswered:
+                add("- %s 两把尺子都答不了：快照不够 %s 次，这只基金本地也还没有够长的净值历史——"
+                    "是「没有历史可比」，不是「没有溢价」。"
+                    % ("、".join(_unanswered), _min_obs))
     add("")
     add("- 机器判词（`%s`）：**%s** — %s。" % (pb.get("artifact"), pb.get("verdict"),
                                               pb.get("verdict_reason")))
@@ -8176,6 +8193,32 @@ def selftest():
         and abs(_pb_own["share_of_page_pct"] - round(100.0 * _pb_own["paid_cny"] / 392727.0, 4)) < 1e-6
         and _pb_own["unverifiable"] == ["888888"],
         json.dumps(_pb_own, ensure_ascii=False)[:200])
+    # r1556: the "this lane cannot answer" sentence used to point at the other ruler
+    # unconditionally. When that ruler has no record for the name either, the page was
+    # telling the reader both "cannot answer" and "already answered" about one symbol.
+    _pb_thin_txt = "\n".join(premium_block(_pb_fix, page_bar="2026-11-06"))
+    chk("L153 premium block: a thin snapshot lane with no own-history record says BOTH rulers "
+        "cannot answer, and never points at a missing answer",
+        "159501 两把尺子都答不了" in _pb_thin_txt
+        and "这件事由上一段的" not in _pb_thin_txt,
+        _pb_thin_txt[-220:])
+    _pb_holder = dict(_pb_fix, own_ruler={"159501": {"symbol": "159501", "status": "OK"}})
+    _pb_holder_txt = "\n".join(premium_block(_pb_holder, page_bar="2026-11-06"))
+    chk("L154 premium block: when the own-history ruler does hold the name, the pointer IS printed",
+        "159501 这件事由上一段的" in _pb_holder_txt
+        and "两把尺子都答不了" not in _pb_holder_txt,
+        _pb_holder_txt[-220:])
+    _pb_rev = dict(_pb_fix,
+                   own_ruler_summary={"verdict": "SOME_NAMES_ABOVE_OWN_TOP_DECILE",
+                                      "n_readable": 1, "n_names": 5,
+                                      "in_own_top_decile": [],
+                                      "revert_to_own_median_cny": 178.0},
+                   stress={"if_premium_reverts_to_zero_cny": -6867.18,
+                           "if_premium_reverts_to_zero_pct_of_nav": -0.69,
+                           "if_premium_reverts_to_own_median_pct_of_nav": -0.02})
+    _pb_rev_txt = "\n".join(premium_block(_pb_rev, page_bar="2026-11-06"))
+    chk("L155 premium block: the revert-to-median yuan amount carries its coverage (1/5 readable)",
+        "1/5" in _pb_rev_txt, _pb_rev_txt[-260:])
     _pb_own_txt = "\n".join(premium_block(_pb_fix, page_bar="2026-11-09", page_sheet=_pb_sheet))
     chk("L153 premium on this page: the block prints the page's own money and refuses to add the two sheets",
         "按本页这张单重算" in _pb_own_txt and "459,796" in _pb_own_txt

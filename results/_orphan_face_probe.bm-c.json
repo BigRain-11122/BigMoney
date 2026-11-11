@@ -1,44 +1,103 @@
 {
- "ts": "2026-11-11T15:12:15",
- "mode": "probe",
- "py_faces_seen": 3,
- "orphans": 0,
- "killed": [],
+ "ts": "2026-11-11T16:33:48",
+ "mode": "kill",
+ "py_faces_seen": 7,
+ "orphans": 6,
+ "killed": [
+  4932,
+  9544,
+  15148,
+  26796,
+  36288,
+  52116
+ ],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 0,
  "faces": [
   {
-   "pid": 7504,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -m smoke_test",
-   "age_min": 20.5,
+   "pid": 4932,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -c from multiprocessing.spawn import spawn_main; spa",
+   "age_min": 37.7,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
+   "face3_cpu_stalled": true,
    "ancestor_chain": [
     "DEAD"
    ]
   },
   {
-   "pid": 38792,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe scripts/etf_book_capacity_rule.py selftest",
-   "age_min": 0.5,
-   "cpu_delta_20s": 19.969,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
+   "pid": 9544,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -c from multiprocessing.spawn import spawn_main; spa",
+   "age_min": 37.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
    "ancestor_chain": [
-    "pythonw.exe"
+    "DEAD"
    ]
   },
   {
-   "pid": 41048,
+   "pid": 15148,
    "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools/orphan_face_probe.py",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -c from multiprocessing.spawn import spawn_main; spa",
+   "age_min": 37.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 26796,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -c from multiprocessing.spawn import spawn_main; spa",
+   "age_min": 37.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 36288,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -c from multiprocessing.spawn import spawn_main; spa",
+   "age_min": 37.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 52116,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -c from multiprocessing.spawn import spawn_main; spa",
+   "age_min": 37.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 74444,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py kill",
    "age_min": 0.4,
-   "cpu_delta_20s": 0.078,
+   "cpu_delta_20s": 0.047,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -50,7 +109,86 @@
    ]
   }
  ],
- "orphan_details": [],
+ "orphan_details": [
+  {
+   "pid": 4932,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -c from multiprocessing.spawn import spawn_main; spa",
+   "age_min": 37.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 9544,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -c from multiprocessing.spawn import spawn_main; spa",
+   "age_min": 37.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 15148,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -c from multiprocessing.spawn import spawn_main; spa",
+   "age_min": 37.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 26796,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -c from multiprocessing.spawn import spawn_main; spa",
+   "age_min": 37.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 36288,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -c from multiprocessing.spawn import spawn_main; spa",
+   "age_min": 37.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 52116,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -c from multiprocessing.spawn import spawn_main; spa",
+   "age_min": 37.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  }
+ ],
  "idle_server_details": [],
  "resident_server_details": [],
  "sample_sec": 20.0,
