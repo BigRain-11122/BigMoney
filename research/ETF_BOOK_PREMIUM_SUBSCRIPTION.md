@@ -101,7 +101,39 @@ be priced as "the fund was suspended that day".
 
 ## Where it lives
 
-* script `scripts/etf_book_premium_subscription.py` (`run` / `check` / `selftest` 51/51)
+* script `scripts/etf_book_premium_subscription.py` (`run` / `check` / `selftest` 70/70)
 * face `results/etf_premium/PREMIUM-SUBSCRIPTION.json` + `.md`
 * status cache `data/etf_premium/subscription/<code>.csv` (regenerable, gitignored)
 * chain leg `premium_subscription` (check-only, ~0.2s)
+
+## What the single-row runs actually are (r1549)
+
+r1548 could price *when* but not *why*, and said the two candidate causes are the same shape in a
+weekday count. That is true of the weekday count; it is not true of the row. Three fingerprints,
+all countable, plus one published calendar:
+
+| fingerprint | measurement | reads |
+|---|---|---|
+| 赎回 flips on the same row | 116 / 116 | an announcement that closes subscription does not close redemption |
+| the NAV barely moves | median 0.10 of the leg's own median move; 79% at a quarter or less; 11 exact repeats | not a distribution, not a conversion |
+| two managers print it on the same date | 159501 and 159577 share 20 dates (29 and 20 runs) | not a fund-specific decision |
+| a shut foreign market sits in the gap | 89 / 116 vs 3.0% of ordinary sessions (25.5x) | the dates are a calendar |
+
+Per leg: 159501 97%, 513100 95%, 159577 95% closure rate -> `CALENDAR_GAP`; **513690 4%** ->
+`GAP_WITH_UNKNOWN_CALENDAR` (it tracks a different market whose holiday list this face cannot
+derive from rules -- left unnamed on purpose); 159263 has no one-row runs at all.
+
+The calendar is generated from published rules (`nyse_closures`: fixed and nth-weekday holidays,
+Good Friday from the Easter formula, Juneteenth from 2022, observed-weekend shifting, plus the three
+scheduled 13:00 early closes), so no network is involved and every rule can be asserted by hand.
+A one-off closure cannot be derived -- 2025-01-09, the US national day of mourning, stays unmatched
+in the print, which is the honest output.
+
+**Consequence for the reading above:** the 141 blocked runs are 25 real multi-row spans plus 116
+valuation gaps. A session that could not be valued has no fresh NAV to price a premium against, so
+those rows belong to the exchange calendar, not to the fund's policy. The verdict word is derived
+from the counts (`_cause_verdict`); `check` refuses a word its own counts do not support, a stamp
+list that disagrees with the run count, and a cross-leg overlap smaller than the published one.
+
+**Where it lives (updated):** `selftest` 70/70 (L22-L27) ·
+`results/etf_premium/PREMIUM-SUBSCRIPTION.json#blip_cause_pooled` and `#blip_cause_cross` · card E542.

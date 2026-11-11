@@ -1,6 +1,6 @@
 # Premium vs the fund's own purchase channel -- 2026-11-10
 
-**Answer (derived):** 5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 513100; exchange-only on their latest stamp: 159501, 513690, 159577, 159263; the 830 hard-suspended sessions are 141 runs (116 of them a single NAV row); 513100's gap sits in its single 435-session run (own gap +4.28) while its other 47 runs read +0.06; the single-row runs are not spread over the calendar: Tue carries 51% of them against 20% of priced sessions (chance 3e-13), so a one-row word is a word printed that session, not a fund policy; closed channel is consistent with a standing premium, not a verdict on it
+**Answer (derived):** 5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 513100; exchange-only on their latest stamp: 159501, 513690, 159577, 159263; the 830 hard-suspended sessions are 141 runs (116 of them a single NAV row); 513100's gap sits in its single 435-session run (own gap +4.28) while its other 47 runs read +0.06; the single-row runs are not spread over the calendar: Tue carries 51% of them against 20% of priced sessions (chance 3e-13), so a one-row word is a word printed that session, not a fund policy; what those one-row words are is a valuation gap, not an announcement: 116/116 of them suspend 赎回 on the same row, they move the NAV by 0.10 of a normal session (median), and 89/116 sit on a session whose gap contains an NYSE closure against 3.0% of ordinary sessions (25.5x); closed channel is consistent with a standing premium, not a verdict on it
 
 Ruler: panel close / the newest unit NAV stamped strictly before that close - 1. Status joined on: 申购状态 printed on the NAV stamp the premium used.
 
@@ -106,11 +106,48 @@ does not.
 
 Only 1 of 5 legs clear the line on their own (513100); the rest lean the same way with too few runs to call it, which is why the pooled reading above -- not a per-leg one -- is the sentence this section quotes.
 
-Read this as **when**, never as **why**: a source that refreshes its status word
-on a weekly rhythm and a fund that announces one-day suspensions both produce a
-clump on one weekday, and this data cannot separate them. What it does settle is
-the reading of a single-row run: it is a word printed on one session, so it must
-not be priced as 'the fund was suspended that day'.
+Read this block as **when**, never as **why**: a source that refreshes its
+status word on a weekly rhythm and a fund that announces one-day suspensions
+both produce a clump on one weekday, and a count of weekdays cannot separate
+them. The next section does, but not from these counts -- from the row itself.
+
+## What the one-row words are: a valuation gap, not an announcement
+
+The weekday block above refuses to name a cause, and on its own counts that
+refusal is right. The row itself carries three things a weekday count cannot see:
+a distribution or a split moves the unit NAV, an announcement suspends
+*subscription*, and a fund-specific decision cannot fall on the same date for two
+independently managed legs. All three are measured below, plus a published foreign
+closure calendar (NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes).
+
+| leg | one-row runs | 赎回 also suspended | NAV unchanged exactly | median |dNAV| vs a normal session | share <= quarter | closure in the gap (full/early) | unmatched | closure rate | ordinary-session rate | lift | verdict |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 159501 | 29 | 29 | 1 | 0.065 | 93% | 28/0 | 1 | 97% | 1.6% | 59.0x | CALENDAR_GAP |
+| 513100 | 43 | 43 | 9 | 0.144 | 72% | 41/0 | 2 | 95% | 2.6% | 36.9x | CALENDAR_GAP |
+| 513690 | 24 | 24 | 0 | 0.127 | 58% | 1/0 | 23 | 4% | 4.8% | 0.9x | GAP_WITH_UNKNOWN_CALENDAR |
+| 159577 | 20 | 20 | 1 | 0.041 | 100% | 19/0 | 1 | 95% | 1.9% | 50.4x | CALENDAR_GAP |
+| 159263 | 0 | 0 | 0 | n/a | 0% | 0/0 | 0 | n/a | 4.0% | n/a | NO_ONE_ROW_RUNS |
+
+**Pooled:** 116 one-row runs of 141 blocked runs. **116/116 suspend 赎回 on the very same row** -- an announcement that closes subscription does not close redemption, and this one always does. They move the NAV by **0.10 of the leg's own median move** (median over legs; 79% of the runs sit at a quarter or less) and 11 carry the previous NAV exactly, so a distribution is not what these rows are: the largest move on any of them is 80.4911% at 2022-01-13 and the 90th percentile is 0.8458%. **89/116 land on a session whose gap contains an NYSE closure** (full 89, early 0) against **3.0% of ordinary sessions** -- 25.5x.
+
+The strongest evidence is the overlap: 159501 and 159577 print a one-row word on **20 of the same dates** (29 and 20 runs, 2024-03-29..2026-09-07). A fund can suspend itself; it cannot do it in agreement with a competitor -- a shared foreign holiday can.
+
+The pool is diluted by 513690, whose runs do not match the US calendar (23 unmatched): that leg tracks a different market whose holiday list this face cannot derive from rules, so its rows are left unnamed rather than asserted. Naming it would be a second measurement this page does not have.
+
+### What this changes in the reading
+
+The day counts above are not 141 independent suspensions. 25 of them are multi-row runs -- the fund really did keep the channel shut -- and 116 are the single-row valuation gaps measured here. A session that could not be valued has no fresh NAV to price a premium against, so those rows belong to the calendar and not to the fund's policy.
+
+The verdict word is derived from the counts in this table, not written by hand:
+it needs both channels to flip, the NAV to move a fraction of a normal session,
+and a majority of the dates to fall inside a published closure. Where the last
+condition fails, the leg is labelled GAP_WITH_UNKNOWN_CALENDAR instead of being given a cause it has not earned.
+
+Not claimed: a one-off exchange closure nobody can derive from a rule set (the
+2025-01-09 US national day of mourning is the one that appears in this sample)
+shows up as unmatched, and the page leaves it unmatched. The calendar explains
+the dates; it says nothing about quotas, and nothing about whether a 10%
+premium is fair.
 
 ## What this face refuses to claim
 

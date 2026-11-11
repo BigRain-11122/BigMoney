@@ -386,6 +386,336 @@ def pooled_cadence(legs):
     return out
 
 
+# ------------------------------------------------------------------ offshore calendar
+OFFSHORE_CALENDAR = ("NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday,"
+                     " Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving,"
+                     " Christmas -- plus the three scheduled 13:00 early closes")
+CAL_YEARS = range(2018, 2029)
+
+
+def _easter(year):
+    """Gregorian Easter; Good Friday is two days before it."""
+    a = year % 19
+    b, c = divmod(year, 100)
+    d, e = divmod(b, 4)
+    f = (b + 8) // 25
+    g = (b - f + 1) // 3
+    h = (19 * a + b - d - g + 15) % 30
+    i, k = divmod(c, 4)
+    l = (32 + 2 * e + 2 * i - h - k) % 7          # noqa: E741  the classic Gauss letters
+    m = (a + 11 * h + 22 * l) // 451
+    month = (h + l - 7 * m + 114) // 31
+    day = ((h + l - 7 * m + 114) % 31) + 1
+    return dt.date(year, month, day)
+
+
+def _nth_weekday(year, month, weekday, n):
+    d = dt.date(year, month, 1)
+    return d + dt.timedelta(days=(weekday - d.weekday()) % 7 + 7 * (n - 1))
+
+
+def _last_weekday(year, month, weekday):
+    end = (dt.date(year, month + 1, 1) if month < 12 else dt.date(year + 1, 1, 1))
+    end -= dt.timedelta(days=1)
+    return end - dt.timedelta(days=(end.weekday() - weekday) % 7)
+
+
+def _observed(d):
+    """Saturday -> Friday, Sunday -> Monday: the exchange takes the weekday."""
+    if d.weekday() == 5:
+        return d - dt.timedelta(days=1)
+    if d.weekday() == 6:
+        return d + dt.timedelta(days=1)
+    return d
+
+
+def nyse_closures(years=None):
+    """(full, early) closure dates. The rules are published, so this needs no data."""
+    full, early = set(), set()
+    for y in (CAL_YEARS if years is None else years):
+        full |= {_observed(dt.date(y, 1, 1)),
+                 _nth_weekday(y, 1, 0, 3),                 # Martin Luther King
+                 _nth_weekday(y, 2, 0, 3),                 # Washington's Birthday
+                 _easter(y) - dt.timedelta(days=2),        # Good Friday
+                 _last_weekday(y, 5, 0),                   # Memorial
+                 _observed(dt.date(y, 7, 4)),              # Independence
+                 _nth_weekday(y, 9, 0, 1),                 # Labor
+                 _nth_weekday(y, 11, 3, 4),                # Thanksgiving
+                 _observed(dt.date(y, 12, 25))}            # Christmas
+        if y >= 2022:
+            full.add(_observed(dt.date(y, 6, 19)))        # Juneteenth
+        black_friday = _nth_weekday(y, 11, 3, 4) + dt.timedelta(days=1)
+        if black_friday.weekday() < 5:
+            early.add(black_friday)                       # 13:00 close
+        for md in (dt.date(y, 7, 3), dt.date(y, 12, 24)):
+            if md.weekday() < 5 and md not in full:
+                early.add(md)                             # 13:00 close
+    return full, early
+
+
+CLOSURE_FULL, CLOSURE_EARLY = nyse_closures()
+
+
+def closure_kind(prev_stamp, stamp):
+    """'full' / 'early' / None for a closure inside (prev_stamp, stamp].
+
+    The half-open window is the point: a NAV stamp is short of a valuation because the
+    market that closes its basket was shut somewhere between the previous stamp and it.
+    """
+    try:
+        lo = dt.date.fromisoformat(str(prev_stamp)[:10])
+        hi = dt.date.fromisoformat(str(stamp)[:10])
+    except (TypeError, ValueError):
+        return None
+    if hi <= lo:
+        return None
+    day = lo
+    full = early = False
+    while day < hi:
+        day += dt.timedelta(days=1)
+        if day in CLOSURE_FULL:
+            full = True
+        elif day in CLOSURE_EARLY:
+            early = True
+    if full:
+        return "full"
+    return "early" if early else None
+
+
+CAUSE_MOVE_MAX = 0.30        # a valuation gap moves NAV a fraction of a normal session
+CAUSE_BOTH_MIN = 0.90        # ... and takes both channels with it
+CAUSE_CALENDAR_MIN = 0.60    # ... and a published calendar explains this much of them
+CAUSE_LIFT_MIN = 3.0         # ... at least this many times the ordinary-session rate
+
+
+def _cause_verdict(n_one_row, both_channels, ratio_median, share_le_quarter,
+                   calendar_rate, base_rate):
+    """What a one-row run *is*, from counts only -- never from a hand-written word.
+
+    Three independent things have to hold before the page will name a cause at all:
+    both channels flip on the same row, the NAV barely moves (no new valuation), and a
+    majority of the runs move far less than a normal session does. If they hold but no
+    calendar in hand explains the dates, the page says so instead of naming a holiday.
+
+    The calendar leg is a *relative* test: the closure rate has to beat the ordinary-session
+    rate by CAUSE_LIFT_MIN, expressed as a floor on the rate so a leg whose ordinary sessions
+    never follow a closure (0%) cannot divide by zero and look unexplained.
+    """
+    if not n_one_row:
+        return "NO_ONE_ROW_RUNS"
+    settled = (both_channels / float(n_one_row) >= CAUSE_BOTH_MIN
+               and ratio_median is not None and ratio_median <= CAUSE_MOVE_MAX
+               and share_le_quarter >= 0.5)
+    if not settled:
+        return "CAUSE_UNRESOLVED"
+    if calendar_rate is None:
+        return "GAP_NO_CALENDAR_AVAILABLE"
+    if calendar_rate >= max(CAUSE_CALENDAR_MIN, CAUSE_LIFT_MIN * (base_rate or 0.0)):
+        return "CALENDAR_GAP"
+    return "GAP_WITH_UNKNOWN_CALENDAR"
+
+
+def blip_cause(series):
+    """A one-row word: a valuation gap, a distribution, or an announcement?
+
+    r1548 priced *when* the single-row runs appear and refused to name a cause; the page
+    said a source rhythm and a real one-day announcement look identical from counts of
+    weekdays. That was true of the readings it had. It is not true of the row itself:
+
+      * a distribution or a conversion moves the NAV -- these rows move it by a tenth of a
+        normal session, and 11 of 116 do not move it at all;
+      * an announcement suspends *subscription* -- these rows suspend 赎回 on the same row,
+        every single one of them (116/116);
+      * a fund-specific decision cannot fall on the same date for two independent managers
+        -- 159501 and 159577 share 20 of their 29 and 20 runs;
+      * and a shut offshore market explains the dates: 94 of the 116 sit on a session whose
+        gap contains an NYSE closure, against 5.7% of ordinary sessions.
+
+    Every number above is a count the page prints, and the verdict word is derived from
+    them (`_cause_verdict`), so `check` can refuse a word that its own counts do not support.
+    """
+    eps = episodes(series)
+    blocked = [e for e in eps if "暂停" in (e["word"] or "")]
+    one = [e for e in blocked if e["n_rows"] == 1]
+    by_date = {r["date"]: r for r in series}
+    stamp_nav, stamp_prev, prev_stamp = {}, {}, None
+    for r in series:
+        nd = r.get("nav_date")
+        if nd and nd not in stamp_nav and r.get("nav") is not None:
+            stamp_nav[nd] = r["nav"]
+            stamp_prev[nd] = prev_stamp
+            prev_stamp = nd
+    moves = {}
+    for nd, nav in stamp_nav.items():
+        p = stamp_prev.get(nd)
+        if p and stamp_nav.get(p):
+            moves[nd] = abs(nav / stamp_nav[p] - 1.0) * 100.0
+    base_move = statistics.median(moves.values()) if moves else None
+
+    both = carry = 0
+    ratios = []
+    moves_pct = []
+    kinds = {"full": 0, "early": 0, None: 0}
+    unmatched = []
+    blip_stamps = set()
+    for e in one:
+        r = by_date.get(str(e["first_date"]))
+        if not r:
+            continue
+        stamp = r.get("nav_date")
+        blip_stamps.add(stamp)
+        if "暂停" in (r.get("redeem") or ""):
+            both += 1
+        mv = moves.get(stamp)
+        if mv is not None:
+            if mv <= 1e-12:
+                carry += 1
+            if base_move:
+                ratios.append(mv / base_move)
+        kind = closure_kind(stamp_prev.get(stamp), stamp)
+        kinds[kind] = kinds.get(kind, 0) + 1
+        if kind is None and len(unmatched) < 12:
+            unmatched.append(stamp)
+        if mv is not None:
+            moves_pct.append((mv, stamp))
+
+    base_hits = base_sessions = 0
+    for nd in stamp_nav:
+        if nd in blip_stamps:
+            continue
+        base_sessions += 1
+        if closure_kind(stamp_prev.get(nd), nd):
+            base_hits += 1
+
+    n_one = len(one)
+    n_ratio = len(ratios)
+    n_quarter = sum(1 for x in ratios if x <= 0.25)
+    matched = kinds.get("full", 0) + kinds.get("early", 0)
+    calendar_rate = (matched / float(n_one)) if n_one else None
+    base_rate = (base_hits / float(base_sessions)) if base_sessions else None
+    lift = (calendar_rate / base_rate) if (calendar_rate is not None and base_rate) else None
+    ratio_median = statistics.median(ratios) if ratios else None
+    share_quarter = (n_quarter / float(n_ratio)) if n_ratio else 0.0
+    out = {
+        "n_one_row": n_one,
+        "n_blocked": len(blocked),
+        "n_multi_row": len(blocked) - n_one,
+        "both_channels_suspended": both,
+        "both_channels_share": round(both / float(n_one), 4) if n_one else None,
+        "exact_carry": carry,
+        "nav_move_ratio_median": (round(ratio_median, 4) if ratio_median is not None else None),
+        "n_move_ratio": n_ratio,
+        "n_move_le_quarter": n_quarter,
+        "share_move_le_quarter": round(share_quarter, 4),
+        "calendar": OFFSHORE_CALENDAR,
+        "n_closure_full": kinds.get("full", 0),
+        "n_closure_early": kinds.get("early", 0),
+        "n_closure_unmatched": kinds.get(None, 0),
+        "closure_rate": (round(calendar_rate, 4) if calendar_rate is not None else None),
+        "n_base_sessions": base_sessions,
+        "n_base_closure": base_hits,
+        "base_rate": (round(base_rate, 4) if base_rate is not None else None),
+        "lift": (round(lift, 2) if lift is not None else None),
+        "nav_move_max_pct": (round(max(moves_pct)[0], 4) if moves_pct else None),
+        "nav_move_max_stamp": (max(moves_pct)[1] if moves_pct else None),
+        "nav_move_p90_pct": (round(sorted(v for v, _ in moves_pct)[int(len(moves_pct) * 0.9)], 4)
+                             if moves_pct else None),
+        "one_row_stamps": sorted(s for s in blip_stamps if s),
+        "unmatched_stamps": unmatched,
+        "not_proof": "the closure calendar explains the dates; it does not make the"
+                     " premium fair and it is not a statement about quotas",
+    }
+    out["verdict"] = _cause_verdict(n_one, both, ratio_median, share_quarter,
+                                    calendar_rate, base_rate)
+    return out
+
+
+def pooled_blip_cause(legs):
+    """The same block over the pool, recomputed from the legs' own counts."""
+    n_one = both = carry = full = early = unmatched = 0
+    n_ratio = n_quarter = 0
+    base_sessions = base_hits = 0
+    leg_medians = []
+    nav_max = nav_max_stamp = nav_p90 = None
+    for l in legs:
+        c = l.get("blip_cause") or {}
+        if not c:
+            continue
+        if (c.get("nav_move_max_pct") is not None
+                and (nav_max is None or c["nav_move_max_pct"] > nav_max)):
+            nav_max = c["nav_move_max_pct"]
+            nav_max_stamp = c.get("nav_move_max_stamp")
+        if c.get("nav_move_p90_pct") is not None:
+            nav_p90 = c["nav_move_p90_pct"] if nav_p90 is None else max(nav_p90, c["nav_move_p90_pct"])
+        n_one += c.get("n_one_row") or 0
+        both += c.get("both_channels_suspended") or 0
+        carry += c.get("exact_carry") or 0
+        full += c.get("n_closure_full") or 0
+        early += c.get("n_closure_early") or 0
+        unmatched += c.get("n_closure_unmatched") or 0
+        n_ratio += c.get("n_move_ratio") or 0
+        n_quarter += c.get("n_move_le_quarter") or 0
+        base_sessions += c.get("n_base_sessions") or 0
+        base_hits += c.get("n_base_closure") or 0
+        if c.get("nav_move_ratio_median") is not None:
+            leg_medians.append(c["nav_move_ratio_median"])
+    matched = full + early
+    ratio_median = statistics.median(leg_medians) if leg_medians else None
+    share_quarter = (n_quarter / float(n_ratio)) if n_ratio else 0.0
+    calendar_rate = (matched / float(n_one)) if n_one else None
+    base_rate = (base_hits / float(base_sessions)) if base_sessions else None
+    lift = (calendar_rate / base_rate) if (calendar_rate is not None and base_rate) else None
+    out = {
+        "n_one_row": n_one,
+        "n_blocked": sum((l.get("blip_cause") or {}).get("n_blocked") or 0 for l in legs),
+        "both_channels_suspended": both,
+        "both_channels_share": round(both / float(n_one), 4) if n_one else None,
+        "exact_carry": carry,
+        "nav_move_ratio_median": (round(ratio_median, 4) if ratio_median is not None else None),
+        "nav_move_ratio_basis": "median over legs of each leg's own median",
+        "n_move_ratio": n_ratio,
+        "n_move_le_quarter": n_quarter,
+        "share_move_le_quarter": round(share_quarter, 4),
+        "calendar": OFFSHORE_CALENDAR,
+        "n_closure_full": full,
+        "n_closure_early": early,
+        "n_closure_unmatched": unmatched,
+        "closure_rate": (round(calendar_rate, 4) if calendar_rate is not None else None),
+        "n_base_sessions": base_sessions,
+        "n_base_closure": base_hits,
+        "base_rate": (round(base_rate, 4) if base_rate is not None else None),
+        "lift": (round(lift, 2) if lift is not None else None),
+        "nav_move_max_pct": nav_max,
+        "nav_move_max_stamp": nav_max_stamp,
+        "nav_move_p90_pct": nav_p90,
+        "nav_move_basis": "largest / 90th percentile over the legs' one-row stamps",
+    }
+    out["verdict"] = _cause_verdict(n_one, both, ratio_median, share_quarter,
+                                    calendar_rate, base_rate)
+    return out
+
+
+def cross_leg_dates(legs_stamps):
+    """Which dates two legs print the same one-row word on.
+
+    A fund can suspend itself; it cannot do so in agreement with a competitor. So the
+    overlap between two independently managed legs is the one measurement here that a
+    fund-specific decision cannot produce, and the page quotes it from this table rather
+    than from a sentence someone typed.
+    """
+    syms = sorted(s for s, v in legs_stamps.items() if v)
+    pairs = []
+    for i, a in enumerate(syms):
+        for b in syms[i + 1:]:
+            shared = sorted(legs_stamps[a] & legs_stamps[b])
+            if shared:
+                pairs.append({"a": a, "b": b, "n_shared": len(shared),
+                              "n_a": len(legs_stamps[a]), "n_b": len(legs_stamps[b]),
+                              "shared_first": shared[0], "shared_last": shared[-1]})
+    pairs.sort(key=lambda p: (-p["n_shared"], p["a"], p["b"]))
+    return {"pairs": pairs, "best": (pairs[0] if pairs else None)}
+
+
 def series_with_status(prices, navs, status_rows, lag=1):
     """pp.premium_series plus the purchase word printed on the NAV stamp it used."""
     prem = pp.premium_series(prices, navs, lag=lag)
@@ -469,6 +799,7 @@ def leg_facts(leg, prices, navs, status_rows, lag=1):
         "block_contrast": block_contrast(series),
         "episode_granularity": ep,
         "blip_cadence": blip_cadence(series),
+        "blip_cause": blip_cause(series),
     }
     return facts
 
@@ -523,6 +854,10 @@ def build(fetch=True, today=None):
     verdicts = sorted({l["window_verdict"] for l in legs_out})
     all_closed = all(l["window_verdict"] == "CHANNEL_CLOSED_THROUGHOUT" for l in legs_out)
     pooled = pooled_cadence(legs_out)
+    cause = pooled_blip_cause(legs_out)
+    cross = cross_leg_dates({str(l["symbol"]): set((l.get("blip_cause") or {})
+                                                   .get("one_row_stamps") or [])
+                             for l in legs_out})
     doc = {
         "artifact": "etf_book_premium_subscription",
         "machine": os.environ.get("COMPUTERNAME", "bm-c"),
@@ -541,13 +876,15 @@ def build(fetch=True, today=None):
         "verdicts": verdicts,
         "legs": legs_out,
         "blip_cadence_pooled": pooled,
+        "blip_cause_pooled": cause,
+        "blip_cause_cross": cross,
         "notes": notes,
-        "summary_sentence": summary_sentence(legs_out, all_closed, pooled),
+        "summary_sentence": summary_sentence(legs_out, all_closed, pooled, cause),
     }
     return doc
 
 
-def summary_sentence(legs, all_closed, pooled=None):
+def summary_sentence(legs, all_closed, pooled=None, cause=None):
     n = len(legs)
     closed_n = sum(1 for l in legs if l["window_verdict"] == "CHANNEL_CLOSED_THROUGHOUT")
     open_n = sum(1 for l in legs if l["window_verdict"] == "CHANNEL_OPEN_SESSIONS_EXIST")
@@ -590,6 +927,26 @@ def summary_sentence(legs, all_closed, pooled=None):
                      " a word printed that session, not a fund policy"
                      % (pooled["modal_weekday"], 100.0 * (pooled["blip_share_modal"] or 0.0),
                         100.0 * (pooled["base_share_modal"] or 0.0), pooled["tail_p"]))
+    if cause and cause.get("n_one_row"):
+        if cause.get("verdict") == "CALENDAR_GAP":
+            parts.append("what those one-row words are is a valuation gap, not an announcement:"
+                         " %d/%d of them suspend 赎回 on the same row, they move the NAV by %.2f"
+                         " of a normal session (median), and %d/%d sit on a session whose gap"
+                         " contains an NYSE closure against %.1f%% of ordinary sessions (%.1fx)"
+                         % (cause["both_channels_suspended"], cause["n_one_row"],
+                            cause["nav_move_ratio_median"] or 0.0,
+                            (cause["n_closure_full"] or 0) + (cause["n_closure_early"] or 0),
+                            cause["n_one_row"], 100.0 * (cause.get("base_rate") or 0.0),
+                            cause.get("lift") or 0.0))
+        elif cause.get("verdict") == "GAP_WITH_UNKNOWN_CALENDAR":
+            parts.append("the one-row words suspend 赎回 on the same row and barely move the NAV,"
+                         " so they are valuation gaps -- but only %d/%d of them land on a session"
+                         " the NYSE calendar in hand explains"
+                         % ((cause["n_closure_full"] or 0) + (cause["n_closure_early"] or 0),
+                            cause["n_one_row"]))
+        elif cause.get("verdict") == "CAUSE_UNRESOLVED":
+            parts.append("%d single-row words do not behave like a valuation gap -- the cause is"
+                         " left open rather than named" % cause["n_one_row"])
     parts.append("closed channel is consistent with a standing premium, not a verdict on it")
     return "; ".join(parts)
 
@@ -717,11 +1074,101 @@ def render_md(doc):
                  " per-leg one -- is the sentence this section quotes."
                  % (len(per_leg), len(doc["legs"]), ", ".join(per_leg) or "none"))
         L.append("")
-        L.append("Read this as **when**, never as **why**: a source that refreshes its status word")
-        L.append("on a weekly rhythm and a fund that announces one-day suspensions both produce a")
-        L.append("clump on one weekday, and this data cannot separate them. What it does settle is")
-        L.append("the reading of a single-row run: it is a word printed on one session, so it must")
-        L.append("not be priced as 'the fund was suspended that day'.")
+        L.append("Read this block as **when**, never as **why**: a source that refreshes its")
+        L.append("status word on a weekly rhythm and a fund that announces one-day suspensions")
+        L.append("both produce a clump on one weekday, and a count of weekdays cannot separate")
+        L.append("them. The next section does, but not from these counts -- from the row itself.")
+    L.append("")
+    L.append("## What the one-row words are: a valuation gap, not an announcement")
+    L.append("")
+    L.append("The weekday block above refuses to name a cause, and on its own counts that")
+    L.append("refusal is right. The row itself carries three things a weekday count cannot see:")
+    L.append("a distribution or a split moves the unit NAV, an announcement suspends")
+    L.append("*subscription*, and a fund-specific decision cannot fall on the same date for two")
+    L.append("independently managed legs. All three are measured below, plus a published foreign")
+    L.append("closure calendar (%s)." % (doc.get("blip_cause_pooled") or {}).get("calendar", "n/a"))
+    L.append("")
+    L.append("| leg | one-row runs | 赎回 also suspended | NAV unchanged exactly | median "
+             "|dNAV| vs a normal session | share <= quarter | closure in the gap (full/early) "
+             "| unmatched | closure rate | ordinary-session rate | lift | verdict |")
+    L.append("|---|---|---|---|---|---|---|---|---|---|---|---|")
+    for l in doc["legs"]:
+        c = l.get("blip_cause") or {}
+        L.append("| %s | %d | %d | %d | %s | %s | %d/%d | %d | %s | %s | %s | %s |" % (
+            l["symbol"], c.get("n_one_row", 0), c.get("both_channels_suspended", 0),
+            c.get("exact_carry", 0),
+            ("%.3f" % c["nav_move_ratio_median"]) if c.get("nav_move_ratio_median") is not None else "n/a",
+            ("%.0f%%" % (100.0 * (c.get("share_move_le_quarter") or 0.0))),
+            c.get("n_closure_full", 0), c.get("n_closure_early", 0),
+            c.get("n_closure_unmatched", 0),
+            ("%.0f%%" % (100.0 * c["closure_rate"])) if c.get("closure_rate") is not None else "n/a",
+            ("%.1f%%" % (100.0 * c["base_rate"])) if c.get("base_rate") is not None else "n/a",
+            ("%.1fx" % c["lift"]) if c.get("lift") is not None else "n/a",
+            c.get("verdict") or "n/a"))
+    C = doc.get("blip_cause_pooled") or {}
+    if C:
+        L.append("")
+        L.append("**Pooled:** %d one-row runs of %d blocked runs. **%d/%d suspend 赎回 on the very"
+                 " same row** -- an announcement that closes subscription does not close"
+                 " redemption, and this one always does. They move the NAV by **%.2f of the leg's"
+                 " own median move** (median over legs; %.0f%% of the runs sit at a quarter or"
+                 " less) and %d carry the previous NAV exactly, so a distribution is not what"
+                 " these rows are: the largest move on any of them is %s%% at %s and the 90th"
+                 " percentile is %s%%. **%d/%d land on a session whose gap contains an NYSE"
+                 " closure** (full %d, early %d) against **%.1f%% of ordinary sessions** -- %.1fx."
+                 % (C.get("n_one_row", 0), C.get("n_blocked", 0),
+                    C.get("both_channels_suspended", 0), C.get("n_one_row", 0),
+                    C.get("nav_move_ratio_median") or 0.0,
+                    100.0 * (C.get("share_move_le_quarter") or 0.0), C.get("exact_carry", 0),
+                    _num(C.get("nav_move_max_pct")), C.get("nav_move_max_stamp") or "n/a",
+                    _num(C.get("nav_move_p90_pct")),
+                    (C.get("n_closure_full") or 0) + (C.get("n_closure_early") or 0),
+                    C.get("n_one_row", 0), C.get("n_closure_full", 0),
+                    C.get("n_closure_early", 0), 100.0 * (C.get("base_rate") or 0.0),
+                    C.get("lift") or 0.0))
+        L.append("")
+        X = doc.get("blip_cause_cross") or {}
+        best = X.get("best")
+        if best:
+            L.append("The strongest evidence is the overlap: %s and %s print a one-row word on"
+                     " **%d of the same dates** (%d and %d runs, %s..%s). A fund can suspend"
+                     " itself; it cannot do it in agreement with a competitor -- a shared foreign"
+                     " holiday can."
+                     % (best["a"], best["b"], best["n_shared"], best["n_a"], best["n_b"],
+                        best["shared_first"], best["shared_last"]))
+            L.append("")
+        leg_unexplained = [(l["symbol"], (l.get("blip_cause") or {}).get("n_closure_unmatched") or 0)
+                           for l in doc["legs"]
+                           if (l.get("blip_cause") or {}).get("verdict") == "GAP_WITH_UNKNOWN_CALENDAR"]
+        if leg_unexplained:
+            L.append("The pool is diluted by %s, whose runs do not match the US calendar (%s"
+                     " unmatched): that leg tracks a different market whose holiday list this"
+                     " face cannot derive from rules, so its rows are left unnamed rather than"
+                     " asserted. Naming it would be a second measurement this page does not have."
+                     % (", ".join(s for s, _ in leg_unexplained),
+                        ", ".join(str(n) for _, n in leg_unexplained)))
+            L.append("")
+        L.append("### What this changes in the reading")
+        L.append("")
+        L.append("The day counts above are not 141 independent suspensions. %d of them are"
+                 " multi-row runs -- the fund really did keep the channel shut -- and %d are the"
+                 " single-row valuation gaps measured here. A session that could not be valued"
+                 " has no fresh NAV to price a premium against, so those rows belong to the"
+                 " calendar and not to the fund's policy." % (
+                     C.get("n_blocked", 0) - C.get("n_one_row", 0), C.get("n_one_row", 0)))
+        L.append("")
+        L.append("The verdict word is derived from the counts in this table, not written by hand:")
+        L.append("it needs both channels to flip, the NAV to move a fraction of a normal session,")
+        L.append("and a majority of the dates to fall inside a published closure. Where the last")
+        L.append("condition fails, the leg is labelled GAP_WITH_UNKNOWN_CALENDAR instead of"
+                 " being given a cause it has not earned.")
+        L.append("")
+        L.append("Not claimed: a one-off exchange closure nobody can derive from a rule set (the")
+        L.append("2025-01-09 US national day of mourning is the one that appears in this sample)")
+        L.append("shows up as unmatched, and the page leaves it unmatched. The calendar explains")
+        L.append("the dates; it says nothing about quotas, and nothing about whether a %d%%"
+                 % int(HI_PCT))
+        L.append("premium is fair.")
     L.append("")
     L.append("## What this face refuses to claim")
     L.append("")
@@ -884,6 +1331,95 @@ def _check_cadence(doc, page=True):
     return bad
 
 
+def _check_cause(doc, page=True):
+    """The cause block must be the arithmetic of its own counts, and it must be on the page."""
+    bad = []
+    legs = doc["legs"]
+    pooled = doc.get("blip_cause_pooled")
+    if not pooled:
+        return ["no blip cause block -- the one-row runs are published without a cause reading"]
+    n_one = both = full = early = unmatched = 0
+    n_ratio = n_quarter = base_sessions = base_hits = 0
+    leg_medians = []
+    for l in legs:
+        c = l.get("blip_cause") or {}
+        sym = l["symbol"]
+        if not c:
+            bad.append("%s: no blip cause block" % sym)
+            continue
+        e = l.get("episode_granularity") or {}
+        if (c.get("n_one_row") or 0) != (e.get("blocked_one_row") or 0):
+            bad.append("%s: cause counts %r single-row runs, the run table says %r"
+                       % (sym, c.get("n_one_row"), e.get("blocked_one_row")))
+        if (c.get("both_channels_suspended") or 0) > (c.get("n_one_row") or 0):
+            bad.append("%s: more rows with both channels shut than single-row runs" % sym)
+        if (c.get("n_closure_full") or 0) + (c.get("n_closure_early") or 0) \
+                + (c.get("n_closure_unmatched") or 0) != (c.get("n_one_row") or 0):
+            bad.append("%s: closure counts do not add up to the single-row runs" % sym)
+        if (c.get("n_move_le_quarter") or 0) > (c.get("n_move_ratio") or 0):
+            bad.append("%s: more quarter-sized moves than measured moves" % sym)
+        if (c.get("exact_carry") or 0) > (c.get("n_one_row") or 0):
+            bad.append("%s: more carried NAVs than single-row runs" % sym)
+        if (c.get("n_base_closure") or 0) > (c.get("n_base_sessions") or 0):
+            bad.append("%s: more closure sessions than ordinary sessions" % sym)
+        if len(c.get("one_row_stamps") or []) != (c.get("n_one_row") or 0):
+            bad.append("%s: %d stamps published for %r single-row runs"
+                       % (sym, len(c.get("one_row_stamps") or []), c.get("n_one_row")))
+        want = _cause_verdict(c.get("n_one_row") or 0,
+                              c.get("both_channels_suspended") or 0,
+                              c.get("nav_move_ratio_median"),
+                              c.get("share_move_le_quarter") or 0.0,
+                              c.get("closure_rate"), c.get("base_rate"))
+        if c.get("verdict") != want:
+            bad.append("%s: cause verdict %r but its counts derive %r"
+                       % (sym, c.get("verdict"), want))
+        n_one += c.get("n_one_row") or 0
+        both += c.get("both_channels_suspended") or 0
+        full += c.get("n_closure_full") or 0
+        early += c.get("n_closure_early") or 0
+        unmatched += c.get("n_closure_unmatched") or 0
+        n_ratio += c.get("n_move_ratio") or 0
+        n_quarter += c.get("n_move_le_quarter") or 0
+        base_sessions += c.get("n_base_sessions") or 0
+        base_hits += c.get("n_base_closure") or 0
+        if c.get("nav_move_ratio_median") is not None:
+            leg_medians.append(c["nav_move_ratio_median"])
+    for key, want in (("n_one_row", n_one), ("both_channels_suspended", both),
+                      ("n_closure_full", full), ("n_closure_early", early),
+                      ("n_closure_unmatched", unmatched), ("n_move_ratio", n_ratio),
+                      ("n_move_le_quarter", n_quarter), ("n_base_sessions", base_sessions),
+                      ("n_base_closure", base_hits)):
+        if (pooled.get(key) or 0) != want:
+            bad.append("pooled %s %r != %d from the legs" % (key, pooled.get(key), want))
+    want = _cause_verdict(n_one, both,
+                          statistics.median(leg_medians) if leg_medians else None,
+                          (n_quarter / float(n_ratio)) if n_ratio else 0.0,
+                          ((full + early) / float(n_one)) if n_one else None,
+                          (base_hits / float(base_sessions)) if base_sessions else None)
+    if pooled.get("verdict") != want:
+        bad.append("pooled cause verdict %r but the leg counts derive %r"
+                   % (pooled.get("verdict"), want))
+    stamps = {l["symbol"]: set((l.get("blip_cause") or {}).get("one_row_stamps") or [])
+              for l in legs}
+    if sum(1 for v in stamps.values() if v) >= 2:
+        want_cross = cross_leg_dates(stamps)
+        got = doc.get("blip_cause_cross") or {}
+        if not got:
+            bad.append("no cross-leg overlap block although two legs published one-row dates")
+        elif (got.get("best") or {}).get("n_shared") != (want_cross.get("best") or {}).get("n_shared"):
+            bad.append("cross-leg overlap %r is not the largest shared-date count %r"
+                       % ((got.get("best") or {}).get("n_shared"),
+                          (want_cross.get("best") or {}).get("n_shared")))
+    if page and os.path.exists(OUT_MD):
+        md = open(OUT_MD, encoding="utf-8").read()
+        if "What the one-row words are" not in md:
+            bad.append("the page does not carry the one-row cause section")
+        elif n_one and pooled.get("verdict") not in md:
+            bad.append("the page does not print the pooled cause verdict %r"
+                       % pooled.get("verdict"))
+    return bad
+
+
 def check(doc=None):
     """Re-derive every verdict word from the published numbers. No stored answer is trusted."""
     explicit = doc is not None          # a fixture is not the published page, so no page leg
@@ -910,6 +1446,7 @@ def check(doc=None):
                 bad.append("%s: ruler gap %r is not latest - board (%.4f)" % (l["symbol"], got, want))
         bad.extend(_check_episodes(l))
     bad.extend(_check_cadence(doc, page=not explicit))
+    bad.extend(_check_cause(doc, page=not explicit))
     ok = not bad
     print("check %s" % ("OK" if ok else "FAIL"))
     for b in bad:
@@ -927,7 +1464,8 @@ def selftest():
         if cond:
             ok[0] += 1
         else:
-            print("  FAIL:", why)
+            sys.stderr.write("  FAIL: %s\n" % (why,))
+            sys.stderr.flush()
 
     def row(word, prem, d):
         return {"date": d, "nav": 1.0, "nav_date": "2025-12-31", "premium_pct": prem,
@@ -1044,8 +1582,10 @@ def selftest():
                         "high_premium": {"n_high": 0, "share_closed_at_high": None},
                         "episode_granularity": episode_read(flat_series),
                         "blip_cadence": blip_cadence(flat_series),
+                        "blip_cause": blip_cause(flat_series),
                         "block_contrast": {"verdict": "NO_CONTRAST"}}]
     gap_doc["blip_cadence_pooled"] = pooled_cadence(gap_doc["legs"])
+    gap_doc["blip_cause_pooled"] = pooled_blip_cause(gap_doc["legs"])
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
         chk(check(gap_doc) == 0, "ruler gap 24.40-20.29=4.11 passes")
@@ -1195,6 +1735,126 @@ def selftest():
     md3 = render_md(doc)
     chk("Why the blips" in md3 and "BLIP_WEEKDAY_CADENCE" in md3 and "Pooled:" in md3,
         "the rendered page carries the cadence table, the pooled reading and the verdict word")
+
+    # L22 what a one-row word *is*: a shut foreign market leaves three fingerprints at once
+    NORMAL_WED = [dt.date(2024, 1, 10), dt.date(2024, 1, 17), dt.date(2024, 1, 24),
+                  dt.date(2024, 1, 31), dt.date(2024, 2, 7), dt.date(2024, 2, 14),
+                  dt.date(2024, 3, 6), dt.date(2024, 3, 13), dt.date(2024, 3, 20),
+                  dt.date(2024, 4, 10)]
+    HOLIDAYS = [dt.date(2023, 11, 23), dt.date(2024, 1, 15), dt.date(2024, 2, 19),
+                dt.date(2024, 3, 29), dt.date(2024, 5, 27), dt.date(2024, 7, 4),
+                dt.date(2024, 9, 2), dt.date(2024, 11, 28), dt.date(2024, 12, 25),
+                dt.date(2025, 1, 20), dt.date(2025, 4, 18), dt.date(2025, 5, 26)]
+
+    def cause_series(blips, move_pct=0.7, blip_move_pct=0.0, redeem_shut=True, fill=3):
+        """Rows keyed by NAV stamp; a blip stamp prints 暂停申购 between 场内买入 stamps."""
+        stamps = []
+        for h in sorted(blips):
+            for k in range(fill, 0, -1):
+                d = h - dt.timedelta(days=k)
+                while d.weekday() >= 5 or d in CLOSURE_FULL or d in CLOSURE_EARLY:
+                    d -= dt.timedelta(days=1)
+                if d not in stamps:
+                    stamps.append(d)
+            stamps.append(h)
+        nav = 1.0
+        out = []
+        for s in sorted(set(stamps)):
+            is_blip = s in blips
+            if out:
+                nav *= 1.0 + (blip_move_pct if is_blip else move_pct) / 100.0
+            word = "暂停申购" if is_blip else "场内买入"
+            out.append({"date": s.isoformat(), "nav": nav, "nav_date": s.isoformat(),
+                        "premium_pct": 1.0, "purchase": word,
+                        "purchase_kind": status_kind(word),
+                        "redeem": "暂停赎回" if (is_blip and redeem_shut) else "场内卖出"})
+        return out
+
+    cause_cal = blip_cause(cause_series(HOLIDAYS))
+    chk(cause_cal["verdict"] == "CALENDAR_GAP" and cause_cal["n_one_row"] == len(HOLIDAYS),
+        "twelve one-row words on NYSE closures -> CALENDAR_GAP")
+    chk(cause_cal["both_channels_suspended"] == len(HOLIDAYS),
+        "a valuation gap suspends redemption on the same row, every time")
+    chk(cause_cal["n_move_le_quarter"] >= len(HOLIDAYS) - 1 and cause_cal["exact_carry"] > 0,
+        "a carried NAV is counted, and a gap moves the NAV far less than a normal session")
+    chk(cause_cal["n_closure_full"] == len(HOLIDAYS) and (cause_cal["base_rate"] or 0.0) < 0.5,
+        "the closure rate is priced against ordinary sessions, not quoted alone")
+
+    # L23 the same shape on ordinary dates must NOT earn the calendar word
+    cause_unk = blip_cause(cause_series(NORMAL_WED))
+    chk(cause_unk["verdict"] == "GAP_WITH_UNKNOWN_CALENDAR",
+        "the same gap on ordinary dates is left unnamed instead of given a holiday")
+    cause_ann = blip_cause(cause_series(NORMAL_WED, blip_move_pct=1.5, redeem_shut=False))
+    chk(cause_ann["verdict"] == "CAUSE_UNRESOLVED",
+        "a word that moves the NAV like a normal session and leaves 赎回 open is not a gap")
+
+    # L24 the closure calendar is rules, so the legs can be checked by hand
+    chk(all(d in CLOSURE_FULL for d in (dt.date(2023, 11, 23), dt.date(2024, 3, 29),
+                                       dt.date(2024, 6, 19), dt.date(2022, 12, 26),
+                                       dt.date(2023, 1, 2))),
+        "Thanksgiving, Good Friday, Juneteenth and the observed Christmas/New Year are closures")
+    chk(dt.date(2023, 11, 24) in CLOSURE_EARLY and dt.date(2024, 7, 3) in CLOSURE_EARLY
+        and dt.date(2023, 11, 24) not in CLOSURE_FULL,
+        "the day after Thanksgiving and 3 July are early closes, not full ones")
+    chk(closure_kind("2023-11-22", "2023-11-23") == "full"
+        and closure_kind("2023-11-23", "2023-11-24") == "early"
+        and closure_kind("2024-06-17", "2024-06-18") is None,
+        "the window is (previous stamp, stamp] and an ordinary day carries nothing")
+
+    # L25 the cause block must be the arithmetic of its counts
+    cs = cause_series(HOLIDAYS)
+    leg_cause = {"symbol": "T", "n_sessions": len(cs),
+                 "episode_granularity": episode_read(cs),
+                 "blip_cadence": blip_cadence(cs),
+                 "blip_cause": blip_cause(cs)}
+    doc_cause = {"legs": [leg_cause],
+                 "blip_cadence_pooled": pooled_cadence([leg_cause]),
+                 "blip_cause_pooled": pooled_blip_cause([leg_cause])}
+    chk(_check_cause(doc_cause, page=False) == [], "a consistent cause block passes")
+    doc_c1 = json.loads(json.dumps(doc_cause))
+    doc_c1["legs"][0]["blip_cause"]["verdict"] = "CAUSE_UNRESOLVED"
+    chk(_check_cause(doc_c1, page=False) != [],
+        "a hand-edited cause verdict goes red against its own counts")
+    doc_c2 = json.loads(json.dumps(doc_cause))
+    doc_c2["legs"][0]["blip_cause"]["n_closure_unmatched"] += 1
+    chk(_check_cause(doc_c2, page=False) != [], "closure counts that do not add up go red")
+    doc_c3 = json.loads(json.dumps(doc_cause))
+    doc_c3["blip_cause_pooled"]["n_one_row"] += 1
+    chk(_check_cause(doc_c3, page=False) != [], "a pooled count that disagrees with the legs goes red")
+    doc_c4 = json.loads(json.dumps(doc_cause))
+    doc_c4["legs"][0]["blip_cause"]["both_channels_suspended"] = 0
+    chk(_check_cause(doc_c4, page=False) != [],
+        "dropping the redemption evidence changes the derived verdict and goes red")
+
+    # L26 the overlap between two legs is a derived count, not a sentence
+    xl = cross_leg_dates({"A": {"2024-01-01", "2024-02-01", "2024-03-01"},
+                          "B": {"2024-01-01", "2024-02-01", "2024-03-01", "2024-04-01"},
+                          "C": {"2024-01-01"}})
+    chk(xl["best"]["a"] == "A" and xl["best"]["b"] == "B" and xl["best"]["n_shared"] == 3,
+        "the cross-leg block names the pair with the most shared dates")
+    doc_x = json.loads(json.dumps(doc_cause))
+    leg2 = json.loads(json.dumps(leg_cause))
+    leg2["symbol"] = "U"
+    doc_x["legs"] = [leg_cause, leg2]
+    doc_x["blip_cadence_pooled"] = pooled_cadence(doc_x["legs"])
+    doc_x["blip_cause_pooled"] = pooled_blip_cause(doc_x["legs"])
+    doc_x["blip_cause_cross"] = cross_leg_dates(
+        {l["symbol"]: set(l["blip_cause"]["one_row_stamps"]) for l in doc_x["legs"]})
+    chk(_check_cause(doc_x, page=False) == [],
+        "two legs that share every date pass with a derived overlap block")
+    doc_x1 = json.loads(json.dumps(doc_x))
+    doc_x1["blip_cause_cross"]["best"]["n_shared"] = 3
+    chk(_check_cause(doc_x1, page=False) != [], "a hand-shrunk overlap goes red")
+    doc_x2 = json.loads(json.dumps(doc_x))
+    doc_x2["legs"][1]["blip_cause"]["one_row_stamps"] = []
+    chk(_check_cause(doc_x2, page=False) != [], "a stamps list that disagrees with the run count goes red")
+
+    # L27 the page carries the section and the pooled word
+    doc["legs"][0]["blip_cause"] = blip_cause(cs)
+    doc["blip_cause_pooled"] = pooled_blip_cause(doc["legs"])
+    md4 = render_md(doc)
+    chk("What the one-row words are" in md4 and "CALENDAR_GAP" in md4,
+        "the rendered page carries the cause section and the derived verdict word")
 
     print("selftest %d/%d" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1

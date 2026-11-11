@@ -13019,3 +13019,14 @@ r1547 把「116 段只有一行」读成「噪声不是政策」，但那句话�
 **闸的形状**：判词必须能从计数重算（`_cadence_verdict` 由 weekday 计数派生，手改 verdict 当场红），页面必须真的印了 pooled 句；夹具用「20 周同一天 + 前导一周」的合成序列钉住 bracketed 与首行边界。
 
 **证据**：`scripts/etf_book_premium_subscription.py`（selftest **51/51**，L18-L21）· `results/etf_premium/PREMIUM-SUBSCRIPTION.json#blip_cadence_pooled` + `.md §Why the blips` · S6 腿 `premium_subscription` check rc0。
+
+## E542 说得出「什么时候」不等于说得出「是什么」：一行段的三枚指纹加一部公开历法 · 2026-11-11 r1549 bm-c
+
+E541 只能印 when、不能印 why，理由是「周内计数分不开周更与真公告」。这个理由对**周内计数**成立，对**行本身**不成立。一行段（单行暂停申购）自带三枚互相独立的指纹：①**赎回同列也停**——116/116 行的 赎回状态 同时是暂停赎回，而「公告暂停申购」不会顺手关掉赎回；②**净值几乎不动**——|ΔNAV| 只有该腿正常日的中位数的 **0.10 倍**（79% 落在四分之一以内，11 行与前值逐位相同），所以不是分红也不是折算（唯一例外 513100 2022-01-13 的 80.5% 份额折算，被单独点名）；③**两家管理人同一天印同一个词**——159501 与 159577 各自 29/20 段里有 **20 个日子完全重合**，基金自己的决定做不到这件事。再用公开规则推出的外盘休市历（纽交所九大假日+耶稣受难日+2022 起六月节+三个提前收盘日）：**89/116 段落在「前一根净值戳到这一根之间含休市」的窗里，而普通会话只有 3.0%**（25.5x）。四条腿里三条 closure rate 95-97%（verdict=CALENDAR_GAP），剩下那条 4%（GAP_WITH_UNKNOWN_CALENDAR）——它跟的是另一部历法，本面拿不出来源就**不给它命名**。
+
+**正法三件**：①归因要用**行级互不相关的证据**，不要继续在同一种计数上加倍（周内计数分不开的，赎回列与净值幅度分得开）；②外部历法可以**规则生成**（复活节 Gauss 公式→耶稣受难日、nth-weekday→浮动假日、observed 规则→周末顺延），因此不需要联网也能做因果检验，且能被自检逐条钉死（感恩节第 4 个周四这一步写错成 3 个，会把 8 段真命中读成未命中）；③**「解释不了」是一种输出**：把 unmatched 的日子原样印出来（2025-01-09 美国国丧休市无法由任何规则推出），不为了整齐去补一个理由。判词由计数派生（两列同停 + 幅度比 + 历法命中率对普通会话基准的倍数），手改当场红。
+
+**坑**：contextlib.redirect_stdout 包住的 chk() 失败时把 FAIL 打进缓冲区，套件报 65/66 却一行原因都没有——本轮把 chk 的失败通道改成 stderr 才看见是哪个夹具缺了新块。凡「套件计数对但原因不见」的现场，先怀疑断言输出被重定向吞了。
+
+**证据**：scripts/etf_book_premium_subscription.py（selftest **70/70**，L22-L27）· 
+esults/etf_premium/PREMIUM-SUBSCRIPTION.json#blip_cause_pooled / #blip_cause_cross + .md §What the one-row words are · S6 腿 premium_subscription check rc0 · smoke 新增 check 腿。

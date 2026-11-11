@@ -879,6 +879,14 @@ def main() -> int:
             # must publish the pooled sentence when the runs exist.
             ("product: etf_book_premium_subscription (blip cadence re-derives from counts)",
              "scripts/etf_book_premium_subscription.py", ["selftest"]),
+            # r1549: the page could price WHEN a one-row word appears but not what it is. The
+            # legs pin that the cause word is derived from three counts (both channels shut on
+            # the same row, NAV moving a fraction of a normal session, dates inside a published
+            # closure), that the same gap on ordinary dates earns GAP_WITH_UNKNOWN_CALENDAR
+            # instead of a holiday, that the cross-leg overlap is recomputed rather than quoted,
+            # and that the published page carries the section and its own verdict word.
+            ("product: etf_book_premium_subscription (the one-row cause re-derives from counts)",
+             "scripts/etf_book_premium_subscription.py", ["check"]),
             # r1510: every premium face so far prices ONE board, so "is the entry toll getting
             # cheaper" had no artifact. The legs pin that the word follows the signed total
             # (both directions), that a move inside the flat band prints no direction, that a
