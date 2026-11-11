@@ -103,8 +103,40 @@
   "both_channels_share": 1.0,
   "both_channels_suspended": 116,
   "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
+  "calendar_choice": {
+   "named": "NYSE",
+   "qualified": [
+    "NYSE"
+   ],
+   "reason": "ONE_CALENDAR_CLEARS_THE_BAR"
+  },
+  "calendar_named": "NYSE",
   "closure_rate": 0.7672,
   "exact_carry": 11,
+  "hk_base_rate": 0.0565,
+  "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
+  "hk_lift": 6.87,
+  "hk_n_base_closure": 278,
+  "hk_n_base_sessions": 4920,
+  "hk_n_closed": 40,
+  "hk_n_thin": 3,
+  "hk_n_unmatched": 71,
+  "hk_n_window": 2,
+  "hk_rate": 0.3879,
+  "hk_thin_sensitivity": {
+   "0.50": {
+    "n_matched": 44,
+    "rate": 0.3793
+   },
+   "0.60": {
+    "n_matched": 45,
+    "rate": 0.3879
+   },
+   "0.70": {
+    "n_matched": 49,
+    "rate": 0.4224
+   }
+  },
   "lift": 25.51,
   "n_base_closure": 148,
   "n_base_sessions": 4920,
@@ -126,6 +158,13 @@
  },
  "decisions": {},
  "evidence_cutoff": "2026-11-10",
+ "hk_index": {
+  "first": "2013-08-20",
+  "last": "2026-11-10",
+  "n": 3255,
+  "note": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
+  "status": "cache"
+ },
  "legs": [
   {
    "amount_cny": 78501.0,
@@ -183,8 +222,57 @@
     "both_channels_share": 1.0,
     "both_channels_suspended": 29,
     "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
+    "calendar_choice": {
+     "named": "NYSE",
+     "qualified": [
+      "NYSE"
+     ],
+     "reason": "ONE_CALENDAR_CLEARS_THE_BAR"
+    },
+    "calendar_named": "NYSE",
     "closure_rate": 0.9655,
     "exact_carry": 1,
+    "hk_base_rate": 0.0579,
+    "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
+    "hk_index_last": "2026-11-10",
+    "hk_index_status": "cache",
+    "hk_lift": 4.77,
+    "hk_n_base_closure": 46,
+    "hk_n_base_sessions": 795,
+    "hk_n_closed": 7,
+    "hk_n_thin": 0,
+    "hk_n_unmatched": 21,
+    "hk_n_window": 1,
+    "hk_rate": 0.2759,
+    "hk_thin_max": 0.6,
+    "hk_thin_sensitivity": {
+     "0.50": {
+      "n_matched": 8,
+      "rate": 0.2759
+     },
+     "0.60": {
+      "n_matched": 8,
+      "rate": 0.2759
+     },
+     "0.70": {
+      "n_matched": 9,
+      "rate": 0.3103
+     }
+    },
+    "hk_unmatched_stamps": [
+     "2023-06-19",
+     "2023-07-04",
+     "2023-09-04",
+     "2023-11-23",
+     "2024-01-15",
+     "2024-05-27",
+     "2024-06-19",
+     "2024-07-04",
+     "2024-09-02",
+     "2024-11-28",
+     "2025-01-09",
+     "2025-01-20"
+    ],
     "lift": 59.05,
     "n_base_closure": 13,
     "n_base_sessions": 795,
@@ -939,8 +1027,57 @@
     "both_channels_share": 1.0,
     "both_channels_suspended": 43,
     "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
+    "calendar_choice": {
+     "named": "NYSE",
+     "qualified": [
+      "NYSE"
+     ],
+     "reason": "ONE_CALENDAR_CLEARS_THE_BAR"
+    },
+    "calendar_named": "NYSE",
     "closure_rate": 0.9535,
     "exact_carry": 9,
+    "hk_base_rate": 0.0592,
+    "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
+    "hk_index_last": "2026-11-10",
+    "hk_index_status": "cache",
+    "hk_lift": 3.93,
+    "hk_n_base_closure": 110,
+    "hk_n_base_sessions": 1858,
+    "hk_n_closed": 8,
+    "hk_n_thin": 1,
+    "hk_n_unmatched": 33,
+    "hk_n_window": 1,
+    "hk_rate": 0.2326,
+    "hk_thin_max": 0.6,
+    "hk_thin_sensitivity": {
+     "0.50": {
+      "n_matched": 10,
+      "rate": 0.2326
+     },
+     "0.60": {
+      "n_matched": 10,
+      "rate": 0.2326
+     },
+     "0.70": {
+      "n_matched": 11,
+      "rate": 0.2558
+     }
+    },
+    "hk_unmatched_stamps": [
+     "2019-01-21",
+     "2019-02-18",
+     "2019-05-27",
+     "2019-07-04",
+     "2019-09-02",
+     "2019-11-28",
+     "2020-11-26",
+     "2021-01-18",
+     "2021-05-31",
+     "2021-07-05",
+     "2021-07-23",
+     "2021-09-06"
+    ],
     "lift": 36.91,
     "n_base_closure": 48,
     "n_base_sessions": 1858,
@@ -2080,8 +2217,48 @@
     "both_channels_share": 1.0,
     "both_channels_suspended": 24,
     "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
+    "calendar_choice": {
+     "named": "HKEX",
+     "qualified": [
+      "HKEX"
+     ],
+     "reason": "ONE_CALENDAR_CLEARS_THE_BAR"
+    },
+    "calendar_named": "HKEX",
     "closure_rate": 0.0417,
     "exact_carry": 0,
+    "hk_base_rate": 0.0529,
+    "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
+    "hk_index_last": "2026-11-10",
+    "hk_index_status": "cache",
+    "hk_lift": 16.54,
+    "hk_n_base_closure": 69,
+    "hk_n_base_sessions": 1304,
+    "hk_n_closed": 19,
+    "hk_n_thin": 2,
+    "hk_n_unmatched": 3,
+    "hk_n_window": 0,
+    "hk_rate": 0.875,
+    "hk_thin_max": 0.6,
+    "hk_thin_sensitivity": {
+     "0.50": {
+      "n_matched": 20,
+      "rate": 0.8333
+     },
+     "0.60": {
+      "n_matched": 21,
+      "rate": 0.875
+     },
+     "0.70": {
+      "n_matched": 22,
+      "rate": 0.9167
+     }
+    },
+    "hk_unmatched_stamps": [
+     "2021-06-28",
+     "2022-08-25",
+     "2025-12-31"
+    ],
     "lift": 0.88,
     "n_base_closure": 62,
     "n_base_sessions": 1304,
@@ -2139,7 +2316,7 @@
      "2023-10-09",
      "2023-10-23"
     ],
-    "verdict": "GAP_WITH_UNKNOWN_CALENDAR"
+    "verdict": "CALENDAR_GAP"
    },
    "block_contrast": {
     "gap_pp": 0.5194453047338621,
@@ -3100,8 +3277,57 @@
     "both_channels_share": 1.0,
     "both_channels_suspended": 20,
     "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
+    "calendar_choice": {
+     "named": "NYSE",
+     "qualified": [
+      "NYSE"
+     ],
+     "reason": "ONE_CALENDAR_CLEARS_THE_BAR"
+    },
+    "calendar_named": "NYSE",
     "closure_rate": 0.95,
     "exact_carry": 1,
+    "hk_base_rate": 0.0581,
+    "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
+    "hk_index_last": "2026-11-10",
+    "hk_index_status": "cache",
+    "hk_lift": 5.16,
+    "hk_n_base_closure": 37,
+    "hk_n_base_sessions": 637,
+    "hk_n_closed": 6,
+    "hk_n_thin": 0,
+    "hk_n_unmatched": 14,
+    "hk_n_window": 0,
+    "hk_rate": 0.3,
+    "hk_thin_max": 0.6,
+    "hk_thin_sensitivity": {
+     "0.50": {
+      "n_matched": 6,
+      "rate": 0.3
+     },
+     "0.60": {
+      "n_matched": 6,
+      "rate": 0.3
+     },
+     "0.70": {
+      "n_matched": 7,
+      "rate": 0.35
+     }
+    },
+    "hk_unmatched_stamps": [
+     "2024-05-27",
+     "2024-06-19",
+     "2024-07-04",
+     "2024-09-02",
+     "2024-11-28",
+     "2025-01-09",
+     "2025-01-20",
+     "2025-02-17",
+     "2025-06-19",
+     "2025-07-04",
+     "2025-09-01",
+     "2026-01-19"
+    ],
     "lift": 50.43,
     "n_base_closure": 12,
     "n_base_sessions": 637,
@@ -3690,8 +3916,42 @@
     "both_channels_share": null,
     "both_channels_suspended": 0,
     "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
+    "calendar_choice": {
+     "named": null,
+     "qualified": [],
+     "reason": "NO_CALENDAR_CLEARS_THE_BAR"
+    },
+    "calendar_named": null,
     "closure_rate": null,
     "exact_carry": 0,
+    "hk_base_rate": 0.0491,
+    "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
+    "hk_index_last": "2026-11-10",
+    "hk_index_status": "cache",
+    "hk_lift": null,
+    "hk_n_base_closure": 16,
+    "hk_n_base_sessions": 326,
+    "hk_n_closed": 0,
+    "hk_n_thin": 0,
+    "hk_n_unmatched": 0,
+    "hk_n_window": 0,
+    "hk_rate": null,
+    "hk_thin_max": 0.6,
+    "hk_thin_sensitivity": {
+     "0.50": {
+      "n_matched": 0,
+      "rate": null
+     },
+     "0.60": {
+      "n_matched": 0,
+      "rate": null
+     },
+     "0.70": {
+      "n_matched": 0,
+      "rate": null
+     }
+    },
+    "hk_unmatched_stamps": [],
     "lift": null,
     "n_base_closure": 13,
     "n_base_sessions": 326,
@@ -3785,7 +4045,7 @@
   "status_join": "申购状态 printed on the NAV stamp the premium used",
   "status_source": "EM fund_etf_fund_info_em column 申购状态 (dropped by the NAV cache)"
  },
- "summary_sentence": "5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 513100; exchange-only on their latest stamp: 159501, 513690, 159577, 159263; the 830 hard-suspended sessions are 141 runs (116 of them a single NAV row); 513100's gap sits in its single 435-session run (own gap +4.28) while its other 47 runs read +0.06; the single-row runs are not spread over the calendar: Tue carries 51% of them against 20% of priced sessions (chance 3e-13), so a one-row word is a word printed that session, not a fund policy; what those one-row words are is a valuation gap, not an announcement: 116/116 of them suspend 赎回 on the same row, they move the NAV by 0.10 of a normal session (median), and 89/116 sit on a session whose gap contains an NYSE closure against 3.0% of ordinary sessions (25.5x); closed channel is consistent with a standing premium, not a verdict on it",
+ "summary_sentence": "5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 513100; exchange-only on their latest stamp: 159501, 513690, 159577, 159263; the 830 hard-suspended sessions are 141 runs (116 of them a single NAV row); 513100's gap sits in its single 435-session run (own gap +4.28) while its other 47 runs read +0.06; the single-row runs are not spread over the calendar: Tue carries 51% of them against 20% of priced sessions (chance 3e-13), so a one-row word is a word printed that session, not a fund policy; what those one-row words are is a valuation gap, not an announcement: 116/116 of them suspend 赎回 on the same row, they move the NAV by 0.10 of a normal session (median), and 89/116 sit on a session the NYSE calendar explains against 3.0% of ordinary sessions (25.5x); closed channel is consistent with a standing premium, not a verdict on it",
  "ticket": {
   "as_of": "2026-11-09",
   "path": "results\\etf_book_order\\TICKET-2026-11-09.json"

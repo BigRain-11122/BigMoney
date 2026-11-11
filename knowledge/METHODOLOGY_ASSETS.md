@@ -13030,3 +13030,17 @@ E541 只能印 when、不能印 why，理由是「周内计数分不开周更与
 
 **证据**：scripts/etf_book_premium_subscription.py（selftest **70/70**，L22-L27）· 
 esults/etf_premium/PREMIUM-SUBSCRIPTION.json#blip_cause_pooled / #blip_cause_cross + .md §What the one-row words are · S6 腿 premium_subscription check rc0 · smoke 新增 check 腿。
+
+
+## E543 推不出的历法可以量出来，但量出来的那本要和规则历并排受审：赢了才算命名，平手一个都不命名 · 2026-11-11 r1550 bm-c
+
+E542 把 513690 留在 GAP_WITH_UNKNOWN_CALENDAR，理由是「它跟的是另一部历法，本面拿不出来源」。这句话现在可以不再成立：香港交易所的休市**推不出规则**（农历假日 + 台风黑雨），但可以**从市场本身量**——以恒指日线为准，**没有 bar = 当天没开市**；**成交额低于自己过去 20 日中位数的 60% = 半日市，没有收盘估值**。于是同一件事被拆成三个不同的事实：closed（没开）／	hin（开了半日但没有收盘净值）／window（两根净值戳之间的工作日里有一天没开）。
+
+**正法三件**：①**命名变成一场对审**——每条腿同时用两本历打分，只有在 
+ate >= max(60%, 3x 自己普通会话的发生率) **且**比另一本高 10pp 时才许命名；两本打平（圣诞节在纽约和香港都休市）就一个都不命名，平手不是测量；②**池子词与单腿词是两个问题**，必须都印：本轮 116 段里纽交所解释 89 段（76.7%，25.5x）→ 池子命名 NYSE；而单腿 513690 是港历 87.5%（8 段中 7 段）→ 这条腿命名 HKEX，另三条命名 NYSE，159263 没有单行段（无名可命）；③**阈值是尺子不是事实**：半日市以 50%/60%/70% 三档同时印（44/45/49 段），页面不挑一个自己满意的数字当答案。
+
+**读数**：恒指 3,255 个交易日（2013-08-20..2026-11-10）；HKEX 池子 rate 38.8% vs 自身普通会话 5.7%（6.9x）——**够不上命名，页面照印**，这样读者能看到「另一本历法解释了一半，但不是这一半」。
+
+**教训三条**：①**量出来的历法要自带来源状态**（fetched / cache / cache-stale / cache-missing）并印在页上；没有序列时就**不许命名**——未测量的历法不是证据，缺失比给个像样的数更安全；②两条历法并存后，**摘要句不能再写死 NYSE**（旧句「contains an NYSE closure」在 HKEX 命名时会自相矛盾，本轮把它改成按命名历取数）；③自检夹具要按**整腿 schema** 构造（渲染器读 class/mount_cny 等字段，只给 blip 块会 KeyError）——用现成 doc fixture 复制再替换 blip 块，比手搭一条腿稳。
+
+**证据**：scripts/etf_book_premium_subscription.py（selftest **82/82**，L28-L31：港历命名 / 半日三阈值单调 / 双历平手不命名 / 两历算术重算四腿）· results/etf_premium/PREMIUM-SUBSCRIPTION.json（#hk_index, #blip_cause_pooled.hk_*）+ .md §Two calendars in hand · data/etf_premium/hk_index_HSI.csv · S6 腿 premium_subscription check rc0。

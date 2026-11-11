@@ -482,14 +482,157 @@ def closure_kind(prev_stamp, stamp):
     return "early" if early else None
 
 
+# ---------------------------------------------------------------- the Hong Kong calendar
+# One leg of the ticket is a Hong Kong basket, and its one-row runs do not match New York
+# (1/24). HKEX cannot be rule-derived the way the US list can: its statutory holidays follow
+# the lunar calendar, and the exchange also shuts for typhoons and black rainstorms that no
+# rule set predicts. So this calendar is *measured* from the market itself -- the HSI daily
+# series says which dates Hong Kong traded, and its own turnover says which of those were
+# half days that never struck a closing valuation.
+HK_INDEX_CACHE = os.path.join(ROOT, "data", "etf_premium", "hk_index_HSI.csv")
+HK_INDEX_FRESH_H = 6         # refetch at most four times a day; a missing bar before 16:15 HKT is normal
+HK_THIN_MAX = 0.60           # a half day trades about half its own trailing turnover
+HK_THIN_FLOOR = 0.05         # below this the row is an unreadable turnover, not a half day
+HK_THIN_SENSITIVITY = (0.50, 0.60, 0.70)
+HK_INDEX_NOTE = ("HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not"
+                 " trade; a bar whose turnover is under %.0f%% of its own trailing-20 median ="
+                 " a half day with no closing valuation). Statutory HK holidays follow the"
+                 " lunar calendar and the exchange also shuts for typhoons, so no rule set"
+                 " names this calendar -- the index does." % (100 * HK_THIN_MAX))
+
+
+def load_hk_index(fetch=True, cache=None, now=None):
+    """(market, status) for the Hong Kong reference market.
+
+    market = {"sessions": set of dates, "ratio": {date: turnover / trailing-20 median},
+              "n", "first", "last", "status"}. The cache is as-collected index data
+    (`date,amount`), regenerable, and used stale only when the fetch fails -- in which
+    case the status says so and the page prints it.
+    """
+    path = cache or HK_INDEX_CACHE
+    rows = []
+    fresh = False
+    if os.path.exists(path):
+        try:
+            with open(path, encoding="utf-8") as f:
+                for line in f:
+                    p = line.rstrip("\n").split(",")
+                    if len(p) < 2 or p[0] == "date":
+                        continue
+                    rows.append((p[0][:10], float(p[1] or 0.0)))
+            rows.sort()
+            age_h = ((now or dt.datetime.now())
+                     - dt.datetime.fromtimestamp(os.path.getmtime(path))).total_seconds() / 3600.0
+            fresh = age_h < HK_INDEX_FRESH_H
+        except (ValueError, OSError):
+            rows, fresh = [], False
+    status = "cache" if fresh else "cache-stale"
+    if fetch and not fresh:
+        got = None
+        try:
+            import akshare as ak
+            df = ak.stock_hk_index_daily_sina(symbol="HSI")
+            got = sorted((str(d)[:10], float(a or 0.0))
+                         for d, a in zip(df["date"], df["amount"]))
+        except Exception as exc:                                    # pragma: no cover
+            status = "fetch-failed:%s" % type(exc).__name__
+        if got:
+            rows, status = got, "fetched"
+            try:
+                os.makedirs(os.path.dirname(path), exist_ok=True)
+                with open(path, "w", encoding="utf-8", newline="\n") as f:
+                    f.write("date,amount\n")
+                    for d, a in rows:
+                        f.write("%s,%.0f\n" % (d, a))
+            except OSError:
+                pass
+    elif not rows and not fetch:
+        status = "cache-missing"
+    market = {"n": len(rows), "first": rows[0][0] if rows else None,
+              "last": rows[-1][0] if rows else None, "status": status,
+              "sessions": {d for d, _ in rows}, "ratio": {}}
+    for i, (d, a) in enumerate(rows):
+        if i < 20:
+            continue
+        med = statistics.median(x for _, x in rows[i - 20:i])
+        if med > 0:
+            market["ratio"][d] = a / med
+    return market, status
+
+
+def hk_closure_kind(prev_stamp, stamp, market, thin_max=HK_THIN_MAX):
+    """'closed' / 'thin' / 'window' / None for a Hong Kong valuation gap.
+
+    Three ways the same thing happens, and they are not the same statement:
+      closed -- Hong Kong did not trade on the stamp at all (holiday or typhoon);
+      thin   -- it traded a half day, so there is no closing valuation to strike NAV against;
+      window -- the market was shut somewhere between the previous stamp and this one, which
+                is what a multi-session A-share holiday looks like from the fund's side.
+    """
+    sessions = (market or {}).get("sessions") or set()
+    if not sessions:
+        return None
+    s = str(stamp or "")[:10]
+    if not s:
+        return None
+    if s not in sessions:
+        return "closed"
+    ratio = (market or {}).get("ratio") or {}
+    r = ratio.get(s)
+    if r is not None and HK_THIN_FLOOR <= r <= thin_max:
+        return "thin"
+    lo = str(prev_stamp or "")[:10]
+    if not lo:
+        return None
+    try:
+        day = dt.date.fromisoformat(lo)
+        hi = dt.date.fromisoformat(s)
+    except (TypeError, ValueError):
+        return None
+    while day < hi:
+        day += dt.timedelta(days=1)
+        if day.weekday() >= 5:
+            continue
+        key = day.isoformat()
+        rr = ratio.get(key)
+        if key not in sessions or (rr is not None and HK_THIN_FLOOR <= rr <= thin_max):
+            return "window"
+    return None
+
+
 CAUSE_MOVE_MAX = 0.30        # a valuation gap moves NAV a fraction of a normal session
 CAUSE_BOTH_MIN = 0.90        # ... and takes both channels with it
 CAUSE_CALENDAR_MIN = 0.60    # ... and a published calendar explains this much of them
 CAUSE_LIFT_MIN = 3.0         # ... at least this many times the ordinary-session rate
+CAUSE_CALENDAR_MARGIN = 0.10  # ... and has to beat the other calendar in hand by this much
+
+
+def calendar_choice(cands):
+    """Name a calendar only when exactly one of them earns it.
+
+    Two lists are in hand now (New York by rule, Hong Kong by measurement). A leg whose
+    dates fit both equally well is not evidence for either, and naming the nearer one
+    would be a coin flip dressed as a measurement -- so a tie names nothing.
+    """
+    qualified = []
+    for c in cands or ():
+        rate, base = c.get("rate"), c.get("base")
+        if rate is None:
+            continue
+        if rate >= max(CAUSE_CALENDAR_MIN, CAUSE_LIFT_MIN * (base or 0.0)):
+            qualified.append(c)
+    if not qualified:
+        return {"named": None, "reason": "NO_CALENDAR_CLEARS_THE_BAR", "qualified": []}
+    qualified.sort(key=lambda c: -c["rate"])
+    if len(qualified) > 1 and (qualified[0]["rate"] - qualified[1]["rate"]) < CAUSE_CALENDAR_MARGIN:
+        return {"named": None, "reason": "TWO_CALENDARS_FIT_ALIKE",
+                "qualified": [c["name"] for c in qualified]}
+    return {"named": qualified[0]["name"], "reason": "ONE_CALENDAR_CLEARS_THE_BAR",
+            "qualified": [c["name"] for c in qualified]}
 
 
 def _cause_verdict(n_one_row, both_channels, ratio_median, share_le_quarter,
-                   calendar_rate, base_rate):
+                   calendar_rate, base_rate, choice=None):
     """What a one-row run *is*, from counts only -- never from a hand-written word.
 
     Three independent things have to hold before the page will name a cause at all:
@@ -500,6 +643,9 @@ def _cause_verdict(n_one_row, both_channels, ratio_median, share_le_quarter,
     The calendar leg is a *relative* test: the closure rate has to beat the ordinary-session
     rate by CAUSE_LIFT_MIN, expressed as a floor on the rate so a leg whose ordinary sessions
     never follow a closure (0%) cannot divide by zero and look unexplained.
+
+    `choice` (from `calendar_choice`) lets the caller pass two calendars in hand; when it is
+    given, the word follows the choice -- a tie between two calendars names neither.
     """
     if not n_one_row:
         return "NO_ONE_ROW_RUNS"
@@ -508,6 +654,11 @@ def _cause_verdict(n_one_row, both_channels, ratio_median, share_le_quarter,
                and share_le_quarter >= 0.5)
     if not settled:
         return "CAUSE_UNRESOLVED"
+    if choice is not None:
+        if choice.get("named"):
+            return "CALENDAR_GAP"
+        return ("GAP_WITH_UNKNOWN_CALENDAR" if choice.get("qualified") is not None
+                and calendar_rate is not None else "GAP_WITH_UNKNOWN_CALENDAR")
     if calendar_rate is None:
         return "GAP_NO_CALENDAR_AVAILABLE"
     if calendar_rate >= max(CAUSE_CALENDAR_MIN, CAUSE_LIFT_MIN * (base_rate or 0.0)):
@@ -515,7 +666,7 @@ def _cause_verdict(n_one_row, both_channels, ratio_median, share_le_quarter,
     return "GAP_WITH_UNKNOWN_CALENDAR"
 
 
-def blip_cause(series):
+def blip_cause(series, market=None):
     """A one-row word: a valuation gap, a distribution, or an announcement?
 
     r1548 priced *when* the single-row runs appear and refused to name a cause; the page
@@ -528,8 +679,15 @@ def blip_cause(series):
         every single one of them (116/116);
       * a fund-specific decision cannot fall on the same date for two independent managers
         -- 159501 and 159577 share 20 of their 29 and 20 runs;
-      * and a shut offshore market explains the dates: 94 of the 116 sit on a session whose
-        gap contains an NYSE closure, against 5.7% of ordinary sessions.
+      * and a shut offshore market explains the dates -- most of them sit on a session whose
+        gap contains a closure of the market their basket lives in.
+
+    r1550 asks the last one properly: two calendars are in hand (New York by rule, Hong Kong
+    measured on the HSI series), each leg is scored against both, and the page names one only
+    when one of them clears the bar and beats the other by CAUSE_CALENDAR_MARGIN. A leg whose
+    dates fit neither is left GAP_WITH_UNKNOWN_CALENDAR rather than given the nearer word.
+    The Hong Kong reading is also printed at three half-day thresholds, because that cutoff
+    is a ruler and the page says so instead of quoting the single number it likes.
 
     Every number above is a count the page prints, and the verdict word is derived from
     them (`_cause_verdict`), so `check` can refuse a word that its own counts do not support.
@@ -552,11 +710,16 @@ def blip_cause(series):
             moves[nd] = abs(nav / stamp_nav[p] - 1.0) * 100.0
     base_move = statistics.median(moves.values()) if moves else None
 
+    hk = market if market is not None else {"sessions": set(), "ratio": {}}
+    hk_sensitivity = {thr: 0 for thr in HK_THIN_SENSITIVITY}
+
     both = carry = 0
     ratios = []
     moves_pct = []
     kinds = {"full": 0, "early": 0, None: 0}
+    hk_kinds = {"closed": 0, "thin": 0, "window": 0, None: 0}
     unmatched = []
+    hk_unmatched = []
     blip_stamps = set()
     for e in one:
         r = by_date.get(str(e["first_date"]))
@@ -576,16 +739,28 @@ def blip_cause(series):
         kinds[kind] = kinds.get(kind, 0) + 1
         if kind is None and len(unmatched) < 12:
             unmatched.append(stamp)
+        for thr in HK_THIN_SENSITIVITY:
+            if hk_closure_kind(stamp_prev.get(stamp), stamp, hk, thin_max=thr):
+                hk_sensitivity[thr] += 1
+        hkind = hk_closure_kind(stamp_prev.get(stamp), stamp, hk)
+        hk_kinds[hkind] = hk_kinds.get(hkind, 0) + 1
+        if hkind is None and len(hk_unmatched) < 12:
+            hk_unmatched.append(stamp)
         if mv is not None:
             moves_pct.append((mv, stamp))
 
     base_hits = base_sessions = 0
+    hk_base_hits = hk_base_sessions = 0
     for nd in stamp_nav:
         if nd in blip_stamps:
             continue
         base_sessions += 1
         if closure_kind(stamp_prev.get(nd), nd):
             base_hits += 1
+        if hk.get("sessions"):
+            hk_base_sessions += 1
+            if hk_closure_kind(stamp_prev.get(nd), nd, hk):
+                hk_base_hits += 1
 
     n_one = len(one)
     n_ratio = len(ratios)
@@ -594,6 +769,16 @@ def blip_cause(series):
     calendar_rate = (matched / float(n_one)) if n_one else None
     base_rate = (base_hits / float(base_sessions)) if base_sessions else None
     lift = (calendar_rate / base_rate) if (calendar_rate is not None and base_rate) else None
+    hk_matched = hk_kinds.get("closed", 0) + hk_kinds.get("thin", 0) + hk_kinds.get("window", 0)
+    hk_rate = (hk_matched / float(n_one)) if (n_one and hk.get("sessions")) else None
+    hk_base = (hk_base_hits / float(hk_base_sessions)) if hk_base_sessions else None
+    hk_lift = (hk_rate / hk_base) if (hk_rate is not None and hk_base) else None
+    choice = calendar_choice([
+        {"name": "NYSE", "rate": calendar_rate, "base": base_rate,
+         "measure": "rule-derived US closure list, window (prev_stamp, stamp]"},
+        {"name": "HKEX", "rate": hk_rate, "base": hk_base,
+         "measure": "HSI series: no bar, a half day, or a shut weekday in the gap"},
+    ])
     ratio_median = statistics.median(ratios) if ratios else None
     share_quarter = (n_quarter / float(n_ratio)) if n_ratio else 0.0
     out = {
@@ -616,6 +801,27 @@ def blip_cause(series):
         "n_base_closure": base_hits,
         "base_rate": (round(base_rate, 4) if base_rate is not None else None),
         "lift": (round(lift, 2) if lift is not None else None),
+        "hk_calendar": HK_INDEX_NOTE,
+        "hk_index_status": hk.get("status"),
+        "hk_index_last": hk.get("last"),
+        "hk_thin_max": HK_THIN_MAX,
+        "hk_n_closed": hk_kinds.get("closed", 0),
+        "hk_n_thin": hk_kinds.get("thin", 0),
+        "hk_n_window": hk_kinds.get("window", 0),
+        "hk_n_unmatched": hk_kinds.get(None, 0),
+        "hk_rate": (round(hk_rate, 4) if hk_rate is not None else None),
+        "hk_base_rate": (round(hk_base, 4) if hk_base is not None else None),
+        "hk_lift": (round(hk_lift, 2) if hk_lift is not None else None),
+        "hk_n_base_sessions": hk_base_sessions,
+        "hk_n_base_closure": hk_base_hits,
+        "hk_thin_sensitivity": {
+            "%.2f" % thr: {
+                "n_matched": hk_sensitivity[thr],
+                "rate": (round(hk_sensitivity[thr] / float(n_one), 4) if n_one else None)}
+            for thr in HK_THIN_SENSITIVITY},
+        "hk_unmatched_stamps": hk_unmatched,
+        "calendar_named": choice.get("named"),
+        "calendar_choice": choice,
         "nav_move_max_pct": (round(max(moves_pct)[0], 4) if moves_pct else None),
         "nav_move_max_stamp": (max(moves_pct)[1] if moves_pct else None),
         "nav_move_p90_pct": (round(sorted(v for v, _ in moves_pct)[int(len(moves_pct) * 0.9)], 4)
@@ -626,7 +832,7 @@ def blip_cause(series):
                      " premium fair and it is not a statement about quotas",
     }
     out["verdict"] = _cause_verdict(n_one, both, ratio_median, share_quarter,
-                                    calendar_rate, base_rate)
+                                    calendar_rate, base_rate, choice=choice)
     return out
 
 
@@ -635,6 +841,9 @@ def pooled_blip_cause(legs):
     n_one = both = carry = full = early = unmatched = 0
     n_ratio = n_quarter = 0
     base_sessions = base_hits = 0
+    hk_closed = hk_thin = hk_window = hk_unmatched = 0
+    hk_base_sessions = hk_base_hits = 0
+    hk_sens = {thr: 0 for thr in HK_THIN_SENSITIVITY}
     leg_medians = []
     nav_max = nav_max_stamp = nav_p90 = None
     for l in legs:
@@ -657,6 +866,15 @@ def pooled_blip_cause(legs):
         n_quarter += c.get("n_move_le_quarter") or 0
         base_sessions += c.get("n_base_sessions") or 0
         base_hits += c.get("n_base_closure") or 0
+        hk_closed += c.get("hk_n_closed") or 0
+        hk_thin += c.get("hk_n_thin") or 0
+        hk_window += c.get("hk_n_window") or 0
+        hk_unmatched += c.get("hk_n_unmatched") or 0
+        hk_base_sessions += c.get("hk_n_base_sessions") or 0
+        hk_base_hits += c.get("hk_n_base_closure") or 0
+        for thr in HK_THIN_SENSITIVITY:
+            cell = (c.get("hk_thin_sensitivity") or {}).get("%.2f" % thr) or {}
+            hk_sens[thr] += cell.get("n_matched") or 0
         if c.get("nav_move_ratio_median") is not None:
             leg_medians.append(c["nav_move_ratio_median"])
     matched = full + early
@@ -665,6 +883,16 @@ def pooled_blip_cause(legs):
     calendar_rate = (matched / float(n_one)) if n_one else None
     base_rate = (base_hits / float(base_sessions)) if base_sessions else None
     lift = (calendar_rate / base_rate) if (calendar_rate is not None and base_rate) else None
+    hk_matched = hk_closed + hk_thin + hk_window
+    hk_rate = (hk_matched / float(n_one)) if (n_one and hk_base_sessions) else None
+    hk_base = (hk_base_hits / float(hk_base_sessions)) if hk_base_sessions else None
+    hk_lift = (hk_rate / hk_base) if (hk_rate is not None and hk_base) else None
+    choice = calendar_choice([
+        {"name": "NYSE", "rate": calendar_rate, "base": base_rate,
+         "measure": "rule-derived US closure list, window (prev_stamp, stamp]"},
+        {"name": "HKEX", "rate": hk_rate, "base": hk_base,
+         "measure": "HSI series: no bar, a half day, or a shut weekday in the gap"},
+    ])
     out = {
         "n_one_row": n_one,
         "n_blocked": sum((l.get("blip_cause") or {}).get("n_blocked") or 0 for l in legs),
@@ -685,13 +913,29 @@ def pooled_blip_cause(legs):
         "n_base_closure": base_hits,
         "base_rate": (round(base_rate, 4) if base_rate is not None else None),
         "lift": (round(lift, 2) if lift is not None else None),
+        "hk_calendar": HK_INDEX_NOTE,
+        "hk_n_closed": hk_closed,
+        "hk_n_thin": hk_thin,
+        "hk_n_window": hk_window,
+        "hk_n_unmatched": hk_unmatched,
+        "hk_rate": (round(hk_rate, 4) if hk_rate is not None else None),
+        "hk_base_rate": (round(hk_base, 4) if hk_base is not None else None),
+        "hk_lift": (round(hk_lift, 2) if hk_lift is not None else None),
+        "hk_n_base_sessions": hk_base_sessions,
+        "hk_n_base_closure": hk_base_hits,
+        "hk_thin_sensitivity": {
+            "%.2f" % thr: {"n_matched": hk_sens[thr],
+                           "rate": (round(hk_sens[thr] / float(n_one), 4) if n_one else None)}
+            for thr in HK_THIN_SENSITIVITY},
+        "calendar_named": choice.get("named"),
+        "calendar_choice": choice,
         "nav_move_max_pct": nav_max,
         "nav_move_max_stamp": nav_max_stamp,
         "nav_move_p90_pct": nav_p90,
         "nav_move_basis": "largest / 90th percentile over the legs' one-row stamps",
     }
     out["verdict"] = _cause_verdict(n_one, both, ratio_median, share_quarter,
-                                    calendar_rate, base_rate)
+                                    calendar_rate, base_rate, choice=choice)
     return out
 
 
@@ -775,7 +1019,7 @@ def high_premium_face(series, hi=HI_PCT):
             "first_high": hi_rows[0]["date"], "last_high": hi_rows[-1]["date"]}
 
 
-def leg_facts(leg, prices, navs, status_rows, lag=1):
+def leg_facts(leg, prices, navs, status_rows, lag=1, market=None):
     series = series_with_status(prices, navs, status_rows, lag=lag)
     wv, wv_n = window_verdict(series)
     latest = series[-1] if series else None
@@ -799,7 +1043,7 @@ def leg_facts(leg, prices, navs, status_rows, lag=1):
         "block_contrast": block_contrast(series),
         "episode_granularity": ep,
         "blip_cadence": blip_cadence(series),
-        "blip_cause": blip_cause(series),
+        "blip_cause": blip_cause(series, market=market),
     }
     return facts
 
@@ -826,6 +1070,7 @@ def board_readings(cutoff):
 
 def build(fetch=True, today=None):
     face = json.load(open(FACE, encoding="utf-8"))
+    hk_market, hk_status = load_hk_index(fetch=fetch)
     legs_out, notes = [], []
     cutoff = None
     for leg in face["legs"]:
@@ -835,7 +1080,7 @@ def build(fetch=True, today=None):
         status_rows, sub_status = load_status(code, fetch=fetch, today=today)
         if nav_status.startswith("cache-missing") or not navs:
             notes.append("%s: no NAV cache -- premium series unavailable" % code)
-        facts = leg_facts(leg, prices, navs, status_rows)
+        facts = leg_facts(leg, prices, navs, status_rows, market=hk_market)
         facts["nav_cache_status"] = nav_status
         facts["status_source"] = sub_status
         legs_out.append(facts)
@@ -874,6 +1119,9 @@ def build(fetch=True, today=None):
                          " evidence that the premium is fair, nor a sell signal",
         },
         "verdicts": verdicts,
+        "hk_index": {"status": hk_status, "n": hk_market.get("n"),
+                     "first": hk_market.get("first"), "last": hk_market.get("last"),
+                     "note": HK_INDEX_NOTE},
         "legs": legs_out,
         "blip_cadence_pooled": pooled,
         "blip_cause_pooled": cause,
@@ -929,15 +1177,20 @@ def summary_sentence(legs, all_closed, pooled=None, cause=None):
                         100.0 * (pooled["base_share_modal"] or 0.0), pooled["tail_p"]))
     if cause and cause.get("n_one_row"):
         if cause.get("verdict") == "CALENDAR_GAP":
+            named = cause.get("calendar_named") or "NYSE"
+            explains = (cause.get("hk_n_closed", 0) + cause.get("hk_n_thin", 0)
+                        + cause.get("hk_n_window", 0)) if named == "HKEX" else \
+                       ((cause.get("n_closure_full") or 0) + (cause.get("n_closure_early") or 0))
             parts.append("what those one-row words are is a valuation gap, not an announcement:"
                          " %d/%d of them suspend 赎回 on the same row, they move the NAV by %.2f"
-                         " of a normal session (median), and %d/%d sit on a session whose gap"
-                         " contains an NYSE closure against %.1f%% of ordinary sessions (%.1fx)"
+                         " of a normal session (median), and %d/%d sit on a session the %s"
+                         " calendar explains against %.1f%% of ordinary sessions (%.1fx)"
                          % (cause["both_channels_suspended"], cause["n_one_row"],
-                            cause["nav_move_ratio_median"] or 0.0,
-                            (cause["n_closure_full"] or 0) + (cause["n_closure_early"] or 0),
-                            cause["n_one_row"], 100.0 * (cause.get("base_rate") or 0.0),
-                            cause.get("lift") or 0.0))
+                            cause["nav_move_ratio_median"] or 0.0, explains, cause["n_one_row"],
+                            named,
+                            100.0 * ((cause.get("hk_base_rate") if named == "HKEX"
+                                      else cause.get("base_rate")) or 0.0),
+                            (cause.get("hk_lift") if named == "HKEX" else cause.get("lift")) or 0.0))
         elif cause.get("verdict") == "GAP_WITH_UNKNOWN_CALENDAR":
             parts.append("the one-row words suspend 赎回 on the same row and barely move the NAV,"
                          " so they are valuation gaps -- but only %d/%d of them land on a session"
@@ -1127,6 +1380,67 @@ def render_md(doc):
                     C.get("n_closure_early", 0), 100.0 * (C.get("base_rate") or 0.0),
                     C.get("lift") or 0.0))
         L.append("")
+        L.append("**Two calendars in hand, and only one is derived from rules.** The US list is"
+                 " rule-built; the Hong Kong list is *measured* on the HSI series (no bar = Hong"
+                 " Kong did not trade; turnover under a share of its own trailing-20 median = a half"
+                 " day with no closing valuation), because HKEX follows the lunar calendar and also"
+                 " shuts for typhoons, which no rule set predicts. A calendar is named only when it"
+                 " explains at least %.0f%% of these runs at %.1fx the ordinary-session rate and"
+                 " beats the other by %.0fpp."
+                 % (100.0 * CAUSE_CALENDAR_MIN, CAUSE_LIFT_MIN, 100.0 * CAUSE_CALENDAR_MARGIN))
+        L.append("")
+        L.append("| calendar | how it is known | runs it explains | rate | ordinary-session rate "
+                 "| lift | named |")
+        L.append("|---|---|---|---|---|---|---|")
+        L.append("| NYSE | rule list, window (prev_stamp, stamp] | %d/%d | %s | %s | %s | %s |" % (
+            (C.get("n_closure_full") or 0) + (C.get("n_closure_early") or 0), C.get("n_one_row", 0),
+            ("%.0f%%" % (100.0 * C["closure_rate"])) if C.get("closure_rate") is not None else "n/a",
+            ("%.1f%%" % (100.0 * C["base_rate"])) if C.get("base_rate") is not None else "n/a",
+            ("%.1fx" % C["lift"]) if C.get("lift") is not None else "n/a",
+            "yes" if C.get("calendar_named") == "NYSE" else "no"))
+        L.append("| HKEX | measured on HSI (no bar / half day / shut weekday in the gap) | %d/%d "
+                 "| %s | %s | %s | %s |" % (
+            (C.get("hk_n_closed") or 0) + (C.get("hk_n_thin") or 0) + (C.get("hk_n_window") or 0),
+            C.get("n_one_row", 0),
+            ("%.0f%%" % (100.0 * C["hk_rate"])) if C.get("hk_rate") is not None else "n/a",
+            ("%.1f%%" % (100.0 * C["hk_base_rate"])) if C.get("hk_base_rate") is not None else "n/a",
+            ("%.1fx" % C["hk_lift"]) if C.get("hk_lift") is not None else "n/a",
+            "yes" if C.get("calendar_named") == "HKEX" else "no"))
+        L.append("")
+        hk = doc.get("hk_index") or {}
+        if hk.get("n"):
+            sens = C.get("hk_thin_sensitivity") or {}
+            L.append("HKEX series used here: **%d sessions, %s..%s** (read: %s). The half-day cutoff"
+                     " is a ruler, so the Hong Kong reading is printed at three of them -- %s/%s runs"
+                     " at %.0f%% of trailing turnover, %s at %.0f%%, %s at %.0f%% -- and the page"
+                     " quotes no single one as the answer."
+                     % (hk["n"], hk.get("first") or "?", hk.get("last") or "?",
+                        hk.get("status") or "?",
+                        (sens.get("%.2f" % HK_THIN_SENSITIVITY[0]) or {}).get("n_matched", 0),
+                        C.get("n_one_row", 0), 100.0 * HK_THIN_SENSITIVITY[0],
+                        (sens.get("%.2f" % HK_THIN_SENSITIVITY[1]) or {}).get("n_matched", 0),
+                        100.0 * HK_THIN_SENSITIVITY[1],
+                        (sens.get("%.2f" % HK_THIN_SENSITIVITY[2]) or {}).get("n_matched", 0),
+                        100.0 * HK_THIN_SENSITIVITY[2]))
+        else:
+            L.append("No HKEX series is on disk, so the Hong Kong column carries nothing and no HK"
+                     " word is named: an unmeasured calendar is not evidence.")
+        by_cal = {}
+        for l in doc["legs"]:
+            n = ((l.get("blip_cause") or {}).get("calendar_choice") or {}).get("named")
+            if n:
+                by_cal.setdefault(n, []).append(l["symbol"])
+        unnamed = [l["symbol"] for l in doc["legs"]
+                   if not ((l.get("blip_cause") or {}).get("calendar_choice") or {}).get("named")
+                   and ((l.get("blip_cause") or {}).get("n_one_row") or 0)]
+        if by_cal or unnamed:
+            L.append("")
+            L.append("**Named per leg:** " + "; ".join(
+                "%s explains %s" % (k, ", ".join(v)) for k, v in sorted(by_cal.items()))
+                + ("; left unnamed: %s" % ", ".join(unnamed) if unnamed else "")
+                + ". The pool word above is a different question from these: it asks which"
+                  " calendar explains most of the 116 runs, not which one explains a given leg.")
+        L.append("")
         X = doc.get("blip_cause_cross") or {}
         best = X.get("best")
         if best:
@@ -1140,13 +1454,18 @@ def render_md(doc):
         leg_unexplained = [(l["symbol"], (l.get("blip_cause") or {}).get("n_closure_unmatched") or 0)
                            for l in doc["legs"]
                            if (l.get("blip_cause") or {}).get("verdict") == "GAP_WITH_UNKNOWN_CALENDAR"]
-        if leg_unexplained:
-            L.append("The pool is diluted by %s, whose runs do not match the US calendar (%s"
-                     " unmatched): that leg tracks a different market whose holiday list this"
-                     " face cannot derive from rules, so its rows are left unnamed rather than"
-                     " asserted. Naming it would be a second measurement this page does not have."
+        if leg_unexplained and C.get("calendar_named") is None:
+            L.append("The pool is diluted by %s, whose runs match neither calendar in hand (%s"
+                     " unmatched by the US list): they are left unnamed rather than given the nearer"
+                     " word. Naming them would need a calendar this page does not have."
                      % (", ".join(s for s, _ in leg_unexplained),
                         ", ".join(str(n) for _, n in leg_unexplained)))
+            L.append("")
+        elif C.get("calendar_named") == "HKEX" and leg_unexplained:
+            L.append("The legs that the US list could not explain -- %s -- are the ones the measured"
+                     " Hong Kong calendar picks up, which is why the word above names HKEX and not"
+                     " New York. A rules-only page would have left every one of those rows unnamed."
+                     % ", ".join(s for s, _ in leg_unexplained))
             L.append("")
         L.append("### What this changes in the reading")
         L.append("")
@@ -1369,10 +1688,22 @@ def _check_cause(doc, page=True):
                               c.get("both_channels_suspended") or 0,
                               c.get("nav_move_ratio_median"),
                               c.get("share_move_le_quarter") or 0.0,
-                              c.get("closure_rate"), c.get("base_rate"))
+                              c.get("closure_rate"), c.get("base_rate"),
+                              choice=c.get("calendar_choice"))
         if c.get("verdict") != want:
             bad.append("%s: cause verdict %r but its counts derive %r"
                        % (sym, c.get("verdict"), want))
+        if (c.get("hk_n_closed") or 0) + (c.get("hk_n_thin") or 0) \
+                + (c.get("hk_n_window") or 0) + (c.get("hk_n_unmatched") or 0) != (c.get("n_one_row") or 0):
+            bad.append("%s: Hong Kong closure counts do not add up to the single-row runs" % sym)
+        if (c.get("hk_n_base_closure") or 0) > (c.get("hk_n_base_sessions") or 0):
+            bad.append("%s: more HK closure sessions than ordinary sessions" % sym)
+        named = (c.get("calendar_choice") or {}).get("named")
+        if (c.get("calendar_named") or None) != named:
+            bad.append("%s: calendar word %r is not the one its choice block names %r"
+                       % (sym, c.get("calendar_named"), named))
+        if named == "HKEX" and c.get("hk_rate") is None:
+            bad.append("%s: calendar word 'HKEX' without an HK reading behind it" % sym)
         n_one += c.get("n_one_row") or 0
         both += c.get("both_channels_suspended") or 0
         full += c.get("n_closure_full") or 0
@@ -1391,14 +1722,47 @@ def _check_cause(doc, page=True):
                       ("n_base_closure", base_hits)):
         if (pooled.get(key) or 0) != want:
             bad.append("pooled %s %r != %d from the legs" % (key, pooled.get(key), want))
+    hk_want = {"hk_n_closed": 0, "hk_n_thin": 0, "hk_n_window": 0, "hk_n_unmatched": 0,
+               "hk_n_base_sessions": 0, "hk_n_base_closure": 0}
+    for l in legs:
+        c = l.get("blip_cause") or {}
+        for k in hk_want:
+            hk_want[k] += c.get(k) or 0
+    for key, want in hk_want.items():
+        if (pooled.get(key) or 0) != want:
+            bad.append("pooled %s %r != %d from the legs" % (key, pooled.get(key), want))
+    for thr in HK_THIN_SENSITIVITY:
+        got = ((pooled.get("hk_thin_sensitivity") or {}).get("%.2f" % thr) or {}).get("n_matched")
+        want_n = sum((((l.get("blip_cause") or {}).get("hk_thin_sensitivity") or {})
+                      .get("%.2f" % thr) or {}).get("n_matched") or 0 for l in legs)
+        if (got or 0) != want_n:
+            bad.append("pooled HK sensitivity at %.2f %r != %d from the legs" % (thr, got, want_n))
+    hk_base = (hk_want["hk_n_base_closure"] / float(hk_want["hk_n_base_sessions"])
+               if hk_want["hk_n_base_sessions"] else None)
     want = _cause_verdict(n_one, both,
                           statistics.median(leg_medians) if leg_medians else None,
                           (n_quarter / float(n_ratio)) if n_ratio else 0.0,
                           ((full + early) / float(n_one)) if n_one else None,
-                          (base_hits / float(base_sessions)) if base_sessions else None)
+                          (base_hits / float(base_sessions)) if base_sessions else None,
+                          choice=pooled.get("calendar_choice"))
     if pooled.get("verdict") != want:
         bad.append("pooled cause verdict %r but the leg counts derive %r"
                    % (pooled.get("verdict"), want))
+    want_choice = calendar_choice([
+        {"name": "NYSE", "rate": ((full + early) / float(n_one)) if n_one else None,
+         "base": (base_hits / float(base_sessions)) if base_sessions else None},
+        {"name": "HKEX",
+         "rate": (((hk_want["hk_n_closed"] + hk_want["hk_n_thin"] + hk_want["hk_n_window"])
+                   / float(n_one)) if (n_one and hk_want["hk_n_base_sessions"]) else None),
+         "base": hk_base},
+    ])
+    if (pooled.get("calendar_choice") or {}).get("named") != want_choice.get("named"):
+        bad.append("pooled calendar word %r but the counts derive %r"
+                   % ((pooled.get("calendar_choice") or {}).get("named"),
+                      want_choice.get("named")))
+    if (pooled.get("calendar_named") or None) != want_choice.get("named"):
+        bad.append("pooled calendar word %r is not the one the counts derive %r"
+                   % (pooled.get("calendar_named"), want_choice.get("named")))
     stamps = {l["symbol"]: set((l.get("blip_cause") or {}).get("one_row_stamps") or [])
               for l in legs}
     if sum(1 for v in stamps.values() if v) >= 2:
@@ -1855,6 +2219,93 @@ def selftest():
     md4 = render_md(doc)
     chk("What the one-row words are" in md4 and "CALENDAR_GAP" in md4,
         "the rendered page carries the cause section and the derived verdict word")
+
+    # L28 the second calendar is measured, and it is named only on its own evidence
+    HK_HOLIDAYS = [dt.date(2024, 2, 13), dt.date(2024, 4, 4), dt.date(2024, 10, 1),
+                   dt.date(2024, 7, 1), dt.date(2024, 5, 15), dt.date(2024, 9, 18),
+                   dt.date(2024, 12, 26), dt.date(2023, 10, 23)]
+
+    def hk_fixture(closed_days, thin=None, start="2023-10-01", end="2025-06-30"):
+        d = dt.date.fromisoformat(start)
+        stop = dt.date.fromisoformat(end)
+        sessions = []
+        while d <= stop:
+            if d.weekday() < 5 and d not in closed_days:
+                sessions.append(d.isoformat())
+            d += dt.timedelta(days=1)
+        ratio = {k: 1.0 for k in sessions}
+        for k, v in (thin or {}).items():
+            ratio[k.isoformat()] = v
+        return {"sessions": set(sessions), "ratio": ratio, "n": len(sessions),
+                "first": sessions[0] if sessions else None,
+                "last": sessions[-1] if sessions else None, "status": "fixture"}
+
+    hk_fix = hk_fixture(HK_HOLIDAYS)
+    cs_hk = cause_series(HK_HOLIDAYS)
+    c_ny = blip_cause(cs_hk)
+    chk(c_ny["verdict"] == "GAP_WITH_UNKNOWN_CALENDAR" and c_ny["hk_rate"] is None,
+        "on Hong Kong holidays the rules-only reading leaves the runs unnamed")
+    c_hk = blip_cause(cs_hk, market=hk_fix)
+    chk(c_hk["calendar_named"] == "HKEX" and c_hk["verdict"] == "CALENDAR_GAP",
+        "the measured HKEX calendar names the runs the US list cannot")
+    chk((c_hk["hk_rate"] or 0.0) >= 0.99 and (c_hk["hk_n_closed"] or 0) == len(HK_HOLIDAYS),
+        "the HK reading is a rate against its own ordinary sessions, not a bare count")
+
+    # L29 the half-day cutoff is a ruler, so the page prints three of them
+    THIN_DAYS = [dt.date(2024, 8, 14), dt.date(2024, 8, 21), dt.date(2024, 8, 28)]
+    c_thin = blip_cause(cause_series(THIN_DAYS),
+                        market=hk_fixture([], thin={d: 0.55 for d in THIN_DAYS}))
+    sens = c_thin["hk_thin_sensitivity"]
+    chk(c_thin["hk_n_thin"] == len(THIN_DAYS),
+        "a half day trades about half its own trailing turnover and carries no valuation")
+    chk(sens["0.50"]["n_matched"] == 0 and sens["0.60"]["n_matched"] == len(THIN_DAYS)
+        and sens["0.70"]["n_matched"] == len(THIN_DAYS),
+        "the same half day counts at 60% and 70% of trailing turnover, not at 50%")
+    chk(sens["0.50"]["n_matched"] <= sens["0.60"]["n_matched"] <= sens["0.70"]["n_matched"],
+        "the three thresholds are monotone, so the page can print them side by side")
+
+    # L30 a date both calendars explain is a tie, and a tie names neither
+    BOTH = [dt.date(2024, 12, 25), dt.date(2024, 1, 1), dt.date(2023, 12, 25)]
+    c_both = blip_cause(cause_series(BOTH), market=hk_fixture(BOTH))
+    chk(c_both["calendar_choice"]["reason"] == "TWO_CALENDARS_FIT_ALIKE"
+        and c_both["calendar_named"] is None
+        and c_both["verdict"] == "GAP_WITH_UNKNOWN_CALENDAR",
+        "Christmas is shut in both markets, so the page names neither calendar")
+
+    # L31 the two-calendar block must be the arithmetic of its own counts
+    leg_hk = {"symbol": "T", "n_sessions": len(cs_hk), "latest_purchase_kind": "closed",
+              "blocked_sessions": 0, "window_verdict": "CHANNEL_CLOSED_THROUGHOUT",
+              "high_premium": {"n_high": 0, "share_closed_at_high": None},
+              "episode_granularity": episode_read(cs_hk),
+              "blip_cadence": blip_cadence(cs_hk),
+              "blip_cause": blip_cause(cs_hk, market=hk_fix),
+              "block_contrast": {"verdict": "NO_CONTRAST"}}
+    doc_hk = {"legs": [leg_hk], "blip_cadence_pooled": pooled_cadence([leg_hk]),
+              "blip_cause_pooled": pooled_blip_cause([leg_hk]),
+              "ruler": {"premium": "close/nav-1", "status_join": "stamp"},
+              "summary_sentence": "sentence",
+              "hk_index": {"status": "fixture", "n": hk_fix["n"],
+                           "first": hk_fix["first"], "last": hk_fix["last"]}}
+    chk(_check_cause(doc_hk, page=False) == [], "a consistent two-calendar block passes")
+    doc_hk1 = json.loads(json.dumps(doc_hk))
+    doc_hk1["legs"][0]["blip_cause"]["calendar_named"] = "NYSE"
+    chk(_check_cause(doc_hk1, page=False) != [],
+        "a calendar word that its own choice block does not name goes red")
+    doc_hk2 = json.loads(json.dumps(doc_hk))
+    doc_hk2["legs"][0]["blip_cause"]["hk_n_closed"] += 1
+    chk(_check_cause(doc_hk2, page=False) != [],
+        "HK closure counts that do not add up to the runs go red")
+    doc_hk3 = json.loads(json.dumps(doc_hk))
+    doc_hk3["blip_cause_pooled"]["calendar_choice"]["named"] = "NYSE"
+    chk(_check_cause(doc_hk3, page=False) != [],
+        "a pooled calendar word that the pooled counts do not derive goes red")
+    doc_md = json.loads(json.dumps(doc))
+    doc_md["legs"][0]["blip_cause"] = blip_cause(cs_hk, market=hk_fix)
+    doc_md["blip_cause_pooled"] = pooled_blip_cause(doc_md["legs"])
+    doc_md["hk_index"] = doc_hk["hk_index"]
+    md5 = render_md(doc_md)
+    chk("Two calendars in hand" in md5 and "HKEX" in md5 and "50%" in md5,
+        "the rendered page carries both calendars and the three half-day thresholds")
 
     print("selftest %d/%d" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1
