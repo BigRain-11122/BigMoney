@@ -47,6 +47,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TICKET_DIR = os.path.join(ROOT, "results", "etf_book_order")
 IOPV_DIR = os.path.join(ROOT, "data", "etf_premium", "snap")
 NAVHIST_DIR = os.path.join(ROOT, "data", "fund_premium", "snapshots")
+OWNHIST_DIR = os.path.join(ROOT, "data", "etf_premium", "nav_history")  # per-fund date,nav
+DAILY_DIR = os.path.join(ROOT, "data", "daily")
 OUT_JSON = os.path.join(ROOT, "results", "etf_book_premium_leak.json")
 
 # ---- frozen criteria (pre-registered before the first run; --check echoes them back) ----
@@ -54,6 +56,9 @@ WARN_SHARE_PCT = 1.0       # premium paid >= 1.0% of the order -> worth printing
 DOMINATE_SHARE_PCT = 5.0   # premium paid >= 5.0% of the order -> entry cost dominates
 TOP_PCTILE = 95.0          # a name in the market's top 5% premium is flagged by name
 MIN_HISTORY_OBS = 2        # fewer than two NAV-ruler observations is not a history
+OWN_MIN_OBS = 60           # a percentile of <60 sessions is not this fund's OWN norm
+OWN_DECILE_PCTILE = 90.0   # "top decile of its own history" -- the own-ruler flag line
+OWN_RULER = "close / published unit NAV - 1 (this fund's own history, one ruler, paired by date)"
 
 CRITERIA = {
     "warn_share_pct": WARN_SHARE_PCT,
@@ -251,6 +256,178 @@ def nav_ruler_history(symbols):
     return out
 
 
+def _price_csv(code):
+    """This repo stores one instrument under up to three file names (see
+    `etf_composite_pf._stem_key`): <code>.csv, sh<code>.csv, sz<code>.csv."""
+    for name in (code + ".csv", "sh" + code + ".csv", "sz" + code + ".csv"):
+        p = os.path.join(DAILY_DIR, name)
+        if os.path.exists(p):
+            return p
+    return None
+
+
+def _rel_safe(path):
+    """Repo-relative label, or the absolute path when the file lives on another drive.
+
+    `os.path.relpath` raises ValueError across Windows drives (repo on K:, fixtures in
+    TEMP on C:), and a self-test fixture is exactly that case (r1371 family)."""
+    if not path:
+        return None
+    try:
+        return os.path.relpath(path, ROOT)
+    except ValueError:
+        return path
+
+
+def own_series(code, daily_dir=None, navhist_dir=None):
+    """One fund's premium history on ONE ruler: close / published unit NAV - 1.
+
+    The price leg and the NAV leg are joined on the DATE, never on position: a NAV can
+    print on a session the fund did not trade, and a price can exist before the fund
+    published a NAV. Returns (series, meta); series is [(day, premium_fraction)] in date
+    order, or None when either leg is missing -- absence is not a zero premium.
+    """
+    import pandas as pd
+    daily_dir = daily_dir or DAILY_DIR
+    navhist_dir = navhist_dir or OWNHIST_DIR
+    price_path = None
+    for name in (code + ".csv", "sh" + code + ".csv", "sz" + code + ".csv"):
+        p = os.path.join(daily_dir, name)
+        if os.path.exists(p):
+            price_path = p
+            break
+    nav_path = os.path.join(navhist_dir, code + ".csv")
+    meta = {"symbol": code, "ruler": OWN_RULER,
+            "price_path": _rel_safe(price_path),
+            "nav_path": _rel_safe(nav_path) if os.path.exists(nav_path) else None}
+    if not price_path or not os.path.exists(nav_path):
+        meta["status"] = "NO_LOCAL_HISTORY"
+        return None, meta
+    px = pd.read_csv(price_path, parse_dates=["date"]).set_index("date")["close"]
+    nav = pd.read_csv(nav_path, parse_dates=["date"]).set_index("date")["nav"]
+    df = pd.DataFrame({"close": pd.to_numeric(px, errors="coerce"),
+                       "nav": pd.to_numeric(nav, errors="coerce")}).dropna()
+    df = df[df["nav"] > 0]
+    if not len(df):
+        meta["status"] = "NO_OVERLAP"
+        return None, meta
+    series = [(str(idx)[:10], float(c / n - 1.0)) for idx, c, n in
+              zip(df.index, df["close"].tolist(), df["nav"].tolist())]
+    meta["status"] = "OK"
+    return series, meta
+
+
+def _quant(sorted_vals, p):
+    if not sorted_vals:
+        return None
+    k = (len(sorted_vals) - 1) * p
+    lo = int(k)
+    hi = min(lo + 1, len(sorted_vals) - 1)
+    frac = k - lo
+    return sorted_vals[lo] * (1.0 - frac) + sorted_vals[hi] * frac
+
+
+def own_stats(series, code, meta=None, min_obs=OWN_MIN_OBS):
+    """Where the LATEST reading sits inside this fund's own distribution.
+
+    The latest reading is the last day where both a close and a published NAV exist --
+    never today's intraday IOPV premium (that is the entry ruler, a different quantity)."""
+    base = dict(meta or {})
+    base.setdefault("symbol", code)
+    base.setdefault("ruler", OWN_RULER)
+    vals = [v for _, v in (series or [])]
+    base["n_obs"] = len(vals)
+    if not vals and base.get("status") in ("NO_LOCAL_HISTORY", "NO_OVERLAP"):
+        for k in ("median_pct", "p10_pct", "p90_pct", "min_pct", "max_pct",
+                  "last_pct", "last_pctile", "last_rank", "above_own_median_pp",
+                  "first_day", "last_day"):
+            base[k] = None
+        return base
+    if len(vals) < min_obs:
+        base["status"] = "NOT_ENOUGH_OBSERVATIONS"
+        for k in ("median_pct", "p10_pct", "p90_pct", "min_pct", "max_pct",
+                  "last_pct", "last_pctile", "last_rank", "above_own_median_pp",
+                  "first_day", "last_day"):
+            base[k] = None
+        return base
+    s = sorted(vals)
+    last = vals[-1]
+    below = sum(1 for v in s if v < last)
+    base.update({
+        "status": "OK",
+        "first_day": series[0][0],
+        "last_day": series[-1][0],
+        "median_pct": round(_quant(s, 0.50) * 100.0, 4),
+        "p10_pct": round(_quant(s, 0.10) * 100.0, 4),
+        "p90_pct": round(_quant(s, 0.90) * 100.0, 4),
+        "min_pct": round(s[0] * 100.0, 4),
+        "max_pct": round(s[-1] * 100.0, 4),
+        "last_pct": round(last * 100.0, 4),
+        "last_pctile": round(below / len(s) * 100.0, 2),
+        "last_rank": (len(s) - below),
+        "above_own_median_pp": round((last - _quant(s, 0.50)) * 100.0, 4),
+    })
+    return base
+
+
+def own_history(rows, daily_dir=None, navhist_dir=None):
+    """Per-name own-ruler block. Missing legs stay unreadable -- never zero, never skipped
+    silently (a name with no discipline here would print 'no premium' by omission)."""
+    out = {}
+    for r in rows:
+        code = str(r.get("symbol") or "").zfill(6)
+        series, meta = own_series(code, daily_dir=daily_dir, navhist_dir=navhist_dir)
+        out[code] = own_stats(series, code, meta)
+    return out
+
+
+def own_summary(own, rows, top_pctile=OWN_DECILE_PCTILE):
+    """The own-ruler sentence: how many of the names the order buys sit in the top decile
+    of their OWN history, and what a reversion to their own median would cost.
+
+    The money figure is deliberately NOT 'revert to zero': zero is not what these funds
+    do (their medians are positive). It is 'give back only the part above the fund's own
+    median', which is the part today's premium adds on top of normal life."""
+    hot, unreadable, revert = [], [], 0.0
+    readable = 0
+    for r in rows:
+        code = str(r.get("symbol") or "").zfill(6)
+        st = own.get(code) or {}
+        if st.get("status") != "OK":
+            unreadable.append(code)
+            continue
+        readable += 1
+        if (st.get("last_pctile") or 0.0) >= top_pctile:
+            hot.append(code)
+        if r.get("status") == "OK" and st.get("median_pct") is not None:
+            iopv = _num(r.get("iopv"))
+            shares = float(r.get("shares") or 0.0)
+            if iopv:
+                revert += shares * iopv * ((r["premium_pct"] / 100.0) - st["median_pct"] / 100.0)
+    n = len(rows)
+    if not readable:
+        word = "OWN_HISTORY_UNREADABLE"
+    elif len(hot) == n:
+        word = "EVERY_NAME_ABOVE_OWN_TOP_DECILE"
+    elif hot:
+        word = "SOME_NAMES_ABOVE_OWN_TOP_DECILE"
+    else:
+        word = "NO_NAME_ABOVE_OWN_TOP_DECILE"
+    return {
+        "ruler": OWN_RULER,
+        "top_decile_pctile": top_pctile,
+        "n_names": n,
+        "n_readable": readable,
+        "n_unreadable": len(unreadable),
+        "unreadable": unreadable,
+        "in_own_top_decile": hot,
+        "revert_to_own_median_cny": round(revert, 2),
+        "revert_note": ("stress, not a forecast: it gives back only the part ABOVE each "
+                        "fund's own median premium, and only for names this order is buying"),
+        "verdict": word,
+    }
+
+
 def build(ticket_path=None):
     tk_path = ticket_path or latest_ticket()
     if not tk_path or not os.path.exists(tk_path):
@@ -284,6 +461,8 @@ def build(ticket_path=None):
                  if r["status"] == "OK" and (r["market_pctile"] or 0.0) >= TOP_PCTILE]
     word, why = verdict_of(tot, len(top_names), top_names)
     hist = nav_ruler_history([r["symbol"] for r in rows])
+    own = own_history(rows)
+    own_s = own_summary(own, rows)
 
     return {
         "status": "ok",
@@ -303,8 +482,12 @@ def build(ticket_path=None):
             "if_premium_reverts_to_zero_cny": -tot["premium_paid_cny"],
             "if_premium_reverts_to_zero_pct_of_nav": (
                 round(-tot["premium_paid_cny"] / nav * 100.0, 4) if nav else None),
+            "if_premium_reverts_to_own_median_cny": -own_s["revert_to_own_median_cny"],
+            "if_premium_reverts_to_own_median_pct_of_nav": (
+                round(-own_s["revert_to_own_median_cny"] / nav * 100.0, 4) if nav else None),
             "note": "reversion is a stress, not a forecast: the gap can persist while the "
-                    "sleeve stays hard to buy",
+                    "sleeve stays hard to buy. Zero is the outer bound; each fund's own "
+                    "median is the realistic one -- these funds normally live above NAV.",
         },
         "rulers": {
             "entry": "price / IOPV - 1, same session (this is what the order pays)",
@@ -312,6 +495,9 @@ def build(ticket_path=None):
                        "quantity, printed separately, never blended)",
         },
         "nav_ruler_history": hist,
+        "own_criteria": {"min_obs": OWN_MIN_OBS, "top_decile_pctile": OWN_DECILE_PCTILE},
+        "own_ruler": own,
+        "own_ruler_summary": own_s,
     }
 
 
@@ -343,6 +529,35 @@ def check(path=OUT_JSON):
     if face.get("session_match") is False:
         fails.append("ticket session %r != iopv session %r"
                      % (face.get("ticket_session"), face.get("iopv_session")))
+    # ---- own-history ruler (r1553): echoed criteria, no silent omission, recomputed words
+    own_crit = face.get("own_criteria") or {}
+    if own_crit != {"min_obs": OWN_MIN_OBS, "top_decile_pctile": OWN_DECILE_PCTILE}:
+        fails.append("own_criteria echo %r != constants" % (own_crit,))
+    own = face.get("own_ruler") or {}
+    symbols = [str(r.get("symbol") or "").zfill(6) for r in rows]
+    missing = [s for s in symbols if s not in own]
+    if missing:
+        fails.append("own_ruler has no row for %s (a name must be unreadable, not absent)"
+                     % ",".join(missing))
+    for s in symbols:
+        st = own.get(s) or {}
+        if st.get("status") == "OK" and (st.get("n_obs") or 0) < OWN_MIN_OBS:
+            fails.append("%s own_ruler OK with n_obs=%r < %d" % (s, st.get("n_obs"), OWN_MIN_OBS))
+        if st.get("status") == "OK" and st.get("last_pctile") is None:
+            fails.append("%s own_ruler OK without last_pctile" % s)
+    stored = face.get("own_ruler_summary") or {}
+    recomputed = own_summary(own, rows)
+    if stored.get("verdict") != recomputed["verdict"]:
+        fails.append("own verdict %r recomputes to %r"
+                     % (stored.get("verdict"), recomputed["verdict"]))
+    if stored.get("in_own_top_decile") != recomputed["in_own_top_decile"]:
+        fails.append("own top-decile list %r recomputes to %r"
+                     % (stored.get("in_own_top_decile"), recomputed["in_own_top_decile"]))
+    if abs((stored.get("revert_to_own_median_cny") or 0.0)
+           - recomputed["revert_to_own_median_cny"]) > 0.02:
+        fails.append("own median-reversion %.2f != recomputed %.2f"
+                     % (stored.get("revert_to_own_median_cny"),
+                        recomputed["revert_to_own_median_cny"]))
     if fails:
         print("[check] FAIL")
         for f in fails:
@@ -455,6 +670,77 @@ def selftest():
     except OSError:
         pass
 
+    # ---- own-history ruler (r1553): the percentile of "for THIS fund", not of the board
+    import csv as _csv
+    import tempfile as _tf
+    base = _tf.mkdtemp(prefix="_prem_own_")
+    ddir = os.path.join(base, "daily")
+    ndir = os.path.join(base, "navhist")
+    os.makedirs(ddir)
+    os.makedirs(ndir)
+
+    def _write_series(code, px_rows, nav_rows):
+        with open(os.path.join(ddir, code + ".csv"), "w", newline="", encoding="utf-8") as fh:
+            w = _csv.writer(fh)
+            w.writerow(["date", "open", "high", "low", "close", "volume", "amount"])
+            for d, c in px_rows:
+                w.writerow([d, c, c, c, c, 1, 1])
+        with open(os.path.join(ndir, code + ".csv"), "w", newline="", encoding="utf-8") as fh:
+            w = _csv.writer(fh)
+            w.writerow(["date", "nav"])
+            for d, n in nav_rows:
+                w.writerow([d, n])
+
+    # L12 the percentile is this fund's own: nine sessions at 1% and one at 10%
+    days = ["2026-01-%02d" % (i + 1) for i in range(10)]
+    _write_series("100001", [(d, 1.01) for d in days[:9]] + [(days[9], 1.10)],
+                  [(d, 1.00) for d in days])
+    ser, meta = own_series("100001", daily_dir=ddir, navhist_dir=ndir)
+    st = own_stats(ser, "100001", meta, min_obs=2)
+    ck("L12a", st["n_obs"] == 10, str(st.get("n_obs")))
+    ck("L12b", abs(st["last_pct"] - 10.0) < 1e-9 and abs(st["last_pctile"] - 90.0) < 1e-9,
+       "%s %s" % (st.get("last_pct"), st.get("last_pctile")))
+    ck("L12c", abs(st["median_pct"] - 1.0) < 1e-9, str(st.get("median_pct")))
+    ck("L12d", abs(st["above_own_median_pp"] - 9.0) < 1e-9, str(st.get("above_own_median_pp")))
+
+    # L13 the reading is the last JOINED date: a price with no NAV must not be used
+    _write_series("100002", [(d, 1.05) for d in days] + [("2026-02-01", 9.99)],
+                  [(d, 1.00) for d in days])
+    ser2, meta2 = own_series("100002", daily_dir=ddir, navhist_dir=ndir)
+    st2 = own_stats(ser2, "100002", meta2, min_obs=2)
+    ck("L13", abs(st2["last_pct"] - 5.0) < 1e-9 and st2["last_day"] == days[-1],
+       "%s %s" % (st2.get("last_pct"), st2.get("last_day")))
+
+    # L14 a missing leg is unreadable, never a zero premium
+    ser3, meta3 = own_series("199999", daily_dir=ddir, navhist_dir=ndir)
+    st3 = own_stats(ser3, "199999", meta3, min_obs=2)
+    ck("L14a", st3["status"] == "NO_LOCAL_HISTORY" and st3["last_pct"] is None, str(st3))
+    ck("L14b", st3["median_pct"] is None and st3["last_pctile"] is None, str(st3))
+
+    # L15 a percentile of two sessions is not this fund's norm
+    _write_series("100003", [(d, 1.01) for d in days[:2]], [(d, 1.00) for d in days[:2]])
+    ser4, meta4 = own_series("100003", daily_dir=ddir, navhist_dir=ndir)
+    ck("L15", own_stats(ser4, "100003", meta4, min_obs=OWN_MIN_OBS)["status"]
+       == "NOT_ENOUGH_OBSERVATIONS")
+
+    # L16 median reversion is shares*iopv*(entry premium - own median), not premium paid
+    own_fix = {"100001": {"status": "OK", "median_pct": 1.0, "last_pctile": 90.0}}
+    rows_fix = [{"symbol": "100001", "status": "OK", "shares": 10000.0, "iopv": 1.0,
+                 "premium_pct": 6.0}]
+    s16 = own_summary(own_fix, rows_fix)
+    ck("L16", abs(s16["revert_to_own_median_cny"] - 10000.0 * (0.06 - 0.01)) < 0.01,
+       str(s16["revert_to_own_median_cny"]))
+
+    # L17 the word is derived from the list, and an all-unreadable book says so
+    ck("L17a", own_summary({"100001": {"status": "OK", "median_pct": 1.0,
+                                       "last_pctile": 95.0}}, rows_fix)["verdict"]
+       == "EVERY_NAME_ABOVE_OWN_TOP_DECILE")
+    ck("L17b", own_summary({"100001": {"status": "OK", "median_pct": 1.0,
+                                       "last_pctile": 12.0}}, rows_fix)["verdict"]
+       == "NO_NAME_ABOVE_OWN_TOP_DECILE")
+    ck("L17c", own_summary({"100001": {"status": "NO_LOCAL_HISTORY"}}, rows_fix)["verdict"]
+       == "OWN_HISTORY_UNREADABLE")
+
     if fails:
         print("[selftest] %d FAIL" % len(fails))
         for f in fails:
@@ -491,6 +777,27 @@ def gather():
             print("  %s %-10s %s" % (r["symbol"], r["class"], r["status"]))
     print("  years of the book's own backtest return paid up front: %s"
           % tot.get("years_of_backtest_return_paid"))
+    owns = payload.get("own_ruler_summary") or {}
+    own = payload.get("own_ruler") or {}
+    print("[own] %s -- %d/%d readable, top decile: %s"
+          % (owns.get("verdict"), owns.get("n_readable") or 0, owns.get("n_names") or 0,
+             ",".join(owns.get("in_own_top_decile") or []) or "-"))
+    for r in payload["names"]:
+        code = str(r.get("symbol") or "").zfill(6)
+        st = own.get(code) or {}
+        if st.get("status") == "OK":
+            print("  %s own %6d obs %s..%s  last %7.2f%%  pctile %5.1f  "
+                  "median %5.2f  p90 %5.2f  (%+.2fpp vs own median)"
+                  % (code, st["n_obs"], st["first_day"], st["last_day"], st["last_pct"],
+                     st["last_pctile"], st["median_pct"], st["p90_pct"],
+                     st["above_own_median_pp"]))
+        else:
+            print("  %s own %s" % (code, st.get("status")))
+    stress = payload.get("stress") or {}
+    print("  vs its own median: CNY %s (%.2f%% of NAV); vs zero: CNY %s"
+          % (format(stress.get("if_premium_reverts_to_own_median_cny") or 0.0, ",.0f"),
+             stress.get("if_premium_reverts_to_own_median_pct_of_nav") or 0.0,
+             format(stress.get("if_premium_reverts_to_zero_cny") or 0.0, ",.0f")))
     return 0
 
 

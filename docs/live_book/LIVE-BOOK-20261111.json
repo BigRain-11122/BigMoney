@@ -5231,7 +5231,9 @@
   "stress": {
    "if_premium_reverts_to_zero_cny": -32154.29,
    "if_premium_reverts_to_zero_pct_of_nav": -3.2154,
-   "note": "reversion is a stress, not a forecast: the gap can persist while the sleeve stays hard to buy"
+   "if_premium_reverts_to_own_median_cny": -28901.86,
+   "if_premium_reverts_to_own_median_pct_of_nav": -2.8902,
+   "note": "reversion is a stress, not a forecast: the gap can persist while the sleeve stays hard to buy. Zero is the outer bound; each fund's own median is the realistic one -- these funds normally live above NAV."
   },
   "rulers": {
    "entry": "price / IOPV - 1, same session (this is what the order pays)",
@@ -5284,6 +5286,123 @@
     "last_day": "2026-11-09",
     "last_pct": -0.1842
    }
+  },
+  "own_ruler": {
+   "159501": {
+    "symbol": "159501",
+    "ruler": "close / published unit NAV - 1 (this fund's own history, one ruler, paired by date)",
+    "price_path": "data\\daily\\sz159501.csv",
+    "nav_path": "data\\etf_premium\\nav_history\\159501.csv",
+    "status": "OK",
+    "n_obs": 823,
+    "first_day": "2023-06-14",
+    "last_day": "2026-11-06",
+    "median_pct": 1.3595,
+    "p10_pct": -0.6818,
+    "p90_pct": 10.1219,
+    "min_pct": -9.3504,
+    "max_pct": 27.4205,
+    "last_pct": 21.9857,
+    "last_pctile": 99.76,
+    "last_rank": 2,
+    "above_own_median_pp": 20.6262
+   },
+   "513100": {
+    "symbol": "513100",
+    "ruler": "close / published unit NAV - 1 (this fund's own history, one ruler, paired by date)",
+    "price_path": "data\\daily\\513100.csv",
+    "nav_path": "data\\etf_premium\\nav_history\\513100.csv",
+    "status": "OK",
+    "n_obs": 1657,
+    "first_day": "2020-01-02",
+    "last_day": "2026-11-06",
+    "median_pct": 1.7724,
+    "p10_pct": -0.7028,
+    "p90_pct": 10.0239,
+    "min_pct": -6.0014,
+    "max_pct": 27.9855,
+    "last_pct": 19.5171,
+    "last_pctile": 99.03,
+    "last_rank": 16,
+    "above_own_median_pp": 17.7447
+   },
+   "513690": {
+    "symbol": "513690",
+    "ruler": "close / published unit NAV - 1 (this fund's own history, one ruler, paired by date)",
+    "price_path": "data\\daily\\sh513690.csv",
+    "nav_path": "data\\etf_premium\\nav_history\\513690.csv",
+    "status": "OK",
+    "n_obs": 1327,
+    "first_day": "2021-05-20",
+    "last_day": "2026-11-09",
+    "median_pct": -0.0532,
+    "p10_pct": -1.0448,
+    "p90_pct": 1.199,
+    "min_pct": -10.4632,
+    "max_pct": 4.1083,
+    "last_pct": -0.2652,
+    "last_pctile": 38.58,
+    "last_rank": 815,
+    "above_own_median_pp": -0.212
+   },
+   "159577": {
+    "symbol": "159577",
+    "ruler": "close / published unit NAV - 1 (this fund's own history, one ruler, paired by date)",
+    "price_path": "data\\daily\\sz159577.csv",
+    "nav_path": "data\\etf_premium\\nav_history\\159577.csv",
+    "status": "OK",
+    "n_obs": 656,
+    "first_day": "2024-02-23",
+    "last_day": "2026-11-06",
+    "median_pct": 1.6981,
+    "p10_pct": -0.398,
+    "p90_pct": 5.4578,
+    "min_pct": -8.3704,
+    "max_pct": 13.8388,
+    "last_pct": 8.8968,
+    "last_pctile": 98.78,
+    "last_rank": 8,
+    "above_own_median_pp": 7.1987
+   },
+   "159263": {
+    "symbol": "159263",
+    "ruler": "close / published unit NAV - 1 (this fund's own history, one ruler, paired by date)",
+    "price_path": "data\\daily\\sz159263.csv",
+    "nav_path": "data\\etf_premium\\nav_history\\159263.csv",
+    "status": "OK",
+    "n_obs": 326,
+    "first_day": "2025-07-08",
+    "last_day": "2026-11-10",
+    "median_pct": 0.0184,
+    "p10_pct": -0.138,
+    "p90_pct": 0.185,
+    "min_pct": -0.3374,
+    "max_pct": 0.6569,
+    "last_pct": -0.0881,
+    "last_pctile": 17.18,
+    "last_rank": 270,
+    "above_own_median_pp": -0.1065
+   }
+  },
+  "own_ruler_summary": {
+   "ruler": "close / published unit NAV - 1 (this fund's own history, one ruler, paired by date)",
+   "top_decile_pctile": 90.0,
+   "n_names": 5,
+   "n_readable": 5,
+   "n_unreadable": 0,
+   "unreadable": [],
+   "in_own_top_decile": [
+    "159501",
+    "513100",
+    "159577"
+   ],
+   "revert_to_own_median_cny": 28901.86,
+   "revert_note": "stress, not a forecast: it gives back only the part ABOVE each fund's own median premium, and only for names this order is buying",
+   "verdict": "SOME_NAMES_ABOVE_OWN_TOP_DECILE"
+  },
+  "own_criteria": {
+   "min_obs": 60,
+   "top_decile_pctile": 90.0
   },
   "criteria": {
    "warn_share_pct": 1.0,
@@ -6713,8 +6832,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 8.3,
+  "owner_silent_h": 12.9,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 8.3 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 12.9 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

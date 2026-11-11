@@ -1084,6 +1084,9 @@ def premium_face(path=PREMIUM_LEAK_JSON):
         "stress": f.get("stress") or {},
         "rulers": f.get("rulers") or {},
         "nav_ruler_history": f.get("nav_ruler_history") or {},
+        "own_ruler": f.get("own_ruler") or {},
+        "own_ruler_summary": f.get("own_ruler_summary") or {},
+        "own_criteria": f.get("own_criteria") or {},
         "criteria": f.get("criteria") or {},
     }
     return out
@@ -1282,6 +1285,45 @@ def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None):
             % (len(top), (top[0].get("market_n") or 0),
                "、".join("%s 第 %s" % (r["symbol"], r.get("market_rank")) for r in top)))
         add("")
+    # r1553: the cross-section above answers "is this expensive versus the whole board
+    # today". It cannot answer "is this expensive for THIS fund", which is the question a
+    # holder of it asks. The own-history ruler answers that from the fund's own 800-1,600
+    # sessions -- and it is a DIFFERENT day's reading (close / published NAV is disclosed
+    # with a lag), so its date travels with the sentence.
+    own_s = pb.get("own_ruler_summary") or {}
+    own = pb.get("own_ruler") or {}
+    _own_face_ds = str(pb.get("session"))[:10] if pb.get("session") else "—"
+    if own_s.get("verdict") and own_s.get("verdict") != "OWN_HISTORY_UNREADABLE":
+        hot = own_s.get("in_own_top_decile") or []
+        oc = pb.get("own_criteria") or {}
+        bits = []
+        for code in hot:
+            st = own.get(code) or {}
+            if st.get("status") == "OK":
+                bits.append("%s 在 %d 个交易日里排第 %s（%.1f 分位，中位 %.2f%%，当日 %+.2fpp）"
+                            % (code, st["n_obs"], st.get("last_rank"),
+                               st.get("last_pctile") or 0.0, st.get("median_pct") or 0.0,
+                               st.get("above_own_median_pp") or 0.0))
+        add("换一把尺子再问一遍——**只看这只基金自己的历史**（收盘价 ÷ 已公布单位净值 − 1，"
+            "按日期配对）：%d 只可读的票里有 **%d 只**落在自己历史的最高一档（>%.0f 分位）。%s。"
+            % (own_s.get("n_readable") or 0, len(hot), oc.get("top_decile_pctile") or 90.0,
+               "；".join(bits) if bits else "无"))
+        add("")
+        add("这两把尺子量的是两个日子：上面那张表是 **%s** 的盘中 IOPV 溢价，这一句是各自最后一个"
+            "「收盘价与已公布净值都有」的交易日（%s）。不混算、不相减。"
+            % (_own_face_ds, "、".join(sorted({str((own.get(c) or {}).get("last_day"))
+                                           for c in (own or {}) if (own.get(c) or {}).get("last_day")})
+                                  ) or "—"))
+        add("")
+        rv = own_s.get("revert_to_own_median_cny")
+        if rv:
+            st_z = (pb.get("stress") or {}).get("if_premium_reverts_to_zero_cny")
+            add("按「溢价回到各自历史中位」重估这批单：**¥%s**（占资金的 %.2f%%）——"
+                "这不是「回到零」的极端情形，是**回到它们平常的样子**；作为对照，回到零是 ¥%s。"
+                % (format(abs(rv), ",.0f"),
+                   abs((pb.get("stress") or {}).get("if_premium_reverts_to_own_median_pct_of_nav") or 0.0),
+                   format(abs(st_z or 0), ",.0f")))
+            add("")
     # r1504: the dates go INTO the table header. A sentence above the table can be skipped,
     # and the row a reader copies carries no date of its own -- so "which day is this rate
     # from" has to travel with each column, not sit in prose. Every column here (price,
@@ -1361,10 +1403,16 @@ def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None):
                 % "；".join("%s 中位 %+.2f%%（%d 次观测）" % (r["symbol"], r["median_pct"], r["n_obs"])
                            for r in rows))
         if thin:
-            add("- %s 在这把尺子上没有够用的历史观测（少于 %s 次），所以「今天这个溢价算不算高」"
-                "本页答不了——只能答「今天买它要付多少」。" % (
-                    "、".join(t.get("symbol") or "?" for t in thin),
-                    (pb.get("criteria") or {}).get("min_history_obs")))
+            # r1553: this sentence used to end at "the page cannot answer whether today's
+            # premium is high" -- true for THIS lane (the fund-premium snapshot lane is 16
+            # sessions deep), but the page now answers it above from each fund's own 800+
+            # sessions. Leaving the old wording prints "cannot answer" under an answered
+            # question, so it names the lane it is about and points at the answer.
+            add("- 基金溢价快照这条路（T-16 车道）对 %s 观测不足（少于 %s 次）——"
+                "它答不了「今天这个溢价算不算高」；**这件事已由上一段的「基金自己历史」那把尺子回答**，"
+                "两把尺子各管各的日子。"
+                % ("、".join(t.get("symbol") or "?" for t in thin),
+                   (pb.get("criteria") or {}).get("min_history_obs")))
     add("")
     add("- 机器判词（`%s`）：**%s** — %s。" % (pb.get("artifact"), pb.get("verdict"),
                                               pb.get("verdict_reason")))
