@@ -1105,6 +1105,38 @@ def render_md(face):
               "（65/62/116/84/118 手）从来没有变成动作行。顺序没错、算术没错，但**打字的人少打五笔**。",
               ""]
 
+    _tr = face.get("transition") or {}
+    if _tr:
+        _st = str(_tr.get("status") or "?")
+        if _st == "EXPLAINED":
+            _say = "**这一行是交易走出来的**：打印的动作正好把上一行搬到声明的账。"
+        elif _st == "UNEXPLAINED_TARGET_WITHOUT_TRADES":
+            _say = ("**这一行不是交易走出来的**：账从 `%s` 到 `%s` 换了持仓，动作行 %d 笔，"
+                    "搬动 **¥%s**。它是一张被直接写下的目标，不能当成交读。"
+                    % (_tr.get("from_bar") or "?", _tr.get("bar") or "?",
+                       int(_tr.get("actions") or 0),
+                       format(_tr.get("cny_moved") or 0.0, ",.0f")))
+        elif _st == "UNEXPLAINED_LOTS":
+            _say = ("**动作行走不到声明的账**：%d 处腿/手数对不上，%s。"
+                    % (len(_tr.get("vanished") or []) + len(_tr.get("appeared") or [])
+                       + len(_tr.get("lots_changed") or []),
+                       "搬动 **¥%s**" % format(_tr.get("cny_moved") or 0.0, ",.0f")
+                       if _tr.get("cny_moved") is not None else "没有当日价，不编金额"))
+        else:
+            _say = "**这是账上的第一行**，没有上一行可比。"
+        L += ["## 这一行账是从哪一行走到哪一行", "", _say, ""]
+        if _tr.get("vanished") or _tr.get("appeared") or _tr.get("lots_changed"):
+            L += ["| 变化 | 代码 | 上一行 + 打印动作 = 应有 | 这一行声明 |",
+                  "|---|---|---|---|"]
+            for s in _tr.get("vanished") or []:
+                L.append("| 消失 | %s | 有 | **没有** |" % s)
+            for s in _tr.get("appeared") or []:
+                L.append("| 出现 | %s | 没有 | **有** |" % s)
+            for r in _tr.get("lots_changed") or []:
+                L.append("| 手数变 | %s | %s 手 | **%s 手** |"
+                         % (r.get("symbol"), r.get("expected_lots"), r.get("target_lots")))
+            L += [""]
+
     base = face.get("next_order_base")
     if base:
         _kind = base.get("kind") or "execution"
@@ -1391,6 +1423,25 @@ def check():
     if any(str(r.get("bar")) in _exec_bars for r in ledger.get("rows") or []
            if str(r.get("kind") or "") == "valuation"):
         bad.append("valuation_row_on_execution_bar")
+
+    # r1563: a bar's provenance is part of the face. A row that declared a book without
+    # printing the trades that build it must say so, and that read must reach the page a
+    # reader actually opens -- not stay in the JSON. A hand-flipped flag is caught here.
+    pub_tr = published.get("transition") or {}
+    fr_tr = fresh.get("transition") or {}
+    for _k in ("status", "bar", "from_bar", "actions"):
+        if (pub_tr.get(_k) or None) != (fr_tr.get(_k) or None):
+            bad.append("transition_%s" % _k)
+            break
+    if ((pub_tr.get("vanished") or []) != (fr_tr.get("vanished") or [])
+            or (pub_tr.get("appeared") or []) != (fr_tr.get("appeared") or [])):
+        bad.append("transition_legs")
+    if len(pub_tr.get("lots_changed") or []) != len(fr_tr.get("lots_changed") or []):
+        bad.append("transition_lots")
+    if os.path.exists(OUT_MD):
+        _txt = open(OUT_MD, encoding="utf-8").read()
+        if "这一行账是从哪一行走到哪一行" not in _txt:
+            bad.append("page_missing_transition")
 
     # r1469: the replay must still reproduce the ledger's own legs, and must reproduce exactly
     # r1483: an identity that was never measured is not a failed identity -- the failure is
@@ -1778,6 +1829,27 @@ def selftest():
         and (_f17.get("account_row") or {}).get("source") == "book_before_declaration")
     chk("and the declaration is still named on the same face",
         str((_f17.get("transition") or {}).get("status") or "").startswith("UNEXPLAINED"))
+
+    # r1563: the bar-to-bar move is a read in its own right and it must reach the page
+    _lt = {"schema": "x", "rows": [
+        {"bar": "2026-11-10", "kind": "execution",
+         "holdings": [{"symbol": "A", "lots": 10, "price": 2.0}],
+         "cash_cny": 1000.0, "risk_book_cny": 2000.0, "actions": []},
+        {"bar": "2026-11-11", "kind": "execution",
+         "holdings": [{"symbol": "B", "lots": 20, "price": 1.0}],
+         "cash_cny": 2000.0, "risk_book_cny": 2000.0, "actions": []}]}
+    _t1 = book_transition(_lt, "2026-11-11", [], [{"symbol": "A", "lots": 10, "price": 2.0}])
+    chk("a row that kept the book needs no trades to explain it", _t1["status"] == "EXPLAINED")
+    _t2 = book_transition(_lt, "2026-11-11", [], [{"symbol": "B", "lots": 20, "price": 1.0}])
+    chk("a row that swapped the book without trades is named",
+        _t2["status"] == "UNEXPLAINED_TARGET_WITHOUT_TRADES"
+        and _t2["vanished"] == ["A"] and _t2["appeared"] == ["B"])
+    chk("the money it moved is priced off the two rows it spans",
+        abs((_t2["cny_moved"] or 0.0) - 4000.0) < 0.01)
+    _frag = render_md({"asof": "2026-11-11", "ticket": "T", "verdict": "CANNOT_VERIFY",
+                       "transition": _t2})
+    chk("the page names the bar-to-bar move instead of leaving it in the json",
+        "这一行不是交易走出来的" in _frag and "消失" in _frag and "出现" in _frag)
 
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1

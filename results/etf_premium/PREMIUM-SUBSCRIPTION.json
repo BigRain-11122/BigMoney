@@ -1,2193 +1,625 @@
 {
  "artifact": "etf_book_premium_subscription",
  "blip_cadence_pooled": {
-  "base_share_modal": 0.2028,
-  "blip_share_modal": 0.5086,
+  "base_share_modal": 0.2023,
+  "blip_share_modal": 0.375,
   "blips_by_weekday": [
-   21,
-   59,
-   3,
-   11,
-   22
+   7,
+   9,
+   1,
+   5,
+   2
   ],
-  "bracketed_by_exchange_only": 116,
+  "bracketed_by_exchange_only": 24,
   "day_of_month_top": [
    {
-    "dom": 26,
-    "n": 11
+    "dom": 2,
+    "n": 5
    },
    {
-    "dom": 5,
-    "n": 8
+    "dom": 4,
+    "n": 2
    },
    {
-    "dom": 20,
-    "n": 8
+    "dom": 10,
+    "n": 2
    }
   ],
   "modal_weekday": "Tue",
   "modal_weekday_index": 1,
-  "n_blocked": 141,
-  "n_one_row": 116,
-  "nav_jump_gt3pct": 1,
+  "n_blocked": 42,
+  "n_one_row": 24,
+  "nav_jump_gt3pct": 0,
   "sessions_by_weekday": [
-   990,
-   1022,
-   1019,
-   1019,
-   989
+   1269,
+   1311,
+   1313,
+   1313,
+   1275
   ],
-  "tail_p": 2.556352158700705e-13,
-  "verdict": "BLIP_WEEKDAY_CADENCE"
+  "tail_p": 0.03865463618640367,
+  "verdict": "BLIP_NO_CADENCE"
  },
  "blip_cause_cross": {
-  "best": {
-   "a": "159501",
-   "b": "159577",
-   "n_a": 29,
-   "n_b": 20,
-   "n_shared": 20,
-   "shared_first": "2024-03-29",
-   "shared_last": "2026-09-07"
-  },
-  "pairs": [
-   {
-    "a": "159501",
-    "b": "159577",
-    "n_a": 29,
-    "n_b": 20,
-    "n_shared": 20,
-    "shared_first": "2024-03-29",
-    "shared_last": "2026-09-07"
-   },
-   {
-    "a": "159501",
-    "b": "513100",
-    "n_a": 29,
-    "n_b": 43,
-    "n_shared": 12,
-    "shared_first": "2023-06-19",
-    "shared_last": "2024-09-02"
-   },
-   {
-    "a": "159577",
-    "b": "513100",
-    "n_a": 20,
-    "n_b": 43,
-    "n_shared": 5,
-    "shared_first": "2024-03-29",
-    "shared_last": "2024-09-02"
-   },
-   {
-    "a": "159501",
-    "b": "513690",
-    "n_a": 29,
-    "n_b": 24,
-    "n_shared": 1,
-    "shared_first": "2026-05-25",
-    "shared_last": "2026-05-25"
-   },
-   {
-    "a": "159577",
-    "b": "513690",
-    "n_a": 20,
-    "n_b": 24,
-    "n_shared": 1,
-    "shared_first": "2026-05-25",
-    "shared_last": "2026-05-25"
-   }
-  ]
+  "best": null,
+  "pairs": []
  },
  "blip_cause_pooled": {
-  "base_rate": 0.0301,
+  "base_rate": 0.0479,
   "both_channels_share": 1.0,
-  "both_channels_suspended": 116,
+  "both_channels_suspended": 24,
   "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
   "calendar_choice": {
-   "named": "NYSE",
+   "named": "HKEX",
    "qualified": [
-    "NYSE"
+    "HKEX"
    ],
    "reason": "ONE_CALENDAR_CLEARS_THE_BAR"
   },
-  "calendar_named": "NYSE",
-  "closure_rate": 0.7672,
-  "exact_carry": 11,
-  "hk_base_rate": 0.0565,
+  "calendar_named": "HKEX",
+  "closure_rate": 0.0417,
+  "exact_carry": 0,
+  "hk_base_rate": 0.0627,
   "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
-  "hk_lift": 6.87,
-  "hk_n_base_closure": 278,
-  "hk_n_base_sessions": 4920,
-  "hk_n_closed": 40,
-  "hk_n_thin": 3,
-  "hk_n_unmatched": 71,
-  "hk_n_window": 2,
-  "hk_rate": 0.3879,
+  "hk_lift": 13.95,
+  "hk_n_base_closure": 405,
+  "hk_n_base_sessions": 6457,
+  "hk_n_closed": 19,
+  "hk_n_thin": 2,
+  "hk_n_unmatched": 3,
+  "hk_n_window": 0,
+  "hk_rate": 0.875,
   "hk_thin_sensitivity": {
    "0.50": {
-    "n_matched": 44,
-    "rate": 0.3793
+    "n_matched": 20,
+    "rate": 0.8333
    },
    "0.60": {
-    "n_matched": 45,
-    "rate": 0.3879
+    "n_matched": 21,
+    "rate": 0.875
    },
    "0.70": {
-    "n_matched": 49,
-    "rate": 0.4224
+    "n_matched": 22,
+    "rate": 0.9167
    }
   },
-  "lift": 25.51,
-  "n_base_closure": 148,
-  "n_base_sessions": 4920,
-  "n_blocked": 141,
+  "lift": 0.87,
+  "n_base_closure": 309,
+  "n_base_sessions": 6457,
+  "n_blocked": 42,
   "n_closure_early": 0,
-  "n_closure_full": 89,
-  "n_closure_unmatched": 27,
-  "n_move_le_quarter": 92,
-  "n_move_ratio": 116,
-  "n_one_row": 116,
+  "n_closure_full": 1,
+  "n_closure_unmatched": 23,
+  "n_move_le_quarter": 14,
+  "n_move_ratio": 24,
+  "n_one_row": 24,
   "nav_move_basis": "largest / 90th percentile over the legs' one-row stamps",
-  "nav_move_max_pct": 80.4911,
-  "nav_move_max_stamp": "2022-01-13",
+  "nav_move_max_pct": 1.6011,
+  "nav_move_max_stamp": "2022-08-25",
   "nav_move_p90_pct": 0.8458,
   "nav_move_ratio_basis": "median over legs of each leg's own median",
-  "nav_move_ratio_median": 0.0961,
-  "share_move_le_quarter": 0.7931,
+  "nav_move_ratio_median": 0.1271,
+  "share_move_le_quarter": 0.5833,
   "verdict": "CALENDAR_GAP"
  },
  "decisions": {},
- "evidence_cutoff": "2026-11-10",
+ "evidence_cutoff": "2026-11-11",
  "hk_index": {
   "first": "2013-08-20",
   "last": "2026-11-10",
   "n": 3255,
   "note": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
-  "status": "cache"
+  "status": "cache-stale"
  },
  "legs": [
   {
-   "amount_cny": 78501.0,
+   "amount_cny": 86345.9,
    "blip_cadence": {
-    "base_share_modal": 0.2036,
-    "blip_share_modal": 0.5172,
+    "base_share_modal": null,
+    "blip_share_modal": null,
     "blips_by_weekday": [
-     4,
-     15,
-     1,
-     2,
-     7
+     0,
+     0,
+     0,
+     0,
+     0
     ],
-    "bracketed_by_exchange_only": 29,
-    "day_of_month_top": [
-     {
-      "dom": 20,
-      "n": 5
-     },
-     {
-      "dom": 26,
-      "n": 4
-     },
-     {
-      "dom": 5,
-      "n": 3
-     }
-    ],
-    "examples": [
-     "2023-06-20",
-     "2023-07-05",
-     "2023-09-05"
-    ],
-    "modal_weekday": "Tue",
-    "modal_weekday_index": 1,
+    "bracketed_by_exchange_only": 0,
+    "day_of_month_top": [],
+    "examples": [],
+    "modal_weekday": null,
+    "modal_weekday_index": null,
     "n_blips_unreadable_date": 0,
-    "n_blocked": 29,
-    "n_one_row": 29,
+    "n_blocked": 0,
+    "n_one_row": 0,
     "n_sessions_unreadable_date": 0,
     "nav_jump_gt3pct": 0,
-    "nav_jump_max_abs_pct": 0.6404,
+    "nav_jump_max_abs_pct": null,
     "not_a_cause": "a weekly source refresh and a real one-day announcement are indistinguishable here; this block prices when the word appears",
     "sessions_by_weekday": [
-     163,
-     168,
-     168,
-     166,
-     160
+     291,
+     301,
+     303,
+     303,
+     296
     ],
-    "tail_p": 0.00017536584391021246,
-    "verdict": "BLIP_NO_CADENCE"
+    "tail_p": null,
+    "verdict": "TOO_FEW_BLIPS"
    },
    "blip_cause": {
-    "base_rate": 0.0164,
-    "both_channels_share": 1.0,
-    "both_channels_suspended": 29,
+    "base_rate": 0.0475,
+    "both_channels_share": null,
+    "both_channels_suspended": 0,
     "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
     "calendar_choice": {
-     "named": "NYSE",
-     "qualified": [
-      "NYSE"
-     ],
-     "reason": "ONE_CALENDAR_CLEARS_THE_BAR"
+     "named": null,
+     "qualified": [],
+     "reason": "NO_CALENDAR_CLEARS_THE_BAR"
     },
-    "calendar_named": "NYSE",
-    "closure_rate": 0.9655,
-    "exact_carry": 1,
-    "hk_base_rate": 0.0579,
+    "calendar_named": null,
+    "closure_rate": null,
+    "exact_carry": 0,
+    "hk_base_rate": 0.0656,
     "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
     "hk_index_last": "2026-11-10",
-    "hk_index_status": "cache",
-    "hk_lift": 4.77,
-    "hk_n_base_closure": 46,
-    "hk_n_base_sessions": 795,
-    "hk_n_closed": 7,
+    "hk_index_status": "cache-stale",
+    "hk_lift": null,
+    "hk_n_base_closure": 98,
+    "hk_n_base_sessions": 1494,
+    "hk_n_closed": 0,
     "hk_n_thin": 0,
-    "hk_n_unmatched": 21,
-    "hk_n_window": 1,
-    "hk_rate": 0.2759,
+    "hk_n_unmatched": 0,
+    "hk_n_window": 0,
+    "hk_rate": null,
     "hk_thin_max": 0.6,
     "hk_thin_sensitivity": {
      "0.50": {
-      "n_matched": 8,
-      "rate": 0.2759
+      "n_matched": 0,
+      "rate": null
      },
      "0.60": {
-      "n_matched": 8,
-      "rate": 0.2759
+      "n_matched": 0,
+      "rate": null
      },
      "0.70": {
-      "n_matched": 9,
-      "rate": 0.3103
+      "n_matched": 0,
+      "rate": null
      }
     },
-    "hk_unmatched_stamps": [
-     "2023-06-19",
-     "2023-07-04",
-     "2023-09-04",
-     "2023-11-23",
-     "2024-01-15",
-     "2024-05-27",
-     "2024-06-19",
-     "2024-07-04",
-     "2024-09-02",
-     "2024-11-28",
-     "2025-01-09",
-     "2025-01-20"
-    ],
-    "lift": 59.05,
-    "n_base_closure": 13,
-    "n_base_sessions": 795,
-    "n_blocked": 29,
+    "hk_unmatched_stamps": [],
+    "lift": null,
+    "n_base_closure": 71,
+    "n_base_sessions": 1494,
+    "n_blocked": 0,
     "n_closure_early": 0,
-    "n_closure_full": 28,
-    "n_closure_unmatched": 1,
-    "n_move_le_quarter": 27,
-    "n_move_ratio": 29,
+    "n_closure_full": 0,
+    "n_closure_unmatched": 0,
+    "n_move_le_quarter": 0,
+    "n_move_ratio": 0,
     "n_multi_row": 0,
-    "n_one_row": 29,
-    "nav_move_max_pct": 0.6404,
-    "nav_move_max_stamp": "2024-02-19",
-    "nav_move_p90_pct": 0.1595,
-    "nav_move_ratio_median": 0.0652,
+    "n_one_row": 0,
+    "nav_move_max_pct": null,
+    "nav_move_max_stamp": null,
+    "nav_move_p90_pct": null,
+    "nav_move_ratio_median": null,
     "not_proof": "the closure calendar explains the dates; it does not make the premium fair and it is not a statement about quotas",
-    "one_row_stamps": [
-     "2023-06-19",
-     "2023-07-04",
-     "2023-09-04",
-     "2023-11-23",
-     "2023-12-25",
-     "2024-01-15",
-     "2024-02-19",
-     "2024-03-29",
-     "2024-05-27",
-     "2024-06-19",
-     "2024-07-04",
-     "2024-09-02",
-     "2024-11-28",
-     "2024-12-25",
-     "2025-01-09",
-     "2025-01-20",
-     "2025-02-17",
-     "2025-04-18",
-     "2025-05-26",
-     "2025-06-19",
-     "2025-07-04",
-     "2025-09-01",
-     "2025-11-27",
-     "2025-12-25",
-     "2026-01-19",
-     "2026-04-03",
-     "2026-05-25",
-     "2026-07-03",
-     "2026-09-07"
-    ],
-    "share_move_le_quarter": 0.931,
-    "unmatched_stamps": [
-     "2025-01-09"
-    ],
-    "verdict": "CALENDAR_GAP"
+    "one_row_stamps": [],
+    "share_move_le_quarter": 0.0,
+    "unmatched_stamps": [],
+    "verdict": "NO_ONE_ROW_RUNS"
    },
    "block_contrast": {
     "excluded_requested": 0,
-    "gap_pp": 0.22034510669404206,
-    "median_blocked_pct": 1.4954993266709016,
-    "median_exchange_pct": 1.2751542199768595,
-    "n_blocked": 29,
-    "n_exchange": 796,
-    "n_excluded": 0,
-    "verdict": "BLOCK_DOES_NOT_WIDEN"
-   },
-   "block_contrast_excl_gaps": {
-    "excluded_requested": 29,
     "median_blocked_pct": null,
-    "median_exchange_pct": 1.2751542199768595,
+    "median_exchange_pct": null,
     "n_blocked": 0,
-    "n_exchange": 796,
-    "n_excluded": 29,
+    "n_exchange": 0,
+    "n_excluded": 0,
     "verdict": "NO_CONTRAST"
    },
-   "blocked_sessions": 29,
-   "board_premium_pct": 20.2896,
-   "class": "crossborder",
+   "block_contrast_excl_gaps": {
+    "excluded_requested": 0,
+    "median_blocked_pct": null,
+    "median_exchange_pct": null,
+    "n_blocked": 0,
+    "n_exchange": 0,
+    "n_excluded": 0,
+    "verdict": "NO_CONTRAST"
+   },
+   "blocked_sessions": 0,
+   "board_premium_pct": 0.1092,
+   "class": "equity",
    "episode_granularity": {
-    "blocked_one_row": 29,
-    "episode_gap_pp": 0.22034510669404206,
-    "episodes_gap_positive": 15,
-    "exchange_baseline_pct": 1.2751542199768595,
-    "gap_without_longest_pp": 0.492193951650266,
-    "longest_block_gap_pp": -1.178722204547733,
-    "longest_blocked_first": "2023-06-20",
-    "longest_blocked_last": "2023-06-20",
-    "longest_blocked_rows": 1,
-    "median_blocked_rows": 1,
-    "n_blocked_episodes": 29,
-    "n_episodes": 59,
-    "n_gaps": 29,
+    "blocked_one_row": 0,
+    "episode_gap_pp": null,
+    "episodes_gap_positive": 0,
+    "exchange_baseline_pct": null,
+    "gap_without_longest_pp": null,
+    "longest_block_gap_pp": null,
+    "longest_blocked_first": null,
+    "longest_blocked_last": null,
+    "longest_blocked_rows": 0,
+    "median_blocked_rows": null,
+    "n_blocked_episodes": 0,
+    "n_episodes": 1,
+    "n_gaps": 0,
     "runs": [
      {
-      "first_date": "2023-06-14",
-      "first_nav_date": "2023-06-13",
-      "kind": "closed",
-      "last_date": "2023-06-19",
-      "last_nav_date": "2023-06-16",
-      "median_pct": -0.8810567834164784,
-      "n_rows": 4,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2023-06-20",
-      "first_nav_date": "2023-06-19",
-      "kind": "closed",
-      "last_date": "2023-06-20",
-      "last_nav_date": "2023-06-19",
-      "median_pct": 0.0964320154291265,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2023-06-21",
-      "first_nav_date": "2023-06-20",
-      "kind": "closed",
-      "last_date": "2023-07-04",
-      "last_nav_date": "2023-07-03",
-      "median_pct": -0.02507555945752138,
-      "n_rows": 8,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2023-07-05",
-      "first_nav_date": "2023-07-04",
-      "kind": "closed",
-      "last_date": "2023-07-05",
-      "last_nav_date": "2023-07-04",
-      "median_pct": -0.35721000188005947,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2023-07-06",
-      "first_nav_date": "2023-07-05",
-      "kind": "closed",
-      "last_date": "2023-09-04",
-      "last_nav_date": "2023-09-01",
-      "median_pct": 0.04741583688951945,
-      "n_rows": 43,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2023-09-05",
-      "first_nav_date": "2023-09-04",
-      "kind": "closed",
-      "last_date": "2023-09-05",
-      "last_nav_date": "2023-09-04",
-      "median_pct": -0.13091453151298227,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2023-09-06",
-      "first_nav_date": "2023-09-05",
-      "kind": "closed",
-      "last_date": "2023-11-23",
-      "last_nav_date": "2023-11-22",
-      "median_pct": -0.09523809523810378,
-      "n_rows": 51,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2023-11-24",
-      "first_nav_date": "2023-11-23",
-      "kind": "closed",
-      "last_date": "2023-11-24",
-      "last_nav_date": "2023-11-23",
-      "median_pct": -0.27372262773723843,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2023-11-27",
-      "first_nav_date": "2023-11-24",
-      "kind": "closed",
-      "last_date": "2023-12-25",
-      "last_nav_date": "2023-12-22",
-      "median_pct": 0.026230654892023253,
-      "n_rows": 21,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2023-12-26",
-      "first_nav_date": "2023-12-25",
-      "kind": "closed",
-      "last_date": "2023-12-26",
-      "last_nav_date": "2023-12-25",
-      "median_pct": 0.3931847968545066,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2023-12-27",
-      "first_nav_date": "2023-12-26",
-      "kind": "closed",
-      "last_date": "2024-01-15",
-      "last_nav_date": "2024-01-12",
-      "median_pct": 0.09675433195530658,
-      "n_rows": 13,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-01-16",
-      "first_nav_date": "2024-01-15",
-      "kind": "closed",
-      "last_date": "2024-01-16",
-      "last_nav_date": "2024-01-15",
-      "median_pct": -0.3223838982312488,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-01-17",
-      "first_nav_date": "2024-01-16",
-      "kind": "closed",
-      "last_date": "2024-02-19",
-      "last_nav_date": "2024-02-08",
-      "median_pct": 0.29522460982703835,
-      "n_rows": 18,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-02-20",
-      "first_nav_date": "2024-02-19",
-      "kind": "closed",
-      "last_date": "2024-02-20",
-      "last_nav_date": "2024-02-19",
-      "median_pct": 0.033484011384565804,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-02-21",
-      "first_nav_date": "2024-02-20",
-      "kind": "closed",
-      "last_date": "2024-03-29",
-      "last_nav_date": "2024-03-28",
-      "median_pct": 0.05298455330827734,
-      "n_rows": 28,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-04-01",
-      "first_nav_date": "2024-03-29",
-      "kind": "closed",
-      "last_date": "2024-04-01",
-      "last_nav_date": "2024-03-29",
-      "median_pct": 0.8506461639129936,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-04-02",
-      "first_nav_date": "2024-04-01",
-      "kind": "closed",
-      "last_date": "2024-05-27",
-      "last_nav_date": "2024-05-24",
-      "median_pct": 0.8907159986296653,
-      "n_rows": 35,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-05-28",
-      "first_nav_date": "2024-05-27",
-      "kind": "closed",
-      "last_date": "2024-05-28",
-      "last_nav_date": "2024-05-27",
-      "median_pct": 2.0391970165833495,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-05-29",
-      "first_nav_date": "2024-05-28",
-      "kind": "closed",
-      "last_date": "2024-06-19",
-      "last_nav_date": "2024-06-18",
-      "median_pct": 2.0808794660384766,
-      "n_rows": 15,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-06-20",
-      "first_nav_date": "2024-06-19",
-      "kind": "closed",
-      "last_date": "2024-06-20",
-      "last_nav_date": "2024-06-19",
-      "median_pct": 2.7638379147629566,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-06-21",
-      "first_nav_date": "2024-06-20",
-      "kind": "closed",
-      "last_date": "2024-07-04",
-      "last_nav_date": "2024-07-03",
-      "median_pct": 2.3463774131596393,
-      "n_rows": 10,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-07-05",
-      "first_nav_date": "2024-07-04",
-      "kind": "closed",
-      "last_date": "2024-07-05",
-      "last_nav_date": "2024-07-04",
-      "median_pct": 3.8807732034823683,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-07-08",
-      "first_nav_date": "2024-07-05",
-      "kind": "closed",
-      "last_date": "2024-09-02",
-      "last_nav_date": "2024-08-30",
-      "median_pct": 1.7470881863560939,
-      "n_rows": 41,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-09-03",
-      "first_nav_date": "2024-09-02",
-      "kind": "closed",
-      "last_date": "2024-09-03",
-      "last_nav_date": "2024-09-02",
-      "median_pct": 0.18340210912424215,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-09-04",
-      "first_nav_date": "2024-09-03",
-      "kind": "closed",
-      "last_date": "2024-11-28",
-      "last_nav_date": "2024-11-27",
-      "median_pct": 0.20876826722340258,
-      "n_rows": 55,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-11-29",
-      "first_nav_date": "2024-11-28",
-      "kind": "closed",
-      "last_date": "2024-11-29",
-      "last_nav_date": "2024-11-28",
-      "median_pct": 1.133205045969632,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-12-02",
-      "first_nav_date": "2024-11-29",
-      "kind": "closed",
-      "last_date": "2024-12-25",
-      "last_nav_date": "2024-12-24",
-      "median_pct": 1.5822270093658997,
-      "n_rows": 18,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-12-26",
-      "first_nav_date": "2024-12-25",
-      "kind": "closed",
-      "last_date": "2024-12-26",
-      "last_nav_date": "2024-12-25",
-      "median_pct": 5.534804753820044,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-12-27",
-      "first_nav_date": "2024-12-26",
-      "kind": "closed",
-      "last_date": "2025-01-09",
-      "last_nav_date": "2025-01-08",
-      "median_pct": 5.590496156533886,
-      "n_rows": 9,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-01-10",
-      "first_nav_date": "2025-01-09",
-      "kind": "closed",
-      "last_date": "2025-01-10",
-      "last_nav_date": "2025-01-09",
-      "median_pct": 4.910246560033538,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-01-13",
-      "first_nav_date": "2025-01-10",
-      "kind": "closed",
-      "last_date": "2025-01-20",
-      "last_nav_date": "2025-01-17",
-      "median_pct": 5.279812794779426,
-      "n_rows": 6,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-01-21",
-      "first_nav_date": "2025-01-20",
-      "kind": "closed",
-      "last_date": "2025-01-21",
-      "last_nav_date": "2025-01-20",
-      "median_pct": 5.237733765785646,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-01-22",
-      "first_nav_date": "2025-01-21",
-      "kind": "closed",
-      "last_date": "2025-02-17",
-      "last_nav_date": "2025-02-14",
-      "median_pct": 2.6444929116684834,
-      "n_rows": 13,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-02-18",
-      "first_nav_date": "2025-02-17",
-      "kind": "closed",
-      "last_date": "2025-02-18",
-      "last_nav_date": "2025-02-17",
-      "median_pct": 2.5159342502516058,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-02-19",
-      "first_nav_date": "2025-02-18",
-      "kind": "closed",
-      "last_date": "2025-04-18",
-      "last_nav_date": "2025-04-17",
-      "median_pct": 1.4366166508012923,
-      "n_rows": 42,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-04-21",
-      "first_nav_date": "2025-04-18",
-      "kind": "closed",
-      "last_date": "2025-04-21",
-      "last_nav_date": "2025-04-18",
-      "median_pct": 0.6472491909385036,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-04-22",
-      "first_nav_date": "2025-04-21",
-      "kind": "closed",
-      "last_date": "2025-05-26",
-      "last_nav_date": "2025-05-23",
-      "median_pct": 0.7235254728896745,
-      "n_rows": 22,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-05-27",
-      "first_nav_date": "2025-05-26",
-      "kind": "closed",
-      "last_date": "2025-05-27",
-      "last_nav_date": "2025-05-26",
-      "median_pct": 1.4954993266709016,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-05-28",
-      "first_nav_date": "2025-05-27",
-      "kind": "closed",
-      "last_date": "2025-06-19",
-      "last_nav_date": "2025-06-18",
-      "median_pct": -0.18590346541506597,
-      "n_rows": 16,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-06-20",
-      "first_nav_date": "2025-06-19",
-      "kind": "closed",
-      "last_date": "2025-06-20",
-      "last_nav_date": "2025-06-19",
-      "median_pct": -0.19823637979357045,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-06-23",
-      "first_nav_date": "2025-06-20",
-      "kind": "closed",
-      "last_date": "2025-07-04",
-      "last_nav_date": "2025-07-03",
-      "median_pct": 0.18932676242694457,
-      "n_rows": 10,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-07-07",
-      "first_nav_date": "2025-07-04",
-      "kind": "closed",
-      "last_date": "2025-07-07",
-      "last_nav_date": "2025-07-04",
-      "median_pct": -0.31254069540305185,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-07-08",
-      "first_nav_date": "2025-07-07",
-      "kind": "closed",
-      "last_date": "2025-09-01",
-      "last_nav_date": "2025-08-29",
-      "median_pct": 0.5533014029937999,
-      "n_rows": 40,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-09-02",
-      "first_nav_date": "2025-09-01",
-      "kind": "closed",
-      "last_date": "2025-09-02",
-      "last_nav_date": "2025-09-01",
-      "median_pct": 0.2946074036121571,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-09-03",
-      "first_nav_date": "2025-09-02",
-      "kind": "closed",
-      "last_date": "2025-11-27",
-      "last_nav_date": "2025-11-26",
-      "median_pct": 3.1439597459418045,
-      "n_rows": 56,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-11-28",
-      "first_nav_date": "2025-11-27",
-      "kind": "closed",
-      "last_date": "2025-11-28",
-      "last_nav_date": "2025-11-27",
-      "median_pct": 8.032248432367851,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-12-01",
-      "first_nav_date": "2025-11-28",
-      "kind": "closed",
-      "last_date": "2025-12-25",
-      "last_nav_date": "2025-12-24",
-      "median_pct": 6.748826291079801,
-      "n_rows": 19,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-12-26",
-      "first_nav_date": "2025-12-25",
-      "kind": "closed",
-      "last_date": "2025-12-26",
-      "last_nav_date": "2025-12-25",
-      "median_pct": 6.858054226475274,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-12-29",
-      "first_nav_date": "2025-12-26",
-      "kind": "closed",
-      "last_date": "2026-01-19",
-      "last_nav_date": "2026-01-16",
-      "median_pct": 5.817498894461604,
-      "n_rows": 14,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2026-01-20",
-      "first_nav_date": "2026-01-19",
-      "kind": "closed",
-      "last_date": "2026-01-20",
-      "last_nav_date": "2026-01-19",
-      "median_pct": 3.9379474940334225,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2026-01-21",
-      "first_nav_date": "2026-01-20",
-      "kind": "closed",
-      "last_date": "2026-04-03",
-      "last_nav_date": "2026-04-02",
-      "median_pct": 3.9743337916584798,
-      "n_rows": 47,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2026-04-07",
-      "first_nav_date": "2026-04-03",
-      "kind": "closed",
-      "last_date": "2026-04-07",
-      "last_nav_date": "2026-04-03",
-      "median_pct": 3.40389936297536,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2026-04-08",
-      "first_nav_date": "2026-04-07",
-      "kind": "closed",
-      "last_date": "2026-05-25",
-      "last_nav_date": "2026-05-22",
-      "median_pct": 3.725131353680844,
-      "n_rows": 31,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2026-05-26",
-      "first_nav_date": "2026-05-25",
-      "kind": "closed",
-      "last_date": "2026-05-26",
-      "last_nav_date": "2026-05-25",
-      "median_pct": 7.702903157448615,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2026-05-27",
-      "first_nav_date": "2026-05-26",
-      "kind": "closed",
-      "last_date": "2026-07-03",
-      "last_nav_date": "2026-07-02",
-      "median_pct": 9.223811527135052,
-      "n_rows": 27,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2026-07-06",
-      "first_nav_date": "2026-07-03",
-      "kind": "closed",
-      "last_date": "2026-07-06",
-      "last_nav_date": "2026-07-03",
-      "median_pct": 9.809584937954652,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2026-07-07",
-      "first_nav_date": "2026-07-06",
-      "kind": "closed",
-      "last_date": "2026-09-07",
-      "last_nav_date": "2026-09-04",
-      "median_pct": 10.93096234309623,
-      "n_rows": 45,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2026-09-08",
-      "first_nav_date": "2026-09-07",
-      "kind": "closed",
-      "last_date": "2026-09-08",
-      "last_nav_date": "2026-09-07",
-      "median_pct": 12.414675767918105,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2026-09-09",
-      "first_nav_date": "2026-09-08",
-      "kind": "closed",
-      "last_date": "2026-11-10",
-      "last_nav_date": "2026-11-06",
-      "median_pct": 15.16765904105295,
-      "n_rows": 39,
-      "word": "场内买入"
+      "first_date": "2020-09-09",
+      "first_nav_date": "2020-09-08",
+      "kind": "unknown",
+      "last_date": "2026-11-11",
+      "last_nav_date": "2026-11-10",
+      "median_pct": 0.04611844023678646,
+      "n_rows": 1494,
+      "word": ""
      }
     ],
-    "verdict": "EPISODE_GAP_DOES_NOT_WIDEN",
+    "verdict": "NO_BLOCKED_EPISODES",
     "widens_only_in_longest": false
    },
    "high_premium": {
-    "first_high": "2026-06-01",
-    "last_high": "2026-11-10",
-    "n_high": 82,
-    "n_high_known": 82,
-    "share_closed_at_high": 1.0,
-    "verdict": "HIGH_PREMIUM_WHILE_CLOSED"
+    "n_high": 1,
+    "n_high_known": 0,
+    "share_closed_at_high": null,
+    "verdict": "NO_STATUS_DATA"
    },
-   "latest_nav_date": "2026-11-06",
-   "latest_pct": 24.403042273450847,
-   "latest_price_date": "2026-11-10",
-   "latest_purchase": "场内买入",
-   "latest_purchase_kind": "closed",
-   "n_sessions": 825,
-   "n_status_rows": 831,
+   "latest_nav_date": "2026-11-10",
+   "latest_pct": 0.30490188413727637,
+   "latest_price_date": "2026-11-11",
+   "latest_purchase": "",
+   "latest_purchase_kind": "unknown",
+   "n_sessions": 1494,
+   "n_status_rows": 0,
    "nav_cache_status": "cache-stale",
-   "ruler_gap_pp": 4.113442273450847,
-   "status_source": "fetched",
-   "symbol": "159501",
+   "ruler_gap_pp": 0.19570188413727635,
+   "status_source": "cache-missing",
+   "symbol": "510760",
    "window_facts": {
-    "known": 825,
-    "open": 0
+    "known": 0
    },
-   "window_verdict": "CHANNEL_CLOSED_THROUGHOUT"
+   "window_verdict": "NO_STATUS_DATA"
   },
   {
-   "amount_cny": 78611.4,
+   "amount_cny": 86375.8,
    "blip_cadence": {
-    "base_share_modal": 0.2024,
-    "blip_share_modal": 0.6047,
+    "base_share_modal": null,
+    "blip_share_modal": null,
     "blips_by_weekday": [
-     6,
-     26,
-     1,
-     2,
-     8
+     0,
+     0,
+     0,
+     0,
+     0
     ],
-    "bracketed_by_exchange_only": 43,
-    "day_of_month_top": [
-     {
-      "dom": 5,
-      "n": 5
-     },
-     {
-      "dom": 26,
-      "n": 4
-     },
-     {
-      "dom": 6,
-      "n": 3
-     }
-    ],
-    "examples": [
-     "2019-01-22",
-     "2019-02-19",
-     "2019-05-28"
-    ],
-    "modal_weekday": "Tue",
-    "modal_weekday_index": 1,
+    "bracketed_by_exchange_only": 0,
+    "day_of_month_top": [],
+    "examples": [],
+    "modal_weekday": null,
+    "modal_weekday_index": null,
     "n_blips_unreadable_date": 0,
-    "n_blocked": 48,
-    "n_one_row": 43,
+    "n_blocked": 0,
+    "n_one_row": 0,
     "n_sessions_unreadable_date": 0,
-    "nav_jump_gt3pct": 1,
-    "nav_jump_max_abs_pct": 80.4911,
+    "nav_jump_gt3pct": 0,
+    "nav_jump_max_abs_pct": null,
     "not_a_cause": "a weekly source refresh and a real one-day announcement are indistinguishable here; this block prices when the word appears",
     "sessions_by_weekday": [
      374,
      385,
-     384,
      385,
+     386,
      374
     ],
-    "tail_p": 9.803397395785397e-09,
-    "verdict": "BLIP_WEEKDAY_CADENCE"
+    "tail_p": null,
+    "verdict": "TOO_FEW_BLIPS"
    },
    "blip_cause": {
-    "base_rate": 0.0258,
-    "both_channels_share": 1.0,
-    "both_channels_suspended": 43,
+    "base_rate": 0.0467,
+    "both_channels_share": null,
+    "both_channels_suspended": 0,
     "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
     "calendar_choice": {
-     "named": "NYSE",
-     "qualified": [
-      "NYSE"
-     ],
-     "reason": "ONE_CALENDAR_CLEARS_THE_BAR"
+     "named": null,
+     "qualified": [],
+     "reason": "NO_CALENDAR_CLEARS_THE_BAR"
     },
-    "calendar_named": "NYSE",
-    "closure_rate": 0.9535,
-    "exact_carry": 9,
-    "hk_base_rate": 0.0592,
+    "calendar_named": null,
+    "closure_rate": null,
+    "exact_carry": 0,
+    "hk_base_rate": 0.063,
     "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
     "hk_index_last": "2026-11-10",
-    "hk_index_status": "cache",
-    "hk_lift": 3.93,
-    "hk_n_base_closure": 110,
-    "hk_n_base_sessions": 1858,
-    "hk_n_closed": 8,
-    "hk_n_thin": 1,
-    "hk_n_unmatched": 33,
-    "hk_n_window": 1,
-    "hk_rate": 0.2326,
+    "hk_index_status": "cache-stale",
+    "hk_lift": null,
+    "hk_n_base_closure": 120,
+    "hk_n_base_sessions": 1904,
+    "hk_n_closed": 0,
+    "hk_n_thin": 0,
+    "hk_n_unmatched": 0,
+    "hk_n_window": 0,
+    "hk_rate": null,
     "hk_thin_max": 0.6,
     "hk_thin_sensitivity": {
      "0.50": {
-      "n_matched": 10,
-      "rate": 0.2326
+      "n_matched": 0,
+      "rate": null
      },
      "0.60": {
-      "n_matched": 10,
-      "rate": 0.2326
+      "n_matched": 0,
+      "rate": null
      },
      "0.70": {
-      "n_matched": 11,
-      "rate": 0.2558
+      "n_matched": 0,
+      "rate": null
      }
     },
-    "hk_unmatched_stamps": [
-     "2019-01-21",
-     "2019-02-18",
-     "2019-05-27",
-     "2019-07-04",
-     "2019-09-02",
-     "2019-11-28",
-     "2020-11-26",
-     "2021-01-18",
-     "2021-05-31",
-     "2021-07-05",
-     "2021-07-23",
-     "2021-09-06"
-    ],
-    "lift": 36.91,
-    "n_base_closure": 48,
-    "n_base_sessions": 1858,
-    "n_blocked": 48,
+    "hk_unmatched_stamps": [],
+    "lift": null,
+    "n_base_closure": 89,
+    "n_base_sessions": 1904,
+    "n_blocked": 0,
     "n_closure_early": 0,
-    "n_closure_full": 41,
-    "n_closure_unmatched": 2,
-    "n_move_le_quarter": 31,
-    "n_move_ratio": 43,
-    "n_multi_row": 5,
-    "n_one_row": 43,
-    "nav_move_max_pct": 80.4911,
-    "nav_move_max_stamp": "2022-01-13",
-    "nav_move_p90_pct": 0.4592,
-    "nav_move_ratio_median": 0.1442,
+    "n_closure_full": 0,
+    "n_closure_unmatched": 0,
+    "n_move_le_quarter": 0,
+    "n_move_ratio": 0,
+    "n_multi_row": 0,
+    "n_one_row": 0,
+    "nav_move_max_pct": null,
+    "nav_move_max_stamp": null,
+    "nav_move_p90_pct": null,
+    "nav_move_ratio_median": null,
     "not_proof": "the closure calendar explains the dates; it does not make the premium fair and it is not a statement about quotas",
-    "one_row_stamps": [
-     "2019-01-21",
-     "2019-02-18",
-     "2019-05-27",
-     "2019-07-04",
-     "2019-09-02",
-     "2019-11-28",
-     "2019-12-25",
-     "2020-11-26",
-     "2020-12-25",
-     "2021-01-18",
-     "2021-04-02",
-     "2021-05-31",
-     "2021-07-05",
-     "2021-07-23",
-     "2021-09-06",
-     "2021-11-25",
-     "2021-12-24",
-     "2022-01-13",
-     "2022-01-17",
-     "2022-02-21",
-     "2022-04-15",
-     "2022-05-30",
-     "2022-06-20",
-     "2022-07-04",
-     "2022-09-05",
-     "2022-11-24",
-     "2022-12-26",
-     "2023-01-16",
-     "2023-02-20",
-     "2023-04-07",
-     "2023-05-29",
-     "2023-06-19",
-     "2023-07-04",
-     "2023-09-04",
-     "2023-11-23",
-     "2023-12-25",
-     "2024-01-15",
-     "2024-02-19",
-     "2024-03-29",
-     "2024-05-27",
-     "2024-06-19",
-     "2024-07-04",
-     "2024-09-02"
-    ],
-    "share_move_le_quarter": 0.7209,
-    "unmatched_stamps": [
-     "2021-07-23",
-     "2022-01-13"
-    ],
-    "verdict": "CALENDAR_GAP"
+    "one_row_stamps": [],
+    "share_move_le_quarter": 0.0,
+    "unmatched_stamps": [],
+    "verdict": "NO_ONE_ROW_RUNS"
    },
    "block_contrast": {
     "excluded_requested": 0,
-    "gap_pp": 4.504760606067282,
-    "median_blocked_pct": 5.0443289513910194,
-    "median_exchange_pct": 0.5395683453237377,
-    "n_blocked": 679,
-    "n_exchange": 1223,
+    "median_blocked_pct": null,
+    "median_exchange_pct": null,
+    "n_blocked": 0,
+    "n_exchange": 0,
     "n_excluded": 0,
-    "verdict": "BLOCK_WIDENS_PREMIUM"
+    "verdict": "NO_CONTRAST"
    },
    "block_contrast_excl_gaps": {
-    "excluded_requested": 43,
-    "gap_pp": 4.822678862412622,
-    "median_blocked_pct": 5.36224720773636,
-    "median_exchange_pct": 0.5395683453237377,
-    "n_blocked": 636,
-    "n_exchange": 1223,
-    "n_excluded": 43,
-    "verdict": "BLOCK_WIDENS_PREMIUM"
+    "excluded_requested": 0,
+    "median_blocked_pct": null,
+    "median_exchange_pct": null,
+    "n_blocked": 0,
+    "n_exchange": 0,
+    "n_excluded": 0,
+    "verdict": "NO_CONTRAST"
    },
-   "blocked_sessions": 679,
-   "board_premium_pct": 18.2957,
-   "class": "crossborder",
+   "blocked_sessions": 0,
+   "board_premium_pct": -0.0167,
+   "class": "equity",
    "episode_granularity": {
-    "blocked_one_row": 43,
-    "episode_gap_pp": 0.07944691439758511,
-    "episodes_gap_positive": 26,
-    "exchange_baseline_pct": 0.5395683453237377,
-    "gap_without_longest_pp": 0.05507982117773924,
-    "longest_block_gap_pp": 4.279224371923962,
-    "longest_blocked_first": "2024-11-26",
-    "longest_blocked_last": "2026-09-08",
-    "longest_blocked_rows": 435,
-    "median_blocked_rows": 1.0,
-    "n_blocked_episodes": 48,
-    "n_episodes": 96,
-    "n_gaps": 48,
+    "blocked_one_row": 0,
+    "episode_gap_pp": null,
+    "episodes_gap_positive": 0,
+    "exchange_baseline_pct": null,
+    "gap_without_longest_pp": null,
+    "longest_block_gap_pp": null,
+    "longest_blocked_first": null,
+    "longest_blocked_last": null,
+    "longest_blocked_rows": 0,
+    "median_blocked_rows": null,
+    "n_blocked_episodes": 0,
+    "n_episodes": 1,
+    "n_gaps": 0,
     "runs": [
      {
       "first_date": "2019-01-03",
       "first_nav_date": "2019-01-02",
-      "kind": "closed",
-      "last_date": "2019-01-21",
-      "last_nav_date": "2019-01-18",
-      "median_pct": -0.2502085070892557,
-      "n_rows": 13,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2019-01-22",
-      "first_nav_date": "2019-01-21",
-      "kind": "closed",
-      "last_date": "2019-01-22",
-      "last_nav_date": "2019-01-21",
-      "median_pct": -0.9162848812994451,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2019-01-23",
-      "first_nav_date": "2019-01-22",
-      "kind": "closed",
-      "last_date": "2019-02-18",
-      "last_nav_date": "2019-02-15",
-      "median_pct": -0.04011231448053931,
-      "n_rows": 14,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2019-02-19",
-      "first_nav_date": "2019-02-18",
-      "kind": "closed",
-      "last_date": "2019-02-19",
-      "last_nav_date": "2019-02-18",
-      "median_pct": -0.040096230954300704,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2019-02-20",
-      "first_nav_date": "2019-02-19",
-      "kind": "closed",
-      "last_date": "2019-05-27",
-      "last_nav_date": "2019-05-24",
-      "median_pct": -0.23400936037442088,
-      "n_rows": 65,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2019-05-28",
-      "first_nav_date": "2019-05-27",
-      "kind": "closed",
-      "last_date": "2019-05-28",
-      "last_nav_date": "2019-05-27",
-      "median_pct": 0.11446012972149422,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2019-05-29",
-      "first_nav_date": "2019-05-28",
-      "kind": "closed",
-      "last_date": "2019-07-04",
-      "last_nav_date": "2019-07-03",
-      "median_pct": -0.20644886984589328,
-      "n_rows": 26,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2019-07-05",
-      "first_nav_date": "2019-07-04",
-      "kind": "closed",
-      "last_date": "2019-07-05",
-      "last_nav_date": "2019-07-04",
-      "median_pct": -0.17799928800286136,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2019-07-08",
-      "first_nav_date": "2019-07-05",
-      "kind": "closed",
-      "last_date": "2019-09-02",
-      "last_nav_date": "2019-08-30",
-      "median_pct": 0.25080616266570654,
-      "n_rows": 41,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2019-09-03",
-      "first_nav_date": "2019-09-02",
-      "kind": "closed",
-      "last_date": "2019-09-03",
-      "last_nav_date": "2019-09-02",
-      "median_pct": -0.07064641469444188,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2019-09-04",
-      "first_nav_date": "2019-09-03",
-      "kind": "closed",
-      "last_date": "2019-11-28",
-      "last_nav_date": "2019-11-27",
-      "median_pct": -0.15341921591921492,
-      "n_rows": 56,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2019-11-29",
-      "first_nav_date": "2019-11-28",
-      "kind": "closed",
-      "last_date": "2019-11-29",
-      "last_nav_date": "2019-11-28",
-      "median_pct": 0.3892312682452159,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2019-12-02",
-      "first_nav_date": "2019-11-29",
-      "kind": "closed",
-      "last_date": "2019-12-25",
-      "last_nav_date": "2019-12-24",
-      "median_pct": 0.5337025896883452,
-      "n_rows": 18,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2019-12-26",
-      "first_nav_date": "2019-12-25",
-      "kind": "closed",
-      "last_date": "2019-12-26",
-      "last_nav_date": "2019-12-25",
-      "median_pct": 0.7264687302590112,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2019-12-27",
-      "first_nav_date": "2019-12-26",
-      "kind": "closed",
-      "last_date": "2020-01-17",
-      "last_nav_date": "2020-01-16",
-      "median_pct": 2.237414543194527,
-      "n_rows": 15,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2020-01-20",
-      "first_nav_date": "2020-01-17",
-      "kind": "closed",
-      "last_date": "2020-03-12",
-      "last_nav_date": "2020-03-11",
-      "median_pct": 9.934233298719297,
-      "n_rows": 33,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2020-03-13",
-      "first_nav_date": "2020-03-12",
-      "kind": "closed",
-      "last_date": "2020-03-27",
-      "last_nav_date": "2020-03-26",
-      "median_pct": 17.991938438988655,
-      "n_rows": 11,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2020-03-30",
-      "first_nav_date": "2020-03-27",
-      "kind": "closed",
-      "last_date": "2020-10-23",
-      "last_nav_date": "2020-10-22",
-      "median_pct": 7.18464842966392,
-      "n_rows": 138,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2020-10-26",
-      "first_nav_date": "2020-10-23",
-      "kind": "closed",
-      "last_date": "2020-11-26",
-      "last_nav_date": "2020-11-25",
-      "median_pct": 8.913846067253017,
-      "n_rows": 24,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2020-11-27",
-      "first_nav_date": "2020-11-26",
-      "kind": "closed",
-      "last_date": "2020-11-27",
-      "last_nav_date": "2020-11-26",
-      "median_pct": 4.787363304981773,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2020-11-30",
-      "first_nav_date": "2020-11-27",
-      "kind": "closed",
-      "last_date": "2020-12-25",
-      "last_nav_date": "2020-12-24",
-      "median_pct": 1.0086591661582878,
-      "n_rows": 20,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2020-12-28",
-      "first_nav_date": "2020-12-25",
-      "kind": "closed",
-      "last_date": "2020-12-28",
-      "last_nav_date": "2020-12-25",
-      "median_pct": 1.6846045858680325,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2020-12-29",
-      "first_nav_date": "2020-12-28",
-      "kind": "closed",
-      "last_date": "2021-01-18",
-      "last_nav_date": "2021-01-15",
-      "median_pct": 0.011774854549134739,
-      "n_rows": 14,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2021-01-19",
-      "first_nav_date": "2021-01-18",
-      "kind": "closed",
-      "last_date": "2021-01-19",
-      "last_nav_date": "2021-01-18",
-      "median_pct": 0.46827440880357063,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2021-01-20",
-      "first_nav_date": "2021-01-19",
-      "kind": "closed",
-      "last_date": "2021-04-02",
-      "last_nav_date": "2021-04-01",
-      "median_pct": 0.0,
-      "n_rows": 48,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2021-04-06",
-      "first_nav_date": "2021-04-02",
-      "kind": "closed",
-      "last_date": "2021-04-06",
-      "last_nav_date": "2021-04-02",
-      "median_pct": 1.2689225289403527,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2021-04-07",
-      "first_nav_date": "2021-04-06",
-      "kind": "closed",
-      "last_date": "2021-05-31",
-      "last_nav_date": "2021-05-28",
-      "median_pct": -0.3110453442776273,
-      "n_rows": 36,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2021-06-01",
-      "first_nav_date": "2021-05-31",
-      "kind": "closed",
-      "last_date": "2021-06-01",
-      "last_nav_date": "2021-05-31",
-      "median_pct": 0.1563896336014281,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2021-06-02",
-      "first_nav_date": "2021-06-01",
-      "kind": "closed",
-      "last_date": "2021-07-05",
-      "last_nav_date": "2021-07-02",
-      "median_pct": -0.12412081092261218,
-      "n_rows": 23,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2021-07-06",
-      "first_nav_date": "2021-07-05",
-      "kind": "closed",
-      "last_date": "2021-07-06",
-      "last_nav_date": "2021-07-05",
-      "median_pct": -0.04090816117816587,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2021-07-07",
-      "first_nav_date": "2021-07-06",
-      "kind": "closed",
-      "last_date": "2021-07-23",
-      "last_nav_date": "2021-07-22",
-      "median_pct": 0.0,
-      "n_rows": 13,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2021-07-26",
-      "first_nav_date": "2021-07-23",
-      "kind": "closed",
-      "last_date": "2021-07-26",
-      "last_nav_date": "2021-07-23",
-      "median_pct": 0.5585477757829693,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2021-07-27",
-      "first_nav_date": "2021-07-26",
-      "kind": "closed",
-      "last_date": "2021-09-06",
-      "last_nav_date": "2021-09-03",
-      "median_pct": 0.15534574638494947,
-      "n_rows": 30,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2021-09-07",
-      "first_nav_date": "2021-09-06",
-      "kind": "closed",
-      "last_date": "2021-09-07",
-      "last_nav_date": "2021-09-06",
-      "median_pct": 0.36672457054622853,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2021-09-08",
-      "first_nav_date": "2021-09-07",
-      "kind": "closed",
-      "last_date": "2021-11-25",
-      "last_nav_date": "2021-11-24",
-      "median_pct": 0.03892947466834773,
-      "n_rows": 50,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2021-11-26",
-      "first_nav_date": "2021-11-25",
-      "kind": "closed",
-      "last_date": "2021-11-26",
-      "last_nav_date": "2021-11-25",
-      "median_pct": -0.5401378282734237,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2021-11-29",
-      "first_nav_date": "2021-11-26",
-      "kind": "closed",
-      "last_date": "2021-12-24",
-      "last_nav_date": "2021-12-23",
-      "median_pct": 0.3430663227356523,
-      "n_rows": 20,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2021-12-27",
-      "first_nav_date": "2021-12-24",
-      "kind": "closed",
-      "last_date": "2021-12-27",
-      "last_nav_date": "2021-12-24",
-      "median_pct": 0.13148009015777617,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2021-12-28",
-      "first_nav_date": "2021-12-27",
-      "kind": "closed",
-      "last_date": "2022-01-12",
-      "last_nav_date": "2022-01-11",
-      "median_pct": 0.13741656851196105,
-      "n_rows": 11,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2022-01-14",
-      "first_nav_date": "2022-01-13",
-      "kind": "closed",
-      "last_date": "2022-01-14",
-      "last_nav_date": "2022-01-13",
-      "median_pct": 0.5946481665014769,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2022-01-17",
-      "first_nav_date": "2022-01-14",
-      "kind": "closed",
-      "last_date": "2022-01-17",
-      "last_nav_date": "2022-01-14",
-      "median_pct": -0.4906771344455274,
-      "n_rows": 1,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2022-01-18",
-      "first_nav_date": "2022-01-17",
-      "kind": "closed",
-      "last_date": "2022-01-18",
-      "last_nav_date": "2022-01-17",
-      "median_pct": -0.8849557522123797,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2022-01-19",
-      "first_nav_date": "2022-01-18",
-      "kind": "closed",
-      "last_date": "2022-02-21",
-      "last_nav_date": "2022-02-18",
-      "median_pct": 0.3225806451612856,
-      "n_rows": 19,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2022-02-22",
-      "first_nav_date": "2022-02-21",
-      "kind": "closed",
-      "last_date": "2022-02-22",
-      "last_nav_date": "2022-02-21",
-      "median_pct": -1.8681318681318726,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2022-02-23",
-      "first_nav_date": "2022-02-22",
-      "kind": "closed",
-      "last_date": "2022-04-15",
-      "last_nav_date": "2022-04-14",
-      "median_pct": 0.0,
-      "n_rows": 36,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2022-04-18",
-      "first_nav_date": "2022-04-15",
-      "kind": "closed",
-      "last_date": "2022-04-18",
-      "last_nav_date": "2022-04-15",
-      "median_pct": -0.8810572687224627,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2022-04-19",
-      "first_nav_date": "2022-04-18",
-      "kind": "closed",
-      "last_date": "2022-05-30",
-      "last_nav_date": "2022-05-27",
-      "median_pct": 1.297169811320753,
-      "n_rows": 27,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2022-05-31",
-      "first_nav_date": "2022-05-30",
-      "kind": "closed",
-      "last_date": "2022-05-31",
-      "last_nav_date": "2022-05-30",
-      "median_pct": 0.11534025374855261,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2022-06-01",
-      "first_nav_date": "2022-05-31",
-      "kind": "closed",
-      "last_date": "2022-06-20",
-      "last_nav_date": "2022-06-17",
-      "median_pct": 0.8206330597889888,
-      "n_rows": 13,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2022-06-21",
-      "first_nav_date": "2022-06-20",
-      "kind": "closed",
-      "last_date": "2022-06-21",
-      "last_nav_date": "2022-06-20",
-      "median_pct": 4.409857328145272,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2022-06-22",
-      "first_nav_date": "2022-06-21",
-      "kind": "closed",
-      "last_date": "2022-07-04",
-      "last_nav_date": "2022-07-01",
-      "median_pct": 1.51898734177216,
-      "n_rows": 9,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2022-07-05",
-      "first_nav_date": "2022-07-04",
-      "kind": "closed",
-      "last_date": "2022-07-05",
-      "last_nav_date": "2022-07-04",
-      "median_pct": 2.777777777777768,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2022-07-06",
-      "first_nav_date": "2022-07-05",
-      "kind": "closed",
-      "last_date": "2022-09-05",
-      "last_nav_date": "2022-09-02",
-      "median_pct": 0.22594852502637597,
-      "n_rows": 44,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2022-09-06",
-      "first_nav_date": "2022-09-05",
-      "kind": "closed",
-      "last_date": "2022-09-06",
-      "last_nav_date": "2022-09-05",
-      "median_pct": 1.4117647058823568,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2022-09-07",
-      "first_nav_date": "2022-09-06",
-      "kind": "closed",
-      "last_date": "2022-11-24",
-      "last_nav_date": "2022-11-23",
-      "median_pct": 1.2499999999999956,
-      "n_rows": 51,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2022-11-25",
-      "first_nav_date": "2022-11-24",
-      "kind": "closed",
-      "last_date": "2022-11-25",
-      "last_nav_date": "2022-11-24",
-      "median_pct": 0.9334889148191472,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2022-11-28",
-      "first_nav_date": "2022-11-25",
-      "kind": "closed",
-      "last_date": "2022-12-26",
-      "last_nav_date": "2022-12-23",
-      "median_pct": 0.9638554216867545,
-      "n_rows": 21,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2022-12-27",
-      "first_nav_date": "2022-12-26",
-      "kind": "closed",
-      "last_date": "2022-12-27",
-      "last_nav_date": "2022-12-26",
-      "median_pct": 3.1928480204342247,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2022-12-28",
-      "first_nav_date": "2022-12-27",
-      "kind": "closed",
-      "last_date": "2023-01-16",
-      "last_nav_date": "2023-01-13",
-      "median_pct": 3.717948717948727,
-      "n_rows": 13,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2023-01-17",
-      "first_nav_date": "2023-01-16",
-      "kind": "closed",
-      "last_date": "2023-01-17",
-      "last_nav_date": "2023-01-16",
-      "median_pct": 3.4047919293820783,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2023-01-18",
-      "first_nav_date": "2023-01-17",
-      "kind": "closed",
-      "last_date": "2023-02-20",
-      "last_nav_date": "2023-02-17",
-      "median_pct": 0.8215962441314506,
-      "n_rows": 19,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2023-02-21",
-      "first_nav_date": "2023-02-20",
-      "kind": "closed",
-      "last_date": "2023-02-21",
-      "last_nav_date": "2023-02-20",
-      "median_pct": 0.11560693641619046,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2023-02-22",
-      "first_nav_date": "2023-02-21",
-      "kind": "closed",
-      "last_date": "2023-04-07",
-      "last_nav_date": "2023-04-06",
-      "median_pct": 0.34405886878809966,
-      "n_rows": 32,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2023-04-10",
-      "first_nav_date": "2023-04-07",
-      "kind": "closed",
-      "last_date": "2023-04-10",
-      "last_nav_date": "2023-04-07",
-      "median_pct": -0.5464480874316946,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2023-04-11",
-      "first_nav_date": "2023-04-10",
-      "kind": "closed",
-      "last_date": "2023-05-29",
-      "last_nav_date": "2023-05-26",
-      "median_pct": 0.10858582583588294,
-      "n_rows": 32,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2023-05-30",
-      "first_nav_date": "2023-05-29",
-      "kind": "closed",
-      "last_date": "2023-05-30",
-      "last_nav_date": "2023-05-29",
-      "median_pct": 1.1730205278592365,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2023-05-31",
-      "first_nav_date": "2023-05-30",
-      "kind": "closed",
-      "last_date": "2023-06-19",
-      "last_nav_date": "2023-06-16",
-      "median_pct": 0.2863967686606794,
-      "n_rows": 14,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2023-06-20",
-      "first_nav_date": "2023-06-19",
-      "kind": "closed",
-      "last_date": "2023-06-20",
-      "last_nav_date": "2023-06-19",
-      "median_pct": 0.6433823529411686,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2023-06-21",
-      "first_nav_date": "2023-06-20",
-      "kind": "closed",
-      "last_date": "2023-07-04",
-      "last_nav_date": "2023-07-03",
-      "median_pct": 0.5895054281274459,
-      "n_rows": 8,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2023-07-05",
-      "first_nav_date": "2023-07-04",
-      "kind": "closed",
-      "last_date": "2023-07-05",
-      "last_nav_date": "2023-07-04",
-      "median_pct": 0.0,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2023-07-06",
-      "first_nav_date": "2023-07-05",
-      "kind": "closed",
-      "last_date": "2023-09-04",
-      "last_nav_date": "2023-09-01",
-      "median_pct": 1.2059369202226167,
-      "n_rows": 43,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2023-09-05",
-      "first_nav_date": "2023-09-04",
-      "kind": "closed",
-      "last_date": "2023-09-05",
-      "last_nav_date": "2023-09-04",
-      "median_pct": 1.4222222222222136,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2023-09-06",
-      "first_nav_date": "2023-09-05",
-      "kind": "closed",
-      "last_date": "2023-11-23",
-      "last_nav_date": "2023-11-22",
-      "median_pct": 1.5111111111111075,
-      "n_rows": 51,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2023-11-24",
-      "first_nav_date": "2023-11-23",
-      "kind": "closed",
-      "last_date": "2023-11-24",
-      "last_nav_date": "2023-11-23",
-      "median_pct": 0.4340277777777901,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2023-11-27",
-      "first_nav_date": "2023-11-24",
-      "kind": "closed",
-      "last_date": "2023-12-25",
-      "last_nav_date": "2023-12-22",
-      "median_pct": 0.4405286343612147,
-      "n_rows": 21,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2023-12-26",
-      "first_nav_date": "2023-12-25",
-      "kind": "closed",
-      "last_date": "2023-12-26",
-      "last_nav_date": "2023-12-25",
-      "median_pct": 0.9136212624584861,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2023-12-27",
-      "first_nav_date": "2023-12-26",
-      "kind": "closed",
-      "last_date": "2024-01-15",
-      "last_nav_date": "2024-01-12",
-      "median_pct": 0.7692307692307887,
-      "n_rows": 13,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-01-16",
-      "first_nav_date": "2024-01-15",
-      "kind": "closed",
-      "last_date": "2024-01-16",
-      "last_nav_date": "2024-01-15",
-      "median_pct": 0.496277915632759,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-01-17",
-      "first_nav_date": "2024-01-16",
-      "kind": "closed",
-      "last_date": "2024-02-19",
-      "last_nav_date": "2024-02-08",
-      "median_pct": 1.8429255438799474,
-      "n_rows": 18,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-02-20",
-      "first_nav_date": "2024-02-19",
-      "kind": "closed",
-      "last_date": "2024-02-20",
-      "last_nav_date": "2024-02-19",
-      "median_pct": 2.3640661938534313,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-02-21",
-      "first_nav_date": "2024-02-20",
-      "kind": "closed",
-      "last_date": "2024-03-29",
-      "last_nav_date": "2024-03-28",
-      "median_pct": 1.9202361625009434,
-      "n_rows": 28,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-04-01",
-      "first_nav_date": "2024-03-29",
-      "kind": "closed",
-      "last_date": "2024-04-01",
-      "last_nav_date": "2024-03-29",
-      "median_pct": 2.752293577981657,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-04-02",
-      "first_nav_date": "2024-04-01",
-      "kind": "closed",
-      "last_date": "2024-05-27",
-      "last_nav_date": "2024-05-24",
-      "median_pct": 1.943198804185342,
-      "n_rows": 35,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-05-28",
-      "first_nav_date": "2024-05-27",
-      "kind": "closed",
-      "last_date": "2024-05-28",
-      "last_nav_date": "2024-05-27",
-      "median_pct": 2.2979985174202966,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-05-29",
-      "first_nav_date": "2024-05-28",
-      "kind": "closed",
-      "last_date": "2024-06-19",
-      "last_nav_date": "2024-06-18",
-      "median_pct": 2.251270878721856,
-      "n_rows": 15,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-06-20",
-      "first_nav_date": "2024-06-19",
-      "kind": "closed",
-      "last_date": "2024-06-20",
-      "last_nav_date": "2024-06-19",
-      "median_pct": 3.153468815697269,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-06-21",
-      "first_nav_date": "2024-06-20",
-      "kind": "closed",
-      "last_date": "2024-07-04",
-      "last_nav_date": "2024-07-03",
-      "median_pct": 3.3135592040216655,
-      "n_rows": 10,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-07-05",
-      "first_nav_date": "2024-07-04",
-      "kind": "closed",
-      "last_date": "2024-07-05",
-      "last_nav_date": "2024-07-04",
-      "median_pct": 5.448275862068952,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-07-08",
-      "first_nav_date": "2024-07-05",
-      "kind": "closed",
-      "last_date": "2024-09-02",
-      "last_nav_date": "2024-08-30",
-      "median_pct": 3.5769828926905056,
-      "n_rows": 41,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-09-03",
-      "first_nav_date": "2024-09-02",
-      "kind": "closed",
-      "last_date": "2024-09-03",
-      "last_nav_date": "2024-09-02",
-      "median_pct": 2.214285714285724,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-09-04",
-      "first_nav_date": "2024-09-03",
-      "kind": "closed",
-      "last_date": "2024-09-23",
-      "last_nav_date": "2024-09-20",
-      "median_pct": 2.3121686006514874,
-      "n_rows": 12,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-09-24",
-      "first_nav_date": "2024-09-23",
-      "kind": "closed",
-      "last_date": "2024-10-09",
-      "last_nav_date": "2024-10-08",
-      "median_pct": -0.283085633404101,
-      "n_rows": 7,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-10-10",
-      "first_nav_date": "2024-10-09",
-      "kind": "closed",
-      "last_date": "2024-11-25",
-      "last_nav_date": "2024-11-22",
-      "median_pct": 0.7649513212795611,
-      "n_rows": 33,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-11-26",
-      "first_nav_date": "2024-11-25",
-      "kind": "closed",
-      "last_date": "2026-09-08",
-      "last_nav_date": "2026-09-07",
-      "median_pct": 4.8187927172477,
-      "n_rows": 435,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2026-09-09",
-      "first_nav_date": "2026-09-08",
-      "kind": "closed",
-      "last_date": "2026-10-08",
-      "last_nav_date": "2026-09-30",
-      "median_pct": 12.965502793513695,
-      "n_rows": 16,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2026-10-09",
-      "first_nav_date": "2026-10-08",
-      "kind": "closed",
-      "last_date": "2026-11-10",
-      "last_nav_date": "2026-11-06",
-      "median_pct": 17.058651312579308,
-      "n_rows": 23,
-      "word": "暂停申购"
+      "kind": "unknown",
+      "last_date": "2026-11-11",
+      "last_nav_date": "2026-11-10",
+      "median_pct": 0.01682928709370035,
+      "n_rows": 1904,
+      "word": ""
      }
     ],
-    "verdict": "EPISODE_GAP_DOES_NOT_WIDEN",
-    "widens_only_in_longest": true
+    "verdict": "NO_BLOCKED_EPISODES",
+    "widens_only_in_longest": false
    },
    "high_premium": {
-    "first_high": "2020-02-11",
-    "last_high": "2026-11-10",
-    "n_high": 163,
-    "n_high_known": 163,
-    "share_closed_at_high": 1.0,
-    "verdict": "HIGH_PREMIUM_WHILE_CLOSED"
+    "n_high": 0,
+    "n_high_known": 0,
+    "share_closed_at_high": null,
+    "verdict": "NO_HIGH_SESSIONS"
    },
-   "latest_nav_date": "2026-11-06",
-   "latest_pct": 22.39698715108551,
-   "latest_price_date": "2026-11-10",
-   "latest_purchase": "暂停申购",
-   "latest_purchase_kind": "closed",
-   "n_sessions": 1902,
-   "n_status_rows": 1907,
+   "latest_nav_date": "2026-11-10",
+   "latest_pct": -0.5974112180550994,
+   "latest_price_date": "2026-11-11",
+   "latest_purchase": "",
+   "latest_purchase_kind": "unknown",
+   "n_sessions": 1904,
+   "n_status_rows": 0,
    "nav_cache_status": "cache-stale",
-   "ruler_gap_pp": 4.101287151085511,
-   "status_source": "fetched",
-   "symbol": "513100",
+   "ruler_gap_pp": -0.5807112180550994,
+   "status_source": "cache-missing",
+   "symbol": "512040",
    "window_facts": {
-    "known": 1902,
-    "open": 0
+    "known": 0
    },
-   "window_verdict": "CHANNEL_CLOSED_THROUGHOUT"
+   "window_verdict": "NO_STATUS_DATA"
   },
   {
-   "amount_cny": 78588.4,
+   "amount_cny": 86243.1,
    "blip_cadence": {
-    "base_share_modal": 0.2018,
+    "base_share_modal": null,
+    "blip_share_modal": null,
+    "blips_by_weekday": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "bracketed_by_exchange_only": 0,
+    "day_of_month_top": [],
+    "examples": [],
+    "modal_weekday": null,
+    "modal_weekday_index": null,
+    "n_blips_unreadable_date": 0,
+    "n_blocked": 0,
+    "n_one_row": 0,
+    "n_sessions_unreadable_date": 0,
+    "nav_jump_gt3pct": 0,
+    "nav_jump_max_abs_pct": null,
+    "not_a_cause": "a weekly source refresh and a real one-day announcement are indistinguishable here; this block prices when the word appears",
+    "sessions_by_weekday": [
+     193,
+     200,
+     199,
+     198,
+     192
+    ],
+    "tail_p": null,
+    "verdict": "TOO_FEW_BLIPS"
+   },
+   "blip_cause": {
+    "base_rate": 0.0499,
+    "both_channels_share": null,
+    "both_channels_suspended": 0,
+    "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
+    "calendar_choice": {
+     "named": null,
+     "qualified": [],
+     "reason": "NO_CALENDAR_CLEARS_THE_BAR"
+    },
+    "calendar_named": null,
+    "closure_rate": null,
+    "exact_carry": 0,
+    "hk_base_rate": 0.0672,
+    "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
+    "hk_index_last": "2026-11-10",
+    "hk_index_status": "cache-stale",
+    "hk_lift": null,
+    "hk_n_base_closure": 66,
+    "hk_n_base_sessions": 982,
+    "hk_n_closed": 0,
+    "hk_n_thin": 0,
+    "hk_n_unmatched": 0,
+    "hk_n_window": 0,
+    "hk_rate": null,
+    "hk_thin_max": 0.6,
+    "hk_thin_sensitivity": {
+     "0.50": {
+      "n_matched": 0,
+      "rate": null
+     },
+     "0.60": {
+      "n_matched": 0,
+      "rate": null
+     },
+     "0.70": {
+      "n_matched": 0,
+      "rate": null
+     }
+    },
+    "hk_unmatched_stamps": [],
+    "lift": null,
+    "n_base_closure": 49,
+    "n_base_sessions": 982,
+    "n_blocked": 0,
+    "n_closure_early": 0,
+    "n_closure_full": 0,
+    "n_closure_unmatched": 0,
+    "n_move_le_quarter": 0,
+    "n_move_ratio": 0,
+    "n_multi_row": 0,
+    "n_one_row": 0,
+    "nav_move_max_pct": null,
+    "nav_move_max_stamp": null,
+    "nav_move_p90_pct": null,
+    "nav_move_ratio_median": null,
+    "not_proof": "the closure calendar explains the dates; it does not make the premium fair and it is not a statement about quotas",
+    "one_row_stamps": [],
+    "share_move_le_quarter": 0.0,
+    "unmatched_stamps": [],
+    "verdict": "NO_ONE_ROW_RUNS"
+   },
+   "block_contrast": {
+    "excluded_requested": 0,
+    "median_blocked_pct": null,
+    "median_exchange_pct": null,
+    "n_blocked": 0,
+    "n_exchange": 0,
+    "n_excluded": 0,
+    "verdict": "NO_CONTRAST"
+   },
+   "block_contrast_excl_gaps": {
+    "excluded_requested": 0,
+    "median_blocked_pct": null,
+    "median_exchange_pct": null,
+    "n_blocked": 0,
+    "n_exchange": 0,
+    "n_excluded": 0,
+    "verdict": "NO_CONTRAST"
+   },
+   "blocked_sessions": 0,
+   "board_premium_pct": 9.5418,
+   "class": "crossborder",
+   "episode_granularity": {
+    "blocked_one_row": 0,
+    "episode_gap_pp": null,
+    "episodes_gap_positive": 0,
+    "exchange_baseline_pct": null,
+    "gap_without_longest_pp": null,
+    "longest_block_gap_pp": null,
+    "longest_blocked_first": null,
+    "longest_blocked_last": null,
+    "longest_blocked_rows": 0,
+    "median_blocked_rows": null,
+    "n_blocked_episodes": 0,
+    "n_episodes": 1,
+    "n_gaps": 0,
+    "runs": [
+     {
+      "first_date": "2022-10-25",
+      "first_nav_date": "2022-10-24",
+      "kind": "unknown",
+      "last_date": "2026-11-11",
+      "last_nav_date": "2026-11-10",
+      "median_pct": 1.234475811523661,
+      "n_rows": 982,
+      "word": ""
+     }
+    ],
+    "verdict": "NO_BLOCKED_EPISODES",
+    "widens_only_in_longest": false
+   },
+   "high_premium": {
+    "n_high": 11,
+    "n_high_known": 0,
+    "share_closed_at_high": null,
+    "verdict": "NO_STATUS_DATA"
+   },
+   "latest_nav_date": "2026-11-10",
+   "latest_pct": 9.553791404325196,
+   "latest_price_date": "2026-11-11",
+   "latest_purchase": "",
+   "latest_purchase_kind": "unknown",
+   "n_sessions": 982,
+   "n_status_rows": 0,
+   "nav_cache_status": "cache-stale",
+   "ruler_gap_pp": 0.011991404325195631,
+   "status_source": "cache-missing",
+   "symbol": "159655",
+   "window_facts": {
+    "known": 0
+   },
+   "window_verdict": "NO_STATUS_DATA"
+  },
+  {
+   "amount_cny": 86394.0,
+   "blip_cadence": {
+    "base_share_modal": 0.2017,
     "blip_share_modal": 0.375,
     "blips_by_weekday": [
      7,
@@ -2228,11 +660,11 @@
     "sessions_by_weekday": [
      259,
      268,
-     268,
+     269,
      270,
      263
     ],
-    "tail_p": 0.038127534056818804,
+    "tail_p": 0.037960609505989416,
     "verdict": "BLIP_NO_CADENCE"
    },
    "blip_cause": {
@@ -2253,10 +685,10 @@
     "hk_base_rate": 0.0529,
     "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
     "hk_index_last": "2026-11-10",
-    "hk_index_status": "cache",
-    "hk_lift": 16.54,
+    "hk_index_status": "cache-stale",
+    "hk_lift": 16.55,
     "hk_n_base_closure": 69,
-    "hk_n_base_sessions": 1304,
+    "hk_n_base_sessions": 1305,
     "hk_n_closed": 19,
     "hk_n_thin": 2,
     "hk_n_unmatched": 3,
@@ -2284,7 +716,7 @@
     ],
     "lift": 0.88,
     "n_base_closure": 62,
-    "n_base_sessions": 1304,
+    "n_base_sessions": 1305,
     "n_blocked": 42,
     "n_closure_early": 0,
     "n_closure_full": 1,
@@ -2296,7 +728,7 @@
     "nav_move_max_pct": 1.6011,
     "nav_move_max_stamp": "2022-08-25",
     "nav_move_p90_pct": 0.8458,
-    "nav_move_ratio_median": 0.127,
+    "nav_move_ratio_median": 0.1271,
     "not_proof": "the closure calendar explains the dates; it does not make the premium fair and it is not a statement about quotas",
     "one_row_stamps": [
      "2021-06-28",
@@ -2343,34 +775,34 @@
    },
    "block_contrast": {
     "excluded_requested": 0,
-    "gap_pp": 0.5194453047338621,
+    "gap_pp": 0.5200056442659973,
     "median_blocked_pct": 0.5007229601163621,
-    "median_exchange_pct": -0.018722344617499997,
+    "median_exchange_pct": -0.019282684149635188,
     "n_blocked": 64,
-    "n_exchange": 1264,
+    "n_exchange": 1265,
     "n_excluded": 0,
     "verdict": "BLOCK_DOES_NOT_WIDEN"
    },
    "block_contrast_excl_gaps": {
     "excluded_requested": 24,
-    "gap_pp": 0.6367484719187633,
+    "gap_pp": 0.6373088114508985,
     "median_blocked_pct": 0.6180261273012633,
-    "median_exchange_pct": -0.018722344617499997,
+    "median_exchange_pct": -0.019282684149635188,
     "n_blocked": 40,
-    "n_exchange": 1264,
+    "n_exchange": 1265,
     "n_excluded": 24,
     "verdict": "BLOCK_DOES_NOT_WIDEN"
    },
    "blocked_sessions": 64,
-   "board_premium_pct": 0.1208,
+   "board_premium_pct": 0.1735,
    "class": "crossborder",
    "episode_granularity": {
     "blocked_one_row": 24,
-    "episode_gap_pp": 0.16844619040277675,
+    "episode_gap_pp": 0.16900652993491194,
     "episodes_gap_positive": 24,
-    "exchange_baseline_pct": -0.018722344617499997,
-    "gap_without_longest_pp": 0.19590403972017945,
-    "longest_block_gap_pp": -0.6796626401053218,
+    "exchange_baseline_pct": -0.019282684149635188,
+    "gap_without_longest_pp": 0.19646437925231464,
+    "longest_block_gap_pp": -0.6791023005731867,
     "longest_blocked_first": "2021-09-17",
     "longest_blocked_last": "2021-09-23",
     "longest_blocked_rows": 3,
@@ -3223,10 +1655,10 @@
       "first_date": "2026-10-21",
       "first_nav_date": "2026-10-20",
       "kind": "closed",
-      "last_date": "2026-11-10",
-      "last_nav_date": "2026-11-09",
-      "median_pct": -0.6264481249463771,
-      "n_rows": 15,
+      "last_date": "2026-11-11",
+      "last_nav_date": "2026-11-10",
+      "median_pct": -0.7024123269501414,
+      "n_rows": 16,
       "word": "场内买入"
      }
     ],
@@ -3239,693 +1671,25 @@
     "share_closed_at_high": null,
     "verdict": "NO_HIGH_SESSIONS"
    },
-   "latest_nav_date": "2026-11-09",
-   "latest_pct": -0.7783765289539057,
-   "latest_price_date": "2026-11-10",
+   "latest_nav_date": "2026-11-10",
+   "latest_pct": -1.062189480897724,
+   "latest_price_date": "2026-11-11",
    "latest_purchase": "场内买入",
    "latest_purchase_kind": "closed",
-   "n_sessions": 1328,
+   "n_sessions": 1329,
    "n_status_rows": 1335,
    "nav_cache_status": "cache-stale",
-   "ruler_gap_pp": -0.8991765289539058,
-   "status_source": "fetched",
+   "ruler_gap_pp": -1.235689480897724,
+   "status_source": "cache-stale",
    "symbol": "513690",
    "window_facts": {
-    "known": 1328,
+    "known": 1329,
     "open": 0
    },
    "window_verdict": "CHANNEL_CLOSED_THROUGHOUT"
   },
   {
-   "amount_cny": 78504.4,
-   "blip_cadence": {
-    "base_share_modal": 0.2036,
-    "blip_share_modal": 0.45,
-    "blips_by_weekday": [
-     4,
-     9,
-     0,
-     2,
-     5
-    ],
-    "bracketed_by_exchange_only": 20,
-    "day_of_month_top": [
-     {
-      "dom": 20,
-      "n": 3
-     },
-     {
-      "dom": 26,
-      "n": 3
-     },
-     {
-      "dom": 7,
-      "n": 2
-     }
-    ],
-    "examples": [
-     "2024-04-01",
-     "2024-05-28",
-     "2024-06-20"
-    ],
-    "modal_weekday": "Tue",
-    "modal_weekday_index": 1,
-    "n_blips_unreadable_date": 0,
-    "n_blocked": 22,
-    "n_one_row": 20,
-    "n_sessions_unreadable_date": 0,
-    "nav_jump_gt3pct": 0,
-    "nav_jump_max_abs_pct": 0.1407,
-    "not_a_cause": "a weekly source refresh and a real one-day announcement are indistinguishable here; this block prices when the word appears",
-    "sessions_by_weekday": [
-     130,
-     134,
-     133,
-     132,
-     129
-    ],
-    "tail_p": 0.011253553860038488,
-    "verdict": "BLIP_NO_CADENCE"
-   },
-   "blip_cause": {
-    "base_rate": 0.0188,
-    "both_channels_share": 1.0,
-    "both_channels_suspended": 20,
-    "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
-    "calendar_choice": {
-     "named": "NYSE",
-     "qualified": [
-      "NYSE"
-     ],
-     "reason": "ONE_CALENDAR_CLEARS_THE_BAR"
-    },
-    "calendar_named": "NYSE",
-    "closure_rate": 0.95,
-    "exact_carry": 1,
-    "hk_base_rate": 0.0581,
-    "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
-    "hk_index_last": "2026-11-10",
-    "hk_index_status": "cache",
-    "hk_lift": 5.16,
-    "hk_n_base_closure": 37,
-    "hk_n_base_sessions": 637,
-    "hk_n_closed": 6,
-    "hk_n_thin": 0,
-    "hk_n_unmatched": 14,
-    "hk_n_window": 0,
-    "hk_rate": 0.3,
-    "hk_thin_max": 0.6,
-    "hk_thin_sensitivity": {
-     "0.50": {
-      "n_matched": 6,
-      "rate": 0.3
-     },
-     "0.60": {
-      "n_matched": 6,
-      "rate": 0.3
-     },
-     "0.70": {
-      "n_matched": 7,
-      "rate": 0.35
-     }
-    },
-    "hk_unmatched_stamps": [
-     "2024-05-27",
-     "2024-06-19",
-     "2024-07-04",
-     "2024-09-02",
-     "2024-11-28",
-     "2025-01-09",
-     "2025-01-20",
-     "2025-02-17",
-     "2025-06-19",
-     "2025-07-04",
-     "2025-09-01",
-     "2026-01-19"
-    ],
-    "lift": 50.43,
-    "n_base_closure": 12,
-    "n_base_sessions": 637,
-    "n_blocked": 22,
-    "n_closure_early": 0,
-    "n_closure_full": 19,
-    "n_closure_unmatched": 1,
-    "n_move_le_quarter": 20,
-    "n_move_ratio": 20,
-    "n_multi_row": 2,
-    "n_one_row": 20,
-    "nav_move_max_pct": 0.1407,
-    "nav_move_max_stamp": "2024-09-02",
-    "nav_move_p90_pct": 0.1228,
-    "nav_move_ratio_median": 0.0414,
-    "not_proof": "the closure calendar explains the dates; it does not make the premium fair and it is not a statement about quotas",
-    "one_row_stamps": [
-     "2024-03-29",
-     "2024-05-27",
-     "2024-06-19",
-     "2024-07-04",
-     "2024-09-02",
-     "2024-11-28",
-     "2024-12-25",
-     "2025-01-09",
-     "2025-01-20",
-     "2025-02-17",
-     "2025-04-18",
-     "2025-06-19",
-     "2025-07-04",
-     "2025-09-01",
-     "2025-12-25",
-     "2026-01-19",
-     "2026-04-03",
-     "2026-05-25",
-     "2026-07-03",
-     "2026-09-07"
-    ],
-    "share_move_le_quarter": 1.0,
-    "unmatched_stamps": [
-     "2025-01-09"
-    ],
-    "verdict": "CALENDAR_GAP"
-   },
-   "block_contrast": {
-    "excluded_requested": 0,
-    "gap_pp": -0.6039894088919695,
-    "median_blocked_pct": 1.1841025313559905,
-    "median_exchange_pct": 1.78809194024796,
-    "n_blocked": 58,
-    "n_exchange": 600,
-    "n_excluded": 0,
-    "verdict": "BLOCK_DOES_NOT_WIDEN"
-   },
-   "block_contrast_excl_gaps": {
-    "excluded_requested": 20,
-    "gap_pp": -1.0309996662671739,
-    "median_blocked_pct": 0.7570922739807862,
-    "median_exchange_pct": 1.78809194024796,
-    "n_blocked": 38,
-    "n_exchange": 600,
-    "n_excluded": 20,
-    "verdict": "BLOCK_DOES_NOT_WIDEN"
-   },
-   "blocked_sessions": 58,
-   "board_premium_pct": 9.4833,
-   "class": "crossborder",
-   "episode_granularity": {
-    "blocked_one_row": 20,
-    "episode_gap_pp": 0.40239915058891684,
-    "episodes_gap_positive": 14,
-    "exchange_baseline_pct": 1.78809194024796,
-    "gap_without_longest_pp": 0.4188262003061105,
-    "longest_block_gap_pp": -1.4158782209852783,
-    "longest_blocked_first": "2025-04-23",
-    "longest_blocked_last": "2025-06-09",
-    "longest_blocked_rows": 30,
-    "median_blocked_rows": 1.0,
-    "n_blocked_episodes": 22,
-    "n_episodes": 45,
-    "n_gaps": 22,
-    "runs": [
-     {
-      "first_date": "2024-02-23",
-      "first_nav_date": "2024-02-22",
-      "kind": "closed",
-      "last_date": "2024-03-29",
-      "last_nav_date": "2024-03-28",
-      "median_pct": 1.3242999885529794,
-      "n_rows": 26,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-04-01",
-      "first_nav_date": "2024-03-29",
-      "kind": "closed",
-      "last_date": "2024-04-01",
-      "last_nav_date": "2024-03-29",
-      "median_pct": 1.9634525660964242,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-04-02",
-      "first_nav_date": "2024-04-01",
-      "kind": "closed",
-      "last_date": "2024-05-27",
-      "last_nav_date": "2024-05-24",
-      "median_pct": 1.7430845017051944,
-      "n_rows": 35,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-05-28",
-      "first_nav_date": "2024-05-27",
-      "kind": "closed",
-      "last_date": "2024-05-28",
-      "last_nav_date": "2024-05-27",
-      "median_pct": 2.4532380862863024,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-05-29",
-      "first_nav_date": "2024-05-28",
-      "kind": "closed",
-      "last_date": "2024-06-19",
-      "last_nav_date": "2024-06-18",
-      "median_pct": 2.1930612978608544,
-      "n_rows": 15,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-06-20",
-      "first_nav_date": "2024-06-19",
-      "kind": "closed",
-      "last_date": "2024-06-20",
-      "last_nav_date": "2024-06-19",
-      "median_pct": 2.891609011885743,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-06-21",
-      "first_nav_date": "2024-06-20",
-      "kind": "closed",
-      "last_date": "2024-07-04",
-      "last_nav_date": "2024-07-03",
-      "median_pct": 2.43264603831026,
-      "n_rows": 10,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-07-05",
-      "first_nav_date": "2024-07-04",
-      "kind": "closed",
-      "last_date": "2024-07-05",
-      "last_nav_date": "2024-07-04",
-      "median_pct": 3.8588562489136002,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-07-08",
-      "first_nav_date": "2024-07-05",
-      "kind": "closed",
-      "last_date": "2024-09-02",
-      "last_nav_date": "2024-08-30",
-      "median_pct": 1.4204288428480982,
-      "n_rows": 41,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-09-03",
-      "first_nav_date": "2024-09-02",
-      "kind": "closed",
-      "last_date": "2024-09-03",
-      "last_nav_date": "2024-09-02",
-      "median_pct": -0.02642473355060071,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-09-04",
-      "first_nav_date": "2024-09-03",
-      "kind": "closed",
-      "last_date": "2024-11-28",
-      "last_nav_date": "2024-11-27",
-      "median_pct": 0.1435447099552567,
-      "n_rows": 55,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-11-29",
-      "first_nav_date": "2024-11-28",
-      "kind": "closed",
-      "last_date": "2024-11-29",
-      "last_nav_date": "2024-11-28",
-      "median_pct": 1.4587772496312157,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-12-02",
-      "first_nav_date": "2024-11-29",
-      "kind": "closed",
-      "last_date": "2024-12-25",
-      "last_nav_date": "2024-12-24",
-      "median_pct": 1.4019335785056652,
-      "n_rows": 18,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2024-12-26",
-      "first_nav_date": "2024-12-25",
-      "kind": "closed",
-      "last_date": "2024-12-26",
-      "last_nav_date": "2024-12-25",
-      "median_pct": 5.007824726134591,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2024-12-27",
-      "first_nav_date": "2024-12-26",
-      "kind": "closed",
-      "last_date": "2025-01-09",
-      "last_nav_date": "2025-01-08",
-      "median_pct": 5.067300079176573,
-      "n_rows": 9,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-01-10",
-      "first_nav_date": "2025-01-09",
-      "kind": "closed",
-      "last_date": "2025-01-10",
-      "last_nav_date": "2025-01-09",
-      "median_pct": 4.840006431902233,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-01-13",
-      "first_nav_date": "2025-01-10",
-      "kind": "closed",
-      "last_date": "2025-01-20",
-      "last_nav_date": "2025-01-17",
-      "median_pct": 5.879876687099028,
-      "n_rows": 6,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-01-21",
-      "first_nav_date": "2025-01-20",
-      "kind": "closed",
-      "last_date": "2025-01-21",
-      "last_nav_date": "2025-01-20",
-      "median_pct": 5.67154627629789,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-01-22",
-      "first_nav_date": "2025-01-21",
-      "kind": "closed",
-      "last_date": "2025-02-17",
-      "last_nav_date": "2025-02-14",
-      "median_pct": 2.3758781277133156,
-      "n_rows": 13,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-02-18",
-      "first_nav_date": "2025-02-17",
-      "kind": "closed",
-      "last_date": "2025-02-18",
-      "last_nav_date": "2025-02-17",
-      "median_pct": 2.2069181405540705,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-02-19",
-      "first_nav_date": "2025-02-18",
-      "kind": "closed",
-      "last_date": "2025-04-18",
-      "last_nav_date": "2025-04-17",
-      "median_pct": 1.0272408675285671,
-      "n_rows": 42,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-04-21",
-      "first_nav_date": "2025-04-18",
-      "kind": "closed",
-      "last_date": "2025-04-21",
-      "last_nav_date": "2025-04-18",
-      "median_pct": 0.2980070776680721,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-04-22",
-      "first_nav_date": "2025-04-21",
-      "kind": "closed",
-      "last_date": "2025-04-22",
-      "last_nav_date": "2025-04-21",
-      "median_pct": 2.8849828047382564,
-      "n_rows": 1,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-04-23",
-      "first_nav_date": "2025-04-22",
-      "kind": "closed",
-      "last_date": "2025-06-09",
-      "last_nav_date": "2025-06-06",
-      "median_pct": 0.37221371926268176,
-      "n_rows": 30,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-06-10",
-      "first_nav_date": "2025-06-09",
-      "kind": "closed",
-      "last_date": "2025-06-19",
-      "last_nav_date": "2025-06-18",
-      "median_pct": -0.2284972776162908,
-      "n_rows": 8,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-06-20",
-      "first_nav_date": "2025-06-19",
-      "kind": "closed",
-      "last_date": "2025-06-20",
-      "last_nav_date": "2025-06-19",
-      "median_pct": -0.05628366969525622,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-06-23",
-      "first_nav_date": "2025-06-20",
-      "kind": "closed",
-      "last_date": "2025-07-04",
-      "last_nav_date": "2025-07-03",
-      "median_pct": 0.20006086842352389,
-      "n_rows": 10,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-07-07",
-      "first_nav_date": "2025-07-04",
-      "kind": "closed",
-      "last_date": "2025-07-07",
-      "last_nav_date": "2025-07-04",
-      "median_pct": -0.3684372121584234,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-07-08",
-      "first_nav_date": "2025-07-07",
-      "kind": "closed",
-      "last_date": "2025-09-01",
-      "last_nav_date": "2025-08-29",
-      "median_pct": 0.4677413437086497,
-      "n_rows": 40,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-09-02",
-      "first_nav_date": "2025-09-01",
-      "kind": "closed",
-      "last_date": "2025-09-02",
-      "last_nav_date": "2025-09-01",
-      "median_pct": 1.0535687787505577,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-09-03",
-      "first_nav_date": "2025-09-02",
-      "kind": "closed",
-      "last_date": "2025-11-19",
-      "last_nav_date": "2025-11-18",
-      "median_pct": 1.2133541459651176,
-      "n_rows": 50,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-11-20",
-      "first_nav_date": "2025-11-19",
-      "kind": "closed",
-      "last_date": "2025-12-01",
-      "last_nav_date": "2025-11-28",
-      "median_pct": 7.209075983767599,
-      "n_rows": 8,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-12-02",
-      "first_nav_date": "2025-12-01",
-      "kind": "closed",
-      "last_date": "2025-12-25",
-      "last_nav_date": "2025-12-24",
-      "median_pct": 5.2967537649919905,
-      "n_rows": 18,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2025-12-26",
-      "first_nav_date": "2025-12-25",
-      "kind": "closed",
-      "last_date": "2025-12-26",
-      "last_nav_date": "2025-12-25",
-      "median_pct": 4.588532078816399,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2025-12-29",
-      "first_nav_date": "2025-12-26",
-      "kind": "closed",
-      "last_date": "2026-01-19",
-      "last_nav_date": "2026-01-16",
-      "median_pct": 3.7355692556835463,
-      "n_rows": 14,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2026-01-20",
-      "first_nav_date": "2026-01-19",
-      "kind": "closed",
-      "last_date": "2026-01-20",
-      "last_nav_date": "2026-01-19",
-      "median_pct": 2.174064041119683,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2026-01-21",
-      "first_nav_date": "2026-01-20",
-      "kind": "closed",
-      "last_date": "2026-04-03",
-      "last_nav_date": "2026-04-02",
-      "median_pct": 2.627840909090917,
-      "n_rows": 47,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2026-04-07",
-      "first_nav_date": "2026-04-03",
-      "kind": "closed",
-      "last_date": "2026-04-07",
-      "last_nav_date": "2026-04-03",
-      "median_pct": 0.7781219309511256,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2026-04-08",
-      "first_nav_date": "2026-04-07",
-      "kind": "closed",
-      "last_date": "2026-05-25",
-      "last_nav_date": "2026-05-22",
-      "median_pct": 0.7484542792060012,
-      "n_rows": 31,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2026-05-26",
-      "first_nav_date": "2026-05-25",
-      "kind": "closed",
-      "last_date": "2026-05-26",
-      "last_nav_date": "2026-05-25",
-      "median_pct": 2.152264696434303,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2026-05-27",
-      "first_nav_date": "2026-05-26",
-      "kind": "closed",
-      "last_date": "2026-07-03",
-      "last_nav_date": "2026-07-02",
-      "median_pct": 2.5789068514241675,
-      "n_rows": 27,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2026-07-06",
-      "first_nav_date": "2026-07-03",
-      "kind": "closed",
-      "last_date": "2026-07-06",
-      "last_nav_date": "2026-07-03",
-      "median_pct": 3.513584117032398,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2026-07-07",
-      "first_nav_date": "2026-07-06",
-      "kind": "closed",
-      "last_date": "2026-09-07",
-      "last_nav_date": "2026-09-04",
-      "median_pct": 4.121188066415304,
-      "n_rows": 45,
-      "word": "场内买入"
-     },
-     {
-      "first_date": "2026-09-08",
-      "first_nav_date": "2026-09-07",
-      "kind": "closed",
-      "last_date": "2026-09-08",
-      "last_nav_date": "2026-09-07",
-      "median_pct": 4.872478111914735,
-      "n_rows": 1,
-      "word": "暂停申购"
-     },
-     {
-      "first_date": "2026-09-09",
-      "first_nav_date": "2026-09-08",
-      "kind": "closed",
-      "last_date": "2026-11-10",
-      "last_nav_date": "2026-11-06",
-      "median_pct": 7.663667390629869,
-      "n_rows": 39,
-      "word": "场内买入"
-     }
-    ],
-    "verdict": "EPISODE_GAP_DOES_NOT_WIDEN",
-    "widens_only_in_longest": false
-   },
-   "high_premium": {
-    "first_high": "2026-11-02",
-    "last_high": "2026-11-10",
-    "n_high": 2,
-    "n_high_known": 2,
-    "share_closed_at_high": 1.0,
-    "verdict": "HIGH_PREMIUM_WHILE_CLOSED"
-   },
-   "latest_nav_date": "2026-11-06",
-   "latest_pct": 12.071877322164436,
-   "latest_price_date": "2026-11-10",
-   "latest_purchase": "场内买入",
-   "latest_purchase_kind": "closed",
-   "n_sessions": 658,
-   "n_status_rows": 662,
-   "nav_cache_status": "cache-stale",
-   "ruler_gap_pp": 2.5885773221644364,
-   "status_source": "fetched",
-   "symbol": "159577",
-   "window_facts": {
-    "known": 658,
-    "open": 0
-   },
-   "window_verdict": "CHANNEL_CLOSED_THROUGHOUT"
-  },
-  {
-   "amount_cny": 78522.0,
+   "amount_cny": 86338.0,
    "blip_cadence": {
     "base_share_modal": null,
     "blip_share_modal": null,
@@ -3949,17 +1713,17 @@
     "nav_jump_max_abs_pct": null,
     "not_a_cause": "a weekly source refresh and a real one-day announcement are indistinguishable here; this block prices when the word appears",
     "sessions_by_weekday": [
-     64,
-     67,
-     66,
-     66,
-     63
+     152,
+     157,
+     157,
+     156,
+     150
     ],
     "tail_p": null,
     "verdict": "TOO_FEW_BLIPS"
    },
    "blip_cause": {
-    "base_rate": 0.0399,
+    "base_rate": 0.0492,
     "both_channels_share": null,
     "both_channels_suspended": 0,
     "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
@@ -3971,13 +1735,13 @@
     "calendar_named": null,
     "closure_rate": null,
     "exact_carry": 0,
-    "hk_base_rate": 0.0491,
+    "hk_base_rate": 0.0674,
     "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
     "hk_index_last": "2026-11-10",
-    "hk_index_status": "cache",
+    "hk_index_status": "cache-stale",
     "hk_lift": null,
-    "hk_n_base_closure": 16,
-    "hk_n_base_sessions": 326,
+    "hk_n_base_closure": 52,
+    "hk_n_base_sessions": 772,
     "hk_n_closed": 0,
     "hk_n_thin": 0,
     "hk_n_unmatched": 0,
@@ -4000,8 +1764,8 @@
     },
     "hk_unmatched_stamps": [],
     "lift": null,
-    "n_base_closure": 13,
-    "n_base_sessions": 326,
+    "n_base_closure": 38,
+    "n_base_sessions": 772,
     "n_blocked": 0,
     "n_closure_early": 0,
     "n_closure_full": 0,
@@ -4023,29 +1787,29 @@
    "block_contrast": {
     "excluded_requested": 0,
     "median_blocked_pct": null,
-    "median_exchange_pct": 0.104792838109935,
+    "median_exchange_pct": null,
     "n_blocked": 0,
-    "n_exchange": 326,
+    "n_exchange": 0,
     "n_excluded": 0,
     "verdict": "NO_CONTRAST"
    },
    "block_contrast_excl_gaps": {
     "excluded_requested": 0,
     "median_blocked_pct": null,
-    "median_exchange_pct": 0.104792838109935,
+    "median_exchange_pct": null,
     "n_blocked": 0,
-    "n_exchange": 326,
+    "n_exchange": 0,
     "n_excluded": 0,
     "verdict": "NO_CONTRAST"
    },
    "blocked_sessions": 0,
-   "board_premium_pct": -0.1409,
-   "class": "equity",
+   "board_premium_pct": -0.2209,
+   "class": "crossborder",
    "episode_granularity": {
     "blocked_one_row": 0,
     "episode_gap_pp": null,
     "episodes_gap_positive": 0,
-    "exchange_baseline_pct": 0.104792838109935,
+    "exchange_baseline_pct": null,
     "gap_without_longest_pp": null,
     "longest_block_gap_pp": null,
     "longest_blocked_first": null,
@@ -4057,14 +1821,14 @@
     "n_gaps": 0,
     "runs": [
      {
-      "first_date": "2025-07-08",
-      "first_nav_date": "2025-07-07",
-      "kind": "closed",
-      "last_date": "2026-11-10",
-      "last_nav_date": "2026-11-09",
-      "median_pct": 0.104792838109935,
-      "n_rows": 326,
-      "word": "场内买入"
+      "first_date": "2023-08-31",
+      "first_nav_date": "2023-08-30",
+      "kind": "unknown",
+      "last_date": "2026-11-11",
+      "last_nav_date": "2026-11-10",
+      "median_pct": 0.23555716371979063,
+      "n_rows": 772,
+      "word": ""
      }
     ],
     "verdict": "NO_BLOCKED_EPISODES",
@@ -4076,22 +1840,21 @@
     "share_closed_at_high": null,
     "verdict": "NO_HIGH_SESSIONS"
    },
-   "latest_nav_date": "2026-11-09",
-   "latest_pct": -0.5350407858959683,
-   "latest_price_date": "2026-11-10",
-   "latest_purchase": "场内买入",
-   "latest_purchase_kind": "closed",
-   "n_sessions": 326,
-   "n_status_rows": 330,
+   "latest_nav_date": "2026-11-10",
+   "latest_pct": -0.9555930297920123,
+   "latest_price_date": "2026-11-11",
+   "latest_purchase": "",
+   "latest_purchase_kind": "unknown",
+   "n_sessions": 772,
+   "n_status_rows": 0,
    "nav_cache_status": "cache-stale",
-   "ruler_gap_pp": -0.39414078589596824,
-   "status_source": "fetched",
-   "symbol": "159263",
+   "ruler_gap_pp": -0.7346930297920123,
+   "status_source": "cache-missing",
+   "symbol": "159519",
    "window_facts": {
-    "known": 326,
-    "open": 0
+    "known": 0
    },
-   "window_verdict": "CHANNEL_CLOSED_THROUGHOUT"
+   "window_verdict": "NO_STATUS_DATA"
   }
  ],
  "machine": "FLUXGROUP",
@@ -4103,12 +1866,13 @@
   "status_join": "申购状态 printed on the NAV stamp the premium used",
   "status_source": "EM fund_etf_fund_info_em column 申购状态 (dropped by the NAV cache)"
  },
- "summary_sentence": "5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 513100; exchange-only on their latest stamp: 159501, 513690, 159577, 159263; the 830 hard-suspended sessions are 141 runs (116 of them a single NAV row); with the 116 one-row valuation gaps removed the block still sits wider on 513100 and not on 513690, 159577; 159501 has no real suspension left at all; 513100's gap sits in its single 435-session run (own gap +4.28) while its other 47 runs read +0.06; the single-row runs are not spread over the calendar: Tue carries 51% of them against 20% of priced sessions (chance 3e-13), so a one-row word is a word printed that session, not a fund policy; what those one-row words are is a valuation gap, not an announcement: 116/116 of them suspend 赎回 on the same row, they move the NAV by 0.10 of a normal session (median), and 89/116 sit on a session the NYSE calendar explains against 3.0% of ordinary sessions (25.5x); closed channel is consistent with a standing premium, not a verdict on it",
+ "summary_sentence": "1/5 legs show no open primary subscription anywhere in coverage; 4 leg(s) carry no status data; exchange-only on their latest stamp: 513690; the 64 hard-suspended sessions are 42 runs (24 of them a single NAV row); with the 24 one-row valuation gaps removed the block still sits wider on no leg and not on 513690; what those one-row words are is a valuation gap, not an announcement: 24/24 of them suspend 赎回 on the same row, they move the NAV by 0.13 of a normal session (median), and 21/24 sit on a session the HKEX calendar explains against 6.3% of ordinary sessions (13.9x); closed channel is consistent with a standing premium, not a verdict on it",
  "ticket": {
-  "as_of": "2026-11-09",
-  "path": "results\\etf_book_order\\TICKET-2026-11-09.json"
+  "as_of": "2026-11-11",
+  "path": "results\\etf_book_order\\TICKET-2026-11-11.json"
  },
  "verdicts": [
-  "CHANNEL_CLOSED_THROUGHOUT"
+  "CHANNEL_CLOSED_THROUGHOUT",
+  "NO_STATUS_DATA"
  ]
 }
