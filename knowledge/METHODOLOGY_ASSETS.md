@@ -13267,3 +13267,26 @@ gate_exit() 三态（0 holds / 1 broken / 3 nothing measured），判据只写�
 **附：转义吃字是同一族的物理面**。这张卡第一次落盘时 `etf_book_card_track`／`agrees`／`book_decided_at` 三个词的首字母
 被还原成真控制字节 `0x1b`／`0x07`／`0x08`（`\e`／`\a`／`\b` 被当转义解释了，与 r1551 的 `\r/\a/\t` 吃字同源）。
 读者看见的是「etf_book_card_track 判 grees=False」这种**读得通但意思全错**的句子。卫生闸只看控制字符就能抓，前提是它每轮跑。
+
+## E555 状态档案写的是「停下来的原因」，不是关于现在的结论
+
+`cph4/fleet/STATIONS.json` 的 `status` 里存着一个原因（`blocked_no_comfyui`），而
+`Tools/fleet/station_drive.py` 的闸把它当结论读：不在 `RUNNABLE` 里就不自驱。2026-11-12
+实锚：工位档案写 `blocked_no_comfyui`，而 `127.0.0.1:8188` 的 `/system_stats` 早在 04:12
+就已 200 已答（ComfyUI 0.36.0）——视觉工位因此连着 12 天报「没活」，`supply_floor`
+连红 16,938 分钟。这不是没有产能，是没有人问过服务端。正法＝能实测的原因一律去问服务端：
+`PROBE_HINTS` 把 status 映射到探针，`_comfyui_alive()` 3 秒超时问 `/system_stats`，
+答话即放行并把矛盾句写进 `report.status_note`（"archive is a snapshot, service is the
+fact"）；不应＝维持阻塞并点名 unreachable。档案照旧不改：它是快照，读者看到矛盾句就知道该刷新它。
+
+**同轮三个小坑，都是「跑不起来和通过长得一样」**：① `--self-test` 在本机（zh-CN）从来
+跑不过——fixture 用 `open(...,"w")` 写 GBK，而 `_load` 按 UTF-8 读 → UnicodeDecodeError；
+一个从没跑起来的闸和一个全绿的闸在报告里没有区别，fixture 一律显式 `encoding="utf-8"`。
+② 新加的腿写在 `with tempfile.TemporaryDirectory()` 块**外**，借用已删除的路径 →
+FileNotFoundError；腿要自带目录，别借会关的门。③ `once()` 里 `ok, why = _status_ok(...)`
+两行后被 `ok, why = _disk_ok(...)` 覆盖，刚发布的 `status_note` 永远印磁盘那条（通常空串）
+——**恒空的注记读起来就是「没有矛盾」**，不同用途的判词用不同变量名。
+
+**推广**：①凡 status/gate 字段写的是原因（`blocked_no_X` / `waiting_for_Y`），先问 X/Y
+能不能测，能测的就必须测，禁把原因当结论；②自检里凡「读自己刚写的文件」的腿，先问写的时候
+定了编码没有；③一条注记若在正常路径上恒为空，它就不是披露，是装饰。
