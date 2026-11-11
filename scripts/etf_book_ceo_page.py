@@ -5123,7 +5123,74 @@ def build(with_stress=False, window_label=None):
     return page, today
 
 
-def render_md(p):
+def _section_bars_module():
+    try:
+        from scripts import live_book_section_bars as _SB
+    except Exception:
+        try:
+            import live_book_section_bars as _SB
+        except Exception:
+            return None
+    return _SB
+
+
+def section_bars_face(page):
+    """Which bar is each section priced on? Asked through the face's own implementation.
+
+    r1543: the page declares one `priced_bar` at the top and leaves the reader to assume
+    every number below is that day's. It is not -- on 2026-11-11 twelve of 33 dated
+    sections sat on 2026-10-26..11-08. Nothing was wrong with them (a section prices the
+    bar its face was last built on) but the page never said so, so an old number and a
+    today number looked like two numbers from one day that disagree.
+    """
+    mod = _section_bars_module()
+    if mod is None:
+        return None
+    try:
+        return mod.section_bars(page)
+    except Exception:
+        return None
+
+
+def section_bars_block(sb):
+    """Page lines: how many sections share the headline bar, and which do not."""
+    if not sb:
+        return []
+    head = sb.get("headline_bar")
+    n = sb.get("n_sections") or 0
+    if head is None or n == 0:
+        return []
+    off = sb.get("off_headline") or []
+    unk = sb.get("unknown_sections") or []
+    out = []
+    if not off:
+        out.append("> 这一页 %d 个带日期的节全部定价在 **%s**。" % (n, head))
+    else:
+        oldest = sb.get("oldest")
+        lag = sb.get("max_lag_sessions")
+        _groups = {}
+        for _r in off:
+            _groups.setdefault(_r["bar"], []).append(_r["key"])
+        _parts = []
+        for _bar in sorted(_groups):
+            _keys = _groups[_bar]
+            _nm = ("`%s`" % _keys[0]) if len(_keys) == 1 \
+                else "、".join("`%s`" % k for k in _keys)
+            _parts.append("%s %s" % (_nm, _bar))
+        out.append("> 这一页 %d 个带日期的节里 **%d 个在 %s**，其余 **%d 个停在更早的 bar**"
+                   "（最旧 %s，落后 %s 个交易日）：%s。"
+                   % (n, n - len(off), head, len(off), oldest,
+                      "?" if lag is None else lag, "；".join(_parts)))
+        out.append("> 那些节读的是各自面上一次生成时的数，不是今天的仓位；今天的数字只在前面那 %d 个里。"
+                   % (n - len(off)))
+    if unk:
+        out.append("> 另有 %d 个节不带任何日期字段，无法核验它们算到哪天（不猜测成同一天）。"
+                   % len(unk))
+    out.append("")
+    return out
+
+
+def render_md(p, sb=None):
     L = []
     add = L.append
     add("# 今日 ETF 实盘单 —— %s" % p["generated_for_date"])
@@ -5166,6 +5233,8 @@ def render_md(p):
     else:
         add("**今天是否要动手：无法判定**（缺 book_decided_at 或 priced_bar，不猜）。下面只有数值，不代表指令。")
     add("")
+    for _sb_line in section_bars_block(sb):
+        add(_sb_line)
     add("## 下单清单%s" % ("（如果你今天才建仓）" if mode == "hold" else ""))
     add("")
     add("| 代码 | 类别 | 份（100 股/份） | 参考价 | 金额 |")
@@ -6142,7 +6211,7 @@ def run():
     md_path = os.path.join(OUT_DIR, "LIVE-BOOK-%s.md" % today.replace("-", ""))
     js_path = os.path.join(OUT_DIR, "LIVE-BOOK-%s.json" % today.replace("-", ""))
     with open(md_path, "w", encoding="utf-8", newline="\n") as fh:
-        fh.write(render_md(page))
+        fh.write(render_md(page, sb=section_bars_face(page)))
     with open(js_path, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(page, fh, ensure_ascii=False, indent=1)
         fh.write("\n")
@@ -8428,6 +8497,29 @@ def selftest():
     chk("L195 page: the card section says 'agree', 'a different world' or 'unreadable'",
         "对得上" in _md_c_same and "读不出来" in _md_c_gone and "对不上" in _md_c_diff)
     shutil.rmtree(_tk_root, ignore_errors=True)
+    # ---- r1543: the page says which of its sections are not today's numbers -----------
+    chk("L196 section bars: no face reads as 'nothing to say', never as one bar everywhere",
+        section_bars_block(None) == [] and section_bars_block({}) == [])
+    _sb_doc = {"priced_bar": "2026-11-10",
+               "a": {"evidence_cutoff": "2026-11-10"},
+               "b": {"evidence_cutoff": "2026-10-30"}}
+    _sb_mixed = section_bars_face(_sb_doc)
+    _sb_lines = "\n".join(section_bars_block(_sb_mixed))
+    chk("L197 section bars: a mixed page names the off-headline section and its day",
+        "`b` 2026-10-30" in _sb_lines and "1 个在 2026-11-10" in _sb_lines
+        and "不是今天的仓位" in _sb_lines, _sb_lines[:90])
+    _sb_one = "\n".join(section_bars_block(section_bars_face(
+        {"priced_bar": "2026-11-10", "a": {"evidence_cutoff": "2026-11-10"},
+         "b": {"panel_last_bar": "2026-11-10"}})))
+    chk("L198 section bars: a page on one bar says so in one line", "全部定价在" in _sb_one,
+        _sb_one[:80])
+    _sb_unk = section_bars_face({"priced_bar": "2026-11-10", "a": {"evidence_cutoff": "2026-11-10"},
+                                 "scalar-ish": {"value": 1}})
+    chk("L199 section bars: a section with no date is counted as unverifiable, not as today",
+        "不带任何日期字段" in "\n".join(section_bars_block(_sb_unk)))
+    _md_sb = render_md(page, sb=section_bars_face(page))
+    chk("L200 page: the dated-sections sentence is on the rendered page, and only with a face",
+        "个带日期的节" in _md_sb and "个带日期的节" not in render_md(page))
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

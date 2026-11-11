@@ -368,7 +368,7 @@ proven：当窗双实弹。律五条：①**凡每轮被各机 daemon/工具活�
 - 2026-10-25 11:0x 由 bm-c r1240 于 W329 收口窗立。
 
 ## E98 权益曲线的子窗切片必须按切片自身起点归一（r1242 bm-c 实弹·ETF/股票复合因子 PF 双面）
-- 缺陷：metrics(ser, label) 把 slice 当独立资产净值曲线处理——	otal = ser.iloc[-1] - 1、cagr = ser.iloc[-1]**(1/yrs) - 1。运行中的 equity 曲线切出 2024+ 段时首值已是 1.2056，于是「2024+」行报出的是**六年累计收益**与按此推算的年化（ETF R20 OOS 23.26% vs 真值 15.30%；bench 510300 OOS 0.25% vs 真值 7.03%——基准被低估 6.8pp，超额被夸大）。
+- 缺陷：metrics(ser, label) 把 slice 当独立资产净值曲线处理——total = ser.iloc[-1] - 1、cagr = ser.iloc[-1]**(1/yrs) - 1。运行中的 equity 曲线切出 2024+ 段时首值已是 1.2056，于是「2024+」行报出的是**六年累计收益**与按此推算的年化（ETF R20 OOS 23.26% vs 真值 15.30%；bench 510300 OOS 0.25% vs 真值 7.03%——基准被低估 6.8pp，超额被夸大）。
 - 正法：growth = ser.iloc[-1] / ser.iloc[0]，cagr = growth**(1/yrs) - 1，并把 start_level 写进每行（读者可自证归一基）。sharpe/vol/maxdd 本来就按切片自身收益率/自身 cummax 计算=归一不变，**只有 total 与 cagr 会错**——所以「夏普看起来没问题」不能作为指标无罪的反证。
 - 校正纪律：旧数不静默抹平——json 里留 correction_r1242 段列新旧对照，research 笔记单列 correction 小节并重述读法变化（基准不再「走平」，超额从 ~23pp 降到 ~8.3pp/yr）。
 - 自检：切片指标算出后断言 abs(ser.iloc[0] - 1.0) < 1e-9 or 'start_level' in row；凡「full 与 oos 两行 total 完全相同」= 归一缺陷的指纹，一眼可判。
@@ -4020,7 +4020,7 @@ Pieces: scripts/e223_obs_rate_ladder.py (
 un / selftest, 26 hermetic legs); face
 
 results/obs_rate/OBSRATE-<cutoff>.json + latest.json; S6 leg obs_rate_ladder after
-	om_overlay; smoke leg that re-derives every rung's MDE from its own dispersion and fails
+tom_overlay; smoke leg that re-derives every rung's MDE from its own dispersion and fails
 a rung that ADOPTs below the bar. Pit: the ladder summary needs all four rungs in its
 fixture or it raises instead of reporting a short ladder; and a bp fixture written in
 percent units asserts 100 when the truth is 1000.
@@ -10558,7 +10558,7 @@ n<5 一律不通（`implicit_record_floor.first_n_that_passes = 5`），所以�
 结论落到生产之外：闸问的是半衰期问题，手里的书 5/5 全拒，ETA 是 10 年 → **动作是重做书，不是等**。
 
 ⑤**顺带查出：拒的是对的，理由印着被取消资格的尺子**。供给日历三个候选的拒因都写 Y4_top2_share
-（净额两年份额）——正是本轮取消资格那把；同一回执的 	rusted_states 说这些拒在半衰期尺子下
+（净额两年份额）——正是本轮取消资格那把；同一回执的 trusted_states 说这些拒在半衰期尺子下
 同样成立（3/3）。所以「拒」是真的，**但回执把读者指向了不该信的仪器**：纸上读像「净额太集中」，
 实际是「钱早就赚完了」，两个成因的动作不同（换书 vs 重做书）。凡「某条闸拒了谁」的面，必须同时印
 「这条拒在选举后的尺子下还成立吗」——
@@ -12928,13 +12928,13 @@ S6 腿 `live_book_section_bars`（check+run，0.3s）· smoke 两条新腿（逐
 三张纸（卡片 / 票面 / CEO 页）从 r1185 起被放在一起比「是不是同一定价日」，结论是一个 boolean
 SAME_DAY。r1541 发现票面除了定价日还带着数据截止日，页面却只跟它比定价日；本轮把同样的问法
 交给第三张纸，答案是**卡片也只被问过定价日**：priced_faces._card() 读 sheet.as_of_bar 就返回了，
-而它的数据截止日写在**顶层** vidence_cutoff——a card priced on today's bar with numbers cut a
+而它的数据截止日写在**顶层** evidence_cutoff——a card priced on today's bar with numbers cut a
 session earlier 会带着 SAME_DAY 站在另外两张纸旁边。
 
 **根因不是某个人读错了键**（那是 E534），而是**覆盖面**：一致性判据的字段集是三张纸日期量的
 子集，缺的那一格没有任何腿会红。判据越像 boolean，越容易只覆盖一半。
 
-**正法**：读出每张纸的两个日子（card_days() / 	icket_days()，各带 source），再用同一个
+**正法**：读出每张纸的两个日子（card_days() / ticket_days()，各带 source），再用同一个
 compare_days() 比四字段；三态 SELF_CONSISTENT / DIFFERENT_DAYS / UNREADABLE，缺日子一律不判一致。
 当一张纸自己也携带「价格 vs 数字」两量时，还可以在纸内判 PRICED_AFTER_CUT：定价 bar 晚于自己的
 数据截止日是一对不可能同时为真的日子（价格出在自己数字的未来）。
@@ -12942,6 +12942,31 @@ compare_days() 比四字段；三态 SELF_CONSISTENT / DIFFERENT_DAYS / UNREADAB
 **教训三条**：
 1. 「三张纸同一天」这句话要能红，必须先把**每张纸有几个日子**列出来；字段集对齐是前提，读法只是细节。
 2. 页内两量（price vs cut）与页间同量（page vs card）是**两种**检查，前者不能替代后者：前者恒自洽于建页时的同一份票面。
-3. 变异体要用**真实产物的副本**改一格，不要手写假对象——真实卡片改 vidence_cutoff 一格就同时命中页间 DIFFERENT_DAYS 与页内 PRICED_AFTER_CUT，这条双重捕获是手写夹具看不出来的。
+3. 变异体要用**真实产物的副本**改一格，不要手写假对象——真实卡片改 evidence_cutoff 一格就同时命中页间 DIFFERENT_DAYS 与页内 PRICED_AFTER_CUT，这条双重捕获是手写夹具看不出来的。
 
-**证据**：scripts/etf_book_production.py 新增 card_days() + selftest 10i-d 六腿（sheet.as_of_bar 取名 / HOLD 决策日更早不判负 / PRICED_AFTER_CUT / MISSING_DAY / page↔card AGREE / 卡片落后一根 DIFFERENT_DAYS）· scripts/etf_book_ceo_page.py selftest **213/213**（L190-L195）· 实弹 check-card-days → card results/etf_book_production/latest.json | priced 2026-11-10 (sheet.as_of_bar) | cut 2026-11-10，erdict AGREE rc0 · 变异体（真实卡片 cut 改 11-07）→ DIFFERENT_DAYS + PRICED_AFTER_CUT · S6 腿 ceo_page_card_days 1.1s rc0 · 页面重发布含「这张卡片（…）自己写的是：定价 2026-11-10 / 数字算到 2026-11-10」。
+**证据**：scripts/etf_book_production.py 新增 card_days() + selftest 10i-d 六腿（sheet.as_of_bar 取名 / HOLD 决策日更早不判负 / PRICED_AFTER_CUT / MISSING_DAY / page↔card AGREE / 卡片落后一根 DIFFERENT_DAYS）· scripts/etf_book_ceo_page.py selftest **213/213**（L190-L195）· 实弹 check-card-days → card results/etf_book_production/latest.json | priced 2026-11-10 (sheet.as_of_bar) | cut 2026-11-10，verdict AGREE rc0 · 变异体（真实卡片 cut 改 11-07）→ DIFFERENT_DAYS + PRICED_AFTER_CUT · S6 腿 ceo_page_card_days 1.1s rc0 · 页面重发布含「这张卡片（…）自己写的是：定价 2026-11-10 / 数字算到 2026-11-10」。
+
+## E536 答案在侧信道里等于没有披露 · 2026-11-11 r1543 bm-c
+
+**发现**：r1532 给「每节定价在哪根 bar」立了唯一实现（`results/live_book_section_bars.json`），套件腿读它判红绿——但**读页面的人不打开那个文件**。2026-11-11 的 CEO 页头写「按 2026-11-10 定价」，而 33 个带日期的节里 12 节停在 2026-10-26..11-08（最旧落后 11 个交易日）：每个数都是真的，页面从没说过它们不是同一天。这是 E281（改述只在生产者读的文件里＝没有披露）的第三现。
+
+**正法**：页面生成时用**同一个** `section_bars(doc)` 算一次再渲染进页面（几个节在今天／最旧是哪天／落后几个交易日／逐节名+日期），**不落进页面 json**——把结果写回 json 会让同一个实现把新键读成一个「不带日期的节」，`unknown_sections` 立刻 +1、`check` 当场红（自指面）。`render_md(p, sb=None)` 默认不输出（合成夹具字节不变），生产路径必传。
+
+**教训三条**：
+1. 「有闸」≠「有披露」：闸的读者是机器，披露的读者是人，两者不能互相顶替。
+2. 复用实现 ≠ 复用结果：在**新输入**（build 出的 payload）上再调一次同一函数，比复制一份解析逻辑安全（E289 第二份拷贝）。
+3. **TAB 型吞字不被 hygiene 闸抓**：hygiene 只拦 0x1b/0x0b 类非空白控制字符，`\t` 是合法空白，于是 `total`→`ocal`（前置 TAB）、`tom_overlay`→`om_overlay`（行首 TAB 还把那行变成代码块）静默留在卡里。本轮在 `knowledge/METHODOLOGY_ASSETS.md` 修 4 处 TAB 吞字 + 0x1b×2 + 0x0b×1，扫描器 `Tools/card_text_hygiene.py scan` 542 文件 0 命中。
+
+**证据**：`scripts/etf_book_ceo_page.py` 新增 `section_bars_face()` / `section_bars_block()`（生成时同一实现，不写 json）· `render_md(p, sb=None)` 新节 · selftest **218/218**（L196-L200：无面不说话／混合页逐名带日期／单 bar 一行／无日期节单列／页面接入且无面时零字节变化）· 实弹重发布 `docs/live_book/LIVE-BOOK-20261111.md`（21/33 在 11-10，12 节逐名，最旧 10-26 落后 11 交易日）· smoke 新腿 `product: the page itself names the sections that sit on an older bar`（从页面 json 用同一实现重算再回页面文本比对，单点实跑 BAD=[]）· `live_book_section_bars check` 仍 CHECK_OK（不改 json）。
+
+## E537 水位哈希要读原始 blob，不读 git show 的行数组 · 2026-11-11 r1543 bm-c
+
+**发现**：S0.5 的决策台账水位按「内容寻址」比对（D-20260930-18），本轮先用 PowerShell `git show origin/main:docs/decisions.md` 收成行数组、再 `-join "`n"` 喂 SHA-256，得到 **b37a55ad**，与自持 **2ffcc70c** 不等 → 差一点就按「有新决策」重扫一遍并改写水位。改用 `git cat-file blob origin/main:docs/decisions.md` 的**原始字节**重算：275,587 B → **2ffcc70c**，与自持值逐字相同，台账根本没动。这是同一坑的第二次（r1540 记过 948eeea4），说明它当时只被「如实披露」而没有机械化。
+
+**正法**：水位哈希唯一来源=`git cat-file blob <ref>:<path>` 的 stdout 字节；`git show` 输出经任何管道/数组/换行归一都不再是那个 blob。判定「不变」时**必须**用原始字节；只有确认变了才去 `git show` 读人读的文本（两者用途不同）。
+
+**教训两条**：
+1. 哈希比的是**存储对象**，不是**渲染结果**——PowerShell 的行数组会吃掉/补上尾部换行，`-join` 后再哈希就是第三样东西。
+2. 一条坑写进「如实披露」不等于被拦住：同一坑两轮内复发，说明缺的是命令级固化（把 `cat-file blob | sha256` 写成唯一路径），不是又一段解释。
+
+**证据**：`git cat-file blob origin/main:docs/decisions.md | sha256` = `2ffcc70c3dc6d105a6d9535752e59943f75ab90366b5fc6bf387e03857be8337`（275,587 B），与 `state-bm-c.json.last_decisions_sha` 同值；行数组口径 `b37a55ad` 为伪差异。本轮轮报告已就地更正，未改水位。

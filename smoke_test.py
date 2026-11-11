@@ -7188,6 +7188,41 @@ def main() -> int:
     except Exception as e:
         check("product: the CEO page's sections each name the bar they were priced on",
               False, repr(e)[:160])
+    # ---- r1543: the page says it itself, not only in the side file ----------------------
+    # r1532 taught the legs to read per-section bars from results/live_book_section_bars.json.
+    # The reader of a page does not open that file: on 2026-11-11 the page head said
+    # "priced 2026-11-10" while twelve of its 33 dated sections sat on 2026-10-26..11-08.
+    # This leg pins the sentence on the page, re-derived through the same implementation.
+    try:
+        _bad78c = []
+        _root78 = os.path.dirname(os.path.abspath(__file__))
+        _lb78 = os.path.join(_root78, "docs", "live_book")
+        with open(os.path.join(_lb78, "latest.json"), encoding="utf-8") as _fh78c:
+            _ptr78 = json.load(_fh78c) or {}
+        with open(os.path.join(_root78, _ptr78["json"]), encoding="utf-8") as _fh78d:
+            _docp78 = json.load(_fh78d) or {}
+        with open(os.path.join(_root78, _ptr78["page"]), encoding="utf-8") as _fh78e:
+            _mdt78 = _fh78e.read()
+        _sbp78 = _SB78.section_bars(_docp78)
+        if not _sbp78.get("n_sections"):
+            _bad78c.append("the page json carries no dated section at all")
+        elif _sbp78.get("n_off_headline"):
+            if "个带日期的节" not in _mdt78:
+                _bad78c.append("the page never says its sections sit on different bars")
+            for _r78c in (_sbp78.get("off_headline") or [])[:4]:
+                if "`%s`" % (_r78c["key"],) not in _mdt78:
+                    _bad78c.append("off-headline section %r is not named on the page"
+                                   % (_r78c["key"],))
+        elif "全部定价在" not in _mdt78:
+            _bad78c.append("a page on one bar does not say so in one line")
+        check("product: the page itself names the sections that sit on an older bar",
+              not _bad78c, "; ".join(_bad78c)[:220] or
+              "%d/%d dated sections named on the page, %d off-headline, oldest %s"
+              % (_sbp78.get("n_on_headline"), _sbp78.get("n_sections"),
+                 _sbp78.get("n_off_headline") or 0, _sbp78.get("oldest")))
+    except Exception as e:
+        check("product: the page itself names the sections that sit on an older bar",
+              False, repr(e)[:160])
     # ---- r1532: what a leg may do with a section that is on another bar -----------------
     try:
         _v78 = {"path": "LIVE-BOOK-x.md", "text": "page text", "bar": "2026-11-10",
