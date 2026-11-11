@@ -1,6 +1,6 @@
 # Premium vs the fund's own purchase channel -- 2026-11-10
 
-**Answer (derived):** 5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 513100; exchange-only on their latest stamp: 159501, 513690, 159577, 159263; the 830 hard-suspended sessions are 141 runs (116 of them a single NAV row); 513100's gap sits in its single 435-session run (own gap +4.28) while its other 47 runs read +0.06; closed channel is consistent with a standing premium, not a verdict on it
+**Answer (derived):** 5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 513100; exchange-only on their latest stamp: 159501, 513690, 159577, 159263; the 830 hard-suspended sessions are 141 runs (116 of them a single NAV row); 513100's gap sits in its single 435-session run (own gap +4.28) while its other 47 runs read +0.06; the single-row runs are not spread over the calendar: Tue carries 51% of them against 20% of priced sessions (chance 3e-13), so a one-row word is a word printed that session, not a fund policy; closed channel is consistent with a standing premium, not a verdict on it
 
 Ruler: panel close / the newest unit NAV stamped strictly before that close - 1. Status joined on: 申购状态 printed on the NAV stamp the premium used.
 
@@ -85,6 +85,32 @@ including the exchange-only ones between them.
 | 159577 | 暂停申购 | 2024-09-03 | 2024-09-03 | 1 | -0.03% |
 | 159577 | 暂停申购 | 2024-11-29 | 2024-11-29 | 1 | +1.46% |
 | 159263 | (never suspended in coverage) | | | | |
+
+## Why the blips: when the word is printed, not why
+
+A single-row 暂停申购 run is one word printed between two exchange-only rows.
+The run table above counts them; this one asks whether those days are ordinary
+sessions. If they were, their weekday mix would look like the session mix. It
+does not.
+
+| leg | one-row runs | busiest weekday | share of runs on it | its share of sessions | chance of that (1-sided) | bracketed by 场内买入 both sides | runs with a NAV jump >3% | day-of-month peaks | verdict |
+|---|---|---|---|---|---|---|---|---|---|
+| 159501 | 29 | Tue | 52% | 20% | 0.00018 | 29 | 0 | 20(5), 26(4), 5(3) | BLIP_NO_CADENCE |
+| 513100 | 43 | Tue | 60% | 20% | 9.8e-09 | 43 | 1 | 5(5), 26(4), 6(3) | BLIP_WEEKDAY_CADENCE |
+| 513690 | 24 | Tue | 38% | 20% | 0.038 | 24 | 0 | 2(5), 4(2), 10(2) | BLIP_NO_CADENCE |
+| 159577 | 20 | Tue | 45% | 20% | 0.011 | 20 | 0 | 20(3), 26(3), 7(2) | BLIP_NO_CADENCE |
+| 159263 | 0 | n/a | n/a | n/a | n/a | 0 | 0 | n/a | TOO_FEW_BLIPS |
+
+**Pooled:** 116 single-row runs out of 141 blocked runs; **Tue carries 51% of them against 20% of all priced sessions** (one-sided chance 2.6e-13). Peak days of the month: 26(11), 5(8), 20(8). 116 of the runs are bracketed by 场内买入 on both sides, and 1 carry a NAV jump larger than 3% -- a split or a big distribution, not a quota.
+
+
+Only 1 of 5 legs clear the line on their own (513100); the rest lean the same way with too few runs to call it, which is why the pooled reading above -- not a per-leg one -- is the sentence this section quotes.
+
+Read this as **when**, never as **why**: a source that refreshes its status word
+on a weekly rhythm and a fund that announces one-day suspensions both produce a
+clump on one weekday, and this data cannot separate them. What it does settle is
+the reading of a single-row run: it is a word printed on one session, so it must
+not be priced as 'the fund was suspended that day'.
 
 ## What this face refuses to claim
 

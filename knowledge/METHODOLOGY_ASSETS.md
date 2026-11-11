@@ -13009,3 +13009,13 @@ compare_days() 比四字段；三态 SELF_CONSISTENT / DIFFERENT_DAYS / UNREADAB
 3. **闸要能拒绝「印了计数却没印稳健性」**：check 在段数 ≥2 时必须要求最长段单独计价，缺失即红（旧面当场 4 腿全红，重发后才绿）。
 
 **证据**：`scripts/etf_book_premium_subscription.py`（selftest **41/41**，新增 L12-L17 共 10 腿，含「一段 20 行 + 五段一行」的合成夹具让日级读宽、段级读平）· `results/etf_premium/PREMIUM-SUBSCRIPTION.json` + `.md` · `research/ETF_BOOK_PREMIUM_SUBSCRIPTION.md`（§Days are not runs）· S6 腿 `premium_subscription` check rc0。
+
+## E541 一行段不是散落的噪声：先问它落在星期几，再谈成因 · 2026-11-11 r1548 bm-c
+
+r1547 把「116 段只有一行」读成「噪声不是政策」，但那句话本身是一个未被计数的断言。本轮把单行段所在的日子当样本检验：**116 段里 59 段落在一周中的同一天（周二），占 50.9%，而周二只占全部被定价会话的 20.3%**（单侧二项尾概率 2.6e-13）；116 段**全部**被两侧的场内买入夹住；只有 **1 段**伴随超过 3% 的净值跳变（513100 2022-01-13 的 5.19→1.01 份额折算）。单腿看只有 513100 自己过线（60%，9.8e-09），其余三条腿方向一致但段数不够。
+
+**正法三件**：①给「噪声」付账 = 把它的日子当样本，与会话基准比周内分布（纯 python 二项尾，链上无 scipy）；②**成因不可分就明说不可分**——源端周更与真实一日公告在这份数据里同形，所以只印 when（何时印出这个词），不印 why，并把「为什么不能命名」写在页面上；③合并单位要选对并披露分歧：pooled 116 段是这把尺子该用的量级，但必须同时印「几条腿自己过线」，否则读者拿单腿表对不上（E534 族）。
+
+**闸的形状**：判词必须能从计数重算（`_cadence_verdict` 由 weekday 计数派生，手改 verdict 当场红），页面必须真的印了 pooled 句；夹具用「20 周同一天 + 前导一周」的合成序列钉住 bracketed 与首行边界。
+
+**证据**：`scripts/etf_book_premium_subscription.py`（selftest **51/51**，L18-L21）· `results/etf_premium/PREMIUM-SUBSCRIPTION.json#blip_cadence_pooled` + `.md §Why the blips` · S6 腿 `premium_subscription` check rc0。

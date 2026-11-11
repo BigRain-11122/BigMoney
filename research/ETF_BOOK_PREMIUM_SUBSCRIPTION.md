@@ -82,9 +82,26 @@ session above the line so the red path is exercised, not just described.
 * 513690 and 159263 price at −0.78% / −0.54%: the "20% premium" is a three-leg story
   (159501 / 513100 / 159577), not a five-leg one.
 
+## Are the single-row runs scattered, or printed on a rhythm? (r1548)
+
+The run table says 116 of 141 blocked runs are one NAV row. This round asked the next question
+instead of leaving it as the word "blip": do those days look like ordinary sessions?
+
+* **59 of 116 (50.9%) fall on Tuesday**, against 20.3% of all priced sessions -- one-sided
+  binomial chance 2.6e-13. Peak days of the month 26 (11), 5 (8), 20 (8).
+* **116 of 116 are bracketed by 场内买入 on both sides**, and only **1** carries a NAV jump above
+  3% (513100 2022-01-13: 5.19 -> 1.01, a share split) -- so a split cannot explain the rest.
+* Per leg only 513100 clears the line on its own (60%, 9.8e-09); 159501 / 513690 / 159577 lean the
+  same way with too few runs, which is why the pooled reading is the one quoted.
+
+What this establishes is **when** a one-day word appears, never **why**: a source that refreshes
+its status column weekly and a fund that announces one-day suspensions are the same shape here.
+What it settles is the reading -- a single-row run is a word printed on one session, and must not
+be priced as "the fund was suspended that day".
+
 ## Where it lives
 
-* script `scripts/etf_book_premium_subscription.py` (`run` / `check` / `selftest` 41/41)
+* script `scripts/etf_book_premium_subscription.py` (`run` / `check` / `selftest` 51/51)
 * face `results/etf_premium/PREMIUM-SUBSCRIPTION.json` + `.md`
 * status cache `data/etf_premium/subscription/<code>.csv` (regenerable, gitignored)
 * chain leg `premium_subscription` (check-only, ~0.2s)

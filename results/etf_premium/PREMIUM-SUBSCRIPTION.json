@@ -1,10 +1,99 @@
 {
  "artifact": "etf_book_premium_subscription",
+ "blip_cadence_pooled": {
+  "base_share_modal": 0.2028,
+  "blip_share_modal": 0.5086,
+  "blips_by_weekday": [
+   21,
+   59,
+   3,
+   11,
+   22
+  ],
+  "bracketed_by_exchange_only": 116,
+  "day_of_month_top": [
+   {
+    "dom": 26,
+    "n": 11
+   },
+   {
+    "dom": 5,
+    "n": 8
+   },
+   {
+    "dom": 20,
+    "n": 8
+   }
+  ],
+  "modal_weekday": "Tue",
+  "modal_weekday_index": 1,
+  "n_blocked": 141,
+  "n_one_row": 116,
+  "nav_jump_gt3pct": 1,
+  "sessions_by_weekday": [
+   990,
+   1022,
+   1019,
+   1019,
+   989
+  ],
+  "tail_p": 2.556352158700705e-13,
+  "verdict": "BLIP_WEEKDAY_CADENCE"
+ },
  "decisions": {},
  "evidence_cutoff": "2026-11-10",
  "legs": [
   {
    "amount_cny": 78501.0,
+   "blip_cadence": {
+    "base_share_modal": 0.2036,
+    "blip_share_modal": 0.5172,
+    "blips_by_weekday": [
+     4,
+     15,
+     1,
+     2,
+     7
+    ],
+    "bracketed_by_exchange_only": 29,
+    "day_of_month_top": [
+     {
+      "dom": 20,
+      "n": 5
+     },
+     {
+      "dom": 26,
+      "n": 4
+     },
+     {
+      "dom": 5,
+      "n": 3
+     }
+    ],
+    "examples": [
+     "2023-06-20",
+     "2023-07-05",
+     "2023-09-05"
+    ],
+    "modal_weekday": "Tue",
+    "modal_weekday_index": 1,
+    "n_blips_unreadable_date": 0,
+    "n_blocked": 29,
+    "n_one_row": 29,
+    "n_sessions_unreadable_date": 0,
+    "nav_jump_gt3pct": 0,
+    "nav_jump_max_abs_pct": 0.6404,
+    "not_a_cause": "a weekly source refresh and a real one-day announcement are indistinguishable here; this block prices when the word appears",
+    "sessions_by_weekday": [
+     163,
+     168,
+     168,
+     166,
+     160
+    ],
+    "tail_p": 0.00017536584391021246,
+    "verdict": "BLIP_NO_CADENCE"
+   },
    "block_contrast": {
     "gap_pp": 0.22034510669404206,
     "median_blocked_pct": 1.4954993266709016,
@@ -652,6 +741,55 @@
   },
   {
    "amount_cny": 78611.4,
+   "blip_cadence": {
+    "base_share_modal": 0.2024,
+    "blip_share_modal": 0.6047,
+    "blips_by_weekday": [
+     6,
+     26,
+     1,
+     2,
+     8
+    ],
+    "bracketed_by_exchange_only": 43,
+    "day_of_month_top": [
+     {
+      "dom": 5,
+      "n": 5
+     },
+     {
+      "dom": 26,
+      "n": 4
+     },
+     {
+      "dom": 6,
+      "n": 3
+     }
+    ],
+    "examples": [
+     "2019-01-22",
+     "2019-02-19",
+     "2019-05-28"
+    ],
+    "modal_weekday": "Tue",
+    "modal_weekday_index": 1,
+    "n_blips_unreadable_date": 0,
+    "n_blocked": 48,
+    "n_one_row": 43,
+    "n_sessions_unreadable_date": 0,
+    "nav_jump_gt3pct": 1,
+    "nav_jump_max_abs_pct": 80.4911,
+    "not_a_cause": "a weekly source refresh and a real one-day announcement are indistinguishable here; this block prices when the word appears",
+    "sessions_by_weekday": [
+     374,
+     385,
+     384,
+     385,
+     374
+    ],
+    "tail_p": 9.803397395785397e-09,
+    "verdict": "BLIP_WEEKDAY_CADENCE"
+   },
    "block_contrast": {
     "gap_pp": 4.504760606067282,
     "median_blocked_pct": 5.0443289513910194,
@@ -1669,6 +1807,55 @@
   },
   {
    "amount_cny": 78588.4,
+   "blip_cadence": {
+    "base_share_modal": 0.2018,
+    "blip_share_modal": 0.375,
+    "blips_by_weekday": [
+     7,
+     9,
+     1,
+     5,
+     2
+    ],
+    "bracketed_by_exchange_only": 24,
+    "day_of_month_top": [
+     {
+      "dom": 2,
+      "n": 5
+     },
+     {
+      "dom": 4,
+      "n": 2
+     },
+     {
+      "dom": 10,
+      "n": 2
+     }
+    ],
+    "examples": [
+     "2021-06-29",
+     "2021-07-02",
+     "2021-12-28"
+    ],
+    "modal_weekday": "Tue",
+    "modal_weekday_index": 1,
+    "n_blips_unreadable_date": 0,
+    "n_blocked": 42,
+    "n_one_row": 24,
+    "n_sessions_unreadable_date": 0,
+    "nav_jump_gt3pct": 0,
+    "nav_jump_max_abs_pct": 1.6011,
+    "not_a_cause": "a weekly source refresh and a real one-day announcement are indistinguishable here; this block prices when the word appears",
+    "sessions_by_weekday": [
+     259,
+     268,
+     268,
+     270,
+     263
+    ],
+    "tail_p": 0.038127534056818804,
+    "verdict": "BLIP_NO_CADENCE"
+   },
    "block_contrast": {
     "gap_pp": 0.5194453047338621,
     "median_blocked_pct": 0.5007229601163621,
@@ -2574,6 +2761,55 @@
   },
   {
    "amount_cny": 78504.4,
+   "blip_cadence": {
+    "base_share_modal": 0.2036,
+    "blip_share_modal": 0.45,
+    "blips_by_weekday": [
+     4,
+     9,
+     0,
+     2,
+     5
+    ],
+    "bracketed_by_exchange_only": 20,
+    "day_of_month_top": [
+     {
+      "dom": 20,
+      "n": 3
+     },
+     {
+      "dom": 26,
+      "n": 3
+     },
+     {
+      "dom": 7,
+      "n": 2
+     }
+    ],
+    "examples": [
+     "2024-04-01",
+     "2024-05-28",
+     "2024-06-20"
+    ],
+    "modal_weekday": "Tue",
+    "modal_weekday_index": 1,
+    "n_blips_unreadable_date": 0,
+    "n_blocked": 22,
+    "n_one_row": 20,
+    "n_sessions_unreadable_date": 0,
+    "nav_jump_gt3pct": 0,
+    "nav_jump_max_abs_pct": 0.1407,
+    "not_a_cause": "a weekly source refresh and a real one-day announcement are indistinguishable here; this block prices when the word appears",
+    "sessions_by_weekday": [
+     130,
+     134,
+     133,
+     132,
+     129
+    ],
+    "tail_p": 0.011253553860038488,
+    "verdict": "BLIP_NO_CADENCE"
+   },
    "block_contrast": {
     "gap_pp": -0.6039894088919695,
     "median_blocked_pct": 1.1841025313559905,
@@ -3081,6 +3317,38 @@
   },
   {
    "amount_cny": 78522.0,
+   "blip_cadence": {
+    "base_share_modal": null,
+    "blip_share_modal": null,
+    "blips_by_weekday": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "bracketed_by_exchange_only": 0,
+    "day_of_month_top": [],
+    "examples": [],
+    "modal_weekday": null,
+    "modal_weekday_index": null,
+    "n_blips_unreadable_date": 0,
+    "n_blocked": 0,
+    "n_one_row": 0,
+    "n_sessions_unreadable_date": 0,
+    "nav_jump_gt3pct": 0,
+    "nav_jump_max_abs_pct": null,
+    "not_a_cause": "a weekly source refresh and a real one-day announcement are indistinguishable here; this block prices when the word appears",
+    "sessions_by_weekday": [
+     64,
+     67,
+     66,
+     66,
+     63
+    ],
+    "tail_p": null,
+    "verdict": "TOO_FEW_BLIPS"
+   },
    "block_contrast": {
     "median_blocked_pct": null,
     "median_exchange_pct": 0.104792838109935,
@@ -3153,7 +3421,7 @@
   "status_join": "申购状态 printed on the NAV stamp the premium used",
   "status_source": "EM fund_etf_fund_info_em column 申购状态 (dropped by the NAV cache)"
  },
- "summary_sentence": "5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 513100; exchange-only on their latest stamp: 159501, 513690, 159577, 159263; the 830 hard-suspended sessions are 141 runs (116 of them a single NAV row); 513100's gap sits in its single 435-session run (own gap +4.28) while its other 47 runs read +0.06; closed channel is consistent with a standing premium, not a verdict on it",
+ "summary_sentence": "5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 513100; exchange-only on their latest stamp: 159501, 513690, 159577, 159263; the 830 hard-suspended sessions are 141 runs (116 of them a single NAV row); 513100's gap sits in its single 435-session run (own gap +4.28) while its other 47 runs read +0.06; the single-row runs are not spread over the calendar: Tue carries 51% of them against 20% of priced sessions (chance 3e-13), so a one-row word is a word printed that session, not a fund policy; closed channel is consistent with a standing premium, not a verdict on it",
  "ticket": {
   "as_of": "2026-11-09",
   "path": "results\\etf_book_order\\TICKET-2026-11-09.json"

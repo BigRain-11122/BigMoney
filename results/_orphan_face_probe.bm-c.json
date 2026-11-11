@@ -1,7 +1,7 @@
 {
- "ts": "2026-11-11T10:30:37",
+ "ts": "2026-11-11T11:05:27",
  "mode": "probe",
- "py_faces_seen": 13,
+ "py_faces_seen": 6,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
@@ -11,21 +11,8 @@
    "pid": 3288,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 3872.3,
-   "cpu_delta_20s": 3.984,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 6384,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m smoke_test",
-   "age_min": 10.8,
-   "cpu_delta_20s": 0.094,
+   "age_min": 3907.1,
+   "cpu_delta_20s": 3.344,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
@@ -37,8 +24,8 @@
    "pid": 19864,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 3872.1,
-   "cpu_delta_20s": 3.891,
+   "age_min": 3906.9,
+   "cpu_delta_20s": 3.344,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -47,11 +34,43 @@
    ]
   },
   {
-   "pid": 24048,
+   "pid": 27928,
+   "name": "python.exe",
+   "cmd": "python Tools\\fleet\\agent.py --node bm-c --loop 60",
+   "age_min": 3907.1,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "cmd.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 67516,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -u C:\\Users\\Dasheng\\Desktop\\视频\\查无实据-视觉板\\gen_i2v.py --all",
+   "age_min": 25.9,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "pwsh.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe",
+    "explorer.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 70100,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
-   "age_min": 0.5,
-   "cpu_delta_20s": 0.312,
+   "age_min": 0.4,
+   "cpu_delta_20s": 0.094,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -63,127 +82,11 @@
    ]
   },
   {
-   "pid": 27456,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe scripts/etf_vol_delivery_audit.py --selftest",
-   "age_min": 0.1,
-   "cpu_delta_20s": 999.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "python.exe",
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 27780,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -m smoke_test",
-   "age_min": 28.7,
-   "cpu_delta_20s": 0.078,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 27928,
-   "name": "python.exe",
-   "cmd": "python Tools\\fleet\\agent.py --node bm-c --loop 60",
-   "age_min": 3872.3,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "cmd.exe",
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 37212,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\satura",
-   "age_min": 0.1,
-   "cpu_delta_20s": 999.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "wscript.exe"
-   ]
-  },
-  {
-   "pid": 41704,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe scripts/etf_book_pre2020.py selftest",
-   "age_min": 0.0,
-   "cpu_delta_20s": 999.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "pythonw.exe"
-   ]
-  },
-  {
-   "pid": 44056,
-   "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -u C:\\Users\\Dasheng\\Desktop\\视频\\查无实据-视觉板\\gen_kf.py --all",
-   "age_min": 19.7,
-   "cpu_delta_20s": 0.016,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "pwsh.exe",
-    "codely.exe",
-    "codely-binary.exe",
-    "cowork.exe",
-    "explorer.exe",
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 44636,
-   "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -u C:\\Users\\Dasheng\\Desktop\\视频\\查无实据-视觉板\\wait_audio2.py",
-   "age_min": 5.8,
-   "cpu_delta_20s": 0.438,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "pwsh.exe",
-    "codely.exe",
-    "codely-binary.exe",
-    "cowork.exe",
-    "explorer.exe",
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 72684,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\resident",
-   "age_min": 0.1,
-   "cpu_delta_20s": 999.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "wscript.exe"
-   ]
-  },
-  {
    "pid": 73452,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 157.3,
-   "cpu_delta_20s": 25.234,
+   "age_min": 192.1,
+   "cpu_delta_20s": 7.219,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,

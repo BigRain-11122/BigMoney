@@ -871,6 +871,14 @@ def main() -> int:
              "scripts/etf_book_premium_persistence.py", ["selftest"]),
             ("product: etf_book_premium_persistence (every verdict re-derives)",
              "scripts/etf_book_premium_persistence.py", ["check"]),
+            # r1548: the face called 116 single-row 暂停申购 words "blips" without ever
+            # counting their days. The legs pin that the cadence verdict and its modal
+            # weekday derive from the weekday counts (a hand-edited word fails), that a
+            # split-sized NAV move on a blip day is counted rather than skipped, that three
+            # runs are TOO_FEW_BLIPS instead of a weekday measurement, and that the page
+            # must publish the pooled sentence when the runs exist.
+            ("product: etf_book_premium_subscription (blip cadence re-derives from counts)",
+             "scripts/etf_book_premium_subscription.py", ["selftest"]),
             # r1510: every premium face so far prices ONE board, so "is the entry toll getting
             # cheaper" had no artifact. The legs pin that the word follows the signed total
             # (both directions), that a move inside the flat band prints no direction, that a

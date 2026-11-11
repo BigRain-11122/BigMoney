@@ -46,7 +46,9 @@ Usage:
     python scripts/etf_book_premium_subscription.py selftest
 """
 import argparse
+import datetime as dt
 import json
+import math
 import os
 import statistics
 import sys
@@ -222,6 +224,168 @@ def episode_read(series, is_blocked=lambda word: "暂停" in (word or "")):
     }
 
 
+WEEKDAY_NAMES = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+CADENCE_MIN_N = 10          # below this, the weekday mix is not a measurement
+CADENCE_TAIL = 1e-4         # how unlikely a weekday mix has to be before it is named
+CADENCE_EXCESS = 0.15       # and how far above its session base the modal day has to sit
+
+
+def _weekday(date_str):
+    """0=Mon..6=Sun, or -1 when the stamp is not a date this face can read."""
+    try:
+        return dt.date.fromisoformat(str(date_str)[:10]).weekday()
+    except (TypeError, ValueError):
+        return -1
+
+
+def _binom_tail_ge(k, n, p):
+    """P(X >= k) for X ~ Bin(n, p). Pure python -- the chain has no scipy."""
+    if n <= 0 or k <= 0:
+        return 1.0
+    if k > n:
+        return 0.0
+    p = min(max(float(p), 0.0), 1.0)
+    return sum(math.comb(n, i) * (p ** i) * ((1.0 - p) ** (n - i)) for i in range(k, n + 1))
+
+
+def _cadence_verdict(n_one_row, sessions_by_weekday, blips_by_weekday,
+                     min_n=CADENCE_MIN_N):
+    """Is the weekday mix of the single-row words the session mix, or something else?
+
+    Derived from counts only, so `check` can recompute it from the published numbers and a
+    hand-edited verdict word cannot survive.
+    """
+    total_sessions = sum(sessions_by_weekday)
+    out = {"n_one_row": n_one_row, "modal_weekday": None, "modal_weekday_index": None,
+           "base_share_modal": None, "blip_share_modal": None, "tail_p": None}
+    if not total_sessions or not n_one_row:
+        out["verdict"] = "TOO_FEW_BLIPS"
+        return out
+    base = [c / total_sessions for c in sessions_by_weekday]
+    share = [c / n_one_row for c in blips_by_weekday]
+    idx = max(range(5), key=lambda i: (share[i], -i))
+    out.update({"modal_weekday": WEEKDAY_NAMES[idx], "modal_weekday_index": idx,
+                "base_share_modal": round(base[idx], 4),
+                "blip_share_modal": round(share[idx], 4),
+                "tail_p": _binom_tail_ge(blips_by_weekday[idx], n_one_row, base[idx])})
+    if n_one_row < min_n:
+        out["verdict"] = "TOO_FEW_BLIPS"
+    elif out["tail_p"] < CADENCE_TAIL and share[idx] - base[idx] >= CADENCE_EXCESS:
+        out["verdict"] = "BLIP_WEEKDAY_CADENCE"
+    else:
+        out["verdict"] = "BLIP_NO_CADENCE"
+    return out
+
+
+def blip_cadence(series, min_n=CADENCE_MIN_N):
+    """When does a one-row 暂停申购 word appear? Counts only -- never a cause.
+
+    A single-row run is one word printed between two exchange-only rows. The page already
+    counts those runs; this block asks the next question, which the page never answered: do
+    they land on ordinary sessions? If they did, the weekday mix would look like the session
+    mix. This face prices the mix, names the day-of-month peaks, counts how many are
+    bracketed by 场内买入 on both sides, and counts the ones a NAV discontinuity could
+    actually explain. What it cannot do is name the cause -- a source refresh rhythm and a
+    real one-day announcement look identical from here, and the text says so.
+    """
+    eps = episodes(series)
+    blocked = [e for e in eps if "暂停" in (e["word"] or "")]
+    one = [e for e in blocked if e["n_rows"] == 1]
+    sessions_by_dow = [0] * 5
+    unreadable_sessions = 0
+    for r in series:
+        w = _weekday(r.get("date"))
+        if 0 <= w < 5:
+            sessions_by_dow[w] += 1
+        else:
+            unreadable_sessions += 1
+    blips_by_dow = [0] * 5
+    unreadable_blips = 0
+    dom = {}
+    bracketed = 0
+    nav_jumps = []
+    examples = []
+    nav_by_date = {r["date"]: r.get("nav") for r in series}
+    prev_nav = {}
+    nav_rows = [r for r in series if r.get("date")]
+    for a, b in zip(nav_rows, nav_rows[1:]):
+        prev_nav[b["date"]] = a.get("nav")
+
+    def exchange_only(e):
+        return bool(e) and e.get("kind") == "closed" and "暂停" not in (e.get("word") or "")
+
+    for i, e in enumerate(eps):
+        if "暂停" not in (e["word"] or "") or e["n_rows"] != 1:
+            continue
+        d = str(e["first_date"])
+        w = _weekday(d)
+        if 0 <= w < 5:
+            blips_by_dow[w] += 1
+        else:
+            unreadable_blips += 1
+        try:
+            k = int(d[8:10])
+            dom[k] = dom.get(k, 0) + 1
+        except (ValueError, IndexError):
+            pass
+        left = eps[i - 1] if i > 0 else None
+        right = eps[i + 1] if i + 1 < len(eps) else None
+        if exchange_only(left) and exchange_only(right):
+            bracketed += 1
+        cur, prev = nav_by_date.get(d), prev_nav.get(d)
+        if cur and prev:
+            nav_jumps.append(abs(cur / prev - 1.0) * 100.0)
+        if len(examples) < 3:
+            examples.append(d)
+    top_dom = sorted(dom.items(), key=lambda kv: (-kv[1], kv[0]))[:3]
+    out = _cadence_verdict(len(one), sessions_by_dow, blips_by_dow, min_n=min_n)
+    out.update({
+        "n_blocked": len(blocked),
+        "sessions_by_weekday": sessions_by_dow,
+        "blips_by_weekday": blips_by_dow,
+        "n_sessions_unreadable_date": unreadable_sessions,
+        "n_blips_unreadable_date": unreadable_blips,
+        "day_of_month_top": [{"dom": k, "n": v} for k, v in top_dom],
+        "bracketed_by_exchange_only": bracketed,
+        "nav_jump_gt3pct": sum(1 for j in nav_jumps if j > 3.0),
+        "nav_jump_max_abs_pct": round(max(nav_jumps), 4) if nav_jumps else None,
+        "examples": examples,
+        "not_a_cause": "a weekly source refresh and a real one-day announcement are"
+                       " indistinguishable here; this block prices when the word appears",
+    })
+    return out
+
+
+def pooled_cadence(legs):
+    """The same block over all legs, because 116 single-row runs is a pool, not five samples."""
+    sessions_by_dow = [0] * 5
+    blips_by_dow = [0] * 5
+    n_one = n_blocked = bracketed = jumps = 0
+    dom = {}
+    for l in legs:
+        c = l.get("blip_cadence") or {}
+        if not c:
+            continue
+        n_one += c.get("n_one_row") or 0
+        n_blocked += c.get("n_blocked") or 0
+        bracketed += c.get("bracketed_by_exchange_only") or 0
+        jumps += c.get("nav_jump_gt3pct") or 0
+        for i in range(5):
+            sessions_by_dow[i] += (c.get("sessions_by_weekday") or [0] * 5)[i]
+            blips_by_dow[i] += (c.get("blips_by_weekday") or [0] * 5)[i]
+        for row in c.get("day_of_month_top") or []:
+            k = row.get("dom")
+            dom[k] = dom.get(k, 0) + (row.get("n") or 0)
+    out = _cadence_verdict(n_one, sessions_by_dow, blips_by_dow)
+    top = sorted(dom.items(), key=lambda kv: (-kv[1], kv[0]))[:3]
+    out.update({"n_blocked": n_blocked, "sessions_by_weekday": sessions_by_dow,
+                "blips_by_weekday": blips_by_dow,
+                "bracketed_by_exchange_only": bracketed,
+                "nav_jump_gt3pct": jumps,
+                "day_of_month_top": [{"dom": k, "n": v} for k, v in top]})
+    return out
+
+
 def series_with_status(prices, navs, status_rows, lag=1):
     """pp.premium_series plus the purchase word printed on the NAV stamp it used."""
     prem = pp.premium_series(prices, navs, lag=lag)
@@ -304,6 +468,7 @@ def leg_facts(leg, prices, navs, status_rows, lag=1):
         "high_premium": hi,
         "block_contrast": block_contrast(series),
         "episode_granularity": ep,
+        "blip_cadence": blip_cadence(series),
     }
     return facts
 
@@ -357,6 +522,7 @@ def build(fetch=True, today=None):
 
     verdicts = sorted({l["window_verdict"] for l in legs_out})
     all_closed = all(l["window_verdict"] == "CHANNEL_CLOSED_THROUGHOUT" for l in legs_out)
+    pooled = pooled_cadence(legs_out)
     doc = {
         "artifact": "etf_book_premium_subscription",
         "machine": os.environ.get("COMPUTERNAME", "bm-c"),
@@ -374,13 +540,14 @@ def build(fetch=True, today=None):
         },
         "verdicts": verdicts,
         "legs": legs_out,
+        "blip_cadence_pooled": pooled,
         "notes": notes,
-        "summary_sentence": summary_sentence(legs_out, all_closed),
+        "summary_sentence": summary_sentence(legs_out, all_closed, pooled),
     }
     return doc
 
 
-def summary_sentence(legs, all_closed):
+def summary_sentence(legs, all_closed, pooled=None):
     n = len(legs)
     closed_n = sum(1 for l in legs if l["window_verdict"] == "CHANNEL_CLOSED_THROUGHOUT")
     open_n = sum(1 for l in legs if l["window_verdict"] == "CHANNEL_OPEN_SESSIONS_EXIST")
@@ -417,6 +584,12 @@ def summary_sentence(legs, all_closed):
             % (s, e["longest_blocked_rows"], _pp(e["longest_block_gap_pp"]),
                e["n_blocked_episodes"] - 1, _pp(e["gap_without_longest_pp"]))
             for s, e in single))
+    if pooled and pooled.get("verdict") == "BLIP_WEEKDAY_CADENCE":
+        parts.append("the single-row runs are not spread over the calendar: %s carries %.0f%% of"
+                     " them against %.0f%% of priced sessions (chance %.1g), so a one-row word is"
+                     " a word printed that session, not a fund policy"
+                     % (pooled["modal_weekday"], 100.0 * (pooled["blip_share_modal"] or 0.0),
+                        100.0 * (pooled["base_share_modal"] or 0.0), pooled["tail_p"]))
     parts.append("closed channel is consistent with a standing premium, not a verdict on it")
     return "; ".join(parts)
 
@@ -501,6 +674,54 @@ def render_md(doc):
             L.append("| %s | %s | %s | %s | %d | %s |" % (
                 l["symbol"], e["word"], e["first_date"], e["last_date"], e["n_rows"],
                 _pct(e["median_pct"])))
+    L.append("")
+    L.append("## Why the blips: when the word is printed, not why")
+    L.append("")
+    L.append("A single-row 暂停申购 run is one word printed between two exchange-only rows.")
+    L.append("The run table above counts them; this one asks whether those days are ordinary")
+    L.append("sessions. If they were, their weekday mix would look like the session mix. It")
+    L.append("does not.")
+    L.append("")
+    L.append("| leg | one-row runs | busiest weekday | share of runs on it | its share of sessions "
+             "| chance of that (1-sided) | bracketed by 场内买入 both sides | runs with a NAV jump >3% "
+             "| day-of-month peaks | verdict |")
+    L.append("|---|---|---|---|---|---|---|---|---|---|")
+    for l in doc["legs"]:
+        c = l.get("blip_cadence") or {}
+        peaks = ", ".join("%d(%d)" % (p["dom"], p["n"]) for p in (c.get("day_of_month_top") or []))
+        L.append("| %s | %d | %s | %s | %s | %s | %d | %d | %s | %s |" % (
+            l["symbol"], c.get("n_one_row", 0), c.get("modal_weekday") or "n/a",
+            ("%.0f%%" % (100.0 * c["blip_share_modal"])) if c.get("blip_share_modal") is not None else "n/a",
+            ("%.0f%%" % (100.0 * c["base_share_modal"])) if c.get("base_share_modal") is not None else "n/a",
+            ("%.2g" % c["tail_p"]) if c.get("tail_p") is not None else "n/a",
+            c.get("bracketed_by_exchange_only", 0), c.get("nav_jump_gt3pct", 0),
+            peaks or "n/a", c.get("verdict") or "n/a"))
+    P = doc.get("blip_cadence_pooled") or {}
+    if P:
+        L.append("")
+        L.append("**Pooled:** %d single-row runs out of %d blocked runs; **%s carries %.0f%% of them"
+                 " against %.0f%% of all priced sessions** (one-sided chance %.2g). Peak days of the"
+                 " month: %s. %d of the runs are bracketed by 场内买入 on both sides, and %d carry a"
+                 " NAV jump larger than 3%% -- a split or a big distribution, not a quota."
+                 % (P.get("n_one_row", 0), P.get("n_blocked", 0), P.get("modal_weekday") or "n/a",
+                    100.0 * (P.get("blip_share_modal") or 0.0), 100.0 * (P.get("base_share_modal") or 0.0),
+                    P.get("tail_p") if P.get("tail_p") is not None else float("nan"),
+                    ", ".join("%d(%d)" % (p["dom"], p["n"]) for p in (P.get("day_of_month_top") or [])) or "n/a",
+                    P.get("bracketed_by_exchange_only", 0), P.get("nav_jump_gt3pct", 0)))
+        L.append("")
+        per_leg = [l["symbol"] for l in doc["legs"]
+                   if (l.get("blip_cadence") or {}).get("verdict") == "BLIP_WEEKDAY_CADENCE"]
+        L.append("")
+        L.append("Only %d of %d legs clear the line on their own (%s); the rest lean the same way"
+                 " with too few runs to call it, which is why the pooled reading above -- not a"
+                 " per-leg one -- is the sentence this section quotes."
+                 % (len(per_leg), len(doc["legs"]), ", ".join(per_leg) or "none"))
+        L.append("")
+        L.append("Read this as **when**, never as **why**: a source that refreshes its status word")
+        L.append("on a weekly rhythm and a fund that announces one-day suspensions both produce a")
+        L.append("clump on one weekday, and this data cannot separate them. What it does settle is")
+        L.append("the reading of a single-row run: it is a word printed on one session, so it must")
+        L.append("not be priced as 'the fund was suspended that day'.")
     L.append("")
     L.append("## What this face refuses to claim")
     L.append("")
@@ -599,8 +820,73 @@ def _check_episodes(l):
     return bad
 
 
+def _check_cadence(doc, page=True):
+    """The blip block must be arithmetic a reader can recompute, and it must be on the page."""
+    bad = []
+    legs = doc["legs"]
+    pooled = doc.get("blip_cadence_pooled")
+    if not pooled:
+        return ["no blip cadence block -- the single-row runs are published without a reading"]
+    sessions_by_dow = [0] * 5
+    blips_by_dow = [0] * 5
+    n_one = n_blocked = 0
+    for l in legs:
+        c = l.get("blip_cadence") or {}
+        sym = l["symbol"]
+        if not c:
+            bad.append("%s: no blip cadence block" % sym)
+            continue
+        e = l.get("episode_granularity") or {}
+        if (c.get("n_one_row") or 0) > (e.get("blocked_one_row") or 0):
+            bad.append("%s: %r single-row runs but the run table says %r"
+                       % (sym, c.get("n_one_row"), e.get("blocked_one_row")))
+        if (c.get("n_blocked") or 0) != (e.get("n_blocked_episodes") or 0):
+            bad.append("%s: cadence counts %r blocked runs, the run table says %r"
+                       % (sym, c.get("n_blocked"), e.get("n_blocked_episodes")))
+        if sum(c.get("blips_by_weekday") or [0] * 5) + (c.get("n_blips_unreadable_date") or 0) \
+                != (c.get("n_one_row") or 0):
+            bad.append("%s: weekday counts do not add up to the single-row runs" % sym)
+        if sum(c.get("sessions_by_weekday") or [0] * 5) + (c.get("n_sessions_unreadable_date") or 0) \
+                != l["n_sessions"]:
+            bad.append("%s: weekday session counts do not add up to n_sessions" % sym)
+        want = _cadence_verdict(c.get("n_one_row") or 0,
+                                (c.get("sessions_by_weekday") or [0] * 5),
+                                (c.get("blips_by_weekday") or [0] * 5))
+        if c.get("verdict") != want["verdict"]:
+            bad.append("%s: cadence verdict %r but its counts derive %r"
+                       % (sym, c.get("verdict"), want["verdict"]))
+        if c.get("modal_weekday") != want["modal_weekday"]:
+            bad.append("%s: modal weekday %r but its counts derive %r"
+                       % (sym, c.get("modal_weekday"), want["modal_weekday"]))
+        if (c.get("bracketed_by_exchange_only") or 0) > (c.get("n_one_row") or 0):
+            bad.append("%s: more bracketed runs than single-row runs" % sym)
+        n_one += c.get("n_one_row") or 0
+        n_blocked += c.get("n_blocked") or 0
+        for i in range(5):
+            sessions_by_dow[i] += (c.get("sessions_by_weekday") or [0] * 5)[i]
+            blips_by_dow[i] += (c.get("blips_by_weekday") or [0] * 5)[i]
+    if (pooled.get("n_one_row") or 0) != n_one:
+        bad.append("pooled single-row runs %r != %d from the legs"
+                   % (pooled.get("n_one_row"), n_one))
+    if (pooled.get("n_blocked") or 0) != n_blocked:
+        bad.append("pooled blocked runs %r != %d from the legs"
+                   % (pooled.get("n_blocked"), n_blocked))
+    want = _cadence_verdict(n_one, sessions_by_dow, blips_by_dow)
+    if pooled.get("verdict") != want["verdict"]:
+        bad.append("pooled cadence verdict %r but the leg counts derive %r"
+                   % (pooled.get("verdict"), want["verdict"]))
+    if page and os.path.exists(OUT_MD):
+        md = open(OUT_MD, encoding="utf-8").read()
+        if "Why the blips" not in md:
+            bad.append("the page does not carry the blip cadence section")
+        elif n_one >= CADENCE_MIN_N and "Pooled:" not in md:
+            bad.append("the page omits the pooled reading although %d single-row runs exist" % n_one)
+    return bad
+
+
 def check(doc=None):
     """Re-derive every verdict word from the published numbers. No stored answer is trusted."""
+    explicit = doc is not None          # a fixture is not the published page, so no page leg
     doc = doc or json.load(open(OUT, encoding="utf-8"))
     bad = []
     for l in doc["legs"]:
@@ -623,6 +909,7 @@ def check(doc=None):
             if got is None or abs(got - want) > 1e-6:
                 bad.append("%s: ruler gap %r is not latest - board (%.4f)" % (l["symbol"], got, want))
         bad.extend(_check_episodes(l))
+    bad.extend(_check_cadence(doc, page=not explicit))
     ok = not bad
     print("check %s" % ("OK" if ok else "FAIL"))
     for b in bad:
@@ -748,15 +1035,17 @@ def selftest():
     chk(rc == 1, "check() rejects an open stamp published as CLOSED_THROUGHOUT")
 
     # L11 the ruler gap is recomputed, not stored
+    flat_series = [row("场内买入", 1.0, "2026-01-%02d" % (i + 1)) for i in range(6)]
     gap_doc = json.loads(json.dumps(bad))
     gap_doc["legs"] = [{"symbol": "1", "n_sessions": 6, "blocked_sessions": 0,
                         "latest_purchase_kind": "closed",
                         "window_verdict": "CHANNEL_CLOSED_THROUGHOUT",
                         "latest_pct": 24.40, "board_premium_pct": 20.29, "ruler_gap_pp": 4.11,
                         "high_premium": {"n_high": 0, "share_closed_at_high": None},
-                        "episode_granularity": episode_read(
-                            [row("场内买入", 1.0, "2026-01-%02d" % (i + 1)) for i in range(6)]),
+                        "episode_granularity": episode_read(flat_series),
+                        "blip_cadence": blip_cadence(flat_series),
                         "block_contrast": {"verdict": "NO_CONTRAST"}}]
+    gap_doc["blip_cadence_pooled"] = pooled_cadence(gap_doc["legs"])
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
         chk(check(gap_doc) == 0, "ruler gap 24.40-20.29=4.11 passes")
@@ -843,8 +1132,73 @@ def selftest():
     chk("2026-03-02" in md2 and "2026-03-21" in md2,
         "the page names the first and last session of the longest block")
 
+    # L18 the blip cadence: twenty one-row words on the same weekday is not a random sample
+    def week_series(days, start="2026-01-05"):
+        """One 暂停申购 session per week on the given weekday; every other session 场内买入.
+
+        A lead-in week of exchange-only sessions is prepended so that even the first blip has
+        a session on both sides -- otherwise 'bracketed by two exchange-only rows' is false
+        for the very first row for a reason that has nothing to do with the cadence.
+        """
+        out = []
+        d0 = dt.date.fromisoformat(start)          # a Monday
+        for wd_ in range(5):
+            out.append(row("场内买入", 1.0, (d0 + dt.timedelta(days=wd_)).isoformat()))
+        for wk, day in enumerate(days):
+            for wd_ in range(5):
+                d = d0 + dt.timedelta(days=7 * (wk + 1) + wd_)
+                out.append(row("暂停申购" if wd_ == day else "场内买入", 1.0, d.isoformat()))
+        return out
+
+    cad_mon = blip_cadence(week_series([0] * 20))
+    chk(cad_mon["verdict"] == "BLIP_WEEKDAY_CADENCE" and cad_mon["modal_weekday"] == "Mon"
+        and cad_mon["n_one_row"] == 20, "twenty single-row words on Mondays -> BLIP_WEEKDAY_CADENCE")
+    chk(cad_mon["bracketed_by_exchange_only"] == 20,
+        "each weekly word sits between two exchange-only rows")
+    chk(blip_cadence(week_series([0, 1, 2, 3] * 5))["verdict"] == "BLIP_NO_CADENCE",
+        "the same count spread over three weekdays is not a cadence")
+    chk(blip_cadence(week_series([0] * 3))["verdict"] == "TOO_FEW_BLIPS",
+        "three single-row runs are not a weekday measurement")
+
+    # L19 a split-sized NAV move is the one thing that would explain a one-day word
+    s_jump = week_series([0] * 5)
+    for r in s_jump:
+        if r["purchase"] == "暂停申购":
+            r["nav"] = 2.0                        # 100% against the 1.0 of the session before
+    cad_jump = blip_cadence(s_jump)
+    chk(cad_jump["nav_jump_gt3pct"] == 5 and cad_jump["nav_jump_max_abs_pct"] > 3.0,
+        "a NAV discontinuity on a blip day is counted, not silently skipped")
+
+    # L20 the block must be recomputable, and a hand-edited verdict must not survive
+    cad_series = week_series([0] * 20)
+    leg_cad = {"symbol": "T", "n_sessions": len(cad_series),
+               "episode_granularity": episode_read(cad_series),
+               "blip_cadence": blip_cadence(cad_series)}
+    doc_cad = {"legs": [leg_cad], "blip_cadence_pooled": pooled_cadence([leg_cad])}
+    chk(_check_cadence(doc_cad, page=False) == [], "a consistent cadence block passes")
+    doc_cad2 = json.loads(json.dumps(doc_cad))
+    doc_cad2["legs"][0]["blip_cadence"]["verdict"] = "BLIP_NO_CADENCE"
+    chk(_check_cadence(doc_cad2, page=False) != [],
+        "a hand-edited cadence verdict goes red against its own counts")
+    doc_cad3 = json.loads(json.dumps(doc_cad))
+    doc_cad3["legs"][0]["blip_cadence"]["blips_by_weekday"] = [5, 5, 5, 5, 0]
+    chk(_check_cadence(doc_cad3, page=False) != [],
+        "weekday counts that do not add up to the runs go red")
+    doc_cad4 = json.loads(json.dumps(doc_cad))
+    doc_cad4["blip_cadence_pooled"]["n_one_row"] = 19
+    chk(_check_cadence(doc_cad4, page=False) != [],
+        "a pooled count that disagrees with the legs goes red")
+
+    # L21 the page carries the section and the pooled sentence
+    doc["legs"][0]["blip_cadence"] = blip_cadence(cad_series)
+    doc["blip_cadence_pooled"] = pooled_cadence(doc["legs"])
+    md3 = render_md(doc)
+    chk("Why the blips" in md3 and "BLIP_WEEKDAY_CADENCE" in md3 and "Pooled:" in md3,
+        "the rendered page carries the cadence table, the pooled reading and the verdict word")
+
     print("selftest %d/%d" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1
+
 
 def run(fetch=True):
     doc = build(fetch=fetch)
