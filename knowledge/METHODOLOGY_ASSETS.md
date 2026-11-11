@@ -12903,3 +12903,22 @@ S6 腿 `live_book_section_bars`（check+run，0.3s）· smoke 两条新腿（逐
 3. 同一种读法出现两次以上，就把它钉成「不许再出现」的机械腿——人不会再犯，代码会。
 
 **证据**：`scripts/etf_book_production.py` selftest 91 腿全过（新增 10i-b 五腿，含「有块无答案读 None 不回落」）· `scripts/etf_book_ceo_page.py` selftest **202/202**（L182-L184 钉「定价日与数据截止日并排印」；变异体撤掉守卫 → L184 红、201/202）· canary 变异（放入旧写法 → 扫描 1 命中；移除 → 0）· 页面重发布 `docs/live_book/LIVE-BOOK-20261111.md`（bm-c 代笔，新增一行并排披露）。
+
+## E535 · 把同一份文档的两个字段并排印，仍然是自比：披露要变成测量，必须顺着链接回读**另一个文件**（r1541 bm-c）
+
+**现象**：r1540 让 CEO 页把自己「定价在哪一根 bar」和「数字算到哪一天」并排印出来，看起来是把一个含糊的数拆成两个。但这两个数**都是在建页时从票面里抄出来的**（`priced_bar` 取自 `tk['feed_status']['ticket_bar']`，`evidence_cutoff` 直接就是 `tk['evidence_cutoff']`）——同一份文档的两个字段并排，只能证明这份文档自洽，永远证明不了「读者即将打开的那张单子」是否同一套日子。
+
+**第二层坑**：票面把这两个量写成别的名字。它的顶层**根本没有 `priced_bar` 键**，定价 bar 藏在 `reprice.priced_bar` 里；数据截止日是 `evidence_cutoff`；还有一个没人印的 `as_of`。任何读者按直觉写 `ticket.get('priced_bar')` 都拿到 None，再一兜底就变成「一致」——与 E534 同一个病的第二处发作。
+
+**正法**：
+1. 单一读器 `etf_book_production.ticket_days(ticket)`：定价 bar 先读 `reprice.priced_bar` 再读 `as_of`，**哪个键答的跟着答案走**（`priced_source`），并给出票面内部三态 `SELF_CONSISTENT / PRICED_NOT_SESSION / MISSING_DAY`（被重定价到别的 bar 上要说出来，不许抹平）；
+2. 比较器 `compare_days(a, b)` 只认两个量四个字段，三态 `AGREE / DIFFERENT_DAYS / UNREADABLE`；任一侧缺值=UNREADABLE，`unreadable` 逐字段点名（缺面不等于同意，E240 族）；
+3. 页面**顺着自己发布的 `sources.ticket` 路径回读磁盘上的那个文件**，而不是拿内存里已经在手的 tk——自比与互比的区别就在这一步；
+4. 新 CLI `check-ticket-days`（rc0 AGREE / rc1 DIFFERENT / rc2 UNREADABLE），接 S6 腿 `ceo_page_ticket_days`（声明 refresh=重生成页面，宿主守卫下为 no-op）。
+
+**教训三条**：
+1. 「并排印两个数」本身不构成测量。判据是**这两个数是否来自两份可以各自违约的产物**；来自同一份产物=排版，不是控制。
+2. 读者必须读生产者**真正写的键**，并且把「哪个键答的」带进判词——`source` 字段是这条语义的唯一载体（E534 的续集）。
+3. 读不到的文件永远不能读成「一致」：UNREADABLE 是第三种状态，不是失败也不是通过。
+
+**证据**：`scripts/etf_book_production.py` selftest 全过（新增 10i-c 七腿：reprice 取名 / 无 reprice 回落命名 / 被重定价点名 / 缺截止日 MISSING_DAY / AGREE / DIFFERENT 双字段点名 / UNREADABLE）· `scripts/etf_book_ceo_page.py` selftest **207/207**（L185-L189；变异腿：票面超前一根会话→DIFFERENT、文件缺席→UNREADABLE、页面不写路径→UNREADABLE）· 实弹 `check-ticket-days` → `page 2026-11-11 | priced 2026-11-10 | cut 2026-11-10` 对 `ticket TICKET-2026-11-10.json | priced 2026-11-10 | cut 2026-11-10`，`verdict AGREE` · S6 腿 `ceo_page_ticket_days` 1.1s rc0 · 页面重发布 `docs/live_book/LIVE-BOOK-20261111.md`（新增「这张单子自己写的是…」一行）。

@@ -25,6 +25,7 @@ import hashlib
 import io
 import json
 import os
+import shutil
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -263,6 +264,87 @@ def priced_faces(page_bar):
         return {"faces": {"card": None, "ticket": None, "page": page_bar},
                 "verdict": "UNKNOWN", "detail": "reader failed (%s)" % str(exc)[:120],
                 "missing": ["card", "ticket"], "same_day": None}
+
+
+def ticket_days_of(page, root=None):
+    """Walk the page's own `sources.ticket` path and read the days off THAT file (r1541).
+
+    r1540 taught the page to print the bar it was priced on beside the bar its numbers are
+    cut at. Both of those numbers are copied out of the ticket while the page is being
+    built, so the disclosure compares one document with itself: it can never say whether the
+    ticket a reader is ABOUT TO OPEN carries the same two days.
+
+    This walks the path the page publishes (`sources.ticket`) and re-reads the file from
+    disk. Three answers, and a file that cannot be opened is UNREADABLE -- never agreement:
+
+      AGREE           -- the file the page names writes the same two days the page prints.
+      DIFFERENT_DAYS  -- the named file is another world (a later session, an earlier cut).
+      UNREADABLE      -- the path does not resolve or carries no such day.
+    """
+    root = ROOT if root is None else root
+    rel = ((page.get("sources") or {}).get("ticket") or "") if isinstance(page, dict) else ""
+    shown = str(rel).replace("\\", "/") if rel else None
+    doc, why = None, None
+    if not rel:
+        why = "the page names no ticket file"
+    else:
+        cand = rel if os.path.isabs(rel) else os.path.join(root, rel)
+        try:
+            with open(cand, "r", encoding="utf-8") as fh:
+                doc = json.load(fh) or {}
+        except OSError as exc:
+            why = "cannot open %s (%s)" % (shown, exc.__class__.__name__)
+        except ValueError as exc:
+            why = "%s is not JSON (%s)" % (shown, str(exc)[:80])
+    if doc is None:
+        return {"file": shown, "priced_bar": None, "evidence_cutoff": None,
+                "verdict": "UNREADABLE", "detail": why,
+                "rows": [], "unreadable": [why or "ticket"], "agree": None,
+                "days": None}
+    try:
+        import etf_book_production as _P
+        days = _P.ticket_days(doc)
+        cmp_ = _P.compare_days(page, days, "page", "ticket")
+    except Exception as exc:                                    # noqa: BLE001
+        return {"file": shown, "priced_bar": None, "evidence_cutoff": None,
+                "verdict": "UNREADABLE", "detail": "reader failed (%s)" % str(exc)[:120],
+                "rows": [], "unreadable": ["reader"], "agree": None, "days": None}
+    out = dict(cmp_)
+    out.update({"file": shown, "priced_bar": days.get("priced_bar"),
+                "evidence_cutoff": days.get("evidence_cutoff"),
+                "priced_source": days.get("priced_source"),
+                "days": days})
+    return out
+
+
+def ticket_days_block(td):
+    """The lines the page prints under its own two days (r1541)."""
+    td = td or {}
+    if not td:
+        return []
+    L = []
+    f = td.get("file") or "（页面没写票面路径）"
+    days = td.get("days") or {}
+    verdict = td.get("verdict")
+    if verdict == "UNREADABLE":
+        L.append("**顺着链接走到那张单子，读不出来。** %s —— 所以「一致」这句话在这里说不了；"
+                 "照着上面这个链接去下单之前，先自己打开它看一眼日期。" % (td.get("detail") or ""))
+        return L
+    L.append("**这张单子（`%s`）自己写的是：定价 %s / 数字算到 %s。**"
+             % (f, td.get("priced_bar") or "没写", td.get("evidence_cutoff") or "没写"))
+    if verdict == "AGREE":
+        L.append("- 和这一页的两个日子**对得上** —— 你按这张纸下单，价格和数据是同一套。")
+    elif verdict == "DIFFERENT_DAYS":
+        L.append("- **和这一页对不上**：%s。这张单子是另一个世界里的价，先别按它下单。"
+                 % (td.get("detail") or ""))
+    else:
+        L.append("- 有一边缺日子，所以只能说「读不出」，不能说「一致」。")
+    if days.get("verdict") == "PRICED_NOT_SESSION":
+        L.append("- 单子内部也对不上：%s" % days.get("detail"))
+    if days.get("priced_source") and days["priced_source"] != "as_of":
+        L.append("- 单子的定价日不是它的顶层日期字段，而是 `%s`（顶层没有这个键，按顶层读会读成空）。"
+                 % days["priced_source"])
+    return L
 
 
 def family_coherence():
@@ -4921,6 +5003,7 @@ def build(with_stress=False, window_label=None):
             "这是研究产出，不是投资建议；实盘下单是 CEO 的直接权限，公司自动实盘仍是 CEO 唯一门。",
         ],
     }
+    page["ticket_days"] = ticket_days_of(page)
     page["today_action"] = today_action(page)
     page["bets"] = bets_face()
     page["family_coherence"] = family_coherence()
@@ -5942,6 +6025,11 @@ def render_md(p):
         else:
             add("**本页定价 %s，但整页数字算到 %s** —— 价格按前者、数字按后者，不是同一个量；"
                 "照这张纸下单前先把两个日子对一眼。" % (_pp_day, _pp_cut))
+    # r1541: those two days are copied out of the ticket while this page is built, so on
+    # their own they compare one document with itself. Walk the link the page publishes and
+    # read the days off the file a reader is about to open.
+    for _td_line in ticket_days_block(p.get("ticket_days") or {}):
+        add(_td_line)
     add("")
     _auth = p.get("authority") or {}
     if _auth.get("took_over"):
@@ -8174,8 +8262,87 @@ def selftest():
     chk("L184 page: with no pricing day the sentence is not printed at all (no blank claim)",
         "碰巧是同一天" not in render_md(_pp_none)
         and "整页数字算到" not in render_md(_pp_none))
+    # L185-L189 (r1541): the page's two days are copied out of the ticket while the page is
+    # built, so printed alone they compare one document with itself. Walk the link the page
+    # publishes and read the file a reader is about to open -- and an unopened file is not
+    # an agreeing one.
+    import tempfile as _tf
+    _tk_root = _tf.mkdtemp(prefix="tkdays-")
+
+    def _w_ticket(name, doc):
+        with open(os.path.join(_tk_root, name), "w", encoding="utf-8") as fh:
+            json.dump(doc, fh)
+
+    _pg_ref = {"priced_bar": "2026-11-10", "evidence_cutoff": "2026-11-10",
+               "sources": {"ticket": "t_same.json"}}
+    _w_ticket("t_same.json", {"as_of": "2026-11-10", "evidence_cutoff": "2026-11-10",
+                              "book_decided_at": "2026-10-14",
+                              "reprice": {"priced_bar": "2026-11-10"}})
+    _td_same = ticket_days_of(_pg_ref, root=_tk_root)
+    chk("L185 ticket link: the named file writes the page's two days -> AGREE",
+        _td_same.get("verdict") == "AGREE"
+        and _td_same.get("priced_bar") == "2026-11-10", str(_td_same.get("detail"))[:60])
+    _w_ticket("t_next.json", {"as_of": "2026-11-11", "evidence_cutoff": "2026-11-11",
+                              "reprice": {"priced_bar": "2026-11-11"}})
+    _td_next = ticket_days_of({"priced_bar": "2026-11-10", "evidence_cutoff": "2026-11-10",
+                               "sources": {"ticket": "t_next.json"}}, root=_tk_root)
+    chk("L186 ticket link: a ticket that advanced a session -> DIFFERENT_DAYS, not silence",
+        _td_next.get("verdict") == "DIFFERENT_DAYS"
+        and "2026-11-11" in str(_td_next.get("detail")), str(_td_next.get("detail"))[:80])
+    _td_gone = ticket_days_of({"priced_bar": "2026-11-10",
+                               "evidence_cutoff": "2026-11-10",
+                               "sources": {"ticket": "t_nope.json"}}, root=_tk_root)
+    chk("L187 ticket link: a missing file reads UNREADABLE, never agreement",
+        _td_gone.get("verdict") == "UNREADABLE" and _td_gone.get("agree") is None,
+        str(_td_gone.get("detail"))[:60])
+    _td_nopath = ticket_days_of({"priced_bar": "2026-11-10", "sources": {}}, root=_tk_root)
+    chk("L188 ticket link: a page that names no ticket file cannot be called consistent",
+        _td_nopath.get("verdict") == "UNREADABLE")
+    _md_same = "\n".join(ticket_days_block(_td_same))
+    _md_gone = "\n".join(ticket_days_block(_td_gone))
+    _md_diff = "\n".join(ticket_days_block(_td_next))
+    chk("L189 page: the link section says 'agree', 'a different world' or 'unreadable'",
+        "对得上" in _md_same and "读不出来" in _md_gone and "对不上" in _md_diff)
+    shutil.rmtree(_tk_root, ignore_errors=True)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
+
+
+def check_ticket_days():
+    """Does the ticket this page names carry the same two days the page prints? (r1541)
+
+    Read from the PUBLISHED page artifact, not from a fresh build: the question is what a
+    reader of the paper on disk walks into when he follows its link. rc0 AGREE,
+    rc1 DIFFERENT_DAYS (a stale or newer ticket behind a page that says otherwise),
+    rc2 UNREADABLE (no page artifact, or the named file cannot be opened) -- an unopened
+    file is never agreement.
+    """
+    try:
+        with open(os.path.join(ROOT, "docs", "live_book", "latest.json"), "r",
+                  encoding="utf-8") as fh:
+            ptr = json.load(fh) or {}
+        rel = ptr.get("json") or ""
+        if not rel:
+            print("CHECK_UNREADABLE the page pointer names no json file")
+            return 2
+        with open(os.path.join(ROOT, rel), "r", encoding="utf-8") as fh:
+            doc = json.load(fh) or {}
+    except (OSError, ValueError) as exc:
+        print("CHECK_UNREADABLE no readable page artifact (%s)" % exc.__class__.__name__)
+        return 2
+    td = ticket_days_of(doc)
+    print("page %s | priced %s | cut %s" % (doc.get("generated_for_date") or "?",
+                                            doc.get("priced_bar") or "—",
+                                            doc.get("evidence_cutoff") or "—"))
+    print("ticket %s | priced %s | cut %s"
+          % (td.get("file") or "—", td.get("priced_bar") or "—",
+             td.get("evidence_cutoff") or "—"))
+    print("verdict %s | %s" % (td.get("verdict"), td.get("detail") or ""))
+    if td.get("verdict") == "AGREE":
+        return 0
+    if td.get("verdict") == "DIFFERENT_DAYS":
+        return 1
+    return 2
 
 
 if __name__ == "__main__":
@@ -8184,5 +8351,7 @@ if __name__ == "__main__":
         raise SystemExit(run())
     if cmd == "selftest":
         raise SystemExit(selftest())
-    print("usage: etf_book_ceo_page.py [run|selftest]")
+    if cmd == "check-ticket-days":
+        raise SystemExit(check_ticket_days())
+    print("usage: etf_book_ceo_page.py [run|selftest|check-ticket-days]")
     raise SystemExit(2)

@@ -1,17 +1,17 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-11 04:24:04",
+ "ts": "2026-11-11 08:26:13",
  "page": {
-  "path": "docs/live_book/LIVE-BOOK-20261110.md",
-  "json": "docs/live_book/LIVE-BOOK-20261110.json"
+  "path": "docs/live_book/LIVE-BOOK-20261111.md",
+  "json": "docs/live_book/LIVE-BOOK-20261111.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-10 定价，但 31 个带日期的节里只有 8 节真在这一天；其余 23 节最旧停在 2026-10-26（最差 sample_window 落后 11 个交易日），另外 19 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。",
+ "sentence": "页面头部写着按 2026-11-10 定价，但 32 个带日期的节里只有 20 节真在这一天；其余 12 节最旧停在 2026-10-26（最差 sample_window 落后 11 个交易日），另外 19 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。",
  "evidence_cutoff": "2026-11-10",
  "headline_bar": "2026-11-10",
  "headline_field": "priced_bar",
- "n_sections": 31,
- "n_on_headline": 8,
+ "n_sections": 32,
+ "n_on_headline": 20,
  "unknown_sections": [
   "cash_yield",
   "cash_money",
@@ -34,15 +34,14 @@
   "authority"
  ],
  "bars": {
-  "2026-11-10": 8,
-  "2026-11-09": 2,
+  "2026-11-10": 20,
   "2026-11-08": 1,
-  "2026-11-06": 11,
+  "2026-11-06": 2,
   "2026-11-03": 2,
   "2026-10-30": 6,
   "2026-10-26": 1
  },
- "n_off_headline": 23,
+ "n_off_headline": 12,
  "off_headline": [
   {
    "key": "sample_window",
@@ -108,41 +107,6 @@
    "ahead_of_headline": false
   },
   {
-   "key": "bets",
-   "bar": "2026-11-06",
-   "field": "evidence_cutoff",
-   "lag_sessions": 2,
-   "ahead_of_headline": false
-  },
-  {
-   "key": "causal_rebuild",
-   "bar": "2026-11-06",
-   "field": "evidence_cutoff",
-   "lag_sessions": 2,
-   "ahead_of_headline": false
-  },
-  {
-   "key": "concentration",
-   "bar": "2026-11-06",
-   "field": "evidence_cutoff",
-   "lag_sessions": 2,
-   "ahead_of_headline": false
-  },
-  {
-   "key": "entry_gate",
-   "bar": "2026-11-06",
-   "field": "evidence_cutoff",
-   "lag_sessions": 2,
-   "ahead_of_headline": false
-  },
-  {
-   "key": "exposure_timing",
-   "bar": "2026-11-06",
-   "field": "evidence_cutoff",
-   "lag_sessions": 2,
-   "ahead_of_headline": false
-  },
-  {
    "key": "family_coherence",
    "bar": "2026-11-06",
    "field": "evidence_cutoff",
@@ -157,80 +121,39 @@
    "ahead_of_headline": false
   },
   {
-   "key": "gap",
-   "bar": "2026-11-06",
-   "field": "evidence_cutoff",
-   "lag_sessions": 2,
-   "ahead_of_headline": false
-  },
-  {
-   "key": "sellability",
-   "bar": "2026-11-06",
-   "field": "evidence_cutoff",
-   "lag_sessions": 2,
-   "ahead_of_headline": false
-  },
-  {
-   "key": "sleeve_paths",
-   "bar": "2026-11-06",
-   "field": "evidence_cutoff",
-   "lag_sessions": 2,
-   "ahead_of_headline": false
-  },
-  {
-   "key": "underwater",
-   "bar": "2026-11-06",
-   "field": "evidence_cutoff",
-   "lag_sessions": 2,
-   "ahead_of_headline": false
-  },
-  {
    "key": "vol_target_gate",
    "bar": "2026-11-08",
    "field": "asof",
    "lag_sessions": 2,
-   "ahead_of_headline": false
-  },
-  {
-   "key": "capital",
-   "bar": "2026-11-09",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false
-  },
-  {
-   "key": "vs_basket",
-   "bar": "2026-11-09",
-   "field": "bar",
-   "lag_sessions": 1,
    "ahead_of_headline": false
   }
  ],
  "oldest": "2026-10-26",
  "max_lag_sessions": 11,
  "by_key": {
-  "vs_basket": "2026-11-09",
+  "vs_basket": "2026-11-10",
+  "ticket_days": "2026-11-10",
   "today_action": "2026-11-10",
-  "bets": "2026-11-06",
+  "bets": "2026-11-10",
   "family_coherence": "2026-11-06",
   "carry_regime": "2026-11-10",
   "leg_split": "2026-10-30",
-  "concentration": "2026-11-06",
+  "concentration": "2026-11-10",
   "sleeve_gate": "2026-11-10",
-  "sleeve_paths": "2026-11-06",
-  "exposure_timing": "2026-11-06",
+  "sleeve_paths": "2026-11-10",
+  "exposure_timing": "2026-11-10",
   "cost_tape": "2026-10-30",
   "vol_window": "2026-10-30",
   "vol_window_edge": "2026-10-30",
   "lookahead": "2026-10-30",
-  "causal_rebuild": "2026-11-06",
-  "underwater": "2026-11-06",
+  "causal_rebuild": "2026-11-10",
+  "underwater": "2026-11-10",
   "sample_window": "2026-10-26",
   "universe_lock": "2026-10-30",
-  "entry_gate": "2026-11-06",
-  "sellability": "2026-11-06",
-  "capital": "2026-11-09",
-  "gap": "2026-11-06",
+  "entry_gate": "2026-11-10",
+  "sellability": "2026-11-10",
+  "capital": "2026-11-10",
+  "gap": "2026-11-10",
   "k_gap": "2026-11-10",
   "floor_provenance": "2026-11-06",
   "vol_target_gate": "2026-11-08",

@@ -257,6 +257,96 @@ def priced_faces(page_bar=None, results_dir=None, card_bar=None, ticket_bar=None
             "missing": missing, "same_day": verdict == "SAME_DAY"}
 
 
+def ticket_days(ticket):
+    """The days one ticket actually carries, each with the key that answered (r1541).
+
+    The CEO page prints two dates for itself -- the bar it was PRICED on and the bar its
+    numbers are CUT at -- and r1540 taught it to keep them apart. But a reader who follows
+    the page's link to the executable ticket gets a DIFFERENT document, and that document
+    spells the same two quantities under other names: the priced bar lives inside
+    `reprice.priced_bar` (the ticket's top-level has no `priced_bar` key at all, so any
+    reader asking for one gets None and reports UNKNOWN), the data cut is `evidence_cutoff`,
+    and there is a third date nobody prints, `as_of`, which is the session the sheet was
+    written for.
+
+    Three states, and a missing day is never agreement:
+      SELF_CONSISTENT  -- priced bar, data cut and session all present; the priced bar is
+                          either the session or (via reprice) a bar the ticket names.
+      PRICED_NOT_SESSION -- priced bar and session differ: the sheet was repriced onto some
+                          other bar than the one it says it was written for.
+      MISSING_DAY      -- at least one of the two quantities a page compares is absent.
+    """
+    d = ticket if isinstance(ticket, dict) else {}
+    rp = d.get("reprice") if isinstance(d.get("reprice"), dict) else {}
+    as_of = d.get("as_of")
+    priced, priced_src = None, None
+    for src, val in (("reprice.priced_bar", rp.get("priced_bar")), ("as_of", as_of)):
+        if val:
+            priced, priced_src = str(val), src
+            break
+    cutoff = d.get("evidence_cutoff")
+    decision = d.get("book_decided_at")
+    missing = []
+    if not priced:
+        missing.append("priced_bar")
+    if not cutoff:
+        missing.append("evidence_cutoff")
+    if missing:
+        verdict = "MISSING_DAY"
+        detail = ("this ticket carries no %s -- a page cannot be checked against it"
+                  % ", ".join(missing))
+    elif as_of and priced != str(as_of):
+        verdict = "PRICED_NOT_SESSION"
+        detail = ("the sheet was written for %s but its prices are the %s bar (reprice)"
+                  % (as_of, priced))
+    else:
+        verdict = "SELF_CONSISTENT"
+        detail = "priced %s, data cut %s, session %s" % (priced, cutoff, as_of or "—")
+    return {"priced_bar": priced, "priced_source": priced_src,
+            "evidence_cutoff": str(cutoff) if cutoff else None,
+            "evidence_cutoff_source": "evidence_cutoff" if cutoff else None,
+            "as_of": str(as_of) if as_of else None,
+            "decision_bar": str(decision) if decision else None,
+            "missing": missing, "verdict": verdict, "detail": detail}
+
+
+def compare_days(a, b, a_name="page", b_name="ticket"):
+    """Do two papers carry the same two days? (r1541)
+
+    `a` and `b` are any dicts exposing `priced_bar` and `evidence_cutoff` -- the CEO page
+    and the ticket it names are the two this exists for. Two dates, four fields, three
+    answers: AGREE only when all four agree, DIFFERENT_DAYS when both papers can answer but
+    disagree, UNREADABLE when either is missing a date. A paper that cannot be read is not
+    a paper that agrees (E240 lineage: the absent face never reads as agreement).
+    """
+    a = a if isinstance(a, dict) else {}
+    b = b if isinstance(b, dict) else {}
+    rows, unreadable = [], []
+    for field in ("priced_bar", "evidence_cutoff"):
+        va, vb = a.get(field), b.get(field)
+        va = str(va)[:10] if va else None
+        vb = str(vb)[:10] if vb else None
+        rows.append({"field": field, a_name: va, b_name: vb,
+                     "same": (va == vb) if (va and vb) else None})
+        if not va:
+            unreadable.append("%s.%s" % (a_name, field))
+        if not vb:
+            unreadable.append("%s.%s" % (b_name, field))
+    if unreadable:
+        verdict = "UNREADABLE"
+        detail = "no value for: %s -- cannot be called agreement" % ", ".join(unreadable)
+    elif all(r["same"] for r in rows):
+        verdict = "AGREE"
+        detail = ("both papers write priced %s and data cut %s"
+                  % (rows[0][a_name], rows[1][a_name]))
+    else:
+        verdict = "DIFFERENT_DAYS"
+        detail = (" / ".join("%s %s vs %s" % (r["field"], r[a_name], r[b_name])
+                             for r in rows if r["same"] is False))
+    return {"verdict": verdict, "detail": detail, "rows": rows,
+            "unreadable": unreadable, "agree": verdict == "AGREE"}
+
+
 def commodity_support():
     """Read results/etf_book_commodity_split.json -> what the commodity sleeve earns.
 
@@ -2554,6 +2644,47 @@ def selftest():
     finally:
         E.PATHS.results_dir = _keep_res3
         shutil.rmtree(_pf_dir, ignore_errors=True)
+
+    # 10i-c (r1541): the ticket spells the page's two days under other names, and its
+    # top-level has no `priced_bar` at all. A reader that asks for one gets None -- which is
+    # how "unknown" gets reported as "fine" -- so the priced bar is read from `reprice`
+    # first and the key that answered travels with the answer.
+    _td_full = ticket_days({"as_of": "2026-11-10", "evidence_cutoff": "2026-11-10",
+                            "book_decided_at": "2026-10-14",
+                            "reprice": {"priced_bar": "2026-11-10"}})
+    chk("ticket days: the priced bar comes out of reprice, not out of a key it lacks",
+        _td_full["priced_bar"] == "2026-11-10"
+        and _td_full["priced_source"] == "reprice.priced_bar"
+        and _td_full["verdict"] == "SELF_CONSISTENT", str(_td_full["detail"])[:60])
+    _td_asis = ticket_days({"as_of": "2026-11-10", "evidence_cutoff": "2026-11-10"})
+    chk("ticket days: with no reprice block the session bar answers, and says so",
+        _td_asis["priced_bar"] == "2026-11-10" and _td_asis["priced_source"] == "as_of"
+        and _td_asis["verdict"] == "SELF_CONSISTENT", str(_td_asis))
+    _td_off = ticket_days({"as_of": "2026-11-10", "evidence_cutoff": "2026-11-10",
+                           "reprice": {"priced_bar": "2026-11-07"}})
+    chk("ticket days: repriced onto another bar than its own session is named, not smoothed",
+        _td_off["verdict"] == "PRICED_NOT_SESSION" and "2026-11-07" in _td_off["detail"],
+        str(_td_off["detail"])[:80])
+    _td_missing = ticket_days({"as_of": "2026-11-10"})
+    chk("ticket days: no data cut -> MISSING_DAY, never a pass",
+        _td_missing["verdict"] == "MISSING_DAY"
+        and _td_missing["missing"] == ["evidence_cutoff"], str(_td_missing))
+    _pg = {"priced_bar": "2026-11-10", "evidence_cutoff": "2026-11-10"}
+    _cmp_ok = compare_days(_pg, _td_full, "page", "ticket")
+    chk("two papers: same two days -> AGREE with both days printed",
+        _cmp_ok["verdict"] == "AGREE" and _cmp_ok["agree"] is True
+        and "2026-11-10" in _cmp_ok["detail"], str(_cmp_ok["detail"])[:70])
+    _cmp_off = compare_days(_pg, ticket_days({"as_of": "2026-11-11",
+                                              "evidence_cutoff": "2026-11-11"}))
+    chk("two papers: a ticket one session ahead -> DIFFERENT_DAYS naming both",
+        _cmp_off["verdict"] == "DIFFERENT_DAYS"
+        and "priced_bar 2026-11-10 vs 2026-11-11" in _cmp_off["detail"]
+        and "evidence_cutoff 2026-11-10 vs 2026-11-11" in _cmp_off["detail"],
+        str(_cmp_off["detail"])[:90])
+    _cmp_none = compare_days(_pg, {"priced_bar": None, "evidence_cutoff": "2026-11-10"})
+    chk("two papers: an unreadable side is UNREADABLE, not agreement",
+        _cmp_none["verdict"] == "UNREADABLE"
+        and "ticket.priced_bar" in _cmp_none["unreadable"], str(_cmp_none))
 
     # 10j. the card says which questions its own numbers already answered (r1228). The roll-up
     #      may only say "closed" when every case face read AND none carried an admissible arm;

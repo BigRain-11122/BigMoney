@@ -1141,6 +1141,15 @@ def main() -> int:
              "scripts/etf_book_k_grid.py", ["--selftest"]),
             ("product: the book re-levers off its own decision grid (every phase re-derives)",
              "scripts/etf_book_k_grid.py", ["--check"]),
+            # r1541: the CEO page prints the bar it was priced on and the bar its numbers are
+            # cut at -- but both are copied out of the ticket while the page is built, so on
+            # their own they compare one document with itself. The legs pin the ticket-side
+            # reader (priced bar lives in `reprice`, not in a top-level key it lacks; a
+            # repriced-onto-another-session ticket is named, not smoothed; a missing day is
+            # MISSING_DAY) and that walking the published link and re-reading that file
+            # yields AGREE / DIFFERENT_DAYS / UNREADABLE with the mutation legs going red.
+            ("product: the ticket behind the page states the same two days (link walk)",
+             "scripts/etf_book_ceo_page.py", ["selftest"]),
             # r1528: the share count lives INSIDE one line of the ledger (1,591,513 x 891 lots),
             # and nothing said so. This leg pins the subset block: two legs on one line add up
             # inside it without counting the line twice, the lot is taken on the combined count

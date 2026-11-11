@@ -1002,6 +1002,14 @@ LEGS = [
     ("k_grid",
      ["python", "scripts/etf_book_k_grid.py", "--check"],
      ["python", "scripts/etf_book_k_grid.py", "run"]),
+    # r1541: the page prints the bar it was priced on and the bar its numbers are cut at, but
+    # BOTH are copied out of the ticket while the page is built -- printed alone they compare
+    # one document with itself. This leg walks the path the published page names and re-reads
+    # that file from disk, so a page whose ticket advanced (or was pruned) says so (0.2s); the
+    # refresh is a page rebuild, which is a no-op on a host that is not the writer.
+    ("ceo_page_ticket_days",
+     ["python", "scripts/etf_book_ceo_page.py", "check-ticket-days"],
+     ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1533: the CEO page declares ONE bar at the top and every section below it carries its
     # own (2026-11-11: headline 2026-11-10, capital 11-09, entry gate 11-06, cost tape 10-30,
     # 19 sections with no date at all). A reader takes the headline for the whole page, and
