@@ -122,7 +122,7 @@
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@b082e0d73d32cd02ac0796e174791576615bfe5b/249991#de6b82e4397fbeba71727f71ca29a85f3d4294fc3ba93ea20bc51aff30b8389e",
  "last_product": "scripts/futures_tsmom_signal.py staleness.members + docs/futures_lane/TSMOM-2026-11-09.md",
  "last_pulled_at": "2026-10-20T03:06:54+08:00",
- "last_push_at": "2026-11-11T04:08:12+08:00",
+ "last_push_at": "2026-11-11T08:31:06+08:00",
  "last_pushed": "e751554d61",
  "last_round": 1541,
  "last_round_at": "2026-11-11T04:55:41+08:00",
@@ -544,12 +544,12 @@
  "src": "Tools/sentinel_bm-c.py (v1.2 _read_hb/_heartbeat_face/--selftest) + smoke_test.py leg",
  "status": "product",
  "sync": {
+  "commit": "76d152332b",
+  "landed_on": "origin/main",
+  "origin_tip": "76d152332b",
   "ahead_origin": 0,
   "behind_origin": 0,
-  "commit": "d811c1364c",
-  "landed_on": "origin/main",
-  "origin_tip": "d811c1364c",
-  "ts": "2026-11-11T05:18:06+08:00"
+  "ts": "2026-11-11T08:31:06+08:00"
  },
  "task": "r1541: ticket-side day reader + link walk (AGREE/DIFFERENT/UNREADABLE) + check-ticket-days CLI + S6 leg",
  "total_ram_gb": 23.9,
@@ -559,5 +559,8 @@
  "verdict": "PRODUCT: same-document fields printed side by side are not a measurement; ticket's priced bar lives in reprice.priced_bar, so an intuitive read returns None and a fallback reads as agreement (E534 second sighting)",
  "verify": "production selftest 10i-c 7 legs; ceo_page 207/207; order 158/158; check-ticket-days AGREE on 2026-11-10; S6 leg 1.1s rc0",
  "vram_free_gb": 14.7,
- "watermark_verdict": "insufficient_history"
+ "watermark_verdict": "insufficient_history",
+ "round_t1541_addendum": "| 2026-11-11 08:3x | 1541b | **ADDENDUM（收尾）：送达与两扫。** 轮提交 **76d152332b** 已落 origin/main（4f8c5677db..76d152332b），fetch 后 **0 ahead / 0 behind**（本地未达 origin commit 数=0），`git ls-tree origin/main` 见 `scripts/etf_book_ceo_page.py`。**坑（本窗实弹，已按正法修）**：写心跳时只覆盖了部分 GPU 键，旧键残留导致同一面 17 个 GPU 键散布 252 MiB，pre-commit 爪（r1413）当场拦下——正法=`python Tools/gpu_face.py apply` 用**一次 nvidia-smi 探针整面重写**（26 键 replaced、ack 241 前后不变），re-stage 后提交通过。**S0.5 二扫**：`fleet/orders/` 114/114 全在心跳 `orders_ack`（241 条），差集 0；集团 `docs/decisions.md` 原始 blob sha256 **2ffcc70c** 与自持水位同值 → 零动作。**未验证（如实）**：全量套件 08:26 后台新起（pid 64084 → `logs/smoke_r1541.log`），收轮时仍在飞、0 FAIL。 |\n",
+ "r1541_closeout_note": "r1541b closeout: commit 76d152332b landed on origin/main; 0 ahead / 0 behind; orders 114/114 acked; decisions blob 2ffcc70c unchanged. Pre-commit claw caught a half-written GPU face (17 keys spread 252 MiB) -> healed with Tools/gpu_face.py apply (one nvidia-smi probe). Full suite in flight (pid 64084), 0 FAIL at close.",
+ "local_unpushed_commits": 0
 }
