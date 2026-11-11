@@ -331,7 +331,8 @@ def main():
         from update_etf_daily import (TAKEOVER_STALE_MIN, _owner_stale_min,
                                       takeover_decision)
         ok, why = takeover_decision("--takeover" in sys.argv[1:],
-                                    _owner_stale_min(LANE_OWNER))
+                                    _owner_stale_min(LANE_OWNER),
+                                    lane_owner=LANE_OWNER)
         if not ok:
             print(f"no-op: zt_pool lane owned by {LANE_OWNER}, "
                   f"not this machine ({owner or '?'}); takeover refused: "

@@ -322,7 +322,8 @@ def _takeover_gate(owner):
         # sentence here would describe a stand-down on a run that wrote.
         return None
     stale = _owner_stale_min(LANE_OWNER)
-    ok, why = takeover_decision("--takeover" in sys.argv[1:], stale)
+    ok, why = takeover_decision("--takeover" in sys.argv[1:], stale,
+                                lane_owner=LANE_OWNER)
     if not ok:
         print(f"futures lane host {LANE_OWNER}; this machine "
               f"({owner or 'unknown-id'}) stdout-only (R31 lane-guard); "
@@ -332,16 +333,27 @@ def _takeover_gate(owner):
           f"by {owner} -- {why} | rows land in this machine's panels and the "
           f"envelope publishes authority.took_over_by={owner}", flush=True)
     return {"owner": LANE_OWNER, "by": owner,
+            "ts": dt.datetime.now().isoformat(timespec="seconds"),
             "reason": f"owner {LANE_OWNER} heartbeat silent "
                       f"{stale/60:.1f}h >= {TAKEOVER_STALE_MIN}min"}
 
 
-def write_status(payload):
-    # r1156: WHOSE data this cutoff describes (data_lane_freshness).
+def merge_authority(payload, takeover):
+    """r1156 + r1267: WHOSE data this is, and whether a stand-in wrote it.
+
+    r1565: the block used to be written only when the payload had none -- and
+    the payload is load_status(), i.e. the PREVIOUS run's envelope, which
+    already carried authority. So the one run that stood in for a dead owner
+    published writer_machine=bm-a with declared_takeover=false (measured
+    2026-11-12 00:47: bm-c refreshed nine varieties onto 11-11 and the
+    envelope denied it). The block is this run's fact; always rewrite it."""
     payload["machine"] = machine_id()
-    # r1267: a stand-in recorded nowhere a reader looks is not a declaration.
-    if "authority" not in payload:
-        payload["authority"] = _authority_block(_ACTIVE_TAKEOVER)
+    payload["authority"] = _authority_block(takeover)
+    return payload
+
+
+def write_status(payload):
+    merge_authority(payload, _ACTIVE_TAKEOVER)
     atomic_write(STATUS, json.dumps(payload, ensure_ascii=False, indent=2))
     # Lane dual-track (D-20260928-03 batch-2): own-machine lane mirror,
     # fail-soft never breaks the run.
@@ -649,7 +661,7 @@ def _selftest():
     try:
         _ued.TAKEOVER_STALE_MIN = 120
         _ued._owner_stale_min = lambda owner: 194 * 60.0
-        _ued.takeover_decision = lambda allow, stale: (
+        _ued.takeover_decision = lambda allow, stale, **kw: (
             (True, "unit stale") if (allow and stale and stale >= 120)
             else (False, "unit refused"))
         sys.argv = [sys.argv[0]]
@@ -659,6 +671,19 @@ def _selftest():
         assert took is not None and took["by"] == "bm-c", took
         ab = _authority_block(took)
         assert ab["declared_takeover"] is True, ab
+        # r1565: an inherited envelope (what load_status returns) must not
+        # swallow the declaration -- fixture of the 00:47 run.
+        _inh = {"ts": "old", "machine": LANE_OWNER,
+                "authority": {"lane_owner": LANE_OWNER,
+                              "writer_machine": LANE_OWNER,
+                              "declared_takeover": False,
+                              "took_over_by": None, "reason": None}}
+        _merged = merge_authority(dict(_inh), took)
+        assert _merged["authority"]["declared_takeover"] is True, _merged
+        assert _merged["authority"]["took_over_by"] == "bm-c", _merged
+        assert _merged["authority"]["writer_machine"] == machine_id(), _merged
+        _still = merge_authority(dict(_inh), None)
+        assert _still["authority"]["declared_takeover"] is False, _still
         assert ab["took_over_by"] == "bm-c", ab
         assert ab["lane_owner"] == LANE_OWNER, ab
         _ued._owner_stale_min = lambda owner: 5.0   # owner came back

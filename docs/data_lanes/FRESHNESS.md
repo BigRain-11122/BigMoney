@@ -1,15 +1,14 @@
-# Data lane freshness -- 2026-11-11
+# Data lane freshness -- 2026-11-12
 
 Official reference: last day that must exist by 15:30 = **2026-11-11** (8797 calendar days loaded).
 
-Verdict: **attention** -- 3/15 lanes in sync, 12/15 auditable from this machine, worst = `marks`.
+Verdict: **attention** -- 6/15 lanes in sync, 13/15 auditable from this machine, worst = `marks`.
 
 
 ## Whose disk these numbers are on
 
-以本机 bm-c 的盘为基准：14 条在役车道里有 2 条的数字不在本机盘上：1 条在 bm-a 的盘上（21.32h 未报到）、1 条在 bm-b 的盘上（297.85h 未报到）；留在本机盘上的 12 条里 12 条可核实。
+以本机 bm-c 的盘为基准：14 条在役车道里有 1 条的数字不在本机盘上：1 条在 bm-b 的盘上（300.2h 未报到）；留在本机盘上的 13 条里 13 条可核实。
 
-- `bm-a`: futures (host down)
 - `bm-b`: marks (host down)
 | lane | host | tail | missing (official days) | verdict | authority |
 |---|---|---|---|---|---|
@@ -18,21 +17,23 @@ Verdict: **attention** -- 3/15 lanes in sync, 12/15 auditable from this machine,
 | `marks` | bm-b | 2026-10-29 | 9: 2026-10-30, 2026-11-02, 2026-11-03, 2026-11-04, 2026-11-05, 2026-11-06 … | unverifiable (copy said `stalled`) | unattributed |
 | `lhb` | bm-a | 2026-11-06 | 3: 2026-11-09, 2026-11-10, 2026-11-11 | stalled | host_envelope |
 | `lhb_inst` | bm-c | 2026-11-09 | 2: 2026-11-10, 2026-11-11 | stalled | host_envelope |
-| `ah_panel` | bm-c | 2026-11-10 | 1: 2026-11-11 | today_pending | host_copy |
-| `astock_daily` | bm-b | 2026-11-10 | 1: 2026-11-11 | today_pending | declared_takeover |
-| `futures` | bm-a | 2026-11-10 | 1: 2026-11-11 | unverifiable (copy said `today_pending`) | non_host_envelope |
-| `heat` | bm-a | 2026-11-10 | 1: 2026-11-11 | today_pending | host_envelope |
-| `moneyflow` | bm-c | 2026-11-10 | 1: 2026-11-11 | today_pending | host_envelope |
-| `repo` | bm-a | 2026-11-10 | 1: 2026-11-11 | today_pending | host_envelope |
-| `ths_panel` | bm-c | 2026-11-10 | 1: 2026-11-11 | today_pending | host_envelope |
-| `zt_pool` | bm-c | 2026-11-10 | 1: 2026-11-11 | today_pending | host_copy |
+| `ah_panel` | bm-c | 2026-11-10 | 1: 2026-11-11 | behind_1d | host_copy |
+| `heat` | bm-a | 2026-11-10 | 1: 2026-11-11 | behind_1d | host_envelope |
+| `moneyflow` | bm-c | 2026-11-10 | 1: 2026-11-11 | behind_1d | host_envelope |
+| `repo` | bm-a | 2026-11-10 | 1: 2026-11-11 | behind_1d | host_envelope |
+| `ths_panel` | bm-c | 2026-11-10 | 1: 2026-11-11 | behind_1d | host_envelope |
+| `astock_daily` | bm-b | 2026-11-11 | 0 | in_sync | declared_takeover |
 | `etf_panel` | bm-c | 2026-11-11 | 0 | in_sync | host_envelope |
+| `futures` | bm-a | 2026-11-11 | 0 | in_sync | declared_takeover |
 | `minute_feed` | bm-c | 2026-11-11 | 0 | in_sync | host_copy |
+| `zt_pool` | bm-c | 2026-11-11 | 0 | in_sync | host_copy |
 
 ## Lanes where a missed day cannot be recovered
 
 - `marks`: an intraday tick capture: a day with no marks file cannot be rebuilt by any machine -- the file is append-only and the ticks it would have held are gone
 - `lhb_inst`: vendor re-serves the range on later pulls, so a missed month is recoverable by moving FIRST_DATE; the panel is append-only by key
+- `ah_panel`: a premium pair day is quotable only from that day's closes
+- `heat`: a missed day is permanent: the guba rank is a live rolling list with no retrievable history (HEAT_ATTENTION_SPEC §1)
 
 ## Lanes judged against their own window
 
@@ -50,14 +51,13 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 These lanes cannot be certified here and the machine that is supposed to collect them has not written a heartbeat for more than 2.0h. Until it comes back the numbers below are this machine's stale copies, not the company's data.
 
-- `bm-a`: last seen 2026-11-11T01:14:51+08:00 (21.32h ago) -- holding back futures
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (297.85h ago) -- holding back marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (300.2h ago) -- holding back marks
 
 ## Owners that stopped reporting
 
 A different question from the section above: these machines have written no heartbeat for more than 24.0h, so the lanes they own are being judged from whatever was last committed. A lane here can still read `in_sync` -- the number is old, the owner is gone, and nobody would notice the day the file stops being written.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (297.85h ago) -- owns astock_daily, marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (300.2h ago) -- owns astock_daily, marks
   - already covered by a declared stand-in: astock_daily <- bm-c (nothing to wait for)
   - nobody is covering these: marks
 
@@ -66,21 +66,20 @@ A different question from the section above: these machines have written no hear
 A status envelope is committed by whichever machine ran the leg, and every machine also keeps its own gitignored copy of the data. Neither names its writer, so a tail that reads late can be a dead lane or a stale copy of a live one.
 
 - `marks`: the envelope does not name the machine whose data it describes
-- `futures`: the envelope was written by bm-c, not by the lane host bm-a
 
 ## Envelopes older than the panel they describe
 
 A status envelope is a committed file, so a branch switch or a rebase can restore an older copy of it. Where this host can read the panel itself the panel is the measurement: the staleness is printed here instead of being read as a stall.
 
-- `futures`: envelope says 2026-11-06, panel holds 2026-11-10 (2 official days behind)
+- `astock_daily`: envelope says 2026-11-10, panel holds 2026-11-11 (1 official days behind)
 
 ## Tails read from a sample
 
 The per-symbol panels hold thousands of files, so their tail is read through an evenly spaced sample rather than a full sweep. A sample can miss a single laggard symbol; it cannot miss a panel that stopped weeks ago. Each row below says how many symbols were read out of how many.
 
 - `ah_panel`: 40 of 187 symbols read, tail 2026-11-10; the full scan holds it in 187 of 187 symbols (100.00%) (certified 2026-11-11T05:56:05)
-- `astock_daily`: 40 of 5223 symbols read, tail 2026-11-10; the full scan holds it in 5,212 of 5,223 symbols (99.79%) (certified 2026-11-11T05:56:05)
 - `moneyflow`: 40 of 5226 symbols read, tail 2026-11-10; the full scan holds it in 5,225 of 5,226 symbols (100.00%) (certified 2026-11-11T05:56:05)
+- `astock_daily`: 40 of 5223 symbols read, tail 2026-11-11 (certification is older than this scan: full scan read 2026-11-10, this row reads 2026-11-11)
 
 Full-scan certification of exactly these rows: `scripts/data_lane_freshness.py certify` -> `docs/data_lanes/TAIL_CERTIFICATION.md` (it re-reads every file and names the symbols that sit behind the newest bar).
 

@@ -130,7 +130,8 @@ def _takeover_gate(owner):
         # this machine stood down on a run that then wrote the envelope.
         return None
     stale = _owner_stale_min(LANE_OWNER)
-    ok, why = takeover_decision("--takeover" in sys.argv[1:], stale)
+    ok, why = takeover_decision("--takeover" in sys.argv[1:], stale,
+                                lane_owner=LANE_OWNER)
     if not ok:
         print(f"lhb lane host {LANE_OWNER}; this machine "
               f"({owner or 'unknown-id'}) stdout-only (R31 lane-guard); "
@@ -726,7 +727,7 @@ def selftest():
     try:
         _ued.TAKEOVER_STALE_MIN = 120
         _ued._owner_stale_min = lambda owner: 194 * 60.0
-        _ued.takeover_decision = lambda allow, stale: (
+        _ued.takeover_decision = lambda allow, stale, **kw: (
             (True, "unit stale") if (allow and stale and stale >= 120)
             else (False, "unit refused"))
         sys.argv = [sys.argv[0]]

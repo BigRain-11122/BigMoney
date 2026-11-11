@@ -1079,7 +1079,8 @@ def _takeover_gate(owner):
     from update_etf_daily import (TAKEOVER_STALE_MIN, _owner_stale_min,
                                   takeover_decision)
     stale = _owner_stale_min(LANE_OWNER)
-    ok, why = takeover_decision("--takeover" in sys.argv[1:], stale)
+    ok, why = takeover_decision("--takeover" in sys.argv[1:], stale,
+                                    lane_owner=LANE_OWNER)
     if not ok:
         print(f"no-op: moneyflow lane host {LANE_OWNER} authority, this "
               f"machine ({owner or 'unknown-id'}) stdout-only (R31 lane-guard); "
@@ -1400,7 +1401,7 @@ def _selftest():
         try:
             _ued.TAKEOVER_STALE_MIN = 120
             _ued._owner_stale_min = lambda owner: 194 * 60.0
-            _ued.takeover_decision = lambda allow, stale: (
+            _ued.takeover_decision = lambda allow, stale, **kw: (
                 (True, "unit stale") if (allow and stale and stale >= 120)
                 else (False, "unit refuse"))
             write_status({"ts": "2026-09-24T09:23:55",

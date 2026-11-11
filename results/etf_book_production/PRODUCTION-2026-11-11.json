@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-11 16:32:34",
+ "ts": "2026-11-12 00:50:45",
  "evidence_cutoff": "2026-11-11",
  "feed_status": {
   "ticket_bar": "2026-11-11",
@@ -540,7 +540,7 @@
  },
  "caveats": [
   "THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -25.3% and -18.4% and the share of resamples worse than -20% between 2.8% and 17.2%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-06.json (band priced on the 2026-11-06 bar, older than this card's 2026-11-11 -- stale, its tail can only be too narrow).",
-  "THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.78%/yr (Sharpe -0.41) against +6.08%/yr (+0.64) for the fixed signs -- and reversing the trailing sign does not recover it (-0.73%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.",
+  "THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.79%/yr (Sharpe -0.41) against +6.05%/yr (+0.64) for the fixed signs -- and reversing the trailing sign does not recover it (-0.18%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.",
   "ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.",
   "THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.",
   "ETF pool is today's listed set: survivorship inflates the equity sleeve.",
@@ -662,7 +662,7 @@
  "sleeve_gate": {
   "status": "ok",
   "sentence": "No sleeve-level gate earns adoption: switching the sleeve off on trend 24%, vol 30%, drawdown 16% of the decision grid is no better than switching it off on the same number of untimed decisions, so a gate here would buy a shorter holding period, not a signal. The closest arm is the vol gate: +0.86pp of drawdown against the frozen 1.0pp bar, and it does beat its own placebo by +5.00pp -- which is why it is named as the re-test candidate on new data, not re-thresholded here. Verdict NO_GATE.",
-  "evidence_cutoff": "2026-11-10",
+  "evidence_cutoff": "2026-11-11",
   "verdict": "NO_GATE",
   "adopting": [],
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_sleeve_gate.json",
@@ -676,7 +676,7 @@
     "placebo_delta_cagr_pp": 1.09,
     "placebo_delta_maxdd_pp": -1.74,
     "dd_gain_pp": -2.77,
-    "cagr_keep": 0.9667,
+    "cagr_keep": 0.9669,
     "placebo_dd_edge_pp": -1.03,
     "placebo_cagr_edge_pp": -1.41,
     "beats_placebo": false,
@@ -708,7 +708,7 @@
     "placebo_delta_cagr_pp": -2.17,
     "placebo_delta_maxdd_pp": -3.7,
     "dd_gain_pp": -1.27,
-    "cagr_keep": 0.9813,
+    "cagr_keep": 0.9814,
     "placebo_dd_edge_pp": 2.43,
     "placebo_cagr_edge_pp": 1.99,
     "beats_placebo": true,
@@ -744,7 +744,7 @@
    "sleeve_class": "commodity"
   },
   "baseline": {
-   "cagr": 0.0962,
+   "cagr": 0.0966,
    "maxdd": -0.1177
   }
  },
@@ -860,38 +860,38 @@
  },
  "spanning": {
   "artifact": "results/etf_book_spanning.json",
-  "as_of": "2026-11-10",
-  "book_cagr": 0.0962,
-  "book_sharpe": 0.99,
+  "as_of": "2026-11-11",
+  "book_cagr": 0.0966,
+  "book_sharpe": 0.994,
   "book_maxdd": -0.1177,
-  "basket_cagr": 0.1001,
-  "basket_sharpe": 0.972,
+  "basket_cagr": 0.0991,
+  "basket_sharpe": 0.964,
   "basket_maxdd": -0.1135,
-  "alpha_annual": 0.0583,
-  "alpha_t": 1.939,
-  "r2": 0.4364,
+  "alpha_annual": 0.0595,
+  "alpha_t": 1.98,
+  "r2": 0.4356,
   "resid_vol_annual": 0.0766,
   "is_alpha_t": 1.162,
-  "oos_alpha_t": 1.963,
+  "oos_alpha_t": 2.017,
   "arms": {
    "gold": {
-    "cagr": 0.137,
-    "sharpe": 0.826,
+    "cagr": 0.1332,
+    "sharpe": 0.806,
     "maxdd": -0.3329
    },
    "us_tech": {
-    "cagr": 0.1998,
-    "sharpe": 0.864,
+    "cagr": 0.201,
+    "sharpe": 0.868,
     "maxdd": -0.2745
    },
    "csi300": {
-    "cagr": 0.0012,
-    "sharpe": 0.106,
+    "cagr": -0.0,
+    "sharpe": 0.099,
     "maxdd": -0.4668
    },
    "bond": {
     "cagr": 0.0252,
-    "sharpe": 1.216,
+    "sharpe": 1.214,
     "maxdd": -0.0521
    }
   },
@@ -904,26 +904,26 @@
   "staggered_arm": {
    "window": [
     "2020-01-06",
-    "2026-11-10"
+    "2026-11-11"
    ],
-   "alpha_annual": 0.0695,
-   "alpha_t": 2.421,
-   "r2": 0.4987,
+   "alpha_annual": 0.0701,
+   "alpha_t": 2.445,
+   "r2": 0.4985,
    "resid_vol_annual": 0.0732,
    "is_alpha_t": 1.26,
-   "oos_alpha_t": 2.38,
-   "cagr": 0.1082,
-   "sharpe": 1.088,
+   "oos_alpha_t": 2.411,
+   "cagr": 0.1078,
+   "sharpe": 1.085,
    "maxdd": -0.1036,
-   "book_alpha_annual": 0.0583,
-   "book_alpha_t": 1.939,
+   "book_alpha_annual": 0.0595,
+   "book_alpha_t": 1.98,
    "crosses_two_sigma": true,
    "book_crosses_two_sigma": false
   },
   "stagger_control": {
-   "mine": 0.1082,
+   "mine": 0.1078,
    "published": 0.1041,
-   "delta_pp": 0.41,
+   "delta_pp": 0.37,
    "within_0p5pp": true,
    "source": "results/etf_book_stagger_publish.json:staggered.cagr"
   }

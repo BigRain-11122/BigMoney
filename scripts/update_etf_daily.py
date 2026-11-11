@@ -121,9 +121,16 @@ def _owner_stale_min(owner):
         return None
 
 
-def takeover_decision(allow, stale_min):
+def takeover_decision(allow, stale_min, lane_owner=None):
     """Pure: may a non-owner refresh the panel? Explicit opt-in AND a stale
-    owner heartbeat. Returns (ok, reason)."""
+    owner heartbeat. Returns (ok, reason).
+
+    r1565: the reason sentence used to name module LANE_OWNER -- this lane's
+    owner -- so every other lane that reuses this policy printed a stand-in
+    over the WRONG machine (update_futures on bm-c printed "owner bm-b silent
+    23.5h" while taking bm-a's lane). Callers pass their own owner; the
+    default keeps this module's caller unchanged."""
+    owner_name = lane_owner or LANE_OWNER
     if not allow:
         return False, "no --takeover flag"
     if stale_min is None:
@@ -131,7 +138,7 @@ def takeover_decision(allow, stale_min):
     if stale_min < TAKEOVER_STALE_MIN:
         return False, (f"owner heartbeat fresh ({stale_min:.0f}min < "
                        f"{TAKEOVER_STALE_MIN}min)")
-    return True, (f"owner {LANE_OWNER} silent {stale_min/60:.1f}h >= "
+    return True, (f"owner {owner_name} silent {stale_min/60:.1f}h >= "
                   f"{TAKEOVER_STALE_MIN}min")
 
 
@@ -487,7 +494,8 @@ def run():
     takeover = None
     if owner != LANE_OWNER:
         ok, why = takeover_decision("--takeover" in sys.argv[1:],
-                                    _owner_stale_min(LANE_OWNER))
+                                    _owner_stale_min(LANE_OWNER),
+                                    lane_owner=LANE_OWNER)
         if not ok:
             print(f"no-op: five-member ETF daily lane owned by {LANE_OWNER}, "
                   f"not this machine ({owner or '?'}); takeover refused: {why}")

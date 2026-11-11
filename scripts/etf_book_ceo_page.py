@@ -2093,6 +2093,14 @@ def positions_block(ps, page_bar=None):
                format(base.get("risk_book_cny") or 0.0, ",.0f"),
                format(base.get("cash_cny") or 0.0, ",.0f"),
                base.get("holdings") if base.get("holdings") is not None else "—"))
+        # r1564: this book may be a target someone wrote down, not a fill. The page that
+        # prices the account has to say which one, or the operator reads a declaration as
+        # executed lots.
+        if base.get("arrival") == "declared":
+            add("**这一行是声明，不是成交**：账上换过的持仓没有任何一笔交易把它搬过去"
+                "（动作行 %s 笔）——下一张单按它起算时，手里真正有多少只取决于券商成交。"
+                % (base.get("arrival_actions") if base.get("arrival_actions") is not None
+                   else 0))
         add("")
     holds = row.get("holdings") or []
     if holds:

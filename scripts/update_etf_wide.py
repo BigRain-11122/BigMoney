@@ -476,7 +476,7 @@ def _run_impl(limit=None, workers=DEFAULT_WORKERS, takeover=False,
         # the shared guard is a 2-arg pure function (allow, stale_min); this
         # caller was left on the pre-refactor 4-arg form and died with TypeError
         # on EVERY non-owner machine -- a silent rc=1 in the S6 chain (r1208)
-        ok, why = U.takeover_decision(takeover, stale)
+        ok, why = U.takeover_decision(takeover, stale, lane_owner=LANE_OWNER)
         if not ok:
             payload = {"ts": _now().isoformat(timespec="seconds"),
                        "machine": me, "lane_owner": LANE_OWNER,
@@ -718,11 +718,16 @@ def _selftest():
     # no output (r1208). Pin the arity here so the next refactor goes red in
     # selftest instead of going quiet in the chain.
     import inspect
+    # r1565: lane_owner joined the contract -- the reason sentence names the
+    # owner the caller stands in for, not this module's own lane. Pin all three.
     _params = list(inspect.signature(U.takeover_decision).parameters)
-    chk("guard_arity", _params == ["allow", "stale_min"]
+    _ok_own, _why_own = U.takeover_decision(True, 10 * U.TAKEOVER_STALE_MIN,
+                                            lane_owner="bm-a")
+    chk("guard_arity", _params == ["allow", "stale_min", "lane_owner"]
         and U.takeover_decision(False, 10_000)[0] is False
         and U.takeover_decision(True, None)[0] is False
-        and U.takeover_decision(True, 10 * U.TAKEOVER_STALE_MIN)[0] is True)
+        and U.takeover_decision(True, 10 * U.TAKEOVER_STALE_MIN)[0] is True
+        and _ok_own and "bm-a" in _why_own and "bm-b" not in _why_own)
 
     # 1 symbol mapping: prefixed preserved, bare 6-digit gets the right prefix
     chk("map_prefixed", PREFIXED.match("sh510300").group(0) == "sh510300")

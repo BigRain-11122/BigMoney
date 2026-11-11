@@ -78,7 +78,8 @@ def _takeover_gate(owner):
     from update_etf_daily import (TAKEOVER_STALE_MIN, _owner_stale_min,
                                   takeover_decision)
     stale = _owner_stale_min(HEAT_LANE_HOST)
-    ok, why = takeover_decision("--takeover" in sys.argv[1:], stale)
+    ok, why = takeover_decision("--takeover" in sys.argv[1:], stale,
+                                lane_owner=HEAT_LANE_HOST)
     if not ok:
         print(f"no-op: heat lane host {HEAT_LANE_HOST} authority, this "
               f"machine ({owner or 'unknown-id'}) stdout-only "

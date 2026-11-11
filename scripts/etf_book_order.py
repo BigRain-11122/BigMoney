@@ -1292,6 +1292,10 @@ def executed_base(asof=None):
            "risk_book_cny": round(float(risk), 2), "cash_cny": round(float(cash), 2),
            "nav_cny": round(total, 2), "k_executed": round(k_exec, 6),
            "k_engine": None if k_engine is None else round(float(k_engine), 6),
+           # r1564: the starting book's provenance travels with it. A row that declared the
+           # book without printing the trades that build it is not an execution, and this
+           # sheet must say so where it sizes itself from it.
+           "arrival": b.get("arrival"), "arrival_actions": b.get("arrival_actions"),
            "holdings": b.get("holdings")}
     if k_engine is not None:
         out["k_gap"] = round(float(k_engine) - k_exec, 6)
@@ -1324,6 +1328,12 @@ def executed_base_md(base):
                   % (base["k_engine"], base["k_gap"],
                      format(base.get("notional_gap_cny") or 0.0, ",.0f"),
                      "" if _same_bar else "本单的手数按执行账裁。")]
+        if base.get("arrival") == "declared":
+            L += ["- **起点是声明，不是成交**：这本账是上一张单写下的目标（动作行 %s 笔），"
+                  "没有任何一笔交易把它搬过去。本单按它裁手数，等于假设那些换仓已经发生；"
+                  "若券商侧实际没成交，本单的口径会与持仓不符——下单前用对账单核一次。"
+                  % (base.get("arrival_actions") if base.get("arrival_actions") is not None
+                     else 0)]
     elif st == "stale":
         L += ["- **不能用这本账起算**：%s" % base.get("sentence"),
               "- 本单一律退回引擎账，并在票面注明——把旧账当今天的账，正是两本账分叉的入口。"]
@@ -5315,6 +5325,14 @@ def selftest():
             {"status": "absent", "sentence": "x", "face": POSITIONS_FACE}))
         and "不能用这本账起算" in "\n".join(executed_base_md(
             {"status": "stale", "sentence": "x", "face": POSITIONS_FACE})), "")
+    # r1564: the book a sheet starts from may be something somebody typed, not something a
+    # trade built (2026-11-11: 4 out, 5 in, 667,376 CNY, zero action rows). The sheet that
+    # sizes off it must say which of the two it is.
+    chk("leg51n base: a declared starting book is printed as a declaration, not a fill",
+        "起点是声明，不是成交" in "\n".join(
+            executed_base_md(dict(_base, arrival="declared", arrival_actions=0)))
+        and "起点是声明" not in "\n".join(
+            executed_base_md(dict(_base, arrival="traded"))), "")
     _bt = build_ticket(pd.Series({"A": 2.0, "B": 1.0}), pd.Series({"A": 10.0, "B": 20.0}),
                        0.5, 100000.0, n_hold=2, k_rule=0.6)
     chk("leg51i base: the ticket carries both the size it orders and the size the rule alone "

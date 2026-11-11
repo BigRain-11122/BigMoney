@@ -952,6 +952,24 @@ def assess(ticket, stack, ledger, stamp=None):
 
     account_base, account_base_source = account_base_after_accrual(ledger, base, accrual)
 
+    # r1564: how did the bar the next sheet starts from get written? On 2026-11-11 the sleeve
+    # was replaced (4 out, 5 in, one lot change, 667,376 CNY) with zero printed action rows, so
+    # that row is a TARGET somebody typed, not a fill. The page already said so in the
+    # bar-to-bar section and then called the same row an 执行行 two sections lower -- the reader
+    # cannot hold both. `arrival` is the one word both sections read.
+    arrival = None
+    if account_base:
+        _ab_bar = str(account_base.get("bar") or "")
+        _tr_bar = str((transition or {}).get("bar") or "")
+        _tr_status = str((transition or {}).get("status") or "")
+        if transition and _tr_bar == _ab_bar:
+            if _tr_status == "UNEXPLAINED_TARGET_WITHOUT_TRADES":
+                arrival = "declared"
+            elif _tr_status == "EXPLAINED":
+                arrival = "traded"
+        if arrival is None and (account_base.get("actions") or []):
+            arrival = "traded"
+
     # the ticket side keeps its own normalised engine book; the two must not be conflated
     eng = _execution_order_book_tail()
     eng_gap = None
@@ -993,6 +1011,11 @@ def assess(ticket, stack, ledger, stamp=None):
         "next_order_base": None if not account_base else {
             "bar": account_base.get("bar"),
             "kind": str(account_base.get("kind") or "execution"),
+            # r1564: `kind` is the row type; `arrival` says how the book got there. A declared
+            # target must not be sold to the next sheet as an execution.
+            "arrival": arrival,
+            "arrival_actions": (len((transition or {}).get("actions") or [])
+                                if arrival == "declared" else None),
             "source": account_base_source,
             "risk_book_cny": account_base.get("risk_book_cny"),
             "cash_cny": account_base.get("cash_cny"),
@@ -1140,11 +1163,24 @@ def render_md(face):
     base = face.get("next_order_base")
     if base:
         _kind = base.get("kind") or "execution"
-        L += ["## 下一张单从哪本账起算", "",
-              "- 已写下的执行后账：bar `%s`｜风险腿 ¥%s｜现金 ¥%s｜持仓 %d 只｜这一行是**%s**"
-              % (base.get("bar"), format(base.get("risk_book_cny") or 0.0, ",.0f"),
-                 format(base.get("cash_cny") or 0.0, ",.0f"), base.get("holdings") or 0,
-                 "执行行" if _kind == "execution" else "执行后按每日市值/回购利 accrual 出来的估值行")]
+        _arrival = base.get("arrival")
+        if _arrival == "declared":
+            L += ["## 下一张单从哪本账起算", "",
+                  "- 已写下的账：bar `%s`｜风险腿 ¥%s｜现金 ¥%s｜持仓 %d 只｜这一行是**声明行**"
+                  % (base.get("bar"), format(base.get("risk_book_cny") or 0.0, ",.0f"),
+                     format(base.get("cash_cny") or 0.0, ",.0f"), base.get("holdings") or 0),
+                  "- 它是这张单写下的**目标**，动作行 %s 笔——**起点是声明，不是成交**："
+                  "账上换过的持仓没有任何一笔交易把它搬过去，下一张单拿它起算时，"
+                  "手里真正有多少只取决于券商成交，不取决于这一行。"
+                  % (base.get("arrival_actions") if base.get("arrival_actions") is not None
+                     else 0)]
+        else:
+            L += ["## 下一张单从哪本账起算", "",
+                  "- 已写下的执行后账：bar `%s`｜风险腿 ¥%s｜现金 ¥%s｜持仓 %d 只｜这一行是**%s**"
+                  % (base.get("bar"), format(base.get("risk_book_cny") or 0.0, ",.0f"),
+                     format(base.get("cash_cny") or 0.0, ",.0f"), base.get("holdings") or 0,
+                     "执行行" if _kind == "execution"
+                     else "执行后按每日市值/回购利 accrual 出来的估值行")]
         _sup = base.get("superseded_execution_bar")
         if _kind != "execution" and _sup and _sup != base.get("bar"):
             L += ["- 上一笔执行停在 `%s`：那一行已经不是账户现在的样子，本面按 accrual 后的 `%s` 起算"
@@ -1442,6 +1478,18 @@ def check():
         _txt = open(OUT_MD, encoding="utf-8").read()
         if "这一行账是从哪一行走到哪一行" not in _txt:
             bad.append("page_missing_transition")
+
+    # r1564: the base's provenance is part of the face too. A row declared without trades must
+    # not be handed to the next sheet as an execution, and the page must say so in words a
+    # reader sees -- a hand-flipped flag is caught here, not by reading the JSON.
+    _pb, _fb = published.get("next_order_base") or {}, fresh.get("next_order_base") or {}
+    if (_pb.get("arrival") or None) != (_fb.get("arrival") or None):
+        bad.append("base_arrival")
+    elif _pb.get("arrival") == "declared":
+        if os.path.exists(OUT_MD):
+            _txt2 = open(OUT_MD, encoding="utf-8").read()
+            if "起点是声明，不是成交" not in _txt2:
+                bad.append("page_missing_declaration")
 
     # r1469: the replay must still reproduce the ledger's own legs, and must reproduce exactly
     # r1483: an identity that was never measured is not a failed identity -- the failure is
@@ -1850,6 +1898,41 @@ def selftest():
                        "transition": _t2})
     chk("the page names the bar-to-bar move instead of leaving it in the json",
         "这一行不是交易走出来的" in _frag and "消失" in _frag and "出现" in _frag)
+
+    # r1564: the row the next sheet starts from carries how it got there. One page cannot
+    # call the same row "not walked by trades" and "an execution row".
+    _l18 = {"schema": "x", "rows": [
+        {"bar": "2026-11-06", "kind": "execution",
+         "holdings": [{"symbol": "A", "lots": 100, "price": 2.0, "amount_cny": 20000.0}],
+         "cash_cny": 1000.0, "risk_book_cny": 20000.0,
+         "actions": [{"side": "BUY", "symbol": "A", "lots": 100}]},
+        {"bar": "2026-11-07", "kind": "execution",
+         "holdings": [{"symbol": "B", "lots": 50, "price": 1.0, "amount_cny": 5000.0}],
+         "cash_cny": 3000.0, "risk_book_cny": 5000.0, "actions": []}]}
+    _s18 = {"asof": "2026-11-07", "ticket": "T", "k_after": 0.625,
+            "risk_book_after_cny": 5000.0, "cash_cny": 3000.0,
+            "holdings_after": [{"symbol": "B", "lots": 50, "price": 1.0,
+                                "amount_cny": 5000.0}], "actions": []}
+    _tk18 = {"ticket": {"order": [{"symbol": "B", "price": 1.0, "lots": 50,
+                                   "weight": 0.5}], "nav": 8000.0}}
+    _f18 = assess(_tk18, _s18, _l18)
+    _b18 = _f18.get("next_order_base") or {}
+    chk("a base row that declared the book without trades is named a declaration",
+        _b18.get("bar") == "2026-11-07" and _b18.get("arrival") == "declared")
+    chk("the page says the next sheet starts from a declaration, not a fill",
+        "起点是声明，不是成交" in render_md(_f18))
+    _l19 = {"schema": "x", "rows": [_l18["rows"][0], {
+        "bar": "2026-11-07", "kind": "execution",
+        "holdings": [{"symbol": "B", "lots": 50, "price": 1.0, "amount_cny": 5000.0}],
+        "cash_cny": 3000.0, "risk_book_cny": 5000.0,
+        "actions": [{"side": "SELL", "symbol": "A", "lots": 100},
+                    {"side": "BUY", "symbol": "B", "lots": 50}]}]}
+    _s19 = dict(_s18)
+    _s19["actions"] = [{"side": "SELL", "symbol": "A", "lots": 100},
+                       {"side": "BUY", "symbol": "B", "lots": 50}]
+    _f19 = assess(_tk18, _s19, _l19)
+    chk("the same bar WITH its trades printed is an execution, not a declaration",
+        (_f19.get("next_order_base") or {}).get("arrival") != "declared")
 
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1

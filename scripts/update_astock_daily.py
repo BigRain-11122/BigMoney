@@ -931,7 +931,8 @@ def gate():
     takeover = None
     if owner != LANE_OWNER:
         ok, why = takeover_decision("--takeover" in sys.argv[1:],
-                                    _owner_stale_min(LANE_OWNER))
+                                    _owner_stale_min(LANE_OWNER),
+                                    lane_owner=LANE_OWNER)
         if not ok:
             print(f"no-op: astock_daily lane owned by {LANE_OWNER}, "
                   f"not this machine ({owner or '?'}); takeover refused: {why}")

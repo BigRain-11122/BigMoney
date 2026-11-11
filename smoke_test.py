@@ -1719,6 +1719,44 @@ def main() -> int:
         check("product: the next sheet starts from the account as it stands, not its last trade",
               False, str(_e4))
 
+    # r1564: the bar the next sheet starts from may be a book somebody TYPED. Two reads of one
+    # row cannot disagree: the transition says it printed no trades, and the two human faces
+    # must not call that same row an execution. The leg re-derives the label from the
+    # transition (a hand-flipped `arrival` fails here, the flag is not trusted).
+    try:
+        from scripts import etf_book_positions as _PO2
+        _f64 = _PO2._read_json(_PO2.OUT_JSON) or {}
+        _b64 = _f64.get("next_order_base") or {}
+        _t64 = _f64.get("transition") or {}
+        _want = None
+        if _t64 and str(_t64.get("bar") or "") == str(_b64.get("bar") or ""):
+            if _t64.get("status") == "UNEXPLAINED_TARGET_WITHOUT_TRADES":
+                _want = "declared"
+            elif _t64.get("status") == "EXPLAINED":
+                _want = "traded"
+        _bad64 = []
+        if _b64 and (_b64.get("arrival") or None) != _want:
+            _bad64.append("base arrival %r but the transition says %r"
+                          % (_b64.get("arrival"), _want))
+        if _want == "declared":
+            _md64 = ""
+            if os.path.exists(_PO2.OUT_MD):
+                _md64 = open(_PO2.OUT_MD, encoding="utf-8").read()
+            if "起点是声明，不是成交" not in _md64:
+                _bad64.append("the positions page does not name the declared starting book")
+            _pgdir = os.path.join(_PO2.ROOT, "docs", "live_book")
+            _pgs = sorted(glob.glob(os.path.join(_pgdir, "LIVE-BOOK-*.md")))
+            if _pgs:
+                _pg64 = open(_pgs[-1], encoding="utf-8").read()
+                if "声明，不是成交" not in _pg64:
+                    _bad64.append("the CEO page does not name it either")
+        check("product: a declared starting book is named as a declaration on both faces",
+              not _bad64, "; ".join(_bad64[:3]) or "arrival %s on bar %s"
+              % (_b64.get("arrival") or "unknown", _b64.get("bar")))
+    except Exception as _e64:
+        check("product: a declared starting book is named as a declaration on both faces",
+              False, str(_e64))
+
     # r1211: the distribution reached the CEO page. Two ways to break this and only one of
     # them is visible by eye: (a) the section disappears, (b) the page prints a percentile
     # that its own resample rows do not produce. The leg re-derives from the rows.

@@ -398,7 +398,8 @@ def run(force: bool = False, takeover_flag: bool = False) -> int:
         return 0
     takeover = None
     if not force and _machine_id() != LANE_OWNER:
-        ok, why = takeover_decision(takeover_flag, _owner_stale_min(LANE_OWNER))
+        ok, why = takeover_decision(takeover_flag, _owner_stale_min(LANE_OWNER),
+                                    lane_owner=LANE_OWNER)
         if not ok:
             print(f"intraday_marks: no-op: marks lane owned by {LANE_OWNER}, "
                   f"not this machine ({_machine_id() or '?'}); takeover "

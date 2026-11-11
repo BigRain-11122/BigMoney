@@ -198,6 +198,32 @@ def _total_cpu(ct):
     return sum(v for v in ct)
 
 
+def _subtree_cpu(pid, table, snap1, snap2):
+    """CPU accumulated by pid AND its live descendants over the window.
+
+    r1565: face-3 read only the face's own cpu_times, so a PARENT that waits on
+    a busy child looked stalled -- on 2026-11-12 01:01 the S6 chain
+    (Tools/s6_chain_bmc.py) was flagged an orphan while its child
+    etf_book_min_capital.py burned in front of it. Under --kill that is the
+    chain itself, murdered mid-leg. A driver with active children is working,
+    not orphaned.
+    """
+    kids = {}
+    for other_pid, rec in table.items():
+        kids.setdefault(rec.get("ppid"), []).append(other_pid)
+    total, stack, seen = 0.0, [pid], set()
+    while stack:
+        cur = stack.pop()
+        if cur in seen:
+            continue
+        seen.add(cur)
+        a, b = snap1.get(cur), snap2.get(cur)
+        if a is not None and b is not None:
+            total += _total_cpu(b) - _total_cpu(a)
+        stack.extend(kids.get(cur, ()))
+    return total
+
+
 def run(mode="probe"):
     t0 = datetime.datetime.now().isoformat(timespec="seconds")
     table = collect_table()
@@ -217,6 +243,10 @@ def run(mode="probe"):
             # not in first snapshot: too young OR window-crossing; judge
             # age only (a young face is grace-protected anyway)
             delta = 999.0  # assume active, never kill what we cannot prove
+        # r1565: a face is only stalled if its whole subtree is stalled.
+        sub = _subtree_cpu(pid, table, snap1, snap2)
+        if sub > delta:
+            delta = sub
         age_min = (now_ts - table[pid]["create_time"]) / 60.0
         faces.append(_judge_faces(table, pid, delta, age_min))
     orphans = [f for f in faces if f["face1_parent_dead"]

@@ -319,7 +319,8 @@ def _takeover_gate(owner):
     from update_etf_daily import (TAKEOVER_STALE_MIN, _owner_stale_min,
                                   takeover_decision)
     stale = _owner_stale_min(LANE_OWNER)
-    ok, why = takeover_decision("--takeover" in sys.argv[1:], stale)
+    ok, why = takeover_decision("--takeover" in sys.argv[1:], stale,
+                                lane_owner=LANE_OWNER)
     if not ok:
         print(f"no-op: fund statements lane owned by {LANE_OWNER}, not this "
               f"machine ({owner or '?'}) -- takeover refused: {why}")

@@ -1,5 +1,5 @@
 {
- "evidence_cutoff": "2026-11-11",
+ "evidence_cutoff": "2026-11-12",
  "gaps_explained_by_quiet_window": [],
  "gaps_over_threshold": [
   {
@@ -100,31 +100,27 @@
    "to": "2026-11-11T20:40",
    "unexplained_high_min": 100.0,
    "unexplained_low_min": 91.0
+  },
+  {
+   "from": "2026-11-11T20:40",
+   "gap_high_min": 149.0,
+   "gap_low_min": 140.0,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-11T23:00",
+   "unexplained_high_min": 149.0,
+   "unexplained_low_min": 140.0
   }
  ],
- "gaps_over_threshold_count": 11,
- "generated": "2026-11-11T22:34:19",
+ "gaps_over_threshold_count": 12,
+ "generated": "2026-11-12T00:30:49",
  "lane_tasks": {
   "absent": [],
   "disabled": [],
-  "disabled_before_heal": [
-   "Bigmoney-SatEngine-bm-b"
-  ],
+  "disabled_before_heal": [],
   "heal": {
-   "acts": [
-    {
-     "action": "enabled",
-     "detail": "",
-     "task": "Bigmoney-SatEngine-bm-b",
-     "verified": true
-    }
-   ],
-   "healed": [
-    "Bigmoney-SatEngine-bm-b"
-   ],
-   "readback": {
-    "Bigmoney-SatEngine-bm-b": "Ready"
-   }
+   "acts": [],
+   "healed": [],
+   "readback": {}
   },
   "probeable": 3,
   "states": {
@@ -148,20 +144,20 @@
  "machine": "bm-c",
  "median_gap_min": 11.0,
  "open_gap": {
-  "gap_high_min": 114.3,
-  "gap_low_min": 114.3,
+  "gap_high_min": 30.8,
+  "gap_low_min": 21.8,
   "quiet_window_min": 0.0,
-  "since": "2026-11-11T20:40",
-  "unexplained_high_min": 114.3,
-  "unexplained_low_min": 114.3
+  "since": "2026-11-12T00:00",
+  "unexplained_high_min": 30.8,
+  "unexplained_low_min": 21.8
  },
  "parse_precision_note": "stamps recorded with an 'x' digit are read as a 9-minute interval; a gap is only called when its pessimistic end clears the threshold",
  "quiet_windows": [],
- "rounds_in_ledger": 994,
- "rounds_in_window": 138,
- "silence_verdict": "OPEN_SILENCE",
+ "rounds_in_ledger": 999,
+ "rounds_in_window": 134,
+ "silence_verdict": "SILENT_GAP",
  "source": "round_reports-bm-c.md",
  "threshold_min": 90,
- "verdict": "OPEN_SILENCE",
+ "verdict": "SILENT_GAP",
  "window_days": 3
 }

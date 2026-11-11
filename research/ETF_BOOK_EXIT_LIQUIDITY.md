@@ -2,7 +2,7 @@
 
 **Question.** Every name this book holds passed a 20-bar median turnover gate of 2000 万元 on the bar it was ranked. Nothing checks the same number on the bar it is sold. How often is the book asked to exit into a name it would not be allowed to buy, how long does the queue last, and what is the wait worth?
 
-**Panel.** 1516 funds x 5277 bars, 2005-02-23..2026-11-10, 169 quote flips repaired (the production panel's own repair, imported not copied).
+**Panel.** 1517 funds x 5278 bars, 2005-02-23..2026-11-11, 169 quote flips repaired (the production panel's own repair, imported not copied).
 
 **Arm.** declared fill (score held one bar back, close t -> open t+1); as-coded not measured.
 

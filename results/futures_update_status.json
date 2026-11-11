@@ -1,9 +1,9 @@
 {
-  "ts": "2026-11-11T03:15:49",
-  "mode": "full-history pull, append-only local, overlap-verified",
-  "no_op_reason": "local cutoff 2026-11-06 covers expected complete-bar date 2026-11-06",
-  "expected_cutoff": "2026-11-06",
-  "data_cutoff": "2026-11-06",
+  "ts": "2026-11-12T00:53:01",
+  "mode": "no-op: cutoff covered",
+  "no_op_reason": "local cutoff 2026-11-11 covers expected complete-bar date 2026-11-11",
+  "expected_cutoff": "2026-11-11",
+  "data_cutoff": "2026-11-11",
   "varieties_planned": [
     "IF",
     "IC",
@@ -20,109 +20,109 @@
       "variety": "IF",
       "symbol": "IF0",
       "appended": 1,
-      "overlap": 2379,
+      "overlap": 2380,
       "mismatch": null,
       "error": null,
       "path": "akshare.futures_main_sina",
-      "rows_local": 2380,
+      "rows_local": 2381,
       "first": "2017-01-17",
-      "last": "2026-11-10"
+      "last": "2026-11-11"
     },
     {
       "variety": "IC",
       "symbol": "IC0",
       "appended": 1,
-      "overlap": 2379,
+      "overlap": 2380,
       "mismatch": null,
       "error": null,
       "path": "akshare.futures_main_sina",
-      "rows_local": 2380,
+      "rows_local": 2381,
       "first": "2017-01-17",
-      "last": "2026-11-10"
+      "last": "2026-11-11"
     },
     {
       "variety": "IM",
       "symbol": "IM0",
       "appended": 1,
-      "overlap": 1041,
+      "overlap": 1042,
       "mismatch": null,
       "error": null,
       "path": "akshare.futures_main_sina",
-      "rows_local": 1042,
+      "rows_local": 1043,
       "first": "2022-07-22",
-      "last": "2026-11-10"
+      "last": "2026-11-11"
     },
     {
       "variety": "IH",
       "symbol": "IH0",
       "appended": 1,
-      "overlap": 2379,
+      "overlap": 2380,
       "mismatch": null,
       "error": null,
       "path": "akshare.futures_main_sina",
-      "rows_local": 2380,
+      "rows_local": 2381,
       "first": "2017-01-17",
-      "last": "2026-11-10"
+      "last": "2026-11-11"
     },
     {
       "variety": "T",
       "symbol": "T0",
       "appended": 1,
-      "overlap": 2379,
+      "overlap": 2380,
       "mismatch": null,
       "error": null,
       "path": "akshare.futures_main_sina",
-      "rows_local": 2380,
+      "rows_local": 2381,
       "first": "2017-01-17",
-      "last": "2026-11-10"
+      "last": "2026-11-11"
     },
     {
       "variety": "TF",
       "symbol": "TF0",
       "appended": 1,
-      "overlap": 2379,
+      "overlap": 2380,
       "mismatch": null,
       "error": null,
       "path": "akshare.futures_main_sina",
-      "rows_local": 2380,
+      "rows_local": 2381,
       "first": "2017-01-17",
-      "last": "2026-11-10"
+      "last": "2026-11-11"
     },
     {
       "variety": "RB",
       "symbol": "RB0",
       "appended": 1,
-      "overlap": 4277,
+      "overlap": 4278,
       "mismatch": null,
       "error": null,
       "path": "akshare.futures_main_sina",
-      "rows_local": 4278,
+      "rows_local": 4279,
       "first": "2009-03-27",
-      "last": "2026-11-10"
+      "last": "2026-11-11"
     },
     {
       "variety": "AU",
       "symbol": "AU0",
       "appended": 1,
-      "overlap": 4586,
+      "overlap": 4587,
       "mismatch": null,
       "error": null,
       "path": "akshare.futures_main_sina",
-      "rows_local": 4587,
+      "rows_local": 4588,
       "first": "2008-01-09",
-      "last": "2026-11-10"
+      "last": "2026-11-11"
     },
     {
       "variety": "SC",
       "symbol": "SC0",
       "appended": 1,
-      "overlap": 2091,
+      "overlap": 2092,
       "mismatch": null,
       "error": null,
       "path": "akshare.futures_main_sina",
-      "rows_local": 2092,
+      "rows_local": 2093,
       "first": "2018-03-26",
-      "last": "2026-11-10"
+      "last": "2026-11-11"
     }
   ],
   "summary": {
@@ -130,19 +130,19 @@
     "failures": 0,
     "mismatches": 0,
     "total_appended": 9,
-    "data_cutoff": "2026-11-10"
+    "data_cutoff": "2026-11-11"
   },
   "claim": "MSG-20260924-0645-bm-a-futures-cta-puller",
   "note": "main-continuous bars are raw price level at roll (unadjusted); roll-gap handling is a prereg design decision, not a puller concern",
   "machine": "bm-c",
-  "last_attempt": "2026-11-11T03:15:49",
+  "last_attempt": "2026-11-12T00:47:44",
   "authority": {
     "lane_owner": "bm-a",
-    "writer_machine": "bm-a",
-    "data_face_machine": "bm-a",
-    "declared_takeover": false,
-    "took_over_by": null,
-    "took_over_at": null,
-    "reason": null
+    "writer_machine": "bm-c",
+    "data_face_machine": "bm-c",
+    "declared_takeover": true,
+    "took_over_by": "bm-c",
+    "took_over_at": "2026-11-12T00:53:01",
+    "reason": "owner bm-a heartbeat silent 23.6h >= 120min"
   }
 }
