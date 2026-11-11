@@ -43,8 +43,8 @@
  "n_above_money": 4,
  "the_size_in_force_is_the_floor": false,
  "the_size_in_force_is_the_ceiling": false,
- "verdict": "IDENTITY_BROKEN",
- "sentence": "a ruler disagrees with a published number (window_recomputed_matches_receipt); the table is not evidence until that is resolved",
+ "verdict": "SIZE_IS_A_RULER_CHOICE",
+ "sentence": "the same rule priced on the same panel lands between k=0.343508 and k=0.747086 (40.36pp of range, widest mover=window +35.40pp); the money sits inside that range at k=0.393073 -- 1 readings below it, 4 above it, floor CNY 343,508 against CNY 393,073 deployed",
  "face": "etf_book_size_rulers_decision",
  "evidence_cutoff": "2026-11-11",
  "ticket_file": "TICKET-2026-11-11.json",
@@ -117,18 +117,16 @@
   "expanding_beta_at_decision_bar_reproduced": true,
   "ticket_k_reproduced": true,
   "ticket_book_amount_is_k_times_nav_minus_lots": true,
-  "window_recomputed_matches_receipt": false,
+  "window_recomputed_matches_receipt": true,
   "graded_k_reproduces_split_receipt": true
  },
- "identity_broken": [
-  "window_recomputed_matches_receipt"
- ],
+ "identity_broken": [],
  "prereg_requirements": [
   "1. fix the ruler before looking: which window (common vs full) and which universe (all vs graded) is the declared measurement universe",
   "2. fix the denominator rule (path beta, or static mix divided by covered weight) and forbid mixing the two inside one table",
   "3. if the declared size is the floor rather than the ceiling, sign the risk budget it implies (target 0.20 is a budget, not an optimum -- r1447)",
   "4. carry the chosen size into the 2026-11-11 ticket and print the three unused readings next to it so the choice stays visible"
  ],
- "elapsed_sec": 56.9,
- "generated": "2026-11-11T16:52:28+0800"
+ "elapsed_sec": 58.1,
+ "generated": "2026-11-11T17:00:02+0800"
 }
