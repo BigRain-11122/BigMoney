@@ -50,9 +50,19 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORPUS_FILES = ["knowledge/METHODOLOGY_ASSETS.md"]
 CORPUS_GLOBS = [("research/digests", ".md")]
 
-# Control characters that must never appear in a card/digest body. Tab, LF and
-# CR are ordinary text structure and stay legal.
-CTRL = [c for c in range(0x20) if c not in (0x09, 0x0A, 0x0D)] + [0x7F]
+# Control characters that must never appear in a card/digest body. LF and CR are
+# ordinary text structure and stay legal.
+#
+# THIRD CLASS (r1551 bm-c): tab USED TO BE LEGAL HERE and it cost two sites in one
+# week -- `／\thin` printed as `／<TAB>hin` (E543, the word "thin" lost its t) and
+# `：\tail_mismatch` printed as `：<TAB>ail_mismatch` in DIGEST-20261126-r1265. The
+# escape `\t` eats the letter behind it exactly like `\b`/`\a`/`\e`, and it leaves a
+# character this rule used to call structure. Checked before tightening: the corpus
+# held exactly these two tabs out of 543 files -- in a ledger whose tables are all
+# pipes and spaces, a tab has never been structure. So the rule is now "no tab" --
+# simpler than asking whether a tab sits between two letters, which would have missed
+# both real sites (each follows a fullwidth/CJK punctuation mark, not a letter).
+CTRL = [c for c in range(0x20) if c not in (0x0A, 0x0D)] + [0x7F]
 
 # SECOND CLASS (r1235 bm-a): the table below can only repair what still carries
 # a control character. A line that ENDED WITH A BACKSLASH followed by a path
@@ -366,9 +376,17 @@ def selftest():
         os.makedirs(os.path.join(tmp, "research", "digests"))
         reg = os.path.join(tmp, CORPUS_FILES[0])
 
-        # L1 clean text is clean, tab/LF/CR stay legal
-        _write(reg, "hello\tworld\r\nok\n")
-        leg("L1 clean text passes (tab/CR/LF legal)", findings(tmp) == [])
+        # L1 clean text is clean, LF/CR stay legal
+        _write(reg, "hello world\r\nok\n")
+        leg("L1 clean text passes (CR/LF legal)", findings(tmp) == [])
+
+        # L1b a tab is a control character now: it is what an eaten `\t` leaves
+        # behind, and the two real sites both read as plausible words (`hin`,
+        # `ail_mismatch`) -- no shape test would have caught them.
+        _write(reg, "／\thin（开了半日）\n")
+        f = findings(tmp)
+        leg("L1b an eaten tab is reported like any other control character",
+            len(f) == 1 and f[0]["byte"] == "0x09" and f[0]["line"] == 1)
 
         # L2 a stray control char is found with a line number
         _write(reg, "a\nb\x07c\n")

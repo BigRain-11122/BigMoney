@@ -17,7 +17,7 @@ Tools/s6_chain_bmc.py 的腿表里，汇总板在第 42 行，它汇总的十条
 
 ## 验证
 - python Tools/s6_chain_bma.py 1265 --only=data_lane_freshness_close → rc0，verdict=host_down counts={'retired':1,'unverifiable':4,'in_sync':5}
-- 独立复算 data_lane_freshness.audit(calendar, now) vs 已发布面：	ail_mismatch=[]，expected=2026-11-06 两侧一致
+- 独立复算 data_lane_freshness.audit(calendar, now) vs 已发布面：逐车道差异列表为空，expected=2026-11-06 两侧一致
 - 同轮顺带修复三条「下游真人面没跟着重生」的红（r1262 同族）：gpu_face apply / lane_ownership_declaration run / daily_report run / monitor.build_status
 
 ## 可复用的一句话
