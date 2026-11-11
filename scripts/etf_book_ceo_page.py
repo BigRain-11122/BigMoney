@@ -347,6 +347,82 @@ def ticket_days_block(td):
     return L
 
 
+def card_days_of(page, root=None):
+    """Walk the page's own `sources.card` path and read the two days off THAT file (r1542).
+
+    r1541 taught the page to re-read the ticket a reader is about to open. The card is the
+    third paper and still travelled only as a boolean inside `priced_faces`, which asked it
+    for its PRICING day and nothing else -- a card priced on today's bar while its numbers
+    are cut a session earlier would stand beside the other two papers carrying SAME_DAY.
+
+    Three answers, and a file that cannot be opened is UNREADABLE -- never agreement:
+      AGREE           -- the card the page names writes the same two days the page prints.
+      DIFFERENT_DAYS  -- the card is another world (a later bar, an earlier cut).
+      UNREADABLE      -- the path does not resolve or carries no such day.
+    """
+    root = ROOT if root is None else root
+    rel = ((page.get("sources") or {}).get("card") or "") if isinstance(page, dict) else ""
+    shown = str(rel).replace("\\", "/") if rel else None
+    doc, why = None, None
+    if not rel:
+        why = "the page names no card file"
+    else:
+        cand = rel if os.path.isabs(rel) else os.path.join(root, rel)
+        try:
+            with open(cand, "r", encoding="utf-8") as fh:
+                doc = json.load(fh) or {}
+        except OSError as exc:
+            why = "cannot open %s (%s)" % (shown, exc.__class__.__name__)
+        except ValueError as exc:
+            why = "%s is not JSON (%s)" % (shown, str(exc)[:80])
+    if doc is None:
+        return {"file": shown, "priced_bar": None, "evidence_cutoff": None,
+                "verdict": "UNREADABLE", "detail": why,
+                "rows": [], "unreadable": [why or "card"], "agree": None,
+                "days": None}
+    try:
+        import etf_book_production as _P
+        days = _P.card_days(doc)
+        cmp_ = _P.compare_days(page, days, "page", "card")
+    except Exception as exc:                                    # noqa: BLE001
+        return {"file": shown, "priced_bar": None, "evidence_cutoff": None,
+                "verdict": "UNREADABLE", "detail": "reader failed (%s)" % str(exc)[:120],
+                "rows": [], "unreadable": ["reader"], "agree": None, "days": None}
+    out = dict(cmp_)
+    out.update({"file": shown, "priced_bar": days.get("priced_bar"),
+                "evidence_cutoff": days.get("evidence_cutoff"),
+                "priced_source": days.get("priced_source"),
+                "days": days})
+    return out
+
+
+def card_days_block(cd):
+    """The lines the page prints about the card's two days (r1542)."""
+    cd = cd or {}
+    if not cd:
+        return []
+    L = []
+    f = cd.get("file") or "（页面没写卡片路径）"
+    days = cd.get("days") or {}
+    verdict = cd.get("verdict")
+    if verdict == "UNREADABLE":
+        L.append("**顺着卡片链接，读不出来。** %s —— 这一页不能替你保证那张卡片和它同一天。"
+                 % (cd.get("detail") or ""))
+        return L
+    L.append("**这张卡片（`%s`）自己写的是：定价 %s / 数字算到 %s。**"
+             % (f, cd.get("priced_bar") or "没写", cd.get("evidence_cutoff") or "没写"))
+    if verdict == "AGREE":
+        L.append("- 和这一页的两个日子**对得上** —— 卡片和这页是同一套价、同一套数。")
+    elif verdict == "DIFFERENT_DAYS":
+        L.append("- **和这一页对不上**：%s。卡片是另一个世界里的数，别把两张纸混着读。"
+                 % (cd.get("detail") or ""))
+    else:
+        L.append("- 有一边缺日子，所以只能说「读不出」，不能说「一致」。")
+    if days.get("verdict") == "PRICED_AFTER_CUT":
+        L.append("- 卡片内部也对不上：%s" % days.get("detail"))
+    return L
+
+
 def family_coherence():
     """Whether the width family behind this page's name count was one measurement (r1184).
 
@@ -5004,6 +5080,7 @@ def build(with_stress=False, window_label=None):
         ],
     }
     page["ticket_days"] = ticket_days_of(page)
+    page["card_days"] = card_days_of(page)
     page["today_action"] = today_action(page)
     page["bets"] = bets_face()
     page["family_coherence"] = family_coherence()
@@ -6030,6 +6107,10 @@ def render_md(p):
     # read the days off the file a reader is about to open.
     for _td_line in ticket_days_block(p.get("ticket_days") or {}):
         add(_td_line)
+    # r1542: the card is the third paper; it was only ever asked for its pricing day, so a
+    # card whose data cut drifted from its prices still rode along on the SAME_DAY boolean.
+    for _cd_line in card_days_block(p.get("card_days") or {}):
+        add(_cd_line)
     add("")
     _auth = p.get("authority") or {}
     if _auth.get("took_over"):
@@ -8303,6 +8384,49 @@ def selftest():
     _md_diff = "\n".join(ticket_days_block(_td_next))
     chk("L189 page: the link section says 'agree', 'a different world' or 'unreadable'",
         "对得上" in _md_same and "读不出来" in _md_gone and "对不上" in _md_diff)
+    # L190-L195 (r1542): the card is the third paper. It was only ever asked for its PRICING
+    # day (`priced_faces`), while its data cut sits on the top level -- so a card priced on
+    # today's bar with numbers cut a session earlier still rode along on SAME_DAY.
+    def _w_card(name, doc):
+        with open(os.path.join(_tk_root, name), "w", encoding="utf-8") as fh:
+            json.dump(doc, fh)
+
+    _w_card("c_same.json", {"evidence_cutoff": "2026-11-10",
+                            "sheet": {"as_of_bar": "2026-11-10",
+                                      "book_decided_at": "2026-10-14"}})
+    _cd_same = card_days_of({"priced_bar": "2026-11-10", "evidence_cutoff": "2026-11-10",
+                             "sources": {"card": "c_same.json"}}, root=_tk_root)
+    chk("L190 card link: the named card writes the page's two days -> AGREE",
+        _cd_same.get("verdict") == "AGREE"
+        and _cd_same.get("priced_source") == "sheet.as_of_bar",
+        str(_cd_same.get("detail"))[:60])
+    _w_card("c_old.json", {"evidence_cutoff": "2026-11-07",
+                           "sheet": {"as_of_bar": "2026-11-07"}})
+    _cd_old = card_days_of({"priced_bar": "2026-11-10", "evidence_cutoff": "2026-11-10",
+                            "sources": {"card": "c_old.json"}}, root=_tk_root)
+    chk("L191 card link: a card a session behind -> DIFFERENT_DAYS naming both days",
+        _cd_old.get("verdict") == "DIFFERENT_DAYS"
+        and "2026-11-07" in str(_cd_old.get("detail")), str(_cd_old.get("detail"))[:80])
+    _w_card("c_future.json", {"evidence_cutoff": "2026-11-07",
+                              "sheet": {"as_of_bar": "2026-11-10"}})
+    _cd_future = card_days_of({"priced_bar": "2026-11-10", "evidence_cutoff": "2026-11-07",
+                               "sources": {"card": "c_future.json"}}, root=_tk_root)
+    chk("L192 card: priced off its own numbers' future is PRICED_AFTER_CUT, not a pass",
+        ((_cd_future.get("days") or {}).get("verdict")) == "PRICED_AFTER_CUT",
+        str((_cd_future.get("days") or {}).get("detail"))[:70])
+    _cd_gone = card_days_of({"priced_bar": "2026-11-10", "evidence_cutoff": "2026-11-10",
+                             "sources": {"card": "c_nope.json"}}, root=_tk_root)
+    chk("L193 card link: a missing file reads UNREADABLE, never agreement",
+        _cd_gone.get("verdict") == "UNREADABLE" and _cd_gone.get("agree") is None,
+        str(_cd_gone.get("detail"))[:60])
+    _cd_nopath = card_days_of({"priced_bar": "2026-11-10", "sources": {}}, root=_tk_root)
+    chk("L194 card link: a page that names no card file cannot be called consistent",
+        _cd_nopath.get("verdict") == "UNREADABLE")
+    _md_c_same = "\n".join(card_days_block(_cd_same))
+    _md_c_gone = "\n".join(card_days_block(_cd_gone))
+    _md_c_diff = "\n".join(card_days_block(_cd_old))
+    chk("L195 page: the card section says 'agree', 'a different world' or 'unreadable'",
+        "对得上" in _md_c_same and "读不出来" in _md_c_gone and "对不上" in _md_c_diff)
     shutil.rmtree(_tk_root, ignore_errors=True)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
@@ -8345,6 +8469,46 @@ def check_ticket_days():
     return 2
 
 
+def check_card_days():
+    """Does the card this page names carry the same two days the page prints? (r1542)
+
+    Same question as check_ticket_days, asked of the third paper. Read from the PUBLISHED
+    page artifact: what a reader of the paper on disk walks into when he follows its card
+    link. rc0 AGREE, rc1 DIFFERENT_DAYS (a card priced or cut on another day), rc2
+    UNREADABLE (no page artifact, or the named card carries no such day) -- an unopened
+    file is never agreement.
+    """
+    try:
+        with open(os.path.join(ROOT, "docs", "live_book", "latest.json"), "r",
+                  encoding="utf-8") as fh:
+            ptr = json.load(fh) or {}
+        rel = ptr.get("json") or ""
+        if not rel:
+            print("CHECK_UNREADABLE the page pointer names no json file")
+            return 2
+        with open(os.path.join(ROOT, rel), "r", encoding="utf-8") as fh:
+            doc = json.load(fh) or {}
+    except (OSError, ValueError) as exc:
+        print("CHECK_UNREADABLE no readable page artifact (%s)" % exc.__class__.__name__)
+        return 2
+    cd = card_days_of(doc)
+    days = cd.get("days") or {}
+    print("page %s | priced %s | cut %s" % (doc.get("generated_for_date") or "?",
+                                            doc.get("priced_bar") or "—",
+                                            doc.get("evidence_cutoff") or "—"))
+    print("card %s | priced %s (%s) | cut %s"
+          % (cd.get("file") or "—", cd.get("priced_bar") or "—",
+             days.get("priced_source") or "—", cd.get("evidence_cutoff") or "—"))
+    print("card-internal %s | %s" % (days.get("verdict") or "—",
+                                     days.get("detail") or ""))
+    print("verdict %s | %s" % (cd.get("verdict"), cd.get("detail") or ""))
+    if cd.get("verdict") == "AGREE":
+        return 0
+    if cd.get("verdict") == "DIFFERENT_DAYS":
+        return 1
+    return 2
+
+
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "run"
     if cmd == "run":
@@ -8353,5 +8517,7 @@ if __name__ == "__main__":
         raise SystemExit(selftest())
     if cmd == "check-ticket-days":
         raise SystemExit(check_ticket_days())
-    print("usage: etf_book_ceo_page.py [run|selftest|check-ticket-days]")
+    if cmd == "check-card-days":
+        raise SystemExit(check_card_days())
+    print("usage: etf_book_ceo_page.py [run|selftest|check-ticket-days|check-card-days]")
     raise SystemExit(2)

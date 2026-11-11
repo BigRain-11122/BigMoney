@@ -1010,6 +1010,14 @@ LEGS = [
     ("ceo_page_ticket_days",
      ["python", "scripts/etf_book_ceo_page.py", "check-ticket-days"],
      ["python", "scripts/etf_book_ceo_page.py", "run"]),
+    # r1542: the card is the third paper and it was only ever asked for its PRICING day, so a
+    # card priced on today's bar with numbers cut a session earlier still rode along on the
+    # SAME_DAY boolean. This leg walks the page's `sources.card` path and reads BOTH days off
+    # that file, so a card that fell behind says so (0.2s); the refresh is a page rebuild,
+    # which is a no-op on a host that is not the writer.
+    ("ceo_page_card_days",
+     ["python", "scripts/etf_book_ceo_page.py", "check-card-days"],
+     ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1533: the CEO page declares ONE bar at the top and every section below it carries its
     # own (2026-11-11: headline 2026-11-10, capital 11-09, entry gate 11-06, cost tape 10-30,
     # 19 sections with no date at all). A reader takes the headline for the whole page, and

@@ -310,6 +310,58 @@ def ticket_days(ticket):
             "missing": missing, "verdict": verdict, "detail": detail}
 
 
+def card_days(card):
+    """The days one card carries, each with the key that answered (r1542).
+
+    The card is the paper a reader opens first: `sheet.as_of_bar` says which closing bar its
+    prices come from, and the top-level `evidence_cutoff` says how far its numbers were
+    computed. r1185 asked the card for its PRICING day only and stopped there, so a card
+    whose data cut had drifted from the prices it quotes could still stand beside the other
+    two papers carrying `SAME_DAY` -- the same shape r1541 found on the ticket.
+
+    Three states, and a missing day is never agreement:
+      SELF_CONSISTENT  -- priced bar and data cut both present, and the price is not newer
+                          than the numbers it was computed from.
+      PRICED_AFTER_CUT -- the card says it was priced on a bar later than its own data cut:
+                          that pair cannot both be true (a price out of its numbers' future).
+      MISSING_DAY      -- one of the two days a page compares is absent.
+    """
+    d = card if isinstance(card, dict) else {}
+    sheet = d.get("sheet") if isinstance(d.get("sheet"), dict) else {}
+    priced, priced_src = None, None
+    for src, val in (("sheet.as_of_bar", sheet.get("as_of_bar")),
+                     ("priced_bar", d.get("priced_bar"))):
+        if val:
+            priced, priced_src = str(val)[:10], src
+            break
+    cutoff = d.get("evidence_cutoff")
+    cut = str(cutoff)[:10] if cutoff else None
+    decision = sheet.get("book_decided_at") or sheet.get("last_decision_bar")
+    missing = []
+    if not priced:
+        missing.append("priced_bar")
+    if not cut:
+        missing.append("evidence_cutoff")
+    if missing:
+        verdict = "MISSING_DAY"
+        detail = ("this card carries no %s -- a page cannot be checked against it"
+                  % ", ".join(missing))
+    elif priced > cut:
+        verdict = "PRICED_AFTER_CUT"
+        detail = ("the card is priced on the %s bar but its numbers are cut at %s -- "
+                  "a price out of its own numbers' future" % (priced, cut))
+    else:
+        verdict = "SELF_CONSISTENT"
+        detail = ("priced %s, data cut %s, decided %s"
+                  % (priced, cut, (str(decision)[:10] if decision else "—")))
+    return {"priced_bar": priced, "priced_source": priced_src,
+            "evidence_cutoff": cut,
+            "evidence_cutoff_source": "evidence_cutoff" if cut else None,
+            "decision_bar": str(decision)[:10] if decision else None,
+            "is_grid_decision_bar": sheet.get("is_grid_decision_bar"),
+            "missing": missing, "verdict": verdict, "detail": detail}
+
+
 def compare_days(a, b, a_name="page", b_name="ticket"):
     """Do two papers carry the same two days? (r1541)
 
@@ -2685,6 +2737,44 @@ def selftest():
     chk("two papers: an unreadable side is UNREADABLE, not agreement",
         _cmp_none["verdict"] == "UNREADABLE"
         and "ticket.priced_bar" in _cmp_none["unreadable"], str(_cmp_none))
+
+    # 10i-d (r1542): the card is the third paper and it was only ever asked for its PRICING
+    # day. Its data cut lives on the top-level `evidence_cutoff` while the price lives in
+    # `sheet.as_of_bar`, so a reader asking the card for one day learns nothing about the
+    # other -- and a card priced off its own numbers' future must not read as consistent.
+    _cd_full = card_days({"evidence_cutoff": "2026-11-10",
+                          "sheet": {"as_of_bar": "2026-11-10",
+                                    "book_decided_at": "2026-10-14",
+                                    "is_grid_decision_bar": False}})
+    chk("card days: the price is read from sheet.as_of_bar and the cut from the top level",
+        _cd_full["priced_bar"] == "2026-11-10"
+        and _cd_full["priced_source"] == "sheet.as_of_bar"
+        and _cd_full["evidence_cutoff"] == "2026-11-10"
+        and _cd_full["verdict"] == "SELF_CONSISTENT", str(_cd_full["detail"])[:80])
+    chk("card days: a HOLD card decides on an older bar than it is priced on, and says so",
+        _cd_full["decision_bar"] == "2026-10-14"
+        and _cd_full["is_grid_decision_bar"] is False, str(_cd_full["decision_bar"]))
+    _cd_future = card_days({"evidence_cutoff": "2026-11-07",
+                            "sheet": {"as_of_bar": "2026-11-10"}})
+    chk("card days: priced on a bar later than its own data cut is named, not smoothed",
+        _cd_future["verdict"] == "PRICED_AFTER_CUT"
+        and "2026-11-10" in _cd_future["detail"] and "2026-11-07" in _cd_future["detail"],
+        str(_cd_future["detail"])[:80])
+    _cd_missing = card_days({"sheet": {"as_of_bar": "2026-11-10"}})
+    chk("card days: no data cut -> MISSING_DAY, never a pass",
+        _cd_missing["verdict"] == "MISSING_DAY"
+        and _cd_missing["missing"] == ["evidence_cutoff"], str(_cd_missing)[:90])
+    _cmp_card = compare_days(_pg, _cd_full, "page", "card")
+    chk("card vs page: same two days -> AGREE (the third paper is checked, not assumed)",
+        _cmp_card["verdict"] == "AGREE" and _cmp_card["agree"] is True,
+        str(_cmp_card["detail"])[:70])
+    _cmp_card_off = compare_days(_pg, card_days({"evidence_cutoff": "2026-11-10",
+                                                 "sheet": {"as_of_bar": "2026-11-07"}}),
+                                 "page", "card")
+    chk("card vs page: a card one bar behind -> DIFFERENT_DAYS naming the field",
+        _cmp_card_off["verdict"] == "DIFFERENT_DAYS"
+        and "priced_bar 2026-11-10 vs 2026-11-07" in _cmp_card_off["detail"],
+        str(_cmp_card_off["detail"])[:90])
 
     # 10j. the card says which questions its own numbers already answered (r1228). The roll-up
     #      may only say "closed" when every case face read AND none carried an admissible arm;

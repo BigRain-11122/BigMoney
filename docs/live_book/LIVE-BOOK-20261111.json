@@ -555,7 +555,7 @@
   ],
   "unreadable": [],
   "agree": true,
-  "file": "results\\etf_book_order\\TICKET-2026-11-10.json",
+  "file": "results/etf_book_order/TICKET-2026-11-10.json",
   "priced_bar": "2026-11-10",
   "evidence_cutoff": "2026-11-10",
   "priced_source": "reprice.priced_bar",
@@ -569,6 +569,41 @@
    "missing": [],
    "verdict": "SELF_CONSISTENT",
    "detail": "priced 2026-11-10, data cut 2026-11-10, session 2026-11-10"
+  }
+ },
+ "card_days": {
+  "verdict": "AGREE",
+  "detail": "both papers write priced 2026-11-10 and data cut 2026-11-10",
+  "rows": [
+   {
+    "field": "priced_bar",
+    "page": "2026-11-10",
+    "card": "2026-11-10",
+    "same": true
+   },
+   {
+    "field": "evidence_cutoff",
+    "page": "2026-11-10",
+    "card": "2026-11-10",
+    "same": true
+   }
+  ],
+  "unreadable": [],
+  "agree": true,
+  "file": "results/etf_book_production/latest.json",
+  "priced_bar": "2026-11-10",
+  "evidence_cutoff": "2026-11-10",
+  "priced_source": "sheet.as_of_bar",
+  "days": {
+   "priced_bar": "2026-11-10",
+   "priced_source": "sheet.as_of_bar",
+   "evidence_cutoff": "2026-11-10",
+   "evidence_cutoff_source": "evidence_cutoff",
+   "decision_bar": "2026-10-14",
+   "is_grid_decision_bar": false,
+   "missing": [],
+   "verdict": "SELF_CONSISTENT",
+   "detail": "priced 2026-11-10, data cut 2026-11-10, decided 2026-10-14"
   }
  },
  "today_action": {
@@ -6677,8 +6712,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 7.1,
+  "owner_silent_h": 7.5,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 7.1 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 7.5 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

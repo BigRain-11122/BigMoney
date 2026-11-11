@@ -12922,3 +12922,26 @@ S6 腿 `live_book_section_bars`（check+run，0.3s）· smoke 两条新腿（逐
 3. 读不到的文件永远不能读成「一致」：UNREADABLE 是第三种状态，不是失败也不是通过。
 
 **证据**：`scripts/etf_book_production.py` selftest 全过（新增 10i-c 七腿：reprice 取名 / 无 reprice 回落命名 / 被重定价点名 / 缺截止日 MISSING_DAY / AGREE / DIFFERENT 双字段点名 / UNREADABLE）· `scripts/etf_book_ceo_page.py` selftest **207/207**（L185-L189；变异腿：票面超前一根会话→DIFFERENT、文件缺席→UNREADABLE、页面不写路径→UNREADABLE）· 实弹 `check-ticket-days` → `page 2026-11-11 | priced 2026-11-10 | cut 2026-11-10` 对 `ticket TICKET-2026-11-10.json | priced 2026-11-10 | cut 2026-11-10`，`verdict AGREE` · S6 腿 `ceo_page_ticket_days` 1.1s rc0 · 页面重发布 `docs/live_book/LIVE-BOOK-20261111.md`（新增「这张单子自己写的是…」一行）。
+
+## E535 · 一致性 check 的字段集必须与每张纸实际携带的日期量对齐——只问一个字段，第三张纸就永远绿（r1542 bm-c）
+
+三张纸（卡片 / 票面 / CEO 页）从 r1185 起被放在一起比「是不是同一定价日」，结论是一个 boolean
+SAME_DAY。r1541 发现票面除了定价日还带着数据截止日，页面却只跟它比定价日；本轮把同样的问法
+交给第三张纸，答案是**卡片也只被问过定价日**：priced_faces._card() 读 sheet.as_of_bar 就返回了，
+而它的数据截止日写在**顶层** vidence_cutoff——a card priced on today's bar with numbers cut a
+session earlier 会带着 SAME_DAY 站在另外两张纸旁边。
+
+**根因不是某个人读错了键**（那是 E534），而是**覆盖面**：一致性判据的字段集是三张纸日期量的
+子集，缺的那一格没有任何腿会红。判据越像 boolean，越容易只覆盖一半。
+
+**正法**：读出每张纸的两个日子（card_days() / 	icket_days()，各带 source），再用同一个
+compare_days() 比四字段；三态 SELF_CONSISTENT / DIFFERENT_DAYS / UNREADABLE，缺日子一律不判一致。
+当一张纸自己也携带「价格 vs 数字」两量时，还可以在纸内判 PRICED_AFTER_CUT：定价 bar 晚于自己的
+数据截止日是一对不可能同时为真的日子（价格出在自己数字的未来）。
+
+**教训三条**：
+1. 「三张纸同一天」这句话要能红，必须先把**每张纸有几个日子**列出来；字段集对齐是前提，读法只是细节。
+2. 页内两量（price vs cut）与页间同量（page vs card）是**两种**检查，前者不能替代后者：前者恒自洽于建页时的同一份票面。
+3. 变异体要用**真实产物的副本**改一格，不要手写假对象——真实卡片改 vidence_cutoff 一格就同时命中页间 DIFFERENT_DAYS 与页内 PRICED_AFTER_CUT，这条双重捕获是手写夹具看不出来的。
+
+**证据**：scripts/etf_book_production.py 新增 card_days() + selftest 10i-d 六腿（sheet.as_of_bar 取名 / HOLD 决策日更早不判负 / PRICED_AFTER_CUT / MISSING_DAY / page↔card AGREE / 卡片落后一根 DIFFERENT_DAYS）· scripts/etf_book_ceo_page.py selftest **213/213**（L190-L195）· 实弹 check-card-days → card results/etf_book_production/latest.json | priced 2026-11-10 (sheet.as_of_bar) | cut 2026-11-10，erdict AGREE rc0 · 变异体（真实卡片 cut 改 11-07）→ DIFFERENT_DAYS + PRICED_AFTER_CUT · S6 腿 ceo_page_card_days 1.1s rc0 · 页面重发布含「这张卡片（…）自己写的是：定价 2026-11-10 / 数字算到 2026-11-10」。
