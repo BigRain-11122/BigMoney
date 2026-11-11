@@ -5267,6 +5267,27 @@ def render_md(p, sb=None):
             add("**今天不用动手。** 这套组合上一次定稿 **%s**，今天只是按新的收盘价（**%s**）把同一批权重重新算成份额——"
                 "清单里份额和金额的变化是价格漂移，不是新指令。下一个动手日是 **%s**。"
                 % (p["book_decided_at"], p["priced_bar"], p["next_rebalance_date"]))
+        # r1553: the reader's first paragraph is "rebalance day / wait for the close", and
+        # the one number that shapes tonight's decision lived 3,000 lines below. It is a
+        # different day's reading (the priced bar), so its date travels with the sentence.
+        _pl = p.get("premium_leak") or {}
+        _pl_own = _pl.get("own_ruler_summary") or {}
+        if _pl.get("status") == "ok" and (_pl_own.get("in_own_top_decile") or []):
+            _hot = _pl_own["in_own_top_decile"]
+            _own = _pl.get("own_ruler") or {}
+            _bits = ["%s %.1f 分位" % (c, (_own.get(c) or {}).get("last_pctile") or 0.0)
+                     for c in _hot]
+            _st = _pl.get("stress") or {}
+            add("")
+            add("**还有一件事要知道，和「今天动不动」是两件事：** 按 **%s** 的读数，这张单里可核验的 %d 只票"
+                "有 **%d 只**站在**各自历史**的最高一档溢价里（%s，样本 823/1,657/656 个交易日不等）；"
+                "把「溢价回到各自平常水平」当压力（不是预测），这批单要给出 **¥%s**（占资金 %.2f%%），"
+                "回到零是 ¥%s。数在下面「溢价」一节，这里只是不让你漏读。"
+                % (str(_pl.get("session"))[:10], _pl_own.get("n_readable") or 0, len(_hot),
+                   "、".join(_bits),
+                   format(abs(_st.get("if_premium_reverts_to_own_median_cny") or 0), ",.0f"),
+                   abs(_st.get("if_premium_reverts_to_own_median_pct_of_nav") or 0.0),
+                   format(abs(_st.get("if_premium_reverts_to_zero_cny") or 0), ",.0f")))
         if act.get("cost_if_retraded_pct_per_year") is not None:
             # r1216: the rate this line is compared against is the book's FULL-window
             # number. It used to be the ticket's 683-bar return, i.e. the very number the
