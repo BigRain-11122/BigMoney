@@ -5934,7 +5934,8 @@ def main() -> int:
                + "; ".join("%s:%d %s" % (h["path"], h["line"], h["byte"])
                            for h in _chits[:4]))[:220]
               if _chits else
-              "%d files scanned (tab/CR/LF stay legal)" % len(_cth.corpus()))
+              "%d files scanned (CR/LF stay legal; tab counts as a control character since r1551)"
+              % len(_cth.corpus()))
     except Exception as e:
         check("config: no card or digest carries a control character",
               False, repr(e)[:160])
