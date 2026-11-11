@@ -12970,3 +12970,16 @@ compare_days() 比四字段；三态 SELF_CONSISTENT / DIFFERENT_DAYS / UNREADAB
 2. 一条坑写进「如实披露」不等于被拦住：同一坑两轮内复发，说明缺的是命令级固化（把 `cat-file blob | sha256` 写成唯一路径），不是又一段解释。
 
 **证据**：`git cat-file blob origin/main:docs/decisions.md | sha256` = `2ffcc70c3dc6d105a6d9535752e59943f75ab90366b5fc6bf387e03857be8337`（275,587 B），与 `state-bm-c.json.last_decisions_sha` 同值；行数组口径 `b37a55ad` 为伪差异。本轮轮报告已就地更正，未改水位。
+
+## E538 页面自己命名的「下一个日子」可能就是这个日子 · 2026-11-11 r1544 bm-c
+
+**发现**：CEO 页开篇印「**今天不用动手。** … 下一个动手日是 **2026-11-11**」，而这张页本身就叫《今日 ETF 实盘单 —— 2026-11-11》——同一个早晨同时告诉读者「今天什么都不用做」和「今天就是动手日」。根因不是文案笔误：`today_action()` 只问「这根已定价的 bar 是不是决策 bar」（`priced_bar == book_decided_at`），而「下一个动手日」是日历算出来的**未来日期**；两者相等这件事从来没有被任何字段表达，于是整个 hold 分支（连同它下面「每天重下的代价」论证）在换仓当日仍然照抄。
+
+**正法**：让动作面把这两个日子显式对上——`trade_day_is_today = (generated_for_date == next_trade_date)`（缺任一面=False，未知不是「以后」），hold 分支据此分两支：今日换仓说「今天就是换仓日——等收盘，收盘后的新 bar 才是定价 bar，开盘前不要照这张清单下单」；否则维持原文案。同一个日子也钉在「下次换仓」行——`next_decision_bars` 是从**定价 bar** 数起的，换仓当天仍读「还有 1 个交易日」，与旁边的日期自相矛盾。
+
+**教训三条**：
+1. 「今天要不要动手」有两个完全不同的尺度：**已定价的 bar**（回看）与**下一个决策日**（日历）。任何一面单独成立时，读者都会把「这根 bar 不用动」读成「今天没事」。
+2. 夹具不能继承当日面板：用真页做夹具时它今天 mode=hold、明天同一份代码 mode=rebalance，腿会为错误的原因变红。必须冻结 hold 三面（`book_decided_at`/`priced_bar`/`forward.bars`）再覆盖页面日期。
+3. 变异体要打在被测的**产生链**上：第一版 L20c 手工把 flag 塞成 True，于是把 flag 恒 False 的变异体照样全绿——腿测的是渲染对 flag 的反应，不是 flag 是否被算出来。改成 `today_action(fixture)` 端到端后，同一变异体 2 腿红。
+
+**证据**：`etf_book_ceo_page.py selftest 221/221`（新增 L20b/L20c/L20d）· 变异体 A（flag 恒 False）219/221 rc=1、变异体 B（去掉日期对齐）220/221 rc=1 · 重发布 `docs/live_book/LIVE-BOOK-20261111.md` 第 6 行与第 252 行 · smoke 新腿 `product: the page never says 'nothing to do today' on the day it names as the rebalance`（从已发布 page json + md 双向比对）。

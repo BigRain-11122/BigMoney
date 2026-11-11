@@ -3613,6 +3613,24 @@ def main() -> int:
               f"mode={_mode} decided={_page.get('book_decided_at')} "
               f"priced={_page.get('priced_bar')} retrade_cost="
               f"{_ta.get('cost_if_retraded_pct_per_year')}%/yr")
+        # r1544: the day the page names as the next rebalance can BE the day the page is for.
+        # "nothing to do today" then describes the very morning the 20-bar window closes, so the
+        # flag and the sentence must move together -- both ways, read off the published page.
+        _lb_gen = str(_page.get("generated_for_date") or "")
+        _lb_md_p = os.path.join("docs", "live_book",
+                                "LIVE-BOOK-%s.md" % _lb_gen.replace("-", ""))
+        _lb_md_txt = (open(_lb_md_p, encoding="utf-8").read()
+                      if _lb_gen and os.path.exists(_lb_md_p) else "")
+        _tdt = bool(_ta.get("trade_day_is_today"))
+        _next_is_today = (str(_page.get("next_rebalance_date")) == _lb_gen)
+        _hold_world = (_mode == "hold")
+        _ok_tdt = (_tdt == _next_is_today
+                   and (not _lb_md_txt
+                        or (("今天就是换仓日" in _lb_md_txt) == (_tdt and _hold_world)
+                            and ("今天不用动手" in _lb_md_txt) == ((not _tdt) and _hold_world))))
+        check("product: the page never says 'nothing to do today' on the day it names as the rebalance",
+              _ok_tdt,
+              f"flag={_tdt} next={_page.get('next_rebalance_date')} page_date={_lb_gen}")
         # A page that only quotes the backtest's max drawdown answers "how bad was the
         # strategy's own path", not "how bad can this exact set of names get". Assert
         # the stress block exists, that each window's yuan is that window's own

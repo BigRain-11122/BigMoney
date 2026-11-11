@@ -4901,7 +4901,8 @@ def today_action(p):
     priced = p.get("priced_bar")
     holding = bool((p.get("forward") or {}).get("bars"))
     out = {"mode": "unknown", "holding": holding, "book_decided_at": decided,
-           "priced_bar": priced, "next_trade_date": None, "cost_if_retraded_pct_per_year": None,
+           "priced_bar": priced, "next_trade_date": None, "trade_day_is_today": False,
+           "cost_if_retraded_pct_per_year": None,
            "cost_basis": None}
     if not decided or not priced:
         return out
@@ -4911,6 +4912,13 @@ def today_action(p):
     else:
         out["mode"] = "hold" if holding else "open"
     out["next_trade_date"] = p.get("next_rebalance_date") if out["mode"] == "hold" else priced
+    # r1544: the "next trading day" the sheet names can BE the day this page is for. On that
+    # morning "do nothing today" reads as "nothing to do at all" -- the reader closes the page
+    # exactly when the 20-bar window ends and loses the rebalance. Name which day it is. A
+    # missing date face stays False: unknown is not "later".
+    _gen = p.get("generated_for_date")
+    out["trade_day_is_today"] = bool(_gen and out["next_trade_date"]
+                                     and str(_gen) == str(out["next_trade_date"]))
 
     # What chasing this list every session would cost, in percent of CAPITAL per year.
     # 2 sides x cost_bp on the book slice x a 250-session year -- an assumption, published.
@@ -5202,9 +5210,15 @@ def render_md(p, sb=None):
     act = p.get("today_action") or {"mode": "unknown"}
     mode = act.get("mode")
     if mode == "hold":
-        add("**今天不用动手。** 这套组合上一次定稿 **%s**，今天只是按新的收盘价（**%s**）把同一批权重重新算成份额——"
-            "清单里份额和金额的变化是价格漂移，不是新指令。下一个动手日是 **%s**。"
-            % (p["book_decided_at"], p["priced_bar"], p["next_rebalance_date"]))
+        if act.get("trade_day_is_today"):
+            add("**今天就是换仓日——等收盘。** 这套组合上一次定稿 **%s**，本页按 **%s** 的收盘价定价；"
+                "**%s 收盘后（15:00）**的新 bar 才是这次换仓的定价 bar，届时按同一套规则重算份额、"
+                "次日开盘成交。开盘前不要照下面这张清单下单——它是旧 bar 上的仓位，不是今天的指令。"
+                % (p["book_decided_at"], p["priced_bar"], p["next_rebalance_date"]))
+        else:
+            add("**今天不用动手。** 这套组合上一次定稿 **%s**，今天只是按新的收盘价（**%s**）把同一批权重重新算成份额——"
+                "清单里份额和金额的变化是价格漂移，不是新指令。下一个动手日是 **%s**。"
+                % (p["book_decided_at"], p["priced_bar"], p["next_rebalance_date"]))
         if act.get("cost_if_retraded_pct_per_year") is not None:
             # r1216: the rate this line is compared against is the book's FULL-window
             # number. It used to be the ticket's 683-bar return, i.e. the very number the
@@ -5214,11 +5228,14 @@ def render_md(p, sb=None):
                         .get("cagr_pct") if _wl_row.get("status") == "ok" else None)
             _cmp = ("这本账全窗回测的 %.2f%%/年" % _wl_full) if _wl_full is not None \
                 else "这本账回测的收益（全窗口径本期未发表）"
+            _tail = ("所以今天要动，但不是每天都跟着重下——纪律是「只在换仓日动」。"
+                     if act.get("trade_day_is_today")
+                     else "所以「今天不动」不是懒惰，是这条纪律的一部分。")
             add("")
             add("（照这份清单每天重下一遍的代价：单边 %s bp、进出两边、一年按 %d 个交易日、账内占比 %.1f%%，"
-                "一年约 **%.1f%% 的资本**——比%s还高。所以「今天不动」不是懒惰，是这条纪律的一部分。）"
+                "一年约 **%.1f%% 的资本**——比%s还高。%s）"
                 % (p.get("cost_bp_per_side"), TRADING_DAYS_PER_YEAR, (p.get("k_now") or 0.0) * 100,
-                   act["cost_if_retraded_pct_per_year"], _cmp))
+                   act["cost_if_retraded_pct_per_year"], _cmp, _tail))
     elif mode == "rebalance":
         add("**今天是换仓日。** 先卖掉不在清单里的，再按下面清单买：花 **¥%s**（占总资金 %.1f%%）买 %d 只 ETF，"
             "剩下的 **¥%s**（%.1f%%）放%s。"
@@ -5440,7 +5457,12 @@ def render_md(p, sb=None):
     add("- 定价用的收盘日：**%s**（数据状态 %s，滞后 %s 个交易日）"
         % (p["priced_bar"], p["feed_status"], p["feed_lag_days"]))
     add("- 这套组合上一次定稿：**%s**" % p["book_decided_at"])
-    add("- 下次换仓：**%s**（还有 %s 个交易日）" % (p["next_rebalance_date"], p["next_decision_bars"]))
+    # r1544: next_decision_bars counts bars from the PRICED bar, so on the rebalance morning it
+    # still reads "1 session left" next to a date that is today. Print the date's own reading.
+    if str(p.get("next_rebalance_date")) == str(p.get("generated_for_date")):
+        add("- 下次换仓：**%s**（就是今天，收盘后出新 bar 再算）" % p["next_rebalance_date"])
+    else:
+        add("- 下次换仓：**%s**（还有 %s 个交易日）" % (p["next_rebalance_date"], p["next_decision_bars"]))
     fwd = p["forward"]
     if fwd["nav"]:
         add("- 前向账本：起始 %s 净值 1.0000 -> %s 净值 **%.4f**（%+.2f%%），共 %d 个交易日"
@@ -6322,6 +6344,50 @@ def selftest():
     chk("L20 action: re-trade cost is 2 sides x bp x 250 x book share on capital",
         _hold["cost_if_retraded_pct_per_year"] == 20.0,
         "%s vs 20.0 (%s)" % (_hold["cost_if_retraded_pct_per_year"], _hold["cost_basis"]))
+
+    # 20b. r1544: the day named as "next trading day" can be the day the page is FOR, and
+    # "nothing to do today" then describes the morning of the rebalance. The flag says which
+    # of the two days it is; a missing page date is False (unknown is not "later").
+    _td = today_action(dict(_base, generated_for_date="2026-11-11"))
+    _td_far = today_action(dict(_base, generated_for_date="2026-11-05"))
+    _td_nogen = today_action(dict(_base))
+    chk("L20b action: next trading day == this page's date is flagged; a later day and a missing date are not",
+        _td["trade_day_is_today"] is True and _td_far["trade_day_is_today"] is False
+        and _td_nogen["trade_day_is_today"] is False,
+        "%s / %s / %s" % (_td["trade_day_is_today"], _td_far["trade_day_is_today"],
+                          _td_nogen["trade_day_is_today"]))
+    # ...and the two worlds must not share the sentence. Driven end to end on a frozen
+    # hold fixture (not the live page: tomorrow its own bars make it a rebalance day and a
+    # fixture that inherits that would go red for the wrong reason) -- the flag must come
+    # from today_action(), not from this test's own hand.
+    _fb = dict(page.get("forward") or {})
+    _fb["bars"] = int(_fb.get("bars") or 0) or 3
+    _hold_fx = dict(page, book_decided_at="2026-10-14", priced_bar="2026-11-10",
+                    next_rebalance_date="2026-11-11", forward=_fb)
+    _p_td = dict(_hold_fx, generated_for_date="2026-11-11")
+    _p_td["today_action"] = today_action(_p_td)
+    _p_far = dict(_hold_fx, generated_for_date="2026-11-05")
+    _p_far["today_action"] = today_action(_p_far)
+    _md_td = render_md(_p_td)
+    _md_far = render_md(_p_far)
+    chk("L20c render: the rebalance morning says which day it is and never says 'nothing to do today'",
+        _p_td["today_action"]["mode"] == "hold"
+        and _p_td["today_action"]["trade_day_is_today"] is True
+        and "今天就是换仓日" in _md_td and "今天不用动手" not in _md_td
+        and "今天不用动手" in _md_far and "今天就是换仓日" not in _md_far,
+        "mode=%s flagged=%s far_says_nothing=%s"
+        % (_p_td["today_action"]["mode"], _p_td["today_action"]["trade_day_is_today"],
+           "今天不用动手" in _md_far))
+    # ...and the "next rebalance" line agrees with the same day face instead of counting
+    # 1 bar from the priced bar on the morning that bar is due.
+    _md_zero = render_md(dict(page, generated_for_date=page.get("next_rebalance_date")))
+    _zline = ""
+    for _ln in _md_zero.split("\n"):
+        if "下次换仓" in _ln:
+            _zline = _ln
+            break
+    chk("L20d render: a next-rebalance date equal to the page date reads as today, not 'N sessions left'",
+        "就是今天" in _zline and "个交易日" not in _zline, _zline)
 
     # 21. the LIVE page's own action line must agree with its own two dates and ledger
     _la = page["today_action"]
