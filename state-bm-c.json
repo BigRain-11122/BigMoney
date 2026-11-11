@@ -1054,22 +1054,23 @@
  "sync": {
   "ahead_origin": 0,
   "behind_origin": 0,
-  "commit": "54935944fd",
+  "commit": "39ac5a8e11",
   "landed_on": "origin/main",
   "local_unreached_commits": 0,
-  "origin_tip": "54935944fd",
-  "ts": "2026-11-11T13:12:00+08:00"
+  "origin_tip": "39ac5a8e11",
+  "ts": "2026-11-11T14:35:16+08:00"
  },
  "task": "next: the one-session read says waiting has no edge, but the 20-session face is MIXED -- name which horizon the order is actually exposed to (it holds 20 bars), and re-print both reads on the 2026-11-11 close bar",
  "total_ram_gb": 23.9,
- "ts": "2026-11-11T14:10:15+08:00",
+ "ts": "2026-11-11T14:35:16+08:00",
  "updated": "2026-11-11T13:00:19",
- "updated_at": "2026-11-11T14:10:15+08:00",
+ "updated_at": "2026-11-11T14:35:16+08:00",
  "verdict": "PRODUCT: the order could only ever wait one session, and that horizon had never been measured -- at the 98th percentile of a fund's own history the next session's median price move is +0.00% and it falls in 49% of 326 cases",
  "verify": "premium_forward selftest 37/37 + check OK (3 horizons, 5 legs) + etf_book_order selftest 158/158 + real card-ticket render (three in-band legs printed, two off-band legs not invented)",
  "verify_smoke_closed": "previous window's suite closed 546/547 with one red (live_book_section_bars stale face) -- refreshed this round, check now CHECK_OK rc0",
  "vram_free_gb": 14.5,
  "watermark_verdict": "verdict=py_low_board_clear (cpu 6-10%, py 0-0.1%, no claimable batch)",
  "round_t1554_note": "| 2026-11-11 14:20-15:2x | 1554 | **PRODUCT（产品优先律）：订单能选的等待只有一个会话，而这个尺度从来没有被量过。** r1553 把「今天买还是等一个会话」留成悬案，前向面只量 5 日/20 日，且 TOP≥90 的十分位桶把今天这三只（98.8–99.9 分位）和 90–95 的样本混在一起。本轮在同一生产者里补两件：①尾部细档 P95_98 [95,98) 与 P98P [98,+inf)（逐腿+池化）；②horizon=1 的价格前向，并给出中位与下跌占比（均值分不开 51% 小跌与 90% 跌+10% 大赚）。**读数**：池化 P98P n=326 中位 +0.00%、均值 -0.04%、下跌 49% → 判词 NO_READ；逐腿 159501@99.9 n=167 中位 +0.00%/49%、513100@98.9 n=68 -0.28%/54%、159577@98.9 n=48 -0.30%/56%；池化 P95_98 n=281 中位 +0.00%/49%。结论一句话：**「等一天让溢价回落」在这些基金自己的记录里没有优势**——本单最大的一只恰好是 0.00%，两只偏负的只有 48/68 个会话、下跌占比 54–56%。**落到订单面**：premium_read 新增 fwd_defer_* 四键（verdict/band/sentence/rows），ORDER 页「溢价读数」节多一段逐腿表（今日分位/该档下一会话涨跌中位/下跌占比/n），缺档写「还没被观察到」而不是「没差别」。**验证**：premium_forward selftest **37/37**（新增 L27–L37：尾档半开边界、「下一会话下跌→WAITING_PAID」与镜像、低于地板→NO_READ、池化计数==各腿之和、判词在词表内）· `check` OK（新臂：逐档 n/mean/share_down 重算 + 池化 n 守恒 + 判词重算 + 页面必须印出池化下跌占比）· etf_book_order selftest **158/158** 无回归 · 真实卡票渲染实测（TICKET-2026-11-10-card.json：159501 99.9 / 513100 98.9 / 159577 98.9 三行齐出、159263 与 513690 不在档内不造假行）。**S0.5**：Tools/s05_probe.py orders_delta=false / decisions_delta=false / unacked=[]。**S7**：loop pin=5 no-op、watchdog 在役（下次 14:34·仅交互登录态）、两爪 LF 归一重装、attrition 4 账本 **CLEAN**（2 处历史缩行 healed）。孤儿面 py_faces=1 **orphans=0** 零杀。**未验证（如实）**：全量套件 14:20 起的这份在收轮时仍在飞（157 行、0 真 FAIL），且它加载的是本轮改动**之前**的模块，本轮改件以 selftest 37/37 + check OK + 158/158 + 真票渲染为准。 |",
- "round_t1554_next": "next: the one-session read says waiting has no edge, but the 20-session face is MIXED -- name which horizon the order is actually exposed to (it holds 20 bars), and re-print both reads on the 2026-11-11 close bar"
+ "round_t1554_next": "next: the one-session read says waiting has no edge, but the 20-session face is MIXED -- name which horizon the order is actually exposed to (it holds 20 bars), and re-print both reads on the 2026-11-11 close bar",
+ "round_t1554_addendum": "| 2026-11-11 15:3x | 1554b | **ADDENDUM（收尾）：送达与两扫。** 轮提交 **39ac5a8e11** 已落 origin/main（91fef81854..39ac5a8e11，7 件 +793/-83），fetch 后 **0 ahead / 0 behind**（本地未达 origin commit 数=0），`git ls-tree origin/main` 见新 blob **487da9a79c**。**S0.5 二扫**：`Tools/s05_probe.py` orders_delta=false / decisions_delta=false / unacked=[]；`fleet/orders/` 114/114 全在心跳 `orders_ack`（241 条，写心跳前后一致）。**未验证（如实）**：全量套件 14:20 起的这份仍在飞（收轮时 319 行、0 真 FAIL，且加载的是改动前模块），本轮改件以 selftest 37/37 + check OK + 158/158 + 真卡票渲染为据。 |"
 }
