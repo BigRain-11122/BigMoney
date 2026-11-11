@@ -798,3 +798,20 @@ ls-remote == HEAD；**origin/main 未推**——领先 31 / 落后 40，promisor
 **未接链（如实记）**：前向行还没印到 ORDER 页/票面（只到 results/）；全量 smoke 未跑（492 腿，
 本轮只执行新腿与其目标）。
 **下一步（≤48h）**：把这条前向行切到票面 5 腿（ticket JSON + ORDER 页），下单人不必翻 results/。
+
+## 5x checkpoint -- bm-c r1570 (2026-11-12 07:1x)
+
+**本轮实物**：`scripts/etf_book_order.py` 的准入判决节（单相位判决 + 五相位面 + 逐面面板 bar）
++ `scripts/etf_book_year_gate.py::freshness()/check()`（官方日历判龄，stale=rc2 可买重建）
++ `scripts/candidate_year_gate_phases.py::check()`（与年度闸同面板四态）+ S6 两条带 refresh 的
+生产腿（探针 0.8s/0.7s）+ 卡 E557。
+
+**一句话读数**：执行单上并排的两个判决（单相位 ADMIT，距线 0.0005；五相位 UNADJUDICABLE_PHASE，
+spread 9.04pp > 距线 8.89pp）过去只有两个时钟、没有面板名 —— 读者无法分辨「书差」与「重建差」。
+今天把面板名钉进纸面，并给两张面各自补上生产者：没有生产者的面，检查得再勤也只会在旧条上打勾。
+
+**未接链（如实）**：全量 smoke 07:11 起后台在飞（`results/_r1570_smoke.out`），收轮时 87 腿
+0 FAIL、未收口；「准入」这一行还没进 CEO 页与会话首屏（当前只在执行单与 results/ 面）。
+
+**下一步（≤48h）**：把准入判决接进 `etf_book_ceo_page` 与 `build_status`，让开盘前那一眼就能看到
+「这本书能不能吃新钱」，而不是翻执行单。
