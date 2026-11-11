@@ -1,8 +1,8 @@
 {
-  "anchor_behind_bar": false,
+  "anchor_behind_bar": true,
   "anchor_session": "2026-11-10",
   "artifact": "etf_book_swap_track",
-  "bar": "2026-11-10",
+  "bar": "2026-11-11",
   "bars_per_year": 244.0,
   "big_scale_pp": 3.0,
   "caveats": [
@@ -12,111 +12,22 @@
     "an unmeasurable leg is refused with a reason, never scored as zero drift and never scored as zero noise (r1230 family)",
     "the concentration block prices the DIFFERENCE between one fund and two; it says nothing about either fund's tracking against its index, which needs NAV"
   ],
-  "evidence_cutoff": "2026-11-10",
+  "evidence_cutoff": "2026-11-11",
   "fee_scale_pp": 0.5,
-  "merge": {
-    "correlation": 0.4568,
-    "iid_upper_bound_pp": 1.841,
-    "invested_cny": 156947.0,
-    "legs": {
-      "159501": {
-        "sigma_pp": 2.187,
-        "weight": 0.199961
-      },
-      "513100": {
-        "sigma_pp": 2.248,
-        "weight": 0.199867
-      }
-    },
-    "sentence": "把 159501 与 513100 并成一只 159513 之后，风险腿里这一块从两只各 20.0% 变成一只 40.0%；两种拿法的**特有**波动差 0.76 pp/年（占风险腿），在 ¥156,947.00 上是 ¥1,188/年",
-    "sibling_symbol": "159513",
-    "sigma_diff_cny_per_year": 1187.62,
-    "sigma_diff_pp_per_year": 0.7567,
-    "verdict": "MERGED_INTO_ONE_FUND",
-    "weight_after": 0.3996,
-    "weight_before": {
-      "159501": 0.199961,
-      "513100": 0.199867
-    },
-    "weight_sum_before": 0.399828,
-    "why": ""
-  },
+  "merge": null,
   "min_sessions": 120,
   "nw_lag": 5,
   "power_z": 2.802,
   "refused": null,
-  "rows": [
-    {
-      "drift_cny_per_year": 2388.04,
-      "drift_pp_per_year": 3.0424,
-      "gap_today_pp": 7.0845,
-      "leg_symbol": "159501",
-      "mean_daily_pp": 0.012469,
-      "noise_iid_pp_per_year": 5.384,
-      "noise_scaled_pp_per_year": 2.187,
-      "notional_cny": 78492.0,
-      "se_cny_per_year": 1860.73,
-      "se_pp_per_year": 2.3706,
-      "sessions": 794,
-      "sibling_symbol": "159513",
-      "t_stat": 1.283,
-      "verdict": "NOT_DISTINGUISHABLE_FROM_ZERO",
-      "vr": {
-        "k120": 0.165,
-        "k20": 0.359,
-        "k5": 0.671,
-        "k60": 0.28
-      },
-      "why": "点估计 +3.04 pp/年，但一年标准误 2.37 pp 把它盖过去了（t=+1.28）：这个样本分不开「兄弟票每年贵几个 pp」与「没差别」"
-    },
-    {
-      "drift_cny_per_year": 2215.1,
-      "drift_pp_per_year": 2.8234,
-      "gap_today_pp": 5.0906,
-      "leg_symbol": "513100",
-      "mean_daily_pp": 0.011571,
-      "noise_iid_pp_per_year": 5.406,
-      "noise_scaled_pp_per_year": 2.248,
-      "notional_cny": 78455.0,
-      "se_cny_per_year": 1946.15,
-      "se_pp_per_year": 2.4806,
-      "sessions": 794,
-      "sibling_symbol": "159513",
-      "t_stat": 1.138,
-      "verdict": "NOT_DISTINGUISHABLE_FROM_ZERO",
-      "vr": {
-        "k120": 0.173,
-        "k20": 0.43,
-        "k5": 0.745,
-        "k60": 0.234
-      },
-      "why": "点估计 +2.82 pp/年，但一年标准误 2.48 pp 把它盖过去了（t=+1.14）：这个样本分不开「兄弟票每年贵几个 pp」与「没差别」"
-    }
-  ],
-  "sentence": "三张面都写着「跟踪差没有定价」。这一面把它定成了两个数：159501→159513 漂移 +3.04 pp（t=+1.28，一年标准误 +2.37 pp，方向是拿着兄弟票让出）；513100→159513 漂移 +2.82 pp（t=+1.14，一年标准误 +2.48 pp，方向是拿着兄弟票让出）；合计 ¥4,603/年，两条腿合起来的一年标准误 ¥3,807——点估计是站在「继续变贵」这一边，但标准误把它盖过去了，判**量不出来**（不是「没有成本」）。并成一只之后，单一基金特有波动多担 0.76 pp/年（占风险腿；¥1,188/年），而这张单省下的是入场折扣 ¥9,761.8——一个是一次性的价，一个是每年都在的波动。要分辨一条 0.5 pp/年的费率差，这个样本需要 159 年：这正是它答不了的题。",
-  "skipped": [
-    {
-      "leg_symbol": "159577",
-      "sibling_symbol": "513850",
-      "why": "这张单没有换出这只票：它的漂移不是这笔交易的成本"
-    }
-  ],
+  "rows": [],
+  "sentence": "这一单没有可测量的换票：换出的票没有足够的共同历史——这不是「跟踪差为零」的结论。",
+  "skipped": [],
   "sources": {
     "sibling_gap": "results/etf_book_sibling_gap.json",
     "swap_stack": "results/etf_book_swap_stack.json"
   },
   "t_reject": 2.0,
-  "totals": {
-    "drift_cny_per_year": 4603.14,
-    "gaining_legs": 0,
-    "losing_legs": 0,
-    "measured_legs": 2,
-    "notional_cny": 156947.0,
-    "se_cny_per_year": 3806.88,
-    "sessions_min": 794,
-    "undistinguishable_legs": 2
-  },
-  "verdict": "DRIFT_NOT_DISTINGUISHABLE_FROM_ZERO",
+  "verdict": "NOTHING_MEASURED",
   "vr_horizons": [
     5,
     20,

@@ -132,6 +132,15 @@ LEGS = [
     # once by hand and the panel then sat frozen at that Friday while every
     # downstream face kept computing on it. Runs after the five-member leg because
     # it is the wider face of the same session.
+    # r1556: tonight's session does not exist on the history face until tomorrow
+    # morning, so every face priced off this panel -- ticket, book NAV, CEO page --
+    # read yesterday's close from 15:30 until the next pull (the same gap r1511
+    # closed for the core-48). The batch quote face carries it minutes after the
+    # close; --quote-only is one request per 60 symbols and only walks the symbols
+    # still behind. It runs first so the full leg below either tops up history or
+    # returns fast on an already-current panel, never leaving the tail a day behind.
+    ("update_etf_wide_quote", ["python", "scripts/update_etf_wide.py",
+                               "--quote-only"]),
     ("update_etf_wide", ["python", "scripts/update_etf_wide.py", "run"]),
     # The production book's two live faces ride right behind the panel leg they read.
     # etf_book_forward appends one mark per new bar (idempotent; exit 3 freezes the

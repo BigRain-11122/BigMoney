@@ -1,7 +1,7 @@
 {
  "schema": "etf-book-card-track/v1",
- "ts": "2026-11-07T13:20:24",
- "evidence_cutoff": "2026-11-06",
+ "ts": "2026-11-10T19:34:29",
+ "evidence_cutoff": "2026-11-10",
  "card_path": "etf_book_production\\latest.json",
  "ledger_path": "etf_book_forward\\LEDGER.json",
  "agreement": {
@@ -45,7 +45,7 @@
   "decision_bar": "2026-10-14",
   "fill_bar": "2026-10-15",
   "seed_bar": "2026-10-23",
-  "last_bar": "2026-11-06",
+  "last_bar": "2026-11-10",
   "names": 12,
   "target_weight_each": 0.05839792,
   "cash_target": 0.299225,
@@ -64,41 +64,48 @@
    "159632": 0.057199
   },
   "weights_at_last": {
-   "159501": 0.056194,
-   "513100": 0.054986,
-   "513690": 0.06052,
-   "159577": 0.055885,
-   "159263": 0.059214,
-   "513630": 0.060213,
-   "513300": 0.054632,
-   "513850": 0.055599,
-   "159207": 0.061445,
-   "159307": 0.060515,
-   "513870": 0.055104,
-   "159632": 0.054647
+   "159501": 0.056705,
+   "513100": 0.055719,
+   "513690": 0.059987,
+   "159577": 0.05691,
+   "159263": 0.05813,
+   "513630": 0.05958,
+   "513300": 0.055988,
+   "513850": 0.056762,
+   "159207": 0.060549,
+   "159307": 0.059654,
+   "513870": 0.056363,
+   "159632": 0.055875
   },
-  "top_drift_pp": -0.3766,
-  "top_drift_name": "513300",
-  "max_abs_weight_drift_pp": 0.3766,
-  "drift_turnover_one_way": 0.021738,
-  "drift_cost_bp": 0.22,
-  "next_decision_bars": 3,
-  "panel_last": "2026-11-06",
-  "ledger_last": "2026-11-06",
-  "replay_last": "2026-11-06",
+  "top_drift_pp": -0.2679,
+  "top_drift_name": "513100",
+  "max_abs_weight_drift_pp": 0.2679,
+  "drift_turnover_one_way": 0.01473,
+  "drift_cost_bp": 0.15,
+  "next_decision_bars": 1,
+  "panel_last": "2026-11-10",
+  "ledger_last": "2026-11-10",
+  "replay_last": "2026-11-10",
   "bars_not_on_panel": [],
   "lag_on_panel_bars": 0,
   "nav_identity_max_dev": 3e-10,
   "nav_identity_ok": true,
-  "nav_buyhold_gap": 0.0001600991,
-  "nav_buyhold_gap_bp": 1.601,
-  "cum_carry_bars": 0.0001476585,
-  "bars_matched": 10,
+  "nav_buyhold_gap": 0.0008406671,
+  "nav_buyhold_gap_bp": 8.407,
+  "cum_carry_bars": 0.0001929658,
+  "bars_matched": 12,
   "identity_not_policed": [
-   "2026-11-06"
+   "2026-11-10"
   ],
+  "carry_coverage": {
+   "carry_last": "2026-11-09",
+   "bars_beyond_carry": [
+    "2026-11-10"
+   ],
+   "note": "bars beyond the repo ladder's last priced day are provisional: their cash leg is a forward-filled rate, so a NAV that disagrees with the re-derivation there measures the rate panel, not the book"
+  },
   "identity_not_policed_dev": {
-   "2026-11-06": 1e-10
+   "2026-11-10": 3e-10
   },
   "bars_withheld": [],
   "convention": "ledger books constant target weights every bar (costless implicit rebalance) + carry on the target cash fraction; a card follower holds drifting weights, so nav_buyhold_gap is the convention's own footprint"

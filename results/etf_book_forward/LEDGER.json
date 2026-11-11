@@ -141,7 +141,8 @@
    "n_held": 12,
    "filled": false,
    "turn": 0.0,
-   "provisional": true
+   "provisional": false,
+   "settled_at": "2026-11-11T16:03:05+0800"
   },
   {
    "bar": "2026-11-10",
@@ -153,37 +154,68 @@
    "filled": false,
    "turn": 0.0,
    "provisional": true
+  },
+  {
+   "bar": "2026-11-11",
+   "nav": 1.0160407434,
+   "dd": 0.0,
+   "cash": 0.299225,
+   "carry": 1.13268e-05,
+   "n_held": 12,
+   "filled": false,
+   "turn": 0.0,
+   "provisional": true
   }
  ],
- "books": {},
+ "books": {
+  "2026-11-11": {
+   "bar": "2026-11-11",
+   "scale": 0.909384,
+   "realised_vol_60d": 0.087972,
+   "names": [
+    "510760",
+    "512040",
+    "159655",
+    "513690",
+    "159519",
+    "513650",
+    "510210",
+    "562060",
+    "513630",
+    "159207",
+    "511180",
+    "513500"
+   ],
+   "turnover": 1.259772
+  }
+ },
  "book_in_force": {
-  "bar": "2026-10-14",
-  "scale": 0.700775,
-  "realised_vol_60d": 0.114159,
+  "bar": "2026-11-11",
+  "scale": 0.909384,
+  "realised_vol_60d": 0.087972,
   "names": [
-   "159501",
-   "513100",
+   "510760",
+   "512040",
+   "159655",
    "513690",
-   "159577",
-   "159263",
+   "159519",
+   "513650",
+   "510210",
+   "562060",
    "513630",
-   "513300",
-   "513850",
    "159207",
-   "159307",
-   "513870",
-   "159632"
+   "511180",
+   "513500"
   ],
-  "turnover": 1.067364
+  "turnover": 1.259772
  },
  "status": "live",
  "drift": {
   "faces": [],
   "max_abs": 0.0,
-  "checked_bars": 12,
+  "checked_bars": 13,
   "gate": "settled_bars_only",
   "settled_bars": [
-   "2026-10-26",
    "2026-10-27",
    "2026-10-28",
    "2026-10-29",
@@ -192,10 +224,11 @@
    "2026-11-03",
    "2026-11-04",
    "2026-11-05",
-   "2026-11-06"
+   "2026-11-06",
+   "2026-11-09"
   ],
   "provisional_bars": [
-   "2026-11-09"
+   "2026-11-10"
   ],
   "carry_last_bar": "2026-11-10",
   "settled_faces": [],
@@ -226,11 +259,6 @@
   }
  ],
  "runs": [
-  {
-   "ts": "2026-10-26T03:14:01+0800",
-   "new_bars": 0,
-   "last_bar": "2026-10-23"
-  },
   {
    "ts": "2026-10-26T04:14:42+0800",
    "new_bars": 0,
@@ -425,15 +453,20 @@
    "ts": "2026-11-11T00:51:24+0800",
    "new_bars": 1,
    "last_bar": "2026-11-10"
+  },
+  {
+   "ts": "2026-11-11T16:03:07+0800",
+   "new_bars": 1,
+   "last_bar": "2026-11-11"
   }
  ],
  "panel": {
-  "n_instruments": 1625,
+  "n_instruments": 1626,
   "flips_repaired": 169,
-  "digest": "c283703b28c892f5",
-  "bars_named": 5277,
+  "digest": "847538eb2befb766",
+  "bars_named": 5278,
   "first_bar": "2005-02-23",
-  "last_bar": "2026-11-10",
+  "last_bar": "2026-11-11",
   "covers": [
    "close",
    "open",
@@ -560,6 +593,13 @@
     "filled": false,
     "book_nav": 1.0119022178,
     "excess": 0.0111733143
+   },
+   {
+    "bar": "2026-11-11",
+    "nav": 1.000832789,
+    "filled": false,
+    "book_nav": 1.0160407434,
+    "excess": 0.0151952999
    }
   ],
   "rebalance_friction": {
@@ -569,34 +609,34 @@
   },
   "decisions": 83,
   "latest": {
-   "bar": "2026-11-10",
-   "book_nav": 1.0119022178,
-   "basket_nav": 1.0007208492,
-   "excess_pp": 1.1173
+   "bar": "2026-11-11",
+   "book_nav": 1.0160407434,
+   "basket_nav": 1.000832789,
+   "excess_pp": 1.5195
   },
   "significance": {
    "available": true,
-   "bars_used": 1659,
-   "windows": "2020-01-02..2026-11-10",
-   "daily_vol_pct": 0.54122,
-   "annual_vol_pct": 8.454,
+   "bars_used": 1660,
+   "windows": "2020-01-02..2026-11-11",
+   "daily_vol_pct": 0.54114,
+   "annual_vol_pct": 8.453,
    "noise_band_pp": {
-    "1m": 4.744,
-    "3m": 8.217,
-    "1y": 16.57,
-    "3y": 28.7
+    "1m": 4.743,
+    "3m": 8.216,
+    "1y": 16.568,
+    "3y": 28.696
    },
-   "noise_band_pp_at_published": 3.825,
-   "published_bars": 13,
+   "noise_band_pp_at_published": 3.969,
+   "published_bars": 14,
    "bars_needed_for_edge": {
-    "3pp/yr": 7751,
-    "5pp/yr": 2791,
+    "3pp/yr": 7749,
+    "5pp/yr": 2790,
     "10pp/yr": 698
    },
    "min_detectable_edge_pp": {
-    "1y": 16.908,
-    "3y": 9.762,
-    "5y": 7.562
+    "1y": 16.906,
+    "3y": 9.761,
+    "5y": 7.561
    },
    "power": {
     "units": {
@@ -607,16 +647,16 @@
     "power": 0.8,
     "alpha_two_sided": 0.05,
     "z": 2.802,
-    "annual_vol_pct": 8.454,
+    "annual_vol_pct": 8.453,
     "min_detectable_edge_pp": {
-     "6m": 33.5,
-     "1y": 23.688,
-     "2y": 16.75,
-     "3y": 13.676
+     "6m": 33.496,
+     "1y": 23.685,
+     "2y": 16.748,
+     "3y": 13.675
     },
     "years_for_80pct_power": {
-     "pre-2020 measured alpha (single arm)": 136.2,
-     "in-window measured alpha (single arm)": 17.2
+     "pre-2020 measured alpha (single arm)": 136.1,
+     "in-window measured alpha (single arm)": 16.5
     },
     "candidate_sources": {
      "pre-2020 measured alpha (single arm)": {
@@ -627,13 +667,13 @@
      "in-window measured alpha (single arm)": {
       "file": "results/etf_book_spanning.json",
       "field": "arms.book.full.alpha_annual",
-      "edge_pp_per_year": 5.71
+      "edge_pp_per_year": 5.83
      }
     },
     "available": true,
     "read": "a spread inside these bands is not evidence either way: at 12 months this ledger can only resolve edges above its 1y band, and the two edges this book actually published need years, not months"
    },
-   "book_cagr_pct_on_same_window": 9.167,
+   "book_cagr_pct_on_same_window": 9.227,
    "read": "a spread smaller than the band at the bar count it was measured over is indistinguishable from noise; the band shrinks as sqrt(bars), not faster"
   }
  },
@@ -701,7 +741,7 @@
   }
  ],
  "ledger_history": {
-  "bars": 12,
+  "bars": 13,
   "restated_bars": [
    {
     "bar": "2026-10-29",

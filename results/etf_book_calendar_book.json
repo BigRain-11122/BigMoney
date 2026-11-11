@@ -1,0 +1,60 @@
+{
+ "beta_book": {
+  "last_k": 0.460253,
+  "n_dates": 77,
+  "n_readable": 77,
+  "rule": "k = beta_target / expanding beta (etf_book_order.k_schedule)",
+  "unreadable_dates": []
+ },
+ "beta_target": 0.2,
+ "clock": {
+  "beta_last_decision": "2026-10-23",
+  "beta_next_grid_bar": "2026-11-20",
+  "beta_phase": 7,
+  "last_bar": "2026-11-10",
+  "vol_last_decision": "2026-10-14",
+  "vol_next_grid_bar": "2026-11-11",
+  "vol_phase": 0
+ },
+ "comparison": {
+  "beta_only": 77,
+  "phase_shift_bars": 13,
+  "sentence": "the two books tick on different dates, but by a single constant offset of 13 session(s) -- one rule with two phases, not two rules",
+  "shared": 0,
+  "verdict": "PHASE_OFFSET",
+  "vol_only": 83
+ },
+ "evidence_cutoff": "2026-11-10",
+ "face": "etf_book_calendar_book",
+ "money": {
+  "bar_beta": "2026-11-10",
+  "bar_vol": "2026-11-10",
+  "cny_beta": 460253.45,
+  "cny_diff": -235965.85,
+  "cny_vol": 696219.3,
+  "k_beta": 0.460253,
+  "k_vol": 0.696219,
+  "sentence": "the running book would put 235965.85 CNY less than the audited book on the same bar"
+ },
+ "money_bar": "2026-11-10",
+ "page_calendar": {
+  "on_beta_grid": null,
+  "on_vol_grid": null,
+  "published_decision_bar": null,
+  "read_truth": "malformed",
+  "sentence": "the page's decision bar could not be read; the calendar question is not answered by guessing",
+  "verdict": "UNKNOWN"
+ },
+ "panel_last_bar": "2026-11-10",
+ "question": "does the rebalance calendar judge the audited book or the running book",
+ "rebal": 20,
+ "verdict": "PHASE_OFFSET",
+ "vol_book": {
+  "last_scale": 0.696219,
+  "n_dates": 83,
+  "n_readable": 83,
+  "rule": "scale = min(1, vol_target / 60-bar book vol) (etf_robust_pf.open_to_open_equity, the nobond_vt08 engine)",
+  "unreadable_dates": []
+ },
+ "vol_target": 0.08
+}

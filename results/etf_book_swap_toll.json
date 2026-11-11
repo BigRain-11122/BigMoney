@@ -1,6 +1,6 @@
 {
   "artifact": "etf_book_swap_toll",
-  "bar": "2026-11-10",
+  "bar": "2026-11-11",
   "caveats": [
     "the exit toll is contingent: a standing gap (WINDOW_ALWAYS_OPEN) means the desk may never trade back, so the second exchange is a price on a decision, not a charge already incurred",
     "both halves are priced on the same close and the same notional: intraday execution moves the proceeds and the lots, and a re-widened gap moves the notional, not the bp",
@@ -8,61 +8,13 @@
   ],
   "cost_bp_per_side": 8.0,
   "refused": null,
-  "rows": [
-    {
-      "entry_cost_cny": 125.59,
-      "entry_sides": 2,
-      "exit_cost_cny": 125.59,
-      "exit_sides": 2,
-      "lots": 372,
-      "mean_gap_pp": 0.4758,
-      "median_sessions": null,
-      "notional_cny": 78492.0,
-      "price": 2.11,
-      "round_trip_cny": 251.18,
-      "round_trip_pp": 0.32,
-      "share_of_mean_gap": 0.6726,
-      "share_of_today_gap": 0.0452,
-      "sibling": "159513",
-      "sibling_bought_this_bar": true,
-      "symbol": "159501",
-      "today_gap_pp": 7.0845,
-      "toll_pp_per_session": null,
-      "verdict": "ACT_ON_THIS_BAR"
-    },
-    {
-      "entry_cost_cny": 125.53,
-      "entry_sides": 2,
-      "exit_cost_cny": 125.53,
-      "exit_sides": 2,
-      "lots": 355,
-      "mean_gap_pp": 1.0149,
-      "median_sessions": 21.0,
-      "notional_cny": 78455.0,
-      "price": 2.21,
-      "round_trip_cny": 251.06,
-      "round_trip_pp": 0.32,
-      "share_of_mean_gap": 0.3153,
-      "share_of_today_gap": 0.0629,
-      "sibling": "159513",
-      "sibling_bought_this_bar": true,
-      "symbol": "513100",
-      "today_gap_pp": 5.0906,
-      "toll_pp_per_session": 0.015238,
-      "verdict": "ACT_ON_ANY_BAR"
-    }
-  ],
-  "sentence": "这次换票已经付了 ¥251 的过路费（每一对卖出+买入各 8bp），如果下一个决策 bar 换回来，同样的钱还要再付一遍 ¥251——往返合计 ¥502 = 0.32pp；占今天价差 4.5%/6.3%、占各自平均价差 67.3%/31.5%。",
+  "rows": [],
+  "sentence": "这一单没有换票动作，所以没有「换回来」的过路费可报（不是 0 元：没有动作就没有第二个交易）。",
   "sources": {
     "swap_stack": "results/etf_book_swap_stack.json",
     "swap_trigger": "results/etf_book_swap_trigger.json"
   },
-  "started_from": "2026-11-10",
-  "totals": {
-    "entry_cost_cny": 251.12,
-    "exit_cost_cny": 251.12,
-    "notional_cny": 156947.0,
-    "round_trip_cny": 502.24
-  },
-  "verdict": "TOLL_PRICED"
+  "started_from": "2026-11-11",
+  "totals": {},
+  "verdict": "NO_SWAP_ON_THIS_BAR"
 }

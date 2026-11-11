@@ -1,13 +1,13 @@
 # 削减能撑几个决策 bar
 
-- 判定：**TRIM_ERASED_IN_ONE_CYCLE**
-- 削减幅度（gap_k，来自 results/etf_book_cut_order_gap.json）：**-0.2251%**
-- 票据 k=0.390822 ／ 许可 k=0.393073 ／ 最后一个决策 bar（2026-10-23）k=0.460253
-- 面板末 bar：2026-11-06 ｜ β 目标 0.20 ｜ 市场腿 510300
+- 判定：**TRIM_LASTS_A_FEW_CYCLES**
+- 削减幅度（gap_k，来自 results/etf_book_cut_order_gap.json）：**0.0000%**
+- 票据 k=0.393073 ／ 许可 k=0.393073 ／ 最后一个决策 bar（2026-10-23）k=0.460253
+- 面板末 bar：2026-11-10 ｜ β 目标 0.20 ｜ 市场腿 510300
 
 ## 一句话
 
-A drop the size of the 11-11 trim (-0.23pp) is undone at the very next decision bar in half of the 22 historical events (median 1 bars); k moves 0.00pp in a typical step. The 445-lot trim is a per-bar constraint: unless the solver re-applies the floor every decision bar, the book is back over it twenty bars later.
+Drops of the trim's size needed a median of 3.0 decision bars to be undone (14 events, 6 never returned inside the sample), against a typical step of 0.00pp.
 
 ## k 的步伐（相邻决策 bar 差）
 
@@ -28,11 +28,11 @@ A drop the size of the 11-11 trim (-0.23pp) is undone at the very next decision 
 
 | 读数 | 值 |
 |---|---|
-| 同规模下跌事件 | 22 / 33 步（66.67%）
-| 已回补 | 13 |
-| 样本内未回补（censored，非 0） | 9 |
-| 中位回补 bar 数 | 1 |
-| 均值回补 bar 数 | 3.15 |
+| 同规模下跌事件 | 14 / 33 步（42.42%）
+| 已回补 | 8 |
+| 样本内未回补（censored，非 0） | 6 |
+| 中位回补 bar 数 | 3.0 |
+| 均值回补 bar 数 | 4.25 |
 | 最长回补 bar 数 | 10 |
 
 ## 无同规模先例时的派生读数（算术期望，非模拟）
@@ -52,7 +52,7 @@ A drop the size of the 11-11 trim (-0.23pp) is undone at the very next decision 
 | 票据 k（2026-11-11） | 0.460253 |
 | 差 | 0.0e+00 ｜ 复现=OK |
 
-未回补的下跌日：2025-03-28, 2025-04-28, 2025-06-27, 2025-07-25, 2025-08-22, 2025-09-19, 2025-10-27, 2025-11-24, 2026-10-23
+未回补的下跌日：2025-04-28, 2025-06-27, 2025-07-25, 2025-08-22, 2025-09-19, 2025-11-24
 
 ## 读法
 

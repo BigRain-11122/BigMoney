@@ -1,40 +1,145 @@
 {
- "evidence_cutoff": "2026-10-31",
- "generated": "2026-11-07T01:41:00",
+ "evidence_cutoff": "2026-11-10",
+ "gaps_explained_by_quiet_window": [],
+ "gaps_over_threshold": [
+  {
+   "from": "2026-11-07T21:00",
+   "gap_high_min": 115.0,
+   "gap_low_min": 106.0,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-07T22:55",
+   "unexplained_high_min": 115.0,
+   "unexplained_low_min": 106.0
+  },
+  {
+   "from": "2026-11-08T01:51",
+   "gap_high_min": 257.2,
+   "gap_low_min": 248.2,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-08T06:00",
+   "unexplained_high_min": 257.2,
+   "unexplained_low_min": 248.2
+  },
+  {
+   "from": "2026-11-08T21:00",
+   "gap_high_min": 102.0,
+   "gap_low_min": 93.0,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-08T22:42",
+   "unexplained_high_min": 102.0,
+   "unexplained_low_min": 93.0
+  },
+  {
+   "from": "2026-11-09T10:00",
+   "gap_high_min": 152.0,
+   "gap_low_min": 143.0,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-09T12:32",
+   "unexplained_high_min": 152.0,
+   "unexplained_low_min": 143.0
+  },
+  {
+   "from": "2026-11-09T15:00",
+   "gap_high_min": 249.0,
+   "gap_low_min": 231.0,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-09T19:00",
+   "unexplained_high_min": 249.0,
+   "unexplained_low_min": 231.0
+  },
+  {
+   "from": "2026-11-09T19:00",
+   "gap_high_min": 174.4,
+   "gap_low_min": 165.4,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-09T21:54",
+   "unexplained_high_min": 174.4,
+   "unexplained_low_min": 165.4
+  },
+  {
+   "from": "2026-11-09T23:00",
+   "gap_high_min": 189.0,
+   "gap_low_min": 171.0,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-10T02:00",
+   "unexplained_high_min": 189.0,
+   "unexplained_low_min": 171.0
+  },
+  {
+   "from": "2026-11-10T06:12",
+   "gap_high_min": 213.0,
+   "gap_low_min": 213.0,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-10T09:45",
+   "unexplained_high_min": 213.0,
+   "unexplained_low_min": 213.0
+  },
+  {
+   "from": "2026-11-10T10:32",
+   "gap_high_min": 157.0,
+   "gap_low_min": 148.0,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-10T13:00",
+   "unexplained_high_min": 157.0,
+   "unexplained_low_min": 148.0
+  },
+  {
+   "from": "2026-11-10T15:00",
+   "gap_high_min": 129.0,
+   "gap_low_min": 111.0,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-10T17:00",
+   "unexplained_high_min": 129.0,
+   "unexplained_low_min": 111.0
+  }
+ ],
+ "gaps_over_threshold_count": 10,
+ "generated": "2026-11-10T18:46:34",
  "lane_tasks": {
-  "absent": [
-   "Bigmoney-SatEngine-bm-b"
-  ],
+  "absent": [],
   "disabled": [],
   "disabled_before_heal": [],
   "heal": {
-   "acts": [
-    {
-     "action": "absent_not_fabricated",
-     "detail": "register it explicitly: Tools/register_satengine_task.ps1",
-     "task": "Bigmoney-SatEngine-bm-b"
-    }
-   ],
+   "acts": [],
    "healed": [],
    "readback": {}
   },
   "probeable": 3,
   "states": {
-   "Bigmoney-IterationLoop": "Ready",
+   "Bigmoney-IterationLoop": "Running",
    "Bigmoney-LoopWatchdog": "Ready",
-   "Bigmoney-SatEngine-bm-b": "Absent"
+   "Bigmoney-SatEngine-bm-b": "Ready"
   },
   "threshold_min": 90,
-  "verdict": "LANE_TASK_MISSING",
-  "why": "1 declared lane task(s) are not registered at all (Bigmoney-SatEngine-bm-b); an absent ignition face cannot be quiet, it can only be dead"
+  "verdict": "LANE_ENABLED",
+  "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
+ },
+ "longest_silence": {
+  "from": "2026-11-08T01:51",
+  "gap_high_min": 257.2,
+  "gap_low_min": 248.2,
+  "quiet_window_min": 0.0,
+  "to": "2026-11-08T06:00",
+  "unexplained_high_min": 257.2,
+  "unexplained_low_min": 248.2
  },
  "machine": "bm-c",
- "note": "fewer than two rounds inside the window; silence is unmeasurable",
- "rounds_in_ledger": 787,
- "rounds_in_window": 0,
- "silence_verdict": "NO_DATA",
+ "median_gap_min": 19.0,
+ "open_gap": {
+  "gap_high_min": 46.6,
+  "gap_low_min": 37.6,
+  "quiet_window_min": 0.0,
+  "since": "2026-11-10T18:00",
+  "unexplained_high_min": 46.6,
+  "unexplained_low_min": 37.6
+ },
+ "parse_precision_note": "stamps recorded with an 'x' digit are read as a 9-minute interval; a gap is only called when its pessimistic end clears the threshold",
+ "quiet_windows": [],
+ "rounds_in_ledger": 927,
+ "rounds_in_window": 123,
+ "silence_verdict": "SILENT_GAP",
  "source": "round_reports-bm-c.md",
  "threshold_min": 90,
- "verdict": "NO_DATA",
+ "verdict": "SILENT_GAP",
  "window_days": 3
 }

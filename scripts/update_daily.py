@@ -462,7 +462,7 @@ def _append_bar(path: str, row: dict) -> None:
 
 
 def quote_topup(files, now, quote_fields=None, calendar=None,
-                appender=None) -> dict:
+                appender=None, symbol_of=None) -> dict:
     """Write tonight's completed session into the panel from the quote face.
 
     Only the tail session, only after 15:30, only for files behind the official
@@ -509,7 +509,12 @@ def quote_topup(files, now, quote_fields=None, calendar=None,
 
     fetch = quote_fields or _quote_fields
     appender = appender or _append_bar
-    syms = [to_sina_symbol(os.path.basename(p)[:-4]) for p, _ in lag]
+    # r1556: a caller whose panel files already carry the exchange prefix
+    # (`sh510300.csv`, the five-member ETF lane) cannot use the bare-code
+    # default -- it would ask the vendor for `szsh510300` and read every
+    # answer as `no_quote`. One verifier, the caller names its own stems.
+    symbol_of = symbol_of or to_sina_symbol
+    syms = [symbol_of(os.path.basename(p)[:-4]) for p, _ in lag]
     fields_by_sym = {}
     try:
         for i in range(0, len(syms), QUOTE_CHUNK):
@@ -521,7 +526,7 @@ def quote_topup(files, now, quote_fields=None, calendar=None,
 
     for path, last in lag:
         stem = os.path.basename(path)[:-4]
-        f = fields_by_sym.get(to_sina_symbol(stem))
+        f = fields_by_sym.get(symbol_of(stem))
         out["attempted"] += 1
         if not f:
             out["refused"].append({"symbol": stem, "reason": "no_quote"})

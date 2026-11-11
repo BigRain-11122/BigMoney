@@ -1,4 +1,4 @@
-# 同指数换票面 · 2026-11-06
+# 同指数换票面 · 2026-11-10
 
 问题只有一个：**同一篮子在不同代码下卖，今天最便宜的那个要多少溢价？**
 
@@ -8,29 +8,30 @@
 
 | 代码 | 名称 | 指数标签 | 溢价% | 家族最便宜 | 差(pp) | 同现金多买篮子(CNY) | 判 |
 |---|---|---|---|---|---|---|---|
-| 159501 | 纳指ETF | NDX100 | +23.640 | 159513 纳斯达克100ETF大成 +14.97% | 8.67 | 5,612 | SWAP_SAVES |
-| 513100 | 纳指ETF | NDX100 | +21.256 | 159513 纳斯达克100ETF大成 +14.97% | 6.29 | 4,149 | SWAP_SAVES |
-| 513690 | 港股红利ETF | — | +0.078 | — | — | — | CANNOT_VERIFY |
-| 159577 | 美国50ETF | US50 | +9.667 | 513850 美国50ETF易方达 +9.48% | 0.19 | 146 | GAP_IMMATERIAL |
-| 159263 | 价值ETF | — | -0.183 | — | — | — | CANNOT_VERIFY |
+| 510760 | 上证指数ETF | — | -0.031 | — | — | — | CANNOT_VERIFY |
+| 512040 | 价值ETF | — | +0.158 | — | — | — | CANNOT_VERIFY |
+| 159655 | 标普500ETF | — | +8.702 | — | — | — | CANNOT_VERIFY |
+| 513690 | 港股红利ETF | — | +0.121 | — | — | — | CANNOT_VERIFY |
+| 159519 | 港股国企ETF | — | -0.175 | — | — | — | CANNOT_VERIFY |
 
-**合计：同现金可多买篮子 9,762 元，占本单 459,796 元 的 2.123%。**
-
-另有 146 元落在 0.50pp 材料性线以内（换票能多买，但差值太小，不构成动作）。
+**合计：同现金可多买篮子 0 元，占本单 392,673 元 的 0.0%。**
 
 ## 同一指数在市场上卖几个价
 
 | 指数 | 成员 | 可交易 | 最便宜 | 最贵 | 价差(pp) | 贴水成员 |
 |---|---|---|---|---|---|---|
-| NDX100 | 12 | 12 | 159513 +14.97% | 159501 +23.64% | 8.67 | 0 |
-| US50 | 2 | 2 | 513850 +9.48% | 159577 +9.67% | 0.19 | 0 |
+| NDX100 | 12 | 12 | 159513 +13.21% | 159501 +20.29% | 7.08 | 0 |
+| US50 | 2 | 2 | 159577 +9.48% | 513850 +9.62% | 0.13 | 0 |
 
 这些家族里**没有一只贴水**：最便宜的那一档就是**通道价**。书的错误只在「挑了家族里最贵的那只」，不在「买这个指数」——换票能省，但省不掉通道本身的溢价。
 
 ## 未验证
 
+- 510760 无法核验：label 上证指数ETF names no other live ticker on this board (no sibling group)
+- 512040 无法核验：label 价值ETF names no other live ticker on this board (no sibling group)
+- 159655 无法核验：label 标普500ETF names no other live ticker on this board (no sibling group)
 - 513690 无法核验：label 港股红利ETF names no other live ticker on this board (no sibling group)
-- 159263 无法核验：label 价值ETF names no other live ticker on this board (no sibling group)
+- 159519 无法核验：label 港股国企ETF names no other live ticker on this board (no sibling group)
 - 无法解析标签的名称 1652 个（不合并，只会低估节省）
 
 ## 诚实边界

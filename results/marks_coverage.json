@@ -1,16 +1,16 @@
 {
- "as_of": "2026-11-07T13:25:44",
+ "as_of": "2026-11-10T19:58:55",
  "lane_start": "2026-09-24",
  "first_trading_day_seen": "1990-12-19",
- "last_trading_day_seen": "2026-11-06",
- "capture_window_open": true,
+ "last_trading_day_seen": "2026-11-10",
+ "capture_window_open": false,
  "counters": {
-  "trading_days_since_lane_start": 26,
-  "closed_days": 26,
+  "trading_days_since_lane_start": 28,
+  "closed_days": 27,
   "captured": 17,
-  "holes": 9,
+  "holes": 11,
   "pending": 0,
-  "coverage_pct_closed": 65.38
+  "coverage_pct_closed": 62.96
  },
  "holes": [
   "2026-10-22",
@@ -21,14 +21,16 @@
   "2026-11-03",
   "2026-11-04",
   "2026-11-05",
-  "2026-11-06"
+  "2026-11-06",
+  "2026-11-09",
+  "2026-11-10"
  ],
  "lane_owner": "bm-b",
  "holes_by_cause": {
   "host_offhours": 4,
-  "takeover_possible": 2,
+  "takeover_possible": 5,
   "lane_missed": 1,
-  "host_down": 2
+  "host_down": 1
  },
  "hole_detail": [
   {
@@ -65,11 +67,19 @@
   },
   {
    "date": "2026-11-06",
-   "cause": "host_down"
+   "cause": "takeover_possible"
+  },
+  {
+   "date": "2026-11-09",
+   "cause": "takeover_possible"
+  },
+  {
+   "date": "2026-11-10",
+   "cause": "takeover_possible"
   }
  ],
  "last_captured": "2026-10-29",
- "verdict": "holes=9",
+ "verdict": "holes=11",
  "days": [
   {
    "date": "2026-09-24",
@@ -233,7 +243,17 @@
   {
    "date": "2026-11-06",
    "status": "missing_historical",
-   "cause": "host_down"
+   "cause": "takeover_possible"
+  },
+  {
+   "date": "2026-11-09",
+   "status": "missing_historical",
+   "cause": "takeover_possible"
+  },
+  {
+   "date": "2026-11-10",
+   "status": "missing_today",
+   "cause": "takeover_possible"
   }
  ]
 }

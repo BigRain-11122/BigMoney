@@ -1,6 +1,6 @@
 {
   "artifact": "etf_book_swap_convergence",
-  "bar": "2026-11-10",
+  "bar": "2026-11-11",
   "caveats": [
     "this measures the pair's relative price path after a wide session; it is not a book backtest -- nothing else in the book moves, no other name is re-ranked inside the horizon, and the decision to exchange back is assumed to be taken exactly at the horizon",
     "the cheap ticker is bought with the same money, so the harvest is a better entry into the same basket rather than a realised capital gain; the pp below is what the pair hands back, which is the number that decides whether a second exchange pays for its own four sides",
@@ -8,7 +8,7 @@
     "the reconstruction inherits the sibling-gap face's single IOPV anchor; a premium base that shifted between the two tickers would move the level, not the change"
   ],
   "cost_bp_per_side": 8.0,
-  "evidence_cutoff": "2026-11-10",
+  "evidence_cutoff": "2026-11-11",
   "horizons": [
     1,
     5,
@@ -16,211 +16,16 @@
     20
   ],
   "min_cohort": 8,
-  "pairs": [
-    {
-      "cohort_used": "broad",
-      "cohorts": {
-        "broad": {
-          "h1": {
-            "censored": 1,
-            "mean_delta_pp": 0.001,
-            "median_delta_pp": 0.0089,
-            "members": 292,
-            "n": 291,
-            "share_narrowed_net_of_toll": 0.1649,
-            "share_widened": 0.5052
-          },
-          "h10": {
-            "censored": 10,
-            "mean_delta_pp": 0.154,
-            "median_delta_pp": 0.0298,
-            "members": 292,
-            "n": 282,
-            "share_narrowed_net_of_toll": 0.2872,
-            "share_widened": 0.5248
-          },
-          "h20": {
-            "censored": 20,
-            "mean_delta_pp": 0.3574,
-            "median_delta_pp": 0.1505,
-            "members": 292,
-            "n": 272,
-            "share_narrowed_net_of_toll": 0.2684,
-            "share_widened": 0.5772
-          },
-          "h5": {
-            "censored": 5,
-            "mean_delta_pp": 0.0673,
-            "median_delta_pp": 0.0416,
-            "members": 292,
-            "n": 287,
-            "share_narrowed_net_of_toll": 0.2857,
-            "share_widened": 0.5261
-          }
-        },
-        "tail": {
-          "h1": {
-            "censored": 1,
-            "mean_delta_pp": -0.491,
-            "median_delta_pp": -0.1402,
-            "members": 14,
-            "n": 13,
-            "share_narrowed_net_of_toll": 0.3846,
-            "share_widened": 0.3846
-          },
-          "h10": {
-            "censored": 8,
-            "mean_delta_pp": -0.0397,
-            "median_delta_pp": -0.0455,
-            "members": 14,
-            "n": 6,
-            "share_narrowed_net_of_toll": 0.3333,
-            "share_widened": 0.5
-          },
-          "h20": {
-            "censored": 12,
-            "mean_delta_pp": -0.0531,
-            "median_delta_pp": -0.0531,
-            "members": 14,
-            "n": 2,
-            "share_narrowed_net_of_toll": 0.0,
-            "share_widened": 0.0
-          },
-          "h5": {
-            "censored": 5,
-            "mean_delta_pp": -0.6828,
-            "median_delta_pp": -0.1129,
-            "members": 14,
-            "n": 9,
-            "share_narrowed_net_of_toll": 0.4444,
-            "share_widened": 0.4444
-          }
-        }
-      },
-      "gap_today_pp": 7.0845,
-      "leg_symbol": "159501",
-      "mean_gap_pp": 0.4758,
-      "net_after_toll_cny": -369.3,
-      "net_after_toll_pp": -0.4705,
-      "notional_cny": 78492.0,
-      "sessions": 795,
-      "sibling_symbol": "159513",
-      "verdict": "DOES_NOT_PAY_MEASURED",
-      "why": ""
-    },
-    {
-      "cohort_used": "broad",
-      "cohorts": {
-        "broad": {
-          "h1": {
-            "censored": 1,
-            "mean_delta_pp": -0.0287,
-            "median_delta_pp": -0.0243,
-            "members": 397,
-            "n": 396,
-            "share_narrowed_net_of_toll": 0.1869,
-            "share_widened": 0.4722
-          },
-          "h10": {
-            "censored": 10,
-            "mean_delta_pp": -0.0826,
-            "median_delta_pp": -0.0745,
-            "members": 397,
-            "n": 387,
-            "share_narrowed_net_of_toll": 0.3721,
-            "share_widened": 0.4444
-          },
-          "h20": {
-            "censored": 20,
-            "mean_delta_pp": -0.0729,
-            "median_delta_pp": -0.0935,
-            "members": 397,
-            "n": 377,
-            "share_narrowed_net_of_toll": 0.4164,
-            "share_widened": 0.4483
-          },
-          "h5": {
-            "censored": 5,
-            "mean_delta_pp": -0.0745,
-            "median_delta_pp": -0.0628,
-            "members": 397,
-            "n": 392,
-            "share_narrowed_net_of_toll": 0.3673,
-            "share_widened": 0.4694
-          }
-        },
-        "tail": {
-          "h1": {
-            "censored": 1,
-            "mean_delta_pp": -0.0859,
-            "median_delta_pp": 0.0196,
-            "members": 17,
-            "n": 16,
-            "share_narrowed_net_of_toll": 0.25,
-            "share_widened": 0.5
-          },
-          "h10": {
-            "censored": 8,
-            "mean_delta_pp": -0.6851,
-            "median_delta_pp": -0.4232,
-            "members": 17,
-            "n": 9,
-            "share_narrowed_net_of_toll": 0.5556,
-            "share_widened": 0.2222
-          },
-          "h20": {
-            "censored": 17,
-            "mean_delta_pp": null,
-            "median_delta_pp": null,
-            "members": 17,
-            "n": 0,
-            "share_narrowed_net_of_toll": null,
-            "share_widened": null
-          },
-          "h5": {
-            "censored": 5,
-            "mean_delta_pp": -0.452,
-            "median_delta_pp": -0.5286,
-            "members": 17,
-            "n": 12,
-            "share_narrowed_net_of_toll": 0.5833,
-            "share_widened": 0.3333
-          }
-        }
-      },
-      "gap_today_pp": 5.0906,
-      "leg_symbol": "513100",
-      "mean_gap_pp": 1.0149,
-      "net_after_toll_cny": -177.7,
-      "net_after_toll_pp": -0.2265,
-      "notional_cny": 78455.0,
-      "sessions": 795,
-      "sibling_symbol": "159513",
-      "verdict": "DOES_NOT_PAY_MEASURED",
-      "why": ""
-    }
-  ],
+  "pairs": [],
   "reference_horizon": 20,
   "refused": null,
-  "sentence": "换回来的收益是量出来的、不是假设价不变：159501（宽于均值 档 272 例）20 个交易日后价差中位变化 +0.15 pp，扣掉四边 0.32 pp 后净 -0.4705 pp；513100（宽于均值 档 377 例）20 个交易日后价差中位变化 -0.09 pp，扣掉四边 0.32 pp 后净 -0.2265 pp。按实际换出的 ¥156,947 算，合计净 -¥547。",
-  "skipped": [
-    {
-      "leg_symbol": "159577",
-      "sibling_symbol": "513850",
-      "why": "这张单没有换出这只票"
-    }
-  ],
+  "sentence": "这一单没有可测量的换票：换出的票没有历史价差路径，或者可比较的样本太少——这不是「不赚钱」的结论。",
   "sources": {
     "sibling_gap": "results/etf_book_sibling_gap.json",
     "swap_stack": "results/etf_book_swap_stack.json",
     "swap_trigger": "results/etf_book_swap_trigger.json"
   },
   "toll_pp": 0.32,
-  "totals": {
-    "measured_pairs": 2,
-    "net_after_toll_cny": -547.0,
-    "notional_cny": 156947.0,
-    "pays_pairs": 0
-  },
-  "verdict": "DOES_NOT_PAY_MEASURED"
+  "totals": {},
+  "verdict": "NOTHING_MEASURED"
 }

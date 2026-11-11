@@ -1,21 +1,21 @@
 {
-  "ts": "2026-11-08T03:27:00",
+  "ts": "2026-11-11T03:03:10",
   "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
-    "cutoff": "2026-11-06",
+    "cutoff": "2026-11-10",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 99.9,
-    "coverage_90": "2026-11-06",
+    "coverage_pct": 99.8,
+    "coverage_90": "2026-11-10",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
-        "2026-11-06",
-        5216
+        "2026-11-10",
+        5212
       ],
       [
-        "2026-11-02",
-        1
+        "2026-11-09",
+        5
       ],
       [
         "2026-10-30",
@@ -26,16 +26,16 @@
         1
       ],
       [
-        "2026-10-12",
+        "2026-10-26",
         1
       ],
       [
-        "2026-09-10",
+        "2026-10-12",
         1
       ]
     ],
     "universe_n": 5226,
-    "per_files": 5222
+    "per_files": 5223
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
   "probe_ref": "results/_r280bmb_probe_akshare_daily.json",
@@ -49,43 +49,50 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 6,
-    "fetched": 6,
-    "appended": 0,
-    "readjusted": 0,
-    "readjusted_tail": [],
-    "failures_tail": [],
-    "failures_n": 0,
+    "todo": 5222,
+    "fetched": 5219,
+    "appended": 5212,
+    "readjusted": 2,
+    "readjusted_tail": [
+      "000686@1997-02-27",
+      "000777@1997-07-14"
+    ],
+    "failures_tail": [
+      "000812:conn:TimeoutError",
+      "601069:conn:TimeoutError",
+      "601890:conn:TimeoutError"
+    ],
+    "failures_n": 3,
     "conn_stopped": false,
-    "elapsed_min": 0.4,
-    "vwap_anchor_max": 0.119501,
+    "elapsed_min": 490.1,
+    "vwap_anchor_max": 0.438984,
     "repull": false
   },
-  "quarantined_n": 4,
-  "last_spawn_attempt": "2026-11-08T03:26:27",
+  "quarantined_n": 5,
+  "last_spawn_attempt": "2026-11-10T18:52:04",
   "settled_n": 0,
   "settled": [],
-  "per_files_on_disk": 5222,
+  "per_files_on_disk": 5223,
   "validation": {
-    "suspended_rows": 0,
-    "bracket_tolerated_rows": 0,
+    "suspended_rows": 3,
+    "bracket_tolerated_rows": 1,
     "defect_rows": 0
   },
   "takeover": {
     "owner": "bm-b",
-    "by": "bm-a",
-    "reason": "owner bm-b silent 206.7h >= 120min",
-    "ts": "2026-11-08T03:26:27"
+    "by": "bm-c",
+    "reason": "owner bm-b silent 270.1h >= 120min",
+    "ts": "2026-11-10T18:52:04"
   },
-  "spawn_reason": "panel incomplete at cutoff 2026-11-06 (coverage 99.9%, expected 2026-11-06) -> continuation refresh, not a first pull",
+  "spawn_reason": "panel incomplete at cutoff 2026-11-09 (coverage 99.8%, expected 2026-11-10) -> continuation refresh, not a first pull",
   "spawn_mode": "continuation",
   "authority": {
     "lane_owner": "bm-b",
-    "writer_machine": "bm-a",
-    "data_face_machine": "bm-a",
+    "writer_machine": "bm-c",
+    "data_face_machine": "bm-c",
     "declared_takeover": true,
-    "took_over_by": "bm-a",
-    "took_over_at": "2026-11-08T03:26:27",
-    "reason": "owner bm-b silent 206.7h >= 120min"
+    "took_over_by": "bm-c",
+    "took_over_at": "2026-11-10T18:52:04",
+    "reason": "owner bm-b silent 270.1h >= 120min"
   }
 }

@@ -230,6 +230,54 @@ def expected_latest_bar_date(now, dates=None):
     return d.isoformat()
 
 
+def _prefixed_stem(stem):
+    """Panel stem -> sina symbol. This lane's files carry the prefix already."""
+    stem = str(stem)
+    if stem[:2] in ("sh", "sz"):
+        return stem
+    return ("sh" if stem[:1] == "5" else "sz") + stem
+
+
+def quote_topup_five(now, expected=None, impl=None):
+    """Fill tonight's completed session into the five panels from the quote face.
+
+    The history face (klc_kl.js) publishes a session only the next morning, so
+    between 15:30 and then every consumer of this panel -- ticket, book NAV,
+    CEO page -- prices yesterday's close. The core-48 lane closed exactly this
+    gap in r1511 with the same vendor's batch quote; this imports that
+    implementation instead of writing a second verifier, so "this quote really
+    is this instrument's next bar" keeps one definition. Pure reporting: every
+    refusal is listed, never guessed.
+    """
+    out = {"status": "skipped", "target": expected, "appended": 0,
+           "refused": [], "detail": ""}
+    if now.time() < COMPLETE_HOUR:
+        out["status"] = "gated_before_close"
+        out["detail"] = "before %s no completed session can exist" % COMPLETE_HOUR
+        return out
+    files = [os.path.join(DATA_DIR, "sh%s.csv" % c) for c in MEMBERS]
+    fn = impl
+    try:
+        if fn is None:
+            try:
+                import scripts.update_daily as UD
+            except ImportError:
+                import update_daily as UD
+            fn = UD.quote_topup
+        # this lane's panels are named with the exchange prefix already
+        # (sh510300.csv), so the bare-code default would ask for `szsh510300`
+        res = fn(files, now, symbol_of=_prefixed_stem)
+    except Exception as exc:  # noqa: BLE001 -- reported, never fatal
+        out["status"] = "unavailable"
+        out["detail"] = "%s: %s" % (type(exc).__name__, exc)
+        return out
+    out.update({"status": res.get("status"), "target": res.get("target"),
+                "appended": int(res.get("appended") or 0),
+                "refused": res.get("refused") or [],
+                "detail": res.get("detail") or ""})
+    return out
+
+
 def cutoff_gate(panel_cutoff, now, dates=None):
     """(needs_fetch, expected_date, reason)."""
     expected = expected_latest_bar_date(now, dates)
@@ -388,7 +436,7 @@ OWNED_KEYS = ("ts", "machine", "lane_owner", "owner", "owner_since",
               "status", "mode", "no_op_reason", "expected_cutoff",
               "data_cutoff", "last_attempt", "members_planned", "per_member",
               "files_written", "summary", "claim", "note", "takeover",
-              "authority")
+              "authority", "quote_topup", "last_attempt_topup")
 
 
 def owned_status(st):
@@ -468,8 +516,23 @@ def run():
         try:
             age = (now - dt.datetime.fromisoformat(last_attempt)).total_seconds()
             if age < MIN_ATTEMPT_S:
+                # r1556: the throttle spares the history face (a full-history
+                # pull per member). Tonight's completed session arrives on the
+                # batch quote face -- one light request, and the one the ticket
+                # prices -- so a throttled round still tops up the tail rather
+                # than leaving the panel a day behind until the next pull.
+                topup = quote_topup_five(now, expected)
+                st["ts"] = now.isoformat(timespec="seconds")
+                st["quote_topup"] = topup
+                st["authority"] = authority_block(takeover, LANE_OWNER, owner)
+                if topup.get("appended"):
+                    st["data_cutoff"] = local_panel_cutoff()
+                    st["last_attempt_topup"] = st["ts"]
+                write_status(owned_status(st))
                 print(f"throttle: last attempt {last_attempt} "
-                      f"({age/60:.1f}min ago) < 30min -> no-op")
+                      f"({age/60:.1f}min ago) < 30min -> history pull skipped; "
+                      f"quote top-up {topup.get('status')} "
+                      f"(+{topup.get('appended')} rows)")
                 return 0
         except Exception:
             pass
@@ -545,18 +608,25 @@ def run():
             atomic_write(p, rows_to_csv_text(planned[code]["merged_rows"]))
             wrote += 1
 
+    # r1556: history pull above cannot carry tonight's session; the quote face
+    # can. Independent of the all-or-nothing history write: it appends one
+    # verified tail bar per lagging member and lists every refusal.
+    topup = quote_topup_five(now, expected)
+    cutoff_after = local_panel_cutoff()
     st.update({
         "ts": now.isoformat(timespec="seconds"),
         "mode": "full-history pull, append-only, overlap-verified, "
                 "all-or-nothing panel write",
         "per_member": per,
         "files_written": wrote,
+        "quote_topup": topup,
         "summary": {
             "members": len(MEMBERS), "failures": len(failures),
             "mismatches": len(mismatches),
             "total_appended": sum(r.get("appended") or 0 for r in per),
-            "data_cutoff": min([r["last"] for r in per if r.get("last")],
-                               default=None),
+            "data_cutoff": cutoff_after or min(
+                [r["last"] for r in per if r.get("last")], default=None),
+            "quote_topup_appended": topup.get("appended"),
         },
         "claim": "T-2026-09-28-111-bm-b-five-member-etf-daily-refresh-leg",
         "note": "as-traded basis (sina klc_kl.js; ETF qfq factor s=1.0 all "
@@ -755,7 +825,40 @@ def _selftest():
     ab0 = authority_block(None)
     assert ab0["declared_takeover"] is False and ab0["took_over_by"] is None, ab0
     assert owned_status({"authority": ab}) == {"authority": ab}
-    print("selftest: 13/13 PASS")
+
+    # S14 r1556: tonight's session comes from the quote face, and only after
+    # the close -- the history face cannot carry it until tomorrow morning.
+    seen = {}
+
+    def _fake(files, now, **kw):
+        seen["files"] = list(files)
+        seen["now"] = now
+        seen["symbol_of"] = kw.get("symbol_of")
+        return {"status": "appended", "target": "2026-09-28", "appended": 3,
+                "refused": [{"symbol": "510050", "reason": "no_quote"}],
+                "detail": "fake"}
+
+    early = quote_topup_five(dt.datetime(2026, 9, 28, 15, 0), impl=_fake)
+    assert early["status"] == "gated_before_close" and not seen, early
+    late = quote_topup_five(dt.datetime(2026, 9, 28, 15, 31), impl=_fake)
+    assert late["appended"] == 3 and late["status"] == "appended", late
+    assert late["refused"] == [{"symbol": "510050", "reason": "no_quote"}], late
+    assert len(seen["files"]) == len(MEMBERS) and all(
+        os.path.basename(f).startswith("sh") for f in seen["files"]), seen
+
+    assert seen["symbol_of"] and seen["symbol_of"]("sh510300") == "sh510300", seen
+    assert seen["symbol_of"]("510300") == "sh510300", seen
+    assert seen["symbol_of"]("159901") == "sz159901", seen
+
+    def _boom(files, now, **kw):
+        raise RuntimeError("network down")
+
+    bad = quote_topup_five(dt.datetime(2026, 9, 28, 15, 31), impl=_boom)
+    assert bad["status"] == "unavailable" and "network down" in bad["detail"], bad
+    # the lane's status whitelist must carry the new block, or the reader
+    # never sees the top-up at all (E138 family: published elsewhere = absent)
+    assert "quote_topup" in OWNED_KEYS and "last_attempt_topup" in OWNED_KEYS
+    print("selftest: 14/14 PASS")
     return 0
 
 

@@ -1,49 +1,59 @@
 {
- "verdict": "NO_EVIDENCE",
+ "verdict": "PASS",
  "rel_tol": 0.002,
  "counters": {
-  "matched": 0,
+  "matched": 1,
   "dropped": 0,
   "breach": 0,
-  "zero_pending_traders": 0,
-  "no_marks_traders": 6,
+  "zero_pending_traders": 5,
+  "no_marks_traders": 0,
   "no_bar_traders": 0,
   "refire_held": 0
  },
  "per_trader": {
   "COMPOSITE-CE-01": {
-   "cutoff": "2026-11-06",
-   "status": "no_marks",
-   "detail": []
+   "cutoff": "2026-11-11",
+   "status": "verified_pass",
+   "detail": [
+    {
+     "symbol": "513500",
+     "outcome": "filled",
+     "cost_price": 2.652,
+     "session_open": 2.652,
+     "rel_diff": 0.0
+    }
+   ]
   },
   "COMPOSITE-CE-02": {
-   "cutoff": "2026-11-06",
-   "status": "no_marks",
+   "cutoff": "2026-11-11",
+   "status": "zero_pending",
    "detail": []
   },
   "DROUGHT-CE-01": {
-   "cutoff": "2026-11-06",
-   "status": "no_marks",
+   "cutoff": "2026-11-11",
+   "status": "zero_pending",
    "detail": []
   },
   "ENGULF-CE-01": {
-   "cutoff": "2026-11-06",
-   "status": "no_marks",
+   "cutoff": "2026-11-11",
+   "status": "zero_pending",
    "detail": []
   },
   "NEEDLE-DE-01": {
-   "cutoff": "2026-11-06",
-   "status": "no_marks",
+   "cutoff": "2026-11-11",
+   "status": "zero_pending",
    "detail": []
   },
   "VOLATILITY-CE-01": {
-   "cutoff": "2026-11-06",
-   "status": "no_marks",
+   "cutoff": "2026-11-11",
+   "status": "zero_pending",
    "detail": []
   }
  },
- "day": "2026-11-06",
- "evidence_tier": "none",
+ "day": "2026-11-11",
+ "evidence_tier": "daily_bar_open",
  "drops_observable": false,
- "ts": "2026-11-07 13:25:46"
+ "evidence_note": "marks lane missed this session; fill prices were checked against the official daily bar open (same exchange first-trade price marks samples from spot). Dropped-pending counts are NOT observable on this tier.",
+ "no_bar_fills": {},
+ "ts": "2026-11-11 15:41:01"
 }

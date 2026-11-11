@@ -257,10 +257,10 @@
  },
  "feed_status": {
   "ticket_bar": "2026-11-10",
-  "expected_bar": "2026-11-10",
-  "lag_days": 0,
-  "status": "current",
-  "detail": "the ticket is priced on the newest official bar that must exist"
+  "expected_bar": "2026-11-11",
+  "lag_days": 1,
+  "status": "stale_feed",
+  "detail": "the bar this ticket is priced on is 1 official day(s) behind the market; the signal is that old"
  },
  "k_now": 0.393073,
  "k_rule": 0.460253,
@@ -495,7 +495,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-11 05:34:24",
+   "at": "2026-11-11 15:50:30",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -2421,7 +2421,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-11T05:34:24",
+  "generated": "2026-11-11T15:50:30",
   "evidence_cutoff": "2026-11-10",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -2644,8 +2644,8 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-11T05:34:24",
-  "evidence_cutoff": "2026-11-10",
+  "generated": "2026-11-11T15:50:32",
+  "evidence_cutoff": "2026-11-11",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
   "legs": [
@@ -2655,9 +2655,9 @@
     "face": "results/etf_book_sibling_entry.json",
     "field": "session",
     "bar": "2026-11-10",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-10 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-11 close"
    },
    {
     "leg": "sibling_gap",
@@ -2665,9 +2665,9 @@
     "face": "results/etf_book_sibling_gap.json",
     "field": "session",
     "bar": "2026-11-10",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-10 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-11 close"
    },
    {
     "leg": "swap_trigger",
@@ -2675,9 +2675,9 @@
     "face": "results/etf_book_swap_trigger.json",
     "field": "session",
     "bar": "2026-11-10",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-10 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-11 close"
    },
    {
     "leg": "swap_stack",
@@ -2685,9 +2685,9 @@
     "face": "results/etf_book_swap_stack.json",
     "field": "asof",
     "bar": "2026-11-10",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-10 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-11 close"
    },
    {
     "leg": "swap_toll",
@@ -2695,9 +2695,9 @@
     "face": "results/etf_book_swap_toll.json",
     "field": "bar",
     "bar": "2026-11-10",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-10 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-11 close"
    },
    {
     "leg": "toll_scope",
@@ -2705,9 +2705,9 @@
     "face": "results/etf_book_toll_scope.json",
     "field": "bar",
     "bar": "2026-11-10",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-10 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-11 close"
    },
    {
     "leg": "swap_convergence",
@@ -2715,9 +2715,9 @@
     "face": "results/etf_book_swap_convergence.json",
     "field": "bar",
     "bar": "2026-11-10",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-10 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-11 close"
    },
    {
     "leg": "swap_effect",
@@ -2725,9 +2725,9 @@
     "face": "results/etf_book_swap_effect.json",
     "field": "bar",
     "bar": "2026-11-10",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-10 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-11 close"
    },
    {
     "leg": "swap_units",
@@ -2735,9 +2735,9 @@
     "face": "results/etf_book_swap_units.json",
     "field": "bar",
     "bar": "2026-11-10",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-10 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-11 close"
    },
    {
     "leg": "swap_track",
@@ -2745,16 +2745,27 @@
     "face": "results/etf_book_swap_track.json",
     "field": "bar",
     "bar": "2026-11-10",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-10 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-11 close"
    }
   ],
   "n_legs": 10,
-  "stale_legs": [],
+  "stale_legs": [
+   "sibling_entry",
+   "sibling_gap",
+   "swap_trigger",
+   "swap_stack",
+   "swap_toll",
+   "toll_scope",
+   "swap_convergence",
+   "swap_effect",
+   "swap_units",
+   "swap_track"
+  ],
   "inconsistent_legs": [],
-  "verdict": "FRESH",
-  "sentence": "Every one of the 10 faces in the swap section is on the 2026-11-10 close.",
+  "verdict": "STALE",
+  "sentence": "STALE: 10 of 10 faces are older than the 2026-11-11 close -- worst sibling_entry on 2026-11-10 (1 session(s) behind the 2026-11-11 close).",
   "caveats": [
    "The bar-to-be comes from the official exchange calendar, never from this chain's own panels: a panel cannot say which session should already be printed (r1286).",
    "A face AHEAD of the calendar is not stale -- its producer would not make it true, so the chain must keep it red instead of paying a refresh (r1345).",
@@ -3130,11 +3141,11 @@
   "pct_sentence": "159501(UPPER_TAIL, 第100%)、513100(UPPER_TAIL, 第99%)、159577(UPPER_TAIL, 第99%)；若这些腿各自回到自己的中位溢价，这张单值 ￥28959",
   "pct_revert_cny": 28958.66941862554,
   "fwd_status": "produced",
-  "fwd_face_asof": "2026-11-09",
-  "fwd_stale": true,
+  "fwd_face_asof": "2026-11-10",
+  "fwd_stale": false,
   "fwd_verdict": "MIXED",
   "fwd_horizon": 20,
-  "fwd_sentence": "premium percentile rank-IC with the next 20 sessions is -0.133 (5 legs); 159263: after sessions in its top decile the next 20 sessions averaged +3.22% (n=32, t=+4.2); 159501: after sessions in its top decile the next 20 sessions averaged +0.49% (n=282, t=+1.6); 159577: after sessions in its top decile the next 20 sessions averaged -0.95% (n=124, t=-2.6); 513100: after sessions in its top decile the next 20 sessions averaged -0.22% (n=295, t=-0.5); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3)",
+  "fwd_sentence": "premium percentile rank-IC with the next 20 sessions is -0.133 (5 legs); 159263: after sessions in its top decile the next 20 sessions averaged +3.22% (n=32, t=+4.2); 159501: after sessions in its top decile the next 20 sessions averaged +0.49% (n=282, t=+1.6); 159577: after sessions in its top decile the next 20 sessions averaged -0.95% (n=124, t=-2.6); 513100: after sessions in its top decile the next 20 sessions averaged -0.22% (n=295, t=-0.5); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.00% (mean -0.04%, fell in 49% of 326 cases); today's legs in that band: 159501 99.9, 159577 98.9, 513100 98.9",
   "fwd_caveat": "five legs of one ticket: this is a description of these funds' own records, not a cross-sectional study and not a forecast. Overlapping windows are counted once per stride in the t-stat and reported in full only as coverage.",
   "fwd_rows": [
    {
@@ -3145,8 +3156,8 @@
     "n": 282,
     "t": 1.6467909807012315,
     "nonoverlap_obs": 38,
-    "amount_cny": 78501.0,
-    "same_bucket_move_cny": 382.1756117982755
+    "amount_cny": 78492.0,
+    "same_bucket_move_cny": 382.13179604425727
    },
    {
     "symbol": "513100",
@@ -3156,8 +3167,8 @@
     "n": 295,
     "t": -0.5214242428564833,
     "nonoverlap_obs": 92,
-    "amount_cny": 78611.4,
-    "same_bucket_move_cny": -175.2970789851026
+    "amount_cny": 78455.0,
+    "same_bucket_move_cny": -174.94831960474212
    },
    {
     "symbol": "513690",
@@ -3167,8 +3178,8 @@
     "n": 433,
     "t": 1.9001567201247584,
     "nonoverlap_obs": 63,
-    "amount_cny": 78588.4,
-    "same_bucket_move_cny": 394.34116992385134
+    "amount_cny": 78532.0,
+    "same_bucket_move_cny": 394.0581657911332
    },
    {
     "symbol": "159577",
@@ -3178,8 +3189,8 @@
     "n": 124,
     "t": -2.631711051782378,
     "nonoverlap_obs": 29,
-    "amount_cny": 78504.4,
-    "same_bucket_move_cny": -749.0753972659603
+    "amount_cny": 78470.7,
+    "same_bucket_move_cny": -748.7538376987532
    },
    {
     "symbol": "159263",
@@ -3189,11 +3200,56 @@
     "n": 53,
     "t": -1.359163059351121,
     "nonoverlap_obs": 13,
-    "amount_cny": 78522.0,
-    "same_bucket_move_cny": -504.6441589043152
+    "amount_cny": 78586.2,
+    "same_bucket_move_cny": -505.0567586216129
    }
   ],
   "fwd_missing_legs": [],
-  "fwd_cny_total": -652.5
+  "fwd_cny_total": -652.57,
+  "fwd_defer_verdict": "NO_READ",
+  "fwd_defer_band": "P98P",
+  "fwd_defer_sentence": "after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.00% (mean -0.04%, fell in 49% of 326 cases); today's legs in that band: 159501 99.9, 159577 98.9, 513100 98.9",
+  "fwd_defer_rows": [
+   {
+    "symbol": "159501",
+    "band": "P98P",
+    "latest_pctile": 99.87849331713244,
+    "n": 167,
+    "median_pct": 0.0,
+    "share_down": 0.48502994011976047
+   },
+   {
+    "symbol": "513100",
+    "band": "P98P",
+    "latest_pctile": 98.89473684210526,
+    "n": 68,
+    "median_pct": -0.2804191259484945,
+    "share_down": 0.5441176470588235
+   },
+   {
+    "symbol": "513690",
+    "band": null,
+    "latest_pctile": 50.52790346907994,
+    "n": 34,
+    "median_pct": 0.4556476186771463,
+    "share_down": 0.3235294117647059
+   },
+   {
+    "symbol": "159577",
+    "band": "P98P",
+    "latest_pctile": 98.9329268292683,
+    "n": 48,
+    "median_pct": -0.2987628417172483,
+    "share_down": 0.5625
+   },
+   {
+    "symbol": "159263",
+    "band": null,
+    "latest_pctile": 16.666666666666668,
+    "n": 9,
+    "median_pct": 0.09746588693955172,
+    "share_down": 0.4444444444444444
+   }
+  ]
  }
 }

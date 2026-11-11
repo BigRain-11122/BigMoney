@@ -2,7 +2,7 @@
 
 Priced on the production engine through the same mechanism the concentration face uses: the sleeve's own score is set to NaN on the gated decision dates and the engine substitutes on its own grid -- nothing here re-implements selection, sizing or costs.
 
-Cutoff 2026-11-06 | book 12 names, rebalance 20 bars, 10.0 bp/side, 8.0% vol target | baseline CAGR 9.41% / max drawdown -11.77% over 6.84 years.
+Cutoff 2026-11-10 | book 12 names, rebalance 20 bars, 10.0 bp/side, 8.0% vol target | baseline CAGR 9.62% / max drawdown -11.77% over 6.85 years.
 
 | gate | sleeve off | CAGR vs baseline | max drawdown vs baseline | vs its own placebo | why |
 |---|---|---|---|---|---|

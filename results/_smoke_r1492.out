@@ -1,0 +1,163 @@
+== Bigmoney smoke test 2026-11-10 08:42:12 ==
+[PASS] env: core deps | numpy 2.2.6, pandas 3.0.6, scipy 1.18.1
+[PASS] config: paths | root=bigmoney, daily=K:\Fluxgroup\FluxGroup\quant\bigmoney\data\daily
+[PASS] config: param grid | 432 combos (expect 432)
+[PASS] config: combo_hash deterministic | hash=079d85ab
+[PASS] data: core ETF pool | 48 no-prefix CSVs (expect ~48)
+[PASS] data: OHLCV readable | 48/48 ok
+[PASS] data: freshness | latest bar 2026-11-09 (1d ago, limit 15)
+[PASS] rules: fee schedule sane | single-side cost 13.0 bp
+[PASS] rules: T+0 list | 511880 T+0, 510300 T+1
+[PASS] exit: loss 8d force-close
+[PASS] exit: tiered take-profit
+[PASS] exit: hard stop -8%
+[PASS] exit: hold otherwise
+[PASS] engine: smoke backtest | 3 syms x 400 bars, 37 trades
+[PASS] engine: deterministic | identical on rerun (no hidden randomness)
+[PASS] engine: T+1 respected | 37 trades checked, 0 same-day roundtrips
+[PASS] engine: exits fill at T+1 open (RW-1) | 37 exits checked, 0 non-open fills
+[PASS] engine: evidence_cutoff hard truncation (RW-2) | cutoff 2026-01-09, 597 post-cutoff rows dropped, result identical to pre-truncated input
+[PASS] engine: rows actually read <= cutoff (RW-2) | curve 201 bars vs 201 rows at/below 2026-01-09 (ragged calendars: windows end ['2026-11-09'])
+[PASS] engine: legacy keyset intact without evidence_cutoff (RW-2) | no cutoff_meta when flag off
+[PASS] engine: emptying cutoff refused (RW-2) | out-of-range cutoff raises -> caller rc != 0
+[PASS] engine: single-source cost parity (RW-3) | same bar 100k CNY: 130.4100/side on engine+paper+x2 faces; spec verify=True
+[PASS] engine: grid legacy divergence = declared 0.041bp (RW-3) | frozen T-78 grid caliber 13.0bp vs canonical 13.041bp (delta 0.41 CNY/100k side)
+[PASS] panel gate: real in-service panel inside frozen 48-lock (RW-4) | 48/48 members in lock, sha16=abf3d43b, len(set)==len(list) holds
+[PASS] panel gate: twins refused, len(set)==len(list) (RW-4) | sh510300+510300 -> duplicate after canonicalization -> batch not accepted
+[PASS] panel gate: stale in-service member refused (RW-4) | last_bar 2026-01-01 vs anchor 2026-09-29 -> lock breach refused
+[PASS] panel gate: out-of-lock + silent-shrink refused (RW-4) | 600000 out-of-lock refused; 1-of-48 request = silent shrink refused
+[PASS] rules: stock fee routing sell 18.141bp / buy 13.141bp (D-39) | 600519 vs 510300 on 100k notional: buy +1 CNY (transfer), sell -51 CNY (stamp50+transfer1); ETF sell rate 13.0410bp == buy rate
+[PASS] engine: one-word bar buy dropped + sell deferred (CN-A, D-38) | exit off sealed board -> filled next real open (2026-01-12), violations=0 by construction
+[PASS] exit: P1 signal_reversal beats P2 stop (RW-7) | reversal+stop same bar -> signal_reversal (P1 > P2)
+[PASS] exit: P2 stop_loss beats P3 take_profit (RW-7) | pnl +10.5% >= tier-2 10% but price 110.5 <= trailing 110.88 -> stop_loss (P2 > P3)
+[PASS] exit: P4 time_decay beats P5 loss_time_stop (RW-7) | hold 12d pnl -1% -> time_decay, not loss_time_stop (P4 > P5)
+[PASS] exit: P6 global_hard_limit terminal tier (RW-7) | hold 25d pnl +3% >= decay threshold 2% -> hard_limit fires
+[PASS] gate: daily_loss_breaker boundary (RW-7) | halt at pnl <= -3%, clear above
+[PASS] gate: rejections raise, never silently drop (RW-7) | position/total/trade caps + invalid side + halted-day BUY all raise RiskGateRejected; reasons=['position weight 0.50 > cap 0.1', 'total weight 0.83 > cap 0.8', "invalid side 'SHORT'", 'daily_loss_breaker halt (pnl -5.00% <= -3.00%)', 'max_daily_trades 10 reached']
+[PASS] gate: halted day still lets exits through (RW-7) | circuit breaker blocks new opens, not de-risking sells
+[PASS] gate: emit_order_sheet is the sole gated exit (RW-7) | ungated emit -> RuntimeError; gate_orders receipt -> sheet written
+[PASS] network: detector | net_type=LAN
+[PASS] network: status readable
+[PASS] network: traffic gate
+  [paper] patch self-tests... PASS
+  [paper] monthly aggregation unit tests... PASS
+  [paper] seg_metrics short-segment honesty (F4)... PASS
+  [paper] x2 watch escalation chain (F3)... PASS
+  [paper] regime_guard additive flag (T-05)... PASS
+  [paper] loading universe for causality + anchor gates...
+  [paper] signal causality (truncate-and-compare)... PASS
+  [paper] anchor gate COMPOSITE-CE-01... PASS (IS s=1.1244 OOS s=0.862, cutoff 2026-09-22)
+  [paper] anchor gate COMPOSITE-CE-02... PASS (IS s=0.7841 OOS s=1.5605, cutoff 2026-09-22)
+  [paper] anchor gate DROUGHT-CE-01... PASS (IS s=0.461 OOS s=1.2407, cutoff 2026-09-22)
+  [paper] anchor gate ENGULF-CE-01... PASS (IS s=0.5337 OOS s=0.1686, cutoff 2026-09-22)
+  [paper] anchor gate NEEDLE-DE-01... PASS (IS s=0.6862 OOS s=0.1927, cutoff 2026-09-22)
+  [paper] anchor gate VOLATILITY-CE-01... PASS (IS s=1.103 OOS s=1.7166, cutoff 2026-09-22)
+[PASS] paper: pipeline selftest | patches+aggregation+causality+anchor + seg-honesty(F4) + x2-watch escalation(F3)
+[PASS] updater: update_daily selftest (exit-code contract) | exit=0 |   [updater] source parity 510300 @ 2026-11-09... PASS
+[PASS] updater: update_lhb selftest (exit-code contract) | exit=0 | selftest: all guard cases PASS
+[PASS] updater: update_intraday_marks selftest (exit-code contract) | exit=0 | update_intraday_marks selftest: PASS
+[PASS] updater: update_open_fill_verify selftest (exit-code contract) | exit=0 | t35_open_fill_verify selftest: PASS
+[PASS] updater: update_etf_daily selftest (exit-code contract) | exit=0 | selftest: 13/13 PASS
+[PASS] updater: update_etf_wide selftest (exit-code contract) | exit=0 | etf_wide selftest 41/41 PASS
+[PASS] updater: update_zt_pool selftest (exit-code contract) | exit=0 | selftest: all guard cases PASS
+[PASS] updater: update_fund_statements selftest (exit-code contract) | exit=0 | selftest: all fund statement panel guard cases PASS
+[PASS] updater: update_fund_avail_pit selftest (exit-code contract) | exit=0 | selftest 18/18 PASS
+[PASS] updater: update_fund_pit_avail selftest (exit-code contract) | exit=0 | selftest 16/16 PASS
+[PASS] updater: update_fund_avail_notice selftest (exit-code contract) | exit=0 | selftest 12/12 PASS
+[PASS] updater: update_fund_avail_dispersion selftest (exit-code contract) | exit=0 | fund_avail_dispersion selftest: 3/3 PASS
+[PASS] updater: update_fund_avail_face_impact selftest (exit-code contract) | exit=0 | fund_avail_face_impact selftest 17/17 PASS
+[PASS] updater: update_fund_avail_asof selftest (exit-code contract) | exit=0 | selftest 13/13
+[PASS] updater: update_fund_pit_factor_panel selftest (exit-code contract) | exit=0 | selftest 9/9 PASS
+[PASS] updater: update_fund_pit_crossface_factor selftest (exit-code contract) | exit=0 | selftest 19/19 PASS
+[PASS] product: zoo90 alligator supply probe (exit-code contract) | exit=0 | selftest: 13/13 PASS
+[PASS] product: cross-sectional reversal supply probe (exit-code contract) | exit=0 | selftest 9/9 PASS
+[PASS] product: limit-up event supply probe (exit-code contract) | exit=0 | }
+[PASS] product: limit-down event supply probe (exit-code contract) | exit=0 | }
+[PASS] product: disposition CGO supply probe (exit-code contract) | exit=0 | }
+[PASS] product: disposition CGO takeable judge (exit-code contract) | exit=0 | selftest PASS
+[PASS] product: repo rate stress supply probe (exit-code contract) | exit=0 | selftest: 20/20 PASS
+[PASS] product: dual momentum supply probe (exit-code contract) | exit=0 | selftest 13/13 PASS
+[PASS] product: salience panic supply probe (exit-code contract) | exit=0 | selftest 12/12 PASS
+[PASS] product: volume regime supply probe (exit-code contract) | exit=0 | }
+[PASS] product: LHB institution-distribution supply probe (exit-code contract) | exit=0 | [selftest] 15/15 PASS
+[PASS] product: path-continuity coin-team supply probe (exit-code contract) | exit=0 | SELFTEST OK (21/21)
+[PASS] product: book x volume-gate overlay (exit-code contract) | exit=0 | }
+[PASS] product: ETF premium entry-friction face (exit-code contract) | exit=0 | selftest: 24/24 PASS
+[PASS] product: D-19 watermark gate (legacy forms, foreign prefix refused) | exit=0 | [d19_check] selftest PASS
+[PASS] product: etf_book_beta_paths (phase or level, decided by noise) | exit=0 | selftest 22/22 PASS
+[PASS] product: etf_book_beta_paths (ruling re-derived from its own path) | exit=0 | CHECK UNDECIDABLE @ 2026-11-06 :: the two windows differ by 0.0577 beta=5.77pp o
+[PASS] product: etf_book_sizing_prereg (ruler pinned, band derived from the noise) | exit=0 | selftest 24/24 PASS
+[PASS] product: etf_book_sizing_prereg (cap verdict follows its own arms) | exit=0 | CHECK PREREG_PINNED @ 2026-11-06 :: the floor is signed by a 306-bar window and 
+[PASS] product: etf_book_exit_tax (ruler, exposure hurdle on the book in force) | exit=0 | selftest: 12/12 PASS
+[PASS] product: etf_book_exit_tax (published hurdle recomputed, control reproduced) | exit=0 | [check] PASS
+[PASS] product: etf_book_sleeve_cap (per-sleeve cap priced against the plain book) | exit=0 | selftest 9/9 PASS
+[PASS] product: etf_book_sleeve_cap_phases (a cap is a rule, read as a phase set) | exit=0 | selftest 12/12
+[PASS] product: etf_book_year_caliber (which year concentration ruler can judge itself) | exit=0 | selftest 33/33
+[PASS] product: etf_book_year_caliber (published reading re-derived, nothing renamed) | exit=0 | check PASS: primary=effective_years composite=FAIL
+[PASS] product: etf_book_admission_eta (how many years until the gate can admit) | exit=0 | selftest 14/14
+[PASS] product: etf_book_admission_eta (published ETA still matches the phase gate) | exit=0 | eta check: identity_ok=True max|d|=0.0 books=3
+[PASS] product: etf_book_admission_ruler_election (which ruler the gate asks with) | exit=0 | selftest: 25/25 PASS
+[PASS] product: etf_book_admission_ruler_election (published election re-derived) | exit=0 | check OK | elected years_for_half | witness REFUSE | floor {'effective_years': 3
+[PASS] product: etf_book_admission_refusal_caliber_adoption (selftest 12 legs) | exit=0 | selftest 12/12
+[PASS] product: etf_book_admission_refusal_caliber_adoption (verdict re-derived) | exit=0 | check OK: verdict=ADOPT derived from 5 conditions
+[PASS] product: etf_book_year_gate (adopted book judged by its own calendar) | exit=0 | 10/10 PASS
+[PASS] product: etf_book_year_gate (published verdicts re-derived) | exit=0 | 18/18 PASS
+[PASS] product: etf_book_supply_gate_decision (one word for the rebalance) | exit=0 | [supply_gate_decision] selftest 21/21
+[PASS] product: etf_book_supply_gate_decision (verdict re-derived from receipts) | exit=0 | [supply_gate_decision] CHECK OK 9/9  verdict=CALIBER_IRRELEVANT_TO_MONEY class=I
+[PASS] product: etf_book_live_size_provenance (which rule sizes the money) | exit=0 | selftest: 28/28
+[PASS] product: etf_book_live_size_provenance (figures re-derived) | exit=0 | check: 12/12
+[PASS] product: etf_book_punctuality (what a late fill costs) | exit=0 | selftest 9/9 legs
+[PASS] product: etf_book_punctuality (money, verdict and sentence re-derived) | exit=0 | check 6/6
+[PASS] product: etf_book_derisk_rule (change the rule, not the rung) | exit=0 | selftest 45/45
+[PASS] product: etf_book_derisk_rule (verdicts, phases, mechanism and ruler re-derived) | exit=0 | CHECK_OK rules=5 answer=NO_RULE_CLEARS_BOTH
+[PASS] product: etf_book_late_sheet_price (one sheet late, priced on its own) | exit=0 | selftest 10/10 legs
+[PASS] product: etf_book_late_sheet_price (locals add up, verdict re-derived) | exit=0 | check 10/10
+[PASS] product: etf_book_do_or_wait (the wait is priced rung by rung) | exit=0 | selftest 15/15 legs
+[PASS] product: etf_book_do_or_wait (decision and ladder re-derived) | exit=0 | check 13/13
+[PASS] product: etf_book_cash_vehicle (resets are not losses, face value is not return) | exit=0 | 14/14 PASS
+[PASS] product: etf_book_cash_vehicle (the gap and its per-year range re-derive) | exit=0 | 18/18 PASS
+[PASS] product: etf_book_vt_ladder (the rung is judged by the imported gate) | exit=0 | selftest 13/13
+[PASS] product: etf_book_vt_ladder (every rung verdict re-derives from its rows) | exit=0 | CHECK_OK rungs=7 answer=LADDER_HAS_RUNG
+[PASS] product: etf_book_premium_percentile (no look-ahead, no scale without history) | exit=0 | selftest 18/18
+[PASS] product: etf_book_premium_percentile (every answer word re-derives) | exit=0 | check: OK (5 legs, 5034 observations)
+[PASS] product: etf_book_premium_persistence (standing level vs stamp artifact) | exit=0 | [selftest] 22/22 PASS
+[PASS] product: etf_book_premium_persistence (every verdict re-derives) | exit=0 | [persistence] CHECK_OK verdict=TODAYS_PREMIUM_IS_A_CONVENTION (2 leg(s) (159577,
+[PASS] product: etf_book_year_attribution (which names carried which year) | exit=0 | 6/6
+[PASS] product: etf_book_year_attribution (published split re-adds to its own rows) | exit=0 | PASS: 2 arms, every year's sleeves+toll re-adds to its own log row
+[PASS] product: etf_book_size_rulers_decision (one size out of three rulers) | exit=0 | [selftest] 10/10 PASS
+[PASS] product: etf_book_size_rulers_decision (desk sentence re-derived) | exit=0 | [check] 7 field(s) re-derived, 0 mismatch
+[PASS] product: etf_book_rebalance_permission (may this size stay) | exit=0 | [selftest] 9/9 PASS
+[PASS] product: etf_book_rebalance_permission (permission re-derived) | exit=0 | [check] 6/6 OK
+[PASS] product: etf_book_cut_order_gap (does the permission bind the order) | exit=0 | [selftest] 14/14 PASS
+[PASS] product: etf_book_cut_order_gap (gap and consumers re-derived) | exit=0 | [check] 8/8 OK
+[PASS] product: etf_book_order (the sheet sizes to the permission it must obey) | exit=0 | selftest: PASS 136/136
+[PASS] product: etf_book_cut_gate_pass (a cut is not a scaling) | exit=0 | 16/16 PASS
+[PASS] product: etf_book_cut_gate_pass (three arms re-derived) | exit=0 | 15/15 PASS
+[PASS] product: etf_book_decision_line (one row, receipts must agree) | exit=0 | selftest 18/18
+[PASS] product: etf_book_decision_line (row re-derived from the receipts) | exit=0 | CHECK_OK 4 fields re-derived from the same receipts
+[PASS] product: etf_book_wrapper_year_gate (three arms, one gate) | exit=0 | 8/8 PASS
+[PASS] product: etf_book_wrapper_year_gate (every arm re-derived) | exit=0 | 15/15 PASS
+[PASS] product: etf_book_permission_persistence (how long a trim survives) | exit=0 | [selftest] 15/15 PASS
+[PASS] product: etf_book_permission_persistence (lifetime re-derived) | exit=0 | [check] CHECK_OK (6 leg(s) checked)
+[PASS] product: etf_book_floor_ledger (who remembers the floor between bars) | exit=0 | selftest 15/15
+[PASS] product: etf_book_floor_ledger (verdict re-derived from the receipts) | exit=0 | CHECK_OK floor=0.393073 verdict=REAPPLY_REQUIRED rows=2
+[PASS] product: etf_book_floor_toll (continuous enforcement is not a second rule) | exit=0 | selftest: 18/18 PASS
+[PASS] product: etf_book_floor_toll (identity and toll re-derived) | exit=0 | [check] CHECK_OK  verdict=CONTINUOUS_EQUALS_DECISIONS  |dk|=0.0  price_of_obedie
+[PASS] product: etf_book_calendar_distance (how far each refusal is from flipping) | exit=0 | selftest 14/14 PASS
+[PASS] product: etf_book_calendar_distance (published distances re-derived) | exit=0 | CHECK_OK: 4 candidates re-derived, no drift
+[PASS] product: etf_book_concentration_levers (which knob buys the year gate) | exit=0 | selftest: 15/15 PASS
+[PASS] product: etf_book_concentration_levers (published arms re-derived) | exit=0 | [check] CHECK_OK  verdict=Y4_PASSABLE_WITHOUT_A_TOLL  arms=7  control_cagr=11.46
+[PASS] product: etf_book_rebal_adoption (is the 10-bar grid a rule or one calendar) | exit=0 | selftest: 14/14 PASS
+[PASS] product: etf_book_rebal_adoption (published cells and arithmetic re-derived) | exit=0 | [check] CHECK_OK  verdict=PHASE_DEPENDENT  cells=20  phases=5  pass_share_10bp=0
+[PASS] product: etf_book_premium_leak (entry premium off the ticket's own bar) | exit=0 | [selftest] 20/20 PASS
+[PASS] product: etf_book_premium_leak (published premium and rank re-derived) | exit=0 | [check] CHECK_OK verdict=ENTRY_PREMIUM_DOMINATES premium=CNY 41696.54 (9.07% of 
+[PASS] product: etf_book_sibling_entry (same index, cheapest ticker) | exit=0 | [selftest] 35/35 PASS
+[PASS] product: etf_book_sibling_entry (quoted sibling premiums re-derived off the board) | exit=0 | [sibling_entry] CHECK_OK same cash, same index, other ticker: 9,762 CNY more bas
+[PASS] product: etf_book_sibling_gap (does the premium gap repeat or was it an episode) | exit=0 | selftest: 16 PASS, 0 FAIL
+[PASS] product: etf_book_sibling_gap (history re-derived from the panels, anchor re-checked) | exit=0 | [sibling_gap] CHECK_OK today the swap is worth 9,762 CNY of which 1,879 is repea
+[PASS] product: etf_book_swap_trigger (when does the swap have to be looked at again) | exit=0 | 20/20
+[PASS] product: etf_book_swap_trigger (trigger re-derived from the gap face's own panels) | exit=0 | CHECK_OK: 3 pair(s), trigger 0.16 pp
+[PASS] product: etf_book_swap_stack (two sections on one sheet, netted to one order) | exit=0 | selftest 18/18
+[PASS] product: etf_book_swap_stack (netted order re-derived from the sheet it patches) | exit=0 | CHECK_OK: NETTED_WITH_RESIDUE (results/etf_book_swap_stack.json, 3 action(s))
+[PASS] product: etf_book_positions (printed rows vs the book they declare) | exit=0 | selftest 63/63
+[PASS] product: etf_book_positions (position ledger and base divergence re-derived) | exit=0 | CHECK_OK: PRINTED_ROWS_REBUILD_THE_BOOK (results/etf_book_positions.json, 0 gap 

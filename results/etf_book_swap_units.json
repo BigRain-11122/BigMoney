@@ -1,115 +1,31 @@
 {
   "artifact": "etf_book_swap_units",
-  "bar": "2026-11-10",
+  "bar": "2026-11-11",
   "caveats": [
     "the level column is r1524's own figure (already re-scaled on the trimmed book); it is divided by the price this book actually paid, never re-derived from a gap",
     "shares carry a bounded error of at most the sibling's premium (the bound is the premium materiality line, printed beside the count): a NAV-caliber CNY divided by a market price is not exactly a share count",
     "a lot is the smallest thing a ticket can trade, so the discount is only realisable in whole lots; the residue shares are named and priced apart",
     "the size is a subset of the position the ledger holds; it is not a second holding and it is not added to NAV"
   ],
-  "evidence_cutoff": "2026-11-10",
-  "ledger": {
-    "amount_cny": 156816.0,
-    "bar": "2026-11-10",
-    "bought_lots": 891,
-    "bought_shares": 89100,
-    "extra_inside_holding": true,
-    "lots": 891,
-    "price": 1.76,
-    "share_of_holding": 0.045122,
-    "shares": 89100,
-    "sibling": "159513"
-  },
+  "evidence_cutoff": "2026-11-11",
+  "ledger": null,
   "lot_shares": 100,
-  "next_decision_bar": {
-    "anchor_bar": "2026-10-14",
-    "bar": "2026-11-11",
-    "bars_away": 1,
-    "grid": 20,
-    "grid_constant_source": "import",
-    "grid_source": "anchor",
-    "phase": 0,
-    "rule": "2026-11-10 之后第一个落在官方日历相位 0 mod 20 的交易日",
-    "why": ""
-  },
+  "next_decision_bar": null,
   "not_realised": "折扣是「同一笔钱多买到多少份」，不是卖掉的那部分收入的差——它只有在这些份被卖出、且价差已经收窄时才变成现金；在那之前把它记成已实现收益，等于把份额当成钱。",
   "not_repriced": "份数在买入那一刻就固定了；下一根 bar 能改的只有它按什么价重估。用新的价差重算折扣＝把 r1523 的路径栏再做一遍，本面不提供这个数。",
   "premium_bound_pp": 0.5,
   "realised_booked_cny": null,
-  "realised_guard": {
-    "checked": true,
-    "fields": [
-      "unexplained_total_cny",
-      "accrual.status",
-      "accrual.rows",
-      "ledger_row.actions"
-    ],
-    "found": false,
-    "level_total_cny": 7075.8,
-    "where": null
-  },
-  "remark": {
-    "bar": null,
-    "drift_cny": null,
-    "label": "同一份数、不同价的重估＝价格漂移，不是兑现，也不是已实现收益",
-    "next_bar_expected": "2026-11-11",
-    "price": null,
-    "sibling": "159513",
-    "status": "AWAITING_NEXT_BAR",
-    "trade_bar": "2026-11-10",
-    "value_cny": null,
-    "why": "面板最后一根就是交易日 2026-11-10：下一根 bar 尚未产生，在交易日这根上「份数×当日价」恒等于折扣本身，重估即恒等式，故不印数"
-  },
-  "rows": [
-    {
-      "cash_cny": 78492.0,
-      "extra_lots": 23,
-      "extra_residue_shares": 23.01,
-      "extra_shares": 2323.01,
-      "leg_symbol": "159501",
-      "level_cny": 4088.5,
-      "residue_value_cny": 40.5,
-      "same_trade": true,
-      "share_of_bought": 0.052088,
-      "shares_bought": 44597.73,
-      "sibling_symbol": "159513",
-      "trade_price": 1.76,
-      "why": ""
-    },
-    {
-      "cash_cny": 78455.0,
-      "extra_lots": 16,
-      "extra_residue_shares": 97.33,
-      "extra_shares": 1697.33,
-      "leg_symbol": "513100",
-      "level_cny": 2987.3,
-      "residue_value_cny": 171.3,
-      "same_trade": true,
-      "share_of_bought": 0.038077,
-      "shares_bought": 44576.7,
-      "sibling_symbol": "159513",
-      "trade_price": 1.76,
-      "why": ""
-    }
-  ],
-  "sentence": "折扣是份数不是钱：159501 换出的 ¥78,492.00 在 159513 的 ¥1.76 上多买到 2,323.01 份（23 手 + 23.01 份零头）；513100 换出的 ¥78,455.00 在 159513 的 ¥1.76 上多买到 1,697.33 份（16 手 + 97.33 份零头），合计 **4,020.34 份 = 40 手 + 20.34 份**（误差上限 ±20.10 份 = 换入票溢价材料线 0.5 pp）。这 4,020.34 份就在账本那笔 159513 手里（891 手 = 89,100 份，占 4.51%），是它的一个子集、不是第二笔持仓；下一根 bar 还没产生（日历上的下一交易日 2026-11-11），届时用**同一份数**乘当日价重估；在交易日这根上「份数×当日价」恒等于折扣本身，印出来只是恒等式。下一个决策 bar（每 20 根）读作 2026-11-11。",
+  "refused": "净额单里找不到唯一的一条买入腿：折扣买到了多少份读不出来",
+  "remark": null,
+  "rows": [],
+  "sentence": "这一问答不了：净额单里找不到唯一的一条买入腿：折扣买到了多少份读不出来。",
   "sources": {
     "calendar": "data/exchange_calendar.csv",
     "positions": "results/etf_book_positions.json",
     "swap_effect": "results/etf_book_swap_effect.json",
     "swap_stack": "results/etf_book_swap_stack.json"
   },
-  "totals": {
-    "cash_cny": 156947.0,
-    "combined_cny": null,
-    "extra_lots": 40,
-    "extra_shares": 4020.34,
-    "level_cny": 7075.8,
-    "priced_legs": 2,
-    "residue_shares": 20.34,
-    "residue_value_cny": 35.8,
-    "share_error_bound_shares": 20.1
-  },
+  "totals": {},
   "unpaired": [],
-  "verdict": "SIZE_RECORDED"
+  "verdict": "CANNOT_RECORD"
 }

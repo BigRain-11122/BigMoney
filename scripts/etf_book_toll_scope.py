@@ -129,6 +129,23 @@ def _face(toll, conv, trig, as_of):
         face["refused"].append("no etf_book_swap_toll face: nothing to scope")
         return face
     if toll.get("verdict") != "TOLL_PRICED":
+        if toll.get("verdict") == "NO_SWAP_ON_THIS_BAR":
+            # r1556: "the book does not trade today" is an answer, not a refusal. The
+            # scope table is a constant once the per-side cost is known, so it can still
+            # be printed; what cannot be printed is a toll on a swap that does not exist.
+            # Publishing this as a refusal kept the face off the calendar's close on every
+            # no-trade day and reddened the freshness leg over a fact that is simply true.
+            bp = float(toll.get("cost_bp_per_side") or cost_bp())
+            face["cost_bp_per_side"] = bp
+            face["scopes"] = scopes(bp)
+            face["decision"] = {"threshold_scope": DECISION_SCOPE,
+                                "threshold_pp": _scope(DECISION_SCOPE, bp)["pp"],
+                                "why": ("only the exit toll moves with 'do I unwind today'; "
+                                        "the entry toll is already paid whether this desk "
+                                        "acts or not")}
+            face["verdict"] = "NO_SWAP_ON_THIS_BAR"
+            face["caveats"].append("今日票面无需换仓：没有进/出两侧，过路费不适用（不是算不出来）")
+            return face
         face["refused"].append("the toll face itself refused (%s): a scope on an unpriced toll "
                                "is a scope on a guess" % (toll.get("verdict") or "no verdict"))
         return face
@@ -269,6 +286,15 @@ def _face(toll, conv, trig, as_of):
 
 
 def sentence(face):
+    if face and face.get("verdict") == "NO_SWAP_ON_THIS_BAR":
+        # the table still re-derives; only the "what this trade cost" half is absent
+        sc = {s["name"]: s for s in face.get("scopes") or []}
+        if len(sc) == 3:
+            return ("今日票面无需换仓，过路费不适用（不是算不出来）。范围表照常成立："
+                    "进 %.2fpp（已付、沉没）、出 %.2fpp（今天再动才付）、一来一回 %.2fpp；"
+                    "没有买卖两侧，任何「本次换手花了多少」都无从谈起。"
+                    % (sc["entry"]["pp"], sc["exit"]["pp"], sc["trip"]["pp"]))
+        return "今日票面无需换仓，过路费不适用（不是算不出来）。"
     if not face or face.get("verdict") != "SCOPES_SEPARATED":
         return (face or {}).get("sentence") or "这一问答不了：三个范围都没有可读的数。"
     sc = {s["name"]: s for s in face["scopes"]}
@@ -516,9 +542,18 @@ def selftest():
     leg("L24 no toll face -> refused, not zero",
         _face(None, None, None, "2026-11-10")["refused"] != [])
     leg("L25 a refused toll face propagates the refusal",
-        _face({"verdict": "NO_SWAP_ON_THIS_BAR"}, None, None, "2026-11-10")["refused"] != [])
+        _face({"verdict": "TOLL_UNPRICED"}, None, None, "2026-11-10")["refused"] != [])
     leg("L26 the md carries the scopes even when a pair is unnamed",
         any("范围" in x for x in md_lines(f)))
+    # r1556: "no swap today" is an answer the calendar can carry, not a refusal
+    ns = _face({"verdict": "NO_SWAP_ON_THIS_BAR", "cost_bp_per_side": 8.0},
+               None, None, "2026-11-11")
+    leg("L27 no swap on this bar is a face on the bar, not a refusal",
+        ns["verdict"] == "NO_SWAP_ON_THIS_BAR" and ns["refused"] == []
+        and ns["bar"] == "2026-11-11" and len(ns["scopes"]) == 3
+        and check(ns) == [])
+    leg("L28 its sentence says the toll does not apply, not that it cannot be computed",
+        "不适用" in sentence(ns) and "这一问答不了" not in sentence(ns))
 
     bad = [n for n, ok in legs if not ok]
     for n, ok in legs:
@@ -599,6 +634,12 @@ def run():
     if face.get("refused"):
         print("REFUSED: %s" % "；".join(face["refused"]))
         return 2
+    if face.get("verdict") == "NO_SWAP_ON_THIS_BAR":
+        # a face that is on the calendar's close with an honest "no trade today" is
+        # complete: returning 2 here told every reader the face was missing (r1556).
+        print("NO_SWAP: %s" % face.get("sentence"))
+        print("wrote", OUT_JSON)
+        return 0
     print("CHECK_FAIL: %s" % "；".join(problems) if problems else "CHECK_OK")
     for r in face.get("rows") or []:
         print("  %s -> %s share@exit=%s share@trip=%s flips=%s"
