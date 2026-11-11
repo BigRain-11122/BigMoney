@@ -986,18 +986,29 @@ def window_verdict(series):
     return "CHANNEL_CLOSED_THROUGHOUT", {"known": len(known), "open": 0}
 
 
-def block_contrast(series):
-    """Hard-suspended sessions vs exchange-only sessions, both priced on their own premium."""
-    blocked = [r["premium_pct"] for r in series if "暂停" in (r["purchase"] or "")]
+def block_contrast(series, exclude_stamps=None):
+    """Hard-suspended sessions vs exchange-only sessions, both priced on their own premium.
+
+    `exclude_stamps` drops priced rows whose NAV stamp is in the given set. The page uses it to
+    re-read the same contrast after the single-row valuation gaps (see `blip_cause`) are taken
+    out, so a shut offshore market cannot be priced as a fund decision.
+    """
+    skip = set(exclude_stamps or ())
+    blocked = [r["premium_pct"] for r in series
+               if "暂停" in (r["purchase"] or "") and r.get("nav_date") not in skip]
+    dropped = sum(1 for r in series
+                  if "暂停" in (r["purchase"] or "") and r.get("nav_date") in skip)
     exch = [r["premium_pct"] for r in series
             if r["purchase_kind"] == "closed" and "暂停" not in (r["purchase"] or "")]
     if len(blocked) < 5 or len(exch) < 5:
         return {"verdict": "NO_CONTRAST", "n_blocked": len(blocked), "n_exchange": len(exch),
+                "n_excluded": dropped, "excluded_requested": len(skip),
                 "median_blocked_pct": statistics.median(blocked) if blocked else None,
                 "median_exchange_pct": statistics.median(exch) if exch else None}
     mb, me = statistics.median(blocked), statistics.median(exch)
     return {"verdict": "BLOCK_WIDENS_PREMIUM" if mb > me + 1.0 else "BLOCK_DOES_NOT_WIDEN",
             "n_blocked": len(blocked), "n_exchange": len(exch),
+            "n_excluded": dropped, "excluded_requested": len(skip),
             "median_blocked_pct": mb, "median_exchange_pct": me,
             "gap_pp": mb - me}
 
@@ -1025,6 +1036,7 @@ def leg_facts(leg, prices, navs, status_rows, lag=1, market=None):
     latest = series[-1] if series else None
     hi = high_premium_face(series)
     ep = episode_read(series)
+    cause = blip_cause(series, market=market)
     facts = {
         "symbol": str(leg.get("symbol")),
         "class": leg.get("class"),
@@ -1041,9 +1053,11 @@ def leg_facts(leg, prices, navs, status_rows, lag=1, market=None):
         "blocked_sessions": sum(1 for r in series if "暂停" in (r["purchase"] or "")),
         "high_premium": hi,
         "block_contrast": block_contrast(series),
+        "block_contrast_excl_gaps": block_contrast(
+            series, exclude_stamps=cause.get("one_row_stamps") or []),
         "episode_granularity": ep,
         "blip_cadence": blip_cadence(series),
-        "blip_cause": blip_cause(series, market=market),
+        "blip_cause": cause,
     }
     return facts
 
@@ -1162,6 +1176,18 @@ def summary_sentence(legs, all_closed, pooled=None, cause=None):
     widen = [s for s, e in runs if e["verdict"] == "EPISODE_GAP_WIDENS"]
     if widen:
         parts.append("read per run, the block still sits wider on %s" % ", ".join(widen))
+    pure = [(l["symbol"], l.get("block_contrast_excl_gaps") or {}) for l in legs]
+    pure_wide = [s for s, c in pure if c.get("verdict") == "BLOCK_WIDENS_PREMIUM"]
+    pure_flat = [s for s, c in pure if c.get("verdict") == "BLOCK_DOES_NOT_WIDEN"]
+    if pure_wide or pure_flat:
+        dropped = sum(c.get("n_excluded") or 0 for _, c in pure)
+        all_gaps = [s for s, c in pure if c.get("verdict") == "NO_CONTRAST"
+                    and (c.get("n_excluded") or 0) > 0]
+        parts.append("with the %d one-row valuation gaps removed the block still sits wider on %s"
+                     "%s%s" % (dropped, ", ".join(pure_wide) or "no leg",
+                               (" and not on %s" % ", ".join(pure_flat)) if pure_flat else "",
+                               ("; %s has no real suspension left at all" % ", ".join(all_gaps))
+                               if all_gaps else ""))
     single = [(s, e) for s, e in runs if e.get("widens_only_in_longest")]
     if single:
         parts.append("; ".join(
@@ -1239,6 +1265,36 @@ def render_md(doc):
             _pct(c.get("median_exchange_pct")),
             ("%+.2f" % c["gap_pp"]) if c.get("gap_pp") is not None else "n/a",
             c.get("n_blocked", 0), c.get("n_exchange", 0)))
+    L.append("")
+    L.append("### The same contrast with the valuation gaps removed")
+    L.append("")
+    L.append("The one-row 暂停申购 words are a shut overseas market, not a fund decision (see")
+    L.append("\"What the one-row words are\" below). Those sessions carry no fresh NAV, so their")
+    L.append("premium is priced against a stale one. Repricing the block without them asks the")
+    L.append("question the table above cannot: is the premium wider on the sessions the fund")
+    L.append("itself chose to shut, or was the wider reading the calendar all along?")
+    L.append("")
+    L.append("| leg | verdict | median premium, 暂停申购 | median premium, 场内买入 | gap pp | n kept | rows dropped |")
+    L.append("|---|---|---|---|---|---|---|")
+    for l in doc["legs"]:
+        c = l.get("block_contrast_excl_gaps") or {}
+        L.append("| %s | %s | %s | %s | %s | %d | %d |" % (
+            l["symbol"], c.get("verdict"), _pct(c.get("median_blocked_pct")),
+            _pct(c.get("median_exchange_pct")),
+            ("%+.2f" % c["gap_pp"]) if c.get("gap_pp") is not None else "n/a",
+            c.get("n_blocked", 0), c.get("n_excluded", 0)))
+    L.append("")
+    L.append("'rows dropped' is the count of priced 暂停申购 rows whose NAV stamp is one of the")
+    L.append("single-row runs named in the cause section. The exchange-only column is untouched:")
+    L.append("the same baseline prices both readings, so the only thing that moves is the block.")
+    all_gaps = [l["symbol"] for l in doc["legs"]
+                if (l.get("block_contrast_excl_gaps") or {}).get("verdict") == "NO_CONTRAST"
+                and ((l.get("block_contrast_excl_gaps") or {}).get("n_excluded") or 0) > 0]
+    if all_gaps:
+        L.append("")
+        L.append("On %s every hard-suspended session was a single-row valuation gap, so 'n kept'"
+                 " is zero: the day-level contrast on that leg was pricing the calendar, not"
+                 " the fund, and this table is the one that says so." % ", ".join(all_gaps))
     L.append("")
     L.append("## Days vs runs: how much evidence the block count actually is")
     L.append("")
@@ -1586,6 +1642,39 @@ def _check_episodes(l):
     return bad
 
 
+def _check_excluded_contrast(l):
+    """The calendar-excluded contrast must be the day contrast minus exactly the named rows.
+
+    Two numbers are published instead of one, and the page prints both. A block that dropped
+    rows it never counted, or counted rows it never dropped, is a second reading of a
+    different series -- so the check recomputes the arithmetic from the leg's own counts.
+    """
+    sym = l["symbol"]
+    c = l.get("block_contrast_excl_gaps")
+    if not c:
+        return ["%s: the calendar-excluded contrast is not published" % sym]
+    bad = []
+    dropped = c.get("n_excluded") or 0
+    one = (l.get("blip_cause") or {}).get("n_one_row") or 0
+    if dropped + (c.get("n_blocked") or 0) != (l.get("blocked_sessions") or 0):
+        bad.append("%s: excluded contrast keeps %r and drops %r, but blocked_sessions is %r"
+                   % (sym, c.get("n_blocked"), dropped, l.get("blocked_sessions")))
+    if dropped > one:
+        bad.append("%s: dropped %r rows but only %r single-row runs are counted" % (sym, dropped, one))
+    if (c.get("excluded_requested") or 0) < dropped:
+        bad.append("%s: %r rows dropped from %r requested stamps" %
+                   (sym, dropped, c.get("excluded_requested")))
+    gap = c.get("gap_pp") or 0.0
+    if c.get("verdict") == "BLOCK_WIDENS_PREMIUM" and not gap > 1.0:
+        bad.append("%s: excluded block says WIDENS with a gap of %r" % (sym, c.get("gap_pp")))
+    if c.get("verdict") == "BLOCK_DOES_NOT_WIDEN" and gap > 1.0:
+        bad.append("%s: excluded block says DOES_NOT_WIDEN with a gap of %r" % (sym, c.get("gap_pp")))
+    if c.get("verdict") not in ("BLOCK_WIDENS_PREMIUM", "BLOCK_DOES_NOT_WIDEN", "NO_CONTRAST"):
+        bad.append("%s: excluded block verdict %r is not one this face derives"
+                   % (sym, c.get("verdict")))
+    return bad
+
+
 def _check_cadence(doc, page=True):
     """The blip block must be arithmetic a reader can recompute, and it must be on the page."""
     bad = []
@@ -1809,8 +1898,17 @@ def check(doc=None):
             if got is None or abs(got - want) > 1e-6:
                 bad.append("%s: ruler gap %r is not latest - board (%.4f)" % (l["symbol"], got, want))
         bad.extend(_check_episodes(l))
+        bad.extend(_check_excluded_contrast(l))
     bad.extend(_check_cadence(doc, page=not explicit))
     bad.extend(_check_cause(doc, page=not explicit))
+    if not explicit and os.path.exists(OUT_MD):
+        md = open(OUT_MD, encoding="utf-8").read()
+        measured = [l["symbol"] for l in doc["legs"]
+                    if (l.get("block_contrast_excl_gaps") or {}).get("verdict")
+                    in ("BLOCK_WIDENS_PREMIUM", "BLOCK_DOES_NOT_WIDEN")]
+        if measured and "with the valuation gaps removed" not in md:
+            bad.append("the page publishes a calendar-excluded contrast for %d leg(s) but does"
+                       " not carry the section" % len(measured))
     ok = not bad
     print("check %s" % ("OK" if ok else "FAIL"))
     for b in bad:
@@ -1947,7 +2045,10 @@ def selftest():
                         "episode_granularity": episode_read(flat_series),
                         "blip_cadence": blip_cadence(flat_series),
                         "blip_cause": blip_cause(flat_series),
-                        "block_contrast": {"verdict": "NO_CONTRAST"}}]
+                        "block_contrast": {"verdict": "NO_CONTRAST"},
+                        "block_contrast_excl_gaps": {"verdict": "NO_CONTRAST", "n_blocked": 0,
+                                                     "n_excluded": 0, "excluded_requested": 0,
+                                                     "n_exchange": 0}}]
     gap_doc["blip_cadence_pooled"] = pooled_cadence(gap_doc["legs"])
     gap_doc["blip_cause_pooled"] = pooled_blip_cause(gap_doc["legs"])
     buf = io.StringIO()
@@ -2306,6 +2407,45 @@ def selftest():
     md5 = render_md(doc_md)
     chk("Two calendars in hand" in md5 and "HKEX" in md5 and "50%" in md5,
         "the rendered page carries both calendars and the three half-day thresholds")
+
+    # L32 the calendar-excluded contrast drops exactly the named rows, and says how many
+    cb = [{"date": "2026-04-%02d" % i, "nav": 1.0, "nav_date": "2026-03-%02d" % i,
+           "premium_pct": (40.0 if i <= 5 else 12.0), "purchase": "暂停申购",
+           "purchase_kind": status_kind("暂停申购")} for i in range(1, 11)]
+    ce = [{"date": "2026-05-%02d" % i, "nav": 1.0, "nav_date": "2026-04-%02d" % i,
+           "premium_pct": 12.0, "purchase": "场内买入",
+           "purchase_kind": status_kind("场内买入")} for i in range(1, 11)]
+    chk(block_contrast(cb + ce)["verdict"] == "BLOCK_WIDENS_PREMIUM",
+        "half the blocked rows far above the exchange level lift the block median")
+    pure = block_contrast(cb + ce, exclude_stamps=[r["nav_date"] for r in cb[:5]])
+    chk(pure["verdict"] == "BLOCK_DOES_NOT_WIDEN" and pure["n_excluded"] == 5,
+        "dropping those five rows takes the gap with it, and the block says how many it dropped")
+    chk(pure["n_blocked"] == 5 and pure["excluded_requested"] == 5,
+        "the excluded reading publishes both the rows kept and the stamps it was asked to drop")
+    chk(block_contrast(cb + ce)["n_excluded"] == 0
+        and block_contrast(cb + ce)["excluded_requested"] == 0,
+        "without an exclusion the same block reports zero dropped rows")
+
+    # L33 the excluded block is checked against the leg's own counts, not trusted
+    leg_x = {"symbol": "X", "blocked_sessions": 10,
+             "blip_cause": {"n_one_row": 5}, "block_contrast_excl_gaps": dict(pure)}
+    chk(_check_excluded_contrast(leg_x) == [], "a consistent excluded block passes")
+    leg_x1 = json.loads(json.dumps(leg_x))
+    leg_x1["block_contrast_excl_gaps"]["n_excluded"] = 7
+    chk(_check_excluded_contrast(leg_x1) != [],
+        "a drop count that does not reconcile with blocked_sessions goes red")
+    leg_x2 = json.loads(json.dumps(leg_x))
+    leg_x2["blip_cause"]["n_one_row"] = 3
+    chk(_check_excluded_contrast(leg_x2) != [],
+        "dropping more rows than the cause block counts goes red")
+    leg_x3 = json.loads(json.dumps(leg_x))
+    leg_x3["block_contrast_excl_gaps"]["verdict"] = "BLOCK_WIDENS_PREMIUM"
+    chk(_check_excluded_contrast(leg_x3) != [],
+        "a verdict word its own gap does not support goes red")
+    leg_x4 = json.loads(json.dumps(leg_x))
+    leg_x4["block_contrast_excl_gaps"] = None
+    chk(_check_excluded_contrast(leg_x4) != [],
+        "a leg that publishes no excluded block goes red")
 
     print("selftest %d/%d" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1

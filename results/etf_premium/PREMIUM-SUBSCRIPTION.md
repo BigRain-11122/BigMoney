@@ -1,6 +1,6 @@
 # Premium vs the fund's own purchase channel -- 2026-11-10
 
-**Answer (derived):** 5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 513100; exchange-only on their latest stamp: 159501, 513690, 159577, 159263; the 830 hard-suspended sessions are 141 runs (116 of them a single NAV row); 513100's gap sits in its single 435-session run (own gap +4.28) while its other 47 runs read +0.06; the single-row runs are not spread over the calendar: Tue carries 51% of them against 20% of priced sessions (chance 3e-13), so a one-row word is a word printed that session, not a fund policy; what those one-row words are is a valuation gap, not an announcement: 116/116 of them suspend 赎回 on the same row, they move the NAV by 0.10 of a normal session (median), and 89/116 sit on a session the NYSE calendar explains against 3.0% of ordinary sessions (25.5x); closed channel is consistent with a standing premium, not a verdict on it
+**Answer (derived):** 5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 513100; exchange-only on their latest stamp: 159501, 513690, 159577, 159263; the 830 hard-suspended sessions are 141 runs (116 of them a single NAV row); with the 116 one-row valuation gaps removed the block still sits wider on 513100 and not on 513690, 159577; 159501 has no real suspension left at all; 513100's gap sits in its single 435-session run (own gap +4.28) while its other 47 runs read +0.06; the single-row runs are not spread over the calendar: Tue carries 51% of them against 20% of priced sessions (chance 3e-13), so a one-row word is a word printed that session, not a fund policy; what those one-row words are is a valuation gap, not an announcement: 116/116 of them suspend 赎回 on the same row, they move the NAV by 0.10 of a normal session (median), and 89/116 sit on a session the NYSE calendar explains against 3.0% of ordinary sessions (25.5x); closed channel is consistent with a standing premium, not a verdict on it
 
 Ruler: panel close / the newest unit NAV stamped strictly before that close - 1. Status joined on: 申购状态 printed on the NAV stamp the premium used.
 
@@ -21,6 +21,28 @@ Ruler: panel close / the newest unit NAV stamped strictly before that close - 1.
 | 513690 | BLOCK_DOES_NOT_WIDEN | +0.50% | -0.02% | +0.52 | 64 / 1264 |
 | 159577 | BLOCK_DOES_NOT_WIDEN | +1.18% | +1.79% | -0.60 | 58 / 600 |
 | 159263 | NO_CONTRAST | n/a | +0.10% | n/a | 0 / 326 |
+
+### The same contrast with the valuation gaps removed
+
+The one-row 暂停申购 words are a shut overseas market, not a fund decision (see
+"What the one-row words are" below). Those sessions carry no fresh NAV, so their
+premium is priced against a stale one. Repricing the block without them asks the
+question the table above cannot: is the premium wider on the sessions the fund
+itself chose to shut, or was the wider reading the calendar all along?
+
+| leg | verdict | median premium, 暂停申购 | median premium, 场内买入 | gap pp | n kept | rows dropped |
+|---|---|---|---|---|---|---|
+| 159501 | NO_CONTRAST | n/a | +1.28% | n/a | 0 | 29 |
+| 513100 | BLOCK_WIDENS_PREMIUM | +5.36% | +0.54% | +4.82 | 636 | 43 |
+| 513690 | BLOCK_DOES_NOT_WIDEN | +0.62% | -0.02% | +0.64 | 40 | 24 |
+| 159577 | BLOCK_DOES_NOT_WIDEN | +0.76% | +1.79% | -1.03 | 38 | 20 |
+| 159263 | NO_CONTRAST | n/a | +0.10% | n/a | 0 | 0 |
+
+'rows dropped' is the count of priced 暂停申购 rows whose NAV stamp is one of the
+single-row runs named in the cause section. The exchange-only column is untouched:
+the same baseline prices both readings, so the only thing that moves is the block.
+
+On 159501 every hard-suspended session was a single-row valuation gap, so 'n kept' is zero: the day-level contrast on that leg was pricing the calendar, not the fund, and this table is the one that says so.
 
 ## Days vs runs: how much evidence the block count actually is
 

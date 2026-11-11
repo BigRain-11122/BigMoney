@@ -327,12 +327,23 @@
     "verdict": "CALENDAR_GAP"
    },
    "block_contrast": {
+    "excluded_requested": 0,
     "gap_pp": 0.22034510669404206,
     "median_blocked_pct": 1.4954993266709016,
     "median_exchange_pct": 1.2751542199768595,
     "n_blocked": 29,
     "n_exchange": 796,
+    "n_excluded": 0,
     "verdict": "BLOCK_DOES_NOT_WIDEN"
+   },
+   "block_contrast_excl_gaps": {
+    "excluded_requested": 29,
+    "median_blocked_pct": null,
+    "median_exchange_pct": 1.2751542199768595,
+    "n_blocked": 0,
+    "n_exchange": 796,
+    "n_excluded": 29,
+    "verdict": "NO_CONTRAST"
    },
    "blocked_sessions": 29,
    "board_premium_pct": 20.2896,
@@ -1147,11 +1158,23 @@
     "verdict": "CALENDAR_GAP"
    },
    "block_contrast": {
+    "excluded_requested": 0,
     "gap_pp": 4.504760606067282,
     "median_blocked_pct": 5.0443289513910194,
     "median_exchange_pct": 0.5395683453237377,
     "n_blocked": 679,
     "n_exchange": 1223,
+    "n_excluded": 0,
+    "verdict": "BLOCK_WIDENS_PREMIUM"
+   },
+   "block_contrast_excl_gaps": {
+    "excluded_requested": 43,
+    "gap_pp": 4.822678862412622,
+    "median_blocked_pct": 5.36224720773636,
+    "median_exchange_pct": 0.5395683453237377,
+    "n_blocked": 636,
+    "n_exchange": 1223,
+    "n_excluded": 43,
     "verdict": "BLOCK_WIDENS_PREMIUM"
    },
    "blocked_sessions": 679,
@@ -2319,11 +2342,23 @@
     "verdict": "CALENDAR_GAP"
    },
    "block_contrast": {
+    "excluded_requested": 0,
     "gap_pp": 0.5194453047338621,
     "median_blocked_pct": 0.5007229601163621,
     "median_exchange_pct": -0.018722344617499997,
     "n_blocked": 64,
     "n_exchange": 1264,
+    "n_excluded": 0,
+    "verdict": "BLOCK_DOES_NOT_WIDEN"
+   },
+   "block_contrast_excl_gaps": {
+    "excluded_requested": 24,
+    "gap_pp": 0.6367484719187633,
+    "median_blocked_pct": 0.6180261273012633,
+    "median_exchange_pct": -0.018722344617499997,
+    "n_blocked": 40,
+    "n_exchange": 1264,
+    "n_excluded": 24,
     "verdict": "BLOCK_DOES_NOT_WIDEN"
    },
    "blocked_sessions": 64,
@@ -3373,11 +3408,23 @@
     "verdict": "CALENDAR_GAP"
    },
    "block_contrast": {
+    "excluded_requested": 0,
     "gap_pp": -0.6039894088919695,
     "median_blocked_pct": 1.1841025313559905,
     "median_exchange_pct": 1.78809194024796,
     "n_blocked": 58,
     "n_exchange": 600,
+    "n_excluded": 0,
+    "verdict": "BLOCK_DOES_NOT_WIDEN"
+   },
+   "block_contrast_excl_gaps": {
+    "excluded_requested": 20,
+    "gap_pp": -1.0309996662671739,
+    "median_blocked_pct": 0.7570922739807862,
+    "median_exchange_pct": 1.78809194024796,
+    "n_blocked": 38,
+    "n_exchange": 600,
+    "n_excluded": 20,
     "verdict": "BLOCK_DOES_NOT_WIDEN"
    },
    "blocked_sessions": 58,
@@ -3974,10 +4021,21 @@
     "verdict": "NO_ONE_ROW_RUNS"
    },
    "block_contrast": {
+    "excluded_requested": 0,
     "median_blocked_pct": null,
     "median_exchange_pct": 0.104792838109935,
     "n_blocked": 0,
     "n_exchange": 326,
+    "n_excluded": 0,
+    "verdict": "NO_CONTRAST"
+   },
+   "block_contrast_excl_gaps": {
+    "excluded_requested": 0,
+    "median_blocked_pct": null,
+    "median_exchange_pct": 0.104792838109935,
+    "n_blocked": 0,
+    "n_exchange": 326,
+    "n_excluded": 0,
     "verdict": "NO_CONTRAST"
    },
    "blocked_sessions": 0,
@@ -4045,7 +4103,7 @@
   "status_join": "申购状态 printed on the NAV stamp the premium used",
   "status_source": "EM fund_etf_fund_info_em column 申购状态 (dropped by the NAV cache)"
  },
- "summary_sentence": "5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 513100; exchange-only on their latest stamp: 159501, 513690, 159577, 159263; the 830 hard-suspended sessions are 141 runs (116 of them a single NAV row); 513100's gap sits in its single 435-session run (own gap +4.28) while its other 47 runs read +0.06; the single-row runs are not spread over the calendar: Tue carries 51% of them against 20% of priced sessions (chance 3e-13), so a one-row word is a word printed that session, not a fund policy; what those one-row words are is a valuation gap, not an announcement: 116/116 of them suspend 赎回 on the same row, they move the NAV by 0.10 of a normal session (median), and 89/116 sit on a session the NYSE calendar explains against 3.0% of ordinary sessions (25.5x); closed channel is consistent with a standing premium, not a verdict on it",
+ "summary_sentence": "5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 513100; exchange-only on their latest stamp: 159501, 513690, 159577, 159263; the 830 hard-suspended sessions are 141 runs (116 of them a single NAV row); with the 116 one-row valuation gaps removed the block still sits wider on 513100 and not on 513690, 159577; 159501 has no real suspension left at all; 513100's gap sits in its single 435-session run (own gap +4.28) while its other 47 runs read +0.06; the single-row runs are not spread over the calendar: Tue carries 51% of them against 20% of priced sessions (chance 3e-13), so a one-row word is a word printed that session, not a fund policy; what those one-row words are is a valuation gap, not an announcement: 116/116 of them suspend 赎回 on the same row, they move the NAV by 0.10 of a normal session (median), and 89/116 sit on a session the NYSE calendar explains against 3.0% of ordinary sessions (25.5x); closed channel is consistent with a standing premium, not a verdict on it",
  "ticket": {
   "as_of": "2026-11-09",
   "path": "results\\etf_book_order\\TICKET-2026-11-09.json"

@@ -13090,3 +13090,18 @@ rate >= max(60%, 3x 自己普通会话的发生率) **且**比另一本高 10pp 
 **一句话**：横截面的名次说明它今天在人群里站在哪，说明不了它自己走了多远——要判「贵」，得用这只票自己的脚步去量。
 
 **证据**：`scripts/etf_book_premium_leak.py`（`own_series`/`own_stats`/`own_summary` + check 四条自有尺子重算腿 + selftest 32/32）· `results/etf_book_premium_leak.json`（`own_ruler` / `own_ruler_summary` / `stress.if_premium_reverts_to_own_median_cny`）· `docs/live_book/LIVE-BOOK-20261111.md`「换一把尺子再问一遍」段 · `scripts/etf_book_ceo_page.py premium_face/premium_block`（自有尺子透传 + 旧句限定车道）。
+
+## E547 一个对比里的「天」混了两种成因：把已命名的那一类减掉再读一遍，两个数一起印 · 2026-11-11 r1555 bm-c
+
+「暂停申购日均溢价 vs 场内买入日均溢价」这张表把每一个 `暂停申购` 计时单位都当成一次基金决定。上一张卡（E542）已经证明其中 **116 个单行段是海外休市造成的估值缺口**——那些日子没有新净值，溢价是拿旧净值算出来的。于是这张表里有一格其实是**日历**在跟**基金**比。
+
+**把它减掉再读，有一条结论换了主人**（覆盖到 2026-11-10）：513100 +4.50 → **+4.82pp**（保留 636 天 / 剔除 43 天）仍加宽；513690 +0.52 → +0.64、159577 −0.60 → −1.03pp，两只都不加宽（后者更负）；**159501 的 29 个暂停日全部是单行段**，减完 `n_kept=0` → `NO_CONTRAST`——它此前那句「不加宽」量的是日历，不是基金；159263 覆盖期内从未暂停。
+
+**三件可复用的**：
+1. **先问这一格里有没有第二种成因。** 「每一天都是一个观测」是个假设，不是事实；一旦另一种成因已被命名（时间邻居卡、历法卡），同一张表就必须分段读——否则剔除会看起来像「换个口径」，实际上是在改结论的归属。
+2. **减法要守恒，且守恒式进 check。** `n_kept + n_dropped == blocked_sessions`，且 `n_dropped ≤ 该腿单行段数`；两条断言写进 `_check_excluded_contrast`，手改 `n_excluded` 或把 verdict 写成自己 gap 不支持的值当场红。没有这条，「剔除后」可以是一条完全不同的序列而账面看不出来。
+3. **`n_kept=0` 必须单独点名，不能印 `n/a` 了事。** `n/a` 与「这条腿根本没有真暂停」在版面上同形，而后者是这次最有价值的读数——它把一条既有结论撤回。判词由计数派生、页面同时印两个读数（原表 + 剔除表），摘要句也只从计数里长出来。
+
+**一句话**：把两种成因的天放在一格里平均，平均出来的是谁的决定，取决于谁的日历更常关门。
+
+**证据**：`scripts/etf_book_premium_subscription.py`（`block_contrast(exclude_stamps=…)` / `block_contrast_excl_gaps` / `_check_excluded_contrast` + selftest **91/91** 新增 L32–L33 + `check` OK 含守恒腿与页面腿）· `results/etf_premium/PREMIUM-SUBSCRIPTION.md`「The same contrast with the valuation gaps removed」节 · 同目录 JSON 孪生。

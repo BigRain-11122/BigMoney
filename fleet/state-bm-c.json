@@ -9,7 +9,7 @@
  "ram_load_pct": 81,
  "recent_artifact": "docs/live_book/LIVE-BOOK-20261111.md",
  "round": 1542,
- "round_no": 1547,
+ "round_no": 1555,
  "status": "product-closeout",
  "task": "r1542: the card is the third paper -- it was only ever asked for its pricing day, so its data cut rode along unread",
  "ts": "2026-11-11T10:05:09+08:00",
@@ -17,5 +17,9 @@
  "updated_at": "2026-11-11T08:50:00+08:00",
  "verdict": "py_low_board_clear",
  "verify": "concentration_levers selftest 15/15 + run rc0 (control reproduces published yearly rows) + check CHECK_OK; S6 dualrun ZERO-DRIFT streak 51, compute_audit rc0 FLAG pool_starvation+supply_floor (AGENDA_DEBT calendar), watermark py_low_board_clear, update_daily rc0 zero new rows (cutoff 2026-11-06); attrition CLEAN; orphans 0",
- "vram_free_gb": 13.7
+ "vram_free_gb": 13.7,
+ "rounds": 1555,
+ "last_round": 1555,
+ "round_t1555_note": "| 2026-11-11 15:10-15:3x | 1555 | **PRODUCT（产品优先律）：一格里混着两种成因的天，平均出来的是谁的日历。** 上一轮已把 116 个单行 `暂停申购` 判成海外休市造成的估值缺口（该日无新净值，溢价拿旧净值算），但「暂停申购日均溢价 vs 场内买入日均溢价」仍把这些天当成基金决定。本轮把已命名的那一类减掉重读、两个数并排印：**513100 +4.50→+4.82pp（保留 636 天/剔除 43 天）仍加宽；513690 +0.52→+0.64pp、159577 −0.60→−1.03pp 都不加宽；159501 的 29 个暂停日全部是单行段 → 保留 0 天 → NO_CONTRAST，它此前那句「不加宽」量的是日历；159263 覆盖期内从未暂停。** 正法=`block_contrast(exclude_stamps=…)` 只减「已命名那一类」的行、场内基准一字不动（同一基线价两读），判词由 gap 派生；`_check_excluded_contrast` 把守恒写死（`n_kept+n_dropped==blocked_sessions`、`n_dropped≤该腿单行段数`、verdict 与 gap 一致、页面必须印出该节）。**验证**：selftest **91/91**（新增 L32–L33 共 8 腿）· `check` OK · 实弹重发布 `results/etf_premium/PREMIUM-SUBSCRIPTION.md`（新节「The same contrast with the valuation gaps removed」）· 摘要句自动长出「159501 has no real suspension left at all」。**S6**：dualrun **ZERO-DRIFT**（744 条 streak 51）／compute_audit FLAG `pool_starvation(16372min)+supply_floor(ready 0/floor 3·AGENDA_DEBT·4 候选全 NO_CANDIDATE_PASSES_CALENDAR)`／py_watermark `insufficient_history`（cpu 8%·py 0%）／update_daily rc0 **0 新行** cutoff 2026-11-10（15:18 未到 15:30 合法 no-op）。**S0.5**：`Tools/s05_probe.py` orders_delta=false / decisions_delta=false / unacked=[]；`fleet/orders/` 114/114 全在心跳 `orders_ack`（241 条）。**S7**：loop pin=5 no-op（首跳 15:20）、watchdog 重注册（S4U 翻转仍被拒·需管理员）、两爪 LF 归一重装、attrition 4 账本 **CLEAN**（3 处历史缩行 healed）。孤儿面 py_faces=3 **orphans=0** 零杀。**当前活**：把「限购推高溢价」这条结论从「日历+基金」的混合平均里拆出来。**最近实物**：`results/etf_premium/PREMIUM-SUBSCRIPTION.md`（15:19 重发布）＋ 方法卡 **E547**。**下个里程碑**：15:30 后今日收盘 bar 落地，用真收盘把同一 5,546.48 份 × 11-11 新价重估（窗 ≤48h）。**未验证（如实）**：全量套件本轮未跑（14:52 起那份仍由上一窗后台进程推进、与本轮改件无关），本轮以 selftest 91/91 + check OK + 实弹重发布为据。 |",
+ "round_t1555_next": "next: 15:30 后今日收盘 bar 落地 → 用真收盘重估同一 5,546.48 份 × 11-11 新价；次优先=lane 每轮领 R-NEXT-BIGSTREAMM-REBUILD-20261109 却 0.1s 报 rc=1 E-INPUT 的归因"
 }
