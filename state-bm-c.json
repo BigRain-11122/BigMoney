@@ -1,5 +1,5 @@
 {
- "activity_now": "two calendars in hand: the US list by rule, Hong Kong measured on the HSI series; a leg is named only when one beats the other by 10pp and a tie names neither",
+ "activity_now": "mv rebuild card: a 0.1s E-INPUT that had burned five generations was not missing input at all -- the tool's roots were the author's box; fixed, now audited by --dry, card hard-pinned to bm-a",
  "agenda_starved": false,
  "ahead_origin": 0,
  "behind_origin": 0,
@@ -13,7 +13,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-11T10:23:14+08:00",
+ "clock_read": "2026-11-11T13:49:57+08:00",
  "codely_live_count": 2,
  "comfy_free_vram_mb": 14015,
  "cores": 32,
@@ -21,7 +21,7 @@
  "cpu_idle_pct": 92.7,
  "cpu_pct": 9.7,
  "cpu_util_pct": 9.7,
- "cur_task": "r1536: one decision clock (anchor + official calendar); swap section stopped rolling its own",
+ "cur_task": "r1552: mv_rebuild_from_edl/v2/v5 roots derive from __file__; --dry is a real audit; lane refuses hard-pinned cards",
  "current": "r1546 / round_no 1546",
  "current_task": "r1546: the premium question answered from the source column the cache drops",
  "current_task_at": "2026-11-11T10:23:14+08:00",
@@ -830,7 +830,7 @@
  "ram_total_gb": 23.9,
  "recent_artifact": "docs/live_book/LIVE-BOOK-20261111.md",
  "round": 1542,
- "round_no": 1550,
+ "round_no": 1552,
  "round_no_label": "r1541",
  "round_no_landed": 1492,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1056,14 +1056,16 @@
  },
  "task": "next: 15:30 后重估 25 段真暂停（r1550 遗留）；次优先=lane 每轮领 R-NEXT-BIGSTREAMM-REBUILD-20261109 却 0.1s 报 rc=1 E-INPUT 的归因；另需 CEO/管理员加 Defender 排除项，否则 VBS 链只能一直绕开",
  "total_ram_gb": 23.9,
- "ts": "2026-11-11T13:00:19",
+ "ts": "2026-11-11T13:49:57+08:00",
  "updated": "2026-11-11T13:00:19",
- "updated_at": "2026-11-11T13:00:19",
+ "updated_at": "2026-11-11T13:49:57+08:00",
  "verdict": "PRODUCT: 22 个被 Defender 删掉的任务里，claim 腿第一次用「没有脚本宿主」的方式装了回来——pythonw 动作 state=Ready、12:46:25 实点着火、日志续写；同时把「注册成功」从一句 print 改成一次读回",
  "verify": "claim task state=Ready (pythonw action, no VBS) · fired 12:46:25 · claim log LANE-ACCEPT+POOL-EMPTY · fleet-align receipt 'task present state=Ready' · card_text_hygiene selftest 15/15 · corpus 0 control chars / 0 eaten prefixes · S6 dualrun/compute_audit/py_watermark/update_daily rc0",
  "verify_smoke_closed": "previous window's suite closed 546/547 with one red (live_book_section_bars stale face) -- refreshed this round, check now CHECK_OK rc0",
  "vram_free_gb": 14.5,
  "watermark_verdict": "insufficient_history",
  "round_t1551_note": "| 2026-11-11 12:30-13:4x | 1551 | **PRODUCT：把「没有 claim 执行器」从一句状态改写成因果链并让它重新跑起来。** 根因不是 bm-c 没装，而是 **07:49:03 Defender 以 Trojan:Script/ObfusScript.A!ml 删了 22 个任务 + InvisibleRunner.vbs**，此后每次重注册都在几秒内被再隔离；而调用方 fleet-align **无条件打印 registered**，让拒绝与成功同形。修法=task-register 新增 -NoVbs（.py + pythonw.exe，读回改「期望链条」）+ 新 Tools/hq_claim_launch.py 托管同一份 hq-lane-claim.bat（CREATE_NO_WINDOW）+ fleet-align 注册后 Get-ScheduledTask 实证且失败置 rc=1。验证：HQ-ProductionClaim state=Ready、12:46:25 实点着火、日志 LANE-ACCEPT/POOL-EMPTY；集团 commit 4546fa97e 已推（0/0）。同族第二枚：卡账被 \\r/\\a/\\t 吃字（results→esults、rate→ate、thin→hin、detail_mismatch→ail_mismatch），卫生闸把 TAB 当合法 → 收紧为「语料内无 TAB」，修后 smoke 两条 config 红转绿、卫生闸 15/15。S6：dualrun ZERO-DRIFT(streak 51)/compute_audit FLAG pool_starvation+supply_floor(AGENDA_DEBT)/py_watermark insufficient_history/update_daily 0 新行。未解物理件：Defender 排除项需管理员；S4U 需提权（入 backlog）。",
- "round_t1551_next": "next: 15:30 后重估 25 段真暂停（r1550 遗留）；次优先=lane 每轮领 R-NEXT-BIGSTREAMM-REBUILD-20261109 却 0.1s 报 rc=1 E-INPUT 的归因；另需 CEO/管理员加 Defender 排除项，否则 VBS 链只能一直绕开"
+ "round_t1551_next": "next: 15:30 后重估 25 段真暂停（r1550 遗留）；次优先=lane 每轮领 R-NEXT-BIGSTREAMM-REBUILD-20261109 却 0.1s 报 rc=1 E-INPUT 的归因；另需 CEO/管理员加 Defender 排除项，否则 VBS 链只能一直绕开",
+ "round_t1552_note": "PRODUCT: mv rebuild card's 0.1s E-INPUT was path portability, not missing input (v2/v5/tool baked the author's box); --dry parsed but never read -> now a full audit; lane assignment no longer overrides hard_nodes (LANE-REFUSE/DEFER)",
+ "round_t1552_next": "15:30 close: re-price the same 5,546.48 shares at today's close (window <=48h); next=bm-a picks the newly pinned rebuild card and reports frames/5623"
 }

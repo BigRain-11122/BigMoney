@@ -13056,3 +13056,20 @@ rate >= max(60%, 3x 自己普通会话的发生率) **且**比另一本高 10pp 
 **一句话**：一个不会喊疼的闸，比没有闸更贵——它把「机制被拿走了」印成「机制在跑」。
 
 **证据**：`Tools/task-register.ps1`（-NoVbs + 链条期望读回）· `Tools/fleet-align.ps1`（注册后实证 + 回执 rc）· `Tools/hq_claim_launch.py` · `Tools/card_text_hygiene.py`（TAB 入控制字符集 + L1b）· Get-MpThreatDetection 四次隔离记录 · 集团 commit `4546fa97e`。
+
+## E545 工具写的是作者那台机的路径：一次派错变成每 5 分钟一次的永久失败 · 2026-11-11 r1552 bm-c
+
+**同一条 0.1s 失败，从 11-07 烧到 11-11，跨五代卡。** 本机 lane 每 5 分钟领 `R-NEXT-BIGSTREAMM-REBUILD-20261109`，0.1 秒报 `rc=1 error=E-INPUT`，日志里只有一行，读起来像「这台机缺输入，换台机就好」——而它其实一句都没有被执行过：`Tools/mv_rebuild_from_edl.py` 把 `BASE`/`WORK` 写死成 `D:\FluxGroup\…`、它导入的 `build_full_mv_v2/v5` 把根写死成 `C:\Users\sjs20\Desktop\FluxGroup`。在任何别的机器上，**import 阶段就抛 `PermissionError`**（v2 在 import 时 `os.makedirs(C:\Users\sjs20)`），于是「工具没跑起来」被登记成「这台机缺料」。
+
+**三件可复用的**：
+1. **E-INPUT 不能当结论，要能数。** 同一个错误类既覆盖「真的缺源」也覆盖「工具根本 import 不了」。正法不是换标签，而是让 `--dry` 变成审计：逐行解析源、报缓存、最后打一行 `DRY CANNOT-BUILD-HERE: 14/73 rows have no source on this box: …` 并 exit 2。这条命令把「本机能不能做」从五天的猜测变成一秒的读数（实测 bm-c 缺 KF1..KF10/SING3b/SIL4/Z02，它们在 `media/MV/mv0001/cloud-v4`，按机存在）。
+2. **`--dry` 被 parse 却从没被读，比没有更贵。** 它对外承诺了一个从未发生的验证，于是「干跑过了」这句话事实上没人能说。凡是开关注释里写了「干跑验数学」，就必须有一条腿证明它在编码前退出。
+3. **派工不能越过卡面的硬钉。** 主控 11:13 的车道件把 `hard_nodes=[bm-a]` 的卡派给 bm-c，而 `self_dispatch` 那条路是会执法 `hard_nodes` 的——**已派工这条路不查**，所以同一张卡在两条路上有两种命运。修法：`_runnable()` 先读卡面，冲突就 `LANE-REFUSE` + `DEFERRED`，把槽位还回去而不是拿本机的算力替别人的盘跑。
+
+**路径可移植的正法**：根从 `__file__` 推导，旧字面量保留为兜底（bm-a 解析结果一字不变）；ffmpeg 先认原 hub 二进制、再 `FFMPEG` 环境变量、再 PATH；`find_src` 的搜索序**只在末尾追加** `bmc/i2v`——旧序能解析的一行不动，只补旧序解析不到的镜。
+
+**读数**：bm-c `--dry` = rows 73 / planned 234.250s / 73 无缓存 / 14 缺源；对同一条卡 bm-a 在 2026-11-09 跑过 **rc=0、61.3s、frames 5623/5623**（段缓存热），故卡按证据钉 `hard_nodes=[bm-a]` 并写 `pin_reason`。lane 干跑已复现拒绝路径：`LANE-REFUSE … hard_nodes=[bm-a]` → `LANE-DEFER`。
+
+**一句话**：写死的路径不会报错，它会把「我不该在这台机跑」伪装成「这台机缺东西」，而缺东西是会自动重试的。
+
+**证据**：集团 commit `03e40c3af`（`Tools/mv_rebuild_from_edl.py` / `Tools/fleet/lane_agent.py` / `build_full_mv_v2.py` / `build_full_mv_v5.py`）· `cph4/fleet/rt/visual/queue.jsonl` 的 `hard_nodes/pin_reason` · 回执 `R-NEXT-BIGSTREAMM-REBUILD-20261109-bm-a.json`（rc=0 61.3s）· lane 日志 13:01–13:32 每 5 分钟一行 `FAILED rc=1 0.1s error=E-INPUT`。
