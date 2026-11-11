@@ -137,3 +137,34 @@ list that disagrees with the run count, and a cross-leg overlap smaller than the
 
 **Where it lives (updated):** `selftest` 70/70 (L22-L27) ·
 `results/etf_premium/PREMIUM-SUBSCRIPTION.json#blip_cause_pooled` and `#blip_cause_cross` · card E542.
+
+## The calendar that cannot be derived, measured instead (r1550)
+
+r1549 left one leg unnamed: 513690's one-row dates do not match the New York list, and the page said
+so rather than giving it the nearer word. That was honest, but the reason given — "a different market
+whose holiday list this face cannot derive from rules" — is only half true. HKEX cannot be derived
+(lunar statutory holidays plus typhoon and black-rainstorm closures), but it can be *measured* on the
+HSI daily series: **no bar = Hong Kong did not trade**; **turnover under 60% of its own trailing-20
+median = a half day**, which has no closing valuation to strike NAV against. Those are two different
+statements (`closed` vs `thin`), and a third one covers the multi-session gap (`window`: a weekday
+inside `(prev_stamp, stamp]` on which Hong Kong was shut).
+
+With two calendars in hand, naming becomes a contest rather than a choice. Each leg is scored against
+both; a calendar is named only when it explains at least 60% of the runs at three times the leg's own
+ordinary-session rate **and** beats the other calendar by 10pp. A date both explain — Christmas is
+shut in both markets — names neither: a tie between two calendars is not a measurement.
+
+Measured on 3,255 HSI sessions (2013-08-20..2026-11-10): pooled over the 116 one-row runs, the NYSE
+list explains **89 (76.7%, 25.5x ordinary sessions)** and the Hong Kong list **45 (38.8%, 6.9x)** — so
+the pool still names NYSE, and the Hong Kong column is printed beside it rather than dropped for
+losing. Per leg the reading splits: **HKEX names 513690 (7 of its 8 runs, 87.5%)**, NYSE names 159501,
+513100 and 159577, and 159263 has no one-row runs to name. The pool word and the per-leg word answer
+different questions, and the page prints both.
+
+The half-day cutoff is a ruler, not a fact, so the Hong Kong reading is published at 50/60/70% of
+trailing turnover (44/45/49 runs). A missing cache is printed as missing and no HK word is named: an
+unmeasured calendar is not evidence.
+
+**Where it lives:** `selftest` 82/82 (L28-L31) · `results/etf_premium/PREMIUM-SUBSCRIPTION.json#hk_index`
+and `#blip_cause_pooled.hk_*` · `data/etf_premium/hk_index_HSI.csv` (as-collected, 6h freshness window,
+`fetched`/`cache`/`cache-stale` printed) · card E543.
