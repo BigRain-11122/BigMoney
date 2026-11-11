@@ -1381,7 +1381,9 @@ def premium_read(ticket, asof=None, results_dir=None):
            "fwd_status": "missing", "fwd_face_asof": None, "fwd_stale": None,
            "fwd_verdict": None, "fwd_horizon": None, "fwd_sentence": None,
            "fwd_caveat": None, "fwd_rows": [], "fwd_missing_legs": [],
-           "fwd_cny_total": None}
+           "fwd_cny_total": None,
+           "fwd_defer_verdict": None, "fwd_defer_band": None,
+           "fwd_defer_sentence": None, "fwd_defer_rows": []}
     face = _premium_face(results_dir)
     pct = _premium_pct_face(results_dir)
     fwd = _premium_forward_face(results_dir)
@@ -1419,6 +1421,24 @@ def premium_read(ticket, asof=None, results_dir=None):
                 _cny += float(l["same_bucket_past_move_cny"])
                 _cny_seen = True
         out["fwd_cny_total"] = round(_cny, 2) if _cny_seen else None
+        # the horizon this order can actually wait for: one session. Read from the same
+        # producer face (never recomputed here) and carried per leg of THIS order.
+        one = fwd.get("one_session") or {}
+        if one:
+            band = one.get("band")
+            out["fwd_defer_verdict"] = one.get("verdict")
+            out["fwd_defer_band"] = band
+            out["fwd_defer_sentence"] = one.get("sentence")
+            for r in ((ticket or {}).get("order") or []):
+                l = (one.get("legs") or {}).get(r.get("symbol"))
+                if not isinstance(l, dict):
+                    continue
+                b = ((l.get("bands") or {}).get(band) or {})
+                out["fwd_defer_rows"].append({
+                    "symbol": l.get("symbol"), "band": l.get("latest_band"),
+                    "latest_pctile": l.get("latest_pctile"),
+                    "n": b.get("n"), "median_pct": b.get("median_pct"),
+                    "share_down": b.get("share_down")})
     pct_legs = {}
     if pct is not None:
         out["pct_status"] = "produced"
@@ -1581,6 +1601,30 @@ def premium_read_md(tk):
         if tk.get("fwd_sentence"):
             L += ["- 生产者原句（判词 **%s**，窗口 %s 日）：%s"
                   % (tk.get("fwd_verdict") or "?", tk.get("fwd_horizon") or "?", tk["fwd_sentence"])]
+        # one session: the only horizon this order can choose to wait for
+        if tk.get("fwd_defer_verdict") is not None:
+            band = tk.get("fwd_defer_band") or "?"
+            L += ["", "- **等一个会话再买，历史上有没有用**（判词 **%s**，档 `%s`）：下面这张表问的是"
+                  "「这只基金自己在同一档位时，下一个会话的价格往哪走」——不是预测今天。"
+                  % (tk["fwd_defer_verdict"], band)]
+            rows = [r for r in (tk.get("fwd_defer_rows") or [])
+                    if r.get("n") not in (None, 0)]
+            if rows:
+                L += ["", "| 代码 | 今日自身分位 | 该档下一会话涨跌中位 | 下跌占比 | 样本 n |",
+                      "|---|---|---|---|---|"]
+                for r in rows:
+                    L.append("| %s | %s%% | %s | %s | %d |"
+                             % (r["symbol"],
+                                "-" if r.get("latest_pctile") is None
+                                else "%.1f" % float(r["latest_pctile"]),
+                                _pp(r.get("median_pct")),
+                                "-" if r.get("share_down") is None
+                                else "%.0f%%" % (100.0 * float(r["share_down"])),
+                                int(r["n"])))
+            else:
+                L += ["- 本单没有 leg 的历史走到过这一档 —— 那不是「等一天没差别」，是这只基金在这档位上还没被观察到。"]
+            if tk.get("fwd_defer_sentence"):
+                L += ["- 生产者原句：%s" % tk["fwd_defer_sentence"]]
         L += ["- **这一列量的是价格，不是建议**：高溢价不是卖单（限购基金可常年溢价），"
               "低分位也不是买点；本面只回答「上一次有人在这个价位买，之后价格怎么走」。",
               "- 出处：`%s`（scripts/etf_book_premium_forward.py 单一生产者）。" % PREMIUM_FORWARD_FACE]

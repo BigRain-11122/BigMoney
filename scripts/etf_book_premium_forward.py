@@ -57,7 +57,16 @@ OUT = os.path.join(OUT_DIR, "PREMIUM-FORWARD.json")
 DOC = os.path.join(ROOT, "research", "ETF_BOOK_PREMIUM_FORWARD.md")
 
 THIN_N = pp.THIN_N          # 60 usable observations: below this there is no scale
-HORIZONS = (5, 20)
+# h=1 is the horizon the person placing the order actually faces: pay today's close or
+# wait one session. It is reported beside the 5/20-session buckets, never instead of them.
+HORIZONS = (1, 5, 20)
+# The decile bucket is 10% wide and today's three expensive legs sit at 98.8-99.9, i.e.
+# in the top 2% -- a band the TOP>=90 mean dilutes with the 90-95 mass. These bands are
+# cut finer at the tail, and the deferral read is taken on the last one.
+TAILS = (("P95_98", 95.0, 98.0), ("P98P", 98.0, None))
+DEFER_BAND = "P98P"
+DOWN_LINE = 0.55            # a history counts as "the next session fell" at >=55% of cases
+DEFER_WORDS = ("WAITING_PAID", "WAITING_COST", "NO_READ")
 MIN_PRIOR = 60              # a percentile needs a history behind it before it means anything
 IC_LINE = 0.05              # |pooled rank IC| below this is no information
 T_LINE = 2.0
@@ -73,6 +82,16 @@ def bucket_of(pctile):
     if pctile is None:
         return None
     for name, lo, hi in BUCKETS:
+        if (lo is None or pctile >= lo) and (hi is None or pctile < hi):
+            return name
+    return None
+
+
+def tail_of(pctile):
+    """Tail band for a causal percentile in [0, 100]; None outside the upper tail."""
+    if pctile is None:
+        return None
+    for name, lo, hi in TAILS:
         if (lo is None or pctile >= lo) and (hi is None or pctile < hi):
             return name
     return None
@@ -121,6 +140,71 @@ def describe(vals):
     sd = math.sqrt(var)
     t = m / (sd / math.sqrt(n)) if sd > 1e-12 else None
     return {"n": n, "mean_pct": m, "sd_pct": sd, "t": t}
+
+
+def tail_stats(vals):
+    """One tail band's next-session sample, with the two counters a mean cannot carry.
+
+    ``share_down`` is the share of sessions whose next-session price move was negative --
+    an average of -0.02% can come from 51% small losses or from 90% losses and 10% wins,
+    and those are different worlds for someone deciding whether to wait.
+    """
+    xs = [v for v in vals if v is not None]
+    d = describe(xs)
+    d["median_pct"] = pp.q(xs, 0.5) if xs else None
+    d["share_down"] = (sum(1 for v in xs if v < 0) / float(len(xs))) if xs else None
+    return d
+
+
+def one_session_obs(rows):
+    """Raw next-session price moves split by the tail band the session sat in.
+
+    Returns (obs, pct): obs maps band -> [move in percent]; pct is the causal percentile
+    series (kept so the caller can say which band the latest session sits in).
+    """
+    closes = [r.get("close") for r in rows]
+    prem = [r.get("premium_pct") for r in rows]
+    pct = expanding_percentile(prem)
+    fwd = fwd_returns(closes, 1)
+    obs = {name: [] for name, _lo, _hi in TAILS}
+    for i in range(len(rows)):
+        if pct[i] is None or fwd[i] is None:
+            continue
+        b = tail_of(pct[i])
+        if b:
+            obs[b].append(fwd[i])
+    return obs, pct
+
+
+def defer_verdict(pooled):
+    """Derived from the pooled P98P sample: did the next session fall, rise, or say nothing?"""
+    b = (pooled or {}).get(DEFER_BAND) or {}
+    if b.get("n", 0) < THIN_N or b.get("median_pct") is None or b.get("share_down") is None:
+        return "NO_READ"
+    if b["median_pct"] < 0 and b["share_down"] >= DOWN_LINE:
+        return "WAITING_PAID"
+    if b["median_pct"] > 0 and b["share_down"] <= 1.0 - DOWN_LINE:
+        return "WAITING_COST"
+    return "NO_READ"
+
+
+def defer_sentence(pooled, legs):
+    """The one-session read in words, with the count that supports it (never typed)."""
+    b = (pooled or {}).get(DEFER_BAND) or {}
+    if not b.get("n"):
+        return ("no session in these funds' own records reached the %s band, so the one "
+                "session the ticket could wait for has no history here" % DEFER_BAND)
+    head = ("after sessions at or above the 98th percentile of the fund's own history, "
+            "the NEXT session moved a median %s%% (mean %s%%, fell in %s%% of %d cases)"
+            % (_fmt(b.get("median_pct")), _fmt(b.get("mean_pct")),
+               "n/a" if b.get("share_down") is None else "%.0f" % (100.0 * b["share_down"]),
+               b["n"]))
+    there = ["%s %.1f" % (l["symbol"], l["latest_pctile"])
+             for l in legs if l.get("latest_band") == DEFER_BAND
+             and l.get("latest_pctile") is not None]
+    tail = ("; today's legs in that band: " + ", ".join(there)) if there \
+        else "; no leg of this ticket sits in that band today"
+    return head + tail
 
 
 def spearman(xs, ys):
@@ -282,6 +366,13 @@ def build(hist=None, horizons=HORIZONS):
             "thin_n": THIN_N,
             "ic_line": IC_LINE,
             "t_line": T_LINE,
+            "tail_bands": ["%s [%s, %s)" % (n, "-inf" if lo is None else "%.0f" % lo,
+                                            "+inf" if hi is None else "%.0f" % hi)
+                           for n, lo, hi in TAILS],
+            "defer_read": "h=1 next-session price move pooled over the sessions each leg "
+                          "sat in %s; WAITING_PAID at median<0 with >=%.0f%% down, "
+                          "WAITING_COST at median>0 with <=%.0f%% down, else NO_READ"
+                          % (DEFER_BAND, 100.0 * DOWN_LINE, 100.0 * (1.0 - DOWN_LINE)),
         },
         "horizons": {},
     }
@@ -329,6 +420,32 @@ def build(hist=None, horizons=HORIZONS):
             "verdict": verdict_of(legs, pooled),
         }
 
+    # ---- the one-session read: the only horizon the order itself can choose to wait for
+    one_legs = {}
+    pooled_vals = {name: [] for name, _lo, _hi in TAILS}
+    for sym, rows in sorted(legs_by.items()):
+        obs, pct = one_session_obs(rows)
+        latest = next((p for p in reversed(pct) if p is not None), None)
+        one_legs[sym] = {
+            "symbol": sym, "rows": len(rows), "last_date": rows[-1]["date"],
+            "latest_pctile": latest, "latest_band": tail_of(latest),
+            "amount_cny": amounts.get(sym),
+            "bands": {k: tail_stats(v) for k, v in obs.items()},
+        }
+        for k, v in obs.items():
+            pooled_vals[k].extend(v)
+    pooled_tails = {k: tail_stats(v) for k, v in pooled_vals.items()}
+    out["one_session"] = {
+        "horizon": 1,
+        "band": DEFER_BAND,
+        "pooled": pooled_tails,
+        "legs": one_legs,
+        "verdict": defer_verdict(pooled_tails),
+        "sentence": defer_sentence(pooled_tails, list(one_legs.values())),
+        "note": "a description of these funds' own records at this percentile, not a "
+                "recommendation to wait; the price move is measured, the reason is not",
+    }
+
     # the book-level word comes from the longer horizon (20 sessions) when it exists
     main = out["horizons"].get(str(horizons[-1])) or out["horizons"][str(horizons[0])]
     out["verdict"] = main["verdict"]
@@ -361,7 +478,10 @@ def sentence_of(out):
     ic = main["pooled_ic"]["ic"]
     head = ("premium percentile rank-IC with the next %d sessions is %s (%d legs)"
             % (h, _fmt(ic, 3), main["pooled_ic"]["legs_with_ic"]))
-    return head + "; " + "; ".join(parts)
+    text = head + "; " + "; ".join(parts)
+    if out.get("one_session"):
+        text += " || one session: " + out["one_session"]["sentence"]
+    return text
 
 
 # ---------------------------------------------------------------- accessors
@@ -380,6 +500,8 @@ def run():
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
     print("verdict: %s (h=%s)" % (out["verdict"], out["verdict_horizon"]))
+    print("defer read: %s (%s)" % (out["one_session"]["verdict"],
+                                   out["one_session"]["band"]))
     print(out["sentence"])
     print("wrote %s" % os.path.relpath(OUT, ROOT))
     return 0
@@ -444,6 +566,50 @@ def check():
         if abs(amt * mean / 100.0 - cny) > 1e-6 * max(1.0, abs(cny)):
             bad.append("%s CNY %r does not follow from %r x %r%%"
                        % (leg["symbol"], cny, amt, mean))
+    # the one-session read: the horizon the order can actually wait for. A leg that walks
+    # an empty band must print n=0, not a zero return; the pooled count must be the sum of
+    # the legs' counts (a pooled table that cannot be rebuilt from its rows is a second
+    # computation wearing the same name).
+    pub_one = pub.get("one_session") or {}
+    fresh_one = fresh.get("one_session") or {}
+    if not pub_one.get("pooled"):
+        bad.append("published face has no one-session read -- re-run the tool")
+    else:
+        for sym, leg in fresh_one.get("legs", {}).items():
+            have = (pub_one.get("legs") or {}).get(sym)
+            if not have:
+                bad.append("one-session leg %s missing from the published face" % sym)
+                continue
+            if have.get("latest_band") != leg.get("latest_band"):
+                bad.append("%s latest_band %r != %r"
+                           % (sym, have.get("latest_band"), leg.get("latest_band")))
+            for name, _lo, _hi in TAILS:
+                a = (have.get("bands") or {}).get(name) or {}
+                b = leg["bands"].get(name) or {}
+                if a.get("n") != b.get("n"):
+                    bad.append("%s %s n %s != %s" % (sym, name, a.get("n"), b.get("n")))
+                elif a.get("mean_pct") is not None and b.get("mean_pct") is not None \
+                        and abs(a["mean_pct"] - b["mean_pct"]) > 1e-6:
+                    bad.append("%s %s mean %s != %s"
+                               % (sym, name, a["mean_pct"], b["mean_pct"]))
+                elif a.get("share_down") is not None and b.get("share_down") is not None \
+                        and abs(a["share_down"] - b["share_down"]) > 1e-9:
+                    bad.append("%s %s share_down %s != %s"
+                               % (sym, name, a["share_down"], b["share_down"]))
+        for name, _lo, _hi in TAILS:
+            got_n = sum((l["bands"].get(name) or {}).get("n", 0)
+                        for l in fresh_one["legs"].values())
+            pub_n = ((pub_one.get("pooled") or {}).get(name) or {}).get("n")
+            if pub_n != got_n:
+                bad.append("pooled %s n %s != sum of legs %s" % (name, pub_n, got_n))
+        if pub_one.get("verdict") != fresh_one.get("verdict"):
+            bad.append("defer verdict %r != recomputed %r"
+                       % (pub_one.get("verdict"), fresh_one.get("verdict")))
+        pv = (pub_one.get("pooled") or {}).get(DEFER_BAND) or {}
+        if pv.get("n") and ("%.0f" % (100.0 * (pv.get("share_down") or 0.0))) \
+                not in (pub_one.get("sentence") or ""):
+            bad.append("the defer sentence does not print the pooled share it rests on")
+
     if bad:
         for b in bad[:12]:
             print("FAIL: " + b)
@@ -577,7 +743,52 @@ def selftest():
     if "never reached its own top decile" not in face2["sentence"]:
         fails.append("L26 a leg with no top-decile session must say so in the sentence")
 
-    print("%d/%d legs" % (26 - len(fails), 26))
+    # 12. tail bands are half-open and the top one is unbounded
+    eq(tail_of(None), None, "L27 no percentile has no tail band")
+    eq(tail_of(94.99), None, "L28 94.99 is below the tail")
+    eq(tail_of(95.0), "P95_98", "L29 95.0 opens P95_98")
+    eq(tail_of(98.0), "P98P", "L30 98.0 opens P98P")
+    eq(tail_of(100.0), "P98P", "L31 100 stays in P98P")
+
+    # 13. the one-session read reports which way the next session went, not just its mean
+    # (the fixture is dense enough that the tail band clears THIN_N -- a fixture below the
+    # floor would pass every assertion above by simply measuring nothing)
+    prems_long = [10.0 if (i % 10) == 0 else 0.0 for i in range(2000)]
+    px = 100.0
+    cl = []
+    for i in range(2000):
+        cl.append(px)
+        px *= 0.98 if (i % 10) == 0 else 1.0
+    obs, _pct = one_session_obs(_rows("TEST", prems_long, cl))
+    st = tail_stats(obs["P98P"])
+    if st["n"] < THIN_N:
+        fails.append("L32 the tail band collected %s hot prints, below the floor" % st["n"])
+    eq(defer_verdict({DEFER_BAND: st}), "WAITING_PAID",
+       "L33 a falling next session reads WAITING_PAID")
+    px = 100.0
+    cl2 = []
+    for i in range(2000):
+        cl2.append(px)
+        px *= 1.02 if (i % 10) == 0 else 1.0
+    obs2, _p2 = one_session_obs(_rows("TEST", prems_long, cl2))
+    eq(defer_verdict({DEFER_BAND: tail_stats(obs2["P98P"])}), "WAITING_COST",
+       "L34 the mirror case reads WAITING_COST")
+    short_obs, _p3 = one_session_obs(_rows("TEST", prems_long[:40], cl[:40]))
+    eq(defer_verdict({DEFER_BAND: tail_stats(short_obs["P98P"])}), "NO_READ",
+       "L35 a sample below the floor says nothing")
+
+    # 14. the pooled tail counts must be the sum of the legs' own counts
+    face3 = build(hist=_rows("TEST", prems_long, cl))
+    one = face3["one_session"]
+    legs_tot = sum(l["bands"][n]["n"] for l in one["legs"].values()
+                   for n, _lo, _hi in TAILS)
+    pooled_tot = sum(one["pooled"][n]["n"] for n, _lo, _hi in TAILS)
+    eq(pooled_tot, legs_tot, "L36 pooled tail counts are the sum of the legs")
+    if one["verdict"] not in DEFER_WORDS:
+        fails.append("L37 defer verdict %r is outside the vocabulary" % one["verdict"])
+
+    total = 37
+    print("%d/%d legs" % (total - len(fails), total))
     for f in fails:
         print("FAIL: " + f)
     return 1 if fails else 0
