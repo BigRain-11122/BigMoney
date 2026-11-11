@@ -13119,3 +13119,35 @@ r1553 把「这条车道答不了 X」改写成「这件事已由另一把尺子
 **一句话**：一个说「答案在那边」的句子，先去那边看一眼再写。
 
 **证据**：`scripts/etf_book_ceo_page.py` `premium_block`（thin 按 `own_ruler` 分桶）+ selftest **224/224**（新增 L153–L155）· `docs/live_book/LIVE-BOOK-20261111.md` 第 73 / 89 行。
+
+## E549 「两个面报同一个数不一致」先比时间戳，再比口径：旧读数不是矛盾，不同口径不是校验 · 2026-11-11 r1559 bm-c
+
+11-11 下午 CEO 页面上写着「**两张收据对同一个额度报了不同的数——本页不宣称这张单守住了额度**」，而实际状态是这本书比自己的额度低 **3.91pp**。同一句话底下压着两个互不相干的缺陷：
+
+1. **下游比上游旧**。裁剪表 17:26 生成，它读的额度面 17:43 才被重写；两个 `permitted_k` 不同（0.393073 vs 0.432195）不是矛盾，是「这张表量的是上一版上限」。页面只有一个判据（值不等＝冲突），于是把「我读的是上一版」印成「两个面互相矛盾」——读者拿到了警报，却拿不到可行动的结论（重跑下游），也没人知道该卖几手。
+2. **冲突门拿两种口径互校**。可执行票面用 `rulers.k_floor`（**全部**读数最小值，含静态配比 0.343508）去比 `permitted_k`（**仅路径**读数最小值 0.432195）。r1557c 重建尺子面之前两者恰好是同一格，这条门看起来像恒等式；面板一变，它**每跑必红**，票面于是自称 `PERMISSION_FACES_CONFLICT`，拒绝把自己当可执行单。
+
+**三律**：
+
+1. **面与面比对先比 `generated`，再比值**。上游更新 → 下游 stale 是「重跑」，不是「对账」；页面遇到 stale 要印「这是上一版额度」，并且**不出那张表**（按旧上限算的卖出量会少卖）。
+2. **冲突门必须同口径**：静态配比没有决策 bar，不投票。要么用同一批格比较，要么把被排除的格名字印在同一句里。
+3. **一条「必须相等」的恒等式，只要两边定义不同，就会在数据一变时变成永久红灯**；红灯必须能靠「遵守它」变绿——否则它教人去做的是改数字。
+
+**一句话**：把「谁比谁旧」和「谁跟谁矛盾」分成两件事，剩下的红才是真的要修的。
+
+**证据**：`scripts/etf_book_order.py` `permission_block`（`path_cells`/`path_floor`/`floor_excludes` + selftest leg49j/49k）· `scripts/etf_book_ceo_page.py`（`_older_than` + `consistency.stale_readers` + selftest L149）· `scripts/etf_book_cut_order_gap.py`（`upstream` 块 + check 第 9 腿「upstream receipt」）· `Tools/s6_chain_bmc.py`（`rebalance_permission_write` / `cut_order_gap_write` 生产者腿，排在各自 check 之前）。
+
+## E550 往一张表里加一把尺子，会静默改掉旧名字的所指 · 2026-11-11 r1560 bm-c
+
+11-11 晚，`etf_book_size_rulers_decision.json` 的 `k_floor` 是 **0.343508**，而 `floor_memory` 与 `floor_ledger` 一直按 **0.432195** 定价，smoke 因此连红两条。不是谁算错了：`k_floor` 从诞生那天起就是「**这张表上所有尺子里的最小值**」，r1449 加进来的 `denominator` 尺子 beta 最大，于是它拿走了「最小值」这个位置——**r1449 没有改 `k_floor` 的代码，却改掉了它指的数**。同一个词，从「地板」变成了「最深的一格」。
+
+同族第二枚（同日修）：r1544 的腿用 `next_rebalance_date` 判断「今天是不是换仓日」。在 `mode=hold` 里它成立；在 `mode=rebalance`（今天既决定又定价）里它已经是**下一次**，于是正确的页面被判红。
+
+**两律**：
+
+1. **加成员就是改名字**。任何「取全体最小值/最大值/首尾」的字段，在它的成员集合扩张时必须同时做一件事：改字段名（`k_min_across_rulers`）、或加一个语义字段（`k_floor_semantics: "NOT the issued floor; see k_issued"`），并把真正被下游消费的那个量单列（本例 `k_issued`，从 provenance 的 issuing cell 单源读）。只加一格不改名＝下游两个面会在某天突然对不上，而且谁都没改过代码。
+2. **日期源要跟着世界的模式走**。同一个「下一次」，在持有世界里是 `next_rebalance_date`，在换仓世界里是 `priced_bar`；一条腿拿一个字段去覆盖两种世界，就会在第二种世界里把对的判成错的。判据先问「现在在哪个世界」，再问「哪个字段说这件事」。
+
+**一句话**：断言红的时候先问「这个字段名当初指的是不是同一批成员」——名字不变、所指变了，是最难查的一种口径漂移。
+
+**证据**：`scripts/etf_book_size_rulers_decision.py` `issued_floor()` + `k_issued`/`k_floor_semantics`；`smoke_test.py` r1472 腿改比 `k_issued`（缺则红）、r1473 恒等式改用签发格自己的 beta、r1544 腿按 `mode` 选日期源；`results/etf_book_size_rulers_decision.json`（`k_issued`=0.432195·cell=universe，与 floor_memory 0.432195 / floor_ledger 0.432195 三方一致）。

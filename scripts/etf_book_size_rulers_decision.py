@@ -24,6 +24,7 @@ import time
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TICKET_GLOB = "results/etf_book_order/TICKET-*.json"
 SPLIT_RECEIPT = "results/etf_book_class_beta_split.json"
+ISSUING_FACE = os.path.join(BASE, "results", "etf_book_floor_provenance.json")
 OUT = os.path.join(BASE, "results", "etf_book_size_rulers_decision.json")
 
 GRADED = ("equity", "commodity", "convertible")
@@ -47,6 +48,33 @@ def _read_json(rel):
         return None
     with open(p, encoding="utf-8") as f:
         return json.load(f)
+
+
+def issued_floor(target, known):
+    """The floor actually issued: beta_target / the beta of the cell that issued it.
+
+    `k_floor` below is the MIN across every ruler on the table, which stopped being the
+    issued floor in r1449 when the `denominator` ruler joined: its beta is the widest of
+    the five, so the min sits below the number the ledger and floor_memory price against.
+    One name, two quantities (E456 / r1291 class). Read the issuing cell from the
+    provenance face (single source) rather than restating the rule here.
+    """
+    cell = None
+    if os.path.exists(ISSUING_FACE):
+        try:
+            with open(ISSUING_FACE, encoding="utf-8") as f:
+                ic = (json.load(f) or {}).get("issuing_cell") or {}
+            if ic.get("k") is not None:
+                return round(float(ic["k"]), 6), ic.get("cell")
+            cell = ic.get("cell")
+        except (ValueError, OSError):
+            cell = None
+    cand = [(n, c) for n, c in known.items()
+            if c.get("beta") and (c.get("bars") or 0) >= MIN_OBS]
+    if target and cand:
+        n, c = max(cand, key=lambda t: float(t[1]["beta"]))
+        return round(float(target) / float(c["beta"]), 6), n
+    return None, cell
 
 
 def latest_ticket():
@@ -79,7 +107,8 @@ def decide(cells, ticket):
         out.update({"verdict": "UNREADABLE",
                     "sentence": "a ruler could not be measured; an unread ruler is not "
                                 "evidence that the sizes agree",
-                    "k_floor": None, "k_ceiling": None})
+                    "k_floor": None, "k_ceiling": None,
+                    "k_issued": None, "k_issued_cell": None})
         return out
     ks = {n: float(c["k"]) for n, c in known.items()}
     k_lo, k_hi = min(ks.values()), max(ks.values())
@@ -89,6 +118,9 @@ def decide(cells, ticket):
     at_now = all(abs(k - float(k_now)) <= SIZE_TOL + 1e-12 for k in ks.values())
     out.update({
         "k_floor": round(k_lo, 6),
+        "k_floor_semantics": "min k across every ruler (NOT the issued floor; see k_issued)",
+        "k_issued": issued_floor(target, known)[0],
+        "k_issued_cell": issued_floor(target, known)[1],
         "k_ceiling": round(k_hi, 6),
         "deployed_floor_cny": round(k_lo * float(nav), 2),
         "deployed_ceiling_cny": round(k_hi * float(nav), 2),

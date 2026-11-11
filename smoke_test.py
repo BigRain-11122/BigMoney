@@ -3645,7 +3645,12 @@ def main() -> int:
         _lb_md_txt = (open(_lb_md_p, encoding="utf-8").read()
                       if _lb_gen and os.path.exists(_lb_md_p) else "")
         _tdt = bool(_ta.get("trade_day_is_today"))
-        _next_is_today = (str(_page.get("next_rebalance_date")) == _lb_gen)
+        # r1560: on the day the book is BOTH decided and priced (mode=rebalance) the next
+        # trade date is that same bar, while `next_rebalance_date` is already the following
+        # one -- so comparing the flag to next_rebalance_date reads a correct page as wrong.
+        # Compare against the date the page itself says is next to act on.
+        _next_is_today = (str(_page.get("next_rebalance_date")) == _lb_gen) \
+            if _mode == "hold" else (str(_page.get("priced_bar")) == _lb_gen)
         _hold_world = (_mode == "hold")
         _ok_tdt = (_tdt == _next_is_today
                    and (not _lb_md_txt
@@ -10784,7 +10789,11 @@ def _legs_supply_and_book():
         else:
             _f49 = json.load(open(_fp49, encoding="utf-8"))
             _fk49 = float(_f49.get("floor_k") or -1)
-            for _p49, _k49 in ((_sp49, "k_floor"), (_lp49, "assessed.floor")):
+            # r1560: `k_floor` on the ruler face is the MIN across every ruler, which stopped
+            # being the issued floor when the `denominator` ruler joined in r1449 (widest beta
+            # of the five). The quantity the ledger and floor_memory price against is
+            # `k_issued`; a face that omits it gets a red leg rather than a silent pass.
+            for _p49, _k49 in ((_sp49, "k_issued"), (_lp49, "assessed.floor")):
                 if not os.path.exists(_p49):
                     _bad49.append("%s missing" % os.path.basename(_p49))
                     continue
@@ -10843,17 +10852,23 @@ def _legs_supply_and_book():
             if os.path.exists(_sr50):
                 _s50 = json.load(open(_sr50, encoding="utf-8"))
                 _cells50 = _s50.get("cells") or {}
-                _maxb = max((v.get("beta") for v in _cells50.values()
-                             if v.get("beta") and v.get("k")
-                             and (v.get("bars") or 0) >= 60), default=None)
-                if _maxb is not None:
-                    _k_issued = float(_s50.get("beta_target") or 0.0) / float(_maxb) \
-                        if _s50.get("beta_target") else None
-                    _iss50 = (_f50.get("issuing_cell") or {}).get("k")
-                    if _k_issued is not None and _iss50 is not None \
-                            and abs(_k_issued - float(_iss50)) > 1e-9:
-                        _bad50.append("the issuing cell does not equal target/max(beta): %r vs %r"
-                                      % (_iss50, _k_issued))
+                # r1560: the identity is k = beta_target / the ISSUING cell's beta, not
+                # beta_target / max(beta over the whole table). Since r1449 the `denominator`
+                # ruler carries the widest beta, so the table-wide max names a cell that
+                # never issued anything -- the leg would demand 0.3435 from a 0.4322 floor
+                # that its own ledger prices against. Read the cell the provenance names.
+                _ic50 = _f50.get("issuing_cell") or {}
+                _issb = _ic50.get("beta")
+                if _issb and _s50.get("beta_target"):
+                    _k_issued = float(_s50["beta_target"]) / float(_issb)
+                    _iss50 = _ic50.get("k")
+                    if _iss50 is None or abs(_k_issued - float(_iss50)) > 1e-9:
+                        _bad50.append("the issuing cell does not equal target/that cell's beta: "
+                                      "%r vs %r (cell %r)"
+                                      % (_iss50, _k_issued, _ic50.get("cell")))
+                else:
+                    _bad50.append("the provenance names no issuing beta -- the identity cannot "
+                                  "be checked, which is not a pass")
         check("product: the floor's 2x2 split reconstructs its own headline gap",
               not _bad50, "; ".join(_bad50)[:220]
               or "window + universe-at-full-window + interaction == the printed gap")

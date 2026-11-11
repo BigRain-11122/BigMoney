@@ -1,7 +1,7 @@
 {
  "face": "etf_book_floor_memory",
- "asof": "2026-11-09T09:54:00+08:00",
- "evidence_cutoff": "2026-11-06",
+ "asof": "2026-11-11T18:49:31+08:00",
+ "evidence_cutoff": "2026-11-11",
  "question": "should the sizing rule carry the permission as an invariant (vol_cap=floor) instead of a person re-cutting the sheet every decision bar?",
  "rule": {
   "control": {
@@ -31,14 +31,14 @@
    "phase": "decision-grid start bar inside one rebalance cycle"
   }
  },
- "floor_k": 0.393073,
+ "floor_k": 0.432195,
  "control": {
-  "cagr_pct": 11.46,
-  "sharpe": 1.128,
+  "cagr_pct": 11.64,
+  "sharpe": 1.145,
   "maxdd_pct": -10.56,
   "turnover_per_decision": 1.080322,
   "decisions": 83,
-  "years": 6.8419,
+  "years": 6.8556,
   "yearly": {
    "2020": {
     "net_pct": 5.6072,
@@ -71,29 +71,29 @@
     "bars": 243
    },
    "2026": {
-    "net_pct": 1.898,
+    "net_pct": 3.1998,
     "cohorts": 3,
-    "bars": 203
+    "bars": 206
    }
   },
   "scale_median": 0.707818,
   "scale_max": 1.0,
-  "verdict_year_gate": "CONDITIONAL",
+  "verdict_year_gate": "ADMIT",
   "checks": {
    "Y1_positive_years_share": true,
    "Y2_median_positive": true,
    "Y3_worst_year": true,
-   "Y4_top2_share": false,
+   "Y4_top2_share": true,
    "C1_capacity": null
   },
-  "top2_share": 0.7108,
+  "top2_share": 0.6995,
   "arm": "control",
   "cost": 0.001,
   "vol_cap": 1.0,
   "phase": "2020-01-02",
-  "cap_binding_share": 0.9157,
-  "cap_binding_decisions_per_year": 11.108,
-  "n_decisions_over_floor": 76,
+  "cap_binding_share": 0.8916,
+  "cap_binding_decisions_per_year": 10.794,
+  "n_decisions_over_floor": 74,
   "n_decisions": 83,
   "published_cagr_pct": 11.49,
   "published_yearly_pct": {
@@ -103,7 +103,7 @@
    "2023": 5.473,
    "2024": 14.5496,
    "2025": 43.0627,
-   "2026": 1.898
+   "2026": 2.3688
   },
   "published_year_gaps_pp": {
    "2020": 0.0,
@@ -112,18 +112,18 @@
    "2023": 0.0,
    "2024": 0.0,
    "2025": 0.0,
-   "2026": 0.0
+   "2026": 0.831
   },
-  "reproduces_published": true
+  "reproduces_published": false
  },
  "cells": [
   {
-   "cagr_pct": 11.46,
-   "sharpe": 1.128,
+   "cagr_pct": 11.64,
+   "sharpe": 1.145,
    "maxdd_pct": -10.56,
    "turnover_per_decision": 1.080322,
    "decisions": 83,
-   "years": 6.8419,
+   "years": 6.8556,
    "yearly": {
     "2020": {
      "net_pct": 5.6072,
@@ -156,77 +156,13 @@
      "bars": 243
     },
     "2026": {
-     "net_pct": 1.898,
+     "net_pct": 3.1998,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
    "scale_median": 0.707818,
    "scale_max": 1.0,
-   "verdict_year_gate": "CONDITIONAL",
-   "checks": {
-    "Y1_positive_years_share": true,
-    "Y2_median_positive": true,
-    "Y3_worst_year": true,
-    "Y4_top2_share": false,
-    "C1_capacity": null
-   },
-   "top2_share": 0.7108,
-   "arm": "control",
-   "cost": 0.001,
-   "vol_cap": 1.0,
-   "phase": "2020-01-02",
-   "cap_binding_share": 0.9157,
-   "cap_binding_decisions_per_year": 11.108,
-   "n_decisions_over_floor": 76,
-   "n_decisions": 83
-  },
-  {
-   "cagr_pct": 5.93,
-   "sharpe": 0.976,
-   "maxdd_pct": -6.57,
-   "turnover_per_decision": 0.597158,
-   "decisions": 83,
-   "years": 6.8419,
-   "yearly": {
-    "2020": {
-     "net_pct": 7.397,
-     "cohorts": 4,
-     "bars": 242
-    },
-    "2021": {
-     "net_pct": 3.8608,
-     "cohorts": 4,
-     "bars": 243
-    },
-    "2022": {
-     "net_pct": 1.0496,
-     "cohorts": 4,
-     "bars": 242
-    },
-    "2023": {
-     "net_pct": 2.1563,
-     "cohorts": 4,
-     "bars": 242
-    },
-    "2024": {
-     "net_pct": 5.144,
-     "cohorts": 4,
-     "bars": 242
-    },
-    "2025": {
-     "net_pct": 18.9086,
-     "cohorts": 4,
-     "bars": 243
-    },
-    "2026": {
-     "net_pct": 1.8375,
-     "cohorts": 3,
-     "bars": 203
-    }
-   },
-   "scale_median": 0.393073,
-   "scale_max": 0.393073,
    "verdict_year_gate": "ADMIT",
    "checks": {
     "Y1_positive_years_share": true,
@@ -235,19 +171,83 @@
     "Y4_top2_share": true,
     "C1_capacity": null
    },
-   "top2_share": 0.6519,
+   "top2_share": 0.6995,
+   "arm": "control",
+   "cost": 0.001,
+   "vol_cap": 1.0,
+   "phase": "2020-01-02",
+   "cap_binding_share": 0.8916,
+   "cap_binding_decisions_per_year": 10.794,
+   "n_decisions_over_floor": 74,
+   "n_decisions": 83
+  },
+  {
+   "cagr_pct": 6.5,
+   "sharpe": 0.991,
+   "maxdd_pct": -7.21,
+   "turnover_per_decision": 0.652318,
+   "decisions": 83,
+   "years": 6.8556,
+   "yearly": {
+    "2020": {
+     "net_pct": 7.1856,
+     "cohorts": 4,
+     "bars": 242
+    },
+    "2021": {
+     "net_pct": 4.2317,
+     "cohorts": 4,
+     "bars": 243
+    },
+    "2022": {
+     "net_pct": 1.1447,
+     "cohorts": 4,
+     "bars": 242
+    },
+    "2023": {
+     "net_pct": 2.3651,
+     "cohorts": 4,
+     "bars": 242
+    },
+    "2024": {
+     "net_pct": 5.7443,
+     "cohorts": 4,
+     "bars": 242
+    },
+    "2025": {
+     "net_pct": 20.9489,
+     "cohorts": 4,
+     "bars": 243
+    },
+    "2026": {
+     "net_pct": 2.8172,
+     "cohorts": 3,
+     "bars": 206
+    }
+   },
+   "scale_median": 0.432195,
+   "scale_max": 0.432195,
+   "verdict_year_gate": "ADMIT",
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true,
+    "C1_capacity": null
+   },
+   "top2_share": 0.6331,
    "arm": "candidate",
    "cost": 0.001,
-   "vol_cap": 0.393073,
+   "vol_cap": 0.432195,
    "phase": "2020-01-02"
   },
   {
-   "cagr_pct": 10.99,
-   "sharpe": 1.041,
+   "cagr_pct": 11.15,
+   "sharpe": 1.056,
    "maxdd_pct": -13.19,
    "turnover_per_decision": 1.030134,
    "decisions": 83,
-   "years": 6.8255,
+   "years": 6.8392,
    "yearly": {
     "2020": {
      "net_pct": 4.9946,
@@ -280,9 +280,9 @@
      "bars": 243
     },
     "2026": {
-     "net_pct": -6.5228,
+     "net_pct": -5.4678,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
    "scale_median": 0.689984,
@@ -295,62 +295,62 @@
     "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 0.7946,
+   "top2_share": 0.7841,
    "arm": "control",
    "cost": 0.001,
    "vol_cap": 1.0,
    "phase": "2020-01-08",
-   "cap_binding_share": 0.8916,
-   "cap_binding_decisions_per_year": 10.842,
-   "n_decisions_over_floor": 74,
+   "cap_binding_share": 0.8434,
+   "cap_binding_decisions_per_year": 10.235,
+   "n_decisions_over_floor": 70,
    "n_decisions": 83
   },
   {
-   "cagr_pct": 7.6,
-   "sharpe": 1.168,
-   "maxdd_pct": -7.24,
-   "turnover_per_decision": 0.590197,
+   "cagr_pct": 8.16,
+   "sharpe": 1.16,
+   "maxdd_pct": -7.95,
+   "turnover_per_decision": 0.642681,
    "decisions": 83,
-   "years": 6.8255,
+   "years": 6.8392,
    "yearly": {
     "2020": {
-     "net_pct": 8.8434,
+     "net_pct": 8.7133,
      "cohorts": 3,
      "bars": 238
     },
     "2021": {
-     "net_pct": 2.3504,
+     "net_pct": 2.4312,
      "cohorts": 4,
      "bars": 243
     },
     "2022": {
-     "net_pct": 0.7843,
+     "net_pct": 0.8393,
      "cohorts": 4,
      "bars": 242
     },
     "2023": {
-     "net_pct": 8.407,
+     "net_pct": 9.2663,
      "cohorts": 4,
      "bars": 242
     },
     "2024": {
-     "net_pct": 12.1449,
+     "net_pct": 13.2565,
      "cohorts": 4,
      "bars": 242
     },
     "2025": {
-     "net_pct": 22.1586,
+     "net_pct": 24.569,
      "cohorts": 4,
      "bars": 243
     },
     "2026": {
-     "net_pct": -2.3973,
+     "net_pct": -2.5947,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
-   "scale_median": 0.393073,
-   "scale_max": 0.393073,
+   "scale_median": 0.432195,
+   "scale_max": 0.432195,
    "verdict_year_gate": "ADMIT",
    "checks": {
     "Y1_positive_years_share": true,
@@ -359,19 +359,19 @@
     "Y4_top2_share": true,
     "C1_capacity": null
    },
-   "top2_share": 0.656,
+   "top2_share": 0.6697,
    "arm": "candidate",
    "cost": 0.001,
-   "vol_cap": 0.393073,
+   "vol_cap": 0.432195,
    "phase": "2020-01-08"
   },
   {
-   "cagr_pct": 7.32,
-   "sharpe": 0.693,
+   "cagr_pct": 7.4,
+   "sharpe": 0.7,
    "maxdd_pct": -17.41,
    "turnover_per_decision": 1.061133,
    "decisions": 83,
-   "years": 6.809,
+   "years": 6.8227,
    "yearly": {
     "2020": {
      "net_pct": 13.4457,
@@ -404,9 +404,9 @@
      "bars": 243
     },
     "2026": {
-     "net_pct": -8.5133,
+     "net_pct": -7.9254,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
    "scale_median": 0.641851,
@@ -419,62 +419,62 @@
     "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 0.8302,
+   "top2_share": 0.8211,
    "arm": "control",
    "cost": 0.001,
    "vol_cap": 1.0,
    "phase": "2020-01-14",
-   "cap_binding_share": 0.9036,
-   "cap_binding_decisions_per_year": 11.015,
-   "n_decisions_over_floor": 75,
+   "cap_binding_share": 0.8675,
+   "cap_binding_decisions_per_year": 10.553,
+   "n_decisions_over_floor": 72,
    "n_decisions": 83
   },
   {
-   "cagr_pct": 5.17,
+   "cagr_pct": 5.61,
    "sharpe": 0.767,
-   "maxdd_pct": -10.96,
-   "turnover_per_decision": 0.608535,
+   "maxdd_pct": -11.52,
+   "turnover_per_decision": 0.663275,
    "decisions": 83,
-   "years": 6.809,
+   "years": 6.8227,
    "yearly": {
     "2020": {
-     "net_pct": 15.3961,
+     "net_pct": 15.6126,
      "cohorts": 3,
      "bars": 234
     },
     "2021": {
-     "net_pct": 2.2946,
+     "net_pct": 2.5026,
      "cohorts": 4,
      "bars": 243
     },
     "2022": {
-     "net_pct": -5.6422,
+     "net_pct": -6.1954,
      "cohorts": 4,
      "bars": 242
     },
     "2023": {
-     "net_pct": 4.3236,
+     "net_pct": 4.7488,
      "cohorts": 4,
      "bars": 242
     },
     "2024": {
-     "net_pct": 9.2268,
+     "net_pct": 10.1066,
      "cohorts": 4,
      "bars": 242
     },
     "2025": {
-     "net_pct": 17.0299,
+     "net_pct": 18.9626,
      "cohorts": 4,
      "bars": 243
     },
     "2026": {
-     "net_pct": -5.9693,
+     "net_pct": -5.7966,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
-   "scale_median": 0.393073,
-   "scale_max": 0.393073,
+   "scale_median": 0.432195,
+   "scale_max": 0.432195,
    "verdict_year_gate": "CONDITIONAL",
    "checks": {
     "Y1_positive_years_share": true,
@@ -483,19 +483,19 @@
     "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 0.8845,
+   "top2_share": 0.8657,
    "arm": "candidate",
    "cost": 0.001,
-   "vol_cap": 0.393073,
+   "vol_cap": 0.432195,
    "phase": "2020-01-14"
   },
   {
-   "cagr_pct": 4.09,
-   "sharpe": 0.44,
+   "cagr_pct": 4.18,
+   "sharpe": 0.449,
    "maxdd_pct": -16.08,
    "turnover_per_decision": 1.111393,
    "decisions": 83,
-   "years": 6.7926,
+   "years": 6.8063,
    "yearly": {
     "2020": {
      "net_pct": 14.3063,
@@ -528,9 +528,9 @@
      "bars": 243
     },
     "2026": {
-     "net_pct": -8.3799,
+     "net_pct": -7.7633,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
    "scale_median": 0.65495,
@@ -543,62 +543,62 @@
     "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 1.3544,
+   "top2_share": 1.328,
    "arm": "control",
    "cost": 0.001,
    "vol_cap": 1.0,
    "phase": "2020-01-20",
-   "cap_binding_share": 0.9157,
-   "cap_binding_decisions_per_year": 11.189,
-   "n_decisions_over_floor": 76,
+   "cap_binding_share": 0.8795,
+   "cap_binding_decisions_per_year": 10.725,
+   "n_decisions_over_floor": 73,
    "n_decisions": 83
   },
   {
-   "cagr_pct": 2.9,
-   "sharpe": 0.479,
-   "maxdd_pct": -10.73,
-   "turnover_per_decision": 0.633538,
+   "cagr_pct": 3.15,
+   "sharpe": 0.48,
+   "maxdd_pct": -11.37,
+   "turnover_per_decision": 0.69293,
    "decisions": 83,
-   "years": 6.7926,
+   "years": 6.8063,
    "yearly": {
     "2020": {
-     "net_pct": 11.9298,
+     "net_pct": 12.6315,
      "cohorts": 3,
      "bars": 230
     },
     "2021": {
-     "net_pct": 0.9358,
+     "net_pct": 1.0121,
      "cohorts": 4,
      "bars": 243
     },
     "2022": {
-     "net_pct": -5.423,
+     "net_pct": -6.2883,
      "cohorts": 4,
      "bars": 242
     },
     "2023": {
-     "net_pct": 1.1396,
+     "net_pct": 1.2389,
      "cohorts": 4,
      "bars": 242
     },
     "2024": {
-     "net_pct": 1.2682,
+     "net_pct": 1.3774,
      "cohorts": 4,
      "bars": 242
     },
     "2025": {
-     "net_pct": 16.7468,
+     "net_pct": 18.5225,
      "cohorts": 4,
      "bars": 243
     },
     "2026": {
-     "net_pct": -5.9778,
+     "net_pct": -5.9074,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
-   "scale_median": 0.393073,
-   "scale_max": 0.393073,
+   "scale_median": 0.432195,
+   "scale_max": 0.432195,
    "verdict_year_gate": "CONDITIONAL",
    "checks": {
     "Y1_positive_years_share": true,
@@ -607,19 +607,19 @@
     "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 1.3908,
+   "top2_share": 1.3793,
    "arm": "candidate",
    "cost": 0.001,
-   "vol_cap": 0.393073,
+   "vol_cap": 0.432195,
    "phase": "2020-01-20"
   },
   {
-   "cagr_pct": 8.53,
-   "sharpe": 0.886,
+   "cagr_pct": 8.61,
+   "sharpe": 0.893,
    "maxdd_pct": -12.56,
    "turnover_per_decision": 1.112543,
    "decisions": 83,
-   "years": 6.7543,
+   "years": 6.768,
    "yearly": {
     "2020": {
      "net_pct": 13.4225,
@@ -652,9 +652,9 @@
      "bars": 243
     },
     "2026": {
-     "net_pct": -5.2422,
+     "net_pct": -4.6992,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
    "scale_median": 0.69185,
@@ -667,62 +667,62 @@
     "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 0.7962,
+   "top2_share": 0.7893,
    "arm": "control",
    "cost": 0.001,
    "vol_cap": 1.0,
    "phase": "2020-02-03",
-   "cap_binding_share": 0.9036,
-   "cap_binding_decisions_per_year": 11.104,
-   "n_decisions_over_floor": 75,
+   "cap_binding_share": 0.8313,
+   "cap_binding_decisions_per_year": 10.195,
+   "n_decisions_over_floor": 69,
    "n_decisions": 83
   },
   {
-   "cagr_pct": 5.58,
-   "sharpe": 0.941,
-   "maxdd_pct": -7.33,
-   "turnover_per_decision": 0.610141,
+   "cagr_pct": 6.02,
+   "sharpe": 0.938,
+   "maxdd_pct": -8.04,
+   "turnover_per_decision": 0.664983,
    "decisions": 83,
-   "years": 6.7543,
+   "years": 6.768,
    "yearly": {
     "2020": {
-     "net_pct": 12.2916,
+     "net_pct": 12.7387,
      "cohorts": 3,
      "bars": 226
     },
     "2021": {
-     "net_pct": 4.8048,
+     "net_pct": 5.1562,
      "cohorts": 4,
      "bars": 243
     },
     "2022": {
-     "net_pct": -1.5403,
+     "net_pct": -1.7439,
      "cohorts": 4,
      "bars": 242
     },
     "2023": {
-     "net_pct": 4.5607,
+     "net_pct": 5.011,
      "cohorts": 4,
      "bars": 242
     },
     "2024": {
-     "net_pct": 3.174,
+     "net_pct": 3.5248,
      "cohorts": 4,
      "bars": 242
     },
     "2025": {
-     "net_pct": 18.3828,
+     "net_pct": 20.3249,
      "cohorts": 4,
      "bars": 243
     },
     "2026": {
-     "net_pct": -3.2338,
+     "net_pct": -3.278,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
-   "scale_median": 0.393073,
-   "scale_max": 0.393073,
+   "scale_median": 0.432195,
+   "scale_max": 0.432195,
    "verdict_year_gate": "CONDITIONAL",
    "checks": {
     "Y1_positive_years_share": true,
@@ -731,19 +731,19 @@
     "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 0.798,
+   "top2_share": 0.7923,
    "arm": "candidate",
    "cost": 0.001,
-   "vol_cap": 0.393073,
+   "vol_cap": 0.432195,
    "phase": "2020-02-03"
   },
   {
-   "cagr_pct": 10.02,
-   "sharpe": 0.998,
+   "cagr_pct": 10.2,
+   "sharpe": 1.015,
    "maxdd_pct": -10.76,
    "turnover_per_decision": 1.080322,
    "decisions": 83,
-   "years": 6.8419,
+   "years": 6.8556,
    "yearly": {
     "2020": {
      "net_pct": 4.6694,
@@ -776,9 +776,9 @@
      "bars": 243
     },
     "2026": {
-     "net_pct": 0.6577,
+     "net_pct": 1.9437,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
    "scale_median": 0.707818,
@@ -791,62 +791,62 @@
     "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 0.7616,
+   "top2_share": 0.748,
    "arm": "control",
    "cost": 0.002,
    "vol_cap": 1.0,
    "phase": "2020-01-02",
-   "cap_binding_share": 0.9157,
-   "cap_binding_decisions_per_year": 11.108,
-   "n_decisions_over_floor": 76,
+   "cap_binding_share": 0.8916,
+   "cap_binding_decisions_per_year": 10.794,
+   "n_decisions_over_floor": 74,
    "n_decisions": 83
   },
   {
-   "cagr_pct": 5.17,
-   "sharpe": 0.857,
-   "maxdd_pct": -6.71,
-   "turnover_per_decision": 0.597158,
+   "cagr_pct": 5.67,
+   "sharpe": 0.871,
+   "maxdd_pct": -7.35,
+   "turnover_per_decision": 0.652318,
    "decisions": 83,
-   "years": 6.8419,
+   "years": 6.8556,
    "yearly": {
     "2020": {
-     "net_pct": 6.6267,
+     "net_pct": 6.3752,
      "cohorts": 4,
      "bars": 242
     },
     "2021": {
-     "net_pct": 3.1928,
+     "net_pct": 3.4948,
      "cohorts": 4,
      "bars": 243
     },
     "2022": {
-     "net_pct": 0.5104,
+     "net_pct": 0.5514,
      "cohorts": 4,
      "bars": 242
     },
     "2023": {
-     "net_pct": 1.3396,
+     "net_pct": 1.4655,
      "cohorts": 4,
      "bars": 242
     },
     "2024": {
-     "net_pct": 4.3855,
+     "net_pct": 4.9088,
      "cohorts": 4,
      "bars": 242
     },
     "2025": {
-     "net_pct": 17.9765,
+     "net_pct": 19.907,
      "cohorts": 4,
      "bars": 243
     },
     "2026": {
-     "net_pct": 1.1188,
+     "net_pct": 2.0195,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
-   "scale_median": 0.393073,
-   "scale_max": 0.393073,
+   "scale_median": 0.432195,
+   "scale_max": 0.432195,
    "verdict_year_gate": "ADMIT",
    "checks": {
     "Y1_positive_years_share": true,
@@ -855,19 +855,19 @@
     "Y4_top2_share": true,
     "C1_capacity": null
    },
-   "top2_share": 0.6999,
+   "top2_share": 0.6787,
    "arm": "candidate",
    "cost": 0.002,
-   "vol_cap": 0.393073,
+   "vol_cap": 0.432195,
    "phase": "2020-01-02"
   },
   {
-   "cagr_pct": 9.62,
-   "sharpe": 0.924,
+   "cagr_pct": 9.78,
+   "sharpe": 0.938,
    "maxdd_pct": -14.58,
    "turnover_per_decision": 1.030134,
    "decisions": 83,
-   "years": 6.8255,
+   "years": 6.8392,
    "yearly": {
     "2020": {
      "net_pct": 4.1961,
@@ -900,9 +900,9 @@
      "bars": 243
     },
     "2026": {
-     "net_pct": -7.613,
+     "net_pct": -6.5703,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
    "scale_median": 0.689984,
@@ -915,83 +915,83 @@
     "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 0.8518,
+   "top2_share": 0.8391,
    "arm": "control",
    "cost": 0.002,
    "vol_cap": 1.0,
    "phase": "2020-01-08",
-   "cap_binding_share": 0.8916,
-   "cap_binding_decisions_per_year": 10.842,
-   "n_decisions_over_floor": 74,
+   "cap_binding_share": 0.8434,
+   "cap_binding_decisions_per_year": 10.235,
+   "n_decisions_over_floor": 70,
    "n_decisions": 83
   },
   {
-   "cagr_pct": 6.83,
-   "sharpe": 1.057,
-   "maxdd_pct": -7.33,
-   "turnover_per_decision": 0.590197,
+   "cagr_pct": 7.32,
+   "sharpe": 1.049,
+   "maxdd_pct": -8.04,
+   "turnover_per_decision": 0.642681,
    "decisions": 83,
-   "years": 6.8255,
+   "years": 6.8392,
    "yearly": {
     "2020": {
-     "net_pct": 8.2211,
+     "net_pct": 8.0563,
      "cohorts": 3,
      "bars": 238
     },
     "2021": {
-     "net_pct": 1.5988,
+     "net_pct": 1.6104,
      "cohorts": 4,
      "bars": 243
     },
     "2022": {
-     "net_pct": 0.278,
+     "net_pct": 0.2826,
      "cohorts": 4,
      "bars": 242
     },
     "2023": {
-     "net_pct": 7.6419,
+     "net_pct": 8.4186,
      "cohorts": 4,
      "bars": 242
     },
     "2024": {
-     "net_pct": 11.3049,
+     "net_pct": 12.3295,
      "cohorts": 4,
      "bars": 242
     },
     "2025": {
-     "net_pct": 21.1735,
+     "net_pct": 23.4714,
      "cohorts": 4,
      "bars": 243
     },
     "2026": {
-     "net_pct": -3.156,
+     "net_pct": -3.4163,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
-   "scale_median": 0.393073,
-   "scale_max": 0.393073,
-   "verdict_year_gate": "ADMIT",
+   "scale_median": 0.432195,
+   "scale_max": 0.432195,
+   "verdict_year_gate": "CONDITIONAL",
    "checks": {
     "Y1_positive_years_share": true,
     "Y2_median_positive": true,
     "Y3_worst_year": true,
-    "Y4_top2_share": true,
+    "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 0.6901,
+   "top2_share": 0.7054,
    "arm": "candidate",
    "cost": 0.002,
-   "vol_cap": 0.393073,
+   "vol_cap": 0.432195,
    "phase": "2020-01-08"
   },
   {
-   "cagr_pct": 5.95,
-   "sharpe": 0.577,
+   "cagr_pct": 6.04,
+   "sharpe": 0.585,
    "maxdd_pct": -18.52,
    "turnover_per_decision": 1.061133,
    "decisions": 83,
-   "years": 6.809,
+   "years": 6.8227,
    "yearly": {
     "2020": {
      "net_pct": 12.3881,
@@ -1024,9 +1024,9 @@
      "bars": 243
     },
     "2026": {
-     "net_pct": -9.4256,
+     "net_pct": -8.8436,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
    "scale_median": 0.641851,
@@ -1039,62 +1039,62 @@
     "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 0.9452,
+   "top2_share": 0.9328,
    "arm": "control",
    "cost": 0.002,
    "vol_cap": 1.0,
    "phase": "2020-01-14",
-   "cap_binding_share": 0.9036,
-   "cap_binding_decisions_per_year": 11.015,
-   "n_decisions_over_floor": 75,
+   "cap_binding_share": 0.8675,
+   "cap_binding_decisions_per_year": 10.553,
+   "n_decisions_over_floor": 72,
    "n_decisions": 83
   },
   {
-   "cagr_pct": 4.4,
-   "sharpe": 0.659,
-   "maxdd_pct": -11.79,
-   "turnover_per_decision": 0.608535,
+   "cagr_pct": 4.77,
+   "sharpe": 0.66,
+   "maxdd_pct": -12.42,
+   "turnover_per_decision": 0.663275,
    "decisions": 83,
-   "years": 6.809,
+   "years": 6.8227,
    "yearly": {
     "2020": {
-     "net_pct": 14.6409,
+     "net_pct": 14.812,
      "cohorts": 3,
      "bars": 234
     },
     "2021": {
-     "net_pct": 1.6367,
+     "net_pct": 1.7779,
      "cohorts": 4,
      "bars": 243
     },
     "2022": {
-     "net_pct": -6.2048,
+     "net_pct": -6.8103,
      "cohorts": 4,
      "bars": 242
     },
     "2023": {
-     "net_pct": 3.5222,
+     "net_pct": 3.8642,
      "cohorts": 4,
      "bars": 242
     },
     "2024": {
-     "net_pct": 8.3706,
+     "net_pct": 9.1586,
      "cohorts": 4,
      "bars": 242
     },
     "2025": {
-     "net_pct": 16.0651,
+     "net_pct": 17.8885,
      "cohorts": 4,
      "bars": 243
     },
     "2026": {
-     "net_pct": -6.654,
+     "net_pct": -6.5343,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
-   "scale_median": 0.393073,
-   "scale_max": 0.393073,
+   "scale_median": 0.432195,
+   "scale_max": 0.432195,
    "verdict_year_gate": "CONDITIONAL",
    "checks": {
     "Y1_positive_years_share": true,
@@ -1103,19 +1103,19 @@
     "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 0.9786,
+   "top2_share": 0.9574,
    "arm": "candidate",
    "cost": 0.002,
-   "vol_cap": 0.393073,
+   "vol_cap": 0.432195,
    "phase": "2020-01-14"
   },
   {
-   "cagr_pct": 2.69,
-   "sharpe": 0.309,
+   "cagr_pct": 2.79,
+   "sharpe": 0.319,
    "maxdd_pct": -17.4,
    "turnover_per_decision": 1.111393,
    "decisions": 83,
-   "years": 6.7926,
+   "years": 6.8063,
    "yearly": {
     "2020": {
      "net_pct": 13.3939,
@@ -1148,9 +1148,9 @@
      "bars": 243
     },
     "2026": {
-     "net_pct": -9.4163,
+     "net_pct": -8.8068,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
    "scale_median": 0.65495,
@@ -1163,62 +1163,62 @@
     "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 1.8212,
+   "top2_share": 1.7712,
    "arm": "control",
    "cost": 0.002,
    "vol_cap": 1.0,
    "phase": "2020-01-20",
-   "cap_binding_share": 0.9157,
-   "cap_binding_decisions_per_year": 11.189,
-   "n_decisions_over_floor": 76,
+   "cap_binding_share": 0.8795,
+   "cap_binding_decisions_per_year": 10.725,
+   "n_decisions_over_floor": 73,
    "n_decisions": 83
   },
   {
-   "cagr_pct": 2.11,
+   "cagr_pct": 2.29,
    "sharpe": 0.359,
-   "maxdd_pct": -11.08,
-   "turnover_per_decision": 0.633538,
+   "maxdd_pct": -11.74,
+   "turnover_per_decision": 0.69293,
    "decisions": 83,
-   "years": 6.7926,
+   "years": 6.8063,
    "yearly": {
     "2020": {
-     "net_pct": 11.235,
+     "net_pct": 11.8752,
      "cohorts": 3,
      "bars": 230
     },
     "2021": {
-     "net_pct": 0.1761,
+     "net_pct": 0.1764,
      "cohorts": 4,
      "bars": 243
     },
     "2022": {
-     "net_pct": -6.0461,
+     "net_pct": -6.96,
      "cohorts": 4,
      "bars": 242
     },
     "2023": {
-     "net_pct": 0.41,
+     "net_pct": 0.436,
      "cohorts": 4,
      "bars": 242
     },
     "2024": {
-     "net_pct": 0.4824,
+     "net_pct": 0.5169,
      "cohorts": 4,
      "bars": 242
     },
     "2025": {
-     "net_pct": 15.613,
+     "net_pct": 17.2575,
      "cohorts": 4,
      "bars": 243
     },
     "2026": {
-     "net_pct": -6.6397,
+     "net_pct": -6.6283,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
-   "scale_median": 0.393073,
-   "scale_max": 0.393073,
+   "scale_median": 0.432195,
+   "scale_max": 0.432195,
    "verdict_year_gate": "CONDITIONAL",
    "checks": {
     "Y1_positive_years_share": true,
@@ -1227,19 +1227,19 @@
     "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 1.7628,
+   "top2_share": 1.7472,
    "arm": "candidate",
    "cost": 0.002,
-   "vol_cap": 0.393073,
+   "vol_cap": 0.432195,
    "phase": "2020-01-20"
   },
   {
-   "cagr_pct": 7.07,
-   "sharpe": 0.747,
+   "cagr_pct": 7.15,
+   "sharpe": 0.754,
    "maxdd_pct": -13.93,
    "turnover_per_decision": 1.112543,
    "decisions": 83,
-   "years": 6.7543,
+   "years": 6.768,
    "yearly": {
     "2020": {
      "net_pct": 12.6666,
@@ -1272,9 +1272,9 @@
      "bars": 243
     },
     "2026": {
-     "net_pct": -6.5423,
+     "net_pct": -6.0067,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
    "scale_median": 0.69185,
@@ -1287,62 +1287,62 @@
     "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 0.897,
+   "top2_share": 0.8878,
    "arm": "control",
    "cost": 0.002,
    "vol_cap": 1.0,
    "phase": "2020-02-03",
-   "cap_binding_share": 0.9036,
-   "cap_binding_decisions_per_year": 11.104,
-   "n_decisions_over_floor": 75,
+   "cap_binding_share": 0.8313,
+   "cap_binding_decisions_per_year": 10.195,
+   "n_decisions_over_floor": 69,
    "n_decisions": 83
   },
   {
-   "cagr_pct": 4.8,
-   "sharpe": 0.815,
-   "maxdd_pct": -7.88,
-   "turnover_per_decision": 0.610141,
+   "cagr_pct": 5.17,
+   "sharpe": 0.812,
+   "maxdd_pct": -8.64,
+   "turnover_per_decision": 0.664983,
    "decisions": 83,
-   "years": 6.7543,
+   "years": 6.768,
    "yearly": {
     "2020": {
-     "net_pct": 11.6889,
+     "net_pct": 12.108,
      "cohorts": 3,
      "bars": 226
     },
     "2021": {
-     "net_pct": 4.0815,
+     "net_pct": 4.3608,
      "cohorts": 4,
      "bars": 243
     },
     "2022": {
-     "net_pct": -2.2351,
+     "net_pct": -2.499,
      "cohorts": 4,
      "bars": 242
     },
     "2023": {
-     "net_pct": 3.8719,
+     "net_pct": 4.2505,
      "cohorts": 4,
      "bars": 242
     },
     "2024": {
-     "net_pct": 2.3589,
+     "net_pct": 2.6329,
      "cohorts": 4,
      "bars": 242
     },
     "2025": {
-     "net_pct": 17.3993,
+     "net_pct": 19.2282,
      "cohorts": 4,
      "bars": 243
     },
     "2026": {
-     "net_pct": -4.0075,
+     "net_pct": -4.1281,
      "cohorts": 3,
-     "bars": 203
+     "bars": 206
     }
    },
-   "scale_median": 0.393073,
-   "scale_max": 0.393073,
+   "scale_median": 0.432195,
+   "scale_max": 0.432195,
    "verdict_year_gate": "CONDITIONAL",
    "checks": {
     "Y1_positive_years_share": true,
@@ -1351,159 +1351,25 @@
     "Y4_top2_share": false,
     "C1_capacity": null
    },
-   "top2_share": 0.8773,
+   "top2_share": 0.8716,
    "arm": "candidate",
    "cost": 0.002,
-   "vol_cap": 0.393073,
+   "vol_cap": 0.432195,
    "phase": "2020-02-03"
   }
  ],
  "summary": {
-  "by_cost": {
-   "10": {
-    "phases": 5,
-    "cand_cagr_median_pct": 5.58,
-    "ctrl_cagr_median_pct": 8.53,
-    "delta_cagr_median_pp": -2.95,
-    "delta_cagr_iqr_pp": 1.2400000000000002,
-    "delta_cagr_min_pp": -5.53,
-    "delta_cagr_max_pp": -1.19,
-    "delta_sharpe_median": 0.055,
-    "delta_maxdd_median_pp": 5.35,
-    "share_cells_return_kept": 0.0,
-    "rows": [
-     {
-      "phase": "2020-01-02",
-      "ctrl_cagr_pct": 11.46,
-      "cand_cagr_pct": 5.93,
-      "delta_cagr_pp": -5.53,
-      "delta_sharpe": -0.152,
-      "delta_maxdd_pp": 3.99,
-      "cand_top2_share": 0.6519,
-      "ctrl_top2_share": 0.7108
-     },
-     {
-      "phase": "2020-01-08",
-      "ctrl_cagr_pct": 10.99,
-      "cand_cagr_pct": 7.6,
-      "delta_cagr_pp": -3.39,
-      "delta_sharpe": 0.127,
-      "delta_maxdd_pp": 5.95,
-      "cand_top2_share": 0.656,
-      "ctrl_top2_share": 0.7946
-     },
-     {
-      "phase": "2020-01-14",
-      "ctrl_cagr_pct": 7.32,
-      "cand_cagr_pct": 5.17,
-      "delta_cagr_pp": -2.15,
-      "delta_sharpe": 0.074,
-      "delta_maxdd_pp": 6.45,
-      "cand_top2_share": 0.8845,
-      "ctrl_top2_share": 0.8302
-     },
-     {
-      "phase": "2020-01-20",
-      "ctrl_cagr_pct": 4.09,
-      "cand_cagr_pct": 2.9,
-      "delta_cagr_pp": -1.19,
-      "delta_sharpe": 0.039,
-      "delta_maxdd_pp": 5.35,
-      "cand_top2_share": 1.3908,
-      "ctrl_top2_share": 1.3544
-     },
-     {
-      "phase": "2020-02-03",
-      "ctrl_cagr_pct": 8.53,
-      "cand_cagr_pct": 5.58,
-      "delta_cagr_pp": -2.95,
-      "delta_sharpe": 0.055,
-      "delta_maxdd_pp": 5.23,
-      "cand_top2_share": 0.798,
-      "ctrl_top2_share": 0.7962
-     }
-    ],
-    "control_cap_binding_share_median": 0.9036,
-    "control_cap_binding_decisions_per_year_median": 11.104
-   },
-   "20": {
-    "phases": 5,
-    "cand_cagr_median_pct": 4.8,
-    "ctrl_cagr_median_pct": 7.07,
-    "delta_cagr_median_pp": -2.27,
-    "delta_cagr_iqr_pp": 1.24,
-    "delta_cagr_min_pp": -4.85,
-    "delta_cagr_max_pp": -0.58,
-    "delta_sharpe_median": 0.068,
-    "delta_maxdd_median_pp": 6.32,
-    "share_cells_return_kept": 0.0,
-    "rows": [
-     {
-      "phase": "2020-01-02",
-      "ctrl_cagr_pct": 10.02,
-      "cand_cagr_pct": 5.17,
-      "delta_cagr_pp": -4.85,
-      "delta_sharpe": -0.141,
-      "delta_maxdd_pp": 4.05,
-      "cand_top2_share": 0.6999,
-      "ctrl_top2_share": 0.7616
-     },
-     {
-      "phase": "2020-01-08",
-      "ctrl_cagr_pct": 9.62,
-      "cand_cagr_pct": 6.83,
-      "delta_cagr_pp": -2.79,
-      "delta_sharpe": 0.133,
-      "delta_maxdd_pp": 7.25,
-      "cand_top2_share": 0.6901,
-      "ctrl_top2_share": 0.8518
-     },
-     {
-      "phase": "2020-01-14",
-      "ctrl_cagr_pct": 5.95,
-      "cand_cagr_pct": 4.4,
-      "delta_cagr_pp": -1.55,
-      "delta_sharpe": 0.082,
-      "delta_maxdd_pp": 6.73,
-      "cand_top2_share": 0.9786,
-      "ctrl_top2_share": 0.9452
-     },
-     {
-      "phase": "2020-01-20",
-      "ctrl_cagr_pct": 2.69,
-      "cand_cagr_pct": 2.11,
-      "delta_cagr_pp": -0.58,
-      "delta_sharpe": 0.05,
-      "delta_maxdd_pp": 6.32,
-      "cand_top2_share": 1.7628,
-      "ctrl_top2_share": 1.8212
-     },
-     {
-      "phase": "2020-02-03",
-      "ctrl_cagr_pct": 7.07,
-      "cand_cagr_pct": 4.8,
-      "delta_cagr_pp": -2.27,
-      "delta_sharpe": 0.068,
-      "delta_maxdd_pp": 6.05,
-      "cand_top2_share": 0.8773,
-      "ctrl_top2_share": 0.897
-     }
-    ],
-    "control_cap_binding_share_median": 0.9036,
-    "control_cap_binding_decisions_per_year_median": 11.104
-   }
-  },
+  "by_cost": {},
   "n_cells": 20,
-  "control_phase_spread_cagr_pp": 7.37
+  "degraded": "control did not reproduce the published book",
+  "control_phase_spread_cagr_pp": 7.46
  },
  "verdict": {
-  "label": "REJECT",
+  "label": "CONTROL_FAILED",
   "reasons": [
-   "cost 10bp: dCAGR median -2.9500pp (min -5.5300, share kept 0.000), dSharpe median +0.0550",
-   "cost 20bp: dCAGR median -2.2700pp (min -4.8500, share kept 0.000), dSharpe median +0.0680",
-   "no cost row passes"
+   "control arm did not reproduce the published book"
   ],
-  "desk": "对票面：不改，且这条建议从候选池划线为已定价失败；人工裁剪继续是常态动作。"
+  "desk": "对票面：不改，本轮控制臂都没复现，什么都别说。"
  },
- "elapsed_sec": 97.14
+ "elapsed_sec": 61.15
 }
