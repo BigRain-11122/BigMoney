@@ -719,6 +719,12 @@ LEGS = [
     # r1251: it MUST sit ahead of the page that quotes it -- it was placed one slot after,
     # so the page kept printing yesterday's silence for a full round (r1318 ordering law).
     ("etf_book_live_quote", ["python", "scripts/etf_book_live_quote.py"]),
+    # r1605: the face the page quotes ("this order pays CNY X above the basket") had a
+    # `check` leg and NO producer -- it was hand-run, so the page quoted whatever somebody
+    # last typed and `check` stayed green because it re-derives from the same file (the
+    # r1471/r1594 "a reader with no writer" class). Local, deterministic, sub-second.
+    ("etf_book_premium_leak_write",
+     ["python", "scripts/etf_book_premium_leak.py", "run"]),
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1150: the four-tier ticket menu is the same book sold at four betas, and it
     # lived a full round with no scheduled producer -- the r1290 two-face class. bm-a

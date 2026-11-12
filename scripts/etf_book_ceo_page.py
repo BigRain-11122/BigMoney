@@ -1261,12 +1261,15 @@ def premium_on_page_sheet(pb, page_sheet, tol_cny=100.0, tol_pct=0.5):
     if abs(amt - face_amt) <= max(tol_cny, abs(face_amt) * tol_pct / 100.0):
         return None
     rate = {}
+    xsess = set()
     for r in (pb.get("names") or []):
+        if r.get("status") == "CROSS_SESSION_NAV" and r.get("symbol"):
+            xsess.add(r["symbol"])
         if r.get("symbol") and r.get("status") == "OK" and r.get("premium_pct") is not None:
             rate[r["symbol"]] = float(r["premium_pct"])
     out = {"page_amount_cny": round(amt, 2), "face_amount_cny": round(face_amt, 2),
            "face_session": pb.get("session"), "rows": [], "unverifiable": [],
-           "paid_cny": 0.0, "n_rows": 0}
+           "cross_session": [], "paid_cny": 0.0, "n_rows": 0}
     for l in legs:
         a = l.get("amount_cny")
         sym = l["symbol"]
@@ -1275,7 +1278,9 @@ def premium_on_page_sheet(pb, page_sheet, tol_cny=100.0, tol_pct=0.5):
             continue
         p = rate.get(sym)
         if p is None:
-            out["unverifiable"].append(sym)
+            # (r1605) a name we CAN read but whose denominator is another session is not
+            # "unreadable" -- it was read and refused. Keep the two buckets apart.
+            (out["cross_session"] if sym in xsess else out["unverifiable"]).append(sym)
             continue
         paid = float(a) * p / 100.0
         out["rows"].append({"symbol": sym, "amount_cny": round(float(a), 2),
@@ -1332,13 +1337,19 @@ def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None):
     onpage = premium_on_page_sheet(pb, page_sheet)
     top = [r for r in pb.get("names") or [] if r.get("status") == "OK"
            and (r.get("market_pctile") or 0.0) >= ((pb.get("criteria") or {}).get("top_pctile") or 95.0)]
-    sentence = ("清单上 **¥%s** 的单里，有 **¥%s** 买的是**溢价**（价格高出这只 ETF 自己一篮子资产的部分），"
-                "不是篮子的价值" % (format(tot.get("book_amount_cny") or 0, ",.0f"),
-                                   format(paid, ",.0f")))
+    # r1605: the money total can be NEGATIVE (a discount). "有 ¥-2,107 买的是溢价" is a
+    # sentence that contradicts its own arithmetic -- say 折价 / 少付 when it is below NAV.
+    if paid < 0:
+        _what = ("有 **¥%s** 是**折价**（价格低于这只 ETF 自己一篮子资产的部分），"
+                 "等于比篮子便宜" % format(-paid, ",.0f"))
+    else:
+        _what = ("有 **¥%s** 买的是**溢价**（价格高出这只 ETF 自己一篮子资产的部分），"
+                 "不是篮子的价值" % format(paid, ",.0f"))
+    sentence = ("清单上 **¥%s** 的单里，%s"
+                % (format(tot.get("book_amount_cny") or 0, ",.0f"), _what))
     if onpage:
-        sentence = ("溢价面自己那张单 **¥%s** 里，有 **¥%s** 买的是**溢价**（价格高出这只 ETF "
-                    "自己一篮子资产的部分），不是篮子的价值" %
-                    (format(onpage["face_amount_cny"], ",.0f"), format(paid, ",.0f")))
+        sentence = ("溢价面自己那张单 **¥%s** 里，%s"
+                    % (format(onpage["face_amount_cny"], ",.0f"), _what))
     if share is not None:
         sentence += ("——占它那张单的 **%.2f%%**" if onpage else "——占这张单的 **%.2f%%**") % share
     if share_nav is not None:
@@ -1352,6 +1363,20 @@ def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None):
         add("其中 %d 只票站在全市场 **%d** 只 ETF 溢价的最高 5%% 里（%s）。"
             % (len(top), (top[0].get("market_n") or 0),
                "、".join("%s 第 %s" % (r["symbol"], r.get("market_rank")) for r in top)))
+        add("")
+    # r1605: a QDII whose NAV belongs to ANOTHER session is not "expensive today" -- the gap
+    # between a price and a tomorrow-dated NAV is the gap between two trading days. The money
+    # total already leaves it out; say so here, with the names and both dates, or a reader
+    # will subtract the line above from a table that has one row more than the total covers.
+    xs = [r for r in pb.get("names") or [] if r.get("status") == "CROSS_SESSION_NAV"]
+    if xs:
+        _face_ds = str(pb.get("session"))[:10] if pb.get("session") else "—"
+        pairs = "、".join("%s（净值日期 %s）" % (r["symbol"], r.get("nav_session") or "未知")
+                          for r in xs)
+        add("另有 **%d 只**不在上面那个钱数里：%s 的价格是 **%s** 的价，净值却属于另一个交易日"
+            "——两天的差被当成「溢价」，会凭空多出一笔亏损。这 %d 只按「比不了」处理："
+            "既不记为溢价、也不记为折价。"
+            % (len(xs), pairs, _face_ds, len(xs)))
         add("")
     # r1553: the cross-section above answers "is this expensive versus the whole board
     # today". It cannot answer "is this expensive for THIS fund", which is the question a
@@ -1414,6 +1439,12 @@ def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None):
                 % (r["symbol"], r.get("class") or "", r.get("price"), r.get("iopv"),
                    r.get("premium_pct") or 0.0, format(r.get("premium_paid_cny") or 0, ",.2f"),
                    r.get("market_rank"), r.get("market_n")))
+        elif r.get("status") == "CROSS_SESSION_NAV":
+            # the reading is real, its denominator is another day's -- print both, and do
+            # not put it in the 买溢价 column (that column is money the order pays)
+            add("| %s | %s | %s | %s（净值 %s） | %+.2f%% | 比不了 | — |"
+                % (r.get("symbol"), r.get("class") or "", r.get("price"), r.get("iopv"),
+                   r.get("nav_session") or "日期未知", r.get("premium_pct") or 0.0))
         else:
             add("| %s | %s | %s | — | — | 无法核验（%s） | — |"
                 % (r.get("symbol"), r.get("class") or "", r.get("price"), r.get("status")))
@@ -1454,15 +1485,30 @@ def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None):
             add("")
     st = pb.get("stress") or {}
     if st.get("if_premium_reverts_to_zero_cny") is not None:
-        add("- 如果溢价回落到 0（限购放开、套利关门被打开），这一笔就是 **¥%s** 的损失，"
-            "占总资金 %s%%——溢价不是手续费，它是一笔押在「别人继续愿意多付」上的钱。"
-            % (format(st["if_premium_reverts_to_zero_cny"], ",.0f"),
-               st.get("if_premium_reverts_to_zero_pct_of_nav")))
+        _z = float(st["if_premium_reverts_to_zero_cny"])
+        if _z < 0:
+            add("- 如果溢价回落到 0（限购放开、套利关门被打开），这一笔就是 **¥%s** 的损失，"
+                "占总资金 %s%%——溢价不是手续费，它是一笔押在「别人继续愿意多付」上的钱。"
+                % (format(-_z, ",.0f"), st.get("if_premium_reverts_to_zero_pct_of_nav")))
+        else:
+            # a discount, not a premium: reverting to zero is a gain, and calling it a loss
+            # is how a page ends up contradicting its own sign
+            add("- 反过来：这张单是**折价**进的，若价格回到篮子价值，这一笔是 **¥%s** 的收益"
+                "（占总资金 %s%%）——折价同样会消失，别把它当成白拿。"
+                % (format(_z, ",.0f"), st.get("if_premium_reverts_to_zero_pct_of_nav")))
     if tot.get("years_of_backtest_return_paid") is not None:
-        add("- 换个说法：按这本书自己回测的 %.2f%%/年，这一次入场先付出了 **%.2f 年**的收益。"
-            % (tot.get("book_cagr_pct") or 0.0, tot["years_of_backtest_return_paid"]))
-    add("- 但溢价可以长期存在——限购让一二级套利关不上门，这类 ETF 常年溢价。所以这不是卖出的理由，"
-        "是「这张单今天不便宜」的读数。")
+        _y = float(tot["years_of_backtest_return_paid"])
+        if _y >= 0:
+            add("- 换个说法：按这本书自己回测的 %.2f%%/年，这一次入场先付出了 **%.2f 年**的收益。"
+                % (tot.get("book_cagr_pct") or 0.0, _y))
+        else:
+            add("- 换个说法：按这本书自己回测的 %.2f%%/年，这一次折价等于白拿 **%.2f 年**的收益。"
+                % (tot.get("book_cagr_pct") or 0.0, -_y))
+    if paid < 0:
+        add("- 但折价可以随时消失——它是这张单这一刻的读数，不是这本书的常态。")
+    else:
+        add("- 但溢价可以长期存在——限购让一二级套利关不上门，这类 ETF 常年溢价。所以这不是卖出的理由，"
+            "是「这张单今天不便宜」的读数。")
     hist = pb.get("nav_ruler_history") or {}
     if hist:
         rows = [v for v in hist.values() if (v or {}).get("status") == "OK"]
@@ -8667,6 +8713,27 @@ def selftest():
         and abs(_pb_own["share_of_page_pct"] - round(100.0 * _pb_own["paid_cny"] / 392727.0, 4)) < 1e-6
         and _pb_own["unverifiable"] == ["888888"],
         json.dumps(_pb_own, ensure_ascii=False)[:200])
+    # r1605: a QDII priced against ANOTHER session's NAV is not an entry premium. The face
+    # drops it from the money total; the page must (a) name it with both dates and (b) not
+    # file it under "unreadable" -- it was read, and refused.
+    _pb_x = dict(_pb_fix, names=[
+        {"symbol": "159655", "class": "crossborder", "price": 1.999, "iopv": 1.8543,
+         "premium_pct": 7.8035, "premium_paid_cny": None, "nav_session": "2026-11-13",
+         "market_pctile": None, "market_rank": None, "market_n": None,
+         "status": "CROSS_SESSION_NAV"},
+        _pb_fix["names"][0]])
+    _pb_x_txt = "\n".join(premium_block(_pb_x, page_bar="2026-11-06"))
+    chk("L215 premium block: a name whose NAV belongs to another session is named, counted, "
+        "and kept out of the money total",
+        "159655" in _pb_x_txt and "2026-11-13" in _pb_x_txt
+        and "另一个交易日" in _pb_x_txt and "比不了" in _pb_x_txt, _pb_x_txt[:160])
+    _pb_x_own = premium_on_page_sheet(_pb_x, {"amount_cny": 392727.0,
+                                              "legs": [{"symbol": "159655", "amount_cny": 78600.0},
+                                                       {"symbol": "888888", "amount_cny": 1000.0}]})
+    chk("L216 premium on this page: a refused reading is its own bucket, not 'unverifiable'",
+        _pb_x_own["cross_session"] == ["159655"] and _pb_x_own["unverifiable"] == ["888888"],
+        json.dumps({k: _pb_x_own.get(k) for k in ("cross_session", "unverifiable")},
+                   ensure_ascii=False))
     # r1556: the "this lane cannot answer" sentence used to point at the other ruler
     # unconditionally. When that ruler has no record for the name either, the page was
     # telling the reader both "cannot answer" and "already answered" about one symbol.

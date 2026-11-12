@@ -76,6 +76,18 @@ def _num(v):
     return f if f == f else None
 
 
+def _cell(v):
+    """A date-ish cell as a trimmed string, or None. NaN/'' are unreadable, not a value."""
+    if v is None:
+        return None
+    if isinstance(v, float) and v != v:
+        return None
+    s = str(v).strip()
+    if not s or s.lower() in ("nan", "none", "nat"):
+        return None
+    return s
+
+
 def _load_json(path):
     with open(path, encoding="utf-8") as fh:
         return json.load(fh)
@@ -128,12 +140,14 @@ def premium_table(order, iopv, session):
         rec = iopv.get(code) if iopv else None
         iopv_px = _num(rec.get("iopv")) if rec else None
         prem = _num(rec.get("premium_pct")) if rec else None
+        nav_session = _cell(rec.get("nav_session")) if rec else None
         item = {
             "symbol": code,
             "class": row.get("class"),
             "price": price,
             "shares": shares,
             "amount_cny": round(float(row.get("amount") or 0.0), 2),
+            "nav_session": nav_session,
         }
         if rec is None:
             item.update({"status": "NO_IOPV_ROW", "iopv": None, "premium_pct": None,
@@ -143,6 +157,17 @@ def premium_table(order, iopv, session):
             item.update({"status": "IOPV_UNUSABLE", "iopv": iopv_px, "premium_pct": prem,
                          "premium_paid_cny": None, "market_pctile": None,
                          "market_rank": None, "market_n": None})
+        elif nav_session and session and nav_session != session:
+            # (r1605) The denominator belongs to ANOTHER session. price / that NAV - 1 is
+            # not this order's entry premium, it is the gap between two trading days --
+            # 159655 on 2026-11-12 read +7.80% only because its NAV was dated 11-13.
+            # Counting it would put a fictional CNY amount into "paid above IOPV" and let
+            # one row drive the whole verdict. Keep the reading visible, keep it out of
+            # the sum (never zero -- zero would say "no premium", which is also a lie).
+            item.update({"status": "CROSS_SESSION_NAV", "iopv": iopv_px,
+                         "premium_pct": round(prem, 4), "premium_paid_cny": None,
+                         "market_pctile": None, "market_rank": None, "market_n": None,
+                         "nav_session_mismatch": True})
         else:
             pct, rank, n = market_rank(iopv, code, prem)
             item.update({
@@ -160,6 +185,7 @@ def premium_table(order, iopv, session):
 
 def totals_of(rows, book_amount, nav, cagr_pct):
     ok = [r for r in rows if r["status"] == "OK"]
+    cross = [r for r in rows if r["status"] == "CROSS_SESSION_NAV"]
     paid = round(sum(r["premium_paid_cny"] for r in ok), 2)
     amount_ok = round(sum(r["amount_cny"] for r in ok), 2)
     share = round(paid / book_amount * 100.0, 4) if book_amount else None
@@ -171,7 +197,11 @@ def totals_of(rows, book_amount, nav, cagr_pct):
     return {
         "n_names": len(rows),
         "n_verified": len(ok),
-        "n_unverifiable": len(rows) - len(ok),
+        "n_unverifiable": len(rows) - len(ok) - len(cross),
+        # names whose NAV belongs to another session: readable, but not an entry premium
+        "n_cross_session": len(cross),
+        "cross_session_symbols": [r["symbol"] for r in cross],
+        "cross_session_amount_cny": round(sum(r["amount_cny"] for r in cross), 2),
         "premium_paid_cny": paid,
         "verified_amount_cny": amount_ok,
         "book_amount_cny": round(book_amount, 2),
@@ -185,26 +215,32 @@ def totals_of(rows, book_amount, nav, cagr_pct):
 
 def verdict_of(tot, n_top_names, top_names):
     """Recomputed from the summary; the stored word is never trusted on its own."""
+    cross_note = ""
+    if tot.get("n_cross_session"):
+        cross_note = ("; %d name(s) (%s) priced against another session's NAV and are "
+                      "excluded, not counted as a premium"
+                      % (tot["n_cross_session"],
+                         ",".join(tot.get("cross_session_symbols") or []) or "-"))
     if tot["n_verified"] == 0:
-        return "CANNOT_VERIFY", "no name had a usable IOPV row"
+        return "CANNOT_VERIFY", "no name had a usable IOPV row" + cross_note
     if tot["n_unverifiable"]:
-        return ("PARTIAL", "%d of %d names unverifiable; the total covers only the verified"
-                % (tot["n_unverifiable"], tot["n_names"]))
+        return ("PARTIAL", "%d of %d names unverifiable; the total covers only the verified%s"
+                % (tot["n_unverifiable"], tot["n_names"], cross_note))
     share = tot.get("premium_share_of_order_pct")
     if share is None:
         # a face without a denominator cannot be judged small or large (r1261 family)
         return "CANNOT_VERIFY", "the summary carries no premium share of the order"
     if share >= DOMINATE_SHARE_PCT:
         return "ENTRY_PREMIUM_DOMINATES", (
-            "the ticket pays %.2f%% of its own amount above IOPV (CNY %.0f)"
-            % (share, tot["premium_paid_cny"]))
+            "the ticket pays %.2f%% of its own amount above IOPV (CNY %.0f)%s"
+            % (share, tot["premium_paid_cny"], cross_note))
     if share >= WARN_SHARE_PCT:
         return "ENTRY_PREMIUM_WARN", (
-            "the ticket pays %.2f%% of its own amount above IOPV (CNY %.0f)"
-            % (share, tot["premium_paid_cny"]))
+            "the ticket pays %.2f%% of its own amount above IOPV (CNY %.0f)%s"
+            % (share, tot["premium_paid_cny"], cross_note))
     return "ENTRY_PREMIUM_SMALL", (
-        "the ticket pays %.2f%% above IOPV (below the %.1f%% warn line)"
-        % (share, WARN_SHARE_PCT))
+        "the ticket pays %.2f%% above IOPV (below the %.1f%% warn line)%s"
+        % (share, WARN_SHARE_PCT, cross_note))
 
 
 def history_stats(values, code):
@@ -519,8 +555,18 @@ def check(path=OUT_JSON):
     paid = round(sum(r["premium_paid_cny"] for r in rows if r["status"] == "OK"), 2)
     if abs(paid - (tot.get("premium_paid_cny") or 0.0)) > 0.02:
         fails.append("total premium %.2f != sum of names %.2f" % (tot.get("premium_paid_cny"), paid))
-    if tot.get("n_verified", 0) + tot.get("n_unverifiable", 0) != tot.get("n_names"):
-        fails.append("n_verified + n_unverifiable != n_names")
+    if tot.get("n_verified", 0) + tot.get("n_unverifiable", 0) \
+            + tot.get("n_cross_session", 0) != tot.get("n_names"):
+        fails.append("n_verified + n_unverifiable + n_cross_session != n_names")
+    # (r1605) a face built by an older producer would be self-consistent and still wrong:
+    # a verified row whose NAV is dated another session is exactly the defect this gate is
+    # for, so the invariant is checked against the row's own date, not against the counts.
+    _sess = str(face.get("iopv_session") or "")[:10]
+    for r in rows:
+        ns = _cell(r.get("nav_session"))
+        if r.get("status") == "OK" and _sess and ns and ns != _sess:
+            fails.append("%s verified against a %s NAV on a %s face"
+                         % (r.get("symbol"), ns, _sess))
     top = [r["symbol"] for r in rows
            if r["status"] == "OK" and (r["market_pctile"] or 0.0) >= TOP_PCTILE]
     word, why = verdict_of(tot, len(top), top)
@@ -609,6 +655,47 @@ def selftest():
     # L3 the total is the sum of the verified rows only
     ck("L3", abs(tot2["premium_paid_cny"] - (rows[0]["premium_paid_cny"] +
                                              rows[1]["premium_paid_cny"])) < 0.02, str(tot2))
+
+    # L3b (r1605) a row whose NAV belongs to another session is not an entry premium.
+    # 159655 on 2026-11-12 read +7.80% only because its NAV was dated 11-13.
+    xiopv = {"159655": {"code": "159655", "iopv": "1.8543", "premium_pct": "7.8035",
+                        "nav_session": "2026-11-13"},
+             "510760": {"code": "510760", "iopv": "1.2816", "premium_pct": "0.1092",
+                        "nav_session": "2026-11-12"},
+             # an old snapshot has no nav_session column at all: readable, vintage unknown
+             "512040": {"code": "512040", "iopv": "1.1982", "premium_pct": "-0.0167"}}
+    xorder = [{"symbol": "159655", "shares": 39200, "price": 1.999, "amount": 78363.0,
+               "class": "crossborder"},
+              {"symbol": "510760", "shares": 61200, "price": 1.283, "amount": 78519.6,
+               "class": "equity"},
+              {"symbol": "512040", "shares": 65600, "price": 1.198, "amount": 78588.8,
+               "class": "equity"}]
+    xrows = premium_table(xorder, xiopv, "2026-11-12")
+    ck("L3b1", xrows[0]["status"] == "CROSS_SESSION_NAV", xrows[0]["status"])
+    ck("L3b2", xrows[0]["premium_paid_cny"] is None,
+       "a cross-session reading must not enter the sum as a number")
+    ck("L3b3", xrows[0]["nav_session"] == "2026-11-13", str(xrows[0].get("nav_session")))
+    ck("L3b4", xrows[1]["status"] == "OK", "same-session row must stay verified")
+    ck("L3b5", xrows[2]["status"] == "OK",
+       "a snapshot without the column is unknown vintage, not a mismatch")
+    xtot = totals_of(xrows, 235471.4, 1000000.0, 12.73)
+    ck("L3b6", xtot["n_cross_session"] == 1 and xtot["n_verified"] == 2, str(xtot))
+    ck("L3b7", abs(xtot["premium_paid_cny"]
+                   - (xrows[1]["premium_paid_cny"] + xrows[2]["premium_paid_cny"])) < 0.02,
+       "the cross-session row must not move the money total")
+    xw, xwhy = verdict_of(xtot, 0, [])
+    ck("L3b8", "159655" in xwhy and "another session" in xwhy, xwhy)
+    ck("L3b9", xtot["n_verified"] + xtot["n_unverifiable"]
+       + xtot["n_cross_session"] == xtot["n_names"], str(xtot))
+
+    # L3c the same reading, if it really were same-session, WOULD count (control arm:
+    # the guard must key on the date, not on the fund being crossborder)
+    ctrl = premium_table(xorder[:1], {"159655": {"code": "159655", "iopv": "1.8543",
+                                                 "premium_pct": "7.8035",
+                                                 "nav_session": "2026-11-12"}},
+                         "2026-11-12")
+    ck("L3c1", ctrl[0]["status"] == "OK" and ctrl[0]["premium_paid_cny"] is not None,
+       "same-session QDII premium must still be counted")
 
     # L4 verdict thresholds are inclusive at the constants
     t = dict(tot2)
