@@ -530,6 +530,114 @@ def board_gap(now=None, days=_AUTO, snap_dir=None):
     return out
 
 
+# ------------------------------------------------------------------ spot board (host failover)
+# One clist API, several EM hosts. 2026-11-12: the delay host answered 1660 ETFs at
+# 16:25 and then refused every request for the rest of the day (RemoteDisconnected /
+# ReadTimeout), while push2.eastmoney.com served the same board with the same fields
+# in 8s. A dead host cost the lane a whole session -- and this face photographs a
+# session, it does not backfill one, so that hole never heals. So the board is pulled
+# through an ordered list of sources: the first that answers wins, and the gate
+# records WHICH one answered.
+SPOT_CLIST_PATH = "/api/qt/clist/get"
+SPOT_HOSTS = ("https://push2delay.eastmoney.com",
+              "https://push2.eastmoney.com",
+              "https://7.push2.eastmoney.com",
+              "https://45.push2.eastmoney.com")
+SPOT_PARAMS = {
+    "pn": "1", "pz": "100", "po": "1", "np": "1",
+    "ut": "bd1d9ddb04089700cf9c27f6f7426281", "fltt": "2", "invt": "2",
+    "wbp2u": "|0|0|0|web", "fid": "f12",
+    "fs": "b:MK0021,b:MK0022,b:MK0023,b:MK0024,b:MK0827",
+    "fields": "f2,f6,f12,f14,f297,f441",
+}
+# Board field -> the column names normalize_spot() reads (REQUIRED).
+SPOT_FIELDS = {"f12": "代码", "f14": "名称", "f2": "最新价",
+               "f6": "成交额", "f297": "数据日期", "f441": "IOPV实时估值"}
+
+
+def _http_get_json(url, params, timeout=(8, 20)):
+    import requests
+    r = requests.get(url, params=params, timeout=timeout,
+                     headers={"User-Agent": "Mozilla/5.0",
+                              "Referer": "https://quote.eastmoney.com/"})
+    r.raise_for_status()
+    return r.json()
+
+
+def _board_from_host(host, get=None, page_size=500, max_pages=20,
+                     throttle_s=2.5, retries=2):
+    """One host's clist board -> a frame carrying exactly the REQUIRED columns.
+
+    `get(url, params)` is injectable so the selftest can drive paging and shape
+    without a socket. Pages are throttled and retried in place: this host drops
+    connections after a handful of rapid requests (2026-11-12: one page answered in
+    8s, the next five were RemoteDisconnected), so a page that fails is retried
+    before the host is declared dead. A short page set that stops early is not an
+    error here -- normalize_spot() is what decides whether the board is usable.
+    """
+    import time as _time
+    get = get or _http_get_json
+    rows = []
+    for pn in range(1, max_pages + 1):
+        params = dict(SPOT_PARAMS)
+        params["pn"] = str(pn)
+        params["pz"] = str(page_size)
+        payload, last_err = None, None
+        for attempt in range(retries + 1):
+            try:
+                payload = get(host + SPOT_CLIST_PATH, params)
+                break
+            except Exception as e:  # noqa: BLE001 -- retried, then named
+                last_err = e
+                if attempt < retries:
+                    _time.sleep(throttle_s * 2 * (attempt + 1))
+        if payload is None:
+            raise last_err
+        data = (payload or {}).get("data") or {}
+        diff = data.get("diff") or []
+        if isinstance(diff, dict):      # EM answers as {index: row} on some hosts
+            diff = list(diff.values())
+        if not diff:
+            break
+        rows.extend(diff)
+        if len(rows) >= int(data.get("total") or 0):
+            break
+        _time.sleep(throttle_s)
+    if not rows:
+        raise ValueError("%s returned no rows" % host)
+    df = pd.DataFrame(rows)
+    missing = [k for k in SPOT_FIELDS if k not in df.columns]
+    if missing:
+        raise ValueError("%s shape drift: missing %s" % (host, ", ".join(missing)))
+    return df[list(SPOT_FIELDS)].rename(columns=SPOT_FIELDS)
+
+
+def _board_from_akshare():
+    import akshare as ak
+    return ak.fund_etf_spot_em()
+
+
+def _spot_board(sources=None):
+    """Pull the board from the first source that answers -> (frame, source name).
+
+    Every attempt is named in the failure text: reporting only the last host would
+    hide that the lane still had options (r1199: a red that measures half the causes
+    is not actionable).
+    """
+    if sources is None:
+        sources = [("akshare.push2delay", _board_from_akshare)]
+        for host in SPOT_HOSTS[1:]:
+            sources.append((host.split("//", 1)[1],
+                            lambda h=host: _board_from_host(h, page_size=200)))
+    errors = []
+    for name, fn in sources:
+        try:
+            return fn(), name
+        except Exception as e:  # noqa: BLE001 -- each source is a reading
+            errors.append("%s: %s: %s" % (name, type(e).__name__, str(e)[:160]))
+    raise RuntimeError("; ".join(errors))
+
+
 def do_fetch(force=False) -> int:
     import time as _t
     run, today, why = gate(force=force)
@@ -537,14 +645,14 @@ def do_fetch(force=False) -> int:
         print("fetch: no-op -- %s" % why)
         return 0
     try:
-        import akshare as ak
-        df = ak.fund_etf_spot_em()
+        df, source = _spot_board()
+        print("board source: %s (%d rows)" % (source, len(df)))
     except Exception as e:  # noqa: BLE001 -- source failure is a reading, not a crash
-        print("source failure: %s: %s" % (type(e).__name__, e))
+        print("source failure: %s" % e)
         g = _read_gate()
         g.update({"last_fail_session": today,
                   "last_fail_ts": _t.strftime("%Y-%m-%dT%H:%M:%S"),
-                  "last_fail_reason": "%s: %s" % (type(e).__name__, e)})
+                  "last_fail_reason": str(e)[:400]})
         _write_gate(g)
         return 2
     try:
@@ -572,6 +680,7 @@ def do_fetch(force=False) -> int:
     g.pop("last_fail_reason", None)
     g["last_ok_session"] = session
     g["last_ok_ts"] = _t.strftime("%Y-%m-%dT%H:%M:%S")
+    g["last_ok_source"] = source
     _write_gate(g)
     return _render(spot, _t.strftime("%Y-%m-%dT%H:%M:%S%z"), nav_ok)
 
@@ -913,6 +1022,70 @@ def selftest() -> int:
     g = board_gap(now=_dt.datetime(2026, 11, 10, 16, 0), days=CAL, snap_dir=tmp)
     leg("L29 a zero-byte board file is not a capture",
         g["missing"] == ["2026-11-10"] and g["last_board"] == "2026-11-09")
+
+    # L30 failover: a dead first source is a reading, not the end of the lane -- the
+    # second source's board is used and its name comes back with it.
+    calls = []
+
+    def dead():
+        calls.append("dead")
+        raise RuntimeError("RemoteDisconnected")
+
+    def live():
+        calls.append("live")
+        return pd.DataFrame([{"f12": "510300", "f14": "沪深300ETF", "f2": 4.04,
+                              "f6": 9e8, "f297": "20261112", "f441": 4.00}])
+    got, src = _spot_board(sources=[("dead-host", dead), ("push2", live)])
+    leg("L30 first source down -> second source answers, and it is named",
+        src == "push2" and calls == ["dead", "live"] and len(got) == 1)
+
+    # L31 every source down -> the failure text names each one (no silent last-only).
+    try:
+        _spot_board(sources=[("a", dead), ("b", dead)])
+        text = ""
+    except RuntimeError as e:
+        text = str(e)
+    leg("L31 all sources down -> error names every source tried",
+        "a: RuntimeError" in text and "b: RuntimeError" in text)
+
+    # L32 the raw-host path renames the board into exactly what normalize_spot reads,
+    # and it pages (a 150-row board over 100-row pages must arrive whole).
+    def fake_get(url, params):
+        pn = int(params["pn"])
+        if pn > 2:
+            return {"data": {"total": 150, "diff": []}}
+        n = 100 if pn == 1 else 50
+        base = 0 if pn == 1 else 100
+        rows = {str(i): {"f12": "51%04d" % i, "f14": "e%d" % i, "f2": 4.0,
+                         "f6": 1e8, "f297": "20261112", "f441": 4.0}
+                for i in range(base, base + n)}
+        return {"data": {"total": 150, "diff": rows}}
+    raw = _board_from_host("https://push2.eastmoney.com", get=fake_get, throttle_s=0)
+    leg("L32 raw-host board pages to the total and carries the REQUIRED columns",
+        len(raw) == 150 and [c for c in REQUIRED if c not in raw.columns] == []
+        and normalize_spot(raw).loc[0, "session"] == "20261112")
+
+    # L34 a page that fails once is retried in place before the host is declared dead
+    # (this host drops connections after a handful of rapid requests).
+    tries = {"n": 0}
+    def flaky_get(url, params):
+        tries["n"] += 1
+        if tries["n"] == 1:
+            raise ConnectionError("RemoteDisconnected")
+        return {"data": {"total": 1, "diff": {"0": {"f12": "510300", "f14": "x",
+                                                    "f2": 4.0, "f6": 1e8,
+                                                    "f297": "20261112", "f441": 4.0}}}}
+    retried = _board_from_host("https://x", get=flaky_get, throttle_s=0, retries=1)
+    leg("L33 one dropped connection is retried, not reported as a dead host",
+        tries["n"] == 2 and len(retried) == 1)
+
+    # L33 a host that answers nothing usable is a failure, not an empty face.
+    try:
+        _board_from_host("https://x", get=lambda u, p: {"data": {"total": 0, "diff": []}})
+        empty_ok = False
+    except ValueError:
+        empty_ok = True
+    leg("L34 an empty board raises instead of rendering an empty face", empty_ok)
 
     ok = sum(1 for _, p, _ in legs if p)
     for name, p, detail in legs:
