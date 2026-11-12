@@ -4203,6 +4203,16 @@ def main() -> int:
               and _pf.index("premium_percentile_write") < _pf.index("etf_book_order"),
               "write=%d order=%d" % (_pf.index("premium_percentile_write"),
                                      _pf.index("etf_book_order")))
+        # r1587: the card's drawdown band IS the block face's rows, and the only block leg
+        # used to sit ~320 steps later -- so a cycle that rebuilt BLOCKS-<bar>.json left the
+        # card quoting the previous bar and the "E246 band reaches both trading pages" leg
+        # red until production was re-run by hand (11-12: card 16:11 vs blocks 17:04).
+        check("product: the block band is rebuilt before the card embeds it",
+              "etf_book_block_write" in _pf and "etf_book_production" in _pf
+              and _pf.index("etf_book_block_write") < _pf.index("etf_book_production"),
+              "write=%s prod=%s" % ("etf_book_block_write" in _pf,
+                                    _pf.index("etf_book_production")
+                                    if "etf_book_production" in _pf else -1))
     except Exception as e:
         check("product: the premium face is re-derived before it is judged", False, str(e))
     try:

@@ -227,6 +227,14 @@ LEGS = [
     # against the equal-weight control, so "rank 6 of 64" cannot be quoted as if the ranking
     # were reachable live. ~150s, offline, deterministic (one panel load, 64 engine calls/cell).
     ("etf_sign_pit_combo", ["python", "scripts/etf_sign_pit_combo.py", "run"]),
+    # r1587: the card EMBEDS the drawdown band (its table rows are the block face's own
+    # numbers), but the only block leg (`block_length`) sat ~320 steps LATER -- so every
+    # cycle that rebuilt BLOCKS-<bar>.json left the card quoting the previous bar's band,
+    # and the "E246 band reaches both trading pages" leg went red until production was
+    # re-run by hand (2026-11-12: card 16:11 read BLOCKS-11-11, blocks rebuilt 17:04).
+    # Same class as E569: writer before the consumer that EMBEDS it, not just its judge.
+    # Idempotent and 1s when the face already exists; it builds it once when it is missing.
+    ("etf_book_block_write", ["python", "scripts/etf_book_nav_envelope.py", "blocks"]),
     ("etf_book_production", ["python", "scripts/etf_book_production.py"]),
     # must run AFTER production (it reads the card + payload production writes) and before
     # the page that quotes the book: a face with no producer freezes on the card it was

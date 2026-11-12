@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-12 16:11:10",
+ "ts": "2026-11-12 18:51:08",
  "evidence_cutoff": "2026-11-12",
  "feed_status": {
   "ticket_bar": "2026-11-12",
@@ -76,8 +76,8 @@
   "card_rule": "vol",
   "ticket_k": 0.432195,
   "ticket_is_prefix_of_card": true,
-  "same_priced_bar": false,
-  "gap_pp": -1.25,
+  "same_priced_bar": true,
+  "gap_pp": -1.16,
   "source": "results/etf_book_order/latest.json",
   "card_bar": "2026-11-12"
  },
@@ -335,9 +335,9 @@
     "prereg": "research/CASE_PREREG_E25_CAUSAL_REBUILD.md",
     "state": "IRRECOVERABLE",
     "best_arm": "smooth_k2",
-    "best_pp": 0.15,
+    "best_pp": 0.13,
     "admissible": [],
-    "evidence_cutoff": "2026-11-11",
+    "evidence_cutoff": "2026-11-12",
     "readable": true
    },
    {
@@ -347,9 +347,9 @@
     "prereg": "research/CASE_PREREG_E26_OVERNIGHT_GAP.md",
     "state": "MIXED_ACROSS_PHASES",
     "best_arm": "excl_upgap_q80",
-    "best_pp": 0.9,
+    "best_pp": 0.94,
     "admissible": [],
-    "evidence_cutoff": "2026-11-11",
+    "evidence_cutoff": "2026-11-12",
     "readable": true
    },
    {
@@ -359,9 +359,9 @@
     "prereg": "research/CASE_PREREG_E27_OPEN_SLICING.md",
     "state": "NO_SLICING_EDGE",
     "best_arm": "k5",
-    "best_pp": 0.0,
+    "best_pp": 0.04,
     "admissible": [],
-    "evidence_cutoff": "2026-11-11",
+    "evidence_cutoff": "2026-11-12",
     "readable": true
    }
   ],
@@ -373,12 +373,12 @@
   "missing": [],
   "levers": [],
   "cutoffs": [
-   "2026-11-11"
+   "2026-11-12"
   ],
   "faces_read": 3,
   "faces_total": 3,
   "verdict": "CLOSED",
-  "sentence": "**Research arc: all three asks were priced and none paid.** E25 IRRECOVERABLE (+0.15pp best arm `smooth_k2`), E26 MIXED_ACROSS_PHASES (+0.90pp best arm `excl_upgap_q80`), E27 NO_SLICING_EDGE (+0.00pp best arm `k5`). So the gap between the printed number and the tradable one is not recoverable by smoothing the score, not visible in the overnight gap, and not saved by slicing the fill over k opens. This is not a claim that no lever exists -- it is the narrower, earned claim that these three do not pay, and that a fourth question has to come from somewhere other than this rule's own mechanics."
+  "sentence": "**Research arc: all three asks were priced and none paid.** E25 IRRECOVERABLE (+0.13pp best arm `smooth_k2`), E26 MIXED_ACROSS_PHASES (+0.94pp best arm `excl_upgap_q80`), E27 NO_SLICING_EDGE (+0.04pp best arm `k5`). So the gap between the printed number and the tradable one is not recoverable by smoothing the score, not visible in the overnight gap, and not saved by slicing the fill over k opens. This is not a claim that no lever exists -- it is the narrower, earned claim that these three do not pay, and that a fourth question has to come from somewhere other than this rule's own mechanics."
  },
  "vol_overlay_tail": {
   "artifact": "results/etf_book_bootstrap/etf_book_voltarget_tail.json",
@@ -553,7 +553,7 @@
   ]
  },
  "caveats": [
-  "THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -24.9% and -16.9% and the share of resamples worse than -20% between 0.9% and 15.7%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-11.json (band priced on the 2026-11-11 bar, older than this card's 2026-11-12 -- stale, its tail can only be too narrow).",
+  "THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -25.3% and -16.9% and the share of resamples worse than -20% between 0.9% and 15.2%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-12.json.",
   "THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.87%/yr (Sharpe -0.41) against +6.02%/yr (+0.64) for the fixed signs -- and reversing the trailing sign does not recover it (-0.38%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.",
   "ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.",
   "THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.",
@@ -579,35 +579,35 @@
  },
  "concentration": {
   "status": "ok",
-  "sentence": "前三名只占毛收益 21.8%（第一 黄金ETF易方达 7.4%）；删掉这三只年化 -1.98pp；删掉整条 commodity 袖（41 只）年化 -3.70pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
-  "evidence_cutoff": "2026-11-11",
+  "sentence": "前三名只占毛收益 21.8%（第一 黄金ETF易方达 7.4%）；删掉这三只年化 -1.98pp；删掉整条 commodity 袖（41 只）年化 -3.69pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
+  "evidence_cutoff": "2026-11-12",
   "verdict": "BROAD|SURVIVES_WITHOUT_TOP3",
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_concentration.json",
-  "top3_share": 0.2184,
+  "top3_share": 0.2181,
   "hhi": 0.0238,
-  "names_negative": 69,
-  "names_above_1pct": 40,
+  "names_negative": 68,
+  "names_above_1pct": 41,
   "distinct_names": 189,
   "top": [
    {
     "symbol": "159934",
     "name": "黄金ETF易方达",
-    "share": 0.0745
+    "share": 0.0744
    },
    {
     "symbol": "518800",
     "name": "黄金ETF国泰",
-    "share": 0.0738
+    "share": 0.0737
    },
    {
     "symbol": "159937",
     "name": "黄金ETF博时",
-    "share": 0.07
+    "share": 0.0699
    }
   ],
   "baseline": {
-   "cagr": 0.0966,
-   "sharpe": 0.994,
+   "cagr": 0.0965,
+   "sharpe": 0.993,
    "maxdd": -0.1177,
    "vol": 0.1019,
    "years": 6.86
@@ -622,7 +622,7 @@
    "delta_cagr_pp": -1.98,
    "stats": {
     "full": {
-     "cagr": 0.0768,
+     "cagr": 0.0767,
      "sharpe": 0.814,
      "maxdd": -0.1868,
      "vol": 0.1009,
@@ -636,10 +636,10 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1559,
-     "sharpe": 1.526,
+     "cagr": 0.1556,
+     "sharpe": 1.524,
      "maxdd": -0.1083,
-     "vol": 0.1026,
+     "vol": 0.1025,
      "years": 2.86
     }
    }
@@ -647,7 +647,7 @@
   "sleeve": {
    "class": "commodity",
    "symbols_removed": 41,
-   "delta_cagr_pp": -3.7,
+   "delta_cagr_pp": -3.69,
    "stats": {
     "full": {
      "cagr": 0.0596,
@@ -664,10 +664,10 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1333,
-     "sharpe": 1.338,
+     "cagr": 0.1331,
+     "sharpe": 1.336,
      "maxdd": -0.1086,
-     "vol": 0.1015,
+     "vol": 0.1014,
      "years": 2.86
     }
    }
@@ -675,24 +675,24 @@
  },
  "sleeve_gate": {
   "status": "ok",
-  "sentence": "No sleeve-level gate earns adoption: switching the sleeve off on trend 24%, vol 30%, drawdown 16% of the decision grid is no better than switching it off on the same number of untimed decisions, so a gate here would buy a shorter holding period, not a signal. The closest arm is the vol gate: +0.86pp of drawdown against the frozen 1.0pp bar, and it does beat its own placebo by +5.00pp -- which is why it is named as the re-test candidate on new data, not re-thresholded here. Verdict NO_GATE.",
-  "evidence_cutoff": "2026-11-11",
+  "sentence": "No sleeve-level gate earns adoption: switching the sleeve off on trend 25%, vol 30%, drawdown 17% of the decision grid is no better than switching it off on the same number of untimed decisions, so a gate here would buy a shorter holding period, not a signal. The closest arm is the vol gate: +0.86pp of drawdown against the frozen 1.0pp bar, and it does beat its own placebo by +6.06pp -- which is why it is named as the re-test candidate on new data, not re-thresholded here. Verdict NO_GATE.",
+  "evidence_cutoff": "2026-11-12",
   "verdict": "NO_GATE",
   "adopting": [],
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_sleeve_gate.json",
   "gates": [
    {
     "name": "trend",
-    "off_decisions": 20,
-    "off_share": 0.241,
+    "off_decisions": 21,
+    "off_share": 0.25,
     "delta_cagr_pp": -0.32,
     "delta_maxdd_pp": -2.77,
-    "placebo_delta_cagr_pp": 1.09,
-    "placebo_delta_maxdd_pp": -1.74,
+    "placebo_delta_cagr_pp": -0.43,
+    "placebo_delta_maxdd_pp": -2.27,
     "dd_gain_pp": -2.77,
-    "cagr_keep": 0.9669,
-    "placebo_dd_edge_pp": -1.03,
-    "placebo_cagr_edge_pp": -1.41,
+    "cagr_keep": 0.9668,
+    "placebo_dd_edge_pp": -0.5,
+    "placebo_cagr_edge_pp": 0.11,
     "beats_placebo": false,
     "verdict": "NO_GATE",
     "why": "no_gain_vs_baseline"
@@ -700,32 +700,32 @@
    {
     "name": "vol",
     "off_decisions": 25,
-    "off_share": 0.3012,
+    "off_share": 0.2976,
     "delta_cagr_pp": 0.02,
     "delta_maxdd_pp": 0.86,
-    "placebo_delta_cagr_pp": -2.89,
-    "placebo_delta_maxdd_pp": -4.14,
+    "placebo_delta_cagr_pp": -2.06,
+    "placebo_delta_maxdd_pp": -5.2,
     "dd_gain_pp": 0.86,
     "cagr_keep": 1.0021,
-    "placebo_dd_edge_pp": 5.0,
-    "placebo_cagr_edge_pp": 2.91,
+    "placebo_dd_edge_pp": 6.06,
+    "placebo_cagr_edge_pp": 2.08,
     "beats_placebo": true,
     "verdict": "NO_GATE",
     "why": "short_of_bar"
    },
    {
     "name": "drawdown",
-    "off_decisions": 13,
-    "off_share": 0.1566,
+    "off_decisions": 14,
+    "off_share": 0.1667,
     "delta_cagr_pp": -0.18,
     "delta_maxdd_pp": -1.27,
-    "placebo_delta_cagr_pp": -2.17,
-    "placebo_delta_maxdd_pp": -3.7,
+    "placebo_delta_cagr_pp": -0.5,
+    "placebo_delta_maxdd_pp": -1.33,
     "dd_gain_pp": -1.27,
-    "cagr_keep": 0.9814,
-    "placebo_dd_edge_pp": 2.43,
-    "placebo_cagr_edge_pp": 1.99,
-    "beats_placebo": true,
+    "cagr_keep": 0.9813,
+    "placebo_dd_edge_pp": 0.06,
+    "placebo_cagr_edge_pp": 0.32,
+    "beats_placebo": false,
     "verdict": "NO_GATE",
     "why": "no_gain_vs_baseline"
    }
@@ -733,15 +733,15 @@
   "closest": {
    "name": "vol",
    "off_decisions": 25,
-   "off_share": 0.3012,
+   "off_share": 0.2976,
    "delta_cagr_pp": 0.02,
    "delta_maxdd_pp": 0.86,
-   "placebo_delta_cagr_pp": -2.89,
-   "placebo_delta_maxdd_pp": -4.14,
+   "placebo_delta_cagr_pp": -2.06,
+   "placebo_delta_maxdd_pp": -5.2,
    "dd_gain_pp": 0.86,
    "cagr_keep": 1.0021,
-   "placebo_dd_edge_pp": 5.0,
-   "placebo_cagr_edge_pp": 2.91,
+   "placebo_dd_edge_pp": 6.06,
+   "placebo_cagr_edge_pp": 2.08,
    "beats_placebo": true,
    "verdict": "NO_GATE",
    "why": "short_of_bar"
@@ -753,12 +753,12 @@
    "placebo_cagr_edge_pp": 0.5
   },
   "book": {
-   "decisions": 83,
+   "decisions": 84,
    "n_hold": 12,
    "sleeve_class": "commodity"
   },
   "baseline": {
-   "cagr": 0.0966,
+   "cagr": 0.0965,
    "maxdd": -0.1177
   }
  },
@@ -996,7 +996,7 @@
  },
  "hysteresis": {
   "artifact": "results/etf_book_hysteresis.json",
-  "evidence_cutoff": "2026-11-11",
+  "evidence_cutoff": "2026-11-12",
   "config": {
    "n_hold": 12,
    "rebal": 20,
@@ -1011,12 +1011,12 @@
    ]
   },
   "control": {
-   "published": 0.0966,
-   "measured": 0.0966,
+   "published": 0.0965,
+   "measured": 0.0965,
    "delta_pp": 0.0,
    "within_tol": true,
-   "published_turnover": 0.934,
-   "measured_turnover": 0.934
+   "published_turnover": 0.938,
+   "measured_turnover": 0.938
   },
   "census": {
    "n_decisions": 84,
@@ -1025,52 +1025,52 @@
    "cut_sd_median": 0.0185
   },
   "trades": {
-   "n_pairs": 590,
-   "gap_sd_median": 0.9741,
-   "share_under_0p10sd": 0.0288,
-   "share_under_0p25sd": 0.0915
+   "n_pairs": 599,
+   "gap_sd_median": 0.9748,
+   "share_under_0p10sd": 0.0284,
+   "share_under_0p25sd": 0.0902
   },
   "arms": [
    {
     "k": 0.0,
-    "turnover": 0.934,
-    "cagr": 0.0966,
-    "sharpe": 0.994,
+    "turnover": 0.938,
+    "cagr": 0.0965,
+    "sharpe": 0.993,
     "maxdd": -0.1177
    },
    {
     "k": 0.05,
-    "turnover": 0.901,
-    "cagr": 0.0972,
-    "sharpe": 1.008,
+    "turnover": 0.905,
+    "cagr": 0.0971,
+    "sharpe": 1.007,
     "maxdd": -0.1159
    },
    {
     "k": 0.1,
-    "turnover": 0.887,
-    "cagr": 0.0972,
-    "sharpe": 1.004,
+    "turnover": 0.891,
+    "cagr": 0.0971,
+    "sharpe": 1.003,
     "maxdd": -0.1258
    },
    {
     "k": 0.2,
-    "turnover": 0.843,
-    "cagr": 0.098,
-    "sharpe": 1.018,
+    "turnover": 0.848,
+    "cagr": 0.0979,
+    "sharpe": 1.017,
     "maxdd": -0.1247
    },
    {
     "k": 0.35,
-    "turnover": 0.762,
-    "cagr": 0.0966,
-    "sharpe": 0.997,
+    "turnover": 0.767,
+    "cagr": 0.0965,
+    "sharpe": 0.995,
     "maxdd": -0.1257
    },
    {
     "k": 0.5,
-    "turnover": 0.702,
-    "cagr": 0.0975,
-    "sharpe": 1.005,
+    "turnover": 0.707,
+    "cagr": 0.0972,
+    "sharpe": 1.002,
     "maxdd": -0.1348
    }
   ],
@@ -1081,8 +1081,8 @@
   ]
  },
  "drawdown_band": {
-  "artifact": "results/etf_book_bootstrap/BLOCKS-2026-11-11.json",
-  "evidence_cutoff": "2026-11-11",
+  "artifact": "results/etf_book_bootstrap/BLOCKS-2026-11-12.json",
+  "evidence_cutoff": "2026-11-12",
   "block_set": [
    1,
    5,
@@ -1097,164 +1097,164 @@
   "arm_rows": [
    {
     "block": 1,
-    "maxdd_p5": -0.24868106969146359,
-    "maxdd_p50": -0.1435519041054198,
-    "dd_break_share": 0.157,
-    "point_pctile_maxdd": 76.5
+    "maxdd_p5": -0.2530564640763971,
+    "maxdd_p50": -0.14671732696570083,
+    "dd_break_share": 0.152,
+    "point_pctile_maxdd": 75.0
    },
    {
     "block": 5,
-    "maxdd_p5": -0.24085502652775861,
-    "maxdd_p50": -0.14375934412308178,
-    "dd_break_share": 0.153,
-    "point_pctile_maxdd": 77.2
+    "maxdd_p5": -0.23983728097355023,
+    "maxdd_p50": -0.14483100761640977,
+    "dd_break_share": 0.149,
+    "point_pctile_maxdd": 76.4
    },
    {
     "block": 10,
-    "maxdd_p5": -0.23127245274745933,
-    "maxdd_p50": -0.1398828512298917,
-    "dd_break_share": 0.126,
-    "point_pctile_maxdd": 73.5
+    "maxdd_p5": -0.23439139838319295,
+    "maxdd_p50": -0.14156639256421422,
+    "dd_break_share": 0.124,
+    "point_pctile_maxdd": 73.7
    },
    {
     "block": 20,
-    "maxdd_p5": -0.2086372222324063,
-    "maxdd_p50": -0.13153022015809246,
-    "dd_break_share": 0.066,
-    "point_pctile_maxdd": 66.4
+    "maxdd_p5": -0.20881814713594182,
+    "maxdd_p50": -0.1325545693457163,
+    "dd_break_share": 0.067,
+    "point_pctile_maxdd": 67.5
    },
    {
     "block": 40,
-    "maxdd_p5": -0.2101745513951904,
-    "maxdd_p50": -0.12983913469318475,
-    "dd_break_share": 0.068,
-    "point_pctile_maxdd": 64.3
+    "maxdd_p5": -0.21066248644505126,
+    "maxdd_p50": -0.12948411960995276,
+    "dd_break_share": 0.07,
+    "point_pctile_maxdd": 63.6
    },
    {
     "block": 60,
-    "maxdd_p5": -0.2126150974566439,
-    "maxdd_p50": -0.12976932527675117,
-    "dd_break_share": 0.073,
-    "point_pctile_maxdd": 64.0
+    "maxdd_p5": -0.21195677079677608,
+    "maxdd_p50": -0.13046007715726166,
+    "dd_break_share": 0.07,
+    "point_pctile_maxdd": 64.8
    },
    {
     "block": 120,
-    "maxdd_p5": -0.19542861688323043,
-    "maxdd_p50": -0.12939021781075044,
-    "dd_break_share": 0.037,
-    "point_pctile_maxdd": 63.9
+    "maxdd_p5": -0.1943603514538869,
+    "maxdd_p50": -0.12883987611339798,
+    "dd_break_share": 0.041,
+    "point_pctile_maxdd": 65.0
    },
    {
     "block": 250,
-    "maxdd_p5": -0.1693478670490037,
-    "maxdd_p50": -0.12160323787131638,
+    "maxdd_p5": -0.16905524644978068,
+    "maxdd_p50": -0.12130914744275989,
     "dd_break_share": 0.009,
-    "point_pctile_maxdd": 55.6
+    "point_pctile_maxdd": 55.2
    }
   ],
   "maxdd_p5_band": {
-   "min": -0.24868106969146359,
-   "max": -0.1693478670490037,
-   "range": 0.07933320264245988
+   "min": -0.2530564640763971,
+   "max": -0.16905524644978068,
+   "range": 0.08400121762661641
   },
   "maxdd_p50_band": {
-   "min": -0.14375934412308178,
-   "max": -0.12160323787131638,
-   "range": 0.022156106251765395
+   "min": -0.14671732696570083,
+   "max": -0.12130914744275989,
+   "range": 0.025408179522940944
   },
   "dd_break_band": {
    "min": 0.009,
-   "max": 0.157
+   "max": 0.152
   },
   "readings": {
-   "headline_not_a_lucky_path": false,
+   "headline_not_a_lucky_path": true,
    "drawdown_tail_is_block_dependent": true,
    "ultra_tail_is_block_dependent": true,
    "median_cagr_stable": true
   },
-  "band_pp": 7.933320264245988
+  "band_pp": 8.400121762661641
  },
  "entry_gate": {
   "status": "ok",
   "artifact": "results\\etf_book_entry_gate.json",
-  "evidence_cutoff": "2026-11-11",
-  "panel_last_bar": "2026-11-11",
+  "evidence_cutoff": "2026-11-12",
+  "panel_last_bar": "2026-11-12",
   "verdict": "GATE_SITS_ON_PLATEAU",
-  "sentence": "halving or doubling the shipped cut moves the declared arm by at most 0.53pp and no gate beats it by more than 0.22pp, so 20M is a plateau -- the number is not load-bearing and any future line may inherit it safely",
+  "sentence": "halving or doubling the shipped cut moves the declared arm by at most 0.53pp and no gate beats it by more than 0.21pp, so 20M is a plateau -- the number is not load-bearing and any future line may inherit it safely",
   "shipped_cny": 20000000.0,
   "tol_pp": 1.0,
   "near_max_pp": 0.53,
-  "best_delta_pp": 0.22,
+  "best_delta_pp": 0.21,
   "gates": [
    {
     "gate_m": 5.0,
     "gate_cny": 5000000.0,
-    "cagr": 0.088,
-    "sharpe": 0.903,
+    "cagr": 0.0873,
+    "sharpe": 0.896,
     "maxdd": -0.1651,
     "median_names": 462,
-    "turnover": 0.958,
-    "delta_pp": 0.22
+    "turnover": 0.964,
+    "delta_pp": 0.21
    },
    {
     "gate_m": 10.0,
     "gate_cny": 10000000.0,
-    "cagr": 0.088,
-    "sharpe": 0.903,
+    "cagr": 0.0873,
+    "sharpe": 0.896,
     "maxdd": -0.1651,
     "median_names": 367,
-    "turnover": 0.958,
-    "delta_pp": 0.22
+    "turnover": 0.964,
+    "delta_pp": 0.21
    },
    {
     "gate_m": 20.0,
     "gate_cny": 20000000.0,
-    "cagr": 0.0858,
-    "sharpe": 0.886,
+    "cagr": 0.0852,
+    "sharpe": 0.879,
     "maxdd": -0.1656,
     "median_names": 262,
-    "turnover": 0.953,
+    "turnover": 0.959,
     "delta_pp": 0.0
    },
    {
     "gate_m": 50.0,
     "gate_cny": 50000000.0,
-    "cagr": 0.0805,
-    "sharpe": 0.844,
+    "cagr": 0.0799,
+    "sharpe": 0.838,
     "maxdd": -0.202,
     "median_names": 154,
-    "turnover": 0.877,
+    "turnover": 0.883,
     "delta_pp": -0.53
    },
    {
     "gate_m": 100.0,
     "gate_cny": 100000000.0,
-    "cagr": 0.0867,
-    "sharpe": 0.892,
+    "cagr": 0.0861,
+    "sharpe": 0.887,
     "maxdd": -0.2066,
     "median_names": 94,
-    "turnover": 0.779,
+    "turnover": 0.79,
     "delta_pp": 0.09
    },
    {
     "gate_m": 200.0,
     "gate_cny": 200000000.0,
-    "cagr": 0.0551,
-    "sharpe": 0.585,
+    "cagr": 0.055,
+    "sharpe": 0.583,
     "maxdd": -0.2269,
     "median_names": 56,
-    "turnover": 0.68,
-    "delta_pp": -3.07
+    "turnover": 0.687,
+    "delta_pp": -3.02
    }
   ],
   "widest_names": 462,
   "narrowest_names": 56,
   "width_ratio": 8.25,
-  "universe_measured": 1517,
-  "universe_published": 1517,
+  "universe_measured": 1519,
+  "universe_published": 1519,
   "control": {
-   "published_declared_cagr": 0.0858,
-   "arm_declared_cagr": 0.0858,
+   "published_declared_cagr": 0.0852,
+   "arm_declared_cagr": 0.0852,
    "delta_pp": 0.0,
    "tol_pp": 0.25
   }
