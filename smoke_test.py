@@ -3666,8 +3666,17 @@ def main() -> int:
                 and bool(_heat_row.get("data_face_machine"))
                 and _heat_row.get("data_face_machine") == _heat_row.get("lane_host")
                 and _heat_row.get("reported_by") == _heat_row.get("lane_host"))
-            _heat_matches = (_heat_row.get("tail") == _heat_tail) if _heat_tail else (
-                _heat_uncertified or _heat_host_vouched)
+            # r1595: 本机不是这块盘的主人时，本机那份只是拷贝 —— 它的落后不是证据。
+            # r1162 把归属拆成两问（在哪块盘上 / 有没有人背书），这条腿只落了第二问：
+            # 2026-11-12 板面 heat 行 data_face_machine=bm-a（authority=host_envelope,
+            # auditable=True, host_alive=True），而本机 data/heat 副本停在 11-11，于是
+            # tail != 本地尾 被判红。正法不是放宽：本机是宿主时仍要求 tail 与本地字节
+            # 逐字相等，只有"盘在别处"这一态改判在板面自证上。
+            _heat_offhost = bool(_here and _heat_row.get("data_face_machine")
+                                 and _heat_row["data_face_machine"] != _here)
+            _heat_matches = ((_heat_row.get("tail") == _heat_tail)
+                             if (_heat_tail and not _heat_offhost)
+                             else (_heat_uncertified or _heat_host_vouched))
             _zt_ok = _rows["zt_pool"]["tail"] == _zt_tail
         _ok_lf = (_heat_matches
                   and _zt_ok
@@ -3697,6 +3706,8 @@ def main() -> int:
         check("product: data lane freshness board agrees with the lanes and the calendar",
               _ok_lf,
               f"heat={_rows.get('heat', {}).get('tail')}=={_heat_tail} "
+                f"heat_copy_on={_heat_row.get('data_face_machine')} "
+                f"heat_offhost={_heat_offhost} "
               f"zt={_rows.get('zt_pool', {}).get('tail')}=={_zt_tail} "
               f"face_computed_on={_disk.get('here')} here={_here} "
               f"expected={_lfz.get('expected_last_official_day')}=={_exp} "
