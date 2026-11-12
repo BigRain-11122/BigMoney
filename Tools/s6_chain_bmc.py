@@ -1316,7 +1316,13 @@ LEGS = [
     # (7 rungs, one engine, one panel, the gates imported not copied) and refuses a receipt
     # whose rung verdicts or answer word no longer follow from its own rows. Read-only JSON
     # (~0.2s); the 2-minute repricing runs with `run` in its own round.
-    ("vt_ladder", ["python", "scripts/etf_book_vt_ladder.py", "check"]),
+    # r1613: "in its own round" was never anyone's job -- the face sat on 2026-11-10 for
+    # three days while this check stayed green, because a receipt always re-derives from
+    # itself (r1594). `refresh` owns the job now: 11s no-op when the panel has not moved,
+    # a full repricing when it has. It runs before the check leg, which then grades the
+    # receipt the refresh just left behind.
+    ("vt_ladder", ["python", "scripts/etf_book_vt_ladder.py", "refresh"]),
+    ("vt_ladder_check", ["python", "scripts/etf_book_vt_ladder.py", "check"]),
     # r1447: the horizontal question above ("is the running weight the graded rule's
     # weight") has a vertical twin -- DEFAULT_BETA is a literal, so the weight is
     # k = target/beta and the target could have been any point on a ladder. This leg

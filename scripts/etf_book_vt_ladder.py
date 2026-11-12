@@ -25,6 +25,7 @@ Two things this face refuses to do:
 
 Usage:
     python scripts/etf_book_vt_ladder.py run [--quick]
+    python scripts/etf_book_vt_ladder.py refresh   # reprices only when the panel moved
     python scripts/etf_book_vt_ladder.py check
     python scripts/etf_book_vt_ladder.py selftest
 """
@@ -256,6 +257,49 @@ def check() -> int:
     return 0
 
 
+def panel_last_bar() -> str | None:
+    """The newest bar the live panel can price -- the only honest staleness clock.
+
+    check() re-derives every verdict from the receipt's own rows, which is exactly
+    what a three-day-old receipt also does (r1594: a stale receipt reads perfectly
+    self-consistent). The panel, not the receipt, is what moves.
+
+    Same index the repricing itself would see (dedupe + hollow-tail drop), but the
+    feature build is skipped: 6.5s instead of 47s, so a no-op round stays cheap.
+    """
+    try:
+        prices = E._dedupe(E._load_prices())
+        close = pd.DataFrame({s: p["close"] for s, p in prices.items()}).sort_index()
+        close = close.replace(0.0, np.nan)
+        close, _ = E.drop_hollow_tail(close)
+        return str(close.index[-1].date())
+    except Exception:
+        return None
+
+
+def refresh() -> int:
+    """Keep the ladder on the newest bar, paying nothing when it already is.
+
+    The chain's design note said the two-minute repricing "runs with `run` in its
+    own round" -- but no round ever owned that job, so the face sat on 2026-11-10
+    for three days while every check stayed green. A no-op gate makes the job
+    self-owning: cheap every round, repricing only when the panel actually moves.
+    """
+    d = load()
+    live = panel_last_bar()
+    if live is None:
+        print("REFRESH_UNKNOWN panel unreadable; leaving the face as it stands")
+        return 2
+    if d is not None and d.get("evidence_cutoff") == live:
+        print("REFRESH_NOOP evidence_cutoff=%s (the panel has not moved)" % live)
+        return 0
+    had = (d or {}).get("evidence_cutoff")
+    out = run(RUNGS)
+    print("REFRESH_RAN %s -> %s answer=%s (%ss)"
+          % (had, out["evidence_cutoff"], out["answer"]["answer"], out["elapsed_sec"]))
+    return 0
+
+
 def _synth_ser(year_nets: dict, bars_per_year: int = 244) -> pd.Series:
     """A level series whose calendar-year returns are exactly year_nets (in pp)."""
     idx, vals = [], []
@@ -350,13 +394,15 @@ def selftest() -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=["run", "check", "selftest"])
+    ap.add_argument("mode", choices=["run", "check", "refresh", "selftest"])
     ap.add_argument("--quick", action="store_true", help="price 3 rungs instead of 7")
     a = ap.parse_args()
     if a.mode == "selftest":
         return selftest()
     if a.mode == "check":
         return check()
+    if a.mode == "refresh":
+        return refresh()
     out = run(QUICK_RUNGS if a.quick else RUNGS)
     print(json.dumps({"answer": out["answer"],
                       "rungs": {r["rung"]: [r["verdict"], r["cagr_pct"],

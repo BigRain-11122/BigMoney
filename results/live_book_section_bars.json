@@ -1,17 +1,17 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-13 03:15:48",
+ "ts": "2026-11-13 06:28:41",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261113.md",
   "json": "docs/live_book/LIVE-BOOK-20261113.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-12 定价，但 35 个带日期的节里只有 24 节真在这一天；其余 11 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 19 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 11 节里，9 节的产物有同名链腿在守，2 节没有任何一条链腿重跑过它们（lookahead, universe_lock）——没有腿的那些停在天，是因为没人重跑，不是因为设计。",
+ "sentence": "页面头部写着按 2026-11-12 定价，但 36 个带日期的节里只有 25 节真在这一天；其余 11 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 19 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 11 节里，9 节的产物有同名链腿在守，2 节没有任何一条链腿重跑过它们（lookahead, universe_lock）——没有腿的那些停在天，是因为没人重跑，不是因为设计。",
  "evidence_cutoff": "2026-11-12",
  "headline_bar": "2026-11-12",
  "headline_field": "priced_bar",
- "n_sections": 35,
- "n_on_headline": 24,
+ "n_sections": 36,
+ "n_on_headline": 25,
  "unknown_sections": [
   "cash_yield",
   "cash_money",
@@ -34,7 +34,7 @@
   "authority"
  ],
  "bars": {
-  "2026-11-12": 24,
+  "2026-11-12": 25,
   "2026-11-11": 3,
   "2026-11-08": 1,
   "2026-11-06": 1,
@@ -159,6 +159,7 @@
   "card_days": "2026-11-12",
   "today_action": "2026-11-12",
   "admission": "2026-11-12",
+  "vt_ladder": "2026-11-12",
   "fill": "2026-11-12",
   "bets": "2026-11-12",
   "family_coherence": "2026-11-06",

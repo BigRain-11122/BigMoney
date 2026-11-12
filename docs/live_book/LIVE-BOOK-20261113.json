@@ -669,6 +669,29 @@
   "panel_gap": false,
   "clash": true
  },
+ "vt_ladder": {
+  "status": "ok",
+  "readable": true,
+  "evidence_cutoff": "2026-11-12",
+  "answer": "LADDER_HAS_RUNG",
+  "n_rungs": 7,
+  "n_admit": 4,
+  "best_sharpe": {
+   "rung": "vt08",
+   "sharpe": 1.142,
+   "verdict": "CONDITIONAL",
+   "cagr_pct": 0.1162,
+   "maxdd_pct": -0.1056
+  },
+  "tightest_admit": {
+   "rung": "vt15",
+   "vol_target": 0.15,
+   "sharpe": 0.998,
+   "cagr_pct": 0.1437,
+   "maxdd_pct": -0.1604
+  },
+  "path": "results\\etf_book_vt_ladder\\VT-LADDER.json"
+ },
  "fill": {
   "status": "ok",
   "source": "results\\etf_book_forward\\LEDGER.json",
@@ -3372,7 +3395,7 @@
    "turnover_arm": 0.9442,
    "turnover_declared": 0.959
   },
-  "elapsed_sec": 97.3,
+  "elapsed_sec": 91.9,
   "evidence_cutoff": "2026-11-12",
   "gross_rows": [
    {
@@ -3749,7 +3772,7 @@
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-13T01:05:01+0800",
+  "ts": "2026-11-13T05:39:57+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -4703,7 +4726,7 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 88.7,
+  "elapsed_sec": 92.6,
   "evidence_cutoff": "2026-11-12",
   "gap_stats": {
    "entry_bars": 84,
@@ -5062,7 +5085,7 @@
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-13T01:06:31+0800",
+  "ts": "2026-11-13T05:41:31+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -5175,8 +5198,8 @@
   "k_schedule_last": 0.460253,
   "consistency": {
    "generated": {
-    "permission": "2026-11-13T01:33:55+0800",
-    "gap": "2026-11-13T01:34:18+0800",
+    "permission": "2026-11-13T06:10:36+0800",
+    "gap": "2026-11-13T06:10:57+0800",
     "ledger": "2026-11-12T16:53:05+0800"
    },
    "permission_vs_gap": true,
@@ -5571,7 +5594,7 @@
   "stale": false,
   "verdict": "HIGH_PREMIUM_PAYS",
   "horizon": 20,
-  "sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=265, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band today || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
+  "sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=265, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band on 2026-11-12 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
   "caveat": "five legs of one ticket: this is a description of these funds' own records, not a cross-sectional study and not a forecast. Overlapping windows are counted once per stride in the t-stat and reported in full only as coverage.",
   "rows": [
    {
@@ -6685,8 +6708,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 7.3,
+  "owner_silent_h": 9.8,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 7.3 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 9.8 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

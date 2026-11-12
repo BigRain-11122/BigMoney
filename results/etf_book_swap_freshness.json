@@ -1,6 +1,6 @@
 {
  "artifact": "etf_book_swap_freshness",
- "generated": "2026-11-13T00:18:50",
+ "generated": "2026-11-13T00:39:34",
  "evidence_cutoff": "2026-11-12",
  "calendar_source": "data/exchange_calendar.csv",
  "close_accept_time": "15:30",
@@ -116,33 +116,5 @@
   "A face AHEAD of the calendar is not stale -- its producer would not make it true, so the chain must keep it red instead of paying a refresh (r1345).",
   "Freshness is not correctness: a face on the right bar can still be wrong, and each producer's own check is what refuses that."
  ],
- "paid": [
-  {
-   "leg": "sibling_entry",
-   "cmd": [
-    "scripts/etf_book_sibling_entry.py",
-    "run"
-   ],
-   "rc": 0,
-   "tail": "[sibling_entry] 2026-11-12 -> the ticket already buys the cheapest live ticker of every index it holds: no swap saves anything on 431,876"
-  },
-  {
-   "leg": "sibling_gap",
-   "cmd": [
-    "scripts/etf_book_sibling_gap.py",
-    "run"
-   ],
-   "rc": 0,
-   "tail": "[sibling_gap] no pair carries both a premium gap and a local price history"
-  },
-  {
-   "leg": "swap_trigger",
-   "cmd": [
-    "scripts/etf_book_swap_trigger.py",
-    "run"
-   ],
-   "rc": 0,
-   "tail": "wrote results/etf_book_swap_trigger.json"
-  }
- ]
+ "paid": []
 }

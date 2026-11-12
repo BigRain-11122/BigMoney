@@ -100,6 +100,7 @@ POSITIONS_JSON = os.path.join(ROOT, "results", "etf_book_positions.json")
 # obvious follow-up ("then dial the book until it clears the calendar").
 FLOOR_PROVENANCE_JSON = os.path.join(ROOT, "results", "etf_book_floor_provenance.json")
 VOL_TARGET_GATE_JSON = os.path.join(ROOT, "results", "etf_book_vol_target_gate.json")
+VT_LADDER_JSON = os.path.join(ROOT, "results", "etf_book_vt_ladder", "VT-LADDER.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -5140,6 +5141,89 @@ def admission_block(ad):
                 "- **无法核验**：%r。缺这一行不等于准入通过。" % (exc,), ""]
 
 
+def vt_ladder_face(path=VT_LADDER_JSON, page_bar=None):
+    """The rung sweep behind the admission: is the 8% target the only knob, and what
+    does a gate-legal rung actually cost?
+
+    r1613: this page printed the gate's verdict on the ADOPTED rung and stopped. The
+    sweep that answers "could another rung pass" has been priced since r1486 and has
+    never appeared here -- a reader saw CONDITIONAL with no way to know the ladder had
+    already been walked, and (worse) no way to know that the highest-Sharpe rung is
+    exactly the one the gate refuses.
+    """
+    try:
+        d = _load(path)
+    except Exception:
+        d = None
+    if not d or not (d.get("rungs") or []):
+        return {"status": "unreadable", "readable": False, "why": "no rung rows"}
+
+    def _num(r, k):
+        v = r.get(k)
+        return float(v) if isinstance(v, (int, float)) else None
+
+    rows = d["rungs"]
+    best = None
+    for r in rows:
+        s = _num(r, "sharpe")
+        if s is not None and (best is None or s > best[0]):
+            best = (s, r)
+    admits = [r for r in rows if r.get("verdict") == "ADMIT"]
+    tight = None
+    for r in admits:
+        vt = _num(r, "vol_target")
+        if vt is None:
+            continue
+        if tight is None or vt < tight[0]:
+            tight = (vt, r)
+    return {"status": "ok", "readable": True,
+            "evidence_cutoff": d.get("evidence_cutoff"),
+            "answer": (d.get("answer") or {}).get("answer"),
+            "n_rungs": len(rows),
+            "n_admit": len(admits),
+            "best_sharpe": ({"rung": best[1].get("rung"),
+                             "sharpe": best[0],
+                             "verdict": best[1].get("verdict"),
+                             "cagr_pct": _num(best[1], "cagr_pct"),
+                             "maxdd_pct": _num(best[1], "maxdd_pct")} if best else None),
+            "tightest_admit": ({"rung": tight[1].get("rung"),
+                                "vol_target": tight[0],
+                                "sharpe": _num(tight[1], "sharpe"),
+                                "cagr_pct": _num(tight[1], "cagr_pct"),
+                                "maxdd_pct": _num(tight[1], "maxdd_pct")} if tight else None),
+            "path": _rel(path)}
+
+
+def vt_ladder_block(vl):
+    head = ["## 换档扫描（同一个闸，七个档）", ""]
+    vl = vl or {}
+    if not vl.get("readable"):
+        return head + ["- **无法核验**：档位面读不出来。缺这一行不等于「没有别的档能过闸」。", ""]
+    b, t = vl.get("best_sharpe"), vl.get("tightest_admit")
+    out = list(head)
+    if t:
+        out.append("- 能过闸的最保守档：**%s**（%g%% 波动目标）→ 年化 %.2f%%｜回撤 %.2f%%｜夏普 %.3f"
+                   % (t["rung"], t["vol_target"] * 100, (t["cagr_pct"] or 0) * 100,
+                      (t["maxdd_pct"] or 0) * 100, t["sharpe"] or 0))
+    else:
+        out.append("- 七个档里没有一档过闸（answer=%s）——那是科学债，不是缺一轮。" % vl.get("answer"))
+    if b:
+        out.append("- 夏普最高档：**%s** → 夏普 %.3f｜年化 %.2f%%｜回撤 %.2f%%｜判决 %s"
+                   % (b["rung"], b["sharpe"] or 0, (b["cagr_pct"] or 0) * 100,
+                      (b["maxdd_pct"] or 0) * 100, b["verdict"]))
+    if b and b["verdict"] != "ADMIT" and t:
+        out.append("- **过闸与夏普不是同一档**：波动目标低于这本账的真实波动时才真的减仓，"
+                   "那些档（回撤浅）恰恰被判 %s；到了 %s 以上目标几乎不触发，等于回到满仓那本书"
+                   "（回撤 %.2f%%），闸过了、夏普反而低了。"
+                   % (b["verdict"], t["rung"], (t["maxdd_pct"] or 0) * 100))
+        out.append("- 读法：要「能拿新钱」就接受满仓书的回撤；要「回撤浅」就先别指望这一步扩资本。"
+                   "两个都要，需要这条梯子以外的第三条路。")
+    out.append("- 数据到 %s（档位面 evidence_cutoff，非本页 bar），出处 %s"
+               % (vl.get("evidence_cutoff") or "未标注", vl.get("path") or "?"))
+    out.append("")
+    return out
+
+
 def fill_face(ledger=None, path=None, order_mod=None):
     """What today's open does to the book, and what the fills that already happened cost.
 
@@ -5545,6 +5629,10 @@ def build(with_stress=False, window_label=None):
     # r1573: "what do I buy" and "is this book allowed new money" are two answers; the page
     # printed the first and left the second to the order sheet's §准入判决.
     page["admission"] = admission_face(ledger.get("last_bar") or fwd.get("as_of"))
+    # r1613: the verdict above grades the adopted rung only. The sweep that says whether
+    # another rung could pass belongs beside it, or the reader cannot tell "no legal rung"
+    # from "nobody looked".
+    page["vt_ladder"] = vt_ladder_face()
     # r1572: the page must also say what the ledger has already committed to at the next
     # open, and what the trades it made actually cost -- the table below is the target
     # book, not the book on the account.
@@ -5736,6 +5824,8 @@ def render_md(p, sb=None):
     # condition on the list, and a reader who stops at the table would never reach it.
     for _adm_line in admission_block(p.get("admission") or {}):
         add(_adm_line)
+    for _vl_line in vt_ladder_block(p.get("vt_ladder") or {}):
+        add(_vl_line)
     # r1572: a condition on the list, like the admission above it -- what fills at the
     # next open is not in the table below, and a reader who stops at the table never
     # learns that the account is about to hold a different exposure.
@@ -9351,6 +9441,31 @@ def selftest():
         "clash=%s gap=%s" % (_ad_f["clash"], _ad_f["panel_gap"]))
     chk("L206 page: the admission sits above the buy list, not below it",
         "准入判决" in _md and _md.index("准入判决") < _md.index("下单清单"))
+    # ---- r1613: the rung sweep behind the verdict (the ladder was already priced) ---------
+    _vl_path = os.path.join(_adm_dir, "VT-LADDER.json")
+    with open(_vl_path, "w", encoding="utf-8") as _fh:
+        json.dump({"face": "etf_book_vt_ladder", "evidence_cutoff": "2026-11-12",
+                   "answer": {"answer": "LADDER_HAS_RUNG"},
+                   "rungs": [
+                       {"rung": "vt08", "vol_target": 0.08, "verdict": "CONDITIONAL",
+                        "cagr_pct": 0.1162, "maxdd_pct": -0.1056, "sharpe": 1.142},
+                       {"rung": "vt15", "vol_target": 0.15, "verdict": "ADMIT",
+                        "cagr_pct": 0.1437, "maxdd_pct": -0.1604, "sharpe": 0.998},
+                       {"rung": "none", "vol_target": None, "verdict": "ADMIT",
+                        "cagr_pct": 0.1575, "maxdd_pct": -0.1604, "sharpe": 1.012}]}, _fh)
+    _vl = vt_ladder_face(path=_vl_path)
+    chk("L207 ladder: the highest-Sharpe rung is printed together with its verdict",
+        _vl["readable"] and _vl["best_sharpe"]["rung"] == "vt08"
+        and _vl["best_sharpe"]["verdict"] == "CONDITIONAL", str(_vl.get("best_sharpe")))
+    _vl_md = "\n".join(vt_ladder_block(_vl))
+    chk("L208 ladder: the page says clearing the gate and being the better book are different",
+        "换档扫描" in _vl_md and "过闸与夏普不是同一档" in _vl_md and "vt15" in _vl_md,
+        _vl_md[:80])
+    _vl_miss = vt_ladder_face(path=os.path.join(_adm_dir, "nope.json"))
+    chk("L209 ladder: an unreadable sweep is 'cannot verify', never 'no other rung'",
+        not _vl_miss["readable"]
+        and "不等于「没有别的档能过闸」" in "\n".join(vt_ladder_block(_vl_miss)),
+        _vl_miss.get("why") or "")
     # ---- r1572: the promise the ledger made, and the receipt for the fills already paid ---
     _fill_led = os.path.join(_adm_dir, "LEDGER-fill.json")
     _fill_doc = {"seed": {"bar": "2026-10-23", "capital_cny": 1_000_000.0},

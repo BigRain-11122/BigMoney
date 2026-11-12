@@ -2,16 +2,16 @@
 
 *由 `scripts/live_book_section_bars.py` 生成；判据见文件头。*
 
-页面头部写着按 2026-11-12 定价，但 35 个带日期的节里只有 24 节真在这一天；其余 11 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 19 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 11 节的产物各自都有同名链腿在守，停在原来的 bar 是它们各自被评分的那一天，不是页面的错。
+页面头部写着按 2026-11-12 定价，但 36 个带日期的节里只有 25 节真在这一天；其余 11 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 19 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 11 节里，9 节的产物有同名链腿在守，2 节没有任何一条链腿重跑过它们（lookahead, universe_lock）——没有腿的那些停在天，是因为没人重跑，不是因为设计。
 
-页面逐节 bar：头部声明 **2026-11-12**，35 个带日期的节里 **24** 节在这一天，其余 11 节在别的 bar 上。
+页面逐节 bar：头部声明 **2026-11-12**，36 个带日期的节里 **25** 节在这一天，其余 11 节在别的 bar 上。
 
 | 节 | 它停在哪根 bar | 落后（交易日） | 守它的链腿 |
 |---|---|---|---|
 | sample_window | 2026-10-26 | 13 | etf_book_spanning |
 | cost_tape | 2026-10-30 | 9 | etf_book_cost_tape |
-| lookahead | 2026-10-30 | 9 | etf_book_lookahead_audit |
-| universe_lock | 2026-10-30 | 9 | etf_book_universe_lock |
+| lookahead | 2026-10-30 | 9 | **没有** |
+| universe_lock | 2026-10-30 | 9 | **没有** |
 | vol_window | 2026-10-30 | 9 | etf_book_vol_window_edge、etf_book_vol_window_phase |
 | vol_window_edge | 2026-10-30 | 9 | etf_book_vol_window_edge |
 | family_coherence | 2026-11-06 | 4 | etf_book_phase_atlas_arms |

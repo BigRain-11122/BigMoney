@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-12T19:47:58+0800",
+ "generated": "2026-11-13T06:02:14+0800",
  "script": "scripts/etf_book_volgate.py",
  "question": "does zoo #96's volume state machine improve the production book?",
  "evidence_cutoff": "2026-11-12",
@@ -91,13 +91,13 @@
   "rule": "HMA(amount_sum,5)/HMA(amount_sum,100) vs 1.150 / 0.810874",
   "bars": 1662,
   "coverage": {
-   "min": 1819,
-   "median": 4853
+   "min": 3528,
+   "median": 4854
   },
   "risk_on_share": 0.3842,
   "last_bar": "2026-11-12",
   "last_state": 1,
-  "last_volume_index": 0.7581
+  "last_volume_index": 1.2816
  },
  "arms": {
   "control": {
@@ -289,5 +289,5 @@
   "gated max drawdown -18.90% is worse than the book's -10.56%",
   "at 13.041bp per side the gate gives the excess back (-11.31pp/yr)"
  ],
- "elapsed_sec": 146.2
+ "elapsed_sec": 142.6
 }
