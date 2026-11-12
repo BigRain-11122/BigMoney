@@ -105,6 +105,34 @@ def _combat_face():
 
 
 # ---------------------------------------------------------------- R&D face
+FLAG_CN = {
+    "pool_starvation": "池饿",
+    "supply_floor": "供给地板",
+    "gpu_unauthorized": "GPU 越权",
+    "zombies": "僵尸进程",
+    "single_core_hog": "单核独占",
+    "parallel_efficiency_low": "并行效率低",
+}
+
+
+def audit_sentence(block):
+    """The compute audit in Chinese prose -- flags by name, never the raw JSON.
+
+    r1594: this line used to inline a 160-char JSON dump on a Chinese page, so the
+    prose census read it as new English text (r1582) and a reader got keys instead
+    of a verdict. Numbers stay derived; only the words are local.
+    """
+    if not block:
+        return "未读到"
+    flags = [FLAG_CN.get(f, f) for f in (block.get("flags") or [])]
+    head = "%s 采样 · 本方 py %s%%" % (str(block.get("ts") or "--")[11:16],
+                                    block.get("py_cpu_pct"))
+    if flags:
+        return "%s · 旗 %d 条（%s）" % (head, len(flags),
+                                    "、".join(str(f) for f in flags))
+    return "%s · 无旗" % head
+
+
 def _rd_face(now):
     cutoff = now - timedelta(hours=24)
     since = cutoff.strftime("%Y-%m-%d %H:%M:%S")
@@ -1090,7 +1118,7 @@ def render_md(rep):
     L.append(f"- 提交 {r.get('commits_24h')} · 判定/结果件落地 {r.get('result_jsons_landed_24h')} · "
              f"调研 digest {r.get('digests_landed_24h')} · 预注册/正典触碰 {r.get('prereg_md_touched_24h')}")
     L.append(f"- 在飞批：{'是' if r.get('batch_in_flight') else '否'} · 水位判定 `{r.get('watermark_verdict')}` · "
-             f"算力审计 `{json.dumps(r.get('compute_audit_latest'), ensure_ascii=False)[:160]}`")
+             f"算力审计 {audit_sentence(r.get('compute_audit_latest'))}")
     ew = rep.get("engine_wave") or {}
     if ew.get("present"):
         waves = " | ".join(
