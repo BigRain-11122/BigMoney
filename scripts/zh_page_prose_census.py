@@ -47,6 +47,25 @@ MIN_BODY = 60       # shorter lines are labels/tickers, not prose
 MIN_WORDS = 8       # an English sentence carries at least this many words
 MIN_SPACES = 8      # ... and this many gaps
 ASCII_RATIO = 0.55  # ... and the letters are mostly ASCII
+MIN_STOPWORDS = 2   # ... and English grammar, not just a list of identifiers
+
+# r1592: a line of comma-separated lane/script stems ("ah_panel, astock_daily,
+# futures, ...") satisfies every shape test above -- it is long, has many ASCII
+# words and many spaces after the commas -- so the census reported it as "new
+# English prose" the first time machine ownership moved and the list changed.
+# Prose carries grammar; an identifier list carries none. This is the cheapest
+# discriminator that keeps the r1582 fixture prose and drops the list.
+STOPWORDS = frozenset("""
+a an the this that these those it its they them their there here
+is are was were be been being am has have had do does did
+of to in on at by for from with without into over under above below between
+about against during before after than then as if when while where which who whom
+and or but not no nor so yet because although though
+may might must can could should would will shall
+more less most least much many some any all each every both few several
+same only still just also even ever never always often
+per via up down out off again once
+""".split())
 
 
 def face_paths(day=None):
@@ -70,7 +89,10 @@ def is_prose(line):
     if len(words) < MIN_WORDS:
         return False
     letters = sum(1 for ch in body if ch.isascii() and ch.isalpha())
-    return letters / len(body) > ASCII_RATIO and line.count(" ") >= MIN_SPACES
+    if not (letters / len(body) > ASCII_RATIO and line.count(" ") >= MIN_SPACES):
+        return False
+    # grammar, not a name list -- see MIN_STOPWORDS
+    return sum(1 for w in words if w.lower() in STOPWORDS) >= MIN_STOPWORDS
 
 
 def scan(paths):
@@ -165,6 +187,14 @@ def _selftest():
         fingerprint(daily_a) == fingerprint(daily_b))
     chk("a different sentence carries a different fingerprint",
         fingerprint(en) != fingerprint(daily_a))
+    lanes = ("- `bm-c` · 心跳 0.33h 前: ah_panel, astock_daily, futures, heat, lhb, "
+             "marks, minute_feed, repo, ths_panel, zt_pool")
+    chk("the owner list has the shape that used to fire (long, many words, many gaps)",
+        len("".join(ch for ch in lanes if ch not in "`*_|>#-\t")) >= MIN_BODY
+        and len(re.findall(r"[A-Za-z]{2,}", lanes)) >= MIN_WORDS
+        and lanes.count(" ") >= MIN_SPACES)
+    chk("a list of lane stems is a name list, not English prose", not is_prose(lanes))
+    chk("real prose still passes the grammar test", is_prose(en))
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
