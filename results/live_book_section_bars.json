@@ -1,17 +1,17 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-12 19:54:18",
+ "ts": "2026-11-12 20:35:30",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261112.md",
   "json": "docs/live_book/LIVE-BOOK-20261112.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-12 定价，但 35 个带日期的节里只有 23 节真在这一天；其余 12 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 19 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。",
+ "sentence": "页面头部写着按 2026-11-12 定价，但 35 个带日期的节里只有 24 节真在这一天；其余 11 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 19 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 11 节的产物各自都有同名链腿在守，停在原来的 bar 是它们各自被评分的那一天，不是页面的错。",
  "evidence_cutoff": "2026-11-12",
  "headline_bar": "2026-11-12",
  "headline_field": "priced_bar",
  "n_sections": 35,
- "n_on_headline": 23,
+ "n_on_headline": 24,
  "unknown_sections": [
   "cash_yield",
   "cash_money",
@@ -34,98 +34,125 @@
   "authority"
  ],
  "bars": {
-  "2026-11-12": 23,
+  "2026-11-12": 24,
   "2026-11-11": 3,
   "2026-11-08": 1,
   "2026-11-06": 1,
-  "2026-10-30": 6,
+  "2026-10-30": 5,
   "2026-10-26": 1
  },
- "n_off_headline": 12,
+ "n_off_headline": 11,
  "off_headline": [
   {
    "key": "sample_window",
    "bar": "2026-10-26",
    "field": "evidence_cutoff",
    "lag_sessions": 13,
-   "ahead_of_headline": false
+   "ahead_of_headline": false,
+   "guarded_by": [
+    "etf_book_spanning"
+   ]
   },
   {
    "key": "cost_tape",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
    "lag_sessions": 9,
-   "ahead_of_headline": false
-  },
-  {
-   "key": "leg_split",
-   "bar": "2026-10-30",
-   "field": "priced_bar",
-   "lag_sessions": 9,
-   "ahead_of_headline": false
+   "ahead_of_headline": false,
+   "guarded_by": [
+    "etf_book_cost_tape"
+   ]
   },
   {
    "key": "lookahead",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
    "lag_sessions": 9,
-   "ahead_of_headline": false
+   "ahead_of_headline": false,
+   "guarded_by": [
+    "etf_book_lookahead_audit"
+   ]
   },
   {
    "key": "universe_lock",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
    "lag_sessions": 9,
-   "ahead_of_headline": false
+   "ahead_of_headline": false,
+   "guarded_by": [
+    "etf_book_universe_lock"
+   ]
   },
   {
    "key": "vol_window",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
    "lag_sessions": 9,
-   "ahead_of_headline": false
+   "ahead_of_headline": false,
+   "guarded_by": [
+    "etf_book_vol_window_edge",
+    "etf_book_vol_window_phase"
+   ]
   },
   {
    "key": "vol_window_edge",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
    "lag_sessions": 9,
-   "ahead_of_headline": false
+   "ahead_of_headline": false,
+   "guarded_by": [
+    "etf_book_vol_window_edge"
+   ]
   },
   {
    "key": "family_coherence",
    "bar": "2026-11-06",
    "field": "evidence_cutoff",
    "lag_sessions": 4,
-   "ahead_of_headline": false
+   "ahead_of_headline": false,
+   "guarded_by": [
+    "etf_book_phase_atlas_arms"
+   ]
   },
   {
    "key": "vol_target_gate",
    "bar": "2026-11-08",
    "field": "asof",
    "lag_sessions": 4,
-   "ahead_of_headline": false
+   "ahead_of_headline": false,
+   "guarded_by": [
+    "vol_target_gate"
+   ]
   },
   {
    "key": "band_ruler",
    "bar": "2026-11-11",
    "field": "evidence_cutoff",
    "lag_sessions": 1,
-   "ahead_of_headline": false
+   "ahead_of_headline": false,
+   "guarded_by": [
+    "etf_book_band_ruler"
+   ]
   },
   {
    "key": "floor_provenance",
    "bar": "2026-11-11",
    "field": "evidence_cutoff",
    "lag_sessions": 1,
-   "ahead_of_headline": false
+   "ahead_of_headline": false,
+   "guarded_by": [
+    "floor_provenance"
+   ]
   },
   {
    "key": "window_label",
    "bar": "2026-11-11",
    "field": "evidence_cutoff",
    "lag_sessions": 1,
-   "ahead_of_headline": false
+   "ahead_of_headline": false,
+   "guarded_by": [
+    "etf_book_window_label"
+   ]
   }
  ],
  "oldest": "2026-10-26",
@@ -140,7 +167,7 @@
   "bets": "2026-11-12",
   "family_coherence": "2026-11-06",
   "carry_regime": "2026-11-12",
-  "leg_split": "2026-10-30",
+  "leg_split": "2026-11-12",
   "concentration": "2026-11-12",
   "sleeve_gate": "2026-11-12",
   "sleeve_paths": "2026-11-12",
@@ -166,5 +193,7 @@
   "window_label": "2026-11-11",
   "envelope": "2026-11-12",
   "stress": "2026-11-12"
- }
+ },
+ "n_unguarded": 0,
+ "unguarded": []
 }

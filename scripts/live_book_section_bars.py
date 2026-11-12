@@ -62,6 +62,15 @@ SINGLE = "PAGE_ON_ONE_BAR"
 NO_PAGE = "NO_PAGE"
 NO_HEADLINE = "HEADLINE_UNKNOWN"
 
+# A section sitting on an old bar has two very different causes, and printing them as one
+# word leaves nobody able to act (r1199: a red that measures half the causes is not
+# actionable): the section is a research face whose own check still passes (it stopped
+# because that is the bar it was graded on), or nothing in the chain re-runs it at all.
+# The only machine-readable half is the second one -- we can ask the shared leg list
+# whether any leg names this section's artifact. That is a NAME match, stated as such;
+# it does not claim the leg passed, only that a producer exists.
+MIN_NAME_FOR_MATCH = 8
+
 
 def _days(cal=None):
     try:
@@ -98,6 +107,60 @@ def bar_of(d):
     return None, None
 
 
+def leg_names():
+    """Names from the shared chain leg list, or [] when it cannot be imported.
+
+    Imported, never copied: this list is already the single source (Tools/s6_chain_bma.py
+    imports it the same way) and a second copy would drift exactly the way r1182 fixed.
+    """
+    try:
+        p = os.path.join(ROOT, "Tools")
+        if p not in sys.path:
+            sys.path.insert(0, p)
+        import s6_chain_bmc as canonical  # noqa: E402
+        return [str(leg[0]) for leg in canonical.LEGS if leg]
+    except Exception:
+        return []
+
+
+# A first cut matched leg NAMES only, and that printed `leg_split` as unproduced while
+# `etf_book_leg_attribution` had been in the chain all along (r1135: the cheapest wrong
+# answer is a confident false red). Source-text matching was tried next and was worse -- the
+# page renderer and four consumer legs all mention `etf_book_lookahead_audit`, so a text
+# match called a section produced by its own reader, and it still missed `leg_split`.
+# What ships is a name match that says out loud it is only a name match, plus a hand-written
+# alias table proven against the live leg list in the selftest -- a table can be checked, a
+# heuristic cannot.
+COMMON_STEMS = {"latest", "index", "status", "summary", "state", "today", "result"}
+LEG_ALIASES = {"leg_split": ["etf_book_leg_attribution"],
+               "sample_window": ["etf_book_spanning"]}
+
+
+def probes_for(key, section):
+    """Names a leg would have to carry to be this section's by name."""
+    out = [str(key).lower()]
+    art = section.get("artifact")
+    if isinstance(art, str) and art:
+        stem = os.path.splitext(os.path.basename(art.replace("\\", "/")))[0].lower()
+        if stem not in COMMON_STEMS:
+            out.append(stem)
+    return [p for p in out if len(p) >= MIN_NAME_FOR_MATCH]
+
+
+def guarded_by(key, section, legs):
+    """Chain legs whose NAME matches this section (aliases included), or None if unaskable.
+
+    None (leg list unavailable) is not [] (nothing matches) -- r98/r1159: a face we could
+    not read must not print as a clean one.
+    """
+    if not legs:
+        return None
+    probes = probes_for(key, section)
+    out = {str(l) for l in legs if any(p in str(l).lower() for p in probes)}
+    out.update(LEG_ALIASES.get(str(key), []))
+    return sorted(out)
+
+
 def headline_bar(doc):
     for f in HEADLINE_FIELDS:
         v = (doc or {}).get(f)
@@ -106,9 +169,11 @@ def headline_bar(doc):
     return None, None
 
 
-def section_bars(doc, cal=None):
+def section_bars(doc, cal=None, legs=None):
     """Every top-level section that carries a date, plus the count of those that do not."""
     head, head_field = headline_bar(doc)
+    if legs is None:
+        legs = leg_names()
     rows, unknown = [], []
     for k, v in (doc or {}).items():
         if not isinstance(v, dict):
@@ -119,7 +184,8 @@ def section_bars(doc, cal=None):
             continue
         rows.append({"key": k, "bar": b, "field": f,
                      "lag_sessions": sessions_between(b, head, cal) if head else None,
-                     "ahead_of_headline": bool(head and b > head)})
+                     "ahead_of_headline": bool(head and b > head),
+                     "guarded_by": guarded_by(k, v, legs)})
     hist = {}
     for r in rows:
         hist[r["bar"]] = hist.get(r["bar"], 0) + 1
@@ -138,6 +204,10 @@ def section_bars(doc, cal=None):
         "off_headline": behind,
         "oldest": min(hist) if hist else None,
         "max_lag_sessions": max([r["lag_sessions"] or 0 for r in rows] or [0]),
+        "n_unguarded": (None if not legs else
+                        sum(1 for r in behind if r.get("guarded_by") == [])),
+        "unguarded": (None if not legs else
+                      [r["key"] for r in behind if r.get("guarded_by") == []]),
     }
 
 
@@ -168,7 +238,7 @@ def _paths(page=None, jsonp=None):
     return js[:-5] + ".md", js
 
 
-def assess(page=None, jsonp=None, cal=None):
+def assess(page=None, jsonp=None, cal=None, legs=None):
     md, js = _paths(page, jsonp)
     face = {"script": "scripts/live_book_section_bars.py",
             "ts": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -184,11 +254,12 @@ def assess(page=None, jsonp=None, cal=None):
     except Exception as e:
         face["sentence"] = "页面 JSON 打不开（%r），不能替它说话" % (e,)
         return face
-    sb = section_bars(doc, cal)
+    sb = section_bars(doc, cal, legs)
     face.update({k: sb[k] for k in ("headline_bar", "headline_field", "n_sections",
                                     "n_on_headline", "unknown_sections", "bars",
                                     "n_off_headline", "off_headline", "oldest",
-                                    "max_lag_sessions", "by_key")})
+                                    "max_lag_sessions", "by_key", "n_unguarded",
+                                    "unguarded")})
     face["evidence_cutoff"] = sb["headline_bar"]
     if sb["headline_bar"] is None:
         face["verdict"] = NO_HEADLINE
@@ -211,6 +282,18 @@ def assess(page=None, jsonp=None, cal=None):
              ("（最差 %s 落后 %d 个交易日）" % (worst["key"], worst["lag_sessions"])
               if worst and worst["lag_sessions"] else ""),
              len(sb["unknown_sections"])))
+        if sb.get("n_unguarded") is not None:
+            if sb["n_unguarded"]:
+                face["sentence"] += ("这 %d 节里，%d 节的产物有同名链腿在守，"
+                                     "%d 节没有任何一条链腿重跑过它们（%s）——"
+                                     "没有腿的那些停在天，是因为没人重跑，不是因为设计。" %
+                                     (sb["n_off_headline"],
+                                      sb["n_off_headline"] - sb["n_unguarded"],
+                                      sb["n_unguarded"], ", ".join(sb["unguarded"][:6])))
+            else:
+                face["sentence"] += ("这 %d 节的产物各自都有同名链腿在守，"
+                                     "停在原来的 bar 是它们各自被评分的那一天，不是页面的错。" %
+                                     sb["n_off_headline"])
     return face
 
 
@@ -230,12 +313,18 @@ def ticket_lines(face):
     if face.get("off_headline"):
         rows = face["off_headline"]
         L.append("")
-        L.append("| 节 | 它停在哪根 bar | 落后（交易日） |")
-        L.append("|---|---|---|")
+        L.append("| 节 | 它停在哪根 bar | 落后（交易日） | 守它的链腿 |")
+        L.append("|---|---|---|---|")
         for r in rows[:12]:
-            L.append("| %s | %s | %s |" % (r["key"], r["bar"], r.get("lag_sessions")))
+            g = r.get("guarded_by")
+            cell = "未核验" if g is None else ("、".join(g[:2]) if g else "**没有**")
+            L.append("| %s | %s | %s | %s |" % (r["key"], r["bar"], r.get("lag_sessions"), cell))
         if len(rows) > 12:
-            L.append("| …其余 %d 节 | | |" % (len(rows) - 12))
+            L.append("| …其余 %d 节 | | | |" % (len(rows) - 12))
+        L.append("")
+        L.append("「守它的链腿」是按名字匹配的链清单（腿名含该节的名字或产物名），"
+                 "只回答「有没有一条腿会重跑它」，不回答那条腿上次过没过——"
+                 "这两件事在页面上一向是两个错。印「没有」的那几节，才是这一页真正的缺口。")
     if face.get("unknown_sections"):
         L.append("")
         L.append("这 %d 节没有任何日期字段，本面**不替它们认领**任何一根 bar：%s。"
@@ -291,7 +380,7 @@ def selftest():
              "entry_gate": {"evidence_cutoff": "2026-11-06", "panel_last_bar": "2026-11-06"},
              "cost_tape": {"evidence_cutoff": "2026-10-30"},
              "capital_cny": 100000, "n_hold": 5}
-    sb = section_bars(mixed)
+    sb = section_bars(mixed, legs=[])
     leg("L1 a page whose sections sit on three bars names both off-headline sections",
         sb["headline_bar"] == "2026-11-10" and sb["n_off_headline"] == 2)
     leg("L2 the histogram counts sections, not fields", sum(sb["bars"].values()) == sb["n_sections"] == 3)
@@ -303,12 +392,13 @@ def selftest():
 
     single = {"priced_bar": "2026-11-10", "a": {"evidence_cutoff": "2026-11-10"},
               "b": {"panel_last_bar": "2026-11-10"}}
-    leg("L6 one bar everywhere is PAGE_ON_ONE_BAR", section_bars(single)["n_off_headline"] == 0)
+    leg("L6 one bar everywhere is PAGE_ON_ONE_BAR",
+        section_bars(single, legs=[])["n_off_headline"] == 0)
 
     undated = {"priced_bar": "2026-11-10", "a": {"evidence_cutoff": "2026-11-10"},
                "z": {"sentence": "no date here"}}
     leg("L7 an undated section is named, never assumed to share the headline",
-        section_bars(undated)["unknown_sections"] == ["z"])
+        section_bars(undated, legs=[])["unknown_sections"] == ["z"])
 
     leg("L7b the sections on the headline plus the ones off it are all the dated sections",
         sb["n_on_headline"] + sb["n_off_headline"] == sb["n_sections"] == 3
@@ -326,6 +416,48 @@ def selftest():
 
     t = "\n".join(ticket_lines(assess(jsonp=os.path.join(ROOT, "results", "_no_such_page.json"))))
     leg("L12 the sheet does not invent a bar for a page it cannot read", "没有页面" in t)
+
+    # r1189 family: a stale section has two causes, and the second one is the only
+    # actionable half. The face must say which, from a name match it states as a name match.
+    guarded = {"priced_bar": "2026-11-10",
+               "cost_tape": {"evidence_cutoff": "2026-10-30",
+                             "artifact": "results/etf_book_cost_tape.json"},
+               "lookahead": {"evidence_cutoff": "2026-10-30",
+                             "artifact": "results/etf_book_lookahead_audit.json"}}
+    LEGS_FAKE = ["etf_book_cost_tape", "etf_book_ceo_page", "etf_book_leg_attribution"]
+    gsb = section_bars(guarded, legs=LEGS_FAKE)
+    leg("L15 a section whose artifact name appears in a leg name is attributed to that leg",
+        [r["guarded_by"] for r in gsb["off_headline"] if r["key"] == "cost_tape"] == [["etf_book_cost_tape"]])
+    leg("L16 a stale section nothing in the chain names is printed as unguarded, by name",
+        gsb["unguarded"] == ["lookahead"] and gsb["n_unguarded"] == 1)
+    leg("L17 an unavailable leg list is 'not checked', never 'nothing guards it'",
+        section_bars(guarded, legs=[])["n_unguarded"] is None
+        and section_bars(guarded, legs=[])["unguarded"] is None)
+
+    fx = guarded
+    tmp = os.path.join(ROOT, "results", "_tmp_section_bars_fixture.json")
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump(fx, fh)
+    try:
+        f2 = assess(jsonp=tmp, legs=LEGS_FAKE)
+        leg("L19 the printed sentence carries the split, not just the count of stale sections",
+            "没有任何一条链腿重跑过" in f2["sentence"] and "lookahead" in f2["sentence"])
+        leg("L20 the sheet's table marks the unguarded section in bold rather than leaving it blank",
+            "**没有**" in "\n".join(ticket_lines(f2)))
+        real = leg_names()
+        leg("L21 every alias points at a leg that is actually in the chain",
+            (not real) or all(l in real for ls in LEG_ALIASES.values() for l in ls))
+        leg("L22 an aliased section is attributed to its real producer, not to nothing",
+            (not real) or ("etf_book_leg_attribution" in
+                           (section_bars({"priced_bar": "2026-11-10",
+                                          "leg_split": {"evidence_cutoff": "2026-10-30",
+                                                        "artifact": "results/etf_book_legs/latest.json"}},
+                                         legs=real)["off_headline"][0]["guarded_by"] or [])))
+    finally:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
 
     # a real page on disk, when there is one: the face must agree with its own JSON
     md, js = _paths()

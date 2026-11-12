@@ -703,6 +703,19 @@ LEGS = [
     # quotes it (r1318 ordering law). ~50s.
     ("etf_book_band_ruler", ["python", "scripts/etf_book_band_ruler.py", "check"],
      ["python", "scripts/etf_book_band_ruler.py", "run"]),
+    # r1289 (bm-a): two sections of the CEO page had a producer on disk and no leg in this
+    # list, so they could only be refreshed by a session that happened to remember them --
+    # the r1471 "read but never written" shape. `live_book_section_bars` named them as the
+    # page's only two unguarded sections, which is how they were found. Both scripts already
+    # answer their own `--check` with a self-consistent verdict (LOOKAHEAD_PRESENT 1.14pp/yr,
+    # MIXED_ACROSS_PHASES -0.01pp), so the check is a real no-op gate and the leg costs
+    # nothing on a round where the audit still holds. Runs BEFORE the page (r1318 order).
+    ("etf_book_lookahead_audit",
+     ["python", "scripts/etf_book_lookahead_audit.py", "--check"],
+     ["python", "scripts/etf_book_lookahead_audit.py", "run"]),
+    ("etf_book_universe_lock",
+     ["python", "scripts/etf_book_universe_lock.py", "--check"],
+     ["python", "scripts/etf_book_universe_lock.py", "run"]),
     # r1216: the band ruler said "three rows, three rulers" in a bullet under the table,
     # while row 1 kept printing the ticket's own 683-bar return under a 全窗 header. This
     # leg re-derives both windows of the operator's own book from the ruler's cells and
