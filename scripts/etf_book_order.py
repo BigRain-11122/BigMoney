@@ -34,6 +34,7 @@ Outputs:
 
 Exploratory: not a verdict, not investment advice, no ledger booking.
 """
+import datetime
 import glob
 import hashlib
 import json
@@ -3036,7 +3037,16 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                         "swap_effect": _swe, "positions": _pos,
                         "calendar": _cal,
                         "anchor_bar": ((_read_card() or {}).get("decided_at"))})
+    # r1597: the sheet quotes a bar and a k that the ledger settled. Every freshness gate in
+    # this repo keys on the business bar, and both faces honestly say 2026-11-12 -- the only
+    # thing that tells "priced on this world" from "priced on the previous one" is when each
+    # writer ran. One stamp, written to both the ticket and its pointer, so a stale sheet is a
+    # machine finding (Tools/face_input_staleness.py) instead of a smoke leg that reads the
+    # same bar and calls it a count mismatch.
+    _stamp = datetime.datetime.now(
+        datetime.timezone(datetime.timedelta(hours=8))).isoformat(timespec="seconds")
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
+               "generated": _stamp,
                "permission": _perm,
                # r1515: the ticket an operator's tools read carries the per-name cut too,
                # not only the markdown section (a face only the paper copy knows is r1108).
@@ -3181,6 +3191,10 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     payload["premium"] = _prem
     _write("TICKET-%s.json" % asof, payload)
     _write("latest.json", {"as_of": asof, "file": "TICKET-%s.json" % asof,
+                           # r1597: same stamp the ticket carries -- the pointer is what a
+                           # staleness reader opens first, and two stamps from two clocks would
+                           # reintroduce the very gap this is meant to close.
+                           "generated": _stamp,
                            "beta_target": float(beta), "k_now": round(float(k_now), 6),
                            "k_rule": round(float(k_engine), 6),
                            "k_rule_capped_by_floor": round(float(_sz["k"]), 6),

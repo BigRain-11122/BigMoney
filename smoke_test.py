@@ -6842,6 +6842,26 @@ def main() -> int:
     # keep that fact to itself. The leg recomputes the notice from LEDGER.json and demands
     # it on the sheet the operator actually holds -- a missing ledger must read as
     # "cannot verify", never as "nothing was restated".
+    def _stamp30(_s):
+        """Parse the stamp spellings this repo emits (offset / bare T / space), else None."""
+        import datetime as _dt30
+        _t = str(_s or "").strip().replace("Z", "+00:00")
+        if len(_t) >= 5 and _t[-5] in "+-" and _t[-4:].isdigit():
+            _t = _t[:-5] + _t[-5:-2] + ":" + _t[-2:]
+        try:
+            _v = _dt30.datetime.fromisoformat(_t)
+        except Exception:
+            return None
+        return _v if _v.tzinfo else _v.replace(
+            tzinfo=_dt30.timezone(_dt30.timedelta(hours=8)))
+
+    # one parser, not two (r1371): the gate that judges producer order and the face that
+    # reports it must read a stamp the same way, or they disagree about the same file.
+    try:
+        from Tools.face_input_staleness import parse_ts as _stamp30  # noqa: F811
+    except Exception:
+        pass
+
     try:
         _bad30 = []
         _rst30 = []
@@ -6875,6 +6895,25 @@ def main() -> int:
                 _pub30 = (_tk30.get("restatements") or {})
                 if _pub30.get("readable") is not True:
                     _bad30.append("ticket says it could not verify the ledger")
+                # r1597: r1596's third red was read as a count mismatch, and it was not one --
+                # the leg ran while the ticket was still the previous generation, so it compared
+                # today's ledger against yesterday's sheet. Both faces honestly claim the same
+                # business bar; only the producers' wall clock separates the two worlds. Say so
+                # first, because "the counts disagree" sends the reader to the wrong file.
+                _d30 = _stamp30(_tk30.get("generated"))
+                _i30 = None
+                for _r30 in reversed(_led30.get("runs") or []):
+                    _i30 = _stamp30(_r30.get("ts"))
+                    if _i30:
+                        break
+                if _d30 and _i30 and _i30 > _d30:
+                    _bad30.append("ticket was written %.0fs before the ledger's last run -- "
+                                  "the rows below compare two generations"
+                                  % (_i30 - _d30).total_seconds())
+                # the pointer is what a staleness reader opens first, so a pointer stamped on
+                # a different clock than the ticket it names re-opens the same gap one hop in.
+                if _ptr30.get("generated") != _tk30.get("generated"):
+                    _bad30.append("the pointer and the ticket it names carry different stamps")
                 # r1596: the ledger's one list holds two different notices. A restatement
                 # keeps both values for the same bar; a withdrawal removes the bar. The
                 # ticket must repeat each kind against its own kind -- copying the whole

@@ -53,6 +53,19 @@ REGISTRY = [
         ],
         "why": "r1590: priced at 19:56, permission rewritten at 20:11, gap kept the old decision date",
     },
+    {
+        # r1597: r1596's third smoke red was not a count mismatch -- the leg ran while the
+        # ticket was still the previous generation, so it compared today's ledger against
+        # yesterday's sheet and called the difference a defect. A sheet must be written after
+        # the ledger run it quotes; that is a wall-clock fact, and now it is one this face can
+        # state. The ledger keeps one entry per advance, so the last run's `ts` is the stamp.
+        "derived": "results/etf_book_order/latest.json",
+        "derived_field": "generated",
+        "inputs": [
+            {"path": "results/etf_book_forward/LEDGER.json", "field": "runs.-1.ts"},
+        ],
+        "why": "r1596: the sheet quotes the ledger's bar and k; written before the ledger's last run it prices the previous world",
+    },
 ]
 
 
@@ -82,6 +95,38 @@ def parse_ts(text):
     return v if v.tzinfo else v.replace(tzinfo=LOCAL_TZ)
 
 
+_MISS = object()
+
+
+def dig(doc, field):
+    """Walk a dotted path ('runs.-1.ts'), returning _MISS when any step is absent.
+
+    Not every published stamp sits at the top of its file: a ledger records one `runs`
+    entry per advance, and the only honest "when did this book last move" is the last
+    entry's `ts`. Reading the newest entry is the whole point, so a list index is allowed
+    to be negative; anything else that is not a mapping key is simply absent.
+    """
+    cur = doc
+    for step in str(field).split("."):
+        if isinstance(cur, list):
+            try:
+                idx = int(step)
+                if idx < 0:
+                    idx += len(cur)
+                if idx < 0 or idx >= len(cur):
+                    return _MISS
+                cur = cur[idx]
+            except (TypeError, ValueError):
+                return _MISS
+        elif isinstance(cur, dict):
+            if step not in cur:
+                return _MISS
+            cur = cur[step]
+        else:
+            return _MISS
+    return cur
+
+
 def read_stamp(path, field, root="."):
     """(datetime|None, reason). reason is '' only when a stamp was actually read."""
     full = os.path.join(root, path)
@@ -94,9 +139,10 @@ def read_stamp(path, field, root="."):
         return None, "unreadable_json"
     if not isinstance(doc, dict):
         return None, "not_an_object"
-    if field not in doc:
+    raw = dig(doc, field)
+    if raw is _MISS:
         return None, "field_absent:%s" % field
-    v = parse_ts(doc[field])
+    v = parse_ts(raw)
     if v is None:
         return None, "unparseable_stamp"
     return v, ""
@@ -186,6 +232,16 @@ def selftest():
     ck("empty is not a stamp", parse_ts(""), None)
     ck("absent is not a stamp", parse_ts(None), None)
 
+    # r1597: a stamp can live inside the last entry of a list (the ledger's runs), and the
+    # negative index is the only way to name "the newest advance" without reading a length.
+    ck("dotted path reaches into the last list entry",
+       dig({"runs": [{"ts": "a"}, {"ts": "b"}]}, "runs.-1.ts"), "b")
+    ck("positive index works too", dig({"runs": [{"ts": "a"}, {"ts": "b"}]}, "runs.0.ts"), "a")
+    ck("index past the end is absent", dig({"runs": [{"ts": "a"}]}, "runs.4.ts") is _MISS, True)
+    ck("negative index past the start is absent", dig({"runs": [{"ts": "a"}]}, "runs.-4.ts") is _MISS, True)
+    ck("walking into a scalar is absent", dig({"runs": "nope"}, "runs.-1.ts") is _MISS, True)
+    ck("missing top-level key is absent", dig({}, "runs.-1.ts") is _MISS, True)
+
     with tempfile.TemporaryDirectory() as tmp:
         p = {
             "derived": _fixture(tmp, "d.json", {"generated": "2026-11-12T19:56:00+0800"}),
@@ -209,6 +265,23 @@ def selftest():
         r4 = judge_pair(p4, tmp)
         ck("missing field is UNREADABLE, never FRESH", r4["verdict"], "UNREADABLE")
         ck("missing field names the field", r4["inputs"][0]["input_reason"], "field_absent:generated")
+
+        # r1597: the live shape -- a sheet priced before the ledger's last advance. The last
+        # run is the only run that matters, so the leg must read the tail, not the head.
+        p_led = {
+            "derived": _fixture(tmp, "sheet.json", {"generated": "2026-11-12T19:56:00+0800"}),
+            "derived_field": "generated",
+            "inputs": [{"path": _fixture(tmp, "led.json", {"runs": [
+                {"ts": "2026-11-12T15:58:15+0800"}, {"ts": "2026-11-12T20:11:52+0800"}]}),
+                "field": "runs.-1.ts"}],
+        }
+        ck("a sheet older than the ledger's last advance is STALE",
+           judge_pair(p_led, tmp)["verdict"], "STALE_INPUT_MOVED")
+        ck("the leg reads the tail, not the head",
+           judge_pair(p_led, tmp)["inputs"][0]["lag_sec"], 952.0)
+        p_led2 = dict(p_led)
+        p_led2["derived"] = _fixture(tmp, "sheet2.json", {"generated": "2026-11-12T23:41:05+0800"})
+        ck("a sheet written after the last advance is FRESH", judge_pair(p_led2, tmp)["verdict"], "FRESH")
 
         p5 = dict(p)
         p5["inputs"] = [{"path": "nope/absent.json", "field": "generated"}]
