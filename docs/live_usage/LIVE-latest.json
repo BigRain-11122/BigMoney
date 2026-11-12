@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-12",
- "generated": "2026-11-12T17:11:44",
+ "generated": "2026-11-12T20:00:32",
  "market": {
   "state": "RED",
   "asof": "2026-11-12",
@@ -53,95 +53,88 @@
    "zt": {
     "label": "涨停池",
     "status": "ok",
-    "count": 85,
-    "cutoff": "2026-11-11",
-    "prev_count": 93,
-    "prev_cutoff": "2026-11-10",
-    "asked_through": "2026-11-11",
+    "count": 37,
+    "cutoff": "2026-11-12",
+    "prev_count": 85,
+    "prev_cutoff": "2026-11-11",
+    "asked_through": "2026-11-12",
     "empty_days": [],
     "empty_days_count": 0,
-    "delta": -8
+    "delta": -48
    },
    "zbgc": {
     "label": "炸板池",
     "status": "ok",
-    "count": 19,
-    "cutoff": "2026-11-11",
+    "count": 35,
+    "cutoff": "2026-11-12",
     "prev_count": 19,
-    "prev_cutoff": "2026-11-10",
-    "asked_through": "2026-11-11",
+    "prev_cutoff": "2026-11-11",
+    "asked_through": "2026-11-12",
     "empty_days": [],
     "empty_days_count": 0,
-    "delta": 0
+    "delta": 16
    },
    "dtgc": {
     "label": "跌停池",
     "status": "ok",
-    "count": 1,
-    "cutoff": "2026-11-09",
-    "prev_count": 15,
-    "prev_cutoff": "2026-11-06",
-    "asked_through": "2026-11-11",
+    "count": 5,
+    "cutoff": "2026-11-12",
+    "prev_count": 1,
+    "prev_cutoff": "2026-11-09",
+    "asked_through": "2026-11-12",
     "empty_days": [
      "2026-11-05",
      "2026-11-10",
      "2026-11-11"
     ],
     "empty_days_count": 3,
-    "delta": -14
+    "delta": 4
    },
    "strong": {
     "label": "强势池",
     "status": "ok",
-    "count": 178,
-    "cutoff": "2026-11-11",
-    "prev_count": 154,
-    "prev_cutoff": "2026-11-10",
-    "asked_through": "2026-11-11",
+    "count": 124,
+    "cutoff": "2026-11-12",
+    "prev_count": 178,
+    "prev_cutoff": "2026-11-11",
+    "asked_through": "2026-11-12",
     "empty_days": [],
     "empty_days_count": 0,
-    "delta": 24
+    "delta": -54
    }
   },
   "status": "ok",
-  "cutoff": "2026-11-11",
+  "cutoff": "2026-11-12",
   "cutoffs": [
-   "2026-11-09",
-   "2026-11-11"
+   "2026-11-12"
   ],
-  "aligned": false,
-  "seal_rate": 0.8173,
+  "aligned": true,
+  "seal_rate": 0.5139,
   "ladder": {
-   "1": 66,
-   "2": 12,
-   "3": 5,
-   "4": 2
+   "1": 26,
+   "2": 5,
+   "3": 2,
+   "4": 2,
+   "5": 2
   },
   "top_streak": {
-   "streak": 4,
+   "streak": 5,
    "n": 2,
    "names": [
-    "大东方",
-    "日出东方"
+    "日出东方",
+    "大东方"
    ]
   },
-  "down_over_up": null,
-  "kill_day": null,
-  "kill_day_unavailable": {
-   "zt_cutoff": "2026-11-11",
-   "dtgc_cutoff": "2026-11-09",
-   "note": "两池不在同一交易日（涨停池 2026-11-11、跌停池 2026-11-09）——杀跌日读法今日不判"
-  },
+  "down_over_up": 0.135,
+  "kill_day": false,
+  "kill_day_unavailable": null,
   "freshness": {
-   "status": "stale",
+   "status": "current",
    "expected_last_bar_day": "2026-11-12",
-   "behind_days": 1,
-   "behind": [
-    "2026-11-12"
-   ],
+   "behind_days": 0,
+   "behind": [],
    "lane_owner": "bm-c",
-   "read_on": "bm-c",
-   "note": "读到的是 2026-11-11 的副本：最后采集日 2026-11-11，比应有最新 bar 日 2026-11-12 落后 1 个交易日（车道宿主 bm-c）"
+   "read_on": "bm-c"
   }
  },
  "ladder": {
@@ -384,7 +377,7 @@
     "latest_close": 2.884,
     "prev_session_close": 2.882,
     "day_change_pct": 0.07,
-    "age_min": 131.7
+    "age_min": 300.5
    },
    {
     "symbol": "511010",
@@ -475,7 +468,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 52310.0
+    "last_append_age_min": 52478.8
    },
    {
     "family": "FUND-VALUE-P1",
@@ -483,7 +476,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 53154.4
+    "last_append_age_min": 53323.2
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -491,7 +484,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 49947.7
+    "last_append_age_min": 50116.5
    }
   ]
  },
@@ -601,9 +594,9 @@
    {
     "face": "risk_tape",
     "label": "③ 风险带（zt 四面板）",
-    "cutoff": "2026-11-11",
-    "owed_sessions": 1,
-    "state": "behind"
+    "cutoff": "2026-11-12",
+    "owed_sessions": 0,
+    "state": "current"
    },
    {
     "face": "market",
@@ -613,8 +606,8 @@
     "state": "current"
    }
   ],
-  "worst_face": "③ 风险带（zt 四面板）",
-  "worst_owed_sessions": 1,
+  "worst_face": null,
+  "worst_owed_sessions": 0,
   "unreadable": [],
   "book_panel_last_bar": "2026-11-12"
  },
