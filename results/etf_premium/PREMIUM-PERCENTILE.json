@@ -2,6 +2,16 @@
  "artifact": "etf_book_premium_percentile",
  "machine": "bm-c",
  "evidence_cutoff": "2026-11-12",
+ "session": "2026-11-12",
+ "panel": {
+  "ticket_session": "2026-11-12",
+  "read_from_field": "base_bar",
+  "price_panel_last": "2026-11-12",
+  "state": "SAME_SESSION",
+  "bars_beyond_session": 0,
+  "bars_beyond": [],
+  "note": "the price panel ends on the ticket's own session (2026-11-12); every bar the panel holds is in this reading"
+ },
  "ticket": {
   "path": "results\\etf_book_order\\TICKET-2026-11-12.json",
   "as_of": "2026-11-12",
@@ -200,6 +210,10 @@
     }
    ],
    "lag_spread_pp": 0.4502994202897681,
+   "panel_last_date": "2026-11-12",
+   "price_session": "2026-11-12",
+   "session_state": "SAME_SESSION",
+   "bars_beyond_session": 0,
    "revert_to_median_cny": -711.316001842479
   },
   {
@@ -378,6 +392,10 @@
     }
    ],
    "lag_spread_pp": 1.0226399633816885,
+   "panel_last_date": "2026-11-12",
+   "price_session": "2026-11-12",
+   "session_state": "SAME_SESSION",
+   "bars_beyond_session": 0,
    "revert_to_median_cny": -836.735369203425
   },
   {
@@ -557,6 +575,10 @@
     }
    ],
    "lag_spread_pp": 1.4369441886791456,
+   "panel_last_date": "2026-11-12",
+   "price_session": "2026-11-12",
+   "session_state": "SAME_SESSION",
+   "bars_beyond_session": 0,
    "revert_to_median_cny": 5406.56387885932
   },
   {
@@ -736,6 +758,10 @@
     }
    ],
    "lag_spread_pp": 0.5078761956684108,
+   "panel_last_date": "2026-11-12",
+   "price_session": "2026-11-12",
+   "session_state": "SAME_SESSION",
+   "bars_beyond_session": 0,
    "revert_to_median_cny": -895.5958892919153
   },
   {
@@ -914,6 +940,10 @@
     }
    ],
    "lag_spread_pp": 0.7286962724192714,
+   "panel_last_date": "2026-11-12",
+   "price_session": "2026-11-12",
+   "session_state": "SAME_SESSION",
+   "bars_beyond_session": 0,
    "revert_to_median_cny": -1585.1025841816806
   }
  ],
@@ -966,7 +996,8 @@
   "A限购 fund can stay expensive for years: a high percentile is a reading, not a sell order.",
   "A rank counts sessions, and a session whose NAV stamp repeats the previous valuation carries no new number -- the second rank drops those rows and the calendars in hand only explain them.",
   "The second rank does NOT drop a session whose NAV moved only slightly (a distribution or a share conversion moves the number without moving the basket). Those rows are measured on their own face (results/etf_premium/PREMIUM-SUBSCRIPTION.json), which counts the one-row suspension runs; this face does not re-decide them.",
-  "The panel close is not the price the sheet pays; the sheet pays the next open plus slippage (tracked on the punctuality faces)."
+  "The panel close is not the price the sheet pays; the sheet pays the next open plus slippage (tracked on the punctuality faces).",
+  "This rank is read at the ticket's own session: bars the panel holds past that session are counted on `panel.bars_beyond_session` and excluded, so a panel that moves on overnight cannot reprice a sheet that has not moved."
  ],
  "premium_face": "results\\etf_premium\\PREMIUM-2026-11-12.json"
 }

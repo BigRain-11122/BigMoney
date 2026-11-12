@@ -1,5 +1,5 @@
 {
- "activity": "r1600: the premium face's denominator is now derived from the rows, not from a hard-coded source string -- a sina-paid snapshot no longer prints 'eastmoney via akshare' as its own provenance (selftest 42/42, real face re-rendered)",
+ "activity": "r1608: the percentile face reads at the ticket own session (34->46 selftest, check OK, S6 2/2) and is proven on a real old ticket (TICKET-2026-11-11 x today panel = PANEL_AHEAD 1 bar)",
  "activity_now": "r1604: the premium face now carries the date its denominator belongs to -- 41 QDII rows read another session's NAV (+6.99% mean, +37.62% max) and are reported in their own line instead of being silently filtered",
  "agenda_starved": false,
  "ahead_origin": 0,
@@ -14,7 +14,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-13T02:25:54+08:00",
+ "clock_read": "2026-11-13T04:38:51+08:00",
  "codely_live_count": 2,
  "comfy_free_vram_mb": 14015,
  "cores": 32,
@@ -22,11 +22,11 @@
  "cpu_idle_pct": 92.7,
  "cpu_pct": 9.7,
  "cpu_util_pct": 9.7,
- "cur_task": "r1600: premium face provenance derived from the file (42/42)",
+ "cur_task": "r1608 percentile session anchoring",
  "current": "r1587 / round_no 1587",
  "current_task": "r1600: premium face provenance derived from the file (42/42)",
  "current_task_at": "2026-11-13T00:52:00+08:00",
- "current_task_short": "r1600 premium face provenance from rows",
+ "current_task_short": "r1608 percentile session anchoring",
  "current_task_ts": "2026-11-11T18:28:31+08:00",
  "d19_watermark_guard": {
   "advance": true,
@@ -72,7 +72,7 @@
  "delivery_state": "pushed f020dec739 (0 ahead / 0 behind)",
  "dept": "策略/风控",
  "did": "backfilled data/etf_premium/snap/2026-11-12.csv (1667 rows via sina), 3 stale swap legs -> FRESH (10/10)",
- "did_round": 1586,
+ "did_round": 1608,
  "free_ram_gb": 1.4,
  "free_vram_mb": 1147,
  "full_load_selfproof": {
@@ -100,7 +100,7 @@
  "gpu_vram_used_mb": 15603,
  "head_sha": "d6b7a3775d",
  "health": "ok",
- "heartbeat_epoch_utc": 1794507954,
+ "heartbeat_epoch_utc": 1794515931,
  "heartbeat_epoch_utc_type": "int",
  "idle_ram_gb": 1.51,
  "idle_rounds": 0,
@@ -150,9 +150,9 @@
  "last_round_summary": "the sheet asked for eight trades and the same book, and the premium face that could not re-derive now says which stamp it printed",
  "last_round_summary_at": "2026-11-12T17:51:29+08:00",
  "last_round_tag": "r1586",
- "last_round_ts": "2026-11-13T02:05:36+08:00",
+ "last_round_ts": "2026-11-13T04:38:51+08:00",
  "last_run_at": "2026-10-26T21:20:55+08:00",
- "last_seen": "2026-11-13T00:52:00+08:00",
+ "last_seen": "2026-11-13T04:38:51+08:00",
  "last_seen_at": "2026-11-10T01:35:28+08:00",
  "last_task_at": "2026-10-29T06:27:04+08:00",
  "last_ts": "2026-10-19T20:11:25+08:00",
@@ -165,7 +165,7 @@
  "next": "every premium leg can now be checked against the date of its own denominator; next is to extend the same dated-denominator column to the dispersion consumers (build_premium_panel already joins strict as-of) and re-read the cross-border spread once 11-13 NAVs publish",
  "next_action": "re-run the premium fetch when the EM source comes back so sibling_entry/sibling_gap/swap_trigger advance to 2026-11-12; then reprice again on the 2026-11-13 close",
  "next_milestone": "next chain cycle on bm-c must show etf_book_exec_delta run+check green and the 8-row table on the page; futures/lane reds and the premium source outage carried to the next window (<=48h)",
- "next_pick": "r1553: after the 15:00 close, re-price the ticket on the 2026-11-11 bar and re-read the own-history percentiles on that bar",
+ "next_pick": "r1608: after the 11-13 close, re-read all three premium faces on the new bar and confirm they agree on the session without hand-editing",
  "next_pointer": "adoption-round evidence package for WHICH QUESTION the calendar asks (r1428 ETA + r1433 window sensitivity + r1434 operator wiring) -- needs GM signature; no more knobs on this caliber",
  "next_round": 1460,
  "next_task": "r1547: the 场内买入 word hides WHEN it changed -- print the status transition dates per leg so a reopening is a dated event, not a per-day scan",
@@ -420,14 +420,14 @@
  "orders_ack_last": "O-20261111-1205 (CEO-PROXY event row): bm-c claim executor -- handled on site",
  "orders_ack_receipt": "r1374: orders 190,253 B (+1,185 B) -> one new row 2026-10-31 00:1x (CEO: make the Mac the fleet master, bm-m-pulse-v1, @bm-m lane) -> acked, zero BigMoney action. decisions unchanged 97fe122f (215,420 B).",
  "orders_ack_ts": "2026-10-31T00:35:20+08:00",
- "orphan_face": 2,
+ "orphan_face": 0,
  "orphan_face_probe": {
   "orphans": 0,
   "py_faces": 6
  },
  "orphan_faces": 3,
  "orphan_note": "probe killed two stalled orphans this round (fleet/agent.py 894min, scripts/update* 784min); ComfyUI resident on 8188 exempt",
- "orphans": 2,
+ "orphans": 0,
  "pending": [],
  "pre2020_face": {
   "A_pre_universe_pre_period": {
@@ -839,7 +839,7 @@
  "recent_artifact": "results/etf_premium/PREMIUM-2026-11-12.md",
  "round": 1604,
  "round_label": "1572",
- "round_no": 1606,
+ "round_no": 1608,
  "round_no_label": "1572",
  "round_no_landed": 1492,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1142,5 +1142,6 @@
  "verify_smoke": "full suite r1595b in flight at close (pid 60700): 417 lines, 402 PASS, 0 FAIL; suite not closed this round",
  "verify_smoke_closed": "previous window's suite closed 546/547 with one red (live_book_section_bars stale face) -- refreshed this round, check now CHECK_OK rc0",
  "vram_free_gb": 14.5,
- "watermark_verdict": "red=false (lane healthy, py series 0.2/0.2/5.3, local_batch=1)"
+ "watermark_verdict": "green",
+ "py_faces": 2
 }

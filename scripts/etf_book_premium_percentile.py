@@ -58,6 +58,10 @@ TAIL = 0.90            # upper tail: at or above the 90th percentile of its own 
 PRICE_TOL = 0.005      # panel close vs published spot board price
 PREM_TOL_PP = 0.01     # published premium vs recomputed price/iopv
 CNY_TOL = 0.02
+# r1608: the ticket's own session, same fallback chain the persistence face uses. The
+# executable sheet carries no "session" key, so a face reading only that key prints
+# "today" for whatever bar the panel happens to end on.
+SESSION_FIELDS = ("session", "base_bar", "evidence_cutoff", "feed_status.ticket_bar")
 # The board publishes premium_pct to 4 decimals of a percent, so a reader who
 # re-derives the CNY figure from that published number can only be accurate to
 # half of the last digit times the amount. Scaling the tolerance by the amount
@@ -397,6 +401,57 @@ def latest_premium_face():
         return path, json.load(f)
 
 
+def ticket_session(ticket):
+    """(session, the field that answered). Unknown is (None, None) -- never a guess."""
+    tk = ticket or {}
+    for name in SESSION_FIELDS:
+        if "." in name:
+            head, tail = name.split(".", 1)
+            parent = tk.get(head)
+            v = parent.get(tail) if isinstance(parent, dict) else None
+        else:
+            v = tk.get(name)
+        if v:
+            return str(v)[:10], name
+    return None, None
+
+
+def session_state(price_session, session):
+    """Where the bar we printed "today" from actually sits relative to the ticket."""
+    if not session or not price_session:
+        return "SESSION_UNKNOWN"
+    if price_session == session:
+        return "SAME_SESSION"
+    return "PANEL_AHEAD" if price_session > session else "PANEL_BEHIND"
+
+
+def truncate_to_session(series, session):
+    """The rows that belong to the ticket's own session (unknown session = all rows)."""
+    if not session:
+        return series
+    return [r for r in series if r["date"] <= session]
+
+
+def panel_note(panel):
+    """One sentence a reader can act on: which day this reading belongs to."""
+    p = panel or {}
+    st = p.get("state")
+    if st == "SAME_SESSION":
+        return ("the price panel ends on the ticket's own session (%s); every bar the "
+                "panel holds is in this reading" % p.get("ticket_session"))
+    if st == "PANEL_AHEAD":
+        return ("the price panel has walked past the ticket's session by %d bar(s) "
+                "(%s); this reading stops at %s and those bars are not in it"
+                % (int(p.get("bars_beyond_session") or 0), p.get("price_panel_last"),
+                   p.get("ticket_session")))
+    if st == "PANEL_BEHIND":
+        return ("the price panel has not reached the ticket's session %s (last bar %s); "
+                "this reading is the panel's last bar, not the ticket's day"
+                % (p.get("ticket_session"), p.get("price_panel_last")))
+    return ("the ticket does not name its session; this reading is the panel's last bar "
+            "(%s) and is not anchored to the sheet" % (p.get("price_panel_last") or "none"))
+
+
 def gate(ticket, face, prices_by_code):
     """Reconcile the panel with the published spot board before this face may speak."""
     fails = []
@@ -472,27 +527,43 @@ def gate(ticket, face, prices_by_code):
 
 def build(ticket, face, fetch=True, today=None):
     order = (ticket.get("ticket") or {}).get("order") or []
+    session, session_field = ticket_session(ticket)
     prices_by_code = {}
     legs = []
     hist_rows = []
+    panel_dates = set()
     for o in order:
         code = str(o.get("symbol"))
-        px = load_prices(code) or {}
-        prices_by_code[code] = px
+        px_full = load_prices(code) or {}
+        panel_dates.update(px_full)
+        # r1608: the rank is quoted as "today". Today is the ticket's session, not
+        # whatever bar the panel happens to end on -- so the read is cut at that
+        # session and the bars past it are disclosed, never silently averaged in.
+        px = {d: v for d, v in px_full.items() if not session or d <= session}
+        prices_by_code[code] = px_full
         navs, nav_status = load_nav(code, fetch=fetch, today=today)
         ser = premium_series(px, navs, lag=1)
         st = stats(ser)
         lad = lag_ladder(px, navs)
+        panel_last = max(px_full) if px_full else None
         st.update({"symbol": code, "class": o.get("class"),
                    "amount_cny": o.get("amount"), "panel_price": o.get("price"),
                    "nav_source": nav_status,
                    "n_nav_rows": len(navs),
                    "nav_tail": navs[-30:],
-                   "lag_ladder": lad["ladder"], "lag_spread_pp": lad["spread_pp"]})
+                   "lag_ladder": lad["ladder"], "lag_spread_pp": lad["spread_pp"],
+                   "panel_last_date": panel_last,
+                   "price_session": (ser[-1]["date"] if ser else None),
+                   "session_state": session_state(panel_last, session),
+                   "bars_beyond_session": (len([d for d in px_full
+                                                if session and d > session])
+                                           if session else 0)})
         st["revert_to_median_cny"] = revert_cost(
             o.get("amount"), st.get("latest_premium_pct"), st.get("median_pct"))
         legs.append(st)
-        for r in ser:
+        # the published history keeps every bar the panel holds (as-collected); only the
+        # reading is cut at the ticket's session
+        for r in premium_series(px_full, navs, lag=1):
             hist_rows.append((r["date"], code, r["close"], r["nav_date"], r["nav"],
                               r["premium_pct"]))
     g = gate(ticket, face, prices_by_code)
@@ -503,13 +574,26 @@ def build(ticket, face, fetch=True, today=None):
                    and l["rank_of_latest"] >= TAIL]
     cal = _calendars()
     disagree = [l["symbol"] for l in legs if l.get("rulers_disagree")]
+    panel_last = max(panel_dates) if panel_dates else None
+    beyond = sorted(d for d in panel_dates if session and d > session)
     out = {
         "artifact": "etf_book_premium_percentile",
         "machine": "bm-c",
         "evidence_cutoff": max((l.get("last_date") or "") for l in legs) or None,
+        "session": session,
+        "panel": {
+            "ticket_session": session,
+            "read_from_field": session_field,
+            "price_panel_last": panel_last,
+            "state": session_state(panel_last, session),
+            "bars_beyond_session": len(beyond),
+            "bars_beyond": beyond[:5],
+            "note": None,
+        },
         "ticket": {"path": None,
                    "as_of": ticket.get("as_of"),
                    "book_amount_cny": book_amount},
+
         "ruler": {
             "measure": "panel close / the newest unit NAV stamped strictly before that "
                        "close - 1",
@@ -561,8 +645,12 @@ def build(ticket, face, fetch=True, today=None):
             "suspension runs; this face does not re-decide them.",
             "The panel close is not the price the sheet pays; the sheet pays the next "
             "open plus slippage (tracked on the punctuality faces).",
+            "This rank is read at the ticket's own session: bars the panel holds past "
+            "that session are counted on `panel.bars_beyond_session` and excluded, so a "
+            "panel that moves on overnight cannot reprice a sheet that has not moved.",
         ],
     }
+    out["panel"]["note"] = panel_note(out["panel"])
     out["summary"]["sentence"] = summary_sentence(out)
     return out, hist_rows
 
@@ -593,7 +681,21 @@ def summary_sentence(out):
                % n_gap)
         gap += ("判词改变的腿：%s" % "、".join(dis) if dis
                 else "没有一只腿的判词改变")
-    return "%s%s%s" % (head, tail, gap)
+    # r1608: "today" is the ticket's session. Say so whenever the panel is not on it --
+    # the same sentence that quotes a rank must not leave the day unstated.
+    ses = ""
+    p = out.get("panel") or {}
+    pst = p.get("state")
+    if pst == "PANEL_AHEAD":
+        ses = ("；价格面板已经走到 %s，本页只读这张单的 %s 那一场（多出的 %d 根不进这个读数）"
+               % (p.get("price_panel_last"), p.get("ticket_session"),
+                  int(p.get("bars_beyond_session") or 0)))
+    elif pst == "PANEL_BEHIND":
+        ses = ("；价格面板还没走到这张单的 %s（最新只到 %s），这里读的是面板最后一场"
+               % (p.get("ticket_session"), p.get("price_panel_last")))
+    elif pst == "SESSION_UNKNOWN":
+        ses = "；这张单没有说出自己的场次，本页读的是价格面板最后一场，不能当作这张单那一天"
+    return "%s%s%s%s" % (head, tail, gap, ses)
 
 
 def _fmt(x):
@@ -676,8 +778,36 @@ def check():
         out = json.load(f)
     hist = read_hist()
     fails = []
+    # r1608: the face reads at the ticket's session. Re-derive that claim from the
+    # published history -- the rows past it must be excluded here too, or a face that
+    # quietly repriced on a later bar would still "reconcile" with itself.
+    session = out.get("session")
+    panel = out.get("panel") or {}
+    hist_dates = sorted({h["date"] for h in hist})
+    hist_last = hist_dates[-1] if hist_dates else None
+    if panel.get("price_panel_last") != hist_last:
+        fails.append("panel last: face %r vs published history %r"
+                     % (panel.get("price_panel_last"), hist_last))
+    if panel.get("ticket_session") != session:
+        fails.append("panel ticket session %r vs face session %r"
+                     % (panel.get("ticket_session"), session))
+    if panel.get("state") != session_state(hist_last, session):
+        fails.append("panel state %r vs recomputed %r"
+                     % (panel.get("state"), session_state(hist_last, session)))
+    if int(panel.get("bars_beyond_session") or 0) != len(
+            [d for d in hist_dates if session and d > session]):
+        fails.append("bars beyond session: face %r vs recomputed %r"
+                     % (panel.get("bars_beyond_session"),
+                        len([d for d in hist_dates if session and d > session])))
+    if panel.get("note") != panel_note(panel):
+        fails.append("panel note is not the one its own state derives")
     for leg in out["legs"]:
-        rows = [h for h in hist if h["symbol"] == leg["symbol"]]
+        rows = [h for h in hist if h["symbol"] == leg["symbol"]
+                and (not session or h["date"] <= session)]
+        if leg.get("price_session") != (rows[-1]["date"] if rows else None):
+            fails.append("%s price_session %r vs recomputed %r"
+                         % (leg["symbol"], leg.get("price_session"),
+                            rows[-1]["date"] if rows else None))
         st = stats(rows)
         for k in ("n", "verdict", "median_pct", "latest_premium_pct", "min_pct",
                   "max_pct", "rank_of_latest_clean", "verdict_clean",
@@ -916,6 +1046,60 @@ def selftest():
                                         "rank_of_latest": 0.5}]})
     chk("159655" in s_dis and "20" in s_dis,
         "the producer's own sentence names the dropped sessions and the changed leg")
+
+    # ---- r1608: "today" is the ticket's session ----------------------------------------
+    # The rank is quoted as today's reading, but the panel's last bar is only the ticket's
+    # day by coincidence. These legs pin the fallback chain the sheet actually uses, the
+    # cut at the ticket's session (with the bars past it disclosed, not averaged in), and
+    # that the sentence quotes the day whenever the panel is not on it.
+    chk(ticket_session({"base_bar": "2026-11-12"}) == ("2026-11-12", "base_bar"),
+        "the sheet has no 'session' key -- base_bar answers")
+    chk(ticket_session({"feed_status": {"ticket_bar": "2026-11-11"}})
+        == ("2026-11-11", "feed_status.ticket_bar"),
+        "the nested feed status is reachable")
+    chk(ticket_session({"session": "2026-11-13", "base_bar": "2026-11-12"})[1] == "session",
+        "an explicit session wins over the fallbacks")
+    chk(ticket_session({}) == (None, None),
+        "a ticket that names no session is unknown, never 'today'")
+    series = [{"date": "2026-11-11"}, {"date": "2026-11-12"}, {"date": "2026-11-13"}]
+    chk([r["date"] for r in truncate_to_session(series, "2026-11-12")]
+        == ["2026-11-11", "2026-11-12"],
+        "bars past the ticket's session leave the reading")
+    chk(len(truncate_to_session(series, None)) == 3,
+        "an unknown session drops nothing (and the panel note says so)")
+    chk(session_state("2026-11-13", "2026-11-12") == "PANEL_AHEAD"
+        and session_state("2026-11-12", "2026-11-12") == "SAME_SESSION"
+        and session_state("2026-11-11", "2026-11-12") == "PANEL_BEHIND"
+        and session_state(None, "2026-11-12") == "SESSION_UNKNOWN",
+        "the four panel states are named")
+    n_ahead = panel_note({"state": "PANEL_AHEAD", "price_panel_last": "2026-11-13",
+                          "ticket_session": "2026-11-12", "bars_beyond_session": 2})
+    chk("2026-11-13" in n_ahead and "2026-11-12" in n_ahead and "2" in n_ahead,
+        "the panel note names both days and how many bars were left out")
+    chk("not anchored" in panel_note({"state": "SESSION_UNKNOWN",
+                                      "price_panel_last": "2026-11-13"}),
+        "an unknown session says the reading is not the sheet's day")
+    _legs = [{"symbol": "159655", "verdict": "ORDINARY", "rank_of_latest": 0.5}]
+    s_same = summary_sentence({"summary": {"priced_legs": 1, "legs": 1,
+                                           "revert_to_own_median_cny": None,
+                                           "n_gap_excluded_total": 0,
+                                           "rulers_disagree": []},
+                               "legs": _legs,
+                               "panel": {"state": "SAME_SESSION",
+                                         "ticket_session": "2026-11-12"}})
+    chk("价格面板" not in s_same,
+        "nothing is said when the panel sits on the ticket's own day")
+    s_ahead = summary_sentence({"summary": {"priced_legs": 1, "legs": 1,
+                                            "revert_to_own_median_cny": None,
+                                            "n_gap_excluded_total": 0,
+                                            "rulers_disagree": []},
+                                "legs": _legs,
+                                "panel": {"state": "PANEL_AHEAD",
+                                          "price_panel_last": "2026-11-13",
+                                          "ticket_session": "2026-11-12",
+                                          "bars_beyond_session": 1}})
+    chk("2026-11-13" in s_ahead and "2026-11-12" in s_ahead,
+        "a sentence that quotes a rank names the day when the panel moved past it")
 
     print("selftest %d/%d" % (ok, tot))
     for e in errs:
