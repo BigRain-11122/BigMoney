@@ -66,7 +66,7 @@
   "updated_at": "2026-11-11T20:04:03+08:00"
  },
  "dec_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show; r818 start sweep via SSH primary leg rc0 (channel healed, r817 A-sync note closed); dec delta FALSE = unchanged, zero action; facts-driven from results/_r818bmc_s05_facts.json, 64hex shape-asserted; close face reads sha PROGRAMMATICALLY from facts json, ZERO literal constants (r583 law)",
- "delivered": "3a60106669",
+ "delivered": "d153ad48d5",
  "delivered_head": "3a60106669",
  "delivery_behind": 0,
  "delivery_state": "pushed f020dec739 (0 ahead / 0 behind)",
@@ -1118,7 +1118,14 @@
   "rescan": "both false, unacked [] rc0",
   "second_scan": "06:14 both true"
  },
- "smoke": "previous suite closed 574 PASS / 0 FAIL at 03:04:42 (707s, 0 legs over 180s, slowest 73.6s); post-change suite restarted 03:1x (pythonw pid 17092), still in flight at close",
+ "smoke": "post-change suite closed 574 PASS / 0 FAIL (logs/smoke.log, 737.8s wall clock, 0 legs over 180s, slowest 64.8s); the suite now closes inside a round two runs in a row (03:04 and 03:27)",
+ "smoke_closed": {
+  "at": "2026-11-13T03:27:22+08:00",
+  "fail": 0,
+  "over_ceiling": 0,
+  "pass": 574,
+  "wall_clock_s": 737.8
+ },
  "src": "K:/Fluxgroup/FluxGroup/Tools/{task-register.ps1,fleet-align.ps1,hq_claim_launch.py} (group repo commit 4546fa97e) + Tools/card_text_hygiene.py + knowledge/METHODOLOGY_ASSETS.md E544",
  "status": "product-closeout",
  "sync": {
@@ -1127,9 +1134,9 @@
  },
  "task": "r1607: the premium-persistence face now names the session it prices and evicts a leg whose bar is not the ticket's -- the page stops calling (session None) 'today'",
  "total_ram_gb": 23.9,
- "ts": "2026-11-13T03:18:27+08:00",
- "updated": "2026-11-13T03:18:27+08:00",
- "updated_at": "2026-11-13T03:18:27+08:00",
+ "ts": "2026-11-13T03:27:43+08:00",
+ "updated": "2026-11-13T03:27:43+08:00",
+ "updated_at": "2026-11-13T03:27:43+08:00",
  "verdict": "py_low_board_clear",
  "verify": "premium_persistence selftest 34/34 + check CHECK_OK (4 new re-derive legs) + etf_book_order --selftest 189/189 (leg65b/65c, mutant proves the marker is load-bearing) + real face re-read (session 2026-11-12 from base_bar) + real page line 190 + s6 --only 4/4 rc0 + s05_probe rc0 + attrition 4 ledgers CLEAN",
  "verify_smoke": "full suite r1595b in flight at close (pid 60700): 417 lines, 402 PASS, 0 FAIL; suite not closed this round",
