@@ -1,0 +1,29 @@
+{
+ "face": "face_input_staleness",
+ "generated": "2026-11-12T20:55:21+08:00",
+ "compared": 1,
+ "stale": [],
+ "unreadable": [],
+ "pairs": [
+  {
+   "derived": "results/etf_book_cut_order_gap.json",
+   "derived_field": "generated",
+   "derived_stamp": "2026-11-12T20:35:24+08:00",
+   "derived_reason": "",
+   "why": "r1590: priced at 19:56, permission rewritten at 20:11, gap kept the old decision date",
+   "verdict": "FRESH",
+   "inputs": [
+    {
+     "input": "results/etf_book_rebalance_permission.json",
+     "input_field": "generated",
+     "input_stamp": "2026-11-12T20:11:52+08:00",
+     "input_reason": "",
+     "verdict": "FRESH",
+     "lag_sec": -1412.0
+    }
+   ]
+  }
+ ],
+ "verdict": "FRESH",
+ "law": "a face may quote the same bar as its input and still have been priced before that input was written"
+}

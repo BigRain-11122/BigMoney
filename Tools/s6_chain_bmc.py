@@ -703,19 +703,6 @@ LEGS = [
     # quotes it (r1318 ordering law). ~50s.
     ("etf_book_band_ruler", ["python", "scripts/etf_book_band_ruler.py", "check"],
      ["python", "scripts/etf_book_band_ruler.py", "run"]),
-    # r1289 (bm-a): two sections of the CEO page had a producer on disk and no leg in this
-    # list, so they could only be refreshed by a session that happened to remember them --
-    # the r1471 "read but never written" shape. `live_book_section_bars` named them as the
-    # page's only two unguarded sections, which is how they were found. Both scripts already
-    # answer their own `--check` with a self-consistent verdict (LOOKAHEAD_PRESENT 1.14pp/yr,
-    # MIXED_ACROSS_PHASES -0.01pp), so the check is a real no-op gate and the leg costs
-    # nothing on a round where the audit still holds. Runs BEFORE the page (r1318 order).
-    ("etf_book_lookahead_audit",
-     ["python", "scripts/etf_book_lookahead_audit.py", "--check"],
-     ["python", "scripts/etf_book_lookahead_audit.py", "run"]),
-    ("etf_book_universe_lock",
-     ["python", "scripts/etf_book_universe_lock.py", "--check"],
-     ["python", "scripts/etf_book_universe_lock.py", "run"]),
     # r1216: the band ruler said "three rows, three rulers" in a bullet under the table,
     # while row 1 kept printing the ticket's own 683-bar return under a 全窗 header. This
     # leg re-derives both windows of the operator's own book from the ruler's cells and
@@ -906,6 +893,14 @@ LEGS = [
     # producer-before-consumer rule as r1318 above; the smoke leg that compares the two faces
     # is the tripwire, and it went red on exactly this ordering.
     ("t35_open_fill_verify", ["python", "scripts/t35_open_fill_verify.py"]),
+    # r1591: two rounds on 2026-11-12 went on faces that quote the same business bar as
+    # their input but were priced *before* that input was rewritten -- next_decision
+    # answering from a permission face written by pre-rebase code, and cut_order_gap
+    # priced 19:56 against a permission face rewritten 20:11. Every freshness leg keys on
+    # the bar, so both read as current. This one compares the producers' own wall clock and
+    # treats a missing or unparseable stamp as UNREADABLE, never as fresh. It runs last so
+    # it judges the finished chain, and before build_status so the panel renders the verdict.
+    ("face_input_staleness", ["python", "Tools/face_input_staleness.py", "run"]),
     ("build_status", ["python", "-m", "monitor.build_status"]),
     ("token_meter", ["python", "scripts/token_meter.py"]),
     # O-20261026-0810-bm-a 4 handed this side the fix: the heartbeat carried 25 GPU
