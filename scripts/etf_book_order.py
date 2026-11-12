@@ -3571,7 +3571,7 @@ def _verdict(b):
 
 
 def pending_fill_md(pf, last_bar=None, last_cash=None, fills=None,
-                    cal_dates=None, today=None):
+                    cal_dates=None, today=None, sheet=None):
     """What fills at the next open, and why the last bar's cash is not that book.
 
     r1571: `book_in_force` (decided) and the bar row's `cash` (held during that bar) both
@@ -3617,7 +3617,10 @@ def pending_fill_md(pf, last_bar=None, last_cash=None, fills=None,
                   "- 出处：results/etf_book_forward/LEDGER.json `pending_fill`（生产者 "
                   "etf_book_forward.pending_fill；本页只读不算）"]
     fills = list(fills or [])
-    lines += ["", "### 已成交回执（换手真的发生了，钱也真的付了）"]
+    # r1590: this receipt is the ledger's own rule-based fill. Nothing was paid to a broker:
+    # the money column is the ledger charging itself a modelled cost. Saying "really paid"
+    # over a paper book is the same overclaim as reading a declaration as executed lots.
+    lines += ["", "### 已成交回执（账本按规则记的换仓：换手与成本都记在账本里，不是券商回单）"]
     if not fills:
         lines += ["- 本账本窗口内**没有任何已记录的成交**：首次决策在 "
                   "%s，成交落在它的下一根 bar。" % ((pf or {}).get("decided_bar") or "-")]
@@ -3628,6 +3631,23 @@ def pending_fill_md(pf, last_bar=None, last_cash=None, fills=None,
                             float(e.get("cost_bp_of_nav") or 0.0),
                             ("，CNY %s" % format(int(round(float(e["cost_cny"]))), ","))
                             if e.get("cost_cny") is not None else ""))
+        # r1590: the roster inside a fill belongs to the book the LEDGER holds; the sheet
+        # printed above may be a quota-trimmed book. On 2026-11-12 the receipt said 12 names
+        # turned over while the sheet listed 5 -- both true, one page, no sentence between.
+        _last = fills[-1]
+        _ro = _last.get("roster") or {}
+        _led = [str(x) for x in (list(_ro.get("entered") or []) + list(_ro.get("kept") or []))]
+        _sh = [str(o.get("symbol")) for o in ((sheet or {}).get("order") or [])]
+        if _led and _sh:
+            _only_led = sorted(set(_led) - set(_sh))
+            _only_sh = sorted(set(_sh) - set(_led))
+            if _only_led or _only_sh:
+                lines.append(
+                    "- **这条回执不是这张单的成交**：账本在 %s 换的是 **%d 名**那本书，本单清单是 "
+                    "**%d 名**（重合 %d 名；只在账本里 %d 名，只在本单 %d 名）。两边都是真面——回执"
+                    "证明账本那一侧按规则换过，本单一侧仍要按自己的清单去成交。"
+                    % (_last.get("bar") or "-", len(_led), len(_sh),
+                       len(set(_led) & set(_sh)), len(_only_led), len(_only_sh)))
     return lines + [""]
 
 
@@ -3839,7 +3859,8 @@ def card_config_card(tk, width=None, ruler=None):
              float(rc.get("ledger_last_nav") or 0.0), rc.get("ledger_status") or "未知"), ""]
     L += pending_fill_md(rc.get("ledger_pending"), rc.get("ledger_last_bar"),
                          rc.get("ledger_last_cash"), rc.get("ledger_fills"),
-                         CA.load_calendar(), pd.Timestamp.now().strftime("%Y-%m-%d"))
+                         CA.load_calendar(), pd.Timestamp.now().strftime("%Y-%m-%d"),
+                         sheet={"order": tk.get("order") or []})
     L += admission_md(rc.get("admission"), rc.get("ledger_last_bar"))
     L += restatement_md({"readable": rc.get("restatements_readable"),
                          "path": rc.get("ledger_source"),
@@ -6220,6 +6241,26 @@ def selftest():
             _md_receipt.splitlines()[-2] if len(_md_receipt.splitlines()) > 1 else _md_receipt)
         chk("leg70 an empty receipt says there has been no recorded fill, not a blank",
             "没有任何已记录的成交" in _md_none and "没有任何已记录的成交" in _md_pf)
+        # r1590: the receipt's roster is the LEDGER's book. A sheet that lists a different,
+        # quota-trimmed book must not read the receipt as its own fill (2026-11-12: 12 vs 5).
+        _fill_roster = {"bar": "2026-11-12", "turnover": 1.2598, "cost_bp_of_nav": 12.6,
+                        "cost_cny": 1273.67,
+                        "roster": {"entered": ["AAA", "BBB", "CCC"], "kept": ["DDD"],
+                                   "exited": ["EEE"], "n_before": 2, "n_after": 4}}
+        _sheet_other = {"order": [{"symbol": "AAA"}, {"symbol": "DDD"}, {"symbol": "ZZZ"}]}
+        _md_split = "\n".join(pending_fill_md(_pf_date, "2026-11-11", 0.2992,
+                                              fills=[_fill_roster], sheet=_sheet_other))
+        chk("leg71 a receipt for another book is named as such, with both name counts",
+            "这条回执不是这张单的成交" in _md_split and "**4 名**" in _md_split
+            and "**3 名**" in _md_split and "重合 2 名" in _md_split,
+            [ln for ln in _md_split.splitlines() if "回执" in ln][-1:])
+        _sheet_same = {"order": [{"symbol": s} for s in ("AAA", "BBB", "CCC", "DDD")]}
+        _md_same = "\n".join(pending_fill_md(_pf_date, "2026-11-11", 0.2992,
+                                             fills=[_fill_roster], sheet=_sheet_same))
+        chk("leg72 the same book prints no divergence sentence",
+            "这条回执不是这张单的成交" not in _md_same and "4 名**" not in _md_same)
+        chk("leg73 the receipt never claims real money was paid (it is the ledger's own charge)",
+            "钱也真的付了" not in _md_receipt and "不是券商回单" in _md_receipt)
 
     # legA-D (r1572): the sheet must state the gate's decision, and must never read
     # "no gate face" / "book not in the gate" as a pass. Fixtures write their own gate
