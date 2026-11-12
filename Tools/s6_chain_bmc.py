@@ -1323,6 +1323,12 @@ LEGS = [
     # receipt the refresh just left behind.
     ("vt_ladder", ["python", "scripts/etf_book_vt_ladder.py", "refresh"]),
     ("vt_ladder_check", ["python", "scripts/etf_book_vt_ladder.py", "check"]),
+    # r1614: the ladder's answer is one calendar's answer. Four decision phases through
+    # the production engine decide whether a rung can be adopted at all -- and the same
+    # reader/writer split applies (r1594/r1471): `refresh` reprices only when the panel
+    # moved past the receipt's own evidence_cutoff, `check` grades what it left behind.
+    ("vt_phases", ["python", "scripts/etf_book_vt_phases.py", "refresh"]),
+    ("vt_phases_check", ["python", "scripts/etf_book_vt_phases.py", "check"]),
     # r1447: the horizontal question above ("is the running weight the graded rule's
     # weight") has a vertical twin -- DEFAULT_BETA is a literal, so the weight is
     # k = target/beta and the target could have been any point on a ladder. This leg

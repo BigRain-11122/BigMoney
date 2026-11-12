@@ -692,6 +692,95 @@
   },
   "path": "results\\etf_book_vt_ladder\\VT-LADDER.json"
  },
+ "vt_phases": {
+  "status": "ok",
+  "readable": true,
+  "evidence_cutoff": "2026-11-12",
+  "answer": {
+   "answer": "NO_RUNG_SURVIVES",
+   "detail": "every rung is refused on at least one phase"
+  },
+  "phases": [
+   "2020-01-02",
+   "2020-01-09",
+   "2020-01-16",
+   "2020-01-23"
+  ],
+  "line": 0.7,
+  "books": [
+   {
+    "rung": "none",
+    "phases": 4,
+    "pass_phases": 2,
+    "top2_min": 0.6785,
+    "top2_max": 0.777,
+    "spread": 0.0985,
+    "margin_to_line": -0.077,
+    "verdict": "PHASE_DEPENDENT"
+   },
+   {
+    "rung": "vt08",
+    "phases": 4,
+    "pass_phases": 0,
+    "top2_min": 0.7007,
+    "top2_max": 0.8659,
+    "spread": 0.1652,
+    "margin_to_line": -0.1659,
+    "verdict": "PHASE_DEPENDENT"
+   },
+   {
+    "rung": "vt10",
+    "phases": 4,
+    "pass_phases": 0,
+    "top2_min": 0.7143,
+    "top2_max": 0.8788,
+    "spread": 0.1645,
+    "margin_to_line": -0.1788,
+    "verdict": "PHASE_DEPENDENT"
+   },
+   {
+    "rung": "vt12",
+    "phases": 4,
+    "pass_phases": 0,
+    "top2_min": 0.7097,
+    "top2_max": 0.8778,
+    "spread": 0.1681,
+    "margin_to_line": -0.1778,
+    "verdict": "PHASE_DEPENDENT"
+   },
+   {
+    "rung": "vt15",
+    "phases": 4,
+    "pass_phases": 1,
+    "top2_min": 0.6702,
+    "top2_max": 0.8415,
+    "spread": 0.1713,
+    "margin_to_line": -0.1415,
+    "verdict": "PHASE_DEPENDENT"
+   },
+   {
+    "rung": "vt20",
+    "phases": 4,
+    "pass_phases": 2,
+    "top2_min": 0.6646,
+    "top2_max": 0.7966,
+    "spread": 0.132,
+    "margin_to_line": -0.0966,
+    "verdict": "PHASE_DEPENDENT"
+   },
+   {
+    "rung": "vt25",
+    "phases": 4,
+    "pass_phases": 2,
+    "top2_min": 0.6766,
+    "top2_max": 0.7871,
+    "spread": 0.1105,
+    "margin_to_line": -0.0871,
+    "verdict": "PHASE_DEPENDENT"
+   }
+  ],
+  "path": "results\\etf_book_vt_phases\\VT-PHASES.json"
+ },
  "fill": {
   "status": "ok",
   "source": "results\\etf_book_forward\\LEDGER.json",
@@ -6708,8 +6797,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 9.8,
+  "owner_silent_h": 10.2,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 9.8 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 10.2 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

@@ -101,6 +101,7 @@ POSITIONS_JSON = os.path.join(ROOT, "results", "etf_book_positions.json")
 FLOOR_PROVENANCE_JSON = os.path.join(ROOT, "results", "etf_book_floor_provenance.json")
 VOL_TARGET_GATE_JSON = os.path.join(ROOT, "results", "etf_book_vol_target_gate.json")
 VT_LADDER_JSON = os.path.join(ROOT, "results", "etf_book_vt_ladder", "VT-LADDER.json")
+VT_PHASES_JSON = os.path.join(ROOT, "results", "etf_book_vt_phases", "VT-PHASES.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -5194,8 +5195,86 @@ def vt_ladder_face(path=VT_LADDER_JSON, page_bar=None):
             "path": _rel(path)}
 
 
+def vt_phases_face(path=VT_PHASES_JSON):
+    """r1614: the ladder's answer is ONE calendar's answer.
+
+    r1613 put the rung sweep on this page, and its headline -- "vt15 clears every
+    frozen check" -- is true of the decision grid that sweep used. r1325 (E188: run a
+    path test before adopting a rule) exists because that grid is a choice, not a fact:
+    shifting the grid start a few bars inside one rebalance cycle changes which days the
+    book decides. So the same seven rungs were priced on four phases, and this face
+    reports what the page needs to stop implying an adoption it never tested.
+    """
+    try:
+        d = _load(path)
+    except Exception:
+        d = None
+    if not d or not (d.get("books") or []):
+        return {"status": "unreadable", "readable": False, "why": "no phase cells"}
+
+    books = []
+    for b in d["books"]:
+        j = b.get("judgement") or {}
+        books.append({"rung": b.get("rung"),
+                      "phases": j.get("phases"),
+                      "pass_phases": j.get("pass_phases"),
+                      "top2_min": j.get("top2_min"),
+                      "top2_max": j.get("top2_max"),
+                      "spread": j.get("spread"),
+                      "margin_to_line": j.get("margin_to_line"),
+                      "verdict": j.get("verdict")})
+    return {"status": "ok", "readable": True,
+            "evidence_cutoff": d.get("evidence_cutoff"),
+            "answer": d.get("answer") or {},
+            "phases": d.get("phases") or [],
+            "line": (d.get("gate_rules") or {}).get("top2_share_max"),
+            "books": books,
+            "path": _rel(path)}
+
+
+def vt_phases_block(vp):
+    head = ["## 同一个闸，四条决策日历", ""]
+    vp = vp or {}
+    if not vp.get("readable"):
+        return head + ["- **无法核验**：相位面读不出来。缺这一行不等于「换档已经试过了」。", ""]
+    books = vp.get("books") or []
+    out = list(head)
+    ans = vp.get("answer") or {}
+    survivors = [b["rung"] for b in books if b.get("verdict") == "ADOPTABLE"]
+    if survivors:
+        out.append("- 四条日历上都过闸、且余量宽于相位噪声的档：**%s**" % "、".join(survivors))
+    else:
+        out.append("- 上面那七个档，把决策日历的起点在同一周期里挪几根 bar 就**每一档都至少有一条日历被拒**"
+                   "（%d 档 / %d 条日历）——闸没变，变的是从哪天开始做决定。"
+                   % (len(books), len(vp.get("phases") or [])))
+    # The widest phase swing is the reading that decides this section: a rung whose own
+    # calendar noise dwarfs its distance to the line cannot be adopted no matter what the
+    # single-calendar verdict said.
+    wide = max((b for b in books if b.get("spread") is not None and b.get("margin_to_line") is not None),
+               key=lambda b: b["spread"], default=None)
+    if wide:
+        _mg = wide["margin_to_line"]
+        _mg_say = ("最差的那条日历仍在线内 %.2fpp"
+                   % (_mg * 100) if _mg >= 0 else
+                   "最差的那条日历超出闸线 %.2fpp" % (abs(_mg) * 100))
+        out.append("- 最宽的一档 %s：同一本账的 top-2 年在 **%.2f%%～%.2f%%** 之间（相位极差 %.2fpp），"
+                   "闸线 %.0f%%，%s —— 所以「哪一档清门」由日历起点决定，"
+                   "不由波动目标决定。"
+                   % (wide["rung"], wide["top2_min"] * 100, wide["top2_max"] * 100,
+                      wide["spread"] * 100, (vp.get("line") or 0.70) * 100, _mg_say))
+    per = "；".join("%s %s/4" % (b["rung"], b.get("pass_phases")) for b in books[:7])
+    out.append("- 逐档过闸条数：%s" % per)
+    out.append("- 读法：这是**科学债**不是缺活——换档解决不了这条路径；要「能拿新钱」，"
+               "要么接受满仓书、要么换一条判据面以外的新路径。")
+    out.append("- 数据到 %s（相位面 evidence_cutoff，非本页 bar），出处 %s"
+               % (vp.get("evidence_cutoff") or "未标注", vp.get("path") or "?"))
+    out.append("")
+    return out
+
+
 def vt_ladder_block(vl):
     head = ["## 换档扫描（同一个闸，七个档）", ""]
+
     vl = vl or {}
     if not vl.get("readable"):
         return head + ["- **无法核验**：档位面读不出来。缺这一行不等于「没有别的档能过闸」。", ""]
@@ -5633,6 +5712,9 @@ def build(with_stress=False, window_label=None):
     # another rung could pass belongs beside it, or the reader cannot tell "no legal rung"
     # from "nobody looked".
     page["vt_ladder"] = vt_ladder_face()
+    # r1614: the ladder answers on ONE decision grid. Four grids, same gate, is what
+    # decides whether that answer can be adopted -- or whether the calendar chose it.
+    page["vt_phases"] = vt_phases_face()
     # r1572: the page must also say what the ledger has already committed to at the next
     # open, and what the trades it made actually cost -- the table below is the target
     # book, not the book on the account.
@@ -5826,6 +5908,10 @@ def render_md(p, sb=None):
         add(_adm_line)
     for _vl_line in vt_ladder_block(p.get("vt_ladder") or {}):
         add(_vl_line)
+    # r1614: right after the ladder, because it is a condition on the ladder's answer --
+    # a rung that clears on one calendar and fails on three is not a rung to adopt.
+    for _vp_line in vt_phases_block(p.get("vt_phases") or {}):
+        add(_vp_line)
     # r1572: a condition on the list, like the admission above it -- what fills at the
     # next open is not in the table below, and a reader who stops at the table never
     # learns that the account is about to hold a different exposure.
@@ -9466,6 +9552,53 @@ def selftest():
         not _vl_miss["readable"]
         and "不等于「没有别的档能过闸」" in "\n".join(vt_ladder_block(_vl_miss)),
         _vl_miss.get("why") or "")
+    # ---- r1614: the ladder answers on ONE calendar (path test before adoption) ------------
+    _vp_path = os.path.join(_adm_dir, "VT-PHASES.json")
+    with open(_vp_path, "w", encoding="utf-8") as _fh:
+        json.dump({"face": "etf_book_vt_phases", "evidence_cutoff": "2026-11-12",
+                   "hero": "four phases, one gate",
+                   "gate_rules": {"top2_share_max": 0.70},
+                   "phases": ["2020-01-02", "2020-01-09", "2020-01-16", "2020-01-23"],
+                   "answer": {"answer": "NO_RUNG_SURVIVES",
+                              "detail": "every rung is refused on at least one phase"},
+                   "books": [
+                       {"rung": "vt15", "judgement": {
+                           "phases": 4, "pass_phases": 1, "top2_min": 0.6702,
+                           "top2_max": 0.8415, "spread": 0.1713,
+                           "margin_to_line": -0.1415, "verdict": "PHASE_DEPENDENT"}},
+                       {"rung": "vt20", "judgement": {
+                           "phases": 4, "pass_phases": 2, "top2_min": 0.6646,
+                           "top2_max": 0.7966, "spread": 0.1320,
+                           "margin_to_line": -0.0966, "verdict": "PHASE_DEPENDENT"}}]}, _fh)
+    _vp = vt_phases_face(path=_vp_path)
+    chk("L210 phases: the pass count per rung is copied off the face, not recomputed here",
+        _vp["readable"] and [(b["rung"], b["pass_phases"]) for b in _vp["books"]]
+        == [("vt15", 1), ("vt20", 2)], str([(b["rung"], b["pass_phases"]) for b in _vp["books"]]))
+    _vp_md = "\n".join(vt_phases_block(_vp))
+    chk("L211 phases: the page says every rung loses at least one calendar, and names the widest",
+        "每一档都至少有一条日历被拒" in _vp_md and "vt15" in _vp_md
+        and "17.13pp" in _vp_md and "科学债" in _vp_md, _vp_md[:100])
+    _vp_miss = vt_phases_face(path=os.path.join(_adm_dir, "nope-vp.json"))
+    chk("L212 phases: an unreadable phase face cannot be read as 'the ladder was tested'",
+        not _vp_miss["readable"]
+        and "不等于「换档已经试过了」" in "\n".join(vt_phases_block(_vp_miss)),
+        _vp_miss.get("why") or "")
+    # the sign of the margin decides the sentence: a negative margin has already crossed
+    # the line, so saying "only 14pp short" would describe the opposite situation.
+    _vp_neg = {"readable": True, "line": 0.70, "phases": ["a", "b"],
+               "answer": {"answer": "NO_RUNG_SURVIVES"},
+               "books": [{"rung": "x", "pass_phases": 1, "phases": 2, "top2_min": 0.67,
+                          "top2_max": 0.84, "spread": 0.17, "margin_to_line": -0.14,
+                          "verdict": "PHASE_DEPENDENT"}]}
+    _vp_pos = {"readable": True, "line": 0.70, "phases": ["a", "b"],
+               "answer": {"answer": "RUNG_SURVIVES_PATH_TEST"},
+               "books": [{"rung": "y", "pass_phases": 2, "phases": 2, "top2_min": 0.60,
+                          "top2_max": 0.62, "spread": 0.02, "margin_to_line": 0.08,
+                          "verdict": "ADOPTABLE"}]}
+    chk("L213 phases: the margin's sign picks the sentence (crossed vs still inside)",
+        "超出闸线 14.00pp" in "\n".join(vt_phases_block(_vp_neg))
+        and "仍在线内 8.00pp" in "\n".join(vt_phases_block(_vp_pos)),
+        "\n".join(vt_phases_block(_vp_neg))[:120])
     # ---- r1572: the promise the ledger made, and the receipt for the fills already paid ---
     _fill_led = os.path.join(_adm_dir, "LEDGER-fill.json")
     _fill_doc = {"seed": {"bar": "2026-10-23", "capital_cny": 1_000_000.0},
