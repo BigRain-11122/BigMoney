@@ -13538,3 +13538,25 @@ bar 找同名面（`same_bar_positions`：`asof` 与 `ticket_bar` 都等于票�
 
 How：①`check`-only 的腿在接链那一轮就要有写者，否则它量的是上一根 bar 的运气；②一张面里两个日期
 字段，任何守卫先问自己比的是「行」还是「下一张单的起点」；③同名面只在 bar 完全相等时替换。
+
+### E569 · 写者排在「判官」之前不等于排在「会把它抄进去的那张面」之前（r1587 bm-c）
+
+S6 链里 `premium_percentile` 只有 `check` 腿、排在 `etf_book_order` 之后约 1,000 步。平时看不出问题：
+两张面都在同一根 bar 上。但每回 `etf_premium` 把 `premium_history.csv` 写长一行，票面就在这一天
+**内嵌**了昨天的分位块，而 `check` 随后拿「本次会话发布的面」去对票面那份 —— 红成
+`stale ticket` + 4 处分位不符（2026-11-12 实测：ticket 11-11 vs face 11-12）。
+
+病根不在判词：**票面把分位块抄进了自己**，所以它既是读者又是消费者；把写者排在判官前面，
+只保住「判官看到的是新面」，保不住「纸上的那块是新面」。E240/E477/E568 同族第四次，这次坏在
+「嵌入」这一层。
+
+正法＝写者进链且排在**嵌入者**之前：`("premium_percentile_write", ["python",
+"scripts/etf_book_premium_percentile.py", "--no-fetch", "run"])` 紧贴在 `etf_book_order` 前；
+smoke 加两条：写者在判官前 + 写者在**票面前**（`_pf.index(...) < _pf.index("etf_book_order")`）。
+
+实测：同一天重跑 → `etf_book_order run` rc0（票面重生成）、`premium_percentile --no-fetch check`
+`OK (5 legs, 6486 observations)` rc0、票面内嵌块 `face_asof=2026-11-12 / stale=false`。
+
+How：①接新面先问「谁会把它抄进别的纸」（票面/卡片/回执都算消费者），写者要对齐的是那个消费者；
+②写者位置一律写 `writer.index < embedder.index < judge.index`，缺一条就早晚会红；
+③同一缺陷第 4 次出现时，补的不是这一条腿，而是「嵌入者」这个类别本身。

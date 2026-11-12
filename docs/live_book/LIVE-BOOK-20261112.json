@@ -5562,24 +5562,24 @@
   "stale": false,
   "verdict": "HIGH_PREMIUM_PAYS",
   "horizon": 20,
-  "sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=264, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.35% (mean +0.40%, fell in 33% of 135 cases); today's legs in that band: 159655 98.8 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
+  "sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=265, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band today || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
   "caveat": "five legs of one ticket: this is a description of these funds' own records, not a cross-sectional study and not a forecast. Overlapping windows are counted once per stride in the t-stat and reported in full only as coverage.",
   "rows": [
    {
     "symbol": "510760",
-    "bucket": "MID",
-    "latest_pctile": 63.89819156061621,
-    "mean_pct": 0.18839243500050093,
-    "n": 590,
-    "t": 1.1436214480874844,
+    "bucket": "LOW",
+    "latest_pctile": 13.453815261044177,
+    "mean_pct": 0.5223345213939685,
+    "n": 262,
+    "t": 1.9314301221169548,
     "nonoverlap_obs": 71,
     "amount_cny": 86377.2,
-    "same_bucket_move_cny": 162.7281103652527
+    "same_bucket_move_cny": 451.177934213511
    },
    {
     "symbol": "512040",
     "bucket": "LOW",
-    "latest_pctile": 24.330005254860747,
+    "latest_pctile": 13.707983193277311,
     "mean_pct": 0.3792060133771917,
     "n": 353,
     "t": 1.087252826971886,
@@ -5590,18 +5590,18 @@
    {
     "symbol": "159655",
     "bucket": "TOP",
-    "latest_pctile": 98.77675840978593,
-    "mean_pct": 0.25477037045744005,
-    "n": 264,
-    "t": 0.9304860705054543,
+    "latest_pctile": 95.72301425661914,
+    "mean_pct": 0.25324350056948697,
+    "n": 265,
+    "t": 0.9284051146351501,
     "nonoverlap_obs": 46,
     "amount_cny": 86356.8,
-    "same_bucket_move_cny": 220.0115392751906
+    "same_bucket_move_cny": 218.6929832997907
    },
    {
     "symbol": "513690",
     "bucket": "LOW",
-    "latest_pctile": 20.406626506024097,
+    "latest_pctile": 21.068472535741158,
     "mean_pct": 0.5286904350189094,
     "n": 222,
     "t": 1.3832784155035334,
@@ -5611,18 +5611,18 @@
    },
    {
     "symbol": "159519",
-    "bucket": "LOW",
-    "latest_pctile": 15.95330739299611,
-    "mean_pct": 1.3826701483456063,
-    "n": 171,
-    "t": 4.536022614746311,
+    "bucket": "BOTTOM",
+    "latest_pctile": 6.7357512953367875,
+    "mean_pct": 2.08316783553162,
+    "n": 106,
+    "t": 3.898472601386381,
     "nonoverlap_obs": 35,
     "amount_cny": 86403.2,
-    "same_bucket_move_cny": 1194.671253615351
+    "same_bucket_move_cny": 1799.9236712700565
    }
   ],
   "missing_legs": [],
-  "cny_total": 2361.49,
+  "cny_total": 3253.87,
   "sample_signature": "3600c87ce854",
   "sample_legs": [
    "159519",
@@ -5902,7 +5902,7 @@
   "unexplained": [],
   "unexplained_total_cny": 0,
   "unexplained_unpriced_rows": 0,
-  "ledger_action": "updated",
+  "ledger_action": "kept",
   "ledger_row": {
    "bar": "2026-11-12",
    "kind": "execution",
@@ -6676,8 +6676,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 40.5,
+  "owner_silent_h": 41.4,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 40.5 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 41.4 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

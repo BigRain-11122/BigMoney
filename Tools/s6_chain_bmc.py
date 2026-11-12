@@ -321,6 +321,15 @@ LEGS = [
     # became the base" failure r1471's guard refuses to print. Write it first, check it below.
     ("positions_ledger_write",
      ["python", "scripts/etf_book_positions.py", "run"]),
+    # r1587: the ticket embeds its own percentile block and `premium_percentile`'s
+    # ticket-check demands it be the face THIS session published -- but the percentile face
+    # only had a `check` leg ~1000 legs later, so every first cycle after `etf_premium`
+    # grew premium_history.csv the ticket read yesterday's face and the leg went red with
+    # "stale ticket" + four percentile mismatches (2026-11-12: ticket 11-11 vs face 11-12).
+    # Writer before reader, same class as r1561/r1585. `run` is a 22s local NAV re-pull in
+    # its own round; here it is the cheap face rebuild off the CSV already on disk.
+    ("premium_percentile_write",
+     ["python", "scripts/etf_book_premium_percentile.py", "--no-fetch", "run"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
     # r1283: the face above publishes ONE bar twice -- the pre-trade book marked at this
     # bar's closes (accrual.last) and the post-trade book at the same closes (ledger_row) --

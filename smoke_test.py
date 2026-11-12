@@ -4190,10 +4190,19 @@ def main() -> int:
     try:
         _pf = [t[0] for t in importlib.import_module("Tools.s6_chain_bmc").LEGS]
         for _w, _c2 in (("premium_forward_write", "premium_forward"),
-                        ("premium_persistence_write", "premium_persistence")):
+                        ("premium_persistence_write", "premium_persistence"),
+                        ("premium_percentile_write", "premium_percentile")):
             check("product: the premium face is re-derived before it is judged (%s)" % _c2,
                   _w in _pf and _pf.index(_w) < _pf.index(_c2),
                   "write_present=%s check_present=%s" % (_w in _pf, _c2 in _pf))
+        # r1587: the ticket EMBEDS the percentile block and ticket-check demands it be the
+        # face this session published, so the percentile face has to be rebuilt before the
+        # sheet is written -- not merely before it is judged.
+        check("product: the percentile face is rebuilt before the ticket embeds it",
+              "premium_percentile_write" in _pf and "etf_book_order" in _pf
+              and _pf.index("premium_percentile_write") < _pf.index("etf_book_order"),
+              "write=%d order=%d" % (_pf.index("premium_percentile_write"),
+                                     _pf.index("etf_book_order")))
     except Exception as e:
         check("product: the premium face is re-derived before it is judged", False, str(e))
     try:
