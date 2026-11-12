@@ -1,28 +1,50 @@
 {
- "evidence_cutoff": "2026-11-06",
+ "evidence_cutoff": "2026-11-11",
  "clock": {
   "cell": "RED_COOL",
-  "asof": "2026-11-06",
+  "asof": "2026-11-11",
   "regime_state": "RED",
   "regime_asof": "2026-11-11",
   "days_in_state": 6
  },
  "ladder_cap": 0.2,
+ "ladder_rule": "REGIME_GUARD v3 政体阶梯（RED 20%/ORANGE 50%/YELLOW 65%/GREEN 80%/GREEN×HOT 95%）",
+ "engine": {
+  "rule": "风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）",
+  "as_of": "2026-11-11",
+  "close": 4.15,
+  "ma250": 4.678,
+  "dd_from_250d_high": -0.1848,
+  "below_ma250": true,
+  "is_major_bear": false,
+  "position_cap": 0.8
+ },
  "cap_sources": {
-  "verdict": "CAP_SOURCES_DISAGREE",
+  "verdict": "CAP_SOURCES_AGREE",
   "ladder_cap": 0.2,
+  "ladder_rule": "REGIME_GUARD v3 政体阶梯（RED 20%/ORANGE 50%/YELLOW 65%/GREEN 80%/GREEN×HOT 95%）",
   "n_agree": 1,
-  "n_disagree": 1,
+  "n_disagree": 0,
+  "n_other_rule": 1,
+  "other_rules": [
+   {
+    "source": "paper_engine",
+    "cap": 0.8,
+    "rule": "风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）"
+   }
+  ],
   "rows": [
    {
     "source": "market_clock",
     "cap": 0.2,
+    "rule": "REGIME_GUARD v3 政体阶梯（RED 20%/ORANGE 50%/YELLOW 65%/GREEN 80%/GREEN×HOT 95%）",
     "status": "agrees"
    },
    {
     "source": "paper_engine",
     "cap": 0.8,
-    "status": "disagrees"
+    "rule": "风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）",
+    "status": "other_rule"
    }
   ]
  },
@@ -105,13 +127,57 @@
    "multiple_of_cap": 0.0
   }
  ],
+ "under_engine": {
+  "cap": 0.8,
+  "n_compared": 6,
+  "n_above": 1,
+  "worst_above": {
+   "name": "COMPOSITE-CE-01",
+   "deployed_weight": 0.8616,
+   "gap_pp": 6.16
+  },
+  "rule": "风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）",
+  "verdict": "ABOVE_CAP"
+ },
+ "last_day_moves": {
+  "date": "2026-11-11",
+  "prev_date": "2026-11-10",
+  "accounts": {
+   "COMPOSITE-CE-01": {
+    "prev_weight": 0.6691,
+    "entries": [
+     "513500"
+    ]
+   },
+   "COMPOSITE-CE-02": {
+    "prev_weight": 0.7862,
+    "entries": []
+   },
+   "DROUGHT-CE-01": {
+    "prev_weight": 0.0,
+    "entries": []
+   },
+   "ENGULF-CE-01": {
+    "prev_weight": 0.0647,
+    "entries": []
+   },
+   "NEEDLE-DE-01": {
+    "prev_weight": 0.0,
+    "entries": []
+   },
+   "VOLATILITY-CE-01": {
+    "prev_weight": 0.4006,
+    "entries": []
+   }
+  }
+ },
  "verdict": {
-  "cap": "CAP_SOURCES_DISAGREE",
+  "cap": "CAP_SOURCES_AGREE",
   "book": "ABOVE_CAP",
   "n_compared": 6,
   "n_above": 3
  },
- "sentence": "Market state RED caps new risk at 20% of equity. The cap sources disagree (paper_engine) -- read the gap as unresolved. 3 of 6 ladder-governed accounts sit above it; the widest is COMPOSITE-CE-01 at 86.2% (66.2pp over, 4.31x the cap). Those positions predate the state flip, so the cap gates new entries rather than forcing a sale.",
+ "sentence": "市场状态 RED 把新增风险的股票敞口压在上限 20%。（账户文件里另写着 80%（paper_engine），那是另一条规则——风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）——不是同一顶帽子的矛盾读数。） 3/6 个阶梯管辖账户站在帽子上方；最高的是 COMPOSITE-CE-01，仓位 86.2%（超 66.2pp，是帽子的 4.31 倍）。该户上一交易日 66.9%；当日有 1 笔新开仓（513500）。帽子只挡新开仓，并不强制卖出。按铁律 2 的 80% 单户总仓位帽重判：还有 1/6 户在上方（最高 COMPOSITE-CE-01 仓位 86.2%，超 6.2pp）。",
  "engine_caps_seen": {
   "COMPOSITE-CE-01_paper.json": 0.8,
   "COMPOSITE-CE-02_paper.json": 0.8,

@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-12",
- "generated": "2026-11-12T12:19:21",
+ "generated": "2026-11-12T14:45:30",
  "market": {
   "state": "RED",
   "asof": "2026-11-11",
@@ -365,9 +365,9 @@
  "cap_vs_book": {
   "status": "ok",
   "source": "results/regime_cap_vs_book.json",
-  "sentence": "Market state RED caps new risk at 20% of equity. The cap sources disagree (paper_engine) -- read the gap as unresolved. 3 of 6 ladder-governed accounts sit above it; the widest is COMPOSITE-CE-01 at 86.2% (66.2pp over, 4.31x the cap). Those positions predate the state flip, so the cap gates new entries rather than forcing a sale.",
+  "sentence": "市场状态 RED 把新增风险的股票敞口压在上限 20%。（账户文件里另写着 80%（paper_engine），那是另一条规则——风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）——不是同一顶帽子的矛盾读数。） 3/6 个阶梯管辖账户站在帽子上方；最高的是 COMPOSITE-CE-01，仓位 86.2%（超 66.2pp，是帽子的 4.31 倍）。该户上一交易日 66.9%；当日有 1 笔新开仓（513500）。帽子只挡新开仓，并不强制卖出。按铁律 2 的 80% 单户总仓位帽重判：还有 1/6 户在上方（最高 COMPOSITE-CE-01 仓位 86.2%，超 6.2pp）。",
   "cap": 0.2,
-  "cap_verdict": "CAP_SOURCES_DISAGREE",
+  "cap_verdict": "CAP_SOURCES_AGREE",
   "book_verdict": "ABOVE_CAP",
   "n_compared": 6,
   "n_above": 3,
@@ -416,7 +416,7 @@
     "latest_close": 2.898,
     "prev_session_close": 2.882,
     "day_change_pct": 0.56,
-    "age_min": 49.4
+    "age_min": 195.5
    },
    {
     "symbol": "511010",
@@ -526,7 +526,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 52017.6
+    "last_append_age_min": 52163.7
    },
    {
     "family": "FUND-VALUE-P1",
@@ -534,7 +534,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 52862.0
+    "last_append_age_min": 53008.2
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -542,7 +542,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 49655.4
+    "last_append_age_min": 49801.5
    }
   ]
  },

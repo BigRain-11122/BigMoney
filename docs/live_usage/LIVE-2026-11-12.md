@@ -1,6 +1,6 @@
 # CEO 实盘使用一页纸 · 2026-11-12
 
-> 自动生成 2026-11-12T12:19:21 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+> 自动生成 2026-11-12T14:45:30 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ⓪ 本页新鲜度（先读这个）
 
@@ -27,7 +27,7 @@
 ## ② 仓位指令（阶梯总帽）
 
 - **当前态 RED → 股票敞口总帽 20%**
-- **这个帽子和下面的钱对过账**：Market state RED caps new risk at 20% of equity. The cap sources disagree (paper_engine) -- read the gap as unresolved. 3 of 6 ladder-governed accounts sit above it; the widest is COMPOSITE-CE-01 at 86.2% (66.2pp over, 4.31x the cap). Those positions predate the state flip, so the cap gates new entries rather than forcing a sale.
+- **这个帽子和下面的钱对过账**：市场状态 RED 把新增风险的股票敞口压在上限 20%。（账户文件里另写着 80%（paper_engine），那是另一条规则——风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）——不是同一顶帽子的矛盾读数。） 3/6 个阶梯管辖账户站在帽子上方；最高的是 COMPOSITE-CE-01，仓位 86.2%（超 66.2pp，是帽子的 4.31 倍）。该户上一交易日 66.9%；当日有 1 笔新开仓（513500）。帽子只挡新开仓，并不强制卖出。按铁律 2 的 80% 单户总仓位帽重判：还有 1/6 户在上方（最高 COMPOSITE-CE-01 仓位 86.2%，超 6.2pp）。
   - 超帽最多的是 COMPOSITE-CE-01：仓位 86.2%（超 66.2pp·4.31 倍帽）；本页账本（12 名·vol_target 8.0%）与执行单（5 名·beta_target 0.20）两本列在同一张表但不进裁决
 - 阶梯全表（冻结）：
   - RED：20% — 红色急跌/熔断态：股票敞口上限 20% ←当前
@@ -80,7 +80,7 @@
 ### 盘中档（T-104 分钟源·v1.4）
 - 最新 1m bar 2026-11-12 11:30:00（LIVE 0/3 员在流）
   - 159980：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
-  - 510050：2.898（+0.56%·LAGGED·bar 2026-11-12 11:30:00·lag 49.4min）
+  - 510050：2.898（+0.56%·LAGGED·bar 2026-11-12 11:30:00·lag 195.5min）
   - 511010：上一场收盘 140.684（上一场收盘档（今日 09:15 起随源点亮））
   - 511090：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
   - 511260：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
