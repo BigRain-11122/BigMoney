@@ -20,6 +20,20 @@ import sys
 import time
 from datetime import datetime
 
+# r1578: a leg's output must never be able to kill the chain that records it.
+# The runner is normally started with stdout redirected to a file, where Python
+# takes the ANSI code page (GBK on this host); one U+FFFD already in a leg's
+# output then raised UnicodeEncodeError inside the summary print and the round
+# lost the whole chain record (2026-11-12 11:16, leg `ladder_face` -- the run
+# died with no results/_r<round>bmc_s6_chain.json at all). Replacing a character
+# we cannot encode is always better than losing the evidence that the other
+# legs ran.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(errors="replace")
+    except Exception:
+        pass
+
 LEGS = [
     ("dualrun", ["python", "scripts/pool_dualrun_reconcile.py", "run"]),
     ("compute_audit", ["python", "scripts/compute_audit.py"]),

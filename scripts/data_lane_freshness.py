@@ -1107,6 +1107,60 @@ def cert_row_state(cert_row, board_row):
     return "current", full_tail, board_tail
 
 
+# r1578: how many official sessions a row may print a tail no full scan has
+# read. One generation of lag is the normal case -- a background refresh writes
+# a bar after this round's certify leg ran -- and it is disclosed, not failed.
+# An unbounded lag is the thing worth a red: the page would be quoting an
+# uncertified number for as long as nobody looked.
+CERT_MAX_STALE_SESSIONS = 5
+
+
+def cert_lag_sessions(full_tail, board_tail, days):
+    """Official sessions between the scanned tail and the tail the row prints."""
+    if not full_tail or not board_tail or not days:
+        return None
+    try:
+        return days.index(str(board_tail)) - days.index(str(full_tail))
+    except ValueError:
+        return None
+
+
+def attach_cert(report, days=None, cert=None):
+    """Publish, on every sampled row, which full scan backs the tail it prints.
+
+    r1578: the certification state existed only as a sentence inside the
+    markdown's "Tails read from a sample" section, so the JSON face -- the one
+    the dashboard and the gates read -- printed `panel_tail` with no record of
+    whether a full scan had ever read it. A sample tail is a claim about
+    thousands of files; a reader who cannot see its backing reads it as
+    certified. Counts (holders / files / share) are published ONLY when the scan
+    read the same tail this row prints, and a stale scan names both tails plus
+    the lag instead (r1494: its counts describe another panel state).
+    """
+    if cert is None:
+        cert = read_certification()
+    rows = (cert or {}).get("rows") or {}
+    as_of = (cert or {}).get("as_of")
+    n = 0
+    for r in report.get("lanes") or []:
+        if not (r.get("panel_read") or {}).get("files"):
+            continue
+        cr = rows.get(r["lane"])
+        state, full_tail, board_tail = cert_row_state(cr, r)
+        blk = {"state": state, "full_tail": full_tail, "board_tail": board_tail,
+               "certified_as_of": as_of,
+               "lag_sessions": cert_lag_sessions(full_tail, board_tail, days),
+               "max_stale_sessions": CERT_MAX_STALE_SESSIONS}
+        if state == "current" and cr:
+            blk.update({"holders": cr.get("tail_holders"),
+                        "files": cr.get("files"),
+                        "tail_holder_share": cr.get("tail_holder_share"),
+                        "thin_tail": bool(cr.get("thin_tail"))})
+        r["cert"] = blk
+        n += 1
+    return n
+
+
 def _holder_sentence(row, cert_row, cert_as_of):
     """One row's holder facts, or the honest reason they are not printed."""
     state, full_tail, board_tail = cert_row_state(cert_row, row)
@@ -1514,11 +1568,27 @@ def render_md(report, cert="auto"):
                      "says how many symbols were read out of how many.\n\n")
         cert_rows = {}
         cert_as_of = None
-        if cert == "auto":
-            cert = read_certification()
-        if isinstance(cert, dict):
-            cert_rows = cert.get("rows") or {}
-            cert_as_of = cert.get("as_of")
+        # r1578: when the rows carry their own certification (attach_cert in
+        # run()), the page quotes THAT one -- re-reading the file here would
+        # describe a scan the row was never checked against, which is the
+        # second-copy defect the row block exists to close.
+        _row_cert = {r["lane"]: r["cert"] for r in sampled
+                     if isinstance(r.get("cert"), dict)}
+        if _row_cert:
+            for _lane, _b in _row_cert.items():
+                cert_rows[_lane] = {
+                    "full_tail": _b.get("full_tail"),
+                    "tail_holders": _b.get("holders"),
+                    "files": _b.get("files"),
+                    "tail_holder_share": _b.get("tail_holder_share"),
+                    "thin_tail": _b.get("thin_tail")}
+            cert_as_of = next(iter(_row_cert.values())).get("certified_as_of")
+        else:
+            if cert == "auto":
+                cert = read_certification()
+            if isinstance(cert, dict):
+                cert_rows = cert.get("rows") or {}
+                cert_as_of = cert.get("as_of")
         for r in sampled:
             pr = r["panel_read"]
             tailnote += (f"- `{r['lane']}`: {pr.get('per_file')} of "
@@ -2467,6 +2537,42 @@ def selftest():
     print("[PASS] L34 the page and the gates share one certification predicate "
           "(current / stale / missing)", flush=True)
 
+    # L38 (r1578) the row publishes its own certification, and a stale scan
+    # never lends its counts to a tail it did not read. Before this leg the
+    # state existed only as a sentence in the markdown, so every JSON reader
+    # (dashboard, gates) saw a sampled tail that looked certified.
+    _days36 = ["2026-11-05", "2026-11-06", "2026-11-09", "2026-11-10",
+               "2026-11-11", "2026-11-12"]
+    _rep36 = {"lanes": [
+        {"lane": "cur_lane", "panel_tail": "2026-11-11",
+         "panel_read": {"files": 10, "per_file": 4, "sampled": True}},
+        {"lane": "old_lane", "panel_tail": "2026-11-12",
+         "panel_read": {"files": 10, "per_file": 4, "sampled": True}},
+        {"lane": "noread_lane", "tail": "2026-11-12"}]}
+    _cert36 = {"as_of": "2026-11-12T10:00:00", "rows": {
+        "cur_lane": {"full_tail": "2026-11-11", "tail_holders": 7, "files": 10,
+                     "tail_holder_share": 0.7, "thin_tail": False},
+        "old_lane": {"full_tail": "2026-11-06", "tail_holders": 9, "files": 10,
+                     "tail_holder_share": 0.9, "thin_tail": False}}}
+    _n36 = attach_cert(_rep36, _days36, _cert36)
+    _cur36 = _rep36["lanes"][0]["cert"]
+    _old36 = _rep36["lanes"][1]["cert"]
+    assert _n36 == 2, _n36                              # the unread row gets none
+    assert "cert" not in _rep36["lanes"][2], _rep36
+    assert _cur36["state"] == "current" and _cur36["holders"] == 7, _cur36
+    assert _cur36["lag_sessions"] == 0, _cur36
+    assert _old36["state"] == "stale", _old36
+    assert "holders" not in _old36 and "files" not in _old36, _old36
+    assert (_old36["full_tail"], _old36["board_tail"]) == ("2026-11-06",
+                                                           "2026-11-12"), _old36
+    assert _old36["lag_sessions"] == 4, _old36          # 11-06 -> 11-12
+    assert _old36["max_stale_sessions"] == CERT_MAX_STALE_SESSIONS, _old36
+    assert _cur36.get("certified_as_of") == "2026-11-12T10:00:00", _cur36
+    assert cert_lag_sessions("2026-11-06", "2026-99-99", _days36) is None
+    assert cert_lag_sessions(None, "2026-11-12", _days36) is None
+    print("[PASS] L38 a row publishes the scan that backs its tail, and a stale "
+          "scan names both tails instead of quoting its counts", flush=True)
+
     # L35 (r1519) the window contract travels as DATA now (CEO report / dashboard
     # read it), so the row and the board's markdown must come from one
     # derivation: the sentence rendered in the page has to be window_sentence()
@@ -2812,6 +2918,9 @@ def run(now=None, allow_network=False):
     # and the board was silent about it -- that debt was visible only to whoever
     # happened to run the collector by hand (r1263).
     report["period_lanes"] = audit_period_lanes(now)
+    # r1578: the row's certification travels with the row. Attached before the
+    # JSON and the markdown are written, so both faces quote one derivation.
+    attach_cert(report, days)
     os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
     tmp = OUT_PATH + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:

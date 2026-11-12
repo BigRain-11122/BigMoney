@@ -2941,44 +2941,83 @@ def main() -> int:
         # subset can only understate, never overstate), and a tail held by under
         # a tenth of the panel must be flagged in the record rather than quoted
         # as if it spoke for the panel.
+        #
+        # r1578: the row publishes that record itself (`cert`), so the leg judges
+        # the block a reader sees instead of re-reading the file behind the
+        # board's back. Two things changed with it: a stale scan is disclosed
+        # rather than failed -- demanding equality made this leg red for exactly
+        # one generation every time a background refresh landed a bar after the
+        # certify leg ran, and a permanently red gate gets loosened (r1135) --
+        # and the disclosure must reach the page, not stop at the JSON. What is
+        # still red: no record at all, a state that disagrees with its own tails,
+        # a stale scan quoting the counts it never read, and a lag wider than
+        # CERT_MAX_STALE_SESSIONS (unbounded staleness is the real risk).
         import data_lane_freshness as _dlf3
-        _cert = json.load(open("results/data_lane_tail_certification.json",
-                               encoding="utf-8"))
-        _crow = {r["lane"]: r for r in (_cert.get("lanes") or [])}
         _board3 = {r["lane"]: r for r in (json.load(open(
             "results/data_lane_freshness.json", encoding="utf-8")).get("lanes") or [])}
         _want_lanes = sorted(s["lane"] for s in _dlf3.board_lanes()
                              if s.get("panel_csv"))
+        _md3 = open("docs/data_lanes/FRESHNESS.md", encoding="utf-8").read()
+        _sec3 = (_md3.split("Tails read from a sample")[1].split("\n## ")[0]
+                 if "Tails read from a sample" in _md3 else "")
         _why = []
-        if sorted(_crow) != _want_lanes:
-            _why.append(f"certification covers {sorted(_crow)} but declared "
-                        f"panels are {_want_lanes}")
-        for lane, r in _crow.items():
-            if r.get("direction") == "sample_overstated":
-                _why.append(f"{lane}: the sample claims a newer tail than the "
-                            f"full read ({r.get('sample_tail')} > {r.get('full_tail')})")
-            _pt = (_board3.get(lane) or {}).get("panel_tail")
-            # r1494: one predicate decides "is this certification usable for this
-            # row", shared with the page. A certification that predates one panel
-            # advance is stale, not a lie -- demanding equality here kept both legs
-            # permanently red, and a permanently red gate gets loosened (r1135).
-            _state = _dlf3.cert_row_state(r, _board3.get(lane))[0]
-            if _state == "current" and _pt and r.get("sample_tail") \
-                    and str(_pt) != str(r["sample_tail"]):
-                _why.append(f"{lane}: board prints panel tail {_pt}, the "
-                            f"certification re-read {r['sample_tail']}")
-            if _state == "stale" and _pt:
-                _why.append(f"{lane}: certification is stale (read "
-                            f"{r.get('full_tail')}, board prints {_pt}) and "
-                            f"nothing re-read the panel -- run `certify`")
-            if r.get("tail_holder_share") is not None:
-                if bool(r.get("thin_tail")) != (r["tail_holder_share"]
+        _unbacked = [l for l in _want_lanes
+                     if not isinstance((_board3.get(l) or {}).get("cert"), dict)]
+        if _unbacked:
+            _why.append(f"{_unbacked}: a sampled row prints a tail with no record "
+                        f"of the scan behind it")
+        _stale = []
+        for lane in _want_lanes:
+            r = _board3.get(lane) or {}
+            c = r.get("cert") or {}
+            if not c:
+                continue
+            _state, _ft, _bt = _dlf3.cert_row_state(
+                {"full_tail": c.get("full_tail")}, r)
+            if c.get("state") != _state:
+                _why.append(f"{lane}: published state {c.get('state')!r} but its "
+                            f"own tails say {_state!r}")
+            _pt = r.get("panel_tail")
+            if _state == "current":
+                if _pt and c.get("full_tail") and str(_pt) != str(c["full_tail"]):
+                    _why.append(f"{lane}: board prints panel tail {_pt}, the "
+                                f"certification read {c['full_tail']}")
+                if c.get("holders") is None:
+                    _why.append(f"{lane}: a current certification publishes no "
+                                f"holder count")
+            elif _state == "stale":
+                _stale.append(lane)
+                if c.get("holders") is not None or c.get("files") is not None:
+                    _why.append(f"{lane}: a stale scan quotes its counts "
+                                f"({c.get('holders')} of {c.get('files')}) against "
+                                f"a tail it never read")
+                if not c.get("full_tail") or not c.get("board_tail"):
+                    _why.append(f"{lane}: a stale certification does not name both "
+                                f"tails")
+                _lag = c.get("lag_sessions")
+                if _lag is None:
+                    _why.append(f"{lane}: a stale certification does not say how "
+                                f"many sessions it lags")
+                elif _lag > _dlf3.CERT_MAX_STALE_SESSIONS:
+                    _why.append(f"{lane}: certification is {_lag} sessions behind "
+                                f"the printed tail (max "
+                                f"{_dlf3.CERT_MAX_STALE_SESSIONS}) -- run `certify`")
+            else:
+                _why.append(f"{lane}: no full scan covers this panel "
+                            f"(state={_state}) -- run `certify`")
+            if c.get("tail_holder_share") is not None:
+                if bool(c.get("thin_tail")) != (c["tail_holder_share"]
                                                 < _dlf3.THIN_TAIL_SHARE):
                     _why.append(f"{lane}: thin-tail flag disagrees with the share")
+        for lane in _stale:
+            c = (_board3.get(lane) or {}).get("cert") or {}
+            if str(c.get("full_tail")) not in _sec3:
+                _why.append(f"{lane}: the page's sampled section never names the "
+                            f"certified tail {c.get('full_tail')} the row quotes")
         check("fleet: a panel tail read by sample is certified against a full scan",
               not _why, "; ".join(_why) or
-              f"verdict={_cert.get('verdict')}, {len(_crow)} panel(s) re-read, "
-              f"{_cert['counts']['files_scanned']} file(s) scanned")
+              f"{len(_want_lanes)} sampled panel(s) publish the scan behind their "
+              f"tail, {len(_stale)} disclosed as stale")
     except Exception as e:
         check("fleet: a panel tail read by sample is certified against a full scan",
               False, str(e))
