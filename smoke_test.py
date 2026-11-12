@@ -6962,16 +6962,35 @@ def main() -> int:
                 # today's ledger against yesterday's sheet. Both faces honestly claim the same
                 # business bar; only the producers' wall clock separates the two worlds. Say so
                 # first, because "the counts disagree" sends the reader to the wrong file.
+                # r1601: this leg compared two producers' wall clocks, so every chain pass that
+                # re-ran the ledger WITHOUT appending a bar made the ticket read as "a previous
+                # generation" (2026-11-13 00:49 run: new_bars=0, last_bar=2026-11-12 -- the very
+                # bar the ticket is priced on, gap 1404s, red). What separates two generations is
+                # a ledger bar the ticket does not cover, so compare the bar, not the clock.
                 _d30 = _stamp30(_tk30.get("generated"))
-                _i30 = None
-                for _r30 in reversed(_led30.get("runs") or []):
-                    _i30 = _stamp30(_r30.get("ts"))
-                    if _i30:
-                        break
-                if _d30 and _i30 and _i30 > _d30:
-                    _bad30.append("ticket was written %.0fs before the ledger's last run -- "
-                                  "the rows below compare two generations"
-                                  % (_i30 - _d30).total_seconds())
+                _newest30 = ""
+                for _b30 in (_led30.get("bars") or []):
+                    if isinstance(_b30, dict):
+                        _bb30 = str(_b30.get("bar") or "")
+                        if _bb30 > _newest30:
+                            _newest30 = _bb30
+                _runnew30 = ""
+                for _r30 in (_led30.get("runs") or []):
+                    _t30 = _stamp30(_r30.get("ts"))
+                    try:
+                        _nb30 = int(_r30.get("new_bars") or 0)
+                    except Exception:
+                        _nb30 = 0
+                    if _t30 and _d30 and _t30 > _d30 and _nb30 > 0:
+                        _runnew30 = str(_r30.get("last_bar") or "")
+                _gap30 = ""
+                if _newest30 and _asof30 and _newest30 > _asof30:
+                    _gap30 = _newest30
+                elif _runnew30 and _asof30 and _runnew30 > _asof30:
+                    _gap30 = _runnew30
+                if _gap30:
+                    _bad30.append("the ledger already carries bar %s while the ticket is priced on %s -- "
+                                  "the rows below compare two generations" % (_gap30, _asof30))
                 # the pointer is what a staleness reader opens first, so a pointer stamped on
                 # a different clock than the ticket it names re-opens the same gap one hop in.
                 if _ptr30.get("generated") != _tk30.get("generated"):
