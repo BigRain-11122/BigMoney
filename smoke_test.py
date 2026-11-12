@@ -9,6 +9,7 @@ appended to logs/smoke.log so the 10-minute iteration loop can audit runs.
 import sys
 import os
 import glob
+import hashlib
 import json
 import re
 import time
@@ -239,6 +240,104 @@ def capture_pinned(argv, timeout):
         _t.join(5.0)
     return subprocess.CompletedProcess(argv, _p.returncode,
                                        "".join(_buf["out"]), "".join(_buf["err"]))
+
+
+# r1602: the suite asks the same question twice and pays for it twice. r1601's first full
+# run (570 legs / 1560.3s) spent 475s -- 30% of the wall clock -- on legs that were the
+# second or third copy of a selftest judged minutes earlier (etf_book_order 139.5s+84.8s,
+# etf_book_forward 125.8s+124.7s). The suite carries 48 such repeats across 47 scripts.
+_LEG_CACHE = {}      # (argv tuple) -> (script sha1, rc, stdout, stderr, seconds)
+_REUSE = []          # (script, seconds the first judgement cost)
+
+
+def _script_digest(path):
+    """The only thing that keeps a cached verdict true: the bytes of the script."""
+    try:
+        with open(path, "rb") as fh:
+            return hashlib.sha1(fh.read()).hexdigest()
+    except OSError:
+        return None
+
+
+def _leg_is_selftest(argv):
+    return len(argv) > 1 and any(a in ("selftest", "--selftest") for a in argv[1:])
+
+
+def _leg_memo(argv, timeout):
+    """Judge a script once per run when a later leg asks exactly the same question.
+
+    Reuse is allowed only where it cannot change a verdict:
+      * the invocation is a selftest (`selftest` / `--selftest`) -- a selftest builds its
+        own fixtures and must not depend on the repo's published faces, so a second run of
+        the same bytes has nothing new to read;
+      * the script's bytes are identical (sha1) -- a leg that rewrote the script mid-run,
+        or a checkout landing between the two calls, re-runs it;
+      * `run` / `check` / anything else is never cached: those faces are inputs to each
+        other and the second call is a real second measurement.
+
+    A reused line says so in its detail, so a log reader can tell which verdicts stand on
+    the first judgement rather than on a fresh process -- the cheap way to hide a regression
+    here would be to silence the difference.
+    """
+    _key = tuple(argv)
+    _sha = None
+    if _leg_is_selftest(argv) and isinstance(argv[1], str):
+        _sha = _script_digest(argv[1])
+    if _sha is not None and _key in _LEG_CACHE:
+        _hit = _LEG_CACHE[_key]
+        if _hit[0] == _sha:
+            _REUSE.append((argv[1], _hit[4]))
+            return subprocess.CompletedProcess(
+                argv, _hit[1], _hit[2],
+                _hit[3] + "\n[reused: same script bytes and args already judged this run]")
+    _t0 = time.monotonic()
+    _r = capture_pinned(argv, timeout)
+    if _sha is not None:
+        _LEG_CACHE[_key] = (_sha, _r.returncode, _r.stdout, _r.stderr,
+                            time.monotonic() - _t0)
+    return _r
+
+
+def _leg_memo_probe():
+    """Drive the memo through the three states a reader would ask about.
+
+    Replayable on its own: `python -c "import smoke_test as s; print(s._leg_memo_probe())"`.
+    """
+    import tempfile
+    _body = "import time\ntime.sleep(0.05)\nprint('ok')\n"
+    with tempfile.TemporaryDirectory() as _td:
+        _p = os.path.join(_td, "probe_face.py")
+        with open(_p, "w", encoding="utf-8") as fh:
+            fh.write(_body)
+        _h0 = len(_REUSE)
+        _a = _leg_memo([sys.executable, _p, "--selftest"], 60)
+        _n1 = len(_REUSE)
+        _b = _leg_memo([sys.executable, _p, "--selftest"], 60)
+        _n2 = len(_REUSE)
+        _c = _leg_memo([sys.executable, _p, "--run"], 60)
+        _d = _leg_memo([sys.executable, _p, "--run"], 60)
+        _n3 = len(_REUSE)
+        with open(_p, "w", encoding="utf-8") as fh:
+            fh.write(_body + "# edited between the two judgements\n")
+        _e = _leg_memo([sys.executable, _p, "--selftest"], 60)
+        _n4 = len(_REUSE)
+    _first = (_n1 - _h0 == 0 and _n2 - _n1 == 1 and _a.returncode == 0 and _b.returncode == 0)
+    _marked = "reused" in (_b.stderr or "")
+    _not_pure = (_n3 - _n2 == 0 and _c.returncode == 0 and _d.returncode == 0)
+    # the edited script must NOT ride the old verdict: a fresh run, so no new hit
+    _edited = (_n4 - _n3 == 0 and _e.returncode == 0)
+    return (_first and _marked and _not_pure and _edited,
+            "first=run second=cached(%s) run-legs=uncached edited-script=runs (hits %d/%d/%d/%d)"
+            % ("marked" if _marked else "UNMARKED", _n1 - _h0, _n2 - _n1, _n3 - _n2, _n4 - _n3))
+
+
+def _reuse_summary():
+    if not _REUSE:
+        return "reused: 0 leg(s)"
+    _saved = sum(s for _, s in _REUSE)
+    _names = sorted({os.path.basename(p) for p, _ in _REUSE})
+    return ("reused: %d leg(s) served from the first judgement (%.1fs not spent) -- %s"
+            % (len(_REUSE), _saved, ", ".join(_names[:6])))
 
 
 def _leg_pending_fill_receipt(path=None):
@@ -711,11 +810,16 @@ def main() -> int:
              ["selftest"])):
         _label = f"updater: update_{_name} selftest (exit-code contract)"
         try:
-            _r = capture_pinned([sys.executable, _script, *_args], 180)
+            _r = _leg_memo([sys.executable, _script, *_args], 180)
             _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
             check(_label, False, str(e))
+    # r1602: the memo that lets the second copy of a leg ride on the first judgement is
+    # itself a measurement, so it is driven here: a repeat is served from the cache and says
+    # so, a `run` leg is never cached, and an edited script re-runs instead of reusing.
+    check("suite: a repeated selftest rides the first judgement (r1602)",
+          *_leg_memo_probe())
     for _label, _script, _args in (
             # r1386: six rounds of gates had produced no candidate family, so this
             # probe is the first measurement of one since r1379. Its own two ruler
@@ -1728,7 +1832,7 @@ def main() -> int:
             ("product: book envelope by block bootstrap (exit-code contract)",
              "scripts/etf_book_nav_envelope.py", ["--selftest"])):
         try:
-            _r = capture_pinned([sys.executable, _script, *_args], 300)
+            _r = _leg_memo([sys.executable, _script, *_args], 300)
             _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
             _ok = _r.returncode == 0
             _why = f"exit={_r.returncode} | {_tail[:80]}"
@@ -4597,9 +4701,9 @@ def main() -> int:
         check("fleet: the tree-shrink push gate is installed in both repos", False, str(e))
     _sp_env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
     def _selftest_run(script, args, timeout):
-        return subprocess.run([sys.executable, script, *args], capture_output=True,
-                              text=True, encoding="utf-8", errors="replace",
-                       env=_sp_env, timeout=timeout)
+        # r1602: this second copy of the updater loop used to spawn its own process for a
+        # selftest the loop above had already judged; it now goes through the same memo.
+        return _leg_memo([sys.executable, script, *args], timeout)
     for _name, _script, _args in (
             ("daily", "scripts/update_daily.py", ["--selftest"]),
             ("lhb", "scripts/update_lhb.py", ["selftest"]),
@@ -12317,6 +12421,7 @@ def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
     n_fail = len(RESULTS) - n_pass
     print(f"\nSummary: {n_pass}/{len(RESULTS)} PASS, {n_fail} FAIL")
+    print(_reuse_summary())
     perf = _perf_summary() if PERF else ""
     if perf:
         print(perf)
@@ -12333,6 +12438,9 @@ def _finish() -> int:
                 f.write("  slow=%.1fs total over=%d %s\n"
                         % (sum(s for _, s in PERF), len(_over),
                            " | ".join("%s %.1fs" % (n[:60], s) for n, s in _slow)))
+                # grep 'reuse=' logs/smoke.log answers "how much of the suite is a repeat"
+                f.write("  reuse=%d saved=%.1fs\n"
+                        % (len(_REUSE), sum(s for _, s in _REUSE)))
     except Exception:
         pass
     return 1 if n_fail else 0
