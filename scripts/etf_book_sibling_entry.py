@@ -25,10 +25,11 @@ Three refusals, because each of them would otherwise print a number that reads a
   * a leg that is already the cheapest in its own family prints ALREADY_CHEAPEST, and the
     family floor is printed beside it so the reader can see the channel toll that remains.
 
-The label map is a NAMING grammar, not a pick list: every phrase in it must resolve at least
-one live row (--check fails on a dead phrase), unresolved names are counted and named, and a
-label with no sibling merges nothing. Under-merging is the safe direction -- it can only make
-the quoted saving smaller than the truth.
+The label map is a NAMING grammar, not a pick list: every phrase in it must point at a family
+that resolves at least one live row (--check fails when a whole family is absent), unresolved
+names are counted and named, and a label with no sibling merges nothing. Aliases of a live
+family are not required to appear -- one board writes one spelling, another board another.
+Under-merging is the safe direction -- it can only make the quoted saving smaller than the truth.
 
 Usage:
     python scripts/etf_book_sibling_entry.py run
@@ -188,6 +189,14 @@ def families(rows, houses=None):
             continue
         dead_phrases.discard(res)
         fam.setdefault(key, []).append(r)
+    # r1600: judge a phrase by its FAMILY, not by itself. Several phrases are aliases of one
+    # basket ("纳指ETF" / "纳斯达克100ETF" both mean NDX100), and no board writes all aliases
+    # at once -- the native eastmoney board writes one, the sina fallback another. Reading a
+    # missing alias as a dead phrase made the whole check fail on every fallback session for
+    # a claim that was perfectly alive under its other name. A family with no live row at all
+    # still counts as dead: that is the corruption this gate exists to catch.
+    live = set(fam)
+    dead_phrases = {p for p in dead_phrases if LABEL_CANON.get(p) not in live}
     return fam, unresolved, sorted(dead_phrases)
 
 
@@ -609,7 +618,15 @@ def selftest():
     fam, unresolved, dead = families(rows, houses)
     eq("L10 NDX100 family has 4 members", len(fam.get("NDX100", [])), 4)
     eq("L11 US50 family has 2 members", len(fam.get("US50", [])), 2)
-    eq("L12 dead phrases on this board are the two absent", dead, ["纳指100ETF", "纳斯达克ETF"])
+    eq("L12 aliases of a family that IS live are not dead phrases", dead, [])
+    # L12b the gate that still bites: a family with no live row keeps all of its phrases dead,
+    # so a label dictionary that has outlived its basket cannot pass by dropping one alias.
+    _f2, _u2, dead2 = families(
+        [{"code": "513690", "name": "港股红利ETF博时", "price": 1.158, "iopv": 1.1571,
+          "amount": 5e7, "premium_pct": 0.0778}], houses)
+    eq("L12b a family with no live row keeps every alias dead",
+       set(dead2) & {"纳指ETF", "纳斯达克ETF", "纳斯达克100ETF", "纳指100ETF", "美国50ETF"},
+       {"纳指ETF", "纳斯达克ETF", "纳斯达克100ETF", "纳指100ETF", "美国50ETF"})
     eq("L13 the biotech name stays unresolved", unresolved.get("纳指生物科技ETF"), 1)
 
     order = [

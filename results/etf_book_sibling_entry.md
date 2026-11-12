@@ -29,7 +29,6 @@
 
 ## 未验证
 
-- 死标签（词典里有、面板上没有）：纳斯达克100ETF
 - 510760 无法核验：label 上证指数ETF names no other live ticker on this board (no sibling group)
 - 512040 无法核验：label 价值ETF names no other live ticker on this board (no sibling group)
 - 159655 无法核验：label 标普ETF names no other live ticker on this board (no sibling group)

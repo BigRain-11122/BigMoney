@@ -1,6 +1,6 @@
 # ETF book -- the sibling premium gap: a price today, or a rule?
 
-session `2026-11-11` | ticket `TICKET-2026-11-12.json` | source `results\etf_book_sibling_entry.json`
+session `2026-11-12` | ticket `TICKET-2026-11-12.json` | source `results\etf_book_sibling_entry.json`
 
 **no pair carries both a premium gap and a local price history**
 
@@ -11,9 +11,9 @@ session `2026-11-11` | ticket `TICKET-2026-11-12.json` | source `results\etf_boo
 
 - 510760: label 上证指数ETF names no other live ticker on this board (no sibling group)
 - 512040: label 价值ETF names no other live ticker on this board (no sibling group)
-- 159655: label 标普500ETF names no other live ticker on this board (no sibling group)
+- 159655: label 标普ETF names no other live ticker on this board (no sibling group)
 - 513690: label 港股红利ETF names no other live ticker on this board (no sibling group)
-- 159519: label 港股国企ETF names no other live ticker on this board (no sibling group)
+- 159519: label 港股国企 names no other live ticker on this board (no sibling group)
 
 ## caveats
 
