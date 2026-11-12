@@ -14,7 +14,7 @@
     "state": "registered (FOUND)",
     "task": "HQ-ProductionClaim"
   },
-  "clock_read": "2026-11-13T04:54:35+08:00",
+  "clock_read": "2026-11-13T04:56:22+08:00",
   "codely_live_count": 2,
   "comfy_free_vram_mb": 14015,
   "cores": 32,
@@ -1134,8 +1134,8 @@
   },
   "task": "r1609: the forward premium face now prices the ticket's own bar -- a leg read off the panel tail is evicted and named, and the sentence says which day it describes",
   "total_ram_gb": 23.9,
-  "ts": "2026-11-13T04:54:35+08:00",
-  "updated": "2026-11-13T04:54:35+08:00",
+  "ts": "2026-11-13T04:56:22+08:00",
+  "updated": "2026-11-13T04:56:22+08:00",
   "updated_at": "2026-11-13T04:54:35+08:00",
   "verdict": "py_low_board_clear",
   "verify": "forward selftest 73/73 (22 new legs) + check OK with 6 new re-derive legs + mutation test bites (legs_counted/159655 counted) + s6 --only 2/2 rc0 + real face re-read (panel note: ends on the ticket's own session 2026-11-12) + proof run on the 11-11 ticket (PANEL_AHEAD 1 bar, 159655 98.8) + s05_probe rc0 + attrition 4 ledgers CLEAN",
@@ -1145,5 +1145,6 @@
   "watermark_verdict": "green",
   "py_faces": 2,
   "round_t1609_note": "| 2026-11-13 04:45-04:5x | 1609 | **PRODUCT（产品优先律）：同一族的第四份拷贝——修好第三个孩子，要数一遍还有几个「今天」。** r1607 让持久面认场次、r1608 让分位面认场次，而它们的表兄弟**前向面**（`etf_book_premium_forward`：付了这个档的溢价之后，这只基金自己的价格怎么走）仍把「今天」取成价格面板的最后一行。真数据实证：同一只 159655 在 **2026-11-11 自己那根 bar** 上分位 **98.78**（落进 P98P 档），在面板末行 **2026-11-12** 上是 **95.72**（掉到 P95_98，退出该档）——旧码读末行，句子就写「没有任何一只腿在这个档」，一只确实站在档里的腿被无声丢掉，读者看不出少了谁。**修五件**：①`ticket_amounts` 走共享场次链 `pp.ticket_session`（这张票没有 `session` 键，`base_bar` 答话）；②新增 `anchor_reading(rows, session)`——「今天」=这张单自己那根 bar（分位仍是因果的，截到那天不会让更晚的 bar 决定名次），没有那根 bar（落后/缺格/票面没写日子）就**不计数、不印数**；③面级 `panel` 块（场次/取自哪个字段/面板末行/四态 state/越过几根 bar/计了几腿/出列了谁）+ 一句由 `pp.panel_note` 单一实现的人话；④句子必须点名它量的是哪一天，并把出列的腿逐个点名（`defer_sentence` 增 session/panel 入参）；⑤`--ticket/--out` 让工具能对**旧票面**开火做实战样本，且 proof run **不写样本台账**（写进 run() 分支，不靠人记得）。**验证**：`selftest 51→73/73`（22 条新腿：同场锚定/越场读自己那根 bar/落后不计/无日期不猜/缺 bar 不许邻格顶替/句子点名日期/四态各说一句）；`check` **OK** 且新增六条重派生腿（含「没被计入的腿不许印分位」）；**变异测试会咬**（把 `legs_counted` 手改成 4 + 159655 的 `counted` 改 False → 两行红，逐条点名）；S6 `--only premium_forward_write,premium_forward` **2/2 rc0**；真面重生成实读 panel「the price panel ends on the ticket's own session (2026-11-12)」；实战样本 `_proof_r1609_forward_2026-11-11.json`（11-11 票 × 11-12 面板 → PANEL_AHEAD 1 bar，句子逐字「on 2026-11-11 (the ticket's own bar) the legs in that band: 159655 98.8」）。 **S0**：`orphan_face_probe` py_faces=2 **orphans=0**（resident ComfyUI 按豁免律留）。 **S0.5**：`Tools/s05_probe.py` orders_delta=false／decisions_delta=false／unacked=[] rc0（首扫即静）。 **S1**：改码后全量套件 04:5x 起在飞（pythonw pid 70108 → `results/_smoke_r1609.out`），收轮时未收口、**不宣称全绿**。 **S7**：loop pin=5 **no-op**（首跳 04:55）／两爪 CR 归一 **MATCH**／attrition 4 账本 **CLEAN**（3 处历史缩行 healed）。 **CEO 过程可见面**：当前活＝让「付了溢价之后会怎样」也说出它量的是哪一天｜最近实物＝`results/etf_premium/PREMIUM-FORWARD.json`（panel 块 session 2026-11-12 from base_bar、5 腿 SAME_SESSION，04:5x 重生成）＋`results/etf_premium/_proof_r1609_forward_2026-11-11.json`＋卡 E583｜下个里程碑＝11-13 收盘后新 bar 到来时，持久／分位／前向三面同场自动成立（窗 ≤48h）。 **未验证（如实）**：全量套件未收口；`PANEL_BEHIND`／`TICKET_BAR_MISSING` 两态本轮只有夹具证据，没有真实旧件样本。 本地未达 origin commit 数=0（收尾复核）。 |",
-  "round_t1609_next": "next: (a) 同族第五个可能的「今天」——`etf_book_premium_phases` 与 `PREMIUM-SUBSCRIPTION` 两面是否也拿面板末行当今日（本轮只修了 forward）；(b) 全量套件收口取最终 FAIL 集；(c) 11-13 收盘 bar 落盘后看三面是否同场自动成立"
+  "round_t1609_next": "next: (a) 同族第五个可能的「今天」——`etf_book_premium_phases` 与 `PREMIUM-SUBSCRIPTION` 两面是否也拿面板末行当今日（本轮只修了 forward）；(b) 全量套件收口取最终 FAIL 集；(c) 11-13 收盘 bar 落盘后看三面是否同场自动成立",
+  "round_t1609_addendum": "delivery verified 7b18f8528d, ahead=0 behind=0; full suite in flight (85 lines, 0 FAIL), not closed"
 }
