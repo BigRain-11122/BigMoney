@@ -1668,7 +1668,28 @@ def main() -> int:
         try:
             _r = capture_pinned([sys.executable, _script, *_args], 300)
             _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
-            check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
+            _ok = _r.returncode == 0
+            _why = f"exit={_r.returncode} | {_tail[:80]}"
+            # r1287: one leg here asks the swap section to be on today's close, and three of
+            # its ten faces are children of a snapshot directory another machine owns. When
+            # that machine has not printed today the leg is red for a reason this machine
+            # cannot cure -- a permanently red flag nobody can act on (r1199). Accept the
+            # stale verdict only when EVERY non-fresh leg names the file and the owner that
+            # would move it; a stale leg with its own producer stays red, and so does an
+            # inconsistent one (its frame carries no waiting_on by construction).
+            if not _ok and _script.endswith("etf_book_swap_freshness.py") and _args == ["check"]:
+                try:
+                    from scripts import etf_book_swap_freshness as _SFx
+                    _st = [r for r in _SFx.assess().get("legs") or []
+                           if r.get("status") != _SFx.FRESH]
+                    _disclosed = bool(_st) and all(
+                        r.get("leg") in _SFx.SNAPSHOT_LEGS and r.get("waiting_on") for r in _st)
+                    if _disclosed:
+                        _ok = True
+                        _why = "disclosed: " + _st[0]["waiting_on"]
+                except Exception:
+                    pass
+            check(_label, _ok, _why)
         except Exception as e:
             check(_label, False, str(e))
     # r1386: the two loops above used to hand subprocess.run a capture with no
