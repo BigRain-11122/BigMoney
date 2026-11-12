@@ -70,6 +70,7 @@ def cell(close, openp, amt, score, label, vt, start):
     years = L.yearly_returns(ser)
     cagr = A.stats2(ser, label).get("cagr")
     blk = G.admission_block(years, None, None, cagr)
+    keep = retention_without_top2(years)
     decision_dates = [str(pd.Timestamp(r["date"]).date()) for r in diag]
     return {
         "phase_start": str(pd.Timestamp(start).date()),
@@ -78,6 +79,13 @@ def cell(close, openp, amt, score, label, vt, start):
         "top2_share": blk["year_metrics"]["top2_share"],
         "worst_year_pp": blk["year_metrics"].get("worst_year_pp"),
         "positive_years_share": blk["year_metrics"].get("positive_years_share"),
+        # the scale-free companion (prereg 2026-11-13): never an admission input, and the
+        # yearly nets ride along so check() can re-derive the share instead of trusting it
+        "retained_without_top2": keep.get("retained"),
+        "cagr_without_top2_pct": keep.get("cagr_without_top2_pct"),
+        "replaced_years": keep.get("replaced_years"),
+        "years_net_pct": {str(r["year"]): r["net_pct"]
+                          for r in G._year_rows(years)},
         "cagr_pct": cagr,
         "sharpe": A.stats2(ser, label).get("sharpe"),
         "maxdd_pct": A.stats2(ser, label).get("maxdd"),
@@ -116,6 +124,7 @@ def reference_cells(close, cols, starts) -> list:
         st = A.stats2(s, "reference")
         cagr = st.get("cagr")
         blk = G.admission_block(years, None, None, cagr)
+        keep = retention_without_top2(years)
         after = close.index[close.index >= pd.Timestamp(start)]
         alive = int(close[cols].loc[after[0]].notna().sum()) if len(after) else None
         out.append({
@@ -123,6 +132,11 @@ def reference_cells(close, cols, starts) -> list:
             "top2_share": blk["year_metrics"]["top2_share"],
             "worst_year_pp": blk["year_metrics"].get("worst_year_pp"),
             "positive_years_share": blk["year_metrics"].get("positive_years_share"),
+            "retained_without_top2": keep.get("retained"),
+            "cagr_without_top2_pct": keep.get("cagr_without_top2_pct"),
+            "replaced_years": keep.get("replaced_years"),
+            "years_net_pct": {str(r["year"]): r["net_pct"]
+                              for r in G._year_rows(years)},
             "cagr_pct": cagr,
             "sharpe": st.get("sharpe"),
             "maxdd_pct": st.get("maxdd"),
@@ -168,6 +182,142 @@ def reference_verdict(cells: list, line=None) -> dict:
                          "scores top-2 %.2f..%.2f on %d phases and is refused too, so the "
                          "line is not ranking the rungs"
                          % (min(tops), max(tops), len(cells)))
+    return out
+
+
+def retention_without_top2(years: dict) -> dict:
+    """How much of the annualised growth survives losing the two best years.
+
+    r1615 measured the Y4 line refusing the book that makes no decisions at all, so the
+    statistic turns with the return LEVEL as much as with the shape: `top2_share` is the
+    two best annual nets over the SUM of annual nets, and a book that earns less has a
+    smaller denominator. This asks the same concern in a scale-free way -- the two best
+    years are replaced by the book's own median year, the CAGR is recomputed, and the
+    result is divided by the full CAGR. Multiplying every annual return by a constant
+    moves numerator and denominator together, so the answer is about the shape.
+
+    Frozen before the first run in research/PREREG-20261113-Y4-SCALE-FREE.md. It never
+    feeds an admission: `decide()` prints it beside the answer and the answer word stays
+    the gate's own (a new yardstick that quietly admitted a refused rung would be the
+    exact defect r1614 was created to stop).
+    """
+    rows = [r for r in G._year_rows(years) if r.get("net_pct") is not None]
+    if len(rows) < 3:
+        return {"years": len(rows), "retained": None,
+                "detail": "fewer than three years -- the two-best-year question is undefined"}
+    vals = [float(r["net_pct"]) for r in rows]
+    n = len(vals)
+    med = float(np.median(vals))
+    # ties resolve to the earlier year, so two cells holding the same multiset of years
+    # name the same two replaced years and the receipt is reproducible
+    order = sorted(range(n), key=lambda i: (-vals[i], i))[:2]
+    after = list(vals)
+    for i in order:
+        after[i] = med
+    g_full = float(np.prod([1.0 + v / 100.0 for v in vals]))
+    g_after = float(np.prod([1.0 + v / 100.0 for v in after]))
+    cagr_full = g_full ** (1.0 / n) - 1.0
+    cagr_after = g_after ** (1.0 / n) - 1.0
+    return {
+        "years": n,
+        "replaced_years": [rows[i]["year"] for i in order],
+        "median_year_pct": round(med, 4),
+        "cagr_without_top2_pct": round(cagr_after * 100.0, 4),
+        # a book whose full CAGR is not positive has no "retained share"; null, never 0
+        "retained": (None if cagr_full <= 0 else round(cagr_after / cagr_full, 4)),
+        "partial_years_included": [r["year"] for r in rows if r.get("partial")],
+    }
+
+
+def _years_from_nets(nets: dict) -> dict:
+    """Rebuild the gate's `years` shape from a published {year: net_pct} block.
+
+    Only `net_pct` moves the retained share, so the cohort count is a constant here;
+    `partial` is reported by the producer and never re-derived by this face.
+    """
+    return {str(y): {"net_pct": float(v), "cohorts": 4}
+            for y, v in (nets or {}).items()}
+
+
+def _retained_rederive(label: str, c: dict) -> list:
+    """Re-derive one cell's retained share from the yearly nets it published.
+
+    Returns a list of error strings so the caller can extend its own error list; empty
+    means the published number is the one its own inputs produce.
+    """
+    nets = c.get("years_net_pct") or {}
+    if not nets:
+        return ["%s/%s publishes no yearly nets -- its retained share cannot be re-derived"
+                % (label, c.get("phase_start"))]
+    again = retention_without_top2(_years_from_nets(nets))
+    errs = []
+    if again.get("retained") != c.get("retained_without_top2"):
+        errs.append("%s/%s retained_without_top2 re-derives: %s != %s"
+                    % (label, c.get("phase_start"), again.get("retained"),
+                       c.get("retained_without_top2")))
+    if again.get("cagr_without_top2_pct") != c.get("cagr_without_top2_pct"):
+        errs.append("%s/%s cagr_without_top2_pct re-derives: %s != %s"
+                    % (label, c.get("phase_start"),
+                       again.get("cagr_without_top2_pct"),
+                       c.get("cagr_without_top2_pct")))
+    return errs
+
+
+def drop_two_verdict(books: list, reference_cells: list) -> dict:
+    """Does a rung keep more of its growth than the do-nothing shape does?
+
+    Strict on every phase: a book that wins on three of four calendars is
+    MIXED_BY_PHASE, never "more robust" (r1614's whole lesson is that a rung which
+    depends on where the calendar starts cannot be adopted on its best phase).
+    """
+    ref = {c.get("phase_start"): c.get("retained_without_top2")
+           for c in reference_cells or []}
+    if not ref or not any(v is not None for v in ref.values()):
+        return {"verdict": "NO_PHASE_CLEAN_COMPARISON",
+                "detail": "the shape arm published no retained share -- nothing to compare"}
+    per_book = []
+    for b in books:
+        deltas = []
+        for c in b.get("cells") or []:
+            rb = c.get("retained_without_top2")
+            rr = ref.get(c.get("phase_start"))
+            if rb is not None and rr is not None:
+                deltas.append((c["phase_start"], round(float(rb) - float(rr), 4)))
+        if not deltas:
+            per_book.append({"rung": b["rung"], "verdict": "NO_READING", "phases": 0})
+            continue
+        ups = [d for _, d in deltas if d > 0]
+        downs = [d for _, d in deltas if d < 0]
+        if len(ups) == len(deltas):
+            v = "MORE_ROBUST_THAN_SHAPE"
+        elif len(downs) == len(deltas):
+            v = "LESS_ROBUST_THAN_SHAPE"
+        else:
+            v = "MIXED_BY_PHASE"
+        per_book.append({"rung": b["rung"], "verdict": v, "phases": len(deltas),
+                         "retained": [c.get("retained_without_top2")
+                                      for c in b.get("cells") or []],
+                         "delta_vs_reference": [d for _, d in deltas]})
+    ref_vals = [v for v in ref.values() if v is not None]
+    more = [p["rung"] for p in per_book if p["verdict"] == "MORE_ROBUST_THAN_SHAPE"]
+    less = [p["rung"] for p in per_book if p["verdict"] == "LESS_ROBUST_THAN_SHAPE"]
+    out = {
+        "statistic": ("cagr with the two best years replaced by the book's median year, "
+                      "over the full cagr (scale-free; "
+                      "research/PREREG-20261113-Y4-SCALE-FREE.md)"),
+        "reference_retained": sorted(round(float(v), 4) for v in ref_vals),
+        "books": per_book,
+        "more_robust": more,
+        "less_robust": less,
+        # stated on the face, not left to the reader: this number is not an admission
+        "note": "printed beside the answer; it never turns a gate refusal into a pass",
+    }
+    if more:
+        out["verdict"] = "BOOKS_STAND_WITHOUT_THEIR_TWO_BEST_YEARS"
+    elif less:
+        out["verdict"] = "AT_LEAST_ONE_BOOK_RESTS_ON_TWO_YEARS"
+    else:
+        out["verdict"] = "NO_PHASE_CLEAN_COMPARISON"
     return out
 
 
@@ -224,25 +374,40 @@ def judge(rung: str, cells: list, line=None, reference_top2=None) -> dict:
     return out
 
 
-def decide(judgements: list, reference=None) -> dict:
+def _with_drop(ans: dict, drop2) -> dict:
+    """Attach the scale-free companion without touching the answer word."""
+    if drop2:
+        ans["drop_two"] = {"verdict": drop2.get("verdict"),
+                           "more_robust": drop2.get("more_robust"),
+                           "less_robust": drop2.get("less_robust"),
+                           "note": drop2.get("note")}
+    return ans
+
+
+def decide(judgements: list, reference=None, drop2=None) -> dict:
     """The face's single answer: which rung, if any, survives the path test.
 
     `reference` is the equal-weight shape arm (r1615). It can never admit a rung; it
     only decides whether the sentence "no rung survives" is a ranking or a ruler
     problem, and says so on the answer itself so no reader has to cross-reference.
+
+    `drop2` (r1616) is the scale-free two-best-year companion. It is carried for the
+    reader and never consulted here: the answer word is the gate's own arithmetic, and
+    the prereg forbids the new yardstick from admitting anything.
     """
     ok = [j for j in judgements if j.get("verdict") == "ADOPTABLE"]
     brittle = [j for j in judgements if j.get("verdict") == "BRITTLE"]
     if ok:
         best = max(ok, key=lambda j: (j["margin_to_line"], j["rung"]))
-        return {"answer": "RUNG_SURVIVES_PATH_TEST", "rung": best["rung"],
-                "detail": best["detail"]}
+        return _with_drop({"answer": "RUNG_SURVIVES_PATH_TEST", "rung": best["rung"],
+                           "detail": best["detail"]}, drop2)
     if brittle:
-        return {"answer": "ONLY_BRITTLE_RUNGS",
-                "rungs": [j["rung"] for j in brittle],
-                "detail": ("no rung clears every phase with more margin than phase "
-                           "spread; %s clear all phases but sit inside their own noise"
-                           % ",".join(j["rung"] for j in brittle))}
+        return _with_drop({"answer": "ONLY_BRITTLE_RUNGS",
+                           "rungs": [j["rung"] for j in brittle],
+                           "detail": ("no rung clears every phase with more margin than "
+                                      "phase spread; %s clear all phases but sit inside "
+                                      "their own noise"
+                                      % ",".join(j["rung"] for j in brittle))}, drop2)
     ans = {"answer": "NO_RUNG_SURVIVES",
            "detail": "every rung is refused on at least one phase"}
     if reference and reference.get("verdict") == "REFERENCE_ALSO_REFUSED":
@@ -255,7 +420,7 @@ def decide(judgements: list, reference=None) -> dict:
             "these books, it is refusing the shape"
             % (reference.get("top2_median") or 0.0,
                reference.get("pass_phases"), reference.get("phases")))
-    return ans
+    return _with_drop(ans, drop2)
 
 
 def run(rungs=None) -> dict:
@@ -294,6 +459,13 @@ def run(rungs=None) -> dict:
         books.append({"rung": label, "vol_target": vt, "cells": cells,
                       "judgement": judge(label, cells, reference_top2=ref_top2)})
         print("  -> %s: %s" % (label, books[-1]["judgement"]["detail"]), flush=True)
+    # r1616: the scale-free companion, computed off the same cells (no second engine pass)
+    drop2 = drop_two_verdict(books, ref_cells)
+    print("DROP2 %s | more=%s less=%s"
+          % (drop2["verdict"], drop2.get("more_robust"), drop2.get("less_robust")),
+          flush=True)
+    answer = decide([b["judgement"] for b in books], reference=ref["judgement"],
+                    drop2=drop2)
     out = {
         "face": "etf_book_vt_phases",
         "asof": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
@@ -318,7 +490,8 @@ def run(rungs=None) -> dict:
                  "bond_free_universe": len(cols), "cell": dict(L.CELL)},
         "books": books,
         "reference": ref,
-        "answer": decide([b["judgement"] for b in books], reference=ref["judgement"]),
+        "drop_two": drop2,
+        "answer": answer,
         "elapsed_sec": round(time.time() - t0, 1),
     }
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -383,6 +556,7 @@ def check() -> int:
         if t is not None and (c.get("verdict") == "ADMIT") != (t <= G.TOP2_SHARE_MAX):
             errs.append("reference/%s verdict disagrees with its own top2 (%.4f vs %.2f)"
                         % (c.get("phase_start"), t, G.TOP2_SHARE_MAX))
+        errs.extend(_retained_rederive("reference", c))
     again_ref = reference_verdict(ref_cells)
     if again_ref.get("verdict") != ref_judgement.get("verdict"):
         errs.append("reference verdict re-derives: %s != %s"
@@ -405,6 +579,7 @@ def check() -> int:
                     yrs_at <= G.TOP2_SHARE_MAX):
                 errs.append("%s/%s verdict disagrees with its own top2 (%.4f vs %.2f)"
                             % (b["rung"], c["phase_start"], yrs_at, G.TOP2_SHARE_MAX))
+            errs.extend(_retained_rederive(b["rung"], c))
         again = judge(b["rung"], cells, reference_top2=ref_median)
         if again["verdict"] != b["judgement"]["verdict"]:
             errs.append("%s judgement re-derives: %s != %s"
@@ -424,6 +599,21 @@ def check() -> int:
     ok = [b["rung"] for b in books if b["judgement"]["verdict"] == "ADOPTABLE"]
     if bool(ok) != (d["answer"]["answer"] == "RUNG_SURVIVES_PATH_TEST"):
         errs.append("answer word disagrees with the adoptable list")
+    # r1616: the scale-free companion re-derives off the published yearly nets, and it
+    # must never have moved the answer word (prereg: it is not an admission input)
+    again_drop = drop_two_verdict(books, ref_cells)
+    pub_drop = d.get("drop_two") or {}
+    if not pub_drop:
+        errs.append("face publishes no drop_two block -- the scale-free companion is missing")
+    else:
+        if again_drop.get("verdict") != pub_drop.get("verdict"):
+            errs.append("drop_two verdict re-derives: %s != %s"
+                        % (again_drop.get("verdict"), pub_drop.get("verdict")))
+        pub_by = {p.get("rung"): p.get("verdict") for p in pub_drop.get("books") or []}
+        for p in again_drop.get("books") or []:
+            if pub_by.get(p["rung"]) != p["verdict"]:
+                errs.append("drop_two %s re-derives: %s != %s"
+                            % (p["rung"], p["verdict"], pub_by.get(p["rung"])))
     if errs:
         print("CHECK_FAIL")
         for e in errs:
@@ -528,6 +718,69 @@ def selftest() -> int:
                 reference=rv_low)
     leg("the ruler complaint is data-driven, not a constant of the code",
         "gate_comparability" not in d3, str(d3.get("gate_comparability")))
+
+    # 12. r1616 prereg §4.1: the retained share is scale-free. Same shape, half the
+    #     return level, must land inside the frozen 0.02 tolerance -- if it does not, the
+    #     statistic is measuring the level again and would repeat the r1615 defect.
+    base = {"2020": {"net_pct": 30.0, "cohorts": 4},
+            "2021": {"net_pct": 4.0, "cohorts": 4},
+            "2022": {"net_pct": 2.0, "cohorts": 4},
+            "2023": {"net_pct": 5.0, "cohorts": 4},
+            "2024": {"net_pct": 6.0, "cohorts": 4}}
+    half = {y: {"net_pct": b["net_pct"] * 0.5, "cohorts": 4} for y, b in base.items()}
+    r_full = retention_without_top2(base)["retained"]
+    r_half = retention_without_top2(half)["retained"]
+    leg("the retained share is scale-free (same shape at half the return level)",
+        r_full is not None and r_half is not None and abs(r_full - r_half) < 0.02,
+        "full=%s half=%s" % (r_full, r_half))
+    # 13. load-bearing: a book carried by two big years keeps far less than a flat one
+    two = {"2020": {"net_pct": 120.0, "cohorts": 4},
+           "2021": {"net_pct": 90.0, "cohorts": 4},
+           "2022": {"net_pct": 0.0, "cohorts": 4},
+           "2023": {"net_pct": 0.0, "cohorts": 4},
+           "2024": {"net_pct": 0.0, "cohorts": 4}}
+    flat = {y: {"net_pct": 8.0, "cohorts": 4} for y in ("2020", "2021", "2022", "2023", "2024")}
+    rt, rf = retention_without_top2(two)["retained"], retention_without_top2(flat)["retained"]
+    leg("a book carried by two years retains less than a flat one",
+        rt is not None and rf is not None and rt < 0.5 <= rf,
+        "two-year=%s flat=%s" % (rt, rf))
+    # 14. the question is undefined on fewer than three years -- null, never a zero
+    leg("fewer than three years has no retained share (null, not 0)",
+        retention_without_top2({"2020": {"net_pct": 5.0, "cohorts": 4},
+                                "2021": {"net_pct": 6.0, "cohorts": 4}})["retained"] is None)
+
+    def _dc(rung, ret, phases=("p1", "p2", "p3", "p4")):
+        return {"rung": rung, "cells": [{"phase_start": p, "retained_without_top2": ret}
+                                        for p in phases]}
+
+    _refc = [{"phase_start": "p1", "retained_without_top2": 0.5},
+             {"phase_start": "p2", "retained_without_top2": 0.5},
+             {"phase_start": "p3", "retained_without_top2": 0.5},
+             {"phase_start": "p4", "retained_without_top2": 0.5}]
+    dv = drop_two_verdict([_dc("x", 0.8)], _refc)
+    leg("a book that keeps more of its growth than the shape is named as such",
+        dv["verdict"] == "BOOKS_STAND_WITHOUT_THEIR_TWO_BEST_YEARS"
+        and dv["books"][0]["verdict"] == "MORE_ROBUST_THAN_SHAPE",
+        "%s / %s" % (dv["verdict"], dv["books"][0]["verdict"]))
+    # 15. load-bearing: only the reference numbers move, the verdict must follow
+    _refc_hi = [dict(c, retained_without_top2=0.9) for c in _refc]
+    dv2 = drop_two_verdict([_dc("x", 0.8)], _refc_hi)
+    leg("the comparison is data-driven, not a constant of the code",
+        dv2["verdict"] == "AT_LEAST_ONE_BOOK_RESTS_ON_TWO_YEARS"
+        and dv2["books"][0]["verdict"] == "LESS_ROBUST_THAN_SHAPE",
+        dv2["books"][0]["verdict"])
+    # 16. strict on every phase: 3 of 4 is mixed, never "more robust"
+    _refc_mix = _refc[:3] + [{"phase_start": "p4", "retained_without_top2": 0.95}]
+    dv3 = drop_two_verdict([_dc("x", 0.8)], _refc_mix)
+    leg("a book that wins on three of four phases is mixed, not more robust",
+        dv3["books"][0]["verdict"] == "MIXED_BY_PHASE", dv3["books"][0]["verdict"])
+    # 17. the companion never touches the answer word (prereg §3 forbidden move)
+    d4 = decide([{"rung": "x", "verdict": "PHASE_DEPENDENT", "detail": ""}],
+                drop2=dv)
+    leg("the scale-free companion never turns a gate refusal into a pass",
+        d4["answer"] == "NO_RUNG_SURVIVES"
+        and (d4.get("drop_two") or {}).get("verdict") == dv["verdict"],
+        d4["answer"] + " / " + str((d4.get("drop_two") or {}).get("verdict")))
 
     bad = [n for n, ok, _ in legs if not ok]
     for n, ok, detail in legs:
