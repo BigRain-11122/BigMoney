@@ -6755,6 +6755,39 @@ def main() -> int:
         check("config: every face that prints a premium can name its session",
               False, repr(e)[:160])
 
+    # r1612: the guard above is deliberately narrow -- it asks whether a face carries a date, not
+    # whether each ROW is priced on its own denominator's date. That one-level-down question is
+    # r1605's defect (the 2026-11-12 ticket read 159655's price of 11-12 against a NAV dated 11-13
+    # and booked CNY 8,974 of premium that did not exist), and it was fixed by hand in the consumer.
+    # Tools/premium_leg_session_audit.py asks it of the whole tree: a leg whose denominator date is
+    # another session's may not carry a CNY figure, and if it carries none the face has to name it
+    # as set aside. Undated legs (older boards, no per-row stamp) and faces that price no session at
+    # all are counted and named, not failed -- a gate that is permanently red for history teaches
+    # readers to skip it, and re-dating an old board on today's panel would be worse than saying so.
+    try:
+        _pla = _premium_leg_audit()
+        _plres = _pla.audit()
+        _plred = _plres["red_legs"]
+        _plundated = [f["path"] for f in _plres["faces"]
+                      if f["states"].get(_pla.UNDATED)]
+        check("config: no premium is priced in CNY against another session's NAV",
+              not _plred,
+              ("%d leg(s) red: " % len(_plred)
+               + "; ".join("%s [%s] %s %s" % (h["path"], h["trail"], h["symbol"], h["state"])
+                           for h in _plred[:4]))[:220]
+              if _plred else
+              ("%d premium leg(s) in %d face(s): %d on their own session, %d disclosed as "
+               "lagging, %d with no per-row denominator date in %d face(s), %d face(s) price "
+               "no session"
+               % (_plres["sites"], _plres["faces_with_premium"],
+                  _plres["states"].get(_pla.SAME, 0),
+                  _plres["states"].get(_pla.FOREIGN_OK, 0),
+                  _plres["states"].get(_pla.UNDATED, 0), len(_plundated),
+                  _plres["states"].get(_pla.NO_FACE_SESSION, 0))))
+    except Exception as e:
+        check("config: no premium is priced in CNY against another session's NAV",
+              False, repr(e)[:160])
+
     # r1406: the forward ledger was committed on 2026-11-07 with a missing comma
     # between two list elements and a `drift` block that carried `faces`/`max_abs`
     # twice. Every reader of that file (the order ticket, the CEO page, the settle
@@ -10982,6 +11015,7 @@ def _claw():
 _SMOKE_CTH = None
 _SMOKE_JFG = None
 _SMOKE_PSG = None
+_SMOKE_PLA = None
 
 
 def _premium_session_guard():
@@ -10995,6 +11029,19 @@ def _premium_session_guard():
         _s.loader.exec_module(_m)
         _SMOKE_PSG = _m
     return _SMOKE_PSG
+
+
+def _premium_leg_audit():
+    """Tools/premium_leg_session_audit.py as a module (r1612): the per-leg half the guard leaves out."""
+    global _SMOKE_PLA
+    if _SMOKE_PLA is None:
+        import importlib.util as _ilu
+        _p = os.path.join("Tools", "premium_leg_session_audit.py")
+        _s = _ilu.spec_from_file_location("_smoke_premium_leg_session_audit", _p)
+        _m = _ilu.module_from_spec(_s)
+        _s.loader.exec_module(_m)
+        _SMOKE_PLA = _m
+    return _SMOKE_PLA
 
 
 def _json_face_guard():

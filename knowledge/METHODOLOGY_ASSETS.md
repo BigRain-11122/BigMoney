@@ -13924,3 +13924,34 @@ results/etf_premium/_proof_r1609_forward_2026-11-11.json（11-11 票 × 11-12 �
 否则「按场次取件」这条根本没重量）、真面 `results/etf_premium/PREMIUM-SUBSCRIPTION.json`
 （session 块 agreement=ALL_AT_TICKET_SESSION，5 腿 priced 2026-11-12 = ticket）、实战样本
 `results/etf_premium/_proof_r1610_subscription_session.json`（10/10 PASS，含板面 4 腿位移表）。
+
+
+### E585 · 一张面「有日子」和「每一行都有自己的日子」，是两个不同的闸（r1612 bm-c）
+
+r1605..r1611 七轮修的是同一个病——「今天」被读成面板末行。r1611 把它变成机械闸
+（`Tools/premium_session_guard.py`：这张面**有没有**一个能定位场次的字段），并在自己的
+docstring 里写明了射程：它答不了「每一行的分母是不是自己那根 bar」。那句自述就是本卡的起点。
+
+**① 下一层的闸是另一条腿，不是同一条腿加参数。** `Tools/premium_leg_session_audit.py`
+对全树每个印 `premium_pct` 的 dict 判：腿自带的分母日期（`nav_session`/`nav_date`/…）
+对上这张面声称的场次（`session`/`ticket_session`/`base_bar`/…）。两个可证的红：
+**数值红**＝分母属于别的场次却带着 CNY 溢价（r1605 那张 11-12 票的 159655，凭空 CNY 8,974）；
+**无声明红**＝分母属于别的场次、没有 CNY 数、而面里没有任何一处把它列为不计数。
+两个**计而不红**的桶同样要点名：没有逐行日期的腿（旧板早于逐行戳；或分母是当日板自己的
+IOPV，本来就没有 NAV 日期可带）、以及整张面不说自己价哪一场。半面红牌不可行动（E318 族）——
+永久红的闸只会教读者跳过它。
+
+**② `evidence_cutoff` 不是场次。** 它是腿尾部的最大值，一张只带它的面无法回答自己的行
+价在哪一天；把它当兜底会让「面板走过票面」这件事永远看不见。
+
+**③ 审计面自己会变成被审对象**：首跑把每腿的 `premium_pct` 原样抄进产物，第二跑它就审
+自己抄写的数——44 腿变 88 腿、每个被抄的行都算「无日期」。**引用不是印刷**：
+写成 `quoted_premium_pct` 而非 `premium_pct`，并按名跳过自己的产物（命名是主闸、skip 是保险）。
+
+**④ 变异必须在真数据上咬。** `--probe` 拿真板面在内存里复原 r1605：把 159655 的
+`over_nav_cny` 放回 -6833.21、所有声明列表原样不动 → 出版态 `FOREIGN_NAV_DISCLOSED`（安静），
+复原态 `MONEY_ON_FOREIGN_NAV`（红，且两个日期都点名）。只在夹具上绿的闸证明不了这件事。
+
+实锚：`Tools/premium_leg_session_audit.py`（自检 15/15）+ `results/premium_leg_session_audit.json`
+（7 面 44 腿：8 SAME／2 跨场已声明／24 无逐行日期／10 面不说场次，0 红）+ `--probe` PROBE-OK=True
++ `smoke_test.py` 新增 config 腿「no premium is priced in CNY against another session's NAV」。
