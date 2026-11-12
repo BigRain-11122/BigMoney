@@ -6617,6 +6617,20 @@ def main() -> int:
                     _bad29.append("split artifact has no cell for beta %s"
                                   % _cs29.get("beta"))
                 else:
+                    # r1575: a face recomputed inside the same bar (r1574) left the ticket
+                    # quoting a cell that no longer existed, and the bar-only gate could not
+                    # see it. Compare the artifact's byte identity first so the failure names
+                    # the cause instead of listing three mismatched numbers.
+                    import hashlib as _hl29
+                    _sha29 = _cs29.get("artifact_sha16")
+                    try:
+                        with open(_rgp, "rb") as _fh29b:
+                            _cur29 = _hl29.sha256(_fh29b.read()).hexdigest()[:16]
+                    except Exception:
+                        _cur29 = None
+                    if _sha29 and _cur29 and _sha29 != _cur29:
+                        _bad29.append("split priced on artifact %s but the artifact on disk is"
+                                      " %s -- re-run the ticket" % (_sha29, _cur29))
                     for _k29 in ("observed_pct", "flat_today_pct", "zero_pct"):
                         if _cell29.get(_k29) is None or \
                                 abs(float(_cell29[_k29]) - float(_cs29.get(_k29))) > 1e-9:

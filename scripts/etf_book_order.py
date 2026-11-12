@@ -35,6 +35,7 @@ Outputs:
 Exploratory: not a verdict, not investment advice, no ledger booking.
 """
 import glob
+import hashlib
 import json
 import os
 import sys
@@ -838,8 +839,15 @@ def carry_split(beta=None, path=None):
     p = path or os.path.join(BASE, "results", "etf_book_return_regime.json")
     want = float(DEFAULT_BETA if beta is None else beta)
     try:
-        with open(p, encoding="utf-8") as fh:
-            doc = json.load(fh)
+        with open(p, "rb") as fh:
+            raw = fh.read()
+        # r1575: the ticket only compared the artifact's *bar* with its own, so a face that
+        # was recomputed inside the SAME bar (r1574 dated the "today" rate and re-ran it) left
+        # the ticket quoting a cell that no longer existed -- both sides said 2026-11-11 and
+        # nothing could tell them apart. Carry the artifact's own byte identity so a reader
+        # can see which revision priced the split.
+        artifact_sha16 = hashlib.sha256(raw).hexdigest()[:16]
+        doc = json.loads(raw.decode("utf-8"))
         gate = doc.get("gate") or {}
         cells = gate.get("betas") or {}
         if not cells:
@@ -856,6 +864,7 @@ def carry_split(beta=None, path=None):
         except Exception:                       # fixture on another drive
             artifact = str(p)
         return {"artifact": artifact,
+                "artifact_sha16": artifact_sha16,
                 "evidence_cutoff": doc.get("evidence_cutoff"),
                 "beta": float(key),
                 "beta_requested": want,
@@ -2406,8 +2415,10 @@ def card(ticket, mk, sched, asof, beta, extra):
         if cs["evidence_cutoff"] and asof and cs["evidence_cutoff"] != asof:
             L += ["- ⚠ 拆解定价 bar %s 落后本单 %s：这是拆解面没跟上，不是利率变了，"
                   "按旧 bar 的数字只当量级读。" % (cs["evidence_cutoff"], asof)]
-        L += ["- 出处：%s（cutoff %s；探索件，无预注册、无判决、不入账本）。"
-              % (cs["artifact"], cs["evidence_cutoff"] or "未知")]
+        L += ["- 出处：%s（cutoff %s；版本 %s；探索件，无预注册、无判决、不入账本）。"
+              % (cs["artifact"], cs["evidence_cutoff"] or "未知",
+                 ("sha256:" + cs["artifact_sha16"]) if cs.get("artifact_sha16")
+                 else "未记（旧件）")]
     else:
         L += ["", "## 这条年化里有多少是现金利息",
               "- 拆解面在盘上没有可用读数（results/etf_book_return_regime.json 缺失或"
@@ -5173,6 +5184,18 @@ def selftest():
         chk("leg43b an off-grid beta snaps to the nearest published cell, never to the base",
             (carry_split(0.45, path=rp7) or {}).get("beta") == 0.2
             and (carry_split(0.12, path=rp7) or {}).get("beta") == 0.1, "")
+        # r1575: r1574 recomputed this artifact inside the same bar (it dated the "today"
+        # rate). The ticket kept quoting a cell that no longer existed, and the bar-only
+        # gate above could not see it -- both sides said 2026-11-11. The split now carries
+        # the artifact's own byte identity, and this leg proves it follows the bytes.
+        _sha43a = (carry_split(0.2, path=rp7) or {}).get("artifact_sha16")
+        rp7b = os.path.join(cdt7, "regime2.json")
+        with open(rp7b, "w", encoding="utf-8") as f:
+            json.dump(dict(rg, evidence_cutoff="2026-10-31"), f)
+        _sha43b = (carry_split(0.2, path=rp7b) or {}).get("artifact_sha16")
+        chk("leg43c the split carries the artifact's byte identity and it moves with the bytes",
+            bool(_sha43a) and len(str(_sha43a)) == 16 and _sha43a != _sha43b,
+            "a=%r b=%r" % (_sha43a, _sha43b))
         md7 = card(None, None, None, "2026-10-30", 0.2, {"inception": "2024-01-01", "carry": cs})
         chk("leg44 the sheet prints the split: headline / zero-cash / the pp it costs",
             "这条年化里有多少是现金利息" in md7 and "8.9%" in md7

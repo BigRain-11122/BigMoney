@@ -7,7 +7,7 @@ Verdict: **attention** -- 12/15 lanes in sync, 13/15 auditable from this machine
 
 ## Whose disk these numbers are on
 
-以本机 bm-c 的盘为基准：14 条在役车道里有 1 条的数字不在本机盘上：1 条在 bm-b 的盘上（309.29h 未报到）；留在本机盘上的 13 条里 13 条可核实。
+以本机 bm-c 的盘为基准：14 条在役车道里有 1 条的数字不在本机盘上：1 条在 bm-b 的盘上（309.67h 未报到）；留在本机盘上的 13 条里 13 条可核实。
 
 - `bm-b`: marks (host down)
 | lane | host | tail | missing (official days) | verdict | authority |
@@ -33,6 +33,12 @@ Verdict: **attention** -- 12/15 lanes in sync, 13/15 auditable from this machine
 - `marks`: an intraday tick capture: a day with no marks file cannot be rebuilt by any machine -- the file is append-only and the ticks it would have held are gone
 - `ah_panel`: a premium pair day is quotable only from that day's closes
 
+## Why the late lanes stopped
+
+The collector's own last words, quoted rather than re-derived. An empty cause means the lane was simply never run on this host.
+
+- `ah_panel`: last exit 2 | target 2026-11-11 | attempt 2026-11-12 06:39:58 | mapping_error: em page 1: RemoteDisconnected: Remote end closed connection without response
+
 ## Lanes judged against their own window
 
 These lanes do not owe every official day: their collector refreshes on a rolling window of trading days, so a gap inside that window is the design and the verdict is `in_sync`. The row's `missing` column counts official days since the tail; the window below is the lane's own promise, and the sessions-left number says when that promise runs out.
@@ -50,15 +56,15 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 These lanes cannot be certified here and the machine that is supposed to collect them has not written a heartbeat for more than 2.0h. Until it comes back the numbers below are this machine's stale copies, not the company's data.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (309.29h ago) -- holding back marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (309.67h ago) -- holding back marks
 
 ## Owners that stopped reporting
 
 A different question from the section above: these machines have written no heartbeat for more than 24.0h, so the lanes they own are being judged from whatever was last committed. A lane here can still read `in_sync` -- the number is old, the owner is gone, and nobody would notice the day the file stops being written.
 
-- `bm-a`: last seen 2026-11-11T01:14:51+08:00 (32.76h ago) -- owns futures, heat, lhb, repo
+- `bm-a`: last seen 2026-11-11T01:14:51+08:00 (33.14h ago) -- owns futures, heat, lhb, repo
   - already covered by a declared stand-in: futures <- bm-c, heat <- bm-c, lhb <- bm-c, repo <- bm-c (nothing to wait for)
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (309.29h ago) -- owns astock_daily, marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (309.67h ago) -- owns astock_daily, marks
   - already covered by a declared stand-in: astock_daily <- bm-c (nothing to wait for)
   - nobody is covering these: marks
 
@@ -72,9 +78,9 @@ A status envelope is committed by whichever machine ran the leg, and every machi
 
 The per-symbol panels hold thousands of files, so their tail is read through an evenly spaced sample rather than a full sweep. A sample can miss a single laggard symbol; it cannot miss a panel that stopped weeks ago. Each row below says how many symbols were read out of how many.
 
-- `ah_panel`: 40 of 187 symbols read, tail 2026-11-10; the full scan holds it in 187 of 187 symbols (100.00%) (certified 2026-11-12T03:49:10)
-- `moneyflow`: 40 of 5226 symbols read, tail 2026-11-10; the full scan holds it in 5,225 of 5,226 symbols (100.00%) (certified 2026-11-12T03:49:10)
-- `astock_daily`: 40 of 5223 symbols read, tail 2026-11-11; the full scan holds it in 1,985 of 5,223 symbols (38.00%) (certified 2026-11-12T03:49:10)
+- `ah_panel`: 40 of 187 symbols read, tail 2026-11-10; the full scan holds it in 187 of 187 symbols (100.00%) (certified 2026-11-12T10:13:58)
+- `moneyflow`: 40 of 5226 symbols read, tail 2026-11-10; the full scan holds it in 5,225 of 5,226 symbols (100.00%) (certified 2026-11-12T10:13:58)
+- `astock_daily`: 40 of 5223 symbols read, tail 2026-11-11; the full scan holds it in 5,207 of 5,223 symbols (99.69%) (certified 2026-11-12T10:13:58)
 
 Full-scan certification of exactly these rows: `scripts/data_lane_freshness.py certify` -> `docs/data_lanes/TAIL_CERTIFICATION.md` (it re-reads every file and names the symbols that sit behind the newest bar).
 

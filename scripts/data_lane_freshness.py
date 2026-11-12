@@ -175,6 +175,42 @@ WRITER_FACES = [
 ]
 
 
+def collector_cause(spec, root=None):
+    """Why the lane's own writer last stood down (r1575).
+
+    `behind_1d` and `stalled` are the same word for two different jobs: the source
+    refused us, or nobody ran the lane. The collector already writes which one
+    (`last_refresh_exit` plus a `*_error`), and re-diagnosing it by hand every round
+    is exactly the r1102 / E318 pattern -- a red flag nobody can act on. Read the
+    envelope; print what it says; invent nothing when it says nothing.
+    """
+    root = root or ROOT
+    path = spec.get("path")
+    if not path:
+        return None
+    try:
+        with open(os.path.join(root, path), encoding="utf-8") as f:
+            doc = json.load(f)
+    except Exception:                                   # noqa: BLE001
+        return None
+    if not isinstance(doc, dict):
+        return None
+    out = {}
+    for k in ("last_refresh_exit", "exit", "last_spawn_attempt", "ts",
+              "run_target", "cutoff"):
+        if doc.get(k) not in (None, ""):
+            out[k] = doc.get(k)
+    errs = {k: doc[k] for k in doc
+            if isinstance(k, str) and k.endswith("error") and doc[k]}
+    if errs:
+        out["errors"] = errs
+    # A no-op lane that is simply waiting for today's bar is not a failure; only
+    # a non-zero exit or a recorded error makes this a cause.
+    if not errs and str(out.get("last_refresh_exit", out.get("exit", 0))) in ("0", "None"):
+        return None
+    return out or None
+
+
 def declared_lane_hosts(root=ROOT):
     """{writer: host} exactly as the collector family resolves it (single source)."""
     try:
@@ -620,6 +656,11 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
             row["within_window"] = True
             row["days_behind"] = len(missing)
         row.update(extra)
+        # r1575: a late lane and a lane whose source refused are two different jobs.
+        if row.get("verdict") in ("behind_1d", "stalled"):
+            _cc = collector_cause(spec)
+            if _cc:
+                row["collector_cause"] = _cc
         if spec.get("fatal_loss"):
             row["loss_mode"] = spec["fatal_loss"]
         if extra.get("cited_verdict") and verdict != "today_pending":
@@ -1271,6 +1312,28 @@ def render_md(report, cert="auto"):
         tailnote = "\n## Lanes where a missed day cannot be recovered\n\n"
         for r in fatal:
             tailnote += f"- `{r['lane']}`: {r['loss_mode']}\n"
+    # r1575: a lane behind its own promise has one of two problems -- the source
+    # refused us, or nobody ran it. The collector records which; print its words
+    # rather than leaving the reader to re-diagnose the same red row every round.
+    caused = [r for r in report["lanes"] if r.get("collector_cause")]
+    if caused:
+        tailnote += ("\n## Why the late lanes stopped\n\n"
+                     "The collector's own last words, quoted rather than re-derived. "
+                     "An empty cause means the lane was simply never run on this host.\n\n")
+        for r in caused:
+            cc = r["collector_cause"]
+            bits = []
+            _ex = cc.get("last_refresh_exit", cc.get("exit"))
+            if _ex is not None:
+                bits.append("last exit %s" % _ex)
+            if cc.get("run_target"):
+                bits.append("target %s" % cc["run_target"])
+            if cc.get("last_spawn_attempt"):
+                bits.append("attempt %s" % cc["last_spawn_attempt"])
+            for _k, _v in sorted((cc.get("errors") or {}).items()):
+                bits.append("%s: %s" % (_k, str(_v)[:140]))
+            tailnote += "- `%s`: %s\n" % (r["lane"],
+                                          " | ".join(bits) or "no cause published")
     # r1517: a rolling-window lane owes nothing inside its window, so the table
     # can print "11 missing" next to "in_sync" -- true, and useless. This
     # section prints the contract that produced the green verdict and the
@@ -2462,7 +2525,37 @@ def selftest():
           "describe the same moment (an undated block is a finding, not a "
           "pass, and same-moment disagreement is still red)", flush=True)
 
-    print("selftest: 36/36 PASS", flush=True)
+    # L37 r1575: `behind_1d` and `stalled` are one word for two jobs -- the source
+    # refused us, or nobody ran the lane. The collector's own last words are quoted
+    # onto the row, and a lane that merely waited for today's bar is never dressed
+    # as a failure (measured 2026-11-12: ah_panel read behind_1d while its envelope
+    # said last_refresh_exit=2 / EM RemoteDisconnected since 06:39).
+    import shutil as _sh37
+    import tempfile as _tf37
+    _cd37 = _tf37.mkdtemp()
+    try:
+        _p37 = os.path.join(_cd37, "st.json")
+        with open(_p37, "w", encoding="utf-8") as _f37:
+            json.dump({"last_refresh_exit": 2, "run_target": "2026-11-11",
+                       "last_spawn_attempt": "2026-11-12 06:39:58",
+                       "mapping_error": "em page 1: RemoteDisconnected"}, _f37)
+        _c37 = collector_cause({"lane": "x", "path": _p37})
+        assert _c37 and _c37.get("last_refresh_exit") == 2 \
+            and (_c37.get("errors") or {}).get("mapping_error"), _c37
+        print("[PASS] L37a a late lane carries the collector's own exit and error",
+              flush=True)
+        with open(_p37, "w", encoding="utf-8") as _f37:
+            json.dump({"last_refresh_exit": 0, "cutoff": "2026-11-11"}, _f37)
+        assert collector_cause({"lane": "x", "path": _p37}) is None
+        print("[PASS] L37b a lane that only waited for today's bar is not dressed as "
+              "a failure", flush=True)
+        assert collector_cause({"lane": "x",
+                                "path": os.path.join(_cd37, "none.json")}) is None
+        print("[PASS] L37c a missing envelope invents no cause", flush=True)
+    finally:
+        _sh37.rmtree(_cd37, ignore_errors=True)
+
+    print("selftest: 39/39 PASS", flush=True)
     return 0
 
 
