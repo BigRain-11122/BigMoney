@@ -11533,10 +11533,14 @@ def _legs_supply_and_book():
             # not a book the account can hold), so this re-derivation has to be handed the
             # swap face too -- without it, "fresh != published" would only prove the leg
             # forgot an input.
-            _fresh56 = _EXD56.compute({"as_of": _tk56.get("as_of"),
-                                       "ticket": _tk56.get("ticket"),
-                                       "positions": _tk56.get("positions"),
-                                       "swap_stack": _tk56.get("swap_stack")})
+            # r1590: and it has to ask through the SAME resolver the sheet was built with.
+            # The writer (run/check) calls compute_for_ticket, which picks the statement
+            # settled on the sheet's own bar; a bare compute() asked a different question
+            # and printed "fresh != published" on every bar once a same-bar statement
+            # existed -- a red that could never go green (E318 family: readers learn to
+            # skip it). One resolver, one comparison (module drift(), also used by
+            # check()), so leg and producer cannot disagree on what "the same face" means.
+            _fresh56 = _EXD56.compute_for_ticket(_tk56)
             _ss56 = _tk56.get("swap_stack") or {}
             _moved56 = _EXD56.resolve_target(
                 {"swap_stack": _ss56}, _tk56.get("as_of"), (_tk56.get("ticket") or {}).get("order") or [])
@@ -11557,8 +11561,10 @@ def _legs_supply_and_book():
                 _bad56.append("published exec_delta does not reconcile: %s" % "; ".join(_b56))
             if _m56:
                 _bad56.append("published exec_delta is another sheet's: %s" % "; ".join(_m56))
-            if _fresh56 != _pub56:
-                _bad56.append("ticket's exec_delta is not what this bar's own faces produce")
+            _dr56 = _EXD56.drift(_pub56, _fresh56)
+            if _dr56:
+                _bad56.append("ticket's exec_delta is not what this bar's own faces produce: %s"
+                              % "; ".join(_dr56)[:160])
             _md56p = os.path.join(PATHS.results_dir, "etf_book_order",
                                   "ORDER-%s.md" % (_tk56.get("as_of") or ""))
             if not os.path.exists(_md56p):
@@ -11568,6 +11574,13 @@ def _legs_supply_and_book():
                     _md56 = _fh56.read()
                 if "这张单实际要下的动作" not in _md56:
                     _bad56.append("sheet has no executable-delta section")
+                # r1590: the statement the table subtracted decides every row; the face has
+                # carried it since r1521 and the sheet printed nothing, so this pins the
+                # page to the face (E281: a field nobody prints is not a disclosure).
+                _src56 = (_pub56 or {}).get("positions_source")
+                if _src56 and ("positions_source=%s" % _src56) not in _md56:
+                    _bad56.append("sheet does not name the statement it subtracted (%s)"
+                                  % (_src56,))
                 for _r56 in (_pub56 or {}).get("rows") or []:
                     _cell56 = "| %s | %.3f | %d | %d | %+d |" % (
                         _r56.get("symbol"), float(_r56.get("price") or 0.0),

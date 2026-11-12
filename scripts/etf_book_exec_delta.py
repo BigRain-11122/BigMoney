@@ -464,6 +464,59 @@ def _money(x):
     return format(float(x), ",.2f")
 
 
+def positions_source_note(face):
+    """WHICH statement this table subtracted, in one line the reader can check.
+
+    r1590: the face has carried `positions_source` since r1521 (the statement on the
+    sheet's own bar, or the snapshot embedded in the ticket), and the sheet printed
+    neither -- so the one choice that decides every row of the action table was visible
+    only to whoever opened the JSON. E281 family: a field nobody prints is not a
+    disclosure. The raw token rides along in backticks so a leg can pin the page to the
+    face instead of trusting the prose.
+    """
+    src = (face or {}).get("positions_source")
+    if not src:
+        return None
+    if str(src).startswith("face@"):
+        return ("- 相减用的账：**盘上账本面**（`results/etf_book_positions.json`，asof %s）"
+                "——不是票面构建那一刻的内嵌快照。｜`positions_source=%s`"
+                % (str(src)[len("face@"):], src))
+    return ("- 相减用的账：**票面内嵌快照**（票面构建那一刻的账）——盘上没有与本单同 bar"
+            " 的账本面，本节因此减的是那一刻那本账。｜`positions_source=%s`" % src)
+
+
+# r1589: the fields `run()` stamps on the face after computing it. They describe the
+# envelope (which ticket file, which cutoff the run recorded), not the subtraction, so
+# they are the ONLY keys this comparison may skip.
+ENVELOPE_KEYS = ("ticket_file", "evidence_cutoff")
+
+
+def drift(old, fresh):
+    """Every published number, re-derived: the ONE definition of 'the same face'.
+
+    r1590: `check()` compared eight keys plus the rows, while the smoke leg compared the
+    whole dict -- so a ticket-only stamp (`ticket_file`) and an envelope field
+    (`evidence_cutoff`) made the leg red by construction, and it stayed red for as long
+    as nobody looked. Two versions of the same question is how a leg comes to measure
+    something the module never promised. Both readers call this now.
+
+    r1589: and the fix may not be weaker than the leg it replaced. A hand-listed nine
+    keys silently stopped covering whatever the face grew next -- `declaration` (the
+    per-bar action reconciliation, the reason this face exists), `mark`, `unpriced_rows`
+    and `cash_recon_cny` were all published and all compared by nothing, i.e. a sheet
+    could have drifted on the one block a reader checks by hand while this gate stayed
+    green. The comparison is now "everything the face publishes, minus the two envelope
+    stamps", so a new field is covered the moment it is written instead of the moment
+    somebody remembers to add it to a list.
+    """
+    old, fresh = old or {}, fresh or {}
+    bad = []
+    for k in sorted((set(old) | set(fresh)) - set(ENVELOPE_KEYS)):
+        if old.get(k) != fresh.get(k):
+            bad.append("%s %r != %r" % (k, fresh.get(k), old.get(k)))
+    return bad
+
+
 def sentence(face):
     if not face:
         return "这张票面没有目标，本面不出数。"
@@ -503,10 +556,16 @@ def md_lines(face, heading="## 这张单实际要下的动作（r1516）"):
     if not face:
         return ["", heading, "- 这张票面没有目标，算不出动作。", ""]
     if face.get("refused"):
-        return ["", heading, "- **算不出来**：%s。" % face["refused"],
-                "- 读法：本面只做减法，不猜账。「算不出来」与「不用下单」是两件事，"
-                "缺的是账上那一行，不是动作本身。", ""]
+        _L = ["", heading, "- **算不出来**：%s。" % face["refused"]]
+        _s = positions_source_note(face)
+        if _s:
+            _L.append(_s)
+        return _L + ["- 读法：本面只做减法，不猜账。「算不出来」与「不用下单」是两件事，"
+                     "缺的是账上那一行，不是动作本身。", ""]
     L = ["", heading, "- %s" % sentence(face)]
+    _src = positions_source_note(face)
+    if _src:
+        L.append(_src)
     _dec = face.get("declaration") or {}
     if _dec:
         L.append("- **账本 %s 那一行不是买进来的账**：票面这一天只印了 %d 条动作，"
@@ -622,13 +681,7 @@ def check(path=None):
         print("CHECK_FAIL no face on disk")
         return 2
     old = _load(OUT_JSON)
-    bad = []
-    for k in ("verdict", "gross_buy_cny", "gross_sell_cny", "turnover_cny", "net_cash_cny",
-              "cash_after_cny", "target_total_cny", "current_total_cny"):
-        if (fresh or {}).get(k) != old.get(k):
-            bad.append("%s %r != %r" % (k, (fresh or {}).get(k), old.get(k)))
-    if ((fresh or {}).get("rows") or []) != (old.get("rows") or []):
-        bad.append("rows differ")
+    bad = drift(old, fresh)
     if bad:
         print("CHECK_FAIL " + "; ".join(bad))
         return 3
@@ -894,6 +947,42 @@ def selftest():
         leg("L44 a statement from another bar is never mixed in",
             compute_for_ticket(_sheet, positions_path=_op)["positions_source"]
             == "ticket_embedded")
+        # r1590: the choice above decides every row of the action table and was printed
+        # nowhere. The page must carry it, in the reader's language AND as the raw token,
+        # and a face that never made the choice must not have one invented for it.
+        _pg_face = "\n".join(md_lines(_use))
+        _pg_emb = "\n".join(md_lines(_gone))
+        leg("L45 the page names the statement it subtracted, both branches",
+            positions_source_note(_use) in _pg_face
+            and positions_source_note(_gone) in _pg_emb
+            and positions_source_note(_use) != positions_source_note(_gone)
+            and "positions_source=face@2026-01-02" in _pg_face
+            and "positions_source=ticket_embedded" in _pg_emb
+            and "盘上账本面" in _pg_face and "票面内嵌快照" in _pg_emb)
+        leg("L46 a face that made no such choice prints no source line",
+            positions_source_note(_emb) in _pg_emb
+            and positions_source_note({"positions_source": None}) is None
+            and positions_source_note(None) is None)
+        # L47/L48: one comparison, two readers. The envelope stamps a ticket-only field
+        # (ticket_file) and run()'s own cutoff must not make a face "drift"; a changed
+        # subtraction source or a changed row must.
+        _stamped = dict(_use, ticket_file="TICKET-2026-01-02.json",
+                        evidence_cutoff=_use.get("bar"))
+        leg("L47 ticket-only stamps are not drift", drift(_stamped, _use) == [])
+        _flipped = dict(_use, positions_source="ticket_embedded")
+        _rows = json.loads(json.dumps(_use))
+        _rows["rows"][0]["delta_lots"] = int(_rows["rows"][0]["delta_lots"]) + 1
+        leg("L48 a changed source or a changed row still drifts",
+            bool(drift(_flipped, _use)) and bool(drift(_rows, _use))
+            and any("positions_source" in b for b in drift(_flipped, _use)))
+        # r1589: the coverage leg. `declaration` is the block a reader checks by hand and
+        # it sat outside the old nine-key list, so this leg would have passed while the
+        # action reconciliation drifted. It fires on a field nobody listed -- i.e. it
+        # proves the comparison is "everything published", not "everything remembered".
+        _decl = json.loads(json.dumps(_fd))
+        _decl["declaration"]["cny_moved"] = float(_decl["declaration"]["cny_moved"]) + 1.0
+        leg("L49 a drift in a field nobody hand-listed still drifts",
+            bool(drift(_decl, _fd)) and any("declaration" in b for b in drift(_decl, _fd)))
 
     bad = [n for n, v in ok if not v]
     for n, v in ok:
