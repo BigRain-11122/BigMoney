@@ -5169,7 +5169,7 @@ def fill_block(fl, sheet=None):
         try:
             lines = list(mod.pending_fill_md(pf, fl.get("last_bar"), fl.get("last_cash"), fills,
                                             calendar_dates(),
-                                            dt.date.today().isoformat()))
+                                            dt.date.today().isoformat(), sheet=sheet))
         except TypeError:
             try:
                 lines = list(mod.pending_fill_md(pf, fl.get("last_bar"), fl.get("last_cash")))
@@ -9028,6 +9028,25 @@ def selftest():
         "没有记名册" in _ex_lf_bare and "进：" not in _ex_lf_bare, "len=%d" % len(_ex_lf_bare))
     chk("L179 executed face: another bar's fill is not this ticket's fill",
         executed_face({"as_of": "2026-11-10"}, fills=_fills).get("status") == "none")
+    # r1590: the receipt section is the LEDGER's book; the sheet below it may be a different,
+    # quota-trimmed book (2026-11-12: the receipt turned 12 names, the sheet lists 5). The
+    # page has to say so, from the two name sets -- and stay silent when they are the same.
+    _fl_fix = {"status": "ok", "pending": None, "fills": _fills, "last_bar": "2026-11-11",
+               "last_cash": 0.2992, "n_fills": 1, "cum_cost_bp": 12.6, "cum_cost_cny": 1273.67}
+    _split_txt = "\n".join(fill_block(_fl_fix, sheet={
+        "order": [{"symbol": "159519"}, {"symbol": "159655"}, {"symbol": "510210"},
+                  {"symbol": "512040"}, {"symbol": "513500"}],
+        "n_hold": 5, "k_now": 0.432195}))
+    chk("L180 the fill receipt names the book it belongs to when the sheet lists another",
+        "这条回执不是这张单的成交" in _split_txt and "**3 名**" in _split_txt
+        and "**5 名**" in _split_txt and         "重合 1 名" in _split_txt,
+        " | ".join([ln for ln in _split_txt.splitlines() if "回执不是" in ln][:1]) or "(no line)")
+    _same_txt = "\n".join(fill_block(_fl_fix, sheet={
+        "order": [{"symbol": s} for s in ("159519", "510760", "513690")],
+        "n_hold": 3, "k_now": 0.909384}))
+    chk("L181 the same book prints no divergence sentence",
+        "这条回执不是这张单的成交" not in _same_txt and "不是券商回单" in _same_txt,
+        "len=%d" % len(_same_txt))
     # r1514: the per-name decomposition of what the floor cut. Three ways to lie: absent
     # reads as "nothing was cut", rows that do not add up to their own total, and another
     # sheet's table pasted onto this page.
