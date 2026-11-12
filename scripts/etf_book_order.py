@@ -2297,6 +2297,42 @@ def permission_md(pb):
     return L
 
 
+def bar_scope_note(feed, face):
+    """Which bar sizes the book, and which bar only dates the swap window (r1595).
+
+    The 2026-11-12 sheet printed `current` at the top and `STALE` three lines down.
+    Both were true: the first says which bar the holdings and k sit on, the second says
+    which bar the ten swap-section faces sit on. Nothing on the page said these are two
+    different questions, so the only reading a human can get is "is this sheet today's
+    or not". A face that only answers "is my bar current" cannot answer that.
+
+    Printed only when the two actually disagree -- when both are on today's bar the
+    sentence is noise, and a daily noise line is how a caveat stops being read.
+    """
+    if not isinstance(feed, dict) or not isinstance(face, dict):
+        return []
+    if feed.get("status") != "current" or not face.get("legs"):
+        return []
+    verdict = face.get("verdict")
+    if not verdict or verdict == "FRESH":
+        return []
+    bad = [r for r in (face.get("legs") or []) if r.get("status") != "FRESH"]
+    if not bad:
+        return []
+    worst = max(bad, key=lambda r: (r.get("lag_sessions") or 0))
+    return ["## 两个 bar 是两个问题（本节与下一节各管什么）",
+            "- **今天买什么、买多少**：由本单定价 bar **%s** 上的收盘价与 k 定"
+            "（k 与目标金额见下面「今日目标」一节）。"
+            % (feed.get("ticket_bar") or "?"),
+            "- **换票之后什么时候再看一次**：下一节的 %d 个节停在 bar **%s**，"
+            "它们只回答这个换票窗口的问题。"
+            % (len(bad), worst.get("bar") or "?"),
+            "- 所以「本单定价 bar = current」与「换票解释面 = %s」可以同时成立；"
+            "后者会随源恢复自愈，前者不因此失真。这一节的数字仍然不能当今天的"
+            "换票判据读。" % verdict,
+            ""]
+
+
 def card(ticket, mk, sched, asof, beta, extra):
     L = ["# ETF 复合书 · 可执行订单单（%s）" % asof, "",
          "当前活：β 目标 %.2f 的单本 R%d N%d + GC001 现金腿，每 %d 个交易日重算一次 k。"
@@ -2316,6 +2352,8 @@ def card(ticket, mk, sched, asof, beta, extra):
         if feed.get("status") in ("stale_feed", "feed_broken"):
             L += ["> ⚠ 提醒：本单的定价 bar 落后市场 %s 个交易日 —— 这是数据面的滞后，"
                   "不是书换了判断。照此单下手前必须知道这一点。" % ("?" if lag is None else lag), ""]
+    # r1595: two bars, two questions -- say so before the reader compares them.
+    L += bar_scope_note(feed, extra.get("swap_freshness"))
     # r1532: the card quotes the same ten faces as the ticket, so it carries the same
     # sentence about which bar each of them is on.
     L += SFI.ticket_lines(extra.get("swap_freshness"))
@@ -6261,6 +6299,25 @@ def selftest():
             "这条回执不是这张单的成交" not in _md_same and "4 名**" not in _md_same)
         chk("leg73 the receipt never claims real money was paid (it is the ledger's own charge)",
             "钱也真的付了" not in _md_receipt and "不是券商回单" in _md_receipt)
+        # r1595: two bars, two questions. The 2026-11-12 sheet printed `current` at the top
+        # and `STALE` three lines down with nothing saying they were different questions.
+        _feed_cur = {"status": "current", "ticket_bar": "2026-11-12",
+                     "expected_bar": "2026-11-12"}
+        _face_stale = {"verdict": "STALE", "n_legs": 2, "evidence_cutoff": "2026-11-12",
+                       "legs": [{"leg": "sibling_entry", "bar": "2026-11-11", "lag_sessions": 1,
+                                 "status": "STALE", "reason": "1 session(s) behind"},
+                                {"leg": "sibling_gap", "bar": "2026-11-12", "lag_sessions": 0,
+                                 "status": "FRESH", "reason": "-"}]}
+        _note = "\n".join(bar_scope_note(_feed_cur, _face_stale))
+        chk("leg74 a current ticket beside a stale swap section says they are two questions",
+            "两个 bar 是两个问题" in _note
+            and "2026-11-12" in _note and "2026-11-11" in _note, _note[:140])
+        chk("leg75 both bars on today prints no note (a daily caveat stops being read)",
+            bar_scope_note(_feed_cur, {"verdict": "FRESH", "legs": _face_stale["legs"]}) == [])
+        chk("leg76 a ticket behind on its own bar does not dilute it with this note",
+            bar_scope_note({"status": "stale_feed", "ticket_bar": "2026-11-11"},
+                           _face_stale) == [])
+
 
     # legA-D (r1572): the sheet must state the gate's decision, and must never read
     # "no gate face" / "book not in the gate" as a pass. Fixtures write their own gate
