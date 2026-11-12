@@ -3,7 +3,15 @@
  "machine": "bm-c",
  "session": "2026-11-12",
  "source": {
-  "view": "ETF spot board (eastmoney via akshare fund_etf_spot_em)",
+  "view": "sina quoted tape + the session's published unit NAV (fallback: the IOPV board did not answer)",
+  "readers": [
+   "sina_nav_not_iopv"
+  ],
+  "reader_rows": {
+   "sina_nav_not_iopv": 1667
+  },
+  "mixed": false,
+  "denominator": "the session's published unit NAV, NOT an intraday IOPV",
   "fetched_at": "2026-11-13T00:18:35+0800",
   "rows": 1667,
   "nav_board": "same-day unit NAV board (fund_etf_fund_daily_em) used as the second source"
@@ -33,7 +41,8 @@
    "trust": "iopv+same-day-nav",
    "over_nav_cny": -182.67,
    "iopv": 1.2767,
-   "price": 1.274
+   "price": 1.274,
+   "source": "sina_nav_not_iopv"
   },
   {
    "symbol": "512040",
@@ -45,7 +54,8 @@
    "trust": "iopv+same-day-nav",
    "over_nav_cny": -7.28,
    "iopv": 1.1871,
-   "price": 1.187
+   "price": 1.187,
+   "source": "sina_nav_not_iopv"
   },
   {
    "symbol": "159655",
@@ -57,7 +67,8 @@
    "trust": "iopv-only",
    "over_nav_cny": null,
    "iopv": 1.8573,
-   "price": 1.999
+   "price": 1.999,
+   "source": "sina_nav_not_iopv"
   },
   {
    "symbol": "513690",
@@ -69,7 +80,8 @@
    "trust": "iopv+same-day-nav",
    "over_nav_cny": -890.71,
    "iopv": 1.163,
-   "price": 1.151
+   "price": 1.151,
+   "source": "sina_nav_not_iopv"
   },
   {
    "symbol": "159519",
@@ -81,7 +93,8 @@
    "trust": "iopv+same-day-nav",
    "over_nav_cny": -1004.97,
    "iopv": 1.7625,
-   "price": 1.742
+   "price": 1.742,
+   "source": "sina_nav_not_iopv"
   }
  ],
  "priced_legs": 4,
@@ -163,6 +176,7 @@
   "a cross-border leg publishes its NAV at T+n, so on the session itself its IOPV cannot be checked against anything. Those legs are marked unverified and carry NO CNY figure: an IOPV that has drifted from the basket looks exactly like a real premium from one snapshot.",
   "the board is read at one moment: before the close these numbers move, and cross-border legs are the ones that move most (their underlying trades in another timezone).",
   "a positive premium is a cost only to a buyer; it is income to a seller. This face says nothing about which side the book will be on tomorrow.",
-  "no historical premium series is long enough to build a percentile gate from: this face runs once per session on the daily chain from 2026-11-06, so a 'is today's premium high for this leg' reading has to wait for the series to accumulate."
+  "no historical premium series is long enough to build a percentile gate from: this face runs once per session on the daily chain from 2026-11-06, so a 'is today's premium high for this leg' reading has to wait for the series to accumulate.",
+  "this session's denominator is the fund's published unit NAV, not an intraday IOPV: the premium is measured against the day's official net asset value, so it carries no intraday basket drift -- and it is only coarsely comparable with an IOPV-based premium from an earlier session."
  ]
 }

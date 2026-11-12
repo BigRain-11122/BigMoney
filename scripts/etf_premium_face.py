@@ -105,6 +105,42 @@ def _num(s):
     return pd.to_numeric(s, errors="coerce")
 
 
+SOURCE_COL_NAMES = ("_source", "source")
+# r1600: the two spellings are the same fact -- one is how the board arrives in memory,
+# the other is how it is written to the session CSV. A reader that knows only one of them
+# loses the provenance on save or invents it on reload.
+READER_IOPV = "em_iopv"
+READER_NAV = "sina_nav_not_iopv"
+
+
+def _src_one(v) -> str:
+    """One cell -> a reader name. A missing cell means 'the board we read by default'.
+
+    Deliberately not pandas string ops: a missing value in a string column arrives as NaN
+    in one version and as the string 'nan' in another, and both spellings of 'absent' have
+    to end up as the default reader rather than as a third, unknown one.
+    """
+    if v is None:
+        return READER_IOPV
+    try:
+        if v != v:  # NaN, of either flavour
+            return READER_IOPV
+    except (TypeError, ValueError):
+        pass
+    s = str(v).strip()
+    if not s or s.lower() in ("nan", "none", "<na>"):
+        return READER_IOPV
+    return s
+
+
+def _src_series(df: pd.DataFrame) -> pd.Series:
+    for c in SOURCE_COL_NAMES:
+        if c in df.columns:
+            return pd.Series([_src_one(v) for v in df[c].tolist()],
+                             index=df.index, dtype=object)
+    return pd.Series([READER_IOPV] * len(df), index=df.index, dtype=object)
+
+
 def normalize_spot(df: pd.DataFrame) -> pd.DataFrame:
     """Spot board -> one row per ETF with a numeric premium, NaN kept as NaN.
 
@@ -124,8 +160,10 @@ def normalize_spot(df: pd.DataFrame) -> pd.DataFrame:
         # r1599: which reader produced the "iopv" column. Eastmoney prints an intraday
         # IOPV; the sina fallback carries the fund's published unit NAV. Without this
         # column the snapshot would claim one provenance while holding the other.
-        "source": (df["_source"].astype(str) if "_source" in df.columns
-                   else pd.Series(["em_iopv"] * len(df), index=df.index)),
+        # r1600: read BOTH spellings -- the shipped CSV calls it `source`, the in-memory
+        # board calls it `_source`; knowing only the private one relabelled every
+        # re-render of a sina snapshot as eastmoney.
+        "source": _src_series(df),
     })
     both = out["price"].gt(0) & out["iopv"].gt(0)
     out["premium_pct"] = np.nan
@@ -212,6 +250,9 @@ def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None) -> list[dict]:
                 "over_nav_cny": None if (prem is None or unverified) else round(amount * prem / 100.0, 2),
                 "iopv": None if not np.isfinite(r["iopv"]) else round(float(r["iopv"]), 4),
                 "price": None if not np.isfinite(r["price"]) else round(float(r["price"]), 4),
+                # r1600: which reader priced THIS leg -- a mixed file has to be resolvable
+                # leg by leg, not only as a file-level average.
+                "source": (_src_one(r.get("source")) if "source" in by_code.columns else READER_IOPV),
             })
         else:
             rows.append({
@@ -225,6 +266,7 @@ def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None) -> list[dict]:
                 "over_nav_cny": None,
                 "iopv": None,
                 "price": None,
+                "source": "no-quote",
             })
     return rows
 
@@ -253,27 +295,47 @@ def dispersion(spot: pd.DataFrame, min_amount: float = MIN_AMOUNT, nav_ok=None) 
     }
 
 
+def _reader_short(s: str) -> str:
+    """The two readers in a reader's words: an IOPV estimate vs the published unit NAV."""
+    if s == READER_NAV:
+        return "单位净值"
+    if s == READER_IOPV:
+        return "IOPV"
+    return "—"
+
+
 def render_md(face: dict) -> str:
     L = []
     L.append("# 执行溢价面 · %s" % face["session"])
     L.append("")
     src = face["source"]
-    L.append("快照口径：ETF 现货板一次读取（%s），IOPV=实时估值不是公布净值；"
-             "读数随盘中变动，收盘后才等于当日最终值。" % src.get("fetched_at", ""))
+    readers = src.get("readers") or []
+    rows_by = src.get("reader_rows") or {}
+    census = "、".join("%s %d 行" % (k, rows_by[k]) for k in sorted(rows_by))
+    if readers and all(r == READER_NAV for r in readers):
+        L.append("快照口径：**本场主源（IOPV 牌价板）没有应答，本面由 sina 兜底采集**——分子＝当日成交价"
+                 "（收盘口径），**分母＝当日公布单位净值，不是盘中 IOPV**（%s）。读数源：%s。"
+                 "与历史 IOPV 口径的溢价只可粗比，不可当同一序列。" % (src.get("fetched_at", ""), census))
+    elif src.get("mixed"):
+        L.append("快照口径：**本文件混用了两种读数（%s）**——分子同源、分母不同源，"
+                 "溢价只在同一读数源内可比，跨源不可比（%s）。" % (census, src.get("fetched_at", "")))
+    else:
+        L.append("快照口径：ETF 现货板一次读取（%s），IOPV=实时估值不是公布净值；"
+                 "读数随盘中变动，收盘后才等于当日最终值。" % src.get("fetched_at", ""))
     L.append("")
     legs = face["legs"]
     if legs:
         L.append("## 本单入场摩擦（书要买的每一腿）")
         L.append("")
-        L.append("| 代码 | 名称 | 类别 | 计划金额 | IOPV 溢价% | 档位 | 相对净值多付(CNY) |")
-        L.append("|---|---|---|---|---|---|---|")
+        L.append("| 代码 | 名称 | 类别 | 计划金额 | 溢价% | 档位 | 相对净值多付(CNY) | 分母读数源 |")
+        L.append("|---|---|---|---|---|---|---|---|")
         for r in legs:
             prem = "—" if r["premium_pct"] is None else "%+.3f" % r["premium_pct"]
             over = "—" if r["over_nav_cny"] is None else format(r["over_nav_cny"], "+,.0f")
-            L.append("| %s | %s | %s | %s | %s | %s | %s |" % (
+            L.append("| %s | %s | %s | %s | %s | %s | %s | %s |" % (
                 r["symbol"], r["name"] or "(板面未列)", r["class"],
                 format(r["amount_cny"], ",.0f"),
-                prem, r["band"], over))
+                prem, r["band"], over, _reader_short(r.get("source") or "")))
         L.append("")
         tot = sum(r["over_nav_cny"] for r in legs if r["over_nav_cny"] is not None)
         known = sum(r["amount_cny"] for r in legs if r["over_nav_cny"] is not None)
@@ -331,6 +393,39 @@ def render_md(face: dict) -> str:
     return "\n".join(L)
 
 
+def _source_block(spot: pd.DataFrame, fetched_at: str, nav_ok=None) -> dict:
+    """Which reader filled the denominator -- derived from the rows, never from the code.
+
+    r1600: this face has two possible denominators (an intraday IOPV, or the fund's
+    published unit NAV when the IOPV board refuses the host). A hard-coded `view` string
+    is a claim about the code, not about the file that was read, so a sina snapshot
+    printed "eastmoney via akshare fund_etf_spot_em" as its provenance -- the one place a
+    reader could have caught the switch said the opposite of the truth.
+    """
+    series = _src_series(spot)
+    counts = {str(k): int(v) for k, v in series.value_counts().items()}
+    readers = sorted(counts)
+    mixed = len(readers) > 1
+    if readers and all(r == READER_NAV for r in readers):
+        view = "sina quoted tape + the session's published unit NAV (fallback: the IOPV board did not answer)"
+        denominator = "the session's published unit NAV, NOT an intraday IOPV"
+    elif mixed:
+        view = "mixed readers: %s" % ", ".join(readers)
+        denominator = ("two denominators in one file -- premiums are comparable within a reader, "
+                       "not across them")
+    else:
+        view = "ETF spot board (eastmoney via akshare fund_etf_spot_em)"
+        denominator = "an intraday IOPV estimate"
+    return {"view": view,
+            "readers": readers,
+            "reader_rows": counts,
+            "mixed": mixed,
+            "denominator": denominator,
+            "fetched_at": fetched_at,
+            "rows": int(len(spot)),
+            "nav_board": "same-day unit NAV board (fund_etf_fund_daily_em) used as the second source" if nav_ok is not None else "not read -- every premium is IOPV-only"}
+
+
 def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None) -> dict:
     sessions = sorted(set(spot["session"].dropna()))
     session = sessions[-1] if sessions else "unknown"
@@ -358,10 +453,7 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None) -
         "artifact": "etf_premium_face",
         "machine": "bm-c",
         "session": session,
-        "source": {"view": "ETF spot board (eastmoney via akshare fund_etf_spot_em)",
-                   "fetched_at": fetched_at,
-                   "rows": int(len(spot)),
-                   "nav_board": "same-day unit NAV board (fund_etf_fund_daily_em) used as the second source" if nav_ok is not None else "not read -- every premium is IOPV-only"},
+        "source": _source_block(spot, fetched_at, nav_ok),
         "cross_check": {"basis": "premium recomputed from price/IOPV; the board's own 折价率 column is only compared",
                         "compared_rows": checked,
                         "disagreeing_rows": bad,
@@ -381,7 +473,9 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None) -
             "the board is read at one moment: before the close these numbers move, and cross-border legs are the ones that move most (their underlying trades in another timezone).",
             "a positive premium is a cost only to a buyer; it is income to a seller. This face says nothing about which side the book will be on tomorrow.",
             "no historical premium series is long enough to build a percentile gate from: this face runs once per session on the daily chain from 2026-11-06, so a 'is today's premium high for this leg' reading has to wait for the series to accumulate.",
-        ],
+        ] + ([
+            "this session's denominator is the fund's published unit NAV, not an intraday IOPV: the premium is measured against the day's official net asset value, so it carries no intraday basket drift -- and it is only coarsely comparable with an IOPV-based premium from an earlier session.",
+        ] if READER_NAV in (_source_block(spot, fetched_at, nav_ok).get("readers") or []) else []),
     }
 
 
@@ -1173,6 +1267,48 @@ def selftest() -> int:
     except ValueError:
         empty_ok = True
     leg("L34 an empty board raises instead of rendering an empty face", empty_ok)
+
+    # L35 r1600: the shipped snapshot calls the provenance column `source`; a reader that
+    # only knows the in-memory `_source` relabels a sina file as eastmoney on every
+    # re-render -- the face then shows the wrong denominator with no hint it forgot.
+    b_nav = board([["510300", "x", 4.04, 4.00, 9e8, "2026-11-06"]])
+    b_nav["source"] = [READER_NAV]
+    s_nav = normalize_spot(b_nav)
+    leg("L35 the snapshot's own `source` column survives normalization",
+        str(s_nav.loc[0, "source"]) == READER_NAV, str(s_nav.loc[0, "source"]))
+
+    # L36 a sina-only file must say so on the face -- block, table and caveat -- and must
+    # never print the eastmoney reader it did not use.
+    tk = {"order": [{"symbol": "510300", "amount": 100000.0, "class": "宽基"}]}
+    face_nav = build_face(s_nav, tk, "2026-11-06T16:00:00")
+    md_nav = render_md(face_nav)
+    leg("L36 a sina fallback face names its denominator and never claims eastmoney",
+        face_nav["source"]["readers"] == [READER_NAV]
+        and "published unit NAV" in (face_nav["source"]["denominator"] or "")
+        and "sina" in md_nav and "单位净值" in md_nav and "eastmoney" not in md_nav
+        and any("published unit NAV" in c for c in face_nav["caveats"]))
+
+    # L37 the historical eastmoney file keeps its sentence (no regression on the old path).
+    b_em = board([["510300", "x", 4.04, 4.00, 9e8, "2026-11-06"]])
+    face_em = build_face(normalize_spot(b_em), tk, "2026-11-06T15:10:00")
+    md_em = render_md(face_em)
+    leg("L37 an IOPV file still reads as the spot board",
+        face_em["source"]["readers"] == [READER_IOPV]
+        and "eastmoney" in (face_em["source"]["view"] or "")
+        and "sina" not in md_em and "兜底" not in md_em)
+
+    # L38 a mixed file is labelled mixed and each leg carries its own reader.
+    b_mix = pd.concat([b_nav, b_em], ignore_index=True)
+    b_mix.loc[1, "代码"] = "510050"
+    face_mix = build_face(normalize_spot(b_mix),
+                          {"order": [{"symbol": "510300", "amount": 1.0, "class": "x"},
+                                     {"symbol": "510050", "amount": 1.0, "class": "x"}]},
+                          "2026-11-06T16:00:00")
+    md_mix = render_md(face_mix)
+    leg("L38 a mixed file is labelled mixed and each leg names its own reader",
+        face_mix["source"]["mixed"] is True
+        and {r["source"] for r in face_mix["legs"]} == {READER_NAV, READER_IOPV}
+        and "混用了两种读数" in md_mix)
 
     ok = sum(1 for _, p, _ in legs if p)
     for name, p, detail in legs:
