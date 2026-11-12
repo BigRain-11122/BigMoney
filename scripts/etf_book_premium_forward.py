@@ -196,22 +196,46 @@ def defer_verdict(pooled):
     return "NO_READ"
 
 
-def defer_sentence(pooled, legs):
-    """The one-session read in words, with the count that supports it (never typed)."""
+def defer_sentence(pooled, legs, session=None, panel=None):
+    """The one-session read in words, with the count that supports it (never typed).
+
+    ``legs`` are the legs' one-session blocks. Only a leg whose bar IS the ticket's session
+    may speak about "today"; a leg read off another bar is named as left out, never summed
+    into this ticket's day (r1609). The day itself is printed, so a reader can see the
+    sentence move when the sheet moves even if no number in it changes.
+    """
     b = (pooled or {}).get(DEFER_BAND) or {}
     if not b.get("n"):
-        return ("no session in these funds' own records reached the %s band, so the one "
+        head = ("no session in these funds' own records reached the %s band, so the one "
                 "session the ticket could wait for has no history here" % DEFER_BAND)
-    head = ("after sessions at or above the 98th percentile of the fund's own history, "
-            "the NEXT session moved a median %s%% (mean %s%%, fell in %s%% of %d cases)"
-            % (_fmt(b.get("median_pct")), _fmt(b.get("mean_pct")),
-               "n/a" if b.get("share_down") is None else "%.0f" % (100.0 * b["share_down"]),
-               b["n"]))
-    there = ["%s %.1f" % (l["symbol"], l["latest_pctile"])
-             for l in legs if l.get("latest_band") == DEFER_BAND
-             and l.get("latest_pctile") is not None]
-    tail = ("; today's legs in that band: " + ", ".join(there)) if there \
-        else "; no leg of this ticket sits in that band today"
+    else:
+        head = ("after sessions at or above the 98th percentile of the fund's own history, "
+                "the NEXT session moved a median %s%% (mean %s%%, fell in %s%% of %d cases)"
+                % (_fmt(b.get("median_pct")), _fmt(b.get("mean_pct")),
+                   "n/a" if b.get("share_down") is None else "%.0f" % (100.0 * b["share_down"]),
+                   b["n"]))
+    panel = panel or {}
+    day = session or panel.get("ticket_session")
+    counted = [l for l in legs if l.get("counted")]
+    off = [l for l in legs if not l.get("counted")]
+    if counted:
+        there = ["%s %.1f" % (l["symbol"], l["latest_pctile"])
+                 for l in counted if l.get("latest_band") == DEFER_BAND
+                 and l.get("latest_pctile") is not None]
+        if there:
+            tail = ("; on %s (the ticket's own bar) the legs in that band: %s"
+                    % (day, ", ".join(there)))
+        else:
+            tail = "; no leg of this ticket sits in that band on %s" % day
+    else:
+        tail = ("; this face cannot say where the ticket's legs sit on %s: %s"
+                % (day or "a day the sheet does not name", panel.get("state") or "SESSION_UNKNOWN"))
+    if off:
+        tail += (" (%d leg(s) read off another bar and left out: %s)"
+                 % (len(off), ", ".join(sorted(l["symbol"] for l in off))))
+    if panel.get("state") == "PANEL_AHEAD":
+        tail += ("; the premium panel has walked %d bar(s) past that day, and those bars are "
+                 "not this ticket's" % int(panel.get("bars_beyond_session") or 0))
     return head + tail
 
 
@@ -302,22 +326,37 @@ def load_legs(hist):
     return by
 
 
-def ticket_amounts():
-    """Per-leg money from the live ticket, so the past-move line can be priced.
+def read_ticket(path=None):
+    """The ticket this face prices: the one named on the command line, else the published one."""
+    if path:
+        try:
+            return json.load(open(path, encoding="utf-8"))
+        except Exception:
+            return {}
+    lpath = os.path.join(ROOT, "results", "etf_book_order", "latest.json")
+    if not os.path.exists(lpath):
+        return {}
+    try:
+        latest = json.load(open(lpath, encoding="utf-8"))
+        return json.load(open(os.path.join(ROOT, "results", "etf_book_order",
+                                           latest["file"]), encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def ticket_amounts(ticket=None):
+    """Per-leg money from the live ticket, plus the day that ticket is for.
 
     The ticket puts its rows at ``ticket.order`` (a list carrying ``symbol``/``amount``);
     ``latest.json`` names the dated file. Reading only the top level would find nothing and
     quietly print a percent-only face -- the money column is the point of this leg.
+
+    The session goes through the shared fallback chain (``pp.ticket_session``: session ->
+    base_bar -> evidence_cutoff -> feed_status.ticket_bar), so this face and the percentile
+    face cannot disagree about which day the sheet is for. This ticket carries no
+    ``session`` key -- ``base_bar`` is what answers (r1607).
     """
-    lpath = os.path.join(ROOT, "results", "etf_book_order", "latest.json")
-    if not os.path.exists(lpath):
-        return {}, None
-    try:
-        latest = json.load(open(lpath, encoding="utf-8"))
-        t = json.load(open(os.path.join(ROOT, "results", "etf_book_order",
-                                        latest["file"]), encoding="utf-8"))
-    except Exception:
-        return {}, None
+    t = ticket if ticket is not None else read_ticket()
     rows = ((t.get("ticket") or {}).get("order")) or []
     out = {}
     for row in rows:
@@ -325,7 +364,35 @@ def ticket_amounts():
         amt = row.get("amount")
         if sym and amt:
             out[str(sym)] = float(amt)
-    return out, t.get("as_of") or latest.get("as_of")
+    session, field = pp.ticket_session(t)
+    return out, session, field
+
+
+def anchor_reading(rows, session):
+    """"Today" for this leg: (pctile, bucket, bar_date, state, counted) on the ticket's bar.
+
+    The percentile is causal -- each session ranked against the sessions before it -- so
+    trimming the panel at the ticket's day cannot let a later bar decide the rank; it only
+    decides WHICH bar is "today". A leg with no bar of its own inside the panel (the panel
+    has not reached it, its bar is missing, or the ticket names no day) is not counted: it
+    publishes no number instead of publishing another session's (r1609 -- the fourth copy of
+    the family cured in the persistence and percentile faces).
+    """
+    if not rows:
+        return None, None, None, "SESSION_UNKNOWN", False
+    price_session = rows[-1].get("date")
+    state = pp.session_state(price_session, session)
+    if not session:
+        return None, None, None, "SESSION_UNKNOWN", False
+    anchored = [r for r in rows if r.get("date") and r["date"] <= session]
+    if not anchored:
+        return None, None, None, "PANEL_BEHIND", False
+    bar_date = anchored[-1].get("date")
+    pct = expanding_percentile([r.get("premium_pct") for r in anchored])
+    v = next((p for p in reversed(pct) if p is not None), None)
+    counted = bool(bar_date == session and v is not None)
+    return ((v if counted else None), (bucket_of(v) if counted else None), bar_date, state,
+            counted)
 
 
 def sample_signature(symbols):
@@ -463,19 +530,34 @@ def verdict_of(legs, pooled):
 
 
 # ---------------------------------------------------------------- build
-def build(hist=None, horizons=HORIZONS, ledger_rows=None):
+def build(hist=None, horizons=HORIZONS, ledger_rows=None, ticket=None):
     if hist is None:
         hist = pp.read_hist()
     legs_by = load_legs(hist)
-    amounts, session = ticket_amounts()
+    amounts, session, session_field = ticket_amounts(ticket)
     if not legs_by:
         return {"verdict": "UNPRICED", "legs": [], "generated_by":
                 "etf_book_premium_forward v1.0"}
+
+    panel_last = max(r["date"] for r in hist)
+    state = pp.session_state(panel_last, session)
+    bars_beyond = len({r["date"] for r in hist if session and r["date"] > session})
+    panel = {
+        "ticket_session": session,
+        "session_field": session_field,
+        "price_panel_last": panel_last,
+        "state": state,
+        "bars_beyond_session": bars_beyond,
+        "note": pp.panel_note({"state": state, "ticket_session": session,
+                               "price_panel_last": panel_last,
+                               "bars_beyond_session": bars_beyond}),
+    }
 
     out = {
         "generated_by": "etf_book_premium_forward v1.0",
         "generated_utc_note": "wall clock appears nowhere; numbers are deterministic on the panel",
         "ticket_session": session,
+        "panel": panel,
         "panel_rows": len(hist),
         "evidence_cutoff": max(r["date"] for r in hist),
         "definitions": {
@@ -507,6 +589,13 @@ def build(hist=None, horizons=HORIZONS, ledger_rows=None):
             leg["amount_cny"] = amounts.get(sym)
             leg["rows"] = len(rows)
             leg["last_date"] = rows[-1]["date"]
+            pctile, bucket, bar_date, leg_state, counted = anchor_reading(rows, session)
+            leg["latest_pctile"] = pctile
+            leg["latest_bucket"] = bucket
+            leg["price_session"] = rows[-1]["date"]
+            leg["session_state"] = leg_state
+            leg["bar_at_session"] = bar_date
+            leg["counted"] = counted
             b = leg["latest_bucket"]
             if b and leg["buckets"].get(b, {}).get("mean_pct") is not None \
                     and leg["amount_cny"]:
@@ -547,23 +636,29 @@ def build(hist=None, horizons=HORIZONS, ledger_rows=None):
     pooled_vals = {name: [] for name, _lo, _hi in TAILS}
     for sym, rows in sorted(legs_by.items()):
         obs, pct = one_session_obs(rows)
-        latest = next((p for p in reversed(pct) if p is not None), None)
+        pctile, _bucket, bar_date, leg_state, counted = anchor_reading(rows, session)
         one_legs[sym] = {
             "symbol": sym, "rows": len(rows), "last_date": rows[-1]["date"],
-            "latest_pctile": latest, "latest_band": tail_of(latest),
+            "price_session": rows[-1]["date"], "session_state": leg_state,
+            "bar_at_session": bar_date, "counted": counted,
+            "latest_pctile": pctile, "latest_band": tail_of(pctile),
             "amount_cny": amounts.get(sym),
             "bands": {k: tail_stats(v) for k, v in obs.items()},
         }
         for k, v in obs.items():
             pooled_vals[k].extend(v)
     pooled_tails = {k: tail_stats(v) for k, v in pooled_vals.items()}
+    counted_syms = sorted(s for s, l in one_legs.items() if l["counted"])
+    panel["legs_counted"] = len(counted_syms)
+    panel["legs_off_session"] = sorted(s for s, l in one_legs.items() if not l["counted"])
     out["one_session"] = {
         "horizon": 1,
         "band": DEFER_BAND,
         "pooled": pooled_tails,
         "legs": one_legs,
         "verdict": defer_verdict(pooled_tails),
-        "sentence": defer_sentence(pooled_tails, list(one_legs.values())),
+        "sentence": defer_sentence(pooled_tails, list(one_legs.values()), session=session,
+                                   panel=panel),
         "note": "a description of these funds' own records at this percentile, not a "
                 "recommendation to wait; the price move is measured, the reason is not",
     }
@@ -648,12 +743,23 @@ def load_out():
         return None
 
 
-def run():
+def run(ticket_path=None, out_path=None):
     ledger = read_sample_ledger()
-    out = build(ledger_rows=ledger)
-    os.makedirs(OUT_DIR, exist_ok=True)
-    with open(OUT, "w", encoding="utf-8") as f:
+    out = build(ledger_rows=ledger,
+                ticket=(read_ticket(ticket_path) if ticket_path else None))
+    dest = out_path or OUT
+    os.makedirs(os.path.dirname(os.path.abspath(dest)), exist_ok=True)
+    with open(dest, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
+    if out_path:
+        # a proof run against an old ticket is not a publication: it must not enter the
+        # append-only sample ledger, or the ledger would record two sessions for one face.
+        print("proof run against %s -> %s" % (ticket_path, dest))
+        print("panel: %s" % ((out.get("panel") or {}).get("note") or "no panel block"))
+        print("defer read: %s (%s)" % (out["one_session"]["verdict"],
+                                       out["one_session"]["band"]))
+        print(out["sentence"])
+        return 0
     # publish and record in one step: a face whose sample never entered the ledger cannot
     # be audited later, and the next ticket change would have nothing to compare against
     sig = (out.get("sample") or {}).get("signature")
@@ -667,6 +773,7 @@ def run():
     else:
         print("sample: %s (%d legs) already on the ledger"
               % (sig, len((out.get("sample") or {}).get("legs") or [])))
+    print("panel: %s" % ((out.get("panel") or {}).get("note") or "no panel block"))
     print("verdict: %s (h=%s)" % (out["verdict"], out["verdict_horizon"]))
     print("defer read: %s (%s)" % (out["one_session"]["verdict"],
                                    out["one_session"]["band"]))
@@ -804,6 +911,34 @@ def check():
                 not in (pub_one.get("sentence") or ""):
             bad.append("the defer sentence does not print the pooled share it rests on")
 
+    # r1609: "today" must be the ticket's own bar. Re-derive the panel block, the anchored
+    # percentiles, and the eviction of any leg priced on another day -- a face that reads
+    # the panel's last row instead of the sheet's day keeps printing a number after the
+    # panel moves, and nothing on the page changes when it does.
+    fpanel = fresh.get("panel") or {}
+    ppub = pub.get("panel") or {}
+    if not ppub:
+        bad.append("published face has no panel block -- it cannot say which day it prices")
+    for k in ("ticket_session", "session_field", "price_panel_last", "state",
+              "bars_beyond_session", "legs_counted"):
+        if ppub.get(k) != fpanel.get(k):
+            bad.append("panel.%s %r != re-derived %r" % (k, ppub.get(k), fpanel.get(k)))
+    if sorted(ppub.get("legs_off_session") or []) != sorted(fpanel.get("legs_off_session") or []):
+        bad.append("panel.legs_off_session %r != re-derived %r"
+                   % (ppub.get("legs_off_session"), fpanel.get("legs_off_session")))
+    for sym, leg in fresh_one.get("legs", {}).items():
+        have = (pub_one.get("legs") or {}).get(sym) or {}
+        if have.get("counted") != leg.get("counted"):
+            bad.append("%s counted %r != re-derived %r"
+                       % (sym, have.get("counted"), leg.get("counted")))
+        if not leg.get("counted") and have.get("latest_pctile") is not None:
+            bad.append("%s prints a percentile for a bar that is not the ticket's day (%s)"
+                       % (sym, leg.get("session_state")))
+    if fpanel.get("legs_counted") and (fpanel.get("ticket_session") or "") \
+            not in (pub_one.get("sentence") or ""):
+        bad.append("the one-session sentence does not name the day it describes (%s)"
+                   % fpanel.get("ticket_session"))
+
     # r1562: the face's verdict has a referent. Assert the published identity re-derives,
     # that the ledger really recorded it, and that a replaced sample is said out loud in
     # the headline -- otherwise two different funds' verdicts read as one continuous series.
@@ -834,6 +969,17 @@ def _rows(sym, prems, closes, start_day=1):
                     "symbol": sym, "close": c, "nav_date": None, "nav": None,
                     "premium_pct": p})
     return out
+
+
+def _rows_dated(sym, prems, closes, start="2019-01-01"):
+    """Same fixture with UNIQUE consecutive dates -- session logic is date-keyed, and the
+    ``_rows`` fixture repeats days (2021-01-01..28 in a loop), which cannot tell "the
+    ticket's bar" from "another bar that shares its date"."""
+    import datetime as _dt
+    d0 = _dt.date.fromisoformat(start)
+    return [{"date": (d0 + _dt.timedelta(days=i)).isoformat(), "symbol": sym, "close": c,
+             "nav_date": None, "nav": None, "premium_pct": p}
+            for i, (p, c) in enumerate(zip(prems, closes))]
 
 
 def selftest():
@@ -1034,7 +1180,66 @@ def selftest():
                for m in sample_failures(claim, [], first_pub)):
         fails.append("L51 a claimed break the ledger does not record is caught")
 
-    total = 51
+    # 16. r1609: "today" is the ticket's bar, not the panel's last row. The last bar is the
+    # CHEAPEST of its own history while the bar before it is the dearest, so the two candidate
+    # bars (the sheet's day and the tail) cannot print the same percentile by accident -- a
+    # fixture where they coincide would pass while measuring nothing.
+    prems_s = [float(i) for i in range(299)] + [-5.0]
+    closes_s = [100.0 + 0.2 * i for i in range(300)]
+    rows_s = _rows_dated("TEST", prems_s, closes_s)
+    last_day, prev_day = rows_s[-1]["date"], rows_s[-2]["date"]
+    raw = expanding_percentile(prems_s)
+    tail_pct = next(p for p in reversed(raw) if p is not None)
+    anchored_prev = next(p for p in reversed(expanding_percentile(prems_s[:-1]))
+                         if p is not None)
+    if tail_pct == anchored_prev:
+        fails.append("L52 the fixture cannot tell the tail bar from the bar before it")
+
+    same = build(hist=rows_s, ledger_rows=[], ticket={"base_bar": last_day})
+    eq(same["panel"]["state"], "SAME_SESSION", "L53 a ticket on the panel's last bar is same")
+    eq(same["panel"]["session_field"], "base_bar", "L54 the day is read from base_bar")
+    eq(same["panel"]["legs_counted"], 1, "L55 the same-session leg counts")
+    eq(same["one_session"]["legs"]["TEST"]["latest_pctile"], tail_pct,
+       "L56 same session: the anchored percentile is the panel's last percentile")
+
+    ahead = build(hist=rows_s, ledger_rows=[], ticket={"base_bar": prev_day})
+    leg_ahead = ahead["one_session"]["legs"]["TEST"]
+    eq(ahead["panel"]["state"], "PANEL_AHEAD", "L57 a panel past the ticket reads PANEL_AHEAD")
+    eq(ahead["panel"]["bars_beyond_session"], 1, "L58 one bar past the sheet")
+    eq((ahead["one_session"]["legs"]["TEST"] or {}).get("counted"), True,
+       "L59 a leg WITH a bar on the sheet's day still counts")
+    eq(leg_ahead["bar_at_session"], prev_day, "L60 the leg names the bar it was read on")
+    eq(leg_ahead["latest_pctile"], anchored_prev,
+       "L61 PANEL_AHEAD: the reading is the ticket's bar, not the panel tail")
+    if prev_day not in ahead["one_session"]["sentence"]:
+        fails.append("L62 the one-session sentence names the day it describes")
+
+    behind = build(hist=rows_s, ledger_rows=[], ticket={"base_bar": "2099-01-01"})
+    eq(behind["panel"]["state"], "PANEL_BEHIND", "L63 a sheet after the panel is PANEL_BEHIND")
+    eq(behind["one_session"]["legs"]["TEST"]["counted"], False,
+       "L64 a leg the panel has not reached publishes no number")
+    eq(behind["one_session"]["legs"]["TEST"]["latest_pctile"], None,
+       "L65 ... and no percentile")
+    eq(behind["panel"]["legs_off_session"], ["TEST"],
+       "L66 ... and is named as left out")
+    if "cannot say" not in behind["one_session"]["sentence"]:
+        fails.append("L67 a face that cannot place the legs says so in the sentence")
+
+    unknown = build(hist=rows_s, ledger_rows=[], ticket={})
+    eq(unknown["panel"]["state"], "SESSION_UNKNOWN", "L68 a sheet with no day is unknown")
+    eq(unknown["panel"]["ticket_session"], None, "L69 unknown is never a guessed date")
+    eq(unknown["one_session"]["legs"]["TEST"]["counted"], False,
+       "L70 an undated ticket counts nothing")
+
+    gap_hist = [r for r in rows_s if r["date"] != prev_day]
+    gap = build(hist=gap_hist, ledger_rows=[], ticket={"base_bar": prev_day})
+    eq(gap["panel"]["state"], "PANEL_AHEAD", "L71 a hole still leaves the panel ahead")
+    eq(gap["one_session"]["legs"]["TEST"]["counted"], False,
+       "L72 a missing sheet bar is not replaced by a neighbour")
+    eq(gap["one_session"]["legs"]["TEST"]["bar_at_session"], gap_hist[-2]["date"],
+       "L73 the leg says which bar it actually stopped at")
+
+    total = 73
     print("%d/%d legs" % (total - len(fails), total))
     for f in fails:
         print("FAIL: " + f)
@@ -1044,9 +1249,13 @@ def selftest():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=("run", "check", "selftest"))
+    ap.add_argument("--ticket", default=None,
+                    help="price a named ticket instead of the published latest (proof runs)")
+    ap.add_argument("--out", default=None,
+                    help="write the face somewhere else; a proof run is not published")
     a = ap.parse_args()
     if a.cmd == "run":
-        return run()
+        return run(a.ticket, a.out)
     if a.cmd == "check":
         return check()
     return selftest()
