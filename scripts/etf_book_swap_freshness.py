@@ -138,9 +138,24 @@ def snapshot_waiting(exp, snapshot_dir=SNAPSHOT_DIR, collector=PREMIUM_COLLECTOR
     else:
         who = "lane owner unreadable"
     return ("waiting on %s (newest copy here: %s, written %s; %s)"
-            % (os.path.join(os.path.relpath(snapshot_dir, ROOT).replace(os.sep, "/"),
+            % (os.path.join(display_path(snapshot_dir),
                             "%s.csv" % exp).replace(os.sep, "/"),
                newest, written, who))
+
+
+def display_path(path, root=None):
+    """Repo-relative when the path is on this drive, absolute when it is not.
+
+    r1594: the selftest builds its fixtures in a temp directory on `C:` while the repo
+    lives on `K:`, and a bare `os.path.relpath` raises ValueError across drives -- which
+    killed the whole selftest before its first leg could print (the r1371/r1375 family,
+    third copy). A path a reader cannot relativise is still a path worth printing.
+    """
+    root = root or ROOT
+    try:
+        return os.path.relpath(path, root).replace(os.sep, "/")
+    except ValueError:
+        return os.path.abspath(path).replace(os.sep, "/")
 
 
 def _read_json(path):
@@ -217,7 +232,7 @@ def assess(now=None, faces=None, days=None):
         "artifact": "etf_book_swap_freshness",
         "generated": now.isoformat(timespec="seconds"),
         "evidence_cutoff": exp,
-        "calendar_source": os.path.relpath(CA.CAL_PATH, ROOT).replace(os.sep, "/"),
+        "calendar_source": display_path(CA.CAL_PATH),
         "close_accept_time": CA.CLOSE_ACCEPT_TIME.strftime("%H:%M"),
         "legs": rows,
         "n_legs": len(rows),
