@@ -106,8 +106,46 @@ def read_permitted_k(path: str = PERMISSION) -> dict:
             "k_now": float(d["k_now"]),
             "cut_k": float(d["cut_k"]),
             "decision_date": d.get("decision_date"),
+            # the panel cutoff is an input: the same permission numbers priced on a longer
+            # panel are a different book, and the receipt has to be able to say so.
+            "evidence_cutoff": d.get("evidence_cutoff"),
             "generated": d.get("generated"),
             "verdict": d.get("verdict")}
+
+
+# The no-op gate keys on content, never on the clock. `generated` is deliberately left out
+# of the key: the permission is re-issued every round, so keying on its clock would re-price
+# 48s of panel each round to print the same book. A moved decision date or one bar of new
+# panel, on the other hand, does owe a rebuild.
+_FRESH_FLOATS = (("permitted_k", 1e-9), ("k_now", 1e-9), ("cut_k", 1e-9))
+_FRESH_STRINGS = ("decision_date", "evidence_cutoff")
+
+
+def same_inputs(perm: dict, receipt_perm) -> bool:
+    """Was a receipt priced at exactly these inputs?"""
+    if not isinstance(receipt_perm, dict):
+        return False
+    for key, tol in _FRESH_FLOATS:
+        a, b = perm.get(key), receipt_perm.get(key)
+        if a is None or b is None or abs(float(a) - float(b)) > tol:
+            return False
+    for key in _FRESH_STRINGS:
+        if (perm.get(key) or "") != (receipt_perm.get(key) or ""):
+            return False
+    return True
+
+
+def receipt_is_fresh(perm: dict) -> bool:
+    if not os.path.exists(OUT):
+        return False
+    try:
+        with io.open(OUT, encoding="utf-8") as f:
+            old = json.load(f)
+    except (ValueError, OSError):
+        return False
+    if not old.get("books") or not old.get("verdict"):
+        return False  # a stub is not a receipt
+    return same_inputs(perm, old.get("permission") or {})
 
 
 def arm(name: str, ser: pd.Series, kk: pd.Series, note: str) -> dict:
@@ -263,6 +301,12 @@ def build() -> dict:
 
 
 def run() -> int:
+    perm = read_permitted_k()
+    if "--force" not in sys.argv[1:] and receipt_is_fresh(perm):
+        print("no-op: receipt already priced at permission k=%.6f on decision date %s "
+              "(panel cutoff %s) -- same inputs, nothing to rebuild"
+              % (perm["permitted_k"], perm["decision_date"], perm["evidence_cutoff"]))
+        return 0
     out = build()
     os.makedirs(OUT_DIR, exist_ok=True)
     tmp = OUT + ".tmp"
@@ -414,7 +458,21 @@ def selftest() -> int:
     _chk(G.admission_block(with_coh, None, None, 0.07)["year_metrics"]["years"] == 2,
          "the same two years with cohorts are counted", errs)
 
-    total = 16
+    # ---- the no-op gate keys on content, not on the clock ------------------------
+    perm = {"permitted_k": 0.432195, "k_now": 0.432195, "cut_k": 0.0,
+            "decision_date": "2026-12-09", "evidence_cutoff": "2026-11-12",
+            "generated": "2026-11-12T20:11:52+0800"}
+    reissued = dict(perm, generated="2026-11-12T21:40:00+0800")
+    _chk(same_inputs(perm, reissued),
+         "a re-issued permission with the same numbers owes no rebuild", errs)
+    _chk(not same_inputs(perm, dict(perm, decision_date="2026-11-11")),
+         "a moved decision date does owe a rebuild", errs)
+    _chk(not same_inputs(perm, dict(perm, evidence_cutoff="2026-11-11")),
+         "one bar of new panel owes a rebuild", errs)
+    _chk(not same_inputs(perm, None) and not same_inputs(perm, {}),
+         "a missing permission block is not a fresh one", errs)
+
+    total = 20
     print("%d/%d PASS" % (total - len(errs), total))
     return 0 if not errs else 1
 

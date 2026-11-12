@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-12",
- "generated_at": "2026-11-12 21:20:05",
+ "generated_at": "2026-11-12 22:17:18",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,18 +294,19 @@
   "md_link": "../live_usage/LIVE-2026-11-12.md"
  },
  "rd": {
-  "commits_24h": 90,
-  "result_jsons_landed_24h": 142,
+  "commits_24h": 93,
+  "result_jsons_landed_24h": 149,
   "digests_landed_24h": 2,
-  "prereg_md_touched_24h": 29,
+  "prereg_md_touched_24h": 25,
   "compute_audit_latest": {
-   "ts": "2026-11-12 19:04:38",
-   "py_cpu_pct": 0.1,
+   "ts": "2026-11-12 21:21:53",
+   "py_cpu_pct": 10.6,
    "flags": [
+    "gpu_unauthorized",
     "pool_starvation",
     "supply_floor"
    ],
-   "verdict": "FLAG:pool_starvation,supply_floor"
+   "verdict": "FLAG:gpu_unauthorized,pool_starvation,supply_floor"
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
@@ -665,63 +666,63 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-11-09 23:37:08",
-    "py_pct": 0.6,
-    "cpu_pct": 63.0,
+    "latest_ts": "2026-11-12 21:21:53",
+    "py_pct": 10.6,
+    "cpu_pct": 56.0,
     "ready": 0,
-    "streak_min": 13991.9,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "streak_min": 16350.0,
+    "verdict": "FLAG:gpu_unauthorized,pool_starvation,supply_floor",
     "py_series_tail": [
      [
-      "09:26",
-      0.4
+      "10:48",
+      1.4
      ],
      [
-      "10:01",
-      3.8
-     ],
-     [
-      "10:32",
-      13.3
-     ],
-     [
-      "10:34",
-      12.1
-     ],
-     [
-      "11:40",
-      5.7
-     ],
-     [
-      "12:00",
-      7.7
-     ],
-     [
-      "12:28",
-      9.1
-     ],
-     [
-      "10:25",
-      0.3
-     ],
-     [
-      "19:23",
-      7.0
-     ],
-     [
-      "21:50",
-      1.2
-     ],
-     [
-      "22:17",
+      "11:15",
       3.7
      ],
      [
-      "23:37",
-      0.6
+      "11:18",
+      2.2
+     ],
+     [
+      "11:55",
+      4.8
+     ],
+     [
+      "12:54",
+      4.8
+     ],
+     [
+      "13:58",
+      0.0
+     ],
+     [
+      "14:46",
+      0.0
+     ],
+     [
+      "15:18",
+      4.8
+     ],
+     [
+      "15:51",
+      2.9
+     ],
+     [
+      "18:17",
+      5.2
+     ],
+     [
+      "19:04",
+      0.1
+     ],
+     [
+      "21:21",
+      10.6
      ]
     ],
-    "today_samples": 0,
+    "today_samples": 27,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -872,7 +873,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-09 23:37:08"
+     "audit_ts": "2026-11-12 21:21:53"
     }
    },
    "bm-b": {
@@ -1644,7 +1645,7 @@
    "behind_days": 0,
    "behind": [],
    "lane_owner": "bm-c",
-   "read_on": "bm-a"
+   "read_on": "bm-c"
   },
   "seal_rate": 0.5139,
   "down_over_up": 0.135,
@@ -1739,81 +1740,24 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-12T21:19:28",
-  "verdict": "uncertified",
-  "observer": "bm-a",
-  "sentence": "以本机 bm-a 的盘为基准：14 条在役车道里有 10 条的数字不在本机盘上：10 条在 bm-c 的盘上（心跳 0.33h 前）；留在本机盘上的 4 条里 4 条可核实。",
+  "as_of": "2026-11-12T22:17:06",
+  "verdict": "all_fresh",
+  "observer": "bm-c",
+  "sentence": "以本机 bm-c 的盘为基准：14 条在役车道的数字全都落在本机盘上，其中 14 条有署名可核实。",
   "n_lanes": 14,
-  "n_offhost": 10,
-  "n_here": 4,
-  "n_auditable_here": 4,
+  "n_offhost": 0,
+  "n_here": 14,
+  "n_auditable_here": 14,
   "n_unsigned_here": 0,
-  "groups": [
-   {
-    "machine": "bm-c",
-    "lanes": [
-     "ah_panel",
-     "astock_daily",
-     "futures",
-     "heat",
-     "lhb",
-     "marks",
-     "minute_feed",
-     "repo",
-     "ths_panel",
-     "zt_pool"
-    ],
-    "n": 10,
-    "alive": true,
-    "age_h": 0.33,
-    "last_seen": "2026-11-12T20:59:56+08:00"
-   }
-  ],
-  "offhost_lanes": [
-   "ah_panel",
-   "astock_daily",
-   "futures",
-   "heat",
-   "lhb",
-   "marks",
-   "minute_feed",
-   "repo",
-   "ths_panel",
-   "zt_pool"
-  ],
+  "groups": [],
+  "offhost_lanes": [],
   "local_replicas": {
-   "n_lagging": 3,
+   "n_lagging": 0,
    "n_readable": 5,
-   "lanes": [
-    {
-     "lane": "moneyflow",
-     "local_tail": "2026-10-13",
-     "certified_tail": "2026-11-10",
-     "behind_days": 20,
-     "host": "bm-c",
-     "authority": "host_envelope"
-    },
-    {
-     "lane": "ah_panel",
-     "local_tail": "2026-10-16",
-     "certified_tail": "2026-11-12",
-     "behind_days": 19,
-     "host": "bm-c",
-     "authority": "non_host_copy"
-    },
-    {
-     "lane": "astock_daily",
-     "local_tail": "2026-11-10",
-     "certified_tail": "2026-11-12",
-     "behind_days": 2,
-     "host": "bm-c",
-     "authority": "declared_takeover"
-    }
-   ],
-   "sentence": "本机副本落后：5 条可读面板里有 3 条读到的不是车道认证的那一天的数：moneyflow 差 20 个交易日（本盘 2026-10-13 / 车道 2026-11-10，数据在 bm-c 盘上）；ah_panel 差 19 个交易日（本盘 2026-10-16 / 车道 2026-11-12，数据在 bm-c 盘上）；astock_daily 差 2 个交易日（本盘 2026-11-10 / 车道 2026-11-12，数据在 bm-c 盘上）。本机发起的研究要用这些车道的数据，读的是旧盘。"
+   "lanes": [],
+   "sentence": "本机可读的 5 条面板副本都追上了各自车道认证的尾日（研究可以直接读本机盘）。"
   },
   "labels": {
-   "ths_panel": "无主封套",
    "sina_mf": "宿主自己写的封套",
    "moneyflow": "宿主自己写的封套",
    "futures": "申报接管",
@@ -1821,17 +1765,18 @@
    "lhb": "申报接管",
    "lhb_inst": "宿主自己写的封套",
    "repo": "申报接管",
-   "ah_panel": "他机本地副本",
+   "ah_panel": "宿主本机副本",
    "astock_daily": "申报接管",
    "etf_panel": "宿主自己写的封套",
    "marks": "申报接管",
-   "minute_feed": "他机本地副本",
-   "zt_pool": "他机本地副本"
+   "minute_feed": "宿主本机副本",
+   "ths_panel": "宿主自己写的封套",
+   "zt_pool": "宿主本机副本"
   }
  },
  "lane_window": {
   "present": true,
-  "as_of": "2026-11-12T21:19:28",
+  "as_of": "2026-11-12T22:17:06",
   "n": 2,
   "windows": [
    {
@@ -1842,8 +1787,8 @@
     "window_trading_days": 20,
     "sessions_left": 8,
     "verdict": "in_sync",
-    "basis": "the collector's own no-op rule: it refreshes only when the panel tail is more than 20 trading days stale",
-    "sentence": "`sina_mf`: tail 2026-10-26, **13** official day(s) behind, window **20** trading days -> **8 more** session(s) may pass before this lane owes a refresh (it reads `stalled` once the gap passes 20). Basis: the collector's own no-op rule: it refreshes only when the panel tail is more than 20 trading days stale"
+    "basis": "采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新",
+    "sentence": "`sina_mf`：尾部 2026-10-26，落后官方日历 **13** 个交易日，滚动窗 **20** 个交易日 → 还可再走 **8** 个交易日才欠一次刷新（差距超过 20 即读 `stalled`）。依据：采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新"
    },
    {
     "lane": "moneyflow",
@@ -1853,95 +1798,171 @@
     "window_trading_days": 20,
     "sessions_left": 19,
     "verdict": "in_sync",
-    "basis": "the collector's own no-op rule: it refreshes only when the panel tail is more than 20 trading days stale",
-    "sentence": "`moneyflow`: tail 2026-11-10, **2** official day(s) behind, window **20** trading days -> **19 more** session(s) may pass before this lane owes a refresh (it reads `stalled` once the gap passes 20). Basis: the collector's own no-op rule: it refreshes only when the panel tail is more than 20 trading days stale"
+    "basis": "采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新",
+    "sentence": "`moneyflow`：尾部 2026-11-10，落后官方日历 **2** 个交易日，滚动窗 **20** 个交易日 → 还可再走 **19** 个交易日才欠一次刷新（差距超过 20 即读 `stalled`）。依据：采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新"
    }
   ]
  },
  "lane_silence": {
   "present": true,
-  "machine": "bm-a",
-  "verdict": "OPEN_SILENCE",
+  "machine": "bm-c",
+  "verdict": "SILENT_GAP",
   "threshold_min": 90,
   "window_days": 3,
-  "median_gap_min": 18.0,
-  "rounds_in_window": 19,
-  "rounds_in_ledger": 760,
-  "gaps_over_threshold_count": 1,
+  "median_gap_min": 15.0,
+  "rounds_in_window": 138,
+  "rounds_in_ledger": 1037,
+  "gaps_over_threshold_count": 12,
   "longest_silence": {
-   "from": "2026-11-05T21:00",
-   "gap_high_min": 2243.9,
-   "gap_low_min": 2234.9,
-   "quiet_window_min": 659.0,
-   "to": "2026-11-07T10:23",
-   "unexplained_high_min": 1584.9,
-   "unexplained_low_min": 1575.9
+   "from": "2026-11-10T06:12",
+   "gap_high_min": 213.0,
+   "gap_low_min": 213.0,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-10T09:45",
+   "unexplained_high_min": 213.0,
+   "unexplained_low_min": 213.0
   },
   "open_gap": {
-   "gap_high_min": 641.8,
-   "gap_low_min": 641.8,
+   "gap_high_min": 66.2,
+   "gap_low_min": 57.2,
    "quiet_window_min": 0.0,
-   "since": "2026-11-07T16:41",
-   "unexplained_high_min": 641.8,
-   "unexplained_low_min": 641.8
+   "since": "2026-11-12T18:00",
+   "unexplained_high_min": 66.2,
+   "unexplained_low_min": 57.2
   },
   "gaps_over_threshold": [
    {
-    "from": "2026-11-05T21:00",
-    "gap_high_min": 2243.9,
-    "gap_low_min": 2234.9,
-    "quiet_window_min": 659.0,
-    "to": "2026-11-07T10:23",
-    "unexplained_high_min": 1584.9,
-    "unexplained_low_min": 1575.9
+    "from": "2026-11-09T19:00",
+    "gap_high_min": 174.4,
+    "gap_low_min": 165.4,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-09T21:54",
+    "unexplained_high_min": 174.4,
+    "unexplained_low_min": 165.4
+   },
+   {
+    "from": "2026-11-09T23:00",
+    "gap_high_min": 189.0,
+    "gap_low_min": 171.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-10T02:00",
+    "unexplained_high_min": 189.0,
+    "unexplained_low_min": 171.0
+   },
+   {
+    "from": "2026-11-10T06:12",
+    "gap_high_min": 213.0,
+    "gap_low_min": 213.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-10T09:45",
+    "unexplained_high_min": 213.0,
+    "unexplained_low_min": 213.0
+   },
+   {
+    "from": "2026-11-10T10:32",
+    "gap_high_min": 157.0,
+    "gap_low_min": 148.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-10T13:00",
+    "unexplained_high_min": 157.0,
+    "unexplained_low_min": 148.0
+   },
+   {
+    "from": "2026-11-10T15:00",
+    "gap_high_min": 129.0,
+    "gap_low_min": 111.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-10T17:00",
+    "unexplained_high_min": 129.0,
+    "unexplained_low_min": 111.0
+   },
+   {
+    "from": "2026-11-10T18:00",
+    "gap_high_min": 112.0,
+    "gap_low_min": 103.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-10T19:52",
+    "unexplained_high_min": 112.0,
+    "unexplained_low_min": 103.0
+   },
+   {
+    "from": "2026-11-11T03:00",
+    "gap_high_min": 129.0,
+    "gap_low_min": 111.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-11T05:00",
+    "unexplained_high_min": 129.0,
+    "unexplained_low_min": 111.0
+   },
+   {
+    "from": "2026-11-11T16:00",
+    "gap_high_min": 167.0,
+    "gap_low_min": 158.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-11T18:47",
+    "unexplained_high_min": 167.0,
+    "unexplained_low_min": 158.0
+   },
+   {
+    "from": "2026-11-11T19:00",
+    "gap_high_min": 100.0,
+    "gap_low_min": 91.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-11T20:40",
+    "unexplained_high_min": 100.0,
+    "unexplained_low_min": 91.0
+   },
+   {
+    "from": "2026-11-11T20:40",
+    "gap_high_min": 149.0,
+    "gap_low_min": 140.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-11T23:00",
+    "unexplained_high_min": 149.0,
+    "unexplained_low_min": 140.0
+   },
+   {
+    "from": "2026-11-12T02:00",
+    "gap_high_min": 160.0,
+    "gap_low_min": 151.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-12T04:40",
+    "unexplained_high_min": 160.0,
+    "unexplained_low_min": 151.0
+   },
+   {
+    "from": "2026-11-12T14:35",
+    "gap_high_min": 154.0,
+    "gap_low_min": 145.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-12T17:00",
+    "unexplained_high_min": 154.0,
+    "unexplained_low_min": 145.0
    }
   ],
-  "evidence_cutoff": "2026-11-07",
-  "generated": "2026-11-08T03:22:46",
-  "silence_verdict": "OPEN_SILENCE",
+  "evidence_cutoff": "2026-11-12",
+  "generated": "2026-11-12T19:06:10",
+  "silence_verdict": "SILENT_GAP",
   "lane_tasks": {
    "absent": [],
    "disabled": [],
-   "disabled_before_heal": [
-    "Bigmoney-LoopWatchdog",
-    "HQ-Patrol-BigMoney"
-   ],
+   "disabled_before_heal": [],
    "heal": {
-    "acts": [
-     {
-      "action": "enabled",
-      "detail": "",
-      "task": "Bigmoney-LoopWatchdog",
-      "verified": true
-     },
-     {
-      "action": "enabled",
-      "detail": "",
-      "task": "HQ-Patrol-BigMoney",
-      "verified": true
-     }
-    ],
-    "healed": [
-     "Bigmoney-LoopWatchdog",
-     "HQ-Patrol-BigMoney"
-    ],
-    "readback": {
-     "Bigmoney-LoopWatchdog": "Ready",
-     "HQ-Patrol-BigMoney": "Ready"
-    }
+    "acts": [],
+    "healed": [],
+    "readback": {}
    },
-   "probeable": 4,
+   "probeable": 3,
    "states": {
     "Bigmoney-IterationLoop": "Running",
     "Bigmoney-LoopWatchdog": "Ready",
-    "Bigmoney-SatEngine-bm-b": "Ready",
-    "HQ-Patrol-BigMoney": "Ready"
+    "Bigmoney-SatEngine-bm-b": "Ready"
    },
    "threshold_min": 90,
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-a: 19 rounds in 3d, median gap 18.0 min, 1 unexplained gap(s) over 90 min; longest silence 2026-11-05T21:00 -> 2026-11-07T10:23 (2234.9-2243.9 min, 659.0 explained by its quiet window); still open since 2026-11-07T16:41 (641.8-641.8 min unexplained)."
+  "sentence": "bm-c: 138 rounds in 3d, median gap 15.0 min, 12 unexplained gap(s) over 90 min; longest silence 2026-11-10T06:12 -> 2026-11-10T09:45 (213.0-213.0 min, 0.0 explained by its quiet window); still open since 2026-11-12T18:00 (57.2-66.2 min unexplained)."
  },
  "cap_vs_book": {
   "status": "ok",

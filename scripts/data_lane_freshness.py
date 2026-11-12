@@ -101,8 +101,7 @@ LANES = [
      # since its tail, this row printed `behind_1d` every single day -- a flag nobody can
      # act on, printed beside flags that do need an action (E318 family).
      "window_trading_days": 20,
-     "window_basis": "the collector's own no-op rule: it refreshes only when the panel "
-                     "tail is more than 20 trading days stale",
+     "window_basis": "采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新",
      "panel_csv": {"dir": "data/moneyflow/per", "pattern": "*.csv"}},
     {"lane": "astock_daily", "dept": "data", "owner": "bm-b",
      "writer": "update_astock_daily", "kind": "status",
@@ -168,8 +167,7 @@ WRITER_FACES = [
     {"lane": "sina_mf", "dept": "data", "writer": "update_sina_mf",
      "kind": "status", "path": "results/sina_mf_update_status.json",
      "key": "panel.cutoff", "window_trading_days": 20,
-     "window_basis": "the collector's own no-op rule: it refreshes only when "
-                     "the panel tail is more than 20 trading days stale"},
+     "window_basis": "采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新"},
     {"lane": "ths_panel", "dept": "data", "writer": "update_ths_panel",
      "kind": "status", "path": "data/ths_ggzjl/status.json", "key": "cutoff"},
 ]
@@ -1381,14 +1379,17 @@ def window_rows(report):
 
 
 def window_sentence(row):
-    """One human line for a windowed lane; every number is derived, never typed."""
-    return ("`%s`: tail %s, **%d** official day(s) behind, window **%d** trading days "
-            "-> **%d more** session(s) may pass before this lane owes a refresh "
-            "(it reads `stalled` once the gap passes %d)"
+    """One human line for a windowed lane; every number is derived, never typed.
+
+    r1594: this line lands on the Chinese CEO page and the board, so it speaks that
+    page's language. The numbers are unchanged -- only the prose moved.
+    """
+    return ("`%s`：尾部 %s，落后官方日历 **%d** 个交易日，滚动窗 **%d** 个交易日 "
+            "→ 还可再走 **%d** 个交易日才欠一次刷新（差距超过 %d 即读 `stalled`）"
             % (row["lane"], row.get("tail") or "--", row["days_behind"],
                row["window_trading_days"], row["sessions_left"],
                row["window_trading_days"])
-            + (". Basis: %s" % row["basis"] if row.get("basis") else ""))
+            + ("。依据：%s" % row["basis"] if row.get("basis") else ""))
 
 
 def render_md(report, cert="auto"):
@@ -2420,7 +2421,7 @@ def selftest():
         assert "w_none" in md
         # the section names the days left, derived from the row (not typed)
         behind = _o29b["w_in"]["days_behind"]
-        assert f"**{20 - behind + 1} more** session(s)" in md, md
+        assert f"还可再走 **{20 - behind + 1}** 个交易日" in md, md
         assert "Lanes judged against their own window" in md
         # a lane that is inside no window must not appear in that section
         sect = md.split("Lanes judged against their own window")[1]
@@ -2749,7 +2750,7 @@ def selftest():
     assert [r["lane"] for r in _rows35] == ["lane_in"], _rows35
     assert _rows35[0]["sessions_left"] == 20 - 7 + 1, _rows35
     _sent35 = window_sentence(_rows35[0])
-    assert "**14 more**" in _sent35 and "**7** official day(s) behind" in _sent35, \
+    assert "**14** 个交易日" in _sent35 and "**7** 个交易日" in _sent35, \
         _sent35
     _md35 = render_md(_rep35, cert=False)
     assert _sent35 in _md35, "the board's markdown does not print the producer's row"

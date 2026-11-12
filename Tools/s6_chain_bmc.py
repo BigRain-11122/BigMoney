@@ -776,6 +776,14 @@ LEGS = [
     # folds both plus the year gate into ONE row (size, trim in lots, the three prices of
     # obeying) and goes RED when the two receipts disagree on a shared number, so a hand-typed
     # figure cannot survive. `check` form re-derives from the same files (0.1s, no panel).
+    # r1593: same producer-less defect as the leg below, and its cost was a CEO-facing
+    # refusal -- all evening the decision line printed CONFLICT_BETWEEN_RECEIPTS and quoted
+    # NO size, because this receipt still said decision_date 2026-11-11 (written 18:32 the
+    # day before) while the permission had moved to 2026-12-09. The check could not see it:
+    # it re-derives the receipt from its own rows, so a stale receipt reads perfectly
+    # consistent. `run` is content-gated (same permission numbers + same panel cutoff =
+    # no-op 1s; it rebuilds in 44s only when an input actually moved).
+    ("cut_gate_pass_write", ["python", "scripts/etf_book_cut_gate_pass.py", "run"]),
     ("cut_gate_pass", ["python", "scripts/etf_book_cut_gate_pass.py", "--check"]),
     # r1282: this face had a `check` and no producer. Its own selftest says it re-derives in
     # 0.1s from files already on disk, so on every new bar the published row was a bar behind
