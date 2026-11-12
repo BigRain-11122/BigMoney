@@ -74,6 +74,19 @@ def flat_rf(idx, rate_pct):
     return out
 
 
+def quote_lag(idx, quote_date):
+    """How many price bars sit AFTER the repo quote's own date.
+
+    The table says "today's quote", and a reader takes that literally. A quote that
+    stopped one session earlier is still yesterday's money, so the producer -- the only
+    side that holds both panels -- counts the bars and publishes the number (r1575).
+    Unknown quote date -> None; never 0, because "unknown" is not "up to date".
+    """
+    if not quote_date:
+        return None
+    return int((pd.DatetimeIndex(idx) > pd.Timestamp(quote_date)).sum())
+
+
 def carry_gate(cells, base_beta=BASE_BETA):
     """Read the carry answer off the cells. Pure, so the selftest can pin it.
 
@@ -174,6 +187,7 @@ def build():
     rate_observed_pct = (round(float(in_win.mean()), 4) if len(in_win) else None)
     rate_today_pct = (round(float(rates.iloc[-1]), 4) if len(rates) else None)
     rate_today_date = (str(rates.index[-1].date()) if len(rates) else None)
+    rate_today_lag = quote_lag(idx, rate_today_date)
 
     rfs = {"observed": cash_rf, "zero": pd.Series(0.0, index=idx, dtype=float)}
     if rate_today_pct is None:
@@ -223,6 +237,7 @@ def build():
                               "etf_phase_beta_window.repo_daily_cash + etf_book_order.metrics")},
         "cash_rates": {"observed_mean_pct": rate_observed_pct,
                        "today_pct": rate_today_pct, "today_date": rate_today_date,
+                       "today_bar_lag": rate_today_lag,
                        "missing_bar_steps": int(missing),
                        "convention": "rate(prior bar) * calendar_gap / 365, identical in all arms"},
         "cells": cells,
@@ -265,9 +280,11 @@ def run():
     obj = build()
     write(obj)
     g = obj["gate"]["betas"].get(obj["gate"]["base_beta"]) or {}
-    print("cutoff %s | cash rate observed %.3f%% -> today %.3f%% (%s)"
+    print("cutoff %s | cash rate observed %.3f%% -> today %.3f%% (%s) | quote lag %s bar(s)"
           % (obj["evidence_cutoff"], obj["cash_rates"]["observed_mean_pct"] or 0.0,
-             obj["cash_rates"]["today_pct"] or 0.0, obj["cash_rates"]["today_date"]))
+             obj["cash_rates"]["today_pct"] or 0.0, obj["cash_rates"]["today_date"],
+             "?" if obj["cash_rates"]["today_bar_lag"] is None
+             else obj["cash_rates"]["today_bar_lag"]))
     for beta in sorted(obj["gate"]["betas"], key=float):
         r = obj["gate"]["betas"][beta]
         if not r:
@@ -346,6 +363,16 @@ def selftest():
                for r in ("observed", "flat_today", "zero")]
     chk("L13 without rate quotes no sensitivity is invented",
         "pp_per_100bp" not in (carry_gate(no_rate)["betas"][0.2] or {}))
+
+    # L14-L16 (r1575): the word "today" in the table is only today if the quote sits on
+    # the panel's last bar. A lane that lagged one session must be sayable, and a missing
+    # date must never be counted as zero bars behind.
+    chk("L14 a quote on the panel's last bar is zero bars behind",
+        quote_lag(idx, "2026-01-06") == 0)
+    chk("L15 a quote one session old counts the bars that moved past it",
+        quote_lag(idx, "2026-01-05") == 1 and quote_lag(idx, "2026-01-02") == 2)
+    chk("L16 an unknown quote date is None, never 0 (unknown is not up to date)",
+        quote_lag(idx, None) is None and quote_lag(idx, "") is None)
 
     print("selftest %d/%d" % (ok, tot))
     return 0 if ok == tot else 1

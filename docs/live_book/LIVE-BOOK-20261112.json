@@ -824,44 +824,44 @@
    {
     "beta": 0.1,
     "observed_pct": 7.12,
-    "flat_today_pct": 6.72,
+    "flat_today_pct": 7.01,
     "zero_pct": 5.75,
     "carry_pp": 1.37,
     "cash_share": 0.7819,
-    "pp_per_100bp": 0.492,
+    "pp_per_100bp": 0.235,
     "maxdd_pct": -2.77,
     "vol_pct": 3.7
    },
    {
     "beta": 0.2,
     "observed_pct": 12.73,
-    "flat_today_pct": 12.42,
+    "flat_today_pct": 12.64,
     "zero_pct": 11.68,
     "carry_pp": 1.05,
     "cash_share": 0.5639,
-    "pp_per_100bp": 0.381,
+    "pp_per_100bp": 0.193,
     "maxdd_pct": -5.78,
     "vol_pct": 7.39
    },
    {
     "beta": 0.3,
     "observed_pct": 18.48,
-    "flat_today_pct": 18.27,
+    "flat_today_pct": 18.41,
     "zero_pct": 17.8,
     "carry_pp": 0.68,
     "cash_share": 0.3458,
-    "pp_per_100bp": 0.258,
+    "pp_per_100bp": 0.15,
     "maxdd_pct": -8.72,
     "vol_pct": 11.08
    },
    {
     "beta": 0.5,
     "observed_pct": 26.67,
-    "flat_today_pct": 26.65,
+    "flat_today_pct": 26.66,
     "zero_pct": 26.62,
     "carry_pp": 0.05,
     "cash_share": 0.0189,
-    "pp_per_100bp": 0.025,
+    "pp_per_100bp": 0.021,
     "maxdd_pct": -14.39,
     "vol_pct": 16.36
    }
@@ -869,18 +869,19 @@
   "base": {
    "beta": 0.2,
    "observed_pct": 12.73,
-   "flat_today_pct": 12.42,
+   "flat_today_pct": 12.64,
    "zero_pct": 11.68,
    "carry_pp": 1.05,
    "cash_share": 0.5639,
-   "pp_per_100bp": 0.381,
+   "pp_per_100bp": 0.193,
    "maxdd_pct": -5.78,
    "vol_pct": 7.39
   },
   "cash_rates": {
-   "observed_mean_pct": 1.9776,
-   "today_pct": 1.165,
-   "today_date": "2026-11-10",
+   "observed_mean_pct": 1.9773,
+   "today_pct": 1.51,
+   "today_date": "2026-11-11",
+   "today_bar_lag": 0,
    "missing_bar_steps": 0,
    "convention": "rate(prior bar) * calendar_gap / 365, identical in all arms"
   },
@@ -903,6 +904,8 @@
    "selection_survives_zero_cash": true
   },
   "source": "results/etf_book_return_regime.json",
+  "quote_date": "2026-11-11",
+  "quote_lag": 0,
   "evidence_cutoff": "2026-11-11"
  },
  "leg_split": {
@@ -6630,8 +6633,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 32.0,
+  "owner_silent_h": 32.4,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 32.0 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 32.4 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

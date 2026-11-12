@@ -214,11 +214,16 @@ def carry_regime(path=REGIME_PATH):
     if not rows:
         return out
     base_beta = gate.get("base_beta")
+    _rates = obj.get("cash_rates") or {}
     out.update({
         "available": True, "rows": rows,
         "base": next((r for r in rows if r["beta"] == base_beta), None),
         "cash_rates": obj.get("cash_rates"), "identity": obj.get("identity"),
         "flags": gate.get("flags"),
+        # r1575: the table's word "today" gets a date and a bar distance, both published
+        # by the producer that holds both panels -- the page never counts bars itself.
+        "quote_date": _rates.get("today_date"),
+        "quote_lag": _rates.get("today_bar_lag"),
         "window": ({"first": cells[0].get("first_bar"), "last": cells[0].get("last_bar")}
                    if cells else None),
         "evidence_cutoff": obj.get("evidence_cutoff"),
@@ -5984,8 +5989,9 @@ def render_md(p, sb=None):
             "（历史真实报价 / 今天的报价固定不变 / 干脆 0 息）。风险和收益档位也一并列出，"
             "因为要不要多加风险是你可以自己选的事：")
         add("")
-        add("| 风险档位 (beta) | 现金占比 | 回测年化（当时真实利率 %.2f%%） | 若一直只有今天的 %.2f%% | 若现金 0 息 | 最大回撤 |"
-            % (rates.get("observed_mean_pct") or 0.0, rates.get("today_pct") or 0.0))
+        add("| 风险档位 (beta) | 现金占比 | 回测年化（当时真实利率 %.2f%%） | 若一直只有今天的 %.2f%%（%s 报价） | 若现金 0 息 | 最大回撤 |"
+            % (rates.get("observed_mean_pct") or 0.0, rates.get("today_pct") or 0.0,
+               cr.get("quote_date") or "日期未记"))
         add("|---|---|---|---|---|---|")
         for r in cr["rows"]:
             add("| %.2f%s | %.0f%% | %.2f%% | %.2f%% | %.2f%% | %s |"
@@ -5993,6 +5999,21 @@ def render_md(p, sb=None):
                    (r["cash_share"] or 0.0) * 100, r["observed_pct"], r["flat_today_pct"],
                    r["zero_pct"],
                    "—" if r.get("maxdd_pct") is None else "%.2f%%" % r["maxdd_pct"]))
+        add("")
+        # r1575: "today's quote" is a promise about a date. The face used to print the
+        # rate and leave the date to the reader's imagination -- a lagging lane then read
+        # as today's money (the same hole r1573 closed in the cash-leg section).
+        _lag = cr.get("quote_lag")
+        _qd = cr.get("quote_date")
+        if _lag is None:
+            add("- **这张表不知道自己那句「今天」是哪一根 bar**：面上的报价没带日期，别按今天读。")
+        elif _lag > 0:
+            add("- **表里那句「今天的报价」是 %s 的，比这张表自己的面板尾 %s 落后 %d 根 bar**——"
+                "那不是今天的钱。面板已经往前走、报价还没跟上（采集到位后下一轮会自己变），"
+                "拿这一行做决定等于用旧利率算新账。"
+                % (_qd, cr.get("evidence_cutoff") or "?", _lag))
+        else:
+            add("- 报价日期 **%s** 就是这张表面板尾那根 bar（同一根，未落后）。" % _qd)
         add("")
         add("- **你现在这一档（beta %.2f）的 %.2f%% 里，%.2f 个百分点是把闲置现金借出去挣的**"
             "（占头条 %.0f%%）。就算逆回购掉到今天的 %.2f%% 不动，这本账还有 **%.2f%%**；"
@@ -7153,6 +7174,46 @@ def selftest():
         and _fake_ok["base"]["beta"] == 0.2 and _fake_ok["base"]["pp_per_100bp"] == 1.0
         and _fake_ok["window"]["first"] == "2024-01-02",
         "rows=%d base=%s" % (len(_fake_ok.get("rows") or []), (_fake_ok.get("base") or {}).get("beta")))
+
+    # L215-L218 (r1575). The ladder's word "today" is a promise about a date. Three states,
+    # three different sentences -- and the bar count must come off the artifact, because the
+    # page is not allowed a second opinion about how far behind the quote is.
+    def _carry_page(tmp_name, rates):
+        _p = os.path.join(tempfile.mkdtemp(), tmp_name)
+        with open(_p, "w", encoding="utf-8") as _fh:
+            json.dump({"evidence_cutoff": "2026-10-29",
+                       "cash_rates": dict({"observed_mean_pct": 2.0, "today_pct": 1.0}, **rates),
+                       "cells": [{"beta": 0.2, "regime": r, "cagr_pct": v, "maxdd_pct": -5.0,
+                                  "vol_pct": 8.0, "cash_share": 0.5, "first_bar": "2024-01-02",
+                                  "last_bar": "2026-10-29"}
+                                 for r, v in (("observed", 11.0), ("flat_today", 10.5),
+                                              ("zero", 10.0))],
+                       "gate": {"base_beta": 0.2, "flags": {"carry_positive": True},
+                                "betas": {"0.2": {"observed_pct": 11.0, "flat_today_pct": 10.5,
+                                                  "zero_pct": 10.0, "carry_pp": 1.0,
+                                                  "cash_share": 0.5, "pp_per_100bp": 1.0}}}},
+                      _fh)
+        _pg = dict(page)
+        _pg["carry_regime"] = carry_regime(path=_p)
+        return render_md(_pg)
+
+    _md_stale = _carry_page("stale_quote.json",
+                            {"today_date": "2026-10-27", "today_bar_lag": 2})
+    chk("L215 cash quote: a quote behind the panel names its own date and the bar distance",
+        "2026-10-27" in _md_stale and "落后 2 根 bar" in _md_stale
+        and "那不是今天的钱" in _md_stale)
+    _md_now = _carry_page("current_quote.json",
+                          {"today_date": "2026-10-29", "today_bar_lag": 0})
+    chk("L216 cash quote: a quote on the panel's own bar says so, and does not cry stale",
+        "2026-10-29" in _md_now and "同一根" in _md_now
+        and "那不是今天的钱" not in _md_now)
+    _md_unknown = _carry_page("undated_quote.json", {})
+    chk("L217 cash quote: an undated quote is 'cannot tell', never read as up to date",
+        "不知道自己那句" in _md_unknown and "同一根" not in _md_unknown)
+    chk("L218 cash quote: the lag printed is the artifact's number (fixture lag 2 -> 2, not 0)",
+        (carry_regime(path=os.path.join(tempfile.mkdtemp(), "nope.json")).get("quote_lag")
+         is None)
+        and "落后 2 根 bar" in _md_stale and "落后 3 根 bar" not in _md_stale)
 
     # 48-50. the bet count: five tickers are not five bets (r1172 face). The page must
     # quote the artifact's own sentence, and must never fall back to counting names.
