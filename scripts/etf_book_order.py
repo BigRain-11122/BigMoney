@@ -2359,7 +2359,9 @@ def card(ticket, mk, sched, asof, beta, extra):
     L += SFI.ticket_lines(extra.get("swap_freshness"))
     L += restatement_md(extra.get("restatements"))
     if extra.get("withdrawals"):
-        L += ["", "> 账本撤回：%s" % extra["withdrawals"]]
+        # r1596: this block sits right under the FORWARD ledger's notice but it is the
+        # ORDER ledger's record (out_dir/withdrawals.json). Two books, one phrase: name it.
+        L += ["", "> 订单账本撤回（不是上面那本前向账本）：%s" % extra["withdrawals"]]
     L += reinstatement_md(extra.get("reinstatements"))
     L += reinstated_history_md(extra.get("reinstated_history"))
     if ticket:
@@ -3417,7 +3419,7 @@ def _ledger_restatements(ledger_path=None):
     """
     p = ledger_path or LEDGER_PATH_DEFAULT
     out = {"path": p, "readable": False, "source": None, "notices": [],
-           "bars": [], "bars_published": None}
+           "withdrawn": [], "bars": [], "bars_withdrawn": [], "bars_published": None}
     try:
         with open(p, encoding="utf-8") as f:
             led = json.load(f)
@@ -3431,6 +3433,17 @@ def _ledger_restatements(ledger_path=None):
         out["source"] = "restatements"
         for n in lst:
             if not isinstance(n, dict) or not n.get("bar"):
+                continue
+            # r1596: a WITHDRAWAL is not a restatement. The ledger keeps both kinds in one
+            # list (`type: withdrawn`); copying it blind made this sheet announce "3 bars
+            # were restated" on 2026-11-12 where the ledger that owns the count says two,
+            # and printed the third as a row with "-" in both value columns -- a restatement
+            # that restated nothing, sitting under a reading note that says "take the
+            # settled column" for a bar that has no settled value at all.
+            if str(n.get("type") or "") == "withdrawn":
+                out["withdrawn"].append({"bar": n.get("bar"), "ts": n.get("ts"),
+                                         "nav_published": n.get("nav_published"),
+                                         "reason": n.get("reason")})
                 continue
             out["notices"].append({"bar": n.get("bar"), "ts": n.get("ts"),
                                    "nav_published": n.get("nav_published"),
@@ -3450,6 +3463,7 @@ def _ledger_restatements(ledger_path=None):
                 "delta": (None if pub is None or stl is None else float(stl) - float(pub)),
                 "reason": b.get("restate_reason")})
     out["bars"] = [n["bar"] for n in out["notices"]]
+    out["bars_withdrawn"] = [n["bar"] for n in out["withdrawn"]]
     return out
 
 
@@ -3462,6 +3476,31 @@ def _relpath_safe(p, base=None):
         return p.replace("\\", "/")
 
 
+def _withdrawal_md(rst, base=None):
+    """Bars the ledger took back entirely -- the opposite notice from a restatement (r1596).
+
+    A restatement keeps both values for the same bar; a withdrawal removes the bar. They
+    arrive in the same list on disk, so they are printed in their own blocks: reading a
+    withdrawal off a restatement table leaves an empty value cell that says nothing.
+    """
+    wd = rst.get("withdrawn") or []
+    if not wd:
+        return []
+    L = ["", "**另有 %d 根 bar 被撤回**（不是改述：那根 bar 的面板不再支持它，值被整根作废，"
+             "没有「定格后」的值可读）：" % len(wd),
+         "", "| bar | 当时发布(NAV) | 何时 | 原因 |", "|---|---|---|---|"]
+    for w in wd:
+        pub = w.get("nav_published")
+        L.append("| %s | %s | %s | %s |"
+                 % (w.get("bar") or "-",
+                    ("%.8f" % float(pub)) if pub is not None else "-",
+                    w.get("ts") or "-",
+                    str(w.get("reason") or "未注明").replace("|", "/")))
+    L += ["", "- 读法：撤回的 bar **不在本单引用的行里**。改述＝同一个 bar 换一个值，"
+          "撤回＝这个 bar 被整根拿掉；把两者印成一张表，会让读者以为撤回那根还有个「定格后」的值。"]
+    return L
+
+
 def restatement_md(rst, base=None):
     """The notice block: which published bars moved after they settled -- or that none did."""
     base = base or BASE
@@ -3472,14 +3511,19 @@ def restatement_md(rst, base=None):
                 % _relpath_safe((rst or {}).get("path") or LEDGER_PATH_DEFAULT, base)]
     notices = rst.get("notices") or []
     if not notices:
-        return ["", "## 历史变更通知：本单引用的历史有没有被改过", "",
-                "- 已核验：前向账本已发布 %s 根 bar，其中**没有一根在定格之后被改述**（%s）。"
-                % (rst.get("bars_published") if rst.get("bars_published") is not None else "?",
-                   "账本顶层 restatements 清单为空"
-                   if rst.get("source") == "restatements"
-                   else "账本无顶层清单，已按每根 bar 的 restated_at 标记逐根核对")]
+        L = ["", "## 历史变更通知：本单引用的历史有没有被改过", "",
+             "- 已核验：前向账本已发布 %s 根 bar，其中**没有一根在定格之后被改述**（%s）。"
+             % (rst.get("bars_published") if rst.get("bars_published") is not None else "?",
+                "账本顶层 restatements 清单为空"
+                if rst.get("source") == "restatements"
+                else "账本无顶层清单，已按每根 bar 的 restated_at 标记逐根核对")]
+        if rst.get("withdrawn"):
+            L += ["- 但其中 %d 根被整根撤回（撤回不是改述，见下）。" % len(rst["withdrawn"])]
+        return L + _withdrawal_md(rst, base)
+    _tail = ("（另有 %d 根被撤回，见下）" % len(rst["withdrawn"])) if rst.get("withdrawn") else ""
     L = ["", "## 历史变更通知：本单引用的历史有没有被改过", "",
-         "**有 %d 根 bar 在定格之后又被改述**（=历史变了，两个值都留着）：" % len(notices),
+         "**有 %d 根 bar 在定格之后又被改述**（=历史变了，两个值都留着）%s："
+         % (len(notices), _tail),
          "", "| bar | 当时发布(NAV) | 定格后(NAV) | 差 | 何时 |", "|---|---|---|---|---|"]
     for n in notices:
         pub, stl, dl = n.get("nav_published"), n.get("nav_settled"), n.get("delta")
@@ -3493,7 +3537,7 @@ def restatement_md(rst, base=None):
     L += ["", "- 读法：被改述的是「当天面板还在补数就先定过的价」，不是有人事后改了历史；"
           "本单引用的行以「定格后」那一列为准。原因：%s。" % relist,
           "- 出处：%s。" % _relpath_safe(rst.get("path") or LEDGER_PATH_DEFAULT, base)]
-    return L
+    return L + _withdrawal_md(rst, base)
 
 
 def card_config_ticket(card_dir=None, nav=None, ledger_path=None):
@@ -3564,6 +3608,8 @@ def card_config_ticket(card_dir=None, nav=None, ledger_path=None):
              "restatements_source": rst["source"],
              "restated_bars": rst["bars"],
              "restatements": rst["notices"],
+             "withdrawn_bars": rst["bars_withdrawn"],
+             "withdrawn": rst["withdrawn"],
              "ledger_bars_published": rst["bars_published"],
              "card_cash_weight": sh.get("cash_weight"),
              # r1342 / E230: the card now prints the EXECUTABLE cash row, so the ticket
@@ -3904,6 +3950,7 @@ def card_config_card(tk, width=None, ruler=None):
                          "path": rc.get("ledger_source"),
                          "source": rc.get("restatements_source"),
                          "notices": rc.get("restatements") or [],
+                         "withdrawn": rc.get("withdrawn") or [],
                          "bars_published": rc.get("ledger_bars_published")})
     L += ["## 今日目标（NAV ¥%s）" % format(int(round(tk["nav"])), ","),
           "风险缩放 k=%.3f（书内 %.1f%%、现金 %.1f%%）｜现金腿=%s｜现金 ¥%s"
@@ -6317,6 +6364,52 @@ def selftest():
         chk("leg76 a ticket behind on its own bar does not dilute it with this note",
             bar_scope_note({"status": "stale_feed", "ticket_bar": "2026-11-11"},
                            _face_stale) == [])
+        # r1596: the ledger keeps restatements and withdrawals in ONE list. On 2026-11-12
+        # this sheet announced "3 bars were restated" where the ledger's own count is two,
+        # and printed the withdrawal as a row with "-" in both value columns.
+        import tempfile as _tf
+        _d77 = _tf.mkdtemp(prefix="rst_")
+        _p77 = os.path.join(_d77, "LEDGER.json")
+        _led77 = {"bars": [{"bar": "2026-11-01"}, {"bar": "2026-11-02"}],
+                  "restatements": [
+                      {"ts": "2026-10-30T19:18:29+0800", "bar": "2026-10-29",
+                       "nav_published": 1.014536476, "nav_settled": 1.0145314121,
+                       "delta": 5.0639e-06, "reason": "panel still filling"},
+                      {"ts": "2026-11-02T23:11:55+0800", "bar": "2026-11-02",
+                       "type": "withdrawn", "nav_published": 1.0086329582,
+                       "reason": "the panel no longer carries this bar"},
+                      {"ts": "2026-11-05T20:29:33+0800", "bar": "2026-11-03",
+                       "nav_published": 1.0037553579, "nav_settled": 1.0037561821,
+                       "delta": 8.242e-07, "reason": "panel still filling"}]}
+        with open(_p77, "w", encoding="utf-8") as _f:
+            json.dump(_led77, _f)
+        _r77 = _ledger_restatements(_p77)
+        chk("leg77 a withdrawal is not counted as a restatement",
+            _r77["bars"] == ["2026-10-29", "2026-11-03"]
+            and _r77["bars_withdrawn"] == ["2026-11-02"],
+            "restated=%s withdrawn=%s" % (_r77["bars"], _r77["bars_withdrawn"]))
+        _md77 = "\n".join(restatement_md(_r77))
+        chk("leg78 the printed count is the ledger's own restated count (one denominator)",
+            "**有 2 根 bar" in _md77 and "另有 1 根被撤回" in _md77
+            and len([n for n in _led77["restatements"]
+                     if n.get("type") != "withdrawn"]) == len(_r77["notices"]),
+            "%d restated / %d withdrawn" % (len(_r77["notices"]), len(_r77["withdrawn"])))
+        _row77 = [ln for ln in _md77.splitlines() if ln.startswith("| 2026-11-02")]
+        chk("leg79 a withdrawn bar never sits in the restatement table with an empty value",
+            len(_row77) == 1 and "- | -" not in _row77[0] and "撤回" in _md77
+            and "| 1.00863296 |" in _row77[0],
+            _row77[0] if _row77 else "row absent")
+        _led80 = {"bars": [{"bar": "2026-11-02"}],
+                  "restatements": [{"ts": "2026-11-02T23:11:55+0800", "bar": "2026-11-02",
+                                    "type": "withdrawn", "nav_published": 1.0086329582,
+                                    "reason": "the panel no longer carries this bar"}]}
+        with open(_p77, "w", encoding="utf-8") as _f:
+            json.dump(_led80, _f)
+        _md80 = "\n".join(restatement_md(_ledger_restatements(_p77)))
+        chk("leg80 a ledger with only a withdrawal still says nothing was restated, and names it",
+            "没有一根在定格之后被改述" in _md80 and "但其中 1 根被整根撤回" in _md80
+            and "2026-11-02" in _md80, _md80.splitlines()[-1][:80])
+        shutil.rmtree(_d77, ignore_errors=True)
 
 
     # legA-D (r1572): the sheet must state the gate's decision, and must never read

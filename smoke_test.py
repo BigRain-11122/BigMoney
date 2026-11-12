@@ -6875,12 +6875,23 @@ def main() -> int:
                 _pub30 = (_tk30.get("restatements") or {})
                 if _pub30.get("readable") is not True:
                     _bad30.append("ticket says it could not verify the ledger")
+                # r1596: the ledger's one list holds two different notices. A restatement
+                # keeps both values for the same bar; a withdrawal removes the bar. The
+                # ticket must repeat each kind against its own kind -- copying the whole
+                # list blind is what made the 2026-11-12 sheet print "3 bars were restated"
+                # where the ledger that owns that count says two, with the third shown as a
+                # row whose value columns are both "-".
+                _rest30 = [n for n in _rst30 if str(n.get("type") or "") != "withdrawn"]
+                _wd30 = [n for n in _rst30 if str(n.get("type") or "") == "withdrawn"]
                 if [_n.get("bar") for _n in (_pub30.get("notices") or [])] != \
-                        [_n.get("bar") for _n in _rst30]:
-                    _bad30.append("ticket's restated bars are not the ledger's own list")
+                        [_n.get("bar") for _n in _rest30]:
+                    _bad30.append("ticket's restated bars are not the ledger's own restatements")
+                if [_n.get("bar") for _n in (_pub30.get("withdrawn") or [])] != \
+                        [_n.get("bar") for _n in _wd30]:
+                    _bad30.append("ticket's withdrawn bars are not the ledger's own withdrawals")
                 if "历史变更通知" not in _md30:
                     _bad30.append("the sheet carries no restatement notice")
-                for _n30 in _rst30:
+                for _n30 in _rest30:
                     if not _n30.get("bar"):
                         continue
                     if _n30["bar"] not in _md30:
@@ -6890,13 +6901,21 @@ def main() -> int:
                         if _v30 is not None and ("%.8f" % float(_v30)) not in _md30:
                             _bad30.append("sheet omits %s=%.8f for %s"
                                           % (_k30, float(_v30), _n30["bar"]))
-                if not _rst30 and "没有一根在定格之后被改述" not in _md30:
+                for _n30 in _wd30:
+                    if not _n30.get("bar"):
+                        continue
+                    if _n30["bar"] not in _md30:
+                        _bad30.append("sheet omits withdrawn bar %s" % _n30["bar"])
+                    if "撤回" not in _md30:
+                        _bad30.append("sheet prints a withdrawal without calling it one")
+                if not _rest30 and "没有一根在定格之后被改述" not in _md30:
                     _bad30.append("a clean ledger is not stated as a checked fact")
         check("product: a bar restated after settling reaches the ticket's own ledger line",
               not _bad30,
               "; ".join(_bad30)[:220]
               or "%d restated bar(s): %s"
-                 % (len(_rst30), ", ".join(str(_n.get("bar")) for _n in _rst30) or "none"))
+                 % (len(_rest30 if not _bad30 else _rst30),
+                    ", ".join(str(_n.get("bar")) for _n in _rst30) or "none"))
     except Exception as e:
         check("product: a bar restated after settling reaches the ticket's own ledger line",
               False, repr(e)[:160])
