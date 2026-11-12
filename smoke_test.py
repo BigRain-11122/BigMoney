@@ -6731,6 +6731,30 @@ def main() -> int:
         check("config: no card or digest carries an eaten path prefix",
               False, repr(e)[:160])
 
+    # r1611: five faces in a row (r1605..r1610) each read "today" as the price panel's last
+    # row, and every one was found by a person reading a page and noticing a number that could
+    # not be dated. A sixth copy would have to be found the same way unless something
+    # mechanical reads the tree -- Tools/premium_session_guard.py is that reader. Its claim is
+    # deliberately narrow: it asks whether the face carries a field that lets a reader locate
+    # the session, NOT whether every premium is priced on its own denominator (a face can name
+    # a session and still pair one leg's NAV stamp with another's price bar -- that is r1605's
+    # defect and needs the per-leg dates compared). What it can see is a face published with
+    # no date at all, which is the shape the next copy arrives in.
+    try:
+        _psg = _premium_session_guard()
+        _pres = _psg.audit()
+        _pbad = _pres["undatable"]
+        check("config: every face that prints a premium can name its session",
+              not _pbad,
+              ("%d undatable site(s): " % len(_pbad)
+               + "; ".join("%s [%s]" % (h["path"], h["trail"]) for h in _pbad[:4]))[:220]
+              if _pbad else
+              "%d face(s) print a premium, every one dated (of %d files scanned)"
+              % (_pres["faces_printing_premium"], _pres["scanned"]))
+    except Exception as e:
+        check("config: every face that prints a premium can name its session",
+              False, repr(e)[:160])
+
     # r1406: the forward ledger was committed on 2026-11-07 with a missing comma
     # between two list elements and a `drift` block that carried `faces`/`max_abs`
     # twice. Every reader of that file (the order ticket, the CEO page, the settle
@@ -10957,6 +10981,20 @@ def _claw():
 
 _SMOKE_CTH = None
 _SMOKE_JFG = None
+_SMOKE_PSG = None
+
+
+def _premium_session_guard():
+    """Tools/premium_session_guard.py as a module (r1611): the same reader the repo runs by hand."""
+    global _SMOKE_PSG
+    if _SMOKE_PSG is None:
+        import importlib.util as _ilu
+        _p = os.path.join("Tools", "premium_session_guard.py")
+        _s = _ilu.spec_from_file_location("_smoke_premium_session_guard", _p)
+        _m = _ilu.module_from_spec(_s)
+        _s.loader.exec_module(_m)
+        _SMOKE_PSG = _m
+    return _SMOKE_PSG
 
 
 def _json_face_guard():

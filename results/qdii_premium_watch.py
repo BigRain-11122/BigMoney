@@ -119,8 +119,13 @@ def main():
         "target_face": {"nav_date": tgt_date, "stats": tgt_stats},
         "baseline_face": {"nav_date": bl_file[:-4], "stats": bl_stats},
         "premium_definition": "premium_pct = (mkt_price - nav) / nav * 100（口径=面板快照当日收盘价 vs 当日单位净值）",
-        "top10_target": sorted(tgt_members, key=lambda m: -m["premium_pct"])[:10],
-        "top10_premium_movers": deltas[:10],
+        # r1611: every row that prints a premium carries the session it was priced on. The
+        # cluster date used to live only in `target_face.nav_date`, one level up and beside a
+        # different statistic -- a reader holding a single row could not date it.
+        "top10_target": [dict(m, nav_date=tgt_date)
+                         for m in sorted(tgt_members, key=lambda m: -m["premium_pct"])[:10]],
+        "top10_premium_movers": [dict(d, target_nav_date=tgt_date,
+                                      baseline_nav_date=bl_file[:-4]) for d in deltas[:10]],
         "paired_members": len(deltas),
         "median_delta_pp": (lambda ds: round(sorted(d["delta_pp"] for d in ds)[len(ds) // 2], 3) if ds else None)(deltas),
         "holiday_window_note": ("目标面 %s 为复市后首拍时，本差分即长假脱锚的当日可测面（DIGEST-20261008 主题一活验证窗）" % tgt_date),
