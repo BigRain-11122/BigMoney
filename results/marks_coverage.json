@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-12T01:35:53",
+ "as_of": "2026-11-12T10:46:25",
  "lane_start": "2026-09-24",
  "first_trading_day_seen": "1990-12-19",
  "last_trading_day_seen": "2026-11-12",
@@ -9,7 +9,7 @@
   "closed_days": 29,
   "captured": 17,
   "holes": 12,
-  "pending": 1,
+  "pending": 0,
   "coverage_pct_closed": 58.62
  },
  "holes": [
@@ -83,7 +83,7 @@
    "cause": "takeover_possible"
   }
  ],
- "last_captured": "2026-10-29",
+ "last_captured": "2026-11-12",
  "verdict": "holes=12",
  "days": [
   {
@@ -267,7 +267,18 @@
   },
   {
    "date": "2026-11-12",
-   "status": "pending"
+   "status": "captured",
+   "rows": 1,
+   "non_forced": 1,
+   "traders": 0
   }
- ]
+ ],
+ "authority": {
+  "lane_owner": "bm-b",
+  "data_face_machine": "bm-c",
+  "writer_machine": "bm-c",
+  "took_over_by": "bm-c",
+  "took_over_at": "2026-11-12T10:43:09",
+  "reason": "owner bm-b silent 310.0h >= 120min"
+ }
 }

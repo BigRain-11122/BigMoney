@@ -197,8 +197,47 @@ def scan_marks(marks_dir: str = MARKS_DIR) -> dict:
     return out
 
 
+def last_tick_takeover(marks_dir: str = MARKS_DIR) -> dict | None:
+    """The stand-in declaration carried by the newest tick on disk.
+
+    r1101 gave the collector a --takeover path, but the declaration only
+    ever landed inside a tick line -- no envelope carried it, so this board
+    kept printing the lane `unverifiable` (measured 2026-11-12: bm-b silent
+    310h, bm-c had just captured 20 positions, the row did not move).  A
+    takeover is not a mode, it is a fact about who wrote the last tick:
+    reading the newest record means the declaration expires by itself the
+    day the owner writes a tick again (no flag anybody has to unset).
+    """
+    if not os.path.isdir(marks_dir):
+        return None
+    names = sorted(fn for fn in os.listdir(marks_dir)
+                   if fn.startswith("marks-") and fn.endswith(".jsonl"))
+    for fn in reversed(names):
+        last = None
+        try:
+            with open(os.path.join(marks_dir, fn), encoding="utf-8") as fh:
+                for line in fh:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        rec = json.loads(line)
+                    except ValueError:
+                        continue
+                    if isinstance(rec, dict):
+                        last = rec
+        except OSError:
+            continue
+        if last is None:
+            continue
+        tk = last.get("takeover")
+        return tk if isinstance(tk, dict) and tk.get("by") else None
+    return None
+
+
 def classify(calendar: list, marks: dict, now: dt.datetime,
-             samples: dict | None = None, owner: str | None = None) -> dict:
+             samples: dict | None = None, owner: str | None = None,
+             takeover: dict | None = None) -> dict:
     """Per-trading-day status table. ``calendar`` = ISO days (sorted)."""
     samples = samples or {}
     owner = owner or lane_owner()
@@ -239,7 +278,7 @@ def classify(calendar: list, marks: dict, now: dt.datetime,
     for r in rows:
         if r.get("cause"):
             by_cause[r["cause"]] = by_cause.get(r["cause"], 0) + 1
-    return {
+    rep = {
         "as_of": now.strftime("%Y-%m-%dT%H:%M:%S"),
         "lane_start": lane_start,
         "first_trading_day_seen": days[0] if days else None,
@@ -264,6 +303,22 @@ def classify(calendar: list, marks: dict, now: dt.datetime,
                     f"holes={len(holes)}"),
         "days": rows,
     }
+    # r1577: a stand-in the reader can see. The board asks the envelope for
+    # `authority.took_over_by`; the collector's declaration only existed
+    # inside a tick line, so a taken-over lane still printed `unverifiable`.
+    # Written only when the newest tick actually declares one -- a re-derive
+    # by a non-owner (no ticks written here) must stay unattributed rather
+    # than borrow an authority it does not have.
+    if takeover and takeover.get("by") and takeover["by"] != owner:
+        rep["authority"] = {
+            "lane_owner": owner,
+            "data_face_machine": takeover["by"],
+            "writer_machine": takeover["by"],
+            "took_over_by": takeover["by"],
+            "took_over_at": takeover.get("ts"),
+            "reason": takeover.get("reason"),
+        }
+    return rep
 
 
 def run() -> int:
@@ -276,7 +331,8 @@ def run() -> int:
     if not os.path.isdir(MARKS_DIR):
         print(f"marks_coverage: marks dir absent {MARKS_DIR} (exit 2)")
         return 2
-    rep = classify(cal, marks, dt.datetime.now(), host_samples())
+    rep = classify(cal, marks, dt.datetime.now(), host_samples(),
+                   takeover=last_tick_takeover())
     with open(OUT_PATH, "w", encoding="utf-8") as fh:
         json.dump(rep, fh, ensure_ascii=False, indent=1)
     c = rep["counters"]
@@ -413,7 +469,52 @@ def _selftest() -> bool:
         check("lane_owner falls back readably when the file is absent",
               lane_owner(os.path.join(td, "nope.py")) == "bm-b")
 
-    # (5) a real calendar must exist and be sorted/parseable
+        # (10) a declared stand-in must reach the envelope the board reads
+        tk_dir = os.path.join(td, "marks_tk")
+        os.makedirs(tk_dir)
+        with open(os.path.join(tk_dir, "marks-20261021.jsonl"), "w",
+                  encoding="utf-8") as fh:
+            fh.write('{"trader": "T-A", "ts": "2026-10-21T09:31:00"}\n')
+            fh.write(json.dumps({"trader": "T-A", "ts": "2026-10-21T10:02:00",
+                                 "takeover": {"owner": "bm-b", "by": "bm-c",
+                                              "reason": "owner silent 310h",
+                                              "ts": "2026-10-21T10:02:00"}})
+                     + "\n")
+        tk = last_tick_takeover(tk_dir)
+        check("the newest tick's stand-in is read",
+              isinstance(tk, dict) and tk.get("by") == "bm-c"
+              and tk.get("owner") == "bm-b")
+        rep_tk = classify(cal, scan_marks(tk_dir),
+                          dt.datetime(2026, 10, 21, 10, 5), {}, owner="bm-b",
+                          takeover=tk)
+        auth = rep_tk.get("authority") or {}
+        check("a stand-in is published where the board looks for it",
+              auth.get("took_over_by") == "bm-c"
+              and auth.get("data_face_machine") == "bm-c"
+              and auth.get("writer_machine") == "bm-c"
+              and auth.get("took_over_at") == "2026-10-21T10:02:00")
+        check("the lane owner is still named as the owner",
+              auth.get("lane_owner") == "bm-b"
+              and rep_tk["lane_owner"] == "bm-b")
+        # the declaration expires on its own: a newer tick without one
+        with open(os.path.join(tk_dir, "marks-20261022.jsonl"), "w",
+                  encoding="utf-8") as fh:
+            fh.write('{"trader": "T-A", "ts": "2026-10-22T09:31:00"}\n')
+        check("a newer tick without a stand-in retires the declaration",
+              last_tick_takeover(tk_dir) is None)
+        check("no stand-in => no authority block (nothing to borrow)",
+              "authority" not in classify(cal, scan_marks(tk_dir),
+                                          dt.datetime(2026, 10, 22, 10, 5),
+                                          {}, owner="bm-b"))
+        check("the owner's own tick is not a stand-in",
+              "authority" not in classify(
+                  cal, scan_marks(tk_dir), dt.datetime(2026, 10, 22, 10, 5),
+                  {}, owner="bm-c",
+                  takeover={"owner": "bm-b", "by": "bm-c"}))
+        check("an absent marks dir declares nothing",
+              last_tick_takeover(os.path.join(td, "nope")) is None)
+
+        # (5) a real calendar must exist and be sorted/parseable
     real = load_calendar()
     check("real exchange calendar loads", len(real) > 100)
     check("real calendar is sorted and ISO", real == sorted(real)

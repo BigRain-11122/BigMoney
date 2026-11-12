@@ -44,6 +44,7 @@ import datetime as dt
 import io
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -73,6 +74,12 @@ RETRY_SLEEP_S = 5.0
 FUSE_LIMIT = 5                # consecutive pair failures -> stop this run
 CONN_STOP = 3                 # consecutive connection-level fails -> source stop
 QUARANTINE_AT = 3             # cumulative pair failures -> quarantine
+QUARANTINE_RELEASE_DAYS = 7   # r1577: a failure quarantine gets a release date
+                              # -- see release_stale_quarantines(). Without it a
+                              # pair that failed three times on transient
+                              # conditions left the universe forever while the
+                              # lane kept reporting `complete` (measured
+                              # 2026-11-12: 24 of 211 pairs parked, 11.4%).
 MIN_SPAWN_S = 30 * 60          # spawn throttle (family precedent)
 HK_SAFE_HOUR = dt.time(16, 30)  # H-leg 16:00 close + source lag; before this,
                                 # today's target is not required (churn guard)
@@ -344,6 +351,44 @@ def progress_roll(progress, new_target):
     out["run_target"] = new_target
     out["done"] = []
     return out
+
+
+def release_stale_quarantines(quarantined, attempts, today,
+                              release_days=None):
+    """Re-admit failure quarantines whose stamp has aged out. Pure.
+
+    A quarantine used to be permanent: `attempts` and `quarantined` survive
+    every target roll, so three transient failures removed a pair from the
+    universe for good -- while `complete` is computed as
+    `len(done)+len(quarantined) >= len(pairs)`, which made that permanent
+    loss look like success (measured 2026-11-12: 24/211 pairs = 11.4%
+    parked, every one stamped `3 cumulative failures @ <a day in the last
+    week>`). The crosscheck family keeps its own T21 re-adjudication path
+    (`readjudicate`), so those stamps are left alone here.
+    """
+    days = QUARANTINE_RELEASE_DAYS if release_days is None else release_days
+    keep, att, released = {}, dict(attempts), []
+    for h, reason in sorted((quarantined or {}).items()):
+        text = str(reason)
+        if text.startswith("crosscheck"):
+            keep[h] = reason          # T21 family: readjudicate owns these
+            continue
+        m = re.search(r"@\s*(\d{4}-\d{2}-\d{2})", text)
+        if not m:
+            keep[h] = reason          # unreadable stamp: not a permission
+            continue
+        try:
+            age = (dt.date.fromisoformat(today)
+                   - dt.date.fromisoformat(m.group(1))).days
+        except ValueError:
+            keep[h] = reason
+            continue
+        if age < days:
+            keep[h] = reason
+            continue
+        released.append({"h_code": h, "reason": text, "age_days": age})
+        att[h] = 0                    # a released pair earns a fresh count
+    return keep, att, released
 
 
 # ---------------------------------------------------------------- file helpers
@@ -629,6 +674,20 @@ def _refresh_inner():
     dates = _load_trading_dates()
     target = gate_target(now, dates)
     prog = progress_roll(_read_json(PROGRESS, {}) or {}, target)
+    released = []
+    if prog.get("quarantined"):
+        # r1577: a quarantine nobody ever revisits is a silent universe
+        # shrink. Re-admit the failure family whose stamp has aged out
+        # before the pull loop, so this very run re-tries them.
+        keep, att, released = release_stale_quarantines(
+            prog.get("quarantined") or {}, prog.get("attempts") or {},
+            now.strftime("%Y-%m-%d"))
+        prog["quarantined"], prog["attempts"] = keep, att
+        if released:
+            print(f"quarantine release: {len(released)} pair(s) aged >= "
+                  f"{QUARANTINE_RELEASE_DAYS}d re-admitted "
+                  f"({', '.join(r['h_code'] for r in released[:6])}"
+                  f"{'...' if len(released) > 6 else ''})")
     status = load_status()
 
     # -- leg 1: EM mapping (authoritative; fuse -> honest exit 2)
@@ -815,6 +874,8 @@ def _refresh_inner():
         crosscheck_source_iqr_over_med=src_iqr,
         crosscheck_source_n=src_n,
         crosscheck_source_degraded=crosscheck_source_degraded,
+        quarantine_released=[r["h_code"] for r in released],
+        quarantine_release_days=QUARANTINE_RELEASE_DAYS,
         fx_rows=len(fx_rows), fx_range_flag=fx_bad,
         hsahp_rows=hsahp_rows_n, tx_census_rows=tx_rows_n,
         panel_rows=panel_rows, last_refresh_exit=exit_code,
@@ -1075,6 +1136,32 @@ def _selftest():
           and r9["done"] == [] and r9["attempts"] == {"00700": 1}
           and r9["quarantined"] == {"03308": "x"}
           and progress_roll(p9, "2026-09-24") is p9)
+
+    # F10b quarantine release (r1577): a failure stamp ages out, the T21
+    # crosscheck family does not (readjudicate owns those).
+    q = {"00568": "3 cumulative failures @ 2026-11-01",
+         "09976": "3 cumulative failures @ 2026-11-11",
+         "01330": "crosscheck diff 0.02 rel 0.4 > gates @ 2026-10-01",
+         "00187": "no date in this stamp"}
+    k2, a2, rel2 = release_stale_quarantines(q, {"00568": 3, "09976": 3},
+                                            "2026-11-12")
+    check("F10b failure quarantine ages out after the release window",
+          [r["h_code"] for r in rel2] == ["00568"]
+          and "00568" not in k2 and k2["09976"] == q["09976"])
+    check("F10b a released pair earns a fresh attempt count",
+          a2["00568"] == 0 and a2["09976"] == 3)
+    check("F10b the crosscheck family keeps its T21 re-adjudication path",
+          k2["01330"] == q["01330"] and a2.get("01330") is None)
+    check("F10b an unreadable stamp is not a release permission",
+          k2["00187"] == q["00187"])
+    check("F10b a fresh stamp stays quarantined inside the window",
+          release_stale_quarantines(
+              {"09976": "3 cumulative failures @ 2026-11-11"}, {},
+              "2026-11-12")[2] == [])
+    check("F10b release window is a knob, not a coincidence",
+          release_stale_quarantines(
+              {"09976": "3 cumulative failures @ 2026-11-11"}, {},
+              "2026-11-12", release_days=0)[2][0]["h_code"] == "09976")
 
     # F10 crosscheck verdict (T21 EM f188 re-point: raw/10000, dual gate)
     v1, _ = crosscheck_verdict(0.1621, 1621)      # em 0.1621, diff ~0 pass
