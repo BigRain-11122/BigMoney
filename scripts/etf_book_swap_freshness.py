@@ -81,6 +81,67 @@ FRESH = "FRESH"
 STALE = "STALE"
 INCONSISTENT = "INCONSISTENT"
 
+# r1287: three of these legs are not a machine's lane at all -- they are children of one
+# snapshot directory (`data/etf_premium/snap/<session>.csv`), and that directory is fed by a
+# lane another machine owns. "1 session behind" with no name on it is a red flag nobody can
+# act on (r1159/r1266: an "I cannot certify this" verdict has to carry who was supposed to),
+# so a stale row now says which file it waits for, when that file was last written, and which
+# machine is allowed to write the next one.
+SNAPSHOT_DIR = os.path.join(ROOT, "data", "etf_premium", "snap")
+SNAPSHOT_LEGS = ("sibling_entry", "sibling_gap", "swap_trigger")
+PREMIUM_COLLECTOR = os.path.join(ROOT, "scripts", "update_fund_premium.py")
+
+
+def lane_owner_of(snapshot_dir=SNAPSHOT_DIR, collector=PREMIUM_COLLECTOR):
+    """The machine allowed to write the next snapshot.
+
+    Read out of the collector's own source instead of a second copy of the constant: an
+    import here would pull a network collector into a bookkeeping leg. Returns "" when the
+    constant cannot be read -- an unattributable lane stays unattributed, never guessed.
+    """
+    try:
+        import ast
+        with open(collector, encoding="utf-8") as fh:
+            tree = ast.parse(fh.read())
+        for node in tree.body:
+            if isinstance(node, ast.Assign) and len(node.targets) == 1:
+                tgt = node.targets[0]
+                if isinstance(tgt, ast.Name) and tgt.id == "LANE_OWNER":
+                    val = getattr(node.value, "value", None)
+                    return val if isinstance(val, str) else ""
+    except (OSError, SyntaxError, ValueError):
+        return ""
+    return ""
+
+
+def snapshot_waiting(exp, snapshot_dir=SNAPSHOT_DIR, collector=PREMIUM_COLLECTOR):
+    """Name what the snapshot legs are waiting on: the missing file, the copy's newest, owner.
+
+    `exp` is the session the official calendar says must be printed. Returns "" when the
+    snapshot directory cannot be read -- absence of evidence is not a verdict.
+    """
+    try:
+        names = sorted(n for n in os.listdir(snapshot_dir) if n.endswith(".csv"))
+    except OSError:
+        return ""
+    newest = names[-1][:-4] if names else ""
+    if not newest or (exp and newest >= exp):
+        return ""
+    path = os.path.join(snapshot_dir, names[-1])
+    try:
+        written = dt.datetime.fromtimestamp(os.path.getmtime(path)).isoformat(timespec="seconds")
+    except OSError:
+        written = "unknown mtime"
+    owner = lane_owner_of(snapshot_dir, collector)
+    if owner:
+        who = "lane owner %s writes it; this copy cannot" % owner
+    else:
+        who = "lane owner unreadable"
+    return ("waiting on %s (newest copy here: %s, written %s; %s)"
+            % (os.path.join(os.path.relpath(snapshot_dir, ROOT).replace(os.sep, "/"),
+                            "%s.csv" % exp).replace(os.sep, "/"),
+               newest, written, who))
+
 
 def _read_json(path):
     try:
@@ -146,6 +207,10 @@ def assess(now=None, faces=None, days=None):
             status, reason = FRESH, "on the %s close" % exp
         rows.append({"leg": leg, "producer": producer, "face": face_path, "field": field,
                      "bar": bar, "lag_sessions": lag, "status": status, "reason": reason})
+        if status == STALE and leg in SNAPSHOT_LEGS and faces is None:
+            waits = snapshot_waiting(exp)
+            if waits:
+                rows[-1]["waiting_on"] = waits
     stale = [r["leg"] for r in rows if r["status"] == STALE]
     inconsistent = [r["leg"] for r in rows if r["status"] == INCONSISTENT]
     payload = {
@@ -180,9 +245,14 @@ def sentence(rows, exp, stale, inconsistent):
     if stale:
         worst = max((r for r in rows if r["status"] == STALE),
                     key=lambda r: (r["lag_sessions"] or 0))
-        return ("STALE: %d of %d faces are older than the %s close -- worst %s on %s (%s)."
+        text = ("STALE: %d of %d faces are older than the %s close -- worst %s on %s (%s)."
                 % (len(stale), len(rows), exp, worst["leg"],
                    worst["bar"] or "no face", worst["reason"]))
+        # r1287: a reader cannot act on "1 session behind"; name who can move it.
+        waits = [r["waiting_on"] for r in rows if r.get("waiting_on")]
+        if waits:
+            text += " " + waits[0]
+        return text
     return "Every one of the %d faces in the swap section is on the %s close." % (len(rows), exp)
 
 
@@ -234,6 +304,9 @@ def ticket_lines(face):
                        % (r.get("leg"), r.get("bar") or "—", lag_cell,
                           r.get("status"), r.get("reason")))
         out.append("")
+        waits = [r for r in face.get("legs") or [] if r.get("waiting_on")]
+        if waits:
+            out.append("- 还在等谁：%s" % waits[0]["waiting_on"])
         out.append("- 修法：`python scripts/etf_book_swap_freshness.py run`（按依赖顺序付"
                    " 10 个生产者，然后重生成本单）；在这些面回到 %s 之前，上面这些节里的"
                    "数字不能当今天的读。" % exp)
@@ -253,6 +326,9 @@ def render_md(face):
         L.append("| %s | %s | %s | %s | %s | `%s` |"
                  % (r["leg"], r["bar"] or "—", "—" if r["lag_sessions"] is None
                     else r["lag_sessions"], r["status"], r["reason"], r["producer"]))
+    waits = [r for r in face["legs"] if r.get("waiting_on")]
+    if waits:
+        L += ["", "**这三条还在等谁**：" + waits[0]["waiting_on"]]
     L += ["", "## 为什么这张面存在", "",
           "票面写「今日价差」而入场/价差/触发三面停在四个交易日之前——它们在链里只有 "
           "`check` 没有 `run`，而 `check` 只能证明一个面与它被造出来的那个世界自洽。每轮"
@@ -534,6 +610,30 @@ def selftest():
     txt = "\n".join(ticket_lines(assess(now=after, faces=ahead, days=days)))
     leg("L23 a face ahead of the calendar is never called 'behind 0 sessions'",
         "落后 0 个交易日" not in txt and "刷新救不了它" in txt and INCONSISTENT in txt)
+
+    # r1287: "1 session behind" has to name who can move it, and name nothing when it cannot
+    with tempfile.TemporaryDirectory() as td:
+        snapdir = os.path.join(td, "snap")
+        os.makedirs(snapdir)
+        p = os.path.join(snapdir, "2026-11-09.csv")
+        with open(p, "w", encoding="utf-8") as fh:
+            fh.write("code,price\n")
+        coll = os.path.join(td, "collector.py")
+        with open(coll, "w", encoding="utf-8") as fh:
+            fh.write('LANE_OWNER = "bm-x"\n')
+        waits = snapshot_waiting("2026-11-10", snapshot_dir=snapdir, collector=coll)
+        leg("L27 a stale snapshot leg names the missing file, the newest copy and its writer",
+            "2026-11-10.csv" in waits and "2026-11-09" in waits and "bm-x" in waits)
+        leg("L28 the lane owner is read out of the collector's source, not a second copy",
+            lane_owner_of(snapdir, coll) == "bm-x"
+            and lane_owner_of(snapdir, os.path.join(td, "absent.py")) == "")
+        leg("L29 an unreadable snapshot directory produces no sentence (never an invented one)",
+            snapshot_waiting("2026-11-10", snapshot_dir=os.path.join(td, "nope")) == "")
+        # a leg that is NOT a snapshot child gets no waiting sentence even when it is stale
+        stale_rows = assess(now=after, faces=prev, days=days)["legs"]
+        others = [r for r in stale_rows if r["leg"] == "swap_stack"]
+        leg("L30 a stale leg with its own producer is not told to wait for a file",
+            all("waiting_on" not in r for r in others))
 
     # r1533: this read `sum(1 for _, ok in legs)`, which counts every leg whatever its
     # verdict -- the suite printed its own [FAIL] lines and still said "N/N PASS" and rc 0.

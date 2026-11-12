@@ -1,6 +1,6 @@
 # 换票这一节，每个面该停在哪根 bar（r1530）
 
-STALE: 3 of 10 faces are older than the 2026-11-12 close -- worst sibling_entry on 2026-11-11 (1 session(s) behind the 2026-11-12 close).
+STALE: 3 of 10 faces are older than the 2026-11-12 close -- worst sibling_entry on 2026-11-11 (1 session(s) behind the 2026-11-12 close). waiting on data/etf_premium/snap/2026-11-12.csv (newest copy here: 2026-11-11, written 2026-11-11T19:46:08; lane owner bm-c writes it; this copy cannot)
 
 - 该到位的 bar：**2026-11-12**（官方交易日历，收盘受理时点 15:30）
 - 判词：**STALE**（陈旧 3 / 不一致 0）
@@ -17,6 +17,8 @@ STALE: 3 of 10 faces are older than the 2026-11-12 close -- worst sibling_entry 
 | swap_effect | 2026-11-12 | 0 | FRESH | on the 2026-11-12 close | `scripts/etf_book_swap_effect.py` |
 | swap_units | 2026-11-12 | 0 | FRESH | on the 2026-11-12 close | `scripts/etf_book_swap_units.py` |
 | swap_track | 2026-11-12 | 0 | FRESH | on the 2026-11-12 close | `scripts/etf_book_swap_track.py` |
+
+**这三条还在等谁**：waiting on data/etf_premium/snap/2026-11-12.csv (newest copy here: 2026-11-11, written 2026-11-11T19:46:08; lane owner bm-c writes it; this copy cannot)
 
 ## 为什么这张面存在
 

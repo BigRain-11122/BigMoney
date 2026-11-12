@@ -3933,6 +3933,23 @@ def main() -> int:
               _sfi_page and _sfi_live_v is not None
               and ("判定：**%s**" % _sfi_live_v) in _tk_md,
               "section=%s live=%s" % (_sfi_page, _sfi_live_v))
+        # r1287: "1 session behind" is a flag nobody can act on unless the sheet names the
+        # file, the copy on this disk and the machine allowed to write the next one. The
+        # negative half matters too: a leg with its own producer must never be told to wait.
+        try:
+            from scripts import etf_book_swap_freshness as _SFI2
+            _sfi_legs = _SFI2.assess().get("legs") or []
+        except Exception:
+            _sfi_legs = []
+        _sfi_waits = [r for r in _sfi_legs if r.get("waiting_on")]
+        _sfi_own = [r for r in _sfi_legs
+                    if r.get("status") != "FRESH" and r.get("leg") not in _SFI2.SNAPSHOT_LEGS]
+        check("product: a stale swap leg says who can move it, and a leg with its own "
+              "producer is not told to wait for a file",
+              (not _sfi_waits or ("还在等谁" in _tk_md and "lane owner" in _tk_md))
+              and not any(r.get("waiting_on") for r in _sfi_own),
+              "waiting=%d own_producer_stale=%d sheet=%s"
+              % (len(_sfi_waits), len(_sfi_own), "还在等谁" in _tk_md))
         _ta = _page.get("today_action") or {}
         _mode = _ta.get("mode")
         _decided_is_priced = str(_page.get("book_decided_at")) == str(_page.get("priced_bar"))

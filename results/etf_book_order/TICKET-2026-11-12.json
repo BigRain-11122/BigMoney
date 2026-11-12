@@ -514,7 +514,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-12 18:33:46",
+   "at": "2026-11-12 19:31:02",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -546,7 +546,7 @@
    ]
   },
   "reinstated_history": {
-   "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_order\\ledger.jsonl",
+   "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_order\\ledger.jsonl",
    "readable": true,
    "bars": [],
    "records": [],
@@ -774,7 +774,7 @@
   "unexplained": [],
   "unexplained_total_cny": 0,
   "unexplained_unpriced_rows": 0,
-  "ledger_action": "updated",
+  "ledger_action": "kept",
   "ledger_row": {
    "bar": "2026-11-12",
    "kind": "execution",
@@ -1053,45 +1053,19 @@
     "bar": "2026-11-12",
     "same_bar": true,
     "lots": {
-     "159519": 490,
-     "159655": 431,
-     "510760": 673,
-     "512040": 721,
-     "513690": 748
+     "159519": 496,
+     "159655": 432,
+     "510760": 678,
+     "512040": 728,
+     "513690": 750
     },
-    "cash_cny": 568303.0
+    "cash_cny": 568124.0
    },
-   "page_vs_ledger_lots": [
-    {
-     "symbol": "159519",
-     "page_lots": 490,
-     "ledger_lots": 496
-    },
-    {
-     "symbol": "159655",
-     "page_lots": 431,
-     "ledger_lots": 432
-    },
-    {
-     "symbol": "510760",
-     "page_lots": 673,
-     "ledger_lots": 678
-    },
-    {
-     "symbol": "512040",
-     "page_lots": 721,
-     "ledger_lots": 728
-    },
-    {
-     "symbol": "513690",
-     "page_lots": 748,
-     "ledger_lots": 750
-    }
-   ],
+   "page_vs_ledger_lots": [],
    "page_vs_ledger_cash": {
-    "page": 568303.0,
+    "page": 568124.0,
     "ledger": 568124.2,
-    "page_minus_ledger": 178.8
+    "page_minus_ledger": -0.2
    },
    "page_vs_ledger_agree": false
   },
@@ -1480,7 +1454,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-12T18:33:46",
+  "generated": "2026-11-12T19:31:02",
   "evidence_cutoff": "2026-11-12",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1624,7 +1598,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-12T18:33:48",
+  "generated": "2026-11-12T19:31:03",
   "evidence_cutoff": "2026-11-12",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -1637,7 +1611,8 @@
     "bar": "2026-11-11",
     "lag_sessions": 1,
     "status": "STALE",
-    "reason": "1 session(s) behind the 2026-11-12 close"
+    "reason": "1 session(s) behind the 2026-11-12 close",
+    "waiting_on": "waiting on data/etf_premium/snap/2026-11-12.csv (newest copy here: 2026-11-11, written 2026-11-11T19:46:08; lane owner bm-c writes it; this copy cannot)"
    },
    {
     "leg": "sibling_gap",
@@ -1647,7 +1622,8 @@
     "bar": "2026-11-11",
     "lag_sessions": 1,
     "status": "STALE",
-    "reason": "1 session(s) behind the 2026-11-12 close"
+    "reason": "1 session(s) behind the 2026-11-12 close",
+    "waiting_on": "waiting on data/etf_premium/snap/2026-11-12.csv (newest copy here: 2026-11-11, written 2026-11-11T19:46:08; lane owner bm-c writes it; this copy cannot)"
    },
    {
     "leg": "swap_trigger",
@@ -1657,7 +1633,8 @@
     "bar": "2026-11-11",
     "lag_sessions": 1,
     "status": "STALE",
-    "reason": "1 session(s) behind the 2026-11-12 close"
+    "reason": "1 session(s) behind the 2026-11-12 close",
+    "waiting_on": "waiting on data/etf_premium/snap/2026-11-12.csv (newest copy here: 2026-11-11, written 2026-11-11T19:46:08; lane owner bm-c writes it; this copy cannot)"
    },
    {
     "leg": "swap_stack",
@@ -1738,7 +1715,7 @@
   ],
   "inconsistent_legs": [],
   "verdict": "STALE",
-  "sentence": "STALE: 3 of 10 faces are older than the 2026-11-12 close -- worst sibling_entry on 2026-11-11 (1 session(s) behind the 2026-11-12 close).",
+  "sentence": "STALE: 3 of 10 faces are older than the 2026-11-12 close -- worst sibling_entry on 2026-11-11 (1 session(s) behind the 2026-11-12 close). waiting on data/etf_premium/snap/2026-11-12.csv (newest copy here: 2026-11-11, written 2026-11-11T19:46:08; lane owner bm-c writes it; this copy cannot)",
   "caveats": [
    "The bar-to-be comes from the official exchange calendar, never from this chain's own panels: a panel cannot say which session should already be printed (r1286).",
    "A face AHEAD of the calendar is not stale -- its producer would not make it true, so the chain must keep it red instead of paying a refresh (r1345).",
@@ -1957,7 +1934,7 @@
   "identity_matched": true
  },
  "restatements": {
-  "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
+  "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
   "readable": true,
   "source": "restatements",
   "notices": [
@@ -2147,24 +2124,24 @@
   "fwd_stale": false,
   "fwd_verdict": "HIGH_PREMIUM_PAYS",
   "fwd_horizon": 20,
-  "fwd_sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=265, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band today || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
+  "fwd_sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=264, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.35% (mean +0.40%, fell in 33% of 135 cases); today's legs in that band: 159655 98.8 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
   "fwd_caveat": "five legs of one ticket: this is a description of these funds' own records, not a cross-sectional study and not a forecast. Overlapping windows are counted once per stride in the t-stat and reported in full only as coverage.",
   "fwd_rows": [
    {
     "symbol": "510760",
-    "bucket": "LOW",
-    "latest_pctile": 13.453815261044177,
-    "mean_pct": 0.5223345213939685,
-    "n": 262,
-    "t": 1.9314301221169548,
+    "bucket": "MID",
+    "latest_pctile": 63.89819156061621,
+    "mean_pct": 0.18839243500050093,
+    "n": 590,
+    "t": 1.1436214480874844,
     "nonoverlap_obs": 71,
     "amount_cny": 86377.2,
-    "same_bucket_move_cny": 451.177934213511
+    "same_bucket_move_cny": 162.7281103652527
    },
    {
     "symbol": "512040",
     "bucket": "LOW",
-    "latest_pctile": 13.707983193277311,
+    "latest_pctile": 24.330005254860747,
     "mean_pct": 0.3792060133771917,
     "n": 353,
     "t": 1.087252826971886,
@@ -2175,18 +2152,18 @@
    {
     "symbol": "159655",
     "bucket": "TOP",
-    "latest_pctile": 95.72301425661914,
-    "mean_pct": 0.25324350056948697,
-    "n": 265,
-    "t": 0.9284051146351501,
+    "latest_pctile": 98.77675840978593,
+    "mean_pct": 0.25477037045744005,
+    "n": 264,
+    "t": 0.9304860705054543,
     "nonoverlap_obs": 46,
     "amount_cny": 86356.8,
-    "same_bucket_move_cny": 218.6929832997907
+    "same_bucket_move_cny": 220.0115392751906
    },
    {
     "symbol": "513690",
     "bucket": "LOW",
-    "latest_pctile": 21.068472535741158,
+    "latest_pctile": 20.406626506024097,
     "mean_pct": 0.5286904350189094,
     "n": 222,
     "t": 1.3832784155035334,
@@ -2196,18 +2173,18 @@
    },
    {
     "symbol": "159519",
-    "bucket": "BOTTOM",
-    "latest_pctile": 6.7357512953367875,
-    "mean_pct": 2.08316783553162,
-    "n": 106,
-    "t": 3.898472601386381,
+    "bucket": "LOW",
+    "latest_pctile": 15.95330739299611,
+    "mean_pct": 1.3826701483456063,
+    "n": 171,
+    "t": 4.536022614746311,
     "nonoverlap_obs": 35,
     "amount_cny": 86403.2,
-    "same_bucket_move_cny": 1799.9236712700565
+    "same_bucket_move_cny": 1194.671253615351
    }
   ],
   "fwd_missing_legs": [],
-  "fwd_cny_total": 3253.87,
+  "fwd_cny_total": 2361.49,
   "fwd_sample_signature": "3600c87ce854",
   "fwd_sample_legs": [
    "159519",
@@ -2227,12 +2204,12 @@
   "fwd_sample_previous_session": "2026-11-10",
   "fwd_defer_verdict": "WAITING_COST",
   "fwd_defer_band": "P98P",
-  "fwd_defer_sentence": "after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band today",
+  "fwd_defer_sentence": "after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.35% (mean +0.40%, fell in 33% of 135 cases); today's legs in that band: 159655 98.8",
   "fwd_defer_rows": [
    {
     "symbol": "510760",
     "band": null,
-    "latest_pctile": 13.453815261044177,
+    "latest_pctile": 63.89819156061621,
     "n": 28,
     "median_pct": 0.24254593948100922,
     "share_down": 0.32142857142857145
@@ -2240,23 +2217,23 @@
    {
     "symbol": "512040",
     "band": null,
-    "latest_pctile": 13.707983193277311,
+    "latest_pctile": 24.330005254860747,
     "n": 18,
     "median_pct": 0.7928535801374426,
     "share_down": 0.2777777777777778
    },
    {
     "symbol": "159655",
-    "band": "P95_98",
-    "latest_pctile": 95.72301425661914,
-    "n": 44,
-    "median_pct": 0.23847704273124437,
-    "share_down": 0.4090909090909091
+    "band": "P98P",
+    "latest_pctile": 98.77675840978593,
+    "n": 43,
+    "median_pct": 0.2453385672227748,
+    "share_down": 0.3953488372093023
    },
    {
     "symbol": "513690",
     "band": null,
-    "latest_pctile": 21.068472535741158,
+    "latest_pctile": 20.406626506024097,
     "n": 34,
     "median_pct": 0.4556476186771463,
     "share_down": 0.3235294117647059
@@ -2264,7 +2241,7 @@
    {
     "symbol": "159519",
     "band": null,
-    "latest_pctile": 6.7357512953367875,
+    "latest_pctile": 15.95330739299611,
     "n": 12,
     "median_pct": 0.2591991530661586,
     "share_down": 0.25
