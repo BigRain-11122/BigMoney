@@ -2,7 +2,7 @@
  "ticket": "T-2026-09-25-63",
  "order": "O-20260925-1755",
  "charter": "firm/STRATEGY_EVALUATION.md v2.0 (sec 2/6/7/8)",
- "generated": "2026-11-12T08:43:34",
+ "generated": "2026-11-12T15:53:40",
  "naming_reconciliation": "charter sec.4 names strategy_scorecard.py/json; T-07 delivered the strategy face as scripts/scorecard.py -> results/scorecard_v1.json (disclosed in that file). This v2 file IS the charter-named three-card artifact: strategy face = reused engine (zero rebuild), trader/portfolio cards = new.",
  "calibration_state": "calibrated (SCORECARD_CALIB_P1 frozen; evidence_cutoff 2026-09-22): trader/portfolio composite totals & grades emitted from frozen weight/band values (results/strategy_scorecard_calib.json); strategy-face totals = v1.0 frozen; discipline veto faces gate the grade (sec 8.2). Evaluation never overrides gates (sec 8.3).",
  "unified_law": {
@@ -799,9 +799,9 @@
     "current_dd": -0.0204,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 988417.56,
-     "positions_value_cny": 851660.64,
-     "cash_cny": 136756.92,
+     "equity_cny": 988427.96,
+     "positions_value_cny": 758575.68,
+     "cash_cny": 229852.28,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
     },
@@ -811,10 +811,10 @@
     },
     "cost_x2_check": {
      "status": "ok",
-     "paper_window_sharpe_x2": -2.4343,
+     "paper_window_sharpe_x2": -2.3592,
      "skill_bar": 0.4004,
      "survive": false,
-     "margin": -2.8347,
+     "margin": -2.7596,
      "note": "rolling x2-cost safety on paper window to date"
     }
    },
@@ -901,9 +901,9 @@
     "current_dd": -0.0319,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 978557.88,
-     "positions_value_cny": 769526.06,
-     "cash_cny": 209031.82,
+     "equity_cny": 978872.35,
+     "positions_value_cny": 532899.35,
+     "cash_cny": 445973.0,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
     },
@@ -913,10 +913,10 @@
     },
     "cost_x2_check": {
      "status": "ok",
-     "paper_window_sharpe_x2": -4.1629,
+     "paper_window_sharpe_x2": -4.1338,
      "skill_bar": 0.4004,
      "survive": false,
-     "margin": -4.5633,
+     "margin": -4.5342,
      "note": "rolling x2-cost safety on paper window to date"
     }
    },
@@ -1015,10 +1015,10 @@
     },
     "cost_x2_check": {
      "status": "ok",
-     "paper_window_sharpe_x2": -3.4726,
+     "paper_window_sharpe_x2": -3.4134,
      "skill_bar": 0.4004,
      "survive": false,
-     "margin": -3.873,
+     "margin": -3.8138,
      "note": "rolling x2-cost safety on paper window to date"
     }
    },
@@ -1105,9 +1105,9 @@
     "current_dd": -0.017,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 992398.42,
-     "positions_value_cny": 66337.09,
-     "cash_cny": 926061.33,
+     "equity_cny": 991877.67,
+     "positions_value_cny": 51941.75,
+     "cash_cny": 939935.92,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
     },
@@ -1117,10 +1117,10 @@
     },
     "cost_x2_check": {
      "status": "ok",
-     "paper_window_sharpe_x2": -1.5888,
+     "paper_window_sharpe_x2": -1.6696,
      "skill_bar": 0.4004,
      "survive": false,
-     "margin": -1.9892,
+     "margin": -2.07,
      "note": "rolling x2-cost safety on paper window to date"
     }
    },
@@ -1306,11 +1306,11 @@
     "state": "tested",
     "months_tracked": 1,
     "n_monthly_returns": 1,
-    "current_dd": -0.0079,
+    "current_dd": -0.0081,
     "capital": {
      "initial_cash_cny": 1000000.0,
-     "equity_cny": 992063.59,
-     "positions_value_cny": 397083.31,
+     "equity_cny": 991885.02,
+     "positions_value_cny": 396904.74,
      "cash_cny": 594980.28,
      "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
      "denomination": "CNY"
@@ -1321,10 +1321,10 @@
     },
     "cost_x2_check": {
      "status": "ok",
-     "paper_window_sharpe_x2": -5.1066,
+     "paper_window_sharpe_x2": -5.2694,
      "skill_bar": 0.4004,
      "survive": false,
-     "margin": -5.507,
+     "margin": -5.6698,
      "note": "rolling x2-cost safety on paper window to date"
     }
    },
@@ -1365,7 +1365,7 @@
     "grade": "S",
     "face_scores": {
      "inherited": 87.0,
-     "live_paper": 37.9,
+     "live_paper": 37.8,
      "progress": 20.0,
      "profile": 83.8
     },
@@ -8374,7 +8374,7 @@
   "portfolio_cohort": "IV6/EW6 + tournament 5 methods (first-cohort)"
  },
  "audit": {
-  "elapsed_sec": 91.2,
+  "elapsed_sec": 128.6,
   "zero_new_backtests": true,
   "zero_engine_runs": true,
   "ledger_delta": 0,

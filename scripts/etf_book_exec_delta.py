@@ -62,11 +62,13 @@ import glob
 import json
 import os
 import sys
+import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TICKET_DIR = os.path.join(ROOT, "results", "etf_book_order")
 OUT_JSON = os.path.join(ROOT, "results", "etf_book_exec_delta.json")
 OUT_MD = os.path.join(ROOT, "results", "etf_book_exec_delta.md")
+POS_FACE = os.path.join(ROOT, "results", "etf_book_positions.json")
 
 LOT = 100
 TOL = 1.0        # per row: lots x price vs the row's money (prices print to 3dp)
@@ -335,6 +337,57 @@ def compute(ticket):
     }
 
 
+def same_bar_positions(ticket, path=None):
+    """The account statement that is ON THE TICKET'S OWN BAR, from disk, if there is one.
+
+    The ticket carries a snapshot of `results/etf_book_positions.json` taken while it was
+    being built. On 2026-11-12 that snapshot was the 11-11 statement (written 16:31) while
+    the account's own 11-12 row settled at 16:53 -- the snapshot's `ledger_bar` then read
+    11-12 (the row the NEXT sheet starts from) against a row still dated 11-11, and this
+    section refused with "two bars cannot be subtracted" on a sheet that implied eight
+    trades. Both books are real; only one of them is the bar this sheet decides from.
+
+    So: use the statement only when it is the same bar as the sheet (asof and ticket_bar
+    both on it). Anything else keeps the embedded snapshot, and either way the face says
+    which of the two it subtracted.
+    """
+    bar = str(ticket.get("as_of") or ticket.get("evidence_cutoff") or "")
+    if not bar:
+        return None
+    try:
+        pos = _load(path or POS_FACE)
+    except Exception:
+        return None
+    if not isinstance(pos, dict):
+        return None
+    if str(pos.get("asof") or "") != bar or str(pos.get("ticket_bar") or "") != bar:
+        return None
+    if not (pos.get("ledger_row") or {}).get("holdings"):
+        return None
+    return pos
+
+
+def compute_for_ticket(ticket, positions_path=None, prefer_live=True):
+    """Compute on the sheet's own bar, and name which statement was subtracted.
+
+    One resolver for the page, the published face and the check leg: the same ticket must
+    give the same table no matter who asks for it (a second copy of this choice is how the
+    page and the face came to disagree on 11-11).
+    """
+    live = same_bar_positions(ticket, positions_path) if prefer_live else None
+    if live is not None:
+        t = dict(ticket)
+        t["positions"] = live
+        face = compute(t)
+        if face is not None and not face.get("refused"):
+            face["positions_source"] = "face@%s" % live.get("asof")
+            return face
+    face = compute(ticket)
+    if face is not None:
+        face["positions_source"] = "ticket_embedded"
+    return face
+
+
 def verify(face, bar=None, ticket_file=None):
     """Is this the sheet's action, and does it reconcile? Returns (bad, mism)."""
     if not face:
@@ -539,7 +592,7 @@ def run(path=None):
         print("no ticket to subtract")
         return 2
     tk = _load(tp)
-    face = compute(tk)
+    face = compute_for_ticket(tk)
     if not face:
         print("ticket carries no target -- nothing to execute")
         return 3
@@ -564,7 +617,7 @@ def check(path=None):
     if not tp:
         print("CHECK_FAIL no ticket")
         return 2
-    fresh = compute(_load(tp))
+    fresh = compute_for_ticket(_load(tp))
     if not os.path.exists(OUT_JSON):
         print("CHECK_FAIL no face on disk")
         return 2
@@ -809,6 +862,38 @@ def selftest():
     _fm_no.pop("cash_recon_ex_mark_cny", None)
     leg("L40 an unexplained gap of the same size is still refused",
         any("对不上" in b for b in verify(_fm_no)[0]))
+
+    # r1585: the ticket's embedded statement can be a bar behind the sheet (11-12 sheet
+    # built 16:31 on the 11-11 statement; the account's 11-12 row settled at 16:53). The
+    # same ticket must then subtract the sheet's own bar and SAY which statement it used.
+    with tempfile.TemporaryDirectory() as td:
+        _live = _fixture([("B", 10, 2.0)], [("A", 10, 2.0)], cash=80000.0, bar="2026-01-02")
+        _live["positions"]["asof"] = "2026-01-02"
+        _lp = os.path.join(td, "pos_2026-01-02.json")
+        with open(_lp, "w", encoding="utf-8") as fh:
+            json.dump(_live["positions"], fh)
+        _tmpl = _fixture([("B", 10, 2.0)], [("A", 10, 2.0)], cash=80000.0, bar="2026-01-01")
+        _sheet = {"as_of": "2026-01-02", "ticket": _tmpl["ticket"],
+                  "positions": _tmpl["positions"], "swap_stack": {}}
+        _emb = compute_for_ticket(_sheet, positions_path=_lp, prefer_live=False)
+        leg("L41 the embedded statement, one bar behind the sheet, is refused",
+            _emb["verdict"] == "CANNOT_SUBTRACT"
+            and _emb["positions_source"] == "ticket_embedded")
+        _use = compute_for_ticket(_sheet, positions_path=_lp)
+        leg("L42 the statement on the sheet's own bar is the one subtracted, and named",
+            _use["positions_source"] == "face@2026-01-02"
+            and _use["verdict"] == "SHEET_IMPLIES_A_SWAP" and verify(_use) == ([], []))
+        _gone = compute_for_ticket(_sheet, positions_path=os.path.join(td, "absent.json"))
+        leg("L43 without a statement on this bar the face falls back and says so",
+            _gone["positions_source"] == "ticket_embedded")
+        _offbar = _fixture([("B", 10, 2.0)], [("A", 10, 2.0)], cash=80000.0,
+                           bar="2025-12-31")
+        _op = os.path.join(td, "pos_2025-12-31.json")
+        with open(_op, "w", encoding="utf-8") as fh:
+            json.dump(_offbar["positions"], fh)
+        leg("L44 a statement from another bar is never mixed in",
+            compute_for_ticket(_sheet, positions_path=_op)["positions_source"]
+            == "ticket_embedded")
 
     bad = [n for n, v in ok if not v]
     for n, v in ok:

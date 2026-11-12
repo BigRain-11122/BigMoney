@@ -1,17 +1,17 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-12 15:14:00",
+ "ts": "2026-11-12 17:05:50",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261112.md",
   "json": "docs/live_book/LIVE-BOOK-20261112.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-11 定价，但 34 个带日期的节里只有 25 节真在这一天；其余 9 节最旧停在 2026-10-26（最差 sample_window 落后 12 个交易日），另外 20 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。",
- "evidence_cutoff": "2026-11-11",
- "headline_bar": "2026-11-11",
+ "sentence": "页面头部写着按 2026-11-12 定价，但 35 个带日期的节里只有 22 节真在这一天；其余 13 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 19 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。",
+ "evidence_cutoff": "2026-11-12",
+ "headline_bar": "2026-11-12",
  "headline_field": "priced_bar",
- "n_sections": 34,
- "n_on_headline": 25,
+ "n_sections": 35,
+ "n_on_headline": 22,
  "unknown_sections": [
   "cash_yield",
   "cash_money",
@@ -31,118 +31,147 @@
   "premium_leak",
   "premium_forward",
   "sibling_gap",
-  "executed",
   "authority"
  ],
  "bars": {
-  "2026-11-11": 25,
+  "2026-11-12": 22,
+  "2026-11-11": 4,
   "2026-11-08": 1,
   "2026-11-06": 1,
   "2026-10-30": 6,
   "2026-10-26": 1
  },
- "n_off_headline": 9,
+ "n_off_headline": 13,
  "off_headline": [
   {
    "key": "sample_window",
    "bar": "2026-10-26",
    "field": "evidence_cutoff",
-   "lag_sessions": 12,
+   "lag_sessions": 13,
    "ahead_of_headline": false
   },
   {
    "key": "cost_tape",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
-   "lag_sessions": 8,
+   "lag_sessions": 9,
    "ahead_of_headline": false
   },
   {
    "key": "leg_split",
    "bar": "2026-10-30",
    "field": "priced_bar",
-   "lag_sessions": 8,
+   "lag_sessions": 9,
    "ahead_of_headline": false
   },
   {
    "key": "lookahead",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
-   "lag_sessions": 8,
+   "lag_sessions": 9,
    "ahead_of_headline": false
   },
   {
    "key": "universe_lock",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
-   "lag_sessions": 8,
+   "lag_sessions": 9,
    "ahead_of_headline": false
   },
   {
    "key": "vol_window",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
-   "lag_sessions": 8,
+   "lag_sessions": 9,
    "ahead_of_headline": false
   },
   {
    "key": "vol_window_edge",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
-   "lag_sessions": 8,
+   "lag_sessions": 9,
    "ahead_of_headline": false
   },
   {
    "key": "family_coherence",
    "bar": "2026-11-06",
    "field": "evidence_cutoff",
-   "lag_sessions": 3,
+   "lag_sessions": 4,
    "ahead_of_headline": false
   },
   {
    "key": "vol_target_gate",
    "bar": "2026-11-08",
    "field": "asof",
-   "lag_sessions": 3,
+   "lag_sessions": 4,
+   "ahead_of_headline": false
+  },
+  {
+   "key": "band_ruler",
+   "bar": "2026-11-11",
+   "field": "evidence_cutoff",
+   "lag_sessions": 1,
+   "ahead_of_headline": false
+  },
+  {
+   "key": "floor_provenance",
+   "bar": "2026-11-11",
+   "field": "evidence_cutoff",
+   "lag_sessions": 1,
+   "ahead_of_headline": false
+  },
+  {
+   "key": "k_gap",
+   "bar": "2026-11-11",
+   "field": "bar",
+   "lag_sessions": 1,
+   "ahead_of_headline": false
+  },
+  {
+   "key": "window_label",
+   "bar": "2026-11-11",
+   "field": "evidence_cutoff",
+   "lag_sessions": 1,
    "ahead_of_headline": false
   }
  ],
  "oldest": "2026-10-26",
- "max_lag_sessions": 12,
+ "max_lag_sessions": 13,
  "by_key": {
-  "vs_basket": "2026-11-11",
-  "ticket_days": "2026-11-11",
-  "card_days": "2026-11-11",
-  "today_action": "2026-11-11",
-  "admission": "2026-11-11",
-  "fill": "2026-11-11",
-  "bets": "2026-11-11",
+  "vs_basket": "2026-11-12",
+  "ticket_days": "2026-11-12",
+  "card_days": "2026-11-12",
+  "today_action": "2026-11-12",
+  "admission": "2026-11-12",
+  "fill": "2026-11-12",
+  "bets": "2026-11-12",
   "family_coherence": "2026-11-06",
-  "carry_regime": "2026-11-11",
+  "carry_regime": "2026-11-12",
   "leg_split": "2026-10-30",
-  "concentration": "2026-11-11",
-  "sleeve_gate": "2026-11-11",
-  "sleeve_paths": "2026-11-11",
-  "exposure_timing": "2026-11-11",
+  "concentration": "2026-11-12",
+  "sleeve_gate": "2026-11-12",
+  "sleeve_paths": "2026-11-12",
+  "exposure_timing": "2026-11-12",
   "cost_tape": "2026-10-30",
   "vol_window": "2026-10-30",
   "vol_window_edge": "2026-10-30",
   "lookahead": "2026-10-30",
-  "causal_rebuild": "2026-11-11",
-  "underwater": "2026-11-11",
+  "causal_rebuild": "2026-11-12",
+  "underwater": "2026-11-12",
   "sample_window": "2026-10-26",
   "universe_lock": "2026-10-30",
-  "entry_gate": "2026-11-11",
-  "sellability": "2026-11-11",
-  "capital": "2026-11-11",
-  "gap": "2026-11-11",
+  "entry_gate": "2026-11-12",
+  "sellability": "2026-11-12",
+  "capital": "2026-11-12",
+  "gap": "2026-11-12",
   "k_gap": "2026-11-11",
   "floor_provenance": "2026-11-11",
   "vol_target_gate": "2026-11-08",
-  "positions": "2026-11-11",
+  "positions": "2026-11-12",
+  "executed": "2026-11-12",
   "band_ruler": "2026-11-11",
   "window_label": "2026-11-11",
-  "envelope": "2026-11-11",
-  "stress": "2026-11-11"
+  "envelope": "2026-11-12",
+  "stress": "2026-11-12"
  }
 }

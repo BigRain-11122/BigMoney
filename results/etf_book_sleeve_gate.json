@@ -1,8 +1,8 @@
 {
- "ts": "2026-11-11 18:53:39",
+ "ts": "2026-11-12 16:47:39",
  "script": "scripts/etf_book_sleeve_gate.py",
  "face": "results/etf_book_sleeve_gate.json",
- "evidence_cutoff": "2026-11-11",
+ "evidence_cutoff": "2026-11-12",
  "criteria": {
   "sleeve_class": "commodity",
   "n_hold": 12,
@@ -26,38 +26,38 @@
  },
  "execution": "decide at close t -> fill at open t+1 -> hold to next decision",
  "panel": {
-  "columns": 1517,
-  "bars": 5278,
+  "columns": 1519,
+  "bars": 5279,
   "flips_repaired": 169,
   "sleeve_symbols": 41,
-  "digest": "847538eb2befb766"
+  "digest": "e383c3a68f5f98af"
  },
  "book": {
   "n_hold": 12,
   "rebal": 20,
   "vol_target": 0.08,
   "cost_bp_per_side": 10.0,
-  "decisions": 83,
-  "turnover_per_decision": 0.934
+  "decisions": 84,
+  "turnover_per_decision": 0.938
  },
  "identity": {
   "zero_gate_vs_baseline_max_abs": 0.0,
-  "bars_compared": 1660,
+  "bars_compared": 1661,
   "cross_face_delete_sleeve": {
    "reference_delta_cagr_pp": -3.69,
-   "mine_delta_cagr_pp": -3.7,
-   "gap_pp": 0.01,
-   "same_cutoff": false,
+   "mine_delta_cagr_pp": -3.69,
+   "gap_pp": 0.0,
+   "same_cutoff": true,
    "reference_status": "ok",
-   "passes": false,
+   "passes": true,
    "detail": "the two faces must price the same deletion; a differing cutoff is reported as stale, not as agreement"
   },
   "passes": true
  },
  "baseline": {
   "full": {
-   "cagr": 0.0966,
-   "sharpe": 0.994,
+   "cagr": 0.0965,
+   "sharpe": 0.993,
    "maxdd": -0.1177,
    "vol": 0.1019,
    "years": 6.86
@@ -70,10 +70,10 @@
    "years": 3.99
   },
   "oos": {
-   "cagr": 0.184,
-   "sharpe": 1.736,
+   "cagr": 0.1837,
+   "sharpe": 1.734,
    "maxdd": -0.107,
-   "vol": 0.1048,
+   "vol": 0.1047,
    "years": 2.86
   }
  },
@@ -81,8 +81,8 @@
   "gate_trend": {
    "stats": {
     "full": {
-     "cagr": 0.0934,
-     "sharpe": 0.955,
+     "cagr": 0.0933,
+     "sharpe": 0.954,
      "maxdd": -0.1454,
      "vol": 0.103,
      "years": 6.86
@@ -95,15 +95,15 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1967,
-     "sharpe": 1.803,
+     "cagr": 0.1963,
+     "sharpe": 1.801,
      "maxdd": -0.107,
      "vol": 0.1071,
      "years": 2.86
     }
    },
-   "off_decisions": 20,
-   "off_share": 0.241,
+   "off_decisions": 21,
+   "off_share": 0.25,
    "delta_cagr_pp": -0.32,
    "delta_sharpe": -0.039,
    "delta_maxdd_pp": -2.77
@@ -111,37 +111,37 @@
   "placebo_trend": {
    "stats": {
     "full": {
-     "cagr": 0.1075,
-     "sharpe": 1.081,
-     "maxdd": -0.1351,
-     "vol": 0.1033,
+     "cagr": 0.0922,
+     "sharpe": 0.954,
+     "maxdd": -0.1404,
+     "vol": 0.1017,
      "years": 6.86
     },
     "is": {
-     "cagr": 0.0381,
-     "sharpe": 0.437,
-     "maxdd": -0.1351,
-     "vol": 0.1005,
+     "cagr": 0.0267,
+     "sharpe": 0.323,
+     "maxdd": -0.1404,
+     "vol": 0.1003,
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.2129,
-     "sharpe": 1.937,
-     "maxdd": -0.107,
-     "vol": 0.1071,
+     "cagr": 0.1907,
+     "sharpe": 1.811,
+     "maxdd": -0.1067,
+     "vol": 0.1036,
      "years": 2.86
     }
    },
-   "off_decisions": 20,
-   "off_share": 0.241,
-   "delta_cagr_pp": 1.09,
-   "delta_sharpe": 0.087,
-   "delta_maxdd_pp": -1.74
+   "off_decisions": 21,
+   "off_share": 0.25,
+   "delta_cagr_pp": -0.43,
+   "delta_sharpe": -0.039,
+   "delta_maxdd_pp": -2.27
   },
   "gate_vol": {
    "stats": {
     "full": {
-     "cagr": 0.0968,
+     "cagr": 0.0967,
      "sharpe": 0.999,
      "maxdd": -0.1091,
      "vol": 0.1014,
@@ -155,53 +155,53 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1796,
-     "sharpe": 1.717,
+     "cagr": 0.1793,
+     "sharpe": 1.715,
      "maxdd": -0.1091,
-     "vol": 0.1036,
+     "vol": 0.1035,
      "years": 2.86
     }
    },
    "off_decisions": 25,
-   "off_share": 0.3012,
+   "off_share": 0.2976,
    "delta_cagr_pp": 0.02,
-   "delta_sharpe": 0.005,
+   "delta_sharpe": 0.006,
    "delta_maxdd_pp": 0.86
   },
   "placebo_vol": {
    "stats": {
     "full": {
-     "cagr": 0.0677,
-     "sharpe": 0.726,
-     "maxdd": -0.1591,
-     "vol": 0.101,
+     "cagr": 0.0759,
+     "sharpe": 0.795,
+     "maxdd": -0.1697,
+     "vol": 0.1024,
      "years": 6.86
     },
     "is": {
-     "cagr": 0.0281,
-     "sharpe": 0.337,
-     "maxdd": -0.1591,
-     "vol": 0.1004,
+     "cagr": 0.0198,
+     "sharpe": 0.253,
+     "maxdd": -0.1697,
+     "vol": 0.1006,
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1261,
-     "sharpe": 1.268,
-     "maxdd": -0.1067,
-     "vol": 0.1019,
+     "cagr": 0.1598,
+     "sharpe": 1.526,
+     "maxdd": -0.107,
+     "vol": 0.1049,
      "years": 2.86
     }
    },
    "off_decisions": 25,
-   "off_share": 0.3012,
-   "delta_cagr_pp": -2.89,
-   "delta_sharpe": -0.268,
-   "delta_maxdd_pp": -4.14
+   "off_share": 0.2976,
+   "delta_cagr_pp": -2.06,
+   "delta_sharpe": -0.198,
+   "delta_maxdd_pp": -5.2
   },
   "gate_drawdown": {
    "stats": {
     "full": {
-     "cagr": 0.0948,
+     "cagr": 0.0947,
      "sharpe": 0.971,
      "maxdd": -0.1304,
      "vol": 0.1025,
@@ -215,48 +215,48 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1854,
-     "sharpe": 1.732,
+     "cagr": 0.185,
+     "sharpe": 1.729,
      "maxdd": -0.1067,
-     "vol": 0.1058,
+     "vol": 0.1057,
      "years": 2.86
     }
    },
-   "off_decisions": 13,
-   "off_share": 0.1566,
+   "off_decisions": 14,
+   "off_share": 0.1667,
    "delta_cagr_pp": -0.18,
-   "delta_sharpe": -0.023,
+   "delta_sharpe": -0.022,
    "delta_maxdd_pp": -1.27
   },
   "placebo_drawdown": {
    "stats": {
     "full": {
-     "cagr": 0.0749,
-     "sharpe": 0.788,
-     "maxdd": -0.1547,
-     "vol": 0.1021,
+     "cagr": 0.0915,
+     "sharpe": 0.946,
+     "maxdd": -0.131,
+     "vol": 0.1018,
      "years": 6.86
     },
     "is": {
-     "cagr": 0.0296,
-     "sharpe": 0.353,
-     "maxdd": -0.1547,
-     "vol": 0.1003,
+     "cagr": 0.0293,
+     "sharpe": 0.351,
+     "maxdd": -0.131,
+     "vol": 0.0998,
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1421,
-     "sharpe": 1.379,
+     "cagr": 0.1844,
+     "sharpe": 1.744,
      "maxdd": -0.107,
-     "vol": 0.1046,
+     "vol": 0.1044,
      "years": 2.86
     }
    },
-   "off_decisions": 13,
-   "off_share": 0.1566,
-   "delta_cagr_pp": -2.17,
-   "delta_sharpe": -0.206,
-   "delta_maxdd_pp": -3.7
+   "off_decisions": 14,
+   "off_share": 0.1667,
+   "delta_cagr_pp": -0.5,
+   "delta_sharpe": -0.047,
+   "delta_maxdd_pp": -1.33
   },
   "delete_sleeve": {
    "stats": {
@@ -275,32 +275,32 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1333,
-     "sharpe": 1.338,
+     "cagr": 0.1331,
+     "sharpe": 1.336,
      "maxdd": -0.1086,
-     "vol": 0.1015,
+     "vol": 0.1014,
      "years": 2.86
     }
    },
-   "off_decisions": 83,
+   "off_decisions": 84,
    "off_share": 1.0,
-   "delta_cagr_pp": -3.7,
-   "delta_sharpe": -0.345,
+   "delta_cagr_pp": -3.69,
+   "delta_sharpe": -0.344,
    "delta_maxdd_pp": -10.49
   }
  },
  "gates": {
   "trend": {
-   "off_decisions": 20,
-   "off_share": 0.241,
+   "off_decisions": 21,
+   "off_share": 0.25,
    "first_off": "2020-04-03",
-   "last_off": "2026-10-14",
-   "turnover": 0.931,
-   "placebo_turnover": 0.973,
+   "last_off": "2026-11-11",
+   "turnover": 0.935,
+   "placebo_turnover": 0.976,
    "stats": {
     "full": {
-     "cagr": 0.0934,
-     "sharpe": 0.955,
+     "cagr": 0.0933,
+     "sharpe": 0.954,
      "maxdd": -0.1454,
      "vol": 0.103,
      "years": 6.86
@@ -313,8 +313,8 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1967,
-     "sharpe": 1.803,
+     "cagr": 0.1963,
+     "sharpe": 1.801,
      "maxdd": -0.107,
      "vol": 0.1071,
      "years": 2.86
@@ -322,24 +322,24 @@
    },
    "placebo_stats": {
     "full": {
-     "cagr": 0.1075,
-     "sharpe": 1.081,
-     "maxdd": -0.1351,
-     "vol": 0.1033,
+     "cagr": 0.0922,
+     "sharpe": 0.954,
+     "maxdd": -0.1404,
+     "vol": 0.1017,
      "years": 6.86
     },
     "is": {
-     "cagr": 0.0381,
-     "sharpe": 0.437,
-     "maxdd": -0.1351,
-     "vol": 0.1005,
+     "cagr": 0.0267,
+     "sharpe": 0.323,
+     "maxdd": -0.1404,
+     "vol": 0.1003,
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.2129,
-     "sharpe": 1.937,
-     "maxdd": -0.107,
-     "vol": 0.1071,
+     "cagr": 0.1907,
+     "sharpe": 1.811,
+     "maxdd": -0.1067,
+     "vol": 0.1036,
      "years": 2.86
     }
    },
@@ -348,26 +348,26 @@
     "reasons": [
      "drawdown gain -2.77 pp vs baseline (needs >= 1.0)",
      "CAGR kept 0.967 of baseline (needs >= 0.95)",
-     "beats placebo by -1.03 pp drawdown / -1.41 pp CAGR (needs +0.5 or +0.5)"
+     "beats placebo by -0.5 pp drawdown / 0.11 pp CAGR (needs +0.5 or +0.5)"
     ],
     "numbers": {
      "dd_gain_pp": -2.77,
-     "cagr_keep": 0.9669,
-     "placebo_dd_edge_pp": -1.03,
-     "placebo_cagr_edge_pp": -1.41
+     "cagr_keep": 0.9668,
+     "placebo_dd_edge_pp": -0.5,
+     "placebo_cagr_edge_pp": 0.11
     }
    }
   },
   "vol": {
    "off_decisions": 25,
-   "off_share": 0.3012,
+   "off_share": 0.2976,
    "first_off": "2020-04-03",
    "last_off": "2026-04-15",
-   "turnover": 0.927,
-   "placebo_turnover": 0.954,
+   "turnover": 0.931,
+   "placebo_turnover": 0.979,
    "stats": {
     "full": {
-     "cagr": 0.0968,
+     "cagr": 0.0967,
      "sharpe": 0.999,
      "maxdd": -0.1091,
      "vol": 0.1014,
@@ -381,33 +381,33 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1796,
-     "sharpe": 1.717,
+     "cagr": 0.1793,
+     "sharpe": 1.715,
      "maxdd": -0.1091,
-     "vol": 0.1036,
+     "vol": 0.1035,
      "years": 2.86
     }
    },
    "placebo_stats": {
     "full": {
-     "cagr": 0.0677,
-     "sharpe": 0.726,
-     "maxdd": -0.1591,
-     "vol": 0.101,
+     "cagr": 0.0759,
+     "sharpe": 0.795,
+     "maxdd": -0.1697,
+     "vol": 0.1024,
      "years": 6.86
     },
     "is": {
-     "cagr": 0.0281,
-     "sharpe": 0.337,
-     "maxdd": -0.1591,
-     "vol": 0.1004,
+     "cagr": 0.0198,
+     "sharpe": 0.253,
+     "maxdd": -0.1697,
+     "vol": 0.1006,
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1261,
-     "sharpe": 1.268,
-     "maxdd": -0.1067,
-     "vol": 0.1019,
+     "cagr": 0.1598,
+     "sharpe": 1.526,
+     "maxdd": -0.107,
+     "vol": 0.1049,
      "years": 2.86
     }
    },
@@ -416,26 +416,26 @@
     "reasons": [
      "drawdown gain 0.86 pp vs baseline (needs >= 1.0)",
      "CAGR kept 1.002 of baseline (needs >= 0.95)",
-     "beats placebo by 5.0 pp drawdown / 2.91 pp CAGR (needs +0.5 or +0.5)"
+     "beats placebo by 6.06 pp drawdown / 2.08 pp CAGR (needs +0.5 or +0.5)"
     ],
     "numbers": {
      "dd_gain_pp": 0.86,
      "cagr_keep": 1.0021,
-     "placebo_dd_edge_pp": 5.0,
-     "placebo_cagr_edge_pp": 2.91
+     "placebo_dd_edge_pp": 6.06,
+     "placebo_cagr_edge_pp": 2.08
     }
    }
   },
   "drawdown": {
-   "off_decisions": 13,
-   "off_share": 0.1566,
+   "off_decisions": 14,
+   "off_share": 0.1667,
    "first_off": "2021-12-24",
-   "last_off": "2026-10-14",
-   "turnover": 0.945,
-   "placebo_turnover": 0.958,
+   "last_off": "2026-11-11",
+   "turnover": 0.949,
+   "placebo_turnover": 0.953,
    "stats": {
     "full": {
-     "cagr": 0.0948,
+     "cagr": 0.0947,
      "sharpe": 0.971,
      "maxdd": -0.1304,
      "vol": 0.1025,
@@ -449,33 +449,33 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1854,
-     "sharpe": 1.732,
+     "cagr": 0.185,
+     "sharpe": 1.729,
      "maxdd": -0.1067,
-     "vol": 0.1058,
+     "vol": 0.1057,
      "years": 2.86
     }
    },
    "placebo_stats": {
     "full": {
-     "cagr": 0.0749,
-     "sharpe": 0.788,
-     "maxdd": -0.1547,
-     "vol": 0.1021,
+     "cagr": 0.0915,
+     "sharpe": 0.946,
+     "maxdd": -0.131,
+     "vol": 0.1018,
      "years": 6.86
     },
     "is": {
-     "cagr": 0.0296,
-     "sharpe": 0.353,
-     "maxdd": -0.1547,
-     "vol": 0.1003,
+     "cagr": 0.0293,
+     "sharpe": 0.351,
+     "maxdd": -0.131,
+     "vol": 0.0998,
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1421,
-     "sharpe": 1.379,
+     "cagr": 0.1844,
+     "sharpe": 1.744,
      "maxdd": -0.107,
-     "vol": 0.1046,
+     "vol": 0.1044,
      "years": 2.86
     }
    },
@@ -484,20 +484,20 @@
     "reasons": [
      "drawdown gain -1.27 pp vs baseline (needs >= 1.0)",
      "CAGR kept 0.981 of baseline (needs >= 0.95)",
-     "beats placebo by 2.43 pp drawdown / 1.99 pp CAGR (needs +0.5 or +0.5)"
+     "beats placebo by 0.06 pp drawdown / 0.32 pp CAGR (needs +0.5 or +0.5)"
     ],
     "numbers": {
      "dd_gain_pp": -1.27,
-     "cagr_keep": 0.9814,
-     "placebo_dd_edge_pp": 2.43,
-     "placebo_cagr_edge_pp": 1.99
+     "cagr_keep": 0.9813,
+     "placebo_dd_edge_pp": 0.06,
+     "placebo_cagr_edge_pp": 0.32
     }
    }
   }
  },
  "verdict": "NO_GATE",
  "adopting": [],
- "answer": "No sleeve-level gate earns adoption: switching the sleeve off on trend 24%, vol 30%, drawdown 16% of the decision grid is no better than switching it off on the same number of untimed decisions, so a gate here would buy a shorter holding period, not a signal. The closest arm is the vol gate: +0.86pp of drawdown against the frozen 1.0pp bar, and it does beat its own placebo by +5.00pp -- which is why it is named as the re-test candidate on new data, not re-thresholded here. Verdict NO_GATE.",
+ "answer": "No sleeve-level gate earns adoption: switching the sleeve off on trend 25%, vol 30%, drawdown 17% of the decision grid is no better than switching it off on the same number of untimed decisions, so a gate here would buy a shorter holding period, not a signal. The closest arm is the vol gate: +0.86pp of drawdown against the frozen 1.0pp bar, and it does beat its own placebo by +6.06pp -- which is why it is named as the re-test candidate on new data, not re-thresholded here. Verdict NO_GATE.",
  "names": {
   "159029": "有色ETF广发",
   "159032": "工业有色ETF易方达",

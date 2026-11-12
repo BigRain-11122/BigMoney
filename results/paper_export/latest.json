@@ -3,17 +3,17 @@
  "ticket": "T-2026-09-24-35",
  "deliverable": "d3-daily-export-face",
  "law_ref": "O-20260924-2045 s3 (T-35 d3); capital/open_positions faces = R93 ",
- "export_date": "2026-11-11",
- "evidence_cutoff": "2026-11-11",
- "generated_from_state_updated": "2026-11-11 15:40:45",
+ "export_date": "2026-11-12",
+ "evidence_cutoff": "2026-11-12",
+ "generated_from_state_updated": "2026-11-12 15:32:06",
  "traders": [
   {
    "trader": "COMPOSITE-CE-01",
    "capital_cny": {
     "initial": 1000000.0,
-    "equity": 988417.56,
-    "positions_value": 851660.64,
-    "cash": 136756.92,
+    "equity": 988427.96,
+    "positions_value": 758575.68,
+    "cash": 229852.28,
     "denomination": "CNY"
    },
    "open_positions": [
@@ -21,173 +21,152 @@
      "symbol": "511010",
      "quantity": 1343.33,
      "cost_price": 141.44,
-     "last_close": 141.34,
-     "hold_days": 2,
-     "market_value_cny": 189866.26,
-     "unrealized_pnl_cny": -134.33
+     "last_close": 141.363,
+     "hold_days": 3,
+     "market_value_cny": 189897.16,
+     "unrealized_pnl_cny": -103.44
     },
     {
      "symbol": "511090",
      "quantity": 1559.88,
      "cost_price": 121.804,
-     "last_close": 120.981,
-     "hold_days": 2,
-     "market_value_cny": 188715.84,
-     "unrealized_pnl_cny": -1283.78
+     "last_close": 121.194,
+     "hold_days": 3,
+     "market_value_cny": 189048.1,
+     "unrealized_pnl_cny": -951.53
     },
     {
      "symbol": "511260",
      "quantity": 1396.24,
      "cost_price": 136.08,
-     "last_close": 135.913,
-     "hold_days": 2,
-     "market_value_cny": 189767.17,
-     "unrealized_pnl_cny": -233.17
-    },
-    {
-     "symbol": "513100",
-     "quantity": 41466.61,
-     "cost_price": 2.291,
-     "last_close": 2.233,
-     "hold_days": 11,
-     "market_value_cny": 92594.94,
-     "unrealized_pnl_cny": -2405.06
+     "last_close": 135.969,
+     "hold_days": 3,
+     "market_value_cny": 189845.36,
+     "unrealized_pnl_cny": -154.98
     },
     {
      "symbol": "513500",
      "quantity": 71644.04,
      "cost_price": 2.652,
-     "last_close": 2.662,
-     "hold_days": 1,
-     "market_value_cny": 190716.43,
-     "unrealized_pnl_cny": 716.44
+     "last_close": 2.649,
+     "hold_days": 2,
+     "market_value_cny": 189785.06,
+     "unrealized_pnl_cny": -214.93
     }
    ],
-   "positions_count": 5,
+   "positions_count": 4,
    "operations_today": [
     {
-     "action": "entry",
-     "symbol": "513500",
-     "quantity": 71644.04,
-     "cost_price": 2.652
+     "action": "exit",
+     "symbol": "513100",
+     "quantity_prior": 41466.61
     }
    ],
    "operations_source": "prior_export_diff",
    "metrics": {
     "paper_start": "2026-09-23",
-    "bars": 30,
+    "bars": 31,
     "months_tracked": 1,
     "current_dd": -0.0204,
-    "num_trades_window": 6,
+    "num_trades_window": 7,
+    "win_rate": 0.4286
+   },
+   "regime_guard": {
+    "mode": "enforce",
+    "active_from": "2026-10-01"
+   },
+   "state_cutoff": "2026-11-12",
+   "state_updated": "2026-11-12 15:31:57"
+  },
+  {
+   "trader": "COMPOSITE-CE-02",
+   "capital_cny": {
+    "initial": 1000000.0,
+    "equity": 978872.35,
+    "positions_value": 532899.35,
+    "cash": 445973.0,
+    "denomination": "CNY"
+   },
+   "open_positions": [
+    {
+     "symbol": "511010",
+     "quantity": 839.23,
+     "cost_price": 141.44,
+     "last_close": 141.363,
+     "hold_days": 3,
+     "market_value_cny": 118636.07,
+     "unrealized_pnl_cny": -64.62
+    },
+    {
+     "symbol": "511090",
+     "quantity": 974.52,
+     "cost_price": 121.804,
+     "last_close": 121.194,
+     "hold_days": 3,
+     "market_value_cny": 118105.98,
+     "unrealized_pnl_cny": -594.46
+    },
+    {
+     "symbol": "511260",
+     "quantity": 872.28,
+     "cost_price": 136.08,
+     "last_close": 135.969,
+     "hold_days": 3,
+     "market_value_cny": 118603.04,
+     "unrealized_pnl_cny": -96.82
+    },
+    {
+     "symbol": "512800",
+     "quantity": 134733.26,
+     "cost_price": 0.881,
+     "last_close": 0.885,
+     "hold_days": 3,
+     "market_value_cny": 119238.94,
+     "unrealized_pnl_cny": 538.93
+    },
+    {
+     "symbol": "513500",
+     "quantity": 22014.09,
+     "cost_price": 2.696,
+     "last_close": 2.649,
+     "hold_days": 12,
+     "market_value_cny": 58315.32,
+     "unrealized_pnl_cny": -1034.66
+    }
+   ],
+   "positions_count": 5,
+   "operations_today": [
+    {
+     "action": "exit",
+     "symbol": "159980",
+     "quantity_prior": 27824.66
+    },
+    {
+     "action": "exit",
+     "symbol": "513100",
+     "quantity_prior": 26471.9
+    },
+    {
+     "action": "exit",
+     "symbol": "513520",
+     "quantity_prior": 57177.26
+    }
+   ],
+   "operations_source": "prior_export_diff",
+   "metrics": {
+    "paper_start": "2026-09-23",
+    "bars": 31,
+    "months_tracked": 1,
+    "current_dd": -0.0319,
+    "num_trades_window": 14,
     "win_rate": 0.5
    },
    "regime_guard": {
     "mode": "enforce",
     "active_from": "2026-10-01"
    },
-   "state_cutoff": "2026-11-11",
-   "state_updated": "2026-11-11 15:40:36"
-  },
-  {
-   "trader": "COMPOSITE-CE-02",
-   "capital_cny": {
-    "initial": 1000000.0,
-    "equity": 978557.88,
-    "positions_value": 769526.06,
-    "cash": 209031.82,
-    "denomination": "CNY"
-   },
-   "open_positions": [
-    {
-     "symbol": "159980",
-     "quantity": 27824.66,
-     "cost_price": 2.133,
-     "last_close": 2.056,
-     "hold_days": 11,
-     "market_value_cny": 57207.5,
-     "unrealized_pnl_cny": -2142.5
-    },
-    {
-     "symbol": "511010",
-     "quantity": 839.23,
-     "cost_price": 141.44,
-     "last_close": 141.34,
-     "hold_days": 2,
-     "market_value_cny": 118616.77,
-     "unrealized_pnl_cny": -83.92
-    },
-    {
-     "symbol": "511090",
-     "quantity": 974.52,
-     "cost_price": 121.804,
-     "last_close": 120.981,
-     "hold_days": 2,
-     "market_value_cny": 117898.4,
-     "unrealized_pnl_cny": -802.03
-    },
-    {
-     "symbol": "511260",
-     "quantity": 872.28,
-     "cost_price": 136.08,
-     "last_close": 135.913,
-     "hold_days": 2,
-     "market_value_cny": 118554.19,
-     "unrealized_pnl_cny": -145.67
-    },
-    {
-     "symbol": "512800",
-     "quantity": 134733.26,
-     "cost_price": 0.881,
-     "last_close": 0.882,
-     "hold_days": 2,
-     "market_value_cny": 118834.74,
-     "unrealized_pnl_cny": 134.73
-    },
-    {
-     "symbol": "513100",
-     "quantity": 26471.9,
-     "cost_price": 2.242,
-     "last_close": 2.233,
-     "hold_days": 5,
-     "market_value_cny": 59111.75,
-     "unrealized_pnl_cny": -238.25
-    },
-    {
-     "symbol": "513500",
-     "quantity": 22014.09,
-     "cost_price": 2.696,
-     "last_close": 2.662,
-     "hold_days": 11,
-     "market_value_cny": 58601.51,
-     "unrealized_pnl_cny": -748.48
-    },
-    {
-     "symbol": "513520",
-     "quantity": 57177.26,
-     "cost_price": 2.076,
-     "last_close": 2.111,
-     "hold_days": 2,
-     "market_value_cny": 120701.2,
-     "unrealized_pnl_cny": 2001.2
-    }
-   ],
-   "positions_count": 8,
-   "operations_today": [],
-   "operations_source": "prior_export_diff",
-   "metrics": {
-    "paper_start": "2026-09-23",
-    "bars": 30,
-    "months_tracked": 1,
-    "current_dd": -0.0319,
-    "num_trades_window": 11,
-    "win_rate": 0.4545
-   },
-   "regime_guard": {
-    "mode": "enforce",
-    "active_from": "2026-10-01"
-   },
-   "state_cutoff": "2026-11-11",
-   "state_updated": "2026-11-11 15:40:37"
+   "state_cutoff": "2026-11-12",
+   "state_updated": "2026-11-12 15:31:59"
   },
   {
    "trader": "DROUGHT-CE-01",
@@ -204,7 +183,7 @@
    "operations_source": "prior_export_diff",
    "metrics": {
     "paper_start": "2026-09-23",
-    "bars": 30,
+    "bars": 31,
     "months_tracked": 1,
     "current_dd": -0.0081,
     "num_trades_window": 4,
@@ -214,55 +193,52 @@
     "mode": "enforce",
     "active_from": "2026-10-01"
    },
-   "state_cutoff": "2026-11-11",
-   "state_updated": "2026-11-11 15:40:40"
+   "state_cutoff": "2026-11-12",
+   "state_updated": "2026-11-12 15:32:01"
   },
   {
    "trader": "ENGULF-CE-01",
    "capital_cny": {
     "initial": 1000000.0,
-    "equity": 992398.42,
-    "positions_value": 66337.09,
-    "cash": 926061.33,
+    "equity": 991877.67,
+    "positions_value": 51941.75,
+    "cash": 939935.92,
     "denomination": "CNY"
    },
    "open_positions": [
     {
-     "symbol": "512480",
-     "quantity": 17193.95,
-     "cost_price": 0.727,
-     "last_close": 0.809,
-     "hold_days": 7,
-     "market_value_cny": 13909.91,
-     "unrealized_pnl_cny": 1409.9
-    },
-    {
      "symbol": "515000",
      "quantity": 53937.43,
      "cost_price": 0.927,
-     "last_close": 0.972,
-     "hold_days": 8,
-     "market_value_cny": 52427.18,
-     "unrealized_pnl_cny": 2427.18
+     "last_close": 0.963,
+     "hold_days": 9,
+     "market_value_cny": 51941.75,
+     "unrealized_pnl_cny": 1941.75
     }
    ],
-   "positions_count": 2,
-   "operations_today": [],
+   "positions_count": 1,
+   "operations_today": [
+    {
+     "action": "exit",
+     "symbol": "512480",
+     "quantity_prior": 17193.95
+    }
+   ],
    "operations_source": "prior_export_diff",
    "metrics": {
     "paper_start": "2026-09-23",
-    "bars": 30,
+    "bars": 31,
     "months_tracked": 1,
     "current_dd": -0.017,
-    "num_trades_window": 5,
-    "win_rate": 0.4
+    "num_trades_window": 6,
+    "win_rate": 0.5
    },
    "regime_guard": {
     "mode": "enforce",
     "active_from": "2026-10-01"
    },
-   "state_cutoff": "2026-11-11",
-   "state_updated": "2026-11-11 15:40:42"
+   "state_cutoff": "2026-11-12",
+   "state_updated": "2026-11-12 15:32:03"
   },
   {
    "trader": "NEEDLE-DE-01",
@@ -279,7 +255,7 @@
    "operations_source": "prior_export_diff",
    "metrics": {
     "paper_start": "2026-09-23",
-    "bars": 30,
+    "bars": 31,
     "months_tracked": 1,
     "current_dd": 0.0,
     "num_trades_window": 0,
@@ -289,15 +265,15 @@
     "mode": "enforce",
     "active_from": "2026-10-01"
    },
-   "state_cutoff": "2026-11-11",
-   "state_updated": "2026-11-11 15:40:44"
+   "state_cutoff": "2026-11-12",
+   "state_updated": "2026-11-12 15:32:05"
   },
   {
    "trader": "VOLATILITY-CE-01",
    "capital_cny": {
     "initial": 1000000.0,
-    "equity": 992063.59,
-    "positions_value": 397083.31,
+    "equity": 991885.02,
+    "positions_value": 396904.74,
     "cash": 594980.28,
     "denomination": "CNY"
    },
@@ -306,46 +282,46 @@
      "symbol": "159980",
      "quantity": 23441.16,
      "cost_price": 2.133,
-     "last_close": 2.056,
-     "hold_days": 11,
-     "market_value_cny": 48195.02,
-     "unrealized_pnl_cny": -1804.97
+     "last_close": 2.037,
+     "hold_days": 12,
+     "market_value_cny": 47749.64,
+     "unrealized_pnl_cny": -2250.35
     },
     {
      "symbol": "510050",
      "quantity": 17265.19,
      "cost_price": 2.896,
-     "last_close": 2.882,
-     "hold_days": 11,
-     "market_value_cny": 49758.28,
-     "unrealized_pnl_cny": -241.71
+     "last_close": 2.884,
+     "hold_days": 12,
+     "market_value_cny": 49792.81,
+     "unrealized_pnl_cny": -207.18
     },
     {
      "symbol": "511010",
      "quantity": 707.01,
      "cost_price": 141.44,
-     "last_close": 141.34,
-     "hold_days": 2,
-     "market_value_cny": 99928.79,
-     "unrealized_pnl_cny": -70.7
+     "last_close": 141.363,
+     "hold_days": 3,
+     "market_value_cny": 99945.05,
+     "unrealized_pnl_cny": -54.44
     },
     {
      "symbol": "511090",
      "quantity": 820.99,
      "cost_price": 121.804,
-     "last_close": 120.981,
-     "hold_days": 2,
-     "market_value_cny": 99324.19,
-     "unrealized_pnl_cny": -675.67
+     "last_close": 121.194,
+     "hold_days": 3,
+     "market_value_cny": 99499.06,
+     "unrealized_pnl_cny": -500.8
     },
     {
      "symbol": "511260",
      "quantity": 734.86,
      "cost_price": 136.08,
-     "last_close": 135.913,
-     "hold_days": 2,
-     "market_value_cny": 99877.03,
-     "unrealized_pnl_cny": -122.72
+     "last_close": 135.969,
+     "hold_days": 3,
+     "market_value_cny": 99918.18,
+     "unrealized_pnl_cny": -81.57
     }
    ],
    "positions_count": 5,
@@ -353,9 +329,9 @@
    "operations_source": "prior_export_diff",
    "metrics": {
     "paper_start": "2026-09-23",
-    "bars": 30,
+    "bars": 31,
     "months_tracked": 1,
-    "current_dd": -0.0079,
+    "current_dd": -0.0081,
     "num_trades_window": 5,
     "win_rate": 0.6
    },
@@ -363,22 +339,36 @@
     "mode": "enforce",
     "active_from": "2026-10-01"
    },
-   "state_cutoff": "2026-11-11",
-   "state_updated": "2026-11-11 15:40:45"
+   "state_cutoff": "2026-11-12",
+   "state_updated": "2026-11-12 15:32:06"
   }
  ],
- "marks_face": null,
+ "marks_face": {
+  "file": "marks-20261112.jsonl",
+  "ticks": 1,
+  "last_tick_ts": "2026-11-12T10:43:09",
+  "last_tick_kind": "intraday",
+  "source": "fund_etf_category_sina",
+  "per_trader_equity_mark_cny": {
+   "COMPOSITE-CE-01": 990098.56,
+   "COMPOSITE-CE-02": 978469.95,
+   "DROUGHT-CE-01": 994450.43,
+   "ENGULF-CE-01": 994189.18,
+   "NEEDLE-DE-01": 1000000.0,
+   "VOLATILITY-CE-01": 992009.77
+  }
+ },
  "summary": {
   "traders": 6,
-  "total_equity_cny": 5945887.88,
-  "total_positions": 20,
-  "entries_today": 1,
-  "exits_today": 0,
+  "total_equity_cny": 5945513.43,
+  "total_positions": 15,
+  "entries_today": 0,
+  "exits_today": 5,
   "exits_not_derivable_first_snapshot": false
  },
  "prior_diff_source": {
-  "date": "2026-11-10",
-  "file": "export-2026-11-10.json"
+  "date": "2026-11-11",
+  "file": "export-2026-11-11.json"
  },
  "prospect_note": "PROSPECT members live in results/prospect_paper/ (allocation_pct==0, O-2045 observation-capital zero) -- excluded from this export by construction",
  "display_law": "CEO 2026-09-23 sensitivity law is render-side (city face: no price-change %/K-line/FX); this data face carries amounts per O-2045 (CEO one-word toggle)",

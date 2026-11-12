@@ -129,7 +129,14 @@ def card_ticket(card, ticket):
     tk = ticket or {}
     t_names = [str(r.get("symbol")) for r in (tk.get("order") or [])]
     bar_card = sheet.get("book_decided_at")
-    bar_t = tk.get("asof_bar")
+    # r1585: `asof_bar` is the bar the sheet was PRICED on; the card's bar is the one the book
+    # was DECIDED on. They are the same date only on a decision day -- today the sheet is
+    # priced 2026-11-12 for a decision made at the 11-11 close, and comparing the two read a
+    # perfectly republished sheet as stale (12 names, scale 0.9094, identical order). The
+    # sheet carries its own decision date; read that, and keep the pricing bar as a disclosure.
+    recon = tk.get("recon") or {}
+    bar_t = recon.get("card_decided_at") or tk.get("asof_bar")
+    bar_priced = tk.get("asof_bar")
     scale_card = sheet.get("risk_scale")
     scale_t = tk.get("scale")
     present = bool(tk)
@@ -137,7 +144,8 @@ def card_ticket(card, ticket):
         "present": present,
         "ticket_path": None if not present else tk.get("_path"),
         "card_decided_bar": bar_card,
-        "ticket_priced_bar": bar_t,
+        "ticket_decided_bar": bar_t,
+        "ticket_priced_bar": bar_priced,
         "same_decision_bar": (bar_card == bar_t) if present else None,
         "card_names": len(card_names),
         "ticket_names": len(t_names),
@@ -223,8 +231,13 @@ def drift(led, close, openp, cost_per_side=None):
                 "panel_last": panel_last, "ledger_last": ledger_last,
                 "bars_not_on_panel": unpriced}
     last_bar = shared_last
-    if dates.index(seed_bar) < dates.index(fill_bar):
-        return {"available": False, "reason": "seed bar is before the fill bar"}
+    # r1585: the drift half used to go silent whenever the ledger was seeded BEFORE the fill
+    # bar -- which is the normal case for any ledger more than one bar old, so the half could
+    # not measure anything (measured today: seed 2026-10-23, fill 2026-11-12 -> NOT_MEASURED
+    # on a book that was in fact held for one bar). The shares are bought AT the fill price,
+    # so the mark-to-market can only start where the fill happened: anchor the replay at the
+    # fill bar and rebase the recorded nav on the same bar. With seed >= fill nothing changes.
+    anchor = fill_bar if dates.index(seed_bar) < dates.index(fill_bar) else seed_bar
 
     n = len(names)
     w0 = float(scale) / n
@@ -233,15 +246,19 @@ def drift(led, close, openp, cost_per_side=None):
     if not np.all(np.isfinite(p_fill.values)) or np.any(p_fill.values <= 0):
         return {"available": False, "reason": "non-finite fill price"}
     # Fixed shares bought at the fill: value per unit of starting NAV.
-    v_seed = {k: w0 * float(close.loc[seed_bar, k]) / float(p_fill[k]) for k in names}
+    v_seed = {k: w0 * float(close.loc[anchor, k]) / float(p_fill[k]) for k in names}
     tot_seed = sum(v_seed.values()) + cash0
     w_seed = {k: v_seed[k] / tot_seed for k in names}
     cash_seed = cash0 / tot_seed
 
-    v_last = {k: v_seed[k] * float(close.loc[last_bar, k]) / float(close.loc[seed_bar, k])
+    v_last = {k: v_seed[k] * float(close.loc[last_bar, k]) / float(close.loc[anchor, k])
               for k in names}
     tot_last = sum(v_last.values()) + cash_seed
     w_last = {k: v_last[k] / tot_last for k in names}
+    _nav_anchor = next((float(b["nav"]) for b in bars
+                        if str(b.get("bar")) == str(anchor) and b.get("nav") is not None), None)
+    if _nav_anchor in (None, 0.0):
+        return {"available": False, "reason": "no recorded nav on the anchor bar %s" % anchor}
 
     # One-way turnover to re-target the frozen weights today (cash leg included, since the
     # cash weight drifts with the book just like a name does -- comparing it against its own
@@ -285,11 +302,14 @@ def drift(led, close, openp, cost_per_side=None):
     nav_hat, dev, nav_bh = {}, [], {}
     cur_cw, cur_bh = 1.0, 1.0
     prev = None
+    _anchor_i = dates.index(anchor)
     for b in bars:
         bar = b.get("bar")
         if bar not in dates:
             continue
-        bh = sum(w_seed[k] * float(close.loc[bar, k]) / float(close.loc[seed_bar, k])
+        if dates.index(bar) < _anchor_i:
+            continue            # before the replay's origin (the fill when it is not the seed)
+        bh = sum(w_seed[k] * float(close.loc[bar, k]) / float(close.loc[anchor, k])
                  for k in names) + cash_seed
         nav_bh[bar] = bh
         if prev is None:
@@ -301,11 +321,11 @@ def drift(led, close, openp, cost_per_side=None):
         nav_hat[bar] = cur_cw
         prev = bar
         if b.get("nav") is not None and bar not in not_policed:
-            dev.append(abs(cur_cw - float(b["nav"])))
+            dev.append(abs(cur_cw - float(b["nav"]) / _nav_anchor))
     worst = max(dev) if dev else None
     bh_dev = None
     if bars and bars[-1].get("nav") is not None and nav_bh.get(bars[-1].get("bar")) is not None:
-        bh_dev = abs(nav_bh[bars[-1]["bar"]] - float(bars[-1]["nav"]))
+        bh_dev = abs(nav_bh[bars[-1]["bar"]] - float(bars[-1]["nav"]) / _nav_anchor)
 
     # Where the decision grid stands now, off the ENGINE's dates (>= R.START). Counting bars
     # on the wider raw panel index shifts the modulo-20 grid and misreports the countdown.
@@ -316,6 +336,11 @@ def drift(led, close, openp, cost_per_side=None):
         "decision_bar": decision,
         "fill_bar": fill_bar,
         "seed_bar": seed_bar,
+        "anchor_bar": anchor,
+        "anchor_note": ("the replay is indexed at this bar and the recorded nav is divided by "
+                        "this bar's nav: the shares are bought at the fill, so a mark before "
+                        "the fill would price them from a bar they did not exist on (r1585)")
+        if anchor != seed_bar else None,
         "last_bar": last_bar,
         "names": n,
         "target_weight_each": round(w0, 8),
@@ -358,7 +383,8 @@ def drift(led, close, openp, cost_per_side=None):
         },
         "identity_not_policed_dev": {
             b: None if nav_hat.get(b) is None or _rec_nav(b, bars) is None
-            else round(abs(nav_hat[b] - _rec_nav(b, bars)), 10) for b in sorted(not_policed)},
+            else round(abs(nav_hat[b] - _rec_nav(b, bars) / _nav_anchor), 10)
+            for b in sorted(not_policed)},
         # r1248: the bars this replay did NOT police because the ledger itself withdrew them,
         # named rather than silently dropped -- a shorter replay must say what it left out.
         "bars_withheld": withheld,
@@ -463,12 +489,17 @@ def main():
                  % (t["missing_on_ticket"], t["missing_on_card"])), flush=True)
     if d.get("available"):
         print("DRIFT since %s: max |dw| %.3fpp (%s %+.3fpp) -> re-target costs %.2fbp of nav "
-              "(turn %.4f one way); %d bars to the next decision; nav identity maxdev %.2e "
-              "(ok=%s, %d bars)"
+              "(turn %.4f one way); %d bars to the next decision; nav identity maxdev %s "
+              "(ok=%s, %d bars)%s"
               % (d["decision_bar"], d["max_abs_weight_drift_pp"], d["top_drift_name"],
                  d["top_drift_pp"], d["drift_cost_bp"], d["drift_turnover_one_way"],
-                 d["next_decision_bars"], d["nav_identity_max_dev"], d["nav_identity_ok"],
-                 d["bars_matched"]), flush=True)
+                 d["next_decision_bars"],
+                 "n/a" if d["nav_identity_max_dev"] is None
+                 else "%.2e" % d["nav_identity_max_dev"], d["nav_identity_ok"],
+                 d["bars_matched"],
+                 "" if d.get("anchor_bar") == d.get("seed_bar")
+                 else " | replay anchored at %s (the fill), not the seed %s"
+                 % (d["anchor_bar"], d["seed_bar"])), flush=True)
     else:
         print("DRIFT unavailable: %s" % d.get("reason"), flush=True)
     print("wrote %s" % os.path.relpath(OUT), flush=True)
@@ -581,6 +612,33 @@ def selftest():
     chk("L8 a decision bar off the panel is refused",
         drift(led3, px, op)["available"] is False)
 
+    # r1585: a ledger seeded BEFORE the fill bar is the normal shape (seed 2026-10-23, fill
+    # 2026-11-12) and used to make the whole drift half unavailable. The shares are bought at
+    # the fill price, so the replay is anchored there and the recorded nav is rebased on the
+    # same bar -- and the identity leg must still catch a tampered settled bar.
+    led_a = {"book_in_force": {"bar": "2026-01-02", "scale": 0.8, "names": ["A", "B"]},
+             "seed": {"bar": "2026-01-01"},
+             "bars": [{"bar": "2026-01-01", "nav": 1.0, "cash": 0.2, "carry": 0.0},
+                      {"bar": "2026-01-02", "nav": 1.0, "cash": 0.2, "carry": 0.0},
+                      {"bar": "2026-01-03", "nav": 1.0, "cash": 0.2, "carry": 0.0},
+                      {"bar": "2026-01-04", "nav": 1.0, "cash": 0.2, "carry": 0.0},
+                      {"bar": "2026-01-05", "nav": 1.0, "cash": 0.2, "carry": 0.0},
+                      {"bar": "2026-01-06", "nav": 1.4, "cash": 0.2, "carry": 0.0}]}
+    d_a = drift(led_a, px, op, cost_per_side=0.001)
+    chk("L8b a seed before the fill anchors the replay at the fill instead of going silent",
+        d_a.get("available") is True and d_a.get("anchor_bar") == "2026-01-03"
+        and d_a.get("seed_bar") == "2026-01-01", str(d_a.get("reason") or d_a.get("anchor_bar")))
+    chk("L8c the anchored replay still prices the same drift",
+        d_a.get("available") and abs(d_a["weights_at_last"]["A"] - 4.0 / 7.0) < 1e-6,
+        str(d_a.get("weights_at_last", {}).get("A")))
+    chk("L8d the anchored replay reproduces the rebased recorded nav",
+        d_a.get("available") is True and d_a.get("nav_identity_ok") is True
+        and d_a.get("bars_matched", 0) >= 2, str(d_a.get("nav_identity_max_dev")))
+    led_ta = json.loads(json.dumps(led_a))
+    led_ta["bars"][4]["nav"] = 1.05          # 2026-01-05: settled, must be policed
+    chk("L8e the anchored identity leg still catches a tampered nav",
+        drift(led_ta, px, op)["nav_identity_ok"] is False)
+
     # Live artefacts: the face must be readable today, not only under fixtures.
     card = load_json(CARD)
     led_live = load_json(F.LEDGER)
@@ -623,7 +681,23 @@ def selftest():
         and abs(t2["scale_diff"] - 0.2) < 1e-9, str(t2)[:300])
     tk_day = json.loads(json.dumps(tk))
     tk_day["asof_bar"] = "2026-10-14"
-    chk("L11c a sheet priced on another bar fails", card_ticket(c, tk_day)["agrees"] is False)
+    chk("L11c a sheet decided on another bar fails", card_ticket(c, tk_day)["agrees"] is False)
+    # r1585: priced today, decided at the previous close -- the normal shape of a sheet on
+    # any bar that is not a decision bar. It must hold, and it must still fail on a real
+    # decision-day mismatch.
+    tk_next = {"asof_bar": "2026-11-12", "scale": 0.9,
+               "recon": {"card_decided_at": "2026-11-11"},
+               "order": [{"symbol": "A"}, {"symbol": "B"}]}
+    t_next = card_ticket(dict(c, sheet=dict(c.get("sheet") or {}, book_decided_at="2026-11-11")),
+                         tk_next)
+    chk("L11j a sheet priced after the decision bar, decided on it, holds",
+        t_next["agrees"] is True and t_next["ticket_priced_bar"] == "2026-11-12",
+        str(t_next)[:300])
+    tk_old = json.loads(json.dumps(tk_next))
+    tk_old["recon"]["card_decided_at"] = "2026-10-14"
+    chk("L11k a sheet decided on another bar still fails when it is priced later",
+        card_ticket(dict(c, sheet=dict(c.get("sheet") or {}, book_decided_at="2026-11-11")),
+                    tk_old)["agrees"] is False)
     tk_name = json.loads(json.dumps(tk))
     tk_name["order"] = [{"symbol": "A"}, {"symbol": "C"}]
     t4 = card_ticket(c, tk_name)

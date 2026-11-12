@@ -24,7 +24,7 @@
     }
   },
   "paper_start": "2026-09-23",
-  "bars": 30,
+  "bars": 31,
   "months_tracked": 1,
   "monthly_returns": [
     -0.0164
@@ -49,24 +49,24 @@
     },
     {
       "month": "2026-11",
-      "return": -0.0058,
-      "bars": 8,
+      "return": -0.0054,
+      "bars": 9,
       "month_ended": false,
       "full_from_hire": true,
       "counted": false
     }
   ],
   "window_metrics": {
-    "annual_return": -0.1665,
-    "sharpe": -3.2516,
+    "annual_return": -0.1594,
+    "sharpe": -3.1463,
     "max_drawdown": -0.0319,
-    "win_rate": 0.4545,
-    "profit_factor": 0.3325,
-    "num_trades": 11,
-    "avg_hold_days": 17.91,
-    "win_rate_full": 0.4545,
-    "profit_factor_full": 0.2992,
-    "avg_pnl_full": -1673.73,
+    "win_rate": 0.5,
+    "profit_factor": 0.3732,
+    "num_trades": 14,
+    "avg_hold_days": 15.36,
+    "win_rate_full": 0.5,
+    "profit_factor_full": 0.3325,
+    "avg_pnl_full": -1369.96,
     "fill_guard_buy_dropped": 0,
     "fill_guard_sell_deferred_events": 0,
     "fill_guard_deferred_days_total": 0,
@@ -84,25 +84,25 @@
   },
   "cost_x2_check": {
     "status": "ok",
-    "paper_window_sharpe_x2": -4.1629,
+    "paper_window_sharpe_x2": -4.1338,
     "skill_bar": 0.4004,
     "survive": false,
-    "margin": -4.5633,
+    "margin": -4.5342,
     "note": "rolling x2-cost safety on paper window to date"
   },
   "x2_watch": {
     "status": "probation",
     "probation": true,
-    "margin": -4.5633,
+    "margin": -4.5342,
     "survive": false,
     "source": "paper_window"
   },
-  "cutoff": "2026-11-11",
-  "updated": "2026-11-11 15:40:37",
+  "cutoff": "2026-11-12",
+  "updated": "2026-11-12 15:31:59",
   "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-11-11"
+    "as_of": "2026-11-12"
   },
   "regime_guard": {
     "mode": "enforce",
@@ -110,7 +110,6 @@
     "active_from": "2026-10-01",
     "gate_note": null,
     "v3_state_tail": {
-      "2026-10-29": "YELLOW",
       "2026-10-30": "YELLOW",
       "2026-11-02": "YELLOW",
       "2026-11-03": "YELLOW",
@@ -119,17 +118,18 @@
       "2026-11-06": "GREEN",
       "2026-11-09": "GREEN",
       "2026-11-10": "GREEN",
-      "2026-11-11": "GREEN"
+      "2026-11-11": "GREEN",
+      "2026-11-12": "GREEN"
     },
     "enforced": {
       "active_from": "2026-10-01",
-      "days_enforced": 25,
+      "days_enforced": 26,
       "entries_blocked": 0,
       "entries_halved": 5
     },
     "shadow_ref": {
       "state": "RED",
-      "asof": "2026-11-10"
+      "asof": "2026-11-11"
     },
     "note": "v3-enforced paper window (T-21); exits never forced; RED new-cash parking is structurally inert in paper (fixed INITIAL_CASH) -- live-gate concern, disclosed"
   },
@@ -141,13 +141,13 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-11-11 15:40:37",
+    "as_of": "2026-11-12 15:31:59",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
       "enabled": true,
       "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
       "events_total": 21,
-      "events_in_universe_n": 3,
+      "events_in_universe_n": 2,
       "crossing_rows_n": 0,
       "crossing_rows": [],
       "open_position_hits": 0,
@@ -159,93 +159,77 @@
   },
   "open_positions": [
     {
-      "symbol": "159980",
-      "quantity": 27824.66,
-      "cost_price": 2.133,
-      "high_watermark": 2.133,
-      "hold_days": 11,
-      "last_close": 2.056,
-      "market_value_cny": 57207.5,
-      "unrealized_pnl_cny": -2142.5
-    },
-    {
       "symbol": "511010",
       "quantity": 839.23,
       "cost_price": 141.44,
       "high_watermark": 141.44,
-      "hold_days": 2,
-      "last_close": 141.34,
-      "market_value_cny": 118616.77,
-      "unrealized_pnl_cny": -83.92
+      "hold_days": 3,
+      "last_close": 141.363,
+      "market_value_cny": 118636.07,
+      "unrealized_pnl_cny": -64.62
     },
     {
       "symbol": "511090",
       "quantity": 974.52,
       "cost_price": 121.804,
       "high_watermark": 121.804,
-      "hold_days": 2,
-      "last_close": 120.981,
-      "market_value_cny": 117898.4,
-      "unrealized_pnl_cny": -802.03
+      "hold_days": 3,
+      "last_close": 121.194,
+      "market_value_cny": 118105.98,
+      "unrealized_pnl_cny": -594.46
     },
     {
       "symbol": "511260",
       "quantity": 872.28,
       "cost_price": 136.08,
       "high_watermark": 136.08,
-      "hold_days": 2,
-      "last_close": 135.913,
-      "market_value_cny": 118554.19,
-      "unrealized_pnl_cny": -145.67
+      "hold_days": 3,
+      "last_close": 135.969,
+      "market_value_cny": 118603.04,
+      "unrealized_pnl_cny": -96.82
     },
     {
       "symbol": "512800",
       "quantity": 134733.26,
       "cost_price": 0.881,
-      "high_watermark": 0.882,
-      "hold_days": 2,
-      "last_close": 0.882,
-      "market_value_cny": 118834.74,
-      "unrealized_pnl_cny": 134.73
-    },
-    {
-      "symbol": "513100",
-      "quantity": 26471.9,
-      "cost_price": 2.242,
-      "high_watermark": 2.242,
-      "hold_days": 5,
-      "last_close": 2.233,
-      "market_value_cny": 59111.75,
-      "unrealized_pnl_cny": -238.25
+      "high_watermark": 0.885,
+      "hold_days": 3,
+      "last_close": 0.885,
+      "market_value_cny": 119238.94,
+      "unrealized_pnl_cny": 538.93
     },
     {
       "symbol": "513500",
       "quantity": 22014.09,
       "cost_price": 2.696,
       "high_watermark": 2.702,
-      "hold_days": 11,
-      "last_close": 2.662,
-      "market_value_cny": 58601.51,
-      "unrealized_pnl_cny": -748.48
-    },
-    {
-      "symbol": "513520",
-      "quantity": 57177.26,
-      "cost_price": 2.076,
-      "high_watermark": 2.111,
-      "hold_days": 2,
-      "last_close": 2.111,
-      "market_value_cny": 120701.2,
-      "unrealized_pnl_cny": 2001.2
+      "hold_days": 12,
+      "last_close": 2.649,
+      "market_value_cny": 58315.32,
+      "unrealized_pnl_cny": -1034.66
     }
   ],
   "capital": {
     "initial_cash_cny": 1000000.0,
-    "equity_cny": 978557.88,
-    "positions_value_cny": 769526.06,
-    "cash_cny": 209031.82,
+    "equity_cny": 978872.35,
+    "positions_value_cny": 532899.35,
+    "cash_cny": 445973.0,
     "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
     "denomination": "CNY"
   },
-  "no_future_data": "closed bars only; signal T close -> T+1 open (engine contract)"
+  "no_future_data": "closed bars only; signal T close -> T+1 open (engine contract)",
+  "pending_entries": [
+    {
+      "symbol": "159920",
+      "queued_date": "2026-11-12"
+    },
+    {
+      "symbol": "159996",
+      "queued_date": "2026-11-12"
+    },
+    {
+      "symbol": "510050",
+      "queued_date": "2026-11-12"
+    }
+  ]
 }

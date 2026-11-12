@@ -1,7 +1,7 @@
 {
  "schema": "etf-book-card-track/v1",
- "ts": "2026-11-12T07:40:31",
- "evidence_cutoff": "2026-11-11",
+ "ts": "2026-11-12T17:13:00",
+ "evidence_cutoff": "2026-11-12",
  "card_path": "etf_book_production\\latest.json",
  "ledger_path": "etf_book_forward\\LEDGER.json",
  "agreement": {
@@ -42,9 +42,10 @@
  },
  "card_ticket": {
   "present": true,
-  "ticket_path": "etf_book_order\\TICKET-2026-11-11-card.json",
+  "ticket_path": "etf_book_order\\TICKET-2026-11-12-card.json",
   "card_decided_bar": "2026-11-11",
-  "ticket_priced_bar": "2026-11-11",
+  "ticket_decided_bar": "2026-11-11",
+  "ticket_priced_bar": "2026-11-12",
   "same_decision_bar": true,
   "card_names": 12,
   "ticket_names": 12,
@@ -58,8 +59,76 @@
   "agrees": true
  },
  "drift": {
-  "available": false,
-  "reason": "no bar after the decision to fill on"
+  "available": true,
+  "decision_bar": "2026-11-11",
+  "fill_bar": "2026-11-12",
+  "seed_bar": "2026-10-23",
+  "anchor_bar": "2026-11-12",
+  "anchor_note": "the replay is indexed at this bar and the recorded nav is divided by this bar's nav: the shares are bought at the fill, so a mark before the fill would price them from a bar they did not exist on (r1585)",
+  "last_bar": "2026-11-12",
+  "names": 12,
+  "target_weight_each": 0.075782,
+  "cash_target": 0.090616,
+  "weights_at_seed": {
+   "510760": 0.075731,
+   "512040": 0.075507,
+   "159655": 0.076016,
+   "513690": 0.07614,
+   "159519": 0.075214,
+   "513650": 0.076016,
+   "510210": 0.075728,
+   "562060": 0.075835,
+   "513630": 0.075403,
+   "159207": 0.075952,
+   "511180": 0.075557,
+   "513500": 0.075778
+  },
+  "weights_at_last": {
+   "510760": 0.075692,
+   "512040": 0.075468,
+   "159655": 0.075978,
+   "513690": 0.076102,
+   "159519": 0.075175,
+   "513650": 0.075977,
+   "510210": 0.075689,
+   "562060": 0.075797,
+   "513630": 0.075364,
+   "159207": 0.075913,
+   "511180": 0.075518,
+   "513500": 0.075739
+  },
+  "top_drift_pp": -0.0607,
+  "top_drift_name": "159519",
+  "max_abs_weight_drift_pp": 0.0607,
+  "drift_turnover_one_way": 0.001828,
+  "drift_cost_bp": 0.02,
+  "next_decision_bars": 19,
+  "panel_last": "2026-11-12",
+  "ledger_last": "2026-11-12",
+  "replay_last": "2026-11-12",
+  "bars_not_on_panel": [],
+  "lag_on_panel_bars": 0,
+  "nav_identity_max_dev": null,
+  "nav_identity_ok": null,
+  "nav_buyhold_gap": 0.0,
+  "nav_buyhold_gap_bp": 0.0,
+  "cum_carry_bars": 0.0002156194,
+  "bars_matched": 0,
+  "identity_not_policed": [
+   "2026-11-12"
+  ],
+  "carry_coverage": {
+   "carry_last": "2026-11-11",
+   "bars_beyond_carry": [
+    "2026-11-12"
+   ],
+   "note": "bars beyond the repo ladder's last priced day are provisional: their cash leg is a forward-filled rate, so a NAV that disagrees with the re-derivation there measures the rate panel, not the book"
+  },
+  "identity_not_policed_dev": {
+   "2026-11-12": 0.0
+  },
+  "bars_withheld": [],
+  "convention": "ledger books constant target weights every bar (costless implicit rebalance) + carry on the target cash fraction; a card follower holds drifting weights, so nav_buyhold_gap is the convention's own footprint"
  },
  "caveats": [
   "Agreement is a snapshot of two records of one frozen decision; it does not make either record correct, and it will not catch a both-faces-wrong defect.",

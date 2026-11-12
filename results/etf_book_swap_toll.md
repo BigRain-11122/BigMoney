@@ -1,6 +1,6 @@
 # 换回来要多少钱（r1522）
 
-bar 2026-11-11 ｜ 判定 **NO_SWAP_ON_THIS_BAR**
+bar 2026-11-12 ｜ 判定 **NO_SWAP_ON_THIS_BAR**
 
 
 ## 逐对读数

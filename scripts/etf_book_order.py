@@ -3051,8 +3051,12 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                # r1521: the swap face goes in with it -- the entry sheet is not the book the
                # account can hold (r1467 rewrites it), so subtracting the entry sheet from a
                # book that already traded the swap ordered the swap to be undone.
-               "exec_delta": EXD.compute({"as_of": asof, "ticket": ticket,
-                                          "positions": _pos, "swap_stack": _ss}),
+               # r1585: the statement this subtracts must be on the sheet's own bar. The
+               # snapshot below is whatever `etf_book_positions.json` said when this page
+               # was built; when the account's row for `asof` has since settled, that row is
+               # the book the operator is holding today and the section says which it used.
+               "exec_delta": EXD.compute_for_ticket({"as_of": asof, "ticket": ticket,
+                                                     "positions": _pos, "swap_stack": _ss}),
                # r1522: the way out, priced on the executed notional. Same inputs as the two
                # faces above so the sheet cannot quietly disagree with itself about the size.
                "swap_toll": SWT.compute({"as_of": asof, "ticket_bar": asof,

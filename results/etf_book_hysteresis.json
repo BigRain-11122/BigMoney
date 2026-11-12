@@ -1,6 +1,6 @@
 {
   "script": "scripts/etf_book_hysteresis.py",
-  "evidence_cutoff": "2026-11-11",
+  "evidence_cutoff": "2026-11-12",
   "units": {
     "k": "buffer in units of the bar's cross-sectional score sd",
     "cagr": "fraction per year (0.0962 = 9.62%/yr)",
@@ -12,7 +12,7 @@
     "rebal": 20,
     "cost_bp": 10.0,
     "vol_target": 0.08,
-    "universe": 1517,
+    "universe": 1519,
     "flips_repaired": 169,
     "grid": [
       0.0,
@@ -24,19 +24,19 @@
     ]
   },
   "control": {
-    "published": 0.0966,
-    "measured": 0.0966,
+    "published": 0.0965,
+    "measured": 0.0965,
     "delta_pp": 0.0,
     "within_tol": true,
-    "published_turnover": 0.934,
-    "measured_turnover": 0.934
+    "published_turnover": 0.938,
+    "measured_turnover": 0.938
   },
   "margin_census": {
     "n_decisions": 84,
     "skipped": 0,
     "cut_sd_q": {
       "0.1": 0.0012,
-      "0.25": 0.0056,
+      "0.25": 0.0055,
       "0.5": 0.0185,
       "0.75": 0.0517,
       "0.9": 0.1122
@@ -538,39 +538,39 @@
       },
       {
         "date": "2026-09-08",
-        "cut_score": 0.0017502282449549655,
-        "cut_sd": 0.0053748504639946505,
+        "cut_score": 0.0016599631215326038,
+        "cut_sd": 0.005097960636451999,
         "n_eligible": 561
       },
       {
         "date": "2026-10-14",
-        "cut_score": 0.0054273572238592305,
-        "cut_sd": 0.013963945202478376,
+        "cut_score": 0.005204061655041281,
+        "cut_sd": 0.013392963779901923,
         "n_eligible": 537
       },
       {
         "date": "2026-11-11",
-        "cut_score": 0.008404127733151578,
-        "cut_sd": 0.031190134140409363,
+        "cut_score": 0.008207750579584339,
+        "cut_sd": 0.03046048648208881,
         "n_eligible": 580
       }
     ]
   },
   "trade_margins": {
-    "n_pairs": 590,
-    "gap_sd_median": 0.9741,
-    "share_under_0p10sd": 0.0288,
-    "share_under_0p25sd": 0.0915
+    "n_pairs": 599,
+    "gap_sd_median": 0.9748,
+    "share_under_0p10sd": 0.0284,
+    "share_under_0p25sd": 0.0902
   },
   "arms": [
     {
       "k": 0.0,
-      "turnover_per_decision": 0.934,
-      "trades": 83,
+      "turnover_per_decision": 0.938,
+      "trades": 84,
       "stats": {
         "full": {
-          "cagr": 0.0966,
-          "sharpe": 0.994,
+          "cagr": 0.0965,
+          "sharpe": 0.993,
           "maxdd": -0.1177,
           "vol": 0.1019,
           "worst_year": -0.0199,
@@ -585,23 +585,23 @@
           "neg_years": 1
         },
         "oos": {
-          "cagr": 0.184,
-          "sharpe": 1.736,
+          "cagr": 0.1837,
+          "sharpe": 1.734,
           "maxdd": -0.107,
-          "vol": 0.1048,
-          "worst_year": 0.0359,
+          "vol": 0.1047,
+          "worst_year": 0.0356,
           "neg_years": 0
         }
       }
     },
     {
       "k": 0.05,
-      "turnover_per_decision": 0.901,
-      "trades": 83,
+      "turnover_per_decision": 0.905,
+      "trades": 84,
       "stats": {
         "full": {
-          "cagr": 0.0972,
-          "sharpe": 1.008,
+          "cagr": 0.0971,
+          "sharpe": 1.007,
           "maxdd": -0.1159,
           "vol": 0.101,
           "worst_year": -0.0193,
@@ -616,23 +616,23 @@
           "neg_years": 1
         },
         "oos": {
-          "cagr": 0.1829,
-          "sharpe": 1.753,
+          "cagr": 0.1826,
+          "sharpe": 1.75,
           "maxdd": -0.0982,
-          "vol": 0.1031,
-          "worst_year": 0.0293,
+          "vol": 0.103,
+          "worst_year": 0.029,
           "neg_years": 0
         }
       }
     },
     {
       "k": 0.1,
-      "turnover_per_decision": 0.887,
-      "trades": 83,
+      "turnover_per_decision": 0.891,
+      "trades": 84,
       "stats": {
         "full": {
-          "cagr": 0.0972,
-          "sharpe": 1.004,
+          "cagr": 0.0971,
+          "sharpe": 1.003,
           "maxdd": -0.1258,
           "vol": 0.1013,
           "worst_year": -0.0354,
@@ -647,23 +647,23 @@
           "neg_years": 1
         },
         "oos": {
-          "cagr": 0.187,
-          "sharpe": 1.765,
+          "cagr": 0.1867,
+          "sharpe": 1.762,
           "maxdd": -0.0982,
-          "vol": 0.1046,
-          "worst_year": 0.0282,
+          "vol": 0.1045,
+          "worst_year": 0.0279,
           "neg_years": 0
         }
       }
     },
     {
       "k": 0.2,
-      "turnover_per_decision": 0.843,
-      "trades": 83,
+      "turnover_per_decision": 0.848,
+      "trades": 84,
       "stats": {
         "full": {
-          "cagr": 0.098,
-          "sharpe": 1.018,
+          "cagr": 0.0979,
+          "sharpe": 1.017,
           "maxdd": -0.1247,
           "vol": 0.1007,
           "worst_year": -0.0356,
@@ -678,23 +678,23 @@
           "neg_years": 1
         },
         "oos": {
-          "cagr": 0.1834,
-          "sharpe": 1.738,
+          "cagr": 0.1831,
+          "sharpe": 1.736,
           "maxdd": -0.0978,
-          "vol": 0.1043,
-          "worst_year": 0.0275,
+          "vol": 0.1042,
+          "worst_year": 0.0271,
           "neg_years": 0
         }
       }
     },
     {
       "k": 0.35,
-      "turnover_per_decision": 0.762,
-      "trades": 83,
+      "turnover_per_decision": 0.767,
+      "trades": 84,
       "stats": {
         "full": {
-          "cagr": 0.0966,
-          "sharpe": 0.997,
+          "cagr": 0.0965,
+          "sharpe": 0.995,
           "maxdd": -0.1257,
           "vol": 0.1016,
           "worst_year": -0.0454,
@@ -709,25 +709,25 @@
           "neg_years": 1
         },
         "oos": {
-          "cagr": 0.1809,
-          "sharpe": 1.667,
+          "cagr": 0.1804,
+          "sharpe": 1.663,
           "maxdd": -0.1014,
-          "vol": 0.1076,
-          "worst_year": 0.019,
+          "vol": 0.1075,
+          "worst_year": 0.0183,
           "neg_years": 0
         }
       }
     },
     {
       "k": 0.5,
-      "turnover_per_decision": 0.702,
-      "trades": 83,
+      "turnover_per_decision": 0.707,
+      "trades": 84,
       "stats": {
         "full": {
-          "cagr": 0.0975,
-          "sharpe": 1.005,
+          "cagr": 0.0972,
+          "sharpe": 1.002,
           "maxdd": -0.1348,
-          "vol": 0.1016,
+          "vol": 0.1015,
           "worst_year": -0.0702,
           "neg_years": 1
         },
@@ -740,11 +740,11 @@
           "neg_years": 1
         },
         "oos": {
-          "cagr": 0.1823,
-          "sharpe": 1.657,
+          "cagr": 0.1813,
+          "sharpe": 1.65,
           "maxdd": -0.1014,
-          "vol": 0.1091,
-          "worst_year": 0.0229,
+          "vol": 0.109,
+          "worst_year": 0.0212,
           "neg_years": 0
         }
       }

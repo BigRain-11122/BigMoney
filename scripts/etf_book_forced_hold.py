@@ -67,11 +67,18 @@ N_PHASES = 4
 MATERIAL_PP = 0.57          # the material line this line's other faces use
 SHARE_MIN = 0.75            # share of phases a verdict has to hold in
 # the control: this face is only allowed to speak if it is talking about the same census the
-# sibling face published (3,924 positions / 109 outside_cap / 4.23% below gate)
+# sibling face published. Until r1585 the comparison was against a CONSTANT captured on the
+# day the control was written (3,924 positions / 109 outside_cap / 4.23% below gate) -- but
+# this census is forward-accumulating, so the constant was a gate that could only be green
+# while the panel had not moved: on 2026-11-12 it read 3,948 / 109 / 4.20% and the face went
+# silent with CONTROL_DOES_NOT_REPRODUCE_THE_SIBLING_CENSUS while the sibling file published
+# exactly 3,948 / 4.20%. The gate now reads the sibling's own face AT THE SAME CUTOFF, and
+# the old numbers are kept as `historical_anchor` (disclosure, not the gate).
 CONTROL = {"positions_total": 3924, "outside_cap_total": 109,
            "share_below_gate_mean": 0.0423}
 CONTROL_POS_TOL = 0.02      # +-2% on the two counts
 CONTROL_SHARE_TOL = 0.0002  # +-0.02pp on the share
+SIBLING_JSON = os.path.join(ROOT, "results", "etf_book_exit_liquidity.json")
 CRITERIA = {"material_pp": MATERIAL_PP, "share_min": SHARE_MIN, "n_phases": N_PHASES,
             "control": CONTROL, "control_share_below_gate": CONTROL["share_below_gate_mean"],
             "control_share_tol": CONTROL_SHARE_TOL,
@@ -182,6 +189,78 @@ def price_phase(rows, openp, span_years, total_positions, amt=None, gate=None):
     return s
 
 
+def _rel_or_abs(path):
+    """A readable label for a path that may live on another drive (relpath raises there)."""
+    try:
+        return os.path.relpath(path, ROOT)
+    except ValueError:
+        return path
+
+
+def control_gate(summary, evidence_cutoff=None, sibling_path=None):
+    """Is this face counting the positions the sibling face published? (r1585)
+
+    The question is about ONE cutoff. Comparing a forward-accumulating census with a number
+    copied out of the sibling on the day the check was written turns the gate into a clock:
+    every new bar adds positions, the share slides by 0.01pp, and the face goes silent while
+    the sibling publishes exactly what this face measured (2026-11-12: 3,948 / 4.20% on
+    both sides, against a frozen 3,924 / 4.23%). So the expectation is read live off the
+    sibling's own file, at this face's cutoff; a sibling that is behind is named as such.
+
+    Returns the published `control` block: `state`, `expected`, `measured`, tolerances,
+    `same_census`/`reproduced`, and the old constants under `historical_anchor`.
+    """
+    path = sibling_path or SIBLING_JSON
+    blk = {
+        "historical_anchor": CONTROL,
+        "anchor_note": ("the numbers this face reproduced when the control was written; kept "
+                        "as a disclosure, never as the gate (a frozen count cannot police a "
+                        "forward-accumulating census)"),
+        "measured": {"positions_total": summary.get("positions_total"),
+                     "outside_cap_total": summary.get("outside_cap_total"),
+                     "share_below_gate_mean": summary.get("share_below_gate_mean")},
+        "tolerances": {"counts_rel": CONTROL_POS_TOL, "share_abs": CONTROL_SHARE_TOL},
+        "artifact": _rel_or_abs(path),
+        "same_census": False,
+        "reproduced": False,
+    }
+    try:
+        with open(path, encoding="utf-8") as fh:
+            sib = json.load(fh)
+    except Exception as exc:                                    # noqa: BLE001
+        blk["state"] = "sibling_face_unreadable"
+        blk["why"] = "%s: %r" % (exc.__class__.__name__, exc)
+        return blk
+    ss = sib.get("summary") or {}
+    blk["sibling_cutoff"] = sib.get("evidence_cutoff")
+    blk["expected"] = {"positions_total": ss.get("positions_total"),
+                       "outside_cap_total": ss.get("outside_cap_total"),
+                       "share_below_gate_mean": ss.get("share_below_gate_mean")}
+    if evidence_cutoff and blk["sibling_cutoff"] != evidence_cutoff:
+        blk["state"] = "sibling_face_at_another_cutoff"
+        blk["why"] = ("the sibling face was published on %s, this one on %s: two different "
+                      "censuses, and the fix is to re-run the sibling, not to compare them"
+                      % (blk["sibling_cutoff"], evidence_cutoff))
+        return blk
+    exp, got = blk["expected"], blk["measured"]
+    blk["state"] = "same_cutoff"
+    blk["same_census"] = bool(
+        exp["positions_total"] is not None
+        and exp["outside_cap_total"] is not None
+        and got["positions_total"] is not None
+        and got["outside_cap_total"] is not None
+        and abs(got["positions_total"] - exp["positions_total"])
+        <= CONTROL_POS_TOL * max(1, exp["positions_total"])
+        and abs(got["outside_cap_total"] - exp["outside_cap_total"])
+        <= CONTROL_POS_TOL * max(1, exp["outside_cap_total"])
+        and got["share_below_gate_mean"] is not None
+        and exp["share_below_gate_mean"] is not None
+        and abs(got["share_below_gate_mean"] - exp["share_below_gate_mean"])
+        <= CONTROL_SHARE_TOL)
+    blk["reproduced"] = blk["same_census"]
+    return blk
+
+
 def verdict_from_summary(summary):
     """Frozen rule: does the censored tail move the number, or is it bookkeeping?
 
@@ -276,25 +355,17 @@ def run():
     summary["pp_max"] = summary["pp_per_year_max"]
     summary["priced_total"] = int(sum(p["priced"] for p in phases))
 
-    ctl = {"expected": CONTROL, "measured": {"positions_total": summary["positions_total"],
-                                             "outside_cap_total": summary["outside_cap_total"],
-                                             "share_below_gate_mean":
-                                                 summary["share_below_gate_mean"]},
-           "tolerances": {"counts_rel": CONTROL_POS_TOL, "share_abs": CONTROL_SHARE_TOL}}
-    ctl["same_census"] = bool(
-        abs(summary["positions_total"] - CONTROL["positions_total"])
-        <= CONTROL_POS_TOL * CONTROL["positions_total"]
-        and abs(summary["outside_cap_total"] - CONTROL["outside_cap_total"])
-        <= CONTROL_POS_TOL * CONTROL["outside_cap_total"]
-        and summary["share_below_gate_mean"] is not None
-        and abs(summary["share_below_gate_mean"] - CONTROL["share_below_gate_mean"])
-        <= CONTROL_SHARE_TOL)
-    ctl["reproduced"] = ctl["same_census"]
+    ctl = control_gate(summary, evidence_cutoff=str(close.index[-1].date()))
     summary["control"] = ctl          # the consumer reads the control off the summary face
-    # the control governs whether this face may speak at all: a drifted census means the two
-    # faces are no longer counting the same positions, so no verdict is published from it.
+    # the control governs whether this face may speak at all: a census that is not the
+    # sibling's census means the two faces are no longer counting the same positions, so no
+    # verdict is published from it. A sibling published on ANOTHER cutoff is a different
+    # state with a different fix (re-run the sibling), and says so instead of pretending
+    # the census is corrupt.
     if not ctl["same_census"]:
-        summary["verdict"] = "CONTROL_DOES_NOT_REPRODUCE_THE_SIBLING_CENSUS"
+        summary["verdict"] = ("SIBLING_FACE_AT_ANOTHER_CUTOFF"
+                              if ctl.get("state") == "sibling_face_at_another_cutoff"
+                              else "CONTROL_DOES_NOT_REPRODUCE_THE_SIBLING_CENSUS")
 
     doc = {
         "schema": "etf_book_forced_hold/v1",
@@ -383,13 +454,17 @@ def write_md(doc):
            s["open_at_end_total"]),
         "",
         "**The control.** This face speaks for the same census the sibling published, or it "
-        "does not speak: expected %d positions / %d outside_cap / %.2f%% below gate, measured "
-        "%d / %d / %.2f%% -> **%s**."
-        % (ctl["expected"]["positions_total"], ctl["expected"]["outside_cap_total"],
-           100.0 * ctl["expected"]["share_below_gate_mean"], ctl["measured"]["positions_total"],
-           ctl["measured"]["outside_cap_total"],
-           100.0 * (ctl["measured"]["share_below_gate_mean"] or 0.0),
-           "same census" if ctl["same_census"] else "DRIFTED"),
+        "does not speak: the sibling's own face (%s) says %s positions / %s outside_cap / %s "
+        "below gate, this face measures %s / %s / %s -> **%s** (same cutoff: %s)."
+        % (ctl.get("artifact"), ctl["expected"]["positions_total"],
+           ctl["expected"]["outside_cap_total"],
+           ("%.2f%%" % (100.0 * ctl["expected"]["share_below_gate_mean"]))
+           if ctl["expected"].get("share_below_gate_mean") is not None else "—",
+           ctl["measured"]["positions_total"], ctl["measured"]["outside_cap_total"],
+           ("%.2f%%" % (100.0 * ctl["measured"]["share_below_gate_mean"]))
+           if ctl["measured"].get("share_below_gate_mean") is not None else "—",
+           "same census" if ctl["same_census"] else "DRIFTED",
+           ctl.get("state") or "—"),
         "",
         "**The other definition, kept separate.** If instead of taking the first print you wait "
         "for the name to clear the 20M gate again, the same bucket reads %+.2f pp/yr -- a median "
@@ -426,8 +501,12 @@ def check():
         doc = json.load(fh)
     s = doc["summary"]
     if not doc.get("control", {}).get("same_census"):
-        print("check: control says the census drifted -> verdict %s" % s.get("verdict"))
-        return 2 if s.get("verdict") != "CONTROL_DOES_NOT_REPRODUCE_THE_SIBLING_CENSUS" else 0
+        # both "the census is not the sibling's" and "the sibling is on another cutoff" are
+        # the face's own published answers, not a drift in the payload
+        print("check: control withheld the verdict (%s) -> %s"
+              % (doc.get("control", {}).get("state") or "unknown", s.get("verdict")))
+        return 2 if (s.get("verdict") or "").startswith(
+            ("CONTROL_DOES_NOT_REPRODUCE", "SIBLING_FACE_AT_ANOTHER_CUTOFF")) else 0
     got = verdict_from_summary(s)
     ok = got == s.get("verdict")
     print("check: verdict recomputed %s vs published %s -> %s"
@@ -526,12 +605,38 @@ def selftest():
        "INCOMPLETE_PRICING")
     eq("verdict empty", verdict_from_summary({"phases": []}), "INCOMPLETE")
 
+    # r1585: the control used to compare a forward-accumulating census with a constant, so it
+    # went silent by itself the moment the panel advanced one bar. These four legs pin the
+    # repaired rule: the sibling file at the SAME cutoff decides, a sibling on another cutoff
+    # is named as such, and the old constants survive only as a disclosure.
+    import tempfile as _tf
+    _d = _tf.mkdtemp()
+    _sib = os.path.join(_d, "sibling.json")
+    _sum = {"positions_total": 3948, "outside_cap_total": 109,
+            "share_below_gate_mean": 0.042}
+    with open(_sib, "w", encoding="utf-8") as fh:
+        json.dump({"evidence_cutoff": "2026-11-12", "summary": _sum}, fh)
+    _c = control_gate(_sum, evidence_cutoff="2026-11-12", sibling_path=_sib)
+    eq("control: the sibling's own face at the same cutoff is reproduced", _c["same_census"], True)
+    eq("control: the anchor is published as disclosure, not as the gate",
+       (_c["historical_anchor"] or {}).get("positions_total"), 3924)
+    _c2 = control_gate(_sum, evidence_cutoff="2026-11-13", sibling_path=_sib)
+    eq("control: a sibling on another cutoff is a named state, not a drift",
+       (_c2["same_census"], _c2["state"]), (False, "sibling_face_at_another_cutoff"))
+    _c3 = control_gate(dict(_sum, outside_cap_total=140), evidence_cutoff="2026-11-12",
+                       sibling_path=_sib)
+    eq("control: a census that really differs still fails", _c3["same_census"], False)
+    _c4 = control_gate(_sum, evidence_cutoff="2026-11-12",
+                       sibling_path=os.path.join(_d, "missing.json"))
+    eq("control: an unreadable sibling is unreadable, never 'same'",
+       (_c4["same_census"], _c4["state"]), (False, "sibling_face_unreadable"))
+
     if fails:
         for f in fails:
             print("FAIL " + f)
         print("selftest %d failed" % len(fails))
         return 1
-    print("selftest 22/22 OK")
+    print("selftest 27/27 OK")
     return 0
 
 

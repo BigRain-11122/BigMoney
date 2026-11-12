@@ -1,8 +1,8 @@
 {
- "ts": "2026-11-12 01:10:11",
+ "ts": "2026-11-12 16:28:53",
  "script": "scripts/etf_book_concentration.py",
  "face": "results/etf_book_concentration.json",
- "evidence_cutoff": "2026-11-11",
+ "evidence_cutoff": "2026-11-12",
  "criteria": {
   "n_hold": 12,
   "rebal": 20,
@@ -17,34 +17,34 @@
  },
  "execution": "decide at close t -> fill at open t+1 -> hold to next decision",
  "panel": {
-  "columns": 1517,
-  "bars": 5278,
+  "columns": 1519,
+  "bars": 5279,
   "flips_repaired": 169,
-  "digest": "847538eb2befb766"
+  "digest": "e383c3a68f5f98af"
  },
  "book": {
   "n_hold": 12,
   "rebal": 20,
   "vol_target": 0.08,
   "cost_bp_per_side": 10.0,
-  "decisions": 83,
-  "turnover_per_decision": 0.934
+  "decisions": 84,
+  "turnover_per_decision": 0.938
  },
  "identity": {
-  "replica_vs_engine_max_abs": 2.220446049250313e-16,
-  "bars_compared": 1660,
+  "replica_vs_engine_max_abs": 1.1102230246251565e-15,
+  "bars_compared": 1661,
   "passes": true
  },
  "return_sum": {
-  "gross": 0.751427,
-  "sum_of_symbol_contributions": 0.751427,
-  "fee_toll": 0.077548,
+  "gross": 0.752381,
+  "sum_of_symbol_contributions": 0.752381,
+  "fee_toll": 0.078808,
   "unit_note": "gross and contributions are sums of daily arithmetic returns; the net curve = compounded gross minus the fee charged at each decision, and is what `baseline` quotes"
  },
  "baseline": {
   "full": {
-   "cagr": 0.0966,
-   "sharpe": 0.994,
+   "cagr": 0.0965,
+   "sharpe": 0.993,
    "maxdd": -0.1177,
    "vol": 0.1019,
    "years": 6.86
@@ -57,10 +57,10 @@
    "years": 3.99
   },
   "oos": {
-   "cagr": 0.184,
-   "sharpe": 1.736,
+   "cagr": 0.1837,
+   "sharpe": 1.734,
    "maxdd": -0.107,
-   "vol": 0.1048,
+   "vol": 0.1047,
    "years": 2.86
   }
  },
@@ -71,22 +71,22 @@
    {
     "symbol": "159934",
     "contribution_sum": 0.056005,
-    "share_of_return_sum": 0.0745
+    "share_of_return_sum": 0.0744
    },
    {
     "symbol": "518800",
     "contribution_sum": 0.055486,
-    "share_of_return_sum": 0.0738
+    "share_of_return_sum": 0.0737
    },
    {
     "symbol": "159937",
     "contribution_sum": 0.052608,
-    "share_of_return_sum": 0.07
+    "share_of_return_sum": 0.0699
    },
    {
     "symbol": "518880",
     "contribution_sum": 0.05012,
-    "share_of_return_sum": 0.0667
+    "share_of_return_sum": 0.0666
    },
    {
     "symbol": "159980",
@@ -101,31 +101,31 @@
    {
     "symbol": "518850",
     "contribution_sum": 0.030415,
-    "share_of_return_sum": 0.0405
+    "share_of_return_sum": 0.0404
    },
    {
     "symbol": "518660",
     "contribution_sum": 0.03011,
-    "share_of_return_sum": 0.0401
+    "share_of_return_sum": 0.04
    },
    {
     "symbol": "518600",
     "contribution_sum": 0.026506,
-    "share_of_return_sum": 0.0353
+    "share_of_return_sum": 0.0352
    },
    {
     "symbol": "518680",
     "contribution_sum": 0.025906,
-    "share_of_return_sum": 0.0345
+    "share_of_return_sum": 0.0344
    }
   ],
-  "top1_share": 0.0745,
-  "top3_share": 0.2184,
+  "top1_share": 0.0744,
+  "top3_share": 0.2181,
   "positive_contribution_hhi": 0.0238,
   "shares_sum_all_names": 1.0,
-  "names_above_1pct_share": 40,
-  "names_negative": 69,
-  "total_return_sum": 0.751427,
+  "names_above_1pct_share": 41,
+  "names_negative": 68,
+  "total_return_sum": 0.752381,
   "unit_note": "shares are of the SUM of daily arithmetic returns, not of log growth; they add to 100% by construction and are unit-free"
  },
  "exposure": {
@@ -134,7 +134,7 @@
    {
     "symbol": "518880",
     "decisions_held": 39,
-    "share_of_decisions": 0.4699,
+    "share_of_decisions": 0.4643,
     "first_held": "2020-03-06",
     "last_held": "2025-10-16",
     "mean_weight_when_held": 0.0639
@@ -142,7 +142,7 @@
    {
     "symbol": "159934",
     "decisions_held": 38,
-    "share_of_decisions": 0.4578,
+    "share_of_decisions": 0.4524,
     "first_held": "2020-03-06",
     "last_held": "2025-09-10",
     "mean_weight_when_held": 0.0643
@@ -150,7 +150,7 @@
    {
     "symbol": "518800",
     "decisions_held": 37,
-    "share_of_decisions": 0.4458,
+    "share_of_decisions": 0.4405,
     "first_held": "2020-02-07",
     "last_held": "2025-10-16",
     "mean_weight_when_held": 0.0642
@@ -158,63 +158,63 @@
    {
     "symbol": "159937",
     "decisions_held": 36,
-    "share_of_decisions": 0.4337,
+    "share_of_decisions": 0.4286,
     "first_held": "2020-03-06",
     "last_held": "2025-10-16",
     "mean_weight_when_held": 0.0656
    },
    {
     "symbol": "511180",
-    "decisions_held": 33,
-    "share_of_decisions": 0.3976,
+    "decisions_held": 34,
+    "share_of_decisions": 0.4048,
     "first_held": "2021-08-25",
-    "last_held": "2026-06-15",
-    "mean_weight_when_held": 0.0672
+    "last_held": "2026-11-11",
+    "mean_weight_when_held": 0.0674
    },
    {
     "symbol": "511380",
     "decisions_held": 31,
-    "share_of_decisions": 0.3735,
+    "share_of_decisions": 0.369,
     "first_held": "2021-06-01",
     "last_held": "2026-06-15",
     "mean_weight_when_held": 0.0671
    },
    {
     "symbol": "510760",
-    "decisions_held": 28,
-    "share_of_decisions": 0.3373,
+    "decisions_held": 29,
+    "share_of_decisions": 0.3452,
     "first_held": "2021-09-24",
-    "last_held": "2026-08-11",
-    "mean_weight_when_held": 0.0648
+    "last_held": "2026-11-11",
+    "mean_weight_when_held": 0.0652
    },
    {
     "symbol": "513500",
-    "decisions_held": 28,
-    "share_of_decisions": 0.3373,
+    "decisions_held": 29,
+    "share_of_decisions": 0.3452,
     "first_held": "2020-02-07",
-    "last_held": "2026-07-14",
-    "mean_weight_when_held": 0.0587
+    "last_held": "2026-11-11",
+    "mean_weight_when_held": 0.0593
    },
    {
     "symbol": "159980",
     "decisions_held": 27,
-    "share_of_decisions": 0.3253,
+    "share_of_decisions": 0.3214,
     "first_held": "2021-03-03",
     "last_held": "2026-09-08",
     "mean_weight_when_held": 0.0654
    },
    {
     "symbol": "510210",
-    "decisions_held": 23,
-    "share_of_decisions": 0.2771,
+    "decisions_held": 24,
+    "share_of_decisions": 0.2857,
     "first_held": "2020-09-28",
-    "last_held": "2026-08-11",
-    "mean_weight_when_held": 0.0601
+    "last_held": "2026-11-11",
+    "mean_weight_when_held": 0.0607
    },
    {
     "symbol": "513100",
     "decisions_held": 23,
-    "share_of_decisions": 0.2771,
+    "share_of_decisions": 0.2738,
     "first_held": "2020-01-02",
     "last_held": "2026-10-14",
     "mean_weight_when_held": 0.0584
@@ -222,7 +222,7 @@
    {
     "symbol": "515450",
     "decisions_held": 19,
-    "share_of_decisions": 0.2289,
+    "share_of_decisions": 0.2262,
     "first_held": "2021-08-25",
     "last_held": "2026-07-14",
     "mean_weight_when_held": 0.0671
@@ -239,8 +239,8 @@
   "159934": {
    "solo": {
     "full": {
-     "cagr": 0.0891,
-     "sharpe": 0.924,
+     "cagr": 0.089,
+     "sharpe": 0.923,
      "maxdd": -0.1489,
      "vol": 0.1018,
      "years": 6.86
@@ -253,25 +253,25 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1745,
-     "sharpe": 1.656,
+     "cagr": 0.1742,
+     "sharpe": 1.653,
      "maxdd": -0.1064,
-     "vol": 0.1048,
+     "vol": 0.1047,
      "years": 2.86
     }
    },
-   "turnover": 0.926,
+   "turnover": 0.93,
    "delta_vs_base": {
     "cagr_pp": -0.75,
-    "sharpe": 0.924,
+    "sharpe": 0.923,
     "maxdd": -0.1489
    }
   },
   "518800": {
    "solo": {
     "full": {
-     "cagr": 0.0913,
-     "sharpe": 0.945,
+     "cagr": 0.0912,
+     "sharpe": 0.944,
      "maxdd": -0.1429,
      "vol": 0.1018,
      "years": 6.86
@@ -284,25 +284,25 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1779,
-     "sharpe": 1.681,
+     "cagr": 0.1776,
+     "sharpe": 1.679,
      "maxdd": -0.1063,
-     "vol": 0.105,
+     "vol": 0.1049,
      "years": 2.86
     }
    },
-   "turnover": 0.927,
+   "turnover": 0.931,
    "delta_vs_base": {
     "cagr_pp": -0.53,
-    "sharpe": 0.945,
+    "sharpe": 0.944,
     "maxdd": -0.1429
    }
   },
   "159937": {
    "solo": {
     "full": {
-     "cagr": 0.0907,
-     "sharpe": 0.939,
+     "cagr": 0.0906,
+     "sharpe": 0.938,
      "maxdd": -0.1496,
      "vol": 0.1019,
      "years": 6.86
@@ -315,17 +315,17 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1781,
-     "sharpe": 1.683,
+     "cagr": 0.1777,
+     "sharpe": 1.681,
      "maxdd": -0.1064,
-     "vol": 0.1049,
+     "vol": 0.1048,
      "years": 2.86
     }
    },
-   "turnover": 0.927,
+   "turnover": 0.931,
    "delta_vs_base": {
     "cagr_pp": -0.59,
-    "sharpe": 0.939,
+    "sharpe": 0.938,
     "maxdd": -0.1496
    }
   }
@@ -339,7 +339,7 @@
   ],
   "stats": {
    "full": {
-    "cagr": 0.0768,
+    "cagr": 0.0767,
     "sharpe": 0.814,
     "maxdd": -0.1868,
     "vol": 0.1009,
@@ -353,16 +353,16 @@
     "years": 3.99
    },
    "oos": {
-    "cagr": 0.1559,
-    "sharpe": 1.526,
+    "cagr": 0.1556,
+    "sharpe": 1.524,
     "maxdd": -0.1083,
-    "vol": 0.1026,
+    "vol": 0.1025,
     "years": 2.86
    }
   },
-  "turnover": 0.879,
+  "turnover": 0.883,
   "delta_cagr_pp": -1.98,
-  "delta_sharpe": -0.18
+  "delta_sharpe": -0.179
  },
  "leave_class_out": {
   "class": "commodity",
@@ -384,16 +384,16 @@
     "years": 3.99
    },
    "oos": {
-    "cagr": 0.1333,
-    "sharpe": 1.338,
+    "cagr": 0.1331,
+    "sharpe": 1.336,
     "maxdd": -0.1086,
-    "vol": 0.1015,
+    "vol": 0.1014,
     "years": 2.86
    }
   },
-  "turnover": 0.856,
-  "delta_cagr_pp": -3.7,
-  "delta_sharpe": -0.345,
+  "turnover": 0.861,
+  "delta_cagr_pp": -3.69,
+  "delta_sharpe": -0.344,
   "detail": "removing the whole commodity sleeve (41 ETFs); a top-k leave-out of names that share a class is partly a redundancy test, not a sleeve test"
  },
  "verdict": "BROAD|SURVIVES_WITHOUT_TOP3",

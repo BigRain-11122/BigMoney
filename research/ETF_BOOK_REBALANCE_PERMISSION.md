@@ -1,6 +1,6 @@
 # May the 2026-11-11 rebalance keep this size?
 
-ticket `TICKET-2026-11-11.json` | evidence cutoff 2026-11-11 | decision date 2026-11-11 | beta target 0.2
+ticket `TICKET-2026-11-12.json` | evidence cutoff 2026-11-12 | decision date 2026-11-11 | beta target 0.2
 
 **KEEP_SUPPORTED_BY_INDEPENDENT_PATH** — keeping k=0.432195 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.432195
 
@@ -8,12 +8,12 @@ ticket `TICKET-2026-11-11.json` | evidence cutoff 2026-11-11 | decision date 202
 |---|---|---|---|---|
 | baseline_published | 0.460253 | +2.81 | circular | the construction the ticket was priced from (k == k_now by identity) |
 | window | 0.747086 | +31.49 | path | measured on 771 bars |
-| universe | 0.432195 | +0.00 | path | measured on 1661 bars |
+| universe | 0.432195 | +0.00 | path | measured on 1662 bars |
 | window_x_universe | 0.667665 | +23.55 | path | measured on 771 bars |
 | denominator | 0.343508 | -8.87 | static | static composition, not a path: only comparable with the path rows because it is divided by covered weight |
 
-- money in force: k=0.432195 = CNY 431,697 of a CNY 1,000,000 NAV
-- permitted floor over 3 path reading(s): k=0.432195 = CNY 431,697
+- money in force: k=0.432195 = CNY 431,876 of a CNY 1,000,000 NAV
+- permitted floor over 3 path reading(s): k=0.432195 = CNY 431,876
 - cut if reprice is required: k -0.000000 (0.00pp) = CNY 0
 - supporters at the money: universe, window, window_x_universe (path: universe, window, window_x_universe / non-path: none)
 - the trap: reading 'some ruler permits a larger size' as permission reads k=0.747086 -> keep=True
@@ -21,7 +21,7 @@ ticket `TICKET-2026-11-11.json` | evidence cutoff 2026-11-11 | decision date 202
 ## supply side (carried, not re-judged)
 
 - book `nobond_vt08_adopted`: **CONDITIONAL** (failed: Y4_top2_share)
-- top-2 year share 0.7067 vs line 0.7
+- top-2 year share 0.7007 vs line 0.7
 
 ## not measured by this face
 

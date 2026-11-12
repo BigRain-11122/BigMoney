@@ -1,6 +1,6 @@
 {
  "ticket": "T-2026-09-24-29",
- "evidence_cutoff": "2026-11-11",
+ "evidence_cutoff": "2026-11-12",
  "generated_from": [
   "results/paper",
   "results/shortline/o1600_market_fit.json",
@@ -12,19 +12,68 @@
   {
    "trader": "COMPOSITE-CE-01",
    "paper_start": "2026-09-23",
-   "cutoff": "2026-11-11",
-   "bars": 30,
+   "cutoff": "2026-11-12",
+   "bars": 31,
    "months_tracked": 1,
    "partial_month": {
     "month": "2026-11",
     "return": 0.0009,
-    "bars": 8,
+    "bars": 9,
     "month_ended": false,
     "full_from_hire": true,
     "counted": false
    },
    "current_dd": -0.0204,
-   "num_trades": 6,
+   "num_trades": 7,
+   "win_rate": 0.4286,
+   "fill_guard_buy_dropped": 0,
+   "fill_guard_sell_deferred": 0,
+   "forward_guard": {
+    "enabled": true,
+    "guard_source": "t14_rules_fidelity.build_guard",
+    "buy_rejected_n": 0,
+    "sell_deferred_events_n": 0,
+    "deferred_days_total": 0,
+    "first_deferred_date": null,
+    "window_semantics": "guarded",
+    "as_of": "2026-11-12 15:31:57",
+    "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
+    "consolidation": {
+     "enabled": true,
+     "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
+     "events_total": 21,
+     "events_in_universe_n": 1,
+     "crossing_rows_n": 0,
+     "crossing_rows": [],
+     "open_position_hits": 0,
+     "closed_trade_hits": 0,
+     "semantics": "boundary-inclusive (s5): entry<=event<=mark/exit, both ends in; buy mask no-trade per C1; sell face untouched per C2 (option-b adjusted panel deferred per O-1325 art.2 b)",
+     "reporting_only": "marks +0, ledger +0, adjudication criteria unchanged (T-20 deliverable-4 lineage)",
+     "note": "buy_rejected_n in forward_guard may include consolidation drops when composed (C4 AND composition)"
+    }
+   },
+   "risk_regime": {
+    "is_major_bear": false,
+    "position_cap": 0.8,
+    "as_of": "2026-11-12"
+   }
+  },
+  {
+   "trader": "COMPOSITE-CE-02",
+   "paper_start": "2026-09-23",
+   "cutoff": "2026-11-12",
+   "bars": 31,
+   "months_tracked": 1,
+   "partial_month": {
+    "month": "2026-11",
+    "return": -0.0054,
+    "bars": 9,
+    "month_ended": false,
+    "full_from_hire": true,
+    "counted": false
+   },
+   "current_dd": -0.0319,
+   "num_trades": 14,
    "win_rate": 0.5,
    "fill_guard_buy_dropped": 0,
    "fill_guard_sell_deferred": 0,
@@ -36,7 +85,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-11-11 15:40:36",
+    "as_of": "2026-11-12 15:31:59",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
@@ -55,68 +104,19 @@
    "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-11-11"
-   }
-  },
-  {
-   "trader": "COMPOSITE-CE-02",
-   "paper_start": "2026-09-23",
-   "cutoff": "2026-11-11",
-   "bars": 30,
-   "months_tracked": 1,
-   "partial_month": {
-    "month": "2026-11",
-    "return": -0.0058,
-    "bars": 8,
-    "month_ended": false,
-    "full_from_hire": true,
-    "counted": false
-   },
-   "current_dd": -0.0319,
-   "num_trades": 11,
-   "win_rate": 0.4545,
-   "fill_guard_buy_dropped": 0,
-   "fill_guard_sell_deferred": 0,
-   "forward_guard": {
-    "enabled": true,
-    "guard_source": "t14_rules_fidelity.build_guard",
-    "buy_rejected_n": 0,
-    "sell_deferred_events_n": 0,
-    "deferred_days_total": 0,
-    "first_deferred_date": null,
-    "window_semantics": "guarded",
-    "as_of": "2026-11-11 15:40:37",
-    "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
-    "consolidation": {
-     "enabled": true,
-     "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
-     "events_total": 21,
-     "events_in_universe_n": 3,
-     "crossing_rows_n": 0,
-     "crossing_rows": [],
-     "open_position_hits": 0,
-     "closed_trade_hits": 0,
-     "semantics": "boundary-inclusive (s5): entry<=event<=mark/exit, both ends in; buy mask no-trade per C1; sell face untouched per C2 (option-b adjusted panel deferred per O-1325 art.2 b)",
-     "reporting_only": "marks +0, ledger +0, adjudication criteria unchanged (T-20 deliverable-4 lineage)",
-     "note": "buy_rejected_n in forward_guard may include consolidation drops when composed (C4 AND composition)"
-    }
-   },
-   "risk_regime": {
-    "is_major_bear": false,
-    "position_cap": 0.8,
-    "as_of": "2026-11-11"
+    "as_of": "2026-11-12"
    }
   },
   {
    "trader": "DROUGHT-CE-01",
    "paper_start": "2026-09-23",
-   "cutoff": "2026-11-11",
-   "bars": 30,
+   "cutoff": "2026-11-12",
+   "bars": 31,
    "months_tracked": 1,
    "partial_month": {
     "month": "2026-11",
     "return": 0.0023,
-    "bars": 8,
+    "bars": 9,
     "month_ended": false,
     "full_from_hire": true,
     "counted": false
@@ -134,7 +134,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-11-11 15:40:40",
+    "as_of": "2026-11-12 15:32:01",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
@@ -153,26 +153,26 @@
    "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-11-11"
+    "as_of": "2026-11-12"
    }
   },
   {
    "trader": "ENGULF-CE-01",
    "paper_start": "2026-09-23",
-   "cutoff": "2026-11-11",
-   "bars": 30,
+   "cutoff": "2026-11-12",
+   "bars": 31,
    "months_tracked": 1,
    "partial_month": {
     "month": "2026-11",
-    "return": 0.006,
-    "bars": 8,
+    "return": 0.0054,
+    "bars": 9,
     "month_ended": false,
     "full_from_hire": true,
     "counted": false
    },
    "current_dd": -0.017,
-   "num_trades": 5,
-   "win_rate": 0.4,
+   "num_trades": 6,
+   "win_rate": 0.5,
    "fill_guard_buy_dropped": 0,
    "fill_guard_sell_deferred": 0,
    "forward_guard": {
@@ -183,13 +183,13 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-11-11 15:40:42",
+    "as_of": "2026-11-12 15:32:03",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
      "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
      "events_total": 21,
-     "events_in_universe_n": 2,
+     "events_in_universe_n": 1,
      "crossing_rows_n": 0,
      "crossing_rows": [],
      "open_position_hits": 0,
@@ -202,19 +202,19 @@
    "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-11-11"
+    "as_of": "2026-11-12"
    }
   },
   {
    "trader": "NEEDLE-DE-01",
    "paper_start": "2026-09-23",
-   "cutoff": "2026-11-11",
-   "bars": 30,
+   "cutoff": "2026-11-12",
+   "bars": 31,
    "months_tracked": 1,
    "partial_month": {
     "month": "2026-11",
     "return": 0.0,
-    "bars": 8,
+    "bars": 9,
     "month_ended": false,
     "full_from_hire": true,
     "counted": false
@@ -232,7 +232,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-11-11 15:40:44",
+    "as_of": "2026-11-12 15:32:05",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
@@ -251,24 +251,24 @@
    "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-11-11"
+    "as_of": "2026-11-12"
    }
   },
   {
    "trader": "VOLATILITY-CE-01",
    "paper_start": "2026-09-23",
-   "cutoff": "2026-11-11",
-   "bars": 30,
+   "cutoff": "2026-11-12",
+   "bars": 31,
    "months_tracked": 1,
    "partial_month": {
     "month": "2026-11",
-    "return": -0.0002,
-    "bars": 8,
+    "return": -0.0004,
+    "bars": 9,
     "month_ended": false,
     "full_from_hire": true,
     "counted": false
    },
-   "current_dd": -0.0079,
+   "current_dd": -0.0081,
    "num_trades": 5,
    "win_rate": 0.6,
    "fill_guard_buy_dropped": 0,
@@ -281,7 +281,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-11-11 15:40:45",
+    "as_of": "2026-11-12 15:32:06",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
@@ -300,19 +300,19 @@
    "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-11-11"
+    "as_of": "2026-11-12"
    }
   }
  ],
  "paper_export_face": {
-  "export_date": "2026-11-11",
+  "export_date": "2026-11-12",
   "schema": "t35_paper_export_v1",
   "summary": {
    "traders": 6,
-   "total_equity_cny": 5945887.88,
-   "total_positions": 20,
-   "entries_today": 1,
-   "exits_today": 0,
+   "total_equity_cny": 5945513.43,
+   "total_positions": 15,
+   "entries_today": 0,
+   "exits_today": 5,
    "exits_not_derivable_first_snapshot": false
   },
   "traders": [
@@ -320,25 +320,25 @@
     "trader": "COMPOSITE-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 988417.56,
-     "positions_value": 851660.64,
-     "cash": 136756.92,
+     "equity": 988427.96,
+     "positions_value": 758575.68,
+     "cash": 229852.28,
      "denomination": "CNY"
     },
-    "positions_count": 5,
+    "positions_count": 4,
     "operations_today_count": 1
    },
    {
     "trader": "COMPOSITE-CE-02",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 978557.88,
-     "positions_value": 769526.06,
-     "cash": 209031.82,
+     "equity": 978872.35,
+     "positions_value": 532899.35,
+     "cash": 445973.0,
      "denomination": "CNY"
     },
-    "positions_count": 8,
-    "operations_today_count": 0
+    "positions_count": 5,
+    "operations_today_count": 3
    },
    {
     "trader": "DROUGHT-CE-01",
@@ -356,13 +356,13 @@
     "trader": "ENGULF-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 992398.42,
-     "positions_value": 66337.09,
-     "cash": 926061.33,
+     "equity": 991877.67,
+     "positions_value": 51941.75,
+     "cash": 939935.92,
      "denomination": "CNY"
     },
-    "positions_count": 2,
-    "operations_today_count": 0
+    "positions_count": 1,
+    "operations_today_count": 1
    },
    {
     "trader": "NEEDLE-DE-01",
@@ -380,8 +380,8 @@
     "trader": "VOLATILITY-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 992063.59,
-     "positions_value": 397083.31,
+     "equity": 991885.02,
+     "positions_value": 396904.74,
      "cash": 594980.28,
      "denomination": "CNY"
     },

@@ -165,6 +165,18 @@
    "n_held": 12,
    "filled": false,
    "turn": 0.0,
+   "provisional": false,
+   "settled_at": "2026-11-12T15:58:11+0800"
+  },
+  {
+   "bar": "2026-11-12",
+   "nav": 1.0110335008,
+   "dd": -0.004928,
+   "cash": 0.090616,
+   "carry": 1.13268e-05,
+   "n_held": 12,
+   "filled": true,
+   "turn": 1.259772,
    "provisional": true
   }
  ],
@@ -214,10 +226,9 @@
  "drift": {
   "faces": [],
   "max_abs": 0.0,
-  "checked_bars": 14,
+  "checked_bars": 15,
   "gate": "settled_bars_only",
   "settled_bars": [
-   "2026-10-28",
    "2026-10-29",
    "2026-10-30",
    "2026-11-02",
@@ -226,10 +237,11 @@
    "2026-11-05",
    "2026-11-06",
    "2026-11-09",
-   "2026-11-10"
+   "2026-11-10",
+   "2026-11-11"
   ],
   "provisional_bars": [
-   "2026-11-11"
+   "2026-11-12"
   ],
   "carry_last_bar": "2026-11-11",
   "settled_faces": [],
@@ -260,16 +272,6 @@
   }
  ],
  "runs": [
-  {
-   "ts": "2026-10-26T04:33:29+0800",
-   "new_bars": 0,
-   "last_bar": "2026-10-23"
-  },
-  {
-   "ts": "2026-10-26T04:56:12+0800",
-   "new_bars": 0,
-   "last_bar": "2026-10-23"
-  },
   {
    "ts": "2026-10-26T06:04:39+0800",
    "new_bars": 0,
@@ -459,20 +461,39 @@
    "ts": "2026-11-12T00:38:43+0800",
    "new_bars": 0,
    "last_bar": "2026-11-11"
+  },
+  {
+   "ts": "2026-11-12T15:47:56+0800",
+   "new_bars": 1,
+   "last_bar": "2026-11-12"
+  },
+  {
+   "ts": "2026-11-12T15:58:15+0800",
+   "new_bars": 0,
+   "last_bar": "2026-11-12"
   }
  ],
  "panel": {
-  "n_instruments": 1626,
+  "n_instruments": 1628,
   "flips_repaired": 169,
-  "digest": "847538eb2befb766",
-  "bars_named": 5278,
+  "digest": "e383c3a68f5f98af",
+  "bars_named": 5279,
   "first_bar": "2005-02-23",
-  "last_bar": "2026-11-11",
+  "last_bar": "2026-11-12",
   "covers": [
    "close",
    "open",
    "amount"
-  ]
+  ],
+  "sibling_faces": {
+   "priced_face": "prefixed (sh|sz<code>.csv; _dedupe prefers it)",
+   "priced_tail": "2026-11-12",
+   "bare_face_tail": "2026-11-12",
+   "bare_face_symbols": 49,
+   "wide_face_tail": "2026-11-12",
+   "wide_face_symbols": 1676,
+   "priced_face_lags_bare_sessions": null
+  }
  },
  "caveats": [
   "The ETF pool is today's listed set: survivorship is still in the equity sleeve.",
@@ -601,43 +622,51 @@
     "filled": false,
     "book_nav": 1.0160407434,
     "excess": 0.0151952999
+   },
+   {
+    "bar": "2026-11-12",
+    "nav": 0.9908607225,
+    "filled": true,
+    "book_nav": 1.0110335008,
+    "excess": 0.0203588434
    }
   ],
   "rebalance_friction": {
-   "turnover_per_decision": 0.0147,
-   "bp_per_year_if_charged": 1.793,
-   "note": "weight drift a real equal-weight basket must re-equalise; the engine convention charges it on NEITHER arm (the book's holdings drift the same way), so it is sized here, not booked"
+   "turnover_per_decision": 0.014599,
+   "bp_per_year_charged": 1.781,
+   "charged": true,
+   "note": "weight drift a real equal-weight basket must re-equalise. It IS booked: this basket pays `cost x turnover` at every fill, and so does the book -- the same convention on both arms. The number beside this note is the size of that charge, not an extra one to add on top (the old wording said 'charged on neither arm' while the fill loop multiplied by it)."
   },
-  "decisions": 83,
+  "decisions": 84,
   "latest": {
-   "bar": "2026-11-11",
-   "book_nav": 1.0160407434,
-   "basket_nav": 1.000832789,
-   "excess_pp": 1.5195
+   "bar": "2026-11-12",
+   "book_nav": 1.0110335008,
+   "basket_nav": 0.9908607225,
+   "excess_pp": 2.0359
   },
   "significance": {
    "available": true,
-   "bars_used": 1660,
-   "windows": "2020-01-02..2026-11-11",
-   "daily_vol_pct": 0.54114,
+   "bars_used": 1661,
+   "windows": "2020-01-02..2026-11-12",
+   "daily_vol_pct": 0.54112,
    "annual_vol_pct": 8.453,
    "noise_band_pp": {
     "1m": 4.743,
-    "3m": 8.216,
-    "1y": 16.568,
-    "3y": 28.696
+    "3m": 8.215,
+    "1y": 16.567,
+    "3y": 28.695
    },
-   "noise_band_pp_at_published": 3.969,
-   "published_bars": 14,
+   "noise_band_pp_at_published": 4.108,
+   "published_bars": 15,
    "bars_needed_for_edge": {
     "3pp/yr": 7749,
     "5pp/yr": 2790,
     "10pp/yr": 698
    },
    "min_detectable_edge_pp": {
-    "1y": 16.906,
-    "3y": 9.761,
-    "5y": 7.561
+    "1y": 16.905,
+    "3y": 9.76,
+    "5y": 7.56
    },
    "power": {
     "units": {
@@ -650,14 +679,14 @@
     "z": 2.802,
     "annual_vol_pct": 8.453,
     "min_detectable_edge_pp": {
-     "6m": 33.496,
-     "1y": 23.685,
-     "2y": 16.748,
-     "3y": 13.675
+     "6m": 33.495,
+     "1y": 23.684,
+     "2y": 16.747,
+     "3y": 13.674
     },
     "years_for_80pct_power": {
      "pre-2020 measured alpha (single arm)": 136.1,
-     "in-window measured alpha (single arm)": 15.8
+     "in-window measured alpha (single arm)": 16.0
     },
     "candidate_sources": {
      "pre-2020 measured alpha (single arm)": {
@@ -668,13 +697,13 @@
      "in-window measured alpha (single arm)": {
       "file": "results/etf_book_spanning.json",
       "field": "arms.book.full.alpha_annual",
-      "edge_pp_per_year": 5.95
+      "edge_pp_per_year": 5.93
      }
     },
     "available": true,
     "read": "a spread inside these bands is not evidence either way: at 12 months this ledger can only resolve edges above its 1y band, and the two edges this book actually published need years, not months"
    },
-   "book_cagr_pct_on_same_window": 9.227,
+   "book_cagr_pct_on_same_window": 9.142,
    "read": "a spread smaller than the band at the bar count it was measured over is indistinguishable from noise; the band shrinks as sqrt(bars), not faster"
   }
  },
@@ -742,7 +771,7 @@
   }
  ],
  "ledger_history": {
-  "bars": 14,
+  "bars": 15,
   "restated_bars": [
    {
     "bar": "2026-10-29",
@@ -780,68 +809,73 @@
   "n_withdrawn": 1,
   "verdict": "2 published bar(s) were restated after publication (2 recorded before rows carried the published value)"
  },
- "pending_fill": {
-  "decided_bar": "2026-11-11",
-  "fills_at_bar": null,
-  "pending_scale": 0.909384,
-  "pending_names": [
-   "159207",
-   "159519",
-   "159655",
-   "510210",
-   "510760",
-   "511180",
-   "512040",
-   "513500",
-   "513630",
-   "513650",
-   "513690",
-   "562060"
-  ],
-  "n_pending": 12,
-  "held_scale": 0.700775,
-  "held_cash": 0.299225,
-  "names_added": [
-   "159519",
-   "159655",
-   "510210",
-   "510760",
-   "511180",
-   "512040",
-   "513500",
-   "513650",
-   "562060"
-  ],
-  "names_dropped": [
-   "159263",
-   "159307",
-   "159501",
-   "159577",
-   "159632",
-   "513100",
-   "513300",
-   "513850",
-   "513870"
-  ],
-  "turnover": 1.259772,
-  "cost_bp_of_nav": 12.6,
-  "cost_cny": 1279.98,
-  "capital_cny": 1000000.0,
-  "marked_bar": "2026-11-11",
-  "marked_bar_holds": "the book held DURING that bar; the pending book fills after it",
-  "cost_basis": "turnover x 0.001 per side x nav at the close of the decision bar"
- },
- "fill_log": [],
+ "pending_fill": null,
+ "fill_log": [
+  {
+   "bar": "2026-11-12",
+   "fills_at_bar": "2026-11-12",
+   "turnover": 1.259772,
+   "cost_bp_of_nav": 12.6,
+   "capital_cny": 1000000.0,
+   "cost_cny": 1273.67,
+   "basis": "turnover x 0.001 per side x nav of the bar that fills it",
+   "roster": {
+    "entered": [
+     "159519",
+     "159655",
+     "510210",
+     "510760",
+     "511180",
+     "512040",
+     "513500",
+     "513650",
+     "562060"
+    ],
+    "exited": [
+     "159263",
+     "159307",
+     "159501",
+     "159577",
+     "159632",
+     "513100",
+     "513300",
+     "513850",
+     "513870"
+    ],
+    "kept": [
+     "159207",
+     "513630",
+     "513690"
+    ],
+    "n_before": 12,
+    "n_after": 12,
+    "scale_before": 0.700775,
+    "scale_after": 0.909384,
+    "turnover": 1.259772,
+    "source": "deterministic replay of the same panel",
+    "derived_at": "2026-11-12T16:25:37+0800",
+    "note": "this receipt was published before rosters existed; the names are the engine's own replay of the same panel, attached only because the turnover matches"
+   }
+  }
+ ],
  "pending_fill_check": {
+  "ok": true,
+  "code": "no_pending",
+  "problems": [],
+  "checked": {
+   "head_bar": "2026-11-12",
+   "has_pending": false
+  }
+ },
+ "fill_log_check": {
   "ok": true,
   "code": "ok",
   "problems": [],
   "checked": {
-   "head_bar": "2026-11-11",
-   "has_pending": true,
-   "decided_bar": "2026-11-11",
-   "fills_at_bar": null,
-   "turnover": 1.259772
+   "entries": 1,
+   "bars": [
+    "2026-11-12"
+   ]
   }
  }
 }

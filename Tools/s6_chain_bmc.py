@@ -336,7 +336,13 @@ LEGS = [
     # r1521 also changed WHICH book it subtracts (the sheet's own post-swap book, not the
     # entry sheet), so the stored face from before that change would otherwise sit there
     # quoting a 313,763 CNY round trip the page no longer orders. ~0.3s, offline.
-    ("etf_book_exec_delta", ["python", "scripts/etf_book_exec_delta.py", "check"]),
+    # r1585: this leg was CHECK-ONLY -- nobody wrote the face, so it was green for exactly
+    # as long as the previous bar's ticket happened to be newest, and every new bar turned
+    # it red with "two bars cannot be subtracted" while the operator's page lost its trade
+    # table. It now WRITES on the newest ticket (the statement on that ticket's own bar,
+    # disclosed), and the check leg right after it re-derives what was just published.
+    ("etf_book_exec_delta", ["python", "scripts/etf_book_exec_delta.py", "run"]),
+    ("etf_book_exec_delta_check", ["python", "scripts/etf_book_exec_delta.py", "check"]),
     # r1333: the ticket above is a 5-name beta-overlay book while the card and the ledger
     # run 12 names at an 8% vol target -- two published books with one operator. This leg
     # issues the ticket FOR the card's own config (names, weights and scale read off the

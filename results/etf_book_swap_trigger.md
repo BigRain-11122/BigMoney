@@ -1,6 +1,6 @@
 # ETF book -- after the swap, when do I have to look again?
 
-session `2026-11-11` | ticket `TICKET-2026-11-11.json` | source `results/etf_book_sibling_gap.json`
+session `2026-11-11` | ticket `TICKET-2026-11-12.json` | source `results/etf_book_sibling_gap.json`
 
 **nothing to act on: no pair clears the toll of the exchange. After execution the only number that can bring the decision back is the toll of the exchange it would have to make: re-read this face on the next decision bar, and act again only if a pair's gap exceeds 0.16 pp (2 sides x 8 bp). Getting the book back where it came from pays that same exchange once more, so the whole manoeuvre is 0.32 pp (4 sides) -- that number answers 'did the discount pay for the trip', never 'may I act'.**
 

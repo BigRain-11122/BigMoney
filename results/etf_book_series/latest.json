@@ -1,18 +1,18 @@
 {
- "evidence_cutoff": "2026-11-11",
+ "evidence_cutoff": "2026-11-12",
  "script": "scripts/etf_book_nav_envelope.py",
  "config": {
   "n_hold": 12,
   "rebal": 20,
   "vol_target": 0.08,
   "cost_bp_per_side": 10.0,
-  "universe_symbols": 1517,
+  "universe_symbols": 1519,
   "flips_repaired": 169
  },
  "backtest": {
   "full": {
-   "cagr": 0.0966,
-   "sharpe": 0.994,
+   "cagr": 0.0965,
+   "sharpe": 0.993,
    "maxdd": -0.1177,
    "vol": 0.1019,
    "years": 6.86
@@ -25,30 +25,30 @@
    "years": 3.99
   },
   "oos": {
-   "cagr": 0.184,
-   "sharpe": 1.736,
+   "cagr": 0.1837,
+   "sharpe": 1.734,
    "maxdd": -0.107,
-   "vol": 0.1048,
+   "vol": 0.1047,
    "years": 2.86
   },
-  "turnover_per_decision": 0.934,
+  "turnover_per_decision": 0.938,
   "n_hold": 12,
   "vol_target": 0.08,
   "cost_bp": 10.0
  },
- "bars": 1660,
- "bars_per_year": 241.993,
+ "bars": 1661,
+ "bars_per_year": 242.042,
  "first_bar": "2020-01-03",
- "last_bar": "2026-11-11",
+ "last_bar": "2026-11-12",
  "panel_tail": {
   "dropped": false,
   "rows_refused": 0,
   "floor": 0.5,
   "lookback": 20,
-  "reference_coverage": 1624,
-  "last_bar_named": "2026-11-11",
+  "reference_coverage": 1626,
+  "last_bar_named": "2026-11-12",
   "last_bar_kept": null
  },
  "note": "the production cell's own daily path, published so bootstrap/replay studies do not have to reload the panel; NAV is normalised to 1.0 at the first bar",
- "file": "NAV-2026-11-11.json"
+ "file": "NAV-2026-11-12.json"
 }

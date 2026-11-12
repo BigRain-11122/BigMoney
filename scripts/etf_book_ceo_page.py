@@ -1909,12 +1909,19 @@ def floor_provenance_block(fp, vt=None, page_bar=None):
     return L
 
 
-def executed_face(ticket=None):
+def executed_face(ticket=None, fills=None):
     """What today's ticket did to the account, from the stack it was netted through.
 
     The order sheet is the pre-trade target; the account is what came out the other side.
     Without this face the two tables contradict each other by a leg and nothing on the page
-    says which one is stale (r1506: five rows on the sheet, four legs in the account)."""
+    says which one is stale (r1506: five rows on the sheet, four legs in the account).
+
+    r1585: "this ticket has no trade rows" and "this bar did not trade" are different
+    statements, and on 2026-11-12 the page printed the second one about a bar that filled
+    12 names at turnover 1.2598 -- the trades belonged to the PREVIOUS decision. So a
+    ticket without rows asks the ledger's own receipt (`fill_log`) about its bar, and says
+    which of the two happened.
+    """
     ticket = ticket or {}
     ss = ticket.get("swap_stack") or {}
     pos = ticket.get("positions") or {}
@@ -1935,6 +1942,11 @@ def executed_face(ticket=None):
                             "amount_cny": None, "why": None, "priced": False})
             src = src or "ledger_row"
     if not actions:
+        asof = str(ticket.get("as_of") or "")
+        hit = [e for e in (fills or []) if asof and str(e.get("bar") or "") == asof]
+        if hit:
+            return {"status": "ledger_fill", "asof": asof, "fill": hit[-1],
+                    "detail": "这张票本身没有再换仓，账本在 %s 这根 bar 上成交过" % asof}
         return {"status": "none",
                 "detail": "这张票没有留下成交行（空票或本 bar 未换仓）"}
     sold = sum(a["amount_cny"] or 0.0 for a in actions
@@ -1964,6 +1976,29 @@ def executed_block(ex, sheet_symbols=None):
     add("## 这张票在账本里实际成交了什么")
     add("")
     ex = ex or {}
+    if ex.get("status") == "ledger_fill":
+        f = ex.get("fill") or {}
+        ro = f.get("roster") or {}
+        add("**这张票本身没有换仓动作；账本在 %s 这根 bar 上换过一次**（那笔成交属于前一次决策，"
+            "不是今天这张单）。" % (f.get("bar") or "—"))
+        add("")
+        if ro:
+            add("- 换手 %s｜成本 %s｜k %s → %s（%s 名 → %s 名）" % (
+                ("%.4f" % float(f.get("turnover"))) if f.get("turnover") is not None else "—",
+                ("%.2fbp" % float(f.get("cost_bp_of_nav"))) if f.get("cost_bp_of_nav") is not None else "—",
+                ("%.4f" % float(ro.get("scale_before"))) if ro.get("scale_before") is not None else "—",
+                ("%.4f" % float(ro.get("scale_after"))) if ro.get("scale_after") is not None else "—",
+                ro.get("n_before"), ro.get("n_after")))
+            add("- 进：%s" % ("、".join(ro.get("entered") or []) or "无"))
+            add("- 出：%s" % ("、".join(ro.get("exited") or []) or "无"))
+            add("- 没动：%s" % ("、".join(ro.get("kept") or []) or "无"))
+            add("- 名册出处：%s" % (ro.get("source") or "—"))
+        else:
+            add("- **账本只记了成本，没有记名册**（`fill_log` 这一条没有 `roster`）："
+                "换手 %s、成本 %s——买进卖出的是哪几只，本页说不出，别把它读成「只调了份数」。"
+                % (f.get("turnover"), f.get("cost_bp_of_nav")))
+        add("")
+        return L
     if ex.get("status") != "ok":
         add("这张票读不到成交行（%s）——**所以上面那张清单和账上的持仓差在哪，本页说不出**；"
             "别把「没印出来」读成「没有成交」。" % (ex.get("detail") or "无读数"))
@@ -5501,7 +5536,7 @@ def build(with_stress=False, window_label=None):
     page["floor_provenance"] = floor_provenance_face()
     page["vol_target_gate"] = vol_target_face()
     page["positions"] = positions_face()
-    page["executed"] = executed_face(tk)
+    page["executed"] = executed_face(tk, fills=(page.get("fill") or {}).get("fills"))
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
     page["envelope"] = envelope_face()
@@ -8969,6 +9004,30 @@ def selftest():
         "没有留下成交行" in _ex_none_txt and "| 方向 |" not in _ex_none_txt
         and "没有成交" not in _ex_none_txt.replace("「没有成交」", ""),
         "len=%d" % len(_ex_none_txt))
+    # r1585: measured on the live page -- the same paper said「2026-11-12 成交：换手 1.2598」
+    # eight lines above「本 bar 未换仓」. A ticket with no rows on a bar the LEDGER filled is
+    # a third state, and it has to name the trade that did happen (with its roster).
+    _fills = [{"bar": "2026-11-12", "turnover": 1.259772, "cost_bp_of_nav": 12.6,
+               "cost_cny": 1273.67,
+               "roster": {"entered": ["159519", "510760"], "exited": ["159263", "159501"],
+                          "kept": ["513690"], "n_before": 3, "n_after": 3,
+                          "scale_before": 0.700775, "scale_after": 0.909384,
+                          "source": "engine state at the fill"}}]
+    _ex_lf = executed_face({"as_of": "2026-11-12"}, fills=_fills)
+    _ex_lf_txt = "\n".join(executed_block(_ex_lf))
+    chk("L177 executed face: a bar the ledger filled is not 'this bar did not trade'",
+        _ex_lf.get("status") == "ledger_fill"
+        and "没有换仓动作" in _ex_lf_txt and "2026-11-12" in _ex_lf_txt
+        and "进：159519、510760" in _ex_lf_txt and "出：159263、159501" in _ex_lf_txt
+        and "0.7008 → 0.9094" in _ex_lf_txt and "未换仓" not in _ex_lf_txt,
+        "len=%d" % len(_ex_lf_txt))
+    _ex_lf_bare = "\n".join(executed_block(
+        executed_face({"as_of": "2026-11-12"},
+                      fills=[dict(_fills[0], roster=None)])))
+    chk("L178 executed face: a fill whose receipt has no roster says so instead of reading 0 names",
+        "没有记名册" in _ex_lf_bare and "进：" not in _ex_lf_bare, "len=%d" % len(_ex_lf_bare))
+    chk("L179 executed face: another bar's fill is not this ticket's fill",
+        executed_face({"as_of": "2026-11-10"}, fills=_fills).get("status") == "none")
     # r1514: the per-name decomposition of what the floor cut. Three ways to lie: absent
     # reads as "nothing was cut", rows that do not add up to their own total, and another
     # sheet's table pasted onto this page.

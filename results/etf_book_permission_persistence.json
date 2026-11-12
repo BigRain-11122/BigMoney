@@ -1,12 +1,12 @@
 {
  "face": "etf_book_permission_persistence",
- "evidence_cutoff": "2026-11-11",
+ "evidence_cutoff": "2026-11-12",
  "question": "how many decision bars does the 11-11 trim (gap_k) survive before the schedule climbs back over the level it cut from?",
  "slack_k": 0.0,
  "slack_source": "results/etf_book_cut_order_gap.json",
  "decision_bar": "2026-11-11",
- "k_order": 0.393073,
- "k_permitted": 0.393073,
+ "k_order": 0.432195,
+ "k_permitted": 0.432195,
  "permission_enforcers": [
   "scripts/etf_book_ceo_page.py",
   "scripts/etf_book_order.py"
@@ -20,8 +20,8 @@
   "ok": true
  },
  "schedule": {
-  "panel_last_bar": "2026-11-11",
-  "panel_symbols": 1516,
+  "panel_last_bar": "2026-11-12",
+  "panel_symbols": 1518,
   "market": "510300",
   "beta_target": 0.2
  },
@@ -179,6 +179,6 @@
  ],
  "verdict": "TRIM_LASTS_A_FEW_CYCLES",
  "sentence": "Drops of the trim's size needed a median of 3.0 decision bars to be undone (14 events, 6 never returned inside the sample), against a typical step of 0.00pp.",
- "elapsed_sec": 46.62,
- "generated": "2026-11-11T17:45:22+0800"
+ "elapsed_sec": 53.45,
+ "generated": "2026-11-12T16:53:05+0800"
 }

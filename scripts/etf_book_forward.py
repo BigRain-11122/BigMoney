@@ -117,6 +117,75 @@ CAVEATS = [
 PANEL_DIGEST = {}
 
 
+def _tail_date(path):
+    """Last CSV row's date, read from the tail bytes (a 5,000-row file is not worth parsing)."""
+    try:
+        with open(path, "rb") as fh:
+            fh.seek(0, os.SEEK_END)
+            n = fh.tell()
+            fh.seek(max(0, n - 400))
+            blob = fh.read().decode("utf-8", "replace")
+    except OSError:
+        return None
+    rows = [r for r in blob.splitlines() if r.strip()]
+    if len(rows) < 2:            # a 400-byte window holding only the header
+        return None
+    head = rows[-1].split(",")[0].strip()[:10]
+    return head if head[:2].isdigit() else None
+
+
+def sibling_faces(priced_tail=None):
+    """r1585: the ledger says "no new panel bars" while the same repo holds a face that has one.
+
+    data/daily carries two files for the same code: `<code>.csv` (the core48 face that
+    update_daily keeps) and `sh|sz<code>.csv` (the wide face). _dedupe prefers the
+    prefixed file, so on 2026-11-12 the bare face already held 48 symbols at the
+    finished 11-12 session while the priced face ended at 11-11 -- the ledger said
+    NO-OP and nothing said why, which a reader can only take as "there is no data
+    today". This records both tails and the official sessions between them. It does
+    not change the price source: pricing the bare face instead would be a different
+    book (every published row would move), so the fix is disclosure.
+    """
+    d = PATHS.daily_dir
+    bare, wide = [], []
+    try:
+        names = os.listdir(d)
+    except OSError:
+        names = []
+    for name in names:
+        if not name.endswith(".csv"):
+            continue
+        stem = name[:-4]
+        t = _tail_date(os.path.join(d, name))
+        if not t:
+            continue
+        if stem[:2] in ("sh", "sz") and stem[2:8].isdigit():
+            wide.append(t)
+        else:
+            bare.append(t)
+    b = max(bare) if bare else None
+    w = max(wide) if wide else None
+    priced = priced_tail or w
+    lag = None
+    if b and priced and b > priced:
+        try:
+            import exchange_calendar_audit as CA     # official calendar owner (E136)
+            days = CA.load_calendar()
+            lag = len([x for x in days if priced < x <= b]) or None
+        except Exception:                                # noqa: BLE001
+            lag = None                                   # unreadable is not zero
+    out = {"priced_face": "prefixed (sh|sz<code>.csv; _dedupe prefers it)",
+           "priced_tail": priced,
+           "bare_face_tail": b, "bare_face_symbols": len(bare),
+           "wide_face_tail": w, "wide_face_symbols": len(wide),
+           "priced_face_lags_bare_sessions": lag}
+    if lag:
+        out["note"] = ("bare 面 %d 只已到 %s，账本价格面停在 %s（落后 %d 个交易日）："
+                       "这里的 NO-OP 说的是「价格面没走到下一根 bar」，"
+                       "不是「这一天没有数据」" % (len(bare), b, priced, lag))
+    return out
+
+
 def _panel_block(cls, n_flip):
     """The ledger's own statement of WHICH panel it priced, not just that it repaired (r1178)."""
     blk = {"n_instruments": len(cls), "flips_repaired": n_flip}
@@ -135,6 +204,10 @@ def _panel_block(cls, n_flip):
         blk["refused_last_bar"] = _tail.get("last_bar_named")
         blk["coverage_floor"] = _tail.get("floor")
         blk["reference_coverage"] = _tail.get("reference_coverage")
+    # r1585: say which sibling face the priced one is running behind, so a NO-OP is
+    # never read as "there was no data today".
+    if blk.get("last_bar"):
+        blk["sibling_faces"] = sibling_faces(blk.get("last_bar"))
     return blk
 
 
@@ -316,6 +389,11 @@ class Forward:
         self.n_fill = 0
         self.books = {}
         self.last_decision = None
+        # r1585: the roster of every fill, captured while the engine still knows both books.
+        # After the fill the state machine keeps only the new book and drops `pending`, so a
+        # receipt written from the rows alone could name the cost of a trade but never the
+        # names in it -- the first real fill (2026-11-12) was exactly that.
+        self.fill_rosters = {}
 
     def _decide(self, d):
         s = self.score.loc[d].dropna()
@@ -377,6 +455,7 @@ class Forward:
                     elif carry:
                         self.nav *= (1.0 + carry)
                     new, turn = self.pending
+                    held_before = dict(self.held)
                     # cost may be a scalar rate or a callable pricing THIS decision
                     # (prev, new, d) -- the ImpactCost contract of the capacity ladder
                     rate = (self.cost(self.held, new, d) if callable(self.cost)
@@ -386,6 +465,16 @@ class Forward:
                     self.n_fill += 1
                     self.held, self.pending = new, None
                     filled = True
+                    self.fill_rosters[str(d.date())] = {
+                        "entered": sorted(set(new) - set(held_before)),
+                        "exited": sorted(set(held_before) - set(new)),
+                        "kept": sorted(set(held_before) & set(new)),
+                        "n_before": len(held_before),
+                        "n_after": len(new),
+                        "scale_before": round(float(sum(held_before.values())), 6),
+                        "scale_after": round(float(sum(new.values())), 6),
+                        "turnover": round(float(turn), 6),
+                    }
                     r = self._ret(self.held, open_d, self.px.loc[d])
                     if r is not None:
                         self.nav *= (1.0 + r)
@@ -448,9 +537,11 @@ def bench_block(dates, rebal_days, base_bar, cost=None):
     same decision bars, the same next-open fill and the same fixed-weight convention, so
     a gap is a portfolio difference and not a calendar difference.
 
-    Turnover is measured on the WEIGHT DRIFT that build-up produces between fills: the
-    engine's convention does not charge it on either arm, so it is published as a
-    friction estimate (`rebalance_friction`) rather than silently charged on one side.
+    Turnover is measured on the WEIGHT DRIFT that build-up produces between fills. Both
+    arms charge it at the fill (`cost x turnover`), so `rebalance_friction` publishes the
+    SIZE of that charge -- not an extra one (the pre-r1585 note claimed "charged on neither
+    arm" while the loop below multiplied by it, and a selftest leg was written to that
+    claim; it could only pass while the window held no fill).
     """
     cost = CONFIG["cost_per_side"] if cost is None else cost
     px_b, op_b, keys, n_flip = _bench_frames(dates)
@@ -520,10 +611,13 @@ def bench_block(dates, rebal_days, base_bar, cost=None):
         "bars": bars,
         "rebalance_friction": {
             "turnover_per_decision": round(mean_turn, 6),
-            "bp_per_year_if_charged": round(mean_turn * cost * per_year * 10000.0, 3),
-            "note": ("weight drift a real equal-weight basket must re-equalise; the engine "
-                     "convention charges it on NEITHER arm (the book's holdings drift the "
-                     "same way), so it is sized here, not booked"),
+            "bp_per_year_charged": round(mean_turn * cost * per_year * 10000.0, 3),
+            "charged": True,
+            "note": ("weight drift a real equal-weight basket must re-equalise. It IS booked: "
+                     "this basket pays `cost x turnover` at every fill, and so does the book "
+                     "-- the same convention on both arms. The number beside this note is the "
+                     "size of that charge, not an extra one to add on top (the old wording said "
+                     "'charged on neither arm' while the fill loop multiplied by it)."),
         },
         "decisions": len(turns),
     }
@@ -875,7 +969,37 @@ def pending_fill_line(pf, cal_dates=None, today=None):
                len(pf.get("names_added") or []), len(pf.get("names_dropped") or [])))
 
 
-def sync_fill_log(led):
+def _attach_roster(entry, roster, source):
+    """Copy the engine's roster onto a receipt, but only if it is the same trade.
+
+    The turnover printed on the record and the turnover the engine measured on that fill
+    bar both describe the same trade from opposite ends; if they disagree the roster
+    belongs to another book and attaching it would be an invented receipt.
+    """
+    if not roster:
+        return False
+    try:
+        same = abs(float(roster.get("turnover") or 0.0)
+                   - float(entry.get("turnover") or 0.0)) <= 1e-6
+    except (TypeError, ValueError):
+        same = False
+    if not same:
+        return False
+    entry["roster"] = {
+        "entered": list(roster.get("entered") or []),
+        "exited": list(roster.get("exited") or []),
+        "kept": list(roster.get("kept") or []),
+        "n_before": roster.get("n_before"),
+        "n_after": roster.get("n_after"),
+        "scale_before": roster.get("scale_before"),
+        "scale_after": roster.get("scale_after"),
+        "turnover": roster.get("turnover"),
+        "source": source,
+    }
+    return True
+
+
+def sync_fill_log(led, rosters=None):
     """Every row marked `filled` gets one append-only record of what that fill cost (r1572).
 
     r1571 published the *pending* fill; nothing kept the promise once it landed. On the bar
@@ -886,11 +1010,18 @@ def sync_fill_log(led):
     record.
 
     Appended once per filled bar, never rewritten; returns the entries added this call.
+
+    r1585: a receipt that names the cost but not the trade is half a receipt -- the account
+    kept `turnover` and lost the roster, because the engine drops `pending` on the fill bar
+    and `books` keeps only the book now in force. Callers pass the roster the engine
+    measured (`Forward.fill_rosters`); receipts already published without one get theirs
+    attached from the same deterministic replay, and only when the turnovers agree.
     """
     rows = published_bars(led)
     log = list(led.get("fill_log") or [])
     have = {e.get("bar") for e in log}
     capital = (led.get("seed") or {}).get("capital_cny")
+    rosters = rosters or {}
     added = []
     for b in rows:
         bar = b.get("bar")
@@ -909,8 +1040,19 @@ def sync_fill_log(led):
             "basis": "turnover x %g per side x nav of the bar that fills it"
                      % float(CONFIG["cost_per_side"]),
         }
+        if _attach_roster(entry, rosters.get(bar), "engine state at the fill"):
+            entry["roster"]["derived_at"] = time.strftime("%Y-%m-%dT%H:%M:%S%z")
         log.append(entry)
         added.append(entry)
+    for entry in log:
+        if entry.get("roster"):
+            continue
+        roster = rosters.get(entry.get("bar"))
+        if _attach_roster(entry, roster, "deterministic replay of the same panel"):
+            entry["roster"]["derived_at"] = time.strftime("%Y-%m-%dT%H:%M:%S%z")
+            entry["roster"]["note"] = ("this receipt was published before rosters existed; "
+                                       "the names are the engine's own replay of the same "
+                                       "panel, attached only because the turnover matches")
     log.sort(key=lambda e: e.get("bar") or "")
     led["fill_log"] = log
     return added
@@ -992,6 +1134,53 @@ def pending_fill_audit(led):
                         % sorted(dropped & pending))
     return {"ok": not problems, "code": "ok" if not problems else "defect",
             "problems": problems, "checked": checked}
+
+
+def fill_log_audit(led):
+    """Does every receipt name the trade it charged for, and is the roster self-consistent?
+
+    r1585: the roster is re-derived on every run from the same panel, so a receipt without
+    one is a published defect rather than a documented limitation -- and a roster that does
+    not reconstruct its own book sizes (before = exited + kept, after = entered + kept) or
+    the row's own `n_held` is a roster of a different trade.
+    """
+    problems = []
+    bars = {b.get("bar"): b for b in published_bars(led)}
+    entries = list(led.get("fill_log") or [])
+    for e in entries:
+        bar = e.get("bar")
+        ro = e.get("roster")
+        if not ro:
+            problems.append("fill %s carries no roster: the receipt names the cost of a "
+                            "trade but not the names in it" % (bar,))
+            continue
+        ent = set(ro.get("entered") or [])
+        ex = set(ro.get("exited") or [])
+        kept = set(ro.get("kept") or [])
+        if ent & ex:
+            problems.append("fill %s: %s both entered and exited" % (bar, sorted(ent & ex)))
+        if kept & (ent | ex):
+            problems.append("fill %s: kept names also moved: %s"
+                            % (bar, sorted(kept & (ent | ex))))
+        if ro.get("n_before") != len(ex) + len(kept):
+            problems.append("fill %s: before-book %s != exited %d + kept %d"
+                            % (bar, ro.get("n_before"), len(ex), len(kept)))
+        if ro.get("n_after") != len(ent) + len(kept):
+            problems.append("fill %s: after-book %s != entered %d + kept %d"
+                            % (bar, ro.get("n_after"), len(ent), len(kept)))
+        if abs(float(ro.get("turnover") or 0.0) - float(e.get("turnover") or 0.0)) > 1e-6:
+            problems.append("fill %s: roster turnover %.6f != receipt %.6f"
+                            % (bar, float(ro.get("turnover") or 0.0),
+                               float(e.get("turnover") or 0.0)))
+        row = bars.get(bar)
+        if row is not None and row.get("n_held") is not None:
+            if int(row.get("n_held")) != int(ro.get("n_after")):
+                problems.append("fill %s: roster holds %s names, the bar holds %s"
+                                % (bar, ro.get("n_after"), row.get("n_held")))
+    return {"ok": not problems, "code": "ok" if not problems else "defect",
+            "problems": problems,
+            "checked": {"entries": len(entries),
+                        "bars": [e.get("bar") for e in entries]}}
 
 
 def partition_settled(bars, panel_last_date, carry_last=None):
@@ -1428,12 +1617,13 @@ def load_ledger():
         return json.load(f)
 
 
-def save_ledger(led):
+def save_ledger(led, rosters=None):
     os.makedirs(OUT_DIR, exist_ok=True)
     # r1572: the promise and the receipt ride in the same file -- what the sheet says will
     # fill, and what the rows say filled -- so no caller can publish a stale pair.
-    sync_fill_log(led)
+    sync_fill_log(led, rosters)
     led["pending_fill_check"] = pending_fill_audit(led)
+    led["fill_log_check"] = fill_log_audit(led)
     with open(LEDGER, "w", encoding="utf-8") as f:
         json.dump(led, f, ensure_ascii=False, indent=1)
 
@@ -1523,7 +1713,7 @@ def seed(capital=1_000_000.0):
     led["pending_fill"] = pending_fill(fwd, dates, marks, capital,
                                      (led["bars"][-1] or {}).get("nav"))
     led["runs"] = [{"ts": led["seed"]["ts"], "new_bars": 0, "last_bar": last_bar, "first": True}]
-    save_ledger(led)
+    save_ledger(led, fwd.fill_rosters)
     bl = _bench_line(led)
     print("SEEDED %s nav=1.0 bars=%d names=%d status=live | %s" %
           (last_bar, len(led["bars"]), CONFIG["n_hold"], bl), flush=True)
@@ -1666,7 +1856,7 @@ def run(rebase=False):
         nb["provisional"] = nb["bar"] in born
     if blocking and not rebase:
         led["status"] = "frozen"
-        save_ledger(led)
+        save_ledger(led, fwd.fill_rosters)
         print("DRIFT %d settled faces (bench %d) max_abs=%.3e -> FROZEN (exit 3); "
               "inspect the panel for a revision before --rebase rewrites the history"
               % (len(faces_settled), len(bench_faces), worst), flush=True)
@@ -1714,8 +1904,14 @@ def run(rebase=False):
         led["benchmark"] = _bench_with_book(led["bars"], dates, seed_bar)
         _attach_sig(led, significance(dates, marks, set(dates[::CONFIG["rebal"]]),
                                       len(led["bars"])))
-        print("NO-OP last_bar=%s nav=%s (no new panel bars) | %s" %
-              (headed.get("bar"), headed.get("nav"), _bench_line(led)), flush=True)
+        _sib = sibling_faces(headed.get("bar"))
+        _lag = _sib.get("priced_face_lags_bare_sessions")
+        # ASCII on purpose: this line is also printed to a console, and the earlier
+        # pending_fill_line found that a UTF-8 glyph here kills the print on GBK.
+        _extra = (" | priced panel behind bare face by %d session(s) (bare %s / priced %s)"
+                  % (_lag, _sib.get("bare_face_tail"), _sib.get("priced_tail"))) if _lag else ""
+        print("NO-OP last_bar=%s nav=%s (no new panel bars)%s | %s" %
+              (headed.get("bar"), headed.get("nav"), _extra, _bench_line(led)), flush=True)
         print(_sig_line(led), flush=True)
         print(_power_line(led), flush=True)
         _noop_stub(led, headed)
@@ -1732,7 +1928,7 @@ def run(rebase=False):
         # human faces disagree about what was measured. Numbers are untouched; the stub stays
         # byte-identical across repeated no-ops because this is the same constant each time.
         led["caveats"] = CAVEATS
-        save_ledger(led)
+        save_ledger(led, fwd.fill_rosters)
         return 0
 
     led["bars"].extend(new_bars)
@@ -1755,7 +1951,7 @@ def run(rebase=False):
     led["runs"] = (led.get("runs", []) + [{
         "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "new_bars": len(new_bars),
         "last_bar": new_bars[-1]["bar"]}])[-MAX_RUNS:]
-    save_ledger(led)
+    save_ledger(led, fwd.fill_rosters)
     tail = led["bars"][-1]
     print("APPENDED %d bars -> %s nav=%.4f dd=%.2f%% cash=%.0f%% | %s" %
           (len(new_bars), tail["bar"], tail["nav"], tail["dd"] * 100, tail["cash"] * 100,
@@ -2360,15 +2556,35 @@ def selftest():
         len(bench_drift(doctored, bench)) == 1, "faces=%d" % len(bench_drift(doctored, bench)))
     chk("basket drift gate is quiet on an identical block", bench_drift(bench, bench) == [],
         "re-derivation is deterministic")
-    # the engine convention charges weight drift on NEITHER arm; that omission is sized,
-    # not hidden -- and a cost sweep must therefore be an exact identity here
+    # r1585: this leg used to require the cost sweep to be an EXACT identity, which can only
+    # hold while the published window contains no fill -- it went red by itself on 2026-11-12
+    # when a rebalance (10-15) fell inside it, not because anything about the basis changed.
+    # The basket does pay `cost x turnover` at each fill, exactly like the book; the honest
+    # assertions are that the sweep only moves at a fill, never helps, and that its size is
+    # the block's own published friction rather than something larger.
     b_free = bench_block(dates, rebal_days, mid_bar, cost=0.0)
-    same = max(abs(a["nav"] - b["nav"]) for a, b in zip(b_free["bars"], bench["bars"]))
-    chk("basket turnover is drift-only and is not booked on either arm",
-        same < 1e-12 and bench["rebalance_friction"]["turnover_per_decision"] >= 0.0,
-        "cost_sweep_maxabs=%.1e drift_turn/decision=%.4f -> %.1fbp/yr if charged" %
-        (same, bench["rebalance_friction"]["turnover_per_decision"],
-         bench["rebalance_friction"]["bp_per_year_if_charged"]))
+    fr = bench["rebalance_friction"]
+    moved = [(a["bar"], float(a["nav"]) - float(b["nav"]))
+             for a, b in zip(b_free["bars"], bench["bars"])
+             if abs(float(a["nav"]) - float(b["nav"])) > 1e-12]
+    bars_pub = [b["bar"] for b in bench["bars"]]
+    pos = {bar: i for i, bar in enumerate(bars_pub)}
+    rebals = {str(d.date()) for d in rebal_days}
+    first_reb = next((i for i, bar in enumerate(bars_pub) if bar in rebals), None)
+    starts_at_fill = bool(moved) and first_reb is not None and all(
+        pos[bar] > first_reb and bars_pub[pos[bar] - 1] in rebals for bar, _ in moved)
+    drag = max([abs(d) for _, d in moved] or [0.0])
+    yrs = max(len(bars_pub) / 250.0, 1e-9)
+    chk("basket turnover: a cost sweep moves only on the fill that follows a rebalance",
+        (not moved and first_reb is None) or starts_at_fill,
+        "moved=%d first_rebalance_in_window=%s" % (len(moved), first_reb))
+    chk("basket turnover: the drag it books is its own published friction, never larger",
+        all(d >= -1e-12 for _, d in moved)
+        and drag / float(bench["bars"][-1]["nav"] or 1.0) * 1e4 / yrs
+        <= 3.0 * float(fr["bp_per_year_charged"]),
+        "realized=%.2fbp/yr published=%.2fbp/yr drift_turn/decision=%.4f"
+        % (drag / float(bench["bars"][-1]["nav"] or 1.0) * 1e4 / yrs,
+           float(fr["bp_per_year_charged"]), float(fr["turnover_per_decision"])))
     # the book's nav must ride the same bar list as the basket, or the gap is a calendar
     led_b = {"bars": _indexed(marks0, mid_bar)}
     wired = _bench_with_book(led_b["bars"], dates, mid_bar)
@@ -2602,6 +2818,105 @@ def selftest():
         "; ".join(_au5["problems"]))
     chk("pending audit: no pending book is a clean code, not an absent verdict",
         pending_fill_audit(_led_f(None, 0.1))["code"] == "no_pending")
+
+    # 7b. the roster (r1585). The engine drops `pending` on the fill bar and `books` keeps
+    #     only the book now in force, so the names of the first real fill (2026-11-12, 12
+    #     names, turnover 1.2598) existed nowhere after the fact. These legs drive the real
+    #     engine over the real grid: the roster is not narrated, it is captured and audited.
+    _fbars = sorted(f0.fill_rosters)
+    chk("fill roster: the engine records the names of every fill it charges for",
+        len(_fbars) == sum(1 for _, m in marks0 if m["filled"]) and len(_fbars) > 10,
+        "rosters=%d fills=%d" % (len(_fbars), sum(1 for _, m in marks0 if m["filled"])))
+    _bar0 = _fbars[-1]
+    _ro0 = f0.fill_rosters[_bar0]
+    chk("fill roster: entered/exited/kept is a partition of the two books",
+        not (set(_ro0["entered"]) & set(_ro0["exited"]))
+        and not (set(_ro0["kept"]) & (set(_ro0["entered"]) | set(_ro0["exited"])))
+        and _ro0["n_before"] == len(_ro0["exited"]) + len(_ro0["kept"])
+        and _ro0["n_after"] == len(_ro0["entered"]) + len(_ro0["kept"]),
+        json.dumps({k: _ro0[k] for k in ("n_before", "n_after", "turnover")}))
+    _row0 = {"bar": _bar0, "nav": 1.0, "filled": True, "turn": _ro0["turnover"],
+             "n_held": _ro0["n_after"]}
+    _led_ro = {"seed": {"bar": "x", "capital_cny": 1_000_000.0}, "bars": [dict(_row0)]}
+    sync_fill_log(_led_ro, {_bar0: _ro0})
+    chk("fill roster: a new receipt carries it and says where it came from",
+        (_led_ro["fill_log"][0].get("roster") or {}).get("source")
+        == "engine state at the fill")
+    chk("fill audit: a receipt whose roster reconstructs its bar is clean",
+        fill_log_audit(_led_ro)["ok"], "; ".join(fill_log_audit(_led_ro)["problems"]))
+    # the same receipt as r1572 published it: cost, no names. That is a published defect,
+    # and the replay is allowed to fill it in -- labelled, and only if the trade is the same.
+    _led_old = {"seed": {"bar": "x", "capital_cny": 1_000_000.0}, "bars": [dict(_row0)]}
+    sync_fill_log(_led_old)
+    _bare = fill_log_audit(_led_old)
+    chk("fill audit: a receipt that prices the trade but cannot name it is a defect",
+        _bare["ok"] is False and any("no roster" in p for p in _bare["problems"]),
+        "; ".join(_bare["problems"]))
+    sync_fill_log(_led_old, {_bar0: _ro0})
+    _back = _led_old["fill_log"][0]["roster"]
+    chk("fill roster: a bare receipt gets the names from the same replay, and says so",
+        _back.get("source") == "deterministic replay of the same panel" and _back.get("note"))
+    chk("fill audit: after the backfill the same ledger is clean",
+        fill_log_audit(_led_old)["ok"], "; ".join(fill_log_audit(_led_old)["problems"]))
+    _wrong = dict(_ro0, turnover=float(_ro0["turnover"]) * 2.0)
+    _led_w = {"seed": {"bar": "x", "capital_cny": 1_000_000.0}, "bars": [dict(_row0)]}
+    sync_fill_log(_led_w, {_bar0: _wrong})
+    chk("fill roster: another trade's roster is refused, never attached",
+        "roster" not in _led_w["fill_log"][0]
+        and fill_log_audit(_led_w)["ok"] is False)
+    _led_mis = json.loads(json.dumps(_led_old))
+    _led_mis["fill_log"][0]["roster"]["n_after"] = int(_ro0["n_after"]) + 1
+    _mis = fill_log_audit(_led_mis)
+    chk("fill audit: a roster holding a different book than the bar is a defect",
+        _mis["ok"] is False and any("the bar holds" in p for p in _mis["problems"]),
+        "; ".join(_mis["problems"]))
+
+    # 8. the sibling-face disclosure (r1585). The leg has to disturb the thing it claims
+    #    to separate: two files for one code, one tail ahead of the other.
+    import tempfile
+    _tmpd = tempfile.mkdtemp(prefix="fwd-sib-")
+    assert os.path.isdir(_tmpd)
+    hdr = "date,open,high,low,close,volume\n"
+    for nm, tail, n in (("510300.csv", "2026-11-12", 2),
+                        ("510050.csv", "2026-11-12", 2),
+                        ("sh510300.csv", "2026-11-11", 2)):
+        with open(os.path.join(_tmpd, nm), "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(hdr)
+            for i in range(n):
+                d = tail if i == n - 1 else "2026-11-10"
+                fh.write("%s,1,1,1,1,1\n" % d)
+    with open(os.path.join(_tmpd, "sz000001.csv"), "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(hdr)                      # header only: must not be read as a tail
+    _old_dir = PATHS.daily_dir
+    try:
+        PATHS.daily_dir = _tmpd
+        _s = sibling_faces("2026-11-11")
+        chk("sibling faces: the bare tail is read from disk, not from the priced face",
+            _s["bare_face_tail"] == "2026-11-12" and _s["bare_face_symbols"] == 2)
+        chk("sibling faces: a header-only file is not a bar",
+            _s["wide_face_symbols"] == 1)
+        _s2 = sibling_faces("2026-11-12")
+        chk("sibling faces: same tail -> no lag and no note (not a standing alarm)",
+            _s2["priced_face_lags_bare_sessions"] is None and "note" not in _s2)
+        # the lag must be a counted number when the calendar can reach it, and an honest
+        # None when it cannot -- never a guess
+        try:
+            import exchange_calendar_audit as _CA
+            _reach = "2026-11-12" in _CA.load_calendar()
+        except Exception:                                # noqa: BLE001
+            _reach = False
+        chk("sibling faces: the lag is counted in official sessions (1 here), not in calendar days",
+            (_s["priced_face_lags_bare_sessions"] == 1) if _reach
+            else (_s["priced_face_lags_bare_sessions"] is None),
+            "calendar_reaches_1112=%s lag=%s"
+            % (_reach, _s["priced_face_lags_bare_sessions"]))
+    finally:
+        PATHS.daily_dir = _old_dir
+    _s3 = sibling_faces(None)
+    chk("sibling faces: on the live tree the lag is present exactly when the priced tail is behind",
+        (_s3["priced_face_lags_bare_sessions"] is not None)
+        == bool(_s3["bare_face_tail"] and _s3["priced_tail"]
+                and _s3["bare_face_tail"] > _s3["priced_tail"]))
 
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1

@@ -1,6 +1,6 @@
 {
-  "ts": "2026-11-12T09:01:39",
-  "mode": "refresh incomplete (checkpoint preserved)",
+  "ts": "2026-11-12T15:57:18",
+  "mode": "refresh in progress (todo=5310/5315, quarantined=5, settled=0)",
   "panel": {
     "complete": false,
     "cutoff": "2026-11-11",
@@ -34,7 +34,7 @@
         1
       ]
     ],
-    "universe_n": 5226,
+    "universe_n": 5315,
     "per_files": 5223
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
@@ -49,54 +49,43 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 5222,
-    "fetched": 5213,
-    "appended": 5196,
-    "readjusted": 14,
-    "readjusted_tail": [
-      "301300@2022-08-19",
-      "301529@2023-09-11",
-      "301559@2023-10-11",
-      "301608@2024-08-01",
-      "603279@2019-07-29",
-      "603998@2014-12-05",
-      "605338@2020-10-12",
-      "688777@2020-11-24"
-    ],
+    "todo": 103,
+    "fetched": 0,
+    "appended": 0,
+    "readjusted": 0,
+    "readjusted_tail": [],
     "failures_tail": [
-      "002650:conn:TimeoutError",
-      "003029:conn:TimeoutError",
-      "300264:conn:TimeoutError",
-      "600059:conn:TimeoutError",
-      "603048:conn:TimeoutError",
-      "603519:conn:TimeoutError",
-      "603798:conn:TimeoutError",
-      "605111:conn:TimeoutError",
-      "688271:conn:TimeoutError"
+      "000004:conn:TimeoutError",
+      "000005:JSONDecodeError:No value to decode",
+      "000016:conn:TimeoutError",
+      "000023:JSONDecodeError:No value to decode",
+      "000040:JSONDecodeError:No value to decode",
+      "000413:JSONDecodeError:No value to decode",
+      "000416:JSONDecodeError:No value to decode"
     ],
-    "failures_n": 9,
+    "failures_n": 7,
     "conn_stopped": false,
-    "elapsed_min": 503.8,
-    "vwap_anchor_max": 0.438984,
+    "elapsed_min": 2.3,
+    "vwap_anchor_max": null,
     "repull": false
   },
   "quarantined_n": 5,
-  "last_spawn_attempt": "2026-11-12T00:36:55",
+  "last_spawn_attempt": "2026-11-12T15:56:28",
   "settled_n": 0,
   "settled": [],
   "per_files_on_disk": 5223,
   "validation": {
-    "suspended_rows": 3,
-    "bracket_tolerated_rows": 1,
+    "suspended_rows": 0,
+    "bracket_tolerated_rows": 0,
     "defect_rows": 0
   },
   "takeover": {
     "owner": "bm-b",
     "by": "bm-c",
-    "reason": "owner bm-b silent 299.9h >= 120min",
-    "ts": "2026-11-12T00:36:55"
+    "reason": "owner bm-b silent 315.2h >= 120min",
+    "ts": "2026-11-12T15:56:28"
   },
-  "spawn_reason": "panel incomplete at cutoff 2026-11-10 (coverage 99.8%, expected 2026-11-11) -> continuation refresh, not a first pull",
+  "spawn_reason": "panel incomplete at cutoff 2026-11-11 (coverage 99.7%, expected 2026-11-12) -> continuation refresh, not a first pull",
   "spawn_mode": "continuation",
   "authority": {
     "lane_owner": "bm-b",
@@ -104,7 +93,7 @@
     "data_face_machine": "bm-c",
     "declared_takeover": true,
     "took_over_by": "bm-c",
-    "took_over_at": "2026-11-12T00:36:55",
-    "reason": "owner bm-b silent 299.9h >= 120min"
+    "took_over_at": "2026-11-12T15:56:28",
+    "reason": "owner bm-b silent 315.2h >= 120min"
   }
 }
