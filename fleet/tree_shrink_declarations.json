@@ -11,6 +11,14 @@
    ],
    "by": "bm-a r1164",
    "reason": "scratch inspection output from the previous window (catalog dump, queue-open dump, smoke stderr tail); none of it is an artifact any consumer reads, and results/ underscore-prefixed dumps are working files, not faces"
+  },
+  {
+   "commit": "a217489285aab90d58cc86048b5cdc1ad743eada",
+   "paths": [
+    "_tmp_state_head.json"
+   ],
+   "by": "bm-c r1589",
+   "reason": "not a JSON face at all: a leftover prose header an earlier window wrote, which json_face_guard and the pre-commit claw both judged unreadable; that window pushed its already-staged deletion. No reader consumes it, and restoring it would re-poison the commit face, so the deletion is declared here by name instead"
   }
  ]
 }
