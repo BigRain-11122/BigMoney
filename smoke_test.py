@@ -8111,6 +8111,21 @@ def main() -> int:
                 if not _a93.get("ok"):
                     _bad93.append("k=%s does not pay the single-open turnover"
                                   % (_a93.get("k"),))
+                elif _a93.get("trivial") is not True:
+                    # r1588: the identity has to be shown on the ladders that finished, and
+                    # the unfinished tail ladder has to be disclosed rather than netted out
+                    # of the per-decision mean -- otherwise every sliced arm reads as if it
+                    # had shrunk the book and the leg turns permanent red (E318).
+                    if _a93.get("ladders_compared") is None:
+                        _bad93.append("k=%s does not say how many ladders it compared"
+                                      % (_a93.get("k"),))
+                    elif (_a93.get("turnover_completed_single_open") is None
+                          or _a93.get("turnover_completed_sliced") is None):
+                        _bad93.append("k=%s lost the completed-ladder turnover"
+                                      % (_a93.get("k"),))
+                    elif _a93.get("tail_paid_sliced") is None:
+                        _bad93.append("k=%s hides the unfinished tail ladder"
+                                      % (_a93.get("k"),))
             for _c93 in _doc93.get("controls") or []:
                 if not _c93.get("ok"):
                     _bad93.append("the control arm misses the published declared CAGR")

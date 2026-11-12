@@ -9,29 +9,56 @@
    {
     "bars_identical_path_free": 1661,
     "k": 2,
-    "ok": false,
-    "rule": "Equal slices sum to the same absolute delta, so k cannot buy anything through commission -- only through the price path. A sliced arm that also shrinks the book would be a different experiment (E197).",
+    "ladders_compared": 83,
+    "ladders_total": [
+     84,
+     83
+    ],
+    "ok": true,
+    "rule": "Equal slices sum to the same absolute delta, so k cannot buy anything through commission -- only through the price path. A sliced arm that also shrinks the book would be a different experiment (E197). A ladder the sample ends inside is not charged against the arm: it is disclosed as `tail_paid` and excluded from the per-decision mean.",
+    "tail_paid_single_open": 0.0,
+    "tail_paid_sliced": 0.732884199,
     "trivial": false,
+    "turnover_completed_single_open": 79.089940229,
+    "turnover_completed_sliced": 79.089940229,
     "turnover_single_open": 0.958996531,
-    "turnover_sliced": 0.950271719
+    "turnover_sliced": 0.952890846
    },
    {
     "bars_identical_path_free": 1661,
     "k": 3,
-    "ok": false,
-    "rule": "Equal slices sum to the same absolute delta, so k cannot buy anything through commission -- only through the price path. A sliced arm that also shrinks the book would be a different experiment (E197).",
+    "ladders_compared": 83,
+    "ladders_total": [
+     84,
+     83
+    ],
+    "ok": true,
+    "rule": "Equal slices sum to the same absolute delta, so k cannot buy anything through commission -- only through the price path. A sliced arm that also shrinks the book would be a different experiment (E197). A ladder the sample ends inside is not charged against the arm: it is disclosed as `tail_paid` and excluded from the per-decision mean.",
+    "tail_paid_single_open": 0.0,
+    "tail_paid_sliced": 0.488589466,
     "trivial": false,
+    "turnover_completed_single_open": 79.089940229,
+    "turnover_completed_sliced": 79.089940229,
     "turnover_single_open": 0.958996531,
-    "turnover_sliced": 0.947363449
+    "turnover_sliced": 0.952890846
    },
    {
     "bars_identical_path_free": 1661,
     "k": 5,
-    "ok": false,
-    "rule": "Equal slices sum to the same absolute delta, so k cannot buy anything through commission -- only through the price path. A sliced arm that also shrinks the book would be a different experiment (E197).",
+    "ladders_compared": 83,
+    "ladders_total": [
+     84,
+     83
+    ],
+    "ok": true,
+    "rule": "Equal slices sum to the same absolute delta, so k cannot buy anything through commission -- only through the price path. A sliced arm that also shrinks the book would be a different experiment (E197). A ladder the sample ends inside is not charged against the arm: it is disclosed as `tail_paid` and excluded from the per-decision mean.",
+    "tail_paid_single_open": 0.0,
+    "tail_paid_sliced": 0.29315368,
     "trivial": false,
+    "turnover_completed_single_open": 79.089940229,
+    "turnover_completed_sliced": 79.089940229,
     "turnover_single_open": 0.958996531,
-    "turnover_sliced": 0.945036832
+    "turnover_sliced": 0.952890846
    }
   ],
   "A9_engine_identity": {
@@ -80,7 +107,7 @@
   "phase_share_min": 0.75,
   "slice_min_pp": 0.57
  },
- "elapsed_sec": 99.0,
+ "elapsed_sec": 93.9,
  "evidence_cutoff": "2026-11-12",
  "prereg": "research/CASE_PREREG_E27_OPEN_SLICING.md",
  "published": {
@@ -119,7 +146,7 @@
    "oos_sharpe": 1.662,
    "phase": 0,
    "sharpe": 0.873,
-   "turnover": 0.9503,
+   "turnover": 0.9529,
    "vol": 0.1026,
    "years": 6.86
   },
@@ -134,7 +161,7 @@
    "oos_sharpe": 1.678,
    "phase": 0,
    "sharpe": 0.88,
-   "turnover": 0.9474,
+   "turnover": 0.9529,
    "vol": 0.1024,
    "years": 6.86
   },
@@ -149,7 +176,7 @@
    "oos_sharpe": 1.7,
    "phase": 0,
    "sharpe": 0.89,
-   "turnover": 0.945,
+   "turnover": 0.9529,
    "vol": 0.102,
    "years": 6.86
   },
@@ -335,7 +362,7 @@
   }
  ],
  "script": "scripts\\etf_book_open_slicing.py",
- "ts": "2026-11-12T16:17:02+0800",
+ "ts": "2026-11-12T19:02:55+0800",
  "verdict": {
   "admissible_arms": [],
   "arms": [

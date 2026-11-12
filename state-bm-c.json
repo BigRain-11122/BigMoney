@@ -421,6 +421,7 @@
  },
  "orphan_faces": 3,
  "orphan_note": "3 stalled parentless faces reported, zero killed (probe is read-only by law): PID 54032/74740 update_* collectors 98.8/369.1 min CPU-stalled, PID 69180 fleet agent 479.4 min; the ah_panel face (PID 36940, CPU +2.4/20s) is live and was NOT counted",
+ "orphans": 2,
  "pending": [],
  "pre2020_face": {
   "A_pre_universe_pre_period": {
@@ -832,7 +833,7 @@
  "recent_artifact": "docs/live_book/LIVE-BOOK-20261111.md",
  "round": 1572,
  "round_label": "1572",
- "round_no": 1587,
+ "round_no": 1588,
  "round_no_label": "1572",
  "round_no_landed": 1492,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1082,7 +1083,9 @@
  "round_t1584_next": "next: 15:30 后 11-12 的收盘 bar 落盘 → 这笔 12 名 k=0.9094/成本 CNY 1,280 的成交应第一次进 fill_log，核对「成交日」行是否自动从「已开盘」翻成真正的成交回执（同一张页，两段话必须对上）",
  "round_t1584_note": "| 2026-11-12 15:0x-15:3x | 1584 | **PRODUCT（产品优先律）：这张页一边叫他「今天就买」，五行之下又说这笔成交「尚无可成交日期」。** 2026-11-12 早晨的 CEO 页开篇是「**今天是换仓日**」，而同一页的成交行写着「**下一根 bar 还没出现**（尚无可成交日期，不是已成交）」——两句都真，但读者只能得到一个结论：这张单不知道什么时候成交。根因不是文案：`pending_fill` 只看**价格面板**有没有走到决策 bar 的下一根，而 11-12 的收盘 bar 要等当晚才落；「今天是不是成交日」是日历问题，官方日历里一直有这一天。正法=把日期从日历取出来印上，并按三态分开说：已开盘但 bar 未落（今天）、还没到（未来）、无日历（诚实未知）。验证：`etf_book_forward.py` selftest rc0（新增 4 腿：日历取日/当日措辞/无日历回退/日历够不着决策日）、`etf_book_order.py --selftest` **177/177**、`etf_book_ceo_page.py selftest` **246/246**、真实页重生成后第 25 行实读为「成交日 2026-11-12（已开盘）：账本要等这一天收盘的 bar 才入账」；**smoke 新腿做过变异验证**——把真页那一行换回旧句即判红（`decision=2026-11-11 next=2026-11-12`），真页判绿。顺手记一条自踩：新腿第一版按 `evidence_cutoff` 拼页面文件名，而页面名是 as_of 日（20261112 ≠ 20261111），腿会永远找不到文件而假绿——改成读 `docs/live_book/latest.json` 的 `page` 指针。S6：dualrun **ZERO-DRIFT**（744 条 streak 51）；compute_audit FLAG `pool_starvation(16492.6min)+supply_floor(ready 0/floor 3·AGENDA_DEBT·4 候选全 REFUSED·cause=calendar)`；py_watermark `insufficient_history`（首个采样，local_batch_running=true）；`update_daily` rc0 **0 新行**（15:18 在 15:30 门之前，cutoff 2026-11-11）。S0.5：`Tools/s05_probe.py` orders_delta=false / decisions_delta=false / unacked=[]。S7：loop pin=5 no-op（首跳 15:20）、attrition 4 账本 **CLEAN**（3 处历史缩行 healed）、pre-commit 爪在位（本轮 commit 正常过闸）。孤儿面 py_faces=5 **orphans=2**（pid 69180 fleet agent 与 pid 74740 update 采集器，均父死+CPU 停；未杀：前者是本机节点代理、后者需先确认产物是否已落）。**未验证（如实）**：全量 smoke 15:01 起的这份收轮时仍在飞（327 行、0 FAIL，且加载的是本轮改动**之前**的模块）；本轮改件以三组 selftest + 真页实读 + 变异腿为据。 |",
  "round_t1587_note": "| 2026-11-12 18:30-19:0x | 1587 | **PRODUCT（产品优先律）：「票面把分位块抄进了自己」——写者排在判官前面没用。** 链里 `premium_percentile` 只有 `check`、排在 `etf_book_order` 之后约 1,000 步；每回 `etf_premium` 写长 `premium_history.csv`，票面就内嵌了昨天的分位块，随后 check 红成 stale ticket + 4 处不符（11-12 实测：ticket 11-11 vs face 11-12）。正法＝写者进链并排在**嵌入者**之前（`premium_percentile_write --no-fetch run` 紧贴票面）+ smoke 两条防回退腿。实测：票面重生成 rc0（内嵌块 face_asof=2026-11-12 / stale=false）、check rc0 5/5 腿 6,486 观测。**第一笔真实成交回执也在本轮落地**：11-12 收盘 bar 到位后 `fill_log` 首条=换手 1.2598、成本 12.60bp、**CNY 1,273.67**（决策 bar 上的预估是 1,279.98，差在成交 bar 自己的净值），`pending_fill` 清空，CEO 页第 30 行实读「2026-11-12 成交：换手 1.2598｜成本 12.60bp，CNY 1,274」，而且同一页的「今天开盘要成交的是什么」读作「账本没有待成交的书」——两半不再互相拆台。其余：positions rc0（unexplained 0）、t35 开盘成交核验 rc0 PASS（tier=marks，从历史的 daily_bar_open 回退档升上来）、orphans=2（均父死+CPU 停，按子树活性律未杀）、attrition 4 账本 CLEAN。方法论卡 **E569** 已落。**未验证（如实）**：全量 smoke 18:37 起在飞（截至收轮 157 行 0 FAIL，含本轮新加的两条链序腿），尚未收口。 |",
- "rounds": 1587,
+ "round_t1588_next": "next: (a) E246 drawdown band missing on rows [1,5,10,20,40,60,120,250] and the ticket exec_delta reconcile red are both born in this repo -- fix them first; (b) swap_freshness needs one caliber decision on days with no swap (structural lag vs wrong), do not relax the leg in the gate; (c) etf_premium source down all day (EM RemoteDisconnected, 4 attempts) -- the 11-12 board hole is unrecoverable by design, only the next session can be captured",
+ "round_t1588_note": "| 2026-11-12 18:5x-19:4x | 1588 | **S1 红项结清（1/6）：A10 把「样本末尾没走完的那截梯子」算进了分母。** smoke 563/569 · 6 FAIL 里的 `the fill is sliced over k opens` 三连红（k=2/3/5 各欠 0.0087/0.0116/0.0139 单开换手）不是切片买了佣金，是**统计口径**：`sliced_equity` 返回的每决策换手=Σ(每片)/决策数，而样本末尾那个决策的梯子只走了 k−1 片就撞到面板尽头，分子少分子、分母照除，k 越大漏得越多（r1588 实测 k 每加 1 漏 ≈0.0023）。正法＝明账：`detail=True` 交出**已完成梯子**逐条换手 + 未完成那截的 `tail_paid`，每决策换手只对完成的梯子取均值，A10 只比较**双方都走完的梯子**（决策网格同源 → 1:1 配对），未走完的**披露不吞**，smoke 腿钉住四个披露字段防回退。**实证**：83 条梯子两侧换手 **79.089940229 对 79.089940229**（9 位小数逐位相等），尾巴 k=2 付 0.732884199 / k=3 0.488589466 / k=5 0.293153680；`--selftest` **9/9**；面重算 rc0（verdict NO_SLICING_EDGE·control k1 8.52%·best +0.04pp·cutoff 2026-11-12·93.9s）；按 smoke 腿口径复算 **LEG PASS**（check rc0 / A9 ok / A10 三条 ok + 四披露字段齐）。顺带纠一处真错：旧口径把每决策换手印低了（k2 0.9503→**0.9529**、k3 0.9474→**0.9529**、k5 0.9450→**0.9529**），这一栏此前对切片臂系统性不利。 **S6**：`Tools/s6_chain_bmc.py 1588` 后台静默启动（pythonw pid 76664，收轮时在飞）。**S0.5**：`Tools/s05_probe.py` orders_delta=false／decisions_delta=false／unacked=[] rc0。**S7**：loop pin=5 no-op（首跳 19:05）／watchdog S4U 提权被拒（`Tools/task-s4u-backlog.md` 面，同历轮）／pre-commit+pre-push 爪 **MATCH**／attrition 4 账本 **CLEAN**（3 处历史缩行 healed）。**孤儿面=2**（py_faces 6、resident_servers 1；均父死+CPU 停，按子树活性律未杀）。**其余 5 条红项按出生地分类（未修，如实）**：①`swap section freshness` rc2＝上游 `etf_premium` 源断（11-12 板面拿不到，EM RemoteDisconnected 全天 4 次），属**源端出生**，不是本仓算错（换票日=0 的结构落后口径决策仍待办）；②`E246 drawdown band reaches both trading pages` missing_rows=[1,5,10,20,40,60,120,250]＝带块只落在部分行，**本仓出生**，下轮首修；③`fleet: bm-a's chain runner` legs=215 vs canonical=214＝**他机属主面**漂移，按所有权法只报不改；④`futures TSMOM face is current` bar=2026-11-11 stale=True＝期货面板缺 11-12 bar（数据链出生）；⑤`the trades between the target and the executed book reconcile` ticket exec_delta 与本 bar 面不符＝**本仓出生**，与②同批下轮查。 **当前活**：让「切片到底有没有动仓位」这件事第一次由已完成梯子作证。**最近实物**：`results/etf_book_open_slicing.json`（A10 三条 ok + `ladders_compared`/`turnover_completed_*`/`tail_paid_*` 披露块，19:2x）＋`scripts/etf_book_open_slicing.py::sliced_equity(detail=True)`＋`smoke_test.py` 防回退腿。**下个里程碑**：①`E246` 带块缺行与 exec_delta 对账（本仓出生，窗 ≤48h）；②11-12 收盘后 `etf_premium` 板面若源恢复，补当日快照并把 swap 口径决策提交（窗 ≤48h）。 **未验证（如实）**：本轮**未**重跑全量 smoke（上一份 18:37–18:59 的 `results/_smoke_r1587.out` 已收口 563/569，就是本轮红单的来源；改码后未再跑全量），以 9/9 + 面重算 + 腿口径复算为据，不宣称全绿。 |",
+ "rounds": 1588,
  "rounds_done": 1581,
  "rounds_note": "r1582",
  "s05_scan": {
@@ -1106,15 +1109,15 @@
   "ahead_origin": 0,
   "behind_origin": 0
  },
- "task": "r1587: the ticket embedded yesterday's percentile block -- the writer now sits in front of the sheet",
+ "task": "r1588: A10 now proves the slicing identity on the ladders that finished, and discloses the tail",
  "total_ram_gb": 23.9,
  "ts": "2026-11-12T18:47:39+08:00",
- "updated": "2026-11-12T18:41:24",
- "updated_at": "2026-11-12T13:59:27+08:00",
+ "updated": "2026-11-12T19:05:51",
+ "updated_at": "2026-11-12T19:05:51",
  "verdict": "healthy: percentile writer ordered before the embedding sheet; fill receipt landed on the 11-12 bar (cost CNY 1,273.67, pending_fill cleared)",
- "verify": "etf_book_order run rc0 (ticket 11-12 rebuilt, premium block face_asof=2026-11-12 stale=false) | premium_percentile --no-fetch check rc0 (5 legs, 6486 obs) | forward run rc0 NO-OP last_bar=2026-11-12 nav=1.0110335008 | positions run rc0 PRINTED_ROWS_REBUILD_THE_BOOK unexplained 0 | ceo_page run rc0 (LIVE-BOOK-20261112.md, fill line: 1 fill / 12.6bp / CNY 1,274) | t35_open_fill_verify rc0 PASS tier=marks | orphan probe orphans=2 (both stalled, parents dead, left alive per subtree law) | attrition 4 ledgers CLEAN | loop pin=5 no-op | claws MATCH",
- "verify_smoke": "full suite in flight (222 lines, 1 FAIL = swap section freshness, traced to etf_premium_face fetch rc2 RemoteDisconnected)",
+ "verify": "etf_book_open_slicing --selftest 9/9 | face rebuilt rc0 (verdict NO_SLICING_EDGE, control k1 8.52%, best +0.04pp, cutoff 2026-11-12, 93.9s) | leg replicated: check rc0, A9 ok, A10 k2/k3/k5 ok, 83 ladders each, 79.089940229 vs 79.089940229",
+ "verify_smoke": "full suite r1587 closed 563/569 with 6 FAIL; this round closed 1 of 6 (open slicing A10); suite not re-run after the change",
  "verify_smoke_closed": "previous window's suite closed 546/547 with one red (live_book_section_bars stale face) -- refreshed this round, check now CHECK_OK rc0",
  "vram_free_gb": 14.5,
- "watermark_verdict": "green (red=false, chain 1585 record 203/212 rc0, no new bar after 11-12)"
+ "watermark_verdict": "green (red=false at 18:55; chain r1588 launched this round)"
 }

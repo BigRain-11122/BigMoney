@@ -81,7 +81,7 @@ CRITERIA = {
 
 # ---------------------------------------------------------------- pricing
 def sliced_equity(close, openp, amt, score, k, start, cost, vol_target=VOL_TARGET,
-                  vol_window=60, vol_cap=1.0):
+                  vol_window=60, vol_cap=1.0, detail=False):
     """`k=1` is bit-identical to etf_robust_pf.open_to_open_equity (same loop, same sizing).
 
     For k>1 the delta decided at bar d is spread over the opens d .. d+k-1 in equal slices
@@ -95,6 +95,7 @@ def sliced_equity(close, openp, amt, score, k, start, cost, vol_target=VOL_TARGE
     op = openp.reindex(columns=close.columns)
     dates = [d for d in op.index if d >= pd.Timestamp(start)]
     equity, held, daily, turns = 1.0, {}, [], []
+    ladders = []  # turnover paid by each COMPLETED ladder, one entry per decision
     rets = op.pct_change()
 
     def book_vol(book, upto):
@@ -131,9 +132,10 @@ def sliced_equity(close, openp, amt, score, k, start, cost, vol_target=VOL_TARGE
                     turn = sum(abs(x) for x in delta.values())
                     equity *= (1.0 - cost * turn)
                     turns.append(turn)
+                    ladders.append(turn)
                     held = dict(w)
                 else:
-                    pending = {"target": dict(w), "remaining": k,
+                    pending = {"target": dict(w), "remaining": k, "paid": 0.0,
                                "step": {n: x / float(k) for n, x in delta.items()}}
 
         if pending is not None:
@@ -149,7 +151,9 @@ def sliced_equity(close, openp, amt, score, k, start, cost, vol_target=VOL_TARGE
                     nxt_held[n] = nxt_held.get(n, 0.0) + x
             held = {n: v for n, v in nxt_held.items() if abs(v) > 1e-15}
             pending["remaining"] -= 1
+            pending["paid"] += turn
             if pending["remaining"] == 0:
+                ladders.append(pending["paid"])
                 held = dict(pending["target"])
                 pending = None
 
@@ -164,7 +168,18 @@ def sliced_equity(close, openp, amt, score, k, start, cost, vol_target=VOL_TARGE
     ser = pd.Series(dict(daily)).sort_index()
     # turnover is reported PER DECISION (the sum over a slice ladder), so a k-slice schedule
     # is comparable with the single-open fill it is measured against.
-    return ser, (float(sum(turns) / decisions) if decisions else 0.0)
+    #
+    # A ladder the sample ends in the middle of is not a decision the arm failed to pay:
+    # dividing its partial slices by the full decision count made every sliced arm look like
+    # it had shrunk the book (r1588: k=2/3/5 read 0.0087/0.0116/0.0139 below the single open,
+    # growing with k -- exactly the size of the unfinished tail). Completed ladders only;
+    # the tail's paid turnover is reported separately so nothing is hidden.
+    tail_paid = float(pending["paid"]) if pending else 0.0
+    mean_turn = float(sum(ladders) / len(ladders)) if ladders else 0.0
+    if detail:
+        return ser, mean_turn, {"completed": [float(x) for x in ladders],
+                                "tail_paid": tail_paid, "decisions": decisions}
+    return ser, mean_turn
 
 
 def _stats(ser):
@@ -223,16 +238,30 @@ def audit_participation(close, openp, amt, score, start, cost, k):
     # zero-cost runs must be identical only if the book is identical; they are not (cash
     # during the transition), so what is asserted is the turnover identity, measured on the
     # cost-paying runs.
-    ser_c1, turn1 = sliced_equity(close, openp, amt, score, 1, start, cost)
-    ser_ck, turnk = sliced_equity(close, openp, amt, score, k, start, cost)
-    return {"k": int(k), "trivial": False,
-            "ok": bool(abs(turn1 - turnk) <= PARTICIPATION_TOL),
+    ser_c1, turn1, det1 = sliced_equity(close, openp, amt, score, 1, start, cost, detail=True)
+    ser_ck, turnk, detk = sliced_equity(close, openp, amt, score, k, start, cost, detail=True)
+    lad1, ladk = det1["completed"], detk["completed"]
+    n = min(len(lad1), len(ladk))
+    sum1, sumk = float(sum(lad1[:n])), float(sum(ladk[:n]))
+    # Decisions pair 1:1 across arms (same score panel), so the completed ladders are the
+    # only fair comparison; a ladder the sample cuts in half is disclosed, never netted.
+    ok = bool(n > 0 and abs(sum1 - sumk) <= max(PARTICIPATION_TOL,
+                                                PARTICIPATION_TOL * n))
+    return {"k": int(k), "trivial": False, "ok": ok,
             "turnover_single_open": round(turn1, 9),
             "turnover_sliced": round(turnk, 9),
+            "ladders_compared": n,
+            "ladders_total": [len(lad1), len(ladk)],
+            "turnover_completed_single_open": round(sum1, 9),
+            "turnover_completed_sliced": round(sumk, 9),
+            "tail_paid_single_open": round(det1["tail_paid"], 9),
+            "tail_paid_sliced": round(detk["tail_paid"], 9),
             "bars_identical_path_free": int(len(ser1.index.intersection(serk.index))),
             "rule": "Equal slices sum to the same absolute delta, so k cannot buy anything "
                     "through commission -- only through the price path. A sliced arm that "
-                    "also shrinks the book would be a different experiment (E197)."}
+                    "also shrinks the book would be a different experiment (E197). A ladder "
+                    "the sample ends inside is not charged against the arm: it is disclosed "
+                    "as `tail_paid` and excluded from the per-decision mean."}
 
 
 def decide(rows, criteria=CRITERIA):
