@@ -831,7 +831,7 @@
  "recent_artifact": "docs/live_book/LIVE-BOOK-20261111.md",
  "round": 1572,
  "round_label": "1572",
- "round_no": 1583,
+ "round_no": 1584,
  "round_no_label": "1572",
  "round_no_landed": 1492,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1076,7 +1076,7 @@
  "round_t1581_note": "reds: etf_book_block_length rc2 (BLOCKS-2026-11-11 built + 8/8 check), card_ledger_guard rc1 (E530 collision -> E564 + report refs), etf_book_restatement_shadow rc3 (control arm's nav differs by 1 store unit; ROUNDED_PATH_DIFF added, integer ulp test, 2 units still rewrites)",
  "round_t1582_next": "next: (a) 建 D:\\FluxGroup-Offload\\15-training 后重开 HO-ASSET-LORA-CH01（训练 90min，产物 cph4/fleet/out/asset-pack/lora/ch01_rank32.safetensors，之后索引工序 requires 才满足）；(b) 卡 2 asset-gen-scenes 租约 15:20 自动回收，核对回收行并确认 12 件 scenes 幂等跳过；(c) 判据 3/4 要等有真活才能达成——8 道 TOOL-PENDING 里只有 mv-cut/字幕 有候选工具，接之前先确认输入在场",
  "round_t1582_note": "PRODUCT: 缺训练区不再是「rc=None, no output captured」，而是 BLOCKED 回执点名路径；未知工序 10→9，8×TOOL-PENDING + 1×AUTHORITY",
- "rounds": 1582,
+ "rounds": 1584,
  "rounds_done": 1581,
  "rounds_note": "r1582",
  "s05_scan": {
@@ -1095,22 +1095,23 @@
  },
  "smoke": "PARTIAL: results/_smoke_r1581.out in flight at close (0 FAIL at 148 legs)",
  "src": "K:/Fluxgroup/FluxGroup/Tools/{task-register.ps1,fleet-align.ps1,hq_claim_launch.py} (group repo commit 4546fa97e) + Tools/card_text_hygiene.py + knowledge/METHODOLOGY_ASSETS.md E544",
- "status": "product",
+ "status": "product-closeout",
  "sync": {
   "ahead_origin": 0,
-  "behind_origin": 0,
-  "local_unreached_commits": 0,
-  "ts": "2026-11-12T13:59:27+08:00"
+  "behind_origin": 0
  },
- "task": "r1582: visual 工位 v3 现场切换（判据 3/5）—— 断供成因从「一排无产物」变成带原因的 9 条；CH01 LoRA 卡的 E-UNKNOWN 变成 BLOCKED 并点名缺 D:\\FluxGroup-Offload\\15-training",
+ "task": "r1584: 成交日从日历印上 CEO 页（三态）",
  "total_ram_gb": 23.9,
- "ts": "2026-11-12T13:59:27+08:00",
- "updated": "2026-11-12 13:59:27",
+ "ts": "2026-11-12T15:20:43+08:00",
+ "updated": "2026-11-12T15:20:43+08:00",
  "updated_at": "2026-11-12T13:59:27+08:00",
- "verdict": "PRODUCT: 缺训练区不再是「rc=None, no output captured」，而是 BLOCKED 回执点名路径；未知工序 10→9，8×TOOL-PENDING + 1×AUTHORITY",
+ "verdict": "healthy: face rebuilt (cap sources carry their rule; measured last-day move)",
  "verify": "lora_night_run 实跑 exit=3 + 回执落盘（13:54:51）；station_drive --dry 成因逐条可读；state_machine FAILED->BLOCKED allowed=True；集团仓 CAS 推送 389b45509 rc0",
  "verify_smoke": "not run this round (change surface = two output paths + one contract key; dry-run verified)",
  "verify_smoke_closed": "previous window's suite closed 546/547 with one red (live_book_section_bars stale face) -- refreshed this round, check now CHECK_OK rc0",
  "vram_free_gb": 14.5,
- "watermark_verdict": "red=false lane healthy (results/watermark_red.json)"
+ "watermark_verdict": "red=false lane healthy (results/watermark_red.json)",
+ "round_t1584_note": "| 2026-11-12 15:0x-15:3x | 1584 | **PRODUCT（产品优先律）：这张页一边叫他「今天就买」，五行之下又说这笔成交「尚无可成交日期」。** 2026-11-12 早晨的 CEO 页开篇是「**今天是换仓日**」，而同一页的成交行写着「**下一根 bar 还没出现**（尚无可成交日期，不是已成交）」——两句都真，但读者只能得到一个结论：这张单不知道什么时候成交。根因不是文案：`pending_fill` 只看**价格面板**有没有走到决策 bar 的下一根，而 11-12 的收盘 bar 要等当晚才落；「今天是不是成交日」是日历问题，官方日历里一直有这一天。正法=把日期从日历取出来印上，并按三态分开说：已开盘但 bar 未落（今天）、还没到（未来）、无日历（诚实未知）。验证：`etf_book_forward.py` selftest rc0（新增 4 腿：日历取日/当日措辞/无日历回退/日历够不着决策日）、`etf_book_order.py --selftest` **177/177**、`etf_book_ceo_page.py selftest` **246/246**、真实页重生成后第 25 行实读为「成交日 2026-11-12（已开盘）：账本要等这一天收盘的 bar 才入账」；**smoke 新腿做过变异验证**——把真页那一行换回旧句即判红（`decision=2026-11-11 next=2026-11-12`），真页判绿。顺手记一条自踩：新腿第一版按 `evidence_cutoff` 拼页面文件名，而页面名是 as_of 日（20261112 ≠ 20261111），腿会永远找不到文件而假绿——改成读 `docs/live_book/latest.json` 的 `page` 指针。S6：dualrun **ZERO-DRIFT**（744 条 streak 51）；compute_audit FLAG `pool_starvation(16492.6min)+supply_floor(ready 0/floor 3·AGENDA_DEBT·4 候选全 REFUSED·cause=calendar)`；py_watermark `insufficient_history`（首个采样，local_batch_running=true）；`update_daily` rc0 **0 新行**（15:18 在 15:30 门之前，cutoff 2026-11-11）。S0.5：`Tools/s05_probe.py` orders_delta=false / decisions_delta=false / unacked=[]。S7：loop pin=5 no-op（首跳 15:20）、attrition 4 账本 **CLEAN**（3 处历史缩行 healed）、pre-commit 爪在位（本轮 commit 正常过闸）。孤儿面 py_faces=5 **orphans=2**（pid 69180 fleet agent 与 pid 74740 update 采集器，均父死+CPU 停；未杀：前者是本机节点代理、后者需先确认产物是否已落）。**未验证（如实）**：全量 smoke 15:01 起的这份收轮时仍在飞（327 行、0 FAIL，且加载的是本轮改动**之前**的模块）；本轮改件以三组 selftest + 真页实读 + 变异腿为据。 |",
+ "round_t1584_next": "next: 15:30 后 11-12 的收盘 bar 落盘 → 这笔 12 名 k=0.9094/成本 CNY 1,280 的成交应第一次进 fill_log，核对「成交日」行是否自动从「已开盘」翻成真正的成交回执（同一张页，两段话必须对上）",
+ "round_t1584_did": "r1584: pending fill 现在会从官方日历印出成交日（三态）——CEO 页不再在换手日说「尚无可成交日期」（forward rc0 / order 177/177 / page 246/246 / smoke 腿变异验证过）"
 }
