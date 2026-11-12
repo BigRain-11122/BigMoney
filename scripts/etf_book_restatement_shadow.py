@@ -76,10 +76,18 @@ def run(shift=0.005):
         pd.Series([rf, float(nxt["rf"])], index=idx0),
         pd.Series([k, float(nxt["k"])], index=idx0), out_dir=d0, now="control")
     c_rec = (ctrl or {}).get("records", [{}])[0]
-    if c_rec.get("status") != "RECOMPUTED_IDENTICAL" or (c_rec.get("nav_delta") or 0.0) != 0.0:
+    # r1581: the reconstruction compounds prev_nav*(1+ret) while the published nav came from the
+    # equity ledger, so on an 8-decimal store the two paths can differ by ONE unit. That band is
+    # accepted here only when the delta is literally one store unit AND the return is identical
+    # to its last printed digit -- anything wider still refuses (the band is named, not widened).
+    _ulp = abs(float(c_rec.get("nav_delta_ulp") or 0.0))
+    _rounded_ok = (c_rec.get("status") == "ROUNDED_PATH_DIFF" and _ulp <= 1.0)
+    if (c_rec.get("status") != "RECOMPUTED_IDENTICAL" or (c_rec.get("nav_delta") or 0.0) != 0.0) \
+            and not _rounded_ok:
         print("REFUSED: the reconstructed panel does not reproduce the published row "
-              "(status=%s nav_delta=%s) -- no conclusion can be drawn from the shadow"
-              % (c_rec.get("status"), c_rec.get("nav_delta")))
+              "(status=%s nav_delta=%s nav_delta_ulp=%s) -- no conclusion can be drawn from "
+              "the shadow" % (c_rec.get("status"), c_rec.get("nav_delta"),
+                              c_rec.get("nav_delta_ulp")))
         return 3
 
     d1, idx1 = fixture()
@@ -104,6 +112,10 @@ def run(shift=0.005):
                         "next_bar": nxt["date"]},
         "control_same_panel": {"status": c_rec.get("status"),
                                "nav_delta": c_rec.get("nav_delta"),
+                               "nav_delta_ulp": c_rec.get("nav_delta_ulp"),
+                               "accepted_as": ("identical" if c_rec.get("status") ==
+                                               "RECOMPUTED_IDENTICAL" else
+                                               "rounded_path_diff<=1ulp"),
                                "rewritten": (ctrl or {}).get("rewritten")},
         "changed_panel": {
             "status": rec.get("status"), "bar": rec.get("date"),

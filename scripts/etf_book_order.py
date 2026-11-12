@@ -78,6 +78,12 @@ DEFAULT_NAV = 1_000_000.0
 DEFAULT_INCEPTION = "2024-01-01"
 MIN_HIST = 126
 LOT = 100
+# nav/ret are written at 8 decimals, and the published nav comes from the equity ledger while
+# a reinstatement reconstruction compounds prev_nav*(1+ret): the two arithmetic paths can
+# differ by one store unit. That band is NAMED (ROUNDED_PATH_DIFF) -- neither widened into
+# "identical" (which would swallow a real 1e-8 restatement) nor read as "rewritten" (r1581).
+STORE_DECIMALS = 8
+STORE_ULP = 10.0 ** -STORE_DECIMALS
 # r1177: this sheet repairs quote flips before it measures anything, like the card and the
 # forward ledger already did. It was the last live face ranking on raw prices, so a
 # share-count flip could enter a pick here and nowhere else, and the two faces of one book
@@ -518,9 +524,21 @@ def reinstatement_check(rp, cash_rf, k_ser, out_dir=None, tol=1e-9, now=None, co
         dret = None if ret_old is None else r_new8 - float(ret_old)
         rec.update({"recomputed_nav": nav_new8, "recomputed_ret": r_new8,
                     "ledger_nav": nav_old, "ledger_ret": ret_old, "k": round(k, 6),
-                    "rf": round(rf_d, 8), "nav_delta": None if dnav is None else round(dnav, 10)})
+                    "rf": round(rf_d, 8), "nav_delta": None if dnav is None else round(dnav, 10),
+                    "nav_delta_ulp": (None if dnav is None else round(dnav / STORE_ULP, 3)),
+                    "store_ulp": STORE_ULP, "nav_source": "compounded_chain"})
         same = (dnav is not None and abs(dnav) <= tol
                 and (dret is None or abs(dret) <= tol))
+        # r1581: one store unit of nav, with the RET identical to its last printed digit, is
+        # the two-path rounding band -- the same closes, a different order of rounding. The
+        # row is NOT touched and the delta stays on the record, so a reader can price the band
+        # instead of being told either "identical" or "rewritten". The width is counted in
+        # WHOLE store units: 1.46850092 - 1.46850091 evaluates to 1.0000000161e-08 in binary
+        # floats, so a raw "<= 1e-8" test would reject the very case the band names.
+        n_ulp = None if dnav is None else int(round(dnav / STORE_ULP))
+        rec["nav_delta_ulp"] = n_ulp
+        rounded = (not same and n_ulp is not None and abs(n_ulp) == 1
+                   and dret is not None and round(dret, STORE_DECIMALS) == 0.0)
         if same:
             rec["status"] = "RECOMPUTED_IDENTICAL"
             wd_nav = (cut[d] or {}).get("nav")
@@ -540,6 +558,13 @@ def reinstatement_check(rp, cash_rf, k_ser, out_dir=None, tol=1e-9, now=None, co
                     "restated_at": row.get("restated_at"),
                     "nav_factor_applied": row.get("nav_factor_applied"),
                     "later_rows_rescaled": row.get("later_rows_rescaled")}
+        elif rounded:
+            rec.update({"status": "ROUNDED_PATH_DIFF",
+                        "note": ("the panel reprinted the same closes: ret is identical to its "
+                                 "last printed digit and nav moved by one store unit "
+                                 "(%+.1e) because this reconstruction compounds the chain "
+                                 "while the published nav came from the equity ledger. "
+                                 "The row is left exactly as published." % dnav)})
         else:
             factor = 1.0 if not nav_old else nav_new8 / float(nav_old)
             ts = str(now or pd.Timestamp.now().floor("s"))
@@ -597,6 +622,14 @@ def reinstatement_check(rp, cash_rf, k_ser, out_dir=None, tol=1e-9, now=None, co
                # stay in the ledger, so they are listed every run -- not only the run that
                # rewrote them.
                "settled_restated": [r["date"] for r in out if r.get("settled_restated")],
+               # r1581: bars inside one store unit of the published nav (ret identical). They
+               # are neither "identical" nor rewritten; listed so the band is never silent.
+               "rounded_path_diff": [{"date": r["date"],
+                                      "nav_delta": r.get("nav_delta"),
+                                      "nav_delta_ulp": r.get("nav_delta_ulp")}
+                                     for r in out
+                                     if r.get("status") == "ROUNDED_PATH_DIFF"],
+               "store_ulp": STORE_ULP,
                "chain_broken": [r["date"] for r in out
                                 if r.get("chain_intact") is False],
                "records": out}
@@ -706,6 +739,13 @@ def reinstatement_md(ri):
                         if r.get("same_as_withdrawn")
                         else "面板重印后收盘价变了：旧副本会差 %.2e" % abs(
                             float(r["recomputed_nav"]) - float(r["withdrawn_nav"]))))
+        elif r.get("status") == "ROUNDED_PATH_DIFF":
+            L.append("- %s：按当日面板重算 nav=%.8f ret=%+.8f，与账本行差 **%.0f 个存储单位**"
+                     "（%+.1e；账本 nav 与 ret 都是 8 位小数）—— ret 逐位相同、面板重印的是"
+                     "同一批收盘价，差额来自两条算术路径（发布值取自持仓市值，本重算走复利链）。"
+                     "**账本行未改动**（既不是「逐位相同」，也不是「被面板改写」）。"
+                     % (r["date"], r["recomputed_nav"], r["recomputed_ret"],
+                        r.get("nav_delta_ulp") or 0.0, r.get("nav_delta") or 0.0))
         elif r.get("status") == "REWRITTEN_FROM_PANEL":
             L.append("- %s：账本行与面板重算不一致（nav %s → %.8f，差 %+.2e，ret %s → %+.8f）"
                      "——已按面板改写并标 restated_at=%s，之后 %d 根 nav 同乘 %.12f %s"
@@ -5940,6 +5980,28 @@ def selftest():
         and _riF["records"][0].get("chain_intact") is True
         and _gapF > 1e-9 and _gapF < 1e-7
         and not _riF["chain_broken"], "gap=%.3e rec=%s" % (_gapF, _riF["records"][0]))
+
+    # ---- r1581: one store unit of nav is a NAMED band, not "identical" and not "rewritten" ----
+    _dG, _rpG, _rfG, _kG = _ri_fixture(round(_nav_ok - 1e-8, 8), 0.000514)
+    _riG = reinstatement_check(_rpG, _rfG, _kG, out_dir=_dG, now="2026-11-10T03:30:00")
+    _rowsG = _read_jsonl(os.path.join(_dG, "ledger.jsonl"))
+    chk("leg52n reinstated: a bar whose nav moved by ONE store unit (ret identical) is named "
+        "ROUNDED_PATH_DIFF, left untouched, and its delta is priced in ulps",
+        _riG and _riG["records"][0]["status"] == "ROUNDED_PATH_DIFF"
+        and abs(_riG["records"][0]["nav_delta_ulp"]) == 1.0
+        and _riG["rounded_path_diff"] and _riG["rounded_path_diff"][0]["date"] == "2026-11-09"
+        and not _riG["rewritten"]
+        and _rowsG[1].get("restated_at") is None
+        and abs(float(_rowsG[1]["nav"]) - round(_nav_ok - 1e-8, 8)) < 1e-12
+        and "存储单位" in "\n".join(reinstatement_md(_riG)), str(_riG["records"][0]))
+
+    _dH, _rpH, _rfH, _kH = _ri_fixture(round(_nav_ok - 2e-8, 8), 0.000514)
+    _riH = reinstatement_check(_rpH, _rfH, _kH, out_dir=_dH, now="2026-11-10T03:30:00")
+    chk("leg52o reinstated: two store units is a REAL restatement again -- the band is one "
+        "unit wide and the rewrite path still fires beyond it",
+        _riH and _riH["records"][0]["status"] == "REWRITTEN_FROM_PANEL"
+        and abs(_riH["records"][0]["nav_delta_ulp"]) == 2.0
+        and _riH["rewritten"] == ["2026-11-09"], str(_riH["records"][0]))
 
     # leg53: the floor is a MEMORY, not a single regenerated file (r1497). The sheet capped k
     # from PERMISSION_FACE, a current-moment object rewritten every run; if it is missing the
