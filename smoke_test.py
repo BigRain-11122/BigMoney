@@ -11,14 +11,54 @@ import os
 import glob
 import json
 import re
+import time
 import datetime as dt
 import importlib
 import subprocess
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 RESULTS = []
+# r1598: the suite grew to ~570 legs and stopped fitting in a round -- four consecutive
+# reports ended with "the suite was still flying at close", so no window could say whether
+# the code it had just changed was green. Counting legs does not fix that; knowing WHERE
+# the minutes go does, because the slow ones are a handful of 50-180s faces. Every leg now
+# carries its own wall clock, the summary names the slowest and any leg over the ceiling,
+# and the line is appended to logs/smoke.log so the loop can audit it across runs.
+PERF = []            # (leg name, seconds) -- time spent producing that one line
+_LAST_T = [None]
+LEG_CEILING_S = 180.0
+
+
 def check(name: str, ok: bool, detail: str = ""):
+    _now = time.monotonic()
+    if _LAST_T[0] is not None:
+        PERF.append((name, _now - _LAST_T[0]))
+    _LAST_T[0] = _now
     RESULTS.append((name, bool(ok), detail))
     print(f"[{'PASS' if ok else 'FAIL'}] {name}" + (f" | {detail}" if detail else ""))
+
+
+def _perf_summary(ceiling=None, top: int = 5):
+    """What the suite cost, per leg, as text the summary and the log both carry.
+
+    Split out so it can be replayed on its own
+    ($ python -c "import smoke_test as s; s.check('a',True); print(s._perf_summary())")
+    -- a wall clock you can only read out of a 25-minute run is a wall clock nobody reads.
+    Seconds are attributed to the line they produced (time since the previous line), so a
+    leg reads expensive exactly when the work behind its verdict is expensive.
+    """
+    ceiling = LEG_CEILING_S if ceiling is None else float(ceiling)
+    total = sum(s for _, s in PERF)
+    over = [(n, s) for n, s in PERF if s > ceiling]
+    slow = sorted(PERF, key=lambda x: -x[1])[:max(0, int(top))]
+    out = ["wall clock: %.1fs over %d leg(s)" % (total, len(PERF))]
+    if slow:
+        out.append("slowest: " + ", ".join("%s %.1fs" % (n[:70], s) for n, s in slow))
+    if over:
+        out.append("SLOW: %d leg(s) over %.0fs -- this suite cannot close inside a round "
+                   "while they stay this long" % (len(over), ceiling))
+        for n, s in sorted(over, key=lambda x: -x[1]):
+            out.append("  over ceiling: %s %.1fs" % (n[:90], s))
+    return "\n".join(out)
 def _lan_ok(lag, st) -> bool:
     """lag 0 must read as current, lag > 0 must read as stale and say so."""
     if lag == 0:
@@ -315,6 +355,19 @@ def main() -> int:
     except Exception as e:
         check("env: core deps", False, str(e))
         return _finish()
+    # r1598: the wall clock is a mechanism, so it gets a leg. A fixture with one known-slow
+    # leg must be named as over the ceiling and a fast one must not be; without this the
+    # printer could quietly emit nothing and every run would still read green.
+    _saved_perf = list(PERF)
+    try:
+        PERF[:] = [("a fast leg", 0.5), ("a slow leg", 240.0)]
+        _txt = _perf_summary()
+        check("harness: the suite's own wall clock names its slow legs",
+              "a slow leg 240.0s" in _txt and "1 leg(s) over 180s" in _txt
+              and "a fast leg 0.5s" in _txt and "wall clock: 240.5s" in _txt,
+              _txt.replace("\n", " / ")[:150])
+    finally:
+        PERF[:] = _saved_perf
     from config import PATHS, all_combinations, combo_hash
     for d in (PATHS.root, PATHS.data_dir, PATHS.daily_dir,
               PATHS.basic_dir, PATHS.results_dir, PATHS.logs_dir):
@@ -12236,11 +12289,22 @@ def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
     n_fail = len(RESULTS) - n_pass
     print(f"\nSummary: {n_pass}/{len(RESULTS)} PASS, {n_fail} FAIL")
+    perf = _perf_summary() if PERF else ""
+    if perf:
+        print(perf)
     try:
         os.makedirs("logs", exist_ok=True)
         with open(os.path.join("logs", "smoke.log"), "a", encoding="utf-8") as f:
             f.write(f"{dt.datetime.now().isoformat(timespec='seconds')} "
                     f"pass={n_pass} fail={n_fail}\n")
+            if perf:
+                # one line per run keeps the log greppable: `grep 'slow=' logs/smoke.log`
+                # answers "has the suite been getting slower?" without opening a 78KB .out
+                _over = [s for _, s in PERF if s > LEG_CEILING_S]
+                _slow = sorted(PERF, key=lambda x: -x[1])[:3]
+                f.write("  slow=%.1fs total over=%d %s\n"
+                        % (sum(s for _, s in PERF), len(_over),
+                           " | ".join("%s %.1fs" % (n[:60], s) for n, s in _slow)))
     except Exception:
         pass
     return 1 if n_fail else 0
