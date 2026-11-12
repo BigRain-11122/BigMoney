@@ -5222,12 +5222,25 @@ def vt_phases_face(path=VT_PHASES_JSON):
                       "top2_max": j.get("top2_max"),
                       "spread": j.get("spread"),
                       "margin_to_line": j.get("margin_to_line"),
+                      "top2_vs_reference": j.get("top2_vs_reference"),
                       "verdict": j.get("verdict")})
+    ref = d.get("reference") or {}
+    rj = ref.get("judgement") or {}
     return {"status": "ok", "readable": True,
             "evidence_cutoff": d.get("evidence_cutoff"),
             "answer": d.get("answer") or {},
             "phases": d.get("phases") or [],
             "line": (d.get("gate_rules") or {}).get("top2_share_max"),
+            "reference": {"verdict": rj.get("verdict"),
+                          "top2_min": rj.get("top2_min"),
+                          "top2_max": rj.get("top2_max"),
+                          "top2_median": rj.get("top2_median"),
+                          "pass_phases": rj.get("pass_phases"),
+                          "phases": rj.get("phases"),
+                          "cagr_pct": ((ref.get("cells") or [{}])[0]).get("cagr_pct"),
+                          "names_alive_at_start": ((ref.get("cells") or [{}])[0])
+                          .get("names_alive_at_start"),
+                          "method": rj.get("method")},
             "books": books,
             "path": _rel(path)}
 
@@ -5266,6 +5279,30 @@ def vt_phases_block(vp):
     out.append("- 逐档过闸条数：%s" % per)
     out.append("- 读法：这是**科学债**不是缺活——换档解决不了这条路径；要「能拿新钱」，"
                "要么接受满仓书、要么换一条判据面以外的新路径。")
+    # r1615: the same line, read on a book that makes no decisions at all.
+    ref = vp.get("reference") or {}
+    if ref.get("verdict") == "REFERENCE_ALSO_REFUSED" and ref.get("top2_median") is not None:
+        out.append("- 这条线本身也过不了：**同一个池子等权全持**（开盘时约 %s 只、零选择、零择时、零成本），"
+                   "它的 top-2 年占比是 **%.1f%%～%.1f%%**，0/%s 条日历过闸（年化只有 %.1f%%、"
+                   "回撤却更深）——闸线 %.0f%%。所以上面那七个档被拒，不是因为它们比这个池子更集中："
+                   "七档的集中度只有这个参考的 **%.0f%%～%.0f%%**。"
+                   % (ref.get("names_alive_at_start") or "?",
+                      (ref.get("top2_min") or 0) * 100, (ref.get("top2_max") or 0) * 100,
+                      ref.get("phases") or "?",
+                      (ref.get("cagr_pct") or 0) * 100,
+                      (vp.get("line") or 0.70) * 100,
+                      min([b["top2_vs_reference"] for b in books
+                           if b.get("top2_vs_reference")] or [0]) * 100,
+                      max([b["top2_vs_reference"] for b in books
+                           if b.get("top2_vs_reference")] or [0]) * 100))
+        out.append("- 换句话说：这个 top-2 占比的**分母是各年净收益之和**，收益低的账（比如上面那个等权参考）"
+                   "分母小，两年就能占满——它量的同时是「集中」和「赚得少」。"
+                   "跨不同收益水平的书比这条绝对线会失真；能比的是**同形态的相对读数**（上句的百分比）。"
+                   "这不构成任何一档被采纳的理由。")
+    elif ref.get("verdict") == "REFERENCE_CLEARS":
+        out.append("- 反向对照：同一个池子等权全持能过这条线（%s/%s 条日历），说明这条线在本形态上"
+                   "**可以**通过，档被拒就是档自己的事。" % (ref.get("pass_phases"),
+                                                    ref.get("phases")))
     out.append("- 数据到 %s（相位面 evidence_cutoff，非本页 bar），出处 %s"
                % (vp.get("evidence_cutoff") or "未标注", vp.get("path") or "?"))
     out.append("")
@@ -9599,6 +9636,27 @@ def selftest():
         "超出闸线 14.00pp" in "\n".join(vt_phases_block(_vp_neg))
         and "仍在线内 8.00pp" in "\n".join(vt_phases_block(_vp_pos)),
         "\n".join(vt_phases_block(_vp_neg))[:120])
+    # ---- r1615: the same line, read on a book that makes no decisions ----------------------
+    _vp_ref = dict(_vp)
+    _vp_ref["reference"] = {"verdict": "REFERENCE_ALSO_REFUSED", "top2_min": 1.4658,
+                            "top2_max": 1.4969, "top2_median": 1.4831, "pass_phases": 0,
+                            "phases": 4, "cagr_pct": 0.045,
+                            "names_alive_at_start": 194,
+                            "method": "equal_weight_daily_rebalance_zero_cost"}
+    _vp_ref["books"] = [dict(_vp["books"][0], top2_vs_reference=0.5674),
+                        dict(_vp["books"][1], top2_vs_reference=0.5371)]
+    _vp_ref_md = "\n".join(vt_phases_block(_vp_ref))
+    chk("L214 phases: a reference the line also refuses is printed as the ruler's problem",
+        "同一个池子等权全持" in _vp_ref_md and "146.6%" in _vp_ref_md
+        and "分母是各年净收益之和" in _vp_ref_md and "不构成任何一档被采纳的理由" in _vp_ref_md,
+        _vp_ref_md[-260:])
+    _vp_ok = dict(_vp)
+    _vp_ok["reference"] = {"verdict": "REFERENCE_CLEARS", "pass_phases": 4, "phases": 4,
+                           "top2_median": 0.55}
+    _vp_ok_md = "\n".join(vt_phases_block(_vp_ok))
+    chk("L215 phases: a reference that clears must NOT excuse the rungs",
+        "反向对照" in _vp_ok_md and "分母是各年净收益之和" not in _vp_ok_md,
+        _vp_ok_md[-200:])
     # ---- r1572: the promise the ledger made, and the receipt for the fills already paid ---
     _fill_led = os.path.join(_adm_dir, "LEDGER-fill.json")
     _fill_doc = {"seed": {"bar": "2026-10-23", "capital_cny": 1_000_000.0},

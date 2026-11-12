@@ -92,7 +92,86 @@ def cell(close, openp, amt, score, label, vt, start):
     }
 
 
-def judge(rung: str, cells: list, line=None) -> dict:
+def reference_cells(close, cols, starts) -> list:
+    """The same universe held equally -- the most diversified shape this basket allows.
+
+    r1614 refused every rung on at least one phase and called it NO_RUNG_SURVIVES.
+    Before that sentence can be read as "the books are bad", it has to be measured
+    whether the line can pass anything of this shape at all. Y4 divides the two best
+    annual nets by the SUM of all annual nets (candidate_year_gate.year_metrics), so
+    the number moves with the book's return level as much as with its skew: a
+    low-return book can print a huge share while holding every name in the basket.
+
+    This arm holds all of `cols` equally, rebalanced every bar, zero cost -- no
+    selection, no timing, no vol target. It is deliberately generous (no cost) and
+    deliberately naive; its only job is to say what the line reads on a book that
+    makes no decisions at all. It is printed, never used to admit a rung.
+    """
+    rets = close[cols].pct_change()
+    eq = (1.0 + rets.mean(axis=1).fillna(0.0)).cumprod()
+    out = []
+    for start in starts:
+        s = eq[eq.index >= pd.Timestamp(start)]
+        years = L.yearly_returns(s)
+        st = A.stats2(s, "reference")
+        cagr = st.get("cagr")
+        blk = G.admission_block(years, None, None, cagr)
+        after = close.index[close.index >= pd.Timestamp(start)]
+        alive = int(close[cols].loc[after[0]].notna().sum()) if len(after) else None
+        out.append({
+            "phase_start": str(pd.Timestamp(start).date()),
+            "top2_share": blk["year_metrics"]["top2_share"],
+            "worst_year_pp": blk["year_metrics"].get("worst_year_pp"),
+            "positive_years_share": blk["year_metrics"].get("positive_years_share"),
+            "cagr_pct": cagr,
+            "sharpe": st.get("sharpe"),
+            "maxdd_pct": st.get("maxdd"),
+            "vol_realised_pct": (None if L.realised_vol(s) is None
+                                 else round(L.realised_vol(s) * 100.0, 3)),
+            "verdict": blk["verdict"],
+            "names_alive_at_start": alive,
+        })
+    return out
+
+
+def reference_verdict(cells: list, line=None) -> dict:
+    """Did the gate clear on the book that makes no decisions?
+
+    `REFERENCE_ALSO_REFUSED` is the case that makes the rung verdicts unreadable as
+    a ranking: the line refuses the most diversified shape in the same basket, so a
+    rung that is refused is not thereby worse than the universe. It turns no rung into
+    an adoption -- it names why the answer cannot be used to pick one.
+    """
+    line = G.TOP2_SHARE_MAX if line is None else float(line)
+    tops = [c["top2_share"] for c in cells if c.get("top2_share") is not None]
+    if not cells:
+        return {"verdict": "NO_READING", "detail": "the reference priced no phase"}
+    if not tops:
+        return {"verdict": "NO_READING", "detail": "no phase produced a top-2 share"}
+    admits = [c for c in cells if c.get("verdict") == "ADMIT"]
+    out = {
+        "phases": len(cells),
+        "pass_phases": len(admits),
+        "top2_min": round(min(tops), 4),
+        "top2_max": round(max(tops), 4),
+        "top2_median": round(float(np.median(tops)), 4),
+        "line": line,
+        "method": "equal_weight_daily_rebalance_zero_cost",
+    }
+    if admits:
+        out["verdict"] = "REFERENCE_CLEARS"
+        out["detail"] = ("the same universe held equally clears the line on %d of %d "
+                         "phases, so the line can pass this shape" % (len(admits), len(cells)))
+    else:
+        out["verdict"] = "REFERENCE_ALSO_REFUSED"
+        out["detail"] = ("the same universe held equally -- no selection, no timing -- "
+                         "scores top-2 %.2f..%.2f on %d phases and is refused too, so the "
+                         "line is not ranking the rungs"
+                         % (min(tops), max(tops), len(cells)))
+    return out
+
+
+def judge(rung: str, cells: list, line=None, reference_top2=None) -> dict:
     """Read the rung's answer off its own four cells -- never hand-written.
 
     Adoptable requires BOTH: the gate clears on every phase (no calendar luck) and
@@ -123,6 +202,11 @@ def judge(rung: str, cells: list, line=None) -> dict:
         "margin_to_line": round(margin, 4),
         "line": line,
     }
+    # r1615: the rung's worst phase against the shape reference's median phase. Below
+    # 1.0 the rung is less concentrated than the same universe held equally, which is
+    # the only reading of Y4 that survives the reference arm refusing the line itself.
+    if reference_top2:
+        out["top2_vs_reference"] = round(max(tops) / float(reference_top2), 4)
     if len(admits) != len(cells):
         out["verdict"] = "PHASE_DEPENDENT"
         out["detail"] = ("%d of %d phases clear the line; %s refused"
@@ -140,8 +224,13 @@ def judge(rung: str, cells: list, line=None) -> dict:
     return out
 
 
-def decide(judgements: list) -> dict:
-    """The face's single answer: which rung, if any, survives the path test."""
+def decide(judgements: list, reference=None) -> dict:
+    """The face's single answer: which rung, if any, survives the path test.
+
+    `reference` is the equal-weight shape arm (r1615). It can never admit a rung; it
+    only decides whether the sentence "no rung survives" is a ranking or a ruler
+    problem, and says so on the answer itself so no reader has to cross-reference.
+    """
     ok = [j for j in judgements if j.get("verdict") == "ADOPTABLE"]
     brittle = [j for j in judgements if j.get("verdict") == "BRITTLE"]
     if ok:
@@ -154,8 +243,19 @@ def decide(judgements: list) -> dict:
                 "detail": ("no rung clears every phase with more margin than phase "
                            "spread; %s clear all phases but sit inside their own noise"
                            % ",".join(j["rung"] for j in brittle))}
-    return {"answer": "NO_RUNG_SURVIVES",
-            "detail": "every rung is refused on at least one phase"}
+    ans = {"answer": "NO_RUNG_SURVIVES",
+           "detail": "every rung is refused on at least one phase"}
+    if reference and reference.get("verdict") == "REFERENCE_ALSO_REFUSED":
+        ans["gate_comparability"] = "LINE_REFUSES_THE_MOST_DIVERSIFIED_SHAPE"
+        ans["reference_top2_median"] = reference.get("top2_median")
+        ans["reference_pass_phases"] = reference.get("pass_phases")
+        ans["detail"] = (
+            "every rung is refused on at least one phase, and so is the same universe "
+            "held equally (top-2 %.2f on %s of %s phases) -- the line is not ranking "
+            "these books, it is refusing the shape"
+            % (reference.get("top2_median") or 0.0,
+               reference.get("pass_phases"), reference.get("phases")))
+    return ans
 
 
 def run(rungs=None) -> dict:
@@ -170,6 +270,18 @@ def run(rungs=None) -> dict:
     sc = E.build_score(close[cols], amt[cols], feats)
     starts = B.phase_starts(close.index)
     print("phases: %s" % ", ".join(str(pd.Timestamp(d).date()) for d in starts), flush=True)
+    # r1615: the same basket held equally, priced on the same four phases first, so the
+    # rung verdicts are read against a book that made no decisions.
+    ref_cells = reference_cells(close[cols], cols, starts)
+    ref = {"cells": ref_cells, "judgement": reference_verdict(ref_cells),
+           "question": ("what does the frozen Y4 line read on the same universe held "
+                        "equally -- no selection, no timing, no vol target"),
+           "note": ("this arm is the shape reference, not a candidate: a rung is never "
+                    "admitted by beating it, and a line that refuses it cannot rank "
+                    "rungs of the same shape")}
+    print("REFERENCE %s | %s" % (ref["judgement"]["verdict"], ref["judgement"]["detail"]),
+          flush=True)
+    ref_top2 = ref["judgement"].get("top2_median")
     books = []
     for label, vt in rungs:
         cells = []
@@ -180,7 +292,7 @@ def run(rungs=None) -> dict:
                   % (label, c["phase_start"], c["top2_share"], c["verdict"],
                      c["cagr_pct"]), flush=True)
         books.append({"rung": label, "vol_target": vt, "cells": cells,
-                      "judgement": judge(label, cells)})
+                      "judgement": judge(label, cells, reference_top2=ref_top2)})
         print("  -> %s: %s" % (label, books[-1]["judgement"]["detail"]), flush=True)
     out = {
         "face": "etf_book_vt_phases",
@@ -189,7 +301,8 @@ def run(rungs=None) -> dict:
         "cell": "N5_R20_10bp",
         "question": ("r1613 disclosed which vol-target rungs clear the frozen calendar "
                      "gate on one decision grid; does any of them clear on every phase "
-                     "of the calendar, with more margin than its own phase spread"),
+                     "of the calendar, with more margin than its own phase spread -- and "
+                     "can that gate pass this shape at all (r1615 reference arm)"),
         "gate_rules": {
             "source": "scripts/candidate_year_gate.py (imported, not copied)",
             "top2_share_max": G.TOP2_SHARE_MAX,
@@ -204,7 +317,8 @@ def run(rungs=None) -> dict:
                  "flips_repaired": int(n_flip),
                  "bond_free_universe": len(cols), "cell": dict(L.CELL)},
         "books": books,
-        "answer": decide([b["judgement"] for b in books]),
+        "reference": ref,
+        "answer": decide([b["judgement"] for b in books], reference=ref["judgement"]),
         "elapsed_sec": round(time.time() - t0, 1),
     }
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -255,6 +369,28 @@ def check() -> int:
     if not books:
         errs.append("face publishes no books")
     phases = d.get("phases") or []
+    # r1615: the reference arm is part of the verdict, so check() must re-derive it too.
+    ref = d.get("reference") or {}
+    ref_cells = ref.get("cells") or []
+    ref_judgement = ref.get("judgement") or {}
+    if not ref_cells:
+        errs.append("face publishes no reference arm -- the rung verdicts cannot be "
+                    "read as a ranking without it")
+    elif {c.get("phase_start") for c in ref_cells} != set(phases):
+        errs.append("reference priced a different set of phases than the rungs")
+    for c in ref_cells:
+        t = c.get("top2_share")
+        if t is not None and (c.get("verdict") == "ADMIT") != (t <= G.TOP2_SHARE_MAX):
+            errs.append("reference/%s verdict disagrees with its own top2 (%.4f vs %.2f)"
+                        % (c.get("phase_start"), t, G.TOP2_SHARE_MAX))
+    again_ref = reference_verdict(ref_cells)
+    if again_ref.get("verdict") != ref_judgement.get("verdict"):
+        errs.append("reference verdict re-derives: %s != %s"
+                    % (again_ref.get("verdict"), ref_judgement.get("verdict")))
+    if again_ref.get("top2_median") != ref_judgement.get("top2_median"):
+        errs.append("reference top2_median re-derives: %s != %s"
+                    % (again_ref.get("top2_median"), ref_judgement.get("top2_median")))
+    ref_median = again_ref.get("top2_median")
     for b in books:
         cells = b.get("cells") or []
         if len(cells) != len(phases):
@@ -269,15 +405,22 @@ def check() -> int:
                     yrs_at <= G.TOP2_SHARE_MAX):
                 errs.append("%s/%s verdict disagrees with its own top2 (%.4f vs %.2f)"
                             % (b["rung"], c["phase_start"], yrs_at, G.TOP2_SHARE_MAX))
-        again = judge(b["rung"], cells)
+        again = judge(b["rung"], cells, reference_top2=ref_median)
         if again["verdict"] != b["judgement"]["verdict"]:
             errs.append("%s judgement re-derives: %s != %s"
                         % (b["rung"], again["verdict"], b["judgement"]["verdict"]))
         if again.get("pass_phases") != b["judgement"].get("pass_phases"):
             errs.append("%s pass_phases re-derives" % b["rung"])
-    answer = decide([b["judgement"] for b in books])
+        if again.get("top2_vs_reference") != b["judgement"].get("top2_vs_reference"):
+            errs.append("%s top2_vs_reference re-derives: %s != %s"
+                        % (b["rung"], again.get("top2_vs_reference"),
+                           b["judgement"].get("top2_vs_reference")))
+    answer = decide([b["judgement"] for b in books], reference=ref_judgement)
     if answer["answer"] != d["answer"]["answer"]:
         errs.append("answer re-derives: %s != %s" % (answer["answer"], d["answer"]["answer"]))
+    if answer.get("gate_comparability") != d["answer"].get("gate_comparability"):
+        errs.append("gate_comparability re-derives: %s != %s"
+                    % (answer.get("gate_comparability"), d["answer"].get("gate_comparability")))
     ok = [b["rung"] for b in books if b["judgement"]["verdict"] == "ADOPTABLE"]
     if bool(ok) != (d["answer"]["answer"] == "RUNG_SURVIVES_PATH_TEST"):
         errs.append("answer word disagrees with the adoptable list")
@@ -344,6 +487,48 @@ def selftest() -> int:
     leg("phase_starts yields distinct phases (the mechanism moved)",
         len(starts) == B.N_PHASES and len(set(starts)) == len(starts),
         str([str(pd.Timestamp(s).date()) for s in starts]))
+    # 8. r1615 reference arm: the line refuses the book that makes no decisions
+    _ref = [_c("ref", 1.47, verdict="REFUSE", phase="p1"),
+            _c("ref", 1.49, verdict="REFUSE", phase="p2"),
+            _c("ref", 1.50, verdict="REFUSE", phase="p3"),
+            _c("ref", 1.47, verdict="REFUSE", phase="p4")]
+    rv = reference_verdict(_ref)
+    leg("an equal-weight reference that the line refuses is named as such",
+        rv["verdict"] == "REFERENCE_ALSO_REFUSED" and rv["pass_phases"] == 0
+        and abs(rv["top2_median"] - 1.48) < 1e-9,
+        "%s median=%s" % (rv["verdict"], rv.get("top2_median")))
+    rv_ok = reference_verdict([_c("ref", 0.60, phase="p1"), _c("ref", 0.62, phase="p2")])
+    leg("a reference that clears the line is NOT reported as a ruler problem",
+        rv_ok["verdict"] == "REFERENCE_CLEARS", rv_ok["verdict"])
+    leg("a reference with no reading never claims a verdict",
+        reference_verdict([])["verdict"] == "NO_READING",
+        reference_verdict([])["verdict"])
+    # 9. the answer keeps the refusal and adds the cause; it never turns into a pass
+    d = decide([{"rung": "x", "verdict": "PHASE_DEPENDENT", "detail": ""}],
+               reference=rv)
+    leg("no survivor + refused reference keeps NO_RUNG_SURVIVES and names the cause",
+        d["answer"] == "NO_RUNG_SURVIVES"
+        and d.get("gate_comparability") == "LINE_REFUSES_THE_MOST_DIVERSIFIED_SHAPE",
+        d["answer"] + " / " + str(d.get("gate_comparability")))
+    d2 = decide([{"rung": "x", "verdict": "PHASE_DEPENDENT", "detail": ""}],
+                reference=rv_ok)
+    leg("a reference that clears the line must NOT print a ruler complaint",
+        d2["answer"] == "NO_RUNG_SURVIVES" and "gate_comparability" not in d2,
+        str(d2.get("gate_comparability")))
+    # 10. the ratio is arithmetic, and it is bounded by the reference it divides by
+    j = judge("vtF", [_c("vtF", 0.84, phase="p1"), _c("vtF", 0.80, phase="p2"),
+                      _c("vtF", 0.82, phase="p3"), _c("vtF", 0.81, phase="p4")],
+              line=line, reference_top2=rv["top2_median"])
+    leg("top2_vs_reference divides the worst phase by the reference median",
+        abs(j["top2_vs_reference"] - 0.5676) < 1e-4 and j["top2_vs_reference"] < 1.0,
+        "%.4f" % j["top2_vs_reference"])
+    # 11. load-bearing: change only the reference numbers, the conclusion must move
+    rv_low = reference_verdict([_c("ref", 0.55, phase="p1"), _c("ref", 0.57, phase="p2")])
+    d3 = decide([{"rung": "x", "verdict": "PHASE_DEPENDENT", "detail": ""}],
+                reference=rv_low)
+    leg("the ruler complaint is data-driven, not a constant of the code",
+        "gate_comparability" not in d3, str(d3.get("gate_comparability")))
+
     bad = [n for n, ok, _ in legs if not ok]
     for n, ok, detail in legs:
         print("[%s] %s%s" % ("PASS" if ok else "FAIL", n, (" | " + detail) if detail else ""))

@@ -698,7 +698,10 @@
   "evidence_cutoff": "2026-11-12",
   "answer": {
    "answer": "NO_RUNG_SURVIVES",
-   "detail": "every rung is refused on at least one phase"
+   "detail": "every rung is refused on at least one phase, and so is the same universe held equally (top-2 1.48 on 0 of 4 phases) -- the line is not ranking these books, it is refusing the shape",
+   "gate_comparability": "LINE_REFUSES_THE_MOST_DIVERSIFIED_SHAPE",
+   "reference_top2_median": 1.4831,
+   "reference_pass_phases": 0
   },
   "phases": [
    "2020-01-02",
@@ -707,6 +710,17 @@
    "2020-01-23"
   ],
   "line": 0.7,
+  "reference": {
+   "verdict": "REFERENCE_ALSO_REFUSED",
+   "top2_min": 1.4658,
+   "top2_max": 1.4969,
+   "top2_median": 1.4831,
+   "pass_phases": 0,
+   "phases": 4,
+   "cagr_pct": 0.045,
+   "names_alive_at_start": 194,
+   "method": "equal_weight_daily_rebalance_zero_cost"
+  },
   "books": [
    {
     "rung": "none",
@@ -716,6 +730,7 @@
     "top2_max": 0.777,
     "spread": 0.0985,
     "margin_to_line": -0.077,
+    "top2_vs_reference": 0.5239,
     "verdict": "PHASE_DEPENDENT"
    },
    {
@@ -726,6 +741,7 @@
     "top2_max": 0.8659,
     "spread": 0.1652,
     "margin_to_line": -0.1659,
+    "top2_vs_reference": 0.5838,
     "verdict": "PHASE_DEPENDENT"
    },
    {
@@ -736,6 +752,7 @@
     "top2_max": 0.8788,
     "spread": 0.1645,
     "margin_to_line": -0.1788,
+    "top2_vs_reference": 0.5925,
     "verdict": "PHASE_DEPENDENT"
    },
    {
@@ -746,6 +763,7 @@
     "top2_max": 0.8778,
     "spread": 0.1681,
     "margin_to_line": -0.1778,
+    "top2_vs_reference": 0.5919,
     "verdict": "PHASE_DEPENDENT"
    },
    {
@@ -756,6 +774,7 @@
     "top2_max": 0.8415,
     "spread": 0.1713,
     "margin_to_line": -0.1415,
+    "top2_vs_reference": 0.5674,
     "verdict": "PHASE_DEPENDENT"
    },
    {
@@ -766,6 +785,7 @@
     "top2_max": 0.7966,
     "spread": 0.132,
     "margin_to_line": -0.0966,
+    "top2_vs_reference": 0.5371,
     "verdict": "PHASE_DEPENDENT"
    },
    {
@@ -776,6 +796,7 @@
     "top2_max": 0.7871,
     "spread": 0.1105,
     "margin_to_line": -0.0871,
+    "top2_vs_reference": 0.5307,
     "verdict": "PHASE_DEPENDENT"
    }
   ],
@@ -6797,8 +6818,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 10.2,
+  "owner_silent_h": 10.7,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 10.2 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 10.7 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

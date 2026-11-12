@@ -1,9 +1,9 @@
 {
  "face": "etf_book_vt_phases",
- "asof": "2026-11-13T06:46:11+0800",
+ "asof": "2026-11-13T07:19:42+0800",
  "evidence_cutoff": "2026-11-12",
  "cell": "N5_R20_10bp",
- "question": "r1613 disclosed which vol-target rungs clear the frozen calendar gate on one decision grid; does any of them clear on every phase of the calendar, with more margin than its own phase spread",
+ "question": "r1613 disclosed which vol-target rungs clear the frozen calendar gate on one decision grid; does any of them clear on every phase of the calendar, with more margin than its own phase spread -- and can that gate pass this shape at all (r1615 reference arm)",
  "gate_rules": {
   "source": "scripts/candidate_year_gate.py (imported, not copied)",
   "top2_share_max": 0.7,
@@ -136,6 +136,7 @@
     "spread": 0.0985,
     "margin_to_line": -0.077,
     "line": 0.7,
+    "top2_vs_reference": 0.5239,
     "verdict": "PHASE_DEPENDENT",
     "detail": "2 of 4 phases clear the line; 2020-01-16,2020-01-23 refused"
    }
@@ -248,6 +249,7 @@
     "spread": 0.1652,
     "margin_to_line": -0.1659,
     "line": 0.7,
+    "top2_vs_reference": 0.5838,
     "verdict": "PHASE_DEPENDENT",
     "detail": "0 of 4 phases clear the line; 2020-01-02,2020-01-09,2020-01-16,2020-01-23 refused"
    }
@@ -360,6 +362,7 @@
     "spread": 0.1645,
     "margin_to_line": -0.1788,
     "line": 0.7,
+    "top2_vs_reference": 0.5925,
     "verdict": "PHASE_DEPENDENT",
     "detail": "0 of 4 phases clear the line; 2020-01-02,2020-01-09,2020-01-16,2020-01-23 refused"
    }
@@ -472,6 +475,7 @@
     "spread": 0.1681,
     "margin_to_line": -0.1778,
     "line": 0.7,
+    "top2_vs_reference": 0.5919,
     "verdict": "PHASE_DEPENDENT",
     "detail": "0 of 4 phases clear the line; 2020-01-02,2020-01-09,2020-01-16,2020-01-23 refused"
    }
@@ -583,6 +587,7 @@
     "spread": 0.1713,
     "margin_to_line": -0.1415,
     "line": 0.7,
+    "top2_vs_reference": 0.5674,
     "verdict": "PHASE_DEPENDENT",
     "detail": "1 of 4 phases clear the line; 2020-01-09,2020-01-16,2020-01-23 refused"
    }
@@ -693,6 +698,7 @@
     "spread": 0.132,
     "margin_to_line": -0.0966,
     "line": 0.7,
+    "top2_vs_reference": 0.5371,
     "verdict": "PHASE_DEPENDENT",
     "detail": "2 of 4 phases clear the line; 2020-01-16,2020-01-23 refused"
    }
@@ -803,14 +809,83 @@
     "spread": 0.1105,
     "margin_to_line": -0.0871,
     "line": 0.7,
+    "top2_vs_reference": 0.5307,
     "verdict": "PHASE_DEPENDENT",
     "detail": "2 of 4 phases clear the line; 2020-01-16,2020-01-23 refused"
    }
   }
  ],
+ "reference": {
+  "cells": [
+   {
+    "phase_start": "2020-01-02",
+    "top2_share": 1.474,
+    "worst_year_pp": null,
+    "positive_years_share": null,
+    "cagr_pct": 0.045,
+    "sharpe": 0.334,
+    "maxdd_pct": -0.3722,
+    "vol_realised_pct": 19.004,
+    "verdict": "REFUSE",
+    "names_alive_at_start": 194
+   },
+   {
+    "phase_start": "2020-01-09",
+    "top2_share": 1.4922,
+    "worst_year_pp": null,
+    "positive_years_share": null,
+    "cagr_pct": 0.0433,
+    "sharpe": 0.325,
+    "maxdd_pct": -0.3722,
+    "vol_realised_pct": 19.021,
+    "verdict": "REFUSE",
+    "names_alive_at_start": 196
+   },
+   {
+    "phase_start": "2020-01-16",
+    "top2_share": 1.4969,
+    "worst_year_pp": null,
+    "positive_years_share": null,
+    "cagr_pct": 0.0429,
+    "sharpe": 0.323,
+    "maxdd_pct": -0.3722,
+    "vol_realised_pct": 19.045,
+    "verdict": "REFUSE",
+    "names_alive_at_start": 201
+   },
+   {
+    "phase_start": "2020-01-23",
+    "top2_share": 1.4658,
+    "worst_year_pp": null,
+    "positive_years_share": null,
+    "cagr_pct": 0.0462,
+    "sharpe": 0.34,
+    "maxdd_pct": -0.3722,
+    "vol_realised_pct": 19.038,
+    "verdict": "REFUSE",
+    "names_alive_at_start": 204
+   }
+  ],
+  "judgement": {
+   "phases": 4,
+   "pass_phases": 0,
+   "top2_min": 1.4658,
+   "top2_max": 1.4969,
+   "top2_median": 1.4831,
+   "line": 0.7,
+   "method": "equal_weight_daily_rebalance_zero_cost",
+   "verdict": "REFERENCE_ALSO_REFUSED",
+   "detail": "the same universe held equally -- no selection, no timing -- scores top-2 1.47..1.50 on 4 phases and is refused too, so the line is not ranking the rungs"
+  },
+  "question": "what does the frozen Y4 line read on the same universe held equally -- no selection, no timing, no vol target",
+  "note": "this arm is the shape reference, not a candidate: a rung is never admitted by beating it, and a line that refuses it cannot rank rungs of the same shape"
+ },
  "answer": {
   "answer": "NO_RUNG_SURVIVES",
-  "detail": "every rung is refused on at least one phase"
+  "detail": "every rung is refused on at least one phase, and so is the same universe held equally (top-2 1.48 on 0 of 4 phases) -- the line is not ranking these books, it is refusing the shape",
+  "gate_comparability": "LINE_REFUSES_THE_MOST_DIVERSIFIED_SHAPE",
+  "reference_top2_median": 1.4831,
+  "reference_pass_phases": 0
  },
- "elapsed_sec": 89.0
+ "elapsed_sec": 80.9
 }

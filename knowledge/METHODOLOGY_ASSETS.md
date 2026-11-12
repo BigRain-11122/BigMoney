@@ -13985,3 +13985,29 @@ efresh——闸键是**价格面板末行**，
 results/etf_book_vt_phases/VT-PHASES.json（7 档 × 4 日历 = 28 格）、CEO 页新节
 「同一个闸，四条决策日历」（etf_book_ceo_page selftest 260/260，+4 腿，含余量符号两种措辞的腿）、
 S6 腿 vt_phases(12.5s no-op)/vt_phases_check(0.9s)。
+
+### E587 · 一条绝对比率线在不同收益水平的书之间不可比——判据要「同形态参照」，不要绝对线（r1615 bm-c）
+
+① **现象**：Y4 = 两个最好年度的净收益 / 各年净收益之和 ≤ 70%。r1614 里 7 个档 67%～84%，全被拒，
+于是「换条判据」和「书不好」两种解释都能讲通，谁都证不了。
+
+② **测法**：把同一个池子（债券自由面，开盘时 194～204 只）等权全持、每根 bar 再平衡、零成本——
+零选择、零择时、零波动目标。它自己的 top-2 是 **146.6%～149.7%**（4 条决策日历全拒），
+年化只有 4.5%、回撤 -37%；而七档书是它的 52%～59%。
+
+③ **机制**：分母是各年净收益之和。收益低的账分母小，两年就能占满 —— 这个比值同时量「集中」
+和「赚得少」。所以拿它做**跨收益水平**的绝对门，会拒绝最分散的形态（上面那个 200 只等权），
+却可能放行一只真正集中的高收益书。
+
+④ **正法**：绝对线保留为**披露**，不作采纳门；可比的是**同形态相对读数**（书 ÷ 同池等权参考）。
+要换尺子必须预注册一个尺度无关的口径（例如 top2 / 中位年倍数）并重算全史，**禁看结果调线**
+（r1426 同族）。
+
+⑤ **机检**：`reference_verdict()` 三态（REFERENCE_CLEARS / REFERENCE_ALSO_REFUSED / NO_READING）；
+`decide()` 把成因印在 answer 上（`gate_comparability=LINE_REFUSES_THE_MOST_DIVERSIFIED_SHAPE`），
+`check()` 从已发布收据重派生两者；承重腿＝只改参考数字，结论必须跟着变（参考能过线时，
+页面与 answer 都不许再印「尺子有问题」）。
+
+实锚：scripts/etf_book_vt_phases.py（selftest 16/16，+7 腿）、
+results/etf_book_vt_phases/VT-PHASES.json（reference.judgement.top2_median 1.4831）、
+CEO 页「同一个闸，四条决策日历」两行新句（etf_book_ceo_page selftest 262/262，+2 腿）。
