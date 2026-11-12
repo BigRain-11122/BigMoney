@@ -906,7 +906,7 @@
  },
  "leg_split": {
   "status": "ok",
-  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_legs\\latest.json",
+  "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_legs\\latest.json",
   "evidence_cutoff": "2026-10-30",
   "generated_ts": "2026-10-31T12:49:51+0800",
   "execution": "decide at close of bar d -> fill at open of bar d+1 -> hold to the next fill",
@@ -975,7 +975,7 @@
   "sentence": "前三名只占毛收益 21.8%（第一 黄金ETF易方达 7.4%）；删掉这三只年化 -1.98pp；删掉整条 commodity 袖（41 只）年化 -3.69pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
   "evidence_cutoff": "2026-11-12",
   "verdict": "BROAD|SURVIVES_WITHOUT_TOP3",
-  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_concentration.json",
+  "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_concentration.json",
   "top3_share": 0.2181,
   "hhi": 0.0238,
   "names_negative": 68,
@@ -1072,7 +1072,7 @@
   "evidence_cutoff": "2026-11-12",
   "verdict": "NO_GATE",
   "adopting": [],
-  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_sleeve_gate.json",
+  "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_sleeve_gate.json",
   "gates": [
    {
     "name": "trend",
@@ -1156,7 +1156,7 @@
   }
  },
  "sleeve_paths": {
-  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_sleeve_paths.json",
+  "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_sleeve_paths.json",
   "status": "ok",
   "verdict": "NO_GATE",
   "support": {
@@ -1433,7 +1433,7 @@
  },
  "exposure_timing": {
   "status": "ok",
-  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_exposure_timing.json",
+  "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_exposure_timing.json",
   "evidence_cutoff": "2026-11-12",
   "bars": 1662,
   "decisions": 84,
@@ -1487,7 +1487,7 @@
  },
  "cost_tape": {
   "status": "ok",
-  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_cost_tape.json",
+  "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_cost_tape.json",
   "evidence_cutoff": "2026-10-30",
   "verdict": "CONSERVATIVE | SURVIVES",
   "assumption_verdict": "CONSERVATIVE",
@@ -2100,7 +2100,7 @@
  },
  "vol_window_edge": {
   "status": "ok",
-  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_vol_window_edge.json",
+  "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_vol_window_edge.json",
   "evidence_cutoff": "2026-10-30",
   "verdict": {
    "state": "ADOPT_WINDOW",
@@ -3114,7 +3114,7 @@
  },
  "lookahead": {
   "status": "ok",
-  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_lookahead_audit.json",
+  "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_lookahead_audit.json",
   "evidence_cutoff": "2026-10-30",
   "verdict": {
    "state": "LOOKAHEAD_PRESENT",
@@ -3372,7 +3372,7 @@
    "turnover_arm": 0.9442,
    "turnover_declared": 0.959
   },
-  "elapsed_sec": 101.6,
+  "elapsed_sec": 90.5,
   "evidence_cutoff": "2026-11-12",
   "gross_rows": [
    {
@@ -3749,7 +3749,7 @@
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-12T16:13:50+0800",
+  "ts": "2026-11-12T19:27:54+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -3803,7 +3803,7 @@
    "state_rule_detail": "MIXED_ACROSS_PHASES requires the return line to be cleared first; a recovery smaller than recovery_min_pp is IRRECOVERABLE however consistently it wins"
   },
   "status": "ok",
-  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_causal_rebuild.json"
+  "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_causal_rebuild.json"
  },
  "research_arc": {
   "artifact": "results/etf_book_production/latest.json",
@@ -4703,7 +4703,7 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 90.3,
+  "elapsed_sec": 83.6,
   "evidence_cutoff": "2026-11-12",
   "gap_stats": {
    "entry_bars": 84,
@@ -5062,7 +5062,7 @@
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-12T16:15:22+0800",
+  "ts": "2026-11-12T19:29:19+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -5125,12 +5125,12 @@
    "state_rule_detail": "MIXED_ACROSS_PHASES requires the return line to be cleared first; a gain smaller than gap_min_pp is NO_GAP_EDGE however consistently it wins"
   },
   "status": "ok",
-  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_overnight_gap.json"
+  "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_overnight_gap.json"
  },
  "permission": {
   "status": "ok",
   "artifact": "results/etf_book_rebalance_permission.json",
-  "decision_date": "2026-12-09",
+  "decision_date": "2026-11-11",
   "ticket_file": "TICKET-2026-11-12.json",
   "k_order": 0.432195,
   "k_allowed": 0.432195,
@@ -5175,7 +5175,7 @@
   "k_schedule_last": 0.460253,
   "consistency": {
    "generated": {
-    "permission": "2026-11-12T19:50:05+0800",
+    "permission": "2026-11-12T17:07:47+0800",
     "gap": "2026-11-12T17:07:50+0800",
     "ledger": "2026-11-12T16:53:05+0800"
    },
@@ -5562,24 +5562,24 @@
   "stale": false,
   "verdict": "HIGH_PREMIUM_PAYS",
   "horizon": 20,
-  "sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=264, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.35% (mean +0.40%, fell in 33% of 135 cases); today's legs in that band: 159655 98.8 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
+  "sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=265, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band today || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
   "caveat": "five legs of one ticket: this is a description of these funds' own records, not a cross-sectional study and not a forecast. Overlapping windows are counted once per stride in the t-stat and reported in full only as coverage.",
   "rows": [
    {
     "symbol": "510760",
-    "bucket": "MID",
-    "latest_pctile": 63.89819156061621,
-    "mean_pct": 0.18839243500050093,
-    "n": 590,
-    "t": 1.1436214480874844,
+    "bucket": "LOW",
+    "latest_pctile": 13.453815261044177,
+    "mean_pct": 0.5223345213939685,
+    "n": 262,
+    "t": 1.9314301221169548,
     "nonoverlap_obs": 71,
     "amount_cny": 86377.2,
-    "same_bucket_move_cny": 162.7281103652527
+    "same_bucket_move_cny": 451.177934213511
    },
    {
     "symbol": "512040",
     "bucket": "LOW",
-    "latest_pctile": 24.330005254860747,
+    "latest_pctile": 13.707983193277311,
     "mean_pct": 0.3792060133771917,
     "n": 353,
     "t": 1.087252826971886,
@@ -5590,18 +5590,18 @@
    {
     "symbol": "159655",
     "bucket": "TOP",
-    "latest_pctile": 98.77675840978593,
-    "mean_pct": 0.25477037045744005,
-    "n": 264,
-    "t": 0.9304860705054543,
+    "latest_pctile": 95.72301425661914,
+    "mean_pct": 0.25324350056948697,
+    "n": 265,
+    "t": 0.9284051146351501,
     "nonoverlap_obs": 46,
     "amount_cny": 86356.8,
-    "same_bucket_move_cny": 220.0115392751906
+    "same_bucket_move_cny": 218.6929832997907
    },
    {
     "symbol": "513690",
     "bucket": "LOW",
-    "latest_pctile": 20.406626506024097,
+    "latest_pctile": 21.068472535741158,
     "mean_pct": 0.5286904350189094,
     "n": 222,
     "t": 1.3832784155035334,
@@ -5611,18 +5611,18 @@
    },
    {
     "symbol": "159519",
-    "bucket": "LOW",
-    "latest_pctile": 15.95330739299611,
-    "mean_pct": 1.3826701483456063,
-    "n": 171,
-    "t": 4.536022614746311,
+    "bucket": "BOTTOM",
+    "latest_pctile": 6.7357512953367875,
+    "mean_pct": 2.08316783553162,
+    "n": 106,
+    "t": 3.898472601386381,
     "nonoverlap_obs": 35,
     "amount_cny": 86403.2,
-    "same_bucket_move_cny": 1194.671253615351
+    "same_bucket_move_cny": 1799.9236712700565
    }
   ],
   "missing_legs": [],
-  "cny_total": 2361.49,
+  "cny_total": 3253.87,
   "sample_signature": "3600c87ce854",
   "sample_legs": [
    "159519",
@@ -6557,7 +6557,7 @@
  },
  "envelope": {
   "status": "ok",
-  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_bootstrap\\ENVELOPE-2026-11-12.json",
+  "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_bootstrap\\ENVELOPE-2026-11-12.json",
   "evidence_cutoff": "2026-11-12",
   "block": 20,
   "n_resamples": 2000,
@@ -6674,8 +6674,10 @@
   "inputs_sha256": "72cf8357df7eb08eeee751549ca4271ae7f0a5c909189a761fbfe2d463ef25d9"
  },
  "authority": {
-  "writer": "bm-a",
+  "writer": "bm-c",
   "owner": "bm-a",
-  "took_over": false
+  "owner_silent_h": 42.7,
+  "took_over": true,
+  "why": "bm-a has not written its own heartbeat for 42.7 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

@@ -1,6 +1,6 @@
 {
  "artifact": "etf_book_swap_freshness",
- "generated": "2026-11-12T19:53:27",
+ "generated": "2026-11-12T19:42:49",
  "evidence_cutoff": "2026-11-12",
  "calendar_source": "data/exchange_calendar.csv",
  "close_accept_time": "15:30",
@@ -13,8 +13,7 @@
    "bar": "2026-11-11",
    "lag_sessions": 1,
    "status": "STALE",
-   "reason": "1 session(s) behind the 2026-11-12 close",
-   "waiting_on": "waiting on data/etf_premium/snap/2026-11-12.csv (newest copy here: 2026-11-11, written 2026-11-11T19:46:08; lane owner bm-c writes it; this copy cannot)"
+   "reason": "1 session(s) behind the 2026-11-12 close"
   },
   {
    "leg": "sibling_gap",
@@ -24,8 +23,7 @@
    "bar": "2026-11-11",
    "lag_sessions": 1,
    "status": "STALE",
-   "reason": "1 session(s) behind the 2026-11-12 close",
-   "waiting_on": "waiting on data/etf_premium/snap/2026-11-12.csv (newest copy here: 2026-11-11, written 2026-11-11T19:46:08; lane owner bm-c writes it; this copy cannot)"
+   "reason": "1 session(s) behind the 2026-11-12 close"
   },
   {
    "leg": "swap_trigger",
@@ -35,8 +33,7 @@
    "bar": "2026-11-11",
    "lag_sessions": 1,
    "status": "STALE",
-   "reason": "1 session(s) behind the 2026-11-12 close",
-   "waiting_on": "waiting on data/etf_premium/snap/2026-11-12.csv (newest copy here: 2026-11-11, written 2026-11-11T19:46:08; lane owner bm-c writes it; this copy cannot)"
+   "reason": "1 session(s) behind the 2026-11-12 close"
   },
   {
    "leg": "swap_stack",
@@ -117,7 +114,7 @@
  ],
  "inconsistent_legs": [],
  "verdict": "STALE",
- "sentence": "STALE: 3 of 10 faces are older than the 2026-11-12 close -- worst sibling_entry on 2026-11-11 (1 session(s) behind the 2026-11-12 close). waiting on data/etf_premium/snap/2026-11-12.csv (newest copy here: 2026-11-11, written 2026-11-11T19:46:08; lane owner bm-c writes it; this copy cannot)",
+ "sentence": "STALE: 3 of 10 faces are older than the 2026-11-12 close -- worst sibling_entry on 2026-11-11 (1 session(s) behind the 2026-11-12 close).",
  "caveats": [
   "The bar-to-be comes from the official exchange calendar, never from this chain's own panels: a panel cannot say which session should already be printed (r1286).",
   "A face AHEAD of the calendar is not stale -- its producer would not make it true, so the chain must keep it red instead of paying a refresh (r1345).",

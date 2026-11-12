@@ -2,7 +2,7 @@
 
 Official reference: last day that must exist by 15:30 = **2026-11-12** (8797 calendar days loaded).
 
-Verdict: **all_fresh** -- 7/15 lanes in sync, 14/15 auditable from this machine.
+Verdict: **all_fresh** -- 8/15 lanes in sync, 14/15 auditable from this machine.
 
 
 ## Whose disk these numbers are on
@@ -19,13 +19,13 @@ Verdict: **all_fresh** -- 7/15 lanes in sync, 14/15 auditable from this machine.
 | `lhb` | bm-a | 2026-11-11 | 1: 2026-11-12 | today_pending | declared_takeover |
 | `lhb_inst` | bm-c | 2026-11-11 | 1: 2026-11-12 | today_pending | host_envelope |
 | `repo` | bm-a | 2026-11-11 | 1: 2026-11-12 | today_pending | declared_takeover |
-| `ths_panel` | bm-c | 2026-11-11 | 1: 2026-11-12 | today_pending | host_envelope |
 | `zt_pool` | bm-c | 2026-11-11 | 1: 2026-11-12 | today_pending | host_copy |
 | `ah_panel` | bm-c | 2026-11-12 | 0 | in_sync | host_copy |
 | `astock_daily` | bm-b | 2026-11-12 | 0 | in_sync | declared_takeover |
 | `etf_panel` | bm-c | 2026-11-12 | 0 | in_sync | host_envelope |
 | `marks` | bm-b | 2026-11-12 | 0 | in_sync | declared_takeover |
 | `minute_feed` | bm-c | 2026-11-12 | 0 | in_sync | host_copy |
+| `ths_panel` | bm-c | 2026-11-12 | 0 | in_sync | host_envelope |
 
 ## Lanes judged against their own window
 
@@ -44,25 +44,24 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 A different question from the section above: these machines have written no heartbeat for more than 24.0h, so the lanes they own are being judged from whatever was last committed. A lane here can still read `in_sync` -- the number is old, the owner is gone, and nobody would notice the day the file stops being written.
 
-- `bm-a`: last seen 2026-11-11T01:14:51+08:00 (39.95h ago) -- owns futures, heat, lhb, repo
+- `bm-a`: last seen 2026-11-11T01:14:51+08:00 (41.85h ago) -- owns futures, heat, lhb, repo
   - already covered by a declared stand-in: futures <- bm-c, heat <- bm-c, lhb <- bm-c, repo <- bm-c (nothing to wait for)
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (316.48h ago) -- owns astock_daily, marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (318.38h ago) -- owns astock_daily, marks
   - already covered by a declared stand-in: astock_daily <- bm-c, marks <- bm-c (nothing to wait for)
 
 ## Envelopes older than the panel they describe
 
 A status envelope is a committed file, so a branch switch or a rebase can restore an older copy of it. Where this host can read the panel itself the panel is the measurement: the staleness is printed here instead of being read as a stall.
 
-- `ah_panel`: envelope says 2026-11-11, panel holds 2026-11-12 (1 official days behind)
 - `astock_daily`: envelope says 2026-11-11, panel holds 2026-11-12 (1 official days behind)
 
 ## Tails read from a sample
 
 The per-symbol panels hold thousands of files, so their tail is read through an evenly spaced sample rather than a full sweep. A sample can miss a single laggard symbol; it cannot miss a panel that stopped weeks ago. Each row below says how many symbols were read out of how many.
 
-- `moneyflow`: 40 of 5226 symbols read, tail 2026-11-10; the full scan holds it in 5,225 of 5,226 symbols (100.00%) (certified 2026-11-12T11:09:46)
-- `ah_panel`: 40 of 187 symbols read, tail 2026-11-12 (certification is older than this scan: full scan read 2026-11-11, this row reads 2026-11-12)
-- `astock_daily`: 40 of 5223 symbols read, tail 2026-11-12 (certification is older than this scan: full scan read 2026-11-11, this row reads 2026-11-12)
+- `moneyflow`: 40 of 5226 symbols read, tail 2026-11-10; the full scan holds it in 5,225 of 5,226 symbols (100.00%) (certified 2026-11-12T19:05:13)
+- `ah_panel`: 40 of 187 symbols read, tail 2026-11-12; the full scan holds it in 187 of 187 symbols (100.00%) (certified 2026-11-12T19:05:13)
+- `astock_daily`: 40 of 5223 symbols read, tail 2026-11-12; the full scan holds it in 1,376 of 5,223 symbols (26.35%) (certified 2026-11-12T19:05:13)
 
 Full-scan certification of exactly these rows: `scripts/data_lane_freshness.py certify` -> `docs/data_lanes/TAIL_CERTIFICATION.md` (it re-reads every file and names the symbols that sit behind the newest bar).
 
