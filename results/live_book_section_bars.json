@@ -1,12 +1,12 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-12 20:35:30",
+ "ts": "2026-11-13 02:52:20",
  "page": {
-  "path": "docs/live_book/LIVE-BOOK-20261112.md",
-  "json": "docs/live_book/LIVE-BOOK-20261112.json"
+  "path": "docs/live_book/LIVE-BOOK-20261113.md",
+  "json": "docs/live_book/LIVE-BOOK-20261113.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-12 定价，但 35 个带日期的节里只有 24 节真在这一天；其余 11 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 19 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 11 节的产物各自都有同名链腿在守，停在原来的 bar 是它们各自被评分的那一天，不是页面的错。",
+ "sentence": "页面头部写着按 2026-11-12 定价，但 35 个带日期的节里只有 24 节真在这一天；其余 11 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 19 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 11 节里，9 节的产物有同名链腿在守，2 节没有任何一条链腿重跑过它们（lookahead, universe_lock）——没有腿的那些停在天，是因为没人重跑，不是因为设计。",
  "evidence_cutoff": "2026-11-12",
  "headline_bar": "2026-11-12",
  "headline_field": "priced_bar",
@@ -69,9 +69,7 @@
    "field": "evidence_cutoff",
    "lag_sessions": 9,
    "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_lookahead_audit"
-   ]
+   "guarded_by": []
   },
   {
    "key": "universe_lock",
@@ -79,9 +77,7 @@
    "field": "evidence_cutoff",
    "lag_sessions": 9,
    "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_universe_lock"
-   ]
+   "guarded_by": []
   },
   {
    "key": "vol_window",
@@ -194,6 +190,9 @@
   "envelope": "2026-11-12",
   "stress": "2026-11-12"
  },
- "n_unguarded": 0,
- "unguarded": []
+ "n_unguarded": 2,
+ "unguarded": [
+  "lookahead",
+  "universe_lock"
+ ]
 }
