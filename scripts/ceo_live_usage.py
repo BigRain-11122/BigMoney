@@ -876,6 +876,11 @@ def _risk_tape_face(root=None):
             "cutoff": v.get("cutoff"),
             "prev_count": prev,
             "prev_cutoff": v.get("prev_cutoff"),
+            # r1579: carry the asked-vs-holds evidence, so a lagging panel can
+            # say WHY it lags instead of leaving the reader to guess.
+            "asked_through": v.get("asked_through"),
+            "empty_days": v.get("empty_days"),
+            "empty_days_count": v.get("empty_days_count"),
             "delta": (cnt - prev) if (cnt is not None
                                       and prev is not None) else None,
         }
@@ -894,11 +899,33 @@ def _risk_tape_face(root=None):
                 "top_streak": raw.get("top_streak"),
                 "down_over_up": raw.get("down_over_up"),
                 "kill_day": raw.get("kill_day"),
+                "kill_day_unavailable": raw.get("kill_day_unavailable"),
                 # r1279: the age of the copy travels with the numbers -- a
                 # reader on another machine must be able to see that this is a
                 # replica (E256), not this morning's tape.
                 "freshness": raw.get("freshness") or {}})
     return out
+
+
+def _zt_lag_cause(panel: dict) -> str:
+    """Why one panel's rows stop short of the others (r1579).
+
+    Two very different facts used to print the same way: "nobody collected that
+    day" and "the exchange had nothing to report that day". The collector's day
+    ledger answers it -- a ledgered day with no rows is a day it asked and got
+    an empty page. Everything else stays unstated rather than guessed."""
+    if not isinstance(panel, dict):
+        return ""
+    asked = panel.get("asked_through")
+    cut = panel.get("cutoff")
+    if not asked or not cut or asked <= cut:
+        return ""
+    empty = panel.get("empty_days") or []
+    after = [d for d in empty if d > cut]
+    if not after:
+        return "（日账已问到 {}，未记明原因）".format(asked)
+    shown = "、".join(d[5:] if len(d) == 10 else d for d in after[-3:])
+    return "（{} 已问·当日零行）".format(shown)
 
 
 def render_md(p: dict) -> str:
@@ -949,6 +976,11 @@ def render_md(p: dict) -> str:
         if rt.get("kill_day") is not None:
             line += (" · 读法（机械口径）：跌停≥涨停 → 杀跌日，今日 "
                      + ("是" if rt["kill_day"] else "否"))
+        elif (rt.get("kill_day_unavailable") or {}).get("note"):
+            # r1579: the rule needs both pools on one session. Printing "否"
+            # from 11-11 涨停s vs 11-09 跌停s was a verdict across days.
+            line += (" · 读法（机械口径）：今日 **未判** —— "
+                     + rt["kill_day_unavailable"]["note"])
         L.append(line)
         fr = rt.get("freshness") or {}
         if fr.get("status") == "stale":
@@ -963,7 +995,9 @@ def render_md(p: dict) -> str:
             # another day named nothing. Each panel now carries its own bar; when a panel
             # truly does not publish one, say 未标注 instead of borrowing the block's date.
             mism = "、".join(
-                "{}={}".format(k, (v or {}).get("cutoff") or "未标注")
+                "{}={}{}".format(
+                    k, (v or {}).get("cutoff") or "未标注",
+                    _zt_lag_cause(v or {}))
                 for k, v in (rt.get("panels") or {}).items()
                 if (v or {}).get("status") == "ok")
             L.append("  - 四面板截止日不一致：{}（如实标注）".format(mism))
@@ -1234,6 +1268,39 @@ def selftest() -> int:
           and p1["national_team"]["signal_face"]["universe_face_only"]
           is True)
     check("schema v1.9", p1["schema"] == "ceo_live_usage_v1_9")
+    # --- r1579: a lagging panel must name WHY it lags (asked and empty), and
+    # the kill-day rule must not run across two sessions.
+    check("zt lag cause names the asked-and-empty days",
+          _zt_lag_cause({"cutoff": "2026-11-09",
+                         "asked_through": "2026-11-11",
+                         "empty_days": ["2026-11-10", "2026-11-11"]})
+          == "（11-10、11-11 已问·当日零行）")
+    check("zt lag cause silent when rows reach the ledger",
+          _zt_lag_cause({"cutoff": "2026-11-11",
+                         "asked_through": "2026-11-11"}) == "")
+    check("zt lag cause does not invent a reason",
+          "未记明原因" in _zt_lag_cause({"cutoff": "2026-11-09",
+                                        "asked_through": "2026-11-11",
+                                        "empty_days": []}))
+    _p = json.loads(json.dumps(p1))
+    _p["risk_tape"] = {
+        "status": "ok", "cutoff": "2026-11-11", "aligned": False,
+        "kill_day": None,
+        "kill_day_unavailable": {"zt_cutoff": "2026-11-11",
+                                 "dtgc_cutoff": "2026-11-09",
+                                 "note": "两池不在同一交易日（涨停池 "
+                                         "2026-11-11、跌停池 2026-11-09）"},
+        "panels": {
+            "zt": {"label": "涨停池", "status": "ok", "count": 85,
+                   "cutoff": "2026-11-11", "delta": None,
+                   "asked_through": "2026-11-11", "empty_days": []},
+            "dtgc": {"label": "跌停池", "status": "ok", "count": 1,
+                     "cutoff": "2026-11-09", "delta": None,
+                     "asked_through": "2026-11-11",
+                     "empty_days": ["2026-11-10", "2026-11-11"]}}}
+    _md = render_md(_p)
+    check("kill-day rule refuses across two sessions (r1579)",
+          "未判" in _md and "11-10、11-11 已问·当日零行" in _md)
     rc = p1["recommendation"]
     check("recommendation face wired (v1.6)",
           rc["path"].endswith("REC-latest.json")

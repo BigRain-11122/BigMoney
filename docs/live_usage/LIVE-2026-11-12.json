@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-12",
- "generated": "2026-11-12T08:42:03",
+ "generated": "2026-11-12T11:54:41",
  "market": {
   "state": "RED",
   "asof": "2026-11-11",
@@ -14,9 +14,9 @@
   "bench_close": 4.15,
   "bench_ma200": 4.6653,
   "clock_cell": "RED_COOL",
-  "clock_asof": "2026-11-06",
+  "clock_asof": "2026-11-11",
   "heat": "COOL",
-  "heat_basis": "LHB 当日 79 行 · 净买 -7.32 亿 vs 250日 p80=96.0 行（温度计=COOL）"
+  "heat_basis": "LHB 当日 85 行 · 净买 30.37 亿 vs 250日 p80=96.0 行（温度计=COOL）"
  },
  "national_team": {
   "status": "存量高控·近期无已验证增持动作",
@@ -57,6 +57,9 @@
     "cutoff": "2026-11-11",
     "prev_count": 93,
     "prev_cutoff": "2026-11-10",
+    "asked_through": "2026-11-11",
+    "empty_days": [],
+    "empty_days_count": 0,
     "delta": -8
    },
    "zbgc": {
@@ -66,6 +69,9 @@
     "cutoff": "2026-11-11",
     "prev_count": 19,
     "prev_cutoff": "2026-11-10",
+    "asked_through": "2026-11-11",
+    "empty_days": [],
+    "empty_days_count": 0,
     "delta": 0
    },
    "dtgc": {
@@ -75,6 +81,13 @@
     "cutoff": "2026-11-09",
     "prev_count": 15,
     "prev_cutoff": "2026-11-06",
+    "asked_through": "2026-11-11",
+    "empty_days": [
+     "2026-11-05",
+     "2026-11-10",
+     "2026-11-11"
+    ],
+    "empty_days_count": 3,
     "delta": -14
    },
    "strong": {
@@ -84,6 +97,9 @@
     "cutoff": "2026-11-11",
     "prev_count": 154,
     "prev_cutoff": "2026-11-10",
+    "asked_through": "2026-11-11",
+    "empty_days": [],
+    "empty_days_count": 0,
     "delta": 24
    }
   },
@@ -109,8 +125,13 @@
     "日出东方"
    ]
   },
-  "down_over_up": 0.012,
-  "kill_day": false,
+  "down_over_up": null,
+  "kill_day": null,
+  "kill_day_unavailable": {
+   "zt_cutoff": "2026-11-11",
+   "dtgc_cutoff": "2026-11-09",
+   "note": "两池不在同一交易日（涨停池 2026-11-11、跌停池 2026-11-09）——杀跌日读法今日不判"
+  },
   "freshness": {
    "status": "current",
    "expected_last_bar_day": "2026-11-11",
@@ -505,7 +526,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 51800.3
+    "last_append_age_min": 51992.9
    },
    {
     "family": "FUND-VALUE-P1",
@@ -513,7 +534,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 52644.7
+    "last_append_age_min": 52837.4
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -521,7 +542,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 49438.0
+    "last_append_age_min": 49630.7
    }
   ]
  },

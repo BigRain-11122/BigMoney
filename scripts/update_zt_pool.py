@@ -228,6 +228,43 @@ def load_ledger():
     return {k: [] for k in ENDPOINTS}
 
 
+def rows_face(ledger):
+    """Per-face: the newest day that actually holds rows, and the days the
+    exchange was asked about and answered with nothing.
+
+    The day ledger says "asked"; the parquet says "holds". They are two
+    different calibers and the panel's `cutoff` has always meant the first one
+    -- so `dtgc` printed `cutoff 2026-11-11` while its rows stopped at 11-09,
+    and every reader downstream (freshness boards, the CEO one-pager, the
+    `kill_day` reading) had to rediscover the gap by itself and had no way to
+    tell "no limit-down that day" from "nobody collected it".  Derived from the
+    two files on disk, so there is no third account to drift.
+    """
+    out = {}
+    for key in ENDPOINTS:
+        days = set()
+        path = os.path.join(PANEL_DIR, f"{key}.parquet")
+        if os.path.exists(path):
+            try:
+                df = pd.read_parquet(path)
+                if "日期" in getattr(df, "columns", []):
+                    days = {str(v)[:10] for v in df["日期"]}
+            except Exception as ex:                      # noqa: BLE001
+                print(f"WARN: {key} panel unreadable for rows face "
+                      f"({type(ex).__name__}: {str(ex)[:60]})",
+                      file=sys.stderr, flush=True)
+                days = set()
+        asked = list(ledger.get(key) or [])
+        empty = [d for d in asked if d not in days]
+        out[key] = {
+            "rows_cutoff": (max(days) if days else None),
+            "asked_through": (asked[-1] if asked else None),
+            "empty_days": empty[-5:],
+            "empty_days_count": len(empty),
+        }
+    return out
+
+
 def _atomic_json_write(obj, path):
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
@@ -360,10 +397,25 @@ def main():
     if n_missing == 0:
         cutoffs = {k: (ledger[k][-1] if ledger[k] else None)
                    for k in ENDPOINTS}
-        save_status({"cutoffs": cutoffs, "new_rows": 0, "verdict":
+        rows = rows_face(ledger)
+        save_status({"cutoffs": cutoffs, "new_rows": 0,
+                     "row_cutoffs": {k: v["rows_cutoff"]
+                                     for k, v in rows.items()},
+                     "empty_days": {k: v["empty_days"]
+                                    for k, v in rows.items()
+                                    if v["empty_days"]},
+                     "verdict":
                      "no-op: panel covers all bar-landed trading days",
                      "last_attempt": st.get("last_attempt")})
-        print("no-op: panel covers all bar-landed trading days", flush=True)
+        lag = {k: v["rows_cutoff"] for k, v in rows.items()
+               if v["rows_cutoff"] != cutoffs.get(k)}
+        if lag:
+            print(f"no-op: panel covers all bar-landed trading days; rows "
+                  f"trail the ledger {lag} (days asked and empty, not "
+                  "missing)", flush=True)
+        else:
+            print("no-op: panel covers all bar-landed trading days",
+                  flush=True)
         return 0
 
     now = pd.Timestamp.now()
@@ -471,6 +523,26 @@ def main():
                       flush=True)
                 return 3
             n_new = append_day(key, day, df_day)
+            if len(df_day) and n_new == 0:
+                # the exchange handed us rows and the panel holds none for
+                # that day = a write that silently dropped them. Ledgering the
+                # day anyway is how a hole becomes invisible forever.
+                landed = True
+                path = os.path.join(PANEL_DIR, f"{key}.parquet")
+                if os.path.exists(path):
+                    _p = pd.read_parquet(path)
+                    landed = "日期" in _p.columns and bool(
+                        (_p["日期"].astype(str).str[:10] == day).any())
+                if not landed:
+                    save_status({"blocked": True, "block_reason":
+                                 f"silent drop: fetched {len(df_day)} rows for "
+                                 f"{key} {day} but the panel holds none",
+                                 "last_attempt":
+                                 now.isoformat(timespec="seconds")})
+                    print(f"SILENT DROP {key} {day}: fetched "
+                          f"{len(df_day)} rows, panel holds none -- blocked, "
+                          "exit 3", flush=True)
+                    return 3
             ledger[key] = sorted(set(ledger[key]) | {day})
             _atomic_json_write({k: sorted(v) for k, v in ledger.items()},
                                LEDGER)
@@ -480,7 +552,11 @@ def main():
             time.sleep(RATE_SLEEP)
 
     cutoffs = {k: (ledger[k][-1] if ledger[k] else None) for k in ENDPOINTS}
+    rows = rows_face(ledger)
     payload = {"cutoffs": cutoffs, "new_rows": int(total_new),
+               "row_cutoffs": {k: v["rows_cutoff"] for k, v in rows.items()},
+               "empty_days": {k: v["empty_days"] for k, v in rows.items()
+                              if v["empty_days"]},
                "verdict": "updated",
                "last_attempt": now.isoformat(timespec="seconds")}
     if takeover:
@@ -614,6 +690,35 @@ def selftest():
             assert led == {"zt": ["2026-10-08", "2026-10-09"]}, led
             print("[PASS] load_ledger filters foreign keys + sorts",
                   flush=True)
+        finally:
+            PANEL_DIR, LEDGER = real_panel, real_ledger
+
+    # ---- rows vs ledger: "asked" and "holds" are two calibers (r1579)
+    with tempfile.TemporaryDirectory() as td:
+        real_panel, real_ledger = PANEL_DIR, LEDGER
+        PANEL_DIR = os.path.join(td, "zt_pool")
+        LEDGER = os.path.join(PANEL_DIR, "collected_days.json")
+        try:
+            os.makedirs(PANEL_DIR)
+            append_day("dtgc", "2026-10-08", _mk(base))
+            append_day("dtgc", "2026-10-09", _mk([("600001", -9.98)]))
+            append_day("dtgc", "2026-10-11", _mk(base))   # 10-10 never asked
+            led = {"dtgc": ["2026-10-08", "2026-10-09", "2026-10-10",
+                            "2026-10-11", "2026-10-12", "2026-10-13"]}
+            f = rows_face(led)["dtgc"]
+            assert f["rows_cutoff"] == "2026-10-11", f
+            assert f["asked_through"] == "2026-10-13", f
+            # asked-and-empty days are named (10-13 falls outside the last-5
+            # window? no: 10-10/10-12/10-13 = 3 entries, all inside)
+            assert f["empty_days"] == ["2026-10-10", "2026-10-12",
+                                       "2026-10-13"], f
+            assert f["empty_days_count"] == 3, f
+            # a face with no parquet at all: nothing held, asked days empty
+            f2 = rows_face({"strong": ["2026-10-13"]})["strong"]
+            assert f2["rows_cutoff"] is None and f2["empty_days"] == [
+                "2026-10-13"], f2
+            print("[PASS] rows_face: rows cutoff != ledger cutoff, empty days "
+                  "named (r1579)", flush=True)
         finally:
             PANEL_DIR, LEDGER = real_panel, real_ledger
 

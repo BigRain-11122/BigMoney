@@ -644,6 +644,26 @@ ZT_STREAK_COL = "连板数"
 ZT_SERIES_DAYS = 10   # r1154: how many tracked bars the tape shows as a trajectory
 
 
+def _zt_day_ledger(key, root=None):
+    """The collector's day ledger for one panel: the days it asked about.
+
+    Two calibers live on this lane -- `asked` (the ledger) and `holds` (the
+    parquet). The panel's cutoff has always been the first one, so a day the
+    exchange answered with an empty page makes the rows stop while the ledger
+    moves on. Reading only the rows leaves the page saying "四面板截止日不一致
+    （如实标注）" with no cause; reading both lets it say whether nobody
+    collected that day or whether nothing happened on it."""
+    root = root or ROOT
+    path = os.path.join(root, "data", "zt_pool", "collected_days.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            d = json.load(f)
+        v = d.get(key)
+        return sorted(str(x)[:10] for x in v) if isinstance(v, list) else None
+    except Exception:                                       # noqa: BLE001
+        return None
+
+
 def _zt_panel_day(key, root=None):
     """One forward-accumulated zt-pool panel: the last two bar dates and their
     row counts (a row IS a member, so the count is the member count).
@@ -673,6 +693,15 @@ def _zt_panel_day(key, root=None):
            "prev_cutoff": prev, "prev_count": counts[prev] if prev else None,
            "days_tracked": len(order),
            "series": {d: counts[d] for d in order[-ZT_SERIES_DAYS:]}}
+    # asked-vs-holds (r1579): a day the collector logged and the panel does
+    # not hold is a day the exchange answered empty -- name it, so a lagging
+    # panel stops reading like a lane nobody tends.
+    asked = _zt_day_ledger(key, root)
+    if asked:
+        empty = [d for d in asked if d not in counts]
+        out["asked_through"] = asked[-1]
+        out["empty_days"] = empty[-5:]
+        out["empty_days_count"] = len(empty)
     if key == "zt":
         row = df[days == cutoff]
         ladder = {}
@@ -767,8 +796,23 @@ def _zt_risk_face(day=None, root=None):
     if up is not None and broke is not None and (up + broke) > 0:
         face["seal_rate"] = round(up / float(up + broke), 4)
     if isinstance(up, int) and isinstance(dn, int):
-        face["down_over_up"] = round(dn / float(up), 3) if up else None
-        face["kill_day"] = dn >= up
+        zt_cut = ok.get("zt", {}).get("cutoff")
+        dt_cut = ok.get("dtgc", {}).get("cutoff")
+        if zt_cut and dt_cut and zt_cut != dt_cut:
+            # r1579: this reading is a comparison between two panels ON THE
+            # SAME DAY. With 涨停 on 11-11 and 跌停 on 11-09 it printed "今日
+            # 否" -- a verdict built from two different sessions, which is
+            # worse than no verdict. The count still publishes; the rule does
+            # not run (E213 family: a reading must name the day it compares).
+            face["down_over_up"] = None
+            face["kill_day"] = None
+            face["kill_day_unavailable"] = {
+                "zt_cutoff": zt_cut, "dtgc_cutoff": dt_cut,
+                "note": ("两池不在同一交易日（涨停池 %s、跌停池 %s）——"
+                         "杀跌日读法今日不判" % (zt_cut, dt_cut))}
+        else:
+            face["down_over_up"] = round(dn / float(up), 3) if up else None
+            face["kill_day"] = dn >= up
     if ok.get("zt", {}).get("ladder"):
         face["ladder"] = ok["zt"]["ladder"]
         face["top_streak"] = ok["zt"].get("top_streak")
@@ -1264,9 +1308,12 @@ def render_md(rep):
             L.append(f"- 最高 **{top.get('streak')} 连板**（{top.get('n')} 只）：{names}")
         if mr.get("down_over_up") is not None:
             L.append(f"- 跌停/涨停 = **{mr.get('down_over_up')}**")
-        if "kill_day" in mr:
+        if mr.get("kill_day") is not None:
             L.append("- 读法（机械口径，不含判据）：跌停数 ≥ 涨停数 → 记为**杀跌日**；"
                      f"今日 {'是' if mr.get('kill_day') else '否'}")
+        elif (mr.get("kill_day_unavailable") or {}).get("note"):
+            L.append("- 读法（机械口径，不含判据）：跌停数 ≥ 涨停数 → 记为**杀跌日**；"
+                     "今日 **未判** —— " + mr["kill_day_unavailable"]["note"])
         ser = mr.get("series") or []
         if len(ser) > 1:
             L.append("")
@@ -1481,6 +1528,32 @@ def selftest():
     assert abs(f["seal_rate"] - 3 / 5.0) < 1e-9, f      # 涨停/(涨停+炸板)
     assert f["kill_day"] is False, f                   # 1 跌停 vs 3 涨停
     assert abs(f["down_over_up"] - 1 / 3.0) < 1e-3, f
+    # ---- r1579: the kill-day rule compares two panels ON ONE SESSION, and a
+    # panel whose rows stop short of its ledger must say why (asked and empty).
+    _tmp2 = tempfile.mkdtemp()
+    os.makedirs(os.path.join(_tmp2, "data", "zt_pool"), exist_ok=True)
+
+    def _mk2(key, rows):
+        pd.DataFrame(rows).to_parquet(
+            os.path.join(_tmp2, "data", "zt_pool", f"{key}.parquet"), index=False)
+
+    _mk2("zt", [{"日期": "2026-11-11", "名称": "A", "连板数": 2},
+                {"日期": "2026-11-11", "名称": "B", "连板数": 1}])
+    _mk2("zbgc", [{"日期": "2026-11-11"}])
+    _mk2("dtgc", [{"日期": "2026-11-09"}])
+    with open(os.path.join(_tmp2, "data", "zt_pool",
+                           "collected_days.json"), "w", encoding="utf-8") as _f:
+        json.dump({"zt": ["2026-11-09", "2026-11-10", "2026-11-11"],
+                   "dtgc": ["2026-11-09", "2026-11-10", "2026-11-11"]}, _f)
+    f2 = _zt_risk_face(root=_tmp2)
+    assert f2["kill_day"] is None, f2                  # two days, no verdict
+    assert f2["kill_day_unavailable"]["dtgc_cutoff"] == "2026-11-09", f2
+    assert f2["panels"]["dtgc"]["asked_through"] == "2026-11-11", f2
+    assert f2["panels"]["dtgc"]["empty_days"] == ["2026-11-10", "2026-11-11"], f2
+    assert f2["panels"]["zbgc"].get("empty_days") is None, f2   # no ledger row
+    _mk2("dtgc", [{"日期": "2026-11-11"}])              # same session again
+    f3 = _zt_risk_face(root=_tmp2)
+    assert f3["kill_day"] is False and "kill_day_unavailable" not in f3, f3
     # ---- r1279 freshness leg: a replica that stopped advancing must read stale,
     # not "ok".  Hermetic calendar injected (days/now), so the leg pins the rule
     # rather than today's date; emptiness/doubt reads unknown, never "current".
