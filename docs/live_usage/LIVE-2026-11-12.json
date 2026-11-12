@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-12",
- "generated": "2026-11-12T11:54:41",
+ "generated": "2026-11-12T12:19:21",
  "market": {
   "state": "RED",
   "asof": "2026-11-11",
@@ -400,7 +400,7 @@
  "intraday": {
   "feed": "T-104 minute_feed (rolling 1m archive, bm-b lane)",
   "today": "2026-11-12",
-  "asof": null,
+  "asof": "2026-11-12 11:30:00",
   "n_held_with_feed": 3,
   "n_live": 0,
   "rows": [
@@ -411,12 +411,12 @@
    },
    {
     "symbol": "510050",
-    "status": "PREV_SESSION",
-    "latest_bar": null,
-    "latest_close": 2.882,
+    "status": "LAGGED",
+    "latest_bar": "2026-11-12 11:30:00",
+    "latest_close": 2.898,
     "prev_session_close": 2.882,
-    "day_change_pct": null,
-    "note": "上一场收盘档（今日 09:15 起随源点亮）"
+    "day_change_pct": 0.56,
+    "age_min": 49.4
    },
    {
     "symbol": "511010",
@@ -526,7 +526,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 51992.9
+    "last_append_age_min": 52017.6
    },
    {
     "family": "FUND-VALUE-P1",
@@ -534,7 +534,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 52837.4
+    "last_append_age_min": 52862.0
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -542,7 +542,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 49630.7
+    "last_append_age_min": 49655.4
    }
   ]
  },
@@ -585,6 +585,56 @@
   "drift_gate": "settled_bars_only",
   "panel_last_bar": "2026-11-11",
   "cash_leg_note": "cash leg earns 0 in the ledger (disclosed, not modelled away)"
+ },
+ "book_identity": {
+  "path_ledger": "results/etf_book_forward/LEDGER.json",
+  "path_ticket": "results/etf_book_order/TICKET-2026-11-11.json",
+  "ledger": {
+   "present": true,
+   "bar": "2026-11-11",
+   "n_hold": 12,
+   "scale": 0.909384,
+   "names": [
+    "510760",
+    "512040",
+    "159655",
+    "513690",
+    "159519",
+    "513650",
+    "510210",
+    "562060",
+    "513630",
+    "159207",
+    "511180",
+    "513500"
+   ],
+   "rule": "vol_target 8.0%",
+   "capital_cny": 1000000.0
+  },
+  "ticket": {
+   "present": true,
+   "bar": "2026-11-11",
+   "n_hold": 5,
+   "scale": 0.432195,
+   "names": [
+    "510760",
+    "512040",
+    "159655",
+    "513690",
+    "159519"
+   ],
+   "rule": "beta_target 0.20",
+   "book_amount_cny": 431696.8,
+   "cash_amount_cny": 568303.2
+  },
+  "comparable": true,
+  "same_book": false,
+  "verdict": "DIFFERENT_BOOKS",
+  "names_overlap": 5,
+  "scale_gap_pp": 47.72,
+  "scale_gap_cny": 477189.0,
+  "capital_cny": 1000000.0,
+  "note": "两册不同本：账本 12 名 vol_target 8.0% 与执行单 5 名 beta_target 0.20 是两条规则，敞口差 47.72pp"
  },
  "freshness": {
   "status": "ok",

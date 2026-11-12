@@ -1,6 +1,6 @@
 # CEO 实盘使用一页纸 · 2026-11-12
 
-> 自动生成 2026-11-12T11:54:41 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+> 自动生成 2026-11-12T12:19:21 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ⓪ 本页新鲜度（先读这个）
 
@@ -28,7 +28,7 @@
 
 - **当前态 RED → 股票敞口总帽 20%**
 - **这个帽子和下面的钱对过账**：Market state RED caps new risk at 20% of equity. The cap sources disagree (paper_engine) -- read the gap as unresolved. 3 of 6 ladder-governed accounts sit above it; the widest is COMPOSITE-CE-01 at 86.2% (66.2pp over, 4.31x the cap). Those positions predate the state flip, so the cap gates new entries rather than forcing a sale.
-  - 超帽最多的是 COMPOSITE-CE-01：仓位 86.2%（超 66.2pp·4.31 倍帽）；ETF 复合书按自己的规则（β 目标×波动目标）列在同一张表但不进裁决
+  - 超帽最多的是 COMPOSITE-CE-01：仓位 86.2%（超 66.2pp·4.31 倍帽）；本页账本（12 名·vol_target 8.0%）与执行单（5 名·beta_target 0.20）两本列在同一张表但不进裁决
 - 阶梯全表（冻结）：
   - RED：20% — 红色急跌/熔断态：股票敞口上限 20% ←当前
   - YELLOW：65% — 黄色过渡态：上限 65%
@@ -78,9 +78,9 @@
   - 511260｜债券ETF（非宽基研究宇宙）｜市值 ¥99,877｜持有 2 日｜浮盈亏 -123
 
 ### 盘中档（T-104 分钟源·v1.4）
-- 今日尚未有 bar（上一场收盘档·09:15 起随源点亮）——在场 3 员照挂上一场收盘
+- 最新 1m bar 2026-11-12 11:30:00（LIVE 0/3 员在流）
   - 159980：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
-  - 510050：上一场收盘 2.882（上一场收盘档（今日 09:15 起随源点亮））
+  - 510050：2.898（+0.56%·LAGGED·bar 2026-11-12 11:30:00·lag 49.4min）
   - 511010：上一场收盘 140.684（上一场收盘档（今日 09:15 起随源点亮））
   - 511090：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
   - 511260：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
@@ -117,6 +117,9 @@
 
 ## ⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）
 
+- **这一页写的是哪本书（r1580）**：账本 = 12 名 · k 0.909384 · vol_target 8.0% · 决策 bar 2026-11-11（`results/etf_book_forward/LEDGER.json`）｜执行单 = 5 名 · k 0.432195 · beta_target 0.20 · 决策 bar 2026-11-11（`results/etf_book_order/TICKET-2026-11-11.json`）
+  - **两册不是同一本**：名册 12 vs 5（重叠 5 名）｜敞口 90.94% vs 43.22%（差 47.72pp，按 1,000,000 本金 = CNY 477,189）
+  - 读法：按账本那本跟买 ≠ 按执行单下单——执行单只有 5 名、仓位 CNY 431,697（现金 CNY 568,303）。两个面各自都是真的，问题只在没人说过它们不是同一本书
 - **账本**：2026-10-23 播种 → 2026-11-11，14 个 bar，净值 **1.016041**（+1.604%）；同窗四 ETF 等权基准 1.000833（+0.083%）→ **超额 +152.1bp**
   - 回撤：书 -1.585%｜基准 -2.343%｜本段换仓 0 次（网格 20 bar·持仓 12 员·波动目标 8.0%·成本 10.0bp/边）
   - 口径：cash leg earns 0 in the ledger (disclosed, not modelled away)

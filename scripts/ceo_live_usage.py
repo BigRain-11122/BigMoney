@@ -152,6 +152,11 @@ CAP_VS_BOOK_JSON = os.path.join(ROOT, "results", "regime_cap_vs_book.json")
 # its live record had no line on this page at all -- the only place the CEO
 # could read "how is the money candidate doing" was a research file.
 ETF_BOOK_FWD = os.path.join(ROOT, "results", "etf_book_forward", "LEDGER.json")
+# r1580: ⑥ reports the forward ledger, but the sheet the desk holds is a
+# DIFFERENT book (5 names on the beta target, k~0.43, vs 12 names on the 8%
+# vol target, k~0.91).  Both are real and both run on the same 1,000,000 CNY.
+ETF_TICKET_LATEST = os.path.join(ROOT, "results", "etf_book_order",
+                                 "latest.json")
 
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
 # bm-c 2026-09-28; owner-canon rows in market_clock POSITION_LADDER):
@@ -611,6 +616,15 @@ def _etf_book_face():
     }
 
 
+# r1580: the two-books face lives in scripts/etf_book_identity.py so this
+# page and the daily report read ONE implementation instead of two that drift.
+_scripts_dir = os.path.dirname(os.path.abspath(__file__))
+if _scripts_dir not in sys.path:
+    sys.path.insert(0, _scripts_dir)
+from etf_book_identity import face as _book_identity_face      # noqa: E402
+from etf_book_identity import lines as _book_identity_lines    # noqa: E402
+
+
 # ---------------------------------------------------------------- v2.1 ----
 # Freshness (r1281).  Every section already prints its own asof, but nothing on
 # the page said HOW OLD those numbers are relative to the market the reader is
@@ -820,6 +834,7 @@ def build_payload(day: str) -> dict:
         "recommendation": _recommendation_face(),
         "judgment_burns": _judgment_burn_face(),
         "etf_book": book,
+        "book_identity": _book_identity_face(),
         "freshness": _freshness_face(book, tape, regime.get("asof")),
         "chain_versions": [
             {"version": v, "status": s} for v, s in _version_banner()],
@@ -1028,10 +1043,20 @@ def render_md(p: dict) -> str:
         L.append(f"- **这个帽子和下面的钱对过账**：{cvb['sentence']}")
         wa = cvb.get("widest_above") or {}
         if wa.get("name"):
+            # r1580: "β 目标×波动目标" named two different rules as if they
+            # were one.  Name the books from the faces instead of a sentence.
+            _bi = p.get("book_identity") or {}
+            _l, _t = _bi.get("ledger") or {}, _bi.get("ticket") or {}
+            if _l.get("present") and _t.get("present") and _bi.get("comparable"):
+                _book_name = ("本页账本（%s 名·%s）与执行单（%s 名·%s）两本"
+                              % (_l.get("n_hold"), _l.get("rule"),
+                                 _t.get("n_hold"), _t.get("rule")))
+            else:
+                _book_name = "ETF 复合书"
             L.append(f"  - 超帽最多的是 {wa['name']}：仓位 "
                      f"{wa['deployed_weight']:.1%}（超 {wa['gap_pp']:.1f}pp·"
-                     f"{wa['multiple_of_cap']:.2f} 倍帽）；ETF 复合书按自己的规则"
-                     "（β 目标×波动目标）列在同一张表但不进裁决")
+                     f"{wa['multiple_of_cap']:.2f} 倍帽）；{_book_name}"
+                     "列在同一张表但不进裁决")
         if cvb.get("stale"):
             L.append(f"  - 注：该对账面按政体态 asof {cvb.get('priced_on')} 计价，"
                      "与本页当前态不同（如实标注，未外推）")
@@ -1151,6 +1176,7 @@ def render_md(p: dict) -> str:
     L.append("")
     L.append("## ⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）")
     L.append("")
+    L.extend(_book_identity_lines(p.get("book_identity") or {}))
     eb = p.get("etf_book") or {}
     if not eb.get("present"):
         L.append(f"- {eb.get('note') or '前向账本未产出'}（指针 `{eb.get('path')}`）")
@@ -1301,6 +1327,70 @@ def selftest() -> int:
     _md = render_md(_p)
     check("kill-day rule refuses across two sessions (r1579)",
           "未判" in _md and "11-10、11-11 已问·当日零行" in _md)
+
+    # --- r1580: one page, two books.  The ⑥ track record is the 12-name vol
+    # book; the desk is handed a 5-name beta sheet at half the exposure.  A
+    # page that never names either lets "follow the page" mean two portfolios.
+    bi = p1.get("book_identity") or {}
+    check("book-identity face on the real faces (r1580)",
+          bi.get("verdict") in {"SAME_BOOK", "DIFFERENT_BOOKS",
+                                "NOT_COMPARABLE", "UNKNOWN"}
+          and "这一页写的是哪本书（r1580）" in _md)
+    _led = {"config": {"n_hold": 12, "vol_target": 0.08},
+            "book_in_force": {"bar": "2026-11-11", "scale": 0.909384,
+                              "names": ["a", "b", "c"]},
+            "pending_fill": {"capital_cny": 1000000.0}}
+    _tmp = tempfile.mkdtemp(prefix="bi1580_")
+    _sheet = {"as_of": "2026-11-11", "n_hold": 4, "beta_target": 0.2,
+              "ticket": {"book_weight": 0.432195,
+                         "order": [{"symbol": s}
+                                   for s in ("a", "b", "c", "d")],
+                         "book_amount": 431696.8, "cash_amount": 568303.2}}
+    with open(os.path.join(_tmp, "TICKET-2026-11-11.json"), "w",
+              encoding="utf-8") as fh:
+        json.dump(_sheet, fh)
+    _latest = os.path.join(_tmp, "latest.json")
+    with open(_latest, "w", encoding="utf-8") as fh:
+        json.dump({"as_of": "2026-11-11", "file": "TICKET-2026-11-11.json",
+                   "k_now": 0.432195}, fh)
+    two = _book_identity_face(ledger=_led, latest_path=_latest)
+    check("two different books are named, not merged (r1580)",
+          two["verdict"] == "DIFFERENT_BOOKS" and two["same_book"] is False
+          and two["names_overlap"] == 3
+          and abs(two["scale_gap_pp"] - 47.72) < 0.01
+          and abs(two["scale_gap_cny"] - 477189.0) < 1.0)
+    _md2 = "\n".join(_book_identity_lines(two))
+    check("the page prints both books with their own ks (r1580)",
+          "0.909384" in _md2 and "0.432195" in _md2
+          and "不是同一本" in _md2 and "47.72" in _md2)
+    miss = _book_identity_face(ledger=_led,
+                               latest_path=os.path.join(_tmp, "nope.json"))
+    _md4 = "\n".join(_book_identity_lines(miss))
+    check("a missing ticket is UNKNOWN, never 'same book' (r1580)",
+          miss["verdict"] == "UNKNOWN" and miss["same_book"] is None
+          and "同一本——" not in _md4 and "不可读" in _md4)
+    _led2 = json.loads(json.dumps(_led))
+    _led2["book_in_force"]["bar"] = "2026-11-10"
+    nc = _book_identity_face(ledger=_led2, latest_path=_latest)
+    _md3 = "\n".join(_book_identity_lines(nc))
+    check("different decision bars are not compared (r1580)",
+          nc["verdict"] == "NOT_COMPARABLE" and nc["comparable"] is False
+          and "2026-11-10" in _md3 and "2026-11-11" in _md3)
+    _sheet2 = json.loads(json.dumps(_sheet))
+    _sheet2["n_hold"] = 2
+    _sheet2["ticket"]["order"] = [{"symbol": s} for s in ("a", "b")]
+    _sheet2["ticket"]["book_weight"] = 0.432195
+    with open(os.path.join(_tmp, "TICKET-2026-11-11.json"), "w",
+              encoding="utf-8") as fh:
+        json.dump(_sheet2, fh)
+    same = _book_identity_face(
+        ledger={"config": {"n_hold": 2, "vol_target": None},
+                "book_in_force": {"bar": "2026-11-11", "scale": 0.432195,
+                                  "names": ["a", "b"]}},
+        latest_path=_latest)
+    check("one book on both sides says so (r1580)",
+          same["verdict"] == "SAME_BOOK" and same["same_book"] is True
+          and same["names_overlap"] == 2)
     rc = p1["recommendation"]
     check("recommendation face wired (v1.6)",
           rc["path"].endswith("REC-latest.json")

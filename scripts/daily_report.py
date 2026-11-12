@@ -43,6 +43,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, "docs", "daily_report")
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import merge_lane_views as lane_views
+# r1580: the report's 十二 prints the EXECUTABLE sheet while the CEO page's ⑥
+# prints the forward LEDGER -- two books, one name.  Both faces now quote the
+# same identity implementation instead of each describing its own book.
+import etf_book_identity as book_identity
 
 
 def _lane_view(face):
@@ -1408,6 +1412,11 @@ def render_md(rep):
         L.append(f"- **账本 {eb.get('n_hold')} 名 · 持仓 {eb.get('book_amount_cny')} CNY"
                  f"（k={eb.get('k_now')}）· 现金 {eb.get('cash_amount_cny')} CNY · "
                  f"本金 {eb.get('capital_cny')} CNY**")
+        # r1580: the line above is the EXECUTABLE sheet (5 names, k~0.43); the
+        # forward block below is the 12-name ledger (k~0.91).  Printed without
+        # a sentence they read as one book, so a reader following either face
+        # bought a portfolio the other never described.
+        L.extend(book_identity.lines(book_identity.face()))
         ta = eb.get("today_action") or {}
         if ta.get("mode") == "hold":
             L.append(f"- 今天：**不动**（继续持有到 {ta.get('next_trade_date')}）；"

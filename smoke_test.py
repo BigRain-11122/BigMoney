@@ -11958,6 +11958,55 @@ def _legs_supply_and_book():
               False, repr(e)[:180])
 
 
+    # ---- r1580: one capital, two books.  ⑥ prints the 12-name forward ledger
+    # and 十二 prints the 5-name executable sheet.  A face that prints both
+    # without naming them makes "follow the page" a different portfolio.
+    try:
+        import etf_book_identity as _bi80
+        _face80 = _bi80.face()
+        _bad80 = []
+        _faces80 = []
+        _lu80 = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.md")
+        if os.path.exists(_lu80):
+            with open(_lu80, encoding="utf-8") as _fh80:
+                _faces80.append(("live_usage", _fh80.read()))
+        _rd80 = os.path.join(PATHS.root, "docs", "daily_report")
+        _reps80 = sorted(f for f in os.listdir(_rd80) if f.endswith(".md")) \
+            if os.path.isdir(_rd80) else []
+        if _reps80:
+            with open(os.path.join(_rd80, _reps80[-1]), encoding="utf-8") as _fh80:
+                _faces80.append(("daily_report", _fh80.read()))
+        if not _faces80:
+            _bad80.append("no human face to read (page and report both absent)")
+        _l80 = _face80.get("ledger") or {}
+        _t80 = _face80.get("ticket") or {}
+        for _nm80, _txt80 in _faces80:
+            if _face80.get("verdict") in ("DIFFERENT_BOOKS", "NOT_COMPARABLE"):
+                if "这一页写的是哪本书（r1580）" not in _txt80:
+                    _bad80.append("%s prints a book without naming which" % _nm80)
+            if _face80.get("verdict") == "DIFFERENT_BOOKS":
+                if "不是同一本" not in _txt80:
+                    _bad80.append("%s prints two books as if they were one" % _nm80)
+                if ("%.6f" % float(_l80.get("scale") or 0.0)) not in _txt80:
+                    _bad80.append("%s omits the ledger's own k" % _nm80)
+                if ("%.6f" % float(_t80.get("scale") or 0.0)) not in _txt80:
+                    _bad80.append("%s omits the ticket's own k" % _nm80)
+        for _rel80 in ("scripts/ceo_live_usage.py", "scripts/daily_report.py"):
+            _sp80 = os.path.join(PATHS.root, _rel80)
+            if os.path.exists(_sp80):
+                with open(_sp80, encoding="utf-8") as _fh80:
+                    if "def _book_identity_face" in _fh80.read():
+                        _bad80.append("%s carries a second implementation" % _rel80)
+        check("product: the two books on one page are named, never merged (r1580)",
+              not _bad80, "; ".join(_bad80)[:220]
+              or "verdict %s on %d faces; ledger k %s vs ticket k %s"
+              % (_face80.get("verdict"), len(_faces80), _l80.get("scale"),
+                 _t80.get("scale")))
+    except Exception as e:
+        check("product: the two books on one page are named, never merged (r1580)",
+              False, repr(e)[:160])
+
+
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
     n_fail = len(RESULTS) - n_pass
