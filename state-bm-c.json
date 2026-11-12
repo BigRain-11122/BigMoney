@@ -1,5 +1,5 @@
 {
- "activity_now": "r1589: inherited the 19:10 dead window's drift() fix and made it stronger instead of narrower -- the comparison is now 'everything the face publishes minus the two envelope stamps' (declaration/mark/unpriced_rows were published and compared by nothing), with a coverage leg L49 that fires on a field nobody hand-listed; selftest 50/50, check rc0 rows=8 under the stricter gate, and the two r1588 repo-born reds re-derived green (E246 band rows 8/8 + exec_delta reconcile PASS)",
+ "activity_now": "r1589: the drift gate now covers every published field (selftest 50/50) and the chain closed 212/215 -- the last repo-born red was a face written before the rebase brought its fixed code in, cured by re-running the writer (decision_date 11-11 -> 12-09, three claims AGREE)",
  "agenda_starved": false,
  "ahead_origin": 0,
  "behind_origin": 0,
@@ -13,7 +13,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-12T20:04:16+08:00",
+ "clock_read": "2026-11-12T20:07:25+08:00",
  "codely_live_count": 2,
  "comfy_free_vram_mb": 14015,
  "cores": 32,
@@ -1111,7 +1111,7 @@
  },
  "task": "r1588: A10 now proves the slicing identity on the ladders that finished, and discloses the tail",
  "total_ram_gb": 23.9,
- "ts": "2026-11-12T20:04:16",
+ "ts": "2026-11-12T20:07:25",
  "updated": "2026-11-12T19:05:51",
  "updated_at": "2026-11-12T19:05:51",
  "verdict": "healthy: percentile writer ordered before the embedding sheet; fill receipt landed on the 11-12 bar (cost CNY 1,273.67, pending_fill cleared)",
