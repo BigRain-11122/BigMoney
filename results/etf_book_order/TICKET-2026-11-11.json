@@ -514,13 +514,15 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-12 10:19:33",
+   "at": "2026-11-12 13:10:42",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
     "2026-11-09"
    ],
    "settled_restated": [],
+   "rounded_path_diff": [],
+   "store_ulp": 1e-08,
    "chain_broken": [],
    "records": [
     {
@@ -535,6 +537,9 @@
      "k": 0.460253,
      "rf": 9.74e-05,
      "nav_delta": 0.0,
+     "nav_delta_ulp": 0,
+     "store_ulp": 1e-08,
+     "nav_source": "compounded_chain",
      "status": "RECOMPUTED_IDENTICAL",
      "same_as_withdrawn": true
     }
@@ -919,9 +924,9 @@
    "last": null,
    "rows_detail": [],
    "panel_missing_symbols": [],
-   "repo_quotes": 3764,
-   "rate_latest_bar": "2026-11-10",
-   "rate_latest": 1.165,
+   "repo_quotes": 3765,
+   "rate_latest_bar": "2026-11-11",
+   "rate_latest": 1.51,
    "valued_upto_bar": "2026-11-11"
   },
   "accrual_rows": [],
@@ -940,13 +945,13 @@
    "legs_first_bar": 426357.9,
    "legs_last_bar": 431696.8,
    "legs_ret": 0.01252211,
-   "cash_interest_cny": 488.16,
+   "cash_interest_cny": 511.69,
    "identity_delta_cny": 0.0,
    "identity_status": "PRICED_BAR",
    "identity_holds": true,
    "base_bar_missing_closes": [],
    "base_bar_last_priced_day": "2026-11-11",
-   "rf_missing_bars": 1,
+   "rf_missing_bars": 0,
    "stale_bars": 0
   },
   "engine_book": {
@@ -1426,7 +1431,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-12T10:19:33",
+  "generated": "2026-11-12T13:10:42",
   "evidence_cutoff": "2026-11-11",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1571,7 +1576,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-12T10:19:33",
+  "generated": "2026-11-12T13:10:42",
   "evidence_cutoff": "2026-11-11",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -1706,15 +1711,15 @@
    "vol": 0.0887
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1199,
-    "card_width_cagr": 0.1241,
-    "pp": 0.42
-   },
    "beta": {
     "ticket_width_cagr": 0.1116,
     "card_width_cagr": 0.0971,
     "pp": -1.45
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1199,
+    "card_width_cagr": 0.1241,
+    "pp": 0.42
    }
   },
   "rules_differ": true,

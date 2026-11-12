@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-12 04:05:02",
+ "ts": "2026-11-12 13:13:15",
  "evidence_cutoff": "2026-11-11",
  "feed_status": {
   "ticket_bar": "2026-11-11",
@@ -553,7 +553,7 @@
   ]
  },
  "caveats": [
-  "THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -25.3% and -18.4% and the share of resamples worse than -20% between 2.8% and 17.2%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-06.json (band priced on the 2026-11-06 bar, older than this card's 2026-11-11 -- stale, its tail can only be too narrow).",
+  "THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -24.9% and -16.9% and the share of resamples worse than -20% between 0.9% and 15.7%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-11.json.",
   "THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.79%/yr (Sharpe -0.41) against +6.05%/yr (+0.64) for the fixed signs -- and reversing the trailing sign does not recover it (-0.18%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.",
   "ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.",
   "THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.",
@@ -1081,8 +1081,8 @@
   ]
  },
  "drawdown_band": {
-  "artifact": "results/etf_book_bootstrap/BLOCKS-2026-11-06.json",
-  "evidence_cutoff": "2026-11-06",
+  "artifact": "results/etf_book_bootstrap/BLOCKS-2026-11-11.json",
+  "evidence_cutoff": "2026-11-11",
   "block_set": [
    1,
    5,
@@ -1097,82 +1097,82 @@
   "arm_rows": [
    {
     "block": 1,
-    "maxdd_p5": -0.2509449541610902,
-    "maxdd_p50": -0.1478868367795913,
-    "dd_break_share": 0.172,
-    "point_pctile_maxdd": 76.8
+    "maxdd_p5": -0.24868106969146359,
+    "maxdd_p50": -0.1435519041054198,
+    "dd_break_share": 0.157,
+    "point_pctile_maxdd": 76.5
    },
    {
     "block": 5,
-    "maxdd_p5": -0.25315890903363764,
-    "maxdd_p50": -0.14571105306405752,
-    "dd_break_share": 0.165,
-    "point_pctile_maxdd": 77.4
+    "maxdd_p5": -0.24085502652775861,
+    "maxdd_p50": -0.14375934412308178,
+    "dd_break_share": 0.153,
+    "point_pctile_maxdd": 77.2
    },
    {
     "block": 10,
-    "maxdd_p5": -0.2394363574190985,
-    "maxdd_p50": -0.13991633033090523,
-    "dd_break_share": 0.135,
-    "point_pctile_maxdd": 73.3
+    "maxdd_p5": -0.23127245274745933,
+    "maxdd_p50": -0.1398828512298917,
+    "dd_break_share": 0.126,
+    "point_pctile_maxdd": 73.5
    },
    {
     "block": 20,
-    "maxdd_p5": -0.21749699827926772,
-    "maxdd_p50": -0.1346824925908383,
-    "dd_break_share": 0.088,
-    "point_pctile_maxdd": 68.0
+    "maxdd_p5": -0.2086372222324063,
+    "maxdd_p50": -0.13153022015809246,
+    "dd_break_share": 0.066,
+    "point_pctile_maxdd": 66.4
    },
    {
     "block": 40,
-    "maxdd_p5": -0.217796175650012,
-    "maxdd_p50": -0.13589435613774037,
-    "dd_break_share": 0.093,
-    "point_pctile_maxdd": 70.7
+    "maxdd_p5": -0.2101745513951904,
+    "maxdd_p50": -0.12983913469318475,
+    "dd_break_share": 0.068,
+    "point_pctile_maxdd": 64.3
    },
    {
     "block": 60,
-    "maxdd_p5": -0.22880197527794766,
-    "maxdd_p50": -0.1381770506893209,
-    "dd_break_share": 0.111,
-    "point_pctile_maxdd": 72.4
+    "maxdd_p5": -0.2126150974566439,
+    "maxdd_p50": -0.12976932527675117,
+    "dd_break_share": 0.073,
+    "point_pctile_maxdd": 64.0
    },
    {
     "block": 120,
-    "maxdd_p5": -0.2173683241981414,
-    "maxdd_p50": -0.1370001362866865,
-    "dd_break_share": 0.087,
-    "point_pctile_maxdd": 76.0
+    "maxdd_p5": -0.19542861688323043,
+    "maxdd_p50": -0.12939021781075044,
+    "dd_break_share": 0.037,
+    "point_pctile_maxdd": 63.9
    },
    {
     "block": 250,
-    "maxdd_p5": -0.18424620830038074,
-    "maxdd_p50": -0.12901571635821962,
-    "dd_break_share": 0.028,
-    "point_pctile_maxdd": 77.0
+    "maxdd_p5": -0.1693478670490037,
+    "maxdd_p50": -0.12160323787131638,
+    "dd_break_share": 0.009,
+    "point_pctile_maxdd": 55.6
    }
   ],
   "maxdd_p5_band": {
-   "min": -0.25315890903363764,
-   "max": -0.18424620830038074,
-   "range": 0.06891270073325689
+   "min": -0.24868106969146359,
+   "max": -0.1693478670490037,
+   "range": 0.07933320264245988
   },
   "maxdd_p50_band": {
-   "min": -0.1478868367795913,
-   "max": -0.12901571635821962,
-   "range": 0.01887112042137168
+   "min": -0.14375934412308178,
+   "max": -0.12160323787131638,
+   "range": 0.022156106251765395
   },
   "dd_break_band": {
-   "min": 0.028,
-   "max": 0.172
+   "min": 0.009,
+   "max": 0.157
   },
   "readings": {
-   "headline_not_a_lucky_path": true,
+   "headline_not_a_lucky_path": false,
    "drawdown_tail_is_block_dependent": true,
    "ultra_tail_is_block_dependent": true,
    "median_cagr_stable": true
   },
-  "band_pp": 6.891270073325689
+  "band_pp": 7.933320264245988
  },
  "entry_gate": {
   "status": "ok",
