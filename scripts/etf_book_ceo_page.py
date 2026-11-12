@@ -5195,6 +5195,27 @@ def vt_ladder_face(path=VT_LADDER_JSON, page_bar=None):
             "path": _rel(path)}
 
 
+def _drop_two_summary(d):
+    """r1616: the scale-free companion, read off the face's own block.
+
+    Never recomputed here: the face publishes it (research/PREREG-20261113-Y4-SCALE-FREE.md)
+    and this only shapes it for the page. `None` when the block is missing, so the page can
+    say "not measured" instead of printing a zero.
+    """
+    dt2 = (d or {}).get("drop_two") or {}
+    if not dt2.get("verdict"):
+        return None
+    rets = [r for b in (dt2.get("books") or [])
+            for r in (b.get("retained") or []) if r is not None]
+    return {"verdict": dt2.get("verdict"),
+            "reference_retained": dt2.get("reference_retained") or [],
+            "book_retained_min": min(rets) if rets else None,
+            "book_retained_max": max(rets) if rets else None,
+            "more_robust": dt2.get("more_robust") or [],
+            "less_robust": dt2.get("less_robust") or [],
+            "statistic": dt2.get("statistic")}
+
+
 def vt_phases_face(path=VT_PHASES_JSON):
     """r1614: the ladder's answer is ONE calendar's answer.
 
@@ -5242,6 +5263,7 @@ def vt_phases_face(path=VT_PHASES_JSON):
                           .get("names_alive_at_start"),
                           "method": rj.get("method")},
             "books": books,
+            "drop_two": _drop_two_summary(d),
             "path": _rel(path)}
 
 
@@ -5303,6 +5325,30 @@ def vt_phases_block(vp):
         out.append("- 反向对照：同一个池子等权全持能过这条线（%s/%s 条日历），说明这条线在本形态上"
                    "**可以**通过，档被拒就是档自己的事。" % (ref.get("pass_phases"),
                                                     ref.get("phases")))
+    # r1616: the scale-free companion. Two lines, because the honest reading is two-sided:
+    # the shape leans on its two best years far more than the books do, and yet on the
+    # worst calendar the books keep only a fifth of their growth themselves. Which side is
+    # true is read off the verdict, never written into the sentence as a constant.
+    d2 = vp.get("drop_two") or {}
+    if d2.get("reference_retained") and d2.get("book_retained_min") is not None:
+        _rr = d2["reference_retained"]
+        _head = ("- 换个问法（尺度无关，预注册口径）：把**最好的两年换成这本书自己的中位年**再看还剩多少增长。"
+                 "同一个池子等权全持只剩 **%.0f%%～%.0f%%**，而七档书还剩 **%.0f%%～%.0f%%**"
+                 % (min(_rr) * 100, max(_rr) * 100,
+                    d2["book_retained_min"] * 100, d2["book_retained_max"] * 100))
+        if d2.get("verdict") == "BOOKS_STAND_WITHOUT_THEIR_TWO_BEST_YEARS":
+            out.append(_head + "，%d 条日历上每一档都高于这个参考——"
+                       "**被这条线偏爱的那个形态，才是靠两年活着的那个**。"
+                       % len(vp.get("phases") or []))
+        elif d2.get("verdict") == "AT_LEAST_ONE_BOOK_RESTS_ON_TWO_YEARS":
+            out.append(_head + "——这个参考比书更稳，说明**至少一档书的增长确实靠在最好的两年上**，"
+                       "这不是尺子的问题。")
+        else:
+            out.append(_head + "——两条臂互有胜负，**没有一条干净的读数**，"
+                       "不许降级成「大致相当」。")
+        out.append("- 但同一句话必须带日历：最差的那条日历上，书自己也只剩 **%.0f%%**；"
+                   "而且这个读数**不参与准入**，上面那个 answer 一个字没变。"
+                   % (d2["book_retained_min"] * 100))
     out.append("- 数据到 %s（相位面 evidence_cutoff，非本页 bar），出处 %s"
                % (vp.get("evidence_cutoff") or "未标注", vp.get("path") or "?"))
     out.append("")
@@ -9657,6 +9703,29 @@ def selftest():
     chk("L215 phases: a reference that clears must NOT excuse the rungs",
         "反向对照" in _vp_ok_md and "分母是各年净收益之和" not in _vp_ok_md,
         _vp_ok_md[-200:])
+    # ---- r1616: the scale-free companion, read off the face's own block --------------------
+    _vp_d2 = dict(_vp_ref)
+    _vp_d2["drop_two"] = {
+        "verdict": "BOOKS_STAND_WITHOUT_THEIR_TWO_BEST_YEARS",
+        "reference_retained": [-0.5371, -0.5314, -0.5093, -0.4996],
+        "statistic": "cagr without the two best years over full cagr",
+        "book_retained_min": 0.2051, "book_retained_max": 0.6618,
+        "more_robust": ["vt15", "vt20"], "less_robust": []}
+    _vp_d2_md = "\n".join(vt_phases_block(_vp_d2))
+    chk("L216 phases: the scale-free companion is printed with its own numbers",
+        "最好的两年换成这本书自己的中位年" in _vp_d2_md
+        and "-54%" in _vp_d2_md and "21%" in _vp_d2_md and "66%" in _vp_d2_md
+        and "不参与准入" in _vp_d2_md, _vp_d2_md[-320:])
+    _vp_d2_ok = dict(_vp_d2)
+    _vp_d2_ok["drop_two"] = dict(_vp_d2["drop_two"],
+                                 verdict="AT_LEAST_ONE_BOOK_RESTS_ON_TWO_YEARS",
+                                 reference_retained=[0.40, 0.42],
+                                 book_retained_min=0.30, book_retained_max=0.31)
+    _vp_d2_ok_md = "\n".join(vt_phases_block(_vp_d2_ok))
+    chk("L217 phases: the sentence follows the verdict, not a constant of the code",
+        "被这条线偏爱的那个形态" not in _vp_d2_ok_md
+        and "这不是尺子的问题" in _vp_d2_ok_md
+        and "最好的两年换成这本书自己的中位年" in _vp_d2_ok_md, _vp_d2_ok_md[-260:])
     # ---- r1572: the promise the ledger made, and the receipt for the fills already paid ---
     _fill_led = os.path.join(_adm_dir, "LEDGER-fill.json")
     _fill_doc = {"seed": {"bar": "2026-10-23", "capital_cny": 1_000_000.0},

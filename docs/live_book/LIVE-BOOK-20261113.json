@@ -701,7 +701,21 @@
    "detail": "every rung is refused on at least one phase, and so is the same universe held equally (top-2 1.48 on 0 of 4 phases) -- the line is not ranking these books, it is refusing the shape",
    "gate_comparability": "LINE_REFUSES_THE_MOST_DIVERSIFIED_SHAPE",
    "reference_top2_median": 1.4831,
-   "reference_pass_phases": 0
+   "reference_pass_phases": 0,
+   "drop_two": {
+    "verdict": "BOOKS_STAND_WITHOUT_THEIR_TWO_BEST_YEARS",
+    "more_robust": [
+     "none",
+     "vt08",
+     "vt10",
+     "vt12",
+     "vt15",
+     "vt20",
+     "vt25"
+    ],
+    "less_robust": [],
+    "note": "printed beside the answer; it never turns a gate refusal into a pass"
+   }
   },
   "phases": [
    "2020-01-02",
@@ -800,6 +814,28 @@
     "verdict": "PHASE_DEPENDENT"
    }
   ],
+  "drop_two": {
+   "verdict": "BOOKS_STAND_WITHOUT_THEIR_TWO_BEST_YEARS",
+   "reference_retained": [
+    -0.5371,
+    -0.5314,
+    -0.5093,
+    -0.4996
+   ],
+   "book_retained_min": 0.1093,
+   "book_retained_max": 0.7049,
+   "more_robust": [
+    "none",
+    "vt08",
+    "vt10",
+    "vt12",
+    "vt15",
+    "vt20",
+    "vt25"
+   ],
+   "less_robust": [],
+   "statistic": "cagr with the two best years replaced by the book's median year, over the full cagr (scale-free; research/PREREG-20261113-Y4-SCALE-FREE.md)"
+  },
   "path": "results\\etf_book_vt_phases\\VT-PHASES.json"
  },
  "fill": {
@@ -6818,8 +6854,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 10.7,
+  "owner_silent_h": 11.2,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 10.7 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 11.2 h (> 6 h): its page faces are stopped, not merely old"
  }
 }
