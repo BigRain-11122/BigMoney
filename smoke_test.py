@@ -306,8 +306,17 @@ def _leg_page_fill_section(page_md=None):
     the section may not be judged by asking the producer whether the producer is right.
     """
     bad = []
-    path = page_md or os.path.join("docs", "live_book", "LIVE-BOOK-%s.md"
-                                   % dt.datetime.now().strftime("%Y%m%d"))
+    # r1600: the page is named for the session it describes, so between midnight and the next
+    # publish there is no page for "today" -- reading a literal today's date turned every
+    # post-midnight suite run red for a page that has not been written yet (the same shape as
+    # r1599's gate: ask for the last CLOSED session, not for the wall clock's date).
+    if page_md:
+        path = page_md
+    else:
+        _pages = sorted(glob.glob(os.path.join("docs", "live_book", "LIVE-BOOK-*.md")))
+        path = (_pages[-1] if _pages else
+                os.path.join("docs", "live_book", "LIVE-BOOK-%s.md"
+                             % dt.datetime.now().strftime("%Y%m%d")))
     try:
         text = open(path, encoding="utf-8").read()
     except OSError as exc:
