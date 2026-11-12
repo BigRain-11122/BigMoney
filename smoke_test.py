@@ -248,6 +248,8 @@ def capture_pinned(argv, timeout):
 # etf_book_forward 125.8s+124.7s). The suite carries 48 such repeats across 47 scripts.
 _LEG_CACHE = {}      # (argv tuple) -> (script sha1, rc, stdout, stderr, seconds)
 _REUSE = []          # (script, seconds the first judgement cost)
+_PREFETCH = {}       # (argv tuple) -> (script sha1, Popen, out path, err path, start monotonic)
+_PREFETCH_SPENT = []  # (script, seconds the early start kept off the critical path)
 
 
 def _script_digest(path):
@@ -290,11 +292,84 @@ def _leg_memo(argv, timeout):
             return subprocess.CompletedProcess(
                 argv, _hit[1], _hit[2],
                 _hit[3] + "\n[reused: same script bytes and args already judged this run]")
+    _early = _leg_prefetch_take(_key, _sha, timeout)
+    if _early is not None:
+        return _early
     _t0 = time.monotonic()
     _r = capture_pinned(argv, timeout)
     if _sha is not None:
         _LEG_CACHE[_key] = (_sha, _r.returncode, _r.stdout, _r.stderr,
                             time.monotonic() - _t0)
+    return _r
+
+
+def _leg_prefetch(argv):
+    """Start a selftest the suite is certain to ask for, before it is asked.
+
+    r1603: r1602 stopped paying twice for the same judgement, but the first copy is still
+    paid at the moment the leg arrives -- and the two biggest (etf_book_order 161.9s,
+    etf_book_forward 125.8s) sit late enough that they set the suite's tail. A selftest
+    builds its own fixtures (that is the invariant the memo already leans on), so it can
+    run while the earlier legs are still being judged; the leg then finds its answer
+    already on disk and pays only the wait it still needs.
+
+    Output goes to files, not pipes: an unread pipe would block the early process at 64KB
+    and turn a head start into a stalled worker. Nothing is reused across runs -- the
+    verdict is cached exactly like any other judgement, by script bytes.
+    """
+    if not _leg_is_selftest(argv) or not isinstance(argv[1], str):
+        return False
+    _key = tuple(argv)
+    _sha = _script_digest(argv[1])
+    if _sha is None or _key in _LEG_CACHE or _key in _PREFETCH:
+        return False
+    try:
+        import tempfile
+        _d = tempfile.mkdtemp(prefix="smoke-prefetch-")
+        _op = os.path.join(_d, "out.txt")
+        _ep = os.path.join(_d, "err.txt")
+        # same pins as capture_pinned: utf-8 on both sides (r1386) and no console window
+        # (U060) -- an early start that flashes a black window is not a free one.
+        _env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
+        with open(_op, "wb") as _fo, open(_ep, "wb") as _fe:
+            _p = subprocess.Popen(argv, stdout=_fo, stderr=_fe, env=_env,
+                                  creationflags=0x08000000)
+    except Exception:
+        return False
+    _PREFETCH[_key] = (_sha, _p, _op, _ep, time.monotonic())
+    return True
+
+
+def _leg_prefetch_take(key, sha, timeout):
+    """Collect an early start, or None when this leg has no usable head start."""
+    if sha is None or key not in _PREFETCH:
+        return None
+    _sha, _p, _op, _ep, _t0 = _PREFETCH.pop(key)
+    if _sha != sha:          # the script changed after the early start: judge it afresh
+        try:
+            _p.kill()
+        except Exception:
+            pass
+        return None
+    try:
+        _p.wait(timeout=timeout)
+    except Exception:
+        try:
+            _p.kill()
+        except Exception:
+            pass
+        return None
+    _spent = time.monotonic() - _t0
+    try:
+        _out = open(_op, encoding="utf-8", errors="replace").read()
+        _err = open(_ep, encoding="utf-8", errors="replace").read()
+    except Exception:
+        return None
+    _PREFETCH_SPENT.append((str(key[1]), _spent))
+    _r = subprocess.CompletedProcess(
+        list(key), _p.returncode, _out,
+        _err + "\n[prefetched: started %.1fs before this leg asked]" % _spent)
+    _LEG_CACHE[key] = (_sha, _r.returncode, _r.stdout, _r.stderr, _spent)
     return _r
 
 
@@ -331,13 +406,64 @@ def _leg_memo_probe():
             % ("marked" if _marked else "UNMARKED", _n1 - _h0, _n2 - _n1, _n3 - _n2, _n4 - _n3))
 
 
+def _leg_prefetch_probe():
+    """An early start must be worth something, and must never outrank a fresh judgement.
+
+    Three states, all replayable on their own
+    (`python -c "import smoke_test as s; print(s._leg_prefetch_probe())"`):
+      * the same slow selftest paid with no head start costs its full sleep;
+      * prefetched, then left alone for that long, the leg waits almost nothing and says
+        where its verdict came from;
+      * a script edited between the early start and the leg re-runs (killed early start).
+    """
+    import tempfile
+    _body = "import time\ntime.sleep(1.5)\nprint('ok')\n"
+    with tempfile.TemporaryDirectory() as _td:
+        _p = os.path.join(_td, "probe_slow.py")
+        with open(_p, "w", encoding="utf-8") as _fh:
+            _fh.write(_body)
+        _key = (sys.executable, _p, "--selftest")
+        _t0 = time.monotonic()
+        _leg_memo(list(_key), 60)
+        _paid = time.monotonic() - _t0
+        _LEG_CACHE.pop(_key, None)
+        _started = _leg_prefetch(list(_key))
+        time.sleep(1.5)
+        _t1 = time.monotonic()
+        _r = _leg_memo(list(_key), 60)
+        _waited = time.monotonic() - _t1
+        _marked = "prefetched" in (_r.stderr or "")
+        _LEG_CACHE.pop(_key, None)
+        # the early start must be outlived by an edit to the script it measured
+        _leg_prefetch(list(_key))
+        with open(_p, "w", encoding="utf-8") as _fh:
+            _fh.write(_body + "# edited after the early start\n")
+        _t2 = time.monotonic()
+        _e = _leg_memo(list(_key), 60)
+        _edited_paid = time.monotonic() - _t2
+        _edited = (_e.returncode == 0 and "prefetched" not in (_e.stderr or "")
+                   and _edited_paid >= 1.4)
+    _ok = (_started and _r.returncode == 0 and _marked and _paid >= 1.4
+           and _waited < 0.6 and _edited)
+    return (_ok, "control=%.2fs prefetched-leg=%.2fs marked=%s edited-reran=%.2fs"
+            % (_paid, _waited, _marked, _edited_paid))
+
+
 def _reuse_summary():
-    if not _REUSE:
-        return "reused: 0 leg(s)"
-    _saved = sum(s for _, s in _REUSE)
-    _names = sorted({os.path.basename(p) for p, _ in _REUSE})
-    return ("reused: %d leg(s) served from the first judgement (%.1fs not spent) -- %s"
-            % (len(_REUSE), _saved, ", ".join(_names[:6])))
+    _parts = []
+    if _REUSE:
+        _saved = sum(s for _, s in _REUSE)
+        _names = sorted({os.path.basename(p) for p, _ in _REUSE})
+        _parts.append("reused: %d leg(s) served from the first judgement (%.1fs not spent) -- %s"
+                      % (len(_REUSE), _saved, ", ".join(_names[:6])))
+    else:
+        _parts.append("reused: 0 leg(s)")
+    if _PREFETCH_SPENT:
+        _parts.append("prefetched: %d early start(s) -- %s"
+                      % (len(_PREFETCH_SPENT),
+                         ", ".join("%s held %.1fs" % (os.path.basename(p), s)
+                                   for p, s in _PREFETCH_SPENT[:4])))
+    return "\n".join(_parts)
 
 
 def _leg_pending_fill_receipt(path=None):
@@ -463,6 +589,14 @@ def main() -> int:
     except Exception as e:
         check("env: core deps", False, str(e))
         return _finish()
+    # r1603: the two selftests that set this suite's tail (etf_book_order 161.9s and
+    # etf_book_forward 125.8s in r1601's run) build their own fixtures, so they can be
+    # judged while the earlier legs are still running instead of at the moment their leg
+    # arrives. Started here and collected in `_leg_memo`; a leg whose bytes changed in
+    # between re-runs, so no verdict outlives the code it measured.
+    for _pf in (("scripts/etf_book_order.py", ["--selftest"]),
+                ("scripts/etf_book_forward.py", ["--selftest"])):
+        _leg_prefetch([sys.executable, _pf[0], *_pf[1]])
     # r1598: the wall clock is a mechanism, so it gets a leg. A fixture with one known-slow
     # leg must be named as over the ceiling and a fast one must not be; without this the
     # printer could quietly emit nothing and every run would still read green.
@@ -820,6 +954,10 @@ def main() -> int:
     # so, a `run` leg is never cached, and an edited script re-runs instead of reusing.
     check("suite: a repeated selftest rides the first judgement (r1602)",
           *_leg_memo_probe())
+    # r1603: an early start is only worth having if the leg genuinely stops paying for it,
+    # and it may never outlive an edited script -- both driven here, not asserted in prose.
+    check("suite: a selftest started early is already answered when its leg arrives (r1603)",
+          *_leg_prefetch_probe())
     for _label, _script, _args in (
             # r1386: six rounds of gates had produced no candidate family, so this
             # probe is the first measurement of one since r1379. Its own two ruler
@@ -12441,6 +12579,10 @@ def _finish() -> int:
                 # grep 'reuse=' logs/smoke.log answers "how much of the suite is a repeat"
                 f.write("  reuse=%d saved=%.1fs\n"
                         % (len(_REUSE), sum(s for _, s in _REUSE)))
+                # r1603: grep 'prefetch=' answers "did the early starts actually land"
+                f.write("  prefetch=%d held=%.1fs\n"
+                        % (len(_PREFETCH_SPENT),
+                           sum(s for _, s in _PREFETCH_SPENT)))
     except Exception:
         pass
     return 1 if n_fail else 0
