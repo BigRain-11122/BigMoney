@@ -14011,3 +14011,29 @@ S6 腿 vt_phases(12.5s no-op)/vt_phases_check(0.9s)。
 实锚：scripts/etf_book_vt_phases.py（selftest 16/16，+7 腿）、
 results/etf_book_vt_phases/VT-PHASES.json（reference.judgement.top2_median 1.4831）、
 CEO 页「同一个闸，四条决策日历」两行新句（etf_book_ceo_page selftest 262/262，+2 腿）。
+
+
+### E588 · 「靠最好的两年活着」要按形态问，不能按水平问——尺度无关读数是去掉这两年再看还剩多少（r1616 bm-c）
+
+① **现象**：E587 证明了 Y4 会拒绝最分散的形态，于是它不能再当采纳门；但它留下的问题没人回答：
+**这些书到底是不是靠最好的两年活着？** 旧的 top-2 占比答不了——它同时量「集中」与「赚得少」。
+
+② **口径（预注册，跑之前冻结）**：把两个最好的年度净收益替换成**该书自己的中位年**，重算 CAGR，
+再除以全期 CAGR，得 `retained`。分子分母同单位，**按比例缩放收益不改变结论**，问的是形态不是水平。
+预注册在 research/PREREG-20261113-Y4-SCALE-FREE.md，含禁则：新尺子不得把被拒的档判成通过。
+
+③ **读数（2026-11-12 面板、7 档 × 4 条决策日历）**：等权全持参考臂 `retained` =
+**-0.5371 / -0.5314 / -0.5093 / -0.4996**（四条日历全负——它去掉最好的两年是要亏钱的）；
+七档书 **0.1175～0.7049**（全为正），且**每条日历每一档都高于参考** →
+`BOOKS_STAND_WITHOUT_THEIR_TWO_BEST_YEARS`。原来「靠两年活着」的是那把尺子最偏爱的形态，不是书。
+
+④ **边界（必须同句披露）**：最差那条日历（2020-01-23）书自己只剩 **11.3%～28.0%**，
+所以这句话必须带「哪条日历」；`answer` 仍是 `NO_RUNG_SURVIVES`（预注册禁则生效，未放宽）。
+
+⑤ **机检**：`cell()` 落 `years_net_pct` 原始年度净值，`check()` **从年度净值逐格重算** retained
+（禁信自己印的数）；承重腿＝同形态按 0.5 缩放后 retained 变化必须 <0.02（实测 0.4687→0.4585，
+残差来自对数非线性，如实披露）；`decide()` 收到伴随量后 answer 字面逐字不变。
+
+实锚：scripts/etf_book_vt_phases.py（selftest 23/23，+7 腿）、
+results/etf_book_vt_phases/VT-PHASES.json（`drop_two` 块）、
+research/PREREG-20261113-Y4-SCALE-FREE.md、S6 腿 vt_phases / vt_phases_check 2/2 rc0。
